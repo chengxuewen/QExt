@@ -1,0 +1,82 @@
+import QtQuick 2.0
+import QEXTQuick 1.2
+
+Column{
+    Row{
+        spacing: 20
+        QEXTButton{
+            id:button
+            height: 40
+            label.text: "Loose"
+            label.color: "#46A0FC"
+            onClicked: popover.openToGlobal(button,mouseX,mouseY)
+        }
+
+        QEXTButton{
+            id:bmenu
+            height: 40
+            label.text: "Popover Menu"
+            label.color: "#46A0FC"
+            onClicked: popoverMenu.openToGlobal(bmenu,mouseX,mouseY)
+        }
+
+
+        QEXTButton{
+            id:b2
+            height: 40
+            label.text: "Fixed"
+            label.color: "#46A0FC"
+            onClicked: popover.openToGlobal(b2,0,b2.height)
+        }
+    }
+
+    QEXTPopover{
+        id:popover
+    }
+
+    QEXTMenu{
+        id:popoverMenu
+
+        QEXTMenuElement{
+            type:"group"
+            text: "BUILDING BLOCKS"
+        }
+
+        QEXTMenuElement{
+            iconSource: QEXTAwesomeType.FA_apple
+            text:  "Request"
+        }
+
+        QEXTMenuElement{
+            iconSource: QEXTAwesomeType.FA_android
+            text: "Collection"
+        }
+
+        QEXTMenuElement{
+            iconSource: QEXTAwesomeType.FA_git
+            text: "Environment"
+        }
+
+        QEXTMenuElement{
+            type:"group"
+            text: "ADVANCED"
+        }
+
+
+        QEXTMenuElement{
+            iconSource: QEXTAwesomeType.FA_music
+            text: "Document"
+        }
+
+        QEXTMenuElement{
+            iconSource: QEXTAwesomeType.FA_heartbeat
+            text: "Mock Server"
+        }
+
+        QEXTMenuElement{
+            iconSource: QEXTAwesomeType.FA_car
+            text: "Monitor"
+        }
+
+    }
+}

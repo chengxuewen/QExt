@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>App.qml</file>
+    </qresource>
+	<qresource prefix="/qtmvvm/views">
+        <file>%{QuickQmlName}</file>
+    </qresource>
+</RCC>

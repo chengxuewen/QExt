@@ -1,0 +1,27 @@
+{
+	"title": "QtMvvm",
+	"description": "A mvvm oriented library for Qt, to create Projects for Widgets and Quick in parallel.",
+	"modules": [
+		"QtMvvmCore",
+		"QtMvvmWidgets",
+		"QtMvvmQuick",
+		"QtMvvmDataSyncCore",
+		"QtMvvmDataSyncWidgets",
+		"QtMvvmDataSyncQuick"
+	],
+	"dependencies": [
+		".skycoder42.datasync"
+	],
+	"excludes": [],
+	"license": {
+		"name": "BSD-3-Clause",
+		"path": "LICENSE"
+	},
+	"installs": {
+		"ProjectTemplate": "Tools/QtCreator/share/qtcreator/templates/wizards/projects/qtmvvm",
+		"qbs/Qt/settingsgenerator": "Tools/QtCreator/share/qtcreator/qbs/share/qbs/modules/Qt/settingsgenerator"
+	},
+	"hostbuilds": [
+		"bin/qsettingsgenerator*"
+	]
+}

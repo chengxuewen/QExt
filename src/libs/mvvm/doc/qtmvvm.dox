@@ -1,0 +1,178 @@
+/*!
+@namespace QtMvvm
+
+The following list shows which classes belong to which Qt module, in alphabetical order:
+
+- QtMvvmCore:
+	- Binding
+	- CoreApp
+	- IPresenter
+	- ISettingsSetupLoader
+	- MessageConfig
+	- MessageResult
+	- PresenterException
+	- ServiceConstructionException
+	- ServiceDependencyException
+	- ServiceExistsException
+	- ServiceRegistry
+	- SettingsLoaderException
+	- SettingsViewModel
+	- ViewModel
+	- All Methods not explicitly listed
+	- QML import: @ref de::skycoder42::QtMvvm::Core "de.skycoder42.QtMvvm.Core"
+- QtMvvmWidgets:
+	- InputWidgetFactory
+	- IPresentingView
+	- SettingsDialog
+	- WidgetsPresenter
+- QtMvvmQuick:
+	- InputViewFactory
+	- QuickPresenter
+	- QML import: @ref de::skycoder42::QtMvvm::Quick "de.skycoder42.QtMvvm.Quick"
+- QtMvvmDataSyncCore:
+	- AccountModel
+	- DataSyncViewModel
+	- ExchangeDevicesModel
+	- NetworkExchangeViewModel
+	- QML import: @ref de::skycoder42::QtMvvm::DataSync::Core "de.skycoder42.QtMvvm.DataSync.Core"
+- QtMvvmDataSyncWidgets:
+	- DataSyncWindow
+	- NetworkExchangeWindow
+	- registerDataSyncWidgets()
+- QtMvvmDataSyncQuick:
+	- registerDataSyncQuick()
+	- QML import: @ref de::skycoder42::QtMvvm::DataSync::Quick "de.skycoder42.QtMvvm.DataSync.Quick"
+*/
+
+/*!
+@namespace de::skycoder42::QtMvvm::Core
+@brief The QML import for the QtMvvmCore QML module
+
+<b>Current Version</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1
+
+<b>Available Types</b>
+- @ref QtMvvm::MessageConfig "MessageConfig" (uncreatable)
+- @ref QtMvvm::MessageResult "MessageResult" (uncreatable)
+- @ref QtMvvm::ProgressControl "ProgressControl" (uncreatable)
+- MvvmBinding
+- Message (singleton)
+- CoreApp (singleton)
+- ServiceRegistry (singleton)
+- @ref QtMvvm::SettingsViewModel "SettingsViewModel" (uncreatable)
+- @ref QtMvvm::ViewModel "ViewModel" (uncreatable)
+*/
+
+/*!
+@namespace de::skycoder42::QtMvvm::Quick
+@brief The QML import for the QtMvvmQuick QML module
+
+<b>Current Version</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1
+
+<b>Available Types</b>
+- @ref QtMvvm::InputViewFactory "InputViewFactory" (uncreatable)
+- QuickPresenter (singleton)
+- FileChooser
+- ViewPlaceholder
+- ColorHelper
+- AlertDialog
+- ContrastToolBar
+- ToolBarLabel
+- ActionButton
+- RoundActionButton
+- MenuButton
+- FileDialog
+- FolderDialog
+- TintIcon
+- SearchBar
+- RoundMenuButton
+- DecorLabel
+- MsgDelegate
+- TimeEdit
+- DateEdit
+- ColorEdit
+- PresenterProgress
+- PresentingStackView
+- PopupPresenter
+- DialogPresenter
+- PresentingDrawer
+- SettingsView
+- QtMvvmApp
+*/
+
+/*!
+@namespace de::skycoder42::QtMvvm::DataSync::Core
+@brief The QML import for the QtMvvmDataSyncCore QML module
+
+<b>Current Version</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1
+
+<b>Available Types</b>
+- @ref QtMvvm::AccountModel "AccountModel"
+- @ref QtMvvm::ExchangeDevicesModel "ExchangeDevicesModel"
+- @ref QtMvvm::DataSyncViewModel "DataSyncViewModel" (uncreatable)
+- @ref QtMvvm::NetworkExchangeViewModel "NetworkExchangeViewModel" (uncreatable)
+- @ref QtMvvm::DataSyncSettingsViewModel "DataSyncSettingsViewModel" (uncreatable)
+- @ref QtMvvm::DataSyncSettingsEntry "DataSyncSettingsEntry" (uncreatable)
+- PChangeRemoteViewModel (uncreatable, internal)
+- PExportSetupViewModel (uncreatable, internal)
+- PIdentityEditViewModel (uncreatable, internal)
+*/
+
+/*!
+@namespace de::skycoder42::QtMvvm::DataSync::Quick
+@brief The QML import for the QtMvvmDataSyncQuick QML module
+
+<b>Current Version</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1
+
+<b>Available Types</b>
+- DataSyncView
+- NetworkExchangeView
+- IdentityEditView (internal)
+- ExportSetupView (internal)
+- ChangeRemoteView (internal)
+*/
+
+/*!
+@fn QtMvvm::registerDataSyncWidgets
+
+You must add this method to your main.cpp in order to register all the datasync views with the
+WidgetsPresenter when using the widgets ui:
+
+@code{.cpp}
+int main(int argc, char *argv[])
+{
+	QApplication a(argc, argv);
+
+	QtMvvm::registerDataSyncWidgets();
+	// register other stuff etc...
+
+	return a.exec();
+}
+@endcode
+
+@sa WidgetsPresenter::registerView
+*/
+
+/*!
+@fn QtMvvm::registerDataSyncQuick
+
+You must add this method to your main.cpp in order to register all the datasync views with the
+QuickPresenter when using the quick ui:
+
+@code{.cpp}
+int main(int argc, char *argv[])
+{
+	QApplication a(argc, argv);
+
+	QtMvvm::registerDataSyncQuick();
+	// register other stuff etc...
+
+	return a.exec();
+}
+@endcode
+
+@sa QuickPresenter
+*/

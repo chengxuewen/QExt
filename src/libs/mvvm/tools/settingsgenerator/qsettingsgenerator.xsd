@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns:qxg="https://skycoder42.de/xml/schemas/QXmlCodeGen">
+	<!-- QXG Definitions -->
+	<qxg:config class="SettingsGeneratorBase"
+				stdcompat="true"
+				schemaUrl="qrc:/schemas/qsettingsgenerator.xsd">
+		<qxg:include>QtCore/QHash</qxg:include>
+	</qxg:config>
+	<qxg:method name="read_type_mapping" type="QHash&lt;QString, QString&gt;" asGroup="true"/>
+	<qxg:method name="read_included_file" type="NodeContentGroup"/>
+
+	<!-- Basic Types -->
+	<xs:simpleType name="QmlRegistrationMode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Singleton"/>
+			<xs:enumeration value="Uncreatable"/>
+			<xs:enumeration value="Creatable"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="InstanceScope">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DestroyOnAppQuit"/>
+			<xs:enumeration value="DestroyOnAppDestroy"/>
+			<xs:enumeration value="DestroyOnRegistryDestroy"/>
+			<xs:enumeration value="DestroyNever"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- Type definitions -->
+	<xs:complexType name="IncludeType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string" qxg:member="includePath">
+				<xs:attribute name="local" type="xs:boolean" use="optional" default="false"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="QmlType">
+		<xs:attribute name="uri" type="xs:string" use="required"/>
+		<xs:attribute name="major" type="xs:integer" use="optional" default="1"/>
+		<xs:attribute name="minor" type="xs:integer" use="optional" default="0"/>
+		<xs:attribute name="type" type="QmlRegistrationMode" use="optional" default="Singleton"/>
+		<xs:attribute name="register" type="xs:boolean" use="optional" default="true" qxg:member="autoRegister"/>
+		<xs:attribute name="header" type="xs:string" use="optional"/>
+	</xs:complexType>
+
+	<xs:complexType name="ImportType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string" qxg:member="importPath">
+				<xs:attribute name="required" type="xs:boolean" use="optional" default="true"/>
+				<xs:attribute name="rootNode" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="TypeMappingEntry">
+		<xs:attribute name="key" type="xs:string" use="required"/>
+		<xs:attribute name="type" type="xs:string" use="required"/>
+	</xs:complexType>
+
+	<xs:group name="TypeMappingGroup">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="TypeMapping" type="TypeMappingEntry"/>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:complexType name="ParamType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string" qxg:member="value">
+				<xs:attribute name="type" type="xs:string" use="required"/>
+				<xs:attribute name="asStr" type="xs:boolean" use="optional" default="false"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="BackendType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Param" type="ParamType"/>
+		</xs:sequence>
+		<xs:attribute name="class" type="xs:string" use="required" qxg:member="className"/>
+	</xs:complexType>
+
+	<xs:group name="NodeContentGroup">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0" qxg:member="contentNodes">
+				<xs:element name="Node" type="NodeType"/>
+				<xs:element name="Entry" type="EntryType"/>
+				<xs:element name="ListNode" type="ListNodeType"/>
+				<xs:element name="Import" type="ImportType" qxg:method="read_included_file"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:complexType name="NodeType" qxg:declare="true">
+		<xs:group ref="NodeContentGroup" qxg:inherit="true"/>
+		<xs:attribute name="key" type="xs:string" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="ListNodeType" qxg:declare="true">
+		<xs:complexContent>
+			<xs:extension base="NodeType"/>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="EntryType" qxg:declare="true">
+		<xs:complexContent>
+			<xs:extension base="NodeType">
+				<xs:sequence>
+					<xs:element maxOccurs="1" minOccurs="0" name="Code" type="xs:string"/>
+				</xs:sequence>
+				<xs:attribute name="type" type="xs:string" use="required"/>
+				<xs:attribute name="qmlGroupKey" type="xs:string" use="optional"/>
+				<xs:attribute name="default" type="xs:string" use="optional" qxg:member="defaultValue"/>
+				<xs:attribute name="tr" type="xs:boolean" default="false" use="optional"/>
+				<xs:attribute name="trContext" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SettingsType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="Include" type="IncludeType" qxg:member="includes"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="Backend" type="BackendType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="Qml" type="QmlType"/>
+			<xs:group ref="TypeMappingGroup" qxg:member="typeMappings" qxg:method="read_type_mapping"/>
+			<xs:group ref="NodeContentGroup" qxg:inherit="true"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="prefix" type="xs:string" use="optional"/>
+		<xs:attribute name="baseKey" type="xs:string" use="optional"/>
+		<xs:attribute name="scope" type="InstanceScope" use="optional"/>
+	</xs:complexType>
+
+	<!-- root elements-->
+	<xs:element name="Settings" type="SettingsType"/>
+</xs:schema>

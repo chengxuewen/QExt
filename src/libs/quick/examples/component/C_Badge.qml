@@ -1,0 +1,51 @@
+import QtQuick 2.0
+import QtQuick.Controls 2.12
+import QEXTQuick 1.2
+
+Column{
+    spacing: 15
+
+    Row{
+        spacing: 40
+
+        Button{
+            text: "Button"
+            QEXTBadge{
+                id:b1
+                x:parent.width - width /2
+                y:height / 2 * -1
+            }
+
+            onClicked:b1.value++
+        }
+
+        Button{
+            text: "Button"
+            QEXTBadge{
+                id:b2
+                value: 100
+                color: "#6ac044"
+                x:parent.width - width /2
+                y:height / 2 * -1
+            }
+
+            onClicked:b2.value++
+        }
+
+        Button{
+            text: "Button"
+            QEXTBadge{
+                id:b3
+                value: 100
+                max:99
+                x:parent.width - width /2
+                y:height / 2 * -1
+            }
+
+            onClicked:b3.value--
+        }
+
+    }
+
+
+}

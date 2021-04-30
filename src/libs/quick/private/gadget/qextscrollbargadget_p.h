@@ -1,0 +1,24 @@
+#ifndef QEXTSCROLLBARGADGET_P_H
+#define QEXTSCROLLBARGADGET_P_H
+
+#include <qextquickglobal.h>
+
+#include <qextobject_p.h>
+
+class QEXTScrollbarGadget;
+class QEXT_QUICK_API QEXTScrollbarGadgetPrivate : public QEXTObjectPrivate
+{
+public:
+    explicit QEXTScrollbarGadgetPrivate(QEXTScrollbarGadget *qq);
+    ~QEXTScrollbarGadgetPrivate();
+
+    bool m_horizontal;
+    bool m_vertical;
+    bool m_autoHide;
+
+private:
+    QEXT_DECLARE_PUBLIC(QEXTScrollbarGadget)
+    QEXT_DISABLE_COPY_MOVE(QEXTScrollbarGadgetPrivate)
+};
+
+#endif // QEXTSCROLLBARGADGET_P_H
