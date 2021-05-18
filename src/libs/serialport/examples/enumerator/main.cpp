@@ -18,9 +18,8 @@ int main()
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
     QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
 #endif
-
     //! [1]
-    QList<QEXTPortInfo> ports = QEXTSerialEnumerator::getPorts();
+    QList<QEXTPortInfo> ports = QEXTSerialEnumerator::portList();
     //! [1]
     qDebug() << "List of ports:";
     //! [2]

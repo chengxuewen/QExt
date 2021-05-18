@@ -36,6 +36,8 @@
 
 #include <QObject>
 
+
+
 class QEXTScrollbarGadgetPrivate;
 class QEXT_QUICK_API QEXTScrollbarGadget : public QObject, public QEXTObject
 {
@@ -67,5 +69,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTScrollbarGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTScrollbarGadget)
 };
+
+
 
 #endif // QEXTGADGETSCROLLBAR_H

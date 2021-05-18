@@ -5,6 +5,8 @@
 
 #include <qextobject_p.h>
 
+
+
 class QEXTQuickPalette;
 class QEXT_QUICK_API QEXTQuickPalettePrivate : public QEXTObjectPrivate
 {
@@ -21,5 +23,7 @@ private:
     QEXT_DECLARE_PUBLIC(QEXTQuickPalette)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickPalettePrivate)
 };
+
+
 
 #endif // QEXTCOLOR_P_H

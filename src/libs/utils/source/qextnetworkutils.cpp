@@ -4,6 +4,8 @@
 #include <QtEndian>
 #include <qmath.h>
 
+
+
 #define QEXT_NET_UTILS_INT_BYTE_SIZE            4
 #define QEXT_NET_UTILS_DOUBLE_BYTE_SIZE         6
 #define QEXT_NET_UTILS_DOUBLE_PRECISION         10000000

@@ -36,6 +36,8 @@
 #include <qextquickfontawesome.h>
 #include <qextquick.h>
 
+
+
 void QEXTQuickQmlPlugin::registerTypes(const char *uri)
 {
     QEXTQuick::instance()->registerTypes(uri);

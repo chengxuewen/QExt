@@ -1,5 +1,6 @@
 pragma Singleton
-import QtQuick 2.7
+import QtQuick 2.12
+import QtQml 2.12
 import QtQuick.Controls 2.12
 import QEXTQuick 1.2
 
@@ -185,7 +186,7 @@ QEXTObject {
                 spacing: 10
                 QEXTSVGIcon {
                     id: mSVGIcon
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.verticalCenter: mRowlayout.verticalCenter
                     source: {
                         switch(_super.type) {
                             case mControl.const_success:

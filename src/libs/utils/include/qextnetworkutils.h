@@ -7,6 +7,8 @@
 
 #include <QObject>
 
+
+
 class QEXT_UTILS_API QEXTNetworkUtils
 {
 public:
@@ -63,5 +65,7 @@ public:
     static QString quint64ToBinaryString(quint64 src);
     static QString byteArrayToBinaryString(QByteArray src);
 };
+
+
 
 #endif // QEXTNETWORKUTILS_H

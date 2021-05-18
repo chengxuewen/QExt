@@ -7,6 +7,8 @@
 
 #include <QPointer>
 
+
+
 class QEXTQuickThemeBinder;
 class QEXT_QUICK_API QEXTQuickThemeBinderPrivate : public QEXTObjectPrivate
 {
@@ -38,5 +40,7 @@ private:
     QEXT_DECLARE_PUBLIC(QEXTQuickThemeBinder)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeBinderPrivate)
 };
+
+
 
 #endif // QEXTTHEMEBINDER_P_H

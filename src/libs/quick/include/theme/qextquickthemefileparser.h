@@ -38,6 +38,8 @@
 #include <QMap>
 #include <QVariantMap>
 
+
+
 class QEXT_QUICK_API QEXTQuickThemeFileParser
 {
 public:
@@ -46,5 +48,7 @@ public:
     virtual bool parseThemeFile(const QString &strPath, QMap<QString, QVariantMap> &themeDataMap, QString &strError) = 0;
     virtual bool generateThemeTemplateFile(QString &strError, QEXTQuickThemeBinder *pBinder = nullptr) = 0;
 };
+
+
 
 #endif // QEXTQUICKTHEMEFILEPARSER_H

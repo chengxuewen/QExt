@@ -1,8 +1,9 @@
 #ifndef QEXTSTYLEOPTION_H
 #define QEXTSTYLEOPTION_H
 
-#include <qextglobal.h>
-#include <qextpalette.h>
+#include <qextwidgetsglobal.h>
+#include <QObject>
+//#include <qextpalette.h>
 
 #include <QStyleOption>
 
@@ -21,7 +22,7 @@ enum ItemDataRole {
     UserRole = Qt::UserRole << 2
 };
 
-class QEXT_API QEXTStyleOption
+class QEXT_WIDGETS_API QEXTStyleOption
 {
 public:
     enum OptionType {
@@ -32,11 +33,11 @@ public:
     virtual void init(QWidget *widget);
     virtual void init(const QWidget *widget);
 
-    QEXTPalette extPalette;
+//    QEXTPalette extPalette;
 };
 
 
-class QEXT_API QEXTStyleOptionButton : public QStyleOptionButton, public QEXTStyleOption
+class QEXT_WIDGETS_API QEXTStyleOptionButton : public QStyleOptionButton, public QEXTStyleOption
 {
 public:
     enum ButtonFeature {
@@ -49,7 +50,7 @@ public:
     void init(const QWidget *widget) QEXT_OVERRIDE;
 };
 
-class QEXT_API QEXTStyleOptionButtonBoxButton : public QEXTStyleOptionButton
+class QEXT_WIDGETS_API QEXTStyleOptionButtonBoxButton : public QEXTStyleOptionButton
 {
 public:
     enum ButtonPosition {
@@ -64,7 +65,7 @@ public:
     ButtonPosition position;
 };
 
-class QEXT_API QEXTStyleOptionLineEdit : public QEXTStyleOption
+class QEXT_WIDGETS_API QEXTStyleOptionLineEdit : public QEXTStyleOption
 {
 public:
     enum LineEditFeature {
@@ -84,7 +85,7 @@ public:
     QRect iconButtonRect;
 };
 
-class QEXT_API QEXTStyleOptionBackgroundGroup : public QStyleOption, public QEXTStyleOption
+class QEXT_WIDGETS_API QEXTStyleOptionBackgroundGroup : public QStyleOption, public QEXTStyleOption
 {
 public:
     enum ItemBackgroundPosition {
@@ -103,13 +104,13 @@ public:
     ItemBackgroundPosition position;
 };
 
-class QEXT_API QEXTStyleOptionIcon : public QStyleOption, public QEXTStyleOption
+class QEXT_WIDGETS_API QEXTStyleOptionIcon : public QStyleOption, public QEXTStyleOption
 {
 public:
     QIcon icon;
 };
 
-class QEXT_API QEXTStyleOptionViewItem : public QStyleOptionViewItem, public QEXTStyleOption
+class QEXT_WIDGETS_API QEXTStyleOptionViewItem : public QStyleOptionViewItem, public QEXTStyleOption
 {
 public:
     enum ViewItemFeature {
@@ -117,7 +118,7 @@ public:
     };
 };
 
-class QEXT_API QEXTStyleOptionFloatingWidget : public QStyleOption, public QEXTStyleOption
+class QEXT_WIDGETS_API QEXTStyleOptionFloatingWidget : public QStyleOption, public QEXTStyleOption
 {
 public:
     //    using QEXTStyleOption::init;
@@ -130,7 +131,7 @@ public:
 };
 
 class QEXTFontSizeManagerPrivate;
-class QEXT_API QEXTFontSizeManager
+class QEXT_WIDGETS_API QEXTFontSizeManager
 {
 public:
     enum SizeType {

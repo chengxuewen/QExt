@@ -31,6 +31,7 @@
 #include <qexticongadget_p.h>
 
 
+
 QEXTIconGadgetPrivate::QEXTIconGadgetPrivate(QEXTIconGadget *qq)
     : QEXTObjectPrivate(qq)
 {

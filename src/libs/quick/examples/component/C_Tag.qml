@@ -1,8 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QEXTQuick 1.2
 
 Column {
-    width: parent.width
     spacing: 15
 
     Row {

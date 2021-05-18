@@ -17,3 +17,88 @@
 # limitations under the License.
 #
 #################################################################################
+
+#--------------------------------------------------------------------------------
+# Set example output path
+#--------------------------------------------------------------------------------
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/core)
+set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/core)
+
+
+
+#--------------------------------------------------------------------------------
+# Set example link libraries
+#--------------------------------------------------------------------------------
+set(_example_link_libraries)
+
+if(UNIX)
+  list(APPEND _example_link_libraries dl)
+endif()
+
+if(WIN32)
+  list(APPEND _example_link_libraries shlwapi.lib)
+endif()
+
+if(CMAKE_THREAD_LIBS_INIT)
+  list(APPEND _example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+endif()
+
+if(QEXT_QT_VERSION_MAJOR EQUAL 4)
+    list(APPEND _example_link_libraries Qt4::QtCore Qt4::QtGui)
+elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
+    list(APPEND _example_link_libraries Qt5::Core Qt5::Gui Qt5::Widgets)
+else()
+    message(FATAL_ERROR "----QEXT---- Not find Qt package")
+endif()
+
+list(APPEND _example_link_libraries QEXTCore)
+
+
+
+#--------------------------------------------------------------------------------
+# Add QEXTCoreSimpleObject example
+#--------------------------------------------------------------------------------
+set(_example_name QEXTCoreSimpleObject)
+set(_example_headers
+    )
+set(_example_sources
+    object/simpleObj.cpp
+    )
+set(_example_forms
+    )
+add_executable(${_example_name}
+                ${_example_headers}
+                ${_example_sources}
+                ${_example_forms}
+                )
+target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
+target_include_directories(${_example_name} PUBLIC
+                            ${CMAKE_CURRENT_SOURCE_DIR}/object
+                            ${CMAKE_CURRENT_BINARY_DIR}/
+                            )
+set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+
+
+#--------------------------------------------------------------------------------
+# Add QEXTCoreSimpleCallback example
+#--------------------------------------------------------------------------------
+set(_example_name QEXTCoreSimpleCallback)
+set(_example_headers
+    )
+set(_example_sources
+    callback/example.cc
+    )
+set(_example_forms
+    )
+add_executable(${_example_name}
+                ${_example_headers}
+                ${_example_sources}
+                ${_example_forms}
+                )
+target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
+target_include_directories(${_example_name} PUBLIC
+                            ${CMAKE_CURRENT_SOURCE_DIR}/callback
+                            ${CMAKE_CURRENT_BINARY_DIR}/
+                            )
+set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+

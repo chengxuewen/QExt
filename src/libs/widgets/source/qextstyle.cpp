@@ -886,7 +886,7 @@ void QEXTDrawUtils::drawLineEditClearButton(QPainter *pa, const QRectF &rect)
 
 QT_BEGIN_NAMESPACE
 //extern Q_WIDGETS_EXPORT void qt_blurImage(QImage &blurImage, qreal radius, bool quality, int transposed = 0);
-extern QEXT_API void qt_blurImage(QPainter *p, QImage &blurImage, qreal radius, bool quality, bool alphaOnly, int transposed = 0);
+extern QEXT_WIDGETS_API void qt_blurImage(QPainter *p, QImage &blurImage, qreal radius, bool quality, bool alphaOnly, int transposed = 0);
 QT_END_NAMESPACE
 
 static Qt::TextFormat textFormat = Qt::AutoText;

@@ -6,7 +6,7 @@
 ** Copyright (c) 2009-2010 Liam Staskawicz
 ** Copyright (c) 2011 Debao Zhang
 ** All right reserved.
-** Web: http://code.google.com/p/qtkserialport/
+** Web: http://code.google.com/p/qextserialport/
 **
 ** Permission is hereby granted, free of charge, to any person obtaining
 ** a copy of this software and associated documentation files (the
@@ -45,13 +45,16 @@
 
 #include "qextserialport.h"
 
-#include <QtCore/QReadWriteLock>
+#include <QReadWriteLock>
+
 #ifdef Q_OS_UNIX
 #  include <termios.h>
 #elif (defined Q_OS_WIN)
 #  include <QtCore/qt_windows.h>
 #endif
 #include <stdlib.h>
+
+
 
 // This is QEXTSerialPort's read buffer, needed by posix system.
 // ref: QRingBuffer & QIODevicePrivateLinearBuffer
@@ -172,7 +175,6 @@ private:
 };
 
 class QWinEventNotifier;
-class QReadWriteLock;
 class QSocketNotifier;
 
 class QEXT_SERIALPORT_API QEXTSerialPortPrivate
@@ -249,5 +251,7 @@ public:
 
     QEXTSerialPort *q_ptr;
 };
+
+
 
 #endif //QEXTSERIALPORT_P_H

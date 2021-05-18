@@ -9,30 +9,30 @@
    QEXT force inline macro define
 ********************************************************************************/
 #if defined(QEXT_CXX_COMPILER_MSVC)
-#define QEXT_FORCE_INLINE __forceinline
+#   define QEXT_FORCE_INLINE __forceinline
 #elif defined(QEXT_CXX_COMPILER_GNU)
-#define QEXT_FORCE_INLINE inline __attribute__((always_inline))
+#   define QEXT_FORCE_INLINE inline __attribute__((always_inline))
 #elif defined(QEXT_CXX_COMPILER_CLANG)
-#define QEXT_FORCE_INLINE inline __attribute__((always_inline))
+#   define QEXT_FORCE_INLINE inline __attribute__((always_inline))
 #else
-#define QEXT_FORCE_INLINE inline // no force inline for other platforms possible
+#   define QEXT_FORCE_INLINE inline // no force inline for other platforms possible
 #endif
 
 
 
 /********************************************************************************
-   QEXT Compiler specific cmds for export and import code to DLL
+   QEXT Compiler specific cmds for export and import code to DLL and declare namespace
 ********************************************************************************/
 #ifdef QEXT_BUILD_SHARED_LIBS // compiled as a dynamic lib.
-# ifdef QEXT_BUILD_CORE_LIB // defined if we are building the lib
-#  define QEXT_CORE_API Q_DECL_EXPORT
-# else
-#  define QEXT_CORE_API Q_DECL_IMPORT
-# endif
-# define QEXT_CORE_HIDDEN Q_DECL_HIDDEN
+#   ifdef QEXT_BUILD_CORE_LIB // defined if we are building the lib
+#       define QEXT_CORE_API Q_DECL_EXPORT
+#   else
+#       define QEXT_CORE_API Q_DECL_IMPORT
+#   endif
+#   define QEXT_CORE_HIDDEN Q_DECL_HIDDEN
 #else // compiled as a static lib.
-# define QEXT_CORE_API
-# define QEXT_CORE_HIDDEN
+#   define QEXT_CORE_API
+#   define QEXT_CORE_HIDDEN
 #endif
 
 
@@ -40,26 +40,26 @@
 /********************************************************************************
     C++11 keywords and expressions
 ********************************************************************************/
-#ifdef QEXT_CXX_FEATURE_11
-# define QEXT_NULLPTR nullptr
-# define QEXT_EQ_DEFAULT = default
-# define QEXT_EQ_DELETE = delete
-# define QEXT_CONSTEXPR constexpr
-# define QEXT_RELAXED_CONSTEXPR const
-# define QEXT_OVERRIDE override
-# define QEXT_FINAL final
-# define QEXT_NOEXCEPT noexcept
-# define QEXT_NOEXCEPT_EXPR(x) noexcept(x)
+#ifdef QEXT_CXX_STANDARD_11
+#   define QEXT_NULLPTR nullptr
+#   define QEXT_EQ_DEFAULT = default
+#   define QEXT_EQ_DELETE = delete
+#   define QEXT_CONSTEXPR constexpr
+#   define QEXT_RELAXED_CONSTEXPR const
+#   define QEXT_OVERRIDE override
+#   define QEXT_FINAL final
+#   define QEXT_NOEXCEPT noexcept
+#   define QEXT_NOEXCEPT_EXPR(x) noexcept(x)
 #else
-# define QEXT_NULLPTR NULL
-# define QEXT_EQ_DEFAULT
-# define QEXT_EQ_DELETE
-# define QEXT_CONSTEXPR
-# define QEXT_RELAXED_CONSTEXPR const
-# define QEXT_OVERRIDE
-# define QEXT_FINAL
-# define QEXT_NOEXCEPT
-# define QEXT_NOEXCEPT_EXPR(x)
+#   define QEXT_NULLPTR NULL
+#   define QEXT_EQ_DEFAULT
+#   define QEXT_EQ_DELETE
+#   define QEXT_CONSTEXPR
+#   define QEXT_RELAXED_CONSTEXPR const
+#   define QEXT_OVERRIDE
+#   define QEXT_FINAL
+#   define QEXT_NOEXCEPT
+#   define QEXT_NOEXCEPT_EXPR(x)
 #endif
 
 /*
@@ -71,7 +71,7 @@
     Class(const Class &) QEXT_EQ_DELETE;\
     Class &operator=(const Class &) QEXT_EQ_DELETE;
 
-#ifdef QEXT_CXX_FEATURE_11
+#ifdef QEXT_CXX_STANDARD_11
 # define QEXT_DISABLE_MOVE(Class) \
     Class(Class &&) QEXT_EQ_DELETE; \
     Class &operator=(Class &&) QEXT_EQ_DELETE;
@@ -84,7 +84,7 @@
     QEXT_DISABLE_MOVE(Class)
 
 
-#define QEXT_DECLARE_PRIVATE(Class) Q_DECLARE_PRIVATE_D(qGetPtrHelper(dd_ptr),Class)
+#define QEXT_DECLARE_PRIVATE(Class) Q_DECLARE_PRIVATE_D(qGetPtrHelper(dd_ptr), Class)
 #define QEXT_DECLARE_PUBLIC(Class) Q_DECLARE_PUBLIC(Class)
 #define QEXT_D(Class) Q_D(Class)
 #define QEXT_Q(Class) Q_Q(Class)

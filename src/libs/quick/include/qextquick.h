@@ -39,6 +39,8 @@
 #include <QObject>
 #include <QScopedPointer>
 
+
+
 class QEXTQuickWorld;
 class QEXTQuickPrivate;
 class QEXT_QUICK_API QEXTQuick : public QObject, public QEXTObject
@@ -131,5 +133,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTQuick)
     QEXT_DISABLE_COPY_MOVE(QEXTQuick)
 };
+
+
 
 #endif // QEXTQUICK_H

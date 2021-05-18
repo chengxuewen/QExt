@@ -6,6 +6,9 @@
 #include <qextobject_p.h>
 
 class QFileSystemWatcher;
+
+
+
 class QEXTQuickThemeHandler;
 class QEXTQuickThemeFileParser;
 class QEXTQuickThemeManager;
@@ -27,5 +30,7 @@ private:
     QEXT_DECLARE_PUBLIC(QEXTQuickThemeManager)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeManagerPrivate)
 };
+
+
 
 #endif // QEXTTHEMEMANAGER_P_H

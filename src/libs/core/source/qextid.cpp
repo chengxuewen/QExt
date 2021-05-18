@@ -8,6 +8,8 @@
 
 #include <string.h>
 
+
+
 class QEXTStringHolder
 {
 public:

@@ -37,6 +37,8 @@
 #include <QColor>
 #include <QObject>
 
+
+
 class QEXTBorderGadgetPrivate;
 class QEXT_QUICK_API QEXTBorderGadget : public QObject, public QEXTObject
 {
@@ -83,5 +85,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTBorderGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTBorderGadget)
 };
+
+
 
 #endif // QEXTBORDERGADGET_H

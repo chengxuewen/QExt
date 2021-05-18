@@ -45,11 +45,11 @@
 #cmakedefine QEXT_SYSTEM_PROCESSOR_ARM
 #cmakedefine QEXT_SYSTEM_PROCESSOR_UNKNOWN
 
-#cmakedefine QEXT_CXX_FEATURE_98
-#cmakedefine QEXT_CXX_FEATURE_11
-#cmakedefine QEXT_CXX_FEATURE_14
-#cmakedefine QEXT_CXX_FEATURE_17
-#cmakedefine QEXT_CXX_FEATURE_20
+#cmakedefine QEXT_CXX_STANDARD_98
+#cmakedefine QEXT_CXX_STANDARD_11
+#cmakedefine QEXT_CXX_STANDARD_14
+#cmakedefine QEXT_CXX_STANDARD_17
+#cmakedefine QEXT_CXX_STANDARD_20
 
 #cmakedefine QEXT_BUILD_SHARED_LIBS
 #cmakedefine QEXT_BUILD_QML

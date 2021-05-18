@@ -5,6 +5,8 @@
 
 #include <QObject>
 
+
+
 class QEXTSimpleObjectPrivate;
 class QEXTSimpleObject : public QObject, public QEXTObject
 {

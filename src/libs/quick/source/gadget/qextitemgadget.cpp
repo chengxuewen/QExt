@@ -31,6 +31,7 @@
 #include <qextitemgadget_p.h>
 
 
+
 QEXTItemGadgetPrivate::QEXTItemGadgetPrivate(QEXTItemGadget *qq)
     : QEXTObjectPrivate(qq)
 {

@@ -1,15 +1,37 @@
-#include "qextsingleapputil.h"
-#include "qextsingleapputil_p.h"
+#include <qextsingleapputil.h>
+#include <qextsingleapputil_p.h>
 
 #include <QLocalSocket>
 #include <QCoreApplication>
+#include <QStringList>
 #include <QFileInfo>
 #include <QDebug>
+
+
+
+QEXTSingleAppUtilSlotWrapper::QEXTSingleAppUtilSlotWrapper(QEXTSingleAppUtil *singleAppUtil, QObject *parent)
+    : QObject(parent)
+{
+    m_singleAppUtil = singleAppUtil;
+}
+
+QEXTSingleAppUtilSlotWrapper::~QEXTSingleAppUtilSlotWrapper()
+{
+
+}
+
+void QEXTSingleAppUtilSlotWrapper::newLocalConnectionReceived()
+{
+    m_singleAppUtil->newLocalConnectionReceived();
+}
+
+
 
 QEXTSingleAppUtilPrivate::QEXTSingleAppUtilPrivate(QEXTSingleAppUtil *qq)
     : QEXTObjectPrivate(qq)
 {
     m_localServerName = QFileInfo(QCoreApplication::applicationFilePath()).fileName();
+    m_singleAppUtilSlotWrapper.reset(new QEXTSingleAppUtilSlotWrapper(qq));
 }
 
 QEXTSingleAppUtilPrivate::~QEXTSingleAppUtilPrivate()
@@ -20,10 +42,8 @@ QEXTSingleAppUtilPrivate::~QEXTSingleAppUtilPrivate()
 bool QEXTSingleAppUtilPrivate::initLocalServer()
 {
     QEXT_Q(QEXTSingleAppUtil);
-    m_localServer.reset(new QLocalServer());
-    QObject::connect(m_localServer.data(), &QLocalServer::newConnection, [=](){
-        q->newLocalConnectionReceived();
-    });
+    m_localServer.reset(new QLocalServer);
+    QObject::connect(m_localServer.data(), SIGNAL(newConnection()), m_singleAppUtilSlotWrapper.data(), SLOT(newLocalConnectionReceived()));
     if(!m_localServer->listen(m_localServerName)) {
         if(QAbstractSocket::AddressInUseError == m_localServer->serverError()) {
             QLocalServer::removeServer(m_localServerName);

@@ -1,13 +1,16 @@
 /* Test.cpp
 **************************************/
 #include "Test.h"
+
 #include "qextserialport.h"
+
 #include <QLayout>
 #include <QLineEdit>
 #include <QTextEdit>
 #include <QPushButton>
 #include <QSpinBox>
 
+//
 
 Test::Test(QWidget *parent)
     : QWidget(parent)

@@ -1,4 +1,5 @@
-import QtQuick 2.7
+import QtQuick 2.12
+import QtQml 2.12
 import QtQuick.Controls 2.12
 import QEXTQuick 1.2
 
@@ -8,11 +9,11 @@ Dialog {
     clip: true
     dim: true
     padding: 0
-    anchors.centerIn: Overlay.overlay
     closePolicy: Popup.NoAutoClose
     modal: true
     implicitWidth: 300
     implicitHeight: implicitHeaderHeight + implicitContentHeight + implicitFooterHeight
+    anchors.centerIn: Overlay.overlay
     title: "QEXTDialog"
 
     signal buttonTriggered(var button)

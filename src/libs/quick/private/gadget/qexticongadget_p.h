@@ -7,6 +7,8 @@
 
 #include <QColor>
 
+
+
 class QEXTIconGadget;
 class QEXT_QUICK_API QEXTIconGadgetPrivate : public QEXTObjectPrivate
 {
@@ -26,5 +28,7 @@ private:
     QEXT_DECLARE_PUBLIC(QEXTIconGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTIconGadgetPrivate)
 };
+
+
 
 #endif // QEXTICONGADGET_P_H

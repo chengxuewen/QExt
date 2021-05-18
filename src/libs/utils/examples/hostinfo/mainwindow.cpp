@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -34,14 +36,14 @@ void MainWindow::updateMemory(const quint64 &ulIdle, const quint64 &ulTotal, con
     qDebug() << "ulPercent=" << ulPercent;
 }
 
-void MainWindow::updateDisk(const QList<QEXTDiskInfoUtils> &listDiskInfo)
+void MainWindow::updateDisk(const QList<QEXTDiskInfo> &listDiskInfo)
 {
     qDebug() << "MainWindow::updateDisk()----------------------";
-    foreach (QEXTDiskInfoUtils info, listDiskInfo) {
-        qDebug() << "info.strName=" << info.getName();
-        qDebug() << "info.strUsedSize=" << info.getUsedSize();
-        qDebug() << "info.strFreeSize=" << info.getFreeSize();
-        qDebug() << "info.strAllSize=" << info.getAllSize();
-        qDebug() << "info.dUsedPercent=" << info.getUsedPercent();
+    foreach (QEXTDiskInfo info, listDiskInfo) {
+        qDebug() << "info.strName=" << info.name();
+        qDebug() << "info.strUsedSize=" << info.usedSize();
+        qDebug() << "info.strFreeSize=" << info.freeSize();
+        qDebug() << "info.strAllSize=" << info.allSize();
+        qDebug() << "info.dUsedPercent=" << info.usedPercent();
     }
 }

@@ -1,4 +1,5 @@
-import QtQuick 2.7
+import QtQuick 2.12
+import QtQml 2.12
 import QtQuick.Window 2.2
 import QEXTQuick 1.2
 

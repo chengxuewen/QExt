@@ -37,6 +37,8 @@
 #include <QObject>
 #include <QQuickItem>
 
+
+
 /***
  * the class is very important in QEXTQuick
  * class can do some setup work:
@@ -87,5 +89,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTQuickWorld)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickWorld)
 };
+
+
 
 #endif // QEXTQUICKWORLD_H

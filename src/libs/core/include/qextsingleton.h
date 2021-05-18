@@ -3,6 +3,8 @@
 
 #include <qextglobal.h>
 
+
+
 template <class T>
 class QEXT_CORE_API QEXTSingleton
 {
@@ -18,6 +20,8 @@ protected:
 
     QEXT_DISABLE_COPY_MOVE(QEXTSingleton)
 };
+
+
 
 
 #endif // QEXTSINGLETON_H

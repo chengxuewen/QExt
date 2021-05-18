@@ -176,7 +176,7 @@ public:
 /*!
  * \~chinese \class QEXTFontSizeManager
  * \~chinese \brief 字体大小设置的一个类,系统默认只设置T6
- * \chiinese \image html font.png
+ * \chinese \image html font.png
  */
 
 /*!

@@ -1,15 +1,14 @@
 #ifndef QEXTSTYLE_H
 #define QEXTSTYLE_H
 
-#include <qextglobal.h>
-#include <qextpalette.h>
+#include <qextwidgetsglobal.h>
+//#include <qextpalette.h>
 
 #include <QPainter>
 #include <QObject>
-#include <QCommonStyle>
 #include <QIconEngine>
+#include <QCommonStyle>
 #include <QStyleOption>
-
 
 
 namespace QEXTDrawUtils
@@ -22,63 +21,63 @@ enum Corner {
 };
 Q_DECLARE_FLAGS(Corners, Corner)
 
-QEXT_API void drawShadow(QPainter *pa, const QRect &rect, qreal xRadius, qreal yRadius, const QColor &sc, qreal radius, const QPoint &offset);
-QEXT_API void drawShadow(QPainter *pa, const QRect &rect, const QPainterPath &path, const QColor &sc, int radius, const QPoint &offset);
-QEXT_API void drawRoundedRect(QPainter *pa, const QRect &rect, qreal xRadius, qreal yRadius, Corners corners, Qt::SizeMode mode = Qt::AbsoluteSize);
-QEXT_API void drawFork(QPainter *pa, const QRectF &rect, const QColor &color, int width = 2);
-QEXT_API void drawMark(QPainter *pa, const QRectF &rect, const QColor &boxInside, const QColor &boxOutside, const int penWidth, const int outLineLeng = 2);
-QEXT_API void drawBorder(QPainter *pa, const QRectF &rect, const QBrush &brush, int borderWidth, int radius);
-QEXT_API void drawArrow(QPainter *pa, const QRectF &rect, const QColor &color, Qt::ArrowType arrow, int width = 2);
-QEXT_API void drawPlus(QPainter *painter, const QRectF &rect, const QColor &color , qreal width);
-QEXT_API void drawSubtract(QPainter *painter, const QRectF &rect, const QColor &color, qreal width);
+QEXT_WIDGETS_API void drawShadow(QPainter *pa, const QRect &rect, qreal xRadius, qreal yRadius, const QColor &sc, qreal radius, const QPoint &offset);
+QEXT_WIDGETS_API void drawShadow(QPainter *pa, const QRect &rect, const QPainterPath &path, const QColor &sc, int radius, const QPoint &offset);
+QEXT_WIDGETS_API void drawRoundedRect(QPainter *pa, const QRect &rect, qreal xRadius, qreal yRadius, Corners corners, Qt::SizeMode mode = Qt::AbsoluteSize);
+QEXT_WIDGETS_API void drawFork(QPainter *pa, const QRectF &rect, const QColor &color, int width = 2);
+QEXT_WIDGETS_API void drawMark(QPainter *pa, const QRectF &rect, const QColor &boxInside, const QColor &boxOutside, const int penWidth, const int outLineLeng = 2);
+QEXT_WIDGETS_API void drawBorder(QPainter *pa, const QRectF &rect, const QBrush &brush, int borderWidth, int radius);
+QEXT_WIDGETS_API void drawArrow(QPainter *pa, const QRectF &rect, const QColor &color, Qt::ArrowType arrow, int width = 2);
+QEXT_WIDGETS_API void drawPlus(QPainter *painter, const QRectF &rect, const QColor &color , qreal width);
+QEXT_WIDGETS_API void drawSubtract(QPainter *painter, const QRectF &rect, const QColor &color, qreal width);
 
-QEXT_API void drawForkElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawArrowElement(Qt::ArrowType arrow, QPainter *pa, const QRectF &rect);
-QEXT_API void drawDecreaseElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawIncreaseElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawMarkElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawSelectElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawEditElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawExpandElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawReduceElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawLockElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawUnlockElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawMediaVolumeElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawMediaVolumeFullElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawMediaVolumeMutedElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawMediaVolumeLeftElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawMediaVolumeRightElement(QPainter *pa, const QRectF &rect);
-QEXT_API void drawArrowEnter(QPainter *pa, const QRectF &rect);
-QEXT_API void drawArrowLeave(QPainter *pa, const QRectF &rect);
-QEXT_API void drawArrowNext(QPainter *pa, const QRectF &rect);
-QEXT_API void drawArrowPrev(QPainter *pa, const QRectF &rect);
-QEXT_API void drawShowPassword(QPainter *pa, const QRectF &rect);
-QEXT_API void drawHidePassword(QPainter *pa, const QRectF &rect);
-QEXT_API void drawCloseButton(QPainter *pa, const QRectF &rect);
-QEXT_API void drawIndicatorMajuscule(QPainter *pa, const QRectF &rect);
-QEXT_API void drawIndicatorUnchecked(QPainter *pa, const QRectF &rect);
-QEXT_API void drawIndicatorChecked(QPainter *pa, const QRectF &rect);
-QEXT_API void drawDeleteButton(QPainter *pa, const QRectF &rect);
-QEXT_API void drawAddButton(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawForkElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawArrowElement(Qt::ArrowType arrow, QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawDecreaseElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawIncreaseElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawMarkElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawSelectElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawEditElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawExpandElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawReduceElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawLockElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawUnlockElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawMediaVolumeElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawMediaVolumeFullElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawMediaVolumeMutedElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawMediaVolumeLeftElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawMediaVolumeRightElement(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawArrowEnter(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawArrowLeave(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawArrowNext(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawArrowPrev(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawShowPassword(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawHidePassword(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawCloseButton(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawIndicatorMajuscule(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawIndicatorUnchecked(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawIndicatorChecked(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawDeleteButton(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawAddButton(QPainter *pa, const QRectF &rect);
 
-QEXT_API void drawTitleBarMenuButton(QPainter *pa, const QRectF &rect);
-QEXT_API void drawTitleBarMinButton(QPainter *pa, const QRectF &rect);
-QEXT_API void drawTitleBarMaxButton(QPainter *pa, const QRectF &rect);
-QEXT_API void drawTitleBarCloseButton(QPainter *pa, const QRectF &rect);
-QEXT_API void drawTitleBarNormalButton(QPainter *pa, const QRectF &rect);
-QEXT_API void drawArrowUp(QPainter *pa, const QRectF &rect);
-QEXT_API void drawArrowDown(QPainter *pa, const QRectF &rect);
-QEXT_API void drawArrowLeft(QPainter *pa, const QRectF &rect);
-QEXT_API void drawArrowRight(QPainter *pa, const QRectF &rect);
-QEXT_API void drawArrowBack(QPainter *pa, const QRectF &rect);
-QEXT_API void drawArrowForward(QPainter *pa, const QRectF &rect);
-QEXT_API void drawLineEditClearButton(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawTitleBarMenuButton(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawTitleBarMinButton(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawTitleBarMaxButton(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawTitleBarCloseButton(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawTitleBarNormalButton(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawArrowUp(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawArrowDown(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawArrowLeft(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawArrowRight(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawArrowBack(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawArrowForward(QPainter *pa, const QRectF &rect);
+QEXT_WIDGETS_API void drawLineEditClearButton(QPainter *pa, const QRectF &rect);
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Corners)
 }
 
 
-class QEXT_API QEXTStyle : public QCommonStyle
+class QEXT_WIDGETS_API QEXTStyle : public QCommonStyle
 {
     Q_OBJECT
 public:
@@ -247,7 +246,7 @@ public:
 };
 
 
-class QEXT_API QEXTStyleHelper
+class QEXT_WIDGETS_API QEXTStyleHelper
 {
 public:
     inline QEXTStyleHelper(const QStyle *style = QEXT_NULLPTR) {
@@ -299,7 +298,7 @@ private:
     const QEXTStyle *m_dstyle;
 };
 
-class QEXT_API QEXTStylePainter : public QPainter
+class QEXT_WIDGETS_API QEXTStylePainter : public QPainter
 {
 public:
     inline QEXTStylePainter() : QPainter(), widget(QEXT_NULLPTR), wstyle(QEXT_NULLPTR) {}
@@ -368,7 +367,7 @@ void QEXTStylePainter::drawItemPixmap(const QRect &r, int flags, const QPixmap &
 
 
 
-class QEXT_API QEXTStyledIconEngine : public QIconEngine
+class QEXT_WIDGETS_API QEXTStyledIconEngine : public QIconEngine
 {
 public:
     static void drawIcon(const QIcon &icon, QPainter *pa, const QRectF &rect);

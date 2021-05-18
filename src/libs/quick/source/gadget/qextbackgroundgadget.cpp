@@ -32,10 +32,11 @@
 
 #include <QDebug>
 
+
 QEXTBackgroundGadgetPrivate::QEXTBackgroundGadgetPrivate(QEXTBackgroundGadget *qq)
     : QEXTObjectPrivate(qq)
 {
-    m_color = "#FFF";
+    m_color = QColor("#FFFFF");
     m_radius = 0;
     m_width = 0;
     m_height = 0;

@@ -37,6 +37,8 @@
 #include <QColor>
 #include <QObject>
 
+
+
 class QEXTBackgroundGadgetPrivate;
 class QEXT_QUICK_API QEXTBackgroundGadget : public QObject, public QEXTObject
 {
@@ -84,5 +86,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTBackgroundGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTBackgroundGadget)
 };
+
+
 
 #endif // QEXTBACKGROUNDGADGET_H

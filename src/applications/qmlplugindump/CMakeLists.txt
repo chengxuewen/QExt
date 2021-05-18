@@ -1,6 +1,6 @@
 #################################################################################
 #
-# Library: HMI
+# Library: QEXT
 #
 # Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
 #
@@ -48,7 +48,7 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     list(APPEND _app_link_libraries Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick)
 else()
-    message(FATAL_ERROR "----HMI---- Not find Qt package")
+    message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
 include_directories(${Qt${QT_VERSION_MAJOR}Core_PRIVATE_INCLUDE_DIRS})
@@ -85,12 +85,12 @@ add_executable(${_app_base_name}
     ${_app_forms}
     ${_app_resources}
     )
-if (HMI_BUILD_COMPILER_WARNING)
-    hmiFunctionSetCompilerWarnings(${_lib_base_name})
+if (QEXT_BUILD_COMPILER_WARNING)
+    qextFunctionSetCompilerWarnings(${_lib_base_name})
 endif()
 target_link_libraries(${_app_base_name} PUBLIC ${_app_link_libraries})
 target_include_directories(${_app_base_name} PUBLIC
-    $<BUILD_INTERFACE:${HMI_CONFIG_HPP_FILE_DIR}>
+    $<BUILD_INTERFACE:${QEXT_CONFIG_HPP_FILE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
     )
@@ -100,16 +100,3 @@ target_include_directories(${_app_base_name} PUBLIC
 set_target_properties(${_app_base_name} PROPERTIES
     CXX_STANDARD ${QEXT_CXX_STANDARD}
     )
-
-
-
-#--------------------------------------------------------------------------------
-# Add app tests and examples
-#--------------------------------------------------------------------------------
-if (HMI_BUILD_TESTS OR HMI_BUILD_ALL)
-    add_subdirectory(tests)
-endif()
-
-if (HMI_BUILD_EXAMPLES OR HMI_BUILD_ALL)
-    add_subdirectory(examples)
-endif()

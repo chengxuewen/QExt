@@ -1,9 +1,10 @@
-﻿import QtQuick 2.7
+﻿import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QEXTQuick 1.2
 
 Column {
     spacing: 10
+
     Item {
         width: 10
         height: 10

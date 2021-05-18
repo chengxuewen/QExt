@@ -31,6 +31,7 @@
 #include <qextscrollbargadget_p.h>
 
 
+
 QEXTScrollbarGadgetPrivate::QEXTScrollbarGadgetPrivate(QEXTScrollbarGadget *qq)
     : QEXTObjectPrivate(qq)
 {

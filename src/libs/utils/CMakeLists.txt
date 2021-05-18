@@ -31,7 +31,7 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 set(_lib_public_headers
     include/qextdatetimeutils.h
-    include/qextdiskinfoutils.h
+    include/qextdiskinfo.h
     include/qexthostinfoutils.h
     include/qextnetworkutils.h
     include/qextsingleapputil.h
@@ -44,7 +44,7 @@ set(_lib_private_headers
 
 set(_lib_sources
     source/qextdatetimeutils.cpp
-    source/qextdiskinfoutils.cpp
+    source/qextdiskinfo.cpp
     source/qexthostinfoutils.cpp
     source/qextnetworkutils.cpp
     source/qextsingleapputil.cpp
@@ -97,6 +97,7 @@ target_include_directories(${_lib_base_name} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
     $<INSTALL_INTERFACE:include>
     )
+#set_target_properties(${_lib_base_name} PROPERTIES COMPILE_DEFINITIONS QEXT_BUILD_UTILS_LIB)
 target_compile_definitions(${_lib_base_name} PRIVATE QEXT_BUILD_UTILS_LIB)
 
 

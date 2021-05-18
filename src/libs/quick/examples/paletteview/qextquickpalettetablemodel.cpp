@@ -1,5 +1,4 @@
 #include "qextquickpalettetablemodel.h"
-#include <qextquickpalette.h>
 
 QEXTQuickPaletteTableModel::QEXTQuickPaletteTableModel(QObject *parent)
     : QAbstractTableModel(parent)

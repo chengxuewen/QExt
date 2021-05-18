@@ -36,6 +36,8 @@
 #include <CoreFoundation/CFNumber.h>
 #include <sys/param.h>
 
+QEXT_USE_NAMESPACE
+
 void QTKSerialEnumeratorPrivate::platformSpecificInit()
 {
 }

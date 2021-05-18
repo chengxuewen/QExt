@@ -4,7 +4,11 @@
 #include <QPointer>
 #include <QAbstractTableModel>
 
-class QEXTQuickPalette;
+#include <qextglobal.h>
+#include <qextquickpalette.h>
+
+
+
 class QEXTQuickPaletteTableModel : public QAbstractTableModel
 {
 public:

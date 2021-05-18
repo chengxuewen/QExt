@@ -7,6 +7,8 @@
 
 #include <QColor>
 
+
+
 class QEXTBorderGadget;
 class QEXT_QUICK_API QEXTBorderGadgetPrivate : public QEXTObjectPrivate
 {
@@ -28,5 +30,7 @@ private:
     QEXT_DECLARE_PUBLIC(QEXTBorderGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTBorderGadgetPrivate)
 };
+
+
 
 #endif // QEXTBORDERGADGET_P_H

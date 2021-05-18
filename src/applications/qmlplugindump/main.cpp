@@ -514,6 +514,7 @@ public:
         QByteArray attachedTypeId;
     };
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
     void dump(QQmlEnginePrivate *engine, const QMetaObject *meta, bool isUncreatable, bool isSingleton)
     {
         qml->writeStartObject("Component");
@@ -604,6 +605,71 @@ public:
 
         qml->writeEndObject();
     }
+#else
+    void dump(QQmlEnginePrivate *engine, const QMetaObject *meta, bool isUncreatable, bool isSingleton)
+    {
+        qml->writeStartObject("Component");
+
+        QByteArray id = convertToId(meta);
+        qml->writeScriptBinding(QLatin1String("name"), enquote(id));
+
+        for (int index = meta->classInfoCount() - 1 ; index >= 0 ; --index) {
+            QMetaClassInfo classInfo = meta->classInfo(index);
+            if (QLatin1String(classInfo.name()) == QLatin1String("DefaultProperty")) {
+                qml->writeScriptBinding(QLatin1String("defaultProperty"), enquote(QLatin1String(classInfo.value())));
+                break;
+            }
+        }
+
+        if (meta->superClass())
+            qml->writeScriptBinding(QLatin1String("prototype"), enquote(convertToId(meta->superClass())));
+
+        const QSet<QQmlType> qmlTypes = qmlTypesByCppName.value(meta->className());
+        if (!qmlTypes.isEmpty()) {
+            QHash<QString, QQmlType> exports;
+
+            for (const QQmlType &qmlTy : qmlTypes) {
+                const QString exportString = getExportString(qmlTy.qmlTypeName(), qmlTy.majorVersion(), qmlTy.minorVersion());
+                exports.insert(exportString, qmlTy);
+            }
+
+            // ensure exports are sorted and don't change order when the plugin is dumped again
+            QStringList exportStrings = exports.keys();
+            std::sort(exportStrings.begin(), exportStrings.end());
+            qml->writeArrayBinding(QLatin1String("exports"), exportStrings);
+
+            if (isUncreatable)
+                qml->writeBooleanBinding(QLatin1String("isCreatable"), false);
+
+            if (isSingleton)
+                qml->writeBooleanBinding(QLatin1String("isSingleton"), true);
+
+            // write meta object revisions
+            QStringList metaObjectRevisions;
+            for (const QString &exportString : qAsConst(exportStrings)) {
+                int metaObjectRevision = exports[exportString].metaObjectRevision();
+                metaObjectRevisions += QString::number(metaObjectRevision);
+            }
+            qml->writeArrayBinding(QLatin1String("exportMetaObjectRevisions"), metaObjectRevisions);
+
+            if (const QMetaObject *attachedType = (*qmlTypes.begin()).attachedPropertiesType(engine)) {
+                // Can happen when a type is registered that returns itself as attachedPropertiesType()
+                // because there is no creatable type to attach to.
+                if (attachedType != meta) {
+                    qml->writeScriptBinding(QLatin1String("attachedType"), enquote(
+                                                convertToId(attachedType)));
+                }
+            }
+        }
+
+        for (int index = meta->enumeratorOffset(); index < meta->enumeratorCount(); ++index)
+            dump(meta->enumerator(index));
+
+        writeMetaContent(meta);
+
+        qml->writeEndObject();
+    }
+#endif
 
     void writeEasingCurve()
     {

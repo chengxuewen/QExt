@@ -6,6 +6,8 @@
 #include <QMetaType>
 #include <QString>
 
+
+
 class QEXT_CORE_API QEXTId
 {
 public:
@@ -45,9 +47,12 @@ private:
 
 inline uint qHash(const QEXTId &id) { return id.uniqueIdentifier(); }
 
+QDataStream &operator<<(QDataStream &ds, const QEXTId &id);
+QDataStream &operator>>(QDataStream &ds, QEXTId &id);
+
+
+
 Q_DECLARE_METATYPE(QEXTId)
 Q_DECLARE_METATYPE(QList<QEXTId>)
 
-QDataStream &operator<<(QDataStream &ds, const QEXTId &id);
-QDataStream &operator>>(QDataStream &ds, QEXTId &id);
 #endif // QEXTID_H

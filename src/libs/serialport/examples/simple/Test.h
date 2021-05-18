@@ -5,6 +5,8 @@
 
 #include <QWidget>
 
+#include <qextglobal.h>
+
 class QLineEdit;
 class QTextEdit;
 class QEXTSerialPort;

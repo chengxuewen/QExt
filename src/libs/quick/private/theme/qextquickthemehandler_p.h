@@ -8,6 +8,8 @@
 #include <QVariantMap>
 #include <QPointer>
 
+
+
 class QEXTQuickThemeHandler;
 class QEXT_QUICK_API QEXTQuickThemeHandlerPrivate : public QEXTObjectPrivate
 {
@@ -26,5 +28,7 @@ private:
     QEXT_DECLARE_PUBLIC(QEXTQuickThemeHandler)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeHandlerPrivate)
 };
+
+
 
 #endif // QEXTTHEMEHANDLER_P_H

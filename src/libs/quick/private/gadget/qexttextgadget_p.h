@@ -8,6 +8,8 @@
 #include <QColor>
 #include <QFont>
 
+
+
 class QEXTTextGadget;
 class QEXT_QUICK_API QEXTTextGadgetPrivate : public QEXTObjectPrivate
 {
@@ -25,5 +27,7 @@ private:
     QEXT_DECLARE_PUBLIC(QEXTTextGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTTextGadgetPrivate)
 };
+
+
 
 #endif // QEXTLABELGADGET_P_H

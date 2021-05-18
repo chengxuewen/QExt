@@ -7,7 +7,7 @@
 ** Copyright (c) 2011 Debao Zhang
 ** Copyright (c) 2012 Doug Brown
 ** All right reserved.
-** Web: http://code.google.com/p/qtkserialport/
+** Web: http://code.google.com/p/qextserialport/
 **
 ** Permission is hereby granted, free of charge, to any person obtaining
 ** a copy of this software and associated documentation files (the
@@ -35,6 +35,8 @@
 #include <QtCore/QDebug>
 #include <QtCore/QStringList>
 #include <QtCore/QDir>
+
+
 
 void QEXTSerialEnumeratorPrivate::platformSpecificInit()
 {

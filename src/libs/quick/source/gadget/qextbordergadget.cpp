@@ -30,6 +30,8 @@
 #include <qextbordergadget.h>
 #include <qextbordergadget_p.h>
 
+
+
 QEXTBorderGadgetPrivate::QEXTBorderGadgetPrivate(QEXTBorderGadget *qq)
     : QEXTObjectPrivate(qq)
 {

@@ -1,84 +1,89 @@
 #ifndef QEXTHOSTINFOUTILS_H
 #define QEXTHOSTINFOUTILS_H
 
-#include <qextglobal.h>
-
 #include <qextutilsglobal.h>
-#include <qextdiskinfoutils.h>
+#include <qextdiskinfo.h>
+
+#include <qextobject.h>
 
 #include <QObject>
 
+
+
 class QEXTHostInfoUtilsPrivate;
-class QEXT_UTILS_API QEXTHostInfoUtils : public QObject
+class QEXT_UTILS_API QEXTHostInfoUtils : public QObject, public QEXTObject
 {
     Q_OBJECT
-
 public:
-    enum HostArchitecture {
-        HostArchitecture_X86,
-        HostArchitecture_AMD64,
-        HostArchitecture_Itanium,
-        HostArchitecture_Arm,
-        HostArchitecture_Unknown
+    enum HostArchType {
+        HostArch_X86,
+        HostArch_AMD64,
+        HostArch_Itanium,
+        HostArch_ARM,
+        HostArch_Unknown
     };
-    enum OsType {
-        OsTypeWindows = 0,
-        OsTypeLinux,
-        OsTypeMac,
-        OsTypeOtherUnix,
-        OsTypeOther
+    Q_ENUMS(HostArchType)
+
+    enum HostOSType {
+        HostOS_Win = 0,
+        HostOS_Linux,
+        HostOS_Mac,
+        HostOS_Unix,
+        HostOS_Unknown
     };
+    Q_ENUMS(HostOSType)
 
     explicit QEXTHostInfoUtils(QObject *parent = QEXT_NULLPTR);
     ~QEXTHostInfoUtils();
 
-    static QString getCPUID();
-    static OsType hostOs();
-    static HostArchitecture hostArchitecture();
+    static QString cpuID();
+    static HostOSType hostOSType();
+    static HostArchType hostArchType();
 
-    static bool isWindowsHost();
-    static bool isLinuxHost();
-    static bool isMacHost();
-    static bool isAnyUnixHost();
+    static bool isWinSystem();
+    static bool isLinuxSystem();
+    static bool isMacSystem();
+    static bool isAnyUnixSystem();
 
     static QString withExecutableSuffix(const QString &executable);
     static Qt::CaseSensitivity fileNameCaseSensitivity();
     static QChar pathListSeparator();
     static Qt::KeyboardModifier controlModifier();
 
-    quint64 getCPUPercent() const;
-    quint64 getMemoryAll() const;
-    quint64 getMemoryFree() const;
-    quint64 getMemoryUse() const;
-    quint64 getMemoryPercent() const;
+    quint64 cpuPercent() const;
+    quint64 memoryAll() const;
+    quint64 memoryFree() const;
+    quint64 memoryUsed() const;
+    quint64 memoryPercent() const;
 
 public Q_SLOTS:
-    void startQueryCPU(const int &iInterval);
+    void startQueryCPU(int interval);
     void stopQueryCPU();
     void queryCPUInfo();
     void readCPUProcessData();
 
-    void startQueryMemory(const int &iInterval);
+    void startQueryMemory(int interval);
     void stopQueryMemory();
     void queryMemoryInfo();
     void readMemoryProcessData();
 
-    void startQueryDisk(const int &iInterval);
+    void startQueryDisk(int interval);
     void stopQueryDisk();
     void queryDiskInfo();
     void readDiskProcessData();
 
 Q_SIGNALS:
-    void cpuChanged(const quint64 &ulPercent);
-    void memoryChanged(const quint64 &ulPercent);
-    void memoryChanged(const quint64 &ulFree, const quint64 &ulAll);
-    void memoryChanged(const quint64 &ulFree, const quint64 &ulAll, const quint64 &ulPercent);
-    void diskChanged(const QList<QEXTDiskInfoUtils> &listDiskInfo);
+    void cpuChanged(quint64 percent);
+    void memoryChanged(quint64 percent);
+    void memoryChanged(quint64 free, quint64 all);
+    void memoryChanged(quint64 free, quint64 all, quint64 percent);
+    void diskChanged(const QList<QEXTDiskInfo> &diskInfoList);
 
 private:
-    friend class QEXTHostInfoUtilsPrivate;
-    QEXTHostInfoUtilsPrivate *d_ptr;
-    Q_DISABLE_COPY(QEXTHostInfoUtils)
+    QEXT_DECLARE_PRIVATE(QEXTHostInfoUtils)
+    QEXT_DISABLE_COPY_MOVE(QEXTHostInfoUtils)
 };
+
+
 
 #endif // QEXTHOSTINFOUTILS_H

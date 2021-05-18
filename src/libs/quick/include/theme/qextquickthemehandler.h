@@ -36,6 +36,8 @@
 
 #include <QObject>
 
+
+
 class QEXTQuickThemeHandlerPrivate;
 class QEXT_QUICK_API QEXTQuickThemeHandler : public QObject, public QEXTObject
 {
@@ -68,5 +70,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTQuickThemeHandler)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeHandler)
 };
+
+
 
 #endif // QEXTQUICKTHEMEHANDLER_H

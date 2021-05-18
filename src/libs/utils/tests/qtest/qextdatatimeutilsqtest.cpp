@@ -4,6 +4,8 @@
 #include <QElapsedTimer>
 #include <QDateTime>
 
+QEXT_USE_NAMESPACE
+
 class QEXTDateTimeUtilsQTest: public QObject
 {
     Q_OBJECT

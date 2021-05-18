@@ -5,6 +5,8 @@
 
 #include <qextobject_p.h>
 
+
+
 class QEXTItemGadget;
 class QEXT_QUICK_API QEXTItemGadgetPrivate : public QEXTObjectPrivate
 {
@@ -19,5 +21,7 @@ private:
     QEXT_DECLARE_PUBLIC(QEXTItemGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTItemGadgetPrivate)
 };
+
+
 
 #endif // QEXTITEMGADGET_P_H

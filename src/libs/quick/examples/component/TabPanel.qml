@@ -1,6 +1,5 @@
-import QtQuick 2.7
+import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
 
 Item {
     id: mTabPanel
@@ -73,9 +72,5 @@ Item {
         height: parent.height
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
-    }
-
-    Component.onCompleted: {
-
     }
 }

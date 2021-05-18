@@ -1,6 +1,6 @@
-#include "qexthostinfoutils.h"
-// Add qt includes here
-#include <QProcess>
+#include <qexthostinfoutils.h>
+#include <qexthostinfoutils_p.h>
+
 #include <QFileInfoList>
 #include <QDir>
 #include <QTimer>
@@ -16,137 +16,102 @@
 #include <qt_windows.h>
 #endif
 
+
 #define QEXT_GB (1024 * 1024 * 1024)
 #define QEXT_MB (1024 * 1024)
 #define QEXT_KB (1024)
 
-#define QEXT_WIN_EXE_SUFFIX    ".exe"
+#define QEXT_WIN_EXE_SUFFIX ".exe"
 
-class QEXTHostInfoUtilsPrivate
+QEXTHostInfoUtilsPrivate::QEXTHostInfoUtilsPrivate(QEXTHostInfoUtils *qq)
+    : QEXTObjectPrivate(qq)
 {
-    friend class HHostOsInfo;
-public:
-    QEXTHostInfoUtilsPrivate();
-    ~QEXTHostInfoUtilsPrivate();
-    QEXTDiskInfoUtils checkDiskSize(const QString &strResult, const QString &strName);
 
-    QEXTHostInfoUtils *q_ptr;
-
-    QTimer *m_pCPUTimer;
-    QProcess *m_pCPUProcess;
-    quint64 m_ulCPUTotalNew;
-    quint64 m_ulCPUTotalOld;
-    quint64 m_ulCPUTotalCurrent;
-    quint64 m_ulCPUIdleNew;
-    quint64 m_ulCPUIdleOld;
-    quint64 m_ulCPUIdleCurrent;
-    quint64 m_ulCPUPercent;
-
-    QTimer *m_pMemoryTimer;
-    QProcess *m_pMemoryProcess;
-    quint64 m_ulMemoryPercent;
-    quint64 m_ulMemoryAll;
-    quint64 m_ulMemoryUse;
-    quint64 m_ulMemoryFree;
-
-    QTimer *m_pDiskTimer;
-    QProcess *m_pDiskProcess;
-};
-
-
-QEXTHostInfoUtilsPrivate::QEXTHostInfoUtilsPrivate()
-{
-    m_pCPUTimer = QEXT_NULLPTR;
-    m_pCPUProcess = QEXT_NULLPTR;
-
-    m_pMemoryTimer = QEXT_NULLPTR;
-    m_pMemoryProcess = QEXT_NULLPTR;
 }
 
 QEXTHostInfoUtilsPrivate::~QEXTHostInfoUtilsPrivate()
 {
-    if (m_pCPUTimer) {
-        if (m_pCPUTimer->isActive()) {
-            m_pCPUTimer->stop();
-        }
-        delete m_pCPUTimer;
-        m_pCPUTimer = QEXT_NULLPTR;
+    if (m_cpuTimer->isActive()) {
+        m_cpuTimer->stop();
     }
-    if (m_pMemoryTimer) {
-        if (m_pMemoryTimer->isActive()) {
-            m_pMemoryTimer->stop();
-        }
-        delete m_pMemoryTimer;
-        m_pMemoryTimer = QEXT_NULLPTR;
+    if (m_cpuProcess->isOpen()) {
+        m_cpuProcess->close();
+    }
+    if (m_memoryTimer->isActive()) {
+        m_memoryTimer->stop();
+    }
+    if (m_memoryProcess->isOpen()) {
+        m_memoryProcess->close();
     }
 }
 
-QEXTDiskInfoUtils QEXTHostInfoUtilsPrivate::checkDiskSize(const QString &strResult, const QString &strName)
+QEXTDiskInfo QEXTHostInfoUtilsPrivate::checkDiskSize(const QString &result, const QString &name)
 {
-    QString strDev, strUse, strFee, strAll;
-    double dPercent = 0;
-    QStringList list = strResult.split(" ");
-    int iIndex = 0;
+    QString dev, use, fee, all;
+    double percent = 0;
+    QStringList list = result.split(" ");
+    int index = 0;
     for (int i = 0; i < list.count(); i++) {
-        QString strItem = list.at(i).trimmed();
-        if ("" == strItem) {
+        QString item = list.at(i).trimmed();
+        if ("" == item) {
             continue;
         }
-        iIndex++;
-        if (1 == iIndex) {
-            strDev = strItem;
-        } else if (2 == iIndex) {
-            strAll = strItem;
-        } else if (3 == iIndex) {
-            strUse = strItem;
-        } else if (4 == iIndex) {
-            strFee = strItem;
-        } else if (5 == iIndex) {
-            dPercent = strItem.left(strItem.length() - 1).toInt();
+        index++;
+        if (1 == index) {
+            dev = item;
+        } else if (2 == index) {
+            all = item;
+        } else if (3 == index) {
+            use = item;
+        } else if (4 == index) {
+            fee = item;
+        } else if (5 == index) {
+            percent = item.left(item.length() - 1).toInt();
             break;
         }
     }
-    if (strName.length() > 0) {
-        strDev = strName;
+    if (name.length() > 0) {
+        dev = name;
     }
-    QEXTDiskInfoUtils diskInfo;
-    diskInfo.setName(strDev);
-    diskInfo.setUsedSize(strUse);
-    diskInfo.setFreeSize(strFee);
-    diskInfo.setAllSize(strAll);
-    diskInfo.setUsedPercent(dPercent);
+    QEXTDiskInfo diskInfo;
+    diskInfo.setName(dev);
+    diskInfo.setUsedSize(use);
+    diskInfo.setFreeSize(fee);
+    diskInfo.setAllSize(all);
+    diskInfo.setUsedPercent(percent);
     return diskInfo;
 }
 
-QEXTHostInfoUtils::QEXTHostInfoUtils(QObject *parent) : QObject(parent)
+
+
+QEXTHostInfoUtils::QEXTHostInfoUtils(QObject *parent)
+    : QObject(parent), QEXTObject(*(new QEXTHostInfoUtilsPrivate(this)))
 {
-    d_ptr = new QEXTHostInfoUtilsPrivate();
-    d_ptr->q_ptr = this;
-    d_ptr->m_pCPUTimer = new QTimer(this);
-    connect(d_ptr->m_pCPUTimer, SIGNAL(timeout()), this, SLOT(queryCPUInfo()));
-    d_ptr->m_pCPUProcess = new QProcess(this);
-    connect(d_ptr->m_pCPUProcess, SIGNAL(readyRead()), this, SLOT(readCPUProcessData()));
+    QEXT_D(QEXTHostInfoUtils);
+    d->m_cpuTimer.reset(new QTimer);
+    connect(d->m_cpuTimer.data(), SIGNAL(timeout()), this, SLOT(queryCPUInfo()));
+    d->m_cpuProcess.reset(new QProcess);
+    connect(d->m_cpuProcess.data(), SIGNAL(readyRead()), this, SLOT(readCPUProcessData()));
 
-    d_ptr->m_pMemoryTimer = new QTimer(this);
-    connect(d_ptr->m_pMemoryTimer, SIGNAL(timeout()), this, SLOT(queryMemoryInfo()));
-    d_ptr->m_pMemoryProcess = new QProcess(this);
-    connect(d_ptr->m_pMemoryProcess, SIGNAL(readyRead()), this, SLOT(readMemoryProcessData()));
+    d->m_memoryTimer.reset(new QTimer);
+    connect(d->m_memoryTimer.data(), SIGNAL(timeout()), this, SLOT(queryMemoryInfo()));
+    d->m_memoryProcess.reset(new QProcess);
+    connect(d->m_memoryProcess.data(), SIGNAL(readyRead()), this, SLOT(readMemoryProcessData()));
 
-    d_ptr->m_pDiskTimer = new QTimer(this);
-    connect(d_ptr->m_pDiskTimer, SIGNAL(timeout()), this, SLOT(queryDiskInfo()));
-    d_ptr->m_pDiskProcess = new QProcess(this);
-    connect(d_ptr->m_pDiskProcess, SIGNAL(readyRead()), this, SLOT(readDiskProcessData()));
+    d->m_diskTimer.reset(new QTimer);
+    connect(d->m_diskTimer.data(), SIGNAL(timeout()), this, SLOT(queryDiskInfo()));
+    d->m_diskProcess.reset(new QProcess);
+    connect(d->m_diskProcess.data(), SIGNAL(readyRead()), this, SLOT(readDiskProcessData()));
 
-    qRegisterMetaType<QEXTDiskInfoUtils>("QEXTDiskInfo");
+    qRegisterMetaType<QEXTDiskInfo>("QEXTDiskInfo");
 }
 
 QEXTHostInfoUtils::~QEXTHostInfoUtils()
 {
-    delete d_ptr;
-    d_ptr = QEXT_NULLPTR;
+
 }
 
-QString QEXTHostInfoUtils::getCPUID()
+QString QEXTHostInfoUtils::cpuID()
 {
     QString cpu_id = "";
     unsigned int dwBuf[4]={0};
@@ -155,13 +120,13 @@ QString QEXTHostInfoUtils::getCPUID()
 #if defined(__GNUC__)// GCC
     __cpuid(1, dwBuf[0], dwBuf[1], dwBuf[2], dwBuf[3]);
 #elif defined(_MSC_VER)// MSVC
-#if _MSC_VER >= 1400 // VC2005 __cpuid
+#   if _MSC_VER >= 1400 // VC2005 __cpuid
     __cpuid((int*)(void*)dwBuf, (int)(1));
-#else //getcpuidex
-#if defined(_MSC_VER) // MSVC
-#if defined(_WIN64) // Inline assembly is not supported under 64 bit. 1600: VS2010, which is said to be supported after vc2008 Sp1__ cpuidex.
+#   else //getcpuidex
+#       if defined(_MSC_VER) // MSVC
+#           if defined(_WIN64) // Inline assembly is not supported under 64 bit. 1600: VS2010, which is said to be supported after vc2008 Sp1__ cpuidex.
     __cpuidex((int*)(void*)dwBuf, (int)1, (int)0);
-#else
+#       else
     if (NULL==dwBuf)  return;
     _asm{
         // load.
@@ -176,76 +141,76 @@ QString QEXTHostInfoUtils::getCPUID()
         mov [edi+8], ecx;
         mov [edi+12], edx;
     }
-#endif
-#endif
-#endif
+#           endif
+#       endif
+#   endif
 #endif
 
     ret = dwBuf[3];
     ret = ret << 32;
 
-    QString str0 = QString::number(dwBuf[3], 16).toUpper();
-    QString str0_1 = str0.rightJustified(8,'0'); //This sentence means to fill 0 in front of me, but the situation I encountered was that it was filled up here
-    QString str1 = QString::number(dwBuf[0], 16).toUpper();
-    QString str1_1 = str1.rightJustified(8,'0'); //Here you must fill in 0 before, otherwise the data will not be filled
+    QString string0 = QString::number(dwBuf[3], 16).toUpper();
+    QString string0_1 = string0.rightJustified(8,'0'); //This sentence means to fill 0 in front of me, but the situation I encountered was that it was filled up here
+    QString string1 = QString::number(dwBuf[0], 16).toUpper();
+    QString string1_1 = string1.rightJustified(8,'0'); //Here you must fill in 0 before, otherwise the data will not be filled
     //cpu_id = cpu_id + QString::number(dwBuf[0], 16).toUpper();
-    cpu_id = str0_1 + str1_1;
+    cpu_id = string0_1 + string1_1;
     return cpu_id;
 }
 
-QEXTHostInfoUtils::OsType QEXTHostInfoUtils::hostOs()
+QEXTHostInfoUtils::HostOSType QEXTHostInfoUtils::hostOSType()
 {
 #if defined(Q_OS_WIN)
-    return OsTypeWindows;
+    return HostOS_Win;
 #elif defined(Q_OS_LINUX)
-    return OsTypeLinux;
+    return HostOS_Linux;
 #elif defined(Q_OS_MAC)
-    return OsTypeMac;
+    return HostOS_Mac;
 #elif defined(Q_OS_UNIX)
-    return OsTypeOtherUnix;
+    return HostOS_Unix;
 #else
-    return OsTypeOther;
+    return HostOS_Unknown;
 #endif
 }
 
-QEXTHostInfoUtils::HostArchitecture QEXTHostInfoUtils::hostArchitecture()
+QEXTHostInfoUtils::HostArchType QEXTHostInfoUtils::hostArchType()
 {
 #ifdef Q_OS_WIN
     SYSTEM_INFO info;
     GetNativeSystemInfo(&info);
     switch (info.wProcessorArchitecture) {
     case PROCESSOR_ARCHITECTURE_AMD64:
-        return QEXTHostInfoUtils::HostArchitecture_AMD64;
+        return QEXTHostInfoUtils::HostArch_AMD64;
     case PROCESSOR_ARCHITECTURE_INTEL:
-        return QEXTHostInfoUtils::HostArchitecture_X86;
+        return QEXTHostInfoUtils::HostArch_X86;
     case PROCESSOR_ARCHITECTURE_IA64:
-        return QEXTHostInfoUtils::HostArchitecture_Itanium;
+        return QEXTHostInfoUtils::HostArch_Itanium;
     case PROCESSOR_ARCHITECTURE_ARM:
-        return QEXTHostInfoUtils::HostArchitecture_Arm;
+        return QEXTHostInfoUtils::HostArch_ARM;
     default:
-        return QEXTHostInfoUtils::HostArchitecture_Unknown;
+        return QEXTHostInfoUtils::HostArch_Unknown;
     }
 #else
-    return QEXTHostInfoUtils::HostArchitecture_Unknown;
+    return QEXTHostInfoUtils::HostArch_Unknown;
 #endif
 }
 
-bool QEXTHostInfoUtils::isWindowsHost()
+bool QEXTHostInfoUtils::isWinSystem()
 {
-    return QEXTHostInfoUtils::hostOs() == OsTypeWindows;
+    return QEXTHostInfoUtils::hostOSType() == HostOS_Win;
 }
 
-bool QEXTHostInfoUtils::isLinuxHost()
+bool QEXTHostInfoUtils::isLinuxSystem()
 {
-    return QEXTHostInfoUtils::hostOs() == OsTypeLinux;
+    return QEXTHostInfoUtils::hostOSType() == HostOS_Linux;
 }
 
-bool QEXTHostInfoUtils::isMacHost()
+bool QEXTHostInfoUtils::isMacSystem()
 {
-    return QEXTHostInfoUtils::hostOs() == OsTypeMac;
+    return QEXTHostInfoUtils::hostOSType() == HostOS_Mac;
 }
 
-bool QEXTHostInfoUtils::isAnyUnixHost()
+bool QEXTHostInfoUtils::isAnyUnixSystem()
 {
 #ifdef Q_OS_UNIX
     return true;
@@ -256,70 +221,78 @@ bool QEXTHostInfoUtils::isAnyUnixHost()
 
 QString QEXTHostInfoUtils::withExecutableSuffix(const QString &executable)
 {
-    QString strFinalName = executable;
-    if (OsTypeWindows == QEXTHostInfoUtils::hostOs()) {
-        strFinalName += QLatin1String(QEXT_WIN_EXE_SUFFIX);
+    QString finalName = executable;
+    if (HostOS_Win == QEXTHostInfoUtils::hostOSType()) {
+        finalName += QLatin1String(QEXT_WIN_EXE_SUFFIX);
     }
-    return strFinalName;
+    return finalName;
 }
 
 Qt::CaseSensitivity QEXTHostInfoUtils::fileNameCaseSensitivity()
 {
-    return QEXTHostInfoUtils::hostOs() == OsTypeWindows ? Qt::CaseInsensitive : Qt::CaseSensitive;
+    return QEXTHostInfoUtils::hostOSType() == HostOS_Win ? Qt::CaseInsensitive : Qt::CaseSensitive;
 }
 
 QChar QEXTHostInfoUtils::pathListSeparator()
 {
-    return QLatin1Char(QEXTHostInfoUtils::hostOs() == OsTypeWindows ? ';' : ':');
+    return QLatin1Char(QEXTHostInfoUtils::hostOSType() == HostOS_Win ? ';' : ':');
 }
 
 Qt::KeyboardModifier QEXTHostInfoUtils::controlModifier()
 {
-    return QEXTHostInfoUtils::hostOs() == OsTypeMac ? Qt::MetaModifier : Qt::ControlModifier;
+    return QEXTHostInfoUtils::hostOSType() == HostOS_Mac ? Qt::MetaModifier : Qt::ControlModifier;
 }
 
-quint64 QEXTHostInfoUtils::getCPUPercent() const
+quint64 QEXTHostInfoUtils::cpuPercent() const
 {
-    return d_ptr->m_ulCPUPercent;
+    QEXT_DC(QEXTHostInfoUtils);
+    return d->m_cpuPercent;
 }
 
-quint64 QEXTHostInfoUtils::getMemoryAll() const
+quint64 QEXTHostInfoUtils::memoryAll() const
 {
-    return d_ptr->m_ulMemoryAll;
+    QEXT_DC(QEXTHostInfoUtils);
+    return d->m_memoryAll;
 }
 
-quint64 QEXTHostInfoUtils::getMemoryFree() const
+quint64 QEXTHostInfoUtils::memoryFree() const
 {
-    return d_ptr->m_ulMemoryFree;
+    QEXT_DC(QEXTHostInfoUtils);
+    return d->m_memoryFree;
 }
 
-quint64 QEXTHostInfoUtils::getMemoryUse() const
+quint64 QEXTHostInfoUtils::memoryUsed() const
 {
-    return d_ptr->m_ulMemoryUse;
+    QEXT_DC(QEXTHostInfoUtils);
+    return d->m_memoryUse;
 }
 
-quint64 QEXTHostInfoUtils::getMemoryPercent() const
+quint64 QEXTHostInfoUtils::memoryPercent() const
 {
-    return d_ptr->m_ulMemoryPercent;
+    QEXT_DC(QEXTHostInfoUtils);
+    return d->m_memoryPercent;
 }
 
-void QEXTHostInfoUtils::startQueryCPU(const int &iInterval)
+void QEXTHostInfoUtils::startQueryCPU(int interval)
 {
-    if (iInterval <= 0) {
-        qWarning() << "QEXTSystemInfo::startQueryCPU():iInterval must be greate than zero!";
+    QEXT_D(QEXTHostInfoUtils);
+    if (interval <= 0) {
+        qWarning() << "QEXTHostInfoUtils::startQueryCPU():iInterval must be greate than zero!";
         return;
     }
     this->queryCPUInfo();
-    d_ptr->m_pCPUTimer->start(iInterval);
+    d->m_cpuTimer->start(interval);
 }
 
 void QEXTHostInfoUtils::stopQueryCPU()
 {
-    d_ptr->m_pCPUTimer->stop();
+    QEXT_D(QEXTHostInfoUtils);
+    d->m_cpuTimer->stop();
 }
 
 void QEXTHostInfoUtils::queryCPUInfo()
 {
+    QEXT_D(QEXTHostInfoUtils);
 #ifdef Q_OS_WIN
     static FILETIME preidleTime;
     static FILETIME prekernelTime;
@@ -346,133 +319,141 @@ void QEXTHostInfoUtils::queryCPUInfo()
     b = (userTime.dwHighDateTime << 31) | userTime.dwLowDateTime;
     user = b - a;
 
-    d_ptr->m_ulCPUIdleNew = idle;
-    d_ptr->m_ulCPUTotalNew = kernel + user;
-    d_ptr->m_ulCPUPercent = (kernel + user - idle) * 100 / (kernel + user);
+    d->m_cpuIdleNew = idle;
+    d->m_cpuTotalNew = kernel + user;
+    d->m_cpuPercent = (kernel + user - idle) * 100 / (kernel + user);
 
     preidleTime = idleTime;
     prekernelTime = kernelTime;
     preuserTime = userTime ;
-    emit this->cpuChanged(d_ptr->m_ulCPUPercent);
+    emit this->cpuChanged(d->m_cpuPercent);
 #else
-    if (QProcess::NotRunning == d_ptr->m_pCPUProcess->state()) {
-        d_ptr->m_ulCPUIdleNew = 0;
-        d_ptr->m_ulCPUTotalNew = 0;
-        d_ptr->m_pCPUProcess->start("cat /proc/stat");
+    if (QProcess::NotRunning == d->m_cpuProcess->state()) {
+        d->m_cpuIdleNew = 0;
+        d->m_cpuTotalNew = 0;
+        d->m_cpuProcess->start("cat /proc/stat");
     }
 #endif
 }
 
 void QEXTHostInfoUtils::readCPUProcessData()
 {
-    if (d_ptr->m_pCPUProcess->isReadable()) {
-        QString strInfo = QLatin1String(d_ptr->m_pCPUProcess->readLine());
-        QStringList listInfo = strInfo.split(" ");
-        d_ptr->m_ulCPUIdleNew = listInfo.at(5).toUInt();
-        d_ptr->m_ulCPUTotalNew = 0;
-        foreach (QString strValue, listInfo) {
-            d_ptr->m_ulCPUTotalNew += strValue.toUInt();
+    QEXT_D(QEXTHostInfoUtils);
+    if (d->m_cpuProcess->isReadable()) {
+        QString info = QLatin1String(d->m_cpuProcess->readLine());
+        QStringList infoList = info.split(" ");
+        d->m_cpuIdleNew = infoList.at(5).toUInt();
+        d->m_cpuTotalNew = 0;
+        foreach (QString value, infoList) {
+            d->m_cpuTotalNew += value.toUInt();
         }
 
-        d_ptr->m_ulCPUTotalCurrent = d_ptr->m_ulCPUTotalNew - d_ptr->m_ulCPUTotalOld;
-        d_ptr->m_ulCPUIdleCurrent = d_ptr->m_ulCPUIdleNew - d_ptr->m_ulCPUIdleOld;
-        d_ptr->m_ulCPUPercent = 100 * (d_ptr->m_ulCPUTotalCurrent - d_ptr->m_ulCPUIdleCurrent) / d_ptr->m_ulCPUTotalCurrent;
-        d_ptr->m_ulCPUTotalOld = d_ptr->m_ulCPUTotalNew;
-        d_ptr->m_ulCPUIdleOld = d_ptr->m_ulCPUIdleNew;
-        if (d_ptr->m_ulCPUPercent <= 100) {
-            emit this->cpuChanged(d_ptr->m_ulCPUPercent);
+        d->m_cpuTotalCurrent = d->m_cpuTotalNew - d->m_cpuTotalOld;
+        d->m_cpuIdleCurrent = d->m_cpuIdleNew - d->m_cpuIdleOld;
+        d->m_cpuPercent = 100 * (d->m_cpuTotalCurrent - d->m_cpuIdleCurrent) / d->m_cpuTotalCurrent;
+        d->m_cpuTotalOld = d->m_cpuTotalNew;
+        d->m_cpuIdleOld = d->m_cpuIdleNew;
+        if (d->m_cpuPercent <= 100) {
+            emit this->cpuChanged(d->m_cpuPercent);
         }
     }
 }
 
-void QEXTHostInfoUtils::startQueryMemory(const int &iInterval)
+void QEXTHostInfoUtils::startQueryMemory(int interval)
 {
-    if (iInterval <= 0) {
-        qWarning() << "QEXTSystemInfo::startQueryMemory():iInterval must be greate than zero!";
+    QEXT_D(QEXTHostInfoUtils);
+    if (interval <= 0) {
+        qWarning() << "QEXTHostInfoUtils::startQueryMemory():iInterval must be greate than zero!";
         return;
     }
     this->queryMemoryInfo();
-    d_ptr->m_pMemoryTimer->start(iInterval);
+    d->m_memoryTimer->start(interval);
 }
 
 void QEXTHostInfoUtils::stopQueryMemory()
 {
-    d_ptr->m_pMemoryTimer->stop();
+    QEXT_D(QEXTHostInfoUtils);
+    d->m_memoryTimer->stop();
 }
 
 void QEXTHostInfoUtils::queryMemoryInfo()
 {
+    QEXT_D(QEXTHostInfoUtils);
 #ifdef Q_OS_WIN
     MEMORYSTATUSEX statex;
     statex.dwLength = sizeof(statex);
     GlobalMemoryStatusEx(&statex);
-    d_ptr->m_ulMemoryPercent = statex.dwMemoryLoad;
-    d_ptr->m_ulMemoryAll = statex.ullTotalPhys / QEXT_MB;
-    d_ptr->m_ulMemoryFree = statex.ullAvailPhys / QEXT_MB;
-    d_ptr->m_ulMemoryUse = d_ptr->m_ulMemoryAll - d_ptr->m_ulMemoryFree;
-    emit this->memoryChanged(d_ptr->m_ulMemoryPercent);
-    emit this->memoryChanged(d_ptr->m_ulMemoryFree, d_ptr->m_ulMemoryAll);
-    emit this->memoryChanged(d_ptr->m_ulMemoryFree, d_ptr->m_ulMemoryAll, d_ptr->m_ulMemoryPercent);
+    d->m_memoryPercent = statex.dwMemoryLoad;
+    d->m_memoryAll = statex.ullTotalPhys / QEXT_MB;
+    d->m_memoryFree = statex.ullAvailPhys / QEXT_MB;
+    d->m_memoryUse = d->m_memoryAll - d->m_memoryFree;
+    emit this->memoryChanged(d->m_memoryPercent);
+    emit this->memoryChanged(d->m_memoryFree, d->m_memoryAll);
+    emit this->memoryChanged(d->m_memoryFree, d->m_memoryAll, d->m_memoryPercent);
 #else
-    if (QProcess::NotRunning == d_ptr->m_pMemoryProcess->state()) {
-        d_ptr->m_ulMemoryPercent = 0;
-        d_ptr->m_ulMemoryAll = 0;
-        d_ptr->m_ulMemoryUse = 0;
-        d_ptr->m_ulMemoryFree = 0;
-        d_ptr->m_pMemoryProcess->start("cat /proc/meminfo");
+    if (QProcess::NotRunning == d->m_memoryProcess->state()) {
+        d->m_memoryPercent = 0;
+        d->m_memoryAll = 0;
+        d->m_memoryUse = 0;
+        d->m_memoryFree = 0;
+        d->m_memoryProcess->start("cat /proc/meminfo");
     }
 #endif
 }
 
 void QEXTHostInfoUtils::readMemoryProcessData()
 {
-    if (d_ptr->m_pMemoryProcess->isReadable()) {
-        while (!d_ptr->m_pMemoryProcess->atEnd()) {
-            QString strInfo = QLatin1String(d_ptr->m_pMemoryProcess->readLine());
-            if (strInfo.startsWith("MemTotal")) {
-                strInfo = strInfo.replace(" ", "");
-                strInfo = strInfo.split(":").at(1);
-                d_ptr->m_ulMemoryAll = strInfo.left(strInfo.length() - 3).toUInt() / QEXT_KB;
-            } else if (strInfo.startsWith("MemFree")) {
-                strInfo = strInfo.replace(" ", "");
-                strInfo = strInfo.split(":").at(1);
-                d_ptr->m_ulMemoryFree = strInfo.left(strInfo.length() - 3).toUInt() / QEXT_KB;
-            } else if (strInfo.startsWith("Buffers")) {
-                strInfo = strInfo.replace(" ", "");
-                strInfo = strInfo.split(":").at(1);
-                d_ptr->m_ulMemoryFree += strInfo.left(strInfo.length() - 3).toUInt() / QEXT_KB;
-            } else if (strInfo.startsWith("Cached")) {
-                strInfo = strInfo.replace(" ", "");
-                strInfo = strInfo.split(":").at(1);
-                d_ptr->m_ulMemoryFree += strInfo.left(strInfo.length() - 3).toUInt() / QEXT_KB;
-                d_ptr->m_ulMemoryUse = d_ptr->m_ulMemoryAll - d_ptr->m_ulMemoryFree;
-                d_ptr->m_ulMemoryPercent = 100 * d_ptr->m_ulMemoryUse / d_ptr->m_ulMemoryAll;
+    QEXT_D(QEXTHostInfoUtils);
+    if (d->m_memoryProcess->isReadable()) {
+        while (!d->m_memoryProcess->atEnd()) {
+            QString info = QLatin1String(d->m_memoryProcess->readLine());
+            if (info.startsWith("MemTotal")) {
+                info = info.replace(" ", "");
+                info = info.split(":").at(1);
+                d->m_memoryAll = info.left(info.length() - 3).toUInt() / QEXT_KB;
+            } else if (info.startsWith("MemFree")) {
+                info = info.replace(" ", "");
+                info = info.split(":").at(1);
+                d->m_memoryFree = info.left(info.length() - 3).toUInt() / QEXT_KB;
+            } else if (info.startsWith("Buffers")) {
+                info = info.replace(" ", "");
+                info = info.split(":").at(1);
+                d->m_memoryFree += info.left(info.length() - 3).toUInt() / QEXT_KB;
+            } else if (info.startsWith("Cached")) {
+                info = info.replace(" ", "");
+                info = info.split(":").at(1);
+                d->m_memoryFree += info.left(info.length() - 3).toUInt() / QEXT_KB;
+                d->m_memoryUse = d->m_memoryAll - d->m_memoryFree;
+                d->m_memoryPercent = 100 * d->m_memoryUse / d->m_memoryAll;
                 break;
             }
         }
-        emit this->memoryChanged(d_ptr->m_ulMemoryPercent);
-        emit this->memoryChanged(d_ptr->m_ulMemoryFree, d_ptr->m_ulMemoryAll);
-        emit this->memoryChanged(d_ptr->m_ulMemoryFree, d_ptr->m_ulMemoryAll, d_ptr->m_ulMemoryPercent);
+        emit this->memoryChanged(d->m_memoryPercent);
+        emit this->memoryChanged(d->m_memoryFree, d->m_memoryAll);
+        emit this->memoryChanged(d->m_memoryFree, d->m_memoryAll, d->m_memoryPercent);
     }
 }
 
-void QEXTHostInfoUtils::startQueryDisk(const int &iInterval)
+void QEXTHostInfoUtils::startQueryDisk(int interval)
 {
-    if (iInterval <= 0) {
-        qWarning() << "QEXTSystemInfo::startQueryDisk():iInterval must be greate than zero!";
+    QEXT_D(QEXTHostInfoUtils);
+    if (interval <= 0) {
+        qWarning() << "QEXTHostInfoUtils::startQueryDisk():interval must be greate than zero!";
         return;
     }
     this->queryDiskInfo();
-    d_ptr->m_pDiskTimer->start(iInterval);
+    d->m_diskTimer->start(interval);
 }
 
 void QEXTHostInfoUtils::stopQueryDisk()
 {
-    d_ptr->m_pDiskTimer->stop();
+    QEXT_D(QEXTHostInfoUtils);
+    d->m_diskTimer->stop();
 }
 
 void QEXTHostInfoUtils::queryDiskInfo()
 {
+    QEXT_D(QEXTHostInfoUtils);
 #ifdef Q_OS_WIN
     QFileInfoList listInfo = QDir::drives();
     QList<QEXTDiskInfoUtils> listDiskInfo;
@@ -499,34 +480,35 @@ void QEXTHostInfoUtils::queryDiskInfo()
     }
     emit this->diskChanged(listDiskInfo);
 #else
-    if (QProcess::NotRunning == d_ptr->m_pDiskProcess->state()) {
-        d_ptr->m_pDiskProcess->start("df -h");
+    if (QProcess::NotRunning == d->m_diskProcess->state()) {
+        d->m_diskProcess->start("df -h");
     }
 #endif
 }
 
 void QEXTHostInfoUtils::readDiskProcessData()
 {
-    if (d_ptr->m_pDiskProcess->isReadable()) {
-        QList<QEXTDiskInfoUtils> listDiskInfo;
-        while (!d_ptr->m_pDiskProcess->atEnd()) {
-            QString strResult = QLatin1String(d_ptr->m_pDiskProcess->readLine());
+    QEXT_D(QEXTHostInfoUtils);
+    if (d->m_diskProcess->isReadable()) {
+        QList<QEXTDiskInfo> diskInfoList;
+        while (!d->m_diskProcess->atEnd()) {
+            QString result = QLatin1String(d->m_diskProcess->readLine());
 #ifdef __arm__
-            if (strResult.startsWith("/dev/root")) {
-                listDiskInfo.append(d_ptr->checkDiskSize(strResult, tr("Local Disk")));
-            } else if (strResult.startsWith("/dev/mmcblk")) {
-                listDiskInfo.append(d_ptr->checkDiskSize(strResult, tr("Local Disk")));
-            } else if (strResult.startsWith("/dev/mmcblk1p")) {
-                listDiskInfo.append(d_ptr->checkDiskSize(strResult, tr("SD Disk")));
-            } else if (strResult.startsWith("/dev/sd")) {
-                listDiskInfo.append(d_ptr->checkDiskSize(strResult, tr("U-Disk")));
+            if (result.startsWith("/dev/root")) {
+                diskInfoList.append(d->checkDiskSize(result, tr("Local Disk")));
+            } else if (result.startsWith("/dev/mmcblk")) {
+                diskInfoList.append(d->checkDiskSize(result, tr("Local Disk")));
+            } else if (result.startsWith("/dev/mmcblk1p")) {
+                diskInfoList.append(d->checkDiskSize(result, tr("SD Disk")));
+            } else if (result.startsWith("/dev/sd")) {
+                diskInfoList.append(d->checkDiskSize(result, tr("U-Disk")));
             }
 #else
-            if (strResult.startsWith("/dev/sd")) {
-                listDiskInfo.append(d_ptr->checkDiskSize(strResult, QObject::tr("")));
+            if (result.startsWith("/dev/sd")) {
+                diskInfoList.append(d->checkDiskSize(result, QObject::tr("")));
             }
 #endif
         }
-        emit this->diskChanged(listDiskInfo);
+        emit this->diskChanged(diskInfoList);
     }
 }

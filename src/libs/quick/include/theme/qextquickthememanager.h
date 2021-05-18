@@ -38,6 +38,8 @@
 #include <QQmlEngine>
 #include <QQuickWindow>
 
+
+
 class QEXTQuickThemeBinder;
 class QEXTQuickThemeHandler;
 class QEXTQuickThemeManagerPrivate;
@@ -86,5 +88,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTQuickThemeManager)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeManager)
 };
+
+
 
 #endif // QEXTQUICKTHEMEMANAGER_H

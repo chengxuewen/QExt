@@ -4,6 +4,8 @@
 #include "ui_dialog.h"
 #include <QtCore>
 
+
+
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
@@ -11,7 +13,7 @@ Dialog::Dialog(QWidget *parent) :
     ui->setupUi(this);
 
     //! [0]
-    foreach (QEXTPortInfo info, QEXTSerialEnumerator::getPorts())
+    foreach (QEXTPortInfo info, QEXTSerialEnumerator::portList())
         ui->portBox->addItem(info.portName);
     //make sure user can input their own port name!
     ui->portBox->setEditable(true);
@@ -168,7 +170,7 @@ void Dialog::onPortAddedOrRemoved()
 
     ui->portBox->blockSignals(true);
     ui->portBox->clear();
-    foreach (QEXTPortInfo info, QEXTSerialEnumerator::getPorts())
+    foreach (QEXTPortInfo info, QEXTSerialEnumerator::portList())
         ui->portBox->addItem(info.portName);
 
     ui->portBox->setCurrentIndex(ui->portBox->findText(current));

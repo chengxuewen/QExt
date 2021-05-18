@@ -7,7 +7,7 @@ function(FindQmlPluginDump)
         COMMAND qmake -query QT_INSTALL_BINS
         OUTPUT_VARIABLE QT_BIN_DIR
         OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+        )
     set(QMLPLUGINDUMP_BIN ${QT_BIN_DIR}/qmlplugindump PARENT_SCOPE)
 endfunction()
 
@@ -17,7 +17,7 @@ function(FindQtInstallQml)
         COMMAND qmake -query QT_INSTALL_QML
         OUTPUT_VARIABLE PROC_RESULT
         OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
+        )
     set(QT_INSTALL_QML ${PROC_RESULT} PARENT_SCOPE)
 endfunction()
 
@@ -41,7 +41,7 @@ function(add_qmlplugin TARGET)
     ### Source files
     add_library(${TARGET} SHARED
         ${QMLPLUGIN_SOURCES}
-    )
+        )
 
     ### QML files, just to make them visible in the editor
     add_custom_target("${TARGET}-qmlfiles" SOURCES ${QMLPLUGIN_QMLFILES})
@@ -73,7 +73,7 @@ function(add_qmlplugin TARGET)
         POST_BUILD
         COMMAND ${COPY_QMLDIR_COMMAND}
         COMMENT "Copying qmldir to binary directory"
-    )
+        )
 
     ### Copy QML-files from project source to binary dir
     if(QMLPLUGIN_QMLFILES)
@@ -82,7 +82,7 @@ function(add_qmlplugin TARGET)
             POST_BUILD
             COMMAND ${COPY_QMLFILES_COMMAND}
             COMMENT "Copying QML files to binary directory"
-        )
+            )
     endif()
 
     ### Create command to generate plugin.qmltypes after build
@@ -91,14 +91,14 @@ function(add_qmlplugin TARGET)
         POST_BUILD
         COMMAND ${GENERATE_QMLTYPES_COMMAND}
         COMMENT "Generating plugin.qmltypes"
-    )
+        )
 
     string(REPLACE "." "/" QMLPLUGIN_INSTALL_URI ${QMLPLUGIN_URI})
 
     ### Install library
     install(TARGETS ${TARGET}
         DESTINATION ${QT_INSTALL_QML}/${QMLPLUGIN_INSTALL_URI}
-    )
+        )
 
     ### Install aditional files
     install(FILES
@@ -106,5 +106,5 @@ function(add_qmlplugin TARGET)
         ${CMAKE_CURRENT_BINARY_DIR}/plugin.qmltypes
         ${QMLPLUGIN_QMLFILES}
         DESTINATION ${QT_INSTALL_QML}/${QMLPLUGIN_INSTALL_URI}
-    )
+        )
 endfunction()

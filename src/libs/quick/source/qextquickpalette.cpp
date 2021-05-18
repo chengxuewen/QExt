@@ -34,8 +34,9 @@
 #include <QMutex>
 #include <QMutexLocker>
 
-#define QEXT_QUICK_PALETTE_COLOR_RANDOM(a, b) (rand() % (b - a + 1) + a)
 
+
+#define QEXT_QUICK_PALETTE_COLOR_RANDOM(a, b) (rand() % (b - a + 1) + a)
 
 QEXTQuickPalettePrivate::QEXTQuickPalettePrivate(QEXTQuickPalette *qq)
     : QEXTObjectPrivate(qq)

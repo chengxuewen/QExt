@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/qtmvvm/views">
-        <file>DataSyncView.qml</file>
-        <file>IdentityEditView.qml</file>
-        <file>ExportSetupView.qml</file>
-        <file>ChangeRemoteView.qml</file>
-        <file>NetworkExchangeView.qml</file>
-    </qresource>
-</RCC>

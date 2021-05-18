@@ -2,6 +2,7 @@
 #include <qexttextgadget_p.h>
 
 
+
 QEXTTextGadgetPrivate::QEXTTextGadgetPrivate(QEXTTextGadget *qq)
     : QEXTObjectPrivate(qq)
 {

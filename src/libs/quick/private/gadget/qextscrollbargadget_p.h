@@ -5,6 +5,8 @@
 
 #include <qextobject_p.h>
 
+
+
 class QEXTScrollbarGadget;
 class QEXT_QUICK_API QEXTScrollbarGadgetPrivate : public QEXTObjectPrivate
 {
@@ -20,5 +22,7 @@ private:
     QEXT_DECLARE_PUBLIC(QEXTScrollbarGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTScrollbarGadgetPrivate)
 };
+
+
 
 #endif // QEXTSCROLLBARGADGET_P_H

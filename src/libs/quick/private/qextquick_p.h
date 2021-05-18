@@ -9,6 +9,8 @@
 #include <QQuickWindow>
 #include <QPointer>
 
+
+
 class QEXTQuickWorld;
 class QEXTQuick;
 class QEXT_QUICK_API QEXTQuickPrivate : public QEXTObjectPrivate
@@ -26,5 +28,7 @@ private:
     QEXT_DECLARE_PUBLIC(QEXTQuick)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickPrivate)
 };
+
+
 
 #endif // QEXTQUICK_P_H

@@ -5,6 +5,8 @@
 #include <QByteArray>
 #include <QDebug>
 
+QEXT_USE_NAMESPACE
+
 class QEXTDateTimeUtilsGTest : public QObject
 {
     Q_OBJECT

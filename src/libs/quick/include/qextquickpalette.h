@@ -40,6 +40,8 @@
 #include <QDebug>
 #include <QQmlEngine>
 
+
+
 class QEXTQuickPalettePrivate;
 class QEXT_QUICK_API QEXTQuickPalette : public QObject, public QEXTObject
 {
@@ -209,6 +211,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTQuickPalette)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickPalette)
 };
+
 
 
 #endif // QEXTQUICKPALETTE_H

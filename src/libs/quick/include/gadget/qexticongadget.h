@@ -37,6 +37,8 @@
 #include <QColor>
 #include <QObject>
 
+
+
 class QEXTIconGadgetPrivate;
 class QEXT_QUICK_API QEXTIconGadget : public QObject, public QEXTObject
 {
@@ -84,5 +86,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTIconGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTIconGadget)
 };
+
+
 
 #endif // QEXTICONGADGET_H

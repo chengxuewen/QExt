@@ -4,11 +4,14 @@
 #include <QElapsedTimer>
 
 #include <qextglobal.h>
+
 #ifndef QEXT_BUILD_SHARED_LIBS
-# include <qextquickloader.h>
+#   include <qextquickloader.h>
+
 #else
-# include <qextquickexampleconfig.h>
+#   include <qextquickexampleconfig.h>
 #endif
+
 
 int main(int argc, char *argv[])
 {

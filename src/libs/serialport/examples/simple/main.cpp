@@ -8,6 +8,10 @@
 #include "MainWindow.h"
 #include "MessageWindow.h"
 
+#include <qextglobal.h>
+
+
+
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
 #include <QLoggingCategory>
 #endif

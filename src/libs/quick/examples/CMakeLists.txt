@@ -22,8 +22,8 @@
 # Set example output path
 #--------------------------------------------------------------------------------
 set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/quick)
-set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR}/quick)
-set(QEXTQUICKEXAMPLE_CONFIG_FILE_DIR ${QEXT_LIB_OUTPUT_DIR}/quick)
+set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/quick)
+set(QEXTQUICKEXAMPLE_CONFIG_FILE_DIR ${QEXT_EXAMPLE_OUTPUT_DIR}/quick)
 set(QEXTQUICKEXAMPLE_CONFIG_FILE_PATH ${QEXTQUICKEXAMPLE_CONFIG_FILE_DIR}/qextquickexampleconfig.h)
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/qextquickexampleconfig.h.in"

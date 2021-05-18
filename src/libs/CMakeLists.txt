@@ -21,12 +21,21 @@
 #--------------------------------------------------------------------------------
 # Add subdirectory
 #--------------------------------------------------------------------------------
-#add_subdirectory(control)
 add_subdirectory(core)
-add_subdirectory(network)
+add_subdirectory(devicewatcher)
 add_subdirectory(serialport)
+add_subdirectory(tcp)
 add_subdirectory(utils)
+
 #add_subdirectory(mvvm)
+#add_subdirectory(osgi)
+#add_subdirectory(json)
+add_subdirectory(lua)
+#add_subdirectory(message)
+#add_subdirectory(charts)
+#add_subdirectory(coroutine)
+#add_subdirectory(controls)
+#add_subdirectory(fontawesome)
 #add_subdirectory(widgets)
 #add_subdirectory(styles)
 

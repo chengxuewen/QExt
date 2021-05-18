@@ -49,6 +49,18 @@
 #include <QQmlContext>
 #include <QDebug>
 
+inline void initMyResource() { Q_INIT_RESOURCE(QEXTQuick); }
+
+namespace MyNamespace
+{
+    void myFunction()
+    {
+        initMyResource();
+    }
+}
+
+
+
 
 QEXTQuickPrivate::QEXTQuickPrivate(QEXTQuick *qq)
     : QEXTObjectPrivate(qq)
@@ -137,7 +149,8 @@ int QEXTQuick::stateToEnum(const QString &state) const
 void QEXTQuick::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String(QEXTQUICK_NAME));
-    Q_INIT_RESOURCE(QEXTQuick);
+//    Q_INIT_RESOURCE(QEXTQuick);
+    MyNamespace::myFunction();
 
     int major = QEXTQUICK_VERSION_MAJOR;
     int minor = QEXTQUICK_VERSION_MINOR;

@@ -5,6 +5,8 @@
 
 #include <QScopedPointer>
 
+
+
 class QEXTObjectPrivate;
 class QEXT_CORE_API QEXTObject
 {
@@ -18,5 +20,7 @@ public:
     QEXT_DISABLE_COPY_MOVE(QEXTObject)
     QEXT_DECLARE_PRIVATE(QEXTObject)
 };
+
+
 
 #endif // QEXTOBJECT_H

@@ -6,7 +6,7 @@
 ** Copyright (c) 2009-2010 Liam Staskawicz
 ** Copyright (c) 2011 Debao Zhang
 ** All right reserved.
-** Web: http://code.google.com/p/qtkserialport/
+** Web: http://code.google.com/p/qextserialport/
 **
 ** Permission is hereby granted, free of charge, to any person obtaining
 ** a copy of this software and associated documentation files (the
@@ -37,7 +37,9 @@
 #include <QtCore/QList>
 #include <QtCore/QObject>
 
-struct QEXTPortInfo {
+
+
+struct QEXT_SERIALPORT_API QEXTPortInfo {
     QString portName;   ///< Port name.
     QString physName;   ///< Physical name.
     QString friendName; ///< Friendly name.
@@ -55,7 +57,7 @@ public:
     QEXTSerialEnumerator(QObject *parent=0);
     ~QEXTSerialEnumerator();
 
-    static QList<QEXTPortInfo> getPorts();
+    static QList<QEXTPortInfo> portList();
     void setUpNotifications();
 
 Q_SIGNALS:
@@ -69,5 +71,7 @@ private:
 #endif
     QEXTSerialEnumeratorPrivate *d_ptr;
 };
+
+
 
 #endif /*QEXTSERIALENUMERATOR_H*/

@@ -33,6 +33,8 @@
 #include "qextserialenumerator_p.h"
 #include <QtCore/QDebug>
 
+QEXT_USE_NAMESPACE
+
 void QEXTSerialEnumeratorPrivate::platformSpecificInit()
 {
 }

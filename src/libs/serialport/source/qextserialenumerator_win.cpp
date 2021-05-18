@@ -42,6 +42,8 @@
 #include <setupapi.h>
 #include <dbt.h>
 
+QEXT_USE_NAMESPACE
+
 
 #ifdef QT_GUI_LIB
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)

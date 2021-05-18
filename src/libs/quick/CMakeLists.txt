@@ -169,8 +169,8 @@ if (QEXT_BUILD_SHARED_LIBS)
         VISIBILITY_INLINES_HIDDEN 1)
 endif()
 
-
-if(QEXTQUICK_GENERATE_QMLTYPE_FILE)
+# qmlplugindump -nonrelocatable QEXTQuick 1.2 ${QEXT_QML_OUTPUT_DIR} > ${QEXT_QML_OUTPUT_DIR}/QEXTQuick/plugin.qmltypes
+if(QEXTQUICK_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
     message(STATUS "----QEXT---- Enable create qml plugin ${_lib_base_name} plugin.qmltypes")
     add_dependencies(${_lib_base_name} qmlplugindump)
     set(QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE ${QEXT_APP_OUTPUT_DIR}/qmlplugindump)

@@ -36,11 +36,15 @@
 
 #include <QQmlEngine>
 
+
+
 class QEXT_QUICK_API QEXTQuickLoader
 {
 public:
     static void load(QQmlEngine *engine);
     static QString version();
 };
+
+
 
 #endif // QEXTQUICKLOADER_H

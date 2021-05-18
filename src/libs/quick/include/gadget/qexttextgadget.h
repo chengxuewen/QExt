@@ -38,6 +38,8 @@
 #include <QFont>
 #include <QObject>
 
+
+
 class QEXTTextGadgetPrivate;
 class QEXT_QUICK_API QEXTTextGadget : public QObject, public QEXTObject
 {
@@ -77,5 +79,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTTextGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTTextGadget)
 };
+
+
 
 #endif // QEXTTEXTGADGET_H

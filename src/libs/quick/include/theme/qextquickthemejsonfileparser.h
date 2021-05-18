@@ -33,6 +33,8 @@
 
 #include "qextquickthemefileparser.h"
 
+
+
 class QEXT_QUICK_API QEXTQuickThemeJsonFileParser : public QEXTQuickThemeFileParser
 {
 public:
@@ -42,5 +44,7 @@ public:
     virtual bool parseThemeFile(const QString &strPath, QMap<QString, QVariantMap> &themeDataMap, QString &strError) override;
     virtual bool generateThemeTemplateFile(QString &strError, QEXTQuickThemeBinder *pBinder = nullptr) override;
 };
+
+
 
 #endif // QEXTQUICKTHEMEJSONFILEPARSER_H

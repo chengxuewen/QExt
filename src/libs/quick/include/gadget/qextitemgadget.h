@@ -36,6 +36,8 @@
 
 #include <QObject>
 
+
+
 class QEXTItemGadgetPrivate;
 class QEXT_QUICK_API QEXTItemGadget : public QObject, public QEXTObject
 {
@@ -63,5 +65,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTItemGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTItemGadget)
 };
+
+
 
 #endif // QEXTITEMGADGET_H

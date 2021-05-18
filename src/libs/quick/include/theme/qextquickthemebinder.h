@@ -39,6 +39,8 @@
 #include <QJsonObject>
 #include <QQmlListProperty>
 
+
+
 class QEXTQuickThemeBinderPrivate;
 class QEXT_QUICK_API QEXTQuickThemeBinder : public QObject, public QEXTObject
 {
@@ -127,5 +129,7 @@ private:
     QEXT_DECLARE_PRIVATE(QEXTQuickThemeBinder)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeBinder)
 };
+
+
 
 #endif // QEXTQUICKTHEMEBINDER_H

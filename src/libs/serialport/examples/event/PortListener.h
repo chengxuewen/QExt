@@ -7,6 +7,8 @@
 #include <QObject>
 #include "qextserialport.h"
 
+
+
 class PortListener : public QObject
 {
 Q_OBJECT

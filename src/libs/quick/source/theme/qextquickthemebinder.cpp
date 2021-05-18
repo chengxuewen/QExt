@@ -40,6 +40,7 @@
 #include <QMetaMethod>
 
 
+
 QList<QEXTQuickThemeBinder *> QEXTQuickThemeBinderPrivate::sm_allBindersList;
 int QEXTQuickThemeBinderPrivate::sm_count = 0;
 
@@ -299,7 +300,7 @@ QEXTQuickThemeBinder *QEXTQuickThemeBinder::childThemeBinder(const int &index) c
 {
     QEXT_D(const QEXTQuickThemeBinder);
     if (d->m_themeBinderChildsList.count() <= index) {
-        qCritical() << "QTKStyleBinder::getChild():iIndex out of range!";
+        qCritical() << "QEXTQuickThemeBinder::childThemeBinder():iIndex out of range!";
         return nullptr;
     }
     return d->m_themeBinderChildsList.at(index);

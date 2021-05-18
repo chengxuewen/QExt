@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/de/skycoder42/qtmvvm/icons">
-        <file alias="settings.ico">setting_tools.ico</file>
-    </qresource>
-</RCC>

@@ -35,6 +35,8 @@
 #include <QJsonDocument>
 #include <QSharedPointer>
 
+
+
 void retrievalProperty(QEXTQuickThemeBinder *pBinder, QMap<QString, QVariant> &mapNameToProperty, QString strParentName = QString())
 {
     //    qDebug() << "retrievalProperty()-------------------------";

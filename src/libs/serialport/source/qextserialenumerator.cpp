@@ -6,7 +6,7 @@
 ** Copyright (c) 2009-2010 Liam Staskawicz
 ** Copyright (c) 2011 Debao Zhang
 ** All right reserved.
-** Web: http://code.google.com/p/qtkserialport/
+** Web: http://code.google.com/p/qextserialport/
 **
 ** Permission is hereby granted, free of charge, to any person obtaining
 ** a copy of this software and associated documentation files (the
@@ -35,6 +35,8 @@
 #include <QtCore/QDebug>
 #include <QtCore/QMetaType>
 #include <QtCore/QRegExp>
+
+
 
 QEXTSerialEnumeratorPrivate::QEXTSerialEnumeratorPrivate(QEXTSerialEnumerator *enumrator)
     :q_ptr(enumrator)
@@ -67,11 +69,11 @@ QEXTSerialEnumeratorPrivate::~QEXTSerialEnumeratorPrivate()
 /*! \class QEXTSerialEnumerator
 
     \brief The QEXTSerialEnumerator class provides list of ports available in the system.
-  
+
     \section1 Usage
     To poll the system for a list of connected devices, simply use getPorts().  Each
     QEXTPortInfo structure will populated with information about the corresponding device.
-  
+
     \bold Example
     \code
     QList<QEXTPortInfo> ports = QEXTSerialEnumerator::getPorts();
@@ -79,11 +81,11 @@ QEXTSerialEnumeratorPrivate::~QEXTSerialEnumeratorPrivate()
         // inspect port...
     }
     \endcode
-  
+
     To enable event-driven notification of device connection events, first call
     setUpNotifications() and then connect to the deviceDiscovered() and deviceRemoved()
     signals.  Event-driven behavior is currently available only on Windows and OS X.
-  
+
     \bold Example
     \code
     QEXTSerialEnumerator *enumerator = new QEXTSerialEnumerator();
@@ -92,33 +94,33 @@ QEXTSerialEnumeratorPrivate::~QEXTSerialEnumeratorPrivate()
     connect(enumerator, SIGNAL(deviceRemoved(const QEXTPortInfo &)),
                myClass, SLOT(onDeviceRemoved(const QEXTPortInfo &)));
     \endcode
-  
+
     \section1 Credits
     Windows implementation is based on Zach Gorman's work from
     \l {http://www.codeproject.com}{The Code Project} (\l http://www.codeproject.com/system/setupdi.asp).
-  
+
     OS X implementation, see \l http://developer.apple.com/documentation/DeviceDrivers/Conceptual/AccessingHardware/AH_Finding_Devices/chapter_4_section_2.html
-  
+
     \bold author Michal Policht, Liam Staskawicz
 */
 
 /*!
     \fn void QEXTSerialEnumerator::deviceDiscovered(const QEXTPortInfo &info)
     A new device has been connected to the system.
-  
+
     setUpNotifications() must be called first to enable event-driven device notifications.
     Currently only implemented on Windows and OS X.
-  
+
     \a info The device that has been discovered.
 */
 
 /*!
    \fn void QEXTSerialEnumerator::deviceRemoved(const QEXTPortInfo &info);
     A device has been disconnected from the system.
-  
+
     setUpNotifications() must be called first to enable event-driven device notifications.
     Currently only implemented on Windows and OS X.
-  
+
     \a info The device that was disconnected.
 */
 
@@ -145,7 +147,7 @@ QEXTSerialEnumerator::~QEXTSerialEnumerator()
 
     return list of ports currently available in the system.
 */
-QList<QEXTPortInfo> QEXTSerialEnumerator::getPorts()
+QList<QEXTPortInfo> QEXTSerialEnumerator::portList()
 {
     return QEXTSerialEnumeratorPrivate::getPorts_sys();
 }
