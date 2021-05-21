@@ -32,15 +32,15 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/core)
 set(_example_link_libraries)
 
 if(UNIX)
-  list(APPEND _example_link_libraries dl)
+    list(APPEND _example_link_libraries dl)
 endif()
 
 if(WIN32)
-  list(APPEND _example_link_libraries shlwapi.lib)
+    list(APPEND _example_link_libraries shlwapi.lib)
 endif()
 
 if(CMAKE_THREAD_LIBS_INIT)
-  list(APPEND _example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+    list(APPEND _example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
@@ -67,15 +67,15 @@ set(_example_sources
 set(_example_forms
     )
 add_executable(${_example_name}
-                ${_example_headers}
-                ${_example_sources}
-                ${_example_forms}
-                )
+    ${_example_headers}
+    ${_example_sources}
+    ${_example_forms}
+    )
 target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
 target_include_directories(${_example_name} PUBLIC
-                            ${CMAKE_CURRENT_SOURCE_DIR}/object
-                            ${CMAKE_CURRENT_BINARY_DIR}/
-                            )
+    ${CMAKE_CURRENT_SOURCE_DIR}/object
+    ${CMAKE_CURRENT_BINARY_DIR}/
+    )
 set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 
 
@@ -86,19 +86,43 @@ set(_example_name QEXTCoreSimpleCallback)
 set(_example_headers
     )
 set(_example_sources
-    callback/example.cc
+    callback/example.cpp
     )
 set(_example_forms
     )
 add_executable(${_example_name}
-                ${_example_headers}
-                ${_example_sources}
-                ${_example_forms}
-                )
+    ${_example_headers}
+    ${_example_sources}
+    ${_example_forms}
+    )
 target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
 target_include_directories(${_example_name} PUBLIC
-                            ${CMAKE_CURRENT_SOURCE_DIR}/callback
-                            ${CMAKE_CURRENT_BINARY_DIR}/
-                            )
+    ${CMAKE_CURRENT_SOURCE_DIR}/callback
+    ${CMAKE_CURRENT_BINARY_DIR}/
+    )
+set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+
+
+#--------------------------------------------------------------------------------
+# Add QEXTCoreSimpleFunctor example
+#--------------------------------------------------------------------------------
+set(_example_name QEXTCoreSimpleFunctor)
+set(_example_headers
+    )
+set(_example_sources
+    functor/example.cpp
+    )
+set(_example_forms
+    )
+add_executable(${_example_name}
+    ${_example_headers}
+    ${_example_sources}
+    ${_example_forms}
+    )
+target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
+target_include_directories(${_example_name} PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/functor
+    ${CMAKE_CURRENT_BINARY_DIR}/
+    )
 set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 

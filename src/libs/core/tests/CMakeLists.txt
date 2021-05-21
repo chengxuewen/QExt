@@ -19,9 +19,77 @@
 #################################################################################
 
 #--------------------------------------------------------------------------------
-# Add subdirectory
+# Set lib base name and out put path
 #--------------------------------------------------------------------------------
-add_subdirectory(qtest)
-if (QEXT_CXX_STANDARD_11 AND QEXT_BUILD_GTEST)
-    add_subdirectory(gtest)
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR})
+set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR})
+
+
+
+#--------------------------------------------------------------------------------
+# Add lib link libraries
+#--------------------------------------------------------------------------------
+set(_test_link_libraries)
+
+if(QEXT_QT_VERSION_MAJOR EQUAL 4)
+    list(APPEND _test_link_libraries Qt4::QtCore Qt4::QtTest)
+elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
+    list(APPEND _test_link_libraries Qt5::Core Qt5::Test)
+else()
+    message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
+
+list(APPEND _test_link_libraries QEXTCore)
+
+
+
+#--------------------------------------------------------------------------------
+# Add tst_qextobject example
+#--------------------------------------------------------------------------------
+set(_test_name tst_qextobject)
+add_executable(${_test_name}
+    qextsimpleobject.h
+    tst_qextobject.cpp
+    qextsimpleobject.cpp
+    )
+add_test(NAME ${_test_name} COMMAND ${_test_name})
+target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
+target_include_directories(${_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+
+
+#--------------------------------------------------------------------------------
+# Add tst_qextfunctortrait example
+#--------------------------------------------------------------------------------
+set(_test_name tst_qextfunctortrait)
+add_executable(${_test_name}
+    tst_qextfunctortrait.cpp
+    )
+add_test(NAME ${_test_name} COMMAND ${_test_name})
+target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
+target_include_directories(${_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+
+#--------------------------------------------------------------------------------
+# Add tst_qextfunctor example
+#--------------------------------------------------------------------------------
+set(_test_name tst_qextfunctor)
+add_executable(${_test_name}
+    tst_qextfunctor.cpp
+    )
+add_test(NAME ${_test_name} COMMAND ${_test_name})
+target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
+target_include_directories(${_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+
+
+#--------------------------------------------------------------------------------
+# Add tst_qextmemberfunctor example
+#--------------------------------------------------------------------------------
+set(_test_name tst_qextmemberfunctor)
+add_executable(${_test_name}
+    tst_qextmemberfunctor.cpp
+    )
+add_test(NAME ${_test_name} COMMAND ${_test_name})
+target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
+target_include_directories(${_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

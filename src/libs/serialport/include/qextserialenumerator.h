@@ -38,8 +38,7 @@
 #include <QtCore/QObject>
 
 
-
-struct QEXT_SERIALPORT_API QEXTPortInfo {
+struct QEXTPortInfo {
     QString portName;   ///< Port name.
     QString physName;   ///< Physical name.
     QString friendName; ///< Friendly name.
@@ -57,7 +56,7 @@ public:
     QEXTSerialEnumerator(QObject *parent=0);
     ~QEXTSerialEnumerator();
 
-    static QList<QEXTPortInfo> portList();
+    static QList<QEXTPortInfo> portInfoList();
     void setUpNotifications();
 
 Q_SIGNALS:

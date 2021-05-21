@@ -147,7 +147,7 @@ QEXTSerialEnumerator::~QEXTSerialEnumerator()
 
     return list of ports currently available in the system.
 */
-QList<QEXTPortInfo> QEXTSerialEnumerator::portList()
+QList<QEXTPortInfo> QEXTSerialEnumerator::portInfoList()
 {
     return QEXTSerialEnumeratorPrivate::getPorts_sys();
 }

@@ -13,7 +13,7 @@ Dialog::Dialog(QWidget *parent) :
     ui->setupUi(this);
 
     //! [0]
-    foreach (QEXTPortInfo info, QEXTSerialEnumerator::portList())
+    foreach (QEXTPortInfo info, QEXTSerialEnumerator::portInfoList())
         ui->portBox->addItem(info.portName);
     //make sure user can input their own port name!
     ui->portBox->setEditable(true);
@@ -170,7 +170,7 @@ void Dialog::onPortAddedOrRemoved()
 
     ui->portBox->blockSignals(true);
     ui->portBox->clear();
-    foreach (QEXTPortInfo info, QEXTSerialEnumerator::portList())
+    foreach (QEXTPortInfo info, QEXTSerialEnumerator::portInfoList())
         ui->portBox->addItem(info.portName);
 
     ui->portBox->setCurrentIndex(ui->portBox->findText(current));

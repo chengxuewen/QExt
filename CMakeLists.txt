@@ -225,6 +225,8 @@ endif ()
 #--------------------------------------------------------------------------------
 # Specify the output dir
 #--------------------------------------------------------------------------------
+set(QEXT_PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
+set(QEXT_PROJECT_BINARY_DIR ${PROJECT_BINARY_DIR})
 if (NOT QEXT_APP_OUTPUT_DIR)
     set(QEXT_APP_OUTPUT_DIR "${PROJECT_BINARY_DIR}/bin")
 endif()
@@ -288,8 +290,7 @@ include(qextMacroFindQmlPluginDump)
 # Set option
 #--------------------------------------------------------------------------------
 option(QEXT_BUILD_SHARED_LIBS "Build shared library" ON)
-option(QEXT_BUILD_TESTS "Build tests" OFF)
-option(QEXT_BUILD_GTEST "Build googletest" ON)
+option(QEXT_BUILD_TESTS "Build tests" ON)
 option(QEXT_BUILD_EXAMPLES "Build examples" ON)
 option(QEXT_BUILD_PLUGINS "Build plugins" OFF)
 option(QEXT_BUILD_QML_PLUGINS "Build qml plugins" OFF)
@@ -305,7 +306,6 @@ else()
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build as static libraries")
     message(STATUS "----QEXT---- Build as static libraries")
 endif()
-
 
 # one precompiled headers cannot be used for multiple ninja targets
 # thats why we have to disable this option, when MTK_BUILD_SHARED_LIBS is OFF
@@ -328,10 +328,7 @@ else()
 endif()
 
 if(QEXT_BUILD_TESTS OR QEXT_BUILD_ALL)
-    if (QEXT_CXX_STANDARD_11 AND QEXT_BUILD_GTEST)
-        message(STATUS "----QEXT---- Add googletest lib")
-        add_subdirectory(thirdparty/googletest-1.10.0)
-    endif()
+    enable_testing()
 endif()
 
 

@@ -23,7 +23,7 @@
 #--------------------------------------------------------------------------------
 set(EXECUTABLE_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/mvvm/qtest)
 set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/mvvm/qtest)
-enable_testing()
+#enable_testing()
 
 
 

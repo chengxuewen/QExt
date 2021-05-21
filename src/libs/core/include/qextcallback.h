@@ -10,17 +10,13 @@
 #include <stdarg.h>
 
 
-
-class nil {};
-
 class QEXT_CORE_API QEXTAbstractCallback
 {
 public:
     typedef void (QEXTAbstractCallback::*_MemFunc)();
     typedef void (*_Func)();
 
-    QEXTAbstractCallback()
-        : m_func(QEXT_NULLPTR), m_caller(QEXT_NULLPTR), m_size(0) {}
+    QEXTAbstractCallback() : m_func(QEXT_NULLPTR), m_caller(QEXT_NULLPTR), m_size(0) {}
     QEXTAbstractCallback(const QEXTAbstractCallback &src) {
         m_size = src.m_size;
         m_func = src.m_func;
@@ -93,7 +89,7 @@ public:
 
 
 
-template <typename T_return, typename T_arg1 = nil, typename T_arg2 = nil>
+template <typename T_return, typename T_arg1 = QEXTNil, typename T_arg2 = QEXTNil>
 class QEXT_CORE_API QEXTCallback
         : public QEXTCallback2<T_return, T_arg1, T_arg2>
 {
@@ -116,7 +112,7 @@ public:
 
 
 template <typename T_return, typename T_arg1>
-class QEXT_CORE_API QEXTCallback<T_return, T_arg1, nil>
+class QEXT_CORE_API QEXTCallback<T_return, T_arg1, QEXTNil>
         : public QEXTCallback1<T_return, T_arg1>
 {
 public:
@@ -138,7 +134,7 @@ public:
 
 
 template <typename T_return>
-class QEXT_CORE_API QEXTCallback<T_return, nil, nil>
+class QEXT_CORE_API QEXTCallback<T_return, QEXTNil, QEXTNil>
         : public QEXTCallback0<T_return>
 {
 public:
@@ -159,7 +155,7 @@ public:
 
 
 
-template <typename T_return, typename T_func, typename T_arg1 = nil, typename T_arg2 = nil>
+template <typename T_return, typename T_func, typename T_arg1 = QEXTNil, typename T_arg2 = QEXTNil>
 class QEXTFunctionCallback
         : public QEXTCallback<T_return, T_arg1, T_arg2>
 {
@@ -178,7 +174,7 @@ public:
 
 
 template <typename T_return, typename T_func, typename T_arg1>
-class QEXTFunctionCallback<T_return, T_func, T_arg1, nil>
+class QEXTFunctionCallback<T_return, T_func, T_arg1, QEXTNil>
         : public QEXTCallback<T_return, T_arg1>
 {
 public:
@@ -196,7 +192,7 @@ public:
 
 
 template <typename T_return, typename T_func>
-class QEXTFunctionCallback<T_return, T_func, nil, nil>
+class QEXTFunctionCallback<T_return, T_func, QEXTNil, QEXTNil>
         : public QEXTCallback<T_return>
 {
 public:
@@ -213,7 +209,7 @@ public:
 
 
 
-template <typename T_return, typename T_caller, typename T_func, typename T_arg1 = nil, typename T_arg2 = nil>
+template <typename T_return, typename T_caller, typename T_func, typename T_arg1 = QEXTNil, typename T_arg2 = QEXTNil>
 class QEXTMemberFunctionCallback
         : public QEXTCallback<T_return, T_arg1, T_arg2>
 {

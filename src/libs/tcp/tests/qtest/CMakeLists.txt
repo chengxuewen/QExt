@@ -23,7 +23,7 @@
 #--------------------------------------------------------------------------------
 set(EXECUTABLE_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/network/qtest)
 set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/network/qtest)
-enable_testing()
+#enable_testing()
 
 
 

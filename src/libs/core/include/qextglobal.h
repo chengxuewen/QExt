@@ -111,4 +111,12 @@ typedef int QEXTSocketDescriptor;
 
 
 
+/********************************************************************************
+   QEXT nil struct type.
+   The nil struct type is used as default template argument in the templates.
+********************************************************************************/
+struct QEXTNil {};
+
+
+
 #endif // QEXTGLOBAL_H

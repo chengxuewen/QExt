@@ -19,46 +19,68 @@
 #################################################################################
 
 #--------------------------------------------------------------------------------
-# Set lib base name and out put path
+# Set example output path
 #--------------------------------------------------------------------------------
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR})
-set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR})
+set(_app_base_name tool_ctestrunner)
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_APP_OUTPUT_DIR})
 
 
 
 #--------------------------------------------------------------------------------
-# Add lib link libraries
+# Set app link libraries
 #--------------------------------------------------------------------------------
-set(_test_link_libraries)
+set(_app_link_libraries)
+
+if(UNIX)
+    list(APPEND _app_link_libraries ${CMAKE_DL_LIBS})
+endif()
+
+if(WIN32)
+    list(APPEND _app_link_libraries shlwapi.lib)
+endif()
+
+if(CMAKE_THREAD_LIBS_INIT)
+    list(APPEND _app_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND _test_link_libraries Qt4::QtCore Qt4::QtTest)
+    list(APPEND _app_link_libraries Qt4::QtCore)
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
-    list(APPEND _test_link_libraries Qt5::Core Qt5::Test)
+    list(APPEND _app_link_libraries Qt5::Core)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _test_link_libraries QEXTUtils)
+
+
+#--------------------------------------------------------------------------------
+# Configure a header file to pass some of the CMake settings to the source code
+#--------------------------------------------------------------------------------
+set(QEXT_CTEST_RUNNER_CONFIG_FILE_DIR ${CMAKE_BINARY_DIR})
+set(QEXT_CTEST_RUNNER_CONFIG_FILE_PATH ${QEXT_CTEST_RUNNER_CONFIG_FILE_DIR}/qextctestrunnerconfig.h)
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/qextctestrunnerconfig.h.in"
+    "${QEXT_CTEST_RUNNER_CONFIG_FILE_PATH}"
+    )
 
 
 
 #--------------------------------------------------------------------------------
-# Add tst_qextnetworkutils example
+# Add app target
 #--------------------------------------------------------------------------------
-set(_test_name tst_qextdatatimeutils)
-add_executable(${_test_name} tst_qextdatatimeutils.cpp)
-add_test(NAME ${_test_name} COMMAND ${_test_name})
-target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
-target_include_directories(${_test_name} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+add_executable(${_app_base_name}
+    ${QEXT_CTEST_RUNNER_CONFIG_FILE_PATH}
+    qextctestrunner.h
+    main.cpp
+    )
+target_link_libraries(${_app_base_name} PUBLIC ${_app_link_libraries})
+target_include_directories(${_app_base_name} PUBLIC
+    ${QEXT_CTEST_RUNNER_CONFIG_FILE_DIR}
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    )
 
 
-
-#--------------------------------------------------------------------------------
-# Add tst_qextnetworkutils test
-#--------------------------------------------------------------------------------
-set(_test_name tst_qextnetworkutils)
-add_executable(${_test_name} tst_qextnetworkutils.cpp)
-add_test(NAME ${_test_name} COMMAND ${_test_name})
-target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
-target_include_directories(${_test_name} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+# set target properties
+set_target_properties(${_app_base_name} PROPERTIES
+    CXX_STANDARD ${QEXT_CXX_STANDARD}
+    )
