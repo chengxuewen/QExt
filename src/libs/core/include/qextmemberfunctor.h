@@ -12,7 +12,7 @@ template <typename T_return, typename T_obj,
 class QEXTMemberFunctor7 : public QEXTFunctorBase
 {
 public:
-    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3);
+    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7);
     typedef T_return ResultType;
 
     QEXTMemberFunctor7() : m_funcPtr(QEXT_NULLPTR) {}
@@ -51,7 +51,7 @@ template <typename T_return, typename T_obj,
 class QEXTMemberFunctor6 : public QEXTFunctorBase
 {
 public:
-    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3);
+    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6);
     typedef T_return ResultType;
 
     QEXTMemberFunctor6() : m_funcPtr(QEXT_NULLPTR) {}
@@ -87,7 +87,7 @@ template <typename T_return, typename T_obj,
 class QEXTMemberFunctor5 : public QEXTFunctorBase
 {
 public:
-    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3);
+    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5);
     typedef T_return ResultType;
 
     QEXTMemberFunctor5() : m_funcPtr(QEXT_NULLPTR) {}
@@ -121,7 +121,7 @@ template <typename T_return, typename T_obj,
 class QEXTMemberFunctor4 : public QEXTFunctorBase
 {
 public:
-    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3);
+    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3, T_arg4);
     typedef T_return ResultType;
 
     QEXTMemberFunctor4() : m_funcPtr(QEXT_NULLPTR) {}
@@ -496,7 +496,7 @@ template <typename T_return, typename T_obj,
 class QEXTConstMemberFunctor7 : public QEXTFunctorBase
 {
 public:
-    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3) const;
+    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const;
     typedef T_return ResultType;
 
     QEXTConstMemberFunctor7() : m_funcPtr(QEXT_NULLPTR) {}
@@ -535,7 +535,7 @@ template <typename T_return, typename T_obj,
 class QEXTConstMemberFunctor6 : public QEXTFunctorBase
 {
 public:
-    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3) const;
+    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const;
     typedef T_return ResultType;
 
     QEXTConstMemberFunctor6() : m_funcPtr(QEXT_NULLPTR) {}
@@ -571,7 +571,7 @@ template <typename T_return, typename T_obj,
 class QEXTConstMemberFunctor5 : public QEXTFunctorBase
 {
 public:
-    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3) const;
+    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const;
     typedef T_return ResultType;
 
     QEXTConstMemberFunctor5() : m_funcPtr(QEXT_NULLPTR) {}
@@ -605,7 +605,7 @@ template <typename T_return, typename T_obj,
 class QEXTConstMemberFunctor4 : public QEXTFunctorBase
 {
 public:
-    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3) const;
+    typedef T_return (T_obj::*FunctionType)(T_arg1, T_arg2, T_arg3, T_arg4) const;
     typedef T_return ResultType;
 
     QEXTConstMemberFunctor4() : m_funcPtr(QEXT_NULLPTR) {}
