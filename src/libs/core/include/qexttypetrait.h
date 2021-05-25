@@ -1,7 +1,7 @@
 #ifndef QEXTTYPETRAIT_H
 #define QEXTTYPETRAIT_H
 
-template <class T_type>
+template <typename T_type>
 struct QEXTTypeTrait
 {
     typedef T_type  Type;
@@ -10,7 +10,7 @@ struct QEXTTypeTrait
     typedef T_type* Pointer;
 };
 
-template <class T_type, int N>
+template <typename T_type, int N>
 struct QEXTTypeTrait<T_type[N]>
 {
     typedef T_type*  Type;
@@ -19,7 +19,7 @@ struct QEXTTypeTrait<T_type[N]>
     typedef T_type** Pointer;
 };
 
-template <class T_type>
+template <typename T_type>
 struct QEXTTypeTrait<T_type&>
 {
     typedef T_type  Type;
@@ -28,7 +28,7 @@ struct QEXTTypeTrait<T_type&>
     typedef T_type* Pointer;
 };
 
-template <class T_type>
+template <typename T_type>
 struct QEXTTypeTrait<const T_type&>
 {
     typedef const T_type  Type;
@@ -62,7 +62,7 @@ struct QEXTTypeTrait<void>
  * }
  *
  * //Specialization for T_things that derive from Something (Tval_derives_from_something is true)
- * template <class T_thing>
+ * template <typename T_thing>
  * class TheTemplate<T_thing, true>
  * {
  *   T_thing thing;
@@ -73,7 +73,7 @@ struct QEXTTypeTrait<void>
  * If you need such a template class elsewhere, and you have a C++11 compiler, std::is_base_of<>
  * is recommended.
  */
-template <class T_base, class T_derived>
+template <typename T_base, typename T_derived>
 struct QEXTBaseAndDerivedTester
 {
 private:
@@ -116,7 +116,7 @@ public:
 #endif //SIGC_SELF_REFERENCE_IN_MEMBER_INITIALIZATION
 };
 
-template <class T_base>
+template <typename T_base>
 struct QEXTBaseAndDerivedTester<T_base, T_base>
 {
     static const bool value = true;

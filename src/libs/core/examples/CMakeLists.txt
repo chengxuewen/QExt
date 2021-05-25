@@ -79,29 +79,6 @@ target_include_directories(${_example_name} PUBLIC
 set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 
 
-#--------------------------------------------------------------------------------
-# Add QEXTCoreSimpleCallback example
-#--------------------------------------------------------------------------------
-set(_example_name QEXTCoreSimpleCallback)
-set(_example_headers
-    )
-set(_example_sources
-    callback/example.cpp
-    )
-set(_example_forms
-    )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
-    )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/callback
-    ${CMAKE_CURRENT_BINARY_DIR}/
-    )
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
-
 
 #--------------------------------------------------------------------------------
 # Add QEXTCoreSimpleFunctor example

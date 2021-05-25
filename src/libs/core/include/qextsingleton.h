@@ -5,7 +5,7 @@
 
 
 
-template <class T>
+template <typename T>
 class QEXT_CORE_API QEXTSingleton
 {
 public:

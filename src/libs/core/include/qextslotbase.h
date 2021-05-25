@@ -78,9 +78,11 @@ public:
     void removeDestroyNotifyCallback(void *data) const;
 
     bool isEmpty() const;
-    bool blocked() const;
-    bool block(bool shouldBlock = true);
+    bool isBlocked() const;
+
+    bool block(bool block = true);
     bool unblock();
+
     void disconnect();
 
 public:

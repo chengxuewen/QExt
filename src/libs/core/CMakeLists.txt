@@ -35,7 +35,6 @@ set(_lib_public_headers
     include/qextbind.h
     include/qextbindreturn.h
     include/qextboundargument.h
-    include/qextcallback.h
     include/qextfunctor.h
     include/qextfunctortrait.h
     include/qextglobal.h
@@ -60,10 +59,8 @@ set(_lib_private_headers
     )
 
 set(_lib_sources
-    source/qextcallback.cpp
     source/qextid.cpp
     source/qextobject.cpp
-    source/qextsignal.cpp
     source/qextsignalbase.cpp
     source/qextslotbase.cpp
     source/qexttrackable.cpp

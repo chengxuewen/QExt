@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <memory.h>
 
-namespace qextInternal {
+namespace qextinternal {
 
 // Data sent from QEXTSignalImpl::insert() to slot_rep::set_parent() when a slot is
 // connected, and then sent from slot_rep::disconnect() to QEXTSignalImpl::notify()
@@ -23,7 +23,7 @@ QEXTSignalImpl::QEXTSignalImpl()
     : m_refCount(0), m_execCount(0), m_deferred(0) {}
 
 // only MSVC needs this to guarantee that all new/delete are executed from the DLL module
-//#ifdef Q_CC_MSVC
+#ifdef Q_CC_MSVC
 void* QEXTSignalImpl::operator new(size_t size)
 {
     return malloc(size);
@@ -33,7 +33,7 @@ void QEXTSignalImpl::operator delete(void *p)
 {
     free(p);
 }
-//#endif
+#endif
 
 void QEXTSignalImpl::clear()
 {
@@ -56,10 +56,10 @@ QEXTSignalImpl::SizeType QEXTSignalImpl::size() const
     return m_slotList.size();
 }
 
-bool QEXTSignalImpl::blocked() const
+bool QEXTSignalImpl::isBlocked() const
 {
     for (ConstIteratorType iter = m_slotList.begin(); iter != m_slotList.end(); ++iter) {
-        if (!iter->blocked()) {
+        if (!iter->isBlocked()) {
             return false;
         }
     }
@@ -172,9 +172,9 @@ QEXTSignalBase::SizeType QEXTSignalBase::size() const
     return (m_impl ? m_impl->size() : 0);
 }
 
-bool QEXTSignalBase::blocked() const
+bool QEXTSignalBase::isBlocked() const
 {
-    return (m_impl ? m_impl->blocked() : true);
+    return (m_impl ? m_impl->isBlocked() : true);
 }
 
 void QEXTSignalBase::block(bool shouldBlock)
@@ -225,10 +225,10 @@ QEXTSignalBase& QEXTSignalBase::operator = (const QEXTSignalBase &src)
     return *this;
 }
 
-qextInternal::QEXTSignalImpl* QEXTSignalBase::impl() const
+qextinternal::QEXTSignalImpl* QEXTSignalBase::impl() const
 {
     if (!m_impl) {
-        m_impl = new qextInternal::QEXTSignalImpl;
+        m_impl = new qextinternal::QEXTSignalImpl;
         m_impl->reference();  // start with a reference count of 1
     }
     return m_impl;

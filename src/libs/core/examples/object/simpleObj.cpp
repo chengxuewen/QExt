@@ -16,7 +16,7 @@ public:
     virtual void Exec(T1 param1) = 0;
 };
 
-template<class T, class T1>
+template<class T, typename T1>
 class SlotImpl : public SlotBase<T1>
 {
 public:

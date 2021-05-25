@@ -102,7 +102,7 @@ public:
             m_testRunner = new QEXTTestRunner(testInfo, m_testIndex, Output_All == m_outputType);
             QObject::connect(m_testRunner.data(), SIGNAL(testFinished(int,QProcess::ExitStatus)),
                              this, SLOT(onTestFinished(int,QProcess::ExitStatus)));
-            QString progress = QString("%1/%2").arg(m_testIndex).arg(m_testInfoList.size());
+            QString progress = QString("%1/%2").arg(m_testIndex + 1).arg(m_testInfoList.size());
             qDebug() << QString("Start %2: %3")
                         .arg(progress, QEXT_ALL_TEST_PLACEHOLDER_NUM, '>')
                         .arg(testInfo.fileName());

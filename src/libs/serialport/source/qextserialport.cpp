@@ -728,7 +728,7 @@ QString QEXTSerialPort::errorString()
     case E_NO_MEMORY:
         return tr("Unable to allocate memory tables (POSIX)");
     case E_CAUGHT_NON_BLOCKED_SIGNAL:
-        return tr("Caught a non-blocked signal (POSIX)");
+        return tr("Caught a non-isBlocked signal (POSIX)");
     case E_PORT_TIMEOUT:
         return tr("Operation timed out (POSIX)");
     case E_INVALID_DEVICE:

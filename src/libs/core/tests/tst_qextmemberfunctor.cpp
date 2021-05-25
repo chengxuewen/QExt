@@ -1674,6 +1674,20 @@ private slots:
     void testPolymorphismBoundVolatileFunctorWith7Arg();
     void testBoundConstVolatileFunctorWith7Arg();
     void testPolymorphismBoundConstVolatileFunctorWith7Arg();
+
+    void testQObjectSignal() {
+        connect(this, SIGNAL(testSignal()), this, SLOT(testSlot()));
+        QEXTMemberFunctor<void, QEXTMemberFunctorTest> functor = qextMemberFunctor(&QEXTMemberFunctorTest::testSignal);
+        functor(this);
+    }
+
+signals:
+    void testSignal();
+
+protected slots:
+    void testSlot() {
+        qDebug() << "testSlot";
+    }
 };
 
 
@@ -9771,6 +9785,7 @@ void QEXTMemberFunctorTest::testPolymorphismBoundConstVolatileFunctorWith7Arg()
     QVERIFY(1 == doubleBoundConstVolatileMemberBaseFunctorB(true, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7));
     QVERIFY(0 == doubleBoundConstVolatileMemberBaseFunctorB(false, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7));
 }
+
 
 QTEST_APPLESS_MAIN(QEXTMemberFunctorTest)
 

@@ -10,7 +10,7 @@
 #include <list>
 #include <cstddef>
 
-namespace qextInternal
+namespace qextinternal
 {
 
 struct QEXT_CORE_API  QEXTSignalImpl
@@ -23,34 +23,43 @@ struct QEXT_CORE_API  QEXTSignalImpl
     QEXTSignalImpl();
 
     // only MSVC needs this to guarantee that all new/delete are executed from the DLL module
-    //#ifdef Q_CC_MSVC
+#ifdef Q_CC_MSVC
     void* operator new(size_t size);
     void operator delete(void *p);
-    //#endif
+#endif
 
-    inline void reference()
-    { ++m_refCount; }
-
-    inline void reference_exec()
-    { ++m_refCount; ++m_execCount; }
-
-    inline void unreference()
-    { if (!(--m_refCount)) delete this; }
-
-    inline void unreference_exec()
-    {
-        if (!(--m_refCount)) delete this;
-        else if (!(--m_execCount) && m_deferred) sweep();
+    inline void reference() {
+        ++m_refCount;
     }
 
-    inline bool empty() const
-    { return m_slotList.empty(); }
+    inline void referenceExec() {
+        ++m_refCount;
+        ++m_execCount;
+    }
+
+    inline void unreference() {
+        if (!(--m_refCount)) {
+            delete this;
+        }
+    }
+
+    inline void unreferenceExec() {
+        if (!(--m_refCount)) {
+            delete this;
+        } else if (!(--m_execCount) && m_deferred) {
+            sweep();
+        }
+    }
+
+    inline bool empty() const {
+        return m_slotList.empty();
+    }
 
     void clear();
 
     SizeType size() const;
 
-    bool blocked() const;
+    bool isBlocked() const;
 
     void block(bool shouldBlock = true);
 
@@ -73,11 +82,11 @@ struct QEXT_CORE_API QEXTSignalExec
 {
     inline QEXTSignalExec(const QEXTSignalImpl *signal)
         : m_signal(const_cast<QEXTSignalImpl*>(signal)) {
-        m_signal->reference_exec();
+        m_signal->referenceExec();
     }
 
     inline ~QEXTSignalExec() {
-        m_signal->unreference_exec();
+        m_signal->unreferenceExec();
     }
 
     QEXTSignalImpl *m_signal;
@@ -130,19 +139,19 @@ struct QEXT_CORE_API QEXTSignalBase : public QEXTTrackable
 
     SizeType size() const;
 
-    bool blocked() const;
+    bool isBlocked() const;
     void block(bool shouldBlock = true);
     void unblock();
 
 protected:
-    typedef qextInternal::QEXTSignalImpl::IteratorType IteratorType;
+    typedef qextinternal::QEXTSignalImpl::IteratorType IteratorType;
 
     IteratorType connect(const QEXTSlotBase &slot);
     IteratorType insert(IteratorType iter, const QEXTSlotBase &slot);
     IteratorType erase(IteratorType iter);
-    qextInternal::QEXTSignalImpl *impl() const;
+    qextinternal::QEXTSignalImpl *impl() const;
 
-    mutable qextInternal::QEXTSignalImpl *m_impl;
+    mutable qextinternal::QEXTSignalImpl *m_impl;
 };
 
 #endif // QEXTSIGNALBASE_H

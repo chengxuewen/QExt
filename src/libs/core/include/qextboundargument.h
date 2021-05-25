@@ -4,7 +4,7 @@
 #include <qextlimitreference.h>
 #include <qextreferencewrapper.h>
 
-template <class T_type>
+template <typename T_type>
 class QEXTBoundArgument
 {
 public:
@@ -23,7 +23,7 @@ private:
 };
 
 
-template <class T_wrapped>
+template <typename T_wrapped>
 class QEXTBoundArgument<QEXTReferenceWrapper<T_wrapped> >
 {
 public:
@@ -41,7 +41,7 @@ private:
     QEXTLimitReference<T_wrapped> m_visited;
 };
 
-template <class T_wrapped>
+template <typename T_wrapped>
 class QEXTBoundArgument< QEXTConstReferenceWrapper<T_wrapped> >
 {
 public:
@@ -60,10 +60,10 @@ private:
 };
 
 
-template <class T_type>
+template <typename T_type>
 struct QEXTVisitor<QEXTBoundArgument<T_type> >
 {
-    template <class T_action>
+    template <typename T_action>
     static void doVisitEach(const T_action &action,
                             const QEXTBoundArgument<T_type> &argument) {
         qextVisitEach(action, argument.visit());

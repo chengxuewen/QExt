@@ -109,7 +109,7 @@ struct QEXTFunctorTrait<T_return (T_obj::*)(), false>
     typedef T_return ResultType;
     typedef QEXTMemberFunctor0<T_return, T_obj> FunctorType;
 };
-template <class T_return, class T_obj>
+template <typename T_return, typename T_obj>
 struct QEXTFunctorTrait<T_return (T_obj::*)() const, false>
 {
     typedef T_return ResultType;

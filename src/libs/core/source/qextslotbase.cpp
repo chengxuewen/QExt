@@ -60,12 +60,12 @@ void QEXTSlotRepresentation::disconnect()
 
 void *QEXTSlotRepresentation::notify(void *data)
 {
-    struct DestroyNotifyStruct
+    struct DestroyNotify
     {
-        DestroyNotifyStruct() : m_deleted(false) { }
+        DestroyNotify() : m_deleted(false) { }
 
         static void *notify(void *data) {
-            DestroyNotifyStruct *self = reinterpret_cast<DestroyNotifyStruct*>(data);
+            DestroyNotify *self = reinterpret_cast<DestroyNotify*>(data);
             self->m_deleted = true;
             return QEXT_NULLPTR;
         }
@@ -77,8 +77,8 @@ void *QEXTSlotRepresentation::notify(void *data)
     self->m_call = QEXT_NULLPTR; // Invalidate the slot.
 
     // Make sure we are notified if disconnect() deletes m_self, which is trackable.
-    DestroyNotifyStruct notifier;
-    self->addDestroyNotifyCallback(&notifier, DestroyNotifyStruct::notify);
+    DestroyNotify notifier;
+    self->addDestroyNotifyCallback(&notifier, DestroyNotify::notify);
     self->disconnect(); // Disconnect the slot (might lead to deletion of m_self!).
     // If m_self has been deleted, the destructor has called destroy().
     if (!notifier.m_deleted) {
@@ -182,15 +182,15 @@ bool QEXTSlotBase::isEmpty() const
     return (!m_slotRep || !m_slotRep->m_call);
 }
 
-bool QEXTSlotBase::blocked() const
+bool QEXTSlotBase::isBlocked() const
 {
     return m_blocked;
 }
 
-bool QEXTSlotBase::block(bool shouldBlock)
+bool QEXTSlotBase::block(bool block)
 {
     bool old = m_blocked;
-    m_blocked = shouldBlock;
+    m_blocked = block;
     return old;
 }
 

@@ -5,7 +5,6 @@
 
 void voidFunction0() {
     qDebug() << "voidFunction0";
-    QVERIFY(true);
 }
 void voidFunction1(int a1) {
     qDebug() << "voidFunction1:" << a1;

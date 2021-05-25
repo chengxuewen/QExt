@@ -3,6 +3,8 @@
 
 #include <qextglobal.h>
 
+#include <QMutex>
+
 #include <list>
 
 namespace qextinternal {

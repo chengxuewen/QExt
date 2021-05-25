@@ -41,24 +41,24 @@ struct QEXTUnwrapReference
     typedef T_type Type;
 };
 
-template <class T_type>
+template <typename T_type>
 struct QEXTUnwrapReference<QEXTReferenceWrapper<T_type> >
 {
     typedef T_type &Type;
 };
 
-template <class T_type>
+template <typename T_type>
 struct QEXTUnwrapReference<QEXTConstReferenceWrapper<T_type> >
 {
     typedef const T_type &Type;
 };
 
-template <class T_type>
+template <typename T_type>
 T_type& qextUnwrapReference(const QEXTReferenceWrapper<T_type>& value) {
     return value;
 }
 
-template <class T_type>
+template <typename T_type>
 const T_type& qextUnwrapReference(const QEXTConstReferenceWrapper<T_type> &value) {
     return value;
 }

@@ -25,7 +25,7 @@
  *
  * - @e T_type The type of the reference.
  */
-template <class T_type, bool I_derives_trackable = QEXTBaseAndDerivedTester<QEXTTrackable, T_type>::value>
+template <typename T_type, bool I_derives_trackable = QEXTBaseAndDerivedTester<QEXTTrackable, T_type>::value>
 class QEXTLimitReference
 {
 public:
@@ -39,7 +39,7 @@ private:
 };
 
 
-template <class T_type>
+template <typename T_type>
 class QEXTLimitReference<T_type, true>
 {
 public:
@@ -54,10 +54,10 @@ private:
 };
 
 
-template <class T_type, bool I_derives_trackable>
+template <typename T_type, bool I_derives_trackable>
 struct QEXTVisitor<QEXTLimitReference<T_type, I_derives_trackable> >
 {
-    template <class T_action>
+    template <typename T_action>
     static void doVisitEach(const T_action &action, const QEXTLimitReference<T_type, I_derives_trackable> &target) {
         qextVisitEach(action, target.visit());
     }
@@ -65,7 +65,7 @@ struct QEXTVisitor<QEXTLimitReference<T_type, I_derives_trackable> >
 
 
 
-template <class T_type, bool I_derives_trackable = QEXTBaseAndDerivedTester<QEXTTrackable, T_type>::value>
+template <typename T_type, bool I_derives_trackable = QEXTBaseAndDerivedTester<QEXTTrackable, T_type>::value>
 class QEXTConstLimitReference
 {
 public:
@@ -79,7 +79,7 @@ private:
     const T_type &m_visited;
 };
 
-template <class T_type>
+template <typename T_type>
 class QEXTConstLimitReference<T_type, true>
 {
 public:
@@ -94,10 +94,10 @@ private:
     const T_type &m_invoked;
 };
 
-template <class T_type, bool I_derives_trackable>
+template <typename T_type, bool I_derives_trackable>
 struct QEXTVisitor<QEXTConstLimitReference<T_type, I_derives_trackable> >
 {
-    template <class T_action>
+    template <typename T_action>
     static void doVisitEach(const T_action &action,
                             const QEXTConstLimitReference<T_type, I_derives_trackable> &target) {
         qextVisitEach(action, target.visit());
@@ -106,7 +106,7 @@ struct QEXTVisitor<QEXTConstLimitReference<T_type, I_derives_trackable> >
 
 
 
-template <class T_type, bool I_derives_trackable = QEXTBaseAndDerivedTester<QEXTTrackable, T_type>::value>
+template <typename T_type, bool I_derives_trackable = QEXTBaseAndDerivedTester<QEXTTrackable, T_type>::value>
 class QEXTVolatileLimitReference
 {
 public:
@@ -121,7 +121,7 @@ private:
 };
 
 
-template <class T_type>
+template <typename T_type>
 class QEXTVolatileLimitReference<T_type, true>
 {
 public:
@@ -136,10 +136,10 @@ private:
     T_type &m_invoked;
 };
 
-template <class T_type, bool I_derives_trackable>
+template <typename T_type, bool I_derives_trackable>
 struct QEXTVisitor<QEXTVolatileLimitReference<T_type, I_derives_trackable> >
 {
-    template <class T_action>
+    template <typename T_action>
     static void doVisitEach(const T_action& action,
                             const QEXTVolatileLimitReference<T_type, I_derives_trackable> &target) {
         qextVisitEach(action, target.visit());
@@ -148,7 +148,7 @@ struct QEXTVisitor<QEXTVolatileLimitReference<T_type, I_derives_trackable> >
 
 
 
-template <class T_type, bool I_derives_trackable = QEXTBaseAndDerivedTester<QEXTTrackable, T_type>::value>
+template <typename T_type, bool I_derives_trackable = QEXTBaseAndDerivedTester<QEXTTrackable, T_type>::value>
 class QEXTConstVolatileLimitReference
 {
 public:
@@ -162,7 +162,7 @@ private:
     const T_type &m_visited;
 };
 
-template <class T_type>
+template <typename T_type>
 class QEXTConstVolatileLimitReference<T_type, true>
 {
 public:
@@ -177,10 +177,10 @@ private:
     const T_type &m_invoked;
 };
 
-template <class T_type, bool I_derives_trackable>
+template <typename T_type, bool I_derives_trackable>
 struct QEXTVisitor<QEXTConstVolatileLimitReference<T_type, I_derives_trackable> >
 {
-    template <class T_action>
+    template <typename T_action>
     static void doVisitEach(const T_action& action,
                             const QEXTConstVolatileLimitReference<T_type, I_derives_trackable> &target) {
         qextVisitEach(action, target.visit());

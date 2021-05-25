@@ -93,3 +93,42 @@ add_executable(${_test_name}
 add_test(NAME ${_test_name} COMMAND ${_test_name})
 target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
 target_include_directories(${_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+
+
+#--------------------------------------------------------------------------------
+# Add tst_qexttrackable example
+#--------------------------------------------------------------------------------
+set(_test_name tst_qexttrackable)
+add_executable(${_test_name}
+    tst_qexttrackable.cpp
+    )
+add_test(NAME ${_test_name} COMMAND ${_test_name})
+target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
+target_include_directories(${_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+
+
+#--------------------------------------------------------------------------------
+# Add tst_qextslot example
+#--------------------------------------------------------------------------------
+set(_test_name tst_qextslot)
+add_executable(${_test_name}
+    tst_qextslot.cpp
+    )
+add_test(NAME ${_test_name} COMMAND ${_test_name})
+target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
+target_include_directories(${_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
+
+
+#--------------------------------------------------------------------------------
+# Add tst_qextsignal example
+#--------------------------------------------------------------------------------
+set(_test_name tst_qextsignal)
+add_executable(${_test_name}
+    tst_qextsignal.cpp
+    )
+add_test(NAME ${_test_name} COMMAND ${_test_name})
+target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
+target_include_directories(${_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

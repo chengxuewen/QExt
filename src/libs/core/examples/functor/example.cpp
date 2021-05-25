@@ -2,8 +2,6 @@
 #include <string>
 #include <QDebug>
 
-#include "qextcallback.h"
-
 #include <qextfunctor.h>
 #include <qextmemberfunctor.h>
 #include <qextbindreturn.h>

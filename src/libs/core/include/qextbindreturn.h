@@ -6,10 +6,10 @@
 #include <qextreferencewrapper.h>
 
 
-template <class T_return, class T_functor>
+template <typename T_return, typename T_functor>
 struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
 {
-    template <class T_arg1 = void, class T_arg2 = void>
+    template <typename T_arg1 = void, typename T_arg2 = void>
     struct ReturnTypeDeduce
     {
         typedef typename QEXTUnwrapReference<T_return>::Type Type;
@@ -25,7 +25,7 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
-    template <class T_arg1>
+    template <typename T_arg1>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1) {
         this->m_functor(arg1);
@@ -33,7 +33,7 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
-    template <class T_arg1, class T_arg2>
+    template <typename T_arg1, typename T_arg2>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2) {
 //        this->m_functor.template operator()<typename QEXTTypeTrait<T_arg1>::Pass, typename QEXTTypeTrait<T_arg2>::Pass>(arg1, arg2);
@@ -41,7 +41,7 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
-    template <class T_arg1, class T_arg2, class T_arg3>
+    template <typename T_arg1, typename T_arg2, typename T_arg3>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) {
         //        this->m_functor.operator()<
@@ -52,7 +52,7 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
-    template <class T_arg1, class T_arg2, class T_arg3, class T_arg4>
+    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) {
         //        this->m_functor.operator()<
@@ -64,7 +64,7 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
-    template <class T_arg1, class T_arg2, class T_arg3, class T_arg4, class T_arg5>
+    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) {
         //        this->m_functor.operator()<
@@ -77,7 +77,7 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
-    template <class T_arg1, class T_arg2, class T_arg3, class T_arg4, class T_arg5, class T_arg6>
+    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) {
         //        this->m_functor.operator()<
@@ -91,7 +91,7 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
-    template <class T_arg1, class T_arg2, class T_arg3, class T_arg4, class T_arg5, class T_arg6, class T_arg7>
+    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) {
         //        this->m_functor.operator()<
@@ -111,10 +111,10 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
 
 
 
-template <class T_return, class T_functor>
+template <typename T_return, typename T_functor>
 struct QEXTVisitor<QEXTBindReturnFunctor<T_return, T_functor> >
 {
-    template <class T_action>
+    template <typename T_action>
     static void doVisitEach(const T_action &action,
                             const QEXTBindReturnFunctor<T_return, T_functor> &target) {
         qextVisitEach(action, target.m_returnValue);
@@ -122,7 +122,7 @@ struct QEXTVisitor<QEXTBindReturnFunctor<T_return, T_functor> >
     }
 };
 
-template <class T_return, class T_functor>
+template <typename T_return, typename T_functor>
 QEXTBindReturnFunctor<T_return, T_functor>
 qextBindReturn(const T_functor &functor, T_return returnValue) {
     return QEXTBindReturnFunctor<T_return, T_functor>(functor, returnValue);
