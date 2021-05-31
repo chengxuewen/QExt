@@ -34,6 +34,13 @@ public:
 
 void QEXTTrackAbleTest::testSimple()
 {
+    QEXTSlot<void> slot;
+    MYClass *myClass = new MYClass;
+    myClass->i = 11;
+    slot = qextMemberFunctor0(myClass, &MYClass::foo);
+    delete myClass;
+    myClass = QEXT_NULLPTR;
+
     QEXTSlot<void> sl;
     {
         sm_string = "";
@@ -47,6 +54,10 @@ void QEXTTrackAbleTest::testSimple()
     sm_string = "";
     sl();
     QVERIFY("" == sm_string);
+
+    MYClass *myCLass = new MYClass;
+    delete myCLass;
+    myCLass = QEXT_NULLPTR;
 }
 
 QTEST_APPLESS_MAIN(QEXTTrackAbleTest)

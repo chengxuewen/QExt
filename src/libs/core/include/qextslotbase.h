@@ -5,14 +5,16 @@
 #include <qextfunctortrait.h>
 #include <qexttrackable.h>
 
+#include <QScopedPointer>
+
 namespace qextinternal {
 
 typedef void* (*HookFunctionType)(void*);
 
-struct QEXT_CORE_API QEXTSlotRepresentation : public QEXTTrackable
+struct QEXT_CORE_API QEXTSlotRep : public QEXTTrackable
 {
-    QEXTSlotRepresentation(HookFunctionType call, HookFunctionType destroy, HookFunctionType deepCopy);
-    ~QEXTSlotRepresentation();
+    QEXTSlotRep(HookFunctionType call, HookFunctionType destroy, HookFunctionType deepCopy);
+    ~QEXTSlotRep();
 
     // only MSVC needs this to guarantee that all new/delete are executed from the DLL module
 #ifdef Q_CC_MSVC
@@ -21,7 +23,7 @@ struct QEXT_CORE_API QEXTSlotRepresentation : public QEXTTrackable
 #endif
 
     void destroy();
-    QEXTSlotRepresentation *deepCopy() const;
+    QEXTSlotRep *deepCopy() const;
     void setParent(void *parent, HookFunctionType cleanup);
     void disconnect();
     static void *notify(void *data);
@@ -35,24 +37,24 @@ struct QEXT_CORE_API QEXTSlotRepresentation : public QEXTTrackable
 
 struct QEXT_CORE_API QEXTSlotDoBind
 {
-    QEXTSlotDoBind(QEXTSlotRepresentation *rep) : m_slotRep(rep) {}
+    QEXTSlotDoBind(QEXTSlotRep *rep) : m_slotRep(rep) {}
 
     void operator()(const QEXTTrackable *trackable) const {
-        trackable->addDestroyNotifyCallback(m_slotRep, &QEXTSlotRepresentation::notify);
+        trackable->addDestroyNotifyCallback(m_slotRep, &QEXTSlotRep::notify);
     }
 
-    QEXTSlotRepresentation *m_slotRep;
+    QEXTSlotRep *m_slotRep;
 };
 
 struct QEXT_CORE_API QEXTSlotDoUnbind
 {
-    QEXTSlotDoUnbind(QEXTSlotRepresentation *rep) : m_slotRep(rep) {}
+    QEXTSlotDoUnbind(QEXTSlotRep *rep) : m_slotRep(rep) {}
 
     void operator()(const QEXTTrackable *trackable) const {
         trackable->removeDestroyNotifyCallback(m_slotRep);
     }
 
-    QEXTSlotRepresentation *m_slotRep;
+    QEXTSlotRep *m_slotRep;
 };
 
 } //namespace qextinternal
@@ -61,7 +63,7 @@ struct QEXT_CORE_API QEXTSlotDoUnbind
 
 class QEXT_CORE_API QEXTSlotBase : public QEXTFunctorBase
 {
-    typedef qextinternal::QEXTSlotRepresentation SlotRepType;
+    typedef qextinternal::QEXTSlotRep SlotRepType;
 public:
     typedef QEXTTrackable::DestroyNotifyFunc DestroyNotifyFunc;
 
@@ -86,7 +88,8 @@ public:
     void disconnect();
 
 public:
-    mutable SlotRepType *m_slotRep;
+    mutable QScopedPointer<SlotRepType> m_slotRep;
+
     bool m_blocked;
 };
 

@@ -31,8 +31,8 @@ class QEXTLimitReference
 public:
     QEXTLimitReference(T_type &target) : m_visited(target) {}
 
-    inline const T_type &visit() const { return m_visited; }
-    inline T_type &invoke() const { return m_visited; }
+    const T_type &visit() const { return m_visited; }
+    T_type &invoke() const { return m_visited; }
 
 private:
     T_type &m_visited;
@@ -45,8 +45,8 @@ class QEXTLimitReference<T_type, true>
 public:
     QEXTLimitReference(T_type &target) : m_visited(target), m_invoked(target) {}
 
-    inline const QEXTTrackable &visit() const { return m_visited; }
-    inline T_type& invoke() const { return m_invoked; }
+    const QEXTTrackable &visit() const { return m_visited; }
+    T_type &invoke() const { return m_invoked; }
 
 private:
     QEXTTrackable &m_visited;

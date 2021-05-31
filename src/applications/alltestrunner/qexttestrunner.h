@@ -18,7 +18,11 @@ class QEXTTestRunner : public QObject
     Q_OBJECT
 public:
     QEXTTestRunner(const QFileInfo &testInfo, int index, bool outPutAll)
-        : m_testInfo(testInfo), m_index(index), m_consumingTime(0), m_outPutAll(outPutAll) {
+        : m_testInfo(testInfo),
+          m_consumingTime(0),
+          m_index(index),
+          m_outPutAll(outPutAll)
+    {
         connect(&m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
         connect(&m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(onFinished(int,QProcess::ExitStatus)));
         m_process.setReadChannel(QProcess::StandardOutput);
@@ -142,13 +146,15 @@ signals:
 public Q_SLOTS:
     void onTestFinished(int exitCode, QProcess::ExitStatus exitStatus) {
         m_allTestList.append(m_testRunner.data());
-        if (exitCode > 0) {
-            m_failedTestList.append(m_testRunner.data());
-        } else {
+        QString result;
+        if (0 == exitCode && QProcess::NormalExit == exitStatus) {
             m_successTestList.append(m_testRunner.data());
+            result = "Success";
+        } else {
+            m_failedTestList.append(m_testRunner.data());
+            result = QString("***Failed %1").arg(exitCode);
         }
         QString testName = m_testRunner->testInfo().fileName();
-        QString result = (0 == exitCode) ? "Success" : QString("***Failed %1").arg(exitCode);
         qDebug() << QString("%1: %2%3    %4 sec %5\n")
                     .arg("Finish", 14, ' ')
                     .arg(testName)

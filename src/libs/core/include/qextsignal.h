@@ -9,19 +9,19 @@
 template <typename T_slot>
 struct QEXTSlotIterator
 {
-    typedef std::size_t                     SizeType;
-    typedef std::ptrdiff_t                  DifferenceType;
-    typedef std::bidirectional_iterator_tag IteratorCategory;
+    typedef std::size_t                         SizeType;
+    typedef std::ptrdiff_t                      DifferenceType;
+    typedef std::bidirectional_iterator_tag     IteratorCategory;
 
-    typedef T_slot  SlotType;
-    typedef T_slot  ValueType;
-    typedef T_slot* PointerType;
-    typedef T_slot& ReferenceType;
+    typedef T_slot                              SlotType;
+    typedef T_slot                              ValueType;
+    typedef T_slot*                             PointerType;
+    typedef T_slot&                             ReferenceType;
 
     typedef typename qextinternal::QEXTSignalImpl::IteratorType IteratorType;
 
     QEXTSlotIterator() {}
-    explicit QEXTSlotIterator(const IteratorType& i) : m_iter(i) {}
+    explicit QEXTSlotIterator(const IteratorType &iter) : m_iter(iter) {}
 
     ReferenceType operator*() const {
         return static_cast<ReferenceType>(*m_iter);
@@ -68,14 +68,14 @@ struct QEXTSlotIterator
 template <typename T_slot>
 struct QEXTSlotConstIterator
 {
-    typedef std::size_t                     SizeType;
-    typedef std::ptrdiff_t                  DifferenceType;
-    typedef std::bidirectional_iterator_tag IteratorCategory;
+    typedef std::size_t                         SizeType;
+    typedef std::ptrdiff_t                      DifferenceType;
+    typedef std::bidirectional_iterator_tag     IteratorCategory;
 
-    typedef T_slot        SlotType;
-    typedef T_slot        ValueType;
-    typedef const T_slot* PointerType;
-    typedef const T_slot& ReferenceType;
+    typedef T_slot                              SlotType;
+    typedef T_slot                              ValueType;
+    typedef const T_slot*                       PointerType;
+    typedef const T_slot&                       ReferenceType;
 
     typedef typename qextinternal::QEXTSignalImpl::ConstIteratorType IteratorType;
 
@@ -128,10 +128,10 @@ struct QEXTSlotConstIterator
 template <typename T_slot>
 struct QEXTSlotList
 {
-    typedef T_slot SlotType;
+    typedef T_slot                                  SlotType;
 
-    typedef SlotType&       ReferenceType;
-    typedef const SlotType& ConstReferenceType;
+    typedef SlotType&                               ReferenceType;
+    typedef const SlotType&                         ConstReferenceType;
 
     typedef QEXTSlotIterator<SlotType>              Iterator;
     typedef QEXTSlotConstIterator<SlotType>         ConstIterator;
@@ -160,35 +160,35 @@ struct QEXTSlotList
     }
 
     ReverseIterator rbegin() {
-        return ReverseIterator(end());
+        return ReverseIterator(this->end());
     }
 
     ConstReverseIterator rbegin() const {
-        return ConstReverseIterator(end());
+        return ConstReverseIterator(this->end());
     }
 
     ReverseIterator rend() {
-        return ReverseIterator(begin());
+        return ReverseIterator(this->begin());
     }
 
     ConstReverseIterator rend() const {
-        return ConstReverseIterator(begin());
+        return ConstReverseIterator(this->begin());
     }
 
     ReferenceType front() {
-        return *begin();
+        return *this->begin();
     }
 
     ConstReferenceType front() const {
-        return *begin();
+        return *this->begin();
     }
 
     ReferenceType back() {
-        return *(--end());
+        return *(--this->end());
     }
 
     ConstReferenceType back() const {
-        return *(--end());
+        return *(--this->end());
     }
 
     Iterator insert(Iterator i, const SlotType &slot) {
@@ -196,11 +196,11 @@ struct QEXTSlotList
     }
 
     void push_front(const SlotType &c) {
-        insert(begin(), c);
+        this->insert(this->begin(), c);
     }
 
     void push_back(const SlotType &c) {
-        insert(end(), c);
+        this->insert(this->end(), c);
     }
 
     Iterator erase(Iterator i) {
@@ -215,12 +215,12 @@ struct QEXTSlotList
     }
 
     void pop_front() {
-        erase(begin());
+        this->erase(this->begin());
     }
 
     void pop_back() {
-        Iterator tmp = end();
-        erase(--tmp);
+        Iterator tmp = this->end();
+        this->erase(--tmp);
     }
 
 protected:
@@ -248,12 +248,12 @@ struct QEXTSlotIteratorBuffer
     typedef T_result                            ResultType;
     typedef typename T_emitter::SlotType        SlotType;
 
-    typedef QEXTSignalImpl::ConstIteratorType IteratorType;
+    typedef QEXTSignalImpl::ConstIteratorType   IteratorType;
 
     QEXTSlotIteratorBuffer() : m_emitter(QEXT_NULLPTR), m_invoked(false) {}
 
-    QEXTSlotIteratorBuffer(const IteratorType &i, const SenderType *emitter)
-        : m_iter(i), m_emitter(emitter), m_invoked(false) {}
+    QEXTSlotIteratorBuffer(const IteratorType &iter, const SenderType *emitter)
+        : m_iter(iter), m_emitter(emitter), m_invoked(false) {}
 
     ResultType operator*() const {
         if (!m_iter->isEmpty() && !m_iter->isBlocked() && !m_invoked) {
@@ -323,8 +323,8 @@ struct QEXTSlotIteratorBuffer<T_emitter, void>
 
     QEXTSlotIteratorBuffer() : m_emitter(QEXT_NULLPTR), m_invoked(false) {}
 
-    QEXTSlotIteratorBuffer(const IteratorType &i, const SenderType *emitter)
-        : m_iter(i), m_emitter(emitter), m_invoked(false) {}
+    QEXTSlotIteratorBuffer(const IteratorType &iter, const SenderType *emitter)
+        : m_iter(iter), m_emitter(emitter), m_invoked(false) {}
 
     void operator*() const {
         if (!m_iter->isEmpty() && !m_iter->isBlocked() && !m_invoked) {
@@ -534,7 +534,7 @@ struct QEXTSignalSend0
     QEXTSignalSend0()  {}
 
     T_return operator()(const SlotType &slot) const {
-        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep);
+        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep.data());
     }
 
     static ResultType send(QEXTSignalImpl *impl) {
@@ -601,12 +601,12 @@ struct QEXTSignalSend0<T_return, QEXTNil>
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data());
             for (++iter; iter != slotList.end(); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data());
             }
         }
 
@@ -639,12 +639,12 @@ struct QEXTSignalSend0<T_return, QEXTNil>
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data());
             for (++iter; iter != ReverseIteratorType(slotList.begin()); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data());
             }
         }
 
@@ -660,7 +660,7 @@ struct QEXTSignalSend0<void, QEXTNil>
     typedef void ResultType;
     typedef QEXTSlot<void> SlotType;
     typedef QEXTSignalImpl::ConstIteratorType IteratorType;
-    typedef void (*CallType)(QEXTSlotRepresentation *);
+    typedef void (*CallType)(QEXTSlotRep *);
 
 
     static ResultType send(QEXTSignalImpl *impl) {
@@ -674,7 +674,7 @@ struct QEXTSignalSend0<void, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data());
         }
     }
 
@@ -692,7 +692,7 @@ struct QEXTSignalSend0<void, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data());
         }
     }
 };
@@ -711,7 +711,7 @@ struct QEXTSignalSend1
     QEXTSignalSend1(typename QEXTTypeTrait<T_arg1>::Take arg1) : m_arg1(arg1) {}
 
     T_return operator()(const SlotType& slot) const {
-        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep, m_arg1);
+        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep.data(), m_arg1);
     }
 
     static ResultType send(QEXTSignalImpl *impl,
@@ -782,12 +782,12 @@ struct QEXTSignalSend1<T_return, T_arg1, QEXTNil>
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1);
             for (++iter; iter != slotList.end(); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1);
             }
         }
 
@@ -821,12 +821,12 @@ struct QEXTSignalSend1<T_return, T_arg1, QEXTNil>
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1);
             for (++iter; iter != ReverseIteratorType(slotList.begin()); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1);
             }
         }
 
@@ -857,7 +857,7 @@ struct QEXTSignalSend1<void, T_arg1, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1);
         }
     }
 
@@ -875,7 +875,7 @@ struct QEXTSignalSend1<void, T_arg1, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1);
         }
     }
 };
@@ -895,7 +895,7 @@ struct QEXTSignalSend2
 
 
     T_return operator()(const SlotType &slot) const {
-        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep, m_arg1, m_arg2);
+        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep.data(), m_arg1, m_arg2);
     }
 
 
@@ -959,7 +959,6 @@ struct QEXTSignalSend2<T_return, T_arg1, T_arg2, QEXTNil>
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -973,12 +972,12 @@ struct QEXTSignalSend2<T_return, T_arg1, T_arg2, QEXTNil>
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2);
             for (++iter; iter != slotList.end(); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2);
             }
         }
 
@@ -997,7 +996,6 @@ struct QEXTSignalSend2<T_return, T_arg1, T_arg2, QEXTNil>
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -1013,12 +1011,12 @@ struct QEXTSignalSend2<T_return, T_arg1, T_arg2, QEXTNil>
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2);
             for (++iter; iter != ReverseIteratorType(slotList.begin()); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2);
             }
         }
 
@@ -1049,7 +1047,7 @@ struct QEXTSignalSend2<void, T_arg1, T_arg2, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2);
         }
     }
 
@@ -1069,7 +1067,7 @@ struct QEXTSignalSend2<void, T_arg1, T_arg2, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2);
         }
     }
 };
@@ -1092,7 +1090,7 @@ struct QEXTSignalSend3
         : m_arg1(arg1), m_arg2(arg2), m_arg3(arg3) {}
 
     T_return operator()(const SlotType &slot) const {
-        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep, m_arg1, m_arg2, m_arg3);
+        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep.data(), m_arg1, m_arg2, m_arg3);
     }
 
     static ResultType send(QEXTSignalImpl *impl,
@@ -1159,7 +1157,6 @@ struct QEXTSignalSend3<T_return, T_arg1, T_arg2, T_arg3, QEXTNil>
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -1173,12 +1170,12 @@ struct QEXTSignalSend3<T_return, T_arg1, T_arg2, T_arg3, QEXTNil>
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3);
             for (++iter; iter != slotList.end(); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3);
             }
         }
 
@@ -1198,7 +1195,6 @@ struct QEXTSignalSend3<T_return, T_arg1, T_arg2, T_arg3, QEXTNil>
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -1214,12 +1210,12 @@ struct QEXTSignalSend3<T_return, T_arg1, T_arg2, T_arg3, QEXTNil>
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3);
             for (++iter; iter != ReverseIteratorType(slotList.begin()); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3);
             }
         }
 
@@ -1253,7 +1249,7 @@ struct QEXTSignalSend3<void, T_arg1, T_arg2, T_arg3, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3);
         }
     }
 
@@ -1274,7 +1270,7 @@ struct QEXTSignalSend3<void, T_arg1, T_arg2, T_arg3, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3);
         }
     }
 };
@@ -1298,7 +1294,7 @@ struct QEXTSignalSend4
         : m_arg1(arg1), m_arg2(arg2), m_arg3(arg3), m_arg4(arg4) {}
 
     T_return operator()(const SlotType &slot) const {
-        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep, m_arg1, m_arg2, m_arg3, m_arg4);
+        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep.data(), m_arg1, m_arg2, m_arg3, m_arg4);
     }
 
 
@@ -1369,7 +1365,6 @@ struct QEXTSignalSend4<T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -1383,12 +1378,12 @@ struct QEXTSignalSend4<T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4);
             for (++iter; iter != slotList.end(); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4);
             }
         }
 
@@ -1408,7 +1403,6 @@ struct QEXTSignalSend4<T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -1424,12 +1418,12 @@ struct QEXTSignalSend4<T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4);
             for (++iter; iter != ReverseIteratorType(slotList.begin()); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4);
             }
         }
 
@@ -1462,7 +1456,7 @@ struct QEXTSignalSend4<void, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4);
         }
     }
 
@@ -1483,7 +1477,7 @@ struct QEXTSignalSend4<void, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4);
         }
     }
 };
@@ -1509,7 +1503,7 @@ struct QEXTSignalSend5
         : m_arg1(arg1), m_arg2(arg2), m_arg3(arg3), m_arg4(arg4), m_arg5(arg5) {}
 
     T_return operator()(const SlotType &slot) const {
-        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep, m_arg1, m_arg2, m_arg3, m_arg4, m_arg5);
+        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep.data(), m_arg1, m_arg2, m_arg3, m_arg4, m_arg5);
     }
 
     static ResultType send(QEXTSignalImpl *impl,
@@ -1583,7 +1577,6 @@ struct QEXTSignalSend5<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -1597,12 +1590,12 @@ struct QEXTSignalSend5<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5);
             for (++iter; iter != slotList.end(); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5);
             }
         }
 
@@ -1624,7 +1617,6 @@ struct QEXTSignalSend5<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -1640,12 +1632,12 @@ struct QEXTSignalSend5<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5);
             for (++iter; iter != ReverseIteratorType(slotList.begin()); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5);
             }
         }
 
@@ -1679,7 +1671,7 @@ struct QEXTSignalSend5<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5);
         }
     }
 
@@ -1701,7 +1693,7 @@ struct QEXTSignalSend5<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil>
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5);
         }
     }
 };
@@ -1728,7 +1720,7 @@ struct QEXTSignalSend6
         : m_arg1(arg1), m_arg2(arg2), m_arg3(arg3), m_arg4(arg4), m_arg5(arg5), m_arg6(arg6) {}
 
     T_return operator()(const SlotType &slot) const {
-        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep, m_arg1, m_arg2, m_arg3, m_arg4, m_arg5, m_arg6);
+        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep.data(), m_arg1, m_arg2, m_arg3, m_arg4, m_arg5, m_arg6);
     }
 
     static ResultType send(QEXTSignalImpl *impl,
@@ -1807,7 +1799,6 @@ struct QEXTSignalSend6<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -1821,12 +1812,12 @@ struct QEXTSignalSend6<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6);
             for (++iter; iter != slotList.end(); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6);
             }
         }
 
@@ -1849,7 +1840,6 @@ struct QEXTSignalSend6<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -1865,12 +1855,12 @@ struct QEXTSignalSend6<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6);
             for (++iter; iter != ReverseIteratorType(slotList.begin()); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6);
             }
         }
 
@@ -1906,7 +1896,7 @@ struct QEXTSignalSend6<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEX
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6);
         }
     }
 
@@ -1929,7 +1919,7 @@ struct QEXTSignalSend6<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEX
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6);
         }
     }
 };
@@ -1957,7 +1947,7 @@ struct QEXTSignalSend7
         : m_arg1(arg1), m_arg2(arg2), m_arg3(arg3), m_arg4(arg4), m_arg5(arg5), m_arg6(arg6), m_arg7(arg7) {}
 
     T_return operator()(const SlotType &slot) const {
-        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep, m_arg1, m_arg2, m_arg3, m_arg4, m_arg5, m_arg6, m_arg7);
+        return (reinterpret_cast<typename SlotType::CallType>(slot.m_slotRep->m_call))(slot.m_slotRep.data(), m_arg1, m_arg2, m_arg3, m_arg4, m_arg5, m_arg6, m_arg7);
     }
 
     static ResultType send(QEXTSignalImpl *impl,
@@ -2043,7 +2033,6 @@ struct QEXTSignalSend7<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -2057,12 +2046,12 @@ struct QEXTSignalSend7<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             for (++iter; iter != slotList.end(); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             }
         }
 
@@ -2086,7 +2075,6 @@ struct QEXTSignalSend7<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
         T_return m_result = T_return();
 
         //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
-        //This avoids a leak on MSVC++ - see http://bugzilla.gnome.org/show_bug.cgi?id=306249
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -2102,12 +2090,12 @@ struct QEXTSignalSend7<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
                 return T_return(); // note that 'T_return m_result();' doesn't work => define 'm_result' after this line and initialize as follows:
             }
 
-            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             for (++iter; iter != ReverseIteratorType(slotList.begin()); ++iter) {
                 if (iter->isEmpty() || iter->isBlocked()) {
                     continue;
                 }
-                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+                m_result = (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             }
         }
 
@@ -2144,7 +2132,7 @@ struct QEXTSignalSend7<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_a
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
     }
 
@@ -2169,7 +2157,7 @@ struct QEXTSignalSend7<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_a
             if (iter->isEmpty() || iter->isBlocked()) {
                 continue;
             }
-            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+            (reinterpret_cast<CallType>(iter->m_slotRep->m_call))(iter->m_slotRep.data(), arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
     }
 };
@@ -2190,7 +2178,6 @@ public:
     typedef typename SlotListType::ConstIterator                    ConstIterator;
     typedef typename SlotListType::ReverseIterator                  ReverseIterator;
     typedef typename SlotListType::ConstReverseIterator             ConstReverseIterator;
-
 
     Iterator connect(const SlotType &slot) {
         return Iterator(QEXTSignalBase::connect(static_cast<const QEXTSlotBase&>(slot)));
@@ -2302,13 +2289,11 @@ public:
         return SenderType::send(m_impl, arg1, arg2);
     }
 
-    /** Triggers the emission of the QEXTSignal in reverse order (see send()). */
     ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
                            typename QEXTTypeTrait<T_arg2>::Take arg2) const {
         return SenderType::sendReverse(m_impl, arg1, arg2);
     }
 
-    /** Triggers the emission of the QEXTSignal (see send()). */
     ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
                           typename QEXTTypeTrait<T_arg2>::Take arg2) const {
         return send(arg1, arg2);
@@ -2364,14 +2349,12 @@ public:
         return SenderType::send(m_impl, arg1, arg2, arg3);
     }
 
-    /** Triggers the emission of the QEXTSignal in reverse order (see send()). */
     ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
                            typename QEXTTypeTrait<T_arg2>::Take arg2,
                            typename QEXTTypeTrait<T_arg3>::Take arg3) const {
         return SenderType::sendReverse(m_impl, arg1, arg2, arg3);
     }
 
-    /** Triggers the emission of the QEXTSignal (see send()). */
     ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
                           typename QEXTTypeTrait<T_arg2>::Take arg2,
                           typename QEXTTypeTrait<T_arg3>::Take arg3) const {
@@ -2433,7 +2416,6 @@ public:
         return SenderType::send(m_impl, arg1, arg2, arg3, arg4);
     }
 
-    /** Triggers the emission of the QEXTSignal in reverse order (see send()). */
     ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
                            typename QEXTTypeTrait<T_arg2>::Take arg2,
                            typename QEXTTypeTrait<T_arg3>::Take arg3,
@@ -2441,7 +2423,6 @@ public:
         return SenderType::sendReverse(m_impl, arg1, arg2, arg3, arg4);
     }
 
-    /** Triggers the emission of the QEXTSignal (see send()). */
     ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
                           typename QEXTTypeTrait<T_arg2>::Take arg2,
                           typename QEXTTypeTrait<T_arg3>::Take arg3,
@@ -2504,7 +2485,6 @@ public:
         return SenderType::send(m_impl, arg1, arg2, arg3, arg4, arg5);
     }
 
-    /** Triggers the emission of the QEXTSignal in reverse order (see send()). */
     ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
                            typename QEXTTypeTrait<T_arg2>::Take arg2,
                            typename QEXTTypeTrait<T_arg3>::Take arg3,
@@ -2513,7 +2493,6 @@ public:
         return SenderType::sendReverse(m_impl, arg1, arg2, arg3, arg4, arg5);
     }
 
-    /** Triggers the emission of the QEXTSignal (see send()). */
     ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
                           typename QEXTTypeTrait<T_arg2>::Take arg2,
                           typename QEXTTypeTrait<T_arg3>::Take arg3,
@@ -2582,7 +2561,6 @@ public:
         return SenderType::send(m_impl, arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
-    /** Triggers the emission of the QEXTSignal in reverse order (see send()). */
     ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
                            typename QEXTTypeTrait<T_arg2>::Take arg2,
                            typename QEXTTypeTrait<T_arg3>::Take arg3,
@@ -2592,7 +2570,6 @@ public:
         return SenderType::sendReverse(m_impl, arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
-    /** Triggers the emission of the QEXTSignal (see send()). */
     ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
                           typename QEXTTypeTrait<T_arg2>::Take arg2,
                           typename QEXTTypeTrait<T_arg3>::Take arg3,
@@ -2663,7 +2640,6 @@ public:
         return SenderType::send(m_impl, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    /** Triggers the emission of the QEXTSignal in reverse order (see send()). */
     ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
                            typename QEXTTypeTrait<T_arg2>::Take arg2,
                            typename QEXTTypeTrait<T_arg3>::Take arg3,
@@ -2674,7 +2650,6 @@ public:
         return SenderType::sendReverse(m_impl, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    /** Triggers the emission of the QEXTSignal (see send()). */
     ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
                           typename QEXTTypeTrait<T_arg2>::Take arg2,
                           typename QEXTTypeTrait<T_arg3>::Take arg3,
@@ -2725,7 +2700,8 @@ template <typename T_return,
 class QEXTSignal : public QEXTSignal7<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QEXTNil>
 {
 public:
-    typedef QEXTSignal7<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QEXTNil> BaseType;
+    typedef QEXTSignal7<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QEXTNil>  BaseType;
+    typedef typename BaseType::ResultType                                                           ResultType;
 
     template <typename T_accumulator>
     class Accumulated : public QEXTSignal7<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, T_accumulator>
@@ -2737,6 +2713,36 @@ public:
 
     QEXTSignal() {}
     QEXTSignal(const QEXTSignal &src) : BaseType(src) {}
+
+    ResultType send(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                    typename QEXTTypeTrait<T_arg2>::Take arg2,
+                    typename QEXTTypeTrait<T_arg3>::Take arg3,
+                    typename QEXTTypeTrait<T_arg4>::Take arg4,
+                    typename QEXTTypeTrait<T_arg5>::Take arg5,
+                    typename QEXTTypeTrait<T_arg6>::Take arg6,
+                    typename QEXTTypeTrait<T_arg7>::Take arg7) const {
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+    }
+
+    ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                           typename QEXTTypeTrait<T_arg2>::Take arg2,
+                           typename QEXTTypeTrait<T_arg3>::Take arg3,
+                           typename QEXTTypeTrait<T_arg4>::Take arg4,
+                           typename QEXTTypeTrait<T_arg5>::Take arg5,
+                           typename QEXTTypeTrait<T_arg6>::Take arg6,
+                           typename QEXTTypeTrait<T_arg7>::Take arg7) const {
+        return BaseType::sendReverse(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+    }
+
+    ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                          typename QEXTTypeTrait<T_arg2>::Take arg2,
+                          typename QEXTTypeTrait<T_arg3>::Take arg3,
+                          typename QEXTTypeTrait<T_arg4>::Take arg4,
+                          typename QEXTTypeTrait<T_arg5>::Take arg5,
+                          typename QEXTTypeTrait<T_arg6>::Take arg6,
+                          typename QEXTTypeTrait<T_arg7>::Take arg7) const {
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+    }
 };
 
 template <typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
@@ -2744,7 +2750,8 @@ class QEXTSignal <T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXT
         : public QEXTSignal6<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil>
 {
 public:
-    typedef QEXTSignal6<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil> BaseType;
+    typedef QEXTSignal6<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil>  BaseType;
+    typedef typename BaseType::ResultType                                                   ResultType;
 
     template <typename T_accumulator>
     class Accumulated : public QEXTSignal6<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_accumulator>
@@ -2756,6 +2763,33 @@ public:
 
     QEXTSignal() {}
     QEXTSignal(const QEXTSignal &src) : BaseType(src) {}
+
+    ResultType send(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                    typename QEXTTypeTrait<T_arg2>::Take arg2,
+                    typename QEXTTypeTrait<T_arg3>::Take arg3,
+                    typename QEXTTypeTrait<T_arg4>::Take arg4,
+                    typename QEXTTypeTrait<T_arg5>::Take arg5,
+                    typename QEXTTypeTrait<T_arg6>::Take arg6) const {
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5, arg6);
+    }
+
+    ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                           typename QEXTTypeTrait<T_arg2>::Take arg2,
+                           typename QEXTTypeTrait<T_arg3>::Take arg3,
+                           typename QEXTTypeTrait<T_arg4>::Take arg4,
+                           typename QEXTTypeTrait<T_arg5>::Take arg5,
+                           typename QEXTTypeTrait<T_arg6>::Take arg6) const {
+        return BaseType::sendReverse(arg1, arg2, arg3, arg4, arg5, arg6);
+    }
+
+    ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                          typename QEXTTypeTrait<T_arg2>::Take arg2,
+                          typename QEXTTypeTrait<T_arg3>::Take arg3,
+                          typename QEXTTypeTrait<T_arg4>::Take arg4,
+                          typename QEXTTypeTrait<T_arg5>::Take arg5,
+                          typename QEXTTypeTrait<T_arg6>::Take arg6) const {
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5, arg6);
+    }
 };
 
 template <typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
@@ -2763,7 +2797,8 @@ class QEXTSignal<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXT
         : public QEXTSignal5<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil>
 {
 public:
-    typedef QEXTSignal5<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil> BaseType;
+    typedef QEXTSignal5<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil>  BaseType;
+    typedef typename BaseType::ResultType                                           ResultType;
 
     template <typename T_accumulator>
     class Accumulated : public QEXTSignal5<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_accumulator>
@@ -2775,6 +2810,30 @@ public:
 
     QEXTSignal() {}
     QEXTSignal(const QEXTSignal &src) : BaseType(src) {}
+
+    ResultType send(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                    typename QEXTTypeTrait<T_arg2>::Take arg2,
+                    typename QEXTTypeTrait<T_arg3>::Take arg3,
+                    typename QEXTTypeTrait<T_arg4>::Take arg4,
+                    typename QEXTTypeTrait<T_arg5>::Take arg5) const {
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5);
+    }
+
+    ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                           typename QEXTTypeTrait<T_arg2>::Take arg2,
+                           typename QEXTTypeTrait<T_arg3>::Take arg3,
+                           typename QEXTTypeTrait<T_arg4>::Take arg4,
+                           typename QEXTTypeTrait<T_arg5>::Take arg5) const {
+        return BaseType::sendReverse(arg1, arg2, arg3, arg4, arg5);
+    }
+
+    ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                          typename QEXTTypeTrait<T_arg2>::Take arg2,
+                          typename QEXTTypeTrait<T_arg3>::Take arg3,
+                          typename QEXTTypeTrait<T_arg4>::Take arg4,
+                          typename QEXTTypeTrait<T_arg5>::Take arg5) const {
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5);
+    }
 };
 
 template <typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
@@ -2782,7 +2841,8 @@ class QEXTSignal <T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QE
         : public QEXTSignal4<T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>
 {
 public:
-    typedef QEXTSignal4<T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil> BaseType;
+    typedef QEXTSignal4<T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>  BaseType;
+    typedef typename BaseType::ResultType                                   ResultType;
 
     template <typename T_accumulator>
     class Accumulated : public QEXTSignal4<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_accumulator>
@@ -2794,6 +2854,27 @@ public:
 
     QEXTSignal() {}
     QEXTSignal(const QEXTSignal &src) : BaseType(src) {}
+
+    ResultType send(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                    typename QEXTTypeTrait<T_arg2>::Take arg2,
+                    typename QEXTTypeTrait<T_arg3>::Take arg3,
+                    typename QEXTTypeTrait<T_arg4>::Take arg4) const {
+        return BaseType::send(arg1, arg2, arg3, arg4);
+    }
+
+    ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                           typename QEXTTypeTrait<T_arg2>::Take arg2,
+                           typename QEXTTypeTrait<T_arg3>::Take arg3,
+                           typename QEXTTypeTrait<T_arg4>::Take arg4) const {
+        return BaseType::sendReverse(arg1, arg2, arg3, arg4);
+    }
+
+    ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                          typename QEXTTypeTrait<T_arg2>::Take arg2,
+                          typename QEXTTypeTrait<T_arg3>::Take arg3,
+                          typename QEXTTypeTrait<T_arg4>::Take arg4) const {
+        return BaseType::send(arg1, arg2, arg3, arg4);
+    }
 };
 
 
@@ -2802,7 +2883,8 @@ class QEXTSignal <T_return, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, Q
         : public QEXTSignal3<T_return, T_arg1, T_arg2, T_arg3, QEXTNil>
 {
 public:
-    typedef QEXTSignal3<T_return, T_arg1, T_arg2, T_arg3, QEXTNil> BaseType;
+    typedef QEXTSignal3<T_return, T_arg1, T_arg2, T_arg3, QEXTNil>  BaseType;
+    typedef typename BaseType::ResultType                           ResultType;
 
     template <typename T_accumulator>
     class Accumulated : public QEXTSignal3<T_return, T_arg1, T_arg2, T_arg3, T_accumulator>
@@ -2814,6 +2896,24 @@ public:
 
     QEXTSignal() {}
     QEXTSignal(const QEXTSignal &src) : BaseType(src) {}
+
+    ResultType send(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                    typename QEXTTypeTrait<T_arg2>::Take arg2,
+                    typename QEXTTypeTrait<T_arg3>::Take arg3) const {
+        return BaseType::send(arg1, arg2, arg3);
+    }
+
+    ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                           typename QEXTTypeTrait<T_arg2>::Take arg2,
+                           typename QEXTTypeTrait<T_arg3>::Take arg3) const {
+        return BaseType::sendReverse(arg1, arg2, arg3);
+    }
+
+    ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                          typename QEXTTypeTrait<T_arg2>::Take arg2,
+                          typename QEXTTypeTrait<T_arg3>::Take arg3) const {
+        return BaseType::send(arg1, arg2, arg3);
+    }
 };
 
 template <typename T_return, typename T_arg1, typename T_arg2>
@@ -2821,7 +2921,8 @@ class QEXTSignal <T_return, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, 
         : public QEXTSignal2<T_return, T_arg1, T_arg2, QEXTNil>
 {
 public:
-    typedef QEXTSignal2<T_return, T_arg1, T_arg2, QEXTNil> BaseType;
+    typedef QEXTSignal2<T_return, T_arg1, T_arg2, QEXTNil>  BaseType;
+    typedef typename BaseType::ResultType                   ResultType;
 
     template <typename T_accumulator>
     class Accumulated : public QEXTSignal2<T_return, T_arg1, T_arg2, T_accumulator>
@@ -2833,6 +2934,21 @@ public:
 
     QEXTSignal() {}
     QEXTSignal(const QEXTSignal &src) : BaseType(src) {}
+
+    ResultType send(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                    typename QEXTTypeTrait<T_arg2>::Take arg2) const {
+        return BaseType::send(arg1, arg2);
+    }
+
+    ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                           typename QEXTTypeTrait<T_arg2>::Take arg2) const {
+        return BaseType::sendReverse(arg1, arg2);
+    }
+
+    ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1,
+                          typename QEXTTypeTrait<T_arg2>::Take arg2) const {
+        return BaseType::send(arg1, arg2);
+    }
 };
 
 
@@ -2841,7 +2957,8 @@ class QEXTSignal <T_return, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil,
         : public QEXTSignal1<T_return, T_arg1, QEXTNil>
 {
 public:
-    typedef QEXTSignal1<T_return, T_arg1, QEXTNil> BaseType;
+    typedef QEXTSignal1<T_return, T_arg1, QEXTNil>  BaseType;
+    typedef typename BaseType::ResultType           ResultType;
 
     template <typename T_accumulator>
     class Accumulated : public QEXTSignal1<T_return, T_arg1, T_accumulator>
@@ -2853,6 +2970,18 @@ public:
 
     QEXTSignal() {}
     QEXTSignal(const QEXTSignal &src) : BaseType(src) {}
+
+    ResultType send(typename QEXTTypeTrait<T_arg1>::Take arg1) const {
+        return BaseType::send(arg1);
+    }
+
+    ResultType sendReverse(typename QEXTTypeTrait<T_arg1>::Take arg1) const {
+        return BaseType::sendReverse(arg1);
+    }
+
+    ResultType operator()(typename QEXTTypeTrait<T_arg1>::Take arg1) const {
+        return BaseType::send(arg1);
+    }
 };
 
 template <typename T_return>
@@ -2861,6 +2990,7 @@ class QEXTSignal <T_return, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 {
 public:
     typedef QEXTSignal0<T_return, QEXTNil> BaseType;
+    typedef typename BaseType::ResultType  ResultType;
 
     template <typename T_accumulator>
     class Accumulated : public QEXTSignal0<T_return, T_accumulator>
@@ -2872,6 +3002,18 @@ public:
 
     QEXTSignal() {}
     QEXTSignal(const QEXTSignal &src) : BaseType(src) {}
+
+    ResultType send() const {
+        return BaseType::send();
+    }
+
+    ResultType sendReverse() const {
+        return BaseType::sendReverse();
+    }
+
+    ResultType operator()() const {
+        return BaseType::send();
+    }
 };
 
 

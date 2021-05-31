@@ -1,3 +1,4 @@
+﻿
 #include <qextargument.h>
 
 #include <QDebug>
@@ -14,6 +15,7 @@ class SlotBase
 {
 public:
     virtual void Exec(T1 param1) = 0;
+    virtual ~SlotBase() {}
 };
 
 template<class T, typename T1>
@@ -179,6 +181,8 @@ double average(int num,...)
 
 int main(int argc, char *argv[])
 {
+    Q_UNUSED(argc)
+    Q_UNUSED(argv)
     //    Test1 test = Test2();
     //    QEXTGenericArgument arg = QEXT_ARG(Test1, test);
     //    qWarning() << arg.name();

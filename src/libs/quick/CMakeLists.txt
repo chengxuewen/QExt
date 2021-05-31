@@ -22,7 +22,7 @@
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
 set(_lib_base_name QEXTQuick)
-set(QEXTQUICK_GENERATE_QMLTYPE_FILE ON)
+set(QEXTQUICK_GENERATE_QMLTYPE_FILE OFF)
 set(QEXTQUICK_NAME ${_lib_base_name})
 set(QEXTQUICK_VERSION_MAJOR 1)
 set(QEXTQUICK_VERSION_MINOR 2)
@@ -144,7 +144,9 @@ add_library(${_lib_base_name}
     ${_lib_resources}
     ${QEXTQUICK_CONFIG_FILE_PATH}
     )
-qextFunctionSetCompilerWarnings(${_lib_base_name})
+if (QEXT_BUILD_COMPILER_WARNING)
+    qextFunctionSetCompilerWarnings(${_lib_base_name})
+endif()
 target_link_libraries(${_lib_base_name} PUBLIC ${_lib_link_libraries})
 target_include_directories(${_lib_base_name} PUBLIC
     $<BUILD_INTERFACE:${QEXTQUICK_CONFIG_FILE_DIR}>
@@ -174,6 +176,9 @@ if(QEXTQUICK_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
     message(STATUS "----QEXT---- Enable create qml plugin ${_lib_base_name} plugin.qmltypes")
     add_dependencies(${_lib_base_name} qmlplugindump)
     set(QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE ${QEXT_APP_OUTPUT_DIR}/qmlplugindump)
+    if (WIN32)
+        set(QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE ${QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE}.exe)
+    endif()
     set(QEXTQUICK_MODULE_VERSION ${QEXTQUICK_VERSION_MAJOR}.${QEXTQUICK_VERSION_MINOR})
     set(QEXTQUICK_TYPEINFO_GENERATE_DIR ${QEXT_QML_OUTPUT_DIR}/${_lib_base_name})
     set(QEXTQUICK_PLUGIN_TYPEINFO_PATH ${QEXTQUICK_TYPEINFO_GENERATE_DIR}/plugin.qmltypes)

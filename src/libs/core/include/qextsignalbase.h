@@ -47,7 +47,7 @@ struct QEXT_CORE_API  QEXTSignalImpl
         if (!(--m_refCount)) {
             delete this;
         } else if (!(--m_execCount) && m_deferred) {
-            sweep();
+            this->sweep();
         }
     }
 
@@ -61,7 +61,7 @@ struct QEXT_CORE_API  QEXTSignalImpl
 
     bool isBlocked() const;
 
-    void block(bool shouldBlock = true);
+    void block(bool block = true);
 
     IteratorType connect(const QEXTSlotBase &slot);
     IteratorType insert(IteratorType iter, const QEXTSlotBase &slot);
@@ -94,23 +94,22 @@ struct QEXT_CORE_API QEXTSignalExec
 
 struct QEXT_CORE_API QEXTTempSlotList
 {
-    typedef QEXTSignalImpl::SlotList SlotList;
-    typedef QEXTSignalImpl::IteratorType iterator;
-    typedef QEXTSignalImpl::ConstIteratorType const_iterator;
+    typedef QEXTSignalImpl::SlotList            SlotList;
+    typedef QEXTSignalImpl::IteratorType        Iterator;
+    typedef QEXTSignalImpl::ConstIteratorType   ConstIterator;
 
     QEXTTempSlotList(SlotList &slotList) : m_slots(slotList) {
         placeholder = m_slots.insert(m_slots.end(), QEXTSlotBase());
     }
 
-    ~QEXTTempSlotList()
-    {
+    ~QEXTTempSlotList() {
         m_slots.erase(placeholder);
     }
 
-    iterator begin() { return m_slots.begin(); }
-    iterator end() { return placeholder; }
-    const_iterator begin() const { return m_slots.begin(); }
-    const_iterator end() const { return placeholder; }
+    Iterator begin() { return m_slots.begin(); }
+    Iterator end() { return placeholder; }
+    ConstIterator begin() const { return m_slots.begin(); }
+    ConstIterator end() const { return placeholder; }
 
 private:
     SlotList &m_slots;
@@ -122,7 +121,7 @@ private:
 
 struct QEXT_CORE_API QEXTSignalBase : public QEXTTrackable
 {
-    typedef std::size_t SizeType;
+    typedef std::size_t     SizeType;
 
     QEXTSignalBase();
     QEXTSignalBase(const QEXTSignalBase &src);
@@ -130,8 +129,7 @@ struct QEXT_CORE_API QEXTSignalBase : public QEXTTrackable
 
     QEXTSignalBase& operator = (const QEXTSignalBase &src);
 
-
-    inline bool empty() const {
+    bool isEmpty() const {
         return (!m_impl || m_impl->empty());
     }
 

@@ -2,26 +2,8 @@
 #define QEXTADAPTORTRAIT_H
 
 #include <qextfunctortrait.h>
-#include <qextreturntypededuce.h>
+#include <qextresulttypededuce.h>
 #include <qextvisitor.h>
-
-// Call either operator()<>() or sunForteWorkaround<>(),
-// depending on the compiler:
-//#ifdef QEXT_GCC_TEMPLATE_SPECIALIZATION_OPERATOR_OVERLOAD
-//#   define QEXT_WORKAROUND_OPERATOR_PARENTHESES template operator()
-//#   define QEXT_TEMPLATE_SPECIALIZATION_OPERATOR_OVERLOAD
-//#else
-//#   ifdef QEXT_MSVC_TEMPLATE_SPECIALIZATION_OPERATOR_OVERLOAD
-//#       define QEXT_WORKAROUND_OPERATOR_PARENTHESES operator()
-//#       define QEXT_TEMPLATE_SPECIALIZATION_OPERATOR_OVERLOAD
-//#   else
-//#       define QEXT_WORKAROUND_OPERATOR_PARENTHESES sunForteWorkaround
-//#   endif
-//#endif
-
-//#define QEXT_WORKAROUND_OPERATOR_PARENTHESES sunForteWorkaround
-#   define QEXT_WORKAROUND_OPERATOR_PARENTHESES template operator()
-//#   define QEXT_TEMPLATE_SPECIALIZATION_OPERATOR_OVERLOAD
 
 template <typename T_functor> struct QEXTAdapts;
 
@@ -31,55 +13,54 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
     typedef typename QEXTFunctorTrait<T_functor>::ResultType ResultType;
 
     template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              class T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
-    struct ReturnTypeDeduce
+              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    struct ResultTypeDeduce
     {
-        typedef typename QEXTReturnTypeDeduce<T_functor, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type Type;
+        typedef typename QEXTResultTypeDeduce<T_functor, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type Type;
     };
-
 
     ResultType operator()() const {
         return m_functor();
     }
 
     template <typename T_arg1>
-    typename ReturnTypeDeduce<T_arg1>::Type
+    typename ResultTypeDeduce<T_arg1>::Type
     operator()(T_arg1 arg1) const {
         return m_functor(arg1);
     }
 
     template <typename T_arg1, typename T_arg2>
-    typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
+    typename ResultTypeDeduce<T_arg1, T_arg2>::Type
     operator()(T_arg1 arg1, T_arg2 arg2) const {
         return m_functor(arg1, arg2);
     }
 
     template <typename T_arg1, typename T_arg2, typename T_arg3>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
+    typename ResultTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) const {
         return m_functor(arg1, arg2, arg3);
     }
 
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
+    typename ResultTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) const {
         return m_functor(arg1, arg2, arg3, arg4);
     }
 
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
+    typename ResultTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) const {
         return m_functor(arg1, arg2, arg3, arg4, arg5);
     }
 
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
+    typename ResultTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) const {
         return m_functor(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
+    typename ResultTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const {
         return m_functor(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }

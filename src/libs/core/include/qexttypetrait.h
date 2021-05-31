@@ -47,7 +47,6 @@ struct QEXTTypeTrait<void>
 };
 
 
-// From Esa Pulkkin:
 /**
  * Compile-time determination of base-class relationship in C++.
  *
@@ -81,7 +80,7 @@ private:
         char memory[64];
     };
 
-    //#ifndef SIGC_SELF_REFERENCE_IN_MEMBER_INITIALIZATION
+    //#ifndef SELF_REFERENCE_IN_MEMBER_INITIALIZATION
 #if 0
 
     //Allow the internal inner class to access the other (Big) inner class.
@@ -100,7 +99,7 @@ public:
             sizeof(InternalClass::isBaseClass(reinterpret_cast<typename QEXTTypeTrait<T_derived>::Pointer>(0))) ==
             sizeof(char);
 
-#else //SIGC_SELF_REFERENCE_IN_MEMBER_INITIALIZATION
+#else //SELF_REFERENCE_IN_MEMBER_INITIALIZATION
 
     //The AIX xlC compiler does not like these 2 functions being in the inner class.
     //It says "The incomplete type "test" must not be used as a qualifier.
@@ -113,7 +112,7 @@ public:
             sizeof(isBaseClass(reinterpret_cast<typename QEXTTypeTrait<T_derived>::Pointer>(0))) ==
             sizeof(char);
 
-#endif //SIGC_SELF_REFERENCE_IN_MEMBER_INITIALIZATION
+#endif //SELF_REFERENCE_IN_MEMBER_INITIALIZATION
 };
 
 template <typename T_base>

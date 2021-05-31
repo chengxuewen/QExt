@@ -66,10 +66,10 @@ bool QEXTSignalImpl::isBlocked() const
     return true;
 }
 
-void QEXTSignalImpl::block(bool shouldBlock)
+void QEXTSignalImpl::block(bool block)
 {
     for (IteratorType iter = m_slotList.begin(); iter != m_slotList.end(); ++iter) {
-        iter->block(shouldBlock);
+        iter->block(block);
     }
 }
 

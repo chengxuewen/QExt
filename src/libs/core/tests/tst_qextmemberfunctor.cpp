@@ -3,6 +3,18 @@
 #include <QtTest>
 #include <QDebug>
 
+
+class MYObject : public QObject
+{
+    Q_OBJECT
+public:
+    MYObject() {}
+
+    int intFunction1(int a1) {
+        return a1;
+    }
+};
+
 class MemberBase
 {
 public:
@@ -431,7 +443,6 @@ public:
     // const volatile
     virtual void voidConstVolatileFunction0() const volatile {
         qDebug() << "MemberBase::voidConstVolatileFunction0";
-        QVERIFY(true);
     }
     virtual void voidConstVolatileFunction1(int a1) const volatile {
         qDebug() << "MemberBase::voidConstVolatileFunction1:" << a1;
@@ -578,7 +589,6 @@ public:
 
     void voidFunction0() {
         qDebug() << "Member::voidFunction0";
-        QVERIFY(true);
     }
     void voidFunction1(int a1) {
         qDebug() << "Member::voidFunction1:" << a1;
@@ -818,7 +828,6 @@ public:
     // const function
     void voidConstFunction0() const {
         qDebug() << "Member::voidConstFunction0";
-        QVERIFY(true);
     }
     void voidConstFunction1(int a1) const {
         qDebug() << "Member::voidConstFunction1:" << a1;
@@ -1057,7 +1066,6 @@ public:
     // volatile function
     void voidVolatileFunction0() volatile {
         qDebug() << "Member::voidVolatileFunction0";
-        QVERIFY(true);
     }
     void voidVolatileFunction1(int a1) volatile {
         qDebug() << "Member::voidVolatileFunction1:" << a1;
@@ -1297,7 +1305,6 @@ public:
     // const volatile
     void voidConstVolatileFunction0() const volatile {
         qDebug() << "Member::voidConstVolatileFunction0";
-        QVERIFY(true);
     }
     void voidConstVolatileFunction1(int a1) const volatile {
         qDebug() << "Member::voidConstVolatileFunction1:" << a1;
@@ -1538,6 +1545,8 @@ class QEXTMemberFunctorTest : public QObject
 {
     Q_OBJECT
 private slots:
+    void testQObjectFunctor();
+
     void testFunctorWith0Arg();
     void testPolymorphismFunctorWith0Arg();
     void testConstFunctorWith0Arg();
@@ -1691,6 +1700,16 @@ protected slots:
 };
 
 
+
+void QEXTMemberFunctorTest::testQObjectFunctor()
+{
+    MYObject object;
+    QEXTMemberFunctor<int, MYObject, int> intQObjectMemberFunctor = qextMemberFunctor(&MYObject::intFunction1);
+    QVERIFY(1 == intQObjectMemberFunctor(&object, 1));
+
+    QEXTBoundMemberFunctor<int, MYObject, int> intBoundQObjectMemberFunctor = qextMemberFunctor(&object, &MYObject::intFunction1);
+    QVERIFY(1 == intBoundQObjectMemberFunctor(1));
+}
 
 void QEXTMemberFunctorTest::testFunctorWith0Arg()
 {

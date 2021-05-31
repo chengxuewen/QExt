@@ -18,50 +18,68 @@ private Q_SLOTS:
 
 void QEXTDateTimeUtilsTest::sleep1msTest()
 {
+#ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
     QEXTDateTimeUtils::mSleep(1);
-    QVERIFY(qAbs(timer.elapsed() - 1) <= 1);
+    qint64 elapse = timer.elapsed();
+    QVERIFY2(qAbs(timer.elapsed() - 1) <= 1, QString::number(elapse).toLatin1().data());
+#endif
 }
 
 void QEXTDateTimeUtilsTest::sleep2msTest()
 {
+#ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
     QEXTDateTimeUtils::mSleep(2);
-    QVERIFY(qAbs(timer.elapsed() - 2) <= 1);
+    qint64 elapse = timer.elapsed();
+    QVERIFY2(qAbs(timer.elapsed() - 2) <= 1, QString::number(elapse).toLatin1().data());
+#endif
 }
 
 void QEXTDateTimeUtilsTest::sleep5msTest()
 {
+#ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
     QEXTDateTimeUtils::mSleep(5);
-    QVERIFY(qAbs(timer.elapsed() - 5) <= 1);
+    qint64 elapse = timer.elapsed();
+    QVERIFY2(qAbs(timer.elapsed() - 5) <= 1, QString::number(elapse).toLatin1().data());
+#endif
 }
 
 void QEXTDateTimeUtilsTest::sleep10msTest()
 {
+#ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
     QEXTDateTimeUtils::mSleep(10);
-    QVERIFY(qAbs(timer.elapsed() - 10) <= 1);
+    qint64 elapse = timer.elapsed();
+    QVERIFY2(qAbs(elapse - 10) <= 2, QString::number(elapse).toLatin1().data());
+#endif
 }
 
 void QEXTDateTimeUtilsTest::sleep20msTest()
 {
+#ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
     QEXTDateTimeUtils::mSleep(20);
-    QVERIFY(qAbs(timer.elapsed() - 20) <= 1);
+    qint64 elapse = timer.elapsed();
+    QVERIFY2(qAbs(elapse - 20) <= 2, QString::number(elapse).toLatin1().data());
+#endif
 }
 
 void QEXTDateTimeUtilsTest::sleep500msTest()
 {
+#ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
     QEXTDateTimeUtils::mSleep(500);
-    QVERIFY(qAbs(timer.elapsed() - 500) <= 1);
+    qint64 elapse = timer.elapsed();
+    QVERIFY2(qAbs(elapse - 500) <= 1, QString::number(elapse).toLatin1().data());
+#endif
 }
 
 QTEST_APPLESS_MAIN(QEXTDateTimeUtilsTest)

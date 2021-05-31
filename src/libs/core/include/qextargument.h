@@ -3,12 +3,10 @@
 
 #include <qextglobal.h>
 
-
-
 #define QEXT_ARG(type, data) QEXTArgument<type>(#type, data)
 #define QEXT_RETURN_ARG(type, data) QReturnArgument<type>(#type, data)
 
-class QEXT_CORE_API QEXTGenericArgument
+class QEXTGenericArgument
 {
 public:
     inline QEXTGenericArgument(const char *name = QEXT_NULLPTR, const void *data = QEXT_NULLPTR)
@@ -23,7 +21,7 @@ private:
 
 
 
-class QEXT_CORE_API QEXTGenericReturnArgument: public QEXTGenericArgument
+class QEXTGenericReturnArgument: public QEXTGenericArgument
 {
 public:
     inline QEXTGenericReturnArgument(const char *name = QEXT_NULLPTR, void *data = QEXT_NULLPTR)
@@ -33,7 +31,7 @@ public:
 
 
 template <typename T>
-class QEXT_CORE_API QEXTArgument: public QEXTGenericArgument
+class QEXTArgument: public QEXTGenericArgument
 {
 public:
     inline QEXTArgument(const char *name, const T &data)
@@ -44,7 +42,7 @@ public:
 
 
 template <typename T>
-class QEXT_CORE_API QEXTArgument<T &>: public QEXTGenericArgument
+class QEXTArgument<T &>: public QEXTGenericArgument
 {
 public:
     inline QEXTArgument(const char *name, T &data)
@@ -53,9 +51,8 @@ public:
 };
 
 
-
 template <typename T>
-class QEXT_CORE_API QEXTReturnArgument: public QEXTGenericReturnArgument
+class QEXTReturnArgument: public QEXTGenericReturnArgument
 {
 public:
     inline QEXTReturnArgument(const char *name, T &data)

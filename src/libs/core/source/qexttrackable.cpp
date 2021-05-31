@@ -1,5 +1,7 @@
 #include "qexttrackable.h"
 
+#include <QDebug>
+
 namespace qextinternal {
 
 QEXTTrackableCallbackList::~QEXTTrackableCallbackList()
@@ -15,20 +17,27 @@ QEXTTrackableCallbackList::~QEXTTrackableCallbackList()
 
 void QEXTTrackableCallbackList::addCallback(void *data, QEXTDestroyNotifyFunctionType func)
 {
+    // TODO: Is it okay to silently ignore attempts to add dependencies when the list is being cleared?
+    //       I'd consider this a serious application bug, since the app is likely to segfault.
+    //       But then, how should we handle it? Throw an exception?
     if (!m_clearing) {
-        m_callbacks.push_back(QEXTTrackableCallback(data, func));
+        m_callbacks.append(QEXTTrackableCallback(data, func));
     }
 }
 
 void QEXTTrackableCallbackList::removeCallback(void *data)
 {
-    for (CallbackList::iterator iter = m_callbacks.begin(); iter != m_callbacks.end(); ++iter) {
-        if ((*iter).data == data && (*iter).func != QEXT_NULLPTR) {
-            if (m_clearing) {
-                (*iter).func = QEXT_NULLPTR;
-            } else {
-                m_callbacks.erase(iter);
-                return;
+    if (!m_callbacks.isEmpty()) {
+        for (CallbackList::iterator iter = m_callbacks.begin(); iter != m_callbacks.end(); ++iter) {
+            if ((*iter).data == data && (*iter).func != QEXT_NULLPTR) {
+                //Don't remove a list element while the list is being cleared.
+                //It could invalidate the iterator in ~trackable_callback_list() or clear().
+                if (m_clearing) {
+                    (*iter).func = QEXT_NULLPTR;
+                } else {
+                    m_callbacks.erase(iter);
+                    return;
+                }
             }
         }
     }
@@ -55,8 +64,9 @@ QEXTTrackable::QEXTTrackable()
 
 }
 
-/* Don't copy the notification list.
-   The objects watching src don't need to be notified when the new object dies. */
+/** Don't copy the notification list.
+ * The objects watching src don't need to be notified when the new object dies.
+ */
 QEXTTrackable::QEXTTrackable(const QEXTTrackable &src)
     : m_callbackList(QEXT_NULLPTR)
 {

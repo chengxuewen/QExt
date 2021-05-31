@@ -17,8 +17,6 @@
 #cmakedefine QEXT_SYSTEM_DARWIN
 #cmakedefine QEXT_SYSTEM_WIN
 #cmakedefine QEXT_SYSTEM_WINCE
-#cmakedefine QEXT_SYSTEM_AIX
-#cmakedefine QEXT_SYSTEM_FREEBSD
 #cmakedefine QEXT_SYSTEM_QNX
 #cmakedefine QEXT_SYSTEM_UNKNOWN
 
@@ -27,12 +25,6 @@
 #cmakedefine QEXT_CXX_COMPILER_CLANG_APPLE
 #cmakedefine QEXT_CXX_COMPILER_CLANG
 #cmakedefine QEXT_CXX_COMPILER_GNU
-#cmakedefine QEXT_CXX_COMPILER_BORLAND
-#cmakedefine QEXT_CXX_COMPILER_HP
-#cmakedefine QEXT_CXX_COMPILER_FORTRAN
-#cmakedefine QEXT_CXX_COMPILER_PGI
-#cmakedefine QEXT_CXX_COMPILER_XL
-#cmakedefine QEXT_CXX_COMPILER_SUN
 #cmakedefine QEXT_CXX_COMPILER_UNKNOWN
 
 #cmakedefine QEXT_ARCH_32

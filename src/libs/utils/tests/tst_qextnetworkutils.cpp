@@ -26,7 +26,7 @@ void QEXTNetworkUtilsTest::qint16TransTest()
     QVERIFY("0012" == netValue1ByteArray.toHex());
     QVERIFY("ffee" == netValue2ByteArray.toHex());
 
-    int size = sizeof(qint16);
+    const int size = sizeof(qint16);
     char netValue1Ch1[size];
     memset(netValue1Ch1, 0, size);
     QEXTNetworkUtils::qint16HostToNet(value1, netValue1Ch1);
@@ -51,7 +51,7 @@ void QEXTNetworkUtilsTest::quint16TransTest()
     QVERIFY("0012" == netValue1ByteArray.toHex());
     QVERIFY("1122" == netValue2ByteArray.toHex());
 
-    int size = sizeof(quint16);
+    const int size = sizeof(quint16);
     char netValue1Ch1[size];
     memset(netValue1Ch1, 0, size);
     QEXTNetworkUtils::quint16HostToNet(value1, netValue1Ch1);
@@ -81,13 +81,13 @@ void QEXTNetworkUtilsTest::qint32TransTest()
     QVERIFY("ffeeddcd" == netValue3ByteArray.toHex());
 
     int size = sizeof(qint32);
-    char netValue1Ch1[size];
+    char netValue1Ch1[sizeof(qint32)];
     memset(netValue1Ch1, 0, size);
     QEXTNetworkUtils::qint32HostToNet(value1, netValue1Ch1);
-    char netValue1Ch2[size];
+    char netValue1Ch2[sizeof(qint32)];
     memset(netValue1Ch2, 0, size);
     QEXTNetworkUtils::qint32HostToNet(value2, netValue1Ch2);
-    char netValue1Ch3[size];
+    char netValue1Ch3[sizeof(qint32)];
     memset(netValue1Ch3, 0, size);
     QEXTNetworkUtils::qint32HostToNet(value3, netValue1Ch3);
     QVERIFY("00112233" == QByteArray(netValue1Ch1, size).toHex());
@@ -112,10 +112,10 @@ void QEXTNetworkUtilsTest::quint32TransTest()
     QVERIFY("11223344" == netValue2ByteArray.toHex());
 
     int size = sizeof(quint32);
-    char netValue1Ch1[size];
+    char netValue1Ch1[sizeof(quint32)];
     memset(netValue1Ch1, 0, size);
     QEXTNetworkUtils::quint32HostToNet(value1, netValue1Ch1);
-    char netValue1Ch2[size];
+    char netValue1Ch2[sizeof(quint32)];
     memset(netValue1Ch2, 0, size);
     QEXTNetworkUtils::quint32HostToNet(value2, netValue1Ch2);
     QVERIFY("00112233" == QByteArray(netValue1Ch1, size).toHex());
@@ -140,13 +140,13 @@ void QEXTNetworkUtilsTest::qint64TransTest()
     QVERIFY("ffeeddccbbaa9989" == netValue3ByteArray.toHex());
 
     int size = sizeof(qint64);
-    char netValue1Ch1[size];
+    char netValue1Ch1[sizeof(qint64)];
     memset(netValue1Ch1, 0, size);
     QEXTNetworkUtils::qint64HostToNet(value1, netValue1Ch1);
-    char netValue1Ch2[size];
+    char netValue1Ch2[sizeof(qint64)];
     memset(netValue1Ch2, 0, size);
     QEXTNetworkUtils::qint64HostToNet(value2, netValue1Ch2);
-    char netValue1Ch3[size];
+    char netValue1Ch3[sizeof(qint64)];
     memset(netValue1Ch3, 0, size);
     QEXTNetworkUtils::qint64HostToNet(value3, netValue1Ch3);
     QVERIFY("0011223344556677" == QByteArray(netValue1Ch1, size).toHex());
@@ -170,7 +170,7 @@ void QEXTNetworkUtilsTest::quint64TransTest()
     QVERIFY("0011223344556677" == netValue1ByteArray.toHex());
     QVERIFY("1122334455667788" == netValue2ByteArray.toHex());
 
-    int size = sizeof(quint64);
+    const int size = sizeof(quint64);
     char netValue1Ch1[size];
     memset(netValue1Ch1, 0, size);
     QEXTNetworkUtils::quint64HostToNet(value1, netValue1Ch1);

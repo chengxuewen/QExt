@@ -112,9 +112,21 @@ void writeBinderData(QEXTQuickThemeBinder *pBinder, QJsonObject &jsonObject) {
                 }
 
                 // remove data equal to low priority theme binder json obj
-                foreach (QJsonObject jsonObject, listLowPriorityBinderJsonObject) {
-                    if (jsonObject.contains(strKey)) {
-                        if (jsonObject.value(strKey) == value) {
+//                QListIterator<QJsonObject> iter(listLowPriorityBinderJsonObject);
+//                while (iter.hasNext()) {
+//                    QJsonObject jsonObject = iter.next();
+//                    if (jsonObject.contains(strKey)) {
+//                        if (jsonObject.value(strKey) == value) {
+//                            binderJsonObject.remove(strKey);
+//                            break;
+//                        }
+//                    }
+//                }
+                QList<QJsonObject>::iterator iter;
+                for (iter = listLowPriorityBinderJsonObject.begin(); iter != listLowPriorityBinderJsonObject.end(); ++iter) {
+//                    QJsonObject jsonObject = *iter;
+                    if ((*iter).contains(strKey)) {
+                        if ((*iter).value(strKey) == value) {
                             binderJsonObject.remove(strKey);
                             break;
                         }
@@ -175,7 +187,9 @@ bool QEXTQuickThemeJsonFileParser::parseThemeFile(const QString &strPath, QMap<Q
     if (themeJsonObject.contains(QEXTQuickThemeConstant::THEME_THEME_KEY) && themeJsonObject[QEXTQuickThemeConstant::THEME_THEME_KEY].isObject()) {
         QJsonObject jsonObjectClass = themeJsonObject[QEXTQuickThemeConstant::THEME_THEME_KEY].toObject();
         QStringList listThemeFieldKey = jsonObjectClass.keys();
-        foreach (QString strFieldKey, listThemeFieldKey) {
+        QListIterator<QString> iter(listThemeFieldKey);
+        while (iter.hasNext()) {
+            QString strFieldKey = iter.next();
             QVariantMap mapField = themeDataMap.value(strFieldKey);
             QJsonObject jsonObjectBinder = jsonObjectClass.value(strFieldKey).toObject();
             QStringList listPropertyKey = jsonObjectBinder.keys();

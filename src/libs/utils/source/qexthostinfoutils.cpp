@@ -456,7 +456,7 @@ void QEXTHostInfoUtils::queryDiskInfo()
     QEXT_D(QEXTHostInfoUtils);
 #ifdef Q_OS_WIN
     QFileInfoList listInfo = QDir::drives();
-    QList<QEXTDiskInfoUtils> listDiskInfo;
+    QList<QEXTDiskInfo> listDiskInfo;
     foreach (QFileInfo dir, listInfo) {
         QString strDirName = dir.absolutePath();
         LPCSTR lpcwstrDriver = (LPCSTR)strDirName.utf16();
@@ -469,7 +469,7 @@ void QEXTHostInfoUtils::queryDiskInfo()
             QString strAllSize = QString::number((double) liTotalBytes.QuadPart / QEXT_GB, 'f', 1);
             strAllSize += "G";
             double dPercent = 100 - ((double)liTotalFreeBytes.QuadPart / liTotalBytes.QuadPart) * 100;
-            QEXTDiskInfoUtils diskInfo;
+            QEXTDiskInfo diskInfo;
             diskInfo.setName(strDirName);
             diskInfo.setUsedSize(strUsedSize);
             diskInfo.setFreeSize(strFreeSize);

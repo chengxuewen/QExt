@@ -2,10 +2,10 @@
 #include <string>
 #include <QDebug>
 
-#include <qextfunctor.h>
+#include <qextpointerfunctor.h>
 #include <qextmemberfunctor.h>
-#include <qextbindreturn.h>
-#include <qextbind.h>
+#include <qextbindreturnfunctor.h>
+#include <qextbindfunctor.h>
 
 
 int funcCallback()
@@ -73,22 +73,22 @@ int main()
     MemberBase memberBase2(2);
     Member member1(1);
 
-//    QEXTFunctor<int> ff = qextFunctor(&funcCallback);
+//    QEXTPointerFunctor<int> ff = qextPointerFunctor(&funcCallback);
     //    ff();
 
-//    QEXTBindReturnFunctor<int, QEXTFunctor<int> > bindReturnFunctor(ff, 0);
+//    QEXTBindReturnFunctor<int, QEXTPointerFunctor<int> > bindReturnFunctor(ff, 0);
 //    qDebug() << "bindReturnFunctor=" << bindReturnFunctor();
 
-//    QEXTFunctor<void> f1 = qextFunctor(&funcCallback0);
-//    QEXTFunctor<void, int> f2 = qextFunctor(&funcCallback1);
-//    QEXTFunctor<void, int, int> f3 = qextFunctor(&funcCallback2);
+//    QEXTPointerFunctor<void> f1 = qextPointerFunctor(&funcCallback0);
+//    QEXTPointerFunctor<void, int> f2 = qextPointerFunctor(&funcCallback1);
+//    QEXTPointerFunctor<void, int, int> f3 = qextPointerFunctor(&funcCallback2);
 //    f1();
 //    f2(1);
 //    f3(1, 2);
 
-    qextBind(&funcCallback2, 11)(22);
-    qextBind<0>(&funcCallback2, 11)(22);
-    qextBind<-1>(&funcCallback2, 11)(22);
+    qextBindFunctor(&funcCallback2, 11)(22);
+    qextBindFunctor<0>(&funcCallback2, 11)(22);
+    qextBindFunctor<-1>(&funcCallback2, 11)(22);
 
 
 //    QEXTMemberFunctor<void, MemberBase> functor1 = qextMemberFunctor(&MemberBase::funcCallback);

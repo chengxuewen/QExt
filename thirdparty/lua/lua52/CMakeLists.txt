@@ -157,11 +157,11 @@ target_include_directories(luac${_lib_version} PRIVATE
     )
 
 
-# On windows a variant of the lua interpreter without console output needs to be built
-if(LUA_BUILD_WLUA)
-    add_executable(wlua${_lib_version} WIN32
-        src/wmain.c
-        ${_lua_source}
-        )
-    target_link_libraries(wlua${_lib_version} ${_lib_name})
-endif()
+## On windows a variant of the lua interpreter without console output needs to be built
+#if(LUA_BUILD_WLUA)
+#    add_executable(wlua${_lib_version} WIN32
+#        src/wmain.c
+#        ${_lua_source}
+#        )
+#    target_link_libraries(wlua${_lib_version} ${_lib_name})
+#endif()

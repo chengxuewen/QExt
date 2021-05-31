@@ -26,12 +26,12 @@ struct QEXTConstReferenceWrapper
 };
 
 template <typename T_type>
-QEXTReferenceWrapper<T_type> qextCreateReferenceWrapper(T_type &value) {
+QEXTReferenceWrapper<T_type> qextReferenceWrapper(T_type &value) {
     return QEXTReferenceWrapper<T_type>(value);
 }
 
 template <typename T_type>
-QEXTConstReferenceWrapper<T_type> qextCreateReferenceWrapper(const T_type &value) {
+QEXTConstReferenceWrapper<T_type> qextReferenceWrapper(const T_type &value) {
     return QEXTConstReferenceWrapper<T_type>(value);
 }
 

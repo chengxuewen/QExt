@@ -470,8 +470,8 @@ template <typename T_return, typename T_obj>
 class QEXTMemberFunctor<T_return, T_obj, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil>
         : public QEXTMemberFunctor0<T_return, T_obj>
 {
-    typedef QEXTMemberFunctor0<T_return, T_obj> BaseType;
 public:
+    typedef QEXTMemberFunctor0<T_return, T_obj> BaseType;
     typedef typename BaseType::FunctionType FunctionType;
     typedef typename BaseType::ResultType ResultType;
 

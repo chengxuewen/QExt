@@ -8,8 +8,6 @@
 
 #include <QObject>
 
-
-
 class QEXTHostInfoUtilsPrivate;
 class QEXT_UTILS_API QEXTHostInfoUtils : public QObject, public QEXTObject
 {

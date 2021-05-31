@@ -3,52 +3,52 @@
 
 namespace qextinternal {
 
-QEXTSlotRepresentation::QEXTSlotRepresentation(HookFunctionType call, HookFunctionType destroy, HookFunctionType deepCopy)
+QEXTSlotRep::QEXTSlotRep(HookFunctionType call, HookFunctionType destroy, HookFunctionType deepCopy)
     : m_call(call), m_destroy(destroy), m_deepCopy(deepCopy), m_cleanup(QEXT_NULLPTR), m_parent(QEXT_NULLPTR)
 {
 
 }
 
-QEXTSlotRepresentation::~QEXTSlotRepresentation()
+QEXTSlotRep::~QEXTSlotRep()
 {
     this->destroy();
 }
 
 #ifdef Q_CC_MSVC
-void *QEXTSlotRepresentation::operator new(size_t size)
+void *QEXTSlotRep::operator new(size_t size)
 {
     return malloc(size);
 }
 
-void QEXTSlotRepresentation::operator delete(void *p)
+void QEXTSlotRep::operator delete(void *p)
 {
     free(p);
 }
 #endif
 
-void QEXTSlotRepresentation::destroy()
+void QEXTSlotRep::destroy()
 {
     if (m_destroy) {
         (*m_destroy)(this);
     }
 }
 
-QEXTSlotRepresentation *QEXTSlotRepresentation::deepCopy() const
+QEXTSlotRep *QEXTSlotRep::deepCopy() const
 {
-    return reinterpret_cast<QEXTSlotRepresentation*>((*m_deepCopy)(const_cast<QEXTSlotRepresentation*>(this)));
+    return reinterpret_cast<QEXTSlotRep*>((*m_deepCopy)(const_cast<QEXTSlotRep*>(this)));
 }
 
-void QEXTSlotRepresentation::setParent(void *parent, HookFunctionType cleanup)
+void QEXTSlotRep::setParent(void *parent, HookFunctionType cleanup)
 {
     m_parent = parent;
     m_cleanup = cleanup;
 }
 
-void QEXTSlotRepresentation::disconnect()
+void QEXTSlotRep::disconnect()
 {
     if (m_parent) {
         m_call = QEXT_NULLPTR;          // Invalidate the slot.
-        // _Must_ be done here because parent_ might defer the actual
+        // Must be done here because m_parent might defer the actual
         // destruction of the slot_rep and try to invoke it before that point.
         void *data = m_parent;
         m_parent = QEXT_NULLPTR;        // Just a precaution.
@@ -58,7 +58,7 @@ void QEXTSlotRepresentation::disconnect()
     }
 }
 
-void *QEXTSlotRepresentation::notify(void *data)
+void *QEXTSlotRep::notify(void *data)
 {
     struct DestroyNotify
     {
@@ -73,18 +73,17 @@ void *QEXTSlotRepresentation::notify(void *data)
         bool m_deleted;
     };
 
-    QEXTSlotRepresentation *self = reinterpret_cast<QEXTSlotRepresentation *>(data);
+    QEXTSlotRep *self = reinterpret_cast<QEXTSlotRep *>(data);
     self->m_call = QEXT_NULLPTR; // Invalidate the slot.
 
     // Make sure we are notified if disconnect() deletes m_self, which is trackable.
     DestroyNotify notifier;
     self->addDestroyNotifyCallback(&notifier, DestroyNotify::notify);
     self->disconnect(); // Disconnect the slot (might lead to deletion of m_self!).
-    // If m_self has been deleted, the destructor has called destroy().
+    // If self has been deleted, the destructor has called destroy().
     if (!notifier.m_deleted) {
         self->removeDestroyNotifyCallback(&notifier);
         self->destroy(); // Detach the stored functor from the other referred trackables and destroy it.
-        // destroy() might lead to deletion of m_self. Bug #564005.
     }
     return QEXT_NULLPTR;
 }
@@ -96,29 +95,27 @@ void *QEXTSlotRepresentation::notify(void *data)
 
 
 QEXTSlotBase::QEXTSlotBase()
-    : m_slotRep(QEXT_NULLPTR),
-      m_blocked(false)
+    : m_blocked(false)
 {
 
 }
 
 QEXTSlotBase::QEXTSlotBase(QEXTSlotBase::SlotRepType *rep)
-    : m_slotRep(rep),
-      m_blocked(false)
+    : m_blocked(false),
+      m_slotRep(rep)
 {
 
 }
 
 QEXTSlotBase::QEXTSlotBase(const QEXTSlotBase &src)
-    : m_slotRep(QEXT_NULLPTR),
-      m_blocked(src.m_blocked)
+    : m_blocked(src.m_blocked)
 {
-    if (src.m_slotRep) {
+    if (!src.m_slotRep.isNull()) {
         //Check call_ so we can ignore invalidated slots.
         //Otherwise, destroyed bound reference parameters (whose destruction caused the slot's invalidation) may be used during dup().
         //Note: I'd prefer to check somewhere during dup(). murrayc.
         if (src.m_slotRep->m_call) {
-            m_slotRep = src.m_slotRep->deepCopy();
+            m_slotRep.reset(src.m_slotRep->deepCopy());
         } else {
             *this = QEXTSlotBase(); //Return the default invalid slot.
         }
@@ -127,14 +124,12 @@ QEXTSlotBase::QEXTSlotBase(const QEXTSlotBase &src)
 
 QEXTSlotBase::~QEXTSlotBase()
 {
-    if (m_slotRep) {
-        delete m_slotRep;
-    }
+
 }
 
 QEXTSlotBase::operator bool() const
 {
-    return QEXT_NULLPTR != m_slotRep;
+    return !m_slotRep.isNull();
 }
 
 QEXTSlotBase &QEXTSlotBase::operator=(const QEXTSlotBase &src)
@@ -148,38 +143,38 @@ QEXTSlotBase &QEXTSlotBase::operator=(const QEXTSlotBase &src)
     }
 
     SlotRepType *newSlotRep = src.m_slotRep->deepCopy();
-    if (m_slotRep) {             // Silently exchange the slot_rep.
+    if (!m_slotRep.isNull()) {
         newSlotRep->setParent(m_slotRep->m_parent, m_slotRep->m_cleanup);
-        delete m_slotRep;
+        m_slotRep.reset(QEXT_NULLPTR);
     }
-    m_slotRep = newSlotRep;
+    m_slotRep.reset(newSlotRep);
     return *this;
 }
 
 void QEXTSlotBase::setParent(void *parent, void *(*cleanup)(void *)) const
 {
-    if (m_slotRep) {
+    if (!m_slotRep.isNull()) {
         m_slotRep->setParent(parent, cleanup);
     }
 }
 
 void QEXTSlotBase::addDestroyNotifyCallback(void *data, QEXTSlotBase::DestroyNotifyFunc func) const
 {
-    if (m_slotRep) {
+    if (!m_slotRep.isNull()) {
         m_slotRep->addDestroyNotifyCallback(data, func);
     }
 }
 
 void QEXTSlotBase::removeDestroyNotifyCallback(void *data) const
 {
-    if (m_slotRep) {
+    if (!m_slotRep.isNull()) {
         m_slotRep->removeDestroyNotifyCallback(data);
     }
 }
 
 bool QEXTSlotBase::isEmpty() const
 {
-    return (!m_slotRep || !m_slotRep->m_call);
+    return m_slotRep.isNull() || (QEXT_NULLPTR == m_slotRep->m_call);
 }
 
 bool QEXTSlotBase::isBlocked() const
@@ -201,7 +196,7 @@ bool QEXTSlotBase::unblock()
 
 void QEXTSlotBase::disconnect()
 {
-    if (m_slotRep) {
+    if (!m_slotRep.isNull()) {
         m_slotRep->disconnect();
     }
 }
