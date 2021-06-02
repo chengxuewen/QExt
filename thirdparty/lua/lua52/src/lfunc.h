@@ -1,7 +1,7 @@
 /*
 ** $Id: lfunc.h,v 2.8.1.1 2013/04/12 18:48:47 roberto Exp $
 ** Auxiliary functions to manipulate prototypes and closures
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua52.h
 */
 
 #ifndef lfunc_h

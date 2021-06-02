@@ -1,7 +1,7 @@
 /*
 ** $Id: ldump.c,v 2.37.1.1 2017/04/19 17:20:42 roberto Exp $
 ** save precompiled Lua chunks
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua53.h
 */
 
 #define ldump_c
@@ -12,7 +12,7 @@
 
 #include <stddef.h>
 
-#include "lua.h"
+#include "lua53.h"
 
 #include "lobject.h"
 #include "lstate.h"

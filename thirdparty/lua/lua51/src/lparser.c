@@ -1,7 +1,7 @@
 /*
 ** $Id: lparser.c,v 2.42.1.4 2011/10/21 19:31:42 roberto Exp $
 ** Lua Parser
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua51.h
 */
 
 
@@ -10,7 +10,7 @@
 #define lparser_c
 #define LUA_CORE
 
-#include "lua.h"
+#include "lua51.h"
 
 #include "lcode.h"
 #include "ldebug.h"

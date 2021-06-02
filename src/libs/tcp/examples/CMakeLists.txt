@@ -56,9 +56,9 @@ list(APPEND _example_link_libraries QEXTTcp)
 
 
 #--------------------------------------------------------------------------------
-# Add QEXTTcpSimpleServer example
+# Add ex_qextTcpSimpleServer example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTTcpSimpleServer)
+set(_example_name ex_qextTcpSimpleServer)
 set(_example_headers
     simpleServer/smainwindow.h
     )
@@ -83,9 +83,9 @@ set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 
 
 #--------------------------------------------------------------------------------
-# Set QEXTTcpSimpleClient example
+# Set ex_qextTcpSimpleClient example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTTcpSimpleClient)
+set(_example_name ex_qextTcpSimpleClient)
 set(_example_headers
     simpleClient/cmainwindow.h
     )

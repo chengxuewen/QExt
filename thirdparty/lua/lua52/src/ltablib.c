@@ -1,7 +1,7 @@
 /*
 ** $Id: ltablib.c,v 1.65.1.2 2014/05/07 16:32:55 roberto Exp $
 ** Library for Table Manipulation
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua52.h
 */
 
 
@@ -11,10 +11,10 @@
 #define ltablib_c
 #define LUA_LIB
 
-#include "lua.h"
+#include "lua52.h"
 
-#include "lauxlib.h"
-#include "lualib.h"
+#include "lauxlib52.h"
+#include "lualib52.h"
 
 
 #define aux_getn(L,n)	(luaL_checktype(L, n, LUA_TTABLE), luaL_len(L, n))

@@ -1,7 +1,7 @@
 /*
 ** $Id: ldebug.c,v 2.121.1.2 2017/07/10 17:21:50 roberto Exp $
 ** Debug Interface
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua53.h
 */
 
 #define ldebug_c
@@ -14,7 +14,7 @@
 #include <stddef.h>
 #include <string.h>
 
-#include "lua.h"
+#include "lua53.h"
 
 #include "lapi.h"
 #include "lcode.h"

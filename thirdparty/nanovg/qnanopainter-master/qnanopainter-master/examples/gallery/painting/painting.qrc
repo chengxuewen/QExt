@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/painting">
-        <file>main.qml</file>
-    </qresource>
-</RCC>

@@ -1,7 +1,7 @@
 /*
 ** $Id: luac.c,v 1.54 2006/06/02 17:37:11 lhf Exp $
 ** Lua compiler (saves bytecodes to files; also list bytecodes)
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua51.h
 */
 
 #include <errno.h>
@@ -12,8 +12,8 @@
 #define luac_c
 #define LUA_CORE
 
-#include "lua.h"
-#include "lauxlib.h"
+#include "lua51.h"
+#include "lauxlib51.h"
 
 #include "ldo.h"
 #include "lfunc.h"

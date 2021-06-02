@@ -1,7 +1,7 @@
 /*
 ** $Id: lopcodes.h,v 1.149.1.1 2017/04/19 17:20:42 roberto Exp $
 ** Opcodes for Lua virtual machine
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua53.h
 */
 
 #ifndef lopcodes_h

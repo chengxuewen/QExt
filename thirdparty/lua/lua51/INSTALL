@@ -34,7 +34,7 @@ INSTALL for Lua 5.1
   follows:
 
     bin:	lua luac
-    include:	lua.h luaconf.h lualib.h lauxlib.h lua.hpp
+    include:	lua51.h luaconf.h lualib51.h lauxlib51.h lua.hpp
     lib:	liblua.a
     man/man1:	lua.1 luac.1
 

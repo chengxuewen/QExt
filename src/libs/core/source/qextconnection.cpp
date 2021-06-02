@@ -46,7 +46,7 @@ bool QEXTConnection::isBlocked() const
 
 bool QEXTConnection::block(bool block)
 {
-    return (m_slot ? m_slot->block(block) : false);
+    return (m_slot ? m_slot->setBlock(block) : false);
 }
 
 bool QEXTConnection::unblock()

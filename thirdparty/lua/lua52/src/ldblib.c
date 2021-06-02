@@ -1,7 +1,7 @@
 /*
 ** $Id: ldblib.c,v 1.132.1.2 2015/02/19 17:16:55 roberto Exp $
 ** Interface from Lua to its debug API
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua52.h
 */
 
 
@@ -12,10 +12,10 @@
 #define ldblib_c
 #define LUA_LIB
 
-#include "lua.h"
+#include "lua52.h"
 
-#include "lauxlib.h"
-#include "lualib.h"
+#include "lauxlib52.h"
+#include "lualib52.h"
 
 
 #define HOOKKEY		"_HKEY"

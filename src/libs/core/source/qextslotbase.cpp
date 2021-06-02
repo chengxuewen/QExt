@@ -47,12 +47,13 @@ void QEXTSlotRep::setParent(void *parent, HookFunctionType cleanup)
 void QEXTSlotRep::disconnect()
 {
     if (m_parent) {
-        m_call = QEXT_NULLPTR;          // Invalidate the slot.
+        // Invalidate the slot.
         // Must be done here because m_parent might defer the actual
-        // destruction of the slot_rep and try to invoke it before that point.
+        // destruction of the QEXTSlotRep and try to invoke it before that point.
+        m_call = QEXT_NULLPTR;
         void *data = m_parent;
-        m_parent = QEXT_NULLPTR;        // Just a precaution.
-        (m_cleanup)(data);  // Notify the parent (might lead to destruction of this!).
+        m_parent = QEXT_NULLPTR;    // Just a precaution.
+        (m_cleanup)(data);          // Notify the parent (might lead to destruction of this!).
     } else {
         m_call = QEXT_NULLPTR;
     }
@@ -143,6 +144,7 @@ QEXTSlotBase &QEXTSlotBase::operator=(const QEXTSlotBase &src)
     }
 
     SlotRepType *newSlotRep = src.m_slotRep->deepCopy();
+    // Silently exchange the QEXTSlotRep.
     if (!m_slotRep.isNull()) {
         newSlotRep->setParent(m_slotRep->m_parent, m_slotRep->m_cleanup);
         m_slotRep.reset(QEXT_NULLPTR);
@@ -182,7 +184,7 @@ bool QEXTSlotBase::isBlocked() const
     return m_blocked;
 }
 
-bool QEXTSlotBase::block(bool block)
+bool QEXTSlotBase::setBlock(bool block)
 {
     bool old = m_blocked;
     m_blocked = block;
@@ -191,7 +193,7 @@ bool QEXTSlotBase::block(bool block)
 
 bool QEXTSlotBase::unblock()
 {
-    return this->block(false);
+    return this->setBlock(false);
 }
 
 void QEXTSlotBase::disconnect()

@@ -1,7 +1,7 @@
 /*
 ** $Id: lcode.h,v 1.64.1.1 2017/04/19 17:20:42 roberto Exp $
 ** Code generator for Lua
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua53.h
 */
 
 #ifndef lcode_h

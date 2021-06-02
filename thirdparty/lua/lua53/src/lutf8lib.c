@@ -1,7 +1,7 @@
 /*
 ** $Id: lutf8lib.c,v 1.16.1.1 2017/04/19 17:29:57 roberto Exp $
 ** Standard library for UTF-8 manipulation
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua53.h
 */
 
 #define lutf8lib_c
@@ -15,10 +15,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "lua.h"
+#include "lua53.h"
 
-#include "lauxlib.h"
-#include "lualib.h"
+#include "lauxlib53.h"
+#include "lualib53.h"
 
 #define MAXUNICODE	0x10FFFF
 

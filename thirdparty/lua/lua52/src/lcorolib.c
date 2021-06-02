@@ -1,7 +1,7 @@
 /*
 ** $Id: lcorolib.c,v 1.5.1.1 2013/04/12 18:48:47 roberto Exp $
 ** Coroutine Library
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua52.h
 */
 
 
@@ -11,10 +11,10 @@
 #define lcorolib_c
 #define LUA_LIB
 
-#include "lua.h"
+#include "lua52.h"
 
-#include "lauxlib.h"
-#include "lualib.h"
+#include "lauxlib52.h"
+#include "lualib52.h"
 
 
 static int auxresume (lua_State *L, lua_State *co, int narg) {

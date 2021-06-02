@@ -1,17 +1,17 @@
 /*
 ** $Id: linit.c,v 1.14.1.1 2007/12/27 13:02:25 roberto Exp $
 ** Initialization of libraries for lua.c
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua51.h
 */
 
 
 #define linit_c
 #define LUA_LIB
 
-#include "lua.h"
+#include "lua51.h"
 
-#include "lualib.h"
-#include "lauxlib.h"
+#include "lualib51.h"
+#include "lauxlib51.h"
 
 
 static const luaL_Reg lualibs[] = {

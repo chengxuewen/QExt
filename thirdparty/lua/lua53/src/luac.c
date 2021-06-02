@@ -1,7 +1,7 @@
 /*
 ** $Id: luac.c,v 1.76 2018/06/19 01:32:02 lhf Exp $
 ** Lua compiler (saves bytecodes to files; also lists bytecodes)
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua53.h
 */
 
 #define luac_c
@@ -15,8 +15,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "lua.h"
-#include "lauxlib.h"
+#include "lua53.h"
+#include "lauxlib53.h"
 
 #include "lobject.h"
 #include "lstate.h"
@@ -208,7 +208,7 @@ int main(int argc, char* argv[])
 /*
 ** $Id: luac.c,v 1.76 2018/06/19 01:32:02 lhf Exp $
 ** print bytecodes
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua53.h
 */
 
 #include <ctype.h>

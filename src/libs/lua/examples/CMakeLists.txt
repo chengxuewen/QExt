@@ -32,15 +32,15 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR}/mvvm)
 set(_example_link_libraries)
 
 if(UNIX)
-  list(APPEND _example_link_libraries dl)
+    list(APPEND _example_link_libraries dl)
 endif()
 
 if(WIN32)
-  list(APPEND _example_link_libraries shlwapi.lib)
+    list(APPEND _example_link_libraries shlwapi.lib)
 endif()
 
 if(CMAKE_THREAD_LIBS_INIT)
-  list(APPEND _example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+    list(APPEND _example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
@@ -51,33 +51,30 @@ else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _example_link_libraries QEXTMvvm)
+list(APPEND _example_link_libraries QEXTLua liblua51)
 
 
 
 #--------------------------------------------------------------------------------
-# Add QEXTNetworkSimpleTcpServer example
+# Add ex_luaMultiLib example
 #--------------------------------------------------------------------------------
-#set(_example_name QEXTNetworkSimpleTcpServer)
-#set(_example_headers
-#    simpleServer/smainwindow.h
-#    )
-#set(_example_sources
-#    simpleServer/main.cpp
-#    simpleServer/smainwindow.cpp
-#    )
-#set(_example_forms
-#    simpleServer/smainwindow.ui
-#    )
-#add_executable(${_example_name}
-#                ${_example_headers}
-#                ${_example_sources}
-#                ${_example_forms}
-#                )
-#target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-#target_include_directories(${_example_name} PUBLIC
-#                            ${CMAKE_CURRENT_SOURCE_DIR}/simpleServer
-#                            ${CMAKE_CURRENT_BINARY_DIR}/
-#                            )
-#set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+set(_example_name ex_luaMultiLib)
+set(_example_headers
+    )
+set(_example_sources
+    multilib/main.cpp
+    )
+set(_example_forms
+    )
+add_executable(${_example_name}
+    ${_example_headers}
+    ${_example_sources}
+    ${_example_forms}
+    )
+target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
+target_include_directories(${_example_name} PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/multilib
+    ${CMAKE_CURRENT_BINARY_DIR}/
+    )
+set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 

@@ -28,7 +28,6 @@ private slots:
 public:
     static int sm_result;
     static QString sm_string;
-    QEXTSignal<int,int> sig;
 };
 
 int QEXTSignalTest::sm_result = 0;
@@ -111,7 +110,6 @@ public:
 };
 
 
-
 struct arithmetic_mean_accumulator
 {
     typedef double ResultType;
@@ -131,6 +129,7 @@ template<class Ret>
 struct vector_accumulator
 {
     typedef QVector<Ret> ResultType;
+
     template<typename T_iterator>
     ResultType operator()(T_iterator first, T_iterator last) const
     {
@@ -141,6 +140,26 @@ struct vector_accumulator
         return vec;
     }
 };
+
+
+
+int ident(int i)
+{
+    return i;
+}
+
+template<typename T>
+struct min_accum
+{
+    typedef T ResultType;
+
+    template<typename T_iterator>
+    ResultType operator()(T_iterator i1, T_iterator i2)
+    {
+        return *std::min_element(i1, i2);
+    }
+};
+
 
 int foo1(int i)
 {
@@ -160,6 +179,7 @@ int bar1(double i)
 
 void QEXTSignalTest::testEmptySignal()
 {
+    QEXTSignal<int,int> sig;
     sm_string = "";
     sig(0);
     QVERIFY("" == sm_string);
@@ -167,6 +187,7 @@ void QEXTSignalTest::testEmptySignal()
 
 void QEXTSignalTest::testConnectSlots()
 {
+    QEXTSignal<int,int> sig;
     // connect some slots before emitting & test auto-disconnection
     {
         sm_string = "";
@@ -199,12 +220,13 @@ void QEXTSignalTest::testReference()
 
 void QEXTSignalTest::testMakeSlot()
 {
+    QEXTSignal<int,int> sig;
     sm_string = "";
     sig.connect(qextPointerFunctor(&foo));
     QEXTSignal<int,int> sig2;
     sig2.connect(sig.makeSlot());
     sig2(3);
-    QVERIFY2("foo(int 3) bar(float 3) foo(int 3) " == sm_string, sm_string.toLatin1().data());
+    QVERIFY2("foo(int 3) " == sm_string, sm_string.toLatin1().data());
 }
 
 void QEXTSignalTest::testDisconnect()
@@ -314,33 +336,15 @@ void QEXTSignalTest::testAccumulated()
     QVERIFY("10 46 12 " == sm_string);
 }
 
-
-int ident(int i)
-{
-    return i;
-}
-
-template<typename T>
-struct min_accum
-{
-    typedef T ResultType;
-
-    template<typename I>
-    typename std::iterator_traits<I>::value_type operator()(I i1, I i2)
-    {
-        return *std::min_element(i1, i2);
-    }
-};
-
 void QEXTSignalTest::testAccumulatedIter()
 {
-    //    QEXTSignal0<int, min_accum<int> > signal;
+    QEXTSignal0<int, min_accum<int> > signal;
 
-    //    signal.connect(qextBindFunctor(qextPointerFunctor(ident), 3));
-    //    signal.connect(qextBindFunctor(qextPointerFunctor(ident), 1));
-    //    signal.connect(qextBindFunctor(qextPointerFunctor(ident), 42));
+    signal.connect(qextBindFunctor(qextPointerFunctor(ident), 3));
+    signal.connect(qextBindFunctor(qextPointerFunctor(ident), 1));
+    signal.connect(qextBindFunctor(qextPointerFunctor(ident), 42));
 
-    //    QVERIFY(1 == signal());
+    QVERIFY(1 == signal.send());
 }
 
 QTEST_APPLESS_MAIN(QEXTSignalTest)

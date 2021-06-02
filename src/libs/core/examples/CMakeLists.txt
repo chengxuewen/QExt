@@ -56,9 +56,9 @@ list(APPEND _example_link_libraries QEXTCore)
 
 
 #--------------------------------------------------------------------------------
-# Add QEXTCoreSimpleObject example
+# Add ex_qextCoreSimpleObject example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTCoreSimpleObject)
+set(_example_name ex_qextCoreSimpleObject)
 set(_example_headers
     )
 set(_example_sources
@@ -81,9 +81,9 @@ set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 
 
 #--------------------------------------------------------------------------------
-# Add QEXTCoreSimpleFunctor example
+# Add ex_qextCoreSimpleFunctor example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTCoreSimpleFunctor)
+set(_example_name ex_qextCoreSimpleFunctor)
 set(_example_headers
     )
 set(_example_sources

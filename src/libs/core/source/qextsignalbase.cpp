@@ -7,9 +7,8 @@
 
 namespace qextinternal {
 
-// Data sent from QEXTSignalImpl::insert() to slot_rep::set_parent() when a slot is
-// connected, and then sent from slot_rep::disconnect() to QEXTSignalImpl::notify()
-// when the slot is disconnected. Bug 167714.
+// Data sent from QEXTSignalImpl::insert() to QEXTSlotRep::setParent() when a slot is
+// connected, and then sent from QEXTSlotRep::disconnect() to QEXTSignalImpl::notify() when the slot is disconnected.
 struct QEXTSelfIter
 {
     QEXTSignalImpl *m_self;
@@ -44,8 +43,8 @@ void QEXTSignalImpl::clear()
 
     // Disconnect all connected slots before they are deleted.
     // QEXTSignalImpl::notify() will be called and delete the QEXTSelfIter structs.
-    for (IteratorType i = m_slotList.begin(); i != m_slotList.end(); ++i) {
-        i->disconnect();
+    for (IteratorType iter = m_slotList.begin(); iter != m_slotList.end(); ++iter) {
+        iter->disconnect();
     }
     m_deferred = saved_deferred;
     m_slotList.clear();
@@ -66,10 +65,10 @@ bool QEXTSignalImpl::isBlocked() const
     return true;
 }
 
-void QEXTSignalImpl::block(bool block)
+void QEXTSignalImpl::setBlock(bool block)
 {
     for (IteratorType iter = m_slotList.begin(); iter != m_slotList.end(); ++iter) {
-        iter->block(block);
+        iter->setBlock(block);
     }
 }
 
@@ -120,9 +119,9 @@ void QEXTSignalImpl::sweep()
 }
 
 //static
-void* QEXTSignalImpl::notify(void *d)
+void* QEXTSignalImpl::notify(void *data)
 {
-    QSharedPointer<QEXTSelfIter> selfIter(static_cast<QEXTSelfIter*>(d));
+    QSharedPointer<QEXTSelfIter> selfIter(static_cast<QEXTSelfIter*>(data));
 
     if (selfIter->m_self->m_execCount == 0) {
         // The deletion of a slot may cause the deletion of a QEXTSignalBase,
@@ -134,7 +133,7 @@ void* QEXTSignalImpl::notify(void *d)
         selfIter->m_self->m_deferred = true; // => sweep() will be called from ~QEXTSignalExec() after signal emission.
     }
     return QEXT_NULLPTR;                      // This is safer because we don't have to care about our
-    // iterators in emit(), clear(), and erase().
+    // iterators in send(), clear(), and erase().
 }
 
 } /* namespace qextInternal */
@@ -177,17 +176,17 @@ bool QEXTSignalBase::isBlocked() const
     return (m_impl ? m_impl->isBlocked() : true);
 }
 
-void QEXTSignalBase::block(bool shouldBlock)
+void QEXTSignalBase::setBlock(bool block)
 {
     if (m_impl) {
-        m_impl->block(shouldBlock);
+        m_impl->setBlock(block);
     }
 }
 
 void QEXTSignalBase::unblock()
 {
     if (m_impl) {
-        m_impl->block(false);
+        m_impl->setBlock(false);
     }
 }
 

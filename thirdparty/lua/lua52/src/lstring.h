@@ -1,7 +1,7 @@
 /*
 ** $Id: lstring.h,v 1.49.1.1 2013/04/12 18:48:47 roberto Exp $
 ** String table (keep all strings handled by Lua)
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua52.h
 */
 
 #ifndef lstring_h

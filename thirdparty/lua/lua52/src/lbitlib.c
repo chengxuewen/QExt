@@ -1,16 +1,16 @@
 /*
 ** $Id: lbitlib.c,v 1.18.1.2 2013/07/09 18:01:41 roberto Exp $
 ** Standard library for bitwise operations
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua52.h
 */
 
 #define lbitlib_c
 #define LUA_LIB
 
-#include "lua.h"
+#include "lua52.h"
 
-#include "lauxlib.h"
-#include "lualib.h"
+#include "lauxlib52.h"
+#include "lualib52.h"
 
 
 /* number of bits to consider in a number */

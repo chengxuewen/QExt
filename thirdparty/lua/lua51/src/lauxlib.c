@@ -1,7 +1,7 @@
 /*
 ** $Id: lauxlib.c,v 1.159.1.3 2008/01/21 13:20:51 roberto Exp $
 ** Auxiliary functions for building Lua libraries
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua51.h
 */
 
 
@@ -20,9 +20,9 @@
 #define lauxlib_c
 #define LUA_LIB
 
-#include "lua.h"
+#include "lua51.h"
 
-#include "lauxlib.h"
+#include "lauxlib51.h"
 
 
 #define FREELIST_REF	0	/* free list of references */

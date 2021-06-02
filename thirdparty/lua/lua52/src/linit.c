@@ -1,7 +1,7 @@
 /*
 ** $Id: linit.c,v 1.32.1.1 2013/04/12 18:48:47 roberto Exp $
 ** Initialization of libraries for lua.c and other clients
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua52.h
 */
 
 
@@ -16,10 +16,10 @@
 #define linit_c
 #define LUA_LIB
 
-#include "lua.h"
+#include "lua52.h"
 
-#include "lualib.h"
-#include "lauxlib.h"
+#include "lualib52.h"
+#include "lauxlib52.h"
 
 
 /*

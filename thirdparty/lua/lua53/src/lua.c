@@ -1,7 +1,7 @@
 /*
 ** $Id: lua.c,v 1.230.1.1 2017/04/19 17:29:57 roberto Exp $
 ** Lua stand-alone interpreter
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua53.h
 */
 
 #define lua_c
@@ -14,10 +14,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "lua.h"
+#include "lua53.h"
 
-#include "lauxlib.h"
-#include "lualib.h"
+#include "lauxlib53.h"
+#include "lualib53.h"
 
 
 

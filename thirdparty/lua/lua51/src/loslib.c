@@ -1,7 +1,7 @@
 /*
 ** $Id: loslib.c,v 1.19.1.3 2008/01/18 16:38:18 roberto Exp $
 ** Standard Operating System library
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua51.h
 */
 
 
@@ -14,10 +14,10 @@
 #define loslib_c
 #define LUA_LIB
 
-#include "lua.h"
+#include "lua51.h"
 
-#include "lauxlib.h"
-#include "lualib.h"
+#include "lauxlib51.h"
+#include "lualib51.h"
 
 
 static int os_pushresult (lua_State *L, int i, const char *filename) {

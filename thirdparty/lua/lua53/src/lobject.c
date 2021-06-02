@@ -1,7 +1,7 @@
 /*
 ** $Id: lobject.c,v 2.113.1.1 2017/04/19 17:29:57 roberto Exp $
 ** Some generic functions over Lua objects
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua53.h
 */
 
 #define lobject_c
@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "lua.h"
+#include "lua53.h"
 
 #include "lctype.h"
 #include "ldebug.h"

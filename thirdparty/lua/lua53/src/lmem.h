@@ -1,7 +1,7 @@
 /*
 ** $Id: lmem.h,v 1.43.1.1 2017/04/19 17:20:42 roberto Exp $
 ** Interface to Memory Manager
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua53.h
 */
 
 #ifndef lmem_h
@@ -11,7 +11,7 @@
 #include <stddef.h>
 
 #include "llimits.h"
-#include "lua.h"
+#include "lua53.h"
 
 
 /*

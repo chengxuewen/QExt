@@ -1,13 +1,13 @@
 /*
 ** $Id: lstate.h,v 2.133.1.1 2017/04/19 17:39:34 roberto Exp $
 ** Global State
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua53.h
 */
 
 #ifndef lstate_h
 #define lstate_h
 
-#include "lua.h"
+#include "lua53.h"
 
 #include "lobject.h"
 #include "ltm.h"

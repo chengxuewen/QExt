@@ -16,9 +16,9 @@ set(EXECUTABLE_OUTPUT_PATH ${QEXT_APP_OUTPUT_DIR})
 # Configure a header file to pass some of the CMake settings to the source code
 #--------------------------------------------------------------------------------
 set(_lib_include_files_dir ${QEXT_LUA_INCLUDE_FILE_DIR}/${_lib_name})
-set(_lib_config_header_file_path ${_lib_include_files_dir}/luaconf${_lib_version}.h)
+set(_lib_config_header_file_path ${_lib_include_files_dir}/lua${_lib_version}conf.h)
 configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/luaconf${_lib_version}.h.in"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/lua${_lib_version}conf.h.in"
     "${_lib_config_header_file_path}"
     )
 
@@ -29,9 +29,8 @@ configure_file(
 #--------------------------------------------------------------------------------
 set(_lib_headers
     src/lapi.h
-    src/lauxlib.h
+    src/lauxlib51.h
     src/lcode.h
-#    src/lctype.h
     src/ldebug.h
     src/ldo.h
     src/lfunc.h
@@ -46,8 +45,8 @@ set(_lib_headers
     src/lstring.h
     src/ltable.h
     src/ltm.h
-    src/lua.h
-    src/lualib.h
+    src/lua51.h
+    src/lualib51.h
     src/lundump.h
     src/lvm.h
     src/lzio.h
@@ -107,7 +106,7 @@ add_library(${_lib_name}
 target_link_libraries(${_lib_name} ${LUA_LINK_LIBS})
 target_include_directories(${_lib_name} PUBLIC
     $<BUILD_INTERFACE:${_lib_include_files_dir}>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include/lua/${_lib_name}>
     )
 if(LUA_BUILD_AS_DLL)
     set_target_properties(${_lib_name} PROPERTIES COMPILE_DEFINITIONS LUA_BUILD_AS_DLL)
@@ -123,9 +122,9 @@ set_target_properties(${_lib_name} PROPERTIES
 # set include copy custom command
 add_custom_command(
     TARGET ${_lib_name}
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/src/lua.h ${_lib_include_files_dir}
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/src/lualib.h ${_lib_include_files_dir}
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/src/lauxlib.h ${_lib_include_files_dir}
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/src/lua51.h ${_lib_include_files_dir}
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/src/lualib51.h ${_lib_include_files_dir}
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/src/lauxlib51.h ${_lib_include_files_dir}
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/src/lua${_lib_version}.hpp ${_lib_include_files_dir}
     COMMAND ${CMAKE_COMMAND} -E copy ${_lib_config_header_file_path} ${_lib_include_files_dir}
     COMMENT "Copy ${_lib_name} include file to include dir"

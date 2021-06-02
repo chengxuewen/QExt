@@ -1,7 +1,7 @@
 /*
 ** $Id: lctype.c,v 1.11.1.1 2013/04/12 18:48:47 roberto Exp $
 ** 'ctype' functions for Lua
-** See Copyright Notice in lua.h
+** See Copyright Notice in lua52.h
 */
 
 #define lctype_c

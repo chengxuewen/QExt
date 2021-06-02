@@ -56,6 +56,7 @@ set(_lib_resources
 # Add lib link libraries
 #--------------------------------------------------------------------------------
 set(_lib_link_libraries)
+set(_lib_private_link_libraries)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND _lib_link_libraries Qt4::QtCore Qt4::QtNetwork)
@@ -66,7 +67,7 @@ else()
 endif()
 
 list(APPEND _lib_link_libraries QEXTCore)
-
+list(APPEND _lib_private_link_libraries liblua51 liblua52 liblua53)
 
 
 #--------------------------------------------------------------------------------
@@ -83,6 +84,7 @@ if(QEXT_BUILD_COMPILER_WARNING)
     qextFunctionSetCompilerWarnings(${_lib_base_name})
 endif()
 target_link_libraries(${_lib_base_name} PUBLIC ${_lib_link_libraries})
+target_link_libraries(${_lib_base_name} PRIVATE ${_lib_private_link_libraries})
 target_include_directories(${_lib_base_name} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>

@@ -2241,7 +2241,7 @@ This section describes the C&nbsp;API for Lua, that is,
 the set of C&nbsp;functions available to the host program to communicate
 with Lua.
 All API functions and related types and constants
-are declared in the header file <a name="pdf-lua.h"><code>lua.h</code></a>.
+are declared in the header file <a name="pdf-lua51.h"><code>lua51.h</code></a>.
 
 
 <p>
@@ -3428,7 +3428,7 @@ since by then the stack has unwound.
 <p>
 The <a href="#lua_pcall"><code>lua_pcall</code></a> function returns 0 in case of success
 or one of the following error codes
-(defined in <code>lua.h</code>):
+(defined in <code>lua51.h</code>):
 
 <ul>
 
@@ -4189,7 +4189,7 @@ Returns the type of the value in the given acceptable index,
 or <code>LUA_TNONE</code> for a non-valid index
 (that is, an index to an "empty" stack position).
 The types returned by <a href="#lua_type"><code>lua_type</code></a> are coded by the following constants
-defined in <code>lua.h</code>:
+defined in <code>lua51.h</code>:
 <code>LUA_TNIL</code>,
 <code>LUA_TNUMBER</code>,
 <code>LUA_TBOOLEAN</code>,
@@ -4723,7 +4723,7 @@ common tasks.
 
 <p>
 All functions from the auxiliary library
-are defined in header file <code>lauxlib.h</code> and
+are defined in header file <code>lauxlib51.h</code> and
 have a prefix <code>luaL_</code>.
 
 
@@ -5683,7 +5683,7 @@ it can open them individually by calling
 <a name="pdf-luaopen_io"><code>luaopen_io</code></a> (for the I/O library),
 <a name="pdf-luaopen_os"><code>luaopen_os</code></a> (for the Operating System library),
 and <a name="pdf-luaopen_debug"><code>luaopen_debug</code></a> (for the debug library).
-These functions are declared in <a name="pdf-lualib.h"><code>lualib.h</code></a>
+These functions are declared in <a name="pdf-lualib51.h"><code>lualib51.h</code></a>
 and should not be called directly:
 you must call them like any other Lua C&nbsp;function,
 e.g., by using <a href="#lua_call"><code>lua_call</code></a>.
