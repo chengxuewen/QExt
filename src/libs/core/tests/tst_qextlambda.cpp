@@ -31,13 +31,13 @@ QString QEXTLambdaTest::sm_string = "";
 
 
 template <class T_arg>
-struct QEXTLambdaActionResultTypeDeduce<bitwise<leftshift>, QString&, T_arg>
+struct QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwise<QEXTLBOPRLeftshift>, QString&, T_arg>
 {
     typedef QString& Type;
 };
 
 
-int Foo(int i, int j)
+int foo(int i, int j)
 {
     QEXTLambdaTest::sm_string = QString("foo(int %1, int %2) ").arg(i).arg(j);
     return 4 * i + j;
@@ -119,13 +119,13 @@ void QEXTLambdaTest::testCommaOperators()
     //    QVERIFY("hello world\n" == QEXTLambdaTest::sm_string);
 
     QEXTLambdaTest::sm_string = "";
-    //    (sigc::ref(result_stream) << sigc::static_cast_<int>(_1) << std::string("\n"))(1.234);
+    //    (qextReferenceWrapper(result_stream) << qextLambdaStaticCast<int>(_1) << std::string("\n"))(1.234);
     //    util->check_result(result_stream, "1\n");
 
-    //    (sigc::var(result_stream) << 1 << sigc::var("\n"))();
+    //    (qextLambda(result_stream) << 1 << qextLambda("\n"))();
     //    util->check_result(result_stream, "1\n");
 
-    //    (sigc::var(result_stream) << _1 << std::string("\n"))("hello world");
+    //    (qextLambda(result_stream) << _1 << std::string("\n"))("hello world");
     //    util->check_result(result_stream, "hello world\n");
 }
 
@@ -149,11 +149,11 @@ void QEXTLambdaTest::testGroupAdaptor()
 {
     Bar theBar;
     QEXTLambdaTest::sm_string = "";
-    QVERIFY(6 == (qextLambdaGroup(&Foo, qextLambdaSelectors::_1, qextLambdaSelectors::_2))(1, 2));
+    QVERIFY(6 == (qextLambdaGroup(&foo, qextLambdaSelectors::_1, qextLambdaSelectors::_2))(1, 2));
     QVERIFY("foo(int 1, int 2) " == QEXTLambdaTest::sm_string);
 
     QEXTLambdaTest::sm_string = "";
-    QVERIFY(9 == (qextLambdaGroup(&Foo, qextLambdaSelectors::_2, qextLambdaSelectors::_1))(1, 2));
+    QVERIFY(9 == (qextLambdaGroup(&foo, qextLambdaSelectors::_2, qextLambdaSelectors::_1))(1, 2));
     QVERIFY("foo(int 2, int 1) " == QEXTLambdaTest::sm_string);
 
     QEXTLambdaTest::sm_string = "";

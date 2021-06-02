@@ -1,6 +1,9 @@
 #ifndef QEXTREFERENCEWRAPPER_H
 #define QEXTREFERENCEWRAPPER_H
 
+/** Reference wrapper.
+ * Use qextReferenceWrapper() to create a reference wrapper.
+ */
 template <typename T_type>
 struct QEXTReferenceWrapper
 {
@@ -13,6 +16,9 @@ struct QEXTReferenceWrapper
     T_type &m_value;
 };
 
+/** Const reference wrapper.
+ * Use qextReferenceWrapper() to create a const reference wrapper.
+ */
 template <typename T_type>
 struct QEXTConstReferenceWrapper
 {
@@ -25,11 +31,31 @@ struct QEXTConstReferenceWrapper
     const T_type &m_value;
 };
 
+/** Creates a reference wrapper.
+ * Passing an object throught qextReferenceWrapper() makes adaptors
+ * like, e.g., QEXTBindFunctor store references to the object instead of copies.
+ * If the object type inherits from QEXTTrackable this will ensure
+ * automatic invalidation of the adaptors when the object is deleted
+ * or overwritten.
+ *
+ * @param v Reference to store.
+ * @return A reference wrapper.
+ */
 template <typename T_type>
 QEXTReferenceWrapper<T_type> qextReferenceWrapper(T_type &value) {
     return QEXTReferenceWrapper<T_type>(value);
 }
 
+/** Creates a const reference wrapper.
+ * Passing an object throught qextReferenceWrapper() makes adaptors
+ * like, e.g., QEXTBindFunctor store references to the object instead of copies.
+ * If the object type inherits from QEXTTrackable this will ensure
+ * automatic invalidation of the adaptors when the object is deleted
+ * or overwritten.
+ *
+ * @param value Reference to store.
+ * @return A reference wrapper.
+ */
 template <typename T_type>
 QEXTConstReferenceWrapper<T_type> qextReferenceWrapper(const T_type &value) {
     return QEXTConstReferenceWrapper<T_type>(value);

@@ -80,7 +80,7 @@ struct B : public QEXTTrackable
         m_signal.connect(qextPointerFunctor(&goodByeWorld));
     }
 
-    // Calling destroy() during signal emission seems weird!
+    // Calling destroy() during signal send seems weird!
     // However, if this works, anything will work!
     void destroy() {
         delete this;

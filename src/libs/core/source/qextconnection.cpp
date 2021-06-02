@@ -54,7 +54,7 @@ bool QEXTConnection::unblock()
     return (m_slot ? m_slot->unblock() : false);
 }
 
-bool QEXTConnection::connected() const
+bool QEXTConnection::isConnected() const
 {
     return !this->isEmpty();
 }

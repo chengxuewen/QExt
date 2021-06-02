@@ -186,12 +186,7 @@ void QEXTSlotTest::testMemFunctor()
 
 void QEXTSlotTest::testCopyInvalid()
 {
-    //    std::ostringstream pointer_stream;
     QEXTTrackable *t = new QEXTTrackable;
-    //    pointer_stream << t;
-    //    result_stream << "sigc::trackable instance at " << pointer_stream.str();
-    //    util->check_result(result_stream, "sigc::trackable instance at " + pointer_stream.str());
-    //    pointer_stream.str("");
 
     sm_string = "";
     QEXTSlot<void> fooSlot = qextBindFunctor(qextPointerFunctor(&foo), qextReferenceWrapper(*t));
@@ -206,16 +201,11 @@ void QEXTSlotTest::testCopyInvalid()
     //
     // Comment this out to get a meaningful backtrace from valgrind.
     //
-    // Try to pollute the memory previously occupied by the sigc::trackable
+    // Try to pollute the memory previously occupied by the QEXTTrackable
     // instance. The hope is that with a regular memory allocator (i.e. not
     // valgrind), we end up with buffer == (void *)t.
     void *buffer = malloc(sizeof(QEXTTrackable));
     memset(buffer, 0xFF, sizeof(QEXTTrackable));
-
-    //    pointer_stream << buffer;
-    //    result_stream << "         Polluted buffer at " << pointer_stream.str();
-    //    util->check_result(result_stream, "         Polluted buffer at " + pointer_stream.str());
-    //    pointer_stream.str("");
 
     //  the copy constructor fails
     // because the pointer value it dereferences does not point to a

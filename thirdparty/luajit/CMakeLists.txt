@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(LuaJit C ASM)
 
 
@@ -10,6 +10,7 @@ project(LuaJit C ASM)
 # Set project name and version
 #--------------------------------------------------------------------------------
 set(QEXT_LUAJIT_INCLUDE_FILE_DIR ${QEXT_INCLUDE_OUTPUT_DIR}/luajit)
+include(FindReadline)
 
 
 

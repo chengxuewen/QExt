@@ -179,17 +179,6 @@ struct QEXTLambdaSelect7 : public QEXTLambdaBase
 
 } /* namespace qextinternal */
 
-//struct QEXTLambdaSelectors
-//{
-//    static const QEXTLambda<qextinternal::QEXTLambdaSelect1> _1;
-//    static const QEXTLambda<qextinternal::QEXTLambdaSelect2> _2;
-//    static const QEXTLambda<qextinternal::QEXTLambdaSelect3> _3;
-//    static const QEXTLambda<qextinternal::QEXTLambdaSelect4> _4;
-//    static const QEXTLambda<qextinternal::QEXTLambdaSelect5> _5;
-//    static const QEXTLambda<qextinternal::QEXTLambdaSelect6> _6;
-//    static const QEXTLambda<qextinternal::QEXTLambdaSelect7> _7;
-//};
-
 
 extern QEXT_CORE_API const QEXTLambda<qextinternal::QEXTLambdaSelect1> g_qextLambdaSelector1;
 extern QEXT_CORE_API const QEXTLambda<qextinternal::QEXTLambdaSelect2> g_qextLambdaSelector2;

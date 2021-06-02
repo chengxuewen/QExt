@@ -1,4 +1,5 @@
 #include <qexttrackobjectfunctor.h>
+#include <qextreferencewrapper.h>
 #include <qexttrackable.h>
 #include <qextsignal.h>
 #include <qextslot.h>
@@ -146,8 +147,8 @@ void QEXTTrackObjectFunctorTest::testLambda()
     return;
     // auto-disconnect
     // If you want to auto-disconnect a slot with a C++11 lambda expression
-    // that contains references to sigc::trackable-derived objects, you must use
-    // sigc::track_obj().
+    // that contains references to QEXTTrackable-derived objects, you must use
+    // qextTrackObjectFunctor().
     QEXTSlot<void, QString&> sl10;
     {
         QEXTTrackObjectFunctorTest::sm_string = "";
@@ -185,18 +186,17 @@ void QEXTTrackObjectFunctorTest::testLambda()
     QVERIFY("" == QEXTTrackObjectFunctorTest::sm_string);
 
 
-    // Code example in the documentation sigc++/adaptors/macros/track_obj.h.m4
     // -----------------------------------------------------------------------
     {
-        //struct bar : public sigc::trackable {} some_bar;
+        //struct bar : public QEXTTrackable {} some_bar;
         QEXTSignal<void> someSignal;
         {
             QEXTTrackObjectFunctorTest::sm_string = "";
             BarGroup4 someBar;
-            //some_signal.connect(sigc::group(&foo,sigc::ref(some_bar)));
+            //some_signal.connect(qextLambdaGroup(&foo,qextReferenceWrapper(some_bar)));
             // disconnected automatically if some_bar goes out of scope
             //some_signal.connect([&some_bar](){ foo_group4(some_bar); }); // no auto-disconnect
-            //some_signal.connect(sigc::bind(&foo_group4, sigc::ref(some_bar))); // auto-disconnects, but we prefer C++11 lambda
+            //some_signal.connect(qextBindFunctor(&foo_group4, qextReferenceWrapper(some_bar))); // auto-disconnects, but we prefer C++11 lambda
             someSignal.connect(qextTrackObjectFunctor([&someBar](){ fooGroup4(someBar); }, someBar));
             someSignal();
             QVERIFY("FooGroup4(BarGroup4&)" == QEXTTrackObjectFunctorTest::sm_string);

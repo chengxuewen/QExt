@@ -47,6 +47,8 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND _app_link_libraries Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     list(APPEND _app_link_libraries Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick)
+elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
+    list(APPEND _app_link_libraries Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Quick)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
@@ -57,34 +59,48 @@ include_directories(${Qt${QT_VERSION_MAJOR}Quick_PRIVATE_INCLUDE_DIRS})
 #--------------------------------------------------------------------------------
 # Set file list
 #--------------------------------------------------------------------------------
-set(_app_public_headers
-    qmlstreamwriter.h
-    qmltypereader.h
-    )
-set(_app_private_headers
-    )
-set(_app_sources
-    main.cpp
-    qmlstreamwriter.cpp
-    qmltypereader.cpp
-    )
-set(_app_forms
-    )
-set(_app_resources
-    )
+set(_app_srcs)
+
+if(QEXT_QT_VERSION_MAJOR EQUAL 5)
+    if(QEXT_QT_VERSION_MINOR EQUAL 9)
+        list(APPEND _app_srcs
+            qt509/qmlstreamwriter.h
+            qt509/qmlstreamwriter.cpp
+            qt509/qmltypereader.h
+            qt509/qmltypereader.cpp
+            qt509/main.cpp
+            )
+    elseif(QEXT_QT_VERSION_MINOR EQUAL 12)
+        list(APPEND _app_srcs
+            qt512/qmlstreamwriter.h
+            qt512/qmlstreamwriter.cpp
+            qt512/qmltypereader.h
+            qt512/qmltypereader.cpp
+            qt512/main.cpp
+            )
+    elseif(QEXT_QT_VERSION_MINOR EQUAL 15)
+        list(APPEND _app_srcs
+            qt512/qmlstreamwriter.h
+            qt512/qmlstreamwriter.cpp
+            qt515/qmltypereader.h
+            qt515/qmltypereader.cpp
+            qt515/main.cpp
+            )
+    else()
+        message(FATAL_ERROR "----QEXT---- qmlplugindump unknown version")
+    endif()
+elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
+    message(FATAL_ERROR "----QEXT---- qmlplugindump unknown version")
+else()
+    message(FATAL_ERROR "----QEXT---- Not find Qt package")
+endif()
 
 
 
 #--------------------------------------------------------------------------------
 # Add app target
 #--------------------------------------------------------------------------------
-add_executable(${_app_base_name}
-    ${_app_public_headers}
-    ${_app_private_headers}
-    ${_app_sources}
-    ${_app_forms}
-    ${_app_resources}
-    )
+add_executable(${_app_base_name} ${_app_srcs})
 if (QEXT_BUILD_COMPILER_WARNING)
     qextFunctionSetCompilerWarnings(${_lib_base_name})
 endif()

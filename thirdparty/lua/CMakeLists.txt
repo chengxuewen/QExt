@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(Lua C ASM)
 
 
@@ -10,6 +10,7 @@ project(Lua C ASM)
 # Set project name and version
 #--------------------------------------------------------------------------------
 set(QEXT_LUA_INCLUDE_FILE_DIR ${QEXT_INCLUDE_OUTPUT_DIR}/lua)
+include(FindReadline)
 
 
 

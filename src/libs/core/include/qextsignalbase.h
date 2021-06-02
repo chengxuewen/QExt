@@ -37,20 +37,20 @@ struct QEXT_CORE_API  QEXTSignalImpl
 
     // Increments the reference counter.
     inline void reference() {
-        ++m_refCount;
+        ++m_referenceCount;
     }
 
     // Increments the reference and execution counter.
-    inline void referenceExec() {
-        ++m_refCount;
-        ++m_execCount;
+    inline void referenceExecution() {
+        ++m_referenceCount;
+        ++m_executionCount;
     }
 
     /** Decrements the reference counter.
      * The object is deleted when the reference counter reaches zero.
      */
     inline void unreference() {
-        if (!(--m_refCount)) {
+        if (!(--m_referenceCount)) {
             delete this;
         }
     }
@@ -59,10 +59,10 @@ struct QEXT_CORE_API  QEXTSignalImpl
      * Invokes sweep() if the execution counter reaches zero and the
      * removal of one or more slots has been deferred.
      */
-    inline void unreferenceExec() {
-        if (!(--m_refCount)) {
+    inline void unreferenceExecution() {
+        if (!(--m_referenceCount)) {
             delete this;
-        } else if (!(--m_execCount) && m_deferred) {
+        } else if (!(--m_executionCount) && m_deferred) {
             this->sweep();
         }
     }
@@ -117,7 +117,8 @@ struct QEXT_CORE_API  QEXTSignalImpl
      */
     IteratorType erase(IteratorType iter);
 
-    // Removes invalid slots from the list of slots.
+    /** Removes invalid slots from the list of slots.
+     */
     void sweep();
 
     /** Callback that is executed when some slot becomes invalid.
@@ -125,41 +126,41 @@ struct QEXT_CORE_API  QEXTSignalImpl
      * the list of slots. It is executed when a slot becomes invalid
      * because of some referred object being destroyed.
      * It either calls m_slotList.erase() directly or defers the execution of
-     * erase() to sweep() when the signal is being emitted.
+     * erase() to sweep() when the signal is being sended.
      * @param data A local structure, created in insert().
      */
     static void* notify(void *data);
 
-    short m_refCount;   // Reference counter. The object is destroyed when @em m_refCount reaches zero.
-    short m_execCount;  // Execution counter. Indicates whether the signal is being emitted.
-    bool m_deferred;    // Indicates whether the execution of sweep() is being deferred.
+    short m_referenceCount;     // Reference counter. The object is destroyed when @em m_refCount reaches zero.
+    short m_executionCount;     // Execution counter. Indicates whether the signal is being sended.
+    bool m_deferred;            // Indicates whether the execution of sweep() is being deferred.
     std::list<QEXTSlotBase> m_slotList; // // The list of slots.
 };
 
 // Exception safe sweeper for cleaning up invalid slots on the slot list.
-struct QEXT_CORE_API QEXTSignalExec
+struct QEXT_CORE_API QEXTSignalExecution
 {
     /** Increments the reference and execution counter of the parent QEXTSignalImpl object.
      * @param sig The parent QEXTSignalImpl object.
      */
-    inline QEXTSignalExec(const QEXTSignalImpl *signal)
+    QEXTSignalExecution(const QEXTSignalImpl *signal)
         : m_signal(const_cast<QEXTSignalImpl*>(signal)) {
-        m_signal->referenceExec();
+        m_signal->referenceExecution();
     }
     // Decrements the reference and execution counter of the parent QEXTSignalImpl object.
-    inline ~QEXTSignalExec() {
-        m_signal->unreferenceExec();
+    ~QEXTSignalExecution() {
+        m_signal->unreferenceExecution();
     }
 
     // The parent QEXTSignalImpl object.
     QEXTSignalImpl *m_signal;
 };
 
-/** Temporary slot list used during signal emission.
+/** Temporary slot list used during signal send.
  *  Through evolution this class is slightly misnamed.  It is now
  *  an index into the slot_list passed into it.  It simply keeps track
  *  of where the end of this list was at construction, and pretends that's
- *  the end of your list.  This way you may connect during emission without
+ *  the end of your list.  This way you may connect during send without
  *  inadvertently entering an infinite loop, as well as make other
  *  modifications to the slot_list at your own risk.
  */
@@ -222,10 +223,10 @@ private:
  *
  * signal and slot objects provide the core functionality of this
  * library. A slot is a container for an arbitrary functor.
- * A signal is a list of slots that are executed on emission.
+ * A signal is a list of slots that are executed on send.
  * For compile time type safety a list of template arguments
  * must be provided for the signal template that determines the
- * parameter list for emission. Functors and closures are converted
+ * parameter list for send. Functors and closures are converted
  * into slots implicitly on connection, triggering compiler errors
  * if the given functor or closure cannot be invoked with the
  * parameter list of the signal to connect to.
@@ -297,21 +298,21 @@ protected:
     typedef qextinternal::QEXTSignalImpl::IteratorType IteratorType;
 
     /** Adds a slot at the end of the list of slots.
-     * With connect(), slots can also be added during signal emission.
-     * In this case, they won't be executed until the next emission occurs.
+     * With connect(), slots can also be added during signal send.
+     * In this case, they won't be executed until the next send occurs.
      * @param slot_ The slot to add to the list of slots.
      * @return An iterator pointing to the new slot in the list.
      */
     IteratorType connect(const QEXTSlotBase &slot);
     /** Adds a slot at the given position into the list of slots.
-     * Note that this function does not work during signal emission!
+     * Note that this function does not work during signal send!
      * @param iter An iterator indicating the position where @e slot should be inserted.
      * @param slot The slot to add to the list of slots.
      * @return An iterator pointing to the new slot in the list.
      */
     IteratorType insert(IteratorType iter, const QEXTSlotBase &slot);
     /** Removes the slot at the given position from the list of slots.
-     * Note that this function does not work during signal emission!
+     * Note that this function does not work during signal send!
      * @param iter An iterator pointing to the slot to be removed.
      * @return An iterator pointing to the slot in the list after the one removed.
      */

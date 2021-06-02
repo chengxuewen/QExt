@@ -1029,12 +1029,12 @@ public:
  * @par Example:
  * @code
  * void foo(int) {}
- * QEXTSlot<void, int> s = sigc::ptr_fun(&foo);
+ * QEXTSlot<void, int> s = qextPointerFunctor(&foo);
  * s(19);
  * @endcode
  *
  * QEXTSlot<> is similar to std::function<>. If you're going to assign the
- * resulting functor to a QEXTSlot or connect it to a sigc::signal, it's better
+ * resulting functor to a QEXTSlot or connect it to a QEXTSignal, it's better
  * not to use std::function. It would become un unnecessary extra wrapper.
  *
  * @ingroup slot
@@ -1070,7 +1070,7 @@ public:
     }
 };
 
-/** Convenience wrapper for the numbered sigc::slot6 template.
+/** Convenience wrapper for the numbered QEXTSlot6 template.
  * See the base class for useful methods.
  * This is the template specialization of the unnumbered QEXTSlot
  * template for 6 argument(s), specialized for different numbers of arguments
@@ -1107,7 +1107,7 @@ public:
     }
 };
 
-/** Convenience wrapper for the numbered sigc::slot5 template.
+/** Convenience wrapper for the numbered QEXTSlot5 template.
  * See the base class for useful methods.
  * This is the template specialization of the unnumbered QEXTSlot
  * template for 5 argument(s), specialized for different numbers of arguments
@@ -1142,7 +1142,7 @@ public:
     }
 };
 
-/** Convenience wrapper for the numbered sigc::slot4 template.
+/** Convenience wrapper for the numbered QEXTSlot4 template.
  * See the base class for useful methods.
  * This is the template specialization of the unnumbered QEXTSlot
  * template for 4 argument(s), specialized for different numbers of arguments
@@ -1175,7 +1175,7 @@ public:
     }
 };
 
-/** Convenience wrapper for the numbered sigc::slot3 template.
+/** Convenience wrapper for the numbered QEXTSlot3 template.
  * See the base class for useful methods.
  * This is the template specialization of the unnumbered QEXTSlot
  * template for 3 argument(s), specialized for different numbers of arguments
@@ -1207,7 +1207,7 @@ public:
     }
 };
 
-/** Convenience wrapper for the numbered sigc::slot2 template.
+/** Convenience wrapper for the numbered QEXTSlot2 template.
  * See the base class for useful methods.
  * This is the template specialization of the unnumbered QEXTSlot
  * template for 2 argument(s), specialized for different numbers of arguments
@@ -1238,7 +1238,7 @@ public:
     }
 };
 
-/** Convenience wrapper for the numbered sigc::slot1 template.
+/** Convenience wrapper for the numbered QEXTSlot1 template.
  * See the base class for useful methods.
  * This is the template specialization of the unnumbered QEXTSlot
  * template for 1 argument(s), specialized for different numbers of arguments
@@ -1268,7 +1268,7 @@ public:
     }
 };
 
-/** Convenience wrapper for the numbered sigc::slot0 template.
+/** Convenience wrapper for the numbered QEXTSlot0 template.
  * See the base class for useful methods.
  * This is the template specialization of the unnumbered QEXTSlot
  * template for 0 argument(s), specialized for different numbers of arguments

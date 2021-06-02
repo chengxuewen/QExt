@@ -80,7 +80,7 @@ private:
         char memory[64];
     };
 
-    //#ifndef SELF_REFERENCE_IN_MEMBER_INITIALIZATION
+    //#ifndef QEXT_SELF_REFERENCE_IN_MEMBER_INITIALIZATION
 #if 0
 
     //Allow the internal inner class to access the other (Big) inner class.

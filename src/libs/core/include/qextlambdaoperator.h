@@ -25,71 +25,71 @@ struct QEXTDereferenceTrait<T_type* const&> { typedef T_type Type; };
 
 template <typename T_type>
 struct QEXTDereferenceTrait<const T_type* const&> { typedef const T_type Type; };
+// LambdaOperator LBOPR
+template <typename T_type>
+struct QEXTLBOPRArithmetic {};
 
 template <typename T_type>
-struct arithmetic {};
+struct QEXTLBOPRBitwise {};
 
 template <typename T_type>
-struct bitwise {};
+struct QEXTLBOPRLogical {};
 
 template <typename T_type>
-struct logical {};
+struct QEXTLBOPRRelational {};
 
 template <typename T_type>
-struct relational {};
+struct QEXTLBOPRArithmeticAssign {};
 
 template <typename T_type>
-struct arithmetic_assign {};
+struct QEXTLBOPRBitwiseAssign {};
 
 template <typename T_type>
-struct bitwise_assign {};
+struct QEXTLBOPROther {};
 
 template <typename T_type>
-struct other {};
+struct QEXTLBOPRUnaryArithmetic {};
 
 template <typename T_type>
-struct unary_arithmetic {};
+struct QEXTLBOPRUnaryBitwise {};
 
 template <typename T_type>
-struct unary_bitwise {};
+struct QEXTLBOPRUnaryLogical {};
 
 template <typename T_type>
-struct unary_logical {};
+struct QEXTLBOPRUnaryOther {};
 
 template <typename T_type>
-struct unary_other {};
+struct QEXTLBOPRCast {};
 
-template <typename T_type>
-struct cast_ {};
-
-struct plus {};
-struct minus {};
-struct multiplies {};
-struct divides {};
-struct modulus {};
-struct leftshift {};
-struct rightshift {};
-struct and_ {};
-struct or_ {};
-struct xor_ {};
-struct less {};
-struct greater {};
-struct less_equal {};
-struct greater_equal {};
-struct equal_to {};
-struct not_equal_to {};
-struct subscript {};
-struct assign {};
-struct pre_increment {};
-struct pre_decrement {};
-struct negate {};
-struct not_ {};
-struct address {};
-struct dereference {};
-struct reinterpret_ {};
-struct static_ {};
-struct dynamic_ {};
-struct comma {};
+struct QEXTLBOPRPlus {};
+struct QEXTLBOPRMinus {};
+struct QEXTLBOPRMultiplies {};
+struct QEXTLBOPRDivides {};
+struct QEXTLBOPRModulus {};
+struct QEXTLBOPRLeftshift {};
+struct QEXTLBOPRRightshift {};
+struct QEXTLBOPRAnd {};
+struct QEXTLBOPROr {};
+struct QEXTLBOPRXor {};
+struct QEXTLBOPRLess {};
+struct QEXTLBOPRGreater {};
+struct QEXTLBOPRLessEqual {};
+struct QEXTLBOPRGreaterEqual {};
+struct QEXTLBOPREqualTo {};
+struct QEXTLBOPRNotEqualTo {};
+struct QEXTLBOPRSubscript {};
+struct QEXTLBOPRAssign {};
+struct QEXTLBOPRPreIncrement {};
+struct QEXTLBOPRPreDecrement {};
+struct QEXTLBOPRNegate {};
+struct QEXTLBOPRNot {};
+struct QEXTLBOPRAddress {};
+struct QEXTLBOPRDereference {};
+struct QEXTLBOPRReinterpret {};
+struct QEXTLBOPRStatic {};
+struct QEXTLBOPRDynamic {};
+struct QEXTLBOPRComma {};
 
 template <typename T_action, typename T_test1, typename T_test2>
 struct QEXTLambdaActionResultTypeDeduce
@@ -98,31 +98,31 @@ struct QEXTLambdaActionResultTypeDeduce
 }; // TODO: e.g. T_test1=int, T_test2=double yields int but it should yield double !
 
 template <typename T_action, typename T_test1, typename T_test2>
-struct QEXTLambdaActionResultTypeDeduce<logical<T_action>, T_test1, T_test2>
+struct QEXTLambdaActionResultTypeDeduce<QEXTLBOPRLogical<T_action>, T_test1, T_test2>
 {
     typedef bool Type;
 };
 
 template <typename T_action, typename T_test1, typename T_test2>
-struct QEXTLambdaActionResultTypeDeduce<relational<T_action>, T_test1, T_test2>
+struct QEXTLambdaActionResultTypeDeduce<QEXTLBOPRRelational<T_action>, T_test1, T_test2>
 {
     typedef bool Type;
 };
 
 template <typename T_action, typename T_test1, typename T_test2>
-struct QEXTLambdaActionResultTypeDeduce<arithmetic_assign<T_action>, T_test1, T_test2>
+struct QEXTLambdaActionResultTypeDeduce<QEXTLBOPRArithmeticAssign<T_action>, T_test1, T_test2>
 {
     typedef T_test1 Type;
 };
 
 template <typename T_action, typename T_test1, typename T_test2>
-struct QEXTLambdaActionResultTypeDeduce<bitwise_assign<T_action>, T_test1, T_test2>
+struct QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwiseAssign<T_action>, T_test1, T_test2>
 {
     typedef T_test1 Type;
 };
 
 template <typename T_test1, typename T_test2>
-struct QEXTLambdaActionResultTypeDeduce<other<subscript>, T_test1, T_test2>
+struct QEXTLambdaActionResultTypeDeduce<QEXTLBOPROther<QEXTLBOPRSubscript>, T_test1, T_test2>
 {
     typedef typename QEXTTypeTrait<typename QEXTDereferenceTrait<T_test1>::Type>::Pass Type;
 };
@@ -140,19 +140,19 @@ struct LambdaActionConvertResultTypeDeduce
 };
 
 template <typename T_action, typename T_test>
-struct QEXTLambdaActionUnaryResultTypeDeduce<unary_logical<T_action>, T_test>
+struct QEXTLambdaActionUnaryResultTypeDeduce<QEXTLBOPRUnaryLogical<T_action>, T_test>
 {
     typedef bool Type;
 };
 
 template <typename T_test>
-struct QEXTLambdaActionUnaryResultTypeDeduce<unary_other<address>, T_test>
+struct QEXTLambdaActionUnaryResultTypeDeduce<QEXTLBOPRUnaryOther<QEXTLBOPRAddress>, T_test>
 {
     typedef typename QEXTTypeTrait<T_test>::Pointer Type;
 };
 
 template <typename T_test>
-struct QEXTLambdaActionUnaryResultTypeDeduce<unary_other<dereference>, T_test>
+struct QEXTLambdaActionUnaryResultTypeDeduce<QEXTLBOPRUnaryOther<QEXTLBOPRDereference>, T_test>
 {
     typedef typename QEXTTypeTrait<typename QEXTDereferenceTrait<T_test>::Type>::Pass Type;
 };
@@ -169,410 +169,410 @@ template <typename T_action, typename T_type>
 struct QEXTLambdaActionConvert {};
 
 template <>
-struct QEXTLambdaAction<arithmetic<plus> >
+struct QEXTLambdaAction<QEXTLBOPRArithmetic<QEXTLBOPRPlus> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<arithmetic<plus>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRArithmetic<QEXTLBOPRPlus>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 + arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<arithmetic<minus> >
+struct QEXTLambdaAction<QEXTLBOPRArithmetic<QEXTLBOPRMinus> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<arithmetic<minus>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRArithmetic<QEXTLBOPRMinus>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 - arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<arithmetic<multiplies> >
+struct QEXTLambdaAction<QEXTLBOPRArithmetic<QEXTLBOPRMultiplies> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<arithmetic<multiplies>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRArithmetic<QEXTLBOPRMultiplies>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 * arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<arithmetic<divides> >
+struct QEXTLambdaAction<QEXTLBOPRArithmetic<QEXTLBOPRDivides> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<arithmetic<divides>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRArithmetic<QEXTLBOPRDivides>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 / arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<arithmetic<modulus> >
+struct QEXTLambdaAction<QEXTLBOPRArithmetic<QEXTLBOPRModulus> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<arithmetic<modulus>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRArithmetic<QEXTLBOPRModulus>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 % arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<bitwise<leftshift> >
+struct QEXTLambdaAction<QEXTLBOPRBitwise<QEXTLBOPRLeftshift> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<bitwise<leftshift>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwise<QEXTLBOPRLeftshift>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 << arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<bitwise<rightshift> >
+struct QEXTLambdaAction<QEXTLBOPRBitwise<QEXTLBOPRRightshift> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<bitwise<rightshift>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwise<QEXTLBOPRRightshift>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 >> arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<bitwise<and_> >
+struct QEXTLambdaAction<QEXTLBOPRBitwise<QEXTLBOPRAnd> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<bitwise<and_>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwise<QEXTLBOPRAnd>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1  &arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<bitwise<or_> >
+struct QEXTLambdaAction<QEXTLBOPRBitwise<QEXTLBOPROr> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<bitwise<or_>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwise<QEXTLBOPROr>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 | arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<bitwise<xor_> >
+struct QEXTLambdaAction<QEXTLBOPRBitwise<QEXTLBOPRXor> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<bitwise<xor_>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwise<QEXTLBOPRXor>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 ^ arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<logical<and_> >
+struct QEXTLambdaAction<QEXTLBOPRLogical<QEXTLBOPRAnd> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<logical<and_>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRLogical<QEXTLBOPRAnd>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 & &arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<logical<or_> >
+struct QEXTLambdaAction<QEXTLBOPRLogical<QEXTLBOPROr> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<logical<or_>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRLogical<QEXTLBOPROr>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 || arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<relational<less> >
+struct QEXTLambdaAction<QEXTLBOPRRelational<QEXTLBOPRLess> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<relational<less>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRRelational<QEXTLBOPRLess>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 < arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<relational<greater> >
+struct QEXTLambdaAction<QEXTLBOPRRelational<QEXTLBOPRGreater> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<relational<greater>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRRelational<QEXTLBOPRGreater>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 > arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<relational<less_equal> >
+struct QEXTLambdaAction<QEXTLBOPRRelational<QEXTLBOPRLessEqual> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<relational<less_equal>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRRelational<QEXTLBOPRLessEqual>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 <= arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<relational<greater_equal> >
+struct QEXTLambdaAction<QEXTLBOPRRelational<QEXTLBOPRGreaterEqual> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<relational<greater_equal>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRRelational<QEXTLBOPRGreaterEqual>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 >= arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<relational<equal_to> >
+struct QEXTLambdaAction<QEXTLBOPRRelational<QEXTLBOPREqualTo> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<relational<equal_to>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRRelational<QEXTLBOPREqualTo>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 == arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<relational<not_equal_to> >
+struct QEXTLambdaAction<QEXTLBOPRRelational<QEXTLBOPRNotEqualTo> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<relational<not_equal_to>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRRelational<QEXTLBOPRNotEqualTo>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 != arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<arithmetic_assign<plus> >
+struct QEXTLambdaAction<QEXTLBOPRArithmeticAssign<QEXTLBOPRPlus> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<arithmetic_assign<plus>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRArithmeticAssign<QEXTLBOPRPlus>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 += arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<arithmetic_assign<minus> >
+struct QEXTLambdaAction<QEXTLBOPRArithmeticAssign<QEXTLBOPRMinus> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<arithmetic_assign<minus>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRArithmeticAssign<QEXTLBOPRMinus>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 -= arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<arithmetic_assign<multiplies> >
+struct QEXTLambdaAction<QEXTLBOPRArithmeticAssign<QEXTLBOPRMultiplies> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<arithmetic_assign<multiplies>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRArithmeticAssign<QEXTLBOPRMultiplies>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 *= arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<arithmetic_assign<divides> >
+struct QEXTLambdaAction<QEXTLBOPRArithmeticAssign<QEXTLBOPRDivides> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<arithmetic_assign<divides>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRArithmeticAssign<QEXTLBOPRDivides>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 /= arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<arithmetic_assign<modulus> >
+struct QEXTLambdaAction<QEXTLBOPRArithmeticAssign<QEXTLBOPRModulus> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<arithmetic_assign<modulus>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRArithmeticAssign<QEXTLBOPRModulus>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 %= arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<bitwise_assign<leftshift> >
+struct QEXTLambdaAction<QEXTLBOPRBitwiseAssign<QEXTLBOPRLeftshift> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<bitwise_assign<leftshift>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwiseAssign<QEXTLBOPRLeftshift>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 <<= arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<bitwise_assign<rightshift> >
+struct QEXTLambdaAction<QEXTLBOPRBitwiseAssign<QEXTLBOPRRightshift> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<bitwise_assign<rightshift>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwiseAssign<QEXTLBOPRRightshift>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 >>= arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<bitwise_assign<and_> >
+struct QEXTLambdaAction<QEXTLBOPRBitwiseAssign<QEXTLBOPRAnd> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<bitwise_assign<and_>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwiseAssign<QEXTLBOPRAnd>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 &= arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<bitwise_assign<or_> >
+struct QEXTLambdaAction<QEXTLBOPRBitwiseAssign<QEXTLBOPROr> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<bitwise_assign<or_>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwiseAssign<QEXTLBOPROr>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 |= arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<bitwise_assign<xor_> >
+struct QEXTLambdaAction<QEXTLBOPRBitwiseAssign<QEXTLBOPRXor> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<bitwise_assign<xor_>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRBitwiseAssign<QEXTLBOPRXor>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 ^= arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<comma >
+struct QEXTLambdaAction<QEXTLBOPRComma >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<comma, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPRComma, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return (void)arg1 , arg2;
     }
 };
 
 template <>
-struct QEXTLambdaAction<other<subscript> >
+struct QEXTLambdaAction<QEXTLBOPROther<QEXTLBOPRSubscript> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<other<subscript>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPROther<QEXTLBOPRSubscript>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1[arg2];
     }
 };
 
 template <>
-struct QEXTLambdaAction<other<assign> >
+struct QEXTLambdaAction<QEXTLBOPROther<QEXTLBOPRAssign> >
 {
     template <typename T_arg1, typename T_arg2>
-    static typename QEXTLambdaActionResultTypeDeduce<other<assign>, T_arg1, T_arg2>::Type
+    static typename QEXTLambdaActionResultTypeDeduce<QEXTLBOPROther<QEXTLBOPRAssign>, T_arg1, T_arg2>::Type
     doAction(T_arg1 arg1, T_arg2 arg2) {
         return arg1 = arg2;
     }
 };
 
 template <>
-struct QEXTLambdaActionUnary<unary_arithmetic<pre_increment> >
+struct QEXTLambdaActionUnary<QEXTLBOPRUnaryArithmetic<QEXTLBOPRPreIncrement> >
 {
     template <typename T_arg>
-    static typename QEXTLambdaActionUnaryResultTypeDeduce<unary_arithmetic<pre_increment>, T_arg>::Type
+    static typename QEXTLambdaActionUnaryResultTypeDeduce<QEXTLBOPRUnaryArithmetic<QEXTLBOPRPreIncrement>, T_arg>::Type
     doAction(T_arg arg) {
         return ++arg;
     }
 };
 
 template <>
-struct QEXTLambdaActionUnary<unary_arithmetic<pre_decrement> >
+struct QEXTLambdaActionUnary<QEXTLBOPRUnaryArithmetic<QEXTLBOPRPreDecrement> >
 {
     template <typename T_arg>
-    static typename QEXTLambdaActionUnaryResultTypeDeduce<unary_arithmetic<pre_decrement>, T_arg>::Type
+    static typename QEXTLambdaActionUnaryResultTypeDeduce<QEXTLBOPRUnaryArithmetic<QEXTLBOPRPreDecrement>, T_arg>::Type
     doAction(T_arg arg) {
         return --arg;
     }
 };
 
 template <>
-struct QEXTLambdaActionUnary<unary_arithmetic<negate> >
+struct QEXTLambdaActionUnary<QEXTLBOPRUnaryArithmetic<QEXTLBOPRNegate> >
 {
     template <typename T_arg>
-    static typename QEXTLambdaActionUnaryResultTypeDeduce<unary_arithmetic<negate>, T_arg>::Type
+    static typename QEXTLambdaActionUnaryResultTypeDeduce<QEXTLBOPRUnaryArithmetic<QEXTLBOPRNegate>, T_arg>::Type
     doAction(T_arg arg) {
         return -arg;
     }
 };
 
 template <>
-struct QEXTLambdaActionUnary<unary_bitwise<not_> >
+struct QEXTLambdaActionUnary<QEXTLBOPRUnaryBitwise<QEXTLBOPRNot> >
 {
     template <typename T_arg>
-    static typename QEXTLambdaActionUnaryResultTypeDeduce<unary_bitwise<not_>, T_arg>::Type
+    static typename QEXTLambdaActionUnaryResultTypeDeduce<QEXTLBOPRUnaryBitwise<QEXTLBOPRNot>, T_arg>::Type
     doAction(T_arg arg) {
         return ~arg;
     }
 };
 
 template <>
-struct QEXTLambdaActionUnary<unary_logical<not_> >
+struct QEXTLambdaActionUnary<QEXTLBOPRUnaryLogical<QEXTLBOPRNot> >
 {
     template <typename T_arg>
-    static typename QEXTLambdaActionUnaryResultTypeDeduce<unary_logical<not_>, T_arg>::Type
+    static typename QEXTLambdaActionUnaryResultTypeDeduce<QEXTLBOPRUnaryLogical<QEXTLBOPRNot>, T_arg>::Type
     doAction(T_arg arg) {
         return !arg;
     }
 };
 
 template <>
-struct QEXTLambdaActionUnary<unary_other<address> >
+struct QEXTLambdaActionUnary<QEXTLBOPRUnaryOther<QEXTLBOPRAddress> >
 {
     template <typename T_arg>
-    static typename QEXTLambdaActionUnaryResultTypeDeduce<unary_other<address>, T_arg>::Type
+    static typename QEXTLambdaActionUnaryResultTypeDeduce<QEXTLBOPRUnaryOther<QEXTLBOPRAddress>, T_arg>::Type
     doAction(T_arg arg) {
         return &arg;
     }
 };
 
 template <>
-struct QEXTLambdaActionUnary<unary_other<dereference> >
+struct QEXTLambdaActionUnary<QEXTLBOPRUnaryOther<QEXTLBOPRDereference> >
 {
     template <typename T_arg>
-    static typename QEXTLambdaActionUnaryResultTypeDeduce<unary_other<dereference>, T_arg>::Type
+    static typename QEXTLambdaActionUnaryResultTypeDeduce<QEXTLBOPRUnaryOther<QEXTLBOPRDereference>, T_arg>::Type
     doAction(T_arg arg) {
         return *arg;
     }
 };
 
 template <typename T_type>
-struct QEXTLambdaActionConvert<cast_<reinterpret_>, T_type>
+struct QEXTLambdaActionConvert<QEXTLBOPRCast<QEXTLBOPRReinterpret>, T_type>
 {
     template <typename T_arg>
-    static typename LambdaActionConvertResultTypeDeduce<cast_<reinterpret_>, T_type, T_arg>::Type
+    static typename LambdaActionConvertResultTypeDeduce<QEXTLBOPRCast<QEXTLBOPRReinterpret>, T_type, T_arg>::Type
     doAction(T_arg arg) {
         return reinterpret_cast<T_type>(arg);
     }
 };
 
 template <typename T_type>
-struct QEXTLambdaActionConvert<cast_<static_>, T_type>
+struct QEXTLambdaActionConvert<QEXTLBOPRCast<QEXTLBOPRStatic>, T_type>
 {
     template <typename T_arg>
-    static typename LambdaActionConvertResultTypeDeduce<cast_<static_>, T_type, T_arg>::Type
+    static typename LambdaActionConvertResultTypeDeduce<QEXTLBOPRCast<QEXTLBOPRStatic>, T_type, T_arg>::Type
     doAction(T_arg arg) {
         return static_cast<T_type>(arg);
     }
 };
 
 template <typename T_type>
-struct QEXTLambdaActionConvert<cast_<dynamic_>, T_type>
+struct QEXTLambdaActionConvert<QEXTLBOPRCast<QEXTLBOPRDynamic>, T_type>
 {
     template <typename T_arg>
-    static typename LambdaActionConvertResultTypeDeduce<cast_<dynamic_>, T_type, T_arg>::Type
+    static typename LambdaActionConvertResultTypeDeduce<QEXTLBOPRCast<QEXTLBOPRDynamic>, T_type, T_arg>::Type
     doAction(T_arg arg) {
         return dynamic_cast<T_type>(arg);
     }
@@ -1158,707 +1158,707 @@ struct QEXTVisitor<QEXTLambdaOperatorConvert<T_lambda_action, T_type, T_arg> >
     }
 };
 
-// Operators for QEXTLambda action arithmetic<plus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRArithmetic<QEXTLBOPRPlus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<plus>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRPlus>, T_arg1, T_arg2> >
 operator + (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<plus>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRPlus>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<plus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRPlus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator + (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<plus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRPlus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<plus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRPlus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator + (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<plus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRPlus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action arithmetic<minus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRArithmetic<QEXTLBOPRMinus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<minus>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMinus>, T_arg1, T_arg2> >
 operator - (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<minus>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMinus>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<minus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMinus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator - (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<minus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMinus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<minus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMinus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator - (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<minus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMinus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action arithmetic<multiplies>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRArithmetic<QEXTLBOPRMultiplies>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<multiplies>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMultiplies>, T_arg1, T_arg2> >
 operator * (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<multiplies>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMultiplies>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<multiplies>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMultiplies>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator * (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<multiplies>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMultiplies>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<multiplies>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMultiplies>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator * (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<multiplies>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRMultiplies>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action arithmetic<divides>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRArithmetic<QEXTLBOPRDivides>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<divides>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRDivides>, T_arg1, T_arg2> >
 operator / (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<divides>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRDivides>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<divides>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRDivides>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator / (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<divides>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRDivides>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<divides>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRDivides>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator / (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<divides>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRDivides>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action arithmetic<modulus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRArithmetic<QEXTLBOPRModulus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<modulus>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRModulus>, T_arg1, T_arg2> >
 operator % (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<modulus>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRModulus>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<modulus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRModulus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator % (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<modulus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRModulus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic<modulus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRModulus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator % (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic<modulus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmetic<QEXTLBOPRModulus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action bitwise<leftshift>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRBitwise<QEXTLBOPRLeftshift>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<leftshift>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRLeftshift>, T_arg1, T_arg2> >
 operator << (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise<leftshift>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRLeftshift>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<leftshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRLeftshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator << (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<bitwise<leftshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRLeftshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<leftshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRLeftshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator << (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise<leftshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRLeftshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action bitwise<rightshift>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRBitwise<QEXTLBOPRRightshift>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<rightshift>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRRightshift>, T_arg1, T_arg2> >
 operator >> (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise<rightshift>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRRightshift>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<rightshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRRightshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator >> (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<bitwise<rightshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRRightshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<rightshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRRightshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator >> (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise<rightshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRRightshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action bitwise<and_>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRBitwise<QEXTLBOPRAnd>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<and_>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRAnd>, T_arg1, T_arg2> >
 operator & (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise<and_>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRAnd>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<and_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRAnd>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator & (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<bitwise<and_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRAnd>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<and_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRAnd>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator & (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise<and_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRAnd>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action bitwise<or_>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRBitwise<QEXTLBOPROr>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<or_>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPROr>, T_arg1, T_arg2> >
 operator | (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise<or_>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPROr>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<or_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPROr>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator | (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<bitwise<or_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPROr>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<or_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPROr>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator | (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise<or_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPROr>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action bitwise<xor_>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRBitwise<QEXTLBOPRXor>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<xor_>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRXor>, T_arg1, T_arg2> >
 operator ^ (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise<xor_>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRXor>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<xor_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRXor>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator ^ (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<bitwise<xor_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRXor>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise<xor_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRXor>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator ^ (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise<xor_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwise<QEXTLBOPRXor>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action logical<and_>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRLogical<QEXTLBOPRAnd>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<logical<and_>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPRAnd>, T_arg1, T_arg2> >
 operator && (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<logical<and_>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPRAnd>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<logical<and_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPRAnd>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator && (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<logical<and_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPRAnd>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<logical<and_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPRAnd>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator && (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<logical<and_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPRAnd>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action logical<or_>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRLogical<QEXTLBOPROr>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<logical<or_>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPROr>, T_arg1, T_arg2> >
 operator || (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<logical<or_>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPROr>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<logical<or_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPROr>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator || (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<logical<or_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPROr>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<logical<or_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPROr>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator || (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<logical<or_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRLogical<QEXTLBOPROr>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action relational<less>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRRelational<QEXTLBOPRLess>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<less>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLess>, T_arg1, T_arg2> >
 operator < (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<less>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLess>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<less>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLess>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator < (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<relational<less>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLess>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<less>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLess>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator < (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<less>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLess>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action relational<greater>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRRelational<QEXTLBOPRGreater>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<greater>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreater>, T_arg1, T_arg2> >
 operator > (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<greater>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreater>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<greater>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreater>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator > (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<relational<greater>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreater>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<greater>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreater>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator > (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<greater>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreater>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action relational<less_equal>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRRelational<QEXTLBOPRLessEqual>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<less_equal>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLessEqual>, T_arg1, T_arg2> >
 operator <= (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<less_equal>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLessEqual>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<less_equal>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLessEqual>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator <= (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<relational<less_equal>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLessEqual>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<less_equal>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLessEqual>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator <= (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<less_equal>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRLessEqual>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action relational<greater_equal>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRRelational<QEXTLBOPRGreaterEqual>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<greater_equal>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreaterEqual>, T_arg1, T_arg2> >
 operator >= (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<greater_equal>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreaterEqual>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<greater_equal>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreaterEqual>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator >= (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<relational<greater_equal>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreaterEqual>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<greater_equal>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreaterEqual>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator >= (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<greater_equal>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRGreaterEqual>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action relational<equal_to>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRRelational<QEXTLBOPREqualTo>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<equal_to>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPREqualTo>, T_arg1, T_arg2> >
 operator == (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<equal_to>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPREqualTo>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<equal_to>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPREqualTo>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator == (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<relational<equal_to>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPREqualTo>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<equal_to>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPREqualTo>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator == (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<equal_to>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPREqualTo>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action relational<not_equal_to>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRRelational<QEXTLBOPRNotEqualTo>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<not_equal_to>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRNotEqualTo>, T_arg1, T_arg2> >
 operator != (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<not_equal_to>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRNotEqualTo>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<not_equal_to>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRNotEqualTo>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator != (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<relational<not_equal_to>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRNotEqualTo>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<relational<not_equal_to>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRNotEqualTo>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator != (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<relational<not_equal_to>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRRelational<QEXTLBOPRNotEqualTo>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action arithmetic_assign<plus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRArithmeticAssign<QEXTLBOPRPlus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<plus>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRPlus>, T_arg1, T_arg2> >
 operator += (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<plus>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRPlus>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<plus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRPlus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator += (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<plus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRPlus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<plus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRPlus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator += (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<plus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRPlus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action arithmetic_assign<minus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRArithmeticAssign<QEXTLBOPRMinus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<minus>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMinus>, T_arg1, T_arg2> >
 operator -= (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<minus>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMinus>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<minus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMinus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator -= (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<minus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMinus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<minus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMinus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator -= (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<minus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMinus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action arithmetic_assign<multiplies>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRArithmeticAssign<QEXTLBOPRMultiplies>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<multiplies>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMultiplies>, T_arg1, T_arg2> >
 operator *= (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<multiplies>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMultiplies>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<multiplies>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMultiplies>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator *= (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<multiplies>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMultiplies>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<multiplies>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMultiplies>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator *= (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<multiplies>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRMultiplies>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action arithmetic_assign<divides>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRArithmeticAssign<QEXTLBOPRDivides>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<divides>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRDivides>, T_arg1, T_arg2> >
 operator /= (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<divides>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRDivides>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<divides>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRDivides>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator /= (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<divides>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRDivides>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<divides>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRDivides>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator /= (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<divides>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRDivides>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action arithmetic_assign<modulus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRArithmeticAssign<QEXTLBOPRModulus>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<modulus>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRModulus>, T_arg1, T_arg2> >
 operator %= (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<modulus>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRModulus>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<modulus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRModulus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator %= (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<modulus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRModulus>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<arithmetic_assign<modulus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRModulus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator %= (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<arithmetic_assign<modulus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRArithmeticAssign<QEXTLBOPRModulus>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action bitwise_assign<leftshift>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRBitwiseAssign<QEXTLBOPRLeftshift>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<leftshift>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRLeftshift>, T_arg1, T_arg2> >
 operator <<= (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<leftshift>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRLeftshift>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<leftshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRLeftshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator <<= (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<leftshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRLeftshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<leftshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRLeftshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator <<= (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<leftshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRLeftshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action bitwise_assign<rightshift>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRBitwiseAssign<QEXTLBOPRRightshift>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<rightshift>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRRightshift>, T_arg1, T_arg2> >
 operator >>= (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<rightshift>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRRightshift>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<rightshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRRightshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator >>= (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<rightshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRRightshift>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<rightshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRRightshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator >>= (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<rightshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRRightshift>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action bitwise_assign<and_>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRBitwiseAssign<QEXTLBOPRAnd>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<and_>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRAnd>, T_arg1, T_arg2> >
 operator &= (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<and_>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRAnd>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<and_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRAnd>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator &= (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<and_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRAnd>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<and_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRAnd>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator &= (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<and_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRAnd>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action bitwise_assign<or_>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRBitwiseAssign<QEXTLBOPROr>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<or_>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPROr>, T_arg1, T_arg2> >
 operator |= (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<or_>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPROr>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<or_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPROr>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator |= (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<or_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPROr>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<or_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPROr>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator |= (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<or_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPROr>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action bitwise_assign<xor_>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
+// Operators for QEXTLambda action QEXTLBOPRBitwiseAssign<QEXTLBOPRXor>. At least one of the arguments needs to be of Type lamdba, hence the overloads.
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<xor_>, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRXor>, T_arg1, T_arg2> >
 operator ^= (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<xor_>, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRXor>, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<xor_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRXor>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> >
 operator ^= (const QEXTLambda<T_arg1> &arg1, const T_arg2 &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<xor_>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRXor>, T_arg1, typename QEXTUnwrapReference<T_arg2>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2));
 }
 
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<bitwise_assign<xor_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRXor>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> >
 operator ^= (const T_arg1 &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<bitwise_assign<xor_>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRBitwiseAssign<QEXTLBOPRXor>, typename QEXTUnwrapReference<T_arg1>::Type, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1, arg2.m_value));
 }
 
-// Operators for QEXTLambda action comma. For comma we require that both arguments needs to be of Type lamdba
+// Operators for QEXTLambda action QEXTLBOPRComma. For QEXTLBOPRComma we require that both arguments needs to be of Type lamdba
 template <typename T_arg1, typename T_arg2>
-QEXTLambda<QEXTLambdaOperator<comma, T_arg1, T_arg2> >
+QEXTLambda<QEXTLambdaOperator<QEXTLBOPRComma, T_arg1, T_arg2> >
 operator , (const QEXTLambda<T_arg1> &arg1, const QEXTLambda<T_arg2> &arg2) {
-    typedef QEXTLambdaOperator<comma, T_arg1, T_arg2> OperatorType;
+    typedef QEXTLambdaOperator<QEXTLBOPRComma, T_arg1, T_arg2> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg1.m_value, arg2.m_value));
 }
 
-// Operator for QEXTLambda action unary_arithmetic<pre_increment>.
+// Operator for QEXTLambda action QEXTLBOPRUnaryArithmetic<QEXTLBOPRPreIncrement>.
 template <typename T_arg>
-QEXTLambda<QEXTLambdaOperatorUnary<unary_arithmetic<pre_increment>, T_arg> >
+QEXTLambda<QEXTLambdaOperatorUnary<QEXTLBOPRUnaryArithmetic<QEXTLBOPRPreIncrement>, T_arg> >
 operator ++ (const QEXTLambda<T_arg> &arg) {
-    typedef QEXTLambdaOperatorUnary<unary_arithmetic<pre_increment>, T_arg> OperatorType;
+    typedef QEXTLambdaOperatorUnary<QEXTLBOPRUnaryArithmetic<QEXTLBOPRPreIncrement>, T_arg> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg.m_value));
 }
 
-// Operator for QEXTLambda action unary_arithmetic<pre_decrement>.
+// Operator for QEXTLambda action QEXTLBOPRUnaryArithmetic<QEXTLBOPRPreDecrement>.
 template <typename T_arg>
-QEXTLambda<QEXTLambdaOperatorUnary<unary_arithmetic<pre_decrement>, T_arg> >
+QEXTLambda<QEXTLambdaOperatorUnary<QEXTLBOPRUnaryArithmetic<QEXTLBOPRPreDecrement>, T_arg> >
 operator -- (const QEXTLambda<T_arg> &arg) {
-    typedef QEXTLambdaOperatorUnary<unary_arithmetic<pre_decrement>, T_arg> OperatorType;
+    typedef QEXTLambdaOperatorUnary<QEXTLBOPRUnaryArithmetic<QEXTLBOPRPreDecrement>, T_arg> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg.m_value));
 }
 
-// Operator for QEXTLambda action unary_arithmetic<negate>.
+// Operator for QEXTLambda action QEXTLBOPRUnaryArithmetic<QEXTLBOPRNegate>.
 template <typename T_arg>
-QEXTLambda<QEXTLambdaOperatorUnary<unary_arithmetic<negate>, T_arg> >
+QEXTLambda<QEXTLambdaOperatorUnary<QEXTLBOPRUnaryArithmetic<QEXTLBOPRNegate>, T_arg> >
 operator - (const QEXTLambda<T_arg> &arg) {
-    typedef QEXTLambdaOperatorUnary<unary_arithmetic<negate>, T_arg> OperatorType;
+    typedef QEXTLambdaOperatorUnary<QEXTLBOPRUnaryArithmetic<QEXTLBOPRNegate>, T_arg> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg.m_value));
 }
 
-// Operator for QEXTLambda action unary_bitwise<not_>.
+// Operator for QEXTLambda action QEXTLBOPRUnaryBitwise<QEXTLBOPRNot>.
 template <typename T_arg>
-QEXTLambda<QEXTLambdaOperatorUnary<unary_bitwise<not_>, T_arg> >
+QEXTLambda<QEXTLambdaOperatorUnary<QEXTLBOPRUnaryBitwise<QEXTLBOPRNot>, T_arg> >
 operator ~ (const QEXTLambda<T_arg> &arg) {
-    typedef QEXTLambdaOperatorUnary<unary_bitwise<not_>, T_arg> OperatorType;
+    typedef QEXTLambdaOperatorUnary<QEXTLBOPRUnaryBitwise<QEXTLBOPRNot>, T_arg> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg.m_value));
 }
 
-// Operator for QEXTLambda action unary_logical<not_>.
+// Operator for QEXTLambda action QEXTLBOPRUnaryLogical<QEXTLBOPRNot>.
 template <typename T_arg>
-QEXTLambda<QEXTLambdaOperatorUnary<unary_logical<not_>, T_arg> >
+QEXTLambda<QEXTLambdaOperatorUnary<QEXTLBOPRUnaryLogical<QEXTLBOPRNot>, T_arg> >
 operator ! (const QEXTLambda<T_arg> &arg) {
-    typedef QEXTLambdaOperatorUnary<unary_logical<not_>, T_arg> OperatorType;
+    typedef QEXTLambdaOperatorUnary<QEXTLBOPRUnaryLogical<QEXTLBOPRNot>, T_arg> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg.m_value));
 }
 
-// Operator for QEXTLambda action unary_other<address>.
+// Operator for QEXTLambda action QEXTLBOPRUnaryOther<QEXTLBOPRAddress>.
 template <typename T_arg>
-QEXTLambda<QEXTLambdaOperatorUnary<unary_other<address>, T_arg> >
+QEXTLambda<QEXTLambdaOperatorUnary<QEXTLBOPRUnaryOther<QEXTLBOPRAddress>, T_arg> >
 operator & (const QEXTLambda<T_arg> &arg) {
-    typedef QEXTLambdaOperatorUnary<unary_other<address>, T_arg> OperatorType;
+    typedef QEXTLambdaOperatorUnary<QEXTLBOPRUnaryOther<QEXTLBOPRAddress>, T_arg> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg.m_value));
 }
 
-// Operator for QEXTLambda action unary_other<dereference>.
+// Operator for QEXTLambda action QEXTLBOPRUnaryOther<QEXTLBOPRDereference>.
 template <typename T_arg>
-QEXTLambda<QEXTLambdaOperatorUnary<unary_other<dereference>, T_arg> >
+QEXTLambda<QEXTLambdaOperatorUnary<QEXTLBOPRUnaryOther<QEXTLBOPRDereference>, T_arg> >
 operator * (const QEXTLambda<T_arg> &arg) {
-    typedef QEXTLambdaOperatorUnary<unary_other<dereference>, T_arg> OperatorType;
+    typedef QEXTLambdaOperatorUnary<QEXTLBOPRUnaryOther<QEXTLBOPRDereference>, T_arg> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(arg.m_value));
 }
 
-// Creators for QEXTLambda action cast_<reinterpret_>.
+// Creators for QEXTLambda action QEXTLBOPRCast<QEXTLBOPRReinterpret>.
 template <typename T_type, typename T_arg>
-QEXTLambda<QEXTLambdaOperatorConvert<cast_<reinterpret_>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> >
-reinterpret_cast_(const T_arg &arg) {
-    typedef QEXTLambdaOperatorConvert<cast_<reinterpret_>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> OperatorType;
+QEXTLambda<QEXTLambdaOperatorConvert<QEXTLBOPRCast<QEXTLBOPRReinterpret>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> >
+qextLambdaReinterpretCast(const T_arg &arg) {
+    typedef QEXTLambdaOperatorConvert<QEXTLBOPRCast<QEXTLBOPRReinterpret>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(qextUnwrapLambdaValue(arg)));
 }
 
-// Creators for QEXTLambda action cast_<static_>.
+// Creators for QEXTLambda action QEXTLBOPRCast<QEXTLBOPRStatic>.
 template <typename T_type, typename T_arg>
-QEXTLambda<QEXTLambdaOperatorConvert<cast_<static_>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> >
-static_cast_(const T_arg &arg) {
-    typedef QEXTLambdaOperatorConvert<cast_<static_>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> OperatorType;
+QEXTLambda<QEXTLambdaOperatorConvert<QEXTLBOPRCast<QEXTLBOPRStatic>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> >
+qextLambdaStaticCast(const T_arg &arg) {
+    typedef QEXTLambdaOperatorConvert<QEXTLBOPRCast<QEXTLBOPRStatic>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(qextUnwrapLambdaValue(arg)));
 }
 
-// Creators for QEXTLambda action cast_<dynamic_>.
+// Creators for QEXTLambda action QEXTLBOPRCast<QEXTLBOPRDynamic>.
 template <typename T_type, typename T_arg>
-QEXTLambda<QEXTLambdaOperatorConvert<cast_<dynamic_>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> >
-dynamic_cast_(const T_arg &arg) {
-    typedef QEXTLambdaOperatorConvert<cast_<dynamic_>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> OperatorType;
+QEXTLambda<QEXTLambdaOperatorConvert<QEXTLBOPRCast<QEXTLBOPRDynamic>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> >
+qextLambdaDynamicCast(const T_arg &arg) {
+    typedef QEXTLambdaOperatorConvert<QEXTLBOPRCast<QEXTLBOPRDynamic>, T_type, typename QEXTUnwrapLambdaType<T_arg>::Type> OperatorType;
     return QEXTLambda<OperatorType>(OperatorType(qextUnwrapLambdaValue(arg)));
 }
 

@@ -113,7 +113,7 @@ RadioButton {
             border.width: 0
             Connections {
                 target: qextRadioButton
-                onHoveredChanged: {
+                function onHoveredChanged() {
                     if (qextRadioButton.hovered) {
                         mBg.width = qextRadioButton.textInLeft ? qextRadioButton.leftPadding * 2 + qextRadioButton.availableHeight :
                                                                  qextRadioButton.rightPadding * 2 + qextRadioButton.availableHeight

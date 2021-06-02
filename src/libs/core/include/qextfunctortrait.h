@@ -6,12 +6,40 @@
 
 #include <QString>
 
+
+/** @defgroup sigcfunctors Functors
+ * Functors are copyable types that define operator()().
+ *
+ * Types that define operator()() overloads with different return types are referred to
+ * as multi-type functors. Multi-type functors are only partially supported.
+ *
+ * Closures are functors that store all information needed to invoke a callback from operator()().
+ *
+ * Adaptors are functors that alter the signature of a functor's operator()().
+ */
+
+
+
+/** A hint to the compiler.
+ * All functors which define @p result_type should publically inherit from this hint.
+ *
+ * @ingroup qextFunctors
+ */
 struct QEXTFunctorBase {
     typedef void ResultType;
     typedef void ObjectType;
     virtual ~QEXTFunctorBase() {}
 };
 
+/** Trait that specifies the return type of any type.
+ * Template specializations for functors derived from QEXTFunctorBase,
+ * for function pointers and for class methods are provided.
+ *
+ * @tparam T_functor Functor type.
+ * @tparam I_derives_functor_base Whether @p T_functor inherits from QEXTFunctorBase.
+ *
+ * @ingroup qextFunctors
+ */
 template <typename T_functor, bool I_derives_functor_base = QEXTBaseAndDerivedTester<QEXTFunctorBase, T_functor>::value>
 struct QEXTFunctorTrait
 {
@@ -31,6 +59,75 @@ struct QEXTFunctorTrait<T_functor, true>
 
     QString typeName() const { return "QEXTFunctorBase"; }
 };
+
+
+
+
+/** Helper macro, if you want to mix user-defined and third party functors.
+ *
+ * If you want to mix functors not derived from QEXTFunctorBase, and
+ * these functors define @p ResultType, use this macro like so:
+ * @code
+ * QEXT_FUNCTORS_HAVE_RESULT_TYPE
+ * @endcode
+ *
+ * You can't use both QEXT_FUNCTORS_HAVE_RESULT_TYPE and
+ * QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE in the same compilation unit.
+ *
+ * @ingroup qextfunctors
+ */
+#define QEXT_FUNCTORS_HAVE_RESULT_TYPE                  \
+    template <typename T_functor>                       \
+    struct QEXTFunctorTrait<T_functor, false> {         \
+    typedef typename T_functor::ResultType ResultType;  \
+    typedef T_functor FunctorType;                      \
+    };
+
+/** Helper macro, if you want to mix user-defined and third party functors.
+ *
+ * If you want to mix functors not derived from QEXTFunctorBase, and
+ * these functors don't define @p ResultType, use this macro inside namespace sigc
+ * to expose the return type of the functors like so:
+ * @code
+ *   QEXT_FUNCTOR_TRAIT(first_functor_type, return_type_of_first_functor_type)
+ *   QEXT_FUNCTOR_TRAIT(second_functor_type, return_type_of_second_functor_type)
+ *   ...
+ * @endcode
+ *
+ * @ingroup qextfunctors
+ */
+#define QEXT_FUNCTOR_TRAIT(T_functor, T_return)     \
+    template <>                                     \
+    struct QEXTFunctorTrait<T_functor, false> {     \
+    typedef T_return ResultType;                    \
+    typedef T_functor FunctorType;                  \
+    };
+
+/** Helper macro, if you want to mix user-defined and third party functors.
+ *
+ * If you want to mix functors not derived from QEXTFunctorBase,
+ * and your compiler can deduce the result type of the functor with the C++11
+ * keyword <tt>decltype</tt>, use this macro like so:
+ * @code
+ *   QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE
+ * @endcode
+ *
+ * Functors with overloaded operator()() are not supported.
+ *
+ * @newin{2,2,11}
+ *
+ * You can't use both QEXT_FUNCTORS_HAVE_RESULT_TYPE and
+ * QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE in the same compilation unit.
+ *
+ * @ingroup qextfunctors
+ */
+#define QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE  \
+    template <typename T_functor>                       \
+    struct QEXTFunctorTrait<T_functor, false> {         \
+    typedef typename QEXTFunctorTrait<decltype(&T_functor::operator()), false>::ResultType ResultType; \
+    typedef T_functor FunctorType;                      \
+    };
+
 
 
 template <typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7> class QEXTPointerFunctor7;

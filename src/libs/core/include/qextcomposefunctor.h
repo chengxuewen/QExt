@@ -5,6 +5,49 @@
 #include <qextresulttypededuce.h>
 
 
+/** @defgroup compose qextComposeFunctor()
+ * qextComposeFunctor() combines two or three arbitrary functors.
+ * On invokation, parameters are passed on to one or two getter functor(s).
+ * The return value(s) are then passed on to the setter function.
+ *
+ * @par Examples:
+ * @code
+ * float square_root(float a)  { return sqrtf(a); }
+ * float sum(float a, float b) { return a+b; }
+ * std::cout << qextComposeFunctor(&square_root, &sum)(9, 16); // calls square_root(sum(3,6))
+ * std::cout << qextComposeFunctor(&sum, &square_root, &square_root)(9); // calls sum(square_root(9), square_root(9))
+ * @endcode
+ *
+ * The functor qextComposeFunctor() returns can be passed directly into
+ * QEXTSignal::connect().
+ *
+ * @par Example:
+ * @code
+ * QEXTSignal<float,float,float> some_signal;
+ * some_signal.connect(qextComposeFunctor(&square_root, &sum));
+ * @endcode
+ *
+ * For a more powerful version of this functionality see the lambda
+ * library adaptor qextLambdaGroup() which can bind, hide and reorder
+ * arguments arbitrarily. Although qextLambdaGroup() is more flexible,
+ * qextBindFunctor() provides a means of binding parameters when the total
+ * number of parameters called is variable.
+ *
+ * @ingroup adaptors
+ */
+
+
+/** Adaptor that combines three functors.
+ * Use the convenience function qextComposeFunctor() to create an instance of QEXTCompose3Functor.
+ *
+ * The following template arguments are used:
+ * - @e T_setter Type of the setter functor to wrap.
+ * - @e T_getter1 Type of the first getter functor to wrap.
+ * - @e T_getter2 Type of the second getter functor to wrap.
+ * - @e T_getter3 Type of the third getter functor to wrap.
+ *
+ * @ingroup qextComposeFunctor
+ */
 template <typename T_setter, typename T_getter1, typename T_getter2, typename T_getter3>
 struct QEXTCompose3Functor : public QEXTAdapts<T_setter>
 {
@@ -114,6 +157,13 @@ struct QEXTCompose3Functor : public QEXTAdapts<T_setter>
     Getter3Type m_getter3;
 };
 
+//template specialization of visitor<>::do_visit_each<>(action, functor):
+/** Performs a functor on each of the targets of a functor.
+ * The function overload for QEXTCompose3Functor performs a functor on the
+ * functors stored in the QEXTCompose3Functor object.
+ *
+ * @ingroup qextComposeFunctor
+ */
 template <typename T_setter, typename T_getter1, typename T_getter2, typename T_getter3>
 struct QEXTVisitor<QEXTCompose3Functor<T_setter, T_getter1, T_getter2, T_getter3> >
 {
@@ -128,6 +178,16 @@ struct QEXTVisitor<QEXTCompose3Functor<T_setter, T_getter1, T_getter2, T_getter3
 };
 
 
+/** Adaptor that combines three functors.
+ * Use the convenience function qextComposeFunctor() to create an instance of QEXTCompose2Functor.
+ *
+ * The following template arguments are used:
+ * - @e T_setter Type of the setter functor to wrap.
+ * - @e T_getter1 Type of the first getter functor to wrap.
+ * - @e T_getter2 Type of the second getter functor to wrap.
+ *
+ * @ingroup qextComposeFunctor
+ */
 template <typename T_setter, typename T_getter1, typename T_getter2>
 struct QEXTCompose2Functor : public QEXTAdapts<T_setter>
 {
@@ -219,6 +279,11 @@ struct QEXTCompose2Functor : public QEXTAdapts<T_setter>
                 (m_getter1(arg1, arg2, arg3, arg4, arg5, arg6, arg7), m_getter2(arg1, arg2, arg3, arg4, arg5, arg6, arg7));
     }
 
+    /** Constructs a QEXTCompose2Functor object that combines the passed functors.
+     * @param setter Functor that receives the return values of the invokation of @e getter1 and @e getter2.
+     * @param getter1 Functor to invoke from operator()().
+     * @param getter2 Functor to invoke from operator()().
+     */
     QEXTCompose2Functor(const T_setter &setter, const T_getter1 &getter1, const T_getter2 &getter2)
         : QEXTAdapts<T_setter>(setter), m_getter1(getter1), m_getter2(getter2) {}
 
@@ -226,6 +291,13 @@ struct QEXTCompose2Functor : public QEXTAdapts<T_setter>
     Getter2Type m_getter2;
 };
 
+//template specialization of visitor<>::do_visit_each<>(action, functor):
+/** Performs a functor on each of the targets of a functor.
+ * The function overload for QEXTCompose2Functor performs a functor on the
+ * functors stored in the QEXTCompose2Functor object.
+ *
+ * @ingroup qextComposeFunctor
+ */
 template <typename T_setter, typename T_getter1, typename T_getter2>
 struct QEXTVisitor<QEXTCompose2Functor<T_setter, T_getter1, T_getter2> >
 {
@@ -240,6 +312,16 @@ struct QEXTVisitor<QEXTCompose2Functor<T_setter, T_getter1, T_getter2> >
 
 
 
+
+/** Adaptor that combines two functors.
+ * Use the convenience function qextComposeFunctor() to create an instance of QEXTCompose1Functor.
+ *
+ * The following template arguments are used:
+ * - @e T_setter Type of the setter functor to wrap.
+ * - @e T_getter Type of the getter functor to wrap.
+ *
+ * @ingroup qextComposeFunctor
+ */
 template <typename T_setter, typename T_getter>
 struct QEXTCompose1Functor : public QEXTAdapts<T_setter>
 {
@@ -319,12 +401,23 @@ struct QEXTCompose1Functor : public QEXTAdapts<T_setter>
     }
 
 
+    /** Constructs a compose1_functor object that combines the passed functors.
+     * @param setter Functor that receives the return values of the invokation of @e getter1 and @e getter2.
+     * @param getter Functor to invoke from operator()().
+     */
     QEXTCompose1Functor(const T_setter &setter, const T_getter &getter)
         : QEXTAdapts<T_setter>(setter), m_getter(getter) {}
 
     GetterType m_getter;
 };
 
+//template specialization of visitor<>::do_visit_each<>(action, functor):
+/** Performs a functor on each of the targets of a functor.
+ * The function overload for QEXTCompose1Functor performs a functor on the
+ * functors stored in the QEXTCompose1Functor object.
+ *
+ * @ingroup qextComposeFunctor
+ */
 template <typename T_setter, typename T_getter>
 struct QEXTVisitor<QEXTCompose1Functor<T_setter, T_getter> >
 {
@@ -339,18 +432,45 @@ struct QEXTVisitor<QEXTCompose1Functor<T_setter, T_getter> >
 
 
 
+/** Creates an adaptor of type QEXTCompose3Functor which combines three functors.
+ *
+ * @param setter Functor that receives the return values of the invokation of @e getter1 and @e getter2 and @e getter3.
+ * @param getter1 Functor to invoke from operator()().
+ * @param getter2 Functor to invoke from operator()().
+ * @param getter3 Functor to invoke from operator()().
+ * @return Adaptor that executes @e setter with the values return from invokation of @e getter1 and @e getter2.
+ *
+ * @ingroup qextComposeFunctor
+ */
 template <typename T_setter, typename T_getter1, typename T_getter2, typename T_getter3>
 inline QEXTCompose3Functor<T_setter, T_getter1, T_getter2, T_getter3>
 qextComposeFunctor(const T_setter &setter, const T_getter1 &getter1, const T_getter2 &getter2, const T_getter3 &getter3) {
     return QEXTCompose3Functor<T_setter, T_getter1, T_getter2, T_getter3>(setter, getter1, getter2, getter3);
 }
 
+/** Creates an adaptor of type QEXTCompose2Functor which combines three functors.
+ *
+ * @param setter Functor that receives the return values of the invokation of @e getter1 and @e getter2.
+ * @param getter1 Functor to invoke from operator()().
+ * @param getter2 Functor to invoke from operator()().
+ * @return Adaptor that executes @e setter with the values return from invokation of @e getter1 and @e getter2.
+ *
+ * @ingroup qextComposeFunctor
+ */
 template <typename T_setter, typename T_getter1, typename T_getter2>
 inline QEXTCompose2Functor<T_setter, T_getter1, T_getter2>
 qextComposeFunctor(const T_setter &setter, const T_getter1 &getter1, const T_getter2 &getter2) {
     return QEXTCompose2Functor<T_setter, T_getter1, T_getter2>(setter, getter1, getter2);
 }
 
+/** Creates an adaptor of type QEXTCompose1Functor which combines two functors.
+ *
+ * @param setter Functor that receives the return value of the invokation of @e getter.
+ * @param getter Functor to invoke from operator()().
+ * @return Adaptor that executes @e setter with the value returned from invokation of @e getter.
+ *
+ * @ingroup qextComposeFunctor
+ */
 template <typename T_setter, typename T_getter>
 inline QEXTCompose1Functor<T_setter, T_getter>
 qextComposeFunctor(const T_setter &setter, const T_getter &getter) {

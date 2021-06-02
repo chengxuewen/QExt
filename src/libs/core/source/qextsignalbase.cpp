@@ -9,17 +9,17 @@ namespace qextinternal {
 
 // Data sent from QEXTSignalImpl::insert() to QEXTSlotRep::setParent() when a slot is
 // connected, and then sent from QEXTSlotRep::disconnect() to QEXTSignalImpl::notify() when the slot is disconnected.
-struct QEXTSelfIter
+struct QEXTSelfIterator
 {
     QEXTSignalImpl *m_self;
     QEXTSignalImpl::IteratorType m_iter;
 
-    QEXTSelfIter(QEXTSignalImpl *self, QEXTSignalImpl::IteratorType iter)
+    QEXTSelfIterator(QEXTSignalImpl *self, QEXTSignalImpl::IteratorType iter)
         : m_self(self), m_iter(iter) {}
 };
 
 QEXTSignalImpl::QEXTSignalImpl()
-    : m_refCount(0), m_execCount(0), m_deferred(0) {}
+    : m_referenceCount(0), m_executionCount(0), m_deferred(0) {}
 
 // only MSVC needs this to guarantee that all new/delete are executed from the DLL module
 #ifdef Q_CC_MSVC
@@ -39,10 +39,10 @@ void QEXTSignalImpl::clear()
     // Don't let QEXTSignalImpl::notify() erase the slots. It would invalidate the
     // iterator in the following loop.
     const bool saved_deferred = m_deferred;
-    QEXTSignalExec exec(this);
+    QEXTSignalExecution execution(this);
 
     // Disconnect all connected slots before they are deleted.
-    // QEXTSignalImpl::notify() will be called and delete the QEXTSelfIter structs.
+    // QEXTSignalImpl::notify() will be called and delete the QEXTSelfIterator structs.
     for (IteratorType iter = m_slotList.begin(); iter != m_slotList.end(); ++iter) {
         iter->disconnect();
     }
@@ -82,10 +82,10 @@ QEXTSignalImpl::IteratorType QEXTSignalImpl::erase(IteratorType iter)
     // Don't let QEXTSignalImpl::notify() erase the slot. It would be more
     // difficult to get the correct return value from QEXTSignalImpl::erase().
     const bool saved_deferred = m_deferred;
-    QEXTSignalExec exec(this);
+    QEXTSignalExecution execution(this);
 
     // Disconnect the slot before it is deleted.
-    // QEXTSignalImpl::notify() will be called and delete the QEXTSelfIter struct.
+    // QEXTSignalImpl::notify() will be called and delete the QEXTSelfIterator struct.
     iter->disconnect();
 
     m_deferred = saved_deferred;
@@ -95,7 +95,7 @@ QEXTSignalImpl::IteratorType QEXTSignalImpl::erase(IteratorType iter)
 QEXTSignalImpl::IteratorType QEXTSignalImpl::insert(QEXTSignalImpl::IteratorType iter, const QEXTSlotBase &slot)
 {
     IteratorType temp = m_slotList.insert(iter, slot);
-    QEXTSelfIter *selfIter = new QEXTSelfIter(this, temp);
+    QEXTSelfIterator *selfIter = new QEXTSelfIterator(this, temp);
     temp->setParent(selfIter, &notify);
     return temp;
 }
@@ -104,8 +104,8 @@ void QEXTSignalImpl::sweep()
 {
     // The deletion of a slot may cause the deletion of a QEXTSignalBase,
     // a decrementation of m_refCount, and the deletion of this.
-    // In that case, the deletion of this is deferred to ~QEXTSignalExec().
-    QEXTSignalExec exec(this);
+    // In that case, the deletion of this is deferred to ~QEXTSignalExecution().
+    QEXTSignalExecution execution(this);
 
     m_deferred = false;
     IteratorType iter = m_slotList.begin();
@@ -121,18 +121,18 @@ void QEXTSignalImpl::sweep()
 //static
 void* QEXTSignalImpl::notify(void *data)
 {
-    QSharedPointer<QEXTSelfIter> selfIter(static_cast<QEXTSelfIter*>(data));
+    QSharedPointer<QEXTSelfIterator> selfIter(static_cast<QEXTSelfIterator*>(data));
 
-    if (selfIter->m_self->m_execCount == 0) {
+    if (selfIter->m_self->m_executionCount == 0) {
         // The deletion of a slot may cause the deletion of a QEXTSignalBase,
         // a decrementation of si->m_self->m_refCount, and the deletion of si->m_self.
-        // In that case, the deletion of si->m_self is deferred to ~QEXTSignalExec().
-        QEXTSignalExec exec(selfIter->m_self);
+        // In that case, the deletion of si->m_self is deferred to ~QEXTSignalExecution().
+        QEXTSignalExecution execution(selfIter->m_self);
         selfIter->m_self->m_slotList.erase(selfIter->m_iter);
-    } else {                           // This is occuring during signal emission or slot erasure.
-        selfIter->m_self->m_deferred = true; // => sweep() will be called from ~QEXTSignalExec() after signal emission.
+    } else {    // This is occuring during signal send or slot erasure.
+        selfIter->m_self->m_deferred = true; // => sweep() will be called from ~QEXTSignalExecution() after signal send.
     }
-    return QEXT_NULLPTR;                      // This is safer because we don't have to care about our
+    return QEXT_NULLPTR;    // This is safer because we don't have to care about our
     // iterators in send(), clear(), and erase().
 }
 
@@ -152,7 +152,7 @@ QEXTSignalBase::~QEXTSignalBase()
     if (m_impl) {
         // Disconnect all slots before m_impl is deleted.
         // TODO: Move the QEXTSignalImpl::clear() call to ~QEXTSignalImpl() when ABI can be broken.
-        if (m_impl->m_refCount == 1) {
+        if (m_impl->m_referenceCount == 1) {
             m_impl->clear();
         }
         m_impl->unreference();
@@ -214,7 +214,7 @@ QEXTSignalBase& QEXTSignalBase::operator = (const QEXTSignalBase &src)
     if (m_impl) {
         // Disconnect all slots before m_impl is deleted.
         // TODO: Move the QEXTSignalImpl::clear() call to ~QEXTSignalImpl() when ABI can be broken.
-        if (m_impl->m_refCount == 1) {
+        if (m_impl->m_referenceCount == 1) {
             m_impl->clear();
         }
         m_impl->unreference();

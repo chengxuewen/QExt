@@ -5,7 +5,15 @@
 #include <qextboundargument.h>
 #include <qextreferencewrapper.h>
 
-
+/** Adaptor that fixes the return value of the wrapped functor.
+ * Use the convenience function qextBindReturnFunctor() to create an instance of QEXTBindReturnFunctor.
+ *
+ * The following template arguments are used:
+ * - @e T_return Type of the fixed return value.
+ * - @e T_functor Type of the functor to wrap.
+ *
+ * @ingroup qextBindFunctor
+ */
 template <typename T_return, typename T_functor>
 struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
 {
@@ -16,15 +24,26 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
     };
     typedef typename QEXTUnwrapReference<T_return>::Type ResultType;
 
+    /** Constructs a bind_return_functor object that fixes the return value to @p returnValue.
+     * @param functor Functor to invoke from operator()().
+     * @param returnValue Value to return from operator()().
+     */
     QEXTBindReturnFunctor(typename QEXTTypeTrait<T_functor>::Take functor, typename QEXTTypeTrait<T_return>::Take returnValue)
         : QEXTAdapts<T_functor>(functor), m_returnValue(returnValue) {}
 
+    /** Invokes the wrapped functor dropping its return value.
+     * @return The fixed return value.
+     */
     typename QEXTUnwrapReference<T_return>::Type
     operator()() {
         this->m_functor();
         return m_returnValue.invoke();
     }
 
+    /** Invokes the wrapped functor passing on the arguments.
+     * @param arg1 Argument to be passed on to the functor.
+     * @return The fixed return value.
+     */
     template <typename T_arg1>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1) {
@@ -33,6 +52,11 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
+    /** Invokes the wrapped functor passing on the arguments.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @return The fixed return value.
+     */
     template <typename T_arg1, typename T_arg2>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2) {
@@ -42,6 +66,12 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
+    /** Invokes the wrapped functor passing on the arguments.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @return The fixed return value.
+     */
     template <typename T_arg1, typename T_arg2, typename T_arg3>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) {
@@ -52,6 +82,13 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
+    /** Invokes the wrapped functor passing on the arguments.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @return The fixed return value.
+     */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) {
@@ -63,6 +100,14 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
+    /** Invokes the wrapped functor passing on the arguments.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @return The fixed return value.
+     */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) {
@@ -75,6 +120,15 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
+    /** Invokes the wrapped functor passing on the arguments.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @param arg6 Argument to be passed on to the functor.
+     * @return The fixed return value.
+     */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) {
@@ -88,6 +142,16 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
+    /** Invokes the wrapped functor passing on the arguments.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @param arg6 Argument to be passed on to the functor.
+     * @param arg7 Argument to be passed on to the functor.
+     * @return The fixed return value.
+     */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     typename QEXTUnwrapReference<T_return>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) {
@@ -102,11 +166,18 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
         return m_returnValue.invoke();
     }
 
+    // The fixed return value.
     QEXTBoundArgument<T_return> m_returnValue;
 };
 
 
-
+//template specialization of visitor<>::do_visit_each<>(action, functor):
+/** Performs a functor on each of the targets of a functor.
+ * The function overload for QEXTBindReturnFunctor performs a functor on the
+ * functor and on the object instance stored in the QEXTBindReturnFunctor object.
+ *
+ * @ingroup qextBindFunctor
+ */
 template <typename T_return, typename T_functor>
 struct QEXTVisitor<QEXTBindReturnFunctor<T_return, T_functor> >
 {
@@ -118,6 +189,14 @@ struct QEXTVisitor<QEXTBindReturnFunctor<T_return, T_functor> >
     }
 };
 
+/** Creates an adaptor of type QEXTBindReturnFunctor which fixes the return value of the passed functor to the passed argument.
+ *
+ * @param functor Functor that should be wrapped.
+ * @param returnValue Argument to fix the return value of @e functor to.
+ * @return Adaptor that executes @e functor on invokation and returns @e returnValue.
+ *
+ * @ingroup qextBindFunctor
+ */
 template <typename T_return, typename T_functor>
 QEXTBindReturnFunctor<T_return, T_functor>
 qextBindReturnFunctor(const T_functor &functor, T_return returnValue) {

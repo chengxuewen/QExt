@@ -204,14 +204,14 @@ void QEXTVisitorTest::testCase1()
     QVERIFY("" == QEXTVisitorTest::sm_result);
 }
 
-//Assume that class sigc::visitor has not been implemented.
+//Assume that class QEXTVisitor has not been implemented.
 //Test with MyClass2, although it is expected to fail in this case.
 void QEXTVisitorTest::testCase2()
 {
 
 }
 
-//Assume that class sigc::visitor has been implemented.
+//Assume that class QEXTVisitor has been implemented.
 //Test with MyClass2, which is expected to succeed in this case.
 void QEXTVisitorTest::testCase3()
 {

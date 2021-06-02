@@ -6,17 +6,76 @@
 #include <qextvisitor.h>
 #include <qextreferencewrapper.h>
 
+
+
+/** @defgroup lambdas qextLambda
+ * QEXT lambdas ships with basic lambda functionality and the qextLambdaGroup adaptor,
+ * which uses lambdas to transform a functor's parameter list.
+ *
+ * The lambda selectors qextLambdaSelectors::_1, qextLambdaSelectors::_2, ..., qextLambdaSelectors::_7 are used to select the
+ * first, second, ..., seventh argument from a list.
+ *
+ * @par Examples:
+ * @code
+ * std::cout << qextLambdaSelectors::_1(10,20,30); // returns 10
+ * std::cout << qextLambdaSelectors::_2(10,20,30); // returns 20
+ * @endcode
+ *
+ * Operators are defined so that, for example, lambda selectors can be used as
+ * placeholders in arithmetic expressions.
+ *
+ * @par Examples:
+ * @code
+ * std::cout << (qextLambdaSelectors::_1 + 5)(3); // returns (3 + 5)
+ * std::cout << (qextLambdaSelectors::_1 * qextLambdaSelectors::_2)(7,10); // returns (7 * 10)
+ * @endcode
+ *
+ * If your compiler supports C++11 lambda expressions, they are often a good
+ * alternative to QEXT lambda expressions. The following examples are
+ * equivalent to the previous ones.
+ * @code
+ * [] (int x, int, int) -> int { return x; }(10,20,30); // returns 10
+ * [] (int, int y, int) -> int { return y; }(10,20,30); // returns 20
+ * [] (int x) -> int { return x + 5; }(3); // returns (3 + 5)
+ * [] (int x, int y) -> int { return x * y; }(7,10); // returns (7 * 10)
+ * @endcode
+ *
+ * @deprecated Use C++11 lambda expressions or %std::bind() instead.
+ */
+
+/** A hint to the compiler.
+ * All lambda types publically inherit from this hint.
+ *
+ * @deprecated Use C++11 lambda expressions instead.
+ *
+ * @ingroup qextLambda
+ */
 struct QEXTLambdaBase : public QEXTAdaptorBase {};
 
-
+// Forward declaration of lambda.
 template <typename T_type> struct QEXTLambda;
 
 namespace qextinternal {
 
 
+/** Abstracts lambda functionality.
+ * Objects of this type store a value that may be of type lambda itself.
+ * In this case, operator()() executes the lambda (a lambda is always a functor at the same time).
+ * Otherwise, operator()() simply returns the stored value.
+ *
+ * @deprecated Use C++11 lambda expressions instead.
+ *
+ * @ingroup qextLambda
+ */
 template <typename T_type, bool I_islambda = QEXTBaseAndDerivedTester<QEXTLambdaBase, T_type>::value> struct QEXTLambdaCore;
 
 
+/** Abstracts lambda functionality (template specialization for lambda values).
+ *
+ * @deprecated Use C++11 lambda expressions instead.
+ *
+ * @ingroup qextLambda
+ */
 template <typename T_type>
 struct QEXTLambdaCore<T_type, true> : public QEXTLambdaBase
 {
@@ -136,6 +195,12 @@ struct QEXTLambdaCore<T_type, true> : public QEXTLambdaBase
 
 
 
+/** Abstracts lambda functionality (template specialization for other value types).
+ *
+ * @deprecated Use C++11 lambda expressions instead.
+ *
+ * @ingroup qextLambda
+ */
 template <typename T_type>
 struct QEXTLambdaCore<T_type, false> : public QEXTLambdaBase
 {
@@ -196,7 +261,7 @@ struct QEXTLambdaCore<T_type, false> : public QEXTLambdaBase
 } /* namespace qextinternal */
 
 
-
+//template specialization of visitor<>::do_visit_each<>(action, functor):
 template <typename T_functor, bool I_islambda>
 struct QEXTVisitor<qextinternal::QEXTLambdaCore<T_functor, I_islambda> >
 {
@@ -207,6 +272,7 @@ struct QEXTVisitor<qextinternal::QEXTLambdaCore<T_functor, I_islambda> >
     }
 };
 
+// forward declarations for lambda operators other<subscript> and other<assign>
 template <typename T_type>
 struct QEXTLambdaOther;
 struct QEXTLambdaSubscript;
@@ -218,16 +284,37 @@ struct QEXTLambdaOperator;
 template <typename T_type>
 struct QEXTUnwrapLambdaType;
 
+
+/** Gets the object stored inside a lambda object.
+ * Returns the object passed as argument, if it is not of type lambda.
+ *
+ * @deprecated Use C++11 lambda expressions instead of libsigc++ lambdas.
+ *
+ * @ingroup qextLambda
+ */
 template <typename T_type>
 T_type& qextUnwrapLambdaValue(T_type &arg) {
     return arg;
 }
 
+/** Gets the object stored inside a lambda object.
+ * Returns the object passed as argument, if it is not of type lambda.
+ *
+ * @deprecated Use C++11 lambda expressions instead of libsigc++ lambdas.
+ *
+ * @ingroup qextLambda
+ */
 template <typename T_type>
 const T_type& qextUnwrapLambdaValue(const T_type &arg) {
     return arg;
 }
 
+/** Gets the object stored inside a lambda object.
+ *
+ * @deprecated Use C++11 lambda expressions instead of libsigc++ lambdas.
+ *
+ * @ingroup qextLambda
+ */
 template <typename T_type>
 const T_type& qextUnwrapLambdaValue(const QEXTLambda<T_type> &arg) {
     return arg.m_value;
@@ -235,6 +322,16 @@ const T_type& qextUnwrapLambdaValue(const QEXTLambda<T_type> &arg) {
 
 
 
+/** Lambda type.
+ * Objects of this type store a value that may be of type lambda itself.
+ * In this case, operator()() executes the lambda (a lambda is always a functor at the same time).
+ * Otherwise, operator()() simply returns the stored value.
+ * The assign and subscript operators are defined to return a lambda operator.
+ *
+ * @deprecated Use C++11 lambda expressions instead.
+ *
+ * @ingroup qextLambda
+ */
 template <typename T_type>
 struct QEXTLambda : public qextinternal::QEXTLambdaCore<T_type>
 {
@@ -262,6 +359,7 @@ struct QEXTLambda : public qextinternal::QEXTLambdaCore<T_type>
     }
 };
 
+//template specialization of QEXTVisitor<>::doVisitEach<>(action, functor):
 template <typename T_type>
 struct QEXTVisitor<QEXTLambda<T_type> >
 {
@@ -272,24 +370,76 @@ struct QEXTVisitor<QEXTLambda<T_type> >
     }
 };
 
+/** Converts a reference into a lambda object.
+ * qextLambda creates a 0-ary functor, returning the value of a referenced variable.
+ *
+ * @par Example:
+ * @code
+ * int main(int argc, char* argv)
+ * {
+ *   int data;
+ *   QEXTSignal<int> readValue;
+ *
+ *   readValue.connect(qextLambda(data));
+ *
+ *   data = 3;
+ *   std::cout << readValue() << std::endl; //Prints 3.
+ *
+ *   data = 5;
+ *   std::cout << readValue() << std::endl; //Prints 5.
+ * }
+ * @endcode
+ *
+ * If your compiler supports C++11 lambda expressions, and you use the macro
+ * #QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE, you can replace
+ * @code
+ * readValue.connect(qextLambda(data));
+ * @endcode
+ * in the example by
+ * @code
+ * readValue.connect([&data] () -> int { return data; });
+ * @endcode
+ *
+ * @deprecated Use C++11 lambda expressions instead of libsigc++ lambdas.
+ *
+ * @ingroup qextLambda
+ */
 template <typename T_type>
 QEXTLambda<T_type&> qextLambda(T_type &value) {
     return QEXTLambda<T_type&>(value);
 }
 
+/** Converts a constant reference into a lambda object.
+ *
+ * @deprecated Use C++11 lambda expressions instead of qextLambda().
+ *
+ * @ingroup qextLambda
+ */
 template <typename T_type>
 QEXTLambda<const T_type&> qextLambda(const T_type &value) {
     return QEXTLambda<const T_type&>(value);
 }
 
-
+/** Deduces the type of the object stored in an object of the passed lambda type.
+ * If the type passed as template argument is not of lambda type,
+ * type is defined to QEXTUnwrapReference<T_type>::Type.
+ *
+ * @deprecated Use C++11 lambda expressions instead of qextLambda().
+ *
+ * @ingroup qextLambda
+ */
 template <typename T_type>
 struct QEXTUnwrapLambdaType
 {
     typedef typename QEXTUnwrapReference<T_type>::Type Type;
 };
 
-
+/** Deduces the type of the object stored in an object of the passed lambda type.
+ *
+ * @deprecated Use C++11 lambda expressions instead of qextLambda().
+ *
+ * @ingroup qextLambda
+ */
 template <typename T_type>
 struct QEXTUnwrapLambdaType<QEXTLambda<T_type> >
 {

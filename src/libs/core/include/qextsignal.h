@@ -253,14 +253,14 @@ struct QEXTSlotIteratorBuffer
 
     typedef QEXTSignalImpl::ConstIteratorType   IteratorType;
 
-    QEXTSlotIteratorBuffer() : m_emitter(QEXT_NULLPTR), m_invoked(false) {}
+    QEXTSlotIteratorBuffer() : m_sender(QEXT_NULLPTR), m_invoked(false) {}
 
-    QEXTSlotIteratorBuffer(const IteratorType &iter, const SenderType *emitter)
-        : m_iter(iter), m_emitter(emitter), m_invoked(false) {}
+    QEXTSlotIteratorBuffer(const IteratorType &iter, const SenderType *sender)
+        : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
     ResultType operator*() const {
         if (!m_iter->isEmpty() && !m_iter->isBlocked() && !m_invoked) {
-            m_result = (*m_emitter)(static_cast<const SlotType&>(*m_iter));
+            m_result = (*m_sender)(static_cast<const SlotType&>(*m_iter));
             m_invoked = true;
         }
         return m_result;
@@ -293,20 +293,20 @@ struct QEXTSlotIteratorBuffer
     }
 
     bool operator == (const QEXTSlotIteratorBuffer &other) const {
-        /* If '!m_emitter' the iterators are empty.
+        /* If '!m_sender' the iterators are empty.
          * Unfortunately, empty stl iterators are not equal.
          * We are forcing equality so that 'first==last'
          * in the accumulator's send function yields true. */
-        return (!m_emitter || (m_iter == other.m_iter));
+        return (!m_sender || (m_iter == other.m_iter));
     }
 
     bool operator != (const QEXTSlotIteratorBuffer &other) const {
-        return (m_emitter && (m_iter != other.m_iter));
+        return (m_sender && (m_iter != other.m_iter));
     }
 
 private:
     IteratorType m_iter;
-    const SenderType *m_emitter;
+    const SenderType *m_sender;
     mutable ResultType m_result;
     mutable bool m_invoked;
 };
@@ -324,14 +324,14 @@ struct QEXTSlotIteratorBuffer<T_emitter, void>
 
     typedef QEXTSignalImpl::ConstIteratorType   IteratorType;
 
-    QEXTSlotIteratorBuffer() : m_emitter(QEXT_NULLPTR), m_invoked(false) {}
+    QEXTSlotIteratorBuffer() : m_sender(QEXT_NULLPTR), m_invoked(false) {}
 
-    QEXTSlotIteratorBuffer(const IteratorType &iter, const SenderType *emitter)
-        : m_iter(iter), m_emitter(emitter), m_invoked(false) {}
+    QEXTSlotIteratorBuffer(const IteratorType &iter, const SenderType *sender)
+        : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
     void operator*() const {
         if (!m_iter->isEmpty() && !m_iter->isBlocked() && !m_invoked) {
-            (*m_emitter)(static_cast<const SlotType&>(*m_iter));
+            (*m_sender)(static_cast<const SlotType&>(*m_iter));
             m_invoked = true;
         }
     }
@@ -372,7 +372,7 @@ struct QEXTSlotIteratorBuffer<T_emitter, void>
 
 private:
     IteratorType m_iter;
-    const SenderType *m_emitter;
+    const SenderType *m_sender;
     mutable bool m_invoked;
 };
 
@@ -394,16 +394,16 @@ struct QEXTSlotReverseIteratorBuffer
 
     typedef QEXTSignalImpl::ConstIteratorType   IteratorType;
 
-    QEXTSlotReverseIteratorBuffer() : m_emitter(QEXT_NULLPTR), m_invoked(false) {}
+    QEXTSlotReverseIteratorBuffer() : m_sender(QEXT_NULLPTR), m_invoked(false) {}
 
-    QEXTSlotReverseIteratorBuffer(const IteratorType &iter, const SenderType *emitter)
-        : m_iter(iter), m_emitter(emitter), m_invoked(false) {}
+    QEXTSlotReverseIteratorBuffer(const IteratorType &iter, const SenderType *sender)
+        : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
     ResultType operator*() const {
         IteratorType tmp(m_iter);
         --tmp;
         if (!tmp->isEmpty() && !tmp->isBlocked() && !m_invoked) {
-            m_result = (*m_emitter)(static_cast<const SlotType&>(*tmp));
+            m_result = (*m_sender)(static_cast<const SlotType&>(*tmp));
             m_invoked = true;
         }
         return m_result;
@@ -436,20 +436,20 @@ struct QEXTSlotReverseIteratorBuffer
     }
 
     bool operator == (const QEXTSlotReverseIteratorBuffer &other) const {
-        /* If '!m_emitter' the iterators are empty.
+        /* If '!m_sender' the iterators are empty.
          * Unfortunately, empty stl iterators are not equal.
          * We are forcing equality so that 'first==last'
          * in the accumulator's send function yields true. */
-        return (!m_emitter || (m_iter == other.m_iter));
+        return (!m_sender || (m_iter == other.m_iter));
     }
 
     bool operator != (const QEXTSlotReverseIteratorBuffer &other) const {
-        return (m_emitter && (m_iter != other.m_iter));
+        return (m_sender && (m_iter != other.m_iter));
     }
 
 private:
     IteratorType m_iter;
-    const SenderType *m_emitter;
+    const SenderType *m_sender;
     mutable ResultType m_result;
     mutable bool m_invoked;
 };
@@ -467,16 +467,16 @@ struct QEXTSlotReverseIteratorBuffer<T_emitter, void>
 
     typedef QEXTSignalImpl::ConstIteratorType   IteratorType;
 
-    QEXTSlotReverseIteratorBuffer() : m_emitter(QEXT_NULLPTR), m_invoked(false) {}
+    QEXTSlotReverseIteratorBuffer() : m_sender(QEXT_NULLPTR), m_invoked(false) {}
 
-    QEXTSlotReverseIteratorBuffer(const IteratorType &iter, const SenderType *emitter)
-        : m_iter(iter), m_emitter(emitter), m_invoked(false) {}
+    QEXTSlotReverseIteratorBuffer(const IteratorType &iter, const SenderType *sender)
+        : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
     void operator*() const {
         IteratorType tmp(m_iter);
         --tmp;
         if (!tmp->isEmpty() && !tmp->isBlocked() && !m_invoked) {
-            (*m_emitter)(static_cast<const SlotType&>(*tmp));
+            (*m_sender)(static_cast<const SlotType&>(*tmp));
             m_invoked = true;
         }
     }
@@ -517,7 +517,7 @@ struct QEXTSlotReverseIteratorBuffer<T_emitter, void>
 
 private:
     IteratorType m_iter;
-    const SenderType *m_emitter;
+    const SenderType *m_sender;
     mutable bool m_invoked;
 };
 
@@ -548,7 +548,6 @@ struct QEXTSignalSend0
     }
 
     /** Executes a list of slots using an accumulator of type @e T_accumulator.
-
      * @return The accumulated return values of the slot invocations as processed by the accumulator.
      */
     static ResultType send(QEXTSignalImpl *impl) {
@@ -558,7 +557,7 @@ struct QEXTSignalSend0
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self;
@@ -567,7 +566,6 @@ struct QEXTSignalSend0
     }
 
     /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
-
      * @return The accumulated return values of the slot invocations as processed by the accumulator.
      */
     static ResultType sendReverse(QEXTSignalImpl *impl) {
@@ -577,7 +575,7 @@ struct QEXTSignalSend0
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self ;
@@ -602,8 +600,6 @@ struct QEXTSignalSend0<T_return, QEXTNil>
 
     /** Executes a list of slots using an accumulator of type @e T_accumulator.
      * The return value of the last slot invoked is returned.
-     * @param first An iterator pointing to the first slot in the list.
-     * @param last An iterator pointing to the last slot in the list.
      * @return The return value of the last slot invoked.
      */
     static ResultType send(QEXTSignalImpl *impl) {
@@ -611,10 +607,10 @@ struct QEXTSignalSend0<T_return, QEXTNil>
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -652,10 +648,10 @@ struct QEXTSignalSend0<T_return, QEXTNil>
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -704,7 +700,7 @@ struct QEXTSignalSend0<void, QEXTNil>
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         for (IteratorType iter = slotList.begin(); iter != slotList.end(); ++iter) {
@@ -719,7 +715,7 @@ struct QEXTSignalSend0<void, QEXTNil>
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
@@ -778,7 +774,7 @@ struct QEXTSignalSend1
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self(arg1);
@@ -800,7 +796,7 @@ struct QEXTSignalSend1
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self (arg1);
@@ -836,10 +832,10 @@ struct QEXTSignalSend1<T_return, T_arg1, QEXTNil>
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -876,10 +872,10 @@ struct QEXTSignalSend1<T_return, T_arg1, QEXTNil>
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -932,7 +928,7 @@ struct QEXTSignalSend1<void, T_arg1, QEXTNil>
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         for (IteratorType iter = slotList.begin(); iter != slotList.end(); ++iter) {
@@ -952,7 +948,7 @@ struct QEXTSignalSend1<void, T_arg1, QEXTNil>
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
@@ -1011,7 +1007,7 @@ struct QEXTSignalSend2
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self (arg1, arg2);
@@ -1034,7 +1030,7 @@ struct QEXTSignalSend2
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self (arg1, arg2);
@@ -1073,10 +1069,10 @@ struct QEXTSignalSend2<T_return, T_arg1, T_arg2, QEXTNil>
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -1116,10 +1112,10 @@ struct QEXTSignalSend2<T_return, T_arg1, T_arg2, QEXTNil>
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -1174,7 +1170,7 @@ struct QEXTSignalSend2<void, T_arg1, T_arg2, QEXTNil>
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         for (IteratorType iter = slotList.begin(); iter != slotList.end(); ++iter) {
@@ -1196,7 +1192,7 @@ struct QEXTSignalSend2<void, T_arg1, T_arg2, QEXTNil>
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
@@ -1260,7 +1256,7 @@ struct QEXTSignalSend3
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self (arg1, arg2, arg3);
@@ -1285,7 +1281,7 @@ struct QEXTSignalSend3
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self(arg1, arg2, arg3);
@@ -1327,10 +1323,10 @@ struct QEXTSignalSend3<T_return, T_arg1, T_arg2, T_arg3, QEXTNil>
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -1373,10 +1369,10 @@ struct QEXTSignalSend3<T_return, T_arg1, T_arg2, T_arg3, QEXTNil>
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -1434,7 +1430,7 @@ struct QEXTSignalSend3<void, T_arg1, T_arg2, T_arg3, QEXTNil>
             return;
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         for (IteratorType iter = slotList.begin(); iter != slotList.end(); ++iter) {
@@ -1458,7 +1454,7 @@ struct QEXTSignalSend3<void, T_arg1, T_arg2, T_arg3, QEXTNil>
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
@@ -1525,7 +1521,7 @@ struct QEXTSignalSend4
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self(arg1, arg2, arg3, arg4);
@@ -1552,7 +1548,7 @@ struct QEXTSignalSend4
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self(arg1, arg2, arg3, arg4);
@@ -1597,10 +1593,10 @@ struct QEXTSignalSend4<T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -1645,10 +1641,10 @@ struct QEXTSignalSend4<T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -1707,7 +1703,7 @@ struct QEXTSignalSend4<void, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         for (IteratorType iter = slotList.begin(); iter != slotList.end(); ++iter) {
@@ -1733,7 +1729,7 @@ struct QEXTSignalSend4<void, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil>
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
@@ -1804,7 +1800,7 @@ struct QEXTSignalSend5
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self(arg1, arg2, arg3, arg4, arg5);
@@ -1833,7 +1829,7 @@ struct QEXTSignalSend5
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self(arg1, arg2, arg3, arg4, arg5);
@@ -1881,10 +1877,10 @@ struct QEXTSignalSend5<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -1931,10 +1927,10 @@ struct QEXTSignalSend5<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -1995,7 +1991,7 @@ struct QEXTSignalSend5<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil>
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         for (IteratorType iter = slotList.begin(); iter != slotList.end(); ++iter) {
@@ -2023,7 +2019,7 @@ struct QEXTSignalSend5<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil>
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
@@ -2097,7 +2093,7 @@ struct QEXTSignalSend6
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self (arg1, arg2, arg3, arg4, arg5, arg6);
@@ -2128,7 +2124,7 @@ struct QEXTSignalSend6
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self(arg1, arg2, arg3, arg4, arg5, arg6);
@@ -2179,10 +2175,10 @@ struct QEXTSignalSend6<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -2231,10 +2227,10 @@ struct QEXTSignalSend6<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -2297,7 +2293,7 @@ struct QEXTSignalSend6<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEX
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         for (IteratorType iter = slotList.begin(); iter != slotList.end(); ++iter) {
@@ -2327,7 +2323,7 @@ struct QEXTSignalSend6<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEX
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
@@ -2404,7 +2400,7 @@ struct QEXTSignalSend7
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
@@ -2437,7 +2433,7 @@ struct QEXTSignalSend7
             return accumulator(SlotIteratorBufferType(), SlotIteratorBufferType());
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         SelfType self(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
@@ -2493,10 +2489,10 @@ struct QEXTSignalSend7<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             QEXTTempSlotList slotList(impl->m_slotList);
             IteratorType iter = slotList.begin();
@@ -2547,10 +2543,10 @@ struct QEXTSignalSend7<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6,
             return T_return();
         }
 
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         T_return m_result = T_return();
 
-        //Use this scope to make sure that "slotList" is destroyed before "exec" is destroyed.
+        //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
         {
             typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
 
@@ -2616,7 +2612,7 @@ struct QEXTSignalSend7<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_a
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         for (IteratorType iter = slotList.begin(); iter != slotList.end(); ++iter) {
@@ -2648,7 +2644,7 @@ struct QEXTSignalSend7<void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_a
         if (!impl || impl->m_slotList.empty()) {
             return;
         }
-        QEXTSignalExec exec(impl);
+        QEXTSignalExecution execution(impl);
         QEXTTempSlotList slotList(impl->m_slotList);
 
         typedef std::reverse_iterator<QEXTSignalImpl::IteratorType> ReverseIteratorType;
@@ -2723,7 +2719,7 @@ public:
      *
      * %std::bind() creates a functor, but this functor typically has an
      * %operator()() which is a variadic template.
-     * #SIGC_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
+     * #QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
      * of such a functor. If you first assign the return value of %std::bind()
      * to a std::function, you can connect the std::function to a signal.
      *
@@ -2845,7 +2841,7 @@ public:
      *
      * %std::bind() creates a functor, but this functor typically has an
      * %operator()() which is a variadic template.
-     * #SIGC_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
+     * #QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
      * of such a functor. If you first assign the return value of %std::bind()
      * to a std::function, you can connect the std::function to a signal.
      *
@@ -2974,7 +2970,7 @@ public:
      *
      * %std::bind() creates a functor, but this functor typically has an
      * %operator()() which is a variadic template.
-     * #SIGC_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
+     * #QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
      * of such a functor. If you first assign the return value of %std::bind()
      * to a std::function, you can connect the std::function to a signal.
      *
@@ -3110,7 +3106,7 @@ public:
      *
      * %std::bind() creates a functor, but this functor typically has an
      * %operator()() which is a variadic template.
-     * #SIGC_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
+     * #QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
      * of such a functor. If you first assign the return value of %std::bind()
      * to a std::function, you can connect the std::function to a signal.
      *
@@ -3253,7 +3249,7 @@ public:
      *
      * %std::bind() creates a functor, but this functor typically has an
      * %operator()() which is a variadic template.
-     * #SIGC_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
+     * #QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
      * of such a functor. If you first assign the return value of %std::bind()
      * to a std::function, you can connect the std::function to a signal.
      *
@@ -3403,7 +3399,7 @@ public:
      *
      * %std::bind() creates a functor, but this functor typically has an
      * %operator()() which is a variadic template.
-     * #SIGC_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
+     * #QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
      * of such a functor. If you first assign the return value of %std::bind()
      * to a std::function, you can connect the std::function to a signal.
      *
@@ -3562,7 +3558,7 @@ public:
      *
      * %std::bind() creates a functor, but this functor typically has an
      * %operator()() which is a variadic template.
-     * #SIGC_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
+     * #QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
      * of such a functor. If you first assign the return value of %std::bind()
      * to a std::function, you can connect the std::function to a signal.
      *
@@ -3728,7 +3724,7 @@ public:
      *
      * %std::bind() creates a functor, but this functor typically has an
      * %operator()() which is a variadic template.
-     * #SIGC_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
+     * #QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE can't deduce the result type
      * of such a functor. If you first assign the return value of %std::bind()
      * to a std::function, you can connect the std::function to a signal.
      *

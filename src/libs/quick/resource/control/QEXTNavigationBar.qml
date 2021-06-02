@@ -208,7 +208,7 @@ Item {
 
     function setCurrentElementByOtherData(otherData) {
         for (var i in childElements) {
-            if (childElements[i] === otherData) {
+            if (otherData === childElements[i].otherData) {
                 qextNavigationBar.currentIndex = i
                 return
             }

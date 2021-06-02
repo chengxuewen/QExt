@@ -22,7 +22,7 @@
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
 set(_lib_base_name QEXTQuick)
-set(QEXTQUICK_GENERATE_QMLTYPE_FILE OFF)
+set(QEXTQUICK_GENERATE_QMLTYPE_FILE ON)
 set(QEXTQUICK_NAME ${_lib_base_name})
 set(QEXTQUICK_VERSION_MAJOR 1)
 set(QEXTQUICK_VERSION_MINOR 2)

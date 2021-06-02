@@ -24,7 +24,7 @@ Item {
             anchors.fill: parent
             delegate: Button {
                 id: mToolButton
-                width: parent.width
+                width: mListView.width
                 height: 40
                 contentItem: Text {
                     leftPadding: 30
