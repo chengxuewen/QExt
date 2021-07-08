@@ -1,4 +1,0 @@
-#ifndef QEXTPAINTER_P_H
-#define QEXTPAINTER_P_H
-
-#endif // QEXTPAINTER_P_H

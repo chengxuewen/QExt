@@ -21,7 +21,4 @@
 #--------------------------------------------------------------------------------
 # Add subdirectory
 #--------------------------------------------------------------------------------
-add_subdirectory(qtest)
-if (QEXT_CXX_STANDARD_11 AND QEXT_BUILD_GTEST)
-    add_subdirectory(gtest)
-endif()
+

@@ -28,7 +28,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.3.6.1 LANGUAGES CXX C)
+project(QEXT VERSION 0.4.1.0 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -331,12 +331,6 @@ endif()
 #--------------------------------------------------------------------------------
 # add subdirectory
 #--------------------------------------------------------------------------------
-add_subdirectory(thirdparty/lua)
-add_subdirectory(thirdparty/luajit)
-#add_subdirectory(thirdparty/libqtlua-2.1)
-#add_subdirectory(thirdparty/nanopainter)
-#add_subdirectory(thirdparty/qt-mvvm-0.2.0)
-#add_subdirectory(thirdparty/qjson-0.9.0)
 add_subdirectory(src/applications)
 add_subdirectory(src/libs)
 

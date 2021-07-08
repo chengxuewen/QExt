@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>complex.json</file>
-        <file>example.json</file>
-    </qresource>
-</RCC>

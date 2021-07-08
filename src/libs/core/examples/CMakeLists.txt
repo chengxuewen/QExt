@@ -77,29 +77,3 @@ target_include_directories(${_example_name} PUBLIC
     ${CMAKE_CURRENT_BINARY_DIR}/
     )
 set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
-
-
-
-#--------------------------------------------------------------------------------
-# Add ex_qextCoreSimpleFunctor example
-#--------------------------------------------------------------------------------
-set(_example_name ex_qextCoreSimpleFunctor)
-set(_example_headers
-    )
-set(_example_sources
-    functor/example.cpp
-    )
-set(_example_forms
-    )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
-    )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/functor
-    ${CMAKE_CURRENT_BINARY_DIR}/
-    )
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
-

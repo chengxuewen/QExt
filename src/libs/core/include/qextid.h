@@ -6,8 +6,6 @@
 #include <QMetaType>
 #include <QString>
 
-
-
 class QEXT_CORE_API QEXTId
 {
 public:
