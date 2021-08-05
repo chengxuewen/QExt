@@ -1,5 +1,5 @@
 /******************************************************************************
-    QTKDeviceWatcherPrivate: watching depends on platform
+    QEXTDeviceWatcherPrivate: watching depends on platform
     Copyright (C) 2011-2015 Wang Bin <wbsecg1@gmail.com>
 
     This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@
 #ifdef Q_OS_WIN32
 #include <QtCore/QStringList>
 #include <QtCore/QCoreApplication>
+#include <QEvent>
 
 
 #undef _WIN32_WINNT
@@ -214,20 +215,20 @@ LRESULT CALLBACK dw_internal_proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 DEV_BROADCAST_VOLUME *db_volume = (DEV_BROADCAST_VOLUME *)lpdb;
                 QStringList drives = drivesFromMask(db_volume->dbcv_unitmask);
 #ifdef GWLP_USERDATA
-                QTKDeviceWatcherPrivate *watcher = (QTKDeviceWatcherPrivate *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+                QEXTDeviceWatcherPrivate *watcher = (QEXTDeviceWatcherPrivate *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 #else
-                QTKDeviceWatcherPrivate *watcher = (QTKDeviceWatcherPrivate *)GetWindowLong(hwnd, GWL_USERDATA);
+                QEXTDeviceWatcherPrivate *watcher = (QEXTDeviceWatcherPrivate *)GetWindowLong(hwnd, GWL_USERDATA);
 #endif
-                QList<QTKDeviceChangeEvent *> events;
+                QList<QEXTDeviceChangeEvent *> events;
                 QString action_str("add");
-                QTKDeviceChangeEvent::Action action = QTKDeviceChangeEvent::Add;
+                QEXTDeviceChangeEvent::Action action = QEXTDeviceChangeEvent::Add;
                 if (wParam == DBT_DEVICEARRIVAL) {
                 } else if (wParam == DBT_DEVICEQUERYREMOVE) {
                 } else if (wParam == DBT_DEVICEQUERYREMOVEFAILED) {
                 } else if (wParam == DBT_DEVICEREMOVEPENDING) {
                 } else if (wParam == DBT_DEVICEREMOVECOMPLETE) {
                     action_str = "remove";
-                    action = QTKDeviceChangeEvent::Remove;
+                    action = QEXTDeviceChangeEvent::Remove;
                 }
                 foreach (const QString &drive, drives) {
                     if (db_volume->dbcv_flags & DBTF_MEDIA)
@@ -238,11 +239,11 @@ LRESULT CALLBACK dw_internal_proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
                         zDebug("Drive %c: Device has been removed.", drive.at(0).toLatin1());
                     watcher->emitDeviceAction(drive, action_str);
                     if (!watcher->event_receivers.isEmpty())
-                        events.append(new QTKDeviceChangeEvent(action, drive));
+                        events.append(new QEXTDeviceChangeEvent(action, drive));
                 }
                 if (!events.isEmpty() && !watcher->event_receivers.isEmpty()) {
                     foreach(QObject* obj, watcher->event_receivers) {
-                        foreach(QTKDeviceChangeEvent* event, events) {
+                        foreach(QEXTDeviceChangeEvent* event, events) {
                             QCoreApplication::postEvent(obj, event, Qt::HighEventPriority);
                         }
                     }
@@ -286,7 +287,7 @@ LRESULT CALLBACK dw_internal_proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 static inline QString className()
 {
-    return QLatin1String("QTKDeviceWatcherPrivateWin32_Internal_Widget") + QString::number(quintptr(dw_internal_proc));
+    return QLatin1String("QEXTDeviceWatcherPrivateWin32_Internal_Widget") + QString::number(quintptr(dw_internal_proc));
 }
 
 static inline HWND dw_create_internal_window(const void* userData)
@@ -304,7 +305,7 @@ static inline HWND dw_create_internal_window(const void* userData)
     wc.hCursor = 0;
     wc.hbrBackground = 0;
     wc.lpszMenuName = NULL;
-    wc.lpszClassName = reinterpret_cast<const wchar_t *>(className.utf16());
+    wc.lpszClassName = reinterpret_cast<const char *>(className.utf16());
     RegisterClass(&wc);
 
     HWND hwnd = CreateWindow(wc.lpszClassName,	   // classname
@@ -316,7 +317,7 @@ static inline HWND dw_create_internal_window(const void* userData)
                              hi,					 // application
                              0);					 // windows creation data.
     if (!hwnd) {
-        qWarning("QTKDeviceWatcherPrivate: Failed to create internal window: %d", (int)GetLastError());
+        qWarning("QEXTDeviceWatcherPrivate: Failed to create internal window: %d", (int)GetLastError());
 #if CONFIG_NOTIFICATION
     } else {
         DEV_BROADCAST_DEVICEINTERFACE NotificationFilter ;
@@ -351,17 +352,17 @@ static inline void dw_destroy_internal_window(HWND hwnd)
 #if CONFIG_NOTIFICATION
     UnregisterDeviceNotification(hDevNotify);
 #endif
-    UnregisterClass(reinterpret_cast<const wchar_t *>(className().utf16()), qWinAppInst());
+    UnregisterClass(reinterpret_cast<const char *>(className().utf16()), qWinAppInst());
 }
 
 
 
-QTKDeviceWatcherPrivate::~QTKDeviceWatcherPrivate()
+QEXTDeviceWatcherPrivate::~QEXTDeviceWatcherPrivate()
 {
     stop();
 }
 
-bool QTKDeviceWatcherPrivate::start()
+bool QEXTDeviceWatcherPrivate::start()
 {
     init();
     hwnd = dw_create_internal_window(this);
@@ -372,18 +373,18 @@ bool QTKDeviceWatcherPrivate::start()
     return hwnd;
 }
 
-bool QTKDeviceWatcherPrivate::stop()
+bool QEXTDeviceWatcherPrivate::stop()
 {
     dw_destroy_internal_window(hwnd);
     return true;
 }
 
-bool QTKDeviceWatcherPrivate::init()
+bool QEXTDeviceWatcherPrivate::init()
 {
     return true;
 }
 
-void QTKDeviceWatcherPrivate::parseDeviceInfo()
+void QEXTDeviceWatcherPrivate::parseDeviceInfo()
 {
 }
 

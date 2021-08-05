@@ -55,4 +55,6 @@ add_executable(${_test_name}
 add_test(NAME ${_test_name} COMMAND ${_test_name})
 target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
 target_include_directories(${_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-
+if(WIN32)
+    qextMacroCopyDependenceLib(${_test_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()

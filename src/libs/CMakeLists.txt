@@ -22,11 +22,10 @@
 # Add subdirectory
 #--------------------------------------------------------------------------------
 add_subdirectory(core)
-#add_subdirectory(devicewatcher)
-#add_subdirectory(serialport)
+add_subdirectory(devicewatcher)
+add_subdirectory(serialport)
 add_subdirectory(tcp)
 add_subdirectory(utils)
-#add_subdirectory(widgets)
 
 if(QEXT_BUILD_QML)
     add_subdirectory(quick)

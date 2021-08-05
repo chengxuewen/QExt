@@ -78,6 +78,10 @@ target_include_directories(${_example_name} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/simple
     ${CMAKE_CURRENT_BINARY_DIR}
     )
+if(WIN32)
+    qextMacroCopyDependenceLib(${_example_name} QEXTQuick ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()
 
 
 #--------------------------------------------------------------------------------
@@ -108,7 +112,10 @@ target_include_directories(${_example_name} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/component
     ${CMAKE_CURRENT_BINARY_DIR}/
     )
-
+if(WIN32)
+    qextMacroCopyDependenceLib(${_example_name} QEXTQuick ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()
 
 
 #--------------------------------------------------------------------------------
@@ -139,7 +146,10 @@ target_include_directories(${_example_name} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/customwindow
     ${CMAKE_CURRENT_BINARY_DIR}/
     )
-
+if(WIN32)
+    qextMacroCopyDependenceLib(${_example_name} QEXTQuick ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()
 
 
 #--------------------------------------------------------------------------------
@@ -171,3 +181,7 @@ target_include_directories(${_example_name} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/paletteview
     ${CMAKE_CURRENT_BINARY_DIR}/
     )
+if(WIN32)
+    qextMacroCopyDependenceLib(${_example_name} QEXTQuick ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()

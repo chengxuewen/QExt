@@ -79,7 +79,6 @@ target_include_directories(${_app_base_name}_all PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     )
 
-
 # set target properties
 set_target_properties(${_app_base_name}_all PROPERTIES
     CXX_STANDARD ${QEXT_CXX_STANDARD}

@@ -2,7 +2,7 @@
 #
 # Library: QEXT
 #
-# Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
+# Copyright (c) 2021 ChengXueWen 1398831004@qq.com
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,3 +17,12 @@
 # limitations under the License.
 #
 #################################################################################
+
+macro(qextMacroCopyDependenceLib target dependence directory)
+    add_custom_command(
+        TARGET ${target}
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${dependence}> ${directory}
+        COMMENT "copy the .dll file to the same folder as the executable"
+        POST_BUILD
+        )
+endmacro(qextMacroCopyLib)

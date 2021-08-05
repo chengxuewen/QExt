@@ -76,7 +76,10 @@ add_executable(${_example_name}
 target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
 target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/enumerator)
 set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
-
+if(WIN32)
+    qextMacroCopyDependenceLib(${_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()
 
 
 #--------------------------------------------------------------------------------
@@ -101,7 +104,10 @@ add_executable(${_example_name}
 target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
 target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/event)
 set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
-
+if(WIN32)
+    qextMacroCopyDependenceLib(${_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()
 
 
 #--------------------------------------------------------------------------------
@@ -127,7 +133,10 @@ add_executable(${_example_name}
 target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
 target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/simple)
 set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
-
+if(WIN32)
+    qextMacroCopyDependenceLib(${_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()
 
 
 #--------------------------------------------------------------------------------
@@ -154,3 +163,7 @@ add_executable(${_example_name}
 target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
 target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/uartassistant)
 set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+if(WIN32)
+    qextMacroCopyDependenceLib(${_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()

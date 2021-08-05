@@ -6,7 +6,7 @@
 ** Copyright (c) 2009-2010 Liam Staskawicz
 ** Copyright (c) 2011 Debao Zhang
 ** All right reserved.
-** Web: http://code.google.com/p/qtkserialport/
+** Web: http://code.google.com/p/qextserialport/
 **
 ** Permission is hereby granted, free of charge, to any person obtaining
 ** a copy of this software and associated documentation files (the
@@ -36,21 +36,21 @@
 #include <CoreFoundation/CFNumber.h>
 #include <sys/param.h>
 
-QEXT_USE_NAMESPACE
 
-void QTKSerialEnumeratorPrivate::platformSpecificInit()
+
+void QEXTSerialEnumeratorPrivate::platformSpecificInit()
 {
 }
 
-void QTKSerialEnumeratorPrivate::platformSpecificDestruct()
+void QEXTSerialEnumeratorPrivate::platformSpecificDestruct()
 {
     IONotificationPortDestroy(notificationPortRef);
 }
 
 // static
-QList<QTKPortInfo> QTKSerialEnumeratorPrivate::getPorts_sys()
+QList<QEXTPortInfo> QEXTSerialEnumeratorPrivate::getPorts_sys()
 {
-    QList<QTKPortInfo> infoList;
+    QList<QEXTPortInfo> infoList;
     io_iterator_t serialPortIterator = 0;
     kern_return_t kernResult = KERN_FAILURE;
     CFMutableDictionaryRef matchingDictionary;
@@ -86,12 +86,12 @@ QList<QTKPortInfo> QTKSerialEnumeratorPrivate::getPorts_sys()
     return infoList;
 }
 
-void QTKSerialEnumeratorPrivate::iterateServicesOSX(io_object_t service, QList<QTKPortInfo> &infoList)
+void QEXTSerialEnumeratorPrivate::iterateServicesOSX(io_object_t service, QList<QEXTPortInfo> &infoList)
 {
     // Iterate through all modems found.
     io_object_t usbService;
     while ((usbService = IOIteratorNext(service))) {
-        QTKPortInfo info;
+        QEXTPortInfo info;
         info.vendorID = 0;
         info.productID = 0;
         getServiceDetailsOSX(usbService, &info);
@@ -99,7 +99,7 @@ void QTKSerialEnumeratorPrivate::iterateServicesOSX(io_object_t service, QList<Q
     }
 }
 
-bool QTKSerialEnumeratorPrivate::getServiceDetailsOSX(io_object_t service, QTKPortInfo *portInfo)
+bool QEXTSerialEnumeratorPrivate::getServiceDetailsOSX(io_object_t service, QEXTPortInfo *portInfo)
 {
     bool retval = true;
     CFTypeRef bsdPathAsCFString = NULL;
@@ -173,7 +173,7 @@ bool QTKSerialEnumeratorPrivate::getServiceDetailsOSX(io_object_t service, QTKPo
 // IOKit callbacks registered via setupNotifications()
 void deviceDiscoveredCallbackOSX(void *ctxt, io_iterator_t serialPortIterator)
 {
-    QTKSerialEnumeratorPrivate *d = (QTKSerialEnumeratorPrivate *)ctxt;
+    QEXTSerialEnumeratorPrivate *d = (QEXTSerialEnumeratorPrivate *)ctxt;
     io_object_t serialService;
     while ((serialService = IOIteratorNext(serialPortIterator)))
         d->onDeviceDiscoveredOSX(serialService);
@@ -181,7 +181,7 @@ void deviceDiscoveredCallbackOSX(void *ctxt, io_iterator_t serialPortIterator)
 
 void deviceTerminatedCallbackOSX(void *ctxt, io_iterator_t serialPortIterator)
 {
-    QTKSerialEnumeratorPrivate *d = (QTKSerialEnumeratorPrivate *)ctxt;
+    QEXTSerialEnumeratorPrivate *d = (QEXTSerialEnumeratorPrivate *)ctxt;
     io_object_t serialService;
     while ((serialService = IOIteratorNext(serialPortIterator)))
         d->onDeviceTerminatedOSX(serialService);
@@ -189,12 +189,12 @@ void deviceTerminatedCallbackOSX(void *ctxt, io_iterator_t serialPortIterator)
 
 /*
   A device has been discovered via IOKit.
-  Create a QTKPortInfo if possible, and emit the signal indicating that we've found it.
+  Create a QEXTPortInfo if possible, and emit the signal indicating that we've found it.
 */
-void QTKSerialEnumeratorPrivate::onDeviceDiscoveredOSX(io_object_t service)
+void QEXTSerialEnumeratorPrivate::onDeviceDiscoveredOSX(io_object_t service)
 {
-    Q_Q(QTKSerialEnumerator);
-    QTKPortInfo info;
+    Q_Q(QEXTSerialEnumerator);
+    QEXTPortInfo info;
     info.vendorID = 0;
     info.productID = 0;
     if (getServiceDetailsOSX(service, &info))
@@ -203,12 +203,12 @@ void QTKSerialEnumeratorPrivate::onDeviceDiscoveredOSX(io_object_t service)
 
 /*
   Notification via IOKit that a device has been removed.
-  Create a QTKPortInfo if possible, and emit the signal indicating that it's gone.
+  Create a QEXTPortInfo if possible, and emit the signal indicating that it's gone.
 */
-void QTKSerialEnumeratorPrivate::onDeviceTerminatedOSX(io_object_t service)
+void QEXTSerialEnumeratorPrivate::onDeviceTerminatedOSX(io_object_t service)
 {
-    Q_Q(QTKSerialEnumerator);
-    QTKPortInfo info;
+    Q_Q(QEXTSerialEnumerator);
+    QEXTPortInfo info;
     info.vendorID = 0;
     info.productID = 0;
     if (getServiceDetailsOSX(service, &info))
@@ -221,7 +221,7 @@ void QTKSerialEnumeratorPrivate::onDeviceTerminatedOSX(io_object_t service)
   to these notifications once to arm them, and discover any devices that
   are currently connected at the time notifications are setup.
 */
-bool QTKSerialEnumeratorPrivate::setUpNotifications_sys(bool /*setup*/)
+bool QEXTSerialEnumeratorPrivate::setUpNotifications_sys(bool /*setup*/)
 {
     kern_return_t kernResult;
     mach_port_t masterPort;

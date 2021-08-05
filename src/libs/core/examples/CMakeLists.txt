@@ -77,3 +77,6 @@ target_include_directories(${_example_name} PUBLIC
     ${CMAKE_CURRENT_BINARY_DIR}/
     )
 set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+if(WIN32)
+    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()
