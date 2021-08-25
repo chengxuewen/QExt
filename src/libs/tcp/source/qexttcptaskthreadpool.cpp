@@ -26,7 +26,7 @@ QEXTTcpTaskThreadPoolPrivate::~QEXTTcpTaskThreadPoolPrivate()
 QEXTTcpTaskThreadPool::QEXTTcpTaskThreadPool(QObject *parent)
     : QEXTTcpAbstractThreadPool(*(new QEXTTcpTaskThreadPoolPrivate(this)), parent)
 {
-    QEXT_D(QEXTTcpTaskThreadPool);
+    QEXT_DECL_D(QEXTTcpTaskThreadPool);
     this->addThreads(120);
 }
 
@@ -43,7 +43,7 @@ void QEXTTcpTaskThreadPool::setTcpThreadIdle(QEXTTcpAbstractThread *thread)
 
 void QEXTTcpTaskThreadPool::removeThread()
 {
-    QEXT_D(QEXTTcpTaskThreadPool);
+    QEXT_DECL_D(QEXTTcpTaskThreadPool);
     if (this->allTcpThreadsCount() > 0) {
         d->m_threadMutex.lock();
         QEXTTcpAbstractThread *tcpThread = d->m_allThreadsSet.values().last();
@@ -58,7 +58,7 @@ void QEXTTcpTaskThreadPool::removeThread()
 
 void QEXTTcpTaskThreadPool::addThread()
 {
-    QEXT_D(QEXTTcpTaskThreadPool);
+    QEXT_DECL_D(QEXTTcpTaskThreadPool);
     QThread *thread = new QThread;
     QEXTTcpTaskThread *tcpThread = new QEXTTcpTaskThread(this);
     tcpThread->moveToThread(thread);
@@ -75,7 +75,7 @@ void QEXTTcpTaskThreadPool::addThread()
 
 void QEXTTcpTaskThreadPool::dispatchThreadHandleTask()
 {
-    QEXT_D(QEXTTcpTaskThreadPool);
+    QEXT_DECL_D(QEXTTcpTaskThreadPool);
     if (!d->m_taskPool->isTaskEmpty()) {
         qDebug() << "QEXTTcpTaskThreadPool::dispatchThreadHandleTask():taskCount=" << d->m_taskPool->taskCount();
         QMutexLocker mutexLocker(&d->m_threadMutex);
@@ -93,7 +93,7 @@ void QEXTTcpTaskThreadPool::dispatchThreadHandleTask()
 
 void QEXTTcpTaskThreadPool::setTaskPool(QSharedPointer<QEXTTcpAbstractTaskPool> taskPool)
 {
-    QEXT_D(QEXTTcpTaskThreadPool);
+    QEXT_DECL_D(QEXTTcpTaskThreadPool);
     QMutexLocker mutexLocker(&d->m_taskPoolMutex);
     if (!taskPool.isNull() && taskPool != d->m_taskPool) {
         if (!d->m_taskPool.isNull()) {

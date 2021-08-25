@@ -58,19 +58,19 @@ QEXTItemGadget::~QEXTItemGadget()
 
 qreal QEXTItemGadget::width() const
 {
-    QEXT_DC(QEXTItemGadget);
+    QEXT_DECL_DC(QEXTItemGadget);
     return d->m_width;
 }
 
 qreal QEXTItemGadget::height() const
 {
-    QEXT_DC(QEXTItemGadget);
+    QEXT_DECL_DC(QEXTItemGadget);
     return d->m_height;
 }
 
 void QEXTItemGadget::setWidth(const qreal &width)
 {
-    QEXT_D(QEXTItemGadget);
+    QEXT_DECL_D(QEXTItemGadget);
     if (width != d->m_width) {
         d->m_width = width;
         emit this->widthChanged(width);
@@ -79,7 +79,7 @@ void QEXTItemGadget::setWidth(const qreal &width)
 
 void QEXTItemGadget::setHeight(const qreal &height)
 {
-    QEXT_D(QEXTItemGadget);
+    QEXT_DECL_D(QEXTItemGadget);
     if (height != d->m_height) {
         d->m_height = height;
         emit this->heightChanged(height);

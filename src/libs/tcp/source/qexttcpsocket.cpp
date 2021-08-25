@@ -40,7 +40,7 @@ QEXTTcpSocket::~QEXTTcpSocket()
 
 QEXTId QEXTTcpSocket::identityId() const
 {
-    QEXT_DC(QEXTTcpSocket);
+    QEXT_DECL_DC(QEXTTcpSocket);
     return d->m_identityId;
 }
 

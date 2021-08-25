@@ -20,7 +20,7 @@ public:
     QVector<QColor> m_borderColorVector;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTQuickPalette)
+    QEXT_DECL_PUBLIC(QEXTQuickPalette)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickPalettePrivate)
 };
 

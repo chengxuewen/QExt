@@ -14,7 +14,7 @@ class QEXT_UTILS_API QEXTSingleAppUtilSlotWrapper : public QObject
 {
     Q_OBJECT
 public:
-    QEXTSingleAppUtilSlotWrapper(QEXTSingleAppUtil *singleAppUtil, QObject *parent = QEXT_NULLPTR);
+    QEXTSingleAppUtilSlotWrapper(QEXTSingleAppUtil *singleAppUtil, QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTSingleAppUtilSlotWrapper();
 
 public Q_SLOTS:
@@ -37,7 +37,7 @@ public:
     QString m_localServerName;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTSingleAppUtil)
+    QEXT_DECL_PUBLIC(QEXTSingleAppUtil)
     QEXT_DISABLE_COPY_MOVE(QEXTSingleAppUtilPrivate)
 };
 

@@ -20,30 +20,30 @@ public:
     QEXTTcpPacketParser(QEXTTcpPacketParserPrivate &dd);
     ~QEXTTcpPacketParser();
 
-    QString name() const QEXT_OVERRIDE;
-    QString errorString() const QEXT_OVERRIDE;
+    QString name() const QEXT_DECL_OVERRIDE;
+    QString errorString() const QEXT_DECL_OVERRIDE;
 
-    bool checkIsSyncReplyPacket(QEXTTcpAbstractPacket *send, QEXTTcpAbstractPacket *rcv) const QEXT_OVERRIDE;
+    bool checkIsSyncReplyPacket(QEXTTcpAbstractPacket *send, QEXTTcpAbstractPacket *rcv) const QEXT_DECL_OVERRIDE;
 
-    bool isRequestPacket(QEXTTcpAbstractPacket *packet) const QEXT_OVERRIDE;
-    bool setRequestPacket(QEXTTcpAbstractPacket *packet) QEXT_OVERRIDE;
+    bool isRequestPacket(QEXTTcpAbstractPacket *packet) const QEXT_DECL_OVERRIDE;
+    bool setRequestPacket(QEXTTcpAbstractPacket *packet) QEXT_DECL_OVERRIDE;
 
-    bool isReplyPacket(QEXTTcpAbstractPacket *packet) const QEXT_OVERRIDE;
-    bool setReplyPacket(QEXTTcpAbstractPacket *packet) QEXT_OVERRIDE;
+    bool isReplyPacket(QEXTTcpAbstractPacket *packet) const QEXT_DECL_OVERRIDE;
+    bool setReplyPacket(QEXTTcpAbstractPacket *packet) QEXT_DECL_OVERRIDE;
 
-    bool isNotifyPacket(QEXTTcpAbstractPacket *packet) const QEXT_OVERRIDE;
-    bool setNotifyPacket(QEXTTcpAbstractPacket *packet) QEXT_OVERRIDE;
+    bool isNotifyPacket(QEXTTcpAbstractPacket *packet) const QEXT_DECL_OVERRIDE;
+    bool setNotifyPacket(QEXTTcpAbstractPacket *packet) QEXT_DECL_OVERRIDE;
 
-    QEXTTcpAbstractPacketHeader *createHeader() const QEXT_OVERRIDE;
-    QEXTTcpAbstractPacket *createPacket(const QEXTId &socketId) const QEXT_OVERRIDE;
-    QEXTTcpAbstractPacket *createReplyPacket(QEXTTcpAbstractPacket *rcv) const QEXT_OVERRIDE;
-    QEXTTcpAbstractPacketParser *cloneParser() const QEXT_OVERRIDE;
+    QEXTTcpAbstractPacketHeader *createHeader() const QEXT_DECL_OVERRIDE;
+    QEXTTcpAbstractPacket *createPacket(const QEXTId &socketId) const QEXT_DECL_OVERRIDE;
+    QEXTTcpAbstractPacket *createReplyPacket(QEXTTcpAbstractPacket *rcv) const QEXT_DECL_OVERRIDE;
+    QEXTTcpAbstractPacketParser *cloneParser() const QEXT_DECL_OVERRIDE;
 
-    QEXTTcpAbstractPacket *readData(QEXTTcpSocket *socket, bool &success) QEXT_OVERRIDE;
-    qint64 writeData(QEXTTcpSocket *socket, QEXTTcpAbstractPacket *packet) QEXT_OVERRIDE;
+    QEXTTcpAbstractPacket *readData(QEXTTcpSocket *socket, bool &success) QEXT_DECL_OVERRIDE;
+    qint64 writeData(QEXTTcpSocket *socket, QEXTTcpAbstractPacket *packet) QEXT_DECL_OVERRIDE;
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpPacketParser)
+    QEXT_DECL_PRIVATE(QEXTTcpPacketParser)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpPacketParser)
 };
 

@@ -15,7 +15,7 @@ public:
     ~QEXTQuickWorldPrivate();
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTQuickWorld)
+    QEXT_DECL_PUBLIC(QEXTQuickWorld)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickWorldPrivate)
 };
 

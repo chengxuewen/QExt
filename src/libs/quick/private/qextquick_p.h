@@ -25,7 +25,7 @@ public:
     Qt::CursorShape m_mouseAreaCurrsor = Qt::ArrowCursor;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTQuick)
+    QEXT_DECL_PUBLIC(QEXTQuick)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickPrivate)
 };
 

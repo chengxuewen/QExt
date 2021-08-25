@@ -56,9 +56,9 @@ list(APPEND _example_link_libraries QEXTTcp)
 
 
 #--------------------------------------------------------------------------------
-# Add ex_qextTcpSimpleServer example
+# Add exp_qextTcpSimpleServer example
 #--------------------------------------------------------------------------------
-set(_example_name ex_qextTcpSimpleServer)
+set(_example_name exp_qextTcpSimpleServer)
 set(_example_headers
     simpleServer/smainwindow.h
     )
@@ -87,9 +87,9 @@ endif()
 
 
 #--------------------------------------------------------------------------------
-# Set ex_qextTcpSimpleClient example
+# Set exp_qextTcpSimpleClient example
 #--------------------------------------------------------------------------------
-set(_example_name ex_qextTcpSimpleClient)
+set(_example_name exp_qextTcpSimpleClient)
 set(_example_headers
     simpleClient/cmainwindow.h
     )

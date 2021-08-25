@@ -207,16 +207,16 @@ void QEXTQuick::registerTypes(const char *uri)
 
 void QEXTQuick::initQmlEngine(QQmlEngine *engine, const char *uri)
 {
-    QEXT_D(QEXTQuick);
+    QEXT_DECL_D(QEXTQuick);
     Q_UNUSED(uri)
     d->m_qmlEngine = engine;
     QFontDatabase::addApplicationFont(":/QEXTQuick/font/fontawesome-webfont.ttf");
-    d->m_qmlEngine->rootContext()->setContextProperty("qextRootWindow", QEXT_NULLPTR);
+    d->m_qmlEngine->rootContext()->setContextProperty("qextRootWindow", QEXT_DECL_NULLPTR);
 }
 
 void QEXTQuick::initQuickRoot(QQuickWindow *rootWindow)
 {
-    QEXT_D(QEXTQuick);
+    QEXT_DECL_D(QEXTQuick);
     if (!d->m_rootWindow.isNull()) {
         return;
     }
@@ -226,18 +226,18 @@ void QEXTQuick::initQuickRoot(QQuickWindow *rootWindow)
 
 void QEXTQuick::initWorld(QEXTQuickWorld *world)
 {
-    QEXT_D(QEXTQuick);
+    QEXT_DECL_D(QEXTQuick);
     d->m_quickWorld = world;
 }
 
 int QEXTQuick::mouseAreaCursorShape() const
 {
-    QEXT_DC(QEXTQuick);
+    QEXT_DECL_DC(QEXTQuick);
     return (int)d->m_mouseAreaCurrsor;
 }
 
 void QEXTQuick::setMouseAreaCursorShape(const Qt::CursorShape &cursor)
 {
-    QEXT_D(QEXTQuick);
+    QEXT_DECL_D(QEXTQuick);
     d->m_mouseAreaCurrsor = cursor;
 }

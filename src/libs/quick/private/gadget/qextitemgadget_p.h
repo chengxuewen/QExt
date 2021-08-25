@@ -18,7 +18,7 @@ public:
     qreal m_height;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTItemGadget)
+    QEXT_DECL_PUBLIC(QEXTItemGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTItemGadgetPrivate)
 };
 

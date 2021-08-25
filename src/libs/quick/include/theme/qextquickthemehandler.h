@@ -67,7 +67,7 @@ protected:
 
 private:
     friend class QEXTQuickThemeManager;
-    QEXT_DECLARE_PRIVATE(QEXTQuickThemeHandler)
+    QEXT_DECL_PRIVATE(QEXTQuickThemeHandler)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeHandler)
 };
 

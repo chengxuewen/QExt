@@ -20,7 +20,7 @@ public:
     ~QEXTTcpTaskThreadPrivate();
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpTaskThread)
+    QEXT_DECL_PUBLIC(QEXTTcpTaskThread)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTaskThreadPrivate)
 };
 

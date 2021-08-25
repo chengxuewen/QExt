@@ -37,7 +37,7 @@ public:
     QPointer<QEXTQuickThemeBinder> m_themeBinderParent;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTQuickThemeBinder)
+    QEXT_DECL_PUBLIC(QEXTQuickThemeBinder)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeBinderPrivate)
 };
 

@@ -29,7 +29,7 @@ public:
     static quint32 sm_id;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpPacketParser)
+    QEXT_DECL_PUBLIC(QEXTTcpPacketParser)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpPacketParserPrivate)
 };
 

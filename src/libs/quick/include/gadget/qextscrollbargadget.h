@@ -66,7 +66,7 @@ private Q_SLOTS:
     void setAutoHide(const bool &autoHide);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTScrollbarGadget)
+    QEXT_DECL_PRIVATE(QEXTScrollbarGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTScrollbarGadget)
 };
 

@@ -22,12 +22,12 @@ class QEXT_TCP_API QEXTTcpClient : public QEXTTcpClientProxy
 {
     Q_OBJECT
 public:
-    QEXTTcpClient(QObject *parent = QEXT_NULLPTR);
-    QEXTTcpClient(QEXTTcpAbstractPacketParser *packetParser, QObject *parent = QEXT_NULLPTR);
-    QEXTTcpClient(QEXTTcpAbstractPacketParser *packetParser, QEXTTcpAbstractPacketDispatcher *packetDispatcher, QObject *parent = QEXT_NULLPTR);
-    QEXTTcpClient(QEXTTcpClientPrivate &dd, QObject *parent = QEXT_NULLPTR);
-    QEXTTcpClient(QEXTTcpClientPrivate &dd, QEXTTcpAbstractPacketParser *packetParser, QObject *parent = QEXT_NULLPTR);
-    QEXTTcpClient(QEXTTcpClientPrivate &dd, QEXTTcpAbstractPacketParser *packetParser, QEXTTcpAbstractPacketDispatcher *packetDispatcher, QObject *parent = QEXT_NULLPTR);
+    QEXTTcpClient(QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpClient(QEXTTcpAbstractPacketParser *packetParser, QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpClient(QEXTTcpAbstractPacketParser *packetParser, QEXTTcpAbstractPacketDispatcher *packetDispatcher, QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpClient(QEXTTcpClientPrivate &dd, QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpClient(QEXTTcpClientPrivate &dd, QEXTTcpAbstractPacketParser *packetParser, QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpClient(QEXTTcpClientPrivate &dd, QEXTTcpAbstractPacketParser *packetParser, QEXTTcpAbstractPacketDispatcher *packetDispatcher, QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTcpClient();
 
     QAbstractSocket::SocketState socketState() const;
@@ -53,7 +53,7 @@ public:
     QEXTTcpAbstractPacketDispatcher *packetDispatcher() const;
     void setPacketDispatcher(QEXTTcpAbstractPacketDispatcher *dispatcher);
 
-    void setPacketParser(QEXTTcpAbstractPacketParser *packetParser) QEXT_OVERRIDE;
+    void setPacketParser(QEXTTcpAbstractPacketParser *packetParser) QEXT_DECL_OVERRIDE;
 
 Q_SIGNALS:
     void tryToConnect();
@@ -67,7 +67,7 @@ Q_SIGNALS:
     void transferError(QEXTTcpSocket::TransferErrorType error);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpClient)
+    QEXT_DECL_PRIVATE(QEXTTcpClient)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpClient)
 };
 

@@ -36,42 +36,42 @@ QEXTTcpAbstractThreadPool::~QEXTTcpAbstractThreadPool()
 
 bool QEXTTcpAbstractThreadPool::isTcpThreadsEmpty() const
 {
-    QEXT_DC(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_DC(QEXTTcpAbstractThreadPool);
     QMutexLocker mutexLocker(&d->m_threadMutex);
     return d->m_allThreadsSet.isEmpty();
 }
 
 int QEXTTcpAbstractThreadPool::tcpThreadsSize() const
 {
-    QEXT_DC(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_DC(QEXTTcpAbstractThreadPool);
     QMutexLocker mutexLocker(&d->m_threadMutex);
     return d->m_allThreadsSet.size();
 }
 
 int QEXTTcpAbstractThreadPool::allTcpThreadsCount() const
 {
-    QEXT_DC(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_DC(QEXTTcpAbstractThreadPool);
     QMutexLocker mutexLocker(&d->m_threadMutex);
     return d->m_allThreadsSet.size();
 }
 
 QList<QEXTTcpAbstractThread *> QEXTTcpAbstractThreadPool::allTcpThreads() const
 {
-    QEXT_DC(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_DC(QEXTTcpAbstractThreadPool);
     QMutexLocker mutexLocker(&d->m_threadMutex);
     return d->m_allThreadsSet.toList();
 }
 
 QList<QEXTTcpAbstractThread *> QEXTTcpAbstractThreadPool::workingTcpThreads() const
 {
-    QEXT_DC(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_DC(QEXTTcpAbstractThreadPool);
     QMutexLocker mutexLocker(&d->m_threadMutex);
     return d->m_workingThreadsSet.toList();
 }
 
 QList<QEXTTcpAbstractThread *> QEXTTcpAbstractThreadPool::idleTcpThreads() const
 {
-    QEXT_DC(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_DC(QEXTTcpAbstractThreadPool);
     QMutexLocker mutexLocker(&d->m_threadMutex);
     return d->m_idleThreadsQueue.toVector().toList();
 }
@@ -79,7 +79,7 @@ QList<QEXTTcpAbstractThread *> QEXTTcpAbstractThreadPool::idleTcpThreads() const
 void QEXTTcpAbstractThreadPool::setTcpThreadIdle(QEXTTcpAbstractThread *thread)
 {
     qDebug() << "QEXTTcpThreadPoolBase::setTcpThreadIdle():" << this->thread();
-    QEXT_D(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_D(QEXTTcpAbstractThreadPool);
     if (thread) {
         QMutexLocker mutexLocker(&d->m_threadMutex);
         d->m_idleThreadsQueue.enqueue(thread);
@@ -90,7 +90,7 @@ void QEXTTcpAbstractThreadPool::setTcpThreadIdle(QEXTTcpAbstractThread *thread)
 void QEXTTcpAbstractThreadPool::setTcpThreadWorking(QEXTTcpAbstractThread *thread)
 {
     qDebug() << "QEXTTcpThreadPoolBase::setTcpThreadWorking():" << this->thread();
-    QEXT_D(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_D(QEXTTcpAbstractThreadPool);
     if (thread) {
         QMutexLocker mutexLocker(&d->m_threadMutex);
         d->m_workingThreadsSet.insert(thread);
@@ -99,7 +99,7 @@ void QEXTTcpAbstractThreadPool::setTcpThreadWorking(QEXTTcpAbstractThread *threa
 
 void QEXTTcpAbstractThreadPool::resizeThreads(int count)
 {
-    QEXT_D(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_D(QEXTTcpAbstractThreadPool);
     if (count > 0) {
         int size = this->allTcpThreadsCount();
         if (count > size) {
@@ -114,7 +114,7 @@ void QEXTTcpAbstractThreadPool::resizeThreads(int count)
 
 void QEXTTcpAbstractThreadPool::removeThreads(int count)
 {
-    QEXT_D(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_D(QEXTTcpAbstractThreadPool);
     int size = d->m_allThreadsSet.size();
     if (count > 0 && count < size) {
         for (int i = 0; i < count; ++i) {
@@ -127,7 +127,7 @@ void QEXTTcpAbstractThreadPool::removeThreads(int count)
 
 void QEXTTcpAbstractThreadPool::addThreads(int count)
 {
-    QEXT_D(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_D(QEXTTcpAbstractThreadPool);
     if (count > 0) {
         for (int i = 0; i < count; ++i) {
             this->addThread();
@@ -139,14 +139,14 @@ void QEXTTcpAbstractThreadPool::addThreads(int count)
 
 QEXTTcpAbstractPacketParser *QEXTTcpAbstractThreadPool::packetParser() const
 {
-    QEXT_DC(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_DC(QEXTTcpAbstractThreadPool);
     QMutexLocker mutexLocker(&d->m_packetParserMutex);
     return d->m_packetParser.data();
 }
 
 void QEXTTcpAbstractThreadPool::setPacketParser(QEXTTcpAbstractPacketParser *packetParser)
 {
-    QEXT_D(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_D(QEXTTcpAbstractThreadPool);
     QMutexLocker mutexLocker(&d->m_packetParserMutex);
     if (packetParser && packetParser != d->m_packetParser.data()) {
         d->m_packetParser.reset(packetParser);
@@ -159,7 +159,7 @@ void QEXTTcpAbstractThreadPool::setPacketParser(QEXTTcpAbstractPacketParser *pac
 
 QEXTTcpAbstractTaskPool *QEXTTcpAbstractThreadPool::taskPool() const
 {
-    QEXT_DC(QEXTTcpAbstractThreadPool);
+    QEXT_DECL_DC(QEXTTcpAbstractThreadPool);
     QMutexLocker mutexLocker(&d->m_taskPoolMutex);
     return d->m_taskPool.data();
 }

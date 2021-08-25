@@ -25,7 +25,7 @@ public:
     QPointer<QEXTTcpClient> m_tcpClient;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpPacketDispatcher)
+    QEXT_DECL_PUBLIC(QEXTTcpPacketDispatcher)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpPacketDispatcherPrivate)
 };
 

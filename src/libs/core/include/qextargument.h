@@ -9,7 +9,7 @@
 class QEXTGenericArgument
 {
 public:
-    inline QEXTGenericArgument(const char *name = QEXT_NULLPTR, const void *data = QEXT_NULLPTR)
+    inline QEXTGenericArgument(const char *name = QEXT_DECL_NULLPTR, const void *data = QEXT_DECL_NULLPTR)
         : m_data(data), m_name(name) {}
     inline void *data() const { return const_cast<void *>(m_data); }
     inline const char *name() const { return m_name; }
@@ -24,7 +24,7 @@ private:
 class QEXTGenericReturnArgument: public QEXTGenericArgument
 {
 public:
-    inline QEXTGenericReturnArgument(const char *name = QEXT_NULLPTR, void *data = QEXT_NULLPTR)
+    inline QEXTGenericReturnArgument(const char *name = QEXT_DECL_NULLPTR, void *data = QEXT_DECL_NULLPTR)
         : QEXTGenericArgument(name, data)
     {}
 };

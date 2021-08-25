@@ -1,5 +1,6 @@
 #include "qextsimpleobject.h"
-#include "qextobject_p.h"
+
+#include <qextobject_p.h>
 
 class QEXTSimpleObjectPrivate : public QEXTObjectPrivate
 {
@@ -10,7 +11,7 @@ public:
     QString m_string;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTSimpleObject)
+    QEXT_DECL_PUBLIC(QEXTSimpleObject)
     QEXT_DISABLE_COPY_MOVE(QEXTSimpleObjectPrivate)
 };
 
@@ -40,12 +41,12 @@ QEXTSimpleObject::~QEXTSimpleObject()
 
 QString QEXTSimpleObject::string() const
 {
-    QEXT_DC(QEXTSimpleObject);
+    QEXT_DECL_DC(QEXTSimpleObject);
     return d->m_string;
 }
 
 void QEXTSimpleObject::setString(const QString &string)
 {
-    QEXT_D(QEXTSimpleObject);
+    QEXT_DECL_D(QEXTSimpleObject);
     d->m_string = string;
 }

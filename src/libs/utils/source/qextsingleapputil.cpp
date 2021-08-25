@@ -41,7 +41,7 @@ QEXTSingleAppUtilPrivate::~QEXTSingleAppUtilPrivate()
 
 bool QEXTSingleAppUtilPrivate::initLocalServer()
 {
-    QEXT_Q(QEXTSingleAppUtil);
+    QEXT_DECL_Q(QEXTSingleAppUtil);
     m_localServer.reset(new QLocalServer);
     QObject::connect(m_localServer.data(), SIGNAL(newConnection()), m_singleAppUtilSlotWrapper.data(), SLOT(newLocalConnectionReceived()));
     if(!m_localServer->listen(m_localServerName)) {
@@ -74,7 +74,7 @@ QEXTSingleAppUtil::~QEXTSingleAppUtil()
 
 void QEXTSingleAppUtil::newLocalConnectionReceived()
 {
-    QEXT_D(QEXTSingleAppUtil);
+    QEXT_DECL_D(QEXTSingleAppUtil);
     QScopedPointer<QLocalSocket> socket(d->m_localServer->nextPendingConnection());
     if (socket.isNull()) {
         return;
@@ -84,7 +84,7 @@ void QEXTSingleAppUtil::newLocalConnectionReceived()
 
 bool QEXTSingleAppUtil::initLocalConnection()
 {
-    QEXT_D(QEXTSingleAppUtil);
+    QEXT_DECL_D(QEXTSingleAppUtil);
     QLocalSocket socket;
     socket.connectToServer(d->m_localServerName);
     if(socket.waitForConnected(500)) {

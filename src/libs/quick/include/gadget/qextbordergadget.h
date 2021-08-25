@@ -53,7 +53,7 @@ class QEXT_QUICK_API QEXTBorderGadget : public QObject, public QEXTObject
     Q_PROPERTY(bool valid READ isValid NOTIFY validChanged)
 
 public:
-    explicit QEXTBorderGadget(QObject *parent = QEXT_NULLPTR);
+    explicit QEXTBorderGadget(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTBorderGadget();
 
     QColor color() const;
@@ -82,7 +82,7 @@ private slots:
     void setBottomWidth(qreal bottomWidth);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTBorderGadget)
+    QEXT_DECL_PRIVATE(QEXTBorderGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTBorderGadget)
 };
 

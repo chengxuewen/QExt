@@ -25,7 +25,7 @@ public:
     QString m_source;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTIconGadget)
+    QEXT_DECL_PUBLIC(QEXTIconGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTIconGadgetPrivate)
 };
 

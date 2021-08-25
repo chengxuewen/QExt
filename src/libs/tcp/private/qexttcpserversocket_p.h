@@ -15,7 +15,7 @@ public:
     ~QEXTTcpServerSocketPrivate();
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpServerSocket)
+    QEXT_DECL_PUBLIC(QEXTTcpServerSocket)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpServerSocketPrivate)
 };
 

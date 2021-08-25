@@ -103,7 +103,7 @@ class QEXT_TCP_API QEXTTcpAbstractPacketDispatcher : public QObject
 {
     Q_OBJECT
 public:
-    explicit QEXTTcpAbstractPacketDispatcher(QObject *parent = QEXT_NULLPTR) : QObject(parent) {}
+    explicit QEXTTcpAbstractPacketDispatcher(QObject *parent = QEXT_DECL_NULLPTR) : QObject(parent) {}
     virtual ~QEXTTcpAbstractPacketDispatcher() {}
 
     virtual QEXTTcpClient *tcpClient() const = 0;

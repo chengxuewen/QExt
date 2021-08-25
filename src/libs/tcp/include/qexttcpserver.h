@@ -19,12 +19,12 @@ class QEXT_TCP_API QEXTTcpServer : public QTcpServer, public QEXTObject
 {
     Q_OBJECT
 public:
-    QEXTTcpServer(QObject *parent = QEXT_NULLPTR);
-    QEXTTcpServer(QEXTTcpAbstractPacketParser *packetParser, QObject *parent = QEXT_NULLPTR);
-    QEXTTcpServer(QEXTTcpAbstractPacketParser *packetParser, QEXTTcpAbstractTaskPool *taskPool, QObject *parent = QEXT_NULLPTR);
-    QEXTTcpServer(QEXTTcpServerPrivate &dd, QObject *parent = QEXT_NULLPTR);
-    QEXTTcpServer(QEXTTcpServerPrivate &dd, QEXTTcpAbstractPacketParser *packetParser, QObject *parent = QEXT_NULLPTR);
-    QEXTTcpServer(QEXTTcpServerPrivate &dd, QEXTTcpAbstractPacketParser *packetParser, QEXTTcpAbstractTaskPool *taskPool, QObject *parent = QEXT_NULLPTR);
+    QEXTTcpServer(QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpServer(QEXTTcpAbstractPacketParser *packetParser, QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpServer(QEXTTcpAbstractPacketParser *packetParser, QEXTTcpAbstractTaskPool *taskPool, QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpServer(QEXTTcpServerPrivate &dd, QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpServer(QEXTTcpServerPrivate &dd, QEXTTcpAbstractPacketParser *packetParser, QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpServer(QEXTTcpServerPrivate &dd, QEXTTcpAbstractPacketParser *packetParser, QEXTTcpAbstractTaskPool *taskPool, QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTcpServer();
 
     int allSocketCount() const;
@@ -50,10 +50,10 @@ protected Q_SLOTS:
     void handleSocketError(QEXTTcpServerSocket *socket, QAbstractSocket::SocketError error);
 
 protected:
-    void incomingConnection(QEXTSocketDescriptor socketDescriptor) QEXT_OVERRIDE;
+    void incomingConnection(QEXTSocketDescriptor socketDescriptor) QEXT_DECL_OVERRIDE;
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpServer)
+    QEXT_DECL_PRIVATE(QEXTTcpServer)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpServer)
 };
 

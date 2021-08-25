@@ -59,7 +59,7 @@ QEXTQuickThemeHandlerPrivate::~QEXTQuickThemeHandlerPrivate()
 QEXTQuickThemeHandler::QEXTQuickThemeHandler(const QString &name, const QString &path)
     : QObject(), QEXTObject(*(new QEXTQuickThemeHandlerPrivate(this)))
 {
-    QEXT_D(QEXTQuickThemeHandler);
+    QEXT_DECL_D(QEXTQuickThemeHandler);
     d->m_name = name;
     d->m_path = path;
 }
@@ -71,37 +71,37 @@ QEXTQuickThemeHandler::~QEXTQuickThemeHandler()
 
 QString QEXTQuickThemeHandler::themeName() const
 {
-    QEXT_DC(QEXTQuickThemeHandler);
+    QEXT_DECL_DC(QEXTQuickThemeHandler);
     return d->m_name;
 }
 
 QString QEXTQuickThemeHandler::themePath() const
 {
-    QEXT_DC(QEXTQuickThemeHandler);
+    QEXT_DECL_DC(QEXTQuickThemeHandler);
     return d->m_path;
 }
 
 QString QEXTQuickThemeHandler::lastErrorString() const
 {
-    QEXT_DC(QEXTQuickThemeHandler);
+    QEXT_DECL_DC(QEXTQuickThemeHandler);
     return d->m_lastErrorString;
 }
 
 bool QEXTQuickThemeHandler::isValid() const
 {
-    QEXT_DC(QEXTQuickThemeHandler);
+    QEXT_DECL_DC(QEXTQuickThemeHandler);
     return d->m_valid;
 }
 
 bool QEXTQuickThemeHandler::isLoad() const
 {
-    QEXT_DC(QEXTQuickThemeHandler);
+    QEXT_DECL_DC(QEXTQuickThemeHandler);
     return !d->m_themeDataMap.isEmpty();
 }
 
 QVariant QEXTQuickThemeHandler::propertyData(const QString &fieldKey, const QString &propertyKey)
 {
-    QEXT_D(QEXTQuickThemeHandler);
+    QEXT_DECL_D(QEXTQuickThemeHandler);
     if (d->m_themeDataMap.contains(fieldKey)) {
         QVariantMap mapField = d->m_themeDataMap.value(fieldKey);
         if (mapField.contains(propertyKey)) {
@@ -113,19 +113,19 @@ QVariant QEXTQuickThemeHandler::propertyData(const QString &fieldKey, const QStr
 
 const QMap<QString, QVariantMap> QEXTQuickThemeHandler::themeData() const
 {
-    QEXT_DC(QEXTQuickThemeHandler);
+    QEXT_DECL_DC(QEXTQuickThemeHandler);
     return d->m_themeDataMap;
 }
 
 const QVariantMap QEXTQuickThemeHandler::themeInfo() const
 {
-    QEXT_DC(QEXTQuickThemeHandler);
+    QEXT_DECL_DC(QEXTQuickThemeHandler);
     return d->m_themeDataMap.value(QEXTQuickThemeConstant::THEME_INFO_KEY);
 }
 
 void QEXTQuickThemeHandler::setLastErrorString(const QString &string)
 {
-    QEXT_D(QEXTQuickThemeHandler);
+    QEXT_DECL_D(QEXTQuickThemeHandler);
     if (string != d->m_lastErrorString) {
         d->m_lastErrorString = string;
     }
@@ -133,7 +133,7 @@ void QEXTQuickThemeHandler::setLastErrorString(const QString &string)
 
 void QEXTQuickThemeHandler::setThemeData(const QMap<QString, QVariantMap> &data)
 {
-    QEXT_D(QEXTQuickThemeHandler);
+    QEXT_DECL_D(QEXTQuickThemeHandler);
     if (data != d->m_themeDataMap) {
         d->m_themeDataMap = data;
         d->m_valid = !data.isEmpty();

@@ -127,10 +127,10 @@ public:
     void setMouseAreaCursorShape(const Qt::CursorShape &cursor);
 
 protected:
-    explicit QEXTQuick(QObject *parent = QEXT_NULLPTR);
+    explicit QEXTQuick(QObject *parent = QEXT_DECL_NULLPTR);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTQuick)
+    QEXT_DECL_PRIVATE(QEXTQuick)
     QEXT_DISABLE_COPY_MOVE(QEXTQuick)
 };
 

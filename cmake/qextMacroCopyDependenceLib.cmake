@@ -25,4 +25,4 @@ macro(qextMacroCopyDependenceLib target dependence directory)
         COMMENT "copy the .dll file to the same folder as the executable"
         POST_BUILD
         )
-endmacro(qextMacroCopyLib)
+endmacro(qextMacroCopyDependenceLib)

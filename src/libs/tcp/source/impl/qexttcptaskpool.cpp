@@ -29,7 +29,7 @@ QEXTTcpTaskPool::QEXTTcpTaskPool(QObject *parent)
 QEXTTcpTaskPool::QEXTTcpTaskPool(QEXTTcpAbstractPacketParser *packetParser, QObject *parent)
     : QEXTTcpAbstractTaskPool(parent), QEXTObject(*(new QEXTTcpTaskPoolPrivate(this)))
 {
-    QEXT_D(QEXTTcpTaskPool);
+    QEXT_DECL_D(QEXTTcpTaskPool);
     d->m_packetParser.reset(packetParser);
 }
 
@@ -40,49 +40,49 @@ QEXTTcpTaskPool::~QEXTTcpTaskPool()
 
 bool QEXTTcpTaskPool::isTaskEmpty() const
 {
-    QEXT_DC(QEXTTcpTaskPool);
+    QEXT_DECL_DC(QEXTTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_taskMutex);
     return d->m_taskQueue.isEmpty();
 }
 
 int QEXTTcpTaskPool::taskCount() const
 {
-    QEXT_DC(QEXTTcpTaskPool);
+    QEXT_DECL_DC(QEXTTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_taskMutex);
     return d->m_taskQueue.size();
 }
 
 QEXTTcpAbstractTask *QEXTTcpTaskPool::dequeueTask()
 {
-    QEXT_D(QEXTTcpTaskPool);
+    QEXT_DECL_D(QEXTTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_taskMutex);
-    return d->m_taskQueue.isEmpty() ? QEXT_NULLPTR : d->m_taskQueue.dequeue();
+    return d->m_taskQueue.isEmpty() ? QEXT_DECL_NULLPTR : d->m_taskQueue.dequeue();
 }
 
 QList<QEXTTcpAbstractTask *> QEXTTcpTaskPool::allUnfinishedTasks() const
 {
-    QEXT_DC(QEXTTcpTaskPool);
+    QEXT_DECL_DC(QEXTTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_taskMutex);
     return d->m_unfinishedTaskMap.values();
 }
 
 QList<QEXTTcpAbstractTask *> QEXTTcpTaskPool::allExpiredTasks() const
 {
-    QEXT_DC(QEXTTcpTaskPool);
+    QEXT_DECL_DC(QEXTTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_taskMutex);
     return d->m_expiredTasksSet.toList();
 }
 
 QEXTTcpAbstractPacketParser *QEXTTcpTaskPool::packetParser() const
 {
-    QEXT_DC(QEXTTcpTaskPool);
+    QEXT_DECL_DC(QEXTTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_packetParserMutex);
     return d->m_packetParser.data();
 }
 
 void QEXTTcpTaskPool::setPacketParser(QEXTTcpAbstractPacketParser *packetParser)
 {
-    QEXT_D(QEXTTcpTaskPool);
+    QEXT_DECL_D(QEXTTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_packetParserMutex);
     if (packetParser != d->m_packetParser.data()) {
         d->m_packetParser.reset(packetParser);
@@ -91,7 +91,7 @@ void QEXTTcpTaskPool::setPacketParser(QEXTTcpAbstractPacketParser *packetParser)
 
 void QEXTTcpTaskPool::parsePacket(QEXTTcpAbstractPacket *packet)
 {
-    QEXT_D(QEXTTcpTaskPool);
+    QEXT_DECL_D(QEXTTcpTaskPool);
     QEXTTcpAbstractTask *task = new QEXTTcpTask(packet, this);
     this->enqueueTask(task);
 }
@@ -103,7 +103,7 @@ void QEXTTcpTaskPool::sendPacket(QEXTTcpAbstractPacket *packet)
 
 void QEXTTcpTaskPool::enqueueTask(QEXTTcpAbstractTask *task)
 {
-    QEXT_D(QEXTTcpTaskPool);
+    QEXT_DECL_D(QEXTTcpTaskPool);
     d->m_taskMutex.lock();
     d->m_taskQueue.enqueue(task);
     d->m_taskMutex.unlock();
@@ -112,7 +112,7 @@ void QEXTTcpTaskPool::enqueueTask(QEXTTcpAbstractTask *task)
 
 void QEXTTcpTaskPool::recoveryTask(QEXTTcpAbstractTask *task)
 {
-    QEXT_D(QEXTTcpTaskPool);
+    QEXT_DECL_D(QEXTTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_taskMutex);
     if (task->isFinished()) {
         d->m_unfinishedTaskMap.remove(task->id());

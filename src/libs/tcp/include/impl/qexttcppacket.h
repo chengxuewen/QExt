@@ -19,23 +19,23 @@ public:
     QEXTTcpPacket(QEXTTcpAbstractPacketHeader *header, QEXTTcpPacketPrivate &dd, const QEXTId &id);
     ~QEXTTcpPacket();
 
-    QEXTId socketId() const QEXT_OVERRIDE;
-    QDateTime timestamp() const QEXT_OVERRIDE;
-    bool isValid() const QEXT_OVERRIDE;
+    QEXTId socketId() const QEXT_DECL_OVERRIDE;
+    QDateTime timestamp() const QEXT_DECL_OVERRIDE;
+    bool isValid() const QEXT_DECL_OVERRIDE;
 
-    QByteArray stream() const QEXT_OVERRIDE;
+    QByteArray stream() const QEXT_DECL_OVERRIDE;
 
-    QEXTTcpAbstractPacketHeader *header() const QEXT_OVERRIDE;
-    bool setHeader(QEXTTcpAbstractPacketHeader *header) QEXT_OVERRIDE;
+    QEXTTcpAbstractPacketHeader *header() const QEXT_DECL_OVERRIDE;
+    bool setHeader(QEXTTcpAbstractPacketHeader *header) QEXT_DECL_OVERRIDE;
 
-    QByteArray content() const QEXT_OVERRIDE;
-    bool setContent(const QByteArray &content) QEXT_OVERRIDE;
+    QByteArray content() const QEXT_DECL_OVERRIDE;
+    bool setContent(const QByteArray &content) QEXT_DECL_OVERRIDE;
 
-    qint64 nextBlockSize() const QEXT_OVERRIDE;
-    bool setNextBlockSize(qint64 size) QEXT_OVERRIDE;
+    qint64 nextBlockSize() const QEXT_DECL_OVERRIDE;
+    bool setNextBlockSize(qint64 size) QEXT_DECL_OVERRIDE;
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpPacket)
+    QEXT_DECL_PRIVATE(QEXTTcpPacket)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpPacket)
 };
 

@@ -62,7 +62,7 @@ QEXTQuickThemeBinderPrivate::~QEXTQuickThemeBinderPrivate()
 QEXTQuickThemeBinder::QEXTQuickThemeBinder(QObject *parent)
     : QObject(parent), QEXTObject(*(new QEXTQuickThemeBinderPrivate(this)))
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     d->m_dynamicListenerList << "width" << "height" << "x" << "y";
     this->setEnabled(true);
     const QMetaObject *metaObj = this->metaObject();
@@ -88,7 +88,7 @@ QEXTQuickThemeBinder::~QEXTQuickThemeBinder()
 
 void QEXTQuickThemeBinder::initialize()
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     //    qDebug() << "TThemeBinder::initialize()--------------------";
     //    qDebug() << "id = " << d->m_iId;
     //    qDebug() << "m_className = " << d->m_className;
@@ -159,73 +159,73 @@ void QEXTQuickThemeBinder::initialize()
 
 int QEXTQuickThemeBinder::id() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_id;
 }
 
 bool QEXTQuickThemeBinder::isEnabled() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_enabled;
 }
 
 const QString &QEXTQuickThemeBinder::groupName() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_groupName;
 }
 
 const QString &QEXTQuickThemeBinder::className() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_className;
 }
 
 const QString &QEXTQuickThemeBinder::childName() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_childName;
 }
 
 const QString &QEXTQuickThemeBinder::stateName() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_stateName;
 }
 
 QObject *QEXTQuickThemeBinder::target() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_target.data();
 }
 
 QStringList QEXTQuickThemeBinder::filterPropertyName() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_filterPropertyNameList;
 }
 
 QStringList QEXTQuickThemeBinder::dynamicListener() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_dynamicListenerList;
 }
 
 bool QEXTQuickThemeBinder::isStateAsynchronous() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_stateAsynchronous;
 }
 
 QMap<QString, QVariant> QEXTQuickThemeBinder::themeBindingPropertyMap() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_bindingNameToPropertyMap;
 }
 
 int QEXTQuickThemeBinder::themeBinderChildsCount() const
 {
-    QEXT_DC(QEXTQuickThemeBinder);
+    QEXT_DECL_DC(QEXTQuickThemeBinder);
     return d->m_themeBinderChildsList.count();
 }
 
@@ -259,7 +259,7 @@ QStringList QEXTQuickThemeBinder::generateFieldKeyList(const QString &className,
 
 QString QEXTQuickThemeBinder::binderFieldKey()
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     QString fieldKey;
     if (!d->m_themeBinderParent.isNull()) {
         fieldKey = d->m_themeBinderParent->binderFieldKey();
@@ -272,7 +272,7 @@ QString QEXTQuickThemeBinder::binderFieldKey()
 
 QVariant QEXTQuickThemeBinder::propertyData(const QString &key)
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     QString propertyFieldKey = this->binderFieldKey() + key;
     //    qDebug() << "strPropertyFieldKey=" << strPropertyFieldKey;
 
@@ -298,7 +298,7 @@ QVariant QEXTQuickThemeBinder::propertyData(const QString &key)
 
 QEXTQuickThemeBinder *QEXTQuickThemeBinder::childThemeBinder(const int &index) const
 {
-    QEXT_D(const QEXTQuickThemeBinder);
+    QEXT_DECL_D(const QEXTQuickThemeBinder);
     if (d->m_themeBinderChildsList.count() <= index) {
         qCritical() << "QEXTQuickThemeBinder::childThemeBinder():iIndex out of range!";
         return nullptr;
@@ -308,19 +308,19 @@ QEXTQuickThemeBinder *QEXTQuickThemeBinder::childThemeBinder(const int &index) c
 
 QQmlListProperty<QEXTQuickThemeBinder> QEXTQuickThemeBinder::qmlThemeBinderChilds()
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     return QQmlListProperty<QEXTQuickThemeBinder>(this, d->m_themeBinderChildsList);
 }
 
 QList<QEXTQuickThemeBinder *> QEXTQuickThemeBinder::themeBinderChilds()
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     return d->m_themeBinderChildsList;
 }
 
 void QEXTQuickThemeBinder::addChild(QEXTQuickThemeBinder *child)
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     if (!d->m_themeBinderChildsList.contains(child)) {
         d->m_themeBinderChildsList.append(child);
         connect(child, &QEXTQuickThemeBinder::destroyed, [=](){
@@ -334,13 +334,13 @@ void QEXTQuickThemeBinder::addChild(QEXTQuickThemeBinder *child)
 
 QEXTQuickThemeBinder *QEXTQuickThemeBinder::themeBinderParent() const
 {
-    QEXT_D(const QEXTQuickThemeBinder);
+    QEXT_DECL_D(const QEXTQuickThemeBinder);
     return d->m_themeBinderParent.data();
 }
 
 void QEXTQuickThemeBinder::setEnabled(const bool &enabled)
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     static QMetaObject::Connection connection;
     if(enabled != d->m_enabled) {
         d->m_enabled = enabled;
@@ -355,7 +355,7 @@ void QEXTQuickThemeBinder::setEnabled(const bool &enabled)
 
 void QEXTQuickThemeBinder::setGroupName(const QString &name)
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     if (name != d->m_groupName) {
         d->m_groupName = name;
         emit this->groupNameChanged();
@@ -364,7 +364,7 @@ void QEXTQuickThemeBinder::setGroupName(const QString &name)
 
 void QEXTQuickThemeBinder::setClassName(const QString &name)
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     if (name != d->m_className) {
         d->m_className = name;
         emit this->classNameChanged();
@@ -373,7 +373,7 @@ void QEXTQuickThemeBinder::setClassName(const QString &name)
 
 void QEXTQuickThemeBinder::setChildName(const QString &name)
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     if (name != d->m_childName) {
         d->m_childName = name;
         emit this->childNameChanged();
@@ -395,7 +395,7 @@ void QEXTQuickThemeBinder::setState(const QString &state)
 
 void QEXTQuickThemeBinder::setTarget(QObject *target)
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     if (target != d->m_target.data()) {
         d->m_target = target;
         emit this->targetChanged();
@@ -404,7 +404,7 @@ void QEXTQuickThemeBinder::setTarget(QObject *target)
 
 void QEXTQuickThemeBinder::setFilterPropertyName(const QStringList &nameList)
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     if (nameList != d->m_filterPropertyNameList) {
         d->m_filterPropertyNameList += nameList;
         emit this->filterPropertyNameChanged();
@@ -413,7 +413,7 @@ void QEXTQuickThemeBinder::setFilterPropertyName(const QStringList &nameList)
 
 void QEXTQuickThemeBinder::setDynamicListener(const QStringList &listenerList)
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     if (listenerList != d->m_dynamicListenerList) {
         d->m_dynamicListenerList = listenerList;
         emit this->dynamicListenerChanged(listenerList);
@@ -422,7 +422,7 @@ void QEXTQuickThemeBinder::setDynamicListener(const QStringList &listenerList)
 
 void QEXTQuickThemeBinder::setStateAsynchronous(const bool &asynchronous)
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     if (asynchronous != d->m_stateAsynchronous) {
         d->m_stateAsynchronous = asynchronous;
         emit this->stateAsynchronousChanged();
@@ -431,7 +431,7 @@ void QEXTQuickThemeBinder::setStateAsynchronous(const bool &asynchronous)
 
 void QEXTQuickThemeBinder::setThemeBinderParent(QEXTQuickThemeBinder *parent)
 {
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     if (!d->m_themeBinderParent.isNull() || parent == d->m_themeBinderParent.data()) {
         return;
     }
@@ -450,23 +450,23 @@ void QEXTQuickThemeBinder::setThemeBinderParent(QEXTQuickThemeBinder *parent)
     this->setStateAsynchronous(d->m_themeBinderParent->isStateAsynchronous());
 
     connect(d->m_themeBinderParent.data(), &QEXTQuickThemeBinder::classNameChanged, this, [this]() {
-        QEXT_D(QEXTQuickThemeBinder);
+        QEXT_DECL_D(QEXTQuickThemeBinder);
         this->setClassName(d->m_themeBinderParent->className());
     });
     connect(d->m_themeBinderParent.data(), &QEXTQuickThemeBinder::groupNameChanged, this, [this]() {
-        QEXT_D(QEXTQuickThemeBinder);
+        QEXT_DECL_D(QEXTQuickThemeBinder);
         this->setGroupName(d->m_themeBinderParent->groupName());
     });
     connect(d->m_themeBinderParent.data(), &QEXTQuickThemeBinder::stateChanged, this, [this]() {
-        QEXT_D(QEXTQuickThemeBinder);
+        QEXT_DECL_D(QEXTQuickThemeBinder);
         this->setState(d->m_themeBinderParent->stateName());
     });
     connect(d->m_themeBinderParent.data(), &QEXTQuickThemeBinder::enabledChanged, this, [this]() {
-        QEXT_D(QEXTQuickThemeBinder);
+        QEXT_DECL_D(QEXTQuickThemeBinder);
         this->setEnabled(d->m_themeBinderParent->isEnabled());
     });
     connect(d->m_themeBinderParent.data(), &QEXTQuickThemeBinder::stateAsynchronousChanged, this, [this]() {
-        QEXT_D(QEXTQuickThemeBinder);
+        QEXT_DECL_D(QEXTQuickThemeBinder);
         this->setStateAsynchronous(d->m_themeBinderParent->isStateAsynchronous());
     });
 
@@ -476,7 +476,7 @@ void QEXTQuickThemeBinder::setThemeBinderParent(QEXTQuickThemeBinder *parent)
 void QEXTQuickThemeBinder::onRefreshPropertys()
 {
     //    qDebug() << "QEXTQuickThemeBinder::onRefreshPropertys()-------------------";
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     if(!d->m_enabled) {
         return;
     }
@@ -503,7 +503,7 @@ void QEXTQuickThemeBinder::onRefreshPropertys()
 void QEXTQuickThemeBinder::onPropertyChanged()
 {
     //    qDebug() << "QEXTQuickThemeBinder::onPropertyChanged()-----------------";
-    QEXT_D(QEXTQuickThemeBinder);
+    QEXT_DECL_D(QEXTQuickThemeBinder);
     QString methodName = this->metaObject()->method(this->senderSignalIndex()).name();
     if(methodName.contains("Changed")) {
         QString bindingName = QString(methodName.mid(0, methodName.indexOf("Changed")));

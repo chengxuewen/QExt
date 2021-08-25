@@ -205,10 +205,10 @@ Q_SIGNALS:
     void borderLevel4ColorChanged();
 
 protected:
-    explicit QEXTQuickPalette(QObject *parent = QEXT_NULLPTR);
+    explicit QEXTQuickPalette(QObject *parent = QEXT_DECL_NULLPTR);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTQuickPalette)
+    QEXT_DECL_PRIVATE(QEXTQuickPalette)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickPalette)
 };
 

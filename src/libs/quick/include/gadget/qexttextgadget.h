@@ -52,7 +52,7 @@ class QEXT_QUICK_API QEXTTextGadget : public QObject, public QEXTObject
     Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
 
 public:
-    explicit QEXTTextGadget(QObject *parent = QEXT_NULLPTR);
+    explicit QEXTTextGadget(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTextGadget();
 
     QString text() const;
@@ -76,7 +76,7 @@ public Q_SLOTS:
     void setFontSize(const int &size);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTextGadget)
+    QEXT_DECL_PRIVATE(QEXTTextGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTTextGadget)
 };
 

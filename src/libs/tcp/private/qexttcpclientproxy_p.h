@@ -41,7 +41,7 @@ public:
     QQueue<QEXTTcpAbstractPacket *> m_receivedPacketQueue;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpClientProxy)
+    QEXT_DECL_PUBLIC(QEXTTcpClientProxy)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpClientProxyPrivate)
 };
 

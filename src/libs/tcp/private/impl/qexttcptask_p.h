@@ -16,7 +16,7 @@ public:
     QScopedPointer<QEXTTcpAbstractPacket> m_packet;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpTask)
+    QEXT_DECL_PUBLIC(QEXTTcpTask)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTaskPrivate)
 };
 

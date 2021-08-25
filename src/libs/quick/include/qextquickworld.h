@@ -67,7 +67,7 @@ class QEXT_QUICK_API QEXTQuickWorld : public QQuickItem, public QEXTObject
     Q_PROPERTY(int mouseAreaCursorShape READ mouseAreaCursorShape WRITE setMouseAreaCursorShape)
 
 public:
-    explicit QEXTQuickWorld(QQuickItem* parent = QEXT_NULLPTR);
+    explicit QEXTQuickWorld(QQuickItem* parent = QEXT_DECL_NULLPTR);
     ~QEXTQuickWorld();
 
     QStringList themeDirs() const;
@@ -86,7 +86,7 @@ protected Q_SLOTS:
     void onParentChanged(QQuickItem *parent);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTQuickWorld)
+    QEXT_DECL_PRIVATE(QEXTQuickWorld)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickWorld)
 };
 

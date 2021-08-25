@@ -11,7 +11,7 @@
 QEXTTcpClientProxyPrivate::QEXTTcpClientProxyPrivate(QEXTTcpClientProxy *qq)
     : QEXTObjectPrivate(qq)
 {
-    m_syncRequestReplyPacket = QEXT_NULLPTR;
+    m_syncRequestReplyPacket = QEXT_DECL_NULLPTR;
 }
 
 QEXTTcpClientProxyPrivate::~QEXTTcpClientProxyPrivate()
@@ -23,7 +23,7 @@ bool QEXTTcpClientProxyPrivate::waitForReply(int msecs)
 {
     m_mutex.lock();
     m_syncRequestWaitCancelled = false;
-    m_syncRequestReplyPacket = QEXT_NULLPTR;
+    m_syncRequestReplyPacket = QEXT_DECL_NULLPTR;
     bool success = m_syncRequestWaitCondition.wait(&m_mutex, msecs);
     success = success && !m_syncRequestWaitCancelled;
     m_mutex.unlock();
@@ -65,34 +65,34 @@ QEXTTcpClientProxy::~QEXTTcpClientProxy()
 
 QString QEXTTcpClientProxy::name() const
 {
-    QEXT_DC(QEXTTcpClientProxy);
+    QEXT_DECL_DC(QEXTTcpClientProxy);
     return d->m_name;
 }
 
 QEXTTcpClientSocket *QEXTTcpClientProxy::socket() const
 {
-    QEXT_DC(QEXTTcpClientProxy);
+    QEXT_DECL_DC(QEXTTcpClientProxy);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_socket.data();
 }
 
 void QEXTTcpClientProxy::setSocket(QEXTTcpClientSocket *socket)
 {
-    QEXT_D(QEXTTcpClientProxy);
+    QEXT_DECL_D(QEXTTcpClientProxy);
     QMutexLocker mutexLocker(&d->m_mutex);
     d->m_socket = socket;
 }
 
 QEXTTcpAbstractPacket *QEXTTcpClientProxy::sendPacket() const
 {
-    QEXT_DC(QEXTTcpClientProxy);
+    QEXT_DECL_DC(QEXTTcpClientProxy);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_sendPacket.data();
 }
 
 void QEXTTcpClientProxy::cancelWait()
 {
-    QEXT_D(QEXTTcpClientProxy);
+    QEXT_DECL_D(QEXTTcpClientProxy);
     d->m_mutex.lock();
     d->m_syncRequestWaitCancelled = true;
     d->m_syncRequestWaitCondition.wakeAll();
@@ -101,19 +101,19 @@ void QEXTTcpClientProxy::cancelWait()
 
 QEXTTcpAbstractPacketParser *QEXTTcpClientProxy::packetParser() const
 {
-    QEXT_DC(QEXTTcpClientProxy);
+    QEXT_DECL_DC(QEXTTcpClientProxy);
     return d->m_packetParser.data();
 }
 
 void QEXTTcpClientProxy::setPacketParser(QEXTTcpAbstractPacketParser *packetParser)
 {
-    QEXT_D(QEXTTcpClientProxy);
+    QEXT_DECL_D(QEXTTcpClientProxy);
     d->m_packetParser.reset(packetParser);
 }
 
 bool QEXTTcpClientProxy::sendSyncRequestPacket(QEXTTcpAbstractPacket *send, QEXTTcpAbstractPacket **rcv)
 {
-    QEXT_D(QEXTTcpClientProxy);
+    QEXT_DECL_D(QEXTTcpClientProxy);
     if (!d->m_socket->isOpen()) {
         qCritical() << "QEXTTcpClientProxy::sendSyncRequestPacket():socket noy open";
         return false;
@@ -123,7 +123,7 @@ bool QEXTTcpClientProxy::sendSyncRequestPacket(QEXTTcpAbstractPacket *send, QEXT
         success = d->waitForReply(3000);
         if (success) {
             *rcv = d->m_syncRequestReplyPacket;
-            d->m_syncRequestReplyPacket = QEXT_NULLPTR;
+            d->m_syncRequestReplyPacket = QEXT_DECL_NULLPTR;
             return true;
         }
     }
@@ -132,7 +132,7 @@ bool QEXTTcpClientProxy::sendSyncRequestPacket(QEXTTcpAbstractPacket *send, QEXT
 
 bool QEXTTcpClientProxy::sendRequestPacket(QEXTTcpAbstractPacket *send)
 {
-    QEXT_D(QEXTTcpClientProxy);
+    QEXT_DECL_D(QEXTTcpClientProxy);
     if (!d->m_socket->isOpen()) {
         qCritical() << "QEXTTcpClientProxy::sendRequestPacket():socket noy open";
         return false;
@@ -150,7 +150,7 @@ bool QEXTTcpClientProxy::sendRequestPacket(QEXTTcpAbstractPacket *send)
 
 bool QEXTTcpClientProxy::sendReplyPacket(QEXTTcpAbstractPacket *send)
 {
-    QEXT_D(QEXTTcpClientProxy);
+    QEXT_DECL_D(QEXTTcpClientProxy);
     if (!d->m_socket->isOpen()) {
         qCritical() << "QEXTTcpClientProxy::sendReplyPacket():socket noy open";
         return false;
@@ -167,7 +167,7 @@ bool QEXTTcpClientProxy::sendReplyPacket(QEXTTcpAbstractPacket *send)
 
 bool QEXTTcpClientProxy::sendNotifyPacket(QEXTTcpAbstractPacket *send)
 {
-    QEXT_D(QEXTTcpClientProxy);
+    QEXT_DECL_D(QEXTTcpClientProxy);
     if (!d->m_socket->isOpen()) {
         qCritical() << "QEXTTcpClientProxy::sendNotifyPacket():socket noy open";
         return false;
@@ -185,7 +185,7 @@ bool QEXTTcpClientProxy::sendNotifyPacket(QEXTTcpAbstractPacket *send)
 void QEXTTcpClientProxy::enqueuePacket(QEXTTcpAbstractPacket *packet)
 {
     if (packet) {
-        QEXT_D(QEXTTcpClientProxy);
+        QEXT_DECL_D(QEXTTcpClientProxy);
         d->m_mutex.lock();
         if (!d->m_packetParser.isNull() && !d->m_sendPacket.isNull()) {
             if (d->m_packetParser->checkIsSyncReplyPacket(d->m_sendPacket.data(), packet)) {
@@ -203,13 +203,13 @@ void QEXTTcpClientProxy::enqueuePacket(QEXTTcpAbstractPacket *packet)
 
 QEXTTcpAbstractPacket *QEXTTcpClientProxy::dequeuePacket()
 {
-    QEXT_D(QEXTTcpClientProxy);
+    QEXT_DECL_D(QEXTTcpClientProxy);
     QMutexLocker mutexLocker(&d->m_packetQueueMutex);
     return d->m_receivedPacketQueue.dequeue();
 }
 
 void QEXTTcpClientProxy::setName(const QString &name)
 {
-    QEXT_D(QEXTTcpClientProxy);
+    QEXT_DECL_D(QEXTTcpClientProxy);
     d->m_name = name;
 }

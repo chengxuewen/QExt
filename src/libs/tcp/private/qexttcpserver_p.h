@@ -39,7 +39,7 @@ public:
     QScopedPointer<QThread> m_taskPoolThread;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpServer)
+    QEXT_DECL_PUBLIC(QEXTTcpServer)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpServerPrivate)
 };
 

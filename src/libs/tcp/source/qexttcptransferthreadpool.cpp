@@ -21,7 +21,7 @@ QEXTTcpTransferThreadPoolPrivate::~QEXTTcpTransferThreadPoolPrivate()
 
 void QEXTTcpTransferThreadPoolPrivate::handleThreadConnection(QEXTTcpTransferThread *thread, bool connect)
 {
-    QEXT_Q(QEXTTcpTransferThreadPool);
+    QEXT_DECL_Q(QEXTTcpTransferThreadPool);
     if (connect) {
         QObject::connect(q, SIGNAL(establishConnectionInThread(QObject*,QEXTSocketDescriptor)),
                          thread, SLOT(incomingConnection(QObject*,QEXTSocketDescriptor)), Qt::QueuedConnection);
@@ -66,7 +66,7 @@ void QEXTTcpTransferThreadPoolPrivate::handleThreadConnection(QEXTTcpTransferThr
 QEXTTcpTransferThreadPool::QEXTTcpTransferThreadPool(QObject *parent)
     : QEXTTcpAbstractThreadPool(*(new QEXTTcpTransferThreadPoolPrivate(this)), parent)
 {
-    QEXT_D(QEXTTcpTransferThreadPool);
+    QEXT_DECL_D(QEXTTcpTransferThreadPool);
     qRegisterMetaType<QList<QEXTTcpAbstractPacket*> >("QList<QEXTTcpAbstractPacket*>");
     this->addThreads(1);
 }
@@ -78,7 +78,7 @@ QEXTTcpTransferThreadPool::~QEXTTcpTransferThreadPool()
 
 void QEXTTcpTransferThreadPool::removeThread()
 {
-    QEXT_D(QEXTTcpTransferThreadPool);
+    QEXT_DECL_D(QEXTTcpTransferThreadPool);
     if (this->allTcpThreadsCount() > 0) {
         QMutexLocker mutexLocker(&d->m_threadMutex);
         QEXTTcpAbstractThread *tcpThread = d->m_allThreadsSet.values().last();
@@ -111,7 +111,7 @@ void QEXTTcpTransferThreadPool::removeThread()
 
 void QEXTTcpTransferThreadPool::addThread()
 {
-    QEXT_D(QEXTTcpTransferThreadPool);
+    QEXT_DECL_D(QEXTTcpTransferThreadPool);
     QThread *thread = new QThread;
     QEXTTcpTransferThread *transferThread = new QEXTTcpTransferThread(this);
     transferThread->moveToThread(thread);
@@ -138,7 +138,7 @@ bool transferEfficiencyLessThan(QEXTTcpAbstractThread *t1, QEXTTcpAbstractThread
 
 void QEXTTcpTransferThreadPool::establishConnection(QEXTSocketDescriptor socketDescriptor)
 {
-    QEXT_D(QEXTTcpTransferThreadPool);
+    QEXT_DECL_D(QEXTTcpTransferThreadPool);
     QMutexLocker mutexLocker(&d->m_threadMutex);
     QList<QEXTTcpAbstractThread *> allThreadsList = d->m_allThreadsSet.toList();
     qSort(allThreadsList.begin(), allThreadsList.end(), transferEfficiencyLessThan);
@@ -155,7 +155,7 @@ void QEXTTcpTransferThreadPool::establishConnection(QEXTSocketDescriptor socketD
 
 void QEXTTcpTransferThreadPool::dispatchPacketToThread(QEXTTcpAbstractPacket *packet)
 {
-    QEXT_D(QEXTTcpTransferThreadPool);
+    QEXT_DECL_D(QEXTTcpTransferThreadPool);
     QMutexLocker mutexLocker(&d->m_threadMutex);
     QEXTTcpTransferThread *transferThread = d->m_socketTransferThreadMap.value(packet->socketId());
     if (transferThread) {
@@ -168,7 +168,7 @@ void QEXTTcpTransferThreadPool::dispatchPacketToThread(QEXTTcpAbstractPacket *pa
 
 void QEXTTcpTransferThreadPool::dispatchSocketToThread(QEXTTcpServerSocket *socket, const QList<QEXTTcpAbstractPacket *> &packetList)
 {
-    QEXT_D(QEXTTcpTransferThreadPool);
+    QEXT_DECL_D(QEXTTcpTransferThreadPool);
     QMutexLocker mutexLocker(&d->m_threadMutex);
     QList<QEXTTcpAbstractThread *> allThreadsList = d->m_allThreadsSet.toList();
     qSort(allThreadsList.begin(), allThreadsList.end(), transferEfficiencyLessThan);
@@ -185,7 +185,7 @@ void QEXTTcpTransferThreadPool::dispatchSocketToThread(QEXTTcpServerSocket *sock
 
 void QEXTTcpTransferThreadPool::setTaskPool(QSharedPointer<QEXTTcpAbstractTaskPool> taskPool)
 {
-    QEXT_D(QEXTTcpTransferThreadPool);
+    QEXT_DECL_D(QEXTTcpTransferThreadPool);
     QMutexLocker mutexLocker(&d->m_taskPoolMutex);
     if (!taskPool.isNull() && taskPool != d->m_taskPool) {
         if (!d->m_taskPool.isNull()) {
@@ -205,7 +205,7 @@ void QEXTTcpTransferThreadPool::setTaskPool(QSharedPointer<QEXTTcpAbstractTaskPo
 
 void QEXTTcpTransferThreadPool::addSocket(QEXTTcpServerSocket *socket, QEXTTcpTransferThread *thread)
 {
-    QEXT_D(QEXTTcpTransferThreadPool);
+    QEXT_DECL_D(QEXTTcpTransferThreadPool);
     if (socket && thread) {
         QMutexLocker mutexLocker(&d->m_threadMutex);
         d->m_socketTransferThreadMap.insert(socket->identityId(), thread);
@@ -214,7 +214,7 @@ void QEXTTcpTransferThreadPool::addSocket(QEXTTcpServerSocket *socket, QEXTTcpTr
 
 void QEXTTcpTransferThreadPool::removeSocket(QEXTTcpServerSocket *socket, QEXTTcpTransferThread *thread)
 {
-    QEXT_D(QEXTTcpTransferThreadPool);
+    QEXT_DECL_D(QEXTTcpTransferThreadPool);
     if (socket && thread) {
         QMutexLocker mutexLocker(&d->m_threadMutex);
         d->m_socketTransferThreadMap.remove(socket->identityId());

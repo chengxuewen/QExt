@@ -19,8 +19,8 @@ class QEXT_TCP_API QEXTTcpClientProxy : public QObject, public QEXTObject
 {
     Q_OBJECT
 public:
-    explicit QEXTTcpClientProxy(QObject *parent = QEXT_NULLPTR);
-    QEXTTcpClientProxy(QEXTTcpClientProxyPrivate &dd, QObject *parent = QEXT_NULLPTR);
+    explicit QEXTTcpClientProxy(QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpClientProxy(QEXTTcpClientProxyPrivate &dd, QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTcpClientProxy();
 
     QString name() const;
@@ -50,7 +50,7 @@ protected Q_SLOTS:
     void setName(const QString &name);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpClientProxy)
+    QEXT_DECL_PRIVATE(QEXTTcpClientProxy)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpClientProxy)
 };
 

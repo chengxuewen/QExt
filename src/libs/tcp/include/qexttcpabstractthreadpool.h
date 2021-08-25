@@ -18,8 +18,8 @@ class QEXT_TCP_API QEXTTcpAbstractThreadPool : public QObject, public QEXTObject
 {
     Q_OBJECT
 public:
-    QEXTTcpAbstractThreadPool(QObject *parent = QEXT_NULLPTR);
-    QEXTTcpAbstractThreadPool(QEXTTcpAbstractThreadPoolPrivate &dd, QObject *parent = QEXT_NULLPTR);
+    QEXTTcpAbstractThreadPool(QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpAbstractThreadPool(QEXTTcpAbstractThreadPoolPrivate &dd, QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTcpAbstractThreadPool();
 
     virtual bool isTcpThreadsEmpty() const;
@@ -47,7 +47,7 @@ public:
     virtual void setTaskPool(QSharedPointer<QEXTTcpAbstractTaskPool> taskPool) = 0;
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpAbstractThreadPool)
+    QEXT_DECL_PRIVATE(QEXTTcpAbstractThreadPool)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpAbstractThreadPool)
 };
 

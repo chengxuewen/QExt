@@ -21,8 +21,8 @@ public:
     explicit QEXTTcpTransferThread(QEXTTcpTransferThreadPool *threadPool);
     ~QEXTTcpTransferThread();
 
-    void quit() QEXT_OVERRIDE;
-    QEXTTcpAbstractThreadPool *tcpThreadPool() const QEXT_OVERRIDE;
+    void quit() QEXT_DECL_OVERRIDE;
+    QEXTTcpAbstractThreadPool *tcpThreadPool() const QEXT_DECL_OVERRIDE;
 
     QQueue<QEXTTcpAbstractPacket *> allSendPacketsQueue() const;
     QSet<QEXTTcpServerSocket *> allSocketsSet() const;
@@ -49,7 +49,7 @@ protected Q_SLOTS:
     void incomingConnection(QObject *threadObj, QEXTSocketDescriptor socketDescriptor);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpTransferThread)
+    QEXT_DECL_PRIVATE(QEXTTcpTransferThread)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTransferThread)
 };
 

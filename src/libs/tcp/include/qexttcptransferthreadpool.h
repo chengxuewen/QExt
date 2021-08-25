@@ -18,13 +18,13 @@ class QEXT_TCP_API QEXTTcpTransferThreadPool : public QEXTTcpAbstractThreadPool
 {
     Q_OBJECT
 public:
-    explicit QEXTTcpTransferThreadPool(QObject *parent = QEXT_NULLPTR);
+    explicit QEXTTcpTransferThreadPool(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTcpTransferThreadPool();
 
-    void removeThread() QEXT_OVERRIDE;
-    void addThread() QEXT_OVERRIDE;
+    void removeThread() QEXT_DECL_OVERRIDE;
+    void addThread() QEXT_DECL_OVERRIDE;
 
-    void setTaskPool(QSharedPointer<QEXTTcpAbstractTaskPool> taskPool) QEXT_OVERRIDE;
+    void setTaskPool(QSharedPointer<QEXTTcpAbstractTaskPool> taskPool) QEXT_DECL_OVERRIDE;
 
     void addSocket(QEXTTcpServerSocket *socket, QEXTTcpTransferThread *thread);
     void removeSocket(QEXTTcpServerSocket *socket, QEXTTcpTransferThread *thread);
@@ -48,7 +48,7 @@ protected Q_SLOTS:
     void dispatchSocketToThread(QEXTTcpServerSocket *socket, const QList<QEXTTcpAbstractPacket *> &packetList);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpTransferThreadPool)
+    QEXT_DECL_PRIVATE(QEXTTcpTransferThreadPool)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTransferThreadPool)
 };
 

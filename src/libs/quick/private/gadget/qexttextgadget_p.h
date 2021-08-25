@@ -24,7 +24,7 @@ public:
     int m_fontSize;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTextGadget)
+    QEXT_DECL_PUBLIC(QEXTTextGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTTextGadgetPrivate)
 };
 

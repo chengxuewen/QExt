@@ -19,7 +19,7 @@ public:
     bool m_autoHide;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTScrollbarGadget)
+    QEXT_DECL_PUBLIC(QEXTScrollbarGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTScrollbarGadgetPrivate)
 };
 

@@ -56,9 +56,9 @@ list(APPEND _example_link_libraries QEXTCore)
 
 
 #--------------------------------------------------------------------------------
-# Add ex_qextCoreSimpleObject example
+# Add exp_qextCoreSimpleObject example
 #--------------------------------------------------------------------------------
-set(_example_name ex_qextCoreSimpleObject)
+set(_example_name exp_qextCoreSimpleObject)
 set(_example_headers
     )
 set(_example_sources

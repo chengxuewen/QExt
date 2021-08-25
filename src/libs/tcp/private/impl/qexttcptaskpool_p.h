@@ -31,7 +31,7 @@ public:
     QScopedPointer<QEXTTcpAbstractPacketParser> m_packetParser;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpTaskPool)
+    QEXT_DECL_PUBLIC(QEXTTcpTaskPool)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTaskPoolPrivate)
 };
 

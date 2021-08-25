@@ -20,10 +20,10 @@ public:
     void sendReadyRead();
 
 public Q_SLOTS:
-    void updateIdentityId() QEXT_OVERRIDE;
+    void updateIdentityId() QEXT_DECL_OVERRIDE;
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpServerSocket)
+    QEXT_DECL_PRIVATE(QEXTTcpServerSocket)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpServerSocket)
 };
 

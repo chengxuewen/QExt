@@ -126,7 +126,7 @@ protected slots:
     void onPropertyChanged();
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTQuickThemeBinder)
+    QEXT_DECL_PRIVATE(QEXTQuickThemeBinder)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeBinder)
 };
 

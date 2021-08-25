@@ -35,7 +35,7 @@ public:
     QScopedPointer<QThread> m_packetDispatcherThread;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpClient)
+    QEXT_DECL_PUBLIC(QEXTTcpClient)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpClientPrivate)
 };
 

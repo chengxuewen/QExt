@@ -13,7 +13,7 @@ class QEXT_TCP_API QEXTTcpClientSocket : public QEXTTcpSocket
 {
     Q_OBJECT
 public:
-    explicit QEXTTcpClientSocket(QObject *parent = QEXT_NULLPTR);
+    explicit QEXTTcpClientSocket(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTcpClientSocket();
 
     QEXTTcpAbstractPacketParser *packetParser() const;
@@ -29,7 +29,7 @@ Q_SIGNALS:
     void packetNotDispatched(QEXTTcpAbstractPacket *packet);
 
 public Q_SLOTS:
-    void updateIdentityId() QEXT_OVERRIDE;
+    void updateIdentityId() QEXT_DECL_OVERRIDE;
 
     void connectToServer();
     void closeSocket();
@@ -45,7 +45,7 @@ protected Q_SLOTS:
     void sendPacket();
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpClientSocket)
+    QEXT_DECL_PRIVATE(QEXTTcpClientSocket)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpClientSocket)
 };
 

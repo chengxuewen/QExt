@@ -37,7 +37,7 @@ QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate 
 QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpClient *client, QObject *parent)
     : QEXTTcpAbstractPacketDispatcher(parent), QEXTObject(*(new QEXTTcpPacketDispatcherPrivate(this)))
 {
-    QEXT_D(QEXTTcpPacketDispatcher);
+    QEXT_DECL_D(QEXTTcpPacketDispatcher);
     d->m_tcpClient = client;
 }
 
@@ -45,7 +45,7 @@ QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate 
                                                  QEXTTcpClient *client, QObject *parent)
     : QEXTTcpAbstractPacketDispatcher(parent), QEXTObject(dd)
 {
-    QEXT_D(QEXTTcpPacketDispatcher);
+    QEXT_DECL_D(QEXTTcpPacketDispatcher);
     d->m_tcpClient = client;
 }
 
@@ -56,21 +56,21 @@ QEXTTcpPacketDispatcher::~QEXTTcpPacketDispatcher()
 
 QEXTTcpClient *QEXTTcpPacketDispatcher::tcpClient() const
 {
-    QEXT_DC(QEXTTcpPacketDispatcher);
+    QEXT_DECL_DC(QEXTTcpPacketDispatcher);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_tcpClient.data();
 }
 
 void QEXTTcpPacketDispatcher::setTcpClient(QEXTTcpClient *client)
 {
-    QEXT_D(QEXTTcpPacketDispatcher);
+    QEXT_DECL_D(QEXTTcpPacketDispatcher);
     QMutexLocker mutexLocker(&d->m_mutex);
     d->m_tcpClient = client;
 }
 
 QList<QEXTTcpClientProxy *> QEXTTcpPacketDispatcher::allTcpClientProxyList() const
 {
-    QEXT_DC(QEXTTcpPacketDispatcher);
+    QEXT_DECL_DC(QEXTTcpPacketDispatcher);
     QMutexLocker mutexLocker(&d->m_mutex);
     QList<QEXTTcpClientProxy *> proxyList;
     if (!d->m_tcpClient.isNull()) {
@@ -82,10 +82,10 @@ QList<QEXTTcpClientProxy *> QEXTTcpPacketDispatcher::allTcpClientProxyList() con
 
 QEXTTcpAbstractPacket *QEXTTcpPacketDispatcher::dequeuePacket()
 {
-    QEXT_D(QEXTTcpPacketDispatcher);
+    QEXT_DECL_D(QEXTTcpPacketDispatcher);
     QMutexLocker mutexLocker(&d->m_mutex);
     if (d->m_packetQueue.isEmpty()) {
-        return QEXT_NULLPTR;
+        return QEXT_DECL_NULLPTR;
     }
     return d->m_packetQueue.dequeue();
 }
@@ -93,7 +93,7 @@ QEXTTcpAbstractPacket *QEXTTcpPacketDispatcher::dequeuePacket()
 void QEXTTcpPacketDispatcher::enqueuePacket(QEXTTcpAbstractPacket *packet)
 {
     if (packet) {
-        QEXT_D(QEXTTcpPacketDispatcher);
+        QEXT_DECL_D(QEXTTcpPacketDispatcher);
         QMutexLocker mutexLocker(&d->m_mutex);
         d->m_packetQueue.enqueue(packet);
         QTimer::singleShot(0, this, SLOT(dispatchPacket()));
@@ -102,14 +102,14 @@ void QEXTTcpPacketDispatcher::enqueuePacket(QEXTTcpAbstractPacket *packet)
 
 int QEXTTcpPacketDispatcher::packetsCount() const
 {
-    QEXT_DC(QEXTTcpPacketDispatcher);
+    QEXT_DECL_DC(QEXTTcpPacketDispatcher);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_packetQueue.size();
 }
 
 void QEXTTcpPacketDispatcher::dispatchPacket()
 {
-    QEXT_D(QEXTTcpPacketDispatcher);
+    QEXT_DECL_D(QEXTTcpPacketDispatcher);
     while (0 != this->packetsCount()) {
         QEXTTcpAbstractPacket *packet = this->dequeuePacket();
         if (packet) {

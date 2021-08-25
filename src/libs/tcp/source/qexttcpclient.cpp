@@ -72,14 +72,14 @@ void QEXTTcpClientPrivate::handleProxyConnect(QEXTTcpClientProxy *proxy, bool co
 QEXTTcpClient::QEXTTcpClient(QObject *parent)
     : QEXTTcpClientProxy(*(new QEXTTcpClientPrivate(this)), parent)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     d->initClient(this);
 }
 
 QEXTTcpClient::QEXTTcpClient(QEXTTcpAbstractPacketParser *packetParser, QObject *parent)
     : QEXTTcpClientProxy(*(new QEXTTcpClientPrivate(this)), parent)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     d->initClient(this);
     this->setPacketParser(packetParser);
 }
@@ -89,7 +89,7 @@ QEXTTcpClient::QEXTTcpClient(QEXTTcpAbstractPacketParser *packetParser,
                              QObject *parent)
     : QEXTTcpClientProxy(*(new QEXTTcpClientPrivate(this)), parent)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     d->initClient(this);
     this->setPacketParser(packetParser);
     this->setPacketDispatcher(packetDispatcher);
@@ -98,7 +98,7 @@ QEXTTcpClient::QEXTTcpClient(QEXTTcpAbstractPacketParser *packetParser,
 QEXTTcpClient::QEXTTcpClient(QEXTTcpClientPrivate &dd, QObject *parent)
     : QEXTTcpClientProxy(dd, parent)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     d->initClient(this);;
 }
 
@@ -107,7 +107,7 @@ QEXTTcpClient::QEXTTcpClient(QEXTTcpClientPrivate &dd,
                              QObject *parent)
     : QEXTTcpClientProxy(dd, parent)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     d->initClient(this);
     this->setPacketParser(packetParser);
 }
@@ -118,7 +118,7 @@ QEXTTcpClient::QEXTTcpClient(QEXTTcpClientPrivate &dd,
                              QObject *parent)
     : QEXTTcpClientProxy(dd, parent)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     d->initClient(this);
     this->setPacketParser(packetParser);
     this->setPacketDispatcher(packetDispatcher);
@@ -131,19 +131,19 @@ QEXTTcpClient::~QEXTTcpClient()
 
 QAbstractSocket::SocketState QEXTTcpClient::socketState() const
 {
-    QEXT_DC(QEXTTcpClient);
+    QEXT_DECL_DC(QEXTTcpClient);
     return d->m_socket->state();
 }
 
 bool QEXTTcpClient::isSocketConnected() const
 {
-    QEXT_DC(QEXTTcpClient);
+    QEXT_DECL_DC(QEXTTcpClient);
     return d->m_socket->isOpen();
 }
 
 void QEXTTcpClient::startConnection(const QString &ipAddr, quint16 port)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_mutex);
     d->m_socket->setServerAddress(ipAddr);
     d->m_socket->setServerPort(port);
@@ -163,33 +163,33 @@ void QEXTTcpClient::abortConnection()
 
 QString QEXTTcpClient::serverAddress() const
 {
-    QEXT_DC(QEXTTcpClient);
+    QEXT_DECL_DC(QEXTTcpClient);
     return d->m_socket->serverAddress();
 }
 
 quint16 QEXTTcpClient::serverPort() const
 {
-    QEXT_DC(QEXTTcpClient);
+    QEXT_DECL_DC(QEXTTcpClient);
     return d->m_socket->serverPort();
 }
 
 QList<QEXTTcpClientProxy *> QEXTTcpClient::allProxies() const
 {
-    QEXT_DC(QEXTTcpClient);
+    QEXT_DECL_DC(QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_proxyNameMap.values();
 }
 
 QEXTTcpClientProxy *QEXTTcpClient::proxy(const QString &name) const
 {
-    QEXT_DC(QEXTTcpClient);
+    QEXT_DECL_DC(QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_mutex);
-    return d->m_proxyNameMap.value(name, QEXT_NULLPTR);
+    return d->m_proxyNameMap.value(name, QEXT_DECL_NULLPTR);
 }
 
 bool QEXTTcpClient::addProxy(QEXTTcpClientProxy *proxy)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     if (!proxy) {
         qCritical() << "QEXTTcpClient::addNetworkProxy():proxy can not null";
         return false;
@@ -238,7 +238,7 @@ bool QEXTTcpClient::addProxy(QEXTTcpClientProxy *proxy)
 
 int QEXTTcpClient::removeProxy(QEXTTcpClientProxy *proxy)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     if (!proxy) {
         qCritical() << "QEXTTcpClient::removeNetworkProxy():proxy can not null";
         return false;
@@ -265,7 +265,7 @@ int QEXTTcpClient::removeProxy(QEXTTcpClientProxy *proxy)
 
 int QEXTTcpClient::removeProxy(const QString &name)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     QMutexLocker locker(&d->m_mutex);
     if (!d->m_proxyNameMap.contains(name)) {
         qCritical() << QString("QEXTTcpClient::removeNetworkProxy():proxy %1 not exist")
@@ -279,9 +279,9 @@ int QEXTTcpClient::removeProxy(const QString &name)
 
 bool QEXTTcpClient::sendProxySyncRequestPacket(QEXTTcpAbstractPacket *send, QEXTTcpAbstractPacket **rcv, const QString &proxyName)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     QMutexLocker locker(&d->m_mutex);
-    QEXTTcpClientProxy *proxy = d->m_proxyNameMap.value(proxyName, QEXT_NULLPTR);
+    QEXTTcpClientProxy *proxy = d->m_proxyNameMap.value(proxyName, QEXT_DECL_NULLPTR);
     if (!proxy) {
         qCritical() << QString("QEXTTcpClient::sendProxySyncRequestPacket():proxy %1 not exist").arg(proxyName);
         return false;
@@ -291,9 +291,9 @@ bool QEXTTcpClient::sendProxySyncRequestPacket(QEXTTcpAbstractPacket *send, QEXT
 
 bool QEXTTcpClient::sendProxyRequestPacket(QEXTTcpAbstractPacket *send, const QString &proxyName)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     QMutexLocker locker(&d->m_mutex);
-    QEXTTcpClientProxy *proxy = d->m_proxyNameMap.value(proxyName, QEXT_NULLPTR);
+    QEXTTcpClientProxy *proxy = d->m_proxyNameMap.value(proxyName, QEXT_DECL_NULLPTR);
     if (!proxy) {
         qCritical() << QString("QEXTTcpClient::sendProxyRequestPacket():proxy %1 not exist").arg(proxyName);
         return false;
@@ -303,9 +303,9 @@ bool QEXTTcpClient::sendProxyRequestPacket(QEXTTcpAbstractPacket *send, const QS
 
 bool QEXTTcpClient::sendProxyReplyPacket(QEXTTcpAbstractPacket *send, const QString &proxyName)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     QMutexLocker locker(&d->m_mutex);
-    QEXTTcpClientProxy *proxy = d->m_proxyNameMap.value(proxyName, QEXT_NULLPTR);
+    QEXTTcpClientProxy *proxy = d->m_proxyNameMap.value(proxyName, QEXT_DECL_NULLPTR);
     if (!proxy) {
         qCritical() << QString("QEXTTcpClient::sendProxyReplyPacket():proxy %1 not exist").arg(proxyName);
         return false;
@@ -315,9 +315,9 @@ bool QEXTTcpClient::sendProxyReplyPacket(QEXTTcpAbstractPacket *send, const QStr
 
 bool QEXTTcpClient::sendProxyNotifyPacket(QEXTTcpAbstractPacket *send, const QString &proxyName)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     QMutexLocker locker(&d->m_mutex);
-    QEXTTcpClientProxy *proxy = d->m_proxyNameMap.value(proxyName, QEXT_NULLPTR);
+    QEXTTcpClientProxy *proxy = d->m_proxyNameMap.value(proxyName, QEXT_DECL_NULLPTR);
     if (!proxy) {
         qCritical() << QString("QEXTTcpClient::sendProxyNotifyPacket():proxy %1 not exist").arg(proxyName);
         return false;
@@ -327,15 +327,15 @@ bool QEXTTcpClient::sendProxyNotifyPacket(QEXTTcpAbstractPacket *send, const QSt
 
 QEXTTcpAbstractPacketDispatcher *QEXTTcpClient::packetDispatcher() const
 {
-    QEXT_DC(QEXTTcpClient);
+    QEXT_DECL_DC(QEXTTcpClient);
     return d->m_packetDispatcher.data();
 }
 
 void QEXTTcpClient::setPacketDispatcher(QEXTTcpAbstractPacketDispatcher *dispatcher)
 {
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_mutex);
-    dispatcher->setParent(QEXT_NULLPTR);
+    dispatcher->setParent(QEXT_DECL_NULLPTR);
     dispatcher->setTcpClient(this);
     d->m_packetDispatcher.reset(dispatcher);
     d->m_packetDispatcher->moveToThread(d->m_packetDispatcherThread.data());
@@ -345,7 +345,7 @@ void QEXTTcpClient::setPacketDispatcher(QEXTTcpAbstractPacketDispatcher *dispatc
 void QEXTTcpClient::setPacketParser(QEXTTcpAbstractPacketParser *packetParser)
 {
     QEXTTcpClientProxy::setPacketParser(packetParser);
-    QEXT_D(QEXTTcpClient);
+    QEXT_DECL_D(QEXTTcpClient);
     d->m_socket->setPacketParser(packetParser->cloneParser());
     QMapIterator<QString, QEXTTcpClientProxy *> iter(d->m_proxyNameMap);
     while (iter.hasNext()) {

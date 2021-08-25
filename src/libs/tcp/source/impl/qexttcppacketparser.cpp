@@ -34,7 +34,7 @@ QEXTTcpPacketParserPrivate::~QEXTTcpPacketParserPrivate()
 QEXTTcpPacketParser::QEXTTcpPacketParser(const QEXTTcpPacketHeader::DataInfoVector &extraHeaderDataInfo)
     : QEXTObject(*(new QEXTTcpPacketParserPrivate(this)))
 {
-    QEXT_D(QEXTTcpPacketParser);
+    QEXT_DECL_D(QEXTTcpPacketParser);
     QEXTTcpPacketHeader::DataInfoVector infoVector;
     infoVector.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 8, QEXT_TCP_PACKET_TYPE_KEY));
     infoVector.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_uint32, QEXT_TCP_PACKET_ID_KEY));
@@ -60,13 +60,13 @@ QString QEXTTcpPacketParser::name() const
 
 QString QEXTTcpPacketParser::errorString() const
 {
-    QEXT_DC(QEXTTcpPacketParser);
+    QEXT_DECL_DC(QEXTTcpPacketParser);
     return d->m_errorString;
 }
 
 bool QEXTTcpPacketParser::checkIsSyncReplyPacket(QEXTTcpAbstractPacket *send, QEXTTcpAbstractPacket *rcv) const
 {
-    QEXT_DC(QEXTTcpPacketParser);
+    QEXT_DECL_DC(QEXTTcpPacketParser);
     if (this->isRequestPacket(send) && this->isReplyPacket(rcv)) {
         if (send->header()->headerData(QEXT_TCP_PACKET_ID_KEY).toUint32() ==
                 rcv->header()->headerData(QEXT_TCP_PACKET_ID_KEY).toUint32()) {
@@ -86,7 +86,7 @@ bool QEXTTcpPacketParser::isRequestPacket(QEXTTcpAbstractPacket *packet) const
 
 bool QEXTTcpPacketParser::setRequestPacket(QEXTTcpAbstractPacket *packet)
 {
-    QEXT_D(QEXTTcpPacketParser);
+    QEXT_DECL_D(QEXTTcpPacketParser);
     if (packet) {
         bool success = packet->header()->setHeaderData(QEXT_TCP_PACKET_TYPE_KEY, QEXTTcpPacketVariant(QEXT_TCP_PACKET_TYPE_REQUEST));
         return packet->header()->setHeaderData(QEXT_TCP_PACKET_ID_KEY, (quint32)++d->sm_id) && success;
@@ -104,7 +104,7 @@ bool QEXTTcpPacketParser::isReplyPacket(QEXTTcpAbstractPacket *packet) const
 
 bool QEXTTcpPacketParser::setReplyPacket(QEXTTcpAbstractPacket *packet)
 {
-    QEXT_D(QEXTTcpPacketParser);
+    QEXT_DECL_D(QEXTTcpPacketParser);
     if (packet) {
         bool success = packet->header()->setHeaderData(QEXT_TCP_PACKET_TYPE_KEY, QEXTTcpPacketVariant(QEXT_TCP_PACKET_TYPE_REPLY));
         return packet->header()->setHeaderData(QEXT_TCP_PACKET_ID_KEY, (quint32)++d->sm_id) && success;
@@ -122,7 +122,7 @@ bool QEXTTcpPacketParser::isNotifyPacket(QEXTTcpAbstractPacket *packet) const
 
 bool QEXTTcpPacketParser::setNotifyPacket(QEXTTcpAbstractPacket *packet)
 {
-    QEXT_D(QEXTTcpPacketParser);
+    QEXT_DECL_D(QEXTTcpPacketParser);
     if (packet) {
         bool success = packet->header()->setHeaderData(QEXT_TCP_PACKET_TYPE_KEY, QEXTTcpPacketVariant(QEXT_TCP_PACKET_TYPE_NOTIFY));
         return packet->header()->setHeaderData(QEXT_TCP_PACKET_ID_KEY, (quint32)++d->sm_id) && success;
@@ -132,13 +132,13 @@ bool QEXTTcpPacketParser::setNotifyPacket(QEXTTcpAbstractPacket *packet)
 
 QEXTTcpAbstractPacketHeader *QEXTTcpPacketParser::createHeader() const
 {
-    QEXT_DC(QEXTTcpPacketParser);
+    QEXT_DECL_DC(QEXTTcpPacketParser);
     return new QEXTTcpPacketHeader(d->m_headerDataPairVector);
 }
 
 QEXTTcpAbstractPacket *QEXTTcpPacketParser::createPacket(const QEXTId &socketId) const
 {
-    QEXT_DC(QEXTTcpPacketParser);
+    QEXT_DECL_DC(QEXTTcpPacketParser);
     return new QEXTTcpPacket(this->createHeader(), socketId);
 }
 
@@ -150,23 +150,23 @@ QEXTTcpAbstractPacket *QEXTTcpPacketParser::createReplyPacket(QEXTTcpAbstractPac
         packet->header()->setHeaderData(QEXT_TCP_PACKET_ID_KEY, rcv->header()->headerData(QEXT_TCP_PACKET_ID_KEY));
         return packet;
     }
-    return QEXT_NULLPTR;
+    return QEXT_DECL_NULLPTR;
 }
 
 QEXTTcpAbstractPacketParser *QEXTTcpPacketParser::cloneParser() const
 {
-    QEXT_DC(QEXTTcpPacketParser);
+    QEXT_DECL_DC(QEXTTcpPacketParser);
     return new QEXTTcpPacketParser(d->m_extraHeaderDataPairVector);
 }
 
 QEXTTcpAbstractPacket *QEXTTcpPacketParser::readData(QEXTTcpSocket *socket, bool &success)
 {
-    QEXT_D(QEXTTcpPacketParser);
+    QEXT_DECL_D(QEXTTcpPacketParser);
     QMutexLocker mutexLocker(&d->m_mutex);
 
     success = true;
     QEXTId socketId = socket->identityId();
-    QEXTTcpAbstractPacket *packet = d->m_packetIdMap.value(socketId, QEXT_NULLPTR);
+    QEXTTcpAbstractPacket *packet = d->m_packetIdMap.value(socketId, QEXT_DECL_NULLPTR);
     if (!packet) {
         packet = this->createPacket(socketId);
         d->m_packetIdMap.insert(socketId, packet);
@@ -176,15 +176,15 @@ QEXTTcpAbstractPacket *QEXTTcpPacketParser::readData(QEXTTcpSocket *socket, bool
     if (0 == packet->nextBlockSize()) {
         int headerSize = packet->header()->headerSize();
         if (socket->bytesAvailable() < headerSize) {
-            return QEXT_NULLPTR; // next readData call
+            return QEXT_DECL_NULLPTR; // next readData call
         }
 
         char *header = new char[headerSize];
-        if (QEXT_NULLPTR == header) {
+        if (QEXT_DECL_NULLPTR == header) {
             socket->readAll(); // give up socket data
             d->m_errorString = "malloc header memory failed";
             success = false;
-            return QEXT_NULLPTR; // readData as packet error for malloc failed
+            return QEXT_DECL_NULLPTR; // readData as packet error for malloc failed
         }
         memset(header, 0, headerSize);
         socket->read(header, headerSize);
@@ -192,14 +192,14 @@ QEXTTcpAbstractPacket *QEXTTcpPacketParser::readData(QEXTTcpSocket *socket, bool
             free(header);
             d->m_errorString = "parse header data failed";
             success = false;
-            return QEXT_NULLPTR; // readData as packet error for parse header failed
+            return QEXT_DECL_NULLPTR; // readData as packet error for parse header failed
         }
         packet->setNextBlockSize(packet->header()->contentSize());
         delete []header;   // readData as packet header success
     }
 
     if (socket->bytesAvailable() < packet->nextBlockSize()) {
-        return QEXT_NULLPTR; // next readData call
+        return QEXT_DECL_NULLPTR; // next readData call
     }
 
     int contentSize = packet->header()->contentSize();
@@ -214,7 +214,7 @@ QEXTTcpAbstractPacket *QEXTTcpPacketParser::readData(QEXTTcpSocket *socket, bool
 
 qint64 QEXTTcpPacketParser::writeData(QEXTTcpSocket *socket, QEXTTcpAbstractPacket *packet)
 {
-    QEXT_D(QEXTTcpPacketParser);
+    QEXT_DECL_D(QEXTTcpPacketParser);
     QMutexLocker mutexLocker(&d->m_mutex);
     QByteArray stream = packet->stream();
     return socket->write(stream.data(), stream.size());

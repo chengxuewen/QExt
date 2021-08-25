@@ -18,26 +18,26 @@ class QEXT_TCP_API QEXTTcpPacketDispatcher : public QEXTTcpAbstractPacketDispatc
 {
     Q_OBJECT
 public:
-    QEXTTcpPacketDispatcher(QObject *parent = QEXT_NULLPTR);
-    QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd, QObject *parent = QEXT_NULLPTR);
-    QEXTTcpPacketDispatcher(QEXTTcpClient *client, QObject *parent = QEXT_NULLPTR);
-    QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd, QEXTTcpClient *client, QObject *parent = QEXT_NULLPTR);
+    QEXTTcpPacketDispatcher(QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd, QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpPacketDispatcher(QEXTTcpClient *client, QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd, QEXTTcpClient *client, QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTcpPacketDispatcher();
 
-    QEXTTcpClient *tcpClient() const QEXT_OVERRIDE;
-    void setTcpClient(QEXTTcpClient *client) QEXT_OVERRIDE;
+    QEXTTcpClient *tcpClient() const QEXT_DECL_OVERRIDE;
+    void setTcpClient(QEXTTcpClient *client) QEXT_DECL_OVERRIDE;
 
-    QList<QEXTTcpClientProxy *> allTcpClientProxyList() const QEXT_OVERRIDE;
+    QList<QEXTTcpClientProxy *> allTcpClientProxyList() const QEXT_DECL_OVERRIDE;
 
-    QEXTTcpAbstractPacket *dequeuePacket() QEXT_OVERRIDE;
-    void enqueuePacket(QEXTTcpAbstractPacket *packet) QEXT_OVERRIDE;
-    int packetsCount() const QEXT_OVERRIDE;
+    QEXTTcpAbstractPacket *dequeuePacket() QEXT_DECL_OVERRIDE;
+    void enqueuePacket(QEXTTcpAbstractPacket *packet) QEXT_DECL_OVERRIDE;
+    int packetsCount() const QEXT_DECL_OVERRIDE;
 
 protected Q_SLOTS:
-    void dispatchPacket() QEXT_OVERRIDE;
+    void dispatchPacket() QEXT_DECL_OVERRIDE;
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpPacketDispatcher)
+    QEXT_DECL_PRIVATE(QEXTTcpPacketDispatcher)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpPacketDispatcher)
 };
 

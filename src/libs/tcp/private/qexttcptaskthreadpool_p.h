@@ -23,7 +23,7 @@ public:
     ~QEXTTcpTaskThreadPoolPrivate();
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpTaskThreadPool)
+    QEXT_DECL_PUBLIC(QEXTTcpTaskThreadPool)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTaskThreadPoolPrivate)
 };
 

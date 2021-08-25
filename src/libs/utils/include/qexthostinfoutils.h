@@ -31,7 +31,7 @@ public:
     };
     Q_ENUMS(HostOSType)
 
-    explicit QEXTHostInfoUtils(QObject *parent = QEXT_NULLPTR);
+    explicit QEXTHostInfoUtils(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTHostInfoUtils();
 
     static QString cpuID();
@@ -78,7 +78,7 @@ Q_SIGNALS:
     void diskChanged(const QList<QEXTDiskInfo> &diskInfoList);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTHostInfoUtils)
+    QEXT_DECL_PRIVATE(QEXTHostInfoUtils)
     QEXT_DISABLE_COPY_MOVE(QEXTHostInfoUtils)
 };
 

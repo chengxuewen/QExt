@@ -51,7 +51,7 @@ public:
     QScopedPointer<QEXTTcpAbstractPacketParser> m_packetParser;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpAbstractThread)
+    QEXT_DECL_PUBLIC(QEXTTcpAbstractThread)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpAbstractThreadPrivate)
 };
 

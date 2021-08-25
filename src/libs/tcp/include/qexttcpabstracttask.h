@@ -11,8 +11,8 @@ class QEXTTcpAbstractTaskPrivate;
 class QEXT_TCP_API QEXTTcpAbstractTask : public QEXTObject
 {
 public:
-    QEXTTcpAbstractTask(QEXTTcpAbstractTaskPool *taskPool, QObject *parent = QEXT_NULLPTR);
-    QEXTTcpAbstractTask(QEXTTcpAbstractTaskPrivate &dd, QEXTTcpAbstractTaskPool *taskPool, QObject *parent = QEXT_NULLPTR);
+    QEXTTcpAbstractTask(QEXTTcpAbstractTaskPool *taskPool, QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpAbstractTask(QEXTTcpAbstractTaskPrivate &dd, QEXTTcpAbstractTaskPool *taskPool, QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTcpAbstractTask();
 
     QEXTTcpAbstractTaskPool *taskPool() const;
@@ -30,7 +30,7 @@ protected:
     virtual void setFinished(const bool &finished);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpAbstractTask)
+    QEXT_DECL_PRIVATE(QEXTTcpAbstractTask)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpAbstractTask)
 };
 
@@ -39,7 +39,7 @@ class QEXT_TCP_API QEXTTcpAbstractTaskPool : public QObject
 {
     Q_OBJECT
 public:
-    QEXTTcpAbstractTaskPool(QObject *parent = QEXT_NULLPTR) : QObject(parent) {}
+    QEXTTcpAbstractTaskPool(QObject *parent = QEXT_DECL_NULLPTR) : QObject(parent) {}
     ~QEXTTcpAbstractTaskPool() {}
 
     virtual bool isTaskEmpty() const = 0;

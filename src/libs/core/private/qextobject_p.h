@@ -3,8 +3,6 @@
 
 #include <qextglobal.h>
 
-
-
 class QEXTObject;
 class QEXT_CORE_API QEXTObjectPrivate
 {
@@ -12,13 +10,11 @@ public:
     virtual ~QEXTObjectPrivate() {}
 
 protected:
-    explicit QEXTObjectPrivate(QEXTObject *qq) : q_ptr(qq) {}
-    QEXTObject *q_ptr;
+    explicit QEXTObjectPrivate(QEXTObject *qq) : q_objPtr(qq) {}
+    QEXTObject *q_objPtr;
 
-    QEXT_DECLARE_PUBLIC(QEXTObject)
+    QEXT_DECL_PUBLIC(QEXTObject)
     QEXT_DISABLE_COPY_MOVE(QEXTObjectPrivate)
 };
-
-
 
 #endif // QEXTOBJECT_P_H

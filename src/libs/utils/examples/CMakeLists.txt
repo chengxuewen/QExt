@@ -56,9 +56,9 @@ list(APPEND _example_link_libraries QEXTUtils)
 
 
 #--------------------------------------------------------------------------------
-# Add ex_qextUtilsHostInfo example
+# Add exp_qextUtilsHostInfo example
 #--------------------------------------------------------------------------------
-set(_example_name ex_qextUtilsHostInfo)
+set(_example_name exp_qextUtilsHostInfo)
 set(_example_headers
     hostinfo/mainwindow.h
     )

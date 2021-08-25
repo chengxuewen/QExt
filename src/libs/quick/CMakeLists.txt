@@ -22,8 +22,8 @@
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
 set(_lib_base_name QEXTQuick)
-set(QEXTQUICK_GENERATE_QMLTYPE_FILE OFF)
-set(QEXTQUICK_USE_KIT_QMLPLUGINDUMP ON)
+set(QEXTQUICK_GENERATE_QMLTYPE_FILE ON)
+set(QEXTQUICK_USE_KIT_QMLPLUGINDUMP OFF)
 set(QEXTQUICK_NAME ${_lib_base_name})
 set(QEXTQUICK_VERSION_MAJOR 1)
 set(QEXTQUICK_VERSION_MINOR 2)
@@ -200,6 +200,7 @@ if(QEXTQUICK_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
     add_custom_command(
         TARGET ${_lib_base_name}
         COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:QEXTCore> ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
         COMMAND ${QEXTQUICK_GENERATE_QMLTYPES_COMMAND}
         COMMENT "Generating qextquick.qmltypes with qmlplugindump"

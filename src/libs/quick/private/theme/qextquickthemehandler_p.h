@@ -25,7 +25,7 @@ public:
     bool m_valid;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTQuickThemeHandler)
+    QEXT_DECL_PUBLIC(QEXTQuickThemeHandler)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeHandlerPrivate)
 };
 

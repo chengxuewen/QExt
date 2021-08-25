@@ -19,7 +19,7 @@ public:
     static int sm_id;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpSocket)
+    QEXT_DECL_PUBLIC(QEXTTcpSocket)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpSocketPrivate)
 };
 

@@ -38,7 +38,7 @@ public:
     static QMap<int, QString> sm_errorStringMap;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpTransferThread)
+    QEXT_DECL_PUBLIC(QEXTTcpTransferThread)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTransferThreadPrivate)
 };
 

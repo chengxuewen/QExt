@@ -13,28 +13,28 @@ class QEXT_TCP_API QEXTTcpTaskPool : public QEXTTcpAbstractTaskPool, public QEXT
 {
     Q_OBJECT
 public:
-    QEXTTcpTaskPool(QObject *parent = QEXT_NULLPTR);
-    QEXTTcpTaskPool(QEXTTcpAbstractPacketParser *packetParser, QObject *parent = QEXT_NULLPTR);
+    QEXTTcpTaskPool(QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpTaskPool(QEXTTcpAbstractPacketParser *packetParser, QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTcpTaskPool();
 
-    bool isTaskEmpty() const QEXT_OVERRIDE;
-    int taskCount() const QEXT_OVERRIDE;
+    bool isTaskEmpty() const QEXT_DECL_OVERRIDE;
+    int taskCount() const QEXT_DECL_OVERRIDE;
 
-    QList<QEXTTcpAbstractTask *> allUnfinishedTasks() const QEXT_OVERRIDE;
-    QList<QEXTTcpAbstractTask *> allExpiredTasks() const QEXT_OVERRIDE;
+    QList<QEXTTcpAbstractTask *> allUnfinishedTasks() const QEXT_DECL_OVERRIDE;
+    QList<QEXTTcpAbstractTask *> allExpiredTasks() const QEXT_DECL_OVERRIDE;
 
-    QEXTTcpAbstractPacketParser *packetParser() const QEXT_OVERRIDE;
-    void setPacketParser(QEXTTcpAbstractPacketParser *packetParser) QEXT_OVERRIDE;
+    QEXTTcpAbstractPacketParser *packetParser() const QEXT_DECL_OVERRIDE;
+    void setPacketParser(QEXTTcpAbstractPacketParser *packetParser) QEXT_DECL_OVERRIDE;
 
-    void parsePacket(QEXTTcpAbstractPacket *packet) QEXT_OVERRIDE;
-    void sendPacket(QEXTTcpAbstractPacket *packet) QEXT_OVERRIDE;
+    void parsePacket(QEXTTcpAbstractPacket *packet) QEXT_DECL_OVERRIDE;
+    void sendPacket(QEXTTcpAbstractPacket *packet) QEXT_DECL_OVERRIDE;
 
-    void enqueueTask(QEXTTcpAbstractTask *task) QEXT_OVERRIDE;
-    QEXTTcpAbstractTask *dequeueTask() QEXT_OVERRIDE;
-    void recoveryTask(QEXTTcpAbstractTask *task) QEXT_OVERRIDE;
+    void enqueueTask(QEXTTcpAbstractTask *task) QEXT_DECL_OVERRIDE;
+    QEXTTcpAbstractTask *dequeueTask() QEXT_DECL_OVERRIDE;
+    void recoveryTask(QEXTTcpAbstractTask *task) QEXT_DECL_OVERRIDE;
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpTaskPool)
+    QEXT_DECL_PRIVATE(QEXTTcpTaskPool)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTaskPool)
 };
 

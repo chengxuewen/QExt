@@ -17,7 +17,7 @@ class CMainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit CMainWindow(QWidget *parent = QEXT_NULLPTR);
+    explicit CMainWindow(QWidget *parent = QEXT_DECL_NULLPTR);
     ~CMainWindow();
 
 private slots:

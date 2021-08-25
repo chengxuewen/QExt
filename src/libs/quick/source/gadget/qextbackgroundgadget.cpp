@@ -65,49 +65,49 @@ QEXTBackgroundGadget::~QEXTBackgroundGadget()
 
 qreal QEXTBackgroundGadget::scale() const
 {
-    QEXT_DC(QEXTBackgroundGadget);
+    QEXT_DECL_DC(QEXTBackgroundGadget);
     return d->m_scale;
 }
 
 qreal QEXTBackgroundGadget::opacity() const
 {
-    QEXT_DC(QEXTBackgroundGadget);
+    QEXT_DECL_DC(QEXTBackgroundGadget);
     return d->m_opacity;
 }
 
 qreal QEXTBackgroundGadget::radius() const
 {
-    QEXT_DC(QEXTBackgroundGadget);
+    QEXT_DECL_DC(QEXTBackgroundGadget);
     return d->m_radius;
 }
 
 QColor QEXTBackgroundGadget::color() const
 {
-    QEXT_DC(QEXTBackgroundGadget);
+    QEXT_DECL_DC(QEXTBackgroundGadget);
     return d->m_color;
 }
 
 bool QEXTBackgroundGadget::isVisible() const
 {
-    QEXT_DC(QEXTBackgroundGadget);
+    QEXT_DECL_DC(QEXTBackgroundGadget);
     return d->m_visible;
 }
 
 qreal QEXTBackgroundGadget::width() const
 {
-    QEXT_DC(QEXTBackgroundGadget);
+    QEXT_DECL_DC(QEXTBackgroundGadget);
     return d->m_width;
 }
 
 qreal QEXTBackgroundGadget::height() const
 {
-    QEXT_DC(QEXTBackgroundGadget);
+    QEXT_DECL_DC(QEXTBackgroundGadget);
     return d->m_height;
 }
 
 void QEXTBackgroundGadget::setWidth(const qreal &width)
 {
-    QEXT_D(QEXTBackgroundGadget);
+    QEXT_DECL_D(QEXTBackgroundGadget);
     if (width != d->m_width) {
         d->m_width = width;
         emit this->widthChanged();
@@ -116,7 +116,7 @@ void QEXTBackgroundGadget::setWidth(const qreal &width)
 
 void QEXTBackgroundGadget::setHeight(const qreal &height)
 {
-    QEXT_D(QEXTBackgroundGadget);
+    QEXT_DECL_D(QEXTBackgroundGadget);
     if (height != d->m_height) {
         d->m_height = height;
         emit this->heightChanged();
@@ -125,7 +125,7 @@ void QEXTBackgroundGadget::setHeight(const qreal &height)
 
 void QEXTBackgroundGadget::setOpacity(const qreal &opacity)
 {
-    QEXT_D(QEXTBackgroundGadget);
+    QEXT_DECL_D(QEXTBackgroundGadget);
     if (!qFuzzyCompare(d->m_opacity, opacity)) {
         d->m_opacity = opacity;
         emit this->opacityChanged();
@@ -134,7 +134,7 @@ void QEXTBackgroundGadget::setOpacity(const qreal &opacity)
 
 void QEXTBackgroundGadget::setScale(const qreal &scale)
 {
-    QEXT_D(QEXTBackgroundGadget);
+    QEXT_DECL_D(QEXTBackgroundGadget);
     if (!qFuzzyCompare(d->m_scale, scale)) {
         d->m_scale = scale;
         emit this->scaleChanged();
@@ -143,7 +143,7 @@ void QEXTBackgroundGadget::setScale(const qreal &scale)
 
 void QEXTBackgroundGadget::setRadius(const qreal &radius)
 {
-    QEXT_D(QEXTBackgroundGadget);
+    QEXT_DECL_D(QEXTBackgroundGadget);
     if (radius != d->m_radius) {
         d->m_radius = radius;
         emit this->radiusChanged();
@@ -152,7 +152,7 @@ void QEXTBackgroundGadget::setRadius(const qreal &radius)
 
 void QEXTBackgroundGadget::setColor(const QColor &color)
 {
-    QEXT_D(QEXTBackgroundGadget);
+    QEXT_DECL_D(QEXTBackgroundGadget);
     if (color != d->m_color) {
         d->m_color = color;
         emit this->colorChanged();
@@ -161,7 +161,7 @@ void QEXTBackgroundGadget::setColor(const QColor &color)
 
 void QEXTBackgroundGadget::setVisible(const bool &visible)
 {
-    QEXT_D(QEXTBackgroundGadget);
+    QEXT_DECL_D(QEXTBackgroundGadget);
     if (visible != d->m_visible) {
         d->m_visible = visible;
         emit this->visibleChanged();

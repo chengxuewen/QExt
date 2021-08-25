@@ -14,11 +14,11 @@ class QEXT_TCP_API QEXTTcpServerTransferInfoModel : public QAbstractItemModel, p
 {
     Q_OBJECT
 public:
-    explicit QEXTTcpServerTransferInfoModel(QObject *parent = QEXT_NULLPTR);
+    explicit QEXTTcpServerTransferInfoModel(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTcpServerTransferInfoModel();
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpServerTransferInfoModel)
+    QEXT_DECL_PRIVATE(QEXTTcpServerTransferInfoModel)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpServerTransferInfoModel)
 };
 

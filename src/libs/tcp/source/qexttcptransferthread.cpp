@@ -24,7 +24,7 @@ QEXTTcpTransferThreadPrivate::~QEXTTcpTransferThreadPrivate()
 
 void QEXTTcpTransferThreadPrivate::handleSocketConnect(QEXTTcpServerSocket *socket, bool connect)
 {
-    QEXT_Q(QEXTTcpTransferThread);
+    QEXT_DECL_Q(QEXTTcpTransferThread);
     if (connect) {
         QObject::connect(socket, SIGNAL(readyRead()), q, SLOT(readPacket()));
         QObject::connect(socket, SIGNAL(disconnected()), q, SLOT(handleSocketClosed()));
@@ -50,7 +50,7 @@ QEXTTcpTransferThread::~QEXTTcpTransferThread()
 
 void QEXTTcpTransferThread::quit()
 {
-    QEXT_D(QEXTTcpTransferThread);
+    QEXT_DECL_D(QEXTTcpTransferThread);
     QWriteLocker writeLocker(&d->m_quitLock);
     if (!d->m_isQuit) {
         QMutexLocker mutexLocker(&d->m_socketMutex);
@@ -65,27 +65,27 @@ void QEXTTcpTransferThread::quit()
 
 QEXTTcpAbstractThreadPool *QEXTTcpTransferThread::tcpThreadPool() const
 {
-    QEXT_DC(QEXTTcpTransferThread);
+    QEXT_DECL_DC(QEXTTcpTransferThread);
     return d->m_threadPool.data();
 }
 
 QQueue<QEXTTcpAbstractPacket *> QEXTTcpTransferThread::allSendPacketsQueue() const
 {
-    QEXT_DC(QEXTTcpTransferThread);
+    QEXT_DECL_DC(QEXTTcpTransferThread);
     QMutexLocker mutexLocker(&d->m_packetMutex);
     return d->m_sendPacketQueue;
 }
 
 QSet<QEXTTcpServerSocket *> QEXTTcpTransferThread::allSocketsSet() const
 {
-    QEXT_DC(QEXTTcpTransferThread);
+    QEXT_DECL_DC(QEXTTcpTransferThread);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     return d->m_socketSet;
 }
 
 int QEXTTcpTransferThread::socketCount() const
 {
-    QEXT_DC(QEXTTcpTransferThread);
+    QEXT_DECL_DC(QEXTTcpTransferThread);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     return d->m_socketSet.size();
 }
@@ -96,7 +96,7 @@ void QEXTTcpTransferThread::incomingConnection(QObject *threadObj, QEXTSocketDes
         return;
     }
 
-    QEXT_D(QEXTTcpTransferThread);
+    QEXT_DECL_D(QEXTTcpTransferThread);
     QEXTTcpServerSocket *socket = new QEXTTcpServerSocket;
     if (socket) {
         if (socket->setSocketDescriptor(socketDescriptor)) {
@@ -120,7 +120,7 @@ void QEXTTcpTransferThread::incomingConnection(QObject *threadObj, QEXTSocketDes
 
 void QEXTTcpTransferThread::enqueueSendPacket(QObject *threadObj, QEXTTcpAbstractPacket *packet)
 {
-    QEXT_D(QEXTTcpTransferThread);
+    QEXT_DECL_D(QEXTTcpTransferThread);
     if (this == threadObj && !this->isQuit()) {
         d->m_packetMutex.lock();
         d->m_sendPacketQueue.enqueue(packet);
@@ -135,7 +135,7 @@ void QEXTTcpTransferThread::addServerSocket(QObject *threadObj, QEXTTcpServerSoc
         return;
     }
 
-    QEXT_D(QEXTTcpTransferThread);
+    QEXT_DECL_D(QEXTTcpTransferThread);
     if (socket) {
         d->handleSocketConnect(socket, true);
         d->m_socketMutex.lock();
@@ -153,7 +153,7 @@ void QEXTTcpTransferThread::addServerSocket(QObject *threadObj, QEXTTcpServerSoc
 void QEXTTcpTransferThread::sendPacket()
 {
     if (!this->isQuit()) {
-        QEXT_D(QEXTTcpTransferThread);
+        QEXT_DECL_D(QEXTTcpTransferThread);
         d->updateRunningFlag(true);
         while (!d->m_sendPacketQueue.isEmpty()) {
             d->m_packetMutex.lock();
@@ -178,7 +178,7 @@ void QEXTTcpTransferThread::readPacket()
 {
     qDebug() << "QEXTTcpTransferThread::readPacket():" << this->thread();
     if (!this->isQuit()) {
-        QEXT_D(QEXTTcpTransferThread);
+        QEXT_DECL_D(QEXTTcpTransferThread);
         d->updateRunningFlag(true);
         QEXTTcpServerSocket *socket = qobject_cast<QEXTTcpServerSocket *>(sender());
         if (socket) {
@@ -214,7 +214,7 @@ void QEXTTcpTransferThread::readPacket()
 
 void QEXTTcpTransferThread::handleSocketClosed()
 {
-    QEXT_D(QEXTTcpTransferThread);
+    QEXT_DECL_D(QEXTTcpTransferThread);
     QEXTTcpServerSocket *socket = qobject_cast<QEXTTcpServerSocket *>(sender());
     if (socket) {
         socket->abort();
@@ -234,7 +234,7 @@ void QEXTTcpTransferThread::handleSocketClosed()
 
 void QEXTTcpTransferThread::handleSocketError(QAbstractSocket::SocketError socketError)
 {
-    QEXT_D(QEXTTcpTransferThread);
+    QEXT_DECL_D(QEXTTcpTransferThread);
     QEXTTcpServerSocket *socket = qobject_cast<QEXTTcpServerSocket*>(sender());
     if (socket) {
         d->handleSocketConnect(socket, false);

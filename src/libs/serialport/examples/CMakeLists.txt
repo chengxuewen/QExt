@@ -56,9 +56,9 @@ list(APPEND _example_link_libraries QEXTSerialPort)
 
 
 #--------------------------------------------------------------------------------
-# Add QEXTSerialPortEnumerator example
+# Add exp_qextserialportenumerator example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTSerialPortEnumerator)
+set(_example_name exp_qextserialportenumerator)
 set(_example_headers
 
     )
@@ -83,9 +83,9 @@ endif()
 
 
 #--------------------------------------------------------------------------------
-# Add QEXTSerialPortEvent example
+# Add exp_qextserialportevent example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTSerialPortEvent)
+set(_example_name exp_qextserialportevent)
 set(_example_headers
     event/PortListener.h
     )
@@ -111,9 +111,9 @@ endif()
 
 
 #--------------------------------------------------------------------------------
-# Add QEXTSerialPortSimple example
+# Add exp_qextserialportsimple example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTSerialPortSimple)
+set(_example_name exp_qextserialportsimple)
 set(_example_headers
     simple/MainWindow.h
     simple/MessageWindow.h
@@ -140,9 +140,9 @@ endif()
 
 
 #--------------------------------------------------------------------------------
-# Add QEXTSerialPortUartAssistant example
+# Add exp_qextserialportuartassistant example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTSerialPortUartAssistant)
+set(_example_name exp_qextserialportuartassistant)
 set(_example_headers
     uartassistant/dialog.h
     uartassistant/hled.h

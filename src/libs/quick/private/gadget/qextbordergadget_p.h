@@ -27,7 +27,7 @@ public:
     bool m_valid;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTBorderGadget)
+    QEXT_DECL_PUBLIC(QEXTBorderGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTBorderGadgetPrivate)
 };
 

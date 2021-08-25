@@ -411,67 +411,67 @@ QString QEXTQuickPalette::brandColor(int brand) const
         qCritical() << "QEXTQuickPalette::brandColor():unknown brand type";
         return "";
     }
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_brandColorVector.at(brand).name();
 }
 
 QString QEXTQuickPalette::brandPrimaryColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_brandColorVector.at(QEXTQuickPalette::Brand_Primary).name();
 }
 
 QString QEXTQuickPalette::brandSecondaryColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_brandColorVector.at(QEXTQuickPalette::Brand_Secondary).name();
 }
 
 QString QEXTQuickPalette::brandAccentColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_brandColorVector.at(QEXTQuickPalette::Brand_Accent).name();
 }
 
 QString QEXTQuickPalette::brandDarkColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_brandColorVector.at(QEXTQuickPalette::Brand_Dark).name();
 }
 
 QString QEXTQuickPalette::brandPositiveColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_brandColorVector.at(QEXTQuickPalette::Brand_Positive).name();
 }
 
 QString QEXTQuickPalette::brandNegativeColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_brandColorVector.at(QEXTQuickPalette::Brand_Negative).name();
 }
 
 QString QEXTQuickPalette::brandInfoColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_brandColorVector.at(QEXTQuickPalette::Brand_Info).name();
 }
 
 QString QEXTQuickPalette::brandSuccessColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_brandColorVector.at(QEXTQuickPalette::Brand_Success).name();
 }
 
 QString QEXTQuickPalette::brandWarningColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_brandColorVector.at(QEXTQuickPalette::Brand_Warning).name();
 }
 
 QString QEXTQuickPalette::brandDangerColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_brandColorVector.at(QEXTQuickPalette::Brand_Danger).name();
 }
 
@@ -481,31 +481,31 @@ QString QEXTQuickPalette::textColor(int textType) const
         qCritical() << "QEXTQuickPalette::textColor():unknown textType";
         return "";
     }
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_textColorVector.at(textType).name();
 }
 
 QString QEXTQuickPalette::textPrimaryColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_textColorVector.at(QEXTQuickPalette::Text_Primary).name();
 }
 
 QString QEXTQuickPalette::textNormalColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_textColorVector.at(QEXTQuickPalette::Text_Normal).name();
 }
 
 QString QEXTQuickPalette::textSecondaryColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_textColorVector.at(QEXTQuickPalette::Text_Secondary).name();
 }
 
 QString QEXTQuickPalette::textPlaceholderColor() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_textColorVector.at(QEXTQuickPalette::Text_Placeholder).name();
 }
 
@@ -515,31 +515,31 @@ QString QEXTQuickPalette::borderColor(int borderLevel) const
         qCritical() << "QEXTQuickPalette::textColor():unknown borderLevel";
         return "";
     }
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_borderColorVector.at(borderLevel).name();
 }
 
 QString QEXTQuickPalette::borderLevel1Color() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_borderColorVector.at(QEXTQuickPalette::Border_Level1).name();
 }
 
 QString QEXTQuickPalette::borderLevel2Color() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_borderColorVector.at(QEXTQuickPalette::Border_Level2).name();
 }
 
 QString QEXTQuickPalette::borderLevel3Color() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_borderColorVector.at(QEXTQuickPalette::Border_Level3).name();
 }
 
 QString QEXTQuickPalette::borderLevel4Color() const
 {
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_borderColorVector.at(QEXTQuickPalette::Border_Level4).name();
 }
 
@@ -553,7 +553,7 @@ QString QEXTQuickPalette::materialColor(int color, int depth) const
         qCritical() << "QEXTQuickPalette::color():unknown depth type";
         return "";
     }
-    QEXT_DC(QEXTQuickPalette);
+    QEXT_DECL_DC(QEXTQuickPalette);
     return d->m_materialColorVector.at(color).at(depth).name();
 }
 

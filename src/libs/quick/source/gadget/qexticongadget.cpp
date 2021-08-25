@@ -61,49 +61,49 @@ QEXTIconGadget::~QEXTIconGadget()
 
 qreal QEXTIconGadget::width() const
 {
-    QEXT_DC(QEXTIconGadget);
+    QEXT_DECL_DC(QEXTIconGadget);
     return d->m_width;
 }
 
 qreal QEXTIconGadget::height() const
 {
-    QEXT_DC(QEXTIconGadget);
+    QEXT_DECL_DC(QEXTIconGadget);
     return d->m_height;
 }
 
 QColor QEXTIconGadget::color() const
 {
-    QEXT_DC(QEXTIconGadget);
+    QEXT_DECL_DC(QEXTIconGadget);
     return d->m_color;
 }
 
 qreal QEXTIconGadget::scale() const
 {
-    QEXT_DC(QEXTIconGadget);
+    QEXT_DECL_DC(QEXTIconGadget);
     return d->m_scale;
 }
 
 QString QEXTIconGadget::source() const
 {
-    QEXT_DC(QEXTIconGadget);
+    QEXT_DECL_DC(QEXTIconGadget);
     return d->m_source;
 }
 
 int QEXTIconGadget::type() const
 {
-    QEXT_DC(QEXTIconGadget);
+    QEXT_DECL_DC(QEXTIconGadget);
     return d->m_type;
 }
 
 int QEXTIconGadget::position() const
 {
-    QEXT_DC(QEXTIconGadget);
+    QEXT_DECL_DC(QEXTIconGadget);
     return d->m_position;
 }
 
 void QEXTIconGadget::setWidth(const qreal &width)
 {
-    QEXT_D(QEXTIconGadget);
+    QEXT_DECL_D(QEXTIconGadget);
     if (width != d->m_width) {
         d->m_width = width;
         emit this->widthChanged();
@@ -112,7 +112,7 @@ void QEXTIconGadget::setWidth(const qreal &width)
 
 void QEXTIconGadget::setPosition(const int &position)
 {
-    QEXT_D(QEXTIconGadget);
+    QEXT_DECL_D(QEXTIconGadget);
     if (position != d->m_position) {
         d->m_position = position;
         emit this->positionChanged(position);
@@ -121,7 +121,7 @@ void QEXTIconGadget::setPosition(const int &position)
 
 void QEXTIconGadget::setHeight(const qreal &height)
 {
-    QEXT_D(QEXTIconGadget);
+    QEXT_DECL_D(QEXTIconGadget);
     if (height != d->m_height) {
         d->m_height = height;
         emit this->heightChanged();
@@ -130,7 +130,7 @@ void QEXTIconGadget::setHeight(const qreal &height)
 
 void QEXTIconGadget::setColor(const QColor &color)
 {
-    QEXT_D(QEXTIconGadget);
+    QEXT_DECL_D(QEXTIconGadget);
     if (color != d->m_color) {
         d->m_color = color;
         emit this->colorChanged();
@@ -139,7 +139,7 @@ void QEXTIconGadget::setColor(const QColor &color)
 
 void QEXTIconGadget::setScale(const qreal &scale)
 {
-    QEXT_D(QEXTIconGadget);
+    QEXT_DECL_D(QEXTIconGadget);
     if (!qFuzzyCompare(d->m_scale, scale)) {
         d->m_scale = scale;
         emit this->scaleChanged();
@@ -148,7 +148,7 @@ void QEXTIconGadget::setScale(const qreal &scale)
 
 void QEXTIconGadget::setSource(const QString &source)
 {
-    QEXT_D(QEXTIconGadget);
+    QEXT_DECL_D(QEXTIconGadget);
     if (source != d->m_source) {
         d->m_source = source;
         emit this->sourceChanged();
@@ -157,7 +157,7 @@ void QEXTIconGadget::setSource(const QString &source)
 
 void QEXTIconGadget::setType(const int &type)
 {
-    QEXT_D(QEXTIconGadget);
+    QEXT_DECL_D(QEXTIconGadget);
     if (type != d->m_type) {
         d->m_type = type;
         emit this->typeChanged(type);

@@ -27,7 +27,7 @@ public:
     bool m_generateThemeTemplateEnable;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTQuickThemeManager)
+    QEXT_DECL_PUBLIC(QEXTQuickThemeManager)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeManagerPrivate)
 };
 

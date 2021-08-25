@@ -33,7 +33,7 @@ public:
     QPointer<QEXTTcpAbstractPacketDispatcher> m_packetDispatcher;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpClientSocket)
+    QEXT_DECL_PUBLIC(QEXTTcpClientSocket)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpClientSocketPrivate)
 };
 

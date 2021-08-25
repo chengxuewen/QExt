@@ -53,7 +53,7 @@ class QEXT_QUICK_API QEXTBackgroundGadget : public QObject, public QEXTObject
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
 
 public:
-    explicit QEXTBackgroundGadget(QObject *parent = QEXT_NULLPTR);
+    explicit QEXTBackgroundGadget(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTBackgroundGadget();
 
     QColor color() const;
@@ -83,7 +83,7 @@ public Q_SLOTS:
     void setVisible(const bool &visible);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTBackgroundGadget)
+    QEXT_DECL_PRIVATE(QEXTBackgroundGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTBackgroundGadget)
 };
 

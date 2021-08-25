@@ -25,7 +25,7 @@ public:
     bool m_visible;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTBackgroundGadget)
+    QEXT_DECL_PUBLIC(QEXTBackgroundGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTBackgroundGadgetPrivate)
 };
 

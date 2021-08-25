@@ -13,7 +13,7 @@ public:
     ~QEXTTcpServerTransferInfoModelPrivate();
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpServerTransferInfoModel)
+    QEXT_DECL_PUBLIC(QEXTTcpServerTransferInfoModel)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpServerTransferInfoModelPrivate)
 };
 

@@ -9,7 +9,7 @@ QEXTObject::QEXTObject(QEXTObject *parent)
 }
 
 QEXTObject::QEXTObject(QEXTObjectPrivate &dd, QEXTObject *parent)
-    : dd_ptr(&dd)
+    : d_objPtr(&dd)
 {
     Q_UNUSED(parent);
 }

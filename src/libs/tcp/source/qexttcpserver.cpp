@@ -24,7 +24,7 @@ QEXTTcpServerPrivate::~QEXTTcpServerPrivate()
 
 void QEXTTcpServerPrivate::initServer()
 {
-    QEXT_Q(QEXTTcpServer);
+    QEXT_DECL_Q(QEXTTcpServer);
     qRegisterMetaType<QEXTSocketDescriptor>("QEXTSocketDescriptor");
     qRegisterMetaType<QSharedPointer<QEXTTcpAbstractTaskPool> >("QSharedPointer<QEXTTcpTaskPoolBase>");
     qRegisterMetaType<QAbstractSocket::SocketError>("QAbstractSocket::SocketError");
@@ -55,14 +55,14 @@ void QEXTTcpServerPrivate::initServer()
 QEXTTcpServer::QEXTTcpServer(QObject *parent)
     : QTcpServer(parent), QEXTObject(*(new QEXTTcpServerPrivate(this)))
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     d->initServer();
 }
 
 QEXTTcpServer::QEXTTcpServer(QEXTTcpAbstractPacketParser *packetParser, QObject *parent)
     : QTcpServer(parent), QEXTObject(*(new QEXTTcpServerPrivate(this)))
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     d->initServer();
     this->setPacketParser(packetParser);
 }
@@ -70,7 +70,7 @@ QEXTTcpServer::QEXTTcpServer(QEXTTcpAbstractPacketParser *packetParser, QObject 
 QEXTTcpServer::QEXTTcpServer(QEXTTcpAbstractPacketParser *packetParser, QEXTTcpAbstractTaskPool *taskPool, QObject *parent)
     : QTcpServer(parent), QEXTObject(*(new QEXTTcpServerPrivate(this)))
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     d->initServer();
     this->setPacketParser(packetParser);
     this->setTaskPool(taskPool);
@@ -79,14 +79,14 @@ QEXTTcpServer::QEXTTcpServer(QEXTTcpAbstractPacketParser *packetParser, QEXTTcpA
 QEXTTcpServer::QEXTTcpServer(QEXTTcpServerPrivate &dd, QObject *parent)
     : QTcpServer(parent), QEXTObject(dd)
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     d->initServer();
 }
 
 QEXTTcpServer::QEXTTcpServer(QEXTTcpServerPrivate &dd, QEXTTcpAbstractPacketParser *packetParser, QObject *parent)
     : QTcpServer(parent), QEXTObject(dd)
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     d->initServer();
     this->setPacketParser(packetParser);
 }
@@ -95,7 +95,7 @@ QEXTTcpServer::QEXTTcpServer(QEXTTcpServerPrivate &dd, QEXTTcpAbstractPacketPars
                              QEXTTcpAbstractTaskPool *taskPool, QObject *parent)
     : QTcpServer(parent), QEXTObject(dd)
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     d->initServer();
     this->setPacketParser(packetParser);
     this->setTaskPool(taskPool);
@@ -108,31 +108,31 @@ QEXTTcpServer::~QEXTTcpServer()
 
 int QEXTTcpServer::allSocketCount() const
 {
-    QEXT_DC(QEXTTcpServer);
+    QEXT_DECL_DC(QEXTTcpServer);
     return d->m_allTcpSocketSet.size();
 }
 
 int QEXTTcpServer::maxSocketCount() const
 {
-    QEXT_DC(QEXTTcpServer);
+    QEXT_DECL_DC(QEXTTcpServer);
     return d->m_maxTcpSocketCount;
 }
 
 void QEXTTcpServer::setMaxSocketCount(int maxSocketCount)
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     d->m_maxTcpSocketCount = qMax(maxSocketCount, d->m_allTcpSocketSet.size());
 }
 
 QEXTTcpAbstractPacketParser *QEXTTcpServer::packetParser() const
 {
-    QEXT_DC(QEXTTcpServer);
+    QEXT_DECL_DC(QEXTTcpServer);
     return d->m_packetParser.data();
 }
 
 void QEXTTcpServer::setPacketParser(QEXTTcpAbstractPacketParser *packetParser)
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     if (packetParser && packetParser != d->m_packetParser.data()) {
         d->m_packetParser.reset(packetParser);
         d->m_transferThreadPool->setPacketParser(d->m_packetParser->cloneParser());
@@ -145,18 +145,18 @@ void QEXTTcpServer::setPacketParser(QEXTTcpAbstractPacketParser *packetParser)
 
 QEXTTcpAbstractTaskPool *QEXTTcpServer::taskPool() const
 {
-    QEXT_DC(QEXTTcpServer);
+    QEXT_DECL_DC(QEXTTcpServer);
     return d->m_taskPool.data();
 }
 
 void QEXTTcpServer::setTaskPool(QEXTTcpAbstractTaskPool *taskPool)
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     if (taskPool && taskPool != d->m_taskPool.data()) {
         if (!d->m_packetParser.isNull()) {
             taskPool->setPacketParser(d->m_packetParser->cloneParser());
         }
-        taskPool->setParent(QEXT_NULLPTR);
+        taskPool->setParent(QEXT_DECL_NULLPTR);
         taskPool->moveToThread(d->m_taskPoolThread.data());
         d->m_taskPool = QSharedPointer<QEXTTcpAbstractTaskPool>(taskPool);
         d->m_transferThreadPool->setTaskPool(d->m_taskPool);
@@ -166,22 +166,22 @@ void QEXTTcpServer::setTaskPool(QEXTTcpAbstractTaskPool *taskPool)
 
 void QEXTTcpServer::handleSocketMessage(QEXTTcpServerSocket *socket, const QString &msg)
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     Q_UNUSED(socket);
     qDebug() << msg;
 }
 
 void QEXTTcpServer::handleSocketConnected(QEXTTcpServerSocket *socket)
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
-    socket->setParent(QEXT_NULLPTR);
+    socket->setParent(QEXT_DECL_NULLPTR);
     d->m_allTcpSocketSet.insert(socket);
 }
 
 void QEXTTcpServer::handleSocketDisconnected(QEXTTcpServerSocket *socket)
 {
-    QEXT_D(QEXTTcpServer);
+    QEXT_DECL_D(QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     d->m_invalidTcpSocketSet.insert(socket);
     d->m_allTcpSocketSet.remove(socket);

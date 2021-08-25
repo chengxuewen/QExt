@@ -19,10 +19,10 @@ public:
 
     QEXTTcpAbstractPacket *packet() const;
 
-    bool run() QEXT_OVERRIDE;
+    bool run() QEXT_DECL_OVERRIDE;
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpTask)
+    QEXT_DECL_PRIVATE(QEXTTcpTask)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTask)
 };
 

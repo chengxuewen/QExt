@@ -30,7 +30,7 @@ public:
     QMap<QString, quint8> m_typeMap;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpPacketHeader)
+    QEXT_DECL_PUBLIC(QEXTTcpPacketHeader)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpPacketHeaderPrivate)
 };
 

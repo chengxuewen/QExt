@@ -27,7 +27,7 @@ public:
     QDateTime m_timestamp;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpPacket)
+    QEXT_DECL_PUBLIC(QEXTTcpPacket)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpPacketPrivate)
 };
 

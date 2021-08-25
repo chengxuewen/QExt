@@ -51,7 +51,7 @@ QEXTBorderGadgetPrivate::~QEXTBorderGadgetPrivate()
 
 bool QEXTBorderGadgetPrivate::hasValid()
 {
-    QEXT_Q(QEXTBorderGadget);
+    QEXT_DECL_Q(QEXTBorderGadget);
     bool valid = m_width > 0 || m_bottomWidth > 0 || m_topWidth > 0 || m_leftWidth > 0 || m_rightWidth > 0;
     if (valid != m_valid) {
         m_valid = valid;
@@ -75,49 +75,49 @@ QEXTBorderGadget::~QEXTBorderGadget()
 
 QColor QEXTBorderGadget::color() const
 {
-    QEXT_DC(QEXTBorderGadget);
+    QEXT_DECL_DC(QEXTBorderGadget);
     return d->m_color;
 }
 
 qreal QEXTBorderGadget::width() const
 {
-    QEXT_DC(QEXTBorderGadget);
+    QEXT_DECL_DC(QEXTBorderGadget);
     return d->m_width;
 }
 
 qreal QEXTBorderGadget::leftWidth() const
 {
-    QEXT_DC(QEXTBorderGadget);
+    QEXT_DECL_DC(QEXTBorderGadget);
     return d->m_leftWidth;
 }
 
 qreal QEXTBorderGadget::rightWidth() const
 {
-    QEXT_DC(QEXTBorderGadget);
+    QEXT_DECL_DC(QEXTBorderGadget);
     return d->m_rightWidth;
 }
 
 qreal QEXTBorderGadget::topWidth() const
 {
-    QEXT_DC(QEXTBorderGadget);
+    QEXT_DECL_DC(QEXTBorderGadget);
     return d->m_topWidth;
 }
 
 qreal QEXTBorderGadget::bottomWidth() const
 {
-    QEXT_DC(QEXTBorderGadget);
+    QEXT_DECL_DC(QEXTBorderGadget);
     return d->m_bottomWidth;
 }
 
 bool QEXTBorderGadget::isValid() const
 {
-    QEXT_DC(QEXTBorderGadget);
+    QEXT_DECL_DC(QEXTBorderGadget);
     return d->m_valid;
 }
 
 void QEXTBorderGadget::setLeftWidth(qreal leftWidth)
 {
-    QEXT_D(QEXTBorderGadget);
+    QEXT_DECL_D(QEXTBorderGadget);
     if (leftWidth != d->m_leftWidth) {
         d->m_leftWidth = leftWidth;
         emit this->leftWidthChanged();
@@ -127,7 +127,7 @@ void QEXTBorderGadget::setLeftWidth(qreal leftWidth)
 
 void QEXTBorderGadget::setRightWidth(qreal rightWidth)
 {
-    QEXT_D(QEXTBorderGadget);
+    QEXT_DECL_D(QEXTBorderGadget);
     if (rightWidth != d->m_rightWidth) {
         d->m_rightWidth = rightWidth;
         emit this->rightWidthChanged();
@@ -137,7 +137,7 @@ void QEXTBorderGadget::setRightWidth(qreal rightWidth)
 
 void QEXTBorderGadget::setTopWidth(qreal topWidth)
 {
-    QEXT_D(QEXTBorderGadget);
+    QEXT_DECL_D(QEXTBorderGadget);
     if (topWidth != d->m_topWidth) {
         d->m_topWidth = topWidth;
         emit this->topWidthChanged();
@@ -147,7 +147,7 @@ void QEXTBorderGadget::setTopWidth(qreal topWidth)
 
 void QEXTBorderGadget::setBottomWidth(qreal bottomWidth)
 {
-    QEXT_D(QEXTBorderGadget);
+    QEXT_DECL_D(QEXTBorderGadget);
     if (bottomWidth != d->m_bottomWidth) {
         d->m_bottomWidth = bottomWidth;
         emit this->bottomWidthChanged();
@@ -157,7 +157,7 @@ void QEXTBorderGadget::setBottomWidth(qreal bottomWidth)
 
 void QEXTBorderGadget::setColor(QColor color)
 {
-    QEXT_D(QEXTBorderGadget);
+    QEXT_DECL_D(QEXTBorderGadget);
     if (color != d->m_color) {
         d->m_color = color;
         emit this->colorChanged();
@@ -167,7 +167,7 @@ void QEXTBorderGadget::setColor(QColor color)
 
 void QEXTBorderGadget::setWidth(qreal width)
 {
-    QEXT_D(QEXTBorderGadget);
+    QEXT_DECL_D(QEXTBorderGadget);
     if (width != d->m_width) {
         d->m_width = width;
         emit this->widthChanged();

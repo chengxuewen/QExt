@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 #endif
     //! [0]
 
-    MainWindow mainWindow;
+    LFAMMainWindow mainWindow;
     mainWindow.show();
 
     return app.exec();

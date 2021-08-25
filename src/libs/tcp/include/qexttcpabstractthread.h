@@ -47,7 +47,7 @@ protected Q_SLOTS:
     void loadAverageTimerTimeout();
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpAbstractThread)
+    QEXT_DECL_PRIVATE(QEXTTcpAbstractThread)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpAbstractThread)
 };
 

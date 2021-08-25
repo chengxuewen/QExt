@@ -55,9 +55,9 @@ quint16 QEXTTcpAbstractThreadPrivate::loadAverageTypeSecondNum(const QEXTTcpAbst
 
 
 QEXTTcpAbstractThread::QEXTTcpAbstractThread(QEXTTcpAbstractThreadPrivate &dd, QEXTTcpAbstractThreadPool *threadPool)
-    : QObject(QEXT_NULLPTR), QEXTObject(dd)
+    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
 {
-    QEXT_D(QEXTTcpAbstractThread);
+    QEXT_DECL_D(QEXTTcpAbstractThread);
     d->m_threadPool = threadPool;
     d->m_loadAverageTimer->setInterval(2000);
     connect(d->m_loadAverageTimer.data(), SIGNAL(timeout()), this, SLOT(loadAverageTimerTimeout()));
@@ -71,21 +71,21 @@ QEXTTcpAbstractThread::~QEXTTcpAbstractThread()
 
 bool QEXTTcpAbstractThread::isBusy() const
 {
-    QEXT_DC(QEXTTcpAbstractThread);
+    QEXT_DECL_DC(QEXTTcpAbstractThread);
     QReadLocker readLocker(&d->m_runningLock);
     return d->m_runningFlag;
 }
 
 bool QEXTTcpAbstractThread::isQuit() const
 {
-    QEXT_DC(QEXTTcpAbstractThread);
+    QEXT_DECL_DC(QEXTTcpAbstractThread);
     QReadLocker readLocker(&d->m_quitLock);
     return d->m_isQuit;
 }
 
 double QEXTTcpAbstractThread::loadAverage(QEXTTcpAbstractThread::LoadAverageType type) const
 {
-    QEXT_DC(QEXTTcpAbstractThread);
+    QEXT_DECL_DC(QEXTTcpAbstractThread);
     d->m_loadAverageLock.lockForRead();
     int loadAverageNum = d->loadAverageTypeSecondNum(type);
     int runningNum = d->m_perSecondRunningTimeList.size();
@@ -109,21 +109,21 @@ double QEXTTcpAbstractThread::loadAverage(QEXTTcpAbstractThread::LoadAverageType
 
 QEXTTcpAbstractPacketParser *QEXTTcpAbstractThread::packetParser() const
 {
-    QEXT_DC(QEXTTcpAbstractThread);
+    QEXT_DECL_DC(QEXTTcpAbstractThread);
     QMutexLocker mutexLocker(&d->m_packetParserMutex);
     return d->m_packetParser.data();
 }
 
 QEXTTcpAbstractTaskPool *QEXTTcpAbstractThread::taskPool() const
 {
-    QEXT_DC(QEXTTcpAbstractThread);
+    QEXT_DECL_DC(QEXTTcpAbstractThread);
     QMutexLocker mutexLocker(&d->m_taskPoolMutex);
     return d->m_taskPool.data();
 }
 
 void QEXTTcpAbstractThread::setPacketParser(QEXTTcpAbstractPacketParser *packetParser)
 {
-    QEXT_D(QEXTTcpAbstractThread);
+    QEXT_DECL_D(QEXTTcpAbstractThread);
     QMutexLocker mutexLocker(&d->m_packetParserMutex);
     if (packetParser && packetParser != d->m_packetParser.data()) {
         d->m_packetParser.reset(packetParser);
@@ -132,7 +132,7 @@ void QEXTTcpAbstractThread::setPacketParser(QEXTTcpAbstractPacketParser *packetP
 
 void QEXTTcpAbstractThread::setTaskPool(QSharedPointer<QEXTTcpAbstractTaskPool> taskPool)
 {
-    QEXT_D(QEXTTcpAbstractThread);
+    QEXT_DECL_D(QEXTTcpAbstractThread);
     QMutexLocker mutexLocker(&d->m_taskPoolMutex);
     if (!taskPool.isNull() && taskPool != d->m_taskPool) {
         d->m_taskPool = taskPool;
@@ -141,7 +141,7 @@ void QEXTTcpAbstractThread::setTaskPool(QSharedPointer<QEXTTcpAbstractTaskPool> 
 
 void QEXTTcpAbstractThread::loadAverageTimerTimeout()
 {
-    QEXT_D(QEXTTcpAbstractThread);
+    QEXT_DECL_D(QEXTTcpAbstractThread);
     d->m_runningLock.lockForWrite();
     quint16 runningTime = d->m_runningTime;
     d->m_runningTime = 0;

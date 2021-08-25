@@ -85,7 +85,7 @@ private:
     void newThemeBinder(QEXTQuickThemeBinder *binder);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTQuickThemeManager)
+    QEXT_DECL_PRIVATE(QEXTQuickThemeManager)
     QEXT_DISABLE_COPY_MOVE(QEXTQuickThemeManager)
 };
 

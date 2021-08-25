@@ -107,7 +107,7 @@ void CMainWindow::on_pushButton_send_clicked()
     data.append(str);
     str += "-";
     packet->setContent(data);
-    QEXTTcpAbstractPacket *rcv = QEXT_NULLPTR;
+    QEXTTcpAbstractPacket *rcv = QEXT_DECL_NULLPTR;
     qDebug() << m_tcpClient->sendSyncRequestPacket(packet, &rcv);
     if (rcv) {
         QEXTTcpAbstractPacket::printPacket(rcv);

@@ -20,7 +20,7 @@ public:
     virtual void newLocalConnectionReceived();
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTSingleAppUtil)
+    QEXT_DECL_PRIVATE(QEXTSingleAppUtil)
     QEXT_DISABLE_COPY_MOVE(QEXTSingleAppUtil)
 };
 

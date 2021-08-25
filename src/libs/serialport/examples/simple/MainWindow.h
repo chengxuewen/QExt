@@ -13,7 +13,7 @@
 class QMenu;
 class QAction;
 
-class MainWindow : public QMainWindow
+class LFAMMainWindow : public QMainWindow
 {
     Q_OBJECT
 
@@ -30,7 +30,7 @@ private slots:
     void about();
 
 public:
-    MainWindow();
+    LFAMMainWindow();
 
 };
 

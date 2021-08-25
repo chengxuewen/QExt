@@ -60,25 +60,25 @@ QEXTScrollbarGadget::~QEXTScrollbarGadget()
 
 bool QEXTScrollbarGadget::isHorizontal() const
 {
-    QEXT_DC(QEXTScrollbarGadget);
+    QEXT_DECL_DC(QEXTScrollbarGadget);
     return d->m_horizontal;
 }
 
 bool QEXTScrollbarGadget::isVertical() const
 {
-    QEXT_DC(QEXTScrollbarGadget);
+    QEXT_DECL_DC(QEXTScrollbarGadget);
     return d->m_vertical;
 }
 
 bool QEXTScrollbarGadget::isAutoHide() const
 {
-    QEXT_DC(QEXTScrollbarGadget);
+    QEXT_DECL_DC(QEXTScrollbarGadget);
     return d->m_autoHide;
 }
 
 void QEXTScrollbarGadget::setHorizontal(const bool &horizontal)
 {
-    QEXT_D(QEXTScrollbarGadget);
+    QEXT_DECL_D(QEXTScrollbarGadget);
     if (horizontal != d->m_horizontal) {
         d->m_horizontal = horizontal;
         emit this->horizontalChanged();
@@ -87,7 +87,7 @@ void QEXTScrollbarGadget::setHorizontal(const bool &horizontal)
 
 void QEXTScrollbarGadget::setVertical(const bool &vertical)
 {
-    QEXT_D(QEXTScrollbarGadget);
+    QEXT_DECL_D(QEXTScrollbarGadget);
     if (vertical != d->m_vertical) {
         d->m_vertical = vertical;
         emit this->verticalChanged();
@@ -96,7 +96,7 @@ void QEXTScrollbarGadget::setVertical(const bool &vertical)
 
 void QEXTScrollbarGadget::setAutoHide(const bool &autoHide)
 {
-    QEXT_D(QEXTScrollbarGadget);
+    QEXT_DECL_D(QEXTScrollbarGadget);
     if (autoHide != d->m_autoHide) {
         d->m_autoHide = autoHide;
         emit this->autoHideChanged();

@@ -30,7 +30,7 @@ public:
     QScopedPointer<QEXTTcpAbstractPacketParser> m_packetParser;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpTransferThreadPool)
+    QEXT_DECL_PUBLIC(QEXTTcpTransferThreadPool)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTransferThreadPoolPrivate)
 };
 

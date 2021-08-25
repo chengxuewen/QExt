@@ -53,7 +53,7 @@ class QEXT_QUICK_API QEXTIconGadget : public QObject, public QEXTObject
     Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
 
 public:
-    explicit QEXTIconGadget(QObject *parent = QEXT_NULLPTR);
+    explicit QEXTIconGadget(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTIconGadget();
 
     qreal width() const;
@@ -83,7 +83,7 @@ private Q_SLOTS:
     void setPosition(const int &position);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTIconGadget)
+    QEXT_DECL_PRIVATE(QEXTIconGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTIconGadget)
 };
 

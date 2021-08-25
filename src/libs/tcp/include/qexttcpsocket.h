@@ -27,8 +27,8 @@ public:
         TransferError_Unknown
     };
 
-    explicit QEXTTcpSocket(QObject *parent = QEXT_NULLPTR);
-    QEXTTcpSocket(QEXTTcpSocketPrivate &dd, QObject *parent = QEXT_NULLPTR);
+    explicit QEXTTcpSocket(QObject *parent = QEXT_DECL_NULLPTR);
+    QEXTTcpSocket(QEXTTcpSocketPrivate &dd, QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTTcpSocket();
 
     QEXTId identityId() const;
@@ -42,7 +42,7 @@ public Q_SLOTS:
     virtual void updateIdentityId() = 0;
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTTcpSocket)
+    QEXT_DECL_PRIVATE(QEXTTcpSocket)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpSocket)
 };
 

@@ -47,7 +47,7 @@ class QEXT_QUICK_API QEXTItemGadget : public QObject, public QEXTObject
     Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
 
 public:
-    explicit QEXTItemGadget(QObject *parent = QEXT_NULLPTR);
+    explicit QEXTItemGadget(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTItemGadget();
 
     qreal width() const;
@@ -62,7 +62,7 @@ private slots:
     void setHeight(const qreal &height);
 
 private:
-    QEXT_DECLARE_PRIVATE(QEXTItemGadget)
+    QEXT_DECL_PRIVATE(QEXTItemGadget)
     QEXT_DISABLE_COPY_MOVE(QEXTItemGadget)
 };
 

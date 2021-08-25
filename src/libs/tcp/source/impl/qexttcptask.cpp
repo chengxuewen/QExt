@@ -25,7 +25,7 @@ QEXTTcpTaskPrivate::~QEXTTcpTaskPrivate()
 QEXTTcpTask::QEXTTcpTask(QEXTTcpAbstractPacket *packet, QEXTTcpAbstractTaskPool *taskPool)
     : QEXTTcpAbstractTask(*(new QEXTTcpTaskPrivate(this)), taskPool)
 {
-    QEXT_D(QEXTTcpTask);
+    QEXT_DECL_D(QEXTTcpTask);
     d->m_packet.reset(packet);
 }
 
@@ -36,14 +36,14 @@ QEXTTcpTask::~QEXTTcpTask()
 
 QEXTTcpAbstractPacket *QEXTTcpTask::packet() const
 {
-    QEXT_DC(QEXTTcpTask);
+    QEXT_DECL_DC(QEXTTcpTask);
     return d->m_packet.data();
 }
 
 bool QEXTTcpTask::run()
 {
     qDebug() << "QEXTTcpTask::run():--------------------";
-    QEXT_D(QEXTTcpTask);
+    QEXT_DECL_D(QEXTTcpTask);
     QEXTTcpAbstractPacket::printPacket(d->m_packet.data());
     if (!d->m_taskPool.isNull()) {
         QEXTDateTimeUtils::mSleep(1000);

@@ -38,7 +38,7 @@ public:
     QMap<QEXTTcpAbstractThread *, QThread *> m_threadMap;
 
 private:
-    QEXT_DECLARE_PUBLIC(QEXTTcpAbstractThreadPool)
+    QEXT_DECL_PUBLIC(QEXTTcpAbstractThreadPool)
     QEXT_DISABLE_COPY_MOVE(QEXTTcpAbstractThreadPoolPrivate)
 };
 

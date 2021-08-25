@@ -35,7 +35,7 @@ QEXTTcpTaskThread::~QEXTTcpTaskThread()
 
 void QEXTTcpTaskThread::quit()
 {
-    QEXT_D(QEXTTcpTaskThread);
+    QEXT_DECL_D(QEXTTcpTaskThread);
     QWriteLocker writeLocker(&d->m_quitLock);
     if (!d->m_isQuit) {
         d->m_isQuit = true;
@@ -44,14 +44,14 @@ void QEXTTcpTaskThread::quit()
 
 QEXTTcpAbstractThreadPool *QEXTTcpTaskThread::tcpThreadPool() const
 {
-    QEXT_DC(QEXTTcpTaskThread);
+    QEXT_DECL_DC(QEXTTcpTaskThread);
     return d->m_threadPool.data();
 }
 
 void QEXTTcpTaskThread::fetchTask()
 {
     if (!this->isQuit()) {
-        QEXT_D(QEXTTcpTaskThread);
+        QEXT_DECL_D(QEXTTcpTaskThread);
         QMutexLocker mutexLocker(&d->m_taskPoolMutex);
         qDebug() << "QEXTTcpTaskThread::fetchTask():thread=" << this->thread();
         qDebug() << "QEXTTcpTaskThread::fetchTask():loadAverage=" << this->loadAverage();

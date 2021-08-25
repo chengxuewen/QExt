@@ -66,7 +66,7 @@ static QEXTQuickThemeManager *sm_instance = nullptr;
 QEXTQuickThemeManager::QEXTQuickThemeManager(QObject *parent)
     : QObject(parent), QEXTObject(*(new QEXTQuickThemeManagerPrivate(this)))
 {
-    QEXT_D(QEXTQuickThemeManager);
+    QEXT_DECL_D(QEXTQuickThemeManager);
     d->m_themeFileParser.reset(new QEXTQuickThemeJsonFileParser());
     d->m_fileSystemWatcher.reset(new QFileSystemWatcher(this));
     connect(d->m_fileSystemWatcher.data(), &QFileSystemWatcher::fileChanged, [=](const QString &path) {
@@ -112,19 +112,19 @@ QEXTQuickThemeManager *QEXTQuickThemeManager::instance()
 
 bool QEXTQuickThemeManager::isGenerateThemeTemplateEnable() const
 {
-    QEXT_DC(QEXTQuickThemeManager);
+    QEXT_DECL_DC(QEXTQuickThemeManager);
     return d->m_generateThemeTemplateEnable;
 }
 
 bool QEXTQuickThemeManager::isCurrentThemeValid() const
 {
-    QEXT_DC(QEXTQuickThemeManager);
+    QEXT_DECL_DC(QEXTQuickThemeManager);
     return d->m_themeNameToHandlerMap.contains(d->m_currentThemeName);
 }
 
 bool QEXTQuickThemeManager::addThemeDir(const QString &themDir)
 {
-    QEXT_D(QEXTQuickThemeManager);
+    QEXT_DECL_D(QEXTQuickThemeManager);
     QDir dir(themDir);
     if (!dir.exists()) {
         d->m_lastErrorString = QString("add theme dir failed for %1 dir not exist!").arg(themDir);
@@ -150,7 +150,7 @@ bool QEXTQuickThemeManager::addThemeDir(const QString &themDir)
 
 bool QEXTQuickThemeManager::addTheme(const QString &path)
 {
-    QEXT_D(QEXTQuickThemeManager);
+    QEXT_DECL_D(QEXTQuickThemeManager);
     QString errorString;
     QMap<QString, QVariantMap> data;
     bool ret = d->m_themeFileParser->parseThemeFile(path, data, errorString);
@@ -176,7 +176,7 @@ bool QEXTQuickThemeManager::addTheme(const QString &path)
 
 QVariantList QEXTQuickThemeManager::themeList() const
 {
-    QEXT_DC(QEXTQuickThemeManager);
+    QEXT_DECL_DC(QEXTQuickThemeManager);
     QVariantList list;
     foreach (QEXTQuickThemeHandler *themeHandler, d->m_themeNameToHandlerMap.values()) {
         list.append(themeHandler->themeInfo());
@@ -186,25 +186,25 @@ QVariantList QEXTQuickThemeManager::themeList() const
 
 QString QEXTQuickThemeManager::currentTheme() const
 {
-    QEXT_DC(QEXTQuickThemeManager);
+    QEXT_DECL_DC(QEXTQuickThemeManager);
     return d->m_currentThemeName;
 }
 
 QString QEXTQuickThemeManager::startupTheme() const
 {
-    QEXT_DC(QEXTQuickThemeManager);
+    QEXT_DECL_DC(QEXTQuickThemeManager);
     return d->m_startupThemeName;
 }
 
 QString QEXTQuickThemeManager::lastError() const
 {
-    QEXT_DC(QEXTQuickThemeManager);
+    QEXT_DECL_DC(QEXTQuickThemeManager);
     return d->m_lastErrorString;
 }
 
 QVariant QEXTQuickThemeManager::getPropertyData(const QString &fieldKey, const QString &property)
 {
-    QEXT_D(QEXTQuickThemeManager);
+    QEXT_DECL_D(QEXTQuickThemeManager);
     if (!this->isCurrentThemeValid()) {
         qWarning() << "Current theme is invalid, can not get property data!";
         return QVariant();
@@ -219,7 +219,7 @@ QVariant QEXTQuickThemeManager::getPropertyData(const QString &fieldKey, const Q
 
 void QEXTQuickThemeManager::generateThemeTemplateFile(QEXTQuickThemeBinder *binder)
 {
-    QEXT_D(QEXTQuickThemeManager);
+    QEXT_DECL_D(QEXTQuickThemeManager);
     if (!d->m_generateThemeTemplateEnable) {
         return;
     }
@@ -237,7 +237,7 @@ void QEXTQuickThemeManager::generateThemeTemplateFile(QEXTQuickThemeBinder *bind
 
 void QEXTQuickThemeManager::setCurrentTheme(const QString &theme)
 {
-    QEXT_D(QEXTQuickThemeManager);
+    QEXT_DECL_D(QEXTQuickThemeManager);
     if (theme != d->m_currentThemeName) {
         if (d->m_themeNameToHandlerMap.contains(theme)) {
             d->m_currentThemeName = theme;
@@ -248,7 +248,7 @@ void QEXTQuickThemeManager::setCurrentTheme(const QString &theme)
 
 void QEXTQuickThemeManager::setStartupTheme(const QString &theme)
 {
-    QEXT_D(QEXTQuickThemeManager);
+    QEXT_DECL_D(QEXTQuickThemeManager);
     if (!d->m_currentThemeName.isEmpty()) {
         qWarning() << "App startup theme has been set as " << d->m_currentThemeName;
         return;
@@ -259,7 +259,7 @@ void QEXTQuickThemeManager::setStartupTheme(const QString &theme)
 
 void QEXTQuickThemeManager::setGenerateThemeTemplateEnable(const bool &enable)
 {
-    QEXT_D(QEXTQuickThemeManager);
+    QEXT_DECL_D(QEXTQuickThemeManager);
     if (enable != d->m_generateThemeTemplateEnable) {
         d->m_generateThemeTemplateEnable = enable;
     }
