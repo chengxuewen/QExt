@@ -28,7 +28,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.5.5.3 LANGUAGES CXX)
+project(QEXT VERSION 0.5.5.5 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -337,5 +337,5 @@ endif()
 add_subdirectory(src/applications)
 add_subdirectory(src/libs)
 
-#set(QWT_LIB_OUTPUT_DIR ${QEXT_LIB_OUTPUT_DIR})
-#add_subdirectory(thirdparty/qwt-6.1.3)
+set(QWT_LIB_OUTPUT_DIR ${QEXT_LIB_OUTPUT_DIR})
+add_subdirectory(thirdparty/qwt-6.1.3)

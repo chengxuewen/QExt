@@ -18,18 +18,21 @@ function(qwtAddExample EXAMPLE_NAME)
     if (QWT_QT_VERSION_MAJOR EQUAL 4)
         qwtCopyDependenceLib(${EXAMPLE_NAME} Qt4::QtCore)
         qwtCopyDependenceLib(${EXAMPLE_NAME} Qt4::QtGui)
-        qwtCopyDependenceLib(${EXAMPLE_NAME} Qt4::QtOpenGL)
         qwtCopyDependenceLib(${EXAMPLE_NAME} Qwt)
     else(QWT_QT_VERSION_MAJOR GREATER 4)
         qwtCopyDependenceLib(${EXAMPLE_NAME} Qt${QWT_QT_VERSION_MAJOR}::Core)
         qwtCopyDependenceLib(${EXAMPLE_NAME} Qt${QWT_QT_VERSION_MAJOR}::Gui)
-        qwtCopyDependenceLib(${EXAMPLE_NAME} Qt${QWT_QT_VERSION_MAJOR}::OpenGL)
         qwtCopyDependenceLib(${EXAMPLE_NAME} Qt${QWT_QT_VERSION_MAJOR}::PrintSupport)
         qwtCopyDependenceLib(${EXAMPLE_NAME} Qt${QWT_QT_VERSION_MAJOR}::Svg)
         qwtCopyDependenceLib(${EXAMPLE_NAME} Qt${QWT_QT_VERSION_MAJOR}::Widgets)
         qwtCopyDependenceLib(${EXAMPLE_NAME} Qwt)
     endif()
+    if (QWT_QT_OPENGL_FOUND)
+        qwtCopyDependenceLib(${EXAMPLE_NAME} ${QWT_QT_OPENGL})
+    endif()
 endfunction(qwtAddExample)
+
+
 
 #----------------------------------------------------------------
 # Examples

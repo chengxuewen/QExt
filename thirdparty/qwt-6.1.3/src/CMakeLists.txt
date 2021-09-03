@@ -6,20 +6,6 @@ set(qwt_lib_name Qwt)
 set(LIBRARY_OUTPUT_PATH ${QWT_LIB_OUTPUT_DIR})
 
 
-
-##----------------------------------------------------------------
-## Packages
-##----------------------------------------------------------------
-## Find includes in corresponding build include_directories
-#set(CMAKE_INCLUDE_CURRENT_DIR ON)
-## Instruct CMake to run moc automatically when needed
-#set(CMAKE_AUTOMOC ON)
-## Create code from a list of Qt designer ui files
-#set(CMAKE_AUTOUIC ON)
-
-#set(CMAKE_PREFIX_PATH "" CACHE PATH "Path to Qt")
-
-
 #----------------------------------------------------------------
 # Sources
 #----------------------------------------------------------------
@@ -69,7 +55,6 @@ set(qwt_headers
     ${PROJECT_SOURCE_DIR}/include/qwt_plot_curve.h
     ${PROJECT_SOURCE_DIR}/include/qwt_plot_dict.h
     ${PROJECT_SOURCE_DIR}/include/qwt_plot_directpainter.h
-    ${PROJECT_SOURCE_DIR}/include/qwt_plot_glcanvas.h
     ${PROJECT_SOURCE_DIR}/include/qwt_plot_grid.h
     ${PROJECT_SOURCE_DIR}/include/qwt_plot_histogram.h
     ${PROJECT_SOURCE_DIR}/include/qwt_plot_intervalcurve.h
@@ -168,7 +153,6 @@ set(qwt_sources
     qwt_plot_curve.cpp
     qwt_plot_dict.cpp
     qwt_plot_directpainter.cpp
-    qwt_plot_glcanvas.cpp
     qwt_plot_grid.cpp
     qwt_plot_histogram.cpp
     qwt_plot_intervalcurve.cpp
@@ -220,12 +204,21 @@ set(qwt_sources
     qwt_widget_overlay.cpp
     )
 
+if (QWT_QT_OPENGL_FOUND)
+    list(APPEND qwt_headers
+        ${PROJECT_SOURCE_DIR}/include/qwt_plot_glcanvas.h
+        )
+    list(APPEND qwt_sources
+        qwt_plot_glcanvas.cpp
+        )
+endif()
+
+
 #----------------------------------------------------------------
 # Add lib target
 #----------------------------------------------------------------
 if(QWT_BUILD_SHARED_LIBS)
     add_library(${qwt_lib_name} SHARED ${qwt_headers} ${qwt_sources})
-
     target_compile_definitions(${qwt_lib_name}
         PUBLIC
         $<$<BOOL:MSVC>:QWT_DLL>
@@ -233,7 +226,11 @@ if(QWT_BUILD_SHARED_LIBS)
         $<$<BOOL:MSVC>:QWT_MAKEDLL>
         )
 else()
-    add_library(qwt STATIC ${qwt_headers} ${qwt_sources})
+    add_library(${qwt_lib_name} STATIC ${qwt_headers} ${qwt_sources})
+endif()
+
+if (NOT QWT_QT_OPENGL_FOUND)
+    target_compile_definitions(${qwt_lib_name} PUBLIC QWT_NO_OPENGL)
 endif()
 
 target_include_directories(${qwt_lib_name}
@@ -245,19 +242,17 @@ if (QWT_QT_VERSION_MAJOR EQUAL 4)
     target_link_libraries(${qwt_lib_name}
         PUBLIC
         Qt4::QtCore
-        Qt4::QtOpenGL
-        PRIVATE
         Qt4::QtSvg
+        ${QWT_QT_OPENGL}
         )
 else(QWT_QT_VERSION_MAJOR GREATER 4)
     target_link_libraries(${qwt_lib_name}
         PUBLIC
         Qt${QWT_QT_VERSION_MAJOR}::Core
-        Qt${QWT_QT_VERSION_MAJOR}::OpenGL
-        PRIVATE
         Qt${QWT_QT_VERSION_MAJOR}::Concurrent
         Qt${QWT_QT_VERSION_MAJOR}::PrintSupport
         Qt${QWT_QT_VERSION_MAJOR}::Svg
+        ${QWT_QT_OPENGL}
         )
 endif()
 
