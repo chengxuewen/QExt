@@ -37,19 +37,17 @@
 #include <qextWidgetGlobal.h>
 #include <qextobject.h>
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 7, 0))
-    #include <QtDesigner/QDesignerExportWidget>
-#else
-    #include <QtUiPlugin/QDesignerExportWidget>
+#ifndef Q_WS_QWS
+    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
+        #include <QtDesigner/QDesignerExportWidget>
+    #else
+        #include <QtUiPlugin/QDesignerExportWidget>
+    #endif
 #endif
 
 #include <QWidget>
 
 class QEXTSwitchButtonPrivate;
-/***************************************************************************************************
- *@Class:QEXTSwitchButton
- *@Description:选择开关自定义控件类
-***************************************************************************************************/
 class QEXT_WIDGET_API QEXTSwitchButton : public QWidget, public QEXTObject
 {
     Q_OBJECT
@@ -57,20 +55,20 @@ class QEXT_WIDGET_API QEXTSwitchButton : public QWidget, public QEXTObject
     Q_PROPERTY(int space READ space WRITE setSpace)
     Q_PROPERTY(int rectRadius READ rectRadius WRITE setRectRadius)
     Q_PROPERTY(bool checked READ checked WRITE setChecked)
-    Q_PROPERTY(bool showText READ isTextVisiable WRITE setTextVisiable)
-    Q_PROPERTY(bool showCircle READ isCircleVisiable WRITE setCircleVisiable)
-    Q_PROPERTY(bool animation READ isAnimationEnable WRITE setAnimationEnable)
+    Q_PROPERTY(bool isTextVisiable READ isTextVisiable WRITE setTextVisiable)
+    Q_PROPERTY(bool isCircleVisiable READ isCircleVisiable WRITE setCircleVisiable)
+    Q_PROPERTY(bool isAnimationEnable READ isAnimationEnable WRITE setAnimationEnable)
     Q_PROPERTY(Style styleType READ styleType WRITE setStyleType)
 
-    Q_PROPERTY(QColor bgColorOff READ offBackgroundColor WRITE setOffBackgroundColor)
-    Q_PROPERTY(QColor bgColorOn READ onBackgroundColor WRITE setOnBackgroundColor)
-    Q_PROPERTY(QColor sliderColorOff READ offSliderColor WRITE setOffSliderColor)
-    Q_PROPERTY(QColor sliderColorOn READ onSliderColor WRITE setOnSliderColor)
-    Q_PROPERTY(QColor textColorOff READ offTextColor WRITE setOffTextColor)
-    Q_PROPERTY(QColor textColorOn READ onTextColor WRITE setOnTextColor)
+    Q_PROPERTY(QColor backgroundOffColor READ backgroundOffColor WRITE setOffBackgroundColor)
+    Q_PROPERTY(QColor backgroundOnColor READ backgroundOnColor WRITE setOnBackgroundColor)
+    Q_PROPERTY(QColor sliderOffColor READ sliderOffColor WRITE setOffSliderColor)
+    Q_PROPERTY(QColor sliderOnColor READ sliderOnColor WRITE setOnSliderColor)
+    Q_PROPERTY(QColor textOffColor READ textOffColor WRITE setOffTextColor)
+    Q_PROPERTY(QColor textOnColor READ textOnColor WRITE setOnTextColor)
 
-    Q_PROPERTY(QString m_offText READ offText WRITE setOffText)
-    Q_PROPERTY(QString textOn READ onText WRITE setOnText)
+    Q_PROPERTY(QString offText READ offText WRITE setOffText)
+    Q_PROPERTY(QString onText READ onText WRITE setOnText)
 
 public:
     enum Style
@@ -79,7 +77,7 @@ public:
         Style_CircleIn = 1,   //内圆形
         Style_CircleOut = 2   //外圆形
     };
-    Q_ENUM(Style)
+    Q_ENUMS(Style)
 
     explicit QEXTSwitchButton(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTSwitchButton();
@@ -93,12 +91,12 @@ public:
 
     Style styleType() const;
 
-    QColor offBackgroundColor() const;
-    QColor onBackgroundColor() const;
-    QColor offSliderColor() const;
-    QColor onSliderColor() const;
-    QColor offTextColor() const;
-    QColor onTextColor() const;
+    QColor backgroundOffColor() const;
+    QColor backgroundOnColor() const;
+    QColor sliderOffColor() const;
+    QColor sliderOnColor() const;
+    QColor textOffColor() const;
+    QColor textOnColor() const;
 
     QString offText() const;
     QString onText() const;

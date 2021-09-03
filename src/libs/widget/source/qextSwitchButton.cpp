@@ -21,11 +21,11 @@ QEXTSwitchButtonPrivate::QEXTSwitchButtonPrivate(QEXTSwitchButton *qq)
 
     m_buttonStyle	= QEXTSwitchButton::Style_CircleIn;
 
-    m_offBackgroundColor = QColor(111, 122, 126);
-    m_onBackgroundColor = QColor(21, 156, 119);
+    m_backgroundOffColor = QColor(111, 122, 126);
+    m_backgroundOnColor = QColor(21, 156, 119);
 
-    m_offSliderColor = QColor(255, 255, 255);
-    m_onSliderColor = QColor(255, 255, 255);
+    m_sliderOffColor = QColor(255, 255, 255);
+    m_sliderOnColor = QColor(255, 255, 255);
 
     m_offTextColor = QColor(250, 250, 250);
     m_onTextColor = QColor(255, 255, 255);
@@ -132,7 +132,7 @@ void QEXTSwitchButton::drawBackground(QPainter *painter)
     painter->save();
     painter->setPen(Qt::NoPen);
 
-    QColor bgColor = d->m_checked ? d->m_onBackgroundColor : d->m_offBackgroundColor;
+    QColor bgColor = d->m_checked ? d->m_backgroundOnColor : d->m_backgroundOffColor;
     if (!this->isEnabled()) {
         bgColor.setAlpha(60);
     }
@@ -213,9 +213,9 @@ void QEXTSwitchButton::drawSlider(QPainter *painter)
     painter->setPen(Qt::NoPen);
 
     if (!d->m_checked) {
-        painter->setBrush(d->m_offSliderColor);
+        painter->setBrush(d->m_sliderOffColor);
     } else {
-        painter->setBrush(d->m_onSliderColor);
+        painter->setBrush(d->m_sliderOnColor);
     }
 
     if (d->m_buttonStyle == Style_Rect) {
@@ -232,8 +232,8 @@ void QEXTSwitchButton::drawSlider(QPainter *painter)
         int sliderWidth = this->height();
         QRect sliderRect(d->m_startX, 0, sliderWidth, sliderWidth);
 
-        QColor color1 = (d->m_checked ? Qt::white : d->m_offBackgroundColor);
-        QColor color2 = (d->m_checked ? d->m_onSliderColor : d->m_offSliderColor);
+        QColor color1 = (d->m_checked ? Qt::white : d->m_backgroundOffColor);
+        QColor color2 = (d->m_checked ? d->m_sliderOnColor : d->m_sliderOffColor);
 
         QRadialGradient radialGradient(sliderRect.center(), sliderWidth / 2);
         radialGradient.setColorAt(0, d->m_checked ? color1 : color2);
@@ -317,37 +317,37 @@ QEXTSwitchButton::Style QEXTSwitchButton::styleType() const
     return d->m_buttonStyle;
 }
 
-QColor QEXTSwitchButton::offBackgroundColor() const
+QColor QEXTSwitchButton::backgroundOffColor() const
 {
     QEXT_DECL_DC(QEXTSwitchButton);
-    return d->m_offBackgroundColor;
+    return d->m_backgroundOffColor;
 }
 
-QColor QEXTSwitchButton::onBackgroundColor() const
+QColor QEXTSwitchButton::backgroundOnColor() const
 {
     QEXT_DECL_DC(QEXTSwitchButton);
-    return d->m_onBackgroundColor;
+    return d->m_backgroundOnColor;
 }
 
-QColor QEXTSwitchButton::offSliderColor() const
+QColor QEXTSwitchButton::sliderOffColor() const
 {
     QEXT_DECL_DC(QEXTSwitchButton);
-    return d->m_offSliderColor;
+    return d->m_sliderOffColor;
 }
 
-QColor QEXTSwitchButton::onSliderColor() const
+QColor QEXTSwitchButton::sliderOnColor() const
 {
     QEXT_DECL_DC(QEXTSwitchButton);
-    return d->m_onSliderColor;
+    return d->m_sliderOnColor;
 }
 
-QColor QEXTSwitchButton::offTextColor() const
+QColor QEXTSwitchButton::textOffColor() const
 {
     QEXT_DECL_DC(QEXTSwitchButton);
     return d->m_offTextColor;
 }
 
-QColor QEXTSwitchButton::onTextColor() const
+QColor QEXTSwitchButton::textOnColor() const
 {
     QEXT_DECL_DC(QEXTSwitchButton);
     return d->m_onTextColor;
@@ -445,8 +445,8 @@ void QEXTSwitchButton::setStyleType(const QEXTSwitchButton::Style &style)
 void QEXTSwitchButton::setOffBackgroundColor(const QColor &color)
 {
     QEXT_DECL_D(QEXTSwitchButton);
-    if (d->m_offBackgroundColor != color) {
-        d->m_offBackgroundColor = color;
+    if (d->m_backgroundOffColor != color) {
+        d->m_backgroundOffColor = color;
         this->update();
     }
 }
@@ -454,8 +454,8 @@ void QEXTSwitchButton::setOffBackgroundColor(const QColor &color)
 void QEXTSwitchButton::setOnBackgroundColor(const QColor &color)
 {
     QEXT_DECL_D(QEXTSwitchButton);
-    if (d->m_onBackgroundColor != color) {
-        d->m_onBackgroundColor = color;
+    if (d->m_backgroundOnColor != color) {
+        d->m_backgroundOnColor = color;
         this->update();
     }
 }
@@ -463,8 +463,8 @@ void QEXTSwitchButton::setOnBackgroundColor(const QColor &color)
 void QEXTSwitchButton::setOffSliderColor(const QColor &color)
 {
     QEXT_DECL_D(QEXTSwitchButton);
-    if (d->m_offSliderColor != color) {
-        d->m_offSliderColor = color;
+    if (d->m_sliderOffColor != color) {
+        d->m_sliderOffColor = color;
         this->update();
     }
 }
@@ -472,8 +472,8 @@ void QEXTSwitchButton::setOffSliderColor(const QColor &color)
 void QEXTSwitchButton::setOnSliderColor(const QColor &color)
 {
     QEXT_DECL_D(QEXTSwitchButton);
-    if (d->m_onSliderColor != color) {
-        d->m_onSliderColor = color;
+    if (d->m_sliderOnColor != color) {
+        d->m_sliderOnColor = color;
         this->update();
     }
 }

@@ -24,10 +24,10 @@ public:
 
     QEXTSwitchButton::Style m_buttonStyle;        //开关按钮样式
 
-    QColor m_offBackgroundColor;              //关闭时背景颜色
-    QColor m_onBackgroundColor;               //打开时背景颜色
-    QColor m_offSliderColor;          //关闭时滑块颜色
-    QColor m_onSliderColor;           //打开时滑块颜色
+    QColor m_backgroundOffColor;              //关闭时背景颜色
+    QColor m_backgroundOnColor;               //打开时背景颜色
+    QColor m_sliderOffColor;          //关闭时滑块颜色
+    QColor m_sliderOnColor;           //打开时滑块颜色
     QColor m_offTextColor;            //关闭时文字颜色
     QColor m_onTextColor;             //打开时文字颜色
 

@@ -21,7 +21,7 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(_lib_base_name QEXTWidget)
+set(qext_lib_base_name QEXTWidget)
 set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 
 
@@ -29,7 +29,7 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 # Set lib file list
 #--------------------------------------------------------------------------------
-set(_lib_public_headers
+set(qext_lib_public_headers
     include/qextBreathingLight.h
     include/qextFramelessDialog.h
     include/qextFramelessMainwindow.h
@@ -37,6 +37,7 @@ set(_lib_public_headers
 #    include/qextGroupBox.h
     include/qextIconLabel.h
     include/qextIndicatorLight.h
+    include/qextIpAddressEdit.h
     include/qextLcdNumber.h
     include/qextLedText.h
     include/qextNavButton.h
@@ -47,12 +48,13 @@ set(_lib_public_headers
     include/qextWidgetGlobal.h
     )
 
-set(_lib_private_headers
+set(qext_lib_private_headers
     private/qextBreathingLight_p.h
     private/qextFramelessMainwindow_p.h
 #    private/qextGroupBox_p.h
     private/qextIconLabel_p.h
     private/qextIndicatorLight_p.h
+    private/qextIpAddressEdit_p.h
     private/qextLcdNumber_p.h
     private/qextLedText_p.h
     private/qextNavButton_p.h
@@ -62,7 +64,7 @@ set(_lib_private_headers
     private/qextWaveChart_p.h
     )
 
-set(_lib_sources
+set(qext_lib_sources
     source/qextBreathingLight.cpp
     source/qextFramelessDialog.cpp
     source/qextFramelessMainwindow.cpp
@@ -70,6 +72,7 @@ set(_lib_sources
 #    source/qextGroupBox.cpp
     source/qextIconLabel.cpp
     source/qextIndicatorLight.cpp
+    source/qextIpAddressEdit.cpp
     source/qextLcdNumber.cpp
     source/qextLedText.cpp
     source/qextNavButton.cpp
@@ -79,11 +82,11 @@ set(_lib_sources
     source/qextWaveChart.cpp
     )
 
-set(_lib_forms
+set(qext_lib_forms
 
     )
 
-set(_lib_resources
+set(qext_lib_resources
     resource/QEXTWidget.qrc
     )
 
@@ -92,50 +95,50 @@ set(_lib_resources
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
-set(_lib_link_libraries)
+set(qext_lib_link_libraries)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND _lib_link_libraries Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
-    list(APPEND _lib_link_libraries Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network)
+    list(APPEND qext_lib_link_libraries Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND qext_lib_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Gui Qt${QEXT_QT_VERSION_MAJOR}::Widgets Qt${QEXT_QT_VERSION_MAJOR}::Network)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _lib_link_libraries QEXTCore QEXTFontAwesome)
+list(APPEND qext_lib_link_libraries QEXTCore QEXTFontAwesome)
 
 
 
 #--------------------------------------------------------------------------------
 # Add lib target
 #--------------------------------------------------------------------------------
-add_library(${_lib_base_name}
-    ${_lib_public_headers}
-    ${_lib_private_headers}
-    ${_lib_sources}
-    ${_lib_forms}
-    ${_lib_resources}
+add_library(${qext_lib_base_name}
+    ${qext_lib_public_headers}
+    ${qext_lib_private_headers}
+    ${qext_lib_sources}
+    ${qext_lib_forms}
+    ${qext_lib_resources}
     )
 if (QEXT_BUILD_COMPILER_WARNING)
-    qextFunctionSetCompilerWarnings(${_lib_base_name})
+    qextFunctionSetCompilerWarnings(${qext_lib_base_name})
 endif()
-target_link_libraries(${_lib_base_name} PUBLIC ${_lib_link_libraries})
-target_include_directories(${_lib_base_name} PUBLIC
+target_link_libraries(${qext_lib_base_name} PUBLIC ${qext_lib_link_libraries})
+target_include_directories(${qext_lib_base_name} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
     $<INSTALL_INTERFACE:include>
     )
-target_compile_definitions(${_lib_base_name} PRIVATE QEXT_BUILD_WIDGET_LIB)
+target_compile_definitions(${qext_lib_base_name} PRIVATE QEXT_BUILD_WIDGET_LIB)
 
 
 # set target properties
-set_target_properties(${_lib_base_name} PROPERTIES
+set_target_properties(${qext_lib_base_name} PROPERTIES
     VERSION ${QEXT_VERSION} SOVERSION ${QEXT_SO_VERSION}
     CXX_STANDARD ${QEXT_CXX_STANDARD}
     DEBUG_POSTFIX ${QEXT_DEBUG_POSTFIX}
     )
 if (QEXT_BUILD_SHARED_LIBS)
-    set_target_properties(${_lib_base_name} PROPERTIES
+    set_target_properties(${qext_lib_base_name} PROPERTIES
         CXX_VISIBILITY_PRESET hidden
         VISIBILITY_INLINES_HIDDEN 1)
 endif()

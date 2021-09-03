@@ -25,10 +25,12 @@
 #include <QAbstractListModel>
 #include <QStyledItemDelegate>
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 7, 0))
-#include <QtDesigner/QDesignerExportWidget>
-#else
-#include <QtUiPlugin/QDesignerExportWidget>
+#ifndef Q_WS_QWS
+    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
+        #include <QtDesigner/QDesignerExportWidget>
+    #else
+        #include <QtUiPlugin/QDesignerExportWidget>
+    #endif
 #endif
 
 class QEXTNavTreeWidget;

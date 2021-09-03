@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <qextglobal.h>
-#include <qexttcpserver.h>
+#include <qextTcpServer.h>
 
 
 
@@ -21,9 +21,10 @@ public:
 
 
 private slots:
-    void displayTransferError(const QEXTTcpSocket::TransferErrorType &error);
-    void displaySocketError(const QEXTId &socketId, const QAbstractSocket::SocketError &error);
-    void displaySocketMessage(const QEXTId &socketId, const QString &msg);
+    void onSocketError(const QWeakPointer<QEXTTcpSocket> &socket, const QAbstractSocket::SocketError &error);
+    void onServerMessageReceived(const QString &msg);
+    void onSocketConnected(const QWeakPointer<QEXTTcpSocket> &socket);
+    void onSocketDisCnnected(const QWeakPointer<QEXTTcpSocket> &socket);
 
     void on_pushButton_ctrl_clicked();
 
@@ -31,7 +32,7 @@ private slots:
 
 private:
     Ui::SMainWindow *ui;
-    QEXTTcpServer *m_tcpServer;
+    QScopedPointer<QEXTTcpServer> m_tcpServer;
 };
 
 #endif // SMAINWINDOW_H

@@ -712,31 +712,22 @@ void QEXTNavButton::setIcon(const QPixmap &pixmap)
 void QEXTNavButton::setNormalIcon(const QPixmap &pixmap)
 {
     QEXT_DECL_D(QEXTNavButton);
-    if (pixmap != d->m_normalIcon)
-    {
-        d->m_normalIcon = pixmap;
-        this->update();
-    }
+    d->m_normalIcon = pixmap;
+    this->update();
 }
 
 void QEXTNavButton::setHoverIcon(const QPixmap &pixmap)
 {
     QEXT_DECL_D(QEXTNavButton);
-    if (pixmap != d->m_hoverIcon)
-    {
-        d->m_hoverIcon = pixmap;
-        this->update();
-    }
+    d->m_hoverIcon = pixmap;
+    this->update();
 }
 
 void QEXTNavButton::setCheckIcon(const QPixmap &pixmap)
 {
     QEXT_DECL_D(QEXTNavButton);
-    if (pixmap != d->m_checkIcon)
-    {
-        d->m_checkIcon = pixmap;
-        this->update();
-    }
+    d->m_checkIcon = pixmap;
+    this->update();
 }
 
 void QEXTNavButton::setFontIcon(const QChar &icon)

@@ -29,32 +29,35 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
-set(_test_link_libraries)
+set(qext_test_link_libraries)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND _test_link_libraries Qt4::QtCore Qt4::QtTest)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
-    list(APPEND _test_link_libraries Qt5::Core Qt5::Test)
+    list(APPEND qext_test_link_libraries Qt4::QtCore Qt4::QtGui Qt4::QtTest)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND qext_test_link_libraries
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Test
+        )
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _test_link_libraries QEXTCore)
+list(APPEND qext_test_link_libraries QEXTCore)
 
 
 
 #--------------------------------------------------------------------------------
-# Add tst_qextobject test
+# Add qext_tst_coreObject test
 #--------------------------------------------------------------------------------
-set(_test_name tst_qextobject)
-add_executable(${_test_name}
+set(qext_test_name qext_tst_coreObject)
+add_executable(${qext_test_name}
     qextsimpleobject.h
     tst_qextobject.cpp
     qextsimpleobject.cpp
     )
-add_test(NAME ${_test_name} COMMAND ${_test_name})
-target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
-target_include_directories(${_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+add_test(NAME ${qext_test_name} COMMAND ${qext_test_name})
+target_link_libraries(${qext_test_name} PRIVATE ${qext_test_link_libraries})
+target_include_directories(${qext_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 if(WIN32)
-    qextMacroCopyDependenceLib(${_test_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_test_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()

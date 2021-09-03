@@ -51,9 +51,9 @@ list(APPEND _example_link_libraries QEXTQuick)
 
 
 #--------------------------------------------------------------------------------
-# Add QEXTQuickSimple example
+# Add exp_qextQuickSimple example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTQuickSimple)
+set(_example_name exp_qextQuickSimple)
 set(_example_headers
     )
 set(_example_sources
@@ -85,9 +85,9 @@ endif()
 
 
 #--------------------------------------------------------------------------------
-# Set QEXTQuickComponent example
+# Set exp_qextComponent example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTQuickComponent)
+set(_example_name exp_qextComponent)
 set(_example_headers
     )
 set(_example_sources
@@ -119,9 +119,9 @@ endif()
 
 
 #--------------------------------------------------------------------------------
-# Set QEXTQuickCustomWindow example
+# Set exp_qextCustomWindow example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTQuickCustomWindow)
+set(_example_name exp_qextCustomWindow)
 set(_example_headers
     )
 set(_example_sources
@@ -153,9 +153,9 @@ endif()
 
 
 #--------------------------------------------------------------------------------
-# Set QEXTQuickPaletteView example
+# Set exp_qextPaletteView example
 #--------------------------------------------------------------------------------
-set(_example_name QEXTQuickPaletteView)
+set(_example_name exp_qextPaletteView)
 set(_example_headers
     paletteview/qextquickpalettetablemodel.h
     )

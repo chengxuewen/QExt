@@ -29,141 +29,144 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/serialPort)
 #--------------------------------------------------------------------------------
 # Set example link libraries
 #--------------------------------------------------------------------------------
-set(_example_link_libraries)
+set(qext_example_link_libraries)
 
 if(UNIX)
-  list(APPEND _example_link_libraries dl)
+    list(APPEND qext_example_link_libraries dl)
 endif()
 
 if(WIN32)
-  list(APPEND _example_link_libraries shlwapi.lib)
+    list(APPEND qext_example_link_libraries shlwapi.lib)
 endif()
 
 if(CMAKE_THREAD_LIBS_INIT)
-  list(APPEND _example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+    list(APPEND qext_example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND _example_link_libraries Qt4::QtCore Qt4::QtGui)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
-    list(APPEND _example_link_libraries Qt5::Core Qt5::Gui Qt5::Widgets)
+    list(APPEND qext_example_link_libraries Qt4::QtCore Qt4::QtGui)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND qext_example_link_libraries
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _example_link_libraries QEXTSerialPort)
+list(APPEND qext_example_link_libraries QEXTSerialPort)
 
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextserialportenumerator example
+# Add qext_exp_serialportenumerator example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextserialportenumerator)
-set(_example_headers
+set(qext_example_name qext_exp_serialportenumerator)
+set(qext_example_headers
 
     )
-set(_example_sources
+set(qext_example_sources
     enumerator/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
 
     )
-add_executable(${_example_name}
-                ${_example_headers}
-                ${_example_sources}
-                ${_example_forms}
-                )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/enumerator)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
+    )
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/enumerator)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextserialportevent example
+# Add qext_exp_serialportevent example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextserialportevent)
-set(_example_headers
+set(qext_example_name qext_exp_serialportevent)
+set(qext_example_headers
     event/PortListener.h
     )
-set(_example_sources
+set(qext_example_sources
     event/PortListener.cpp
     event/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
 
     )
-add_executable(${_example_name}
-                ${_example_headers}
-                ${_example_sources}
-                ${_example_forms}
-                )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/event)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
+    )
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/event)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextserialportsimple example
+# Add qext_exp_serialportsimple example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextserialportsimple)
-set(_example_headers
+set(qext_example_name qext_exp_serialportsimple)
+set(qext_example_headers
     simple/MainWindow.h
     simple/MessageWindow.h
     simple/Test.h
     )
-set(_example_sources
+set(qext_example_sources
     simple/MainWindow.cpp
     simple/MessageWindow.cpp
     simple/Test.cpp
     simple/main.cpp
     )
-add_executable(${_example_name}
-                ${_example_headers}
-                ${_example_sources}
-                ${_example_forms}
-                )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/simple)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
+    )
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/simple)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextserialportuartassistant example
+# Add qext_exp_serialportuartassistant example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextserialportuartassistant)
-set(_example_headers
+set(qext_example_name qext_exp_serialportuartassistant)
+set(qext_example_headers
     uartassistant/dialog.h
     uartassistant/hled.h
     )
-set(_example_sources
+set(qext_example_sources
     uartassistant/dialog.cpp
     uartassistant/hled.cpp
     uartassistant/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     uartassistant/dialog.ui
     )
-add_executable(${_example_name}
-                ${_example_headers}
-                ${_example_sources}
-                ${_example_forms}
-                )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/uartassistant)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
+    )
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/uartassistant)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTSerialPort ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()

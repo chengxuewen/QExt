@@ -18,10 +18,12 @@
 
 
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 7, 0))
-#include <QtDesigner/QDesignerExportWidget>
-#else
-#include <QtUiPlugin/QDesignerExportWidget>
+#ifndef Q_WS_QWS
+    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
+        #include <QtDesigner/QDesignerExportWidget>
+    #else
+        #include <QtUiPlugin/QDesignerExportWidget>
+    #endif
 #endif
 
 #include <QStringList>
@@ -223,7 +225,7 @@ public:
         ExpendMode_DoubleClick = 1, //双击模式
         ExpendMode_NoClick = 2,     //不可单击双击
     };
-    Q_ENUM(ExpendMode)
+    Q_ENUMS(ExpendMode)
 
     explicit QEXTNavListWidget(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTNavListWidget();

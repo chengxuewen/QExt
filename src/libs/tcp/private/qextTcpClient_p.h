@@ -1,0 +1,40 @@
+#ifndef QEXTTCPCLIENT_P_H
+#define QEXTTCPCLIENT_P_H
+
+#include <qextTcpGlobal.h>
+#include <qextTcpPacketTransceiver_p.h>
+
+#include <qextobject_p.h>
+
+#include <QScopedPointer>
+#include <QSharedPointer>
+#include <QThread>
+#include <QMutex>
+#include <QMap>
+
+class QEXTTcpSocket;
+class QEXTTcpTaskPool;
+class QEXTTcpPacketDispatcher;
+class QEXTTcpPacketParserInterface;
+class QEXTTcpClient;
+class QEXT_TCP_API QEXTTcpClientPrivate : public QEXTTcpPacketTransceiverPrivate
+{
+public:
+    explicit QEXTTcpClientPrivate(QEXTTcpClient *qq);
+    ~QEXTTcpClientPrivate();
+
+    mutable QMutex m_packetParserMutex;
+    QSharedPointer<QEXTTcpPacketParserInterface> m_packetParser;
+
+    mutable QMutex m_socketMutex;
+    QSharedPointer<QEXTTcpSocket> m_socket;
+    QSharedPointer<QThread> m_socketThread;
+
+private:
+    QEXT_DECL_PUBLIC(QEXTTcpClient)
+    QEXT_DISABLE_COPY_MOVE(QEXTTcpClientPrivate)
+};
+
+
+
+#endif // QEXTTCPCLIENT_P_H

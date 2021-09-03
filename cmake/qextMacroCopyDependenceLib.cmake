@@ -21,7 +21,7 @@
 macro(qextMacroCopyDependenceLib target dependence directory)
     add_custom_command(
         TARGET ${target}
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${dependence}> ${directory}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${dependence}> ${directory}
         COMMENT "copy the .dll file to the same folder as the executable"
         POST_BUILD
         )

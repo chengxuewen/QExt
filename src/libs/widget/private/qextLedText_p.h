@@ -31,7 +31,7 @@ public:
     double m_radius;
     double m_step;
     double m_hBorder;
-    QVector<QVector<QPointF>> m_pointFVector;
+    QVector<QVector<QPointF> > m_pointFVector;
 
     QColor m_foregroundColor;           //前景色
     QColor m_backgroundColor;           //背景色

@@ -168,41 +168,29 @@ void QEXTNavListWidgetItem::setIcon(const QPixmap &icon)
 void QEXTNavListWidgetItem::setNormalIcon(const QPixmap &icon)
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
-    if (icon != d->m_normalIcon)
-    {
-        d->m_normalIcon = icon;
-        emit this->iconChanged(this);
-    }
+    d->m_normalIcon = icon;
+    emit this->iconChanged(this);
 }
 
 void QEXTNavListWidgetItem::setHoverIcon(const QPixmap &icon)
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
-    if (icon != d->m_hoverIcon)
-    {
-        d->m_hoverIcon = icon;
-        emit this->iconChanged(this);
-    }
+    d->m_hoverIcon = icon;
+    emit this->iconChanged(this);
 }
 
 void QEXTNavListWidgetItem::setCheckedIcon(const QPixmap &icon)
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
-    if (icon != d->m_checkedIcon)
-    {
-        d->m_checkedIcon = icon;
-        emit this->iconChanged(this);
-    }
+    d->m_checkedIcon = icon;
+    emit this->iconChanged(this);
 }
 
 void QEXTNavListWidgetItem::setSelectedIcon(const QPixmap &icon)
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
-    if (icon != d->m_selectedIcon)
-    {
-        d->m_selectedIcon = icon;
-        emit this->iconChanged(this);
-    }
+    d->m_selectedIcon = icon;
+    emit this->iconChanged(this);
 }
 
 QChar QEXTNavListWidgetItem::fontIcon() const

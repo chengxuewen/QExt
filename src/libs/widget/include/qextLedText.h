@@ -17,11 +17,11 @@
 #include <qextobject.h>
 
 #ifndef Q_WS_QWS
-#if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
-#include <QtDesigner/QDesignerExportWidget>
-#else
-#include <QtUiPlugin/QDesignerExportWidget>
-#endif
+    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
+        #include <QtDesigner/QDesignerExportWidget>
+    #else
+        #include <QtUiPlugin/QDesignerExportWidget>
+    #endif
 #endif
 
 #include <QWidget>
@@ -54,7 +54,7 @@ public:
         Animation_TopToBottom,
         Animation_BottomToTop
     };
-    Q_ENUM(Animation)
+    Q_ENUMS(Animation)
 
 public:
     explicit QEXTLedText(QWidget *parent = QEXT_DECL_NULLPTR);

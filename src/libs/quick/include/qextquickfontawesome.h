@@ -832,7 +832,7 @@ public:
         FA_wpexplorer = 0xf2de,
         FA_meetup = 0xf2e0
     };
-    Q_ENUM(FontAwesomeType)
+    Q_ENUMS(FontAwesomeType)
 
     ~QEXTQuickFontAwesome();
     static QObject *qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine);

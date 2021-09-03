@@ -29,401 +29,437 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/widget)
 #--------------------------------------------------------------------------------
 # Set example link libraries
 #--------------------------------------------------------------------------------
-set(_example_link_libraries)
+set(qext_example_link_libraries)
 
 if(UNIX)
-    list(APPEND _example_link_libraries dl)
+    list(APPEND qext_example_link_libraries dl)
 endif()
 
 if(WIN32)
-    list(APPEND _example_link_libraries shlwapi.lib)
+    list(APPEND qext_example_link_libraries shlwapi.lib)
 endif()
 
 if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND _example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+    list(APPEND qext_example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND _example_link_libraries Qt4::QtCore Qt4::QtGui)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
-    list(APPEND _example_link_libraries Qt5::Core Qt5::Gui Qt5::Widgets)
+    list(APPEND qext_example_link_libraries Qt4::QtCore Qt4::QtGui)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND qext_example_link_libraries
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _example_link_libraries QEXTWidget QEXTFontAwesome)
+list(APPEND qext_example_link_libraries QEXTWidget QEXTFontAwesome)
 
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetNavTreeWidget example
+# Add qext_exp_qextNavTreeWidget example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetNavTreeWidget)
-set(_example_headers
+set(qext_example_name qext_exp_qextNavTreeWidget)
+set(qext_example_headers
     navtreeview/navtreeview.h
     navtreeview/navtreeviewform.h
     )
-set(_example_sources
+set(qext_example_sources
     navtreeview/navtreeview.cpp
     navtreeview/navtreeviewform.cpp
     navtreeview/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     navtreeview/navtreeview.ui
     navtreeview/navtreeviewform.ui
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/navtreeview)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/navtreeview)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetNavListWidget example
+# Add qext_exp_qextNavListWidget example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetNavListWidget)
-set(_example_headers
+set(qext_example_name qext_exp_qextNavListWidget)
+set(qext_example_headers
     navlistwidget/navlistwidget.h
     navlistwidget/navlistwidgetform.h
     )
-set(_example_sources
+set(qext_example_sources
     navlistwidget/navlistwidget.cpp
     navlistwidget/navlistwidgetform.cpp
     navlistwidget/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     navlistwidget/navlistwidget.ui
     navlistwidget/navlistwidgetform.ui
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/navlistwidget)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/navlistwidget)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetNavButton example
+# Add qext_exp_qextNavButton example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetNavButton)
-set(_example_headers
+set(qext_example_name qext_exp_qextNavButton)
+set(qext_example_headers
     navbutton/navbutton.h
     navbutton/iconhelper.h
     )
-set(_example_sources
+set(qext_example_sources
     navbutton/navbutton.cpp
     navbutton/iconhelper.cpp
     navbutton/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     navbutton/navbutton.ui
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/navbutton)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/navbutton)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetSwitchButton example
+# Add qext_exp_qextSwitchButton example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetSwitchButton)
-set(_example_headers
+set(qext_example_name qext_exp_qextSwitchButton)
+set(qext_example_headers
     switchbutton/frmswitchbutton.h
     )
-set(_example_sources
+set(qext_example_sources
     switchbutton/frmswitchbutton.cpp
     switchbutton/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     switchbutton/frmswitchbutton.ui
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/switchbutton)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/switchbutton)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetFramelessMainwindow example
+# Add qext_exp_qextFramelessMainwindow example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetFramelessMainwindow)
-set(_example_headers
+set(qext_example_name qext_exp_qextFramelessMainwindow)
+set(qext_example_headers
     framelesswindow/mainwindow.h
     )
-set(_example_sources
+set(qext_example_sources
     framelesswindow/mainwindow.cpp
     framelesswindow/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     framelesswindow/mainwindow.ui
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/framelesswindow)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/framelesswindow)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetFramelessDialog example
+# Add qext_exp_qextFramelessDialog example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetFramelessDialog)
-set(_example_headers
+set(qext_example_name qext_exp_qextFramelessDialog)
+set(qext_example_headers
     framelessdialog/dialog.h
     )
-set(_example_sources
+set(qext_example_sources
     framelessdialog/dialog.cpp
     framelessdialog/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     framelessdialog/dialog.ui
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/framelessdialog)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/framelessdialog)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetFramelessWidget example
+# Add qext_exp_qextFramelessWidget example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetFramelessWidget)
-set(_example_headers
+set(qext_example_name qext_exp_qextFramelessWidget)
+set(qext_example_headers
     framelesswidget/widget.h
     )
-set(_example_sources
+set(qext_example_sources
     framelesswidget/widget.cpp
     framelesswidget/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     framelesswidget/widget.ui
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/framelesswidget)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/framelesswidget)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetBreathingLight example
+# Add qext_exp_qextBreathingLight example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetBreathingLight)
-set(_example_headers
+set(qext_example_name qext_exp_qextBreathingLight)
+set(qext_example_headers
     breathinglight/mainwindow.h
     )
-set(_example_sources
+set(qext_example_sources
     breathinglight/mainwindow.cpp
     breathinglight/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     breathinglight/mainwindow.ui
     )
-set(_example_resource
+set(qext_example_resource
     breathinglight/resources.qrc
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
-    ${_example_resource}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
+    ${qext_example_resource}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/breathinglight)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/breathinglight)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetIndicatorLight example
+# Add qext_exp_qextIndicatorLight example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetIndicatorLight)
-set(_example_headers
+set(qext_example_name qext_exp_qextIndicatorLight)
+set(qext_example_headers
     indicatorlight/mainwindow.h
     )
-set(_example_sources
+set(qext_example_sources
     indicatorlight/mainwindow.cpp
     indicatorlight/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     indicatorlight/mainwindow.ui
     )
-set(_example_resource
+set(qext_example_resource
 
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
-    ${_example_resource}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
+    ${qext_example_resource}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/indicatorlight)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/indicatorlight)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetLcdNumber example
+# Add qext_exp_qextLcdNumber example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetLcdNumber)
-set(_example_headers
+set(qext_example_name qext_exp_qextLcdNumber)
+set(qext_example_headers
     lcdnumber/mainwindow.h
     )
-set(_example_sources
+set(qext_example_sources
     lcdnumber/mainwindow.cpp
     lcdnumber/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     lcdnumber/mainwindow.ui
     )
-set(_example_resource
+set(qext_example_resource
 
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
-    ${_example_resource}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
+    ${qext_example_resource}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lcdnumber)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lcdnumber)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetLcdText example
+# Add qext_exp_qextLcdText example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetLcdText)
-set(_example_headers
+set(qext_example_name qext_exp_qextLcdText)
+set(qext_example_headers
     lcdtext/mainwindow.h
     )
-set(_example_sources
+set(qext_example_sources
     lcdtext/mainwindow.cpp
     lcdtext/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     lcdtext/mainwindow.ui
     )
-set(_example_resource
+set(qext_example_resource
 
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
-    ${_example_resource}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
+    ${qext_example_resource}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lcdtext)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lcdtext)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
 
 
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextWidgetLcdText example
+# Add qext_exp_qextLcdText example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextWidgetWaveChart)
-set(_example_headers
+set(qext_example_name qext_exp_qextWaveChart)
+set(qext_example_headers
     wavechart/frmwavechart.h
     )
-set(_example_sources
+set(qext_example_sources
     wavechart/frmwavechart.cpp
     wavechart/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     wavechart/frmwavechart.ui
     )
-set(_example_resource
+set(qext_example_resource
 
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
-    ${_example_resource}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
+    ${qext_example_resource}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/wavechart)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/wavechart)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()
+
+
+
+#--------------------------------------------------------------------------------
+# Add qext_exp_qextIpAddressEdit example
+#--------------------------------------------------------------------------------
+set(qext_example_name qext_exp_qextIpAddress)
+set(qext_example_headers
+    ipaddress/frmipaddress.h
+    )
+set(qext_example_sources
+    ipaddress/frmipaddress.cpp
+    ipaddress/main.cpp
+    )
+set(qext_example_forms
+    ipaddress/frmipaddress.ui
+    )
+set(qext_example_resource
+
+    )
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
+    ${qext_example_resource}
+    )
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/ipaddress)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+if(WIN32)
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()

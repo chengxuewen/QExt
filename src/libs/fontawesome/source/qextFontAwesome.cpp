@@ -220,7 +220,7 @@ QString QEXTFontAwesome::textFromKey(const QString &key)
 {
     if(!key.isEmpty()) {
         int index = this->staticMetaObject.indexOfEnumerator("FontType");
-        return QString(this->staticMetaObject.enumerator(index).keysToValue(key.toStdString().c_str()));
+        return QString(this->staticMetaObject.enumerator(index).keysToValue(key.toLatin1().data()));
     }
     return QString();
 }
@@ -247,7 +247,7 @@ QList<QString> QEXTFontAwesome::fontTextlist()
     QList<QString> list;
     for(int i = 0; i < enumType.keyCount(); ++i) {
         QString key = enumType.key(i);
-        QString value = QString(this->staticMetaObject.enumerator(index).keysToValue(key.toStdString().c_str()));
+        QString value = QString(this->staticMetaObject.enumerator(index).keysToValue(key.toLatin1().data()));
         list.append(value);
     }
     return list;
@@ -260,7 +260,7 @@ QEXTFontAwesome::FontNameTextMap QEXTFontAwesome::fontNameTextMap()
     int index = this->staticMetaObject.indexOfEnumerator("FontType");
     for(int i = 0; i < enumType.keyCount(); ++i) {
         QString key = enumType.key(i);
-        FontType value = (FontType)this->staticMetaObject.enumerator(index).keysToValue(key.toStdString().c_str());
+        FontType value = (FontType)this->staticMetaObject.enumerator(index).keysToValue(key.toLatin1().data());
         nameTextMap.insert(key, value);
     }
     return nameTextMap;

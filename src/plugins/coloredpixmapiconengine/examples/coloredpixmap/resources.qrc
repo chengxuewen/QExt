@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/colored/colored_ic_add_a_photo_black_24dp.png</file>
+        <file>icons/colored/colored_ic_assignment_late_black_24dp.png</file>
+        <file>icons/colored/colored_ic_build_black_24dp.png</file>
+        <file>icons/colored/colored_ic_email_black_24dp.png</file>
+        <file>icons/colored/colored_ic_phone_black_24dp.png</file>
+        <file>icons/original/ic_add_a_photo_black_24dp.png</file>
+        <file>icons/original/ic_assignment_late_black_24dp.png</file>
+        <file>icons/original/ic_build_black_24dp.png</file>
+        <file>icons/original/ic_email_black_24dp.png</file>
+        <file>icons/original/ic_phone_black_24dp.png</file>
+    </qresource>
+</RCC>

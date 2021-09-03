@@ -18,10 +18,12 @@
 
 #include <QPushButton>
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 7, 0))
-#include <QtDesigner/QDesignerExportWidget>
-#else
-#include <QtUiPlugin/QDesignerExportWidget>
+#ifndef Q_WS_QWS
+    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
+        #include <QtDesigner/QDesignerExportWidget>
+    #else
+        #include <QtUiPlugin/QDesignerExportWidget>
+    #endif
 #endif
 
 class QEXTNavButtonPrivate;
@@ -72,7 +74,7 @@ public:
         TextAlign_Bottom = Qt::AlignBottom, //底部对齐
         TextAlign_Center = Qt::AlignCenter  //居中对齐
     };
-    Q_ENUM(TextAlign)
+    Q_ENUMS(TextAlign)
 
     enum Position
     {
@@ -81,7 +83,7 @@ public:
         Position_Top = 2,   //顶部
         Position_Bottom = 3 //底部
     };
-    Q_ENUM(Position)
+    Q_ENUMS(Position)
 
     explicit QEXTNavButton(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTNavButton();

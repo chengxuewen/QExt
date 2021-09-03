@@ -29,55 +29,58 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/utils)
 #--------------------------------------------------------------------------------
 # Set example link libraries
 #--------------------------------------------------------------------------------
-set(_example_link_libraries)
+set(qext_example_link_libraries)
 
 if(UNIX)
-    list(APPEND _example_link_libraries dl)
+    list(APPEND qext_example_link_libraries dl)
 endif()
 
 if(WIN32)
-    list(APPEND _example_link_libraries shlwapi.lib)
+    list(APPEND qext_example_link_libraries shlwapi.lib)
 endif()
 
 if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND _example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+    list(APPEND qext_example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND _example_link_libraries Qt4::QtCore Qt4::QtGui)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
-    list(APPEND _example_link_libraries Qt5::Core Qt5::Gui Qt5::Widgets)
+    list(APPEND qext_example_link_libraries Qt4::QtCore Qt4::QtGui)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND qext_example_link_libraries
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _example_link_libraries QEXTUtils)
+list(APPEND qext_example_link_libraries QEXTUtils)
 
 
 
 #--------------------------------------------------------------------------------
-# Add exp_qextUtilsHostInfo example
+# Add qext_exp_utilsHostInfo example
 #--------------------------------------------------------------------------------
-set(_example_name exp_qextUtilsHostInfo)
-set(_example_headers
+set(qext_example_name qext_exp_utilsHostInfo)
+set(qext_example_headers
     hostinfo/mainwindow.h
     )
-set(_example_sources
+set(qext_example_sources
     hostinfo/mainwindow.cpp
     hostinfo/main.cpp
     )
-set(_example_forms
+set(qext_example_forms
     hostinfo/mainwindow.ui
     )
-add_executable(${_example_name}
-    ${_example_headers}
-    ${_example_sources}
-    ${_example_forms}
+add_executable(${qext_example_name}
+    ${qext_example_headers}
+    ${qext_example_sources}
+    ${qext_example_forms}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/hostinfo)
-set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries})
+target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/hostinfo)
+set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${_example_name} QEXTUtils ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTUtils ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()

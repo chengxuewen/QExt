@@ -29,15 +29,15 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/singleapp)
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
-set(_test_link_libraries)
+set(qext_test_link_libraries)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND _test_link_libraries Qt4::QtCore Qt4::QtTest)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
-    list(APPEND _test_link_libraries Qt5::Core Qt5::Test)
+    list(APPEND qext_test_link_libraries Qt4::QtCore Qt4::QtTest)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND qext_test_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Test)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _test_link_libraries QEXTSingleApp)
+list(APPEND qext_test_link_libraries QEXTSingleApp)
 

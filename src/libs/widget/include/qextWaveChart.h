@@ -16,10 +16,12 @@
 
 #include <QWidget>
 
-#if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
-#include <QtDesigner/QDesignerExportWidget>
-#else
-#include <QtUiPlugin/QDesignerExportWidget>
+#ifndef Q_WS_QWS
+    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
+        #include <QtDesigner/QDesignerExportWidget>
+    #else
+        #include <QtUiPlugin/QDesignerExportWidget>
+    #endif
 #endif
 
 
@@ -37,6 +39,7 @@ class QEXT_WIDGET_API QEXTWaveChart : public QWidget, public QEXTObject
     Q_PROPERTY(QString title READ title WRITE setTitle)
     Q_PROPERTY(bool smoothEnable READ smoothEnable WRITE setSmoothEnable)
     Q_PROPERTY(bool hLineVisiable READ hLineVisiable WRITE setHLineVisiable)
+    Q_PROPERTY(bool vLineVisiable READ vLineVisiable WRITE setVLineVisiable)
     Q_PROPERTY(bool pointVisiable READ pointVisiable WRITE setPointVisiable)
     Q_PROPERTY(bool pointBackgroundVisiable READ pointBackgroundVisiable WRITE setPointBackgroundVisiable)
 
@@ -90,7 +93,7 @@ public Q_SLOTS:
     void setSmoothEnable(bool enable);
     void setTitleVisiable(bool visiable);
     void setHLineVisiable(bool visiable);
-    void setvLineVisiable(bool visiable);
+    void setVLineVisiable(bool visiable);
     void setPointVisiable(bool visiable);
     void setPointBackgroundVisiable(bool visiable);
 

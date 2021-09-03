@@ -21,7 +21,7 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(_lib_base_name QEXTSingleApp)
+set(qext_lib_base_name QEXTSingleApp)
 set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 
 
@@ -29,7 +29,7 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 # Set lib file list
 #--------------------------------------------------------------------------------
-set(_lib_public_headers
+set(qext_lib_public_headers
     include/qextSingleAppGlobal.h
     include/qextSingleAppLocalPeer.h
     include/qextSingleAppLockedFile.h
@@ -37,11 +37,11 @@ set(_lib_public_headers
     include/qextSingleCoreApplication.h
     )
 
-set(_lib_private_headers
+set(qext_lib_private_headers
 
     )
 
-set(_lib_sources
+set(qext_lib_sources
     source/qextSingleAppLocalPeer.cpp
     source/qextSingleAppLockedFile.cpp
     source/qextSingleAppLockedFile_unix.cpp
@@ -50,64 +50,64 @@ set(_lib_sources
     source/qextSingleCoreApplication.cpp
     )
 
-set(_lib_forms
+set(qext_lib_forms
 
     )
 
-set(_lib_resources
+set(qext_lib_resources
 
     )
 
-list(APPEND _lib_link_libraries QEXTCore)
+list(APPEND qext_lib_link_libraries QEXTCore)
 
 
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
-set(_lib_link_libraries)
+set(qext_lib_link_libraries)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND _lib_link_libraries Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
-    list(APPEND _lib_link_libraries Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network)
+    list(APPEND qext_lib_link_libraries Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND qext_lib_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Gui Qt${QEXT_QT_VERSION_MAJOR}::Widgets Qt${QEXT_QT_VERSION_MAJOR}::Network)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _lib_link_libraries QEXTCore)
+list(APPEND qext_lib_link_libraries QEXTCore)
 
 
 
 #--------------------------------------------------------------------------------
 # Add lib target
 #--------------------------------------------------------------------------------
-add_library(${_lib_base_name}
-    ${_lib_public_headers}
-    ${_lib_private_headers}
-    ${_lib_sources}
-    ${_lib_forms}
-    ${_lib_resources}
+add_library(${qext_lib_base_name}
+    ${qext_lib_public_headers}
+    ${qext_lib_private_headers}
+    ${qext_lib_sources}
+    ${qext_lib_forms}
+    ${qext_lib_resources}
     )
 if (QEXT_BUILD_COMPILER_WARNING)
-    qextFunctionSetCompilerWarnings(${_lib_base_name})
+    qextFunctionSetCompilerWarnings(${qext_lib_base_name})
 endif()
-target_link_libraries(${_lib_base_name} PUBLIC ${_lib_link_libraries})
-target_include_directories(${_lib_base_name} PUBLIC
+target_link_libraries(${qext_lib_base_name} PUBLIC ${qext_lib_link_libraries})
+target_include_directories(${qext_lib_base_name} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
     $<INSTALL_INTERFACE:include>
     )
-target_compile_definitions(${_lib_base_name} PRIVATE QEXT_BUILD_SINGLEAPP_LIB)
+target_compile_definitions(${qext_lib_base_name} PRIVATE QEXT_BUILD_SINGLEAPP_LIB)
 
 
 # set target properties
-set_target_properties(${_lib_base_name} PROPERTIES
+set_target_properties(${qext_lib_base_name} PROPERTIES
     VERSION ${QEXT_VERSION} SOVERSION ${QEXT_SO_VERSION}
     CXX_STANDARD ${QEXT_CXX_STANDARD}
     DEBUG_POSTFIX ${QEXT_DEBUG_POSTFIX}
     )
 if (QEXT_BUILD_SHARED_LIBS)
-    set_target_properties(${_lib_base_name} PROPERTIES
+    set_target_properties(${qext_lib_base_name} PROPERTIES
         CXX_VISIBILITY_PRESET hidden
         VISIBILITY_INLINES_HIDDEN 1)
 endif()

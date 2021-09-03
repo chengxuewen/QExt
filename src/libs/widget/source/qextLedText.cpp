@@ -7,6 +7,7 @@
 #include <QPainter>
 #include <QList>
 #include <QTimer>
+#include <QImage>
 #include <QVector>
 #include <QFontMetrics>
 #include <QResizeEvent>
@@ -384,7 +385,7 @@ void QEXTLedText::paintEvent(QPaintEvent *)
                 break;
             }
             if (iPixelX >= 0 && iPixelX < d->m_imageSize.width() && iPixelY >= 0 && iPixelY < d->m_imageSize.height()) {
-                if (textImage.pixelColor(iPixelX, iPixelY).name() != "#ffffff") {
+                if (QColor(textImage.pixel(iPixelX, iPixelY)).name() != "#ffffff") {
                     color = d->m_textColor;
                 }
             }

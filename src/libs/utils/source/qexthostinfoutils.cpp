@@ -6,7 +6,7 @@
 #include <QTimer>
 #include <QDebug>
 
-#ifdef Q_CC_GNU
+#if defined(Q_CC_GNU) && !defined(Q_WS_QWS)
 #include <cpuid.h>
 #endif
 
@@ -117,7 +117,7 @@ QString QEXTHostInfoUtils::cpuID()
     unsigned int dwBuf[4]={0};
     unsigned long long ret = 0;
 
-#if defined(__GNUC__)// GCC
+#if defined(Q_CC_GNU) && !defined(Q_WS_QWS) // GCC
     __cpuid(1, dwBuf[0], dwBuf[1], dwBuf[2], dwBuf[3]);
 #elif defined(_MSC_VER)// MSVC
 #   if _MSC_VER >= 1400 // VC2005 __cpuid

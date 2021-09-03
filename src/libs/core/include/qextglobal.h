@@ -91,7 +91,7 @@ static inline T *qextGetPtrHelper(T *ptr)
 template<typename Wrapper>
 static inline typename Wrapper::pointer qextGetPtrHelper(const Wrapper &p)
 {
-    return p.get();
+    return p.data();
 }
 
 #define QEXT_DECL_PRIVATE(Class)                                                                                                    \

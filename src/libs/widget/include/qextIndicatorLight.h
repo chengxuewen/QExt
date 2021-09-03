@@ -22,11 +22,11 @@
 #include <qextobject.h>
 
 #ifndef Q_WS_QWS
-#if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
-#include <QtDesigner/QDesignerExportWidget>
-#else
-#include <QtUiPlugin/QDesignerExportWidget>
-#endif
+    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
+        #include <QtDesigner/QDesignerExportWidget>
+    #else
+        #include <QtUiPlugin/QDesignerExportWidget>
+    #endif
 #endif
 
 #include <QWidget>
@@ -71,7 +71,7 @@ public:
         Style_LightRed,         //7-淡红色
         Style_LightGreen        //8-淡绿色
     };
-    Q_ENUM(Style)
+    Q_ENUMS(Style)
 
     enum Shape {
         Shape_Circle = 0,       //0-圆形
@@ -79,10 +79,10 @@ public:
         Shape_Triangle,         //2-三角形
         Shape_Rounded           //3-椭圆形
     };
-    Q_ENUM(Shape)
+    Q_ENUMS(Shape)
 
 public:
-    explicit QEXTIndicatorLight(QWidget *parent = nullptr);
+    explicit QEXTIndicatorLight(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTIndicatorLight();
 
     QString text() const;

@@ -80,7 +80,7 @@ public:
         Brand_Warning,
         Brand_Danger
     };
-    Q_ENUM(BrandType)
+    Q_ENUMS(BrandType)
     static const int BrandTypeNum; // = 10
 
     enum TextType {
@@ -89,7 +89,7 @@ public:
         Text_Secondary,
         Text_Placeholder
     };
-    Q_ENUM(TextType)
+    Q_ENUMS(TextType)
     static const int TextTypeNum; // = 4
 
     enum BorderType {
@@ -98,7 +98,7 @@ public:
         Border_Level3,
         Border_Level4
     };
-    Q_ENUM(BorderType)
+    Q_ENUMS(BorderType)
     static const int BorderTypeNum; // = 4
 
     enum ColorType {
@@ -122,7 +122,7 @@ public:
         Color_Grey,
         Color_BlueGrey,
     };
-    Q_ENUM(ColorType)
+    Q_ENUMS(ColorType)
     static const int ColorTypeNum; // = 19
 
     enum DepthType {
@@ -141,7 +141,7 @@ public:
         Depth_A400,
         Depth_A700
     };
-    Q_ENUM(DepthType)
+    Q_ENUMS(DepthType)
     static const int DepthTypeNum; // = 14
 
     ~QEXTQuickPalette();

@@ -596,7 +596,7 @@ void QEXTWaveChart::setHLineVisiable(bool visiable)
     }
 }
 
-void QEXTWaveChart::setvLineVisiable(bool visiable)
+void QEXTWaveChart::setVLineVisiable(bool visiable)
 {
     QEXT_DECL_D(QEXTWaveChart);
     if (d->m_vLineVisiable != visiable) {

@@ -4,7 +4,7 @@
 #include <qextglobal.h>
 #include <QMainWindow>
 
-#include <qexttcpclient.h>
+#include <qextTcpClient.h>
 
 namespace Ui {
 class CMainWindow;
@@ -21,8 +21,13 @@ public:
     ~CMainWindow();
 
 private slots:
-    void displaySocketError(QAbstractSocket::SocketError socketError);
-    void displayTransferError(const QEXTTcpSocket::TransferErrorType &error);
+    void onSocketError(QAbstractSocket::SocketError socketError);
+    void onTransferError(const QEXTTcpSocket::TransferErrorType &error);
+
+    void onSocketConnected();
+    void onSocketDisconnected();
+    void onNewPacketSend(const QString &data);
+    void onNewPacketReceived(const QString &data);
 
     void receiveReplyPacket();
 
@@ -33,7 +38,7 @@ private slots:
 private:
     Ui::CMainWindow *ui;
 
-    QEXTTcpClient *m_tcpClient;
+    QScopedPointer<QEXTTcpClient> m_tcpClient;
     QThread *m_thread;
 };
 

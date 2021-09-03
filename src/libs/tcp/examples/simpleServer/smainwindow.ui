@@ -97,8 +97,23 @@
        <string>Auto send msg</string>
       </property>
       <layout class="QGridLayout" name="gridLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item row="0" column="0">
-        <widget class="QTextEdit" name="textEdit_autoSendMsg">
+        <widget class="QTextEdit" name="textEditServerMsg">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -117,22 +132,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QGroupBox" name="groupBox_2">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="title">
-       <string>Received msg</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QTextBrowser" name="textBrowser_receivedMsg"/>
-       </item>
-      </layout>
-     </widget>
+     <widget class="QTabWidget" name="tabWidgetSocket"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
