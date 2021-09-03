@@ -20,6 +20,7 @@ class QEXT_TCP_API QEXTTcpPacketDispatcher : public QObject, public QEXTObject
     Q_OBJECT
 public:
     QEXTTcpPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket);
+    QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd, const QSharedPointer<QEXTTcpSocket> &socket);
     ~QEXTTcpPacketDispatcher();
 
     bool isSocketValid() const;

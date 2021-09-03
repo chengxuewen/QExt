@@ -26,7 +26,7 @@ QEXTTcpTaskPoolPrivate::~QEXTTcpTaskPoolPrivate()
 }
 
 QEXTTcpTaskPool::QEXTTcpTaskPool(QEXTTcpPacketDispatcher *dispatcher)
-    : QObject(), QEXTObject(*(new QEXTTcpTaskPoolPrivate(this)))
+    : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpTaskPoolPrivate(this)))
 {
     QEXT_DECL_D(QEXTTcpTaskPool);
     d->m_packetDispatcher = dispatcher;

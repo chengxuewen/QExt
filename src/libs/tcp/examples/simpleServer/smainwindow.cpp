@@ -39,11 +39,14 @@ SMainWindow::SMainWindow(QWidget *parent) :
     m_tcpServer.reset(new QEXTTcpServer);
     m_tcpServer->setPacketParser(QSharedPointer<QEXTTcpPacketParser>(new QEXTTcpPacketParser(headerDataInfoVector)));
     m_tcpServer->setPacketDispatcherFactory(QSharedPointer<QEXTTcpPacketDispatcherFactory>(new QEXTTcpPacketDispatcherFactory));
-    connect(m_tcpServer.data(), SIGNAL(socketError(QWeakPointer<QEXTTcpSocket>,QAbstractSocket::SocketError)),
-            this, SLOT(onSocketError(QWeakPointer<QEXTTcpSocket>,QAbstractSocket::SocketError)));
-    connect(m_tcpServer.data(), SIGNAL(serverMessage(QString)), this, SLOT(onServerMessageReceived(QString)));
-    connect(m_tcpServer.data(), SIGNAL(socketConnected(QWeakPointer<QEXTTcpSocket>)), this, SLOT(onSocketConnected(QWeakPointer<QEXTTcpSocket>)));
-    connect(m_tcpServer.data(), SIGNAL(socketDisconnected(QWeakPointer<QEXTTcpSocket>)), this, SLOT(onSocketDisCnnected(QWeakPointer<QEXTTcpSocket>)));
+    connect(m_tcpServer.data(), SIGNAL(socketError(QSharedPointer<QEXTTcpSocket>,QAbstractSocket::SocketError)),
+            this, SLOT(onSocketError(QSharedPointer<QEXTTcpSocket>,QAbstractSocket::SocketError)));
+    connect(m_tcpServer.data(), SIGNAL(serverMessage(QString)),
+            this, SLOT(onServerMessageReceived(QString)));
+    connect(m_tcpServer.data(), SIGNAL(socketConnected(QSharedPointer<QEXTTcpSocket>)),
+            this, SLOT(onSocketConnected(QSharedPointer<QEXTTcpSocket>)));
+    connect(m_tcpServer.data(), SIGNAL(socketDisconnected(QSharedPointer<QEXTTcpSocket>)),
+            this, SLOT(onSocketDisConected(QSharedPointer<QEXTTcpSocket>)));
 }
 
 SMainWindow::~SMainWindow()
@@ -51,10 +54,9 @@ SMainWindow::~SMainWindow()
     delete ui;
 }
 
-void SMainWindow::onSocketError(const QWeakPointer<QEXTTcpSocket> &socket, const QAbstractSocket::SocketError &error)
+void SMainWindow::onSocketError(const QSharedPointer<QEXTTcpSocket> &socket, const QAbstractSocket::SocketError &error)
 {
-    QSharedPointer<QEXTTcpSocket> sharedSocker(socket);
-    qDebug() << "SMainWindow::onSocketError():" << sharedSocker->errorString();
+    qDebug() << "SMainWindow::onSocketError():" << socket->errorString();
 }
 
 void SMainWindow::onServerMessageReceived(const QString &msg)
@@ -63,18 +65,17 @@ void SMainWindow::onServerMessageReceived(const QString &msg)
     ui->textEditServerMsg->append(msg);
 }
 
-void SMainWindow::onSocketConnected(const QWeakPointer<QEXTTcpSocket> &socket)
+void SMainWindow::onSocketConnected(const QSharedPointer<QEXTTcpSocket> &socket)
 {
-    QSharedPointer<QEXTTcpSocket> sharedSocket(socket);
     SSocketMsgBrowser *msgBrowser = new SSocketMsgBrowser(ui->tabWidgetSocket);
-    connect(sharedSocket.data(), SIGNAL(newPacketReceived(QString)), msgBrowser, SLOT(onNewPacketReceived(QString)));
-    connect(sharedSocket.data(), SIGNAL(newPacketSend(QString)), msgBrowser, SLOT(onNewPacketSend(QString)));
-    connect(sharedSocket.data(), SIGNAL(transferErrorString(QString)), msgBrowser, SLOT(onTransferErrorString(QString)));
-    connect(sharedSocket.data(), SIGNAL(disconnected()), msgBrowser, SLOT(deleteLater()));
-    ui->tabWidgetSocket->addTab(msgBrowser, sharedSocket->identityId().toString());
+    connect(socket.data(), SIGNAL(newPacketReceived(QString)), msgBrowser, SLOT(onNewPacketReceived(QString)));
+    connect(socket.data(), SIGNAL(newPacketSend(QString)), msgBrowser, SLOT(onNewPacketSend(QString)));
+    connect(socket.data(), SIGNAL(transferErrorString(QString)), msgBrowser, SLOT(onTransferErrorString(QString)));
+    connect(socket.data(), SIGNAL(disconnected()), msgBrowser, SLOT(deleteLater()));
+    ui->tabWidgetSocket->addTab(msgBrowser, socket->identityId().toString());
 }
 
-void SMainWindow::onSocketDisCnnected(const QWeakPointer<QEXTTcpSocket> &socket)
+void SMainWindow::onSocketDisConected(const QSharedPointer<QEXTTcpSocket> &socket)
 {
 
 }

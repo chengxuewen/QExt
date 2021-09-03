@@ -22,7 +22,17 @@ QEXTTcpPacketDispatcherPrivate::~QEXTTcpPacketDispatcherPrivate()
 
 
 QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket)
-    : QObject(), QEXTObject(*(new QEXTTcpPacketDispatcherPrivate(this)))
+    : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpPacketDispatcherPrivate(this)))
+{
+    QEXT_DECL_D(QEXTTcpPacketDispatcher);
+    connect(this, SIGNAL(send()), socket.data(), SLOT(sendPacket()));
+    d->m_socket = socket.toWeakRef();
+    d->m_taskPool = QSharedPointer<QEXTTcpTaskPool>(new QEXTTcpTaskPool(this));
+    this->setTaskFactory(QSharedPointer<QEXTTcpTaskFactory>(new QEXTTcpTaskFactory));
+}
+
+QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd, const QSharedPointer<QEXTTcpSocket> &socket)
+    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
 {
     QEXT_DECL_D(QEXTTcpPacketDispatcher);
     connect(this, SIGNAL(send()), socket.data(), SLOT(sendPacket()));

@@ -21,10 +21,10 @@ public:
 
 
 private slots:
-    void onSocketError(const QWeakPointer<QEXTTcpSocket> &socket, const QAbstractSocket::SocketError &error);
+    void onSocketError(const QSharedPointer<QEXTTcpSocket> &socket, const QAbstractSocket::SocketError &error);
     void onServerMessageReceived(const QString &msg);
-    void onSocketConnected(const QWeakPointer<QEXTTcpSocket> &socket);
-    void onSocketDisCnnected(const QWeakPointer<QEXTTcpSocket> &socket);
+    void onSocketConnected(const QSharedPointer<QEXTTcpSocket> &socket);
+    void onSocketDisConected(const QSharedPointer<QEXTTcpSocket> &socket);
 
     void on_pushButton_ctrl_clicked();
 

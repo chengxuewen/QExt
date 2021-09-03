@@ -24,7 +24,7 @@ QEXTTcpSocketPrivate::~QEXTTcpSocketPrivate()
 
 
 QEXTTcpSocket::QEXTTcpSocket()
-    : QTcpSocket(), QEXTObject(*(new QEXTTcpSocketPrivate(this)))
+    : QTcpSocket(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpSocketPrivate(this)))
 {
     QEXT_DECL_D(QEXTTcpSocket);
     connect(this, SIGNAL(connected()), this, SLOT(updateIdentityId()));
@@ -32,7 +32,7 @@ QEXTTcpSocket::QEXTTcpSocket()
 }
 
 QEXTTcpSocket::QEXTTcpSocket(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser)
-    : QTcpSocket(), QEXTObject(*(new QEXTTcpSocketPrivate(this)))
+    : QTcpSocket(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpSocketPrivate(this)))
 {
     QEXT_DECL_D(QEXTTcpSocket);
     d->m_packetParser = packetParser;
@@ -41,7 +41,7 @@ QEXTTcpSocket::QEXTTcpSocket(const QSharedPointer<QEXTTcpPacketParserInterface> 
 }
 
 QEXTTcpSocket::QEXTTcpSocket(QEXTTcpSocketPrivate &dd, const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser)
-    : QTcpSocket(), QEXTObject(dd)
+    : QTcpSocket(QEXT_DECL_NULLPTR), QEXTObject(dd)
 {
     QEXT_DECL_D(QEXTTcpSocket);
     d->m_packetParser = packetParser;

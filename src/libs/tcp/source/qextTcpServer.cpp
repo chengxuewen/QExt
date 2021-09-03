@@ -45,7 +45,7 @@ void QEXTTcpServerPrivate::initServer()
 
 
 QEXTTcpServer::QEXTTcpServer()
-    : QTcpServer(), QEXTObject(*(new QEXTTcpServerPrivate(this)))
+    : QTcpServer(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpServerPrivate(this)))
 {
     QEXT_DECL_D(QEXTTcpServer);
     d->initServer();
@@ -53,7 +53,7 @@ QEXTTcpServer::QEXTTcpServer()
 }
 
 QEXTTcpServer::QEXTTcpServer(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser)
-    : QTcpServer(), QEXTObject(*(new QEXTTcpServerPrivate(this)))
+    : QTcpServer(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpServerPrivate(this)))
 {
     QEXT_DECL_D(QEXTTcpServer);
     d->initServer();
@@ -63,7 +63,7 @@ QEXTTcpServer::QEXTTcpServer(const QSharedPointer<QEXTTcpPacketParserInterface> 
 
 QEXTTcpServer::QEXTTcpServer(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser,
                              const QSharedPointer<QEXTTcpPacketDispatcherFactory> &dispatcherFactory)
-    : QTcpServer(), QEXTObject(*(new QEXTTcpServerPrivate(this)))
+    : QTcpServer(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpServerPrivate(this)))
 {
     QEXT_DECL_D(QEXTTcpServer);
     d->initServer();
@@ -72,7 +72,7 @@ QEXTTcpServer::QEXTTcpServer(const QSharedPointer<QEXTTcpPacketParserInterface> 
 }
 
 QEXTTcpServer::QEXTTcpServer(QEXTTcpServerPrivate &dd)
-    : QTcpServer(), QEXTObject(dd)
+    : QTcpServer(QEXT_DECL_NULLPTR), QEXTObject(dd)
 {
     QEXT_DECL_D(QEXTTcpServer);
     d->initServer();

@@ -27,7 +27,7 @@ QEXTTcpTaskPrivate::~QEXTTcpTaskPrivate()
 
 QEXTTcpTask::QEXTTcpTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher,
                          const QSharedPointer<QEXTTcpPacketInterface> &packet)
-    : QObject(), QRunnable(), QEXTObject(*(new QEXTTcpTaskPrivate(this)))
+    : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpTaskPrivate(this)))
 {
     QEXT_DECL_D(QEXTTcpTask);
     d->m_packetDispatcher = dispatcher;
@@ -38,7 +38,7 @@ QEXTTcpTask::QEXTTcpTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatch
 QEXTTcpTask::QEXTTcpTask(QEXTTcpTaskPrivate &dd,
                          const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher,
                          const QSharedPointer<QEXTTcpPacketInterface> &packet)
-    : QObject(), QRunnable(), QEXTObject(dd)
+    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
 {
     QEXT_DECL_D(QEXTTcpTask);
     d->m_packetDispatcher = dispatcher;

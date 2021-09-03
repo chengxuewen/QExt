@@ -19,20 +19,20 @@ QEXTTcpPacketTransceiverPrivate::~QEXTTcpPacketTransceiverPrivate()
 }
 
 QEXTTcpPacketTransceiver::QEXTTcpPacketTransceiver(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher)
-    : QObject(), QEXTObject(*(new QEXTTcpPacketTransceiverPrivate(this)))
+    : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpPacketTransceiverPrivate(this)))
 {
     QEXT_DECL_D(QEXTTcpPacketTransceiver);
     d->m_packetDispatcher = dispatcher;
 }
 
 QEXTTcpPacketTransceiver::QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate &dd)
-    : QObject(), QEXTObject(dd)
+    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
 {
 }
 
 QEXTTcpPacketTransceiver::QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate &dd,
                                                    const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher)
-    : QObject(), QEXTObject(dd)
+    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
 {
     QEXT_DECL_D(QEXTTcpPacketTransceiver);
     d->m_packetDispatcher = dispatcher;

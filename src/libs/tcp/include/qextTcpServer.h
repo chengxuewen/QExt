@@ -33,10 +33,10 @@ public:
 
 Q_SIGNALS:
     void serverMessage(const QString &msg);
-    void socketError(const QWeakPointer<QEXTTcpSocket> &socket, const QAbstractSocket::SocketError &error);
-    void socketTransferError(const QWeakPointer<QEXTTcpSocket> &socket, const QEXTTcpSocket::TransferErrorType &error);
-    void socketConnected(const QWeakPointer<QEXTTcpSocket> &socket);
-    void socketDisconnected(const QWeakPointer<QEXTTcpSocket> &socket);
+    void socketError(const QSharedPointer<QEXTTcpSocket> &socket, const QAbstractSocket::SocketError &error);
+    void socketTransferError(const QSharedPointer<QEXTTcpSocket> &socket, const QEXTTcpSocket::TransferErrorType &error);
+    void socketConnected(const QSharedPointer<QEXTTcpSocket> &socket);
+    void socketDisconnected(const QSharedPointer<QEXTTcpSocket> &socket);
 
 protected Q_SLOTS:
     void onSocketDisconnected();
