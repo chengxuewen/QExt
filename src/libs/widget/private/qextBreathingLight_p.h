@@ -3,7 +3,7 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 #include <QColor>
 #include <QTimer>

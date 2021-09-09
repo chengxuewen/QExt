@@ -4,7 +4,7 @@
 #include <qextWidgetGlobal.h>
 #include <qextNavButton.h>
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 class QEXTNavButton;
 class QEXT_WIDGET_API QEXTNavButtonPrivate : public QEXTObjectPrivate

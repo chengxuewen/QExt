@@ -9,10 +9,12 @@ class QEXTObjectPrivate;
 class QEXT_CORE_API QEXTObject
 {
 public:
-    QEXTObject(QEXTObject *parent = QEXT_DECL_NULLPTR);
-    QEXTObject(QEXTObjectPrivate &dd, QEXTObject *parent = QEXT_DECL_NULLPTR);
+    QEXTObject();
     virtual ~QEXTObject();
 
+protected:
+    explicit QEXTObject(QEXTObjectPrivate &dd);
+    
     QScopedPointer<QEXTObjectPrivate> d_objPtr;
 
 private:

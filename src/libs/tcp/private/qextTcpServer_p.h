@@ -4,7 +4,7 @@
 #include <qextTcpGlobal.h>
 #include <qextTcpSocket.h>
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 #include <QSharedPointer>
 #include <QMutex>

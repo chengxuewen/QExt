@@ -1,7 +1,7 @@
 #ifndef QEXTTCPSOCKET_P_H
 #define QEXTTCPSOCKET_P_H
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 #include <qextTcpPacketInterface.h>
 #include <qextTcpPacketParserInterface.h>
 #include <qextTcpPacketDispatcher.h>

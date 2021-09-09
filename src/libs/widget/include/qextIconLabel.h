@@ -2,7 +2,7 @@
 #define QEXTICONLABEL_H
 
 #include <qextWidgetGlobal.h>
-#include <qextobject.h>
+#include <qextObject.h>
 
 #include <QWidget>
 

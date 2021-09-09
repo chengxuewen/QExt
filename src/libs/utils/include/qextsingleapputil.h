@@ -2,7 +2,7 @@
 #define QEXTSINGLEAPPUTIL_H
 
 #include <qextutilsglobal.h>
-#include <qextobject.h>
+#include <qextObject.h>
 
 #include <QObject>
 

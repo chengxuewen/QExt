@@ -4,7 +4,7 @@
 #include <qextWidgetGlobal.h>
 #include <qextLedText.h>
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 #include <QTimer>
 #include <QColor>

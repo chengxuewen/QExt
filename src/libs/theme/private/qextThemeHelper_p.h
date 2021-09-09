@@ -4,7 +4,7 @@
 #include <qextThemeGlobal.h>
 #include <qextThemeHelper.h>
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 class QEXTThemeHelper;
 class QEXT_THEME_API QEXTThemeHelperPrivate : public QEXTObjectPrivate

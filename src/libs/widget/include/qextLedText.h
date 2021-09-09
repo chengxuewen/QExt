@@ -14,7 +14,7 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <qextobject.h>
+#include <qextObject.h>
 
 #ifndef Q_WS_QWS
     #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))

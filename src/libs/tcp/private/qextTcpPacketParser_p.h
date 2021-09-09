@@ -1,7 +1,7 @@
 #ifndef QEXTTCPPACKETPARSER_P_H
 #define QEXTTCPPACKETPARSER_P_H
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 #include <qextid.h>
 
 #include <qextTcpGlobal.h>

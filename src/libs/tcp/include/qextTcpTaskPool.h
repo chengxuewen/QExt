@@ -3,7 +3,7 @@
 
 #include <qextTcpGlobal.h>
 
-#include <qextobject.h>
+#include <qextObject.h>
 #include <qextid.h>
 
 #include <QObject>

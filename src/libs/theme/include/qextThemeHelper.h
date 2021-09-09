@@ -2,7 +2,7 @@
 #define QEXTTHEMEHELPER_H
 
 #include <qextThemeGlobal.h>
-#include <qextobject.h>
+#include <qextObject.h>
 
 #include <QObject>
 

@@ -5,7 +5,7 @@
 #include <qextTcpPacketHeaderInterface.h>
 #include <qextTcpPacketVariant.h>
 
-#include <qextobject.h>
+#include <qextObject.h>
 
 #include <QVector>
 #include <QPair>

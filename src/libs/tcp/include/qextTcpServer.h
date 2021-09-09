@@ -5,7 +5,7 @@
 #include <qextTcpTask.h>
 #include <qextTcpPacketDispatcher.h>
 
-#include <qextobject.h>
+#include <qextObject.h>
 
 #include <QTcpServer>
 

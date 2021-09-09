@@ -4,7 +4,7 @@
 #include <qextutilsglobal.h>
 #include <qextdiskinfo.h>
 
-#include <qextobject.h>
+#include <qextObject.h>
 
 #include <QObject>
 

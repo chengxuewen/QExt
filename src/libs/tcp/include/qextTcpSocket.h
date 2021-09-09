@@ -1,7 +1,7 @@
 #ifndef QEXTTCPSOCKET_H
 #define QEXTTCPSOCKET_H
 
-#include <qextobject.h>
+#include <qextObject.h>
 #include <qextid.h>
 
 #include <qextTcpGlobal.h>

@@ -16,7 +16,7 @@
  */
 
 #include <qextWidgetGlobal.h>
-#include <qextobject.h>
+#include <qextObject.h>
 
 #include <QPointer>
 #include <QListView>

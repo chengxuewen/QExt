@@ -1,7 +1,7 @@
 #ifndef QEXTDISKINFO_H
 #define QEXTDISKINFO_H
 
-#include <qextobject.h>
+#include <qextObject.h>
 
 #include <qextutilsglobal.h>
 

@@ -4,7 +4,7 @@
 #include <qextutilsglobal.h>
 #include <qextdiskinfo.h>
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 #include <QProcess>
 #include <QTimer>

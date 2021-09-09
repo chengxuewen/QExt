@@ -3,7 +3,7 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <qextobject.h>
+#include <qextObject.h>
 
 /**
  * IP地址输入框控件 作者:feiyangqingyun(QQ:517216493) 2017-8-11

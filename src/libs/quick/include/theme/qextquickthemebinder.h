@@ -32,7 +32,7 @@
 
 #include <qextquickglobal.h>
 
-#include <qextobject.h>
+#include <qextObject.h>
 
 #include <QObject>
 #include <QScopedPointer>

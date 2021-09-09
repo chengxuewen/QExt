@@ -4,7 +4,7 @@
 #include <qextWidgetGlobal.h>
 #include <qextIconLabel.h>
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 class QEXTIconLabel;
 class QEXT_WIDGET_API QEXTIconLabelPrivate : public QEXTObjectPrivate

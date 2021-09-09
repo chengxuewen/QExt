@@ -3,7 +3,7 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <qextobject.h>
+#include <qextObject.h>
 
 /**
  * feiyangqingyun(QQ:517216493) 2018-8-15

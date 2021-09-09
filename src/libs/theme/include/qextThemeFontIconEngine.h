@@ -2,7 +2,7 @@
 #define QEXTTHEMEFONTICONENGINE_H
 
 #include <qextThemeGlobal.h>
-#include <qextobject.h>
+#include <qextObject.h>
 
 #include <qextThemePalette.h>
 

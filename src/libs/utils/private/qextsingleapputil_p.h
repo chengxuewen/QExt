@@ -1,7 +1,7 @@
 #ifndef QEXTSINGLEAPPUTIL_P_H
 #define QEXTSINGLEAPPUTIL_P_H
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 #include <qextutilsglobal.h>
 #include <qextsingleapputil.h>
 

@@ -4,7 +4,7 @@
 #include <qextWidgetGlobal.h>
 #include <qextNavListWidget.h>
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 #include <QPointer>
 #include <QPainter>

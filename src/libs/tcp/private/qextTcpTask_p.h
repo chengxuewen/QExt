@@ -1,7 +1,7 @@
 #ifndef QEXTTCPTASK_P_H
 #define QEXTTCPTASK_P_H
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 #include <qextTcpGlobal.h>
 #include <qextTcpTask.h>

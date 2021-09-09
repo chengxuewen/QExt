@@ -133,7 +133,7 @@ endif()
 #--------------------------------------------------------------------------------
 # Set option
 #--------------------------------------------------------------------------------
-option(QWT_BUILD_SHARED_LIBS "Build shared library" OFF)
+option(QWT_BUILD_SHARED_LIBS "Build shared library" ON)
 option(QWT_BUILD_TESTS "Build tests" ON)
 option(QWT_BUILD_EXAMPLES "Build examples" ON)
 option(QWT_BUILD_COMPILER_WARNING "Build target with compiler warnings" OFF)

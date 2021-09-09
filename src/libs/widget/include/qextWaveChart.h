@@ -2,7 +2,7 @@
 #define QEXTWAVECHART_H
 
 #include <qextWidgetGlobal.h>
-#include <qextobject.h>
+#include <qextObject.h>
 
 /**
  * 曲线图表控件 作者:feiyangqingyun(QQ:517216493) 2016-10-23

@@ -1,6 +1,6 @@
 #include "qextsimpleobject.h"
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 class QEXTSimpleObjectPrivate : public QEXTObjectPrivate
 {

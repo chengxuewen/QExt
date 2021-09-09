@@ -4,7 +4,7 @@
 #include <qextWidgetGlobal.h>
 #include <qextSwitchButton.h>
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 #include <QVariantAnimation>
 

@@ -2,7 +2,7 @@
 #define QEXTWAVECHART_P_H
 
 #include <qextWidgetGlobal.h>
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 #include <QRectF>
 #include <QColor>

@@ -33,17 +33,17 @@ set(qext_lib_public_headers
     include/qextargument.h
     include/qextglobal.h
     include/qextid.h
-    include/qextobject.h
+    include/qextObject.h
 
     )
 
 set(qext_lib_private_headers
-    private/qextobject_p.h
+    private/qextObject_p.h
     )
 
 set(qext_lib_sources
     source/qextid.cpp
-    source/qextobject.cpp
+    source/qextObject.cpp
     )
 
 set(qext_lib_forms

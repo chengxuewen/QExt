@@ -1,7 +1,7 @@
 #ifndef QEXTSIMPLEOBJECT_H
 #define QEXTSIMPLEOBJECT_H
 
-#include <qextobject.h>
+#include <qextObject.h>
 
 #include <QObject>
 

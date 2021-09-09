@@ -1,7 +1,7 @@
 #include <qextThemeFontIconEngine.h>
 #include <qextThemeHelper.h>
 
-#include <qextobject_p.h>
+#include <qextObject_p.h>
 
 #include <QtGui/private/qiconloader_p.h>
 
