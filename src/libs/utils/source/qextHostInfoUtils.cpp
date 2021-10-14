@@ -1,5 +1,5 @@
-#include <qexthostinfoutils.h>
-#include <qexthostinfoutils_p.h>
+#include <qextHostInfoUtils.h>
+#include <qextHostInfoUtils_p.h>
 
 #include <QFileInfoList>
 #include <QDir>

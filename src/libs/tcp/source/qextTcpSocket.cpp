@@ -1,5 +1,6 @@
 #include <qextTcpSocket.h>
 #include <qextTcpSocket_p.h>
+#include <qextTcpPacketParser.h>
 #include <qextTcpUtils.h>
 
 #include <QDebug>
@@ -29,24 +30,28 @@ QEXTTcpSocket::QEXTTcpSocket()
     QEXT_DECL_D(QEXTTcpSocket);
     connect(this, SIGNAL(connected()), this, SLOT(updateIdentityId()));
     connect(this, SIGNAL(readyRead()), this, SLOT(readPacket()));
+    this->setPacketParser(QSharedPointer<QEXTTcpPacketParserInterface>(new QEXTTcpPacketParser));
+    this->setPacketDispatcher(QSharedPointer<QEXTTcpPacketDispatcher>(new QEXTTcpPacketDispatcher(this)));
 }
 
 QEXTTcpSocket::QEXTTcpSocket(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser)
     : QTcpSocket(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpSocketPrivate(this)))
 {
     QEXT_DECL_D(QEXTTcpSocket);
-    d->m_packetParser = packetParser;
     connect(this, SIGNAL(connected()), this, SLOT(updateIdentityId()));
     connect(this, SIGNAL(readyRead()), this, SLOT(readPacket()));
+    this->setPacketParser(packetParser);
+    this->setPacketDispatcher(QSharedPointer<QEXTTcpPacketDispatcher>(new QEXTTcpPacketDispatcher(this)));
 }
 
 QEXTTcpSocket::QEXTTcpSocket(QEXTTcpSocketPrivate &dd, const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser)
     : QTcpSocket(QEXT_DECL_NULLPTR), QEXTObject(dd)
 {
     QEXT_DECL_D(QEXTTcpSocket);
-    d->m_packetParser = packetParser;
     connect(this, SIGNAL(connected()), this, SLOT(updateIdentityId()));
     connect(this, SIGNAL(readyRead()), this, SLOT(readPacket()));
+    this->setPacketParser(packetParser);
+    this->setPacketDispatcher(QSharedPointer<QEXTTcpPacketDispatcher>(new QEXTTcpPacketDispatcher(this)));
 }
 
 QEXTTcpSocket::~QEXTTcpSocket()
@@ -219,7 +224,7 @@ void QEXTTcpSocket::abortSocket()
 void QEXTTcpSocket::readPacket()
 {
     QEXT_DECL_D(QEXTTcpSocket);
-//    qDebug() << "QEXTTcpSocket::readPacket():" << this->thread();
+    //    qDebug() << "QEXTTcpSocket::readPacket():" << this->thread();
     if (!d->m_packetParser.isNull())
     {
         bool success = true;
@@ -231,14 +236,14 @@ void QEXTTcpSocket::readPacket()
             {
                 if (!d->m_packetDispatcher->dispatchPacket(packet))
                 {
-//                    QEXTTcpUtils::printPacket(packet);
+                    //                    QEXTTcpUtils::printPacket(packet);
                     emit this->transferError(QEXTTcpSocket::TransferError_PacketTransceiverNotExist);
                     emit this->transferErrorString(this->transferErrorText(QEXTTcpSocket::TransferError_PacketTransceiverNotExist));
                 }
             }
             else
             {
-//                QEXTTcpUtils::printPacket(packet);
+                //                QEXTTcpUtils::printPacket(packet);
                 emit this->transferError(QEXTTcpSocket::TransferError_PacketDispatcherNotExist);
                 emit this->transferErrorString(this->transferErrorText(QEXTTcpSocket::TransferError_PacketDispatcherNotExist));
             }

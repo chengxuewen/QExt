@@ -3,7 +3,7 @@
 
 #include <qextglobal.h>
 
-#include <qextutilsglobal.h>
+#include <qextUtilsGlobal.h>
 
 #include <QObject>
 

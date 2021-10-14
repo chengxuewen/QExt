@@ -87,7 +87,7 @@ bool QEXTTcpPacketTransceiver::sendReply(const QSharedPointer<QEXTTcpPacketInter
         this->setError("packetParser not exist");
         return false;
     }
-    if (!packetParser->setReplyPacket(sendPacket.data(), receivedPacket.data()))
+    if (!packetParser->setReplyPacket(sendPacket, receivedPacket))
     {
         this->setError("setReplyPacket failed");
         return false;
@@ -110,7 +110,7 @@ bool QEXTTcpPacketTransceiver::sendNotify(const QSharedPointer<QEXTTcpPacketInte
         this->setError("packetParser not exist");
         return false;
     }
-    if (!packetParser->setNotifyPacket(sendPacket.data()))
+    if (!packetParser->setNotifyPacket(sendPacket))
     {
         this->setError("setNotifyPacket failed");
         return false;
@@ -133,7 +133,7 @@ bool QEXTTcpPacketTransceiver::sendRequest(const QSharedPointer<QEXTTcpPacketInt
         this->setError("packetParser not exist");
         return false;
     }
-    if (!packetParser->setRequestPacket(sendPacket.data()))
+    if (!packetParser->setRequestPacket(sendPacket))
     {
         this->setError("setRequestPacket failed");
         return false;
@@ -141,7 +141,8 @@ bool QEXTTcpPacketTransceiver::sendRequest(const QSharedPointer<QEXTTcpPacketInt
     return dispatcher->sendPacket(this, sendPacket);
 }
 
-bool QEXTTcpPacketTransceiver::sendRequestSync(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket, QSharedPointer<QEXTTcpPacketInterface> &receivedPacket)
+bool QEXTTcpPacketTransceiver::sendRequestSync(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket,
+                                               QSharedPointer<QEXTTcpPacketInterface> &receivedPacket)
 {
     QEXT_DECL_D(QEXTTcpPacketTransceiver);
     this->setRequestSyncFlag(sendPacket);
@@ -222,9 +223,8 @@ QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketTransceiver::dequeuePacket()
 void QEXTTcpPacketTransceiver::enqueuePacket(const QSharedPointer<QEXTTcpPacketInterface> &packet)
 {
     QEXT_DECL_D(QEXTTcpPacketTransceiver);
-    QSharedPointer<QEXTTcpPacketDispatcher> dispatcher = this->dispatcher();
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser = dispatcher->packetParser();
-    if (packetParser->checkIsSyncReplyPacket(this->syncSendedPacket().data(), packet.data()))
+    QSharedPointer<QEXTTcpPacketParserInterface> packetParser = d->m_packetDispatcher->packetParser();
+    if (packetParser->checkIsSyncReplyPacket(this->syncSendedPacket(), packet))
     {
         this->resetRequestSyncFlag(packet);
     }
@@ -234,6 +234,13 @@ void QEXTTcpPacketTransceiver::enqueuePacket(const QSharedPointer<QEXTTcpPacketI
         d->m_receivedPacketQueue.enqueue(packet);
         emit this->packetReady();
     }
+}
+
+QSharedPointer<QEXTTcpPacketParserInterface> QEXTTcpPacketTransceiver::packetParser() const
+{
+    QEXT_DECL_DC(QEXTTcpPacketTransceiver);
+    QMutexLocker locker(&d->m_packetDispatcherMutex);
+    return d->m_packetDispatcher->packetParser();
 }
 
 QSharedPointer<QEXTTcpPacketDispatcher> QEXTTcpPacketTransceiver::dispatcher() const

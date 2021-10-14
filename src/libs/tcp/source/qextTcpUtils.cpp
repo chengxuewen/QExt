@@ -21,7 +21,8 @@ QString QEXTTcpUtils::packetData(QEXTTcpPacketInterface *packet)
         QString name = dataList.at(i);
         packetData.append(QString("Packet-Header:[%1]=%2\n").arg(name).arg(packet->header()->headerData(name).toHostString()));
     }
-    packetData.append(QString("Packet-Content=%2\n").arg(packet->content().data()));
+    packetData.append(QString("Packet-Content:string=%2\n").arg(packet->content().data()));
+    packetData.append(QString("Packet-Content:hex=%2\n").arg(packet->content().toHex().data()));
     return packetData;
 }
 
@@ -38,5 +39,6 @@ void QEXTTcpUtils::printPacket(QEXTTcpPacketInterface *packet)
         QString name = dataList.at(i);
         qDebug() << QString("Packet-Header:[%1]=%2").arg(name).arg(packet->header()->headerData(name).toHostString());
     }
-    qDebug() << QString("Packet-Content=%2").arg(packet->content().data());
+    qDebug() << QString("Packet-Content:string=%2").arg(packet->content().data());
+    qDebug() << QString("Packet-Content:hex=%2").arg(packet->content().toHex().data());
 }

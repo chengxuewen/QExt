@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QSharedPointer>
 
+class QEXTTcpPacketParserInterface;
 class QEXTTcpPacketDispatcher;
 class QEXTTcpPacketInterface;
 class QEXTTcpPacketTransceiverPrivate;
@@ -41,6 +42,7 @@ public:
     QSharedPointer<QEXTTcpPacketInterface> dequeuePacket();
     void enqueuePacket(const QSharedPointer<QEXTTcpPacketInterface> &packet);
 
+    QSharedPointer<QEXTTcpPacketParserInterface> packetParser() const;
     QSharedPointer<QEXTTcpPacketDispatcher> dispatcher() const;
     QString lastError() const;
 

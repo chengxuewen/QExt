@@ -14,15 +14,17 @@ class QEXT_TCP_API QEXTTcpTask : public QObject, public QRunnable, public QEXTOb
 {
     Q_OBJECT
 public:
-    QEXTTcpTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher,
+    QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver);
+    QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
                 const QSharedPointer<QEXTTcpPacketInterface> &packet);
     QEXTTcpTask(QEXTTcpTaskPrivate &dd,
-                const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher,
+                const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver);
+    QEXTTcpTask(QEXTTcpTaskPrivate &dd,
+                const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
                 const QSharedPointer<QEXTTcpPacketInterface> &packet);
     ~QEXTTcpTask();
 
-    QSharedPointer<QEXTTcpPacketDispatcher> dispatcher() const;
-    QSharedPointer<QEXTTcpPacketInterface> packet() const;
+    QSharedPointer<QEXTTcpPacketInterface> receivedPacket() const;
     QSharedPointer<QEXTTcpPacketTransceiver> packetTransceiver() const;
     QDateTime timestamp() const;
 
@@ -52,24 +54,12 @@ private:
 class QEXT_TCP_API QEXTTcpPostBackTask : public QEXTTcpTask
 {
 public:
-    QEXTTcpPostBackTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, const QSharedPointer<QEXTTcpPacketInterface> &packet);
-    QEXTTcpPostBackTask(QEXTTcpTaskPrivate &dd, const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, const QSharedPointer<QEXTTcpPacketInterface> &packet);
+    QEXTTcpPostBackTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver, const QSharedPointer<QEXTTcpPacketInterface> &packet);
+    QEXTTcpPostBackTask(QEXTTcpTaskPrivate &dd, const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver, const QSharedPointer<QEXTTcpPacketInterface> &packet);
     ~QEXTTcpPostBackTask();
 
     QEXTId typeId() const QEXT_DECL_OVERRIDE;
     void run() QEXT_DECL_OVERRIDE;
 };
-
-
-class QEXT_TCP_API QEXTTcpTaskFactory
-{
-public:
-    QEXTTcpTaskFactory() {}
-    virtual ~QEXTTcpTaskFactory() {}
-
-    virtual QEXTTcpTask *createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher,
-                                    const QSharedPointer<QEXTTcpPacketInterface> &packet);
-};
-
 
 #endif // QEXTTCPTASK_H

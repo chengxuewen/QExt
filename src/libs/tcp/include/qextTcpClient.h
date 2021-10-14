@@ -9,7 +9,9 @@
 
 #include <QTcpSocket>
 
+class QEXTTcpTask;
 class QEXTTcpSocket;
+class QEXTTcpFactory;
 class QEXTTcpClientProxy;
 class QEXTTcpPacketDispatcher;
 class QEXTTcpPacketParserInterface;
@@ -19,18 +21,9 @@ class QEXT_TCP_API QEXTTcpClient : public QEXTTcpPacketTransceiver
     Q_OBJECT
 public:
     QEXTTcpClient();
-    QEXTTcpClient(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser);
-    QEXTTcpClient(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
-    QEXTTcpClient(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser,
-                  const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
+    QEXTTcpClient(const QSharedPointer<QEXTTcpFactory> &tcpFactory);
     QEXTTcpClient(QEXTTcpClientPrivate &dd);
-    QEXTTcpClient(QEXTTcpClientPrivate &dd,
-                  const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
-    QEXTTcpClient(QEXTTcpClientPrivate &dd,
-                  const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser);
-    QEXTTcpClient(QEXTTcpClientPrivate &dd,
-                  const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser,
-                  const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
+    QEXTTcpClient(QEXTTcpClientPrivate &dd, const QSharedPointer<QEXTTcpFactory> &tcpFactory);
     ~QEXTTcpClient();
 
     QSharedPointer<QEXTTcpSocket> socket() const;
@@ -43,10 +36,15 @@ public:
     QString serverAddress() const;
     quint16 serverPort() const;
 
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser() const;
-    void setPacketParser(const QSharedPointer<QEXTTcpPacketParserInterface> packetParser);
+    int maxTaskThreadCount() const;
+    void setMaxTaskThreadCount(int maxThreadCount);
 
-    QSharedPointer<QEXTTcpPacketDispatcher> packetDispatcher() const;
+    void runTask(int function);
+    void runTask(QEXTTcpTask *task);
+    QSharedPointer<QEXTTcpFactory> tcpFactory() const;
+    void setTcpFactory(const QSharedPointer<QEXTTcpFactory> tcpFactory);
+
+    QEXTTcpPacketDispatcher *packetDispatcher() const;
     void setPacketDispatcher(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
 
 Q_SIGNALS:

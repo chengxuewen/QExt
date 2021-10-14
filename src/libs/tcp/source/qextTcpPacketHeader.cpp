@@ -1,7 +1,7 @@
 #include <qextTcpPacketHeader.h>
 #include <qextTcpPacketHeader_p.h>
 #include <qextTcpPacketVariant.h>
-#include <qextnetworkutils.h>
+#include <qextNetworkUtils.h>
 
 #include <QDebug>
 

@@ -1,5 +1,5 @@
 #include <QtTest>
-#include <qextdatetimeutils.h>
+#include <qextDateTimeUtils.h>
 
 #include <QElapsedTimer>
 #include <QDateTime>

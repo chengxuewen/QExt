@@ -1,5 +1,5 @@
 #include <QtTest>
-#include <qextnetworkutils.h>
+#include <qextNetworkUtils.h>
 
 #include <QtEndian>
 #include <QByteArray>

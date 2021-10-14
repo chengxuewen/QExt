@@ -13,6 +13,7 @@
 #include <QMap>
 
 class QEXTTcpSocket;
+class QEXTTcpFactory;
 class QEXTTcpTaskPool;
 class QEXTTcpPacketDispatcher;
 class QEXTTcpPacketParserInterface;
@@ -23,12 +24,11 @@ public:
     explicit QEXTTcpClientPrivate(QEXTTcpClient *qq);
     ~QEXTTcpClientPrivate();
 
-    mutable QMutex m_packetParserMutex;
-    QSharedPointer<QEXTTcpPacketParserInterface> m_packetParser;
-
     mutable QMutex m_socketMutex;
+    int m_maxTaskThreadCount;
     QSharedPointer<QEXTTcpSocket> m_socket;
     QSharedPointer<QThread> m_socketThread;
+    QSharedPointer<QEXTTcpFactory> m_tcpFactory;
 
 private:
     QEXT_DECL_PUBLIC(QEXTTcpClient)

@@ -28,7 +28,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.5.5.7 LANGUAGES CXX)
+project(QEXT VERSION 0.6.3.1 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -287,7 +287,7 @@ include(qextMacroCopyDependenceLib)
 #--------------------------------------------------------------------------------
 # Set option
 #--------------------------------------------------------------------------------
-option(QEXT_BUILD_SHARED_LIBS "Build shared library" ON)
+option(QEXT_BUILD_SHARED_LIBS "Build shared library" OFF)
 option(QEXT_BUILD_TESTS "Build tests" ON)
 option(QEXT_BUILD_EXAMPLES "Build examples" ON)
 option(QEXT_BUILD_PLUGINS "Build plugins" OFF)

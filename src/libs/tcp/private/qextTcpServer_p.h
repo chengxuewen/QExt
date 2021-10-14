@@ -14,6 +14,7 @@
 #include <QPointer>
 #include <QQueue>
 
+class QEXTTcpFactory;
 class QEXTTcpTaskPool;
 class QEXTTcpTaskThreadPool;
 class QEXTTcpPacketParserInterface;
@@ -28,14 +29,16 @@ public:
     void initServer();
 
     mutable QMutex m_socketMutex;
-    int m_maxTcpSocketCount;
+    QHostAddress m_address;
+    quint16 m_port;
+    size_t m_maxSocketConnectionCount;
+    size_t m_maxTaskThreadCount;
     QSet<QSharedPointer<QEXTTcpSocket> > m_allTcpSocketSet;
     QMap<QEXTId, QSharedPointer<QEXTTcpSocket> > m_idToTcpSocketMap;
+    QMap<QEXTId, QSharedPointer<QEXTTcpPacketDispatcher> > m_idToTcpPacketDispatcher;
     QQueue<QSharedPointer<QThread> > m_socketWorkThreadQueue;
 
-    QSharedPointer<QEXTTcpPacketParserInterface> m_packetParser;
-    QSharedPointer<QEXTTcpPacketDispatcherFactory> m_packetDispatcherFactory;
-
+    QSharedPointer<QEXTTcpFactory> m_tcpFactory;
     QThread m_socketThread;
 
 private:

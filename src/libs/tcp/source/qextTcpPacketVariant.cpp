@@ -1,6 +1,6 @@
 #include <qextTcpPacketVariant.h>
 
-#include <qextnetworkutils.h>
+#include <qextNetworkUtils.h>
 
 #include <QDebug>
 

@@ -3,11 +3,9 @@
 
 #include <qextObject.h>
 
-#include <qextutilsglobal.h>
+#include <qextUtilsGlobal.h>
 
 #include <QObject>
-
-
 
 class QEXT_UTILS_API QEXTDiskInfo
 {
