@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <qextHostInfoUtils.h>
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 
 

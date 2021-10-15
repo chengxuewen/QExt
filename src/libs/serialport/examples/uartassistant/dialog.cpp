@@ -1,5 +1,5 @@
-#include "qextserialport.h"
-#include "qextserialenumerator.h"
+#include "qextSerialPort.h"
+#include "qextSerialEnumerator.h"
 #include "dialog.h"
 #include "ui_dialog.h"
 #include <QtCore>

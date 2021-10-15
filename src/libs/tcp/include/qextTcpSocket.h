@@ -2,7 +2,7 @@
 #define QEXTTCPSOCKET_H
 
 #include <qextObject.h>
-#include <qextid.h>
+#include <qextId.h>
 
 #include <qextTcpGlobal.h>
 

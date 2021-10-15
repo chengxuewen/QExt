@@ -1,7 +1,7 @@
 #ifndef QEXTOBJECT_P_H
 #define QEXTOBJECT_P_H
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 class QEXTObject;
 class QEXT_CORE_API QEXTObjectPrivate

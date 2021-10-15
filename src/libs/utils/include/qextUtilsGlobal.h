@@ -1,7 +1,7 @@
 #ifndef QEXTUTILSGLOBAL_H
 #define QEXTUTILSGLOBAL_H
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 /********************************************************************************
    QEXT Compiler specific cmds for export and import code to DLL

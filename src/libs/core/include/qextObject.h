@@ -1,7 +1,7 @@
 #ifndef QEXTOBJECT_H
 #define QEXTOBJECT_H
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 #include <QScopedPointer>
 

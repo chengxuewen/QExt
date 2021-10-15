@@ -1,7 +1,7 @@
-#ifndef QEXTFONTAWESOMEGLOBAL_H
-#define QEXTFONTAWESOMEGLOBAL_H
+#ifndef _QEXTFONTAWESOMEGLOBAL_H
+#define _QEXTFONTAWESOMEGLOBAL_H
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 /********************************************************************************
    QEXT Compiler specific cmds for export and import code to DLL
@@ -18,4 +18,4 @@
     #define QEXT_FONTAWESOME_HIDDEN
 #endif
 
-#endif // QEXTFONTAWESOMEGLOBAL_H
+#endif // _QEXTFONTAWESOMEGLOBAL_H

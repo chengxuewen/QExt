@@ -2,7 +2,7 @@
 **************************************/
 #include "Test.h"
 
-#include "qextserialport.h"
+#include "qextSerialPort.h"
 
 #include <QLayout>
 #include <QLineEdit>

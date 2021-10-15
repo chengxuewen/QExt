@@ -30,9 +30,8 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(qext_lib_public_headers
-    include/qextargument.h
-    include/qextglobal.h
-    include/qextid.h
+    include/qextGlobal.h
+    include/qextId.h
     include/qextObject.h
 
     )
@@ -42,7 +41,7 @@ set(qext_lib_private_headers
     )
 
 set(qext_lib_sources
-    source/qextid.cpp
+    source/qextId.cpp
     source/qextObject.cpp
     )
 

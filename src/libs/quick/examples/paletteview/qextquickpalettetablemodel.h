@@ -4,7 +4,7 @@
 #include <QPointer>
 #include <QAbstractTableModel>
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 #include <qextquickpalette.h>
 
 

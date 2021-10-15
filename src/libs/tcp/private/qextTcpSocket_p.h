@@ -5,7 +5,7 @@
 #include <qextTcpPacketInterface.h>
 #include <qextTcpPacketParserInterface.h>
 #include <qextTcpPacketDispatcher.h>
-#include <qextid.h>
+#include <qextId.h>
 
 #include <qextTcpGlobal.h>
 

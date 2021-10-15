@@ -4,7 +4,7 @@
 #include <qextTcpGlobal.h>
 
 #include <qextObject.h>
-#include <qextid.h>
+#include <qextId.h>
 
 #include <QObject>
 #include <QThreadPool>

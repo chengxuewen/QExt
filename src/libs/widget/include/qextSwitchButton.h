@@ -1,38 +1,41 @@
-﻿// clang-format off
+﻿#ifndef _QEXTSWITCHBUTTON_H
+#define _QEXTSWITCHBUTTON_H
+
 /***************************************************************************************************
- *@Brief:该文件定义了自定义选择开关控件，可制作成Qtcreator插件使用。
- *          （1）：可设置开关按钮的样式 圆角矩形/内圆形/外圆形/图片；
- *          （2）：可设置选中和未选中时的背景颜色；
- *          （3）：可设置选中和未选中时的滑块颜色；
- *          （4）：可设置显示的文本；
- *          （5）：可设置滑块离背景的间隔；
- *          （6）：可设置圆角角度；
+ *@Brief:选择开关控件
+ *  1.可设置开关按钮的样式 圆角矩形/内圆形/外圆形/图片；
+ *  2.可设置选中和未选中时的背景颜色；
+ *  3.可设置选中和未选中时的滑块颜色；
+ *  4.可设置显示的文本；
+ *  5.可设置滑块离背景的间隔；
+ *  6.可设置圆角角度；
  *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武（QQ:517216493）代码。
- *@Version:V0.5
  *@Date:2016-11-06
  *@History:
  *  Modification data:2017-10-17
  *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
+ *  Brief:1.整理优化;
+ *
  *  Modification data:2017-11-02
  *  Author:chengxuewen
- *  Brief:  （1）.修复BUG，设置按钮checked状态时按钮滑动条未滑动问题；
- *          （2）.修复BUG，设置按钮外圆角风格时，按钮显示不正常；
+ *  Brief:1.修复BUG，设置按钮checked状态时按钮滑动条未滑动问题；
+ *        2.修复BUG，设置按钮外圆角风格时，按钮显示不正常；
+ *
  *  Modification data:2018-05-30
  *  Author:chengxuewen
- *  Brief:  （1）.重写为自定义选择按钮私有实现类。
-            （2）.增加选择按钮使能颜色设置。
+ *  Brief:1.重写为自定义选择按钮私有实现类。
+ *        2.增加选择按钮使能颜色设置。
+ *
  *  Modification data:2018-06-15
  *  Author:chengxuewen
- *  Brief:  （1）.添加选择按钮使能控制及使能颜色显示。
+ *  Brief:1.添加选择按钮使能控制及使能颜色显示。
+ *
  *  Modification data:2019-06-26
  *  Author:chengxuewen
- *  Brief:  （1）.添加插件元对象属性导出暴露功能。
- *          （1）.修复最后设置check状态属性时会导致初次显示开关出现绘制slider位置偏差bug。
+ *  Brief:1.添加插件元对象属性导出暴露功能。
+ *        2.修复最后设置check状态属性时会导致初次显示开关出现绘制slider位置偏差bug。
 ***************************************************************************************************/
 
-#ifndef QEXTSWITCHBUTTON_H
-#define QEXTSWITCHBUTTON_H
 
 #include <qextWidgetGlobal.h>
 #include <qextObject.h>
@@ -157,6 +160,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTSwitchButton)
 };
 
-#endif // QEXTSWITCHBUTTON_H
-
-// clang-format on
+#endif // _QEXTSWITCHBUTTON_H

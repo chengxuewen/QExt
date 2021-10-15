@@ -41,7 +41,7 @@
 #include <qextquickfontawesome.h>
 
 #include <qextquickconfig.h>
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 #include <QMutex>
 #include <QMutexLocker>

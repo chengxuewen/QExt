@@ -8,7 +8,7 @@
 #include "MainWindow.h"
 #include "MessageWindow.h"
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 
 

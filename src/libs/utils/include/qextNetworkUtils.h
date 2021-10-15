@@ -1,7 +1,7 @@
 #ifndef QEXTNETWORKUTILS_H
 #define QEXTNETWORKUTILS_H
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 #include <qextUtilsGlobal.h>
 

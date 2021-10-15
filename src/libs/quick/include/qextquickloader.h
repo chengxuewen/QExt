@@ -30,7 +30,7 @@
 #ifndef QEXTQUICKLOADER_H
 #define QEXTQUICKLOADER_H
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 #include <qextquickglobal.h>
 

@@ -27,11 +27,11 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTQUICKGLOBAL_H
-#define QEXTQUICKGLOBAL_H
+#ifndef _QEXTQUICKGLOBAL_H
+#define _QEXTQUICKGLOBAL_H
 
 #include <QObject>
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 /********************************************************************************
    QEXT Compiler specific cmds for export and import code to DLL
@@ -48,4 +48,4 @@
 #   define QEXT_QUICK_HIDDEN
 #endif
 
-#endif // QEXTQUICKGLOBAL_H
+#endif // _QEXTQUICKGLOBAL_H

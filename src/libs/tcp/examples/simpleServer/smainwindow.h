@@ -2,7 +2,7 @@
 #define SMAINWINDOW_H
 
 #include <QMainWindow>
-#include <qextglobal.h>
+#include <qextGlobal.h>
 #include <qextTcpServer.h>
 
 

@@ -2,7 +2,7 @@
 #define QEXTTCPPACKETPARSER_P_H
 
 #include <qextObject_p.h>
-#include <qextid.h>
+#include <qextId.h>
 
 #include <qextTcpGlobal.h>
 #include <qextTcpPacketHeader.h>

@@ -31,10 +31,10 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 set(qext_lib_public_headers
     include/qextBreathingLight.h
+    include/qextDial.h
     include/qextFramelessDialog.h
     include/qextFramelessMainwindow.h
     include/qextFramelessWidget.h
-#    include/qextGroupBox.h
     include/qextIconLabel.h
     include/qextIndicatorLight.h
     include/qextIpAddressEdit.h
@@ -44,6 +44,9 @@ set(qext_lib_public_headers
     include/qextNavListWidget.h
     include/qextNavTreeWidget.h
     include/qextSwitchButton.h
+    include/qextThermometer.h
+    include/qextTumbler.h
+    include/qextDateTimeTumbler.h
     include/qextWaveChart.h
     include/qextWidgetGlobal.h
     )
@@ -51,7 +54,6 @@ set(qext_lib_public_headers
 set(qext_lib_private_headers
     private/qextBreathingLight_p.h
     private/qextFramelessMainwindow_p.h
-#    private/qextGroupBox_p.h
     private/qextIconLabel_p.h
     private/qextIndicatorLight_p.h
     private/qextIpAddressEdit_p.h
@@ -66,10 +68,10 @@ set(qext_lib_private_headers
 
 set(qext_lib_sources
     source/qextBreathingLight.cpp
+    source/qextDial.cpp
     source/qextFramelessDialog.cpp
     source/qextFramelessMainwindow.cpp
     source/qextFramelessWidget.cpp
-#    source/qextGroupBox.cpp
     source/qextIconLabel.cpp
     source/qextIndicatorLight.cpp
     source/qextIpAddressEdit.cpp
@@ -79,6 +81,9 @@ set(qext_lib_sources
     source/qextNavListWidget.cpp
     source/qextNavTreeWidget.cpp
     source/qextSwitchButton.cpp
+    source/qextThermometer.cpp
+    source/qextTumbler.cpp
+    source/qextDateTimeTumbler.cpp
     source/qextWaveChart.cpp
     )
 

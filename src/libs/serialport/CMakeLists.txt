@@ -30,19 +30,19 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(qext_lib_public_headers
-    include/qextserialenumerator.h
-    include/qextserialport.h
-    include/qextserialportglobal.h
+    include/qextSerialEnumerator.h
+    include/qextSerialPort.h
+    include/qextSerialPortGlobal.h
     )
 
 set(qext_lib_private_headers
-    private/qextserialenumerator_p.h
-    private/qextserialport_p.h
+    private/qextSerialEnumerator_p.h
+    private/qextSerialPort_p.h
     )
 
 set(qext_lib_sources
-    source/qextserialenumerator.cpp
-    source/qextserialport.cpp
+    source/qextSerialEnumerator.cpp
+    source/qextSerialPort.cpp
     )
 
 set(qext_lib_forms
@@ -54,19 +54,19 @@ set(qext_lib_resources
     )
 
 if (UNIX)
-    list(APPEND qext_lib_sources source/qextserialport_unix.cpp)
+    list(APPEND qext_lib_sources source/qextSerialPort_unix.cpp)
     if (QEXT_SYSTEM_LINUX)
         option(QEXT_SERIALPORT_LINUX_NO_UDEV "Serialport not use linux udev" ON)
-        list(APPEND qext_lib_sources source/qextserialenumerator_linux.cpp)
+        list(APPEND qext_lib_sources source/qextSerialEnumerator_linux.cpp)
     elseif(QEXT_SYSTEM_MAC)
-        list(APPEND qext_lib_sources source/qextserialenumerator_osx.cpp)
+        list(APPEND qext_lib_sources source/qextSerialEnumerator_osx.cpp)
     else()
-        list(APPEND qext_lib_sources source/qextserialenumerator_unix.cpp)
+        list(APPEND qext_lib_sources source/qextSerialEnumerator_unix.cpp)
     endif()
 endif()
 if (WIN32)
-    list(APPEND qext_lib_sources source/qextserialenumerator_win.cpp)
-    list(APPEND qext_lib_sources source/qextserialport_win.cpp)
+    list(APPEND qext_lib_sources source/qextSerialEnumerator_win.cpp)
+    list(APPEND qext_lib_sources source/qextSerialPort_win.cpp)
 endif()
 
 

@@ -30,16 +30,16 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(qext_lib_public_headers
-    include/qextdevicewatcher.h
-    include/qextdevicewatcherglobal.h
+    include/qextDeviceWatcher.h
+    include/qextDeviceWatcherGlobal.h
     )
 
 set(qext_lib_private_headers
-    private/qextdevicewatcher_p.h
+    private/qextDeviceWatcher_p.h
     )
 
 set(qext_lib_sources
-    source/qextdevicewatcher.cpp
+    source/qextDeviceWatcher.cpp
     )
 
 set(qext_lib_forms
@@ -52,15 +52,15 @@ set(qext_lib_resources
 
 if(UNIX)
     if (QEXT_SYSTEM_LINUX)
-        list(APPEND qext_lib_sources source/qextdevicewatcher_linux.cpp)
+        list(APPEND qext_lib_sources source/qextDeviceWatcher_linux.cpp)
     elseif(QEXT_SYSTEM_MAC)
-        list(APPEND qext_lib_sources source/qextdevicewatcher_mac.cpp)
+        list(APPEND qext_lib_sources source/qextDeviceWatcher_mac.cpp)
     endif()
 else()
     if (QEXT_SYSTEM_WINCE)
-        list(APPEND qext_lib_sources source/qextdevicewatcher_wince.cpp)
+        list(APPEND qext_lib_sources source/qextDeviceWatcher_wince.cpp)
     else()
-        list(APPEND qext_lib_sources source/qextdevicewatcher_win32.cpp)
+        list(APPEND qext_lib_sources source/qextDeviceWatcher_win32.cpp)
     endif()
 endif()
 

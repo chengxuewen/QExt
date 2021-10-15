@@ -8,8 +8,8 @@
  *@Date:2019-08-06
  *@History:
 ***************************************************************************************************/
-#ifndef QEXTBREATHINGLIGHT_H
-#define QEXTBREATHINGLIGHT_H
+#ifndef _QEXTBREATHINGLIGHT_H
+#define _QEXTBREATHINGLIGHT_H
 
 #include <qextWidgetGlobal.h>
 #include <qextObject.h>
@@ -59,4 +59,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTBreathingLight)
 };
 
-#endif // QEXTBREATHINGLIGHT_H
+#endif // _QEXTBREATHINGLIGHT_H

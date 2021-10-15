@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QElapsedTimer>
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 #ifndef QEXT_BUILD_SHARED_LIBS
 # include <qextquickloader.h>
 #else

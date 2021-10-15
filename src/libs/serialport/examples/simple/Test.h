@@ -5,7 +5,7 @@
 
 #include <QWidget>
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 class QLineEdit;
 class QTextEdit;

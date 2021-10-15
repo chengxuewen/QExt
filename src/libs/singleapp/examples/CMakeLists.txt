@@ -86,9 +86,9 @@ endif()
 
 
 ##--------------------------------------------------------------------------------
-## Add exp_qextSingleAppLoader example
+## Add qext_exp_singleAppLoader example
 ##--------------------------------------------------------------------------------
-set(qext_example_name exp_qextSingleAppLoader)
+set(qext_example_name qext_exp_singleAppLoader)
 set(qext_example_headers
     )
 set(qext_example_sources
@@ -113,9 +113,9 @@ endif()
 
 
 ##--------------------------------------------------------------------------------
-## Add exp_qextSingleAppTrivial example
+## Add qext_exp_singleAppTrivial example
 ##--------------------------------------------------------------------------------
-set(qext_example_name exp_qextSingleAppTrivial)
+set(qext_example_name qext_exp_singleAppTrivial)
 set(qext_example_headers
     )
 set(qext_example_sources

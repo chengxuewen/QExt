@@ -1,7 +1,7 @@
 #ifndef CMAINWINDOW_H
 #define CMAINWINDOW_H
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 #include <QMainWindow>
 
 #include <qextTcpClient.h>

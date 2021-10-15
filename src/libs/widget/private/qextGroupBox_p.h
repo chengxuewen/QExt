@@ -1,4 +1,0 @@
-#ifndef QEXTGROUPBOX_P_H
-#define QEXTGROUPBOX_P_H
-
-#endif // QEXTGROUPBOX_P_H

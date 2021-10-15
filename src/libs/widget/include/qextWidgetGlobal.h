@@ -1,7 +1,7 @@
-#ifndef QEXTWIDGETGLOBAL_H
-#define QEXTWIDGETGLOBAL_H
+#ifndef _QEXTWIDGETGLOBAL_H
+#define _QEXTWIDGETGLOBAL_H
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 /********************************************************************************
    QEXT Compiler specific cmds for export and import code to DLL
@@ -18,4 +18,4 @@
     #define QEXT_WIDGET_HIDDEN
 #endif
 
-#endif // QEXTWIDGETGLOBAL_H
+#endif // _QEXTWIDGETGLOBAL_H

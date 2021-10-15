@@ -1,7 +1,7 @@
 #ifndef QEXTDATETIMEUTILS_H
 #define QEXTDATETIMEUTILS_H
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 #include <qextUtilsGlobal.h>
 
