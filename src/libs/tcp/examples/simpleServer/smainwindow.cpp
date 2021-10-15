@@ -147,7 +147,7 @@ void SMainWindow::on_pushButton_ctrl_clicked()
         {
             ui->pushButton_ctrl->setText("Stop Listen");
             QString listenMsg = QString("Server start listen:IP %1, Port %2")
-                    .arg(m_tcpServer->serverAddress().toString()).arg(m_tcpServer->serverPort());
+                                .arg(m_tcpServer->serverAddress().toString()).arg(m_tcpServer->serverPort());
             ui->textEditServerMsg->append(listenMsg);
             QMessageBox::information(this, "tcp server listen!",
                                      QString("tcp server listen success"),

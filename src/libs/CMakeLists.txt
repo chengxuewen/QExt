@@ -24,7 +24,6 @@
 add_subdirectory(core)
 add_subdirectory(devicewatcher)
 add_subdirectory(fontawesome)
-add_subdirectory(gui)
 add_subdirectory(serialport)
 add_subdirectory(singleapp)
 add_subdirectory(tcp)
