@@ -23,9 +23,8 @@ public:
     ~QEXTTcpTaskPrivate();
 
     const QDateTime m_timestamp;
-    QWeakPointer<QEXTTcpPacketDispatcher> m_packetDispatcher;
     QSharedPointer<QEXTTcpPacketTransceiver> m_packetTransceiver;
-    QSharedPointer<QEXTTcpPacketInterface> m_packet;
+    QSharedPointer<QEXTTcpPacketInterface> m_receivedPacket;
 
     mutable QMutex m_mutex;
     bool m_finished;

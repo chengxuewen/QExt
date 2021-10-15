@@ -5,8 +5,9 @@
 #include <qextTcpPacketParser.h>
 #include <qextTcpClient.h>
 #include <qextTcpUtils.h>
+#include <qextTcpFactory.h>
 
-#include <qextnetworkutils.h>
+#include <qextNetworkUtils.h>
 
 #include <QNetworkInterface>
 #include <QDataStream>
@@ -16,6 +17,51 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QThread>
+
+
+struct CTcpFactory : public QEXTTcpFactory
+{
+    QSharedPointer<QEXTTcpPacketDispatcher> createPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket);
+    QSharedPointer<QEXTTcpPacketParserInterface> createPacketParser();
+
+    QEXTTcpTask *createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, int function);
+    QEXTTcpTask *createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, const QSharedPointer<QEXTTcpPacketInterface> &packet);
+
+    QSharedPointer<QEXTTcpFactory> clone();
+};
+
+
+QSharedPointer<QEXTTcpPacketDispatcher> CTcpFactory::createPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket)
+{
+    return QEXTTcpFactory::createPacketDispatcher(socket);
+}
+
+QSharedPointer<QEXTTcpPacketParserInterface> CTcpFactory::createPacketParser()
+{
+    QEXTTcpPacketHeader::DataInfoVector headerDataInfoVector;
+    headerDataInfoVector.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 16, "src"));
+    headerDataInfoVector.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 8, "des"));
+    return QSharedPointer<QEXTTcpPacketParserInterface>(new QEXTTcpPacketParser(headerDataInfoVector));
+}
+
+QEXTTcpTask *CTcpFactory::createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, int function)
+{
+    return QEXTTcpFactory::createTask(dispatcher, function);
+}
+
+QEXTTcpTask *CTcpFactory::createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher,
+                                     const QSharedPointer<QEXTTcpPacketInterface> &packet)
+{
+    return QEXTTcpFactory::createTask(dispatcher, packet);
+}
+
+QSharedPointer<QEXTTcpFactory> CTcpFactory::clone()
+{
+    return QSharedPointer<QEXTTcpFactory>(new CTcpFactory);
+}
+
+
+
 
 CMainWindow::CMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -43,13 +89,8 @@ CMainWindow::CMainWindow(QWidget *parent) :
     ui->lineEdit_serverIP->setText(ipAddress);
     ui->lineEdit_serverPort->setText("8080");
 
-    QEXTTcpPacketHeader::DataInfoVector extraHeaderDataInfo;
-    extraHeaderDataInfo.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 16, "src"));
-    extraHeaderDataInfo.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 8, "des"));
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser(new QEXTTcpPacketParser(extraHeaderDataInfo));
-    m_tcpClient.reset(new QEXTTcpClient(packetParser));
-    QSharedPointer<QEXTTcpPacketDispatcher> packetDispatcher(new QEXTTcpPacketDispatcher(m_tcpClient->socket()));
-    m_tcpClient->setPacketDispatcher(packetDispatcher);
+    m_tcpClient.reset(new QEXTTcpClient);
+    m_tcpClient->setTcpFactory(QSharedPointer<QEXTTcpFactory>(new CTcpFactory));
     m_thread = new QThread(this);
     m_tcpClient->moveToThread(m_thread);
     connect(m_tcpClient.data(), SIGNAL(socketError(QAbstractSocket::SocketError)), this, SLOT(onSocketError(QAbstractSocket::SocketError)));
@@ -145,11 +186,11 @@ void CMainWindow::on_pushButton_send_clicked()
     packet->setContent(data);
     QSharedPointer<QEXTTcpPacketInterface> rcv;
     qDebug() << m_tcpClient->sendNotify(packet);
-//    qDebug() << m_tcpClient->sendRequest(packet);
-//    qDebug() << m_tcpClient->sendRequestSync(packet, rcv);
+    //    qDebug() << m_tcpClient->sendRequest(packet);
+    //    qDebug() << m_tcpClient->sendRequestSync(packet, rcv);
     if (!rcv.isNull())
     {
         QEXTTcpUtils::printPacket(rcv);
     }
-//    qDebug() << m_tcpClient->sendReply(packet, packet);
+    //    qDebug() << m_tcpClient->sendReply(packet, packet);
 }

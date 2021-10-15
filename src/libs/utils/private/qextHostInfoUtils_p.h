@@ -1,8 +1,8 @@
 #ifndef QEXTHOSTINFOUTILS_P_H
 #define QEXTHOSTINFOUTILS_P_H
 
-#include <qextutilsglobal.h>
-#include <qextdiskinfo.h>
+#include <qextUtilsGlobal.h>
+#include <qextDiskInfo.h>
 
 #include <qextObject_p.h>
 

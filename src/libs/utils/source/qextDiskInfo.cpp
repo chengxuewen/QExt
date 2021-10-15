@@ -1,4 +1,4 @@
-#include <qextdiskinfo.h>
+#include <qextDiskInfo.h>
 
 #include <QDebug>
 #include <QProcess>

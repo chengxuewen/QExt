@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <qexthostinfoutils.h>
+#include <qextHostInfoUtils.h>
 #include <qextglobal.h>
 
 

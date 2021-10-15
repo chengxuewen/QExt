@@ -10,6 +10,51 @@
 #include <QThread>
 
 #include <qextTcpPacketParser.h>
+#include <qextTcpFactory.h>
+
+struct STcpFactory : public QEXTTcpFactory
+{
+    QSharedPointer<QEXTTcpPacketDispatcher> createPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket);
+    QSharedPointer<QEXTTcpPacketParserInterface> createPacketParser();
+
+    QEXTTcpTask *createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, int function);
+    QEXTTcpTask *createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, const QSharedPointer<QEXTTcpPacketInterface> &packet);
+
+    QSharedPointer<QEXTTcpFactory> clone();
+};
+
+
+QSharedPointer<QEXTTcpPacketDispatcher> STcpFactory::createPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket)
+{
+    return QEXTTcpFactory::createPacketDispatcher(socket);
+}
+
+QSharedPointer<QEXTTcpPacketParserInterface> STcpFactory::createPacketParser()
+{
+    QEXTTcpPacketHeader::DataInfoVector headerDataInfoVector;
+    headerDataInfoVector.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 16, "src"));
+    headerDataInfoVector.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 8, "des"));
+    return QSharedPointer<QEXTTcpPacketParserInterface>(new QEXTTcpPacketParser(headerDataInfoVector));
+}
+
+QEXTTcpTask *STcpFactory::createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, int function)
+{
+    return QEXTTcpFactory::createTask(dispatcher, function);
+}
+
+QEXTTcpTask *STcpFactory::createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher,
+                                     const QSharedPointer<QEXTTcpPacketInterface> &packet)
+{
+    return QEXTTcpFactory::createTask(dispatcher, packet);
+}
+
+QSharedPointer<QEXTTcpFactory> STcpFactory::clone()
+{
+    return QSharedPointer<QEXTTcpFactory>(new STcpFactory);
+}
+
+
+
 
 SMainWindow::SMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -20,27 +65,26 @@ SMainWindow::SMainWindow(QWidget *parent) :
     QString ipAddress;
     QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
     // use the first non-localhost IPv4 address
-    for (int i = 0; i < ipAddressesList.size(); ++i) {
-        if (ipAddressesList.at(i) != QHostAddress::LocalHost && ipAddressesList.at(i).toIPv4Address()) {
+    for (int i = 0; i < ipAddressesList.size(); ++i)
+    {
+        if (ipAddressesList.at(i) != QHostAddress::LocalHost && ipAddressesList.at(i).toIPv4Address())
+        {
             ipAddress = ipAddressesList.at(i).toString();
             break;
         }
     }
     // if we did not find one, use IPv4 localhost
-    if (ipAddress.isEmpty()) {
+    if (ipAddress.isEmpty())
+    {
         ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
     }
     ui->lineEdit_serverIP->setText(ipAddress);
     ui->lineEdit_serverPort->setText("8080");
 
-    QEXTTcpPacketHeader::DataInfoVector headerDataInfoVector;
-    headerDataInfoVector.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 16, "src"));
-    headerDataInfoVector.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 8, "des"));
     m_tcpServer.reset(new QEXTTcpServer);
-    m_tcpServer->setPacketParser(QSharedPointer<QEXTTcpPacketParser>(new QEXTTcpPacketParser(headerDataInfoVector)));
-    m_tcpServer->setPacketDispatcherFactory(QSharedPointer<QEXTTcpPacketDispatcherFactory>(new QEXTTcpPacketDispatcherFactory));
-    connect(m_tcpServer.data(), SIGNAL(socketError(QSharedPointer<QEXTTcpSocket>,QAbstractSocket::SocketError)),
-            this, SLOT(onSocketError(QSharedPointer<QEXTTcpSocket>,QAbstractSocket::SocketError)));
+    m_tcpServer->setTcpFactory(QSharedPointer<QEXTTcpFactory>(new STcpFactory));
+    connect(m_tcpServer.data(), SIGNAL(socketError(QSharedPointer<QEXTTcpSocket>, QAbstractSocket::SocketError)),
+            this, SLOT(onSocketError(QSharedPointer<QEXTTcpSocket>, QAbstractSocket::SocketError)));
     connect(m_tcpServer.data(), SIGNAL(serverMessage(QString)),
             this, SLOT(onServerMessageReceived(QString)));
     connect(m_tcpServer.data(), SIGNAL(socketConnected(QSharedPointer<QEXTTcpSocket>)),
@@ -82,19 +126,25 @@ void SMainWindow::onSocketDisConected(const QSharedPointer<QEXTTcpSocket> &socke
 
 void SMainWindow::on_pushButton_ctrl_clicked()
 {
-    if (m_tcpServer->isListening()) {
+    if (m_tcpServer->isListening())
+    {
         m_tcpServer->close();
         ui->pushButton_ctrl->setText("Start Listen");
         QString closeMsg = QString("Server close listen!");
         ui->textEditServerMsg->append(closeMsg);
-    } else {
+    }
+    else
+    {
         bool ret = m_tcpServer->listen(QHostAddress::Any, ui->lineEdit_serverPort->text().toInt());
-        if (!ret) {
+        if (!ret)
+        {
             ui->pushButton_ctrl->setText("Start Listen");
             QMessageBox::warning(this, "tcp server listen!",
                                  QString("tcp server listen failed for %1").arg(m_tcpServer->errorString()),
                                  QMessageBox::Ok);
-        } else {
+        }
+        else
+        {
             ui->pushButton_ctrl->setText("Stop Listen");
             QString listenMsg = QString("Server start listen:IP %1, Port %2")
                     .arg(m_tcpServer->serverAddress().toString()).arg(m_tcpServer->serverPort());

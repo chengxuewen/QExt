@@ -69,6 +69,6 @@ Thumbs.db
 *.dll
 *.exe
 *.so*
-
+*build
 # cmake user file
 CMakeLists.txt.user

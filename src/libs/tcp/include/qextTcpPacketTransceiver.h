@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QSharedPointer>
 
+class QEXTTcpPacketParserInterface;
 class QEXTTcpPacketDispatcher;
 class QEXTTcpPacketInterface;
 class QEXTTcpPacketTransceiverPrivate;
@@ -25,10 +26,13 @@ public:
     bool isSocketValid() const;
 
     bool send(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket);
-    bool sendReply(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket, QSharedPointer<QEXTTcpPacketInterface> &receivedPacket);
+    bool sendReply(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket,
+                   QSharedPointer<QEXTTcpPacketInterface> &receivedPacket);
     bool sendNotify(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket);
     bool sendRequest(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket);
-    bool sendRequestSync(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket, QSharedPointer<QEXTTcpPacketInterface> &receivedPacket);
+    bool sendRequestSync(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket,
+                         QSharedPointer<QEXTTcpPacketInterface> &receivedPacket,
+                         quint16 timeoutMsecs = 1500);
 
     bool waitForData(int msecs = 3000);
     void cancelWait();
@@ -41,6 +45,7 @@ public:
     QSharedPointer<QEXTTcpPacketInterface> dequeuePacket();
     void enqueuePacket(const QSharedPointer<QEXTTcpPacketInterface> &packet);
 
+    QSharedPointer<QEXTTcpPacketParserInterface> packetParser() const;
     QSharedPointer<QEXTTcpPacketDispatcher> dispatcher() const;
     QString lastError() const;
 

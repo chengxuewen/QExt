@@ -18,23 +18,23 @@ public:
     virtual QString name() const = 0;
     virtual QString errorString() const = 0;
 
-    virtual bool comparePacket(QEXTTcpPacketInterface *lpacket, QEXTTcpPacketInterface *rpacket) const = 0;
-    virtual bool checkIsSyncReplyPacket(QEXTTcpPacketInterface *send, QEXTTcpPacketInterface *rcv) const = 0;
-    virtual quint64 packetId(QEXTTcpPacketInterface *packet) const = 0;
+    virtual bool comparePacket(const QSharedPointer<QEXTTcpPacketInterface> &lpacket, const QSharedPointer<QEXTTcpPacketInterface> &rpacket) const = 0;
+    virtual bool checkIsSyncReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &send, const QSharedPointer<QEXTTcpPacketInterface> &rcv) const = 0;
+    virtual quint64 packetId(const QSharedPointer<QEXTTcpPacketInterface> &packet) const = 0;
 
-    virtual bool isRequestPacket(QEXTTcpPacketInterface *packet) const = 0;
-    virtual bool setRequestPacket(QEXTTcpPacketInterface *packet) = 0;
+    virtual bool isRequestPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const = 0;
+    virtual bool setRequestPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) = 0;
 
-    virtual bool isReplyPacket(QEXTTcpPacketInterface *packet) const = 0;
-    virtual bool setReplyPacket(QEXTTcpPacketInterface *send, QEXTTcpPacketInterface *rcv) = 0;
+    virtual bool isReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const = 0;
+    virtual bool setReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &send, const QSharedPointer<QEXTTcpPacketInterface> &rcv) = 0;
 
-    virtual bool isNotifyPacket(QEXTTcpPacketInterface *packet) const = 0;
-    virtual bool setNotifyPacket(QEXTTcpPacketInterface *packet) = 0;
+    virtual bool isNotifyPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const = 0;
+    virtual bool setNotifyPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) = 0;
 
     virtual QSharedPointer<QEXTTcpPacketHeaderInterface> createHeader() const = 0;
     virtual QSharedPointer<QEXTTcpPacketInterface> createPacket() const = 0;
-    virtual QSharedPointer<QEXTTcpPacketInterface> clonePacket(QEXTTcpPacketInterface *packet) const = 0;
-    virtual QSharedPointer<QEXTTcpPacketInterface> createReplyPacket(QEXTTcpPacketInterface *rcv) const = 0;
+    virtual QSharedPointer<QEXTTcpPacketInterface> clonePacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const = 0;
+    virtual QSharedPointer<QEXTTcpPacketInterface> createReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &rcv) const = 0;
     virtual QSharedPointer<QEXTTcpPacketParserInterface> clonePacketParser() const = 0;
 
     virtual QSharedPointer<QEXTTcpPacketInterface> readData(QEXTTcpSocket *socket, bool &success) = 0;

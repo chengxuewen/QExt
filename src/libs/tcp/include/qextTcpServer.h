@@ -9,27 +9,30 @@
 
 #include <QTcpServer>
 
+class QEXTTcpFactory;
 class QEXTTcpServerPrivate;
 class QEXT_TCP_API QEXTTcpServer : public QTcpServer, public QEXTObject
 {
     Q_OBJECT
 public:
     QEXTTcpServer();
-    QEXTTcpServer(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser);
-    QEXTTcpServer(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser,
-                  const QSharedPointer<QEXTTcpPacketDispatcherFactory> &dispatcherFactory);
+    QEXTTcpServer(const QSharedPointer<QEXTTcpFactory> &tcpFactory);
     QEXTTcpServer(QEXTTcpServerPrivate &dd);
+    QEXTTcpServer(QEXTTcpServerPrivate &dd, const QSharedPointer<QEXTTcpFactory> &tcpFactory);
     ~QEXTTcpServer();
 
-    int allSocketCount() const;
-    int maxSocketCount() const;
-    void setMaxSocketCount(int maxSocketCount);
+    size_t allSocketCount() const;
 
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser() const;
-    void setPacketParser(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser);
+    size_t maxSocketConnectionCount() const;
+    void setMaxSocketConnectionCount(size_t count);
 
-    QSharedPointer<QEXTTcpPacketDispatcherFactory> packetDispatcherFactory() const;
-    void setPacketDispatcherFactory(const QSharedPointer<QEXTTcpPacketDispatcherFactory> &dispatcherFactory);
+    size_t maxTaskThreadCount() const;
+    void setMaxTaskThreadCount(size_t count);
+
+    void runTask(int function);
+    void runTask(QEXTTcpTask *task);
+    QSharedPointer<QEXTTcpFactory> tcpFactory() const;
+    void setTcpFactory(const QSharedPointer<QEXTTcpFactory> &tcpFactory);
 
 Q_SIGNALS:
     void serverMessage(const QString &msg);

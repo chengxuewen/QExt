@@ -30,7 +30,7 @@ public:
     QWaitCondition m_waitForSyncReply;
 
     mutable QMutex m_packetDispatcherMutex;
-    QWeakPointer<QEXTTcpPacketDispatcher> m_packetDispatcher;
+    QSharedPointer<QEXTTcpPacketDispatcher> m_packetDispatcher;
 
     mutable QMutex m_packetMutex;
     QSharedPointer<QEXTTcpPacketInterface> m_receivedPacket;

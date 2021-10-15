@@ -3,6 +3,7 @@
 #include <qextTcpPacket.h>
 #include <qextTcpPacketVariant.h>
 #include <qextTcpPacketHeader.h>
+#include <qextTcpUtils.h>
 
 #include <QDebug>
 #include <QDateTime>
@@ -66,7 +67,8 @@ QString QEXTTcpPacketParser::errorString() const
     return d->m_errorString;
 }
 
-bool QEXTTcpPacketParser::comparePacket(QEXTTcpPacketInterface *lpacket, QEXTTcpPacketInterface *rpacket) const
+bool QEXTTcpPacketParser::comparePacket(const QSharedPointer<QEXTTcpPacketInterface> &lpacket,
+                                        const QSharedPointer<QEXTTcpPacketInterface> &rpacket) const
 {
     QEXT_DECL_DC(QEXTTcpPacketParser);
     if (lpacket != rpacket)
@@ -85,7 +87,8 @@ bool QEXTTcpPacketParser::comparePacket(QEXTTcpPacketInterface *lpacket, QEXTTcp
     return true;
 }
 
-bool QEXTTcpPacketParser::checkIsSyncReplyPacket(QEXTTcpPacketInterface *send, QEXTTcpPacketInterface *rcv) const
+bool QEXTTcpPacketParser::checkIsSyncReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &send,
+                                                 const QSharedPointer<QEXTTcpPacketInterface> &rcv) const
 {
     QEXT_DECL_DC(QEXTTcpPacketParser);
     if (this->isRequestPacket(send) && this->isReplyPacket(rcv) && send != rcv)
@@ -98,29 +101,29 @@ bool QEXTTcpPacketParser::checkIsSyncReplyPacket(QEXTTcpPacketInterface *send, Q
     return false;
 }
 
-quint64 QEXTTcpPacketParser::packetId(QEXTTcpPacketInterface *packet) const
+quint64 QEXTTcpPacketParser::packetId(const QSharedPointer<QEXTTcpPacketInterface> &packet) const
 {
     QEXT_DECL_DC(QEXTTcpPacketParser);
-    if (packet)
+    if (!packet.isNull())
     {
         return packet->header()->headerData(QEXT_TCP_PACKET_KEY_ID).toUint64();
     }
     return 0;
 }
 
-bool QEXTTcpPacketParser::isRequestPacket(QEXTTcpPacketInterface *packet) const
+bool QEXTTcpPacketParser::isRequestPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const
 {
-    if (packet)
+    if (!packet.isNull())
     {
         return packet->header()->headerData(QEXT_TCP_PACKET_KEY_TYPE).toHostString() == QEXT_TCP_PACKET_TYPE_REQUEST;
     }
     return false;
 }
 
-bool QEXTTcpPacketParser::setRequestPacket(QEXTTcpPacketInterface *packet)
+bool QEXTTcpPacketParser::setRequestPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet)
 {
     QEXT_DECL_D(QEXTTcpPacketParser);
-    if (packet)
+    if (!packet.isNull())
     {
         bool success = packet->header()->setHeaderData(QEXT_TCP_PACKET_KEY_TYPE, QEXTTcpPacketVariant(QEXT_TCP_PACKET_TYPE_REQUEST));
         success = packet->header()->setHeaderData(QEXT_TCP_PACKET_KEY_TIME, QDateTime::currentDateTime().toString("yyyy-mm-dd hh:mm:ss:zzz")) && success;
@@ -129,19 +132,20 @@ bool QEXTTcpPacketParser::setRequestPacket(QEXTTcpPacketInterface *packet)
     return false;
 }
 
-bool QEXTTcpPacketParser::isReplyPacket(QEXTTcpPacketInterface *packet) const
+bool QEXTTcpPacketParser::isReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const
 {
-    if (packet)
+    if (!packet.isNull())
     {
         return packet->header()->headerData(QEXT_TCP_PACKET_KEY_TYPE).toHostString() == QEXT_TCP_PACKET_TYPE_REPLY;
     }
     return false;
 }
 
-bool QEXTTcpPacketParser::setReplyPacket(QEXTTcpPacketInterface *send, QEXTTcpPacketInterface *rcv)
+bool QEXTTcpPacketParser::setReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &send,
+                                         const QSharedPointer<QEXTTcpPacketInterface> &rcv)
 {
     QEXT_DECL_D(QEXTTcpPacketParser);
-    if (send && rcv && send != rcv)
+    if (!send.isNull() && !rcv.isNull() && send != rcv)
     {
         bool success = send->header()->setHeaderData(QEXT_TCP_PACKET_KEY_TYPE, QEXTTcpPacketVariant(QEXT_TCP_PACKET_TYPE_REPLY));
         success = send->header()->setHeaderData(QEXT_TCP_PACKET_KEY_TIME, QDateTime::currentDateTime().toString("yyyy-mm-dd hh:mm:ss:zzz")) && success;
@@ -150,19 +154,19 @@ bool QEXTTcpPacketParser::setReplyPacket(QEXTTcpPacketInterface *send, QEXTTcpPa
     return false;
 }
 
-bool QEXTTcpPacketParser::isNotifyPacket(QEXTTcpPacketInterface *packet) const
+bool QEXTTcpPacketParser::isNotifyPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const
 {
-    if (packet)
+    if (!packet.isNull())
     {
         return packet->header()->headerData(QEXT_TCP_PACKET_KEY_TYPE).toHostString() == QEXT_TCP_PACKET_TYPE_NOTIFY;
     }
     return false;
 }
 
-bool QEXTTcpPacketParser::setNotifyPacket(QEXTTcpPacketInterface *packet)
+bool QEXTTcpPacketParser::setNotifyPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet)
 {
     QEXT_DECL_D(QEXTTcpPacketParser);
-    if (packet)
+    if (!packet.isNull())
     {
         bool success = packet->header()->setHeaderData(QEXT_TCP_PACKET_KEY_TYPE, QEXTTcpPacketVariant(QEXT_TCP_PACKET_TYPE_NOTIFY));
         success = packet->header()->setHeaderData(QEXT_TCP_PACKET_KEY_TIME, QDateTime::currentDateTime().toString("yyyy-mm-dd hh:mm:ss:zzz")) && success;
@@ -183,11 +187,11 @@ QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketParser::createPacket() const
     return QSharedPointer<QEXTTcpPacketInterface>(new QEXTTcpPacket(this->createHeader()));
 }
 
-QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketParser::clonePacket(QEXTTcpPacketInterface *packet) const
+QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketParser::clonePacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const
 {
     QEXT_DECL_DC(QEXTTcpPacketParser);
     QSharedPointer<QEXTTcpPacketInterface> clonePacket;
-    if (packet)
+    if (!packet.isNull())
     {
         clonePacket = this->createPacket();
         QEXTTcpPacketHeader::DataInfoVector::const_iterator iter;
@@ -201,9 +205,9 @@ QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketParser::clonePacket(QEXTTcpP
     return clonePacket;
 }
 
-QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketParser::createReplyPacket(QEXTTcpPacketInterface *rcv) const
+QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketParser::createReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &rcv) const
 {
-    if (rcv)
+    if (!rcv.isNull())
     {
         QSharedPointer<QEXTTcpPacketInterface> packet = this->createPacket();
         packet->header()->setHeaderData(QEXT_TCP_PACKET_KEY_TYPE, QEXTTcpPacketVariant(QEXT_TCP_PACKET_TYPE_REPLY));

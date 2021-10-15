@@ -2,6 +2,7 @@
 #include <qextTcpPacketDispatcher_p.h>
 #include <qextTcpUtils.h>
 #include <qextTcpSocket.h>
+#include <qextTcpFactory.h>
 #include <qextTcpTask.h>
 #include <qextTcpTaskPool.h>
 #include <qextTcpPacketParserInterface.h>
@@ -21,24 +22,48 @@ QEXTTcpPacketDispatcherPrivate::~QEXTTcpPacketDispatcherPrivate()
 }
 
 
-QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket)
+QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpSocket *socket)
     : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpPacketDispatcherPrivate(this)))
 {
     QEXT_DECL_D(QEXTTcpPacketDispatcher);
-    connect(this, SIGNAL(send()), socket.data(), SLOT(sendPacket()));
-    d->m_socket = socket.toWeakRef();
+    connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
+    d->m_socket = socket;
     d->m_taskPool = QSharedPointer<QEXTTcpTaskPool>(new QEXTTcpTaskPool(this));
-    this->setTaskFactory(QSharedPointer<QEXTTcpTaskFactory>(new QEXTTcpTaskFactory));
+    this->setTcpFactory(QSharedPointer<QEXTTcpFactory>(new QEXTTcpFactory));
 }
 
-QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd, const QSharedPointer<QEXTTcpSocket> &socket)
+QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpSocket *socket,
+                                                 const QSharedPointer<QEXTTcpFactory> &tcpFactory)
+    : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpPacketDispatcherPrivate(this)))
+{
+    QEXT_DECL_D(QEXTTcpPacketDispatcher);
+    connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
+    d->m_socket = socket;
+    d->m_taskPool = QSharedPointer<QEXTTcpTaskPool>(new QEXTTcpTaskPool(this));
+    this->setTcpFactory(tcpFactory);
+}
+
+QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd,
+                                                 QEXTTcpSocket *socket)
     : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
 {
     QEXT_DECL_D(QEXTTcpPacketDispatcher);
-    connect(this, SIGNAL(send()), socket.data(), SLOT(sendPacket()));
-    d->m_socket = socket.toWeakRef();
+    connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
+    d->m_socket = socket;
     d->m_taskPool = QSharedPointer<QEXTTcpTaskPool>(new QEXTTcpTaskPool(this));
-    this->setTaskFactory(QSharedPointer<QEXTTcpTaskFactory>(new QEXTTcpTaskFactory));
+    this->setTcpFactory(QSharedPointer<QEXTTcpFactory>(new QEXTTcpFactory));
+}
+
+QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd,
+                                                 QEXTTcpSocket *socket,
+                                                 const QSharedPointer<QEXTTcpFactory> &tcpFactory)
+    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
+{
+    QEXT_DECL_D(QEXTTcpPacketDispatcher);
+    connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
+    d->m_socket = socket;
+    d->m_taskPool = QSharedPointer<QEXTTcpTaskPool>(new QEXTTcpTaskPool(this));
+    this->setTcpFactory(tcpFactory);
 }
 
 QEXTTcpPacketDispatcher::~QEXTTcpPacketDispatcher()
@@ -49,23 +74,16 @@ QEXTTcpPacketDispatcher::~QEXTTcpPacketDispatcher()
 bool QEXTTcpPacketDispatcher::isSocketValid() const
 {
     QEXT_DECL_DC(QEXTTcpPacketDispatcher);
-    QSharedPointer<QEXTTcpSocket> socket(d->m_socket);
-    return !socket.isNull() && socket->isConnected();
+    return !d->m_socket.isNull() && d->m_socket->isConnected();
 }
 
 QSharedPointer<QEXTTcpPacketParserInterface> QEXTTcpPacketDispatcher::packetParser() const
 {
     QEXT_DECL_DC(QEXTTcpPacketDispatcher);
-    QSharedPointer<QEXTTcpSocket> socket(d->m_socket);
-    return socket->packetParser();
+    return d->m_socket->packetParser();
 }
 
-QSharedPointer<QEXTTcpPacketDispatcher> QEXTTcpPacketDispatcher::sharedPointer() const
-{
-    return this->socket()->packetDispatcher();
-}
-
-QSharedPointer<QEXTTcpSocket> QEXTTcpPacketDispatcher::socket() const
+QPointer<QEXTTcpSocket> QEXTTcpPacketDispatcher::socket() const
 {
     QEXT_DECL_DC(QEXTTcpPacketDispatcher);
     return d->m_socket;
@@ -77,40 +95,46 @@ QSharedPointer<QEXTTcpTaskPool> QEXTTcpPacketDispatcher::taskPool() const
     return d->m_taskPool;
 }
 
-QSharedPointer<QEXTTcpTaskFactory> QEXTTcpPacketDispatcher::taskFactory() const
+QSharedPointer<QEXTTcpFactory> QEXTTcpPacketDispatcher::tcpFactory() const
 {
     QEXT_DECL_DC(QEXTTcpPacketDispatcher);
-    return d->m_taskFactory;
+    QMutexLocker taskMutexLocker(&d->m_taskMutex);
+    return d->m_tcpFactory;
 }
 
-void QEXTTcpPacketDispatcher::setTaskFactory(const QSharedPointer<QEXTTcpTaskFactory> &taskFactory)
+void QEXTTcpPacketDispatcher::setTcpFactory(const QSharedPointer<QEXTTcpFactory> &tcpFactory)
 {
     QEXT_DECL_D(QEXTTcpPacketDispatcher);
-    QMutexLocker locker(&d->m_taskMutex);
-    if (taskFactory != d->m_taskFactory)
+    QMutexLocker taskMutexLocker(&d->m_taskMutex);
+    if (tcpFactory != d->m_tcpFactory)
     {
-        d->m_taskFactory = taskFactory;
+        d->m_tcpFactory = tcpFactory;
     }
+}
+
+QSharedPointer<QEXTTcpPacketTransceiver> QEXTTcpPacketDispatcher::createPacketTransceiver() const
+{
+    return QSharedPointer<QEXTTcpPacketTransceiver>(new QEXTTcpPacketTransceiver(this->socket()->packetDispatcher()));
 }
 
 void QEXTTcpPacketDispatcher::registerRequestPacketIdWithTransceiver(quint64 requestPacketId, QEXTTcpPacketTransceiver *transceiver)
 {
     QEXT_DECL_D(QEXTTcpPacketDispatcher);
-    QMutexLocker locker(&d->m_transceiverMutex);
+    QMutexLocker transceiverMutexLocker(&d->m_transceiverMutex);
     d->m_requestPacketIdToReceiverMap.insert(requestPacketId, QPointer<QEXTTcpPacketTransceiver>(transceiver));
 }
 
 void QEXTTcpPacketDispatcher::unregisterRequestPacketId(quint64 requestPacketId)
 {
     QEXT_DECL_D(QEXTTcpPacketDispatcher);
-    QMutexLocker locker(&d->m_transceiverMutex);
+    QMutexLocker transceiverMutexLocker(&d->m_transceiverMutex);
     d->m_requestPacketIdToReceiverMap.remove(requestPacketId);
 }
 
 void QEXTTcpPacketDispatcher::unregisterTransceiver(QEXTTcpPacketTransceiver *transceiver)
 {
     QEXT_DECL_D(QEXTTcpPacketDispatcher);
-    QMutexLocker locker(&d->m_transceiverMutex);
+    QMutexLocker transceiverMutexLocker(&d->m_transceiverMutex);
     QList<quint64> keys = d->m_requestPacketIdToReceiverMap.keys(QPointer<QEXTTcpPacketTransceiver>(transceiver));
     QList<quint64>::iterator iter;
     for (iter = keys.begin(); iter != keys.end(); ++iter)
@@ -122,10 +146,8 @@ void QEXTTcpPacketDispatcher::unregisterTransceiver(QEXTTcpPacketTransceiver *tr
 bool QEXTTcpPacketDispatcher::sendPacket(QEXTTcpPacketTransceiver *transceiver, const QSharedPointer<QEXTTcpPacketInterface> &packet)
 {
     QEXT_DECL_D(QEXTTcpPacketDispatcher);
-    QMutexLocker locker(&d->m_socketMutex);
-    QSharedPointer<QEXTTcpSocket> socket(d->m_socket);
-    this->registerRequestPacketIdWithTransceiver(socket->packetParser()->packetId(packet.data()), transceiver);
-    socket->enqueueSendPacket(packet);
+    this->registerRequestPacketIdWithTransceiver(d->m_socket->packetParser()->packetId(packet), transceiver);
+    d->m_socket->enqueueSendPacket(packet);
     emit this->send();
     return true;
 }
@@ -134,27 +156,52 @@ bool QEXTTcpPacketDispatcher::dispatchPacket(const QSharedPointer<QEXTTcpPacketI
 {
     Q_UNUSED(error);
     QEXT_DECL_D(QEXTTcpPacketDispatcher);
-    QMutexLocker locker(&d->m_transceiverMutex);
-    QSharedPointer<QEXTTcpSocket> socket(d->m_socket);
-    quint64 id = socket->packetParser()->packetId(packet.data());
-    QPointer<QEXTTcpPacketTransceiver> transceiver = d->m_requestPacketIdToReceiverMap.value(id);
+    if (this->dispatchToTransceiver(packet))
+    {
+        return true;
+    }
+    if (this->dispatchToTask(packet))
+    {
+        return true;
+    }
+    if (error)
+    {
+        quint64 id = d->m_socket->packetParser()->packetId(packet);
+        *error = QString("packet %1 not handle").arg(id);
+    }
+    qCritical() << "QEXTTcpPacketDispatcher::dispatchPacket():packet not handle";
+    QEXTTcpUtils::printPacket(packet);
+    return false;
+}
+
+bool QEXTTcpPacketDispatcher::dispatchToTransceiver(const QSharedPointer<QEXTTcpPacketInterface> &packet)
+{
+    QEXT_DECL_D(QEXTTcpPacketDispatcher);
+    quint64 id = d->m_socket->packetParser()->packetId(packet);
+    QMutexLocker transceiverMutexLocker(&d->m_transceiverMutex);
+    /*remove null transceiver*/
+    QList<quint64> invalIdList = d->m_requestPacketIdToReceiverMap.keys(QEXT_DECL_NULLPTR);
+    for (QList<quint64>::Iterator iter = invalIdList.begin(); iter != invalIdList.end(); ++iter) {
+        d->m_requestPacketIdToReceiverMap.remove((*iter));
+    }
+    /*find target transceiver*/
+    QPointer<QEXTTcpPacketTransceiver> transceiver = d->m_requestPacketIdToReceiverMap.value(id, QEXT_DECL_NULLPTR);
     if (!transceiver.isNull())
     {
         transceiver->enqueuePacket(packet);
+        d->m_requestPacketIdToReceiverMap.remove(id);
         return true;
     }
-    else
+    return false;
+}
+
+bool QEXTTcpPacketDispatcher::dispatchToTask(const QSharedPointer<QEXTTcpPacketInterface> &packet)
+{
+    QEXT_DECL_D(QEXTTcpPacketDispatcher);
+    QMutexLocker taskMutexLocker(&d->m_taskMutex);
+    if (!d->m_tcpFactory.isNull())
     {
-        QList<quint64> keys = d->m_requestPacketIdToReceiverMap.keys(transceiver);
-        QList<quint64>::iterator iter;
-        for (iter = keys.begin(); iter != keys.end(); ++iter)
-        {
-            d->m_requestPacketIdToReceiverMap.remove(*iter);
-        }
-    }
-    if (!d->m_taskFactory.isNull())
-    {
-        QEXTTcpTask *task = d->m_taskFactory->createTask(this->sharedPointer(), packet);
+        QEXTTcpTask *task = d->m_tcpFactory->createTask(d->m_socket->packetDispatcher(), packet);
         if (task)
         {
             d->m_taskPool->enqueueTask(task);
@@ -162,11 +209,4 @@ bool QEXTTcpPacketDispatcher::dispatchPacket(const QSharedPointer<QEXTTcpPacketI
         }
     }
     return false;
-}
-
-
-
-QSharedPointer<QEXTTcpPacketDispatcher> QEXTTcpPacketDispatcherFactory::createPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket)
-{
-    return QSharedPointer<QEXTTcpPacketDispatcher>(new QEXTTcpPacketDispatcher(socket));
 }

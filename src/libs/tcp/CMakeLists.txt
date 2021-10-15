@@ -35,6 +35,7 @@ set(qext_lib_public_headers
     include/interface/qextTcpPacketParserInterface.h
 
     include/qextTcpClient.h
+    include/qextTcpFactory.h
     include/qextTcpGlobal.h
     include/qextTcpPacket.h
     include/qextTcpPacketDispatcher.h
@@ -64,6 +65,7 @@ set(qext_lib_private_headers
 
 set(qext_lib_sources
     source/qextTcpClient.cpp
+    source/qextTcpFactory.cpp
     source/qextTcpPacket.cpp
     source/qextTcpPacketDispatcher.cpp
     source/qextTcpPacketHeader.cpp

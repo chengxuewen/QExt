@@ -3,7 +3,7 @@
 
 #include <qextTcpGlobal.h>
 
-#include <qextnetworkutils.h>
+#include <qextNetworkUtils.h>
 
 #include <QByteArray>
 #include <QMap>
