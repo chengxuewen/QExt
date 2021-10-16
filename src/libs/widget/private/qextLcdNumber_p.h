@@ -1,5 +1,5 @@
-#ifndef QEXTLCDNUMBER_P_H
-#define QEXTLCDNUMBER_P_H
+#ifndef _QEXTLCDNUMBER_P_H
+#define _QEXTLCDNUMBER_P_H
 
 #include <qextWidgetGlobal.h>
 #include <qextLcdNumber.h>
@@ -34,4 +34,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTLcdNumberPrivate)
 };
 
-#endif // QEXTLCDNUMBER_P_H
+#endif // _QEXTLCDNUMBER_P_H

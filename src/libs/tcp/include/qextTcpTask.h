@@ -1,5 +1,5 @@
-#ifndef QEXTTCPTASK_H
-#define QEXTTCPTASK_H
+#ifndef _QEXTTCPTASK_H
+#define _QEXTTCPTASK_H
 
 #include <qextTcpGlobal.h>
 #include <qextTcpPacketParserInterface.h>
@@ -62,4 +62,4 @@ public:
     void run() QEXT_DECL_OVERRIDE;
 };
 
-#endif // QEXTTCPTASK_H
+#endif // _QEXTTCPTASK_H

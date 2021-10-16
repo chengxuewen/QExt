@@ -1,5 +1,5 @@
-#ifndef QEXTITEMGADGET_P_H
-#define QEXTITEMGADGET_P_H
+#ifndef _QEXTITEMGADGET_P_H
+#define _QEXTITEMGADGET_P_H
 
 #include <qextquickglobal.h>
 
@@ -24,4 +24,4 @@ private:
 
 
 
-#endif // QEXTITEMGADGET_P_H
+#endif // _QEXTITEMGADGET_P_H

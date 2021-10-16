@@ -1,5 +1,5 @@
-#ifndef QEXTTCPPACKET_H
-#define QEXTTCPPACKET_H
+#ifndef _QEXTTCPPACKET_H
+#define _QEXTTCPPACKET_H
 
 #include <qextObject.h>
 
@@ -39,4 +39,4 @@ private:
 
 
 
-#endif // QEXTTCPPACKET_H
+#endif // _QEXTTCPPACKET_H

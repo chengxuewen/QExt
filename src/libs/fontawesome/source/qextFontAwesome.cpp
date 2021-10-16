@@ -171,7 +171,7 @@ QEXTFontAwesome::QEXTFontAwesome(QObject *parent) : QObject(parent)
         Q_INIT_RESOURCE(QEXTFontAwesome);
 
         // load the font file
-        QFile res(":/font/fontawesome-webfont.ttf");
+        QFile res(":/QEXTFontAwesome/font/fontawesome-webfont.ttf");
         if (!res.open(QIODevice::ReadOnly))
         {
             qWarning() << "QEXTFontAwesome::QEXTFontAwesome(): Font awesome font could not be loaded!";

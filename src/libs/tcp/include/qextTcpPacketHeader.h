@@ -1,5 +1,5 @@
-#ifndef QEXTTCPPACKETHEADER_H
-#define QEXTTCPPACKETHEADER_H
+#ifndef _QEXTTCPPACKETHEADER_H
+#define _QEXTTCPPACKETHEADER_H
 
 #include <qextTcpGlobal.h>
 #include <qextTcpPacketHeaderInterface.h>
@@ -38,4 +38,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTTcpPacketHeader)
 };
 
-#endif // QEXTTCPPACKETHEADER_H
+#endif // _QEXTTCPPACKETHEADER_H

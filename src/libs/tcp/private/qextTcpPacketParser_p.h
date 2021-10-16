@@ -1,5 +1,5 @@
-#ifndef QEXTTCPPACKETPARSER_P_H
-#define QEXTTCPPACKETPARSER_P_H
+#ifndef _QEXTTCPPACKETPARSER_P_H
+#define _QEXTTCPPACKETPARSER_P_H
 
 #include <qextObject_p.h>
 #include <qextId.h>
@@ -35,4 +35,4 @@ private:
 
 
 
-#endif // QEXTTCPPACKETPARSER_P_H
+#endif // _QEXTTCPPACKETPARSER_P_H

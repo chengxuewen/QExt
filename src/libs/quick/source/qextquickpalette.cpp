@@ -36,7 +36,7 @@
 
 
 
-#define QEXT_QUICK_PALETTE_COLOR_RANDOM(a, b) (rand() % (b - a + 1) + a)
+#define _QEXT_QUICK_PALETTE_COLOR_RANDOM(a, b) (rand() % (b - a + 1) + a)
 
 QEXTQuickPalettePrivate::QEXTQuickPalettePrivate(QEXTQuickPalette *qq)
     : QEXTObjectPrivate(qq)

@@ -38,8 +38,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTSINGLEAPPLOCALPEER_H
-#define QEXTSINGLEAPPLOCALPEER_H
+#ifndef _QEXTSINGLEAPPLOCALPEER_H
+#define _QEXTSINGLEAPPLOCALPEER_H
 
 #include <qextSingleAppGlobal.h>
 
@@ -75,4 +75,4 @@ private:
     static const char *m_ack;
 };
 
-#endif // QEXTSINGLEAPPLOCALPEER_H
+#endif // _QEXTSINGLEAPPLOCALPEER_H

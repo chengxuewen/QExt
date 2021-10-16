@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTITEMGADGET_H
-#define QEXTITEMGADGET_H
+#ifndef _QEXTITEMGADGET_H
+#define _QEXTITEMGADGET_H
 
 #include <qextquickglobal.h>
 
@@ -68,4 +68,4 @@ private:
 
 
 
-#endif // QEXTITEMGADGET_H
+#endif // _QEXTITEMGADGET_H

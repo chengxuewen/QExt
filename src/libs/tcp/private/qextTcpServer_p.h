@@ -1,5 +1,5 @@
-#ifndef QEXTTCPSERVER_P_H
-#define QEXTTCPSERVER_P_H
+#ifndef _QEXTTCPSERVER_P_H
+#define _QEXTTCPSERVER_P_H
 
 #include <qextTcpGlobal.h>
 #include <qextTcpSocket.h>
@@ -48,4 +48,4 @@ private:
 
 
 
-#endif // QEXTTCPSERVER_P_H
+#endif // _QEXTTCPSERVER_P_H

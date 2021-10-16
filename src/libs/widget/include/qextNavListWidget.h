@@ -1,5 +1,5 @@
-﻿#ifndef QEXTNAVLISTWIDGET_H
-#define QEXTNAVLISTWIDGET_H
+﻿#ifndef _QEXTNAVLISTWIDGET_H
+#define _QEXTNAVLISTWIDGET_H
 
 #include <qextWidgetGlobal.h>
 
@@ -371,4 +371,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTNavListWidget)
 };
 
-#endif // QEXTNAVLISTWIDGET_H
+#endif // _QEXTNAVLISTWIDGET_H

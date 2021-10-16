@@ -1,5 +1,5 @@
-#ifndef QEXTGADGETBACKGROUND_P_H
-#define QEXTGADGETBACKGROUND_P_H
+#ifndef _QEXTGADGETBACKGROUND_P_H
+#define _QEXTGADGETBACKGROUND_P_H
 
 #include <qextquickglobal.h>
 
@@ -31,4 +31,4 @@ private:
 
 
 
-#endif // QEXTGADGETBACKGROUND_P_H
+#endif // _QEXTGADGETBACKGROUND_P_H

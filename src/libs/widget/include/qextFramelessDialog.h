@@ -1,5 +1,5 @@
-﻿#ifndef QEXTFRAMELESSDIALOG_H
-#define QEXTFRAMELESSDIALOG_H
+﻿#ifndef _QEXTFRAMELESSDIALOG_H
+#define _QEXTFRAMELESSDIALOG_H
 
 #include <qextWidgetGlobal.h>
 
@@ -75,4 +75,4 @@ private:
 
 };
 
-#endif // QEXTFRAMELESSDIALOG_H
+#endif // _QEXTFRAMELESSDIALOG_H

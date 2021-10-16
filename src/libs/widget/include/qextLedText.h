@@ -9,8 +9,8 @@
  *@Date:2019-08-02
  *@History:
 ***************************************************************************************************/
-#ifndef QEXTLEDTEXT_H
-#define QEXTLEDTEXT_H
+#ifndef _QEXTLEDTEXT_H
+#define _QEXTLEDTEXT_H
 
 #include <qextWidgetGlobal.h>
 
@@ -106,4 +106,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTLedText)
 };
 
-#endif // QEXTLEDTEXT_H
+#endif // _QEXTLEDTEXT_H

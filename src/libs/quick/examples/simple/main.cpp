@@ -5,7 +5,7 @@
 
 #include <qextGlobal.h>
 
-#ifndef QEXT_BUILD_SHARED_LIBS
+#ifndef _QEXT_BUILD_SHARED_LIBS
 #   include <qextquickloader.h>
 
 #else
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-#ifndef QEXT_BUILD_SHARED_LIBS
+#ifndef _QEXT_BUILD_SHARED_LIBS
     QEXTQuickLoader::load(&engine);
 #else
     engine.addImportPath(QEXT_QML_OUTPUT_DIR);

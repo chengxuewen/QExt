@@ -1,5 +1,5 @@
-#ifndef QEXTTCPPACKETHEADERINTERFACE_H
-#define QEXTTCPPACKETHEADERINTERFACE_H
+#ifndef _QEXTTCPPACKETHEADERINTERFACE_H
+#define _QEXTTCPPACKETHEADERINTERFACE_H
 
 #include <qextTcpGlobal.h>
 #include <qextTcpPacketVariant.h>
@@ -24,4 +24,4 @@ public:
     virtual bool setHeaderData(const QString &name, const QEXTTcpPacketVariant &data) = 0;
 };
 
-#endif // QEXTTCPPACKETHEADERINTERFACE_H
+#endif // _QEXTTCPPACKETHEADERINTERFACE_H

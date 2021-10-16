@@ -1,5 +1,5 @@
-﻿#ifndef QEXTFRAMELESSWIDGET_H
-#define QEXTFRAMELESSWIDGET_H
+﻿#ifndef _QEXTFRAMELESSWIDGET_H
+#define _QEXTFRAMELESSWIDGET_H
 
 #include <qextWidgetGlobal.h>
 
@@ -73,4 +73,4 @@ private:
     Qt::WindowFlags m_flags;
 };
 
-#endif // QEXTFRAMELESSWIDGET_H
+#endif // _QEXTFRAMELESSWIDGET_H

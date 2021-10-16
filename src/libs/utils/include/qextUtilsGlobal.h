@@ -1,5 +1,5 @@
-#ifndef QEXTUTILSGLOBAL_H
-#define QEXTUTILSGLOBAL_H
+#ifndef _QEXTUTILSGLOBAL_H
+#define _QEXTUTILSGLOBAL_H
 
 #include <qextGlobal.h>
 
@@ -18,4 +18,4 @@
 #   define QEXT_UTILS_HIDDEN
 #endif
 
-#endif // QEXTUTILSGLOBAL_H
+#endif // _QEXTUTILSGLOBAL_H

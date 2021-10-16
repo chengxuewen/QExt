@@ -1,5 +1,5 @@
-#ifndef QEXTNAVBUTTON_P_H
-#define QEXTNAVBUTTON_P_H
+#ifndef _QEXTNAVBUTTON_P_H
+#define _QEXTNAVBUTTON_P_H
 
 #include <qextWidgetGlobal.h>
 #include <qextNavButton.h>
@@ -59,4 +59,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTNavButtonPrivate)
 };
 
-#endif // QEXTNAVBUTTON_P_H
+#endif // _QEXTNAVBUTTON_P_H

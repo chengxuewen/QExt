@@ -1,5 +1,5 @@
-#ifndef QEXTTCPSERVER_H
-#define QEXTTCPSERVER_H
+#ifndef _QEXTTCPSERVER_H
+#define _QEXTTCPSERVER_H
 
 #include <qextTcpGlobal.h>
 #include <qextTcpTask.h>
@@ -54,4 +54,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTTcpServer)
 };
 
-#endif // QEXTTCPSERVER_H
+#endif // _QEXTTCPSERVER_H

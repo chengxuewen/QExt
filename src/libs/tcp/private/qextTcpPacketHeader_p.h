@@ -1,5 +1,5 @@
-#ifndef QEXTTCPPACKETHEADER_P_H
-#define QEXTTCPPACKETHEADER_P_H
+#ifndef _QEXTTCPPACKETHEADER_P_H
+#define _QEXTTCPPACKETHEADER_P_H
 
 #include <qextObject_p.h>
 
@@ -34,4 +34,4 @@ private:
 
 
 
-#endif // QEXTTCPPACKETHEADER_P_H
+#endif // _QEXTTCPPACKETHEADER_P_H

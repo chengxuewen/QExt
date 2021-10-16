@@ -1,7 +1,7 @@
-#ifndef QEXTCOLOREDPIXMAPICONGLOBAL_H
-#define QEXTCOLOREDPIXMAPICONGLOBAL_H
+#ifndef _QEXTCOLOREDPIXMAPICONGLOBAL_H
+#define _QEXTCOLOREDPIXMAPICONGLOBAL_H
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 /********************************************************************************
    QEXT Compiler specific cmds for export and import code to DLL
@@ -18,4 +18,4 @@
     #define QEXT_COLOREDPIXMAPICON_HIDDEN
 #endif
 
-#endif // QEXTCOLOREDPIXMAPICONGLOBAL_H
+#endif // _QEXTCOLOREDPIXMAPICONGLOBAL_H

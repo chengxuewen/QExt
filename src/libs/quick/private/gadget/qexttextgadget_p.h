@@ -1,5 +1,5 @@
-#ifndef QEXTLABELGADGET_P_H
-#define QEXTLABELGADGET_P_H
+#ifndef _QEXTLABELGADGET_P_H
+#define _QEXTLABELGADGET_P_H
 
 #include <qextquickglobal.h>
 
@@ -30,4 +30,4 @@ private:
 
 
 
-#endif // QEXTLABELGADGET_P_H
+#endif // _QEXTLABELGADGET_P_H

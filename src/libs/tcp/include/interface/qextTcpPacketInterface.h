@@ -1,5 +1,5 @@
-#ifndef QEXTTCPPACKETINTERFACE_H
-#define QEXTTCPPACKETINTERFACE_H
+#ifndef _QEXTTCPPACKETINTERFACE_H
+#define _QEXTTCPPACKETINTERFACE_H
 
 #include <qextTcpGlobal.h>
 #include <qextTcpPacketHeaderInterface.h>
@@ -29,4 +29,4 @@ public:
 };
 
 
-#endif // QEXTTCPPACKETINTERFACE_H
+#endif // _QEXTTCPPACKETINTERFACE_H

@@ -472,7 +472,8 @@ QEXTNavListDelegate::QEXTNavListDelegate(QEXTNavListWidgetPrivate *navData)
     QFontDatabase fontDb;
     if (!fontDb.families().contains("FontAwesome"))
     {
-        int fontId = fontDb.addApplicationFont(":/font/fontawesome-webfont.ttf");
+        Q_INIT_RESOURCE(QEXTWidget);
+        int fontId = fontDb.addApplicationFont(":/QEXTWidget/font/fontawesome-webfont.ttf");
         QStringList fontName = fontDb.applicationFontFamilies(fontId);
         if (fontName.count() == 0)
         {

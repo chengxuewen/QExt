@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTTEXTGADGET_H
-#define QEXTTEXTGADGET_H
+#ifndef _QEXTTEXTGADGET_H
+#define _QEXTTEXTGADGET_H
 
 #include <qextquickglobal.h>
 
@@ -82,4 +82,4 @@ private:
 
 
 
-#endif // QEXTTEXTGADGET_H
+#endif // _QEXTTEXTGADGET_H

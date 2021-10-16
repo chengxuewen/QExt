@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTGADGETSCROLLBAR_H
-#define QEXTGADGETSCROLLBAR_H
+#ifndef _QEXTGADGETSCROLLBAR_H
+#define _QEXTGADGETSCROLLBAR_H
 
 #include <qextquickglobal.h>
 
@@ -72,4 +72,4 @@ private:
 
 
 
-#endif // QEXTGADGETSCROLLBAR_H
+#endif // _QEXTGADGETSCROLLBAR_H

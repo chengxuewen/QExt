@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/QEXTFontAwesome">
         <file>font/fontawesome-webfont.ttf</file>
     </qresource>
 </RCC>

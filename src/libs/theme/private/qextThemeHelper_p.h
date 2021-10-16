@@ -1,5 +1,5 @@
-#ifndef QEXTTHEMEHELPER_P_H
-#define QEXTTHEMEHELPER_P_H
+#ifndef _QEXTTHEMEHELPER_P_H
+#define _QEXTTHEMEHELPER_P_H
 
 #include <qextThemeGlobal.h>
 #include <qextThemeHelper.h>
@@ -21,4 +21,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTThemeHelperPrivate)
 };
 
-#endif // QEXTTHEMEHELPER_P_H
+#endif // _QEXTTHEMEHELPER_P_H

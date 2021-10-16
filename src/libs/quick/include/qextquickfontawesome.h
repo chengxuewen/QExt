@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTQUICKFONTAWESOME_H
-#define QEXTQUICKFONTAWESOME_H
+#ifndef _QEXTQUICKFONTAWESOME_H
+#define _QEXTQUICKFONTAWESOME_H
 
 #include <qextquickglobal.h>
 
@@ -849,4 +849,4 @@ protected:
     QEXTQuickFontAwesome(QObject *parent = nullptr);
 };
 
-#endif // QEXTQUICKFONTAWESOME_H
+#endif // _QEXTQUICKFONTAWESOME_H

@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTQUICKQMLPLUGIN_H
-#define QEXTQUICKQMLPLUGIN_H
+#ifndef _QEXTQUICKQMLPLUGIN_H
+#define _QEXTQUICKQMLPLUGIN_H
 
 #include <qextquickglobal.h>
 
@@ -46,4 +46,4 @@ public:
     void initializeEngine(QQmlEngine *engine, const char *uri);
 };
 
-#endif // QEXTQUICKQMLPLUGIN_H
+#endif // _QEXTQUICKQMLPLUGIN_H

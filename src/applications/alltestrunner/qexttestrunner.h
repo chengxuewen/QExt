@@ -1,5 +1,5 @@
-#ifndef QEXTTESTRUNNER_H
-#define QEXTTESTRUNNER_H
+#ifndef _QEXTTESTRUNNER_H
+#define _QEXTTESTRUNNER_H
 
 #include <QDir>
 #include <QObject>
@@ -177,4 +177,4 @@ protected:
     int m_testIndex;
 };
 
-#endif // QEXTTESTRUNNER_H
+#endif // _QEXTTESTRUNNER_H

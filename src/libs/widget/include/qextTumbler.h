@@ -18,6 +18,8 @@
  *  Brief:  （1）.整理优化;
 ***************************************************************************************************/
 
+#include <qextWidgetGlobal.h>
+
 #include <QWidget>
 
 #ifndef Q_WS_QWS
@@ -27,8 +29,6 @@
         #include <QtUiPlugin/QDesignerExportWidget>
     #endif
 #endif
-
-#include <qextWidgetGlobal.h>
 
 class QEXT_WIDGET_API QEXTTumbler : public QWidget
 {

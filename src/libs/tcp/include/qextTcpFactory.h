@@ -1,5 +1,5 @@
-#ifndef QEXTTCPFACTORY_H
-#define QEXTTCPFACTORY_H
+#ifndef _QEXTTCPFACTORY_H
+#define _QEXTTCPFACTORY_H
 
 #include <qextTcpGlobal.h>
 #include <qextTcpPacketDispatcher.h>
@@ -18,4 +18,4 @@ struct QEXT_TCP_API QEXTTcpFactory
     virtual QSharedPointer<QEXTTcpFactory> clone();
 };
 
-#endif // QEXTTCPFACTORY_H
+#endif // _QEXTTCPFACTORY_H

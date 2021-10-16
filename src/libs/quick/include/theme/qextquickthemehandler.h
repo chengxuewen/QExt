@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTQUICKTHEMEHANDLER_H
-#define QEXTQUICKTHEMEHANDLER_H
+#ifndef _QEXTQUICKTHEMEHANDLER_H
+#define _QEXTQUICKTHEMEHANDLER_H
 
 #include <qextquickglobal.h>
 
@@ -73,4 +73,4 @@ private:
 
 
 
-#endif // QEXTQUICKTHEMEHANDLER_H
+#endif // _QEXTQUICKTHEMEHANDLER_H

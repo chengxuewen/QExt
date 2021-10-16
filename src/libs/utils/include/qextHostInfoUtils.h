@@ -1,5 +1,5 @@
-#ifndef QEXTHOSTINFOUTILS_H
-#define QEXTHOSTINFOUTILS_H
+#ifndef _QEXTHOSTINFOUTILS_H
+#define _QEXTHOSTINFOUTILS_H
 
 #include <qextUtilsGlobal.h>
 #include <qextDiskInfo.h>
@@ -84,4 +84,4 @@ private:
 
 
 
-#endif // QEXTHOSTINFOUTILS_H
+#endif // _QEXTHOSTINFOUTILS_H

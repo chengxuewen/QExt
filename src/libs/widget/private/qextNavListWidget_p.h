@@ -1,5 +1,5 @@
-#ifndef QEXTNAVLISTVIEW_P_H
-#define QEXTNAVLISTVIEW_P_H
+#ifndef _QEXTNAVLISTVIEW_P_H
+#define _QEXTNAVLISTVIEW_P_H
 
 #include <qextWidgetGlobal.h>
 #include <qextNavListWidget.h>
@@ -158,4 +158,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTNavListWidgetPrivate)
 };
 
-#endif // QEXTNAVLISTVIEW_P_H
+#endif // _QEXTNAVLISTVIEW_P_H

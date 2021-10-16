@@ -1,5 +1,5 @@
-#ifndef QEXTTHEMEBINDER_P_H
-#define QEXTTHEMEBINDER_P_H
+#ifndef _QEXTTHEMEBINDER_P_H
+#define _QEXTTHEMEBINDER_P_H
 
 #include <qextquickglobal.h>
 
@@ -43,4 +43,4 @@ private:
 
 
 
-#endif // QEXTTHEMEBINDER_P_H
+#endif // _QEXTTHEMEBINDER_P_H

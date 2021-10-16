@@ -1,5 +1,5 @@
-#ifndef QEXTQUICKWORLD_P_H
-#define QEXTQUICKWORLD_P_H
+#ifndef _QEXTQUICKWORLD_P_H
+#define _QEXTQUICKWORLD_P_H
 
 #include <qextquickglobal.h>
 
@@ -21,4 +21,4 @@ private:
 
 
 
-#endif // QEXTQUICKWORLD_P_H
+#endif // _QEXTQUICKWORLD_P_H

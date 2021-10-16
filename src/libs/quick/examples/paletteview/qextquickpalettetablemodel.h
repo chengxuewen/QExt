@@ -1,5 +1,5 @@
-#ifndef QEXTQUICKPALETTETABLEMODEL_H
-#define QEXTQUICKPALETTETABLEMODEL_H
+#ifndef _QEXTQUICKPALETTETABLEMODEL_H
+#define _QEXTQUICKPALETTETABLEMODEL_H
 
 #include <QPointer>
 #include <QAbstractTableModel>
@@ -23,4 +23,4 @@ public:
     QPointer<QEXTQuickPalette> m_quickPalette;
 };
 
-#endif // QEXTQUICKPALETTETABLEMODEL_H
+#endif // _QEXTQUICKPALETTETABLEMODEL_H

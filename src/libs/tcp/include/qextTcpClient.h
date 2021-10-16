@@ -1,5 +1,5 @@
-#ifndef QEXTTCPCLIENT_H
-#define QEXTTCPCLIENT_H
+#ifndef _QEXTTCPCLIENT_H
+#define _QEXTTCPCLIENT_H
 
 #include <qextObject.h>
 
@@ -66,4 +66,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTTcpClient)
 };
 
-#endif // QEXTTCPCLIENT_H
+#endif // _QEXTTCPCLIENT_H

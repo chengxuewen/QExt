@@ -1,7 +1,7 @@
-#ifndef QEXTTHEMEGLOBAL_H
-#define QEXTTHEMEGLOBAL_H
+#ifndef _QEXTTHEMEGLOBAL_H
+#define _QEXTTHEMEGLOBAL_H
 
-#include <qextglobal.h>
+#include <qextGlobal.h>
 
 /********************************************************************************
    QEXT Compiler specific cmds for export and import code to DLL
@@ -18,4 +18,4 @@
     #define QEXT_THEME_HIDDEN
 #endif
 
-#endif // QEXTTHEMEGLOBAL_H
+#endif // _QEXTTHEMEGLOBAL_H

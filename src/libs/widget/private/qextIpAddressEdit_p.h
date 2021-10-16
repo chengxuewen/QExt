@@ -1,5 +1,5 @@
-#ifndef QEXTIPADDRESS_P_H
-#define QEXTIPADDRESS_P_H
+#ifndef _QEXTIPADDRESS_P_H
+#define _QEXTIPADDRESS_P_H
 
 #include <qextWidgetGlobal.h>
 
@@ -40,4 +40,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTIpAddressEditPrivate)
 };
 
-#endif // QEXTIPADDRESS_P_H
+#endif // _QEXTIPADDRESS_P_H

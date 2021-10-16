@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTQUICKWORLD_H
-#define QEXTQUICKWORLD_H
+#ifndef _QEXTQUICKWORLD_H
+#define _QEXTQUICKWORLD_H
 
 #include <qextquickglobal.h>
 
@@ -92,4 +92,4 @@ private:
 
 
 
-#endif // QEXTQUICKWORLD_H
+#endif // _QEXTQUICKWORLD_H

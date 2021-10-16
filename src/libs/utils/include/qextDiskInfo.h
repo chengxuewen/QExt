@@ -1,5 +1,5 @@
-#ifndef QEXTDISKINFO_H
-#define QEXTDISKINFO_H
+#ifndef _QEXTDISKINFO_H
+#define _QEXTDISKINFO_H
 
 #include <qextObject.h>
 
@@ -52,4 +52,4 @@ protected:
 
 
 
-#endif // QEXTDISKINFO_H
+#endif // _QEXTDISKINFO_H

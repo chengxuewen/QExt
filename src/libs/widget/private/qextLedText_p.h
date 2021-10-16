@@ -1,5 +1,5 @@
-#ifndef QEXTLEDTEXT_P_H
-#define QEXTLEDTEXT_P_H
+#ifndef _QEXTLEDTEXT_P_H
+#define _QEXTLEDTEXT_P_H
 
 #include <qextWidgetGlobal.h>
 #include <qextLedText.h>
@@ -49,4 +49,4 @@ private:
 };
 
 
-#endif // QEXTLEDTEXT_P_H
+#endif // _QEXTLEDTEXT_P_H

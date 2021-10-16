@@ -1,5 +1,5 @@
-#ifndef QEXTOBJECT_P_H
-#define QEXTOBJECT_P_H
+#ifndef _QEXTOBJECT_P_H
+#define _QEXTOBJECT_P_H
 
 #include <qextGlobal.h>
 
@@ -17,4 +17,4 @@ protected:
     QEXT_DISABLE_COPY_MOVE(QEXTObjectPrivate)
 };
 
-#endif // QEXTOBJECT_P_H
+#endif // _QEXTOBJECT_P_H

@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTQUICKPALETTE_H
-#define QEXTQUICKPALETTE_H
+#ifndef _QEXTQUICKPALETTE_H
+#define _QEXTQUICKPALETTE_H
 
 #include <qextquickglobal.h>
 
@@ -214,4 +214,4 @@ private:
 
 
 
-#endif // QEXTQUICKPALETTE_H
+#endif // _QEXTQUICKPALETTE_H

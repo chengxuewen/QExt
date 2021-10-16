@@ -26,8 +26,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTQUICKTHEMEJSONFILEPARSER_H
-#define QEXTQUICKTHEMEJSONFILEPARSER_H
+#ifndef _QEXTQUICKTHEMEJSONFILEPARSER_H
+#define _QEXTQUICKTHEMEJSONFILEPARSER_H
 
 #include <qextquickglobal.h>
 
@@ -47,4 +47,4 @@ public:
 
 
 
-#endif // QEXTQUICKTHEMEJSONFILEPARSER_H
+#endif // _QEXTQUICKTHEMEJSONFILEPARSER_H

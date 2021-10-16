@@ -1,61 +1,67 @@
-// clang-format off
-#ifndef QEXTGLOBAL_H
-#define QEXTGLOBAL_H
+#ifndef _QEXTGLOBAL_H
+#define _QEXTGLOBAL_H
 
 #include "qextconfig.h"
 #include <QtGlobal>
 
+
 /********************************************************************************
-   QEXT force inline macro define
+CF compiler cplusplus std value macro define
 ********************************************************************************/
-#if defined(QEXT_CXX_COMPILER_MSVC)
-#define QEXT_FORCE_INLINE __forceinline
-#elif defined(QEXT_CXX_COMPILER_GNU)
-#define QEXT_FORCE_INLINE inline __attribute__((always_inline))
-#elif defined(QEXT_CXX_COMPILER_CLANG)
-#define QEXT_FORCE_INLINE inline __attribute__((always_inline))
+#if defined(_MSVC_LANG) && !defined(__clang__)
+    #define QEXT_CC_STD_VALUE (_MSC_VER == 1900 ? 201103L : _MSVC_LANG)
 #else
-#define QEXT_FORCE_INLINE inline // no force inline for other platforms possible
+    #define QEXT_CC_STD_VALUE __cplusplus
 #endif
+
+#define QEXT_CC_STD_98 (QEXT_CC_STD_VALUE >= 199711L)
+#define QEXT_CC_STD_11 (QEXT_CC_STD_VALUE >= 201103L)
+#define QEXT_CC_STD_14 (QEXT_CC_STD_VALUE >= 201402L)
+#define QEXT_CC_STD_17 (QEXT_CC_STD_VALUE >= 201703L)
+#define QEXT_CC_STD_20 (QEXT_CC_STD_VALUE >= 202000L)
+
+
 
 /********************************************************************************
    QEXT Compiler specific cmds for export and import code to DLL and declare namespace
 ********************************************************************************/
 #ifdef QEXT_BUILD_SHARED_LIBS // compiled as a dynamic lib.
-#ifdef QEXT_BUILD_CORE_LIB    // defined if we are building the lib
-#define QEXT_CORE_API Q_DECL_EXPORT
-#else
-#define QEXT_CORE_API Q_DECL_IMPORT
-#endif
-#define QEXT_CORE_HIDDEN Q_DECL_HIDDEN
+    #ifdef QEXT_BUILD_CORE_LIB    // defined if we are building the lib
+        #define QEXT_CORE_API Q_DECL_EXPORT
+    #else
+        #define QEXT_CORE_API Q_DECL_IMPORT
+    #endif
+    #define QEXT_CORE_HIDDEN Q_DECL_HIDDEN
 #else // compiled as a static lib.
-#define QEXT_CORE_API
-#define QEXT_CORE_HIDDEN
+    #define QEXT_CORE_API
+    #define QEXT_CORE_HIDDEN
 #endif
+
+
 
 /********************************************************************************
     C++11 keywords and expressions
 ********************************************************************************/
-#ifdef QEXT_CXX_STANDARD_11
-#define QEXT_DECL_NULLPTR nullptr
-#define QEXT_DECL_EQ_DEFAULT = default
-#define QEXT_DECL_EQ_DELETE = delete
-#define QEXT_DECL_CONSTEXPR constexpr
-#define QEXT_DECL_RELAXED_CONSTEXPR const
-#define QEXT_DECL_OVERRIDE override
-#define QEXT_DECL_FINAL final
-#define QEXT_DECL_NOEXCEPT noexcept
-#define QEXT_DECL_NOEXCEPT_EXPR(x) noexcept(x)
+#if QEXT_CC_STD_11
+    #define QEXT_DECL_NULLPTR nullptr
+    #define QEXT_DECL_EQ_DEFAULT = default
+    #define QEXT_DECL_EQ_DELETE = delete
+    #define QEXT_DECL_CONSTEXPR constexpr
+    #define QEXT_DECL_RELAXED_CONSTEXPR const
+    #define QEXT_DECL_OVERRIDE override
+    #define QEXT_DECL_FINAL final
+    #define QEXT_DECL_NOEXCEPT noexcept
+    #define QEXT_DECL_NOEXCEPT_EXPR(x) noexcept(x)
 #else
-#define QEXT_DECL_NULLPTR NULL
-#define QEXT_DECL_EQ_DEFAULT
-#define QEXT_DECL_EQ_DELETE
-#define QEXT_DECL_CONSTEXPR
-#define QEXT_DECL_RELAXED_CONSTEXPR const
-#define QEXT_DECL_OVERRIDE
-#define QEXT_DECL_FINAL
-#define QEXT_DECL_NOEXCEPT
-#define QEXT_DECL_NOEXCEPT_EXPR(x)
+    #define QEXT_DECL_NULLPTR NULL
+    #define QEXT_DECL_EQ_DEFAULT
+    #define QEXT_DECL_EQ_DELETE
+    #define QEXT_DECL_CONSTEXPR
+    #define QEXT_DECL_RELAXED_CONSTEXPR const
+    #define QEXT_DECL_OVERRIDE
+    #define QEXT_DECL_FINAL
+    #define QEXT_DECL_NOEXCEPT
+    #define QEXT_DECL_NOEXCEPT_EXPR(x)
 #endif
 
 /*
@@ -67,7 +73,7 @@
     Class(const Class &) QEXT_DECL_EQ_DELETE;                                                                                                                       \
     Class &operator=(const Class &) QEXT_DECL_EQ_DELETE;
 
-#ifdef QEXT_CXX_STANDARD_11
+#if QEXT_CC_STD_11
 #define QEXT_DISABLE_MOVE(Class)                                                                                                                               \
     Class(Class &&) QEXT_DECL_EQ_DELETE;                                                                                                                            \
     Class &operator=(Class &&) QEXT_DECL_EQ_DELETE;
@@ -78,6 +84,7 @@
 #define QEXT_DISABLE_COPY_MOVE(Class)                                                                                                                          \
     QEXT_DISABLE_COPY(Class)                                                                                                                                   \
     QEXT_DISABLE_MOVE(Class)
+
 
 
 /********************************************************************************
@@ -117,10 +124,12 @@ static inline typename Wrapper::pointer qextGetPtrHelper(const Wrapper &p)
 
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-typedef qintptr QEXTSocketDescriptor;
+    typedef qintptr QEXTSocketDescriptor;
 #else
-typedef int QEXTSocketDescriptor;
+    typedef int QEXTSocketDescriptor;
 #endif
+
+
 
 /********************************************************************************
    QEXT version macro
@@ -130,14 +139,6 @@ typedef int QEXTSocketDescriptor;
 // can be used like #if (QEXT_VERSION >= QEXT_VERSION_CHECK(0, 3, 1))
 #define QEXT_VERSION_CHECK(major, minor, patch) ((major << 16) | (minor << 8) | (patch))
 
-/********************************************************************************
-   QEXT nil struct type.
-   The nil struct type is used as default template argument in the templates.
-********************************************************************************/
-struct QEXTNil
-{
-};
 
-#endif // QEXTGLOBAL_H
 
-// clang-format on
+#endif // _QEXTGLOBAL_H

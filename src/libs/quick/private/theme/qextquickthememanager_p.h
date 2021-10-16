@@ -1,5 +1,5 @@
-#ifndef QEXTTHEMEMANAGER_P_H
-#define QEXTTHEMEMANAGER_P_H
+#ifndef _QEXTTHEMEMANAGER_P_H
+#define _QEXTTHEMEMANAGER_P_H
 
 #include <qextquickglobal.h>
 
@@ -33,4 +33,4 @@ private:
 
 
 
-#endif // QEXTTHEMEMANAGER_P_H
+#endif // _QEXTTHEMEMANAGER_P_H

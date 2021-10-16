@@ -1,5 +1,5 @@
-#ifndef QEXTID_H
-#define QEXTID_H
+#ifndef _QEXTID_H
+#define _QEXTID_H
 
 #include <qextGlobal.h>
 
@@ -53,4 +53,4 @@ QDataStream &operator>>(QDataStream &ds, QEXTId &id);
 Q_DECLARE_METATYPE(QEXTId)
 Q_DECLARE_METATYPE(QList<QEXTId>)
 
-#endif // QEXTID_H
+#endif // _QEXTID_H

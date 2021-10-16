@@ -1,5 +1,5 @@
-#ifndef QEXTSIMPLEOBJECT_H
-#define QEXTSIMPLEOBJECT_H
+#ifndef _QEXTSIMPLEOBJECT_H
+#define _QEXTSIMPLEOBJECT_H
 
 #include <qextObject.h>
 
@@ -21,4 +21,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTSimpleObject)
 };
 
-#endif // QEXTSIMPLEOBJECT_H
+#endif // _QEXTSIMPLEOBJECT_H

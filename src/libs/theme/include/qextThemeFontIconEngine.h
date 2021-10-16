@@ -1,5 +1,5 @@
-#ifndef QEXTTHEMEFONTICONENGINE_H
-#define QEXTTHEMEFONTICONENGINE_H
+#ifndef _QEXTTHEMEFONTICONENGINE_H
+#define _QEXTTHEMEFONTICONENGINE_H
 
 #include <qextThemeGlobal.h>
 #include <qextObject.h>
@@ -33,4 +33,4 @@ private:
     QEXT_DECL_PRIVATE(QEXTThemeFontIconEngine)
 };
 
-#endif // QEXTTHEMEFONTICONENGINE_H
+#endif // _QEXTTHEMEFONTICONENGINE_H

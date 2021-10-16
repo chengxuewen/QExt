@@ -38,8 +38,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTSINGLEAPPLOCKEDFILE_H
-#define QEXTSINGLEAPPLOCKEDFILE_H
+#ifndef _QEXTSINGLEAPPLOCKEDFILE_H
+#define _QEXTSINGLEAPPLOCKEDFILE_H
 
 #include <qextSingleAppGlobal.h>
 
@@ -78,4 +78,4 @@ private:
     LockMode m_lockMode;
 };
 
-#endif // #define QEXTSINGLEAPPLOCKEDFILE_H
+#endif // #define _QEXTSINGLEAPPLOCKEDFILE_H

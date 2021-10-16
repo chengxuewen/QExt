@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTQUICKTHEMEBINDER_H
-#define QEXTQUICKTHEMEBINDER_H
+#ifndef _QEXTQUICKTHEMEBINDER_H
+#define _QEXTQUICKTHEMEBINDER_H
 
 #include <qextquickglobal.h>
 
@@ -132,4 +132,4 @@ private:
 
 
 
-#endif // QEXTQUICKTHEMEBINDER_H
+#endif // _QEXTQUICKTHEMEBINDER_H

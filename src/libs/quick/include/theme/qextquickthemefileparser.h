@@ -26,8 +26,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTQUICKTHEMEFILEPARSER_H
-#define QEXTQUICKTHEMEFILEPARSER_H
+#ifndef _QEXTQUICKTHEMEFILEPARSER_H
+#define _QEXTQUICKTHEMEFILEPARSER_H
 
 #include <qextquickglobal.h>
 
@@ -51,4 +51,4 @@ public:
 
 
 
-#endif // QEXTQUICKTHEMEFILEPARSER_H
+#endif // _QEXTQUICKTHEMEFILEPARSER_H

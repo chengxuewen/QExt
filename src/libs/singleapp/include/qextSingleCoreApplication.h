@@ -38,8 +38,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTSINGLECOREAPPLICATION_H
-#define QEXTSINGLECOREAPPLICATION_H
+#ifndef _QEXTSINGLECOREAPPLICATION_H
+#define _QEXTSINGLECOREAPPLICATION_H
 
 #include <qextSingleAppGlobal.h>
 
@@ -70,4 +70,4 @@ private:
     QEXTSingleAppLocalPeer *m_peer;
 };
 
-#endif // QEXTSINGLECOREAPPLICATION_H
+#endif // _QEXTSINGLECOREAPPLICATION_H

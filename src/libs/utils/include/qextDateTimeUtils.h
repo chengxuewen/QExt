@@ -1,5 +1,5 @@
-#ifndef QEXTDATETIMEUTILS_H
-#define QEXTDATETIMEUTILS_H
+#ifndef _QEXTDATETIMEUTILS_H
+#define _QEXTDATETIMEUTILS_H
 
 #include <qextGlobal.h>
 
@@ -17,4 +17,4 @@ public:
 
 
 
-#endif // QEXTDATETIMEUTILS_H
+#endif // _QEXTDATETIMEUTILS_H

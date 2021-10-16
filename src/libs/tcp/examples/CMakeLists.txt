@@ -59,6 +59,28 @@ list(APPEND qext_example_link_libraries QEXTTcp)
 
 
 #--------------------------------------------------------------------------------
+# define function
+#--------------------------------------------------------------------------------
+function(qextTcpAddExample EXAMPLE_NAME)
+    set(multiValueArgs EXAMPLE_SOURCE EXAMPLE_INCLUDE_DIRS)
+    cmake_parse_arguments(MY "" "" "${multiValueArgs}" "${ARGN}")
+    add_executable(${EXAMPLE_NAME} ${MY_EXAMPLE_SOURCE})
+    target_link_libraries(${EXAMPLE_NAME} PRIVATE ${qext_example_link_libraries})
+    target_include_directories(${EXAMPLE_NAME} PRIVATE
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${MY_EXAMPLE_INCLUDE_DIRS}
+        ${qext_example_include_directories}
+        )
+    set_property(TARGET ${EXAMPLE_NAME} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+    if(QEXT_BUILD_SHARED_LIBS AND WIN32)
+        qextMacroCopyDependenceLib(${EXAMPLE_NAME} QEXTWidget ${EXECUTABLE_OUTPUT_PATH})
+        qextMacroCopyDependenceLib(${EXAMPLE_NAME} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    endif()
+endfunction()
+
+
+#--------------------------------------------------------------------------------
 # Add qext_exp_tcpSimpleServer example
 #--------------------------------------------------------------------------------
 set(qext_example_name qext_exp_tcpSimpleServer)

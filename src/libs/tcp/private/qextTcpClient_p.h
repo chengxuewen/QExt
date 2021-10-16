@@ -1,5 +1,5 @@
-#ifndef QEXTTCPCLIENT_P_H
-#define QEXTTCPCLIENT_P_H
+#ifndef _QEXTTCPCLIENT_P_H
+#define _QEXTTCPCLIENT_P_H
 
 #include <qextTcpGlobal.h>
 #include <qextTcpPacketTransceiver_p.h>
@@ -37,4 +37,4 @@ private:
 
 
 
-#endif // QEXTTCPCLIENT_P_H
+#endif // _QEXTTCPCLIENT_P_H

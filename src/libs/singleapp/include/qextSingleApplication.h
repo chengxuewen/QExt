@@ -38,8 +38,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTSINGLEAPPLICATION_H
-#define QEXTSINGLEAPPLICATION_H
+#ifndef _QEXTSINGLEAPPLICATION_H
+#define _QEXTSINGLEAPPLICATION_H
 
 #include <qextSingleAppGlobal.h>
 
@@ -87,4 +87,4 @@ private:
     QWidget *m_actWin;
 };
 
-#endif // QEXTSINGLEAPPLICATION_H
+#endif // _QEXTSINGLEAPPLICATION_H

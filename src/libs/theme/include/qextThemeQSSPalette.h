@@ -1,5 +1,5 @@
-#ifndef QEXTTHEMEQSSPALETTE_H
-#define QEXTTHEMEQSSPALETTE_H
+#ifndef _QEXTTHEMEQSSPALETTE_H
+#define _QEXTTHEMEQSSPALETTE_H
 
 #include <qextThemeGlobal.h>
 
@@ -106,4 +106,4 @@ protected:
     friend Q_GUI_EXPORT QDataStream &operator<<(QDataStream &s, const QEXTThemePalette &p);
 };
 
-#endif // QEXTTHEMEQSSPALETTE_H
+#endif // _QEXTTHEMEQSSPALETTE_H

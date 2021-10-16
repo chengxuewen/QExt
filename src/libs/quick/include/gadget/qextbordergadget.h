@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTBORDERGADGET_H
-#define QEXTBORDERGADGET_H
+#ifndef _QEXTBORDERGADGET_H
+#define _QEXTBORDERGADGET_H
 
 #include <qextquickglobal.h>
 
@@ -88,4 +88,4 @@ private:
 
 
 
-#endif // QEXTBORDERGADGET_H
+#endif // _QEXTBORDERGADGET_H

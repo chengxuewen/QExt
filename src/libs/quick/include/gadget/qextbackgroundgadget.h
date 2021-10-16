@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTBACKGROUNDGADGET_H
-#define QEXTBACKGROUNDGADGET_H
+#ifndef _QEXTBACKGROUNDGADGET_H
+#define _QEXTBACKGROUNDGADGET_H
 
 #include <qextquickglobal.h>
 
@@ -89,4 +89,4 @@ private:
 
 
 
-#endif // QEXTBACKGROUNDGADGET_H
+#endif // _QEXTBACKGROUNDGADGET_H

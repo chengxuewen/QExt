@@ -1,5 +1,5 @@
-#ifndef QEXTICONLABEL_H
-#define QEXTICONLABEL_H
+#ifndef _QEXTICONLABEL_H
+#define _QEXTICONLABEL_H
 
 #include <qextWidgetGlobal.h>
 #include <qextObject.h>
@@ -31,4 +31,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTIconLabel)
 };
 
-#endif // QEXTICONLABEL_H
+#endif // _QEXTICONLABEL_H

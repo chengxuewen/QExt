@@ -1,5 +1,5 @@
-#ifndef QEXTWAVECHART_P_H
-#define QEXTWAVECHART_P_H
+#ifndef _QEXTWAVECHART_P_H
+#define _QEXTWAVECHART_P_H
 
 #include <qextWidgetGlobal.h>
 #include <qextObject_p.h>
@@ -58,4 +58,4 @@ private:
 };
 
 
-#endif // QEXTWAVECHART_P_H
+#endif // _QEXTWAVECHART_P_H

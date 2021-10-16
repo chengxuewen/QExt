@@ -1,5 +1,5 @@
-#ifndef QEXTCOLOR_P_H
-#define QEXTCOLOR_P_H
+#ifndef _QEXTCOLOR_P_H
+#define _QEXTCOLOR_P_H
 
 #include <qextquickglobal.h>
 
@@ -26,4 +26,4 @@ private:
 
 
 
-#endif // QEXTCOLOR_P_H
+#endif // _QEXTCOLOR_P_H

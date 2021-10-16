@@ -1,5 +1,5 @@
-#ifndef QEXTFONTAWESOME_H
-#define QEXTFONTAWESOME_H
+#ifndef _QEXTFONTAWESOME_H
+#define _QEXTFONTAWESOME_H
 
 #include <qextFontAwesomeGlobal.h>
 
@@ -1059,4 +1059,4 @@ public:
 #define qextFontAwesome qextGlobalFontAwesome()
 QEXT_FONTAWESOME_API QEXTFontAwesome *qextGlobalFontAwesome();
 
-#endif // QEXTFONTAWESOME_H
+#endif // _QEXTFONTAWESOME_H

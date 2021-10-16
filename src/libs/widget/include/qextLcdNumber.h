@@ -8,8 +8,8 @@
  *@Date:2019-08-02
  *@History:
 ***************************************************************************************************/
-#ifndef QEXTLCDNUMBER_H
-#define QEXTLCDNUMBER_H
+#ifndef _QEXTLCDNUMBER_H
+#define _QEXTLCDNUMBER_H
 
 #include <qextWidgetGlobal.h>
 #include <qextObject.h>
@@ -93,4 +93,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTLcdNumber)
 };
 
-#endif // QEXTLCDNUMBER_H
+#endif // _QEXTLCDNUMBER_H

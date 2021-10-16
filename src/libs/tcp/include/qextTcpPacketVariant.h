@@ -1,5 +1,5 @@
-#ifndef QEXTTCPPACKETVARIANT_H
-#define QEXTTCPPACKETVARIANT_H
+#ifndef _QEXTTCPPACKETVARIANT_H
+#define _QEXTTCPPACKETVARIANT_H
 
 #include <qextTcpGlobal.h>
 
@@ -98,4 +98,4 @@ protected:
     quint8 m_dataType;
 };
 
-#endif // QEXTTCPPACKETVARIANT_H
+#endif // _QEXTTCPPACKETVARIANT_H

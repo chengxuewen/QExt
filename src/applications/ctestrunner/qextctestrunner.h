@@ -1,5 +1,5 @@
-#ifndef QEXTCTESTRUNNER_H
-#define QEXTCTESTRUNNER_H
+#ifndef _QEXTCTESTRUNNER_H
+#define _QEXTCTESTRUNNER_H
 
 #include <QObject>
 #include <QDebug>
@@ -38,4 +38,4 @@ protected:
     QString m_workingDir;
 };
 
-#endif // QEXTCTESTRUNNER_H
+#endif // _QEXTCTESTRUNNER_H

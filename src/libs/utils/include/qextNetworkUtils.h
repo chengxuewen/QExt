@@ -1,5 +1,5 @@
-#ifndef QEXTNETWORKUTILS_H
-#define QEXTNETWORKUTILS_H
+#ifndef _QEXTNETWORKUTILS_H
+#define _QEXTNETWORKUTILS_H
 
 #include <qextGlobal.h>
 
@@ -68,4 +68,4 @@ public:
 
 
 
-#endif // QEXTNETWORKUTILS_H
+#endif // _QEXTNETWORKUTILS_H

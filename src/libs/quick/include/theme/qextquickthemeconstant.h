@@ -26,8 +26,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTQUICKTHEMECONSTANT_H
-#define QEXTQUICKTHEMECONSTANT_H
+#ifndef _QEXTQUICKTHEMECONSTANT_H
+#define _QEXTQUICKTHEMECONSTANT_H
 
 #include <qextquickglobal.h>
 
@@ -48,4 +48,4 @@ public:
     static const char *THEME_PROPERTY_COLOR;
 };
 
-#endif // QEXTQUICKTHEMECONSTANT_H
+#endif // _QEXTQUICKTHEMECONSTANT_H

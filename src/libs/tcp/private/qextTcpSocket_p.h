@@ -1,5 +1,5 @@
-#ifndef QEXTTCPSOCKET_P_H
-#define QEXTTCPSOCKET_P_H
+#ifndef _QEXTTCPSOCKET_P_H
+#define _QEXTTCPSOCKET_P_H
 
 #include <qextObject_p.h>
 #include <qextTcpPacketInterface.h>
@@ -44,4 +44,4 @@ private:
 
 
 
-#endif // QEXTTCPSOCKET_P_H
+#endif // _QEXTTCPSOCKET_P_H

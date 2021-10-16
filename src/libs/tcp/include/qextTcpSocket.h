@@ -1,5 +1,5 @@
-#ifndef QEXTTCPSOCKET_H
-#define QEXTTCPSOCKET_H
+#ifndef _QEXTTCPSOCKET_H
+#define _QEXTTCPSOCKET_H
 
 #include <qextObject.h>
 #include <qextId.h>
@@ -76,4 +76,4 @@ private:
 };
 
 
-#endif // QEXTTCPSOCKET_H
+#endif // _QEXTTCPSOCKET_H

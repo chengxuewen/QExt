@@ -1,5 +1,5 @@
-#ifndef QEXTSINGLEAPPGLOBAL_H
-#define QEXTSINGLEAPPGLOBAL_H
+#ifndef _QEXTSINGLEAPPGLOBAL_H
+#define _QEXTSINGLEAPPGLOBAL_H
 
 #include <qextGlobal.h>
 
@@ -18,4 +18,4 @@
 #   define QEXT_SINGLEAPP_HIDDEN
 #endif
 
-#endif // QEXTSINGLEAPPGLOBAL_H
+#endif // _QEXTSINGLEAPPGLOBAL_H

@@ -1,5 +1,5 @@
-#ifndef QEXTSCROLLBARGADGET_P_H
-#define QEXTSCROLLBARGADGET_P_H
+#ifndef _QEXTSCROLLBARGADGET_P_H
+#define _QEXTSCROLLBARGADGET_P_H
 
 #include <qextquickglobal.h>
 
@@ -25,4 +25,4 @@ private:
 
 
 
-#endif // QEXTSCROLLBARGADGET_P_H
+#endif // _QEXTSCROLLBARGADGET_P_H

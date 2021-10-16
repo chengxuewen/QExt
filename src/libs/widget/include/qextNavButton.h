@@ -1,5 +1,5 @@
-#ifndef QEXTNAVBUTTON_H
-#define QEXTNAVBUTTON_H
+#ifndef _QEXTNAVBUTTON_H
+#define _QEXTNAVBUTTON_H
 
 /**
  * 导航按钮控件 作者:feiyangqingyun(QQ:517216493) 2017-12-19
@@ -190,4 +190,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTNavButton)
 };
 
-#endif // QEXTNAVBUTTON_H
+#endif // _QEXTNAVBUTTON_H

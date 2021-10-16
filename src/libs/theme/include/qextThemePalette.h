@@ -1,5 +1,5 @@
-#ifndef QEXTTHEMEPALETTE_H
-#define QEXTTHEMEPALETTE_H
+#ifndef _QEXTTHEMEPALETTE_H
+#define _QEXTTHEMEPALETTE_H
 
 #include <qextThemeGlobal.h>
 
@@ -122,4 +122,4 @@ Q_GUI_EXPORT QDataStream &operator>>(QDataStream &ds, QEXTThemePalette &p);
 #endif // QT_NO_DATASTREAM
 QT_END_NAMESPACE
 
-#endif // QEXTTHEMEPALETTE_H
+#endif // _QEXTTHEMEPALETTE_H

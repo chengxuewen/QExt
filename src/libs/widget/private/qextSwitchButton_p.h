@@ -1,5 +1,5 @@
-#ifndef QEXTSWITCHBUTTON_P_H
-#define QEXTSWITCHBUTTON_P_H
+#ifndef _QEXTSWITCHBUTTON_P_H
+#define _QEXTSWITCHBUTTON_P_H
 
 #include <qextWidgetGlobal.h>
 #include <qextSwitchButton.h>
@@ -44,4 +44,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTSwitchButtonPrivate)
 };
 
-#endif // QEXTSWITCHBUTTON_P_H
+#endif // _QEXTSWITCHBUTTON_P_H

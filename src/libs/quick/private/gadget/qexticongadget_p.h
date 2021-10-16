@@ -1,5 +1,5 @@
-#ifndef QEXTICONGADGET_P_H
-#define QEXTICONGADGET_P_H
+#ifndef _QEXTICONGADGET_P_H
+#define _QEXTICONGADGET_P_H
 
 #include <qextquickglobal.h>
 
@@ -31,4 +31,4 @@ private:
 
 
 
-#endif // QEXTICONGADGET_P_H
+#endif // _QEXTICONGADGET_P_H

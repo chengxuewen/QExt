@@ -1,5 +1,5 @@
-#ifndef QEXTBORDERGADGET_P_H
-#define QEXTBORDERGADGET_P_H
+#ifndef _QEXTBORDERGADGET_P_H
+#define _QEXTBORDERGADGET_P_H
 
 #include <qextquickglobal.h>
 
@@ -33,4 +33,4 @@ private:
 
 
 
-#endif // QEXTBORDERGADGET_P_H
+#endif // _QEXTBORDERGADGET_P_H

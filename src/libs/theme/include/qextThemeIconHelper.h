@@ -1,5 +1,5 @@
-#ifndef QEXTTHEMEICONHELPER_H
-#define QEXTTHEMEICONHELPER_H
+#ifndef _QEXTTHEMEICONHELPER_H
+#define _QEXTTHEMEICONHELPER_H
 
 
 class QEXTThemeIconHelper
@@ -8,4 +8,4 @@ public:
     QEXTThemeIconHelper();
 };
 
-#endif // QEXTTHEMEICONHELPER_H
+#endif // _QEXTTHEMEICONHELPER_H

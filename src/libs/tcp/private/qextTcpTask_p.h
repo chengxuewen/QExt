@@ -1,5 +1,5 @@
-#ifndef QEXTTCPTASK_P_H
-#define QEXTTCPTASK_P_H
+#ifndef _QEXTTCPTASK_P_H
+#define _QEXTTCPTASK_P_H
 
 #include <qextObject_p.h>
 
@@ -38,4 +38,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTaskPrivate)
 };
 
-#endif // QEXTTCPTASK_P_H
+#endif // _QEXTTCPTASK_P_H

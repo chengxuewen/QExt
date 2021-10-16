@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTICONGADGET_H
-#define QEXTICONGADGET_H
+#ifndef _QEXTICONGADGET_H
+#define _QEXTICONGADGET_H
 
 #include <qextquickglobal.h>
 
@@ -89,4 +89,4 @@ private:
 
 
 
-#endif // QEXTICONGADGET_H
+#endif // _QEXTICONGADGET_H

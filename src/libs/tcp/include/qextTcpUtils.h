@@ -1,5 +1,5 @@
-#ifndef QEXTTCPUTILS_H
-#define QEXTTCPUTILS_H
+#ifndef _QEXTTCPUTILS_H
+#define _QEXTTCPUTILS_H
 
 #include <qextTcpGlobal.h>
 
@@ -17,4 +17,4 @@ public:
     static void printPacket(QEXTTcpPacketInterface *packet);
 };
 
-#endif // QEXTTCPUTILS_H
+#endif // _QEXTTCPUTILS_H

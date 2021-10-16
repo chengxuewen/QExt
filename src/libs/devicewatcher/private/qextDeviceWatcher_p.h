@@ -17,8 +17,8 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ******************************************************************************/
 
-#ifndef QEXTDEVICEWATCHER_P_H
-#define QEXTDEVICEWATCHER_P_H
+#ifndef _QEXTDEVICEWATCHER_P_H
+#define _QEXTDEVICEWATCHER_P_H
 
 /*!
   Usually we use CONFIG_SOCKETNOTIFIER. CONFIG_TCPSOCKET and CONFIG_THREAD are test case
@@ -123,4 +123,4 @@ private:
 };
 
 
-#endif // QEXTDEVICEWATCHER_P_H
+#endif // _QEXTDEVICEWATCHER_P_H

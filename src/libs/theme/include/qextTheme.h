@@ -1,5 +1,5 @@
-#ifndef QEXTTHEME_H
-#define QEXTTHEME_H
+#ifndef _QEXTTHEME_H
+#define _QEXTTHEME_H
 
 
 class QEXTTheme
@@ -8,4 +8,4 @@ public:
     QEXTTheme();
 };
 
-#endif // QEXTTHEME_H
+#endif // _QEXTTHEME_H

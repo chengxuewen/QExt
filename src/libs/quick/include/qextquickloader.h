@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-#ifndef QEXTQUICKLOADER_H
-#define QEXTQUICKLOADER_H
+#ifndef _QEXTQUICKLOADER_H
+#define _QEXTQUICKLOADER_H
 
 #include <qextGlobal.h>
 
@@ -47,4 +47,4 @@ public:
 
 
 
-#endif // QEXTQUICKLOADER_H
+#endif // _QEXTQUICKLOADER_H

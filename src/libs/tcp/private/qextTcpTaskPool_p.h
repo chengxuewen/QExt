@@ -1,5 +1,5 @@
-#ifndef QEXTTCPTASKPOOL_P_H
-#define QEXTTCPTASKPOOL_P_H
+#ifndef _QEXTTCPTASKPOOL_P_H
+#define _QEXTTCPTASKPOOL_P_H
 
 #include <qextTcpGlobal.h>
 
@@ -36,4 +36,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QEXTTcpTaskPoolPrivate)
 };
 
-#endif // QEXTTCPTASKPOOL_P_H
+#endif // _QEXTTCPTASKPOOL_P_H

@@ -1,5 +1,5 @@
-#ifndef QEXTTCPGLOBAL_H
-#define QEXTTCPGLOBAL_H
+#ifndef _QEXTTCPGLOBAL_H
+#define _QEXTTCPGLOBAL_H
 
 #include <qextGlobal.h>
 
@@ -18,4 +18,4 @@
 #   define QEXT_TCP_HIDDEN
 #endif
 
-#endif // QEXTTCPGLOBAL_H
+#endif // _QEXTTCPGLOBAL_H
