@@ -144,41 +144,42 @@ qextWidgetAddExample(qext_exp_widgetFramelessWidget
     EXAMPLE_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/framelesswidget
     )
-qextWidgetAddExample(qext_exp_widgetLightBreathing
+qextWidgetAddExample(qext_exp_widgetBreathingLight
     EXAMPLE_SOURCE
-    lightbreathing/mainwindow.cpp
-    lightbreathing/mainwindow.h
-    lightbreathing/mainwindow.ui
-    lightbreathing/main.cpp
+    breathinglight/mainwindow.cpp
+    breathinglight/mainwindow.h
+    breathinglight/mainwindow.ui
+    breathinglight/main.cpp
+    breathinglight/resources.qrc
     EXAMPLE_INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/lightbreathing
+    ${CMAKE_CURRENT_SOURCE_DIR}/breathinglight
     )
-qextWidgetAddExample(qext_exp_widgetLightIndicator
+qextWidgetAddExample(qext_exp_widgetIndicatorLight
     EXAMPLE_SOURCE
-    lightindicator/mainwindow.cpp
-    lightindicator/mainwindow.h
-    lightindicator/mainwindow.ui
-    lightindicator/main.cpp
+    indicatorlight/mainwindow.cpp
+    indicatorlight/mainwindow.h
+    indicatorlight/mainwindow.ui
+    indicatorlight/main.cpp
     EXAMPLE_INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/lightindicator
+    ${CMAKE_CURRENT_SOURCE_DIR}/indicatorlight
     )
-qextWidgetAddExample(qext_exp_widgetLcdNumber
+qextWidgetAddExample(qext_exp_widgetNumberLed
     EXAMPLE_SOURCE
-    lcdnumber/mainwindow.cpp
-    lcdnumber/mainwindow.h
-    lcdnumber/mainwindow.ui
-    lcdnumber/main.cpp
+    numberled/mainwindow.cpp
+    numberled/mainwindow.h
+    numberled/mainwindow.ui
+    numberled/main.cpp
     EXAMPLE_INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/lcdnumber
+    ${CMAKE_CURRENT_SOURCE_DIR}/numberled
     )
-qextWidgetAddExample(qext_exp_widgetLcdText
+qextWidgetAddExample(qext_exp_widgetTextLcd
     EXAMPLE_SOURCE
-    lcdtext/mainwindow.cpp
-    lcdtext/mainwindow.h
-    lcdtext/mainwindow.ui
-    lcdtext/main.cpp
+    textlcd/mainwindow.cpp
+    textlcd/mainwindow.h
+    textlcd/mainwindow.ui
+    textlcd/main.cpp
     EXAMPLE_INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/lcdtext
+    ${CMAKE_CURRENT_SOURCE_DIR}/textlcd
     )
 qextWidgetAddExample(qext_exp_widgetWaveChart
     EXAMPLE_SOURCE
@@ -281,4 +282,49 @@ qextWidgetAddExample(qext_exp_widgetInput
     input/main.cpp
     EXAMPLE_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/input
+    )
+qextWidgetAddExample(qext_exp_widgetSelectSlider
+    EXAMPLE_SOURCE
+    selectslider/frmselectslider.cpp
+    selectslider/frmselectslider.h
+    selectslider/frmselectslider.ui
+    selectslider/main.cpp
+    EXAMPLE_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/selectslider
+    )
+qextWidgetAddExample(qext_exp_widgetRangeSlider
+    EXAMPLE_SOURCE
+    rangeslider/frmrangeslider.cpp
+    rangeslider/frmrangeslider.h
+    rangeslider/frmrangeslider.ui
+    rangeslider/main.cpp
+    EXAMPLE_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/rangeslider
+    )
+qextWidgetAddExample(qext_exp_widgetTooltip
+    EXAMPLE_SOURCE
+    tooltip/frmtooltip.cpp
+    tooltip/frmtooltip.h
+    tooltip/frmtooltip.ui
+    tooltip/main.cpp
+    EXAMPLE_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/tooltip
+    )
+qextWidgetAddExample(qext_exp_widgetSlider
+    EXAMPLE_SOURCE
+    slider/frmslider.cpp
+    slider/frmslider.h
+    slider/frmslider.ui
+    slider/main.cpp
+    EXAMPLE_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/slider
+    )
+qextWidgetAddExample(qext_exp_widgetRulerSlider
+    EXAMPLE_SOURCE
+    rulerslider/frmrulerslider.cpp
+    rulerslider/frmrulerslider.h
+    rulerslider/frmrulerslider.ui
+    rulerslider/main.cpp
+    EXAMPLE_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/rulerslider
     )

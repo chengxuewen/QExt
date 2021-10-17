@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>frmTumblerDateTime</class>
- <widget class="QWidget" name="frmTumblerDateTime">
+ <class>frmRulerSlider</class>
+ <widget class="QWidget" name="frmRulerSlider">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,32 +13,42 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QEXTDateTimeTumbler" name="tumblerDateTime1" native="true">
+  <widget class="QEXTRulerSlider" name="rulerSlider1" native="true">
    <property name="geometry">
     <rect>
      <x>9</x>
      <y>9</y>
      <width>482</width>
-     <height>138</height>
+     <height>90</height>
     </rect>
    </property>
   </widget>
-  <widget class="QEXTDateTimeTumbler" name="tumblerDateTime2" native="true">
+  <widget class="QEXTRulerSlider" name="rulerSlider2" native="true">
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>153</y>
+     <y>105</y>
      <width>482</width>
-     <height>138</height>
+     <height>90</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QEXTRulerSlider" name="rulerSlider3" native="true">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>201</y>
+     <width>482</width>
+     <height>90</height>
     </rect>
    </property>
   </widget>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTDateTimeTumbler</class>
+   <class>QEXTRulerSlider</class>
    <extends>QWidget</extends>
-   <header location="global">qextDateTimeTumbler.h</header>
+   <header>qextRulerSlider.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

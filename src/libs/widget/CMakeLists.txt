@@ -30,8 +30,8 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(qext_lib_public_headers
-    include/qextLightBreathing.h
-    include/qextLightIndicator.h
+    include/qextBreathingLight.h
+    include/qextIndicatorLight.h
     include/qextDial.h
     include/qextFramelessDialog.h
     include/qextFramelessMainwindow.h
@@ -39,8 +39,8 @@ set(qext_lib_public_headers
     include/qextIconLabel.h
     include/qextInput.h
     include/qextIpAddressEdit.h
-    include/qextLcdNumber.h
-    include/qextLedText.h
+    include/qextNumberLed.h
+    include/qextTextLcd.h
     include/qextNavButton.h
     include/qextNavListWidget.h
     include/qextProgressBar.h
@@ -48,22 +48,27 @@ set(qext_lib_public_headers
     include/qextProgressPie.h
     include/qextProgressRing.h
     include/qextProgressWait.h
+    include/qextRangeSlider.h
     include/qextSwitchButton.h
+    include/qextRulerSlider.h
+    include/qextSelectSlider.h
+    include/qextSlider.h
     include/qextThermometer.h
+    include/qextTooltip.h
     include/qextTumbler.h
-    include/qextTumblerDateTime.h
+    include/qextDateTimeTumbler.h
     include/qextWaveChart.h
     include/qextWidgetGlobal.h
     )
 
 set(qext_lib_private_headers
-    private/qextLightBreathing_p.h
-    private/qextLightIndicator_p.h
+    private/qextBreathingLight_p.h
+    private/qextIndicatorLight_p.h
     private/qextFramelessMainwindow_p.h
     private/qextIconLabel_p.h
     private/qextIpAddressEdit_p.h
-    private/qextLcdNumber_p.h
-    private/qextLedText_p.h
+    private/qextNumberLed_p.h
+    private/qextTextLcd_p.h
     private/qextNavButton_p.h
     private/qextNavListWidget_p.h
     private/qextSwitchButton_p.h
@@ -71,8 +76,8 @@ set(qext_lib_private_headers
     )
 
 set(qext_lib_sources
-    source/qextLightBreathing.cpp
-    source/qextLightIndicator.cpp
+    source/qextBreathingLight.cpp
+    source/qextIndicatorLight.cpp
     source/qextDial.cpp
     source/qextFramelessDialog.cpp
     source/qextFramelessMainwindow.cpp
@@ -80,8 +85,8 @@ set(qext_lib_sources
     source/qextIconLabel.cpp
     source/qextInput.cpp
     source/qextIpAddressEdit.cpp
-    source/qextLcdNumber.cpp
-    source/qextLedText.cpp
+    source/qextNumberLed.cpp
+    source/qextTextLcd.cpp
     source/qextNavButton.cpp
     source/qextNavListWidget.cpp
     source/qextProgressBar.cpp
@@ -89,10 +94,15 @@ set(qext_lib_sources
     source/qextProgressPie.cpp
     source/qextProgressRing.cpp
     source/qextProgressWait.cpp
+    source/qextRangeSlider.cpp
+    source/qextRulerSlider.cpp
+    source/qextSelectSlider.cpp
+    source/qextSlider.cpp
     source/qextSwitchButton.cpp
     source/qextThermometer.cpp
+    source/qextTooltip.cpp
     source/qextTumbler.cpp
-    source/qextTumblerDateTime.cpp
+    source/qextDateTimeTumbler.cpp
     source/qextWaveChart.cpp
     )
 

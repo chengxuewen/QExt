@@ -36,9 +36,10 @@
  *        2.修复最后设置check状态属性时会导致初次显示开关出现绘制slider位置偏差bug。
 ***************************************************************************************************/
 
-
 #include <qextWidgetGlobal.h>
 #include <qextObject.h>
+
+#include <QWidget>
 
 #ifndef Q_WS_QWS
     #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
@@ -47,8 +48,6 @@
         #include <QtUiPlugin/QDesignerExportWidget>
     #endif
 #endif
-
-#include <QWidget>
 
 class QEXTSwitchButtonPrivate;
 class QEXT_WIDGET_API QEXTSwitchButton : public QWidget, public QEXTObject
