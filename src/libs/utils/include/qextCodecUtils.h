@@ -11,9 +11,13 @@ public:
     QEXTCodecUtils();
     virtual ~QEXTCodecUtils() {}
 
-    static bool isHexStringValid(const QString &string);
+    static bool isHexChar(char value);
+    static bool isHexString(const QString &string);
+    static char hexCharToHexCode(char value);
     static QByteArray hexStringToHexCode(const QString &string);
+
     static QString hexCodeToHexString(const QByteArray &data);
+
 };
 
 #endif // QEXTCODECUTILS_H

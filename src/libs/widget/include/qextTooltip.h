@@ -63,7 +63,7 @@ public:
         TrianglePosition_Bottom = 3 //底部
     };
 
-    explicit QEXTTooltip(QWidget *parent = 0);
+    explicit QEXTTooltip(QWidget *parent = QEXT_DECL_NULLPTR);
 
 protected:
     void mousePressEvent(QMouseEvent *);

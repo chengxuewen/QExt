@@ -7,14 +7,21 @@ QEXTCodecUtils::QEXTCodecUtils()
 
 }
 
-bool QEXTCodecUtils::isHexStringValid(const QString &string)
+bool QEXTCodecUtils::isHexChar(char value)
 {
+    return (value >= '0' && value <= '9') || (value >= 'a' && value <= 'f');
+}
+
+bool QEXTCodecUtils::isHexString(const QString &string)
+{
+    if (string.size() % 2 != 0)
+    {
+        return false;
+    }
     for (int i = 0; i < string.size(); ++i)
     {
         char ch = string.at(i).toLower().toLatin1();
-        bool isDigital = (ch >= '0' && ch <= '9');
-        bool isLetter = (ch >= 'a' && ch <= 'f');
-        if (!isDigital && !isLetter)
+        if (!QEXTCodecUtils::isHexChar(ch))
         {
             return false;
         }
@@ -22,27 +29,39 @@ bool QEXTCodecUtils::isHexStringValid(const QString &string)
     return true;
 }
 
+char QEXTCodecUtils::hexCharToHexCode(char value)
+{
+    if (value >= '0' && value <= '9')
+    {
+        return value - '0';
+    }
+    else if (value >= 'a' && value <= 'f')
+    {
+        return value - 'a' + 10;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
 QByteArray QEXTCodecUtils::hexStringToHexCode(const QString &string)
 {
     QByteArray byteArray;
-    if (QEXTCodecUtils::isHexStringValid(string))
+    if (string.size() % 2 == 0)
     {
-        for (int i = 0; i < string.size(); ++i)
+        for (int i = 0; i < string.size() / 2; ++i)
         {
-            QChar qChar = string.at(i).toLower();
-            char ch = qChar.toLatin1();
-            if (ch >= '0' && ch <= '9')
+            char ch1 = string.at(i * 2).toLower().toLatin1();
+            char ch2 = string.at(i * 2 + 1).toLower().toLatin1();
+            ch1 = QEXTCodecUtils::hexCharToHexCode(ch1);
+            ch2 = QEXTCodecUtils::hexCharToHexCode(ch2);
+            if (ch1 < 0 || ch2 < 0)
             {
-                byteArray.append(ch - '0');
+                return QByteArray();
             }
-            else if (ch >= 'a' && ch <= 'f')
-            {
-                byteArray.append(ch - 'a' + 10);
-            }
-            else
-            {
-                qCritical() << "QEXTCodecUtils::hexStringToHex():char invalid";
-            }
+            char byte = (ch1 << 4) + ch2;
+            byteArray.append(byte);
         }
     }
     return byteArray;
@@ -53,10 +72,21 @@ QString QEXTCodecUtils::hexCodeToHexString(const QByteArray &data)
     QString string;
     for (int i = 0; i < data.size(); ++i)
     {
-        int value = data.at(i);
-        if (value >= 0 && value <= 15)
+        char value = data.at(i);
+        char ch1 = (value >> 4) & 0x0f;
+        if (ch1 >= 0 && ch1 <= 15)
         {
-            string.append(QString::number(value, 16));
+            string.append(QString::number(ch1, 16));
+        }
+        else
+        {
+            string.append("x");
+        }
+
+        char ch2 = value & 0x0f;
+        if (ch2 >= 0 && ch2 <= 15)
+        {
+            string.append(QString::number(ch2, 16));
         }
         else
         {
