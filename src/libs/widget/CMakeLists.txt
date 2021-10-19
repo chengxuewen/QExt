@@ -36,6 +36,7 @@ set(qext_lib_public_headers
     include/qextFramelessDialog.h
     include/qextFramelessMainwindow.h
     include/qextFramelessWidget.h
+    include/qextIconButton.h
     include/qextIconLabel.h
     include/qextInput.h
     include/qextIpAddressEdit.h
@@ -65,6 +66,7 @@ set(qext_lib_private_headers
     private/qextBreathingLight_p.h
     private/qextIndicatorLight_p.h
     private/qextFramelessMainwindow_p.h
+    private/qextIconButton_p.h
     private/qextIconLabel_p.h
     private/qextIpAddressEdit_p.h
     private/qextNumberLed_p.h
@@ -82,6 +84,7 @@ set(qext_lib_sources
     source/qextFramelessDialog.cpp
     source/qextFramelessMainwindow.cpp
     source/qextFramelessWidget.cpp
+    source/qextIconButton.cpp
     source/qextIconLabel.cpp
     source/qextInput.cpp
     source/qextIpAddressEdit.cpp

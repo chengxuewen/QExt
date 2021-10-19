@@ -328,3 +328,13 @@ qextWidgetAddExample(qext_exp_widgetRulerSlider
     EXAMPLE_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/rulerslider
     )
+qextWidgetAddExample(qext_exp_widgetIconButton
+    EXAMPLE_SOURCE
+    iconbutton/FormIconButton.cpp
+    iconbutton/FormIconButton.h
+    iconbutton/FormIconButton.ui
+    iconbutton/FormIconButton.qrc
+    iconbutton/main.cpp
+    EXAMPLE_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/iconbutton
+    )
