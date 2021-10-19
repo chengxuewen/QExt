@@ -11,21 +11,21 @@
 namespace
 {
 
-// internal helper method to merge to option amps
-static QEXTFontAwesome::FontOptionValueMap qextMergeFontOptions(const QEXTFontAwesome::FontOptionValueMap &defaults,
-                                                                const QEXTFontAwesome::FontOptionValueMap &override)
-{
-    QEXTFontAwesome::FontOptionValueMap result = defaults;
-    if (!override.isEmpty())
+    // internal helper method to merge to option amps
+    static QEXTFontAwesome::FontOptionValueMap qextMergeFontOptions(const QEXTFontAwesome::FontOptionValueMap &defaults,
+            const QEXTFontAwesome::FontOptionValueMap &override)
     {
-        QEXTFontAwesome::FontOptionValueMap::const_iterator iter;
-        for (iter = override.begin(); iter != override.end(); ++iter)
+        QEXTFontAwesome::FontOptionValueMap result = defaults;
+        if (!override.isEmpty())
         {
-            result.insert(iter.key(), iter.value());
+            QEXTFontAwesome::FontOptionValueMap::const_iterator iter;
+            for (iter = override.begin(); iter != override.end(); ++iter)
+            {
+                result.insert(iter.key(), iter.value());
+            }
         }
+        return result;
     }
-    return result;
-}
 
 }
 
@@ -48,9 +48,9 @@ public:
         if (mode == QIcon::Disabled)
         {
             QEXTFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTFontAwesome::Option_ColorDisabled :
-                                                                             QEXTFontAwesome::Option_ColorDisabledOff;
+            QEXTFontAwesome::Option_ColorDisabledOff;
             QEXTFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTFontAwesome::Option_TextDisabled :
-                                                                            QEXTFontAwesome::Option_TextDisabledOff;
+            QEXTFontAwesome::Option_TextDisabledOff;
             color = options.value(colorOption).value<QColor>();
             QVariant alt = options.value(textOption);
             if (alt.isValid())
@@ -61,9 +61,9 @@ public:
         else if (mode == QIcon::Active)
         {
             QEXTFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTFontAwesome::Option_ColorActive :
-                                                                             QEXTFontAwesome::Option_ColorActiveOff;
+                    QEXTFontAwesome::Option_ColorActiveOff;
             QEXTFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTFontAwesome::Option_TextActive :
-                                                                            QEXTFontAwesome::Option_TextActiveOff;
+                    QEXTFontAwesome::Option_TextActiveOff;
             color = options.value(colorOption).value<QColor>();
             QVariant alt = options.value(textOption);
             if (alt.isValid())
@@ -74,9 +74,9 @@ public:
         else if (mode == QIcon::Selected)
         {
             QEXTFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTFontAwesome::Option_ColorSelected :
-                                                                             QEXTFontAwesome::Option_ColorSelectedOff;
+                    QEXTFontAwesome::Option_ColorSelectedOff;
             QEXTFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTFontAwesome::Option_TextSelected :
-                                                                            QEXTFontAwesome::Option_TextSelectedOff;
+                    QEXTFontAwesome::Option_TextSelectedOff;
             color = options.value(colorOption).value<QColor>();
             QVariant alt = options.value(textOption);
             if (alt.isValid())
@@ -218,7 +218,8 @@ QString QEXTFontAwesome::version() const
 
 QString QEXTFontAwesome::textFromKey(const QString &key)
 {
-    if(!key.isEmpty()) {
+    if(!key.isEmpty())
+    {
         int index = this->staticMetaObject.indexOfEnumerator("FontType");
         return QString(this->staticMetaObject.enumerator(index).keysToValue(key.toLatin1().data()));
     }
@@ -234,7 +235,8 @@ QList<QString> QEXTFontAwesome::fontNamelist()
 {
     QMetaEnum enumType = QEXTFontAwesome::staticMetaObject.enumerator(QEXTFontAwesome::staticMetaObject.indexOfEnumerator("FontType"));
     QList<QString> list;
-    for(int i = 0; i < enumType.keyCount(); ++i) {
+    for(int i = 0; i < enumType.keyCount(); ++i)
+    {
         list.append(enumType.key(i));
     }
     return list;
@@ -245,7 +247,8 @@ QList<QString> QEXTFontAwesome::fontTextlist()
     QMetaEnum enumType = QEXTFontAwesome::staticMetaObject.enumerator(QEXTFontAwesome::staticMetaObject.indexOfEnumerator("FontType"));
     int index = this->staticMetaObject.indexOfEnumerator("FontType");
     QList<QString> list;
-    for(int i = 0; i < enumType.keyCount(); ++i) {
+    for(int i = 0; i < enumType.keyCount(); ++i)
+    {
         QString key = enumType.key(i);
         QString value = QString(this->staticMetaObject.enumerator(index).keysToValue(key.toLatin1().data()));
         list.append(value);
@@ -258,7 +261,8 @@ QEXTFontAwesome::FontNameTextMap QEXTFontAwesome::fontNameTextMap()
     FontNameTextMap nameTextMap;
     QMetaEnum enumType = QEXTFontAwesome::staticMetaObject.enumerator(QEXTFontAwesome::staticMetaObject.indexOfEnumerator("FontType"));
     int index = this->staticMetaObject.indexOfEnumerator("FontType");
-    for(int i = 0; i < enumType.keyCount(); ++i) {
+    for(int i = 0; i < enumType.keyCount(); ++i)
+    {
         QString key = enumType.key(i);
         FontType value = (FontType)this->staticMetaObject.enumerator(index).keysToValue(key.toLatin1().data());
         nameTextMap.insert(key, value);
@@ -343,7 +347,8 @@ QEXTFontAwesome *qextGlobalFontAwesome()
     static QEXTFontAwesome *fontAwesome = QEXT_DECL_NULLPTR;
     static QMutex mutex;
     QMutexLocker mutexLocker(&mutex);
-    if (QEXT_DECL_NULLPTR == fontAwesome) {
+    if (QEXT_DECL_NULLPTR == fontAwesome)
+    {
         fontAwesome = new QEXTFontAwesome(qApp);
     }
     return fontAwesome;
