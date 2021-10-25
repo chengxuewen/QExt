@@ -30,22 +30,6 @@ Qt扩展库（Qt extend library）, 集合整理了常用开源库与工具的�
     
     **待开发**：无
     
-* QEXTGui
-
-    **状态**：验证中
-    
-    **待开发**：
-    
-        1. QtQuick 1.x QGraphicsView/QPainter 抽象
-
-        2. QtQuick 2.x Scene Graph 抽象
-    
-* QEXTQuick
-
-    **状态**：完成（遗弃-效率低）
-    
-    **待开发**：无
-    
 * QEXTSerialPort
 
     **状态**：完成
@@ -82,4 +66,14 @@ Qt扩展库（Qt extend library）, 集合整理了常用开源库与工具的�
         2. 集成qt-material-widgets库
 
         3. 重构input为软键盘softkeyboard
+
+        4. 开发自定义消息对话框QEXTMessageDialog
+
+* QEXTMvvm
+
+    **状态**：开发中
+    
+    **待开发**：
+
+        1. 基于CommonFramework库mvvm、core模块开发
     

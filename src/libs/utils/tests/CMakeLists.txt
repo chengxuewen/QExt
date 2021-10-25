@@ -71,3 +71,19 @@ if(WIN32)
     qextMacroCopyDependenceLib(${qext_test_name} QEXTUtils ${EXECUTABLE_OUTPUT_PATH})
     qextMacroCopyDependenceLib(${qext_test_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()
+
+
+
+#--------------------------------------------------------------------------------
+# Add qext_tst_utilsCodec test
+#--------------------------------------------------------------------------------
+set(qext_test_name qext_tst_utilsCodec)
+add_executable(${qext_test_name} tst_qextCodecUtils.cpp)
+add_test(NAME ${qext_test_name} COMMAND ${qext_test_name})
+target_link_libraries(${qext_test_name} PRIVATE ${qext_test_link_libraries})
+target_include_directories(${qext_test_name} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+if(WIN32)
+    qextMacroCopyDependenceLib(${qext_test_name} QEXTUtils ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${qext_test_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()
+

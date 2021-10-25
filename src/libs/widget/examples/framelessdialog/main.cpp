@@ -25,7 +25,8 @@ int main(int argc, char *argv[])
 #endif
 
     Dialog w;
-    w.show();
+//    w.show();
+    w.exec();
 
     return a.exec();
 }

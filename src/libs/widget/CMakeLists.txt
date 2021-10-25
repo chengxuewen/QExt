@@ -42,6 +42,7 @@ set(qext_lib_public_headers
     include/qextIpAddressEdit.h
     include/qextNumberLed.h
     include/qextTextLcd.h
+    include/qextMessageDialog.h
     include/qextNavButton.h
     include/qextNavListWidget.h
     include/qextProgressBar.h
@@ -65,12 +66,15 @@ set(qext_lib_public_headers
 set(qext_lib_private_headers
     private/qextBreathingLight_p.h
     private/qextIndicatorLight_p.h
+    private/qextFramelessDialog_p.h
     private/qextFramelessMainwindow_p.h
+    private/qextFramelessWidget_p.h
     private/qextIconButton_p.h
     private/qextIconLabel_p.h
     private/qextIpAddressEdit_p.h
     private/qextNumberLed_p.h
     private/qextTextLcd_p.h
+    private/qextMessageDialog_p.h
     private/qextNavButton_p.h
     private/qextNavListWidget_p.h
     private/qextSwitchButton_p.h
@@ -90,6 +94,7 @@ set(qext_lib_sources
     source/qextIpAddressEdit.cpp
     source/qextNumberLed.cpp
     source/qextTextLcd.cpp
+    source/qextMessageDialog.cpp
     source/qextNavButton.cpp
     source/qextNavListWidget.cpp
     source/qextProgressBar.cpp
