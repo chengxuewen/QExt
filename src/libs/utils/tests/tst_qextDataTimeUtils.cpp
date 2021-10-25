@@ -84,4 +84,4 @@ void QEXTDateTimeUtilsTest::sleep500msTest()
 
 QTEST_APPLESS_MAIN(QEXTDateTimeUtilsTest)
 
-#include <tst_qextdatatimeutils.moc>
+#include <tst_qextDataTimeUtils.moc>

@@ -188,4 +188,4 @@ void QEXTNetworkUtilsTest::quint64TransTest()
 
 QTEST_APPLESS_MAIN(QEXTNetworkUtilsTest)
 
-#include <tst_qextnetworkutils.moc>
+#include <tst_qextNetworkUtils.moc>

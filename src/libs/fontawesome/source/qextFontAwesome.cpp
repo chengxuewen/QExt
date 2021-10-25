@@ -294,8 +294,57 @@ QIcon QEXTFontAwesome::icon(FontType character, const FontOptionValueMap &option
     return this->icon(m_fontIconPainter, optionMap);
 }
 
+QIcon QEXTFontAwesome::icon(QEXTFontAwesome::FontType character, const QColor &color)
+{
+    FontOptionValueMap options;
+    options.insert(Option_Color, color);
+    options.insert(Option_ColorOff, color);
+    options.insert(Option_ColorActive, color);
+    options.insert(Option_ColorActiveOff, color);
+    options.insert(Option_ColorDisabled, color);
+    options.insert(Option_ColorDisabledOff, color);
+    options.insert(Option_ColorSelected, color);
+    options.insert(Option_ColorSelectedOff, color);
+
+    FontOptionValueMap optionMap = qextMergeFontOptions(m_defaultOptions, options);
+    optionMap.insert(Option_Text, QString(QChar(static_cast<int>(character))));
+
+    return this->icon(m_fontIconPainter, optionMap);
+}
+
 QIcon QEXTFontAwesome::icon(const QString &name, const FontOptionValueMap &options)
 {
+    // when it's a named codepoint
+    if (m_fontNameTextMap.count(name))
+    {
+        return this->icon(m_fontNameTextMap.value(name), options);
+    }
+
+    // create a merged QVariantMap to have default options and icon-specific options
+    FontOptionValueMap optionMap = qextMergeFontOptions(m_defaultOptions, options);
+
+    // this method first tries to retrieve the icon
+    QEXTFontAwesomeIconPainterInterface *painter = m_painterMap.value(name);
+    if (!painter)
+    {
+        return QIcon();
+    }
+
+    return this->icon(painter, optionMap);
+}
+
+QIcon QEXTFontAwesome::icon(const QString &name, const QColor &color)
+{
+    FontOptionValueMap options;
+    options.insert(Option_Color, color);
+    options.insert(Option_ColorOff, color);
+    options.insert(Option_ColorActive, color);
+    options.insert(Option_ColorActiveOff, color);
+    options.insert(Option_ColorDisabled, color);
+    options.insert(Option_ColorDisabledOff, color);
+    options.insert(Option_ColorSelected, color);
+    options.insert(Option_ColorSelectedOff, color);
+
     // when it's a named codepoint
     if (m_fontNameTextMap.count(name))
     {
