@@ -25,7 +25,3 @@ if(QEXT_BUILD_TESTS OR QEXT_BUILD_ALL)
     add_subdirectory(alltestrunner)
     add_subdirectory(ctestrunner)
 endif()
-
-if(QEXT_BUILD_QML)
-    add_subdirectory(qmlplugindump)
-endif()
