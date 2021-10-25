@@ -338,9 +338,3 @@ qextWidgetAddExample(qext_exp_widgetIconButton
     EXAMPLE_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/iconbutton
     )
-qextWidgetAddExample(qext_exp_widgetMessageDialog
-    EXAMPLE_SOURCE
-    messagedialog/main.cpp
-    EXAMPLE_INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/messagedialog
-    )

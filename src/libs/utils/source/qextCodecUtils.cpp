@@ -7,18 +7,14 @@ QEXTCodecUtils::QEXTCodecUtils()
 
 }
 
-bool QEXTCodecUtils::isHexCode(char value)
-{
-    return value >= 0 && value <= 15;
-}
-
 bool QEXTCodecUtils::isHexChar(char value)
 {
-    return (value >= '0' && value <= '9') || (value >= 'a' && value <= 'f') || (value >= 'A' && value <= 'F');
+    return (value >= '0' && value <= '9') || (value >= 'a' && value <= 'f');
 }
 
-bool QEXTCodecUtils::isHexString(const char *chs, size_t len)
+bool QEXTCodecUtils::isHexString(void *value, size_t len)
 {
+    char *chs = (char *)value;
     for (size_t i = 0; i < len; ++i)
     {
         if (!QEXTCodecUtils::isHexChar(chs[i]))
@@ -31,6 +27,10 @@ bool QEXTCodecUtils::isHexString(const char *chs, size_t len)
 
 bool QEXTCodecUtils::isHexString(const QString &string)
 {
+    if (string.size() % 2 != 0)
+    {
+        return false;
+    }
     for (size_t i = 0; i < string.size(); ++i)
     {
         char ch = string.at(i).toLower().toLatin1();
@@ -42,12 +42,8 @@ bool QEXTCodecUtils::isHexString(const QString &string)
     return true;
 }
 
-char QEXTCodecUtils::hexCharToHexCode(char value, bool *ok)
+char QEXTCodecUtils::hexCharToHexCode(char value)
 {
-    if (ok)
-    {
-        *ok = true;
-    }
     if (value >= '0' && value <= '9')
     {
         return value - '0';
@@ -56,277 +52,111 @@ char QEXTCodecUtils::hexCharToHexCode(char value, bool *ok)
     {
         return value - 'a' + 10;
     }
-    else if (value >= 'A' && value <= 'F')
-    {
-        return value - 'A' + 10;
-    }
     else
     {
-        if (ok)
-        {
-            *ok = false;
-        }
         return -1;
     }
 }
 
-QByteArray QEXTCodecUtils::hexStringToHexByteArray(const char *chs, size_t len, bool *ok)
+QByteArray QEXTCodecUtils::hexStringToHexCode(void *value, size_t len)
 {
-    if (ok)
+    QByteArray byteArray;
+    char *chs = (char *)value;
+    if (len % 2 == 0)
     {
-        *ok = false;
-    }
-
-    /*len must be even*/
-    if (len % 2 != 0)
-    {
-        return QByteArray();
-    }
-
-    QByteArray hexByteArray;
-    for (size_t i = 0; i < len / 2; ++i)
-    {
-        char chH = QChar(chs[i * 2]).toLower().toLatin1();
-        char chL = QChar(chs[i * 2 + 1]).toLower().toLatin1();
-        bool chHOk = true;
-        bool chLOk = true;
-        chH = QEXTCodecUtils::hexCharToHexCode(chH, &chHOk);
-        chL = QEXTCodecUtils::hexCharToHexCode(chL, &chLOk);
-        if (!chHOk || !chLOk)
+        for (size_t i = 0; i < len / 2; ++i)
         {
-            return QByteArray();
+            char ch1 = QChar(chs[i * 2]).toLower().toLatin1();
+            char ch2 = QChar(chs[i * 2 + 1]).toLower().toLatin1();
+            ch1 = QEXTCodecUtils::hexCharToHexCode(ch1);
+            ch2 = QEXTCodecUtils::hexCharToHexCode(ch2);
+            if (ch1 < 0 || ch2 < 0)
+            {
+                return QByteArray();
+            }
+            char byte = (ch2 << 4) + ch1;
+            byteArray.prepend(byte);
         }
-        char byte = (chH << 4) + chL;
-        hexByteArray.append(byte);
     }
-
-    if (ok)
-    {
-        *ok = true;
-    }
-    return hexByteArray;
+    return byteArray;
 }
 
-QByteArray QEXTCodecUtils::hexStringToHexByteArray(const QString &string, bool *ok)
+QByteArray QEXTCodecUtils::hexStringToHexCode(const QString &string)
 {
-    if (ok)
+    QByteArray byteArray;
+    if (string.size() % 2 == 0)
     {
-        *ok = false;
-    }
-
-    /*len must be even*/
-    if (string.size() % 2 != 0)
-    {
-        return QByteArray();
-    }
-
-    QByteArray hexByteArray;
-    for (size_t i = 0; i < string.size() / 2; ++i)
-    {
-        char chH = string.at(i * 2).toLower().toLatin1();
-        char chL = string.at(i * 2 + 1).toLower().toLatin1();
-        bool chHOk = true;
-        bool chLOk = true;
-        chH = QEXTCodecUtils::hexCharToHexCode(chH, &chHOk);
-        chL = QEXTCodecUtils::hexCharToHexCode(chL, &chLOk);
-        if (!chHOk || !chLOk)
+        for (size_t i = 0; i < string.size() / 2; ++i)
         {
-            return QByteArray();
+            char ch1 = string.at(i * 2).toLower().toLatin1();
+            char ch2 = string.at(i * 2 + 1).toLower().toLatin1();
+            ch1 = QEXTCodecUtils::hexCharToHexCode(ch1);
+            ch2 = QEXTCodecUtils::hexCharToHexCode(ch2);
+            if (ch1 < 0 || ch2 < 0)
+            {
+                return QByteArray();
+            }
+            char byte = (ch1 << 4) + ch2;
+            byteArray.append(byte);
         }
-        char byte = (chH << 4) + chL;
-        hexByteArray.append(byte);
     }
-
-    if (ok)
-    {
-        *ok = true;
-    }
-    return hexByteArray;
+    return byteArray;
 }
 
-char QEXTCodecUtils::hexCodeToHexChar(char value, bool *ok)
+QString QEXTCodecUtils::hexCodeToHexString(void *value, size_t len)
 {
-    if (ok)
+    QString string;
+    char *chs = (char *)value;
+    for (size_t i = 0; i < len; ++i)
     {
-        *ok = true;
-    }
-    if (value >= 0 && value <= 9)
-    {
-        return value + '0';
-    }
-    else if (value >= 10 && value <= 15)
-    {
-        return value + 'a' - 10;
-    }
-    else
-    {
-        if (ok)
+        char ch1 = chs[i] & 0x0f;
+        if (ch1 >= 0 && ch1 <= 15)
         {
-            *ok = false;
+            string.prepend(QString::number(ch1, 16));
         }
-        return -1;
+        else
+        {
+            string.prepend("x");
+        }
+
+        char ch2 = (chs[i] >> 4) & 0x0f;
+        if (ch2 >= 0 && ch2 <= 15)
+        {
+            string.prepend(QString::number(ch2, 16));
+        }
+        else
+        {
+            string.prepend("x");
+        }
     }
+    return string;
 }
 
-QString QEXTCodecUtils::hexByteArrayToHexString(const char *chs, size_t len)
+QString QEXTCodecUtils::hexCodeToHexString(const QByteArray &data)
 {
-    QString hexString;
-    for (size_t i = 0; i < len; ++i)
+    QString string;
+    for (size_t i = 0; i < data.size(); ++i)
     {
-        char chH = (chs[i] >> 4) & 0x0f;
-        char chL = chs[i] & 0x0f;
-        hexString.append(QString::number(chH, 16));
-        hexString.append(QString::number(chL, 16));
+        char value = data.at(i);
+        char ch1 = (value >> 4) & 0x0f;
+        if (ch1 >= 0 && ch1 <= 15)
+        {
+            string.append(QString::number(ch1, 16));
+        }
+        else
+        {
+            string.append("x");
+        }
+
+        char ch2 = value & 0x0f;
+        if (ch2 >= 0 && ch2 <= 15)
+        {
+            string.append(QString::number(ch2, 16));
+        }
+        else
+        {
+            string.append("x");
+        }
     }
-    return hexString;
-}
-
-QString QEXTCodecUtils::hexByteArrayToHexString(const QByteArray &value)
-{
-    QString hexString;
-    for (size_t i = 0; i < value.size(); ++i)
-    {
-        char ch = value.at(i);
-        char chH = (ch >> 4) & 0x0f;
-        char chL = ch & 0x0f;
-        hexString.append(QString::number(chH, 16));
-        hexString.append(QString::number(chL, 16));
-    }
-    return hexString;
-}
-
-QString QEXTCodecUtils::hexUInt8ToHexString(uint8_t value)
-{
-    const size_t len = sizeof(uint8_t);
-    char chs[len];
-    memcpy(chs, &value, len);
-    QString hexString;
-    for (size_t i = 0; i < len; ++i)
-    {
-        char chH = (chs[i] >> 4) & 0x0f;
-        char chL = chs[i] & 0x0f;
-        hexString.prepend(QString::number(chL, 16));
-        hexString.prepend(QString::number(chH, 16));
-    }
-    return hexString;
-}
-
-QString QEXTCodecUtils::hexUInt16ToHexString(uint16_t value)
-{
-    const size_t len = sizeof(uint16_t);
-    char chs[len];
-    memcpy(chs, &value, len);
-    QString hexString;
-    for (size_t i = 0; i < len; ++i)
-    {
-        char chH = (chs[i] >> 4) & 0x0f;
-        char chL = chs[i] & 0x0f;
-        hexString.prepend(QString::number(chL, 16));
-        hexString.prepend(QString::number(chH, 16));
-    }
-    return hexString;
-}
-
-QString QEXTCodecUtils::hexUInt32ToHexString(uint32_t value)
-{
-    const size_t len = sizeof(uint32_t);
-    char chs[len];
-    memcpy(chs, &value, len);
-    QString hexString;
-    for (size_t i = 0; i < len; ++i)
-    {
-        char chH = (chs[i] >> 4) & 0x0f;
-        char chL = chs[i] & 0x0f;
-        hexString.prepend(QString::number(chL, 16));
-        hexString.prepend(QString::number(chH, 16));
-    }
-    return hexString;
-}
-
-QString QEXTCodecUtils::hexUInt64ToHexString(uint64_t value)
-{
-    const size_t len = sizeof(uint64_t);
-    char chs[len];
-    memcpy(chs, &value, len);
-    QString hexString;
-    for (size_t i = 0; i < len; ++i)
-    {
-        char chH = (chs[i] >> 4) & 0x0f;
-        char chL = chs[i] & 0x0f;
-        hexString.prepend(QString::number(chL, 16));
-        hexString.prepend(QString::number(chH, 16));
-    }
-    return hexString;
-}
-
-uint8_t QEXTCodecUtils::hexByteArrayToUInt8(const char *chs, size_t len)
-{
-    uint8_t intValue = 0;
-    size_t intSize = sizeof(uint8_t);
-    uint8_t *ui8s = (uint8_t *)&intValue;
-    size_t minLen = qMin(len, intSize);
-    for (size_t i = 0; i < minLen; ++i)
-    {
-        ui8s[i] = chs[len - 1 - i];
-    }
-    return intValue;
-}
-
-uint8_t QEXTCodecUtils::hexByteArrayToUInt8(const QByteArray &value)
-{
-    return QEXTCodecUtils::hexByteArrayToUInt8(const_cast<char *>(value.data()), value.size());
-}
-
-uint16_t QEXTCodecUtils::hexByteArrayToUInt16(const char *chs, size_t len)
-{
-    uint16_t intValue = 0;
-    size_t intSize = sizeof(uint16_t);
-    uint8_t *ui8s = (uint8_t *)&intValue;
-    size_t minLen = qMin(len, intSize);
-    for (size_t i = 0; i < minLen; ++i)
-    {
-        ui8s[i] = chs[len - 1 - i];
-    }
-    return intValue;
-}
-
-uint16_t QEXTCodecUtils::hexByteArrayToUInt16(const QByteArray &value)
-{
-    return QEXTCodecUtils::hexByteArrayToUInt16(const_cast<char *>(value.data()), value.size());
-}
-
-uint32_t QEXTCodecUtils::hexByteArrayToUInt32(const char *chs, size_t len)
-{
-    uint32_t intValue = 0;
-    size_t intSize = sizeof(uint32_t);
-    uint8_t *ui8s = (uint8_t *)&intValue;
-    size_t minLen = qMin(len, intSize);
-    for (size_t i = 0; i < minLen; ++i)
-    {
-        ui8s[i] = chs[len - 1 - i];
-    }
-    return intValue;
-}
-
-uint32_t QEXTCodecUtils::hexByteArrayToUInt32(const QByteArray &value)
-{
-    return QEXTCodecUtils::hexByteArrayToUInt32(const_cast<char *>(value.data()), value.size());
-}
-
-uint64_t QEXTCodecUtils::hexByteArrayToUInt64(const char *chs, size_t len)
-{
-    uint64_t intValue = 0;
-    size_t intSize = sizeof(uint64_t);
-    uint8_t *ui8s = (uint8_t *)&intValue;
-    size_t minLen = qMin(len, intSize);
-    for (size_t i = 0; i < minLen; ++i)
-    {
-        ui8s[i] = chs[len - 1 - i];
-    }
-    return intValue;
-}
-
-uint64_t QEXTCodecUtils::hexByteArrayToUInt64(const QByteArray &value)
-{
-    return QEXTCodecUtils::hexByteArrayToUInt64(const_cast<char *>(value.data()), value.size());
+    return string;
 }

@@ -11,21 +11,21 @@
 namespace
 {
 
-// internal helper method to merge to option amps
-static QEXTFontAwesome::FontOptionValueMap qextMergeFontOptions(const QEXTFontAwesome::FontOptionValueMap &defaults,
-                                                                const QEXTFontAwesome::FontOptionValueMap &override)
-{
-    QEXTFontAwesome::FontOptionValueMap result = defaults;
-    if (!override.isEmpty())
+    // internal helper method to merge to option amps
+    static QEXTFontAwesome::FontOptionValueMap qextMergeFontOptions(const QEXTFontAwesome::FontOptionValueMap &defaults,
+            const QEXTFontAwesome::FontOptionValueMap &override)
     {
-        QEXTFontAwesome::FontOptionValueMap::const_iterator iter;
-        for (iter = override.begin(); iter != override.end(); ++iter)
+        QEXTFontAwesome::FontOptionValueMap result = defaults;
+        if (!override.isEmpty())
         {
-            result.insert(iter.key(), iter.value());
+            QEXTFontAwesome::FontOptionValueMap::const_iterator iter;
+            for (iter = override.begin(); iter != override.end(); ++iter)
+            {
+                result.insert(iter.key(), iter.value());
+            }
         }
+        return result;
     }
-    return result;
-}
 
 }
 
@@ -48,9 +48,9 @@ public:
         if (mode == QIcon::Disabled)
         {
             QEXTFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTFontAwesome::Option_ColorDisabled :
-                                                                             QEXTFontAwesome::Option_ColorDisabledOff;
+            QEXTFontAwesome::Option_ColorDisabledOff;
             QEXTFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTFontAwesome::Option_TextDisabled :
-                                                                            QEXTFontAwesome::Option_TextDisabledOff;
+            QEXTFontAwesome::Option_TextDisabledOff;
             color = options.value(colorOption).value<QColor>();
             QVariant alt = options.value(textOption);
             if (alt.isValid())
@@ -61,9 +61,9 @@ public:
         else if (mode == QIcon::Active)
         {
             QEXTFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTFontAwesome::Option_ColorActive :
-                                                                             QEXTFontAwesome::Option_ColorActiveOff;
+                    QEXTFontAwesome::Option_ColorActiveOff;
             QEXTFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTFontAwesome::Option_TextActive :
-                                                                            QEXTFontAwesome::Option_TextActiveOff;
+                    QEXTFontAwesome::Option_TextActiveOff;
             color = options.value(colorOption).value<QColor>();
             QVariant alt = options.value(textOption);
             if (alt.isValid())
@@ -74,9 +74,9 @@ public:
         else if (mode == QIcon::Selected)
         {
             QEXTFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTFontAwesome::Option_ColorSelected :
-                                                                             QEXTFontAwesome::Option_ColorSelectedOff;
+                    QEXTFontAwesome::Option_ColorSelectedOff;
             QEXTFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTFontAwesome::Option_TextSelected :
-                                                                            QEXTFontAwesome::Option_TextSelectedOff;
+                    QEXTFontAwesome::Option_TextSelectedOff;
             color = options.value(colorOption).value<QColor>();
             QVariant alt = options.value(textOption);
             if (alt.isValid())
@@ -294,28 +294,6 @@ QIcon QEXTFontAwesome::icon(FontType character, const FontOptionValueMap &option
     return this->icon(m_fontIconPainter, optionMap);
 }
 
-QIcon QEXTFontAwesome::icon(QEXTFontAwesome::FontType character, const QColor &color)
-{
-    // create a merged QVariantMap to have default options and icon-specific options
-    FontOptionValueMap optionMap;
-    optionMap.insert(QEXTFontAwesome::Option_Color, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorOff, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorDisabled, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorDisabledOff, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorActive, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorActiveOff, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorSelected, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorSelectedOff, color);
-    optionMap.insert(Option_Text, QString(QChar(static_cast<int>(character))));
-    optionMap.insert(Option_TextOff, QString(QChar(static_cast<int>(character))));
-    optionMap.insert(Option_TextDisabled, QString(QChar(static_cast<int>(character))));
-    optionMap.insert(Option_TextDisabledOff, QString(QChar(static_cast<int>(character))));
-    optionMap.insert(Option_TextSelected, QString(QChar(static_cast<int>(character))));
-    optionMap.insert(Option_TextSelectedOff, QString(QChar(static_cast<int>(character))));
-    optionMap = qextMergeFontOptions(m_defaultOptions, optionMap);
-    return this->icon(m_fontIconPainter, optionMap);
-}
-
 QIcon QEXTFontAwesome::icon(const QString &name, const FontOptionValueMap &options)
 {
     // when it's a named codepoint
@@ -334,34 +312,6 @@ QIcon QEXTFontAwesome::icon(const QString &name, const FontOptionValueMap &optio
         return QIcon();
     }
 
-    return this->icon(painter, optionMap);
-}
-
-QIcon QEXTFontAwesome::icon(const QString &name, const QColor &color)
-{
-    FontOptionValueMap optionMap;
-    optionMap.insert(QEXTFontAwesome::Option_Color, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorOff, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorDisabled, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorDisabledOff, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorActive, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorActiveOff, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorSelected, color);
-    optionMap.insert(QEXTFontAwesome::Option_ColorSelectedOff, color);
-    optionMap = qextMergeFontOptions(m_defaultOptions, optionMap);
-
-    // when it's a named codepoint
-    if (m_fontNameTextMap.count(name))
-    {
-        return this->icon(m_fontNameTextMap.value(name), optionMap);
-    }
-
-    // this method first tries to retrieve the icon
-    QEXTFontAwesomeIconPainterInterface *painter = m_painterMap.value(name);
-    if (!painter)
-    {
-        return QIcon();
-    }
     return this->icon(painter, optionMap);
 }
 

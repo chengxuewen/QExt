@@ -3,17 +3,18 @@
 
 #include <qextWidgetGlobal.h>
 
+#include <qextObject_p.h>
+
 #include <QWidget>
 #include <QPointer>
 
 class QEXTFramelessMainWindow;
-class QEXT_WIDGET_API QEXTFramelessMainWindowPrivate
+class QEXT_WIDGET_API QEXTFramelessMainWindowPrivate : public QEXTObjectPrivate
 {
 public:
-    explicit QEXTFramelessMainWindowPrivate(QEXTFramelessMainWindow *q);
-    virtual ~QEXTFramelessMainWindowPrivate();
+    explicit QEXTFramelessMainWindowPrivate(QEXTFramelessMainWindow *qq);
+    ~QEXTFramelessMainWindowPrivate();
 
-    QEXTFramelessMainWindow * const q_ptr;
     //边距+可移动+可拉伸
     int m_padding;
     bool m_moveEnable;
@@ -37,9 +38,10 @@ public:
     //存储窗体默认的属性
     Qt::WindowFlags m_flags;
 
+
 private:
-    Q_DISABLE_COPY(QEXTFramelessMainWindowPrivate)
-    Q_DECLARE_PUBLIC(QEXTFramelessMainWindow)
+    QEXT_DECL_PUBLIC(QEXTFramelessMainWindow)
+    QEXT_DISABLE_COPY_MOVE(QEXTFramelessMainWindowPrivate)
 };
 
 #endif // _QEXTFRAMELESSMAINWINDOW_P_H

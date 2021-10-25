@@ -992,7 +992,6 @@ public:
      * @return
      */
     QIcon icon(FontType character, const FontOptionValueMap &options = FontOptionValueMap());
-    QIcon icon(FontType character, const QColor &color);
 
     /**
      * @brief QEXTFontAwesome::icon Creates an icon with the given name
@@ -1003,7 +1002,6 @@ public:
      * @return
      */
     QIcon icon(const QString &name, const FontOptionValueMap &options = FontOptionValueMap());
-    QIcon icon(const QString &name, const QColor &color);
 
     /**
      * @brief QEXTFontAwesome::icon Create a dynamic icon by simlpy supplying a painter object

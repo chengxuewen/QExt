@@ -7,7 +7,7 @@
 #include <QSize>
 
 class QEXTIconButtonPrivate;
-class QEXT_WIDGET_API QEXTIconButton : public QAbstractButton
+class QEXTIconButton : public QAbstractButton
 {
     Q_OBJECT
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)

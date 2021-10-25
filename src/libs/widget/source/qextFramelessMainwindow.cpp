@@ -19,8 +19,8 @@
 #define TIMEMS qPrintable(QTime::currentTime().toString("HH:mm:ss zzz"))
 
 
-QEXTFramelessMainWindowPrivate::QEXTFramelessMainWindowPrivate(QEXTFramelessMainWindow *q)
-    : q_ptr(q)
+QEXTFramelessMainWindowPrivate::QEXTFramelessMainWindowPrivate(QEXTFramelessMainWindow *qq)
+    : QEXTObjectPrivate(qq)
 {
     m_padding = 8;
     m_moveEnable = true;
@@ -46,9 +46,9 @@ QEXTFramelessMainWindowPrivate::~QEXTFramelessMainWindowPrivate()
 
 
 QEXTFramelessMainWindow::QEXTFramelessMainWindow(QWidget *parent)
-    : QMainWindow(parent), d_ptr(new QEXTFramelessMainWindowPrivate(this))
+    : QMainWindow(parent), QEXTObject(*(new QEXTFramelessMainWindowPrivate(this)))
 {
-    Q_D(QEXTFramelessMainWindow);
+    QEXT_DECL_D(QEXTFramelessMainWindow);
     d->m_flags = this->windowFlags();
 
     //设置背景透明 官方在5.3以后才彻底修复 WA_TranslucentBackground+FramelessWindowHint 并存不绘制的BUG
@@ -83,7 +83,7 @@ void QEXTFramelessMainWindow::showEvent(QShowEvent *event)
 
 void QEXTFramelessMainWindow::doWindowStateChange(QEvent *event)
 {
-    Q_D(QEXTFramelessMainWindow);
+    QEXT_DECL_D(QEXTFramelessMainWindow);
     //非最大化才能移动和拖动大小
     if (this->windowState() == Qt::WindowNoState) {
         d->m_moveEnable = true;
@@ -113,7 +113,7 @@ void QEXTFramelessMainWindow::doWindowStateChange(QEvent *event)
 
 void QEXTFramelessMainWindow::doResizeEvent(QEvent *event)
 {
-    Q_D(QEXTFramelessMainWindow);
+    QEXT_DECL_D(QEXTFramelessMainWindow);
     //非win系统的无边框拉伸,win系统上已经采用了nativeEvent来处理拉伸
     //为何不统一用计算的方式因为在win上用这个方式往左拉伸会发抖妹的
 #ifndef Q_OS_WIN
@@ -265,7 +265,7 @@ void QEXTFramelessMainWindow::doResizeEvent(QEvent *event)
 
 bool QEXTFramelessMainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    Q_D(QEXTFramelessMainWindow);
+    QEXT_DECL_D(QEXTFramelessMainWindow);
     if (watched == this) {
         if (event->type() == QEvent::WindowStateChange) {
             this->doWindowStateChange(event);
@@ -290,10 +290,10 @@ bool QEXTFramelessMainWindow::eventFilter(QObject *watched, QEvent *event)
 void QEXTFramelessMainWindow::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    QPainter painter(this);
-    QStyleOption opt;
-    opt.init(this);
-    this->style()->drawPrimitive(QStyle::PE_FrameWindow, &opt, &painter, this);
+//    QPainter painter(this);
+//    QStyleOption opt;
+//    opt.init(this);
+//    this->style()->drawPrimitive(QStyle::PE_FrameWindow, &opt, &painter, this);
     QMainWindow::paintEvent(event);
 }
 
@@ -303,7 +303,7 @@ bool QEXTFramelessMainWindow::nativeEvent(const QByteArray &eventType, void *mes
 bool QEXTFramelessMainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
 #endif
 {
-    Q_D(QEXTFramelessMainWindow);
+    QEXT_DECL_D(QEXTFramelessMainWindow);
     if (eventType == "windows_generic_MSG") {
 #ifdef Q_OS_WIN
         MSG *msg = static_cast<MSG *>(message);
@@ -389,7 +389,7 @@ bool QEXTFramelessMainWindow::winEvent(MSG *message, long *result)
 
 void QEXTFramelessMainWindow::setPadding(int padding)
 {
-    Q_D(QEXTFramelessMainWindow);
+    QEXT_DECL_D(QEXTFramelessMainWindow);
     if (d->m_padding != padding)
     {
         d->m_padding = padding;
@@ -399,7 +399,7 @@ void QEXTFramelessMainWindow::setPadding(int padding)
 
 void QEXTFramelessMainWindow::setMoveEnable(bool moveEnable)
 {
-    Q_D(QEXTFramelessMainWindow);
+    QEXT_DECL_D(QEXTFramelessMainWindow);
     if (d->m_moveEnable != moveEnable)
     {
         d->m_moveEnable = moveEnable;
@@ -409,7 +409,7 @@ void QEXTFramelessMainWindow::setMoveEnable(bool moveEnable)
 
 void QEXTFramelessMainWindow::setResizeEnable(bool resizeEnable)
 {
-    Q_D(QEXTFramelessMainWindow);
+    QEXT_DECL_D(QEXTFramelessMainWindow);
     if (d->m_resizeEnable != resizeEnable)
     {
         d->m_resizeEnable = resizeEnable;
@@ -419,7 +419,7 @@ void QEXTFramelessMainWindow::setResizeEnable(bool resizeEnable)
 
 void QEXTFramelessMainWindow::setTitleBar(QWidget *titleBar)
 {
-    Q_D(QEXTFramelessMainWindow);
+    QEXT_DECL_D(QEXTFramelessMainWindow);
     if (d->m_titleBar.data() != titleBar)
     {
         d->m_titleBar = titleBar;

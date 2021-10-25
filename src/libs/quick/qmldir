@@ -1,0 +1,4 @@
+module QEXTQuick
+plugin QEXTQuick
+classname QEXTQuickQmlPlugin
+typeinfo plugin.qmltypes

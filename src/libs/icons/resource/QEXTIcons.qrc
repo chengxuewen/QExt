@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/QEXTIcons">
-        <file>material/font/MaterialIconsTwoTone-Regular.otf</file>
-        <file>material/font/MaterialIconsSharp-Regular.otf</file>
-        <file>material/font/MaterialIconsRound-Regular.otf</file>
-        <file>material/font/MaterialIconsOutlined-Regular.otf</file>
-        <file>material/font/MaterialIcons-Regular.ttf</file>
-    </qresource>
-</RCC>
