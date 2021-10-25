@@ -28,7 +28,11 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
+<<<<<<< HEAD
 project(QEXT VERSION 0.8.6.1 LANGUAGES CXX)
+=======
+project(QEXT VERSION 0.9.1.1 LANGUAGES CXX)
+>>>>>>> 71784cb
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
