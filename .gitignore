@@ -70,6 +70,7 @@ Thumbs.db
 *.exe
 *.so*
 
+
 # cmake user file
 CMakeLists.txt.user
 build
