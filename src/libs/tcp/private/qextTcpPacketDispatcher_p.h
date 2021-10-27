@@ -3,8 +3,6 @@
 
 #include <qextTcpGlobal.h>
 
-#include <qextObject_p.h>
-
 #include <QSharedPointer>
 #include <QPointer>
 #include <QHash>
@@ -15,11 +13,13 @@ class QEXTTcpFactory;
 class QEXTTcpTaskPool;
 class QEXTTcpPacketTransceiver;
 class QEXTTcpPacketDispatcher;
-class QEXT_TCP_API QEXTTcpPacketDispatcherPrivate : public QEXTObjectPrivate
+class QEXT_TCP_API QEXTTcpPacketDispatcherPrivate
 {
 public:
-    explicit QEXTTcpPacketDispatcherPrivate(QEXTTcpPacketDispatcher *qq);
-    ~QEXTTcpPacketDispatcherPrivate();
+    explicit QEXTTcpPacketDispatcherPrivate(QEXTTcpPacketDispatcher *q);
+    virtual ~QEXTTcpPacketDispatcherPrivate();
+
+    QEXTTcpPacketDispatcher * const q_ptr;
 
     QPointer<QEXTTcpSocket> m_socket;
     QSharedPointer<QEXTTcpTaskPool> m_taskPool;

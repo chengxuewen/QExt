@@ -13,8 +13,8 @@
 #include <QDebug>
 
 
-QEXTIpAddressEditPrivate::QEXTIpAddressEditPrivate(QEXTIpAddressEdit *qq)
-    : QEXTObjectPrivate(qq)
+QEXTIpAddressEditPrivate::QEXTIpAddressEditPrivate(QEXTIpAddressEdit *q)
+    : q_ptr(q)
 {
 
 }
@@ -117,7 +117,7 @@ void QEXTIpAddressEditPrivate::updateQSS(QEXTIpAddressEdit *qq)
 
 
 QEXTIpAddressEdit::QEXTIpAddressEdit(QWidget *parent)
-    : QWidget(parent), QEXTObject(*(new QEXTIpAddressEditPrivate(this)))
+    : QWidget(parent), d_ptr(new QEXTIpAddressEditPrivate(this))
 {
     QEXT_DECL_D(QEXTIpAddressEdit);
     this->setObjectName("IpAddressEdit");

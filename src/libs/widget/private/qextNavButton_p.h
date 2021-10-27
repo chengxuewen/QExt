@@ -4,14 +4,14 @@
 #include <qextWidgetGlobal.h>
 #include <qextNavButton.h>
 
-#include <qextObject_p.h>
-
 class QEXTNavButton;
-class QEXT_WIDGET_API QEXTNavButtonPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTNavButtonPrivate
 {
 public:
-    explicit QEXTNavButtonPrivate(QEXTNavButton *qq);
-    ~QEXTNavButtonPrivate();
+    explicit QEXTNavButtonPrivate(QEXTNavButton *q);
+    virtual ~QEXTNavButtonPrivate();
+
+    QEXTNavButton * const q_ptr;
 
     int m_leftPadding;     //文字左侧间隔
     int m_rightPadding;    //文字右侧间隔

@@ -8,8 +8,8 @@
 #include <QDateTime>
 #include <QThread>
 
-QEXTTcpServerPrivate::QEXTTcpServerPrivate(QEXTTcpServer *qq)
-    : QEXTObjectPrivate(qq)
+QEXTTcpServerPrivate::QEXTTcpServerPrivate(QEXTTcpServer *q)
+    : q_ptr(q)
 {
     m_maxSocketConnectionCount = 16;
     m_maxTaskThreadCount = 8;
@@ -50,7 +50,7 @@ void QEXTTcpServerPrivate::initServer()
 
 
 QEXTTcpServer::QEXTTcpServer()
-    : QTcpServer(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpServerPrivate(this)))
+    : QTcpServer(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpServerPrivate(this))
 {
     QEXT_DECL_D(QEXTTcpServer);
     d->initServer();
@@ -58,26 +58,24 @@ QEXTTcpServer::QEXTTcpServer()
 }
 
 QEXTTcpServer::QEXTTcpServer(const QSharedPointer<QEXTTcpFactory> &tcpFactory)
-    : QTcpServer(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpServerPrivate(this)))
+    : QTcpServer(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpServerPrivate(this))
 {
     QEXT_DECL_D(QEXTTcpServer);
     d->initServer();
     this->setTcpFactory(tcpFactory);
 }
 
-QEXTTcpServer::QEXTTcpServer(QEXTTcpServerPrivate &dd)
-    : QTcpServer(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpServerPrivate(this)))
+QEXTTcpServer::QEXTTcpServer(QEXTTcpServerPrivate *d)
+    : QTcpServer(QEXT_DECL_NULLPTR), d_ptr(d)
 {
-    QEXT_DECL_D(QEXTTcpServer);
-    d->initServer();
+    d_ptr->initServer();
     this->setTcpFactory(QSharedPointer<QEXTTcpFactory>(new QEXTTcpFactory));
 }
 
-QEXTTcpServer::QEXTTcpServer(QEXTTcpServerPrivate &dd, const QSharedPointer<QEXTTcpFactory> &tcpFactory)
-    : QTcpServer(QEXT_DECL_NULLPTR), QEXTObject(dd)
+QEXTTcpServer::QEXTTcpServer(QEXTTcpServerPrivate *d, const QSharedPointer<QEXTTcpFactory> &tcpFactory)
+    : QTcpServer(QEXT_DECL_NULLPTR), d_ptr(d)
 {
-    QEXT_DECL_D(QEXTTcpServer);
-    d->initServer();
+    d_ptr->initServer();
     this->setTcpFactory(tcpFactory);
 }
 

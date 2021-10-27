@@ -20,8 +20,8 @@ static const char *QEXT_TCP_PACKET_TYPE_REPLY = "REPLY";
 
 quint32 QEXTTcpPacketParserPrivate::sm_id = 0;
 
-QEXTTcpPacketParserPrivate::QEXTTcpPacketParserPrivate(QEXTTcpPacketParser *qq)
-    : QEXTObjectPrivate(qq)
+QEXTTcpPacketParserPrivate::QEXTTcpPacketParserPrivate(QEXTTcpPacketParser *q)
+    : q_ptr(q)
 {
 
 }
@@ -34,7 +34,7 @@ QEXTTcpPacketParserPrivate::~QEXTTcpPacketParserPrivate()
 
 
 QEXTTcpPacketParser::QEXTTcpPacketParser(const QEXTTcpPacketHeader::DataInfoVector &extraHeaderDataInfo)
-    : QEXTObject(*(new QEXTTcpPacketParserPrivate(this)))
+    : d_ptr(new QEXTTcpPacketParserPrivate(this))
 {
     QEXT_DECL_D(QEXTTcpPacketParser);
     QEXTTcpPacketHeader::DataInfoVector infoVector;
@@ -45,8 +45,8 @@ QEXTTcpPacketParser::QEXTTcpPacketParser(const QEXTTcpPacketHeader::DataInfoVect
     d->m_extraHeaderDataPairVector = extraHeaderDataInfo;
 }
 
-QEXTTcpPacketParser::QEXTTcpPacketParser(QEXTTcpPacketParserPrivate &dd)
-    : QEXTObject(dd)
+QEXTTcpPacketParser::QEXTTcpPacketParser(QEXTTcpPacketParserPrivate *d)
+    : d_ptr(d)
 {
 
 }

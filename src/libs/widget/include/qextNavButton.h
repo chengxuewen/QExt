@@ -14,20 +14,11 @@
  */
 
 #include <qextWidgetGlobal.h>
-#include <qextObject.h>
 
 #include <QPushButton>
 
-#ifndef Q_WS_QWS
-    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
-        #include <QtDesigner/QDesignerExportWidget>
-    #else
-        #include <QtUiPlugin/QDesignerExportWidget>
-    #endif
-#endif
-
 class QEXTNavButtonPrivate;
-class QEXT_WIDGET_API QEXTNavButton : public QPushButton, public QEXTObject
+class QEXT_WIDGET_API QEXTNavButton : public QPushButton
 {
     Q_OBJECT
 
@@ -184,6 +175,8 @@ protected:
     void drawIcon(QPainter *painter);
     void drawLine(QPainter *painter);
     void drawTriangle(QPainter *painter);
+
+    QScopedPointer<QEXTNavButtonPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTNavButton)

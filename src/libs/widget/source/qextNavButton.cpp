@@ -8,8 +8,8 @@
 #include <QStyleOption>
 #include <QPainter>
 
-QEXTNavButtonPrivate::QEXTNavButtonPrivate(QEXTNavButton *qq)
-    : QEXTObjectPrivate(qq)
+QEXTNavButtonPrivate::QEXTNavButtonPrivate(QEXTNavButton *q)
+    : q_ptr(q)
 {
     m_leftPadding = 5;
     m_rightPadding = 5;
@@ -57,7 +57,7 @@ QEXTNavButtonPrivate::~QEXTNavButtonPrivate()
 
 
 QEXTNavButton::QEXTNavButton(QWidget *parent)
-    : QPushButton(parent), QEXTObject(*(new QEXTNavButtonPrivate(this)))
+    : QPushButton(parent), d_ptr(new QEXTNavButtonPrivate(this))
 {
     this->setCheckable(true);
 }

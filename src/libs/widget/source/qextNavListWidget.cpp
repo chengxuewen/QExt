@@ -10,8 +10,8 @@
 #include <QMutableStringListIterator>
 
 
-QEXTNavListWidgetItemPrivate::QEXTNavListWidgetItemPrivate(QEXTNavListWidgetItem *qq)
-    : QEXTObjectPrivate(qq)
+QEXTNavListWidgetItemPrivate::QEXTNavListWidgetItemPrivate(QEXTNavListWidgetItem *q)
+    : q_ptr(q)
 {
     m_expand = false;
     m_visiable = true;
@@ -25,14 +25,14 @@ QEXTNavListWidgetItemPrivate::~QEXTNavListWidgetItemPrivate()
 }
 
 QEXTNavListWidgetItem::QEXTNavListWidgetItem(QEXTNavListWidgetItem *parent)
-    : QObject(), QEXTObject(*(new QEXTNavListWidgetItemPrivate(this)))
+    : QObject(), d_ptr(new QEXTNavListWidgetItemPrivate(this))
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
     this->setParentItem(parent);
 }
 
 QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, QEXTNavListWidgetItem *parent)
-    : QObject(), QEXTObject(*(new QEXTNavListWidgetItemPrivate(this)))
+    : QObject(), d_ptr(new QEXTNavListWidgetItemPrivate(this))
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
     d->m_text = text;
@@ -41,7 +41,7 @@ QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, QEXTNavListWid
 
 QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QPixmap &icon,
                                              QEXTNavListWidgetItem *parent)
-    : QObject(), QEXTObject(*(new QEXTNavListWidgetItemPrivate(this)))
+    : QObject(), d_ptr(new QEXTNavListWidgetItemPrivate(this))
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
     d->m_text = text;
@@ -51,7 +51,7 @@ QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QPixmap 
 
 QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QPixmap &icon,
                                              bool expand, QEXTNavListWidgetItem *parent)
-    : QObject(), QEXTObject(*(new QEXTNavListWidgetItemPrivate(this)))
+    : QObject(), d_ptr(new QEXTNavListWidgetItemPrivate(this))
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
     d->m_text = text;
@@ -62,7 +62,7 @@ QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QPixmap 
 
 QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QString &tip,
                                              const QPixmap &icon, QEXTNavListWidgetItem *parent)
-    : QObject(), QEXTObject(*(new QEXTNavListWidgetItemPrivate(this)))
+    : QObject(), d_ptr(new QEXTNavListWidgetItemPrivate(this))
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
     d->m_text = text;
@@ -73,7 +73,7 @@ QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QString 
 
 QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QString &tip,
                                              const QPixmap &icon, bool expand, QEXTNavListWidgetItem *parent)
-    : QObject(), QEXTObject(*(new QEXTNavListWidgetItemPrivate(this)))
+    : QObject(), d_ptr(new QEXTNavListWidgetItemPrivate(this))
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
     d->m_text = text;
@@ -85,7 +85,7 @@ QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QString 
 
 QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QChar &fontChar,
                                              QEXTNavListWidgetItem *parent)
-    : QObject(), QEXTObject(*(new QEXTNavListWidgetItemPrivate(this)))
+    : QObject(), d_ptr(new QEXTNavListWidgetItemPrivate(this))
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
     d->m_text = text;
@@ -95,7 +95,7 @@ QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QChar &f
 
 QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QChar &fontChar,
                                              bool expand, QEXTNavListWidgetItem *parent)
-    : QObject(), QEXTObject(*(new QEXTNavListWidgetItemPrivate(this)))
+    : QObject(), d_ptr(new QEXTNavListWidgetItemPrivate(this))
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
     d->m_text = text;
@@ -106,7 +106,7 @@ QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QChar &f
 
 QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QString &tip,
                                              const QChar &fontChar, QEXTNavListWidgetItem *parent)
-    : QObject(), QEXTObject(*(new QEXTNavListWidgetItemPrivate(this)))
+    : QObject(), d_ptr(new QEXTNavListWidgetItemPrivate(this))
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
     d->m_text = text;
@@ -117,7 +117,7 @@ QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QString 
 
 QEXTNavListWidgetItem::QEXTNavListWidgetItem(const QString &text, const QString &tip,
                                              const QChar &fontChar, bool expand, QEXTNavListWidgetItem *parent)
-    : QObject(), QEXTObject(*(new QEXTNavListWidgetItemPrivate(this)))
+    : QObject(), d_ptr(new QEXTNavListWidgetItemPrivate(this))
 {
     QEXT_DECL_D(QEXTNavListWidgetItem);
     d->m_text = text;
@@ -742,8 +742,8 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
 
 
-QEXTNavListModelPrivate::QEXTNavListModelPrivate(QEXTNavListModel *qq)
-    : QEXTObjectPrivate(qq)
+QEXTNavListModelPrivate::QEXTNavListModelPrivate(QEXTNavListModel *q)
+    : q_ptr(q)
 {
 
 }
@@ -825,7 +825,7 @@ void QEXTNavListModelPrivate::initItemConnection(QEXTNavListWidgetItem *item)
 
 
 QEXTNavListModel::QEXTNavListModel(QObject *parent)
-    : QAbstractListModel(parent), QEXTObject(*(new QEXTNavListModelPrivate(this)))
+    : QAbstractListModel(parent), d_ptr(new QEXTNavListModelPrivate(this))
 {
 
 }
@@ -1348,8 +1348,8 @@ void QEXTNavListModel::onChildItemRemoved(QEXTNavListWidgetItem *item, QEXTNavLi
 
 
 
-QEXTNavListWidgetPrivate::QEXTNavListWidgetPrivate(QEXTNavListWidget *qq)
-    : QEXTObjectPrivate(qq)
+QEXTNavListWidgetPrivate::QEXTNavListWidgetPrivate(QEXTNavListWidget *q)
+    : q_ptr(q)
 {
     m_rightIconVisible = true;
     m_tipVisible = true;
@@ -1420,7 +1420,7 @@ QFont QEXTNavListWidgetPrivate::itemFont() const
 
 
 QEXTNavListWidget::QEXTNavListWidget(QWidget *parent)
-    : QWidget(parent), QEXTObject(*(new QEXTNavListWidgetPrivate(this)))
+    : QWidget(parent), d_ptr(new QEXTNavListWidgetPrivate(this))
 {
     QEXT_DECL_D(QEXTNavListWidget);
     QVBoxLayout *layout = new QVBoxLayout;

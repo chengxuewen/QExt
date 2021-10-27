@@ -6,7 +6,7 @@
 
 
 /********************************************************************************
-CF compiler cplusplus std value macro define
+QEXT compiler cplusplus std value macro define
 ********************************************************************************/
 #if defined(_MSVC_LANG) && !defined(__clang__)
     #define QEXT_CC_STD_VALUE (_MSC_VER == 1900 ? 201103L : _MSVC_LANG)
@@ -64,6 +64,25 @@ CF compiler cplusplus std value macro define
     #define QEXT_DECL_NOEXCEPT_EXPR(x)
 #endif
 
+#define QEXT_CC_FEATURE_DECLTYPE defined(Q_COMPILER_DECLTYPE)
+#define QEXT_CC_FEATURE_RVALUE_REFS defined(Q_COMPILER_RVALUE_REFS)
+#define QEXT_CC_FEATURE_STATIC_ASSERT defined(Q_COMPILER_STATIC_ASSERT)
+#define QEXT_CC_FEATURE_AUTO_FUNCTION defined(Q_COMPILER_AUTO_FUNCTION)
+#define QEXT_CC_FEATURE_AUTO_TYPE defined(Q_COMPILER_AUTO_TYPE)
+#define QEXT_CC_FEATURE_EXTERN_TEMPLATES defined(Q_COMPILER_EXTERN_TEMPLATES)
+#define QEXT_CC_FEATURE_UNIFORM_INIT defined(Q_COMPILER_UNIFORM_INIT)
+#define QEXT_CC_FEATURE_UNICODE_STRINGS defined(Q_COMPILER_UNICODE_STRINGS)
+#define QEXT_CC_FEATURE_VARIADIC_TEMPLATES defined(Q_COMPILER_VARIADIC_TEMPLATES)
+#define QEXT_CC_FEATURE_EXPLICIT_CONVERSIONS defined(Q_COMPILER_EXPLICIT_CONVERSIONS)
+#define QEXT_CC_FEATURE_INITIALIZER_LISTS defined(Q_COMPILER_INITIALIZER_LISTS)
+#define QEXT_CC_FEATURE_STATIC_ASSERT defined(Q_COMPILER_STATIC_ASSERT)
+#define QEXT_CC_FEATURE_LAMBDA defined(Q_COMPILER_LAMBDA)
+#define QEXT_CC_FEATURE_RAW_STRINGS defined(Q_COMPILER_RAW_STRINGS)
+#define QEXT_CC_FEATURE_CLASS_ENUM defined(Q_COMPILER_CLASS_ENUM)
+
+#define QEXT_STATIC_ASSERT(Condition) Q_STATIC_ASSERT(Condition)
+#define QEXT_STATIC_ASSERT_X(Condition) Q_STATIC_ASSERT_X(Condition)
+
 /*
    Some classes do not permit copies to be made of an object. These
    classes contains a private copy constructor and assignment
@@ -90,35 +109,12 @@ CF compiler cplusplus std value macro define
 /********************************************************************************
  * class private implementation macro
 ********************************************************************************/
-template<typename T>
-static inline T *qextGetPtrHelper(T *ptr)
-{
-    return ptr;
-}
-template<typename Wrapper>
-static inline typename Wrapper::pointer qextGetPtrHelper(const Wrapper &p)
-{
-    return p.data();
-}
-
-#define QEXT_DECL_PRIVATE(Class)                                                                                                    \
-    inline Class##Private *d_func() { return reinterpret_cast<Class##Private *>(qextGetPtrHelper(d_objPtr)); }                      \
-    inline const Class##Private *d_func() const { return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(d_objPtr)); }    \
-    friend class Class##Private;
-
-#define QEXT_DECL_PRIVATE_D(Dptr, Class)                                                                    \
-    inline Class##Private *d_func() { return reinterpret_cast<Class##Private *>(Dptr); }                    \
-    inline const Class##Private *d_func() const { return reinterpret_cast<const Class##Private *>(Dptr); }  \
-    friend class Class##Private;
-
-#define QEXT_DECL_PUBLIC(Class)                                                             \
-    inline Class *q_func() { return static_cast<Class *>(q_objPtr); }                       \
-    inline const Class *q_func() const { return static_cast<const Class *>(q_objPtr); }     \
-    friend class Class;
-
-#define QEXT_DECL_D(Class) Class##Private *const d = d_func();
-#define QEXT_DECL_Q(Class) Class *const q = q_func();
+#define QEXT_DECL_PRIVATE(Class) Q_DECLARE_PRIVATE(Class)
+#define QEXT_DECL_PRIVATE_D(Dptr, Class) Q_DECLARE_PRIVATE_D(Dptr, Class)
+#define QEXT_DECL_PUBLIC(Class) Q_DECLARE_PUBLIC(Class)
+#define QEXT_DECL_D(Class) Q_D(Class)
 #define QEXT_DECL_DC(Class) QEXT_DECL_D(const Class)
+#define QEXT_DECL_Q(Class) Q_Q(Class)
 #define QEXT_DECL_QC(Class) QEXT_DECL_Q(const Class)
 #define QEXT_PRIVATE_SLOT(Func) Q_PRIVATE_SLOT(d_func(), Func)
 
@@ -140,5 +136,10 @@ static inline typename Wrapper::pointer qextGetPtrHelper(const Wrapper &p)
 #define QEXT_VERSION_CHECK(major, minor, patch) ((major << 16) | (minor << 8) | (patch))
 
 
+struct QEXTNil {};
+
+
+#define QEXT_ATOMIC_INT_TRUE 1
+#define QEXT_ATOMIC_INT_FALSE 0
 
 #endif // _QEXTGLOBAL_H

@@ -7,8 +7,8 @@
 
 static const int QEXT_TCP_PACKET_HEADER_META_DATA_MAX_NUM = 255;
 
-QEXTTcpPacketHeaderPrivate::QEXTTcpPacketHeaderPrivate(QEXTTcpPacketHeader *qq)
-    : QEXTObjectPrivate(qq)
+QEXTTcpPacketHeaderPrivate::QEXTTcpPacketHeaderPrivate(QEXTTcpPacketHeader *q)
+    : q_ptr(q)
 {
     this->updateHeaderSize();
     m_contentSize = 0;
@@ -58,17 +58,17 @@ void QEXTTcpPacketHeaderPrivate::updateHeaderSize()
 
 
 QEXTTcpPacketHeader::QEXTTcpPacketHeader(const QEXTTcpPacketHeader::DataInfoVector &dataInfoVector)
-    : QEXTObject(*(new QEXTTcpPacketHeaderPrivate(this)))
+    : d_ptr(new QEXTTcpPacketHeaderPrivate(this))
 {
     QEXT_DECL_D(QEXTTcpPacketHeader);
     d->initHeaderData(dataInfoVector);
 }
 
-QEXTTcpPacketHeader::QEXTTcpPacketHeader(QEXTTcpPacketHeaderPrivate &dd, const DataInfoVector &dataInfoVector)
-    : QEXTObject(dd)
+QEXTTcpPacketHeader::QEXTTcpPacketHeader(QEXTTcpPacketHeaderPrivate *d,
+                                         const DataInfoVector &dataInfoVector)
+    : d_ptr(d)
 {
-    QEXT_DECL_D(QEXTTcpPacketHeader);
-    d->initHeaderData(dataInfoVector);
+    d_ptr->initHeaderData(dataInfoVector);
 }
 
 QEXTTcpPacketHeader::~QEXTTcpPacketHeader()

@@ -4,16 +4,16 @@
 #include <qextWidgetGlobal.h>
 #include <qextSwitchButton.h>
 
-#include <qextObject_p.h>
-
 #include <QVariantAnimation>
 
 class QEXTSwitchButton;
-class QEXT_WIDGET_API QEXTSwitchButtonPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTSwitchButtonPrivate
 {
 public:
-    explicit QEXTSwitchButtonPrivate(QEXTSwitchButton *qq);
-    ~QEXTSwitchButtonPrivate();
+    explicit QEXTSwitchButtonPrivate(QEXTSwitchButton *q);
+    virtual ~QEXTSwitchButtonPrivate();
+
+    QEXTSwitchButton * const q_ptr;
 
     int m_space;                      //滑块离背景间隔
     int m_rectRadius;                 //圆角角度

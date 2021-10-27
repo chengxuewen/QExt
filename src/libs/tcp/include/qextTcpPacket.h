@@ -1,8 +1,6 @@
 #ifndef _QEXTTCPPACKET_H
 #define _QEXTTCPPACKET_H
 
-#include <qextObject.h>
-
 #include <qextTcpGlobal.h>
 #include <qextTcpPacketHeaderInterface.h>
 #include <qextTcpPacketInterface.h>
@@ -11,11 +9,11 @@
 #include <QTcpSocket>
 
 class QEXTTcpPacketPrivate;
-class QEXT_TCP_API QEXTTcpPacket : public QEXTTcpPacketInterface, public QEXTObject
+class QEXT_TCP_API QEXTTcpPacket : public QEXTTcpPacketInterface
 {
 public:
     QEXTTcpPacket(const QSharedPointer<QEXTTcpPacketHeaderInterface> &header);
-    QEXTTcpPacket(QEXTTcpPacketPrivate &dd, const QSharedPointer<QEXTTcpPacketHeaderInterface> &header);
+    QEXTTcpPacket(QEXTTcpPacketPrivate *d, const QSharedPointer<QEXTTcpPacketHeaderInterface> &header);
     ~QEXTTcpPacket();
 
     QDateTime timestamp() const QEXT_DECL_OVERRIDE;
@@ -31,6 +29,9 @@ public:
 
     qint64 nextBlockSize() const QEXT_DECL_OVERRIDE;
     bool setNextBlockSize(qint64 size) QEXT_DECL_OVERRIDE;
+
+protected:
+    QScopedPointer<QEXTTcpPacketPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTTcpPacket)

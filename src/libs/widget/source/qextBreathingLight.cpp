@@ -8,8 +8,8 @@
 #include <QTimer>
 
 
-QEXTBreathingLightPrivate::QEXTBreathingLightPrivate(QEXTBreathingLight *qq)
-    : QEXTObjectPrivate(qq)
+QEXTBreathingLightPrivate::QEXTBreathingLightPrivate(QEXTBreathingLight *q)
+    : q_ptr(q)
 {
     m_step = 10;
     m_interval = 100;
@@ -28,7 +28,7 @@ QEXTBreathingLightPrivate::~QEXTBreathingLightPrivate()
 
 
 QEXTBreathingLight::QEXTBreathingLight(QWidget *parent)
-    : QWidget(parent), QEXTObject(*(new QEXTBreathingLightPrivate(this)))
+    : QWidget(parent), d_ptr(new QEXTBreathingLightPrivate(this))
 {
     QEXT_DECL_D(QEXTBreathingLight);
     d->m_timer.reset(new QTimer);

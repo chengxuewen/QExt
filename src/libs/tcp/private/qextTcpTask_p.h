@@ -1,8 +1,6 @@
 #ifndef _QEXTTCPTASK_P_H
 #define _QEXTTCPTASK_P_H
 
-#include <qextObject_p.h>
-
 #include <qextTcpGlobal.h>
 #include <qextTcpTask.h>
 
@@ -16,11 +14,13 @@
 class QEXTTcpPacketInterface;
 class QEXTTcpPacketTransceiver;
 class QEXTTcpTask;
-class QEXT_TCP_API QEXTTcpTaskPrivate : public QEXTObjectPrivate
+class QEXT_TCP_API QEXTTcpTaskPrivate
 {
 public:
-    explicit QEXTTcpTaskPrivate(QEXTTcpTask *qq);
-    ~QEXTTcpTaskPrivate();
+    explicit QEXTTcpTaskPrivate(QEXTTcpTask *q);
+    virtual ~QEXTTcpTaskPrivate();
+
+    QEXTTcpTask * const q_ptr;
 
     const QDateTime m_timestamp;
     QSharedPointer<QEXTTcpPacketTransceiver> m_packetTransceiver;

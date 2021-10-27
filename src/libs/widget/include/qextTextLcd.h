@@ -14,21 +14,11 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <qextObject.h>
-
-#ifndef Q_WS_QWS
-    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
-        #include <QtDesigner/QDesignerExportWidget>
-    #else
-        #include <QtUiPlugin/QDesignerExportWidget>
-    #endif
-#endif
-
 #include <QWidget>
 #include <QObject>
 
 class QEXTTextLcdPrivate;
-class QEXT_WIDGET_API QEXTTextLcd : public QWidget, public QEXTObject
+class QEXT_WIDGET_API QEXTTextLcd : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QString text READ text WRITE setText)
@@ -100,6 +90,8 @@ protected Q_SLOTS:
 
 protected:
     void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
+
+    QScopedPointer<QEXTTextLcdPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTTextLcd)

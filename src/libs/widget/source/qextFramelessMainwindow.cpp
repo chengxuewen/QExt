@@ -19,8 +19,8 @@
 #define TIMEMS qPrintable(QTime::currentTime().toString("HH:mm:ss zzz"))
 
 
-QEXTFramelessMainWindowPrivate::QEXTFramelessMainWindowPrivate(QEXTFramelessMainWindow *qq)
-    : QEXTObjectPrivate(qq)
+QEXTFramelessMainWindowPrivate::QEXTFramelessMainWindowPrivate(QEXTFramelessMainWindow *q)
+    : q_ptr(q)
 {
     m_padding = 8;
     m_moveEnable = true;
@@ -46,7 +46,7 @@ QEXTFramelessMainWindowPrivate::~QEXTFramelessMainWindowPrivate()
 
 
 QEXTFramelessMainWindow::QEXTFramelessMainWindow(QWidget *parent)
-    : QMainWindow(parent), QEXTObject(*(new QEXTFramelessMainWindowPrivate(this)))
+    : QMainWindow(parent), d_ptr(new QEXTFramelessMainWindowPrivate(this))
 {
     QEXT_DECL_D(QEXTFramelessMainWindow);
     d->m_flags = this->windowFlags();

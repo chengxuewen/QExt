@@ -2,7 +2,6 @@
 #define _QEXTWAVECHART_H
 
 #include <qextWidgetGlobal.h>
-#include <qextObject.h>
 
 /**
  * 曲线图表控件 作者:feiyangqingyun(QQ:517216493) 2016-10-23
@@ -16,17 +15,9 @@
 
 #include <QWidget>
 
-#ifndef Q_WS_QWS
-    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
-        #include <QtDesigner/QDesignerExportWidget>
-    #else
-        #include <QtUiPlugin/QDesignerExportWidget>
-    #endif
-#endif
-
 
 class QEXTWaveChartPrivate;
-class QEXT_WIDGET_API QEXTWaveChart : public QWidget, public QEXTObject
+class QEXT_WIDGET_API QEXTWaveChart : public QWidget
 {
     Q_OBJECT
 
@@ -102,6 +93,8 @@ public Q_SLOTS:
     void setTextColor(const QColor &color);
     void setPointColor(const QColor &color);
 
+protected Q_SLOTS:
+    void updateData();
 
 protected:
     void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
@@ -112,8 +105,7 @@ protected:
     void drawTitle(QPainter *painter);
     void drawPoint(QPainter *painter);
 
-private slots:
-    void updateData();
+    QScopedPointer<QEXTWaveChartPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTWaveChart)

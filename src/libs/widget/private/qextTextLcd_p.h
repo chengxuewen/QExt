@@ -4,19 +4,19 @@
 #include <qextWidgetGlobal.h>
 #include <qextTextLcd.h>
 
-#include <qextObject_p.h>
-
 #include <QTimer>
 #include <QColor>
 #include <QSizeF>
 #include <QPointF>
 
 class QEXTTextLcd;
-class QEXT_WIDGET_API QEXTTextLcdPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTTextLcdPrivate
 {
 public:
-    explicit QEXTTextLcdPrivate(QEXTTextLcd *qq);
-    ~QEXTTextLcdPrivate();
+    explicit QEXTTextLcdPrivate(QEXTTextLcd *q);
+    virtual ~QEXTTextLcdPrivate();
+
+    QEXTTextLcd * const q_ptr;
 
     QSizeF m_ledTextSizeF;
     QSize m_imageSize;

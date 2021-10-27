@@ -10,8 +10,8 @@
 
 quint64 QEXTTcpTaskPrivate::sm_id = 0;
 
-QEXTTcpTaskPrivate::QEXTTcpTaskPrivate(QEXTTcpTask *qq)
-    : QEXTObjectPrivate(qq),
+QEXTTcpTaskPrivate::QEXTTcpTaskPrivate(QEXTTcpTask *q)
+    : q_ptr(q),
       m_timestamp(QDateTime::currentDateTime())
 {
     m_id = ++sm_id;
@@ -26,42 +26,38 @@ QEXTTcpTaskPrivate::~QEXTTcpTaskPrivate()
 
 
 QEXTTcpTask::QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpTaskPrivate(this)))
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpTaskPrivate(this))
 {
-    QEXT_DECL_D(QEXTTcpTask);
-    d->m_packetTransceiver = transceiver;
+    d_ptr->m_packetTransceiver = transceiver;
 }
 
 QEXTTcpTask::QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
                          const QSharedPointer<QEXTTcpPacketInterface> &packet)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpTaskPrivate(this)))
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpTaskPrivate(this))
 {
-    QEXT_DECL_D(QEXTTcpTask);
-    d->m_packetTransceiver = transceiver;
-    d->m_receivedPacket = packet;
+    d_ptr->m_packetTransceiver = transceiver;
+    d_ptr->m_receivedPacket = packet;
 }
 
-QEXTTcpTask::QEXTTcpTask(QEXTTcpTaskPrivate &dd, const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
+QEXTTcpTask::QEXTTcpTask(QEXTTcpTaskPrivate *d,
+                         const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver)
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(d)
 {
-    QEXT_DECL_D(QEXTTcpTask);
-    d->m_packetTransceiver = transceiver;
+    d_ptr->m_packetTransceiver = transceiver;
 }
 
-QEXTTcpTask::QEXTTcpTask(QEXTTcpTaskPrivate &dd,
+QEXTTcpTask::QEXTTcpTask(QEXTTcpTaskPrivate *d,
                          const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
                          const QSharedPointer<QEXTTcpPacketInterface> &packet)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(d)
 {
-    QEXT_DECL_D(QEXTTcpTask);
-    d->m_packetTransceiver = transceiver;
-    d->m_receivedPacket = packet;
+    d_ptr->m_packetTransceiver = transceiver;
+    d_ptr->m_receivedPacket = packet;
 }
 
 QEXTTcpTask::~QEXTTcpTask()
 {
-    QEXT_DECL_DC(QEXTTcpTask);
-    emit this->aboutToBeDelete(d->m_id);
+    emit this->aboutToBeDelete(d_ptr->m_id);
 }
 
 QSharedPointer<QEXTTcpPacketInterface> QEXTTcpTask::receivedPacket() const
@@ -144,10 +140,10 @@ QEXTTcpPostBackTask::QEXTTcpPostBackTask(const QSharedPointer<QEXTTcpPacketTrans
 
 }
 
-QEXTTcpPostBackTask::QEXTTcpPostBackTask(QEXTTcpTaskPrivate &dd,
+QEXTTcpPostBackTask::QEXTTcpPostBackTask(QEXTTcpTaskPrivate *d,
                                          const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
                                          const QSharedPointer<QEXTTcpPacketInterface> &packet)
-    : QEXTTcpTask(dd, transceiver, packet)
+    : QEXTTcpTask(d, transceiver, packet)
 {
 
 }

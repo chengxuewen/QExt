@@ -31,7 +31,3 @@ add_subdirectory(stylesheet)
 add_subdirectory(tcp)
 add_subdirectory(utils)
 add_subdirectory(widget)
-
-if(QEXT_BUILD_QML)
-#    add_subdirectory(quick)
-endif()

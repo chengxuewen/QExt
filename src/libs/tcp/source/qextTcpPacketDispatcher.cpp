@@ -11,8 +11,8 @@
 #include <QDebug>
 #include <QTimer>
 
-QEXTTcpPacketDispatcherPrivate::QEXTTcpPacketDispatcherPrivate(QEXTTcpPacketDispatcher *qq)
-    : QEXTObjectPrivate(qq)
+QEXTTcpPacketDispatcherPrivate::QEXTTcpPacketDispatcherPrivate(QEXTTcpPacketDispatcher *q)
+    : q_ptr(q)
 {
 }
 
@@ -23,7 +23,7 @@ QEXTTcpPacketDispatcherPrivate::~QEXTTcpPacketDispatcherPrivate()
 
 
 QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpSocket *socket)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpPacketDispatcherPrivate(this)))
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpPacketDispatcherPrivate(this))
 {
     QEXT_DECL_D(QEXTTcpPacketDispatcher);
     connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
@@ -34,7 +34,7 @@ QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpSocket *socket)
 
 QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpSocket *socket,
                                                  const QSharedPointer<QEXTTcpFactory> &tcpFactory)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpPacketDispatcherPrivate(this)))
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpPacketDispatcherPrivate(this))
 {
     QEXT_DECL_D(QEXTTcpPacketDispatcher);
     connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
@@ -43,26 +43,24 @@ QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpSocket *socket,
     this->setTcpFactory(tcpFactory);
 }
 
-QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd,
+QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate *d,
                                                  QEXTTcpSocket *socket)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(d)
 {
-    QEXT_DECL_D(QEXTTcpPacketDispatcher);
     connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
-    d->m_socket = socket;
-    d->m_taskPool = QSharedPointer<QEXTTcpTaskPool>(new QEXTTcpTaskPool(this));
+    d_ptr->m_socket = socket;
+    d_ptr->m_taskPool = QSharedPointer<QEXTTcpTaskPool>(new QEXTTcpTaskPool(this));
     this->setTcpFactory(QSharedPointer<QEXTTcpFactory>(new QEXTTcpFactory));
 }
 
-QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd,
+QEXTTcpPacketDispatcher::QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate *d,
                                                  QEXTTcpSocket *socket,
                                                  const QSharedPointer<QEXTTcpFactory> &tcpFactory)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(d)
 {
-    QEXT_DECL_D(QEXTTcpPacketDispatcher);
     connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
-    d->m_socket = socket;
-    d->m_taskPool = QSharedPointer<QEXTTcpTaskPool>(new QEXTTcpTaskPool(this));
+    d_ptr->m_socket = socket;
+    d_ptr->m_taskPool = QSharedPointer<QEXTTcpTaskPool>(new QEXTTcpTaskPool(this));
     this->setTcpFactory(tcpFactory);
 }
 

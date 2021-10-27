@@ -4,8 +4,6 @@
 #include <qextWidgetGlobal.h>
 #include <qextNavListWidget.h>
 
-#include <qextObject_p.h>
-
 #include <QPointer>
 #include <QPainter>
 #include <QListView>
@@ -13,11 +11,13 @@
 #include <QStyledItemDelegate>
 
 class QEXTNavListWidgetItem;
-class QEXT_WIDGET_API QEXTNavListWidgetItemPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTNavListWidgetItemPrivate
 {
 public:
-    explicit QEXTNavListWidgetItemPrivate(QEXTNavListWidgetItem *qq);
+    explicit QEXTNavListWidgetItemPrivate(QEXTNavListWidgetItem *q);
     virtual ~QEXTNavListWidgetItemPrivate();
+
+    QEXTNavListWidgetItem * const q_ptr;
 
     QPixmap m_normalIcon;
     QPixmap m_hoverIcon;
@@ -65,11 +65,13 @@ private:
 
 
 class QEXTNavListModel;
-class QEXT_WIDGET_API QEXTNavListModelPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTNavListModelPrivate
 {
 public:
-    explicit QEXTNavListModelPrivate(QEXTNavListModel *qq);
-    ~QEXTNavListModelPrivate();
+    explicit QEXTNavListModelPrivate(QEXTNavListModel *q);
+    virtual ~QEXTNavListModelPrivate();
+
+    QEXTNavListModel * const q_ptr;
 
     void deleteAllItems();
     void refreshVisiableList();
@@ -88,11 +90,13 @@ private:
 
 
 class QEXTNavListWidget;
-class QEXT_WIDGET_API QEXTNavListWidgetPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTNavListWidgetPrivate
 {
 public:
-    explicit QEXTNavListWidgetPrivate(QEXTNavListWidget *qq);
-    ~QEXTNavListWidgetPrivate();
+    explicit QEXTNavListWidgetPrivate(QEXTNavListWidget *q);
+    virtual ~QEXTNavListWidgetPrivate();
+
+    QEXTNavListWidget * const q_ptr;
 
     QFont itemFont() const;
 

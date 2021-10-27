@@ -1,6 +1,6 @@
-#include <QtTest>
 #include <qextCodecUtils.h>
 
+#include <QtTest>
 #include <QtEndian>
 #include <QByteArray>
 #include <QDebug>

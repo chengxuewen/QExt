@@ -7,8 +7,8 @@
 #include <QColor>
 #include <QPainter>
 
-QEXTNumberLedPrivate::QEXTNumberLedPrivate(QEXTNumberLed *qq)
-    : QEXTObjectPrivate(qq)
+QEXTNumberLedPrivate::QEXTNumberLedPrivate(QEXTNumberLed *q)
+    : q_ptr(q)
 {
     m_number = 0;
     m_space = 20;
@@ -32,7 +32,7 @@ QEXTNumberLedPrivate::~QEXTNumberLedPrivate()
 
 
 QEXTNumberLed::QEXTNumberLed(QWidget *parent)
-    : QWidget(parent), QEXTObject(*(new QEXTNumberLedPrivate(this)))
+    : QWidget(parent), d_ptr(new QEXTNumberLedPrivate(this))
 {
 
 }

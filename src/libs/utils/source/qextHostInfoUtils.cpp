@@ -23,8 +23,8 @@
 
 #define QEXT_WIN_EXE_SUFFIX ".exe"
 
-QEXTHostInfoUtilsPrivate::QEXTHostInfoUtilsPrivate(QEXTHostInfoUtils *qq)
-    : QEXTObjectPrivate(qq)
+QEXTHostInfoUtilsPrivate::QEXTHostInfoUtilsPrivate(QEXTHostInfoUtils *q)
+    : q_ptr(q)
 {
 
 }
@@ -85,7 +85,7 @@ QEXTDiskInfo QEXTHostInfoUtilsPrivate::checkDiskSize(const QString &result, cons
 
 
 QEXTHostInfoUtils::QEXTHostInfoUtils(QObject *parent)
-    : QObject(parent), QEXTObject(*(new QEXTHostInfoUtilsPrivate(this)))
+    : QObject(parent), d_ptr(new QEXTHostInfoUtilsPrivate(this))
 {
     QEXT_DECL_D(QEXTHostInfoUtils);
     d->m_cpuTimer.reset(new QTimer);

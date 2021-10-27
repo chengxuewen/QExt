@@ -3,17 +3,17 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <qextObject_p.h>
-
 #include <QColor>
 #include <QTimer>
 
 class QEXTBreathingLight;
-class QEXT_WIDGET_API QEXTBreathingLightPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTBreathingLightPrivate
 {
 public:
-    explicit QEXTBreathingLightPrivate(QEXTBreathingLight *qq);
-    ~QEXTBreathingLightPrivate();
+    explicit QEXTBreathingLightPrivate(QEXTBreathingLight *q);
+    virtual ~QEXTBreathingLightPrivate();
+
+    QEXTBreathingLight * const q_ptr;
 
     int m_step;                    //颜色透明渐变步长
     int m_interval;                //定时器间隔

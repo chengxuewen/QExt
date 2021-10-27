@@ -13,7 +13,5 @@
 #define QEXT_CXX_COMPILER_ID @QEXT_CXX_COMPILER_ID@
 
 #cmakedefine QEXT_BUILD_SHARED_LIBS
-#cmakedefine QEXT_BUILD_QML
-#cmakedefine QEXT_BUILD_QJSON
 
 #endif // _QEXTCONFIG_H

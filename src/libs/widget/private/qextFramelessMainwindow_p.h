@@ -3,17 +3,17 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <qextObject_p.h>
-
 #include <QWidget>
 #include <QPointer>
 
 class QEXTFramelessMainWindow;
-class QEXT_WIDGET_API QEXTFramelessMainWindowPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTFramelessMainWindowPrivate
 {
 public:
-    explicit QEXTFramelessMainWindowPrivate(QEXTFramelessMainWindow *qq);
-    ~QEXTFramelessMainWindowPrivate();
+    explicit QEXTFramelessMainWindowPrivate(QEXTFramelessMainWindow *q);
+    virtual ~QEXTFramelessMainWindowPrivate();
+
+    QEXTFramelessMainWindow * const q_ptr;
 
     //边距+可移动+可拉伸
     int m_padding;

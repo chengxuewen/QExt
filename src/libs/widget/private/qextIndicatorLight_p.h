@@ -4,17 +4,17 @@
 #include <qextWidgetGlobal.h>
 #include <qextIndicatorLight.h>
 
-#include <qextObject_p.h>
-
 #include <QColor>
 #include <QTimer>
 
 class QEXTIndicatorLight;
-class QEXT_WIDGET_API QEXTIndicatorLightPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTIndicatorLightPrivate
 {
 public:
-    explicit QEXTIndicatorLightPrivate(QEXTIndicatorLight *qq);
-    ~QEXTIndicatorLightPrivate();
+    explicit QEXTIndicatorLightPrivate(QEXTIndicatorLight *q);
+    virtual ~QEXTIndicatorLightPrivate();
+
+    QEXTIndicatorLight * const q_ptr;
 
     QString m_text;                  //文本
     QColor m_lightTextColor;            //文字高亮颜色

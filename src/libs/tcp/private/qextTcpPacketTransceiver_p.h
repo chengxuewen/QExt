@@ -2,8 +2,6 @@
 #define _QEXTTCPPACKETSYNCRECEIVER_P_H
 
 #include <qextTcpGlobal.h>
-
-#include <qextObject_p.h>
 #include <qextId.h>
 
 #include <QMutex>
@@ -16,11 +14,13 @@
 class QEXTTcpPacketDispatcher;
 class QEXTTcpPacketInterface;
 class QEXTTcpPacketTransceiver;
-class QEXT_TCP_API QEXTTcpPacketTransceiverPrivate : public QEXTObjectPrivate
+class QEXT_TCP_API QEXTTcpPacketTransceiverPrivate
 {
 public:
-    explicit QEXTTcpPacketTransceiverPrivate(QEXTTcpPacketTransceiver *qq);
-    ~QEXTTcpPacketTransceiverPrivate();
+    explicit QEXTTcpPacketTransceiverPrivate(QEXTTcpPacketTransceiver *q);
+    virtual ~QEXTTcpPacketTransceiverPrivate();
+
+    QEXTTcpPacketTransceiver * const q_ptr;
 
     QEXTId m_identityId;
 

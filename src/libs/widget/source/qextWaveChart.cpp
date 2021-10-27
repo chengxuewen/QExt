@@ -102,8 +102,8 @@ void QEXTSmoothCurveCreator::calculateControlPoints(const QVector<QPointF> &knot
 
 
 
-QEXTWaveChartPrivate::QEXTWaveChartPrivate(QEXTWaveChart *qq)
-    : QEXTObjectPrivate(qq)
+QEXTWaveChartPrivate::QEXTWaveChartPrivate(QEXTWaveChart *q)
+    : q_ptr(q)
 {
     m_minValue = 0;
     m_maxValue = 100;
@@ -135,7 +135,7 @@ QEXTWaveChartPrivate::~QEXTWaveChartPrivate()
 
 
 QEXTWaveChart::QEXTWaveChart(QWidget *parent)
-    : QWidget(parent), QEXTObject(*(new QEXTWaveChartPrivate(this)))
+    : QWidget(parent), d_ptr(new QEXTWaveChartPrivate(this))
 {
 
 }

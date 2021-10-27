@@ -1,8 +1,6 @@
 #ifndef _QEXTTCPPACKETHEADER_P_H
 #define _QEXTTCPPACKETHEADER_P_H
 
-#include <qextObject_p.h>
-
 #include <qextTcpGlobal.h>
 #include <qextTcpPacketHeader.h>
 
@@ -10,11 +8,13 @@
 #include <QVector>
 #include <QPair>
 
-class QEXT_TCP_API QEXTTcpPacketHeaderPrivate : public QEXTObjectPrivate
+class QEXT_TCP_API QEXTTcpPacketHeaderPrivate
 {
 public:
-    explicit QEXTTcpPacketHeaderPrivate(QEXTTcpPacketHeader *qq);
-    ~QEXTTcpPacketHeaderPrivate();
+    explicit QEXTTcpPacketHeaderPrivate(QEXTTcpPacketHeader *q);
+    virtual ~QEXTTcpPacketHeaderPrivate();
+
+    QEXTTcpPacketHeader * const q_ptr;
 
     void initHeaderData(const QEXTTcpPacketHeader::DataInfoVector &dataInfoVector);
     void updateHeaderSize();

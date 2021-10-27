@@ -4,8 +4,6 @@
 #include <qextTcpGlobal.h>
 #include <qextTcpPacketTransceiver_p.h>
 
-#include <qextObject_p.h>
-
 #include <QScopedPointer>
 #include <QSharedPointer>
 #include <QThread>
@@ -21,7 +19,7 @@ class QEXTTcpClient;
 class QEXT_TCP_API QEXTTcpClientPrivate : public QEXTTcpPacketTransceiverPrivate
 {
 public:
-    explicit QEXTTcpClientPrivate(QEXTTcpClient *qq);
+    explicit QEXTTcpClientPrivate(QEXTTcpClient *q);
     ~QEXTTcpClientPrivate();
 
     mutable QMutex m_socketMutex;

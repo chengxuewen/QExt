@@ -1,9 +1,7 @@
 #ifndef _QEXTTCPPACKET_P_H
 #define _QEXTTCPPACKET_P_H
 
-#include <qextObject_p.h>
 #include <qextId.h>
-
 #include <qextTcpGlobal.h>
 
 #include <QScopedPointer>
@@ -11,11 +9,13 @@
 
 class QEXTTcpPacketHeaderInterface;
 class QEXTTcpPacket;
-class QEXT_TCP_API QEXTTcpPacketPrivate : public QEXTObjectPrivate
+class QEXT_TCP_API QEXTTcpPacketPrivate
 {
 public:
-    explicit QEXTTcpPacketPrivate(QEXTTcpPacket *qq);
-    ~QEXTTcpPacketPrivate();
+    explicit QEXTTcpPacketPrivate(QEXTTcpPacket *q);
+    virtual ~QEXTTcpPacketPrivate();
+
+    QEXTTcpPacket * const q_ptr;
 
     QSharedPointer<QEXTTcpPacketHeaderInterface> m_header;
     QByteArray m_content;

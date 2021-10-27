@@ -4,16 +4,16 @@
 #include <qextWidgetGlobal.h>
 #include <qextNumberLed.h>
 
-#include <qextObject_p.h>
-
 #include <QColor>
 
 class QEXTNumberLed;
-class QEXT_WIDGET_API QEXTNumberLedPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTNumberLedPrivate
 {
 public:
-    explicit QEXTNumberLedPrivate(QEXTNumberLed *qq);
-    ~QEXTNumberLedPrivate();
+    explicit QEXTNumberLedPrivate(QEXTNumberLed *q);
+    virtual ~QEXTNumberLedPrivate();
+
+    QEXTNumberLed * const q_ptr;
 
     int m_number;                  //目标值
     int m_space;                   //间距

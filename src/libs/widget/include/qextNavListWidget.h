@@ -3,8 +3,6 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <qextObject.h>
-
 /**
  * feiyangqingyun(QQ:517216493) 2018-8-15
  */
@@ -18,20 +16,13 @@
 
 
 
-#ifndef Q_WS_QWS
-    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
-        #include <QtDesigner/QDesignerExportWidget>
-    #else
-        #include <QtUiPlugin/QDesignerExportWidget>
-    #endif
-#endif
-
+#include <QScopedPointer>
 #include <QStringList>
 #include <QListView>
 #include <QList>
 
 class QEXTNavListWidgetItemPrivate;
-class QEXT_WIDGET_API QEXTNavListWidgetItem : public QObject, public QEXTObject
+class QEXT_WIDGET_API QEXTNavListWidgetItem : public QObject
 {
     Q_OBJECT
 public:
@@ -109,8 +100,11 @@ signals:
     void childItemAboutToBeRemoved(QEXTNavListWidgetItem *item, QEXTNavListWidgetItem *parent);
     void childItemRemoved(QEXTNavListWidgetItem *item, QEXTNavListWidgetItem *parent);
 
-protected slots:
+protected Q_SLOTS:
     void onChildItemAboutToBeDestroyed(QEXTNavListWidgetItem *item);
+
+protected:
+    QScopedPointer<QEXTNavListWidgetItemPrivate> d_ptr;
 
 private:
     friend class QEXTNavListModel;
@@ -120,7 +114,7 @@ private:
 
 
 class QEXTNavListModelPrivate;
-class QEXT_WIDGET_API QEXTNavListModel : public QAbstractListModel, public QEXTObject
+class QEXT_WIDGET_API QEXTNavListModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
@@ -158,6 +152,8 @@ protected:
     QVariant data(const QModelIndex &index, int role) const QEXT_DECL_OVERRIDE;
     Qt::ItemFlags flags(const QModelIndex &index) const QEXT_DECL_OVERRIDE;
 
+    QScopedPointer<QEXTNavListModelPrivate> d_ptr;
+
 private:
     QEXT_DECL_PRIVATE(QEXTNavListModel)
     QEXT_DISABLE_COPY_MOVE(QEXTNavListModel)
@@ -165,7 +161,7 @@ private:
 
 
 class QEXTNavListWidgetPrivate;
-class QEXT_WIDGET_API QEXTNavListWidget : public QWidget, public QEXTObject
+class QEXT_WIDGET_API QEXTNavListWidget : public QWidget
 {
     Q_OBJECT
 
@@ -290,7 +286,7 @@ public:
     QSize sizeHint() const QEXT_DECL_OVERRIDE;
     QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
 
-public slots:
+public Q_SLOTS:
     void setModel(QEXTNavListModel *model);
 
     //设置节点数据
@@ -363,7 +359,9 @@ signals:
 protected:
     void paintEvent(QPaintEvent *event) QEXT_DECL_OVERRIDE;
 
-private slots:
+    QScopedPointer<QEXTNavListWidgetPrivate> d_ptr;
+
+private Q_SLOTS:
     void onItemPressed(const QModelIndex &index);
 
 private:

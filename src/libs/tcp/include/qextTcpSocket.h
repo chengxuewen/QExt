@@ -1,7 +1,6 @@
 #ifndef _QEXTTCPSOCKET_H
 #define _QEXTTCPSOCKET_H
 
-#include <qextObject.h>
 #include <qextId.h>
 
 #include <qextTcpGlobal.h>
@@ -15,7 +14,7 @@ class QEXTTcpPacketInterface;
 class QEXTTcpPacketDispatcher;
 class QEXTTcpPacketParserInterface;
 class QEXTTcpSocketPrivate;
-class QEXT_TCP_API QEXTTcpSocket : public QTcpSocket, public QEXTObject
+class QEXT_TCP_API QEXTTcpSocket : public QTcpSocket
 {
     Q_OBJECT
 public:
@@ -34,7 +33,7 @@ public:
 
     QEXTTcpSocket();
     QEXTTcpSocket(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser);
-    QEXTTcpSocket(QEXTTcpSocketPrivate &dd, const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser);
+    QEXTTcpSocket(QEXTTcpSocketPrivate *d, const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser);
     ~QEXTTcpSocket();
 
     QSharedPointer<QEXTTcpPacketParserInterface> packetParser() const;
@@ -69,6 +68,9 @@ public Q_SLOTS:
 
 protected Q_SLOTS:
     void readPacket();
+
+protected:
+    QScopedPointer<QEXTTcpSocketPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTTcpSocket)

@@ -6,8 +6,8 @@
 #include <QDebug>
 #include <QDateTime>
 
-QEXTTcpPacketTransceiverPrivate::QEXTTcpPacketTransceiverPrivate(QEXTTcpPacketTransceiver *qq)
-    : QEXTObjectPrivate(qq)
+QEXTTcpPacketTransceiverPrivate::QEXTTcpPacketTransceiverPrivate(QEXTTcpPacketTransceiver *q)
+    : q_ptr(q)
 {
     m_cancelled = false;
     m_receivedReply = false;
@@ -19,23 +19,22 @@ QEXTTcpPacketTransceiverPrivate::~QEXTTcpPacketTransceiverPrivate()
 }
 
 QEXTTcpPacketTransceiver::QEXTTcpPacketTransceiver(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpPacketTransceiverPrivate(this)))
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpPacketTransceiverPrivate(this))
 {
     QEXT_DECL_D(QEXTTcpPacketTransceiver);
     d->m_packetDispatcher = dispatcher;
 }
 
-QEXTTcpPacketTransceiver::QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate &dd)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
+QEXTTcpPacketTransceiver::QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate *d)
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(d)
 {
 }
 
-QEXTTcpPacketTransceiver::QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate &dd,
+QEXTTcpPacketTransceiver::QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate *d,
                                                    const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(dd)
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(d)
 {
-    QEXT_DECL_D(QEXTTcpPacketTransceiver);
-    d->m_packetDispatcher = dispatcher;
+    d_ptr->m_packetDispatcher = dispatcher;
 }
 
 QEXTTcpPacketTransceiver::~QEXTTcpPacketTransceiver()

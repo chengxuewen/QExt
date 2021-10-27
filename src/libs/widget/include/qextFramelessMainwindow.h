@@ -3,12 +3,10 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <qextObject.h>
-
 #include <QMainWindow>
 
 class QEXTFramelessMainWindowPrivate;
-class QEXT_WIDGET_API QEXTFramelessMainWindow : public QMainWindow, public QEXTObject
+class QEXT_WIDGET_API QEXTFramelessMainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
@@ -50,6 +48,8 @@ protected:
     //事件过滤器识别拖动拉伸等
     void doWindowStateChange(QEvent *event);
     void doResizeEvent(QEvent *event);
+
+    QScopedPointer<QEXTFramelessMainWindowPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTFramelessMainWindow)

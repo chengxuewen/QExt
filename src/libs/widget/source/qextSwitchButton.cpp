@@ -9,8 +9,8 @@
 #include <QTimer>
 
 
-QEXTSwitchButtonPrivate::QEXTSwitchButtonPrivate(QEXTSwitchButton *qq)
-    : QEXTObjectPrivate(qq)
+QEXTSwitchButtonPrivate::QEXTSwitchButtonPrivate(QEXTSwitchButton *q)
+    : q_ptr(q)
 {
     m_space = 2;
     m_rectRadius = 5;
@@ -48,7 +48,7 @@ QEXTSwitchButtonPrivate::~QEXTSwitchButtonPrivate()
 
 
 QEXTSwitchButton::QEXTSwitchButton(QWidget *parent)
-    : QWidget(parent), QEXTObject(*(new QEXTSwitchButtonPrivate(this)))
+    : QWidget(parent), d_ptr(new QEXTSwitchButtonPrivate(this))
 {
     QEXT_DECL_D(QEXTSwitchButton);
     d->m_step = this->width() / 50;

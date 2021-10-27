@@ -9,8 +9,8 @@
 #include <QMouseEvent>
 
 
-QEXTIndicatorLightPrivate::QEXTIndicatorLightPrivate(QEXTIndicatorLight *qq)
-    : QEXTObjectPrivate(qq)
+QEXTIndicatorLightPrivate::QEXTIndicatorLightPrivate(QEXTIndicatorLight *q)
+    : q_ptr(q)
 {
     m_text = "";
     m_style = QEXTIndicatorLight::Style_Red;
@@ -42,7 +42,7 @@ QEXTIndicatorLightPrivate::~QEXTIndicatorLightPrivate()
 
 
 QEXTIndicatorLight::QEXTIndicatorLight(QWidget *parent)
-    : QWidget(parent), QEXTObject(*(new QEXTIndicatorLightPrivate(this)))
+    : QWidget(parent), d_ptr(new QEXTIndicatorLightPrivate(this))
 {
     QEXT_DECL_D(QEXTIndicatorLight);
     d->m_flickerTimer.reset(new QTimer);

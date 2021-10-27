@@ -1,8 +1,6 @@
 #ifndef _QEXTTCPPACKETPARSER_H
 #define _QEXTTCPPACKETPARSER_H
 
-#include <qextObject.h>
-
 #include <qextTcpGlobal.h>
 #include <qextTcpPacket.h>
 #include <qextTcpPacketParserInterface.h>
@@ -11,11 +9,11 @@
 #include <QString>
 
 class QEXTTcpPacketParserPrivate;
-class QEXT_TCP_API QEXTTcpPacketParser : public QEXTTcpPacketParserInterface, public QEXTObject
+class QEXT_TCP_API QEXTTcpPacketParser : public QEXTTcpPacketParserInterface
 {
 public:
     QEXTTcpPacketParser(const QEXTTcpPacketHeader::DataInfoVector &extraHeaderDataInfo = QEXTTcpPacketHeader::DataInfoVector());
-    QEXTTcpPacketParser(QEXTTcpPacketParserPrivate &dd);
+    QEXTTcpPacketParser(QEXTTcpPacketParserPrivate *d);
     ~QEXTTcpPacketParser();
 
     QString name() const QEXT_DECL_OVERRIDE;
@@ -42,6 +40,9 @@ public:
 
     QSharedPointer<QEXTTcpPacketInterface> readData(QEXTTcpSocket *socket, bool &success) QEXT_DECL_OVERRIDE;
     qint64 writeData(QEXTTcpSocket *socket, const QSharedPointer<QEXTTcpPacketInterface> &packet) QEXT_DECL_OVERRIDE;
+
+protected:
+    QScopedPointer<QEXTTcpPacketParserPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTTcpPacketParser)

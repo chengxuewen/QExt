@@ -2,8 +2,6 @@
 #define _QEXTTCPPACKETTRANSCEIVER_H
 
 #include <qextTcpGlobal.h>
-
-#include <qextObject.h>
 #include <qextId.h>
 
 #include <QObject>
@@ -13,13 +11,13 @@ class QEXTTcpPacketParserInterface;
 class QEXTTcpPacketDispatcher;
 class QEXTTcpPacketInterface;
 class QEXTTcpPacketTransceiverPrivate;
-class QEXT_TCP_API QEXTTcpPacketTransceiver : public QObject, public QEXTObject
+class QEXT_TCP_API QEXTTcpPacketTransceiver : public QObject
 {
     Q_OBJECT
 public:
     QEXTTcpPacketTransceiver(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
-    QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate &dd);
-    QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate &dd, const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
+    QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate *d);
+    QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate *d, const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
     ~QEXTTcpPacketTransceiver();
 
     QEXTId identityId() const;
@@ -49,14 +47,16 @@ public:
     QSharedPointer<QEXTTcpPacketDispatcher> dispatcher() const;
     QString lastError() const;
 
+Q_SIGNALS:
+    void error(const QString &error);
+    void packetReady();
+
 protected:
     void setRequestSyncFlag(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket);
     void resetRequestSyncFlag(const QSharedPointer<QEXTTcpPacketInterface> &receivedPacket);
     void setError(const QString &error);
 
-Q_SIGNALS:
-    void error(const QString &error);
-    void packetReady();
+    QScopedPointer<QEXTTcpPacketTransceiverPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTTcpPacketTransceiver)

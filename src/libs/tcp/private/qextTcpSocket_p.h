@@ -1,7 +1,6 @@
 #ifndef _QEXTTCPSOCKET_P_H
 #define _QEXTTCPSOCKET_P_H
 
-#include <qextObject_p.h>
 #include <qextTcpPacketInterface.h>
 #include <qextTcpPacketParserInterface.h>
 #include <qextTcpPacketDispatcher.h>
@@ -15,11 +14,13 @@
 #include <QThread>
 
 class QEXTTcpSocket;
-class QEXT_TCP_API QEXTTcpSocketPrivate : public QEXTObjectPrivate
+class QEXT_TCP_API QEXTTcpSocketPrivate
 {
 public:
-    explicit QEXTTcpSocketPrivate(QEXTTcpSocket *qq);
-    ~QEXTTcpSocketPrivate();
+    explicit QEXTTcpSocketPrivate(QEXTTcpSocket *q);
+    virtual ~QEXTTcpSocketPrivate();
+
+    QEXTTcpSocket * const q_ptr;
 
     mutable QMutex m_packetMutex;
     QQueue<QSharedPointer<QEXTTcpPacketInterface> > m_sendPacketQueue;

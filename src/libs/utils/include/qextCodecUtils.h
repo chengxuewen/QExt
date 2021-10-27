@@ -1,5 +1,5 @@
-#ifndef QEXTCODECUTILS_H
-#define QEXTCODECUTILS_H
+#ifndef _QEXTCODECUTILS_H
+#define _QEXTCODECUTILS_H
 
 #include <qextUtilsGlobal.h>
 
@@ -37,6 +37,7 @@ public:
     static uint64_t hexByteArrayToUInt64(const char *chs, size_t len);
     static uint64_t hexByteArrayToUInt64(const QByteArray &value);
 
+
 };
 
-#endif // QEXTCODECUTILS_H
+#endif // _QEXTCODECUTILS_H

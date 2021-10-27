@@ -10,8 +10,8 @@
 #include <QDebug>
 #include <QHostAddress>
 
-QEXTTcpClientPrivate::QEXTTcpClientPrivate(QEXTTcpClient *qq)
-    : QEXTTcpPacketTransceiverPrivate(qq)
+QEXTTcpClientPrivate::QEXTTcpClientPrivate(QEXTTcpClient *q)
+    : QEXTTcpPacketTransceiverPrivate(q)
 {
     qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
     qRegisterMetaType<QAbstractSocket::SocketError>("QAbstractSocket::SocketError");
@@ -33,7 +33,7 @@ QEXTTcpClientPrivate::~QEXTTcpClientPrivate()
 
 
 QEXTTcpClient::QEXTTcpClient()
-    : QEXTTcpPacketTransceiver(*(new QEXTTcpClientPrivate(this)))
+    : QEXTTcpPacketTransceiver(new QEXTTcpClientPrivate(this))
 {
     QEXT_DECL_D(QEXTTcpClient);
     this->initClient();
@@ -41,25 +41,22 @@ QEXTTcpClient::QEXTTcpClient()
 }
 
 QEXTTcpClient::QEXTTcpClient(const QSharedPointer<QEXTTcpFactory> &tcpFactory)
-    : QEXTTcpPacketTransceiver(*(new QEXTTcpClientPrivate(this)))
+    : QEXTTcpPacketTransceiver(new QEXTTcpClientPrivate(this))
 {
-    QEXT_DECL_D(QEXTTcpClient);
     this->initClient();
     this->setTcpFactory(tcpFactory);
 }
 
-QEXTTcpClient::QEXTTcpClient(QEXTTcpClientPrivate &dd)
-    : QEXTTcpPacketTransceiver(dd)
+QEXTTcpClient::QEXTTcpClient(QEXTTcpClientPrivate *d)
+    : QEXTTcpPacketTransceiver(d)
 {
-    QEXT_DECL_D(QEXTTcpClient);
     this->initClient();
     this->setTcpFactory(QSharedPointer<QEXTTcpFactory>(new QEXTTcpFactory));
 }
 
-QEXTTcpClient::QEXTTcpClient(QEXTTcpClientPrivate &dd, const QSharedPointer<QEXTTcpFactory> &tcpFactory)
-    : QEXTTcpPacketTransceiver(dd)
+QEXTTcpClient::QEXTTcpClient(QEXTTcpClientPrivate *d, const QSharedPointer<QEXTTcpFactory> &tcpFactory)
+    : QEXTTcpPacketTransceiver(d)
 {
-    QEXT_DECL_D(QEXTTcpClient);
     this->initClient();
     this->setTcpFactory(tcpFactory);
 }

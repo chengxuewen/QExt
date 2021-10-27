@@ -4,17 +4,17 @@
 #include <qextUtilsGlobal.h>
 #include <qextDiskInfo.h>
 
-#include <qextObject_p.h>
-
 #include <QProcess>
 #include <QTimer>
 
 class QEXTHostInfoUtils;
-class QEXT_UTILS_API QEXTHostInfoUtilsPrivate : public QEXTObjectPrivate
+class QEXT_UTILS_API QEXTHostInfoUtilsPrivate
 {
 public:
-    explicit QEXTHostInfoUtilsPrivate(QEXTHostInfoUtils *qq);
-    ~QEXTHostInfoUtilsPrivate();
+    explicit QEXTHostInfoUtilsPrivate(QEXTHostInfoUtils *q);
+    virtual ~QEXTHostInfoUtilsPrivate();
+
+    QEXTHostInfoUtils * const q_ptr;
 
     QEXTDiskInfo checkDiskSize(const QString &result, const QString &name);
 

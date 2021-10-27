@@ -2,8 +2,6 @@
 #define _QEXTTCPTASKPOOL_H
 
 #include <qextTcpGlobal.h>
-
-#include <qextObject.h>
 #include <qextId.h>
 
 #include <QObject>
@@ -12,7 +10,7 @@
 class QEXTTcpPacketDispatcher;
 class QEXTTcpTask;
 class QEXTTcpTaskPoolPrivate;
-class QEXT_TCP_API QEXTTcpTaskPool : public QObject, public QEXTObject
+class QEXT_TCP_API QEXTTcpTaskPool : public QObject
 {
     Q_OBJECT
 public:
@@ -34,6 +32,9 @@ Q_SIGNALS:
 protected Q_SLOTS:
     void onTaskError(const QString &error);
     void onTaskFinished(quint64 id);
+
+protected:
+    QScopedPointer<QEXTTcpTaskPoolPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTTcpTaskPool)

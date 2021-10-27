@@ -5,20 +5,18 @@
 #include <qextTcpTask.h>
 #include <qextTcpPacketDispatcher.h>
 
-#include <qextObject.h>
-
 #include <QTcpServer>
 
 class QEXTTcpFactory;
 class QEXTTcpServerPrivate;
-class QEXT_TCP_API QEXTTcpServer : public QTcpServer, public QEXTObject
+class QEXT_TCP_API QEXTTcpServer : public QTcpServer
 {
     Q_OBJECT
 public:
     QEXTTcpServer();
     QEXTTcpServer(const QSharedPointer<QEXTTcpFactory> &tcpFactory);
-    QEXTTcpServer(QEXTTcpServerPrivate &dd);
-    QEXTTcpServer(QEXTTcpServerPrivate &dd, const QSharedPointer<QEXTTcpFactory> &tcpFactory);
+    QEXTTcpServer(QEXTTcpServerPrivate *d);
+    QEXTTcpServer(QEXTTcpServerPrivate *d, const QSharedPointer<QEXTTcpFactory> &tcpFactory);
     ~QEXTTcpServer();
 
     size_t allSocketCount() const;
@@ -48,6 +46,8 @@ protected Q_SLOTS:
 
 protected:
     void incomingConnection(QEXTSocketDescriptor socketDescriptor) QEXT_DECL_OVERRIDE;
+
+    QScopedPointer<QEXTTcpServerPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTTcpServer)

@@ -5,8 +5,8 @@
 
 
 
-QEXTTcpPacketPrivate::QEXTTcpPacketPrivate(QEXTTcpPacket *qq)
-    : QEXTObjectPrivate(qq)
+QEXTTcpPacketPrivate::QEXTTcpPacketPrivate(QEXTTcpPacket *q)
+    : q_ptr(q)
 {
     m_nextBlockSize = 0;
     m_valid = true;
@@ -21,17 +21,17 @@ QEXTTcpPacketPrivate::~QEXTTcpPacketPrivate()
 
 
 QEXTTcpPacket::QEXTTcpPacket(const QSharedPointer<QEXTTcpPacketHeaderInterface> &header)
-    : QEXTObject(*(new QEXTTcpPacketPrivate(this)))
+    : d_ptr(new QEXTTcpPacketPrivate(this))
 {
     QEXT_DECL_D(QEXTTcpPacket);
     d->m_header = header;
 }
 
-QEXTTcpPacket::QEXTTcpPacket(QEXTTcpPacketPrivate &dd, const QSharedPointer<QEXTTcpPacketHeaderInterface> &header)
-    : QEXTObject(dd)
+QEXTTcpPacket::QEXTTcpPacket(QEXTTcpPacketPrivate *d,
+                             const QSharedPointer<QEXTTcpPacketHeaderInterface> &header)
+    : d_ptr(d)
 {
-    QEXT_DECL_D(QEXTTcpPacket);
-    d->m_header = header;
+    d_ptr->m_header = header;
 }
 
 QEXTTcpPacket::~QEXTTcpPacket()

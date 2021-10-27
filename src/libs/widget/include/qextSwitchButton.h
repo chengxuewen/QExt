@@ -37,20 +37,11 @@
 ***************************************************************************************************/
 
 #include <qextWidgetGlobal.h>
-#include <qextObject.h>
 
 #include <QWidget>
 
-#ifndef Q_WS_QWS
-    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
-        #include <QtDesigner/QDesignerExportWidget>
-    #else
-        #include <QtUiPlugin/QDesignerExportWidget>
-    #endif
-#endif
-
 class QEXTSwitchButtonPrivate;
-class QEXT_WIDGET_API QEXTSwitchButton : public QWidget, public QEXTObject
+class QEXT_WIDGET_API QEXTSwitchButton : public QWidget
 {
     Q_OBJECT
 
@@ -149,6 +140,8 @@ protected:
 
     void drawBackground(QPainter *painter);
     void drawSlider(QPainter *painter);
+
+    QScopedPointer<QEXTSwitchButtonPrivate> d_ptr;
 
 private Q_SLOTS:
     void change();

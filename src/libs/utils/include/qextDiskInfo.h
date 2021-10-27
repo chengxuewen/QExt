@@ -1,8 +1,6 @@
 #ifndef _QEXTDISKINFO_H
 #define _QEXTDISKINFO_H
 
-#include <qextObject.h>
-
 #include <qextUtilsGlobal.h>
 
 #include <QObject>

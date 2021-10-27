@@ -1,7 +1,6 @@
 #ifndef _QEXTTCPPACKETPARSER_P_H
 #define _QEXTTCPPACKETPARSER_P_H
 
-#include <qextObject_p.h>
 #include <qextId.h>
 
 #include <qextTcpGlobal.h>
@@ -14,11 +13,13 @@
 
 class QEXTTcpPacketInterface;
 class QEXTTcpPacketParser;
-class QEXT_TCP_API QEXTTcpPacketParserPrivate : public QEXTObjectPrivate
+class QEXT_TCP_API QEXTTcpPacketParserPrivate
 {
 public:
-    explicit QEXTTcpPacketParserPrivate(QEXTTcpPacketParser *qq);
-    ~QEXTTcpPacketParserPrivate();
+    explicit QEXTTcpPacketParserPrivate(QEXTTcpPacketParser *q);
+    virtual ~QEXTTcpPacketParserPrivate();
+
+    QEXTTcpPacketParser * const q_ptr;
 
     QString m_errorString;
     QEXTTcpPacketHeader::DataInfoVector m_headerDataPairVector;

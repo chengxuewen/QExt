@@ -1,8 +1,6 @@
 #ifndef _QEXTTCPCLIENT_H
 #define _QEXTTCPCLIENT_H
 
-#include <qextObject.h>
-
 #include <qextTcpGlobal.h>
 #include <qextTcpSocket.h>
 #include <qextTcpPacketTransceiver.h>
@@ -22,8 +20,8 @@ class QEXT_TCP_API QEXTTcpClient : public QEXTTcpPacketTransceiver
 public:
     QEXTTcpClient();
     QEXTTcpClient(const QSharedPointer<QEXTTcpFactory> &tcpFactory);
-    QEXTTcpClient(QEXTTcpClientPrivate &dd);
-    QEXTTcpClient(QEXTTcpClientPrivate &dd, const QSharedPointer<QEXTTcpFactory> &tcpFactory);
+    QEXTTcpClient(QEXTTcpClientPrivate *d);
+    QEXTTcpClient(QEXTTcpClientPrivate *d, const QSharedPointer<QEXTTcpFactory> &tcpFactory);
     ~QEXTTcpClient();
 
     QSharedPointer<QEXTTcpSocket> socket() const;

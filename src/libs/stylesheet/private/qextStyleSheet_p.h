@@ -1,5 +1,5 @@
-#ifndef QEXTSTYLESHEET_P_H
-#define QEXTSTYLESHEET_P_H
+#ifndef _QEXTSTYLESHEET_P_H
+#define _QEXTSTYLESHEET_P_H
 
 #include <qextStyleSheetGlobal.h>
 
@@ -17,4 +17,4 @@ private:
     Q_DECLARE_PUBLIC(QEXTStyleSheet)
 };
 
-#endif // QEXTSTYLESHEET_P_H
+#endif // _QEXTSTYLESHEET_P_H

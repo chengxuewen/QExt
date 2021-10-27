@@ -5,8 +5,8 @@
 
 #include <QQueue>
 
-QEXTTcpTaskPoolPrivate::QEXTTcpTaskPoolPrivate(QEXTTcpTaskPool *qq)
-    : QEXTObjectPrivate(qq)
+QEXTTcpTaskPoolPrivate::QEXTTcpTaskPoolPrivate(QEXTTcpTaskPool *q)
+    : q_ptr(q)
 {
 
 }
@@ -26,7 +26,7 @@ QEXTTcpTaskPoolPrivate::~QEXTTcpTaskPoolPrivate()
 }
 
 QEXTTcpTaskPool::QEXTTcpTaskPool(QEXTTcpPacketDispatcher *dispatcher)
-    : QObject(QEXT_DECL_NULLPTR), QEXTObject(*(new QEXTTcpTaskPoolPrivate(this)))
+    : QObject(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpTaskPoolPrivate(this))
 {
     QEXT_DECL_D(QEXTTcpTaskPool);
     d->m_packetDispatcher = dispatcher;

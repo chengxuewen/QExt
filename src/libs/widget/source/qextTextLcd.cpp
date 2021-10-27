@@ -13,8 +13,8 @@
 #include <QResizeEvent>
 #include <QApplication>
 
-QEXTTextLcdPrivate::QEXTTextLcdPrivate(QEXTTextLcd *qq)
-    : QEXTObjectPrivate(qq)
+QEXTTextLcdPrivate::QEXTTextLcdPrivate(QEXTTextLcd *q)
+    : q_ptr(q)
 {
     m_text = "";
     m_textAlignment = Qt::AlignCenter;
@@ -43,7 +43,7 @@ QEXTTextLcdPrivate::~QEXTTextLcdPrivate()
 }
 
 QEXTTextLcd::QEXTTextLcd(QWidget *parent)
-    : QWidget(parent), QEXTObject(*(new QEXTTextLcdPrivate(this)))
+    : QWidget(parent), d_ptr(new QEXTTextLcdPrivate(this))
 {
     QEXT_DECL_D(QEXTTextLcd);
     d->m_animationTimer.reset(new QTimer);

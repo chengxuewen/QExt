@@ -4,16 +4,14 @@
 #include <qextWidgetGlobal.h>
 #include <qextIconLabel.h>
 
-#include <qextObject_p.h>
-
 class QEXTIconLabel;
-class QEXT_WIDGET_API QEXTIconLabelPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTIconLabelPrivate
 {
 public:
-    explicit QEXTIconLabelPrivate(QEXTIconLabel *qq);
-    ~QEXTIconLabelPrivate();
+    explicit QEXTIconLabelPrivate(QEXTIconLabel *q);
+    virtual ~QEXTIconLabelPrivate();
 
-
+    QEXTIconLabel * const q_ptr;
 
 private:
     QEXT_DECL_PUBLIC(QEXTIconLabel)

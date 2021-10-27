@@ -12,21 +12,12 @@
 #define _QEXTBREATHINGLIGHT_H
 
 #include <qextWidgetGlobal.h>
-#include <qextObject.h>
-
-#ifndef Q_WS_QWS
-    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
-        #include <QtDesigner/QDesignerExportWidget>
-    #else
-        #include <QtUiPlugin/QDesignerExportWidget>
-    #endif
-#endif
 
 #include <QWidget>
 #include <QObject>
 
 class QEXTBreathingLightPrivate;
-class QEXT_WIDGET_API QEXTBreathingLight : public QWidget, public QEXTObject
+class QEXT_WIDGET_API QEXTBreathingLight : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(int step READ step WRITE setStep)
@@ -53,6 +44,8 @@ protected:
     void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
 
     void drawBackground(QPainter *painter);
+
+    QScopedPointer<QEXTBreathingLightPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTBreathingLight)

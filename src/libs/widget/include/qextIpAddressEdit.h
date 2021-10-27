@@ -3,8 +3,6 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <qextObject.h>
-
 /**
  * IP地址输入框控件 作者:feiyangqingyun(QQ:517216493) 2017-8-11
  * 1:可设置IP地址,自动填入框
@@ -15,19 +13,10 @@
  * 6:可设置背景色/边框颜色/边框圆角角度
  */
 
-
-#ifndef Q_WS_QWS
-    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
-        #include <QtDesigner/QDesignerExportWidget>
-    #else
-        #include <QtUiPlugin/QDesignerExportWidget>
-    #endif
-#endif
-
 #include <QWidget>
 
 class QEXTIpAddressEditPrivate;
-class QEXT_WIDGET_API QEXTIpAddressEdit : public QWidget, public QEXTObject
+class QEXT_WIDGET_API QEXTIpAddressEdit : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QString iP READ iP WRITE setIP NOTIFY ipChanged)
@@ -66,6 +55,8 @@ signals:
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
+
+    QScopedPointer<QEXTIpAddressEditPrivate> d_ptr;
 
 private Q_SLOTS:
     void textChanged(const QString &text);

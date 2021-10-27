@@ -30,6 +30,7 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR})
 # Add lib link libraries
 #--------------------------------------------------------------------------------
 set(qext_test_link_libraries)
+set(qext_test_include_directories)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND qext_test_link_libraries Qt4::QtCore Qt4::QtGui Qt4::QtTest)
@@ -45,19 +46,25 @@ endif()
 list(APPEND qext_test_link_libraries QEXTCore)
 
 
+#--------------------------------------------------------------------------------
+# define function
+#--------------------------------------------------------------------------------
+function(qextCoreAddTest TEST_NAME)
+    set(multiValueArgs TEST_SOURCE)
+    cmake_parse_arguments(MY "" "" "${multiValueArgs}" "${ARGN}")
+    add_executable(${TEST_NAME} ${MY_TEST_SOURCE})
+    add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+    target_link_libraries(${TEST_NAME} PRIVATE ${qext_test_link_libraries})
+    target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${qext_test_include_directories})
+    if(QEXT_BUILD_SHARED_LIBS AND WIN32)
+        qextMacroCopyDependenceLib(${TEST_NAME} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    endif()
+endfunction()
 
-#--------------------------------------------------------------------------------
-# Add qext_tst_coreObject test
-#--------------------------------------------------------------------------------
-set(qext_test_name qext_tst_coreObject)
-add_executable(${qext_test_name}
-    qextsimpleobject.h
-    tst_qextobject.cpp
-    qextsimpleobject.cpp
-    )
-add_test(NAME ${qext_test_name} COMMAND ${qext_test_name})
-target_link_libraries(${qext_test_name} PRIVATE ${qext_test_link_libraries})
-target_include_directories(${qext_test_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-if(WIN32)
-    qextMacroCopyDependenceLib(${qext_test_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
-endif()
+
+
+##--------------------------------------------------------------------------------
+## Add test
+##--------------------------------------------------------------------------------
+#qextCoreAddTest(qext_tst_coreAny TEST_SOURCE tst_qextAny.cpp)
+

@@ -3,8 +3,6 @@
 
 #include <qextTcpGlobal.h>
 
-#include <qextObject.h>
-
 #include <QObject>
 #include <QPointer>
 #include <QSharedPointer>
@@ -17,14 +15,14 @@ class QEXTTcpPacketTransceiver;
 class QEXTTcpPacketInterface;
 class QEXTTcpFactory;
 class QEXTTcpPacketDispatcherPrivate;
-class QEXT_TCP_API QEXTTcpPacketDispatcher : public QObject, public QEXTObject
+class QEXT_TCP_API QEXTTcpPacketDispatcher : public QObject
 {
     Q_OBJECT
 public:
     QEXTTcpPacketDispatcher(QEXTTcpSocket *socket);
     QEXTTcpPacketDispatcher(QEXTTcpSocket *socket, const QSharedPointer<QEXTTcpFactory> &tcpFactory);
-    QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd, QEXTTcpSocket *socket);
-    QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate &dd, QEXTTcpSocket *socket,
+    QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate *d, QEXTTcpSocket *socket);
+    QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate *d, QEXTTcpSocket *socket,
                             const QSharedPointer<QEXTTcpFactory> &tcpFactory);
     ~QEXTTcpPacketDispatcher();
 
@@ -50,6 +48,9 @@ public:
 Q_SIGNALS:
     void error(const QString &error);
     void send();
+
+protected:
+    QScopedPointer<QEXTTcpPacketDispatcherPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTTcpPacketDispatcher)

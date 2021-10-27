@@ -30,19 +30,50 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(qext_lib_public_headers
+    include/qextAdaptorTrait.h
+    include/qextBindFunctor.h
+    include/qextBindReturnFunctor.h
+    include/qextBoundArgument.h
+    include/qextComposeFunctor.h
+    include/qextConnection.h
+    include/qextFunction.h
     include/qextGlobal.h
     include/qextId.h
-    include/qextObject.h
+    include/qextInPlace.h
+    include/qextHideFunctor.h
+    include/qextLambda.h
+    include/qextLambdaBase.h
+    include/qextLambdaGroup.h
+    include/qextLambdaOperator.h
+    include/qextLambdaSelect.h
+    include/qextLimitReference.h
+    include/qextLinearFunction.h
+    include/qextMemberFunctor.h
+    include/qextPointerFunctor.h
+    include/qextPreprocessor.h
+    include/qextReferenceWrapper.h
+    include/qextReturnTypeDeduce.h
+    include/qextRetypeFunctor.h
+    include/qextRetypeReturnFunctor.h
+    include/qextSignal.h
+    include/qextSlot.h
+    include/qextTrackObjectFunctor.h
+    include/qextTypeInfo.h
+    include/qextTypeTrait.h
+    include/qextUniquePointer.h
+    include/qextVisitor.h
 
     )
 
 set(qext_lib_private_headers
-    private/qextObject_p.h
     )
 
 set(qext_lib_sources
+    source/qextConnection.cpp
     source/qextId.cpp
-    source/qextObject.cpp
+    source/qextLinearFunction.cpp
+    source/qextSignal.cpp
+    source/qextSlot.cpp
     )
 
 set(qext_lib_forms

@@ -4,12 +4,10 @@
 #include <qextUtilsGlobal.h>
 #include <qextDiskInfo.h>
 
-#include <qextObject.h>
-
 #include <QObject>
 
 class QEXTHostInfoUtilsPrivate;
-class QEXT_UTILS_API QEXTHostInfoUtils : public QObject, public QEXTObject
+class QEXT_UTILS_API QEXTHostInfoUtils : public QObject
 {
     Q_OBJECT
 public:
@@ -76,6 +74,9 @@ Q_SIGNALS:
     void memoryChanged(quint64 free, quint64 all);
     void memoryChanged(quint64 free, quint64 all, quint64 percent);
     void diskChanged(const QList<QEXTDiskInfo> &diskInfoList);
+
+protected:
+    QScopedPointer<QEXTHostInfoUtilsPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTHostInfoUtils)

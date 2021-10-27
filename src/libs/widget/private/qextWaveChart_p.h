@@ -2,7 +2,6 @@
 #define _QEXTWAVECHART_P_H
 
 #include <qextWidgetGlobal.h>
-#include <qextObject_p.h>
 
 #include <QRectF>
 #include <QColor>
@@ -22,11 +21,13 @@ private:
 };
 
 class QEXTWaveChart;
-class QEXT_WIDGET_API QEXTWaveChartPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTWaveChartPrivate
 {
 public:
-    explicit QEXTWaveChartPrivate(QEXTWaveChart *qq);
-    ~QEXTWaveChartPrivate();
+    explicit QEXTWaveChartPrivate(QEXTWaveChart *q);
+    virtual ~QEXTWaveChartPrivate();
+
+    QEXTWaveChart * const q_ptr;
 
     QRectF m_plotAreaRect;               //绘制数据区域
     QVector<double> m_dataList;       //数据集合

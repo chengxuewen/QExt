@@ -19,21 +19,12 @@
 #define _QTKINDICATORLIGHT_H
 
 #include <qextWidgetGlobal.h>
-#include <qextObject.h>
-
-#ifndef Q_WS_QWS
-    #if (QT_VERSION < QT_VERSION_CHECK(5,7,0))
-        #include <QtDesigner/QDesignerExportWidget>
-    #else
-        #include <QtUiPlugin/QDesignerExportWidget>
-    #endif
-#endif
 
 #include <QWidget>
 #include <QObject>
 
 class QEXTIndicatorLightPrivate;
-class QEXT_WIDGET_API QEXTIndicatorLight : public QWidget, public QEXTObject
+class QEXT_WIDGET_API QEXTIndicatorLight : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QString text READ text WRITE setText)
@@ -162,6 +153,8 @@ protected:
     void drawBackground(QPainter *painter);
     void drawText(QPainter *painter);
     void drawOverlay(QPainter *painter);
+
+    QScopedPointer<QEXTIndicatorLightPrivate> d_ptr;
 
 private:
     QEXT_DECL_PRIVATE(QEXTIndicatorLight)

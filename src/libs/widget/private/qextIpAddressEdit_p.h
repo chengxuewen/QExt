@@ -3,21 +3,21 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <qextObject_p.h>
-
 #include <QColor>
 #include <QLabel>
 #include <QLineEdit>
 
 class QEXTIpAddressEdit;
-class QEXT_WIDGET_API QEXTIpAddressEditPrivate : public QEXTObjectPrivate
+class QEXT_WIDGET_API QEXTIpAddressEditPrivate
 {
 public:
-    explicit QEXTIpAddressEditPrivate(QEXTIpAddressEdit *qq);
-    ~QEXTIpAddressEditPrivate();
+    explicit QEXTIpAddressEditPrivate(QEXTIpAddressEdit *q);
+    virtual ~QEXTIpAddressEditPrivate();
 
     void initForm(QEXTIpAddressEdit *qq);
     void updateQSS(QEXTIpAddressEdit *qq);
+
+    QEXTIpAddressEdit * const q_ptr;
 
     QLabel *m_labDot1;    //第一个小圆点
     QLabel *m_labDot2;    //第二个小圆点

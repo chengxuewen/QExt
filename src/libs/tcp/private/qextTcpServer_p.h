@@ -4,8 +4,6 @@
 #include <qextTcpGlobal.h>
 #include <qextTcpSocket.h>
 
-#include <qextObject_p.h>
-
 #include <QSharedPointer>
 #include <QMutex>
 #include <QMap>
@@ -20,13 +18,15 @@ class QEXTTcpTaskThreadPool;
 class QEXTTcpPacketParserInterface;
 class QEXTTcpPacketDispatcherFactory;
 class QEXTTcpServer;
-class QEXT_TCP_API QEXTTcpServerPrivate : public QEXTObjectPrivate
+class QEXT_TCP_API QEXTTcpServerPrivate
 {
 public:
-    explicit QEXTTcpServerPrivate(QEXTTcpServer *qq);
-    ~QEXTTcpServerPrivate();
+    explicit QEXTTcpServerPrivate(QEXTTcpServer *q);
+    virtual ~QEXTTcpServerPrivate();
 
     void initServer();
+
+    QEXTTcpServer * const q_ptr;
 
     mutable QMutex m_socketMutex;
     QHostAddress m_address;
