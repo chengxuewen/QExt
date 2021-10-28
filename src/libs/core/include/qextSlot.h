@@ -6,8 +6,7 @@
 
 #include <QObject>
 #include <QPointer>
-
-#include <set>
+#include <QSet>
 
 QT_WARNING_DISABLE_GCC("-Wcast-function-type")
 
@@ -26,7 +25,7 @@ namespace qextPrivate
         bool operator!=(const QEXTSlotData &other) const;
 
         QAtomicInt m_trackable;
-        std::set<QPointer< QObject > > m_objectSet;
+        QList<QPointer< QObject > > m_objectList;
     };
 
     class QEXT_CORE_API QEXTSlotBase
@@ -77,7 +76,7 @@ namespace qextPrivate
             {
                 QObject *obj = const_cast< QObject * >(object);
                 m_data->m_trackable.store(QEXT_ATOMIC_INT_TRUE);
-                m_data->m_objectSet.insert(obj);
+                m_data->m_objectList.append(QPointer<QObject>(obj));
             }
         }
 

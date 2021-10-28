@@ -13,114 +13,114 @@ void voidFunction0()
 }
 void voidFunction1(int a1)
 {
-    QEXT_UNUSED(a1)
+    Q_UNUSED(a1)
     sg_functionString = "voidFunction1";
 }
 void voidFunction2(int a1, int a2)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
     sg_functionString = "voidFunction2";
 }
 void voidFunction3(int a1, int a2, int a3)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
-    QEXT_UNUSED(a3)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
+    Q_UNUSED(a3)
     sg_functionString = "voidFunction3";
 }
 void voidFunction4(int a1, int a2, int a3, int a4)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
-    QEXT_UNUSED(a3)
-    QEXT_UNUSED(a4)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
+    Q_UNUSED(a3)
+    Q_UNUSED(a4)
     sg_functionString = "voidFunction4";
 }
 void voidFunction5(int a1, int a2, int a3, int a4, int a5)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
-    QEXT_UNUSED(a3)
-    QEXT_UNUSED(a4)
-    QEXT_UNUSED(a5)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
+    Q_UNUSED(a3)
+    Q_UNUSED(a4)
+    Q_UNUSED(a5)
     sg_functionString = "voidFunction5";
 }
 void voidFunction6(int a1, int a2, int a3, int a4, int a5, int a6)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
-    QEXT_UNUSED(a3)
-    QEXT_UNUSED(a4)
-    QEXT_UNUSED(a5)
-    QEXT_UNUSED(a6)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
+    Q_UNUSED(a3)
+    Q_UNUSED(a4)
+    Q_UNUSED(a5)
+    Q_UNUSED(a6)
     sg_functionString = "voidFunction6";
 }
 void voidFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
-    QEXT_UNUSED(a3)
-    QEXT_UNUSED(a4)
-    QEXT_UNUSED(a5)
-    QEXT_UNUSED(a6)
-    QEXT_UNUSED(a7)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
+    Q_UNUSED(a3)
+    Q_UNUSED(a4)
+    Q_UNUSED(a5)
+    Q_UNUSED(a6)
+    Q_UNUSED(a7)
     sg_functionString = "voidFunction7";
 }
 void voidFunctionB1(bool a1)
 {
-    QEXT_UNUSED(a1)
+    Q_UNUSED(a1)
     sg_functionString = "voidFunctionB1";
 }
 void voidFunctionB2(bool a1, int a2)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
     sg_functionString = "voidFunctionB2";
 }
 void voidFunctionB3(bool a1, int a2, int a3)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
-    QEXT_UNUSED(a3)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
+    Q_UNUSED(a3)
     sg_functionString = "voidFunctionB3";
 }
 void voidFunctionB4(bool a1, int a2, int a3, int a4)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
-    QEXT_UNUSED(a3)
-    QEXT_UNUSED(a4)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
+    Q_UNUSED(a3)
+    Q_UNUSED(a4)
     sg_functionString = "voidFunctionB4";
 }
 void voidFunctionB5(bool a1, int a2, int a3, int a4, int a5)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
-    QEXT_UNUSED(a3)
-    QEXT_UNUSED(a4)
-    QEXT_UNUSED(a5)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
+    Q_UNUSED(a3)
+    Q_UNUSED(a4)
+    Q_UNUSED(a5)
     sg_functionString = "voidFunctionB5";
 }
 void voidFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
-    QEXT_UNUSED(a3)
-    QEXT_UNUSED(a4)
-    QEXT_UNUSED(a5)
-    QEXT_UNUSED(a6)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
+    Q_UNUSED(a3)
+    Q_UNUSED(a4)
+    Q_UNUSED(a5)
+    Q_UNUSED(a6)
     sg_functionString = "voidFunctionB6";
 }
 void voidFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7)
 {
-    QEXT_UNUSED(a1)
-    QEXT_UNUSED(a2)
-    QEXT_UNUSED(a3)
-    QEXT_UNUSED(a4)
-    QEXT_UNUSED(a5)
-    QEXT_UNUSED(a6)
-    QEXT_UNUSED(a7)
+    Q_UNUSED(a1)
+    Q_UNUSED(a2)
+    Q_UNUSED(a3)
+    Q_UNUSED(a4)
+    Q_UNUSED(a5)
+    Q_UNUSED(a6)
+    Q_UNUSED(a7)
     sg_functionString = "voidFunctionB7";
 }
 

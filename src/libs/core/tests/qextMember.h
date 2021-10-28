@@ -20,7 +20,7 @@ public:
 
     void voidFunc(int i)
     {
-        QEXT_UNUSED(i)
+        Q_UNUSED(i)
         *sg_memberString = "MemberBase::voidFunc";
     }
 
@@ -30,114 +30,114 @@ public:
     }
     virtual void voidFunction1(int a1)
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "MemberBase::voidFunction1";
     }
     virtual void voidFunction2(int a1, int a2)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "MemberBase::voidFunction2";
     }
     virtual void voidFunction3(int a1, int a2, int a3)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "MemberBase::voidFunction3";
     }
     virtual void voidFunction4(int a1, int a2, int a3, int a4)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "MemberBase::voidFunction4";
     }
     virtual void voidFunction5(int a1, int a2, int a3, int a4, int a5)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "MemberBase::voidFunction5";
     }
     virtual void voidFunction6(int a1, int a2, int a3, int a4, int a5, int a6)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "MemberBase::voidFunction6";
     }
     virtual void voidFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "MemberBase::voidFunction7";
     }
     virtual void voidFunctionB1(bool a1)
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "MemberBase::voidFunctionB1";
     }
     virtual void voidFunctionB2(bool a1, int a2)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "MemberBase::voidFunctionB2";
     }
     virtual void voidFunctionB3(bool a1, int a2, int a3)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "MemberBase::voidFunctionB3";
     }
     virtual void voidFunctionB4(bool a1, int a2, int a3, int a4)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "MemberBase::voidFunctionB4";
     }
     virtual void voidFunctionB5(bool a1, int a2, int a3, int a4, int a5)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "MemberBase::voidFunctionB5";
     }
     virtual void voidFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "MemberBase::voidFunctionB6";
     }
     virtual void voidFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "MemberBase::voidFunctionB7";
     }
 
@@ -273,114 +273,114 @@ public:
     }
     virtual void voidConstFunction1(int a1) const
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "MemberBase::voidConstFunction1";
     }
     virtual void voidConstFunction2(int a1, int a2) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "MemberBase::voidConstFunction2";
     }
     virtual void voidConstFunction3(int a1, int a2, int a3) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "MemberBase::voidConstFunction3";
     }
     virtual void voidConstFunction4(int a1, int a2, int a3, int a4) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "MemberBase::voidConstFunction4";
     }
     virtual void voidConstFunction5(int a1, int a2, int a3, int a4, int a5) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "MemberBase::voidConstFunction5";
     }
     virtual void voidConstFunction6(int a1, int a2, int a3, int a4, int a5, int a6) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "MemberBase::voidConstFunction6";
     }
     virtual void voidConstFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "MemberBase::voidConstFunction7";
     }
     virtual void voidConstFunctionB1(bool a1) const
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "MemberBase::voidConstFunctionB1";
     }
     virtual void voidConstFunctionB2(bool a1, int a2) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "MemberBase::voidConstFunctionB2";
     }
     virtual void voidConstFunctionB3(bool a1, int a2, int a3) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "MemberBase::voidConstFunctionB3";
     }
     virtual void voidConstFunctionB4(bool a1, int a2, int a3, int a4) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "MemberBase::voidConstFunctionB4";
     }
     virtual void voidConstFunctionB5(bool a1, int a2, int a3, int a4, int a5) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "MemberBase::voidConstFunctionB5";
     }
     virtual void voidConstFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "MemberBase::voidConstFunctionB6";
     }
     virtual void voidConstFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "MemberBase::voidConstFunctionB7";
     }
 
@@ -517,114 +517,114 @@ public:
     }
     virtual void voidVolatileFunction1(int a1) volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "MemberBase::voidVolatileFunction1";
     }
     virtual void voidVolatileFunction2(int a1, int a2) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "MemberBase::voidVolatileFunction2";
     }
     virtual void voidVolatileFunction3(int a1, int a2, int a3) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "MemberBase::voidVolatileFunction3";
     }
     virtual void voidVolatileFunction4(int a1, int a2, int a3, int a4) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "MemberBase::voidVolatileFunction4";
     }
     virtual void voidVolatileFunction5(int a1, int a2, int a3, int a4, int a5) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "MemberBase::voidVolatileFunction5";
     }
     virtual void voidVolatileFunction6(int a1, int a2, int a3, int a4, int a5, int a6) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "MemberBase::voidVolatileFunction6";
     }
     virtual void voidVolatileFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "MemberBase::voidVolatileFunction7";
     }
     virtual void voidVolatileFunctionB1(bool a1) volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "MemberBase::voidVolatileFunctionB1";
     }
     virtual void voidVolatileFunctionB2(bool a1, int a2) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "MemberBase::voidVolatileFunctionB2";
     }
     virtual void voidVolatileFunctionB3(bool a1, int a2, int a3) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "MemberBase::voidVolatileFunctionB3";
     }
     virtual void voidVolatileFunctionB4(bool a1, int a2, int a3, int a4) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "MemberBase::voidVolatileFunctionB4";
     }
     virtual void voidVolatileFunctionB5(bool a1, int a2, int a3, int a4, int a5) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "MemberBase::voidVolatileFunctionB5";
     }
     virtual void voidVolatileFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "MemberBase::voidVolatileFunctionB6";
     }
     virtual void voidVolatileFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "MemberBase::voidVolatileFunctionB7";
     }
 
@@ -760,114 +760,114 @@ public:
     }
     virtual void voidConstVolatileFunction1(int a1) const volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "MemberBase::voidConstVolatileFunction1";
     }
     virtual void voidConstVolatileFunction2(int a1, int a2) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "MemberBase::voidConstVolatileFunction2";
     }
     virtual void voidConstVolatileFunction3(int a1, int a2, int a3) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "MemberBase::voidConstVolatileFunction3";
     }
     virtual void voidConstVolatileFunction4(int a1, int a2, int a3, int a4) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "MemberBase::voidConstVolatileFunction4";
     }
     virtual void voidConstVolatileFunction5(int a1, int a2, int a3, int a4, int a5) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "MemberBase::voidConstVolatileFunction5";
     }
     virtual void voidConstVolatileFunction6(int a1, int a2, int a3, int a4, int a5, int a6) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "MemberBase::voidConstVolatileFunction6";
     }
     virtual void voidConstVolatileFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "MemberBase::voidConstVolatileFunction7";
     }
     virtual void voidConstVolatileFunctionB1(bool a1) const volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "MemberBase::voidConstVolatileFunctionB1";
     }
     virtual void voidConstVolatileFunctionB2(bool a1, int a2) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "MemberBase::voidConstVolatileFunctionB2";
     }
     virtual void voidConstVolatileFunctionB3(bool a1, int a2, int a3) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "MemberBase::voidConstVolatileFunctionB3";
     }
     virtual void voidConstVolatileFunctionB4(bool a1, int a2, int a3, int a4) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "MemberBase::voidConstVolatileFunctionB4";
     }
     virtual void voidConstVolatileFunctionB5(bool a1, int a2, int a3, int a4, int a5) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "MemberBase::voidConstVolatileFunctionB5";
     }
     virtual void voidConstVolatileFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "MemberBase::voidConstVolatileFunctionB6";
     }
     virtual void voidConstVolatileFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "MemberBase::voidConstVolatileFunctionB7";
     }
 
@@ -1009,114 +1009,114 @@ public:
     }
     void voidFunction1(int a1)
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "Member::voidFunction1";
     }
     void voidFunction2(int a1, int a2)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "Member::voidFunction2";
     }
     void voidFunction3(int a1, int a2, int a3)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "Member::voidFunction3";
     }
     void voidFunction4(int a1, int a2, int a3, int a4)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "Member::voidFunction4";
     }
     void voidFunction5(int a1, int a2, int a3, int a4, int a5)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "Member::voidFunction5";
     }
     void voidFunction6(int a1, int a2, int a3, int a4, int a5, int a6)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "Member::voidFunction6";
     }
     void voidFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "Member::voidFunction7";
     }
     void voidFunctionB1(bool a1)
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "Member::voidFunctionB1";
     }
     void voidFunctionB2(bool a1, int a2)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "Member::voidFunctionB2";
     }
     void voidFunctionB3(bool a1, int a2, int a3)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "Member::voidFunctionB3";
     }
     void voidFunctionB4(bool a1, int a2, int a3, int a4)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "Member::voidFunctionB4";
     }
     void voidFunctionB5(bool a1, int a2, int a3, int a4, int a5)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "Member::voidFunctionB5";
     }
     void voidFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "Member::voidFunctionB6";
     }
     void voidFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "Member::voidFunctionB7";
     }
 
@@ -1127,58 +1127,58 @@ public:
     }
     int intFunction1(int a1)
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         return 0;
     }
     int intFunction2(int a1, int a2)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         return 0;
     }
     int intFunction3(int a1, int a2, int a3)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return 0;
     }
     int intFunction4(int a1, int a2, int a3, int a4)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return 0;
     }
     int intFunction5(int a1, int a2, int a3, int a4, int a5)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return 0;
     }
     int intFunction6(int a1, int a2, int a3, int a4, int a5, int a6)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return 0;
     }
     int intFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return 0;
     }
     int intFunctionB1(bool a1)
@@ -1187,47 +1187,47 @@ public:
     }
     int intFunctionB2(bool a1, int a2)
     {
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a2)
         return a1 ? 1 : 0;
     }
     int intFunctionB3(bool a1, int a2, int a3)
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return a1 ? 1 : 0;
     }
     int intFunctionB4(bool a1, int a2, int a3, int a4)
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return a1 ? 1 : 0;
     }
     int intFunctionB5(bool a1, int a2, int a3, int a4, int a5)
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return a1 ? 1 : 0;
     }
     int intFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6)
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return a1 ? 1 : 0;
     }
     int intFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7)
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return a1 ? 1 : 0;
     }
 
@@ -1238,58 +1238,58 @@ public:
     }
     double doubleFunction1(double a1)
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         return 0;
     }
     double doubleFunction2(double a1, double a2)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         return 0;
     }
     double doubleFunction3(double a1, double a2, double a3)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return 0;
     }
     double doubleFunction4(double a1, double a2, double a3, double a4)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return 0;
     }
     double doubleFunction5(double a1, double a2, double a3, double a4, double a5)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return 0;
     }
     double doubleFunction6(double a1, double a2, double a3, double a4, double a5, double a6)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return 0;
     }
     double doubleFunction7(double a1, double a2, double a3, double a4, double a5, double a6, double a7)
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return 0;
     }
     double doubleFunctionB1(bool a1)
@@ -1298,47 +1298,47 @@ public:
     }
     double doubleFunctionB2(bool a1, double a2)
     {
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a2)
         return a1 ? 1 : 0;
     }
     double doubleFunctionB3(bool a1, double a2, double a3)
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return a1 ? 1 : 0;
     }
     double doubleFunctionB4(bool a1, double a2, double a3, double a4)
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return a1 ? 1 : 0;
     }
     double doubleFunctionB5(bool a1, double a2, double a3, double a4, double a5)
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return a1 ? 1 : 0;
     }
     double doubleFunctionB6(bool a1, double a2, double a3, double a4, double a5, double a6)
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return a1 ? 1 : 0;
     }
     double doubleFunctionB7(bool a1, double a2, double a3, double a4, double a5, double a6, double a7)
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return a1 ? 1 : 0;
     }
 
@@ -1351,114 +1351,114 @@ public:
     }
     void voidConstFunction1(int a1) const
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "Member::voidConstFunction1";
     }
     void voidConstFunction2(int a1, int a2) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "Member::voidConstFunction2";
     }
     void voidConstFunction3(int a1, int a2, int a3) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "Member::voidConstFunction3";
     }
     void voidConstFunction4(int a1, int a2, int a3, int a4) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "Member::voidConstFunction4";
     }
     void voidConstFunction5(int a1, int a2, int a3, int a4, int a5) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "Member::voidConstFunction5";
     }
     void voidConstFunction6(int a1, int a2, int a3, int a4, int a5, int a6) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "Member::voidConstFunction6";
     }
     void voidConstFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "Member::voidConstFunction7";
     }
     void voidConstFunctionB1(bool a1) const
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "Member::voidConstFunctionB1";
     }
     void voidConstFunctionB2(bool a1, int a2) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "Member::voidConstFunctionB2";
     }
     void voidConstFunctionB3(bool a1, int a2, int a3) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "Member::voidConstFunctionB3";
     }
     void voidConstFunctionB4(bool a1, int a2, int a3, int a4) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "Member::voidConstFunctionB4";
     }
     void voidConstFunctionB5(bool a1, int a2, int a3, int a4, int a5) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "Member::voidConstFunctionB5";
     }
     void voidConstFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "Member::voidConstFunctionB6";
     }
     void voidConstFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "Member::voidConstFunctionB7";
     }
 
@@ -1469,58 +1469,58 @@ public:
     }
     int intConstFunction1(int a1) const
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         return 0;
     }
     int intConstFunction2(int a1, int a2) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         return 0;
     }
     int intConstFunction3(int a1, int a2, int a3) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return 0;
     }
     int intConstFunction4(int a1, int a2, int a3, int a4) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return 0;
     }
     int intConstFunction5(int a1, int a2, int a3, int a4, int a5) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return 0;
     }
     int intConstFunction6(int a1, int a2, int a3, int a4, int a5, int a6) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return 0;
     }
     int intConstFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return 0;
     }
     int intConstFunctionB1(bool a1) const
@@ -1529,47 +1529,47 @@ public:
     }
     int intConstFunctionB2(bool a1, int a2) const
     {
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a2)
         return a1 ? 1 : 0;
     }
     int intConstFunctionB3(bool a1, int a2, int a3) const
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return a1 ? 1 : 0;
     }
     int intConstFunctionB4(bool a1, int a2, int a3, int a4) const
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return a1 ? 1 : 0;
     }
     int intConstFunctionB5(bool a1, int a2, int a3, int a4, int a5) const
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return a1 ? 1 : 0;
     }
     int intConstFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6) const
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return a1 ? 1 : 0;
     }
     int intConstFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7) const
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return a1 ? 1 : 0;
     }
 
@@ -1580,58 +1580,58 @@ public:
     }
     double doubleConstFunction1(double a1) const
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         return 0;
     }
     double doubleConstFunction2(double a1, double a2) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         return 0;
     }
     double doubleConstFunction3(double a1, double a2, double a3) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return 0;
     }
     double doubleConstFunction4(double a1, double a2, double a3, double a4) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return 0;
     }
     double doubleConstFunction5(double a1, double a2, double a3, double a4, double a5) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return 0;
     }
     double doubleConstFunction6(double a1, double a2, double a3, double a4, double a5, double a6) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return 0;
     }
     double doubleConstFunction7(double a1, double a2, double a3, double a4, double a5, double a6, double a7) const
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return 0;
     }
     double doubleConstFunctionB1(bool a1) const
@@ -1640,47 +1640,47 @@ public:
     }
     double doubleConstFunctionB2(bool a1, double a2) const
     {
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a2)
         return a1 ? 1 : 0;
     }
     double doubleConstFunctionB3(bool a1, double a2, double a3) const
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return a1 ? 1 : 0;
     }
     double doubleConstFunctionB4(bool a1, double a2, double a3, double a4) const
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return a1 ? 1 : 0;
     }
     double doubleConstFunctionB5(bool a1, double a2, double a3, double a4, double a5) const
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return a1 ? 1 : 0;
     }
     double doubleConstFunctionB6(bool a1, double a2, double a3, double a4, double a5, double a6) const
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return a1 ? 1 : 0;
     }
     double doubleConstFunctionB7(bool a1, double a2, double a3, double a4, double a5, double a6, double a7) const
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return a1 ? 1 : 0;
     }
 
@@ -1692,114 +1692,114 @@ public:
     }
     void voidVolatileFunction1(int a1) volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "Member::voidVolatileFunction1";
     }
     void voidVolatileFunction2(int a1, int a2) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "Member::voidVolatileFunction2";
     }
     void voidVolatileFunction3(int a1, int a2, int a3) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "Member::voidVolatileFunction3";
     }
     void voidVolatileFunction4(int a1, int a2, int a3, int a4) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "Member::voidVolatileFunction4";
     }
     void voidVolatileFunction5(int a1, int a2, int a3, int a4, int a5) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "Member::voidVolatileFunction5";
     }
     void voidVolatileFunction6(int a1, int a2, int a3, int a4, int a5, int a6) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "Member::voidVolatileFunction6";
     }
     void voidVolatileFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "Member::voidVolatileFunction7";
     }
     void voidVolatileFunctionB1(bool a1) volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "Member::voidVolatileFunctionB1";
     }
     void voidVolatileFunctionB2(bool a1, int a2) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "Member::voidVolatileFunctionB2";
     }
     void voidVolatileFunctionB3(bool a1, int a2, int a3) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "Member::voidVolatileFunctionB3";
     }
     void voidVolatileFunctionB4(bool a1, int a2, int a3, int a4) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "Member::voidVolatileFunctionB4";
     }
     void voidVolatileFunctionB5(bool a1, int a2, int a3, int a4, int a5) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "Member::voidVolatileFunctionB5";
     }
     void voidVolatileFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "Member::voidVolatileFunctionB6";
     }
     void voidVolatileFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "Member::voidVolatileFunctionB7";
     }
 
@@ -1810,58 +1810,58 @@ public:
     }
     int intVolatileFunction1(int a1) volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         return 0;
     }
     int intVolatileFunction2(int a1, int a2) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         return 0;
     }
     int intVolatileFunction3(int a1, int a2, int a3) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return 0;
     }
     int intVolatileFunction4(int a1, int a2, int a3, int a4) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return 0;
     }
     int intVolatileFunction5(int a1, int a2, int a3, int a4, int a5) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return 0;
     }
     int intVolatileFunction6(int a1, int a2, int a3, int a4, int a5, int a6) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return 0;
     }
     int intVolatileFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return 0;
     }
     int intVolatileFunctionB1(bool a1) volatile
@@ -1870,47 +1870,47 @@ public:
     }
     int intVolatileFunctionB2(bool a1, int a2) volatile
     {
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a2)
         return a1 ? 1 : 0;
     }
     int intVolatileFunctionB3(bool a1, int a2, int a3) volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return a1 ? 1 : 0;
     }
     int intVolatileFunctionB4(bool a1, int a2, int a3, int a4) volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return a1 ? 1 : 0;
     }
     int intVolatileFunctionB5(bool a1, int a2, int a3, int a4, int a5) volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return a1 ? 1 : 0;
     }
     int intVolatileFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6) volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return a1 ? 1 : 0;
     }
     int intVolatileFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7) volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return a1 ? 1 : 0;
     }
 
@@ -1921,58 +1921,58 @@ public:
     }
     double doubleVolatileFunction1(double a1) volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         return 0;
     }
     double doubleVolatileFunction2(double a1, double a2) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         return 0;
     }
     double doubleVolatileFunction3(double a1, double a2, double a3) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return 0;
     }
     double doubleVolatileFunction4(double a1, double a2, double a3, double a4) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return 0;
     }
     double doubleVolatileFunction5(double a1, double a2, double a3, double a4, double a5) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return 0;
     }
     double doubleVolatileFunction6(double a1, double a2, double a3, double a4, double a5, double a6) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return 0;
     }
     double doubleVolatileFunction7(double a1, double a2, double a3, double a4, double a5, double a6, double a7) volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return 0;
     }
     double doubleVolatileFunctionB1(bool a1) volatile
@@ -1981,47 +1981,47 @@ public:
     }
     double doubleVolatileFunctionB2(bool a1, double a2) volatile
     {
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a2)
         return a1 ? 1 : 0;
     }
     double doubleVolatileFunctionB3(bool a1, double a2, double a3) volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return a1 ? 1 : 0;
     }
     double doubleVolatileFunctionB4(bool a1, double a2, double a3, double a4) volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return a1 ? 1 : 0;
     }
     double doubleVolatileFunctionB5(bool a1, double a2, double a3, double a4, double a5) volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return a1 ? 1 : 0;
     }
     double doubleVolatileFunctionB6(bool a1, double a2, double a3, double a4, double a5, double a6) volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return a1 ? 1 : 0;
     }
     double doubleVolatileFunctionB7(bool a1, double a2, double a3, double a4, double a5, double a6, double a7) volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return a1 ? 1 : 0;
     }
 
@@ -2034,114 +2034,114 @@ public:
     }
     void voidConstVolatileFunction1(int a1) const volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "Member::voidConstVolatileFunction1";
     }
     void voidConstVolatileFunction2(int a1, int a2) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "Member::voidConstVolatileFunction2";
     }
     void voidConstVolatileFunction3(int a1, int a2, int a3) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "Member::voidConstVolatileFunction3";
     }
     void voidConstVolatileFunction4(int a1, int a2, int a3, int a4) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "Member::voidConstVolatileFunction4";
     }
     void voidConstVolatileFunction5(int a1, int a2, int a3, int a4, int a5) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "Member::voidConstVolatileFunction5";
     }
     void voidConstVolatileFunction6(int a1, int a2, int a3, int a4, int a5, int a6) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "Member::voidConstVolatileFunction6";
     }
     void voidConstVolatileFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "Member::voidConstVolatileFunction7";
     }
     void voidConstVolatileFunctionB1(bool a1) const volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         *sg_memberString = "Member::voidConstVolatileFunctionB1";
     }
     void voidConstVolatileFunctionB2(bool a1, int a2) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         *sg_memberString = "Member::voidConstVolatileFunctionB2";
     }
     void voidConstVolatileFunctionB3(bool a1, int a2, int a3) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         *sg_memberString = "Member::voidConstVolatileFunctionB3";
     }
     void voidConstVolatileFunctionB4(bool a1, int a2, int a3, int a4) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         *sg_memberString = "Member::voidConstVolatileFunctionB4";
     }
     void voidConstVolatileFunctionB5(bool a1, int a2, int a3, int a4, int a5) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         *sg_memberString = "Member::voidConstVolatileFunctionB5";
     }
     void voidConstVolatileFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         *sg_memberString = "Member::voidConstVolatileFunctionB6";
     }
     void voidConstVolatileFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         *sg_memberString = "Member::voidConstVolatileFunctionB7";
     }
 
@@ -2152,58 +2152,58 @@ public:
     }
     int intConstVolatileFunction1(int a1) const volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         return 0;
     }
     int intConstVolatileFunction2(int a1, int a2) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         return 0;
     }
     int intConstVolatileFunction3(int a1, int a2, int a3) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return 0;
     }
     int intConstVolatileFunction4(int a1, int a2, int a3, int a4) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return 0;
     }
     int intConstVolatileFunction5(int a1, int a2, int a3, int a4, int a5) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return 0;
     }
     int intConstVolatileFunction6(int a1, int a2, int a3, int a4, int a5, int a6) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return 0;
     }
     int intConstVolatileFunction7(int a1, int a2, int a3, int a4, int a5, int a6, int a7) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return 0;
     }
     int intConstVolatileFunctionB1(bool a1) const volatile
@@ -2212,47 +2212,47 @@ public:
     }
     int intConstVolatileFunctionB2(bool a1, int a2) const volatile
     {
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a2)
         return a1 ? 1 : 0;
     }
     int intConstVolatileFunctionB3(bool a1, int a2, int a3) const volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return a1 ? 1 : 0;
     }
     int intConstVolatileFunctionB4(bool a1, int a2, int a3, int a4) const volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return a1 ? 1 : 0;
     }
     int intConstVolatileFunctionB5(bool a1, int a2, int a3, int a4, int a5) const volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return a1 ? 1 : 0;
     }
     int intConstVolatileFunctionB6(bool a1, int a2, int a3, int a4, int a5, int a6) const volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return a1 ? 1 : 0;
     }
     int intConstVolatileFunctionB7(bool a1, int a2, int a3, int a4, int a5, int a6, int a7) const volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return a1 ? 1 : 0;
     }
 
@@ -2263,108 +2263,108 @@ public:
     }
     double doubleConstVolatileFunction1(double a1) const volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         return 0;
     }
     double doubleConstVolatileFunction2(double a1, double a2) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
         return 0;
     }
     double doubleConstVolatileFunction3(double a1, double a2, double a3) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return 0;
     }
     double doubleConstVolatileFunction4(double a1, double a2, double a3, double a4) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return 0;
     }
     double doubleConstVolatileFunction5(double a1, double a2, double a3, double a4, double a5) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return 0;
     }
     double doubleConstVolatileFunction6(double a1, double a2, double a3, double a4, double a5, double a6) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return 0;
     }
     double doubleConstVolatileFunction7(double a1, double a2, double a3, double a4, double a5, double a6, double a7) const volatile
     {
-        QEXT_UNUSED(a1)
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a1)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return 0;
     }
     double doubleConstVolatileFunctionB1(bool a1) const volatile
     {
-        QEXT_UNUSED(a1)
+        Q_UNUSED(a1)
         return a1 ? 1 : 0;
     }
     double doubleConstVolatileFunctionB2(bool a1, double a2) const volatile
     {
-        QEXT_UNUSED(a2)
+        Q_UNUSED(a2)
         return a1 ? 1 : 0;
     }
     double doubleConstVolatileFunctionB3(bool a1, double a2, double a3) const volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
         return a1 ? 1 : 0;
     }
     double doubleConstVolatileFunctionB4(bool a1, double a2, double a3, double a4) const volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
         return a1 ? 1 : 0;
     }
     double doubleConstVolatileFunctionB5(bool a1, double a2, double a3, double a4, double a5) const volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
         return a1 ? 1 : 0;
     }
     double doubleConstVolatileFunctionB6(bool a1, double a2, double a3, double a4, double a5, double a6) const volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
         return a1 ? 1 : 0;
     }
     double doubleConstVolatileFunctionB7(bool a1, double a2, double a3, double a4, double a5, double a6, double a7) const volatile
     {
-        QEXT_UNUSED(a2)
-        QEXT_UNUSED(a3)
-        QEXT_UNUSED(a4)
-        QEXT_UNUSED(a5)
-        QEXT_UNUSED(a6)
-        QEXT_UNUSED(a7)
+        Q_UNUSED(a2)
+        Q_UNUSED(a3)
+        Q_UNUSED(a4)
+        Q_UNUSED(a5)
+        Q_UNUSED(a6)
+        Q_UNUSED(a7)
         return a1 ? 1 : 0;
     }
 };

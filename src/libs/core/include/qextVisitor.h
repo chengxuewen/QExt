@@ -32,8 +32,6 @@
 
 #include <qextTypeTrait.h>
 
-
-
 namespace qextPrivate
 {
 
@@ -42,14 +40,14 @@ namespace qextPrivate
 //and does not seem to allow us to tell it explicitly that it's an inner class.
     template <bool I_derived, typename T_type, typename T_limit> struct QEXTWithType;
 
-    //Specialization for I_derived = false
+//Specialization for I_derived = false
     template <typename T_type, typename T_limit>
     struct QEXTWithType<false, T_type, T_limit>
     {
         static void execute(const T_type &, const T_limit &) {}
     };
 
-    //Specialization for I_derived = true
+//Specialization for I_derived = true
     template <typename T_type, typename T_limit>
     struct QEXTWithType<true, T_type, T_limit>
     {

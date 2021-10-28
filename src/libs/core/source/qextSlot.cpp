@@ -1,20 +1,18 @@
 #include <qextSlot.h>
 
-
-
 namespace qextPrivate
 {
 
     QEXTSlotData::QEXTSlotData() : m_trackable(QEXT_ATOMIC_INT_FALSE) {}
 
-    QEXTSlotData::QEXTSlotData(const QEXTSlotData &other) : m_trackable(other.m_trackable), m_objectSet(other.m_objectSet) {}
+    QEXTSlotData::QEXTSlotData(const QEXTSlotData &other) : m_trackable(other.m_trackable), m_objectList(other.m_objectList) {}
 
     QEXTSlotData &QEXTSlotData::operator=(const QEXTSlotData &other)
     {
         if (this != &other)
         {
             m_trackable = other.m_trackable;
-            m_objectSet = other.m_objectSet;
+            m_objectList = other.m_objectList;
         }
         return *this;
     }
@@ -23,7 +21,7 @@ namespace qextPrivate
     {
         if (m_trackable == other.m_trackable)
         {
-            return m_objectSet == other.m_objectSet;
+            return m_objectList == other.m_objectList;
         }
         return false;
     }
@@ -80,10 +78,11 @@ namespace qextPrivate
 
     bool QEXTSlotBase::isNull() const
     {
-        if (this->isTrackable() && !m_data->m_objectSet.empty())
+        if (this->isTrackable() && !m_data->m_objectList.empty())
         {
-            std::set<QPointer< QObject > >::iterator iter;
-            for (iter = m_data->m_objectSet.begin(); iter != m_data->m_objectSet.end(); ++iter) {
+            QList<QPointer< QObject > >::iterator iter;
+            for (iter = m_data->m_objectList.begin(); iter != m_data->m_objectList.end(); ++iter)
+            {
                 if ((*iter).isNull())
                 {
                     return true;
