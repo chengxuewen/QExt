@@ -19,65 +19,39 @@
 #################################################################################
 
 #--------------------------------------------------------------------------------
-# Set example output path
+# Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/stylesheet)
-set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/stylesheet)
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/widget)
+set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/widget)
 
 
 
 #--------------------------------------------------------------------------------
-# Set example link libraries
+# Add lib link libraries
 #--------------------------------------------------------------------------------
-set(_example_link_libraries)
-
-if(UNIX)
-    list(APPEND _example_link_libraries dl)
-endif()
-
-if(WIN32)
-    list(APPEND _example_link_libraries shlwapi.lib)
-endif()
-
-if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND _example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
-endif()
+set(_test_link_libraries)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND _example_link_libraries Qt4::QtCore Qt4::QtGui)
+    list(APPEND _test_link_libraries Qt4::QtCore Qt4::QtTest)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND _example_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Gui Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+    list(APPEND _test_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Test)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _example_link_libraries QEXTStyleSheet)
+list(APPEND _test_link_libraries QEXTWidget)
 
 
 
 #--------------------------------------------------------------------------------
-# Add  example
+# Add tst_qextnetworkutils example
 #--------------------------------------------------------------------------------
-#set(_example_name exp_qext)
-#set(_example_headers
-#    )
-#set(_example_sources
-#    )
-#set(_example_forms
-#    )
-#set(_example_resource
-#    styles/styles.qrc
-#    )
-#add_executable(${_example_name}
-#    ${_example_headers}
-#    ${_example_sources}
-#    ${_example_forms}
-#    ${_example_resource}
-#    )
-#target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-#target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/styles)
-#set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+#set(_test_name tst_qextdatatimeutils)
+#add_executable(${_test_name} tst_qextdatatimeutils.cpp)
+#add_test(NAME ${_test_name} COMMAND ${_test_name})
+#target_link_libraries(${_test_name} PRIVATE ${_test_link_libraries})
+#target_include_directories(${_test_name} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 #if(WIN32)
-#    qextMacroCopyDependenceLib(${_example_name} QEXTIcons ${EXECUTABLE_OUTPUT_PATH})
-#    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+#    qextMacroCopyDependenceLib(${_test_name} QEXTUtils ${EXECUTABLE_OUTPUT_PATH})
+#    qextMacroCopyDependenceLib(${_test_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 #endif()

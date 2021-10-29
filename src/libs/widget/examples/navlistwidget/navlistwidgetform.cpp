@@ -7,7 +7,7 @@
 
 #include <QListView>
 
-#include <qextFontAwesome.h>
+#include <qextIconsFontAwesome.h>
 
 NavListWidgetForm::NavListWidgetForm(QWidget *parent) : QWidget(parent), ui(new Ui::NavListWidgetForm)
 {
@@ -91,13 +91,13 @@ void NavListWidgetForm::onItemPressed(QEXTNavListWidgetItem *item)
         //        item->parentItem()->deleteLater();
         //        item->setParentItem(m_parentItems.last());
 
-        //        QEXTFontAwesome::FontOptionValueMap optionMap;
-        //        optionMap.insert(QEXTFontAwesome::Option_Color, ui->navListWidget->childItemTextNormalColor());
-        //        optionMap.insert(QEXTFontAwesome::Option_ColorActive, ui->navListWidget->childItemTextHoverColor());
-        //        optionMap.insert(QEXTFontAwesome::Option_ColorSelected, ui->navListWidget->childItemTextCheckedColor());
-        //        optionMap.insert(QEXTFontAwesome::Option_TextActive, qextFontAwesome->fontChar(QEXTFontAwesome::FA_address_book_o));
-        //        item->setIcon(qextFontAwesome->icon(QEXTFontAwesome::FA_address_book, optionMap));
-        //        item->setFontIcon(qextFontAwesome->fontChar(QEXTFontAwesome::FA_address_book));
+        //        QEXTIconsFontAwesome::FontOptionValueMap optionMap;
+        //        optionMap.insert(QEXTIconsFontAwesome::Option_Color, ui->navListWidget->childItemTextNormalColor());
+        //        optionMap.insert(QEXTIconsFontAwesome::Option_ColorActive, ui->navListWidget->childItemTextHoverColor());
+        //        optionMap.insert(QEXTIconsFontAwesome::Option_ColorSelected, ui->navListWidget->childItemTextCheckedColor());
+        //        optionMap.insert(QEXTIconsFontAwesome::Option_TextActive, qextIconsFontAwesome->fontChar(QEXTIconsFontAwesome::FA_address_book_o));
+        //        item->setIcon(qextIconsFontAwesome->icon(QEXTIconsFontAwesome::FA_address_book, optionMap));
+        //        item->setFontIcon(qextIconsFontAwesome->fontChar(QEXTIconsFontAwesome::FA_address_book));
 
 //        item->setEnable(false);
 //        item->parentItem()->setEnable(false);

@@ -10,7 +10,7 @@
 #include <navlistwidgetform.h>
 
 #include <qextNavListWidget.h>
-#include <qextFontAwesome.h>
+#include <qextIconsFontAwesome.h>
 
 int main(int argc, char *argv[])
 {
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForLocale(codec);
 #endif
 
-//    QEXTFontAwesome fa;
+//    QEXTIconsFontAwesome fa;
 //    fa.initFontAwesome();
 
     QTabWidget w;

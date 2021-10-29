@@ -21,7 +21,7 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(qext_lib_base_name QEXTWidget)
+set(qext_lib_base_name QEXTFonts)
 set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 
 
@@ -30,109 +30,54 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(qext_lib_public_headers
-    include/qextBreathingLight.h
-    include/qextIndicatorLight.h
-    include/qextDial.h
-    include/qextFramelessDialog.h
-    include/qextFramelessMainwindow.h
-    include/qextFramelessWidget.h
-    include/qextIconButton.h
-    include/qextIconLabel.h
-    include/qextInput.h
-    include/qextIpAddressEdit.h
-    include/qextNumberLed.h
-    include/qextTextLcd.h
-    include/qextNavButton.h
-    include/qextNavListWidget.h
-    include/qextProgressBar.h
-    include/qextProgressButton.h
-    include/qextProgressPie.h
-    include/qextProgressRing.h
-    include/qextProgressWait.h
-    include/qextRangeSlider.h
-    include/qextSwitchButton.h
-    include/qextRulerSlider.h
-    include/qextSelectSlider.h
-    include/qextSlider.h
-    include/qextThermometer.h
-    include/qextTooltip.h
-    include/qextTumbler.h
-    include/qextDateTimeTumbler.h
-    include/qextWaveChart.h
-    include/qextWidgetGlobal.h
+    include/qextFonts.h
+    include/qextFontsGlobal.h
     )
 
 set(qext_lib_private_headers
-    private/qextBreathingLight_p.h
-    private/qextIndicatorLight_p.h
-    private/qextFramelessMainwindow_p.h
-    private/qextIconButton_p.h
-    private/qextIconLabel_p.h
-    private/qextIpAddressEdit_p.h
-    private/qextNumberLed_p.h
-    private/qextTextLcd_p.h
-    private/qextNavButton_p.h
-    private/qextNavListWidget_p.h
-    private/qextSwitchButton_p.h
-    private/qextWaveChart_p.h
     )
 
 set(qext_lib_sources
-    source/qextBreathingLight.cpp
-    source/qextIndicatorLight.cpp
-    source/qextDial.cpp
-    source/qextFramelessDialog.cpp
-    source/qextFramelessMainwindow.cpp
-    source/qextFramelessWidget.cpp
-    source/qextIconButton.cpp
-    source/qextIconLabel.cpp
-    source/qextInput.cpp
-    source/qextIpAddressEdit.cpp
-    source/qextNumberLed.cpp
-    source/qextTextLcd.cpp
-    source/qextNavButton.cpp
-    source/qextNavListWidget.cpp
-    source/qextProgressBar.cpp
-    source/qextProgressButton.cpp
-    source/qextProgressPie.cpp
-    source/qextProgressRing.cpp
-    source/qextProgressWait.cpp
-    source/qextRangeSlider.cpp
-    source/qextRulerSlider.cpp
-    source/qextSelectSlider.cpp
-    source/qextSlider.cpp
-    source/qextSwitchButton.cpp
-    source/qextThermometer.cpp
-    source/qextTooltip.cpp
-    source/qextTumbler.cpp
-    source/qextDateTimeTumbler.cpp
-    source/qextWaveChart.cpp
+    source/qextFonts.cpp
     )
 
 set(qext_lib_forms
-    source/qextInput.ui
+
     )
 
 set(qext_lib_resources
-    resource/QEXTWidget.qrc
+    resource/QEXTFonts.qrc
     )
 
+list(APPEND qext_lib_link_libraries QEXTCore)
 
 
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
 set(qext_lib_link_libraries)
+set(qext_lib_include_directories)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND qext_lib_link_libraries Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
+    list(APPEND qext_lib_link_libraries Qt4::QtCore Qt4::QtGui)
+    list(APPEND qext_lib_include_directories
+        ${Qt4Gui_PRIVATE_INCLUDE_DIRS}
+        ${Qt4Widgets_PRIVATE_INCLUDE_DIRS}
+        )
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND qext_lib_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Gui Qt${QEXT_QT_VERSION_MAJOR}::Widgets Qt${QEXT_QT_VERSION_MAJOR}::Network)
+    list(APPEND qext_lib_link_libraries
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        )
+    list(APPEND qext_lib_include_directories
+        ${Qt${QEXT_QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS}
+        ${Qt${QEXT_QT_VERSION_MAJOR}Widgets_PRIVATE_INCLUDE_DIRS}
+        )
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND qext_lib_link_libraries QEXTCore QEXTIcons QEXTGooglePinYin)
+list(APPEND qext_lib_link_libraries QEXTCore)
 
 
 
@@ -150,19 +95,13 @@ if (QEXT_BUILD_COMPILER_WARNING)
     qextFunctionSetCompilerWarnings(${qext_lib_base_name})
 endif()
 target_link_libraries(${qext_lib_base_name} PUBLIC ${qext_lib_link_libraries})
-target_include_directories(${qext_lib_base_name} PRIVATE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-    $<INSTALL_INTERFACE:include>
-    )
 target_include_directories(${qext_lib_base_name} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
+    $<BUILD_INTERFACE:${qext_lib_include_directories}>
     $<INSTALL_INTERFACE:include>
     )
-set(${qext_lib_base_name}_PRIVATE_INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/private
-    CACHE INTERNAL "${qext_lib_base_name} private include dirs"
-    )
-target_compile_definitions(${qext_lib_base_name} PRIVATE QEXT_BUILD_WIDGET_LIB)
+target_compile_definitions(${qext_lib_base_name} PRIVATE QEXT_BUILD_FONTS_LIB)
 
 
 # set target properties

@@ -54,7 +54,7 @@ else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND qext_example_link_libraries QEXTWidget QEXTFontAwesome)
+list(APPEND qext_example_link_libraries QEXTWidget QEXTIcons)
 list(APPEND qext_example_include_directories QEXTWidget_PRIVATE_INCLUDE_DIRS)
 
 
