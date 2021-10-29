@@ -51,33 +51,36 @@ else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _example_link_libraries QEXTStyleSheet)
+list(APPEND _example_link_libraries QEXTGui)
 
 
 
 #--------------------------------------------------------------------------------
-# Add  example
+# Add qext_exp_qextGuiGraphicsView example
 #--------------------------------------------------------------------------------
-#set(_example_name exp_qext)
-#set(_example_headers
-#    )
-#set(_example_sources
-#    )
-#set(_example_forms
-#    )
-#set(_example_resource
-#    styles/styles.qrc
-#    )
-#add_executable(${_example_name}
-#    ${_example_headers}
-#    ${_example_sources}
-#    ${_example_forms}
-#    ${_example_resource}
-#    )
-#target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
-#target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/styles)
-#set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
-#if(WIN32)
-#    qextMacroCopyDependenceLib(${_example_name} QEXTIcons ${EXECUTABLE_OUTPUT_PATH})
-#    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
-#endif()
+set(_example_name qext_exp_guiGraphicsView)
+set(_example_headers
+    graphicsview/mainwindow.h
+    )
+set(_example_sources
+    graphicsview/mainwindow.cpp
+    graphicsview/main.cpp
+    )
+set(_example_forms
+    graphicsview/mainwindow.ui
+    )
+set(_example_resource
+    )
+add_executable(${_example_name}
+    ${_example_headers}
+    ${_example_sources}
+    ${_example_forms}
+    ${_example_resource}
+    )
+target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
+target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/graphicsview)
+set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+if(WIN32)
+    qextMacroCopyDependenceLib(${_example_name} QEXTIcons ${EXECUTABLE_OUTPUT_PATH})
+    qextMacroCopyDependenceLib(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+endif()

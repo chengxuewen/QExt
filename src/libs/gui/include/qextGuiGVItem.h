@@ -29,45 +29,92 @@ public:
     QEXTGuiGVItem *parentItem() const;
     void setParentItem(QEXTGuiGVItem *parent);
 
-//    QRectF childrenRect();
+    QRectF childrenRect();
 
-//    bool clip() const;
-//    void setClip(bool);
+    bool clip() const;
+    void setClip(bool clip);
 
-//    qreal baselineOffset() const;
-//    void setBaselineOffset(qreal);
+    qreal baselineOffset() const;
+    void setBaselineOffset(qreal offset);
 
-////    QDeclarativeListProperty<QGraphicsTransform> transform();
+    //    QEXTGuiListProperty<QGraphicsTransform> transform();
 
-//    qreal width() const;
-//    void setWidth(qreal);
-//    void resetWidth();
-//    qreal implicitWidth() const;
+    qreal width() const;
+    void setWidth(qreal width);
+    void resetWidth();
+    qreal implicitWidth() const;
 
-//    qreal height() const;
-//    void setHeight(qreal);
-//    void resetHeight();
-//    qreal implicitHeight() const;
+    qreal height() const;
+    void setHeight(qreal height);
+    void resetHeight();
+    qreal implicitHeight() const;
 
-//    void setSize(const QSizeF &size);
+    void setSize(const QSizeF &size);
 
-//    TransformOrigin transformOrigin() const;
-//    void setTransformOrigin(TransformOrigin);
+    TransformOrigin transformOrigin() const;
+    void setTransformOrigin(TransformOrigin origin);
 
-//    bool smooth() const;
-//    void setSmooth(bool);
+    bool smooth() const;
+    void setSmooth(bool smooth);
 
-//    bool hasActiveFocus() const;
-//    bool hasFocus() const;
-//    void setFocus(bool);
+    bool hasActiveFocus() const;
+    bool hasFocus() const;
+    void setFocus(bool focus);
 
-//    bool keepMouseGrab() const;
-//    void setKeepMouseGrab(bool);
+    bool keepMouseGrab() const;
+    void setKeepMouseGrab(bool keep);
 
-//    QRectF boundingRect() const;
-//    virtual void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
+    void forceActiveFocus();
+    QEXTGuiGVItem *childAt(qreal x, qreal y) const;
+
+    QRectF boundingRect() const QEXT_DECL_OVERRIDE;
+
+    virtual void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
+
+    //    QScriptValue mapFromItem(const QScriptValue &item, qreal x, qreal y) const;
+    //    QScriptValue mapToItem(const QScriptValue &item, qreal x, qreal y) const;
+
+    static QEXTGuiGVItemPrivate *getPrivate(QEXTGuiGVItem *item);
+
+Q_SIGNALS:
+    void childrenRectChanged(const QRectF &);
+    void baselineOffsetChanged(qreal);
+    void stateChanged(const QString &);
+    void focusChanged(bool);
+    void activeFocusChanged(bool);
+    void parentChanged(QEXTGuiGVItem *);
+    void transformOriginChanged(TransformOrigin);
+    void smoothChanged(bool);
+    void clipChanged(bool);
+
+    void implicitWidthChanged();
+    void implicitHeightChanged();
 
 protected:
+    QEXTGuiGVItem(QEXTGuiGVItemPrivate *d, QEXTGuiGVItem *parent = QEXT_DECL_NULLPTR);
+
+    bool isComponentComplete() const;
+    void setImplicitWidth(qreal width);
+    bool widthValid() const; // ### better name?
+    void setImplicitHeight(qreal height);
+    bool heightValid() const; // ### better name?
+
+    void keyPressPreHandler(QKeyEvent *event);
+    void keyReleasePreHandler(QKeyEvent *event);
+    void inputMethodPreHandler(QInputMethodEvent *event);
+
+    bool sceneEvent(QEvent *) QEXT_DECL_OVERRIDE;
+    bool event(QEvent *event) QEXT_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) QEXT_DECL_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent *event) QEXT_DECL_OVERRIDE;
+    void inputMethodEvent(QInputMethodEvent *) QEXT_DECL_OVERRIDE;
+    QVariant inputMethodQuery(Qt::InputMethodQuery query) const QEXT_DECL_OVERRIDE;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) QEXT_DECL_OVERRIDE;
+
+    virtual void classBegin();
+    virtual void componentComplete();
+    virtual void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry);
+
     QScopedPointer<QEXTGuiGVItemPrivate> d_ptr;
 
 private:

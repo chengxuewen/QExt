@@ -12,7 +12,6 @@ public:
 
     QEXTGuiGVView * const q_ptr;
 
-
 private:
     Q_DISABLE_COPY(QEXTGuiGVViewPrivate)
     Q_DECLARE_PUBLIC(QEXTGuiGVView)

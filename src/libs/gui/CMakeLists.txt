@@ -30,22 +30,46 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(qext_lib_public_headers
-    include/qextGuiGVItem.h
-    include/qextGuiGVView.h
+    include/qextGuiItemChangeListener.h
+    include/qextGuiNullableValue.h
+    include/qextGuiAnchors.h
+    include/qextGuiContents.h
     include/qextGuiGlobal.h
-    include/qextGui.h
+    include/qextGuiGVItem.h
+    include/qextGuiGVRectangle.h
+    include/qextGuiGVView.h
+    include/qextGuiPen.h
+    include/qextGuiGradient.h
+    include/qextGuiList.h
+    include/qextGuiItem.h
+    include/qextGuiView.h
+    include/qextGuiWindow.h
     )
 
 set(qext_lib_private_headers
+    private/qextGuiAnchors_p.h
+    private/qextGuiContents_p.h
     private/qextGuiGVItem_p.h
+    private/qextGuiGVRectangle_p.h
     private/qextGuiGVView_p.h
-    private/qextGui_p.h
+    private/qextGuiPen_p.h
+    private/qextGuiGradient_p.h
+    private/qextGuiList_p.h
+    private/qextGuiItem_p.h
     )
 
 set(qext_lib_sources
+    source/qextGuiAnchors.cpp
+    source/qextGuiContents.cpp
     source/qextGuiGVItem.cpp
     source/qextGuiGVView.cpp
-    source/qextGui.cpp
+    source/qextGuiGVRectangle.cpp
+    source/qextGuiPen.cpp
+    source/qextGuiGradient.cpp
+    source/qextGuiList.cpp
+    source/qextGuiItem.cpp
+    source/qextGuiView.cpp
+    source/qextGuiWindow.cpp
     )
 
 set(qext_lib_forms
