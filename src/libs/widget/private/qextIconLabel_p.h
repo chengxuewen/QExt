@@ -15,7 +15,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTIconLabel)
-    QEXT_DISABLE_COPY_MOVE(QEXTIconLabelPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTIconLabelPrivate)
 };
 
 #endif // _QEXTICONLABEL_P_H

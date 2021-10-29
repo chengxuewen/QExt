@@ -30,50 +30,55 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(qext_lib_public_headers
-    include/qextAdaptorTrait.h
-    include/qextBindFunctor.h
-    include/qextBindReturnFunctor.h
-    include/qextBoundArgument.h
-    include/qextComposeFunctor.h
-    include/qextConnection.h
-    include/qextFunction.h
-    include/qextGlobal.h
-    include/qextId.h
-    include/qextInPlace.h
-    include/qextHideFunctor.h
-    include/qextLambda.h
-    include/qextLambdaBase.h
-    include/qextLambdaGroup.h
-    include/qextLambdaOperator.h
-    include/qextLambdaSelect.h
-    include/qextLimitReference.h
-    include/qextLinearFunction.h
-    include/qextMemberFunctor.h
-    include/qextPointerFunctor.h
-    include/qextPreprocessor.h
-    include/qextReferenceWrapper.h
-    include/qextReturnTypeDeduce.h
-    include/qextRetypeFunctor.h
-    include/qextRetypeReturnFunctor.h
-    include/qextSignal.h
-    include/qextSlot.h
-    include/qextTrackObjectFunctor.h
-    include/qextTypeInfo.h
-    include/qextTypeTrait.h
-    include/qextUniquePointer.h
-    include/qextVisitor.h
+    include/global/qextCompiler.h
+    include/global/qextGlobal.h
+    include/global/qextProcessor.h
+    include/global/qextSystem.h
 
+    include/invoke/qextAdaptorTrait.h
+    include/invoke/qextBindFunctor.h
+    include/invoke/qextBindReturnFunctor.h
+    include/invoke/qextBoundArgument.h
+    include/invoke/qextComposeFunctor.h
+    include/invoke/qextConnection.h
+    include/invoke/qextFunction.h
+    include/invoke/qextInPlace.h
+    include/invoke/qextHideFunctor.h
+    include/invoke/qextLambda.h
+    include/invoke/qextLambdaBase.h
+    include/invoke/qextLambdaGroup.h
+    include/invoke/qextLambdaOperator.h
+    include/invoke/qextLambdaSelect.h
+    include/invoke/qextLimitReference.h
+    include/invoke/qextLinearFunction.h
+    include/invoke/qextMemberFunctor.h
+    include/invoke/qextPointerFunctor.h
+    include/invoke/qextReferenceWrapper.h
+    include/invoke/qextReturnTypeDeduce.h
+    include/invoke/qextRetypeFunctor.h
+    include/invoke/qextRetypeReturnFunctor.h
+    include/invoke/qextSignal.h
+    include/invoke/qextSlot.h
+    include/invoke/qextTrackObjectFunctor.h
+    include/invoke/qextVisitor.h
+
+    include/tools/qextId.h
+    include/tools/qextPreprocessor.h
+    include/tools/qextTypeInfo.h
+    include/tools/qextTypeTrait.h
+    include/tools/qextUniquePointer.h
     )
 
 set(qext_lib_private_headers
     )
 
 set(qext_lib_sources
-    source/qextConnection.cpp
-    source/qextId.cpp
-    source/qextLinearFunction.cpp
-    source/qextSignal.cpp
-    source/qextSlot.cpp
+    source/invoke/qextConnection.cpp
+    source/invoke/qextSignal.cpp
+    source/invoke/qextSlot.cpp
+
+    source/tools/qextId.cpp
+    source/tools/qextLinearFunction.cpp
     )
 
 set(qext_lib_forms
@@ -131,8 +136,21 @@ target_link_libraries(${qext_lib_base_name} PUBLIC ${qext_lib_link_libraries})
 target_include_directories(${qext_lib_base_name} PUBLIC
     $<BUILD_INTERFACE:${QEXT_CONFIG_HPP_FILE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/invoke>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/global>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/tools>
     $<INSTALL_INTERFACE:include>
+    )
+set(${qext_lib_base_name}_PRIVATE_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/private
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/invoke
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/global
+    ${CMAKE_CURRENT_SOURCE_DIR}/private/tools
+    CACHE INTERNAL "${qext_lib_base_name} private include dirs"
+    )
+target_include_directories(${qext_lib_base_name} PRIVATE
+    $<BUILD_INTERFACE:${${qext_lib_base_name}_PRIVATE_INCLUDE_DIRS}>
+    $<INSTALL_INTERFACE:private>
     )
 target_compile_definitions(${qext_lib_base_name} PRIVATE QEXT_BUILD_CORE_LIB)
 

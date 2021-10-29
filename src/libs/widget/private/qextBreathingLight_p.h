@@ -26,7 +26,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTBreathingLight)
-    QEXT_DISABLE_COPY_MOVE(QEXTBreathingLightPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTBreathingLightPrivate)
 };
 
 #endif // _QEXTBREATHINGLIGHT_P_H

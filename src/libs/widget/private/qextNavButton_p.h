@@ -56,7 +56,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTNavButton)
-    QEXT_DISABLE_COPY_MOVE(QEXTNavButtonPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTNavButtonPrivate)
 };
 
 #endif // _QEXTNAVBUTTON_P_H

@@ -31,7 +31,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTTcpPacketParser)
-    QEXT_DISABLE_COPY_MOVE(QEXTTcpPacketParserPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTTcpPacketParserPrivate)
 };
 
 

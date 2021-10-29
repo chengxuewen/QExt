@@ -5,7 +5,7 @@
 #include <QPainter>
 #include <QTileRules>
 #include <QPixmapCache>
-#include <QtMath>
+#include <qmath.h>
 
 int QEXTGuiGVRectanglePrivate::sm_doUpdateSlotIdx = -1;
 

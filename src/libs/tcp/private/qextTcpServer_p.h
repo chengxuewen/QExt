@@ -43,7 +43,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTTcpServer)
-    QEXT_DISABLE_COPY_MOVE(QEXTTcpServerPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTTcpServerPrivate)
 };
 
 

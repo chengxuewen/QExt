@@ -109,7 +109,7 @@ protected:
 private:
     friend class QEXTNavListModel;
     QEXT_DECL_PRIVATE(QEXTNavListWidgetItem)
-    QEXT_DISABLE_COPY_MOVE(QEXTNavListWidgetItem)
+    QEXT_DECL_DISABLE_COPY(QEXTNavListWidgetItem)
 };
 
 
@@ -156,7 +156,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTNavListModel)
-    QEXT_DISABLE_COPY_MOVE(QEXTNavListModel)
+    QEXT_DECL_DISABLE_COPY(QEXTNavListModel)
 };
 
 
@@ -366,7 +366,7 @@ private Q_SLOTS:
 
 private:
     QEXT_DECL_PRIVATE(QEXTNavListWidget)
-    QEXT_DISABLE_COPY_MOVE(QEXTNavListWidget)
+    QEXT_DECL_DISABLE_COPY(QEXTNavListWidget)
 };
 
 #endif // _QEXTNAVLISTWIDGET_H

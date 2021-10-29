@@ -31,7 +31,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTNumberLed)
-    QEXT_DISABLE_COPY_MOVE(QEXTNumberLedPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTNumberLedPrivate)
 };
 
 #endif // _QEXTNUMBERLCD_P_H

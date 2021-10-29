@@ -79,8 +79,8 @@ protected:
     QScopedPointer<QEXTHostInfoUtilsPrivate> d_ptr;
 
 private:
+    QEXT_DECL_DISABLE_COPY(QEXTHostInfoUtils)
     QEXT_DECL_PRIVATE(QEXTHostInfoUtils)
-    QEXT_DISABLE_COPY_MOVE(QEXTHostInfoUtils)
 };
 
 

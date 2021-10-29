@@ -63,7 +63,7 @@ private Q_SLOTS:
 
 private:
     QEXT_DECL_PRIVATE(QEXTIpAddressEdit)
-    QEXT_DISABLE_COPY_MOVE(QEXTIpAddressEdit)
+    QEXT_DECL_DISABLE_COPY(QEXTIpAddressEdit)
 };
 
 #endif // _QEXTIPADDRESS_H

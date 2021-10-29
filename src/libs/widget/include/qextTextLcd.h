@@ -95,7 +95,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTTextLcd)
-    QEXT_DISABLE_COPY_MOVE(QEXTTextLcd)
+    QEXT_DECL_DISABLE_COPY(QEXTTextLcd)
 };
 
 #endif // _QEXTTEXTLCD_H

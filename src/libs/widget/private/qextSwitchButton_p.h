@@ -41,7 +41,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTSwitchButton)
-    QEXT_DISABLE_COPY_MOVE(QEXTSwitchButtonPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTSwitchButtonPrivate)
 };
 
 #endif // _QEXTSWITCHBUTTON_P_H

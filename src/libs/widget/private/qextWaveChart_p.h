@@ -55,7 +55,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTWaveChart)
-    QEXT_DISABLE_COPY_MOVE(QEXTWaveChartPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTWaveChartPrivate)
 };
 
 

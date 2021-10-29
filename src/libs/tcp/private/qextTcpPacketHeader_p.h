@@ -29,7 +29,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTTcpPacketHeader)
-    QEXT_DISABLE_COPY_MOVE(QEXTTcpPacketHeaderPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTTcpPacketHeaderPrivate)
 };
 
 

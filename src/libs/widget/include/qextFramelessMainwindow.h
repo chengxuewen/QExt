@@ -53,7 +53,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTFramelessMainWindow)
-    QEXT_DISABLE_COPY_MOVE(QEXTFramelessMainWindow)
+    QEXT_DECL_DISABLE_COPY(QEXTFramelessMainWindow)
 };
 
 #endif // _QEXTFRAMELESSMAINWINDOW_H

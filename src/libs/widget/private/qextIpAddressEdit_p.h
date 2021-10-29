@@ -37,7 +37,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTIpAddressEdit)
-    QEXT_DISABLE_COPY_MOVE(QEXTIpAddressEditPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTIpAddressEditPrivate)
 };
 
 #endif // _QEXTIPADDRESS_P_H

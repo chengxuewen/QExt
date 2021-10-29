@@ -5,6 +5,8 @@
 
 #include <QObject>
 
+#include <stdint.h>
+
 class QEXT_UTILS_API QEXTCodecUtils
 {
 public:

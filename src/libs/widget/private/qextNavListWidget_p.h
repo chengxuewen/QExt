@@ -35,7 +35,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTNavListWidgetItem)
-    QEXT_DISABLE_COPY_MOVE(QEXTNavListWidgetItemPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTNavListWidgetItemPrivate)
 };
 
 class QEXTNavListView : public QListView
@@ -85,7 +85,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTNavListModel)
-    QEXT_DISABLE_COPY_MOVE(QEXTNavListModelPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTNavListModelPrivate)
 };
 
 
@@ -159,7 +159,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTNavListWidget)
-    QEXT_DISABLE_COPY_MOVE(QEXTNavListWidgetPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTNavListWidgetPrivate)
 };
 
 #endif // _QEXTNAVLISTVIEW_P_H

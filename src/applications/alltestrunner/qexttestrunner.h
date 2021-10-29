@@ -13,6 +13,22 @@
 #define QEXT_ALL_TEST_NOTICE_PLACEHOLDER        ">>>>>>>>"
 #define QEXT_ALL_TEST_PLACEHOLDER_NUM           8
 
+static QFileInfoList qextTraversalTestFile(const QDir &dir)
+{
+    QFileInfoList testFileInfoList;
+    if (dir.exists())
+    {
+        testFileInfoList = dir.entryInfoList(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+        QFileInfoList dirFileInfoList = dir.entryInfoList(QDir::Dirs | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+        for (int i = 0; i < dirFileInfoList.size(); ++i) {
+            QDir childDir(dirFileInfoList.at(i).filePath());
+            QFileInfoList childFileInfoList = qextTraversalTestFile(childDir);
+            testFileInfoList.append(childFileInfoList);
+        }
+    }
+    return testFileInfoList;
+}
+
 class QEXTTestRunner : public QObject
 {
     Q_OBJECT
@@ -91,7 +107,7 @@ public:
     QEXTTestController(const QString &rootDir, OutputType output)
         : m_rootDir(rootDir), m_outputType(output), m_testIndex(-1) {
         QDir dir(m_rootDir);
-        m_testInfoList = dir.entryInfoList(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot);
+        m_testInfoList = qextTraversalTestFile(dir);
     }
     ~QEXTTestController() {
         qDeleteAll(m_allTestList);

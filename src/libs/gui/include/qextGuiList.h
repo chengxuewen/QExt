@@ -91,6 +91,4 @@ private:
     friend class QEXTGuiListReferencePrivate;
 };
 
-Q_DECLARE_METATYPE(QEXTGuiListReference)
-
 #endif // _QEXTGUILIST_H

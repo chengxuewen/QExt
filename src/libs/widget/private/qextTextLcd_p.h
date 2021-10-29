@@ -45,7 +45,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTTextLcd)
-    QEXT_DISABLE_COPY_MOVE(QEXTTextLcdPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTTextLcdPrivate)
 };
 
 

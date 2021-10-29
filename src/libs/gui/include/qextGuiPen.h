@@ -4,6 +4,7 @@
 #include <qextGuiGlobal.h>
 
 #include <QObject>
+#include <QColor>
 
 class QEXTGuiPenPrivate;
 class QEXT_GUI_API QEXTGuiPen : public QObject

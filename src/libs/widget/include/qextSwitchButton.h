@@ -149,7 +149,7 @@ private Q_SLOTS:
 
 private:
     QEXT_DECL_PRIVATE(QEXTSwitchButton)
-    QEXT_DISABLE_COPY_MOVE(QEXTSwitchButton)
+    QEXT_DECL_DISABLE_COPY(QEXTSwitchButton)
 };
 
 #endif // _QEXTSWITCHBUTTON_H

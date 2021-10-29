@@ -21,7 +21,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTIconLabel)
-    QEXT_DISABLE_COPY_MOVE(QEXTIconLabel)
+    QEXT_DECL_DISABLE_COPY(QEXTIconLabel)
 };
 
 #endif // _QEXTICONLABEL_H

@@ -39,7 +39,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTIndicatorLight)
-    QEXT_DISABLE_COPY_MOVE(QEXTIndicatorLightPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTIndicatorLightPrivate)
 };
 
 #endif // _QEXTINDICATORLIGHT_P_H

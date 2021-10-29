@@ -49,7 +49,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTTcpTask)
-    QEXT_DISABLE_COPY_MOVE(QEXTTcpTask)
+    QEXT_DECL_DISABLE_COPY(QEXTTcpTask)
 };
 
 

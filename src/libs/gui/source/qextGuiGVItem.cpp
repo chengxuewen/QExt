@@ -125,10 +125,10 @@ qreal QEXTGuiGVItemPrivate::width() const
 void QEXTGuiGVItemPrivate::setWidth(qreal width)
 {
     Q_Q(QEXTGuiGVItem);
-    if (qIsNaN(width))
-    {
-        return;
-    }
+//    if (qIsNaN(width))
+//    {
+//        return;
+//    }
 
     m_widthValid = true;
     if (m_width != width)
@@ -156,10 +156,10 @@ qreal QEXTGuiGVItemPrivate::height() const
 void QEXTGuiGVItemPrivate::setHeight(qreal height)
 {
     Q_Q(QEXTGuiGVItem);
-    if (qIsNaN(height))
-    {
-        return;
-    }
+//    if (qIsNaN(height))
+//    {
+//        return;
+//    }
 
     m_heightValid = true;
     if (m_height != height)

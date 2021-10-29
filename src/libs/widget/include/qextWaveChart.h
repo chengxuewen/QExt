@@ -109,7 +109,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTWaveChart)
-    QEXT_DISABLE_COPY_MOVE(QEXTWaveChart)
+    QEXT_DECL_DISABLE_COPY(QEXTWaveChart)
 };
 
 

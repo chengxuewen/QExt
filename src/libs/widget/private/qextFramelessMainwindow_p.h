@@ -41,7 +41,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTFramelessMainWindow)
-    QEXT_DISABLE_COPY_MOVE(QEXTFramelessMainWindowPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTFramelessMainWindowPrivate)
 };
 
 #endif // _QEXTFRAMELESSMAINWINDOW_P_H

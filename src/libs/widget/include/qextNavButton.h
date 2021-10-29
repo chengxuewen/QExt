@@ -180,7 +180,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTNavButton)
-    QEXT_DISABLE_COPY_MOVE(QEXTNavButton)
+    QEXT_DECL_DISABLE_COPY(QEXTNavButton)
 };
 
 #endif // _QEXTNAVBUTTON_H

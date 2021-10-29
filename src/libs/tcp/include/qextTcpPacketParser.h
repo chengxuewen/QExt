@@ -46,7 +46,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTTcpPacketParser)
-    QEXT_DISABLE_COPY_MOVE(QEXTTcpPacketParser)
+    QEXT_DECL_DISABLE_COPY(QEXTTcpPacketParser)
 };
 
 

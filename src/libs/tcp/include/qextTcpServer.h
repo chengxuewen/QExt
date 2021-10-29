@@ -51,7 +51,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTTcpServer)
-    QEXT_DISABLE_COPY_MOVE(QEXTTcpServer)
+    QEXT_DECL_DISABLE_COPY(QEXTTcpServer)
 };
 
 #endif // _QEXTTCPSERVER_H

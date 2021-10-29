@@ -158,7 +158,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTIndicatorLight)
-    QEXT_DISABLE_COPY_MOVE(QEXTIndicatorLight)
+    QEXT_DECL_DISABLE_COPY(QEXTIndicatorLight)
 };
 
 #endif // _QTKINDICATORLIGHT_H

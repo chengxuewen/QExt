@@ -33,7 +33,7 @@ public:
 
 private:
     QEXT_DECL_PUBLIC(QEXTTcpTaskPool)
-    QEXT_DISABLE_COPY_MOVE(QEXTTcpTaskPoolPrivate)
+    QEXT_DECL_DISABLE_COPY(QEXTTcpTaskPoolPrivate)
 };
 
 #endif // _QEXTTCPTASKPOOL_P_H

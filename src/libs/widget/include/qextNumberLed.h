@@ -83,7 +83,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTNumberLed)
-    QEXT_DISABLE_COPY_MOVE(QEXTNumberLed)
+    QEXT_DECL_DISABLE_COPY(QEXTNumberLed)
 };
 
 #endif // _QEXTNUMBERLED_H

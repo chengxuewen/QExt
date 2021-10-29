@@ -60,7 +60,7 @@ protected:
 
 private:
     QEXT_DECL_PRIVATE(QEXTTcpPacketTransceiver)
-    QEXT_DISABLE_COPY_MOVE(QEXTTcpPacketTransceiver)
+    QEXT_DECL_DISABLE_COPY(QEXTTcpPacketTransceiver)
 };
 
 #endif // _QEXTTCPPACKETTRANSCEIVER_H
