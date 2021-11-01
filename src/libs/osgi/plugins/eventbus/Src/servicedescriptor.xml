@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<service>
+<name>QTKEventBus</name>
+<filepath>libQTKEventBus</filepath>
+<interface>
+<name>org.qtk.core.EventBus</name>
+<version>1.0</version>
+<capabilities></capabilities>
+<customproperty key="objectclass">QTKEventBus</customproperty>
+<description>Interface for the QTK event bus</description>
+</interface>
+</service>

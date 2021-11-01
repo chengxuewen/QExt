@@ -1,0 +1,8 @@
+Plugin-SymbolicName: org.qtk.system.plugingeneratorui
+Plugin-ActivationPolicy: eager
+Plugin-Category: QTK
+Plugin-ContactAddress: https://gitee.com/chengxuewen
+Plugin-Description: Plugin for qtk plugingeneratorui
+Plugin-Name: QTKPluginGeneratorUI
+Plugin-Vendor: chengxuewen
+Plugin-Version: 1.0.0

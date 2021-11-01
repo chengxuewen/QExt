@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/QTKPluginGeneratorUI/META-INF">
+        <file>MANIFEST.MF</file>
+    </qresource>
+</RCC>

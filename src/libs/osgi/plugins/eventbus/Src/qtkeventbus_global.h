@@ -1,0 +1,12 @@
+#ifndef QTKEVENTBUS_GLOBAL_H
+#define QTKEVENTBUS_GLOBAL_H
+
+#include <qglobal.h>
+
+#if defined(QTK_EVENTBUS_LIBRARY)
+#  define QTK_EVENTBUS_EXPORT Q_DECL_EXPORT
+#else
+#  define QTK_EVENTBUS_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // QTKEVENTBUS_GLOBAL_H
