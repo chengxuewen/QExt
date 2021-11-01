@@ -21,7 +21,7 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(qext_lib_base_name QEXTDeviceWatcher)
+set(qext_lib_base_name QEXTLua)
 set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 
 
@@ -30,16 +30,15 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(qext_lib_public_headers
-    include/qextDeviceWatcher.h
-    include/qextDeviceWatcherGlobal.h
+    include/qextLua.h
+    include/qextLuaGlobal.h
     )
 
 set(qext_lib_private_headers
-    private/qextDeviceWatcher_p.h
     )
 
 set(qext_lib_sources
-    source/qextDeviceWatcher.cpp
+    source/qextLua.cpp
     )
 
 set(qext_lib_forms
@@ -47,46 +46,33 @@ set(qext_lib_forms
     )
 
 set(qext_lib_resources
-
+    resource/QEXTLua.qrc
     )
 
-if(UNIX)
-    if (QEXT_SYSTEM_LINUX)
-        list(APPEND qext_lib_sources source/qextDeviceWatcher_linux.cpp)
-    elseif(QEXT_SYSTEM_MAC)
-        list(APPEND qext_lib_sources source/qextDeviceWatcher_mac.cpp)
-    endif()
-else()
-    if (QEXT_SYSTEM_WINCE)
-        list(APPEND qext_lib_sources source/qextDeviceWatcher_wince.cpp)
-    else()
-        list(APPEND qext_lib_sources source/qextDeviceWatcher_win32.cpp)
-    endif()
-endif()
-
+list(APPEND qext_lib_link_libraries QEXTCore)
 
 
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
 set(qext_lib_link_libraries)
-
-if(UNIX)
-    list(APPEND qext_lib_link_libraries ${CMAKE_DL_LIBS})
-endif()
-
-if(WIN32)
-    list(APPEND qext_lib_link_libraries shlwapi.lib setupapi.lib advapi32.lib user32.lib)
-endif()
-
-if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND qext_lib_link_libraries ${CMAKE_THREAD_LIBS_INIT})
-endif()
+set(qext_lib_include_directories)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND qext_lib_link_libraries Qt4::QtCore)
+    list(APPEND qext_lib_link_libraries Qt4::QtCore Qt4::QtGui)
+    list(APPEND qext_lib_include_directories
+        ${Qt4Gui_PRIVATE_INCLUDE_DIRS}
+        ${Qt4Widgets_PRIVATE_INCLUDE_DIRS}
+        )
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND qext_lib_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core)
+    list(APPEND qext_lib_link_libraries
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        )
+    list(APPEND qext_lib_include_directories
+        ${Qt${QEXT_QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS}
+        ${Qt${QEXT_QT_VERSION_MAJOR}Widgets_PRIVATE_INCLUDE_DIRS}
+        )
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
@@ -112,9 +98,10 @@ target_link_libraries(${qext_lib_base_name} PUBLIC ${qext_lib_link_libraries})
 target_include_directories(${qext_lib_base_name} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
+    $<BUILD_INTERFACE:${qext_lib_include_directories}>
     $<INSTALL_INTERFACE:include>
     )
-target_compile_definitions(${qext_lib_base_name} PRIVATE QEXT_BUILD_DEVICEWATCHER_LIB)
+target_compile_definitions(${qext_lib_base_name} PRIVATE QEXT_BUILD_LUA_LIB)
 
 
 # set target properties
@@ -134,10 +121,10 @@ endif()
 #--------------------------------------------------------------------------------
 # Add lib tests and examples
 #--------------------------------------------------------------------------------
-#if (QEXT_BUILD_TESTS OR QEXT_BUILD_ALL)
-#    add_subdirectory(tests)
-#endif()
+if (QEXT_BUILD_TESTS OR QEXT_BUILD_ALL)
+    add_subdirectory(tests)
+endif()
 
-#if (QEXT_BUILD_EXAMPLES OR QEXT_BUILD_ALL)
-#    add_subdirectory(examples)
-#endif()
+if (QEXT_BUILD_EXAMPLES OR QEXT_BUILD_ALL)
+    add_subdirectory(examples)
+endif()
