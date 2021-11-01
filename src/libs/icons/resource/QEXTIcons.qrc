@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/QEXTIcons">
-        <file>font/fontawesome-webfont.ttf</file>
+        <file>fontawesome/fontawesome-webfont.ttf</file>
     </qresource>
 </RCC>

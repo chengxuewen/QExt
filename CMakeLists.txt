@@ -28,7 +28,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.9.6.1 LANGUAGES CXX)
+project(QEXT VERSION 0.9.7.1 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -226,9 +226,9 @@ endif()
 # Configure a header file to pass some of the CMake settings to the source code
 #--------------------------------------------------------------------------------
 set(QEXT_CONFIG_HPP_FILE_DIR ${QEXT_INCLUDE_OUTPUT_DIR})
-set(QEXT_CONFIG_HPP_FILE_PATH ${QEXT_CONFIG_HPP_FILE_DIR}/qextconfig.h)
+set(QEXT_CONFIG_HPP_FILE_PATH ${QEXT_CONFIG_HPP_FILE_DIR}/qextConfig.h)
 configure_file(
-    "${PROJECT_SOURCE_DIR}/cmake/qextconfig.h.in"
+    "${PROJECT_SOURCE_DIR}/cmake/qextConfig.h.in"
     "${QEXT_CONFIG_HPP_FILE_PATH}"
     )
 
