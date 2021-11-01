@@ -53,7 +53,7 @@
 class QEXT_CORE_API QEXTConnection
 {
 public:
-    typedef typename qextPrivate::QEXTSlotBase SlotFunctionBase;
+    typedef qextPrivate::QEXTSlotBase SlotFunctionBase;
 
     /** Constructs an empty connection object. */
     QEXTConnection();

@@ -148,6 +148,10 @@ endif()
 #--------------------------------------------------------------------------------
 set(LUA_LINK_LIBS)
 
+if(UNIX)
+    list(APPEND LUA_LINK_LIBS ${CMAKE_DL_LIBS})
+endif()
+
 # Setup needed variables and libraries
 if (LUA_USE_POSIX)
     # On POSIX Lua links to standard math library "m"

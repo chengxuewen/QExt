@@ -1038,11 +1038,11 @@ namespace qextPrivate
     template <>
     struct QEXTSignalSend0< void, QEXTNil >
     {
-        typedef void                            Return;
+        typedef void                                Return;
         typedef QEXTSignalSend0< void, QEXTNil >    Self;
-        typedef QEXTSignalData::ConstIterator     Iterator;
-        typedef QEXTSlot< void >                  Slot;
-        typedef typename Slot::CallFunction     CallFunction;
+        typedef QEXTSignalData::ConstIterator       Iterator;
+        typedef QEXTSlot< void >                    Slot;
+        typedef Slot::CallFunction         CallFunction;
 
         static Return send(QEXTSignalData *signalData)
         {

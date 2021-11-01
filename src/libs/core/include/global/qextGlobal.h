@@ -1,7 +1,7 @@
 #ifndef _QEXTGLOBAL_H
 #define _QEXTGLOBAL_H
 
-#include <qextconfig.h>
+#include <qextConfig.h>
 #include <qextCompiler.h>
 
 #include <QtGlobal>
