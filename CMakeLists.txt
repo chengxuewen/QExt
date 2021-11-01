@@ -3,19 +3,25 @@
 # Library: QEXT
 #
 # Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0.txt
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+# 
 #################################################################################
 
 #--------------------------------------------------------------------------------
@@ -28,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.9.8.1 LANGUAGES CXX)
+project(QEXT VERSION 0.9.8.2 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -41,7 +47,7 @@ set(QEXT_VERSION_STR "${QEXT_VERSION_MAJOR}.${QEXT_VERSION_MINOR}.${QEXT_VERSION
 set(QEXT_COPYRIGHT "Copyright (c) 2021 ChengXueWen 1398831004@qq.com")
 set(QEXT_LICENSE "MIT License")
 set(QEXT_PRODUCT_NAME "QEXT")
-set(QEXT_CXX_STANDARD 17)
+set(QEXT_CXX_STANDARD 98)
 math(EXPR QEXT_VERSION_CALC "${QEXT_VERSION_MAJOR}*1000 + ${QEXT_VERSION_MINOR}*100 + ${QEXT_VERSION_PATCH}")
 message(STATUS "==============================================================================")
 message(STATUS "----QEXT---- QEXTMvvmProject version: ${QEXT_VERSION}")
@@ -78,7 +84,7 @@ elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     message(STATUS "----QEXT---- Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt5 COMPONENTS Core Widgets Network Quick Test PrintSupport Svg REQUIRED)
     if (QEXT_QT_VERSION_MINOR GREATER_EQUAL 7)
-#        set(QEXT_CXX_STANDARD 11)
+        #        set(QEXT_CXX_STANDARD 11)
     endif()
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "----QEXT---- Expected Qt version is Qt${QEXT_QT_VERSION}")
@@ -301,6 +307,9 @@ add_subdirectory(src/libs)
 
 set(QWT_LIB_OUTPUT_DIR ${QEXT_LIB_OUTPUT_DIR})
 add_subdirectory(thirdparty/qwt-6.1.3)
-add_subdirectory(thirdparty/qcustomplot)
 add_subdirectory(thirdparty/lua)
 #add_subdirectory(thirdparty/libqtlua-2.1)
+
+if(QEXT_QT_VERSION_MAJOR GREATER 4)
+    add_subdirectory(thirdparty/qcustomplot)
+endif()
