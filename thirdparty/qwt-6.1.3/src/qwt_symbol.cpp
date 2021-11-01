@@ -799,7 +799,7 @@ public:
     bool isPinPointEnabled;
     QPointF pinPoint;
 
-    struct Path
+    struct QEXTMvvmPath
     {
         QPainterPath path;
         QwtGraphic graphic;
@@ -865,7 +865,7 @@ QwtSymbol::QwtSymbol( QwtSymbol::Style style, const QBrush &brush,
   \brief Constructor
 
   The symbol gets initialized by a painter path. The style is
-  set to QwtSymbol::Path, the size is set to empty ( the path
+  set to QwtSymbol::QEXTMvvmPath, the size is set to empty ( the path
   is displayed unscaled ).
 
   \param path painter path
@@ -878,7 +878,7 @@ QwtSymbol::QwtSymbol( QwtSymbol::Style style, const QBrush &brush,
 QwtSymbol::QwtSymbol( const QPainterPath &path, 
     const QBrush &brush, const QPen &pen )
 {
-    d_data = new PrivateData( QwtSymbol::Path, brush, pen, QSize() );
+    d_data = new PrivateData( QwtSymbol::QEXTMvvmPath, brush, pen, QSize() );
     setPath( path );
 }
 
@@ -959,12 +959,12 @@ setSize( 10, 14 );
 
   \param path Painter path
 
-  \note The style is implicitely set to QwtSymbol::Path.
+  \note The style is implicitely set to QwtSymbol::QEXTMvvmPath.
   \sa path(), setSize()
  */
 void QwtSymbol::setPath( const QPainterPath &path )
 {
-    d_data->style = QwtSymbol::Path;
+    d_data->style = QwtSymbol::QEXTMvvmPath;
     d_data->path.path = path;
     d_data->path.graphic.reset();
 }
@@ -1110,7 +1110,7 @@ void QwtSymbol::setBrush( const QBrush &brush )
         d_data->brush = brush;
         invalidateCache();
 
-        if ( d_data->style == QwtSymbol::Path )
+        if ( d_data->style == QwtSymbol::QEXTMvvmPath )
             d_data->path.graphic.reset();
     }
 }
@@ -1158,7 +1158,7 @@ void QwtSymbol::setPen( const QPen &pen )
         d_data->pen = pen;
         invalidateCache();
 
-        if ( d_data->style == QwtSymbol::Path )
+        if ( d_data->style == QwtSymbol::QEXTMvvmPath )
             d_data->path.graphic.reset();
     }
 }
@@ -1413,7 +1413,7 @@ void QwtSymbol::drawSymbol( QPainter *painter, const QRectF &rect ) const
         d_data->graphic.graphic.render( 
             painter, rect, Qt::KeepAspectRatio );
     }
-    else if ( d_data->style == QwtSymbol::Path )
+    else if ( d_data->style == QwtSymbol::QEXTMvvmPath )
     {
         if ( d_data->path.graphic.isNull() )
         {
@@ -1565,7 +1565,7 @@ void QwtSymbol::renderSymbols( QPainter *painter,
             qwtDrawHexagonSymbols( painter, points, numPoints, *this );
             break;
         }
-        case QwtSymbol::Path:
+        case QwtSymbol::QEXTMvvmPath:
         {
             if ( d_data->path.graphic.isNull() )
             {
@@ -1645,7 +1645,7 @@ QRect QwtSymbol::boundingRect() const
             rect.moveCenter( QPointF( 0.0, 0.0 ) );
             break;
         }
-        case QwtSymbol::Path:
+        case QwtSymbol::QEXTMvvmPath:
         {
             if ( d_data->path.graphic.isNull() )
             {

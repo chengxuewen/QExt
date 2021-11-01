@@ -29,29 +29,29 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/stylesheet)
 #--------------------------------------------------------------------------------
 # Set example link libraries
 #--------------------------------------------------------------------------------
-set(_example_link_libraries)
+set(qext_example_link_libraries)
 
 if(UNIX)
-    list(APPEND _example_link_libraries dl)
+    list(APPEND qext_example_link_libraries dl)
 endif()
 
 if(WIN32)
-    list(APPEND _example_link_libraries shlwapi.lib)
+    list(APPEND qext_example_link_libraries shlwapi.lib)
 endif()
 
 if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND _example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+    list(APPEND qext_example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND _example_link_libraries Qt4::QtCore Qt4::QtGui)
+    list(APPEND qext_example_link_libraries Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND _example_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Gui Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+    list(APPEND qext_example_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Gui Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND _example_link_libraries QEXTGui)
+list(APPEND qext_example_link_libraries QEXTGui)
 
 
 
@@ -77,7 +77,7 @@ add_executable(${_example_name}
     ${_example_forms}
     ${_example_resource}
     )
-target_link_libraries(${_example_name} PRIVATE ${_example_link_libraries})
+target_link_libraries(${_example_name} PRIVATE ${qext_example_link_libraries})
 target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/graphicsview)
 set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)

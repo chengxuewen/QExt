@@ -28,23 +28,23 @@
 **
 *************************************************************************************/
 
-#ifndef CFPROCESSOR_H
-#define CFPROCESSOR_H
+#ifndef _QEXTPROCESSOR_H
+#define _QEXTPROCESSOR_H
 
 /*
-    This file uses preprocessor #defines to set various CF_PROCESSOR_* #defines
+    This file uses preprocessor #defines to set various QEXT_PROCESSOR_* #defines
     based on the following patterns:
 
-    CF_PROCESSOR_{FAMILY}
-    CF_PROCESSOR_{FAMILY}_{VARIANT}
-    CF_PROCESSOR_{FAMILY}_{REVISION}
+    QEXT_PROCESSOR_{FAMILY}
+    QEXT_PROCESSOR_{FAMILY}_{VARIANT}
+    QEXT_PROCESSOR_{FAMILY}_{REVISION}
 
     The first is always defined. Defines for the various revisions/variants are
     optional and usually dependent on how the compiler was invoked. Variants
     that are a superset of another should have a define for the superset.
 
     In addition to the processor family, variants, and revisions, we also set
-    CF_BYTE_ORDER appropriately for the target processor. For bi-endian
+    QEXT_BYTE_ORDER appropriately for the target processor. For bi-endian
     processors, we try to auto-detect the byte order using the __BIG_ENDIAN__,
     __LITTLE_ENDIAN__, or __BYTE_ORDER__ preprocessor macros.
 
@@ -55,15 +55,15 @@
 
 /* Machine byte-order, reuse preprocessor provided macros when available */
 #if defined(__ORDER_BIG_ENDIAN__)
-    #define CF_BIG_ENDIAN __ORDER_BIG_ENDIAN__
+    #define QEXT_BIG_ENDIAN __ORDER_BIG_ENDIAN__
 #else
-    #define CF_BIG_ENDIAN 4321
+    #define QEXT_BIG_ENDIAN 4321
 #endif
 
 #if defined(__ORDER_LITTLE_ENDIAN__)
-    #define CF_LITTLE_ENDIAN __ORDER_LITTLE_ENDIAN__
+    #define QEXT_LITTLE_ENDIAN __ORDER_LITTLE_ENDIAN__
 #else
-    #define CF_LITTLE_ENDIAN 1234
+    #define QEXT_LITTLE_ENDIAN 1234
 #endif
 
 /*
@@ -72,8 +72,8 @@
     Alpha is bi-endian, use endianness auto-detection implemented below.
 */
 // #elif defined(__alpha__) || defined(_M_ALPHA)
-// #  define CF_PROCESSOR_ALPHA
-// CF_BYTE_ORDER not defined, use endianness auto-detection
+// #  define QEXT_PROCESSOR_ALPHA
+// QEXT_BYTE_ORDER not defined, use endianness auto-detection
 
 /*
     ARM family, known revisions: V5, V6, V7, V8
@@ -83,23 +83,23 @@
 */
 #if defined(__arm__) || defined(__TARGET_ARCH_ARM) || defined(_M_ARM) || defined(_M_ARM64) || defined(__aarch64__) || defined(__ARM64__)
     #if defined(__aarch64__) || defined(__ARM64__) || defined(_M_ARM64)
-        #define CF_PROCESSOR_ARM_64
-        #define CF_PROCESSOR_WORDSIZE 8
+        #define QEXT_PROCESSOR_ARM_64
+        #define QEXT_PROCESSOR_WORDSIZE 8
     #else
-        #define CF_PROCESSOR_ARM_32
+        #define QEXT_PROCESSOR_ARM_32
     #endif
     #if defined(__ARM_ARCH) && __ARM_ARCH > 1
-        #define CF_PROCESSOR_ARM __ARM_ARCH
+        #define QEXT_PROCESSOR_ARM __ARM_ARCH
     #elif defined(__TARGET_ARCH_ARM) && __TARGET_ARCH_ARM > 1
-        #define CF_PROCESSOR_ARM __TARGET_ARCH_ARM
+        #define QEXT_PROCESSOR_ARM __TARGET_ARCH_ARM
     #elif defined(_M_ARM) && _M_ARM > 1
-        #define CF_PROCESSOR_ARM _M_ARM
+        #define QEXT_PROCESSOR_ARM _M_ARM
     #elif defined(__ARM64_ARCH_8__) \
         || defined(__aarch64__) \
         || defined(__ARMv8__) \
         || defined(__ARMv8_A__) \
         || defined(_M_ARM64)
-        #define CF_PROCESSOR_ARM 8
+        #define QEXT_PROCESSOR_ARM 8
     #elif defined(__ARM_ARCH_7__) \
         || defined(__ARM_ARCH_7A__) \
         || defined(__ARM_ARCH_7R__) \
@@ -107,7 +107,7 @@
         || defined(__ARM_ARCH_7S__) \
         || defined(_ARM_ARCH_7) \
         || defined(__CORE_CORTEXA__)
-        #define CF_PROCESSOR_ARM 7
+        #define QEXT_PROCESSOR_ARM 7
     #elif defined(__ARM_ARCH_6__) \
         || defined(__ARM_ARCH_6J__) \
         || defined(__ARM_ARCH_6T2__) \
@@ -115,38 +115,38 @@
         || defined(__ARM_ARCH_6K__) \
         || defined(__ARM_ARCH_6ZK__) \
         || defined(__ARM_ARCH_6M__)
-        #define CF_PROCESSOR_ARM 6
+        #define QEXT_PROCESSOR_ARM 6
     #elif defined(__ARM_ARCH_5TEJ__) \
         || defined(__ARM_ARCH_5TE__)
-        #define CF_PROCESSOR_ARM 5
+        #define QEXT_PROCESSOR_ARM 5
     #elif defined(__ARM_ARCH_4T__)
-        #define CF_PROCESSOR_ARM 4
+        #define QEXT_PROCESSOR_ARM 4
     #else
-        #define CF_PROCESSOR_ARM 0
+        #define QEXT_PROCESSOR_ARM 0
     #endif
-    #if CF_PROCESSOR_ARM >= 8
-        #define CF_PROCESSOR_ARM_V8
+    #if QEXT_PROCESSOR_ARM >= 8
+        #define QEXT_PROCESSOR_ARM_V8
     #endif
-    #if CF_PROCESSOR_ARM >= 7
-        #define CF_PROCESSOR_ARM_V7
+    #if QEXT_PROCESSOR_ARM >= 7
+        #define QEXT_PROCESSOR_ARM_V7
     #endif
-    #if CF_PROCESSOR_ARM >= 6
-        #define CF_PROCESSOR_ARM_V6
+    #if QEXT_PROCESSOR_ARM >= 6
+        #define QEXT_PROCESSOR_ARM_V6
     #endif
-    #if CF_PROCESSOR_ARM >= 5
-        #define CF_PROCESSOR_ARM_V5
+    #if QEXT_PROCESSOR_ARM >= 5
+        #define QEXT_PROCESSOR_ARM_V5
     #endif
-    #if CF_PROCESSOR_ARM >= 4
-        #define CF_PROCESSOR_ARM_V4
+    #if QEXT_PROCESSOR_ARM >= 4
+        #define QEXT_PROCESSOR_ARM_V4
     #else
         #       error "ARM architecture too old"
     #endif
     #if defined(__ARMEL__) || defined(_M_ARM64)
-        #define CF_BYTE_ORDER CF_LITTLE_ENDIAN
+        #define QEXT_BYTE_ORDER QEXT_LITTLE_ENDIAN
     #elif defined(__ARMEB__)
-        #define CF_BYTE_ORDER CF_BIG_ENDIAN
+        #define QEXT_BYTE_ORDER QEXT_BIG_ENDIAN
     #else
-        // CF_BYTE_ORDER not defined, use endianness auto-detection
+        // QEXT_BYTE_ORDER not defined, use endianness auto-detection
     #endif
 
     /*
@@ -155,8 +155,8 @@
     AVR32 is big-endian.
     */
     // #elif defined(__avr32__)
-    // #  define CF_PROCESSOR_AVR32
-    // #  define CF_BYTE_ORDER CF_BIG_ENDIAN
+    // #  define QEXT_PROCESSOR_AVR32
+    // #  define QEXT_BYTE_ORDER QEXT_BIG_ENDIAN
 
     /*
     Blackfin family, no revisions or variants
@@ -164,8 +164,8 @@
     Blackfin is little-endian.
     */
     // #elif defined(__bfin__)
-    // #  define CF_PROCESSOR_BLACKFIN
-    // #  define CF_BYTE_ORDER CF_LITTLE_ENDIAN
+    // #  define QEXT_PROCESSOR_BLACKFIN
+    // #  define QEXT_BYTE_ORDER QEXT_LITTLE_ENDIAN
 
     /*
     X86 family, known variants: 32- and 64-bit
@@ -173,12 +173,12 @@
     X86 is little-endian.
     */
 #elif defined(__i386) || defined(__i386__) || defined(_M_IX86)
-    #define CF_PROCESSOR_X86_32
-    #define CF_BYTE_ORDER CF_LITTLE_ENDIAN
-    #define CF_PROCESSOR_WORDSIZE   4
+    #define QEXT_PROCESSOR_X86_32
+    #define QEXT_BYTE_ORDER QEXT_LITTLE_ENDIAN
+    #define QEXT_PROCESSOR_WORDSIZE   4
 
     /*
-    * We define CF_PROCESSOR_X86 == 6 for anything above a equivalent or better
+    * We define QEXT_PROCESSOR_X86 == 6 for anything above a equivalent or better
     * than a Pentium Pro (the processor whose architecture was called P6) or an
     * Athlon.
     *
@@ -188,22 +188,22 @@
     */
 
     #if defined(_M_IX86)
-        #define CF_PROCESSOR_X86     (_M_IX86/100)
+        #define QEXT_PROCESSOR_X86     (_M_IX86/100)
     #elif defined(__i686__) || defined(__athlon__) || defined(__SSE__) || defined(__pentiumpro__)
-        #define CF_PROCESSOR_X86     6
+        #define QEXT_PROCESSOR_X86     6
     #elif defined(__i586__) || defined(__k6__) || defined(__pentium__)
-        #define CF_PROCESSOR_X86     5
+        #define QEXT_PROCESSOR_X86     5
     #elif defined(__i486__) || defined(__80486__)
-        #define CF_PROCESSOR_X86     4
+        #define QEXT_PROCESSOR_X86     4
     #else
-        #define CF_PROCESSOR_X86     3
+        #define QEXT_PROCESSOR_X86     3
     #endif
 
 #elif defined(__x86_64) || defined(__x86_64__) || defined(__amd64) || defined(_M_X64)
-    #define CF_PROCESSOR_X86       6
-    #define CF_PROCESSOR_X86_64
-    #define CF_BYTE_ORDER CF_LITTLE_ENDIAN
-    #define CF_PROCESSOR_WORDSIZE   8
+    #define QEXT_PROCESSOR_X86       6
+    #define QEXT_PROCESSOR_X86_64
+    #define QEXT_BYTE_ORDER QEXT_LITTLE_ENDIAN
+    #define QEXT_PROCESSOR_WORDSIZE   8
 
     /*
     Itanium (IA-64) family, no revisions or variants
@@ -211,9 +211,9 @@
     Itanium is bi-endian, use endianness auto-detection implemented below.
     */
 #elif defined(__ia64) || defined(__ia64__) || defined(_M_IA64)
-    #define CF_PROCESSOR_IA64
-    #define CF_PROCESSOR_WORDSIZE   8
-    // CF_BYTE_ORDER not defined, use endianness auto-detection
+    #define QEXT_PROCESSOR_IA64
+    #define QEXT_PROCESSOR_WORDSIZE   8
+    // QEXT_BYTE_ORDER not defined, use endianness auto-detection
 
     /*
     MIPS family, known revisions: I, II, III, IV, 32, 64
@@ -221,35 +221,35 @@
     MIPS is bi-endian, use endianness auto-detection implemented below.
     */
 #elif defined(__mips) || defined(__mips__) || defined(_M_MRX000)
-    #define CF_PROCESSOR_MIPS
+    #define QEXT_PROCESSOR_MIPS
     #if defined(_MIPS_ARCH_MIPS1) || (defined(__mips) && __mips - 0 >= 1)
-        #define CF_PROCESSOR_MIPS_I
+        #define QEXT_PROCESSOR_MIPS_I
     #endif
     #if defined(_MIPS_ARCH_MIPS2) || (defined(__mips) && __mips - 0 >= 2)
-        #define CF_PROCESSOR_MIPS_II
+        #define QEXT_PROCESSOR_MIPS_II
     #endif
     #if defined(_MIPS_ARCH_MIPS3) || (defined(__mips) && __mips - 0 >= 3)
-        #define CF_PROCESSOR_MIPS_III
+        #define QEXT_PROCESSOR_MIPS_III
     #endif
     #if defined(_MIPS_ARCH_MIPS4) || (defined(__mips) && __mips - 0 >= 4)
-        #define CF_PROCESSOR_MIPS_IV
+        #define QEXT_PROCESSOR_MIPS_IV
     #endif
     #if defined(_MIPS_ARCH_MIPS5) || (defined(__mips) && __mips - 0 >= 5)
-        #define CF_PROCESSOR_MIPS_V
+        #define QEXT_PROCESSOR_MIPS_V
     #endif
     #if defined(_MIPS_ARCH_MIPS32) || defined(__mips32) || (defined(__mips) && __mips - 0 >= 32)
-        #define CF_PROCESSOR_MIPS_32
+        #define QEXT_PROCESSOR_MIPS_32
     #endif
     #if defined(_MIPS_ARCH_MIPS64) || defined(__mips64)
-        #define CF_PROCESSOR_MIPS_64
-        #define CF_PROCESSOR_WORDSIZE 8
+        #define QEXT_PROCESSOR_MIPS_64
+        #define QEXT_PROCESSOR_WORDSIZE 8
     #endif
     #if defined(__MIPSEL__)
-        #define CF_BYTE_ORDER CF_LITTLE_ENDIAN
+        #define QEXT_BYTE_ORDER QEXT_LITTLE_ENDIAN
     #elif defined(__MIPSEB__)
-        #define CF_BYTE_ORDER CF_BIG_ENDIAN
+        #define QEXT_BYTE_ORDER QEXT_BIG_ENDIAN
     #else
-        // CF_BYTE_ORDER not defined, use endianness auto-detection
+        // QEXT_BYTE_ORDER not defined, use endianness auto-detection
     #endif
 
     /*
@@ -264,14 +264,14 @@
 #elif defined(__ppc__) || defined(__ppc) || defined(__powerpc__) \
     || defined(_ARCH_COM) || defined(_ARCH_PWR) || defined(_ARCH_PPC)  \
     || defined(_M_MPPC) || defined(_M_PPC)
-    #define CF_PROCESSOR_POWER
+    #define QEXT_PROCESSOR_POWER
     #if defined(__ppc64__) || defined(__powerpc64__) || defined(__64BIT__)
-        #define CF_PROCESSOR_POWER_64
-        #define CF_PROCESSOR_WORDSIZE 8
+        #define QEXT_PROCESSOR_POWER_64
+        #define QEXT_PROCESSOR_WORDSIZE 8
     #else
-        #define CF_PROCESSOR_POWER_32
+        #define QEXT_PROCESSOR_POWER_32
     #endif
-    // CF_BYTE_ORDER not defined, use endianness auto-detection
+    // QEXT_BYTE_ORDER not defined, use endianness auto-detection
 
     /*
     RISC-V family, known variants: 32- and 64-bit
@@ -279,13 +279,13 @@
     RISC-V is little-endian.
     */
 #elif defined(__riscv)
-    #define CF_PROCESSOR_RISCV
+    #define QEXT_PROCESSOR_RISCV
     #if __riscv_xlen == 64
-        #define CF_PROCESSOR_RISCV_64
+        #define QEXT_PROCESSOR_RISCV_64
     #else
-        #define CF_PROCESSOR_RISCV_32
+        #define QEXT_PROCESSOR_RISCV_32
     #endif
-    #define CF_BYTE_ORDER CF_LITTLE_ENDIAN
+    #define QEXT_BYTE_ORDER QEXT_LITTLE_ENDIAN
 
     /*
     S390 family, known variant: S390X (64-bit)
@@ -293,11 +293,11 @@
     S390 is big-endian.
     */
 #elif defined(__s390__)
-    #define CF_PROCESSOR_S390
+    #define QEXT_PROCESSOR_S390
     #if defined(__s390x__)
-        #define CF_PROCESSOR_S390_X
+        #define QEXT_PROCESSOR_S390_X
     #endif
-    #define CF_BYTE_ORDER CF_BIG_ENDIAN
+    #define QEXT_BYTE_ORDER QEXT_BIG_ENDIAN
 
     /*
     SuperH family, optional revision: SH-4A
@@ -305,11 +305,11 @@
     SuperH is bi-endian, use endianness auto-detection implemented below.
     */
     // #elif defined(__sh__)
-    // #  define CF_PROCESSOR_SH
+    // #  define QEXT_PROCESSOR_SH
     // #  if defined(__sh4a__)
-    // #    define CF_PROCESSOR_SH_4A
+    // #    define QEXT_PROCESSOR_SH_4A
     // #  endif
-    // CF_BYTE_ORDER not defined, use endianness auto-detection
+    // QEXT_BYTE_ORDER not defined, use endianness auto-detection
 
     /*
     SPARC family, optional revision: V9
@@ -318,20 +318,20 @@
     as the default byte order. Assume all SPARC systems are big-endian.
     */
 #elif defined(__sparc__)
-    #define CF_PROCESSOR_SPARC
+    #define QEXT_PROCESSOR_SPARC
     #if defined(__sparc_v9__)
-        #define CF_PROCESSOR_SPARC_V9
+        #define QEXT_PROCESSOR_SPARC_V9
     #endif
     #if defined(__sparc64__)
-        #define CF_PROCESSOR_SPARC_64
+        #define QEXT_PROCESSOR_SPARC_64
     #endif
-    #define CF_BYTE_ORDER CF_BIG_ENDIAN
+    #define QEXT_BYTE_ORDER QEXT_BIG_ENDIAN
 
     // -- Web Assembly --
 #elif defined(__EMSCRIPTEN__)
-    #define CF_PROCESSOR_WASM
-    #define CF_BYTE_ORDER CF_LITTLE_ENDIAN
-    #define CF_PROCESSOR_WORDSIZE 8
+    #define QEXT_PROCESSOR_WASM
+    #define QEXT_BYTE_ORDER QEXT_LITTLE_ENDIAN
+    #define QEXT_PROCESSOR_WORDSIZE 8
 #endif
 
 /*
@@ -343,14 +343,14 @@
   code will fail to detect the target byte order.
 */
 // Some processors support either endian format, try to detect which we are using.
-#if !defined(CF_BYTE_ORDER)
-    #if defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == CF_BIG_ENDIAN || __BYTE_ORDER__ == CF_LITTLE_ENDIAN)
-        // Reuse __BYTE_ORDER__ as-is, since our CF_*_ENDIAN #defines match the preprocessor defaults
-        #define CF_BYTE_ORDER __BYTE_ORDER__
+#if !defined(QEXT_BYTE_ORDER)
+    #if defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == QEXT_BIG_ENDIAN || __BYTE_ORDER__ == QEXT_LITTLE_ENDIAN)
+        // Reuse __BYTE_ORDER__ as-is, since our QEXT_*_ENDIAN #defines match the preprocessor defaults
+        #define QEXT_BYTE_ORDER __BYTE_ORDER__
     #elif defined(__BIG_ENDIAN__) || defined(_big_endian__) || defined(_BIG_ENDIAN)
-        #define CF_BYTE_ORDER CF_BIG_ENDIAN
+        #define QEXT_BYTE_ORDER QEXT_BIG_ENDIAN
     #elif defined(__LITTLE_ENDIAN__) || defined(_little_endian__) || defined(_LITTLE_ENDIAN)
-        #define CF_BYTE_ORDER CF_LITTLE_ENDIAN
+        #define QEXT_BYTE_ORDER QEXT_LITTLE_ENDIAN
     #else
         #       error "Unable to determine byte order!"
     #endif
@@ -363,31 +363,31 @@
      processors.
    * Most other Unix compilers define __LP64__ or _LP64 on 64-bit mode
      (Long and Pointer 64-bit)
-   * If CF_PROCESSOR_WORDSIZE was defined above, it's assumed to match the pointer
+   * If QEXT_PROCESSOR_WORDSIZE was defined above, it's assumed to match the pointer
      size.
    Otherwise, we assume to be 32-bit and then check in qglobal.cpp that it is right.
 */
 
 #if defined __SIZEOF_POINTER__
-    #define CF_POINTER_SIZE           __SIZEOF_POINTER__
+    #define QEXT_POINTER_SIZE           __SIZEOF_POINTER__
 #elif defined(__LP64__) || defined(_LP64)
-    #define CF_POINTER_SIZE           8
-#elif defined(CF_PROCESSOR_WORDSIZE)
-    #define CF_POINTER_SIZE           CF_PROCESSOR_WORDSIZE
+    #define QEXT_POINTER_SIZE           8
+#elif defined(QEXT_PROCESSOR_WORDSIZE)
+    #define QEXT_POINTER_SIZE           QEXT_PROCESSOR_WORDSIZE
 #else
-    #define CF_POINTER_SIZE           4
+    #define QEXT_POINTER_SIZE           4
 #endif
 
 /*
-   Define CF_PROCESSOR_WORDSIZE to be the size of the machine's word (usually,
+   Define QEXT_PROCESSOR_WORDSIZE to be the size of the machine's word (usually,
    the size of the register). On some architectures where a pointer could be
    smaller than the register, the macro is defined above.
 
-   Falls back to CF_POINTER_SIZE if not set explicitly for the platform.
+   Falls back to QEXT_POINTER_SIZE if not set explicitly for the platform.
 */
-#ifndef CF_PROCESSOR_WORDSIZE
-    #define CF_PROCESSOR_WORDSIZE        CF_POINTER_SIZE
+#ifndef QEXT_PROCESSOR_WORDSIZE
+    #define QEXT_PROCESSOR_WORDSIZE        QEXT_POINTER_SIZE
 #endif
 
 
-#endif // CFPROCESSOR_H
+#endif // _QEXTPROCESSOR_H

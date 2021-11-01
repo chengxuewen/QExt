@@ -23,8 +23,8 @@ set(QWT_PRODUCT_NAME "Qwt")
 set(QWT_CXX_STANDARD 98)
 math(EXPR QWT_VERSION_CALC "${QWT_VERSION_MAJOR}*1000 + ${QWT_VERSION_MINOR}*100 + ${QWT_VERSION_PATCH}")
 message(STATUS "==============================================================================")
-message(STATUS "----Qwt---- Project version: ${QWT_VERSION}")
-message(STATUS "----Qwt---- Project license: ${QWT_LICENSE}")
+message(STATUS "----Qwt---- QEXTMvvmProject version: ${QWT_VERSION}")
+message(STATUS "----Qwt---- QEXTMvvmProject license: ${QWT_LICENSE}")
 
 
 

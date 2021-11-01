@@ -185,7 +185,7 @@ QwtPlotRenderer::LayoutFlags QwtPlotRenderer::layoutFlags() const
   suffix of the file name.
 
   \param plot Plot widget
-  \param fileName Path of the file, where the document will be stored
+  \param fileName QEXTMvvmPath of the file, where the document will be stored
   \param sizeMM Size for the document in millimeters.
   \param resolution Resolution in dots per Inch (dpi)
 */
@@ -214,7 +214,7 @@ void QwtPlotRenderer::renderDocument( QwtPlot *plot,
   raster graphics formats.
 
   \param plot Plot widget
-  \param fileName Path of the file, where the document will be stored
+  \param fileName QEXTMvvmPath of the file, where the document will be stored
   \param format Format for the document
   \param sizeMM Size for the document in millimeters.
   \param resolution Resolution in dots per Inch (dpi)

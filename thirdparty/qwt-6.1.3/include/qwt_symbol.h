@@ -91,7 +91,7 @@ public:
 
           \sa setPath(), path()
          */
-        Path,
+        QEXTMvvmPath,
 
         /*!
           The symbol is represented by a pixmap. The pixmap is centered

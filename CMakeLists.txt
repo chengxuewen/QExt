@@ -28,7 +28,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.9.4.2 LANGUAGES CXX)
+project(QEXT VERSION 0.9.5.1 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -41,12 +41,12 @@ set(QEXT_VERSION_STR "${QEXT_VERSION_MAJOR}.${QEXT_VERSION_MINOR}.${QEXT_VERSION
 set(QEXT_COPYRIGHT "Copyright (c) 2021 ChengXueWen 1398831004@qq.com")
 set(QEXT_LICENSE "MIT License")
 set(QEXT_PRODUCT_NAME "QEXT")
-set(QEXT_CXX_STANDARD 98)
+set(QEXT_CXX_STANDARD 17)
 math(EXPR QEXT_VERSION_CALC "${QEXT_VERSION_MAJOR}*1000 + ${QEXT_VERSION_MINOR}*100 + ${QEXT_VERSION_PATCH}")
 message(STATUS "==============================================================================")
-message(STATUS "----QEXT---- Project version: ${QEXT_VERSION}")
-message(STATUS "----QEXT---- Project copyright: ${QEXT_COPYRIGHT}")
-message(STATUS "----QEXT---- Project license: ${QEXT_LICENSE}")
+message(STATUS "----QEXT---- QEXTMvvmProject version: ${QEXT_VERSION}")
+message(STATUS "----QEXT---- QEXTMvvmProject copyright: ${QEXT_COPYRIGHT}")
+message(STATUS "----QEXT---- QEXTMvvmProject license: ${QEXT_LICENSE}")
 
 
 
@@ -78,7 +78,7 @@ elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     message(STATUS "----QEXT---- Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt5 COMPONENTS Core Widgets Network Quick Test PrintSupport Svg REQUIRED)
     if (QEXT_QT_VERSION_MINOR GREATER_EQUAL 7)
-        set(QEXT_CXX_STANDARD 11)
+#        set(QEXT_CXX_STANDARD 11)
     endif()
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "----QEXT---- Expected Qt version is Qt${QEXT_QT_VERSION}")
@@ -301,3 +301,6 @@ add_subdirectory(src/libs)
 
 set(QWT_LIB_OUTPUT_DIR ${QEXT_LIB_OUTPUT_DIR})
 add_subdirectory(thirdparty/qwt-6.1.3)
+add_subdirectory(thirdparty/qcustomplot)
+add_subdirectory(thirdparty/lua)
+#add_subdirectory(thirdparty/libqtlua-2.1)

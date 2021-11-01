@@ -1,0 +1,42 @@
+#ifndef _QEXTMVVMPROJECTCHANGECONTROLLER_H
+#define _QEXTMVVMPROJECTCHANGECONTROLLER_H
+
+#include <functional>
+#include <memory>
+#include <qextMvvmGlobal.h>
+#include <vector>
+
+namespace ModelView
+{
+
+class QEXTMvvmSessionModel;
+class QEXTMvvmModelHasChangedController;
+
+//! Tracks changes in all models.
+//! Allows to check if one or more models have been changed since last call of ::resetChanged().
+//! This is intended to work together with the QEXTMvvmProject class. It will take care of calling
+//! resetChanged after own saving.
+
+//! To avoid extra signaling while being in already "changed" mode, the controller reports only
+//! once.
+
+class QEXT_MVVM_API QEXTMvvmProjectChangedController
+{
+public:
+    using callback_t = std::function<void()>;
+    QEXTMvvmProjectChangedController(const std::vector<QEXTMvvmSessionModel*>& models,
+                             callback_t project_changed_callback = {});
+    ~QEXTMvvmProjectChangedController();
+
+    bool hasChanged() const;
+
+    void resetChanged();
+
+private:
+    struct ProjectChangedControllerImpl;
+    std::unique_ptr<ProjectChangedControllerImpl> p_impl;
+};
+
+} // namespace ModelView
+
+#endif // _QEXTMVVMPROJECTCHANGECONTROLLER_H
