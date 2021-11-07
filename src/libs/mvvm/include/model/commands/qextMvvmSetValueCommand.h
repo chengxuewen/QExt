@@ -2,30 +2,26 @@
 #define _QEXTMVVMSETVALUECOMMAND_H
 
 #include <qextMvvmAbstractItemCommand.h>
-#include <qextMvvmVariant.h>
 
-namespace ModelView
-{
+class QEXTMvvmItem;
 
-class QEXTMvvmSessionItem;
-
-//! Command for unddo/redo framework to set the data of QEXTMvvmSessionItem.
-
-class QEXT_MVVM_API QEXTSetValueCommand : public QEXTAbstractItemCommand
+class QEXTMvvmSetValueCommandPrivate;
+class QEXT_MVVM_API QEXTMvvmSetValueCommand : public QEXTMvvmAbstractItemCommand
 {
 public:
-    QEXTSetValueCommand(QEXTMvvmSessionItem* item, QEXTMvvmVariant value, int role);
-    ~QEXTSetValueCommand() override;
+    QEXTMvvmSetValueCommand(QEXTMvvmItem *parent, QVariant value, int role);
+    ~QEXTMvvmSetValueCommand() QEXT_DECL_OVERRIDE;
+
+protected:
+    void undoCommand() QEXT_DECL_OVERRIDE;
+    void executeCommand() QEXT_DECL_OVERRIDE;
+
+    void swapValues();
 
 private:
-    void undo_command() override;
-    void execute_command() override;
-    void swap_values();
-
-    struct SetValueCommandImpl;
-    std::unique_ptr<SetValueCommandImpl> p_impl;
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmSetValueCommand)
+    QEXT_DECL_PRIVATE(QEXTMvvmSetValueCommand)
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMSETVALUECOMMAND_H

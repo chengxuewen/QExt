@@ -1,5 +1,5 @@
 #include <qextMemberFunctor.h>
-#include <qextSlot.h>
+#include <qextFunction.h>
 
 #include <QtTest>
 #include <QObject>
@@ -34,14 +34,14 @@ public:
 
 void QEXTTrackableTest::testSimple()
 {
-    QEXTSlot<void> slot;
+    QEXTFunction<void> slot;
     MYClass *myClass = new MYClass;
     myClass->i = 11;
     slot = qextMemberFunctor(myClass, &MYClass::foo);
     delete myClass;
     myClass = QEXT_DECL_NULLPTR;
 
-    QEXTSlot<void> sl;
+    QEXTFunction<void> sl;
     {
         sg_string = "";
         MYClass t;

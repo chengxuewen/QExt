@@ -11,7 +11,7 @@
 #define GRAPHICSPROXY_MAINWINDOW_H
 
 #include <QMainWindow>
-#include <memory>
+#include <QScopedPointer>
 
 class SceneModel;
 class QTabWidget;
@@ -34,7 +34,7 @@ private:
     void write_settings();
     void init_model();
 
-    std::unique_ptr<SceneModel> m_model;
+    QScopedPointer<SceneModel> m_model;
 };
 
 #endif //  GRAPHICSPROXY_MAINWINDOW_H

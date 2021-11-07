@@ -17,13 +17,13 @@
 
 //! Item to represent region of interest on top of heat map.
 
-class RegionOfInterestItem : public ModelView::QEXTMvvmCompoundItem
+class RegionOfInterestItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_XLOW = "P_XLOW";
-    static inline const std::string P_YLOW = "P_YLOW";
-    static inline const std::string P_XUP = "P_XUP";
-    static inline const std::string P_YUP = "P_YUP";
+    static inline const QString P_XLOW = "P_XLOW";
+    static inline const QString P_YLOW = "P_YLOW";
+    static inline const QString P_XUP = "P_XUP";
+    static inline const QString P_YUP = "P_YUP";
 
     RegionOfInterestItem();
 };

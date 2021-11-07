@@ -15,12 +15,12 @@
 namespace
 {
 
-const std::string DemoItemType = "DemoItem";
-const std::string DemoContainerItemType = "DemoItemContainer";
+const QString DemoItemType = "DemoItem";
+const QString DemoContainerItemType = "DemoItemContainer";
 
 } // namespace
 
-using namespace ModelView;
+
 
 namespace DragAndView
 {

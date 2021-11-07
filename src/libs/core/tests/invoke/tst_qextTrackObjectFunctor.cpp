@@ -103,7 +103,7 @@ void QEXTTrackObjectFunctorTest::testSimple()
     std::string string;
     sg_string = &string;
 
-    QEXTSlot<std::string, int> sl1;
+    QEXTFunction<std::string, int> sl1;
     {
         *sg_string = "";
         BarGroup4 bar4;
@@ -121,7 +121,7 @@ void QEXTTrackObjectFunctorTest::testSimple()
 
     //    Allocate on the heap. valgrind can then find erroneous memory accesses.
     //            (There should be none, of course.)
-    QEXTSlot<std::string, int, std::string> *psl2 = new QEXTSlot<std::string, int, std::string>;
+    QEXTFunction<std::string, int, std::string> *psl2 = new QEXTFunction<std::string, int, std::string>;
     BarGroup4 *bar4 = new BarGroup4;
     Book *book4 = new Book("A Book");
     *sg_string = "";
@@ -150,8 +150,8 @@ void QEXTTrackObjectFunctorTest::testLambda()
     // If you want to auto-disconnect a slot with a C++11 lambda expression
     // that contains references to QEXTObject-derived objects, you must use
     // qextTrackObjectFunctor().
-    QEXTSlot<std::string, int> sl1;
-    QEXTSlot<void, std::string &> sl10;
+    QEXTFunction<std::string, int> sl1;
+    QEXTFunction<void, std::string &> sl10;
     {
         *sg_string = "";
         Book guestBook("karl");
@@ -174,8 +174,8 @@ void QEXTTrackObjectFunctorTest::testLambda()
     QVERIFY("" == *sg_string);
 
     // auto-disconnect
-    QEXTSlot<std::string, int> sl2;
-    QEXTSlot<void> sl20;
+    QEXTFunction<std::string, int> sl2;
+    QEXTFunction<void> sl20;
     {
         *sg_string = "";
         Book guestBook("karl");

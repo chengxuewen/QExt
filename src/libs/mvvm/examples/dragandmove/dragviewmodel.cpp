@@ -12,29 +12,29 @@
 #include <QDataStream>
 #include <QMimeData>
 #include <algorithm>
-#include <qextMvvmSessionItem.h>
-#include <qextMvvmSessionModel.h>
-#include <viewmodel/viewmodelutils.h>
-#include <widgets/widgetutils.h>
+#include <qextMvvmItem.h>
+#include <qextMvvmModel.h>
+#include <qextMvvmViewModelUtils.h>
+#include <qextMvvmWidgetUtils.h>
 
 namespace
 {
 const QString AppMimeType = "application/org.bornagainproject.moveitem";
 } // namespace
 
-using namespace ModelView;
+
 
 namespace DragAndView
 {
 
-DragViewModel::DragViewModel(QEXTMvvmSessionModel* model, QObject* parent)
-    : PropertyTableViewModel(model, parent)
+DragViewModel::DragViewModel(QEXTMvvmModel* model, QObject* parent)
+    : QEXTMvvmPropertyTableViewModel(model, parent)
 {
 }
 
 Qt::ItemFlags DragViewModel::flags(const QModelIndex& index) const
 {
-    Qt::ItemFlags defaultFlags = PropertyTableViewModel::flags(index);
+    Qt::ItemFlags defaultFlags = QEXTMvvmPropertyTableViewModel::flags(index);
 
     if (index.isValid())
         return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | defaultFlags;
@@ -45,15 +45,15 @@ Qt::ItemFlags DragViewModel::flags(const QModelIndex& index) const
 QMimeData* DragViewModel::mimeData(const QModelIndexList& index_list) const
 {
     auto mimeData = new QMimeData;
-    auto items = Utils::ParentItemsFromIndex(index_list);
+    auto items = QEXTMvvmViewModelUtils::ParentItemsFromIndex(index_list);
 
-    // Saving list of QEXTMvvmSessionItem's identifiers related to all DemoItem
+    // Saving list of QEXTMvvmItem's identifiers related to all DemoItem
 
     QStringList identifiers;
-    for (auto item : Utils::ParentItemsFromIndex(index_list))
-        identifiers.append(QString::fromStdString(item->identifier()));
+    for (auto item : QEXTMvvmViewModelUtils::ParentItemsFromIndex(index_list))
+        identifiers.append(item->identifier());
 
-    mimeData->setData(AppMimeType, Utils::serialize(identifiers));
+    mimeData->setData(AppMimeType, QEXTMvvmWidgetUtils::serialize(identifiers));
     return mimeData;
 }
 
@@ -85,12 +85,14 @@ bool DragViewModel::dropMimeData(const QMimeData* data, Qt::DropAction action, i
     int requested_row = parent.isValid() ? parent.row() : row;
 
     // retrieving list of item identifiers and accessing items
-    auto identifiers = Utils::deserialize(data->data(AppMimeType));
+    auto identifiers = QEXTMvvmWidgetUtils::deserialize(data->data(AppMimeType));
     for (auto id : identifiers) {
-        auto item = sessionModel()->findItem(id.toStdString());
+        auto item = model()->findItem(id);
 
-        int row = std::clamp(requested_row, 0, item->parent()->itemCount(item->tag()) - 1);
-        sessionModel()->moveItem(item, rootSessionItem(), {"", row});
+        int max = item->parent()->itemCount(item->tag()) - 1;
+        int row = qMin(requested_row, item->parent()->itemCount(item->tag()) - 1);
+        row = qMax(0, row);
+        model()->moveItem(item, rootItem(), {"", row});
     }
 
     return false;

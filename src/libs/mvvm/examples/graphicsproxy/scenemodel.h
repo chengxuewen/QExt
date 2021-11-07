@@ -10,16 +10,15 @@
 #ifndef GRAPHICSPROXY_SCENEMODEL_H
 #define GRAPHICSPROXY_SCENEMODEL_H
 
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmModel.h>
 
-namespace ModelView
-{
+
 class QEXTMvvmContainerItem;
-}
+
 
 //! Main application model with data for graphics scene.
 
-class SceneModel : public ModelView::QEXTMvvmSessionModel
+class SceneModel : public QEXTMvvmModel
 {
 public:
     SceneModel();

@@ -11,7 +11,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <memory>
+#include <QScopedPointer>
 
 class QGraphicsScene;
 class QGraphicsView;
@@ -20,10 +20,9 @@ class MouseModel;
 class QAction;
 class QSlider;
 
-namespace ModelView
-{
-class AllItemsTreeView;
-}
+
+class QEXTMvvmAllItemsTreeView;
+
 
 class MainWindow : public QMainWindow
 {
@@ -44,8 +43,8 @@ private:
     QGraphicsView* view;
     QTimer* timer;
     QSlider* slider;
-    std::unique_ptr<MouseModel> mouse_model;
-    ModelView::AllItemsTreeView* itemsTreeView;
+    QScopedPointer<MouseModel> mouse_model;
+    QEXTMvvmAllItemsTreeView* itemsTreeView;
 };
 
 #endif //  MAINWINDOW_H

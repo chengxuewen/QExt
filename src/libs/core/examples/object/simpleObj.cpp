@@ -4,7 +4,7 @@
 
 #include <algorithm>
 #include <iostream>
-#include <vector>
+#include <QVector>
 
 
 using namespace std;

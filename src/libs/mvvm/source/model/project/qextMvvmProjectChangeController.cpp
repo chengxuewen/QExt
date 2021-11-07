@@ -7,19 +7,19 @@
 //
 // ************************************************************************** //
 
-#include <qextMvvmSessionModel.h>
-#include <project/qextMvvmModelHasChangedController.h>
-#include <project/qextMvvmProjectChangeController.h>
+#include <qextMvvmModel.h>
+#include <qextMvvmModelHasChangedController.h>
+#include <qextMvvmProjectChangeController.h>
 
-using namespace ModelView;
+#include <QSharedPointer>
 
 struct QEXTMvvmProjectChangedController::ProjectChangedControllerImpl {
-    std::vector<QEXTMvvmSessionModel*> m_models;
-    std::vector<std::unique_ptr<QEXTMvvmModelHasChangedController>> change_controllers;
-    callback_t m_project_changed_callback;
+    QVector<QEXTMvvmModel*> m_models;
+    QVector<QSharedPointer<QEXTMvvmModelHasChangedController> > change_controllers;
+    QEXTMvvmProjectChangedController::Callback m_project_changed_callback;
     bool m_project_has_changed{false};
 
-    ProjectChangedControllerImpl(const std::vector<QEXTMvvmSessionModel*>& models, callback_t callback)
+    ProjectChangedControllerImpl(const QVector<QEXTMvvmModel*> &models, QEXTMvvmProjectChangedController::Callback callback)
         : m_models(models), m_project_changed_callback(callback)
     {
         create_controllers();
@@ -30,8 +30,10 @@ struct QEXTMvvmProjectChangedController::ProjectChangedControllerImpl {
         auto on_model_changed = [this]() { onProjectHasChanged(); };
         change_controllers.clear();
         for (auto model : m_models)
-            change_controllers.emplace_back(
-                std::make_unique<QEXTMvvmModelHasChangedController>(model, on_model_changed));
+        {
+//            QSharedPointer<QEXTMvvmModelHasChangedController> controller(new QEXTMvvmModelHasChangedController(model, on_model_changed));
+//            change_controllers.append(controller);
+        }
     }
 
     bool hasChanged() const { return m_project_has_changed; }
@@ -47,19 +49,24 @@ struct QEXTMvvmProjectChangedController::ProjectChangedControllerImpl {
     {
         if (!m_project_has_changed) {
             m_project_has_changed = true;
-            if (m_project_changed_callback)
+            if (m_project_changed_callback.isValid())
+            {
                 m_project_changed_callback();
+            }
         }
     }
 };
 
-QEXTMvvmProjectChangedController::QEXTMvvmProjectChangedController(const std::vector<QEXTMvvmSessionModel*>& models,
-                                                   callback_t project_changed_callback)
-    : p_impl(std::make_unique<ProjectChangedControllerImpl>(models, project_changed_callback))
+QEXTMvvmProjectChangedController::QEXTMvvmProjectChangedController(const QVector<QEXTMvvmModel *> &models,
+                                                   Callback projectChangedCallback)
+    : p_impl(new ProjectChangedControllerImpl(models, projectChangedCallback))
 {
 }
 
-QEXTMvvmProjectChangedController::~QEXTMvvmProjectChangedController() = default;
+QEXTMvvmProjectChangedController::~QEXTMvvmProjectChangedController()
+{
+
+}
 
 //! Returns true if the change in the models has been registered since the last call of
 //! resetChanged.

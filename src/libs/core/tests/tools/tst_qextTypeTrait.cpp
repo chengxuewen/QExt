@@ -4,7 +4,7 @@
 #include <QObject>
 #include <iostream>
 #include <string>
-#include <vector>
+#include <QVector>
 #include <utility>
 
 class QEXTTypeTraitTest : public QObject
@@ -201,10 +201,10 @@ void QEXTTypeTraitTest::testIsInteger()
     // Verify that QEXTTypeIsIntegral is false for a few non-integer types.
     QVERIFY(!QEXTTypeIsIntegral<void>::value);
     QVERIFY(!QEXTTypeIsIntegral<float>::value);
-    QVERIFY(!QEXTTypeIsIntegral<std::string>::value);
+    QVERIFY(!QEXTTypeIsIntegral<QString>::value);
     QVERIFY(!QEXTTypeIsIntegral<int *>::value);
     QVERIFY(!QEXTTypeIsIntegral<A>::value);
-    QVERIFY(!(QEXTTypeIsIntegral<std::pair<int, int> >::value));
+    QVERIFY(!(QEXTTypeIsIntegral<QPair<int, int> >::value));
 
     // Verify that cv-qualified integral types are still integral, and
     // cv-qualified non-integral types are still non-integral.
@@ -213,7 +213,7 @@ void QEXTTypeTraitTest::testIsInteger()
     QVERIFY(QEXTTypeIsIntegral<const volatile unsigned int>::value);
     QVERIFY(!QEXTTypeIsIntegral<const float>::value);
     QVERIFY(!QEXTTypeIsIntegral<int *volatile>::value);
-    QVERIFY(!QEXTTypeIsIntegral<const volatile std::string>::value);
+    QVERIFY(!QEXTTypeIsIntegral<const volatile QString>::value);
 }
 
 void QEXTTypeTraitTest::testIsFloating()
@@ -226,10 +226,10 @@ void QEXTTypeTraitTest::testIsFloating()
     // Verify that QEXTTypeIsFloatingPoint is false for a few non-float types.
     QVERIFY(!QEXTTypeIsFloatingPoint<void>::value);
     QVERIFY(!QEXTTypeIsFloatingPoint<long>::value);
-    QVERIFY(!QEXTTypeIsFloatingPoint<std::string>::value);
+    QVERIFY(!QEXTTypeIsFloatingPoint<QString>::value);
     QVERIFY(!QEXTTypeIsFloatingPoint<float *>::value);
     QVERIFY(!QEXTTypeIsFloatingPoint<A>::value);
-    QVERIFY(!(QEXTTypeIsFloatingPoint<std::pair<int, int> >::value));
+    QVERIFY(!(QEXTTypeIsFloatingPoint<QPair<int, int> >::value));
 
     // Verify that cv-qualified floating point types are still floating, and
     // cv-qualified non-floating types are still non-floating.
@@ -237,7 +237,7 @@ void QEXTTypeTraitTest::testIsFloating()
     QVERIFY(QEXTTypeIsFloatingPoint<volatile double>::value);
     QVERIFY(QEXTTypeIsFloatingPoint<const volatile long double>::value);
     QVERIFY(!QEXTTypeIsFloatingPoint<const int>::value);
-    QVERIFY(!QEXTTypeIsFloatingPoint<volatile std::string>::value);
+    QVERIFY(!QEXTTypeIsFloatingPoint<volatile QString>::value);
     QVERIFY(!QEXTTypeIsFloatingPoint<const volatile char>::value);
 }
 
@@ -246,7 +246,7 @@ void QEXTTypeTraitTest::testIsPointer()
     // Verify that QEXTTypeIsPointer is true for some pointer types.
     QVERIFY(QEXTTypeIsPointer<int *>::value);
     QVERIFY(QEXTTypeIsPointer<void *>::value);
-    QVERIFY(QEXTTypeIsPointer<std::string *>::value);
+    QVERIFY(QEXTTypeIsPointer<QString *>::value);
     QVERIFY(QEXTTypeIsPointer<const void *>::value);
     QVERIFY(QEXTTypeIsPointer<volatile float *const *>::value);
 
@@ -254,14 +254,14 @@ void QEXTTypeTraitTest::testIsPointer()
     QVERIFY(!QEXTTypeIsPointer<void>::value);
     QVERIFY(!QEXTTypeIsPointer<float &>::value);
     QVERIFY(!QEXTTypeIsPointer<long>::value);
-    QVERIFY(!QEXTTypeIsPointer<std::vector<int *> >::value);
+    QVERIFY(!QEXTTypeIsPointer<QVector<int *> >::value);
     QVERIFY(!QEXTTypeIsPointer<int[5]>::value);
 
     // A function pointer is a pointer, but a function type, or a function
     // reference type, is not.
     QVERIFY(QEXTTypeIsPointer<int (*)(int x)>::value);
     QVERIFY(!QEXTTypeIsPointer<void(char x)>::value);
-    QVERIFY(!QEXTTypeIsPointer<double (&)(std::string x)>::value);
+    QVERIFY(!QEXTTypeIsPointer<double (&)(QString x)>::value);
 
     // Verify that QEXTTypeIsPointer<T> is true for some cv-qualified pointer types,
     // and false for some cv-qualified non-pointer types.
@@ -269,7 +269,7 @@ void QEXTTypeTraitTest::testIsPointer()
     QVERIFY(QEXTTypeIsPointer<const void *volatile>::value);
     QVERIFY(QEXTTypeIsPointer<char **const volatile>::value);
     QVERIFY(!QEXTTypeIsPointer<const int>::value);
-    QVERIFY(!QEXTTypeIsPointer<volatile std::vector<int *> >::value);
+    QVERIFY(!QEXTTypeIsPointer<volatile QVector<int *> >::value);
     QVERIFY(!QEXTTypeIsPointer<const volatile double>::value);
 }
 
@@ -357,7 +357,7 @@ void QEXTTypeTraitTest::testIsPod()
     QVERIFY(QEXTTypeIsPod<float>::value);
     QVERIFY(QEXTTypeIsPod<double>::value);
     QVERIFY(QEXTTypeIsPod<long double>::value);
-    QVERIFY(QEXTTypeIsPod<std::string *>::value);
+    QVERIFY(QEXTTypeIsPod<QString *>::value);
     QVERIFY(QEXTTypeIsPod<A *>::value);
     QVERIFY(QEXTTypeIsPod<const B *>::value);
     QVERIFY(QEXTTypeIsPod<C **>::value);
@@ -373,12 +373,12 @@ void QEXTTypeTraitTest::testIsPod()
 
     // Verify that some non-POD types are not marked as PODs.
     QVERIFY(!QEXTTypeIsPod<void>::value);
-    QVERIFY(!QEXTTypeIsPod<std::string>::value);
-    QVERIFY(!(QEXTTypeIsPod<std::pair<int, int> >::value));
+    QVERIFY(!QEXTTypeIsPod<QString>::value);
+    QVERIFY(!(QEXTTypeIsPod<QPair<int, int> >::value));
     QVERIFY(!QEXTTypeIsPod<A>::value);
     QVERIFY(!QEXTTypeIsPod<B>::value);
     QVERIFY(!QEXTTypeIsPod<C>::value);
-    QVERIFY(!QEXTTypeIsPod<const std::string>::value);
+    QVERIFY(!QEXTTypeIsPod<const QString>::value);
     QVERIFY(!QEXTTypeIsPod<volatile A>::value);
     QVERIFY(!QEXTTypeIsPod<const volatile B>::value);
 }
@@ -400,7 +400,7 @@ void QEXTTypeTraitTest::testHasTrivialConstructor()
     QVERIFY(QEXTTypeHasTrivialConstructor<float>::value);
     QVERIFY(QEXTTypeHasTrivialConstructor<double>::value);
     QVERIFY(QEXTTypeHasTrivialConstructor<long double>::value);
-    QVERIFY(QEXTTypeHasTrivialConstructor<std::string *>::value);
+    QVERIFY(QEXTTypeHasTrivialConstructor<QString *>::value);
     QVERIFY(QEXTTypeHasTrivialConstructor<A *>::value);
     QVERIFY(QEXTTypeHasTrivialConstructor<const B *>::value);
     QVERIFY(QEXTTypeHasTrivialConstructor<C **>::value);
@@ -408,18 +408,18 @@ void QEXTTypeTraitTest::testHasTrivialConstructor()
     // Verify that pairs and arrays of such types have trivial
     // constructors.
     typedef int int10[10];
-    QVERIFY((QEXTTypeHasTrivialConstructor<std::pair<int, char *> >::value));
+    QVERIFY((QEXTTypeHasTrivialConstructor<QPair<int, char *> >::value));
     QVERIFY(QEXTTypeHasTrivialConstructor<int10>::value);
 
     // Verify that pairs of types without trivial constructors
     // are not marked as trivial.
-    QVERIFY(!(QEXTTypeHasTrivialConstructor<std::pair<int, std::string> >::value));
-    QVERIFY(!(QEXTTypeHasTrivialConstructor<std::pair<std::string, int> >::value));
+    QVERIFY(!(QEXTTypeHasTrivialConstructor<QPair<int, QString> >::value));
+    QVERIFY(!(QEXTTypeHasTrivialConstructor<QPair<QString, int> >::value));
 
     // Verify that types without trivial constructors are
     // correctly marked as such.
-    QVERIFY(!QEXTTypeHasTrivialConstructor<std::string>::value);
-    QVERIFY(!QEXTTypeHasTrivialConstructor<std::vector<int> >::value);
+    QVERIFY(!QEXTTypeHasTrivialConstructor<QString>::value);
+    QVERIFY(!QEXTTypeHasTrivialConstructor<QVector<int> >::value);
 
     // Verify that E, which we have declared to have a trivial
     // constructor, is correctly marked as such.
@@ -444,7 +444,7 @@ void QEXTTypeTraitTest::testHasTrivialCopy()
     QVERIFY(QEXTTypeHasTrivialCopy<float>::value);
     QVERIFY(QEXTTypeHasTrivialCopy<double>::value);
     QVERIFY(QEXTTypeHasTrivialCopy<long double>::value);
-    QVERIFY(QEXTTypeHasTrivialCopy<std::string *>::value);
+    QVERIFY(QEXTTypeHasTrivialCopy<QString *>::value);
     QVERIFY(QEXTTypeHasTrivialCopy<A *>::value);
     QVERIFY(QEXTTypeHasTrivialCopy<const B *>::value);
     QVERIFY(QEXTTypeHasTrivialCopy<C **>::value);
@@ -452,18 +452,18 @@ void QEXTTypeTraitTest::testHasTrivialCopy()
     // Verify that pairs and arrays of such types have trivial
     // copy constructors.
     typedef int int10[10];
-    QVERIFY((QEXTTypeHasTrivialCopy<std::pair<int, char *> >::value));
+    QVERIFY((QEXTTypeHasTrivialCopy<QPair<int, char *> >::value));
     QVERIFY(QEXTTypeHasTrivialCopy<int10>::value);
 
     // Verify that pairs of types without trivial copy constructors
     // are not marked as trivial.
-    QVERIFY(!(QEXTTypeHasTrivialCopy<std::pair<int, std::string> >::value));
-    QVERIFY(!(QEXTTypeHasTrivialCopy<std::pair<std::string, int> >::value));
+    QVERIFY(!(QEXTTypeHasTrivialCopy<QPair<int, QString> >::value));
+    QVERIFY(!(QEXTTypeHasTrivialCopy<QPair<QString, int> >::value));
 
     // Verify that types without trivial copy constructors are
     // correctly marked as such.
-    QVERIFY(!QEXTTypeHasTrivialCopy<std::string>::value);
-    QVERIFY(!QEXTTypeHasTrivialCopy<std::vector<int> >::value);
+    QVERIFY(!QEXTTypeHasTrivialCopy<QString>::value);
+    QVERIFY(!QEXTTypeHasTrivialCopy<QVector<int> >::value);
 
     // Verify that C, which we have declared to have a trivial
     // copy constructor, is correctly marked as such.
@@ -488,7 +488,7 @@ void QEXTTypeTraitTest::testHasTrivialAssign()
     QVERIFY(QEXTTypeHasTrivialAssign<float>::value);
     QVERIFY(QEXTTypeHasTrivialAssign<double>::value);
     QVERIFY(QEXTTypeHasTrivialAssign<long double>::value);
-    QVERIFY(QEXTTypeHasTrivialAssign<std::string *>::value);
+    QVERIFY(QEXTTypeHasTrivialAssign<QString *>::value);
     QVERIFY(QEXTTypeHasTrivialAssign<A *>::value);
     QVERIFY(QEXTTypeHasTrivialAssign<const B *>::value);
     QVERIFY(QEXTTypeHasTrivialAssign<C **>::value);
@@ -496,18 +496,18 @@ void QEXTTypeTraitTest::testHasTrivialAssign()
     // Verify that pairs and arrays of such types have trivial
     // assignment operators.
     typedef int int10[10];
-    QVERIFY((QEXTTypeHasTrivialAssign<std::pair<int, char *> >::value));
+    QVERIFY((QEXTTypeHasTrivialAssign<QPair<int, char *> >::value));
     QVERIFY(QEXTTypeHasTrivialAssign<int10>::value);
 
     // Verify that pairs of types without trivial assignment operators
     // are not marked as trivial.
-    QVERIFY(!(QEXTTypeHasTrivialAssign<std::pair<int, std::string> >::value));
-    QVERIFY(!(QEXTTypeHasTrivialAssign<std::pair<std::string, int> >::value));
+    QVERIFY(!(QEXTTypeHasTrivialAssign<QPair<int, QString> >::value));
+    QVERIFY(!(QEXTTypeHasTrivialAssign<QPair<QString, int> >::value));
 
     // Verify that types without trivial assignment operators are
     // correctly marked as such.
-    QVERIFY(!QEXTTypeHasTrivialAssign<std::string>::value);
-    QVERIFY(!QEXTTypeHasTrivialAssign<std::vector<int> >::value);
+    QVERIFY(!QEXTTypeHasTrivialAssign<QString>::value);
+    QVERIFY(!QEXTTypeHasTrivialAssign<QVector<int> >::value);
 
     // Verify that D, which we have declared to have a trivial
     // assignment operator, is correctly marked as such.
@@ -531,7 +531,7 @@ void QEXTTypeTraitTest::testHasTrivialDestructor()
     QVERIFY(QEXTTypeHasTrivialDestructor<float>::value);
     QVERIFY(QEXTTypeHasTrivialDestructor<double>::value);
     QVERIFY(QEXTTypeHasTrivialDestructor<long double>::value);
-    QVERIFY(QEXTTypeHasTrivialDestructor<std::string *>::value);
+    QVERIFY(QEXTTypeHasTrivialDestructor<QString *>::value);
     QVERIFY(QEXTTypeHasTrivialDestructor<A *>::value);
     QVERIFY(QEXTTypeHasTrivialDestructor<const B *>::value);
     QVERIFY(QEXTTypeHasTrivialDestructor<C **>::value);
@@ -539,18 +539,18 @@ void QEXTTypeTraitTest::testHasTrivialDestructor()
     // Verify that pairs and arrays of such types have trivial
     // destructors.
     typedef int int10[10];
-    QVERIFY((QEXTTypeHasTrivialDestructor<std::pair<int, char *> >::value));
+    QVERIFY((QEXTTypeHasTrivialDestructor<QPair<int, char *> >::value));
     QVERIFY(QEXTTypeHasTrivialDestructor<int10>::value);
 
     // Verify that pairs of types without trivial destructors
     // are not marked as trivial.
-    QVERIFY(!(QEXTTypeHasTrivialDestructor<std::pair<int, std::string> >::value));
-    QVERIFY(!(QEXTTypeHasTrivialDestructor<std::pair<std::string, int> >::value));
+    QVERIFY(!(QEXTTypeHasTrivialDestructor<QPair<int, QString> >::value));
+    QVERIFY(!(QEXTTypeHasTrivialDestructor<QPair<QString, int> >::value));
 
     // Verify that types without trivial destructors are
     // correctly marked as such.
-    QVERIFY(!QEXTTypeHasTrivialDestructor<std::string>::value);
-    QVERIFY(!QEXTTypeHasTrivialDestructor<std::vector<int> >::value);
+    QVERIFY(!QEXTTypeHasTrivialDestructor<QString>::value);
+    QVERIFY(!QEXTTypeHasTrivialDestructor<QVector<int> >::value);
 
     // Verify that F, which we have declared to have a trivial
     // destructor, is correctly marked as such.

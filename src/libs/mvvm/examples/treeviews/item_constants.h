@@ -17,16 +17,16 @@
 namespace Constants
 {
 
-const std::string MultiLayerItemType = "MultiLayer";
-const std::string LayerItemType = "Layer";
-const std::string ParticleItemType = "Particle";
-const std::string LatticeItemType = "Lattice";
+const QString MultiLayerItemType = "MultiLayer";
+const QString LayerItemType = "Layer";
+const QString ParticleItemType = "Particle";
+const QString LatticeItemType = "Lattice";
 
-const std::string CylinderItemType = "Cylinder";
-const std::string SphereItemType = "Sphere";
-const std::string AnysoPyramidItemType = "AnysoPyramid";
+const QString CylinderItemType = "Cylinder";
+const QString SphereItemType = "Sphere";
+const QString AnysoPyramidItemType = "AnysoPyramid";
 
-const std::string ShapeGroupItemType = "ShapeGroup";
+const QString ShapeGroupItemType = "ShapeGroup";
 
 } // namespace Constants
 

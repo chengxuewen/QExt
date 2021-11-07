@@ -22,23 +22,23 @@ namespace
 
 auto create_handle_data()
 {
-    std::vector<SizeHandleElement::HandleInfo> result = {
+    QVector<SizeHandleElement::HandleInfo> result = {
         {SizeHandleElement::TOPLEFT, Qt::SizeFDiagCursor, SizeHandleElement::BOTTOMRIGHT,
-         [](auto r) { return r.topLeft(); }},
+         [](const QRectF & r) -> QPointF { return r.topLeft(); }},
         {SizeHandleElement::TOPMIDDLE, Qt::SizeVerCursor, SizeHandleElement::BOTTOMMIDLE,
-         [](auto r) { return QPointF(r.x() + r.width() / 2., r.y()); }},
+         [](const QRectF & r) -> QPointF { return QPointF(r.x() + r.width() / 2., r.y()); }},
         {SizeHandleElement::TOPRIGHT, Qt::SizeBDiagCursor, SizeHandleElement::BOTTOMLEFT,
-         [](auto r) { return r.topRight(); }},
+         [](const QRectF & r) -> QPointF { return r.topRight(); }},
         {SizeHandleElement::MIDDLERIGHT, Qt::SizeHorCursor, SizeHandleElement::MIDDLELEFT,
-         [](auto r) { return QPointF(r.x() + r.width(), r.y() + r.height() / 2.); }},
+         [](const QRectF & r) -> QPointF { return QPointF(r.x() + r.width(), r.y() + r.height() / 2.); }},
         {SizeHandleElement::BOTTOMRIGHT, Qt::SizeFDiagCursor, SizeHandleElement::TOPLEFT,
-         [](auto r) { return r.bottomRight(); }},
+         [](const QRectF & r) -> QPointF { return r.bottomRight(); }},
         {SizeHandleElement::BOTTOMMIDLE, Qt::SizeVerCursor, SizeHandleElement::TOPMIDDLE,
-         [](auto r) { return QPointF(r.x() + r.width() / 2., r.y() + r.height()); }},
+         [](const QRectF & r) -> QPointF { return QPointF(r.x() + r.width() / 2., r.y() + r.height()); }},
         {SizeHandleElement::BOTTOMLEFT, Qt::SizeBDiagCursor, SizeHandleElement::TOPRIGHT,
-         [](auto r) { return r.bottomLeft(); }},
+         [](const QRectF & r) -> QPointF { return r.bottomLeft(); }},
         {SizeHandleElement::MIDDLELEFT, Qt::SizeHorCursor, SizeHandleElement::MIDDLERIGHT,
-         [](auto r) { return QPointF(r.x(), r.y() + r.height() / 2.); }}};
+         [](const QRectF & r) -> QPointF { return QPointF(r.x(), r.y() + r.height() / 2.); }}};
 
     return result;
 }
@@ -75,10 +75,10 @@ SizeHandleElement* SizeHandleElement::create(SizeHandleElement::EHandlePosition 
 
 //! Returns vector of all possible handle positions;
 
-std::vector<SizeHandleElement::EHandlePosition> SizeHandleElement::possible_handle_positions()
+QVector<SizeHandleElement::EHandlePosition> SizeHandleElement::possible_handle_positions()
 {
     static auto handle_data = create_handle_data();
-    std::vector<SizeHandleElement::EHandlePosition> result;
+    QVector<SizeHandleElement::EHandlePosition> result;
     std::transform(handle_data.begin(), handle_data.end(), std::back_inserter(result),
                    [](auto x) { return x.position; });
     return result;
@@ -114,7 +114,7 @@ SizeHandleElement::EHandlePosition SizeHandleElement::oppositeHandlePosition() c
 
 bool SizeHandleElement::isCornerHandle() const
 {
-    static std::vector<EHandlePosition> expected = {TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT};
+    static QVector<EHandlePosition> expected = {TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT};
     return ::contains(expected, info.position);
 }
 
@@ -122,7 +122,7 @@ bool SizeHandleElement::isCornerHandle() const
 
 bool SizeHandleElement::isVerticalHandle() const
 {
-    static std::vector<EHandlePosition> expected = {TOPMIDDLE, BOTTOMMIDLE};
+    static QVector<EHandlePosition> expected = {TOPMIDDLE, BOTTOMMIDLE};
     return ::contains(expected, info.position);
 }
 
@@ -130,7 +130,7 @@ bool SizeHandleElement::isVerticalHandle() const
 
 bool SizeHandleElement::isHorizontalHandle() const
 {
-    static std::vector<EHandlePosition> expected = {MIDDLELEFT, MIDDLERIGHT};
+    static QVector<EHandlePosition> expected = {MIDDLELEFT, MIDDLERIGHT};
     return ::contains(expected, info.position);
 }
 

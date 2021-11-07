@@ -21,25 +21,25 @@ namespace DragAndView
 
 //! Demo item which demonstrating supported properties.
 
-class DemoItem : public ModelView::QEXTMvvmCompoundItem
+class DemoItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_BOOL_PROPERTY = "P_BOOL_PROPERTY";
-    static inline const std::string P_INTEGER_PROPERTY = "P_INTEGER_PROPERTY";
-    static inline const std::string P_STRING_PROPERTY = "P_STRING_PROPERTY";
-    static inline const std::string P_DOUBLE_PROPERTY = "P_DOUBLE_PROPERTY";
-    static inline const std::string P_COLOR_PROPERTY = "P_COLOR_PROPERTY";
-    static inline const std::string P_COMBO_PROPERTY = "P_COMBO_PROPERTY";
+    static inline const QString P_BOOL_PROPERTY = "P_BOOL_PROPERTY";
+    static inline const QString P_INTEGER_PROPERTY = "P_INTEGER_PROPERTY";
+    static inline const QString P_STRING_PROPERTY = "P_STRING_PROPERTY";
+    static inline const QString P_DOUBLE_PROPERTY = "P_DOUBLE_PROPERTY";
+    static inline const QString P_COLOR_PROPERTY = "P_COLOR_PROPERTY";
+    static inline const QString P_COMBO_PROPERTY = "P_COMBO_PROPERTY";
 
     DemoItem();
 };
 
 //! Container to hold demo items
 
-class DemoContainerItem : public ModelView::QEXTMvvmCompoundItem
+class DemoContainerItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string T_ITEMS = "T_ITEMS";
+    static inline const QString T_ITEMS = "T_ITEMS";
 
     DemoContainerItem();
 };

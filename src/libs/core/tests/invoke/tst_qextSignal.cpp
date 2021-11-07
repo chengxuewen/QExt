@@ -1,5 +1,5 @@
 #include <qextSignal.h>
-#include <qextSlot.h>
+#include <qextFunction.h>
 #include <qextBindFunctor.h>
 #include <qextPointerFunctor.h>
 #include <qextMemberFunctor.h>
@@ -11,7 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <vector>
+#include <QVector>
 #include <string.h>
 #include <stdio.h>
 
@@ -146,7 +146,7 @@ struct arithmetic_mean_accumulator
 template<typename  Ret>
 struct vector_accumulator
 {
-    typedef std::vector<Ret> Return;
+    typedef QVector<Ret> Return;
 
     template<typename T_iterator>
     Return operator()(T_iterator first, T_iterator last) const
@@ -420,9 +420,9 @@ void QEXTSignalTest::testAccumulated()
     sprintf(buf, "%.3f", dres);
     QVERIFY("97.333" == std::string(buf));
 
-    std::vector<int> res1 = sig_vec(1);
+    QVector<int> res1 = sig_vec(1);
     *sg_string = "";
-    for (std::vector<int>::iterator i = res1.begin(); i != res1.end(); ++i)
+    for (QVector<int>::iterator i = res1.begin(); i != res1.end(); ++i)
     {
         std::stringstream sstream;
         sstream << *i << " ";
@@ -430,9 +430,9 @@ void QEXTSignalTest::testAccumulated()
     }
     QVERIFY("4 6 2 " == *sg_string);
 
-    std::vector<int> res3 = sig_vec(3);
+    QVector<int> res3 = sig_vec(3);
     *sg_string = "";
-    for (std::vector<int>::iterator i = res3.begin(); i != res3.end(); ++i)
+    for (QVector<int>::iterator i = res3.begin(); i != res3.end(); ++i)
     {
         std::stringstream sstream;
         sstream << *i << " ";

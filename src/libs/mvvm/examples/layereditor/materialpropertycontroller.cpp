@@ -11,19 +11,19 @@
 #include "materialpropertycontroller.h"
 #include "samplemodel.h"
 #include <qextMvvmExternalProperty.h>
-#include <model/qextMvvmModelUtils.h>
+#include <qextMvvmUtils.h>
 #include <qextMvvmModelMapper.h>
 
-using namespace ModelView;
+
 
 MaterialPropertyController::MaterialPropertyController(MaterialModel* material_model,
                                                        SampleModel* sample_model)
     : QEXTMvvmModelListener(material_model), m_sample_model(sample_model)
 {
-    setOnDataChange([this](auto, auto) { update_all(); });
-    setOnItemInserted([this](auto, auto) { update_all(); });
-    setOnItemRemoved([this](auto, auto) { update_all(); });
-    setOnModelReset([this](auto) { update_all(); });
+    addItemDataChangedListener([this](auto, auto) { update_all(); });
+    addItemInsertedListener([this](auto, auto) { update_all(); });
+    addItemRemovedListener([this](auto, auto) { update_all(); });
+    addModelResetedListener([this](auto) { update_all(); });
     update_all();
 }
 
@@ -31,7 +31,7 @@ MaterialPropertyController::MaterialPropertyController(MaterialModel* material_m
 
 void MaterialPropertyController::update_all()
 {
-    for (auto layer : Utils::FindItems<LayerItem>(m_sample_model)) {
+    for (auto layer : QEXTMvvmUtils::FindItems<LayerItem>(m_sample_model)) {
         auto property = layer->property<QEXTMvvmExternalProperty>(LayerItem::P_MATERIAL);
         auto updated = model()->material_property(property.identifier());
         if (property != updated)

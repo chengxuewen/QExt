@@ -12,13 +12,13 @@
 
 namespace
 {
-const double default_axis_min = 0.0;
-const double default_axis_max = 1.0;
+    const double default_axis_min = 0.0;
+    const double default_axis_max = 1.0;
 } // namespace
 
-using namespace ModelView;
 
-QEXTMvvmBasicAxisItem::QEXTMvvmBasicAxisItem(const std::string& QEXTMvvmModelType) : QEXTMvvmCompoundItem(QEXTMvvmModelType) {}
+
+QEXTMvvmBasicAxisItem::QEXTMvvmBasicAxisItem(const QString &QString) : QEXTMvvmCompoundItem(QString) {}
 
 void QEXTMvvmBasicAxisItem::register_min_max()
 {
@@ -28,7 +28,7 @@ void QEXTMvvmBasicAxisItem::register_min_max()
 
 // --- QEXTMvvmViewportAxisItem ------------------------------------------------------
 
-QEXTMvvmViewportAxisItem::QEXTMvvmViewportAxisItem(const std::string& QEXTMvvmModelType) : QEXTMvvmBasicAxisItem(QEXTMvvmModelType)
+QEXTMvvmViewportAxisItem::QEXTMvvmViewportAxisItem(const QString &QString) : QEXTMvvmBasicAxisItem(QString)
 {
     addProperty<QEXTMvvmTextItem>(P_TITLE)->setDisplayName("Title");
     register_min_max();
@@ -37,9 +37,9 @@ QEXTMvvmViewportAxisItem::QEXTMvvmViewportAxisItem(const std::string& QEXTMvvmMo
 
 //! Returns pair of lower, upper axis range.
 
-std::pair<double, double> QEXTMvvmViewportAxisItem::range() const
+QPair<double, double> QEXTMvvmViewportAxisItem::range() const
 {
-    return std::make_pair(property<double>(P_MIN), property<double>(P_MAX));
+    return QPair<double, double>(property<double>(P_MIN), property<double>(P_MAX));
 }
 
 //! Sets lower, upper range of axis to given values.
@@ -57,11 +57,11 @@ bool QEXTMvvmViewportAxisItem::is_in_log() const
 
 // --- QEXTMvvmBinnedAxisItem ------------------------------------------------------
 
-QEXTMvvmBinnedAxisItem::QEXTMvvmBinnedAxisItem(const std::string& QEXTMvvmModelType) : QEXTMvvmBasicAxisItem(QEXTMvvmModelType) {}
+QEXTMvvmBinnedAxisItem::QEXTMvvmBinnedAxisItem(const QString &QString) : QEXTMvvmBasicAxisItem(QString) {}
 
 // --- QEXTMvvmFixedBinAxisItem ------------------------------------------------------
 
-QEXTMvvmFixedBinAxisItem::QEXTMvvmFixedBinAxisItem(const std::string& QEXTMvvmModelType) : QEXTMvvmBinnedAxisItem(QEXTMvvmModelType)
+QEXTMvvmFixedBinAxisItem::QEXTMvvmFixedBinAxisItem(const QString &QString) : QEXTMvvmBinnedAxisItem(QString)
 {
     addProperty(P_NBINS, 1)->setDisplayName("Nbins");
     register_min_max();
@@ -74,16 +74,16 @@ void QEXTMvvmFixedBinAxisItem::setParameters(int nbins, double xmin, double xmax
     setProperty(P_MAX, xmax);
 }
 
-std::unique_ptr<QEXTMvvmFixedBinAxisItem> QEXTMvvmFixedBinAxisItem::create(int nbins, double xmin, double xmax)
+QEXTMvvmFixedBinAxisItem *QEXTMvvmFixedBinAxisItem::create(int nbins, double xmin, double xmax)
 {
-    auto result = std::make_unique<QEXTMvvmFixedBinAxisItem>();
+    QEXTMvvmFixedBinAxisItem *result = new QEXTMvvmFixedBinAxisItem;
     result->setParameters(nbins, xmin, xmax);
     return result;
 }
 
-std::pair<double, double> QEXTMvvmFixedBinAxisItem::range() const
+QPair<double, double> QEXTMvvmFixedBinAxisItem::range() const
 {
-    return std::make_pair(property<double>(P_MIN), property<double>(P_MAX));
+    return QPair<double, double>(property<double>(P_MIN), property<double>(P_MAX));
 }
 
 int QEXTMvvmFixedBinAxisItem::size() const
@@ -91,47 +91,50 @@ int QEXTMvvmFixedBinAxisItem::size() const
     return property<int>(P_NBINS);
 }
 
-std::vector<double> QEXTMvvmFixedBinAxisItem::binCenters() const
+QVector<double> QEXTMvvmFixedBinAxisItem::binCenters() const
 {
-    std::vector<double> result;
+    QVector<double> result;
     int nbins = property<int>(P_NBINS);
     double start = property<double>(P_MIN);
     double end = property<double>(P_MAX);
     double step = (end - start) / nbins;
 
-    result.resize(static_cast<size_t>(nbins), 0.0);
+    result.resize(nbins);
+    result.fill(0.0);
     for (size_t i = 0; i < static_cast<size_t>(nbins); ++i)
+    {
         result[i] = start + step * (i + 0.5);
+    }
 
     return result;
 }
 
 // --- QEXTMvvmPointwiseAxisItem ------------------------------------------------------
 
-QEXTMvvmPointwiseAxisItem::QEXTMvvmPointwiseAxisItem(const std::string& QEXTMvvmModelType) : QEXTMvvmBinnedAxisItem(QEXTMvvmModelType)
+QEXTMvvmPointwiseAxisItem::QEXTMvvmPointwiseAxisItem(const QString &QString) : QEXTMvvmBinnedAxisItem(QString)
 {
     // vector of points matching default xmin, xmax
-    setData(std::vector<double>{default_axis_min, default_axis_max});
+    setData(QVector<double> {default_axis_min, default_axis_max});
     setEditable(false); // prevent editing in widgets, since there is no corresponding editor
 }
 
-void QEXTMvvmPointwiseAxisItem::setParameters(const std::vector<double>& data)
+void QEXTMvvmPointwiseAxisItem::setParameters(const QVector<double> &data)
 {
     setData(data);
 }
 
-std::unique_ptr<QEXTMvvmPointwiseAxisItem> QEXTMvvmPointwiseAxisItem::create(const std::vector<double>& data)
+QEXTMvvmPointwiseAxisItem *QEXTMvvmPointwiseAxisItem::create(const QVector<double> &data)
 {
-    auto result = std::make_unique<QEXTMvvmPointwiseAxisItem>();
+    QEXTMvvmPointwiseAxisItem *result = new QEXTMvvmPointwiseAxisItem;
     result->setParameters(data);
     return result;
 }
 
-std::pair<double, double> QEXTMvvmPointwiseAxisItem::range() const
+QPair<double, double> QEXTMvvmPointwiseAxisItem::range() const
 {
     auto data = binCenters();
-    return binCenters().empty() ? std::make_pair(default_axis_min, default_axis_max)
-                                : std::make_pair(data.front(), data.back());
+    return this->binCenters().empty() ? QPair<double, double>(default_axis_min, default_axis_max)
+                                      : QPair<double, double>(data.front(), data.back());
 }
 
 int QEXTMvvmPointwiseAxisItem::size() const
@@ -139,7 +142,7 @@ int QEXTMvvmPointwiseAxisItem::size() const
     return binCenters().size();
 }
 
-std::vector<double> QEXTMvvmPointwiseAxisItem::binCenters() const
+QVector<double> QEXTMvvmPointwiseAxisItem::binCenters() const
 {
-    return data<std::vector<double>>();
+    return data<QVector<double>>();
 }

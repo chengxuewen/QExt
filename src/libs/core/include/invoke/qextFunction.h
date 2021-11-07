@@ -1,72 +1,89 @@
-/*************************************************************************************
-**
-** Library: QEXT
-**
-** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
-**
-** License: MIT License
-**
-** Permission is hereby granted, free of charge, to any person obtaining
-** a copy of this software and associated documentation files (the "Software"),
-** to deal in the Software without restriction, including without limitation
-** the rights to use, copy, modify, merge, publish, distribute, sublicense,
-** and/or sell copies of the Software, and to permit persons to whom the
-** Software is furnished to do so, subject to the following conditions:
-**
-** The above copyright notice and this permission notice shall be included in
-** all copies or substantial portions of the Software.
-**
-** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-** SOFTWARE.
-**
-*************************************************************************************/
-
 #ifndef _QEXTFUNCTION_H
 #define _QEXTFUNCTION_H
 
 #include <qextGlobal.h>
-#include <qextAdaptorTrait.h>
-#include <qextLimitReference.h>
-#include <qextMemberFunctor.h>
-#include <qextPointerFunctor.h>
 #include <qextTypeTrait.h>
+#include <qextAdaptorTrait.h>
+#include <qextPointerFunctor.h>
+#include <qextMemberFunctor.h>
 
 #include <QObject>
-#include <QSharedPointer>
+#include <QPointer>
+#include <QSet>
 
 QEXT_WARNING_DISABLE_GCC("-Wcast-function-type")
 
 namespace qextPrivate
 {
 
-    struct QEXTFunctionData
+    struct QEXT_CORE_API QEXTFunctionData
     {
+        QEXTFunctionData();
+        QEXTFunctionData(const QEXTFunctionData &other);
         virtual ~QEXTFunctionData() {}
+
+        QEXTFunctionData &operator=(const QEXTFunctionData &other);
+
+        bool operator==(const QEXTFunctionData &other) const;
+        bool operator!=(const QEXTFunctionData &other) const;
+
+        QAtomicInt m_trackable;
+        QList<QPointer< QObject > > m_objectList;
     };
 
-    class QEXTFunctionBase
+    class QEXT_CORE_API QEXTFunctionBase
     {
     public:
         typedef void *(*HookFunction)(void *);
 
-        QEXTFunctionBase() : m_callFunc(QEXT_DECL_NULLPTR) {}
-        QEXTFunctionBase(const QSharedPointer< QEXTFunctionData > &data) : m_callFunc(QEXT_DECL_NULLPTR), m_data(data) {}
-        QEXTFunctionBase(const QEXTFunctionBase &other) : m_callFunc(other.m_callFunc), m_data(other.m_data) {}
+        QEXTFunctionBase();
+        QEXTFunctionBase(const QSharedPointer< QEXTFunctionData > &data);
+        QEXTFunctionBase(const QEXTFunctionBase &other);
         virtual ~QEXTFunctionBase() {}
 
-        bool isValid() const
-        {
-            return QEXT_DECL_NULLPTR != m_callFunc && !m_data.isNull();
-        }
+        QEXTFunctionBase &operator=(const QEXTFunctionBase &other);
 
-    protected:
+        bool operator==(const QEXTFunctionBase &other) const;
+        bool operator!=(const QEXTFunctionBase &other) const;
+
+        bool isNull() const;
+        bool isTrackable() const;
+        bool isValid() const;
+
+        bool isBlocked() const;
+        bool setBlock(bool block = true);
+        bool unblock();
+
+        void setParent(void *parent, HookFunction cleanup);
+        bool isConnected() const;
+        void disconnect();
+
+    public:
+        friend struct QEXTFunctionObjectBind;
+        QAtomicInt m_blocked;
+        void *m_parent;
+        HookFunction m_cleanupFunc;
+
         HookFunction m_callFunc;
         mutable QSharedPointer< QEXTFunctionData > m_data;
+    };
+
+    struct QEXTFunctionObjectBind
+    {
+        QEXTFunctionObjectBind(QEXTFunctionData *data) : m_data(data) {}
+        virtual ~QEXTFunctionObjectBind() {}
+
+        void operator()(const QObject *object) const
+        {
+            if (object)
+            {
+                QObject *obj = const_cast< QObject * >(object);
+                m_data->m_trackable = QEXT_ATOMIC_INT_TRUE;
+                m_data->m_objectList.append(QPointer<QObject>(obj));
+            }
+        }
+
+        QEXTFunctionData *m_data;
     };
 
     template < typename T_functor >
@@ -75,8 +92,11 @@ namespace qextPrivate
         typedef QEXTFunctionFunctorData< T_functor > Self;
         typedef typename QEXTAdaptorTrait< T_functor >::Adaptor Adaptor;
 
-        QEXTFunctionFunctorData(const T_functor &functor) : m_functor(functor) {}
-        QEXTFunctionFunctorData(const QEXTFunctionFunctorData &other) : m_functor(other.m_functor) {}
+        QEXTFunctionFunctorData(const T_functor &functor) : m_functor(functor)
+        {
+            qextVisitEachType< QObject * >(QEXTFunctionObjectBind(this), functor);
+        }
+        QEXTFunctionFunctorData(const QEXTFunctionFunctorData &other) : QEXTFunctionData(other), m_functor(other.m_functor) {}
 
         Adaptor m_functor;
     };
@@ -106,14 +126,14 @@ namespace qextPrivate
             typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
-                .template operator()<
-                    typename QEXTTypeTrait< T_arg1 >::Take,
-                    typename QEXTTypeTrait< T_arg2 >::Take,
-                    typename QEXTTypeTrait< T_arg3 >::Take,
-                    typename QEXTTypeTrait< T_arg4 >::Take,
-                    typename QEXTTypeTrait< T_arg5 >::Take,
-                    typename QEXTTypeTrait< T_arg6 >::Take,
-                    typename QEXTTypeTrait< T_arg7 >::Take >(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+                   .template operator() <
+                   typename QEXTTypeTrait< T_arg1 >::Take,
+                   typename QEXTTypeTrait< T_arg2 >::Take,
+                   typename QEXTTypeTrait< T_arg3 >::Take,
+                   typename QEXTTypeTrait< T_arg4 >::Take,
+                   typename QEXTTypeTrait< T_arg5 >::Take,
+                   typename QEXTTypeTrait< T_arg6 >::Take,
+                   typename QEXTTypeTrait< T_arg7 >::Take > (arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
 
         static QEXTFunctionBase::HookFunction address()
@@ -137,13 +157,13 @@ namespace qextPrivate
             typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
-                .template operator()<
-                    typename QEXTTypeTrait< T_arg1 >::Take,
-                    typename QEXTTypeTrait< T_arg2 >::Take,
-                    typename QEXTTypeTrait< T_arg3 >::Take,
-                    typename QEXTTypeTrait< T_arg4 >::Take,
-                    typename QEXTTypeTrait< T_arg5 >::Take,
-                    typename QEXTTypeTrait< T_arg6 >::Take >(arg1, arg2, arg3, arg4, arg5, arg6);
+                   .template operator() <
+                   typename QEXTTypeTrait< T_arg1 >::Take,
+                   typename QEXTTypeTrait< T_arg2 >::Take,
+                   typename QEXTTypeTrait< T_arg3 >::Take,
+                   typename QEXTTypeTrait< T_arg4 >::Take,
+                   typename QEXTTypeTrait< T_arg5 >::Take,
+                   typename QEXTTypeTrait< T_arg6 >::Take > (arg1, arg2, arg3, arg4, arg5, arg6);
         }
 
         static QEXTFunctionBase::HookFunction address()
@@ -166,12 +186,12 @@ namespace qextPrivate
             typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
-                .template operator()<
-                    typename QEXTTypeTrait< T_arg1 >::Take,
-                    typename QEXTTypeTrait< T_arg2 >::Take,
-                    typename QEXTTypeTrait< T_arg3 >::Take,
-                    typename QEXTTypeTrait< T_arg4 >::Take,
-                    typename QEXTTypeTrait< T_arg5 >::Take >(arg1, arg2, arg3, arg4, arg5);
+                   .template operator() <
+                   typename QEXTTypeTrait< T_arg1 >::Take,
+                   typename QEXTTypeTrait< T_arg2 >::Take,
+                   typename QEXTTypeTrait< T_arg3 >::Take,
+                   typename QEXTTypeTrait< T_arg4 >::Take,
+                   typename QEXTTypeTrait< T_arg5 >::Take > (arg1, arg2, arg3, arg4, arg5);
         }
 
         static QEXTFunctionBase::HookFunction address()
@@ -193,11 +213,11 @@ namespace qextPrivate
             typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
-                .template operator()<
-                    typename QEXTTypeTrait< T_arg1 >::Take,
-                    typename QEXTTypeTrait< T_arg2 >::Take,
-                    typename QEXTTypeTrait< T_arg3 >::Take,
-                    typename QEXTTypeTrait< T_arg4 >::Take >(arg1, arg2, arg3, arg4);
+                   .template operator() <
+                   typename QEXTTypeTrait< T_arg1 >::Take,
+                   typename QEXTTypeTrait< T_arg2 >::Take,
+                   typename QEXTTypeTrait< T_arg3 >::Take,
+                   typename QEXTTypeTrait< T_arg4 >::Take > (arg1, arg2, arg3, arg4);
         }
 
         static QEXTFunctionBase::HookFunction address()
@@ -218,8 +238,8 @@ namespace qextPrivate
             typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
-                .template operator()< typename QEXTTypeTrait< T_arg1 >::Take, typename QEXTTypeTrait< T_arg2 >::Take, typename QEXTTypeTrait< T_arg3 >::Take >(
-                    arg1, arg2, arg3);
+                   .template operator()< typename QEXTTypeTrait< T_arg1 >::Take, typename QEXTTypeTrait< T_arg2 >::Take, typename QEXTTypeTrait< T_arg3 >::Take >(
+                       arg1, arg2, arg3);
         }
 
         static QEXTFunctionBase::HookFunction address()
@@ -237,7 +257,7 @@ namespace qextPrivate
             typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
-                .template operator()< typename QEXTTypeTrait< T_arg1 >::Take, typename QEXTTypeTrait< T_arg2 >::Take >(arg1, arg2);
+                   .template operator()< typename QEXTTypeTrait< T_arg1 >::Take, typename QEXTTypeTrait< T_arg2 >::Take >(arg1, arg2);
         }
 
         static QEXTFunctionBase::HookFunction address()
@@ -295,7 +315,8 @@ namespace qextPrivate
 
         QEXTFunction7() {}
         template < typename T_functor >
-        QEXTFunction7(const T_functor &functor) : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QEXTFunction7(const T_functor &functor)
+            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
         {
             m_callFunc = qextPrivate::QEXTFunctionCall7< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::address();
         }
@@ -327,7 +348,8 @@ namespace qextPrivate
 
         QEXTFunction6() {}
         template < typename T_functor >
-        QEXTFunction6(const T_functor &functor) : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QEXTFunction6(const T_functor &functor)
+            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
         {
             m_callFunc = qextPrivate::QEXTFunctionCall6< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >::address();
         }
@@ -358,7 +380,8 @@ namespace qextPrivate
 
         QEXTFunction5() {}
         template < typename T_functor >
-        QEXTFunction5(const T_functor &functor) : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QEXTFunction5(const T_functor &functor)
+            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
         {
             m_callFunc = qextPrivate::QEXTFunctionCall5< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >::address();
         }
@@ -388,7 +411,8 @@ namespace qextPrivate
 
         QEXTFunction4() {}
         template < typename T_functor >
-        QEXTFunction4(const T_functor &functor) : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QEXTFunction4(const T_functor &functor)
+            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
         {
             m_callFunc = qextPrivate::QEXTFunctionCall4< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4 >::address();
         }
@@ -417,7 +441,8 @@ namespace qextPrivate
 
         QEXTFunction3() {}
         template < typename T_functor >
-        QEXTFunction3(const T_functor &functor) : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QEXTFunction3(const T_functor &functor)
+            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
         {
             m_callFunc = qextPrivate::QEXTFunctionCall3< T_functor, T_return, T_arg1, T_arg2, T_arg3 >::address();
         }
@@ -445,7 +470,8 @@ namespace qextPrivate
 
         QEXTFunction2() {}
         template < typename T_functor >
-        QEXTFunction2(const T_functor &functor) : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QEXTFunction2(const T_functor &functor)
+            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
         {
             m_callFunc = qextPrivate::QEXTFunctionCall2< T_functor, T_return, T_arg1, T_arg2 >::address();
         }
@@ -472,7 +498,8 @@ namespace qextPrivate
 
         QEXTFunction1() {}
         template < typename T_functor >
-        QEXTFunction1(const T_functor &functor) : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QEXTFunction1(const T_functor &functor)
+            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
         {
             m_callFunc = qextPrivate::QEXTFunctionCall1< T_functor, T_return, T_arg1 >::address();
         }
@@ -498,7 +525,8 @@ namespace qextPrivate
 
         QEXTFunction0() {}
         template < typename T_functor >
-        QEXTFunction0(const T_functor &functor) : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QEXTFunction0(const T_functor &functor)
+            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
         {
             m_callFunc = qextPrivate::QEXTFunctionCall0< T_functor, T_return >::address();
         }
@@ -516,8 +544,6 @@ namespace qextPrivate
 
 } // namespace qextPrivate
 
-
-
 template <
     typename T_return,
     typename T_arg1 = QEXTNil,
@@ -533,6 +559,10 @@ public:
     typedef qextPrivate::QEXTFunction7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Base;
 
     QEXTFunction() {}
+    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7))
+        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(func))
+    {
+    }
     template < typename T_functor >
     QEXTFunction(const T_functor &functor) : Base(functor)
     {
@@ -568,12 +598,14 @@ public:
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const volatile)
+    QEXTFunction(
+        T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const volatile)
         : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const volatile)
+    QEXTFunction(
+        T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const volatile)
         : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
     {
     }
@@ -593,6 +625,10 @@ public:
     typedef qextPrivate::QEXTFunction6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 > Base;
 
     QEXTFunction() {}
+    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6))
+        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(func))
+    {
+    }
     template < typename T_functor >
     QEXTFunction(const T_functor &functor) : Base(functor)
     {
@@ -653,6 +689,10 @@ public:
     typedef qextPrivate::QEXTFunction5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 > Base;
 
     QEXTFunction() {}
+    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5))
+        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(func))
+    {
+    }
     template < typename T_functor >
     QEXTFunction(const T_functor &functor) : Base(functor)
     {
@@ -706,12 +746,17 @@ public:
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
-class QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil > : public qextPrivate::QEXTFunction4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >
+class QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil >
+    : public qextPrivate::QEXTFunction4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >
 {
 public:
     typedef qextPrivate::QEXTFunction4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 > Base;
 
     QEXTFunction() {}
+    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4))
+        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >(func))
+    {
+    }
     template < typename T_functor >
     QEXTFunction(const T_functor &functor) : Base(functor)
     {
@@ -771,6 +816,10 @@ public:
     typedef qextPrivate::QEXTFunction3< T_return, T_arg1, T_arg2, T_arg3 > Base;
 
     QEXTFunction() {}
+    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3))
+        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3 >(func))
+    {
+    }
     template < typename T_functor >
     QEXTFunction(const T_functor &functor) : Base(functor)
     {
@@ -830,6 +879,10 @@ public:
     typedef qextPrivate::QEXTFunction2< T_return, T_arg1, T_arg2 > Base;
 
     QEXTFunction() {}
+    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2))
+        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2 >(func))
+    {
+    }
     template < typename T_functor >
     QEXTFunction(const T_functor &functor) : Base(functor)
     {
@@ -887,6 +940,10 @@ public:
     typedef qextPrivate::QEXTFunction1< T_return, T_arg1 > Base;
 
     QEXTFunction() {}
+    QEXTFunction(T_return (*func)(T_arg1 arg1))
+        : Base(QEXTPointerFunctor< T_return, T_arg1 >(func))
+    {
+    }
     template < typename T_functor >
     QEXTFunction(const T_functor &functor) : Base(functor)
     {
@@ -916,11 +973,13 @@ public:
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1) const volatile) : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
+    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1) const volatile)
+        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1) const volatile) : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
+    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1) const volatile)
+        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
     {
     }
     QEXTFunction(const QEXTFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
@@ -938,11 +997,14 @@ public:
     typedef qextPrivate::QEXTFunction0< T_return > Base;
 
     QEXTFunction() {}
+    QEXTFunction(T_return (*func)())
+        : Base(QEXTPointerFunctor< T_return >(func))
+    {
+    }
     template < typename T_functor >
     QEXTFunction(const T_functor &functor) : Base(functor)
     {
     }
-    QEXTFunction(T_return (*func)()) : Base(QEXTPointerFunctor< T_return >(func)) {}
     template < typename T_obj >
     QEXTFunction(T_obj *obj, T_return (T_obj::*func)()) : Base(QEXTBoundMemberFunctor< T_return, T_obj >(obj, func))
     {
@@ -982,7 +1044,6 @@ public:
         return Base::operator()();
     }
 };
-
 
 
 #endif // _QEXTFUNCTION_H

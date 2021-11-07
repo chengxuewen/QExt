@@ -3,7 +3,7 @@
 
 #include <qextGlobal.h>
 #include <qextMemberFunctor.h>
-#include <qextSlot.h>
+#include <qextFunction.h>
 #include <qextTypeTrait.h>
 
 #include <QAtomicInt>
@@ -21,12 +21,12 @@ namespace qextPrivate
     struct QEXT_CORE_API QEXTSignalData
     {
         typedef std::size_t                     Size;
-        typedef std::list<QEXTSlotBase>           SlotList;
+        typedef QList<QEXTFunctionBase>           SlotList;
         typedef SlotList::iterator              Iterator;
         typedef SlotList::const_iterator        ConstIterator;
         typedef QEXTSignalData                    Self;
-        typedef std::pair<Self *, Iterator>     SelfIterator;
-        typedef std::list<SelfIterator>         SelfIteratorList;
+        typedef QPair<Self *, Iterator>     SelfIterator;
+        typedef QList<SelfIterator>         SelfIteratorList;
 
         QEXTSignalData();
         virtual ~QEXTSignalData();
@@ -101,7 +101,7 @@ namespace qextPrivate
          * If @e block is @p true then the blocking state is set.
          * Subsequent emissions of the signal don't invoke the functors
          * contained in the slots until setBlock() with @e block = @p false is called.
-         * QEXTSlotBase::setBlock() and QEXTSlotBase::unblock() can change the
+         * QEXTFunctionBase::setBlock() and QEXTFunctionBase::unblock() can change the
          * blocking state of individual slots.
          * @param block Indicates whether the blocking state should be set or unset.
          */
@@ -111,13 +111,13 @@ namespace qextPrivate
          * @param slot The slot to add to the list of slots.
          * @return An iterator pointing to the new slot in the list.
          */
-        Iterator connect(const QEXTSlotBase &slot);
+        Iterator connect(const QEXTFunctionBase &slot);
         /** Adds a slot at the given position into the list of slots.
          * @param iter An iterator indicating the position where @p slot should be inserted.
          * @param slot The slot to add to the list of slots.
          * @return An iterator pointing to the new slot in the list.
          */
-        Iterator insert(Iterator iter, const QEXTSlotBase &slot);
+        Iterator insert(Iterator iter, const QEXTFunctionBase &slot);
 
         /** Removes the slot at the given position from the list of slots.
          * @param iter An iterator pointing to the slot to be removed.
@@ -187,7 +187,7 @@ namespace qextPrivate
          * Subsequent emissions of the signal don't invoke the functors
          * contained in the slots until unblock() or block() with
          * @e should_block = @p false is called.
-         * QEXTSlotBase::setBlock() and QEXTSlotBase::unblock() can change the
+         * QEXTFunctionBase::setBlock() and QEXTFunctionBase::unblock() can change the
          * blocking state of individual slots.
          * @param block Indicates whether the blocking state should be set or unset.
          */
@@ -204,14 +204,14 @@ namespace qextPrivate
          * @param slot_ The slot to add to the list of slots.
          * @return An iterator pointing to the new slot in the list.
          */
-        Iterator connect(const QEXTSlotBase &slot);
+        Iterator connect(const QEXTFunctionBase &slot);
         /** Adds a slot at the given position into the list of slots.
          * Note that this function does not work during signal send!
          * @param iter An iterator indicating the position where @e slot should be inserted.
          * @param slot The slot to add to the list of slots.
          * @return An iterator pointing to the new slot in the list.
          */
-        Iterator insert(Iterator iter, const QEXTSlotBase &slot);
+        Iterator insert(Iterator iter, const QEXTFunctionBase &slot);
         /** Removes the slot at the given position from the list of slots.
          * Note that this function does not work during signal send!
          * @param iter An iterator pointing to the slot to be removed.
@@ -248,7 +248,7 @@ namespace qextPrivate
 
 
     template < typename T_slot >
-    struct QEXTSlotIterator
+    struct QEXTFunctionIterator
     {
         typedef std::size_t Size;
         typedef T_slot      Slot;
@@ -258,8 +258,8 @@ namespace qextPrivate
 
         typedef typename qextPrivate::QEXTSignalData::Iterator Iterator;
 
-        QEXTSlotIterator() {}
-        explicit QEXTSlotIterator(const Iterator &iter) : m_iter(iter) {}
+        QEXTFunctionIterator() {}
+        explicit QEXTFunctionIterator(const Iterator &iter) : m_iter(iter) {}
 
         Reference operator*() const
         {
@@ -271,38 +271,38 @@ namespace qextPrivate
             return &(operator*());
         }
 
-        QEXTSlotIterator &operator++()
+        QEXTFunctionIterator &operator++()
         {
             ++m_iter;
             return *this;
         }
 
-        QEXTSlotIterator operator++(int)
+        QEXTFunctionIterator operator++(int)
         {
-            QEXTSlotIterator tmpIter(*this);
+            QEXTFunctionIterator tmpIter(*this);
             ++m_iter;
             return tmpIter;
         }
 
-        QEXTSlotIterator &operator--()
+        QEXTFunctionIterator &operator--()
         {
             --m_iter;
             return *this;
         }
 
-        QEXTSlotIterator operator--(int)
+        QEXTFunctionIterator operator--(int)
         {
-            QEXTSlotIterator tmpIter(*this);
+            QEXTFunctionIterator tmpIter(*this);
             --m_iter;
             return tmpIter;
         }
 
-        bool operator==(const QEXTSlotIterator &other) const
+        bool operator==(const QEXTFunctionIterator &other) const
         {
             return m_iter == other.m_iter;
         }
 
-        bool operator!=(const QEXTSlotIterator &other) const
+        bool operator!=(const QEXTFunctionIterator &other) const
         {
             return m_iter != other.m_iter;
         }
@@ -313,7 +313,7 @@ namespace qextPrivate
 
 
     template < typename T_slot >
-    struct QEXTSlotConstIterator
+    struct QEXTFunctionConstIterator
     {
         typedef std::size_t     Size;
         typedef T_slot          Slot;
@@ -323,9 +323,9 @@ namespace qextPrivate
 
         typedef typename qextPrivate::QEXTSignalData::ConstIterator Iterator;
 
-        QEXTSlotConstIterator() {}
+        QEXTFunctionConstIterator() {}
 
-        explicit QEXTSlotConstIterator(const Iterator &iter) : m_iter(iter) {}
+        explicit QEXTFunctionConstIterator(const Iterator &iter) : m_iter(iter) {}
 
         Reference operator*() const
         {
@@ -337,38 +337,38 @@ namespace qextPrivate
             return &(operator*());
         }
 
-        QEXTSlotConstIterator &operator++()
+        QEXTFunctionConstIterator &operator++()
         {
             ++m_iter;
             return *this;
         }
 
-        QEXTSlotConstIterator operator++(int)
+        QEXTFunctionConstIterator operator++(int)
         {
-            QEXTSlotConstIterator iter(*this);
+            QEXTFunctionConstIterator iter(*this);
             ++m_iter;
             return iter;
         }
 
-        QEXTSlotConstIterator &operator--()
+        QEXTFunctionConstIterator &operator--()
         {
             --m_iter;
             return *this;
         }
 
-        QEXTSlotConstIterator operator--(int)
+        QEXTFunctionConstIterator operator--(int)
         {
-            QEXTSlotConstIterator iter(*this);
+            QEXTFunctionConstIterator iter(*this);
             --m_iter;
             return iter;
         }
 
-        bool operator==(const QEXTSlotConstIterator &other) const
+        bool operator==(const QEXTFunctionConstIterator &other) const
         {
             return m_iter == other.m_iter;
         }
 
-        bool operator!=(const QEXTSlotConstIterator &other) const
+        bool operator!=(const QEXTFunctionConstIterator &other) const
         {
             return m_iter != other.m_iter;
         }
@@ -386,18 +386,18 @@ namespace qextPrivate
      *  inadvertently entering an infinite loop, as well as make other
      *  modifications to the slot_list at your own risk.
      */
-    struct QEXT_CORE_API QEXTSlotTemporaryList
+    struct QEXT_CORE_API QEXTFunctionTemporaryList
     {
         typedef QEXTSignalData::SlotList          SlotList;
         typedef QEXTSignalData::Iterator          Iterator;
         typedef QEXTSignalData::ConstIterator     ConstIterator;
 
-        QEXTSlotTemporaryList(SlotList &slotList) : m_slots(slotList)
+        QEXTFunctionTemporaryList(SlotList &slotList) : m_slots(slotList)
         {
-            placeholder = m_slots.insert(m_slots.end(), QEXTSlotBase());
+            placeholder = m_slots.insert(m_slots.end(), QEXTFunctionBase());
         }
 
-        ~QEXTSlotTemporaryList()
+        ~QEXTFunctionTemporaryList()
         {
             m_slots.erase(placeholder);
         }
@@ -427,7 +427,7 @@ namespace qextPrivate
 
 
     /** list interface for QEXTSignal#.
-     * QEXTSlotList can be used to iterate over the list of slots that
+     * QEXTFunctionList can be used to iterate over the list of slots that
      * is managed by a signal. Slots can be added or removed from
      * the list while existing iterators stay valid. A slot_list
      * object can be retrieved from the signal's slotList() function.
@@ -435,22 +435,22 @@ namespace qextPrivate
      * @ingroup signal
      */
     template < typename T_slot >
-    struct QEXTSlotList
+    struct QEXTFunctionList
     {
         typedef T_slot                                  Slot;
 
         typedef Slot                                   &Reference;
         typedef const Slot                             &ConstReference;
 
-        typedef QEXTSlotIterator< Slot >                  Iterator;
-        typedef QEXTSlotConstIterator< Slot >             ConstIterator;
+        typedef QEXTFunctionIterator< Slot >                  Iterator;
+        typedef QEXTFunctionConstIterator< Slot >             ConstIterator;
 
         typedef std::reverse_iterator< Iterator >       ReverseIterator;
         typedef std::reverse_iterator< ConstIterator >  ConstReverseIterator;
 
-        QEXTSlotList() : m_list(QEXT_DECL_NULLPTR) {}
+        QEXTFunctionList() : m_list(QEXT_DECL_NULLPTR) {}
 
-        explicit QEXTSlotList(qextPrivate::QEXTSignalData *list) : m_list(list) {}
+        explicit QEXTFunctionList(qextPrivate::QEXTSignalData *list) : m_list(list) {}
 
         Iterator begin()
         {
@@ -514,7 +514,7 @@ namespace qextPrivate
 
         Iterator insert(Iterator i, const Slot &slot)
         {
-            return Iterator(m_list->insert(i.m_iter, static_cast< const QEXTSlotBase & >(slot)));
+            return Iterator(m_list->insert(i.m_iter, static_cast< const QEXTFunctionBase & >(slot)));
         }
 
         void push_front(const Slot &c)
@@ -564,7 +564,7 @@ namespace qextPrivate
      * like @code a = (*i) * (*i); @endcode the slot is executed only once.
      */
     template < typename T_emitter, typename T_result = typename T_emitter::Return >
-    struct QEXTSlotIteratorBuffer
+    struct QEXTFunctionIteratorBuffer
     {
         typedef std::size_t                             Size;
 
@@ -580,9 +580,9 @@ namespace qextPrivate
 
         typedef QEXTSignalData::ConstIterator             Iterator;
 
-        QEXTSlotIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
+        QEXTFunctionIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
 
-        QEXTSlotIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
+        QEXTFunctionIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
         Return operator*() const
         {
@@ -594,37 +594,37 @@ namespace qextPrivate
             return m_result;
         }
 
-        QEXTSlotIteratorBuffer &operator++()
+        QEXTFunctionIteratorBuffer &operator++()
         {
             ++m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return *this;
         }
 
-        QEXTSlotIteratorBuffer operator++(int)
+        QEXTFunctionIteratorBuffer operator++(int)
         {
-            QEXTSlotIteratorBuffer iterBuffer(*this);
+            QEXTFunctionIteratorBuffer iterBuffer(*this);
             ++m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return iterBuffer;
         }
 
-        QEXTSlotIteratorBuffer &operator--()
+        QEXTFunctionIteratorBuffer &operator--()
         {
             --m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return *this;
         }
 
-        QEXTSlotIteratorBuffer operator--(int)
+        QEXTFunctionIteratorBuffer operator--(int)
         {
-            QEXTSlotIteratorBuffer iterBuffer(*this);
+            QEXTFunctionIteratorBuffer iterBuffer(*this);
             --m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return iterBuffer;
         }
 
-        bool operator==(const QEXTSlotIteratorBuffer &other) const
+        bool operator==(const QEXTFunctionIteratorBuffer &other) const
         {
             /* If '!m_sender' the iterators are empty.
              * Unfortunately, empty stl iterators are not equal.
@@ -633,7 +633,7 @@ namespace qextPrivate
             return (!m_sender || (m_iter == other.m_iter));
         }
 
-        bool operator!=(const QEXTSlotIteratorBuffer &other) const
+        bool operator!=(const QEXTFunctionIteratorBuffer &other) const
         {
             return (m_sender && (m_iter != other.m_iter));
         }
@@ -645,10 +645,10 @@ namespace qextPrivate
         mutable QAtomicInt m_invoked;
     };
 
-    /** Template specialization of QEXTSlotIteratorBuffer for void return signals.
+    /** Template specialization of QEXTFunctionIteratorBuffer for void return signals.
      */
     template < typename T_emitter >
-    struct QEXTSlotIteratorBuffer< T_emitter, void >
+    struct QEXTFunctionIteratorBuffer< T_emitter, void >
     {
         typedef std::size_t                         Size;
 
@@ -658,9 +658,9 @@ namespace qextPrivate
 
         typedef QEXTSignalData::ConstIterator         Iterator;
 
-        QEXTSlotIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
+        QEXTFunctionIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
 
-        QEXTSlotIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
+        QEXTFunctionIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
         void operator*() const
         {
@@ -671,42 +671,42 @@ namespace qextPrivate
             }
         }
 
-        QEXTSlotIteratorBuffer &operator++()
+        QEXTFunctionIteratorBuffer &operator++()
         {
             ++m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return *this;
         }
 
-        QEXTSlotIteratorBuffer operator++(int)
+        QEXTFunctionIteratorBuffer operator++(int)
         {
-            QEXTSlotIteratorBuffer iterBuffer(*this);
+            QEXTFunctionIteratorBuffer iterBuffer(*this);
             ++m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return iterBuffer;
         }
 
-        QEXTSlotIteratorBuffer &operator--()
+        QEXTFunctionIteratorBuffer &operator--()
         {
             --m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return *this;
         }
 
-        QEXTSlotIteratorBuffer operator--(int)
+        QEXTFunctionIteratorBuffer operator--(int)
         {
-            QEXTSlotIteratorBuffer iterBuffer(*this);
+            QEXTFunctionIteratorBuffer iterBuffer(*this);
             --m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return iterBuffer;
         }
 
-        bool operator==(const QEXTSlotIteratorBuffer &other) const
+        bool operator==(const QEXTFunctionIteratorBuffer &other) const
         {
             return m_iter == other.m_iter;
         }
 
-        bool operator!=(const QEXTSlotIteratorBuffer &other) const
+        bool operator!=(const QEXTFunctionIteratorBuffer &other) const
         {
             return m_iter != other.m_iter;
         }
@@ -717,9 +717,9 @@ namespace qextPrivate
         mutable QAtomicInt m_invoked;
     };
 
-    /** Reverse version of QEXTSlotIteratorBuffer. */
+    /** Reverse version of QEXTFunctionIteratorBuffer. */
     template < typename T_emitter, typename T_result = typename T_emitter::Return >
-    struct QEXTSlotReverseIteratorBuffer
+    struct QEXTFunctionReverseIteratorBuffer
     {
         typedef std::size_t                         Size;
 
@@ -735,9 +735,9 @@ namespace qextPrivate
 
         typedef QEXTSignalData::ConstIterator         Iterator;
 
-        QEXTSlotReverseIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
+        QEXTFunctionReverseIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
 
-        QEXTSlotReverseIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
+        QEXTFunctionReverseIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
         Return operator*() const
         {
@@ -751,37 +751,37 @@ namespace qextPrivate
             return m_result;
         }
 
-        QEXTSlotReverseIteratorBuffer &operator++()
+        QEXTFunctionReverseIteratorBuffer &operator++()
         {
             --m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return *this;
         }
 
-        QEXTSlotReverseIteratorBuffer operator++(int)
+        QEXTFunctionReverseIteratorBuffer operator++(int)
         {
-            QEXTSlotReverseIteratorBuffer iterBuffer(*this);
+            QEXTFunctionReverseIteratorBuffer iterBuffer(*this);
             --m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return iterBuffer;
         }
 
-        QEXTSlotReverseIteratorBuffer &operator--()
+        QEXTFunctionReverseIteratorBuffer &operator--()
         {
             ++m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return *this;
         }
 
-        QEXTSlotReverseIteratorBuffer operator--(int)
+        QEXTFunctionReverseIteratorBuffer operator--(int)
         {
-            QEXTSlotReverseIteratorBuffer iterBuffer(*this);
+            QEXTFunctionReverseIteratorBuffer iterBuffer(*this);
             ++m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return iterBuffer;
         }
 
-        bool operator==(const QEXTSlotReverseIteratorBuffer &other) const
+        bool operator==(const QEXTFunctionReverseIteratorBuffer &other) const
         {
             /* If '!m_sender' the iterators are empty.
              * Unfortunately, empty stl iterators are not equal.
@@ -790,7 +790,7 @@ namespace qextPrivate
             return (!m_sender || (m_iter == other.m_iter));
         }
 
-        bool operator!=(const QEXTSlotReverseIteratorBuffer &other) const
+        bool operator!=(const QEXTFunctionReverseIteratorBuffer &other) const
         {
             return (m_sender && (m_iter != other.m_iter));
         }
@@ -802,10 +802,10 @@ namespace qextPrivate
         mutable QAtomicInt m_invoked;
     };
 
-    /** Template specialization of QEXTSlotReverseIteratorBuffer for void return signals.
+    /** Template specialization of QEXTFunctionReverseIteratorBuffer for void return signals.
      */
     template < typename T_emitter >
-    struct QEXTSlotReverseIteratorBuffer< T_emitter, void >
+    struct QEXTFunctionReverseIteratorBuffer< T_emitter, void >
     {
         typedef std::size_t                         Size;
         typedef T_emitter                           Sender;
@@ -814,9 +814,9 @@ namespace qextPrivate
 
         typedef QEXTSignalData::ConstIterator         Iterator;
 
-        QEXTSlotReverseIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
+        QEXTFunctionReverseIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
 
-        QEXTSlotReverseIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
+        QEXTFunctionReverseIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
         void operator*() const
         {
@@ -829,42 +829,42 @@ namespace qextPrivate
             }
         }
 
-        QEXTSlotReverseIteratorBuffer &operator++()
+        QEXTFunctionReverseIteratorBuffer &operator++()
         {
             --m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return *this;
         }
 
-        QEXTSlotReverseIteratorBuffer operator++(int)
+        QEXTFunctionReverseIteratorBuffer operator++(int)
         {
-            QEXTSlotReverseIteratorBuffer iterBuffer(*this);
+            QEXTFunctionReverseIteratorBuffer iterBuffer(*this);
             --m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return iterBuffer;
         }
 
-        QEXTSlotReverseIteratorBuffer &operator--()
+        QEXTFunctionReverseIteratorBuffer &operator--()
         {
             ++m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return *this;
         }
 
-        QEXTSlotReverseIteratorBuffer operator--(int)
+        QEXTFunctionReverseIteratorBuffer operator--(int)
         {
-            QEXTSlotReverseIteratorBuffer iterBuffer(*this);
+            QEXTFunctionReverseIteratorBuffer iterBuffer(*this);
             ++m_iter;
             m_invoked = QEXT_ATOMIC_INT_FALSE;
             return iterBuffer;
         }
 
-        bool operator==(const QEXTSlotReverseIteratorBuffer &other) const
+        bool operator==(const QEXTFunctionReverseIteratorBuffer &other) const
         {
             return m_iter == other.m_iter;
         }
 
-        bool operator!=(const QEXTSlotReverseIteratorBuffer &other) const
+        bool operator!=(const QEXTFunctionReverseIteratorBuffer &other) const
         {
             return m_iter != other.m_iter;
         }
@@ -888,10 +888,10 @@ namespace qextPrivate
     {
         typedef typename T_accumulator::Return                              Return;
         typedef QEXTSignalSend0< T_return, T_accumulator >                    Self;
-        typedef QEXTSlot< T_return >                                          Slot;
+        typedef QEXTFunction< T_return >                                          Slot;
         typedef typename Slot::CallFunction                                 CallFunction;
-        typedef qextPrivate::QEXTSlotIteratorBuffer< Self, T_return >           SlotIteratorBuffer;
-        typedef qextPrivate::QEXTSlotReverseIteratorBuffer< Self, T_return >    SlotReverseIteratorBuffer;
+        typedef qextPrivate::QEXTFunctionIteratorBuffer< Self, T_return >           SlotIteratorBuffer;
+        typedef qextPrivate::QEXTFunctionReverseIteratorBuffer< Self, T_return >    SlotReverseIteratorBuffer;
         typedef QEXTSignalData::ConstIterator                                 Iterator;
 
 
@@ -919,7 +919,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self;
             return accumulator(SlotIteratorBuffer(slotList.begin(), &self), SlotIteratorBuffer(slotList.end(), &self));
@@ -938,7 +938,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self;
             return accumulator(SlotReverseIteratorBuffer(slotList.end(), &self), SlotReverseIteratorBuffer(slotList.begin(), &self));
@@ -954,7 +954,7 @@ namespace qextPrivate
     {
         typedef T_return Return;
         typedef QEXTSignalSend0< T_return, QEXTNil >    Self;
-        typedef QEXTSlot< T_return >                  Slot;
+        typedef QEXTFunction< T_return >                  Slot;
         typedef typename Slot::CallFunction         CallFunction;
         typedef QEXTSignalData::ConstIterator         Iterator;
 
@@ -974,7 +974,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -1011,7 +1011,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -1041,7 +1041,7 @@ namespace qextPrivate
         typedef void                                Return;
         typedef QEXTSignalSend0< void, QEXTNil >    Self;
         typedef QEXTSignalData::ConstIterator       Iterator;
-        typedef QEXTSlot< void >                    Slot;
+        typedef QEXTFunction< void >                    Slot;
         typedef Slot::CallFunction         CallFunction;
 
         static Return send(QEXTSignalData *signalData)
@@ -1054,7 +1054,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -1082,7 +1082,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -1110,9 +1110,9 @@ namespace qextPrivate
     {
         typedef typename T_accumulator::Return                              Return;
         typedef QEXTSignalSend1< T_return, T_arg1, T_accumulator >            Self;
-        typedef QEXTSlot< T_return, T_arg1 >                                  Slot;
-        typedef qextPrivate::QEXTSlotIteratorBuffer< Self, T_return >           SlotIteratorBuffer;
-        typedef qextPrivate::QEXTSlotReverseIteratorBuffer< Self, T_return >    SlotReverseIteratorBuffer;
+        typedef QEXTFunction< T_return, T_arg1 >                                  Slot;
+        typedef qextPrivate::QEXTFunctionIteratorBuffer< Self, T_return >           SlotIteratorBuffer;
+        typedef qextPrivate::QEXTFunctionReverseIteratorBuffer< Self, T_return >    SlotReverseIteratorBuffer;
         typedef QEXTSignalData::ConstIterator                                 Iterator;
 
         /** Instantiates the class.
@@ -1146,7 +1146,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1);
             return accumulator(SlotIteratorBuffer(slotList.begin(), &self), SlotIteratorBuffer(slotList.end(), &self));
@@ -1168,7 +1168,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1);
             return accumulator(SlotReverseIteratorBuffer(slotList.end(), &self), SlotReverseIteratorBuffer(slotList.begin(), &self));
@@ -1186,7 +1186,7 @@ namespace qextPrivate
     {
         typedef T_return                                    Return;
         typedef QEXTSignalSend1< T_return, T_arg1, QEXTNil >    Self;
-        typedef QEXTSlot< T_return, T_arg1 >                  Slot;
+        typedef QEXTFunction< T_return, T_arg1 >                  Slot;
         typedef QEXTSignalData::ConstIterator                 Iterator;
         typedef typename Slot::CallFunction                 CallFunction;
 
@@ -1207,7 +1207,7 @@ namespace qextPrivate
             T_return result = T_return();
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -1244,7 +1244,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -1273,7 +1273,7 @@ namespace qextPrivate
     {
         typedef void                                    Return;
         typedef QEXTSignalSend1< void, T_arg1, QEXTNil >    Self;
-        typedef QEXTSlot< void, T_arg1 >                  Slot;
+        typedef QEXTFunction< void, T_arg1 >                  Slot;
         typedef QEXTSignalData::ConstIterator             Iterator;
         typedef typename Slot::CallFunction             CallFunction;
 
@@ -1291,7 +1291,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -1322,7 +1322,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -1350,9 +1350,9 @@ namespace qextPrivate
     {
         typedef typename T_accumulator::Return                              Return;
         typedef QEXTSignalSend2< T_return, T_arg1, T_arg2, T_accumulator >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2 >                          Slot;
-        typedef qextPrivate::QEXTSlotIteratorBuffer< Self, T_return >           SlotIteratorBuffer;
-        typedef qextPrivate::QEXTSlotReverseIteratorBuffer< Self, T_return >    SlotReverseIteratorBuffer;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2 >                          Slot;
+        typedef qextPrivate::QEXTFunctionIteratorBuffer< Self, T_return >           SlotIteratorBuffer;
+        typedef qextPrivate::QEXTFunctionReverseIteratorBuffer< Self, T_return >    SlotReverseIteratorBuffer;
         typedef QEXTSignalData::ConstIterator                                 Iterator;
 
         /** Instantiates the class.
@@ -1386,7 +1386,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2);
             return accumulator(SlotIteratorBuffer(slotList.begin(), &self), SlotIteratorBuffer(slotList.end(), &self));
@@ -1408,7 +1408,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2);
             return accumulator(SlotReverseIteratorBuffer(slotList.end(), &self), SlotReverseIteratorBuffer(slotList.begin(), &self));
@@ -1427,7 +1427,7 @@ namespace qextPrivate
     {
         typedef T_return                                            Return;
         typedef QEXTSignalSend2< T_return, T_arg1, T_arg2, QEXTNil >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2 >                  Slot;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2 >                  Slot;
         typedef QEXTSignalData::ConstIterator                         Iterator;
         typedef typename Slot::CallFunction                         CallFunction;
 
@@ -1450,7 +1450,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -1488,7 +1488,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -1517,7 +1517,7 @@ namespace qextPrivate
     {
         typedef void                                            Return;
         typedef QEXTSignalSend2< void, T_arg1, T_arg2, QEXTNil >    Self;
-        typedef QEXTSlot< void, T_arg1, T_arg2 >                  Slot;
+        typedef QEXTFunction< void, T_arg1, T_arg2 >                  Slot;
         typedef QEXTSignalData::ConstIterator                     Iterator;
         typedef typename Slot::CallFunction                     CallFunction;
 
@@ -1536,7 +1536,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -1568,7 +1568,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -1596,9 +1596,9 @@ namespace qextPrivate
     {
         typedef typename T_accumulator::Return                                      Return;
         typedef QEXTSignalSend3< T_return, T_arg1, T_arg2, T_arg3, T_accumulator >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3 >                          Slot;
-        typedef qextPrivate::QEXTSlotIteratorBuffer< Self, T_return >                   SlotIteratorBuffer;
-        typedef qextPrivate::QEXTSlotReverseIteratorBuffer< Self, T_return >            SlotReverseIteratorBuffer;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3 >                          Slot;
+        typedef qextPrivate::QEXTFunctionIteratorBuffer< Self, T_return >                   SlotIteratorBuffer;
+        typedef qextPrivate::QEXTFunctionReverseIteratorBuffer< Self, T_return >            SlotReverseIteratorBuffer;
         typedef QEXTSignalData::ConstIterator                                         Iterator;
 
         /** Instantiates the class.
@@ -1637,7 +1637,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2, arg3);
             return accumulator(SlotIteratorBuffer(slotList.begin(), &self), SlotIteratorBuffer(slotList.end(), &self));
@@ -1661,7 +1661,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2, arg3);
             return accumulator(SlotReverseIteratorBuffer(slotList.end(), &self), SlotReverseIteratorBuffer(slotList.begin(), &self));
@@ -1681,7 +1681,7 @@ namespace qextPrivate
     {
         typedef T_return                                                    Return;
         typedef QEXTSignalSend3< T_return, T_arg1, T_arg2, T_arg3, QEXTNil >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3 >                  Slot;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3 >                  Slot;
         typedef QEXTSignalData::ConstIterator                                 Iterator;
         typedef typename Slot::CallFunction                                 CallFunction;
 
@@ -1706,7 +1706,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -1746,7 +1746,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -1775,7 +1775,7 @@ namespace qextPrivate
     {
         typedef void                                                    Return;
         typedef QEXTSignalSend3< void, T_arg1, T_arg2, T_arg3, QEXTNil >    Self;
-        typedef QEXTSlot< void, T_arg1, T_arg2, T_arg3 >                  Slot;
+        typedef QEXTFunction< void, T_arg1, T_arg2, T_arg3 >                  Slot;
         typedef QEXTSignalData::ConstIterator                             Iterator;
         typedef typename Slot::CallFunction                             CallFunction;
 
@@ -1797,7 +1797,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -1830,7 +1830,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
@@ -1859,9 +1859,9 @@ namespace qextPrivate
     {
         typedef typename T_accumulator::Return                                              Return;
         typedef QEXTSignalSend4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_accumulator >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >                          Slot;
-        typedef qextPrivate::QEXTSlotIteratorBuffer< Self, T_return >                           SlotIteratorBuffer;
-        typedef qextPrivate::QEXTSlotReverseIteratorBuffer< Self, T_return >                    SlotReverseIteratorBuffer;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >                          Slot;
+        typedef qextPrivate::QEXTFunctionIteratorBuffer< Self, T_return >                           SlotIteratorBuffer;
+        typedef qextPrivate::QEXTFunctionReverseIteratorBuffer< Self, T_return >                    SlotReverseIteratorBuffer;
         typedef QEXTSignalData::ConstIterator                                                 Iterator;
 
         /** Instantiates the class.
@@ -1909,7 +1909,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2, arg3, arg4);
             return accumulator(SlotIteratorBuffer(slotList.begin(), &self), SlotIteratorBuffer(slotList.end(), &self));
@@ -1938,7 +1938,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2, arg3, arg4);
             return accumulator(SlotReverseIteratorBuffer(slotList.end(), &self), SlotReverseIteratorBuffer(slotList.begin(), &self));
@@ -1959,7 +1959,7 @@ namespace qextPrivate
     {
         typedef T_return                                                            Return;
         typedef QEXTSignalSend4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >                  Slot;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >                  Slot;
         typedef QEXTSignalData::ConstIterator                                         Iterator;
         typedef typename Slot::CallFunction                                         CallFunction;
 
@@ -1989,7 +1989,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -2034,7 +2034,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -2063,7 +2063,7 @@ namespace qextPrivate
     {
         typedef void                                                            Return;
         typedef QEXTSignalSend4< void, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil >    Self;
-        typedef QEXTSlot< void, T_arg1, T_arg2, T_arg3, T_arg4 >                  Slot;
+        typedef QEXTFunction< void, T_arg1, T_arg2, T_arg3, T_arg4 >                  Slot;
         typedef QEXTSignalData::ConstIterator                                     Iterator;
         typedef typename Slot::CallFunction                                     CallFunction;
 
@@ -2089,7 +2089,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -2128,7 +2128,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -2156,9 +2156,9 @@ namespace qextPrivate
     {
         typedef typename T_accumulator::Return                                                      Return;
         typedef QEXTSignalSend5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_accumulator >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                          Slot;
-        typedef qextPrivate::QEXTSlotIteratorBuffer< Self, T_return >                                   SlotIteratorBuffer;
-        typedef qextPrivate::QEXTSlotReverseIteratorBuffer< Self, T_return >                            SlotReverseIteratorBuffer;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                          Slot;
+        typedef qextPrivate::QEXTFunctionIteratorBuffer< Self, T_return >                                   SlotIteratorBuffer;
+        typedef qextPrivate::QEXTFunctionReverseIteratorBuffer< Self, T_return >                            SlotReverseIteratorBuffer;
         typedef QEXTSignalData::ConstIterator                                                         Iterator;
 
         /** Instantiates the class.
@@ -2209,7 +2209,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2, arg3, arg4, arg5);
             return accumulator(SlotIteratorBuffer(slotList.begin(), &self), SlotIteratorBuffer(slotList.end(), &self));
@@ -2240,7 +2240,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2, arg3, arg4, arg5);
             return accumulator(SlotReverseIteratorBuffer(slotList.end(), &self), SlotReverseIteratorBuffer(slotList.begin(), &self));
@@ -2262,7 +2262,7 @@ namespace qextPrivate
     {
         typedef T_return                                                                    Return;
         typedef QEXTSignalSend5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                  Slot;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                  Slot;
         typedef QEXTSignalData::ConstIterator                                                 Iterator;
         typedef typename Slot::CallFunction                                                 CallFunction;
 
@@ -2294,7 +2294,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -2341,7 +2341,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -2370,7 +2370,7 @@ namespace qextPrivate
     {
         typedef void                                                                    Return;
         typedef QEXTSignalSend5< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil >    Self;
-        typedef QEXTSlot< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                  Slot;
+        typedef QEXTFunction< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                  Slot;
         typedef QEXTSignalData::ConstIterator                                             Iterator;
         typedef typename Slot::CallFunction                                             CallFunction;
 
@@ -2398,7 +2398,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -2438,7 +2438,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
@@ -2468,9 +2468,9 @@ namespace qextPrivate
     {
         typedef typename T_accumulator::Return                                                              Return;
         typedef QEXTSignalSend6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_accumulator >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                          Slot;
-        typedef qextPrivate::QEXTSlotIteratorBuffer< Self, T_return >                                           SlotIteratorBuffer;
-        typedef qextPrivate::QEXTSlotReverseIteratorBuffer< Self, T_return >                                    SlotReverseIteratorBuffer;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                          Slot;
+        typedef qextPrivate::QEXTFunctionIteratorBuffer< Self, T_return >                                           SlotIteratorBuffer;
+        typedef qextPrivate::QEXTFunctionReverseIteratorBuffer< Self, T_return >                                    SlotReverseIteratorBuffer;
         typedef QEXTSignalData::ConstIterator                                                                 Iterator;
 
         /** Instantiates the class.
@@ -2524,7 +2524,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2, arg3, arg4, arg5, arg6);
             return accumulator(SlotIteratorBuffer(slotList.begin(), &self), SlotIteratorBuffer(slotList.end(), &self));
@@ -2557,7 +2557,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2, arg3, arg4, arg5, arg6);
             return accumulator(SlotReverseIteratorBuffer(slotList.end(), &self), SlotReverseIteratorBuffer(slotList.begin(), &self));
@@ -2580,7 +2580,7 @@ namespace qextPrivate
     {
         typedef T_return                                                                            Return;
         typedef QEXTSignalSend6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                  Slot;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                  Slot;
         typedef QEXTSignalData::ConstIterator                                                         Iterator;
         typedef typename Slot::CallFunction                                                         CallFunction;
 
@@ -2614,7 +2614,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -2664,7 +2664,7 @@ namespace qextPrivate
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
 
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -2693,7 +2693,7 @@ namespace qextPrivate
     {
         typedef void                                                                            Return;
         typedef QEXTSignalSend6< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil >    Self;
-        typedef QEXTSlot< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                  Slot;
+        typedef QEXTFunction< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                  Slot;
         typedef QEXTSignalData::ConstIterator                                                     Iterator;
         typedef typename Slot::CallFunction                                                     CallFunction;
 
@@ -2723,7 +2723,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -2766,7 +2766,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -2803,9 +2803,9 @@ namespace qextPrivate
     {
         typedef typename T_accumulator::Return                                                                      Return;
         typedef QEXTSignalSend7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, T_accumulator >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                          Slot;
-        typedef qextPrivate::QEXTSlotIteratorBuffer< Self, T_return >                                                   SlotIteratorBuffer;
-        typedef qextPrivate::QEXTSlotReverseIteratorBuffer< Self, T_return >                                            SlotReverseIteratorBuffer;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                          Slot;
+        typedef qextPrivate::QEXTFunctionIteratorBuffer< Self, T_return >                                                   SlotIteratorBuffer;
+        typedef qextPrivate::QEXTFunctionReverseIteratorBuffer< Self, T_return >                                            SlotReverseIteratorBuffer;
         typedef QEXTSignalData::ConstIterator                                                                         Iterator;
 
         /** Instantiates the class.
@@ -2863,7 +2863,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             return accumulator(SlotIteratorBuffer(slotList.begin(), &self), SlotIteratorBuffer(slotList.end(), &self));
@@ -2898,7 +2898,7 @@ namespace qextPrivate
             }
 
             QEXTSignalExecution execution(signalData);
-            QEXTSlotTemporaryList slotList(signalData->m_slotList);
+            QEXTFunctionTemporaryList slotList(signalData->m_slotList);
 
             Self self(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
             return accumulator(SlotReverseIteratorBuffer(slotList.end(), &self), SlotReverseIteratorBuffer(slotList.begin(), &self));
@@ -2922,7 +2922,7 @@ namespace qextPrivate
     {
         typedef T_return                                                                                    Return;
         typedef QEXTSignalSend7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QEXTNil >    Self;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                  Slot;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                  Slot;
         typedef QEXTSignalData::ConstIterator                                                                 Iterator;
         typedef typename Slot::CallFunction                                                                 CallFunction;
 
@@ -2958,7 +2958,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -3009,7 +3009,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -3038,7 +3038,7 @@ namespace qextPrivate
     {
         typedef void                                                                                    Return;
         typedef QEXTSignalSend7< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QEXTNil >    Self;
-        typedef QEXTSlot< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                  Slot;
+        typedef QEXTFunction< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                  Slot;
         typedef QEXTSignalData::ConstIterator                                                             Iterator;
         typedef typename Slot::CallFunction                                                             CallFunction;
 
@@ -3070,7 +3070,7 @@ namespace qextPrivate
 
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (Iterator iter = slotList.begin(); iter != slotList.end(); ++iter)
                 {
                     if (!iter->isValid())
@@ -3115,7 +3115,7 @@ namespace qextPrivate
             //Use this scope to make sure that "slotList" is destroyed before "execution" is destroyed.
             {
                 typedef std::reverse_iterator< QEXTSignalData::Iterator > ReverseIterator;
-                QEXTSlotTemporaryList slotList(signalData->m_slotList);
+                QEXTFunctionTemporaryList slotList(signalData->m_slotList);
                 for (ReverseIterator iter = ReverseIterator(slotList.end()); iter != ReverseIterator(slotList.begin()); ++iter)
                 {
                     if (!iter->isValid())
@@ -3169,8 +3169,8 @@ namespace qextPrivate
     public:
         typedef qextPrivate::QEXTSignalSend0< T_return, T_accumulator >     Sender;
         typedef typename Sender::Return                                 Return;
-        typedef QEXTSlot< T_return >                                      Slot;
-        typedef QEXTSlotList< Slot >                                      SlotList;
+        typedef QEXTFunction< T_return >                                      Slot;
+        typedef QEXTFunctionList< Slot >                                      SlotList;
         typedef typename SlotList::Iterator                             Iterator;
         typedef typename SlotList::ConstIterator                        ConstIterator;
 
@@ -3200,55 +3200,55 @@ namespace qextPrivate
          */
         Iterator connect(const Slot &slot)
         {
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)())
         {
-            QEXTSlot<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)())
         {
-            QEXTSlot<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)() const)
         {
-            QEXTSlot<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)() const)
         {
-            QEXTSlot<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)() volatile)
         {
-            QEXTSlot<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)() volatile)
         {
-            QEXTSlot<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)() const volatile)
         {
-            QEXTSlot<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)() const volatile)
         {
-            QEXTSlot<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return> slot = QEXTBoundMemberFunctor< T_return, T_obj >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
 
         /** Triggers the sender of the signal.
@@ -3347,8 +3347,8 @@ namespace qextPrivate
     public:
         typedef qextPrivate::QEXTSignalSend1< T_return, T_arg1, T_accumulator > Sender;
         typedef typename Sender::Return                                     Return;
-        typedef QEXTSlot< T_return, T_arg1 >                                  Slot;
-        typedef QEXTSlotList< Slot >                                          SlotList;
+        typedef QEXTFunction< T_return, T_arg1 >                                  Slot;
+        typedef QEXTFunctionList< Slot >                                          SlotList;
         typedef typename SlotList::Iterator                                 Iterator;
         typedef typename SlotList::ConstIterator                            ConstIterator;
         typedef typename SlotList::ReverseIterator                          ReverseIterator;
@@ -3377,55 +3377,55 @@ namespace qextPrivate
          */
         Iterator connect(const Slot &slot)
         {
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1))
         {
-            QEXTSlot<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1))
         {
-            QEXTSlot<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1) const)
         {
-            QEXTSlot<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1) const)
         {
-            QEXTSlot<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1) volatile)
         {
-            QEXTSlot<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1) volatile)
         {
-            QEXTSlot<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1) const volatile)
         {
-            QEXTSlot<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1) const volatile)
         {
-            QEXTSlot<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
 
         /** Triggers the sender of the signal.
@@ -3526,8 +3526,8 @@ namespace qextPrivate
     public:
         typedef qextPrivate::QEXTSignalSend2< T_return, T_arg1, T_arg2, T_accumulator > Sender;
         typedef typename Sender::Return                                             Return;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2 >                                  Slot;
-        typedef QEXTSlotList< Slot >                                                  SlotList;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2 >                                  Slot;
+        typedef QEXTFunctionList< Slot >                                                  SlotList;
         typedef typename SlotList::Iterator                                         Iterator;
         typedef typename SlotList::ConstIterator                                    ConstIterator;
         typedef typename SlotList::ReverseIterator                                  ReverseIterator;
@@ -3556,55 +3556,55 @@ namespace qextPrivate
          */
         Iterator connect(const Slot &slot)
         {
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
 
         /** Triggers the sender of the signal.
@@ -3712,8 +3712,8 @@ namespace qextPrivate
     public:
         typedef qextPrivate::QEXTSignalSend3< T_return, T_arg1, T_arg2, T_arg3, T_accumulator > Sender;
         typedef typename Sender::Return                                                     Return;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3 >                                  Slot;
-        typedef QEXTSlotList< Slot >                                                          SlotList;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3 >                                  Slot;
+        typedef QEXTFunctionList< Slot >                                                          SlotList;
         typedef typename SlotList::Iterator                                                 Iterator;
         typedef typename SlotList::ConstIterator                                            ConstIterator;
         typedef typename SlotList::ReverseIterator                                          ReverseIterator;
@@ -3742,55 +3742,55 @@ namespace qextPrivate
          */
         Iterator connect(const Slot &slot)
         {
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
 
         /** Triggers the sender of the signal.
@@ -3906,8 +3906,8 @@ namespace qextPrivate
     public:
         typedef qextPrivate::QEXTSignalSend4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_accumulator > Sender;
         typedef typename Sender::Return                                                             Return;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >                                  Slot;
-        typedef QEXTSlotList< Slot >                                                                  SlotList;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >                                  Slot;
+        typedef QEXTFunctionList< Slot >                                                                  SlotList;
         typedef typename SlotList::Iterator                                                         Iterator;
         typedef typename SlotList::ConstIterator                                                    ConstIterator;
         typedef typename SlotList::ReverseIterator                                                  ReverseIterator;
@@ -3936,55 +3936,55 @@ namespace qextPrivate
          */
         Iterator connect(const Slot &slot)
         {
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
 
         /** Triggers the sender of the signal.
@@ -4116,8 +4116,8 @@ namespace qextPrivate
     public:
         typedef qextPrivate::QEXTSignalSend5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_accumulator > Sender;
         typedef typename Sender::Return                                                                     Return;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                                  Slot;
-        typedef QEXTSlotList< Slot >                                                                          SlotList;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                                  Slot;
+        typedef QEXTFunctionList< Slot >                                                                          SlotList;
         typedef typename SlotList::Iterator                                                                 Iterator;
         typedef typename SlotList::ConstIterator                                                            ConstIterator;
         typedef typename SlotList::ReverseIterator                                                          ReverseIterator;
@@ -4146,55 +4146,55 @@ namespace qextPrivate
          */
         Iterator connect(const Slot &slot)
         {
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
 
         /** Triggers the sender of the signal.
@@ -4341,8 +4341,8 @@ namespace qextPrivate
     public:
         typedef qextPrivate::QEXTSignalSend6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_accumulator > Sender;
         typedef typename Sender::Return                                                                             Return;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                                  Slot;
-        typedef QEXTSlotList< Slot >                                                                                  SlotList;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                                  Slot;
+        typedef QEXTFunctionList< Slot >                                                                                  SlotList;
         typedef typename SlotList::Iterator                                                                         Iterator;
         typedef typename SlotList::ConstIterator                                                                    ConstIterator;
         typedef typename SlotList::ReverseIterator                                                                  ReverseIterator;
@@ -4371,55 +4371,55 @@ namespace qextPrivate
          */
         Iterator connect(const Slot &slot)
         {
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
 
         /** Triggers the sender of the signal.
@@ -4574,8 +4574,8 @@ namespace qextPrivate
     public:
         typedef qextPrivate::QEXTSignalSend7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, T_accumulator > Sender;
         typedef typename Sender::Return                                                                                     Return;
-        typedef QEXTSlot< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                                  Slot;
-        typedef QEXTSlotList< Slot >                                                                                          SlotList;
+        typedef QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                                  Slot;
+        typedef QEXTFunctionList< Slot >                                                                                          SlotList;
         typedef typename SlotList::Iterator                                                                                 Iterator;
         typedef typename SlotList::ConstIterator                                                                            ConstIterator;
         typedef typename SlotList::ReverseIterator                                                                          ReverseIterator;
@@ -4607,55 +4607,55 @@ namespace qextPrivate
          */
         Iterator connect(const Slot &slot)
         {
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7))
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
         template < typename T_obj >
         Iterator connect(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const volatile)
         {
-            QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
-            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTSlotBase & >(slot)));
+            QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> slot = QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func);
+            return Iterator(QEXTSignalBase::connect(static_cast< const QEXTFunctionBase & >(slot)));
         }
 
         /** Triggers the sender of the signal.
@@ -5229,8 +5229,8 @@ template < typename T_return >
 class QEXTSignal< T_return, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > : public qextPrivate::QEXTSignal0< T_return, QEXTNil >
 {
 public:
-    typedef qextPrivate::QEXTSignal0< T_return, QEXTNil > Base;
-    typedef typename Base::Return                   Return;
+    typedef qextPrivate::QEXTSignal0< T_return, QEXTNil >   Base;
+    typedef typename Base::Return                           Return;
 
     /** Convenience wrapper for the numbered QEXTSignal0 template.
      * Like QEXTSignal but the additional template parameter @e T_accumulator

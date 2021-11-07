@@ -3,9 +3,6 @@
 
 #include <qextMvvmCompoundItem.h>
 
-namespace ModelView
-{
-
 class QEXTMvvmData2DItem;
 
 //! Two-dimensional color map representation of QEXTMvvmData2DItem.
@@ -15,10 +12,10 @@ class QEXTMvvmData2DItem;
 class QEXT_MVVM_API QEXTMvvmColorMapItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_LINK = "P_LINK";
-    static inline const std::string P_TITLE = "P_TITLE";
-    static inline const std::string P_GRADIENT = "P_GRADIENT";
-    static inline const std::string P_INTERPOLATION = "P_INTERPOLATION";
+    static inline const QString P_LINK = "P_LINK";
+    static inline const QString P_TITLE = "P_TITLE";
+    static inline const QString P_GRADIENT = "P_GRADIENT";
+    static inline const QString P_INTERPOLATION = "P_INTERPOLATION";
 
     QEXTMvvmColorMapItem();
 
@@ -26,7 +23,5 @@ public:
 
     QEXTMvvmData2DItem* dataItem() const;
 };
-
-} // namespace ModelView
 
 #endif // _QEXTMVVMCOLORMAPITEM_H

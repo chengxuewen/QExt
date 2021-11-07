@@ -14,7 +14,7 @@
 #include <stdexcept>
 #include <thread>
 
-using namespace ModelView;
+
 
 namespace
 {

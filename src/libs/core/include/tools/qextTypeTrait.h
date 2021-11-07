@@ -37,7 +37,7 @@
     #include <type_traits>
 #endif
 
-#include <utility>
+#include <QPair>
 
 template <typename T_type, typename U> struct QEXTTypeIsSame;
 template <typename T_type> struct QEXTTypeIsIntegral;
@@ -359,7 +359,7 @@ template <typename T_type> struct QEXTTypeIsEnum<const volatile T_type> : QEXTTy
 
 // We can't get QEXTTypeIsPod right without compiler help, so fail conservatively.
 // We will assume it's false except for arithmetic types, enumerations,
-// pointers and cv-qualified versions thereof. Note that std::pair<T_type,U>
+// pointers and cv-qualified versions thereof. Note that QPair<T_type,U>
 // is not a POD even if T_type and U are PODs.
 template <typename T_type> struct QEXTTypeIsPod
     : QEXTTypeIntegralConstant < bool, (QEXTTypeIsIntegral<T_type>::value || QEXTTypeIsFloatingPoint<T_type>::value ||
@@ -378,12 +378,12 @@ template <typename T_type> struct QEXTTypeIsPod<const volatile T_type> : QEXTTyp
 
 // We can't get QEXTTypeHasTrivialConstructor right without compiler help, so
 // fail conservatively. We will assume it's false except for: (1) types
-// for which QEXTTypeIsPod is true. (2) std::pair of types with trivial
+// for which QEXTTypeIsPod is true. (2) QPair of types with trivial
 // constructors. (3) array of a type with a trivial constructor.
 // (4) const versions thereof.
 template <typename T_type> struct QEXTTypeHasTrivialConstructor
     : QEXTTypeIsPod<T_type> { };
-template <typename T_type, typename U> struct QEXTTypeHasTrivialConstructor<std::pair<T_type, U> >
+template <typename T_type, typename U> struct QEXTTypeHasTrivialConstructor<QPair<T_type, U> >
     : QEXTTypeIntegralConstant<bool, (QEXTTypeHasTrivialConstructor<T_type>::value && QEXTTypeHasTrivialConstructor<U>::value) > { };
 template <typename T_A, int N> struct QEXTTypeHasTrivialConstructor<T_A[N]>
     : QEXTTypeHasTrivialConstructor<T_A> { };
@@ -393,12 +393,12 @@ template <typename T_type> struct QEXTTypeHasTrivialConstructor<const T_type>
 
 // We can't get QEXTTypeHasTrivialCopy right without compiler help, so fail
 // conservatively. We will assume it's false except for: (1) types
-// for which QEXTTypeIsPod is true. (2) std::pair of types with trivial copy
+// for which QEXTTypeIsPod is true. (2) QPair of types with trivial copy
 // constructors. (3) array of a type with a trivial copy constructor.
 // (4) const versions thereof.
 template <typename T_type> struct QEXTTypeHasTrivialCopy
     : QEXTTypeIsPod<T_type> { };
-template <typename T_type, typename U> struct QEXTTypeHasTrivialCopy<std::pair<T_type, U> >
+template <typename T_type, typename U> struct QEXTTypeHasTrivialCopy<QPair<T_type, U> >
     : QEXTTypeIntegralConstant<bool, (QEXTTypeHasTrivialCopy<T_type>::value && QEXTTypeHasTrivialCopy<U>::value) > { };
 template <typename T_A, int N> struct QEXTTypeHasTrivialCopy<T_A[N]>
     : QEXTTypeHasTrivialCopy<T_A> { };
@@ -407,23 +407,23 @@ template <typename T_type> struct QEXTTypeHasTrivialCopy<const T_type> : QEXTTyp
 
 // We can't get QEXTTypeHasTrivialAssign right without compiler help, so fail
 // conservatively. We will assume it's false except for: (1) types
-// for which QEXTTypeIsPod is true. (2) std::pair of types with trivial copy
+// for which QEXTTypeIsPod is true. (2) QPair of types with trivial copy
 // constructors. (3) array of a type with a trivial assign constructor.
 template <typename T_type> struct QEXTTypeHasTrivialAssign
     : QEXTTypeIsPod<T_type> { };
-template <typename T_type, typename U> struct QEXTTypeHasTrivialAssign<std::pair<T_type, U> >
+template <typename T_type, typename U> struct QEXTTypeHasTrivialAssign<QPair<T_type, U> >
     : QEXTTypeIntegralConstant<bool, (QEXTTypeHasTrivialAssign<T_type>::value && QEXTTypeHasTrivialAssign<U>::value) > { };
 template <typename T_A, int N> struct QEXTTypeHasTrivialAssign<T_A[N]>
     : QEXTTypeHasTrivialAssign<T_A> { };
 
 // We can't get QEXTTypeHasTrivialDestructor right without compiler help, so
 // fail conservatively. We will assume it's false except for: (1) types
-// for which QEXTTypeIsPod is true. (2) std::pair of types with trivial
+// for which QEXTTypeIsPod is true. (2) QPair of types with trivial
 // destructors. (3) array of a type with a trivial destructor.
 // (4) const versions thereof.
 template <typename T_type> struct QEXTTypeHasTrivialDestructor
     : QEXTTypeIsPod<T_type> { };
-template <typename T_type, typename U> struct QEXTTypeHasTrivialDestructor<std::pair<T_type, U> >
+template <typename T_type, typename U> struct QEXTTypeHasTrivialDestructor<QPair<T_type, U> >
     : QEXTTypeIntegralConstant<bool, (QEXTTypeHasTrivialDestructor<T_type>::value && QEXTTypeHasTrivialDestructor<U>::value) > { };
 template <typename T_A, int N> struct QEXTTypeHasTrivialDestructor<T_A[N]>
     : QEXTTypeHasTrivialDestructor<T_A> { };

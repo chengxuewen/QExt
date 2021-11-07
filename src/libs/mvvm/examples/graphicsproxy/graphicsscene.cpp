@@ -10,9 +10,9 @@
 #include "graphicsscene.h"
 #include "axesrectangleview.h"
 #include "regionofinterestview.h"
-#include <plotting/colormapcanvas.h>
-#include <plotting/customplotproxywidget.h>
-#include <plotting/sceneadapterinterface.h>
+#include <qextMvvmColorMapCanvas.h>
+#include <qextMvvmCustomPlotProxyWidget.h>
+#include <qextMvvmSceneAdapterInterface.h>
 
 namespace
 {
@@ -26,7 +26,7 @@ GraphicsScene::GraphicsScene(QObject* parent) : QGraphicsScene(parent)
     setSceneRect(default_scene_rect);
 }
 
-void GraphicsScene::setContext(ModelView::ColorMapCanvas* colormap, RegionOfInterestItem* roi)
+void GraphicsScene::setContext(QEXTMvvmColorMapCanvas* colormap, RegionOfInterestItem* roi)
 {
     clear();
     create_colormap_proxy(colormap);
@@ -48,10 +48,10 @@ void GraphicsScene::update_size(const QSize& newSize)
     }
 }
 
-void GraphicsScene::create_colormap_proxy(ModelView::ColorMapCanvas* colormap)
+void GraphicsScene::create_colormap_proxy(QEXTMvvmColorMapCanvas *colormap)
 {
-    scene_adapter = colormap->createSceneAdapter();
-    colormap_proxy = new ModelView::CustomPlotProxyWidget(colormap);
+    scene_adapter.reset(colormap->createSceneAdapter());
+    colormap_proxy = new QEXTMvvmCustomPlotProxyWidget(colormap);
     addItem(colormap_proxy);
 }
 

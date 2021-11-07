@@ -1,17 +1,10 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
 #ifndef GRAPHICSPROXY_SIZEHANDLEELEMENT_H
 #define GRAPHICSPROXY_SIZEHANDLEELEMENT_H
 
+#include <qextFunction.h>
+
 #include <QGraphicsItem>
-#include <vector>
+#include <QVector>
 
 class RegionOfInterestView;
 
@@ -40,14 +33,14 @@ public:
         Qt::CursorShape cursor;                               //! shape of cursor when hover on
         SizeHandleElement::EHandlePosition opposite_position; //! position of opposite corner
         //! calculates x,y of handle for given rectangle
-        std::function<QPointF(const QRectF&)> rect_to_pos;
+        QEXTFunction<QPointF, const QRectF &> rect_to_pos;
     };
 
     static SizeHandleElement* create(EHandlePosition position, RegionOfInterestView* view);
 
-    static std::vector<EHandlePosition> possible_handle_positions();
+    static QVector<EHandlePosition> possible_handle_positions();
 
-    QRectF boundingRect() const override;
+    QRectF boundingRect() const QEXT_DECL_OVERRIDE;
 
     void updateHandleElementPosition(const QRectF& rect);
 
@@ -60,9 +53,9 @@ public:
     bool isHorizontalHandle() const;
 
 protected:
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
-    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) QEXT_DECL_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) QEXT_DECL_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) QEXT_DECL_OVERRIDE;
 
 private:
     SizeHandleElement(HandleInfo info, RegionOfInterestView* view);

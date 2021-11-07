@@ -13,12 +13,12 @@
 
 #include <qextMvvmCompoundItem.h>
 #include <qextMvvmPropertyItem.h>
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmModel.h>
 #include <qextMvvmItemMapper.h>
-#include <viewmodel/defaultviewmodel.h>
-#include <viewmodel/viewmodeldelegate.h>
+#include <qextMvvmDefaultViewModel.h>
+#include <qextMvvmViewModelDelegate.h>
 
-using namespace ModelView;
+
 
 int main(int argc, char** argv)
 {
@@ -26,21 +26,21 @@ int main(int argc, char** argv)
 
     QApplication app(argc, argv);
 
-    QEXTMvvmSessionModel model;
+    QEXTMvvmModel model;
     auto item = model.insertItem<QEXTMvvmCompoundItem>();
     item->setDisplayName("Item");
 
     item->addProperty("Hello", "World!");
     item->addProperty("Your answer is", true);
 
-    auto on_property = [](QEXTMvvmSessionItem* item, const std::string& name) {
+    auto on_property = [](QEXTMvvmItem* item, const QString& name) {
         if (name == "Hello")
-            item->setProperty("Your answer is", item->property<std::string>("Hello") == "World!");
+            item->setProperty("Your answer is", item->property<QString>("Hello") == "World!");
     };
-    item->mapper()->setOnPropertyChange(on_property, nullptr);
+    item->mapper()->addItemPropertyChangedListener(on_property, nullptr);
 
-    DefaultViewModel viewmodel(&model);
-    ViewModelDelegate delegate;
+    QEXTMvvmDefaultViewModel viewmodel(&model);
+    QEXTMvvmViewModelDelegate delegate;
 
     QTreeView view;
     view.setModel(&viewmodel);

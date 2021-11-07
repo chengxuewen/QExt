@@ -304,4 +304,18 @@ struct QEXTNil {};
 #define QEXT_ATOMIC_INT_FALSE 0
 
 
+template<typename T>
+T qextClamp(T x, T min, T max)
+{
+    if (x > max)
+    {
+        return max;
+    }
+    if (x < min)
+    {
+        return min;
+    }
+    return x;
+}
+
 #endif // _QEXTGLOBAL_H

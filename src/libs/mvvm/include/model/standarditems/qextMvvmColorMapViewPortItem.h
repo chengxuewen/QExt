@@ -3,9 +3,6 @@
 
 #include <qextMvvmViewPortItem.h>
 
-namespace ModelView
-{
-
 class QEXTMvvmData2DItem;
 
 //! Container with viewport and collection of QEXTMvvmColorMapItem's to plot.
@@ -13,23 +10,21 @@ class QEXTMvvmData2DItem;
 class QEXT_MVVM_API QEXTMvvmColorMapViewportItem : public QEXTMvvmViewportItem
 {
 public:
-    static inline const std::string P_ZAXIS = "P_ZAXIS";
+    static inline const QString P_ZAXIS = "P_ZAXIS";
 
     QEXTMvvmColorMapViewportItem();
 
     QEXTMvvmViewportAxisItem* zAxis() const;
 
-    void setViewportToContent() override;
+    void setViewportToContent() QEXT_DECL_OVERRIDE;
 
 protected:
-    virtual std::pair<double, double> data_xaxis_range() const override;
-    virtual std::pair<double, double> data_yaxis_range() const override;
+    virtual QPair<double, double> dataXAxisRange() const QEXT_DECL_OVERRIDE;
+    virtual QPair<double, double> dataYAxisRange() const QEXT_DECL_OVERRIDE;
 
 private:
     QEXTMvvmData2DItem* data_item() const;
     void update_data_range();
 };
-
-} // namespace ModelView
 
 #endif // _QEXTMVVMCOLORMAPVIEWPORTITEM_H

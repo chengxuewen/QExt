@@ -10,27 +10,26 @@
 #ifndef GRAPHMODEL_H
 #define GRAPHMODEL_H
 
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmModel.h>
 
-namespace ModelView
-{
+
 class QEXTMvvmGraphViewportItem;
 class QEXTMvvmContainerItem;
-} // namespace ModelView
+
 
 //! Main application model holding data for single graph.
 //! Contains few QEXTMvvmData1DItem's, QEXTMvvmGraphItem's and ViewPortItem.
 
-class GraphModel : public ModelView::QEXTMvvmSessionModel
+class GraphModel : public QEXTMvvmModel
 {
 public:
     GraphModel();
 
-    void set_data(const std::vector<double>& data);
+    void set_data(const QVector<double>& data);
 
 private:
     void init_model();
-    void add_graph(ModelView::QEXTMvvmContainerItem* container, ModelView::QEXTMvvmGraphViewportItem* viewport);
+    void add_graph(QEXTMvvmContainerItem* container, QEXTMvvmGraphViewportItem* viewport);
 };
 
 #endif // GRAPHMODEL_H

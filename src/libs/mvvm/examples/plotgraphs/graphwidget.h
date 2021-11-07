@@ -17,11 +17,10 @@ class QBoxLayout;
 class QToolBar;
 class QAction;
 
-namespace ModelView
-{
-class ItemsTreeView;
-class GraphCanvas;
-} // namespace ModelView
+
+class QEXTMvvmItemsTreeView;
+class QEXTMvvmGraphCanvas;
+
 
 namespace PlotGraphs
 {
@@ -52,7 +51,7 @@ private:
     QAction* m_addGraphAction{nullptr};
     QAction* m_removeGraphAction{nullptr};
 
-    ModelView::GraphCanvas* m_graphCanvas{nullptr};
+    QEXTMvvmGraphCanvas* m_graphCanvas{nullptr};
     GraphPropertyWidget* m_propertyWidget{nullptr};
     GraphModel* m_model{nullptr};
 };

@@ -3,28 +3,25 @@
 
 #include <qextMvvmAbstractItemCommand.h>
 
-namespace ModelView
-{
-
-class QEXTMvvmSessionItem;
+class QEXTMvvmItem;
 class QEXTMvvmTagRow;
 
 //! Command to copy an item.
-
-class QEXT_MVVM_API QEXTCopyItemCommand : public QEXTAbstractItemCommand
+class QEXTMvvmCopyItemCommandPrivate;
+class QEXT_MVVM_API QEXTMvvmCopyItemCommand : public QEXTMvvmAbstractItemCommand
 {
 public:
-    QEXTCopyItemCommand(const QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow);
-    ~QEXTCopyItemCommand() override;
+    QEXTMvvmCopyItemCommand(QEXTMvvmItem *item, QEXTMvvmItem *parent, QEXTMvvmTagRow tagrow);
+    ~QEXTMvvmCopyItemCommand() QEXT_DECL_OVERRIDE;
+
+protected:
+    void undoCommand() QEXT_DECL_OVERRIDE;
+    void executeCommand() QEXT_DECL_OVERRIDE;
 
 private:
-    void undo_command() override;
-    void execute_command() override;
-
-    struct CopyItemCommandImpl;
-    std::unique_ptr<CopyItemCommandImpl> p_impl;
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmCopyItemCommand)
+    QEXT_DECL_PRIVATE(QEXTMvvmCopyItemCommand)
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMCOPYITEMCOMMAND_H

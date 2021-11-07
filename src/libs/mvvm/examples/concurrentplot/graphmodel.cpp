@@ -15,8 +15,8 @@
 #include <qextMvvmData1dItem.h>
 #include <qextMvvmGraphItem.h>
 #include <qextMvvmGraphViewPortItem.h>
-#include <utils/qextMvvmNumericUtils.h>
-#include <widgets/widgetutils.h>
+#include <qextMvvmUtils.h>
+#include <qextMvvmWidgetUtils.h>
 
 namespace
 {
@@ -30,16 +30,16 @@ auto simulation_result(double amp_factor = 1.0)
 
 } // namespace
 
-using namespace ModelView;
 
-GraphModel::GraphModel() : QEXTMvvmSessionModel("GraphModel")
+
+GraphModel::GraphModel() : QEXTMvvmModel("GraphModel")
 {
     init_model();
 }
 
 //! Sets new values for existing data item.
 
-void GraphModel::set_data(const std::vector<double>& data)
+void GraphModel::set_data(const QVector<double>& data)
 {
     auto item = topItem<QEXTMvvmContainerItem>()->item<QEXTMvvmData1DItem>(QEXTMvvmContainerItem::T_ITEMS);
     item->setValues(data);
@@ -60,10 +60,10 @@ void GraphModel::init_model()
 
 //! Adds Graph1DItem with some random points.
 
-void GraphModel::add_graph(ModelView::QEXTMvvmContainerItem* container,
-                           ModelView::QEXTMvvmGraphViewportItem* viewport)
+void GraphModel::add_graph(QEXTMvvmContainerItem* container,
+                           QEXTMvvmGraphViewportItem* viewport)
 {
-    auto [xmin, xmax, points] = simulation_result(ModelView::Utils::RandDouble(0.5, 1.0));
+    auto [xmin, xmax, points] = simulation_result(QEXTMvvmUtils::RandDouble(0.5, 1.0));
 
     auto data = insertItem<QEXTMvvmData1DItem>(container);
     data->setAxis<QEXTMvvmFixedBinAxisItem>(static_cast<int>(points.size()), xmin, xmax);
@@ -71,5 +71,5 @@ void GraphModel::add_graph(ModelView::QEXTMvvmContainerItem* container,
 
     auto graph = insertItem<QEXTMvvmGraphItem>(viewport);
     graph->setDataItem(data);
-    graph->setNamedColor(ModelView::Utils::RandomNamedColor());
+    graph->setNamedColor(QEXTMvvmWidgetUtils::RandomNamedColor());
 }

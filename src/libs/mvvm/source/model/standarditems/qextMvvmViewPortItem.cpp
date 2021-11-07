@@ -7,13 +7,13 @@
 //
 // ************************************************************************** //
 
-#include <model/qextMvvmModelUtils.h>
+#include <qextMvvmUtils.h>
 #include <qextMvvmAxisItems.h>
 #include <qextMvvmViewPortItem.h>
 
-using namespace ModelView;
 
-QEXTMvvmViewportItem::QEXTMvvmViewportItem(const ModelView::QEXTMvvmModelType& model) : QEXTMvvmCompoundItem(model) {}
+
+QEXTMvvmViewportItem::QEXTMvvmViewportItem(const QString& model) : QEXTMvvmCompoundItem(model) {}
 
 QEXTMvvmViewportAxisItem* QEXTMvvmViewportItem::xAxis() const
 {
@@ -33,26 +33,26 @@ QEXTMvvmViewportAxisItem* QEXTMvvmViewportItem::yAxis() const
 
 void QEXTMvvmViewportItem::setViewportToContent(double left, double top, double right, double bottom)
 {
-    Utils::BeginMacros(this, "setViewportToContent");
-    auto [xmin, xmax] = data_xaxis_range();
+    QEXTMvvmUtils::BeginMacros(this, "setViewportToContent");
+    auto [xmin, xmax] = dataXAxisRange();
     xAxis()->set_range(xmin - (xmax - xmin) * left, xmax + (xmax - xmin) * right);
 
-    auto [ymin, ymax] = data_yaxis_range();
+    auto [ymin, ymax] = dataYAxisRange();
     yAxis()->set_range(ymin - (ymax - ymin) * bottom, ymax + (ymax - ymin) * top);
-    Utils::EndMacros(this);
+    QEXTMvvmUtils::EndMacros(this);
 }
 
 //! Sets range of x,y window to show all data.
 
 void QEXTMvvmViewportItem::setViewportToContent()
 {
-    Utils::BeginMacros(this, "setViewportToContent");
-    auto [xmin, xmax] = data_xaxis_range();
+    QEXTMvvmUtils::BeginMacros(this, "setViewportToContent");
+    auto [xmin, xmax] = dataXAxisRange();
     xAxis()->set_range(xmin, xmax);
 
-    auto [ymin, ymax] = data_yaxis_range();
+    auto [ymin, ymax] = dataYAxisRange();
     yAxis()->set_range(ymin, ymax);
-    Utils::EndMacros(this);
+    QEXTMvvmUtils::EndMacros(this);
 }
 
 void QEXTMvvmViewportItem::register_xy_axes()

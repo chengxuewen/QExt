@@ -11,17 +11,16 @@
 #define MULTILAYERTREEVIEW_H
 
 #include <QWidget>
-#include <memory>
+#include <QScopedPointer>
 
 class QTreeView;
 class ApplicationModels;
 
-namespace ModelView
-{
-class ViewModel;
-class QEXTMvvmSessionItem;
-class ViewModelDelegate;
-} // namespace ModelView
+
+class QEXTMvvmViewModel;
+class QEXTMvvmItem;
+class QEXTMvvmViewModelDelegate;
+
 
 //! Shows content of multi layer in a tree view in special "flat" form.
 
@@ -31,12 +30,12 @@ public:
     explicit MultiLayerTreeView(ApplicationModels* models, QWidget* parent = nullptr);
     ~MultiLayerTreeView();
 
-    void setItem(ModelView::QEXTMvvmSessionItem* multilayer);
+    void setItem(QEXTMvvmItem* multilayer);
 
 private:
     QTreeView* m_treeView;
-    std::unique_ptr<ModelView::ViewModel> m_viewModel;
-    std::unique_ptr<ModelView::ViewModelDelegate> m_delegate;
+    QScopedPointer<QEXTMvvmViewModel> m_viewModel;
+    QScopedPointer<QEXTMvvmViewModelDelegate> m_delegate;
 };
 
 #endif // MULTILAYERTREEVIEW_H

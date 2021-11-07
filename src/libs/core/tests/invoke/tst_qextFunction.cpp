@@ -3,7 +3,7 @@
 #include <qextGlobal.h>
 #include <qextMemberFunctor.h>
 #include <qextPointerFunctor.h>
-#include <qextSlot.h>
+#include <qextFunction.h>
 
 #include "qextFunctions.h"
 #include "qextMember.h"
@@ -18,7 +18,7 @@
 #include <functional>
 #endif
 
-static std::string *sg_string = QEXT_DECL_NULLPTR;
+static QString *sg_string = QEXT_DECL_NULLPTR;
 
 class MFunctor
 {
@@ -241,7 +241,7 @@ private Q_SLOTS:
 
 void QEXTFunctionTest::functor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MFunctor mFunctor;
 
@@ -296,7 +296,7 @@ void QEXTFunctionTest::functor()
 void QEXTFunctionTest::stdFunction()
 {
 #if QEXT_CC_STD_11
-    std::string string;
+    QString string;
     sg_string = &string;
 
     /*lambda*/
@@ -425,7 +425,7 @@ public:
 
 void QEXTFunctionTest::retIntFunctor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MRetIntFunctor mFunctor;
 
@@ -473,7 +473,7 @@ void QEXTFunctionTest::retIntFunctor()
 void QEXTFunctionTest::stdRetIntFunction()
 {
 #if QEXT_CC_STD_11
-    std::string string;
+    QString string;
     sg_string = &string;
 
     QEXTFunction< int > intFunctorArg0 = []() -> int { *sg_string = "lambda::intFunction0"; return 0; };
@@ -592,7 +592,7 @@ public:
 
 void QEXTFunctionTest::retDoubleFunctor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MRetDoubleFunctor mFunctor;
 
@@ -763,7 +763,7 @@ public:
 
 void QEXTFunctionTest::constFunctor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MConstFunctor mFunctor;
 
@@ -888,7 +888,7 @@ public:
 
 void QEXTFunctionTest::retIntConstFunctor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MRetIntConstFunctor mFunctor;
 
@@ -1006,7 +1006,7 @@ public:
 
 void QEXTFunctionTest::retDoubleConstFunctor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MRetDoubleConstFunctor mFunctor;
 
@@ -1178,7 +1178,7 @@ public:
 
 void QEXTFunctionTest::retVolatileFunctor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MRetVolatileFunctor mFunctor;
 
@@ -1303,7 +1303,7 @@ public:
 
 void QEXTFunctionTest::retIntVolatileFunctor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MRetIntVolatileFunctor mFunctor;
 
@@ -1421,7 +1421,7 @@ public:
 
 void QEXTFunctionTest::retDoubleVolatileFunctor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MRetDoubleVolatileFunctor mFunctor;
 
@@ -1593,7 +1593,7 @@ public:
 
 void QEXTFunctionTest::retConstVolatileFunctor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MRetConstVolatileFunctor mFunctor;
 
@@ -1718,7 +1718,7 @@ public:
 
 void QEXTFunctionTest::retIntConstVolatileFunctor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MRetIntConstVolatileFunctor mFunctor;
 
@@ -1835,7 +1835,7 @@ public:
 
 void QEXTFunctionTest::retDoubleConstVolatileFunctor()
 {
-    std::string string;
+    QString string;
     sg_string = &string;
     MRetDoubleConstVolatileFunctor mFunctor;
 
@@ -2117,7 +2117,7 @@ void QEXTFunctionTest::pointerFunctorWith7Arg()
 
 void QEXTFunctionTest::testBoundFunctorWith0Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2152,7 +2152,7 @@ void QEXTFunctionTest::testBoundFunctorWith0Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundFunctorWith0Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2188,7 +2188,7 @@ void QEXTFunctionTest::testPolymorphismBoundFunctorWith0Arg()
 //TODO ref test
 void QEXTFunctionTest::testBoundConstFunctorWith0Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2206,7 +2206,7 @@ void QEXTFunctionTest::testBoundConstFunctorWith0Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith0Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2224,7 +2224,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith0Arg()
 
 void QEXTFunctionTest::testBoundVolatileFunctorWith0Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2242,7 +2242,7 @@ void QEXTFunctionTest::testBoundVolatileFunctorWith0Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith0Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2260,7 +2260,7 @@ void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith0Arg()
 
 void QEXTFunctionTest::testBoundConstVolatileFunctorWith0Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2278,7 +2278,7 @@ void QEXTFunctionTest::testBoundConstVolatileFunctorWith0Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith0Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2296,7 +2296,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith0Arg()
 
 void QEXTFunctionTest::testBoundFunctorWith1Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2322,7 +2322,7 @@ void QEXTFunctionTest::testBoundFunctorWith1Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundFunctorWith1Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2348,7 +2348,7 @@ void QEXTFunctionTest::testPolymorphismBoundFunctorWith1Arg()
 
 void QEXTFunctionTest::testBoundConstFunctorWith1Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2374,7 +2374,7 @@ void QEXTFunctionTest::testBoundConstFunctorWith1Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith1Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2400,7 +2400,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith1Arg()
 
 void QEXTFunctionTest::testBoundVolatileFunctorWith1Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2426,7 +2426,7 @@ void QEXTFunctionTest::testBoundVolatileFunctorWith1Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith1Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2452,7 +2452,7 @@ void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith1Arg()
 
 void QEXTFunctionTest::testBoundConstVolatileFunctorWith1Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2478,7 +2478,7 @@ void QEXTFunctionTest::testBoundConstVolatileFunctorWith1Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith1Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2506,7 +2506,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith1Arg()
 
 void QEXTFunctionTest::testBoundFunctorWith2Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2532,7 +2532,7 @@ void QEXTFunctionTest::testBoundFunctorWith2Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundFunctorWith2Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2558,7 +2558,7 @@ void QEXTFunctionTest::testPolymorphismBoundFunctorWith2Arg()
 
 void QEXTFunctionTest::testBoundConstFunctorWith2Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2584,7 +2584,7 @@ void QEXTFunctionTest::testBoundConstFunctorWith2Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith2Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2610,7 +2610,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith2Arg()
 
 void QEXTFunctionTest::testBoundVolatileFunctorWith2Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2636,7 +2636,7 @@ void QEXTFunctionTest::testBoundVolatileFunctorWith2Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith2Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2662,7 +2662,7 @@ void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith2Arg()
 
 void QEXTFunctionTest::testBoundConstVolatileFunctorWith2Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2688,7 +2688,7 @@ void QEXTFunctionTest::testBoundConstVolatileFunctorWith2Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith2Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2716,7 +2716,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith2Arg()
 
 void QEXTFunctionTest::testBoundFunctorWith3Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2742,7 +2742,7 @@ void QEXTFunctionTest::testBoundFunctorWith3Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundFunctorWith3Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2768,7 +2768,7 @@ void QEXTFunctionTest::testPolymorphismBoundFunctorWith3Arg()
 
 void QEXTFunctionTest::testBoundConstFunctorWith3Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2794,7 +2794,7 @@ void QEXTFunctionTest::testBoundConstFunctorWith3Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith3Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2822,7 +2822,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith3Arg()
 
 void QEXTFunctionTest::testBoundVolatileFunctorWith3Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2848,7 +2848,7 @@ void QEXTFunctionTest::testBoundVolatileFunctorWith3Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith3Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2876,7 +2876,7 @@ void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith3Arg()
 
 void QEXTFunctionTest::testBoundConstVolatileFunctorWith3Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2902,7 +2902,7 @@ void QEXTFunctionTest::testBoundConstVolatileFunctorWith3Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith3Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2933,7 +2933,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith3Arg()
 
 void QEXTFunctionTest::testBoundFunctorWith4Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -2959,7 +2959,7 @@ void QEXTFunctionTest::testBoundFunctorWith4Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundFunctorWith4Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -2985,7 +2985,7 @@ void QEXTFunctionTest::testPolymorphismBoundFunctorWith4Arg()
 
 void QEXTFunctionTest::testBoundConstFunctorWith4Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3011,7 +3011,7 @@ void QEXTFunctionTest::testBoundConstFunctorWith4Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith4Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3039,7 +3039,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith4Arg()
 
 void QEXTFunctionTest::testBoundVolatileFunctorWith4Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3065,7 +3065,7 @@ void QEXTFunctionTest::testBoundVolatileFunctorWith4Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith4Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3093,7 +3093,7 @@ void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith4Arg()
 
 void QEXTFunctionTest::testBoundConstVolatileFunctorWith4Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3119,7 +3119,7 @@ void QEXTFunctionTest::testBoundConstVolatileFunctorWith4Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith4Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3151,7 +3151,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith4Arg()
 
 void QEXTFunctionTest::testBoundFunctorWith5Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3177,7 +3177,7 @@ void QEXTFunctionTest::testBoundFunctorWith5Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundFunctorWith5Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3205,7 +3205,7 @@ void QEXTFunctionTest::testPolymorphismBoundFunctorWith5Arg()
 
 void QEXTFunctionTest::testBoundConstFunctorWith5Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3231,7 +3231,7 @@ void QEXTFunctionTest::testBoundConstFunctorWith5Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith5Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3259,7 +3259,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith5Arg()
 
 void QEXTFunctionTest::testBoundVolatileFunctorWith5Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3285,7 +3285,7 @@ void QEXTFunctionTest::testBoundVolatileFunctorWith5Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith5Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3316,7 +3316,7 @@ void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith5Arg()
 
 void QEXTFunctionTest::testBoundConstVolatileFunctorWith5Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3344,7 +3344,7 @@ void QEXTFunctionTest::testBoundConstVolatileFunctorWith5Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith5Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3376,7 +3376,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith5Arg()
 
 void QEXTFunctionTest::testBoundFunctorWith6Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3402,7 +3402,7 @@ void QEXTFunctionTest::testBoundFunctorWith6Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundFunctorWith6Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3430,7 +3430,7 @@ void QEXTFunctionTest::testPolymorphismBoundFunctorWith6Arg()
 
 void QEXTFunctionTest::testBoundConstFunctorWith6Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3456,7 +3456,7 @@ void QEXTFunctionTest::testBoundConstFunctorWith6Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith6Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3487,7 +3487,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith6Arg()
 
 void QEXTFunctionTest::testBoundVolatileFunctorWith6Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3515,7 +3515,7 @@ void QEXTFunctionTest::testBoundVolatileFunctorWith6Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith6Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3547,7 +3547,7 @@ void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith6Arg()
 
 void QEXTFunctionTest::testBoundConstVolatileFunctorWith6Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3575,7 +3575,7 @@ void QEXTFunctionTest::testBoundConstVolatileFunctorWith6Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith6Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3607,7 +3607,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith6Arg()
 
 void QEXTFunctionTest::testBoundFunctorWith7Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3633,7 +3633,7 @@ void QEXTFunctionTest::testBoundFunctorWith7Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundFunctorWith7Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3661,7 +3661,7 @@ void QEXTFunctionTest::testPolymorphismBoundFunctorWith7Arg()
 
 void QEXTFunctionTest::testBoundConstFunctorWith7Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3689,7 +3689,7 @@ void QEXTFunctionTest::testBoundConstFunctorWith7Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith7Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3721,7 +3721,7 @@ void QEXTFunctionTest::testPolymorphismBoundConstFunctorWith7Arg()
 
 void QEXTFunctionTest::testBoundVolatileFunctorWith7Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3749,7 +3749,7 @@ void QEXTFunctionTest::testBoundVolatileFunctorWith7Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith7Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;
@@ -3781,7 +3781,7 @@ void QEXTFunctionTest::testPolymorphismBoundVolatileFunctorWith7Arg()
 
 void QEXTFunctionTest::testBoundConstVolatileFunctorWith7Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     MemberBase memberBase;
@@ -3809,7 +3809,7 @@ void QEXTFunctionTest::testBoundConstVolatileFunctorWith7Arg()
 
 void QEXTFunctionTest::testPolymorphismBoundConstVolatileFunctorWith7Arg()
 {
-    std::string string;
+    QString string;
     sg_memberString = &string;
 
     Member member;

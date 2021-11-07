@@ -11,7 +11,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <memory>
+#include <QScopedPointer>
 
 class ActionManager;
 class SampleModel;
@@ -37,7 +37,7 @@ private:
     void init_connections();
     void write_settings();
 
-    std::unique_ptr<SampleModel> m_sampleModel;
+    QScopedPointer<SampleModel> m_sampleModel;
     ActionManager* m_actionManager{nullptr};
     RecentProjectWidget* m_recentProjectWidget{nullptr};
     ProjectHandler* m_projectHandler{nullptr};

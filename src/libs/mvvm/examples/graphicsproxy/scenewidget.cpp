@@ -17,18 +17,18 @@
 #include <QBoxLayout>
 #include <QToolBar>
 #include <QToolButton>
-#include <plotting/colormapcanvas.h>
+#include <qextMvvmColorMapCanvas.h>
 #include <qextMvvmAxisItems.h>
 #include <qextMvvmColorMapViewPortItem.h>
 
-using namespace ModelView;
+
 
 SceneWidget::SceneWidget(SceneModel* model, QWidget* parent)
     : QWidget(parent)
     , m_toolBar(new QToolBar)
     , m_resetViewportAction(nullptr)
     , m_propertyWidget(new ScenePropertyWidget)
-    , m_colorMapCanvas(new ColorMapCanvas)
+    , m_colorMapCanvas(new QEXTMvvmColorMapCanvas)
     , graphics_scene(new GraphicsScene(this))
     , graphics_view(new GraphicsView(graphics_scene, this))
     , m_model(model)

@@ -12,55 +12,55 @@
 
 #include <qextMvvmCompoundItem.h>
 #include <qextMvvmGroupItem.h>
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmModel.h>
 
 //! @file particlemodel.h
 //! Collection of items and their model representing Particle.
 
 //! A particle with position and shape group.
 
-class ParticleItem : public ModelView::QEXTMvvmCompoundItem
+class ParticleItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_POSITION = "Position";
-    static inline const std::string P_SHAPES = "Shapes";
+    static inline const QString P_POSITION = "Position";
+    static inline const QString P_SHAPES = "Shapes";
     ParticleItem();
 };
 
 //! Simple cylinder with radius and height.
 
-class CylinderItem : public ModelView::QEXTMvvmCompoundItem
+class CylinderItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_RADIUS = "Radius";
-    static inline const std::string P_HEIGHT = "Height";
+    static inline const QString P_RADIUS = "Radius";
+    static inline const QString P_HEIGHT = "Height";
     CylinderItem();
 };
 
 //! Simple spherer with radius.
 
-class SphereItem : public ModelView::QEXTMvvmCompoundItem
+class SphereItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_RADIUS = "Radius";
+    static inline const QString P_RADIUS = "Radius";
     SphereItem();
 };
 
 //! Pyramid with 4 parameters.
 
-class AnysoPyramidItem : public ModelView::QEXTMvvmCompoundItem
+class AnysoPyramidItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_LENGTH = "Length";
-    static inline const std::string P_WIDTH = "Width";
-    static inline const std::string P_HEIGHT = "Height";
-    static inline const std::string P_ALPHA = "Alpha";
+    static inline const QString P_LENGTH = "Length";
+    static inline const QString P_WIDTH = "Width";
+    static inline const QString P_HEIGHT = "Height";
+    static inline const QString P_ALPHA = "Alpha";
     AnysoPyramidItem();
 };
 
 //! Special group of shapes.
 
-class ShapeGroupItem : public ModelView::QEXTMvvmGroupItem
+class ShapeGroupItem : public QEXTMvvmGroupItem
 {
 public:
     ShapeGroupItem();
@@ -68,7 +68,7 @@ public:
 
 //! Main application model.
 
-class ParticleModel : public ModelView::QEXTMvvmSessionModel
+class ParticleModel : public QEXTMvvmModel
 {
 public:
     ParticleModel();

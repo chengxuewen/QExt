@@ -1,114 +1,161 @@
 #include <qextMvvmAbstractItemCommand.h>
+#include <qextMvvmAbstractItemCommand_p.h>
 #include <qextMvvmPath.h>
-#include <qextMvvmSessionItem.h>
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmItem.h>
+#include <qextMvvmModel.h>
 #include <stdexcept>
 
-using namespace ModelView;
 
-struct QEXTAbstractItemCommand::AbstractItemCommandImpl {
-    enum EStatus { INITIAL, AFTER_EXECUTE, AFTER_UNDO };
-    bool is_obsolete{false};
-    std::string text;
-    EStatus status{INITIAL};
-    QEXTMvvmSessionModel* model{nullptr};
-    QEXTAbstractItemCommand* parent_impl{nullptr};
-    QEXTCommandResult m_result;
-    AbstractItemCommandImpl(QEXTAbstractItemCommand* parent) : parent_impl(parent) {}
-
-    void set_after_execute() { status = AFTER_EXECUTE; }
-    void set_after_undo() { status = AFTER_UNDO; }
-    bool can_execute() const { return status != AFTER_EXECUTE; }
-    bool can_undo() const { return status == AFTER_EXECUTE && !parent_impl->isObsolete(); }
-};
-
-QEXTAbstractItemCommand::QEXTAbstractItemCommand(QEXTMvvmSessionItem* receiver)
-    : p_impl(std::make_unique<QEXTAbstractItemCommand::AbstractItemCommandImpl>(this))
+QEXTMvvmAbstractItemCommandPrivate::QEXTMvvmAbstractItemCommandPrivate(QEXTMvvmAbstractItemCommand *q)
+    : q_ptr(q)
+    , m_isObsolete(false)
+    , m_status(Status_Initial)
+    , m_model(QEXT_DECL_NULLPTR)
 {
-    if (!receiver)
-        throw std::runtime_error("Invalid item.");
 
-    if (!receiver->model())
-        throw std::runtime_error("Item doesn't have a model");
-
-    p_impl->model = receiver->model();
 }
 
-QEXTAbstractItemCommand::~QEXTAbstractItemCommand() = default;
+QEXTMvvmAbstractItemCommandPrivate::~QEXTMvvmAbstractItemCommandPrivate()
+{
+
+}
+
+void QEXTMvvmAbstractItemCommandPrivate::setAfterExecute()
+{
+    m_status = Status_AfterExecute;
+}
+
+void QEXTMvvmAbstractItemCommandPrivate::setAfterUndo()
+{
+    m_status = Status_AfterUndo;
+}
+
+bool QEXTMvvmAbstractItemCommandPrivate::canExecute() const
+{
+    return m_status != Status_AfterExecute;
+}
+
+bool QEXTMvvmAbstractItemCommandPrivate::canUndo() const
+{
+    return m_status == Status_AfterExecute && !m_isObsolete;
+}
+
+
+
+
+QEXTMvvmAbstractItemCommand::QEXTMvvmAbstractItemCommand(QEXTMvvmItem *receiver)
+    : d_ptr(new QEXTMvvmAbstractItemCommandPrivate(this))
+{
+    if (!receiver)
+    {
+        throw std::runtime_error("Invalid item.");
+    }
+
+    if (!receiver->model())
+    {
+        throw std::runtime_error("Item doesn't have a model");
+    }
+
+    d_ptr->m_model = receiver->model();
+}
+
+QEXTMvvmAbstractItemCommand::~QEXTMvvmAbstractItemCommand()
+{
+
+}
 
 //! Execute command.
 
-void QEXTAbstractItemCommand::execute()
+void QEXTMvvmAbstractItemCommand::execute()
 {
-    if (!p_impl->can_execute())
+    if (!d_ptr->canExecute())
+    {
         throw std::runtime_error("Can't execute the command. Wrong order.");
+    }
 
-    execute_command();
-
-    p_impl->set_after_execute();
+    this->executeCommand();
+    d_ptr->setAfterExecute();
 }
 
 //! Undo command as it was before execution.
 
-void QEXTAbstractItemCommand::undo()
+void QEXTMvvmAbstractItemCommand::undo()
 {
-    if (!p_impl->can_undo())
+    if (!d_ptr->canUndo())
+    {
         throw std::runtime_error("Can't undo the command. Wrong order.");
+    }
 
-    undo_command();
-
-    p_impl->set_after_undo();
+    this->undoCommand();
+    d_ptr->setAfterUndo();
 }
 
 //! Returns whether the command is obsolete (which means that it shouldn't be kept in the stack).
 
-bool QEXTAbstractItemCommand::isObsolete() const
+bool QEXTMvvmAbstractItemCommand::isObsolete() const
 {
-    return p_impl->is_obsolete;
+    return d_ptr->m_isObsolete;
 }
 
 //! Returns command description.
 
-std::string QEXTAbstractItemCommand::description() const
+QString QEXTMvvmAbstractItemCommand::description() const
 {
-    return p_impl->text;
+    return d_ptr->m_text;
 }
 
-QEXTCommandResult QEXTAbstractItemCommand::result() const
+QEXTMvvmCommandResult QEXTMvvmAbstractItemCommand::result() const
 {
-    return p_impl->m_result;
+    return d_ptr->m_result;
+}
+
+QEXTMvvmAbstractItemCommand::QEXTMvvmAbstractItemCommand(QEXTMvvmAbstractItemCommandPrivate *d,
+                                                         QEXTMvvmItem *receiver)
+    : d_ptr(d)
+{
+    if (!receiver)
+    {
+        throw std::runtime_error("Invalid item.");
+    }
+
+    if (!receiver->model())
+    {
+        throw std::runtime_error("Item doesn't have a model");
+    }
+
+    d_ptr->m_model = receiver->model();
 }
 
 //! Sets command obsolete flag.
 
-void QEXTAbstractItemCommand::setObsolete(bool flag)
+void QEXTMvvmAbstractItemCommand::setObsolete(bool flag)
 {
-    p_impl->is_obsolete = flag;
+    d_ptr->m_isObsolete = flag;
 }
 
 //! Sets command description.
 
-void QEXTAbstractItemCommand::setDescription(const std::string& text)
+void QEXTMvvmAbstractItemCommand::setDescription(const QString &text)
 {
-    p_impl->text = text;
+    d_ptr->m_text = text;
 }
 
-QEXTMvvmPath QEXTAbstractItemCommand::pathFromItem(QEXTMvvmSessionItem* item) const
+QEXTMvvmPath QEXTMvvmAbstractItemCommand::pathFromItem(QEXTMvvmItem *item) const
 {
-    return p_impl->model->pathFromItem(item);
+    return d_ptr->m_model->pathFromItem(item);
 }
 
-QEXTMvvmSessionItem* QEXTAbstractItemCommand::itemFromPath(const QEXTMvvmPath& path) const
+QEXTMvvmItem *QEXTMvvmAbstractItemCommand::itemFromPath(const QEXTMvvmPath &path) const
 {
-    return p_impl->model->itemFromPath(path);
+    return d_ptr->m_model->itemFromPath(path);
 }
 
-QEXTMvvmSessionModel* QEXTAbstractItemCommand::model() const
+QEXTMvvmModel *QEXTMvvmAbstractItemCommand::model() const
 {
-    return p_impl->model;
+    return d_ptr->m_model;
 }
 
-void QEXTAbstractItemCommand::setResult(const QEXTCommandResult& command_result)
+void QEXTMvvmAbstractItemCommand::setResult(const QEXTMvvmCommandResult &result)
 {
-    p_impl->m_result = command_result;
+    d_ptr->m_result = result;
 }

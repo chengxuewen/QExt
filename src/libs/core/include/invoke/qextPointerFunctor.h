@@ -47,7 +47,7 @@ namespace qextPrivate
  * @par Example:
  * @code
  * void foo(int) {}
- * QEXTSlot<void, int> slot = qextPointerFunctor(&foo);
+ * QEXTFunction<void, int> slot = qextPointerFunctor(&foo);
  * @endcode
  *
  * Use qextPointerFunctor#() if there is an ambiguity as to the number of arguments.
@@ -57,7 +57,7 @@ namespace qextPrivate
  * void foo(int) {}  // choose this one
  * void foo(float) {}
  * void foo(int, int) {}
- * QEXTSlot<void, long> slot = qextPointerFunctor<int>(&foo);
+ * QEXTFunction<void, long> slot = qextPointerFunctor<int>(&foo);
  * @endcode
  *
  * qextPointerFunctor() can also be used to convert a pointer to a static member

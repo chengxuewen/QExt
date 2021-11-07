@@ -2,7 +2,7 @@
 #include <qextMemberFunctor.h>
 #include <qextBindReturnFunctor.h>
 #include <qextBindFunctor.h>
-#include <qextSlot.h>
+#include <qextFunction.h>
 
 #include <QtTest>
 
@@ -17,7 +17,7 @@ private Q_SLOTS:
     void testSimple();
 };
 
-static std::string sg_string = "";
+static QString sg_string = "";
 
 class Base : virtual public QObject
 {
@@ -45,18 +45,18 @@ void QEXTLimitReferenceTest::testSimple()
 {
     sg_string = "";
     Derived *instance = new Derived;
-    QEXTSlot<void> handler = qextMemberFunctor(instance, &Derived::method);
+    QEXTFunction<void> handler = qextMemberFunctor(instance, &Derived::method);
     handler();
     QVERIFY("method()" == sg_string);
 
     sg_string = "";
-    QEXTSlot<void> param = qextBindFunctor(QEXTSlot<void, Derived &>(), qextReferenceWrapper(*instance));
+    QEXTFunction<void> param = qextBindFunctor(QEXTFunction<void, Derived &>(), qextReferenceWrapper(*instance));
     param();
     QVERIFY("" == sg_string);
 
     sg_string = "";
     //TODO
-    //        QEXTSlot<Derived *> ret = qextBindReturnFunctor(QEXTSlot<void>(), qextReferenceWrapper(*instance));
+    //        QEXTFunction<Derived *> ret = qextBindReturnFunctor(QEXTFunction<void>(), qextReferenceWrapper(*instance));
     //        ret();
     //        CHECK("" == sg_string);
 

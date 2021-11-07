@@ -12,21 +12,21 @@
 #include <qextMvvmColorMapItem.h>
 #include <qextMvvmColorMapViewPortItem.h>
 #include <qextMvvmData2dItem.h>
-#include <vector>
+#include <QVector>
 
 namespace
 {
-const std::pair<double, double> default_axis_range{0.0, 1.0};
+const QPair<double, double> default_axis_range{0.0, 1.0};
 }
 
-using namespace ModelView;
 
-QEXTMvvmColorMapViewportItem::QEXTMvvmColorMapViewportItem() : QEXTMvvmViewportItem(Constants::ColorMapViewportItemType)
+
+QEXTMvvmColorMapViewportItem::QEXTMvvmColorMapViewportItem() : QEXTMvvmViewportItem(QEXTMvvmConstants::ColorMapViewportItemType)
 {
     register_xy_axes();
     addProperty<QEXTMvvmViewportAxisItem>(P_ZAXIS)->setDisplayName("color-axis");
     // for the moment allow only one QEXTMvvmColorMapItem
-    registerTag(QEXTMvvmTagInfo(T_ITEMS, 0, 1, {Constants::ColorMapItemType}), /*set_default*/ true);
+    registerTag(QEXTMvvmTagInfo(T_ITEMS, 0, 1, {QEXTMvvmConstants::ColorMapItemType}), /*set_default*/ true);
 }
 
 QEXTMvvmViewportAxisItem* QEXTMvvmColorMapViewportItem::zAxis() const
@@ -42,7 +42,7 @@ void QEXTMvvmColorMapViewportItem::setViewportToContent()
 
 //! Returns range of x-axis as defined in underlying QEXTMvvmData2DItem.
 
-std::pair<double, double> QEXTMvvmColorMapViewportItem::data_xaxis_range() const
+QPair<double, double> QEXTMvvmColorMapViewportItem::dataXAxisRange() const
 {
     auto dataItem = data_item();
     return dataItem && dataItem->xAxis() ? dataItem->xAxis()->range() : default_axis_range;
@@ -50,7 +50,7 @@ std::pair<double, double> QEXTMvvmColorMapViewportItem::data_xaxis_range() const
 
 //! Returns range of y-axis as defined in underlying QEXTMvvmData2DItem.
 
-std::pair<double, double> QEXTMvvmColorMapViewportItem::data_yaxis_range() const
+QPair<double, double> QEXTMvvmColorMapViewportItem::dataYAxisRange() const
 {
     auto dataItem = data_item();
     return dataItem && dataItem->yAxis() ? dataItem->yAxis()->range() : default_axis_range;

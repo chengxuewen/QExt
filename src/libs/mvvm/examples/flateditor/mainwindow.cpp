@@ -22,9 +22,9 @@ const QString pos_key = "pos";
 } // namespace
 
 MainWindow::MainWindow()
-    : m_tabWidget(new QTabWidget), m_sample_model(std::make_unique<SampleModel>())
+    : m_tabWidget(new QTabWidget), m_sample_model(new SampleModel)
 {
-    m_tabWidget->addTab(new DemoWidget(m_sample_model.get()), "Automatic widget generation");
+    m_tabWidget->addTab(new QEXTMvvmDemoWidget(m_sample_model.get()), "Automatic widget generation");
 
     m_tabWidget->setCurrentIndex(m_tabWidget->count() - 1);
     setCentralWidget(m_tabWidget);

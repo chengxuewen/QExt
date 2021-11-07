@@ -1,6 +1,6 @@
 #include <qextVisitor.h>
 #include <qextAdaptorTrait.h>
-#include <qextSlot.h>
+#include <qextFunction.h>
 #include <qextMemberFunctor.h>
 
 #include <QtTest>
@@ -194,7 +194,7 @@ void QEXTVisitorTest::testTypeVisitor()
 
 void QEXTVisitorTest::testCase1()
 {
-    QEXTSlot<void, int> sl1;
+    QEXTFunction<void, int> sl1;
     {
         sg_string = "";
         MyClass1 my_class1("x=");

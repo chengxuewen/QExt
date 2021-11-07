@@ -14,10 +14,10 @@
 #include <QBoxLayout>
 #include <QToolBar>
 #include <QToolButton>
-#include <plotting/colormapcanvas.h>
+#include <qextMvvmColorMapCanvas.h>
 #include <qextMvvmColorMapViewPortItem.h>
 
-using namespace ModelView;
+
 
 namespace PlotColorMap
 {
@@ -27,7 +27,7 @@ ColorMapWidget::ColorMapWidget(ColorMapModel* model, QWidget* parent)
     , m_toolBar(new QToolBar)
     , m_resetViewportAction(nullptr)
     , m_propertyWidget(new ColorMapPropertyWidget)
-    , m_colorMapCanvas(new ColorMapCanvas)
+    , m_colorMapCanvas(new QEXTMvvmColorMapCanvas)
     , m_model(nullptr)
 {
     auto mainLayout = new QVBoxLayout;

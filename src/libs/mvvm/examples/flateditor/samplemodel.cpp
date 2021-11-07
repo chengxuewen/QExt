@@ -11,13 +11,13 @@
 #include "sampleitems.h"
 #include <qextMvvmItemCatalogue.h>
 
-using namespace ModelView;
+
 
 namespace
 {
-std::unique_ptr<ModelView::QEXTMvvmItemCatalogue> CreateItemCatalogue()
+QEXTMvvmItemCatalogue *qextMvvmCreateItemCatalogue()
 {
-    auto result = std::make_unique<QEXTMvvmItemCatalogue>();
+    QEXTMvvmItemCatalogue *result = new QEXTMvvmItemCatalogue;
     result->registerItem<BeamItem>();
     result->registerItem<DistributionNoneItem>();
     result->registerItem<DistributionGaussianItem>();
@@ -28,9 +28,9 @@ std::unique_ptr<ModelView::QEXTMvvmItemCatalogue> CreateItemCatalogue()
 }
 } // namespace
 
-SampleModel::SampleModel() : QEXTMvvmSessionModel("SampleModel")
+SampleModel::SampleModel() : QEXTMvvmModel("SampleModel")
 {
-    setItemCatalogue(CreateItemCatalogue());
+    setItemCatalogue(qextMvvmCreateItemCatalogue());
     init_model();
 }
 

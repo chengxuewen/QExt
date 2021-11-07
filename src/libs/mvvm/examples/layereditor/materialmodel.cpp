@@ -14,24 +14,24 @@
 #include <qextMvvmContainerItem.h>
 #include <qextMvvmVectorItem.h>
 
-using namespace ModelView;
+
 
 namespace
 {
-std::unique_ptr<QEXTMvvmItemCatalogue> CreateItemCatalogue()
+QEXTMvvmItemCatalogue *qextMvvmCreateItemCatalogue()
 {
-    auto result = std::make_unique<ModelView::QEXTMvvmItemCatalogue>();
+    QEXTMvvmItemCatalogue *result = new QEXTMvvmItemCatalogue;
     result->registerItem<SLDMaterialItem>();
     return result;
 }
 
-const std::string SLDMaterialType = "SLDMaterial";
+const QString SLDMaterialType = "SLDMaterial";
 
 } // namespace
 
-using namespace ModelView;
 
-SLDMaterialItem::SLDMaterialItem() : ModelView::QEXTMvvmCompoundItem(SLDMaterialType)
+
+SLDMaterialItem::SLDMaterialItem() : QEXTMvvmCompoundItem(SLDMaterialType)
 {
     addProperty(P_NAME, "Unnamed")->setDisplayName("Name");
     addProperty(P_COLOR, QColor(Qt::green))->setDisplayName("Color");
@@ -40,7 +40,7 @@ SLDMaterialItem::SLDMaterialItem() : ModelView::QEXTMvvmCompoundItem(SLDMaterial
     addProperty<QEXTMvvmVectorItem>("Magnetization");
 }
 
-void SLDMaterialItem::set_properties(const std::string& name, const QColor& color, double real,
+void SLDMaterialItem::set_properties(const QString& name, const QColor& color, double real,
                                      double imag)
 {
     setProperty(P_NAME, name);
@@ -49,9 +49,9 @@ void SLDMaterialItem::set_properties(const std::string& name, const QColor& colo
     setProperty(P_SLD_IMAG, imag);
 }
 
-MaterialModel::MaterialModel() : QEXTMvvmSessionModel("MaterialModel")
+MaterialModel::MaterialModel() : QEXTMvvmModel("MaterialModel")
 {
-    setItemCatalogue(CreateItemCatalogue());
+    setItemCatalogue(qextMvvmCreateItemCatalogue());
     init_model();
 }
 
@@ -65,15 +65,15 @@ QEXTMvvmExternalProperty MaterialModel::undefined_material()
 //! Returns vector of properties representing possible choice of materials.
 //! Here we assume that all materials seats in top level material containers.
 
-std::vector<QEXTMvvmExternalProperty> MaterialModel::material_data()
+QVector<QEXTMvvmExternalProperty> MaterialModel::material_data()
 {
-    std::vector<QEXTMvvmExternalProperty> result;
+    QVector<QEXTMvvmExternalProperty> result;
 
     result.push_back(undefined_material());
     for (auto container : rootItem()->children()) {
         for (auto item : container->children()) {
             if (auto material = dynamic_cast<SLDMaterialItem*>(item)) {
-                auto text = material->property<std::string>(SLDMaterialItem::P_NAME);
+                auto text = material->property<QString>(SLDMaterialItem::P_NAME);
                 auto color = material->property<QColor>(SLDMaterialItem::P_COLOR);
                 auto id = material->identifier();
                 result.push_back(QEXTMvvmExternalProperty(text, color, id));
@@ -85,7 +85,7 @@ std::vector<QEXTMvvmExternalProperty> MaterialModel::material_data()
 
 //! Returns property from given material id.
 
-QEXTMvvmExternalProperty MaterialModel::material_property(const std::string& id)
+QEXTMvvmExternalProperty MaterialModel::material_property(const QString& id)
 {
     auto materials = material_data();
     for (const auto& prop : material_data())
@@ -99,7 +99,7 @@ QEXTMvvmExternalProperty MaterialModel::material_property(const std::string& id)
 
 void MaterialModel::init_model()
 {
-    auto container = insertItem<ModelView::QEXTMvvmContainerItem>();
+    auto container = insertItem<QEXTMvvmContainerItem>();
     auto material = insertItem<SLDMaterialItem>(container);
     material->set_properties("Air", QColor(Qt::blue), 1e-06, 1e-07);
 

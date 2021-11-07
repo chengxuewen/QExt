@@ -5,12 +5,11 @@
 
 #include <QObject>
 #include <QScopedPointer>
-
+#include <QList>
+#include <QString>
+#include <QVector>
+#include <QPair>
 #include <cmath>
-#include <list>
-#include <string>
-#include <vector>
-#include <utility>
 
 class QEXTLinearFunctionPrivate;
 class QEXT_CORE_API QEXTLinearFunction
@@ -32,7 +31,7 @@ public:
     bool isHorizontalLine() const;
     bool isVerticalLine() const;
 
-    std::vector<std::pair<double, double> > distancePoints(double x, double y, double distance) const;
+    QVector<QPair<double, double> > distancePoints(double x, double y, double distance) const;
 
     bool distancePoint(double originX, double originY, double rangeX, double rangeY,
                        double distance, double &x, double &y) const;

@@ -1,49 +1,47 @@
 #ifndef _QEXTMVVMPROJECTMANAGER_H
 #define _QEXTMVVMPROJECTMANAGER_H
 
-#include <memory>
 #include <qextMvvmProjectManagerInterface.h>
 
-namespace ModelView
-{
+#include <QScopedPointer>
+
 
 struct QEXTMvvmProjectContext;
 
-//! Responsible for handling new/save/save-as/close QEXTMvvmProject logic, where the QEXTMvvmProject represents
+//! Responsible for handling new/save/save-as/close Project logic, where the Project represents
 //! a collection of serialized application models in the project directory.
 
 //! This QEXTMvvmProjectManager requires certain prerequisites to function properly: for example,
 //! the creation of a new project will be possible only if the old project is in a saved state. See
 //! description to the class methods.
 
-class QEXT_MVVM_API QEXTMvvmProjectManager : public ModelView::QEXTMvvmProjectManagerInterface
+class QEXT_MVVM_API QEXTMvvmProjectManager : public QEXTMvvmProjectManagerInterface
 {
 public:
     QEXTMvvmProjectManager(const QEXTMvvmProjectContext& context);
-    ~QEXTMvvmProjectManager() override;
+    ~QEXTMvvmProjectManager() QEXT_DECL_OVERRIDE;
 
     QEXTMvvmProjectManager(const QEXTMvvmProjectManager& other) = delete;
     QEXTMvvmProjectManager& operator=(const QEXTMvvmProjectManager& other) = delete;
 
-    bool createNewProject(const std::string& dirname) override;
+    bool createNewProject(const QString &dirname) QEXT_DECL_OVERRIDE;
 
-    bool saveCurrentProject() override;
+    bool saveCurrentProject() QEXT_DECL_OVERRIDE;
 
-    bool saveProjectAs(const std::string& dirname) override;
+    bool saveProjectAs(const QString &dirname) QEXT_DECL_OVERRIDE;
 
-    bool openExistingProject(const std::string& dirname) override;
+    bool openExistingProject(const QString &dirname) QEXT_DECL_OVERRIDE;
 
-    std::string currentProjectDir() const override;
+    QString currentProjectDir() const QEXT_DECL_OVERRIDE;
 
-    bool isModified() const override;
+    bool isModified() const QEXT_DECL_OVERRIDE;
 
-    bool closeCurrentProject() const override;
+    bool closeCurrentProject() const QEXT_DECL_OVERRIDE;
 
 private:
     struct ProjectManagerImpl;
-    std::unique_ptr<ProjectManagerImpl> p_impl;
+    QScopedPointer<ProjectManagerImpl> p_impl;
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMPROJECTMANAGER_H

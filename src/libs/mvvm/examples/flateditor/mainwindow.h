@@ -11,7 +11,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <memory>
+#include <QScopedPointer>
 
 class SampleModel;
 class QTabWidget;
@@ -34,7 +34,7 @@ private:
     void write_settings();
 
     QTabWidget* m_tabWidget{nullptr};
-    std::unique_ptr<SampleModel> m_sample_model;
+    QScopedPointer<SampleModel> m_sample_model;
 };
 
 #endif //  MAINWINDOW_H

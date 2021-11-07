@@ -11,21 +11,21 @@
 #include <qextMvvmItemCatalogue.h>
 #include <qextMvvmVectorItem.h>
 
-using namespace ModelView;
+
 
 namespace
 {
 
 //! Constants to define toy items.
-const std::string ParticleType = "Particle";
-const std::string CylinderType = "Cylinder";
-const std::string SphereType = "Sphere";
-const std::string AnysoPyramidType = "AnysoPyramid";
-const std::string ShapeGroupType = "ShapeGroup";
+const QString ParticleType = "Particle";
+const QString CylinderType = "Cylinder";
+const QString SphereType = "Sphere";
+const QString AnysoPyramidType = "AnysoPyramid";
+const QString ShapeGroupType = "ShapeGroup";
 
-std::unique_ptr<ModelView::QEXTMvvmItemCatalogue> CreateItemCatalogue()
+QEXTMvvmItemCatalogue *qextMvvmCreateItemCatalogue()
 {
-    auto result = std::make_unique<QEXTMvvmItemCatalogue>();
+    QEXTMvvmItemCatalogue *result = new QEXTMvvmItemCatalogue;
     result->registerItem<ParticleItem>();
     result->registerItem<SphereItem>();
     result->registerItem<CylinderItem>();
@@ -69,13 +69,13 @@ ShapeGroupItem::ShapeGroupItem() : QEXTMvvmGroupItem(ShapeGroupType)
     registerItem<CylinderItem>("Cylinder");
     registerItem<SphereItem>("Full sphere", /*make_selected*/ true);
     registerItem<AnysoPyramidItem>("Anysotropical pyramid");
-    init_group();
+    initGroup();
 }
 
 //! ---------------------------------------------------------------------------
 
-ParticleModel::ParticleModel() : QEXTMvvmSessionModel("ParticleModel")
+ParticleModel::ParticleModel() : QEXTMvvmModel("ParticleModel")
 {
-    setItemCatalogue(CreateItemCatalogue());
+    setItemCatalogue(qextMvvmCreateItemCatalogue());
     insertItem<ParticleItem>();
 }

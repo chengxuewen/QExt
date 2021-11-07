@@ -1,29 +1,19 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
 #include "userinteractor.h"
 #include "recentprojectsettings.h"
 #include <QFileDialog>
 #include <QMessageBox>
-#include <map>
-#include <project/qextMvvmProjectTypes.h>
-#include <project/qextMvvmProjectUtils.h>
-#include <utils/qextMvvmFileUtils.h>
+#include <QMap>
+#include <qextMvvmProjectTypes.h>
+#include <qextMvvmProjectUtils.h>
+#include <qextMvvmUtils.h>
 
-using namespace ModelView;
 
 namespace
 {
 //! Map of standard Qt answers to what QEXTMvvmProjectManager expects.
-std::map<QMessageBox::StandardButton, SaveChangesAnswer> answer_map()
+QMap<QMessageBox::StandardButton, SaveChangesAnswer> answer_map()
 {
-    std::map<QMessageBox::StandardButton, SaveChangesAnswer> result = {
+    QMap<QMessageBox::StandardButton, SaveChangesAnswer> result = {
         {QMessageBox::Save, SaveChangesAnswer::SAVE},
         {QMessageBox::Discard, SaveChangesAnswer::DISCARD},
         {QMessageBox::Cancel, SaveChangesAnswer::CANCEL}};
@@ -39,14 +29,14 @@ UserInteractor::UserInteractor(RecentProjectSettings* settings, QWidget* parent)
 //! Returns directory on disk selected by the user via QFileDialog.
 //! Checks if selected directory can be the project directory.
 
-std::string UserInteractor::onSelectDirRequest()
+QString UserInteractor::onSelectDirRequest()
 {
     auto dirname = getExistingDirectory();
 
-    if (dirname.empty()) // no valid selection
+    if (dirname.isEmpty()) // no valid selection
         return {};
 
-    if (!ModelView::ProjectUtils::IsPossibleProjectDir(dirname)) {
+    if (!ProjectUtils::IsPossibleProjectDir(dirname)) {
         QMessageBox msgBox;
         msgBox.setText(
             "Selected directory doesn't look like a project directory, choose another one");
@@ -59,15 +49,15 @@ std::string UserInteractor::onSelectDirRequest()
 
 //! Returns new directory on disk created by the user via QFileDialog.
 
-std::string UserInteractor::onCreateDirRequest()
+QString UserInteractor::onCreateDirRequest()
 
 {
     auto dirname = getExistingDirectory();
 
-    if (dirname.empty()) // no valid selection
+    if (dirname.isEmpty()) // no valid selection
         return {};
 
-    if (!ModelView::Utils::is_empty(dirname)) {
+    if (!QEXTMvvmUtils::isEmpty(dirname)) {
         QMessageBox msgBox;
         msgBox.setText("The selected directory is not empty, choose another one.");
         msgBox.exec();
@@ -95,7 +85,7 @@ SaveChangesAnswer UserInteractor::onSaveChangesRequest()
 //! Summon dialog to select directory on disk. If selection is not empty,
 //! save parent directory for later re-use.
 
-std::string UserInteractor::getExistingDirectory() const
+QString UserInteractor::getExistingDirectory() const
 {
     QString dirname = QFileDialog::getExistingDirectory(
         m_parent, "Select directory", m_settings->currentWorkdir(),
@@ -104,5 +94,5 @@ std::string UserInteractor::getExistingDirectory() const
     if (!dirname.isEmpty())
         m_settings->updateWorkdirFromSelection(dirname);
 
-    return dirname.toStdString();
+    return dirname;
 }

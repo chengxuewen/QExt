@@ -18,9 +18,9 @@
 #include <QUndoStack>
 #include <cassert>
 #include <qextMvvmUndoStack.h>
-#include <model/qextMvvmModelUtils.h>
+#include <qextMvvmUtils.h>
 
-using namespace ModelView;
+
 
 namespace DragAndView
 {
@@ -71,12 +71,12 @@ void ModelEditorWidget::setModel(SampleModel* model)
 
 void ModelEditorWidget::onUndo()
 {
-    Utils::Undo(*m_model);
+    QEXTMvvmUtils::Undo(*m_model);
 }
 
 void ModelEditorWidget::onRedo()
 {
-    Utils::Redo(*m_model);
+    QEXTMvvmUtils::Redo(*m_model);
 }
 
 void ModelEditorWidget::init_actions()
@@ -98,12 +98,12 @@ void ModelEditorWidget::init_actions()
         auto can_undo_changed = [this]() {
             m_undoAction->setEnabled(m_model->undoStack()->canUndo());
         };
-        connect(QEXTUndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
+        connect(QEXTMvvmUndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
                 can_undo_changed);
         auto can_redo_changed = [this]() {
             m_redoAction->setEnabled(m_model->undoStack()->canRedo());
         };
-        connect(QEXTUndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
+        connect(QEXTMvvmUndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
                 can_redo_changed);
     }
 }

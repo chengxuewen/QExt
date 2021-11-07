@@ -1,97 +1,151 @@
 #include <qextMvvmCommandService.h>
+#include <qextMvvmCommandService_p.h>
 #include <qextMvvmCopyItemCommand.h>
 #include <qextMvvmInsertNewItemCommand.h>
 #include <qextMvvmMoveItemCommand.h>
 #include <qextMvvmRemoveItemCommand.h>
 #include <qextMvvmSetValueCommand.h>
 
-#include <qextMvvmSessionItem.h>
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmItem.h>
+#include <qextMvvmModel.h>
 #include <stdexcept>
 
-using namespace ModelView;
 
-QEXTCommandService::QEXTCommandService(QEXTMvvmSessionModel* model) : m_model(model), m_pause_record(false) {}
-
-void QEXTCommandService::setUndoRedoEnabled(bool value)
+QEXTMvvmCommandServicePrivate::QEXTMvvmCommandServicePrivate(QEXTMvvmCommandService *q)
+    : q_ptr(q)
+    , m_model(QEXT_DECL_NULLPTR)
+    , m_pauseRecord(false)
 {
+
+}
+
+QEXTMvvmCommandServicePrivate::~QEXTMvvmCommandServicePrivate()
+{
+
+}
+
+
+
+
+QEXTMvvmCommandService::QEXTMvvmCommandService(QEXTMvvmModel *model)
+    : d_ptr(new QEXTMvvmCommandServicePrivate(this))
+{
+    QEXT_DECL_D(QEXTMvvmCommandService);
+    d->m_model = model;
+}
+
+QEXTMvvmCommandService::~QEXTMvvmCommandService()
+{
+
+}
+
+void QEXTMvvmCommandService::setUndoRedoEnabled(bool value)
+{
+    QEXT_DECL_D(QEXTMvvmCommandService);
     if (value)
-        m_commands = std::make_unique<QEXTUndoStack>();
+    {
+        d->m_commands.reset(new QEXTMvvmUndoStack);
+    }
     else
-        m_commands.reset();
+    {
+        d->m_commands.reset();
+    }
 }
 
-QEXTMvvmSessionItem* QEXTCommandService::insertNewItem(const item_factory_func_t& func, QEXTMvvmSessionItem* parent,
-                                           const QEXTMvvmTagRow& tagrow)
+QEXTMvvmItem *QEXTMvvmCommandService::insertNewItem(const QEXTMvvmItemFactoryFunction &func,
+                                                    QEXTMvvmItem *parent,
+                                                    const QEXTMvvmTagRow &tagrow)
 {
+    QEXT_DECL_D(QEXTMvvmCommandService);
     if (!parent)
-        parent = m_model->rootItem();
+    {
+        parent = d->m_model->rootItem();
+    }
 
-    int actual_row = tagrow.row < 0 ? parent->itemCount(tagrow.tag) : tagrow.row;
+    int actualRow = tagrow.row < 0 ? parent->itemCount(tagrow.tag) : tagrow.row;
 
-    return std::get<QEXTMvvmSessionItem*>(
-        process_command<QEXTInsertNewItemCommand>(func, parent, QEXTMvvmTagRow{tagrow.tag, actual_row}));
+    QEXTMvvmCommandResult result = this->processCommand<QEXTMvvmInsertNewItemCommand>(func, parent, QEXTMvvmTagRow(tagrow.tag, actualRow));
+    return result.resultItem();
 }
 
-QEXTMvvmSessionItem* QEXTCommandService::copyItem(const QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* parent,
-                                      const QEXTMvvmTagRow& tagrow)
+QEXTMvvmItem *QEXTMvvmCommandService::copyItem(QEXTMvvmItem *item, QEXTMvvmItem *parent, const QEXTMvvmTagRow &tagrow)
 {
+    QEXT_DECL_D(QEXTMvvmCommandService);
     if (!item)
-        return nullptr;
+    {
+        return QEXT_DECL_NULLPTR;
+    }
 
-    if (parent->model() != m_model)
-        throw std::runtime_error(
-            "QEXTCommandService::copyItem() -> Item doesn't belong to given model");
+    if (parent->model() != d->m_model)
+    {
+        throw std::runtime_error("QEXTMvvmCommandService::copyItem() -> Item doesn't belong to given model");
+    }
 
-    int actual_row = tagrow.row < 0 ? parent->itemCount(tagrow.tag) : tagrow.row;
+    int actualRow = tagrow.row < 0 ? parent->itemCount(tagrow.tag) : tagrow.row;
 
-    return std::get<QEXTMvvmSessionItem*>(
-        process_command<QEXTCopyItemCommand>(item, parent, QEXTMvvmTagRow{tagrow.tag, actual_row}));
+    QEXTMvvmCommandResult result = this->processCommand<QEXTMvvmCopyItemCommand>(item, parent, QEXTMvvmTagRow(tagrow.tag, actualRow));
+    return result.resultItem();
 }
 
-bool QEXTCommandService::setData(QEXTMvvmSessionItem* item, const QEXTMvvmVariant& value, int role)
+bool QEXTMvvmCommandService::setData(QEXTMvvmItem *item, const QVariant &value, int role)
 {
     if (!item)
+    {
         return false;
+    }
 
-    return std::get<bool>(process_command<QEXTSetValueCommand>(item, value, role));
+    QEXTMvvmCommandResult result = this->processCommand<QEXTMvvmSetValueCommand>(item, value, role);
+    return result.resultValue();
 }
 
-void QEXTCommandService::removeItem(QEXTMvvmSessionItem* parent, const QEXTMvvmTagRow& tagrow)
+void QEXTMvvmCommandService::removeItem(QEXTMvvmItem *parent, const QEXTMvvmTagRow &tagrow)
 {
-    if (parent->model() != m_model)
-        throw std::runtime_error(
-            "QEXTCommandService::removeRow() -> Item doesn't belong to given model");
+    QEXT_DECL_D(QEXTMvvmCommandService);
+    if (parent->model() != d->m_model)
+    {
+        throw std::runtime_error("QEXTMvvmCommandService::removeRow() -> Item doesn't belong to given model");
+    }
 
-    process_command<QEXTRemoveItemCommand>(parent, tagrow);
+    this->processCommand<QEXTMvvmRemoveItemCommand>(parent, tagrow);
 }
 
-void QEXTCommandService::moveItem(QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* new_parent, const QEXTMvvmTagRow& tagrow)
+void QEXTMvvmCommandService::moveItem(QEXTMvvmItem *item, QEXTMvvmItem *newParent, const QEXTMvvmTagRow &tagrow)
 {
-    if (item->model() != m_model)
-        throw std::runtime_error(
-            "QEXTCommandService::removeRow() -> Item doesn't belong to given model");
+    QEXT_DECL_D(QEXTMvvmCommandService);
+    if (item->model() != d->m_model)
+    {
+        throw std::runtime_error("QEXTMvvmCommandService::removeRow() -> Item doesn't belong to given model");
+    }
 
-    if (new_parent->model() != m_model)
-        throw std::runtime_error(
-            "QEXTCommandService::removeRow() -> Parent doesn't belong to given model");
+    if (newParent->model() != d->m_model)
+    {
+        throw std::runtime_error("QEXTMvvmCommandService::removeRow() -> Parent doesn't belong to given model");
+    }
 
-    int actual_row = tagrow.row < 0 ? new_parent->itemCount(tagrow.tag) : tagrow.row;
-
-    process_command<QEXTMoveItemCommand>(item, new_parent, QEXTMvvmTagRow{tagrow.tag, actual_row});
+    int actualRow = tagrow.row < 0 ? newParent->itemCount(tagrow.tag) : tagrow.row;
+    this->processCommand<QEXTMvvmMoveItemCommand>(item, newParent, QEXTMvvmTagRow(tagrow.tag, actualRow));
 }
 
-QEXTMvvmUndoStackInterface* QEXTCommandService::undoStack() const
+QEXTMvvmUndoStackInterface *QEXTMvvmCommandService::undoStack() const
 {
-    return m_commands.get();
+    QEXT_DECL_DC(QEXTMvvmCommandService);
+    return d->m_commands.data();
 }
 
-void QEXTCommandService::setCommandRecordPause(bool value)
+void QEXTMvvmCommandService::setCommandRecordPause(bool value)
 {
-    m_pause_record = value;
+    QEXT_DECL_D(QEXTMvvmCommandService);
+    d->m_pauseRecord = value;
 }
 
-bool QEXTCommandService::provideUndo() const
+bool QEXTMvvmCommandService::provideUndo() const
 {
-    return m_commands && !m_pause_record;
+    QEXT_DECL_DC(QEXTMvvmCommandService);
+    return d->m_commands && !d->m_pauseRecord;
+}
+
+void QEXTMvvmCommandService::execute(const QSharedPointer<QEXTMvvmAbstractItemCommand> &command)
+{
+    QEXT_DECL_D(QEXTMvvmCommandService);
+    d->m_commands->execute(command);
 }

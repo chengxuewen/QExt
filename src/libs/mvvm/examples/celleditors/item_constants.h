@@ -17,7 +17,7 @@
 namespace Constants
 {
 
-const std::string DemoPropertiesType = "DemoProperties";
+const QString DemoPropertiesType = "DemoProperties";
 
 } // namespace Constants
 

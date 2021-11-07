@@ -11,43 +11,42 @@
 #define MATERIALMODEL_H
 
 #include <qextMvvmCompoundItem.h>
-#include <qextMvvmSessionModel.h>
-#include <vector>
+#include <qextMvvmModel.h>
+#include <QVector>
 
 class QColor;
 
-namespace ModelView
-{
+
 class QEXTMvvmExternalProperty;
-}
+
 
 //! Represents material based on scattering length density.
 
-class SLDMaterialItem : public ModelView::QEXTMvvmCompoundItem
+class SLDMaterialItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_NAME = "P_NAME";
-    static inline const std::string P_COLOR = "P_COLOR";
-    static inline const std::string P_SLD_REAL = "P_SLD_REAL";
-    static inline const std::string P_SLD_IMAG = "P_SLD_IMAG";
+    static inline const QString P_NAME = "P_NAME";
+    static inline const QString P_COLOR = "P_COLOR";
+    static inline const QString P_SLD_REAL = "P_SLD_REAL";
+    static inline const QString P_SLD_IMAG = "P_SLD_IMAG";
 
     SLDMaterialItem();
 
-    void set_properties(const std::string& name, const QColor& color, double real, double imag);
+    void set_properties(const QString& name, const QColor& color, double real, double imag);
 };
 
 //! Model to hold MaterialItems.
 
-class MaterialModel : public ModelView::QEXTMvvmSessionModel
+class MaterialModel : public QEXTMvvmModel
 {
 public:
     MaterialModel();
 
-    static ModelView::QEXTMvvmExternalProperty undefined_material();
+    static QEXTMvvmExternalProperty undefined_material();
 
-    std::vector<ModelView::QEXTMvvmExternalProperty> material_data();
+    QVector<QEXTMvvmExternalProperty> material_data();
 
-    ModelView::QEXTMvvmExternalProperty material_property(const std::string& id);
+    QEXTMvvmExternalProperty material_property(const QString& id);
 
 private:
     void init_model();

@@ -1,72 +1,82 @@
 #include <qextMvvmInsertNewItemCommand.h>
-
+#include <qextMvvmInsertNewItemCommand_p.h>
+#include <qextMvvmItem.h>
 #include <qextMvvmPath.h>
-#include <qextMvvmSessionItem.h>
+
 #include <sstream>
 
-using namespace ModelView;
-
 namespace
 {
-std::string generate_description(const std::string& modelType, const QEXTMvvmTagRow& tagrow);
-} // namespace
-
-struct QEXTInsertNewItemCommand::InsertNewItemCommandImpl {
-    item_factory_func_t factory_func;
-    QEXTMvvmTagRow tagrow;
-    QEXTMvvmPath item_path;
-    std::string initial_identifier;
-    InsertNewItemCommandImpl(item_factory_func_t func, QEXTMvvmTagRow tagrow)
-        : factory_func(std::move(func)), tagrow(std::move(tagrow))
+    QString qextMvvmGenerateDescription(const QString &modelType, const QEXTMvvmTagRow &m_tagrow)
     {
+        return QString("New item type '%1' tag:'%2', row:%3").arg(modelType).arg(m_tagrow.tag).arg(m_tagrow.row);
     }
-};
-
-QEXTInsertNewItemCommand::QEXTInsertNewItemCommand(item_factory_func_t func, QEXTMvvmSessionItem* parent,
-                                           const QEXTMvvmTagRow& tagrow)
-    : QEXTAbstractItemCommand(parent), p_impl(std::make_unique<InsertNewItemCommandImpl>(func, tagrow))
-{
-    setResult(nullptr);
-    p_impl->item_path = pathFromItem(parent);
-}
-
-QEXTInsertNewItemCommand::~QEXTInsertNewItemCommand() = default;
-
-void QEXTInsertNewItemCommand::undo_command()
-{
-    auto parent = itemFromPath(p_impl->item_path);
-    auto item = parent->takeItem(p_impl->tagrow);
-    // saving identifier for later redo
-    if (p_impl->initial_identifier.empty())
-        p_impl->initial_identifier = item->identifier();
-    delete item;
-    setResult(nullptr);
-}
-
-void QEXTInsertNewItemCommand::execute_command()
-{
-    auto parent = itemFromPath(p_impl->item_path);
-    auto child = p_impl->factory_func().release();
-    // here we restore original identifier to get exactly same item on consequitive undo/redo
-    if (!p_impl->initial_identifier.empty())
-        child->setDataIntern(QVariant::fromValue(p_impl->initial_identifier),
-                             ItemDataRole::IDENTIFIER);
-
-    setDescription(generate_description(child->modelType(), p_impl->tagrow));
-    if (parent->insertItem(child, p_impl->tagrow)) {
-        setResult(child);
-    } else {
-        delete child;
-        setObsolete(true);
-    }
-}
-
-namespace
-{
-std::string generate_description(const std::string& modelType, const QEXTMvvmTagRow& tagrow)
-{
-    std::ostringstream ostr;
-    ostr << "New item type '" << modelType << "' tag:'" << tagrow.tag << "', row:" << tagrow.row;
-    return ostr.str();
-}
 } // namespace
+
+QEXTMvvmInsertNewItemCommandPrivate::QEXTMvvmInsertNewItemCommandPrivate(QEXTMvvmInsertNewItemCommand *q)
+    : QEXTMvvmAbstractItemCommandPrivate(q)
+{
+
+}
+
+QEXTMvvmInsertNewItemCommandPrivate::~QEXTMvvmInsertNewItemCommandPrivate()
+{
+
+}
+
+
+
+QEXTMvvmInsertNewItemCommand::QEXTMvvmInsertNewItemCommand(QEXTMvvmItemFactoryFunction func,
+        QEXTMvvmItem *parent,
+        const QEXTMvvmTagRow &m_tagrow)
+    : QEXTMvvmAbstractItemCommand(new QEXTMvvmInsertNewItemCommandPrivate(this), parent)
+{
+    QEXT_DECL_D(QEXTMvvmInsertNewItemCommand);
+    d->m_factoryFunc = func;
+    d->m_tagrow = m_tagrow;
+    this->setResult(QEXTMvvmCommandResult());
+    d->m_itemPath = this->pathFromItem(parent);
+}
+
+QEXTMvvmInsertNewItemCommand::~QEXTMvvmInsertNewItemCommand()
+{
+
+}
+
+void QEXTMvvmInsertNewItemCommand::undoCommand()
+{
+    QEXT_DECL_D(QEXTMvvmInsertNewItemCommand);
+    QEXTMvvmItem *parent = this->itemFromPath(d->m_itemPath);
+    QEXTMvvmItem *item = parent->takeItem(d->m_tagrow);
+    // saving identifier for later redo
+    if (d->m_initialIdentifier.isEmpty())
+    {
+        d->m_initialIdentifier = item->identifier();
+    }
+    delete item;
+    this->setResult(QEXTMvvmCommandResult());
+}
+
+void QEXTMvvmInsertNewItemCommand::executeCommand()
+{
+    QEXT_DECL_D(QEXTMvvmInsertNewItemCommand);
+    QEXTMvvmItem *parent = this->itemFromPath(d->m_itemPath);
+    QEXTMvvmItem *child = d->m_factoryFunc();
+    // here we restore original identifier to get exactly same item on consequitive undo/redo
+    if (!d->m_initialIdentifier.isEmpty())
+    {
+        child->setDataIntern(d->m_initialIdentifier, QEXTMvvmItem::Role_Identifier);
+    }
+
+    this->setDescription(qextMvvmGenerateDescription(child->modelType(), d->m_tagrow));
+    if (parent->insertItem(child, d->m_tagrow))
+    {
+        this->setResult(child);
+    }
+    else
+    {
+        delete child;
+        this->setObsolete(true);
+    }
+}
+

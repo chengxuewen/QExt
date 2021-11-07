@@ -1,31 +1,27 @@
 #ifndef _QEXTMVVMMOVEITEMCOMMAND_H
 #define _QEXTMVVMMOVEITEMCOMMAND_H
 
-#include <memory>
 #include <qextMvvmAbstractItemCommand.h>
 
-namespace ModelView
-{
-
-class QEXTMvvmSessionItem;
+class QEXTMvvmItem;
 class QEXTMvvmTagRow;
 
 //! Command for unddo/redo framework to move item from one parent to another.
-
-class QEXT_MVVM_API QEXTMoveItemCommand : public QEXTAbstractItemCommand
+class QEXTMvvmMoveItemCommandPrivate;
+class QEXT_MVVM_API QEXTMvvmMoveItemCommand : public QEXTMvvmAbstractItemCommand
 {
 public:
-    QEXTMoveItemCommand(QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* new_parent, QEXTMvvmTagRow tagrow);
-    ~QEXTMoveItemCommand() override;
+    QEXTMvvmMoveItemCommand(QEXTMvvmItem *item, QEXTMvvmItem *parent, QEXTMvvmTagRow tagrow);
+    ~QEXTMvvmMoveItemCommand() QEXT_DECL_OVERRIDE;
+
+protected:
+    void undoCommand() QEXT_DECL_OVERRIDE;
+    void executeCommand() QEXT_DECL_OVERRIDE;
 
 private:
-    void undo_command() override;
-    void execute_command() override;
-
-    struct MoveItemCommandImpl;
-    std::unique_ptr<MoveItemCommandImpl> p_impl;
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmMoveItemCommand)
+    QEXT_DECL_PRIVATE(QEXTMvvmMoveItemCommand)
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMMOVEITEMCOMMAND_H

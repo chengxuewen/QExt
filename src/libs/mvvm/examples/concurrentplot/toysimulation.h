@@ -10,8 +10,8 @@
 #ifndef TOYSIMULATION_H
 #define TOYSIMULATION_H
 
-#include <utils/qextMvvmProgressHandler.h>
-#include <vector>
+#include <qextMvvmProgressHandler.h>
+#include <QVector>
 
 //! Represents long running toy scientific simulation.
 
@@ -30,7 +30,7 @@ public:
     struct Result {
         double xmin{0.0};
         double xmax{5.0};
-        std::vector<double> data;
+        QVector<double> data;
     };
 
     ToySimulation(double amplitude = 1.0, int delay = 0.0);
@@ -39,13 +39,13 @@ public:
 
     Result simulationResult() const;
 
-    void setProgressCallback(ModelView::QEXTMvvmProgressHandler::callback_t callback);
+    void setProgressCallback(QEXTMvvmProgressHandler::callback_t callback);
 
 private:
     InputData input_data;
     Result result;
     int delay{0};
-    ModelView::QEXTMvvmProgressHandler progress_handler;
+    QEXTMvvmProgressHandler progress_handler;
 };
 
 #endif //  TOYSIMULATION_H

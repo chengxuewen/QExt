@@ -75,9 +75,9 @@ void QEXTRetypeFunctorTest::testSimple()
     return;
 
     *sg_string = "";
-    QEXTSlot<float, float> s1 = qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testInt));
-    QEXTSlot<float, int>   s2 = qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testFloat));
-    QEXTSlot<void, double> s3 = qextRetypeFunctor(qextPointerFunctor(&Bar));
+    QEXTFunction<float, float> s1 = qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testInt));
+    QEXTFunction<float, int>   s2 = qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testFloat));
+    QEXTFunction<void, double> s3 = qextRetypeFunctor(qextPointerFunctor(&Bar));
     QVERIFY(1.5 == s1(1.234f));
     QVERIFY("Foo::testInt(int 1) " == *sg_string);
 

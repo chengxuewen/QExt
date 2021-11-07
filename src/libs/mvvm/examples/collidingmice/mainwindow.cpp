@@ -22,8 +22,8 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
-#include <model/qextMvvmModelUtils.h>
-#include <widgets/standardtreeviews.h>
+#include <qextMvvmUtils.h>
+#include <qextMvvmStandardTreeViews.h>
 
 namespace
 {
@@ -36,8 +36,8 @@ MainWindow::MainWindow()
     , view(new QGraphicsView(scene))
     , timer(new QTimer)
     , slider(new QSlider)
-    , mouse_model(std::make_unique<MouseModel>())
-    , itemsTreeView(new ModelView::AllItemsTreeView(mouse_model.get()))
+    , mouse_model(new MouseModel)
+    , itemsTreeView(new QEXTMvvmAllItemsTreeView(mouse_model.get()))
 {
     create_central_widget();
     init_scene();

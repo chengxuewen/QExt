@@ -4,53 +4,50 @@
 #include <qextMvvmCommandResult.h>
 #include <qextMvvmGlobal.h>
 
+#include <QScopedPointer>
+
 #include <memory>
 #include <string>
 
-namespace ModelView
-{
 
-class QEXTMvvmSessionItem;
-class QEXTMvvmSessionModel;
+class QEXTMvvmItem;
+class QEXTMvvmModel;
 class QEXTMvvmPath;
 
-//! Abstract command interface to manipulate QEXTMvvmSessionItem in model context.
-
-class QEXT_MVVM_API QEXTAbstractItemCommand
+//! Abstract command interface to manipulate QEXTMvvmItem in model context.
+class QEXTMvvmAbstractItemCommandPrivate;
+class QEXT_MVVM_API QEXTMvvmAbstractItemCommand
 {
 public:
-    explicit QEXTAbstractItemCommand(QEXTMvvmSessionItem* receiver);
-    virtual ~QEXTAbstractItemCommand();
-
-    QEXTAbstractItemCommand(const QEXTAbstractItemCommand& other) = delete;
-    QEXTAbstractItemCommand& operator=(const QEXTAbstractItemCommand& other) = delete;
+    explicit QEXTMvvmAbstractItemCommand(QEXTMvvmItem *receiver);
+    virtual ~QEXTMvvmAbstractItemCommand();
 
     void execute();
-
     void undo();
-
     bool isObsolete() const;
-
-    std::string description() const;
-
-    QEXTCommandResult result() const;
+    QString description() const;
+    QEXTMvvmCommandResult result() const;
 
 protected:
+    QEXTMvvmAbstractItemCommand(QEXTMvvmAbstractItemCommandPrivate *d, QEXTMvvmItem *receiver);
+
     void setObsolete(bool flag);
-    void setDescription(const std::string& text);
-    QEXTMvvmPath pathFromItem(QEXTMvvmSessionItem* item) const;
-    QEXTMvvmSessionItem* itemFromPath(const QEXTMvvmPath& path) const;
-    QEXTMvvmSessionModel* model() const;
-    void setResult(const QEXTCommandResult& command_result);
+    void setDescription(const QString &text);
+    void setResult(const QEXTMvvmCommandResult &result);
+
+    QEXTMvvmPath pathFromItem(QEXTMvvmItem *item) const;
+    QEXTMvvmItem *itemFromPath(const QEXTMvvmPath &path) const;
+    QEXTMvvmModel *model() const;
+
+    QScopedPointer<QEXTMvvmAbstractItemCommandPrivate> d_ptr;
+
+    virtual void executeCommand() = 0;
+    virtual void undoCommand() = 0;
 
 private:
-    virtual void execute_command() = 0;
-    virtual void undo_command() = 0;
-
-    struct AbstractItemCommandImpl;
-    std::unique_ptr<AbstractItemCommandImpl> p_impl;
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmAbstractItemCommand)
+    QEXT_DECL_PRIVATE(QEXTMvvmAbstractItemCommand)
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMABSTRACTITEMCOMMAND_H

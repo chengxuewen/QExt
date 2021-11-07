@@ -13,24 +13,24 @@
 #include <qextMvvmExternalProperty.h>
 #include <qextMvvmItemCatalogue.h>
 
-using namespace ModelView;
+
 
 namespace
 {
-std::unique_ptr<QEXTMvvmItemCatalogue> CreateItemCatalogue()
+QEXTMvvmItemCatalogue *qextMvvmCreateItemCatalogue()
 {
-    auto result = std::make_unique<QEXTMvvmItemCatalogue>();
+    QEXTMvvmItemCatalogue *result = new QEXTMvvmItemCatalogue;
     result->registerItem<MultiLayerItem>();
     result->registerItem<LayerItem>();
     return result;
 }
 
-const std::string MultiLayerType = "MultiLayer";
-const std::string LayerType = "Layer";
+const QString MultiLayerType = "MultiLayer";
+const QString LayerType = "Layer";
 
 } // namespace
 
-using namespace ModelView;
+
 
 LayerItem::LayerItem() : QEXTMvvmCompoundItem(LayerType)
 {
@@ -42,13 +42,13 @@ LayerItem::LayerItem() : QEXTMvvmCompoundItem(LayerType)
 MultiLayerItem::MultiLayerItem() : QEXTMvvmCompoundItem(MultiLayerType)
 {
     addProperty(P_NREPETITIONS, 1)->setDisplayName("Nr.");
-    std::vector<std::string> allowed_child = {MultiLayerType, LayerType};
+    QVector<QString> allowed_child = {MultiLayerType, LayerType};
     registerTag(QEXTMvvmTagInfo::universalTag(T_LAYERS, allowed_child), /*set_default*/ true);
 }
 
-SampleModel::SampleModel() : QEXTMvvmSessionModel("SampleModel")
+SampleModel::SampleModel() : QEXTMvvmModel("SampleModel")
 {
-    setItemCatalogue(CreateItemCatalogue());
+    setItemCatalogue(qextMvvmCreateItemCatalogue());
     init_model();
 }
 

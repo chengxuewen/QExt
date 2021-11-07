@@ -5,7 +5,7 @@
 
 #include <string>
 
-static std::string sg_functionString = "";
+static QString sg_functionString = "";
 
 void voidFunction0()
 {

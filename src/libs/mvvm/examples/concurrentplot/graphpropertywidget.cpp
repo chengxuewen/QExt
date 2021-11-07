@@ -10,14 +10,14 @@
 #include "graphpropertywidget.h"
 #include "graphmodel.h"
 #include <QBoxLayout>
-#include <factories/viewmodelfactory.h>
-#include <viewmodel/viewmodel.h>
-#include <widgets/itemstreeview.h>
+#include <qextMvvmViewModelFactory.h>
+#include <qextMvvmViewModel.h>
+#include <qextMvvmItemsTreeView.h>
 
-using namespace ModelView;
+
 
 GraphPropertyWidget::GraphPropertyWidget(GraphModel* model, QWidget* parent)
-    : QWidget(parent), m_treeView(new ItemsTreeView)
+    : QWidget(parent), m_treeView(new QEXTMvvmItemsTreeView)
 {
     auto layout = new QVBoxLayout;
     layout->addWidget(m_treeView);
@@ -25,12 +25,15 @@ GraphPropertyWidget::GraphPropertyWidget(GraphModel* model, QWidget* parent)
     setModel(model);
 }
 
-GraphPropertyWidget::~GraphPropertyWidget() = default;
+GraphPropertyWidget::~GraphPropertyWidget()
+{
+
+}
 
 void GraphPropertyWidget::setModel(GraphModel* model)
 {
     if (!model)
         return;
 
-    m_treeView->setViewModel(Factory::CreateDefaultViewModel(model));
+    m_treeView->setViewModel(QEXTMvvmViewModelFactory::createDefaultViewModel(model));
 }

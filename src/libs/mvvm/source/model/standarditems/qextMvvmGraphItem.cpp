@@ -14,9 +14,9 @@
 #include <qextMvvmLinkedItem.h>
 #include <qextMvvmPlotTableItems.h>
 
-using namespace ModelView;
 
-QEXTMvvmGraphItem::QEXTMvvmGraphItem(const std::string& QEXTMvvmModelType) : QEXTMvvmCompoundItem(QEXTMvvmModelType)
+
+QEXTMvvmGraphItem::QEXTMvvmGraphItem(const QString& QString) : QEXTMvvmCompoundItem(QString)
 {
     addProperty<QEXTMvvmLinkedItem>(P_LINK)->setDisplayName("Link");
     addProperty<QEXTMvvmTextItem>(P_GRAPH_TITLE)->setDisplayName("Graph title");
@@ -51,24 +51,24 @@ QEXTMvvmData1DItem* QEXTMvvmGraphItem::dataItem() const
     return item<QEXTMvvmLinkedItem>(P_LINK)->get<QEXTMvvmData1DItem>();
 }
 
-std::vector<double> QEXTMvvmGraphItem::binCenters() const
+QVector<double> QEXTMvvmGraphItem::binCenters() const
 {
-    return dataItem() ? dataItem()->binCenters() : std::vector<double>();
+    return dataItem() ? dataItem()->binCenters() : QVector<double>();
 }
 
-std::vector<double> QEXTMvvmGraphItem::binValues() const
+QVector<double> QEXTMvvmGraphItem::binValues() const
 {
-    return dataItem() ? dataItem()->binValues() : std::vector<double>();
+    return dataItem() ? dataItem()->binValues() : QVector<double>();
 }
 
-std::vector<double> QEXTMvvmGraphItem::binErrors() const
+QVector<double> QEXTMvvmGraphItem::binErrors() const
 {
-    return dataItem() ? dataItem()->binErrors() : std::vector<double>();
+    return dataItem() ? dataItem()->binErrors() : QVector<double>();
 }
 
 //! Returns color name in #RRGGBB format.
 
-std::string QEXTMvvmGraphItem::colorName() const
+QString QEXTMvvmGraphItem::colorName() const
 {
     return penItem()->colorName();
 }
@@ -76,7 +76,7 @@ std::string QEXTMvvmGraphItem::colorName() const
 //! Sets named color following schema from https://www.w3.org/TR/css-color-3/#svg-color.
 //! e.g. "mediumaquamarine"
 
-void QEXTMvvmGraphItem::setNamedColor(const std::string& named_color)
+void QEXTMvvmGraphItem::setNamedColor(const QString& named_color)
 {
     penItem()->setNamedColor(named_color);
 }

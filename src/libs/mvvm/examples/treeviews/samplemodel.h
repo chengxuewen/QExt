@@ -10,14 +10,14 @@
 #ifndef SAMPLEMODEL_H
 #define SAMPLEMODEL_H
 
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmModel.h>
 
 namespace TreeViews
 {
 
 //! Main application model.
 
-class SampleModel : public ModelView::QEXTMvvmSessionModel
+class SampleModel : public QEXTMvvmModel
 {
 public:
     SampleModel();

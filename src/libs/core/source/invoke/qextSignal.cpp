@@ -1,7 +1,6 @@
 #include <qextSignal.h>
 
 
-
 namespace qextPrivate
 {
 
@@ -93,12 +92,12 @@ namespace qextPrivate
         }
     }
 
-    QEXTSignalData::Iterator QEXTSignalData::connect(const QEXTSlotBase &slot)
+    QEXTSignalData::Iterator QEXTSignalData::connect(const QEXTFunctionBase &slot)
     {
         return this->insert(m_slotList.end(), slot);
     }
 
-    QEXTSignalData::Iterator QEXTSignalData::insert(Iterator iter, const QEXTSlotBase &slot)
+    QEXTSignalData::Iterator QEXTSignalData::insert(Iterator iter, const QEXTFunctionBase &slot)
     {
         Iterator temp = m_slotList.insert(iter, slot);
         m_selfIteratorList.push_back(SelfIterator(this, temp));
@@ -265,12 +264,12 @@ namespace qextPrivate
         }
     }
 
-    QEXTSignalBase::Iterator QEXTSignalBase::connect(const QEXTSlotBase &slot)
+    QEXTSignalBase::Iterator QEXTSignalBase::connect(const QEXTFunctionBase &slot)
     {
         return this->data()->connect(slot);
     }
 
-    QEXTSignalBase::Iterator QEXTSignalBase::insert(Iterator iter, const QEXTSlotBase &slot)
+    QEXTSignalBase::Iterator QEXTSignalBase::insert(Iterator iter, const QEXTFunctionBase &slot)
     {
         return this->data()->insert(iter, slot);
     }

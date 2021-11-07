@@ -144,7 +144,7 @@ void QEXTLambdaTest::testAutoDisconnect()
     std::string string;
     sg_string = &string;
 
-    //    QEXTSlot<bool> sl1;
+    //    QEXTFunction<bool> sl1;
     //    {
     //        *sg_string = "";
     //        Book guest_book("karl");

@@ -1,18 +1,17 @@
 #include <qextMvvmCommandUtils.h>
-#include <qextMvvmSessionModel.h>
-#include <qextMvvmJsonItemBackupStrategy.h>
-#include <qextMvvmJsonItemCopyStrategy.h>
+#include <qextMvvmModel.h>
 
-std::unique_ptr<ModelView::QEXTMvvmItemBackupStrategy>
-ModelView::CreateItemBackupStrategy(const ModelView::QEXTMvvmSessionModel* model)
+//#include <qextMvvmJsonItemBackupStrategy.h>
+//#include <qextMvvmJsonItemCopyStrategy.h>
+
+QEXTMvvmItemBackupStrategy *QEXTMvvmCommandUtils::createItemBackupStrategy(const QEXTMvvmModel *model)
 {
-    assert(model);
-    return std::make_unique<QEXTMvvmJsonItemBackupStrategy>(model->factory());
+//    QEXT_STATIC_ASSERT(QEXT_DECL_NULLPTR != model);
+//    return new QEXTMvvmJsonItemBackupStrategy(model->factory());
 }
 
-std::unique_ptr<ModelView::QEXTMvvmItemCopyStrategy>
-ModelView::CreateItemCopyStrategy(const ModelView::QEXTMvvmSessionModel* model)
+QEXTMvvmItemCopyStrategy *QEXTMvvmCommandUtils::createItemCopyStrategy(const QEXTMvvmModel *model)
 {
-    assert(model);
-    return std::make_unique<QEXTMvvmJsonItemCopyStrategy>(model->factory());
+//    QEXT_STATIC_ASSERT(QEXT_DECL_NULLPTR != model);
+//    return new QEXTMvvmJsonItemCopyStrategy(model->factory());
 }

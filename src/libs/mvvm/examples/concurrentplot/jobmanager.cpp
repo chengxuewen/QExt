@@ -25,10 +25,10 @@ JobManager::~JobManager()
 
 //! Returns vector representing results of simulation.
 
-std::vector<double> JobManager::simulationResult()
+QVector<double> JobManager::simulationResult()
 {
     auto value = simulation_results.try_pop();
-    return value ? value->data : std::vector<double>{};
+    return value ? value->data : QVector<double>{};
 }
 
 //! Performs simulation request. Given value will be stored in a stack of values to trigger

@@ -32,7 +32,7 @@
 
 #include <qextGlobal.h>
 #include <qextSignal.h>
-#include <qextSlot.h>
+#include <qextFunction.h>
 
 
 
@@ -53,7 +53,7 @@
 class QEXT_CORE_API QEXTConnection
 {
 public:
-    typedef qextPrivate::QEXTSlotBase SlotFunctionBase;
+    typedef qextPrivate::QEXTFunctionBase SlotFunctionBase;
 
     /** Constructs an empty connection object. */
     QEXTConnection();
@@ -65,7 +65,7 @@ public:
      * @param iter The slot list iterator to take the slot from.
      */
     template <typename T_slot>
-    QEXTConnection(const qextPrivate::QEXTSlotIterator<T_slot> &iter) : m_slot(&(*iter))
+    QEXTConnection(const qextPrivate::QEXTFunctionIterator<T_slot> &iter) : m_slot(&(*iter))
     {
     }
     /** Constructs a connection object from a slot object.
@@ -84,7 +84,7 @@ public:
      * @param iter The new slot list iterator to take the slot from.
      */
     template <typename T_slot>
-    QEXTConnection &operator=(const qextPrivate::QEXTSlotIterator<T_slot> &iter)
+    QEXTConnection &operator=(const qextPrivate::QEXTFunctionIterator<T_slot> &iter)
     {
         this->setSlot(&(*iter));
         return *this;
@@ -99,7 +99,7 @@ public:
      */
     bool isBlocked() const;
     /** Sets or unsets the blocking state of this connection.
-     * See QEXTSlotBase::setBlock() for details.
+     * See QEXTFunctionBase::setBlock() for details.
      * @param should_block Indicates whether the blocking state should be set or unset.
      * @return @p true if the connection has been in blocking state before.
      */

@@ -13,7 +13,7 @@
 #include "sizehandleelement.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
-#include <plotting/sceneadapterinterface.h>
+#include <qextMvvmSceneAdapterInterface.h>
 #include <stdexcept>
 
 namespace
@@ -22,8 +22,8 @@ const double bbox_margins = 5; // additional margins around rectangle to form bo
 } // namespace
 
 RegionOfInterestView::RegionOfInterestView(RegionOfInterestItem* item,
-                                           const ModelView::SceneAdapterInterface* scene_adapter)
-    : controller(std::make_unique<RegionOfInterestController>(item, scene_adapter, this))
+                                           const QEXTMvvmSceneAdapterInterface* scene_adapter)
+    : controller(new RegionOfInterestController(item, scene_adapter, this))
 {
     if (!scene_adapter)
         throw std::runtime_error("Error in RegionOfInterestView: scene adapter is not initialized");

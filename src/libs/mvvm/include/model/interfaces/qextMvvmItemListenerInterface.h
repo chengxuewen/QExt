@@ -1,62 +1,40 @@
 #ifndef _QEXTMVVMITEMLISTENERINTERFACE_H
 #define _QEXTMVVMITEMLISTENERINTERFACE_H
 
-#include <qextMvvmCallbackTypes.h>
+#include <qextMvvmGlobal.h>
+#include <qextMvvmFunctionTypes.h>
 
-namespace ModelView
-{
+class QEXTMvvmItem;
+class QEXTMvvmModel;
+class QEXTMvvmTagRow;
 
-//! Interface to subscribe to various events happening with specific QEXTMvvmSessionItem.
+//! Interface to subscribe to various events happening with specific QEXTMvvmItem.
 
 class QEXT_MVVM_API QEXTMvvmItemListenerInterface
 {
 public:
-    virtual ~QEXTMvvmItemListenerInterface() = default;
+    virtual ~QEXTMvvmItemListenerInterface() { }
 
-    virtual void setOnItemDestroy(Callbacks::item_t f, Callbacks::slot_t owner) = 0;
+    virtual QEXTConnection addItemAboutToBeInsertedListener(QEXTMvvmItemTagRowFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
+    virtual QEXTConnection addItemInsertedListener(QEXTMvvmItemTagRowFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
 
-    //! Sets callback to be notified on item's data change.
-    //! Callback will be called with (QEXTMvvmSessionItem*, data_role).
+    virtual QEXTConnection addItemAboutToBeRemovedListener(QEXTMvvmItemTagRowFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
+    virtual QEXTConnection addItemRemovedListener(QEXTMvvmItemTagRowFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
 
-    virtual void setOnDataChange(Callbacks::item_int_t f, Callbacks::slot_t owner) = 0;
+    virtual QEXTConnection addItemDataAboutToBeChangedListener(QEXTMvvmItemRoleFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
+    virtual QEXTConnection addItemDataChangedListener(QEXTMvvmItemRoleFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
 
-    //! Sets callback to be notified on item's property change.
-    //! Callback will be called with (compound_item, property_name).
+    virtual QEXTConnection addItemAboutToBeDestroyedListener(QEXTMvvmItemFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
+    virtual QEXTConnection addItemDestroyedListener(QEXTMvvmItemFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
 
-    virtual void setOnPropertyChange(Callbacks::item_str_t f, Callbacks::slot_t owner) = 0;
+    virtual QEXTConnection addItemPropertyAboutToBeChangedListener(QEXTMvvmItemPropertyFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
+    virtual QEXTConnection addItemPropertyChangedListener(QEXTMvvmItemPropertyFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
 
-    //! Sets callback to be notified on item's children property change.
-    //! Callback will be called with (compound_item, property_name). For MultiLayer containing the
-    //! layer with "thickness" property, the signal will be triggered on thickness change using
-    //! (layeritem*, "thickness") as callback parameters.
+    virtual QEXTConnection addItemChildPropertyAboutToBeChangedListener(QEXTMvvmItemPropertyFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
+    virtual QEXTConnection addItemChildPropertyChangedListener(QEXTMvvmItemPropertyFunction function, void *listener = QEXT_DECL_NULLPTR) = 0;
 
-    virtual void setOnChildPropertyChange(Callbacks::item_str_t f, Callbacks::slot_t owner) = 0;
-
-    //! Sets callback to be notified on child insertion.
-    //! Callback will be called with (compound_item, tag, row). For MultiLayer containing the
-    //! T_LAYERS tag, the signal will be triggered on layer insertion with
-    //! (multilayer*, {T_LAYER, row}) as callback parameters.
-
-    virtual void setOnItemInserted(Callbacks::item_tagrow_t f, Callbacks::slot_t owner) = 0;
-
-    //! Sets callback to be notified on child removal.
-    //! Callback will be called with (compound_item, tag, row). For MultiLayer containing the
-    //! T_LAYERS tag, the signal will be triggered on layer removal with
-    //! (multilayer*, {T_LAYER, oldrow}) as callback parameters.
-
-    virtual void setOnItemRemoved(Callbacks::item_tagrow_t f, Callbacks::slot_t owner) = 0;
-
-    //! Sets callback to be notified when row is about to be removed.
-    //! Callback will be called with (compound_item, tagrow). For MultiLayer containing the
-    //! T_LAYERS tag, the signal will be triggered on layer deletion with
-    //! (multilayer*, {T_LAYER, row}) as callback parameters.
-
-    virtual void setOnAboutToRemoveItem(Callbacks::item_tagrow_t f, Callbacks::slot_t owner) = 0;
-
-    //! Removes given client from all subscriptions.
-    virtual void unsubscribe(Callbacks::slot_t client) = 0;
+    virtual void removeListener(void *listener = QEXT_DECL_NULLPTR) = 0;
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMITEMLISTENERINTERFACE_H

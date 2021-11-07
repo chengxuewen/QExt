@@ -1,65 +1,67 @@
 #include <qextMvvmSetValueCommand.h>
+#include <qextMvvmSetValueCommand_p.h>
 
-#include <qextMvvmVariant.h>
+#include <qextMvvmTypes.h>
 #include <qextMvvmPath.h>
-#include <qextMvvmSessionItem.h>
-#include <model/qextMvvmModelUtils.h>
+#include <qextMvvmItem.h>
+#include <qextMvvmUtils.h>
 #include <sstream>
 
 namespace
 {
-std::string generate_description(const std::string& str, int role);
+    QString qextMvvmGenerateDescription(const QString &str, int role)
+    {
+        QString string = QString("Set value: %1, role:%2").arg(str).arg(role);
+        return string;
+    }
 } // namespace
 
-using namespace ModelView;
-
-struct QEXTSetValueCommand::SetValueCommandImpl {
-    QEXTMvvmVariant m_value; //! Value to set as a result of command execution.
-    int m_role;
-    QEXTMvvmPath m_item_path;
-    SetValueCommandImpl(QEXTMvvmVariant value, int role) : m_value(std::move(value)), m_role(role) {}
-};
-
-// ----------------------------------------------------------------------------
-
-QEXTSetValueCommand::QEXTSetValueCommand(QEXTMvvmSessionItem* item, QEXTMvvmVariant value, int role)
-    : QEXTAbstractItemCommand(item)
-    , p_impl(std::make_unique<SetValueCommandImpl>(std::move(value), role))
+QEXTMvvmSetValueCommandPrivate::QEXTMvvmSetValueCommandPrivate(QEXTMvvmSetValueCommand *q)
+    : QEXTMvvmAbstractItemCommandPrivate(q)
 {
-    setResult(false);
 
-    setDescription(generate_description(p_impl->m_value.toString().toStdString(), role));
-    p_impl->m_item_path = pathFromItem(item);
 }
 
-QEXTSetValueCommand::~QEXTSetValueCommand() = default;
-
-void QEXTSetValueCommand::undo_command()
+QEXTMvvmSetValueCommandPrivate::~QEXTMvvmSetValueCommandPrivate()
 {
-    swap_values();
+
 }
 
-void QEXTSetValueCommand::execute_command()
+
+
+QEXTMvvmSetValueCommand::QEXTMvvmSetValueCommand(QEXTMvvmItem *parent, QVariant value, int role)
+    : QEXTMvvmAbstractItemCommand(new QEXTMvvmSetValueCommandPrivate(this), parent)
 {
-    swap_values();
+    QEXT_DECL_D(QEXTMvvmSetValueCommand);
+    d->m_value = value;
+    d->m_role = role;
+    this->setResult(QEXTMvvmCommandResult(false));
+    this->setDescription(qextMvvmGenerateDescription(d->m_value.toString(), role));
+    d->m_itemPath = this->pathFromItem(parent);
 }
 
-void QEXTSetValueCommand::swap_values()
+QEXTMvvmSetValueCommand::~QEXTMvvmSetValueCommand()
 {
-    auto item = itemFromPath(p_impl->m_item_path);
-    auto old = item->data<QEXTMvvmVariant>(p_impl->m_role);
-    auto result = item->setDataIntern(p_impl->m_value, p_impl->m_role);
-    setResult(result);
-    setObsolete(!result);
-    p_impl->m_value = old;
+
 }
 
-namespace
+void QEXTMvvmSetValueCommand::undoCommand()
 {
-std::string generate_description(const std::string& str, int role)
-{
-    std::ostringstream ostr;
-    ostr << "Set value: " << str << ", role:" << role;
-    return ostr.str();
+    this->swapValues();
 }
-} // namespace
+
+void QEXTMvvmSetValueCommand::executeCommand()
+{
+    this->swapValues();
+}
+
+void QEXTMvvmSetValueCommand::swapValues()
+{
+    QEXT_DECL_D(QEXTMvvmSetValueCommand);
+    QEXTMvvmItem *item = this->itemFromPath(d->m_itemPath);
+    QVariant old = item->data<QVariant>(d->m_role);
+    bool result = item->setDataIntern(d->m_value, d->m_role);
+    this->setResult(QEXTMvvmCommandResult(result));
+    this->setObsolete(!result);
+    d->m_value = old;
+}

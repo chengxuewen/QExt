@@ -10,24 +10,23 @@
 #ifndef SAMPLEMODEL_H
 #define SAMPLEMODEL_H
 
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmModel.h>
 
-namespace ModelView
-{
-class QEXTMvvmSessionItem;
-}
+
+class QEXTMvvmItem;
+
 
 namespace DragAndView
 {
 
 //! Main application model.
 
-class SampleModel : public ModelView::QEXTMvvmSessionModel
+class SampleModel : public QEXTMvvmModel
 {
 public:
     SampleModel();
 
-    void append_random_item(ModelView::QEXTMvvmSessionItem* container);
+    void append_random_item(QEXTMvvmItem* container);
 
 private:
     void init_model_content();

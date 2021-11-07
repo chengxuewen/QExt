@@ -10,12 +10,11 @@
 #ifndef USERINTERACTOR_H
 #define USERINTERACTOR_H
 
-#include <string>
+#include <QString>
 
-namespace ModelView
-{
+
 enum class SaveChangesAnswer;
-}
+
 
 class QWidget;
 class RecentProjectSettings;
@@ -28,14 +27,14 @@ class UserInteractor
 public:
     UserInteractor(RecentProjectSettings* settings, QWidget* parent);
 
-    std::string onSelectDirRequest();
+    QString onSelectDirRequest();
 
-    std::string onCreateDirRequest();
+    QString onCreateDirRequest();
 
-    ModelView::SaveChangesAnswer onSaveChangesRequest();
+    SaveChangesAnswer onSaveChangesRequest();
 
 private:
-    std::string getExistingDirectory() const;
+    QString getExistingDirectory() const;
 
     RecentProjectSettings* m_settings{nullptr};
     QWidget* m_parent{nullptr};

@@ -16,11 +16,10 @@ class QBoxLayout;
 class QToolBar;
 class QAction;
 
-namespace ModelView
-{
-class ItemsTreeView;
-class ColorMapCanvas;
-} // namespace ModelView
+
+class QEXTMvvmItemsTreeView;
+class QEXTMvvmColorMapCanvas;
+
 
 namespace PlotColorMap
 {
@@ -49,7 +48,7 @@ private:
     QAction* m_resetViewportAction{nullptr};
 
     ColorMapPropertyWidget* m_propertyWidget{nullptr};
-    ModelView::ColorMapCanvas* m_colorMapCanvas{nullptr};
+    QEXTMvvmColorMapCanvas* m_colorMapCanvas{nullptr};
     ColorMapModel* m_model{nullptr};
 };
 

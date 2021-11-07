@@ -25,7 +25,7 @@ namespace PlotGraphs
 {
 
 MainWindow::MainWindow()
-    : m_tabWidget(new QTabWidget), m_graph_model(std::make_unique<GraphModel>())
+    : m_tabWidget(new QTabWidget), m_graph_model(new GraphModel)
 {
     m_tabWidget->addTab(new GraphWidget(m_graph_model.get()), "Graphs");
 

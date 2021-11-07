@@ -10,6 +10,8 @@
 #ifndef MODELINQMLCORE_TABLEMODEL_H
 #define MODELINQMLCORE_TABLEMODEL_H
 
+#include <qextGlobal.h>
+
 #include <QAbstractTableModel>
 
 class TableModel : public QAbstractTableModel
@@ -17,17 +19,17 @@ class TableModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    int rowCount(const QModelIndex& = QModelIndex()) const override
+    int rowCount(const QModelIndex& = QModelIndex()) const QEXT_DECL_OVERRIDE
     {
         return m_data.size();
     }
 
-    int columnCount(const QModelIndex& = QModelIndex()) const override
+    int columnCount(const QModelIndex& = QModelIndex()) const QEXT_DECL_OVERRIDE
     {
         return m_data[0].size();
     }
 
-    QVariant data(const QModelIndex& index, int role) const override
+    QVariant data(const QModelIndex& index, int role) const QEXT_DECL_OVERRIDE
     {
         switch (role) {
         case Qt::DisplayRole:
@@ -39,7 +41,7 @@ public:
         return QVariant();
     }
 
-    bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) override
+    bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) QEXT_DECL_OVERRIDE
     {
         if (!index.isValid() || role != Qt::EditRole)
             return false;
@@ -53,7 +55,7 @@ public:
     }
 
     /*
-    QHash<int, QByteArray> roleNames() const override
+    QHash<int, QByteArray> roleNames() const QEXT_DECL_OVERRIDE
     {
         return {
             {Qt::DisplayRole, "display"},

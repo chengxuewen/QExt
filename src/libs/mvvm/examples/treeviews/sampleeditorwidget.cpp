@@ -14,25 +14,25 @@
 #include <QTreeView>
 #include <QUndoView>
 #include <qextMvvmUndoStack.h>
-#include <qextMvvmSessionItem.h>
-#include <qextMvvmSessionModel.h>
-#include <viewmodel/defaultviewmodel.h>
-#include <viewmodel/topitemsviewmodel.h>
-#include <viewmodel/viewitem.h>
-#include <widgets/standardtreeviews.h>
+#include <qextMvvmItem.h>
+#include <qextMvvmModel.h>
+#include <qextMvvmDefaultViewModel.h>
+#include <qextMvvmTopItemsViewModel.h>
+#include <qextMvvmViewItem.h>
+#include <qextMvvmStandardTreeViews.h>
 
-using namespace ModelView;
+
 
 namespace TreeViews
 {
 
-SampleEditorWdiget::SampleEditorWdiget(QEXTMvvmSessionModel* model, QWidget* parent)
+SampleEditorWdiget::SampleEditorWdiget(QEXTMvvmModel* model, QWidget* parent)
     : QWidget(parent)
     , m_undoView(new QUndoView)
-    , m_defaultTreeView(new AllItemsTreeView(model))
-    , m_topItemView(new TopItemsTreeView(model))
-    , m_subsetTreeView(new AllItemsTreeView(model))
-    , m_propertyTreeView(new PropertyTreeView)
+    , m_defaultTreeView(new QEXTMvvmAllItemsTreeView(model))
+    , m_topItemView(new QEXTMvvmTopItemsTreeView(model))
+    , m_subsetTreeView(new QEXTMvvmAllItemsTreeView(model))
+    , m_propertyTreeView(new QEXTMvvmPropertyTreeView)
     , m_sessionModel(model)
 {
     auto layout = new QHBoxLayout;
@@ -44,7 +44,7 @@ SampleEditorWdiget::SampleEditorWdiget(QEXTMvvmSessionModel* model, QWidget* par
     connect_views();
 
     m_sessionModel->setUndoRedoEnabled(true);
-    m_undoView->setStack(QEXTUndoStack::qtUndoStack(m_sessionModel->undoStack()));
+    m_undoView->setStack(QEXTMvvmUndoStack::qtUndoStack(m_sessionModel->undoStack()));
 }
 
 SampleEditorWdiget::~SampleEditorWdiget() = default;
@@ -73,13 +73,13 @@ void SampleEditorWdiget::onContextMenuRequest(const QPoint& point)
     menu.exec(treeView->mapToGlobal(point));
 }
 
-//! Returns QEXTMvvmSessionItem corresponding to given coordinate in a view.
+//! Returns QEXTMvvmItem corresponding to given coordinate in a view.
 
-QEXTMvvmSessionItem* SampleEditorWdiget::item_from_view(QTreeView* view, const QPoint& point)
+QEXTMvvmItem* SampleEditorWdiget::item_from_view(QTreeView* view, const QPoint& point)
 {
     QModelIndex index = view->indexAt(point);
-    auto view_item = m_defaultTreeView->viewModel()->itemFromIndex(index);
-    return view_item->item();
+    QEXTMvvmViewItem *viewItem = m_defaultTreeView->viewModel()->viewItemFromIndex(index);
+    return viewItem->item();
 }
 
 //! Connect tree views to provide mutual item selection.
@@ -87,20 +87,20 @@ QEXTMvvmSessionItem* SampleEditorWdiget::item_from_view(QTreeView* view, const Q
 void SampleEditorWdiget::connect_views()
 {
     // select items in other views when selection in m_defaultTreeView has changed
-    auto on_item_selected = [this](QEXTMvvmSessionItem* item) {
+    auto on_item_selected = [this](QEXTMvvmItem* item) {
         m_subsetTreeView->setRootSessionItem(item);
         m_propertyTreeView->setItem(item);
         m_topItemView->setSelected(item);
     };
-    connect(m_defaultTreeView, &AllItemsTreeView::itemSelected, on_item_selected);
+    connect(m_defaultTreeView, &QEXTMvvmAllItemsTreeView::itemSelected, on_item_selected);
 
     m_defaultTreeView->treeView()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_defaultTreeView->treeView(), &QTreeView::customContextMenuRequested, this,
             &SampleEditorWdiget::onContextMenuRequest);
 
     // will notify m_defaultTreeView
-    auto on_top_item_selected = [this](QEXTMvvmSessionItem* item) { m_defaultTreeView->setSelected(item); };
-    connect(m_topItemView, &TopItemsTreeView::itemSelected, on_top_item_selected);
+    auto on_top_item_selected = [this](QEXTMvvmItem* item) { m_defaultTreeView->setSelected(item); };
+    connect(m_topItemView, &QEXTMvvmTopItemsTreeView::itemSelected, on_top_item_selected);
 }
 
 QBoxLayout* SampleEditorWdiget::createLeftLayout()

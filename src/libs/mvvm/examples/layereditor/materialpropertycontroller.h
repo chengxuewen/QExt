@@ -17,7 +17,7 @@ class MaterialModel;
 
 //! Listens for all changes in material model and updates properties in SampleModel.
 
-class MaterialPropertyController : public ModelView::QEXTMvvmModelListener<MaterialModel>
+class MaterialPropertyController : public QEXTMvvmModelListener<MaterialModel>
 {
 public:
     MaterialPropertyController(MaterialModel* material_model, SampleModel* sample_model);

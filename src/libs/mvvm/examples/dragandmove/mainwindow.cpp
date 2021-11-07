@@ -24,7 +24,7 @@ const QString pos_key = "pos";
 namespace DragAndView
 {
 
-MainWindow::MainWindow() : m_tabWidget(new QTabWidget), m_model(std::make_unique<SampleModel>())
+MainWindow::MainWindow() : m_tabWidget(new QTabWidget), m_model(new SampleModel)
 {
     setCentralWidget(m_tabWidget);
     init_application();

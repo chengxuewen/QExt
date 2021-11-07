@@ -7,34 +7,40 @@
 //
 // ************************************************************************** //
 
-#include <qextMvvmCustomVariants.h>
+#include <qextMvvmUtils.h>
 #include <qextMvvmItemMapper.h>
 #include <qextMvvmVectorItem.h>
 #include <sstream>
 
-using namespace ModelView;
 
-QEXTMvvmVectorItem::QEXTMvvmVectorItem() : QEXTMvvmCompoundItem(Constants::VectorItemType)
+
+QEXTMvvmVectorItem::QEXTMvvmVectorItem()
+    : QEXTMvvmCompoundItem(QEXTMvvmConstants::VectorItemType)
 {
-    addProperty(P_X, 0.0)->setDisplayName("X");
-    addProperty(P_Y, 0.0)->setDisplayName("Y");
-    addProperty(P_Z, 0.0)->setDisplayName("Z");
+    this->addProperty(P_X, 0.0)->setDisplayName("X");
+    this->addProperty(P_Y, 0.0)->setDisplayName("Y");
+    this->addProperty(P_Z, 0.0)->setDisplayName("Z");
 
-    setEditable(false);
+    this->setEditable(false);
 
-    update_label();
+    this->updateLabel();
 }
 
 void QEXTMvvmVectorItem::activate()
 {
-    auto on_property_change = [this](QEXTMvvmSessionItem*, const std::string&) { update_label(); };
-    mapper()->setOnPropertyChange(on_property_change, this);
+    QEXTMvvmItemPropertyFunction function(this, &QEXTMvvmVectorItem::onPropertyChanged);
+    this->mapper()->addItemPropertyChangedListener(function, this);
 }
 
-void QEXTMvvmVectorItem::update_label()
+void QEXTMvvmVectorItem::onPropertyChanged(QEXTMvvmItem *, QString)
+{
+    this->updateLabel();
+}
+
+void QEXTMvvmVectorItem::updateLabel()
 {
     std::ostringstream ostr;
     ostr << "(" << property<double>(P_X) << ", " << property<double>(P_Y) << ", "
          << property<double>(P_Z) << ")";
-    setDataIntern(QEXTMvvmVariant::fromValue(ostr.str()), ItemDataRole::DATA);
+    setDataIntern(QVariant::fromValue(QString::fromStdString(ostr.str())), QEXTMvvmItem::Role_Data);
 }

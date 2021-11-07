@@ -202,7 +202,7 @@ public:
      * and its microVersion component is less than the other version's microVersion component,
      * or the majorVersion, minorVersion and microVersion components are equal and it's qualifier
      * component is less than the other version's qualifier component (using
-     * <code>std::string::compare</code>).
+     * <code>QString::compare</code>).
      *
      * <p>
      * A version is considered to be <b>equal to</b> another version if the

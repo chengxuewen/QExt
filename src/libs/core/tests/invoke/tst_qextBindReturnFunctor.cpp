@@ -3,7 +3,7 @@
 #include <qextReferenceWrapper.h>
 #include <qextBindReturnFunctor.h>
 #include <qextBindFunctor.h>
-#include <qextSlot.h>
+#include <qextFunction.h>
 
 #include <QtTest>
 #include <QObject>
@@ -70,7 +70,7 @@ void QEXTBindReturnFunctorTest::testReferences()
 
 void QEXTBindReturnFunctorTest::testAutoDisconnect()
 {
-    QEXTSlot<int, int> slot;
+    QEXTFunction<int, int> slot;
     {
         Bar choco(-1);
         slot = qextBindReturnFunctor(Foo(), qextReferenceWrapper(choco));

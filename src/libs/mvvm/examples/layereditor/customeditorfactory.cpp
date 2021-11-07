@@ -13,21 +13,20 @@
 #include "customeditorfactory.h"
 #include "materialmodel.h"
 
-#include <editors/externalpropertycomboeditor.h>
+#include <qextMvvmExternalPropertyComboEditor.h>
 #include <qextMvvmExternalProperty.h>
 
-using namespace ModelView;
+
 
 CustomEditorFactory::~CustomEditorFactory() = default;
 
 CustomEditorFactory::CustomEditorFactory(ApplicationModels* models) : m_models(models) {}
 
-std::unique_ptr<CustomEditor> CustomEditorFactory::createEditor(const QModelIndex& index) const
+QEXTMvvmCustomEditor *CustomEditorFactory::createEditor(const QModelIndex& index) const
 {
     auto value = index.data(Qt::EditRole);
-    if (Utils::IsExtPropertyVariant(value))
-        return std::make_unique<ExternalPropertyComboEditor>(
-            [this]() { return m_models->materialModel()->material_data(); });
+    if (QEXTMvvmUtils::IsExtPropertyVariant(value))
+        return new QEXTMvvmExternalPropertyComboEditor([this]() { return m_models->materialModel()->material_data(); });
     else
-        return DefaultEditorFactory::createEditor(index);
+        return QEXTMvvmDefaultEditorFactory::createEditor(index);
 }

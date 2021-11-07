@@ -13,7 +13,7 @@
 #include <qextMvvmLinkedItem.h>
 #include <qextMvvmPlotTableItems.h>
 
-using namespace ModelView;
+
 
 namespace
 {
@@ -23,7 +23,7 @@ const QEXTMvvmComboProperty gradientCombo =
                               "Polar");
 }
 
-QEXTMvvmColorMapItem::QEXTMvvmColorMapItem() : QEXTMvvmCompoundItem(Constants::ColorMapItemType)
+QEXTMvvmColorMapItem::QEXTMvvmColorMapItem() : QEXTMvvmCompoundItem(QEXTMvvmConstants::ColorMapItemType)
 {
     addProperty<QEXTMvvmLinkedItem>(P_LINK)->setDisplayName("Link");
     addProperty<QEXTMvvmTextItem>(P_TITLE)->setDisplayName("Title");

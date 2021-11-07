@@ -11,13 +11,13 @@
 #include "item_constants.h"
 #include <QColor>
 
-#include <editors/editor_constants.h>
+#include <qextMvvmEditorConstants.h>
 #include <qextMvvmComboProperty.h>
 #include <qextMvvmExternalProperty.h>
 #include <qextMvvmItemCatalogue.h>
-#include <utils/qextMvvmRealLimits.h>
+#include <qextMvvmRealLimits.h>
 
-using namespace ModelView;
+
 
 namespace CellEditors
 {
@@ -37,18 +37,18 @@ DemoPropertiesItem::DemoPropertiesItem() : QEXTMvvmCompoundItem(::Constants::Dem
 
     addProperty(P_SELECTABLE_COMBO_PROPERTY, combo)
         ->setDisplayName("Selectable")
-        ->setEditorType(ModelView::Constants::SelectableComboPropertyEditorType);
+        ->setEditorType(QEXTMvvmConstants::SelectableComboPropertyEditorType);
 
     QEXTMvvmExternalProperty ext_prop("Gold", QColor(Qt::darkYellow), "some id");
     addProperty(P_EXTERNAL_PROPERTY, ext_prop)->setDisplayName("External");
 }
 
-SampleModel::SampleModel() : QEXTMvvmSessionModel("SampleModel")
+SampleModel::SampleModel() : QEXTMvvmModel("SampleModel")
 {
-    auto catalogue = std::make_unique<ModelView::QEXTMvvmItemCatalogue>();
+    QEXTMvvmItemCatalogue *catalogue = new QEXTMvvmItemCatalogue;
     catalogue->registerItem<DemoPropertiesItem>();
 
-    setItemCatalogue(std::move(catalogue));
+    setItemCatalogue(catalogue);
 }
 
 } // namespace CellEditors

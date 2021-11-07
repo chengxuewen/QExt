@@ -1,70 +1,79 @@
-#include <qextMvvmCommandUtils.h>
 #include <qextMvvmCopyItemCommand.h>
+#include <qextMvvmCopyItemCommand_p.h>
+#include <qextMvvmCommandUtils.h>
 
 #include <qextMvvmItemBackupStrategy.h>
 #include <qextMvvmItemCopyStrategy.h>
 #include <qextMvvmPath.h>
-#include <qextMvvmSessionItem.h>
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmItem.h>
+#include <qextMvvmModel.h>
 #include <sstream>
 
-using namespace ModelView;
 
 namespace
 {
-std::string generate_description(const std::string& modelType, const QEXTMvvmTagRow& tagrow);
+QString qextMvvmGenerateDescription(const QString &modelType, const QEXTMvvmTagRow &tagrow)
+{
+    QString str = QString("Copy item'%1' tag:'%2', row:%3").arg(modelType).arg(tagrow.tag).arg(tagrow.row);
+    return str;
+}
 } // namespace
 
-struct QEXTCopyItemCommand::CopyItemCommandImpl {
-    QEXTMvvmTagRow tagrow;
-    std::unique_ptr<QEXTMvvmItemBackupStrategy> backup_strategy;
-    QEXTMvvmPath item_path;
-    CopyItemCommandImpl(QEXTMvvmTagRow tagrow) : tagrow(std::move(tagrow)) {}
-};
-
-QEXTCopyItemCommand::QEXTCopyItemCommand(const QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow)
-    : QEXTAbstractItemCommand(parent), p_impl(std::make_unique<CopyItemCommandImpl>(std::move(tagrow)))
+QEXTMvvmCopyItemCommandPrivate::QEXTMvvmCopyItemCommandPrivate(QEXTMvvmCopyItemCommand *q)
+    : QEXTMvvmAbstractItemCommandPrivate(q)
 {
-    setResult(nullptr);
 
-    setDescription(generate_description(item->modelType(), p_impl->tagrow));
-    p_impl->backup_strategy = CreateItemBackupStrategy(parent->model());
-    p_impl->item_path = pathFromItem(parent);
-
-    auto copy_strategy = CreateItemCopyStrategy(parent->model()); // to modify id's
-    auto item_copy = copy_strategy->createCopy(item);
-
-    p_impl->backup_strategy->saveItem(item_copy.get());
 }
 
-QEXTCopyItemCommand::~QEXTCopyItemCommand() = default;
-
-void QEXTCopyItemCommand::undo_command()
+QEXTMvvmCopyItemCommandPrivate::~QEXTMvvmCopyItemCommandPrivate()
 {
-    auto parent = itemFromPath(p_impl->item_path);
-    delete parent->takeItem(p_impl->tagrow);
-    setResult(nullptr);
+
 }
 
-void QEXTCopyItemCommand::execute_command()
+
+
+QEXTMvvmCopyItemCommand::QEXTMvvmCopyItemCommand(QEXTMvvmItem *item, QEXTMvvmItem *parent, QEXTMvvmTagRow tagrow)
+    : QEXTMvvmAbstractItemCommand(new QEXTMvvmCopyItemCommandPrivate(this), parent)
 {
-    auto parent = itemFromPath(p_impl->item_path);
-    auto item = p_impl->backup_strategy->restoreItem();
-    if (parent->insertItem(item.get(), p_impl->tagrow)) {
-        auto result = item.release();
-        setResult(result);
-    } else {
-        setResult(nullptr);
-        setObsolete(true);
+    QEXT_DECL_D(QEXTMvvmCopyItemCommand);
+    this->setResult(QEXTMvvmCommandResult());
+
+    d->m_tagrow = tagrow;
+    this->setDescription(qextMvvmGenerateDescription(item->modelType(), d->m_tagrow));
+//    d->m_itemBackupStrategy.reset(QEXTMvvmCommandUtils::createItemBackupStrategy(parent->model()));
+    d->m_itempath = this->pathFromItem(parent);
+
+    QEXTMvvmItemCopyStrategy *copyStrategy = QEXTMvvmCommandUtils::createItemCopyStrategy(parent->model()); // to modify id's
+    QEXTMvvmItem *itemCopy = copyStrategy->createCopy(item);
+    d->m_itemBackupStrategy->saveItem(itemCopy); //NOTICE LIFECYCLE
+}
+
+QEXTMvvmCopyItemCommand::~QEXTMvvmCopyItemCommand()
+{
+
+}
+
+void QEXTMvvmCopyItemCommand::undoCommand()
+{
+    QEXT_DECL_D(QEXTMvvmCopyItemCommand);
+    QEXTMvvmItem *parent = this->itemFromPath(d->m_itempath);
+    delete parent->takeItem(d->m_tagrow);
+    this->setResult(QEXTMvvmCommandResult());
+}
+
+void QEXTMvvmCopyItemCommand::executeCommand()
+{
+    QEXT_DECL_D(QEXTMvvmCopyItemCommand);
+    QEXTMvvmItem *parent = this->itemFromPath(d->m_itempath);
+    QEXTMvvmItem *item = d->m_itemBackupStrategy->restoreItem();
+    if (parent->insertItem(item, d->m_tagrow))
+    {
+        //        auto result = item.release();//NOTICE LIFECYCLE
+        this->setResult(QEXTMvvmCommandResult(item));
+    }
+    else
+    {
+        this->setResult(QEXTMvvmCommandResult());
+        this->setObsolete(true);
     }
 }
-
-namespace
-{
-std::string generate_description(const std::string& modelType, const QEXTMvvmTagRow& tagrow)
-{
-    std::ostringstream ostr;
-    ostr << "Copy item'" << modelType << "' tag:'" << tagrow.tag << "', row:" << tagrow.row;
-    return ostr.str();
-}
-} // namespace

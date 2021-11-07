@@ -10,34 +10,33 @@
 #ifndef DRAGVIEWMODEL_H
 #define DRAGVIEWMODEL_H
 
-#include <viewmodel/propertytableviewmodel.h>
+#include <qextMvvmPropertyTableViewModel.h>
 
-namespace ModelView
-{
-class QEXTMvvmSessionModel;
-}
+
+class QEXTMvvmModel;
+
 
 namespace DragAndView
 {
 
-//! View model with drag-and-drop support. Relies on PropertyTableViewModel to show
+//! View model with drag-and-drop support. Relies on QEXTMvvmPropertyTableViewModel to show
 //! properties of DemoItem in table-like views.
 
-class DragViewModel : public ModelView::PropertyTableViewModel
+class DragViewModel : public QEXTMvvmPropertyTableViewModel
 {
     Q_OBJECT
 
 public:
-    DragViewModel(ModelView::QEXTMvvmSessionModel* model, QObject* parent = nullptr);
+    DragViewModel(QEXTMvvmModel* model, QObject* parent = nullptr);
 
-    Qt::ItemFlags flags(const QModelIndex& index) const override;
-    QMimeData* mimeData(const QModelIndexList& index_list) const override;
-    Qt::DropActions supportedDragActions() const override;
-    Qt::DropActions supportedDropActions() const override;
+    Qt::ItemFlags flags(const QModelIndex& index) const QEXT_DECL_OVERRIDE;
+    QMimeData* mimeData(const QModelIndexList& index_list) const QEXT_DECL_OVERRIDE;
+    Qt::DropActions supportedDragActions() const QEXT_DECL_OVERRIDE;
+    Qt::DropActions supportedDropActions() const QEXT_DECL_OVERRIDE;
     bool canDropMimeData(const QMimeData* data, Qt::DropAction, int, int,
-                         const QModelIndex&) const override;
+                         const QModelIndex&) const QEXT_DECL_OVERRIDE;
     bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column,
-                      const QModelIndex& parent) override;
+                      const QModelIndex& parent) QEXT_DECL_OVERRIDE;
 };
 
 } // namespace DragAndView

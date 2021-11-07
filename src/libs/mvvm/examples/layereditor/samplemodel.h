@@ -11,32 +11,32 @@
 #define SAMPLEMODEL_H
 
 #include <qextMvvmCompoundItem.h>
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmModel.h>
 
 //! Layer with name, thickness and reference to material.
 
-class LayerItem : public ModelView::QEXTMvvmCompoundItem
+class LayerItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_NAME = "P_NAME";
-    static inline const std::string P_MATERIAL = "P_MATERIAL";
-    static inline const std::string P_THICKNESS = "P_THICKNESS";
+    static inline const QString P_NAME = "P_NAME";
+    static inline const QString P_MATERIAL = "P_MATERIAL";
+    static inline const QString P_THICKNESS = "P_THICKNESS";
     LayerItem();
 };
 
 //! Multi layer capable of holding layers and other multi-layers.
 
-class MultiLayerItem : public ModelView::QEXTMvvmCompoundItem
+class MultiLayerItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string T_LAYERS = "T_LAYERS";
-    static inline const std::string P_NREPETITIONS = "P_NREPETITIONS";
+    static inline const QString T_LAYERS = "T_LAYERS";
+    static inline const QString P_NREPETITIONS = "P_NREPETITIONS";
     MultiLayerItem();
 };
 
 //! Model to hold layers and multi-layers.
 
-class SampleModel : public ModelView::QEXTMvvmSessionModel
+class SampleModel : public QEXTMvvmModel
 {
 public:
     SampleModel();

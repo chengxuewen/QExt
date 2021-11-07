@@ -3,28 +3,25 @@
 
 #include <qextMvvmAbstractItemCommand.h>
 
-namespace ModelView
-{
-
-class QEXTMvvmSessionItem;
+class QEXTMvvmItem;
 class QEXTMvvmTagRow;
 
 //! Command for unddo/redo framework to remove item from a model using child's tag and row.
-
-class QEXT_MVVM_API QEXTRemoveItemCommand : public QEXTAbstractItemCommand
+class QEXTMvvmRemoveItemCommandPrivate;
+class QEXT_MVVM_API QEXTMvvmRemoveItemCommand : public QEXTMvvmAbstractItemCommand
 {
 public:
-    QEXTRemoveItemCommand(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow);
-    ~QEXTRemoveItemCommand() override;
+    QEXTMvvmRemoveItemCommand(QEXTMvvmItem *parent, QEXTMvvmTagRow tagrow);
+    ~QEXTMvvmRemoveItemCommand() QEXT_DECL_OVERRIDE;
+
+protected:
+    void undoCommand() QEXT_DECL_OVERRIDE;
+    void executeCommand() QEXT_DECL_OVERRIDE;
 
 private:
-    void undo_command() override;
-    void execute_command() override;
-
-    struct RemoveItemCommandImpl;
-    std::unique_ptr<RemoveItemCommandImpl> p_impl;
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmRemoveItemCommand)
+    QEXT_DECL_PRIVATE(QEXTMvvmRemoveItemCommand)
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMREMOVEITEMCOMMAND_H

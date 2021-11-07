@@ -1,11 +1,9 @@
 #ifndef _QEXTMVVMPROJECTMANAGERDECORATOR_H
 #define _QEXTMVVMPROJECTMANAGERDECORATOR_H
 
-#include <memory>
 #include <qextMvvmProjectManagerInterface.h>
 
-namespace ModelView
-{
+#include <QScopedPointer>
 
 struct QEXTMvvmProjectContext;
 struct QEXTMvvmUserInteractionContext;
@@ -22,29 +20,29 @@ public:
     QEXTMvvmProjectManagerDecorator(const QEXTMvvmProjectContext& project_context,
                             const QEXTMvvmUserInteractionContext& user_context);
 
-    ~QEXTMvvmProjectManagerDecorator() override;
+    ~QEXTMvvmProjectManagerDecorator() QEXT_DECL_OVERRIDE;
     QEXTMvvmProjectManagerDecorator(const QEXTMvvmProjectManagerDecorator& other) = delete;
     QEXTMvvmProjectManagerDecorator& operator=(const QEXTMvvmProjectManagerDecorator& other) = delete;
 
-    bool createNewProject(const std::string& dirname = {}) override;
+    bool createNewProject(const QString &dirname = QString()) QEXT_DECL_OVERRIDE;
 
-    bool saveCurrentProject() override;
+    bool saveCurrentProject() QEXT_DECL_OVERRIDE;
 
-    bool saveProjectAs(const std::string& dirname = {}) override;
+    bool saveProjectAs(const QString &dirname = QString()) QEXT_DECL_OVERRIDE;
 
-    bool openExistingProject(const std::string& dirname = {}) override;
+    bool openExistingProject(const QString &dirname = QString()) QEXT_DECL_OVERRIDE;
 
-    std::string currentProjectDir() const override;
+    QString currentProjectDir() const QEXT_DECL_OVERRIDE;
 
-    bool isModified() const override;
+    bool isModified() const QEXT_DECL_OVERRIDE;
 
-    bool closeCurrentProject() const override;
+    bool closeCurrentProject() const QEXT_DECL_OVERRIDE;
 
 private:
     struct ProjectManagerImpl;
-    std::unique_ptr<ProjectManagerImpl> p_impl;
+    QScopedPointer<ProjectManagerImpl> p_impl;
 };
 
-} // namespace ModelView
+
 
 #endif // MVVM_PROJECT_PROJECTMANAGERDECORATOR_H

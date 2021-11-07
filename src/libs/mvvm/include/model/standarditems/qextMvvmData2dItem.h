@@ -2,10 +2,8 @@
 #define _QEXTMVVMDATA2DITEM_H
 
 #include <qextMvvmCompoundItem.h>
-#include <vector>
 
-namespace ModelView
-{
+#include <QVector>
 
 class QEXTMvvmBinnedAxisItem;
 
@@ -16,25 +14,23 @@ class QEXTMvvmBinnedAxisItem;
 class QEXT_MVVM_API QEXTMvvmData2DItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string T_XAXIS = "T_XAXIS";
-    static inline const std::string T_YAXIS = "T_YAXIS";
+    static inline const QString T_XAXIS = "T_XAXIS";
+    static inline const QString T_YAXIS = "T_YAXIS";
 
     QEXTMvvmData2DItem();
 
-    void setAxes(std::unique_ptr<QEXTMvvmBinnedAxisItem> x_axis, std::unique_ptr<QEXTMvvmBinnedAxisItem> y_axis);
+    void setAxes(QEXTMvvmBinnedAxisItem *xAxis, QEXTMvvmBinnedAxisItem *yAxis);
 
-    QEXTMvvmBinnedAxisItem* xAxis() const;
+    QEXTMvvmBinnedAxisItem *xAxis() const;
 
-    QEXTMvvmBinnedAxisItem* yAxis() const;
+    QEXTMvvmBinnedAxisItem *yAxis() const;
 
-    void setContent(const std::vector<double>& data);
+    void setContent(const QVector<double> &data);
 
-    std::vector<double> content() const;
+    QVector<double> content() const;
 
 private:
-    void insert_axis(std::unique_ptr<QEXTMvvmBinnedAxisItem> axis, const std::string& tag);
+    void insertAxis(QEXTMvvmBinnedAxisItem *axis, const QString &tag);
 };
-
-} // namespace ModelView
 
 #endif // _QEXTMVVMDATA2DITEM_H

@@ -25,13 +25,16 @@ const QString pos_key = "pos";
 namespace CellEditors
 {
 
-MainWindow::MainWindow() : m_tabWidget(new QTabWidget), m_model(std::make_unique<SampleModel>())
+MainWindow::MainWindow() : m_tabWidget(new QTabWidget), m_model(new SampleModel())
 {
     setCentralWidget(m_tabWidget);
     init_application();
 }
 
-MainWindow::~MainWindow() = default;
+MainWindow::~MainWindow()
+{
+
+}
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {

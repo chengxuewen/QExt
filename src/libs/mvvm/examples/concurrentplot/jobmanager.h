@@ -1,18 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
 #ifndef JOBMANAGER_H
 #define JOBMANAGER_H
 
 #include "toysimulation.h"
 #include <QObject>
-#include <utils/qextMvvmThreadSafeStack.h>
+#include <qextMvvmThreadSafeStack.h>
 
 //! Handles all thread activity for running job simulation in the background.
 
@@ -22,9 +13,9 @@ class JobManager : public QObject
 
 public:
     JobManager(QObject* parent = nullptr);
-    ~JobManager() override;
+    ~JobManager() QEXT_DECL_OVERRIDE;
 
-    std::vector<double> simulationResult();
+    QVector<double> simulationResult();
 
 signals:
     void progressChanged(int value);
@@ -39,8 +30,8 @@ private:
     void wait_and_run();
 
     std::thread sim_thread;
-    ModelView::QEXTMvvmThreadSafeStack<double> requested_values;
-    ModelView::QEXTMvvmThreadSafeStack<ToySimulation::Result> simulation_results;
+    QEXTMvvmThreadSafeStack<double> requested_values;
+    QEXTMvvmThreadSafeStack<ToySimulation::Result> simulation_results;
     std::atomic<bool> is_running;
     bool interrupt_request{false};
     int delay{0};

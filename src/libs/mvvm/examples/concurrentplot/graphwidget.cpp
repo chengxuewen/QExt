@@ -13,15 +13,15 @@
 #include "graphwidgettoolbar.h"
 #include "jobmanager.h"
 #include <QBoxLayout>
-#include <plotting/graphcanvas.h>
+#include <qextMvvmGraphCanvas.h>
 #include <qextMvvmGraphViewPortItem.h>
 
-using namespace ModelView;
+
 
 GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     : QWidget(parent)
     , m_toolbar(new GraphWidgetToolBar)
-    , m_graphCanvas(new GraphCanvas)
+    , m_graphCanvas(new QEXTMvvmGraphCanvas)
     , m_propertyWidget(new GraphPropertyWidget)
     , m_model(nullptr)
     , m_jobManager(new JobManager(this))

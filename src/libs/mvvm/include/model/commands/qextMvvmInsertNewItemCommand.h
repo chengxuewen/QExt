@@ -2,30 +2,27 @@
 #define _QEXTMVVMINSERTNEWITEMCOMMAND_H
 
 #include <qextMvvmAbstractItemCommand.h>
-#include <qextMvvmFunctionTypes.h>
+#include <qextMvvmTypes.h>
 
-namespace ModelView
-{
-
-class QEXTMvvmSessionItem;
+class QEXTMvvmItem;
 class QEXTMvvmTagRow;
 
 //! Command for unddo/redo to insert new item.
-
-class QEXT_MVVM_API QEXTInsertNewItemCommand : public QEXTAbstractItemCommand
+class QEXTMvvmInsertNewItemCommandPrivate;
+class QEXT_MVVM_API QEXTMvvmInsertNewItemCommand : public QEXTMvvmAbstractItemCommand
 {
 public:
-    QEXTInsertNewItemCommand(item_factory_func_t func, QEXTMvvmSessionItem* parent, const QEXTMvvmTagRow& tagrow);
-    ~QEXTInsertNewItemCommand() override;
+    QEXTMvvmInsertNewItemCommand(QEXTMvvmItemFactoryFunction func, QEXTMvvmItem *parent, const QEXTMvvmTagRow &tagrow);
+    ~QEXTMvvmInsertNewItemCommand() QEXT_DECL_OVERRIDE;
+
+protected:
+    void undoCommand() QEXT_DECL_OVERRIDE;
+    void executeCommand() QEXT_DECL_OVERRIDE;
 
 private:
-    void undo_command() override;
-    void execute_command() override;
-
-    struct InsertNewItemCommandImpl;
-    std::unique_ptr<InsertNewItemCommandImpl> p_impl;
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmInsertNewItemCommand)
+    QEXT_DECL_PRIVATE(QEXTMvvmInsertNewItemCommand)
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMINSERTNEWITEMCOMMAND_H

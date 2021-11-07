@@ -10,7 +10,7 @@
 #include "recentprojectsettings.h"
 #include <QDir>
 #include <QSettings>
-#include <utils/qextMvvmFileUtils.h>
+#include <qextMvvmUtils.h>
 
 namespace
 {
@@ -53,8 +53,8 @@ QString RecentProjectSettings::currentWorkdir() const
 void RecentProjectSettings::updateWorkdirFromSelection(const QString& dirname)
 {
     if (!dirname.isEmpty()) {
-        auto parent_path = ModelView::Utils::parent_path(dirname.toStdString());
-        m_currentWorkdir = QString::fromStdString(parent_path);
+        auto parent_path = QEXTMvvmUtils::parentPath(dirname);
+        m_currentWorkdir = parent_path;
     }
 }
 
@@ -63,7 +63,7 @@ QStringList RecentProjectSettings::recentProjects()
 {
     QStringList updatedList;
     for (const auto& fileName : m_recentProjects) {
-        if (ModelView::Utils::exists(fileName.toStdString()))
+        if (QEXTMvvmUtils::exists(fileName))
             updatedList.append(fileName);
     }
     m_recentProjects = updatedList;

@@ -10,8 +10,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <qextGlobal.h>
+
 #include <QMainWindow>
-#include <memory>
+
+#include <QScopedPointer>
 
 class QTabWidget;
 
@@ -28,10 +31,10 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow();
-    virtual ~MainWindow() override;
+    virtual ~MainWindow() QEXT_DECL_OVERRIDE;
 
 protected:
-    void closeEvent(QCloseEvent* event) override;
+    void closeEvent(QCloseEvent* event) QEXT_DECL_OVERRIDE;
 
 private:
     void write_settings();
@@ -39,7 +42,7 @@ private:
     void init_models();
 
     QTabWidget* m_tabWidget{nullptr};
-    std::unique_ptr<SampleModel> m_model;
+    QScopedPointer<SampleModel> m_model;
 };
 
 } // namespace CellEditors

@@ -10,9 +10,11 @@
 #ifndef RECENTPROJECTWIDGET_H
 #define RECENTPROJECTWIDGET_H
 
+#include <qextGlobal.h>
+
 #include <QWidget>
 #include <memory>
-#include <vector>
+#include <QVector>
 
 class QBoxLayout;
 class ProjectPaneWidget;
@@ -30,9 +32,9 @@ public:
 
     void setRecentProjectsList(const QStringList& projects);
 
-    QSize sizeHint() const override;
+    QSize sizeHint() const QEXT_DECL_OVERRIDE;
 
-    QSize minimumSizeHint() const override;
+    QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
 
 signals:
     void projectSelected(const QString& project_dir);
@@ -42,7 +44,7 @@ private:
     QBoxLayout* createRecentProjectLayout();
     QWidget* createRecentProjectScrollArea();
     ProjectPaneWidget* m_currentProjectPane{nullptr};
-    std::vector<ProjectPaneWidget*> m_recentProjectPanes;
+    QVector<ProjectPaneWidget*> m_recentProjectPanes;
 };
 
 #endif // RECENTPROJECTWIDGET_H

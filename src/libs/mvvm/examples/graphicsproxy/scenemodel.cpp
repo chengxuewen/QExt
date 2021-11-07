@@ -17,7 +17,7 @@
 #include <qextMvvmContainerItem.h>
 #include <qextMvvmData2dItem.h>
 
-using namespace ModelView;
+
 
 namespace
 {
@@ -29,7 +29,7 @@ void fill_data(QEXTMvvmData2DItem* data_item, double scale = 1.0)
 {
     const auto xAxis = data_item->xAxis();
     const auto yAxis = data_item->yAxis();
-    std::vector<double> values;
+    QVector<double> values;
     for (auto y : yAxis->binCenters()) {
         for (auto x : xAxis->binCenters()) {
             double r = scale * (3.0 * std::sqrt(x * x + y * y) + 1e-2);
@@ -41,18 +41,18 @@ void fill_data(QEXTMvvmData2DItem* data_item, double scale = 1.0)
     data_item->setContent(values);
 }
 
-std::unique_ptr<ModelView::QEXTMvvmItemCatalogue> CreateItemCatalogue()
+QEXTMvvmItemCatalogue *qextMvvmCreateItemCatalogue()
 {
-    auto result = std::make_unique<QEXTMvvmItemCatalogue>();
+    QEXTMvvmItemCatalogue *result = new QEXTMvvmItemCatalogue;
     result->registerItem<RegionOfInterestItem>();
     return result;
 }
 
 } // namespace
 
-SceneModel::SceneModel() : QEXTMvvmSessionModel("ColorMapModel")
+SceneModel::SceneModel() : QEXTMvvmModel("ColorMapModel")
 {
-    setItemCatalogue(CreateItemCatalogue());
+    setItemCatalogue(qextMvvmCreateItemCatalogue());
 
     create_roi();
     create_data();

@@ -35,7 +35,7 @@ QEXTLinearFunction::QEXTLinearFunction(double x1, double y1, double x2, double y
     d_ptr->m_isHLine = (y1 == y2) ? true : false;
     if (d_ptr->m_isHLine && d_ptr->m_isVLine)
     {
-        throw std::string("QEXTLinearFunction():point1 == point2, point1 can not equal to point2!");
+        throw QString("QEXTLinearFunction():point1 == point2, point1 can not equal to point2!");
     }
     d_ptr->m_k = (y1 - y2) / (x1 - x2);
     d_ptr->m_c = (y1 * x2 - y2 * x1) / (x2 - x1);
@@ -116,12 +116,12 @@ double QEXTLinearFunction::x(double y) const
     QEXT_DECL_DC(QEXTLinearFunction);
     if (d->m_isHLine)
     {
-        throw std::string("STLinearFunction::xValue():linear IsHLine,can not find x data");
+        throw QString("STLinearFunction::xValue():linear IsHLine,can not find x data");
         return 0;
     }
     else if (d->m_isVLine)
     {
-        throw std::string("STLinearFunction::xValue():linear IsVLine,can not find x data");
+        throw QString("STLinearFunction::xValue():linear IsVLine,can not find x data");
         return 0;
     }
     else
@@ -160,19 +160,19 @@ bool QEXTLinearFunction::isVerticalLine() const
     return d->m_isVLine;
 }
 
-std::vector<std::pair<double, double> > QEXTLinearFunction::distancePoints(double x, double y, double distance) const
+QVector<QPair<double, double> > QEXTLinearFunction::distancePoints(double x, double y, double distance) const
 {
     QEXT_DECL_DC(QEXTLinearFunction);
-    std::vector<std::pair<double, double> > points;
+    QVector<QPair<double, double> > points;
     if (d->m_isHLine)
     {
-        points.push_back(std::make_pair(x - distance, y));
-        points.push_back(std::make_pair(x + distance, y));
+        points.append(QPair<double, double>(x - distance, y));
+        points.append(QPair<double, double>(x + distance, y));
     }
     else if (d->m_isVLine)
     {
-        points.push_back(std::make_pair(x, y - distance));
-        points.push_back(std::make_pair(x, y + distance));
+        points.append(QPair<double, double>(x, y - distance));
+        points.append(QPair<double, double>(x, y + distance));
     }
     else
     {
@@ -185,8 +185,8 @@ std::vector<std::pair<double, double> > QEXTLinearFunction::distancePoints(doubl
         double x2 = (-b - sqrt(pow(b, 2) - 4 * a * c)) / (2 * a);
         double y1 = d->m_k * x1 + d->m_c;
         double y2 = d->m_k * x2 + d->m_c;
-        points.push_back(std::make_pair(x1, y1));
-        points.push_back(std::make_pair(x2, y2));
+        points.append(QPair<double, double>(x1, y1));
+        points.append(QPair<double, double>(x2, y2));
     }
     return points;
 }
@@ -194,12 +194,12 @@ std::vector<std::pair<double, double> > QEXTLinearFunction::distancePoints(doubl
 bool QEXTLinearFunction::distancePoint(double originX, double originY, double rangeX, double rangeY,
                                      double distance, double &x, double &y) const
 {
-    std::vector<std::pair<double, double> > points = this->distancePoints(originX, originY, distance);
+    QVector<QPair<double, double> > points = this->distancePoints(originX, originY, distance);
     double leftX = std::min(originX, rangeX);
     double rightX = std::max(originX, rangeX);
     double topY = std::min(originY, rangeY);
     double bottomY = std::max(originY, rangeY);
-    std::vector<std::pair<double, double> >::const_iterator iter;
+    QVector<QPair<double, double> >::const_iterator iter;
     for (iter = points.begin(); iter != points.end(); ++iter)
     {
         if (iter->first >= leftX && iter->first <= rightX && iter->second >= topY && iter->second <= bottomY)

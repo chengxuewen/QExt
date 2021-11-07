@@ -2,7 +2,7 @@
 #include <qextMemberFunctor.h>
 #include <qextReferenceWrapper.h>
 #include <qextBindFunctor.h>
-#include <qextSlot.h>
+#include <qextFunction.h>
 
 #include <QtTest>
 #include <QObject>
@@ -238,7 +238,7 @@ void QEXTBindFunctorTest::testReferences()
     QVERIFY("egon was here" == str);
     QVERIFY("egon(string 'guest book')" == *sg_string);
 
-    QEXTSlot<void> slot;
+    QEXTFunction<void> slot;
     {
         *sg_string = "";
         Book guestBook("karl");
@@ -254,8 +254,8 @@ void QEXTBindFunctorTest::testReferences()
 
 
 
-    QEXTSlot<void, Param &> slotFull = qextPointerFunctor(handler);
-    QEXTSlot<void> slotBound;
+    QEXTFunction<void, Param &> slotFull = qextPointerFunctor(handler);
+    QEXTFunction<void> slotBound;
 
     *sg_string = "";
     slotBound();

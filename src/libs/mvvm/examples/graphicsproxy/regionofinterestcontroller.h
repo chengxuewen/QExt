@@ -10,13 +10,12 @@
 #ifndef GRAPHICSPROXY_REGIONOFINTERESTCONTROLLER_H
 #define GRAPHICSPROXY_REGIONOFINTERESTCONTROLLER_H
 
-#include <memory>
 #include <qextMvvmItemListener.h>
 
-namespace ModelView
-{
-class SceneAdapterInterface;
-}
+#include <QScopedPointer>
+
+class QEXTMvvmSceneAdapterInterface;
+
 
 class RegionOfInterestItem;
 class RegionOfInterestView;
@@ -26,13 +25,13 @@ class QRectF;
 //! Provides updates of view position/appearance on graphics scene, when underlying item changes.
 //! Similarly, provides update of item's properties when view is moved/resized by the user.
 
-class RegionOfInterestController : public ModelView::QEXTMvvmItemListener<RegionOfInterestItem>
+class RegionOfInterestController : public QEXTMvvmItemListener<RegionOfInterestItem>
 {
 public:
     RegionOfInterestController(RegionOfInterestItem* item,
-                               const ModelView::SceneAdapterInterface* scene_adapter,
+                               const QEXTMvvmSceneAdapterInterface* scene_adapter,
                                RegionOfInterestView* view);
-    ~RegionOfInterestController() override;
+    ~RegionOfInterestController() QEXT_DECL_OVERRIDE;
 
     QRectF roi_rectangle() const;
 
@@ -47,11 +46,11 @@ public:
     void update_item_from_horizontal_handle(double left, double right);
 
 protected:
-    void subscribe() override;
+    void subscribe() QEXT_DECL_OVERRIDE;
 
 private:
     struct RegionOfInterestControllerImpl;
-    std::unique_ptr<RegionOfInterestControllerImpl> p_impl;
+    QScopedPointer<RegionOfInterestControllerImpl> p_impl;
 };
 
 #endif // GRAPHICSPROXY_REGIONOFINTERESTCONTROLLER_H

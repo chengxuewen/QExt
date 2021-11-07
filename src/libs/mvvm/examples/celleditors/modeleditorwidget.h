@@ -10,18 +10,18 @@
 #ifndef MODELEDITORWIDGET_H
 #define MODELEDITORWIDGET_H
 
+#include <qextGlobal.h>
+
 #include <QWidget>
-#include <memory>
+#include <QScopedPointer>
 
 class QBoxLayout;
 class QTreeView;
 class QTableView;
 
-namespace ModelView
-{
-class ViewModel;
-class ViewModelDelegate;
-} // namespace ModelView
+class QEXTMvvmViewModel;
+class QEXTMvvmViewModelDelegate;
+
 
 namespace CellEditors
 {
@@ -36,7 +36,7 @@ class ModelEditorWidget : public QWidget
 
 public:
     explicit ModelEditorWidget(SampleModel* model = nullptr, QWidget* parent = nullptr);
-    virtual ~ModelEditorWidget() override;
+    virtual ~ModelEditorWidget() QEXT_DECL_OVERRIDE;
 
     void setModel(SampleModel* model);
 
@@ -48,9 +48,9 @@ private:
     QTreeView* m_horizontalTree{nullptr};
     QTableView* m_tableView{nullptr};
 
-    std::unique_ptr<ModelView::ViewModel> m_verticalViewModel;
-    std::unique_ptr<ModelView::ViewModel> m_horizontalViewModel;
-    std::unique_ptr<ModelView::ViewModelDelegate> m_delegate;
+    QScopedPointer<QEXTMvvmViewModel> m_verticalViewModel;
+    QScopedPointer<QEXTMvvmViewModel> m_horizontalViewModel;
+    QScopedPointer<QEXTMvvmViewModelDelegate> m_delegate;
 };
 
 } // namespace CellEditors

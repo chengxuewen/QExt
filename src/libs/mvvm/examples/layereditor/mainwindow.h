@@ -11,7 +11,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <memory>
+#include <QScopedPointer>
 
 class ApplicationModels;
 class QTabWidget;
@@ -35,7 +35,7 @@ private:
     void create_menus();
 
     QTabWidget* m_tabWidget;
-    std::unique_ptr<ApplicationModels> m_models;
+    QScopedPointer<ApplicationModels> m_models;
 };
 
 #endif //  MAINWINDOW_H

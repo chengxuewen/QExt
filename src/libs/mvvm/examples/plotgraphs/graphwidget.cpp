@@ -14,10 +14,10 @@
 #include <QBoxLayout>
 #include <QToolBar>
 #include <QToolButton>
-#include <plotting/graphcanvas.h>
+#include <qextMvvmGraphCanvas.h>
 #include <qextMvvmGraphViewPortItem.h>
 
-using namespace ModelView;
+
 
 namespace PlotGraphs
 {
@@ -28,7 +28,7 @@ GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     , m_resetViewportAction(nullptr)
     , m_addGraphAction(nullptr)
     , m_removeGraphAction(nullptr)
-    , m_graphCanvas(new GraphCanvas)
+    , m_graphCanvas(new QEXTMvvmGraphCanvas)
     , m_propertyWidget(new GraphPropertyWidget)
     , m_model(nullptr)
 {

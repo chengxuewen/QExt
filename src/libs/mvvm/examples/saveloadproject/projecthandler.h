@@ -10,14 +10,15 @@
 #ifndef PROJECTHANDLER_H
 #define PROJECTHANDLER_H
 
-#include <QObject>
-#include <memory>
-#include <vector>
+#include <qextGlobal.h>
 
-namespace ModelView
-{
+#include <QScopedPointer>
+#include <QObject>
+#include <QVector>
+
+
 class QEXTMvvmProjectManagerInterface;
-}
+
 
 class RecentProjectSettings;
 class UserInteractor;
@@ -34,7 +35,7 @@ class ProjectHandler : public QObject
 
 public:
     explicit ProjectHandler(SampleModel* sample_model, QMainWindow* main_window);
-    ~ProjectHandler() override;
+    ~ProjectHandler() QEXT_DECL_OVERRIDE;
 
 signals:
     void currentProjectModified(const QString& project_dir, bool is_modified);
@@ -53,9 +54,9 @@ private:
     void updateCurrentProjectName();
     void updateRecentProjectNames();
 
-    std::unique_ptr<RecentProjectSettings> m_recentProjectSettings;
-    std::unique_ptr<UserInteractor> m_userInteractor;
-    std::unique_ptr<ModelView::QEXTMvvmProjectManagerInterface> m_projectManager;
+    QScopedPointer<RecentProjectSettings> m_recentProjectSettings;
+    QScopedPointer<UserInteractor> m_userInteractor;
+    QScopedPointer<QEXTMvvmProjectManagerInterface> m_projectManager;
     SampleModel* m_model{nullptr};
 };
 

@@ -3,9 +3,6 @@
 
 #include <qextMvvmViewPortItem.h>
 
-namespace ModelView
-{
-
 class QEXTMvvmGraphItem;
 
 //! 2D viewport specialized for showing multiple QEXTMvvmGraphItem's.
@@ -15,21 +12,19 @@ class QEXTMvvmGraphItem;
 class QEXT_MVVM_API QEXTMvvmGraphViewportItem : public QEXTMvvmViewportItem
 {
 public:
-    QEXTMvvmGraphViewportItem(const std::string& QEXTMvvmModelType = Constants::GraphViewportItemType);
+    QEXTMvvmGraphViewportItem(const QString& QString = QEXTMvvmConstants::GraphViewportItemType);
 
-    std::vector<QEXTMvvmGraphItem*> graphItems() const;
+    QVector<QEXTMvvmGraphItem*> graphItems() const;
 
-    std::vector<QEXTMvvmGraphItem*> visibleGraphItems() const;
+    QVector<QEXTMvvmGraphItem*> visibleGraphItems() const;
 
-    void setVisible(const std::vector<QEXTMvvmGraphItem*>& visible_graph_items);
+    void setVisible(const QVector<QEXTMvvmGraphItem*>& visible_graph_items);
 
     void setAllVisible();
 
 protected:
-    std::pair<double, double> data_xaxis_range() const override;
-    std::pair<double, double> data_yaxis_range() const override;
+    QPair<double, double> dataXAxisRange() const QEXT_DECL_OVERRIDE;
+    QPair<double, double> dataYAxisRange() const QEXT_DECL_OVERRIDE;
 };
-
-} // namespace ModelView
 
 #endif // _QEXTMVVMGRAPHVIEWPORTITEM_H

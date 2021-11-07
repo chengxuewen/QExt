@@ -19,7 +19,7 @@ public:
     explicit QTKHelloImpl(QTKPluginContext *pContext);
     ~QTKHelloImpl();
 
-    QString sayHello() override;
+    QString sayHello() QEXT_DECL_OVERRIDE;
 };
 
 #endif // QTKHELLOIMPL_H

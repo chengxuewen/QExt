@@ -58,9 +58,9 @@ set(qext_lib_public_headers
     include/invoke/qextRetypeFunctor.h
     include/invoke/qextRetypeReturnFunctor.h
     include/invoke/qextSignal.h
-    include/invoke/qextSlot.h
     include/invoke/qextTrackObjectFunctor.h
     include/invoke/qextVisitor.h
+    include/invoke/qextEmitter.h
 
     include/tools/qextId.h
     include/tools/qextPreprocessor.h
@@ -75,7 +75,7 @@ set(qext_lib_private_headers
 set(qext_lib_sources
     source/invoke/qextConnection.cpp
     source/invoke/qextSignal.cpp
-    source/invoke/qextSlot.cpp
+    source/invoke/qextFunction.cpp
 
     source/tools/qextId.cpp
     source/tools/qextLinearFunction.cpp

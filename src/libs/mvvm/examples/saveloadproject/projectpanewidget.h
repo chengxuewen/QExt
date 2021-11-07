@@ -10,6 +10,8 @@
 #ifndef PROJECTPANEWIDGET_H
 #define PROJECTPANEWIDGET_H
 
+#include <qextGlobal.h>
+
 #include <QWidget>
 
 class QLabel;
@@ -33,10 +35,10 @@ signals:
     void projectSelected(const QString& project_dir);
 
 protected:
-    void paintEvent(QPaintEvent*) override;
-    void enterEvent(QEvent*) override;
-    void leaveEvent(QEvent*) override;
-    void mousePressEvent(QMouseEvent* event) override;
+    void paintEvent(QPaintEvent*) QEXT_DECL_OVERRIDE;
+    void enterEvent(QEvent*) QEXT_DECL_OVERRIDE;
+    void leaveEvent(QEvent*) QEXT_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent* event) QEXT_DECL_OVERRIDE;
 
 private:
     QLabel* m_current_project_title{nullptr};

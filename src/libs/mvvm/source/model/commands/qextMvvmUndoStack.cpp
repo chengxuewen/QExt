@@ -1,88 +1,118 @@
-#include <QUndoStack>
-#include <qextMvvmCommandAdapter.h>
 #include <qextMvvmUndoStack.h>
+#include <qextMvvmUndoStack_p.h>
+#include <qextMvvmCommandAdapter.h>
 
-using namespace ModelView;
+#include <QUndoStack>
 
-struct QEXTUndoStack::UndoStackImpl {
-    std::unique_ptr<QUndoStack> m_undoStack;
-    UndoStackImpl() : m_undoStack(std::make_unique<QUndoStack>()) {}
-    QUndoStack* undoStack() { return m_undoStack.get(); }
-};
 
-QEXTUndoStack::QEXTUndoStack() : p_impl(std::make_unique<UndoStackImpl>()) {}
-
-void QEXTUndoStack::execute(std::shared_ptr<QEXTAbstractItemCommand> command)
+QEXTMvvmUndoStackPrivate::QEXTMvvmUndoStackPrivate(QEXTMvvmUndoStack *q)
+    : q_ptr(q)
 {
+
+}
+
+QEXTMvvmUndoStackPrivate::~QEXTMvvmUndoStackPrivate()
+{
+
+}
+
+
+
+QEXTMvvmUndoStack::QEXTMvvmUndoStack()
+    : d_ptr(new QEXTMvvmUndoStackPrivate(this))
+{
+
+}
+
+QEXTMvvmUndoStack::~QEXTMvvmUndoStack()
+{
+
+}
+
+void QEXTMvvmUndoStack::execute(const QSharedPointer<QEXTMvvmAbstractItemCommand> &command)
+{
+    QEXT_DECL_D(QEXTMvvmUndoStack);
     // Wrapping command for Qt. It will be executed by Qt after push.
-    auto adapter = new QEXTCommandAdapter(std::move(command));
-    p_impl->undoStack()->push(adapter);
+    QEXTCommandAdapter *adapter = new QEXTCommandAdapter(command);
+    d->m_undoStack->push(adapter);
 }
 
-QEXTUndoStack::~QEXTUndoStack() = default;
-
-bool QEXTUndoStack::isActive() const
+bool QEXTMvvmUndoStack::isActive() const
 {
-    return p_impl->undoStack()->isActive();
+    QEXT_DECL_DC(QEXTMvvmUndoStack);
+    return d->m_undoStack->isActive();
 }
 
-bool QEXTUndoStack::canUndo() const
+bool QEXTMvvmUndoStack::canUndo() const
 {
-    return p_impl->undoStack()->canUndo();
+    QEXT_DECL_DC(QEXTMvvmUndoStack);
+    return d->m_undoStack->canUndo();
 }
 
-bool QEXTUndoStack::canRedo() const
+bool QEXTMvvmUndoStack::canRedo() const
 {
-    return p_impl->undoStack()->canRedo();
+    QEXT_DECL_DC(QEXTMvvmUndoStack);
+    return d->m_undoStack->canRedo();
 }
 
-int QEXTUndoStack::index() const
+int QEXTMvvmUndoStack::index() const
 {
-    return p_impl->undoStack()->index();
+    QEXT_DECL_DC(QEXTMvvmUndoStack);
+    return d->m_undoStack->index();
 }
 
-int QEXTUndoStack::count() const
+int QEXTMvvmUndoStack::count() const
 {
-    return p_impl->undoStack()->count();
+    QEXT_DECL_DC(QEXTMvvmUndoStack);
+    return d->m_undoStack->count();
 }
 
-void QEXTUndoStack::undo()
+void QEXTMvvmUndoStack::undo()
 {
-    return p_impl->undoStack()->undo();
+    QEXT_DECL_D(QEXTMvvmUndoStack);
+    return d->m_undoStack->undo();
 }
 
-void QEXTUndoStack::redo()
+void QEXTMvvmUndoStack::redo()
 {
-    return p_impl->undoStack()->redo();
+    QEXT_DECL_D(QEXTMvvmUndoStack);
+    return d->m_undoStack->redo();
 }
 
-void QEXTUndoStack::clear()
+void QEXTMvvmUndoStack::clear()
 {
-    return p_impl->undoStack()->clear();
+    QEXT_DECL_D(QEXTMvvmUndoStack);
+    return d->m_undoStack->clear();
 }
 
-void QEXTUndoStack::setUndoLimit(int limit)
+void QEXTMvvmUndoStack::setUndoLimit(int limit)
 {
-    return p_impl->undoStack()->setUndoLimit(limit);
+    QEXT_DECL_D(QEXTMvvmUndoStack);
+    return d->m_undoStack->setUndoLimit(limit);
 }
 
-//! Returns underlying QUndoStack if given object can be casted to QEXTUndoStack instance.
+//! Returns underlying QUndoStack if given object can be casted to QEXTMvvmUndoStack instance.
 //! This method is used to "convert" current instance to Qt implementation, and use it with other
 //! Qt widgets, if necessary.
 
-QUndoStack* QEXTUndoStack::qtUndoStack(QEXTMvvmUndoStackInterface* stack_interface)
+QUndoStack *QEXTMvvmUndoStack::qtUndoStack(QEXTMvvmUndoStackInterface *stackInterface)
 {
-    if (auto stack = dynamic_cast<QEXTUndoStack*>(stack_interface); stack)
-        return stack->p_impl->undoStack();
-    return nullptr;
+    QEXTMvvmUndoStack *undoStack = dynamic_cast<QEXTMvvmUndoStack *>(stackInterface);
+    if (undoStack)
+    {
+        return undoStack->d_func()->m_undoStack.data();
+    }
+    return QEXT_DECL_NULLPTR;
 }
 
-void QEXTUndoStack::beginMacro(const std::string& name)
+void QEXTMvvmUndoStack::beginMacro(const QString &name)
 {
-    p_impl->undoStack()->beginMacro(QString::fromStdString(name));
+    QEXT_DECL_D(QEXTMvvmUndoStack);
+    d->m_undoStack->beginMacro(name);
 }
 
-void QEXTUndoStack::endMacro()
+void QEXTMvvmUndoStack::endMacro()
 {
-    p_impl->undoStack()->endMacro();
+    QEXT_DECL_D(QEXTMvvmUndoStack);
+    d->m_undoStack->endMacro();
 }

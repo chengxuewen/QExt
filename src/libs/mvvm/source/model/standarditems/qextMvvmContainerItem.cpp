@@ -9,11 +9,11 @@
 
 #include <qextMvvmContainerItem.h>
 
-using namespace ModelView;
 
-QEXTMvvmContainerItem::QEXTMvvmContainerItem(const std::string& modelType) : QEXTMvvmCompoundItem(modelType)
+
+QEXTMvvmContainerItem::QEXTMvvmContainerItem(const QString& modelType) : QEXTMvvmCompoundItem(modelType)
 {
-    registerTag(ModelView::QEXTMvvmTagInfo::universalTag(T_ITEMS), /*set_as_default*/ true);
+    registerTag(QEXTMvvmTagInfo::universalTag(T_ITEMS), /*set_as_default*/ true);
 }
 
 bool QEXTMvvmContainerItem::empty() const

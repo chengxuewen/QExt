@@ -6,17 +6,15 @@
 
 #include <qextMvvmCompoundItem.h>
 
-namespace ModelView
-{
 
 //! Represent text item on plot.
 
 class QEXT_MVVM_API QEXTMvvmTextItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_TEXT = "P_TEXT";
-    static inline const std::string P_FONT = "P_FONT";
-    static inline const std::string P_SIZE = "P_SIZE";
+    static inline const QString P_TEXT = "P_TEXT";
+    static inline const QString P_FONT = "P_FONT";
+    static inline const QString P_SIZE = "P_SIZE";
 
     QEXTMvvmTextItem();
 };
@@ -26,18 +24,16 @@ public:
 class QEXT_MVVM_API QEXTMvvmPenItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_COLOR = "P_COLOR";
-    static inline const std::string P_STYLE = "P_STYLE";
-    static inline const std::string P_WIDTH = "P_WIDTH";
+    static inline const QString P_COLOR = "P_COLOR";
+    static inline const QString P_STYLE = "P_STYLE";
+    static inline const QString P_WIDTH = "P_WIDTH";
 
     QEXTMvvmPenItem();
 
     void setSelected(bool is_selected);
 
-    std::string colorName() const;
-    void setNamedColor(const std::string& named_color);
+    QString colorName() const;
+    void setNamedColor(const QString& named_color);
 };
-
-} // namespace ModelView
 
 #endif // _QEXTMVVMPLOTTABLEITEMS_H

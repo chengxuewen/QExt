@@ -17,8 +17,8 @@
 #include <qextMvvmData1dItem.h>
 #include <qextMvvmGraphItem.h>
 #include <qextMvvmGraphViewPortItem.h>
-#include <utils/qextMvvmNumericUtils.h>
-#include <widgets/widgetutils.h>
+#include <qextMvvmUtils.h>
+#include <qextMvvmWidgetUtils.h>
 #include <stdexcept>
 
 namespace
@@ -30,9 +30,9 @@ constexpr double xmin = 0.0;
 constexpr double xmax = 5.0;
 constexpr double dx = (xmax - xmin) / npoints;
 
-std::vector<double> bin_values(double amp_factor = 1.0)
+QVector<double> bin_values(double amp_factor = 1.0)
 {
-    std::vector<double> result;
+    QVector<double> result;
     for (int i = 0; i < npoints; ++i) {
         double x = xmin + i * dx;
         double value = amp_factor * 10.0 * std::sin(2.0 * pi * 2 * x)
@@ -43,12 +43,12 @@ std::vector<double> bin_values(double amp_factor = 1.0)
 }
 } // namespace
 
-using namespace ModelView;
+
 
 namespace PlotGraphs
 {
 
-GraphModel::GraphModel() : QEXTMvvmSessionModel("GraphModel")
+GraphModel::GraphModel() : QEXTMvvmModel("GraphModel")
 {
     init_model();
 }
@@ -62,11 +62,11 @@ void GraphModel::add_graph()
 
     auto data = insertItem<QEXTMvvmData1DItem>(data_container());
     data->setAxis<QEXTMvvmFixedBinAxisItem>(npoints, xmin, xmax);
-    data->setValues(bin_values(ModelView::Utils::RandDouble(0.5, 1.0)));
+    data->setValues(bin_values(QEXTMvvmUtils::RandDouble(0.5, 1.0)));
 
     auto graph = insertItem<QEXTMvvmGraphItem>(viewport());
     graph->setDataItem(data);
-    graph->setNamedColor(ModelView::Utils::RandomNamedColor());
+    graph->setNamedColor(QEXTMvvmWidgetUtils::RandomNamedColor());
 
     if (undoStack())
         undoStack()->endMacro();
@@ -102,7 +102,7 @@ void GraphModel::randomize_graphs()
     for (auto item : data_container()->items<QEXTMvvmData1DItem>(QEXTMvvmContainerItem::T_ITEMS)) {
         auto values = item->binValues();
         std::transform(std::begin(values), std::end(values), std::begin(values),
-                       [](auto x) { return x * ModelView::Utils::RandDouble(0.8, 1.2); });
+                       [](auto x) { return x * QEXTMvvmUtils::RandDouble(0.8, 1.2); });
         item->setValues(values);
     }
 }

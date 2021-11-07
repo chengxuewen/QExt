@@ -15,7 +15,7 @@
 #include <qextMvvmContainerItem.h>
 #include <qextMvvmData2dItem.h>
 
-using namespace ModelView;
+
 
 namespace
 {
@@ -27,7 +27,7 @@ void fill_data(QEXTMvvmData2DItem* data_item, double scale = 1.0)
 {
     const auto xAxis = data_item->xAxis();
     const auto yAxis = data_item->yAxis();
-    std::vector<double> values;
+    QVector<double> values;
     for (auto y : yAxis->binCenters()) {
         for (auto x : xAxis->binCenters()) {
             double r = scale * (3.0 * std::sqrt(x * x + y * y) + 1e-2);
@@ -43,7 +43,7 @@ void fill_data(QEXTMvvmData2DItem* data_item, double scale = 1.0)
 namespace PlotColorMap
 {
 
-ColorMapModel::ColorMapModel() : QEXTMvvmSessionModel("ColorMapModel")
+ColorMapModel::ColorMapModel() : QEXTMvvmModel("ColorMapModel")
 {
     init_model();
 }

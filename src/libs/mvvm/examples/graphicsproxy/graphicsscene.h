@@ -10,15 +10,17 @@
 #ifndef GRAPHICSPROXY_GRAPHICSSCENE_H
 #define GRAPHICSPROXY_GRAPHICSSCENE_H
 
-#include <QGraphicsScene>
-#include <memory>
+#include <qextGlobal.h>
 
-namespace ModelView
-{
-class ColorMapCanvas;
-class SceneAdapterInterface;
-class CustomPlotProxyWidget;
-} // namespace ModelView
+#include <QGraphicsScene>
+#include <QScopedPointer>
+
+
+
+class QEXTMvvmColorMapCanvas;
+class QEXTMvvmSceneAdapterInterface;
+class QEXTMvvmCustomPlotProxyWidget;
+
 
 class RegionOfInterestItem;
 
@@ -30,18 +32,18 @@ class GraphicsScene : public QGraphicsScene
 
 public:
     GraphicsScene(QObject* parent);
-    ~GraphicsScene() override;
+    ~GraphicsScene() QEXT_DECL_OVERRIDE;
 
-    void setContext(ModelView::ColorMapCanvas* colormap, RegionOfInterestItem* roi);
+    void setContext(QEXTMvvmColorMapCanvas* colormap, RegionOfInterestItem* roi);
 
     void update_size(const QSize& newSize);
 
 private:
-    void create_colormap_proxy(ModelView::ColorMapCanvas* colormap);
+    void create_colormap_proxy(QEXTMvvmColorMapCanvas* colormap);
     void create_roi_view(RegionOfInterestItem* roi_item);
 
-    ModelView::CustomPlotProxyWidget* colormap_proxy{nullptr};
-    std::unique_ptr<ModelView::SceneAdapterInterface> scene_adapter;
+    QEXTMvvmCustomPlotProxyWidget* colormap_proxy{nullptr};
+    QScopedPointer<QEXTMvvmSceneAdapterInterface> scene_adapter;
 };
 
 #endif //  GRAPHICSPROXY_GRAPHICSSCENE_H

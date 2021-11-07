@@ -1,47 +1,60 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#include <qextMvvmModelHasChangedController.h>
 
-#include <project/qextMvvmModelHasChangedController.h>
 
-using namespace ModelView;
 
 //! Constructor of QEXTMvvmModelHasChangedController.
 //! Acccept 'model' to listen, and a 'callback' to report about changes in a model.
 
-QEXTMvvmModelHasChangedController::QEXTMvvmModelHasChangedController(QEXTMvvmSessionModel* model, callback_t callback)
+QEXTMvvmModelHasChangedController::QEXTMvvmModelHasChangedController(QEXTMvvmModel *model, Callback callback)
     : QEXTMvvmModelListener(model), m_callback(callback)
 {
-    setOnDataChange([this](auto, auto) { process_change(); });
-    setOnItemInserted([this](auto, auto) { process_change(); });
-    setOnItemRemoved([this](auto, auto) { process_change(); });
-    setOnModelReset([this](auto) { process_change(); });
+    this->addItemDataChangedListener(QEXTMvvmItemRoleFunction(this, &QEXTMvvmModelHasChangedController::onDataChange));
+    this->addItemInsertedListener(QEXTMvvmItemTagRowFunction(this, &QEXTMvvmModelHasChangedController::onItemInserted));
+    this->addItemRemovedListener(QEXTMvvmItemTagRowFunction(this, &QEXTMvvmModelHasChangedController::onItemRemoved));
+    this->addModelResetedListener(QEXTMvvmModelFunction(this, &QEXTMvvmModelHasChangedController::onModelReset));
 }
 
 //! Returns true if the model was changed since last call of resetChanged.
 
 bool QEXTMvvmModelHasChangedController::hasChanged() const
 {
-    return m_has_changed;
+    return m_hasChanged;
 }
 
 //! Reset has_changed flag.
 
 void QEXTMvvmModelHasChangedController::resetChanged()
 {
-    m_has_changed = false;
+    m_hasChanged = false;
 }
 
 //! Sets 'has_changed' flag and reports back to client.
 
-void QEXTMvvmModelHasChangedController::process_change()
+void QEXTMvvmModelHasChangedController::onDataChange(QEXTMvvmItem *, int)
 {
-    m_has_changed = true;
-    if (m_callback)
+    this->processChange();
+}
+
+void QEXTMvvmModelHasChangedController::onItemInserted(QEXTMvvmItem *, QEXTMvvmTagRow)
+{
+    this->processChange();
+}
+
+void QEXTMvvmModelHasChangedController::onItemRemoved(QEXTMvvmItem *, QEXTMvvmTagRow)
+{
+    this->processChange();
+}
+
+void QEXTMvvmModelHasChangedController::onModelReset(QEXTMvvmModel *)
+{
+    this->processChange();
+}
+
+void QEXTMvvmModelHasChangedController::processChange()
+{
+    m_hasChanged = true;
+    if (m_callback.isValid())
+    {
         m_callback();
+    }
 }

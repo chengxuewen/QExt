@@ -8,12 +8,13 @@
 // ************************************************************************** //
 
 #include <qextMvvmProjectInterface.h>
-#include <project/qextMvvmProjectTypes.h>
-#include <project/qextMvvmProjectManager.h>
-#include <project/qextMvvmProjectManagerDecorator.h>
+#include <qextMvvmProjectTypes.h>
+#include <qextMvvmProjectManager.h>
+#include <qextMvvmProjectManagerDecorator.h>
+
 #include <stdexcept>
 
-using namespace ModelView;
+
 
 namespace
 {
@@ -24,16 +25,16 @@ const bool failed = false;
 struct QEXTMvvmProjectManagerDecorator::ProjectManagerImpl {
     QEXTMvvmProjectContext m_project_context;
     QEXTMvvmUserInteractionContext m_user_context;
-    std::unique_ptr<QEXTMvvmProjectManager> project_manager;
+    QScopedPointer<QEXTMvvmProjectManager> project_manager;
 
     ProjectManagerImpl(QEXTMvvmProjectContext project_context, QEXTMvvmUserInteractionContext user_context)
-        : m_project_context(std::move(project_context)), m_user_context(std::move(user_context))
+        : m_project_context(project_context), m_user_context(user_context)
     {
-        project_manager = std::make_unique<QEXTMvvmProjectManager>(m_project_context);
+        project_manager.reset(new QEXTMvvmProjectManager(m_project_context));
     }
 
     //! Returns true if the project has directory already defined.
-    bool projectHasDir() const { return !project_manager->currentProjectDir().empty(); }
+    bool projectHasDir() const { return !project_manager->currentProjectDir().isEmpty(); }
 
     //! Saves project in project directory. If directory is not defined, will acquire
     //! directory susing callback provided.
@@ -48,13 +49,13 @@ struct QEXTMvvmProjectManagerDecorator::ProjectManagerImpl {
     }
 
     //! Saves current project under directory selected.
-    bool saveCurrentProjectAs(const std::string& dirname)
+    bool saveCurrentProjectAs(const QString &dirname)
     {
         // empty dirname varible means 'cancel' during directory selection
-        return dirname.empty() ? failed : project_manager->saveProjectAs(dirname);
+        return dirname.isEmpty() ? failed : project_manager->saveProjectAs(dirname);
     }
 
-    std::string currentProjectDir() const { return project_manager->currentProjectDir(); }
+    QString currentProjectDir() const { return project_manager->currentProjectDir(); }
 
     bool isModified() const { return project_manager->isModified(); }
 
@@ -80,23 +81,23 @@ struct QEXTMvvmProjectManagerDecorator::ProjectManagerImpl {
     //! Asks the user whether to save/cancel/discard the project using callback provided.
     SaveChangesAnswer acquireSaveChangesAnswer() const
     {
-        if (!m_user_context.m_answer_callback)
+        if (!m_user_context.m_answer_callback.isValid())
             throw std::runtime_error("Error in QEXTMvvmProjectManager: absent save_callback");
         return m_user_context.m_answer_callback();
     }
 
     //! Acquire the name of the new project directory using callback provided.
-    std::string acquireNewProjectDir()
+    QString acquireNewProjectDir()
     {
-        if (!m_user_context.m_create_dir_callback)
+        if (!m_user_context.m_create_dir_callback.isValid())
             throw std::runtime_error("Error in QEXTMvvmProjectManager: absent creat_dir callback.");
         return m_user_context.m_create_dir_callback();
     }
 
     //! Acquire the name of the existing project directory using callback provided.
-    std::string acquireExistingProjectDir()
+    QString acquireExistingProjectDir()
     {
-        if (!m_user_context.m_select_dir_callback)
+        if (!m_user_context.m_select_dir_callback.isValid())
             throw std::runtime_error("Error in QEXTMvvmProjectManager: absent open_dir callback.");
         return m_user_context.m_select_dir_callback();
     }
@@ -106,11 +107,14 @@ struct QEXTMvvmProjectManagerDecorator::ProjectManagerImpl {
 
 QEXTMvvmProjectManagerDecorator::QEXTMvvmProjectManagerDecorator(const QEXTMvvmProjectContext& project_context,
                                                  const QEXTMvvmUserInteractionContext& user_context)
-    : p_impl(std::make_unique<ProjectManagerImpl>(project_context, user_context))
+    : p_impl(new ProjectManagerImpl(project_context, user_context))
 {
 }
 
-QEXTMvvmProjectManagerDecorator::~QEXTMvvmProjectManagerDecorator() = default;
+QEXTMvvmProjectManagerDecorator::~QEXTMvvmProjectManagerDecorator()
+{
+
+}
 
 //! Creates a new project in the directory 'dirname', returns 'true' in the case of success.
 //! The directory should exist.
@@ -118,14 +122,14 @@ QEXTMvvmProjectManagerDecorator::~QEXTMvvmProjectManagerDecorator() = default;
 //! If current project is in unsaved state, will perform 'save-before-closing' procedure before
 //! proceeding further.
 
-bool QEXTMvvmProjectManagerDecorator::createNewProject(const std::string& dirname)
+bool QEXTMvvmProjectManagerDecorator::createNewProject(const QString &dirname)
 {
     if (!p_impl->saveBeforeClosing())
         return failed;
 
-    auto project_dir = dirname.empty() ? p_impl->acquireNewProjectDir() : dirname;
+    auto project_dir = dirname.isEmpty() ? p_impl->acquireNewProjectDir() : dirname;
     // empty project_dir string denotes 'cancel' during directory creation dialog
-    return project_dir.empty() ? failed : p_impl->project_manager->createNewProject(project_dir);
+    return project_dir.isEmpty() ? failed : p_impl->project_manager->createNewProject(project_dir);
 }
 
 //! Saves current project, returns 'true' in the case of success.
@@ -141,11 +145,11 @@ bool QEXTMvvmProjectManagerDecorator::saveCurrentProject()
 //! The directory should exist already. If provided 'dirname' variable is empty,
 //! it will acquire a new project directory using dialog provided.
 
-bool QEXTMvvmProjectManagerDecorator::saveProjectAs(const std::string& dirname)
+bool QEXTMvvmProjectManagerDecorator::saveProjectAs(const QString &dirname)
 {
-    auto project_dir = dirname.empty() ? p_impl->acquireNewProjectDir() : dirname;
+    auto project_dir = dirname.isEmpty() ? p_impl->acquireNewProjectDir() : dirname;
     // empty project_dir variable denotes 'cancel' during directory creation dialog
-    return project_dir.empty() ? failed : p_impl->saveCurrentProjectAs(project_dir);
+    return project_dir.isEmpty() ? failed : p_impl->saveCurrentProjectAs(project_dir);
 }
 
 //! Opens existing project, returns 'true' in the case of success.
@@ -153,18 +157,18 @@ bool QEXTMvvmProjectManagerDecorator::saveProjectAs(const std::string& dirname)
 //! If current project is in unsaved state, it will perform 'save-before-closing' procedure before
 //! proceeding further.
 
-bool QEXTMvvmProjectManagerDecorator::openExistingProject(const std::string& dirname)
+bool QEXTMvvmProjectManagerDecorator::openExistingProject(const QString &dirname)
 {
     if (!p_impl->saveBeforeClosing())
         return failed;
-    auto project_dir = dirname.empty() ? p_impl->acquireExistingProjectDir() : dirname;
+    auto project_dir = dirname.isEmpty() ? p_impl->acquireExistingProjectDir() : dirname;
     // empty project_dir variable denotes 'cancel' during directory selection dialog
-    return project_dir.empty() ? failed : p_impl->project_manager->openExistingProject(project_dir);
+    return project_dir.isEmpty() ? failed : p_impl->project_manager->openExistingProject(project_dir);
 }
 
 //! Returns current project directory.
 
-std::string QEXTMvvmProjectManagerDecorator::currentProjectDir() const
+QString QEXTMvvmProjectManagerDecorator::currentProjectDir() const
 {
     return p_impl->currentProjectDir();
 }

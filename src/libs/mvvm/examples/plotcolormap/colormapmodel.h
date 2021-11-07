@@ -10,19 +10,18 @@
 #ifndef COLORMAPMODEL_H
 #define COLORMAPMODEL_H
 
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmModel.h>
 
-namespace ModelView
-{
+
 class QEXTMvvmContainerItem;
-}
+
 
 namespace PlotColorMap
 {
 
 //! Main application model to demonstrate how to plot data.
 
-class ColorMapModel : public ModelView::QEXTMvvmSessionModel
+class ColorMapModel : public QEXTMvvmModel
 {
 public:
     ColorMapModel();
@@ -30,7 +29,7 @@ public:
     void update_data(double scale);
 
 private:
-    ModelView::QEXTMvvmContainerItem* data_container();
+    QEXTMvvmContainerItem* data_container();
     void init_model();
     void add_colormap();
 };

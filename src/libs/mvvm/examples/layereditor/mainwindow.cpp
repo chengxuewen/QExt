@@ -25,7 +25,7 @@ const QString pos_key = "pos";
 } // namespace
 
 MainWindow::MainWindow()
-    : m_tabWidget(new QTabWidget), m_models(std::make_unique<ApplicationModels>())
+    : m_tabWidget(new QTabWidget), m_models(new ApplicationModels)
 {
     m_tabWidget->addTab(new SampleWidget(m_models.get()), "Materials and Layers");
 

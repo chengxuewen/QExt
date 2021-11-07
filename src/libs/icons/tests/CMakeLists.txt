@@ -39,7 +39,7 @@ else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND qext_test_link_libraries QEXTWidget)
+list(APPEND qext_test_link_libraries QEXTWidgets)
 
 
 

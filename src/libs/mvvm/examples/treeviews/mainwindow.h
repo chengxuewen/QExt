@@ -11,7 +11,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <memory>
+#include <QScopedPointer>
 
 namespace TreeViews
 {
@@ -36,7 +36,7 @@ private:
     void write_settings();
     void init_model();
 
-    std::unique_ptr<SampleModel> m_sample_model;
+    QScopedPointer<SampleModel> m_sample_model;
 };
 
 } // namespace TreeViews

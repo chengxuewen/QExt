@@ -3,7 +3,7 @@
 #include <qextReferenceWrapper.h>
 #include <qextBindFunctor.h>
 #include <qextRetypeReturnFunctor.h>
-#include <qextSlot.h>
+#include <qextFunction.h>
 
 #include <QtTest>
 #include <iostream>
@@ -68,7 +68,7 @@ void QEXTRetypeReturnFunctorTest::testSimple()
 
     // retype_return<void> / hide_return
     *sg_string = "";
-    QEXTSlot<void, int> sl;
+    QEXTFunction<void, int> sl;
     sl = qextRetypeReturnFunctor<void>(Bar());
     sl(5);
     QVERIFY("Bar(int 5)" == *sg_string);

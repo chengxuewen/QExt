@@ -2,22 +2,19 @@
 #define _QEXTMVVMMODELDOCUMENTINTERFACE_H
 
 #include <qextMvvmGlobal.h>
-#include <string>
 
-namespace ModelView
-{
+#include <QString>
 
 //! Pure virtual interface to save and restore session models to/from disk.
 
 class QEXT_MVVM_API QEXTMvvmModelDocumentInterface
 {
 public:
-    virtual ~QEXTMvvmModelDocumentInterface() = default;
+    virtual ~QEXTMvvmModelDocumentInterface() { }
 
-    virtual void save(const std::string& file_name) const = 0;
-    virtual void load(const std::string& file_name) = 0;
+    virtual void save(const QString &fileName) const = 0;
+    virtual void load(const QString &fileName) = 0;
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMMODELDOCUMENTINTERFACE_H

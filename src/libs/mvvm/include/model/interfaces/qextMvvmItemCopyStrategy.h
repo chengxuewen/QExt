@@ -1,25 +1,19 @@
 #ifndef _QEXTMVVMITEMCOPYSTRATEGY_H
 #define _QEXTMVVMITEMCOPYSTRATEGY_H
 
-#include <memory>
 #include <qextMvvmGlobal.h>
 
-namespace ModelView
-{
+#include <QSharedPointer>
 
-class QEXTMvvmSessionItem;
-
-//! Interface for deep item copying.
-
+class QEXTMvvmItem;
 class QEXT_MVVM_API QEXTMvvmItemCopyStrategy
 {
 public:
-    virtual ~QEXTMvvmItemCopyStrategy() = default;
+    virtual ~QEXTMvvmItemCopyStrategy() { }
 
-    //! Creates item copy by deep copying all children. QEXTMvvmSessionItem identifiers will be regenerated.
-    virtual std::unique_ptr<QEXTMvvmSessionItem> createCopy(const QEXTMvvmSessionItem* item) const = 0;
+    //! Creates item copy by deep copying all children. QEXTMvvmItem identifiers will be regenerated.
+    virtual QEXTMvvmItem *createCopy(const QEXTMvvmItem *item) const = 0;
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMITEMCOPYSTRATEGY_H

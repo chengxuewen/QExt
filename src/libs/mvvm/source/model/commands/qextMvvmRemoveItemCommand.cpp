@@ -1,64 +1,74 @@
 #include <qextMvvmRemoveItemCommand.h>
+#include <qextMvvmRemoveItemCommand_p.h>
 #include <qextMvvmCommandUtils.h>
 
 #include <qextMvvmItemBackupStrategy.h>
-#include <qextMvvmSessionItem.h>
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmItem.h>
+#include <qextMvvmModel.h>
 #include <sstream>
-
-using namespace ModelView;
 
 namespace
 {
-std::string generate_description(const QEXTMvvmTagRow& tagrow);
+    QString qextMvvmGenerateDescription(const QEXTMvvmTagRow &tagrow)
+    {
+        QString str = QString("Remove item from tag '%1', row %2").arg(tagrow.tag).arg(tagrow.row);
+        return str;
+    }
 } // namespace
 
-struct QEXTRemoveItemCommand::RemoveItemCommandImpl {
-    QEXTMvvmTagRow tagrow;
-    std::unique_ptr<QEXTMvvmItemBackupStrategy> backup_strategy;
-    QEXTMvvmPath item_path;
-    RemoveItemCommandImpl(QEXTMvvmTagRow tagrow) : tagrow(std::move(tagrow)) {}
-};
-
-QEXTRemoveItemCommand::QEXTRemoveItemCommand(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow)
-    : QEXTAbstractItemCommand(parent)
-    , p_impl(std::make_unique<RemoveItemCommandImpl>(std::move(tagrow)))
+QEXTMvvmRemoveItemCommandPrivate::QEXTMvvmRemoveItemCommandPrivate(QEXTMvvmRemoveItemCommand *q)
+    : QEXTMvvmAbstractItemCommandPrivate(q)
 {
-    setResult(false);
 
-    setDescription(generate_description(p_impl->tagrow));
-    p_impl->backup_strategy = CreateItemBackupStrategy(parent->model());
-    p_impl->item_path = pathFromItem(parent);
 }
 
-QEXTRemoveItemCommand::~QEXTRemoveItemCommand() = default;
-
-void QEXTRemoveItemCommand::undo_command()
+QEXTMvvmRemoveItemCommandPrivate::~QEXTMvvmRemoveItemCommandPrivate()
 {
-    auto parent = itemFromPath(p_impl->item_path);
-    auto reco_item = p_impl->backup_strategy->restoreItem();
-    parent->insertItem(reco_item.release(), p_impl->tagrow);
+
 }
 
-void QEXTRemoveItemCommand::execute_command()
+
+
+QEXTMvvmRemoveItemCommand::QEXTMvvmRemoveItemCommand(QEXTMvvmItem *parent, QEXTMvvmTagRow tagrow)
+    : QEXTMvvmAbstractItemCommand(new QEXTMvvmRemoveItemCommandPrivate(this), parent)
 {
-    auto parent = itemFromPath(p_impl->item_path);
-    if (auto child = parent->takeItem(p_impl->tagrow); child) {
-        p_impl->backup_strategy->saveItem(child);
+    QEXT_DECL_D(QEXTMvvmRemoveItemCommand);
+    d->m_tagrow = tagrow;
+    this->setResult(QEXTMvvmCommandResult(false));
+    this->setDescription(qextMvvmGenerateDescription(d->m_tagrow));
+    d->m_backupStrategy.reset(QEXTMvvmCommandUtils::createItemBackupStrategy(parent->model()));
+    d->m_itemPath = this->pathFromItem(parent);
+}
+
+QEXTMvvmRemoveItemCommand::~QEXTMvvmRemoveItemCommand()
+{
+
+}
+
+void QEXTMvvmRemoveItemCommand::undoCommand()
+{
+    QEXT_DECL_D(QEXTMvvmRemoveItemCommand);
+    QEXTMvvmItem *parent = this->itemFromPath(d->m_itemPath);
+    QEXTMvvmItem *recoItem = d->m_backupStrategy->restoreItem();
+    parent->insertItem(recoItem, d->m_tagrow);
+}
+
+void QEXTMvvmRemoveItemCommand::executeCommand()
+{
+    QEXT_DECL_D(QEXTMvvmRemoveItemCommand);
+    QEXTMvvmItem *parent = this->itemFromPath(d->m_itemPath);
+    QEXTMvvmItem *child = parent->takeItem(d->m_tagrow);
+    if (child)
+    {
+        d->m_backupStrategy->saveItem(child);
         delete child;
-        setResult(true);
-    } else {
-        setResult(false);
-        setObsolete(true);
+        this->setResult(QEXTMvvmCommandResult(true));
+    }
+    else
+    {
+        this->setResult(QEXTMvvmCommandResult(false));
+        this->setObsolete(true);
     }
 }
 
-namespace
-{
-std::string generate_description(const QEXTMvvmTagRow& tagrow)
-{
-    std::ostringstream ostr;
-    ostr << "Remove item from tag '" << tagrow.tag << "', row " << tagrow.row;
-    return ostr.str();
-}
-} // namespace
+

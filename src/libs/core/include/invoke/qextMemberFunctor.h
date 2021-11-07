@@ -54,7 +54,7 @@
  *   void bar(int) {}
  * };
  * foo my_foo;
- * QEXTSlot<void, int> slot = qextMemberFunctor(my_foo, &foo::bar);
+ * QEXTFunction<void, int> slot = qextMemberFunctor(my_foo, &foo::bar);
  * @endcode
  *
  * For const methods qextMemberFunctor() takes a const reference or pointer to an object.
@@ -66,7 +66,7 @@
  *   void bar(int) const {}
  * };
  * const foo my_foo;
- * QEXTSlot<void, int> slot = qextMemberFunctor(my_foo, &foo::bar);
+ * QEXTFunction<void, int> slot = qextMemberFunctor(my_foo, &foo::bar);
  * @endcode
  *
  * Use qextMemberFunctor#() if there is an ambiguity as to the number of arguments.
@@ -80,7 +80,7 @@
  *   void bar(int, int) {}
  * };
  * foo my_foo;
- * QEXTSlot<void, int> slot = qextMemberFunctor1<int>(my_foo, &foo::bar);
+ * QEXTFunction<void, int> slot = qextMemberFunctor1<int>(my_foo, &foo::bar);
  * @endcode
  *
  * @ingroup qextfunctors

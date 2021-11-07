@@ -1,4 +1,4 @@
-#include <qextSlot.h>
+#include <qextFunction.h>
 #include <qextBindFunctor.h>
 #include <qextPointerFunctor.h>
 #include <qextMemberFunctor.h>
@@ -16,7 +16,7 @@
 #include <functional>
 #endif
 
-class QEXTSlotTest : public QObject
+class QEXTFunctionTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -82,7 +82,7 @@ public:
 
 
 
-void QEXTSlotTest::str()
+void QEXTFunctionTest::str()
 {
     std::string string;
     sg_string = &string;
@@ -90,12 +90,12 @@ void QEXTSlotTest::str()
     *sg_string = "qextSlotTest";
 }
 
-void QEXTSlotTest::testSimple()
+void QEXTFunctionTest::testSimple()
 {
     std::string string;
     sg_string = &string;
 
-    QEXTSlot< void, int > s1 = Foo();
+    QEXTFunction< void, int > s1 = Foo();
     s1(1);
     QVERIFY(1 == sg_result);
 
@@ -104,39 +104,39 @@ void QEXTSlotTest::testSimple()
     QVERIFY(2 == sg_result);
 }
 
-void QEXTSlotTest::testImplicitConversion()
+void QEXTFunctionTest::testImplicitConversion()
 {
     std::string string;
     sg_string = &string;
 
-    QEXTSlot< void, char > s2 = Foo();
+    QEXTFunction< void, char > s2 = Foo();
     s2(3);
     QVERIFY(3 == sg_result);
 }
 
-void QEXTSlotTest::testReference()
+void QEXTFunctionTest::testReference()
 {
     std::string string;
     sg_string = &string;
 
-    QEXTSlot< void, std::string & > sl1 = Foo();
+    QEXTFunction< void, std::string & > sl1 = Foo();
     std::string str("guest book");
     sl1(str);
     *sg_string += str;
     QVERIFY("foo(string 'guest book') foo was here" == *sg_string);
 }
 
-void QEXTSlotTest::testEqualOperator()
+void QEXTFunctionTest::testEqualOperator()
 {
     std::string string;
     sg_string = &string;
 
-    QEXTSlot< void, std::string & > sl1 = Foo();
+    QEXTFunction< void, std::string & > sl1 = Foo();
     std::string str("guest book");
     sl1(str);
 
     str = "guest book";
-    QEXTSlot< void, std::string & > sl2;
+    QEXTFunction< void, std::string & > sl2;
     sl2 = sl1;
     sl1 = sl2;
     sl1(str);
@@ -144,12 +144,12 @@ void QEXTSlotTest::testEqualOperator()
     QVERIFY("foo(string 'guest book') foo was here" == *sg_string);
 }
 
-void QEXTSlotTest::testCopyCtor()
+void QEXTFunctionTest::testCopyCtor()
 {
     std::string string;
     sg_string = &string;
 
-    QEXTSlot< void, int > s1 = Foo();
+    QEXTFunction< void, int > s1 = Foo();
     s1(1);
     QVERIFY(1 == sg_result);
 
@@ -157,7 +157,7 @@ void QEXTSlotTest::testCopyCtor()
     s1(2);
     QVERIFY(2 == sg_result);
 
-    QEXTSlot< void, int > s1_clone(s1);
+    QEXTFunction< void, int > s1_clone(s1);
     s1_clone(4);
     QVERIFY("foo(int 4)" == *sg_string);
 }
@@ -173,12 +173,12 @@ void functionBar()
 }
 
 
-void QEXTSlotTest::testDisconnect()
+void QEXTFunctionTest::testDisconnect()
 {
     std::string string;
     sg_string = &string;
 
-    QEXTSlot< void > theSlot(&functionFoo);
+    QEXTFunction< void > theSlot(&functionFoo);
     QVERIFY(!theSlot.isConnected());
     QVERIFY(!theSlot.isBlocked());
     QVERIFY(!theSlot.isNull());
@@ -191,7 +191,7 @@ void QEXTSlotTest::testDisconnect()
     theSlot();
     QVERIFY("functionBar" == string);
 
-    QEXTSlot< void > objS1ot;
+    QEXTFunction< void > objS1ot;
     {
         MObj mObj;
         *sg_string = "";
@@ -215,10 +215,10 @@ int func1(int i)
     return i;
 }
 
-void QEXTSlotTest::testFunctor()
+void QEXTFunctionTest::testFunctor()
 {
     QEXTPointerFunctor<int, int> func = qextPointerFunctor(&func1);
-    QEXTSlot<int, int> slot = func;
+    QEXTFunction<int, int> slot = func;
     QVERIFY(1 == slot(1));
 }
 
@@ -238,37 +238,37 @@ public:
     }
 };
 
-void QEXTSlotTest::testMemFunctor()
+void QEXTFunctionTest::testMemFunctor()
 {
     FType fType;
     QEXTMemberFunctor<int, FType, int> memFunc = qextMemberFunctor(&FType::func);
-    QEXTSlot<int, FType *, int> slot = memFunc;
+    QEXTFunction<int, FType *, int> slot = memFunc;
     QVERIFY(1 == slot(&fType, 1));
 
     QEXTMemberFunctor<void, FType, int &> memFuncR = qextMemberFunctor(&FType::funcR);
-    QEXTSlot<void, FType *, int &> slotR = memFuncR;
+    QEXTFunction<void, FType *, int &> slotR = memFuncR;
     int a1 = 1;
     slotR(&fType, a1);
     QVERIFY(2 == a1);
 
     QEXTBoundMemberFunctor<int, FType, int> boundMemFunc = qextMemberFunctor(&fType, &FType::func);
-    QEXTSlot<int, int> slot2 = boundMemFunc;
+    QEXTFunction<int, int> slot2 = boundMemFunc;
     QVERIFY(1 == slot2(1));
 }
 
-void QEXTSlotTest::testCompare()
+void QEXTFunctionTest::testCompare()
 {
     QEXTMemberFunctor<void, FType, int &> memFuncR = qextMemberFunctor(&FType::funcR);
-    QEXTSlot<void, FType *, int &> slotR = memFuncR;
-    QEXTSlot<void, FType *, int &> slotR1 = slotR;
-    QEXTSlot<void, FType *, int &> slotR2;
-    QEXTSlot<void, FType *, int &> slotR3;
+    QEXTFunction<void, FType *, int &> slotR = memFuncR;
+    QEXTFunction<void, FType *, int &> slotR1 = slotR;
+    QEXTFunction<void, FType *, int &> slotR2;
+    QEXTFunction<void, FType *, int &> slotR3;
     QVERIFY(slotR == slotR1);
     QVERIFY(slotR != slotR2);
     QVERIFY(slotR2 == slotR3);
 }
 
-void QEXTSlotTest::testCopyInvalid()
+void QEXTFunctionTest::testCopyInvalid()
 {
     std::string string;
     sg_string = &string;
@@ -276,7 +276,7 @@ void QEXTSlotTest::testCopyInvalid()
     QObject *obj = new QObject;
 
     *sg_string = "";
-    QEXTSlot<void> fooSlot = qextBindFunctor(qextPointerFunctor(&fooObj), qextReferenceWrapper(*obj));
+    QEXTFunction<void> fooSlot = qextBindFunctor(qextPointerFunctor(&fooObj), qextReferenceWrapper(*obj));
     fooSlot();
     QVERIFY("fooObj(x)" == *sg_string);
 
@@ -298,7 +298,7 @@ void QEXTSlotTest::testCopyInvalid()
     // because the pointer value it dereferences does not point to a
     // QObject anymore, it now points to a polluted buffer.
     *sg_string = "";
-    QEXTSlot<void> barSlot = fooSlot;
+    QEXTFunction<void> barSlot = fooSlot;
     barSlot();
     QVERIFY("" == *sg_string);
 
@@ -315,13 +315,13 @@ void egon(std::string &str)
 }
 
 
-void QEXTSlotTest::teststdLambda()
+void QEXTFunctionTest::teststdLambda()
 {
 #if QEXT_CC_STD_11
     std::string string;
     sg_string = &string;
 
-    QEXTSlot<void> slot;
+    QEXTFunction<void> slot;
 
     std::string guestBook("karl");
     slot = [ = ]()
@@ -339,13 +339,13 @@ void QEXTSlotTest::teststdLambda()
     slot();
     QVERIFY("qextTrackObjectFunctor::stdLambda" == *sg_string);
 
-    QEXTSlot<int> slot1 = []() ->int { return 22;};
+    QEXTFunction<int> slot1 = []() ->int { return 22;};
     QVERIFY(22 == slot1());
 
-    QEXTSlot<int, int> slot2 = [](int i) ->int { return i;};
+    QEXTFunction<int, int> slot2 = [](int i) ->int { return i;};
     QVERIFY(11 == slot2(11));
 
-    QEXTSlot<std::string, int &> slot3 = [](int &i)
+    QEXTFunction<std::string, int &> slot3 = [](int &i)
     {
         i++;
         return std::string("name");
@@ -354,14 +354,14 @@ void QEXTSlotTest::teststdLambda()
     QVERIFY("name" == slot3(iValue));
     QVERIFY(6 == iValue);
 
-    QEXTSlot<double, int, int> slot4 = [](int i, int j)
+    QEXTFunction<double, int, int> slot4 = [](int i, int j)
     {
         return double(i + j);
     };
     QVERIFY(3 == slot4(1, 2));
 
 
-    QEXTSlot<double, int, int> slot5;
+    QEXTFunction<double, int, int> slot5;
     auto mod = [](int i, int j)
     {
         return double(i + j);
@@ -371,13 +371,13 @@ void QEXTSlotTest::teststdLambda()
 #endif
 }
 
-void QEXTSlotTest::teststdFunction()
+void QEXTFunctionTest::teststdFunction()
 {
 #if QEXT_CC_STD_11
     std::string string;
     sg_string = &string;
 
-    QEXTSlot<int, int> slot;
+    QEXTFunction<int, int> slot;
     typedef std::function<int(int)> Functional;
     auto lambda = [](int a) ->int { return a; };
     Functional obj = lambda;
@@ -386,13 +386,13 @@ void QEXTSlotTest::teststdFunction()
 #endif
 }
 
-void QEXTSlotTest::teststdBind()
+void QEXTFunctionTest::teststdBind()
 {
 #if QEXT_CC_STD_11
     std::string string;
     sg_string = &string;
 
-    QEXTSlot<void> slot;
+    QEXTFunction<void> slot;
 
     std::string guestBook("karl");
     std::function<void()> func(std::bind(&egon, std::ref(guestBook)));
@@ -404,6 +404,6 @@ void QEXTSlotTest::teststdBind()
 }
 
 
-QTEST_APPLESS_MAIN(QEXTSlotTest)
+QTEST_APPLESS_MAIN(QEXTFunctionTest)
 
 #include <tst_qextSlot.moc>

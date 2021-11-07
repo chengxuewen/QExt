@@ -10,19 +10,19 @@
 #include "regionofinterestcontroller.h"
 #include "regionofinterestview.h"
 #include "sceneitems.h"
-#include <plotting/sceneadapterinterface.h>
+#include <qextMvvmSceneAdapterInterface.h>
 
-using namespace ModelView;
+
 
 struct RegionOfInterestController::RegionOfInterestControllerImpl {
     RegionOfInterestItem* roi_item{nullptr};
-    const SceneAdapterInterface* scene_adapter{nullptr};
+    const QEXTMvvmSceneAdapterInterface* scene_adapter{nullptr};
     RegionOfInterestView* roi_view{nullptr};
     bool block_on_property_changed{false};
     QRectF roi_rectangle;
 
     RegionOfInterestControllerImpl(RegionOfInterestItem* item,
-                                   const ModelView::SceneAdapterInterface* scene_adapter,
+                                   const QEXTMvvmSceneAdapterInterface* scene_adapter,
                                    RegionOfInterestView* view)
         : roi_item(item), scene_adapter(scene_adapter), roi_view(view)
     {
@@ -102,13 +102,13 @@ struct RegionOfInterestController::RegionOfInterestControllerImpl {
     //! Returns the y-coordinate of the rectangle's bottom edge.
     double bottom() const { return scene_adapter->toSceneY(par(RegionOfInterestItem::P_YLOW)); }
 
-    double par(const std::string& name) const { return roi_item->property<double>(name); }
+    double par(const QString& name) const { return roi_item->property<double>(name); }
 };
 
 RegionOfInterestController::RegionOfInterestController(
-    RegionOfInterestItem* item, const ModelView::SceneAdapterInterface* scene_adapter,
+    RegionOfInterestItem* item, const QEXTMvvmSceneAdapterInterface* scene_adapter,
     RegionOfInterestView* view)
-    : p_impl(std::make_unique<RegionOfInterestControllerImpl>(item, scene_adapter, view))
+    : p_impl(new RegionOfInterestControllerImpl(item, scene_adapter, view))
 {
     setItem(item);
 }
@@ -158,14 +158,14 @@ void RegionOfInterestController::update_item_from_horizontal_handle(double left,
 
 void RegionOfInterestController::subscribe()
 {
-    auto on_property_change = [this](QEXTMvvmSessionItem*, std::string) {
+    auto on_property_change = [this](QEXTMvvmItem*, QString) {
         if (p_impl->block_on_property_changed)
             return;
 
         p_impl->roi_view->update_geometry();
         p_impl->roi_view->update();
     };
-    setOnPropertyChange(on_property_change);
+    addItemPropertyChangedListener(on_property_change);
 
     p_impl->update_view_from_item();
 }

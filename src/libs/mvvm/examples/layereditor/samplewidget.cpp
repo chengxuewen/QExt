@@ -15,15 +15,15 @@
 #include "multilayertreeview.h"
 #include "samplemodel.h"
 #include "samplewidget.h"
-#include <factories/viewmodelfactory.h>
-#include <widgets/itemstreeview.h>
+#include <qextMvvmViewModelFactory.h>
+#include <qextMvvmItemsTreeView.h>
 
-using namespace ModelView;
+
 
 SampleWidget::SampleWidget(ApplicationModels* models, QWidget* parent)
     : QWidget(parent)
-    , m_materialTree(new ItemsTreeView)
-    , m_sampleTree(new ItemsTreeView)
+    , m_materialTree(new QEXTMvvmItemsTreeView)
+    , m_sampleTree(new QEXTMvvmItemsTreeView)
     , m_materialTableWidget(new MaterialTableWidget(models->materialModel()))
     , m_multiLayerTreeView(new MultiLayerTreeView(models))
     , m_models(models)
@@ -41,8 +41,8 @@ QBoxLayout* SampleWidget::create_top_layout()
 {
     auto result = new QHBoxLayout;
 
-    m_materialTree->setViewModel(Factory::CreateDefaultViewModel(m_models->materialModel()));
-    m_sampleTree->setViewModel(Factory::CreateDefaultViewModel(m_models->sampleModel()));
+    m_materialTree->setViewModel(QEXTMvvmViewModelFactory::createDefaultViewModel(m_models->materialModel()));
+    m_sampleTree->setViewModel(QEXTMvvmViewModelFactory::createDefaultViewModel(m_models->sampleModel()));
 
     result->addWidget(m_materialTree);
     result->addWidget(m_sampleTree);

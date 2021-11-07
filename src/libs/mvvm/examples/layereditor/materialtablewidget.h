@@ -11,17 +11,16 @@
 #define MATERIALTABLEWIDGETS_H
 
 #include <QWidget>
-#include <memory>
+#include <QScopedPointer>
 
 class QTreeView;
 class MaterialModel;
 
-namespace ModelView
-{
-class ViewModel;
-class ViewModelDelegate;
-class QEXTMvvmSessionItem;
-} // namespace ModelView
+
+class QEXTMvvmViewModel;
+class QEXTMvvmViewModelDelegate;
+class QEXTMvvmItem;
+
 
 //! Shows content of material container in table-like view.
 
@@ -29,16 +28,16 @@ class MaterialTableWidget : public QWidget
 {
 public:
     explicit MaterialTableWidget(MaterialModel* material_model, QWidget* parent = nullptr);
-    ~MaterialTableWidget() override;
+    ~MaterialTableWidget() QEXT_DECL_OVERRIDE;
 
-    void setItem(ModelView::QEXTMvvmSessionItem* material_container);
+    void setItem(QEXTMvvmItem* material_container);
 
     QTreeView* treeView();
 
 private:
     QTreeView* m_treeView;
-    std::unique_ptr<ModelView::ViewModel> m_viewModel;
-    std::unique_ptr<ModelView::ViewModelDelegate> m_delegate;
+    QScopedPointer<QEXTMvvmViewModel> m_viewModel;
+    QScopedPointer<QEXTMvvmViewModelDelegate> m_delegate;
 };
 
 #endif // MATERIALTABLEWIDGETS_H

@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.9.8.3 LANGUAGES CXX)
+project(QEXT VERSION 0.9.10.1 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -50,9 +50,9 @@ set(QEXT_PRODUCT_NAME "QEXT")
 set(QEXT_CXX_STANDARD 98)
 math(EXPR QEXT_VERSION_CALC "${QEXT_VERSION_MAJOR}*1000 + ${QEXT_VERSION_MINOR}*100 + ${QEXT_VERSION_PATCH}")
 message(STATUS "==============================================================================")
-message(STATUS "----QEXT---- QEXTMvvmProject version: ${QEXT_VERSION}")
-message(STATUS "----QEXT---- QEXTMvvmProject copyright: ${QEXT_COPYRIGHT}")
-message(STATUS "----QEXT---- QEXTMvvmProject license: ${QEXT_LICENSE}")
+message(STATUS "----QEXT---- Project version: ${QEXT_VERSION}")
+message(STATUS "----QEXT---- Project copyright: ${QEXT_COPYRIGHT}")
+message(STATUS "----QEXT---- Project license: ${QEXT_LICENSE}")
 
 
 
@@ -80,12 +80,9 @@ if (QEXT_QT_VERSION_MAJOR EQUAL 4)
     find_package(Qt4 REQUIRED QtCore QtGui QtTest QtNetwork)
     INCLUDE(${QT_USE_FILE})
     ADD_DEFINITIONS(${QT_DEFINITIONS})
-elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     message(STATUS "----QEXT---- Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt5 COMPONENTS Core Widgets Network Quick Test PrintSupport Svg REQUIRED)
-    if (QEXT_QT_VERSION_MINOR GREATER_EQUAL 7)
-        #        set(QEXT_CXX_STANDARD 11)
-    endif()
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "----QEXT---- Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt6 COMPONENTS Core Widgets Network Quick Test PrintSupport Svg REQUIRED)
@@ -101,6 +98,23 @@ set(QEXT_QT_LIB_DIR ${QEXT_QT_KIT_DIR}/lib)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
+
+
+set(QEXT_BUILD_QJSON OFF)
+set(QEXT_BUILD_QML OFF)
+if(QEXT_QT_VERSION_MAJOR GREATER_EQUAL 5)
+    set(QEXT_BUILD_QJSON ON)
+endif()
+if(QEXT_QT_VERSION_MAJOR GREATER_EQUAL 5)
+    if (QEXT_QT_VERSION_MINOR GREATER_EQUAL 7)
+        set(QEXT_BUILD_QML ON)
+        set(QEXT_CXX_STANDARD 11)
+    endif()
+endif()
+if(QEXT_QT_VERSION_MAJOR GREATER_EQUAL 6)
+    set(QEXT_BUILD_QML ON)
+    set(QEXT_CXX_STANDARD 14)
+endif()
 
 
 
@@ -265,6 +279,23 @@ option(QEXT_BUILD_DOCUMENTATION "Enable this to build the documentation" OFF)
 option(QEXT_BUILD_COMPILER_WARNING "Build target with compiler warnings" OFF)
 option(QEXT_BUILD_ALL "Build all artifacts" OFF)
 
+
+option(QEXT_BUILD_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" ON)
+option(QEXT_BUILD_LIB_FONTS "Enable this to build the fonts lib" ON)
+option(QEXT_BUILD_LIB_GOOGLEPINYIN "Enable this to build the googlepinyin lib" ON)
+option(QEXT_BUILD_LIB_GUI "Enable this to build the gui lib" ON)
+option(QEXT_BUILD_LIB_ICONS "Enable this to build the icons lib" ON)
+option(QEXT_BUILD_LIB_LUA "Enable this to build the lua lib" ON)
+option(QEXT_BUILD_LIB_OSGI "Enable this to build the osgi lib" ON)
+option(QEXT_BUILD_LIB_QUICK "Enable this to build the quick lib" ON)
+option(QEXT_BUILD_LIB_SERIALPORT "Enable this to build the serialport lib" ON)
+option(QEXT_BUILD_LIB_SINGLEAPP "Enable this to build the singleapp lib" ON)
+option(QEXT_BUILD_LIB_STYLESHEET "Enable this to build the stylesheet lib" ON)
+option(QEXT_BUILD_LIB_TCP "Enable this to build the tcp lib" ON)
+option(QEXT_BUILD_LIB_UTILS "Enable this to build the utils lib" ON)
+option(QEXT_BUILD_LIB_WIDGETS "Enable this to build the widgets lib" ON)
+
+
 if(QEXT_BUILD_SHARED_LIBS)
     set(BUILD_SHARED_LIBS ON CACHE BOOL "Build as shared libraries")
     message(STATUS "----QEXT---- Build as shared libraries")
@@ -272,6 +303,7 @@ else()
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build as static libraries")
     message(STATUS "----QEXT---- Build as static libraries")
 endif()
+
 
 # one precompiled headers cannot be used for multiple ninja targets
 # thats why we have to disable this option, when MTK_BUILD_SHARED_LIBS is OFF
@@ -285,6 +317,7 @@ if (QEXT_BUILD_USE_PCH)
     endif()
 endif()
 
+
 # enable build doc
 if (QEXT_BUILD_DOCUMENTATION)
     qextMacroBuildDoxygen()
@@ -292,6 +325,14 @@ if (QEXT_BUILD_DOCUMENTATION)
 else()
     message(STATUS "----QEXT---- Build with no documentation")
 endif()
+
+
+if(QEXT_BUILD_LIB_MVVM)
+    if(QEXT_CXX_STANDARD LESS 14)
+        set(QEXT_BUILD_LIB_MVVM OFF)
+    endif()
+endif()
+
 
 if(QEXT_BUILD_TESTS OR QEXT_BUILD_ALL)
     enable_testing()

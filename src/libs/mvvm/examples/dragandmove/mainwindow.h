@@ -11,7 +11,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <memory>
+#include <QScopedPointer>
 
 class QTabWidget;
 
@@ -38,7 +38,7 @@ private:
     void init_application();
 
     QTabWidget* m_tabWidget;
-    std::unique_ptr<SampleModel> m_model;
+    QScopedPointer<SampleModel> m_model;
 };
 
 } // namespace DragAndView

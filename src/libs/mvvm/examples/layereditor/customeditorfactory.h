@@ -10,20 +10,20 @@
 #ifndef CUSTOMEDITORFACTORY_H
 #define CUSTOMEDITORFACTORY_H
 
-#include <editors/defaulteditorfactory.h>
+#include <qextMvvmDefaultEditorFactory.h>
 
 class ApplicationModels;
 
 //! Editor factory with custom editors.
 //! Will create custom material selector for all cells containing QEXTMvvmExternalProperty.
 
-class CustomEditorFactory : public ModelView::DefaultEditorFactory
+class CustomEditorFactory : public QEXTMvvmDefaultEditorFactory
 {
 public:
     CustomEditorFactory(ApplicationModels* models);
     ~CustomEditorFactory();
 
-    std::unique_ptr<ModelView::CustomEditor> createEditor(const QModelIndex& index) const;
+    QEXTMvvmCustomEditor *createEditor(const QModelIndex &index) const;
 
 private:
     ApplicationModels* m_models;

@@ -13,7 +13,7 @@ private Q_SLOTS:
     void testSimple();
 };
 
-static std::string sg_string = "";
+static QString sg_string = "";
 
 
 template <typename T>

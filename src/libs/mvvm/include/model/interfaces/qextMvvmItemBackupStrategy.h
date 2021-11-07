@@ -1,28 +1,25 @@
 #ifndef _QEXTMVVMITEMBACKUPSTRATEGY_H
 #define _QEXTMVVMITEMBACKUPSTRATEGY_H
 
-#include <memory>
 #include <qextMvvmGlobal.h>
 
-namespace ModelView
-{
+#include <QSharedPointer>
 
-class QEXTMvvmSessionItem;
+class QEXTMvvmItem;
 
 //! Interface to backup items for later restore.
 
 class QEXT_MVVM_API QEXTMvvmItemBackupStrategy
 {
 public:
-    virtual ~QEXTMvvmItemBackupStrategy() = default;
+    virtual ~QEXTMvvmItemBackupStrategy() {}
 
     //! Restore item from saved content.
-    virtual std::unique_ptr<QEXTMvvmSessionItem> restoreItem() const = 0;
+    virtual QEXTMvvmItem *restoreItem() const = 0;
 
     //! Save item's content.
-    virtual void saveItem(const QEXTMvvmSessionItem*) = 0;
+    virtual void saveItem(const QEXTMvvmItem *) = 0;
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMITEMBACKUPSTRATEGY_H

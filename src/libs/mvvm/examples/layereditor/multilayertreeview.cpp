@@ -15,14 +15,14 @@
 #include "customlayerrowstrategy.h"
 #include "multilayertreeview.h"
 #include "samplemodel.h"
-#include <factories/viewmodelfactory.h>
-#include <viewmodel/standardchildrenstrategies.h>
-#include <viewmodel/viewmodeldelegate.h>
+#include <qextMvvmViewModelFactory.h>
+#include <qextMvvmStandardChildrenStrategies.h>
+#include <qextMvvmViewModelDelegate.h>
 
-using namespace ModelView;
+
 
 MultiLayerTreeView::MultiLayerTreeView(ApplicationModels* models, QWidget* parent)
-    : QWidget(parent), m_treeView(new QTreeView), m_delegate(std::make_unique<ViewModelDelegate>())
+    : QWidget(parent), m_treeView(new QTreeView), m_delegate(new QEXTMvvmViewModelDelegate)
 {
     auto layout = new QVBoxLayout;
     layout->setMargin(0);
@@ -30,7 +30,7 @@ MultiLayerTreeView::MultiLayerTreeView(ApplicationModels* models, QWidget* paren
     layout->addWidget(m_treeView);
     setLayout(layout);
 
-    m_delegate->setEditorFactory(std::make_unique<CustomEditorFactory>(models));
+    m_delegate->setEditorFactory(new CustomEditorFactory(models));
 
     m_treeView->setItemDelegate(m_delegate.get());
     m_treeView->setEditTriggers(QAbstractItemView::AllEditTriggers); // provide one click editing
@@ -39,18 +39,21 @@ MultiLayerTreeView::MultiLayerTreeView(ApplicationModels* models, QWidget* paren
     setItem(models->sampleModel()->topItem<MultiLayerItem>());
 }
 
-void MultiLayerTreeView::setItem(ModelView::QEXTMvvmSessionItem* multilayer)
+MultiLayerTreeView::~MultiLayerTreeView()
+{
+
+}
+
+void MultiLayerTreeView::setItem(QEXTMvvmItem* multilayer)
 {
     if (!multilayer)
         return;
 
-    m_viewModel =
-        Factory::CreateViewModel<TopItemsStrategy, CustomLayerRowStrategy>(multilayer->model());
-    m_viewModel->setRootSessionItem(multilayer);
+    m_viewModel.reset(QEXTMvvmViewModelFactory::createViewModel<QEXTMvvmTopItemsStrategy, CustomLayerRowStrategy>(multilayer->model()));
+    m_viewModel->setRootItem(multilayer);
 
     m_treeView->setModel(m_viewModel.get());
     m_treeView->expandAll();
     m_treeView->header()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
-MultiLayerTreeView::~MultiLayerTreeView() = default;

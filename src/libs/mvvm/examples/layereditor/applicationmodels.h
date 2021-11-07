@@ -10,13 +10,13 @@
 #ifndef APPLICATIONMODELS_H
 #define APPLICATIONMODELS_H
 
-#include <memory>
+#include <QScopedPointer>
 
 class MaterialModel;
 class SampleModel;
 class QString;
 
-//! Container class to hold all QEXTMvvmSessionModel's used during GUI session.
+//! Container class to hold all QEXTMvvmModel's used during GUI session.
 //! Holds SampleModel with multilayer structure and MaterialModel with collection of materials.
 
 class ApplicationModels
@@ -34,7 +34,7 @@ public:
 
 private:
     struct ApplicationModelsImpl;
-    std::unique_ptr<ApplicationModelsImpl> p_impl;
+    QScopedPointer<ApplicationModelsImpl> p_impl;
 };
 
 #endif //  APPLICATIONMODELS_H

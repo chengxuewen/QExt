@@ -1,0 +1,86 @@
+#include "qextMvvmCustomPlotSceneAdapter.h"
+#include "qcustomplot.h"
+#include <QObject>
+
+
+
+struct QEXTMvvmCustomPlotSceneAdapter::CustomPlotSceneAdapterImpl {
+    QCustomPlot* custom_plot{nullptr};
+    QScopedPointer<QMetaObject::Connection> conn_to_customplot;
+    CustomPlotSceneAdapterImpl(QCustomPlot* custom_plot) : custom_plot(custom_plot)
+    {
+        conn_to_customplot.reset(new QMetaObject::Connection);
+    }
+
+    double toSceneX(double customplot_x) const
+    {
+        return custom_plot ? custom_plot->xAxis->coordToPixel(customplot_x) : customplot_x;
+    }
+
+    double toSceneY(double customplot_y) const
+    {
+        return custom_plot ? custom_plot->yAxis->coordToPixel(customplot_y) : customplot_y;
+    }
+
+    double fromSceneX(double scene_x) const
+    {
+        return custom_plot ? custom_plot->xAxis->pixelToCoord(scene_x) : scene_x;
+    }
+
+    double fromSceneY(double scene_y) const
+    {
+        return custom_plot ? custom_plot->yAxis->pixelToCoord(scene_y) : scene_y;
+    }
+
+    QRectF viewportRectangle() const
+    {
+        if (!custom_plot)
+            return {};
+
+        auto xrange = custom_plot->xAxis->range();
+        auto yrange = custom_plot->yAxis->range();
+
+        return QRectF(toSceneX(xrange.lower), toSceneY(yrange.upper),
+                      toSceneX(xrange.upper) - toSceneX(xrange.lower),
+                      toSceneY(yrange.lower) - toSceneY(yrange.upper));
+    }
+};
+
+QEXTMvvmCustomPlotSceneAdapter::QEXTMvvmCustomPlotSceneAdapter(QCustomPlot* custom_plot)
+    : p_impl(new CustomPlotSceneAdapterImpl(custom_plot))
+{
+    auto on_customplot_destroy = [this]() { p_impl->custom_plot = nullptr; };
+    *p_impl->conn_to_customplot =
+        QObject::connect(custom_plot, &QCustomPlot::destroyed, on_customplot_destroy);
+}
+
+QEXTMvvmCustomPlotSceneAdapter::~QEXTMvvmCustomPlotSceneAdapter()
+{
+    if (p_impl->custom_plot)
+        QObject::disconnect(*p_impl->conn_to_customplot);
+}
+
+double QEXTMvvmCustomPlotSceneAdapter::toSceneX(double customplot_x) const
+{
+    return p_impl->toSceneX(customplot_x);
+}
+
+double QEXTMvvmCustomPlotSceneAdapter::toSceneY(double customplot_y) const
+{
+    return p_impl->toSceneY(customplot_y);
+}
+
+double QEXTMvvmCustomPlotSceneAdapter::fromSceneX(double scene_x) const
+{
+    return p_impl->fromSceneX(scene_x);
+}
+
+double QEXTMvvmCustomPlotSceneAdapter::fromSceneY(double scene_y) const
+{
+    return p_impl->fromSceneY(scene_y);
+}
+
+QRectF QEXTMvvmCustomPlotSceneAdapter::viewportRectangle() const
+{
+    return p_impl->viewportRectangle();
+}

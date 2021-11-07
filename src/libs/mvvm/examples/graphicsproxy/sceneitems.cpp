@@ -8,14 +8,14 @@
 // ************************************************************************** //
 
 #include "sceneitems.h"
-#include <utils/qextMvvmRealLimits.h>
+#include <qextMvvmRealLimits.h>
 
 namespace
 {
-const std::string RegionOfInterestItemType = "RegionOfInterest";
+const QString RegionOfInterestItemType = "RegionOfInterest";
 }
 
-using namespace ModelView;
+
 
 RegionOfInterestItem::RegionOfInterestItem() : QEXTMvvmCompoundItem(RegionOfInterestItemType)
 {

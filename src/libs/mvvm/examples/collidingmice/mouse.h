@@ -51,6 +51,8 @@
 #ifndef MOUSE_H
 #define MOUSE_H
 
+#include <qextGlobal.h>
+
 #include <QGraphicsItem>
 
 class MouseItem;
@@ -61,12 +63,12 @@ class Mouse : public QGraphicsItem
 public:
     Mouse(MouseItem* item);
 
-    QRectF boundingRect() const override;
-    QPainterPath shape() const override;
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+    QRectF boundingRect() const QEXT_DECL_OVERRIDE;
+    QPainterPath shape() const QEXT_DECL_OVERRIDE;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) QEXT_DECL_OVERRIDE;
 
 protected:
-    void advance(int step) override;
+    void advance(int step) QEXT_DECL_OVERRIDE;
 
 private:
     qreal mouseEyeDirection;

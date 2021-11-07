@@ -24,7 +24,7 @@ const QString pos_key = "pos";
 namespace PlotColorMap
 {
 
-MainWindow::MainWindow() : m_tabWidget(new QTabWidget), m_model(std::make_unique<ColorMapModel>())
+MainWindow::MainWindow() : m_tabWidget(new QTabWidget), m_model(new ColorMapModel)
 {
     m_tabWidget->addTab(new ColorMapWidget(m_model.get()), "Color Map");
 

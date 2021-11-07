@@ -15,8 +15,8 @@ set(LUA_COPYRIGHT "Copyright © 1994–2021 Lua.org, PUC-Rio.")
 set(LUA_LICENSE "MIT license")
 set(LUA_PRODUCT_NAME "Lua")
 message("==============================================================================")
-message("----Lua---- QEXTMvvmProject copyright: ${LUA_COPYRIGHT}")
-message("----Lua---- QEXTMvvmProject license: ${LUA_LICENSE}")
+message("----Lua---- Project copyright: ${LUA_COPYRIGHT}")
+message("----Lua---- Project license: ${LUA_LICENSE}")
 
 
 

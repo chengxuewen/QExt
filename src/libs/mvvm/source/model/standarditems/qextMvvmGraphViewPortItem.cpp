@@ -10,9 +10,9 @@
 #include <algorithm>
 #include <qextMvvmGraphItem.h>
 #include <qextMvvmGraphViewPortItem.h>
-#include <vector>
+#include <QVector>
 
-using namespace ModelView;
+
 
 namespace
 {
@@ -23,39 +23,39 @@ const double failback_max = 1.0;
 //! Find min and max values along all data points in all graphs.
 //! Function 'func' is used to run either through binCenters or binValues.
 
-template <typename T> auto get_min_max(const std::vector<QEXTMvvmGraphItem*>& graphs, T func)
+template <typename T> auto get_min_max(const QVector<QEXTMvvmGraphItem*> &graphs, T func)
 {
-    std::vector<double> values;
+    QVector<double> values;
     for (auto graph : graphs) {
         const auto array = func(graph);
         std::copy(std::begin(array), std::end(array), std::back_inserter(values));
     }
 
     auto [xmin, xmax] = std::minmax_element(std::begin(values), std::end(values));
-    return xmin != xmax ? std::make_pair(*xmin, *xmax) : std::make_pair(failback_min, failback_max);
+    return xmin != xmax ? QPair<double, double>(*xmin, *xmax) : QPair<double, double>(failback_min, failback_max);
 }
 
 } // namespace
 
-QEXTMvvmGraphViewportItem::QEXTMvvmGraphViewportItem(const std::string& QEXTMvvmModelType) : QEXTMvvmViewportItem(QEXTMvvmModelType)
+QEXTMvvmGraphViewportItem::QEXTMvvmGraphViewportItem(const QString& QString) : QEXTMvvmViewportItem(QString)
 {
     register_xy_axes();
-    registerTag(QEXTMvvmTagInfo::universalTag(T_ITEMS, {Constants::GraphItemType}), /*set_default*/ true);
+    registerTag(QEXTMvvmTagInfo::universalTag(T_ITEMS, {QEXTMvvmConstants::GraphItemType}), /*set_default*/ true);
 }
 
 //! Returns the selected graph items.
 
-std::vector<QEXTMvvmGraphItem*> QEXTMvvmGraphViewportItem::graphItems() const
+QVector<QEXTMvvmGraphItem*> QEXTMvvmGraphViewportItem::graphItems() const
 {
     return items<QEXTMvvmGraphItem>(T_ITEMS);
 }
 
 //! Returns the selected graph items.
 
-std::vector<QEXTMvvmGraphItem*> QEXTMvvmGraphViewportItem::visibleGraphItems() const
+QVector<QEXTMvvmGraphItem *> QEXTMvvmGraphViewportItem::visibleGraphItems() const
 {
-    std::vector<QEXTMvvmGraphItem*> all_items = items<QEXTMvvmGraphItem>(T_ITEMS);
-    std::vector<QEXTMvvmGraphItem*> visible_items;
+    QVector<QEXTMvvmGraphItem*> all_items = items<QEXTMvvmGraphItem>(T_ITEMS);
+    QVector<QEXTMvvmGraphItem*> visible_items;
     std::copy_if(all_items.begin(), all_items.end(), std::back_inserter(visible_items),
                  [](const QEXTMvvmGraphItem* graph_item) {
                      return graph_item->property<bool>(QEXTMvvmGraphItem::P_DISPLAYED);
@@ -65,9 +65,9 @@ std::vector<QEXTMvvmGraphItem*> QEXTMvvmGraphViewportItem::visibleGraphItems() c
 
 //! Set the graph selection.
 
-void QEXTMvvmGraphViewportItem::setVisible(const std::vector<QEXTMvvmGraphItem*>& visible_graph_items)
+void QEXTMvvmGraphViewportItem::setVisible(const QVector<QEXTMvvmGraphItem*>& visible_graph_items)
 {
-    std::vector<QEXTMvvmGraphItem*> output;
+    QVector<QEXTMvvmGraphItem*> output;
     for (auto graph_item : items<QEXTMvvmGraphItem>(T_ITEMS)) {
         if (std::find(visible_graph_items.begin(), visible_graph_items.end(), graph_item)
             != visible_graph_items.end())
@@ -87,14 +87,14 @@ void QEXTMvvmGraphViewportItem::setAllVisible()
 
 //! Returns lower, upper range on x-axis occupied by all data points of all graphs.
 
-std::pair<double, double> QEXTMvvmGraphViewportItem::data_xaxis_range() const
+QPair<double, double> QEXTMvvmGraphViewportItem::dataXAxisRange() const
 {
-    return get_min_max(visibleGraphItems(), [](QEXTMvvmGraphItem* graph) { return graph->binCenters(); });
+    return get_min_max(visibleGraphItems(), [](QEXTMvvmGraphItem *graph) { return graph->binCenters(); });
 }
 
 //! Returns lower, upper range on y-axis occupied by all data points of all graphs.
 
-std::pair<double, double> QEXTMvvmGraphViewportItem::data_yaxis_range() const
+QPair<double, double> QEXTMvvmGraphViewportItem::dataYAxisRange() const
 {
     return get_min_max(visibleGraphItems(), [](QEXTMvvmGraphItem* graph) { return graph->binValues(); });
 }

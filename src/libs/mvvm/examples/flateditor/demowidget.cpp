@@ -11,20 +11,20 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QTreeView>
-#include <qextMvvmSessionItem.h>
-#include <qextMvvmSessionModel.h>
-#include <viewmodel/defaultviewmodel.h>
-#include <viewmodel/topitemsviewmodel.h>
-#include <widgets/propertyflatview.h>
-#include <widgets/standardtreeviews.h>
+#include <qextMvvmItem.h>
+#include <qextMvvmModel.h>
+#include <qextMvvmDefaultViewModel.h>
+#include <qextMvvmTopItemsViewModel.h>
+#include <qextMvvmPropertyFlatView.h>
+#include <qextMvvmStandardTreeViews.h>
 
-using namespace ModelView;
 
-DemoWidget::DemoWidget(QEXTMvvmSessionModel* model, QWidget* parent)
+
+QEXTMvvmDemoWidget::QEXTMvvmDemoWidget(QEXTMvvmModel* model, QWidget* parent)
     : QWidget(parent)
-    , m_defaultTreeView(new AllItemsTreeView(model))
-    , m_propertyTreeView(new PropertyTreeView)
-    , m_propertyFlatView(new PropertyFlatView)
+    , m_defaultTreeView(new QEXTMvvmAllItemsTreeView(model))
+    , m_propertyTreeView(new QEXTMvvmPropertyTreeView)
+    , m_propertyFlatView(new QEXTMvvmPropertyFlatView)
     , m_sessionModel(model)
 {
 
@@ -37,28 +37,28 @@ DemoWidget::DemoWidget(QEXTMvvmSessionModel* model, QWidget* parent)
     connect_views();
 }
 
-DemoWidget::~DemoWidget() = default;
+QEXTMvvmDemoWidget::~QEXTMvvmDemoWidget() = default;
 
 //! Connect tree views to provide mutual item selection.
 
-void DemoWidget::connect_views()
+void QEXTMvvmDemoWidget::connect_views()
 {
     // select items in other views when selection in m_defaultTreeView has changed
-    auto on_item_selected = [this](QEXTMvvmSessionItem* item) {
+    auto on_item_selected = [this](QEXTMvvmItem* item) {
         m_propertyTreeView->setItem(item);
         m_propertyFlatView->setItem(item);
     };
-    connect(m_defaultTreeView, &AllItemsTreeView::itemSelected, on_item_selected);
+    connect(m_defaultTreeView, &QEXTMvvmAllItemsTreeView::itemSelected, on_item_selected);
 }
 
-QBoxLayout* DemoWidget::create_left_layout()
+QBoxLayout* QEXTMvvmDemoWidget::create_left_layout()
 {
     auto result = new QVBoxLayout;
     result->addWidget(m_defaultTreeView);
     return result;
 }
 
-QBoxLayout* DemoWidget::create_right_layout()
+QBoxLayout* QEXTMvvmDemoWidget::create_right_layout()
 {
     auto result = new QVBoxLayout;
     result->addWidget(m_propertyTreeView);

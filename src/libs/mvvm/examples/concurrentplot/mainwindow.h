@@ -11,7 +11,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <memory>
+#include <QScopedPointer>
 
 class GraphModel;
 class QTabWidget;
@@ -33,7 +33,7 @@ private:
     void init_model();
 
     QTabWidget* m_tabWidget;
-    std::unique_ptr<GraphModel> m_graph_model;
+    QScopedPointer<GraphModel> m_graph_model;
 };
 
 #endif //  MAINWINDOW_H

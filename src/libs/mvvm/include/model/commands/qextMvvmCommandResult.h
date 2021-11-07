@@ -1,16 +1,33 @@
 #ifndef _QEXTMVVMCOMMANDRESULT_H
 #define _QEXTMVVMCOMMANDRESULT_H
 
-#include <variant>
+#include <qextMvvmGlobal.h>
 
-namespace ModelView
+#include <QSharedPointer>
+
+class QEXTMvvmItem;
+class QEXT_MVVM_API QEXTMvvmCommandResult
 {
+public:
+    QEXTMvvmCommandResult();
+    QEXTMvvmCommandResult(bool value);
+    QEXTMvvmCommandResult(QEXTMvvmItem *item);
+    QEXTMvvmCommandResult(const QEXTMvvmCommandResult &other);
+    virtual ~QEXTMvvmCommandResult();
 
-class QEXTMvvmSessionItem;
+    QEXTMvvmCommandResult &operator=(const QEXTMvvmCommandResult &other);
+    bool operator ==(const QEXTMvvmCommandResult &other) const;
+    bool operator !=(const QEXTMvvmCommandResult &other) const;
 
-//! Results of command execution.
-using QEXTCommandResult = std::variant<bool, ModelView::QEXTMvvmSessionItem*>;
+    QEXTMvvmItem *resultItem() const;
+    void setResultItem(QEXTMvvmItem *item);
 
-} // namespace ModelView
+    bool resultValue() const;
+    void setResultValue(bool value);
+
+protected:
+    bool m_resultValue;
+    QSharedPointer<QEXTMvvmItem> m_resultItem;
+};
 
 #endif // _QEXTMVVMCOMMANDRESULT_H

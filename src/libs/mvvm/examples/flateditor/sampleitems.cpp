@@ -12,17 +12,17 @@
 #include <qextMvvmComboProperty.h>
 #include <qextMvvmItemMapper.h>
 
-using namespace ModelView;
+
 
 namespace
 {
-const std::string xrays = "x-rays";
-const std::string neutrons = "neutrons";
+const QString xrays = "x-rays";
+const QString neutrons = "neutrons";
 } // namespace
 
 // ----------------------------------------------------------------------------
 
-BeamItem::BeamItem() : ModelView::QEXTMvvmCompoundItem(::Constants::BeamItemType)
+BeamItem::BeamItem() : QEXTMvvmCompoundItem(::Constants::BeamItemType)
 {
     auto combo = QEXTMvvmComboProperty::createFrom({xrays, neutrons});
     addProperty(P_BEAM_TYPE, combo)->setDisplayName("Type");
@@ -39,19 +39,19 @@ BeamItem::BeamItem() : ModelView::QEXTMvvmCompoundItem(::Constants::BeamItemType
 
 void BeamItem::activate()
 {
-    auto on_beam_type_change = [this](QEXTMvvmSessionItem*, std::string property) {
+    auto on_beam_type_change = [this](QEXTMvvmItem*, QString property) {
         if (property == P_BEAM_TYPE)
             update_appearance();
     };
 
-    mapper()->setOnPropertyChange(on_beam_type_change, this);
+    mapper()->addItemPropertyChangedListener(on_beam_type_change, this);
 }
 
 //! Enables IS_POLARIZED property when beam type changes from x-rays to neutrons.
 
 void BeamItem::update_appearance()
 {
-    auto polarized_property = getItem(P_IS_POLARIZED);
+    auto polarized_property = this->item(P_IS_POLARIZED);
     auto beam_type = property<QEXTMvvmComboProperty>(P_BEAM_TYPE).value();
 
     if (beam_type == xrays)
@@ -63,7 +63,7 @@ void BeamItem::update_appearance()
 // ----------------------------------------------------------------------------
 
 DistributionNoneItem::DistributionNoneItem()
-    : ModelView::QEXTMvvmCompoundItem(::Constants::DistributionNoneItemType)
+    : QEXTMvvmCompoundItem(::Constants::DistributionNoneItemType)
 {
     setDisplayName("Fixed value");
     addProperty(P_MEAN, 0.5)->setDisplayName("Value");
@@ -72,7 +72,7 @@ DistributionNoneItem::DistributionNoneItem()
 // ----------------------------------------------------------------------------
 
 DistributionGaussianItem::DistributionGaussianItem()
-    : ModelView::QEXTMvvmCompoundItem(::Constants::DistributionGaussianItemType)
+    : QEXTMvvmCompoundItem(::Constants::DistributionGaussianItemType)
 {
     addProperty(P_MEAN, 0.5)->setDisplayName("Mean");
     addProperty(P_STD_DEV, 1.0)->setDisplayName("StdDev");
@@ -81,7 +81,7 @@ DistributionGaussianItem::DistributionGaussianItem()
 // ----------------------------------------------------------------------------
 
 DistributionLogNormalItem::DistributionLogNormalItem()
-    : ModelView::QEXTMvvmCompoundItem(::Constants::DistributionLogNormalItemType)
+    : QEXTMvvmCompoundItem(::Constants::DistributionLogNormalItemType)
 {
     addProperty(P_MEDIAN, 1.0)->setDisplayName("Median");
     addProperty(P_SCALE_PAR, 1.0)->setDisplayName("Scale");
@@ -90,7 +90,7 @@ DistributionLogNormalItem::DistributionLogNormalItem()
 // ----------------------------------------------------------------------------
 
 DistributionTrapezoidItem::DistributionTrapezoidItem()
-    : ModelView::QEXTMvvmCompoundItem(::Constants::DistributionTrapezoidItemType)
+    : QEXTMvvmCompoundItem(::Constants::DistributionTrapezoidItemType)
 {
     addProperty(P_CENTER, 1.0)->setDisplayName("Center");
     addProperty(P_LEFTWIDTH, 0.5)->setDisplayName("Left width");
@@ -106,5 +106,5 @@ DistributionGroupItem::DistributionGroupItem() : QEXTMvvmGroupItem(::Constants::
     registerItem<DistributionGaussianItem>("Gaussian");
     registerItem<DistributionLogNormalItem>("Log normal");
     registerItem<DistributionTrapezoidItem>("Trapezoid");
-    init_group();
+    initGroup();
 }

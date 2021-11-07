@@ -13,14 +13,13 @@
 #include <QWidget>
 #include <memory>
 
-namespace ModelView
-{
-class QEXTMvvmSessionItem;
-class QEXTMvvmSessionModel;
-class AllItemsTreeView;
-class PropertyTreeView;
-class TopItemsTreeView;
-} // namespace ModelView
+
+class QEXTMvvmItem;
+class QEXTMvvmModel;
+class QEXTMvvmAllItemsTreeView;
+class QEXTMvvmPropertyTreeView;
+class QEXTMvvmTopItemsTreeView;
+
 
 class QTreeView;
 class QUndoView;
@@ -36,14 +35,14 @@ class SampleEditorWdiget : public QWidget
     Q_OBJECT
 
 public:
-    SampleEditorWdiget(ModelView::QEXTMvvmSessionModel* model, QWidget* parent = nullptr);
+    SampleEditorWdiget(QEXTMvvmModel* model, QWidget* parent = nullptr);
     ~SampleEditorWdiget();
 
 private slots:
     void onContextMenuRequest(const QPoint& point);
 
 private:
-    ModelView::QEXTMvvmSessionItem* item_from_view(QTreeView* view, const QPoint& point);
+    QEXTMvvmItem* item_from_view(QTreeView* view, const QPoint& point);
 
     QBoxLayout* createLeftLayout();
     QBoxLayout* createMiddleLayout();
@@ -52,11 +51,11 @@ private:
     void connect_views();
 
     QUndoView* m_undoView{nullptr};
-    ModelView::AllItemsTreeView* m_defaultTreeView{nullptr};
-    ModelView::TopItemsTreeView* m_topItemView{nullptr};
-    ModelView::AllItemsTreeView* m_subsetTreeView{nullptr};
-    ModelView::PropertyTreeView* m_propertyTreeView{nullptr};
-    ModelView::QEXTMvvmSessionModel* m_sessionModel{nullptr};
+    QEXTMvvmAllItemsTreeView* m_defaultTreeView{nullptr};
+    QEXTMvvmTopItemsTreeView* m_topItemView{nullptr};
+    QEXTMvvmAllItemsTreeView* m_subsetTreeView{nullptr};
+    QEXTMvvmPropertyTreeView* m_propertyTreeView{nullptr};
+    QEXTMvvmModel* m_sessionModel{nullptr};
 };
 
 } // namespace TreeViews

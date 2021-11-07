@@ -10,13 +10,12 @@
 #ifndef GRAPHMODEL_H
 #define GRAPHMODEL_H
 
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmModel.h>
 
-namespace ModelView
-{
+
 class QEXTMvvmGraphViewportItem;
 class QEXTMvvmContainerItem;
-} // namespace ModelView
+
 
 namespace PlotGraphs
 {
@@ -25,7 +24,7 @@ namespace PlotGraphs
 //! Contains few QEXTMvvmData1DItem's, QEXTMvvmGraphItem's and ViewPortItem. Provides functionality to easily
 //! add and remove graphs.
 
-class GraphModel : public ModelView::QEXTMvvmSessionModel
+class GraphModel : public QEXTMvvmModel
 {
 public:
     GraphModel();
@@ -41,8 +40,8 @@ public:
     void redo();
 
 private:
-    ModelView::QEXTMvvmGraphViewportItem* viewport();
-    ModelView::QEXTMvvmContainerItem* data_container();
+    QEXTMvvmGraphViewportItem* viewport();
+    QEXTMvvmContainerItem* data_container();
 
     void init_model();
 };

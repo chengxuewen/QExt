@@ -14,11 +14,11 @@
 #include <QHeaderView>
 #include <QPushButton>
 #include <QTreeView>
-#include <model/qextMvvmModelUtils.h>
-#include <viewmodel/viewmodeldelegate.h>
-#include <viewmodel/viewmodelutils.h>
+#include <qextMvvmUtils.h>
+#include <qextMvvmViewModelDelegate.h>
+#include <qextMvvmViewModelUtils.h>
 
-using namespace ModelView;
+
 
 namespace DragAndView
 {
@@ -26,7 +26,7 @@ namespace DragAndView
 ContainerEditorWidget::ContainerEditorWidget(QWidget* parent)
     : QWidget(parent)
     , m_treeView(new QTreeView)
-    , m_delegate(std::make_unique<ViewModelDelegate>())
+    , m_delegate(new QEXTMvvmViewModelDelegate)
     , m_container(nullptr)
     , m_model(nullptr)
 {
@@ -41,7 +41,7 @@ ContainerEditorWidget::ContainerEditorWidget(QWidget* parent)
 
 ContainerEditorWidget::~ContainerEditorWidget() = default;
 
-void ContainerEditorWidget::setModel(SampleModel* model, QEXTMvvmSessionItem* root_item)
+void ContainerEditorWidget::setModel(SampleModel* model, QEXTMvvmItem* root_item)
 {
     if (!model)
         return;
@@ -50,8 +50,8 @@ void ContainerEditorWidget::setModel(SampleModel* model, QEXTMvvmSessionItem* ro
     m_container = root_item;
 
     // setting up the tree
-    m_viewModel = std::make_unique<DragViewModel>(model);
-    m_viewModel->setRootSessionItem(m_container);
+    m_viewModel.reset(new DragViewModel(model));
+    m_viewModel->setRootItem(m_container);
     m_treeView->setModel(m_viewModel.get());
     m_treeView->setItemDelegate(m_delegate.get());
     m_treeView->expandAll();
@@ -78,7 +78,7 @@ void ContainerEditorWidget::onCopy()
 void ContainerEditorWidget::onRemove()
 {
     for (auto item : selected_items())
-        Utils::DeleteItemFromModel(item);
+        QEXTMvvmUtils::DeleteItemFromModel(item);
 }
 
 void ContainerEditorWidget::onMoveDown()
@@ -86,18 +86,18 @@ void ContainerEditorWidget::onMoveDown()
     auto items = selected_items();
     std::reverse(items.begin(), items.end()); // to correctly move multiple selections
     for (auto item : selected_items())
-        ModelView::Utils::MoveDown(item);
+        QEXTMvvmUtils::MoveDown(item);
 }
 
 void ContainerEditorWidget::onMoveUp()
 {
     for (auto item : selected_items())
-        ModelView::Utils::MoveUp(item);
+        QEXTMvvmUtils::MoveUp(item);
 }
 
-std::vector<QEXTMvvmSessionItem*> ContainerEditorWidget::selected_items() const
+QVector<QEXTMvvmItem*> ContainerEditorWidget::selected_items() const
 {
-    return Utils::ParentItemsFromIndex(m_treeView->selectionModel()->selectedIndexes());
+    return QEXTMvvmViewModelUtils::ParentItemsFromIndex(m_treeView->selectionModel()->selectedIndexes());
 }
 
 QBoxLayout* ContainerEditorWidget::create_button_layout()

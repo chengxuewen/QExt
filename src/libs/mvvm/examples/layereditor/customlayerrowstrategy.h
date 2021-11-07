@@ -12,14 +12,14 @@
 
 #include <QStringList>
 #include "samplemodel.h"
-#include <rowstrategyinterface.h>
-#include <viewmodel/standardviewitems.h>
-#include <viewmodel/viewitem.h>
-#include <vector>
+#include <qextMvvmRowStrategyInterface.h>
+#include <qextMvvmStandardViewItems.h>
+#include <qextMvvmViewItem.h>
+#include <QVector>
 
 //! Custom strategy to form table rows for nested multilayers and layers.
 
-class CustomLayerRowStrategy : public ModelView::RowStrategyInterface
+class CustomLayerRowStrategy : public QEXTMvvmRowStrategyInterface
 {
 public:
     QStringList horizontalHeaderLabels() const
@@ -30,31 +30,27 @@ public:
                              << "Thickness";
     }
 
-    std::vector<std::unique_ptr<ModelView::ViewItem>> constructRow(ModelView::QEXTMvvmSessionItem* item)
+    QVector<QEXTMvvmViewItem *> constructRow(QEXTMvvmItem *item)
     {
-        std::vector<std::unique_ptr<ModelView::ViewItem>> result;
+        QVector<QEXTMvvmViewItem *> result;
 
         // multilayer row contains its name, repetion and placeholders (instead of material and
         // thickness)
-        if (auto multilayer = dynamic_cast<MultiLayerItem*>(item)) {
-            result.emplace_back(std::make_unique<ModelView::ViewLabelItem>(multilayer));
-            result.emplace_back(std::make_unique<ModelView::ViewDataItem>(
-                multilayer->getItem(MultiLayerItem::P_NREPETITIONS)));
-            result.emplace_back(
-                std::make_unique<ModelView::ViewEmptyItem>()); // instead of P_MATERIAL
-            result.emplace_back(
-                std::make_unique<ModelView::ViewEmptyItem>()); // instead of P_THICKNESS
+        MultiLayerItem *multilayer = dynamic_cast<MultiLayerItem *>(item);
+        if (multilayer) {
+            result.append(new QEXTMvvmViewLabelItem(multilayer));
+            result.append(new QEXTMvvmViewDataItem(multilayer->item(MultiLayerItem::P_NREPETITIONS)));
+            result.append(new QEXTMvvmViewEmptyItem()); // instead of P_MATERIAL
+            result.append(new QEXTMvvmViewEmptyItem()); // instead of P_THICKNESS
         }
 
         // layer row contains its name, placeholder for repetition, layer material and thickness
-        if (auto layer = dynamic_cast<LayerItem*>(item)) {
-            result.emplace_back(std::make_unique<ModelView::ViewLabelItem>(layer));
-            result.emplace_back(
-                std::make_unique<ModelView::ViewEmptyItem>()); // instead of P_NREPETITIONS
-            result.emplace_back(
-                std::make_unique<ModelView::ViewDataItem>(layer->getItem(LayerItem::P_MATERIAL)));
-            result.emplace_back(
-                std::make_unique<ModelView::ViewDataItem>(layer->getItem(LayerItem::P_THICKNESS)));
+        LayerItem *layer = dynamic_cast<LayerItem *>(item);
+        if (layer) {
+            result.append(new QEXTMvvmViewLabelItem(layer));
+            result.append(new QEXTMvvmViewEmptyItem()); // instead of P_NREPETITIONS
+            result.append(new QEXTMvvmViewDataItem(layer->item(LayerItem::P_MATERIAL)));
+            result.append(new QEXTMvvmViewDataItem(layer->item(LayerItem::P_THICKNESS)));
         }
 
         return result;

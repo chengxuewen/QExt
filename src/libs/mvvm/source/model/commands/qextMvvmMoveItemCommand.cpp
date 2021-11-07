@@ -1,116 +1,141 @@
 #include <qextMvvmMoveItemCommand.h>
+#include <qextMvvmMoveItemCommand_p.h>
 
 #include <qextMvvmPath.h>
-#include <qextMvvmSessionItem.h>
+#include <qextMvvmItem.h>
 #include <sstream>
 #include <stdexcept>
 
-using namespace ModelView;
-
 namespace
 {
-void check_input_data(const QEXTMvvmSessionItem* item, const QEXTMvvmSessionItem* parent);
-std::string generate_description(const QEXTMvvmTagRow& tagrow);
+    void qextMvvmCheckInputData(const QEXTMvvmItem *item, const QEXTMvvmItem *parent)
+    {
+        if (!item || !item->model())
+        {
+            throw std::runtime_error("QEXTMvvmMoveItemCommand::QEXTMvvmMoveItemCommand() -> Invalid input item");
+        }
+
+        if (!parent || !parent->model())
+        {
+            throw std::runtime_error("QEXTMvvmMoveItemCommand::QEXTMvvmMoveItemCommand() -> Invalid parent item");
+        }
+
+        if (item->model() != parent->model())
+        {
+            throw std::runtime_error("QEXTMvvmMoveItemCommand::QEXTMvvmMoveItemCommand() -> Items belong to different models");
+        }
+
+        if (!item->parent())
+        {
+            throw std::runtime_error("QEXTMvvmMoveItemCommand::QEXTMvvmMoveItemCommand() -> Item doesn't have a parent");
+        }
+    }
+
+    QString qextMvvmGenerateDescription(const QEXTMvvmTagRow &tagrow)
+    {
+        QString str;
+        str.append("Move item to tag '");
+        str.append(tagrow.tag);
+        str.append("', row:");
+        str.append(tagrow.row);
+        return str;
+    }
 } // namespace
 
-struct QEXTMoveItemCommand::MoveItemCommandImpl {
-    QEXTMvvmTagRow target_tagrow;
-    QEXTMvvmPath target_parent_path;
-    QEXTMvvmPath original_parent_path;
-    QEXTMvvmTagRow original_tagrow;
-    MoveItemCommandImpl(QEXTMvvmTagRow tagrow) : target_tagrow(std::move(tagrow))
-    {
-        if (target_tagrow.row < 0)
-            throw std::runtime_error("QEXTMoveItemCommand() -> Error. Uninitialized target row");
-    }
-};
 
-QEXTMoveItemCommand::QEXTMoveItemCommand(QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* new_parent, QEXTMvvmTagRow tagrow)
-    : QEXTAbstractItemCommand(new_parent), p_impl(std::make_unique<MoveItemCommandImpl>(tagrow))
+QEXTMvvmMoveItemCommandPrivate::QEXTMvvmMoveItemCommandPrivate(QEXTMvvmMoveItemCommand *q)
+    : QEXTMvvmAbstractItemCommandPrivate(q)
 {
-    setResult(true);
 
-    check_input_data(item, new_parent);
-    setDescription(generate_description(p_impl->target_tagrow));
+}
 
-    p_impl->target_parent_path = pathFromItem(new_parent);
-    p_impl->original_parent_path = pathFromItem(item->parent());
-    p_impl->original_tagrow = item->tagRow();
+QEXTMvvmMoveItemCommandPrivate::~QEXTMvvmMoveItemCommandPrivate()
+{
 
-    if (item->parent()->isSinglePropertyTag(p_impl->original_tagrow.tag))
-        throw std::runtime_error("QEXTMoveItemCommand::QEXTMoveItemCommand() -> Single property tag.");
+}
 
-    if (new_parent->isSinglePropertyTag(p_impl->target_tagrow.tag))
-        throw std::runtime_error("QEXTMoveItemCommand::QEXTMoveItemCommand() -> Single property tag.");
 
-    if (item->parent() == new_parent) {
-        if (p_impl->target_tagrow.row >= new_parent->itemCount(p_impl->target_tagrow.tag))
-            throw std::runtime_error(
-                "MoveCommand::MoveCommand() -> move index exceeds number of items in a tag");
+
+QEXTMvvmMoveItemCommand::QEXTMvvmMoveItemCommand(QEXTMvvmItem *item, QEXTMvvmItem *parent, QEXTMvvmTagRow tagrow)
+    : QEXTMvvmAbstractItemCommand(new QEXTMvvmMoveItemCommandPrivate(this), parent)
+{
+    QEXT_DECL_D(QEXTMvvmMoveItemCommand);
+    d->m_targetTagRow = tagrow;
+    if (d->m_targetTagRow.row < 0)
+    {
+        throw std::runtime_error("QEXTMvvmAbstractItemCommand() -> Error. Uninitialized target row");
+    }
+    this->setResult(QEXTMvvmCommandResult(true));
+
+    qextMvvmCheckInputData(item, parent);
+    setDescription(qextMvvmGenerateDescription(d->m_targetTagRow));
+
+    d->m_targetParentPath = this->pathFromItem(parent);
+    d->m_originalParentPath = this->pathFromItem(item->parent());
+    d->m_originalTagRow = item->tagRow();
+
+    if (item->parent()->isSinglePropertyTag(d->m_originalTagRow.tag))
+    {
+        throw std::runtime_error("QEXTMvvmMoveItemCommand::QEXTMvvmMoveItemCommand() -> Single property tag.");
+    }
+
+    if (parent->isSinglePropertyTag(d->m_targetTagRow.tag))
+    {
+        throw std::runtime_error("QEXTMvvmMoveItemCommand::QEXTMvvmMoveItemCommand() -> Single property tag.");
+    }
+
+    if (item->parent() == parent)
+    {
+        if (d->m_targetTagRow.row >= parent->itemCount(d->m_targetTagRow.tag))
+        {
+            throw std::runtime_error("MoveCommand::MoveCommand() -> move index exceeds number of items in a tag");
+        }
     }
 }
 
-QEXTMoveItemCommand::~QEXTMoveItemCommand() = default;
-
-void QEXTMoveItemCommand::undo_command()
+QEXTMvvmMoveItemCommand::~QEXTMvvmMoveItemCommand()
 {
+
+}
+
+void QEXTMvvmMoveItemCommand::undoCommand()
+{
+    QEXT_DECL_D(QEXTMvvmMoveItemCommand);
     // first find items
-    auto current_parent = itemFromPath(p_impl->target_parent_path);
-    auto target_parent = itemFromPath(p_impl->original_parent_path);
+    QEXTMvvmItem *currentParent = this->itemFromPath(d->m_targetParentPath);
+    QEXTMvvmItem *targetParent = this->itemFromPath(d->m_originalParentPath);
 
     // then make manipulations
-    auto taken = current_parent->takeItem(p_impl->target_tagrow);
-    target_parent->insertItem(taken, p_impl->original_tagrow);
+    QEXTMvvmItem *taken = currentParent->takeItem(d->m_targetTagRow);
+    targetParent->insertItem(taken, d->m_originalTagRow);
 
     // adjusting new addresses
-    p_impl->target_parent_path = pathFromItem(current_parent);
-    p_impl->original_parent_path = pathFromItem(target_parent);
+    d->m_targetParentPath = this->pathFromItem(currentParent);
+    d->m_originalParentPath = this->pathFromItem(targetParent);
 }
 
-void QEXTMoveItemCommand::execute_command()
+void QEXTMvvmMoveItemCommand::executeCommand()
 {
+    QEXT_DECL_D(QEXTMvvmMoveItemCommand);
     // first find items
-    auto original_parent = itemFromPath(p_impl->original_parent_path);
-    auto target_parent = itemFromPath(p_impl->target_parent_path);
+    QEXTMvvmItem *originalparent = this->itemFromPath(d->m_originalParentPath);
+    QEXTMvvmItem *targetParent = this->itemFromPath(d->m_targetParentPath);
 
     // then make manipulations
-    auto taken = original_parent->takeItem(p_impl->original_tagrow);
+    QEXTMvvmItem *taken = originalparent->takeItem(d->m_originalTagRow);
 
     if (!taken)
-        throw std::runtime_error("QEXTMoveItemCommand::execute() -> Can't take an item.");
+    {
+        throw std::runtime_error("QEXTMvvmMoveItemCommand::executeCommand() -> Can't take an item.");
+    }
 
-    bool succeeded = target_parent->insertItem(taken, p_impl->target_tagrow);
-    if (!succeeded)
-        throw std::runtime_error("QEXTMoveItemCommand::execute() -> Can't insert item.");
+    bool success = targetParent->insertItem(taken, d->m_targetTagRow);
+    if (!success)
+    {
+        throw std::runtime_error("QEXTMvvmMoveItemCommand::executeCommand() -> Can't insert item.");
+    }
 
     // adjusting new addresses
-    p_impl->target_parent_path = pathFromItem(target_parent);
-    p_impl->original_parent_path = pathFromItem(original_parent);
+    d->m_targetParentPath = this->pathFromItem(targetParent);
+    d->m_originalParentPath = this->pathFromItem(originalparent);
 }
-
-namespace
-{
-void check_input_data(const QEXTMvvmSessionItem* item, const QEXTMvvmSessionItem* parent)
-{
-    if (!item || !item->model())
-        throw std::runtime_error("QEXTMoveItemCommand::QEXTMoveItemCommand() -> Invalid input item");
-
-    if (!parent || !parent->model())
-        throw std::runtime_error("QEXTMoveItemCommand::QEXTMoveItemCommand() -> Invalid parent item");
-
-    if (item->model() != parent->model())
-        throw std::runtime_error(
-            "QEXTMoveItemCommand::QEXTMoveItemCommand() -> Items belong to different models");
-
-    if (!item->parent())
-        throw std::runtime_error(
-            "QEXTMoveItemCommand::QEXTMoveItemCommand() -> Item doesn't have a parent");
-}
-
-std::string generate_description(const QEXTMvvmTagRow& tagrow)
-{
-    std::ostringstream ostr;
-    ostr << "Move item to tag '" << tagrow.tag << "', row:" << tagrow.row;
-    return ostr.str();
-}
-} // namespace

@@ -1,48 +1,48 @@
 #ifndef _QEXTMVVMUNDOSTACK_H
 #define _QEXTMVVMUNDOSTACK_H
 
-#include <memory>
 #include <qextMvvmUndoStackInterface.h>
 #include <qextMvvmGlobal.h>
 
-class QUndoStack;
+#include <QSharedPointer>
 
-namespace ModelView
-{
+class QUndoStack;
 
 //! Default undo stack implementation. Internally relies on QUndoStack.
 //! It serves two goals: a) hides Qt usage b) simplifies future refactoring toward Qt-independent
 //! libmvvm_model library.
 
-class QEXT_MVVM_API QEXTUndoStack : public QEXTMvvmUndoStackInterface
+class QEXTMvvmUndoStackPrivate;
+class QEXT_MVVM_API QEXTMvvmUndoStack : public QEXTMvvmUndoStackInterface
 {
 public:
-    QEXTUndoStack();
-    ~QEXTUndoStack() override;
+    QEXTMvvmUndoStack();
+    ~QEXTMvvmUndoStack() QEXT_DECL_OVERRIDE;
 
     //! Executes the command, then pushes it in the stack for possible undo.
-    void execute(std::shared_ptr<QEXTAbstractItemCommand> command) override;
+    void execute(const QSharedPointer<QEXTMvvmAbstractItemCommand> &command) QEXT_DECL_OVERRIDE;
 
-    bool isActive() const override;
-    bool canUndo() const override;
-    bool canRedo() const override;
-    int index() const override;
-    int count() const override;
-    void undo() override;
-    void redo() override;
-    void clear() override;
-    void setUndoLimit(int limit) override;
+    bool isActive() const QEXT_DECL_OVERRIDE;
+    bool canUndo() const QEXT_DECL_OVERRIDE;
+    bool canRedo() const QEXT_DECL_OVERRIDE;
+    int index() const QEXT_DECL_OVERRIDE;
+    int count() const QEXT_DECL_OVERRIDE;
+    void undo() QEXT_DECL_OVERRIDE;
+    void redo() QEXT_DECL_OVERRIDE;
+    void clear() QEXT_DECL_OVERRIDE;
+    void setUndoLimit(int limit) QEXT_DECL_OVERRIDE;
 
-    static QUndoStack* qtUndoStack(QEXTMvvmUndoStackInterface* stack_interface);
+    void beginMacro(const QString &name) QEXT_DECL_OVERRIDE;
+    void endMacro() QEXT_DECL_OVERRIDE;
 
-    void beginMacro(const std::string& name) override;
-    void endMacro() override;
+    static QUndoStack *qtUndoStack(QEXTMvvmUndoStackInterface *stackInterface);
+
+protected:
+    QScopedPointer<QEXTMvvmUndoStackPrivate> d_ptr;
 
 private:
-    struct UndoStackImpl;
-    std::unique_ptr<UndoStackImpl> p_impl;
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmUndoStack)
+    QEXT_DECL_PRIVATE(QEXTMvvmUndoStack)
 };
-
-} // namespace ModelView
 
 #endif // _QEXTMVVMUNDOSTACK_H

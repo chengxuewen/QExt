@@ -13,7 +13,7 @@ class QTKSubscriberEventHandler : public QObject, public QTKEventHandler
     Q_INTERFACES(QTK_PLUGINFRAMEWORK_NAMESPACE::QTKEventHandler)
 
 public:
-    void handleEvent(const QTKEvent &event) override;
+    void handleEvent(const QTKEvent &event) QEXT_DECL_OVERRIDE;
 };
 
 #endif // QTKSUBSCRIBEREVENTHANDLER_H

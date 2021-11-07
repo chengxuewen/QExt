@@ -11,19 +11,18 @@
 #define CONTAINEREDITORWIDGET_H
 
 #include <QWidget>
-#include <memory>
-#include <vector>
+#include <QScopedPointer>
+#include <QVector>
 
 class QTreeView;
 class QBoxLayout;
 class QItemSelectionModel;
 
-namespace ModelView
-{
-class ViewModel;
-class ViewModelDelegate;
-class QEXTMvvmSessionItem;
-} // namespace ModelView
+
+class QEXTMvvmViewModel;
+class QEXTMvvmViewModelDelegate;
+class QEXTMvvmItem;
+
 
 namespace DragAndView
 {
@@ -40,7 +39,7 @@ public:
     explicit ContainerEditorWidget(QWidget* parent = nullptr);
     ~ContainerEditorWidget();
 
-    void setModel(SampleModel* model, ModelView::QEXTMvvmSessionItem* root_item = nullptr);
+    void setModel(SampleModel* model, QEXTMvvmItem* root_item = nullptr);
 
 private slots:
     void onAdd();
@@ -50,13 +49,13 @@ private slots:
     void onMoveUp();
 
 private:
-    std::vector<ModelView::QEXTMvvmSessionItem*> selected_items() const;
+    QVector<QEXTMvvmItem*> selected_items() const;
     QBoxLayout* create_button_layout();
 
     QTreeView* m_treeView{nullptr};
-    std::unique_ptr<ModelView::ViewModel> m_viewModel;
-    std::unique_ptr<ModelView::ViewModelDelegate> m_delegate;
-    ModelView::QEXTMvvmSessionItem* m_container{nullptr};
+    QScopedPointer<QEXTMvvmViewModel> m_viewModel;
+    QScopedPointer<QEXTMvvmViewModelDelegate> m_delegate;
+    QEXTMvvmItem* m_container{nullptr};
     SampleModel* m_model{nullptr};
 };
 

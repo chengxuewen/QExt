@@ -10,12 +10,12 @@
 #ifndef GRAPHICSPROXY_AXESRECTANGLEVIEW_H
 #define GRAPHICSPROXY_AXESRECTANGLEVIEW_H
 
+#include <qextGlobal.h>
+
 #include <QGraphicsObject>
 
-namespace ModelView
-{
-class SceneAdapterInterface;
-}
+
+class QEXTMvvmSceneAdapterInterface;
 
 //! Transparent rectangle to cover axes area of QCustomPlot on QGraphicsScene. The size of
 //! rectangle always matches axes viewport at any zoom level. Hides all children items which
@@ -26,17 +26,17 @@ class AxesRectangleView : public QGraphicsObject
     Q_OBJECT
 
 public:
-    AxesRectangleView(const ModelView::SceneAdapterInterface* scene_adapter);
+    AxesRectangleView(const QEXTMvvmSceneAdapterInterface* scene_adapter);
 
-    QRectF boundingRect() const override;
+    QRectF boundingRect() const QEXT_DECL_OVERRIDE;
 
-    void advance(int phase) override;
+    void advance(int phase) QEXT_DECL_OVERRIDE;
 
 protected:
-    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override;
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) QEXT_DECL_OVERRIDE;
 
 private:
-    const ModelView::SceneAdapterInterface* scene_adapter{nullptr};
+    const QEXTMvvmSceneAdapterInterface* scene_adapter{nullptr};
     QRectF rect;
 };
 

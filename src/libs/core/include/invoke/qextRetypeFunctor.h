@@ -34,11 +34,11 @@
 #include <qextRetypeReturnFunctor.h>
 #include <qextMemberFunctor.h>
 #include <qextPointerFunctor.h>
-#include <qextSlot.h>
+#include <qextFunction.h>
 
 
 /** @defgroup retype qextRetypeFunctor(), qextRetypeReturnFunctor()
- * qextRetypeFunctor() alters a QEXTPointerFunctor, a QEXTMemberFunctor or a QEXTSlot
+ * qextRetypeFunctor() alters a QEXTPointerFunctor, a QEXTMemberFunctor or a QEXTFunction
  * in that it makes C-style casts to the functor's parameter types
  * of all parameters passed through operator()().
  *
@@ -60,7 +60,7 @@
  * @endcode
  *
  * This adaptor builds an exception in that it only works on QEXTPointerFunctor,
- * qextMemberFunctor and QEXTSlot because it needs sophisticated information about
+ * qextMemberFunctor and QEXTFunction because it needs sophisticated information about
  * the parameter types that cannot be deduced from arbitrary functor types.
  *
  * qextRetypeReturnFunctor() alters the return type of an arbitrary functor.
@@ -245,7 +245,7 @@ struct QEXTVisitor<QEXTRetypeFunctor<T_functor, T_type1, T_type2, T_type3, T_typ
 };
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTSlot.
+ * This function template specialization works on QEXTFunction.
  *
  * @param functor Functor that should be wrapped.
  * @return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -255,10 +255,10 @@ struct QEXTVisitor<QEXTRetypeFunctor<T_functor, T_type1, T_type2, T_type3, T_typ
 template <typename T_return,
           typename T_arg1, typename T_arg2, typename T_arg3,
           typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-inline QEXTRetypeFunctor<QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
-qextRetypeFunctor(const QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
+inline QEXTRetypeFunctor<QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+qextRetypeFunctor(const QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
 {
-    return QEXTRetypeFunctor<QEXTSlot<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
+    return QEXTRetypeFunctor<QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.

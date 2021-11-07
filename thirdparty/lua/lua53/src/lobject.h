@@ -43,18 +43,18 @@
 ** 2 - regular C function (closure)
 */
 
-/* QEXTMvvmVariant tags for functions */
+/* QVariant tags for functions */
 #define LUA_TLCL	(LUA_TFUNCTION | (0 << 4))  /* Lua closure */
 #define LUA_TLCF	(LUA_TFUNCTION | (1 << 4))  /* light C function */
 #define LUA_TCCL	(LUA_TFUNCTION | (2 << 4))  /* C closure */
 
 
-/* QEXTMvvmVariant tags for strings */
+/* QVariant tags for strings */
 #define LUA_TSHRSTR	(LUA_TSTRING | (0 << 4))  /* short strings */
 #define LUA_TLNGSTR	(LUA_TSTRING | (1 << 4))  /* long strings */
 
 
-/* QEXTMvvmVariant tags for numbers */
+/* QVariant tags for numbers */
 #define LUA_TNUMFLT	(LUA_TNUMBER | (0 << 4))  /* float numbers */
 #define LUA_TNUMINT	(LUA_TNUMBER | (1 << 4))  /* integer numbers */
 

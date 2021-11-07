@@ -11,26 +11,26 @@
 #include "particlemodel.h"
 #include "particleviewmodel.h"
 #include "tablemodel.h"
-#include <factories/viewmodelfactory.h>
-#include <viewmodel/viewmodel.h>
+#include <qextMvvmViewModelFactory.h>
+#include <qextMvvmViewModel.h>
 
-using namespace ModelView;
+
 
 struct BackEnd::BackEndImpl {
-    std::unique_ptr<ParticleModel> m_model;
-    std::unique_ptr<ParticleViewModel> m_viewModel;
+    QScopedPointer<ParticleModel> m_model;
+    QScopedPointer<ParticleViewModel> m_viewModel;
     TableModel* m_tableModel{nullptr};
 
     BackEndImpl()
-        : m_model(std::make_unique<ParticleModel>()),
-          m_viewModel(std::make_unique<ParticleViewModel>(m_model.get())),
+        : m_model(new ParticleModel),
+          m_viewModel(new ParticleViewModel(m_model.get())),
           m_tableModel(new TableModel)
     {
-        m_viewModel->setRootSessionItem(m_model->topItem());
+        m_viewModel->setRootItem(m_model->topItem());
     }
 };
 
-BackEnd::BackEnd(QObject* parent) : QObject(parent), p_impl(std::make_unique<BackEndImpl>()) {}
+BackEnd::BackEnd(QObject* parent) : QObject(parent), p_impl(new BackEndImpl) {}
 
 BackEnd::~BackEnd() = default;
 

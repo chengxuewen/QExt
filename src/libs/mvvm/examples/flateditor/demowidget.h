@@ -13,25 +13,24 @@
 #include <QWidget>
 #include <memory>
 
-namespace ModelView
-{
-class QEXTMvvmSessionModel;
-class AllItemsTreeView;
-class PropertyTreeView;
-class PropertyFlatView;
-} // namespace ModelView
+
+class QEXTMvvmModel;
+class QEXTMvvmAllItemsTreeView;
+class QEXTMvvmPropertyTreeView;
+class QEXTMvvmPropertyFlatView;
+
 
 class QBoxLayout;
 
-//! Demonstrates usage of PropertyFlatView.
+//! Demonstrates usage of QEXTMvvmPropertyFlatView.
 
-class DemoWidget : public QWidget
+class QEXTMvvmDemoWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    DemoWidget(ModelView::QEXTMvvmSessionModel* model, QWidget* parent = nullptr);
-    ~DemoWidget();
+    QEXTMvvmDemoWidget(QEXTMvvmModel* model, QWidget* parent = nullptr);
+    ~QEXTMvvmDemoWidget();
 
 private:
     QBoxLayout* create_left_layout();
@@ -39,10 +38,10 @@ private:
 
     void connect_views();
 
-    ModelView::AllItemsTreeView* m_defaultTreeView{nullptr};
-    ModelView::PropertyTreeView* m_propertyTreeView{nullptr};
-    ModelView::PropertyFlatView* m_propertyFlatView{nullptr};
-    ModelView::QEXTMvvmSessionModel* m_sessionModel{nullptr};
+    QEXTMvvmAllItemsTreeView* m_defaultTreeView{nullptr};
+    QEXTMvvmPropertyTreeView* m_propertyTreeView{nullptr};
+    QEXTMvvmPropertyFlatView* m_propertyFlatView{nullptr};
+    QEXTMvvmModel* m_sessionModel{nullptr};
 };
 
 #endif // FLATEDITORCORE_DEMOWIDGET_H

@@ -1283,7 +1283,7 @@ void QEXTFunctorTraitTest::testFunctorArg2Type()
 {
     typedef QEXTPointerFunctor<void, int, double>::Function FunctionType2;
     QVERIFY("QEXTPointerFunctor2" == QEXTFunctorTrait<FunctionType2>().typeName());
-    typedef void (*T_voidfunctor2)(int, std::string);
+    typedef void (*T_voidfunctor2)(int, QString);
     QVERIFY("QEXTPointerFunctor2" == QEXTFunctorTrait<T_voidfunctor2>().typeName());
     typedef int (*T_intfunctor2)(int, long);
     QVERIFY("QEXTPointerFunctor2" == QEXTFunctorTrait<T_intfunctor2>().typeName());
@@ -1311,9 +1311,9 @@ void QEXTFunctorTraitTest::testFunctorArg4Type()
 
 void QEXTFunctorTraitTest::testFunctorArg5Type()
 {
-    typedef QEXTPointerFunctor<void, int, double, int, float, std::string>::Function FunctionType5;
+    typedef QEXTPointerFunctor<void, int, double, int, float, QString>::Function FunctionType5;
     QVERIFY("QEXTPointerFunctor5" == QEXTFunctorTrait<FunctionType5>().typeName());
-    typedef void (*T_voidfunctor5)(int, int, int, int, std::string);
+    typedef void (*T_voidfunctor5)(int, int, int, int, QString);
     QVERIFY("QEXTPointerFunctor5" == QEXTFunctorTrait<T_voidfunctor5>().typeName());
     typedef int (*T_intfunctor5)(double, double, int, int, long);
     QVERIFY("QEXTPointerFunctor5" == QEXTFunctorTrait<T_intfunctor5>().typeName());
@@ -1321,9 +1321,9 @@ void QEXTFunctorTraitTest::testFunctorArg5Type()
 
 void QEXTFunctorTraitTest::testFunctorArg6Type()
 {
-    typedef QEXTPointerFunctor<void, int, double, int, float, std::string, int>::Function FunctionType6;
+    typedef QEXTPointerFunctor<void, int, double, int, float, QString, int>::Function FunctionType6;
     QVERIFY("QEXTPointerFunctor6" == QEXTFunctorTrait<FunctionType6>().typeName());
-    typedef void (*T_voidfunctor6)(int, int, int, int, std::string, float);
+    typedef void (*T_voidfunctor6)(int, int, int, int, QString, float);
     QVERIFY("QEXTPointerFunctor6" == QEXTFunctorTrait<T_voidfunctor6>().typeName());
     typedef int (*T_intfunctor6)(double, double, int, int, long, float);
     QVERIFY("QEXTPointerFunctor6" == QEXTFunctorTrait<T_intfunctor6>().typeName());
@@ -1331,9 +1331,9 @@ void QEXTFunctorTraitTest::testFunctorArg6Type()
 
 void QEXTFunctorTraitTest::testFunctorArg7Type()
 {
-    typedef QEXTPointerFunctor<void, int, double, int, float, std::string, int, double>::Function FunctionType7;
+    typedef QEXTPointerFunctor<void, int, double, int, float, QString, int, double>::Function FunctionType7;
     QVERIFY("QEXTPointerFunctor7" == QEXTFunctorTrait<FunctionType7>().typeName());
-    typedef void (*T_voidfunctor7)(int, int, int, int, std::string, float, int);
+    typedef void (*T_voidfunctor7)(int, int, int, int, QString, float, int);
     QVERIFY("QEXTPointerFunctor7" == QEXTFunctorTrait<T_voidfunctor7>().typeName());
     typedef int (*T_intfunctor7)(double, double, int, int, long, float, int);
     QVERIFY("QEXTPointerFunctor7" == QEXTFunctorTrait<T_intfunctor7>().typeName());

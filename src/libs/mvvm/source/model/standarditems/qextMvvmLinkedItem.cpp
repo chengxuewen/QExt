@@ -1,23 +1,14 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#include <qextMvvmCustomVariants.h>
 #include <qextMvvmLinkedItem.h>
+#include <qextMvvmUtils.h>
 
-using namespace ModelView;
+
 
 namespace
 {
-const QEXTMvvmVariant empty_link = QEXTMvvmVariant::fromValue(std::string());
+const QVariant empty_link = QVariant::fromValue(QString());
 }
 
-QEXTMvvmLinkedItem::QEXTMvvmLinkedItem() : QEXTMvvmSessionItem(Constants::LinkedItemType)
+QEXTMvvmLinkedItem::QEXTMvvmLinkedItem() : QEXTMvvmItem(QEXTMvvmConstants::LinkedItemType)
 {
     setData(empty_link);
     setEditable(false); // prevent editing in widgets, link is set programmatically.
@@ -25,7 +16,7 @@ QEXTMvvmLinkedItem::QEXTMvvmLinkedItem() : QEXTMvvmSessionItem(Constants::Linked
 
 //! Set link to given item.
 
-void QEXTMvvmLinkedItem::setLink(const QEXTMvvmSessionItem* item)
+void QEXTMvvmLinkedItem::setLink(const QEXTMvvmItem* item)
 {
-    setData(item ? QEXTMvvmVariant::fromValue(item->identifier()) : empty_link);
+    setData(item ? QVariant::fromValue(item->identifier()) : empty_link);
 }

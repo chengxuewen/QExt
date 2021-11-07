@@ -8,9 +8,9 @@
 // ************************************************************************** //
 
 #include "axesrectangleview.h"
-#include <plotting/sceneadapterinterface.h>
+#include <qextMvvmSceneAdapterInterface.h>
 
-AxesRectangleView::AxesRectangleView(const ModelView::SceneAdapterInterface* scene_adapter)
+AxesRectangleView::AxesRectangleView(const QEXTMvvmSceneAdapterInterface* scene_adapter)
     : scene_adapter(scene_adapter)
 {
     // the key flag to hide children going outside of *this* bounding rectangle

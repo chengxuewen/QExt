@@ -1,36 +1,36 @@
 #ifndef _QEXTMVVMPROJECT_H
 #define _QEXTMVVMPROJECT_H
 
-#include <memory>
 #include <qextMvvmProjectInterface.h>
 
-namespace ModelView
-{
+#include <QScopedPointer>
 
 struct QEXTMvvmProjectContext;
 
-//! QEXTMvvmProject represents content of all application models in a folder on disk.
+//! Project represents content of all application models in a folder on disk.
 //! Responsible for saving/loading application models to/from disk.
-
-class QEXT_MVVM_API QEXTMvvmProject : public ModelView::QEXTMvvmProjectInterface
+class QEXTMvvmProjectPrivate;
+class QEXT_MVVM_API QEXTMvvmProject : public QEXTMvvmProjectInterface
 {
 public:
-    QEXTMvvmProject(const QEXTMvvmProjectContext& context);
+    QEXTMvvmProject(const QEXTMvvmProjectContext &context);
     ~QEXTMvvmProject();
 
-    std::string projectDir() const override;
+    QString projectDir() const QEXT_DECL_OVERRIDE;
 
-    bool save(const std::string& dirname) const override;
+    bool save(const QString &dirName) QEXT_DECL_OVERRIDE;
 
-    bool load(const std::string& dirname) override;
+    bool load(const QString &dirName) QEXT_DECL_OVERRIDE;
 
-    bool isModified() const override;
+    bool isModified() const QEXT_DECL_OVERRIDE;
+
+protected:
+    QScopedPointer<QEXTMvvmProjectPrivate> d_ptr;
 
 private:
-    struct ProjectImpl;
-    std::unique_ptr<ProjectImpl> p_impl;
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmProject)
+    QEXT_DECL_PRIVATE(QEXTMvvmProject)
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMPROJECT_H

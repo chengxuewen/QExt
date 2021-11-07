@@ -11,25 +11,25 @@
 #define MOUSEMODEL_H
 
 #include <qextMvvmCompoundItem.h>
-#include <qextMvvmSessionModel.h>
+#include <qextMvvmModel.h>
 
 //! Domain object to hold mouse info.
 
-class MouseItem : public ModelView::QEXTMvvmCompoundItem
+class MouseItem : public QEXTMvvmCompoundItem
 {
 public:
-    static inline const std::string P_COLOR = "P_COLOR";
-    static inline const std::string P_XPOS = "P_XPOS";
-    static inline const std::string P_YPOS = "P_YPOS";
-    static inline const std::string P_ANGLE = "P_ANGLE";
-    static inline const std::string P_SPEED = "P_SPEED";
+    static inline const QString P_COLOR = "P_COLOR";
+    static inline const QString P_XPOS = "P_XPOS";
+    static inline const QString P_YPOS = "P_YPOS";
+    static inline const QString P_ANGLE = "P_ANGLE";
+    static inline const QString P_SPEED = "P_SPEED";
 
     MouseItem();
 };
 
 //! Holds collection of mice.
 
-class MouseModel : public ModelView::QEXTMvvmSessionModel
+class MouseModel : public QEXTMvvmModel
 {
 public:
     MouseModel();

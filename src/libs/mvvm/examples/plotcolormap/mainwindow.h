@@ -11,7 +11,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <memory>
+#include <QScopedPointer>
 
 class QTabWidget;
 
@@ -38,7 +38,7 @@ private:
     void init_model();
 
     QTabWidget* m_tabWidget{nullptr};
-    std::unique_ptr<ColorMapModel> m_model;
+    QScopedPointer<ColorMapModel> m_model;
 };
 
 } // namespace PlotColorMap

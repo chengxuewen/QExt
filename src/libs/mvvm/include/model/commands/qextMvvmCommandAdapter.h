@@ -4,29 +4,24 @@
 #include <qextMvvmGlobal.h>
 
 #include <QUndoCommand>
+#include <QSharedPointer>
 
-#include <memory>
-
-namespace ModelView
-{
-
-class QEXTAbstractItemCommand;
+class QEXTMvvmAbstractItemCommand;
 
 //! Adapter to execute our commands within Qt undo/redo framework.
 
 class QEXT_MVVM_API QEXTCommandAdapter : public QUndoCommand
 {
 public:
-    QEXTCommandAdapter(std::shared_ptr<QEXTAbstractItemCommand> command);
-    ~QEXTCommandAdapter() override;
+    QEXTCommandAdapter(const QSharedPointer<QEXTMvvmAbstractItemCommand> &command);
+    ~QEXTCommandAdapter() QEXT_DECL_OVERRIDE;
 
-    void undo() override;
-    void redo() override;
+    void undo() QEXT_DECL_OVERRIDE;
+    void redo() QEXT_DECL_OVERRIDE;
 
 private:
-    std::shared_ptr<QEXTAbstractItemCommand> m_command;
+    QSharedPointer<QEXTMvvmAbstractItemCommand> m_command;
 };
 
-} // namespace ModelView
 
 #endif // _QEXTMVVMCOMMANDADAPTER_H

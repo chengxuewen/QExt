@@ -1,38 +1,30 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
 #include "applicationmodels.h"
 #include "materialmodel.h"
 #include "materialpropertycontroller.h"
 #include "samplemodel.h"
-#include <qextMvvmModeIDocumentFactory.h>
-#include <qextMvvmSessionItem.h>
+#include <qextMvvmViewModelFactory.h>
+#include <qextMvvmModelDocumentInterface.h>
+#include <qextMvvmItem.h>
+#include <qextMvvmFactory.h>
 
-using namespace ModelView;
+
 
 struct ApplicationModels::ApplicationModelsImpl {
-    std::unique_ptr<MaterialModel> m_material_model;
-    std::unique_ptr<SampleModel> m_sample_model;
-    std::unique_ptr<MaterialPropertyController> m_property_controller;
-    std::unique_ptr<QEXTMvvmModelDocumentInterface> m_document;
+    QScopedPointer<MaterialModel> m_material_model;
+    QScopedPointer<SampleModel> m_sample_model;
+    QScopedPointer<MaterialPropertyController> m_property_controller;
+    QScopedPointer<QEXTMvvmModelDocumentInterface> m_document;
 
     ApplicationModelsImpl()
     {
-        m_material_model = std::make_unique<MaterialModel>();
-        m_sample_model = std::make_unique<SampleModel>();
-        m_property_controller = std::make_unique<MaterialPropertyController>(m_material_model.get(),
-                                                                             m_sample_model.get());
-        m_document = CreateJsonDocument({m_material_model.get(), m_sample_model.get()});
+        m_material_model.reset(new MaterialModel);
+        m_sample_model.reset(new SampleModel);
+        m_property_controller.reset(new MaterialPropertyController(m_material_model.get(), m_sample_model.get()));
+        m_document.reset(QEXTMvvmFactory::createModelDocument({m_material_model.get(), m_sample_model.get()}));
     }
 };
 
-ApplicationModels::ApplicationModels() : p_impl(std::make_unique<ApplicationModelsImpl>()) {}
+ApplicationModels::ApplicationModels() : p_impl(new ApplicationModelsImpl) {}
 
 ApplicationModels::~ApplicationModels() = default;
 
@@ -48,10 +40,10 @@ SampleModel* ApplicationModels::sampleModel()
 
 void ApplicationModels::readFromFile(const QString& name)
 {
-    p_impl->m_document->load(name.toStdString());
+    p_impl->m_document->load(name);
 }
 
 void ApplicationModels::writeToFile(const QString& name)
 {
-    p_impl->m_document->save(name.toStdString());
+    p_impl->m_document->save(name);
 }

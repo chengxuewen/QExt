@@ -10,40 +10,40 @@
 #include "samplemodel.h"
 #include <QColor>
 #include <qextMvvmItemCatalogue.h>
-#include <qextMvvmSessionItemContainer.h>
+#include <qextMvvmItemContainer.h>
 #include <qextMvvmContainerItem.h>
-#include <utils/qextMvvmNumericUtils.h>
-#include <widgets/widgetutils.h>
+#include <qextMvvmUtils.h>
+#include <qextMvvmWidgetUtils.h>
 
 namespace
 {
-std::unique_ptr<ModelView::QEXTMvvmItemCatalogue> CreateItemCatalogue()
+QEXTMvvmItemCatalogue *qextMvvmCreateItemCatalogue()
 {
-    auto result = std::make_unique<ModelView::QEXTMvvmItemCatalogue>();
+    QEXTMvvmItemCatalogue *result = new QEXTMvvmItemCatalogue;
     result->registerItem<DemoItem>();
     return result;
 }
 
-std::string random_name()
+QString random_name()
 {
-    static const std::string alphabet = "abcdefgh";
+    static const QString alphabet = "abcdefgh";
     const size_t len(3);
 
-    std::string result;
-    for (size_t i = 0; i < len; ++i) {
-        size_t random_index = static_cast<size_t>(
-            ModelView::Utils::RandInt(0, static_cast<int>(alphabet.size() - 1)));
-        result.push_back(alphabet[random_index]);
+    QString result;
+    for (size_t i = 0; i < len; ++i)
+    {
+        int randomIndex = QEXTMvvmUtils::RandInt(0, static_cast<int>(alphabet.size() - 1));
+        result.append(alphabet[randomIndex]);
     }
 
     return result;
 }
 
-const std::string DemoItemType = "DemoItem";
+const QString DemoItemType = "DemoItem";
 
 } // namespace
 
-using namespace ModelView;
+
 
 DemoItem::DemoItem() : QEXTMvvmCompoundItem(DemoItemType)
 {
@@ -54,26 +54,26 @@ DemoItem::DemoItem() : QEXTMvvmCompoundItem(DemoItemType)
     addProperty(P_DOUBLE_PROPERTY, 42.1)->setDisplayName("Double");
 }
 
-SampleModel::SampleModel() : QEXTMvvmSessionModel("SampleModel")
+SampleModel::SampleModel() : QEXTMvvmModel("SampleModel")
 {
-    setItemCatalogue(CreateItemCatalogue());
+    setItemCatalogue(qextMvvmCreateItemCatalogue());
     initModelContent();
     setUndoRedoEnabled(true);
 }
 
-void SampleModel::appendNewItem(ModelView::QEXTMvvmSessionItem* container)
+void SampleModel::appendNewItem(QEXTMvvmItem* container)
 {
     auto item = insertItem<DemoItem>(container);
-    item->setProperty(DemoItem::P_COLOR_PROPERTY, ModelView::Utils::RandomColor());
+    item->setProperty(DemoItem::P_COLOR_PROPERTY, QEXTMvvmWidgetUtils::RandomColor());
     item->setProperty(DemoItem::P_STRING_PROPERTY, random_name());
-    item->setProperty(DemoItem::P_INTEGER_PROPERTY, ModelView::Utils::RandInt(0, 10));
+    item->setProperty(DemoItem::P_INTEGER_PROPERTY, QEXTMvvmUtils::RandInt(0, 10));
 }
 
 //! Generates initial model content.
 
 void SampleModel::initModelContent()
 {
-    auto container = insertItem<ModelView::QEXTMvvmContainerItem>();
+    auto container = insertItem<QEXTMvvmContainerItem>();
     appendNewItem(container);
     appendNewItem(container);
     appendNewItem(container);

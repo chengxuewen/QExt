@@ -11,7 +11,7 @@
 #include <qextMvvmComboProperty.h>
 #include <qextMvvmPlotTableItems.h>
 
-using namespace ModelView;
+
 
 namespace
 {
@@ -27,17 +27,17 @@ const int penstyle_index_dashline = 2;
 // We do not want to depend from widgetutils.h to get App default font size. Let's stick to
 // hardcoded value for the moment, even if on different systems it can be not-optimal.
 const int default_title_size = 10;
-const std::string default_title_family = "Noto Sans";
+const QString default_title_family = "Noto Sans";
 } // namespace
 
-QEXTMvvmTextItem::QEXTMvvmTextItem() : QEXTMvvmCompoundItem(Constants::TextItemType)
+QEXTMvvmTextItem::QEXTMvvmTextItem() : QEXTMvvmCompoundItem(QEXTMvvmConstants::TextItemType)
 {
     addProperty(P_TEXT, "")->setDisplayName("Text");
     addProperty(P_FONT, default_title_family)->setDisplayName("Font");
     addProperty(P_SIZE, default_title_size)->setDisplayName("Size");
 }
 
-QEXTMvvmPenItem::QEXTMvvmPenItem() : QEXTMvvmCompoundItem(Constants::PenItemType)
+QEXTMvvmPenItem::QEXTMvvmPenItem() : QEXTMvvmCompoundItem(QEXTMvvmConstants::PenItemType)
 {
     addProperty(P_COLOR, QColor(Qt::black))->setDisplayName("Color")->setToolTip("Pen color");
     addProperty(P_STYLE, penStyleCombo)->setDisplayName("Style")->setToolTip("Pen style");
@@ -59,16 +59,16 @@ void QEXTMvvmPenItem::setSelected(bool is_selected)
 //! Returns color name in #RRGGBB format.
 //! We do not want to expose QColor itself since it will be eventually removed.
 
-std::string QEXTMvvmPenItem::colorName() const
+QString QEXTMvvmPenItem::colorName() const
 {
-    return property<QColor>(P_COLOR).name().toStdString();
+    return property<QColor>(P_COLOR).name();
 }
 
 //! Sets named color following schema from https://www.w3.org/TR/css-color-3/#svg-color.
 //! e.g. "mediumaquamarine"
 //! We do not want to expose QColor itself since it will be eventually removed.
 
-void QEXTMvvmPenItem::setNamedColor(const std::string& named_color)
+void QEXTMvvmPenItem::setNamedColor(const QString& named_color)
 {
-    setProperty(P_COLOR, QColor(QString::fromStdString(named_color)));
+    setProperty(P_COLOR, QColor(named_color));
 }

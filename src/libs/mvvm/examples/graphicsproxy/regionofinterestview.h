@@ -10,14 +10,16 @@
 #ifndef GRAPHICSPROXY_REGIONOFINTERESTVIEW_H
 #define GRAPHICSPROXY_REGIONOFINTERESTVIEW_H
 
-#include <QGraphicsItem>
-#include <memory>
-#include <vector>
+#include <qextGlobal.h>
 
-namespace ModelView
-{
-class SceneAdapterInterface;
-}
+#include <QGraphicsItem>
+#include <QScopedPointer>
+#include <QVector>
+
+
+
+class QEXTMvvmSceneAdapterInterface;
+
 
 class RegionOfInterestItem;
 class RegionOfInterestController;
@@ -30,28 +32,28 @@ class RegionOfInterestView : public QGraphicsItem
 {
 public:
     RegionOfInterestView(RegionOfInterestItem* item,
-                         const ModelView::SceneAdapterInterface* scene_adapter);
-    ~RegionOfInterestView() override;
+                         const QEXTMvvmSceneAdapterInterface* scene_adapter);
+    ~RegionOfInterestView() QEXT_DECL_OVERRIDE;
 
-    QRectF boundingRect() const override;
+    QRectF boundingRect() const QEXT_DECL_OVERRIDE;
 
-    void advance(int phase) override;
+    void advance(int phase) QEXT_DECL_OVERRIDE;
 
     void setActiveHandle(SizeHandleElement* element);
 
     void update_geometry();
 
 protected:
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
-    QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) QEXT_DECL_OVERRIDE;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) QEXT_DECL_OVERRIDE;
+    QVariant itemChange(GraphicsItemChange change, const QVariant& value) QEXT_DECL_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) QEXT_DECL_OVERRIDE;
 
 private:
     void create_size_handle_elements();
     SizeHandleElement* findOpposite(SizeHandleElement* element);
-    std::unique_ptr<RegionOfInterestController> controller;
-    std::vector<SizeHandleElement*> handles;
+    QScopedPointer<RegionOfInterestController> controller;
+    QVector<SizeHandleElement*> handles;
     SizeHandleElement* active_handle{nullptr}; //!
     QPointF opposite_origin; //! coordinate of opposite corner at the moment of click
 };

@@ -27,13 +27,13 @@
 **
 *************************************************************************************/
 
-#ifndef QEXTFUNCTORTRAIT_H
-#define QEXTFUNCTORTRAIT_H
+#ifndef _QEXTFUNCTORTRAIT_H
+#define _QEXTFUNCTORTRAIT_H
 
 #include <qextGlobal.h>
 #include <qextTypeTrait.h>
 
-#include <string>
+#include <QString>
 
 
 
@@ -156,7 +156,7 @@ struct QEXTFunctorTrait
     typedef void Object;
     typedef T_functor Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "UnknownFunctor";
     }
@@ -169,7 +169,7 @@ struct QEXTFunctorTrait< T_functor, true, I_can_use_decltype >
     typedef typename T_functor::Object Object;
     typedef T_functor Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTFunctorBase";
     }
@@ -183,7 +183,7 @@ struct QEXTFunctorTrait< T_functor, false, true >
     typedef T_functor Functor;
     typedef void Object;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "lambda";
     }
@@ -284,7 +284,7 @@ struct QEXTFunctorTrait< T_functor, false, true >
         typedef typename QEXTDecltypeFunctionTraits< T_functor >::Return Return;                                                                                 \
         typedef T_functor Functor;                                                                                                                             \
         typedef void Object;                                                                                                                               \
-        std::string typeName() const                                                                                                                           \
+        QString typeName() const                                                                                                                           \
         {                                                                                                                                                      \
             return "lambda";                                                                                                                                   \
         }                                                                                                                                                      \
@@ -300,7 +300,7 @@ struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_
     typedef void Object;
     typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTPointerFunctor7";
     }
@@ -313,7 +313,7 @@ struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_
     typedef void Object;
     typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTPointerFunctor6";
     }
@@ -326,7 +326,7 @@ struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5), f
     typedef void Object;
     typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTPointerFunctor5";
     }
@@ -339,7 +339,7 @@ struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4), false, fa
     typedef void Object;
     typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTPointerFunctor4";
     }
@@ -352,7 +352,7 @@ struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3), false, false >
     typedef void Object;
     typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTPointerFunctor3";
     }
@@ -365,7 +365,7 @@ struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2), false, false >
     typedef void Object;
     typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTPointerFunctor2";
     }
@@ -378,7 +378,7 @@ struct QEXTFunctorTrait< T_return (*)(T_arg1), false, false >
     typedef void Object;
     typedef QEXTPointerFunctor< T_return, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTPointerFunctor1";
     }
@@ -392,7 +392,7 @@ struct QEXTFunctorTrait< T_return (*)(), false, false >
     typedef void Object;
     typedef QEXTPointerFunctor< T_return, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTPointerFunctor0";
     }
@@ -458,7 +458,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTMemberFunctor7";
     }
@@ -479,7 +479,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstMemberFunctor7";
     }
@@ -500,7 +500,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTVolatileMemberFunctor7";
     }
@@ -521,7 +521,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstVolatileMemberFunctor7";
     }
@@ -534,7 +534,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTMemberFunctor6";
     }
@@ -546,7 +546,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstMemberFunctor6";
     }
@@ -558,7 +558,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTVolatileMemberFunctor6";
     }
@@ -570,7 +570,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstVolatileMemberFunctor6";
     }
@@ -583,7 +583,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTMemberFunctor5";
     }
@@ -595,7 +595,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstMemberFunctor5";
     }
@@ -607,7 +607,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTVolatileMemberFunctor5";
     }
@@ -619,7 +619,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     typedef T_obj Object;
     typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstVolatileMemberFunctor5";
     }
@@ -632,7 +632,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4), fa
     typedef T_obj Object;
     typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil> Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTMemberFunctor4";
     }
@@ -644,7 +644,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4) con
     typedef T_obj Object;
     typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstMemberFunctor4";
     }
@@ -656,7 +656,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4) vol
     typedef T_obj Object;
     typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTVolatileMemberFunctor4";
     }
@@ -668,7 +668,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4) con
     typedef T_obj Object;
     typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstVolatileMemberFunctor4";
     }
@@ -681,7 +681,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3), false, fal
     typedef T_obj Object;
     typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTMemberFunctor3";
     }
@@ -693,7 +693,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3) const, fals
     typedef T_obj Object;
     typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstMemberFunctor3";
     }
@@ -705,7 +705,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3) volatile, f
     typedef T_obj Object;
     typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTVolatileMemberFunctor3";
     }
@@ -717,7 +717,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3) const volat
     typedef T_obj Object;
     typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstVolatileMemberFunctor3";
     }
@@ -730,7 +730,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2), false, false >
     typedef T_obj Object;
     typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTMemberFunctor2";
     }
@@ -742,7 +742,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2) const, false, false
     typedef T_obj Object;
     typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstMemberFunctor2";
     }
@@ -754,7 +754,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2) volatile, false, fa
     typedef T_obj Object;
     typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTVolatileMemberFunctor2";
     }
@@ -766,7 +766,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2) const volatile, fal
     typedef T_obj Object;
     typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstVolatileMemberFunctor2";
     }
@@ -779,7 +779,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1), false, false >
     typedef T_obj Object;
     typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTMemberFunctor1";
     }
@@ -791,7 +791,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1) const, false, false >
     typedef T_obj Object;
     typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstMemberFunctor1";
     }
@@ -803,7 +803,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1) volatile, false, false >
     typedef T_obj Object;
     typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTVolatileMemberFunctor1";
     }
@@ -815,7 +815,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1) const volatile, false, fals
     typedef T_obj Object;
     typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstVolatileMemberFunctor1";
     }
@@ -828,7 +828,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)(), false, false >
     typedef T_obj Object;
     typedef QEXTMemberFunctor< T_return, T_obj, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTMemberFunctor0";
     }
@@ -840,7 +840,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)() const, false, false >
     typedef T_obj Object;
     typedef QEXTConstMemberFunctor< T_return, T_obj, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstMemberFunctor0";
     }
@@ -852,7 +852,7 @@ struct QEXTFunctorTrait< T_return (T_obj::*)() volatile, false, false >
     typedef T_obj Object;
     typedef QEXTVolatileMemberFunctor< T_return, T_obj, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTVolatileMemberFunctor0";
     }
@@ -864,12 +864,10 @@ struct QEXTFunctorTrait< T_return (T_obj::*)() const volatile, false, false >
     typedef T_obj Object;
     typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
 
-    std::string typeName() const
+    QString typeName() const
     {
         return "QEXTConstVolatileMemberFunctor0";
     }
 };
 
-
-
-#endif // QEXTFUNCTORTRAIT_H
+#endif // _QEXTFUNCTORTRAIT_H

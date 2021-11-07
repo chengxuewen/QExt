@@ -12,7 +12,7 @@
 
 #include <QObject>
 #include <QString>
-#include <memory>
+#include <QScopedPointer>
 #include "tablemodel.h"
 #include "particleviewmodel.h"
 
@@ -25,14 +25,14 @@ class BackEnd : public QObject
 
 public:
     explicit BackEnd(QObject* parent = nullptr);
-    ~BackEnd() override;
+    ~BackEnd() QEXT_DECL_OVERRIDE;
 
     Q_INVOKABLE TableModel* tableModel() const;
     Q_INVOKABLE ParticleViewModel* particleViewModel() const;
 
 private:
     struct BackEndImpl;
-    std::unique_ptr<BackEndImpl> p_impl;
+    QScopedPointer<BackEndImpl> p_impl;
 };
 
 #endif // MODELINQMLCORE_BACKEND_H

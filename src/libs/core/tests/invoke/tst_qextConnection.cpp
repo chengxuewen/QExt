@@ -15,7 +15,7 @@ private Q_SLOTS:
     void testDisconnectDuringEmit();
 };
 
-static std::string sg_string = "";
+static QString sg_string = "";
 
 QEXTConnection connection;
 class HandlerClass : public QObject
