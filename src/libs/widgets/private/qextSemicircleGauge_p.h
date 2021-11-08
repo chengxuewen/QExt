@@ -5,7 +5,7 @@
 #include <qextSemicircleGauge.h>
 
 #include <QColor>
-#include <QVariantAnimation>
+#include <QPropertyAnimation>
 
 class QEXTSemicircleGauge;
 class QEXT_WIDGETS_API QEXTSemicircleGaugePrivate
@@ -43,7 +43,7 @@ public:
 
     double m_currentValue;            //当前值
     bool m_animationVisiable;                 //是否启用动画显示
-    QVariantAnimation *m_animation;
+    QPropertyAnimation *m_animation;
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTSemicircleGaugePrivate)

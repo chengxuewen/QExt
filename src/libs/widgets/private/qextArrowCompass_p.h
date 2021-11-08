@@ -4,7 +4,7 @@
 #include <qextWidgetGlobal.h>
 
 #include <QColor>
-#include <QVariantAnimation>
+#include <QPropertyAnimation>
 
 class QEXTArrowCompass;
 class QEXT_WIDGETS_API QEXTArrowCompassPrivate
@@ -38,7 +38,7 @@ public:
 
     bool m_animationVisiable;                 //是否启用动画显示
     double m_currentValue;            //当前值
-    QVariantAnimation *m_animation;                  //绘制动画
+    QPropertyAnimation *m_animation;                  //绘制动画
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTArrowCompassPrivate)

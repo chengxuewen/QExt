@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.9.10.1 LANGUAGES CXX)
+project(QEXT VERSION 0.9.10.2 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -310,8 +310,8 @@ endif()
 # (every target will create the same PCH.pch file)
 # to get it working, we need the feature to enable different source properties
 # for different targets
-if (QEXT_BUILD_USE_PCH)
-    if (!QEXT_BUILD_SHARED_LIBS)
+if(QEXT_BUILD_USE_PCH)
+    if(NOT QEXT_BUILD_SHARED_LIBS)
         set(QEXT_BUILD_USE_PCH FALSE)
         message(STATUS "----QEXT---- Set QEXT_BUILD_USE_PCH as FALSE")
     endif()
@@ -319,7 +319,7 @@ endif()
 
 
 # enable build doc
-if (QEXT_BUILD_DOCUMENTATION)
+if(QEXT_BUILD_DOCUMENTATION)
     qextMacroBuildDoxygen()
     message(STATUS "----QEXT---- Build with the documentation")
 else()
@@ -331,6 +331,11 @@ if(QEXT_BUILD_LIB_MVVM)
     if(QEXT_CXX_STANDARD LESS 14)
         set(QEXT_BUILD_LIB_MVVM OFF)
     endif()
+endif()
+
+
+if(NOT QEXT_BUILD_QML)
+    set(QEXT_BUILD_LIB_QUICK OFF)
 endif()
 
 

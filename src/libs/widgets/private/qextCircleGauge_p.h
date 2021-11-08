@@ -5,7 +5,7 @@
 #include <qextCircleGauge.h>
 
 #include <QColor>
-#include <QVariantAnimation>
+#include <QPropertyAnimation>
 
 class QEXTCircleGauge;
 class QEXT_WIDGETS_API QEXTCircleGaugePrivate
@@ -48,7 +48,7 @@ public:
 
     double m_currentValue;                  //当前值
     bool m_animationEnable;                 //是否启用动画显示
-    QVariantAnimation *m_animation;
+    QPropertyAnimation *m_animation;
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTCircleGaugePrivate)

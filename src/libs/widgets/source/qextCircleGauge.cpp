@@ -57,7 +57,7 @@ QEXTCircleGauge::QEXTCircleGauge(QWidget *parent)
     : QWidget(parent), d_ptr(new QEXTCircleGaugePrivate(this))
 {
     QEXT_DECL_D(QEXTCircleGauge);
-    d->m_animation = new QVariantAnimation(this);
+    d->m_animation = new QPropertyAnimation(this, "");
     d->m_animation->setDuration(500);
     d->m_animation->setEasingCurve(QEasingCurve::Linear);
     connect(d->m_animation, SIGNAL(valueChanged(QVariant)), this, SLOT(updateValue(QVariant)));

@@ -88,7 +88,7 @@ public:
     }
 
 private:
-    vector< Slot<T1>* > m_pSlotSet;
+    QVector< Slot<T1>* > m_pSlotSet;
 };
 
 #define Connect( sender, signal, receiver, method) ( (sender)->signal.Bind(receiver, method) )

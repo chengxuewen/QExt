@@ -8,6 +8,7 @@
 #include <qextMemberFunctor.h>
 
 #include <QObject>
+#include <QSharedPointer>
 #include <QPointer>
 #include <QSet>
 
