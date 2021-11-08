@@ -21,12 +21,12 @@ namespace qextPrivate
     struct QEXT_CORE_API QEXTSignalData
     {
         typedef std::size_t                     Size;
-        typedef QList<QEXTFunctionBase>           SlotList;
+        typedef QList<QEXTFunctionBase>         SlotList;
         typedef SlotList::iterator              Iterator;
         typedef SlotList::const_iterator        ConstIterator;
-        typedef QEXTSignalData                    Self;
-        typedef QPair<Self *, Iterator>     SelfIterator;
-        typedef QList<SelfIterator>         SelfIteratorList;
+        typedef QEXTSignalData                  Self;
+        typedef QPair<Self *, Iterator>         SelfIterator;
+        typedef QList<SelfIterator>             SelfIteratorList;
 
         QEXTSignalData();
         virtual ~QEXTSignalData();
@@ -227,7 +227,6 @@ namespace qextPrivate
         // The QEXTSignalData object encapsulating the slot list.
         mutable qextPrivate::QEXTSignalData *m_data;
     };
-
 
 
     // Exception safe sweeper for cleaning up invalid slots on the slot list.
@@ -3168,14 +3167,14 @@ namespace qextPrivate
     {
     public:
         typedef qextPrivate::QEXTSignalSend0< T_return, T_accumulator >     Sender;
-        typedef typename Sender::Return                                 Return;
-        typedef QEXTFunction< T_return >                                      Slot;
-        typedef QEXTFunctionList< Slot >                                      SlotList;
-        typedef typename SlotList::Iterator                             Iterator;
-        typedef typename SlotList::ConstIterator                        ConstIterator;
+        typedef typename Sender::Return                                     Return;
+        typedef QEXTFunction< T_return >                                    Slot;
+        typedef QEXTFunctionList< Slot >                                    SlotList;
+        typedef typename SlotList::Iterator                                 Iterator;
+        typedef typename SlotList::ConstIterator                            ConstIterator;
 
-        typedef typename SlotList::ReverseIterator                      ReverseIterator;
-        typedef typename SlotList::ConstReverseIterator                 ConstReverseIterator;
+        typedef typename SlotList::ReverseIterator                          ReverseIterator;
+        typedef typename SlotList::ConstReverseIterator                     ConstReverseIterator;
 
         /** Add a slot to the list of slots.
          * Any functor or slot may be passed into connect().
@@ -3345,14 +3344,14 @@ namespace qextPrivate
     class QEXTSignal1 : public QEXTSignalBase
     {
     public:
-        typedef qextPrivate::QEXTSignalSend1< T_return, T_arg1, T_accumulator > Sender;
-        typedef typename Sender::Return                                     Return;
-        typedef QEXTFunction< T_return, T_arg1 >                                  Slot;
-        typedef QEXTFunctionList< Slot >                                          SlotList;
-        typedef typename SlotList::Iterator                                 Iterator;
-        typedef typename SlotList::ConstIterator                            ConstIterator;
-        typedef typename SlotList::ReverseIterator                          ReverseIterator;
-        typedef typename SlotList::ConstReverseIterator                     ConstReverseIterator;
+        typedef qextPrivate::QEXTSignalSend1< T_return, T_arg1, T_accumulator >     Sender;
+        typedef typename Sender::Return                                             Return;
+        typedef QEXTFunction< T_return, T_arg1 >                                    Slot;
+        typedef QEXTFunctionList< Slot >                                            SlotList;
+        typedef typename SlotList::Iterator                                         Iterator;
+        typedef typename SlotList::ConstIterator                                    ConstIterator;
+        typedef typename SlotList::ReverseIterator                                  ReverseIterator;
+        typedef typename SlotList::ConstReverseIterator                             ConstReverseIterator;
 
         /** Add a slot to the list of slots.
          * Any functor or slot may be passed into connect().
