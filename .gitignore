@@ -73,6 +73,6 @@ Thumbs.db
 
 # cmake user file
 CMakeLists.txt.user
-build
 
-CommonFramework
+build
+.vscode
