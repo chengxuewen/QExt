@@ -87,7 +87,7 @@ qextQuickAddExample(qext_exp_quickWidgetProxy
     EXAMPLE_SOURCE
     widgetproxy/calendarwidgetproxyitem.cpp
     widgetproxy/calendarwidgetproxyitem.h
-    widgetproxy/widgetproxy.qrc
+    widgetproxy/example.qrc
     widgetproxy/main.cpp
     EXAMPLE_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/widgetproxy

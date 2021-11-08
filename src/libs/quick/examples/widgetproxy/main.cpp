@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<CalendarWidgetProxyItem>("QEXTQuick", 1, 0, "QEXTCalendar");
 
-    QQmlApplicationEngine engine("qrc:/mainwindow.qml");
+    QQmlApplicationEngine engine("qrc:/qmlwindow.qml");
     if (engine.rootObjects().isEmpty())
     {
         return -1;
