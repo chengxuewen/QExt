@@ -64,7 +64,7 @@ void QEXTQuickWidgetProxyItem::updateWidgetSize()
 {
     if (!m_widget.isNull())
     {
-        m_widget->resize(this->size().toSize());
+        m_widget->resize(this->width(), this->height());
     }
 }
 
@@ -114,9 +114,8 @@ void QEXTQuickWidgetProxyItem::routeWheelEvents(QWheelEvent *event)
 {
     if (!m_widget.isNull())
     {
-        QWheelEvent *newEvent = new QWheelEvent(event->pos(), event->globalPos(), event->pixelDelta(),
-                                                event->angleDelta(), event->buttons(), event->modifiers(),
-                                                event->phase(), event->inverted(), event->source());
+        QWheelEvent *newEvent = new QWheelEvent(event->posF(), event->globalPosF(), event->delta(),
+                                                event->buttons(), event->modifiers(), event->orientation());
         QCoreApplication::postEvent(m_widget.data(), newEvent);
     }
 }
