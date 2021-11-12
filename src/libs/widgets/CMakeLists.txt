@@ -45,8 +45,9 @@ set(qext_lib_public_headers
     include/qextIpAddressEdit.h
     include/qextNumberLed.h
     include/qextTextLcd.h
-    include/qextNavButton.h
-    include/qextNavListWidget.h
+    include/qextNavigationButton.h
+    include/qextNavigationListView.h
+    include/qextNavigationBar.h
     include/qextProgressBar.h
     include/qextProgressButton.h
     include/qextProgressPie.h
@@ -57,6 +58,8 @@ set(qext_lib_public_headers
     include/qextRulerSlider.h
     include/qextSelectSlider.h
     include/qextSlider.h
+    include/qextStyleSheet.h
+    include/qextStyleSheetPalette.h
     include/qextThermometer.h
     include/qextTooltip.h
     include/qextTumbler.h
@@ -65,6 +68,8 @@ set(qext_lib_public_headers
     include/qextRingCompass.h
     include/qextProgressKnob.h
     include/qextScaleKnob.h
+    include/qextLed.h
+    include/qextOvenTimer.h
     include/qextWidgetGlobal.h
     )
 
@@ -82,13 +87,15 @@ set(qext_lib_private_headers
     private/qextIpAddressEdit_p.h
     private/qextNumberLed_p.h
     private/qextTextLcd_p.h
-    private/qextNavButton_p.h
-    private/qextNavListWidget_p.h
+    private/qextNavigationButton_p.h
+    private/qextNavigationListView_p.h
     private/qextSwitchButton_p.h
     private/qextWaveChart_p.h
     private/qextRingCompass_p.h
     private/qextSelectSlider_p.h
     private/qextSlider_p.h
+    private/qextStyleSheetPalette_p.h
+    private/qextStyleSheet_p.h
     private/qextTooltip_p.h
     private/qextTumbler_p.h
     private/qextDateTimeTumbler_p.h
@@ -96,6 +103,9 @@ set(qext_lib_private_headers
     private/qextProgressKnob_p.h
     private/qextScaleKnob_p.h
     private/qextProgressRing_p.h
+    private/qextLed_p.h
+    private/qextNavigationBar_p.h
+    private/qextOvenTimer_p.h
     )
 
 set(qext_lib_sources
@@ -114,8 +124,9 @@ set(qext_lib_sources
     source/qextIpAddressEdit.cpp
     source/qextNumberLed.cpp
     source/qextTextLcd.cpp
-    source/qextNavButton.cpp
-    source/qextNavListWidget.cpp
+    source/qextNavigationButton.cpp
+    source/qextNavigationListView.cpp
+    source/qextNavigationBar.cpp
     source/qextProgressBar.cpp
     source/qextProgressButton.cpp
     source/qextProgressPie.cpp
@@ -125,6 +136,8 @@ set(qext_lib_sources
     source/qextRulerSlider.cpp
     source/qextSelectSlider.cpp
     source/qextSlider.cpp
+    source/qextStyleSheet.cpp
+    source/qextStyleSheetPalette.cpp
     source/qextSwitchButton.cpp
     source/qextThermometer.cpp
     source/qextTooltip.cpp
@@ -134,6 +147,8 @@ set(qext_lib_sources
     source/qextRingCompass.cpp
     source/qextProgressKnob.cpp
     source/qextScaleKnob.cpp
+    source/qextLed.cpp
+    source/qextOvenTimer.cpp
     )
 
 set(qext_lib_forms

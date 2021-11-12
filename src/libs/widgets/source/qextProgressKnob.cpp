@@ -184,6 +184,7 @@ void QEXTProgressKnob::drawColorPie(QPainter *painter)
 void QEXTProgressKnob::drawCoverCircle(QPainter *painter)
 {
     QEXT_DECL_D(QEXTProgressKnob);
+
     int radius = d->m_radiusCoverCircle;
     painter->save();
     painter->setPen(Qt::NoPen);

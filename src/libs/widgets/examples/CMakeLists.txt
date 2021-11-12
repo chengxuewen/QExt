@@ -21,8 +21,8 @@
 #--------------------------------------------------------------------------------
 # Set example output path
 #--------------------------------------------------------------------------------
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/widget)
-set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/widget)
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/widgets)
+set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/widgets)
 
 
 
@@ -85,28 +85,28 @@ endfunction()
 #--------------------------------------------------------------------------------
 # Add example
 #--------------------------------------------------------------------------------
-qextWidgetAddExample(qext_exp_widgetNavListWidget
+qextWidgetAddExample(qext_exp_widgetNavigationListView
     EXAMPLE_SOURCE
-    navlistwidget/navlistwidgetform.cpp
-    navlistwidget/navlistwidgetform.h
-    navlistwidget/navlistwidgetform.ui
-    navlistwidget/navlistwidget.cpp
-    navlistwidget/navlistwidget.h
-    navlistwidget/navlistwidget.ui
-    navlistwidget/main.cpp
+    navigationlistview/frmnavigationlistview.cpp
+    navigationlistview/frmnavigationlistview.h
+    navigationlistview/frmnavigationlistview.ui
+    navigationlistview/navigationlistview.cpp
+    navigationlistview/navigationlistview.h
+    navigationlistview/navigationlistview.ui
+    navigationlistview/main.cpp
     EXAMPLE_INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/navlistwidget
+    ${CMAKE_CURRENT_SOURCE_DIR}/navigationlistview
     )
-qextWidgetAddExample(qext_exp_widgetNavButton
+qextWidgetAddExample(qext_exp_widgetNavigationButton
     EXAMPLE_SOURCE
-    navbutton/navbutton.cpp
-    navbutton/navbutton.h
-    navbutton/navbutton.ui
-    navbutton/iconhelper.cpp
-    navbutton/iconhelper.h
-    navbutton/main.cpp
+    navigationbutton/frmnavigationbutton.cpp
+    navigationbutton/frmnavigationbutton.h
+    navigationbutton/frmnavigationbutton.ui
+    navigationbutton/iconhelper.cpp
+    navigationbutton/iconhelper.h
+    navigationbutton/main.cpp
     EXAMPLE_INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/navbutton
+    ${CMAKE_CURRENT_SOURCE_DIR}/navigationbutton
     )
 qextWidgetAddExample(qext_exp_widgetSwitchButton
     EXAMPLE_SOURCE
@@ -391,4 +391,34 @@ qextWidgetAddExample(qext_exp_widgetScaleKnob
     scaleknob/main.cpp
     EXAMPLE_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/scaleknob
+    )
+qextWidgetAddExample(qext_exp_widgetLed
+    EXAMPLE_SOURCE
+    led/frmled.cpp
+    led/frmled.h
+    led/frmled.ui
+    led/main.cpp
+    EXAMPLE_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/led
+    )
+qextWidgetAddExample(qext_exp_widgetNavigationBar
+    EXAMPLE_SOURCE
+    navigationbar/frmnavigationbar.cpp
+    navigationbar/frmnavigationbar.h
+    navigationbar/frmnavigationbar.ui
+    navigationbar/frmnavigationbarform.cpp
+    navigationbar/frmnavigationbarform.h
+    navigationbar/frmnavigationbarform.ui
+    navigationbar/main.cpp
+    EXAMPLE_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/navigationbar
+    )
+qextWidgetAddExample(qext_exp_widgetOvenTimer
+    EXAMPLE_SOURCE
+    oventimer/frmoventimer.cpp
+    oventimer/frmoventimer.h
+    oventimer/frmoventimer.ui
+    oventimer/main.cpp
+    EXAMPLE_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/oventimer
     )

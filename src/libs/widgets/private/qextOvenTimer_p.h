@@ -1,0 +1,4 @@
+#ifndef _QEXTOVENTIMER_P_H
+#define _QEXTOVENTIMER_P_H
+
+#endif // _QEXTOVENTIMER_P_H

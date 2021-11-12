@@ -30,22 +30,22 @@ class QEXT_WIDGETS_API QEXTDial : public QWidget
     Q_OBJECT
     Q_ENUMS(PointerStyleType)
 
-    Q_PROPERTY(double m_minValue READ minValue WRITE setMinValue)
-    Q_PROPERTY(double m_maxValue READ maxValue WRITE setMaxValue)
-    Q_PROPERTY(double m_value READ value WRITE setValue)
-    Q_PROPERTY(int m_precision READ precision WRITE setPrecision)
+    Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
+    Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
+    Q_PROPERTY(double value READ value WRITE setValue)
+    Q_PROPERTY(int precision READ precision WRITE setPrecision)
 
-    Q_PROPERTY(int m_scaleMajor READ scaleMajor WRITE setScaleMajor)
-    Q_PROPERTY(int m_scaleMinor READ scaleMinor WRITE setScaleMinor)
-    Q_PROPERTY(int m_startAngle READ startAngle WRITE setStartAngle)
-    Q_PROPERTY(int m_endAngle READ endAngle WRITE setEndAngle)
+    Q_PROPERTY(int scaleMajor READ scaleMajor WRITE setScaleMajor)
+    Q_PROPERTY(int scaleMinor READ scaleMinor WRITE setScaleMinor)
+    Q_PROPERTY(int startAngle READ startAngle WRITE setStartAngle)
+    Q_PROPERTY(int endAngle READ endAngle WRITE setEndAngle)
 
-    Q_PROPERTY(QColor m_darkColor READ darkColor WRITE setDarkColor)
-    Q_PROPERTY(QColor m_lightColor READ lightColor WRITE setLightColor)
-    Q_PROPERTY(QColor m_textColor READ textColor WRITE setTextColor)
+    Q_PROPERTY(QColor darkColor READ darkColor WRITE setDarkColor)
+    Q_PROPERTY(QColor lightColor READ lightColor WRITE setLightColor)
+    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
 
-    Q_PROPERTY(bool m_valueVisiable READ valueVisiable WRITE setShowValue)
-    Q_PROPERTY(PointerStyleType m_pointerStyle READ pointerStyle WRITE setPointerStyle)
+    Q_PROPERTY(bool valueVisiable READ valueVisiable WRITE setShowValue)
+    Q_PROPERTY(PointerStyleType pointerStyle READ pointerStyle WRITE setPointerStyle)
 
 public:
     enum PointerStyleType

@@ -28,27 +28,27 @@ if(QEXT_BUILD_LIB_DEVICEWATCHER)
 endif()
 
 if(QEXT_BUILD_LIB_FONTS)
-add_subdirectory(fonts)
+    add_subdirectory(fonts)
 endif()
 
 if(QEXT_BUILD_LIB_GOOGLEPINYIN)
-add_subdirectory(googlepinyin)
+    add_subdirectory(googlepinyin)
 endif()
 
 if(QEXT_BUILD_LIB_GUI)
-add_subdirectory(gui)
+    add_subdirectory(gui)
 endif()
 
 if(QEXT_BUILD_LIB_ICONS)
-add_subdirectory(icons)
+    add_subdirectory(icons)
 endif()
 
 if(QEXT_BUILD_LIB_LUA)
-add_subdirectory(lua)
+    add_subdirectory(lua)
 endif()
 
 if(QEXT_BUILD_LIB_OSGI)
-add_subdirectory(osgi)
+    add_subdirectory(osgi)
 endif()
 
 if(QEXT_BUILD_LIB_QUICK)
@@ -56,27 +56,23 @@ if(QEXT_BUILD_LIB_QUICK)
 endif()
 
 if(QEXT_BUILD_LIB_SERIALPORT)
-add_subdirectory(serialport)
+    add_subdirectory(serialport)
 endif()
 
 if(QEXT_BUILD_LIB_SINGLEAPP)
-add_subdirectory(singleapp)
-endif()
-
-if(QEXT_BUILD_LIB_STYLESHEET)
-add_subdirectory(stylesheet)
+    add_subdirectory(singleapp)
 endif()
 
 if(QEXT_BUILD_LIB_TCP)
-add_subdirectory(tcp)
+    add_subdirectory(tcp)
 endif()
 
 if(QEXT_BUILD_LIB_UTILS)
-add_subdirectory(utils)
+    add_subdirectory(utils)
 endif()
 
 if(QEXT_BUILD_LIB_WIDGETS)
-add_subdirectory(widgets)
+    add_subdirectory(widgets)
 endif()
 
 if(QEXT_BUILD_LIB_MVVM)
