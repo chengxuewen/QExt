@@ -1,10 +1,9 @@
-#pragma execution_character_set("utf-8")
-
 #include <qextWaveChart.h>
 #include <qextWaveChart_p.h>
 
 #include <QPainter>
 #include <QDebug>
+
 
 
 QPainterPath QEXTSmoothCurveCreator::createSmoothCurve(const QVector<QPointF> &points)
@@ -165,7 +164,7 @@ void QEXTWaveChart::paintEvent(QPaintEvent *)
 
 void QEXTWaveChart::drawBackground(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     painter->save();
     painter->setPen(Qt::NoPen);
     QLinearGradient topGradient(rect().topLeft(), rect().bottomLeft());
@@ -178,7 +177,7 @@ void QEXTWaveChart::drawBackground(QPainter *painter)
 
 void QEXTWaveChart::drawBox(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     painter->save();
 
     QPointF topLeftPoint(d->m_space, d->m_space);
@@ -225,7 +224,7 @@ void QEXTWaveChart::drawBox(QPainter *painter)
 
 void QEXTWaveChart::drawText(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     painter->save();
 
     painter->setPen(d->m_textColor);
@@ -252,7 +251,7 @@ void QEXTWaveChart::drawText(QPainter *painter)
 
 void QEXTWaveChart::drawTitle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (!d->m_titleVisiable)
     {
         return;
@@ -282,7 +281,7 @@ void QEXTWaveChart::drawTitle(QPainter *painter)
 
 void QEXTWaveChart::drawPoint(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     painter->save();
 
     double startX = d->m_plotAreaRect.topRight().x();
@@ -342,7 +341,7 @@ void QEXTWaveChart::drawPoint(QPainter *painter)
 
 void QEXTWaveChart::updateData()
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     int count = d->m_plotAreaRect.width() / d->m_xAxisStep;
     int i = d->m_dataList.count() - count;
 
@@ -355,134 +354,134 @@ void QEXTWaveChart::updateData()
 
 double QEXTWaveChart::minValue() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_minValue;
 }
 
 double QEXTWaveChart::maxValue() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_maxValue;
 }
 
 double QEXTWaveChart::xAxisStep() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_xAxisStep;
 }
 
 double QEXTWaveChart::yAxisStep() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_yAxisStep;
 }
 
 double QEXTWaveChart::hLineStep() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_hLineStep;
 }
 
 double QEXTWaveChart::vLineStep() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_vLineStep;
 }
 
 double QEXTWaveChart::space() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_space;
 }
 
 QString QEXTWaveChart::title() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_title;
 }
 
 bool QEXTWaveChart::smoothEnable() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_smooth;
 }
 
 bool QEXTWaveChart::titleVisiable() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_titleVisiable;
 }
 
 bool QEXTWaveChart::hLineVisiable() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_hLineVisiable;
 }
 
 bool QEXTWaveChart::vLineVisiable() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_vLineVisiable;
 }
 
 bool QEXTWaveChart::pointVisiable() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_pointVisiable;
 }
 
 bool QEXTWaveChart::pointBackgroundVisiable() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_pointBackgroundVisiable;
 }
 
 QColor QEXTWaveChart::backgroundStartColor() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_backgroundStartColor;
 }
 
 QColor QEXTWaveChart::backgroundEndColor() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_backgroundEndColor;
 }
 
 QColor QEXTWaveChart::textColor() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_textColor;
 }
 
 QColor QEXTWaveChart::pointColor() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return d->m_pointColor;
 }
 
 QSize QEXTWaveChart::sizeHint() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return QSize(500, 300);
 }
 
 QSize QEXTWaveChart::minimumSizeHint() const
 {
-    QEXT_DECL_DC(QEXTWaveChart);
+    Q_D(const QEXTWaveChart);
     return QSize(200, 70);
 }
 
 void QEXTWaveChart::addData(double data)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     d->m_dataList.push_front(data);
     this->updateData();
 }
 
 void QEXTWaveChart::setData(const QVector<double> &data)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (data != d->m_dataList)
     {
         d->m_dataList = data;
@@ -492,14 +491,14 @@ void QEXTWaveChart::setData(const QVector<double> &data)
 
 void QEXTWaveChart::clearData()
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     d->m_dataList.clear();
     this->update();
 }
 
 void QEXTWaveChart::setMinValue(double value)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_minValue != value) {
         d->m_minValue = value;
         this->update();
@@ -508,7 +507,7 @@ void QEXTWaveChart::setMinValue(double value)
 
 void QEXTWaveChart::setMaxValue(double value)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_maxValue != value) {
         d->m_maxValue = value;
         this->update();
@@ -517,7 +516,7 @@ void QEXTWaveChart::setMaxValue(double value)
 
 void QEXTWaveChart::setXAxisStep(double step)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_xAxisStep != step) {
         d->m_xAxisStep = step;
         this->update();
@@ -526,7 +525,7 @@ void QEXTWaveChart::setXAxisStep(double step)
 
 void QEXTWaveChart::setYAxisStep(double step)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_yAxisStep != step) {
         d->m_yAxisStep = step;
         this->update();
@@ -535,7 +534,7 @@ void QEXTWaveChart::setYAxisStep(double step)
 
 void QEXTWaveChart::setHLineStep(double step)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_hLineStep != step) {
         d->m_hLineStep = step;
         this->update();
@@ -544,7 +543,7 @@ void QEXTWaveChart::setHLineStep(double step)
 
 void QEXTWaveChart::setVLineStep(double step)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_vLineStep != step) {
         d->m_vLineStep = step;
         this->update();
@@ -553,7 +552,7 @@ void QEXTWaveChart::setVLineStep(double step)
 
 void QEXTWaveChart::setSpace(double space)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_space != space) {
         d->m_space = space;
         this->update();
@@ -562,7 +561,7 @@ void QEXTWaveChart::setSpace(double space)
 
 void QEXTWaveChart::setTitle(const QString &title)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_title != title) {
         d->m_title = title;
         this->update();
@@ -571,7 +570,7 @@ void QEXTWaveChart::setTitle(const QString &title)
 
 void QEXTWaveChart::setSmoothEnable(bool enable)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_smooth != enable) {
         d->m_smooth = enable;
         this->update();
@@ -580,7 +579,7 @@ void QEXTWaveChart::setSmoothEnable(bool enable)
 
 void QEXTWaveChart::setTitleVisiable(bool visiable)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_titleVisiable != visiable) {
         d->m_titleVisiable = visiable;
         this->update();
@@ -589,7 +588,7 @@ void QEXTWaveChart::setTitleVisiable(bool visiable)
 
 void QEXTWaveChart::setHLineVisiable(bool visiable)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_hLineVisiable != visiable) {
         d->m_hLineVisiable = visiable;
         this->update();
@@ -598,7 +597,7 @@ void QEXTWaveChart::setHLineVisiable(bool visiable)
 
 void QEXTWaveChart::setVLineVisiable(bool visiable)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_vLineVisiable != visiable) {
         d->m_vLineVisiable = visiable;
         this->update();
@@ -607,7 +606,7 @@ void QEXTWaveChart::setVLineVisiable(bool visiable)
 
 void QEXTWaveChart::setPointVisiable(bool visiable)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_pointVisiable != visiable) {
         d->m_pointVisiable = visiable;
         this->update();
@@ -616,7 +615,7 @@ void QEXTWaveChart::setPointVisiable(bool visiable)
 
 void QEXTWaveChart::setPointBackgroundVisiable(bool visiable)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_pointBackgroundVisiable != visiable) {
         d->m_pointBackgroundVisiable = visiable;
         this->update();
@@ -625,7 +624,7 @@ void QEXTWaveChart::setPointBackgroundVisiable(bool visiable)
 
 void QEXTWaveChart::setBackgroundStartColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_backgroundStartColor != color) {
         d->m_backgroundStartColor = color;
         this->update();
@@ -634,7 +633,7 @@ void QEXTWaveChart::setBackgroundStartColor(const QColor &color)
 
 void QEXTWaveChart::setBackgroundEndColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_backgroundEndColor != color) {
         d->m_backgroundEndColor = color;
         this->update();
@@ -643,7 +642,7 @@ void QEXTWaveChart::setBackgroundEndColor(const QColor &color)
 
 void QEXTWaveChart::setTextColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_textColor != color) {
         d->m_textColor = color;
         this->update();
@@ -652,7 +651,7 @@ void QEXTWaveChart::setTextColor(const QColor &color)
 
 void QEXTWaveChart::setPointColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTWaveChart);
+    Q_D(QEXTWaveChart);
     if (d->m_pointColor != color) {
         d->m_pointColor = color;
         this->update();

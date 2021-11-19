@@ -1,10 +1,10 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmnavigationbutton.h"
+﻿#include "frmnavigationbutton.h"
 #include "iconhelper.h"
 #include "ui_frmnavigationbutton.h"
 
 #include <QDebug>
+
+
 
 FrmNavigationButton::FrmNavigationButton(QWidget *parent) : QWidget(parent), ui(new Ui::FrmNavigationButton)
 {

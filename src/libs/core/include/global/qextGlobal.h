@@ -164,20 +164,6 @@
 
 
 /********************************************************************************
- * class private implementation macro
-********************************************************************************/
-#define QEXT_DECL_PRIVATE(Class) Q_DECLARE_PRIVATE(Class)
-#define QEXT_DECL_PRIVATE_D(Dptr, Class) Q_DECLARE_PRIVATE_D(Dptr, Class)
-#define QEXT_DECL_PUBLIC(Class) Q_DECLARE_PUBLIC(Class)
-#define QEXT_DECL_D(Class) Q_D(Class)
-#define QEXT_DECL_DC(Class) QEXT_DECL_D(const Class)
-#define QEXT_DECL_Q(Class) Q_Q(Class)
-#define QEXT_DECL_QC(Class) QEXT_DECL_Q(const Class)
-#define QEXT_PRIVATE_SLOT(Func) Q_PRIVATE_SLOT(d_func(), Func)
-
-
-
-/********************************************************************************
     QEXT unused macro declare
 ********************************************************************************/
 #if defined(QEXT_CC_GNU) || defined(QEXT_CC_CLANG)
@@ -197,13 +183,14 @@
     #ifdef QEXT_BUILD_CORE_LIB    // defined if we are building the lib
         #define QEXT_CORE_API QEXT_DECL_EXPORT
     #else
-        #define QEXT_CORE_API QEXT_DECL_IMPORT
+        #define QEXT_CORE_API Q_DECL_IMPORT
     #endif
     #define QEXT_CORE_HIDDEN QEXT_DECL_HIDDEN
 #else // compiled as a static lib.
     #define QEXT_CORE_API
     #define QEXT_CORE_HIDDEN
 #endif
+
 
 
 /********************************************************************************

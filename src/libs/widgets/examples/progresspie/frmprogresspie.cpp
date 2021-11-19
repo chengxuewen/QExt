@@ -1,9 +1,9 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmprogresspie.h"
+﻿#include "frmprogresspie.h"
 #include "ui_frmprogresspie.h"
 
 #include "qextProgressPie.h"
+
+
 
 frmProgressPie::frmProgressPie(QWidget *parent) : QWidget(parent), ui(new Ui::frmProgressPie)
 {

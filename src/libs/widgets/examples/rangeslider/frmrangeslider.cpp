@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmrangeslider.h"
+﻿#include "frmrangeslider.h"
 #include "ui_frmrangeslider.h"
+
+
 
 frmRangeSlider::frmRangeSlider(QWidget *parent) : QWidget(parent), ui(new Ui::frmRangeSlider)
 {

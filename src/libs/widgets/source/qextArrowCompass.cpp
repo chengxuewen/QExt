@@ -1,12 +1,11 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextArrowCompass.h>
+﻿#include <qextArrowCompass.h>
 #include <qextArrowCompass_p.h>
 
 #include <QPainter>
 #include <QTimer>
 #include <QDebug>
 #include <qmath.h>
+
 
 
 QEXTArrowCompassPrivate::QEXTArrowCompassPrivate(QEXTArrowCompass *q)
@@ -46,7 +45,7 @@ QEXTArrowCompassPrivate::~QEXTArrowCompassPrivate()
 QEXTArrowCompass::QEXTArrowCompass(QWidget *parent)
     : QWidget(parent), d_ptr(new QEXTArrowCompassPrivate(this))
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     d->m_animation = new QPropertyAnimation(this, "");
     d->m_animation->setDuration(500);
     d->m_animation->setEasingCurve(QEasingCurve::Linear);
@@ -62,7 +61,7 @@ QEXTArrowCompass::~QEXTArrowCompass()
 
 void QEXTArrowCompass::paintEvent(QPaintEvent *)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
@@ -97,7 +96,7 @@ void QEXTArrowCompass::paintEvent(QPaintEvent *)
 
 void QEXTArrowCompass::drawCrownCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     int radius = 99;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -111,7 +110,7 @@ void QEXTArrowCompass::drawCrownCircle(QPainter *painter)
 
 void QEXTArrowCompass::drawBackgroundCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     int radius = 90;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -125,7 +124,7 @@ void QEXTArrowCompass::drawBackgroundCircle(QPainter *painter)
 
 void QEXTArrowCompass::drawScale(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     int radius = 85;
     painter->save();
 
@@ -155,7 +154,7 @@ void QEXTArrowCompass::drawScale(QPainter *painter)
 
 void QEXTArrowCompass::drawScaleNum(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     int radius = 88;
     painter->save();
     painter->setPen(d->m_foregroundColor);
@@ -182,7 +181,7 @@ void QEXTArrowCompass::drawScaleNum(QPainter *painter)
 
 void QEXTArrowCompass::drawCoverOuterCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     int radius = 68;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -196,7 +195,7 @@ void QEXTArrowCompass::drawCoverOuterCircle(QPainter *painter)
 
 void QEXTArrowCompass::drawCoverInnerCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     int radius = 60;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -210,7 +209,7 @@ void QEXTArrowCompass::drawCoverInnerCircle(QPainter *painter)
 
 void QEXTArrowCompass::drawCoverCenterCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     int radius = 15;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -225,7 +224,7 @@ void QEXTArrowCompass::drawCoverCenterCircle(QPainter *painter)
 
 void QEXTArrowCompass::drawPointer(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     int radius = 75;
 
     QPolygon pts;
@@ -251,7 +250,7 @@ void QEXTArrowCompass::drawPointer(QPainter *painter)
 
 void QEXTArrowCompass::drawCenterCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     int radius = 12;
     painter->save();
     painter->setOpacity(1.0);
@@ -266,7 +265,7 @@ void QEXTArrowCompass::drawCenterCircle(QPainter *painter)
 
 void QEXTArrowCompass::drawValue(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     int radius = 100;
     painter->save();
     painter->setPen(d->m_textColor);
@@ -285,7 +284,7 @@ void QEXTArrowCompass::drawValue(QPainter *painter)
 
 void QEXTArrowCompass::updateValue(const QVariant &value)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     const double animationValue = value.toDouble();
     if (animationValue != d->m_currentValue)
     {
@@ -296,103 +295,103 @@ void QEXTArrowCompass::updateValue(const QVariant &value)
 
 double QEXTArrowCompass::value() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_value;
 }
 
 int QEXTArrowCompass::precision() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_precision;
 }
 
 bool QEXTArrowCompass::animationEnable() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_animationVisiable;
 }
 
 int QEXTArrowCompass::animationDuration() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_animation->duration();
 }
 
 QEasingCurve::Type QEXTArrowCompass::animationEasingCurve() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_animation->easingCurve().type();
 }
 
 QColor QEXTArrowCompass::crownStartColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_crownColorStart;
 }
 
 QColor QEXTArrowCompass::crownEndColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_crownColorEnd;
 }
 
 QColor QEXTArrowCompass::backgroundStartColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_backgroundStartColor;
 }
 
 QColor QEXTArrowCompass::backgroundEndColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_backgroundEndColor;
 }
 
 QColor QEXTArrowCompass::darkColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_darkColor;
 }
 
 QColor QEXTArrowCompass::lightColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_lightColor;
 }
 
 QColor QEXTArrowCompass::foregroundColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_foregroundColor;
 }
 
 QColor QEXTArrowCompass::textColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_textColor;
 }
 
 QColor QEXTArrowCompass::northPointerColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_northPointerColor;
 }
 
 QColor QEXTArrowCompass::southPointerColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_southPointerColor;
 }
 
 QColor QEXTArrowCompass::centerStartColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_centerStartColor;
 }
 
 QColor QEXTArrowCompass::centerEndColor() const
 {
-    QEXT_DECL_DC(QEXTArrowCompass);
+    Q_D(const QEXTArrowCompass);
     return d->m_centerEndColor;
 }
 
@@ -408,7 +407,7 @@ QSize QEXTArrowCompass::minimumSizeHint() const
 
 void QEXTArrowCompass::setValue(double value)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     //值和当前值一致则无需处理
     if (value == d->m_value)
     {
@@ -448,7 +447,7 @@ void QEXTArrowCompass::setValue(int value)
 
 void QEXTArrowCompass::setPrecision(int precision)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     //最大精确度为 3
     if (precision <= 3 && d->m_precision != precision)
     {
@@ -459,7 +458,7 @@ void QEXTArrowCompass::setPrecision(int precision)
 
 void QEXTArrowCompass::setAnimationEnable(bool enable)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_animationVisiable != enable)
     {
         d->m_animationVisiable = enable;
@@ -469,7 +468,7 @@ void QEXTArrowCompass::setAnimationEnable(bool enable)
 
 void QEXTArrowCompass::setAnimationDuration(int duration)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (duration <= 0)
     {
         qCritical() << "QEXTArrowCompass::setAnimationDuration():duration must greater than 0";
@@ -483,13 +482,13 @@ void QEXTArrowCompass::setAnimationDuration(int duration)
 
 void QEXTArrowCompass::setAnimationEasingCurve(QEasingCurve::Type easingCurve)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     d->m_animation->setEasingCurve(easingCurve);
 }
 
 void QEXTArrowCompass::setCrownStartColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_crownColorStart != color)
     {
         d->m_crownColorStart = color;
@@ -499,7 +498,7 @@ void QEXTArrowCompass::setCrownStartColor(const QColor &color)
 
 void QEXTArrowCompass::setCrownEndColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_crownColorEnd != color)
     {
         d->m_crownColorEnd = color;
@@ -509,7 +508,7 @@ void QEXTArrowCompass::setCrownEndColor(const QColor &color)
 
 void QEXTArrowCompass::setBackgroundStartColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_backgroundStartColor != color)
     {
         d->m_backgroundStartColor = color;
@@ -519,7 +518,7 @@ void QEXTArrowCompass::setBackgroundStartColor(const QColor &color)
 
 void QEXTArrowCompass::setBackgroundEndColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_backgroundEndColor != color)
     {
         d->m_backgroundEndColor = color;
@@ -529,7 +528,7 @@ void QEXTArrowCompass::setBackgroundEndColor(const QColor &color)
 
 void QEXTArrowCompass::setDarkColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_darkColor != color)
     {
         d->m_darkColor = color;
@@ -539,7 +538,7 @@ void QEXTArrowCompass::setDarkColor(const QColor &color)
 
 void QEXTArrowCompass::setLightColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_lightColor != color)
     {
         d->m_lightColor = color;
@@ -549,7 +548,7 @@ void QEXTArrowCompass::setLightColor(const QColor &color)
 
 void QEXTArrowCompass::setForegroundColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_foregroundColor != color)
     {
         d->m_foregroundColor = color;
@@ -559,7 +558,7 @@ void QEXTArrowCompass::setForegroundColor(const QColor &color)
 
 void QEXTArrowCompass::setTextColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_textColor != color)
     {
         d->m_textColor = color;
@@ -569,7 +568,7 @@ void QEXTArrowCompass::setTextColor(const QColor &color)
 
 void QEXTArrowCompass::setNorthPointerColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_northPointerColor != color)
     {
         d->m_northPointerColor = color;
@@ -579,7 +578,7 @@ void QEXTArrowCompass::setNorthPointerColor(const QColor &color)
 
 void QEXTArrowCompass::setSouthPointerColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_southPointerColor != color)
     {
         d->m_southPointerColor = color;
@@ -589,7 +588,7 @@ void QEXTArrowCompass::setSouthPointerColor(const QColor &color)
 
 void QEXTArrowCompass::setCenterStartColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_centerStartColor != color)
     {
         d->m_centerStartColor = color;
@@ -599,7 +598,7 @@ void QEXTArrowCompass::setCenterStartColor(const QColor &color)
 
 void QEXTArrowCompass::setCenterEndColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTArrowCompass);
+    Q_D(QEXTArrowCompass);
     if (d->m_centerEndColor != color)
     {
         d->m_centerEndColor = color;

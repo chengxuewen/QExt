@@ -26,7 +26,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmModelPrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmModel)
+    Q_DECLARE_PUBLIC(QEXTMvvmModel)
 };
 
 #endif // _QEXTMVVMMODEL_P_H

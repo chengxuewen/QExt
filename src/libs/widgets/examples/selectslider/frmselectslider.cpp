@@ -1,8 +1,8 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmselectslider.h"
+﻿#include "frmselectslider.h"
 #include "ui_frmselectslider.h"
 #include "qextSelectSlider.h"
+
+
 
 frmSelectSlider::frmSelectSlider(QWidget *parent) : QWidget(parent), ui(new Ui::frmSelectSlider)
 {

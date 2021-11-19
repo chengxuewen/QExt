@@ -1,9 +1,11 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "dialog.h"
+﻿#include "dialog.h"
 
 #include <QApplication>
 #include <QTextCodec>
+
+#include <qextGlobal.h>
+
+
 
 int main(int argc, char *argv[])
 {

@@ -1,12 +1,11 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextSwitchButton.h>
+﻿#include <qextSwitchButton.h>
 #include <qextSwitchButton_p.h>
 
 #include <QDebug>
 #include <QEvent>
 #include <QPainter>
 #include <QTimer>
+
 
 
 QEXTSwitchButtonPrivate::QEXTSwitchButtonPrivate(QEXTSwitchButton *q)
@@ -50,7 +49,7 @@ QEXTSwitchButtonPrivate::~QEXTSwitchButtonPrivate()
 QEXTSwitchButton::QEXTSwitchButton(QWidget *parent)
     : QWidget(parent), d_ptr(new QEXTSwitchButtonPrivate(this))
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     d->m_step = this->width() / 50;
     d->m_timer.reset(new QTimer);
     d->m_timer->setInterval(30);
@@ -64,7 +63,7 @@ QEXTSwitchButton::~QEXTSwitchButton()
 
 void QEXTSwitchButton::mousePressEvent(QMouseEvent *)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     d->m_checked = !d->m_checked;
     emit checkedChanged(d->m_checked);
 
@@ -94,7 +93,7 @@ void QEXTSwitchButton::mousePressEvent(QMouseEvent *)
 
 void QEXTSwitchButton::resizeEvent(QResizeEvent *)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     //每次移动的步长为宽度的 50分之一
     d->m_step = width() / 50;
 
@@ -128,7 +127,7 @@ void QEXTSwitchButton::paintEvent(QPaintEvent *)
 
 void QEXTSwitchButton::drawBackground(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     painter->save();
     painter->setPen(Qt::NoPen);
 
@@ -208,7 +207,7 @@ void QEXTSwitchButton::drawBackground(QPainter *painter)
 
 void QEXTSwitchButton::drawSlider(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     painter->save();
     painter->setPen(Qt::NoPen);
 
@@ -255,7 +254,7 @@ void QEXTSwitchButton::change()
 
 void QEXTSwitchButton::updateValue()
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_checked) {
         if (d->m_startX < d->m_endX) {
             d->m_startX = d->m_startX + d->m_step;
@@ -277,91 +276,91 @@ void QEXTSwitchButton::updateValue()
 
 int QEXTSwitchButton::space() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_space;
 }
 
 int QEXTSwitchButton::rectRadius() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_rectRadius;
 }
 
 bool QEXTSwitchButton::checked() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_checked;
 }
 
 bool QEXTSwitchButton::isTextVisiable() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_textVisiable;
 }
 
 bool QEXTSwitchButton::isCircleVisiable() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_circleVisiable;
 }
 
 bool QEXTSwitchButton::isAnimationEnable() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_animationEnable;
 }
 
 QEXTSwitchButton::Style QEXTSwitchButton::styleType() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_buttonStyle;
 }
 
 QColor QEXTSwitchButton::backgroundOffColor() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_backgroundOffColor;
 }
 
 QColor QEXTSwitchButton::backgroundOnColor() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_backgroundOnColor;
 }
 
 QColor QEXTSwitchButton::sliderOffColor() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_sliderOffColor;
 }
 
 QColor QEXTSwitchButton::sliderOnColor() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_sliderOnColor;
 }
 
 QColor QEXTSwitchButton::textOffColor() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_offTextColor;
 }
 
 QColor QEXTSwitchButton::textOnColor() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_onTextColor;
 }
 
 QString QEXTSwitchButton::offText() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_offText;
 }
 
 QString QEXTSwitchButton::onText() const
 {
-    QEXT_DECL_DC(QEXTSwitchButton);
+    Q_D(const QEXTSwitchButton);
     return d->m_onText;
 }
 
@@ -377,7 +376,7 @@ QSize QEXTSwitchButton::minimumSizeHint() const
 
 void QEXTSwitchButton::setSpace(int space)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (space != d->m_space) {
         d->m_space = space;
         this->update();
@@ -386,7 +385,7 @@ void QEXTSwitchButton::setSpace(int space)
 
 void QEXTSwitchButton::setRectRadius(int radius)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_rectRadius != radius) {
         d->m_rectRadius = radius;
         this->update();
@@ -395,7 +394,7 @@ void QEXTSwitchButton::setRectRadius(int radius)
 
 void QEXTSwitchButton::setChecked(bool checked)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     //如果刚刚初始化完成的属性改变则延时处理
     if (d->m_checked != checked) {
         if (d->m_step == 0) {
@@ -408,7 +407,7 @@ void QEXTSwitchButton::setChecked(bool checked)
 
 void QEXTSwitchButton::setTextVisiable(bool visiable)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_textVisiable != visiable) {
         d->m_textVisiable = visiable;
         this->update();
@@ -417,7 +416,7 @@ void QEXTSwitchButton::setTextVisiable(bool visiable)
 
 void QEXTSwitchButton::setCircleVisiable(bool visiable)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_circleVisiable != visiable) {
         d->m_circleVisiable = visiable;
         this->update();
@@ -426,7 +425,7 @@ void QEXTSwitchButton::setCircleVisiable(bool visiable)
 
 void QEXTSwitchButton::setAnimationEnable(bool enable)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_animationEnable != enable) {
         d->m_animationEnable = enable;
         this->update();
@@ -435,7 +434,7 @@ void QEXTSwitchButton::setAnimationEnable(bool enable)
 
 void QEXTSwitchButton::setStyleType(const QEXTSwitchButton::Style &style)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_buttonStyle != style) {
         d->m_buttonStyle = style;
         this->update();
@@ -444,7 +443,7 @@ void QEXTSwitchButton::setStyleType(const QEXTSwitchButton::Style &style)
 
 void QEXTSwitchButton::setOffBackgroundColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_backgroundOffColor != color) {
         d->m_backgroundOffColor = color;
         this->update();
@@ -453,7 +452,7 @@ void QEXTSwitchButton::setOffBackgroundColor(const QColor &color)
 
 void QEXTSwitchButton::setOnBackgroundColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_backgroundOnColor != color) {
         d->m_backgroundOnColor = color;
         this->update();
@@ -462,7 +461,7 @@ void QEXTSwitchButton::setOnBackgroundColor(const QColor &color)
 
 void QEXTSwitchButton::setOffSliderColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_sliderOffColor != color) {
         d->m_sliderOffColor = color;
         this->update();
@@ -471,7 +470,7 @@ void QEXTSwitchButton::setOffSliderColor(const QColor &color)
 
 void QEXTSwitchButton::setOnSliderColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_sliderOnColor != color) {
         d->m_sliderOnColor = color;
         this->update();
@@ -480,7 +479,7 @@ void QEXTSwitchButton::setOnSliderColor(const QColor &color)
 
 void QEXTSwitchButton::setOffTextColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_offTextColor != color) {
         d->m_offTextColor = color;
         this->update();
@@ -489,7 +488,7 @@ void QEXTSwitchButton::setOffTextColor(const QColor &color)
 
 void QEXTSwitchButton::setOnTextColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_onTextColor != color) {
         d->m_onTextColor = color;
         this->update();
@@ -498,7 +497,7 @@ void QEXTSwitchButton::setOnTextColor(const QColor &color)
 
 void QEXTSwitchButton::setOffText(const QString &text)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (text != d->m_offText) {
         d->m_offText = text;
         this->update();
@@ -507,7 +506,7 @@ void QEXTSwitchButton::setOffText(const QString &text)
 
 void QEXTSwitchButton::setOnText(const QString &text)
 {
-    QEXT_DECL_D(QEXTSwitchButton);
+    Q_D(QEXTSwitchButton);
     if (d->m_onText != text) {
         d->m_onText = text;
         this->update();

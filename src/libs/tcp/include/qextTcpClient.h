@@ -60,7 +60,7 @@ protected:
     void initClient();
 
 private:
-    QEXT_DECL_PRIVATE(QEXTTcpClient)
+    Q_DECLARE_PRIVATE(QEXTTcpClient)
     QEXT_DECL_DISABLE_COPY(QEXTTcpClient)
 };
 

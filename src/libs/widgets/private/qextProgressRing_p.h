@@ -50,7 +50,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressRingPrivate)
-    QEXT_DECL_PUBLIC(QEXTProgressRing)
+    Q_DECLARE_PUBLIC(QEXTProgressRing)
 };
 
 

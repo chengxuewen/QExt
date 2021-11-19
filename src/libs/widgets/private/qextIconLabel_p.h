@@ -14,7 +14,7 @@ public:
     QEXTIconLabel * const q_ptr;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTIconLabel)
+    Q_DECLARE_PUBLIC(QEXTIconLabel)
     QEXT_DECL_DISABLE_COPY(QEXTIconLabelPrivate)
 };
 

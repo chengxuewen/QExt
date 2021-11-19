@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
 #endif
 
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
     QApplication app(argc, argv);
 
     LFAMMainWindow w;

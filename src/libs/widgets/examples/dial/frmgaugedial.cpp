@@ -1,9 +1,9 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmgaugedial.h"
+﻿#include "frmgaugedial.h"
 #include "ui_frmgaugedial.h"
 
 #include <qextDial.h>
+
+
 
 frmGaugeDial::frmGaugeDial(QWidget *parent) : QWidget(parent), ui(new Ui::frmGaugeDial)
 {

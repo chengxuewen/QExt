@@ -19,7 +19,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmUndoStackPrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmUndoStack)
+    Q_DECLARE_PUBLIC(QEXTMvvmUndoStack)
 };
 
 #endif // _QEXTMVVMUNDOSTACK_P_H

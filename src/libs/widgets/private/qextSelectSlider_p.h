@@ -17,9 +17,9 @@ public:
     QEXTSelectSlider * const q_ptr;
 
 
-    int m_maxValue;                   //最小值
-    int m_minValue;                   //最大值
-    int m_leftValue;                  //范围值左边
+    int m_maxValue;
+    int m_minValue;
+    int m_leftValue;
     int m_rightValue;                 //范围值右边
 
     int m_rangeValue;                 //当前范围值 最大值-最小值
@@ -43,26 +43,25 @@ public:
     QPoint m_posPress;                //鼠标按下时的坐标
     QPoint m_posMove;                 //鼠标拖动后的坐标
 
-    bool m_sliderPress;               //主滑块按下
-    bool m_leftPress;                 //左控制滑块按下
-    bool m_rightPress;                //右控制滑块按下
-    bool m_leftButtonPress;              //左单步按钮按下
-    bool m_rightButtonPress;             //右单步按钮按下
+    bool m_sliderPress;
+    bool m_leftPress;
+    bool m_rightPress;
+    bool m_leftButtonPress;
+    bool m_rightButtonPress;
 
-    QRect m_sliderRect;               //主滑块rect
-    QRect m_leftRect;                 //左控制滑块rect
-    QRect m_rightRect;                //右控制滑块rect
-    QRect m_leftBtnRect;              //左单步按钮rect
-    QRect m_rightBtnRect;             //右单步按钮rect
+    QRect m_sliderRect;
+    QRect m_leftRect;
+    QRect m_rightRect;
+    QRect m_leftBtnRect;
+    QRect m_rightBtnRect;
 
-    QRect m_sliderRectTemp;           //主滑块初始rect
-    QRect m_leftRectTemp;             //左控制滑块初始rect
-    QRect m_rightRectTemp;            //右控制滑块初始rect
-
+    QRect m_sliderRectTemp;
+    QRect m_leftRectTemp;
+    QRect m_rightRectTemp;
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTSelectSliderPrivate)
-    QEXT_DECL_PUBLIC(QEXTSelectSlider)
+    Q_DECLARE_PUBLIC(QEXTSelectSlider)
 };
 
 #endif // _QEXTSELECTSLIDER_P_H

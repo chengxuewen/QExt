@@ -30,7 +30,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmPropertyFlatView)
-    QEXT_DECL_PRIVATE(QEXTMvvmPropertyFlatView)
+    Q_DECLARE_PRIVATE(QEXTMvvmPropertyFlatView)
 };
 
 

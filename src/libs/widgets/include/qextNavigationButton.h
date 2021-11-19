@@ -28,6 +28,8 @@ class QEXTNavigationButtonPrivate;
 class QEXT_WIDGETS_API QEXTNavigationButton : public QPushButton
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTNavigationButton)
+    Q_DECLARE_PRIVATE(QEXTNavigationButton)
 
     Q_PROPERTY(int leftPadding READ leftPadding WRITE setLeftPadding)
     Q_PROPERTY(int rightPadding READ rightPadding WRITE setRightPadding)
@@ -184,10 +186,6 @@ protected:
     void drawTriangle(QPainter *painter);
 
     QScopedPointer<QEXTNavigationButtonPrivate> d_ptr;
-
-private:
-    QEXT_DECL_PRIVATE(QEXTNavigationButton)
-    QEXT_DECL_DISABLE_COPY(QEXTNavigationButton)
 };
 
 #endif // _QEXTNAVIGATIONBUTTON_H

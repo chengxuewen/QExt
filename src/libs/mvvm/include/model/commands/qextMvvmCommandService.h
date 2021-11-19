@@ -52,7 +52,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmCommandService)
-    QEXT_DECL_PRIVATE(QEXTMvvmCommandService)
+    Q_DECLARE_PRIVATE(QEXTMvvmCommandService)
 };
 
 

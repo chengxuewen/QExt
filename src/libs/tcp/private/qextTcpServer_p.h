@@ -42,7 +42,7 @@ public:
     QThread m_socketThread;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTTcpServer)
+    Q_DECLARE_PUBLIC(QEXTTcpServer)
     QEXT_DECL_DISABLE_COPY(QEXTTcpServerPrivate)
 };
 

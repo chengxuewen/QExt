@@ -55,7 +55,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTFramelessDialog)
-    QEXT_DECL_PRIVATE(QEXTFramelessDialog)
+    Q_DECLARE_PRIVATE(QEXTFramelessDialog)
 };
 
 #endif // _QEXTFRAMELESSDIALOG_H

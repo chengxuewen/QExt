@@ -1,4 +1,0 @@
-#ifndef _QEXTGUIGRADIENT_P_H
-#define _QEXTGUIGRADIENT_P_H
-
-#endif // _QEXTGUIGRADIENT_P_H

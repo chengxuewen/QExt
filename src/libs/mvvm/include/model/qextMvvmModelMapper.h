@@ -58,7 +58,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmModelMapper)
-    QEXT_DECL_PRIVATE(QEXTMvvmModelMapper)
+    Q_DECLARE_PRIVATE(QEXTMvvmModelMapper)
 };
 
 #endif // _QEXTMVVMMODELMAPPER_H

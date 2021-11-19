@@ -21,7 +21,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmItemCataloguePrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmItemCatalogue)
+    Q_DECLARE_PUBLIC(QEXTMvvmItemCatalogue)
 };
 
 #endif // _QEXTMVVMITEMCATALOGUE_P_H

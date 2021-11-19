@@ -21,7 +21,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmInsertNewItemCommand)
-    QEXT_DECL_PRIVATE(QEXTMvvmInsertNewItemCommand)
+    Q_DECLARE_PRIVATE(QEXTMvvmInsertNewItemCommand)
 };
 
 

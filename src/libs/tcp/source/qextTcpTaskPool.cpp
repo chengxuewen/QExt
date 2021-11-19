@@ -28,7 +28,7 @@ QEXTTcpTaskPoolPrivate::~QEXTTcpTaskPoolPrivate()
 QEXTTcpTaskPool::QEXTTcpTaskPool(QEXTTcpPacketDispatcher *dispatcher)
     : QObject(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpTaskPoolPrivate(this))
 {
-    QEXT_DECL_D(QEXTTcpTaskPool);
+    Q_D(QEXTTcpTaskPool);
     d->m_packetDispatcher = dispatcher;
 }
 
@@ -39,37 +39,37 @@ QEXTTcpTaskPool::~QEXTTcpTaskPool()
 
 bool QEXTTcpTaskPool::isWaitingTaskEmpty() const
 {
-    QEXT_DECL_DC(QEXTTcpTaskPool);
+    Q_D(const QEXTTcpTaskPool);
     return 0 == d->m_waitingTaskQueue.count();
 }
 
 bool QEXTTcpTaskPool::isRunningTaskEmpty() const
 {
-    QEXT_DECL_DC(QEXTTcpTaskPool);
+    Q_D(const QEXTTcpTaskPool);
     return 0 == d->m_runningTaskSet.count();
 }
 
 int QEXTTcpTaskPool::waitingTaskCount() const
 {
-    QEXT_DECL_DC(QEXTTcpTaskPool);
+    Q_D(const QEXTTcpTaskPool);
     return d->m_waitingTaskQueue.count();
 }
 
 int QEXTTcpTaskPool::runningTaskCount() const
 {
-    QEXT_DECL_DC(QEXTTcpTaskPool);
+    Q_D(const QEXTTcpTaskPool);
     return d->m_runningTaskSet.count();
 }
 
 QThreadPool *QEXTTcpTaskPool::threadPool() const
 {
-    QEXT_DECL_DC(QEXTTcpTaskPool);
+    Q_D(const QEXTTcpTaskPool);
     return const_cast<QThreadPool *>(&d->m_threadPool);
 }
 
 void QEXTTcpTaskPool::enqueueTask(QEXTTcpTask *task)
 {
-    QEXT_DECL_D(QEXTTcpTaskPool);
+    Q_D(QEXTTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_mutex);
     task->setParent(QEXT_DECL_NULLPTR);
     task->setAutoDelete(true);
@@ -89,7 +89,7 @@ void QEXTTcpTaskPool::enqueueTask(QEXTTcpTask *task)
 
 void QEXTTcpTaskPool::onTaskError(const QString &error)
 {
-    QEXT_DECL_D(QEXTTcpTaskPool);
+    Q_D(QEXTTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_mutex);
     QEXTTcpTask *task = qobject_cast<QEXTTcpTask *>(this->sender());
     quint64 id = d->m_idToTaskMap.key(task);
@@ -99,7 +99,7 @@ void QEXTTcpTaskPool::onTaskError(const QString &error)
 
 void QEXTTcpTaskPool::onTaskFinished(quint64 id)
 {
-    QEXT_DECL_D(QEXTTcpTaskPool);
+    Q_D(QEXTTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_mutex);
     QEXTTcpTask *task = d->m_idToTaskMap.value(id);
     QEXTId identityId = d->m_idToIdentityIdMap.value(id);

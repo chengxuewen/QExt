@@ -33,7 +33,7 @@ QEXTLed::~QEXTLed()
 
 QColor QEXTLed::color() const
 {
-    QEXT_DECL_DC(QEXTLed);
+    Q_D(const QEXTLed);
     return d->m_color;
 }
 
@@ -49,7 +49,7 @@ QSize QEXTLed::minimumSizeHint() const
 
 void QEXTLed::setColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTLed);
+    Q_D(QEXTLed);
     if (d->m_color != color)
     {
         d->m_color = color;
@@ -60,13 +60,13 @@ void QEXTLed::setColor(const QColor &color)
 
 bool QEXTLed::isOn() const
 {
-    QEXT_DECL_DC(QEXTLed);
+    Q_D(const QEXTLed);
     return d->m_on;
 }
 
 void QEXTLed::setOn(bool on)
 {
-    QEXT_DECL_D(QEXTLed);
+    Q_D(QEXTLed);
     if (on != d->m_on)
     {
         d->m_on = on;
@@ -87,14 +87,14 @@ void QEXTLed::turnOff()
 
 void QEXTLed::toggle()
 {
-    QEXT_DECL_D(QEXTLed);
+    Q_D(QEXTLed);
     this->setOn(!d->m_on);
 }
 
 void QEXTLed::paintEvent(QPaintEvent* event)
 {
     Q_UNUSED(event)
-    QEXT_DECL_D(QEXTLed);
+    Q_D(QEXTLed);
     const qreal r = std::min(width(), height()) / 2; // maximum radius including glow
     const qreal glowOffset = std::max(2., r/5.);
     const qreal borderOffset = std::max(1., r/10.);

@@ -35,7 +35,7 @@ QEXTTcpClientPrivate::~QEXTTcpClientPrivate()
 QEXTTcpClient::QEXTTcpClient()
     : QEXTTcpPacketTransceiver(new QEXTTcpClientPrivate(this))
 {
-    QEXT_DECL_D(QEXTTcpClient);
+    Q_D(QEXTTcpClient);
     this->initClient();
     this->setTcpFactory(QSharedPointer<QEXTTcpFactory>(new QEXTTcpFactory));
 }
@@ -68,25 +68,25 @@ QEXTTcpClient::~QEXTTcpClient()
 
 QSharedPointer<QEXTTcpSocket> QEXTTcpClient::socket() const
 {
-    QEXT_DECL_DC(QEXTTcpClient);
+    Q_D(const QEXTTcpClient);
     return d->m_socket;
 }
 
 QAbstractSocket::SocketState QEXTTcpClient::socketState() const
 {
-    QEXT_DECL_DC(QEXTTcpClient);
+    Q_D(const QEXTTcpClient);
     return d->m_socket->state();
 }
 
 bool QEXTTcpClient::isSocketConnected() const
 {
-    QEXT_DECL_DC(QEXTTcpClient);
+    Q_D(const QEXTTcpClient);
     return d->m_socket->isConnected();
 }
 
 void QEXTTcpClient::startConnection(const QString &ipAddr, quint16 port)
 {
-    QEXT_DECL_D(QEXTTcpClient);
+    Q_D(QEXTTcpClient);
     emit this->tryToClose();
     emit this->tryToConnect(ipAddr, port);
 }
@@ -103,28 +103,28 @@ void QEXTTcpClient::abortConnection()
 
 QString QEXTTcpClient::serverAddress() const
 {
-    QEXT_DECL_DC(QEXTTcpClient);
+    Q_D(const QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     return d->m_socket->peerAddress().toString();
 }
 
 quint16 QEXTTcpClient::serverPort() const
 {
-    QEXT_DECL_DC(QEXTTcpClient);
+    Q_D(const QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     return d->m_socket->peerPort();
 }
 
 int QEXTTcpClient::maxTaskThreadCount() const
 {
-    QEXT_DECL_DC(QEXTTcpClient);
+    Q_D(const QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     return d->m_maxTaskThreadCount;
 }
 
 void QEXTTcpClient::setMaxTaskThreadCount(int maxThreadCount)
 {
-    QEXT_DECL_D(QEXTTcpClient);
+    Q_D(QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     if (maxThreadCount != d->m_maxTaskThreadCount)
     {
@@ -135,7 +135,7 @@ void QEXTTcpClient::setMaxTaskThreadCount(int maxThreadCount)
 
 void QEXTTcpClient::runTask(int function)
 {
-    QEXT_DECL_DC(QEXTTcpClient);
+    Q_D(const QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     if (!d->m_tcpFactory.isNull())
     {
@@ -149,7 +149,7 @@ void QEXTTcpClient::runTask(int function)
 
 void QEXTTcpClient::runTask(QEXTTcpTask *task)
 {
-    QEXT_DECL_DC(QEXTTcpClient);
+    Q_D(const QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     if (!d->m_tcpFactory.isNull())
     {
@@ -162,14 +162,14 @@ void QEXTTcpClient::runTask(QEXTTcpTask *task)
 
 QSharedPointer<QEXTTcpFactory> QEXTTcpClient::tcpFactory() const
 {
-    QEXT_DECL_DC(QEXTTcpClient);
+    Q_D(const QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     return d->m_tcpFactory;
 }
 
 void QEXTTcpClient::setTcpFactory(const QSharedPointer<QEXTTcpFactory> tcpFactory)
 {
-    QEXT_DECL_D(QEXTTcpClient);
+    Q_D(QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     d->m_tcpFactory = tcpFactory;
     if (!tcpFactory.isNull())
@@ -183,14 +183,14 @@ void QEXTTcpClient::setTcpFactory(const QSharedPointer<QEXTTcpFactory> tcpFactor
 
 QEXTTcpPacketDispatcher *QEXTTcpClient::packetDispatcher() const
 {
-    QEXT_DECL_DC(QEXTTcpClient);
+    Q_D(const QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_packetDispatcherMutex);
     return d->m_packetDispatcher.data();
 }
 
 void QEXTTcpClient::setPacketDispatcher(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher)
 {
-    QEXT_DECL_D(QEXTTcpClient);
+    Q_D(QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_packetDispatcherMutex);
     if (dispatcher != d->m_packetDispatcher)
     {
@@ -202,7 +202,7 @@ void QEXTTcpClient::setPacketDispatcher(const QSharedPointer<QEXTTcpPacketDispat
 
 void QEXTTcpClient::initClient()
 {
-    QEXT_DECL_D(QEXTTcpClient);
+    Q_D(QEXTTcpClient);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     if (!d->m_socket.isNull())
     {

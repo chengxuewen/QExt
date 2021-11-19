@@ -54,7 +54,7 @@ public:
     QColor m_pointColor;              //坐标点颜色
 
 private:
-    QEXT_DECL_PUBLIC(QEXTWaveChart)
+    Q_DECLARE_PUBLIC(QEXTWaveChart)
     QEXT_DECL_DISABLE_COPY(QEXTWaveChartPrivate)
 };
 

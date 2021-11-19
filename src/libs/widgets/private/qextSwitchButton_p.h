@@ -40,7 +40,7 @@ public:
     QScopedPointer<QTimer> m_timer;                  //定时器绘制
 
 private:
-    QEXT_DECL_PUBLIC(QEXTSwitchButton)
+    Q_DECLARE_PUBLIC(QEXTSwitchButton)
     QEXT_DECL_DISABLE_COPY(QEXTSwitchButtonPrivate)
 };
 

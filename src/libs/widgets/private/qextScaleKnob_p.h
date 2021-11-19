@@ -36,7 +36,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTScaleKnobPrivate)
-    QEXT_DECL_PUBLIC(QEXTScaleKnob)
+    Q_DECLARE_PUBLIC(QEXTScaleKnob)
 };
 
 #endif // _QEXTSCALEKNOB_P_H

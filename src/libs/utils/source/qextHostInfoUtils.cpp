@@ -87,7 +87,7 @@ QEXTDiskInfo QEXTHostInfoUtilsPrivate::checkDiskSize(const QString &result, cons
 QEXTHostInfoUtils::QEXTHostInfoUtils(QObject *parent)
     : QObject(parent), d_ptr(new QEXTHostInfoUtilsPrivate(this))
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
     d->m_cpuTimer.reset(new QTimer);
     connect(d->m_cpuTimer.data(), SIGNAL(timeout()), this, SLOT(queryCPUInfo()));
     d->m_cpuProcess.reset(new QProcess);
@@ -245,37 +245,37 @@ Qt::KeyboardModifier QEXTHostInfoUtils::controlModifier()
 
 quint64 QEXTHostInfoUtils::cpuPercent() const
 {
-    QEXT_DECL_DC(QEXTHostInfoUtils);
+    Q_D(const QEXTHostInfoUtils);
     return d->m_cpuPercent;
 }
 
 quint64 QEXTHostInfoUtils::memoryAll() const
 {
-    QEXT_DECL_DC(QEXTHostInfoUtils);
+    Q_D(const QEXTHostInfoUtils);
     return d->m_memoryAll;
 }
 
 quint64 QEXTHostInfoUtils::memoryFree() const
 {
-    QEXT_DECL_DC(QEXTHostInfoUtils);
+    Q_D(const QEXTHostInfoUtils);
     return d->m_memoryFree;
 }
 
 quint64 QEXTHostInfoUtils::memoryUsed() const
 {
-    QEXT_DECL_DC(QEXTHostInfoUtils);
+    Q_D(const QEXTHostInfoUtils);
     return d->m_memoryUse;
 }
 
 quint64 QEXTHostInfoUtils::memoryPercent() const
 {
-    QEXT_DECL_DC(QEXTHostInfoUtils);
+    Q_D(const QEXTHostInfoUtils);
     return d->m_memoryPercent;
 }
 
 void QEXTHostInfoUtils::startQueryCPU(int interval)
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
     if (interval <= 0) {
         qWarning() << "QEXTHostInfoUtils::startQueryCPU():iInterval must be greate than zero!";
         return;
@@ -286,13 +286,13 @@ void QEXTHostInfoUtils::startQueryCPU(int interval)
 
 void QEXTHostInfoUtils::stopQueryCPU()
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
     d->m_cpuTimer->stop();
 }
 
 void QEXTHostInfoUtils::queryCPUInfo()
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
 #ifdef Q_OS_WIN
     static FILETIME preidleTime;
     static FILETIME prekernelTime;
@@ -338,7 +338,7 @@ void QEXTHostInfoUtils::queryCPUInfo()
 
 void QEXTHostInfoUtils::readCPUProcessData()
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
     if (d->m_cpuProcess->isReadable()) {
         QString info = QLatin1String(d->m_cpuProcess->readLine());
         QStringList infoList = info.split(" ");
@@ -361,7 +361,7 @@ void QEXTHostInfoUtils::readCPUProcessData()
 
 void QEXTHostInfoUtils::startQueryMemory(int interval)
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
     if (interval <= 0) {
         qWarning() << "QEXTHostInfoUtils::startQueryMemory():iInterval must be greate than zero!";
         return;
@@ -372,13 +372,13 @@ void QEXTHostInfoUtils::startQueryMemory(int interval)
 
 void QEXTHostInfoUtils::stopQueryMemory()
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
     d->m_memoryTimer->stop();
 }
 
 void QEXTHostInfoUtils::queryMemoryInfo()
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
 #ifdef Q_OS_WIN
     MEMORYSTATUSEX statex;
     statex.dwLength = sizeof(statex);
@@ -403,7 +403,7 @@ void QEXTHostInfoUtils::queryMemoryInfo()
 
 void QEXTHostInfoUtils::readMemoryProcessData()
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
     if (d->m_memoryProcess->isReadable()) {
         while (!d->m_memoryProcess->atEnd()) {
             QString info = QLatin1String(d->m_memoryProcess->readLine());
@@ -436,7 +436,7 @@ void QEXTHostInfoUtils::readMemoryProcessData()
 
 void QEXTHostInfoUtils::startQueryDisk(int interval)
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
     if (interval <= 0) {
         qWarning() << "QEXTHostInfoUtils::startQueryDisk():interval must be greate than zero!";
         return;
@@ -447,13 +447,13 @@ void QEXTHostInfoUtils::startQueryDisk(int interval)
 
 void QEXTHostInfoUtils::stopQueryDisk()
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
     d->m_diskTimer->stop();
 }
 
 void QEXTHostInfoUtils::queryDiskInfo()
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
 #ifdef Q_OS_WIN
     QFileInfoList listInfo = QDir::drives();
     QList<QEXTDiskInfo> listDiskInfo;
@@ -488,7 +488,7 @@ void QEXTHostInfoUtils::queryDiskInfo()
 
 void QEXTHostInfoUtils::readDiskProcessData()
 {
-    QEXT_DECL_D(QEXTHostInfoUtils);
+    Q_D(QEXTHostInfoUtils);
     if (d->m_diskProcess->isReadable()) {
         QList<QEXTDiskInfo> diskInfoList;
         while (!d->m_diskProcess->atEnd()) {

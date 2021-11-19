@@ -98,7 +98,7 @@ protected:
     QScopedPointer<QEXTTextLcdPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTTextLcd)
+    Q_DECLARE_PRIVATE(QEXTTextLcd)
     QEXT_DECL_DISABLE_COPY(QEXTTextLcd)
 };
 

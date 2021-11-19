@@ -1,12 +1,12 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextProgressButton.h>
+﻿#include <qextProgressButton.h>
 
 #include <QPainter>
 #include <QEvent>
 #include <QResizeEvent>
 #include <QTimer>
 #include <QDebug>
+
+
 
 QEXTProgressButton::QEXTProgressButton(QWidget *parent) : QWidget(parent)
 {

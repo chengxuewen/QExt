@@ -40,7 +40,7 @@ public:
     QString m_lastError;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTTcpPacketTransceiver)
+    Q_DECLARE_PUBLIC(QEXTTcpPacketTransceiver)
     QEXT_DECL_DISABLE_COPY(QEXTTcpPacketTransceiverPrivate)
 };
 

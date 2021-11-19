@@ -20,7 +20,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmSetValueCommand)
-    QEXT_DECL_PRIVATE(QEXTMvvmSetValueCommand)
+    Q_DECLARE_PRIVATE(QEXTMvvmSetValueCommand)
 };
 
 

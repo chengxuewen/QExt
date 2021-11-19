@@ -37,7 +37,7 @@ protected:
     QScopedPointer<QEXTTcpTaskPoolPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTTcpTaskPool)
+    Q_DECLARE_PRIVATE(QEXTTcpTaskPool)
     QEXT_DECL_DISABLE_COPY(QEXTTcpTaskPool)
 };
 

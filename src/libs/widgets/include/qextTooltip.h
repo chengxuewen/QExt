@@ -114,7 +114,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTTooltip)
-    QEXT_DECL_PRIVATE(QEXTTooltip)
+    Q_DECLARE_PRIVATE(QEXTTooltip)
 };
 
 #endif // _QEXTTOOLTIP_H

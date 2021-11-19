@@ -33,7 +33,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTTumblerPrivate)
-    QEXT_DECL_PUBLIC(QEXTTumbler)
+    Q_DECLARE_PUBLIC(QEXTTumbler)
 };
 
 #endif // _QEXTTUMBLER_P_H

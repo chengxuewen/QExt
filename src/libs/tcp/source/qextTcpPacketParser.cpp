@@ -36,7 +36,7 @@ QEXTTcpPacketParserPrivate::~QEXTTcpPacketParserPrivate()
 QEXTTcpPacketParser::QEXTTcpPacketParser(const QEXTTcpPacketHeader::DataInfoVector &extraHeaderDataInfo)
     : d_ptr(new QEXTTcpPacketParserPrivate(this))
 {
-    QEXT_DECL_D(QEXTTcpPacketParser);
+    Q_D(QEXTTcpPacketParser);
     QEXTTcpPacketHeader::DataInfoVector infoVector;
     infoVector.prepend(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 8, QEXT_TCP_PACKET_KEY_TYPE));
     infoVector.prepend(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 32, QEXT_TCP_PACKET_KEY_TIME));
@@ -63,14 +63,14 @@ QString QEXTTcpPacketParser::name() const
 
 QString QEXTTcpPacketParser::errorString() const
 {
-    QEXT_DECL_DC(QEXTTcpPacketParser);
+    Q_D(const QEXTTcpPacketParser);
     return d->m_errorString;
 }
 
 bool QEXTTcpPacketParser::comparePacket(const QSharedPointer<QEXTTcpPacketInterface> &lpacket,
                                         const QSharedPointer<QEXTTcpPacketInterface> &rpacket) const
 {
-    QEXT_DECL_DC(QEXTTcpPacketParser);
+    Q_D(const QEXTTcpPacketParser);
     if (lpacket != rpacket)
     {
         QEXTTcpPacketHeader::DataInfoVector::const_iterator iter;
@@ -90,7 +90,7 @@ bool QEXTTcpPacketParser::comparePacket(const QSharedPointer<QEXTTcpPacketInterf
 bool QEXTTcpPacketParser::checkIsSyncReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &send,
                                                  const QSharedPointer<QEXTTcpPacketInterface> &rcv) const
 {
-    QEXT_DECL_DC(QEXTTcpPacketParser);
+    Q_D(const QEXTTcpPacketParser);
     if (this->isRequestPacket(send) && this->isReplyPacket(rcv) && send != rcv)
     {
         if (send->header()->headerData(QEXT_TCP_PACKET_KEY_ID).toUint64() == rcv->header()->headerData(QEXT_TCP_PACKET_KEY_ID).toUint64())
@@ -103,7 +103,7 @@ bool QEXTTcpPacketParser::checkIsSyncReplyPacket(const QSharedPointer<QEXTTcpPac
 
 quint64 QEXTTcpPacketParser::packetId(const QSharedPointer<QEXTTcpPacketInterface> &packet) const
 {
-    QEXT_DECL_DC(QEXTTcpPacketParser);
+    Q_D(const QEXTTcpPacketParser);
     if (!packet.isNull())
     {
         return packet->header()->headerData(QEXT_TCP_PACKET_KEY_ID).toUint64();
@@ -122,7 +122,7 @@ bool QEXTTcpPacketParser::isRequestPacket(const QSharedPointer<QEXTTcpPacketInte
 
 bool QEXTTcpPacketParser::setRequestPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet)
 {
-    QEXT_DECL_D(QEXTTcpPacketParser);
+    Q_D(QEXTTcpPacketParser);
     if (!packet.isNull())
     {
         bool success = packet->header()->setHeaderData(QEXT_TCP_PACKET_KEY_TYPE, QEXTTcpPacketVariant(QEXT_TCP_PACKET_TYPE_REQUEST));
@@ -144,7 +144,7 @@ bool QEXTTcpPacketParser::isReplyPacket(const QSharedPointer<QEXTTcpPacketInterf
 bool QEXTTcpPacketParser::setReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &send,
                                          const QSharedPointer<QEXTTcpPacketInterface> &rcv)
 {
-    QEXT_DECL_D(QEXTTcpPacketParser);
+    Q_D(QEXTTcpPacketParser);
     if (!send.isNull() && !rcv.isNull() && send != rcv)
     {
         bool success = send->header()->setHeaderData(QEXT_TCP_PACKET_KEY_TYPE, QEXTTcpPacketVariant(QEXT_TCP_PACKET_TYPE_REPLY));
@@ -165,7 +165,7 @@ bool QEXTTcpPacketParser::isNotifyPacket(const QSharedPointer<QEXTTcpPacketInter
 
 bool QEXTTcpPacketParser::setNotifyPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet)
 {
-    QEXT_DECL_D(QEXTTcpPacketParser);
+    Q_D(QEXTTcpPacketParser);
     if (!packet.isNull())
     {
         bool success = packet->header()->setHeaderData(QEXT_TCP_PACKET_KEY_TYPE, QEXTTcpPacketVariant(QEXT_TCP_PACKET_TYPE_NOTIFY));
@@ -177,19 +177,19 @@ bool QEXTTcpPacketParser::setNotifyPacket(const QSharedPointer<QEXTTcpPacketInte
 
 QSharedPointer<QEXTTcpPacketHeaderInterface> QEXTTcpPacketParser::createHeader() const
 {
-    QEXT_DECL_DC(QEXTTcpPacketParser);
+    Q_D(const QEXTTcpPacketParser);
     return QSharedPointer<QEXTTcpPacketHeaderInterface>(new QEXTTcpPacketHeader(d->m_headerDataPairVector));
 }
 
 QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketParser::createPacket() const
 {
-    QEXT_DECL_DC(QEXTTcpPacketParser);
+    Q_D(const QEXTTcpPacketParser);
     return QSharedPointer<QEXTTcpPacketInterface>(new QEXTTcpPacket(this->createHeader()));
 }
 
 QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketParser::clonePacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const
 {
-    QEXT_DECL_DC(QEXTTcpPacketParser);
+    Q_D(const QEXTTcpPacketParser);
     QSharedPointer<QEXTTcpPacketInterface> clonePacket;
     if (!packet.isNull())
     {
@@ -220,13 +220,13 @@ QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketParser::createReplyPacket(co
 
 QSharedPointer<QEXTTcpPacketParserInterface> QEXTTcpPacketParser::clonePacketParser() const
 {
-    QEXT_DECL_DC(QEXTTcpPacketParser);
+    Q_D(const QEXTTcpPacketParser);
     return QSharedPointer<QEXTTcpPacketParserInterface>(new QEXTTcpPacketParser(d->m_extraHeaderDataPairVector));
 }
 
 QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketParser::readData(QEXTTcpSocket *socket, bool &success)
 {
-    QEXT_DECL_D(QEXTTcpPacketParser);
+    Q_D(QEXTTcpPacketParser);
     QMutexLocker mutexLocker(&d->m_mutex);
 
     success = true;
@@ -285,7 +285,7 @@ QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketParser::readData(QEXTTcpSock
 
 qint64 QEXTTcpPacketParser::writeData(QEXTTcpSocket *socket, const QSharedPointer<QEXTTcpPacketInterface> &packet)
 {
-    QEXT_DECL_D(QEXTTcpPacketParser);
+    Q_D(QEXTTcpPacketParser);
     QMutexLocker mutexLocker(&d->m_mutex);
     QByteArray stream = packet->stream();
     return socket->write(stream.data(), stream.size());

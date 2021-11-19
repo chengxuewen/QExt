@@ -43,7 +43,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmProjectPrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmProject)
+    Q_DECLARE_PUBLIC(QEXTMvvmProject)
 };
 
 #endif // QEXTMVVMPROJECT_P_H

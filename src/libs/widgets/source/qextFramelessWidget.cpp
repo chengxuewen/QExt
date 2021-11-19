@@ -1,6 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextFramelessWidget.h>
+﻿#include <qextFramelessWidget.h>
 #include <qextFramelessWidget_p.h>
 
 #include <QStyleOption>
@@ -10,9 +8,11 @@
 #include <QEvent>
 #include <QDebug>
 
+
+
 #ifdef Q_OS_WIN
-    #include "windows.h"
-    #pragma comment (lib,"user32.lib")
+#include "windows.h"
+#pragma comment (lib,"user32.lib")
 #endif
 
 #define TIMEMS qPrintable(QTime::currentTime().toString("HH:mm:ss zzz"))
@@ -49,13 +49,13 @@ QEXTFramelessWidgetPrivate::~QEXTFramelessWidgetPrivate()
 QEXTFramelessWidget::QEXTFramelessWidget(QWidget *parent)
     : QWidget(parent), d_ptr(new QEXTFramelessWidgetPrivate(this))
 {
-    QEXT_DECL_D(QEXTFramelessWidget);
+    Q_D(QEXTFramelessWidget);
     d->m_flags = this->windowFlags();
 
     //设置背景透明 官方在5.3以后才彻底修复 WA_TranslucentBackground+FramelessWindowHint 并存不绘制的BUG
-#if (QT_VERSION >= QT_VERSION_CHECK(5,3,0))
-    this->setAttribute(Qt::WA_TranslucentBackground);
-#endif
+    //#if (QT_VERSION >= QT_VERSION_CHECK(5,3,0))
+    //    this->setAttribute(Qt::WA_TranslucentBackground);
+    //#endif
     this->setAttribute(Qt::WA_Hover);
     //设置无边框属性
     this->setWindowFlags(d->m_flags | Qt::FramelessWindowHint);
@@ -78,7 +78,7 @@ QEXTFramelessWidget::~QEXTFramelessWidget()
 
 void QEXTFramelessWidget::showEvent(QShowEvent *event)
 {
-    QEXT_DECL_D(QEXTFramelessWidget);
+    Q_D(QEXTFramelessWidget);
     //解决有时候窗体重新显示的时候假死不刷新的BUG
     this->setAttribute(Qt::WA_Mapped);
     QWidget::showEvent(event);
@@ -96,7 +96,7 @@ void QEXTFramelessWidget::paintEvent(QPaintEvent *event)
 
 void QEXTFramelessWidget::doWindowStateChange(QEvent *event)
 {
-    QEXT_DECL_D(QEXTFramelessWidget);
+    Q_D(QEXTFramelessWidget);
     //非最大化才能移动和拖动大小
     if (this->windowState() == Qt::WindowNoState)
     {
@@ -133,7 +133,7 @@ void QEXTFramelessWidget::doWindowStateChange(QEvent *event)
 
 void QEXTFramelessWidget::doResizeEvent(QEvent *event)
 {
-    QEXT_DECL_D(QEXTFramelessWidget);
+    Q_D(QEXTFramelessWidget);
     //非win系统的无边框拉伸,win系统上已经采用了nativeEvent来处理拉伸
     //为何不统一用计算的方式因为在win上用这个方式往左拉伸会发抖妹的
 #ifndef Q_OS_WIN
@@ -354,7 +354,7 @@ void QEXTFramelessWidget::doResizeEvent(QEvent *event)
 
 bool QEXTFramelessWidget::eventFilter(QObject *watched, QEvent *event)
 {
-    QEXT_DECL_D(QEXTFramelessWidget);
+    Q_D(QEXTFramelessWidget);
     if (watched == this)
     {
         if (event->type() == QEvent::WindowStateChange)
@@ -386,11 +386,12 @@ bool QEXTFramelessWidget::eventFilter(QObject *watched, QEvent *event)
 }
 
 #if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
-    bool QEXTFramelessWidget::nativeEvent(const QByteArray &eventType, void *message, qintptr *result)
+bool QEXTFramelessWidget::nativeEvent(const QByteArray &eventType, void *message, qintptr *result)
 #else
-    bool QEXTFramelessWidget::nativeEvent(const QByteArray &eventType, void *message, long *result)
+bool QEXTFramelessWidget::nativeEvent(const QByteArray &eventType, void *message, long *result)
 #endif
 {
+    Q_D(QEXTFramelessWidget);
     if (eventType == "windows_generic_MSG")
     {
 #ifdef Q_OS_WIN
@@ -413,7 +414,7 @@ bool QEXTFramelessWidget::eventFilter(QObject *watched, QEvent *event)
             //判断当前鼠标位置在哪个区域
             bool left = pos.x() < d->m_padding;
             bool right = pos.x() > width() - d->m_padding;
-            bool top = pos.y() < padding;
+            bool top = pos.y() <d->m_padding;
             bool bottom = pos.y() > height() - d->m_padding;
 
             //鼠标移动到四个角,这个消息是当鼠标移动或者有鼠标键按下时候发出的
@@ -507,25 +508,25 @@ bool QEXTFramelessWidget::winEvent(MSG *message, long *result)
 
 void QEXTFramelessWidget::setPadding(int padding)
 {
-    QEXT_DECL_D(QEXTFramelessWidget);
+    Q_D(QEXTFramelessWidget);
     d->m_padding = padding;
 }
 
 void QEXTFramelessWidget::setMoveEnable(bool moveEnable)
 {
-    QEXT_DECL_D(QEXTFramelessWidget);
+    Q_D(QEXTFramelessWidget);
     d->m_moveEnable = moveEnable;
 }
 
 void QEXTFramelessWidget::setResizeEnable(bool resizeEnable)
 {
-    QEXT_DECL_D(QEXTFramelessWidget);
+    Q_D(QEXTFramelessWidget);
     d->m_resizeEnable = resizeEnable;
 }
 
 void QEXTFramelessWidget::setTitleBar(QWidget *titleBar)
 {
-    QEXT_DECL_D(QEXTFramelessWidget);
+    Q_D(QEXTFramelessWidget);
     d->m_titleBar = titleBar;
     d->m_titleBar->installEventFilter(this);
 }

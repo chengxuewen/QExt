@@ -20,7 +20,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmInsertNewItemCommandPrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmInsertNewItemCommand)
+    Q_DECLARE_PUBLIC(QEXTMvvmInsertNewItemCommand)
 };
 
 #endif // _QEXTMVVMINSERTNEWITEMCOMMAND_P_H

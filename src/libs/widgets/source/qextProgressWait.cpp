@@ -1,11 +1,11 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextProgressWait.h>
+﻿#include <qextProgressWait.h>
 
 #include <QPainter>
 #include <QTimer>
 #include <QDebug>
 #include <qmath.h>
+
+
 
 QEXTProgressWait::QEXTProgressWait(QWidget *parent) : QWidget(parent)
 {

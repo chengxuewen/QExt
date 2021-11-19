@@ -1,8 +1,10 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmrulerslider.h"
+﻿#include "frmrulerslider.h"
 #include <QApplication>
 #include <QTextCodec>
+
+#include <qextGlobal.h>
+
+
 
 int main(int argc, char *argv[])
 {

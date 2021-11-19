@@ -161,7 +161,7 @@ protected:
     QScopedPointer<QEXTIndicatorLightPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTIndicatorLight)
+    Q_DECLARE_PRIVATE(QEXTIndicatorLight)
     QEXT_DECL_DISABLE_COPY(QEXTIndicatorLight)
 };
 

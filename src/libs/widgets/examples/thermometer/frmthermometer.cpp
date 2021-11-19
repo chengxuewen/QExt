@@ -1,10 +1,10 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmthermometer.h"
+﻿#include "frmthermometer.h"
 #include "ui_frmthermometer.h"
 #include "qextThermometer.h"
 #include "qdatetime.h"
 #include "qtimer.h"
+
+
 
 frmThermometer::frmThermometer(QWidget *parent) : QWidget(parent), ui(new Ui::frmThermometer)
 {

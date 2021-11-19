@@ -61,7 +61,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationBarPrivate)
-    QEXT_DECL_PUBLIC(QEXTNavigationBar)
+    Q_DECLARE_PUBLIC(QEXTNavigationBar)
 };
 
 #endif // _QEXTNAVIGATIONBAR_P_H

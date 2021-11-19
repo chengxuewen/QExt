@@ -47,7 +47,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTSemicircleGaugePrivate)
-    QEXT_DECL_PUBLIC(QEXTSemicircleGauge)
+    Q_DECLARE_PUBLIC(QEXTSemicircleGauge)
 };
 
 #endif // _QEXTGAUGESEMICIRCLE_P_H

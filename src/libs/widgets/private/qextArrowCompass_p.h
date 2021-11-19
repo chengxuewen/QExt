@@ -42,7 +42,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTArrowCompassPrivate)
-    QEXT_DECL_PUBLIC(QEXTArrowCompass)
+    Q_DECLARE_PUBLIC(QEXTArrowCompass)
 };
 
 #endif // _QEXTARROWCOMPASS_P_H

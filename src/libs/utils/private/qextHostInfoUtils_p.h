@@ -40,7 +40,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY(QEXTHostInfoUtilsPrivate)
-    QEXT_DECL_PUBLIC(QEXTHostInfoUtils)
+    Q_DECLARE_PUBLIC(QEXTHostInfoUtils)
 };
 
 

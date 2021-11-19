@@ -113,7 +113,7 @@ protected:
     QScopedPointer<QEXTWaveChartPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTWaveChart)
+    Q_DECLARE_PRIVATE(QEXTWaveChart)
     QEXT_DECL_DISABLE_COPY(QEXTWaveChart)
 };
 

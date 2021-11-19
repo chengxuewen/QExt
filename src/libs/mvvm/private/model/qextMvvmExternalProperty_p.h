@@ -21,7 +21,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmExternalPropertyPrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmExternalProperty)
+    Q_DECLARE_PUBLIC(QEXTMvvmExternalProperty)
 };
 
 #endif // _QEXTMVVMEXTERNALPROPERTY_P_H

@@ -17,7 +17,7 @@ public:
     bool m_isHLine;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTLinearFunction)
+    Q_DECLARE_PUBLIC(QEXTLinearFunction)
     QEXT_DECL_DISABLE_COPY(QEXTLinearFunctionPrivate)
 };
 
@@ -66,7 +66,7 @@ QEXTLinearFunction::~QEXTLinearFunction()
 
 bool QEXTLinearFunction::operator==(const QEXTLinearFunction &other) const
 {
-    QEXT_DECL_DC(QEXTLinearFunction);
+    Q_D(const QEXTLinearFunction);
     if (d->m_isHLine == other.d_func()->m_isHLine)
     {
         if (d->m_isVLine == other.d_func()->m_isVLine)
@@ -86,7 +86,7 @@ QEXTLinearFunction &QEXTLinearFunction::operator=(const QEXTLinearFunction &othe
 {
     if (this != &other)
     {
-        QEXT_DECL_D(QEXTLinearFunction);
+        Q_D(QEXTLinearFunction);
         d->m_isHLine = other.d_func()->m_isHLine;
         d->m_isVLine = other.d_func()->m_isVLine;
         d->m_k = other.d_func()->m_k;
@@ -113,7 +113,7 @@ double QEXTLinearFunction::distance(double x1, double y1, double x2, double y2)
 
 double QEXTLinearFunction::x(double y) const
 {
-    QEXT_DECL_DC(QEXTLinearFunction);
+    Q_D(const QEXTLinearFunction);
     if (d->m_isHLine)
     {
         throw QString("STLinearFunction::xValue():linear IsHLine,can not find x data");
@@ -132,37 +132,37 @@ double QEXTLinearFunction::x(double y) const
 
 double QEXTLinearFunction::y(double x) const
 {
-    QEXT_DECL_DC(QEXTLinearFunction);
+    Q_D(const QEXTLinearFunction);
     return d->m_k * x + d->m_c;
 }
 
 double QEXTLinearFunction::c() const
 {
-    QEXT_DECL_DC(QEXTLinearFunction);
+    Q_D(const QEXTLinearFunction);
     return d->m_c;
 }
 
 double QEXTLinearFunction::k() const
 {
-    QEXT_DECL_DC(QEXTLinearFunction);
+    Q_D(const QEXTLinearFunction);
     return d->m_k;
 }
 
 bool QEXTLinearFunction::isHorizontalLine() const
 {
-    QEXT_DECL_DC(QEXTLinearFunction);
+    Q_D(const QEXTLinearFunction);
     return d->m_isHLine;
 }
 
 bool QEXTLinearFunction::isVerticalLine() const
 {
-    QEXT_DECL_DC(QEXTLinearFunction);
+    Q_D(const QEXTLinearFunction);
     return d->m_isVLine;
 }
 
 QVector<QPair<double, double> > QEXTLinearFunction::distancePoints(double x, double y, double distance) const
 {
-    QEXT_DECL_DC(QEXTLinearFunction);
+    Q_D(const QEXTLinearFunction);
     QVector<QPair<double, double> > points;
     if (d->m_isHLine)
     {
@@ -214,7 +214,7 @@ bool QEXTLinearFunction::distancePoint(double originX, double originY, double ra
 
 QEXTLinearFunction QEXTLinearFunction::verticalLinearFunction(double x, double y) const
 {
-    QEXT_DECL_DC(QEXTLinearFunction);
+    Q_D(const QEXTLinearFunction);
     if (d->m_isHLine)
     {
         return QEXTLinearFunction(x, y, x, std::abs(y) + 10);

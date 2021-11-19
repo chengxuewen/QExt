@@ -4,17 +4,23 @@
 #
 # Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
 #
-#     http://www.apache.org/licenses/LICENSE-2.0.txt
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
 #
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 #
 #################################################################################
 
@@ -74,8 +80,12 @@ function(qextTcpAddExample EXAMPLE_NAME)
         )
     set_property(TARGET ${EXAMPLE_NAME} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
     if(QEXT_BUILD_SHARED_LIBS AND WIN32)
-        qextMacroCopyDependenceLib(${EXAMPLE_NAME} QEXTWidgets ${EXECUTABLE_OUTPUT_PATH})
-        qextMacroCopyDependenceLib(${EXAMPLE_NAME} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+        qextFunctionCopyDependsInternalLibs(
+            TARGET ${EXAMPLE_NAME}
+            LIBS QEXTCore QEXTWidgets
+            DESTINATION ${EXECUTABLE_OUTPUT_PATH}
+            POST_BUILD
+            )
     endif()
 endfunction()
 
@@ -109,8 +119,12 @@ target_include_directories(${qext_example_name} PUBLIC
     )
 set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${qext_example_name} QEXTTcp ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextFunctionCopyDependsInternalLibs(
+        TARGET ${qext_example_name}
+        LIBS QEXTCore QEXTTcp
+        DESTINATION ${EXECUTABLE_OUTPUT_PATH}
+        POST_BUILD
+        )
 endif()
 
 
@@ -140,6 +154,10 @@ target_include_directories(${qext_example_name} PUBLIC
     )
 set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${qext_example_name} QEXTTcp ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextFunctionCopyDependsInternalLibs(
+        TARGET ${qext_example_name}
+        LIBS QEXTCore QEXTTcp
+        DESTINATION ${EXECUTABLE_OUTPUT_PATH}
+        POST_BUILD
+        )
 endif()

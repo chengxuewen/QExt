@@ -1,8 +1,8 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmcirclegauge.h"
+﻿#include "frmcirclegauge.h"
 #include "ui_frmcirclegauge.h"
 #include "qextCircleGauge.h"
+
+
 
 FrmCircleGauge::FrmCircleGauge(QWidget *parent) : QWidget(parent), ui(new Ui::FrmCircleGauge)
 {

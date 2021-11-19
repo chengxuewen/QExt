@@ -56,7 +56,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmItemTags)
-    QEXT_DECL_PRIVATE(QEXTMvvmItemTags)
+    Q_DECLARE_PRIVATE(QEXTMvvmItemTags)
 };
 
 #endif // _QEXTMVVMITEMTAGS_H

@@ -36,7 +36,7 @@ public:
     int m_borderRadius;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTIpAddressEdit)
+    Q_DECLARE_PUBLIC(QEXTIpAddressEdit)
     QEXT_DECL_DISABLE_COPY(QEXTIpAddressEditPrivate)
 };
 

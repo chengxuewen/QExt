@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmscaleknob.h"
+﻿#include "frmscaleknob.h"
 #include "ui_frmscaleknob.h"
+
+
 
 FrmScaleKnob::FrmScaleKnob(QWidget *parent) : QWidget(parent), ui(new Ui::FrmScaleKnob)
 {

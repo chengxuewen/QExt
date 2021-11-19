@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resource/background.png</file>
+        <file>resource/close-button1.svg</file>
+        <file>resource/maximize-button1.svg</file>
+        <file>resource/maximize-button2.svg</file>
+        <file>resource/minimize-button1.svg</file>
+        <file>resource/close-button1.png</file>
+        <file>resource/close-button2.png</file>
+        <file>resource/maximize-button1.png</file>
+        <file>resource/maximize-button2.png</file>
+        <file>resource/minimize-button1.png</file>
+    </qresource>
+</RCC>

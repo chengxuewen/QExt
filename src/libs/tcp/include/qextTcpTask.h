@@ -48,7 +48,7 @@ protected:
     QScopedPointer<QEXTTcpTaskPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTTcpTask)
+    Q_DECLARE_PRIVATE(QEXTTcpTask)
     QEXT_DECL_DISABLE_COPY(QEXTTcpTask)
 };
 

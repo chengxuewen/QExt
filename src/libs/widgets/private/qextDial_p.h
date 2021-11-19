@@ -33,7 +33,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTDialPrivate)
-    QEXT_DECL_PUBLIC(QEXTDial)
+    Q_DECLARE_PUBLIC(QEXTDial)
 };
 
 #endif // _QEXTDIAL_P_H

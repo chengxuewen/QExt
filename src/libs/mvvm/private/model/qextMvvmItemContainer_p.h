@@ -19,7 +19,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmItemContainerPrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmItemContainer)
+    Q_DECLARE_PUBLIC(QEXTMvvmItemContainer)
 };
 
 #endif // _QEXTMVVMITEMCONTAINER_P_H

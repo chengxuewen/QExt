@@ -32,7 +32,7 @@ public:
     QMap<quint64, QEXTId> m_idToIdentityIdMap;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTTcpTaskPool)
+    Q_DECLARE_PUBLIC(QEXTTcpTaskPool)
     QEXT_DECL_DISABLE_COPY(QEXTTcpTaskPoolPrivate)
 };
 

@@ -42,7 +42,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmUndoStack)
-    QEXT_DECL_PRIVATE(QEXTMvvmUndoStack)
+    Q_DECLARE_PRIVATE(QEXTMvvmUndoStack)
 };
 
 #endif // _QEXTMVVMUNDOSTACK_H

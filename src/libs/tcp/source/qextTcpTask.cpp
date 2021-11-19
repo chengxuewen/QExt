@@ -62,25 +62,25 @@ QEXTTcpTask::~QEXTTcpTask()
 
 QSharedPointer<QEXTTcpPacketInterface> QEXTTcpTask::receivedPacket() const
 {
-    QEXT_DECL_DC(QEXTTcpTask);
+    Q_D(const QEXTTcpTask);
     return d->m_receivedPacket;
 }
 
 QSharedPointer<QEXTTcpPacketTransceiver> QEXTTcpTask::packetTransceiver() const
 {
-    QEXT_DECL_DC(QEXTTcpTask);
+    Q_D(const QEXTTcpTask);
     return d->m_packetTransceiver;
 }
 
 quint64 QEXTTcpTask::id() const
 {
-    QEXT_DECL_DC(QEXTTcpTask);
+    Q_D(const QEXTTcpTask);
     return d->m_id;
 }
 
 QEXTId QEXTTcpTask::identityId() const
 {
-    QEXT_DECL_DC(QEXTTcpTask);
+    Q_D(const QEXTTcpTask);
     return QString("%1-%3:%4")
             .arg(this->packetTransceiver()->identityId().toString())
             .arg(this->typeId().toString()).arg(d->m_id);
@@ -88,27 +88,27 @@ QEXTId QEXTTcpTask::identityId() const
 
 QDateTime QEXTTcpTask::timestamp() const
 {
-    QEXT_DECL_DC(QEXTTcpTask);
+    Q_D(const QEXTTcpTask);
     return d->m_timestamp;
 }
 
 bool QEXTTcpTask::isFinished() const
 {
-    QEXT_DECL_DC(QEXTTcpTask);
+    Q_D(const QEXTTcpTask);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_finished;
 }
 
 bool QEXTTcpTask::isErrored() const
 {
-    QEXT_DECL_DC(QEXTTcpTask);
+    Q_D(const QEXTTcpTask);
     QMutexLocker mutexLocker(&d->m_mutex);
     return !d->m_errorString.isEmpty();
 }
 
 QString QEXTTcpTask::errorString() const
 {
-    QEXT_DECL_DC(QEXTTcpTask);
+    Q_D(const QEXTTcpTask);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_errorString;
 }
@@ -125,7 +125,7 @@ void QEXTTcpTask::run()
 
 void QEXTTcpTask::setErrorString(const QString &string)
 {
-    QEXT_DECL_D(QEXTTcpTask);
+    Q_D(QEXTTcpTask);
     QMutexLocker mutexLocker(&d->m_mutex);
     d->m_errorString = string;
     emit this->error(string);

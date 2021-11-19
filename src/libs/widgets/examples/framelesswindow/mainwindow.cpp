@@ -1,7 +1,8 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : QEXTFramelessMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent)
+    : QEXTFramelessMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->initForm();
@@ -22,6 +23,7 @@ void MainWindow::initForm()
     connect(this, SIGNAL(titleDoubleClicked()), this, SLOT(onTitleDoubleClicked()));
     connect(this, SIGNAL(windowStateChanged(bool)), this, SLOT(onWindowStateChanged(bool)));
 
+    return;
     //设置样式表
     QStringList list;
     list << "#titleBar{background:#BBBBBB;}";

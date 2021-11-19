@@ -58,7 +58,7 @@ protected:
     QScopedPointer<QEXTMvvmComboPropertyPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTMvvmComboProperty)
+    Q_DECLARE_PRIVATE(QEXTMvvmComboProperty)
 };
 
 Q_DECLARE_METATYPE(QEXTMvvmComboProperty)

@@ -1,9 +1,9 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextProgressPie.h>
+﻿#include <qextProgressPie.h>
 
 #include <QPainter>
 #include <QDebug>
+
+
 
 QEXTProgressPie::QEXTProgressPie(QWidget *parent) : QWidget(parent)
 {

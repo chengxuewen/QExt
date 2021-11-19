@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmprogressknob.h"
+﻿#include "frmprogressknob.h"
 #include "ui_frmprogressknob.h"
+
+
 
 FrmProgressKnob::FrmProgressKnob(QWidget *parent) : QWidget(parent), ui(new Ui::FrmProgressKnob)
 {

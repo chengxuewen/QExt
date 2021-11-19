@@ -1,6 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextCircleGauge.h>
+﻿#include <qextCircleGauge.h>
 #include <qextCircleGauge_p.h>
 
 #include <QPainter>
@@ -8,6 +6,8 @@
 #include <QTimer>
 #include <QDebug>
 #include <qmath.h>
+
+
 
 QEXTCircleGaugePrivate::QEXTCircleGaugePrivate(QEXTCircleGauge *q)
     : q_ptr(q)
@@ -56,7 +56,7 @@ QEXTCircleGaugePrivate::~QEXTCircleGaugePrivate()
 QEXTCircleGauge::QEXTCircleGauge(QWidget *parent)
     : QWidget(parent), d_ptr(new QEXTCircleGaugePrivate(this))
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     d->m_animation = new QPropertyAnimation(this, "");
     d->m_animation->setDuration(500);
     d->m_animation->setEasingCurve(QEasingCurve::Linear);
@@ -72,7 +72,7 @@ QEXTCircleGauge::~QEXTCircleGauge()
 
 void QEXTCircleGauge::paintEvent(QPaintEvent *)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
@@ -126,7 +126,7 @@ void QEXTCircleGauge::paintEvent(QPaintEvent *)
 
 void QEXTCircleGauge::drawOuterCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = 99;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -137,7 +137,7 @@ void QEXTCircleGauge::drawOuterCircle(QPainter *painter)
 
 void QEXTCircleGauge::drawInnerCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = 90;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -148,7 +148,7 @@ void QEXTCircleGauge::drawInnerCircle(QPainter *painter)
 
 void QEXTCircleGauge::drawColorPie(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = 60;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -200,7 +200,7 @@ void QEXTCircleGauge::drawColorPie(QPainter *painter)
 
 void QEXTCircleGauge::drawCoverCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = 50;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -211,7 +211,7 @@ void QEXTCircleGauge::drawCoverCircle(QPainter *painter)
 
 void QEXTCircleGauge::drawScale(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = 72;
     painter->save();
 
@@ -246,7 +246,7 @@ void QEXTCircleGauge::drawScale(QPainter *painter)
 
 void QEXTCircleGauge::drawScaleNum(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = 82;
     painter->save();
     painter->setPen(d->m_scaleColor);
@@ -273,7 +273,7 @@ void QEXTCircleGauge::drawScaleNum(QPainter *painter)
 
 void QEXTCircleGauge::drawPointerCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = 6;
     int offset = 30;
     painter->save();
@@ -290,7 +290,7 @@ void QEXTCircleGauge::drawPointerCircle(QPainter *painter)
 
 void QEXTCircleGauge::drawPointerIndicator(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = 75;
     painter->save();
     painter->setOpacity(0.8);
@@ -310,7 +310,7 @@ void QEXTCircleGauge::drawPointerIndicator(QPainter *painter)
 
 void QEXTCircleGauge::drawPointerIndicatorR(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = 75;
     painter->save();
     painter->setOpacity(1.0);
@@ -340,7 +340,7 @@ void QEXTCircleGauge::drawPointerIndicatorR(QPainter *painter)
 
 void QEXTCircleGauge::drawPointerTriangle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = 10;
     int offset = 38;
     painter->save();
@@ -360,7 +360,7 @@ void QEXTCircleGauge::drawPointerTriangle(QPainter *painter)
 
 void QEXTCircleGauge::drawRoundCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = d->m_circleWidth + 3;
     painter->save();
     painter->setOpacity(0.8);
@@ -372,7 +372,7 @@ void QEXTCircleGauge::drawRoundCircle(QPainter *painter)
 
 void QEXTCircleGauge::drawCenterCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = d->m_circleWidth;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -383,7 +383,7 @@ void QEXTCircleGauge::drawCenterCircle(QPainter *painter)
 
 void QEXTCircleGauge::drawValue(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     int radius = 100;
     painter->save();
     painter->setPen(d->m_textColor);
@@ -401,7 +401,7 @@ void QEXTCircleGauge::drawValue(QPainter *painter)
 
 void QEXTCircleGauge::drawOverlay(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (!d->m_overlayVisiable)
     {
         return;
@@ -435,7 +435,7 @@ void QEXTCircleGauge::drawOverlay(QPainter *painter)
 
 void QEXTCircleGauge::updateValue(const QVariant &value)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     const double animationValue = value.toDouble();
     if (animationValue != d->m_currentValue)
     {
@@ -446,157 +446,157 @@ void QEXTCircleGauge::updateValue(const QVariant &value)
 
 double QEXTCircleGauge::minValue() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_minValue;
 }
 
 double QEXTCircleGauge::maxValue() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_maxValue;
 }
 
 double QEXTCircleGauge::value() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_value;
 }
 
 int QEXTCircleGauge::precision() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_precision;
 }
 
 int QEXTCircleGauge::scaleMajor() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_scaleMajor;
 }
 
 int QEXTCircleGauge::scaleMinor() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_scaleMinor;
 }
 
 int QEXTCircleGauge::startAngle() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_startAngle;
 }
 
 int QEXTCircleGauge::endAngle() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_endAngle;
 }
 
 bool QEXTCircleGauge::animationEnable() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_animationEnable;
 }
 
 int QEXTCircleGauge::animationDuration() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_animation->duration();
 }
 
 QEasingCurve::Type QEXTCircleGauge::animationEasingCurve() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_animation->easingCurve().type();
 }
 
 QColor QEXTCircleGauge::outerCircleColor() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_outerCircleColor;
 }
 
 QColor QEXTCircleGauge::innerCircleColor() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_innerCircleColor;
 }
 
 QColor QEXTCircleGauge::pieColorStart() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_pieColorStart;
 }
 
 QColor QEXTCircleGauge::pieColorMid() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_pieColorMid;
 }
 
 QColor QEXTCircleGauge::pieColorEnd() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_pieColorEnd;
 }
 
 QColor QEXTCircleGauge::coverCircleColor() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_coverCircleColor;
 }
 
 QColor QEXTCircleGauge::scaleColor() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_scaleColor;
 }
 
 QColor QEXTCircleGauge::pointerColor() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_pointerColor;
 }
 
 QColor QEXTCircleGauge::centerCircleColor() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_centerCircleColor;
 }
 
 QColor QEXTCircleGauge::textColor() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_textColor;
 }
 
 bool QEXTCircleGauge::overlayVisiable() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_overlayVisiable;
 }
 
 QColor QEXTCircleGauge::overlayColor() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_overlayColor;
 }
 
 int QEXTCircleGauge::circleWidth() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_circleWidth;
 }
 
 QEXTCircleGauge::PieStyleType QEXTCircleGauge::pieStyle() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_pieStyle;
 }
 
 QEXTCircleGauge::PointerStyleType QEXTCircleGauge::pointerStyle() const
 {
-    QEXT_DECL_DC(QEXTCircleGauge);
+    Q_D(const QEXTCircleGauge);
     return d->m_pointerStyle;
 }
 
@@ -612,7 +612,7 @@ QSize QEXTCircleGauge::minimumSizeHint() const
 
 void QEXTCircleGauge::setRange(double minValue, double maxValue)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue)
     {
@@ -638,19 +638,19 @@ void QEXTCircleGauge::setRange(int minValue, int maxValue)
 
 void QEXTCircleGauge::setMinValue(double minValue)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     setRange(minValue, d->m_maxValue);
 }
 
 void QEXTCircleGauge::setMaxValue(double maxValue)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     setRange(d->m_minValue, maxValue);
 }
 
 void QEXTCircleGauge::setValue(double value)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     //值和当前值一致则无需处理
     if (value == d->m_value)
     {
@@ -690,7 +690,7 @@ void QEXTCircleGauge::setValue(int value)
 
 void QEXTCircleGauge::setPrecision(int precision)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     //最大精确度为 3
     if (precision <= 3 && d->m_precision != precision)
     {
@@ -701,7 +701,7 @@ void QEXTCircleGauge::setPrecision(int precision)
 
 void QEXTCircleGauge::setScaleMajor(int scaleMajor)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_scaleMajor != scaleMajor)
     {
         d->m_scaleMajor = scaleMajor;
@@ -711,7 +711,7 @@ void QEXTCircleGauge::setScaleMajor(int scaleMajor)
 
 void QEXTCircleGauge::setScaleMinor(int scaleMinor)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_scaleMinor != scaleMinor)
     {
         d->m_scaleMinor = scaleMinor;
@@ -721,7 +721,7 @@ void QEXTCircleGauge::setScaleMinor(int scaleMinor)
 
 void QEXTCircleGauge::setStartAngle(int startAngle)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_startAngle != startAngle)
     {
         d->m_startAngle = startAngle;
@@ -731,7 +731,7 @@ void QEXTCircleGauge::setStartAngle(int startAngle)
 
 void QEXTCircleGauge::setEndAngle(int endAngle)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_endAngle != endAngle)
     {
         d->m_endAngle = endAngle;
@@ -741,7 +741,7 @@ void QEXTCircleGauge::setEndAngle(int endAngle)
 
 void QEXTCircleGauge::setAnimation(bool animation)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_animationEnable != animation)
     {
         d->m_animationEnable = animation;
@@ -751,7 +751,7 @@ void QEXTCircleGauge::setAnimation(bool animation)
 
 void QEXTCircleGauge::setAnimationDuration(int duration)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (duration <= 0)
     {
         qCritical() << "QEXTCircleGauge::setAnimationDuration():duration must greater than 0";
@@ -765,13 +765,13 @@ void QEXTCircleGauge::setAnimationDuration(int duration)
 
 void QEXTCircleGauge::setAnimationEasingCurve(QEasingCurve::Type easingCurve)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     d->m_animation->setEasingCurve(easingCurve);
 }
 
 void QEXTCircleGauge::setOuterCircleColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_outerCircleColor != color)
     {
         d->m_outerCircleColor = color;
@@ -781,7 +781,7 @@ void QEXTCircleGauge::setOuterCircleColor(const QColor &color)
 
 void QEXTCircleGauge::setInnerCircleColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_innerCircleColor != color)
     {
         d->m_innerCircleColor = color;
@@ -791,7 +791,7 @@ void QEXTCircleGauge::setInnerCircleColor(const QColor &color)
 
 void QEXTCircleGauge::setPieColorStart(const QColor &color)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_pieColorStart != color)
     {
         d->m_pieColorStart = color;
@@ -801,7 +801,7 @@ void QEXTCircleGauge::setPieColorStart(const QColor &color)
 
 void QEXTCircleGauge::setPieColorMid(const QColor &color)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_pieColorMid != color)
     {
         d->m_pieColorMid = color;
@@ -811,7 +811,7 @@ void QEXTCircleGauge::setPieColorMid(const QColor &color)
 
 void QEXTCircleGauge::setPieColorEnd(const QColor &color)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_pieColorEnd != color)
     {
         d->m_pieColorEnd = color;
@@ -821,7 +821,7 @@ void QEXTCircleGauge::setPieColorEnd(const QColor &color)
 
 void QEXTCircleGauge::setCoverCircleColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_coverCircleColor != color)
     {
         d->m_coverCircleColor = color;
@@ -831,7 +831,7 @@ void QEXTCircleGauge::setCoverCircleColor(const QColor &color)
 
 void QEXTCircleGauge::setScaleColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_scaleColor != color)
     {
         d->m_scaleColor = color;
@@ -841,7 +841,7 @@ void QEXTCircleGauge::setScaleColor(const QColor &color)
 
 void QEXTCircleGauge::setPointerColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_pointerColor != color)
     {
         d->m_pointerColor = color;
@@ -851,7 +851,7 @@ void QEXTCircleGauge::setPointerColor(const QColor &color)
 
 void QEXTCircleGauge::setCenterCircleColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_centerCircleColor != color)
     {
         d->m_centerCircleColor = color;
@@ -861,7 +861,7 @@ void QEXTCircleGauge::setCenterCircleColor(const QColor &color)
 
 void QEXTCircleGauge::setTextColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_textColor != color)
     {
         d->m_textColor = color;
@@ -871,7 +871,7 @@ void QEXTCircleGauge::setTextColor(const QColor &color)
 
 void QEXTCircleGauge::setOverlayVisiable(bool visiable)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_overlayVisiable != visiable)
     {
         d->m_overlayVisiable = visiable;
@@ -881,7 +881,7 @@ void QEXTCircleGauge::setOverlayVisiable(bool visiable)
 
 void QEXTCircleGauge::setOverlayColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_overlayColor != color)
     {
         d->m_overlayColor = color;
@@ -891,7 +891,7 @@ void QEXTCircleGauge::setOverlayColor(const QColor &color)
 
 void QEXTCircleGauge::setCircleWidth(int width)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_circleWidth != width)
     {
         d->m_circleWidth = width;
@@ -901,7 +901,7 @@ void QEXTCircleGauge::setCircleWidth(int width)
 
 void QEXTCircleGauge::setPieStyle(const QEXTCircleGauge::PieStyleType &style)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_pieStyle != style)
     {
         d->m_pieStyle = style;
@@ -911,7 +911,7 @@ void QEXTCircleGauge::setPieStyle(const QEXTCircleGauge::PieStyleType &style)
 
 void QEXTCircleGauge::setPointerStyle(const QEXTCircleGauge::PointerStyleType &style)
 {
-    QEXT_DECL_D(QEXTCircleGauge);
+    Q_D(QEXTCircleGauge);
     if (d->m_pointerStyle != style)
     {
         d->m_pointerStyle = style;

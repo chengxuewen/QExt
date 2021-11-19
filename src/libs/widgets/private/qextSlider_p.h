@@ -28,14 +28,14 @@ public:
     QFont m_tooltipFont;               //气泡提示字体
 
     bool m_timeVisiable;                  //是否显示时间
-    bool m_clickEnable;               //是否单击切换到当前
-    QString m_unitText;                   //单位
+    bool m_clickEnable;
+    QString m_unitText;
 
     QEXTTooltip *m_tooltip;               //气泡提示标签
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTSliderPrivate)
-    QEXT_DECL_PUBLIC(QEXTSlider)
+    Q_DECLARE_PUBLIC(QEXTSlider)
 };
 
 #endif // _QEXTSLIDER_P_H

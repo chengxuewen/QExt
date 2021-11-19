@@ -84,7 +84,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTDateTimeTumbler)
-    QEXT_DECL_PRIVATE(QEXTDateTimeTumbler)
+    Q_DECLARE_PRIVATE(QEXTDateTimeTumbler)
 };
 
 #endif // _QEXTDATETIMETUMBLER_H

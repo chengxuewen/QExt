@@ -19,7 +19,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTLedPrivate)
-    QEXT_DECL_PUBLIC(QEXTLed)
+    Q_DECLARE_PUBLIC(QEXTLed)
 };
 
 #endif // _QEXTLED_P_H

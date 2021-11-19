@@ -1,6 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextIpAddressEdit.h>
+﻿#include <qextIpAddressEdit.h>
 #include <qextIpAddressEdit_p.h>
 
 #include <QLabel>
@@ -11,6 +9,7 @@
 #include <QEvent>
 #include <QKeyEvent>
 #include <QDebug>
+
 
 
 QEXTIpAddressEditPrivate::QEXTIpAddressEditPrivate(QEXTIpAddressEdit *q)
@@ -119,7 +118,7 @@ void QEXTIpAddressEditPrivate::updateQSS(QEXTIpAddressEdit *qq)
 QEXTIpAddressEdit::QEXTIpAddressEdit(QWidget *parent)
     : QWidget(parent), d_ptr(new QEXTIpAddressEditPrivate(this))
 {
-    QEXT_DECL_D(QEXTIpAddressEdit);
+    Q_D(QEXTIpAddressEdit);
     this->setObjectName("IpAddressEdit");
     d->initForm(this);
     d->updateQSS(this);
@@ -132,7 +131,7 @@ QEXTIpAddressEdit::~QEXTIpAddressEdit()
 
 bool QEXTIpAddressEdit::eventFilter(QObject *watched, QEvent *event)
 {
-    QEXT_DECL_D(QEXTIpAddressEdit);
+    Q_D(QEXTIpAddressEdit);
     if (event->type() == QEvent::KeyPress)
     {
         QLineEdit *txt = (QLineEdit *)watched;
@@ -162,7 +161,7 @@ bool QEXTIpAddressEdit::eventFilter(QObject *watched, QEvent *event)
 
 void QEXTIpAddressEdit::textChanged(const QString &text)
 {
-    QEXT_DECL_D(QEXTIpAddressEdit);
+    Q_D(QEXTIpAddressEdit);
     int len = text.length();
     int value = text.toInt();
 
@@ -182,37 +181,37 @@ void QEXTIpAddressEdit::textChanged(const QString &text)
 
 QString QEXTIpAddressEdit::iP() const
 {
-    QEXT_DECL_DC(QEXTIpAddressEdit);
+    Q_D(const QEXTIpAddressEdit);
     return d->m_ip;
 }
 
 QColor QEXTIpAddressEdit::backgroundColor() const
 {
-    QEXT_DECL_DC(QEXTIpAddressEdit);
+    Q_D(const QEXTIpAddressEdit);
     return d->m_backgroundColor;
 }
 
 QColor QEXTIpAddressEdit::textColor() const
 {
-    QEXT_DECL_DC(QEXTIpAddressEdit);
+    Q_D(const QEXTIpAddressEdit);
     return d->m_textColor;
 }
 
 QColor QEXTIpAddressEdit::dotColor() const
 {
-    QEXT_DECL_DC(QEXTIpAddressEdit);
+    Q_D(const QEXTIpAddressEdit);
     return d->m_dotColor;
 }
 
 QColor QEXTIpAddressEdit::borderColor() const
 {
-    QEXT_DECL_DC(QEXTIpAddressEdit);
+    Q_D(const QEXTIpAddressEdit);
     return d->m_borderColor;
 }
 
 int QEXTIpAddressEdit::borderRadius() const
 {
-    QEXT_DECL_DC(QEXTIpAddressEdit);
+    Q_D(const QEXTIpAddressEdit);
     return d->m_borderRadius;
 }
 
@@ -228,7 +227,7 @@ QSize QEXTIpAddressEdit::minimumSizeHint() const
 
 void QEXTIpAddressEdit::setIP(const QString &ip)
 {
-    QEXT_DECL_D(QEXTIpAddressEdit);
+    Q_D(QEXTIpAddressEdit);
     //先检测IP地址是否合法
     QRegExp regExp("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)");
     if (!regExp.exactMatch(ip))
@@ -251,7 +250,7 @@ void QEXTIpAddressEdit::setIP(const QString &ip)
 
 void QEXTIpAddressEdit::clear()
 {
-    QEXT_DECL_D(QEXTIpAddressEdit);
+    Q_D(QEXTIpAddressEdit);
     d->m_txtIP1->clear();
     d->m_txtIP2->clear();
     d->m_txtIP3->clear();
@@ -261,7 +260,7 @@ void QEXTIpAddressEdit::clear()
 
 void QEXTIpAddressEdit::setBackgroundColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTIpAddressEdit);
+    Q_D(QEXTIpAddressEdit);
     if (d->m_backgroundColor != color)
     {
         d->m_backgroundColor = color;
@@ -271,7 +270,7 @@ void QEXTIpAddressEdit::setBackgroundColor(const QColor &color)
 
 void QEXTIpAddressEdit::setTextColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTIpAddressEdit);
+    Q_D(QEXTIpAddressEdit);
     if (d->m_textColor != color)
     {
         d->m_textColor = color;
@@ -281,7 +280,7 @@ void QEXTIpAddressEdit::setTextColor(const QColor &color)
 
 void QEXTIpAddressEdit::setDotColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTIpAddressEdit);
+    Q_D(QEXTIpAddressEdit);
     if (d->m_dotColor != color)
     {
         d->m_dotColor = color;
@@ -291,7 +290,7 @@ void QEXTIpAddressEdit::setDotColor(const QColor &color)
 
 void QEXTIpAddressEdit::setBorderColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTIpAddressEdit);
+    Q_D(QEXTIpAddressEdit);
     if (d->m_borderColor != color)
     {
         d->m_borderColor = color;
@@ -301,7 +300,7 @@ void QEXTIpAddressEdit::setBorderColor(const QColor &color)
 
 void QEXTIpAddressEdit::setBorderRadius(int radius)
 {
-    QEXT_DECL_D(QEXTIpAddressEdit);
+    Q_D(QEXTIpAddressEdit);
     if (d->m_borderRadius != radius)
     {
         d->m_borderRadius = radius;

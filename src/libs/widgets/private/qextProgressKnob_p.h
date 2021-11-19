@@ -43,7 +43,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressKnobPrivate)
-    QEXT_DECL_PUBLIC(QEXTProgressKnob)
+    Q_DECLARE_PUBLIC(QEXTProgressKnob)
 };
 
 #endif // _QEXTKNOB_P_H

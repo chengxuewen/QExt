@@ -874,4 +874,5 @@
     #define QEXT_INLINE_TEMPLATE inline
 #endif
 
+
 #endif // _QEXTCOMPILER_H

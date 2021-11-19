@@ -52,7 +52,7 @@ protected:
     QScopedPointer<QEXTFramelessMainWindowPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTFramelessMainWindow)
+    Q_DECLARE_PRIVATE(QEXTFramelessMainWindow)
     QEXT_DECL_DISABLE_COPY(QEXTFramelessMainWindow)
 };
 

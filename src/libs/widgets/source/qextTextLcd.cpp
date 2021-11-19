@@ -1,6 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextTextLcd.h>
+﻿#include <qextTextLcd.h>
 #include <qextTextLcd_p.h>
 
 #include <QDebug>
@@ -12,6 +10,8 @@
 #include <QFontMetrics>
 #include <QResizeEvent>
 #include <QApplication>
+
+
 
 QEXTTextLcdPrivate::QEXTTextLcdPrivate(QEXTTextLcd *q)
     : q_ptr(q)
@@ -45,7 +45,7 @@ QEXTTextLcdPrivate::~QEXTTextLcdPrivate()
 QEXTTextLcd::QEXTTextLcd(QWidget *parent)
     : QWidget(parent), d_ptr(new QEXTTextLcdPrivate(this))
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     d->m_animationTimer.reset(new QTimer);
     d->m_animationTimer->setInterval(d->m_animationInterval);
     connect(d->m_animationTimer.data(), SIGNAL(timeout()), this, SLOT(updateOffsetValue()));
@@ -58,67 +58,67 @@ QEXTTextLcd::~QEXTTextLcd()
 
 QString QEXTTextLcd::text() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return d->m_text;
 }
 
 int QEXTTextLcd::textAlignment() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return d->m_textAlignment;
 }
 
 int QEXTTextLcd::fontPixelSize() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return d->m_fontPixelSize;
 }
 
 int QEXTTextLcd::rowCount() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return d->m_rowCount;
 }
 
 double QEXTTextLcd::spaceFactory() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return d->m_spaceFactory;
 }
 
 bool QEXTTextLcd::isHighLightBorderEnable() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return d->m_highLightBorder;
 }
 
 QEXTTextLcd::Animation QEXTTextLcd::animationType() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return d->m_animationType;
 }
 
 int QEXTTextLcd::animationInterval() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return d->m_animationInterval;
 }
 
 QColor QEXTTextLcd::textColor() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return d->m_textColor;
 }
 
 QColor QEXTTextLcd::foregroundColor() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return d->m_foregroundColor;
 }
 
 QColor QEXTTextLcd::backgroundColor() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return d->m_backgroundColor;
 }
 
@@ -129,13 +129,13 @@ QSize QEXTTextLcd::sizeHint() const
 
 QSize QEXTTextLcd::minimumSizeHint() const
 {
-    QEXT_DECL_DC(QEXTTextLcd);
+    Q_D(const QEXTTextLcd);
     return QSize(30, d->m_fontPixelSize * 2);
 }
 
 void QEXTTextLcd::setText(const QString &strText)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (strText != d->m_text) {
         d->m_text = strText;
         this->update();
@@ -144,7 +144,7 @@ void QEXTTextLcd::setText(const QString &strText)
 
 void QEXTTextLcd::setTextAlignment(const int &iAlign)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (iAlign != d->m_textAlignment) {
         d->m_textAlignment = iAlign;
         this->update();
@@ -153,7 +153,7 @@ void QEXTTextLcd::setTextAlignment(const int &iAlign)
 
 void QEXTTextLcd::setFontPixelSize(const int &iSize)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (iSize < 8) {
         qWarning() << "QEXTTextLcd::setFontPixelSize():iSize must be greate than 8!";
         return;
@@ -166,7 +166,7 @@ void QEXTTextLcd::setFontPixelSize(const int &iSize)
 
 void QEXTTextLcd::setRowCount(const int &iCount)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (iCount < 8) {
         qWarning() << "QEXTTextLcd::setRowCount():iCount must be greate than 8!";
         return;
@@ -179,7 +179,7 @@ void QEXTTextLcd::setRowCount(const int &iCount)
 
 void QEXTTextLcd::setSpaceFactory(const double &dFac)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (dFac <= 0 || dFac >= 1) {
         qWarning() << "QEXTTextLcd::setSpaceFactory():dFac must be greater than 0 and less than 1!";
         return;
@@ -192,7 +192,7 @@ void QEXTTextLcd::setSpaceFactory(const double &dFac)
 
 void QEXTTextLcd::setHighLightBorderEnable(const bool &bEnable)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (bEnable != d->m_highLightBorder) {
         d->m_highLightBorder = bEnable;
         this->update();
@@ -201,7 +201,7 @@ void QEXTTextLcd::setHighLightBorderEnable(const bool &bEnable)
 
 void QEXTTextLcd::setAnimationType(const QEXTTextLcd::Animation &eType)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (eType != d->m_animationType) {
         d->m_animationType = eType;
         if (Animation_Static == eType) {
@@ -218,7 +218,7 @@ void QEXTTextLcd::setAnimationType(const QEXTTextLcd::Animation &eType)
 
 void QEXTTextLcd::setAnimationInterval(const int &iInterval)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (iInterval <= 0) {
         qWarning() << "QEXTTextLcd::setAnimationInterval():iInterval must be greate than 0!";
         return;
@@ -232,7 +232,7 @@ void QEXTTextLcd::setAnimationInterval(const int &iInterval)
 
 void QEXTTextLcd::setTextColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (color != d->m_textColor) {
         d->m_textColor = color;
         this->update();
@@ -241,7 +241,7 @@ void QEXTTextLcd::setTextColor(const QColor &color)
 
 void QEXTTextLcd::setForegroundColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (color != d->m_foregroundColor) {
         d->m_foregroundColor = color;
         this->update();
@@ -250,7 +250,7 @@ void QEXTTextLcd::setForegroundColor(const QColor &color)
 
 void QEXTTextLcd::setBackgroundColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (color != d->m_backgroundColor) {
         d->m_backgroundColor = color;
         this->update();
@@ -259,7 +259,7 @@ void QEXTTextLcd::setBackgroundColor(const QColor &color)
 
 void QEXTTextLcd::updateOffsetValue()
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     d->m_animationOffset++;
     switch (d->m_animationType) {
     case QEXTTextLcd::Animation_LeftToRight:
@@ -286,7 +286,7 @@ void QEXTTextLcd::updateOffsetValue()
 
 void QEXTTextLcd::paintEvent(QPaintEvent *)
 {
-    QEXT_DECL_D(QEXTTextLcd);
+    Q_D(QEXTTextLcd);
     if (d->m_ledTextSizeF.toSize() != this->size()) {
         d->m_ledTextSizeF = this->size();
         d->m_step = d->m_ledTextSizeF.height() / double(d->m_rowCount);

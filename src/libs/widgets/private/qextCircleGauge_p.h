@@ -52,7 +52,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTCircleGaugePrivate)
-    QEXT_DECL_PUBLIC(QEXTCircleGauge)
+    Q_DECLARE_PUBLIC(QEXTCircleGauge)
 };
 
 #endif // _QEXTGAUGECAR_P_H

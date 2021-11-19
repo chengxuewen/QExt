@@ -1,6 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextScaleKnob.h>
+﻿#include <qextScaleKnob.h>
 #include <qextScaleKnob_p.h>
 
 #include <QMouseEvent>
@@ -8,6 +6,7 @@
 #include <QEvent>
 #include <QDebug>
 #include <qmath.h>
+
 
 
 QEXTScaleKnobPrivate::QEXTScaleKnobPrivate(QEXTScaleKnob *q)
@@ -53,20 +52,20 @@ QEXTScaleKnob::~QEXTScaleKnob()
 
 void QEXTScaleKnob::mousePressEvent(QMouseEvent *e)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     d->m_pressed = true;
     this->setPressedValue(e->pos());
 }
 
 void QEXTScaleKnob::mouseReleaseEvent(QMouseEvent *)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     d->m_pressed = false;
 }
 
 void QEXTScaleKnob::mouseMoveEvent(QMouseEvent *e)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (d->m_pressed)
     {
         this->setPressedValue(e->pos());
@@ -75,7 +74,7 @@ void QEXTScaleKnob::mouseMoveEvent(QMouseEvent *e)
 
 void QEXTScaleKnob::paintEvent(QPaintEvent *)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
@@ -117,7 +116,7 @@ void QEXTScaleKnob::paintEvent(QPaintEvent *)
 
 void QEXTScaleKnob::drawScale(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     int radius = 96;
     int offset = 10;
     painter->save();
@@ -192,7 +191,7 @@ void QEXTScaleKnob::drawScale(QPainter *painter)
 
 void QEXTScaleKnob::drawBackgroundCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     int radius = 75;
     painter->save();
 
@@ -209,7 +208,7 @@ void QEXTScaleKnob::drawBackgroundCircle(QPainter *painter)
 
 void QEXTScaleKnob::drawCenterCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     int radius = 15;
     painter->save();
 
@@ -229,7 +228,7 @@ void QEXTScaleKnob::drawCenterCircle(QPainter *painter)
 
 void QEXTScaleKnob::drawPointerLine(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     int radius = 62;
     painter->save();
 
@@ -252,7 +251,7 @@ void QEXTScaleKnob::drawPointerLine(QPainter *painter)
 
 void QEXTScaleKnob::drawPointerIndicator(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     int radius = 65;
     int offset = 8;
     painter->save();
@@ -281,7 +280,7 @@ void QEXTScaleKnob::drawPointerIndicator(QPainter *painter)
 
 void QEXTScaleKnob::drawPointerIndicatorR(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     int radius = 62;
     int offset = 8;
     painter->save();
@@ -318,7 +317,7 @@ void QEXTScaleKnob::drawPointerIndicatorR(QPainter *painter)
 
 void QEXTScaleKnob::drawPointerTriangle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     int radius = 25;
     int offset = 40;
     painter->save();
@@ -346,7 +345,7 @@ void QEXTScaleKnob::drawPointerTriangle(QPainter *painter)
 
 void QEXTScaleKnob::drawValue(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (!d->m_valueVisiable)
     {
         return;
@@ -376,7 +375,7 @@ void QEXTScaleKnob::drawValue(QPainter *painter)
 
 void QEXTScaleKnob::setPressedValue(QPointF pressedPoint)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     //计算总角度
     double length = 360 - d->m_startAngle - d->m_endAngle;
 
@@ -404,85 +403,85 @@ void QEXTScaleKnob::setPressedValue(QPointF pressedPoint)
 
 double QEXTScaleKnob::minValue() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_minValue;
 }
 
 double QEXTScaleKnob::maxValue() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_maxValue;
 }
 
 double QEXTScaleKnob::value() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_value;
 }
 
 int QEXTScaleKnob::precision() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_precision;
 }
 
 int QEXTScaleKnob::scaleStep() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_scaleStep;
 }
 
 int QEXTScaleKnob::startAngle() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_startAngle;
 }
 
 int QEXTScaleKnob::endAngle() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_endAngle;
 }
 
 QColor QEXTScaleKnob::borderColor() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_borderColor;
 }
 
 QColor QEXTScaleKnob::backgroundColor() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_backgroundColor;
 }
 
 QColor QEXTScaleKnob::textColor() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_textColor;
 }
 
 QColor QEXTScaleKnob::percentColor() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_percentColor;
 }
 
 bool QEXTScaleKnob::isRangeBisectionEnable() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_rangeBisectionEnable;
 }
 
 bool QEXTScaleKnob::isValueVisiable() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_valueVisiable;
 }
 
 QEXTScaleKnob::PointerStyle QEXTScaleKnob::pointerStyle() const
 {
-    QEXT_DECL_DC(QEXTScaleKnob);
+    Q_D(const QEXTScaleKnob);
     return d->m_pointerStyle;
 }
 
@@ -498,7 +497,7 @@ QSize QEXTScaleKnob::minimumSizeHint() const
 
 void QEXTScaleKnob::setRange(double minValue, double maxValue)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue)
     {
@@ -519,25 +518,25 @@ void QEXTScaleKnob::setRange(double minValue, double maxValue)
 
 void QEXTScaleKnob::setRange(int minValue, int maxValue)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     this->setRange((double)minValue, (double)maxValue);
 }
 
 void QEXTScaleKnob::setMinValue(double minValue)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     this->setRange(minValue, d->m_maxValue);
 }
 
 void QEXTScaleKnob::setMaxValue(double maxValue)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     this->setRange(d->m_minValue, maxValue);
 }
 
 void QEXTScaleKnob::setValue(double value)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     //值和当前值一致则无需处理
     if (value == d->m_value)
     {
@@ -561,13 +560,13 @@ void QEXTScaleKnob::setValue(double value)
 
 void QEXTScaleKnob::setValue(int value)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     this->setValue((double)value);
 }
 
 void QEXTScaleKnob::setPrecision(int precision)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     //最大精确度为 3
     if (precision <= 3 && d->m_precision != precision)
     {
@@ -578,7 +577,7 @@ void QEXTScaleKnob::setPrecision(int precision)
 
 void QEXTScaleKnob::setScaleStep(int step)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (d->m_scaleStep != step)
     {
         d->m_scaleStep = step;
@@ -588,7 +587,7 @@ void QEXTScaleKnob::setScaleStep(int step)
 
 void QEXTScaleKnob::setStartAngle(int angle)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (d->m_startAngle != angle)
     {
         d->m_startAngle = angle;
@@ -598,7 +597,7 @@ void QEXTScaleKnob::setStartAngle(int angle)
 
 void QEXTScaleKnob::setEndAngle(int angle)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (d->m_endAngle != angle)
     {
         d->m_endAngle = angle;
@@ -608,7 +607,7 @@ void QEXTScaleKnob::setEndAngle(int angle)
 
 void QEXTScaleKnob::setBorderColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (d->m_borderColor != color)
     {
         d->m_borderColor = color;
@@ -618,7 +617,7 @@ void QEXTScaleKnob::setBorderColor(const QColor &color)
 
 void QEXTScaleKnob::setBackgroundColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (d->m_backgroundColor != color)
     {
         d->m_backgroundColor = color;
@@ -628,7 +627,7 @@ void QEXTScaleKnob::setBackgroundColor(const QColor &color)
 
 void QEXTScaleKnob::setTextColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (d->m_textColor != color)
     {
         d->m_textColor = color;
@@ -638,7 +637,7 @@ void QEXTScaleKnob::setTextColor(const QColor &color)
 
 void QEXTScaleKnob::setPercentColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (d->m_percentColor != color)
     {
         d->m_percentColor = color;
@@ -648,7 +647,7 @@ void QEXTScaleKnob::setPercentColor(const QColor &color)
 
 void QEXTScaleKnob::setRangeBisectionEnable(bool enable)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (d->m_rangeBisectionEnable != enable)
     {
         d->m_rangeBisectionEnable = enable;
@@ -658,7 +657,7 @@ void QEXTScaleKnob::setRangeBisectionEnable(bool enable)
 
 void QEXTScaleKnob::setValueVisiable(bool visiable)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (d->m_valueVisiable != visiable)
     {
         d->m_valueVisiable = visiable;
@@ -668,7 +667,7 @@ void QEXTScaleKnob::setValueVisiable(bool visiable)
 
 void QEXTScaleKnob::setPointerStyle(const QEXTScaleKnob::PointerStyle &style)
 {
-    QEXT_DECL_D(QEXTScaleKnob);
+    Q_D(QEXTScaleKnob);
     if (d->m_pointerStyle != style)
     {
         d->m_pointerStyle = style;

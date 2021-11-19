@@ -1,8 +1,8 @@
-#pragma execution_character_set("utf-8")
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

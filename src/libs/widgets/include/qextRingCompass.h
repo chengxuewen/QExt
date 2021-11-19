@@ -88,7 +88,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTRingCompass)
-    QEXT_DECL_PRIVATE(QEXTRingCompass)
+    Q_DECLARE_PRIVATE(QEXTRingCompass)
 };
 
 #endif // _QEXTRINGCOMPASS_H

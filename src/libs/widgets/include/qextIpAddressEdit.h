@@ -69,7 +69,7 @@ private Q_SLOTS:
     void textChanged(const QString &text);
 
 private:
-    QEXT_DECL_PRIVATE(QEXTIpAddressEdit)
+    Q_DECLARE_PRIVATE(QEXTIpAddressEdit)
     QEXT_DECL_DISABLE_COPY(QEXTIpAddressEdit)
 };
 

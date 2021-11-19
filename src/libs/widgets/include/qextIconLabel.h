@@ -20,7 +20,7 @@ protected:
     QScopedPointer<QEXTIconLabelPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTIconLabel)
+    Q_DECLARE_PRIVATE(QEXTIconLabel)
     QEXT_DECL_DISABLE_COPY(QEXTIconLabel)
 };
 

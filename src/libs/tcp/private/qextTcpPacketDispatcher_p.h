@@ -31,7 +31,7 @@ public:
     QHash<quint64, QPointer<QEXTTcpPacketTransceiver> > m_requestPacketIdToReceiverMap;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTTcpPacketDispatcher)
+    Q_DECLARE_PUBLIC(QEXTTcpPacketDispatcher)
     QEXT_DECL_DISABLE_COPY(QEXTTcpPacketDispatcherPrivate)
 };
 

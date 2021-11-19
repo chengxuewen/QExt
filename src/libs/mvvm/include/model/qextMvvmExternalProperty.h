@@ -36,7 +36,7 @@ protected:
     QScopedPointer<QEXTMvvmExternalPropertyPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTMvvmExternalProperty)
+    Q_DECLARE_PRIVATE(QEXTMvvmExternalProperty)
 };
 
 Q_DECLARE_METATYPE(QEXTMvvmExternalProperty)

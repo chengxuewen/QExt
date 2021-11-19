@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmarrowcompass.h"
+﻿#include "frmarrowcompass.h"
 #include "ui_frmarrowcompass.h"
+
+
 
 FrmArrowCompass::FrmArrowCompass(QWidget *parent) : QWidget(parent), ui(new Ui::FrmArrowCompass)
 {

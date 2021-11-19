@@ -92,7 +92,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTTumbler)
-    QEXT_DECL_PRIVATE(QEXTTumbler)
+    Q_DECLARE_PRIVATE(QEXTTumbler)
 };
 
 #endif // _QEXTTUMBLER_H

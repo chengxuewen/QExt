@@ -34,7 +34,7 @@ public:
     QList<QEXTNavigationListItem *> m_childItems;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTNavigationListItem)
+    Q_DECLARE_PUBLIC(QEXTNavigationListItem)
     QEXT_DECL_DISABLE_COPY(QEXTNavigationListItemPrivate)
 };
 
@@ -84,7 +84,7 @@ public:
     QSet<QEXTNavigationListItem *> m_allItemSet;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTNavigationListModel)
+    Q_DECLARE_PUBLIC(QEXTNavigationListModel)
     QEXT_DECL_DISABLE_COPY(QEXTNavigationListModelPrivate)
 };
 
@@ -158,7 +158,7 @@ public:
     QEXTNavigationListView::ExpendMode m_expendMode; //节点展开模式 单击/双击/禁用
 
 private:
-    QEXT_DECL_PUBLIC(QEXTNavigationListView)
+    Q_DECLARE_PUBLIC(QEXTNavigationListView)
     QEXT_DECL_DISABLE_COPY(QEXTNavigationListViewPrivate)
 };
 

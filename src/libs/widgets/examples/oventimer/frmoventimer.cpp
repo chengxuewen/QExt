@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmoventimer.h"
+﻿#include "frmoventimer.h"
 #include "ui_frmoventimer.h"
+
+
 
 frmOvenTimer::frmOvenTimer(QWidget *parent) : QWidget(parent), ui(new Ui::frmOvenTimer)
 {

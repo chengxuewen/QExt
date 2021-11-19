@@ -1,12 +1,12 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextRangeSlider.h>
+﻿#include <qextRangeSlider.h>
 
 #include <QPainter>
 #include <QMouseEvent>
 #include <QEvent>
 #include <QDebug>
 #include <qmath.h>
+
+
 
 QEXTRangeSlider::QEXTRangeSlider(QWidget *parent) : QWidget(parent)
 {

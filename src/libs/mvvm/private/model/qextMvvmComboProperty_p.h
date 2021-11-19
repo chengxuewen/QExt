@@ -18,7 +18,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmComboPropertyPrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmComboProperty)
+    Q_DECLARE_PUBLIC(QEXTMvvmComboProperty)
 };
 
 #endif // _QEXTMVVMCOMBOPROPERTY_P_H

@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmprogresswait.h"
+﻿#include "frmprogresswait.h"
 #include "ui_frmprogresswait.h"
+
+
 
 frmProgressWait::frmProgressWait(QWidget *parent) : QWidget(parent), ui(new Ui::frmProgressWait)
 {

@@ -3,11 +3,11 @@
 
 #include <qextWidgetGlobal.h>
 
-#include <QAbstractButton>
+#include <QPushButton>
 #include <QSize>
 
 class QEXTIconButtonPrivate;
-class QEXT_WIDGETS_API QEXTIconButton : public QAbstractButton
+class QEXT_WIDGETS_API QEXTIconButton : public QPushButton
 {
     Q_OBJECT
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)

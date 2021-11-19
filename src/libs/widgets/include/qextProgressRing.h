@@ -188,7 +188,7 @@ private slots:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressRing)
-    QEXT_DECL_PRIVATE(QEXTProgressRing)
+    Q_DECLARE_PRIVATE(QEXTProgressRing)
 };
 
 #endif // _QEXTPROGRESSRING_H

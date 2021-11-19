@@ -66,7 +66,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTSelectSlider)
-    QEXT_DECL_PRIVATE(QEXTSelectSlider)
+    Q_DECLARE_PRIVATE(QEXTSelectSlider)
 
 public:
     int minValue() const;

@@ -1,11 +1,11 @@
-#pragma execution_character_set("utf-8")
-
 #include <qextNumberLed.h>
 #include <qextNumberLed_p.h>
 
 #include <QDebug>
 #include <QColor>
 #include <QPainter>
+
+
 
 QEXTNumberLedPrivate::QEXTNumberLedPrivate(QEXTNumberLed *q)
     : q_ptr(q)
@@ -44,43 +44,43 @@ QEXTNumberLed::~QEXTNumberLed()
 
 int QEXTNumberLed::number() const
 {
-    QEXT_DECL_DC(QEXTNumberLed);
+    Q_D(const QEXTNumberLed);
     return d->m_number;
 }
 
 int QEXTNumberLed::space() const
 {
-    QEXT_DECL_DC(QEXTNumberLed);
+    Q_D(const QEXTNumberLed);
     return d->m_space;
 }
 
 QColor QEXTNumberLed::backgroundStartColor() const
 {
-    QEXT_DECL_DC(QEXTNumberLed);
+    Q_D(const QEXTNumberLed);
     return d->m_backgroundStartColor;
 }
 
 QColor QEXTNumberLed::backgroundEndColor() const
 {
-    QEXT_DECL_DC(QEXTNumberLed);
+    Q_D(const QEXTNumberLed);
     return d->m_backgroundEndColor;
 }
 
 QColor QEXTNumberLed::numberStartColor() const
 {
-    QEXT_DECL_DC(QEXTNumberLed);
+    Q_D(const QEXTNumberLed);
     return d->m_numberStartColor;
 }
 
 QColor QEXTNumberLed::numberEndColor() const
 {
-    QEXT_DECL_DC(QEXTNumberLed);
+    Q_D(const QEXTNumberLed);
     return d->m_numberEndColor;
 }
 
 QEXTNumberLed::Symbol QEXTNumberLed::symbolType() const
 {
-    QEXT_DECL_DC(QEXTNumberLed);
+    Q_D(const QEXTNumberLed);
     return d->m_symbol;
 }
 
@@ -96,7 +96,7 @@ QSize QEXTNumberLed::minimumSizeHint() const
 
 void QEXTNumberLed::setNumber(int number)
 {
-    QEXT_DECL_D(QEXTNumberLed);
+    Q_D(QEXTNumberLed);
     if (number < 0 || number > 9)
     {
         qCritical() << "QEXTNumberLed::setNumber():iNumber must be in range of 0~9!";
@@ -110,7 +110,7 @@ void QEXTNumberLed::setNumber(int number)
 
 void QEXTNumberLed::setSpace(int space)
 {
-    QEXT_DECL_D(QEXTNumberLed);
+    Q_D(QEXTNumberLed);
     if (space < 0) {
         qCritical() << "QEXTNumberLed::setNumber():iNumber must br greate than zero!";
         return;
@@ -123,7 +123,7 @@ void QEXTNumberLed::setSpace(int space)
 
 void QEXTNumberLed::setBackgroundStartColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTNumberLed);
+    Q_D(QEXTNumberLed);
     if (color != d->m_backgroundStartColor) {
         d->m_backgroundStartColor = color;
         this->update();
@@ -132,7 +132,7 @@ void QEXTNumberLed::setBackgroundStartColor(const QColor &color)
 
 void QEXTNumberLed::setBackgroundEndColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTNumberLed);
+    Q_D(QEXTNumberLed);
     if (color != d->m_backgroundEndColor) {
         d->m_backgroundEndColor = color;
         this->update();
@@ -141,7 +141,7 @@ void QEXTNumberLed::setBackgroundEndColor(const QColor &color)
 
 void QEXTNumberLed::setNumberStartColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTNumberLed);
+    Q_D(QEXTNumberLed);
     if (color != d->m_numberStartColor) {
         d->m_numberStartColor = color;
         this->update();
@@ -150,7 +150,7 @@ void QEXTNumberLed::setNumberStartColor(const QColor &color)
 
 void QEXTNumberLed::setNumberEndColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTNumberLed);
+    Q_D(QEXTNumberLed);
     if (color != d->m_numberEndColor) {
         d->m_numberEndColor = color;
         this->update();
@@ -159,7 +159,7 @@ void QEXTNumberLed::setNumberEndColor(const QColor &color)
 
 void QEXTNumberLed::setSymbolType(const QEXTNumberLed::Symbol &type)
 {
-    QEXT_DECL_D(QEXTNumberLed);
+    Q_D(QEXTNumberLed);
     if (type != d->m_symbol) {
         d->m_symbol = type;
         this->update();
@@ -168,7 +168,7 @@ void QEXTNumberLed::setSymbolType(const QEXTNumberLed::Symbol &type)
 
 void QEXTNumberLed::paintEvent(QPaintEvent *)
 {
-    QEXT_DECL_D(QEXTNumberLed);
+    Q_D(QEXTNumberLed);
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
@@ -180,7 +180,7 @@ void QEXTNumberLed::paintEvent(QPaintEvent *)
 
 void QEXTNumberLed::drawBackground(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTNumberLed);
+    Q_D(QEXTNumberLed);
     painter->save();
     painter->setPen(Qt::NoPen);
     QLinearGradient bgGradient(QPointF(0, 0), QPointF(0, this->height()));
@@ -193,7 +193,7 @@ void QEXTNumberLed::drawBackground(QPainter *painter)
 
 void QEXTNumberLed::drawNumber(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTNumberLed);
+    Q_D(QEXTNumberLed);
     painter->save();
     painter->setPen(Qt::NoPen);
 

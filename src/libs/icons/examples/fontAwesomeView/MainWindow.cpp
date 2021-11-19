@@ -16,10 +16,6 @@ LFAMMainWindow::LFAMMainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setFixedSize(700, 800);
 
-//    QEXTIconsFontAwesome *awesome = new QEXTIconsFontAwesome(this);
-//    awesome->setDefaultOption("color-active", QColor(10,10,10));
-//    QEXTIconsFontAwesome::FontNameTextMap hasnMap = awesome->fontNameTextMap();
-
     qextIconsFontAwesome->setDefaultOption(QEXTIconsFontAwesome::Option_Color, QColor(255, 0, 0));
     qextIconsFontAwesome->setDefaultOption(QEXTIconsFontAwesome::Option_ColorSelected, QColor(0, 255, 0));
     qextIconsFontAwesome->setDefaultOption(QEXTIconsFontAwesome::Option_ColorSelectedOff, QColor(0, 0, 255));
@@ -38,8 +34,6 @@ LFAMMainWindow::LFAMMainWindow(QWidget *parent) :
         QString key = keyList.at(i);
         QEXTIconsFontAwesome::FontType type = hasnMap.value(key);
         QIcon icon = qextIconsFontAwesome->icon(type);
-//        QIcon icon = qextIconsFontAwesome->icon(type).pixmap(30, 30, QIcon::Selected, QIcon::On);
-//        QIcon icon = qextIconsFontAwesome->icon(type).pixmap(30, 30, QIcon::Selected, QIcon::Off);
         QToolButton *button = new QToolButton(this);
         button->setIcon(icon);
         button->setText(key);

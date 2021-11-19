@@ -28,7 +28,7 @@ public:
     QMap<QString, quint8> m_typeMap;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTTcpPacketHeader)
+    Q_DECLARE_PUBLIC(QEXTTcpPacketHeader)
     QEXT_DECL_DISABLE_COPY(QEXTTcpPacketHeaderPrivate)
 };
 

@@ -180,7 +180,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationBar)
-    QEXT_DECL_PRIVATE(QEXTNavigationBar)
+    Q_DECLARE_PRIVATE(QEXTNavigationBar)
 };
 
 #endif // _QEXTNAVIGATIONBAR_H

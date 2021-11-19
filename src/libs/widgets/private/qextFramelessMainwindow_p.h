@@ -40,7 +40,7 @@ public:
 
 
 private:
-    QEXT_DECL_PUBLIC(QEXTFramelessMainWindow)
+    Q_DECLARE_PUBLIC(QEXTFramelessMainWindow)
     QEXT_DECL_DISABLE_COPY(QEXTFramelessMainWindowPrivate)
 };
 

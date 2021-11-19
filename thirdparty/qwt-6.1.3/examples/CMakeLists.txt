@@ -1,3 +1,11 @@
+#--------------------------------------------------------------------------------
+# Set example output path
+#--------------------------------------------------------------------------------
+set(EXECUTABLE_OUTPUT_PATH ${QWT_EXAMPLE_OUTPUT_DIR})
+set(LIBRARY_OUTPUT_PATH ${QWT_LIB_OUTPUT_DIR})
+
+
+
 #----------------------------------------------------------------
 # Function
 #----------------------------------------------------------------
@@ -5,7 +13,7 @@ function(qwtCopyDependenceLib target dependence)
     add_custom_command(
         TARGET ${target}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${dependence}> $<TARGET_FILE_DIR:${target}>
-        COMMENT "copy the lib file to the same folder as the executable"
+        COMMENT "copy the qwt lib file to the same folder as the executable"
         POST_BUILD
         )
 endfunction(qwtCopyDependenceLib)

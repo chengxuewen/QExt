@@ -34,7 +34,7 @@ public:
     static quint64 sm_id;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTTcpTask)
+    Q_DECLARE_PUBLIC(QEXTTcpTask)
     QEXT_DECL_DISABLE_COPY(QEXTTcpTaskPrivate)
 };
 

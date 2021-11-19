@@ -24,7 +24,7 @@ public:
     bool m_valid;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTTcpPacket)
+    Q_DECLARE_PUBLIC(QEXTTcpPacket)
     QEXT_DECL_DISABLE_COPY(QEXTTcpPacketPrivate)
 };
 

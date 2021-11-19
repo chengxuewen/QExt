@@ -218,7 +218,7 @@ private slots:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTCircleGauge)
-    QEXT_DECL_PRIVATE(QEXTCircleGauge)
+    Q_DECLARE_PRIVATE(QEXTCircleGauge)
 };
 
 #endif // _QEXTCIRCLEGAUGE_H

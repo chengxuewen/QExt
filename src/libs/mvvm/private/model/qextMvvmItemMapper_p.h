@@ -81,7 +81,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmItemMapperPrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmItemMapper)
+    Q_DECLARE_PUBLIC(QEXTMvvmItemMapper)
 };
 
 #endif // _QEXTMVVMITEMMAPPER_P_H

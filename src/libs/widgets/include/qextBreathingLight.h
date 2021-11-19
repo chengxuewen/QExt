@@ -49,7 +49,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY(QEXTBreathingLight)
-    QEXT_DECL_PRIVATE(QEXTBreathingLight)
+    Q_DECLARE_PRIVATE(QEXTBreathingLight)
 };
 
 #endif // _QEXTBREATHINGLIGHT_H

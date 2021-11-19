@@ -44,7 +44,7 @@ public:
     int m_animationOffset;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTTextLcd)
+    Q_DECLARE_PUBLIC(QEXTTextLcd)
     QEXT_DECL_DISABLE_COPY(QEXTTextLcdPrivate)
 };
 

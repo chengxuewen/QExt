@@ -73,7 +73,7 @@ protected:
     QScopedPointer<QEXTTcpSocketPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTTcpSocket)
+    Q_DECLARE_PRIVATE(QEXTTcpSocket)
     QEXT_DECL_DISABLE_COPY(QEXTTcpSocket)
 };
 

@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmrulerslider.h"
+﻿#include "frmrulerslider.h"
 #include "ui_frmrulerslider.h"
+
+
 
 frmRulerSlider::frmRulerSlider(QWidget *parent) : QWidget(parent), ui(new Ui::frmRulerSlider)
 {

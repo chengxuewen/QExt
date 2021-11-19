@@ -145,7 +145,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTScaleKnob)
-    QEXT_DECL_PRIVATE(QEXTScaleKnob)
+    Q_DECLARE_PRIVATE(QEXTScaleKnob)
 };
 
 #endif // _QEXTSCALEKNOB_H

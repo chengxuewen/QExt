@@ -30,7 +30,7 @@ public:
     bool m_colonVisiable;          //冒号显示
 
 private:
-    QEXT_DECL_PUBLIC(QEXTNumberLed)
+    Q_DECLARE_PUBLIC(QEXTNumberLed)
     QEXT_DECL_DISABLE_COPY(QEXTNumberLedPrivate)
 };
 

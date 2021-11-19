@@ -1,9 +1,9 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmnavigationbarform.h"
+﻿#include "frmnavigationbarform.h"
 #include "ui_frmnavigationbarform.h"
 #include "qtimer.h"
 #include "qdebug.h"
+
+
 
 FrmNavigationBarForm::FrmNavigationBarForm(QWidget *parent) : QWidget(parent), ui(new Ui::FrmNavigationBarForm)
 {

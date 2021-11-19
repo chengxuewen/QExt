@@ -40,7 +40,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTFramelessWidgetPrivate)
-    QEXT_DECL_PUBLIC(QEXTFramelessWidget)
+    Q_DECLARE_PUBLIC(QEXTFramelessWidget)
 };
 
 #endif // _QEXTFRAMELESSWIDGET_P_H

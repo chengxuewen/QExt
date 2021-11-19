@@ -1,8 +1,8 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmswitchbutton.h"
+﻿#include "frmswitchbutton.h"
 #include "ui_frmswitchbutton.h"
 #include "qextSwitchButton.h"
+
+
 
 #define color1 QColor(34, 163, 169)
 #define color2 QColor(162, 121, 197)

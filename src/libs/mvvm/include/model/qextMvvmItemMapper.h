@@ -50,7 +50,7 @@ private:
     friend class QEXTMvvmItem;
     friend class QEXTMvvmItemPrivate;
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmItemMapper)
-    QEXT_DECL_PRIVATE(QEXTMvvmItemMapper)
+    Q_DECLARE_PRIVATE(QEXTMvvmItemMapper)
 };
 
 #endif // _QEXTMVVMITEMMAPPER_H

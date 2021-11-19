@@ -44,7 +44,7 @@ protected:
     QScopedPointer<QEXTLinearFunctionPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTLinearFunction)
+    Q_DECLARE_PRIVATE(QEXTLinearFunction)
 };
 
 

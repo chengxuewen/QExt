@@ -30,7 +30,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTTooltipPrivate)
-    QEXT_DECL_PUBLIC(QEXTTooltip)
+    Q_DECLARE_PUBLIC(QEXTTooltip)
 };
 
 #endif // _QEXTTOOLTIP_P_H

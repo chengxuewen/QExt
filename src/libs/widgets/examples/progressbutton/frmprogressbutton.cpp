@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmprogressbutton.h"
+﻿#include "frmprogressbutton.h"
 #include "ui_frmprogressbutton.h"
+
+
 
 frmProgressButton::frmProgressButton(QWidget *parent) : QWidget(parent), ui(new Ui::frmProgressButton)
 {

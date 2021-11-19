@@ -29,7 +29,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTDateTimeTumblerPrivate)
-    QEXT_DECL_PUBLIC(QEXTDateTimeTumbler)
+    Q_DECLARE_PUBLIC(QEXTDateTimeTumbler)
 };
 
 #endif // _QEXTDATETIMETUMBLER_P_H

@@ -35,7 +35,7 @@ protected:
     QScopedPointer<QEXTTcpPacketHeaderPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTTcpPacketHeader)
+    Q_DECLARE_PRIVATE(QEXTTcpPacketHeader)
     QEXT_DECL_DISABLE_COPY(QEXTTcpPacketHeader)
 };
 

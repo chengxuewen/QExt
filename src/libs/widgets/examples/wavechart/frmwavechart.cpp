@@ -1,10 +1,10 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmwavechart.h"
+﻿#include "frmwavechart.h"
 #include "ui_frmwavechart.h"
 
 #include "qdatetime.h"
 #include "qtimer.h"
+
+
 
 frmWaveChart::frmWaveChart(QWidget *parent) : QWidget(parent), ui(new Ui::frmWaveChart)
 {

@@ -122,7 +122,7 @@ private:
     friend class QEXTMvvmModel;
     friend class QEXTMvvmJsonItemConverter;
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmItem)
-    QEXT_DECL_PRIVATE(QEXTMvvmItem)
+    Q_DECLARE_PRIVATE(QEXTMvvmItem)
 };
 
 //! Sets data for given role.

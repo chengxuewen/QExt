@@ -29,7 +29,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmProject)
-    QEXT_DECL_PRIVATE(QEXTMvvmProject)
+    Q_DECLARE_PRIVATE(QEXTMvvmProject)
 };
 
 

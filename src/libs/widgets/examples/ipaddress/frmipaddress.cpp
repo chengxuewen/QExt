@@ -1,8 +1,8 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmipaddress.h"
+﻿#include "frmipaddress.h"
 #include "ui_frmipaddress.h"
 #include "qdebug.h"
+
+
 
 frmIPAddress::frmIPAddress(QWidget *parent) : QWidget(parent), ui(new Ui::frmIPAddress)
 {

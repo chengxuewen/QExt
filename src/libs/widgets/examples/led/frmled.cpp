@@ -1,9 +1,9 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmled.h"
+﻿#include "frmled.h"
 #include "ui_frmled.h"
 
 #include <qextDial.h>
+
+
 
 FrmLED::FrmLED(QWidget *parent) : QWidget(parent), ui(new Ui::FrmLED)
 {

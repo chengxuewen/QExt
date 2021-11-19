@@ -41,7 +41,7 @@ protected:
     QScopedPointer<QEXTMvvmItemCataloguePrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTMvvmItemCatalogue)
+    Q_DECLARE_PRIVATE(QEXTMvvmItemCatalogue)
 };
 
 template<typename T> T *QEXTMvvmItemCatalogue::createItem()

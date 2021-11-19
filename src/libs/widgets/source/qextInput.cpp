@@ -1,6 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextInput.h>
+﻿#include <qextInput.h>
 #include <ui_qextInput.h>
 
 #include <QPropertyAnimation>
@@ -14,6 +12,8 @@
 #include <QMatrix>
 #include <QMutexLocker>
 #include <QFile>
+
+
 
 class QEXTInputPrivate
 {

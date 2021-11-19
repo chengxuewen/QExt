@@ -60,7 +60,7 @@ void QEXTTcpPacketHeaderPrivate::updateHeaderSize()
 QEXTTcpPacketHeader::QEXTTcpPacketHeader(const QEXTTcpPacketHeader::DataInfoVector &dataInfoVector)
     : d_ptr(new QEXTTcpPacketHeaderPrivate(this))
 {
-    QEXT_DECL_D(QEXTTcpPacketHeader);
+    Q_D(QEXTTcpPacketHeader);
     d->initHeaderData(dataInfoVector);
 }
 
@@ -78,28 +78,28 @@ QEXTTcpPacketHeader::~QEXTTcpPacketHeader()
 
 quint16 QEXTTcpPacketHeader::headerSize() const
 {
-    QEXT_DECL_DC(QEXTTcpPacketHeader);
+    Q_D(const QEXTTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_headerSize;
 }
 
 quint16 QEXTTcpPacketHeader::contentSize() const
 {
-    QEXT_DECL_DC(QEXTTcpPacketHeader);
+    Q_D(const QEXTTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_contentSize;
 }
 
 void QEXTTcpPacketHeader::setContentSize(const quint16 &size)
 {
-    QEXT_DECL_D(QEXTTcpPacketHeader);
+    Q_D(QEXTTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     d->m_contentSize = size;
 }
 
 QByteArray QEXTTcpPacketHeader::stream() const
 {
-    QEXT_DECL_DC(QEXTTcpPacketHeader);
+    Q_D(const QEXTTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     QByteArray stream;
     stream.append(QEXTNetworkUtils::quint16HostToNet(d->m_headerSize));
@@ -119,7 +119,7 @@ QByteArray QEXTTcpPacketHeader::stream() const
 
 bool QEXTTcpPacketHeader::setStream(const QByteArray &stream)
 {
-    QEXT_DECL_D(QEXTTcpPacketHeader);
+    Q_D(QEXTTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     if (stream.size() == d->m_headerSize) {
         QList<QString> keyList = d->m_typeMap.keys();
@@ -143,28 +143,28 @@ bool QEXTTcpPacketHeader::setStream(const QByteArray &stream)
 
 bool QEXTTcpPacketHeader::isHeaderDataExist(const QString &name) const
 {
-    QEXT_DECL_DC(QEXTTcpPacketHeader);
+    Q_D(const QEXTTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_dataMap.contains(name);
 }
 
 QList<QString> QEXTTcpPacketHeader::headerList() const
 {
-    QEXT_DECL_DC(QEXTTcpPacketHeader);
+    Q_D(const QEXTTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_dataMap.keys();
 }
 
 QEXTTcpPacketVariant QEXTTcpPacketHeader::headerData(const QString &name) const
 {
-    QEXT_DECL_DC(QEXTTcpPacketHeader);
+    Q_D(const QEXTTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_dataMap.value(name, QEXTTcpPacketVariant());
 }
 
 bool QEXTTcpPacketHeader::setHeaderData(const QString &name, const QEXTTcpPacketVariant &data)
 {
-    QEXT_DECL_D(QEXTTcpPacketHeader);
+    Q_D(QEXTTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     if (d->m_dataMap.contains(name)) {
         quint8 type = d->m_typeMap.value(name);

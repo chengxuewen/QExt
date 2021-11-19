@@ -1,12 +1,11 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextSemicircleGauge.h>
+﻿#include <qextSemicircleGauge.h>
 #include <qextSemicircleGauge_p.h>
 
 #include <QPainter>
 #include <QTimer>
 #include <QDebug>
 #include <qmath.h>
+
 
 
 QEXTSemicircleGaugePrivate::QEXTSemicircleGaugePrivate(QEXTSemicircleGauge *q)
@@ -52,7 +51,7 @@ QEXTSemicircleGaugePrivate::~QEXTSemicircleGaugePrivate()
 QEXTSemicircleGauge::QEXTSemicircleGauge(QWidget *parent)
     : QWidget(parent), d_ptr(new QEXTSemicircleGaugePrivate(this))
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     d->m_animation = new QPropertyAnimation(this);
     d->m_animation->setDuration(500);
     d->m_animation->setEasingCurve(QEasingCurve::Linear);
@@ -67,7 +66,7 @@ QEXTSemicircleGauge::~QEXTSemicircleGauge()
 
 void QEXTSemicircleGauge::paintEvent(QPaintEvent *)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     int width = this->width();
     int height = this->height();
     //直径取最大值的一半
@@ -117,7 +116,7 @@ void QEXTSemicircleGauge::paintEvent(QPaintEvent *)
 
 void QEXTSemicircleGauge::drawArc(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     int radius = 99;
     painter->save();
     painter->setBrush(Qt::NoBrush);
@@ -147,7 +146,7 @@ void QEXTSemicircleGauge::drawArc(QPainter *painter)
 
 void QEXTSemicircleGauge::drawScale(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     int radius = 67;
     painter->save();
 
@@ -182,7 +181,7 @@ void QEXTSemicircleGauge::drawScale(QPainter *painter)
 
 void QEXTSemicircleGauge::drawScaleNum(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     int radius = 76;
     painter->save();
     painter->setPen(d->m_scaleColor);
@@ -209,7 +208,7 @@ void QEXTSemicircleGauge::drawScaleNum(QPainter *painter)
 
 void QEXTSemicircleGauge::drawPointerCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     int radius = 8;
     int offset = 32;
     painter->save();
@@ -226,7 +225,7 @@ void QEXTSemicircleGauge::drawPointerCircle(QPainter *painter)
 
 void QEXTSemicircleGauge::drawPointerIndicator(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     int radius = 85;
     painter->save();
     painter->setOpacity(0.8);
@@ -246,7 +245,7 @@ void QEXTSemicircleGauge::drawPointerIndicator(QPainter *painter)
 
 void QEXTSemicircleGauge::drawPointerIndicatorR(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     int radius = 85;
     painter->save();
     painter->setOpacity(0.6);
@@ -276,7 +275,7 @@ void QEXTSemicircleGauge::drawPointerIndicatorR(QPainter *painter)
 
 void QEXTSemicircleGauge::drawPointerTriangle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     int radius = 10;
     int offset = 45;
     painter->save();
@@ -296,7 +295,7 @@ void QEXTSemicircleGauge::drawPointerTriangle(QPainter *painter)
 
 void QEXTSemicircleGauge::drawRoundCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     int radius = 18;
     painter->save();
     painter->setOpacity(0.6);
@@ -308,7 +307,7 @@ void QEXTSemicircleGauge::drawRoundCircle(QPainter *painter)
 
 void QEXTSemicircleGauge::drawCenterCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     int radius = 13;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -319,7 +318,7 @@ void QEXTSemicircleGauge::drawCenterCircle(QPainter *painter)
 
 void QEXTSemicircleGauge::drawValue(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     int radius = 100;
     painter->save();
     painter->setPen(d->m_textColor);
@@ -337,7 +336,7 @@ void QEXTSemicircleGauge::drawValue(QPainter *painter)
 
 void QEXTSemicircleGauge::drawOverlay(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (!d->m_overlayVisiable)
     {
         return;
@@ -371,7 +370,7 @@ void QEXTSemicircleGauge::drawOverlay(QPainter *painter)
 
 void QEXTSemicircleGauge::updateValue(const QVariant &value)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     const double animationValue = value.toDouble();
     if (animationValue != d->m_currentValue)
     {
@@ -382,115 +381,115 @@ void QEXTSemicircleGauge::updateValue(const QVariant &value)
 
 double QEXTSemicircleGauge::minValue() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_minValue;
 }
 
 double QEXTSemicircleGauge::maxValue() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_maxValue;
 }
 
 double QEXTSemicircleGauge::value() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_value;
 }
 
 int QEXTSemicircleGauge::scaleMajor() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_scaleMajor;
 }
 
 int QEXTSemicircleGauge::scaleMinor() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_scaleMinor;
 }
 
 int QEXTSemicircleGauge::startAngle() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_startAngle;
 }
 
 int QEXTSemicircleGauge::endAngle() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_endAngle;
 }
 
 bool QEXTSemicircleGauge::animationEnable() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_animationVisiable;
 }
 
 int QEXTSemicircleGauge::animationDuration() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_animation->duration();
 }
 
 QEasingCurve::Type QEXTSemicircleGauge::animationEasingCurve() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_animation->easingCurve().type();
 }
 
 QColor QEXTSemicircleGauge::usedColor() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_usedColor;
 }
 
 QColor QEXTSemicircleGauge::freeColor() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_freeColor;
 }
 
 QColor QEXTSemicircleGauge::scaleColor() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_scaleColor;
 }
 
 QColor QEXTSemicircleGauge::pointerColor() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_pointerColor;
 }
 
 QColor QEXTSemicircleGauge::textColor() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_textColor;
 }
 
 QColor QEXTSemicircleGauge::titleColor() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_titleColor;
 }
 
 bool QEXTSemicircleGauge::overlayVisiable() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_overlayVisiable;
 }
 
 QColor QEXTSemicircleGauge::overlayColor() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_overlayColor;
 }
 
 QEXTSemicircleGauge::PointerStyleType QEXTSemicircleGauge::pointerStyle() const
 {
-    QEXT_DECL_DC(QEXTSemicircleGauge);
+    Q_D(const QEXTSemicircleGauge);
     return d->m_pointerStyle;
 }
 
@@ -506,7 +505,7 @@ QSize QEXTSemicircleGauge::minimumSizeHint() const
 
 void QEXTSemicircleGauge::setRange(double minValue, double maxValue)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue)
     {
@@ -527,19 +526,19 @@ void QEXTSemicircleGauge::setRange(double minValue, double maxValue)
 
 void QEXTSemicircleGauge::setMinValue(double minValue)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     this->setRange(minValue, d->m_maxValue);
 }
 
 void QEXTSemicircleGauge::setMaxValue(double maxValue)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     this->setRange(d->m_minValue, maxValue);
 }
 
 void QEXTSemicircleGauge::setValue(double value)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     //值和当前值一致则无需处理
     if (value == d->m_value)
     {
@@ -574,13 +573,13 @@ void QEXTSemicircleGauge::setValue(double value)
 
 void QEXTSemicircleGauge::setValue(int value)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     this->setValue((double)value);
 }
 
 void QEXTSemicircleGauge::setScaleMajor(int scaleMajor)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_scaleMajor != scaleMajor)
     {
         d->m_scaleMajor = scaleMajor;
@@ -590,7 +589,7 @@ void QEXTSemicircleGauge::setScaleMajor(int scaleMajor)
 
 void QEXTSemicircleGauge::setScaleMinor(int scaleMinor)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_scaleMinor != scaleMinor)
     {
         d->m_scaleMinor = scaleMinor;
@@ -600,7 +599,7 @@ void QEXTSemicircleGauge::setScaleMinor(int scaleMinor)
 
 void QEXTSemicircleGauge::setStartAngle(int startAngle)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_startAngle != startAngle)
     {
         d->m_startAngle = startAngle;
@@ -610,7 +609,7 @@ void QEXTSemicircleGauge::setStartAngle(int startAngle)
 
 void QEXTSemicircleGauge::setEndAngle(int endAngle)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_endAngle != endAngle)
     {
         d->m_endAngle = endAngle;
@@ -620,7 +619,7 @@ void QEXTSemicircleGauge::setEndAngle(int endAngle)
 
 void QEXTSemicircleGauge::setAnimationEnable(bool enable)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_animationVisiable != enable)
     {
         d->m_animationVisiable = enable;
@@ -630,7 +629,7 @@ void QEXTSemicircleGauge::setAnimationEnable(bool enable)
 
 void QEXTSemicircleGauge::setAnimationDuration(int duration)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (duration <= 0)
     {
         qCritical() << "QEXTSemicircleGauge::setAnimationDuration():duration must greater than 0";
@@ -645,13 +644,13 @@ void QEXTSemicircleGauge::setAnimationDuration(int duration)
 
 void QEXTSemicircleGauge::setAnimationEasingCurve(QEasingCurve::Type easingCurve)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     d->m_animation->setEasingCurve(easingCurve);
 }
 
 void QEXTSemicircleGauge::setUsedColor(const QColor &usedColor)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_usedColor != usedColor)
     {
         d->m_usedColor = usedColor;
@@ -661,7 +660,7 @@ void QEXTSemicircleGauge::setUsedColor(const QColor &usedColor)
 
 void QEXTSemicircleGauge::setFreeColor(const QColor &freeColor)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_freeColor != freeColor)
     {
         d->m_freeColor = freeColor;
@@ -671,7 +670,7 @@ void QEXTSemicircleGauge::setFreeColor(const QColor &freeColor)
 
 void QEXTSemicircleGauge::setScaleColor(const QColor &scaleColor)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_scaleColor != scaleColor)
     {
         d->m_scaleColor = scaleColor;
@@ -681,7 +680,7 @@ void QEXTSemicircleGauge::setScaleColor(const QColor &scaleColor)
 
 void QEXTSemicircleGauge::setPointerColor(const QColor &pointerColor)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_pointerColor != pointerColor)
     {
         d->m_pointerColor = pointerColor;
@@ -691,7 +690,7 @@ void QEXTSemicircleGauge::setPointerColor(const QColor &pointerColor)
 
 void QEXTSemicircleGauge::setTextColor(const QColor &textColor)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_textColor != textColor)
     {
         d->m_textColor = textColor;
@@ -701,7 +700,7 @@ void QEXTSemicircleGauge::setTextColor(const QColor &textColor)
 
 void QEXTSemicircleGauge::setTitleColor(const QColor &titleColor)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_titleColor != titleColor)
     {
         d->m_titleColor = titleColor;
@@ -711,7 +710,7 @@ void QEXTSemicircleGauge::setTitleColor(const QColor &titleColor)
 
 void QEXTSemicircleGauge::setOverlayVisiable(bool showOverlay)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_overlayVisiable != showOverlay)
     {
         d->m_overlayVisiable = showOverlay;
@@ -721,7 +720,7 @@ void QEXTSemicircleGauge::setOverlayVisiable(bool showOverlay)
 
 void QEXTSemicircleGauge::setOverlayColor(const QColor &overlayColor)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_overlayColor != overlayColor)
     {
         d->m_overlayColor = overlayColor;
@@ -731,7 +730,7 @@ void QEXTSemicircleGauge::setOverlayColor(const QColor &overlayColor)
 
 void QEXTSemicircleGauge::setPointerStyle(const QEXTSemicircleGauge::PointerStyleType &pointerStyle)
 {
-    QEXT_DECL_D(QEXTSemicircleGauge);
+    Q_D(QEXTSemicircleGauge);
     if (d->m_pointerStyle != pointerStyle)
     {
         d->m_pointerStyle = pointerStyle;

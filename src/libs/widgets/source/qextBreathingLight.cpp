@@ -1,12 +1,9 @@
-#pragma execution_character_set("utf-8")
-
 #include <qextBreathingLight.h>
 #include <qextBreathingLight_p.h>
 
 #include <QDebug>
 #include <QPainter>
 #include <QTimer>
-
 
 QEXTBreathingLightPrivate::QEXTBreathingLightPrivate(QEXTBreathingLight *q)
     : q_ptr(q)
@@ -30,7 +27,7 @@ QEXTBreathingLightPrivate::~QEXTBreathingLightPrivate()
 QEXTBreathingLight::QEXTBreathingLight(QWidget *parent)
     : QWidget(parent), d_ptr(new QEXTBreathingLightPrivate(this))
 {
-    QEXT_DECL_D(QEXTBreathingLight);
+    Q_D(QEXTBreathingLight);
     d->m_timer.reset(new QTimer);
     connect(d->m_timer.data(), SIGNAL(timeout()), this, SLOT(update()));
     d->m_timer->start(100);
@@ -44,19 +41,19 @@ QEXTBreathingLight::~QEXTBreathingLight()
 
 int QEXTBreathingLight::step() const
 {
-    QEXT_DECL_DC(QEXTBreathingLight);
+    Q_D(const QEXTBreathingLight);
     return d->m_step;
 }
 
 int QEXTBreathingLight::interval() const
 {
-    QEXT_DECL_DC(QEXTBreathingLight);
+    Q_D(const QEXTBreathingLight);
     return d->m_interval;
 }
 
 QColor QEXTBreathingLight::backgroundColor() const
 {
-    QEXT_DECL_DC(QEXTBreathingLight);
+    Q_D(const QEXTBreathingLight);
     return d->m_backgroundColor;
 }
 
@@ -72,7 +69,7 @@ QSize QEXTBreathingLight::minimumSizeHint() const
 
 void QEXTBreathingLight::setStep(const int &step)
 {
-    QEXT_DECL_D(QEXTBreathingLight);
+    Q_D(QEXTBreathingLight);
     if (step <= 0) {
         qCritical() << "QEXTBreathingLight::setStep():iStep must be greate than zero!";
         return;
@@ -85,7 +82,7 @@ void QEXTBreathingLight::setStep(const int &step)
 
 void QEXTBreathingLight::setInterval(const int &interval)
 {
-    QEXT_DECL_D(QEXTBreathingLight);
+    Q_D(QEXTBreathingLight);
     if (interval <= 0) {
         qCritical() << "QEXTBreathingLight::setInterval():iInterval must be greate than zero!";
         return;
@@ -98,7 +95,7 @@ void QEXTBreathingLight::setInterval(const int &interval)
 
 void QEXTBreathingLight::setBackgroundColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTBreathingLight);
+    Q_D(QEXTBreathingLight);
     if (color != d->m_backgroundColor) {
         d->m_backgroundColor = color;
         this->update();
@@ -107,7 +104,7 @@ void QEXTBreathingLight::setBackgroundColor(const QColor &color)
 
 void QEXTBreathingLight::paintEvent(QPaintEvent *)
 {
-    QEXT_DECL_D(QEXTBreathingLight);
+    Q_D(QEXTBreathingLight);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
@@ -124,7 +121,7 @@ void QEXTBreathingLight::paintEvent(QPaintEvent *)
 
 void QEXTBreathingLight::drawBackground(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTBreathingLight);
+    Q_D(QEXTBreathingLight);
     painter->save();
 
     int radius = 99;

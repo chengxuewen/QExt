@@ -22,7 +22,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmCommandServicePrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmCommandService)
+    Q_DECLARE_PUBLIC(QEXTMvvmCommandService)
 };
 
 #endif // _QEXTMVVMCOMMANDSERVICE_P_H

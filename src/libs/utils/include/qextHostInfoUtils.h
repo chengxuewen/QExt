@@ -80,7 +80,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY(QEXTHostInfoUtils)
-    QEXT_DECL_PRIVATE(QEXTHostInfoUtils)
+    Q_DECLARE_PRIVATE(QEXTHostInfoUtils)
 };
 
 

@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.9.11.1 LANGUAGES CXX)
+project(QEXT VERSION 0.10.1.1 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -259,11 +259,11 @@ configure_file(
 #--------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 include(qextFunctionActivatePrecompiledHeaders)
+include(qextFunctionCopyDependsInternalLibs)
 include(qextFunctionSetCompilerWarnings)
 include(qextFunctionQmlPlugin)
 include(qextMacroBuildDoxygen)
 include(qextMacroFindQmlPluginDump)
-include(qextMacroCopyDependenceLib)
 
 
 
@@ -271,8 +271,8 @@ include(qextMacroCopyDependenceLib)
 # Set option
 #--------------------------------------------------------------------------------
 option(QEXT_BUILD_SHARED_LIBS "Build shared library" ON)
-option(QEXT_BUILD_TESTS "Build tests" ON)
-option(QEXT_BUILD_EXAMPLES "Build examples" ON)
+option(QEXT_BUILD_TESTS "Build tests" OFF)
+option(QEXT_BUILD_EXAMPLES "Build examples" OFF)
 option(QEXT_BUILD_PLUGINS "Build plugins" OFF)
 option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ON)
 option(QEXT_BUILD_DOCUMENTATION "Enable this to build the documentation" OFF)
@@ -282,15 +282,14 @@ option(QEXT_BUILD_ALL "Build all artifacts" OFF)
 
 option(QEXT_BUILD_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" ON)
 option(QEXT_BUILD_LIB_FONTS "Enable this to build the fonts lib" ON)
+option(QEXT_BUILD_LIB_FRAMELESSHELPER "Enable this to build the framelesshelper lib" ON)
 option(QEXT_BUILD_LIB_GOOGLEPINYIN "Enable this to build the googlepinyin lib" ON)
-option(QEXT_BUILD_LIB_GUI "Enable this to build the gui lib" OFF)
 option(QEXT_BUILD_LIB_ICONS "Enable this to build the icons lib" ON)
-option(QEXT_BUILD_LIB_LUA "Enable this to build the lua lib" OFF)
 option(QEXT_BUILD_LIB_MVVM "Enable this to build the mvvm lib" OFF)
-option(QEXT_BUILD_LIB_OSGI "Enable this to build the osgi lib" OFF)
 option(QEXT_BUILD_LIB_QUICK "Enable this to build the quick lib" ON)
 option(QEXT_BUILD_LIB_SERIALPORT "Enable this to build the serialport lib" ON)
 option(QEXT_BUILD_LIB_SINGLEAPP "Enable this to build the singleapp lib" ON)
+option(QEXT_BUILD_LIB_STYLETHEME "Enable this to build the styletheme lib" ON)
 option(QEXT_BUILD_LIB_TCP "Enable this to build the tcp lib" ON)
 option(QEXT_BUILD_LIB_UTILS "Enable this to build the utils lib" ON)
 option(QEXT_BUILD_LIB_WIDGETS "Enable this to build the widgets lib" ON)
@@ -311,7 +310,7 @@ endif()
 # to get it working, we need the feature to enable different source properties
 # for different targets
 if(QEXT_BUILD_USE_PCH)
-    if(NOT QEXT_BUILD_SHARED_LIBS)
+    if(NOT ${QEXT_BUILD_SHARED_LIBS})
         set(QEXT_BUILD_USE_PCH FALSE)
         message(STATUS "----QEXT---- Set QEXT_BUILD_USE_PCH as FALSE")
     endif()
@@ -338,6 +337,18 @@ if(NOT QEXT_BUILD_QML)
     set(QEXT_BUILD_LIB_QUICK OFF)
 endif()
 
+if(QEXT_BUILD_LIB_TCP)
+    set(QEXT_BUILD_LIB_UTILS ON)
+endif()
+
+if(QEXT_BUILD_LIB_WIDGETS)
+    set(QEXT_BUILD_LIB_ICONS ON)
+    set(QEXT_BUILD_LIB_GOOGLEPINYIN ON)
+endif()
+
+if(NOT WIN32)
+    set(QEXT_BUILD_LIB_FRAMELESSHELPER OFF)
+endif()
 
 if(QEXT_BUILD_TESTS OR QEXT_BUILD_ALL)
     enable_testing()
@@ -350,11 +361,10 @@ endif()
 #--------------------------------------------------------------------------------
 add_subdirectory(src/applications)
 add_subdirectory(src/libs)
+add_subdirectory(src/plugins)
 
 set(QWT_LIB_OUTPUT_DIR ${QEXT_LIB_OUTPUT_DIR})
 add_subdirectory(thirdparty/qwt-6.1.3)
-add_subdirectory(thirdparty/lua)
-#add_subdirectory(thirdparty/libqtlua-2.1)
 
 if(QEXT_QT_VERSION_MAJOR GREATER 4)
     add_subdirectory(thirdparty/qcustomplot)

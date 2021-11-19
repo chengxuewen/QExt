@@ -1,6 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextDial.h>
+﻿#include <qextDial.h>
 #include <qextDial_p.h>
 
 #include <QPainter>
@@ -9,6 +7,7 @@
 #include <QMouseEvent>
 #include <QDebug>
 #include <qmath.h>
+
 
 
 QEXTDialPrivate::QEXTDialPrivate(QEXTDial *q)
@@ -52,20 +51,20 @@ QEXTDial::~QEXTDial()
 
 void QEXTDial::mousePressEvent(QMouseEvent *e)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     d->m_pressed = true;
     this->setPressedValue(e->pos());
 }
 
 void QEXTDial::mouseReleaseEvent(QMouseEvent *)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     d->m_pressed = false;
 }
 
 void QEXTDial::mouseMoveEvent(QMouseEvent *e)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (d->m_pressed)
     {
         this->setPressedValue(e->pos());
@@ -74,7 +73,7 @@ void QEXTDial::mouseMoveEvent(QMouseEvent *e)
 
 void QEXTDial::paintEvent(QPaintEvent *)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
@@ -120,7 +119,7 @@ void QEXTDial::paintEvent(QPaintEvent *)
 
 void QEXTDial::drawScale(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     int radius = 80;
     painter->save();
 
@@ -155,7 +154,7 @@ void QEXTDial::drawScale(QPainter *painter)
 
 void QEXTDial::drawScaleNum(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     int radius = 90;
     painter->save();
     painter->setPen(d->m_textColor);
@@ -182,7 +181,7 @@ void QEXTDial::drawScaleNum(QPainter *painter)
 
 void QEXTDial::drawBorderCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     int radius = 70;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -196,7 +195,7 @@ void QEXTDial::drawBorderCircle(QPainter *painter)
 
 void QEXTDial::drawBackgroundCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     int radius = 60;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -211,7 +210,7 @@ void QEXTDial::drawBackgroundCircle(QPainter *painter)
 
 void QEXTDial::drawPointerCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     int radius = 15;
     int offset = 10;
     painter->save();
@@ -235,7 +234,7 @@ void QEXTDial::drawPointerCircle(QPainter *painter)
 
 void QEXTDial::drawPointerIndicator(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     int radius = 55;
     painter->save();
     painter->setOpacity(0.8);
@@ -255,7 +254,7 @@ void QEXTDial::drawPointerIndicator(QPainter *painter)
 
 void QEXTDial::drawPointerIndicatorR(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     int radius = 55;
     painter->save();
     painter->setOpacity(0.6);
@@ -286,7 +285,7 @@ void QEXTDial::drawPointerIndicatorR(QPainter *painter)
 
 void QEXTDial::drawPointerTriangle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     int radius = 10;
     int offset = 45;
     painter->save();
@@ -306,7 +305,7 @@ void QEXTDial::drawPointerTriangle(QPainter *painter)
 
 void QEXTDial::drawCenterCircle(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (!d->m_valueVisiable)
     {
         return;
@@ -325,7 +324,7 @@ void QEXTDial::drawCenterCircle(QPainter *painter)
 
 void QEXTDial::drawValue(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (!d->m_valueVisiable)
     {
         return;
@@ -348,7 +347,7 @@ void QEXTDial::drawValue(QPainter *painter)
 
 void QEXTDial::setPressedValue(QPointF point)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     //计算总角度
     double length = 360 - d->m_startAngle - d->m_endAngle;
 
@@ -376,79 +375,79 @@ void QEXTDial::setPressedValue(QPointF point)
 
 double QEXTDial::minValue() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_minValue;
 }
 
 double QEXTDial::maxValue() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_maxValue;
 }
 
 double QEXTDial::value() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_value;
 }
 
 int QEXTDial::precision() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_precision;
 }
 
 int QEXTDial::scaleMajor() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_scaleMajor;
 }
 
 int QEXTDial::scaleMinor() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_scaleMinor;
 }
 
 int QEXTDial::startAngle() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_startAngle;
 }
 
 int QEXTDial::endAngle() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_endAngle;
 }
 
 QColor QEXTDial::darkColor() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_darkColor;
 }
 
 QColor QEXTDial::lightColor() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_lightColor;
 }
 
 QColor QEXTDial::textColor() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_textColor;
 }
 
 bool QEXTDial::valueVisiable() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_valueVisiable;
 }
 
 QEXTDial::PointerStyleType QEXTDial::pointerStyle() const
 {
-    QEXT_DECL_DC(QEXTDial);
+    Q_D(const QEXTDial);
     return d->m_pointerStyle;
 }
 
@@ -464,7 +463,7 @@ QSize QEXTDial::minimumSizeHint() const
 
 void QEXTDial::setRange(double minValue, double maxValue)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue)
     {
@@ -485,25 +484,25 @@ void QEXTDial::setRange(double minValue, double maxValue)
 
 void QEXTDial::setRange(int minValue, int maxValue)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     this->setRange((double)minValue, (double)maxValue);
 }
 
 void QEXTDial::setMinValue(double minValue)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     this->setRange(minValue, d->m_maxValue);
 }
 
 void QEXTDial::setMaxValue(double maxValue)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     this->setRange(d->m_minValue, maxValue);
 }
 
 void QEXTDial::setValue(double value)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     //值和当前值一致则无需处理
     if (value == d->m_value)
     {
@@ -527,13 +526,13 @@ void QEXTDial::setValue(double value)
 
 void QEXTDial::setValue(int value)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     this->setValue((double)value);
 }
 
 void QEXTDial::setPrecision(int precision)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     //最大精确度为 3
     if (precision <= 3 && d->m_precision != precision)
     {
@@ -544,7 +543,7 @@ void QEXTDial::setPrecision(int precision)
 
 void QEXTDial::setScaleMajor(int scaleMajor)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (d->m_scaleMajor != scaleMajor)
     {
         d->m_scaleMajor = scaleMajor;
@@ -554,7 +553,7 @@ void QEXTDial::setScaleMajor(int scaleMajor)
 
 void QEXTDial::setScaleMinor(int scaleMinor)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (d->m_scaleMinor != scaleMinor)
     {
         d->m_scaleMinor = scaleMinor;
@@ -564,7 +563,7 @@ void QEXTDial::setScaleMinor(int scaleMinor)
 
 void QEXTDial::setStartAngle(int angle)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (d->m_startAngle != angle)
     {
         d->m_startAngle = angle;
@@ -574,7 +573,7 @@ void QEXTDial::setStartAngle(int angle)
 
 void QEXTDial::setEndAngle(int angle)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (d->m_endAngle != angle)
     {
         d->m_endAngle = angle;
@@ -584,7 +583,7 @@ void QEXTDial::setEndAngle(int angle)
 
 void QEXTDial::setDarkColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (d->m_darkColor != color)
     {
         d->m_darkColor = color;
@@ -594,7 +593,7 @@ void QEXTDial::setDarkColor(const QColor &color)
 
 void QEXTDial::setLightColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (d->m_lightColor != color)
     {
         d->m_lightColor = color;
@@ -604,7 +603,7 @@ void QEXTDial::setLightColor(const QColor &color)
 
 void QEXTDial::setTextColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (d->m_textColor != color)
     {
         d->m_textColor = color;
@@ -614,7 +613,7 @@ void QEXTDial::setTextColor(const QColor &color)
 
 void QEXTDial::setShowValue(bool visiable)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (d->m_valueVisiable != visiable)
     {
         d->m_valueVisiable = visiable;
@@ -624,7 +623,7 @@ void QEXTDial::setShowValue(bool visiable)
 
 void QEXTDial::setPointerStyle(const QEXTDial::PointerStyleType &style)
 {
-    QEXT_DECL_D(QEXTDial);
+    Q_D(QEXTDial);
     if (d->m_pointerStyle != style)
     {
         d->m_pointerStyle = style;

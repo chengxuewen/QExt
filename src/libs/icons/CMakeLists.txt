@@ -4,17 +4,23 @@
 #
 # Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
 #
-#     http://www.apache.org/licenses/LICENSE-2.0.txt
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
 #
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 #
 #################################################################################
 
@@ -30,6 +36,7 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(qext_lib_public_headers
+    include/qextIconsPch.h
     include/qextIconsFontAwesome.h
     include/qextIconsGlobal.h
     )
@@ -56,6 +63,18 @@ list(APPEND qext_lib_link_libraries QEXTCore)
 # Add lib link libraries
 #--------------------------------------------------------------------------------
 set(qext_lib_link_libraries)
+
+if(UNIX)
+    list(APPEND qext_lib_link_libraries ${CMAKE_DL_LIBS})
+endif()
+
+if(WIN32)
+    list(APPEND qext_lib_link_libraries shlwapi.lib)
+endif()
+
+if(CMAKE_THREAD_LIBS_INIT)
+    list(APPEND qext_lib_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND qext_lib_link_libraries Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
@@ -85,6 +104,9 @@ add_library(${qext_lib_base_name}
     )
 if (QEXT_BUILD_COMPILER_WARNING)
     qextFunctionSetCompilerWarnings(${qext_lib_base_name})
+endif()
+if (QEXT_BUILD_USE_PCH)
+    qextFunctionActivatePrecompiledHeaders(${qext_lib_base_name} PRIVATE include/qextIconsPch.h)
 endif()
 target_link_libraries(${qext_lib_base_name} PUBLIC ${qext_lib_link_libraries})
 target_include_directories(${qext_lib_base_name} PUBLIC

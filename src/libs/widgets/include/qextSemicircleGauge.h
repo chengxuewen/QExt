@@ -173,7 +173,7 @@ private slots:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTSemicircleGauge)
-    QEXT_DECL_PRIVATE(QEXTSemicircleGauge)
+    Q_DECLARE_PRIVATE(QEXTSemicircleGauge)
 };
 
 #endif // _QEXTSEMICIRCLEGAUGE_H

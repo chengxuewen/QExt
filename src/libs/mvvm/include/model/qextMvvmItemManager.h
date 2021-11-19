@@ -41,7 +41,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmItemManager)
-    QEXT_DECL_PRIVATE(QEXTMvvmItemManager)
+    Q_DECLARE_PRIVATE(QEXTMvvmItemManager)
 };
 
 #endif // _QEXTMVVMITEMMANAGER_H

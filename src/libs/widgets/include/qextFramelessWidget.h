@@ -55,7 +55,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTFramelessWidget)
-    QEXT_DECL_PRIVATE(QEXTFramelessWidget)
+    Q_DECLARE_PRIVATE(QEXTFramelessWidget)
 };
 
 #endif // _QEXTFRAMELESSWIDGET_H

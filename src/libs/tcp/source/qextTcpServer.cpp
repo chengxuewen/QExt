@@ -17,7 +17,7 @@ QEXTTcpServerPrivate::QEXTTcpServerPrivate(QEXTTcpServer *q)
 
 QEXTTcpServerPrivate::~QEXTTcpServerPrivate()
 {
-    QEXT_DECL_Q(QEXTTcpServer);
+    Q_Q(QEXTTcpServer);
     QMutexLocker mutexLocker(&m_socketMutex);
     QSet<QSharedPointer<QEXTTcpSocket> >::iterator iter;
     for (iter = m_allTcpSocketSet.begin(); iter != m_allTcpSocketSet.end(); ++iter)
@@ -42,7 +42,7 @@ QEXTTcpServerPrivate::~QEXTTcpServerPrivate()
 
 void QEXTTcpServerPrivate::initServer()
 {
-    QEXT_DECL_Q(QEXTTcpServer);
+    Q_Q(QEXTTcpServer);
     qRegisterMetaType<QEXTSocketDescriptor>("QEXTSocketDescriptor");
     qRegisterMetaType<QAbstractSocket::SocketError>("QAbstractSocket::SocketError");
     qRegisterMetaType<QEXTTcpSocket::TransferErrorType>("QEXTTcpSocket::TransferErrorType");
@@ -52,7 +52,7 @@ void QEXTTcpServerPrivate::initServer()
 QEXTTcpServer::QEXTTcpServer()
     : QTcpServer(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpServerPrivate(this))
 {
-    QEXT_DECL_D(QEXTTcpServer);
+    Q_D(QEXTTcpServer);
     d->initServer();
     this->setTcpFactory(QSharedPointer<QEXTTcpFactory>(new QEXTTcpFactory));
 }
@@ -60,7 +60,7 @@ QEXTTcpServer::QEXTTcpServer()
 QEXTTcpServer::QEXTTcpServer(const QSharedPointer<QEXTTcpFactory> &tcpFactory)
     : QTcpServer(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpServerPrivate(this))
 {
-    QEXT_DECL_D(QEXTTcpServer);
+    Q_D(QEXTTcpServer);
     d->initServer();
     this->setTcpFactory(tcpFactory);
 }
@@ -86,21 +86,21 @@ QEXTTcpServer::~QEXTTcpServer()
 
 size_t QEXTTcpServer::allSocketCount() const
 {
-    QEXT_DECL_DC(QEXTTcpServer);
+    Q_D(const QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     return d->m_allTcpSocketSet.size();
 }
 
 size_t QEXTTcpServer::maxSocketConnectionCount() const
 {
-    QEXT_DECL_DC(QEXTTcpServer);
+    Q_D(const QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     return d->m_maxSocketConnectionCount;
 }
 
 void QEXTTcpServer::setMaxSocketConnectionCount(size_t count)
 {
-    QEXT_DECL_D(QEXTTcpServer);
+    Q_D(QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     d->m_maxSocketConnectionCount = count;
     /*close listen if connected socket equal to max count*/
@@ -114,14 +114,14 @@ void QEXTTcpServer::setMaxSocketConnectionCount(size_t count)
 
 size_t QEXTTcpServer::maxTaskThreadCount() const
 {
-    QEXT_DECL_DC(QEXTTcpServer);
+    Q_D(const QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     return d->m_maxTaskThreadCount;
 }
 
 void QEXTTcpServer::setMaxTaskThreadCount(size_t count)
 {
-    QEXT_DECL_D(QEXTTcpServer);
+    Q_D(QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     d->m_maxTaskThreadCount = count;
     QMap<QEXTId, QSharedPointer<QEXTTcpPacketDispatcher> >::iterator iter;
@@ -133,7 +133,7 @@ void QEXTTcpServer::setMaxTaskThreadCount(size_t count)
 
 void QEXTTcpServer::runTask(int function)
 {
-    QEXT_DECL_D(QEXTTcpServer);
+    Q_D(QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     if (!d->m_tcpFactory.isNull())
     {
@@ -151,7 +151,7 @@ void QEXTTcpServer::runTask(int function)
 
 void QEXTTcpServer::runTask(QEXTTcpTask *task)
 {
-    QEXT_DECL_D(QEXTTcpServer);
+    Q_D(QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     if (!d->m_tcpFactory.isNull())
     {
@@ -168,14 +168,14 @@ void QEXTTcpServer::runTask(QEXTTcpTask *task)
 
 QSharedPointer<QEXTTcpFactory> QEXTTcpServer::tcpFactory() const
 {
-    QEXT_DECL_DC(QEXTTcpServer);
+    Q_D(const QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     return d->m_tcpFactory;
 }
 
 void QEXTTcpServer::setTcpFactory(const QSharedPointer<QEXTTcpFactory> &tcpFactory)
 {
-    QEXT_DECL_D(QEXTTcpServer);
+    Q_D(QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     if (tcpFactory != d->m_tcpFactory)
     {
@@ -193,7 +193,7 @@ void QEXTTcpServer::setTcpFactory(const QSharedPointer<QEXTTcpFactory> &tcpFacto
 
 void QEXTTcpServer::onSocketDisconnected()
 {
-    QEXT_DECL_D(QEXTTcpServer);
+    Q_D(QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     QEXTTcpSocket *socket = qobject_cast<QEXTTcpSocket *>(this->sender());
     QEXTId socketId = socket->identityId();
@@ -213,7 +213,7 @@ void QEXTTcpServer::onSocketDisconnected()
 
 void QEXTTcpServer::onSocketError(QAbstractSocket::SocketError error)
 {
-    QEXT_DECL_D(QEXTTcpServer);
+    Q_D(QEXTTcpServer);
     QEXTTcpSocket *socket = qobject_cast<QEXTTcpSocket *>(this->sender());
     QEXTId socketId = socket->identityId();
     QSharedPointer<QEXTTcpSocket> sharedSocket = d->m_idToTcpSocketMap.value(socketId);
@@ -222,7 +222,7 @@ void QEXTTcpServer::onSocketError(QAbstractSocket::SocketError error)
 
 void QEXTTcpServer::onSocketTransferError(QEXTTcpSocket::TransferErrorType error)
 {
-    QEXT_DECL_D(QEXTTcpServer);
+    Q_D(QEXTTcpServer);
     QEXTTcpSocket *socket = qobject_cast<QEXTTcpSocket *>(this->sender());
     QEXTId socketId = socket->identityId();
     QSharedPointer<QEXTTcpSocket> sharedSocket = d->m_idToTcpSocketMap.value(socketId);
@@ -231,7 +231,7 @@ void QEXTTcpServer::onSocketTransferError(QEXTTcpSocket::TransferErrorType error
 
 void QEXTTcpServer::incomingConnection(QEXTSocketDescriptor socketDescriptor)
 {
-    QEXT_DECL_D(QEXTTcpServer);
+    Q_D(QEXTTcpServer);
     QMutexLocker mutexLocker(&d->m_socketMutex);
     QSharedPointer<QEXTTcpSocket> socket(new QEXTTcpSocket);
     if (socket->setSocketDescriptor(socketDescriptor))

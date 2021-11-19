@@ -1,12 +1,12 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextSlider.h>
+﻿#include <qextSlider.h>
 #include <qextSlider_p.h>
 #include <qextTooltip.h>
 
 #include <QEvent>
 #include <QDebug>
 #include <QMouseEvent>
+
+
 
 QEXTSliderPrivate::QEXTSliderPrivate(QEXTSlider *q)
     : q_ptr(q)
@@ -60,7 +60,7 @@ QEXTSlider::~QEXTSlider()
 
 void QEXTSlider::mousePressEvent(QMouseEvent *e)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     //限定必须是鼠标左键按下
     if (e->button() != Qt::LeftButton)
     {
@@ -95,14 +95,14 @@ void QEXTSlider::mousePressEvent(QMouseEvent *e)
 
 void QEXTSlider::mouseReleaseEvent(QMouseEvent *e)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     d->m_tooltip->setVisible(false);
     QSlider::mouseReleaseEvent(e);
 }
 
 void QEXTSlider::mouseMoveEvent(QMouseEvent *e)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     //限定必须是鼠标左键按下
     if (e->button() & Qt::RightButton)
     {
@@ -154,79 +154,79 @@ void QEXTSlider::mouseMoveEvent(QMouseEvent *e)
 
 int QEXTSlider::borderRadius() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_borderRadius;
 }
 
 int QEXTSlider::arrowSize() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_arrowSize;
 }
 
 QEXTSlider::ArrowStyleType QEXTSlider::arrowStyle() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_arrowStyle;
 }
 
 QColor QEXTSlider::backgroundColor() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_backgroundColor;
 }
 
 QColor QEXTSlider::foregroundColor() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_foregroundColor;
 }
 
 int QEXTSlider::toolTipWidth() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_tooltipWidth;
 }
 
 int QEXTSlider::toolTipHeight() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_tooltipHeight;
 }
 
 QFont QEXTSlider::toolTipFont() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_tooltipFont;
 }
 
 bool QEXTSlider::timeVisiable() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_timeVisiable;
 }
 
 bool QEXTSlider::clickEnable() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_clickEnable;
 }
 
 QString QEXTSlider::unitText() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_unitText;
 }
 
 QEXTTooltip *QEXTSlider::tooltip() const
 {
-    QEXT_DECL_DC(QEXTSlider);
+    Q_D(const QEXTSlider);
     return d->m_tooltip;
 }
 
 void QEXTSlider::setBorderRadius(int radius)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     if (d->m_borderRadius != radius)
     {
         d->m_borderRadius = radius;
@@ -236,7 +236,7 @@ void QEXTSlider::setBorderRadius(int radius)
 
 void QEXTSlider::setArrowSize(int size)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     if (d->m_arrowSize != size)
     {
         d->m_arrowSize = size;
@@ -246,7 +246,7 @@ void QEXTSlider::setArrowSize(int size)
 
 void QEXTSlider::setArrowStyle(const QEXTSlider::ArrowStyleType &style)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     if (d->m_arrowStyle != style)
     {
         d->m_arrowStyle = style;
@@ -256,7 +256,7 @@ void QEXTSlider::setArrowStyle(const QEXTSlider::ArrowStyleType &style)
 
 void QEXTSlider::setBackgroundColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     if (d->m_backgroundColor != color)
     {
         d->m_backgroundColor = color;
@@ -266,7 +266,7 @@ void QEXTSlider::setBackgroundColor(const QColor &color)
 
 void QEXTSlider::setForegroundColor(const QColor &color)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     if (d->m_foregroundColor != color)
     {
         d->m_foregroundColor = color;
@@ -276,7 +276,7 @@ void QEXTSlider::setForegroundColor(const QColor &color)
 
 void QEXTSlider::setToolTipWidth(int width)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     if (d->m_tooltipWidth != width)
     {
         d->m_tooltipWidth = width;
@@ -286,7 +286,7 @@ void QEXTSlider::setToolTipWidth(int width)
 
 void QEXTSlider::setToolTipHeight(int height)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     if (d->m_tooltipHeight != height)
     {
         d->m_tooltipHeight = height;
@@ -296,7 +296,7 @@ void QEXTSlider::setToolTipHeight(int height)
 
 void QEXTSlider::setToolTipFont(const QFont &font)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     if (d->m_tooltipFont != font)
     {
         d->m_tooltipFont = font;
@@ -306,7 +306,7 @@ void QEXTSlider::setToolTipFont(const QFont &font)
 
 void QEXTSlider::setTimeVisiable(bool visiable)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     if (d->m_timeVisiable != visiable)
     {
         d->m_timeVisiable = visiable;
@@ -315,7 +315,7 @@ void QEXTSlider::setTimeVisiable(bool visiable)
 
 void QEXTSlider::setClickEnable(bool enable)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     if (d->m_clickEnable != enable)
     {
         d->m_clickEnable = enable;
@@ -324,7 +324,7 @@ void QEXTSlider::setClickEnable(bool enable)
 
 void QEXTSlider::setUnitText(const QString &unit)
 {
-    QEXT_DECL_D(QEXTSlider);
+    Q_D(QEXTSlider);
     if (d->m_unitText != unit)
     {
         d->m_unitText = unit;

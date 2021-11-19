@@ -109,7 +109,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTSlider)
-    QEXT_DECL_PRIVATE(QEXTSlider)
+    Q_DECLARE_PRIVATE(QEXTSlider)
 };
 
 #endif // _QEXTSLIDER_H

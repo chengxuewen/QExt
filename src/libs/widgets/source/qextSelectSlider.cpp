@@ -1,6 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextSelectSlider.h>
+﻿#include <qextSelectSlider.h>
 #include <qextSelectSlider_p.h>
 
 #include <QPainter>
@@ -8,6 +6,7 @@
 #include <QEvent>
 #include <QDebug>
 #include <qmath.h>
+
 
 
 QEXTSelectSliderPrivate::QEXTSelectSliderPrivate(QEXTSelectSlider *q)
@@ -67,7 +66,7 @@ QEXTSelectSlider::~QEXTSelectSlider()
 
 void QEXTSelectSlider::resizeEvent(QResizeEvent *)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     d->m_leftBtnRect = QRect(d->m_borderWidth, d->m_sliderHeight, d->m_buttonWidth - d->m_borderWidth * 2, height() - d->m_sliderHeight);
     d->m_rightBtnRect = QRect(this->width() - d->m_buttonWidth + d->m_borderWidth, d->m_sliderHeight, d->m_buttonWidth - d->m_borderWidth * 2, height() - d->m_sliderHeight);
     this->updateUI();
@@ -75,7 +74,7 @@ void QEXTSelectSlider::resizeEvent(QResizeEvent *)
 
 void QEXTSelectSlider::mousePressEvent(QMouseEvent *e)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if(e->button() == Qt::LeftButton)
     {
         d->m_posPress = e->pos();
@@ -135,7 +134,7 @@ void QEXTSelectSlider::mousePressEvent(QMouseEvent *e)
 
 void QEXTSelectSlider::mouseMoveEvent(QMouseEvent *e)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_sliderPress)
     {
         d->m_posMove = e->pos();
@@ -238,7 +237,7 @@ void QEXTSelectSlider::mouseMoveEvent(QMouseEvent *e)
 
 void QEXTSelectSlider::mouseReleaseEvent(QMouseEvent *e)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if(e->button() == Qt::LeftButton)
     {
         d->m_sliderPress = false;
@@ -265,7 +264,7 @@ void QEXTSelectSlider::paintEvent(QPaintEvent *)
 
 void QEXTSelectSlider::drawBackground(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     painter->save();
 
     QPen pen;
@@ -281,7 +280,7 @@ void QEXTSelectSlider::drawBackground(QPainter *painter)
 
 void QEXTSelectSlider::drawValue(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     painter->save();
     painter->setPen(Qt::NoPen);
     painter->setBrush(d->m_usedColor);
@@ -295,7 +294,7 @@ void QEXTSelectSlider::drawValue(QPainter *painter)
 
 void QEXTSelectSlider::drawButton(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     painter->save();
 
     QPolygon polygon;
@@ -325,7 +324,7 @@ void QEXTSelectSlider::drawButton(QPainter *painter)
 
 void QEXTSelectSlider::drawSlider(QPainter *painter)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     painter->save();
 
     //左侧滑块
@@ -351,7 +350,7 @@ void QEXTSelectSlider::drawSlider(QPainter *painter)
 
 void QEXTSelectSlider::updateUI()
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     double w1 = ((double)(width() - d->m_buttonWidth * 2)) / ((double)(d->m_maxValue - d->m_minValue));
     d->m_sliderRect = QRect(d->m_buttonWidth + (d->m_leftValue - d->m_minValue) * w1, d->m_sliderHeight + d->m_borderWidth / 2, d->m_rangeValue * w1 - d->m_borderWidth, height() - d->m_sliderHeight - d->m_borderWidth * 2);
 
@@ -370,97 +369,97 @@ void QEXTSelectSlider::updateUI()
 
 int QEXTSelectSlider::minValue() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_minValue;
 }
 
 int QEXTSelectSlider::maxValue() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_maxValue;
 }
 
 int QEXTSelectSlider::leftValue() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_leftValue;
 }
 
 int QEXTSelectSlider::rightValue() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_rightValue;
 }
 
 int QEXTSelectSlider::rangeValue() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_rangeValue;
 }
 
 int QEXTSelectSlider::step() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_step;
 }
 
 int QEXTSelectSlider::borderWidth() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_borderWidth;
 }
 
 bool QEXTSelectSlider::horizontal() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_horizontal;
 }
 
 QColor QEXTSelectSlider::usedColor() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_usedColor;
 }
 
 QColor QEXTSelectSlider::freeColor() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_freeColor;
 }
 
 QColor QEXTSelectSlider::textColor() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_textColor;
 }
 
 QColor QEXTSelectSlider::rangeTextColor() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_rangeTextColor;
 }
 
 QColor QEXTSelectSlider::sliderColor() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_sliderColor;
 }
 
 QColor QEXTSelectSlider::borderColor() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_borderColor;
 }
 
 QColor QEXTSelectSlider::buttonNormalColor() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_buttonNormalColor;
 }
 
 QColor QEXTSelectSlider::buttonPressColor() const
 {
-    QEXT_DECL_DC(QEXTSelectSlider);
+    Q_D(const QEXTSelectSlider);
     return d->m_buttonPressColor;
 }
 
@@ -476,7 +475,7 @@ QSize QEXTSelectSlider::minimumSizeHint() const
 
 void QEXTSelectSlider::setRange(int minValue, int maxValue)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue)
     {
@@ -507,19 +506,19 @@ void QEXTSelectSlider::setRange(int minValue, int maxValue)
 
 void QEXTSelectSlider::setMinValue(int minValue)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     this->setRange(minValue, d->m_maxValue);
 }
 
 void QEXTSelectSlider::setMaxValue(int maxValue)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     this->setRange(d->m_minValue, maxValue);
 }
 
 void QEXTSelectSlider::setCurrentRange(int leftValue, int rightValue)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     //左边值不能大于右边值
     if (leftValue > rightValue)
     {
@@ -542,19 +541,19 @@ void QEXTSelectSlider::setCurrentRange(int leftValue, int rightValue)
 
 void QEXTSelectSlider::setLeftValue(int leftValue)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     this->setCurrentRange(leftValue, d->m_rightValue);
 }
 
 void QEXTSelectSlider::setRightValue(int rightValue)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     this->setCurrentRange(d->m_leftValue, rightValue);
 }
 
 void QEXTSelectSlider::setRangeValue(int rangeValue)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_rangeValue != rangeValue)
     {
         d->m_rangeValue = rangeValue;
@@ -564,7 +563,7 @@ void QEXTSelectSlider::setRangeValue(int rangeValue)
 
 void QEXTSelectSlider::setStep(int step)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_step != step)
     {
         d->m_step = step;
@@ -573,7 +572,7 @@ void QEXTSelectSlider::setStep(int step)
 
 void QEXTSelectSlider::setBorderWidth(int borderWidth)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_borderWidth != borderWidth)
     {
         d->m_borderWidth = borderWidth;
@@ -583,7 +582,7 @@ void QEXTSelectSlider::setBorderWidth(int borderWidth)
 
 void QEXTSelectSlider::setHorizontal(bool horizontal)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_horizontal != horizontal)
     {
         d->m_horizontal = horizontal;
@@ -593,7 +592,7 @@ void QEXTSelectSlider::setHorizontal(bool horizontal)
 
 void QEXTSelectSlider::setUsedColor(const QColor &usedColor)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_usedColor != usedColor)
     {
         d->m_usedColor = usedColor;
@@ -603,7 +602,7 @@ void QEXTSelectSlider::setUsedColor(const QColor &usedColor)
 
 void QEXTSelectSlider::setFreeColor(const QColor &freeColor)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_freeColor != freeColor)
     {
         d->m_freeColor = freeColor;
@@ -613,7 +612,7 @@ void QEXTSelectSlider::setFreeColor(const QColor &freeColor)
 
 void QEXTSelectSlider::setTextColor(const QColor &textColor)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_textColor != textColor)
     {
         d->m_textColor = textColor;
@@ -623,7 +622,7 @@ void QEXTSelectSlider::setTextColor(const QColor &textColor)
 
 void QEXTSelectSlider::setRangeTextColor(const QColor &rangeTextColor)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_rangeTextColor != rangeTextColor)
     {
         d->m_rangeTextColor = rangeTextColor;
@@ -633,7 +632,7 @@ void QEXTSelectSlider::setRangeTextColor(const QColor &rangeTextColor)
 
 void QEXTSelectSlider::setSliderColor(const QColor &sliderColor)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_sliderColor != sliderColor)
     {
         d->m_sliderColor = sliderColor;
@@ -643,7 +642,7 @@ void QEXTSelectSlider::setSliderColor(const QColor &sliderColor)
 
 void QEXTSelectSlider::setBorderColor(const QColor &borderColor)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_borderColor != borderColor)
     {
         d->m_borderColor = borderColor;
@@ -653,7 +652,7 @@ void QEXTSelectSlider::setBorderColor(const QColor &borderColor)
 
 void QEXTSelectSlider::setButtonNormalColor(const QColor &btnNormalColor)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_buttonNormalColor != btnNormalColor)
     {
         d->m_buttonNormalColor = btnNormalColor;
@@ -663,7 +662,7 @@ void QEXTSelectSlider::setButtonNormalColor(const QColor &btnNormalColor)
 
 void QEXTSelectSlider::setButtonPressColor(const QColor &btnPressColor)
 {
-    QEXT_DECL_D(QEXTSelectSlider);
+    Q_D(QEXTSelectSlider);
     if (d->m_buttonPressColor != btnPressColor)
     {
         d->m_buttonPressColor = btnPressColor;

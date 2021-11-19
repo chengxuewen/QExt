@@ -29,7 +29,7 @@ public:
     QSharedPointer<QEXTTcpFactory> m_tcpFactory;
 
 private:
-    QEXT_DECL_PUBLIC(QEXTTcpClient)
+    Q_DECLARE_PUBLIC(QEXTTcpClient)
     QEXT_DECL_DISABLE_COPY(QEXTTcpClientPrivate)
 };
 

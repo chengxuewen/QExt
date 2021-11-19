@@ -77,7 +77,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmModel)
-    QEXT_DECL_PRIVATE(QEXTMvvmModel)
+    Q_DECLARE_PRIVATE(QEXTMvvmModel)
 };
 
 template <typename T> T* QEXTMvvmModel::insertItem(QEXTMvvmItem *parent, const QEXTMvvmTagRow &tagrow)

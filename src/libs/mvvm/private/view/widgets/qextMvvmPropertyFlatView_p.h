@@ -42,7 +42,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmPropertyFlatViewPrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmPropertyFlatView)
+    Q_DECLARE_PUBLIC(QEXTMvvmPropertyFlatView)
 };
 
 #endif // _QEXTMVVMPROPERTYFLATVIEW_P_H

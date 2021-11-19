@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmprogressbar.h"
+﻿#include "frmprogressbar.h"
 #include "ui_frmprogressbar.h"
+
+
 
 frmProgressBar::frmProgressBar(QWidget *parent) : QWidget(parent), ui(new Ui::frmProgressBar)
 {

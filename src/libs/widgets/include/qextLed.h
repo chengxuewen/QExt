@@ -43,7 +43,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTLed)
-    QEXT_DECL_PRIVATE(QEXTLed)
+    Q_DECLARE_PRIVATE(QEXTLed)
 };
 
 #endif // _QEXTLED_H

@@ -1,6 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextOvenTimer.h>
+﻿#include <qextOvenTimer.h>
 
 #include <QPainter>
 #include <QEvent>
@@ -10,6 +8,8 @@
 #include <QPixmap>
 #include <QDebug>
 #include <qmath.h>
+
+
 
 const double DegreesPerMinute = 7.0;
 const double DegreesPerSecond = DegreesPerMinute / 60;

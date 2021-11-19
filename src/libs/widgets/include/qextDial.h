@@ -145,7 +145,7 @@ protected:
 
 private:
     QEXT_DECL_DISABLE_COPY(QEXTDial)
-    QEXT_DECL_PRIVATE(QEXTDial)
+    Q_DECLARE_PRIVATE(QEXTDial)
 };
 
 #endif // _QEXTDIAL_H

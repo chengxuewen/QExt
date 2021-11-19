@@ -1,8 +1,0 @@
-Plugin-SymbolicName: org.qtk.system.eventadmin
-Plugin-ActivationPolicy: eager
-Plugin-Category: QTK
-Plugin-ContactAddress: https://gitee.com/chengxuewen
-Plugin-Description: Plugin for event admin
-Plugin-Name: QTKEventAdmin
-Plugin-Vendor: chengxuewen
-Plugin-Version: 1.0.0

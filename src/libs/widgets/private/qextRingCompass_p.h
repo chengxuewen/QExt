@@ -26,7 +26,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTRingCompassPrivate)
-    QEXT_DECL_PUBLIC(QEXTRingCompass)
+    Q_DECLARE_PUBLIC(QEXTRingCompass)
 };
 
 #endif // _QEXTRINGCOMPASSGAUGE_P_H

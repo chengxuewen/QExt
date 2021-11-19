@@ -1,13 +1,12 @@
-﻿
-#pragma execution_character_set("utf-8")
-
-#include "frmnavigationlistview.h"
+﻿#include "frmnavigationlistview.h"
 #include "ui_frmnavigationlistview.h"
 #include "qdebug.h"
 
 #include <QListView>
 
 #include <qextIconsFontAwesome.h>
+
+
 
 FrmNavigationListView::FrmNavigationListView(QWidget *parent) : QWidget(parent), ui(new Ui::FrmNavigationListView)
 {

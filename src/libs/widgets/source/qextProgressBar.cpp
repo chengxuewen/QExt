@@ -1,9 +1,9 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextProgressBar.h>
+﻿#include <qextProgressBar.h>
 #include <QPainter>
 #include <QTimer>
 #include <QDebug>
+
+
 
 QEXTProgressBar::QEXTProgressBar(QWidget *parent) : QWidget(parent)
 {    

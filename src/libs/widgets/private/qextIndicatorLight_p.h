@@ -38,7 +38,7 @@ public:
     bool m_lightState;                 //是否亮
 
 private:
-    QEXT_DECL_PUBLIC(QEXTIndicatorLight)
+    Q_DECLARE_PUBLIC(QEXTIndicatorLight)
     QEXT_DECL_DISABLE_COPY(QEXTIndicatorLightPrivate)
 };
 

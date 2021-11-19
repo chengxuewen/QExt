@@ -86,7 +86,7 @@ protected:
     QScopedPointer<QEXTNumberLedPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTNumberLed)
+    Q_DECLARE_PRIVATE(QEXTNumberLed)
     QEXT_DECL_DISABLE_COPY(QEXTNumberLed)
 };
 

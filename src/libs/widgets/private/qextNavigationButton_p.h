@@ -7,6 +7,9 @@
 class QEXTNavigationButton;
 class QEXT_WIDGETS_API QEXTNavigationButtonPrivate
 {
+    Q_DISABLE_COPY(QEXTNavigationButtonPrivate)
+    Q_DECLARE_PUBLIC(QEXTNavigationButton)
+
 public:
     explicit QEXTNavigationButtonPrivate(QEXTNavigationButton *q);
     virtual ~QEXTNavigationButtonPrivate();
@@ -53,10 +56,6 @@ public:
     QBrush m_checkBackgroundBrush;  //选中背景画刷
 
     bool m_hovered; //悬停标志位
-
-private:
-    QEXT_DECL_PUBLIC(QEXTNavigationButton)
-    QEXT_DECL_DISABLE_COPY(QEXTNavigationButtonPrivate)
 };
 
 #endif // _QEXTNAVIGATIONBUTTON_P_H

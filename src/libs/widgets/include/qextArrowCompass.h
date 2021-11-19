@@ -150,7 +150,7 @@ private slots:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTArrowCompass)
-    QEXT_DECL_PRIVATE(QEXTArrowCompass)
+    Q_DECLARE_PRIVATE(QEXTArrowCompass)
 };
 
 #endif // _QEXTARROWCOMPASS_H

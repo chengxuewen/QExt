@@ -36,7 +36,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmAbstractItemCommandPrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmAbstractItemCommand)
+    Q_DECLARE_PUBLIC(QEXTMvvmAbstractItemCommand)
 };
 
 #endif // _QEXTMVVMABSTRACTITEMCOMMAND_P_H

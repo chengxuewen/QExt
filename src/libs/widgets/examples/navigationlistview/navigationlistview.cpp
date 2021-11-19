@@ -1,8 +1,8 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "navigationlistview.h"
+﻿#include "navigationlistview.h"
 #include "ui_navigationlistview.h"
 #include "qtimer.h"
+
+
 
 NavigationListView::NavigationListView(QWidget *parent) : QWidget(parent), ui(new Ui::NavigationListView)
 {

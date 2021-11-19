@@ -50,7 +50,7 @@ protected:
     QScopedPointer<QEXTTcpServerPrivate> d_ptr;
 
 private:
-    QEXT_DECL_PRIVATE(QEXTTcpServer)
+    Q_DECLARE_PRIVATE(QEXTTcpServer)
     QEXT_DECL_DISABLE_COPY(QEXTTcpServer)
 };
 

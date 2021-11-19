@@ -1,11 +1,10 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextDateTimeTumbler.h>
+﻿#include <qextDateTimeTumbler.h>
 #include <qextDateTimeTumbler_p.h>
 #include <qextTumbler.h>
 
 #include <QBoxLayout>
 #include <QDebug>
+
 
 
 QEXTDateTimeTumblerPrivate::QEXTDateTimeTumblerPrivate(QEXTDateTimeTumbler *q)
@@ -46,7 +45,7 @@ QEXTDateTimeTumbler::~QEXTDateTimeTumbler()
 
 void QEXTDateTimeTumbler::initForm()
 {
-    QEXT_DECL_D(QEXTDateTimeTumbler);
+    Q_D(QEXTDateTimeTumbler);
     //年份选择器
     d->m_tumblerYear = new QEXTTumbler(this);
     QStringList listYear;
@@ -113,7 +112,7 @@ void QEXTDateTimeTumbler::initForm()
 
 void QEXTDateTimeTumbler::currentValueChanged(const QString &)
 {
-    QEXT_DECL_D(QEXTDateTimeTumbler);
+    Q_D(QEXTDateTimeTumbler);
     int month = d->m_tumblerMonth->currentValue().left(2).toInt();
 
     //记住之前的日期
@@ -151,79 +150,79 @@ void QEXTDateTimeTumbler::currentValueChanged(const QString &)
 
 int QEXTDateTimeTumbler::year() const
 {
-    QEXT_DECL_DC(QEXTDateTimeTumbler);
+    Q_D(const QEXTDateTimeTumbler);
     return d->m_tumblerYear->currentValue().toInt();
 }
 
 int QEXTDateTimeTumbler::month() const
 {
-    QEXT_DECL_DC(QEXTDateTimeTumbler);
+    Q_D(const QEXTDateTimeTumbler);
     return d->m_tumblerMonth->currentValue().left(2).toInt();
 }
 
 int QEXTDateTimeTumbler::day() const
 {
-    QEXT_DECL_DC(QEXTDateTimeTumbler);
+    Q_D(const QEXTDateTimeTumbler);
     return d->m_tumblerDay->currentValue().toInt();
 }
 
 int QEXTDateTimeTumbler::hour() const
 {
-    QEXT_DECL_DC(QEXTDateTimeTumbler);
+    Q_D(const QEXTDateTimeTumbler);
     return d->m_tumblerHour->currentValue().toInt();
 }
 
 int QEXTDateTimeTumbler::min() const
 {
-    QEXT_DECL_DC(QEXTDateTimeTumbler);
+    Q_D(const QEXTDateTimeTumbler);
     return d->m_tumblerMin->currentValue().toInt();
 }
 
 int QEXTDateTimeTumbler::sec() const
 {
-    QEXT_DECL_DC(QEXTDateTimeTumbler);
+    Q_D(const QEXTDateTimeTumbler);
     return d->m_tumblerSec->currentValue().toInt();
 }
 
 void QEXTDateTimeTumbler::setYear(int year)
 {
-    QEXT_DECL_D(QEXTDateTimeTumbler);
+    Q_D(QEXTDateTimeTumbler);
     d->m_tumblerYear->setCurrentValue(QString("%1").arg(year));
 }
 
 void QEXTDateTimeTumbler::setMonth(int month)
 {
-    QEXT_DECL_D(QEXTDateTimeTumbler);
+    Q_D(QEXTDateTimeTumbler);
     d->m_tumblerMonth->setCurrentValue(QString("%1 月").arg(month));
 }
 
 void QEXTDateTimeTumbler::setDay(int day)
 {
-    QEXT_DECL_D(QEXTDateTimeTumbler);
+    Q_D(QEXTDateTimeTumbler);
     d->m_tumblerDay->setCurrentValue(QString("%1").arg(day));
 }
 
 void QEXTDateTimeTumbler::setHour(int hour)
 {
-    QEXT_DECL_D(QEXTDateTimeTumbler);
+    Q_D(QEXTDateTimeTumbler);
     d->m_tumblerHour->setCurrentValue(QString("%1").arg(hour));
 }
 
 void QEXTDateTimeTumbler::setMin(int min)
 {
-    QEXT_DECL_D(QEXTDateTimeTumbler);
+    Q_D(QEXTDateTimeTumbler);
     d->m_tumblerMin->setCurrentValue(QString("%1").arg(min));
 }
 
 void QEXTDateTimeTumbler::setSec(int sec)
 {
-    QEXT_DECL_D(QEXTDateTimeTumbler);
+    Q_D(QEXTDateTimeTumbler);
     d->m_tumblerSec->setCurrentValue(QString("%1").arg(sec));
 }
 
 void QEXTDateTimeTumbler::setDateTime(int year, int month, int day, int hour, int min, int sec)
 {
-    QEXT_DECL_D(QEXTDateTimeTumbler);
+    Q_D(QEXTDateTimeTumbler);
     this->setYear(year);
     this->setMonth(month);
     this->setDay(day);

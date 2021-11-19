@@ -34,7 +34,7 @@ public:
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTMvvmViewItemPrivate)
-    QEXT_DECL_PUBLIC(QEXTMvvmViewItem)
+    Q_DECLARE_PUBLIC(QEXTMvvmViewItem)
 };
 
 #endif // _QEXTMVVMVIEWITEM_P_H

@@ -1,6 +1,4 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextFramelessMainwindow.h>
+﻿#include <qextFramelessMainwindow.h>
 #include <qextFramelessMainwindow_p.h>
 
 #include <QStyleOption>
@@ -11,9 +9,11 @@
 #include <QStyle>
 #include <QDebug>
 
+
+
 #ifdef Q_OS_WIN
-    #include "windows.h"
-    #pragma comment (lib,"user32.lib")
+#include "windows.h"
+#pragma comment (lib,"user32.lib")
 #endif
 
 #define TIMEMS qPrintable(QTime::currentTime().toString("HH:mm:ss zzz"))
@@ -49,13 +49,13 @@ QEXTFramelessMainWindowPrivate::~QEXTFramelessMainWindowPrivate()
 QEXTFramelessMainWindow::QEXTFramelessMainWindow(QWidget *parent)
     : QMainWindow(parent), d_ptr(new QEXTFramelessMainWindowPrivate(this))
 {
-    QEXT_DECL_D(QEXTFramelessMainWindow);
+    Q_D(QEXTFramelessMainWindow);
     d->m_flags = this->windowFlags();
 
     //设置背景透明 官方在5.3以后才彻底修复 WA_TranslucentBackground+FramelessWindowHint 并存不绘制的BUG
-#if (QT_VERSION >= QT_VERSION_CHECK(5,3,0))
-    this->setAttribute(Qt::WA_TranslucentBackground);
-#endif
+    //#if (QT_VERSION >= QT_VERSION_CHECK(5,3,0))
+    //    this->setAttribute(Qt::WA_TranslucentBackground);
+    //#endif
     this->setAttribute(Qt::WA_Hover);
     //设置无边框属性
     this->setWindowFlags(d->m_flags | Qt::FramelessWindowHint);
@@ -85,7 +85,7 @@ void QEXTFramelessMainWindow::showEvent(QShowEvent *event)
 
 void QEXTFramelessMainWindow::doWindowStateChange(QEvent *event)
 {
-    QEXT_DECL_D(QEXTFramelessMainWindow);
+    Q_D(QEXTFramelessMainWindow);
     //非最大化才能移动和拖动大小
     if (this->windowState() == Qt::WindowNoState)
     {
@@ -122,7 +122,7 @@ void QEXTFramelessMainWindow::doWindowStateChange(QEvent *event)
 
 void QEXTFramelessMainWindow::doResizeEvent(QEvent *event)
 {
-    QEXT_DECL_D(QEXTFramelessMainWindow);
+    Q_D(QEXTFramelessMainWindow);
     //非win系统的无边框拉伸,win系统上已经采用了nativeEvent来处理拉伸
     //为何不统一用计算的方式因为在win上用这个方式往左拉伸会发抖妹的
 #ifndef Q_OS_WIN
@@ -343,7 +343,7 @@ void QEXTFramelessMainWindow::doResizeEvent(QEvent *event)
 
 bool QEXTFramelessMainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    QEXT_DECL_D(QEXTFramelessMainWindow);
+    Q_D(QEXTFramelessMainWindow);
     if (watched == this)
     {
         if (event->type() == QEvent::WindowStateChange)
@@ -385,12 +385,12 @@ void QEXTFramelessMainWindow::paintEvent(QPaintEvent *event)
 }
 
 #if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
-    bool QEXTFramelessMainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result)
+bool QEXTFramelessMainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result)
 #else
-    bool QEXTFramelessMainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
+bool QEXTFramelessMainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
 #endif
 {
-    QEXT_DECL_D(QEXTFramelessMainWindow);
+    Q_D(QEXTFramelessMainWindow);
     if (eventType == "windows_generic_MSG")
     {
 #ifdef Q_OS_WIN
@@ -418,7 +418,7 @@ void QEXTFramelessMainWindow::paintEvent(QPaintEvent *event)
 
             //鼠标移动到四个角,这个消息是当鼠标移动或者有鼠标键按下时候发出的
             *result = 0;
-            if (resizeEnable)
+            if (d->m_resizeEnable)
             {
                 if (left && top)
                 {
@@ -461,9 +461,9 @@ void QEXTFramelessMainWindow::paintEvent(QPaintEvent *event)
             }
 
             //识别标题栏拖动产生半屏全屏效果
-            if (titleBar != 0 && titleBar->rect().contains(pos))
+            if (d->m_titleBar != 0 && d->m_titleBar->rect().contains(pos))
             {
-                QWidget *child = titleBar->childAt(pos);
+                QWidget *child = d->m_titleBar->childAt(pos);
                 if (!child)
                 {
                     *result = HTCAPTION;
@@ -507,7 +507,7 @@ bool QEXTFramelessMainWindow::winEvent(MSG *message, long *result)
 
 void QEXTFramelessMainWindow::setPadding(int padding)
 {
-    QEXT_DECL_D(QEXTFramelessMainWindow);
+    Q_D(QEXTFramelessMainWindow);
     if (d->m_padding != padding)
     {
         d->m_padding = padding;
@@ -517,7 +517,7 @@ void QEXTFramelessMainWindow::setPadding(int padding)
 
 void QEXTFramelessMainWindow::setMoveEnable(bool moveEnable)
 {
-    QEXT_DECL_D(QEXTFramelessMainWindow);
+    Q_D(QEXTFramelessMainWindow);
     if (d->m_moveEnable != moveEnable)
     {
         d->m_moveEnable = moveEnable;
@@ -527,7 +527,7 @@ void QEXTFramelessMainWindow::setMoveEnable(bool moveEnable)
 
 void QEXTFramelessMainWindow::setResizeEnable(bool resizeEnable)
 {
-    QEXT_DECL_D(QEXTFramelessMainWindow);
+    Q_D(QEXTFramelessMainWindow);
     if (d->m_resizeEnable != resizeEnable)
     {
         d->m_resizeEnable = resizeEnable;
@@ -537,7 +537,7 @@ void QEXTFramelessMainWindow::setResizeEnable(bool resizeEnable)
 
 void QEXTFramelessMainWindow::setTitleBar(QWidget *titleBar)
 {
-    QEXT_DECL_D(QEXTFramelessMainWindow);
+    Q_D(QEXTFramelessMainWindow);
     if (d->m_titleBar.data() != titleBar)
     {
         d->m_titleBar = titleBar;

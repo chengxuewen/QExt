@@ -1,7 +1,7 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include "frmtooltip.h"
+﻿#include "frmtooltip.h"
 #include "ui_frmtooltip.h"
+
+
 
 FrmTooltip::FrmTooltip(QWidget *parent) : QWidget(parent), ui(new Ui::FrmTooltip)
 {

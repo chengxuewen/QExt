@@ -1,10 +1,10 @@
-﻿#pragma execution_character_set("utf-8")
-
-#include <qextThermometer.h>
+﻿#include <qextThermometer.h>
 
 #include <QPainter>
 #include <QTimer>
 #include <QDebug>
+
+
 
 QEXTThermometer::QEXTThermometer(QWidget *parent) : QWidget(parent)
 {
