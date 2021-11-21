@@ -119,7 +119,9 @@ endif()
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND qext_lib_link_libraries Qt4::QtCore)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND qext_lib_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Gui)
+    list(APPEND qext_lib_link_libraries
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        )
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()

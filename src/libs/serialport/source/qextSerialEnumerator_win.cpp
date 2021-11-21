@@ -29,8 +29,8 @@
 **
 ****************************************************************************/
 
-#include <qextserialport.h>
-#include <qextserialport_p.h>
+#include <qextSerialPort.h>
+#include <qextSerialPort_p.h>
 #include <qextSerialEnumerator.h>
 #include <qextSerialEnumerator_p.h>
 
@@ -245,7 +245,7 @@ bool QEXTSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
 {
 #ifndef QT_GUI_LIB
     Q_UNUSED(setup)
-    QESP_WARNING("QEXTSerialEnumerator: GUI not enabled - can't register for device notifications.");
+    qWarning("QEXTSerialEnumerator: GUI not enabled - can't register for device notifications.");
     return false;
 #else
     Q_Q(QEXTSerialEnumerator);
