@@ -69,24 +69,19 @@ void QEXTSemicircleGauge::paintEvent(QPaintEvent *)
     Q_D(QEXTSemicircleGauge);
     int width = this->width();
     int height = this->height();
-    //直径取最大值的一半
+
     int side = qMax(width, height) / 2;
 
-    //绘制准备工作,启用反锯齿,平移坐标轴中心,等比例缩放
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.translate(width / 2.0, height / 1.0);
     painter.scale(side / 100.0, side / 100.0);
 
-    //绘制当前值及剩余值圆弧
     this->drawArc(&painter);
 
-    //绘制刻度线
     this->drawScale(&painter);
-    //绘制刻度值
     this->drawScaleNum(&painter);
 
-    //根据指示器形状绘制指示器
     if (d->m_pointerStyle == PointerStyle_Circle)
     {
         this->drawPointerCircle(&painter);
@@ -104,13 +99,9 @@ void QEXTSemicircleGauge::paintEvent(QPaintEvent *)
         this->drawPointerTriangle(&painter);
     }
 
-    //绘制指针中心圆外边框
     this->drawRoundCircle(&painter);
-    //绘制指针中心圆
     this->drawCenterCircle(&painter);
-    //绘制当前值
     this->drawValue(&painter);
-    //绘制遮罩层
     this->drawOverlay(&painter);
 }
 

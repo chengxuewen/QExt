@@ -37,7 +37,7 @@ public:
     QColor m_scaleColor;              //刻度尺颜色
     QColor m_pointerColor;            //指针颜色
     QColor m_centerCircleColor;       //中心圆颜色
-    QColor m_textColor;               //文字颜色
+    QColor m_textColor;               //文字颜色//
 
     bool m_overlayVisiable;               //显示遮罩层
     QColor m_overlayColor;            //遮罩层颜色

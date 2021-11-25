@@ -16,7 +16,7 @@ public:
     double m_minValue; //最小值
     double m_maxValue; //最大值
     double m_value;    //目标值
-    int m_precision;   //精确度,小数点后几位
+    int m_precision;   //精确度,小数点后几位//
 
     int m_scaleMajor; //大刻度数量
     int m_scaleMinor; //小刻度数量
