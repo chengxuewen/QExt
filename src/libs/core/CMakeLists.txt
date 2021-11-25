@@ -165,6 +165,9 @@ target_include_directories(${qext_lib_base_name} PRIVATE
     $<BUILD_INTERFACE:${${qext_lib_base_name}_PRIVATE_INCLUDE_DIRS}>
     $<INSTALL_INTERFACE:private>
     )
+if(QEXT_BUILD_SHARED_LIBS)
+    target_compile_definitions(${qext_lib_base_name} PUBLIC QEXT_BUILD_SHARED_LIBS)
+endif()
 target_compile_definitions(${qext_lib_base_name} PRIVATE QEXT_BUILD_CORE_LIB)
 
 
