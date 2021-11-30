@@ -1,19 +1,34 @@
+/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
+
 #ifndef _QEXTNUMBERLED_H
 #define _QEXTNUMBERLED_H
-
-/***************************************************************************************************
- *@Brief:LCD数字控件
- * 1:可设置目标值和间隔
- * 2:可设置背景颜色和数字颜色
- * 3:可设置显示点、冒号
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com,基于刘典武工程师（QQ:517216493）代码。
- *@Version:V0.1
- *@Date:2019-08-02
- *@History:
- *  Modification data:2021-10-16
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
 
 #include <qextWidgetGlobal.h>
 
@@ -24,6 +39,9 @@ class QEXTNumberLedPrivate;
 class QEXT_WIDGETS_API QEXTNumberLed : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTNumberLed)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNumberLed)
+
     Q_PROPERTY(int number READ number WRITE setNumber)
     Q_PROPERTY(int space READ space WRITE setSpace)
 
@@ -36,10 +54,10 @@ class QEXT_WIDGETS_API QEXTNumberLed : public QWidget
     Q_PROPERTY(Symbol symbolType READ symbolType WRITE setSymbolType)
 public:
     enum Symbol {
-        Symbol_None = 0,    //0-无符号
-        Symbol_Dot,         //1-点
-        Symbol_Colon,       //2-冒号
-        Symbol_Line         //3-划线
+        Symbol_None = 0,
+        Symbol_Dot,
+        Symbol_Colon,
+        Symbol_Line
     };
     Q_ENUMS(Symbol)
 
@@ -62,16 +80,13 @@ public:
     QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
 
 public Q_SLOTS:
-    //设置值
     void setNumber(int number);
-    //设置间距
+
     void setSpace(int space);
 
-    //设置背景颜色
     void setBackgroundStartColor(const QColor &color);
     void setBackgroundEndColor(const QColor &color);
 
-    //设置数字颜色
     void setNumberStartColor(const QColor &color);
     void setNumberEndColor(const QColor &color);
 
@@ -83,11 +98,7 @@ protected:
     void drawBackground(QPainter *painter);
     void drawNumber(QPainter *painter);
 
-    QScopedPointer<QEXTNumberLedPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTNumberLed)
-    QEXT_DECL_DISABLE_COPY(QEXTNumberLed)
+    QScopedPointer<QEXTNumberLedPrivate> dd_ptr;
 };
 
 #endif // _QEXTNUMBERLED_H

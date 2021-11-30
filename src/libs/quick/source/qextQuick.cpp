@@ -34,7 +34,7 @@ QEXTQuickPrivate::~QEXTQuickPrivate()
 static QEXTQuick *sg_instance = QEXT_DECL_NULLPTR;
 
 QEXTQuick::QEXTQuick(QObject *parent)
-    : QObject(parent), d_ptr(new QEXTQuickPrivate(this))
+    : QObject(parent), dd_ptr(new QEXTQuickPrivate(this))
 {
 
 }

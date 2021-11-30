@@ -1,24 +1,34 @@
-﻿#ifndef _QEXTDIAL_H
-#define _QEXTDIAL_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:旋转仪表盘控件
- *  1.支持指示器样式选择 圆形指示器/指针指示器/圆角指针指示器/三角形指示器
- *  2.支持鼠标按下旋转改变值
- *  3.支持负数刻度值
- *  4.支持设置当前值及范围值
- *  5.支持左右旋转角度设置
- *  6.支持设置大刻度数量和小刻度数量
- *  7.支持设置各种颜色
- *  8.字号随窗体拉伸自动变化
- *  9.可设置是否显示当前值
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武（QQ:517216493）代码。
- *@Date:2016-11-11
- *@History:
- *  Modification data:2021-10-15
- *  Author:chengxuewen
- *  Brief:1.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTDIAL_H
+#define _QEXTDIAL_H
 
 #include <qextWidgetGlobal.h>
 
@@ -28,7 +38,8 @@ class QEXTDialPrivate;
 class QEXT_WIDGETS_API QEXTDial : public QWidget
 {
     Q_OBJECT
-    Q_ENUMS(PointerStyleType)
+    Q_DISABLE_COPY(QEXTDial)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTDial)
 
     Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
@@ -50,16 +61,15 @@ class QEXT_WIDGETS_API QEXTDial : public QWidget
 public:
     enum PointerStyleType
     {
-        PointerStyle_Circle = 0,     //圆形指示器
-        PointerStyle_Indicator = 1,  //指针指示器
-        PointerStyle_IndicatorR = 2, //圆角指针指示器
-        PointerStyle_Triangle = 3    //三角形指示器
+        PointerStyle_Circle = 0,
+        PointerStyle_Indicator = 1,
+        PointerStyle_IndicatorR = 2,
+        PointerStyle_Triangle = 3
     };
+    Q_ENUMS(PointerStyleType)
 
     explicit QEXTDial(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTDial();
-
-
 
     double minValue() const;
     double maxValue() const;
@@ -82,40 +92,28 @@ public:
     QSize minimumSizeHint() const;
 
 public Q_SLOTS:
-    //设置范围值
     void setRange(double minValue, double maxValue);
     void setRange(int minValue, int maxValue);
 
-    //设置最大最小值
     void setMinValue(double minValue);
     void setMaxValue(double maxValue);
 
-    //设置目标值
     void setValue(double value);
     void setValue(int value);
 
-    //设置精确度
     void setPrecision(int precision);
 
-    //设置主刻度数量
     void setScaleMajor(int scaleMajor);
-    //设置小刻度数量
     void setScaleMinor(int scaleMinor);
-    //设置开始旋转角度
     void setStartAngle(int angle);
-    //设置结束旋转角度
     void setEndAngle(int angle);
 
-    //设置颜色
     void setDarkColor(const QColor &color);
     void setLightColor(const QColor &color);
 
-    //设置文本颜色
     void setTextColor(const QColor &color);
 
-    //设置是否显示当前值
     void setShowValue(bool visiable);
-    //设置指针样式
     void setPointerStyle(const PointerStyleType &style);
 
 Q_SIGNALS:
@@ -138,14 +136,9 @@ protected:
     void drawCenterCircle(QPainter *painter);
     void drawValue(QPainter *painter);
 
-    //根据鼠标按下的坐标设置当前按下坐标处的值
     void setPressedValue(QPointF point);
 
-    QScopedPointer<QEXTDialPrivate> d_ptr;
-
-private:
-    QEXT_DECL_DISABLE_COPY(QEXTDial)
-    Q_DECLARE_PRIVATE(QEXTDial)
+    QScopedPointer<QEXTDialPrivate> dd_ptr;
 };
 
 #endif // _QEXTDIAL_H

@@ -14,7 +14,7 @@ QEXTIconLabelPrivate::~QEXTIconLabelPrivate()
 }
 
 QEXTIconLabel::QEXTIconLabel(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTIconLabelPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTIconLabelPrivate(this))
 {
 
 }

@@ -5,8 +5,6 @@
 #include <QBoxLayout>
 #include <QDebug>
 
-
-
 QEXTDateTimeTumblerPrivate::QEXTDateTimeTumblerPrivate(QEXTDateTimeTumbler *q)
     : q_ptr(q)
     , m_year(0)
@@ -33,7 +31,7 @@ QEXTDateTimeTumblerPrivate::~QEXTDateTimeTumblerPrivate()
 
 
 QEXTDateTimeTumbler::QEXTDateTimeTumbler(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTDateTimeTumblerPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTDateTimeTumblerPrivate(this))
 {
     this->initForm();
 }
@@ -46,7 +44,7 @@ QEXTDateTimeTumbler::~QEXTDateTimeTumbler()
 void QEXTDateTimeTumbler::initForm()
 {
     Q_D(QEXTDateTimeTumbler);
-    //年份选择器
+
     d->m_tumblerYear = new QEXTTumbler(this);
     QStringList listYear;
     for (int i = 2015; i <= 2030; i++) {
@@ -54,7 +52,6 @@ void QEXTDateTimeTumbler::initForm()
     }
     d->m_tumblerYear->setValueList(listYear);
 
-    //月份选择器
     d->m_tumblerMonth = new QEXTTumbler(this);
     QStringList listMonth;
     for (int i = 1; i <= 12; i++) {
@@ -62,7 +59,6 @@ void QEXTDateTimeTumbler::initForm()
     }
     d->m_tumblerMonth->setValueList(listMonth);
 
-    //日期选择器
     d->m_tumblerDay = new QEXTTumbler(this);
     QStringList listDay;
     for (int i = 1; i <= 31; i++) {
@@ -70,11 +66,9 @@ void QEXTDateTimeTumbler::initForm()
     }
     d->m_tumblerDay->setValueList(listDay);
 
-    //年月日联动
     connect(d->m_tumblerYear, SIGNAL(currentValueChanged(QString)), this, SLOT(currentValueChanged(QString)));
     connect(d->m_tumblerMonth, SIGNAL(currentValueChanged(QString)), this, SLOT(currentValueChanged(QString)));
 
-    //时钟选择器
     d->m_tumblerHour = new QEXTTumbler(this);
     QStringList listHour;
     for (int i = 0; i <= 23; i++) {
@@ -82,7 +76,6 @@ void QEXTDateTimeTumbler::initForm()
     }
     d->m_tumblerHour->setValueList(listHour);
 
-    //分钟选择器
     d->m_tumblerMin = new QEXTTumbler(this);
     QStringList listMin;
     for (int i = 0; i <= 59; i++) {
@@ -90,7 +83,6 @@ void QEXTDateTimeTumbler::initForm()
     }
     d->m_tumblerMin->setValueList(listMin);
 
-    //秒钟选择器
     d->m_tumblerSec = new QEXTTumbler(this);
     QStringList listSec;
     for (int i = 0; i <= 59; i++) {
@@ -98,7 +90,6 @@ void QEXTDateTimeTumbler::initForm()
     }
     d->m_tumblerSec->setValueList(listSec);
 
-    //将选择器添加到布局
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->setSpacing(0);
@@ -115,13 +106,13 @@ void QEXTDateTimeTumbler::currentValueChanged(const QString &)
     Q_D(QEXTDateTimeTumbler);
     int month = d->m_tumblerMonth->currentValue().left(2).toInt();
 
-    //记住之前的日期
+    //Remember the previous date
     int day = d->m_tumblerDay->currentValue().left(2).toInt();
 
-    //计算该月最大日期
+    //Calculates the maximum date of the month
     int maxDay = 30;
     if (month == 2) {
-        //平年28天 闰年29天
+        //Common year 28 days leap year 29 days
         int year = d->m_tumblerYear->currentValue().left(4).toInt();
         bool isLoopYear = (((0 == (year % 4)) && (0 != (year % 100))) || (0 == (year % 400)));
         if (isLoopYear) {
@@ -140,7 +131,7 @@ void QEXTDateTimeTumbler::currentValueChanged(const QString &)
 
     d->m_tumblerDay->setValueList(listDay);
 
-    //如果上次的日期大于最大的日期则设置为最大的日期
+    //Set to the maximum date if the last date is greater than the maximum date
     if (day > maxDay) {
         d->m_tumblerDay->setCurrentIndex(maxDay - 1);
     } else {
@@ -222,7 +213,6 @@ void QEXTDateTimeTumbler::setSec(int sec)
 
 void QEXTDateTimeTumbler::setDateTime(int year, int month, int day, int hour, int min, int sec)
 {
-    Q_D(QEXTDateTimeTumbler);
     this->setYear(year);
     this->setMonth(month);
     this->setDay(day);

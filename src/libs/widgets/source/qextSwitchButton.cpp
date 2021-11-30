@@ -6,8 +6,6 @@
 #include <QPainter>
 #include <QTimer>
 
-
-
 QEXTSwitchButtonPrivate::QEXTSwitchButtonPrivate(QEXTSwitchButton *q)
     : q_ptr(q)
 {
@@ -29,8 +27,8 @@ QEXTSwitchButtonPrivate::QEXTSwitchButtonPrivate(QEXTSwitchButton *q)
     m_offTextColor = QColor(250, 250, 250);
     m_onTextColor = QColor(255, 255, 255);
 
-    m_offText = "关闭";
-    m_onText = "开启";
+    m_offText = "Off";
+    m_onText = "On";
 
     m_step = 0;
     m_startX = 0;
@@ -47,7 +45,7 @@ QEXTSwitchButtonPrivate::~QEXTSwitchButtonPrivate()
 
 
 QEXTSwitchButton::QEXTSwitchButton(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTSwitchButtonPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTSwitchButtonPrivate(this))
 {
     Q_D(QEXTSwitchButton);
     d->m_step = this->width() / 50;
@@ -67,10 +65,8 @@ void QEXTSwitchButton::mousePressEvent(QMouseEvent *)
     d->m_checked = !d->m_checked;
     emit checkedChanged(d->m_checked);
 
-    //每次移动的步长
     d->m_step = width() / 7;
 
-    //状态切换改变后自动计算终点坐标
     if (d->m_checked) {
         if (d->m_buttonStyle == Style_Rect) {
             d->m_endX = width() - width() / 2;
@@ -94,10 +90,8 @@ void QEXTSwitchButton::mousePressEvent(QMouseEvent *)
 void QEXTSwitchButton::resizeEvent(QResizeEvent *)
 {
     Q_D(QEXTSwitchButton);
-    //每次移动的步长为宽度的 50分之一
     d->m_step = width() / 50;
 
-    //尺寸大小改变后自动设置起点坐标为终点
     if (d->m_checked) {
         if (d->m_buttonStyle == Style_Rect) {
             d->m_startX = width() - width() / 2;
@@ -115,13 +109,10 @@ void QEXTSwitchButton::resizeEvent(QResizeEvent *)
 
 void QEXTSwitchButton::paintEvent(QPaintEvent *)
 {
-    //绘制准备工作,启用反锯齿
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    //绘制背景
     this->drawBackground(&painter);
-    //绘制滑块
     this->drawSlider(&painter);
 }
 
@@ -142,16 +133,14 @@ void QEXTSwitchButton::drawBackground(QPainter *painter)
         painter->drawRoundedRect(rect(), d->m_rectRadius, d->m_rectRadius);
     } else if (d->m_buttonStyle == Style_CircleIn) {
         QRect rect(0, 0, width(), height());
-        //半径为高度的一半
         int side = qMin(rect.width(), rect.height());
 
-        //左侧圆
         QPainterPath path1;
         path1.addEllipse(rect.x(), rect.y(), side, side);
-        //右侧圆
+
         QPainterPath path2;
         path2.addEllipse(rect.width() - side, rect.y(), side, side);
-        //中间矩形
+
         QPainterPath path3;
         path3.addRect(rect.x() + side / 2, rect.y(), rect.width() - side, rect.height());
 
@@ -164,7 +153,6 @@ void QEXTSwitchButton::drawBackground(QPainter *painter)
     }
 
     if (d->m_buttonStyle == Style_Rect || d->m_buttonStyle == Style_CircleIn) {
-        //绘制文本和小圆,互斥
         if (d->m_textVisiable) {
             int sliderWidth = qMin(width(), height()) - d->m_space * 2;
             if (d->m_buttonStyle == Style_Rect) {
@@ -395,7 +383,6 @@ void QEXTSwitchButton::setRectRadius(int radius)
 void QEXTSwitchButton::setChecked(bool checked)
 {
     Q_D(QEXTSwitchButton);
-    //如果刚刚初始化完成的属性改变则延时处理
     if (d->m_checked != checked) {
         if (d->m_step == 0) {
             QTimer::singleShot(10, this, SLOT(change()));

@@ -14,6 +14,8 @@ class QEXTTcpPacketTransceiverPrivate;
 class QEXT_TCP_API QEXTTcpPacketTransceiver : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTTcpPacketTransceiver)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpPacketTransceiver)
 public:
     QEXTTcpPacketTransceiver(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
     QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate *d);
@@ -56,11 +58,7 @@ protected:
     void resetRequestSyncFlag(const QSharedPointer<QEXTTcpPacketInterface> &receivedPacket);
     void setError(const QString &error);
 
-    QScopedPointer<QEXTTcpPacketTransceiverPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTTcpPacketTransceiver)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpPacketTransceiver)
+    QScopedPointer<QEXTTcpPacketTransceiverPrivate> dd_ptr;
 };
 
 #endif // _QEXTTCPPACKETTRANSCEIVER_H

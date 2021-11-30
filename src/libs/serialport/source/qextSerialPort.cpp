@@ -407,7 +407,7 @@ void QEXTSerialPortPrivate::_q_canRead()
 */
 
 QEXTSerialPort::QEXTSerialPort(QEXTSerialPort::QueryMode mode, QObject *parent)
-    : QIODevice(parent), d_ptr(new QEXTSerialPortPrivate(this))
+    : QIODevice(parent), dd_ptr(new QEXTSerialPortPrivate(this))
 {
 #ifdef Q_OS_WIN
     setPortName(QLatin1String("COM1"));
@@ -442,7 +442,7 @@ QEXTSerialPort::QEXTSerialPort(QEXTSerialPort::QueryMode mode, QObject *parent)
     e.g."COM1" or "/dev/ttyS0". \a mode
 */
 QEXTSerialPort::QEXTSerialPort(const QString &name, QEXTSerialPort::QueryMode mode, QObject *parent)
-    : QIODevice(parent), d_ptr(new QEXTSerialPortPrivate(this))
+    : QIODevice(parent), dd_ptr(new QEXTSerialPortPrivate(this))
 {
     setQueryMode(mode);
     setPortName(name);
@@ -452,7 +452,7 @@ QEXTSerialPort::QEXTSerialPort(const QString &name, QEXTSerialPort::QueryMode mo
     Constructs a port with default name and specified \a settings.
 */
 QEXTSerialPort::QEXTSerialPort(const PortSettings &settings, QEXTSerialPort::QueryMode mode, QObject *parent)
-    : QIODevice(parent), d_ptr(new QEXTSerialPortPrivate(this))
+    : QIODevice(parent), dd_ptr(new QEXTSerialPortPrivate(this))
 {
     Q_D(QEXTSerialPort);
     setQueryMode(mode);
@@ -463,7 +463,7 @@ QEXTSerialPort::QEXTSerialPort(const PortSettings &settings, QEXTSerialPort::Que
     Constructs a port with specified \a name , \a mode and \a settings.
 */
 QEXTSerialPort::QEXTSerialPort(const QString &name, const PortSettings &settings, QEXTSerialPort::QueryMode mode, QObject *parent)
-    : QIODevice(parent), d_ptr(new QEXTSerialPortPrivate(this))
+    : QIODevice(parent), dd_ptr(new QEXTSerialPortPrivate(this))
 {
     Q_D(QEXTSerialPort);
     setPortName(name);
@@ -771,7 +771,7 @@ QEXTSerialPort::~QEXTSerialPort()
     if (isOpen()) {
         close();
     }
-    delete d_ptr;
+    delete dd_ptr;
 }
 
 /*!

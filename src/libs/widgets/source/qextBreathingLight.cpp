@@ -25,7 +25,7 @@ QEXTBreathingLightPrivate::~QEXTBreathingLightPrivate()
 
 
 QEXTBreathingLight::QEXTBreathingLight(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTBreathingLightPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTBreathingLightPrivate(this))
 {
     Q_D(QEXTBreathingLight);
     d->m_timer.reset(new QTimer);
@@ -104,18 +104,15 @@ void QEXTBreathingLight::setBackgroundColor(const QColor &color)
 
 void QEXTBreathingLight::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTBreathingLight);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
 
-    //绘制准备工作,启用反锯齿,平移坐标轴中心,等比例缩放
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.translate(width / 2, height / 2);
     painter.scale(side / 200.0, side / 200.0);
 
-    //绘制背景
     this->drawBackground(&painter);
 }
 

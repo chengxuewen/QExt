@@ -85,7 +85,7 @@ QEXTDiskInfo QEXTHostInfoUtilsPrivate::checkDiskSize(const QString &result, cons
 
 
 QEXTHostInfoUtils::QEXTHostInfoUtils(QObject *parent)
-    : QObject(parent), d_ptr(new QEXTHostInfoUtilsPrivate(this))
+    : QObject(parent), dd_ptr(new QEXTHostInfoUtilsPrivate(this))
 {
     Q_D(QEXTHostInfoUtils);
     d->m_cpuTimer.reset(new QTimer);

@@ -1,21 +1,34 @@
+/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
+
 #ifndef _QEXTWAVECHART_H
 #define _QEXTWAVECHART_H
-
-/***************************************************************************************************
- *@Brief:滑动选择器控件
- *  1.可设置间隔
- *  2.可设置标题
- *  3.可设置是否显示横线及坐标点
- *  4.可设置背景色文字颜色
- *  5.可设置范围值及x轴y轴步长
- *  6.暂时不支持最小值小于0的数据
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武（QQ:517216493）代码。
- *@Date:2016-10-23
- *@History:
- *  Modification data:2021-10-15
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
 
 #include <qextWidgetGlobal.h>
 
@@ -25,6 +38,8 @@ class QEXTWaveChartPrivate;
 class QEXT_WIDGETS_API QEXTWaveChart : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTWaveChart)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTWaveChart)
 
     Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
@@ -110,11 +125,7 @@ protected:
     void drawTitle(QPainter *painter);
     void drawPoint(QPainter *painter);
 
-    QScopedPointer<QEXTWaveChartPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTWaveChart)
-    QEXT_DECL_DISABLE_COPY(QEXTWaveChart)
+    QScopedPointer<QEXTWaveChartPrivate> dd_ptr;
 };
 
 

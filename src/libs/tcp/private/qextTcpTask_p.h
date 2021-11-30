@@ -35,7 +35,7 @@ public:
 
 private:
     Q_DECLARE_PUBLIC(QEXTTcpTask)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpTaskPrivate)
+    Q_DISABLE_COPY(QEXTTcpTaskPrivate)
 };
 
 #endif // _QEXTTCPTASK_P_H

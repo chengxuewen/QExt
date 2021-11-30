@@ -1,20 +1,34 @@
-﻿#ifndef _QEXTTOOLTIP_H
-#define _QEXTTOOLTIP_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:工具提示标签控件
- *  1.可设置前景色和背景色
- *  2.可设置箭头位置方向 左右上下
- *  3.可设置箭头大小
- *  4.可设置显示倒三角
- *  5.可设置倒三角长度/位置/颜色
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武（QQ:517216493）代码。
- *@Date:2016-11-28
- *@History:
- *  Modification data:2021-10-17
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTTOOLTIP_H
+#define _QEXTTOOLTIP_H
 
 #include <qextWidgetGlobal.h>
 
@@ -24,8 +38,9 @@ class QEXTTooltipPrivate;
 class QEXT_WIDGETS_API QEXTTooltip : public QLabel
 {
     Q_OBJECT
-    Q_ENUMS(ArrowPositionType)
-    Q_ENUMS(TrianglePositionType)
+    Q_DISABLE_COPY(QEXTTooltip)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTooltip)
+
     Q_PROPERTY(int borderRadius READ borderRadius WRITE setBorderRadius)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(QColor foregroundColor READ foregroundColor WRITE setForegroundColor)
@@ -42,19 +57,21 @@ class QEXT_WIDGETS_API QEXTTooltip : public QLabel
 public:
     enum ArrowPositionType
     {
-        ArrowPosition_Left = 0,     //向左箭头
-        ArrowPosition_Right = 1,    //向右箭头
-        ArrowPosition_Top = 2,      //向上箭头
-        ArrowPosition_Bottom = 3    //向下箭头
+        ArrowPosition_Left = 0,
+        ArrowPosition_Right = 1,
+        ArrowPosition_Top = 2,
+        ArrowPosition_Bottom = 3
     };
+    Q_ENUMS(ArrowPositionType)
 
     enum TrianglePositionType
     {
-        TrianglePosition_Left = 0,  //左侧
-        TrianglePosition_Right = 1, //右侧
-        TrianglePosition_Top = 2,   //顶部
-        TrianglePosition_Bottom = 3 //底部
+        TrianglePosition_Left = 0,
+        TrianglePosition_Right = 1,
+        TrianglePosition_Top = 2,
+        TrianglePosition_Bottom = 3
     };
+    Q_ENUMS(TrianglePositionType)
 
     explicit QEXTTooltip(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTTooltip();
@@ -76,27 +93,24 @@ public:
     QSize minimumSizeHint() const;
 
 public Q_SLOTS:
-    //设置边框圆角角度
     void setBorderRadius(int radius);
-    //设置前景色
+
     void setBackgroundColor(const QColor &color);
-    //设置前景色
+
     void setForegroundColor(const QColor &color);
 
-    //设置显示箭头
     void setArrowVisiable(bool visiable);
-    //设置箭头大小
+
     void setArrowSize(int size);
-    //设置箭头位置
+
     void setArrowPosition(const ArrowPositionType &position);
 
-    //设置显示倒三角
     void setTriangleVisiable(bool visiable);
-    //设置倒三角边长
+
     void setTriangleLen(int len);
-    //设置倒三角位置
+
     void setTrianglePosition(const TrianglePositionType &position);
-    //设置倒三角颜色
+
     void setTriangleColor(const QColor &color);
 
 Q_SIGNALS:
@@ -110,11 +124,7 @@ protected:
     void drawText(QPainter *painter);
     void drawTriangle(QPainter *painter);
 
-    QScopedPointer<QEXTTooltipPrivate> d_ptr;
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTTooltip)
-    Q_DECLARE_PRIVATE(QEXTTooltip)
+    QScopedPointer<QEXTTooltipPrivate> dd_ptr;
 };
 
 #endif // _QEXTTOOLTIP_H

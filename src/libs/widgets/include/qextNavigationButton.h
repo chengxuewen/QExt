@@ -1,24 +1,34 @@
+/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2018 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
+
 #ifndef _QEXTNAVIGATIONBUTTON_H
 #define _QEXTNAVIGATIONBUTTON_H
-
-/***************************************************************************************************
- *@Brief:导航按钮控件
- *  1.可设置文字的左侧+右侧+顶部+底部间隔
- *  2.可设置文字对齐方式
- *  3.可设置显示倒三角/倒三角边长/倒三角位置/倒三角颜色
- *  4.可设置显示图标/图标间隔/图标尺寸/正常状态图标/悬停状态图标/选中状态图标
- *  5.可设置显示边框线条/线条宽度/线条间隔/线条位置/线条颜色
- *  6.可设置正常背景颜色/悬停背景颜色/选中背景颜色
- *  7.可设置正常文字颜色/悬停文字颜色/选中文字颜色
- *  8.可设置背景颜色为画刷颜色
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com,基于刘典武工程师（QQ:517216493）代码。
- *@Version:V0.1
- *@Date:2018-8-15
- *@History:
- *  Modification data:2021-10-16
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
 
 #include <qextWidgetGlobal.h>
 
@@ -29,7 +39,7 @@ class QEXT_WIDGETS_API QEXTNavigationButton : public QPushButton
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTNavigationButton)
-    Q_DECLARE_PRIVATE(QEXTNavigationButton)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNavigationButton)
 
     Q_PROPERTY(int leftPadding READ leftPadding WRITE setLeftPadding)
     Q_PROPERTY(int rightPadding READ rightPadding WRITE setRightPadding)
@@ -68,20 +78,20 @@ class QEXT_WIDGETS_API QEXTNavigationButton : public QPushButton
 public:
     enum TextAlignType
     {
-        TextAlign_Left = Qt::AlignLeft,   //左侧对齐
-        TextAlign_Right = Qt::AlignRight,  //右侧对齐
-        TextAlign_Top = Qt::AlignTop,    //顶部对齐
-        TextAlign_Bottom = Qt::AlignBottom, //底部对齐
-        TextAlign_Center = Qt::AlignCenter  //居中对齐
+        TextAlign_Left = Qt::AlignLeft,
+        TextAlign_Right = Qt::AlignRight,
+        TextAlign_Top = Qt::AlignTop,
+        TextAlign_Bottom = Qt::AlignBottom,
+        TextAlign_Center = Qt::AlignCenter
     };
     Q_ENUMS(TextAlignType)
 
     enum PositionType
     {
-        Position_Left = 0,  //左侧
-        Position_Right = 1, //右侧
-        Position_Top = 2,   //顶部
-        Position_Bottom = 3 //底部
+        Position_Left = 0,
+        Position_Right = 1,
+        Position_Top = 2,
+        Position_Bottom = 3
     };
     Q_ENUMS(PositionType)
 
@@ -185,7 +195,7 @@ protected:
     void drawLine(QPainter *painter);
     void drawTriangle(QPainter *painter);
 
-    QScopedPointer<QEXTNavigationButtonPrivate> d_ptr;
+    QScopedPointer<QEXTNavigationButtonPrivate> dd_ptr;
 };
 
 #endif // _QEXTNAVIGATIONBUTTON_H

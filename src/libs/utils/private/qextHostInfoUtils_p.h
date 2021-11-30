@@ -39,7 +39,7 @@ public:
     QScopedPointer<QProcess> m_diskProcess;
 
 private:
-    QEXT_DECL_DISABLE_COPY(QEXTHostInfoUtilsPrivate)
+    Q_DISABLE_COPY(QEXTHostInfoUtilsPrivate)
     Q_DECLARE_PUBLIC(QEXTHostInfoUtils)
 };
 

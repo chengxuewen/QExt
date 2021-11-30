@@ -652,15 +652,15 @@ QEXTInput *QEXTInput::Instance()
 QEXTInput::QEXTInput(QWidget *parent) : QWidget(parent), ui(new Ui::QEXTInput)
 {
     ui->setupUi(this);
-    d_ptr = new QEXTInputPrivate;
-    d_ptr->q_ptr = this;
-    d_ptr->initForm();
+    dd_ptr = new QEXTInputPrivate;
+    dd_ptr->q_ptr = this;
+    dd_ptr->initForm();
     QTimer::singleShot(100, this, SLOT(init()));
 }
 
 QEXTInput::~QEXTInput()
 {
-    delete d_ptr;
+    delete dd_ptr;
     delete ui;
 }
 
@@ -688,7 +688,7 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
             bMousePressed = false;
             return true;
         } else if (event->type() == QEvent::MouseMove) {
-            if (bMousePressed && (pMouseEvent->buttons() & Qt::LeftButton && PopUp_BottomCenter != d_ptr->m_ePopUpType)) {
+            if (bMousePressed && (pMouseEvent->buttons() & Qt::LeftButton && PopUp_BottomCenter != dd_ptr->m_ePopUpType)) {
                 this->move(pMouseEvent->globalPos() - mousePoint);
                 this->update();
                 return true;
@@ -696,7 +696,7 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
         }
     } else if (watched == ui->labMore) {
         if (event->type() == QEvent::MouseButtonPress) {
-            if (Input_Chinese == d_ptr->m_eInputType && !d_ptr->m_bIsUpper && d_ptr->m_listChineseLabel.first()->isEnabled()) {
+            if (Input_Chinese == dd_ptr->m_eInputType && !dd_ptr->m_bIsUpper && dd_ptr->m_listChineseLabel.first()->isEnabled()) {
                 if (!ui->widgetChinese->isVisible()) {
                     ui->widgetLetter->setVisible(false);
                     ui->widgetNumber->setVisible(false);
@@ -711,9 +711,9 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
         }
     } else if (watched == ui->labType) {
         if (event->type() == QEvent::MouseButtonPress) {
-            if (Input_English == d_ptr->m_eInputType) {
+            if (Input_English == dd_ptr->m_eInputType) {
                 this->setInputType(Input_Chinese);
-            } else if (Input_Chinese == d_ptr->m_eInputType) {
+            } else if (Input_Chinese == dd_ptr->m_eInputType) {
                 this->setInputType(Input_English);
             }
         }
@@ -723,7 +723,7 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
         }
     } else if (watched == ui->widgetCn) {
         //Do not continue if there are no Chinese characters or if there are no Chinese characters in the press or if the current number of Chinese character tags is too small
-        if (!d_ptr->m_listChineseLabel.first()->isEnabled() || d_ptr->m_strLastText.isEmpty()) {
+        if (!dd_ptr->m_listChineseLabel.first()->isEnabled() || dd_ptr->m_strLastText.isEmpty()) {
             return false;
         }
 
@@ -736,7 +736,7 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::MouseButtonPress) {
             bPressed = true;
             lastPos = pMouseEvent->pos();
-            d_ptr->m_pChineseAnimation->stop();
+            dd_ptr->m_pChineseAnimation->stop();
             lastTime = QDateTime::currentDateTime();
         } else if (event->type() == QEvent::MouseButtonRelease) {
             bPressed = false;
@@ -748,13 +748,13 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
                     bool bMoveleft = (pMouseEvent->pos().x() - lastPos.x()) < 0;
                     int iOffset = bMoveleft ? 350 : -350;
                     int iValue = ui->scrollAreaCn->horizontalScrollBar()->value();
-                    d_ptr->m_pChineseAnimation->setStartValue(iValue);
-                    d_ptr->m_pChineseAnimation->setEndValue(iValue + iOffset);
-                    d_ptr->m_pChineseAnimation->start();
+                    dd_ptr->m_pChineseAnimation->setStartValue(iValue);
+                    dd_ptr->m_pChineseAnimation->setEndValue(iValue + iOffset);
+                    dd_ptr->m_pChineseAnimation->start();
                 }
             }
         } else if (event->type() == QEvent::MouseMove) {
-            if (bPressed && d_ptr->m_listChineseLabel.first()->isEnabled()) {
+            if (bPressed && dd_ptr->m_listChineseLabel.first()->isEnabled()) {
                 //Calculate the distance traveled
                 bool bMoveleft = (pMouseEvent->pos().x() - lastPos.x()) < 0;
                 int iOffset = bMoveleft ? 5 : -5;
@@ -765,7 +765,7 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
         }
     } else if (watched == ui->widgetMore) {
         //Do not continue if there are no Chinese characters or if there are no Chinese characters in the press or if the current number of Chinese character tags is too small
-        if (!d_ptr->m_listMoreChineseLabel.first()->isEnabled() || d_ptr->m_strLastText.isEmpty()) {
+        if (!dd_ptr->m_listMoreChineseLabel.first()->isEnabled() || dd_ptr->m_strLastText.isEmpty()) {
             return false;
         }
         static bool bPressed = false;
@@ -776,7 +776,7 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::MouseButtonPress) {
             bPressed = true;
             lastPos = pMouseEvent->pos();
-            d_ptr->m_pMoreAnimation->stop();
+            dd_ptr->m_pMoreAnimation->stop();
             lastTime = QDateTime::currentDateTime();
         } else if (event->type() == QEvent::MouseButtonRelease) {
             bPressed = false;
@@ -788,13 +788,13 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
                     bool bMovebottom = (pMouseEvent->pos().y() - lastPos.y()) < 0;
                     int iOffset = bMovebottom ? 150 : -150;
                     int iValue = ui->scrollAreaMore->verticalScrollBar()->value();
-                    d_ptr->m_pMoreAnimation->setStartValue(iValue);
-                    d_ptr->m_pMoreAnimation->setEndValue(iValue + iOffset);
-                    d_ptr->m_pMoreAnimation->start();
+                    dd_ptr->m_pMoreAnimation->setStartValue(iValue);
+                    dd_ptr->m_pMoreAnimation->setEndValue(iValue + iOffset);
+                    dd_ptr->m_pMoreAnimation->start();
                 }
             }
         } else if (event->type() == QEvent::MouseMove) {
-            if (bPressed && d_ptr->m_listMoreChineseLabel.first()->isEnabled()) {
+            if (bPressed && dd_ptr->m_listMoreChineseLabel.first()->isEnabled()) {
                 //Calculate the distance traveled
                 bool bMovebottom = (pMouseEvent->pos().y() - lastPos.y()) < 0;
                 int iOffset = bMovebottom ? 5 : -5;
@@ -805,17 +805,17 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
         }
     } else if (watched->inherits("QLabel")) {
         QLabel *pLabel = (QLabel *)watched;
-        if (!d_ptr->m_bIsUpper && Input_Chinese == d_ptr->m_eInputType) {
+        if (!dd_ptr->m_bIsUpper && Input_Chinese == dd_ptr->m_eInputType) {
             if (pLabel->property("labCn").toBool()) {
                 //Remember the location of the scroll bar that was last pressed; if the scroll bar has not changed all the time, the label is considered to have been clicked
                 static int iLastPosition = 0;
                 if (event->type() == QEvent::MouseButtonPress) {
                     iLastPosition = ui->scrollAreaCn->horizontalScrollBar()->value();
-                    d_ptr->m_strLastText = pLabel->text();
+                    dd_ptr->m_strLastText = pLabel->text();
                 } else if (event->type() == QEvent::MouseButtonRelease) {
-                    if (iLastPosition == ui->scrollAreaCn->horizontalScrollBar()->value() && !d_ptr->m_strLastText.isEmpty()) {
-                        d_ptr->insertValue(pLabel->text());
-                        d_ptr->clearChinese();
+                    if (iLastPosition == ui->scrollAreaCn->horizontalScrollBar()->value() && !dd_ptr->m_strLastText.isEmpty()) {
+                        dd_ptr->insertValue(pLabel->text());
+                        dd_ptr->clearChinese();
                     }
                 }
             } else if (pLabel->property("labMore").toBool()) {
@@ -823,24 +823,24 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
                 static int iLastPosition = 0;
                 if (event->type() == QEvent::MouseButtonPress) {
                     iLastPosition = ui->scrollAreaMore->verticalScrollBar()->value();
-                    d_ptr->m_strLastText = pLabel->text();
+                    dd_ptr->m_strLastText = pLabel->text();
                 } else if (event->type() == QEvent::MouseButtonRelease) {
-                    if (iLastPosition == ui->scrollAreaMore->verticalScrollBar()->value() && !d_ptr->m_strLastText.isEmpty()) {
-                        d_ptr->insertValue(pLabel->text());
-                        d_ptr->clearChinese();
+                    if (iLastPosition == ui->scrollAreaMore->verticalScrollBar()->value() && !dd_ptr->m_strLastText.isEmpty()) {
+                        dd_ptr->insertValue(pLabel->text());
+                        dd_ptr->clearChinese();
                     }
                 }
             }
         }
     } else {
         if (event->type() == QEvent::MouseButtonPress) {
-            if (d_ptr->m_pCurrentWidget != 0) {
+            if (dd_ptr->m_pCurrentWidget != 0) {
                 if (!this->isVisible()) {
-                    d_ptr->showPanel();
+                    dd_ptr->showPanel();
                 }
             } else {
                 if (this->isVisible()) {
-                    d_ptr->hidePanel();
+                    dd_ptr->hidePanel();
                 }
             }
         }
@@ -863,11 +863,11 @@ void QEXTInput::setFontInfo(const QString &fontName, const int &iBtnFontSize, co
     ui->labType2->setFont(btnFont);
     ui->labPY->setFont(labFont);
 
-    foreach (QLabel *pLabel, d_ptr->m_listChineseLabel) {
+    foreach (QLabel *pLabel, dd_ptr->m_listChineseLabel) {
         pLabel->setFont(labFont);
     }
 
-    foreach (QLabel *pLabel, d_ptr->m_listMoreChineseLabel) {
+    foreach (QLabel *pLabel, dd_ptr->m_listMoreChineseLabel) {
         pLabel->setFont(labFont);
         pLabel->setFixedHeight(iLabFontSize + 30);
     }
@@ -899,38 +899,38 @@ void QEXTInput::setTopHeight(const int &iTopHeight)
 
 void QEXTInput::setOnlyControl(const bool &bOnlyControl)
 {
-    d_ptr->m_bOnlyControl = bOnlyControl;
+    dd_ptr->m_bOnlyControl = bOnlyControl;
 }
 
 void QEXTInput::setColumnCount(const int &iColumnCount)
 {
-    d_ptr->m_iColumnCount = iColumnCount;
+    dd_ptr->m_iColumnCount = iColumnCount;
 }
 
 void QEXTInput::setMaxCount(const int &iMaxCount)
 {
-    d_ptr->m_iMaxCount = iMaxCount;
+    dd_ptr->m_iMaxCount = iMaxCount;
 }
 
 void QEXTInput::setDbPath(const QString &dbPath)
 {
-    d_ptr->m_strDataBasePath = dbPath;
+    dd_ptr->m_strDataBasePath = dbPath;
 }
 
 void QEXTInput::setPopUpType(const QEXTInput::PopUpTypes &eType)
 {
-    d_ptr->m_ePopUpType = eType;
+    dd_ptr->m_ePopUpType = eType;
 }
 
 void QEXTInput::setInputType(const InputTypes &eInputType)
 {
     //Each mode change clears out the original characters
-    d_ptr->clearChinese();
+    dd_ptr->clearChinese();
     ui->labPY->clear();
     ui->scrollAreaCn->horizontalScrollBar()->setValue(0);
     ui->scrollAreaMore->verticalScrollBar()->setValue(0);
 
-    d_ptr->m_eInputType = eInputType;
+    dd_ptr->m_eInputType = eInputType;
     if (Input_Number == eInputType) {
         ui->widgetLetter->setVisible(false);
         ui->widgetNumber->setVisible(true);
@@ -940,13 +940,13 @@ void QEXTInput::setInputType(const InputTypes &eInputType)
         ui->widgetNumber->setVisible(false);
         ui->widgetChinese->setVisible(false);
         ui->labType->setText(QString("<font color='%1'>中/</font><font color='%2' size='4'>英</font>")
-                             .arg(d_ptr->m_strMainTextColor).arg(d_ptr->m_strButtonHoveColor));
+                             .arg(dd_ptr->m_strMainTextColor).arg(dd_ptr->m_strButtonHoveColor));
     } else if (Input_Chinese == eInputType) {
         ui->widgetLetter->setVisible(true);
         ui->widgetNumber->setVisible(false);
         ui->widgetChinese->setVisible(false);
         ui->labType->setText(QString("<font color='%2' size='4'>中</font><font color='%1'>/英</font>")
-                             .arg(d_ptr->m_strMainTextColor).arg(d_ptr->m_strButtonHoveColor));
+                             .arg(dd_ptr->m_strMainTextColor).arg(dd_ptr->m_strButtonHoveColor));
     }
 }
 
@@ -959,7 +959,7 @@ void QEXTInput::setUpper(const bool &bIsUpper)
     }
 
     //Change the icon
-    ui->btnUpper->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg(bIsUpper ? "daxie" : "xiaoxie").arg(d_ptr->m_strIconType)));
+    ui->btnUpper->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg(bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->m_strIconType)));
 }
 
 void QEXTInput::setNumber(const bool &bIsNumber)
@@ -1003,13 +1003,13 @@ void QEXTInput::setNumber(const bool &bIsNumber)
     ui->btn24->setText(listChars.at(24));
     ui->btn25->setText(listChars.at(25));
 
-    ui->btnNumber2->setText(QString("%1").arg(d_ptr->m_bIsNumber ? "123" : "#+="));
+    ui->btnNumber2->setText(QString("%1").arg(dd_ptr->m_bIsNumber ? "123" : "#+="));
 }
 
 void QEXTInput::setStyleType(const StyleTypes &eStyle)
 {
-    d_ptr->m_eStyleType = eStyle;
-    d_ptr->m_strIconType = "white";
+    dd_ptr->m_eStyleType = eStyle;
+    dd_ptr->m_strIconType = "white";
     if (Style_Black == eStyle) {
         setColor("#191919", "#F3F3F3", "#313131", "#24B1DF", "#F3F3F3", "#F95717", "#F3F3F3");
     } else if (Style_Blue == eStyle) {
@@ -1020,13 +1020,13 @@ void QEXTInput::setStyleType(const StyleTypes &eStyle)
         setColor("#667481", "#F3F3F3", "#566373", "#4189D3", "#F3F3F3", "#4189D3", "#F3F3F3");
     } else if (Style_Silvery == eStyle) {
         setColor("#868690", "#000002", "#C3C2C7", "#F0F0F0", "#000002", "#F0F0F0", "#000002");
-        d_ptr->m_strIconType = "black";
+        dd_ptr->m_strIconType = "black";
     }
 
-    ui->labMore->setPixmap(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg("more").arg(d_ptr->m_strIconType));
-    ui->btnDelete->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg("delete").arg(d_ptr->m_strIconType)));
-    ui->btnDelete2->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg("delete").arg(d_ptr->m_strIconType)));
-    ui->btnUpper->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg(d_ptr->m_bIsUpper ? "daxie" : "xiaoxie").arg(d_ptr->m_strIconType)));
+    ui->labMore->setPixmap(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg("more").arg(dd_ptr->m_strIconType));
+    ui->btnDelete->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
+    ui->btnDelete2->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
+    ui->btnUpper->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg(dd_ptr->m_bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->m_strIconType)));
 }
 
 void QEXTInput::setColor(const QString &mainBkgColor, const QString &mainTextColor,
@@ -1034,8 +1034,8 @@ void QEXTInput::setColor(const QString &mainBkgColor, const QString &mainTextCol
                         const QString &btnHoveTextColor, const QString &labHoveColor,
                         const QString &labHoveTextColor)
 {
-    d_ptr->m_strMainTextColor = mainTextColor;
-    d_ptr->m_strButtonHoveColor = btnHoveColor;
+    dd_ptr->m_strMainTextColor = mainTextColor;
+    dd_ptr->m_strButtonHoveColor = btnHoveColor;
 
     QStringList listStrQss;
     listStrQss.append(QString("QScrollArea{border:none;background:rgba(255,255,255,0);}QWidget#widgetCn,QWidget#widgetMore{background:rgba(0,0,0,0);}"));

@@ -18,6 +18,8 @@ class QEXTTcpPacketDispatcherPrivate;
 class QEXT_TCP_API QEXTTcpPacketDispatcher : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTTcpPacketDispatcher)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpPacketDispatcher)
 public:
     QEXTTcpPacketDispatcher(QEXTTcpSocket *socket);
     QEXTTcpPacketDispatcher(QEXTTcpSocket *socket, const QSharedPointer<QEXTTcpFactory> &tcpFactory);
@@ -50,11 +52,7 @@ Q_SIGNALS:
     void send();
 
 protected:
-    QScopedPointer<QEXTTcpPacketDispatcherPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTTcpPacketDispatcher)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpPacketDispatcher)
+    QScopedPointer<QEXTTcpPacketDispatcherPrivate> dd_ptr;
 };
 
 #endif // _QEXTTCPPACKETDISPATCHER_H

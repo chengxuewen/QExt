@@ -6,8 +6,6 @@
 #include <QWheelEvent>
 #include <QDebug>
 
-
-
 QEXTTumblerPrivate::QEXTTumblerPrivate(QEXTTumbler *q)
     : q_ptr(q)
 {
@@ -41,7 +39,7 @@ QEXTTumblerPrivate::~QEXTTumblerPrivate()
 
 
 QEXTTumbler::QEXTTumbler(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTTumblerPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTTumblerPrivate(this))
 {
     this->setFont(QFont("Arial", 8));
 }
@@ -54,13 +52,10 @@ QEXTTumbler::~QEXTTumbler()
 void QEXTTumbler::wheelEvent(QWheelEvent *e)
 {
     Q_D(QEXTTumbler);
-    //滚动的角度,*8就是鼠标滚动的距离
     int degrees = e->delta() / 8;
 
-    //滚动的步数,*15就是鼠标滚动的角度
     int steps = degrees / 15;
 
-    //如果是正数代表为左边移动,负数代表为右边移动
     if (e->orientation() == Qt::Vertical)
     {
         int index = d->m_currentIndex - steps;
@@ -127,7 +122,6 @@ void QEXTTumbler::mouseMoveEvent(QMouseEvent *e)
 
     if (d->m_pressed)
     {
-        //数值到边界时,阻止继续往对应方向移动
         if ((index == 0 && pos >= d->m_pressedPos) || (index == count - 1 && pos <= d->m_pressedPos))
         {
             return;
@@ -135,7 +129,6 @@ void QEXTTumbler::mouseMoveEvent(QMouseEvent *e)
 
         d->m_offset = pos - d->m_pressedPos;
 
-        //若移动速度过快时进行限制
         if (d->m_offset > target / d->m_percent)
         {
             d->m_offset = target / d->m_percent;
@@ -164,7 +157,6 @@ void QEXTTumbler::mouseReleaseEvent(QMouseEvent *)
     if (d->m_pressed)
     {
         d->m_pressed = false;
-        //矫正到居中位置
         this->checkPosition();
     }
 }
@@ -172,7 +164,6 @@ void QEXTTumbler::mouseReleaseEvent(QMouseEvent *)
 void QEXTTumbler::paintEvent(QPaintEvent *)
 {
     Q_D(QEXTTumbler);
-    //绘制准备工作,启用反锯齿
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
@@ -192,7 +183,6 @@ void QEXTTumbler::paintEvent(QPaintEvent *)
 
     int index = d->m_valueList.indexOf(d->m_currentValue);
 
-    //当右移偏移量大于比例且当前值不是第一个则索引-1
     if (d->m_offset >= target / d->m_percent && index > 0)
     {
         d->m_pressedPos += target / d->m_percent;
@@ -200,7 +190,6 @@ void QEXTTumbler::paintEvent(QPaintEvent *)
         index -= 1;
     }
 
-    //当左移偏移量小于比例且当前值不是末一个则索引+1
     if (d->m_offset <= -target / d->m_percent && index < count - 1)
     {
         d->m_pressedPos -= target / d->m_percent;
@@ -211,24 +200,19 @@ void QEXTTumbler::paintEvent(QPaintEvent *)
     d->m_currentIndex = index;
     d->m_currentValue = d->m_valueList.at(index);
 
-    //绘制背景
     this->drawBackground(&painter);
 
-    //绘制线条
     this->drawLine(&painter);
 
-    //绘制中间值
     painter.setPen(d->m_textColor);
     this->drawText(&painter, index, d->m_offset);
     painter.setPen(d->m_foregroundColor);
 
-    //绘制左侧值
     if (index != 0)
     {
         this->drawText(&painter, index - 1, d->m_offset - target / d->m_percent);
     }
 
-    //绘制右侧值
     if (index != count - 1)
     {
         this->drawText(&painter, index + 1, d->m_offset + target / d->m_percent);
@@ -248,7 +232,6 @@ void QEXTTumbler::drawBackground(QPainter *painter)
 void QEXTTumbler::drawLine(QPainter *painter)
 {
     Q_D(QEXTTumbler);
-    //上下部分偏移量
     int offset = 10;
     int width = this->width();
     int height = this->height();
@@ -262,7 +245,6 @@ void QEXTTumbler::drawLine(QPainter *painter)
     pen.setCapStyle(Qt::RoundCap);
     painter->setPen(pen);
 
-    //每次同时存在三个元素
     if (d->m_isHorizontal)
     {
         painter->drawLine(width / 3 * 1, offset, width / 3 * 1, height - offset);
@@ -303,7 +285,6 @@ void QEXTTumbler::drawText(QPainter *painter, int index, int offset)
         int initX = width / 2 + offset - textWidth / 2;
         painter->drawText(QRect(initX, 0, textWidth, height), Qt::AlignCenter, strValue);
 
-        //计算最后中间值停留的起始坐标,以便鼠标松开时矫正居中
         if (index == d->m_currentIndex)
         {
             d->m_currentPos = initX;
@@ -315,7 +296,6 @@ void QEXTTumbler::drawText(QPainter *painter, int index, int offset)
         int initY = height / 2 + offset - textHeight / 2;
         painter->drawText(QRect(0, initY, width, textHeight), Qt::AlignCenter, strValue);
 
-        //计算最后中间值停留的起始坐标,以便鼠标松开时矫正居中
         if (index == d->m_currentIndex)
         {
             d->m_currentPos = initY;
@@ -335,10 +315,6 @@ void QEXTTumbler::checkPosition()
         target = this->height();
     }
 
-    //左右滑动样式,往左滑动时,offset为负数,当前值所在X轴坐标小于宽度的一半,则将当前值设置为下一个值
-    //左右滑动样式,往右滑动时,offset为正数,当前值所在X轴坐标大于宽度的一半,则将当前值设置为上一个值
-    //上下滑动样式,往上滑动时,offset为负数,当前值所在Y轴坐标小于高度的一半,则将当前值设置为下一个值
-    //上下滑动样式,往下滑动时,offset为正数,当前值所在Y轴坐标大于高度的一半,则将当前值设置为上一个值
     if (d->m_offset < 0)
     {
         if (d->m_currentPos < target / 2)

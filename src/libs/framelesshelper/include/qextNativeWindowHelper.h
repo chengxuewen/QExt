@@ -13,7 +13,7 @@ class QEXT_FRAMELESSHELPER_API QEXTNativeWindowHelper : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTNativeWindowHelper)
-    Q_DECLARE_PRIVATE(QEXTNativeWindowHelper)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNativeWindowHelper)
 
 public:
     QEXTNativeWindowHelper(QWindow *window, QEXTNativeWindowTester *tester);
@@ -30,7 +30,7 @@ signals:
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) final;
 
-    QScopedPointer<QEXTNativeWindowHelperPrivate> d_ptr;
+    QScopedPointer<QEXTNativeWindowHelperPrivate> dd_ptr;
 };
 
 #endif // _QEXTNATIVEWINDOWHELPER_H

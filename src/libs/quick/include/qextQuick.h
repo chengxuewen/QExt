@@ -14,7 +14,7 @@ class QEXT_QUICK_API QEXTQuick : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTQuick)
-    Q_DECLARE_PRIVATE(QEXTQuick)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTQuick)
 
 public:
     static QObject *qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
@@ -37,7 +37,7 @@ public:
 protected:
     explicit QEXTQuick(QObject *parent = QEXT_DECL_NULLPTR);
 
-    QScopedPointer<QEXTQuickPrivate> d_ptr;
+    QScopedPointer<QEXTQuickPrivate> dd_ptr;
 };
 
 #endif // _QEXTQUICK_H

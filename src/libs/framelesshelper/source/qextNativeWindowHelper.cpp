@@ -185,7 +185,7 @@ QRect QEXTNativeWindowHelperPrivate::availableGeometry() const
 
 QEXTNativeWindowHelper::QEXTNativeWindowHelper(QWindow *window, QEXTNativeWindowTester *tester)
     : QObject(window)
-    , d_ptr(new QEXTNativeWindowHelperPrivate(this))
+    , dd_ptr(new QEXTNativeWindowHelperPrivate(this))
 {
     Q_D(QEXTNativeWindowHelper);
     Q_CHECK_PTR(window);
@@ -206,7 +206,7 @@ QEXTNativeWindowHelper::QEXTNativeWindowHelper(QWindow *window, QEXTNativeWindow
 
 QEXTNativeWindowHelper::QEXTNativeWindowHelper(QWindow *window)
     : QObject(window)
-    , d_ptr(new QEXTNativeWindowHelperPrivate(this))
+    , dd_ptr(new QEXTNativeWindowHelperPrivate(this))
 {
     Q_D(QEXTNativeWindowHelper);
     Q_CHECK_PTR(window);

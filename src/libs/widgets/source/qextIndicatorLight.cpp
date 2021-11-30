@@ -41,7 +41,7 @@ QEXTIndicatorLightPrivate::~QEXTIndicatorLightPrivate()
 
 
 QEXTIndicatorLight::QEXTIndicatorLight(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTIndicatorLightPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTIndicatorLightPrivate(this))
 {
     Q_D(QEXTIndicatorLight);
     d->m_flickerTimer.reset(new QTimer);
@@ -374,7 +374,6 @@ void QEXTIndicatorLight::setLightState(const bool &state)
 
 void QEXTIndicatorLight::setFlickerState(const bool &state)
 {
-    Q_D(QEXTIndicatorLight);
     if (state) {
         this->startFlicker();
     } else {
@@ -442,27 +441,20 @@ bool QEXTIndicatorLight::eventFilter(QObject *watched, QEvent *event)
 
 void QEXTIndicatorLight::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTIndicatorLight);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
 
-    //绘制准备工作,启用反锯齿,平移坐标轴中心,等比例缩放
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
     painter.translate(width / 2, height / 2);
     painter.scale(side / 200.0, side / 200.0);
 
-    //绘制外边框
     this->drawBorderOut(&painter);
-    //绘制内边框
     this->drawBorderIn(&painter);
-    //绘制内部指示颜色
     this->drawBackground(&painter);
-    //绘制居中文字
     this->drawText(&painter);
-    //绘制遮罩层
     this->drawOverlay(&painter);
 }
 
@@ -647,7 +639,6 @@ void QEXTIndicatorLight::drawOverlay(QPainter *painter)
     default:
         break;
     }
-    //高光的形状为小圆扣掉大圆的部分
     QPainterPath highlight = smallCircle - bigCircle;
 
     QLinearGradient linearGradient(0, -radius / 2, 0, 0);

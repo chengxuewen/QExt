@@ -16,7 +16,7 @@ QEXTQuickWorldPrivate::~QEXTQuickWorldPrivate()
 
 
 QEXTQuickWorld::QEXTQuickWorld(QQuickItem *parent)
-    : QQuickItem(parent), d_ptr(new QEXTQuickWorldPrivate(this))
+    : QQuickItem(parent), dd_ptr(new QEXTQuickWorldPrivate(this))
 {
     static bool inited = false;
     if(inited){

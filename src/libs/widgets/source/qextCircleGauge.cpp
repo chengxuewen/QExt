@@ -54,7 +54,7 @@ QEXTCircleGaugePrivate::~QEXTCircleGaugePrivate()
 
 
 QEXTCircleGauge::QEXTCircleGauge(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTCircleGaugePrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTCircleGaugePrivate(this))
 {
     Q_D(QEXTCircleGauge);
     d->m_animation = new QPropertyAnimation(this, "");
@@ -77,26 +77,18 @@ void QEXTCircleGauge::paintEvent(QPaintEvent *)
     int height = this->height();
     int side = qMin(width, height);
 
-    //绘制准备工作,启用反锯齿,平移坐标轴中心,等比例缩放
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.translate(width / 2, height / 2);
     painter.scale(side / 200.0, side / 200.0);
 
-    //绘制外圆
     this->drawOuterCircle(&painter);
-    //绘制内圆
     this->drawInnerCircle(&painter);
-    //绘制饼圆
     this->drawColorPie(&painter);
-    //绘制覆盖圆 用以遮住饼圆多余部分
     this->drawCoverCircle(&painter);
-    //绘制刻度线
     this->drawScale(&painter);
-    //绘制刻度值
     this->drawScaleNum(&painter);
 
-    //根据指示器形状绘制指示器
     if (d->m_pointerStyle == PointerStyle_Circle)
     {
         this->drawPointerCircle(&painter);
@@ -114,13 +106,9 @@ void QEXTCircleGauge::paintEvent(QPaintEvent *)
         this->drawPointerTriangle(&painter);
     }
 
-    //绘制指针中心圆外边框
     this->drawRoundCircle(&painter);
-    //绘制指针中心圆
     this->drawCenterCircle(&painter);
-    //绘制当前值
     this->drawValue(&painter);
-    //绘制遮罩层
     this->drawOverlay(&painter);
 }
 
@@ -157,40 +145,39 @@ void QEXTCircleGauge::drawColorPie(QPainter *painter)
 
     if (d->m_pieStyle == PieStyle_Three)
     {
-        //计算总范围角度,根据占比例自动计算三色圆环范围角度
-        //可以更改比例
+        //Calculate the total range Angle, automatically calculate the three-color ring range Angle according to the proportion
         double angleAll = 360.0 - d->m_startAngle - d->m_endAngle;
         double angleStart = angleAll * 0.7;
         double angleMid = angleAll * 0.15;
         double angleEnd = angleAll * 0.15;
 
-        //增加偏移量使得看起来没有脱节
+        //Increase the offset so that there appears to be no disconnection
         int offset = 3;
 
-        //绘制开始饼圆
+        //Draw the opening pie circle
         painter->setBrush(d->m_pieColorStart);
         painter->drawPie(rect, (270 - d->m_startAngle - angleStart) * 16, angleStart * 16);
 
-        //绘制中间饼圆
+        //Draw the middle pie circle
         painter->setBrush(d->m_pieColorMid);
         painter->drawPie(rect, (270 - d->m_startAngle - angleStart - angleMid) * 16 + offset, angleMid * 16);
 
-        //绘制结束饼圆
+        //Draw the end pie circle
         painter->setBrush(d->m_pieColorEnd);
         painter->drawPie(rect, (270 - d->m_startAngle - angleStart - angleMid - angleEnd) * 16 + offset * 2, angleEnd * 16);
     }
     else if (d->m_pieStyle == PieStyle_Current)
     {
-        //计算总范围角度,当前值范围角度,剩余值范围角度
+        //Calculate the total range Angle, current value range Angle, residual value range Angle
         double angleAll = 360.0 - d->m_startAngle - d->m_endAngle;
         double angleCurrent = angleAll * ((d->m_currentValue - d->m_minValue) / (d->m_maxValue - d->m_minValue));
         double angleOther = angleAll - angleCurrent;
 
-        //绘制当前值饼圆
+        //Draws the current value pie circle
         painter->setBrush(d->m_pieColorStart);
         painter->drawPie(rect, (270 - d->m_startAngle - angleCurrent) * 16, angleCurrent * 16);
 
-        //绘制剩余值饼圆
+        //Draws the remaining value pie circle
         painter->setBrush(d->m_pieColorEnd);
         painter->drawPie(rect, (270 - d->m_startAngle - angleCurrent - angleOther) * 16, angleOther * 16);
     }
@@ -329,7 +316,7 @@ void QEXTCircleGauge::drawPointerIndicatorR(QPainter *painter)
     painter->rotate(degRotate);
     painter->drawConvexPolygon(pts);
 
-    //增加绘制圆角直线,与之前三角形重叠,形成圆角指针
+    //Add drawing a rounded line that overlaps with the previous triangle to form a rounded pointer
     pen.setCapStyle(Qt::RoundCap);
     pen.setWidthF(4);
     painter->setPen(pen);
@@ -418,7 +405,7 @@ void QEXTCircleGauge::drawOverlay(QPainter *painter)
     radius *= 2;
     bigCircle.addEllipse(-radius, -radius + 140, radius * 2, radius * 2);
 
-    //高光的形状为小圆扣掉大圆的部分
+    //The highlight shape is a small circle subtracted from a large circle
     QPainterPath highlight = smallCircle - bigCircle;
 
     QLinearGradient linearGradient(0, -radius / 2, 0, 0);
@@ -613,7 +600,7 @@ QSize QEXTCircleGauge::minimumSizeHint() const
 void QEXTCircleGauge::setRange(double minValue, double maxValue)
 {
     Q_D(QEXTCircleGauge);
-    //如果最小值大于或者等于最大值则不设置
+    //If the minimum value is greater than or equal to the maximum value, this parameter is not specified
     if (minValue >= maxValue)
     {
         return;
@@ -622,7 +609,7 @@ void QEXTCircleGauge::setRange(double minValue, double maxValue)
     d->m_minValue = minValue;
     d->m_maxValue = maxValue;
 
-    //如果目标值不在范围值内,则重新设置目标值
+    //If the target value is not in the range, reset the target value
     if (d->m_value < minValue || d->m_value > maxValue)
     {
         setValue(d->m_value);
@@ -651,13 +638,11 @@ void QEXTCircleGauge::setMaxValue(double maxValue)
 void QEXTCircleGauge::setValue(double value)
 {
     Q_D(QEXTCircleGauge);
-    //值和当前值一致则无需处理
     if (value == d->m_value)
     {
         return;
     }
 
-    //值小于最小值则取最小值,大于最大值则取最大值
     if (value < d->m_minValue)
     {
         value = d->m_minValue;
@@ -691,7 +676,6 @@ void QEXTCircleGauge::setValue(int value)
 void QEXTCircleGauge::setPrecision(int precision)
 {
     Q_D(QEXTCircleGauge);
-    //最大精确度为 3
     if (precision <= 3 && d->m_precision != precision)
     {
         d->m_precision = precision;

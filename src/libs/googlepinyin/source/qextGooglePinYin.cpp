@@ -73,13 +73,13 @@ QTKGooglePinYinPrivate::~QTKGooglePinYinPrivate()
 
 QTKGooglePinYin::QTKGooglePinYin(QObject *parent) : QObject(parent)
 {
-    d_ptr = new QTKGooglePinYinPrivate();
-    d_ptr->q_ptr = this;
+    dd_ptr = new QTKGooglePinYinPrivate();
+    dd_ptr->q_ptr = this;
 }
 
 QTKGooglePinYin::~QTKGooglePinYin()
 {
-    delete d_ptr;
+    delete dd_ptr;
 }
 
 bool QTKGooglePinYin::open(const QString &strDBPath)
@@ -91,21 +91,21 @@ bool QTKGooglePinYin::open(const QString &strDBPath)
     Q_INIT_RESOURCE(QEXTGooglePinYin);
     QString strPYPath = QString(":/QEXTGooglePinYin/dat/dict_pinyin.dat");
     QString strPYUserPath = QString(":/QEXTGooglePinYin/dat/dict_pinyin_user.dat");
-    d_ptr->m_bOk = im_open_decoder(strPYPath.toUtf8().constData(), strPYUserPath.toUtf8().constData());
+    dd_ptr->m_bOk = im_open_decoder(strPYPath.toUtf8().constData(), strPYUserPath.toUtf8().constData());
 
     //Load the custom dictionary file
     if (!im_is_user_dictionary_enabled()) {
         im_init_user_dictionary(strPYUserPath.toUtf8().constData());
     }
 
-    if (d_ptr->m_bOk) {
-        im_set_max_lens(d_ptr->m_iMaxInputLength, d_ptr->m_iMaxOutputLength);
+    if (dd_ptr->m_bOk) {
+        im_set_max_lens(dd_ptr->m_iMaxInputLength, dd_ptr->m_iMaxOutputLength);
         im_reset_search();
     } else {
         qCritical() << "load GooglePinYin error";
     }
 
-    return d_ptr->m_bOk;
+    return dd_ptr->m_bOk;
 }
 
 void QTKGooglePinYin::close()
@@ -131,7 +131,7 @@ void QTKGooglePinYin::reset()
 int QTKGooglePinYin::select(const QString &strPinyin)
 {
     //Maximum support is 26 letters
-    if (!d_ptr->m_bOk || strPinyin.length() > 26) {
+    if (!dd_ptr->m_bOk || strPinyin.length() > 26) {
         return 0;
     }
 
@@ -139,17 +139,17 @@ int QTKGooglePinYin::select(const QString &strPinyin)
     QByteArray bytearray = strPinyin.toUtf8();
     char *pPy = bytearray.data();
     size_t count = im_search(pPy, bytearray.size());
-    count = fix_cand_len(count, d_ptr->m_iMaxOutputLength);
+    count = fix_cand_len(count, dd_ptr->m_iMaxOutputLength);
     return count;
 }
 
 QString QTKGooglePinYin::getChinese(const int &iIndex)
 {
-    char16 *pCand_buf = new char16[d_ptr->m_iMaxOutputLength];
+    char16 *pCand_buf = new char16[dd_ptr->m_iMaxOutputLength];
     char16 *pCand;
     QString strCand;
 
-    pCand = im_get_candidate(iIndex, pCand_buf, d_ptr->m_iMaxOutputLength);
+    pCand = im_get_candidate(iIndex, pCand_buf, dd_ptr->m_iMaxOutputLength);
     if (pCand) {
         strCand = QString::fromUtf16(pCand);
         if (iIndex == 0) {
@@ -165,12 +165,12 @@ QString QTKGooglePinYin::getChinese(const int &iIndex)
 
 int QTKGooglePinYin::deleteSelect(const int &iPos)
 {
-    if (!d_ptr->m_bOk) {
+    if (!dd_ptr->m_bOk) {
         return 0;
     }
 
     size_t count = im_delsearch(iPos, false, false);
-    count = fix_cand_len(count, d_ptr->m_iMaxOutputLength);
+    count = fix_cand_len(count, dd_ptr->m_iMaxOutputLength);
     return count;
 }
 

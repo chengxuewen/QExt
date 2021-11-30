@@ -8,8 +8,6 @@
 #include <QKeyEvent>
 #include <QDebug>
 
-
-
 QEXTNavigationBarPrivate::QEXTNavigationBarPrivate(QEXTNavigationBar *q)
     : q_ptr(q)
 {
@@ -78,7 +76,7 @@ int QEXTNavigationBarPrivate::initStep(int distance)
 
 
 QEXTNavigationBar::QEXTNavigationBar(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTNavigationBarPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTNavigationBarPrivate(this))
 {
     Q_D(QEXTNavigationBar);
     d->m_timer = new QTimer(this);
@@ -145,15 +143,11 @@ void QEXTNavigationBar::keyPressEvent(QKeyEvent *keyEvent)
 void QEXTNavigationBar::paintEvent(QPaintEvent *)
 {
     Q_D(QEXTNavigationBar);
-    //绘制准备工作,启用反锯齿
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    //绘制背景色
     this->drawBackground(&painter);
-    //绘制当前条目选中背景
     this->drawBar(&painter);
-    //绘制条目文字
     this->drawText(&painter);
 }
 
@@ -217,8 +211,6 @@ void QEXTNavigationBar::drawBar(QPainter *painter)
         painter->drawLine(d->m_barRect.left() + offset, d->m_barRect.top(), d->m_barRect.left() + offset, d->m_barRect.bottom());
     }
 
-    //这里还可以增加右边倒三角形
-
     painter->restore();
 }
 
@@ -236,7 +228,6 @@ void QEXTNavigationBar::drawText(QPainter *painter)
     QString strText;
     d->m_initLen = 0;
 
-    //横向导航时,字符区域取条目元素中最长的字符宽度
     QString longText = "";
     QStringList list = d->m_items.split(";");
     foreach (QString str, list)
@@ -256,7 +247,6 @@ void QEXTNavigationBar::drawText(QPainter *painter)
         textLen  = painter->fontMetrics().height();
     }
 
-    //逐个绘制元素队列中的文字及文字背景
     for (int i = 0; i < count; i++)
     {
         strText = d->m_listItem.at(i).first;
@@ -279,7 +269,6 @@ void QEXTNavigationBar::drawText(QPainter *painter)
             d->m_isVirgin = false;
         }
 
-        //当前选中区域的文字显示选中文字颜色
         if (textRect == d->m_listItem.at(d->m_currentIndex).second)
         {
             painter->setPen(d->m_textSelectColor);
@@ -648,7 +637,6 @@ void QEXTNavigationBar::setFlat(bool flat)
     Q_D(QEXTNavigationBar);
     if (d->m_flat != flat)
     {
-        //扁平后将初始颜色赋值给结束颜色达到扁平的效果,如果取消扁平则再次恢复原有的颜色
         if (flat)
         {
             d->m_backgroundEndColor = d->m_backgroundStartColor;
@@ -757,7 +745,6 @@ void QEXTNavigationBar::moveTo(const QPointF &point)
             int distance = d->m_targetLen - d->m_barLen;
             distance = qAbs(distance);
 
-            //重新获取每次移动的步长
             d->m_step = d->initStep(distance);
             d->m_timer->start();
             emit this->currentItemChanged(d->m_currentIndex, d->m_currentItem);

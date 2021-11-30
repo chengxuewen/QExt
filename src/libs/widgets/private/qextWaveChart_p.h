@@ -23,39 +23,37 @@ private:
 class QEXTWaveChart;
 class QEXT_WIDGETS_API QEXTWaveChartPrivate
 {
+    Q_DECLARE_PUBLIC(QEXTWaveChart)
+    Q_DISABLE_COPY(QEXTWaveChartPrivate)
 public:
     explicit QEXTWaveChartPrivate(QEXTWaveChart *q);
     virtual ~QEXTWaveChartPrivate();
 
     QEXTWaveChart * const q_ptr;
 
-    QRectF m_plotAreaRect;               //绘制数据区域
-    QVector<double> m_dataList;       //数据集合
+    QRectF m_plotAreaRect;
+    QVector<double> m_dataList;
 
-    double m_minValue;                //最小值
-    double m_maxValue;                //最大值
+    double m_minValue;
+    double m_maxValue;
     double m_yAxisStep;
     double m_xAxisStep;
     double m_hLineStep;
     double m_vLineStep;
 
-    double m_space;                   //间隔
-    QString m_title;                  //标题
-    bool m_smooth;                    //是否平滑
+    double m_space;
+    QString m_title;
+    bool m_smooth;
     bool m_titleVisiable;
     bool m_hLineVisiable;
     bool m_vLineVisiable;
-    bool m_pointVisiable;                 //是否显示坐标点
-    bool m_pointBackgroundVisiable;               //是否显示坐标背景
+    bool m_pointVisiable;
+    bool m_pointBackgroundVisiable;
 
-    QColor m_backgroundStartColor;            //背景渐变开始颜色
-    QColor m_backgroundEndColor;              //背景渐变结束颜色
-    QColor m_textColor;               //文字颜色
-    QColor m_pointColor;              //坐标点颜色
-
-private:
-    Q_DECLARE_PUBLIC(QEXTWaveChart)
-    QEXT_DECL_DISABLE_COPY(QEXTWaveChartPrivate)
+    QColor m_backgroundStartColor;
+    QColor m_backgroundEndColor;
+    QColor m_textColor;
+    QColor m_pointColor;
 };
 
 

@@ -4,8 +4,6 @@
 #include <QTimer>
 #include <QDebug>
 
-
-
 QEXTThermometer::QEXTThermometer(QWidget *parent) : QWidget(parent)
 {
     minValue = 0;
@@ -53,9 +51,7 @@ QEXTThermometer::~QEXTThermometer()
 
 void QEXTThermometer::resizeEvent(QResizeEvent *)
 {
-    //水银柱底部圆的半径为宽高中最小值的 5分之一
     radius = qMin(width(), height()) / 5;
-    //水银柱的宽度为底部圆的直径的 3分之一
     barWidth = (radius * 2) / 3;
     barHeight = height() - radius * 2;
 
@@ -72,14 +68,11 @@ void QEXTThermometer::resizeEvent(QResizeEvent *)
 
 void QEXTThermometer::paintEvent(QPaintEvent *)
 {
-    //绘制准备工作,启用反锯齿
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    //绘制背景
     drawBg(&painter);
 
-    //绘制标尺及刻度尺
     if (tickPosition == TickPosition_Left) {
         drawRuler(&painter, 0);
     } else if (tickPosition == TickPosition_Right) {
@@ -89,13 +82,10 @@ void QEXTThermometer::paintEvent(QPaintEvent *)
         drawRuler(&painter, 1);
     }
 
-    //绘制水银柱背景,包含水银柱底部圆
     drawBarBg(&painter);
 
-    //绘制当前水银柱,包含水银柱底部圆
     drawBar(&painter);
 
-    //绘制当前值
     drawValue(&painter);
 }
 
@@ -122,7 +112,6 @@ void QEXTThermometer::drawBarBg(QPainter *painter)
     QRectF barRect(barX, barY, barWidth, barHeight);
 
     int circleX = targetX - radius;
-    //偏移 2 个像素,使得看起来边缘完整
     int circleY = height() - radius * 2 - 2;
     int circleWidth = radius * 2;
     QRectF circleRect(circleX, circleY, circleWidth, circleWidth);
@@ -146,19 +135,15 @@ void QEXTThermometer::drawRuler(QPainter *painter, int type)
         barPercent = 2;
     }
 
-    //绘制纵向标尺刻度
     double length = height() - 2 * space - 2 * radius;
-    //计算每一格移动多少
+
     double increment = length / (maxValue - minValue);
 
-    //长线条短线条长度
     int longLineLen = 10;
     int shortLineLen = 7;
 
-    //绘制纵向标尺线 偏移 5 像素
     int offset = barWidth / 2 + 5;
 
-    //左侧刻度尺需要重新计算
     if (type == 0) {
         offset = -offset;
         longLineLen = -longLineLen;
@@ -171,15 +156,12 @@ void QEXTThermometer::drawRuler(QPainter *painter, int type)
     QPointF bottomPot(initX, height() - 2 * radius - 5);
     painter->drawLine(topPot, bottomPot);
 
-    //根据范围值绘制刻度值及刻度值
     for (int i = maxValue; i >= minValue; i = i - shortStep) {
         if (i % longStep == 0) {
-            //绘制长线条
             QPointF leftPot(initX + longLineLen, initY);
             QPointF rightPot(initX, initY);
             painter->drawLine(leftPot, rightPot);
 
-            //绘制文字
             QString strValue = QString("%1").arg((double)i, 0, 'f', precision);
             double fontHeight = painter->fontMetrics().height();
 
@@ -191,7 +173,6 @@ void QEXTThermometer::drawRuler(QPainter *painter, int type)
                 painter->drawText(textRect, Qt::AlignLeft, strValue);
             }
         } else {
-            //绘制短线条
             QPointF leftPot(initX + shortLineLen, initY);
             QPointF rightPot(initX, initY);
             painter->drawLine(leftPot, rightPot);
@@ -209,7 +190,6 @@ void QEXTThermometer::drawBar(QPainter *painter)
     painter->setPen(Qt::NoPen);
     painter->setBrush(barColor);
 
-    //计算在背景宽度的基础上缩小的百分比, 至少为 2
     int barPercent = barWidth / 8;
     int circlePercent = radius / 6;
 
@@ -221,11 +201,10 @@ void QEXTThermometer::drawBar(QPainter *painter)
         circlePercent = 2;
     }
 
-    //标尺刻度高度
     double length = height() - 2 * space - 2 * radius;
-    //计算每一格移动多少
+
     double increment = length / (maxValue - minValue);
-    //计算标尺的高度
+
     int rulerHeight = height() - 1 * space - 2 * radius;
 
     int barX = targetX - barWidth / 2;
@@ -233,7 +212,6 @@ void QEXTThermometer::drawBar(QPainter *painter)
     barRect = QRectF(barX + barPercent, barY + barPercent, barWidth - barPercent * 2, barHeight + radius - barY);
 
     int circleX = targetX - radius;
-    //偏移 2 个像素,使得看起来边缘完整
     int circleY = height() - radius * 2 - 2;
     int circleWidth = radius * 2 - circlePercent * 2;
     circleRect = QRectF(circleX + circlePercent, circleY + circlePercent, circleWidth, circleWidth);
@@ -244,7 +222,6 @@ void QEXTThermometer::drawBar(QPainter *painter)
     path.setFillRule(Qt::WindingFill);
     painter->drawPath(path);
 
-    //绘制用户设定值三角号
     if (showUserValue) {
         if (tickPosition == TickPosition_Left || tickPosition == TickPosition_Both) {
             QPolygon pts;
@@ -394,7 +371,6 @@ QSize QEXTThermometer::minimumSizeHint() const
 
 void QEXTThermometer::setRange(double minValue, double maxValue)
 {
-    //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue) {
         return;
     }
@@ -402,7 +378,6 @@ void QEXTThermometer::setRange(double minValue, double maxValue)
     this->minValue = minValue;
     this->maxValue = maxValue;
 
-    //如果目标值不在范围值内,则重新设置目标值
     if (value < minValue || value > maxValue) {
         setValue(value);
     }
@@ -427,12 +402,10 @@ void QEXTThermometer::setMaxValue(double maxValue)
 
 void QEXTThermometer::setValue(double value)
 {
-    //值和当前值一致则无需处理
     if (value == this->value) {
         return;
     }
 
-    //值小于最小值则取最小值,大于最大值则取最大值
     if (value < minValue) {
         value = minValue;
     } else if (value > maxValue) {
@@ -463,7 +436,6 @@ void QEXTThermometer::setValue(int value)
 
 void QEXTThermometer::setPrecision(int precision)
 {
-    //最大精确度为 3
     if (precision <= 3 && this->precision != precision) {
         this->precision = precision;
         update();
@@ -472,7 +444,6 @@ void QEXTThermometer::setPrecision(int precision)
 
 void QEXTThermometer::setLongStep(int longStep)
 {
-    //短步长不能超过长步长
     if (longStep < shortStep) {
         return;
     }
@@ -485,7 +456,6 @@ void QEXTThermometer::setLongStep(int longStep)
 
 void QEXTThermometer::setShortStep(int shortStep)
 {
-    //短步长不能超过长步长
     if (longStep < shortStep) {
         return;
     }
@@ -530,7 +500,6 @@ void QEXTThermometer::setShowUserValue(bool showUserValue)
 
 void QEXTThermometer::setUserValue(double userValue)
 {
-    //值小于最小值或者值大于最大值或者值和当前值一致则无需处理
     if (userValue < minValue || userValue > maxValue) {
         return;
     }

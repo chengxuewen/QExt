@@ -21,7 +21,7 @@ QEXTTcpPacketPrivate::~QEXTTcpPacketPrivate()
 
 
 QEXTTcpPacket::QEXTTcpPacket(const QSharedPointer<QEXTTcpPacketHeaderInterface> &header)
-    : d_ptr(new QEXTTcpPacketPrivate(this))
+    : dd_ptr(new QEXTTcpPacketPrivate(this))
 {
     Q_D(QEXTTcpPacket);
     d->m_header = header;
@@ -29,9 +29,9 @@ QEXTTcpPacket::QEXTTcpPacket(const QSharedPointer<QEXTTcpPacketHeaderInterface> 
 
 QEXTTcpPacket::QEXTTcpPacket(QEXTTcpPacketPrivate *d,
                              const QSharedPointer<QEXTTcpPacketHeaderInterface> &header)
-    : d_ptr(d)
+    : dd_ptr(d)
 {
-    d_ptr->m_header = header;
+    dd_ptr->m_header = header;
 }
 
 QEXTTcpPacket::~QEXTTcpPacket()

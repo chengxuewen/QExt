@@ -84,7 +84,7 @@ list(APPEND qext_example_link_libraries QEXTStyleSheet)
 #target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/styles)
 #set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 #if(WIN32)
-#qextFunctionCopyDependsInternalLibs(
+#qextFunctionCopyDependencyInternal(
 #    TARGET ${qext_example_name}
 #    LIBS QEXTCore QEXTIcons
 #    DESTINATION ${EXECUTABLE_OUTPUT_PATH}

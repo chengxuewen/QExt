@@ -29,7 +29,7 @@ public:
 
 private:
     Q_DECLARE_PUBLIC(QEXTTcpPacketHeader)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpPacketHeaderPrivate)
+    Q_DISABLE_COPY(QEXTTcpPacketHeaderPrivate)
 };
 
 

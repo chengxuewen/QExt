@@ -1,21 +1,34 @@
-﻿#ifndef _QEXTSLIDER_H
-#define _QEXTSLIDER_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:提示滑块条
- *  1.可设置气泡跟随提示
- *  2.可设置气泡的圆角角度/箭头大小/背景色/前景色/箭头方向
- *  3.可设置是否单击切换到当前
- *  4.可设置气泡宽度/高度/字体
- *  5.可设置是否换算成时间显示
- *  6.支持横向和纵向
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武-feiyangqingyun（QQ:517216493）代码。
- *@Date:2017-08-30
- *@History:
- *  Modification data:2021-10-17
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTSLIDER_H
+#define _QEXTSLIDER_H
 
 #include <qextWidgetGlobal.h>
 
@@ -26,7 +39,9 @@ class QEXTSliderPrivate;
 class QEXT_WIDGETS_API QEXTSlider : public QSlider
 {
     Q_OBJECT
-    Q_ENUMS(ArrowStyleType)
+    Q_DISABLE_COPY(QEXTSlider)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTSlider)
+
     Q_PROPERTY(int borderRadius READ borderRadius WRITE setBorderRadius)
     Q_PROPERTY(int arrowSize READ arrowSize WRITE setArrowSize)
     Q_PROPERTY(ArrowStyleType arrowStyle READ arrowStyle WRITE setArrowStyle)
@@ -44,11 +59,12 @@ class QEXT_WIDGETS_API QEXTSlider : public QSlider
 public:
     enum ArrowStyleType
     {
-        ArrowStyle_Left = 0,    //向左箭头
-        ArrowStyle_Right = 1,   //向右箭头
-        ArrowStyle_Top = 2,     //向上箭头
-        ArrowStyle_Bottom = 3   //向下箭头
+        ArrowStyle_Left = 0,
+        ArrowStyle_Right = 1,
+        ArrowStyle_Top = 2,
+        ArrowStyle_Bottom = 3
     };
+    Q_ENUMS(ArrowStyleType)
 
     explicit QEXTSlider(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTSlider();
@@ -71,30 +87,26 @@ public:
     QEXTTooltip *tooltip() const;
 
 public Q_SLOTS:
-    //设置边框圆角角度
     void setBorderRadius(int radius);
-    //设置箭头大小
+
     void setArrowSize(int size);
-    //设置箭头样式
+
     void setArrowStyle(const ArrowStyleType &style);
 
-    //设置前景色
     void setBackgroundColor(const QColor &color);
-    //设置前景色
+
     void setForegroundColor(const QColor &color);
 
-    //设置气泡提示宽度
     void setToolTipWidth(int width);
-    //设置气泡提示高度
+
     void setToolTipHeight(int height);
-    //设置气泡提示字体
+
     void setToolTipFont(const QFont &font);
 
-    //设置显示时间
     void setTimeVisiable(bool visiable);
-    //设置是否单击切换到当前
+
     void setClickEnable(bool enable);
-    //设置单位字符
+
     void setUnitText(const QString &unit);
 
 Q_SIGNALS:
@@ -105,11 +117,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
 
-    QScopedPointer<QEXTSliderPrivate> d_ptr;
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTSlider)
-    Q_DECLARE_PRIVATE(QEXTSlider)
+    QScopedPointer<QEXTSliderPrivate> dd_ptr;
 };
 
 #endif // _QEXTSLIDER_H

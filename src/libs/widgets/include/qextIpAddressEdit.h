@@ -1,22 +1,34 @@
-﻿#ifndef _QEXTIPADDRESS_H
-#define _QEXTIPADDRESS_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:IP地址输入框控件
- *  1.可设置IP地址,自动填入框
- *  2.可清空IP地址
- *  3.支持按下小圆点自动切换
- *  4.支持退格键自动切换
- *  5.支持IP地址过滤
- *  6.可设置背景色/边框颜色/边框圆角角度
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com,基于刘典武工程师（QQ:517216493）代码。
- *@Version:V0.1
- *@Date:2017-8-11
- *@History:
- *  Modification data:2021-10-16
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTIPADDRESS_H
+#define _QEXTIPADDRESS_H
 
 #include <qextWidgetGlobal.h>
 
@@ -26,6 +38,9 @@ class QEXTIpAddressEditPrivate;
 class QEXT_WIDGETS_API QEXTIpAddressEdit : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTIpAddressEdit)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTIpAddressEdit)
+
     Q_PROPERTY(QString iP READ iP WRITE setIP NOTIFY ipChanged)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
@@ -63,14 +78,10 @@ signals:
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
 
-    QScopedPointer<QEXTIpAddressEditPrivate> d_ptr;
+    QScopedPointer<QEXTIpAddressEditPrivate> dd_ptr;
 
 private Q_SLOTS:
     void textChanged(const QString &text);
-
-private:
-    Q_DECLARE_PRIVATE(QEXTIpAddressEdit)
-    QEXT_DECL_DISABLE_COPY(QEXTIpAddressEdit)
 };
 
 #endif // _QEXTIPADDRESS_H

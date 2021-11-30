@@ -1,25 +1,34 @@
-﻿#ifndef _QEXTTHERMOMETER_H
-#define _QEXTTHERMOMETER_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:柱状温度计控件
- *  1.可设置精确度(小数点后几位)和间距
- *  2.可设置背景色/柱状颜色/线条颜色
- *  3.可设置长线条步长及短线条步长
- *  4.可启用动画及动画步长
- *  5.可设置范围值
- *  6.支持负数刻度值
- *  7.支持任意窗体大小缩放
- *  8.可设置柱状条位置 左侧 居中 右侧
- *  9.可设置刻度尺位置 无 左侧 右侧 两侧
- *  10.可设置用户设定目标值
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武（QQ:517216493）代码。
- *@Date:2016-11-4
- *@History:
- *  Modification data:2021-10-15
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTTHERMOMETER_H
+#define _QEXTTHERMOMETER_H
 
 #include <QWidget>
 
@@ -28,8 +37,6 @@
 class QEXT_WIDGETS_API QEXTThermometer : public QWidget
 {
     Q_OBJECT
-    Q_ENUMS(BarPosition)
-    Q_ENUMS(TickPosition)
 
     Q_PROPERTY(double minValue READ getMinValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ getMaxValue WRITE setMaxValue)
@@ -58,17 +65,19 @@ class QEXT_WIDGETS_API QEXTThermometer : public QWidget
 
 public:
     enum BarPosition {
-        BarPosition_Left = 0,       //左侧显示
-        BarPosition_Right = 1,      //右侧显示
-        BarPosition_Center = 2      //居中显示
+        BarPosition_Left = 0,
+        BarPosition_Right = 1,
+        BarPosition_Center = 2
     };
+    Q_ENUMS(BarPosition)
 
     enum TickPosition {
-        TickPosition_Null = 0,      //不显示
-        TickPosition_Left = 1,      //左侧显示
-        TickPosition_Right = 2,     //右侧显示
-        TickPosition_Both = 3       //两侧显示
+        TickPosition_Null = 0,
+        TickPosition_Left = 1,
+        TickPosition_Right = 2,
+        TickPosition_Both = 3
     };
+    Q_ENUMS(TickPosition)
 
     explicit QEXTThermometer(QWidget *parent = 0);
     ~QEXTThermometer();
@@ -83,41 +92,41 @@ protected:
     void drawValue(QPainter *painter);
 
 private:
-    double minValue;                //最小值
-    double maxValue;                //最大值
-    double value;                   //目标值
+    double minValue;
+    double maxValue;
+    double value;
 
-    int precision;                  //精确度,小数点后几位
-    int longStep;                   //长线条等分步长
-    int shortStep;                  //短线条等分步长
-    int space;                      //间距
+    int precision;
+    int longStep;
+    int shortStep;
+    int space;
 
-    bool animation;                 //是否启用动画显示
-    double animationStep;           //动画显示时步长
+    bool animation;
+    double animationStep;
 
-    bool showUserValue;             //显示用户设定值
-    double userValue;               //用户设定值
-    QColor userValueColor;          //用户设定值颜色
+    bool showUserValue;
+    double userValue;
+    QColor userValueColor;
 
-    QColor bgColorStart;            //背景渐变开始颜色
-    QColor bgColorEnd;              //背景渐变结束颜色
-    QColor lineColor;               //线条颜色
-    QColor barBgColor;              //柱状背景色
-    QColor barColor;                //柱状颜色
+    QColor bgColorStart;
+    QColor bgColorEnd;
+    QColor lineColor;
+    QColor barBgColor;
+    QColor barColor;
 
-    BarPosition barPosition;        //柱状条位置
-    TickPosition tickPosition;      //刻度尺位置
+    BarPosition barPosition;
+    TickPosition tickPosition;
 
-    int barWidth;                   //水银柱宽度
-    int barHeight;                  //水银柱高度
-    int radius;                     //水银柱底部圆半径
-    int targetX;                    //目标X坐标
-    QRectF barRect;                 //柱状区域
-    QRectF circleRect;              //底部圆区域
+    int barWidth;
+    int barHeight;
+    int radius;
+    int targetX;
+    QRectF barRect;
+    QRectF circleRect;
 
-    bool reverse;                   //是否倒退
-    double currentValue;            //当前值
-    QTimer *timer;                  //定时器绘制动画
+    bool reverse;
+    double currentValue;
+    QTimer *timer;
 
 private slots:
     void updateValue();
@@ -152,58 +161,43 @@ public:
     QSize minimumSizeHint()         const;
 
 public Q_SLOTS:
-    //设置最大最小值-范围值
     void setRange(double minValue, double maxValue);
     void setRange(int minValue, int maxValue);
 
-    //设置最大最小值
     void setMinValue(double minValue);
     void setMaxValue(double maxValue);
 
-    //设置目标值
     void setValue(double value);
     void setValue(int value);
 
-    //设置精确度
     void setPrecision(int precision);
 
-    //设置线条等分步长
     void setLongStep(int longStep);
     void setShortStep(int shortStep);
 
-    //设置间距
     void setSpace(int space);
 
-    //设置是否启用动画显示
     void setAnimation(bool animation);
-    //设置动画显示的步长
+
     void setAnimationStep(double animationStep);
 
-    //设置是否显示用户设定值
     void setShowUserValue(bool showUserValue);
 
-    //设置用户值
     void setUserValue(double userValue);
     void setUserValue(int userValue);
 
-    //设置用户设定值颜色
     void setUserValueColor(const QColor &userValueColor);
 
-    //设置背景颜色
     void setBgColorStart(const QColor &bgColorStart);
     void setBgColorEnd(const QColor &bgColorEnd);
 
-    //设置线条颜色
     void setLineColor(const QColor &lineColor);
 
-    //设置柱状颜色
     void setBarBgColor(const QColor &barBgColor);
     void setBarColor(const QColor &barColor);
 
-    //设置柱状条位置
     void setBarPosition(const BarPosition &barPosition);
 
-    //设置刻度尺位置
     void setTickPosition(const TickPosition &tickPosition);
 
 Q_SIGNALS:

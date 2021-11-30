@@ -1,29 +1,34 @@
-﻿#ifndef _QEXTNAVIGATIONBAR_H
-#define _QEXTNAVIGATIONBAR_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:滑动导航条控件
- *  1.可键盘按键上下移动元素功能
- *  2.支持窗体大小改变控件自动拉伸
- *  3.支持移动到第一个/末一个/上移/下移/移动到指定索引/移动到指定元素
- *  4.支持扁平处理
- *  5.支持纵向风格
- *  6.可设置圆角角度,包括主背景和选中元素背景
- *  7.可设置间距
- *  8.可设置导航条主背景渐变色
- *  9.可设置当前条目选中背景渐变色
- *  10.可设置条目未选中和选中的文字颜色
- *  11.可设置五种选中风格样式
- *  12.可设置线条颜色和宽度
- *  13.选中条目的宽度为条目文字集合中最长的一个
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com,基于刘典武工程师（QQ:517216493）代码。
- *@Version:V0.1
- *@Date:2016-10-8
- *@History:
- *  Modification data:2021-11-09
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTNAVIGATIONBAR_H
+#define _QEXTNAVIGATIONBAR_H
 
 #include <qextWidgetGlobal.h>
 
@@ -33,7 +38,8 @@ class QEXTNavigationBarPrivate;
 class QEXT_WIDGETS_API QEXTNavigationBar : public QWidget
 {
     Q_OBJECT
-    Q_ENUMS(BarStyleType)
+    Q_DISABLE_COPY(QEXTNavigationBar)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNavigationBar)
 
     Q_PROPERTY(QColor backgroundStartColor READ backgroundStartColor WRITE setBackgroundStartColor)
     Q_PROPERTY(QColor backgroundEndColor READ backgroundEndColor WRITE setBackgroundEndColor)
@@ -63,12 +69,13 @@ class QEXT_WIDGETS_API QEXTNavigationBar : public QWidget
 
 public:
     enum BarStyleType {
-        BarStyle_Rect = 0,              //圆角矩形
-        BarStyle_Line_Top = 1,          //上边线条
-        BarStyle_Line_Right = 2,        //右边线条
-        BarStyle_Line_Bottom = 3,       //下边线条
-        BarStyle_Line_Left = 4          //左边线条
+        BarStyle_Rect = 0,
+        BarStyle_Line_Top = 1,
+        BarStyle_Line_Right = 2,
+        BarStyle_Line_Bottom = 3,
+        BarStyle_Line_Left = 4
     };
+    Q_ENUMS(BarStyleType)
 
     explicit QEXTNavigationBar(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTNavigationBar();
@@ -103,64 +110,44 @@ public:
     QSize minimumSizeHint() const;
 
 public Q_SLOTS:
-    //删除所有条目
     void clearItem();
 
-    //设置导航条主背景渐变色
     void setBackgroundStartColor(const QColor &color);
     void setBackgroundEndColor(const QColor &color);
 
-    //设置当前条目选中背景渐变色
     void setBarStartColor(const QColor &color);
     void setBarEndColor(const QColor &color);
 
-    //设置文字颜色
     void setTextNormalColor(const QColor &color);
     void setTextSelectColor(const QColor &color);
 
-    //设置子项元素及当前索引及值
     void setItems(const QString &items);
     void setCurrentIndex(int index);
     void setCurrentItem(const QString &item);
 
-    //设置边框圆角
     void setBackgroundRadius(int radius);
     void setBarRadius(int radius);
-    //设置条目间距
+
     void setSpace(int space);
 
-    //设置线条宽度
     void setLineWidth(int width);
-    //设置线条颜色
     void setLineColor(const QColor &color);
 
-    //设置选中元素样式
     void setBarStyle(const BarStyleType &style);
 
-    //设置键盘按键是否能够移动条目
     void setKeyMoveEnable(bool enable);
-    //设置横向显示,如果为假则纵向显示
     void setHorizontal(bool horizontal);
-    //设置扁平,默认不扁平
     void setFlat(bool flat);
 
-    //移动到第一个条目
     void moveFirst();
-    //移动到最后一个条目
     void moveLast();
-    //往前移动条目
     void movePrevious();
-    //往后移动条目
     void moveNext();
-    //移动到指定索引条目
     void moveTo(int index);
-    //移动到指定文字条目
     void moveTo(const QString &item);
-    //移动到指定坐标位置条目
     void moveTo(const QPointF &point);
 
 Q_SIGNALS:
-    //当前条目改变信号,index为当前条目索引索引 item为当前条目文字
     void currentItemChanged(int index, const QString &item);
 
 protected Q_SLOTS:
@@ -176,11 +163,7 @@ protected:
     void drawBar(QPainter *painter);
     void drawText(QPainter *painter);
 
-    QScopedPointer<QEXTNavigationBarPrivate> d_ptr;
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationBar)
-    Q_DECLARE_PRIVATE(QEXTNavigationBar)
+    QScopedPointer<QEXTNavigationBarPrivate> dd_ptr;
 };
 
 #endif // _QEXTNAVIGATIONBAR_H

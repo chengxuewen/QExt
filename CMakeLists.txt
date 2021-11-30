@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.10.1.5 LANGUAGES CXX)
+project(QEXT VERSION 0.10.2.1 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -259,7 +259,7 @@ configure_file(
 #--------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 include(qextFunctionActivatePrecompiledHeaders)
-include(qextFunctionCopyDependsInternalLibs)
+include(qextFunctionCopyDependencyInternal)
 include(qextFunctionSetCompilerWarnings)
 include(qextFunctionQmlPlugin)
 include(qextMacroBuildDoxygen)
@@ -326,13 +326,6 @@ else()
 endif()
 
 
-if(QEXT_BUILD_LIB_MVVM)
-    if(QEXT_CXX_STANDARD LESS 14)
-        set(QEXT_BUILD_LIB_MVVM OFF)
-    endif()
-endif()
-
-
 if(NOT QEXT_BUILD_QML)
     set(QEXT_BUILD_LIB_QUICK OFF)
 endif()
@@ -364,9 +357,7 @@ add_subdirectory(src/applications)
 add_subdirectory(src/libs)
 add_subdirectory(src/plugins)
 
-set(QWT_LIB_OUTPUT_DIR ${QEXT_LIB_OUTPUT_DIR})
 add_subdirectory(thirdparty/qwt-6.1.3)
-
 if(QEXT_QT_VERSION_MAJOR GREATER 4)
     add_subdirectory(thirdparty/qcustomplot)
 endif()

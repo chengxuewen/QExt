@@ -128,7 +128,7 @@ QEXTSerialEnumeratorPrivate::~QEXTSerialEnumeratorPrivate()
    Constructs a QEXTSerialEnumerator object with the given \a parent.
 */
 QEXTSerialEnumerator::QEXTSerialEnumerator(QObject *parent)
-    :QObject(parent), d_ptr(new QEXTSerialEnumeratorPrivate(this))
+    :QObject(parent), dd_ptr(new QEXTSerialEnumeratorPrivate(this))
 {
     if (!QMetaType::isRegistered(QMetaType::type("QEXTPortInfo")))
         qRegisterMetaType<QEXTPortInfo>("QEXTPortInfo");
@@ -139,7 +139,7 @@ QEXTSerialEnumerator::QEXTSerialEnumerator(QObject *parent)
 */
 QEXTSerialEnumerator::~QEXTSerialEnumerator()
 {
-    delete d_ptr;
+    delete dd_ptr;
 }
 
 /*!

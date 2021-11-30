@@ -32,45 +32,32 @@ QEXTProgressPie::QEXTProgressPie(QWidget *parent) : QWidget(parent)
 
 void QEXTProgressPie::paintEvent(QPaintEvent *)
 {
-    //半径取宽高的最小值
     double outerRadius = qMin(width(), height());
-    //绘制区域在画面区域的基础上上下左右各减少一个像素,使得看起来完整
     QRectF baseRect(2, 2, outerRadius - 4, outerRadius - 4);
 
-    //先将需要绘制的图形绘制到一张图片上,最后将图片绘制到屏幕
     QImage buffer(outerRadius, outerRadius, QImage::Format_ARGB32_Premultiplied);
     buffer.fill(Qt::transparent);
 
     QPainter painter(&buffer);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    //绘制数据颜色集合
     rebuildDataBrushIfNeeded();
-    //绘制背景
     drawBg(&painter, buffer.rect());
-    //绘制外框
     drawBase(&painter, baseRect);
-    //绘制当前进度
     drawProgress(&painter, baseRect);
-
-//    //绘制中心
-//    drawInnerBackground(&painter, innerRect);
 
     QRectF innerRect;
     double innerRadius(0);
     calculateInnerRect(baseRect, outerRadius, innerRect, innerRadius);
-    //绘制当前值
     drawValue(&painter, innerRect, innerRadius);
     painter.end();
 
-    //绘制背景
     QPainter p(this);
     p.setRenderHints(QPainter::SmoothPixmapTransform);
     p.setPen(Qt::NoPen);
     p.setBrush(bgColor);
     p.drawRect(this->rect());
 
-    //改成居中绘制图片
     int pixX = rect().center().x() - buffer.width() / 2;
     int pixY = rect().center().y() - buffer.height() / 2;
     QPoint point(pixX, pixY);
@@ -113,7 +100,6 @@ void QEXTProgressPie::drawProgress(QPainter *painter, const QRectF &baseRect)
 
     double arcLength = 360.0 / (maxValue - minValue) * value;
 
-    //逆时针为顺时针分负数
     if (!clockWise) {
         arcLength = -arcLength;
     }
@@ -382,12 +368,10 @@ void QEXTProgressPie::setMaxValue(double maxValue)
 
 void QEXTProgressPie::setValue(double value)
 {
-    //值和当前值一致则无需处理
     if (value == this->value) {
         return;
     }
 
-    //值小于最小值则取最小值,大于最大值则取最大值
     if (value < minValue) {
         value = minValue;
     } else if (value > maxValue) {

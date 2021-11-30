@@ -57,7 +57,7 @@ function(qextCoreAddTest TEST_NAME)
     target_link_libraries(${TEST_NAME} PRIVATE ${qext_test_link_libraries})
     target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${qext_test_include_directories})
     if(QEXT_BUILD_SHARED_LIBS AND WIN32)
-        qextMacroCopyDependenceLib(${TEST_NAME} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+        qextFunctionCopyDependencyInternal(${TEST_NAME} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
     endif()
 endfunction()
 

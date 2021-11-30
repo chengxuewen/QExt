@@ -6,8 +6,6 @@
 #include <QTimer>
 #include <QDebug>
 
-
-
 QEXTProgressButton::QEXTProgressButton(QWidget *parent) : QWidget(parent)
 {
     lineWidth = 8;
@@ -46,10 +44,8 @@ void QEXTProgressButton::paintEvent(QPaintEvent *)
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
     if (1 == status) {
-        //绘制当前进度
         drawProgress(&painter);
     } else {
-        //绘制按钮背景
         drawBg(&painter);
     }
 }
@@ -89,20 +85,17 @@ void QEXTProgressButton::drawProgress(QPainter *painter)
     int side = qMin(width, height);
     int radius = 99 - borderWidth;
 
-    //绘制外圆
     QPen pen;
     pen.setWidth(borderWidth);
     pen.setColor(borderColor);
     painter->setPen(borderWidth > 0 ? pen : Qt::NoPen);
     painter->setBrush(bgColor);
 
-    //平移坐标轴中心,等比例缩放
     QRect rectCircle(-radius, -radius, radius * 2, radius * 2);
     painter->translate(width / 2, height / 2);
     painter->scale(side / 200.0, side / 200.0);
     painter->drawEllipse(rectCircle);
 
-    //绘制圆弧进度
     pen.setWidth(lineWidth);
     pen.setColor(lineColor);
     painter->setPen(pen);
@@ -113,7 +106,6 @@ void QEXTProgressButton::drawProgress(QPainter *painter)
     int spanAngle = -value * 16;
     painter->drawArc(rectArc, startAngle, spanAngle);
 
-    //绘制进度文字
     QFont font;
     font.setPixelSize(offset - 15);
     painter->setFont(font);

@@ -58,7 +58,7 @@ void QEXTTcpPacketHeaderPrivate::updateHeaderSize()
 
 
 QEXTTcpPacketHeader::QEXTTcpPacketHeader(const QEXTTcpPacketHeader::DataInfoVector &dataInfoVector)
-    : d_ptr(new QEXTTcpPacketHeaderPrivate(this))
+    : dd_ptr(new QEXTTcpPacketHeaderPrivate(this))
 {
     Q_D(QEXTTcpPacketHeader);
     d->initHeaderData(dataInfoVector);
@@ -66,9 +66,9 @@ QEXTTcpPacketHeader::QEXTTcpPacketHeader(const QEXTTcpPacketHeader::DataInfoVect
 
 QEXTTcpPacketHeader::QEXTTcpPacketHeader(QEXTTcpPacketHeaderPrivate *d,
                                          const DataInfoVector &dataInfoVector)
-    : d_ptr(d)
+    : dd_ptr(d)
 {
-    d_ptr->initHeaderData(dataInfoVector);
+    dd_ptr->initHeaderData(dataInfoVector);
 }
 
 QEXTTcpPacketHeader::~QEXTTcpPacketHeader()

@@ -9,7 +9,7 @@ class QEXTFramelessHelperPrivate;
 class QEXT_FRAMELESSHELPER_API QEXTFramelessHelper : public QObject
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE(QEXTFramelessHelper)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTFramelessHelper)
 
 public:
     explicit QEXTFramelessHelper(QWidget *parent = nullptr);
@@ -49,7 +49,7 @@ public slots:
 protected:
     bool eventFilter(QObject *obj, QEvent *ev) final;
 
-    QScopedPointer<QEXTFramelessHelperPrivate> d_ptr;
+    QScopedPointer<QEXTFramelessHelperPrivate> dd_ptr;
 };
 
 #endif // _QEXTFRAMELESSHELPER_H

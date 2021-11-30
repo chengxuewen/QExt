@@ -12,6 +12,8 @@
 class QEXTTextLcd;
 class QEXT_WIDGETS_API QEXTTextLcdPrivate
 {
+    Q_DECLARE_PUBLIC(QEXTTextLcd)
+    Q_DISABLE_COPY(QEXTTextLcdPrivate)
 public:
     explicit QEXTTextLcdPrivate(QEXTTextLcd *q);
     virtual ~QEXTTextLcdPrivate();
@@ -20,7 +22,7 @@ public:
 
     QSizeF m_ledTextSizeF;
     QSize m_imageSize;
-    QString m_text;                  //文字
+    QString m_text;
 
     int m_textAlignment;
     int m_fontPixelSize;
@@ -33,8 +35,8 @@ public:
     double m_hBorder;
     QVector<QVector<QPointF> > m_pointFVector;
 
-    QColor m_foregroundColor;           //前景色
-    QColor m_backgroundColor;           //背景色
+    QColor m_foregroundColor;
+    QColor m_backgroundColor;
     QColor m_textColor;
 
     bool m_highLightBorder;
@@ -42,10 +44,6 @@ public:
     QScopedPointer<QTimer> m_animationTimer;
     int m_animationInterval;
     int m_animationOffset;
-
-private:
-    Q_DECLARE_PUBLIC(QEXTTextLcd)
-    QEXT_DECL_DISABLE_COPY(QEXTTextLcdPrivate)
 };
 
 

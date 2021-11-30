@@ -179,7 +179,7 @@ endif()
 # Add lib tests and examples
 #--------------------------------------------------------------------------------
 if (QEXT_BUILD_TESTS OR QEXT_BUILD_ALL)
-    add_subdirectory(tests)
+    #    add_subdirectory(tests)
 endif()
 
 if (QEXT_BUILD_EXAMPLES OR QEXT_BUILD_ALL)

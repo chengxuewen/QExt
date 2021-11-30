@@ -13,6 +13,8 @@ class QEXTTcpTaskPoolPrivate;
 class QEXT_TCP_API QEXTTcpTaskPool : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTTcpTaskPool)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpTaskPool)
 public:
     QEXTTcpTaskPool(QEXTTcpPacketDispatcher *dispatcher);
     ~QEXTTcpTaskPool();
@@ -34,11 +36,7 @@ protected Q_SLOTS:
     void onTaskFinished(quint64 id);
 
 protected:
-    QScopedPointer<QEXTTcpTaskPoolPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTTcpTaskPool)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpTaskPool)
+    QScopedPointer<QEXTTcpTaskPoolPrivate> dd_ptr;
 };
 
 #endif // _QEXTTCPTASKPOOL_H

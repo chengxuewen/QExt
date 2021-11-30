@@ -9,40 +9,38 @@
 class QEXTArrowCompass;
 class QEXT_WIDGETS_API QEXTArrowCompassPrivate
 {
+    Q_DISABLE_COPY(QEXTArrowCompassPrivate)
+    Q_DECLARE_PUBLIC(QEXTArrowCompass)
 public:
     explicit QEXTArrowCompassPrivate(QEXTArrowCompass *q);
     virtual ~QEXTArrowCompassPrivate();
 
     QEXTArrowCompass * const q_ptr;
 
-    double m_value;                   //目标值
-    int m_precision;                  //精确度,小数点后几位
+    double m_value;
+    int m_precision;
 
-    QColor m_crownColorStart;         //外边框渐变开始颜色
-    QColor m_crownColorEnd;           //外边框渐变结束颜色
+    QColor m_crownColorStart;
+    QColor m_crownColorEnd;
 
-    QColor m_backgroundStartColor;            //背景渐变开始颜色
-    QColor m_backgroundEndColor;              //背景渐变结束颜色
+    QColor m_backgroundStartColor;
+    QColor m_backgroundEndColor;
 
-    QColor m_darkColor;               //加深颜色
-    QColor m_lightColor;              //明亮颜色
+    QColor m_darkColor;
+    QColor m_lightColor;
 
-    QColor m_foregroundColor;              //前景色
-    QColor m_textColor;               //文字颜色
+    QColor m_foregroundColor;
+    QColor m_textColor;
 
-    QColor m_northPointerColor;       //北方指针颜色
-    QColor m_southPointerColor;       //南方指针颜色
+    QColor m_northPointerColor;
+    QColor m_southPointerColor;
 
-    QColor m_centerStartColor;        //中心圆渐变开始颜色
-    QColor m_centerEndColor;          //中心圆渐变结束颜色
+    QColor m_centerStartColor;
+    QColor m_centerEndColor;
 
-    bool m_animationVisiable;                 //是否启用动画显示
-    double m_currentValue;            //当前值
-    QPropertyAnimation *m_animation;                  //绘制动画
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTArrowCompassPrivate)
-    Q_DECLARE_PUBLIC(QEXTArrowCompass)
+    bool m_animationVisiable;
+    double m_currentValue;
+    QScopedPointer<QPropertyAnimation> m_animation;
 };
 
 #endif // _QEXTARROWCOMPASS_P_H

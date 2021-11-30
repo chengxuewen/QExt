@@ -12,6 +12,8 @@ class QEXTTcpServerPrivate;
 class QEXT_TCP_API QEXTTcpServer : public QTcpServer
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTTcpServer)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpServer)
 public:
     QEXTTcpServer();
     QEXTTcpServer(const QSharedPointer<QEXTTcpFactory> &tcpFactory);
@@ -47,11 +49,7 @@ protected Q_SLOTS:
 protected:
     void incomingConnection(QEXTSocketDescriptor socketDescriptor) QEXT_DECL_OVERRIDE;
 
-    QScopedPointer<QEXTTcpServerPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTTcpServer)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpServer)
+    QScopedPointer<QEXTTcpServerPrivate> dd_ptr;
 };
 
 #endif // _QEXTTCPSERVER_H

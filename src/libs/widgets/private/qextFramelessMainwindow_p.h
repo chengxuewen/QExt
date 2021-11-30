@@ -9,39 +9,33 @@
 class QEXTFramelessMainWindow;
 class QEXT_WIDGETS_API QEXTFramelessMainWindowPrivate
 {
+    Q_DECLARE_PUBLIC(QEXTFramelessMainWindow)
+    Q_DISABLE_COPY(QEXTFramelessMainWindowPrivate)
 public:
     explicit QEXTFramelessMainWindowPrivate(QEXTFramelessMainWindow *q);
     virtual ~QEXTFramelessMainWindowPrivate();
 
     QEXTFramelessMainWindow * const q_ptr;
 
-    //边距+可移动+可拉伸
     int m_padding;
     bool m_moveEnable;
     bool m_resizeEnable;
 
-    //标题栏控件
     QPointer<QWidget> m_titleBar;
 
-    //鼠标是否按下+按下坐标+按下时窗体区域
     bool m_mousePressed;
     QPoint m_mousePoint;
     QRect m_mouseRect;
 
-    //鼠标是否按下某个区域+按下区域的大小
-    //依次为 左侧+右侧+上侧+下侧+左上侧+右上侧+左下侧+右下侧
+    //Whether to hold down a region + Size of the region to hold down
+    //Left + right + upper side + lower side + left upper side + right upper side + left lower side + right lower side
     QList<bool> m_pressedArea;
     QList<QRect> m_pressedRect;
 
-    //记录是否最小化
+    //Whether records are minimized
     bool m_isMin;
-    //存储窗体默认的属性
+    //Stores the default properties of the form
     Qt::WindowFlags m_flags;
-
-
-private:
-    Q_DECLARE_PUBLIC(QEXTFramelessMainWindow)
-    QEXT_DECL_DISABLE_COPY(QEXTFramelessMainWindowPrivate)
 };
 
 #endif // _QEXTFRAMELESSMAINWINDOW_P_H

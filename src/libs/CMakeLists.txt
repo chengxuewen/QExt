@@ -76,7 +76,3 @@ endif()
 if(QEXT_BUILD_LIB_WIDGETS)
     add_subdirectory(widgets)
 endif()
-
-if(QEXT_BUILD_LIB_MVVM)
-    add_subdirectory(mvvm)
-endif()

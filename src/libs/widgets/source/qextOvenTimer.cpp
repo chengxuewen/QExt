@@ -9,8 +9,6 @@
 #include <QDebug>
 #include <qmath.h>
 
-
-
 const double DegreesPerMinute = 7.0;
 const double DegreesPerSecond = DegreesPerMinute / 60;
 const int MaxMinutes = 45;

@@ -6,8 +6,6 @@
 #include <QDebug>
 #include <qmath.h>
 
-
-
 QEXTRingCompassPrivate::QEXTRingCompassPrivate(QEXTRingCompass *q)
     : q_ptr(q)
 {
@@ -31,7 +29,7 @@ QEXTRingCompassPrivate::~QEXTRingCompassPrivate()
 
 
 QEXTRingCompass::QEXTRingCompass(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTRingCompassPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTRingCompassPrivate(this))
 {
     this->setFont(QFont("Microsoft Yahei", 9));
 }
@@ -43,26 +41,20 @@ QEXTRingCompass::~QEXTRingCompass()
 
 void QEXTRingCompass::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTRingCompass);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
 
-    //绘制准备工作,启用反锯齿,平移坐标轴中心,等比例缩放
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.translate(width / 2, height / 2);
     painter.scale(side / 200.0, side / 200.0);
 
-    //绘制背景
     this->drawBackground(&painter);
-    //绘制四个方向点
+
     this->drawFourDots(&painter);
-    //绘制四个方向文字
     this->drawFourText(&painter);
-    //绘制指针
     this->drawPointer(&painter);
-    //绘制当前值
     this->drawValue(&painter);
 }
 
@@ -73,10 +65,9 @@ void QEXTRingCompass::drawBackground(QPainter *painter)
     painter->save();
 
     QRectF rect(-radius + d->m_borderWidth / 2, -radius + d->m_borderWidth / 2, radius * 2 - d->m_borderWidth, radius * 2 - d->m_borderWidth);
-    //可以自行修改画笔的后三个参数,形成各种各样的效果,例如Qt::FlatCap改为Qt::RoundCap可以产生圆角效果
+
     QPen pen(d->m_borderColor, d->m_borderWidth, Qt::SolidLine, Qt::FlatCap, Qt::MPenJoinStyle);
 
-    //绘制圆
     painter->setPen(pen);
     painter->setBrush(d->m_backgroundColor);
     painter->drawEllipse(rect);
@@ -92,12 +83,10 @@ void QEXTRingCompass::drawFourDots(QPainter *painter)
 
     QRectF rect(-radius + d->m_borderWidth / 2, -radius + d->m_borderWidth / 2, radius * 2 - d->m_borderWidth, radius * 2 - d->m_borderWidth);
 
-    //绘制正北点
     painter->setPen(Qt::NoPen);
     painter->setBrush(d->m_northDotColor);
     painter->drawEllipse(QPointF(0, -rect.height() / 2 - 10), offset, offset);
 
-    //绘制其他方向点
     painter->setBrush(d->m_otherDotColor);
     painter->drawEllipse(QPointF(0, rect.height() / 2 + 10), offset, offset);
     painter->drawEllipse(QPointF(-rect.width() / 2 - 10, 0), offset, offset);
@@ -183,12 +172,10 @@ void QEXTRingCompass::drawValue(QPainter *painter)
     painter->setFont(font);
     painter->setPen(d->m_textColor);
 
-    //画数值
     QString strValue = QString("%1°").arg(QString::number(d->m_value, 'f', 0));
     QRectF rectValue(-radius, -radius, radius * 2, radius * 2);
     painter->drawText(rectValue, Qt::AlignCenter, strValue);
 
-    //画方向
     QString strPosition;
     if(d->m_value >= 0 && d->m_value < 90)
     {

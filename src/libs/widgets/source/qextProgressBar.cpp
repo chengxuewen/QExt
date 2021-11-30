@@ -3,8 +3,6 @@
 #include <QTimer>
 #include <QDebug>
 
-
-
 QEXTProgressBar::QEXTProgressBar(QWidget *parent) : QWidget(parent)
 {    
     minValue = 0;
@@ -30,13 +28,9 @@ QEXTProgressBar::QEXTProgressBar(QWidget *parent) : QWidget(parent)
 
 void QEXTProgressBar::paintEvent(QPaintEvent *)
 {
-    //绘制准备工作,启用反锯齿
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    //绘制背景
-    //drawBg(&painter);
-    //绘制进度
     drawBar(&painter);
 }
 
@@ -56,19 +50,16 @@ void QEXTProgressBar::drawBar(QPainter *painter)
 {
     painter->save();
 
-    //自动计算文字字体大小
     QFont font;
     font.setPixelSize((width() / 10) * 0.35);
     painter->setFont(font);
 
-    //计算进度值字符的宽度
     double currentValue = (double)(value - minValue) * 100 / (maxValue - minValue);
     QString strValue = QString("%1%").arg(currentValue, 0, 'f', precision);
     QString strMaxValue = QString("%1%").arg(maxValue, 0, 'f', precision);
-    //字符的宽度取最大值字符的宽度 + 10
+
     int textWidth = painter->fontMetrics().width(strMaxValue) + 10;
 
-    //绘制进度值背景
     QPointF textTopLeft(width() - space - textWidth, space);
     QPointF textBottomRight(width() - space, height() - space);
     QRectF textRect(textTopLeft, textBottomRight);
@@ -76,31 +67,26 @@ void QEXTProgressBar::drawBar(QPainter *painter)
     painter->setBrush(barBgColor);
     painter->drawRoundedRect(textRect, radius, radius);
 
-    //绘制进度值
     painter->setPen(textColor);
     painter->drawText(textRect, Qt::AlignCenter, strValue);
 
-    //绘制进度条背景
     QRectF barBgRect(QPointF(space, space), QPointF(width() - space * 2 - textWidth, height() - space));
     painter->setPen(Qt::NoPen);
     painter->setBrush(barBgColor);
     painter->drawRoundedRect(barBgRect, radius, radius);
 
-    //绘制进度条
     double length = width() - space  - space * 2 - textWidth;
-    //计算每一格移动多少
+
     double increment = length / (maxValue - minValue);
     QRectF barRect(QPointF(space, space), QPointF(space + increment * (value - minValue), height() - space));
     painter->setBrush(barColor);
     painter->drawRoundedRect(barRect, radius, radius);
 
-    //绘制背景分割线条 每一格长度7
     painter->setPen(lineColor);
     int initX = 5;
     int lineCount = barBgRect.width() / step;
     double lineX = (double)barBgRect.width() / lineCount;
 
-    //线条高度在进度条高度上 - 1
     while (lineCount > 0) {
         QPointF topPot(initX + lineX, space + 1);
         QPointF bottomPot(initX + lineX, height() - space - 1);
@@ -189,7 +175,6 @@ QSize QEXTProgressBar::minimumSizeHint() const
 
 void QEXTProgressBar::setRange(double minValue, double maxValue)
 {
-    //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue) {
         return;
     }
@@ -197,7 +182,6 @@ void QEXTProgressBar::setRange(double minValue, double maxValue)
     this->minValue = minValue;
     this->maxValue = maxValue;
 
-    //如果目标值不在范围值内,则重新设置目标值
     if (value < minValue || value > maxValue) {
         setValue(value);
     }
@@ -222,12 +206,10 @@ void QEXTProgressBar::setMaxValue(double maxValue)
 
 void QEXTProgressBar::setValue(double value)
 {
-    //值和当前值一致则无需处理
     if (value == this->value) {
         return;
     }
 
-    //值小于最小值则取最小值,大于最大值则取最大值
     if (value < minValue) {
         value = minValue;
     } else if (value > maxValue) {
@@ -246,7 +228,6 @@ void QEXTProgressBar::setValue(int value)
 
 void QEXTProgressBar::setPrecision(int precision)
 {
-    //最大精确度为 3
     if (precision <= 3 && this->precision != precision) {
         this->precision = precision;
         update();

@@ -11,6 +11,8 @@
 class QEXTTcpPacketHeaderPrivate;
 class QEXT_TCP_API QEXTTcpPacketHeader : public QEXTTcpPacketHeaderInterface
 {
+    Q_DISABLE_COPY(QEXTTcpPacketHeader)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpPacketHeader)
 public:
     typedef QPair<quint8, QString> DataInfoPair;
     typedef QVector<DataInfoPair> DataInfoVector;
@@ -32,11 +34,7 @@ public:
     bool setHeaderData(const QString &name, const QEXTTcpPacketVariant &data) QEXT_DECL_OVERRIDE;
 
 protected:
-    QScopedPointer<QEXTTcpPacketHeaderPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTTcpPacketHeader)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpPacketHeader)
+    QScopedPointer<QEXTTcpPacketHeaderPrivate> dd_ptr;
 };
 
 #endif // _QEXTTCPPACKETHEADER_H

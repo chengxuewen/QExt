@@ -79,7 +79,7 @@ bool QEXTQuickFramelessHelperPrivate::hitTest(const QPoint &pos) const
 
 QEXTQuickFramelessHelper::QEXTQuickFramelessHelper(QObject *parent)
     : QObject(parent)
-    , d_ptr(new QEXTQuickFramelessHelperPrivate(this))
+    , dd_ptr(new QEXTQuickFramelessHelperPrivate(this))
 {
 }
 

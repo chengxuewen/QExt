@@ -1,24 +1,34 @@
-﻿#ifndef _QEXTSCALEKNOB_H
-#define _QEXTSCALEKNOB_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:刻度旋钮
- *  1.支持指示器样式选择 线条指示器/指针指示器/圆角指针指示器/三角形指示器
- *  2.支持鼠标按下旋转改变值
- *  3.支持负数刻度值
- *  4.支持设置当前值及范围值
- *  5.支持左右旋转角度设置
- *  6.支持设置刻度数量
- *  7.支持设置边框颜色/背景颜色/文本颜色/进度颜色
- *  8.支持设置是否等分显示左右值
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武-feiyangqingyun（QQ:517216493）代码。
- *  原作者:kimtaikee(http://www.qtcn.org/bbs/read-htm-tid-33719-ds-1.html#tpc)
- *@Date:2017-11-26
- *@History:
- *  Modification data:2021-11-06
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTSCALEKNOB_H
+#define _QEXTSCALEKNOB_H
 
 #include <qextWidgetGlobal.h>
 
@@ -28,7 +38,8 @@ class QEXTScaleKnobPrivate;
 class QEXT_WIDGETS_API QEXTScaleKnob : public QWidget
 {
     Q_OBJECT
-    Q_ENUMS(PointerStyle)
+    Q_DISABLE_COPY(QEXTScaleKnob)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTScaleKnob)
 
     Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
@@ -56,6 +67,7 @@ public:
         PointerStyle_IndicatorR = 2,    //圆角指针指示器
         PointerStyle_Triangle = 3       //三角形指示器
     };
+    Q_ENUMS(PointerStyle)
 
     explicit QEXTScaleKnob(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTScaleKnob();
@@ -82,42 +94,35 @@ public:
     QSize minimumSizeHint() const;
 
 public Q_SLOTS:
-    //设置范围值
     void setRange(double minValue, double maxValue);
     void setRange(int minValue, int maxValue);
 
-    //设置最大最小值
     void setMinValue(double minValue);
     void setMaxValue(double maxValue);
 
-    //设置目标值
     void setValue(double value);
     void setValue(int value);
 
-    //设置精确度
     void setPrecision(int precision);
 
-    //设置刻度数量
     void setScaleStep(int step);
-    //设置开始旋转角度
+
     void setStartAngle(int angle);
-    //设置结束旋转角度
+
     void setEndAngle(int angle);
 
-    //设置边框颜色
     void setBorderColor(const QColor &color);
-    //设置背景颜色
+
     void setBackgroundColor(const QColor &color);
-    //设置文本颜色
+
     void setTextColor(const QColor &color);
-    //设置进度颜色
+
     void setPercentColor(const QColor &color);
 
-    //设置是否对半等分范围值
     void setRangeBisectionEnable(bool enable);
-    //设置是否显示当前值
+
     void setValueVisiable(bool visiable);
-    //设置指针样式
+
     void setPointerStyle(const PointerStyle &style);
 
 Q_SIGNALS:
@@ -138,14 +143,9 @@ protected:
     void drawPointerTriangle(QPainter *painter);
     void drawValue(QPainter *painter);
 
-    //根据鼠标按下的坐标设置当前按下坐标处的值
     void setPressedValue(QPointF pressedPoint);
 
-    QScopedPointer<QEXTScaleKnobPrivate> d_ptr;
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTScaleKnob)
-    Q_DECLARE_PRIVATE(QEXTScaleKnob)
+    QScopedPointer<QEXTScaleKnobPrivate> dd_ptr;
 };
 
 #endif // _QEXTSCALEKNOB_H

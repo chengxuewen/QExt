@@ -1,22 +1,34 @@
-﻿#ifndef _QEXTTUMBLER_H
-#define _QEXTTUMBLER_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:滑动选择器控件
- *  1.可设置数据队列值
- *  2.可设置当前队列索引及当前值
- *  2.支持任意窗体大小缩放
- *  3.支持背景色前景色文字颜色线条颜色设置
- *  4.支持左右滑动和上下滑动两种形式
- *  5.支持鼠标滚动切换元素
- *  6.中间值自动放大显示且居中
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武（QQ:517216493）代码。
- *@Date:2016-11-24
- *@History:
- *  Modification data:2021-10-15
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTTUMBLER_H
+#define _QEXTTUMBLER_H
 
 #include <qextWidgetGlobal.h>
 
@@ -26,6 +38,9 @@ class QEXTTumblerPrivate;
 class QEXT_WIDGETS_API QEXTTumbler : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTTumbler)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTumbler)
+
     Q_PROPERTY(int m_currentIndex READ currentIndex WRITE setCurrentIndex)
     Q_PROPERTY(QString m_currentValue READ currentValue WRITE setCurrentValue)
     Q_PROPERTY(bool m_isHorizontal READ isHorizontal WRITE setHorizontal)
@@ -53,22 +68,20 @@ public:
     QSize minimumSizeHint() const;
 
 public Q_SLOTS:
-    //设置值队列
     void setValueList(const QStringList &values);
-    //设置当前索引
+
     void setCurrentIndex(int index);
-    //设置当前值
+
     void setCurrentValue(const QString &value);
-    //设置横向显示,如果为假则纵向显示
+
     void setHorizontal(bool horizontal);
 
-    //设置前景色
     void setForegroundColor(const QColor &color);
-    //设置背景色
+
     void setBackgroundColor(const QColor &color);
-    //设置线条颜色
+
     void setLineColor(const QColor &color);
-    //设置文本颜色
+
     void setTextColor(const QColor &color);
 
 Q_SIGNALS:
@@ -88,11 +101,7 @@ protected:
 
     void checkPosition();
 
-    QScopedPointer<QEXTTumblerPrivate> d_ptr;
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTTumbler)
-    Q_DECLARE_PRIVATE(QEXTTumbler)
+    QScopedPointer<QEXTTumblerPrivate> dd_ptr;
 };
 
 #endif // _QEXTTUMBLER_H

@@ -11,8 +11,6 @@
 #include <QResizeEvent>
 #include <QApplication>
 
-
-
 QEXTTextLcdPrivate::QEXTTextLcdPrivate(QEXTTextLcd *q)
     : q_ptr(q)
 {
@@ -43,7 +41,7 @@ QEXTTextLcdPrivate::~QEXTTextLcdPrivate()
 }
 
 QEXTTextLcd::QEXTTextLcd(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTTextLcdPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTTextLcdPrivate(this))
 {
     Q_D(QEXTTextLcd);
     d->m_animationTimer.reset(new QTimer);
@@ -313,7 +311,7 @@ void QEXTTextLcd::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setPen(Qt::NoPen);
     painter.setRenderHint(QPainter::Antialiasing);
-    //绘制背景
+
     if (QColor(Qt::transparent) != d->m_backgroundColor) {
         painter.setPen(Qt::NoPen);
         painter.fillRect(this->rect(), d->m_backgroundColor);

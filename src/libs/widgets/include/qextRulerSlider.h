@@ -1,23 +1,34 @@
-﻿#ifndef _QEXTRULERSLIDER_H
-#define _QEXTRULERSLIDER_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:提示滑块条
- *  1.可设置精确度(小数点后几位)和间距
- *  2.可设置背景色/滑块颜色/提示信息背景前景色
- *  3.支持鼠标滚轮
- *  4.可设置长线条步长及短线条步长
- *  5.移除定时器实现显示和隐藏提示值
- *  6.可设置范围值
- *  7.支持负数刻度值
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武-feiyangqingyun（QQ:517216493）代码。
- *  原作者:kimtaikee(http://www.qtcn.org/bbs/read-htm-tid-33719-ds-1.html#tpc)
- *@Date:2017-010-28
- *@History:
- *  Modification data:2021-10-17
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTRULERSLIDER_H
+#define _QEXTRULERSLIDER_H
 
 #include <qextWidgetGlobal.h>
 
@@ -26,6 +37,7 @@
 class QEXT_WIDGETS_API QEXTRulerSlider : public QWidget
 {
     Q_OBJECT
+
     Q_PROPERTY(double minValue READ getMinValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ getMaxValue WRITE setMaxValue)
     Q_PROPERTY(double value READ getValue WRITE setValue)
@@ -62,42 +74,42 @@ protected:
     void drawTip(QPainter *painter);
 
 private:
-    double minValue;                //最小值
-    double maxValue;                //最大值
-    double value;                   //目标值
-    int precision;                  //精确度,小数点后几位
+    double minValue;
+    double maxValue;
+    double value;
+    int precision;
 
-    int longStep;                   //长线条等分步长
-    int shortStep;                  //短线条等分步长
-    int space;                      //间距
+    int longStep;
+    int shortStep;
+    int space;
 
-    QColor bgColorStart;            //背景渐变开始颜色
-    QColor bgColorEnd;              //背景渐变结束颜色
-    QColor lineColor;               //线条颜色
+    QColor bgColorStart;
+    QColor bgColorEnd;
+    QColor lineColor;
 
-    QColor sliderColorTop;          //滑块上部颜色
-    QColor sliderColorBottom;       //滑块下部颜色
+    QColor sliderColorTop;
+    QColor sliderColorBottom;
 
-    QColor tipBgColor;              //当前值背景色
-    QColor tipTextColor;            //当前值文字颜色
+    QColor tipBgColor;
+    QColor tipTextColor;
 
-    bool pressed;                   //是否鼠标按下
-    double currentValue;            //当前值
+    bool pressed;
+    double currentValue;
 
-    double longLineHeight;          //长刻度高度
-    double shortLineHeight;         //短刻度高度
-    double sliderTopHeight;         //滑块上部高度
-    double sliderBottomHeight;      //滑块底部高度
+    double longLineHeight;
+    double shortLineHeight;
+    double sliderTopHeight;
+    double sliderBottomHeight;
 
-    QPointF sliderLastPot;          //滑块最后的坐标
-    QPointF sliderTopPot;           //滑块顶部坐标
-    QPointF sliderLeftPot;          //滑块左边坐标
-    QPointF sliderRightPot;         //滑块右边坐标
+    QPointF sliderLastPot;
+    QPointF sliderTopPot;
+    QPointF sliderLeftPot;
+    QPointF sliderRightPot;
 
-    QRectF sliderRect;              //滑块矩形区域
-    QRectF tipRect;                 //提示信息矩形区域
-    QPointF lineLeftPot;            //主线左边坐标
-    QPointF lineRightPot;           //主线右边坐标
+    QRectF sliderRect;
+    QRectF tipRect;
+    QPointF lineLeftPot;
+    QPointF lineRightPot;
 
 public:
     double getMinValue()            const;
@@ -123,37 +135,30 @@ public:
     QSize minimumSizeHint()         const;
 
 public Q_SLOTS:
-    //设置范围值
     void setRange(double minValue, double maxValue);
     void setRange(int minValue, int maxValue);
 
-    //设置最大最小值
     void setMinValue(double minValue);
     void setMaxValue(double maxValue);
 
-    //设置目标值
     void setValue(double value);
     void setValue(int value);
 
-    //设置精确度
     void setPrecision(int precision);
-    //设置线条等分步长
+
     void setLongStep(int longStep);
     void setShortStep(int shortStep);
-    //设置间距
+
     void setSpace(int space);
 
-    //设置背景颜色
     void setBgColorStart(const QColor &bgColorStart);
     void setBgColorEnd(const QColor &bgColorEnd);
-    //设置线条颜色
+
     void setLineColor(const QColor &lineColor);
 
-    //设置滑块颜色
     void setSliderColorTop(const QColor &sliderColorTop);
     void setSliderColorBottom(const QColor &sliderColorBottom);
 
-    //设置提示信息背景
     void setTipBgColor(const QColor &tipBgColor);
     void setTipTextColor(const QColor &tipTextColor);
 

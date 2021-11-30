@@ -81,6 +81,6 @@ target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries
 target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/fontAwesomeView)
 set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextMacroCopyDependenceLib(${qext_example_name} QEXTFontAwesome ${EXECUTABLE_OUTPUT_PATH})
-    qextMacroCopyDependenceLib(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextFunctionCopyDependencyInternal(${qext_example_name} QEXTFontAwesome ${EXECUTABLE_OUTPUT_PATH})
+    qextFunctionCopyDependencyInternal(${qext_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
 endif()

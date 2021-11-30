@@ -6,8 +6,6 @@
 #include <QStyleOption>
 #include <QPainter>
 
-
-
 QEXTNavigationButtonPrivate::QEXTNavigationButtonPrivate(QEXTNavigationButton *q)
     : q_ptr(q)
 {
@@ -57,7 +55,7 @@ QEXTNavigationButtonPrivate::~QEXTNavigationButtonPrivate()
 
 
 QEXTNavigationButton::QEXTNavigationButton(QWidget *parent)
-    : QPushButton(parent), d_ptr(new QEXTNavigationButtonPrivate(this))
+    : QPushButton(parent), dd_ptr(new QEXTNavigationButtonPrivate(this))
 {
     this->setCheckable(true);
 }
@@ -130,7 +128,6 @@ void QEXTNavigationButton::drawBackground(QPainter *painter)
         bgRect = QRect(0, 0, width, height - d->m_lineSpace);
     }
 
-    //如果画刷存在则取画刷
     QBrush bgBrush;
     if (isChecked())
     {
@@ -151,7 +148,6 @@ void QEXTNavigationButton::drawBackground(QPainter *painter)
     }
     else
     {
-        //根据当前状态选择对应颜色
         QColor bgColor;
         if (isChecked())
         {
@@ -183,7 +179,6 @@ void QEXTNavigationButton::drawText(QPainter *painter)
     int height = this->height();
     painter->setBrush(Qt::NoBrush);
 
-    //根据当前状态选择对应颜色
     QColor textColor;
     if (this->isChecked())
     {
@@ -258,7 +253,6 @@ void QEXTNavigationButton::drawIcon(QPainter *painter)
     }
     if (!pix.isNull())
     {
-        //等比例平滑缩放图标
         pix = pix.scaled(d->m_iconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         QPainter iconPainter(&pix);
         iconPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
@@ -295,7 +289,6 @@ void QEXTNavigationButton::drawLine(QPainter *painter)
     pen.setColor(d->m_lineColor);
     painter->setPen(pen);
 
-    //根据线条位置设置线条坐标
     QPoint pointStart, pointEnd;
     if (d->m_linePosition == Position_Left)
     {
@@ -331,7 +324,6 @@ void QEXTNavigationButton::drawTriangle(QPainter *painter)
         return;
     }
 
-    //选中或者悬停显示
     if (!d->m_hovered && !isChecked())
     {
         return;
@@ -341,7 +333,6 @@ void QEXTNavigationButton::drawTriangle(QPainter *painter)
     painter->setPen(Qt::NoPen);
     painter->setBrush(d->m_triangleColor);
 
-    //绘制在右侧中间,根据设定的倒三角的边长设定三个点位置
     int width = this->width();
     int height = this->height();
     int midWidth = width / 2;

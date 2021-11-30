@@ -10,6 +10,8 @@
 class QEXTSemicircleGauge;
 class QEXT_WIDGETS_API QEXTSemicircleGaugePrivate
 {
+    Q_DISABLE_COPY(QEXTSemicircleGaugePrivate)
+    Q_DECLARE_PUBLIC(QEXTSemicircleGauge)
 public:
     explicit QEXTSemicircleGaugePrivate(QEXTSemicircleGauge *q);
     virtual ~QEXTSemicircleGaugePrivate();
@@ -44,10 +46,6 @@ public:
     double m_currentValue;
     bool m_animationVisiable;
     QPropertyAnimation *m_animation;
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTSemicircleGaugePrivate)
-    Q_DECLARE_PUBLIC(QEXTSemicircleGauge)
 };
 
 #endif // _QEXTGAUGESEMICIRCLE_P_H

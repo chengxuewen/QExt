@@ -10,6 +10,8 @@
 class QEXTIpAddressEdit;
 class QEXT_WIDGETS_API QEXTIpAddressEditPrivate
 {
+    Q_DECLARE_PUBLIC(QEXTIpAddressEdit)
+    Q_DISABLE_COPY(QEXTIpAddressEditPrivate)
 public:
     explicit QEXTIpAddressEditPrivate(QEXTIpAddressEdit *q);
     virtual ~QEXTIpAddressEditPrivate();
@@ -19,14 +21,14 @@ public:
 
     QEXTIpAddressEdit * const q_ptr;
 
-    QLabel *m_labDot1;    //第一个小圆点
-    QLabel *m_labDot2;    //第二个小圆点
-    QLabel *m_labDot3;    //第三个小圆点
+    QLabel *m_labDot1;
+    QLabel *m_labDot2;
+    QLabel *m_labDot3;
 
-    QLineEdit *m_txtIP1;  //IP地址网段输入框1
-    QLineEdit *m_txtIP2;  //IP地址网段输入框2
-    QLineEdit *m_txtIP3;  //IP地址网段输入框3
-    QLineEdit *m_txtIP4;  //IP地址网段输入框4
+    QLineEdit *m_txtIP1;
+    QLineEdit *m_txtIP2;
+    QLineEdit *m_txtIP3;
+    QLineEdit *m_txtIP4;
 
     QString m_ip;
     QColor m_backgroundColor;
@@ -34,10 +36,6 @@ public:
     QColor m_dotColor;
     QColor m_borderColor;
     int m_borderRadius;
-
-private:
-    Q_DECLARE_PUBLIC(QEXTIpAddressEdit)
-    QEXT_DECL_DISABLE_COPY(QEXTIpAddressEditPrivate)
 };
 
 #endif // _QEXTIPADDRESS_P_H

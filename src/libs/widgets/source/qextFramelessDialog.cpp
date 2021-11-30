@@ -46,22 +46,16 @@ QEXTFramelessDialogPrivate::~QEXTFramelessDialogPrivate()
 
 
 QEXTFramelessDialog::QEXTFramelessDialog(QWidget *parent)
-    : QDialog(parent), d_ptr(new QEXTFramelessDialogPrivate(this))
+    : QDialog(parent), dd_ptr(new QEXTFramelessDialogPrivate(this))
 {
     Q_D(QEXTFramelessDialog);
     d->m_flags = this->windowFlags();
-    //设置背景透明 官方在5.3以后才彻底修复 WA_TranslucentBackground+FramelessWindowHint 并存不绘制的BUG
-    //#if (QT_VERSION >= QT_VERSION_CHECK(5,3,0))
-    //    this->setAttribute(Qt::WA_TranslucentBackground);
-    //#endif
     this->setAttribute(Qt::WA_Hover);
-    //设置无边框属性
     this->setWindowFlags(d->m_flags | Qt::FramelessWindowHint);
-    //安装事件过滤器识别拖动
     this->installEventFilter(this);
 
-    //设置属性产生win窗体效果,移动到边缘半屏或者最大化等
-    //设置以后会产生标题栏需要在下面拦截消息重新去掉
+    //Set properties to create win form effects, move to edge half screen or maximize, etc
+    //After setting the title bar, you need to intercept the message WM_NCCALCSIZE below to remove it again
 #ifdef Q_OS_WIN
     HWND hwnd = (HWND)this->winId();
     DWORD style = ::GetWindowLong(hwnd, GWL_STYLE);
@@ -76,7 +70,7 @@ QEXTFramelessDialog::~QEXTFramelessDialog()
 
 void QEXTFramelessDialog::showEvent(QShowEvent *event)
 {
-    //解决有时候窗体重新显示的时候假死不刷新的BUG
+    //Fixed the BUG that sometimes the window will not refresh when it is displayed again
     this->setAttribute(Qt::WA_Mapped);
     QDialog::showEvent(event);
 }
@@ -91,10 +85,10 @@ void QEXTFramelessDialog::paintEvent(QPaintEvent *event)
     QDialog::paintEvent(event);
 }
 
-void QEXTFramelessDialog::doWindowStateChange(QEvent *event)
+void QEXTFramelessDialog::doWindowStateChange(QEvent */*event*/)
 {
     Q_D(QEXTFramelessDialog);
-    //非最大化才能移动和拖动大小
+    //Non-maximized to move and drag size
     if (windowState() == Qt::WindowNoState)
     {
         d->m_moveEnable = true;
@@ -106,10 +100,9 @@ void QEXTFramelessDialog::doWindowStateChange(QEvent *event)
         d->m_resizeEnable = false;
     }
 
-    //发出最大化最小化等改变事件,以便界面上更改对应的信息比如右上角图标和文字
-    emit windowStateChanged(!d->m_moveEnable);
+    emit this->windowStateChanged(!d->m_moveEnable);
 
-    //解决mac系统上无边框最小化失效的BUG
+    //Fixed a BUG where borderless minimization failed on MAC systems
 #ifdef Q_OS_MACOS
     if (windowState() & Qt::WindowMinimized)
     {
@@ -119,7 +112,7 @@ void QEXTFramelessDialog::doWindowStateChange(QEvent *event)
     {
         if (d->m_isMin)
         {
-            //设置无边框属性
+            //Sets the borderless property
             this->setWindowFlags(d->m_flags | Qt::FramelessWindowHint);
             this->setVisible(true);
             d->m_isMin = false;
@@ -131,36 +124,38 @@ void QEXTFramelessDialog::doWindowStateChange(QEvent *event)
 void QEXTFramelessDialog::doResizeEvent(QEvent *event)
 {
     Q_D(QEXTFramelessDialog);
-    //非win系统的无边框拉伸,win系统上已经采用了nativeEvent来处理拉伸
-    //为何不统一用计算的方式因为在win上用这个方式往左拉伸会发抖妹的
+    //For borderless stretching in non-WIN system, nativeEvent has been adopted to deal with stretching in WIN system
+    //Why don't you just do it computationally because on Win you get a shiver when you stretch to the left
 #ifndef Q_OS_WIN
     if (event->type() == QEvent::Resize)
     {
-        //重新计算八个描点的区域,描点区域的作用还有就是计算鼠标坐标是否在某一个区域内
+        //Recalculate the area of eight stroke points. The function of the stroke point area
+        //is also to calculate whether the mouse coordinates are in a certain area
         int width = this->width();
         int height = this->height();
 
-        //左侧描点区域
+        //Left stroke point area
         d->m_pressedRect[0] = QRect(0, d->m_padding, d->m_padding, height - d->m_padding * 2);
-        //右侧描点区域
+        //Stroke point area on the right
         d->m_pressedRect[1] = QRect(width - d->m_padding, d->m_padding, d->m_padding, height - d->m_padding * 2);
-        //上侧描点区域
+        //Upper stroke point area
         d->m_pressedRect[2] = QRect(d->m_padding, 0, width - d->m_padding * 2, d->m_padding);
-        //下侧描点区域
+        //Lower side stroke point area
         d->m_pressedRect[3] = QRect(d->m_padding, height - d->m_padding, width - d->m_padding * 2, d->m_padding);
 
-        //左上角描点区域
+        //The upper left corner stroke point area
         d->m_pressedRect[4] = QRect(0, 0, d->m_padding, d->m_padding);
-        //右上角描点区域
+        //Stroke dot area in the upper right corner
         d->m_pressedRect[5] = QRect(width - d->m_padding, 0, d->m_padding, d->m_padding);
-        //左下角描点区域
+        //Stroke point area in the lower left corner
         d->m_pressedRect[6] = QRect(0, height - d->m_padding, d->m_padding, d->m_padding);
-        //右下角描点区域
+        //Stroke point area in the lower right corner
         d->m_pressedRect[7] = QRect(width - d->m_padding, height - d->m_padding, d->m_padding, d->m_padding);
     }
     else if (event->type() == QEvent::HoverMove)
     {
-        //设置对应鼠标形状,这个必须放在这里而不是下面,因为可以在鼠标没有按下的时候识别
+        //Set the corresponding mouse shape, this must be placed here and not below,
+        //because it can be identified when the mouse is not down
         QHoverEvent *hoverEvent = (QHoverEvent *)event;
         QPoint point = hoverEvent->pos();
         if (d->m_resizeEnable)
@@ -203,11 +198,11 @@ void QEXTFramelessDialog::doResizeEvent(QEvent *event)
             }
         }
 
-        //根据当前鼠标位置,计算XY轴移动了多少
+        //Calculate how much the XY axis has moved based on the current mouse position
         int offsetX = point.x() - d->m_mousePoint.x();
         int offsetY = point.y() - d->m_mousePoint.y();
 
-        //根据按下处的位置判断是否是移动控件还是拉伸控件
+        //Determine whether to move or stretch the control based on the position of the press
         if (d->m_moveEnable && d->m_mousePressed)
         {
             this->move(this->x() + offsetX, this->y() + offsetY);
@@ -289,12 +284,10 @@ void QEXTFramelessDialog::doResizeEvent(QEvent *event)
     }
     else if (event->type() == QEvent::MouseButtonPress)
     {
-        //记住鼠标按下的坐标+窗体区域
         QMouseEvent *mouseEvent = (QMouseEvent *)event;
         d->m_mousePoint = mouseEvent->pos();
         d->m_mouseRect = this->geometry();
 
-        //判断按下的手柄的区域位置
         if (d->m_pressedRect.at(0).contains(d->m_mousePoint))
         {
             d->m_pressedArea[0] = true;
@@ -334,11 +327,11 @@ void QEXTFramelessDialog::doResizeEvent(QEvent *event)
     }
     else if (event->type() == QEvent::MouseMove)
     {
-        //改成用HoverMove识别
+
     }
     else if (event->type() == QEvent::MouseButtonRelease)
     {
-        //恢复所有
+        //restore all
         this->setCursor(Qt::ArrowCursor);
         d->m_mousePressed = false;
         for (int i = 0; i < 8; ++i)
@@ -365,8 +358,8 @@ bool QEXTFramelessDialog::eventFilter(QObject *watched, QEvent *event)
     }
     else if (watched == d->m_titleBar)
     {
-        //双击标题栏发出双击信号给主界面
-        //下面的 *result = HTCAPTION; 标志位也会自动识别双击标题栏
+        //Double - click the title bar to send a double - click signal to the home screen
+        //*result = HTCAPTION; The flag bit is also automatically recognized by double-clicking the title bar
 #ifndef Q_OS_WIN
         if (event->type() == QEvent::MouseButtonDblClick)
         {
@@ -395,7 +388,7 @@ bool QEXTFramelessDialog::nativeEvent(const QByteArray &eventType, void *message
         MSG *msg = static_cast<MSG *>(message);
         //qDebug() << TIMEMS << "nativeEvent" << msg->wParam << msg->message;
 
-        //不同的消息类型和参数进行不同的处理
+        //Different message types and parameters are processed differently
         if (msg->message == WM_NCCALCSIZE)
         {
             *result = 0;
@@ -403,18 +396,18 @@ bool QEXTFramelessDialog::nativeEvent(const QByteArray &eventType, void *message
         }
         else if (msg->message == WM_NCHITTEST)
         {
-            //计算鼠标对应的屏幕坐标
+            //Compute the screen coordinates corresponding to the mouse
             long x = LOWORD(msg->lParam);
             long y = HIWORD(msg->lParam);
             QPoint pos = mapFromGlobal(QPoint(x, y));
 
-            //判断当前鼠标位置在哪个区域
+            //Determine which area the current mouse position is in
             bool left = pos.x() < d->m_padding;
             bool right = pos.x() > width() - d->m_padding;
             bool top = pos.y() < d->m_padding;
             bool bottom = pos.y() > height() - d->m_padding;
 
-            //鼠标移动到四个角,这个消息是当鼠标移动或者有鼠标键按下时候发出的
+            //Mouse moves to four corners. This message is sent when the mouse moves or a mouse button is pressed
             *result = 0;
             if (d->m_resizeEnable)
             {
@@ -452,13 +445,13 @@ bool QEXTFramelessDialog::nativeEvent(const QByteArray &eventType, void *message
                 }
             }
 
-            //先处理掉拉伸
+            //Let's get rid of the stretching
             if (0 != *result)
             {
                 return true;
             }
 
-            //识别标题栏拖动产生半屏全屏效果
+            //Identify the title bar drag to produce a half-screen full screen effect
             if (d->m_titleBar != 0 && d->m_titleBar->rect().contains(pos))
             {
                 QWidget *child = d->m_titleBar->childAt(pos);
@@ -471,12 +464,12 @@ bool QEXTFramelessDialog::nativeEvent(const QByteArray &eventType, void *message
         }
         else if (msg->wParam == PBT_APMSUSPEND && msg->message == WM_POWERBROADCAST)
         {
-            //系统休眠的时候自动最小化可以规避程序可能出现的问题
+            //Automatic minimization while the system is sleeping can avoid possible problems with the application
             this->showMinimized();
         }
         else if (msg->wParam == PBT_APMRESUMEAUTOMATIC)
         {
-            //休眠唤醒后自动打开
+            //Sleep automatically opens when awakened
             this->showNormal();
         }
 #endif

@@ -7,8 +7,6 @@
 #include <QDebug>
 #include <qmath.h>
 
-
-
 QEXTSelectSliderPrivate::QEXTSelectSliderPrivate(QEXTSelectSlider *q)
     : q_ptr(q)
 {
@@ -54,7 +52,7 @@ QEXTSelectSliderPrivate::~QEXTSelectSliderPrivate()
 
 
 QEXTSelectSlider::QEXTSelectSlider(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTSelectSliderPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTSelectSliderPrivate(this))
 {
     this->setFont(QFont("Arial", 10));
 }
@@ -143,19 +141,16 @@ void QEXTSelectSlider::mouseMoveEvent(QMouseEvent *e)
 
         if(rc.left() + dx <= d->m_buttonWidth)
         {
-            //左侧超出
             d->m_sliderRect.moveLeft(d->m_buttonWidth);
             d->m_leftValue = d->m_minValue;
         }
         else if(rc.right() + dx >= width() - d->m_buttonWidth)
         {
-            //右侧超出
             d->m_sliderRect.moveRight(width() - d->m_buttonWidth);
             d->m_leftValue = d->m_maxValue - d->m_rangeValue;
         }
         else
         {
-            //正常拖动
             d->m_sliderRect.moveLeft(rc.x() + dx);
             d->m_leftValue = d->m_minValue + ((double)(d->m_sliderRect.x() - d->m_buttonWidth) / (double)(width() - d->m_buttonWidth * 2)) * (double)(d->m_maxValue - d->m_minValue);
         }
@@ -175,19 +170,16 @@ void QEXTSelectSlider::mouseMoveEvent(QMouseEvent *e)
 
         if(rc.x() + dx <= d->m_buttonWidth - 15)
         {
-            //左侧超出
             d->m_leftRect.moveLeft(d->m_buttonWidth - 15);
             d->m_leftValue = d->m_minValue;
         }
         else if(rc.x() + dx >= d->m_rightRect.x())
         {
-            //右侧碰到右滑块,不让继续滑
             d->m_leftRect.moveLeft(d->m_rightRect.x());
             d->m_leftValue = d->m_rightValue;
         }
         else
         {
-            //正常拖动
             d->m_leftRect.moveLeft(rc.x() + dx);
             double wPerPix = ((double)(width() - d->m_buttonWidth * 2)) / ((double)(d->m_maxValue - d->m_minValue)); //每像素代表的值
             d->m_leftValue = d->m_minValue + ((double)(d->m_leftRect.x() - d->m_buttonWidth)) / wPerPix;
@@ -208,19 +200,16 @@ void QEXTSelectSlider::mouseMoveEvent(QMouseEvent *e)
 
         if(rc.x() + dx <= d->m_leftRect.x())
         {
-            //左侧碰到左滑块
             d->m_rightRect.moveLeft(d->m_leftRect.x());
             d->m_rangeValue = 0;
         }
         else if(rc.right() + dx >= width() - d->m_buttonWidth + 15)
         {
-            //右侧超出
             d->m_rightRect.moveRight(width() - d->m_buttonWidth + 15);
             d->m_rangeValue = d->m_maxValue - d->m_leftValue;
         }
         else
         {
-            //正常拖动
             d->m_rightRect.moveLeft(rc.x() + dx);
             double wPerPix = ((double)(width() - d->m_buttonWidth * 2)) / ((double)(d->m_maxValue - d->m_minValue));
             d->m_rangeValue = (double)(d->m_sliderRect.width()) / wPerPix;
@@ -252,13 +241,12 @@ void QEXTSelectSlider::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    //绘制背景
     this->drawBackground(&painter);
-    //绘制范围值
+
     this->drawValue(&painter);
-    //绘制左右按钮
+
     this->drawButton(&painter);
-    //绘制左右滑块
+
     this->drawSlider(&painter);
 }
 
@@ -299,7 +287,6 @@ void QEXTSelectSlider::drawButton(QPainter *painter)
 
     QPolygon polygon;
 
-    //左侧三角箭头
     polygon.clear();
     polygon << QPoint(d->m_leftBtnRect.x() + d->m_leftBtnRect.width() / 4, d->m_leftBtnRect.y() + d->m_leftBtnRect.height() / 2);
     polygon << QPoint(d->m_leftBtnRect.x() + d->m_leftBtnRect.width() * 3 / 4, d->m_leftBtnRect.y() + d->m_leftBtnRect.height() / 2 - 5);
@@ -309,7 +296,6 @@ void QEXTSelectSlider::drawButton(QPainter *painter)
     painter->setBrush(d->m_leftButtonPress ? d->m_buttonPressColor : d->m_buttonNormalColor);
     painter->drawConvexPolygon(polygon);
 
-    //右侧三角箭头
     polygon.clear();
     polygon << QPoint(d->m_rightBtnRect.x() + d->m_rightBtnRect.width() / 4, d->m_rightBtnRect.y() + d->m_rightBtnRect.height() / 2 - 5);
     polygon << QPoint(d->m_rightBtnRect.x() + d->m_rightBtnRect.width() / 4, d->m_rightBtnRect.y() + d->m_rightBtnRect.height() / 2 + 5);
@@ -327,7 +313,6 @@ void QEXTSelectSlider::drawSlider(QPainter *painter)
     Q_D(QEXTSelectSlider);
     painter->save();
 
-    //左侧滑块
     painter->setPen(d->m_sliderColor.light(100));
     painter->setBrush(d->m_sliderColor);
     painter->drawRect(d->m_leftRect);
@@ -336,7 +321,6 @@ void QEXTSelectSlider::drawSlider(QPainter *painter)
     painter->setPen(d->m_rangeTextColor);
     painter->drawText(d->m_leftRect, Qt::AlignCenter, QString::number(d->m_leftValue));
 
-    //右侧滑块
     painter->setPen(d->m_sliderColor.light(100));
     painter->setBrush(d->m_sliderColor);
     painter->drawRect(d->m_rightRect);
@@ -354,7 +338,6 @@ void QEXTSelectSlider::updateUI()
     double w1 = ((double)(width() - d->m_buttonWidth * 2)) / ((double)(d->m_maxValue - d->m_minValue));
     d->m_sliderRect = QRect(d->m_buttonWidth + (d->m_leftValue - d->m_minValue) * w1, d->m_sliderHeight + d->m_borderWidth / 2, d->m_rangeValue * w1 - d->m_borderWidth, height() - d->m_sliderHeight - d->m_borderWidth * 2);
 
-    //主滑块右侧越界，保持页宽和滑块右侧不动，把左侧的起点左移
     if(d->m_sliderRect.right() > width() - d->m_buttonWidth)
     {
         d->m_sliderRect.moveLeft(width() - d->m_buttonWidth - d->m_sliderRect.width());
@@ -476,7 +459,6 @@ QSize QEXTSelectSlider::minimumSizeHint() const
 void QEXTSelectSlider::setRange(int minValue, int maxValue)
 {
     Q_D(QEXTSelectSlider);
-    //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue)
     {
         return;
@@ -485,7 +467,6 @@ void QEXTSelectSlider::setRange(int minValue, int maxValue)
     d->m_minValue = minValue;
     d->m_maxValue = maxValue;
 
-    //如果目标值不在范围值内,则重新设置目标值
     if (d->m_leftValue < minValue)
     {
         d->m_leftValue = minValue;
@@ -519,13 +500,11 @@ void QEXTSelectSlider::setMaxValue(int maxValue)
 void QEXTSelectSlider::setCurrentRange(int leftValue, int rightValue)
 {
     Q_D(QEXTSelectSlider);
-    //左边值不能大于右边值
     if (leftValue > rightValue)
     {
         return;
     }
 
-    //左边值不能小于最小值,右边值不能大于最大值
     if (leftValue < d->m_minValue || rightValue > d->m_maxValue)
     {
         return;

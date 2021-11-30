@@ -29,7 +29,7 @@ class QEXT_QUICK_API QEXTQuickWorld : public QQuickItem
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTQuickWorld)
-    Q_DECLARE_PRIVATE(QEXTQuickWorld)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTQuickWorld)
 
     Q_PROPERTY(QString startupTheme READ startupTheme WRITE setStartupTheme)
     Q_PROPERTY(QStringList themeDirs READ themeDirs WRITE setThemeDirs)
@@ -56,7 +56,7 @@ protected Q_SLOTS:
     void onParentChanged(QQuickItem *parent);
 
 protected:
-    QScopedPointer<QEXTQuickWorldPrivate> d_ptr;
+    QScopedPointer<QEXTQuickWorldPrivate> dd_ptr;
 };
 
 

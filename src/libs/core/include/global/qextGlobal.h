@@ -118,8 +118,8 @@
     QEXT disable copy move macro declare
 ********************************************************************************/
 // disable copy macro define
-#define QEXT_DECL_DISABLE_COPY(Class)              \
-    Class(const Class &) QEXT_DECL_EQ_DELETE; \
+#define QEXT_DECL_DISABLE_COPY(Class)               \
+    Class(const Class &) QEXT_DECL_EQ_DELETE;       \
     Class &operator=(const Class &) QEXT_DECL_EQ_DELETE;
 
 // disable move macro define
@@ -135,8 +135,6 @@
 #define QEXT_DECL_DISABLE_COPY_MOVE(Class) \
     QEXT_DECL_DISABLE_COPY(Class)          \
     QEXT_DECL_DISABLE_MOVE(Class)
-
-
 
 
 

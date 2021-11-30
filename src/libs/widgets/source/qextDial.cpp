@@ -8,8 +8,6 @@
 #include <QDebug>
 #include <qmath.h>
 
-
-
 QEXTDialPrivate::QEXTDialPrivate(QEXTDial *q)
     : q_ptr(q)
 {
@@ -39,7 +37,7 @@ QEXTDialPrivate::~QEXTDialPrivate()
 
 
 QEXTDial::QEXTDial(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTDialPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTDialPrivate(this))
 {
     this->setFont(QFont("Arial", 9));
 }
@@ -78,22 +76,16 @@ void QEXTDial::paintEvent(QPaintEvent *)
     int height = this->height();
     int side = qMin(width, height);
 
-    //绘制准备工作,启用反锯齿,平移坐标轴中心,等比例缩放
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.translate(width / 2, height / 2);
     painter.scale(side / 200.0, side / 200.0);
 
-    //绘制刻度线
     this->drawScale(&painter);
-    //绘制刻度值
     this->drawScaleNum(&painter);
-    //绘制边界凹凸圆
     this->drawBorderCircle(&painter);
-    //绘制背景圆
     this->drawBackgroundCircle(&painter);
 
-    //根据指示器形状绘制指示器
     if (d->m_pointerStyle == PointerStyle_Circle)
     {
         this->drawPointerCircle(&painter);
@@ -111,9 +103,7 @@ void QEXTDial::paintEvent(QPaintEvent *)
         this->drawPointerTriangle(&painter);
     }
 
-    //绘制当前值中心背景圆
     this->drawCenterCircle(&painter);
-    //绘制当前值
     this->drawValue(&painter);
 }
 
@@ -274,7 +264,7 @@ void QEXTDial::drawPointerIndicatorR(QPainter *painter)
     painter->rotate(degRotate);
     painter->drawConvexPolygon(pts);
 
-    //增加绘制圆角直线,与之前三角形重叠,形成圆角指针
+    //Add drawing a rounded line that overlaps with the previous triangle to form a rounded pointer
     pen.setCapStyle(Qt::RoundCap);
     pen.setWidthF(4);
     painter->setPen(pen);
@@ -348,19 +338,19 @@ void QEXTDial::drawValue(QPainter *painter)
 void QEXTDial::setPressedValue(QPointF point)
 {
     Q_D(QEXTDial);
-    //计算总角度
+    //Calculate total Angle
     double length = 360 - d->m_startAngle - d->m_endAngle;
 
-    //计算最近的刻度
+    //Calculate the nearest scale
     QPointF recentPoint = point - rect().center();
     double theta = -atan2(-recentPoint.x(), -recentPoint.y()) * 180 / M_PI;
     theta = theta + length / 2;
 
-    //计算每一个角度对应值移动多少
+    //Calculate how much each Angle is moving
     double increment = (d->m_maxValue - d->m_minValue) / length;
     double currentValue = (theta * increment) + d->m_minValue;
 
-    //过滤圆弧外的值
+    //Filter values outside the arc
     if (currentValue <= d->m_minValue)
     {
         currentValue = d->m_minValue;
@@ -464,7 +454,6 @@ QSize QEXTDial::minimumSizeHint() const
 void QEXTDial::setRange(double minValue, double maxValue)
 {
     Q_D(QEXTDial);
-    //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue)
     {
         return;
@@ -473,7 +462,6 @@ void QEXTDial::setRange(double minValue, double maxValue)
     d->m_minValue = minValue;
     d->m_maxValue = maxValue;
 
-    //如果目标值不在范围值内,则重新设置目标值
     if (d->m_value < minValue || d->m_value > maxValue)
     {
         this->setValue(d->m_value);
@@ -484,7 +472,6 @@ void QEXTDial::setRange(double minValue, double maxValue)
 
 void QEXTDial::setRange(int minValue, int maxValue)
 {
-    Q_D(QEXTDial);
     this->setRange((double)minValue, (double)maxValue);
 }
 
@@ -503,13 +490,11 @@ void QEXTDial::setMaxValue(double maxValue)
 void QEXTDial::setValue(double value)
 {
     Q_D(QEXTDial);
-    //值和当前值一致则无需处理
     if (value == d->m_value)
     {
         return;
     }
 
-    //值小于最小值则取最小值,大于最大值则取最大值
     if (value < d->m_minValue)
     {
         value = d->m_minValue;
@@ -526,14 +511,12 @@ void QEXTDial::setValue(double value)
 
 void QEXTDial::setValue(int value)
 {
-    Q_D(QEXTDial);
     this->setValue((double)value);
 }
 
 void QEXTDial::setPrecision(int precision)
 {
     Q_D(QEXTDial);
-    //最大精确度为 3
     if (precision <= 3 && d->m_precision != precision)
     {
         d->m_precision = precision;

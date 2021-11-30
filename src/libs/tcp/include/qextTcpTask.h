@@ -13,6 +13,8 @@ class QEXTTcpTaskPrivate;
 class QEXT_TCP_API QEXTTcpTask : public QObject, public QRunnable
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTTcpTask)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpTask)
 public:
     QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver);
     QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
@@ -45,11 +47,7 @@ Q_SIGNALS:
 protected:
     void setErrorString(const QString &string);
 
-    QScopedPointer<QEXTTcpTaskPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTTcpTask)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpTask)
+    QScopedPointer<QEXTTcpTaskPrivate> dd_ptr;
 };
 
 

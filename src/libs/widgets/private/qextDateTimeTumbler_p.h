@@ -7,29 +7,27 @@ class QEXTTumbler;
 class QEXTDateTimeTumbler;
 class QEXT_WIDGETS_API QEXTDateTimeTumblerPrivate
 {
+    Q_DISABLE_COPY(QEXTDateTimeTumblerPrivate)
+    Q_DECLARE_PUBLIC(QEXTDateTimeTumbler)
 public:
     explicit QEXTDateTimeTumblerPrivate(QEXTDateTimeTumbler *q);
     virtual ~QEXTDateTimeTumblerPrivate();
 
     QEXTDateTimeTumbler * const q_ptr;
 
-    int m_year;               //年份
-    int m_month;              //月份
-    int m_day;                //日期
-    int m_hour;               //时钟
-    int m_min;                //分钟
-    int m_sec;                //秒钟
+    int m_year;
+    int m_month;
+    int m_day;
+    int m_hour;
+    int m_min;
+    int m_sec;
 
-    QEXTTumbler *m_tumblerYear;   //年份选择器
-    QEXTTumbler *m_tumblerMonth;  //月份选择器
-    QEXTTumbler *m_tumblerDay;    //日期选择器
-    QEXTTumbler *m_tumblerHour;   //时钟选择器
-    QEXTTumbler *m_tumblerMin;    //分钟选择器
-    QEXTTumbler *m_tumblerSec;    //秒钟选择器
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTDateTimeTumblerPrivate)
-    Q_DECLARE_PUBLIC(QEXTDateTimeTumbler)
+    QEXTTumbler *m_tumblerYear;
+    QEXTTumbler *m_tumblerMonth;
+    QEXTTumbler *m_tumblerDay;
+    QEXTTumbler *m_tumblerHour;
+    QEXTTumbler *m_tumblerMin;
+    QEXTTumbler *m_tumblerSec;
 };
 
 #endif // _QEXTDATETIMETUMBLER_P_H

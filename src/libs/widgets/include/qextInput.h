@@ -16,6 +16,8 @@ class QEXTInputPrivate;
 class QEXT_WIDGETS_API QEXTInput : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTInput)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTInput)
 public:
     enum PopUpTypes
     {
@@ -95,9 +97,7 @@ private:
 private:
     Ui::QEXTInput *ui;
     static QEXTInput *sm_pInstance;
-    QEXTInputPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QEXTInput)
-    Q_DISABLE_COPY(QEXTInput)
+    QEXTInputPrivate *dd_ptr;
     Q_PRIVATE_SLOT(d_func(), void init())
     Q_PRIVATE_SLOT(d_func(), void buttonClicked())
     Q_PRIVATE_SLOT(d_func(), void focusChanged(QWidget *oldWidget, QWidget *nowWidget))

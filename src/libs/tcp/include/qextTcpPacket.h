@@ -11,6 +11,8 @@
 class QEXTTcpPacketPrivate;
 class QEXT_TCP_API QEXTTcpPacket : public QEXTTcpPacketInterface
 {
+    Q_DISABLE_COPY(QEXTTcpPacket)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpPacket)
 public:
     QEXTTcpPacket(const QSharedPointer<QEXTTcpPacketHeaderInterface> &header);
     QEXTTcpPacket(QEXTTcpPacketPrivate *d, const QSharedPointer<QEXTTcpPacketHeaderInterface> &header);
@@ -31,13 +33,7 @@ public:
     bool setNextBlockSize(qint64 size) QEXT_DECL_OVERRIDE;
 
 protected:
-    QScopedPointer<QEXTTcpPacketPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTTcpPacket)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpPacket)
+    QScopedPointer<QEXTTcpPacketPrivate> dd_ptr;
 };
-
-
 
 #endif // _QEXTTCPPACKET_H

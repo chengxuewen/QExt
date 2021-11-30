@@ -6,8 +6,6 @@
 #include <QDebug>
 #include <qmath.h>
 
-
-
 QEXTProgressRingPrivate::QEXTProgressRingPrivate(QEXTProgressRing *q)
     : q_ptr(q)
 {
@@ -51,7 +49,7 @@ QEXTProgressRingPrivate::~QEXTProgressRingPrivate()
 
 
 QEXTProgressRing::QEXTProgressRing(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTProgressRingPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTProgressRingPrivate(this))
 {
     Q_D(QEXTProgressRing);
     d->m_animation = new QPropertyAnimation(this);
@@ -72,26 +70,21 @@ void QEXTProgressRing::paintEvent(QPaintEvent *)
     int height = this->height();
     int side = qMin(width, height);
 
-    //绘制准备工作,启用反锯齿,平移坐标轴中心,等比例缩放
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.translate(width / 2, height / 2);
     painter.scale(side / 200.0, side / 200.0);
 
-    //绘制背景
     this->drawBackground(&painter);
-    //绘制进度
+
     this->drawRing(&painter);
 
-    //绘制间隔,重新绘制一个圆遮住,产生间距效果
     if (d->m_ringPadding > 0)
     {
         this->drawPadding(&painter);
     }
 
-    //绘制中间圆
     this->drawCircle(&painter);
-    //绘制当前值
     this->drawValue(&painter);
 }
 
@@ -101,7 +94,6 @@ void QEXTProgressRing::drawBackground(QPainter *painter)
     int radius = 99;
     painter->save();
     painter->setPen(Qt::NoPen);
-    //这里有个技巧,如果没有间距则设置成圆环的背景色
     painter->setBrush(d->m_ringPadding == 0 ? d->m_ringBackgroundColor : d->m_backgroundColor);
     painter->drawEllipse(-radius, -radius, radius * 2, radius * 2);
     painter->restore();
@@ -117,19 +109,16 @@ void QEXTProgressRing::drawRing(QPainter *painter)
 
     QRectF rect(-radius, -radius, radius * 2, radius * 2);
 
-    //计算总范围角度,当前值范围角度,剩余值范围角度
     double angleAll = 360.0;
     double angleCurrent = angleAll * ((d->m_currentValue - d->m_minValue) / (d->m_maxValue - d->m_minValue));
     double angleOther = angleAll - angleCurrent;
 
-    //如果逆时针
     if (!d->m_clockWise)
     {
         angleCurrent = -angleCurrent;
         angleOther = -angleOther;
     }
 
-    //动态设置当前进度颜色
     QColor color = d->m_ringColor;
     if (d->m_alarmMode == 1)
     {
@@ -162,11 +151,9 @@ void QEXTProgressRing::drawRing(QPainter *painter)
         }
     }
 
-    //绘制当前值饼圆
     painter->setBrush(color);
     painter->drawPie(rect, (d->m_startAngle - angleCurrent) * 16, angleCurrent * 16);
 
-    //绘制剩余值饼圆
     painter->setBrush(d->m_ringBackgroundColor);
     painter->drawPie(rect, (d->m_startAngle - angleCurrent - angleOther) * 16, angleOther * 16);
 
@@ -187,7 +174,6 @@ void QEXTProgressRing::drawPadding(QPainter *painter)
 void QEXTProgressRing::drawCircle(QPainter *painter)
 {
     Q_D(QEXTProgressRing);
-    //文字的区域要减去进度的宽度及间距
     int radius = 99 - d->m_ringWidth - (d->m_ringPadding * 2);
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -199,7 +185,6 @@ void QEXTProgressRing::drawCircle(QPainter *painter)
 void QEXTProgressRing::drawValue(QPainter *painter)
 {
     Q_D(QEXTProgressRing);
-    //文字的区域要减去进度的宽度及间距
     int radius = 99 - d->m_ringWidth - (d->m_ringPadding * 2);
     painter->save();
     painter->setPen(d->m_textColor);
@@ -221,7 +206,6 @@ void QEXTProgressRing::drawValue(QPainter *painter)
         strValue = QString("%1").arg(d->m_currentValue, 0, 'f', d->m_precision);
     }
 
-    //如果定义了显示的文字则优先显示
     strValue = d->m_text.isEmpty() ? strValue : d->m_text;
     painter->drawText(textRect, Qt::AlignCenter, strValue);
 
@@ -408,7 +392,6 @@ QSize QEXTProgressRing::minimumSizeHint() const
 void QEXTProgressRing::setRange(double minValue, double maxValue)
 {
     Q_D(QEXTProgressRing);
-    //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue)
     {
         return;
@@ -417,7 +400,6 @@ void QEXTProgressRing::setRange(double minValue, double maxValue)
     d->m_minValue = minValue;
     d->m_maxValue = maxValue;
 
-    //如果目标值不在范围值内,则重新设置目标值
     if (d->m_value < minValue || d->m_value > maxValue)
     {
         setValue(d->m_value);
@@ -428,7 +410,6 @@ void QEXTProgressRing::setRange(double minValue, double maxValue)
 
 void QEXTProgressRing::setRange(int minValue, int maxValue)
 {
-    Q_D(QEXTProgressRing);
     this->setRange((double)minValue, (double)maxValue);
 }
 
@@ -447,13 +428,11 @@ void QEXTProgressRing::setMaxValue(double maxValue)
 void QEXTProgressRing::setValue(double value)
 {
     Q_D(QEXTProgressRing);
-    //值和当前值一致则无需处理
     if (value == d->m_value)
     {
         return;
     }
 
-    //值小于最小值则取最小值,大于最大值则取最大值
     if (value < d->m_minValue)
     {
         value = d->m_minValue;
@@ -481,14 +460,12 @@ void QEXTProgressRing::setValue(double value)
 
 void QEXTProgressRing::setValue(int value)
 {
-    Q_D(QEXTProgressRing);
     this->setValue((double)value);
 }
 
 void QEXTProgressRing::setPrecision(int precision)
 {
     Q_D(QEXTProgressRing);
-    //最大精确度为 3
     if (precision <= 3 && d->m_precision != precision)
     {
         d->m_precision = precision;

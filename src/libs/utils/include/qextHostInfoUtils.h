@@ -10,6 +10,8 @@ class QEXTHostInfoUtilsPrivate;
 class QEXT_UTILS_API QEXTHostInfoUtils : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTHostInfoUtils)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTHostInfoUtils)
 public:
     enum HostArchType {
         HostArch_X86,
@@ -76,13 +78,7 @@ Q_SIGNALS:
     void diskChanged(const QList<QEXTDiskInfo> &diskInfoList);
 
 protected:
-    QScopedPointer<QEXTHostInfoUtilsPrivate> d_ptr;
-
-private:
-    QEXT_DECL_DISABLE_COPY(QEXTHostInfoUtils)
-    Q_DECLARE_PRIVATE(QEXTHostInfoUtils)
+    QScopedPointer<QEXTHostInfoUtilsPrivate> dd_ptr;
 };
-
-
 
 #endif // _QEXTHOSTINFOUTILS_H

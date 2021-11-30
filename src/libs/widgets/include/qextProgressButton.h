@@ -1,18 +1,34 @@
-﻿#ifndef _QEXTPROGRESSBUTTON_H
-#define _QEXTPROGRESSBUTTON_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:多彩进度条控件
- *  1.可设置进度线条宽度+颜色
- *  2.可设置边框宽度+颜色
- *  3.可设置圆角角度+背景颜色
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武-feiyangqingyun（QQ:517216493）代码。
- *@Date:2019-04-17
- *@History:
- *  Modification data:2021-10-16
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTPROGRESSBUTTON_H
+#define _QEXTPROGRESSBUTTON_H
 
 #include <qextWidgetGlobal.h>
 
@@ -39,17 +55,17 @@ protected:
     void drawProgress(QPainter *painter);
 
 private:
-    int lineWidth;          //线条宽度
-    QColor lineColor;       //线条颜色
-    int borderWidth;        //边框宽度
-    QColor borderColor;     //边框颜色
-    int borderRadius;       //圆角角度
-    QColor bgColor;         //背景颜色
+    int lineWidth;
+    QColor lineColor;
+    int borderWidth;
+    QColor borderColor;
+    int borderRadius;
+    QColor bgColor;
 
-    double value;           //当前值
-    int status;             //状态
-    int tempWidth;          //动态改变宽度
-    QTimer *timer;          //定时器改变进度
+    double value;
+    int status;
+    int tempWidth;
+    QTimer *timer;
 
 public:
     int getLineWidth()      const;
@@ -66,15 +82,12 @@ private slots:
     void progress();
 
 public Q_SLOTS:
-    //设置线条宽度+颜色
     void setLineWidth(int lineWidth);
     void setLineColor(const QColor &lineColor);
 
-    //设置边框宽度+颜色
     void setBorderWidth(int borderWidth);
     void setBorderColor(const QColor &borderColor);
 
-    //设置圆角角度+背景颜色
     void setBorderRadius(int borderRadius);
     void setBgColor(const QColor &bgColor);
 

@@ -15,7 +15,7 @@ QEXTStyleSheetPrivate::~QEXTStyleSheetPrivate()
 
 
 QEXTStyleSheet::QEXTStyleSheet(QObject *parent)
-    : QObject(parent), d_ptr(new QEXTStyleSheetPrivate(this))
+    : QObject(parent), dd_ptr(new QEXTStyleSheetPrivate(this))
 {
 
 }

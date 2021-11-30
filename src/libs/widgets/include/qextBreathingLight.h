@@ -1,13 +1,32 @@
-/***************************************************************************************************
- *@Brief:呼吸点控件
- * 1:可设置呼吸间隔
- * 2:可设置颜色透明渐变步长
- * 3:可设置背景颜色
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com,基于刘典武工程师（QQ:517216493）代码。
- *@Version:V0.1
- *@Date:2019-08-06
- *@History:
-***************************************************************************************************/
+/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
+
 #ifndef _QEXTBREATHINGLIGHT_H
 #define _QEXTBREATHINGLIGHT_H
 
@@ -20,6 +39,9 @@ class QEXTBreathingLightPrivate;
 class QEXT_WIDGETS_API QEXTBreathingLight : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTBreathingLight)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTBreathingLight)
+
     Q_PROPERTY(int step READ step WRITE setStep)
     Q_PROPERTY(int interval READ interval WRITE setInterval)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
@@ -45,11 +67,7 @@ protected:
 
     void drawBackground(QPainter *painter);
 
-    QScopedPointer<QEXTBreathingLightPrivate> d_ptr;
-
-private:
-    QEXT_DECL_DISABLE_COPY(QEXTBreathingLight)
-    Q_DECLARE_PRIVATE(QEXTBreathingLight)
+    QScopedPointer<QEXTBreathingLightPrivate> dd_ptr;
 };
 
 #endif // _QEXTBREATHINGLIGHT_H

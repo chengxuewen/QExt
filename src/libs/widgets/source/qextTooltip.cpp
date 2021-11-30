@@ -5,8 +5,6 @@
 #include <QEvent>
 #include <QDebug>
 
-
-
 QEXTTooltipPrivate::QEXTTooltipPrivate(QEXTTooltip *q)
     : q_ptr(q)
 {
@@ -34,7 +32,7 @@ QEXTTooltipPrivate::~QEXTTooltipPrivate()
 
 
 QEXTTooltip::QEXTTooltip(QWidget *parent)
-    : QLabel(parent), d_ptr(new QEXTTooltipPrivate(this))
+    : QLabel(parent), dd_ptr(new QEXTTooltipPrivate(this))
 {
     this->setFont(QFont("Microsoft Yahei", 10));
 }
@@ -51,15 +49,13 @@ void QEXTTooltip::mousePressEvent(QMouseEvent *)
 
 void QEXTTooltip::paintEvent(QPaintEvent *)
 {
-    //绘制准备工作,启用反锯齿
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    //绘制背景
     this->drawBackground(&painter);
-    //绘制文字
+
     this->drawText(&painter);
-    //绘制倒三角
+
     this->drawTriangle(&painter);
 }
 
@@ -97,7 +93,6 @@ void QEXTTooltip::drawBackground(QPainter *painter)
         pts.setPoints(3, width / 2 - d->m_arrowSize, d->m_arrowSize, width / 2 + d->m_arrowSize, d->m_arrowSize, width / 2, 0);
     }
 
-    //绘制圆角矩形和三角箭头
     if (!d->m_arrowVisiable)
     {
         d->m_backgroundRect = this->rect();
@@ -134,7 +129,6 @@ void QEXTTooltip::drawTriangle(QPainter *painter)
     painter->setPen(Qt::NoPen);
     painter->setBrush(d->m_triangleColor);
 
-    //绘制在右侧中间,根据设定的倒三角的边长设定三个点位置
     int width = this->width();
     int height = this->height();
     int midWidth = width / 2;

@@ -30,7 +30,7 @@ class QEXTDeviceWatcherPrivate;
 class QEXT_DEVICEWATCHER_API QEXTDeviceWatcher : public QObject
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE(QEXTDeviceWatcher)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTDeviceWatcher)
 
 public:
     explicit QEXTDeviceWatcher(QObject *parent = 0);
@@ -49,7 +49,7 @@ signals:
 
 protected:
     bool running;
-    QEXTDeviceWatcherPrivate *d_ptr;
+    QEXTDeviceWatcherPrivate *dd_ptr;
 };
 
 

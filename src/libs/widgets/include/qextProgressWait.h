@@ -1,21 +1,34 @@
-﻿#ifndef _QEXTPROGRESSWAIT_H
-#define _QEXTPROGRESSWAIT_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:等待进度条控件
- *  1.支持多种等待样式风格 圆弧状风格 旋转圆风格 三角圆弧 线条风格 圆环风格
- *  2.可设置范围值和当前值
- *  3.可设置前景色背景色
- *  4.可设置顺时针逆时针旋转
- *  5.支持任意大小缩放
- *  6.支持设置旋转速度间隔
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武（QQ:517216493）代码。
- *@Date:2016-10-28
- *@History:
- *  Modification data:2021-10-16
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTPROGRESSWAIT_H
+#define _QEXTPROGRESSWAIT_H
 
 #include <qextWidgetGlobal.h>
 
@@ -23,8 +36,7 @@
 
 class QEXT_WIDGETS_API QEXTProgressWait : public QWidget
 {
-	Q_OBJECT
-    Q_ENUMS(Style)
+    Q_OBJECT
 
 	Q_PROPERTY(bool clockWise READ getClockWise WRITE setClockWise)
 	Q_PROPERTY(bool showPercent READ getShowPercent WRITE setShowPercent)
@@ -43,6 +55,7 @@ public:
         Style_Line = 0,
         Style_Dot,
 	};
+    Q_ENUMS(Style)
 
     QEXTProgressWait(QWidget *parent = 0);
     ~QEXTProgressWait();
@@ -62,26 +75,26 @@ protected:
     void drawValue(QPainter *painter);
 
 private:
-	bool clockWise;                 //顺时针逆时针
-	bool showPercent;               //显示当前百分比
-	int currentValue;               //当前值
-	int maxValue;                   //最大值
-	int interval;                   //旋转间隔
+    bool clockWise;
+    bool showPercent;
+    int currentValue;
+    int maxValue;
+    int interval;
 
-	int minRadius;                  //最小半径
-	int maxRadius;                  //最大半径
-	int offsetRadius;               //半径偏移量
-	int leftRadius;                 //左边圆半径
-	int rightRadius;                //右边圆半径
-	bool leftIncrease;              //左边递增
-	bool rightIncrease;             //右边递增
+    int minRadius;
+    int maxRadius;
+    int offsetRadius;
+    int leftRadius;
+    int rightRadius;
+    bool leftIncrease;
+    bool rightIncrease;
 
-    Style barStyle;              //样式
-	QColor background;              //背景色
-	QColor foreground;              //前景色
-    QColor textColor;               //文字颜色
+    Style barStyle;
+    QColor background;
+    QColor foreground;
+    QColor textColor;
 
-	QTimer *timer;                  //定时器绘制
+    QTimer *timer;
 
 private:
 	double degreesToRadians(double value);
@@ -105,24 +118,22 @@ public:
 	QSize minimumSizeHint()         const;
 
 public Q_SLOTS:
-	//设置顺时针逆时针旋转
 	void setClockWise(bool clockWise);
-	//设置是否显示百分比
+
 	void setShowPercent(bool showPercent);
-	//设置当前值
+
 	void setCurrentValue(int currentValue);
-	//设置最大值
+
 	void setMaxValue(int maxValue);
-	//设置旋转速度间隔
+
 	void setInterval(int interval);
 
-	//设置样式
     void setBarStyle(const Style &barStyle);
-	//设置前景色
+
 	void setBackground(const QColor &background);
-	//设置前景色
+
 	void setForeground(const QColor &foreground);
-    //设置文字颜色
+
     void setTextColor(const QColor &textColor);
 };
 

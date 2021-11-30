@@ -18,7 +18,7 @@ public:
 
 private:
     Q_DECLARE_PUBLIC(QEXTLinearFunction)
-    QEXT_DECL_DISABLE_COPY(QEXTLinearFunctionPrivate)
+    Q_DISABLE_COPY(QEXTLinearFunctionPrivate)
 };
 
 
@@ -29,34 +29,34 @@ QEXTLinearFunctionPrivate::QEXTLinearFunctionPrivate(QEXTLinearFunction *q)
 }
 
 QEXTLinearFunction::QEXTLinearFunction(double x1, double y1, double x2, double y2)
-    : d_ptr(new QEXTLinearFunctionPrivate(this))
+    : dd_ptr(new QEXTLinearFunctionPrivate(this))
 {
-    d_ptr->m_isVLine = (x1 == x2) ? true : false;
-    d_ptr->m_isHLine = (y1 == y2) ? true : false;
-    if (d_ptr->m_isHLine && d_ptr->m_isVLine)
+    dd_ptr->m_isVLine = (x1 == x2) ? true : false;
+    dd_ptr->m_isHLine = (y1 == y2) ? true : false;
+    if (dd_ptr->m_isHLine && dd_ptr->m_isVLine)
     {
         throw QString("QEXTLinearFunction():point1 == point2, point1 can not equal to point2!");
     }
-    d_ptr->m_k = (y1 - y2) / (x1 - x2);
-    d_ptr->m_c = (y1 * x2 - y2 * x1) / (x2 - x1);
+    dd_ptr->m_k = (y1 - y2) / (x1 - x2);
+    dd_ptr->m_c = (y1 * x2 - y2 * x1) / (x2 - x1);
 }
 
 QEXTLinearFunction::QEXTLinearFunction(double x, double y, double k)
-    : d_ptr(new QEXTLinearFunctionPrivate(this))
+    : dd_ptr(new QEXTLinearFunctionPrivate(this))
 {
-    d_ptr->m_isHLine = (0 == k) ? true : false;
-    d_ptr->m_isVLine = false;
-    d_ptr->m_k = k;
-    d_ptr->m_c = y - x * d_ptr->m_k;
+    dd_ptr->m_isHLine = (0 == k) ? true : false;
+    dd_ptr->m_isVLine = false;
+    dd_ptr->m_k = k;
+    dd_ptr->m_c = y - x * dd_ptr->m_k;
 }
 
 QEXTLinearFunction::QEXTLinearFunction(const QEXTLinearFunction &other)
-    : d_ptr(new QEXTLinearFunctionPrivate(this))
+    : dd_ptr(new QEXTLinearFunctionPrivate(this))
 {
-    d_ptr->m_isHLine = other.d_func()->m_isHLine;
-    d_ptr->m_isVLine = other.d_func()->m_isVLine;
-    d_ptr->m_k = other.d_func()->m_k;
-    d_ptr->m_c = other.d_func()->m_c;
+    dd_ptr->m_isHLine = other.d_func()->m_isHLine;
+    dd_ptr->m_isVLine = other.d_func()->m_isVLine;
+    dd_ptr->m_k = other.d_func()->m_k;
+    dd_ptr->m_c = other.d_func()->m_c;
 }
 
 QEXTLinearFunction::~QEXTLinearFunction()

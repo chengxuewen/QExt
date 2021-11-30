@@ -32,7 +32,7 @@ public:
 
 private:
     Q_DECLARE_PUBLIC(QEXTTcpPacketDispatcher)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpPacketDispatcherPrivate)
+    Q_DISABLE_COPY(QEXTTcpPacketDispatcherPrivate)
 };
 
 #endif // _QEXTTCPPACKETDISPATCHER_P_H

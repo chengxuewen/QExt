@@ -9,29 +9,27 @@
 class QEXTNumberLed;
 class QEXT_WIDGETS_API QEXTNumberLedPrivate
 {
+    Q_DECLARE_PUBLIC(QEXTNumberLed)
+    Q_DISABLE_COPY(QEXTNumberLedPrivate)
 public:
     explicit QEXTNumberLedPrivate(QEXTNumberLed *q);
     virtual ~QEXTNumberLedPrivate();
 
     QEXTNumberLed * const q_ptr;
 
-    int m_number;                  //目标值
-    int m_space;                   //间距
+    int m_number;
+    int m_space;
 
-    QColor m_backgroundStartColor;  //背景渐变开始颜色
-    QColor m_backgroundEndColor;    //背景渐变结束颜色
+    QColor m_backgroundStartColor;
+    QColor m_backgroundEndColor;
 
-    QColor m_numberStartColor;      //数字渐变开始颜色
-    QColor m_numberEndColor;        //数字渐变结束颜色
+    QColor m_numberStartColor;
+    QColor m_numberEndColor;
 
     QEXTNumberLed::Symbol m_symbol;
 
-    bool m_dotVisiable;            //点显示
-    bool m_colonVisiable;          //冒号显示
-
-private:
-    Q_DECLARE_PUBLIC(QEXTNumberLed)
-    QEXT_DECL_DISABLE_COPY(QEXTNumberLedPrivate)
+    bool m_dotVisiable;
+    bool m_colonVisiable;
 };
 
 #endif // _QEXTNUMBERLCD_P_H

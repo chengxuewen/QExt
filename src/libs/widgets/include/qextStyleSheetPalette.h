@@ -9,6 +9,8 @@ class QEXTStyleSheetPalettePrivate;
 class QEXT_WIDGETS_API QEXTStyleSheetPalette : public QPalette
 {
     Q_GADGET
+    Q_DISABLE_COPY(QEXTStyleSheetPalette)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTStyleSheetPalette)
 public:
     enum ColorType
     {
@@ -25,19 +27,15 @@ public:
     };
 
     QEXTStyleSheetPalette();
-//    QEXTStyleSheetPalette(const QPalette &palette);
-//    QEXTStyleSheetPalette(const QEXTStyleSheetPalette &palette);
     ~QEXTStyleSheetPalette();
 
 
 protected:
-    QScopedPointer<QEXTStyleSheetPalettePrivate> d_ptr;
+    QScopedPointer<QEXTStyleSheetPalettePrivate> dd_ptr;
 
     friend Q_GUI_EXPORT QDataStream &operator<<(QDataStream &s, const QEXTStyleSheetPalette &p);
 
 private:
-    Q_DISABLE_COPY(QEXTStyleSheetPalette)
-    Q_DECLARE_PRIVATE(QEXTStyleSheetPalette)
 };
 
 #endif // _QEXTSTYLESHEETPALETTE_H

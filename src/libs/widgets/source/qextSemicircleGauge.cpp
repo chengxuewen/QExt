@@ -6,8 +6,6 @@
 #include <QDebug>
 #include <qmath.h>
 
-
-
 QEXTSemicircleGaugePrivate::QEXTSemicircleGaugePrivate(QEXTSemicircleGauge *q)
     : q_ptr(q)
 {
@@ -49,7 +47,7 @@ QEXTSemicircleGaugePrivate::~QEXTSemicircleGaugePrivate()
 
 
 QEXTSemicircleGauge::QEXTSemicircleGauge(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTSemicircleGaugePrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTSemicircleGaugePrivate(this))
 {
     Q_D(QEXTSemicircleGauge);
     d->m_animation = new QPropertyAnimation(this);
@@ -112,22 +110,17 @@ void QEXTSemicircleGauge::drawArc(QPainter *painter)
     painter->save();
     painter->setBrush(Qt::NoBrush);
 
-    //绘制圆弧方法绘制圆环
     int penWidth = 10;
     QRectF rect(-radius + penWidth / 2, -radius + penWidth / 2, radius * 2 - penWidth, radius * 2 - penWidth);
-    //可以自行修改画笔的后三个参数,形成各种各样的效果,例如Qt::FlatCap改为Qt::FlatCap可以产生圆角效果
     QPen pen(d->m_usedColor, penWidth, Qt::SolidLine, Qt::FlatCap, Qt::MPenJoinStyle);
 
-    //计算总范围角度,当前值范围角度,剩余值范围角度
     double angleAll = 180.0 - d->m_startAngle - d->m_endAngle;
     double angleCurrent = angleAll * ((d->m_currentValue - d->m_minValue) / (d->m_maxValue - d->m_minValue));
     double angleOther = angleAll - angleCurrent;
 
-    //绘制当前值饼圆
     painter->setPen(pen);
     painter->drawArc(rect, (180 - d->m_startAngle - angleCurrent) * 16, angleCurrent * 16);
 
-    //绘制剩余值饼圆
     pen.setColor(d->m_freeColor);
     painter->setPen(pen);
     painter->drawArc(rect, (180 - d->m_startAngle - angleCurrent - angleOther) * 16, angleOther * 16);
@@ -255,7 +248,6 @@ void QEXTSemicircleGauge::drawPointerIndicatorR(QPainter *painter)
     painter->rotate(degRotate);
     painter->drawConvexPolygon(pts);
 
-    //增加绘制圆角直线,与之前三角形重叠,形成圆角指针
     pen.setCapStyle(Qt::RoundCap);
     pen.setWidthF(4);
     painter->setPen(pen);
@@ -344,7 +336,6 @@ void QEXTSemicircleGauge::drawOverlay(QPainter *painter)
     radius *= 2;
     bigCircle.addEllipse(-radius, -radius + 140, radius * 2, radius * 2);
 
-    //高光的形状为小圆扣掉大圆的部分
     QPainterPath highlight = smallCircle - bigCircle;
 
     QLinearGradient linearGradient(0, -radius / 2, 0, 0);
@@ -497,7 +488,6 @@ QSize QEXTSemicircleGauge::minimumSizeHint() const
 void QEXTSemicircleGauge::setRange(double minValue, double maxValue)
 {
     Q_D(QEXTSemicircleGauge);
-    //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue)
     {
         return;
@@ -506,7 +496,6 @@ void QEXTSemicircleGauge::setRange(double minValue, double maxValue)
     d->m_minValue = minValue;
     d->m_maxValue = maxValue;
 
-    //如果目标值不在范围值内,则重新设置目标值
     if (d->m_value < minValue || d->m_value > maxValue)
     {
         this->setValue(d->m_value);
@@ -530,13 +519,11 @@ void QEXTSemicircleGauge::setMaxValue(double maxValue)
 void QEXTSemicircleGauge::setValue(double value)
 {
     Q_D(QEXTSemicircleGauge);
-    //值和当前值一致则无需处理
     if (value == d->m_value)
     {
         return;
     }
 
-    //值小于最小值则取最小值,大于最大值则取最大值
     if (value < d->m_minValue)
     {
         value = d->m_minValue;
@@ -564,7 +551,6 @@ void QEXTSemicircleGauge::setValue(double value)
 
 void QEXTSemicircleGauge::setValue(int value)
 {
-    Q_D(QEXTSemicircleGauge);
     this->setValue((double)value);
 }
 

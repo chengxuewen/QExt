@@ -85,7 +85,7 @@ target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries
 target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/console)
 set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextFunctionCopyDependsInternalLibs(
+    qextFunctionCopyDependencyInternal(
         TARGET ${qext_example_name}
         LIBS QEXTCore QEXTSingleApp
         DESTINATION ${EXECUTABLE_OUTPUT_PATH}
@@ -115,7 +115,7 @@ target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries
 target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/loader)
 set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextFunctionCopyDependsInternalLibs(
+    qextFunctionCopyDependencyInternal(
         TARGET ${qext_example_name}
         LIBS QEXTCore QEXTSingleApp
         DESTINATION ${EXECUTABLE_OUTPUT_PATH}
@@ -146,7 +146,7 @@ target_link_libraries(${qext_example_name} PRIVATE ${qext_example_link_libraries
 target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/trivial)
 set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextFunctionCopyDependsInternalLibs(
+    qextFunctionCopyDependencyInternal(
         TARGET ${qext_example_name}
         LIBS QEXTCore QEXTSingleApp
         DESTINATION ${EXECUTABLE_OUTPUT_PATH}

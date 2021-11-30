@@ -1,18 +1,34 @@
-﻿#ifndef _QEXTPROGRESSPIE_H
-#define _QEXTPROGRESSPIE_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:多彩进度条控件
- *  1.可设置精确度/步长/圆角角度
- *  2.可设置范围值和当前值
- *  3.可设置前景色背景色等各种颜色
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武-feiyangqingyun（QQ:517216493）代码。
- *@Date:2016-10-28
- *@History:
- *  Modification data:2021-10-16
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTPROGRESSPIE_H
+#define _QEXTPROGRESSPIE_H
 
 #include <qextWidgetGlobal.h>
 
@@ -48,23 +64,23 @@ protected:
 	void drawBar(QPainter *painter);
 
 private:	
-    double minValue;                //最小值
-    double maxValue;                //最大值
-    double value;                   //目标值
-	int precision;                  //精确度,小数点后几位
+    double minValue;
+    double maxValue;
+    double value;
+    int precision;
 
-	int step;                       //步长
-	int space;                      //间距
-	int radius;                     //圆角角度
+    int step;
+    int space;
+    int radius;
 
-	QColor bgColorStart;            //背景渐变开始颜色
-	QColor bgColorEnd;              //背景渐变结束颜色
+    QColor bgColorStart;
+    QColor bgColorEnd;
 
-	QColor lineColor;               //线条颜色
-	QColor textColor;               //文本颜色
+    QColor lineColor;
+    QColor textColor;
 
-	QColor barBgColor;              //进度背景颜色
-	QColor barColor;                //进度颜色
+    QColor barBgColor;
+    QColor barColor;
 
 public:	
 	double getMinValue()            const;
@@ -89,37 +105,30 @@ public:
 	QSize minimumSizeHint()         const;
 
 public Q_SLOTS:
-	//设置范围值
 	void setRange(double minValue, double maxValue);
 	void setRange(int minValue, int maxValue);
 
-	//设置最大最小值
 	void setMinValue(double minValue);
 	void setMaxValue(double maxValue);
 
-	//设置目标值
 	void setValue(double value);
 	void setValue(int value);
 
-	//设置精确度
 	void setPrecision(int precision);
 
-	//设置步长
 	void setStep(int step);
-	//设置间距
+
 	void setSpace(int space);
-	//设置圆角角度
+
 	void setRadius(int radius);
 
-	//设置背景颜色
 	void setBgColorStart(const QColor &bgColorStart);
 	void setBgColorEnd(const QColor &bgColorEnd);
 
-	//设置线条颜色
 	void setLineColor(QColor lineColor);
-	//设置文本颜色
+
 	void setTextColor(QColor textColor);
-	//设置进度颜色
+
 	void setBarBgColor(QColor barBgColor);
 	void setBarColor(QColor barColor);
 

@@ -9,7 +9,7 @@
 
 QEXTFramelessHelper::QEXTFramelessHelper(QWidget *parent)
     : QObject(parent)
-    , d_ptr(new QEXTFramelessHelperPrivate())
+    , dd_ptr(new QEXTFramelessHelperPrivate())
 {
     Q_D(QEXTFramelessHelper);
     d->m_window = parent;

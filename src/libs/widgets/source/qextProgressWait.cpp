@@ -5,8 +5,6 @@
 #include <QDebug>
 #include <qmath.h>
 
-
-
 QEXTProgressWait::QEXTProgressWait(QWidget *parent) : QWidget(parent)
 {
     clockWise = true;
@@ -57,7 +55,6 @@ void QEXTProgressWait::paintEvent(QPaintEvent *)
     int height = this->height();
     int side = qMin(width, height);
 
-    //绘制准备工作,启用反锯齿,平移坐标轴中心,等比例缩放
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.translate(width / 2, height / 2);
@@ -77,7 +74,6 @@ void QEXTProgressWait::drawArc(QPainter *painter)
     painter->save();
     painter->setPen(Qt::NoPen);
 
-    //计算中心点坐标
     int centerX = 0;
     int centerY = 0;
     int radius = 99;
@@ -89,7 +85,6 @@ void QEXTProgressWait::drawArc(QPainter *painter)
         currentangle = -currentangle;
     }
 
-    //绘制八卦大圆1
     painter->setBrush(foreground);
     QPainterPath pathBig1(QPointF(centerX + radius * qCos(degreesToRadians(currentangle)),
                                   centerY - radius * qSin(degreesToRadians(currentangle))));
@@ -103,7 +98,6 @@ void QEXTProgressWait::drawArc(QPainter *painter)
                    );
     painter->drawPath(pathBig1);
 
-    //绘制八卦大圆2
     painter->setBrush(background);
     QPainterPath pathBig2(QPointF(centerX + radius * qCos(degreesToRadians(currentangle)),
                                   centerY - radius * qSin(degreesToRadians(currentangle))));
@@ -117,7 +111,6 @@ void QEXTProgressWait::drawArc(QPainter *painter)
                    );
     painter->drawPath(pathBig2);
 
-    //绘制八卦小圆1
     painter->setBrush(foreground);
     QPainterPath pathSmall1;
     pathSmall1.addEllipse(centerX + radiusBig * qCos(degreesToRadians(currentangle)) - radiusSmall,
@@ -125,7 +118,6 @@ void QEXTProgressWait::drawArc(QPainter *painter)
                           radiusSmall * 2, radiusSmall * 2);
     painter->drawPath(pathSmall1);
 
-    //绘制八卦小圆2
     painter->setBrush(background);
     QPainterPath pathSmall2;
     pathSmall2.addEllipse(centerX + radiusBig * qCos(degreesToRadians(180 + currentangle)) - radiusSmall,
@@ -150,7 +142,6 @@ void QEXTProgressWait::drawDot(QPainter *painter)
         angleStep = -angleStep;
     }
 
-    //计算中心点坐标
     int centerX = 0;
     int centerY = 0;
     double centerRadius = radius / 1.2;
@@ -176,16 +167,14 @@ void QEXTProgressWait::drawPie(QPainter *painter)
     int radius = 99;
     painter->save();
 
-    //绘制背景圆
     painter->setPen(Qt::NoPen);
     painter->setBrush(background);
     painter->drawEllipse(-radius, -radius, radius * 2, radius * 2);
 
-    // 扇形起始角度
     int startAngle = (360 / (maxValue + 1)) * currentValue * 16;
-    // 扇形覆盖范围
+
     int spanAngle = 60 * 16;
-    //绘制扇形
+
     painter->setBrush(foreground);
 
     if (clockWise) {
@@ -201,7 +190,6 @@ void QEXTProgressWait::drawLine(QPainter *painter)
 {
     int radius = 95;
 
-    //这个Y轴坐标控制线条的高度,默认为半径的一半,值越大线条越短
     int initY = 50;
 
     painter->save();
@@ -247,9 +235,8 @@ void QEXTProgressWait::drawRing(QPainter *painter)
     QPainterPath subPath;
     subPath.addEllipse(rect.adjusted(arcHeight, arcHeight, -arcHeight, -arcHeight));
 
-    //当前扇形起始角度
     int startAngle = (360 / (maxValue + 1)) * currentValue;
-    //当前扇形覆盖范围
+
     int spanAngle = 90;
     QPainterPath currentPath;
 
@@ -259,14 +246,12 @@ void QEXTProgressWait::drawRing(QPainter *painter)
         currentPath.arcTo(rect, startAngle, spanAngle);
     }
 
-    //其余扇形的起始角度为当前扇形的起始+覆盖范围
     if (clockWise) {
         startAngle = startAngle - spanAngle;
     } else {
         startAngle = startAngle + spanAngle;
     }
 
-    //其余扇形的覆盖范围为 360 - 当前扇形的覆盖范围
     spanAngle = 360 - spanAngle;
     QPainterPath otherPath;
 
@@ -296,7 +281,6 @@ void QEXTProgressWait::drawSingleCircle(QPainter *painter)
 
 void QEXTProgressWait::drawDoubleCircle(QPainter *painter)
 {
-    //如果圆半径小于最小半径则需要递增,半径大于最大半径则需要递减
     if (leftRadius <= minRadius) {
         leftIncrease = true;
     } else if (leftRadius >= maxRadius) {
@@ -326,11 +310,9 @@ void QEXTProgressWait::drawDoubleCircle(QPainter *painter)
     painter->save();
     painter->setPen(Qt::NoPen);
 
-    //绘制左边圆
     painter->setBrush(foreground);
     painter->drawEllipse(QPointF(-radius, 0), leftRadius, leftRadius);
 
-    //绘制右边圆
     painter->setBrush(background);
     painter->drawEllipse(QPointF(radius, 0), rightRadius, rightRadius);
 

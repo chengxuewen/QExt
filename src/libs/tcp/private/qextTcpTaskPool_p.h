@@ -33,7 +33,7 @@ public:
 
 private:
     Q_DECLARE_PUBLIC(QEXTTcpTaskPool)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpTaskPoolPrivate)
+    Q_DISABLE_COPY(QEXTTcpTaskPoolPrivate)
 };
 
 #endif // _QEXTTCPTASKPOOL_P_H

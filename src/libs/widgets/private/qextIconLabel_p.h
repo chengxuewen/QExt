@@ -7,15 +7,13 @@
 class QEXTIconLabel;
 class QEXT_WIDGETS_API QEXTIconLabelPrivate
 {
+    Q_DECLARE_PUBLIC(QEXTIconLabel)
+    Q_DISABLE_COPY(QEXTIconLabelPrivate)
 public:
     explicit QEXTIconLabelPrivate(QEXTIconLabel *q);
     virtual ~QEXTIconLabelPrivate();
 
     QEXTIconLabel * const q_ptr;
-
-private:
-    Q_DECLARE_PUBLIC(QEXTIconLabel)
-    QEXT_DECL_DISABLE_COPY(QEXTIconLabelPrivate)
 };
 
 #endif // _QEXTICONLABEL_P_H

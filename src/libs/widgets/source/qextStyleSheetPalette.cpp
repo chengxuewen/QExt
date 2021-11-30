@@ -17,7 +17,7 @@ QEXTStyleSheetPalettePrivate::~QEXTStyleSheetPalettePrivate()
 
 
 QEXTStyleSheetPalette::QEXTStyleSheetPalette()
-    : d_ptr(new QEXTStyleSheetPalettePrivate(this))
+    : dd_ptr(new QEXTStyleSheetPalettePrivate(this))
 {
 
 }

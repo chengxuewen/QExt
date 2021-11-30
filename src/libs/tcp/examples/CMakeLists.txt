@@ -80,7 +80,7 @@ function(qextTcpAddExample EXAMPLE_NAME)
         )
     set_property(TARGET ${EXAMPLE_NAME} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
     if(QEXT_BUILD_SHARED_LIBS AND WIN32)
-        qextFunctionCopyDependsInternalLibs(
+        qextFunctionCopyDependencyInternal(
             TARGET ${EXAMPLE_NAME}
             LIBS QEXTCore QEXTWidgets
             DESTINATION ${EXECUTABLE_OUTPUT_PATH}
@@ -119,7 +119,7 @@ target_include_directories(${qext_example_name} PUBLIC
     )
 set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextFunctionCopyDependsInternalLibs(
+    qextFunctionCopyDependencyInternal(
         TARGET ${qext_example_name}
         LIBS QEXTCore QEXTTcp
         DESTINATION ${EXECUTABLE_OUTPUT_PATH}
@@ -154,7 +154,7 @@ target_include_directories(${qext_example_name} PUBLIC
     )
 set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextFunctionCopyDependsInternalLibs(
+    qextFunctionCopyDependencyInternal(
         TARGET ${qext_example_name}
         LIBS QEXTCore QEXTTcp
         DESTINATION ${EXECUTABLE_OUTPUT_PATH}

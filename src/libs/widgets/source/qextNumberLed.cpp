@@ -5,8 +5,6 @@
 #include <QColor>
 #include <QPainter>
 
-
-
 QEXTNumberLedPrivate::QEXTNumberLedPrivate(QEXTNumberLed *q)
     : q_ptr(q)
 {
@@ -32,7 +30,7 @@ QEXTNumberLedPrivate::~QEXTNumberLedPrivate()
 
 
 QEXTNumberLed::QEXTNumberLed(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTNumberLedPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTNumberLedPrivate(this))
 {
 
 }
@@ -168,13 +166,10 @@ void QEXTNumberLed::setSymbolType(const QEXTNumberLed::Symbol &type)
 
 void QEXTNumberLed::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTNumberLed);
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    //绘制背景
     this->drawBackground(&painter);
-    //绘制数字
     this->drawNumber(&painter);
 }
 
@@ -197,14 +192,12 @@ void QEXTNumberLed::drawNumber(QPainter *painter)
     painter->save();
     painter->setPen(Qt::NoPen);
 
-    //形状宽度及凸起部分高度
     double recWidth = this->width() / 10;
     double recHeight = this->height() / 30;
     double recRadius = qMin(recWidth, recHeight) * 2;
     double recSpace = this->width() / 30;
     double margin = qMax(recWidth, recHeight);
 
-    //找出六个对应点
     QPointF topLeft(margin, margin);
     QPointF topRight(this->width() - margin * 2 - recRadius, margin);
     QPointF midLeft(margin, this->height() / 2);
@@ -212,9 +205,6 @@ void QEXTNumberLed::drawNumber(QPainter *painter)
     QPointF bottomLeft(margin, this->height() - margin);
     QPointF bottomRight(this->width() - margin * 2 - recRadius, this->height() - margin);
 
-    //逐个将每个形状的点集合添加,每个数码管都有7个形状,每个形状有4-6个点
-
-    //左侧上部分形状坐标集合
     QVector<QPointF> topLeftRectVec;
     topLeftRectVec.append(QPointF(topLeft.x(), topLeft.y()));
     topLeftRectVec.append(QPointF(topLeft.x() + recWidth, topLeft.y() + recHeight * 2));
@@ -222,14 +212,12 @@ void QEXTNumberLed::drawNumber(QPainter *painter)
     topLeftRectVec.append(QPointF(midLeft.x() + recWidth / 2, midLeft.y() - recSpace));
     topLeftRectVec.append(QPointF(midLeft.x(), midLeft.y() - recHeight - recSpace));
 
-    //顶部形状坐标集合
     QVector<QPointF> topRectVec;
     topRectVec.append(QPointF(topLeft.x() + recSpace, topLeft.y()));
     topRectVec.append(QPointF(topLeft.x() + recWidth + recSpace, topLeft.y() + recHeight * 2));
     topRectVec.append(QPointF(topRight.x() - recWidth - recSpace, topRight.y() + recHeight * 2));
     topRectVec.append(QPointF(topRight.x() - recSpace, topRight.y()));
 
-    //右侧上部分形状坐标集合
     QVector<QPointF> topRightRectVec;
     topRightRectVec.append(QPointF(topRight.x() - recWidth, topRight.y() + recHeight * 2));
     topRightRectVec.append(QPointF(topRight.x(), topRight.y()));
@@ -237,7 +225,6 @@ void QEXTNumberLed::drawNumber(QPainter *painter)
     topRightRectVec.append(QPointF(midRight.x() - recWidth / 2, midRight.y() - recSpace));
     topRightRectVec.append(QPointF(midRight.x() - recWidth, midRight.y() - recHeight - recSpace));
 
-    //中间部分形状坐标集合
     QVector<QPointF> midRectVec;
     midRectVec.append(QPointF(midLeft.x() + recWidth / 2, midLeft.y()));
     midRectVec.append(QPointF(midLeft.x() + recWidth, midLeft.y() - recHeight));
@@ -246,7 +233,6 @@ void QEXTNumberLed::drawNumber(QPainter *painter)
     midRectVec.append(QPointF(midRight.x() - recWidth, midRight.y() + recHeight));
     midRectVec.append(QPointF(midLeft.x() + recWidth, midRight.y() + recHeight));
 
-    //左侧下部分形状坐标集合
     QVector<QPointF> bottomLeftRectVec;
     bottomLeftRectVec.append(QPointF(midLeft.x(), midLeft.y() + recHeight + recSpace));
     bottomLeftRectVec.append(QPointF(midLeft.x() + recWidth / 2, midLeft.y() + recSpace));
@@ -254,14 +240,12 @@ void QEXTNumberLed::drawNumber(QPainter *painter)
     bottomLeftRectVec.append(QPointF(bottomLeft.x() + recWidth, bottomLeft.y() - recHeight * 2));
     bottomLeftRectVec.append(QPointF(bottomLeft.x(), bottomLeft.y()));
 
-    //底部形状坐标集合
     QVector<QPointF> bottomRectVec;
     bottomRectVec.append(QPointF(bottomLeft.x() + recSpace, bottomLeft.y()));
     bottomRectVec.append(QPointF(bottomLeft.x() + recWidth + recSpace, bottomRight.y() - recHeight * 2));
     bottomRectVec.append(QPointF(bottomRight.x() - recWidth - recSpace, bottomRight.y() - recHeight * 2));
     bottomRectVec.append(QPointF(bottomRight.x() - recSpace, bottomRight.y()));
 
-    //右侧下部分形状坐标集合
     QVector<QPointF> bottomRightRectVec;
     bottomRightRectVec.append(QPointF(midRight.x() - recWidth, midRight.y() + recHeight + recSpace));
     bottomRightRectVec.append(QPointF(midRight.x() - recWidth / 2, midRight.y() + recSpace));
@@ -269,13 +253,11 @@ void QEXTNumberLed::drawNumber(QPainter *painter)
     bottomRightRectVec.append(QPointF(bottomRight.x(), bottomRight.y()));
     bottomRightRectVec.append(QPointF(bottomRight.x() - recWidth, bottomRight.y() - recHeight * 2));
 
-    //颜色渐变
     QLinearGradient numberGradient(QPointF(0, 0), QPointF(0, this->height()));
     numberGradient.setColorAt(0.0, d->m_numberStartColor);
     numberGradient.setColorAt(1.0, d->m_numberEndColor);
     painter->setBrush(numberGradient);
 
-    //根据值绘制形状
     switch (d->m_number) {
     case 0:
         painter->drawPolygon(topLeftRectVec);

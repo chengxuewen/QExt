@@ -9,8 +9,6 @@
 #include <QEvent>
 #include <qmath.h>
 
-
-
 QEXTProgressKnobPrivate::QEXTProgressKnobPrivate(QEXTProgressKnob *q)
     : q_ptr(q)
 {
@@ -46,7 +44,7 @@ QEXTProgressKnobPrivate::~QEXTProgressKnobPrivate()
 
 
 QEXTProgressKnob::QEXTProgressKnob(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTProgressKnobPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTProgressKnobPrivate(this))
 {
     Q_D(QEXTProgressKnob);
     d->m_animation = new QPropertyAnimation(this, "");
@@ -107,22 +105,16 @@ void QEXTProgressKnob::paintEvent(QPaintEvent *)
     int height = this->height();
     int side = qMin(width, height);
 
-    //绘制准备工作,启用反锯齿,平移坐标轴中心,等比例缩放
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     painter.translate(width / 2, height / 2);
     painter.scale(side / 200.0, side / 200.0);
 
-    //绘制背景
     this->drawBackground(&painter);
-    //绘制饼圆
     this->drawColorPie(&painter);
-    //绘制覆盖圆 用以遮住饼圆多余部分
     this->drawCoverCircle(&painter);
-    //绘制中心圆
     this->drawCircle(&painter);
 
-    //根据指示器形状绘制指示器
     if (d->m_pointerStyle == PointerStyle_Circle)
     {
         this->drawPointerCircle(&painter);
@@ -140,7 +132,6 @@ void QEXTProgressKnob::paintEvent(QPaintEvent *)
         this->drawPointerTriangle(&painter);
     }
 
-    //绘制当前值
     this->drawValue(&painter);
 }
 
@@ -164,16 +155,13 @@ void QEXTProgressKnob::drawColorPie(QPainter *painter)
 
     QRectF rect(-radius, -radius, radius * 2, radius * 2);
 
-    //计算总范围角度,当前值范围角度,剩余值范围角度
     double angleAll = 360.0 - d->m_startAngle - d->m_endAngle;
     double angleCurrent = angleAll * ((d->m_value - d->m_minValue) / (d->m_maxValue - d->m_minValue));
     double angleOther = angleAll - angleCurrent;
 
-    //绘制当前值饼圆
     painter->setBrush(d->m_progressColor);
     painter->drawPie(rect, (270 - d->m_startAngle - angleCurrent) * 16, angleCurrent * 16);
 
-    //绘制剩余值饼圆
     painter->setBrush(d->m_progressBackgroundColor);
     painter->drawPie(rect, (270 - d->m_startAngle - angleCurrent - angleOther) * 16, angleOther * 16);
 
@@ -251,7 +239,6 @@ void QEXTProgressKnob::drawPointerIndicator(QPainter *painter)
     painter->rotate(degRotate);
     painter->drawConvexPolygon(pts);
 
-    //绘制中心圆点
     radius = radius / 4;
     painter->drawEllipse(-radius, -radius, radius * 2, radius * 2);
 
@@ -283,13 +270,11 @@ void QEXTProgressKnob::drawPointerIndicatorR(QPainter *painter)
     painter->rotate(degRotate);
     painter->drawConvexPolygon(pts);
 
-    //增加绘制圆角直线,与之前三角形重叠,形成圆角指针
     pen.setCapStyle(Qt::RoundCap);
     pen.setWidthF(4);
     painter->setPen(pen);
     painter->drawLine(0, 0, 0, radius);
 
-    //绘制中心圆点
     radius = radius / 4;
     painter->drawEllipse(-radius, -radius, radius * 2, radius * 2);
 
@@ -347,7 +332,7 @@ void QEXTProgressKnob::drawValue(QPainter *painter)
 void QEXTProgressKnob::setEasingCurve()
 {
     Q_D(QEXTProgressKnob);
-    //随机选择一种动画效果
+
     int index = qrand() % 40;
     d->m_animation->setEasingCurve((QEasingCurve::Type)index);
 }
@@ -355,7 +340,6 @@ void QEXTProgressKnob::setEasingCurve()
 void QEXTProgressKnob::updateRadius(QVariant radius)
 {
     Q_D(QEXTProgressKnob);
-    //如果鼠标悬停则逐渐变小,鼠标移开则逐渐变大直到恢复
     int step = radius.toInt();
 
     if (d->m_hover)
@@ -375,19 +359,15 @@ void QEXTProgressKnob::updateRadius(QVariant radius)
 void QEXTProgressKnob::setPressedValue(QPointF pressedPoint)
 {
     Q_D(QEXTProgressKnob);
-    //计算总角度
     double length = 360 - d->m_startAngle - d->m_endAngle;
 
-    //计算最近的刻度
     QPointF point = pressedPoint - rect().center();
     double theta = -atan2(-point.x(), -point.y()) * 180 / M_PI;
     theta = theta + length / 2;
 
-    //计算每一个角度对应值移动多少
     double increment = (d->m_maxValue - d->m_minValue) / length;
     double currentValue = (theta * increment) + d->m_minValue;
 
-    //过滤圆弧外的值
     if (currentValue <= d->m_minValue)
     {
         currentValue = d->m_minValue;
@@ -503,7 +483,6 @@ QSize QEXTProgressKnob::minimumSizeHint() const
 void QEXTProgressKnob::setRange(double minValue, double maxValue)
 {
     Q_D(QEXTProgressKnob);
-    //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue)
     {
         return;
@@ -512,7 +491,6 @@ void QEXTProgressKnob::setRange(double minValue, double maxValue)
     d->m_minValue = minValue;
     d->m_maxValue = maxValue;
 
-    //如果目标值不在范围值内,则重新设置目标值
     if (d->m_value < minValue || d->m_value > maxValue)
     {
         this->setValue(d->m_value);
@@ -523,7 +501,6 @@ void QEXTProgressKnob::setRange(double minValue, double maxValue)
 
 void QEXTProgressKnob::setRange(int minValue, int maxValue)
 {
-    Q_D(QEXTProgressKnob);
     this->setRange((double)minValue, (double)maxValue);
 }
 
@@ -542,13 +519,11 @@ void QEXTProgressKnob::setMaxValue(double maxValue)
 void QEXTProgressKnob::setValue(double value)
 {
     Q_D(QEXTProgressKnob);
-    //值和当前值一致则无需处理
     if (value == d->m_value)
     {
         return;
     }
 
-    //值小于最小值则取最小值,大于最大值则取最大值
     if (value < d->m_minValue)
     {
         value = d->m_minValue;
@@ -565,14 +540,12 @@ void QEXTProgressKnob::setValue(double value)
 
 void QEXTProgressKnob::setValue(int value)
 {
-    Q_D(QEXTProgressKnob);
     this->setValue((double)value);
 }
 
 void QEXTProgressKnob::setPrecision(int precision)
 {
     Q_D(QEXTProgressKnob);
-    //最大精确度为 3
     if (precision <= 3 && d->m_precision != precision)
     {
         d->m_precision = precision;

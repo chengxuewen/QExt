@@ -1,22 +1,34 @@
-﻿#ifndef _QEXTRANGESLIDER_H
-#define _QEXTRANGESLIDER_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:范围滑动条控件
- *  1.可设置范围值,支持负数值
- *  2.可设置当前范围值
- *  3.可设置范围值颜色/范围值外颜色/文字颜色
- *  4.自适应窗体拉伸,刻度尺和文字自动缩放
- *  5.可设置滑块条所占比例及滑块所占比例
- *  6.可设置多种滑块样式
- *  7.可设置是否显示当前值
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武（QQ:517216493）代码。
- *@Date:2016-12-24
- *@History:
- *  Modification data:2021-10-17
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTRANGESLIDER_H
+#define _QEXTRANGESLIDER_H
 
 #include <qextWidgetGlobal.h>
 
@@ -25,9 +37,6 @@
 class QEXT_WIDGETS_API QEXTRangeSlider : public QWidget
 {
     Q_OBJECT
-    Q_ENUMS(SliderStyle)
-    Q_ENUMS(SliderBgPercent)
-    Q_ENUMS(SliderPercent)
 
     Q_PROPERTY(int minValue READ getMinValue WRITE setMinValue)
     Q_PROPERTY(int maxValue READ getMaxValue WRITE setMaxValue)
@@ -55,6 +64,7 @@ public:
         SliderStyle_Line = 0,       //线条状风格
         SliderStyle_Circle = 1      //圆形状风格
     };
+    Q_ENUMS(SliderStyle)
 
     enum SliderBgPercent
     {
@@ -69,6 +79,7 @@ public:
         SliderBgPercent_0_9 = 9,
         SliderBgPercent_1_0 = 10
     };
+    Q_ENUMS(SliderBgPercent)
 
     enum SliderPercent
     {
@@ -78,6 +89,7 @@ public:
         SliderPercent_0_4 = 4,
         SliderPercent_0_5 = 5
     };
+    Q_ENUMS(SliderPercent)
 
     explicit QEXTRangeSlider(QWidget *parent = 0);
     ~QEXTRangeSlider();
@@ -93,32 +105,32 @@ protected:
     void drawValue(QPainter *painter);
 
 private:
-    int minValue;                   //最小值
-    int maxValue;                   //最大值
-    int leftValue;                  //范围值左边
-    int rightValue;                 //范围值右边
+    int minValue;
+    int maxValue;
+    int leftValue;
+    int rightValue;
 
-    int borderWidth;                //滑块边框宽度
-    bool horizontal;                //是否横向
-    bool showText;                  //是否显示值
+    int borderWidth;
+    bool horizontal;
+    bool showText;
 
-    QColor usedColor;               //范围值颜色
-    QColor freeColor;               //范围值外颜色
-    QColor textColor;               //文字颜色
-    QColor rangeTextColor;          //范围文字颜色
-    QColor sliderColor;             //滑块颜色
-    QColor borderColor;             //滑块边框颜色
+    QColor usedColor;
+    QColor freeColor;
+    QColor textColor;
+    QColor rangeTextColor;
+    QColor sliderColor;
+    QColor borderColor;
 
-    SliderStyle sliderStyle;        //滑块风格
-    SliderBgPercent sliderBgPercent;//滑块背景所占比例
-    SliderPercent sliderPercent;    //滑块所占比例
+    SliderStyle sliderStyle;
+    SliderBgPercent sliderBgPercent;
+    SliderPercent sliderPercent;
 
-    bool leftPressed;               //左边指示器是否按下
-    bool rightPressed;              //右边指示器是否按下
+    bool leftPressed;
+    bool rightPressed;
 
-    int sliderLen;                  //指示器长度
-    QRect leftSliderRect;           //左边值指示器区域
-    QRect rightSliderRect;          //右边值指示器区域
+    int sliderLen;
+    QRect leftSliderRect;
+    QRect rightSliderRect;
 
 public:
     int getMinValue()               const;
@@ -145,45 +157,37 @@ public:
     QSize minimumSizeHint()         const;
 
 public Q_SLOTS:
-    //设置范围值
     void setRange(int minValue, int maxValue);
 
-    //设置最大最小值
     void setMinValue(int minValue);
     void setMaxValue(int maxValue);
 
-    //设置当前范围值
     void setCurrentRange(int leftValue, int rightValue);
     void setLeftValue(int leftValue);
     void setRightValue(int rightValue);
 
-    //设置滑块边框宽度
     void setBorderWidth(int borderWidth);
 
-    //设置方向
     void setHorizontal(bool horizontal);
 
-    //设置是否显示值
     void setShowText(bool showText);
 
-    //设置刻度值颜色
     void setUsedColor(const QColor &usedColor);
-    //设置指针颜色
+
     void setFreeColor(const QColor &freeColor);
-    //设置文本颜色
+
     void setTextColor(const QColor &textColor);
-    //设置文本颜色
+
     void setRangeTextColor(const QColor &rangeTextColor);
-    //设置滑块颜色
+
     void setSliderColor(const QColor &sliderColor);
-    //设置滑块边框颜色
+
     void setBorderColor(const QColor &borderColor);
 
-    //设置滑块风格
     void setSliderStyle(const SliderStyle &sliderStyle);
-    //设置滑块背景所占比例
+
     void setSliderBgPercent(const SliderBgPercent &sliderBgPercent);
-    //设置滑块所占比例
+
     void setSliderPercent(const SliderPercent &sliderPercent);
 
 Q_SIGNALS:

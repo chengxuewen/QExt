@@ -8,25 +8,23 @@
 class QEXTRingCompass;
 class QEXT_WIDGETS_API QEXTRingCompassPrivate
 {
+    Q_DISABLE_COPY(QEXTRingCompassPrivate)
+    Q_DECLARE_PUBLIC(QEXTRingCompass)
 public:
     explicit QEXTRingCompassPrivate(QEXTRingCompass *q);
     virtual ~QEXTRingCompassPrivate();
 
     QEXTRingCompass * const q_ptr;
 
-    double m_value;               //当前值
-    QColor m_backgroundColor;             //背景颜色
-    QColor m_textColor;           //文字颜色
-    QColor m_borderColor;         //边框颜色
-    int m_borderWidth;            //边框宽度
+    double m_value;
+    QColor m_backgroundColor;
+    QColor m_textColor;
+    QColor m_borderColor;
+    int m_borderWidth;
 
-    QColor m_northDotColor;       //正北点颜色
-    QColor m_otherDotColor;       //其它方向点颜色
-    QColor m_pointerColor;        //指针颜色
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTRingCompassPrivate)
-    Q_DECLARE_PUBLIC(QEXTRingCompass)
+    QColor m_northDotColor;
+    QColor m_otherDotColor;
+    QColor m_pointerColor;
 };
 
 #endif // _QEXTRINGCOMPASSGAUGE_P_H

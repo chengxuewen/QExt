@@ -1,20 +1,35 @@
-﻿#ifndef _QEXTSELECTSLIDER_H
-#define _QEXTSELECTSLIDER_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2017 逆风微光(QQ:787701109)
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:滑动选择条控件
- *  1.可设置范围值,支持负数值
- *  2.可设置当前范围值
- *  3.可设置范围值颜色/范围值外颜色/文字颜色
- *  4.自适应窗体拉伸,刻度尺和文字自动缩放
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武-feiyangqingyun（QQ:517216493）代码。
- *        原作者:逆风微光(QQ:787701109)
- *@Date:2017-08-30
- *@History:
- *  Modification data:2021-10-17
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTSELECTSLIDER_H
+#define _QEXTSELECTSLIDER_H
 
 #include <qextWidgetGlobal.h>
 
@@ -24,6 +39,9 @@ class QEXTSelectSliderPrivate;
 class QEXT_WIDGETS_API QEXTSelectSlider : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTSelectSlider)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTSelectSlider)
+
     Q_PROPERTY(int m_minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(int m_maxValue READ maxValue WRITE setMaxValue)
     Q_PROPERTY(int m_leftValue READ leftValue WRITE setLeftValue)
@@ -62,11 +80,9 @@ protected:
     void drawSlider(QPainter *painter);
     void updateUI();
 
-    QScopedPointer<QEXTSelectSliderPrivate> d_ptr;
+    QScopedPointer<QEXTSelectSliderPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTSelectSlider)
-    Q_DECLARE_PRIVATE(QEXTSelectSlider)
 
 public:
     int minValue() const;
@@ -93,46 +109,37 @@ public:
     QSize minimumSizeHint() const;
 
 public Q_SLOTS:
-    //设置范围值
     void setRange(int minValue, int maxValue);
 
-    //设置最大最小值
     void setMinValue(int minValue);
     void setMaxValue(int maxValue);
 
-    //设置当前范围值
     void setCurrentRange(int leftValue, int rightValue);
     void setLeftValue(int leftValue);
     void setRightValue(int rightValue);
 
-    //设置范围宽度
     void setRangeValue(int rangeValue);
 
-    //设置单步步长
     void setStep(int step);
 
-    //设置滑块边框宽度
     void setBorderWidth(int borderWidth);
 
-    //设置方向
     void setHorizontal(bool horizontal);
 
-    //设置刻度值颜色
     void setUsedColor(const QColor &usedColor);
-    //设置指针颜色
+
     void setFreeColor(const QColor &freeColor);
-    //设置文本颜色
+
     void setTextColor(const QColor &textColor);
-    //设置文本颜色
+
     void setRangeTextColor(const QColor &rangeTextColor);
-    //设置滑块颜色
+
     void setSliderColor(const QColor &sliderColor);
-    //设置边框颜色
+
     void setBorderColor(const QColor &borderColor);
 
-    //设置按钮正常颜色
     void setButtonNormalColor(const QColor &btnNormalColor);
-    //设置按钮按下颜色
+
     void setButtonPressColor(const QColor &btnPressColor);
 
 Q_SIGNALS:

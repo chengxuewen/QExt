@@ -1,20 +1,34 @@
+/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
+
 #ifndef _QEXTTEXTLCD_H
 #define _QEXTTEXTLCD_H
-
-/***************************************************************************************************
- *@Brief:字模提取控件
- * 1:可设置字模文字
- * 2:可设置字体名称及字号
- * 3:可设置步长间隔
- * 4:可设置前景色
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com
- *@Version:V0.1
- *@Date:2019-08-02
- *@History:
- *  Modification data:2021-10-15
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
 
 #include <qextWidgetGlobal.h>
 
@@ -25,6 +39,9 @@ class QEXTTextLcdPrivate;
 class QEXT_WIDGETS_API QEXTTextLcd : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTTextLcd)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTextLcd)
+
     Q_PROPERTY(QString text READ text WRITE setText)
     Q_PROPERTY(int textAlignment READ textAlignment WRITE setTextAlignment)
 
@@ -95,11 +112,7 @@ protected Q_SLOTS:
 protected:
     void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
 
-    QScopedPointer<QEXTTextLcdPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTTextLcd)
-    QEXT_DECL_DISABLE_COPY(QEXTTextLcd)
+    QScopedPointer<QEXTTextLcdPrivate> dd_ptr;
 };
 
 #endif // _QEXTTEXTLCD_H

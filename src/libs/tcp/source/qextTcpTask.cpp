@@ -26,38 +26,38 @@ QEXTTcpTaskPrivate::~QEXTTcpTaskPrivate()
 
 
 QEXTTcpTask::QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver)
-    : QObject(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpTaskPrivate(this))
+    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QEXTTcpTaskPrivate(this))
 {
-    d_ptr->m_packetTransceiver = transceiver;
+    dd_ptr->m_packetTransceiver = transceiver;
 }
 
 QEXTTcpTask::QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
                          const QSharedPointer<QEXTTcpPacketInterface> &packet)
-    : QObject(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpTaskPrivate(this))
+    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QEXTTcpTaskPrivate(this))
 {
-    d_ptr->m_packetTransceiver = transceiver;
-    d_ptr->m_receivedPacket = packet;
+    dd_ptr->m_packetTransceiver = transceiver;
+    dd_ptr->m_receivedPacket = packet;
 }
 
 QEXTTcpTask::QEXTTcpTask(QEXTTcpTaskPrivate *d,
                          const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver)
-    : QObject(QEXT_DECL_NULLPTR), d_ptr(d)
+    : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
 {
-    d_ptr->m_packetTransceiver = transceiver;
+    dd_ptr->m_packetTransceiver = transceiver;
 }
 
 QEXTTcpTask::QEXTTcpTask(QEXTTcpTaskPrivate *d,
                          const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
                          const QSharedPointer<QEXTTcpPacketInterface> &packet)
-    : QObject(QEXT_DECL_NULLPTR), d_ptr(d)
+    : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
 {
-    d_ptr->m_packetTransceiver = transceiver;
-    d_ptr->m_receivedPacket = packet;
+    dd_ptr->m_packetTransceiver = transceiver;
+    dd_ptr->m_receivedPacket = packet;
 }
 
 QEXTTcpTask::~QEXTTcpTask()
 {
-    emit this->aboutToBeDelete(d_ptr->m_id);
+    emit this->aboutToBeDelete(dd_ptr->m_id);
 }
 
 QSharedPointer<QEXTTcpPacketInterface> QEXTTcpTask::receivedPacket() const

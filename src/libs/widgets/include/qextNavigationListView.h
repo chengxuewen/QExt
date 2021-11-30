@@ -1,17 +1,34 @@
-﻿#ifndef _QEXTNAVIGATIONLISTVIEW_H
-#define _QEXTNAVIGATIONLISTVIEW_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2018 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:列表导航控件
- *  1.Multiple model case sometions appear item background color is drawn in black
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com,基于刘典武工程师（QQ:517216493）代码。
- *@Version:V0.1
- *@Date:2018-8-15
- *@History:
- *  Modification data:2021-10-16
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTNAVIGATIONLISTVIEW_H
+#define _QEXTNAVIGATIONLISTVIEW_H
 
 #include <qextWidgetGlobal.h>
 
@@ -24,6 +41,8 @@ class QEXTNavigationListItemPrivate;
 class QEXT_WIDGETS_API QEXTNavigationListItem : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTNavigationListItem)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNavigationListItem)
 public:
     explicit QEXTNavigationListItem(QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
     QEXTNavigationListItem(const QString &text, QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
@@ -103,12 +122,10 @@ protected Q_SLOTS:
     void onChildItemAboutToBeDestroyed(QEXTNavigationListItem *item);
 
 protected:
-    QScopedPointer<QEXTNavigationListItemPrivate> d_ptr;
+    QScopedPointer<QEXTNavigationListItemPrivate> dd_ptr;
 
 private:
     friend class QEXTNavigationListModel;
-    Q_DECLARE_PRIVATE(QEXTNavigationListItem)
-    QEXT_DECL_DISABLE_COPY(QEXTNavigationListItem)
 };
 
 
@@ -116,6 +133,8 @@ class QEXTNavigationListModelPrivate;
 class QEXT_WIDGETS_API QEXTNavigationListModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTNavigationListModel)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNavigationListModel)
 public:
     explicit QEXTNavigationListModel(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTNavigationListModel();
@@ -151,11 +170,7 @@ protected:
     QVariant data(const QModelIndex &index, int role) const QEXT_DECL_OVERRIDE;
     Qt::ItemFlags flags(const QModelIndex &index) const QEXT_DECL_OVERRIDE;
 
-    QScopedPointer<QEXTNavigationListModelPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTNavigationListModel)
-    QEXT_DECL_DISABLE_COPY(QEXTNavigationListModel)
+    QScopedPointer<QEXTNavigationListModelPrivate> dd_ptr;
 };
 
 
@@ -163,6 +178,8 @@ class QEXTNavigationListViewPrivate;
 class QEXT_WIDGETS_API QEXTNavigationListView : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTNavigationListView)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNavigationListView)
 
     Q_PROPERTY(bool itemRightIconVisible READ itemRightIconVisible WRITE setItemRightIconVisible)
     Q_PROPERTY(bool itemTipVisible READ itemTipVisible WRITE setItemTipVisible)
@@ -213,12 +230,11 @@ class QEXT_WIDGETS_API QEXTNavigationListView : public QWidget
     Q_PROPERTY(ExpendMode m_expendMode READ expendMode WRITE setExpendMode)
 
 public:
-    //节点展开模式
     enum ExpendMode
     {
-        ExpendMode_SingleClick = 0, //单击模式
-        ExpendMode_DoubleClick = 1, //双击模式
-        ExpendMode_NoClick = 2,     //不可单击双击
+        ExpendMode_SingleClick = 0,
+        ExpendMode_DoubleClick = 1,
+        ExpendMode_NoClick = 2,
     };
     Q_ENUMS(ExpendMode)
 
@@ -288,7 +304,6 @@ public:
 public Q_SLOTS:
     void setModel(QEXTNavigationListModel *model);
 
-    //设置节点数据
     QList<QEXTNavigationListItem *> setItems(const QString &items);
     QList<QEXTNavigationListItem *> setItems(const QStringList &items);
     void setItems(const QList<QEXTNavigationListItem *> &items);
@@ -300,18 +315,15 @@ public Q_SLOTS:
     void setItemTipVisible(bool visible);
     void setItemTipWidth(int width);
 
-    //设置行分隔符 是否显示+高度+颜色
     void setItemSeparateVisible(bool visible);
     void setItemSeparateHeight(int height);
     void setItemSeparateColor(const QColor &color);
 
-    //设置线条 位置+可见+宽度+颜色
     void setItemLineLeft(bool inLeft);
     void setItemLineVisible(bool visible);
     void setItemLineWidth(int width);
     void setItemLineColor(const QColor &color);
 
-    //设置三角形 位置+可见+宽度+颜色
     void setItemTriangleLeft(bool inLeft);
     void setItemTriangleVisible(bool visible);
     void setItemTriangleWidth(int width);
@@ -319,7 +331,6 @@ public Q_SLOTS:
 
     void setBackgroundColor(const QColor &color);
 
-    //设置父节点 图标边距+左侧边距+字体大小+节点高度+颜色集合
     void setParentItemIconMargin(int margin);
     void setParentItemMargin(int margin);
     void setParentItemFontSize(int size);
@@ -333,7 +344,6 @@ public Q_SLOTS:
     void setParentItemSelectedTextColor(const QColor &color);
     void setParentItemHoverTextColor(const QColor &color);
 
-    //设置子节点 图标边距+左侧边距+字体大小+节点高度+颜色集合
     void setChildItemIconMargin(int margin);
     void setChildItemMargin(int margin);
     void setChildItemFontSize(int size);
@@ -347,7 +357,6 @@ public Q_SLOTS:
     void setChildItemSelectedTextColor(const QColor &color);
     void setChildItemHoverTextColor(const QColor &color);
 
-    //设置节点展开模式
     void setExpendMode(const ExpendMode &mode);
 
 signals:
@@ -358,14 +367,10 @@ signals:
 protected:
     void paintEvent(QPaintEvent *event) QEXT_DECL_OVERRIDE;
 
-    QScopedPointer<QEXTNavigationListViewPrivate> d_ptr;
+    QScopedPointer<QEXTNavigationListViewPrivate> dd_ptr;
 
 private Q_SLOTS:
     void onItemPressed(const QModelIndex &index);
-
-private:
-    Q_DECLARE_PRIVATE(QEXTNavigationListView)
-    QEXT_DECL_DISABLE_COPY(QEXTNavigationListView)
 };
 
 #endif // _QEXTNAVIGATIONLISTVIEW_H

@@ -34,7 +34,7 @@ QEXTTcpPacketParserPrivate::~QEXTTcpPacketParserPrivate()
 
 
 QEXTTcpPacketParser::QEXTTcpPacketParser(const QEXTTcpPacketHeader::DataInfoVector &extraHeaderDataInfo)
-    : d_ptr(new QEXTTcpPacketParserPrivate(this))
+    : dd_ptr(new QEXTTcpPacketParserPrivate(this))
 {
     Q_D(QEXTTcpPacketParser);
     QEXTTcpPacketHeader::DataInfoVector infoVector;
@@ -46,7 +46,7 @@ QEXTTcpPacketParser::QEXTTcpPacketParser(const QEXTTcpPacketHeader::DataInfoVect
 }
 
 QEXTTcpPacketParser::QEXTTcpPacketParser(QEXTTcpPacketParserPrivate *d)
-    : d_ptr(d)
+    : dd_ptr(d)
 {
 
 }

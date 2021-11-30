@@ -8,6 +8,8 @@
 class QEXTLed;
 class QEXT_WIDGETS_API QEXTLedPrivate
 {
+    Q_DISABLE_COPY(QEXTLedPrivate)
+    Q_DECLARE_PUBLIC(QEXTLed)
 public:
     explicit QEXTLedPrivate(QEXTLed *q);
     virtual ~QEXTLedPrivate();
@@ -16,10 +18,6 @@ public:
 
     QColor m_color;
     bool m_on;
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTLedPrivate)
-    Q_DECLARE_PUBLIC(QEXTLed)
 };
 
 #endif // _QEXTLED_P_H

@@ -4,8 +4,6 @@
 #include <QPainter>
 #include <QDebug>
 
-
-
 QPainterPath QEXTSmoothCurveCreator::createSmoothCurve(const QVector<QPointF> &points)
 {
     QPainterPath path;
@@ -95,8 +93,8 @@ void QEXTSmoothCurveCreator::calculateControlPoints(const QVector<QPointF> &knot
 
     delete xs;
     delete ys;
-    delete rhsx;
-    delete rhsy;
+    delete [] rhsx;
+    delete [] rhsy;
 }
 
 
@@ -134,7 +132,7 @@ QEXTWaveChartPrivate::~QEXTWaveChartPrivate()
 
 
 QEXTWaveChart::QEXTWaveChart(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTWaveChartPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTWaveChartPrivate(this))
 {
 
 }
@@ -146,19 +144,17 @@ QEXTWaveChart::~QEXTWaveChart()
 
 void QEXTWaveChart::paintEvent(QPaintEvent *)
 {
-    //绘制准备工作,启用反锯齿
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    //绘制背景
     this->drawBackground(&painter);
-    //绘制盒子
+
     this->drawBox(&painter);
-    //绘制文字
+
     this->drawText(&painter);
-    //绘制标题
+
     this->drawTitle(&painter);
-    //绘制数据点
+
     this->drawPoint(&painter);
 }
 
@@ -267,7 +263,6 @@ void QEXTWaveChart::drawTitle(QPainter *painter)
     double textWidth = this->fontMetrics().width(d->m_title);
     double textHeight = this->fontMetrics().height();
 
-    //标题加粗显示
     QFont titleFont;
     titleFont.setBold(true);
     titleFont.setPixelSize(13);
@@ -301,7 +296,6 @@ void QEXTWaveChart::drawPoint(QPainter *painter)
         points.push_back(QPointF(startX, d->m_plotAreaRect.bottomRight().y()));
     }
 
-    //如果只有两个数据点不需要处理
     if (d->m_pointBackgroundVisiable && points.count() <= 2) {
         painter->restore();
         return;
@@ -321,13 +315,11 @@ void QEXTWaveChart::drawPoint(QPainter *painter)
         }
     }
 
-    //绘制平滑曲线
     if (d->m_smooth) {
         QPainterPath path = QEXTSmoothCurveCreator::createSmoothCurve(points);
         painter->drawPath(path);
     }
 
-    //绘制坐标点
     if (d->m_pointVisiable) {
         for (int i = 0; i < points.count(); i++) {
             QPointF dataPot = points.at(i);
@@ -462,13 +454,11 @@ QColor QEXTWaveChart::pointColor() const
 
 QSize QEXTWaveChart::sizeHint() const
 {
-    Q_D(const QEXTWaveChart);
     return QSize(500, 300);
 }
 
 QSize QEXTWaveChart::minimumSizeHint() const
 {
-    Q_D(const QEXTWaveChart);
     return QSize(200, 70);
 }
 

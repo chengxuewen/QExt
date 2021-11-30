@@ -9,39 +9,37 @@
 class QEXTSwitchButton;
 class QEXT_WIDGETS_API QEXTSwitchButtonPrivate
 {
+    Q_DECLARE_PUBLIC(QEXTSwitchButton)
+    Q_DISABLE_COPY(QEXTSwitchButtonPrivate)
 public:
     explicit QEXTSwitchButtonPrivate(QEXTSwitchButton *q);
     virtual ~QEXTSwitchButtonPrivate();
 
     QEXTSwitchButton * const q_ptr;
 
-    int m_space;                      //滑块离背景间隔
-    int m_rectRadius;                 //圆角角度
-    bool m_checked;                   //是否选中
-    bool m_textVisiable;                  //显示文字
-    bool m_circleVisiable;                //显示小圆
-    bool m_animationEnable;                 //动画过渡
+    int m_space;
+    int m_rectRadius;
+    bool m_checked;
+    bool m_textVisiable;
+    bool m_circleVisiable;
+    bool m_animationEnable;
 
-    QEXTSwitchButton::Style m_buttonStyle;        //开关按钮样式
+    QEXTSwitchButton::Style m_buttonStyle;
 
-    QColor m_backgroundOffColor;              //关闭时背景颜色
-    QColor m_backgroundOnColor;               //打开时背景颜色
-    QColor m_sliderOffColor;          //关闭时滑块颜色
-    QColor m_sliderOnColor;           //打开时滑块颜色
-    QColor m_offTextColor;            //关闭时文字颜色
-    QColor m_onTextColor;             //打开时文字颜色
+    QColor m_backgroundOffColor;
+    QColor m_backgroundOnColor;
+    QColor m_sliderOffColor;
+    QColor m_sliderOnColor;
+    QColor m_offTextColor;
+    QColor m_onTextColor;
 
-    QString m_offText;                //关闭时显示的文字
-    QString m_onText;                 //打开时显示的文字
+    QString m_offText;
+    QString m_onText;
 
-    int m_step;                       //每次移动的步长
-    int m_startX;                     //滑块开始X轴坐标
-    int m_endX;                       //滑块结束X轴坐标
-    QScopedPointer<QTimer> m_timer;                  //定时器绘制
-
-private:
-    Q_DECLARE_PUBLIC(QEXTSwitchButton)
-    QEXT_DECL_DISABLE_COPY(QEXTSwitchButtonPrivate)
+    int m_step;
+    int m_startX;
+    int m_endX;
+    QScopedPointer<QTimer> m_timer;
 };
 
 #endif // _QEXTSWITCHBUTTON_P_H

@@ -47,14 +47,14 @@ void QEXTIconButtonPrivate::updateRipple()
  */
 
 QEXTIconButton::QEXTIconButton(const QIcon &icon, QWidget *parent)
-    : QPushButton(parent), d_ptr(new QEXTIconButtonPrivate(this))
+    : QPushButton(parent), dd_ptr(new QEXTIconButtonPrivate(this))
 {
     d_func()->init();
     this->setIcon(icon);
 }
 
 QEXTIconButton::QEXTIconButton(QWidget *parent)
-    : QPushButton(parent), d_ptr(new QEXTIconButtonPrivate(this))
+    : QPushButton(parent), dd_ptr(new QEXTIconButtonPrivate(this))
 {
     d_func()->init();
 }
@@ -156,7 +156,7 @@ QColor QEXTIconButton::disabledColor() const
 
 QEXTIconButton::QEXTIconButton(QEXTIconButtonPrivate &d, QWidget *parent)
     : QPushButton(parent),
-      d_ptr(&d)
+      dd_ptr(&d)
 {
     d_func()->init();
 }

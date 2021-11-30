@@ -17,6 +17,8 @@ class QEXTTcpSocketPrivate;
 class QEXT_TCP_API QEXTTcpSocket : public QTcpSocket
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTTcpSocket)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpSocket)
 public:
     enum TransferErrorType {
         TransferError_SocketError = 0,
@@ -70,11 +72,7 @@ protected Q_SLOTS:
     void readPacket();
 
 protected:
-    QScopedPointer<QEXTTcpSocketPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTTcpSocket)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpSocket)
+    QScopedPointer<QEXTTcpSocketPrivate> dd_ptr;
 };
 
 

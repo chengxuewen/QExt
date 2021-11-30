@@ -10,8 +10,6 @@
 #include <QKeyEvent>
 #include <QDebug>
 
-
-
 QEXTIpAddressEditPrivate::QEXTIpAddressEditPrivate(QEXTIpAddressEdit *q)
     : q_ptr(q)
 {
@@ -31,7 +29,6 @@ void QEXTIpAddressEditPrivate::initForm(QEXTIpAddressEdit *qq)
     m_borderColor = "#A6B5B8";
     m_borderRadius = 3;
 
-    //用于显示小圆点的标签,居中对齐
     m_labDot1 = new QLabel;
     m_labDot1->setAlignment(Qt::AlignCenter);
     m_labDot1->setText(".");
@@ -44,7 +41,6 @@ void QEXTIpAddressEditPrivate::initForm(QEXTIpAddressEdit *qq)
     m_labDot3->setAlignment(Qt::AlignCenter);
     m_labDot3->setText(".");
 
-    //用于输入IP地址的文本框,居中对齐
     m_txtIP1 = new QLineEdit;
     m_txtIP1->setObjectName("txtIP1");
     m_txtIP1->setAlignment(Qt::AlignCenter);
@@ -69,14 +65,12 @@ void QEXTIpAddressEditPrivate::initForm(QEXTIpAddressEdit *qq)
     m_txtIP4->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QObject::connect(m_txtIP4, SIGNAL(textChanged(QString)), qq, SLOT(textChanged(QString)));
 
-    //设置IP地址校验过滤
     QRegExp regExp("(2[0-5]{2}|2[0-4][0-9]|1?[0-9]{1,2})");
     m_txtIP1->setValidator(new QRegExpValidator(regExp, qq));
     m_txtIP2->setValidator(new QRegExpValidator(regExp, qq));
     m_txtIP3->setValidator(new QRegExpValidator(regExp, qq));
     m_txtIP4->setValidator(new QRegExpValidator(regExp, qq));
 
-    //绑定事件过滤器,识别键盘按下
     m_txtIP1->installEventFilter(qq);
     m_txtIP2->installEventFilter(qq);
     m_txtIP3->installEventFilter(qq);
@@ -90,7 +84,6 @@ void QEXTIpAddressEditPrivate::initForm(QEXTIpAddressEdit *qq)
     verticalLayout->setSpacing(0);
     verticalLayout->addWidget(frame);
 
-    //将控件按照横向布局排列
     QHBoxLayout *layout = new QHBoxLayout(frame);
     layout->setMargin(0);
     layout->setSpacing(0);
@@ -116,7 +109,7 @@ void QEXTIpAddressEditPrivate::updateQSS(QEXTIpAddressEdit *qq)
 
 
 QEXTIpAddressEdit::QEXTIpAddressEdit(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTIpAddressEditPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTIpAddressEditPrivate(this))
 {
     Q_D(QEXTIpAddressEdit);
     this->setObjectName("IpAddressEdit");
@@ -139,13 +132,11 @@ bool QEXTIpAddressEdit::eventFilter(QObject *watched, QEvent *event)
         {
             QKeyEvent *key = (QKeyEvent *)event;
 
-            //如果当前按下了小数点则移动焦点到下一个输入框
             if (key->text() == ".")
             {
                 this->focusNextChild();
             }
 
-            //如果按下了退格键并且当前文本框已经没有了内容则焦点往前移
             if (key->key() == Qt::Key_Backspace)
             {
                 if (txt->text().length() <= 1)
@@ -165,7 +156,6 @@ void QEXTIpAddressEdit::textChanged(const QString &text)
     int len = text.length();
     int value = text.toInt();
 
-    //判断当前是否输入完成一个网段,是的话则自动移动到下一个输入框
     if (len == 3)
     {
         if (value >= 100 && value <= 255)
@@ -174,7 +164,6 @@ void QEXTIpAddressEdit::textChanged(const QString &text)
         }
     }
 
-    //拼接成完整IP地址
     d->m_ip = QString("%1.%2.%3.%4").arg(d->m_txtIP1->text()).arg(d->m_txtIP2->text()).arg(d->m_txtIP3->text()).arg(d->m_txtIP4->text());
     emit this->ipChanged(d->m_ip);
 }
@@ -228,7 +217,6 @@ QSize QEXTIpAddressEdit::minimumSizeHint() const
 void QEXTIpAddressEdit::setIP(const QString &ip)
 {
     Q_D(QEXTIpAddressEdit);
-    //先检测IP地址是否合法
     QRegExp regExp("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)");
     if (!regExp.exactMatch(ip))
     {
@@ -239,7 +227,6 @@ void QEXTIpAddressEdit::setIP(const QString &ip)
     {
         d->m_ip = ip;
 
-        //将IP地址填入各个网段
         QStringList list = ip.split(".");
         d->m_txtIP1->setText(list.at(0));
         d->m_txtIP2->setText(list.at(1));

@@ -1,22 +1,34 @@
-﻿#ifndef _QEXTRINGCOMPASS_H
-#define _QEXTRINGCOMPASS_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:圆环指南针控件
- * 1:可设置当前度数
- * 2:可设置背景颜色+文字颜色
- * 3:可设置边框颜色+边框宽度
- * 4:可设置正北点颜色
- * 5:可设置其他方向点颜色
- * 6:可设置指针颜色
- * 7:自动计算方位变显示
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武（QQ:517216493）代码。
- *@Date:2019-4-23
- *@History:
- *  Modification data:2021-10-17
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTRINGCOMPASS_H
+#define _QEXTRINGCOMPASS_H
 
 #include <qextWidgetGlobal.h>
 
@@ -26,6 +38,9 @@ class QEXTRingCompassPrivate;
 class QEXT_WIDGETS_API QEXTRingCompass : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTRingCompass)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTRingCompass)
+
     Q_PROPERTY(double value READ value WRITE setValue)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
@@ -54,22 +69,20 @@ public:
     QSize minimumSizeHint() const;
 
 public Q_SLOTS:
-    //设置值
     void setValue(double value);
-    //设置背景色
+
     void setBackgroundColor(const QColor &color);
-    //设置文字颜色
+
     void setTextColor(const QColor &color);
-    //设置外边框颜色
+
     void setBorderColor(const QColor &color);
-    //设置外边框宽度
+
     void setBorderWidth(int width);
 
-    //设置正北点颜色
     void setNorthDotColor(const QColor &color);
-    //设置其它方向点颜色
+
     void setOtherDotColor(const QColor &color);
-    //设置指针颜色
+
     void setPointerColor(const QColor &color);
 
 Q_SIGNALS:
@@ -84,11 +97,8 @@ protected:
     void drawPointer(QPainter *painter);
     void drawValue(QPainter *painter);
 
-    QScopedPointer<QEXTRingCompassPrivate> d_ptr;
+    QScopedPointer<QEXTRingCompassPrivate> dd_ptr;
 
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTRingCompass)
-    Q_DECLARE_PRIVATE(QEXTRingCompass)
 };
 
 #endif // _QEXTRINGCOMPASS_H

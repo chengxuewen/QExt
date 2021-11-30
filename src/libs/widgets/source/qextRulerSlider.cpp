@@ -6,8 +6,6 @@
 #include <QTimer>
 #include <QDebug>
 
-
-
 QEXTRulerSlider::QEXTRulerSlider(QWidget *parent) :	QWidget(parent)
 {    
     minValue = 0.0;
@@ -55,13 +53,10 @@ void QEXTRulerSlider::showEvent(QShowEvent *)
 
 void QEXTRulerSlider::wheelEvent(QWheelEvent *e)
 {
-    //滚动的角度,*8就是鼠标滚动的距离
     int degrees = e->delta() / 8;
 
-    //滚动的步数,*15就是鼠标滚动的角度
     int steps = degrees / 15;
 
-    //如果是正数代表为左边移动,负数代表为右边移动
     if (e->orientation() == Qt::Vertical) {
         double value = currentValue - steps;
 
@@ -116,17 +111,12 @@ void QEXTRulerSlider::mouseMoveEvent(QMouseEvent *e)
 
 void QEXTRulerSlider::paintEvent(QPaintEvent *)
 {
-    //绘制准备工作,启用反锯齿
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    //绘制背景
     drawBg(&painter);
-    //绘制标尺
     drawRule(&painter);
-    //绘制滑块
     drawSlider(&painter);
-    //绘制当前值的提示
     drawTip(&painter);
 }
 
@@ -147,19 +137,15 @@ void QEXTRulerSlider::drawRule(QPainter *painter)
     painter->save();
     painter->setPen(lineColor);
 
-    //绘制横向标尺底部线,居中
     double initX = space;
     double initY = (double)height() / 2;
     lineLeftPot = QPointF(initX, initY);
     lineRightPot = QPointF(width() - initX, initY);
     painter->drawLine(lineLeftPot, lineRightPot);
 
-    //绘制纵向标尺刻度
     double length = width() - 2 * space;
-    //计算每一格移动多少
     double increment = length / (maxValue - minValue);
 
-    //根据范围值绘制刻度值及刻度值
     for (int i = minValue; i <= maxValue; i = i + shortStep) {
         if (i % longStep == 0) {
             QPointF topPot(initX, initY - longLineHeight);
@@ -187,7 +173,6 @@ void QEXTRulerSlider::drawSlider(QPainter *painter)
 {
     painter->save();
 
-    //绘制滑块上部分三角形
     sliderTopPot = QPointF(sliderLastPot.x(), lineLeftPot.y() - longLineHeight / 4);
     sliderLeftPot = QPointF(sliderTopPot.x() - width() / 100, sliderTopPot.y() + sliderTopHeight);
     sliderRightPot = QPointF(sliderTopPot.x() + width() / 100, sliderTopPot.y() + sliderTopHeight);
@@ -201,7 +186,6 @@ void QEXTRulerSlider::drawSlider(QPainter *painter)
     potVec.append(sliderRightPot);
     painter->drawPolygon(potVec);
 
-    //绘制滑块下部分矩形
     double indicatorLength = sliderRightPot.x() - sliderLeftPot.x();
 
     QPointF handleBottomRightPot(sliderLeftPot.x() + indicatorLength, sliderLeftPot.y() + sliderBottomHeight);
@@ -318,7 +302,6 @@ QSize QEXTRulerSlider::minimumSizeHint() const
 
 void QEXTRulerSlider::setRange(double minValue, double maxValue)
 {
-    //如果最小值大于或者等于最大值则不设置
     if (minValue >= maxValue) {
         return;
     }
@@ -345,12 +328,10 @@ void QEXTRulerSlider::setMaxValue(double maxValue)
 
 void QEXTRulerSlider::setValue(double value)
 {
-    //值和当前值一致则无需处理
     if (value == this->value) {
         return;
     }
 
-    //值小于最小值则取最小值,大于最大值则取最大值
     if (value < minValue) {
         value = minValue;
     } else if (value > maxValue) {
@@ -377,7 +358,6 @@ void QEXTRulerSlider::setValue(int value)
 
 void QEXTRulerSlider::setPrecision(int precision)
 {
-    //最大精确度为 3
     if (precision <= 3 && this->precision != precision) {
         this->precision = precision;
         update();
@@ -386,7 +366,6 @@ void QEXTRulerSlider::setPrecision(int precision)
 
 void QEXTRulerSlider::setLongStep(int longStep)
 {
-    //短步长不能超过长步长
     if (longStep < shortStep) {
         return;
     }
@@ -399,7 +378,6 @@ void QEXTRulerSlider::setLongStep(int longStep)
 
 void QEXTRulerSlider::setShortStep(int shortStep)
 {
-    //短步长不能超过长步长
     if (longStep < shortStep) {
         return;
     }

@@ -11,7 +11,7 @@ class QEXT_QUICK_API QEXTQuickFramelessHelper : public QObject, public QQmlParse
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTQuickFramelessHelper)
-    Q_DECLARE_PRIVATE(QEXTQuickFramelessHelper)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTQuickFramelessHelper)
 
     Q_PROPERTY(int topDraggableMargin READ topDraggableMargin WRITE setTopDraggableMargin NOTIFY topDraggableMarginChanged)
     Q_PROPERTY(int leftDraggableMargin READ leftDraggableMargin WRITE setLeftDraggableMargin NOTIFY leftDraggableMarginChanged)
@@ -91,7 +91,7 @@ public Q_SLOTS:
     void triggerCloseButtonAction();
 
 protected:
-    QScopedPointer<QEXTQuickFramelessHelperPrivate> d_ptr;
+    QScopedPointer<QEXTQuickFramelessHelperPrivate> dd_ptr;
 };
 
 #endif // _QEXTQUICKFRAMELESSHELPER_H

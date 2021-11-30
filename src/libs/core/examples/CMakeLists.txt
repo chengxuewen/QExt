@@ -84,7 +84,7 @@ target_include_directories(${qext_example_name} PUBLIC
     )
 set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
-    qextFunctionCopyDependsInternalLibs(
+    qextFunctionCopyDependencyInternal(
         TARGET ${qext_example_name}
         LIBS QEXTCore
         DESTINATION ${EXECUTABLE_OUTPUT_PATH}

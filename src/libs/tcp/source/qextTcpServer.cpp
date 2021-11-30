@@ -50,7 +50,7 @@ void QEXTTcpServerPrivate::initServer()
 
 
 QEXTTcpServer::QEXTTcpServer()
-    : QTcpServer(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpServerPrivate(this))
+    : QTcpServer(QEXT_DECL_NULLPTR), dd_ptr(new QEXTTcpServerPrivate(this))
 {
     Q_D(QEXTTcpServer);
     d->initServer();
@@ -58,7 +58,7 @@ QEXTTcpServer::QEXTTcpServer()
 }
 
 QEXTTcpServer::QEXTTcpServer(const QSharedPointer<QEXTTcpFactory> &tcpFactory)
-    : QTcpServer(QEXT_DECL_NULLPTR), d_ptr(new QEXTTcpServerPrivate(this))
+    : QTcpServer(QEXT_DECL_NULLPTR), dd_ptr(new QEXTTcpServerPrivate(this))
 {
     Q_D(QEXTTcpServer);
     d->initServer();
@@ -66,16 +66,16 @@ QEXTTcpServer::QEXTTcpServer(const QSharedPointer<QEXTTcpFactory> &tcpFactory)
 }
 
 QEXTTcpServer::QEXTTcpServer(QEXTTcpServerPrivate *d)
-    : QTcpServer(QEXT_DECL_NULLPTR), d_ptr(d)
+    : QTcpServer(QEXT_DECL_NULLPTR), dd_ptr(d)
 {
-    d_ptr->initServer();
+    dd_ptr->initServer();
     this->setTcpFactory(QSharedPointer<QEXTTcpFactory>(new QEXTTcpFactory));
 }
 
 QEXTTcpServer::QEXTTcpServer(QEXTTcpServerPrivate *d, const QSharedPointer<QEXTTcpFactory> &tcpFactory)
-    : QTcpServer(QEXT_DECL_NULLPTR), d_ptr(d)
+    : QTcpServer(QEXT_DECL_NULLPTR), dd_ptr(d)
 {
-    d_ptr->initServer();
+    dd_ptr->initServer();
     this->setTcpFactory(tcpFactory);
 }
 

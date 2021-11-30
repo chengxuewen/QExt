@@ -9,48 +9,46 @@
 class QEXTProgressRing;
 class QEXT_WIDGETS_API QEXTProgressRingPrivate
 {
+    Q_DISABLE_COPY(QEXTProgressRingPrivate)
+    Q_DECLARE_PUBLIC(QEXTProgressRing)
 public:
     explicit QEXTProgressRingPrivate(QEXTProgressRing *q);
     virtual ~QEXTProgressRingPrivate();
 
     QEXTProgressRing * const q_ptr;
 
-    double m_minValue;                //最小值
-    double m_maxValue;                //最大值
-    double m_value;                   //目标值
-    int m_precision;                  //精确度,小数点后几位
-    QString m_text;                   //用于直接显示文字
+    double m_minValue;
+    double m_maxValue;
+    double m_value;
+    int m_precision;
+    QString m_text;
 
-    bool m_clipCenter;                //中间部分是否扣掉成透明
-    bool m_clockWise;                 //顺时针逆时针
-    bool m_showPercent;               //显示百分比
+    bool m_clipCenter;
+    bool m_clockWise;
+    bool m_showPercent;
 
-    int m_alarmMode;                  //警戒报警模式,进度为不同的颜色
-    int m_startAngle;                 //起始角度
-    int m_ringPadding;                //圆环间距
-    int m_ringWidth;                  //圆环宽度
+    int m_alarmMode;
+    int m_startAngle;
+    int m_ringPadding;
+    int m_ringWidth;
 
-    QColor m_backgroundColor;                 //背景颜色
-    QColor m_textColor;               //文字颜色
-    QColor m_ringColor;               //圆环颜色
-    QColor m_ringBackgroundColor;             //圆环进度背景
-    QColor m_circleColor;             //中心圆颜色
+    QColor m_backgroundColor;
+    QColor m_textColor;
+    QColor m_ringColor;
+    QColor m_ringBackgroundColor;
+    QColor m_circleColor;
 
-    int m_ringValue1;                 //环形值1
-    int m_ringValue2;                 //环形值2
-    int m_ringValue3;                 //环形值3
+    int m_ringValue1;
+    int m_ringValue2;
+    int m_ringValue3;
 
-    QColor m_ringColor1;              //环形颜色1
-    QColor m_ringColor2;              //环形颜色2
-    QColor m_ringColor3;              //环形颜色3
+    QColor m_ringColor1;
+    QColor m_ringColor2;
+    QColor m_ringColor3;
 
-    bool m_animationEnable;                 //是否启用动画显示
-    double m_currentValue;            //当前值
-    QPropertyAnimation *m_animation;                  //定时器绘制动画
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressRingPrivate)
-    Q_DECLARE_PUBLIC(QEXTProgressRing)
+    bool m_animationEnable;
+    double m_currentValue;
+    QPropertyAnimation *m_animation;
 };
 
 

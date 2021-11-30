@@ -21,7 +21,7 @@
 #include "qextDeviceWatcher_p.h"
 
 QEXTDeviceWatcher::QEXTDeviceWatcher(QObject* parent)
-    : QObject(parent),running(false),d_ptr(new QEXTDeviceWatcherPrivate)
+    : QObject(parent),running(false),dd_ptr(new QEXTDeviceWatcherPrivate)
 {
     Q_D(QEXTDeviceWatcher);
     d->setWatcher(this);
@@ -29,9 +29,9 @@ QEXTDeviceWatcher::QEXTDeviceWatcher(QObject* parent)
 
 QEXTDeviceWatcher::~QEXTDeviceWatcher()
 {
-    if (d_ptr) {
-        delete d_ptr;
-        d_ptr = NULL;
+    if (dd_ptr) {
+        delete dd_ptr;
+        dd_ptr = NULL;
     }
 }
 

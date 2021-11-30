@@ -7,8 +7,6 @@
 #include <QFontDatabase>
 #include <QMutableStringListIterator>
 
-
-
 QEXTNavigationListItemPrivate::QEXTNavigationListItemPrivate(QEXTNavigationListItem *q)
     : q_ptr(q)
 {
@@ -24,14 +22,14 @@ QEXTNavigationListItemPrivate::~QEXTNavigationListItemPrivate()
 }
 
 QEXTNavigationListItem::QEXTNavigationListItem(QEXTNavigationListItem *parent)
-    : QObject(), d_ptr(new QEXTNavigationListItemPrivate(this))
+    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
 {
     Q_D(QEXTNavigationListItem);
     this->setParentItem(parent);
 }
 
 QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, QEXTNavigationListItem *parent)
-    : QObject(), d_ptr(new QEXTNavigationListItemPrivate(this))
+    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
 {
     Q_D(QEXTNavigationListItem);
     d->m_text = text;
@@ -40,7 +38,7 @@ QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, QEXTNavigati
 
 QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QPixmap &icon,
                                              QEXTNavigationListItem *parent)
-    : QObject(), d_ptr(new QEXTNavigationListItemPrivate(this))
+    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
 {
     Q_D(QEXTNavigationListItem);
     d->m_text = text;
@@ -50,7 +48,7 @@ QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QPixma
 
 QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QPixmap &icon,
                                              bool expand, QEXTNavigationListItem *parent)
-    : QObject(), d_ptr(new QEXTNavigationListItemPrivate(this))
+    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
 {
     Q_D(QEXTNavigationListItem);
     d->m_text = text;
@@ -61,7 +59,7 @@ QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QPixma
 
 QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QString &tip,
                                              const QPixmap &icon, QEXTNavigationListItem *parent)
-    : QObject(), d_ptr(new QEXTNavigationListItemPrivate(this))
+    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
 {
     Q_D(QEXTNavigationListItem);
     d->m_text = text;
@@ -72,7 +70,7 @@ QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QStrin
 
 QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QString &tip,
                                              const QPixmap &icon, bool expand, QEXTNavigationListItem *parent)
-    : QObject(), d_ptr(new QEXTNavigationListItemPrivate(this))
+    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
 {
     Q_D(QEXTNavigationListItem);
     d->m_text = text;
@@ -84,7 +82,7 @@ QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QStrin
 
 QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QChar &fontChar,
                                              QEXTNavigationListItem *parent)
-    : QObject(), d_ptr(new QEXTNavigationListItemPrivate(this))
+    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
 {
     Q_D(QEXTNavigationListItem);
     d->m_text = text;
@@ -94,7 +92,7 @@ QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QChar 
 
 QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QChar &fontChar,
                                              bool expand, QEXTNavigationListItem *parent)
-    : QObject(), d_ptr(new QEXTNavigationListItemPrivate(this))
+    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
 {
     Q_D(QEXTNavigationListItem);
     d->m_text = text;
@@ -105,7 +103,7 @@ QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QChar 
 
 QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QString &tip,
                                              const QChar &fontChar, QEXTNavigationListItem *parent)
-    : QObject(), d_ptr(new QEXTNavigationListItemPrivate(this))
+    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
 {
     Q_D(QEXTNavigationListItem);
     d->m_text = text;
@@ -116,7 +114,7 @@ QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QStrin
 
 QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QString &tip,
                                              const QChar &fontChar, bool expand, QEXTNavigationListItem *parent)
-    : QObject(), d_ptr(new QEXTNavigationListItemPrivate(this))
+    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
 {
     Q_D(QEXTNavigationListItem);
     d->m_text = text;
@@ -467,7 +465,6 @@ QEXTNavListDelegate::QEXTNavListDelegate(QEXTNavigationListViewPrivate *navData)
 {
     m_navData = navData;
 
-    //判断图形字体是否存在,不存在则加入
     QFontDatabase fontDb;
     if (!fontDb.families().contains("FontAwesome"))
     {
@@ -495,7 +492,6 @@ QSize QEXTNavListDelegate::sizeHint(const QStyleOptionViewItem &option, const QM
 {
     QEXTNavigationListItem *item = (QEXTNavigationListItem *)index.data(Qt::UserRole).toLongLong();
 
-    //设置最小的宽高
     QSize size(50, item->isParentItem() ? m_navData->m_parentHeight : m_navData->m_childHeight);
     return size;
 }
@@ -505,7 +501,6 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     painter->setRenderHint(QPainter::Antialiasing);
     QEXTNavigationListItem *item = (QEXTNavigationListItem *)index.data(Qt::UserRole).toLongLong();
 
-    //定义变量存储区域
     QRect optionRect = option.rect;
     int x = optionRect.x();
     int y = optionRect.y();
@@ -513,7 +508,6 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     int height = optionRect.height();
 
 
-    //父节点和子节点颜色分开设置
     bool parent = item->isParentItem();
     bool hasChildItems = (0 != item->visiableChildItemsCount());
     bool checked = item->isChecked();
@@ -522,7 +516,6 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
     int fontSize = parent ? m_navData->m_parentFontSize : m_navData->m_childFontSize;
     QPixmap icon;
-    //根据不同的状态设置不同的颜色 bgColor-主背景色 textColor-主文字颜色 tipBgColor-提示信息背景颜色 tipTextColor-提示信息文字颜色
     QColor bgColor, textColor, tipBgColor, tipTextColor, iconColor;
     if (checked)
     {
@@ -568,19 +561,15 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         tipTextColor.setAlpha(100);
     }
 
-    //绘制背景
     painter->fillRect(optionRect, bgColor);
 
-    //绘制线条,目前限定子节点绘制,如果需要父节点也绘制则取消parent判断即可
     int lineWidth = m_navData->m_lineWidth;
     if (!parent && m_navData->m_lineVisible && lineWidth > 0)
     {
         if (checked)
         {
-            //设置偏移量,不然上下部分会有点偏移
             float offset = (float)lineWidth / 2;
 
-            //计算上下两个坐标点
             QPointF pointTop(x, y + offset);
             QPointF pointBottom(x, height + y - offset);
             if (!m_navData->m_lineLeft)
@@ -589,13 +578,11 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
                 pointBottom.setX(width);
             }
 
-            //设置线条颜色和宽度
             painter->setPen(QPen(m_navData->m_lineColor, lineWidth));
             painter->drawLine(pointTop, pointBottom);
         }
     }
 
-    //绘制三角形,目前限定子节点绘制,如果需要父节点也绘制则取消parent判断即可
     int triangleWidth = m_navData->m_triangleWidth;
     if (!parent && m_navData->m_triangleVisible && triangleWidth > 0)
     {
@@ -606,7 +593,6 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
             painter->setFont(font);
             painter->setPen(m_navData->m_triangleColor);
 
-            //采用图形字体中的三角形绘制
             if (m_navData->m_triangleLeft)
             {
                 painter->drawText(optionRect, Qt::AlignLeft | Qt::AlignVCenter, QChar(0xf0da));
@@ -618,7 +604,6 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         }
     }
 
-    //绘制行分隔符
     if (m_navData->m_separateVisible)
     {
         if (item->isParentItem() || (item->isChildItem() && item->isLastVisiableItem()))
@@ -628,11 +613,9 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         }
     }
 
-    //绘制文字,如果文字为空则不绘制
     QString text = item->text();
     if (!text.isEmpty())
     {
-        //文字离左边的距离+字体大小
         int margin = m_navData->m_parentMargin;
         if (item->isChildItem())
         {
@@ -640,7 +623,6 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
             fontSize = m_navData->m_childFontSize;
         }
 
-        //计算文字区域
         QRect textRect = optionRect;
         textRect.setWidth(width - margin);
         textRect.setX(x + margin);
@@ -652,12 +634,9 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter, text);
     }
 
-    //绘制提示信息,如果不需要显示提示信息或者提示信息为空则不绘制
     QString tip = item->tip();
     if (m_navData->m_tipVisible && !tip.isEmpty())
     {
-        //如果是数字则将超过999的数字显示成 999+
-        //如果显示的提示信息长度过长则将多余显示成省略号 .
         if (tip.toInt() > 0)
         {
             tip = tip.toInt() > 999 ? "999+" : tip;
@@ -667,7 +646,6 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
             tip = tip.left(2) + " .";
         }
 
-        //计算绘制区域,半径取高度的四分之一
         int radius = height / 4;
         QRect tipRect = optionRect;
         tipRect.setHeight(radius * 2);
@@ -675,33 +653,27 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         tipRect.setLeft(optionRect.right() - m_navData->m_tipWidth - 5);
         tipRect.setRight(optionRect.right() - 5);
 
-        //设置字体大小
         QFont font = m_navData->itemFont();
         font.setPixelSize(fontSize - 2);
         painter->setFont(font);
 
-        //绘制提示文字的背景
         painter->setPen(Qt::NoPen);
         painter->setBrush(tipBgColor);
         painter->drawRoundedRect(tipRect, radius, radius);
 
-        //绘制提示文字
         painter->setPen(tipTextColor);
         painter->setBrush(Qt::NoBrush);
         painter->drawText(tipRect, Qt::AlignCenter, tip);
     }
 
-    //计算绘制图标区域
     QRect iconRect = optionRect;
     iconRect.setLeft(parent ? m_navData->m_parentIconMargin : m_navData->m_childIconMargin);
 
-    //设置图形字体和画笔颜色
     QFont font = m_iconFont;
     font.setPixelSize(fontSize);
     painter->setFont(font);
     painter->setPen(textColor);
 
-    //绘制左侧图标,有图标则绘制图标,没有的话父窗体取 + -
     if (!icon.isNull())
     {
         QRect pixmapRect =  QRect(iconRect.x(), iconRect.y() + (iconRect.height() - fontSize) / 2, fontSize, fontSize);
@@ -724,7 +696,6 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         }
     }
 
-    //绘制父节点右侧图标
     iconRect.setRight(optionRect.width() - 10);
     if (!(m_navData->m_tipVisible && !item->tip().isEmpty()) && m_navData->m_rightIconVisible && parent && hasChildItems)
     {
@@ -824,7 +795,7 @@ void QEXTNavigationListModelPrivate::initItemConnection(QEXTNavigationListItem *
 
 
 QEXTNavigationListModel::QEXTNavigationListModel(QObject *parent)
-    : QAbstractListModel(parent), d_ptr(new QEXTNavigationListModelPrivate(this))
+    : QAbstractListModel(parent), dd_ptr(new QEXTNavigationListModelPrivate(this))
 {
 
 }
@@ -1019,7 +990,7 @@ void QEXTNavigationListModel::setItems(const QStringList &items)
     }
 }
 
-//TODO
+
 void QEXTNavigationListModel::setItems(const QList<QEXTNavigationListItem *> &items)
 {
     Q_D(QEXTNavigationListModel);
@@ -1419,7 +1390,7 @@ QFont QEXTNavigationListViewPrivate::itemFont() const
 
 
 QEXTNavigationListView::QEXTNavigationListView(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTNavigationListViewPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTNavigationListViewPrivate(this))
 {
     Q_D(QEXTNavigationListView);
     QVBoxLayout *layout = new QVBoxLayout;
@@ -1492,7 +1463,6 @@ void QEXTNavigationListView::paintEvent(QPaintEvent *event)
 
 void QEXTNavigationListView::onItemPressed(const QModelIndex &index)
 {
-    Q_D(QEXTNavigationListView);
     QEXTNavigationListItem *item = (QEXTNavigationListItem *)index.data(Qt::UserRole).toLongLong();
     if (item)
     {

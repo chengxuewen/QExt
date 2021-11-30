@@ -21,7 +21,7 @@ QEXTLedPrivate::~QEXTLedPrivate()
 
 
 QEXTLed::QEXTLed(QWidget *parent)
-    : QWidget(parent), d_ptr(new QEXTLedPrivate(this))
+    : QWidget(parent), dd_ptr(new QEXTLedPrivate(this))
 {
 
 }

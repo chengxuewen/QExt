@@ -1,40 +1,34 @@
-﻿#ifndef _QEXTSWITCHBUTTON_H
-#define _QEXTSWITCHBUTTON_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:选择开关控件
- *  1.可设置开关按钮的样式 圆角矩形/内圆形/外圆形/图片；
- *  2.可设置选中和未选中时的背景颜色；
- *  3.可设置选中和未选中时的滑块颜色；
- *  4.可设置显示的文本；
- *  5.可设置滑块离背景的间隔；
- *  6.可设置圆角角度；
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武（QQ:517216493）代码。
- *@Date:2016-11-06
- *@History:
- *  Modification data:2017-10-17
- *  Author:chengxuewen
- *  Brief:1.整理优化;
- *
- *  Modification data:2017-11-02
- *  Author:chengxuewen
- *  Brief:1.修复BUG，设置按钮checked状态时按钮滑动条未滑动问题；
- *        2.修复BUG，设置按钮外圆角风格时，按钮显示不正常；
- *
- *  Modification data:2018-05-30
- *  Author:chengxuewen
- *  Brief:1.重写为自定义选择按钮私有实现类。
- *        2.增加选择按钮使能颜色设置。
- *
- *  Modification data:2018-06-15
- *  Author:chengxuewen
- *  Brief:1.添加选择按钮使能控制及使能颜色显示。
- *
- *  Modification data:2019-06-26
- *  Author:chengxuewen
- *  Brief:1.添加插件元对象属性导出暴露功能。
- *        2.修复最后设置check状态属性时会导致初次显示开关出现绘制slider位置偏差bug。
-***************************************************************************************************/
+#ifndef _QEXTSWITCHBUTTON_H
+#define _QEXTSWITCHBUTTON_H
 
 #include <qextWidgetGlobal.h>
 
@@ -44,6 +38,8 @@ class QEXTSwitchButtonPrivate;
 class QEXT_WIDGETS_API QEXTSwitchButton : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTSwitchButton)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTSwitchButton)
 
     Q_PROPERTY(int space READ space WRITE setSpace)
     Q_PROPERTY(int rectRadius READ rectRadius WRITE setRectRadius)
@@ -66,9 +62,9 @@ class QEXT_WIDGETS_API QEXTSwitchButton : public QWidget
 public:
     enum Style
     {
-        Style_Rect = 0,       //圆角矩形
-        Style_CircleIn = 1,   //内圆形
-        Style_CircleOut = 2   //外圆形
+        Style_Rect = 0,
+        Style_CircleIn = 1,
+        Style_CircleOut = 2
     };
     Q_ENUMS(Style)
 
@@ -98,35 +94,29 @@ public:
     QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
 
 public Q_SLOTS:
-    //设置间隔
     void setSpace(int space);
-    //设置圆角角度
+
     void setRectRadius(int radius);
-    //设置是否选中
+
     void setChecked(bool checked);
-    //设置是否显示文字
+
     void setTextVisiable(bool visiable);
-    //设置是否显示小圆
+
     void setCircleVisiable(bool visiable);
-    //设置是否动画过渡
+
     void setAnimationEnable(bool enable);
 
-    //设置风格样式
     void setStyleType(const Style &style);
 
-    //设置背景颜色
     void setOffBackgroundColor(const QColor &color);
     void setOnBackgroundColor(const QColor &color);
 
-    //设置滑块颜色
     void setOffSliderColor(const QColor &color);
     void setOnSliderColor(const QColor &color);
 
-    //设置文字颜色
     void setOffTextColor(const QColor &color);
     void setOnTextColor(const QColor &color);
 
-    //设置文字
     void setOffText(const QString &text);
     void setOnText(const QString &text);
 
@@ -141,15 +131,11 @@ protected:
     void drawBackground(QPainter *painter);
     void drawSlider(QPainter *painter);
 
-    QScopedPointer<QEXTSwitchButtonPrivate> d_ptr;
+    QScopedPointer<QEXTSwitchButtonPrivate> dd_ptr;
 
 private Q_SLOTS:
     void change();
     void updateValue();
-
-private:
-    Q_DECLARE_PRIVATE(QEXTSwitchButton)
-    QEXT_DECL_DISABLE_COPY(QEXTSwitchButton)
 };
 
 #endif // _QEXTSWITCHBUTTON_H

@@ -6,8 +6,6 @@
 #include <QDebug>
 #include <QMouseEvent>
 
-
-
 QEXTSliderPrivate::QEXTSliderPrivate(QEXTSlider *q)
     : q_ptr(q)
 {
@@ -48,7 +46,7 @@ QEXTSliderPrivate::~QEXTSliderPrivate()
 
 
 QEXTSlider::QEXTSlider(QWidget *parent)
-    : QSlider(parent), d_ptr(new QEXTSliderPrivate(this))
+    : QSlider(parent), dd_ptr(new QEXTSliderPrivate(this))
 {
     this->setOrientation(Qt::Horizontal);
 }
@@ -61,7 +59,6 @@ QEXTSlider::~QEXTSlider()
 void QEXTSlider::mousePressEvent(QMouseEvent *e)
 {
     Q_D(QEXTSlider);
-    //限定必须是鼠标左键按下
     if (e->button() != Qt::LeftButton)
     {
         return;
@@ -69,7 +66,6 @@ void QEXTSlider::mousePressEvent(QMouseEvent *e)
 
     if (d->m_clickEnable)
     {
-        //获取鼠标的位置
         double pos, value;
         if (this->orientation() == Qt::Horizontal)
         {
@@ -84,7 +80,6 @@ void QEXTSlider::mousePressEvent(QMouseEvent *e)
 
         this->setValue(value + 0.5);
 
-        //发送自定义的鼠标单击信号
         emit clicked();
     }
 
@@ -103,13 +98,11 @@ void QEXTSlider::mouseReleaseEvent(QMouseEvent *e)
 void QEXTSlider::mouseMoveEvent(QMouseEvent *e)
 {
     Q_D(QEXTSlider);
-    //限定必须是鼠标左键按下
     if (e->button() & Qt::RightButton)
     {
         return;
     }
 
-    //过滤掉控件外坐标,横向的限制X轴,纵向的限制Y轴
     QPoint pos = e->pos();
     int x = pos.x();
     int y = pos.y();

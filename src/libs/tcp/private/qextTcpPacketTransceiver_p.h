@@ -41,7 +41,7 @@ public:
 
 private:
     Q_DECLARE_PUBLIC(QEXTTcpPacketTransceiver)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpPacketTransceiverPrivate)
+    Q_DISABLE_COPY(QEXTTcpPacketTransceiverPrivate)
 };
 
 #endif // _QEXTTCPPACKETSYNCRECEIVER_P_H

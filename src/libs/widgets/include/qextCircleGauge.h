@@ -1,28 +1,34 @@
-﻿#ifndef _QEXTCIRCLEGAUGE_H
-#define _QEXTCIRCLEGAUGE_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:圆形仪表盘控件
- *  1.可设置范围值,支持负数值
- *  2.可设置精确度,最大支持小数点后3位
- *  3.可设置大刻度数量/小刻度数量
- *  4.可设置开始旋转角度/结束旋转角度
- *  5.可设置是否启用动画效果以及动画效果每次移动的步长
- *  6.可设置外圆背景/内圆背景/饼圆三种颜色/刻度尺颜色/文字颜色
- *  7.自适应窗体拉伸,刻度尺和文字自动缩放
- *  8.可自由拓展各种渐变色,各圆的半径
- *  9.三色圆环按照比例设置范围角度 用户可以自由设置三色占用比例
- *  10.圆环样式可选择 三色圆环 当前圆环
- *  11.指示器样式可选择 圆形指示器 指针指示器 圆角指针指示器 三角形指示器
- *  12.可设置中间圆的宽度,以便使用更大数值
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com,基于刘典武工程师（QQ:517216493）代码。
- *@Version:V0.1
- *@Date:2016-11-20
- *@History:
- *  Modification data:2021-11-05
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTCIRCLEGAUGE_H
+#define _QEXTCIRCLEGAUGE_H
 
 #include <qextWidgetGlobal.h>
 
@@ -33,8 +39,8 @@ class QEXTCircleGaugePrivate;
 class QEXT_WIDGETS_API QEXTCircleGauge : public QWidget
 {
     Q_OBJECT
-    Q_ENUMS(PieStyleType)
-    Q_ENUMS(PointerStyleType)
+    Q_DISABLE_COPY(QEXTCircleGauge)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTCircleGauge)
 
     Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
@@ -73,17 +79,19 @@ class QEXT_WIDGETS_API QEXTCircleGauge : public QWidget
 public:
     enum PieStyleType
     {
-        PieStyle_Three = 0,         	//三色圆环
-        PieStyle_Current = 1        	//当前圆环
+        PieStyle_Three = 0,
+        PieStyle_Current = 1
     };
+    Q_ENUMS(PieStyleType)
 
     enum PointerStyleType
     {
-        PointerStyle_Circle = 0,        //圆形指示器
-        PointerStyle_Indicator = 1,     //指针指示器
-        PointerStyle_IndicatorR = 2,    //圆角指针指示器
-        PointerStyle_Triangle = 3       //三角形指示器
+        PointerStyle_Circle = 0,
+        PointerStyle_Indicator = 1,
+        PointerStyle_IndicatorR = 2,
+        PointerStyle_Triangle = 3
     };
+    Q_ENUMS(PointerStyleType)
 
     explicit QEXTCircleGauge(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTCircleGauge();
@@ -127,67 +135,44 @@ public:
     QSize minimumSizeHint() const;
 
 public Q_SLOTS:
-    //设置范围值
     void setRange(double minValue, double maxValue);
     void setRange(int minValue, int maxValue);
 
-    //设置最大最小值
     void setMinValue(double minValue);
     void setMaxValue(double maxValue);
 
-    //设置目标值
     void setValue(double value);
     void setValue(int value);
 
-    //设置精确度
     void setPrecision(int precision);
 
-    //设置主刻度数量
     void setScaleMajor(int scaleMajor);
-    //设置小刻度数量
     void setScaleMinor(int scaleMinor);
-    //设置开始旋转角度
     void setStartAngle(int startAngle);
-    //设置结束旋转角度
     void setEndAngle(int endAngle);
 
-    //设置是否启用动画显示
     void setAnimation(bool animation);
-    //设置动画显示时长
     void setAnimationDuration(int duration);
     void setAnimationEasingCurve(QEasingCurve::Type easingCurve);
 
-    //设置外圆背景颜色
     void setOuterCircleColor(const QColor &color);
-    //设置内圆背景颜色
     void setInnerCircleColor(const QColor &color);
 
-    //设置饼圆三种颜色
     void setPieColorStart(const QColor &color);
     void setPieColorMid(const QColor &color);
     void setPieColorEnd(const QColor &color);
 
-    //设置覆盖圆背景颜色
     void setCoverCircleColor(const QColor &color);
-    //设置刻度尺颜色
     void setScaleColor(const QColor &color);
-    //设置指针颜色
     void setPointerColor(const QColor &color);
-    //设置中心圆颜色
     void setCenterCircleColor(const QColor &color);
-    //设置文本颜色
     void setTextColor(const QColor &color);
 
-    //设置是否显示遮罩层
     void setOverlayVisiable(bool visiable);
-    //设置遮罩层颜色
     void setOverlayColor(const QColor &color);
 
-    //设置中间圆宽度
     void setCircleWidth(int width);
-    //设置饼图样式
     void setPieStyle(const PieStyleType &style);
-    //设置指针样式
     void setPointerStyle(const PointerStyleType &style);
 
 Q_SIGNALS:
@@ -211,14 +196,10 @@ protected:
     void drawValue(QPainter *painter);
     void drawOverlay(QPainter *painter);
 
-    QScopedPointer<QEXTCircleGaugePrivate> d_ptr;
+    QScopedPointer<QEXTCircleGaugePrivate> dd_ptr;
 
 private slots:
     void updateValue(const QVariant &value);
-
-private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTCircleGauge)
-    Q_DECLARE_PRIVATE(QEXTCircleGauge)
 };
 
 #endif // _QEXTCIRCLEGAUGE_H

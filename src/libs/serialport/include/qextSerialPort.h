@@ -172,8 +172,8 @@ class QEXTSerialPortPrivate;
 class QEXT_SERIALPORT_API QEXTSerialPort : public QIODevice
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE(QEXTSerialPort)
-    Q_ENUMS(QueryMode)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTSerialPort)
+
     Q_PROPERTY(QString portName READ portName WRITE setPortName)
     Q_PROPERTY(QueryMode queryMode READ queryMode WRITE setQueryMode)
 public:
@@ -181,6 +181,7 @@ public:
         Polling,
         EventDriven
     };
+    Q_ENUMS(QueryMode)
 
     explicit QEXTSerialPort(QueryMode mode = EventDriven, QObject *parent = 0);
     explicit QEXTSerialPort(const QString &name, QueryMode mode = EventDriven, QObject *parent = 0);
@@ -238,7 +239,7 @@ private:
 #endif
     Q_PRIVATE_SLOT(d_func(), void _q_canRead())
 
-    QEXTSerialPortPrivate *const d_ptr;
+    QEXTSerialPortPrivate *const dd_ptr;
 };
 
 

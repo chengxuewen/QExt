@@ -1,26 +1,34 @@
+/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
+
 #ifndef _QTKINDICATORLIGHT_H
 #define _QTKINDICATORLIGHT_H
-
-/***************************************************************************************************
- *@Brief:高亮发光按钮控件
- * 1:可设置文本,居中显示
- * 2:可设置文本颜色
- * 3:可设置外边框渐变颜色
- * 4:可设置里边框渐变颜色
- * 5:可设置背景色
- * 6:可直接调用内置的设置 绿色/红色/黄色/黑色/蓝色 等公有槽函数
- * 7:可设置是否在容器中可移动,当成一个对象使用
- * 8:可设置是否显示矩形
- * 9:可设置报警颜色+非报警颜色
- * 10:可控制启动报警和停止报警,报警时闪烁
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com,基于刘典武工程师（QQ:517216493）代码。
- *@Version:V0.1
- *@Date:2019-08-03
- *@History:
- *  Modification data:2021-10-16
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
 
 #include <qextWidgetGlobal.h>
 
@@ -31,6 +39,9 @@ class QEXTIndicatorLightPrivate;
 class QEXT_WIDGETS_API QEXTIndicatorLight : public QWidget
 {
     Q_OBJECT
+    Q_DISABLE_COPY(QEXTIndicatorLight)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTIndicatorLight)
+
     Q_PROPERTY(QString text READ text WRITE setText)
     Q_PROPERTY(QColor textLightColor READ lightTextColor WRITE setTextLightColor)
     Q_PROPERTY(QColor textNormalColor READ normalTextColor WRITE setTextNormalColor)
@@ -56,23 +67,23 @@ class QEXT_WIDGETS_API QEXTIndicatorLight : public QWidget
 
 public:
     enum Style {
-        Style_Green = 0,        //0-绿色
-        Style_Red,              //1-红色
-        Style_Yellow,           //2-黄色
-        Style_Black,            //3-黑色
-        Style_Gray,             //4-灰色
-        Style_Blue,             //5-蓝色
-        Style_LightBlue,        //6-淡蓝色
-        Style_LightRed,         //7-淡红色
-        Style_LightGreen        //8-淡绿色
+        Style_Green = 0,
+        Style_Red,
+        Style_Yellow,
+        Style_Black,
+        Style_Gray,
+        Style_Blue,
+        Style_LightBlue,
+        Style_LightRed,
+        Style_LightGreen
     };
     Q_ENUMS(Style)
 
     enum Shape {
-        Shape_Circle = 0,       //0-圆形
-        Shape_Square,           //1-方形
-        Shape_Triangle,         //2-三角形
-        Shape_Rounded           //3-椭圆形
+        Shape_Circle = 0,
+        Shape_Square,
+        Shape_Triangle,
+        Shape_Rounded
     };
     Q_ENUMS(Shape)
 
@@ -107,38 +118,29 @@ public:
     QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
 
 public Q_SLOTS:
-    //设置文本
     void setText(const QString &text);
-    //设置文本颜色
+
     void setTextLightColor(const QColor &color);
     void setTextNormalColor(const QColor &color);
 
-    //设置背景报警颜色+正常颜色
     void setBackgroundLightColor(const QColor &color);
     void setBackgroundNormalColor(const QColor &color);
 
     void setFontPixelSize(const int &size);
 
-    //设置外边框渐变颜色
     void setBorderOutStartColor(const QColor &color);
     void setBorderOutEndColor(const QColor &color);
 
-    //设置里边框渐变颜色
     void setBorderInStartColor(const QColor &color);
     void setBorderInEndColor(const QColor &color);
 
-    //设置是否可移动
     void setMoveEnable(const bool &enable);
-    //设置是否显示遮罩层
     void setOverlayVisiable(const bool &visiable);
-    //设置遮罩层颜色
     void setOverlayColor(const QColor &color);
 
-    //设置风格
     void setStyleType(const Style &type);
     void setShapeType(const Shape &type);
 
-    //设置亮、闪烁
     void setLightState(const bool &state);
     void setFlickerState(const bool &state);
     void setFlickerInterval(const int &interval);
@@ -158,11 +160,7 @@ protected:
     void drawText(QPainter *painter);
     void drawOverlay(QPainter *painter);
 
-    QScopedPointer<QEXTIndicatorLightPrivate> d_ptr;
-
-private:
-    Q_DECLARE_PRIVATE(QEXTIndicatorLight)
-    QEXT_DECL_DISABLE_COPY(QEXTIndicatorLight)
+    QScopedPointer<QEXTIndicatorLightPrivate> dd_ptr;
 };
 
 #endif // _QTKINDICATORLIGHT_H

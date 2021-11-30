@@ -1,29 +1,34 @@
-﻿#ifndef _QEXTPROGRESSROUND_H
-#define _QEXTPROGRESSROUND_H
+﻿/*************************************************************************************
+**
+** Library: QEXT
+**
+** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining
+** a copy of this software and associated documentation files (the "Software"),
+** to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense,
+** and/or sell copies of the Software, and to permit persons to whom the
+** Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in
+** all copies or substantial portions of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+** SOFTWARE.
+**
+*************************************************************************************/
 
-/***************************************************************************************************
- *@Brief:饼图进度条控件
- *  1.支持三种风格样式 圆环风格/饼状风格/线条风格
- *  2.自动居中绘制显示
- *  3.可设置顺时针逆时针走向
- *  4.可设置起始进度位置
- *  5.可设置范围值
- *  6.可设置各种颜色
- *  7.可设置当前值
- *  8.可设置整个部件的背景
- *  9.可设置未填充进度区域的背景
- *  10.可设置文本显示所在的中间圆环的背景
- *  11.可设置未填充区域的前景色-边框色
- *  12.可设置填充进度条区域的背景色
- *  13.可设置在中心显示的文本色
- *@Author:chengxuewen，QQ：1398831004，Email：1398831004@qq.com，基于刘典武-feiyangqingyun（QQ:517216493）代码。
- *        原作者:不详(https://sourceforge.net/projects/qroundprogress/)
- *@Date:2019-05-01
- *@History:
- *  Modification data:2021-10-16
- *  Author:chengxuewen
- *  Brief:  （1）.整理优化;
-***************************************************************************************************/
+#ifndef _QEXTPROGRESSROUND_H
+#define _QEXTPROGRESSROUND_H
 
 #include <qextWidgetGlobal.h>
 
@@ -32,7 +37,6 @@
 class QEXT_WIDGETS_API QEXTProgressPie : public QWidget
 {
     Q_OBJECT
-    Q_ENUMS(BarStyle)
 
     Q_PROPERTY(QColor bgColor READ getBgColor WRITE setBgColor)
     Q_PROPERTY(QColor textColor READ getTextColor WRITE setTextColor)
@@ -56,10 +60,9 @@ class QEXT_WIDGETS_API QEXTProgressPie : public QWidget
 
 public:
     enum BarStyle {
-//        BarStyle_Donut = 0, //圆环风格
         BarStyle_Pie = 1,   //饼状风格
-//        BarStyle_Line = 2   //线条风格
     };
+    Q_ENUMS(BarStyle)
 
     explicit QEXTProgressPie(QWidget *parent = 0);
 
@@ -70,33 +73,32 @@ protected:
     void drawBase(QPainter *painter, const QRectF &baseRect);
     void drawProgress(QPainter *painter, const QRectF &baseRect);
     void calculateInnerRect(const QRectF &baseRect, double outerRadius, QRectF &innerRect, double &innerRadius);
-//    void drawInnerBackground(QPainter *painter, const QRectF &innerRect);
     void drawValue(QPainter *painter, const QRectF &innerRect, double innerRadius);
 
 private:
     void rebuildDataBrushIfNeeded();
 
 private:
-    QColor bgColor;                 //背景颜色
-    QColor textColor;               //文本颜色
-    QColor baseColor;               //未填充区域的背景
-    QColor innerBgColor;            //文本所在圆环的背景
-    QColor borderColor;             //边框颜色
-    QColor progressColor;           //进度颜色
+    QColor bgColor;
+    QColor textColor;
+    QColor baseColor;
+    QColor innerBgColor;
+    QColor borderColor;
+    QColor progressColor;
 
-    double minValue;                //最小值
-    double maxValue;                //最大值
-    double value;                   //目标值
-    int precision;                  //精确度,小数点后几位
+    double minValue;
+    double maxValue;
+    double value;
+    int precision;
 
-    double nullPosition;            //最小值位置
-    double outlinePenWidth;         //外边框宽度
-    double dataPenWidth;            //数据文本宽度
+    double nullPosition;
+    double outlinePenWidth;
+    double dataPenWidth;
 
-    BarStyle barStyle;              //样式
-    QString format;                 //文本格式
-    bool clockWise;                 //顺时针
-    QGradientStops gradientData;    //颜色集合
+    BarStyle barStyle;
+    QString format;
+    bool clockWise;
+    QGradientStops gradientData;
 
 public:
     QColor getBgColor()             const;
@@ -124,7 +126,6 @@ public:
     QSize minimumSizeHint()         const;
 
 public Q_SLOTS:
-    //设置各种颜色
     void setBgColor(const QColor &bgColor);
     void setTextColor(const QColor &textColor);
     void setBaseColor(const QColor &baseColor);
@@ -132,36 +133,29 @@ public Q_SLOTS:
     void setBorderColor(const QColor &borderColor);
     void setProgressColor(const QColor &progressColor);
 
-    //设置范围值
     void setRange(double minValue, double maxValue);
     void setRange(int minValue, int maxValue);
 
-    //设置最大最小值
     void setMinValue(double minValue);
     void setMaxValue(double maxValue);
 
-    //设置目标值
     void setValue(double value);
     void setValue(int value);
 
-    //设置精确度,小数点后几位
     void setPrecision(int precision);
 
-    //设置最小值位置
     void setNullPosition(double nullPosition);
-    //设置外边框宽度
+
     void setOutlinePenWidth(double outlinePenWidth);
-    //设置数据文本宽度
+
     void setDataPenWidth(double dataPenWidth);
 
-    //设置样式
     void setBarStyle(const BarStyle &barStyle);
-    //设置格式
+
     void setFormat(const QString &format);
 
-    //设置进度旋转方向
     void setClockWise(bool clockWise);
-    //设置颜色集合
+
     void setGradientData(const QGradientStops &gradientData);
 };
 

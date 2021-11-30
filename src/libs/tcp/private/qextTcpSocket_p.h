@@ -40,7 +40,7 @@ public:
 
 private:
     Q_DECLARE_PUBLIC(QEXTTcpSocket)
-    QEXT_DECL_DISABLE_COPY(QEXTTcpSocketPrivate)
+    Q_DISABLE_COPY(QEXTTcpSocketPrivate)
 };
 
 

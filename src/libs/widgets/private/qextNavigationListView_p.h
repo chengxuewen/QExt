@@ -13,6 +13,8 @@
 class QEXTNavigationListItem;
 class QEXT_WIDGETS_API QEXTNavigationListItemPrivate
 {
+    Q_DECLARE_PUBLIC(QEXTNavigationListItem)
+    Q_DISABLE_COPY(QEXTNavigationListItemPrivate)
 public:
     explicit QEXTNavigationListItemPrivate(QEXTNavigationListItem *q);
     virtual ~QEXTNavigationListItemPrivate();
@@ -32,10 +34,6 @@ public:
     bool m_checkd;
     QPointer<QEXTNavigationListItem> m_parent;
     QList<QEXTNavigationListItem *> m_childItems;
-
-private:
-    Q_DECLARE_PUBLIC(QEXTNavigationListItem)
-    QEXT_DECL_DISABLE_COPY(QEXTNavigationListItemPrivate)
 };
 
 class QEXTNavListView : public QListView
@@ -67,6 +65,8 @@ private:
 class QEXTNavigationListModel;
 class QEXT_WIDGETS_API QEXTNavigationListModelPrivate
 {
+    Q_DECLARE_PUBLIC(QEXTNavigationListModel)
+    Q_DISABLE_COPY(QEXTNavigationListModelPrivate)
 public:
     explicit QEXTNavigationListModelPrivate(QEXTNavigationListModel *q);
     virtual ~QEXTNavigationListModelPrivate();
@@ -82,16 +82,14 @@ public:
     QList<QEXTNavigationListItem *> m_parentItemList;
     QList<QEXTNavigationListItem *> m_visiableItemList;
     QSet<QEXTNavigationListItem *> m_allItemSet;
-
-private:
-    Q_DECLARE_PUBLIC(QEXTNavigationListModel)
-    QEXT_DECL_DISABLE_COPY(QEXTNavigationListModelPrivate)
 };
 
 
 class QEXTNavigationListView;
 class QEXT_WIDGETS_API QEXTNavigationListViewPrivate
 {
+    Q_DECLARE_PUBLIC(QEXTNavigationListView)
+    Q_DISABLE_COPY(QEXTNavigationListViewPrivate)
 public:
     explicit QEXTNavigationListViewPrivate(QEXTNavigationListView *q);
     virtual ~QEXTNavigationListViewPrivate();
@@ -109,57 +107,53 @@ public:
     QScopedPointer<QEXTNavListView> m_listView;
     QScopedPointer<QEXTNavListDelegate> m_delegate;
 
-    bool m_rightIconVisible; //右侧图标是否显示
-    bool m_tipVisible;       //是否显示提示信息
-    int m_tipWidth;          //提示信息宽度
+    bool m_rightIconVisible;
+    bool m_tipVisible;
+    int m_tipWidth;
 
-    bool m_separateVisible; //是否显示行分隔符
-    int m_separateHeight;   //行分隔符高度
-    QColor m_separateColor; //行分隔符颜色
+    bool m_separateVisible;
+    int m_separateHeight;
+    QColor m_separateColor;
 
-    bool m_lineLeft;    //是否显示在左侧
-    bool m_lineVisible; //是否显示线条
-    int m_lineWidth;    //线条宽度
-    QColor m_lineColor; //线条颜色
+    bool m_lineLeft;
+    bool m_lineVisible;
+    int m_lineWidth;
+    QColor m_lineColor;
 
-    bool m_triangleLeft;    //是否显示在左侧
-    bool m_triangleVisible; //是否显示三角形
-    int m_triangleWidth;    //三角形宽度
-    QColor m_triangleColor; //三角形颜色
+    bool m_triangleLeft;
+    bool m_triangleVisible;
+    int m_triangleWidth;
+    QColor m_triangleColor;
 
-    int m_parentIconMargin;           //父节点图标边距
-    int m_parentMargin;               //父节点边距
-    int m_parentFontSize;             //父节点字体大小
-    int m_parentHeight;               //父节点高度
-    QColor m_parentBackgroundNormalColor;     //父节点正常背景色
-    QColor m_parentBackgroundCheckedColor;   //父节点checked背景色
-    QColor m_parentBackgroundSelectedColor;   //父节点选中背景色
-    QColor m_parentBackgroundHoverColor;      //父节点悬停背景色
-    QColor m_parentTextNormalColor;   //父节点正常文字颜色
-    QColor m_parentTextCheckedColor; //父节点check文字颜色
-    QColor m_parentTextSelectedColor; //父节点选中文字颜色
-    QColor m_parentTextHoverColor;    //父节点悬停文字颜色
+    int m_parentIconMargin;
+    int m_parentMargin;
+    int m_parentFontSize;
+    int m_parentHeight;
+    QColor m_parentBackgroundNormalColor;
+    QColor m_parentBackgroundCheckedColor;
+    QColor m_parentBackgroundSelectedColor;
+    QColor m_parentBackgroundHoverColor;
+    QColor m_parentTextNormalColor;
+    QColor m_parentTextCheckedColor;
+    QColor m_parentTextSelectedColor;
+    QColor m_parentTextHoverColor;
 
-    int m_childIconMargin;           //子节点图标边距
-    int m_childMargin;               //子节点边距
-    int m_childFontSize;             //子节点字体大小
-    int m_childHeight;               //子节点高度
-    QColor m_childBackgroundNormalColor;     //子节点正常背景色
-    QColor m_childBackgroundCheckedColor;   //子节点checked背景色
-    QColor m_childBackgroundSelectedColor;   //子节点选中背景色
-    QColor m_childBackgroundHoverColor;      //子节点悬停背景色
-    QColor m_childTextNormalColor;   //子节点正常文字颜色
-    QColor m_childTextCheckedColor; //子节点checked文字颜色
-    QColor m_childTextSelectedColor; //子节点选中文字颜色
-    QColor m_childTextHoverColor;    //子节点悬停文字颜色
+    int m_childIconMargin;
+    int m_childMargin;
+    int m_childFontSize;
+    int m_childHeight;
+    QColor m_childBackgroundNormalColor;
+    QColor m_childBackgroundCheckedColor;
+    QColor m_childBackgroundSelectedColor;
+    QColor m_childBackgroundHoverColor;
+    QColor m_childTextNormalColor;
+    QColor m_childTextCheckedColor;
+    QColor m_childTextSelectedColor;
+    QColor m_childTextHoverColor;
 
     QColor m_backgroundColor;
 
-    QEXTNavigationListView::ExpendMode m_expendMode; //节点展开模式 单击/双击/禁用
-
-private:
-    Q_DECLARE_PUBLIC(QEXTNavigationListView)
-    QEXT_DECL_DISABLE_COPY(QEXTNavigationListViewPrivate)
+    QEXTNavigationListView::ExpendMode m_expendMode;
 };
 
 #endif // _QEXTNAVIGATIONLISTVIEW_P_H
