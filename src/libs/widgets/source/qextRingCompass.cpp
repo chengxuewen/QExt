@@ -2,6 +2,7 @@
 #include <qextRingCompass_p.h>
 
 #include <QPainter>
+#include <QPainterPath>
 #include <QTimer>
 #include <QDebug>
 #include <qmath.h>

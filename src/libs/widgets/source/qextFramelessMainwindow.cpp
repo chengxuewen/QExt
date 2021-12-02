@@ -116,7 +116,7 @@ void QEXTFramelessMainWindow::doWindowStateChange(QEvent */*event*/)
 #endif
 }
 
-void QEXTFramelessMainWindow::doResizeEvent(QEvent */*event*/)
+void QEXTFramelessMainWindow::doResizeEvent(QEvent *event)
 {
     Q_D(QEXTFramelessMainWindow);
     //For borderless stretching in non-WIN system, nativeEvent has been adopted to deal with stretching in WIN system

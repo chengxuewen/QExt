@@ -5,8 +5,8 @@
 #include <QVariant>
 #include <QTimer>
 #include <QDebug>
+#include <QPainterPath>
 #include <qmath.h>
-
 
 
 QEXTCircleGaugePrivate::QEXTCircleGaugePrivate(QEXTCircleGauge *q)

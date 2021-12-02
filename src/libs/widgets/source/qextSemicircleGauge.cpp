@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QTimer>
 #include <QDebug>
+#include <QPainterPath>
 #include <qmath.h>
 
 QEXTSemicircleGaugePrivate::QEXTSemicircleGaugePrivate(QEXTSemicircleGauge *q)

@@ -5,7 +5,7 @@
 #include <QPainter>
 #include <QTimer>
 #include <QMouseEvent>
-
+#include <QPainterPath>
 
 
 QEXTIndicatorLightPrivate::QEXTIndicatorLightPrivate(QEXTIndicatorLight *q)

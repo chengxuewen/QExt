@@ -1,6 +1,7 @@
 ﻿#include <qextProgressWait.h>
 
 #include <QPainter>
+#include <QPainterPath>
 #include <QTimer>
 #include <QDebug>
 #include <qmath.h>

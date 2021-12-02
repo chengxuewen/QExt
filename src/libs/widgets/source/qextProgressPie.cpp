@@ -1,9 +1,8 @@
 ﻿#include <qextProgressPie.h>
 
 #include <QPainter>
+#include <QPainterPath>
 #include <QDebug>
-
-
 
 QEXTProgressPie::QEXTProgressPie(QWidget *parent) : QWidget(parent)
 {
