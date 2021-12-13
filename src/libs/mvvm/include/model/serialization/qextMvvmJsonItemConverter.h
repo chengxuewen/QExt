@@ -15,7 +15,7 @@
 namespace ModelView
 {
 
-class ItemFactoryInterface;
+class QEXTMvvmItemFactoryInterface;
 class ConverterContext;
 
 //! Converter between QEXTMvvmSessionItem and JSON object.

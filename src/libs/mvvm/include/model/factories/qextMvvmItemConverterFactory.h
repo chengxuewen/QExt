@@ -19,22 +19,22 @@
 namespace ModelView
 {
 
-class ItemFactoryInterface;
+class QEXTMvvmItemFactoryInterface;
 
 //! Creates JSON item converter intended for item cloning.
 
 QEXT_MVVM_API std::unique_ptr<JsonItemConverterInterface>
-CreateItemCloneConverter(const ItemFactoryInterface* item_factory);
+CreateItemCloneConverter(const QEXTMvvmItemFactoryInterface* item_factory);
 
 //! Creates JSON item converter intended for item copying.
 
 QEXT_MVVM_API std::unique_ptr<JsonItemConverterInterface>
-CreateItemCopyConverter(const ItemFactoryInterface* item_factory);
+CreateItemCopyConverter(const QEXTMvvmItemFactoryInterface* item_factory);
 
 //! Creates JSON item converter intended for saving on disk.
 
 QEXT_MVVM_API std::unique_ptr<JsonItemConverterInterface>
-CreateItemProjectConverter(const ItemFactoryInterface* item_factory);
+CreateItemProjectConverter(const QEXTMvvmItemFactoryInterface* item_factory);
 
 } // namespace ModelView
 

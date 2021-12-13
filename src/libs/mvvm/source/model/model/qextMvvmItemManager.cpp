@@ -25,7 +25,7 @@ using namespace ModelView;
 
 ItemManager::ItemManager() : m_item_factory(DefaultItemFactory()) {}
 
-void ItemManager::setItemFactory(std::unique_ptr<ItemFactoryInterface> factory)
+void ItemManager::setItemFactory(std::unique_ptr<QEXTMvvmItemFactoryInterface> factory)
 {
     m_item_factory = std::move(factory);
 }
@@ -79,7 +79,7 @@ void ItemManager::unregister_item(QEXTMvvmSessionItem* item)
         m_item_pool->unregister_item(item);
 }
 
-const ItemFactoryInterface* ItemManager::factory() const
+const QEXTMvvmItemFactoryInterface* ItemManager::factory() const
 {
     return m_item_factory.get();
 }

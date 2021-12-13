@@ -23,7 +23,7 @@ std::string generate_description(const TagRow& tagrow);
 
 struct QEXTMvvmRemoveItemCommand::RemoveItemCommandImpl {
     TagRow tagrow;
-    std::unique_ptr<ItemBackupStrategy> backup_strategy;
+    std::unique_ptr<QEXTMvvmItemBackupStrategy> backup_strategy;
     Path item_path;
     RemoveItemCommandImpl(TagRow tagrow) : tagrow(std::move(tagrow)) {}
 };

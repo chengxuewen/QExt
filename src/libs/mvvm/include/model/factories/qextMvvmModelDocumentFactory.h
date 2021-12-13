@@ -20,7 +20,7 @@ namespace ModelView
 class SessionModel;
 
 //! Creates JsonDocument to save and load models.
-QEXT_MVVM_API std::unique_ptr<ModelDocumentInterface>
+QEXT_MVVM_API std::unique_ptr<QEXTMVVMModelDocumentInterface>
 CreateJsonDocument(const std::vector<SessionModel*>& models);
 
 } // namespace ModelView

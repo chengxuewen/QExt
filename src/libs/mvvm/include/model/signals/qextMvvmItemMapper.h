@@ -24,7 +24,7 @@ class QEXTMvvmSessionItem;
 //! signals which are related to the given item. Notifies all interested subscribers about things
 //! going with the item and its relatives.
 
-class QEXT_MVVM_API ItemMapper : public ItemListenerInterface,
+class QEXT_MVVM_API ItemMapper : public QEXTMvvmItemListenerInterface,
                                      private ModelListener<SessionModel>
 {
 public:

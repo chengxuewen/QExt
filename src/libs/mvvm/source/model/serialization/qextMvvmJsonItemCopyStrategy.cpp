@@ -18,7 +18,7 @@ struct JsonItemCopyStrategy::JsonItemCopyStrategyImpl {
     std::unique_ptr<JsonItemConverterInterface> m_converter;
 };
 
-JsonItemCopyStrategy::JsonItemCopyStrategy(const ItemFactoryInterface* item_factory)
+JsonItemCopyStrategy::JsonItemCopyStrategy(const QEXTMvvmItemFactoryInterface* item_factory)
     : p_impl(std::make_unique<JsonItemCopyStrategyImpl>())
 {
     p_impl->m_converter = CreateItemCopyConverter(item_factory);

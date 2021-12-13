@@ -28,7 +28,7 @@ class QEXTMvvmCommandService;
 class ModelMapper;
 class ItemCatalogue;
 class ItemPool;
-class ItemFactoryInterface;
+class QEXTMvvmItemFactoryInterface;
 class QEXTMvvmUndoStackInterface;
 
 class QEXT_MVVM_API SessionModel
@@ -73,7 +73,7 @@ public:
 
     void clear(std::function<void(QEXTMvvmSessionItem*)> callback = {});
 
-    const ItemFactoryInterface* factory() const;
+    const QEXTMvvmItemFactoryInterface* factory() const;
 
     QEXTMvvmSessionItem* findItem(const identifier_type& id);
 

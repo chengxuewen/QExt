@@ -22,7 +22,7 @@ using namespace ModelView;
 
 namespace
 {
-std::unique_ptr<JsonItemConverterInterface> CreateConverter(const ItemFactoryInterface* factory,
+std::unique_ptr<JsonItemConverterInterface> CreateConverter(const QEXTMvvmItemFactoryInterface* factory,
                                                             ConverterMode mode)
 {
     if (mode == ConverterMode::clone)

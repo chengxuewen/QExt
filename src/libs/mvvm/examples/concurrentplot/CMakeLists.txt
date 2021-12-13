@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.14)
 project(concurrentplot_example VERSION 0.0.1 LANGUAGES CXX)
 
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/mvvm)
+set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/mvvm)
+
 set(executable_name qext_exp_mvvmConcurrentPlot)
 add_subdirectory(concurrentplotcore)
 add_executable(${executable_name} main.cpp)

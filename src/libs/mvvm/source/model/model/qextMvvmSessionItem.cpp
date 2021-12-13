@@ -59,7 +59,7 @@ struct QEXTMvvmSessionItem::SessionItemImpl {
 QEXTMvvmSessionItem::QEXTMvvmSessionItem(model_type modelType) : p_impl(std::make_unique<SessionItemImpl>(this))
 {
     p_impl->m_modelType = std::move(modelType);
-    setData(UniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
+    setData(QEXTMvvmUniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
     setData(p_impl->m_modelType, ItemDataRole::DISPLAY);
 }
 

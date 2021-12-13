@@ -24,7 +24,7 @@ namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class ItemFactoryInterface;
+class QEXTMvvmItemFactoryInterface;
 
 //! Provides necessary callbacks to convert QEXTMvvmSessionItem to JSON and back.
 
@@ -63,7 +63,7 @@ inline bool isRebuildItemDataAndTagFromJson(ConverterMode mode)
 //! Collection of input paramters for SessionItemConverter
 
 struct QEXT_MVVM_API ConverterContext {
-    const ItemFactoryInterface* m_factory{nullptr};
+    const QEXTMvvmItemFactoryInterface* m_factory{nullptr};
     ConverterMode m_mode = ConverterMode::none;
 };
 

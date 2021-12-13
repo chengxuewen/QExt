@@ -25,7 +25,7 @@ std::string generate_description(const std::string& modelType, const TagRow& tag
 
 struct QEXTMvvmCopyItemCommand::CopyItemCommandImpl {
     TagRow tagrow;
-    std::unique_ptr<ItemBackupStrategy> backup_strategy;
+    std::unique_ptr<QEXTMvvmItemBackupStrategy> backup_strategy;
     Path item_path;
     CopyItemCommandImpl(TagRow tagrow) : tagrow(std::move(tagrow)) {}
 };

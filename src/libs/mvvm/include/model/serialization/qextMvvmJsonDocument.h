@@ -22,7 +22,7 @@ class SessionModel;
 //! Saves and restores list of SessionModel's to/from disk using json format.
 //! Single JsonDocument corresponds to a single file on disk.
 
-class QEXT_MVVM_API JsonDocument : public ModelDocumentInterface
+class QEXT_MVVM_API JsonDocument : public QEXTMVVMModelDocumentInterface
 {
 public:
     JsonDocument(const std::vector<SessionModel*>& models);

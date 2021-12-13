@@ -17,7 +17,7 @@
 namespace ModelView
 {
 
-class ItemFactoryInterface;
+class QEXTMvvmItemFactoryInterface;
 
 //! Utility class to determine, whether given JSON object can represent various parts of
 //! SessionModel. It is made a class (and not a set of free functions) to allow different formats in

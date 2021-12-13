@@ -17,14 +17,14 @@ namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class ItemFactoryInterface;
+class QEXTMvvmItemFactoryInterface;
 
 //! Provide backup of QEXTMvvmSessionItem using json strategy.
 
-class QEXT_MVVM_API JsonItemBackupStrategy : public ItemBackupStrategy
+class QEXT_MVVM_API JsonItemBackupStrategy : public QEXTMvvmItemBackupStrategy
 {
 public:
-    JsonItemBackupStrategy(const ItemFactoryInterface* item_factory);
+    JsonItemBackupStrategy(const QEXTMvvmItemFactoryInterface* item_factory);
     ~JsonItemBackupStrategy() override;
 
     std::unique_ptr<QEXTMvvmSessionItem> restoreItem() const override;

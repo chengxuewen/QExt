@@ -18,10 +18,10 @@ namespace ModelView
 
 //! Pure virtual interface to save and restore session models to/from disk.
 
-class QEXT_MVVM_API ModelDocumentInterface
+class QEXT_MVVM_API QEXTMVVMModelDocumentInterface
 {
 public:
-    virtual ~ModelDocumentInterface() = default;
+    virtual ~QEXTMVVMModelDocumentInterface() = default;
 
     virtual void save(const std::string& file_name) const = 0;
     virtual void load(const std::string& file_name) = 0;

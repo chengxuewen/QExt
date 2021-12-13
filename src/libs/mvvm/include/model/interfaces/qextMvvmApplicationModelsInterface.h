@@ -21,7 +21,7 @@ class SessionModel;
 //! Interface to access application's model list for further manipulation.
 //! Used in the context of save/load projects.
 
-class QEXT_MVVM_API ApplicationModelsInterface
+class QEXT_MVVM_API QEXTMvvmApplicationModelsInterface
 {
 public:
     //! Returns vector of models intended for saving on disk.

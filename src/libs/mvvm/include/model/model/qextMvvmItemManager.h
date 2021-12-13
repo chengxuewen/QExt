@@ -19,7 +19,7 @@ namespace ModelView
 
 class QEXTMvvmSessionItem;
 class ItemPool;
-class ItemFactoryInterface;
+class QEXTMvvmItemFactoryInterface;
 
 //! Manages item creation/registration for SessionModel.
 
@@ -29,7 +29,7 @@ public:
     ItemManager();
     ~ItemManager();
 
-    void setItemFactory(std::unique_ptr<ItemFactoryInterface> factory);
+    void setItemFactory(std::unique_ptr<QEXTMvvmItemFactoryInterface> factory);
     void setItemPool(std::shared_ptr<ItemPool> pool);
 
     std::unique_ptr<QEXTMvvmSessionItem> createItem(const model_type& modelType = {}) const;
@@ -46,11 +46,11 @@ public:
     void register_item(QEXTMvvmSessionItem* item);
     void unregister_item(QEXTMvvmSessionItem* item);
 
-    const ItemFactoryInterface* factory() const;
+    const QEXTMvvmItemFactoryInterface* factory() const;
 
 private:
     std::shared_ptr<ItemPool> m_item_pool;
-    std::unique_ptr<ItemFactoryInterface> m_item_factory;
+    std::unique_ptr<QEXTMvvmItemFactoryInterface> m_item_factory;
 };
 
 } // namespace ModelView

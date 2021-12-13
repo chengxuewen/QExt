@@ -32,7 +32,7 @@ struct Project::ProjectImpl {
     std::vector<SessionModel*> models() const { return m_context.m_models_callback(); }
 
     //! Processes all models one by one and either save or load them to/from given directory.
-    //! Template parameter `method` specifies ModelDocumentInterface's method to use.
+    //! Template parameter `method` specifies QEXTMVVMModelDocumentInterface's method to use.
     template <typename T> bool process(const std::string& dirname, T method)
     {
         if (!Utils::exists(dirname))
@@ -66,13 +66,13 @@ std::string Project::projectDir() const
 
 bool Project::save(const std::string& dirname) const
 {
-    return p_impl->process(dirname, &ModelDocumentInterface::save);
+    return p_impl->process(dirname, &QEXTMVVMModelDocumentInterface::save);
 }
 
 //! Loads all models from the given directory.
 bool Project::load(const std::string& dirname)
 {
-    return p_impl->process(dirname, &ModelDocumentInterface::load);
+    return p_impl->process(dirname, &QEXTMVVMModelDocumentInterface::load);
 }
 
 bool Project::isModified() const

@@ -28,9 +28,9 @@ identifier_type ItemPool::register_item(QEXTMvvmSessionItem* item, identifier_ty
                                  "registered item.");
 
     if (key.empty()) {
-        key = UniqueIdGenerator::generate();
+        key = QEXTMvvmUniqueIdGenerator::generate();
         while (m_key_to_item.find(key) != m_key_to_item.end())
-            key = UniqueIdGenerator::generate(); // preventing improbable duplicates
+            key = QEXTMvvmUniqueIdGenerator::generate(); // preventing improbable duplicates
     } else {
         if (m_key_to_item.find(key) != m_key_to_item.end())
             throw std::runtime_error(" ItemPool::register_item() -> Attempt to reuse existing key");

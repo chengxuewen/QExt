@@ -24,6 +24,7 @@
 #
 #################################################################################
 
+
 # Qt IFW Tools
 # ~~~~~~~~~~~~
 # QEXT_QTIFW_EXTRA_SEARCH_PATHS
@@ -50,8 +51,9 @@ macro(qextMacroFindQTIFW)
     if(${QEXT_QTIFW_SEARCH_PATHS_FOUND})
         file(GLOB children RELATIVE ${QEXT_QTIFW_SEARCH_PATHS} ${QEXT_QTIFW_SEARCH_PATHS}/*)
         foreach(child ${children})
+            message(child=${child})
             if(IS_DIRECTORY ${QEXT_QTIFW_SEARCH_PATHS}/${child})
-                if(${child} MATCHES "QtIFW")
+                if(${child} MATCHES "QtIFW" OR ${child} MATCHES "QtInstallerFramework")
                     if(MSVC)
                         find_program(QEXT_QTIFW_EXECUTABL NAMES binarycreator.exe PATHS ${QEXT_QTIFW_SEARCH_PATHS}/${child}/bin NO_DEFAULT_PATH)
                     else()
@@ -65,7 +67,7 @@ macro(qextMacroFindQTIFW)
             endif()
         endforeach()
 
-        if(NOT ${QEXT_QTIFWDIR_FOUN})
+        if(NOT ${QEXT_QTIFWDIR_FOUND})
             message(FATAL_ERROR "Could not find QTIFW dir")
         endif()
     else()

@@ -61,7 +61,7 @@ struct JsonItemConverter::JsonItemConverterImpl {
         m_itemtags_converter = std::make_unique<JsonItemTagsConverter>(callbacks);
     }
 
-    const ItemFactoryInterface* factory() { return m_context.m_factory; }
+    const QEXTMvvmItemFactoryInterface* factory() { return m_context.m_factory; }
 
     void populate_item_data(const QJsonArray& json, SessionItemData& item_data)
     {
@@ -92,7 +92,7 @@ struct JsonItemConverter::JsonItemConverterImpl {
             child->setParent(&item);
 
         if (isRegenerateIdWhenBackFromJson(m_context.m_mode))
-            item.setData(UniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
+            item.setData(QEXTMvvmUniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
     }
 
     QJsonObject item_to_json(const QEXTMvvmSessionItem& item) const

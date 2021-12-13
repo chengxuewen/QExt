@@ -21,10 +21,10 @@ class QEXTMvvmSessionItem;
 
 //! Interface class for all factories capable of producing QEXTMvvmSessionItem's.
 
-class QEXT_MVVM_API ItemFactoryInterface
+class QEXT_MVVM_API QEXTMvvmItemFactoryInterface
 {
 public:
-    virtual ~ItemFactoryInterface() = default;
+    virtual ~QEXTMvvmItemFactoryInterface() = default;
 
     virtual std::unique_ptr<QEXTMvvmSessionItem> createItem(const model_type& modelType) const = 0;
 

@@ -17,14 +17,14 @@ namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class ItemFactoryInterface;
+class QEXTMvvmItemFactoryInterface;
 
 //! Provide QEXTMvvmSessionItem copying using json based strategy.
 
-class QEXT_MVVM_API JsonItemCopyStrategy : public ItemCopyStrategy
+class QEXT_MVVM_API JsonItemCopyStrategy : public QEXTMvvmItemCopyStrategy
 {
 public:
-    JsonItemCopyStrategy(const ItemFactoryInterface* item_factory);
+    JsonItemCopyStrategy(const QEXTMvvmItemFactoryInterface* item_factory);
     ~JsonItemCopyStrategy();
 
     std::unique_ptr<QEXTMvvmSessionItem> createCopy(const QEXTMvvmSessionItem* item) const;

@@ -19,7 +19,7 @@ struct JsonItemBackupStrategy::JsonItemBackupStrategyImpl {
     QJsonObject m_json;
 };
 
-JsonItemBackupStrategy::JsonItemBackupStrategy(const ItemFactoryInterface* item_factory)
+JsonItemBackupStrategy::JsonItemBackupStrategy(const QEXTMvvmItemFactoryInterface* item_factory)
     : p_impl(std::make_unique<JsonItemBackupStrategyImpl>())
 {
     p_impl->m_converter = CreateItemCloneConverter(item_factory);

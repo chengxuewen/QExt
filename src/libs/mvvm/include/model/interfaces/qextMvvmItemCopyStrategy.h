@@ -20,10 +20,10 @@ class QEXTMvvmSessionItem;
 
 //! Interface for deep item copying.
 
-class QEXT_MVVM_API ItemCopyStrategy
+class QEXT_MVVM_API QEXTMvvmItemCopyStrategy
 {
 public:
-    virtual ~ItemCopyStrategy() = default;
+    virtual ~QEXTMvvmItemCopyStrategy() = default;
 
     //! Creates item copy by deep copying all children. QEXTMvvmSessionItem identifiers will be regenerated.
     virtual std::unique_ptr<QEXTMvvmSessionItem> createCopy(const QEXTMvvmSessionItem* item) const = 0;

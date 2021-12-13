@@ -17,10 +17,10 @@ namespace ModelView
 
 //! Interface to subscribe to various events happening with specific QEXTMvvmSessionItem.
 
-class QEXT_MVVM_API ItemListenerInterface
+class QEXT_MVVM_API QEXTMvvmItemListenerInterface
 {
 public:
-    virtual ~ItemListenerInterface() = default;
+    virtual ~QEXTMvvmItemListenerInterface() = default;
 
     virtual void setOnItemDestroy(Callbacks::item_t f, Callbacks::slot_t owner) = 0;
 

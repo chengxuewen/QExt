@@ -21,7 +21,7 @@ class ItemCatalogue;
 
 //! Default QEXTMvvmSessionItem factory.
 
-class QEXT_MVVM_API ItemFactory : public ItemFactoryInterface
+class QEXT_MVVM_API ItemFactory : public QEXTMvvmItemFactoryInterface
 {
 public:
     ItemFactory(std::unique_ptr<ItemCatalogue> catalogue);

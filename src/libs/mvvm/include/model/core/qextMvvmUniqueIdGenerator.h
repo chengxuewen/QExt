@@ -17,7 +17,7 @@ namespace ModelView
 {
 
 /*!
-@class UniqueIdGenerator
+@class QEXTMvvmUniqueIdGenerator
 @brief Provides generation of unique QEXTMvvmSessionItem itentifier.
 
 In the future might be turned to singleton to keep track of all generated identifier
@@ -26,7 +26,7 @@ generated during dynamic session. For the moment though, we rely on zero-probabi
 such event.
 */
 
-class QEXT_MVVM_API UniqueIdGenerator
+class QEXT_MVVM_API QEXTMvvmUniqueIdGenerator
 {
 public:
     static identifier_type generate();

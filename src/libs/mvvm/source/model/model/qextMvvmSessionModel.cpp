@@ -167,7 +167,7 @@ void SessionModel::clear(std::function<void(QEXTMvvmSessionItem*)> callback)
 
 //! Returns pointer to ItemFactory which can generate all items supported by this model,
 
-const ItemFactoryInterface* SessionModel::factory() const
+const QEXTMvvmItemFactoryInterface* SessionModel::factory() const
 {
     return m_item_manager->factory();
 }

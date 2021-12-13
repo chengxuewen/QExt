@@ -20,10 +20,10 @@ class QEXTMvvmSessionItem;
 
 //! Interface to backup items for later restore.
 
-class QEXT_MVVM_API ItemBackupStrategy
+class QEXT_MVVM_API QEXTMvvmItemBackupStrategy
 {
 public:
-    virtual ~ItemBackupStrategy() = default;
+    virtual ~QEXTMvvmItemBackupStrategy() = default;
 
     //! Restore item from saved content.
     virtual std::unique_ptr<QEXTMvvmSessionItem> restoreItem() const = 0;
