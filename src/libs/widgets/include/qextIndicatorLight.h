@@ -39,8 +39,6 @@ class QEXTIndicatorLightPrivate;
 class QEXT_WIDGETS_API QEXTIndicatorLight : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTIndicatorLight)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTIndicatorLight)
 
     Q_PROPERTY(QString text READ text WRITE setText)
     Q_PROPERTY(QColor textLightColor READ lightTextColor WRITE setTextLightColor)
@@ -161,6 +159,10 @@ protected:
     void drawOverlay(QPainter *painter);
 
     QScopedPointer<QEXTIndicatorLightPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTIndicatorLight)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTIndicatorLight)
 };
 
 #endif // _QTKINDICATORLIGHT_H

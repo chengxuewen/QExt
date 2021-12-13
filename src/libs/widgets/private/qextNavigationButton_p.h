@@ -7,8 +7,6 @@
 class QEXTNavigationButton;
 class QEXT_WIDGETS_API QEXTNavigationButtonPrivate
 {
-    Q_DISABLE_COPY(QEXTNavigationButtonPrivate)
-    Q_DECLARE_PUBLIC(QEXTNavigationButton)
 public:
     explicit QEXTNavigationButtonPrivate(QEXTNavigationButton *q);
     virtual ~QEXTNavigationButtonPrivate();
@@ -55,6 +53,10 @@ public:
     QBrush m_checkBackgroundBrush;
 
     bool m_hovered;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationButtonPrivate)
+    QEXT_DECL_PUBLIC(QEXTNavigationButton)
 };
 
 #endif // _QEXTNAVIGATIONBUTTON_P_H

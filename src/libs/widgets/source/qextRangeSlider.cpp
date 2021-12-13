@@ -1,4 +1,5 @@
 ﻿#include <qextRangeSlider.h>
+#include <qextRangeSlider_p.h>
 
 #include <QPainter>
 #include <QMouseEvent>
@@ -7,33 +8,45 @@
 #include <qmath.h>
 
 
-
-QEXTRangeSlider::QEXTRangeSlider(QWidget *parent) : QWidget(parent)
+QEXTRangeSliderPrivate::QEXTRangeSliderPrivate(QEXTRangeSlider *q)
+    : q_ptr(q)
 {
-    minValue = 0;
-    maxValue = 100;
-    leftValue = 40;
-    rightValue = 60;
+    m_minValue = 0;
+    m_maxValue = 100;
+    m_leftValue = 40;
+    m_rightValue = 60;
 
-    borderWidth = 3;
-    horizontal = true;
-    showText = false;
+    m_borderWidth = 3;
+    m_horizontal = true;
+    m_textVisiable = false;
 
-    usedColor = QColor(24, 189, 155);
-    freeColor = QColor(70, 70, 70);
-    textColor = QColor(80, 80, 80);
-    rangeTextColor = QColor(200, 200, 200);
-    sliderColor = QColor(250, 250, 250);
-    borderColor = QColor(255, 107, 107);
+    m_usedColor = QColor(24, 189, 155);
+    m_freeColor = QColor(70, 70, 70);
+    m_textColor = QColor(80, 80, 80);
+    m_rangeTextColor = QColor(200, 200, 200);
+    m_sliderColor = QColor(250, 250, 250);
+    m_borderColor = QColor(255, 107, 107);
 
-    sliderStyle = SliderStyle_Line;
-    sliderBgPercent = SliderBgPercent_0_2;
-    sliderPercent = SliderPercent_0_3;
+    m_sliderStyle = QEXTRangeSlider::SliderStyle_Line;
+    m_sliderBackgroundPercent = QEXTRangeSlider::SliderBgPercent_0_2;
+    m_sliderPercent = QEXTRangeSlider::SliderPercent_0_3;
 
-    leftPressed = false;
-    rightPressed = false;
+    m_leftPressed = false;
+    m_rightPressed = false;
+}
 
-    setFont(QFont("Arial", 8));
+QEXTRangeSliderPrivate::~QEXTRangeSliderPrivate()
+{
+
+}
+
+
+
+QEXTRangeSlider::QEXTRangeSlider(QWidget *parent)
+    : QWidget(parent)
+    , dd_ptr(new QEXTRangeSliderPrivate(this))
+{
+    this->setFont(QFont("Arial", 8));
 }
 
 QEXTRangeSlider::~QEXTRangeSlider()
@@ -43,50 +56,52 @@ QEXTRangeSlider::~QEXTRangeSlider()
 
 void QEXTRangeSlider::mousePressEvent(QMouseEvent *e)
 {
+    Q_D(QEXTRangeSlider);
     if (e->button() & Qt::LeftButton) {
-        if (leftSliderRect.contains(e->pos())) {
-            leftPressed = true;
-            update();
-        } else if (rightSliderRect.contains(e->pos())) {
-            rightPressed = true;
-            update();
+        if (d->m_leftSliderRect.contains(e->pos())) {
+            d->m_leftPressed = true;
+            this->update();
+        } else if (d->m_rightSliderRect.contains(e->pos())) {
+            d->m_rightPressed = true;
+            this->update();
         }
     }
 }
 
 void QEXTRangeSlider::mouseReleaseEvent(QMouseEvent *)
 {
-    leftPressed = false;
-    rightPressed = false;
-    update();
+    Q_D(QEXTRangeSlider);
+    d->m_leftPressed = false;
+    d->m_rightPressed = false;
+    this->update();
 }
 
 void QEXTRangeSlider::mouseMoveEvent(QMouseEvent *e)
 {
-    //指示器选中,并且坐标在范围值内,且不能超过另外指示器坐标
-    if (leftPressed) {
+    Q_D(QEXTRangeSlider);
+    if (d->m_leftPressed) {
         if (e->pos().x() >= rect().x()) {
             int width = this->width();
-            double increment = (double)width / (maxValue - minValue);
+            double increment = (double)width / (d->m_maxValue - d->m_minValue);
             int value = e->pos().x() / increment;
 
-            if (value >= minValue && value <= rightValue) {
-                leftValue = value;
-                emit valueChanged(leftValue, rightValue);
-                update();
+            if (value >= d->m_minValue && value <= d->m_rightValue) {
+                d->m_leftValue = value;
+                emit valueChanged(d->m_leftValue, d->m_rightValue);
+                this->update();
             }
 
         }
-    } else if (rightPressed) {
+    } else if (d->m_rightPressed) {
         if (e->pos().x() <= rect().width()) {
             int width = this->width();
-            double increment = (double)width / (maxValue - minValue);
+            double increment = (double)width / (d->m_maxValue - d->m_minValue);
             int value = e->pos().x() / increment;
 
-            if (value >= leftValue && value <= maxValue) {
-                rightValue = value;
-                emit valueChanged(leftValue, rightValue);
-                update();
+            if (value >= d->m_leftValue && value <= d->m_maxValue) {
+                d->m_rightValue = value;
+                emit valueChanged(d->m_leftValue, d->m_rightValue);
+                this->update();
             }
         }
     }
@@ -94,39 +109,36 @@ void QEXTRangeSlider::mouseMoveEvent(QMouseEvent *e)
 
 void QEXTRangeSlider::paintEvent(QPaintEvent *)
 {
-    //绘制准备工作,启用反锯齿,平移坐标轴中心,等比例缩放
+    Q_D(const QEXTRangeSlider);
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    //绘制滑块背景
-    drawSliderBg(&painter);
+    drawSliderBackground(&painter);
 
-    //根据样式绘制滑块
-    if (sliderStyle == SliderStyle_Line) {
-        drawSliderLine(&painter);
-    } else if (sliderStyle == SliderStyle_Circle) {
-        drawSliderCircle(&painter);
+    if (d->m_sliderStyle == SliderStyle_Line) {
+        this->drawSliderLine(&painter);
+    } else if (d->m_sliderStyle == SliderStyle_Circle) {
+        this->drawSliderCircle(&painter);
     }
 
-    //绘制当前值
-    drawValue(&painter);
+    this->drawValue(&painter);
 }
 
-void QEXTRangeSlider::drawSliderBg(QPainter *painter)
+void QEXTRangeSlider::drawSliderBackground(QPainter *painter)
 {
+    Q_D(const QEXTRangeSlider);
     painter->save();
 
     int width = this->width();
     int height = this->height();
-    int penWidth = height * ((double)sliderBgPercent / 10);
+    int penWidth = height * ((double)d->m_sliderBackgroundPercent / 10);
     int radius = penWidth / 2;
 
-    //增加偏移量,是的边缘更加平滑
     int offset = 1;
 
     QPen pen;
     pen.setWidth(penWidth);
-    pen.setColor(freeColor);
+    pen.setColor(d->m_freeColor);
     pen.setCapStyle(Qt::RoundCap);
 
     painter->setPen(pen);
@@ -137,190 +149,193 @@ void QEXTRangeSlider::drawSliderBg(QPainter *painter)
 
 void QEXTRangeSlider::drawSliderLine(QPainter *painter)
 {
+    Q_D(QEXTRangeSlider);
     painter->save();
     painter->setPen(Qt::NoPen);
 
     int width = this->width();
     int height = this->height();
-    sliderLen = height * ((double)sliderPercent / 10);
+    d->m_sliderLen = height * ((double)d->m_sliderPercent / 10);
 
-    //计算每一格移动多少,然后计算左边指示器所在位置
-    double increment = (double)width / (maxValue - minValue);
+    double increment = (double)width / (d->m_maxValue - d->m_minValue);
     int initY = 0;
 
-    //计算左右滑块区域
-    leftSliderRect = QRect(leftValue * increment, initY, sliderLen, height);
-    rightSliderRect = QRect(rightValue * increment, initY, sliderLen, height);
+    d->m_leftSliderRect = QRect(d->m_leftValue * increment, initY, d->m_sliderLen, height);
+    d->m_rightSliderRect = QRect(d->m_rightValue * increment, initY, d->m_sliderLen, height);
 
-    //绘制范围值
-    int penWidth = height * ((double)sliderBgPercent / 10);
+    int penWidth = height * ((double)d->m_sliderBackgroundPercent / 10);
 
-    painter->setBrush(usedColor);
-    painter->drawRect(leftSliderRect.x(), (height - penWidth) / 2, rightSliderRect.x() - leftSliderRect.x(), penWidth);
+    painter->setBrush(d->m_usedColor);
+    painter->drawRect(d->m_leftSliderRect.x(), (height - penWidth) / 2, d->m_rightSliderRect.x() - d->m_leftSliderRect.x(), penWidth);
 
     QPen pen = QPen();
-    pen.setWidth(sliderLen);
-    pen.setColor(usedColor);
+    pen.setWidth(d->m_sliderLen);
+    pen.setColor(d->m_usedColor);
     pen.setCapStyle(Qt::RoundCap);
     painter->setPen(pen);
 
-    //绘制左边值指示器
-    painter->drawLine(leftSliderRect.x(), sliderLen, leftSliderRect.x(), height - sliderLen);
+    painter->drawLine(d->m_leftSliderRect.x(), d->m_sliderLen, d->m_leftSliderRect.x(), height - d->m_sliderLen);
 
-    //绘制右边值指示器
-    painter->drawLine(rightSliderRect.x(), sliderLen, rightSliderRect.x(), height - sliderLen);
+    painter->drawLine(d->m_rightSliderRect.x(), d->m_sliderLen, d->m_rightSliderRect.x(), height - d->m_sliderLen);
 
     painter->restore();
 }
 
 void QEXTRangeSlider::drawSliderCircle(QPainter *painter)
 {
+    Q_D(QEXTRangeSlider);
     painter->save();
     painter->setPen(Qt::NoPen);
 
     int width = this->width();
     int height = this->height();
-    sliderLen = height * ((double)sliderPercent / 10);
+    d->m_sliderLen = height * ((double)d->m_sliderPercent / 10);
 
-    //如果半径超过高度的一半,则说明超出范围,取高度的一半
-    if (sliderLen >= height / 2) {
-        sliderLen = height / 2 - 1;
+    if (d->m_sliderLen >= height / 2) {
+        d->m_sliderLen = height / 2 - 1;
     }
+    double increment = (double)width / (d->m_maxValue - d->m_minValue);
 
-    //计算每一格移动多少,然后计算左边指示器所在位置
-    double increment = (double)width / (maxValue - minValue);
+    int initY = (height - d->m_sliderLen * 2) / 2;
+    int side = d->m_sliderLen * 2;
+    int borderSide = side + d->m_borderWidth * 2;
 
-    //计算初始坐标及圆半径
-    int initY = (height - sliderLen * 2) / 2;
-    int side = sliderLen * 2;
-    int borderSide = side + borderWidth * 2;
+    d->m_leftSliderRect = QRect(d->m_leftValue * increment - d->m_sliderLen, initY, side, side);
+    d->m_rightSliderRect = QRect(d->m_rightValue * increment - d->m_sliderLen, initY, side, side);
 
-    //计算左右滑块区域
-    leftSliderRect = QRect(leftValue * increment - sliderLen, initY, side, side);
-    rightSliderRect = QRect(rightValue * increment - sliderLen, initY, side, side);
+    int penWidth = height * ((double)d->m_sliderBackgroundPercent / 10);
+    painter->setBrush(d->m_usedColor);
+    painter->drawRect(d->m_leftSliderRect.x() + d->m_sliderLen, (height - penWidth) / 2, d->m_rightSliderRect.x() - d->m_leftSliderRect.x(), penWidth);
 
-    //绘制范围值
-    int penWidth = height * ((double)sliderBgPercent / 10);
-    painter->setBrush(usedColor);
-    painter->drawRect(leftSliderRect.x() + sliderLen, (height - penWidth) / 2, rightSliderRect.x() - leftSliderRect.x(), penWidth);
+    painter->setBrush(d->m_borderColor);
+    painter->drawEllipse(d->m_leftSliderRect.x() - d->m_borderWidth, d->m_leftSliderRect.y() - d->m_borderWidth, borderSide, borderSide);
+    painter->setBrush(d->m_sliderColor);
+    painter->drawEllipse(d->m_leftSliderRect);
 
-    //绘制左边值指示器
-    painter->setBrush(borderColor);
-    painter->drawEllipse(leftSliderRect.x() - borderWidth, leftSliderRect.y() - borderWidth, borderSide, borderSide);
-    painter->setBrush(sliderColor);
-    painter->drawEllipse(leftSliderRect);
-
-    //绘制右边值指示器
-    painter->setBrush(borderColor);
-    painter->drawEllipse(rightSliderRect.x() - borderWidth, rightSliderRect.y() - borderWidth, borderSide, borderSide);
-    painter->setBrush(sliderColor);
-    painter->drawEllipse(rightSliderRect);
+    painter->setBrush(d->m_borderColor);
+    painter->drawEllipse(d->m_rightSliderRect.x() - d->m_borderWidth, d->m_rightSliderRect.y() - d->m_borderWidth, borderSide, borderSide);
+    painter->setBrush(d->m_sliderColor);
+    painter->drawEllipse(d->m_rightSliderRect);
 
     painter->restore();
 }
 
 void QEXTRangeSlider::drawValue(QPainter *painter)
 {
-    if (!showText) {
+    Q_D(QEXTRangeSlider);
+    if (!d->m_textVisiable) {
         return;
     }
 
     painter->save();
 
-    //设置文字宽度
     QFont font;
-    font.setPixelSize(leftSliderRect.width() / 1.6);
+    font.setPixelSize(d->m_leftSliderRect.width() / 1.6);
     painter->setFont(font);
 
-    //设置文字颜色
-    painter->setPen(textColor);
+    painter->setPen(d->m_textColor);
 
-    //绘制左侧值
-    painter->drawText(leftSliderRect, Qt::AlignCenter, QString::number(leftValue));
-    //绘制右侧值
-    painter->drawText(rightSliderRect, Qt::AlignCenter, QString::number(rightValue));
+    painter->drawText(d->m_leftSliderRect, Qt::AlignCenter, QString::number(d->m_leftValue));
+
+    painter->drawText(d->m_rightSliderRect, Qt::AlignCenter, QString::number(d->m_rightValue));
 
     painter->restore();
 }
 
-int QEXTRangeSlider::getMinValue() const
+int QEXTRangeSlider::minValue() const
 {
-    return this->minValue;
+    Q_D(const QEXTRangeSlider);
+    return d->m_minValue;
 }
 
-int QEXTRangeSlider::getMaxValue() const
+int QEXTRangeSlider::maxValue() const
 {
-    return this->maxValue;
+    Q_D(const QEXTRangeSlider);
+    return d->m_maxValue;
 }
 
-int QEXTRangeSlider::getLeftValue() const
+int QEXTRangeSlider::leftValue() const
 {
-    return this->leftValue;
+    Q_D(const QEXTRangeSlider);
+    return d->m_leftValue;
 }
 
-int QEXTRangeSlider::getRightValue() const
+int QEXTRangeSlider::rightValue() const
 {
-    return this->rightValue;
+    Q_D(const QEXTRangeSlider);
+    return d->m_rightValue;
 }
 
-int QEXTRangeSlider::getBorderWidth() const
+int QEXTRangeSlider::borderWidth() const
 {
-    return this->borderWidth;
+    Q_D(const QEXTRangeSlider);
+    return d->m_borderWidth;
 }
 
-bool QEXTRangeSlider::getHorizontal() const
+bool QEXTRangeSlider::horizontal() const
 {
-    return this->horizontal;
+    Q_D(const QEXTRangeSlider);
+    return d->m_horizontal;
 }
 
-bool QEXTRangeSlider::getShowText() const
+bool QEXTRangeSlider::isTextVisiable() const
 {
-    return this->showText;
+    Q_D(const QEXTRangeSlider);
+    return d->m_textVisiable;
 }
 
-QColor QEXTRangeSlider::getUsedColor() const
+QColor QEXTRangeSlider::usedColor() const
 {
-    return this->usedColor;
+    Q_D(const QEXTRangeSlider);
+    return d->m_usedColor;
 }
 
-QColor QEXTRangeSlider::getFreeColor() const
+QColor QEXTRangeSlider::freeColor() const
 {
-    return this->freeColor;
+    Q_D(const QEXTRangeSlider);
+    return d->m_freeColor;
 }
 
-QColor QEXTRangeSlider::getTextColor() const
+QColor QEXTRangeSlider::textColor() const
 {
-    return this->textColor;
+    Q_D(const QEXTRangeSlider);
+    return d->m_textColor;
 }
 
-QColor QEXTRangeSlider::getRangeTextColor() const
+QColor QEXTRangeSlider::rangeTextColor() const
 {
-    return this->rangeTextColor;
+    Q_D(const QEXTRangeSlider);
+    return d->m_rangeTextColor;
 }
 
-QColor QEXTRangeSlider::getSliderColor() const
+QColor QEXTRangeSlider::sliderColor() const
 {
-    return this->sliderColor;
+    Q_D(const QEXTRangeSlider);
+    return d->m_sliderColor;
 }
 
-QColor QEXTRangeSlider::getBorderColor() const
+QColor QEXTRangeSlider::borderColor() const
 {
-    return this->borderColor;
+    Q_D(const QEXTRangeSlider);
+    return d->m_borderColor;
 }
 
-QEXTRangeSlider::SliderStyle QEXTRangeSlider::getSliderStyle() const
+QEXTRangeSlider::SliderStyle QEXTRangeSlider::sliderStyle() const
 {
-    return this->sliderStyle;
+    Q_D(const QEXTRangeSlider);
+    return d->m_sliderStyle;
 }
 
-QEXTRangeSlider::SliderBgPercent QEXTRangeSlider::getSliderBgPercent() const
+QEXTRangeSlider::SliderBgPercent QEXTRangeSlider::sliderBgPercent() const
 {
-    return this->sliderBgPercent;
+    Q_D(const QEXTRangeSlider);
+    return d->m_sliderBackgroundPercent;
 }
 
-QEXTRangeSlider::SliderPercent QEXTRangeSlider::getSliderPercent() const
+QEXTRangeSlider::SliderPercent QEXTRangeSlider::sliderPercent() const
 {
-    return this->sliderPercent;
+    Q_D(const QEXTRangeSlider);
+    return d->m_sliderPercent;
 }
 
 QSize QEXTRangeSlider::sizeHint() const
@@ -335,161 +350,176 @@ QSize QEXTRangeSlider::minimumSizeHint() const
 
 void QEXTRangeSlider::setRange(int minValue, int maxValue)
 {
-    //如果最小值大于或者等于最大值则不设置
+    Q_D(QEXTRangeSlider);
     if (minValue >= maxValue) {
         return;
     }
 
-    this->minValue = minValue;
-    this->maxValue = maxValue;
+    d->m_minValue = minValue;
+    d->m_maxValue = maxValue;
 
-    //如果目标值不在范围值内,则重新设置目标值
-    if (leftValue < minValue) {
-        leftValue = minValue;
+    if (d->m_leftValue < minValue) {
+        d->m_leftValue = minValue;
     }
 
-    if (rightValue > maxValue) {
-        rightValue = maxValue;
+    if (d->m_rightValue > maxValue) {
+        d->m_rightValue = maxValue;
     }
 
-    if (leftValue < minValue || rightValue > maxValue) {
-        setCurrentRange(leftValue, rightValue);
+    if (d->m_leftValue < minValue || d->m_rightValue > maxValue) {
+        setCurrentRange(d->m_leftValue, d->m_rightValue);
     }
 
-    update();
+    this->update();
 }
 
 void QEXTRangeSlider::setMinValue(int minValue)
 {
-    setRange(minValue, maxValue);
+    Q_D(QEXTRangeSlider);
+    this->setRange(minValue, d->m_maxValue);
 }
 
 void QEXTRangeSlider::setMaxValue(int maxValue)
 {
-    setRange(minValue, maxValue);
+    Q_D(QEXTRangeSlider);
+    this->setRange(d->m_minValue, maxValue);
 }
 
 void QEXTRangeSlider::setCurrentRange(int leftValue, int rightValue)
 {
-    //左边值不能大于右边值
+    Q_D(QEXTRangeSlider);
     if (leftValue > rightValue) {
         return;
     }
 
-    //左边值不能小于最小值,右边值不能大于最大值
-    if (leftValue < minValue || rightValue > maxValue) {
+    if (leftValue < d->m_minValue || rightValue > d->m_maxValue) {
         return;
     }
 
-    this->leftValue = leftValue;
-    this->rightValue = rightValue;
-    emit valueChanged(leftValue, rightValue);
+    d->m_leftValue = leftValue;
+    d->m_rightValue = rightValue;
+    emit this->valueChanged(leftValue, rightValue);
 
-    update();
+    this->update();
 }
 
 void QEXTRangeSlider::setLeftValue(int leftValue)
 {
-    setCurrentRange(leftValue, rightValue);
+    Q_D(QEXTRangeSlider);
+    this->setCurrentRange(leftValue, d->m_rightValue);
 }
 
 void QEXTRangeSlider::setRightValue(int rightValue)
 {
-    setCurrentRange(leftValue, rightValue);
+    Q_D(QEXTRangeSlider);
+    this->setCurrentRange(d->m_leftValue, rightValue);
 }
 
 void QEXTRangeSlider::setBorderWidth(int borderWidth)
 {
-    if (this->borderWidth != borderWidth) {
-        this->borderWidth = borderWidth;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_borderWidth != borderWidth) {
+        d->m_borderWidth = borderWidth;
+        this->update();
     }
 }
 
 void QEXTRangeSlider::setHorizontal(bool horizontal)
 {
-    if (this->horizontal != horizontal) {
-        this->horizontal = horizontal;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_horizontal != horizontal) {
+        d->m_horizontal = horizontal;
+        this->update();
     }
 }
 
-void QEXTRangeSlider::setShowText(bool showText)
+void QEXTRangeSlider::setTextVisiable(bool visiable)
 {
-    if (this->showText != showText) {
-        this->showText = showText;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_textVisiable != visiable) {
+        d->m_textVisiable = visiable;
+        this->update();
     }
 }
 
-void QEXTRangeSlider::setUsedColor(const QColor &usedColor)
+void QEXTRangeSlider::setUsedColor(const QColor &color)
 {
-    if (this->usedColor != usedColor) {
-        this->usedColor = usedColor;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_usedColor != color) {
+        d->m_usedColor = color;
+        this->update();
     }
 }
 
-void QEXTRangeSlider::setFreeColor(const QColor &freeColor)
+void QEXTRangeSlider::setFreeColor(const QColor &color)
 {
-    if (this->freeColor != freeColor) {
-        this->freeColor = freeColor;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_freeColor != color) {
+        d->m_freeColor = color;
+        this->update();
     }
 }
 
-void QEXTRangeSlider::setTextColor(const QColor &textColor)
+void QEXTRangeSlider::setTextColor(const QColor &color)
 {
-    if (this->textColor != textColor) {
-        this->textColor = textColor;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_textColor != color) {
+        d->m_textColor = color;
+        this->update();
     }
 }
 
-void QEXTRangeSlider::setRangeTextColor(const QColor &rangeTextColor)
+void QEXTRangeSlider::setRangeTextColor(const QColor &color)
 {
-    if (this->rangeTextColor != rangeTextColor) {
-        this->rangeTextColor = rangeTextColor;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_rangeTextColor != color) {
+        d->m_rangeTextColor = color;
+        this->update();
     }
 }
 
-void QEXTRangeSlider::setSliderColor(const QColor &sliderColor)
+void QEXTRangeSlider::setSliderColor(const QColor &color)
 {
-    if (this->sliderColor != sliderColor) {
-        this->sliderColor = sliderColor;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_sliderColor != color) {
+        d->m_sliderColor = color;
+        this->update();
     }
 }
 
-void QEXTRangeSlider::setBorderColor(const QColor &borderColor)
+void QEXTRangeSlider::setBorderColor(const QColor &color)
 {
-    if (this->borderColor != borderColor) {
-        this->borderColor = borderColor;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_borderColor != color) {
+        d->m_borderColor = color;
+        this->update();
     }
 }
 
 void QEXTRangeSlider::setSliderStyle(const QEXTRangeSlider::SliderStyle &sliderStyle)
 {
-    if (this->sliderStyle != sliderStyle) {
-        this->sliderStyle = sliderStyle;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_sliderStyle != sliderStyle) {
+        d->m_sliderStyle = sliderStyle;
+        this->update();
     }
 }
 
-void QEXTRangeSlider::setSliderBgPercent(const QEXTRangeSlider::SliderBgPercent &sliderBgPercent)
+void QEXTRangeSlider::setSliderBackgroundPercent(const QEXTRangeSlider::SliderBgPercent &percent)
 {
-    if (this->sliderBgPercent != sliderBgPercent) {
-        this->sliderBgPercent = sliderBgPercent;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_sliderBackgroundPercent != percent) {
+        d->m_sliderBackgroundPercent = percent;
+        this->update();
     }
 }
 
-void QEXTRangeSlider::setSliderPercent(const QEXTRangeSlider::SliderPercent &sliderPercent)
+void QEXTRangeSlider::setSliderPercent(const QEXTRangeSlider::SliderPercent &percent)
 {
-    if (this->sliderPercent != sliderPercent) {
-        this->sliderPercent = sliderPercent;
-        update();
+    Q_D(QEXTRangeSlider);
+    if (d->m_sliderPercent != percent) {
+        d->m_sliderPercent = percent;
+        this->update();
     }
 }
+

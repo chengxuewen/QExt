@@ -29,13 +29,13 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
-set(qext_test_link_libraries)
-set(qext_test_include_directories)
+set(QEXT_TEST_LINK_LIBRARIES)
+set(QEXT_TEST_INCLUDE_DIRECTORIES)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND qext_test_link_libraries Qt4::QtCore Qt4::QtGui Qt4::QtTest)
+    list(APPEND QEXT_TEST_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtTest)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND qext_test_link_libraries
+    list(APPEND QEXT_TEST_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Test
         )
@@ -43,19 +43,19 @@ else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND qext_test_link_libraries QEXTCore)
+list(APPEND QEXT_TEST_LINK_LIBRARIES QEXTCore)
 
 
 #--------------------------------------------------------------------------------
 # define function
 #--------------------------------------------------------------------------------
-function(qextCoreAddTest TEST_NAME)
+function(qextFunctionCoreAddTest TEST_NAME)
     set(multiValueArgs TEST_SOURCE)
     cmake_parse_arguments(MY "" "" "${multiValueArgs}" "${ARGN}")
     add_executable(${TEST_NAME} ${MY_TEST_SOURCE})
     add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
-    target_link_libraries(${TEST_NAME} PRIVATE ${qext_test_link_libraries})
-    target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${qext_test_include_directories})
+    target_link_libraries(${TEST_NAME} PRIVATE ${QEXT_TEST_LINK_LIBRARIES})
+    target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${QEXT_TEST_INCLUDE_DIRECTORIES})
     if(QEXT_BUILD_SHARED_LIBS AND WIN32)
         qextFunctionCopyDependencyInternal(${TEST_NAME} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
     endif()

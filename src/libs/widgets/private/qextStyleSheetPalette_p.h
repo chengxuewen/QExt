@@ -6,13 +6,15 @@
 class QEXTStyleSheetPalette;
 class QEXT_WIDGETS_API QEXTStyleSheetPalettePrivate
 {
-    Q_DISABLE_COPY(QEXTStyleSheetPalettePrivate)
-    Q_DECLARE_PUBLIC(QEXTStyleSheetPalette)
 public:
     explicit QEXTStyleSheetPalettePrivate(QEXTStyleSheetPalette *q);
     virtual ~QEXTStyleSheetPalettePrivate();
 
     QEXTStyleSheetPalette * const q_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTStyleSheetPalettePrivate)
+    QEXT_DECL_PUBLIC(QEXTStyleSheetPalette)
 };
 
 

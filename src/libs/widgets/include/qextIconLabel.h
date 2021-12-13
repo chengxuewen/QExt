@@ -9,8 +9,6 @@ class QEXTIconLabelPrivate;
 class QEXT_WIDGETS_API QEXTIconLabel : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTIconLabel)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTIconLabel)
 
 public:
     explicit QEXTIconLabel(QWidget *parent = QEXT_DECL_NULLPTR);
@@ -20,6 +18,10 @@ protected:
     void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
 
     QScopedPointer<QEXTIconLabelPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTIconLabel)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTIconLabel)
 };
 
 #endif // _QEXTICONLABEL_H

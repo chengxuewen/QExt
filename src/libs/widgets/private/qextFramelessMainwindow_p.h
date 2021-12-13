@@ -9,8 +9,6 @@
 class QEXTFramelessMainWindow;
 class QEXT_WIDGETS_API QEXTFramelessMainWindowPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTFramelessMainWindow)
-    Q_DISABLE_COPY(QEXTFramelessMainWindowPrivate)
 public:
     explicit QEXTFramelessMainWindowPrivate(QEXTFramelessMainWindow *q);
     virtual ~QEXTFramelessMainWindowPrivate();
@@ -36,6 +34,10 @@ public:
     bool m_isMin;
     //Stores the default properties of the form
     Qt::WindowFlags m_flags;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTFramelessMainWindowPrivate)
+    QEXT_DECL_PUBLIC(QEXTFramelessMainWindow)
 };
 
 #endif // _QEXTFRAMELESSMAINWINDOW_P_H

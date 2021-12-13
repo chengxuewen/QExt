@@ -7,8 +7,6 @@ class QEXTTumbler;
 class QEXTDateTimeTumbler;
 class QEXT_WIDGETS_API QEXTDateTimeTumblerPrivate
 {
-    Q_DISABLE_COPY(QEXTDateTimeTumblerPrivate)
-    Q_DECLARE_PUBLIC(QEXTDateTimeTumbler)
 public:
     explicit QEXTDateTimeTumblerPrivate(QEXTDateTimeTumbler *q);
     virtual ~QEXTDateTimeTumblerPrivate();
@@ -28,6 +26,10 @@ public:
     QEXTTumbler *m_tumblerHour;
     QEXTTumbler *m_tumblerMin;
     QEXTTumbler *m_tumblerSec;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTDateTimeTumblerPrivate)
+    QEXT_DECL_PUBLIC(QEXTDateTimeTumbler)
 };
 
 #endif // _QEXTDATETIMETUMBLER_P_H

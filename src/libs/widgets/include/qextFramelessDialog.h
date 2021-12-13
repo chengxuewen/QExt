@@ -9,8 +9,7 @@ class QEXTFramelessDialogPrivate;
 class QEXT_WIDGETS_API QEXTFramelessDialog : public QDialog
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTFramelessDialog)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTFramelessDialog)
+
 public:
     explicit QEXTFramelessDialog(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTFramelessDialog();
@@ -51,6 +50,10 @@ protected:
     void doResizeEvent(QEvent *event);
 
     QScopedPointer<QEXTFramelessDialogPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTFramelessDialog)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTFramelessDialog)
 };
 
 #endif // _QEXTFRAMELESSDIALOG_H

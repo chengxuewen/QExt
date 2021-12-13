@@ -23,8 +23,6 @@ private:
 class QEXTWaveChart;
 class QEXT_WIDGETS_API QEXTWaveChartPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTWaveChart)
-    Q_DISABLE_COPY(QEXTWaveChartPrivate)
 public:
     explicit QEXTWaveChartPrivate(QEXTWaveChart *q);
     virtual ~QEXTWaveChartPrivate();
@@ -54,6 +52,10 @@ public:
     QColor m_backgroundEndColor;
     QColor m_textColor;
     QColor m_pointColor;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTWaveChartPrivate)
+    QEXT_DECL_PUBLIC(QEXTWaveChart)
 };
 
 

@@ -39,52 +39,31 @@ class QEXTSelectSliderPrivate;
 class QEXT_WIDGETS_API QEXTSelectSlider : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTSelectSlider)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTSelectSlider)
 
-    Q_PROPERTY(int m_minValue READ minValue WRITE setMinValue)
-    Q_PROPERTY(int m_maxValue READ maxValue WRITE setMaxValue)
-    Q_PROPERTY(int m_leftValue READ leftValue WRITE setLeftValue)
-    Q_PROPERTY(int m_rightValue READ rightValue WRITE setRightValue)
+    Q_PROPERTY(int minValue READ minValue WRITE setMinValue)
+    Q_PROPERTY(int maxValue READ maxValue WRITE setMaxValue)
+    Q_PROPERTY(int leftValue READ leftValue WRITE setLeftValue)
+    Q_PROPERTY(int rightValue READ rightValue WRITE setRightValue)
 
-    Q_PROPERTY(int m_rangeValue READ rangeValue WRITE setRangeValue)
-    Q_PROPERTY(int m_step READ step WRITE setStep)
+    Q_PROPERTY(int rangeValue READ rangeValue WRITE setRangeValue)
+    Q_PROPERTY(int step READ step WRITE setStep)
 
-    Q_PROPERTY(int m_borderWidth READ borderWidth WRITE setBorderWidth)
-    Q_PROPERTY(bool m_horizontal READ horizontal WRITE setHorizontal)
+    Q_PROPERTY(int borderWidth READ borderWidth WRITE setBorderWidth)
+    Q_PROPERTY(bool isHorizontal READ isHorizontal WRITE setHorizontal)
 
-    Q_PROPERTY(QColor m_usedColor READ usedColor WRITE setUsedColor)
-    Q_PROPERTY(QColor m_freeColor READ freeColor WRITE setFreeColor)
-    Q_PROPERTY(QColor m_textColor READ textColor WRITE setTextColor)
-    Q_PROPERTY(QColor m_rangeTextColor READ rangeTextColor WRITE setRangeTextColor)
-    Q_PROPERTY(QColor m_sliderColor READ sliderColor WRITE setSliderColor)
-    Q_PROPERTY(QColor m_borderColor READ borderColor WRITE setBorderColor)
-    Q_PROPERTY(QColor m_buttonNormalColor READ buttonNormalColor WRITE setButtonNormalColor)
-    Q_PROPERTY(QColor m_buttonPressColor READ buttonPressColor WRITE setButtonPressColor)
+    Q_PROPERTY(QColor usedColor READ usedColor WRITE setUsedColor)
+    Q_PROPERTY(QColor freeColor READ freeColor WRITE setFreeColor)
+    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
+    Q_PROPERTY(QColor rangeTextColor READ rangeTextColor WRITE setRangeTextColor)
+    Q_PROPERTY(QColor sliderColor READ sliderColor WRITE setSliderColor)
+    Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
+    Q_PROPERTY(QColor buttonNormalColor READ buttonNormalColor WRITE setButtonNormalColor)
+    Q_PROPERTY(QColor buttonPressColor READ buttonPressColor WRITE setButtonPressColor)
 
 public:
     explicit QEXTSelectSlider(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTSelectSlider();
 
-protected:
-    void resizeEvent(QResizeEvent *);
-    void mousePressEvent(QMouseEvent *);
-    void mouseMoveEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
-
-    void paintEvent(QPaintEvent *);
-
-    void drawBackground(QPainter *painter);
-    void drawValue(QPainter *painter);
-    void drawButton(QPainter *painter);
-    void drawSlider(QPainter *painter);
-    void updateUI();
-
-    QScopedPointer<QEXTSelectSliderPrivate> dd_ptr;
-
-private:
-
-public:
     int minValue() const;
     int maxValue() const;
     int leftValue() const;
@@ -94,7 +73,7 @@ public:
     int step() const;
 
     int borderWidth() const;
-    bool horizontal() const;
+    bool isHorizontal() const;
 
     QColor usedColor() const;
     QColor freeColor() const;
@@ -107,6 +86,10 @@ public:
 
     QSize sizeHint() const;
     QSize minimumSizeHint() const;
+
+Q_SIGNALS:
+    void valueChanged(int leftValue, int rightValue);
+    void rangeChanged(int rangeValue);
 
 public Q_SLOTS:
     void setRange(int minValue, int maxValue);
@@ -142,9 +125,25 @@ public Q_SLOTS:
 
     void setButtonPressColor(const QColor &btnPressColor);
 
-Q_SIGNALS:
-    void valueChanged(int leftValue, int rightValue);
-    void rangeChanged(int rangeValue);
+protected:
+    void resizeEvent(QResizeEvent *);
+    void mousePressEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
+
+    void paintEvent(QPaintEvent *);
+
+    void drawBackground(QPainter *painter);
+    void drawValue(QPainter *painter);
+    void drawButton(QPainter *painter);
+    void drawSlider(QPainter *painter);
+    void updateUI();
+
+    QScopedPointer<QEXTSelectSliderPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTSelectSlider)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTSelectSlider)
 };
 
 #endif // _QEXTSELECTSLIDER_H

@@ -12,7 +12,7 @@ class QEXTTcpPacketPrivate;
 class QEXT_TCP_API QEXTTcpPacket : public QEXTTcpPacketInterface
 {
     Q_DISABLE_COPY(QEXTTcpPacket)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpPacket)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpPacket)
 public:
     QEXTTcpPacket(const QSharedPointer<QEXTTcpPacketHeaderInterface> &header);
     QEXTTcpPacket(QEXTTcpPacketPrivate *d, const QSharedPointer<QEXTTcpPacketHeaderInterface> &header);

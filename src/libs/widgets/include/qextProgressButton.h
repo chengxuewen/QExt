@@ -33,66 +33,62 @@
 #include <qextWidgetGlobal.h>
 
 #include <QWidget>
+#include <QScopedPointer>
 
+class QEXTProgressButtonPrivate;
 class QEXT_WIDGETS_API QEXTProgressButton : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY(int lineWidth READ getLineWidth WRITE setLineWidth)
-    Q_PROPERTY(QColor lineColor READ getLineColor WRITE setLineColor)
-    Q_PROPERTY(int borderWidth READ getBorderWidth WRITE setBorderWidth)
-    Q_PROPERTY(QColor borderColor READ getBorderColor WRITE setBorderColor)
-    Q_PROPERTY(int borderRadius READ getBorderRadius WRITE setBorderRadius)
-    Q_PROPERTY(QColor bgColor READ getBgColor WRITE setBgColor)
+    Q_PROPERTY(int lineWidth READ lineWidth WRITE setLineWidth)
+    Q_PROPERTY(QColor lineColor READ lineColor WRITE setLineColor)
+    Q_PROPERTY(int borderWidth READ borderWidth WRITE setBorderWidth)
+    Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
+    Q_PROPERTY(int borderRadius READ borderRadius WRITE setBorderRadius)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
 
 public:
     explicit QEXTProgressButton(QWidget *parent = 0);
+    ~QEXTProgressButton();
+
+    int lineWidth() const;
+    QColor lineColor() const;
+    int borderWidth() const;
+    QColor borderColor() const;
+    int borderRadius() const;
+    QColor backgroundColor() const;
+
+    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
+
+Q_SIGNALS:
+    void valueChanged(int value);
+
+public Q_SLOTS:
+    void setLineWidth(int width);
+    void setLineColor(const QColor &color);
+
+    void setBorderWidth(int width);
+    void setBorderColor(const QColor &color);
+
+    void setBorderRadius(int radius);
+    void setBackgroundColor(const QColor &color);
+
+private slots:
+    void progress();
 
 protected:
     void resizeEvent(QResizeEvent *);
     void mousePressEvent(QMouseEvent *);
     void paintEvent(QPaintEvent *);
-    void drawBg(QPainter *painter);
+
+    void drawBackground(QPainter *painter);
     void drawProgress(QPainter *painter);
 
+    QScopedPointer<QEXTProgressButtonPrivate> dd_ptr;
+
 private:
-    int lineWidth;
-    QColor lineColor;
-    int borderWidth;
-    QColor borderColor;
-    int borderRadius;
-    QColor bgColor;
-
-    double value;
-    int status;
-    int tempWidth;
-    QTimer *timer;
-
-public:
-    int getLineWidth()      const;
-    QColor getLineColor()   const;
-    int getBorderWidth()    const;
-    QColor getBorderColor() const;
-    int getBorderRadius()   const;
-    QColor getBgColor()     const;
-
-    QSize sizeHint()        const;
-    QSize minimumSizeHint() const;
-
-private slots:
-    void progress();
-
-public Q_SLOTS:
-    void setLineWidth(int lineWidth);
-    void setLineColor(const QColor &lineColor);
-
-    void setBorderWidth(int borderWidth);
-    void setBorderColor(const QColor &borderColor);
-
-    void setBorderRadius(int borderRadius);
-    void setBgColor(const QColor &bgColor);
-
-Q_SIGNALS:
-    void valueChanged(int value);
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressButton)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTProgressButton)
 };
 
 #endif // _QEXTPROGRESSBUTTON_H

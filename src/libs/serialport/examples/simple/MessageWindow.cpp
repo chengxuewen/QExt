@@ -1,7 +1,7 @@
 /**
  * @file MessageWindow.cpp
- * @brief MessageWindow Implementation.
- * @see MessageWindow.h
+ * \brief MessageWindow Implementation.
+ * \see MessageWindow.h
  * @author Micha? Policht
  */
 

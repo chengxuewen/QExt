@@ -38,8 +38,6 @@ class QEXTTooltipPrivate;
 class QEXT_WIDGETS_API QEXTTooltip : public QLabel
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTTooltip)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTooltip)
 
     Q_PROPERTY(int borderRadius READ borderRadius WRITE setBorderRadius)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
@@ -125,6 +123,10 @@ protected:
     void drawTriangle(QPainter *painter);
 
     QScopedPointer<QEXTTooltipPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTTooltip)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTooltip)
 };
 
 #endif // _QEXTTOOLTIP_H

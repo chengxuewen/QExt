@@ -10,8 +10,6 @@
 class QEXTSelectSlider;
 class QEXT_WIDGETS_API QEXTSelectSliderPrivate
 {
-    Q_DISABLE_COPY(QEXTSelectSliderPrivate)
-    Q_DECLARE_PUBLIC(QEXTSelectSlider)
 public:
     explicit QEXTSelectSliderPrivate(QEXTSelectSlider *q);
     virtual ~QEXTSelectSliderPrivate();
@@ -60,6 +58,10 @@ public:
     QRect m_sliderRectTemp;
     QRect m_leftRectTemp;
     QRect m_rightRectTemp;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTSelectSliderPrivate)
+    QEXT_DECL_PUBLIC(QEXTSelectSlider)
 };
 
 #endif // _QEXTSELECTSLIDER_P_H

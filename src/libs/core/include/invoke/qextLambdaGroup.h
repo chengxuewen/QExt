@@ -117,7 +117,7 @@
  *
  * @deprecated Use C++11 lambda expressions or %std::bind() instead.
  *
- * @ingroup adaptors lambdas
+ * \ingroup adaptors lambdas
  */
 
 
@@ -126,7 +126,7 @@
  *
  * @deprecated Use C++11 lambda expressions or %std::bind() instead.
  *
- * @ingroup qextLambdas
+ * \ingroup qextLambdas
  */
 template <typename T_functor, typename T_type1>
 struct QEXTLambdaGroup1 : public QEXTLambdaBase
@@ -282,7 +282,7 @@ struct QEXTVisitor<QEXTLambdaGroup1<T_functor, T_type1> >
  *
  * @deprecated Use C++11 lambda expressions or %std::bind() instead.
  *
- * @ingroup qextLambdas
+ * \ingroup qextLambdas
  */
 template <typename T_functor, typename T_type1, typename T_type2>
 struct QEXTLambdaGroup2 : public QEXTLambdaBase
@@ -493,7 +493,7 @@ struct QEXTVisitor<QEXTLambdaGroup2<T_functor, T_type1, T_type2> >
  *
  * @deprecated Use C++11 lambda expressions or %std::bind() instead.
  *
- * @ingroup qextLambdas
+ * \ingroup qextLambdas
  */
 template <typename T_functor, typename T_type1, typename T_type2, typename T_type3>
 struct QEXTLambdaGroup3 : public QEXTLambdaBase
@@ -755,7 +755,7 @@ struct QEXTVisitor<QEXTLambdaGroup3<T_functor, T_type1, T_type2, T_type3> >
  *
  * @deprecated Use C++11 lambda expressions or %std::bind() instead.
  *
- * @ingroup qextLambdas
+ * \ingroup qextLambdas
  */
 template <typename T_functor, typename T_type1>
 QEXTLambda<QEXTLambdaGroup1<T_functor, typename QEXTUnwrapReference<T_type1>::Type> >
@@ -769,7 +769,7 @@ qextLambdaGroup(const T_functor &func, T_type1 arg1)
  *
  * @deprecated Use C++11 lambda expressions or %std::bind() instead.
  *
- * @ingroup qextLambdas
+ * \ingroup qextLambdas
  */
 template <typename T_functor, typename T_type1, typename T_type2>
 QEXTLambda<QEXTLambdaGroup2<T_functor, typename QEXTUnwrapReference<T_type1>::Type, typename QEXTUnwrapReference<T_type2>::Type> >
@@ -783,7 +783,7 @@ qextLambdaGroup(const T_functor &func, T_type1 arg1, T_type2 arg2)
  *
  * @deprecated Use C++11 lambda expressions or %std::bind() instead.
  *
- * @ingroup qextLambdas
+ * \ingroup qextLambdas
  */
 template <typename T_functor, typename T_type1, typename T_type2, typename T_type3>
 QEXTLambda<QEXTLambdaGroup3<T_functor, typename QEXTUnwrapReference<T_type1>::Type, typename QEXTUnwrapReference<T_type2>::Type, typename QEXTUnwrapReference<T_type3>::Type> >

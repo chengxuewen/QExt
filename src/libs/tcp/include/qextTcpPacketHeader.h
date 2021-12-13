@@ -12,7 +12,7 @@ class QEXTTcpPacketHeaderPrivate;
 class QEXT_TCP_API QEXTTcpPacketHeader : public QEXTTcpPacketHeaderInterface
 {
     Q_DISABLE_COPY(QEXTTcpPacketHeader)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpPacketHeader)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpPacketHeader)
 public:
     typedef QPair<quint8, QString> DataInfoPair;
     typedef QVector<DataInfoPair> DataInfoVector;

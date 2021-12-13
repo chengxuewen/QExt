@@ -7,8 +7,6 @@
 class QEXTDial;
 class QEXT_WIDGETS_API QEXTDialPrivate
 {
-    Q_DISABLE_COPY(QEXTDialPrivate)
-    Q_DECLARE_PUBLIC(QEXTDial)
 public:
     explicit QEXTDialPrivate(QEXTDial *q);
     virtual ~QEXTDialPrivate();
@@ -32,6 +30,10 @@ public:
     bool m_valueVisiable;
     QEXTDial::PointerStyleType m_pointerStyle;
     bool m_pressed;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTDialPrivate)
+    QEXT_DECL_PUBLIC(QEXTDial)
 };
 
 #endif // _QEXTDIAL_P_H

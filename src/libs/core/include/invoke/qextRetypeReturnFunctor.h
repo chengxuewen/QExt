@@ -41,7 +41,7 @@
  * - @e T_return Target type of the C-style cast.
  * - @e T_functor Type of the functor to wrap.
  *
- * @ingroup retype
+ * \ingroup retype
  */
 template < typename T_return, typename T_functor >
 struct QEXTRetypeReturnFunctor : public QEXTAdapts< T_functor >
@@ -136,7 +136,7 @@ struct QEXTRetypeReturnFunctor : public QEXTAdapts< T_functor >
     QEXTRetypeReturnFunctor() {}
 
     /** Constructs a QEXTRetypeReturnFunctor object that perform a C-style cast on the return value of the passed functor.
-     * @param functor Functor to invoke from operator()().
+     * \param functor Functor to invoke from operator()().
      */
     explicit QEXTRetypeReturnFunctor(typename QEXTTypeTrait< T_functor >::Take functor) : QEXTAdapts< T_functor >(functor) {}
 };
@@ -145,7 +145,7 @@ struct QEXTRetypeReturnFunctor : public QEXTAdapts< T_functor >
  * This template specialization is for a void return. It drops the return value of the functor it invokes.
  * Use the convenience function qextHideReturnFunctor() to create an instance of qextHideReturnFunctor<void>.
  *
- * @ingroup retype
+ * \ingroup retype
  */
 /* The void specialization is needed because of explicit cast to T_return.
  */
@@ -247,7 +247,7 @@ struct QEXTRetypeReturnFunctor< void, T_functor > : public QEXTAdapts< T_functor
  * The function overload for qextHideReturnFunctor performs a functor on the
  * functor stored in the qextHideReturnFunctor object.
  *
- * @ingroup retype
+ * \ingroup retype
  */
 template < typename T_return, typename T_functor >
 struct QEXTVisitor< QEXTRetypeReturnFunctor< T_return, T_functor > >
@@ -262,10 +262,10 @@ struct QEXTVisitor< QEXTRetypeReturnFunctor< T_return, T_functor > >
 /** Creates an adaptor of type qextHideReturnFunctor which performs a C-style cast on the return value of the passed functor.
  * The template argument @e T_return specifies the target type of the cast.
  *
- * @param functor Functor that should be wrapped.
- * @return Adaptor that executes @e functor performing a C-style cast on the return value.
+ * \param functor Functor that should be wrapped.
+ * \return Adaptor that executes @e functor performing a C-style cast on the return value.
  *
- * @ingroup retype
+ * \ingroup retype
  */
 template < typename T_return, typename T_functor >
 inline QEXTRetypeReturnFunctor< T_return, T_functor > qextRetypeReturnFunctor(const T_functor &functor)
@@ -275,10 +275,10 @@ inline QEXTRetypeReturnFunctor< T_return, T_functor > qextRetypeReturnFunctor(co
 
 /** Creates an adaptor of type qextHideReturnFunctor which drops the return value of the passed functor.
  *
- * @param functor Functor that should be wrapped.
- * @return Adaptor that executes @e functor dropping its return value.
+ * \param functor Functor that should be wrapped.
+ * \return Adaptor that executes @e functor dropping its return value.
  *
- * @ingroup hide
+ * \ingroup hide
  */
 template < typename T_functor >
 inline QEXTRetypeReturnFunctor< void, T_functor > qextHideReturnFunctor(const T_functor &functor)

@@ -105,9 +105,9 @@ class UserDict : public AtomDictBase {
    /**
     * Add lemmas encoded in UTF-16LE into dictionary without adding sync flag.
     *
-    * @param lemmas in format of 'wo men,WM,0.32;da jia,DJ,0.12'
-    * @param len length of lemmas string in UTF-16LE
-    * @return newly added lemma count
+    * \param lemmas in format of 'wo men,WM,0.32;da jia,DJ,0.12'
+    * \param len length of lemmas string in UTF-16LE
+    * \return newly added lemma count
     */
   int put_lemmas_no_sync_from_utf16le_string(char16 * lemmas, int len);
 
@@ -116,10 +116,10 @@ class UserDict : public AtomDictBase {
    * Note: input buffer (str) must not be too small. If str is too small to
    *       contain single one lemma, there might be a dead loop.
    *
-   * @param str buffer to write lemmas
-   * @param size buffer size in UTF-16LE
-   * @param count output value of lemma returned
-   * @return UTF-16LE string length
+   * \param str buffer to write lemmas
+   * \param size buffer size in UTF-16LE
+   * \param count output value of lemma returned
+   * \return UTF-16LE string length
    */
   int get_sync_lemmas_in_utf16le_string_from_beginning(
       char16 * str, int size, int * count);

@@ -38,8 +38,6 @@ class QEXTScaleKnobPrivate;
 class QEXT_WIDGETS_API QEXTScaleKnob : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTScaleKnob)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTScaleKnob)
 
     Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
@@ -62,10 +60,10 @@ class QEXT_WIDGETS_API QEXTScaleKnob : public QWidget
 public:
     enum PointerStyle
     {
-        PointerStyle_Line = 0,          //线条指示器
-        PointerStyle_Indicator = 1,     //指针指示器
-        PointerStyle_IndicatorR = 2,    //圆角指针指示器
-        PointerStyle_Triangle = 3       //三角形指示器
+        PointerStyle_Line = 0,
+        PointerStyle_Indicator = 1,
+        PointerStyle_IndicatorR = 2,
+        PointerStyle_Triangle = 3
     };
     Q_ENUMS(PointerStyle)
 
@@ -146,6 +144,10 @@ protected:
     void setPressedValue(QPointF pressedPoint);
 
     QScopedPointer<QEXTScaleKnobPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTScaleKnob)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTScaleKnob)
 };
 
 #endif // _QEXTSCALEKNOB_H

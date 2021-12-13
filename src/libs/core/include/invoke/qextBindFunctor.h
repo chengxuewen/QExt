@@ -159,7 +159,7 @@ namespace qextPrivate
  * qextBindFunctor() provides a means of binding parameters when the total
  * number of parameters called is variable.
  *
- * @ingroup adaptors
+ * \ingroup adaptors
  */
 
 
@@ -178,7 +178,7 @@ namespace qextPrivate
  * - @e T_type7 Type of the 7th bound argument.
  * - @e T_functor Type of the functor to wrap.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <int I_location, typename T_functor,
           typename T_type1 = QEXTNil, typename T_type2 = QEXTNil, typename T_type3 = QEXTNil,
@@ -188,7 +188,7 @@ template <int I_location, typename T_functor,
 /** Adaptor that binds an argument to the wrapped functor.
  * This template specialization fixes the 1st argument of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_bound>
 struct QEXTBindFunctor<0, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil> : public QEXTAdapts<T_functor>
@@ -213,15 +213,15 @@ struct QEXTBindFunctor<0, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func,
                   typename QEXTTypeTrait<T_bound>::Take bound)
         : QEXTAdapts<T_functor>(func), m_bound(bound) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return operator()()
     {
@@ -233,8 +233,8 @@ struct QEXTBindFunctor<0, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 1st argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type
@@ -248,9 +248,9 @@ struct QEXTBindFunctor<0, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 1st argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
@@ -265,10 +265,10 @@ struct QEXTBindFunctor<0, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 1st argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
@@ -284,11 +284,11 @@ struct QEXTBindFunctor<0, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 1st argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
@@ -305,12 +305,12 @@ struct QEXTBindFunctor<0, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 1st argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
@@ -328,13 +328,13 @@ struct QEXTBindFunctor<0, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 1st argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @param arg6 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \param arg6 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
@@ -358,7 +358,7 @@ struct QEXTBindFunctor<0, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 /** Adaptor that binds an argument to the wrapped functor.
  * This template specialization fixes the 2nd argument of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_bound>
 struct QEXTBindFunctor<1, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil> : public QEXTAdapts<T_functor>
@@ -382,15 +382,15 @@ struct QEXTBindFunctor<1, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func,
                   typename QEXTTypeTrait<T_bound>::Take bound)
         : QEXTAdapts<T_functor>(func), m_bound(bound) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -403,8 +403,8 @@ struct QEXTBindFunctor<1, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 2nd argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type
@@ -418,9 +418,9 @@ struct QEXTBindFunctor<1, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 2nd argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
@@ -435,10 +435,10 @@ struct QEXTBindFunctor<1, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 2nd argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
@@ -454,11 +454,11 @@ struct QEXTBindFunctor<1, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 2nd argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
@@ -475,12 +475,12 @@ struct QEXTBindFunctor<1, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 2nd argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
@@ -498,13 +498,13 @@ struct QEXTBindFunctor<1, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 2nd argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @param arg6 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \param arg6 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
@@ -529,7 +529,7 @@ struct QEXTBindFunctor<1, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 /** Adaptor that binds an argument to the wrapped functor.
  * This template specialization fixes the 3rd argument of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_bound>
 struct QEXTBindFunctor<2, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil> : public QEXTAdapts<T_functor>
@@ -553,14 +553,14 @@ struct QEXTBindFunctor<2, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func, typename QEXTTypeTrait<T_bound>::Take bound)
         : QEXTAdapts<T_functor>(func), m_bound(bound) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -573,9 +573,9 @@ struct QEXTBindFunctor<2, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 3rd argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
@@ -590,10 +590,10 @@ struct QEXTBindFunctor<2, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 3rd argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
@@ -609,11 +609,11 @@ struct QEXTBindFunctor<2, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 3rd argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
@@ -630,12 +630,12 @@ struct QEXTBindFunctor<2, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 3rd argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
@@ -653,13 +653,13 @@ struct QEXTBindFunctor<2, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 3rd argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @param arg6 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \param arg6 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
@@ -684,7 +684,7 @@ struct QEXTBindFunctor<2, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 /** Adaptor that binds an argument to the wrapped functor.
  * This template specialization fixes the 4th argument of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_bound>
 struct QEXTBindFunctor<3, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil> : public QEXTAdapts<T_functor>
@@ -708,14 +708,14 @@ struct QEXTBindFunctor<3, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func, typename QEXTTypeTrait<T_bound>::Take bound)
         : QEXTAdapts<T_functor>(func), m_bound(bound) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -728,10 +728,10 @@ struct QEXTBindFunctor<3, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 4th argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
@@ -747,11 +747,11 @@ struct QEXTBindFunctor<3, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 4th argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
@@ -768,12 +768,12 @@ struct QEXTBindFunctor<3, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 4th argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
@@ -791,13 +791,13 @@ struct QEXTBindFunctor<3, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 4th argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @param arg6 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \param arg6 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
@@ -821,7 +821,7 @@ struct QEXTBindFunctor<3, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 /** Adaptor that binds an argument to the wrapped functor.
  * This template specialization fixes the 5th argument of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_bound>
 struct QEXTBindFunctor<4, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil> : public QEXTAdapts<T_functor>
@@ -845,14 +845,14 @@ struct QEXTBindFunctor<4, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func, typename QEXTTypeTrait<T_bound>::Take bound)
         : QEXTAdapts<T_functor>(func), m_bound(bound) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -865,11 +865,11 @@ struct QEXTBindFunctor<4, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 5th argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
@@ -886,12 +886,12 @@ struct QEXTBindFunctor<4, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 5th argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
@@ -909,13 +909,13 @@ struct QEXTBindFunctor<4, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 5th argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @param arg6 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \param arg6 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
@@ -940,7 +940,7 @@ struct QEXTBindFunctor<4, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 /** Adaptor that binds an argument to the wrapped functor.
  * This template specialization fixes the 6th argument of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_bound>
 struct QEXTBindFunctor<5, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil> : public QEXTAdapts<T_functor>
@@ -964,14 +964,14 @@ struct QEXTBindFunctor<5, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func, typename QEXTTypeTrait<T_bound>::Take bound)
         : QEXTAdapts<T_functor>(func), m_bound(bound) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -984,12 +984,12 @@ struct QEXTBindFunctor<5, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 6th argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
@@ -1007,13 +1007,13 @@ struct QEXTBindFunctor<5, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 6th argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @param arg6 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \param arg6 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
@@ -1038,7 +1038,7 @@ struct QEXTBindFunctor<5, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 /** Adaptor that binds an argument to the wrapped functor.
  * This template specialization fixes the 7th argument of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_bound>
 struct QEXTBindFunctor<6, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil> : public QEXTAdapts<T_functor>
@@ -1062,14 +1062,14 @@ struct QEXTBindFunctor<6, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func, typename QEXTTypeTrait<T_bound>::Take bound)
         : QEXTAdapts<T_functor>(func), m_bound(bound) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -1082,13 +1082,13 @@ struct QEXTBindFunctor<6, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
 
     /** Invokes the wrapped functor passing on the arguments.
      * m_bound is passed as the 7th argument.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @param arg6 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \param arg6 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
@@ -1114,7 +1114,7 @@ struct QEXTBindFunctor<6, T_functor, T_bound, QEXTNil, QEXTNil, QEXTNil, QEXTNil
  * The function overload for qextBindFunctor performs a functor on the
  * functor and on the object instances stored in the qextBindFunctor object.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <int T_loc, typename T_functor, typename T_bound>
 struct QEXTVisitor<QEXTBindFunctor<T_loc, T_functor, T_bound> >
@@ -1131,7 +1131,7 @@ struct QEXTVisitor<QEXTBindFunctor<T_loc, T_functor, T_bound> >
 /** Adaptor that binds 1 argument(s) to the wrapped functor.
  * This template specialization fixes the last 1 argument(s) of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_type1>
 struct QEXTBindFunctor<-1, T_functor, T_type1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > : public QEXTAdapts<T_functor>
@@ -1221,14 +1221,14 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, QEXTNil, QEXTNil, QEXTNil, QEXTNi
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound1 Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound1 Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func, typename QEXTTypeTrait<T_type1>::Take bound1)
         : QEXTAdapts<T_functor>(func), m_bound1(bound1) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -1241,8 +1241,8 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, QEXTNil, QEXTNil, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type
@@ -1256,9 +1256,9 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, QEXTNil, QEXTNil, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
@@ -1273,10 +1273,10 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, QEXTNil, QEXTNil, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
@@ -1292,11 +1292,11 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, QEXTNil, QEXTNil, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
@@ -1313,12 +1313,12 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, QEXTNil, QEXTNil, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
@@ -1336,13 +1336,13 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, QEXTNil, QEXTNil, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @param arg6 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \param arg6 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
@@ -1368,7 +1368,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, QEXTNil, QEXTNil, QEXTNil, QEXTNi
  * The function overload for qextBindFunctor performs a functor on the
  * functor and on the object instances stored in the qextBindFunctor object.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_type1>
 struct QEXTVisitor<QEXTBindFunctor<-1, T_functor, T_type1> >
@@ -1386,7 +1386,7 @@ struct QEXTVisitor<QEXTBindFunctor<-1, T_functor, T_type1> >
 /** Adaptor that binds 2 argument(s) to the wrapped functor.
  * This template specialization fixes the last 2 argument(s) of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_type1, typename T_type2>
 struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > : public QEXTAdapts<T_functor>
@@ -1466,9 +1466,9 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, QEXTNil, QEXTNil, QEXTNi
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound1 Argument to qextBindFunctor to the functor.
-     * @param bound2 Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound1 Argument to qextBindFunctor to the functor.
+     * \param bound2 Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func,
                   typename QEXTTypeTrait<T_type1>::Take bound1,
@@ -1476,7 +1476,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, QEXTNil, QEXTNil, QEXTNi
         : QEXTAdapts<T_functor>(func), m_bound1(bound1), m_bound2(bound2) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -1490,8 +1490,8 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, QEXTNil, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 2 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type
@@ -1506,9 +1506,9 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, QEXTNil, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 2 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
@@ -1524,10 +1524,10 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, QEXTNil, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 2 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
@@ -1544,11 +1544,11 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, QEXTNil, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 2 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
@@ -1566,12 +1566,12 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, QEXTNil, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 2 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
@@ -1599,7 +1599,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, QEXTNil, QEXTNil, QEXTNi
  * The function overload for qextBindFunctor performs a functor on the
  * functor and on the object instances stored in the qextBindFunctor object.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_type1, typename T_type2>
 struct QEXTVisitor < QEXTBindFunctor<-1, T_functor, T_type1, T_type2 > >
@@ -1618,7 +1618,7 @@ struct QEXTVisitor < QEXTBindFunctor<-1, T_functor, T_type1, T_type2 > >
 /** Adaptor that binds 3 argument(s) to the wrapped functor.
  * This template specialization fixes the last 3 argument(s) of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_type1, typename T_type2, typename T_type3>
 struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > : public QEXTAdapts<T_functor>
@@ -1688,10 +1688,10 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QEXTNil, QEXTNi
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound1 Argument to qextBindFunctor to the functor.
-     * @param bound2 Argument to qextBindFunctor to the functor.
-     * @param bound3 Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound1 Argument to qextBindFunctor to the functor.
+     * \param bound2 Argument to qextBindFunctor to the functor.
+     * \param bound3 Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func,
                   typename QEXTTypeTrait<T_type1>::Take bound1,
@@ -1700,7 +1700,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QEXTNil, QEXTNi
         : QEXTAdapts<T_functor>(func), m_bound1(bound1), m_bound2(bound2), m_bound3(bound3) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -1715,8 +1715,8 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 3 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type
@@ -1732,9 +1732,9 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 3 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
@@ -1751,10 +1751,10 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 3 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
@@ -1772,11 +1772,11 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QEXTNil, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 3 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
@@ -1806,7 +1806,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QEXTNil, QEXTNi
  * The function overload for qextBindFunctor performs a functor on the
  * functor and on the object instances stored in the qextBindFunctor object.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_type1, typename T_type2, typename T_type3>
 struct QEXTVisitor<QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3 > >
@@ -1826,7 +1826,7 @@ struct QEXTVisitor<QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3 > >
 /** Adaptor that binds 4 argument(s) to the wrapped functor.
  * This template specialization fixes the last 4 argument(s) of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3, typename T_type4>
@@ -1886,11 +1886,11 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QEXTNi
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound1 Argument to qextBindFunctor to the functor.
-     * @param bound2 Argument to qextBindFunctor to the functor.
-     * @param bound3 Argument to qextBindFunctor to the functor.
-     * @param bound4 Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound1 Argument to qextBindFunctor to the functor.
+     * \param bound2 Argument to qextBindFunctor to the functor.
+     * \param bound3 Argument to qextBindFunctor to the functor.
+     * \param bound4 Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func,
                   typename QEXTTypeTrait<T_type1>::Take bound1,
@@ -1900,7 +1900,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QEXTNi
         : QEXTAdapts<T_functor>(func), m_bound1(bound1), m_bound2(bound2), m_bound3(bound3), m_bound4(bound4) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -1916,8 +1916,8 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 4 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type
@@ -1934,9 +1934,9 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 4 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
@@ -1954,10 +1954,10 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QEXTNi
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 4 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
@@ -1987,7 +1987,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QEXTNi
  * The function overload for qextBindFunctor performs a functor on the
  * functor and on the object instances stored in the qextBindFunctor object.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_type1, typename T_type2, typename T_type3, typename T_type4>
 struct QEXTVisitor<QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4> >
@@ -2007,7 +2007,7 @@ struct QEXTVisitor<QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_t
 /** Adaptor that binds 5 argument(s) to the wrapped functor.
  * This template specialization fixes the last 5 argument(s) of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3, typename T_type4, typename T_type5>
@@ -2055,12 +2055,12 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound1 Argument to qextBindFunctor to the functor.
-     * @param bound2 Argument to qextBindFunctor to the functor.
-     * @param bound3 Argument to qextBindFunctor to the functor.
-     * @param bound4 Argument to qextBindFunctor to the functor.
-     * @param bound5 Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound1 Argument to qextBindFunctor to the functor.
+     * \param bound2 Argument to qextBindFunctor to the functor.
+     * \param bound3 Argument to qextBindFunctor to the functor.
+     * \param bound4 Argument to qextBindFunctor to the functor.
+     * \param bound5 Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func,
                   typename QEXTTypeTrait<T_type1>::Take bound1,
@@ -2071,7 +2071,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
         : QEXTAdapts<T_functor>(func), m_bound1(bound1), m_bound2(bound2), m_bound3(bound3), m_bound4(bound4), m_bound5(bound5) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -2088,8 +2088,8 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 5 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type
@@ -2107,9 +2107,9 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 5 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
@@ -2140,7 +2140,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
  * The function overload for qextBindFunctor performs a functor on the
  * functor and on the object instances stored in the qextBindFunctor object.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3, typename T_type4, typename T_type5>
@@ -2163,7 +2163,7 @@ struct QEXTVisitor<QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_t
 /** Adaptor that binds 6 argument(s) to the wrapped functor.
  * This template specialization fixes the last 6 argument(s) of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3,
@@ -2200,13 +2200,13 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound1 Argument to qextBindFunctor to the functor.
-     * @param bound2 Argument to qextBindFunctor to the functor.
-     * @param bound3 Argument to qextBindFunctor to the functor.
-     * @param bound4 Argument to qextBindFunctor to the functor.
-     * @param bound5 Argument to qextBindFunctor to the functor.
-     * @param bound6 Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound1 Argument to qextBindFunctor to the functor.
+     * \param bound2 Argument to qextBindFunctor to the functor.
+     * \param bound3 Argument to qextBindFunctor to the functor.
+     * \param bound4 Argument to qextBindFunctor to the functor.
+     * \param bound5 Argument to qextBindFunctor to the functor.
+     * \param bound6 Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func,
                   typename QEXTTypeTrait<T_type1>::Take bound1,
@@ -2220,7 +2220,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
           m_bound4(bound4), m_bound5(bound5), m_bound6(bound6) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -2238,8 +2238,8 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
 
     /** Invokes the wrapped functor passing on the arguments.
      * The last 6 argument(s) are fixed.
-     * @param arg1 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template <typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type
@@ -2271,7 +2271,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
  * The function overload for qextBindFunctor performs a functor on the
  * functor and on the object instances stored in the qextBindFunctor object.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3,
@@ -2296,7 +2296,7 @@ struct QEXTVisitor<QEXTBindFunctor< -1, T_functor, T_type1, T_type2, T_type3, T_
 /** Adaptor that binds 7 argument(s) to the wrapped functor.
  * This template specialization fixes the last 7 argument(s) of the wrapped functor.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3,
@@ -2333,14 +2333,14 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
     typedef typename Adaptor::Return  Return;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * @param func Functor to invoke from operator()().
-     * @param bound1 Argument to qextBindFunctor to the functor.
-     * @param bound2 Argument to qextBindFunctor to the functor.
-     * @param bound3 Argument to qextBindFunctor to the functor.
-     * @param bound4 Argument to qextBindFunctor to the functor.
-     * @param bound5 Argument to qextBindFunctor to the functor.
-     * @param bound6 Argument to qextBindFunctor to the functor.
-     * @param bound7 Argument to qextBindFunctor to the functor.
+     * \param func Functor to invoke from operator()().
+     * \param bound1 Argument to qextBindFunctor to the functor.
+     * \param bound2 Argument to qextBindFunctor to the functor.
+     * \param bound3 Argument to qextBindFunctor to the functor.
+     * \param bound4 Argument to qextBindFunctor to the functor.
+     * \param bound5 Argument to qextBindFunctor to the functor.
+     * \param bound6 Argument to qextBindFunctor to the functor.
+     * \param bound7 Argument to qextBindFunctor to the functor.
      */
     QEXTBindFunctor(typename QEXTTypeTrait<T_functor>::Take func,
                   typename QEXTTypeTrait<T_type1>::Take bound1,
@@ -2355,7 +2355,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
           m_bound4(bound4), m_bound5(bound5), m_bound6(bound6), m_bound7(bound7) {}
 
     /** Invokes the wrapped functor passing on the bound argument only.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return
     operator()()
@@ -2388,7 +2388,7 @@ struct QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
  * The function overload for qextBindFunctor performs a functor on the
  * functor and on the object instances stored in the qextBindFunctor object.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3,
@@ -2416,11 +2416,11 @@ struct QEXTVisitor<QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_t
  * The optional template argument @e I_location specifies the zero-based
  * position of the argument to be fixed (@p -1 stands for the last argument).
  *
- * @param func Functor that should be wrapped.
- * @param bound1 Argument to qextBindFunctor to @e func.
- * @return Adaptor that executes @e func with the bound argument on invokation.
+ * \param func Functor that should be wrapped.
+ * \param bound1 Argument to qextBindFunctor to @e func.
+ * \return Adaptor that executes @e func with the bound argument on invokation.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <int I_location, typename T_functor, typename T_type1>
 inline QEXTBindFunctor<I_location, T_functor, T_type1>
@@ -2433,11 +2433,11 @@ qextBindFunctor(const T_functor &func, T_type1 bound1)
 /** Creates an adaptor of type qextBindFunctor which fixes the last 1 argument(s) of the passed functor.
  * This function overload fixes the last 1 argument(s) of @e func.
  *
- * @param func Functor that should be wrapped.
- * @param bound1 Argument to qextBindFunctor to @e func.
- * @return Adaptor that executes func with the bound argument on invokation.
+ * \param func Functor that should be wrapped.
+ * \param bound1 Argument to qextBindFunctor to @e func.
+ * \return Adaptor that executes func with the bound argument on invokation.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_type1>
 inline QEXTBindFunctor<-1, T_functor, T_type1 >
@@ -2450,12 +2450,12 @@ qextBindFunctor(const T_functor &func, T_type1 bound1)
 /** Creates an adaptor of type qextBindFunctor which fixes the last 2 argument(s) of the passed functor.
  * This function overload fixes the last 2 argument(s) of @e func.
  *
- * @param func Functor that should be wrapped.
- * @param bound1 Argument to qextBindFunctor to @e func.
- * @param bound2 Argument to qextBindFunctor to @e func.
- * @return Adaptor that executes func with the bound argument on invokation.
+ * \param func Functor that should be wrapped.
+ * \param bound1 Argument to qextBindFunctor to @e func.
+ * \param bound2 Argument to qextBindFunctor to @e func.
+ * \return Adaptor that executes func with the bound argument on invokation.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_type1, typename T_type2>
 inline QEXTBindFunctor<-1, T_functor, T_type1, T_type2 >
@@ -2468,13 +2468,13 @@ qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2)
 /** Creates an adaptor of type qextBindFunctor which fixes the last 3 argument(s) of the passed functor.
  * This function overload fixes the last 3 argument(s) of @e func.
  *
- * @param func Functor that should be wrapped.
- * @param bound1 Argument to qextBindFunctor to @e func.
- * @param bound2 Argument to qextBindFunctor to @e func.
- * @param bound3 Argument to qextBindFunctor to @e func.
- * @return Adaptor that executes func with the bound argument on invokation.
+ * \param func Functor that should be wrapped.
+ * \param bound1 Argument to qextBindFunctor to @e func.
+ * \param bound2 Argument to qextBindFunctor to @e func.
+ * \param bound3 Argument to qextBindFunctor to @e func.
+ * \return Adaptor that executes func with the bound argument on invokation.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_type1, typename T_type2, typename T_type3>
 inline QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3 >
@@ -2487,14 +2487,14 @@ qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 b
 /** Creates an adaptor of type qextBindFunctor which fixes the last 4 argument(s) of the passed functor.
  * This function overload fixes the last 4 argument(s) of @e func.
  *
- * @param func Functor that should be wrapped.
- * @param bound1 Argument to qextBindFunctor to @e func.
- * @param bound2 Argument to qextBindFunctor to @e func.
- * @param bound3 Argument to qextBindFunctor to @e func.
- * @param bound4 Argument to qextBindFunctor to @e func.
- * @return Adaptor that executes func with the bound argument on invokation.
+ * \param func Functor that should be wrapped.
+ * \param bound1 Argument to qextBindFunctor to @e func.
+ * \param bound2 Argument to qextBindFunctor to @e func.
+ * \param bound3 Argument to qextBindFunctor to @e func.
+ * \param bound4 Argument to qextBindFunctor to @e func.
+ * \return Adaptor that executes func with the bound argument on invokation.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor, typename T_type1, typename T_type2, typename T_type3, typename T_type4>
 inline QEXTBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4 >
@@ -2507,15 +2507,15 @@ qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 b
 /** Creates an adaptor of type qextBindFunctor which fixes the last 5 argument(s) of the passed functor.
  * This function overload fixes the last 5 argument(s) of @e func.
  *
- * @param func Functor that should be wrapped.
- * @param bound1 Argument to qextBindFunctor to @e func.
- * @param bound2 Argument to qextBindFunctor to @e func.
- * @param bound3 Argument to qextBindFunctor to @e func.
- * @param bound4 Argument to qextBindFunctor to @e func.
- * @param bound5 Argument to qextBindFunctor to @e func.
- * @return Adaptor that executes func with the bound argument on invokation.
+ * \param func Functor that should be wrapped.
+ * \param bound1 Argument to qextBindFunctor to @e func.
+ * \param bound2 Argument to qextBindFunctor to @e func.
+ * \param bound3 Argument to qextBindFunctor to @e func.
+ * \param bound4 Argument to qextBindFunctor to @e func.
+ * \param bound5 Argument to qextBindFunctor to @e func.
+ * \return Adaptor that executes func with the bound argument on invokation.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3, typename T_type4, typename T_type5>
@@ -2529,16 +2529,16 @@ qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 b
 /** Creates an adaptor of type qextBindFunctor which fixes the last 6 argument(s) of the passed functor.
  * This function overload fixes the last 6 argument(s) of @e func.
  *
- * @param func Functor that should be wrapped.
- * @param bound1 Argument to qextBindFunctor to @e func.
- * @param bound2 Argument to qextBindFunctor to @e func.
- * @param bound3 Argument to qextBindFunctor to @e func.
- * @param bound4 Argument to qextBindFunctor to @e func.
- * @param bound5 Argument to qextBindFunctor to @e func.
- * @param bound6 Argument to qextBindFunctor to @e func.
- * @return Adaptor that executes func with the bound argument on invokation.
+ * \param func Functor that should be wrapped.
+ * \param bound1 Argument to qextBindFunctor to @e func.
+ * \param bound2 Argument to qextBindFunctor to @e func.
+ * \param bound3 Argument to qextBindFunctor to @e func.
+ * \param bound4 Argument to qextBindFunctor to @e func.
+ * \param bound5 Argument to qextBindFunctor to @e func.
+ * \param bound6 Argument to qextBindFunctor to @e func.
+ * \return Adaptor that executes func with the bound argument on invokation.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3,
@@ -2553,17 +2553,17 @@ qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 b
 /** Creates an adaptor of type qextBindFunctor which fixes the last 7 argument(s) of the passed functor.
  * This function overload fixes the last 7 argument(s) of @e func.
  *
- * @param func Functor that should be wrapped.
- * @param bound1 Argument to qextBindFunctor to @e func.
- * @param bound2 Argument to qextBindFunctor to @e func.
- * @param bound3 Argument to qextBindFunctor to @e func.
- * @param bound4 Argument to qextBindFunctor to @e func.
- * @param bound5 Argument to qextBindFunctor to @e func.
- * @param bound6 Argument to qextBindFunctor to @e func.
- * @param bound7 Argument to qextBindFunctor to @e func.
- * @return Adaptor that executes func with the bound argument on invokation.
+ * \param func Functor that should be wrapped.
+ * \param bound1 Argument to qextBindFunctor to @e func.
+ * \param bound2 Argument to qextBindFunctor to @e func.
+ * \param bound3 Argument to qextBindFunctor to @e func.
+ * \param bound4 Argument to qextBindFunctor to @e func.
+ * \param bound5 Argument to qextBindFunctor to @e func.
+ * \param bound6 Argument to qextBindFunctor to @e func.
+ * \param bound7 Argument to qextBindFunctor to @e func.
+ * \return Adaptor that executes func with the bound argument on invokation.
  *
- * @ingroup qextBindFunctor
+ * \ingroup qextBindFunctor
  */
 template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3,

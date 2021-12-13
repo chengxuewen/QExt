@@ -19,7 +19,7 @@ class QEXT_TCP_API QEXTTcpPacketDispatcher : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTTcpPacketDispatcher)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpPacketDispatcher)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpPacketDispatcher)
 public:
     QEXTTcpPacketDispatcher(QEXTTcpSocket *socket);
     QEXTTcpPacketDispatcher(QEXTTcpSocket *socket, const QSharedPointer<QEXTTcpFactory> &tcpFactory);

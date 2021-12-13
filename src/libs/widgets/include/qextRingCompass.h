@@ -38,8 +38,6 @@ class QEXTRingCompassPrivate;
 class QEXT_WIDGETS_API QEXTRingCompass : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTRingCompass)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTRingCompass)
 
     Q_PROPERTY(double value READ value WRITE setValue)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
@@ -99,6 +97,9 @@ protected:
 
     QScopedPointer<QEXTRingCompassPrivate> dd_ptr;
 
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTRingCompass)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTRingCompass)
 };
 
 #endif // _QEXTRINGCOMPASS_H

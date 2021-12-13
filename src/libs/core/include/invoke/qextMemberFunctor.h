@@ -83,7 +83,7 @@
  * QEXTFunction<void, int> slot = qextMemberFunctor1<int>(my_foo, &foo::bar);
  * @endcode
  *
- * @ingroup qextfunctors
+ * \ingroup qextfunctors
  */
 
 namespace qextPrivate
@@ -103,7 +103,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template <
         typename T_return,
@@ -124,21 +124,21 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTMemberFunctor7() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTMemberFunctor7 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTMemberFunctor7(Function func) : m_funcPtr(func) {}
         QEXTMemberFunctor7(const QEXTMemberFunctor7 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @param arg6 Argument to be passed on to the method.
-     * @param arg7 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \param arg6 Argument to be passed on to the method.
+     * \param arg7 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             T_obj *obj,
@@ -154,15 +154,15 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @param arg6 Argument to be passed on to the method.
-     * @param arg7 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \param arg6 Argument to be passed on to the method.
+     * \param arg7 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             T_obj &obj,
@@ -194,7 +194,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
     class QEXTMemberFunctor6 : public QEXTFunctorBase
@@ -206,20 +206,20 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTMemberFunctor6() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTMemberFunctor6 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTMemberFunctor6(Function func) : m_funcPtr(func) {}
         QEXTMemberFunctor6(const QEXTMemberFunctor6 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @param arg6 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \param arg6 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             T_obj *obj,
@@ -234,14 +234,14 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @param arg6 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \param arg6 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             T_obj &obj,
@@ -271,7 +271,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
     class QEXTMemberFunctor5 : public QEXTFunctorBase
@@ -283,19 +283,19 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTMemberFunctor5() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTMemberFunctor5 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTMemberFunctor5(Function func) : m_funcPtr(func) {}
         QEXTMemberFunctor5(const QEXTMemberFunctor5 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             T_obj *obj,
@@ -309,13 +309,13 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             T_obj &obj,
@@ -343,7 +343,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
     class QEXTMemberFunctor4 : public QEXTFunctorBase
@@ -355,18 +355,18 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTMemberFunctor4() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTMemberFunctor4 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTMemberFunctor4(Function func) : m_funcPtr(func) {}
         QEXTMemberFunctor4(const QEXTMemberFunctor4 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             T_obj *obj,
@@ -379,12 +379,12 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             T_obj &obj,
@@ -410,7 +410,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
     class QEXTMemberFunctor3 : public QEXTFunctorBase
@@ -422,17 +422,17 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTMemberFunctor3() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTMemberFunctor3 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTMemberFunctor3(Function func) : m_funcPtr(func) {}
         QEXTMemberFunctor3(const QEXTMemberFunctor3 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             T_obj *obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3) const
@@ -441,11 +441,11 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             T_obj &obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3) const
@@ -466,7 +466,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
     class QEXTMemberFunctor2 : public QEXTFunctorBase
@@ -478,16 +478,16 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTMemberFunctor2() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTMemberFunctor2 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTMemberFunctor2(Function func) : m_funcPtr(func) {}
         QEXTMemberFunctor2(const QEXTMemberFunctor2 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(T_obj *obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -495,10 +495,10 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(T_obj &obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -517,7 +517,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1 >
     class QEXTMemberFunctor1 : public QEXTFunctorBase
@@ -529,15 +529,15 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTMemberFunctor1() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTMemberFunctor1 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTMemberFunctor1(Function func) : m_funcPtr(func) {}
         QEXTMemberFunctor1(const QEXTMemberFunctor1 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(T_obj *obj, typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -545,9 +545,9 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(T_obj &obj, typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -565,7 +565,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj >
     class QEXTMemberFunctor0 : public QEXTFunctorBase
@@ -577,14 +577,14 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTMemberFunctor0() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTMemberFunctor0 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTMemberFunctor0(Function func) : m_funcPtr(func) {}
         QEXTMemberFunctor0(const QEXTMemberFunctor0 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \return The return value of the method invocation.
      */
         T_return operator()(T_obj *obj) const
         {
@@ -592,8 +592,8 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \return The return value of the method invocation.
      */
         T_return operator()(T_obj &obj) const
         {
@@ -618,7 +618,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template <
         typename T_return,
@@ -639,21 +639,21 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstMemberFunctor7() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstMemberFunctor7 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTConstMemberFunctor7(Function func) : m_funcPtr(func) {}
         QEXTConstMemberFunctor7(const QEXTConstMemberFunctor7 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @param arg6 Argument to be passed on to the method.
-     * @param arg7 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \param arg6 Argument to be passed on to the method.
+     * \param arg7 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             const T_obj *obj,
@@ -669,15 +669,15 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @param arg6 Argument to be passed on to the method.
-     * @param arg7 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \param arg6 Argument to be passed on to the method.
+     * \param arg7 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             const T_obj &obj,
@@ -709,7 +709,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
     class QEXTConstMemberFunctor6 : public QEXTFunctorBase
@@ -721,20 +721,20 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstMemberFunctor6() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstMemberFunctor6 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTConstMemberFunctor6(Function func) : m_funcPtr(func) {}
         QEXTConstMemberFunctor6(const QEXTConstMemberFunctor6 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @param arg6 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \param arg6 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             const T_obj *obj,
@@ -749,14 +749,14 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @param arg6 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \param arg6 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             const T_obj &obj,
@@ -786,7 +786,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
     class QEXTConstMemberFunctor5 : public QEXTFunctorBase
@@ -798,19 +798,19 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstMemberFunctor5() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstMemberFunctor5 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTConstMemberFunctor5(Function func) : m_funcPtr(func) {}
         QEXTConstMemberFunctor5(const QEXTConstMemberFunctor5 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             const T_obj *obj,
@@ -824,13 +824,13 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @param arg5 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \param arg5 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             const T_obj &obj,
@@ -858,7 +858,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
     class QEXTConstMemberFunctor4 : public QEXTFunctorBase
@@ -870,18 +870,18 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstMemberFunctor4() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstMemberFunctor4 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTConstMemberFunctor4(Function func) : m_funcPtr(func) {}
         QEXTConstMemberFunctor4(const QEXTConstMemberFunctor4 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             const T_obj *obj,
@@ -894,12 +894,12 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @param arg4 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \param arg4 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             const T_obj &obj,
@@ -925,7 +925,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
     class QEXTConstMemberFunctor3 : public QEXTFunctorBase
@@ -937,17 +937,17 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstMemberFunctor3() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstMemberFunctor3 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTConstMemberFunctor3(Function func) : m_funcPtr(func) {}
         QEXTConstMemberFunctor3(const QEXTConstMemberFunctor3 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             const T_obj *obj,
@@ -959,11 +959,11 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @param arg3 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \param arg3 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(
             const T_obj &obj,
@@ -987,7 +987,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
     class QEXTConstMemberFunctor2 : public QEXTFunctorBase
@@ -999,16 +999,16 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstMemberFunctor2() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstMemberFunctor2 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTConstMemberFunctor2(Function func) : m_funcPtr(func) {}
         QEXTConstMemberFunctor2(const QEXTConstMemberFunctor2 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(const T_obj *obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -1016,10 +1016,10 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @param arg2 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \param arg2 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(const T_obj &obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -1038,7 +1038,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj, typename T_arg1 >
     class QEXTConstMemberFunctor1 : public QEXTFunctorBase
@@ -1050,15 +1050,15 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstMemberFunctor1() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstMemberFunctor1 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTConstMemberFunctor1(Function func) : m_funcPtr(func) {}
         QEXTConstMemberFunctor1(const QEXTConstMemberFunctor1 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(const T_obj *obj, typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -1066,9 +1066,9 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @param arg1 Argument to be passed on to the method.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \param arg1 Argument to be passed on to the method.
+     * \return The return value of the method invocation.
      */
         T_return operator()(const T_obj &obj, typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -1086,7 +1086,7 @@ namespace qextPrivate
  * - @e T_return The return type of operator()().
  * - @e T_obj The object type.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
     template < typename T_return, typename T_obj >
     class QEXTConstMemberFunctor0 : public QEXTFunctorBase
@@ -1098,14 +1098,14 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstMemberFunctor0() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstMemberFunctor0 object that wraps the passed method.
-     * @param func Pointer to method will be invoked from operator()().
+     * \param func Pointer to method will be invoked from operator()().
      */
         QEXTConstMemberFunctor0(Function func) : m_funcPtr(func) {}
         QEXTConstMemberFunctor0(const QEXTConstMemberFunctor0 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Pointer to instance the method should operate on.
-     * @return The return value of the method invocation.
+     * \param obj Pointer to instance the method should operate on.
+     * \return The return value of the method invocation.
      */
         T_return operator()(const T_obj *obj) const
         {
@@ -1113,8 +1113,8 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-     * @param obj Reference to instance the method should operate on.
-     * @return The return value of the method invocation.
+     * \param obj Reference to instance the method should operate on.
+     * \return The return value of the method invocation.
      */
         T_return operator()(const T_obj &obj) const
         {
@@ -1139,7 +1139,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template <
         typename T_return,
@@ -1160,21 +1160,21 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTVolatileMemberFunctor7() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTVolatileMemberFunctor7 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTVolatileMemberFunctor7(Function func) : m_funcPtr(func) {}
         QEXTVolatileMemberFunctor7(const QEXTVolatileMemberFunctor7 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @param arg7 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \param arg7 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             T_obj *obj,
@@ -1190,15 +1190,15 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @param arg7 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \param arg7 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             T_obj &obj,
@@ -1230,7 +1230,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
     class QEXTVolatileMemberFunctor6 : public QEXTFunctorBase
@@ -1242,20 +1242,20 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTVolatileMemberFunctor6() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTVolatileMemberFunctor6 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTVolatileMemberFunctor6(Function func) : m_funcPtr(func) {}
         QEXTVolatileMemberFunctor6(const QEXTVolatileMemberFunctor6 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             T_obj *obj,
@@ -1270,14 +1270,14 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             T_obj &obj,
@@ -1307,7 +1307,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
     class QEXTVolatileMemberFunctor5 : public QEXTFunctorBase
@@ -1319,19 +1319,19 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTVolatileMemberFunctor5() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTVolatileMemberFunctor5 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTVolatileMemberFunctor5(Function func) : m_funcPtr(func) {}
         QEXTVolatileMemberFunctor5(const QEXTVolatileMemberFunctor5 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             T_obj *obj,
@@ -1345,13 +1345,13 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             T_obj &obj,
@@ -1379,7 +1379,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
     class QEXTVolatileMemberFunctor4 : public QEXTFunctorBase
@@ -1391,18 +1391,18 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTVolatileMemberFunctor4() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTVolatileMemberFunctor4 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTVolatileMemberFunctor4(Function func) : m_funcPtr(func) {}
         QEXTVolatileMemberFunctor4(const QEXTVolatileMemberFunctor4 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             T_obj *obj,
@@ -1415,12 +1415,12 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             T_obj &obj,
@@ -1446,7 +1446,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
     class QEXTVolatileMemberFunctor3 : public QEXTFunctorBase
@@ -1458,17 +1458,17 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTVolatileMemberFunctor3() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTVolatileMemberFunctor3 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTVolatileMemberFunctor3(Function func) : m_funcPtr(func) {}
         QEXTVolatileMemberFunctor3(const QEXTVolatileMemberFunctor3 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             T_obj *obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3) const
@@ -1477,11 +1477,11 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             T_obj &obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3) const
@@ -1502,7 +1502,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
     class QEXTVolatileMemberFunctor2 : public QEXTFunctorBase
@@ -1514,16 +1514,16 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTVolatileMemberFunctor2() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTVolatileMemberFunctor2 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTVolatileMemberFunctor2(Function func) : m_funcPtr(func) {}
         QEXTVolatileMemberFunctor2(const QEXTVolatileMemberFunctor2 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(T_obj *obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -1531,10 +1531,10 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(T_obj &obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -1553,7 +1553,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1 >
     class QEXTVolatileMemberFunctor1 : public QEXTFunctorBase
@@ -1565,15 +1565,15 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTVolatileMemberFunctor1() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTVolatileMemberFunctor1 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTVolatileMemberFunctor1(Function func) : m_funcPtr(func) {}
         QEXTVolatileMemberFunctor1(const QEXTVolatileMemberFunctor1 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(T_obj *obj, typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -1581,9 +1581,9 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(T_obj &obj, typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -1601,7 +1601,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj >
     class QEXTVolatileMemberFunctor0 : public QEXTFunctorBase
@@ -1613,14 +1613,14 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTVolatileMemberFunctor0() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTVolatileMemberFunctor0 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTVolatileMemberFunctor0(Function func) : m_funcPtr(func) {}
         QEXTVolatileMemberFunctor0(const QEXTVolatileMemberFunctor0 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \return The return value of the method invocation.
          */
         T_return operator()(T_obj *obj) const
         {
@@ -1628,8 +1628,8 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \return The return value of the method invocation.
          */
         T_return operator()(T_obj &obj) const
         {
@@ -1654,7 +1654,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template <
         typename T_return,
@@ -1675,21 +1675,21 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstVolatileMemberFunctor7() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstVolatileMemberFunctor7 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTConstVolatileMemberFunctor7(Function func) : m_funcPtr(func) {}
         QEXTConstVolatileMemberFunctor7(const QEXTConstVolatileMemberFunctor7 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @param arg7 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \param arg7 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             const T_obj *obj,
@@ -1705,15 +1705,15 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @param arg7 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \param arg7 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             const T_obj &obj,
@@ -1745,7 +1745,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
     class QEXTConstVolatileMemberFunctor6 : public QEXTFunctorBase
@@ -1757,20 +1757,20 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstVolatileMemberFunctor6() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstVolatileMemberFunctor6 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTConstVolatileMemberFunctor6(Function func) : m_funcPtr(func) {}
         QEXTConstVolatileMemberFunctor6(const QEXTConstVolatileMemberFunctor6 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             const T_obj *obj,
@@ -1785,14 +1785,14 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             const T_obj &obj,
@@ -1822,7 +1822,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
     class QEXTConstVolatileMemberFunctor5 : public QEXTFunctorBase
@@ -1834,19 +1834,19 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstVolatileMemberFunctor5() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstVolatileMemberFunctor5 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTConstVolatileMemberFunctor5(Function func) : m_funcPtr(func) {}
         QEXTConstVolatileMemberFunctor5(const QEXTConstVolatileMemberFunctor5 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             const T_obj *obj,
@@ -1860,13 +1860,13 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             const T_obj &obj,
@@ -1894,7 +1894,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
     class QEXTConstVolatileMemberFunctor4 : public QEXTFunctorBase
@@ -1906,18 +1906,18 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstVolatileMemberFunctor4() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstVolatileMemberFunctor4 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTConstVolatileMemberFunctor4(Function func) : m_funcPtr(func) {}
         QEXTConstVolatileMemberFunctor4(const QEXTConstVolatileMemberFunctor4 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             const T_obj *obj,
@@ -1930,12 +1930,12 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             const T_obj &obj,
@@ -1961,7 +1961,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
     class QEXTConstVolatileMemberFunctor3 : public QEXTFunctorBase
@@ -1973,17 +1973,17 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstVolatileMemberFunctor3() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstVolatileMemberFunctor3 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTConstVolatileMemberFunctor3(Function func) : m_funcPtr(func) {}
         QEXTConstVolatileMemberFunctor3(const QEXTConstVolatileMemberFunctor3 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             const T_obj *obj,
@@ -1995,11 +1995,11 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             const T_obj &obj,
@@ -2023,7 +2023,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
     class QEXTConstVolatileMemberFunctor2 : public QEXTFunctorBase
@@ -2035,16 +2035,16 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstVolatileMemberFunctor2() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstVolatileMemberFunctor2 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTConstVolatileMemberFunctor2(Function func) : m_funcPtr(func) {}
         QEXTConstVolatileMemberFunctor2(const QEXTConstVolatileMemberFunctor2 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(const T_obj *obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -2052,10 +2052,10 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(const T_obj &obj, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -2074,7 +2074,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1 >
     class QEXTConstVolatileMemberFunctor1 : public QEXTFunctorBase
@@ -2086,15 +2086,15 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstVolatileMemberFunctor1() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstVolatileMemberFunctor1 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTConstVolatileMemberFunctor1(Function func) : m_funcPtr(func) {}
         QEXTConstVolatileMemberFunctor1(const QEXTConstVolatileMemberFunctor1 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(const T_obj *obj, typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -2102,9 +2102,9 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @param arg1 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \param arg1 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(const T_obj &obj, typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -2122,7 +2122,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj >
     class QEXTConstVolatileMemberFunctor0 : public QEXTFunctorBase
@@ -2134,14 +2134,14 @@ namespace qextPrivate
         // Constructs an invalid functor.
         QEXTConstVolatileMemberFunctor0() : m_funcPtr(QEXT_DECL_NULLPTR) {}
         /** Constructs a QEXTConstVolatileMemberFunctor0 object that wraps the passed method.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTConstVolatileMemberFunctor0(Function func) : m_funcPtr(func) {}
         QEXTConstVolatileMemberFunctor0(const QEXTConstVolatileMemberFunctor0 &other) : m_funcPtr(other.m_funcPtr) {}
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Pointer to instance the method should operate on.
-         * @return The return value of the method invocation.
+         * \param obj Pointer to instance the method should operate on.
+         * \return The return value of the method invocation.
          */
         T_return operator()(const T_obj *obj) const
         {
@@ -2149,8 +2149,8 @@ namespace qextPrivate
         }
 
         /** Execute the wrapped method operating on the passed instance.
-         * @param obj Reference to instance the method should operate on.
-         * @return The return value of the method invocation.
+         * \param obj Reference to instance the method should operate on.
+         * \return The return value of the method invocation.
          */
         T_return operator()(const T_obj &obj) const
         {
@@ -2175,7 +2175,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template <
         typename T_return,
@@ -2196,26 +2196,26 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundMemberFunctor7 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor7(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundMemberFunctor7 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor7(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundMemberFunctor7(const QEXTBoundMemberFunctor7 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @param arg7 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \param arg7 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -2248,7 +2248,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
     class QEXTBoundMemberFunctor6 : public QEXTMemberFunctor6< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -2260,25 +2260,25 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundMemberFunctor6 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor6(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundMemberFunctor6 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor6(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundMemberFunctor6(const QEXTBoundMemberFunctor6 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -2308,7 +2308,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
     class QEXTBoundMemberFunctor5 : public QEXTMemberFunctor5< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -2320,24 +2320,24 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundMemberFunctor5 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor5(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundMemberFunctor5 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor5(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundMemberFunctor5(const QEXTBoundMemberFunctor5 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -2365,7 +2365,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
     class QEXTBoundMemberFunctor4 : public QEXTMemberFunctor4< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -2377,23 +2377,23 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundMemberFunctor4 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor4(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundMemberFunctor4 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor4(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundMemberFunctor4(const QEXTBoundMemberFunctor4 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -2419,7 +2419,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
     class QEXTBoundMemberFunctor3 : public QEXTMemberFunctor3< T_return, T_obj, T_arg1, T_arg2, T_arg3 >
@@ -2431,22 +2431,22 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundMemberFunctor3 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor3(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundMemberFunctor3 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor3(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundMemberFunctor3(const QEXTBoundMemberFunctor3 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return
         operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3) const
@@ -2468,7 +2468,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
     class QEXTBoundMemberFunctor2 : public QEXTMemberFunctor2< T_return, T_obj, T_arg1, T_arg2 >
@@ -2480,21 +2480,21 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundMemberFunctor2 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor2(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundMemberFunctor2 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor2(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundMemberFunctor2(const QEXTBoundMemberFunctor2 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -2514,7 +2514,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1 >
     class QEXTBoundMemberFunctor1 : public QEXTMemberFunctor1< T_return, T_obj, T_arg1 >
@@ -2526,19 +2526,19 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundMemberFunctor1 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor1(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundMemberFunctor1 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor1(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -2557,7 +2557,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj >
     class QEXTBoundMemberFunctor0 : public QEXTMemberFunctor0< T_return, T_obj >
@@ -2569,18 +2569,18 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundMemberFunctor0 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor0(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundMemberFunctor0 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundMemberFunctor0(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @return The return value of the method invocation.
+         * \return The return value of the method invocation.
          */
         T_return operator()() const
         {
@@ -2606,7 +2606,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template <
         typename T_return,
@@ -2627,26 +2627,26 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstMemberFunctor7 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor7(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstMemberFunctor7 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor7(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstMemberFunctor7(const QEXTBoundConstMemberFunctor7 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @param arg7 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \param arg7 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -2678,7 +2678,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
     class QEXTBoundConstMemberFunctor6 : public QEXTConstMemberFunctor6< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -2690,25 +2690,25 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstMemberFunctor6 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor6(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstMemberFunctor6 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor6(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstMemberFunctor6(const QEXTBoundConstMemberFunctor6 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -2738,7 +2738,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
     class QEXTBoundConstMemberFunctor5 : public QEXTConstMemberFunctor5< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -2750,24 +2750,24 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstMemberFunctor5 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor5(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstMemberFunctor5 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor5(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstMemberFunctor5(const QEXTBoundConstMemberFunctor5 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -2795,7 +2795,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
     class QEXTBoundConstMemberFunctor4 : public QEXTConstMemberFunctor4< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -2807,23 +2807,23 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstMemberFunctor4 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor4(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstMemberFunctor4 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor4(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstMemberFunctor4(const QEXTBoundConstMemberFunctor4 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -2849,7 +2849,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
     class QEXTBoundConstMemberFunctor3 : public QEXTConstMemberFunctor3< T_return, T_obj, T_arg1, T_arg2, T_arg3 >
@@ -2861,22 +2861,22 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstMemberFunctor3 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor3(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstMemberFunctor3 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor3(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstMemberFunctor3(const QEXTBoundConstMemberFunctor3 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return
         operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3) const
@@ -2898,7 +2898,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
     class QEXTBoundConstMemberFunctor2 : public QEXTConstMemberFunctor2< T_return, T_obj, T_arg1, T_arg2 >
@@ -2910,21 +2910,21 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstMemberFunctor2 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor2(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstMemberFunctor2 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor2(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstMemberFunctor2(const QEXTBoundConstMemberFunctor2 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -2944,7 +2944,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1 >
     class QEXTBoundConstMemberFunctor1 : public QEXTConstMemberFunctor1< T_return, T_obj, T_arg1 >
@@ -2956,19 +2956,19 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstMemberFunctor1 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor1(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstMemberFunctor1 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor1(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -2987,7 +2987,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj >
     class QEXTBoundConstMemberFunctor0 : public QEXTConstMemberFunctor0< T_return, T_obj >
@@ -2999,19 +2999,19 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstMemberFunctor0 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor0(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstMemberFunctor0 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstMemberFunctor0(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstMemberFunctor0(const QEXTBoundConstMemberFunctor0 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @return The return value of the method invocation.
+         * \return The return value of the method invocation.
          */
         T_return operator()() const
         {
@@ -3037,7 +3037,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template <
         typename T_return,
@@ -3058,26 +3058,26 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundVolatileMemberFunctor7 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor7(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundVolatileMemberFunctor7 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor7(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundVolatileMemberFunctor7(const QEXTBoundVolatileMemberFunctor7 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @param arg7 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \param arg7 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -3109,7 +3109,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
     class QEXTBoundVolatileMemberFunctor6 : public QEXTVolatileMemberFunctor6< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -3121,25 +3121,25 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundVolatileMemberFunctor6 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor6(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundVolatileMemberFunctor6 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor6(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundVolatileMemberFunctor6(const QEXTBoundVolatileMemberFunctor6 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -3169,7 +3169,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
     class QEXTBoundVolatileMemberFunctor5 : public QEXTVolatileMemberFunctor5< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -3181,24 +3181,24 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundVolatileMemberFunctor5 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor5(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundVolatileMemberFunctor5 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor5(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundVolatileMemberFunctor5(const QEXTBoundVolatileMemberFunctor5 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -3226,7 +3226,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
     class QEXTBoundVolatileMemberFunctor4 : public QEXTVolatileMemberFunctor4< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -3238,23 +3238,23 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundVolatileMemberFunctor4 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor4(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundVolatileMemberFunctor4 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor4(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundVolatileMemberFunctor4(const QEXTBoundVolatileMemberFunctor4 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -3280,7 +3280,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
     class QEXTBoundVolatileMemberFunctor3 : public QEXTVolatileMemberFunctor3< T_return, T_obj, T_arg1, T_arg2, T_arg3 >
@@ -3292,22 +3292,22 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundVolatileMemberFunctor3 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor3(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundVolatileMemberFunctor3 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor3(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundVolatileMemberFunctor3(const QEXTBoundVolatileMemberFunctor3 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return
         operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3) const
@@ -3329,7 +3329,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
     class QEXTBoundVolatileMemberFunctor2 : public QEXTVolatileMemberFunctor2< T_return, T_obj, T_arg1, T_arg2 >
@@ -3341,21 +3341,21 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundVolatileMemberFunctor2 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor2(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundVolatileMemberFunctor2 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor2(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundVolatileMemberFunctor2(const QEXTBoundVolatileMemberFunctor2 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -3375,7 +3375,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1 >
     class QEXTBoundVolatileMemberFunctor1 : public QEXTVolatileMemberFunctor1< T_return, T_obj, T_arg1 >
@@ -3387,20 +3387,20 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundVolatileMemberFunctor1 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor1(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundVolatileMemberFunctor1 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor1(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundVolatileMemberFunctor1(const QEXTBoundVolatileMemberFunctor1 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -3419,7 +3419,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj >
     class QEXTBoundVolatileMemberFunctor0 : public QEXTVolatileMemberFunctor0< T_return, T_obj >
@@ -3431,19 +3431,19 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundVolatileMemberFunctor0 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor0(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundVolatileMemberFunctor0 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundVolatileMemberFunctor0(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundVolatileMemberFunctor0(const QEXTBoundVolatileMemberFunctor0 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @return The return value of the method invocation.
+         * \return The return value of the method invocation.
          */
         T_return operator()() const
         {
@@ -3469,7 +3469,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template <
         typename T_return,
@@ -3490,26 +3490,26 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstVolatileMemberFunctor7 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor7(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstVolatileMemberFunctor7 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor7(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstVolatileMemberFunctor7(const QEXTBoundConstVolatileMemberFunctor7 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @param arg7 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \param arg7 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -3541,7 +3541,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
     class QEXTBoundConstVolatileMemberFunctor6 : public QEXTConstVolatileMemberFunctor6< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -3553,25 +3553,25 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstVolatileMemberFunctor6 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor6(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstVolatileMemberFunctor6 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor6(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstVolatileMemberFunctor6(const QEXTBoundConstVolatileMemberFunctor6 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @param arg6 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \param arg6 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -3601,7 +3601,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
     class QEXTBoundConstVolatileMemberFunctor5 : public QEXTConstVolatileMemberFunctor5< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -3613,24 +3613,24 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstVolatileMemberFunctor5 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor5(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstVolatileMemberFunctor5 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor5(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstVolatileMemberFunctor5(const QEXTBoundConstVolatileMemberFunctor5 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @param arg5 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \param arg5 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -3658,7 +3658,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
     class QEXTBoundConstVolatileMemberFunctor4 : public QEXTConstVolatileMemberFunctor4< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -3670,23 +3670,23 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstVolatileMemberFunctor4 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor4(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstVolatileMemberFunctor4 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor4(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstVolatileMemberFunctor4(const QEXTBoundConstVolatileMemberFunctor4 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @param arg4 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \param arg4 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -3712,7 +3712,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
     class QEXTBoundConstVolatileMemberFunctor3 : public QEXTConstVolatileMemberFunctor3< T_return, T_obj, T_arg1, T_arg2, T_arg3 >
@@ -3724,22 +3724,22 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstVolatileMemberFunctor3 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor3(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstVolatileMemberFunctor3 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor3(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstVolatileMemberFunctor3(const QEXTBoundConstVolatileMemberFunctor3 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @param arg3 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \param arg3 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return
         operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3) const
@@ -3761,7 +3761,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
     class QEXTBoundConstVolatileMemberFunctor2 : public QEXTConstVolatileMemberFunctor2< T_return, T_obj, T_arg1, T_arg2 >
@@ -3773,21 +3773,21 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstVolatileMemberFunctor2 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor2(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstVolatileMemberFunctor2 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor2(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstVolatileMemberFunctor2(const QEXTBoundConstVolatileMemberFunctor2 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @param arg2 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \param arg2 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -3807,7 +3807,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj, typename T_arg1 >
     class QEXTBoundConstVolatileMemberFunctor1 : public QEXTConstVolatileMemberFunctor1< T_return, T_obj, T_arg1 >
@@ -3819,20 +3819,20 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstVolatileMemberFunctor1 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor1(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstVolatileMemberFunctor1 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor1(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstVolatileMemberFunctor1(const QEXTBoundConstVolatileMemberFunctor1 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @param arg1 Argument to be passed on to the method.
-         * @return The return value of the method invocation.
+         * \param arg1 Argument to be passed on to the method.
+         * \return The return value of the method invocation.
          */
         T_return operator()(typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -3851,7 +3851,7 @@ namespace qextPrivate
      * - @e T_return The return type of operator()().
      * - @e T_obj The object type.
      *
-     * @ingroup qextMemberFunctor
+     * \ingroup qextMemberFunctor
      */
     template < typename T_return, typename T_obj >
     class QEXTBoundConstVolatileMemberFunctor0 : public QEXTConstVolatileMemberFunctor0< T_return, T_obj >
@@ -3863,19 +3863,19 @@ namespace qextPrivate
         typedef typename Base::Return Return;
 
         /** Constructs a QEXTBoundConstVolatileMemberFunctor0 object that wraps the passed method.
-         * @param obj Pointer to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Pointer to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor0(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
         /** Constructs a QEXTBoundConstVolatileMemberFunctor0 object that wraps the passed method.
-         * @param obj Reference to instance the method will operate on.
-         * @param func Pointer to method will be invoked from operator()().
+         * \param obj Reference to instance the method will operate on.
+         * \param func Pointer to method will be invoked from operator()().
          */
         QEXTBoundConstVolatileMemberFunctor0(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
         QEXTBoundConstVolatileMemberFunctor0(const QEXTBoundConstVolatileMemberFunctor0 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
 
         /** Execute the wrapped method operating on the stored instance.
-         * @return The return value of the method invocation.
+         * \return The return value of the method invocation.
          */
         T_return operator()() const
         {
@@ -6050,10 +6050,10 @@ struct QEXTVisitor< QEXTBoundConstVolatileMemberFunctor< T_return, T_obj > >
 };
 
 /** Creates a functor of type QEXTMemberFunctor which wraps a method with 7 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -6072,10 +6072,10 @@ inline QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg
 }
 
 /** Creates a functor of type QEXTMemberFunctor which wraps a method with 6 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -6085,10 +6085,10 @@ inline QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg
 }
 
 /** Creates a functor of type QEXTMemberFunctor which wraps a method with 5 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -6098,10 +6098,10 @@ inline QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg
 }
 
 /** Creates a functor of type QEXTMemberFunctor which wraps a method with 4 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4))
@@ -6110,10 +6110,10 @@ inline QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 > qext
 }
 
 /** Creates a functor of type QEXTMemberFunctor which wraps a method with 3 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3))
@@ -6122,10 +6122,10 @@ inline QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMemberFu
 }
 
 /** Creates a functor of type QEXTMemberFunctor which wraps a method with 2 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2))
@@ -6134,10 +6134,10 @@ inline QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_
 }
 
 /** Creates a functor of type QEXTMemberFunctor which wraps a method with 1 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1))
@@ -6146,10 +6146,10 @@ inline QEXTMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_return (
 }
 
 /** Creates a functor of type QEXTMemberFunctor which wraps a method with no args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTMemberFunctor< T_return, T_obj > qextMemberFunctor(T_return (T_obj::*func)())
@@ -6158,10 +6158,10 @@ inline QEXTMemberFunctor< T_return, T_obj > qextMemberFunctor(T_return (T_obj::*
 }
 
 /** Creates a functor of type QEXTConstMemberFunctor which wraps a const method with 7 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -6180,10 +6180,10 @@ qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5
 }
 
 /** Creates a functor of type QEXTConstMemberFunctor which wraps a const method with 6 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -6193,10 +6193,10 @@ qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5
 }
 
 /** Creates a functor of type QEXTConstMemberFunctor which wraps a const method with 5 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -6206,10 +6206,10 @@ qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5
 }
 
 /** Creates a functor of type QEXTConstMemberFunctor which wraps a const method with 4 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) const)
@@ -6218,10 +6218,10 @@ inline QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
 }
 
 /** Creates a functor of type QEXTConstMemberFunctor which wraps a const method with 3 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const)
@@ -6230,10 +6230,10 @@ inline QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMem
 }
 
 /** Creates a functor of type QEXTConstMemberFunctor which wraps a const method with 2 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2) const)
@@ -6242,10 +6242,10 @@ inline QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunct
 }
 
 /** Creates a functor of type QEXTConstMemberFunctor which wraps a const method with 1 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTConstMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1) const)
@@ -6254,10 +6254,10 @@ inline QEXTConstMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_ret
 }
 
 /** Creates a functor of type QEXTConstMemberFunctor which wraps a const method with no args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTConstMemberFunctor< T_return, T_obj > qextMemberFunctor(T_return (T_obj::*func)() const)
@@ -6266,10 +6266,10 @@ inline QEXTConstMemberFunctor< T_return, T_obj > qextMemberFunctor(T_return (T_o
 }
 
 /** Creates a functor of type QEXTVolatileMemberFunctor which wraps a volatile method with 7 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -6288,10 +6288,10 @@ inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg
 }
 
 /** Creates a functor of type QEXTVolatileMemberFunctor which wraps a volatile method with 6 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -6301,10 +6301,10 @@ inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg
 }
 
 /** Creates a functor of type QEXTVolatileMemberFunctor which wraps a volatile method with 5 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -6314,10 +6314,10 @@ inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg
 }
 
 /** Creates a functor of type QEXTVolatileMemberFunctor which wraps a volatile method with 4 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -6327,10 +6327,10 @@ inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg
 }
 
 /** Creates a functor of type QEXTVolatileMemberFunctor which wraps a volatile method with 3 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) volatile)
@@ -6339,10 +6339,10 @@ inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qext
 }
 
 /** Creates a functor of type QEXTVolatileMemberFunctor which wraps a volatile method with 2 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2) volatile)
@@ -6351,10 +6351,10 @@ inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFu
 }
 
 /** Creates a functor of type QEXTVolatileMemberFunctor which wraps a volatile method with 1 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1) volatile)
@@ -6363,10 +6363,10 @@ inline QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_
 }
 
 /** Creates a functor of type QEXTVolatileMemberFunctor which wraps a volatile method with no args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTVolatileMemberFunctor< T_return, T_obj > qextMemberFunctor(T_return (T_obj::*func)() volatile)
@@ -6375,10 +6375,10 @@ inline QEXTVolatileMemberFunctor< T_return, T_obj > qextMemberFunctor(T_return (
 }
 
 /** Creates a functor of type QEXTConstVolatileMemberFunctor which wraps a const volatile method with 7 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -6397,10 +6397,10 @@ qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5
 }
 
 /** Creates a functor of type QEXTConstVolatileMemberFunctor which wraps a const volatile method with 6 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -6410,10 +6410,10 @@ qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5
 }
 
 /** Creates a functor of type QEXTConstVolatileMemberFunctor which wraps a const volatile method with 5 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -6423,10 +6423,10 @@ qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5
 }
 
 /** Creates a functor of type QEXTConstVolatileMemberFunctor which wraps a const volatile method with 4 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4)
@@ -6436,10 +6436,10 @@ inline QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, 
 }
 
 /** Creates a functor of type QEXTConstVolatileMemberFunctor which wraps a const volatile method with 3 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const volatile)
@@ -6448,10 +6448,10 @@ inline QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >
 }
 
 /** Creates a functor of type QEXTConstVolatileMemberFunctor which wraps a const volatile method with 2 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2) const volatile)
@@ -6460,10 +6460,10 @@ inline QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMem
 }
 
 /** Creates a functor of type QEXTConstVolatileMemberFunctor which wraps a const volatile method with 1 args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_return (T_obj::*func)(T_arg1) const volatile)
@@ -6472,10 +6472,10 @@ inline QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunct
 }
 
 /** Creates a functor of type QEXTConstVolatileMemberFunctor which wraps a const volatile method with no args.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes func on invokation.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTConstVolatileMemberFunctor< T_return, T_obj > qextMemberFunctor(T_return (T_obj::*func)() const volatile)
@@ -6484,11 +6484,11 @@ inline QEXTConstVolatileMemberFunctor< T_return, T_obj > qextMemberFunctor(T_ret
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor0 which encapsulates a method and an object instance with 7 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -6507,11 +6507,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor which encapsulates a method and an object instance with 7 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -6530,11 +6530,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor0 which encapsulates a method and an object instance with 6 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -6544,11 +6544,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor which encapsulates a method and an object instance with 6 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -6558,11 +6558,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor0 which encapsulates a method and an object instance with 5 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -6572,11 +6572,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor which encapsulates a method and an object instance with 5 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -6586,11 +6586,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor0 which encapsulates a method and an object instance with 4 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -6600,11 +6600,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor which encapsulates a method and an object instance with 4 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -6614,11 +6614,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor0 which encapsulates a method and an object instance with 3 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3))
@@ -6627,11 +6627,11 @@ inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMem
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor which encapsulates a method and an object instance with 3 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3))
@@ -6640,11 +6640,11 @@ inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMem
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor0 which encapsulates a method and an object instance with 2 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2))
@@ -6653,11 +6653,11 @@ inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunct
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor which encapsulates a method and an object instance with 2 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2))
@@ -6666,11 +6666,11 @@ inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunct
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor0 which encapsulates a method and an object instance with 1 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1))
@@ -6679,11 +6679,11 @@ inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_obj
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor which encapsulates a method and an object instance with 1 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1))
@@ -6692,11 +6692,11 @@ inline QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_obj
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor0 which encapsulates a method and an object instance with no args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTBoundMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)())
@@ -6705,11 +6705,11 @@ inline QEXTBoundMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj *obj, T
 }
 
 /** Creates a functor of type QEXTBoundMemberFunctor which encapsulates a method and an object instance with no args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTBoundMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)())
@@ -6718,11 +6718,11 @@ inline QEXTBoundMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj &obj, T
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 7 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -6741,11 +6741,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 7 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -6764,11 +6764,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 6 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -6778,11 +6778,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 6 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -6792,11 +6792,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 5 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -6806,11 +6806,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 5 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -6820,11 +6820,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 4 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -6834,11 +6834,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 4 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -6848,11 +6848,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 3 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const)
@@ -6861,11 +6861,11 @@ inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qe
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 3 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const)
@@ -6874,11 +6874,11 @@ inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 > qe
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 2 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2) const)
@@ -6887,11 +6887,11 @@ inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMember
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 2 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2) const)
@@ -6900,11 +6900,11 @@ inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMember
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 1 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1) const)
@@ -6913,11 +6913,11 @@ inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with 1 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1) const)
@@ -6926,11 +6926,11 @@ inline QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with no args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)() const)
@@ -6939,11 +6939,11 @@ inline QEXTBoundConstMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj *o
 }
 
 /** Creates a functor of type QEXTBoundConstMemberFunctor which encapsulates a method and an object instance with no args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTBoundConstMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)() const)
@@ -6952,11 +6952,11 @@ inline QEXTBoundConstMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj &o
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 7 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -6975,11 +6975,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 7 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -6998,11 +6998,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 6 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -7012,11 +7012,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 6 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -7026,11 +7026,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 5 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -7040,11 +7040,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 5 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -7054,11 +7054,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 4 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -7068,11 +7068,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 4 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -7082,11 +7082,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 3 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >
@@ -7096,11 +7096,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) vo
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 3 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >
@@ -7110,11 +7110,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) vo
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 2 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2) volatile)
@@ -7123,11 +7123,11 @@ inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMem
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 2 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2) volatile)
@@ -7136,11 +7136,11 @@ inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMem
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 1 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1) volatile)
@@ -7149,11 +7149,11 @@ inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunct
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with 1 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1) volatile)
@@ -7162,11 +7162,11 @@ inline QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunct
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with no args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)() volatile)
@@ -7175,11 +7175,11 @@ inline QEXTBoundVolatileMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj
 }
 
 /** Creates a functor of type QEXTBoundVolatileMemberFunctor which encapsulates a method and an object instance with no args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTBoundVolatileMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)() volatile)
@@ -7188,11 +7188,11 @@ inline QEXTBoundVolatileMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 7 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -7211,11 +7211,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 7 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template <
     typename T_return,
@@ -7234,11 +7234,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 6 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -7248,11 +7248,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 6 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
@@ -7262,11 +7262,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 5 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -7276,11 +7276,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 5 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
@@ -7290,11 +7290,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 4 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -7304,11 +7304,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 4 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >
@@ -7318,11 +7318,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 3 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >
@@ -7332,11 +7332,11 @@ qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) co
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 3 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >
@@ -7346,11 +7346,11 @@ qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) co
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 2 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2) const volatile)
@@ -7359,11 +7359,11 @@ inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qe
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 2 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2) const volatile)
@@ -7372,11 +7372,11 @@ inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 > qe
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 1 args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1) const volatile)
@@ -7385,11 +7385,11 @@ inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMember
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 1 args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj, typename T_arg1 >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1) const volatile)
@@ -7398,11 +7398,11 @@ inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 > qextMember
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with no args.
- * @param obj Pointer to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Pointer to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)() const volatile)
@@ -7411,11 +7411,11 @@ inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj > qextMemberFunctor(
 }
 
 /** Creates a functor of type QEXTBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with no args.
- * @param obj Reference to object instance the functor should operate on.
- * @param func Pointer to method that should be wrapped.
- * @return Functor that executes @e func on invokation.
+ * \param obj Reference to object instance the functor should operate on.
+ * \param func Pointer to method that should be wrapped.
+ * \return Functor that executes @e func on invokation.
  *
- * @ingroup qextMemberFunctor
+ * \ingroup qextMemberFunctor
  */
 template < typename T_return, typename T_obj >
 inline QEXTBoundConstVolatileMemberFunctor< T_return, T_obj > qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)() const volatile)

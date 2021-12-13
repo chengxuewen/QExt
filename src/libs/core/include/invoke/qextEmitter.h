@@ -126,8 +126,8 @@ public:
      * `std::function<void(const E &, T_emitter &)`, where `E` is the type of the event
      * and `T_emitter` is the type of the resource.
      *
-     * @param f A valid listener to be registered.
-     * @return Connection object to be used later to disconnect the listener.
+     * \param f A valid listener to be registered.
+     * \return Connection object to be used later to disconnect the listener.
      */
     template<typename T_event>
     typename EventHandler<T_event>::Iterator addListener(typename EventHandler<T_event>::Listener listener)
@@ -147,8 +147,8 @@ public:
      * `std::function<void(const E &, T_emitter &)`, where `E` is the type of the event
      * and `T_emitter` is the type of the resource.
      *
-     * @param f A valid listener to be registered.
-     * @return Connection object to be used later to disconnect the listener.
+     * \param f A valid listener to be registered.
+     * \return Connection object to be used later to disconnect the listener.
      */
     template<typename T_event>
     typename EventHandler<T_event>::Iterator addSingleListener(typename EventHandler<T_event>::Listener listener)
@@ -158,7 +158,7 @@ public:
 
     /**
      * \brief Disconnects a listener from the event emitter.
-     * @param conn A valid Connection object
+     * \param conn A valid Connection object
      */
     template<typename T_event>
     void erase(typename EventHandler<T_event>::Iterator iter) QEXT_DECL_NOEXCEPT
@@ -193,7 +193,7 @@ public:
 
     /**
      * \brief Checks if there are listeners registered for the specific event.
-     * @return True if there are no listeners registered for the specific event,
+     * \return True if there are no listeners registered for the specific event,
      * false otherwise.
      */
     template<typename T_event>
@@ -206,7 +206,7 @@ public:
 
     /**
      * \brief Checks if there are listeners registered with the event emitter.
-     * @return True if there are no listeners registered with the event emitter,
+     * \return True if there are no listeners registered with the event emitter,
      * false otherwise.
      */
     bool isEmpty() const QEXT_DECL_NOEXCEPT

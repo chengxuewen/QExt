@@ -29,17 +29,17 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/widget)
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
-set(qext_test_link_libraries)
+set(QEXT_TEST_LINK_LIBRARIES)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND qext_test_link_libraries Qt4::QtCore Qt4::QtTest)
+    list(APPEND QEXT_TEST_LINK_LIBRARIES Qt4::QtCore Qt4::QtTest)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND qext_test_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Test)
+    list(APPEND QEXT_TEST_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Test)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND qext_test_link_libraries QEXTWidgets)
+list(APPEND QEXT_TEST_LINK_LIBRARIES QEXTWidgets)
 
 
 
@@ -49,7 +49,7 @@ list(APPEND qext_test_link_libraries QEXTWidgets)
 #set(qext_test_name tst_qextdatatimeutils)
 #add_executable(${qext_test_name} tst_qextdatatimeutils.cpp)
 #add_test(NAME ${qext_test_name} COMMAND ${qext_test_name})
-#target_link_libraries(${qext_test_name} PRIVATE ${qext_test_link_libraries})
+#target_link_libraries(${qext_test_name} PRIVATE ${QEXT_TEST_LINK_LIBRARIES})
 #target_include_directories(${qext_test_name} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 #if(WIN32)
 #    qextFunctionCopyDependencyInternal(${qext_test_name} QEXTUtils ${EXECUTABLE_OUTPUT_PATH})

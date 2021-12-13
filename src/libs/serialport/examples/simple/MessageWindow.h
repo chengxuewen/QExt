@@ -1,7 +1,7 @@
 /**
  * @file MessageWindow.h
- * @brief Message Window.
- * @see MessageWindow
+ * \brief Message Window.
+ * \see MessageWindow
  * @author Micha? Policht
  */
 
@@ -38,8 +38,8 @@ public:
 
     /**
          * Default constructor.
-         *     @param parent parent widget.
-         *     @param flags widget flags.
+         *     \param parent parent widget.
+         *     \param flags widget flags.
          */
     MessageWindow(QWidget* parent = 0, Qt::WindowFlags flags = 0);
 
@@ -47,8 +47,8 @@ public:
          * Append message wrapper. Since ISO forbids casting member functions
          * to C functions, wrapper is needed to use this class as QtMsgHandler.
          * This method is thread-safe but not reentrant.
-         *     @param type message type.
-         *     @param msg message string.
+         *     \param type message type.
+         *     \param msg message string.
          */
     static void AppendMsgWrapper(QtMsgType type, const char *msg);
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -57,8 +57,8 @@ public:
     /**
          * Post message event to the main event loop. This function encapsulates
          * message into MessageEvent object and passes it to the main event loop.
-         *     @param type message type.
-         *     @param msg message string.
+         *     \param type message type.
+         *     \param msg message string.
          */
     void postMsgEvent(QtMsgType type, const char *msg);
 
@@ -76,7 +76,7 @@ public:
 
     /**
          * Contructor.
-         *     @param msg message to post.
+         *     \param msg message to post.
          */
     MessageEvent(QString &msg);
 };

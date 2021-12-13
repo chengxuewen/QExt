@@ -145,7 +145,7 @@ namespace qextPrivate
  *     };
  *   @endcode
  *
- * @ingroup qextfunctors
+ * \ingroup qextfunctors
  */
 template <typename T_functor>
 struct QEXTVisitor
@@ -160,7 +160,7 @@ struct QEXTVisitor
 
 /** This function performs a functor on each of the targets of a functor.
  *
- * @ingroup qextfunctors
+ * \ingroup qextfunctors
  */
 template <typename T_action, typename T_functor>
 void qextVisitEach(const T_action &action, const T_functor &functor)
@@ -171,7 +171,7 @@ void qextVisitEach(const T_action &action, const T_functor &functor)
 /** This function performs a functor on each of the targets
  * of a functor limited to a restricted type.
  *
- * @ingroup qextfunctors
+ * \ingroup qextfunctors
  */
 template <typename T_type, typename T_action, typename T_functor>
 void qextVisitEachType(const T_action &action, const T_functor &functor)

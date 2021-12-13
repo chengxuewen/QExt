@@ -686,12 +686,12 @@ void QEXTSemicircleGauge::setTitleColor(const QColor &titleColor)
     }
 }
 
-void QEXTSemicircleGauge::setOverlayVisiable(bool showOverlay)
+void QEXTSemicircleGauge::setOverlayVisiable(bool visiable)
 {
     Q_D(QEXTSemicircleGauge);
-    if (d->m_overlayVisiable != showOverlay)
+    if (d->m_overlayVisiable != visiable)
     {
-        d->m_overlayVisiable = showOverlay;
+        d->m_overlayVisiable = visiable;
         this->update();
     }
 }

@@ -40,8 +40,6 @@ class QEXTProgressKnobPrivate;
 class QEXT_WIDGETS_API QEXTProgressKnob : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTProgressKnob)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTProgressKnob)
 
     Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
@@ -154,6 +152,9 @@ private slots:
 
 private:
     void setPressedValue(QPointF pressedPoint);
+
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressKnob)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTProgressKnob)
 };
 
 #endif // _QEXTPROGRESSKNOB_H

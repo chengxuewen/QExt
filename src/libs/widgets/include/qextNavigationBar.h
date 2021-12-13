@@ -38,8 +38,6 @@ class QEXTNavigationBarPrivate;
 class QEXT_WIDGETS_API QEXTNavigationBar : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTNavigationBar)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNavigationBar)
 
     Q_PROPERTY(QColor backgroundStartColor READ backgroundStartColor WRITE setBackgroundStartColor)
     Q_PROPERTY(QColor backgroundEndColor READ backgroundEndColor WRITE setBackgroundEndColor)
@@ -164,6 +162,10 @@ protected:
     void drawText(QPainter *painter);
 
     QScopedPointer<QEXTNavigationBarPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationBar)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNavigationBar)
 };
 
 #endif // _QEXTNAVIGATIONBAR_H

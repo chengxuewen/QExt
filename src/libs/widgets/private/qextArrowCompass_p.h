@@ -9,8 +9,6 @@
 class QEXTArrowCompass;
 class QEXT_WIDGETS_API QEXTArrowCompassPrivate
 {
-    Q_DISABLE_COPY(QEXTArrowCompassPrivate)
-    Q_DECLARE_PUBLIC(QEXTArrowCompass)
 public:
     explicit QEXTArrowCompassPrivate(QEXTArrowCompass *q);
     virtual ~QEXTArrowCompassPrivate();
@@ -41,6 +39,10 @@ public:
     bool m_animationVisiable;
     double m_currentValue;
     QScopedPointer<QPropertyAnimation> m_animation;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTArrowCompassPrivate)
+    QEXT_DECL_PUBLIC(QEXTArrowCompass)
 };
 
 #endif // _QEXTARROWCOMPASS_P_H

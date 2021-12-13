@@ -9,8 +9,6 @@
 class QEXTFramelessWidget;
 class QEXT_WIDGETS_API QEXTFramelessWidgetPrivate
 {
-    Q_DISABLE_COPY(QEXTFramelessWidgetPrivate)
-    Q_DECLARE_PUBLIC(QEXTFramelessWidget)
 public:
     explicit QEXTFramelessWidgetPrivate(QEXTFramelessWidget *q);
     virtual ~QEXTFramelessWidgetPrivate();
@@ -32,6 +30,10 @@ public:
 
     bool m_isMin;
     Qt::WindowFlags m_flags;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTFramelessWidgetPrivate)
+    QEXT_DECL_PUBLIC(QEXTFramelessWidget)
 };
 
 #endif // _QEXTFRAMELESSWIDGET_P_H

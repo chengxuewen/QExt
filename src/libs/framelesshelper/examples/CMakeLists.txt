@@ -35,24 +35,24 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/framelesshelper)
 #--------------------------------------------------------------------------------
 # Set example link libraries
 #--------------------------------------------------------------------------------
-set(qext_example_link_libraries)
+set(QEXT_EXAMPLE_LINK_LIBRARIES)
 
 if(UNIX)
-    list(APPEND qext_example_link_libraries dl)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES dl)
 endif()
 
 if(WIN32)
-    list(APPEND qext_example_link_libraries shlwapi.lib)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES shlwapi.lib)
 endif()
 
 if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND qext_example_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND qext_example_link_libraries Qt4::QtCore Qt4::QtGui)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND qext_example_link_libraries
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Gui
         Qt${QEXT_QT_VERSION_MAJOR}::Widgets
@@ -61,23 +61,23 @@ else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND qext_example_link_libraries QEXTFramelessHelper)
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QEXTFramelessHelper)
 
 
 
 #--------------------------------------------------------------------------------
 # define function
 #--------------------------------------------------------------------------------
-function(qextFramelessHelperAddExample EXAMPLE_NAME)
+function(qextFunctionFramelessHelperAddExample EXAMPLE_NAME)
     set(multiValueArgs EXAMPLE_SOURCE EXAMPLE_INCLUDE_DIRS)
     cmake_parse_arguments(MY "" "" "${multiValueArgs}" "${ARGN}")
     add_executable(${EXAMPLE_NAME} ${MY_EXAMPLE_SOURCE})
-    target_link_libraries(${EXAMPLE_NAME} PRIVATE ${qext_example_link_libraries})
+    target_link_libraries(${EXAMPLE_NAME} PRIVATE ${QEXT_EXAMPLE_LINK_LIBRARIES})
     target_include_directories(${EXAMPLE_NAME} PRIVATE
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${MY_EXAMPLE_INCLUDE_DIRS}
-        ${qext_example_include_directories}
+        ${QEXT_EXAMPLE_INCLUDE_DIRECTORIES}
         )
     set_property(TARGET ${EXAMPLE_NAME} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
     if(QEXT_BUILD_SHARED_LIBS AND WIN32)
@@ -93,7 +93,7 @@ endfunction()
 #--------------------------------------------------------------------------------
 # Add  example
 #--------------------------------------------------------------------------------
-qextFramelessHelperAddExample(qext_exp_framelessHelperWindow
+qextFunctionFramelessHelperAddExample(qext_exp_framelessHelperWindow
     EXAMPLE_SOURCE
     window/window.qrc
     window/main.cpp

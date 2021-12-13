@@ -10,8 +10,6 @@ class QEXTIconButtonPrivate;
 class QEXT_WIDGETS_API QEXTIconButton : public QPushButton
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTIconButton)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTIconButton)
 
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(QColor iconColor READ iconColor WRITE setIconColor)
@@ -41,6 +39,10 @@ protected:
     void paintEvent(QPaintEvent *event) QEXT_DECL_OVERRIDE;
 
     const QScopedPointer<QEXTIconButtonPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTIconButton)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTIconButton)
 };
 
 #endif // _QEXTICONBUTTON_H

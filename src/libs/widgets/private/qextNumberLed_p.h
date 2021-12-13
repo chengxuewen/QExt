@@ -9,8 +9,6 @@
 class QEXTNumberLed;
 class QEXT_WIDGETS_API QEXTNumberLedPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTNumberLed)
-    Q_DISABLE_COPY(QEXTNumberLedPrivate)
 public:
     explicit QEXTNumberLedPrivate(QEXTNumberLed *q);
     virtual ~QEXTNumberLedPrivate();
@@ -30,6 +28,10 @@ public:
 
     bool m_dotVisiable;
     bool m_colonVisiable;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNumberLedPrivate)
+    QEXT_DECL_PUBLIC(QEXTNumberLed)
 };
 
 #endif // _QEXTNUMBERLCD_P_H

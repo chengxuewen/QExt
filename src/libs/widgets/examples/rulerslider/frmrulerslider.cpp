@@ -21,11 +21,11 @@ void frmRulerSlider::initForm()
     ui->rulerSlider2->setRange(-50, 50);
     ui->rulerSlider2->setValue(25);
     ui->rulerSlider2->setShortStep(2);
-    ui->rulerSlider2->setSliderColorTop(QColor(255, 107, 107));
+    ui->rulerSlider2->setSliderTopColor(QColor(255, 107, 107));
 
     ui->rulerSlider3->setRange(0, 200);
     ui->rulerSlider3->setValue(120);
     ui->rulerSlider3->setShortStep(5);
     ui->rulerSlider3->setLongStep(20);
-    ui->rulerSlider3->setSliderColorTop(QColor(24, 188, 155));
+    ui->rulerSlider3->setSliderTopColor(QColor(24, 188, 155));
 }

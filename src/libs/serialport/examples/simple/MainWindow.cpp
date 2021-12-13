@@ -1,7 +1,7 @@
 /**
  * @file MainWindow.cpp
- * @brief MainWindow Implementation.
- * @see MainWindow.h
+ * \brief MainWindow Implementation.
+ * \see MainWindow.h
  * @author Micha? Policht
  */
 

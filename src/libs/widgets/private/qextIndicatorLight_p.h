@@ -10,8 +10,6 @@
 class QEXTIndicatorLight;
 class QEXT_WIDGETS_API QEXTIndicatorLightPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTIndicatorLight)
-    Q_DISABLE_COPY(QEXTIndicatorLightPrivate)
 public:
     explicit QEXTIndicatorLightPrivate(QEXTIndicatorLight *q);
     virtual ~QEXTIndicatorLightPrivate();
@@ -38,6 +36,10 @@ public:
 
     QScopedPointer<QTimer> m_flickerTimer;
     bool m_lightState;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTIndicatorLightPrivate)
+    QEXT_DECL_PUBLIC(QEXTIndicatorLight)
 };
 
 #endif // _QEXTINDICATORLIGHT_P_H

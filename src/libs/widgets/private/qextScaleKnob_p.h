@@ -7,8 +7,6 @@
 class QEXTScaleKnob;
 class QEXT_WIDGETS_API QEXTScaleKnobPrivate
 {
-    Q_DISABLE_COPY(QEXTScaleKnobPrivate)
-    Q_DECLARE_PUBLIC(QEXTScaleKnob)
 public:
     explicit QEXTScaleKnobPrivate(QEXTScaleKnob *q);
     virtual ~QEXTScaleKnobPrivate();
@@ -34,6 +32,10 @@ public:
     bool m_valueVisiable;
     QEXTScaleKnob::PointerStyle m_pointerStyle;
     bool m_pressed;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTScaleKnobPrivate)
+    QEXT_DECL_PUBLIC(QEXTScaleKnob)
 };
 
 #endif // _QEXTSCALEKNOB_P_H

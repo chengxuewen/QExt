@@ -48,7 +48,7 @@
  * This is possible because the connection object gets notified
  * when the referred slot dies (notify()).
  *
- * @ingroup signal
+ * \ingroup signal
  */
 class QEXT_CORE_API QEXTConnection
 {
@@ -58,11 +58,11 @@ public:
     /** Constructs an empty connection object. */
     QEXTConnection();
     /** Constructs a connection object copying an existing one.
-     * @param src The connection object to make a copy from.
+     * \param src The connection object to make a copy from.
      */
     QEXTConnection(const QEXTConnection &other);
     /** Constructs a connection object from a slot list iterator.
-     * @param iter The slot list iterator to take the slot from.
+     * \param iter The slot list iterator to take the slot from.
      */
     template <typename T_slot>
     QEXTConnection(const qextPrivate::QEXTFunctionIterator<T_slot> &iter) : m_slot(&(*iter))
@@ -70,18 +70,18 @@ public:
     }
     /** Constructs a connection object from a slot object.
      * This is only useful if you create your own slot list.
-     * @param sl The slot to operate on.
+     * \param sl The slot to operate on.
      */
     explicit QEXTConnection(SlotFunctionBase &slot);
     virtual ~QEXTConnection();
 
     /** Overrides this connection object copying another one.
-     * @param other The connection object to make a copy from.
+     * \param other The connection object to make a copy from.
      */
     QEXTConnection &operator=(const QEXTConnection &other);
 
     /** Overrides this connection object with another slot list iterator.
-     * @param iter The new slot list iterator to take the slot from.
+     * \param iter The new slot list iterator to take the slot from.
      */
     template <typename T_slot>
     QEXTConnection &operator=(const qextPrivate::QEXTFunctionIterator<T_slot> &iter)
@@ -91,25 +91,25 @@ public:
     }
 
     /** Returns whether the connection is still active.
-     * @return @p false if the connection is still active.
+     * \return @p false if the connection is still active.
      */
     bool isEmpty() const;
     /** Returns whether the connection is blocked.
-     * @return @p true if the connection is blocked.
+     * \return @p true if the connection is blocked.
      */
     bool isBlocked() const;
     /** Sets or unsets the blocking state of this connection.
      * See QEXTFunctionBase::setBlock() for details.
-     * @param should_block Indicates whether the blocking state should be set or unset.
-     * @return @p true if the connection has been in blocking state before.
+     * \param should_block Indicates whether the blocking state should be set or unset.
+     * \return @p true if the connection has been in blocking state before.
      */
     bool setBlock(bool block = true);
     /** Unsets the blocking state of this connection.
-     * @return @p true if the connection has been in blocking state before.
+     * \return @p true if the connection has been in blocking state before.
      */
     bool unblock();
     /** Returns whether the connection is still active.
-     * @return @p true if the connection is still active.
+     * \return @p true if the connection is still active.
      */
     bool isConnected() const;
     /** Disconnects the referred slot.
@@ -117,12 +117,12 @@ public:
     void disconnect();
 
     /** Returns whether the connection is still active.
-     * @return @p true if the connection is still active.
+     * \return @p true if the connection is still active.
      */
     operator bool();
 
     /** Callback that is executed when the referred slot is destroyed.
-     * @param data The connection object notified (@p this).
+     * \param data The connection object notified (@p this).
      */
     static void *notify(void *data);
 

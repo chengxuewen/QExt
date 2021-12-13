@@ -11,7 +11,7 @@ class QEXT_UTILS_API QEXTHostInfoUtils : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTHostInfoUtils)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTHostInfoUtils)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTHostInfoUtils)
 public:
     enum HostArchType {
         HostArch_X86,

@@ -14,7 +14,7 @@ class QEXT_TCP_API QEXTTcpTaskPool : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTTcpTaskPool)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpTaskPool)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpTaskPool)
 public:
     QEXTTcpTaskPool(QEXTTcpPacketDispatcher *dispatcher);
     ~QEXTTcpTaskPool();

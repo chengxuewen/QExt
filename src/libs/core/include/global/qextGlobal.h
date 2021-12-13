@@ -137,6 +137,31 @@
     QEXT_DECL_DISABLE_MOVE(Class)
 
 
+template <typename T> inline T *qextGetPtrHelper(T *ptr) { return ptr; }
+template <typename Wrapper> static inline typename Wrapper::pointer qextGetPtrHelper(const Wrapper &p) { return p.data(); }
+
+// The body must be a statement:
+#define QEXT_CAST_IGNORE_ALIGN(body) QT_WARNING_PUSH QT_WARNING_DISABLE_GCC("-Wcast-align") body QT_WARNING_POP
+#define QEXT_DECL_PRIVATE(Class) \
+    inline Class##Private* d_func() \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(d_ptr));) } \
+    inline const Class##Private* d_func() const \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(d_ptr));) } \
+    friend class Class##Private;
+
+#define QEXT_DECL_PRIVATE_D(Dptr, Class) \
+    inline Class##Private* d_func()     \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(Dptr));) } \
+    inline const Class##Private* d_func() const \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(Dptr));) } \
+    friend class Class##Private;
+
+#define QEXT_DECL_PUBLIC(Class)                                    \
+    inline Class* q_func() { return static_cast<Class *>(q_ptr); } \
+    inline const Class* q_func() const { return static_cast<const Class *>(q_ptr); } \
+    friend class Class;
+
+
 
 /********************************************************************************
     QEXT force inline macro declare

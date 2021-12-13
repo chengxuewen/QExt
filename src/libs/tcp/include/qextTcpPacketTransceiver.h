@@ -15,7 +15,7 @@ class QEXT_TCP_API QEXTTcpPacketTransceiver : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTTcpPacketTransceiver)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpPacketTransceiver)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpPacketTransceiver)
 public:
     QEXTTcpPacketTransceiver(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
     QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate *d);

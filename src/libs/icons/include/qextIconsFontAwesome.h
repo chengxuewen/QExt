@@ -14,7 +14,7 @@
 class QEXTIconsFontAwesomeIconPainterInterface;
 
 /**
- * @brief The QEXTIconsFontAwesome class
+ * \brief The QEXTIconsFontAwesome class
  * NOTE: Though the name is QEXTIconsFontAwesome and currently it's very Font Awesome based,
  * you can use every other icon/glyph font you want.
  *
@@ -966,76 +966,76 @@ public:
     Q_INVOKABLE FontNameTextMap fontNameTextMap();
 
     /**
-     * @brief QEXTIconsFontAwesome::setDefaultOption Sets a default option.
+     * \brief QEXTIconsFontAwesome::setDefaultOption Sets a default option.
      * These options are passed on to the icon painters
-     * @param name
-     * @param value
+     * \param name
+     * \param value
      */
     void setDefaultOption(const OptionType &option, const QVariant &value);
 
     /**
-     * @brief QEXTIconsFontAwesome::defaultOption
-     * @param name
-     * @return Returns the default option for the given name
+     * \brief QEXTIconsFontAwesome::defaultOption
+     * \param name
+     * \return Returns the default option for the given name
      */
     QVariant defaultOption(const OptionType &option);
 
     QChar fontChar(FontType character);
 
     /**
-     * @brief QEXTIconsFontAwesome::icon Creates an icon with the given code-point
+     * \brief QEXTIconsFontAwesome::icon Creates an icon with the given code-point
      *      <code>
      *          awesome->icon( icon_group )
      *      </code>
-     * @param character
-     * @param options
-     * @return
+     * \param character
+     * \param options
+     * \return
      */
     QIcon icon(FontType character, const FontOptionValueMap &options = FontOptionValueMap());
     QIcon icon(FontType character, const QColor &color);
 
     /**
-     * @brief QEXTIconsFontAwesome::icon Creates an icon with the given name
+     * \brief QEXTIconsFontAwesome::icon Creates an icon with the given name
      * You can use the icon names as defined on http://fortawesome.github.io/Font-Awesome/design.html
      * withour the 'icon-' prefix
-     * @param name the name of the icon
-     * @param options  extra option to pass to the icon renderer
-     * @return
+     * \param name the name of the icon
+     * \param options  extra option to pass to the icon renderer
+     * \return
      */
     QIcon icon(const QString &name, const FontOptionValueMap &options = FontOptionValueMap());
     QIcon icon(const QString &name, const QColor &color);
 
     /**
-     * @brief QEXTIconsFontAwesome::icon Create a dynamic icon by simlpy supplying a painter object
+     * \brief QEXTIconsFontAwesome::icon Create a dynamic icon by simlpy supplying a painter object
      *  The ownership of the painter is NOT transfered.
-     * @param painter a dynamic painter that is going to paint the icon
-     * @param optionMap optionmap the options to pass to the painter
-     * @return
+     * \param painter a dynamic painter that is going to paint the icon
+     * \param optionMap optionmap the options to pass to the painter
+     * \return
      */
     QIcon icon(QEXTIconsFontAwesomeIconPainterInterface *painter, const FontOptionValueMap &optionMap = FontOptionValueMap());
 
     /**
-     * @brief QEXTIconsFontAwesome::give Adds a named icon-painter to the QEXTIconsFontAwesome icon map
+     * \brief QEXTIconsFontAwesome::give Adds a named icon-painter to the QEXTIconsFontAwesome icon map
      * As the name applies the ownership is passed over to QEXTIconsFontAwesome
-     * @param name the name of the icon
-     * @param paintert he icon painter to add for this name
+     * \param name the name of the icon
+     * \param paintert he icon painter to add for this name
      */
     void give(const QString &name, QEXTIconsFontAwesomeIconPainterInterface *painter);
 
     /**
-     * @brief QEXTIconsFontAwesome::font Creates/Gets the icon font with a given size in pixels.
+     * \brief QEXTIconsFontAwesome::font Creates/Gets the icon font with a given size in pixels.
      * This can be usefull to use a label for displaying icons
      * Example:
      *          QLabel* label = new QLabel( QChar( icon_group ) );
      *          label->setFont( awesome->font(16) )
-     * @param size
-     * @return return font
+     * \param size
+     * \return return font
      */
     QFont font(int size);
 
     /**
-     * @brief fontName
-     * @return Returns the font-name that is used as icon-map
+     * \brief fontName
+     * \return Returns the font-name that is used as icon-map
      */
 
 private:

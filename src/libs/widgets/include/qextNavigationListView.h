@@ -41,8 +41,7 @@ class QEXTNavigationListItemPrivate;
 class QEXT_WIDGETS_API QEXTNavigationListItem : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTNavigationListItem)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNavigationListItem)
+
 public:
     explicit QEXTNavigationListItem(QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
     QEXTNavigationListItem(const QString &text, QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
@@ -126,6 +125,8 @@ protected:
 
 private:
     friend class QEXTNavigationListModel;
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListItem)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNavigationListItem)
 };
 
 
@@ -133,8 +134,7 @@ class QEXTNavigationListModelPrivate;
 class QEXT_WIDGETS_API QEXTNavigationListModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTNavigationListModel)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNavigationListModel)
+
 public:
     explicit QEXTNavigationListModel(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTNavigationListModel();
@@ -171,6 +171,10 @@ protected:
     Qt::ItemFlags flags(const QModelIndex &index) const QEXT_DECL_OVERRIDE;
 
     QScopedPointer<QEXTNavigationListModelPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListModel)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNavigationListModel)
 };
 
 
@@ -178,8 +182,6 @@ class QEXTNavigationListViewPrivate;
 class QEXT_WIDGETS_API QEXTNavigationListView : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTNavigationListView)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNavigationListView)
 
     Q_PROPERTY(bool itemRightIconVisible READ itemRightIconVisible WRITE setItemRightIconVisible)
     Q_PROPERTY(bool itemTipVisible READ itemTipVisible WRITE setItemTipVisible)
@@ -371,6 +373,10 @@ protected:
 
 private Q_SLOTS:
     void onItemPressed(const QModelIndex &index);
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListView)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNavigationListView)
 };
 
 #endif // _QEXTNAVIGATIONLISTVIEW_H

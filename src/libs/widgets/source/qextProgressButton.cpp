@@ -1,4 +1,5 @@
 ﻿#include <qextProgressButton.h>
+#include <qextProgressButton_p.h>
 
 #include <QPainter>
 #include <QEvent>
@@ -6,52 +7,75 @@
 #include <QTimer>
 #include <QDebug>
 
-QEXTProgressButton::QEXTProgressButton(QWidget *parent) : QWidget(parent)
+QEXTProgressButtonPrivate::QEXTProgressButtonPrivate(QEXTProgressButton *q)
+    : q_ptr(q)
 {
-    lineWidth = 8;
-    lineColor = QColor(250, 250, 250);
-    borderWidth = 0;
-    borderColor = QColor(14, 153, 160);
-    borderRadius = 5;
-    bgColor = QColor(34, 163, 169);
+    m_lineWidth = 8;
+    m_lineColor = QColor(250, 250, 250);
+    m_borderWidth = 0;
+    m_borderColor = QColor(14, 153, 160);
+    m_borderRadius = 5;
+    m_backgroundColor = QColor(34, 163, 169);
+    m_value = 0;
+    m_status = 0;
+}
 
-    value = 0;
-    status = 0;
-    timer = new QTimer(this);
-    timer->setInterval(10);
-    connect(timer, SIGNAL(timeout()), SLOT(progress()));
+QEXTProgressButtonPrivate::~QEXTProgressButtonPrivate()
+{
+
+}
+
+
+
+QEXTProgressButton::QEXTProgressButton(QWidget *parent)
+    : QWidget(parent)
+    , dd_ptr(new QEXTProgressButtonPrivate(this))
+{
+    Q_D(QEXTProgressButton);
+    d->m_timer = new QTimer(this);
+    d->m_timer->setInterval(10);
+    connect(d->m_timer, SIGNAL(timeout()), SLOT(progress()));
+}
+
+QEXTProgressButton::~QEXTProgressButton()
+{
+
 }
 
 void QEXTProgressButton::resizeEvent(QResizeEvent *e)
 {
-    tempWidth = e->size().width();
+    Q_D(QEXTProgressButton);
+    d->m_tempWidth = e->size().width();
     this->update();
 }
 
 void QEXTProgressButton::mousePressEvent(QMouseEvent *)
 {
-    if(!timer->isActive()) {
-        status = 0;
-        value = 0.0;
-        tempWidth = this->width();
-        timer->start();
+    Q_D(QEXTProgressButton);
+    if(!d->m_timer->isActive()) {
+        d->m_status = 0;
+        d->m_value = 0.0;
+        d->m_tempWidth = this->width();
+        d->m_timer->start();
     }
 }
 
 void QEXTProgressButton::paintEvent(QPaintEvent *)
 {
+    Q_D(QEXTProgressButton);
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    if (1 == status) {
-        drawProgress(&painter);
+    if (1 == d->m_status) {
+        this->drawProgress(&painter);
     } else {
-        drawBg(&painter);
+        this->drawBackground(&painter);
     }
 }
 
-void QEXTProgressButton::drawBg(QPainter *painter)
+void QEXTProgressButton::drawBackground(QPainter *painter)
 {
+    Q_D(QEXTProgressButton);
     painter->save();
 
     int width = this->width();
@@ -59,57 +83,58 @@ void QEXTProgressButton::drawBg(QPainter *painter)
     int side = qMin(width, height);
 
     QPen pen;
-    pen.setWidth(borderWidth);
-    pen.setColor(borderColor);
-    painter->setPen(borderWidth > 0 ? pen : Qt::NoPen);
-    painter->setBrush(bgColor);
+    pen.setWidth(d->m_borderWidth);
+    pen.setColor(d->m_borderColor);
+    painter->setPen(d->m_borderWidth > 0 ? pen : Qt::NoPen);
+    painter->setBrush(d->m_backgroundColor);
 
-    QRect rect(((width - tempWidth) / 2) + borderWidth, borderWidth, tempWidth - (borderWidth * 2), height - (borderWidth * 2));
-    painter->drawRoundedRect(rect, borderRadius, borderRadius);
+    QRect rect(((width - d->m_tempWidth) / 2) + d->m_borderWidth, d->m_borderWidth, d->m_tempWidth - (d->m_borderWidth * 2), height - (d->m_borderWidth * 2));
+    painter->drawRoundedRect(rect, d->m_borderRadius, d->m_borderRadius);
 
     QFont font;
     font.setPixelSize(side - 18);
     painter->setFont(font);
-    painter->setPen(lineColor);
-    painter->drawText(rect, Qt::AlignCenter, status == 2 ? "完 成" : "开 始");
+    painter->setPen(d->m_lineColor);
+    painter->drawText(rect, Qt::AlignCenter, d->m_status == 2 ? "完 成" : "开 始");
 
     painter->restore();
 }
 
 void QEXTProgressButton::drawProgress(QPainter *painter)
 {
+    Q_D(QEXTProgressButton);
     painter->save();
 
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
-    int radius = 99 - borderWidth;
+    int radius = 99 - d->m_borderWidth;
 
     QPen pen;
-    pen.setWidth(borderWidth);
-    pen.setColor(borderColor);
-    painter->setPen(borderWidth > 0 ? pen : Qt::NoPen);
-    painter->setBrush(bgColor);
+    pen.setWidth(d->m_borderWidth);
+    pen.setColor(d->m_borderColor);
+    painter->setPen(d->m_borderWidth > 0 ? pen : Qt::NoPen);
+    painter->setBrush(d->m_backgroundColor);
 
     QRect rectCircle(-radius, -radius, radius * 2, radius * 2);
     painter->translate(width / 2, height / 2);
     painter->scale(side / 200.0, side / 200.0);
     painter->drawEllipse(rectCircle);
 
-    pen.setWidth(lineWidth);
-    pen.setColor(lineColor);
+    pen.setWidth(d->m_lineWidth);
+    pen.setColor(d->m_lineColor);
     painter->setPen(pen);
 
-    int offset = radius - lineWidth - 5;
+    int offset = radius - d->m_lineWidth - 5;
     QRectF rectArc(-offset, -offset, offset * 2, offset * 2);
     int startAngle = offset * 16;
-    int spanAngle = -value * 16;
+    int spanAngle = -d->m_value * 16;
     painter->drawArc(rectArc, startAngle, spanAngle);
 
     QFont font;
     font.setPixelSize(offset - 15);
     painter->setFont(font);
-    QString strValue = QString("%1%").arg((int)value  * 100 / 360);
+    QString strValue = QString("%1%").arg((int)d->m_value  * 100 / 360);
     painter->drawText(rectCircle, Qt::AlignCenter, strValue);
 
     painter->restore();
@@ -117,57 +142,64 @@ void QEXTProgressButton::drawProgress(QPainter *painter)
 
 void QEXTProgressButton::progress()
 {
-    if (0 == status) {
-        tempWidth -= 5;
-        if (tempWidth < this->height() / 2) {
-            tempWidth = this->height() / 2;
-            status = 1;
+    Q_D(QEXTProgressButton);
+    if (0 == d->m_status) {
+        d->m_tempWidth -= 5;
+        if (d->m_tempWidth < this->height() / 2) {
+            d->m_tempWidth = this->height() / 2;
+            d->m_status = 1;
         }
-    } else if (1 == status) {
-        value += 1.0;
-        if (value >= 360) {
-            value = 360.0;
-            status = 2;
+    } else if (1 == d->m_status) {
+        d->m_value += 1.0;
+        if (d->m_value >= 360) {
+            d->m_value = 360.0;
+            d->m_status = 2;
         }
-    } else if (2 == status) {
-        tempWidth += 5;
-        if (tempWidth > this->width()) {
-            tempWidth = this->width();
-            timer->stop();
+    } else if (2 == d->m_status) {
+        d->m_tempWidth += 5;
+        if (d->m_tempWidth > this->width()) {
+            d->m_tempWidth = this->width();
+            d->m_timer->stop();
         }
     }
 
     this->update();
 }
 
-int QEXTProgressButton::getLineWidth() const
+int QEXTProgressButton::lineWidth() const
 {
-    return this->lineWidth;
+    Q_D(const QEXTProgressButton);
+    return d->m_lineWidth;
 }
 
-QColor QEXTProgressButton::getLineColor() const
+QColor QEXTProgressButton::lineColor() const
 {
-    return this->lineColor;
+    Q_D(const QEXTProgressButton);
+    return d->m_lineColor;
 }
 
-int QEXTProgressButton::getBorderWidth() const
+int QEXTProgressButton::borderWidth() const
 {
-    return this->borderWidth;
+    Q_D(const QEXTProgressButton);
+    return d->m_borderWidth;
 }
 
-QColor QEXTProgressButton::getBorderColor() const
+QColor QEXTProgressButton::borderColor() const
 {
-    return this->borderColor;
+    Q_D(const QEXTProgressButton);
+    return d->m_borderColor;
 }
 
-int QEXTProgressButton::getBorderRadius() const
+int QEXTProgressButton::borderRadius() const
 {
-    return this->borderRadius;
+    Q_D(const QEXTProgressButton);
+    return d->m_borderRadius;
 }
 
-QColor QEXTProgressButton::getBgColor() const
+QColor QEXTProgressButton::backgroundColor() const
 {
-    return this->bgColor;
+    Q_D(const QEXTProgressButton);
+    return d->m_backgroundColor;
 }
 
 QSize QEXTProgressButton::sizeHint() const
@@ -180,50 +212,56 @@ QSize QEXTProgressButton::minimumSizeHint() const
     return QSize(30, 15);
 }
 
-void QEXTProgressButton::setLineWidth(int lineWidth)
+void QEXTProgressButton::setLineWidth(int width)
 {
-    if (this->lineWidth != lineWidth) {
-        this->lineWidth = lineWidth;
+    Q_D(QEXTProgressButton);
+    if (d->m_lineWidth != width) {
+        d->m_lineWidth = width;
         this->update();
     }
 }
 
-void QEXTProgressButton::setLineColor(const QColor &lineColor)
+void QEXTProgressButton::setLineColor(const QColor &color)
 {
-    if (this->lineColor != lineColor) {
-        this->lineColor = lineColor;
+    Q_D(QEXTProgressButton);
+    if (d->m_lineColor != color) {
+        d->m_lineColor = color;
         this->update();
     }
 }
 
-void QEXTProgressButton::setBorderWidth(int borderWidth)
+void QEXTProgressButton::setBorderWidth(int width)
 {
-    if (this->borderWidth != borderWidth) {
-        this->borderWidth = borderWidth;
+    Q_D(QEXTProgressButton);
+    if (d->m_borderWidth != width) {
+        d->m_borderWidth = width;
         this->update();
     }
 }
 
-void QEXTProgressButton::setBorderColor(const QColor &borderColor)
+void QEXTProgressButton::setBorderColor(const QColor &color)
 {
-    if (this->borderColor != borderColor) {
-        this->borderColor = borderColor;
+    Q_D(QEXTProgressButton);
+    if (d->m_borderColor != color) {
+        d->m_borderColor = color;
         this->update();
     }
 }
 
-void QEXTProgressButton::setBorderRadius(int borderRadius)
+void QEXTProgressButton::setBorderRadius(int radius)
 {
-    if (this->borderRadius != borderRadius) {
-        this->borderRadius = borderRadius;
+    Q_D(QEXTProgressButton);
+    if (d->m_borderRadius != radius) {
+        d->m_borderRadius = radius;
         this->update();
     }
 }
 
-void QEXTProgressButton::setBgColor(const QColor &bgColor)
+void QEXTProgressButton::setBackgroundColor(const QColor &color)
 {
-    if (this->bgColor != bgColor) {
-        this->bgColor = bgColor;
+    Q_D(QEXTProgressButton);
+    if (d->m_backgroundColor != color) {
+        d->m_backgroundColor = color;
         this->update();
     }
 }

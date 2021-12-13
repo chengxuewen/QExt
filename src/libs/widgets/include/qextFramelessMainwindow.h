@@ -9,8 +9,7 @@ class QEXTFramelessMainWindowPrivate;
 class QEXT_WIDGETS_API QEXTFramelessMainWindow : public QMainWindow
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTFramelessMainWindow)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTFramelessMainWindow)
+
 public:
     explicit QEXTFramelessMainWindow(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTFramelessMainWindow();
@@ -49,6 +48,10 @@ protected:
     void doResizeEvent(QEvent *event);
 
     QScopedPointer<QEXTFramelessMainWindowPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTFramelessMainWindow)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTFramelessMainWindow)
 };
 
 #endif // _QEXTFRAMELESSMAINWINDOW_H

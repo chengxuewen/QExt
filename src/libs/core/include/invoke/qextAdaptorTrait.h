@@ -62,7 +62,7 @@ struct QEXTAdapts;
  * The template argument @e T_functor determines the type of stored
  * functor.
  *
- * @ingroup QEXTAdapts
+ * \ingroup QEXTAdapts
  */
 template < typename T_functor >
 struct QEXTAdaptorFunctor : public QEXTAdaptorBase
@@ -83,7 +83,7 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
     };
 
     /** Invokes the wrapped functor passing on the arguments.
-     * @return The return value of the functor invocation.
+     * \return The return value of the functor invocation.
      */
     Return operator()() const
     {
@@ -91,8 +91,8 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
     }
 
     /** Invokes the wrapped functor passing on the arguments.
-     * @param arg1 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template < typename T_arg1 >
     typename ReturnTypeDeduce< T_arg1 >::Type operator()(T_arg1 arg1) const
@@ -101,9 +101,9 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
     }
 
     /** Invokes the wrapped functor passing on the arguments.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template < typename T_arg1, typename T_arg2 >
     typename ReturnTypeDeduce< T_arg1, T_arg2 >::Type operator()(T_arg1 arg1, T_arg2 arg2) const
@@ -112,10 +112,10 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
     }
 
     /** Invokes the wrapped functor passing on the arguments.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template < typename T_arg1, typename T_arg2, typename T_arg3 >
     typename ReturnTypeDeduce< T_arg1, T_arg2, T_arg3 >::Type operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) const
@@ -124,11 +124,11 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
     }
 
     /** Invokes the wrapped functor passing on the arguments.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
     typename ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4 >::Type operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) const
@@ -137,12 +137,12 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
     }
 
     /** Invokes the wrapped functor passing on the arguments.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
     typename ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >::Type operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) const
@@ -151,13 +151,13 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
     }
 
     /** Invokes the wrapped functor passing on the arguments.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @param arg6 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \param arg6 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
     typename ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >::Type
@@ -167,14 +167,14 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
     }
 
     /** Invokes the wrapped functor passing on the arguments.
-     * @param arg1 Argument to be passed on to the functor.
-     * @param arg2 Argument to be passed on to the functor.
-     * @param arg3 Argument to be passed on to the functor.
-     * @param arg4 Argument to be passed on to the functor.
-     * @param arg5 Argument to be passed on to the functor.
-     * @param arg6 Argument to be passed on to the functor.
-     * @param arg7 Argument to be passed on to the functor.
-     * @return The return value of the functor invocation.
+     * \param arg1 Argument to be passed on to the functor.
+     * \param arg2 Argument to be passed on to the functor.
+     * \param arg3 Argument to be passed on to the functor.
+     * \param arg4 Argument to be passed on to the functor.
+     * \param arg5 Argument to be passed on to the functor.
+     * \param arg6 Argument to be passed on to the functor.
+     * \param arg7 Argument to be passed on to the functor.
+     * \return The return value of the functor invocation.
      */
     template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7 >
     typename ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type
@@ -186,13 +186,13 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
     // Constructs an invalid functor.
     QEXTAdaptorFunctor() {}
     /** Constructs an adaptor_functor object that wraps the passed functor.
-     * @param functor Functor to invoke from operator()().
+     * \param functor Functor to invoke from operator()().
      */
     explicit QEXTAdaptorFunctor(const T_functor &functor) : m_functor(functor) {}
     template < typename T_type >
     /** Constructs an adaptor_functor object that wraps the passed (member)
      * function pointer.
-     * @param type Pointer to function or class method to invoke from operator()().
+     * \param type Pointer to function or class method to invoke from operator()().
      */
     explicit QEXTAdaptorFunctor(const T_type &type) : m_functor(type)
     {
@@ -206,7 +206,7 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
  * The function overload for QEXTAdaptorFunctor performs a functor
  * on the functor stored in the QEXTAdaptorFunctor object.
  *
- * @ingroup QEXTAdapts
+ * \ingroup QEXTAdapts
  */
 template < typename T_functor >
 struct QEXTVisitor< QEXTAdaptorFunctor< T_functor > >
@@ -225,7 +225,7 @@ struct QEXTVisitor< QEXTAdaptorFunctor< T_functor > >
  * The template argument @e T_functor is the functor type to convert.
  * @e I_isadaptor indicates whether @e T_functor inherits from QEXTAdaptorBase.
  *
- * @ingroup QEXTAdapts
+ * \ingroup QEXTAdapts
  */
 template < typename T_functor, bool I_isadaptor = QEXTIsBaseOf< QEXTAdaptorBase, T_functor >::value >
 struct QEXTAdaptorTrait;
@@ -315,7 +315,7 @@ struct QEXTAdaptorTrait< T_functor, false >
  * executing callbacks on destroyed objects.
  *
  *
- * @ingroup QEXTAdapts
+ * \ingroup QEXTAdapts
  */
 template < typename T_functor >
 struct QEXTAdapts : public QEXTAdaptorBase
@@ -324,7 +324,7 @@ struct QEXTAdapts : public QEXTAdaptorBase
     typedef typename QEXTAdaptorTrait< T_functor >::Adaptor Adaptor;
 
     /** Constructs an adaptor that wraps the passed functor.
-     * @param functor Functor to invoke from operator()().
+     * \param functor Functor to invoke from operator()().
      */
     explicit QEXTAdapts(const T_functor &functor) : m_functor(functor) {}
 

@@ -8,8 +8,6 @@ class QPropertyAnimation;
 class QEXTProgressKnob;
 class QEXT_WIDGETS_API QEXTProgressKnobPrivate
 {
-    Q_DISABLE_COPY(QEXTProgressKnobPrivate)
-    Q_DECLARE_PUBLIC(QEXTProgressKnob)
 public:
     explicit QEXTProgressKnobPrivate(QEXTProgressKnob *q);
     virtual ~QEXTProgressKnobPrivate();
@@ -41,6 +39,10 @@ public:
     int m_radiusCoverCircle;
     int m_radiusCircle;
     QPropertyAnimation *m_animation;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressKnobPrivate)
+    QEXT_DECL_PUBLIC(QEXTProgressKnob)
 };
 
 #endif // _QEXTKNOB_P_H

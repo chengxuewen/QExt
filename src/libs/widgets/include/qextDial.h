@@ -38,8 +38,6 @@ class QEXTDialPrivate;
 class QEXT_WIDGETS_API QEXTDial : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTDial)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTDial)
 
     Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
@@ -139,6 +137,10 @@ protected:
     void setPressedValue(QPointF point);
 
     QScopedPointer<QEXTDialPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTDial)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTDial)
 };
 
 #endif // _QEXTDIAL_H

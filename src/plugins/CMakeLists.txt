@@ -27,8 +27,5 @@
 #--------------------------------------------------------------------------------
 # Add subdirectory
 #--------------------------------------------------------------------------------
-if(QEXT_BUILD_LIB_QUICK)
-    add_subdirectory(quick)
-endif()
 #add_subdirectory(coloredpixmapiconengine)
 

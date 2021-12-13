@@ -8,8 +8,6 @@
 class QEXTRingCompass;
 class QEXT_WIDGETS_API QEXTRingCompassPrivate
 {
-    Q_DISABLE_COPY(QEXTRingCompassPrivate)
-    Q_DECLARE_PUBLIC(QEXTRingCompass)
 public:
     explicit QEXTRingCompassPrivate(QEXTRingCompass *q);
     virtual ~QEXTRingCompassPrivate();
@@ -25,6 +23,10 @@ public:
     QColor m_northDotColor;
     QColor m_otherDotColor;
     QColor m_pointerColor;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTRingCompassPrivate)
+    QEXT_DECL_PUBLIC(QEXTRingCompass)
 };
 
 #endif // _QEXTRINGCOMPASSGAUGE_P_H

@@ -29,5 +29,5 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/core/tools)
 #--------------------------------------------------------------------------------
 # Add test
 #--------------------------------------------------------------------------------
-qextCoreAddTest(qext_tst_coreTypeTrait TEST_SOURCE tst_qextTypeTrait.cpp)
+qextFunctionCoreAddTest(qext_tst_coreTypeTrait TEST_SOURCE tst_qextTypeTrait.cpp)
 

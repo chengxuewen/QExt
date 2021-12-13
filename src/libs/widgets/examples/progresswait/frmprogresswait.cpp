@@ -27,23 +27,23 @@ void frmProgressWait::initForm()
 
     ui->progressWait1->setBarStyle(QEXTProgressWait::Style_Line);
 
-    ui->progressWait2->setForeground(QColor(225, 102, 255));
+    ui->progressWait2->setForegroundColor(QColor(225, 102, 255));
     ui->progressWait2->setTextColor(QColor(225, 102, 255));
     ui->progressWait2->setBarStyle(QEXTProgressWait::Style_Dot);
 
-    ui->progressWait3->setForeground(QColor(24, 189, 155));
+    ui->progressWait3->setForegroundColor(QColor(24, 189, 155));
 //    ui->progressWait3->setBarStyle(QEXTProgressWait::BarStyle_Arc);
 
-    ui->progressWait4->setForeground(QColor(255, 107, 107));
+    ui->progressWait4->setForegroundColor(QColor(255, 107, 107));
     ui->progressWait4->setTextColor(QColor(30, 30, 30));
 //    ui->progressWait4->setBarStyle(QEXTProgressWait::BarStyle_Pie);
 
     ui->progressWait5->setClockWise(false);
-    ui->progressWait5->setForeground(QColor(255, 107, 107));
+    ui->progressWait5->setForegroundColor(QColor(255, 107, 107));
     ui->progressWait5->setTextColor(QColor(255, 107, 107));
     ui->progressWait5->setBarStyle(QEXTProgressWait::Style_Line);
 
-    ui->progressWait6->setForeground(QColor(24, 189, 155));
+    ui->progressWait6->setForegroundColor(QColor(24, 189, 155));
     ui->progressWait6->setTextColor(QColor(24, 189, 155));
 //    ui->progressWait6->setBarStyle(QEXTProgressWait::BarStyle_Ring);
 

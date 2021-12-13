@@ -1,4 +1,5 @@
 ﻿#include <qextProgressWait.h>
+#include <qextProgressWait_p.h>
 
 #include <QPainter>
 #include <QPainterPath>
@@ -6,34 +7,47 @@
 #include <QDebug>
 #include <qmath.h>
 
-QEXTProgressWait::QEXTProgressWait(QWidget *parent) : QWidget(parent)
+QEXTProgressWaitPrivate::QEXTProgressWaitPrivate(QEXTProgressWait *q)
+    : q_ptr(q)
 {
-    clockWise = true;
-    showPercent = false;
-    currentValue = 0;
-    maxValue = 10;
-    interval = 100;
+    m_clockWise = true;
+    m_showPercent = false;
+    m_currentValue = 0;
+    m_maxValue = 10;
+    m_interval = 100;
 
-    barStyle = Style_Line;
-    background = QColor(255, 255, 255);
-    foreground = QColor(100, 184, 255);
-    textColor = QColor(100, 184, 255);
+    m_barStyle = QEXTProgressWait::Style_Line;
+    m_background = QColor(255, 255, 255);
+    m_foreground = QColor(100, 184, 255);
+    m_textColor = QColor(100, 184, 255);
+}
 
-    resizeEvent(NULL);
+QEXTProgressWaitPrivate::~QEXTProgressWaitPrivate()
+{
+    if (m_timer->isActive()) {
+        m_timer->stop();
+    }
+}
 
-    timer = new QTimer(this);
-    timer->setInterval(interval);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateValue()));
-    timer->start();
 
-    setFont(QFont("Arial", 8));
+
+QEXTProgressWait::QEXTProgressWait(QWidget *parent)
+    : QWidget(parent)
+    , dd_ptr(new QEXTProgressWaitPrivate(this))
+{
+    Q_D(QEXTProgressWait);
+    d->m_timer = new QTimer(this);
+    d->m_timer->setInterval(d->m_interval);
+    connect(d->m_timer, SIGNAL(timeout()), this, SLOT(updateValue()));
+    d->m_timer->start();
+
+    this->resizeEvent(NULL);
+    this->setFont(QFont("Arial", 8));
 }
 
 QEXTProgressWait::~QEXTProgressWait()
 {
-    if (timer->isActive()) {
-        timer->stop();
-    }
+
 }
 
 void QEXTProgressWait::resizeEvent(QResizeEvent *)
@@ -52,6 +66,7 @@ void QEXTProgressWait::resizeEvent(QResizeEvent *)
 
 void QEXTProgressWait::paintEvent(QPaintEvent *)
 {
+    Q_D(QEXTProgressWait);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
@@ -61,17 +76,18 @@ void QEXTProgressWait::paintEvent(QPaintEvent *)
     painter.translate(width / 2, height / 2);
     painter.scale(side / 200.0, side / 200.0);
 
-    if (barStyle == Style_Line) {
-        drawLine(&painter);
-    } else if (barStyle == Style_Dot) {
-        drawDot(&painter);
+    if (d->m_barStyle == Style_Line) {
+        this->drawLine(&painter);
+    } else if (d->m_barStyle == Style_Dot) {
+        this->drawDot(&painter);
     }
 
-    drawValue(&painter);
+    this->drawValue(&painter);
 }
 
 void QEXTProgressWait::drawArc(QPainter *painter)
 {
+    Q_D(QEXTProgressWait);
     painter->save();
     painter->setPen(Qt::NoPen);
 
@@ -80,13 +96,13 @@ void QEXTProgressWait::drawArc(QPainter *painter)
     int radius = 99;
     int radiusBig = radius / 2;
     int radiusSmall = radius / 6;
-    double currentangle = currentValue * (360 / (maxValue + 1));
+    double currentangle = d->m_currentValue * (360 / (d->m_maxValue + 1));
 
-    if (clockWise) {
+    if (d->m_clockWise) {
         currentangle = -currentangle;
     }
 
-    painter->setBrush(foreground);
+    painter->setBrush(d->m_foreground);
     QPainterPath pathBig1(QPointF(centerX + radius * qCos(degreesToRadians(currentangle)),
                                   centerY - radius * qSin(degreesToRadians(currentangle))));
     pathBig1.arcTo(centerX - radius, centerY - radius, radius * 2, radius * 2, currentangle, 180);
@@ -99,7 +115,7 @@ void QEXTProgressWait::drawArc(QPainter *painter)
                    );
     painter->drawPath(pathBig1);
 
-    painter->setBrush(background);
+    painter->setBrush(d->m_background);
     QPainterPath pathBig2(QPointF(centerX + radius * qCos(degreesToRadians(currentangle)),
                                   centerY - radius * qSin(degreesToRadians(currentangle))));
     pathBig2.arcTo(centerX - radius, centerY - radius, radius * 2, radius * 2, currentangle, -180);
@@ -112,14 +128,14 @@ void QEXTProgressWait::drawArc(QPainter *painter)
                    );
     painter->drawPath(pathBig2);
 
-    painter->setBrush(foreground);
+    painter->setBrush(d->m_foreground);
     QPainterPath pathSmall1;
     pathSmall1.addEllipse(centerX + radiusBig * qCos(degreesToRadians(currentangle)) - radiusSmall,
                           centerY - radiusBig * qSin(degreesToRadians(currentangle)) - radiusSmall,
                           radiusSmall * 2, radiusSmall * 2);
     painter->drawPath(pathSmall1);
 
-    painter->setBrush(background);
+    painter->setBrush(d->m_background);
     QPainterPath pathSmall2;
     pathSmall2.addEllipse(centerX + radiusBig * qCos(degreesToRadians(180 + currentangle)) - radiusSmall,
                           centerY - radiusBig * qSin(degreesToRadians(180 + currentangle)) - radiusSmall,
@@ -131,15 +147,16 @@ void QEXTProgressWait::drawArc(QPainter *painter)
 
 void QEXTProgressWait::drawDot(QPainter *painter)
 {
+    Q_D(QEXTProgressWait);
     painter->save();
     painter->setPen(Qt::NoPen);
 
     int radius = 99;
     int minRadius = radius / 6;
-    double angleStep = 360.0 / maxValue;
-    double alpha = (double)1 / maxValue;
+    double angleStep = 360.0 / d->m_maxValue;
+    double alpha = (double)1 / d->m_maxValue;
 
-    if (!clockWise) {
+    if (!d->m_clockWise) {
         angleStep = -angleStep;
     }
 
@@ -147,16 +164,16 @@ void QEXTProgressWait::drawDot(QPainter *painter)
     int centerY = 0;
     double centerRadius = radius / 1.2;
 
-    for (int i = 0; i < maxValue; i++) {
-        double angle = (currentValue + i) * angleStep;
+    for (int i = 0; i < d->m_maxValue; i++) {
+        double angle = (d->m_currentValue + i) * angleStep;
         double initX = centerRadius * qCos(degreesToRadians(angle)) + centerX;
         double initY = centerRadius * qSin(degreesToRadians(angle)) + centerY;
 
         int value = i * alpha * 255;
         value = value < 30 ? 30 : value;
 
-        foreground.setAlpha(value);
-        painter->setBrush(foreground);
+        d->m_foreground.setAlpha(value);
+        painter->setBrush(d->m_foreground);
         painter->drawEllipse(initX - minRadius, initY - minRadius, minRadius * 2, minRadius * 2);
     }
 
@@ -165,20 +182,21 @@ void QEXTProgressWait::drawDot(QPainter *painter)
 
 void QEXTProgressWait::drawPie(QPainter *painter)
 {
+    Q_D(QEXTProgressWait);
     int radius = 99;
     painter->save();
 
     painter->setPen(Qt::NoPen);
-    painter->setBrush(background);
+    painter->setBrush(d->m_background);
     painter->drawEllipse(-radius, -radius, radius * 2, radius * 2);
 
-    int startAngle = (360 / (maxValue + 1)) * currentValue * 16;
+    int startAngle = (360 / (d->m_maxValue + 1)) * d->m_currentValue * 16;
 
     int spanAngle = 60 * 16;
 
-    painter->setBrush(foreground);
+    painter->setBrush(d->m_foreground);
 
-    if (clockWise) {
+    if (d->m_clockWise) {
         startAngle = -startAngle;
     }
 
@@ -189,6 +207,7 @@ void QEXTProgressWait::drawPie(QPainter *painter)
 
 void QEXTProgressWait::drawLine(QPainter *painter)
 {
+    Q_D(QEXTProgressWait);
     int radius = 95;
 
     int initY = 50;
@@ -200,23 +219,23 @@ void QEXTProgressWait::drawLine(QPainter *painter)
     pen.setWidth(10);
     pen.setCapStyle(Qt::RoundCap);
 
-    double angleStep = 360.0 / maxValue;
-    double alpha = (double)1 / maxValue;
+    double angleStep = 360.0 / d->m_maxValue;
+    double alpha = (double)1 / d->m_maxValue;
 
-    if (!clockWise) {
+    if (!d->m_clockWise) {
         angleStep = -angleStep;
     }
 
-    for (int i = 0; i <= maxValue; i++) {
-        int value = (currentValue - i) * alpha * 255;
+    for (int i = 0; i <= d->m_maxValue; i++) {
+        int value = (d->m_currentValue - i) * alpha * 255;
         if (value < 0) {
             value = value + 255;
         }
 
         value = value < 30 ? 30 : value;
 
-        foreground.setAlpha(value);
-        pen.setColor(foreground);
+        d->m_foreground.setAlpha(value);
+        pen.setColor(d->m_foreground);
         painter->setPen(pen);
         painter->drawLine(0, initY, 0, radius);
         painter->rotate(angleStep);
@@ -227,6 +246,7 @@ void QEXTProgressWait::drawLine(QPainter *painter)
 
 void QEXTProgressWait::drawRing(QPainter *painter)
 {
+    Q_D(QEXTProgressWait);
     int radius = 99;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -236,18 +256,18 @@ void QEXTProgressWait::drawRing(QPainter *painter)
     QPainterPath subPath;
     subPath.addEllipse(rect.adjusted(arcHeight, arcHeight, -arcHeight, -arcHeight));
 
-    int startAngle = (360 / (maxValue + 1)) * currentValue;
+    int startAngle = (360 / (d->m_maxValue + 1)) * d->m_currentValue;
 
     int spanAngle = 90;
     QPainterPath currentPath;
 
-    if (clockWise) {
+    if (d->m_clockWise) {
         currentPath.arcTo(rect, -startAngle, spanAngle);
     } else {
         currentPath.arcTo(rect, startAngle, spanAngle);
     }
 
-    if (clockWise) {
+    if (d->m_clockWise) {
         startAngle = startAngle - spanAngle;
     } else {
         startAngle = startAngle + spanAngle;
@@ -256,15 +276,15 @@ void QEXTProgressWait::drawRing(QPainter *painter)
     spanAngle = 360 - spanAngle;
     QPainterPath otherPath;
 
-    if (clockWise) {
+    if (d->m_clockWise) {
         otherPath.arcTo(rect, -startAngle, spanAngle);
     } else {
         otherPath.arcTo(rect, startAngle, spanAngle);
     }
 
-    painter->setBrush(foreground);
+    painter->setBrush(d->m_foreground);
     painter->drawPath(currentPath - subPath);
-    painter->setBrush(background);
+    painter->setBrush(d->m_background);
     painter->drawPath(otherPath - subPath);
 
     painter->restore();
@@ -272,38 +292,40 @@ void QEXTProgressWait::drawRing(QPainter *painter)
 
 void QEXTProgressWait::drawSingleCircle(QPainter *painter)
 {
-    int radius = currentValue * 10;
+    Q_D(QEXTProgressWait);
+    int radius = d->m_currentValue * 10;
     painter->save();
     painter->setPen(Qt::NoPen);
-    painter->setBrush(foreground);
+    painter->setBrush(d->m_foreground);
     painter->drawEllipse(QPoint(0, 0), radius, radius);
     painter->restore();
 }
 
 void QEXTProgressWait::drawDoubleCircle(QPainter *painter)
 {
-    if (leftRadius <= minRadius) {
-        leftIncrease = true;
-    } else if (leftRadius >= maxRadius) {
-        leftIncrease = false;
+    Q_D(QEXTProgressWait);
+    if (d->m_leftRadius <= d->m_minRadius) {
+        d->m_leftIncrease = true;
+    } else if (d->m_leftRadius >= d->m_maxRadius) {
+        d->m_leftIncrease = false;
     }
 
-    if (rightRadius <= minRadius) {
-        rightIncrease = true;
-    } else if (rightRadius >= maxRadius) {
-        rightIncrease = false;
+    if (d->m_rightRadius <= d->m_minRadius) {
+        d->m_rightIncrease = true;
+    } else if (d->m_rightRadius >= d->m_maxRadius) {
+        d->m_rightIncrease = false;
     }
 
-    if (leftIncrease) {
-        leftRadius += offsetRadius;
+    if (d->m_leftIncrease) {
+        d->m_leftRadius += d->m_offsetRadius;
     } else {
-        leftRadius -= offsetRadius;
+        d->m_leftRadius -= d->m_offsetRadius;
     }
 
-    if (rightIncrease) {
-        rightRadius += offsetRadius;
+    if (d->m_rightIncrease) {
+        d->m_rightRadius += d->m_offsetRadius;
     } else {
-        rightRadius -= offsetRadius;
+        d->m_rightRadius -= d->m_offsetRadius;
     }
 
     int radius = 50;
@@ -311,18 +333,19 @@ void QEXTProgressWait::drawDoubleCircle(QPainter *painter)
     painter->save();
     painter->setPen(Qt::NoPen);
 
-    painter->setBrush(foreground);
-    painter->drawEllipse(QPointF(-radius, 0), leftRadius, leftRadius);
+    painter->setBrush(d->m_foreground);
+    painter->drawEllipse(QPointF(-radius, 0), d->m_leftRadius, d->m_leftRadius);
 
-    painter->setBrush(background);
-    painter->drawEllipse(QPointF(radius, 0), rightRadius, rightRadius);
+    painter->setBrush(d->m_background);
+    painter->drawEllipse(QPointF(radius, 0), d->m_rightRadius, d->m_rightRadius);
 
     painter->restore();
 }
 
 void QEXTProgressWait::drawValue(QPainter *painter)
 {
-    if (!showPercent) {
+    Q_D(QEXTProgressWait);
+    if (!d->m_showPercent) {
         return;
     }
 
@@ -332,9 +355,9 @@ void QEXTProgressWait::drawValue(QPainter *painter)
     font.setPixelSize(40);
     font.setBold(true);
     painter->setFont(font);
-    painter->setPen(textColor);
+    painter->setPen(d->m_textColor);
     QRect rect(-radius, -radius, radius * 2, radius * 2);
-    painter->drawText(rect, Qt::AlignCenter, QString("%1%").arg(currentValue * (100 / maxValue)));
+    painter->drawText(rect, Qt::AlignCenter, QString("%1%").arg(d->m_currentValue * (100 / d->m_maxValue)));
     painter->restore();
 }
 
@@ -345,58 +368,68 @@ double QEXTProgressWait::degreesToRadians(double degrees)
 
 void QEXTProgressWait::updateValue()
 {
-    if (currentValue < maxValue) {
-        currentValue++;
+    Q_D(QEXTProgressWait);
+    if (d->m_currentValue < d->m_maxValue) {
+        d->m_currentValue++;
     } else {
-        currentValue = 0;
+        d->m_currentValue = 0;
     }
 
-    update();
+    this->update();
 }
 
-bool QEXTProgressWait::getClockWise() const
+bool QEXTProgressWait::clockWise() const
 {
-    return this->clockWise;
+    Q_D(const QEXTProgressWait);
+    return d->m_clockWise;
 }
 
-bool QEXTProgressWait::getShowPercent() const
+bool QEXTProgressWait::showPercent() const
 {
-    return this->showPercent;
+    Q_D(const QEXTProgressWait);
+    return d->m_showPercent;
 }
 
-int QEXTProgressWait::getCurrentValue() const
+int QEXTProgressWait::currentValue() const
 {
-    return this->currentValue;
+    Q_D(const QEXTProgressWait);
+    return d->m_currentValue;
 }
 
-int QEXTProgressWait::getMaxValue() const
+int QEXTProgressWait::maxValue() const
 {
-    return this->maxValue;
+    Q_D(const QEXTProgressWait);
+    return d->m_maxValue;
 }
 
-int QEXTProgressWait::getInterval() const
+int QEXTProgressWait::interval() const
 {
-    return this->interval;
+    Q_D(const QEXTProgressWait);
+    return d->m_interval;
 }
 
-QEXTProgressWait::Style QEXTProgressWait::getBarStyle() const
+QEXTProgressWait::Style QEXTProgressWait::barStyle() const
 {
-    return this->barStyle;
+    Q_D(const QEXTProgressWait);
+    return d->m_barStyle;
 }
 
-QColor QEXTProgressWait::getBackground() const
+QColor QEXTProgressWait::backgroundColor() const
 {
-    return this->background;
+    Q_D(const QEXTProgressWait);
+    return d->m_background;
 }
 
-QColor QEXTProgressWait::getForeground() const
+QColor QEXTProgressWait::foregroundColor() const
 {
-    return this->foreground;
+    Q_D(const QEXTProgressWait);
+    return d->m_foreground;
 }
 
-QColor QEXTProgressWait::getTextColor() const
+QColor QEXTProgressWait::textColor() const
 {
-    return this->textColor;
+    Q_D(const QEXTProgressWait);
+    return d->m_textColor;
 }
 
 QSize QEXTProgressWait::sizeHint() const
@@ -411,74 +444,83 @@ QSize QEXTProgressWait::minimumSizeHint() const
 
 void QEXTProgressWait::setClockWise(bool clockWise)
 {
-    if (this->clockWise != clockWise) {
-        this->clockWise = clockWise;
-        update();
+    Q_D(QEXTProgressWait);
+    if (d->m_clockWise != clockWise) {
+        d->m_clockWise = clockWise;
+        this->update();
     }
 }
 
 void QEXTProgressWait::setShowPercent(bool showPercent)
 {
-    if (this->showPercent != showPercent) {
-        this->showPercent = showPercent;
-        update();
+    Q_D(QEXTProgressWait);
+    if (d->m_showPercent != showPercent) {
+        d->m_showPercent = showPercent;
+        this->update();
     }
 }
 
 void QEXTProgressWait::setCurrentValue(int currentValue)
 {
-    if (this->currentValue != currentValue) {
-        this->currentValue = currentValue;
-        update();
+    Q_D(QEXTProgressWait);
+    if (d->m_currentValue != currentValue) {
+        d->m_currentValue = currentValue;
+        this->update();
     }
 }
 
 void QEXTProgressWait::setMaxValue(int maxValue)
 {
-    if (this->maxValue != maxValue) {
-        this->maxValue = maxValue;
-        this->currentValue = 0;
-        update();
+    Q_D(QEXTProgressWait);
+    if (d->m_maxValue != maxValue) {
+        d->m_maxValue = maxValue;
+        d->m_currentValue = 0;
+        this->update();
     }
 }
 
 void QEXTProgressWait::setInterval(int interval)
 {
-    if (this->interval != interval) {
-        this->interval = interval;
-        timer->setInterval(interval);
-        update();
+    Q_D(QEXTProgressWait);
+    if (d->m_interval != interval) {
+        d->m_interval = interval;
+        d->m_timer->setInterval(interval);
+        this->update();
     }
 }
 
 void QEXTProgressWait::setBarStyle(const QEXTProgressWait::Style &barStyle)
 {
-    if (this->barStyle != barStyle) {
-        this->barStyle = barStyle;
-        update();
+    Q_D(QEXTProgressWait);
+    if (d->m_barStyle != barStyle) {
+        d->m_barStyle = barStyle;
+        this->update();
     }
 }
 
-void QEXTProgressWait::setBackground(const QColor &background)
+void QEXTProgressWait::setBackgroundColor(const QColor &color)
 {
-    if (this->background != background) {
-        this->background = background;
-        update();
+    Q_D(QEXTProgressWait);
+    if (d->m_background != color) {
+        d->m_background = color;
+        this->update();
     }
 }
 
-void QEXTProgressWait::setForeground(const QColor &foreground)
+void QEXTProgressWait::setForegroundColor(const QColor &color)
 {
-    if (this->foreground != foreground) {
-        this->foreground = foreground;
-        update();
+    Q_D(QEXTProgressWait);
+    if (d->m_foreground != color) {
+        d->m_foreground = color;
+        this->update();
     }
 }
 
-void QEXTProgressWait::setTextColor(const QColor &textColor)
+void QEXTProgressWait::setTextColor(const QColor &color)
 {
-    if (this->textColor != textColor) {
-        this->textColor = textColor;
-        update();
+    Q_D(QEXTProgressWait);
+    if (d->m_textColor != color) {
+        d->m_textColor = color;
+        this->update();
     }
 }

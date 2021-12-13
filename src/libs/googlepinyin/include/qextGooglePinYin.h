@@ -10,7 +10,7 @@ class QEXT_GOOGLEPINYIN_API QTKGooglePinYin : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QTKGooglePinYin)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QTKGooglePinYin)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QTKGooglePinYin)
 public:
     explicit QTKGooglePinYin(QObject *parent = 0);
     ~QTKGooglePinYin();

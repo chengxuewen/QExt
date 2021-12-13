@@ -1,4 +1,5 @@
 ﻿#include <qextOvenTimer.h>
+#include <qextOvenTimer_p.h>
 
 #include <QPainter>
 #include <QEvent>
@@ -15,37 +16,53 @@ const int MaxMinutes = 45;
 const int MaxSeconds = MaxMinutes * 60;
 const int UpdateInterval = 1;
 
-QEXTOvenTimer::QEXTOvenTimer(QWidget *parent) : QWidget(parent)
+QEXTOvenTimerPrivate::QEXTOvenTimerPrivate(QEXTOvenTimer *q)
+    : q_ptr(q)
 {
-    finishTime = QDateTime::currentDateTime();
 
-    updateTimer = new QTimer(this);
-    connect(updateTimer, SIGNAL(timeout()), this, SLOT(update()));
+}
 
-    finishTimer = new QTimer(this);
-    finishTimer->setSingleShot(true);
-    connect(finishTimer, SIGNAL(timeout()), this, SIGNAL(timeout()));
-    connect(finishTimer, SIGNAL(timeout()), updateTimer, SLOT(stop()));
+QEXTOvenTimerPrivate::~QEXTOvenTimerPrivate()
+{
+    if (m_updateTimer->isActive()) {
+        m_updateTimer->stop();
+    }
+
+    if (m_finishTimer->isActive()) {
+        m_finishTimer->stop();
+    }
+}
+
+
+
+QEXTOvenTimer::QEXTOvenTimer(QWidget *parent)
+    : QWidget(parent)
+    , dd_ptr(new QEXTOvenTimerPrivate(this))
+{
+    Q_D(QEXTOvenTimer);
+    d->m_finishTime = QDateTime::currentDateTime();
+
+    d->m_updateTimer = new QTimer(this);
+    connect(d->m_updateTimer, SIGNAL(timeout()), this, SLOT(update()));
+
+    d->m_finishTimer = new QTimer(this);
+    d->m_finishTimer->setSingleShot(true);
+    connect(d->m_finishTimer, SIGNAL(timeout()), this, SIGNAL(timeout()));
+    connect(d->m_finishTimer, SIGNAL(timeout()), d->m_updateTimer, SLOT(stop()));
 
     setFont(QFont("Arial", 8));
 }
 
 QEXTOvenTimer::~QEXTOvenTimer()
 {
-    if (updateTimer->isActive()) {
-        updateTimer->stop();
-    }
 
-    if (finishTimer->isActive()) {
-        finishTimer->stop();
-    }
 }
 
 void QEXTOvenTimer::mousePressEvent(QMouseEvent *event)
 {
     QPointF point = event->pos() - rect().center();
     double theta = qAtan2(-point.x(), point.y()) * 180.0 / M_PI;
-    setDuration(getDuration() + int(theta / DegreesPerSecond));    
+    this->setDuration(duration() + int(theta / DegreesPerSecond));
 }
 
 void QEXTOvenTimer::paintEvent(QPaintEvent *)
@@ -59,7 +76,7 @@ void QEXTOvenTimer::paintEvent(QPaintEvent *)
 
     painter.setViewport((width - side) / 2, (height - side) / 2, side, side);
     painter.setWindow(-50, -50, 100, 100);
-    draw(&painter);
+    this->draw(&painter);
 }
 
 void QEXTOvenTimer::draw(QPainter *painter)
@@ -101,7 +118,7 @@ void QEXTOvenTimer::draw(QPainter *painter)
 
     painter->setPen(Qt::NoPen);
     painter->setBrush(knobGradient);
-    painter->rotate(getDuration()*DegreesPerSecond);
+    painter->rotate(duration()*DegreesPerSecond);
     painter->drawRoundedRect(-7, -25, 14, 50, 10, 10);
 
     for (int i = 0; i <= MaxMinutes; ++i) {
@@ -121,9 +138,10 @@ void QEXTOvenTimer::draw(QPainter *painter)
     }
 }
 
-int QEXTOvenTimer::getDuration() const
+int QEXTOvenTimer::duration() const
 {
-    int secs = QDateTime::currentDateTime().secsTo(finishTime);
+    Q_D(const QEXTOvenTimer);
+    int secs = QDateTime::currentDateTime().secsTo(d->m_finishTime);
     if (secs < 0) {
         secs = 0;
     }
@@ -142,15 +160,16 @@ QSize QEXTOvenTimer::minimumSizeHint() const
 
 void QEXTOvenTimer::setDuration(int secs)
 {
+    Q_D(QEXTOvenTimer);
     secs = qBound(0, secs, MaxSeconds);
 
-    finishTime = QDateTime::currentDateTime().addSecs(secs);
+    d->m_finishTime = QDateTime::currentDateTime().addSecs(secs);
     if (secs > 0) {
-        updateTimer->start(UpdateInterval * 1000);
-        finishTimer->start(secs * 1000);
+        d->m_updateTimer->start(UpdateInterval * 1000);
+        d->m_finishTimer->start(secs * 1000);
     } else {
-        updateTimer->stop();
-        finishTimer->stop();
+        d->m_updateTimer->stop();
+        d->m_finishTimer->stop();
     }
 
     update();

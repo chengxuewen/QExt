@@ -7,8 +7,6 @@
 class QEXTTooltip;
 class QEXT_WIDGETS_API QEXTTooltipPrivate
 {
-    Q_DISABLE_COPY(QEXTTooltipPrivate)
-    Q_DECLARE_PUBLIC(QEXTTooltip)
 public:
     explicit QEXTTooltipPrivate(QEXTTooltip *q);
     virtual ~QEXTTooltipPrivate();
@@ -29,6 +27,10 @@ public:
     QColor m_triangleColor;
 
     QRect m_backgroundRect;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTTooltipPrivate)
+    QEXT_DECL_PUBLIC(QEXTTooltip)
 };
 
 #endif // _QEXTTOOLTIP_P_H

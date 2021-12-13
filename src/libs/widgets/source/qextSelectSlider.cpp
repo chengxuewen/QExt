@@ -392,7 +392,7 @@ int QEXTSelectSlider::borderWidth() const
     return d->m_borderWidth;
 }
 
-bool QEXTSelectSlider::horizontal() const
+bool QEXTSelectSlider::isHorizontal() const
 {
     Q_D(const QEXTSelectSlider);
     return d->m_horizontal;

@@ -29,8 +29,11 @@ public:
 
     QWindow *m_window;
     QEXTNativeWindowTester *m_tester;
-    HWND m_oldWindow;
     qreal m_scaleFactor;
+
+#if defined(QEXT_OS_WIN32)
+    HWND m_oldWindow;
+#endif // defined(QEXT_OS_WIN32)
 };
 
 #endif // _QEXTNATIVEWINDOWHELPER_P_H

@@ -49,8 +49,8 @@ if(QEXT_BUILD_LIB_ICONS)
     add_subdirectory(icons)
 endif()
 
-if(QEXT_BUILD_LIB_QUICK)
-    add_subdirectory(quick)
+if(QEXT_BUILD_LIB_MVVM)
+    add_subdirectory(mvvm)
 endif()
 
 if(QEXT_BUILD_LIB_SERIALPORT)
@@ -71,6 +71,10 @@ endif()
 
 if(QEXT_BUILD_LIB_UTILS)
     add_subdirectory(utils)
+endif()
+
+if(QEXT_BUILD_LIB_VLC)
+    add_subdirectory(vlc)
 endif()
 
 if(QEXT_BUILD_LIB_WIDGETS)

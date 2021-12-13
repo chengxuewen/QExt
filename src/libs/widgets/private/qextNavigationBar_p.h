@@ -7,8 +7,6 @@
 class QEXTNavigationBar;
 class QEXT_WIDGETS_API QEXTNavigationBarPrivate
 {
-    Q_DISABLE_COPY(QEXTNavigationBarPrivate)
-    Q_DECLARE_PUBLIC(QEXTNavigationBar)
 public:
     explicit QEXTNavigationBarPrivate(QEXTNavigationBar *q);
     virtual ~QEXTNavigationBarPrivate();
@@ -59,6 +57,10 @@ public:
     bool m_isForward;
     bool m_isVirgin;
     QTimer *m_timer;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationBarPrivate)
+    QEXT_DECL_PUBLIC(QEXTNavigationBar)
 };
 
 #endif // _QEXTNAVIGATIONBAR_P_H

@@ -13,7 +13,7 @@ class QEXT_TCP_API QEXTTcpServer : public QTcpServer
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTTcpServer)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpServer)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpServer)
 public:
     QEXTTcpServer();
     QEXTTcpServer(const QSharedPointer<QEXTTcpFactory> &tcpFactory);

@@ -18,7 +18,7 @@ class QEXT_TCP_API QEXTTcpClient : public QEXTTcpPacketTransceiver
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTTcpClient)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpClient)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpClient)
 public:
     QEXTTcpClient();
     QEXTTcpClient(const QSharedPointer<QEXTTcpFactory> &tcpFactory);

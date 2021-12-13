@@ -39,8 +39,6 @@ class QEXTCircleGaugePrivate;
 class QEXT_WIDGETS_API QEXTCircleGauge : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTCircleGauge)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTCircleGauge)
 
     Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
@@ -200,6 +198,10 @@ protected:
 
 private slots:
     void updateValue(const QVariant &value);
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTCircleGauge)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTCircleGauge)
 };
 
 #endif // _QEXTCIRCLEGAUGE_H

@@ -14,7 +14,7 @@
 class QEXTLinearFunctionPrivate;
 class QEXT_CORE_API QEXTLinearFunction
 {
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTLinearFunction)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTLinearFunction)
 public:
     QEXTLinearFunction(double x1, double y1, double x2, double y2);
     QEXTLinearFunction(double x, double y, double k);
@@ -44,7 +44,5 @@ public:
 protected:
     QScopedPointer<QEXTLinearFunctionPrivate> dd_ptr;
 };
-
-
 
 #endif // _QEXTLINEARFUNCTION_H

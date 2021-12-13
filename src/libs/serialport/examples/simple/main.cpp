@@ -1,6 +1,6 @@
 /**
  * @file main.cpp
- * @brief Main file.
+ * \brief Main file.
  * @author Micha? Policht
  */
 

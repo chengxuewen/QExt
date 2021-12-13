@@ -12,7 +12,7 @@ class QEXTTcpPacketParserPrivate;
 class QEXT_TCP_API QEXTTcpPacketParser : public QEXTTcpPacketParserInterface
 {
     Q_DISABLE_COPY(QEXTTcpPacketParser)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpPacketParser)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpPacketParser)
 public:
     QEXTTcpPacketParser(const QEXTTcpPacketHeader::DataInfoVector &extraHeaderDataInfo = QEXTTcpPacketHeader::DataInfoVector());
     QEXTTcpPacketParser(QEXTTcpPacketParserPrivate *d);

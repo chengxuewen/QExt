@@ -9,8 +9,6 @@
 class QEXTBreathingLight;
 class QEXT_WIDGETS_API QEXTBreathingLightPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTBreathingLight)
-    Q_DISABLE_COPY(QEXTBreathingLightPrivate)
 public:
     explicit QEXTBreathingLightPrivate(QEXTBreathingLight *q);
     virtual ~QEXTBreathingLightPrivate();
@@ -24,6 +22,10 @@ public:
     int m_offset;
     bool m_isAdd;
     QScopedPointer<QTimer> m_timer;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTBreathingLightPrivate)
+    QEXT_DECL_PUBLIC(QEXTBreathingLight)
 };
 
 #endif // _QEXTBREATHINGLIGHT_P_H

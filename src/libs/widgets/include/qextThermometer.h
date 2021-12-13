@@ -34,34 +34,35 @@
 
 #include <qextWidgetGlobal.h>
 
+class QEXTThermometerPrivate;
 class QEXT_WIDGETS_API QEXTThermometer : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(double minValue READ getMinValue WRITE setMinValue)
-    Q_PROPERTY(double maxValue READ getMaxValue WRITE setMaxValue)
-    Q_PROPERTY(double value READ getValue WRITE setValue)
+    Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
+    Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
+    Q_PROPERTY(double value READ value WRITE setValue)
 
-    Q_PROPERTY(int precision READ getPrecision WRITE setPrecision)
-    Q_PROPERTY(int longStep READ getLongStep WRITE setLongStep)
-    Q_PROPERTY(int shortStep READ getShortStep WRITE setShortStep)
-    Q_PROPERTY(int space READ getSpace WRITE setSpace)
+    Q_PROPERTY(int precision READ precision WRITE setPrecision)
+    Q_PROPERTY(int longStep READ longStep WRITE setLongStep)
+    Q_PROPERTY(int shortStep READ shortStep WRITE setShortStep)
+    Q_PROPERTY(int space READ space WRITE setSpace)
 
-    Q_PROPERTY(bool animation READ getAnimation WRITE setAnimation)
-    Q_PROPERTY(double animationStep READ getAnimationStep WRITE setAnimationStep)
+    Q_PROPERTY(bool animationEnable READ animationEnable WRITE setAnimationEnable)
+    Q_PROPERTY(double animationStep READ animationStep WRITE setAnimationStep)
 
-    Q_PROPERTY(bool showUserValue READ getShowUserValue WRITE setShowUserValue)
-    Q_PROPERTY(double userValue READ getUserValue WRITE setUserValue)
-    Q_PROPERTY(QColor userValueColor READ getUserValueColor WRITE setUserValueColor)
+    Q_PROPERTY(bool userValueVisiable READ userValueVisiable WRITE setUserValueVisiable)
+    Q_PROPERTY(double userValue READ userValue WRITE setUserValue)
+    Q_PROPERTY(QColor userValueColor READ userValueColor WRITE setUserValueColor)
 
-    Q_PROPERTY(QColor bgColorStart READ getBgColorStart WRITE setBgColorStart)
-    Q_PROPERTY(QColor bgColorEnd READ getBgColorEnd WRITE setBgColorEnd)
-    Q_PROPERTY(QColor lineColor READ getLineColor WRITE setLineColor)
-    Q_PROPERTY(QColor barBgColor READ getBarBgColor WRITE setBarBgColor)
-    Q_PROPERTY(QColor barColor READ getBarColor WRITE setBarColor)
+    Q_PROPERTY(QColor backgroundStartColor READ backgroundStartColor WRITE setBgColorStart)
+    Q_PROPERTY(QColor backgroundEndColor READ backgroundEndColor WRITE setBgColorEnd)
+    Q_PROPERTY(QColor lineColor READ lineColor WRITE setLineColor)
+    Q_PROPERTY(QColor barBackgroundColor READ barBackgroundColor WRITE setBarBackgroundColor)
+    Q_PROPERTY(QColor barColor READ barColor WRITE setBarColor)
 
-    Q_PROPERTY(BarPosition barPosition READ getBarPosition WRITE setBarPosition)
-    Q_PROPERTY(TickPosition tickPosition READ getTickPosition WRITE setTickPosition)
+    Q_PROPERTY(BarPosition barPosition READ barPosition WRITE setBarPosition)
+    Q_PROPERTY(TickPosition tickPosition READ tickPosition WRITE setTickPosition)
 
 public:
     enum BarPosition {
@@ -79,86 +80,39 @@ public:
     };
     Q_ENUMS(TickPosition)
 
-    explicit QEXTThermometer(QWidget *parent = 0);
+    explicit QEXTThermometer(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTThermometer();
 
-protected:
-    void resizeEvent(QResizeEvent *);
-    void paintEvent(QPaintEvent *);
-    void drawBg(QPainter *painter);
-    void drawBarBg(QPainter *painter);
-    void drawRuler(QPainter *painter, int type);
-    void drawBar(QPainter *painter);
-    void drawValue(QPainter *painter);
+    double minValue() const;
+    double maxValue() const;
+    double value() const;
 
-private:
-    double minValue;
-    double maxValue;
-    double value;
+    int precision() const;
+    int longStep() const;
+    int shortStep() const;
+    int space() const;
 
-    int precision;
-    int longStep;
-    int shortStep;
-    int space;
+    bool animationEnable() const;
+    double animationStep() const;
 
-    bool animation;
-    double animationStep;
+    bool userValueVisiable() const;
+    double userValue() const;
+    QColor userValueColor() const;
 
-    bool showUserValue;
-    double userValue;
-    QColor userValueColor;
+    QColor backgroundStartColor() const;
+    QColor backgroundEndColor() const;
+    QColor lineColor() const;
+    QColor barBackgroundColor() const;
+    QColor barColor() const;
 
-    QColor bgColorStart;
-    QColor bgColorEnd;
-    QColor lineColor;
-    QColor barBgColor;
-    QColor barColor;
+    BarPosition barPosition() const;
+    TickPosition tickPosition() const;
 
-    BarPosition barPosition;
-    TickPosition tickPosition;
+    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
 
-    int barWidth;
-    int barHeight;
-    int radius;
-    int targetX;
-    QRectF barRect;
-    QRectF circleRect;
-
-    bool reverse;
-    double currentValue;
-    QTimer *timer;
-
-private slots:
-    void updateValue();
-
-public:
-    double getMinValue()            const;
-    double getMaxValue()            const;
-    double getValue()               const;
-
-    int getPrecision()              const;
-    int getLongStep()               const;
-    int getShortStep()              const;
-    int getSpace()                  const;
-
-    bool getAnimation()             const;
-    double getAnimationStep()       const;
-
-    bool getShowUserValue()         const;
-    double getUserValue()           const;
-    QColor getUserValueColor()      const;
-
-    QColor getBgColorStart()        const;
-    QColor getBgColorEnd()          const;
-    QColor getLineColor()           const;
-    QColor getBarBgColor()          const;
-    QColor getBarColor()            const;
-
-    BarPosition getBarPosition()    const;
-    TickPosition getTickPosition()  const;
-
-    QSize sizeHint()                const;
-    QSize minimumSizeHint()         const;
+Q_SIGNALS:
+    void valueChanged(double value);
 
 public Q_SLOTS:
     void setRange(double minValue, double maxValue);
@@ -177,31 +131,47 @@ public Q_SLOTS:
 
     void setSpace(int space);
 
-    void setAnimation(bool animation);
+    void setAnimationEnable(bool enable);
 
     void setAnimationStep(double animationStep);
 
-    void setShowUserValue(bool showUserValue);
+    void setUserValueVisiable(bool visiable);
 
     void setUserValue(double userValue);
     void setUserValue(int userValue);
 
-    void setUserValueColor(const QColor &userValueColor);
+    void setUserValueColor(const QColor &color);
 
-    void setBgColorStart(const QColor &bgColorStart);
-    void setBgColorEnd(const QColor &bgColorEnd);
+    void setBgColorStart(const QColor &color);
+    void setBgColorEnd(const QColor &color);
 
-    void setLineColor(const QColor &lineColor);
+    void setLineColor(const QColor &color);
 
-    void setBarBgColor(const QColor &barBgColor);
-    void setBarColor(const QColor &barColor);
+    void setBarBackgroundColor(const QColor &color);
+    void setBarColor(const QColor &color);
 
-    void setBarPosition(const BarPosition &barPosition);
+    void setBarPosition(const BarPosition &position);
 
-    void setTickPosition(const TickPosition &tickPosition);
+    void setTickPosition(const TickPosition &position);
 
-Q_SIGNALS:
-    void valueChanged(double value);
+protected:
+    void resizeEvent(QResizeEvent *);
+    void paintEvent(QPaintEvent *);
+
+    void drawBackground(QPainter *painter);
+    void drawBarBackground(QPainter *painter);
+    void drawRuler(QPainter *painter, int type);
+    void drawBar(QPainter *painter);
+    void drawValue(QPainter *painter);
+
+    QScopedPointer<QEXTThermometerPrivate> dd_ptr;
+
+private slots:
+    void updateValue();
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTThermometer)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTThermometer)
 };
 
 #endif // _QEXTTHERMOMETER_H

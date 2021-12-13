@@ -16,9 +16,9 @@ frmProgressButton::~frmProgressButton()
 
 void frmProgressButton::initForm()
 {
-    ui->progressButton2->setBgColor(QColor(40, 45, 48));
-    ui->progressButton3->setBgColor(QColor(214, 77, 84));
-    ui->progressButton4->setBgColor(QColor(162, 121, 197));
-    ui->progressButton5->setBgColor(QColor(0, 150, 121));
-    ui->progressButton6->setBgColor(QColor(71, 164, 233));
+    ui->progressButton2->setBackgroundColor(QColor(40, 45, 48));
+    ui->progressButton3->setBackgroundColor(QColor(214, 77, 84));
+    ui->progressButton4->setBackgroundColor(QColor(162, 121, 197));
+    ui->progressButton5->setBackgroundColor(QColor(0, 150, 121));
+    ui->progressButton6->setBackgroundColor(QColor(71, 164, 233));
 }

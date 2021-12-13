@@ -11,8 +11,4 @@
 #include <QDir>
 #include <QMap>
 
-#include <QAtomicInt>
-#include <QMutex>
-#include <QMutexLocker>
-
 #endif // _QEXTGOOGLEPINYINPCH_H

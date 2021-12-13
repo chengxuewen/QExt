@@ -38,8 +38,6 @@ class QEXTTumblerPrivate;
 class QEXT_WIDGETS_API QEXTTumbler : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTTumbler)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTumbler)
 
     Q_PROPERTY(int m_currentIndex READ currentIndex WRITE setCurrentIndex)
     Q_PROPERTY(QString m_currentValue READ currentValue WRITE setCurrentValue)
@@ -102,6 +100,10 @@ protected:
     void checkPosition();
 
     QScopedPointer<QEXTTumblerPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTTumbler)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTumbler)
 };
 
 #endif // _QEXTTUMBLER_H

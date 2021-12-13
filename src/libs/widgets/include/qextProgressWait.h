@@ -34,21 +34,22 @@
 
 #include <QWidget>
 
+class QEXTProgressWaitPrivate;
 class QEXT_WIDGETS_API QEXTProgressWait : public QWidget
 {
     Q_OBJECT
 
-	Q_PROPERTY(bool clockWise READ getClockWise WRITE setClockWise)
-	Q_PROPERTY(bool showPercent READ getShowPercent WRITE setShowPercent)
+    Q_PROPERTY(bool clockWise READ clockWise WRITE setClockWise)
+    Q_PROPERTY(bool showPercent READ showPercent WRITE setShowPercent)
 
-	Q_PROPERTY(int currentValue READ getCurrentValue WRITE setCurrentValue)
-	Q_PROPERTY(int maxValue READ getMaxValue WRITE setMaxValue)
-	Q_PROPERTY(int interval READ getInterval WRITE setInterval)
+    Q_PROPERTY(int currentValue READ currentValue WRITE setCurrentValue)
+    Q_PROPERTY(int maxValue READ maxValue WRITE setMaxValue)
+    Q_PROPERTY(int interval READ interval WRITE setInterval)
 
-    Q_PROPERTY(Style barStyle READ getBarStyle WRITE setBarStyle)
-	Q_PROPERTY(QColor background READ getBackground WRITE setBackground)
-	Q_PROPERTY(QColor foreground READ getForeground WRITE setForeground)
-    Q_PROPERTY(QColor textColor READ getTextColor WRITE setTextColor)
+    Q_PROPERTY(Style barStyle READ barStyle WRITE setBarStyle)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
+    Q_PROPERTY(QColor foregroundColor READ foregroundColor WRITE setForegroundColor)
+    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
 
 public:
     enum Style {
@@ -57,7 +58,7 @@ public:
 	};
     Q_ENUMS(Style)
 
-    QEXTProgressWait(QWidget *parent = 0);
+    QEXTProgressWait(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTProgressWait();
 
 protected:
@@ -74,27 +75,11 @@ protected:
 	void drawDoubleCircle(QPainter *painter);
     void drawValue(QPainter *painter);
 
+    QScopedPointer<QEXTProgressWaitPrivate> dd_ptr;
+
 private:
-    bool clockWise;
-    bool showPercent;
-    int currentValue;
-    int maxValue;
-    int interval;
-
-    int minRadius;
-    int maxRadius;
-    int offsetRadius;
-    int leftRadius;
-    int rightRadius;
-    bool leftIncrease;
-    bool rightIncrease;
-
-    Style barStyle;
-    QColor background;
-    QColor foreground;
-    QColor textColor;
-
-    QTimer *timer;
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressWait)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTProgressWait)
 
 private:
 	double degreesToRadians(double value);
@@ -103,19 +88,19 @@ private slots:
 	void updateValue();
 
 public:
-	bool getClockWise()             const;
-	bool getShowPercent()           const;
-	int getCurrentValue()           const;
-	int getMaxValue()               const;
-	int getInterval()               const;
+    bool clockWise() const;
+    bool showPercent() const;
+    int currentValue() const;
+    int maxValue() const;
+    int interval() const;
 
-    Style getBarStyle()          const;
-	QColor getBackground()          const;
-	QColor getForeground()          const;
-    QColor getTextColor()           const;
+    Style barStyle() const;
+    QColor backgroundColor() const;
+    QColor foregroundColor() const;
+    QColor textColor() const;
 
-	QSize sizeHint()                const;
-	QSize minimumSizeHint()         const;
+    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
 
 public Q_SLOTS:
 	void setClockWise(bool clockWise);
@@ -130,11 +115,11 @@ public Q_SLOTS:
 
     void setBarStyle(const Style &barStyle);
 
-	void setBackground(const QColor &background);
+    void setBackgroundColor(const QColor &color);
 
-	void setForeground(const QColor &foreground);
+    void setForegroundColor(const QColor &color);
 
-    void setTextColor(const QColor &textColor);
+    void setTextColor(const QColor &color);
 };
 
 #endif // _QEXTPROGRESSWAIT_H

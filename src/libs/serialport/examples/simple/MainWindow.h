@@ -1,7 +1,7 @@
 /**
  * @file MainWindow.h
- * @brief Application's Main Window.
- * @see MainWindow
+ * \brief Application's Main Window.
+ * \see MainWindow
  * @author Micha? Policht
  */
 

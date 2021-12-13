@@ -11,8 +11,6 @@ class QEXTLedPrivate;
 class QEXT_WIDGETS_API QEXTLed : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTLed)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTLed)
 
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(bool state READ isOn WRITE setOn NOTIFY stateChanged)
@@ -42,6 +40,10 @@ protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 
     QScopedPointer<QEXTLedPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTLed)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTLed)
 };
 
 #endif // _QEXTLED_H

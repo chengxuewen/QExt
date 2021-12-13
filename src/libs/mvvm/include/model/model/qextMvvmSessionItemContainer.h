@@ -1,0 +1,71 @@
+// ************************************************************************** //
+//
+//  Model-view-view-model framework for large GUI applications
+//
+//! @license   GNU General Public License v3 or higher (see COPYING)
+//! @authors   see AUTHORS
+//
+// ************************************************************************** //
+
+#ifndef MVVM_MODEL_SESSIONITEMCONTAINER_H
+#define MVVM_MODEL_SESSIONITEMCONTAINER_H
+
+#include <qextMvvmTagInfo.h>
+#include <qextMvvmGlobal.h>
+#include <vector>
+
+namespace ModelView
+{
+
+class QEXTMvvmSessionItem;
+
+//! Holds collection of QEXTMvvmSessionItem objects related to the same tag.
+
+class QEXT_MVVM_API SessionItemContainer
+{
+public:
+    using container_t = std::vector<QEXTMvvmSessionItem*>;
+    using const_iterator = container_t::const_iterator;
+
+    SessionItemContainer(TagInfo tag_info);
+    SessionItemContainer(const SessionItemContainer&) = delete;
+    SessionItemContainer& operator=(const SessionItemContainer&) = delete;
+    ~SessionItemContainer();
+
+    bool empty() const;
+
+    int itemCount() const;
+
+    std::vector<QEXTMvvmSessionItem*> items() const;
+
+    bool insertItem(QEXTMvvmSessionItem* item, int index);
+
+    QEXTMvvmSessionItem* takeItem(int index);
+
+    bool canTakeItem(int index) const;
+
+    bool canInsertItem(const QEXTMvvmSessionItem* item, int index) const;
+
+    int indexOfItem(const QEXTMvvmSessionItem* item) const;
+
+    QEXTMvvmSessionItem* itemAt(int index) const;
+
+    std::string name() const;
+
+    TagInfo tagInfo() const;
+
+    const_iterator begin() const;
+
+    const_iterator end() const;
+
+private:
+    bool maximum_reached() const;
+    bool minimum_reached() const;
+    bool is_valid_item(const QEXTMvvmSessionItem* item) const;
+    TagInfo m_tag_info;
+    container_t m_items;
+};
+
+} // namespace ModelView
+
+#endif // MVVM_MODEL_SESSIONITEMCONTAINER_H

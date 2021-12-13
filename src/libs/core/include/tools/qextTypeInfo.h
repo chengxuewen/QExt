@@ -61,7 +61,7 @@ public:
 };
 
 /*!
-    @class QEXTTypeInfoQuery
+    \class QEXTTypeInfoQuery
     \inmodule QEXTCore
     \internal
     \brief QEXTTypeInfoQuery is used to query the values of a given QEXTTypeInfo<T_type>
@@ -91,7 +91,7 @@ struct QEXTTypeInfoQuery< T_type, typename QEXTTypeEnableIf< QEXTTypeInfo< T_typ
 };
 
 /*!
-    @class QEXTTypeInfoMerger
+    \class QEXTTypeInfoMerger
     \inmodule QEXTCore
 
     \brief QEXTTypeInfoMerger merges the QEXTTypeInfo flags of T1, T2... and presents them

@@ -10,8 +10,6 @@
 class QEXTCircleGauge;
 class QEXT_WIDGETS_API QEXTCircleGaugePrivate
 {
-    Q_DISABLE_COPY(QEXTCircleGaugePrivate)
-    Q_DECLARE_PUBLIC(QEXTCircleGauge)
 public:
     explicit QEXTCircleGaugePrivate(QEXTCircleGauge *q);
     virtual ~QEXTCircleGaugePrivate();
@@ -51,6 +49,10 @@ public:
     double m_currentValue;
     bool m_animationEnable;
     QPropertyAnimation *m_animation;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTCircleGaugePrivate)
+    QEXT_DECL_PUBLIC(QEXTCircleGauge)
 };
 
 #endif // _QEXTGAUGECAR_P_H

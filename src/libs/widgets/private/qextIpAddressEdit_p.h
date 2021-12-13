@@ -10,8 +10,6 @@
 class QEXTIpAddressEdit;
 class QEXT_WIDGETS_API QEXTIpAddressEditPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTIpAddressEdit)
-    Q_DISABLE_COPY(QEXTIpAddressEditPrivate)
 public:
     explicit QEXTIpAddressEditPrivate(QEXTIpAddressEdit *q);
     virtual ~QEXTIpAddressEditPrivate();
@@ -36,6 +34,10 @@ public:
     QColor m_dotColor;
     QColor m_borderColor;
     int m_borderRadius;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTIpAddressEditPrivate)
+    QEXT_DECL_PUBLIC(QEXTIpAddressEdit)
 };
 
 #endif // _QEXTIPADDRESS_P_H

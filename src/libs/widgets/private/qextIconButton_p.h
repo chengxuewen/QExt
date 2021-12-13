@@ -1,17 +1,15 @@
 #ifndef _QEXTICONBUTTON_P_H
 #define _QEXTICONBUTTON_P_H
 
-#include <QtGlobal>
+#include <qextWidgetGlobal.h>
 
 class QColor;
 
 //class QtMaterialRippleOverlay;
 
 class QEXTIconButton;
-class QEXTIconButtonPrivate
+class QEXT_WIDGETS_API QEXTIconButtonPrivate
 {
-    Q_DISABLE_COPY(QEXTIconButtonPrivate)
-    Q_DECLARE_PUBLIC(QEXTIconButton)
 public:
     explicit QEXTIconButtonPrivate(QEXTIconButton *q);
     virtual ~QEXTIconButtonPrivate();
@@ -25,6 +23,10 @@ public:
     QColor m_backgroundColor;
     QColor m_disabledColor;
     bool m_useThemeColors;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTIconButtonPrivate)
+    QEXT_DECL_PUBLIC(QEXTIconButton)
 };
 
 #endif // _QEXTICONBUTTON_P_H

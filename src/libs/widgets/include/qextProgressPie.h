@@ -34,104 +34,72 @@
 
 #include <QWidget>
 
+class QEXTProgressPiePrivate;
 class QEXT_WIDGETS_API QEXTProgressPie : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(QColor bgColor READ getBgColor WRITE setBgColor)
-    Q_PROPERTY(QColor textColor READ getTextColor WRITE setTextColor)
-    Q_PROPERTY(QColor baseColor READ getBaseColor WRITE setBaseColor)
-    Q_PROPERTY(QColor innerBgColor READ getInnerBgColor WRITE setInnerBgColor)
-    Q_PROPERTY(QColor borderColor READ getBorderColor WRITE setBorderColor)
-    Q_PROPERTY(QColor progressColor READ getProgressColor WRITE setProgressColor)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
+    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
+    Q_PROPERTY(QColor baseColor READ baseColor WRITE setBaseColor)
+    Q_PROPERTY(QColor innerBgColor READ innerBgColor WRITE setInnerBackgroundColor)
+    Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
+    Q_PROPERTY(QColor progressColor READ progressColor WRITE setProgressColor)
 
-    Q_PROPERTY(double minValue READ getMinValue WRITE setMinValue)
-    Q_PROPERTY(double maxValue READ getMaxValue WRITE setMaxValue)
-    Q_PROPERTY(double value READ getValue WRITE setValue)
-    Q_PROPERTY(int precision READ getPrecision WRITE setPrecision)
+    Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
+    Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
+    Q_PROPERTY(double value READ value WRITE setValue)
+    Q_PROPERTY(int precision READ precision WRITE setPrecision)
 
-    Q_PROPERTY(double nullPosition READ getNullPosition WRITE setNullPosition)
-    Q_PROPERTY(double outlinePenWidth READ getOutlinePenWidth WRITE setOutlinePenWidth)
-    Q_PROPERTY(double dataPenWidth READ getDataPenWidth WRITE setDataPenWidth)
+    Q_PROPERTY(double nullPosition READ nullPosition WRITE setNullPosition)
+    Q_PROPERTY(double outlinePenWidth READ outlinePenWidth WRITE setOutlinePenWidth)
+    Q_PROPERTY(double dataPenWidth READ dataPenWidth WRITE setDataPenWidth)
 
-    Q_PROPERTY(BarStyle barStyle READ getBarStyle WRITE setBarStyle)
-    Q_PROPERTY(QString format READ getFormat WRITE setFormat)
-    Q_PROPERTY(bool clockWise READ getClockWise WRITE setClockWise)
+    Q_PROPERTY(BarStyle barStyle READ barStyle WRITE setBarStyle)
+    Q_PROPERTY(QString format READ format WRITE setFormat)
+    Q_PROPERTY(bool clockWise READ clockWise WRITE setClockWise)
 
 public:
-    enum BarStyle {
+    enum BarStyle
+    {
         BarStyle_Pie = 1,   //饼状风格
     };
     Q_ENUMS(BarStyle)
 
-    explicit QEXTProgressPie(QWidget *parent = 0);
+    explicit QEXTProgressPie(QWidget *parent = QEXT_DECL_NULLPTR);
+    ~QEXTProgressPie();
 
-protected:
-    void paintEvent(QPaintEvent *);
+    QColor backgroundColor() const;
+    QColor textColor() const;
+    QColor baseColor() const;
+    QColor innerBgColor() const;
+    QColor borderColor() const;
+    QColor progressColor() const;
 
-    void drawBg(QPainter *painter, const QRectF &baseRect);
-    void drawBase(QPainter *painter, const QRectF &baseRect);
-    void drawProgress(QPainter *painter, const QRectF &baseRect);
-    void calculateInnerRect(const QRectF &baseRect, double outerRadius, QRectF &innerRect, double &innerRadius);
-    void drawValue(QPainter *painter, const QRectF &innerRect, double innerRadius);
+    double value() const;
+    double minValue() const;
+    double maxValue() const;
+    int precision() const;
 
-private:
-    void rebuildDataBrushIfNeeded();
+    double nullPosition() const;
+    double outlinePenWidth() const;
+    double dataPenWidth() const;
 
-private:
-    QColor bgColor;
-    QColor textColor;
-    QColor baseColor;
-    QColor innerBgColor;
-    QColor borderColor;
-    QColor progressColor;
+    BarStyle barStyle() const;
+    QString	format() const;
+    bool clockWise() const;
+    QGradientStops gradientData() const;
 
-    double minValue;
-    double maxValue;
-    double value;
-    int precision;
-
-    double nullPosition;
-    double outlinePenWidth;
-    double dataPenWidth;
-
-    BarStyle barStyle;
-    QString format;
-    bool clockWise;
-    QGradientStops gradientData;
-
-public:
-    QColor getBgColor()             const;
-    QColor getTextColor()           const;
-    QColor getBaseColor()           const;
-    QColor getInnerBgColor()        const;
-    QColor getBorderColor()         const;
-    QColor getProgressColor()       const;
-
-    double getValue()               const;
-    double getMinValue()            const;
-    double getMaxValue()            const;
-    int getPrecision()              const;
-
-    double getNullPosition()        const;
-    double getOutlinePenWidth()     const;
-    double getDataPenWidth()        const;
-
-    BarStyle getBarStyle()          const;
-    QString	getFormat()             const;
-    bool getClockWise()             const;
-    QGradientStops getGradientData()const;
-
-    QSize sizeHint()                const;
-    QSize minimumSizeHint()         const;
+    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
 
 public Q_SLOTS:
-    void setBgColor(const QColor &bgColor);
-    void setTextColor(const QColor &textColor);
-    void setBaseColor(const QColor &baseColor);
-    void setInnerBgColor(const QColor &innerBgColor);
-    void setBorderColor(const QColor &borderColor);
-    void setProgressColor(const QColor &progressColor);
+    void setBackgroundColor(const QColor &color);
+    void setTextColor(const QColor &color);
+    void setBaseColor(const QColor &color);
+    void setInnerBackgroundColor(const QColor &color);
+    void setBorderColor(const QColor &color);
+    void setProgressColor(const QColor &color);
 
     void setRange(double minValue, double maxValue);
     void setRange(int minValue, int maxValue);
@@ -146,17 +114,34 @@ public Q_SLOTS:
 
     void setNullPosition(double nullPosition);
 
-    void setOutlinePenWidth(double outlinePenWidth);
+    void setOutlinePenWidth(double width);
 
-    void setDataPenWidth(double dataPenWidth);
+    void setDataPenWidth(double width);
 
-    void setBarStyle(const BarStyle &barStyle);
+    void setBarStyle(BarStyle barStyle);
 
     void setFormat(const QString &format);
 
     void setClockWise(bool clockWise);
 
     void setGradientData(const QGradientStops &gradientData);
+
+protected:
+    void paintEvent(QPaintEvent *);
+
+    void drawBackground(QPainter *painter, const QRectF &baseRect);
+    void drawBase(QPainter *painter, const QRectF &baseRect);
+    void drawProgress(QPainter *painter, const QRectF &baseRect);
+    void calculateInnerRect(const QRectF &baseRect, double outerRadius, QRectF &innerRect, double &innerRadius);
+    void drawValue(QPainter *painter, const QRectF &innerRect, double innerRadius);
+
+    QScopedPointer<QEXTProgressPiePrivate> dd_ptr;
+
+private:
+    void rebuildDataBrushIfNeeded();
+
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressPie)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTProgressPie)
 };
 
 #endif // _QEXTPROGRESSROUND_H

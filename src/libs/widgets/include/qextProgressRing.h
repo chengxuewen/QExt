@@ -39,8 +39,6 @@ class QEXTProgressRingPrivate;
 class QEXT_WIDGETS_API QEXTProgressRing : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTProgressRing)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTProgressRing)
 
     Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
@@ -171,6 +169,10 @@ protected:
 
 private slots:
     void updateValue(const QVariant &value);
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressRing)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTProgressRing)
 };
 
 #endif // _QEXTPROGRESSRING_H

@@ -13,8 +13,6 @@
 class QEXTNavigationListItem;
 class QEXT_WIDGETS_API QEXTNavigationListItemPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTNavigationListItem)
-    Q_DISABLE_COPY(QEXTNavigationListItemPrivate)
 public:
     explicit QEXTNavigationListItemPrivate(QEXTNavigationListItem *q);
     virtual ~QEXTNavigationListItemPrivate();
@@ -34,6 +32,10 @@ public:
     bool m_checkd;
     QPointer<QEXTNavigationListItem> m_parent;
     QList<QEXTNavigationListItem *> m_childItems;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListItemPrivate)
+    QEXT_DECL_PUBLIC(QEXTNavigationListItem)
 };
 
 class QEXTNavListView : public QListView
@@ -65,8 +67,6 @@ private:
 class QEXTNavigationListModel;
 class QEXT_WIDGETS_API QEXTNavigationListModelPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTNavigationListModel)
-    Q_DISABLE_COPY(QEXTNavigationListModelPrivate)
 public:
     explicit QEXTNavigationListModelPrivate(QEXTNavigationListModel *q);
     virtual ~QEXTNavigationListModelPrivate();
@@ -82,14 +82,16 @@ public:
     QList<QEXTNavigationListItem *> m_parentItemList;
     QList<QEXTNavigationListItem *> m_visiableItemList;
     QSet<QEXTNavigationListItem *> m_allItemSet;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListModelPrivate)
+    QEXT_DECL_PUBLIC(QEXTNavigationListModel)
 };
 
 
 class QEXTNavigationListView;
 class QEXT_WIDGETS_API QEXTNavigationListViewPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTNavigationListView)
-    Q_DISABLE_COPY(QEXTNavigationListViewPrivate)
 public:
     explicit QEXTNavigationListViewPrivate(QEXTNavigationListView *q);
     virtual ~QEXTNavigationListViewPrivate();
@@ -154,6 +156,10 @@ public:
     QColor m_backgroundColor;
 
     QEXTNavigationListView::ExpendMode m_expendMode;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListViewPrivate)
+    QEXT_DECL_PUBLIC(QEXTNavigationListView)
 };
 
 #endif // _QEXTNAVIGATIONLISTVIEW_P_H

@@ -39,8 +39,6 @@ class QEXTSemicircleGaugePrivate;
 class QEXT_WIDGETS_API QEXTSemicircleGauge : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTSemicircleGauge)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTSemicircleGauge)
 
     Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
@@ -71,10 +69,10 @@ class QEXT_WIDGETS_API QEXTSemicircleGauge : public QWidget
 public:
     enum PointerStyleType
     {
-        PointerStyle_Circle = 0,        //圆形指示器
-        PointerStyle_Indicator = 1,     //指针指示器
-        PointerStyle_IndicatorR = 2,    //圆角指针指示器
-        PointerStyle_Triangle = 3       //三角形指示器
+        PointerStyle_Circle = 0,
+        PointerStyle_Indicator = 1,
+        PointerStyle_IndicatorR = 2,
+        PointerStyle_Triangle = 3
     };
     Q_ENUMS(PointerStyleType)
 
@@ -110,6 +108,9 @@ public:
     QSize sizeHint() const;
     QSize minimumSizeHint() const;
 
+Q_SIGNALS:
+    void valueChanged(double value);
+
 public Q_SLOTS:
     void setRange(double minValue, double maxValue);
 
@@ -144,14 +145,11 @@ public Q_SLOTS:
 
     void setTitleColor(const QColor &titleColor);
 
-    void setOverlayVisiable(bool showOverlay);
+    void setOverlayVisiable(bool visiable);
 
     void setOverlayColor(const QColor &overlayColor);
 
     void setPointerStyle(const PointerStyleType &pointerStyle);
-
-Q_SIGNALS:
-    void valueChanged(double value);
 
 protected:
     void paintEvent(QPaintEvent *);
@@ -172,6 +170,10 @@ protected:
 
 private slots:
     void updateValue(const QVariant &value);
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTSemicircleGauge)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTSemicircleGauge)
 };
 
 #endif // _QEXTSEMICIRCLEGAUGE_H

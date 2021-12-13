@@ -1,120 +1,140 @@
 ﻿#include <qextThermometer.h>
+#include <qextThermometer_p.h>
 
 #include <QPainter>
 #include <QPainterPath>
 #include <QTimer>
 #include <QDebug>
 
-QEXTThermometer::QEXTThermometer(QWidget *parent) : QWidget(parent)
+
+QEXTThermometerPrivate::QEXTThermometerPrivate(QEXTThermometer *q)
+    : q_ptr(q)
 {
-    minValue = 0;
-    maxValue = 100;
-    value = 0;
+    m_minValue = 0;
+    m_maxValue = 100;
+    m_value = 0;
 
-    precision = 0;
-    longStep = 10;
-    shortStep = 2;
-    space = 10;
+    m_precision = 0;
+    m_longStep = 10;
+    m_shortStep = 2;
+    m_space = 10;
 
-    animation = false;
-    animationStep = 1.0;
+    m_animation = false;
+    m_animationStep = 1.0;
 
-    showUserValue = false;
-    userValue = 80;
-    userValueColor = QColor(255, 107, 107);
+    m_userValueVisiable = false;
+    m_userValue = 80;
+    m_userValueColor = QColor(255, 107, 107);
 
-    bgColorStart = QColor(100, 100, 100);
-    bgColorEnd = QColor(60, 60, 60);
-    lineColor = QColor(255, 255, 255);
+    m_backgroundStartColor = QColor(100, 100, 100);
+    m_backgroundEndColor = QColor(60, 60, 60);
+    m_lineColor = QColor(255, 255, 255);
 
-    barBgColor = QColor(230, 230, 230);
-    barColor = QColor(100, 184, 255);
+    m_barBackgroundColor = QColor(230, 230, 230);
+    m_barColor = QColor(100, 184, 255);
 
-    barPosition = BarPosition_Center;
-    tickPosition = TickPosition_Both;
+    m_barPosition = QEXTThermometer::BarPosition_Center;
+    m_tickPosition = QEXTThermometer::TickPosition_Both;
 
-    reverse = false;
-    currentValue = 0;
-    timer = new QTimer(this);
-    timer->setInterval(10);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateValue()));
+    m_reverse = false;
+    m_currentValue = 0;
+}
 
-    setFont(QFont("Arial", 9));
-    resizeEvent(NULL);
+QEXTThermometerPrivate::~QEXTThermometerPrivate()
+{
+    if (m_timer->isActive()) {
+        m_timer->stop();
+    }
+}
+
+
+
+QEXTThermometer::QEXTThermometer(QWidget *parent)
+    : QWidget(parent)
+    , dd_ptr(new QEXTThermometerPrivate(this))
+{
+    Q_D(QEXTThermometer);
+    d->m_timer = new QTimer(this);
+    d->m_timer->setInterval(10);
+    connect(d->m_timer, SIGNAL(timeout()), this, SLOT(updateValue()));
+
+    this->setFont(QFont("Arial", 9));
 }
 
 QEXTThermometer::~QEXTThermometer()
 {
-    if (timer->isActive()) {
-        timer->stop();
-    }
+
 }
 
 void QEXTThermometer::resizeEvent(QResizeEvent *)
 {
-    radius = qMin(width(), height()) / 5;
-    barWidth = (radius * 2) / 3;
-    barHeight = height() - radius * 2;
+    Q_D(QEXTThermometer);
+    d->m_radius = qMin(width(), height()) / 5;
+    d->m_barWidth = (d->m_radius * 2) / 3;
+    d->m_barHeight = height() - d->m_radius * 2;
 
-    if (barPosition == BarPosition_Left) {
-        targetX = width() / 4;
-    } else if (barPosition == BarPosition_Right) {
-        targetX = width() / 1.3;
-    } else if (barPosition == BarPosition_Center) {
-        targetX = width() / 2;
+    if (d->m_barPosition == BarPosition_Left) {
+        d->m_targetX = width() / 4;
+    } else if (d->m_barPosition == BarPosition_Right) {
+        d->m_targetX = width() / 1.3;
+    } else if (d->m_barPosition == BarPosition_Center) {
+        d->m_targetX = width() / 2;
     }
 
-    setValue(value);
+    this->setValue(d->m_value);
 }
 
 void QEXTThermometer::paintEvent(QPaintEvent *)
 {
+    Q_D(QEXTThermometer);
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    drawBg(&painter);
+    this->drawBackground(&painter);
 
-    if (tickPosition == TickPosition_Left) {
-        drawRuler(&painter, 0);
-    } else if (tickPosition == TickPosition_Right) {
-        drawRuler(&painter, 1);
-    } else if (tickPosition == TickPosition_Both) {
-        drawRuler(&painter, 0);
-        drawRuler(&painter, 1);
+    if (d->m_tickPosition == TickPosition_Left) {
+        this->drawRuler(&painter, 0);
+    } else if (d->m_tickPosition == TickPosition_Right) {
+        this->drawRuler(&painter, 1);
+    } else if (d->m_tickPosition == TickPosition_Both) {
+        this->drawRuler(&painter, 0);
+        this->drawRuler(&painter, 1);
     }
 
-    drawBarBg(&painter);
+    this->drawBarBackground(&painter);
 
-    drawBar(&painter);
+    this->drawBar(&painter);
 
-    drawValue(&painter);
+    this->drawValue(&painter);
 }
 
-void QEXTThermometer::drawBg(QPainter *painter)
+void QEXTThermometer::drawBackground(QPainter *painter)
 {
+    Q_D(QEXTThermometer);
     painter->save();
     painter->setPen(Qt::NoPen);
     QLinearGradient bgGradient(QPointF(0, 0), QPointF(0, height()));
-    bgGradient.setColorAt(0.0, bgColorStart);
-    bgGradient.setColorAt(1.0, bgColorEnd);
+    bgGradient.setColorAt(0.0, d->m_backgroundStartColor);
+    bgGradient.setColorAt(1.0, d->m_backgroundEndColor);
     painter->setBrush(bgGradient);
     painter->drawRect(rect());
     painter->restore();
 }
 
-void QEXTThermometer::drawBarBg(QPainter *painter)
+void QEXTThermometer::drawBarBackground(QPainter *painter)
 {
+    Q_D(QEXTThermometer);
     painter->save();
     painter->setPen(Qt::NoPen);
-    painter->setBrush(barBgColor);
+    painter->setBrush(d->m_barBackgroundColor);
 
-    int barX = targetX - barWidth / 2;
-    int barY = space;
-    QRectF barRect(barX, barY, barWidth, barHeight);
+    int barX = d->m_targetX - d->m_barWidth / 2;
+    int barY = d->m_space;
+    QRectF barRect(barX, barY, d->m_barWidth, d->m_barHeight);
 
-    int circleX = targetX - radius;
-    int circleY = height() - radius * 2 - 2;
-    int circleWidth = radius * 2;
+    int circleX = d->m_targetX - d->m_radius;
+    int circleY = height() - d->m_radius * 2 - 2;
+    int circleWidth = d->m_radius * 2;
     QRectF circleRect(circleX, circleY, circleWidth, circleWidth);
 
     QPainterPath path;
@@ -127,23 +147,24 @@ void QEXTThermometer::drawBarBg(QPainter *painter)
 
 void QEXTThermometer::drawRuler(QPainter *painter, int type)
 {
+    Q_D(QEXTThermometer);
     painter->save();
-    painter->setPen(lineColor);
+    painter->setPen(d->m_lineColor);
 
-    int barPercent = barWidth / 8;
+    int barPercent = d->m_barWidth / 8;
 
     if (barPercent < 2) {
         barPercent = 2;
     }
 
-    double length = height() - 2 * space - 2 * radius;
+    double length = height() - 2 * d->m_space - 2 * d->m_radius;
 
-    double increment = length / (maxValue - minValue);
+    double increment = length / (d->m_maxValue - d->m_minValue);
 
     int longLineLen = 10;
     int shortLineLen = 7;
 
-    int offset = barWidth / 2 + 5;
+    int offset = d->m_barWidth / 2 + 5;
 
     if (type == 0) {
         offset = -offset;
@@ -151,19 +172,19 @@ void QEXTThermometer::drawRuler(QPainter *painter, int type)
         shortLineLen = -shortLineLen;
     }
 
-    double initX = targetX + offset;
-    double initY = space + barPercent;
+    double initX = d->m_targetX + offset;
+    double initY = d->m_space + barPercent;
     QPointF topPot(initX, initY);
-    QPointF bottomPot(initX, height() - 2 * radius - 5);
+    QPointF bottomPot(initX, height() - 2 * d->m_radius - 5);
     painter->drawLine(topPot, bottomPot);
 
-    for (int i = maxValue; i >= minValue; i = i - shortStep) {
-        if (i % longStep == 0) {
+    for (int i = d->m_maxValue; i >= d->m_minValue; i = i - d->m_shortStep) {
+        if (i % d->m_longStep == 0) {
             QPointF leftPot(initX + longLineLen, initY);
             QPointF rightPot(initX, initY);
             painter->drawLine(leftPot, rightPot);
 
-            QString strValue = QString("%1").arg((double)i, 0, 'f', precision);
+            QString strValue = QString("%1").arg((double)i, 0, 'f', d->m_precision);
             double fontHeight = painter->fontMetrics().height();
 
             if (type == 0) {
@@ -179,7 +200,7 @@ void QEXTThermometer::drawRuler(QPainter *painter, int type)
             painter->drawLine(leftPot, rightPot);
         }
 
-        initY += increment * shortStep;
+        initY += increment * d->m_shortStep;
     }
 
     painter->restore();
@@ -187,12 +208,13 @@ void QEXTThermometer::drawRuler(QPainter *painter, int type)
 
 void QEXTThermometer::drawBar(QPainter *painter)
 {
+    Q_D(QEXTThermometer);
     painter->save();
     painter->setPen(Qt::NoPen);
-    painter->setBrush(barColor);
+    painter->setBrush(d->m_barColor);
 
-    int barPercent = barWidth / 8;
-    int circlePercent = radius / 6;
+    int barPercent = d->m_barWidth / 8;
+    int circlePercent = d->m_radius / 6;
 
     if (barPercent < 2) {
         barPercent = 2;
@@ -202,49 +224,49 @@ void QEXTThermometer::drawBar(QPainter *painter)
         circlePercent = 2;
     }
 
-    double length = height() - 2 * space - 2 * radius;
+    double length = height() - 2 * d->m_space - 2 * d->m_radius;
 
-    double increment = length / (maxValue - minValue);
+    double increment = length / (d->m_maxValue - d->m_minValue);
 
-    int rulerHeight = height() - 1 * space - 2 * radius;
+    int rulerHeight = height() - 1 * d->m_space - 2 * d->m_radius;
 
-    int barX = targetX - barWidth / 2;
-    int barY = rulerHeight - (currentValue - minValue) * increment;
-    barRect = QRectF(barX + barPercent, barY + barPercent, barWidth - barPercent * 2, barHeight + radius - barY);
+    int barX = d->m_targetX - d->m_barWidth / 2;
+    int barY = rulerHeight - (d->m_currentValue - d->m_minValue) * increment;
+    d->m_barRect = QRectF(barX + barPercent, barY + barPercent, d->m_barWidth - barPercent * 2, d->m_barHeight + d->m_radius - barY);
 
-    int circleX = targetX - radius;
-    int circleY = height() - radius * 2 - 2;
-    int circleWidth = radius * 2 - circlePercent * 2;
-    circleRect = QRectF(circleX + circlePercent, circleY + circlePercent, circleWidth, circleWidth);
+    int circleX = d->m_targetX - d->m_radius;
+    int circleY = height() - d->m_radius * 2 - 2;
+    int circleWidth = d->m_radius * 2 - circlePercent * 2;
+    d->m_circleRect = QRectF(circleX + circlePercent, circleY + circlePercent, circleWidth, circleWidth);
 
     QPainterPath path;
-    path.addRect(barRect);
-    path.addEllipse(circleRect);
+    path.addRect(d->m_barRect);
+    path.addEllipse(d->m_circleRect);
     path.setFillRule(Qt::WindingFill);
     painter->drawPath(path);
 
-    if (showUserValue) {
-        if (tickPosition == TickPosition_Left || tickPosition == TickPosition_Both) {
+    if (d->m_userValueVisiable) {
+        if (d->m_tickPosition == TickPosition_Left || d->m_tickPosition == TickPosition_Both) {
             QPolygon pts;
             int offset = 15;
-            double initX = targetX - (barWidth / 2 + 5);
-            double initY = rulerHeight - (userValue - minValue) * increment;
+            double initX = d->m_targetX - (d->m_barWidth / 2 + 5);
+            double initY = rulerHeight - (d->m_userValue - d->m_minValue) * increment;
             pts.append(QPoint(initX, initY));
             pts.append(QPoint(initX - offset, initY - offset / 2));
             pts.append(QPoint(initX - offset, initY + offset / 2));
-            painter->setBrush(userValueColor);
+            painter->setBrush(d->m_userValueColor);
             painter->drawPolygon(pts);
         }
 
-        if (tickPosition == TickPosition_Right || tickPosition == TickPosition_Both) {
+        if (d->m_tickPosition == TickPosition_Right || d->m_tickPosition == TickPosition_Both) {
             QPolygon pts;
             int offset = 15;
-            double initX = targetX + (barWidth / 2 + 5);
-            double initY = rulerHeight - (userValue - minValue) * increment;
+            double initX = d->m_targetX + (d->m_barWidth / 2 + 5);
+            double initY = rulerHeight - (d->m_userValue - d->m_minValue) * increment;
             pts.append(QPoint(initX, initY));
             pts.append(QPoint(initX + offset, initY - offset / 2));
             pts.append(QPoint(initX + offset, initY + offset / 2));
-            painter->setBrush(userValueColor);
+            painter->setBrush(d->m_userValueColor);
             painter->drawPolygon(pts);
         }
     }
@@ -254,110 +276,130 @@ void QEXTThermometer::drawBar(QPainter *painter)
 
 void QEXTThermometer::drawValue(QPainter *painter)
 {
+    Q_D(QEXTThermometer);
     painter->save();
 
     QFont font;
-    font.setPixelSize(circleRect.width() * 0.55);
+    font.setPixelSize(d->m_circleRect.width() * 0.55);
     painter->setFont(font);
     painter->setPen(Qt::white);
-    painter->drawText(circleRect, Qt::AlignCenter, QString("%1").arg(currentValue));
+    painter->drawText(d->m_circleRect, Qt::AlignCenter, QString("%1").arg(d->m_currentValue));
 
     painter->restore();
 }
 
-double QEXTThermometer::getMinValue() const
+double QEXTThermometer::minValue() const
 {
-    return this->minValue;
+    Q_D(const QEXTThermometer);
+    return d->m_minValue;
 }
 
-double QEXTThermometer::getMaxValue() const
+double QEXTThermometer::maxValue() const
 {
-    return this->maxValue;
+    Q_D(const QEXTThermometer);
+    return d->m_maxValue;
 }
 
-double QEXTThermometer::getValue() const
+double QEXTThermometer::value() const
 {
-    return this->value;
+    Q_D(const QEXTThermometer);
+    return d->m_value;
 }
 
-int QEXTThermometer::getPrecision() const
+int QEXTThermometer::precision() const
 {
-    return this->precision;
+    Q_D(const QEXTThermometer);
+    return d->m_precision;
 }
 
-int QEXTThermometer::getLongStep() const
+int QEXTThermometer::longStep() const
 {
-    return this->longStep;
+    Q_D(const QEXTThermometer);
+    return d->m_longStep;
 }
 
-int QEXTThermometer::getShortStep() const
+int QEXTThermometer::shortStep() const
 {
-    return this->shortStep;
+    Q_D(const QEXTThermometer);
+    return d->m_shortStep;
 }
 
-int QEXTThermometer::getSpace() const
+int QEXTThermometer::space() const
 {
-    return this->space;
+    Q_D(const QEXTThermometer);
+    return d->m_space;
 }
 
-bool QEXTThermometer::getAnimation() const
+bool QEXTThermometer::animationEnable() const
 {
-    return this->animation;
+    Q_D(const QEXTThermometer);
+    return d->m_animation;
 }
 
-double QEXTThermometer::getAnimationStep() const
+double QEXTThermometer::animationStep() const
 {
-    return this->animationStep;
+    Q_D(const QEXTThermometer);
+    return d->m_animationStep;
 }
 
-bool QEXTThermometer::getShowUserValue() const
+bool QEXTThermometer::userValueVisiable() const
 {
-    return this->showUserValue;
+    Q_D(const QEXTThermometer);
+    return d->m_userValueVisiable;
 }
 
-double QEXTThermometer::getUserValue() const
+double QEXTThermometer::userValue() const
 {
-    return this->userValue;
+    Q_D(const QEXTThermometer);
+    return d->m_userValue;
 }
 
-QColor QEXTThermometer::getUserValueColor() const
+QColor QEXTThermometer::userValueColor() const
 {
-    return this->userValueColor;
+    Q_D(const QEXTThermometer);
+    return d->m_userValueColor;
 }
 
-QColor QEXTThermometer::getBgColorStart() const
+QColor QEXTThermometer::backgroundStartColor() const
 {
-    return this->bgColorStart;
+    Q_D(const QEXTThermometer);
+    return d->m_backgroundStartColor;
 }
 
-QColor QEXTThermometer::getBgColorEnd() const
+QColor QEXTThermometer::backgroundEndColor() const
 {
-    return this->bgColorEnd;
+    Q_D(const QEXTThermometer);
+    return d->m_backgroundEndColor;
 }
 
-QColor QEXTThermometer::getLineColor() const
+QColor QEXTThermometer::lineColor() const
 {
-    return this->lineColor;
+    Q_D(const QEXTThermometer);
+    return d->m_lineColor;
 }
 
-QColor QEXTThermometer::getBarBgColor() const
+QColor QEXTThermometer::barBackgroundColor() const
 {
-    return this->barBgColor;
+    Q_D(const QEXTThermometer);
+    return d->m_barBackgroundColor;
 }
 
-QColor QEXTThermometer::getBarColor() const
+QColor QEXTThermometer::barColor() const
 {
-    return this->barColor;
+    Q_D(const QEXTThermometer);
+    return d->m_barColor;
 }
 
-QEXTThermometer::BarPosition QEXTThermometer::getBarPosition() const
+QEXTThermometer::BarPosition QEXTThermometer::barPosition() const
 {
-    return this->barPosition;
+    Q_D(const QEXTThermometer);
+    return d->m_barPosition;
 }
 
-QEXTThermometer::TickPosition QEXTThermometer::getTickPosition() const
+QEXTThermometer::TickPosition QEXTThermometer::tickPosition() const
 {
-    return this->tickPosition;
+    Q_D(const QEXTThermometer);
+    return d->m_tickPosition;
 }
 
 QSize QEXTThermometer::sizeHint() const
@@ -372,231 +414,252 @@ QSize QEXTThermometer::minimumSizeHint() const
 
 void QEXTThermometer::setRange(double minValue, double maxValue)
 {
+    Q_D(QEXTThermometer);
     if (minValue >= maxValue) {
         return;
     }
 
-    this->minValue = minValue;
-    this->maxValue = maxValue;
+    d->m_minValue = minValue;
+    d->m_maxValue = maxValue;
 
-    if (value < minValue || value > maxValue) {
-        setValue(value);
+    if (d->m_value < minValue || d->m_value > maxValue) {
+        setValue(d->m_value);
     }
 
-    update();
+    this->update();
 }
 
 void QEXTThermometer::setRange(int minValue, int maxValue)
 {
-    setRange((double)minValue, (double)maxValue);
+    this->setRange((double)minValue, (double)maxValue);
 }
 
 void QEXTThermometer::setMinValue(double minValue)
 {
-    setRange(minValue, maxValue);
+    Q_D(QEXTThermometer);
+    this->setRange(minValue, d->m_maxValue);
 }
 
 void QEXTThermometer::setMaxValue(double maxValue)
 {
-    setRange(minValue, maxValue);
+    Q_D(QEXTThermometer);
+    this->setRange(d->m_minValue, maxValue);
 }
 
 void QEXTThermometer::setValue(double value)
 {
-    if (value == this->value) {
+    Q_D(QEXTThermometer);
+    if (value == d->m_value) {
         return;
     }
 
-    if (value < minValue) {
-        value = minValue;
-    } else if (value > maxValue) {
-        value = maxValue;
+    if (value < d->m_minValue) {
+        value = d->m_minValue;
+    } else if (value > d->m_maxValue) {
+        value = d->m_maxValue;
     }
 
-    if (value > this->value) {
-        reverse = false;
-    } else if (value < this->value) {
-        reverse = true;
+    if (value > d->m_value) {
+        d->m_reverse = false;
+    } else if (value < d->m_value) {
+        d->m_reverse = true;
     }
 
-    this->value = value;
-    emit valueChanged(value);
+    d->m_value = value;
+    emit this->valueChanged(value);
 
-    if (!animation) {
-        currentValue = this->value;
-        update();
+    if (!d->m_animation) {
+        d->m_currentValue = d->m_value;
+        this->update();
     } else {
-        timer->start();
+        d->m_timer->start();
     }
 }
 
 void QEXTThermometer::setValue(int value)
 {
-    setValue((double)value);
+    this->setValue((double)value);
 }
 
 void QEXTThermometer::setPrecision(int precision)
 {
-    if (precision <= 3 && this->precision != precision) {
-        this->precision = precision;
-        update();
+    Q_D(QEXTThermometer);
+    if (precision <= 3 && d->m_precision != precision) {
+        d->m_precision = precision;
+        this->update();
     }
 }
 
 void QEXTThermometer::setLongStep(int longStep)
 {
-    if (longStep < shortStep) {
+    Q_D(QEXTThermometer);
+    if (longStep < d->m_shortStep) {
         return;
     }
 
-    if (this->longStep != longStep) {
-        this->longStep = longStep;
-        update();
+    if (d->m_longStep != longStep) {
+        d->m_longStep = longStep;
+        this->update();
     }
 }
 
 void QEXTThermometer::setShortStep(int shortStep)
 {
-    if (longStep < shortStep) {
+    Q_D(QEXTThermometer);
+    if (d->m_longStep < shortStep) {
         return;
     }
 
-    if (this->shortStep != shortStep) {
-        this->shortStep = shortStep;
-        update();
+    if (d->m_shortStep != shortStep) {
+        d->m_shortStep = shortStep;
+        this->update();
     }
 }
 
 void QEXTThermometer::setSpace(int space)
 {
-    if (this->space != space) {
-        this->space = space;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_space != space) {
+        d->m_space = space;
+        this->update();
     }
 }
 
-void QEXTThermometer::setAnimation(bool animation)
+void QEXTThermometer::setAnimationEnable(bool enable)
 {
-    if (this->animation != animation) {
-        this->animation = animation;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_animation != enable) {
+        d->m_animation = enable;
+        this->update();
     }
 }
 
 void QEXTThermometer::setAnimationStep(double animationStep)
 {
-    if (this->animationStep != animationStep) {
-        this->animationStep = animationStep;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_animationStep != animationStep) {
+        d->m_animationStep = animationStep;
+        this->update();
     }
 }
 
-void QEXTThermometer::setShowUserValue(bool showUserValue)
+void QEXTThermometer::setUserValueVisiable(bool visiable)
 {
-    if (this->showUserValue != showUserValue) {
-        this->showUserValue = showUserValue;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_userValueVisiable != visiable) {
+        d->m_userValueVisiable = visiable;
+        this->update();
     }
 }
 
 void QEXTThermometer::setUserValue(double userValue)
 {
-    if (userValue < minValue || userValue > maxValue) {
+    Q_D(QEXTThermometer);
+    if (userValue < d->m_minValue || userValue > d->m_maxValue) {
         return;
     }
 
-    if (this->userValue != userValue) {
-        this->userValue = userValue;
-        update();
+    if (d->m_userValue != userValue) {
+        d->m_userValue = userValue;
+        this->update();
     }
 }
 
 void QEXTThermometer::setUserValue(int userValue)
 {
-    setUserValue((double)userValue);
+    this->setUserValue((double)userValue);
 }
 
-void QEXTThermometer::setUserValueColor(const QColor &userValueColor)
+void QEXTThermometer::setUserValueColor(const QColor &color)
 {
-    if (this->userValueColor != userValueColor) {
-        this->userValueColor = userValueColor;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_userValueColor != color) {
+        d->m_userValueColor = color;
+        this->update();
     }
 }
 
-void QEXTThermometer::setBgColorStart(const QColor &bgColorStart)
+void QEXTThermometer::setBgColorStart(const QColor &color)
 {
-    if (this->bgColorStart != bgColorStart) {
-        this->bgColorStart = bgColorStart;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_backgroundStartColor != color) {
+        d->m_backgroundStartColor = color;
+        this->update();
     }
 }
 
-void QEXTThermometer::setBgColorEnd(const QColor &bgColorEnd)
+void QEXTThermometer::setBgColorEnd(const QColor &color)
 {
-    if (this->bgColorEnd != bgColorEnd) {
-        this->bgColorEnd = bgColorEnd;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_backgroundEndColor != color) {
+        d->m_backgroundEndColor = color;
+        this->update();
     }
 }
 
-void QEXTThermometer::setLineColor(const QColor &lineColor)
+void QEXTThermometer::setLineColor(const QColor &color)
 {
-    if (this->lineColor != lineColor) {
-        this->lineColor = lineColor;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_lineColor != color) {
+        d->m_lineColor = color;
+        this->update();
     }
 }
 
-void QEXTThermometer::setBarBgColor(const QColor &barBgColor)
+void QEXTThermometer::setBarBackgroundColor(const QColor &color)
 {
-    if (this->barBgColor != barBgColor) {
-        this->barBgColor = barBgColor;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_barBackgroundColor != color) {
+        d->m_barBackgroundColor = color;
+        this->update();
     }
 }
 
-void QEXTThermometer::setBarColor(const QColor &barColor)
+void QEXTThermometer::setBarColor(const QColor &color)
 {
-    if (this->barColor != barColor) {
-        this->barColor = barColor;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_barColor != color) {
+        d->m_barColor = color;
+        this->update();
     }
 }
 
-void QEXTThermometer::setBarPosition(const QEXTThermometer::BarPosition &barPosition)
+void QEXTThermometer::setBarPosition(const QEXTThermometer::BarPosition &position)
 {
-    if (this->barPosition != barPosition) {
-        this->barPosition = barPosition;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_barPosition != position) {
+        d->m_barPosition = position;
+        this->update();
     }
 }
 
-void QEXTThermometer::setTickPosition(const QEXTThermometer::TickPosition &tickPosition)
+void QEXTThermometer::setTickPosition(const QEXTThermometer::TickPosition &position)
 {
-    if (this->tickPosition != tickPosition) {
-        this->tickPosition = tickPosition;
-        update();
+    Q_D(QEXTThermometer);
+    if (d->m_tickPosition != position) {
+        d->m_tickPosition = position;
+        this->update();
     }
 }
 
 void QEXTThermometer::updateValue()
 {
-    if (!reverse) {
-        if (currentValue >= value) {
-            currentValue = value;
-            timer->stop();
+    Q_D(QEXTThermometer);
+    if (!d->m_reverse) {
+        if (d->m_currentValue >= d->m_value) {
+            d->m_currentValue = d->m_value;
+            d->m_timer->stop();
         } else {
-            currentValue += animationStep;
+            d->m_currentValue += d->m_animationStep;
         }
     } else {
-        if (currentValue <= value) {
-            currentValue = value;
-            timer->stop();
+        if (d->m_currentValue <= d->m_value) {
+            d->m_currentValue = d->m_value;
+            d->m_timer->stop();
         } else {
-            currentValue -= animationStep;
+            d->m_currentValue -= d->m_animationStep;
         }
     }
 
-    update();
+    this->update();
 }

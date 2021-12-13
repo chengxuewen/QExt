@@ -77,7 +77,7 @@
  *
  * @deprecated Use C++11 lambda expressions instead.
  *
- * @ingroup qextLambda
+ * \ingroup qextLambda
  */
 struct QEXTLambdaBase : public QEXTAdaptorBase {};
 
@@ -94,7 +94,7 @@ namespace qextPrivate
      *
      * @deprecated Use C++11 lambda expressions instead.
      *
-     * @ingroup qextLambda
+     * \ingroup qextLambda
      */
     template <typename T_type, bool I_islambda = QEXTIsBaseOf<QEXTLambdaBase, T_type>::value> struct QEXTLambdaCore;
 
@@ -103,7 +103,7 @@ namespace qextPrivate
      *
      * @deprecated Use C++11 lambda expressions instead.
      *
-     * @ingroup qextLambda
+     * \ingroup qextLambda
      */
     template <typename T_type>
     struct QEXTLambdaCore<T_type, true> : public QEXTLambdaBase
@@ -236,7 +236,7 @@ namespace qextPrivate
      *
      * @deprecated Use C++11 lambda expressions instead.
      *
-     * @ingroup qextLambda
+     * \ingroup qextLambda
      */
     template <typename T_type>
     struct QEXTLambdaCore<T_type, false> : public QEXTLambdaBase
@@ -336,7 +336,7 @@ struct QEXTUnwrapLambdaType;
  *
  * @deprecated Use C++11 lambda expressions instead of libsigc++ lambdas.
  *
- * @ingroup qextLambda
+ * \ingroup qextLambda
  */
 template <typename T_type>
 T_type &qextUnwrapLambdaValue(T_type &arg)
@@ -349,7 +349,7 @@ T_type &qextUnwrapLambdaValue(T_type &arg)
  *
  * @deprecated Use C++11 lambda expressions instead of libsigc++ lambdas.
  *
- * @ingroup qextLambda
+ * \ingroup qextLambda
  */
 template <typename T_type>
 const T_type &qextUnwrapLambdaValue(const T_type &arg)
@@ -361,7 +361,7 @@ const T_type &qextUnwrapLambdaValue(const T_type &arg)
  *
  * @deprecated Use C++11 lambda expressions instead of libsigc++ lambdas.
  *
- * @ingroup qextLambda
+ * \ingroup qextLambda
  */
 template <typename T_type>
 const T_type &qextUnwrapLambdaValue(const QEXTLambda<T_type> &arg)
@@ -379,7 +379,7 @@ const T_type &qextUnwrapLambdaValue(const QEXTLambda<T_type> &arg)
  *
  * @deprecated Use C++11 lambda expressions instead.
  *
- * @ingroup qextLambda
+ * \ingroup qextLambda
  */
 template <typename T_type>
 struct QEXTLambda : public qextPrivate::QEXTLambdaCore<T_type>
@@ -454,7 +454,7 @@ struct QEXTVisitor<QEXTLambda<T_type> >
  *
  * @deprecated Use C++11 lambda expressions instead of libsigc++ lambdas.
  *
- * @ingroup qextLambda
+ * \ingroup qextLambda
  */
 template <typename T_type>
 QEXTLambda<T_type &> qextLambda(T_type &value)
@@ -466,7 +466,7 @@ QEXTLambda<T_type &> qextLambda(T_type &value)
  *
  * @deprecated Use C++11 lambda expressions instead of qextLambda().
  *
- * @ingroup qextLambda
+ * \ingroup qextLambda
  */
 template <typename T_type>
 QEXTLambda<const T_type &> qextLambda(const T_type &value)
@@ -480,7 +480,7 @@ QEXTLambda<const T_type &> qextLambda(const T_type &value)
  *
  * @deprecated Use C++11 lambda expressions instead of qextLambda().
  *
- * @ingroup qextLambda
+ * \ingroup qextLambda
  */
 template <typename T_type>
 struct QEXTUnwrapLambdaType
@@ -492,7 +492,7 @@ struct QEXTUnwrapLambdaType
  *
  * @deprecated Use C++11 lambda expressions instead of qextLambda().
  *
- * @ingroup qextLambda
+ * \ingroup qextLambda
  */
 template <typename T_type>
 struct QEXTUnwrapLambdaType<QEXTLambda<T_type> >

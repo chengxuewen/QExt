@@ -26,14 +26,14 @@ void frmThermometer::initForm()
     ui->thermometer5->setTickPosition(QEXTThermometer::TickPosition_Right);
     ui->thermometer5->setBarPosition(QEXTThermometer::BarPosition_Left);
 
-    ui->thermometer3->setAnimation(true);
+    ui->thermometer3->setAnimationEnable(true);
 
     ui->thermometer2->setBarColor(QColor(24, 189, 155));
     ui->thermometer3->setBarColor(QColor(255, 107, 107));
     ui->thermometer4->setBarColor(QColor("#DEAF39"));
     ui->thermometer5->setBarColor(QColor("#A279C5"));
 
-    ui->thermometer3->setAnimation(true);
+    ui->thermometer3->setAnimationEnable(true);
 
     //初始化随机数种子
     QTime t = QTime::currentTime();

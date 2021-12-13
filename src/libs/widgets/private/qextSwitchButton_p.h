@@ -9,8 +9,6 @@
 class QEXTSwitchButton;
 class QEXT_WIDGETS_API QEXTSwitchButtonPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTSwitchButton)
-    Q_DISABLE_COPY(QEXTSwitchButtonPrivate)
 public:
     explicit QEXTSwitchButtonPrivate(QEXTSwitchButton *q);
     virtual ~QEXTSwitchButtonPrivate();
@@ -40,6 +38,10 @@ public:
     int m_startX;
     int m_endX;
     QScopedPointer<QTimer> m_timer;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTSwitchButtonPrivate)
+    QEXT_DECL_PUBLIC(QEXTSwitchButton)
 };
 
 #endif // _QEXTSWITCHBUTTON_P_H

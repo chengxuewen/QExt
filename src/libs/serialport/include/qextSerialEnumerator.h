@@ -51,7 +51,7 @@ class QEXTSerialEnumeratorPrivate;
 class QEXT_SERIALPORT_API QEXTSerialEnumerator : public QObject
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTSerialEnumerator)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTSerialEnumerator)
 public:
     QEXTSerialEnumerator(QObject *parent=0);
     ~QEXTSerialEnumerator();

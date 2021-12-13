@@ -5,6 +5,8 @@
 
 class QEXTLinearFunctionPrivate
 {
+    Q_DECLARE_PUBLIC(QEXTLinearFunction)
+    Q_DISABLE_COPY(QEXTLinearFunctionPrivate)
 public:
     explicit QEXTLinearFunctionPrivate(QEXTLinearFunction *q);
     virtual ~QEXTLinearFunctionPrivate() {}
@@ -15,10 +17,6 @@ public:
     double m_c;
     bool m_isVLine;
     bool m_isHLine;
-
-private:
-    Q_DECLARE_PUBLIC(QEXTLinearFunction)
-    Q_DISABLE_COPY(QEXTLinearFunctionPrivate)
 };
 
 

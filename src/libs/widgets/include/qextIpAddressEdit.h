@@ -38,8 +38,6 @@ class QEXTIpAddressEditPrivate;
 class QEXT_WIDGETS_API QEXTIpAddressEdit : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTIpAddressEdit)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTIpAddressEdit)
 
     Q_PROPERTY(QString iP READ iP WRITE setIP NOTIFY ipChanged)
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
@@ -82,6 +80,10 @@ protected:
 
 private Q_SLOTS:
     void textChanged(const QString &text);
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTIpAddressEdit)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTIpAddressEdit)
 };
 
 #endif // _QEXTIPADDRESS_H

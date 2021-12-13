@@ -39,8 +39,6 @@ class QEXTSliderPrivate;
 class QEXT_WIDGETS_API QEXTSlider : public QSlider
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTSlider)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTSlider)
 
     Q_PROPERTY(int borderRadius READ borderRadius WRITE setBorderRadius)
     Q_PROPERTY(int arrowSize READ arrowSize WRITE setArrowSize)
@@ -86,6 +84,9 @@ public:
 
     QEXTTooltip *tooltip() const;
 
+Q_SIGNALS:
+    void clicked();
+
 public Q_SLOTS:
     void setBorderRadius(int radius);
 
@@ -109,15 +110,16 @@ public Q_SLOTS:
 
     void setUnitText(const QString &unit);
 
-Q_SIGNALS:
-    void clicked();
-
 protected:
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
 
     QScopedPointer<QEXTSliderPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTSlider)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTSlider)
 };
 
 #endif // _QEXTSLIDER_H

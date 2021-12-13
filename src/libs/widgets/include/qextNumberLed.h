@@ -39,8 +39,6 @@ class QEXTNumberLedPrivate;
 class QEXT_WIDGETS_API QEXTNumberLed : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTNumberLed)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNumberLed)
 
     Q_PROPERTY(int number READ number WRITE setNumber)
     Q_PROPERTY(int space READ space WRITE setSpace)
@@ -99,6 +97,10 @@ protected:
     void drawNumber(QPainter *painter);
 
     QScopedPointer<QEXTNumberLedPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNumberLed)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNumberLed)
 };
 
 #endif // _QEXTNUMBERLED_H

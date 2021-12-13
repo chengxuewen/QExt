@@ -40,8 +40,6 @@ class QEXTDateTimeTumblerPrivate;
 class QEXT_WIDGETS_API QEXTDateTimeTumbler : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTDateTimeTumbler)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTDateTimeTumbler)
 
     Q_PROPERTY(int year READ year WRITE setYear)
     Q_PROPERTY(int month READ month WRITE setMonth)
@@ -81,6 +79,10 @@ protected:
     void initForm();
 
     QScopedPointer<QEXTDateTimeTumblerPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTDateTimeTumbler)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTDateTimeTumbler)
 };
 
 #endif // _QEXTDATETIMETUMBLER_H

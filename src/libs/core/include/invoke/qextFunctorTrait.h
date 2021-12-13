@@ -51,7 +51,7 @@
 /** A hint to the compiler.
  * All functors which define @p result_type should publically inherit from this hint.
  *
- * @ingroup qextFunctors
+ * \ingroup qextFunctors
  */
 struct QEXT_CORE_API QEXTFunctorBase
 {
@@ -64,7 +64,7 @@ struct QEXT_CORE_API QEXTFunctorBase
 
 /** Helper macro, to determine if decltype() can deduce the result type of a functor.
  *
- * @ingroup sigqextunctors
+ * \ingroup sigqextunctors
  */
 template < typename T_functor >
 class QEXTCanDeduceResultTypeWithDecltype
@@ -144,7 +144,7 @@ public:
  * @tparam I_can_use_decltype Whether the result type of @p T_functor can be deduced
  *                            with decltype().
  *
- * @ingroup sigqextunctors
+ * \ingroup sigqextunctors
  */
 template <
     typename T_functor,
@@ -201,7 +201,7 @@ struct QEXTFunctorTrait< T_functor, false, true >
  * You can't use both QEXT_FUNCTORS_HAVE_RESULT_TYPE and
  * QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE in the same compilation unit.
  *
- * @ingroup qextfunctors
+ * \ingroup qextfunctors
  */
 #define QEXT_FUNCTORS_HAVE_RESULT_TYPE                                                                                                                           \
     template < typename T_functor >                                                                                                                            \
@@ -222,7 +222,7 @@ struct QEXTFunctorTrait< T_functor, false, true >
  *   ...
  * @endcode
  *
- * @ingroup qextfunctors
+ * \ingroup qextfunctors
  */
 #define QEXT_FUNCTOR_TRAIT(T_functor, T_return)                                                                                                                  \
     template <>                                                                                                                                                \
@@ -248,7 +248,7 @@ struct QEXTFunctorTrait< T_functor, false, true >
  * You can't use both QEXT_FUNCTORS_HAVE_RESULT_TYPE and
  * QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE in the same compilation unit.
  *
- * @ingroup qextfunctors
+ * \ingroup qextfunctors
  */
 #if QEXT_CC_FEATURE_LAMBDA
 #define QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE

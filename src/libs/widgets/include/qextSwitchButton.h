@@ -38,8 +38,6 @@ class QEXTSwitchButtonPrivate;
 class QEXT_WIDGETS_API QEXTSwitchButton : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTSwitchButton)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTSwitchButton)
 
     Q_PROPERTY(int space READ space WRITE setSpace)
     Q_PROPERTY(int rectRadius READ rectRadius WRITE setRectRadius)
@@ -93,6 +91,9 @@ public:
     QSize sizeHint() const QEXT_DECL_OVERRIDE;
     QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
 
+Q_SIGNALS:
+    void checkedChanged(bool checked);
+
 public Q_SLOTS:
     void setSpace(int space);
 
@@ -120,9 +121,6 @@ public Q_SLOTS:
     void setOffText(const QString &text);
     void setOnText(const QString &text);
 
-Q_SIGNALS:
-    void checkedChanged(bool checked);
-
 protected:
     void mousePressEvent(QMouseEvent *) QEXT_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *) QEXT_DECL_OVERRIDE;
@@ -136,6 +134,10 @@ protected:
 private Q_SLOTS:
     void change();
     void updateValue();
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTSwitchButton)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTSwitchButton)
 };
 
 #endif // _QEXTSWITCHBUTTON_H

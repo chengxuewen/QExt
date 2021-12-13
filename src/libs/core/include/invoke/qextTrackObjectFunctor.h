@@ -65,7 +65,7 @@ namespace qextPrivate
      *
      * @newin{2,4}
      *
-     * @ingroup adaptors
+     * \ingroup adaptors
      */
 
     /** QEXTTrackObjectFunctorBase wraps a functor and stores a reference to a trackable object.
@@ -76,7 +76,7 @@ namespace qextPrivate
      *
      * @newin{2,4}
      *
-     * @ingroup qextTrackObjectFunctor
+     * \ingroup qextTrackObjectFunctor
      */
     template < typename T_functor >
     class QEXTTrackObjectFunctorBase : public QEXTAdapts< T_functor >
@@ -108,13 +108,13 @@ namespace qextPrivate
 
         /** Constructs a QEXTTrackObjectFunctorBase object that wraps the passed functor and
          * stores a reference to the passed trackable object.
-         * @param func Functor.
-         * @param obj1 Trackable object.
+         * \param func Functor.
+         * \param obj1 Trackable object.
          */
         QEXTTrackObjectFunctorBase(const T_functor &func) : QEXTAdapts< T_functor >(func) {}
 
         /** Invokes the wrapped functor.
-         * @return The return value of the functor invocation.
+         * \return The return value of the functor invocation.
          */
         Return operator()()
         {
@@ -122,8 +122,8 @@ namespace qextPrivate
         }
 
         /** Invokes the wrapped functor passing on the arguments.
-         * @param arg1 Argument to be passed on to the functor.
-         * @return The return value of the functor invocation.
+         * \param arg1 Argument to be passed on to the functor.
+         * \return The return value of the functor invocation.
          */
         template < typename T_arg1 >
         typename ReturnTypeDeduce< T_arg1 >::Type operator()(T_arg1 arg1)
@@ -132,9 +132,9 @@ namespace qextPrivate
         }
 
         /** Invokes the wrapped functor passing on the arguments.
-         * @param arg1 Argument to be passed on to the functor.
-         * @param arg2 Argument to be passed on to the functor.
-         * @return The return value of the functor invocation.
+         * \param arg1 Argument to be passed on to the functor.
+         * \param arg2 Argument to be passed on to the functor.
+         * \return The return value of the functor invocation.
          */
         template < typename T_arg1, typename T_arg2 >
         typename ReturnTypeDeduce< T_arg1, T_arg2 >::Type operator()(T_arg1 arg1, T_arg2 arg2)
@@ -143,10 +143,10 @@ namespace qextPrivate
         }
 
         /** Invokes the wrapped functor passing on the arguments.
-         * @param arg1 Argument to be passed on to the functor.
-         * @param arg2 Argument to be passed on to the functor.
-         * @param arg3 Argument to be passed on to the functor.
-         * @return The return value of the functor invocation.
+         * \param arg1 Argument to be passed on to the functor.
+         * \param arg2 Argument to be passed on to the functor.
+         * \param arg3 Argument to be passed on to the functor.
+         * \return The return value of the functor invocation.
          */
         template < typename T_arg1, typename T_arg2, typename T_arg3 >
         typename ReturnTypeDeduce< T_arg1, T_arg2, T_arg3 >::Type operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
@@ -156,11 +156,11 @@ namespace qextPrivate
         }
 
         /** Invokes the wrapped functor passing on the arguments.
-         * @param arg1 Argument to be passed on to the functor.
-         * @param arg2 Argument to be passed on to the functor.
-         * @param arg3 Argument to be passed on to the functor.
-         * @param arg4 Argument to be passed on to the functor.
-         * @return The return value of the functor invocation.
+         * \param arg1 Argument to be passed on to the functor.
+         * \param arg2 Argument to be passed on to the functor.
+         * \param arg3 Argument to be passed on to the functor.
+         * \param arg4 Argument to be passed on to the functor.
+         * \return The return value of the functor invocation.
          */
         template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
         typename ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4 >::Type operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
@@ -173,12 +173,12 @@ namespace qextPrivate
         }
 
         /** Invokes the wrapped functor passing on the arguments.
-         * @param arg1 Argument to be passed on to the functor.
-         * @param arg2 Argument to be passed on to the functor.
-         * @param arg3 Argument to be passed on to the functor.
-         * @param arg4 Argument to be passed on to the functor.
-         * @param arg5 Argument to be passed on to the functor.
-         * @return The return value of the functor invocation.
+         * \param arg1 Argument to be passed on to the functor.
+         * \param arg2 Argument to be passed on to the functor.
+         * \param arg3 Argument to be passed on to the functor.
+         * \param arg4 Argument to be passed on to the functor.
+         * \param arg5 Argument to be passed on to the functor.
+         * \return The return value of the functor invocation.
          */
         template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
         typename ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >::Type operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
@@ -192,13 +192,13 @@ namespace qextPrivate
         }
 
         /** Invokes the wrapped functor passing on the arguments.
-         * @param arg1 Argument to be passed on to the functor.
-         * @param arg2 Argument to be passed on to the functor.
-         * @param arg3 Argument to be passed on to the functor.
-         * @param arg4 Argument to be passed on to the functor.
-         * @param arg5 Argument to be passed on to the functor.
-         * @param arg6 Argument to be passed on to the functor.
-         * @return The return value of the functor invocation.
+         * \param arg1 Argument to be passed on to the functor.
+         * \param arg2 Argument to be passed on to the functor.
+         * \param arg3 Argument to be passed on to the functor.
+         * \param arg4 Argument to be passed on to the functor.
+         * \param arg5 Argument to be passed on to the functor.
+         * \param arg6 Argument to be passed on to the functor.
+         * \return The return value of the functor invocation.
          */
         template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
         typename ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >::Type
@@ -214,14 +214,14 @@ namespace qextPrivate
         }
 
         /** Invokes the wrapped functor passing on the arguments.
-         * @param arg1 Argument to be passed on to the functor.
-         * @param arg2 Argument to be passed on to the functor.
-         * @param arg3 Argument to be passed on to the functor.
-         * @param arg4 Argument to be passed on to the functor.
-         * @param arg5 Argument to be passed on to the functor.
-         * @param arg6 Argument to be passed on to the functor.
-         * @param arg7 Argument to be passed on to the functor.
-         * @return The return value of the functor invocation.
+         * \param arg1 Argument to be passed on to the functor.
+         * \param arg2 Argument to be passed on to the functor.
+         * \param arg3 Argument to be passed on to the functor.
+         * \param arg4 Argument to be passed on to the functor.
+         * \param arg5 Argument to be passed on to the functor.
+         * \param arg6 Argument to be passed on to the functor.
+         * \param arg7 Argument to be passed on to the functor.
+         * \return The return value of the functor invocation.
          */
         template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7 >
         typename ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type
@@ -247,7 +247,7 @@ namespace qextPrivate
      *
      * @newin{2,4}
      *
-     * @ingroup qextTrackObjectFunctor
+     * \ingroup qextTrackObjectFunctor
      */
     template < typename T_functor, typename T_obj1 >
     class QEXTTrackObjectFunctor1 : public QEXTTrackObjectFunctorBase< T_functor >
@@ -255,9 +255,9 @@ namespace qextPrivate
     public:
         /** Constructs a QEXTTrackObjectFunctor2 object that wraps the passed functor and
          * stores references to the passed trackable objects.
-         * @param func Functor.
-         * @param obj1 Trackable object.
-         * @param obj2 Trackable object.
+         * \param func Functor.
+         * \param obj1 Trackable object.
+         * \param obj2 Trackable object.
          */
         QEXTTrackObjectFunctor1(const T_functor &func, const T_obj1 &obj1) : QEXTTrackObjectFunctorBase< T_functor >(func), m_obj1(obj1) {}
 
@@ -273,7 +273,7 @@ namespace qextPrivate
      *
      * @newin{2,4}
      *
-     * @ingroup qextTrackObjectFunctor
+     * \ingroup qextTrackObjectFunctor
      */
     template < typename T_functor, typename T_obj1, typename T_obj2 >
     class QEXTTrackObjectFunctor2 : public QEXTTrackObjectFunctorBase< T_functor >
@@ -281,9 +281,9 @@ namespace qextPrivate
     public:
         /** Constructs a QEXTTrackObjectFunctor2 object that wraps the passed functor and
          * stores references to the passed trackable objects.
-         * @param func Functor.
-         * @param obj1 Trackable object.
-         * @param obj2 Trackable object.
+         * \param func Functor.
+         * \param obj1 Trackable object.
+         * \param obj2 Trackable object.
          */
         QEXTTrackObjectFunctor2(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2)
             : QEXTTrackObjectFunctorBase< T_functor >(func), m_obj1(obj1), m_obj2(obj2)
@@ -304,7 +304,7 @@ namespace qextPrivate
      *
      * @newin{2,4}
      *
-     * @ingroup qextTrackObjectFunctor
+     * \ingroup qextTrackObjectFunctor
      */
     template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3 >
     class QEXTTrackObjectFunctor3 : public QEXTTrackObjectFunctorBase< T_functor >
@@ -312,10 +312,10 @@ namespace qextPrivate
     public:
         /** Constructs a QEXTTrackObjectFunctor3 object that wraps the passed functor and
          * stores references to the passed trackable objects.
-         * @param func Functor.
-         * @param obj1 Trackable object.
-         * @param obj2 Trackable object.
-         * @param obj3 Trackable object.
+         * \param func Functor.
+         * \param obj1 Trackable object.
+         * \param obj2 Trackable object.
+         * \param obj3 Trackable object.
          */
         QEXTTrackObjectFunctor3(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3)
             : QEXTTrackObjectFunctorBase< T_functor >(func), m_obj1(obj1), m_obj2(obj2), m_obj3(obj3)
@@ -338,7 +338,7 @@ namespace qextPrivate
      *
      * @newin{2,4}
      *
-     * @ingroup qextTrackObjectFunctor
+     * \ingroup qextTrackObjectFunctor
      */
     template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4 >
     class QEXTTrackObjectFunctor4 : public QEXTTrackObjectFunctorBase< T_functor >
@@ -346,11 +346,11 @@ namespace qextPrivate
     public:
         /** Constructs a QEXTTrackObjectFunctor4 object that wraps the passed functor and
          * stores references to the passed trackable objects.
-         * @param func Functor.
-         * @param obj1 Trackable object.
-         * @param obj2 Trackable object.
-         * @param obj3 Trackable object.
-         * @param obj4 Trackable object.
+         * \param func Functor.
+         * \param obj1 Trackable object.
+         * \param obj2 Trackable object.
+         * \param obj3 Trackable object.
+         * \param obj4 Trackable object.
          */
         QEXTTrackObjectFunctor4(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3, const T_obj4 &obj4)
             : QEXTTrackObjectFunctorBase< T_functor >(func), m_obj1(obj1), m_obj2(obj2), m_obj3(obj3), m_obj4(obj4)
@@ -375,7 +375,7 @@ namespace qextPrivate
      *
      * @newin{2,4}
      *
-     * @ingroup qextTrackObjectFunctor
+     * \ingroup qextTrackObjectFunctor
      */
     template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4, typename T_obj5 >
     class QEXTTrackObjectFunctor5 : public QEXTTrackObjectFunctorBase< T_functor >
@@ -383,12 +383,12 @@ namespace qextPrivate
     public:
         /** Constructs a QEXTTrackObjectFunctor5 object that wraps the passed functor and
          * stores references to the passed trackable objects.
-         * @param func Functor.
-         * @param obj1 Trackable object.
-         * @param obj2 Trackable object.
-         * @param obj3 Trackable object.
-         * @param obj4 Trackable object.
-         * @param obj5 Trackable object.
+         * \param func Functor.
+         * \param obj1 Trackable object.
+         * \param obj2 Trackable object.
+         * \param obj3 Trackable object.
+         * \param obj4 Trackable object.
+         * \param obj5 Trackable object.
          */
         QEXTTrackObjectFunctor5(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3, const T_obj4 &obj4, const T_obj5 &obj5)
             : QEXTTrackObjectFunctorBase< T_functor >(func), m_obj1(obj1), m_obj2(obj2), m_obj3(obj3), m_obj4(obj4), m_obj5(obj5)
@@ -415,7 +415,7 @@ namespace qextPrivate
      *
      * @newin{2,4}
      *
-     * @ingroup qextTrackObjectFunctor
+     * \ingroup qextTrackObjectFunctor
      */
     template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4, typename T_obj5, typename T_obj6 >
     class QEXTTrackObjectFunctor6 : public QEXTTrackObjectFunctorBase< T_functor >
@@ -423,13 +423,13 @@ namespace qextPrivate
     public:
         /** Constructs a QEXTTrackObjectFunctor6 object that wraps the passed functor and
          * stores references to the passed trackable objects.
-         * @param func Functor.
-         * @param obj1 Trackable object.
-         * @param obj2 Trackable object.
-         * @param obj3 Trackable object.
-         * @param obj4 Trackable object.
-         * @param obj5 Trackable object.
-         * @param obj6 Trackable object.
+         * \param func Functor.
+         * \param obj1 Trackable object.
+         * \param obj2 Trackable object.
+         * \param obj3 Trackable object.
+         * \param obj4 Trackable object.
+         * \param obj5 Trackable object.
+         * \param obj6 Trackable object.
          */
         QEXTTrackObjectFunctor6(
             const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3, const T_obj4 &obj4, const T_obj5 &obj5, const T_obj6 &obj6)
@@ -459,7 +459,7 @@ namespace qextPrivate
      *
      * @newin{2,4}
      *
-     * @ingroup qextTrackObjectFunctor
+     * \ingroup qextTrackObjectFunctor
      */
     template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4, typename T_obj5, typename T_obj6, typename T_obj7 >
     class QEXTTrackObjectFunctor7 : public QEXTTrackObjectFunctorBase< T_functor >
@@ -467,14 +467,14 @@ namespace qextPrivate
     public:
         /** Constructs a QEXTTrackObjectFunctor7 object that wraps the passed functor and
          * stores references to the passed trackable objects.
-         * @param func Functor.
-         * @param obj1 Trackable object.
-         * @param obj2 Trackable object.
-         * @param obj3 Trackable object.
-         * @param obj4 Trackable object.
-         * @param obj5 Trackable object.
-         * @param obj6 Trackable object.
-         * @param obj7 Trackable object.
+         * \param func Functor.
+         * \param obj1 Trackable object.
+         * \param obj2 Trackable object.
+         * \param obj3 Trackable object.
+         * \param obj4 Trackable object.
+         * \param obj5 Trackable object.
+         * \param obj6 Trackable object.
+         * \param obj7 Trackable object.
          */
         QEXTTrackObjectFunctor7(
             const T_functor &func,
@@ -549,7 +549,7 @@ public:
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4, typename T_obj5, typename T_obj6, typename T_obj7 >
 struct QEXTVisitor< QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6, T_obj7 > >
@@ -592,7 +592,7 @@ public:
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4, typename T_obj5, typename T_obj6 >
 struct QEXTVisitor< QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6 > >
@@ -633,7 +633,7 @@ public:
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4, typename T_obj5 >
 struct QEXTVisitor< QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5 > >
@@ -673,7 +673,7 @@ public:
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4 >
 struct QEXTVisitor< QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3, T_obj4 > >
@@ -709,7 +709,7 @@ public:
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3 >
 struct QEXTVisitor< QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3 > >
@@ -744,7 +744,7 @@ public:
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2 >
 struct QEXTVisitor< QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2 > >
@@ -777,7 +777,7 @@ public:
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1 >
 struct QEXTVisitor< QEXTTrackObjectFunctor< T_functor, T_obj1 > >
@@ -791,19 +791,19 @@ struct QEXTVisitor< QEXTTrackObjectFunctor< T_functor, T_obj1 > >
 };
 
 /** Creates an adaptor of type QEXTTrackObjectFunctor7 which wraps a functor.
- * @param func Functor that shall be wrapped.
- * @param obj1 Trackable object.
- * @param obj2 Trackable object.
- * @param obj3 Trackable object.
- * @param obj4 Trackable object.
- * @param obj5 Trackable object.
- * @param obj6 Trackable object.
- * @param obj7 Trackable object.
- * @return Adaptor that executes func() on invocation.
+ * \param func Functor that shall be wrapped.
+ * \param obj1 Trackable object.
+ * \param obj2 Trackable object.
+ * \param obj3 Trackable object.
+ * \param obj4 Trackable object.
+ * \param obj5 Trackable object.
+ * \param obj6 Trackable object.
+ * \param obj7 Trackable object.
+ * \return Adaptor that executes func() on invocation.
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4, typename T_obj5, typename T_obj6, typename T_obj7 >
 inline QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6, T_obj7 > qextTrackObjectFunctor(
@@ -820,18 +820,18 @@ inline QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5
 }
 
 /** Creates an adaptor of type QEXTTrackObjectFunctor6 which wraps a functor.
- * @param func Functor that shall be wrapped.
- * @param obj1 Trackable object.
- * @param obj2 Trackable object.
- * @param obj3 Trackable object.
- * @param obj4 Trackable object.
- * @param obj5 Trackable object.
- * @param obj6 Trackable object.
- * @return Adaptor that executes func() on invocation.
+ * \param func Functor that shall be wrapped.
+ * \param obj1 Trackable object.
+ * \param obj2 Trackable object.
+ * \param obj3 Trackable object.
+ * \param obj4 Trackable object.
+ * \param obj5 Trackable object.
+ * \param obj6 Trackable object.
+ * \return Adaptor that executes func() on invocation.
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4, typename T_obj5, typename T_obj6 >
 inline QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6 > qextTrackObjectFunctor(
@@ -841,17 +841,17 @@ inline QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5
 }
 
 /** Creates an adaptor of type QEXTTrackObjectFunctor5 which wraps a functor.
- * @param func Functor that shall be wrapped.
- * @param obj1 Trackable object.
- * @param obj2 Trackable object.
- * @param obj3 Trackable object.
- * @param obj4 Trackable object.
- * @param obj5 Trackable object.
- * @return Adaptor that executes func() on invocation.
+ * \param func Functor that shall be wrapped.
+ * \param obj1 Trackable object.
+ * \param obj2 Trackable object.
+ * \param obj3 Trackable object.
+ * \param obj4 Trackable object.
+ * \param obj5 Trackable object.
+ * \return Adaptor that executes func() on invocation.
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4, typename T_obj5 >
 inline QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5 >
@@ -861,16 +861,16 @@ qextTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &
 }
 
 /** Creates an adaptor of type QEXTTrackObjectFunctor4 which wraps a functor.
- * @param func Functor that shall be wrapped.
- * @param obj1 Trackable object.
- * @param obj2 Trackable object.
- * @param obj3 Trackable object.
- * @param obj4 Trackable object.
- * @return Adaptor that executes func() on invocation.
+ * \param func Functor that shall be wrapped.
+ * \param obj1 Trackable object.
+ * \param obj2 Trackable object.
+ * \param obj3 Trackable object.
+ * \param obj4 Trackable object.
+ * \return Adaptor that executes func() on invocation.
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4 >
 inline QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3, T_obj4 >
@@ -880,15 +880,15 @@ qextTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &
 }
 
 /** Creates an adaptor of type QEXTTrackObjectFunctor3 which wraps a functor.
- * @param func Functor that shall be wrapped.
- * @param obj1 Trackable object.
- * @param obj2 Trackable object.
- * @param obj3 Trackable object.
- * @return Adaptor that executes func() on invocation.
+ * \param func Functor that shall be wrapped.
+ * \param obj1 Trackable object.
+ * \param obj2 Trackable object.
+ * \param obj3 Trackable object.
+ * \return Adaptor that executes func() on invocation.
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3 >
 inline QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2, T_obj3 >
@@ -898,14 +898,14 @@ qextTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &
 }
 
 /** Creates an adaptor of type QEXTTrackObjectFunctor2 which wraps a functor.
- * @param func Functor that shall be wrapped.
- * @param obj1 Trackable object.
- * @param obj2 Trackable object.
- * @return Adaptor that executes func() on invocation.
+ * \param func Functor that shall be wrapped.
+ * \param obj1 Trackable object.
+ * \param obj2 Trackable object.
+ * \return Adaptor that executes func() on invocation.
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1, typename T_obj2 >
 inline QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2 > qextTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2)
@@ -914,13 +914,13 @@ inline QEXTTrackObjectFunctor< T_functor, T_obj1, T_obj2 > qextTrackObjectFuncto
 }
 
 /** Creates an adaptor of type QEXTTrackObjectFunctorBase which wraps a functor.
- * @param func Functor that shall be wrapped.
- * @param obj1 Trackable object.
- * @return Adaptor that executes func() on invocation.
+ * \param func Functor that shall be wrapped.
+ * \param obj1 Trackable object.
+ * \return Adaptor that executes func() on invocation.
  *
  * @newin{2,4}
  *
- * @ingroup qextTrackObjectFunctor
+ * \ingroup qextTrackObjectFunctor
  */
 template < typename T_functor, typename T_obj1 >
 inline QEXTTrackObjectFunctor< T_functor, T_obj1 > qextTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1)

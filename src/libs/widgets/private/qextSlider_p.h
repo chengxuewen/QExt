@@ -10,8 +10,6 @@ class QEXTTooltip;
 class QEXTSlider;
 class QEXT_WIDGETS_API QEXTSliderPrivate
 {
-    Q_DISABLE_COPY(QEXTSliderPrivate)
-    Q_DECLARE_PUBLIC(QEXTSlider)
 public:
     explicit QEXTSliderPrivate(QEXTSlider *q);
     virtual ~QEXTSliderPrivate();
@@ -34,6 +32,10 @@ public:
     QString m_unitText;
 
     QEXTTooltip *m_tooltip;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTSliderPrivate)
+    QEXT_DECL_PUBLIC(QEXTSlider)
 };
 
 #endif // _QEXTSLIDER_P_H

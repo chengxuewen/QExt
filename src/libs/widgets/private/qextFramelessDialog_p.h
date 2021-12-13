@@ -10,8 +10,6 @@
 class QEXTFramelessDialog;
 class QEXT_WIDGETS_API QEXTFramelessDialogPrivate
 {
-    Q_DISABLE_COPY(QEXTFramelessDialogPrivate)
-    Q_DECLARE_PUBLIC(QEXTFramelessDialog)
 public:
     explicit QEXTFramelessDialogPrivate(QEXTFramelessDialog *q);
     virtual ~QEXTFramelessDialogPrivate();
@@ -33,6 +31,10 @@ public:
 
     bool m_isMin;
     Qt::WindowFlags m_flags;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTFramelessDialogPrivate)
+    QEXT_DECL_PUBLIC(QEXTFramelessDialog)
 };
 
 #endif // _QEXTFRAMELESSDIALOG_P_H

@@ -39,8 +39,6 @@ class QEXTArrowCompassPrivate;
 class QEXT_WIDGETS_API QEXTArrowCompass : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTArrowCompass)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTArrowCompass)
 
     Q_PROPERTY(double value READ value WRITE setValue)
     Q_PROPERTY(int precision READ precision WRITE setPrecision)
@@ -148,6 +146,10 @@ protected:
 
 private slots:
     void updateValue(const QVariant &value);
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTArrowCompass)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTArrowCompass)
 };
 
 #endif // _QEXTARROWCOMPASS_H

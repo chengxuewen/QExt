@@ -58,7 +58,7 @@ class QEXTBoundArgument
 {
 public:
     /** Constructor.
-     * @param argument The argument to bind.
+     * \param argument The argument to bind.
      */
     QEXTBoundArgument(const T_type &argument) : m_visited(argument) {}
     QEXTBoundArgument(const QEXTBoundArgument &other) : m_visited(other.m_visited) {}
@@ -78,7 +78,7 @@ public:
     }
 
     /** Retrieve the entity to visit in qextVisitEach().
-     * @return The bound argument.
+     * \return The bound argument.
      */
     const T_type &visit() const
     {
@@ -86,7 +86,7 @@ public:
     }
 
     /** Retrieve the entity to pass to the bound functor or return.
-     * @return The bound argument.
+     * \return The bound argument.
      */
     T_type &invoke()
     {
@@ -110,12 +110,12 @@ class QEXTBoundArgument<QEXTReferenceWrapper<T_wrapped> >
 {
 public:
     /** Constructor.
-     * @param argument The argument to bind.
+     * \param argument The argument to bind.
      */
     QEXTBoundArgument(const QEXTReferenceWrapper<T_wrapped> &argument) : m_visited(qextUnwrapReference(argument)) {}
 
     /** Retrieve the entity to visit in qextVisitEach().
-     * @return The QEXTLimitReference to the bound argument.
+     * \return The QEXTLimitReference to the bound argument.
      */
     const QEXTLimitReference<T_wrapped> &visit() const
     {
@@ -123,7 +123,7 @@ public:
     }
 
     /** Retrieve the entity to pass to the bound functor or return.
-     * @return The bound argument.
+     * \return The bound argument.
      */
     T_wrapped &invoke()
     {
@@ -145,7 +145,7 @@ class QEXTBoundArgument<QEXTConstReferenceWrapper<T_wrapped> >
 {
 public:
     /** Constructor.
-     * @param argument The argument to bind.
+     * \param argument The argument to bind.
      */
     QEXTBoundArgument(const QEXTConstReferenceWrapper<T_wrapped> &argument) : m_visited(qextUnwrapReference(argument)) {}
     QEXTBoundArgument(const QEXTBoundArgument &other) : m_visited(other.m_visited) {}
@@ -165,7 +165,7 @@ public:
     }
 
     /** Retrieve the entity to visit in qextVisitEach().
-     * @return The QEXTConstLimitReference to the bound argument.
+     * \return The QEXTConstLimitReference to the bound argument.
      */
     const QEXTConstLimitReference<T_wrapped> &visit() const
     {
@@ -173,7 +173,7 @@ public:
     }
 
     /** Retrieve the entity to pass to the bound functor or return.
-     * @return The bound argument.
+     * \return The bound argument.
      */
     const T_wrapped &invoke()
     {
@@ -192,8 +192,8 @@ private:
  * method.
  * @tparam T_type The type of bound_argument.
  * @tparam T_action The type of functor to invoke.
- * @param action The functor to invoke.
- * @param argument The visited instance.
+ * \param action The functor to invoke.
+ * \param argument The visited instance.
  */
 template <typename T_type>
 struct QEXTVisitor<QEXTBoundArgument<T_type> >

@@ -27,7 +27,7 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(qext_lib_base_name QEXTFramelessHelper)
+set(QEXT_LIB_BASE_NAME QEXTFramelessHelper)
 set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 
 
@@ -35,7 +35,7 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 # Set lib file list
 #--------------------------------------------------------------------------------
-set(qext_lib_public_headers
+set(QEXT_LIB_PUBLIC_HEADERS
     include/qextFramelessHelper.h
     include/qextFramelessHelperGlobal.h
     include/qextFramelessHelperPch.h
@@ -44,60 +44,63 @@ set(qext_lib_public_headers
     include/qextNativeWindowTester.h
     )
 
-set(qext_lib_private_headers
+set(QEXT_LIB_PRIVATE_HEADERS
     private/qextFramelessHelper_p.h
     private/qextNativeWindowFilter_p.h
     private/qextNativeWindowHelper_p.h
     )
 
-set(qext_lib_sources
+set(QEXT_LIB_SOURCES
     source/qextFramelessHelper.cpp
-    source/qextNativeWindowFilter.cpp
-    source/qextNativeWindowHelper.cpp
+    source/qextFramelessHelper_win.cpp
+    source/qextNativeWindowFilter_linux.cpp
+    source/qextNativeWindowFilter_win.cpp
+    source/qextNativeWindowHelper_linux.cpp
+    source/qextNativeWindowHelper_win.cpp
     )
 
-set(qext_lib_forms
+set(QEXT_LIB_FORMS
 
     )
 
-set(qext_lib_resources
+set(QEXT_LIB_RESOURCES
     resource/QEXTFramelessHelper.qrc
     )
 
-list(APPEND qext_lib_link_libraries QEXTCore)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore)
 
 
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
-set(qext_lib_link_libraries)
-set(qext_lib_include_directories)
+set(QEXT_LIB_LINK_LIBRARIES)
+set(QEXT_LIB_INCLUDE_DIRECTORIES)
 
 if(UNIX)
-    list(APPEND qext_lib_link_libraries ${CMAKE_DL_LIBS})
+    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_DL_LIBS})
 endif()
 
 if(WIN32)
-    list(APPEND qext_lib_link_libraries shlwapi.lib)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES shlwapi.lib)
 endif()
 
 if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND qext_lib_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND qext_lib_link_libraries Qt4::QtCore Qt4::QtGui)
-    list(APPEND qext_lib_include_directories
+    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
+    list(APPEND QEXT_LIB_INCLUDE_DIRECTORIES
         ${Qt4Gui_PRIVATE_INCLUDE_DIRS}
         ${Qt4Widgets_PRIVATE_INCLUDE_DIRS}
         )
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND qext_lib_link_libraries
+    list(APPEND QEXT_LIB_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Gui
         Qt${QEXT_QT_VERSION_MAJOR}::Widgets
         )
-    list(APPEND qext_lib_include_directories
+    list(APPEND QEXT_LIB_INCLUDE_DIRECTORIES
         ${Qt${QEXT_QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS}
         ${Qt${QEXT_QT_VERSION_MAJOR}Widgets_PRIVATE_INCLUDE_DIRS}
         )
@@ -105,44 +108,44 @@ else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND qext_lib_link_libraries QEXTCore)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore)
 
 
 
 #--------------------------------------------------------------------------------
 # Add lib target
 #--------------------------------------------------------------------------------
-add_library(${qext_lib_base_name}
-    ${qext_lib_public_headers}
-    ${qext_lib_private_headers}
-    ${qext_lib_sources}
-    ${qext_lib_forms}
-    ${qext_lib_resources}
+add_library(${QEXT_LIB_BASE_NAME}
+    ${QEXT_LIB_PUBLIC_HEADERS}
+    ${QEXT_LIB_PRIVATE_HEADERS}
+    ${QEXT_LIB_SOURCES}
+    ${QEXT_LIB_FORMS}
+    ${QEXT_LIB_RESOURCES}
     )
 if (QEXT_BUILD_COMPILER_WARNING)
-    qextFunctionSetCompilerWarnings(${qext_lib_base_name})
+    qextFunctionSetCompilerWarnings(${QEXT_LIB_BASE_NAME})
 endif()
 if (QEXT_BUILD_USE_PCH)
-    qextFunctionActivatePrecompiledHeaders(${qext_lib_base_name} PRIVATE include/qextFramelessHelperPch.h)
+    qextFunctionActivatePrecompiledHeaders(${QEXT_LIB_BASE_NAME} PRIVATE include/qextFramelessHelperPch.h)
 endif()
-target_link_libraries(${qext_lib_base_name} PUBLIC ${qext_lib_link_libraries})
-target_include_directories(${qext_lib_base_name} PUBLIC
+target_link_libraries(${QEXT_LIB_BASE_NAME} PUBLIC ${QEXT_LIB_LINK_LIBRARIES})
+target_include_directories(${QEXT_LIB_BASE_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-    $<BUILD_INTERFACE:${qext_lib_include_directories}>
+    $<BUILD_INTERFACE:${QEXT_LIB_INCLUDE_DIRECTORIES}>
     $<INSTALL_INTERFACE:include>
     )
-target_compile_definitions(${qext_lib_base_name} PRIVATE QEXT_BUILD_FRAMELESSHELPER_LIB)
+target_compile_definitions(${QEXT_LIB_BASE_NAME} PRIVATE QEXT_BUILD_FRAMELESSHELPER_LIB)
 
 
 # set target properties
-set_target_properties(${qext_lib_base_name} PROPERTIES
+set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
     VERSION ${QEXT_VERSION} SOVERSION ${QEXT_SO_VERSION}
     CXX_STANDARD ${QEXT_CXX_STANDARD}
     DEBUG_POSTFIX ${QEXT_DEBUG_POSTFIX}
     )
 if (QEXT_BUILD_SHARED_LIBS)
-    set_target_properties(${qext_lib_base_name} PROPERTIES
+    set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
         CXX_VISIBILITY_PRESET hidden
         VISIBILITY_INLINES_HIDDEN 1)
 endif()

@@ -49,7 +49,7 @@
  * wraps arbitrary functor types as well as function pointers
  * and class methods.
  *
- * @ingroup qextAdaptors
+ * \ingroup qextAdaptors
  */
 struct QEXTAdaptorBase : public QEXTFunctorBase
 {
@@ -71,7 +71,7 @@ struct QEXTAdaptorBase : public QEXTFunctorBase
  * template to correctly deduce the return types of the adaptor's suitable
  * <tt>template operator()</tt> overload.
  *
- * @ingroup qextAdaptors
+ * \ingroup qextAdaptors
  */
 template <
     typename T_functor,

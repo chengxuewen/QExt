@@ -1,0 +1,4 @@
+module QEXTQmlVLC
+plugin QEXTQmlVLC
+classname QEXTQmlVLCPlugin
+typeinfo plugin.qmltypes

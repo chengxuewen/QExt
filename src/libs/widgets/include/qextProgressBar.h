@@ -34,106 +34,95 @@
 
 #include <QWidget>
 
+class QEXTProgressBarPrivate;
 class QEXT_WIDGETS_API QEXTProgressBar : public QWidget
 {
 	Q_OBJECT	
-	Q_PROPERTY(double minValue READ getMinValue WRITE setMinValue)
-	Q_PROPERTY(double maxValue READ getMaxValue WRITE setMaxValue)
-    Q_PROPERTY(double value READ getValue WRITE setValue)
-	Q_PROPERTY(int precision READ getPrecision WRITE setPrecision)
+    Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
+    Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
+    Q_PROPERTY(double value READ value WRITE setValue)
+    Q_PROPERTY(int precision READ precision WRITE setPrecision)
 
-	Q_PROPERTY(double step READ getStep WRITE setStep)
-	Q_PROPERTY(double space READ getSpace WRITE setSpace)
-	Q_PROPERTY(double radius READ getRadius WRITE setRadius)
+    Q_PROPERTY(double step READ step WRITE setStep)
+    Q_PROPERTY(double space READ space WRITE setSpace)
+    Q_PROPERTY(double radius READ radius WRITE setRadius)
 
-	Q_PROPERTY(QColor bgColorStart READ getBgColorStart WRITE setBgColorStart)
-	Q_PROPERTY(QColor bgColorEnd READ getBgColorEnd WRITE setBgColorEnd)
+    Q_PROPERTY(QColor backgroundStartColor READ backgroundStartColor WRITE setBgColorStart)
+    Q_PROPERTY(QColor backgroundEndColor READ backgroundEndColor WRITE setBgColorEnd)
 
-	Q_PROPERTY(QColor lineColor READ getLineColor WRITE setLineColor)
-	Q_PROPERTY(QColor textColor READ getTextColor WRITE setTextColor)
+    Q_PROPERTY(QColor lineColor READ lineColor WRITE setLineColor)
+    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
 
-	Q_PROPERTY(QColor barBgColor READ getBarBgColor WRITE setBarBgColor)
-	Q_PROPERTY(QColor barColor READ getBarColor WRITE setBarColor)
+    Q_PROPERTY(QColor barBackgroundColor READ barBackgroundColor WRITE setBarBgColor)
+    Q_PROPERTY(QColor barColor READ barColor WRITE setBarColor)
 
 public:
-    explicit QEXTProgressBar(QWidget *parent = 0);
+    explicit QEXTProgressBar(QWidget *parent = QEXT_DECL_NULLPTR);
+    ~QEXTProgressBar();
+
+    double minValue() const;
+    double maxValue() const;
+    double value() const;
+    int precision() const;
+
+    int step() const;
+    int space() const;
+    int radius() const;
+
+    QColor backgroundStartColor() const;
+    QColor backgroundEndColor() const;
+
+    QColor lineColor() const;
+    QColor textColor() const;
+
+    QColor barBackgroundColor() const;
+    QColor barColor() const;
+
+    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
+
+Q_SIGNALS:
+    void valueChanged(double value);
+
+public Q_SLOTS:
+    void setRange(double minValue, double maxValue);
+    void setRange(int minValue, int maxValue);
+
+    void setMinValue(double minValue);
+    void setMaxValue(double maxValue);
+
+    void setValue(double value);
+    void setValue(int value);
+
+    void setPrecision(int precision);
+
+    void setStep(int step);
+
+    void setSpace(int space);
+
+    void setRadius(int radius);
+
+    void setBgColorStart(const QColor &color);
+    void setBgColorEnd(const QColor &color);
+
+    void setLineColor(const QColor &color);
+
+    void setTextColor(const QColor &color);
+
+    void setBarBgColor(const QColor &color);
+    void setBarColor(const QColor &color);
 
 protected:
 	void paintEvent(QPaintEvent *);
-	void drawBg(QPainter *painter);
+
+    void drawBackground(QPainter *painter);
 	void drawBar(QPainter *painter);
 
+    QScopedPointer<QEXTProgressBarPrivate> dd_ptr;
+
 private:	
-    double minValue;
-    double maxValue;
-    double value;
-    int precision;
-
-    int step;
-    int space;
-    int radius;
-
-    QColor bgColorStart;
-    QColor bgColorEnd;
-
-    QColor lineColor;
-    QColor textColor;
-
-    QColor barBgColor;
-    QColor barColor;
-
-public:	
-	double getMinValue()            const;
-	double getMaxValue()            const;
-    double getValue()               const;
-	int getPrecision()              const;
-
-	int getStep()                   const;
-	int getSpace()                  const;
-	int getRadius()                 const;
-
-	QColor getBgColorStart()        const;
-	QColor getBgColorEnd()          const;
-
-	QColor getLineColor()           const;
-	QColor getTextColor()           const;
-
-	QColor getBarBgColor()          const;
-	QColor getBarColor()            const;
-
-	QSize sizeHint()                const;
-	QSize minimumSizeHint()         const;
-
-public Q_SLOTS:
-	void setRange(double minValue, double maxValue);
-	void setRange(int minValue, int maxValue);
-
-	void setMinValue(double minValue);
-	void setMaxValue(double maxValue);
-
-	void setValue(double value);
-	void setValue(int value);
-
-	void setPrecision(int precision);
-
-	void setStep(int step);
-
-	void setSpace(int space);
-
-	void setRadius(int radius);
-
-	void setBgColorStart(const QColor &bgColorStart);
-	void setBgColorEnd(const QColor &bgColorEnd);
-
-	void setLineColor(QColor lineColor);
-
-	void setTextColor(QColor textColor);
-
-	void setBarBgColor(QColor barBgColor);
-	void setBarColor(QColor barColor);
-
-Q_SIGNALS:
-	void valueChanged(double value);
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressBar)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTProgressBar)
 };
 
 #endif // _QEXTPROGRESSPIE_H

@@ -76,7 +76,7 @@ namespace qextPrivate
         }
 
         /** Returns whether the list of slots is empty.
-         * @return @p true if the list of slots is empty.
+         * \return @p true if the list of slots is empty.
          */
         inline bool isEmpty() const
         {
@@ -87,13 +87,13 @@ namespace qextPrivate
         void clear();
 
         /** Returns the number of slots in the list.
-         * @return The number of slots in the list.
+         * \return The number of slots in the list.
          */
         Size size() const;
 
 
         /** Returns whether all slots in the list are blocked.
-         * @return @p true if all slots are blocked or the list is empty.
+         * \return @p true if all slots are blocked or the list is empty.
          */
         bool isBlocked() const;
 
@@ -103,25 +103,25 @@ namespace qextPrivate
          * contained in the slots until setBlock() with @e block = @p false is called.
          * QEXTFunctionBase::setBlock() and QEXTFunctionBase::unblock() can change the
          * blocking state of individual slots.
-         * @param block Indicates whether the blocking state should be set or unset.
+         * \param block Indicates whether the blocking state should be set or unset.
          */
         void setBlock(bool block = true);
 
         /** Adds a slot at the bottom of the list of slots.
-         * @param slot The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param slot The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator connect(const QEXTFunctionBase &slot);
         /** Adds a slot at the given position into the list of slots.
-         * @param iter An iterator indicating the position where @p slot should be inserted.
-         * @param slot The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param iter An iterator indicating the position where @p slot should be inserted.
+         * \param slot The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator insert(Iterator iter, const QEXTFunctionBase &slot);
 
         /** Removes the slot at the given position from the list of slots.
-         * @param iter An iterator pointing to the slot to be removed.
-         * @return An iterator pointing to the slot in the list after the one removed.
+         * \param iter An iterator pointing to the slot to be removed.
+         * \return An iterator pointing to the slot in the list after the one removed.
          */
         Iterator erase(Iterator iter);
 
@@ -135,7 +135,7 @@ namespace qextPrivate
          * because of some referred object being destroyed.
          * It either calls m_slotList.erase() directly or defers the execution of
          * erase() to sweep() when the signal is being sended.
-         * @param data A local structure, created in insert().
+         * \param data A local structure, created in insert().
          */
         static void *notify(void *data);
 
@@ -162,7 +162,7 @@ namespace qextPrivate
         bool operator!=(const QEXTSignalBase &other) const;
 
         /** Returns whether the list of slots is empty.
-         * @return @p true if the list of slots is empty.
+         * \return @p true if the list of slots is empty.
          */
         bool isEmpty() const
         {
@@ -173,12 +173,12 @@ namespace qextPrivate
         void clear();
 
         /** Returns the number of slots in the list.
-         * @return The number of slots in the list.
+         * \return The number of slots in the list.
          */
         Size size() const;
 
         /** Returns whether all slots in the list are blocked.
-         * @return @p true if all slots are blocked or the list is empty.
+         * \return @p true if all slots are blocked or the list is empty.
          */
         bool isBlocked() const;
 
@@ -189,7 +189,7 @@ namespace qextPrivate
          * @e should_block = @p false is called.
          * QEXTFunctionBase::setBlock() and QEXTFunctionBase::unblock() can change the
          * blocking state of individual slots.
-         * @param block Indicates whether the blocking state should be set or unset.
+         * \param block Indicates whether the blocking state should be set or unset.
          */
         void setBlock(bool block = true);
 
@@ -201,25 +201,25 @@ namespace qextPrivate
         /** Adds a slot at the end of the list of slots.
          * With connect(), slots can also be added during signal send.
          * In this case, they won't be executed until the next send occurs.
-         * @param slot_ The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param slot_ The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator connect(const QEXTFunctionBase &slot);
         /** Adds a slot at the given position into the list of slots.
          * Note that this function does not work during signal send!
-         * @param iter An iterator indicating the position where @e slot should be inserted.
-         * @param slot The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param iter An iterator indicating the position where @e slot should be inserted.
+         * \param slot The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator insert(Iterator iter, const QEXTFunctionBase &slot);
         /** Removes the slot at the given position from the list of slots.
          * Note that this function does not work during signal send!
-         * @param iter An iterator pointing to the slot to be removed.
-         * @return An iterator pointing to the slot in the list after the one removed.
+         * \param iter An iterator pointing to the slot to be removed.
+         * \return An iterator pointing to the slot in the list after the one removed.
          */
         Iterator erase(Iterator iter);
         /** Returns the QEXTSignalData object encapsulating the list of slots.
-         * @return The QEXTSignalData object encapsulating the list of slots.
+         * \return The QEXTSignalData object encapsulating the list of slots.
          */
         qextPrivate::QEXTSignalData *data() const;
 
@@ -233,7 +233,7 @@ namespace qextPrivate
     struct QEXT_CORE_API QEXTSignalExecution
     {
         /** Increments the reference and execution counter of the parent QEXTSignalData object.
-         * @param sig The parent QEXTSignalData object.
+         * \param sig The parent QEXTSignalData object.
          */
         QEXTSignalExecution(const QEXTSignalData *signalData);
 
@@ -431,7 +431,7 @@ namespace qextPrivate
      * the list while existing iterators stay valid. A slot_list
      * object can be retrieved from the signal's slotList() function.
      *
-     * @ingroup signal
+     * \ingroup signal
      */
     template < typename T_slot >
     struct QEXTFunctionList
@@ -897,8 +897,8 @@ namespace qextPrivate
         QEXTSignalSend0() {}
 
         /** Invokes a slot.
-         * @param slot Some slot to invoke.
-         * @return The slot's return value.
+         * \param slot Some slot to invoke.
+         * \return The slot's return value.
          */
         T_return operator()(const Slot &slot) const
         {
@@ -906,7 +906,7 @@ namespace qextPrivate
         }
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return send(QEXTSignalData *signalData)
         {
@@ -925,7 +925,7 @@ namespace qextPrivate
         }
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return sendReverse(QEXTSignalData *signalData)
         {
@@ -959,7 +959,7 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The return value of the last slot invoked is returned.
-         * @return The return value of the last slot invoked.
+         * \return The return value of the last slot invoked.
          */
         static Return send(QEXTSignalData *signalData)
         {
@@ -993,9 +993,9 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The return value of the last slot invoked is returned.
-         * @param first An iterator pointing to the first slot in the list.
-         * @param last An iterator pointing to the last slot in the list.
-         * @return The return value of the last slot invoked.
+         * \param first An iterator pointing to the first slot in the list.
+         * \param last An iterator pointing to the last slot in the list.
+         * \return The return value of the last slot invoked.
          */
         static Return sendReverse(QEXTSignalData *signalData)
         {
@@ -1121,8 +1121,8 @@ namespace qextPrivate
         QEXTSignalSend1(typename QEXTTypeTrait< T_arg1 >::Take arg1) : m_arg1(arg1) {}
 
         /** Invokes a slot using the buffered parameter values.
-         * @param slot Some slot to invoke.
-         * @return The slot's return value.
+         * \param slot Some slot to invoke.
+         * \return The slot's return value.
          */
         T_return operator()(const Slot &slot) const
         {
@@ -1132,8 +1132,8 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are buffered in a temporary instance of QEXTSignalSend1.
 
-         * @param arg1 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return send(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1)
         {
@@ -1154,8 +1154,8 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are buffered in a temporary instance of QEXTSignalSend1.
 
-         * @param arg1 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return sendReverse(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1)
         {
@@ -1192,8 +1192,8 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @return The return value of the last valid slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \return The return value of the last valid slot invoked.
          */
         static Return send(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1)
         {
@@ -1227,8 +1227,8 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return sendReverse(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1)
         {
@@ -1278,7 +1278,7 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
          */
         static Return send(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1)
         {
@@ -1308,7 +1308,7 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
          */
         static Return sendReverse(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1)
         {
@@ -1361,8 +1361,8 @@ namespace qextPrivate
         QEXTSignalSend2(typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) : m_arg1(arg1), m_arg2(arg2) {}
 
         /** Invokes a slot using the buffered parameter values.
-         * @param slot Some slot to invoke.
-         * @return The slot's return value.
+         * \param slot Some slot to invoke.
+         * \return The slot's return value.
          */
         T_return operator()(const Slot &slot) const
         {
@@ -1371,9 +1371,9 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are buffered in a temporary instance of QEXTSignalSend2.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return send(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2)
         {
@@ -1393,9 +1393,9 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are buffered in a temporary instance of QEXTSignalSend2.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return sendReverse(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2)
         {
@@ -1433,9 +1433,9 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return send(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2)
         {
@@ -1470,9 +1470,9 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return sendReverse(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2)
         {
@@ -1522,8 +1522,8 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
          */
         static Return send(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2)
         {
@@ -1553,8 +1553,8 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
          */
         static Return sendReverse(QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2)
         {
@@ -1610,8 +1610,8 @@ namespace qextPrivate
         }
 
         /** Invokes a slot using the buffered parameter values.
-         * @param slot Some slot to invoke.
-         * @return The slot's return value.
+         * \param slot Some slot to invoke.
+         * \return The slot's return value.
          */
         T_return operator()(const Slot &slot) const
         {
@@ -1620,10 +1620,10 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are buffered in a temporary instance of QEXTSignalSend3.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return send(
             QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3)
@@ -1644,10 +1644,10 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are buffered in a temporary instance of QEXTSignalSend3.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return sendReverse(
             QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3)
@@ -1687,10 +1687,10 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return send(
             QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3)
@@ -1726,10 +1726,10 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return sendReverse(
             QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3)
@@ -1780,9 +1780,9 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
          */
         static Return send(
             QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3)
@@ -1814,9 +1814,9 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
          */
         static Return sendReverse(
             QEXTSignalData *signalData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3)
@@ -1877,8 +1877,8 @@ namespace qextPrivate
         }
 
         /** Invokes a slot using the buffered parameter values.
-         * @param slot Some slot to invoke.
-         * @return The slot's return value.
+         * \param slot Some slot to invoke.
+         * \return The slot's return value.
          */
         T_return operator()(const Slot &slot) const
         {
@@ -1887,11 +1887,11 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are buffered in a temporary instance of QEXTSignalSend4.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -1916,11 +1916,11 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are buffered in a temporary instance of QEXTSignalSend4.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -1965,11 +1965,11 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -2009,11 +2009,11 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -2068,10 +2068,10 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -2106,10 +2106,10 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -2175,8 +2175,8 @@ namespace qextPrivate
         }
 
         /** Invokes a slot using the buffered parameter values.
-         * @param slot Some slot to invoke.
-         * @return The slot's return value.
+         * \param slot Some slot to invoke.
+         * \return The slot's return value.
          */
         T_return operator()(const Slot &slot) const
         {
@@ -2185,12 +2185,12 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are buffered in a temporary instance of QEXTSignalSend5.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -2216,12 +2216,12 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are buffered in a temporary instance of QEXTSignalSend5.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -2268,12 +2268,12 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -2314,12 +2314,12 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -2375,11 +2375,11 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -2415,11 +2415,11 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -2488,8 +2488,8 @@ namespace qextPrivate
         }
 
         /** Invokes a slot using the buffered parameter values.
-         * @param slot Some slot to invoke.
-         * @return The slot's return value.
+         * \param slot Some slot to invoke.
+         * \return The slot's return value.
          */
         T_return operator()(const Slot &slot) const
         {
@@ -2498,13 +2498,13 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are buffered in a temporary instance of QEXTSignalSend6.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -2531,13 +2531,13 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are buffered in a temporary instance of QEXTSignalSend6.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -2586,13 +2586,13 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -2634,13 +2634,13 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -2698,12 +2698,12 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -2740,12 +2740,12 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -2824,8 +2824,8 @@ namespace qextPrivate
         }
 
         /** Invokes a slot using the buffered parameter values.
-         * @param slot Some slot to invoke.
-         * @return The slot's return value.
+         * \param slot Some slot to invoke.
+         * \return The slot's return value.
          */
         T_return operator()(const Slot &slot) const
         {
@@ -2835,14 +2835,14 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are buffered in a temporary instance of QEXTSignalSend7.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @param arg7 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \param arg7 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -2870,14 +2870,14 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are buffered in a temporary instance of QEXTSignalSend7.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @param arg7 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations as processed by the accumulator.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \param arg7 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -2928,14 +2928,14 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @param arg7 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \param arg7 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -2978,14 +2978,14 @@ namespace qextPrivate
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
          * The return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @param arg7 Argument to be passed on to the slots.
-         * @return The return value of the last slot invoked.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \param arg7 Argument to be passed on to the slots.
+         * \return The return value of the last slot invoked.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -3043,13 +3043,13 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @param arg7 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \param arg7 Argument to be passed on to the slots.
          */
         static Return send(
             QEXTSignalData *signalData,
@@ -3087,13 +3087,13 @@ namespace qextPrivate
 
         /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * The arguments are passed directly on to the slots.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @param arg7 Argument to be passed on to the slots.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \param arg7 Argument to be passed on to the slots.
          */
         static Return sendReverse(
             QEXTSignalData *signalData,
@@ -3160,7 +3160,7 @@ namespace qextPrivate
      *
      * You should use the more convenient unnumbered QEXTSignal template.
      *
-     * @ingroup signal
+     * \ingroup signal
      */
     template < typename T_return, typename T_accumulator = QEXTNil >
     class QEXTSignal0 : public QEXTSignalBase
@@ -3194,8 +3194,8 @@ namespace qextPrivate
          * of such a functor. If you first assign the return value of %std::bind()
          * to a std::function, you can connect the std::function to a signal.
          *
-         * @param slot_ The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param slot_ The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator connect(const Slot &slot)
         {
@@ -3257,7 +3257,7 @@ namespace qextPrivate
          * If @e T_accumulated is not @p QEXTNil, an accumulator of this type
          * is used to process the return values of the slot invocations.
          * Otherwise, the return value of the last slot invoked is returned.
-         * @return The accumulated return values of the slot invocations.
+         * \return The accumulated return values of the slot invocations.
          */
         Return send() const
         {
@@ -3281,7 +3281,7 @@ namespace qextPrivate
          * qextMemberFunctor(mysignal, &QEXTSignal0::send)
          * @endcode
          * yields the same result.
-         * @return A functor that calls send() on this signal.
+         * \return A functor that calls send() on this signal.
          */
         QEXTBoundConstMemberFunctor< Return, QEXTSignal0 > makeSlot() const
         {
@@ -3290,7 +3290,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         SlotList slotList()
         {
@@ -3299,7 +3299,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         const SlotList slotList() const
         {
@@ -3338,7 +3338,7 @@ namespace qextPrivate
      *
      * You should use the more convenient unnumbered QEXTSignal template.
      *
-     * @ingroup signal
+     * \ingroup signal
      */
     template < typename T_return, typename T_arg1, typename T_accumulator = QEXTNil >
     class QEXTSignal1 : public QEXTSignalBase
@@ -3371,8 +3371,8 @@ namespace qextPrivate
          * of such a functor. If you first assign the return value of %std::bind()
          * to a std::function, you can connect the std::function to a signal.
          *
-         * @param slot_ The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param slot_ The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator connect(const Slot &slot)
         {
@@ -3434,8 +3434,8 @@ namespace qextPrivate
          * If @e T_accumulated is not @p QEXTNil, an accumulator of this type
          * is used to process the return values of the slot invocations.
          * Otherwise, the return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations.
+         * \param arg1 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations.
          */
         Return send(typename QEXTTypeTrait< T_arg1 >::Take arg1) const
         {
@@ -3459,7 +3459,7 @@ namespace qextPrivate
          * qextMemberFunctor(mysignal, &QEXTSignal1::send)
          * @endcode
          * yields the same result.
-         * @return A functor that calls send() on this signal.
+         * \return A functor that calls send() on this signal.
          */
         QEXTBoundConstMemberFunctor< Return, QEXTSignal1, typename QEXTTypeTrait< T_arg1 >::Take > makeSlot() const
         {
@@ -3468,7 +3468,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         SlotList slotList()
         {
@@ -3477,7 +3477,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         const SlotList slotList() const
         {
@@ -3517,7 +3517,7 @@ namespace qextPrivate
      *
      * You should use the more convenient unnumbered QEXTSignal template.
      *
-     * @ingroup signal
+     * \ingroup signal
      */
     template < typename T_return, typename T_arg1, typename T_arg2, typename T_accumulator = QEXTNil >
     class QEXTSignal2 : public QEXTSignalBase
@@ -3550,8 +3550,8 @@ namespace qextPrivate
          * of such a functor. If you first assign the return value of %std::bind()
          * to a std::function, you can connect the std::function to a signal.
          *
-         * @param slot_ The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param slot_ The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator connect(const Slot &slot)
         {
@@ -3613,9 +3613,9 @@ namespace qextPrivate
          * If @e T_accumulated is not @p QEXTNil, an accumulator of this type
          * is used to process the return values of the slot invocations.
          * Otherwise, the return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations.
          */
         Return send(typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2) const
         {
@@ -3639,7 +3639,7 @@ namespace qextPrivate
          * qextMemberFunctor(mysignal, &QEXTSignal2::send)
          * @endcode
          * yields the same result.
-         * @return A functor that calls send() on this signal.
+         * \return A functor that calls send() on this signal.
          */
         QEXTBoundConstMemberFunctor< Return, QEXTSignal2, typename QEXTTypeTrait< T_arg1 >::Take, typename QEXTTypeTrait< T_arg2 >::Take > makeSlot() const
         {
@@ -3653,7 +3653,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         SlotList slotList()
         {
@@ -3662,7 +3662,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         const SlotList slotList() const
         {
@@ -3703,7 +3703,7 @@ namespace qextPrivate
      *
      * You should use the more convenient unnumbered QEXTSignal template.
      *
-     * @ingroup signal
+     * \ingroup signal
      */
     template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_accumulator = QEXTNil >
     class QEXTSignal3 : public QEXTSignalBase
@@ -3736,8 +3736,8 @@ namespace qextPrivate
          * of such a functor. If you first assign the return value of %std::bind()
          * to a std::function, you can connect the std::function to a signal.
          *
-         * @param slot_ The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param slot_ The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator connect(const Slot &slot)
         {
@@ -3799,10 +3799,10 @@ namespace qextPrivate
          * If @e T_accumulated is not @p QEXTNil, an accumulator of this type
          * is used to process the return values of the slot invocations.
          * Otherwise, the return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations.
          */
         Return send(typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2, typename QEXTTypeTrait< T_arg3 >::Take arg3) const
         {
@@ -3826,7 +3826,7 @@ namespace qextPrivate
          * qextMemberFunctor(mysignal, &QEXTSignal3::send)
          * @endcode
          * yields the same result.
-         * @return A functor that calls send() on this signal.
+         * \return A functor that calls send() on this signal.
          */
         QEXTBoundConstMemberFunctor <
         Return,
@@ -3846,7 +3846,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         SlotList slotList()
         {
@@ -3855,7 +3855,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         const SlotList slotList() const
         {
@@ -3897,7 +3897,7 @@ namespace qextPrivate
      *
      * You should use the more convenient unnumbered QEXTSignal template.
      *
-     * @ingroup signal
+     * \ingroup signal
      */
     template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_accumulator = QEXTNil >
     class QEXTSignal4 : public QEXTSignalBase
@@ -3930,8 +3930,8 @@ namespace qextPrivate
          * of such a functor. If you first assign the return value of %std::bind()
          * to a std::function, you can connect the std::function to a signal.
          *
-         * @param slot_ The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param slot_ The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator connect(const Slot &slot)
         {
@@ -3993,11 +3993,11 @@ namespace qextPrivate
          * If @e T_accumulated is not @p QEXTNil, an accumulator of this type
          * is used to process the return values of the slot invocations.
          * Otherwise, the return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations.
          */
         Return send(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -4033,7 +4033,7 @@ namespace qextPrivate
          * qextMemberFunctor(mysignal, &QEXTSignal4::send)
          * @endcode
          * yields the same result.
-         * @return A functor that calls send() on this signal.
+         * \return A functor that calls send() on this signal.
          */
         QEXTBoundConstMemberFunctor <
         Return,
@@ -4055,7 +4055,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         SlotList slotList()
         {
@@ -4064,7 +4064,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         const SlotList slotList() const
         {
@@ -4107,7 +4107,7 @@ namespace qextPrivate
      *
      * You should use the more convenient unnumbered QEXTSignal template.
      *
-     * @ingroup signal
+     * \ingroup signal
      */
     template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_accumulator = QEXTNil >
     class QEXTSignal5 : public QEXTSignalBase
@@ -4140,8 +4140,8 @@ namespace qextPrivate
          * of such a functor. If you first assign the return value of %std::bind()
          * to a std::function, you can connect the std::function to a signal.
          *
-         * @param slot_ The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param slot_ The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator connect(const Slot &slot)
         {
@@ -4203,12 +4203,12 @@ namespace qextPrivate
          * If @e T_accumulated is not @p QEXTNil, an accumulator of this type
          * is used to process the return values of the slot invocations.
          * Otherwise, the return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations.
          */
         Return send(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -4247,7 +4247,7 @@ namespace qextPrivate
          * qextMemberFunctor(mysignal, &QEXTSignal5::send)
          * @endcode
          * yields the same result.
-         * @return A functor that calls send() on this signal.
+         * \return A functor that calls send() on this signal.
          */
         QEXTBoundConstMemberFunctor <
         Return,
@@ -4271,7 +4271,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         SlotList slotList()
         {
@@ -4280,7 +4280,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         const SlotList slotList() const
         {
@@ -4324,7 +4324,7 @@ namespace qextPrivate
      *
      * You should use the more convenient unnumbered QEXTSignal template.
      *
-     * @ingroup signal
+     * \ingroup signal
      */
     template <
         typename T_return,
@@ -4365,8 +4365,8 @@ namespace qextPrivate
          * of such a functor. If you first assign the return value of %std::bind()
          * to a std::function, you can connect the std::function to a signal.
          *
-         * @param slot_ The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param slot_ The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator connect(const Slot &slot)
         {
@@ -4428,13 +4428,13 @@ namespace qextPrivate
          * If @e T_accumulated is not @p QEXTNil, an accumulator of this type
          * is used to process the return values of the slot invocations.
          * Otherwise, the return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations.
          */
         Return send(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -4476,7 +4476,7 @@ namespace qextPrivate
          * qextMemberFunctor(mysignal, &QEXTSignal6::send)
          * @endcode
          * yields the same result.
-         * @return A functor that calls send() on this signal.
+         * \return A functor that calls send() on this signal.
          */
         QEXTBoundConstMemberFunctor <
         Return,
@@ -4502,7 +4502,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         SlotList slotList()
         {
@@ -4511,7 +4511,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         const SlotList slotList() const
         {
@@ -4556,7 +4556,7 @@ namespace qextPrivate
      *
      * You should use the more convenient unnumbered QEXTSignal template.
      *
-     * @ingroup signal
+     * \ingroup signal
      */
     template <
         typename T_return,
@@ -4601,8 +4601,8 @@ namespace qextPrivate
          * of such a functor. If you first assign the return value of %std::bind()
          * to a std::function, you can connect the std::function to a signal.
          *
-         * @param slot_ The slot to add to the list of slots.
-         * @return An iterator pointing to the new slot in the list.
+         * \param slot_ The slot to add to the list of slots.
+         * \return An iterator pointing to the new slot in the list.
          */
         Iterator connect(const Slot &slot)
         {
@@ -4664,14 +4664,14 @@ namespace qextPrivate
          * If @e T_accumulated is not @p QEXTNil, an accumulator of this type
          * is used to process the return values of the slot invocations.
          * Otherwise, the return value of the last slot invoked is returned.
-         * @param arg1 Argument to be passed on to the slots.
-         * @param arg2 Argument to be passed on to the slots.
-         * @param arg3 Argument to be passed on to the slots.
-         * @param arg4 Argument to be passed on to the slots.
-         * @param arg5 Argument to be passed on to the slots.
-         * @param arg6 Argument to be passed on to the slots.
-         * @param arg7 Argument to be passed on to the slots.
-         * @return The accumulated return values of the slot invocations.
+         * \param arg1 Argument to be passed on to the slots.
+         * \param arg2 Argument to be passed on to the slots.
+         * \param arg3 Argument to be passed on to the slots.
+         * \param arg4 Argument to be passed on to the slots.
+         * \param arg5 Argument to be passed on to the slots.
+         * \param arg6 Argument to be passed on to the slots.
+         * \param arg7 Argument to be passed on to the slots.
+         * \return The accumulated return values of the slot invocations.
          */
         Return send(
             typename QEXTTypeTrait< T_arg1 >::Take arg1,
@@ -4716,7 +4716,7 @@ namespace qextPrivate
          * qextMemberFunctor(mysignal, &QEXTSignal7::send)
          * @endcode
          * yields the same result.
-         * @return A functor that calls send() on this signal.
+         * \return A functor that calls send() on this signal.
          */
         QEXTBoundConstMemberFunctor <
         Return,
@@ -4744,7 +4744,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         SlotList slotList()
         {
@@ -4753,7 +4753,7 @@ namespace qextPrivate
 
         /** Creates an STL-style interface for the signal's list of slots.
          * This interface supports iteration, insertion and removal of slots.
-         * @return An STL-style interface for the signal's list of slots.
+         * \return An STL-style interface for the signal's list of slots.
          */
         const SlotList slotList() const
         {
@@ -4803,7 +4803,7 @@ namespace qextPrivate
  * sig.send(19);
  * @endcode
  *
- * @ingroup signal
+ * \ingroup signal
  */
 template <
     typename T_return,
@@ -4865,7 +4865,7 @@ public:
        * };
        * @endcode
        *
-       * @ingroup signal
+       * \ingroup signal
        */
     template < typename T_accumulator >
     class Accumulated : public qextPrivate::QEXTSignal7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, T_accumulator >

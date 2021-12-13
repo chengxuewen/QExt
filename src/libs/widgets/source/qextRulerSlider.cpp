@@ -1,4 +1,5 @@
 ﻿#include <qextRulerSlider.h>
+#include <qextRulerSlider_p.h>
 
 #include <QPainter>
 #include <QMouseEvent>
@@ -6,71 +7,92 @@
 #include <QTimer>
 #include <QDebug>
 
-QEXTRulerSlider::QEXTRulerSlider(QWidget *parent) :	QWidget(parent)
+
+QEXTRulerSliderPrivate::QEXTRulerSliderPrivate(QEXTRulerSlider *q)
+    : q_ptr(q)
+{
+    m_minValue = 0.0;
+    m_maxValue = 100.0;
+    m_value = 0.0;
+
+    m_precision = 0;
+    m_longStep = 10;
+    m_shortStep = 1;
+    m_space = 20;
+
+    m_backgroundStartColor = QColor(100, 100, 100);
+    m_backgroundEndColor = QColor(60, 60, 60);
+    m_lineColor = QColor(255, 255, 255);
+
+    m_sliderTopColor = QColor(100, 184, 255);
+    m_sliderBottomColor = QColor(235, 235, 235);
+
+    m_tipBackgroundColor = QColor(255, 255, 255);
+    m_tipTextColor = QColor(50, 50, 50);
+
+    m_pressed = false;
+    m_currentValue = 0;
+    m_sliderLastPot = QPointF(m_space, m_longLineHeight / 2);
+}
+
+QEXTRulerSliderPrivate::~QEXTRulerSliderPrivate()
+{
+
+}
+
+
+
+QEXTRulerSlider::QEXTRulerSlider(QWidget *parent)
+    : QWidget(parent)
+    , dd_ptr(new QEXTRulerSliderPrivate(this))
 {    
-    minValue = 0.0;
-    maxValue = 100.0;
-    value = 0.0;
+    this->setFont(QFont("Arial", 8));
+}
 
-    precision = 0;
-    longStep = 10;
-    shortStep = 1;
-    space = 20;
+QEXTRulerSlider::~QEXTRulerSlider()
+{
 
-    bgColorStart = QColor(100, 100, 100);
-    bgColorEnd = QColor(60, 60, 60);
-    lineColor = QColor(255, 255, 255);
-
-    sliderColorTop = QColor(100, 184, 255);
-    sliderColorBottom = QColor(235, 235, 235);
-
-    tipBgColor = QColor(255, 255, 255);
-    tipTextColor = QColor(50, 50, 50);
-
-    pressed = false;
-    currentValue = 0;
-    sliderLastPot = QPointF(space, longLineHeight / 2);
-
-    setFont(QFont("Arial", 8));
 }
 
 void QEXTRulerSlider::resizeEvent(QResizeEvent *)
 {
-    longLineHeight = height() / 5;
-    shortLineHeight = height() / 7;
-    sliderTopHeight = height() / 7;
-    sliderBottomHeight = height() / 6;
+    Q_D(QEXTRulerSlider);
+    d->m_longLineHeight = height() / 5;
+    d->m_shortLineHeight = height() / 7;
+    d->m_sliderTopHeight = height() / 7;
+    d->m_sliderBottomHeight = height() / 6;
 
     if (this->isVisible()) {
-        setValue(currentValue);
+        this->setValue(d->m_currentValue);
     }
 }
 
 void QEXTRulerSlider::showEvent(QShowEvent *)
 {
-    resizeEvent(NULL);
+    this->resizeEvent(NULL);
 }
 
 void QEXTRulerSlider::wheelEvent(QWheelEvent *e)
 {
+    Q_D(QEXTRulerSlider);
     int degrees = e->delta() / 8;
 
     int steps = degrees / 15;
 
     if (e->orientation() == Qt::Vertical) {
-        double value = currentValue - steps;
+        double value = d->m_currentValue - steps;
 
         if (steps > 0) {
-            if (value > minValue) {
-                setValue(value);
+            if (value > d->m_minValue) {
+                this->setValue(value);
             } else {
-                setValue(minValue);
+                this->setValue(d->m_minValue);
             }
         } else {
-            if (value < maxValue) {
-                setValue(value);
+            if (value < d->m_maxValue) {
+                this->setValue(value);
             } else {
-                setValue(maxValue);
+                this->setValue(d->m_maxValue);
             }
         }
     }
@@ -78,33 +100,36 @@ void QEXTRulerSlider::wheelEvent(QWheelEvent *e)
 
 void QEXTRulerSlider::mousePressEvent(QMouseEvent *e)
 {
+    Q_D(QEXTRulerSlider);
     if (e->button() & Qt::LeftButton) {
-        if (sliderRect.contains(e->pos())) {
-            pressed = true;
-            update();
+        if (d->m_sliderRect.contains(e->pos())) {
+            d->m_pressed = true;
+            this->update();
         }
     }
 }
 
 void QEXTRulerSlider::mouseReleaseEvent(QMouseEvent *e)
 {
-    pressed = false;
-    update();
+    Q_D(QEXTRulerSlider);
+    d->m_pressed = false;
+    this->update();
 }
 
 void QEXTRulerSlider::mouseMoveEvent(QMouseEvent *e)
 {
-    if (pressed) {
-        if (e->pos().x() >= lineLeftPot.x() && e->pos().x() <= lineRightPot.x()) {
-            double totalLineWidth = lineRightPot.x() - lineLeftPot.x();
-            double dx = e->pos().x() - lineLeftPot.x();
+    Q_D(QEXTRulerSlider);
+    if (d->m_pressed) {
+        if (e->pos().x() >= d->m_lineLeftPot.x() && e->pos().x() <= d->m_lineRightPot.x()) {
+            double totalLineWidth = d->m_lineRightPot.x() - d->m_lineLeftPot.x();
+            double dx = e->pos().x() - d->m_lineLeftPot.x();
             double ratio = (double)dx / totalLineWidth;
-            sliderLastPot = QPointF(e->pos().x(), sliderTopPot.y());
+            d->m_sliderLastPot = QPointF(e->pos().x(), d->m_sliderTopPot.y());
 
-            currentValue = (maxValue - minValue) * ratio + minValue;
-            this->value = currentValue;
-            emit valueChanged(currentValue);
-            update();
+            d->m_currentValue = (d->m_maxValue - d->m_minValue) * ratio + d->m_minValue;
+            d->m_value = d->m_currentValue;
+            emit this->valueChanged(d->m_currentValue);
+            this->update();
         }
     }
 }
@@ -114,19 +139,20 @@ void QEXTRulerSlider::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
-    drawBg(&painter);
-    drawRule(&painter);
-    drawSlider(&painter);
-    drawTip(&painter);
+    this->drawBackground(&painter);
+    this->drawRule(&painter);
+    this->drawSlider(&painter);
+    this->drawTip(&painter);
 }
 
-void QEXTRulerSlider::drawBg(QPainter *painter)
+void QEXTRulerSlider::drawBackground(QPainter *painter)
 {
+    Q_D(QEXTRulerSlider);
     painter->save();
     painter->setPen(Qt::NoPen);
     QLinearGradient bgGradient(0, 0, 0, height());
-    bgGradient.setColorAt(0.0, bgColorStart);
-    bgGradient.setColorAt(1.0, bgColorEnd);
+    bgGradient.setColorAt(0.0, d->m_backgroundStartColor);
+    bgGradient.setColorAt(1.0, d->m_backgroundEndColor);
     painter->setBrush(bgGradient);
     painter->drawRect(rect());
     painter->restore();
@@ -134,36 +160,37 @@ void QEXTRulerSlider::drawBg(QPainter *painter)
 
 void QEXTRulerSlider::drawRule(QPainter *painter)
 {
+    Q_D(QEXTRulerSlider);
     painter->save();
-    painter->setPen(lineColor);
+    painter->setPen(d->m_lineColor);
 
-    double initX = space;
+    double initX = d->m_space;
     double initY = (double)height() / 2;
-    lineLeftPot = QPointF(initX, initY);
-    lineRightPot = QPointF(width() - initX, initY);
-    painter->drawLine(lineLeftPot, lineRightPot);
+    d->m_lineLeftPot = QPointF(initX, initY);
+    d->m_lineRightPot = QPointF(width() - initX, initY);
+    painter->drawLine(d->m_lineLeftPot, d->m_lineRightPot);
 
-    double length = width() - 2 * space;
-    double increment = length / (maxValue - minValue);
+    double length = width() - 2 * d->m_space;
+    double increment = length / (d->m_maxValue - d->m_minValue);
 
-    for (int i = minValue; i <= maxValue; i = i + shortStep) {
-        if (i % longStep == 0) {
-            QPointF topPot(initX, initY - longLineHeight);
+    for (int i = d->m_minValue; i <= d->m_maxValue; i = i + d->m_shortStep) {
+        if (i % d->m_longStep == 0) {
+            QPointF topPot(initX, initY - d->m_longLineHeight);
             QPointF bottomPot(initX, initY);
             painter->drawLine(topPot, bottomPot);
 
-            QString strValue = QString("%1").arg((double)i, 0, 'f', precision);
+            QString strValue = QString("%1").arg((double)i, 0, 'f', d->m_precision);
             double textWidth = fontMetrics().width(strValue);
             double textHeight = fontMetrics().height();
             QPointF textPot(initX - textWidth / 2, initY + textHeight);
             painter->drawText(textPot, strValue);
         } else {
-            QPointF topPot(initX, initY - shortLineHeight);
+            QPointF topPot(initX, initY - d->m_shortLineHeight);
             QPointF bottomPot(initX, initY);
             painter->drawLine(topPot, bottomPot);
         }
 
-        initX += increment * shortStep;
+        initX += increment * d->m_shortStep;
     }
 
     painter->restore();
@@ -171,123 +198,139 @@ void QEXTRulerSlider::drawRule(QPainter *painter)
 
 void QEXTRulerSlider::drawSlider(QPainter *painter)
 {
+    Q_D(QEXTRulerSlider);
     painter->save();
 
-    sliderTopPot = QPointF(sliderLastPot.x(), lineLeftPot.y() - longLineHeight / 4);
-    sliderLeftPot = QPointF(sliderTopPot.x() - width() / 100, sliderTopPot.y() + sliderTopHeight);
-    sliderRightPot = QPointF(sliderTopPot.x() + width() / 100, sliderTopPot.y() + sliderTopHeight);
+    d->m_sliderTopPot = QPointF(d->m_sliderLastPot.x(), d->m_lineLeftPot.y() - d->m_longLineHeight / 4);
+    d->m_sliderLeftPot = QPointF(d->m_sliderTopPot.x() - width() / 100, d->m_sliderTopPot.y() + d->m_sliderTopHeight);
+    d->m_sliderRightPot = QPointF(d->m_sliderTopPot.x() + width() / 100, d->m_sliderTopPot.y() + d->m_sliderTopHeight);
 
-    painter->setPen(sliderColorTop);
-    painter->setBrush(sliderColorTop);
+    painter->setPen(d->m_sliderTopColor);
+    painter->setBrush(d->m_sliderTopColor);
 
     QVector<QPointF> potVec;
-    potVec.append(sliderTopPot);
-    potVec.append(sliderLeftPot);
-    potVec.append(sliderRightPot);
+    potVec.append(d->m_sliderTopPot);
+    potVec.append(d->m_sliderLeftPot);
+    potVec.append(d->m_sliderRightPot);
     painter->drawPolygon(potVec);
 
-    double indicatorLength = sliderRightPot.x() - sliderLeftPot.x();
+    double indicatorLength = d->m_sliderRightPot.x() - d->m_sliderLeftPot.x();
 
-    QPointF handleBottomRightPot(sliderLeftPot.x() + indicatorLength, sliderLeftPot.y() + sliderBottomHeight);
-    sliderRect = QRectF(sliderLeftPot, handleBottomRightPot);
+    QPointF handleBottomRightPot(d->m_sliderLeftPot.x() + indicatorLength, d->m_sliderLeftPot.y() + d->m_sliderBottomHeight);
+    d->m_sliderRect = QRectF(d->m_sliderLeftPot, handleBottomRightPot);
 
-    QPointF tipRectTopLeftPot(sliderRect.topRight().x() + 2, sliderRect.topRight().y());
-    QString strValue = QString("%1").arg(currentValue, 0, 'f', precision);
+    QPointF tipRectTopLeftPot(d->m_sliderRect.topRight().x() + 2, d->m_sliderRect.topRight().y());
+    QString strValue = QString("%1").arg(d->m_currentValue, 0, 'f', d->m_precision);
 
     double textLength = fontMetrics().width(strValue);
     double textHeight = fontMetrics().height();
     QPointF tipRectBottomRightPot(tipRectTopLeftPot.x() + textLength + 10, tipRectTopLeftPot.y() + textHeight + 5);
-    tipRect = QRectF(tipRectTopLeftPot, tipRectBottomRightPot);
+    d->m_tipRect = QRectF(tipRectTopLeftPot, tipRectBottomRightPot);
 
-    painter->setPen(sliderColorBottom);
-    painter->setBrush(sliderColorBottom);
-    painter->drawRect(sliderRect);
+    painter->setPen(d->m_sliderBottomColor);
+    painter->setBrush(d->m_sliderBottomColor);
+    painter->drawRect(d->m_sliderRect);
     painter->restore();
 }
 
 void QEXTRulerSlider::drawTip(QPainter *painter)
 {
-    if (!pressed) {
+    Q_D(QEXTRulerSlider);
+    if (!d->m_pressed) {
         return;
     }
 
     painter->save();
-    painter->setPen(tipTextColor);
-    painter->setBrush(tipBgColor);
-    painter->drawRect(tipRect);
-    QString strValue = QString("%1").arg(currentValue, 0, 'f', precision);
-    painter->drawText(tipRect, Qt::AlignCenter, strValue);
+    painter->setPen(d->m_tipTextColor);
+    painter->setBrush(d->m_tipBackgroundColor);
+    painter->drawRect(d->m_tipRect);
+    QString strValue = QString("%1").arg(d->m_currentValue, 0, 'f', d->m_precision);
+    painter->drawText(d->m_tipRect, Qt::AlignCenter, strValue);
     painter->restore();
 }
 
-double QEXTRulerSlider::getMinValue() const
+double QEXTRulerSlider::minValue() const
 {
-    return this->minValue;
+    Q_D(const QEXTRulerSlider);
+    return d->m_minValue;
 }
 
-double QEXTRulerSlider::getMaxValue() const
+double QEXTRulerSlider::maxValue() const
 {
-    return this->maxValue;
+    Q_D(const QEXTRulerSlider);
+    return d->m_maxValue;
 }
 
-double QEXTRulerSlider::getValue() const
+double QEXTRulerSlider::value() const
 {
-    return this->value;
+    Q_D(const QEXTRulerSlider);
+    return d->m_value;
 }
 
-int QEXTRulerSlider::getPrecision() const
+int QEXTRulerSlider::precision() const
 {
-    return this->precision;
+    Q_D(const QEXTRulerSlider);
+    return d->m_precision;
 }
 
-int QEXTRulerSlider::getLongStep() const
+int QEXTRulerSlider::longStep() const
 {
-    return this->longStep;
+    Q_D(const QEXTRulerSlider);
+    return d->m_longStep;
 }
 
-int QEXTRulerSlider::getShortStep() const
+int QEXTRulerSlider::shortStep() const
 {
-    return this->shortStep;
+    Q_D(const QEXTRulerSlider);
+    return d->m_shortStep;
 }
 
-int QEXTRulerSlider::getSpace() const
+int QEXTRulerSlider::space() const
 {
-    return this->space;
+    Q_D(const QEXTRulerSlider);
+    return d->m_space;
 }
 
-QColor QEXTRulerSlider::getBgColorStart() const
+QColor QEXTRulerSlider::backgroundStartColor() const
 {
-    return this->bgColorStart;
+    Q_D(const QEXTRulerSlider);
+    return d->m_backgroundStartColor;
 }
 
-QColor QEXTRulerSlider::getBgColorEnd() const
+QColor QEXTRulerSlider::backgroundEndColor() const
 {
-    return this->bgColorEnd;
+    Q_D(const QEXTRulerSlider);
+    return d->m_backgroundEndColor;
 }
 
-QColor QEXTRulerSlider::getLineColor() const
+QColor QEXTRulerSlider::lineColor() const
 {
-    return this->lineColor;
+    Q_D(const QEXTRulerSlider);
+    return d->m_lineColor;
 }
 
-QColor QEXTRulerSlider::getSliderColorTop() const
+QColor QEXTRulerSlider::sliderTopColor() const
 {
-    return this->sliderColorTop;
+    Q_D(const QEXTRulerSlider);
+    return d->m_sliderTopColor;
 }
 
-QColor QEXTRulerSlider::getSliderColorBottom() const
+QColor QEXTRulerSlider::sliderBottomColor() const
 {
-    return this->sliderColorBottom;
+    Q_D(const QEXTRulerSlider);
+    return d->m_sliderBottomColor;
 }
 
-QColor QEXTRulerSlider::getTipBgColor() const
+QColor QEXTRulerSlider::tipBackgroundColor() const
 {
-    return this->tipBgColor;
+    Q_D(const QEXTRulerSlider);
+    return d->m_tipBackgroundColor;
 }
 
-QColor QEXTRulerSlider::getTipTextColor() const
+QColor QEXTRulerSlider::tipTextColor() const
 {
-    return this->tipTextColor;
+    Q_D(const QEXTRulerSlider);
+    return d->m_tipTextColor;
 }
 
 QSize QEXTRulerSlider::sizeHint() const
@@ -302,152 +345,167 @@ QSize QEXTRulerSlider::minimumSizeHint() const
 
 void QEXTRulerSlider::setRange(double minValue, double maxValue)
 {
+    Q_D(QEXTRulerSlider);
     if (minValue >= maxValue) {
         return;
     }
 
-    this->minValue = minValue;
-    this->maxValue = maxValue;
-    setValue(minValue);
+    d->m_minValue = minValue;
+    d->m_maxValue = maxValue;
+    this->setValue(minValue);
 }
 
 void QEXTRulerSlider::setRange(int minValue, int maxValue)
 {
-    setRange((double)minValue, (double)maxValue);
+    this->setRange((double)minValue, (double)maxValue);
 }
 
 void QEXTRulerSlider::setMinValue(double minValue)
 {
-    setRange(minValue, maxValue);
+    Q_D(QEXTRulerSlider);
+    this->setRange(minValue, d->m_maxValue);
 }
 
 void QEXTRulerSlider::setMaxValue(double maxValue)
 {
-    setRange(minValue, maxValue);
+    Q_D(QEXTRulerSlider);
+    this->setRange(d->m_minValue, maxValue);
 }
 
 void QEXTRulerSlider::setValue(double value)
 {
-    if (value == this->value) {
+    Q_D(QEXTRulerSlider);
+    if (value == d->m_value) {
         return;
     }
 
-    if (value < minValue) {
-        value = minValue;
-    } else if (value > maxValue) {
-        value = maxValue;
+    if (value < d->m_minValue) {
+        value = d->m_minValue;
+    } else if (value > d->m_maxValue) {
+        value = d->m_maxValue;
     }
 
-    double lineWidth = width() - 2 * space;
-    double ratio = (double)(value - minValue) / (maxValue - minValue);
+    double lineWidth = width() - 2 * d->m_space;
+    double ratio = (double)(value - d->m_minValue) / (d->m_maxValue - d->m_minValue);
     double x = lineWidth * ratio;
-    double newX = x + space;
-    double y = space + longLineHeight - 10;
-    sliderLastPot = QPointF(newX, y);
+    double newX = x + d->m_space;
+    double y = d->m_space + d->m_longLineHeight - 10;
+    d->m_sliderLastPot = QPointF(newX, y);
 
-    this->value = value;
-    this->currentValue = value;
-    emit valueChanged(value);
-    update();
+    d->m_value = value;
+    d->m_currentValue = value;
+    emit this->valueChanged(value);
+    this->update();
 }
 
 void QEXTRulerSlider::setValue(int value)
 {
-    setValue((double)value);
+    this->setValue((double)value);
 }
 
 void QEXTRulerSlider::setPrecision(int precision)
 {
-    if (precision <= 3 && this->precision != precision) {
-        this->precision = precision;
-        update();
+    Q_D(QEXTRulerSlider);
+    if (precision <= 3 && d->m_precision != precision) {
+        d->m_precision = precision;
+        this->update();
     }
 }
 
 void QEXTRulerSlider::setLongStep(int longStep)
 {
-    if (longStep < shortStep) {
+    Q_D(QEXTRulerSlider);
+    if (longStep < d->m_shortStep) {
         return;
     }
 
-    if (this->longStep != longStep) {
-        this->longStep = longStep;
-        update();
+    if (d->m_longStep != longStep) {
+        d->m_longStep = longStep;
+        this->update();
     }
 }
 
 void QEXTRulerSlider::setShortStep(int shortStep)
 {
-    if (longStep < shortStep) {
+    Q_D(QEXTRulerSlider);
+    if (d->m_longStep < shortStep) {
         return;
     }
 
-    if (this->shortStep != shortStep) {
-        this->shortStep = shortStep;
-        update();
+    if (d->m_shortStep != shortStep) {
+        d->m_shortStep = shortStep;
+        this->update();
     }
 }
 
 void QEXTRulerSlider::setSpace(int space)
 {
-    if (this->space != space) {
-        this->space = space;
-        update();
+    Q_D(QEXTRulerSlider);
+    if (d->m_space != space) {
+        d->m_space = space;
+        this->update();
     }
 }
 
-void QEXTRulerSlider::setBgColorStart(const QColor &bgColorStart)
+void QEXTRulerSlider::setBackgroundStartColor(const QColor &color)
 {
-    if (this->bgColorStart != bgColorStart) {
-        this->bgColorStart = bgColorStart;
-        update();
+    Q_D(QEXTRulerSlider);
+    if (d->m_backgroundStartColor != color) {
+        d->m_backgroundStartColor = color;
+        this->update();
     }
 }
 
-void QEXTRulerSlider::setBgColorEnd(const QColor &bgColorEnd)
+void QEXTRulerSlider::setBackgroundEndColor(const QColor &color)
 {
-    if (this->bgColorEnd != bgColorEnd) {
-        this->bgColorEnd = bgColorEnd;
-        update();
+    Q_D(QEXTRulerSlider);
+    if (d->m_backgroundEndColor != color) {
+        d->m_backgroundEndColor = color;
+        this->update();
     }
 }
 
-void QEXTRulerSlider::setLineColor(const QColor &lineColor)
+void QEXTRulerSlider::setLineColor(const QColor &color)
 {
-    if (this->lineColor != lineColor) {
-        this->lineColor = lineColor;
-        update();
+    Q_D(QEXTRulerSlider);
+    if (d->m_lineColor != color) {
+        d->m_lineColor = color;
+        this->update();
     }
 }
 
-void QEXTRulerSlider::setSliderColorTop(const QColor &sliderColorTop)
+void QEXTRulerSlider::setSliderTopColor(const QColor &color)
 {
-    if (this->sliderColorTop != sliderColorTop) {
-        this->sliderColorTop = sliderColorTop;
-        update();
+    Q_D(QEXTRulerSlider);
+    if (d->m_sliderTopColor != color) {
+        d->m_sliderTopColor = color;
+        this->update();
     }
 }
 
-void QEXTRulerSlider::setSliderColorBottom(const QColor &sliderColorBottom)
+void QEXTRulerSlider::setSliderBottomColor(const QColor &color)
 {
-    if (this->sliderColorBottom != sliderColorBottom) {
-        this->sliderColorBottom = sliderColorBottom;
-        update();
+    Q_D(QEXTRulerSlider);
+    if (d->m_sliderBottomColor != color) {
+        d->m_sliderBottomColor = color;
+        this->update();
     }
 }
 
-void QEXTRulerSlider::setTipBgColor(const QColor &tipBgColor)
+void QEXTRulerSlider::setTipBackgroundColor(const QColor &color)
 {
-    if (this->tipBgColor != tipBgColor) {
-        this->tipBgColor = tipBgColor;
-        update();
+    Q_D(QEXTRulerSlider);
+    if (d->m_tipBackgroundColor != color) {
+        d->m_tipBackgroundColor = color;
+        this->update();
     }
 }
 
-void QEXTRulerSlider::setTipTextColor(const QColor &tipTextColor)
+void QEXTRulerSlider::setTipTextColor(const QColor &color)
 {
-    if (this->tipTextColor != tipTextColor) {
-        this->tipTextColor = tipTextColor;
-        update();
+    Q_D(QEXTRulerSlider);
+    if (d->m_tipTextColor != color) {
+        d->m_tipTextColor = color;
+        this->update();
     }
 }

@@ -39,8 +39,6 @@ class QEXTTextLcdPrivate;
 class QEXT_WIDGETS_API QEXTTextLcd : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTTextLcd)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTextLcd)
 
     Q_PROPERTY(QString text READ text WRITE setText)
     Q_PROPERTY(int textAlignment READ textAlignment WRITE setTextAlignment)
@@ -113,6 +111,10 @@ protected:
     void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
 
     QScopedPointer<QEXTTextLcdPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTTextLcd)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTextLcd)
 };
 
 #endif // _QEXTTEXTLCD_H

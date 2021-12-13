@@ -34,35 +34,36 @@
 
 #include <QWidget>
 
+class QEXTRangeSliderPrivate;
 class QEXT_WIDGETS_API QEXTRangeSlider : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(int minValue READ getMinValue WRITE setMinValue)
-    Q_PROPERTY(int maxValue READ getMaxValue WRITE setMaxValue)
-    Q_PROPERTY(int leftValue READ getLeftValue WRITE setLeftValue)
-    Q_PROPERTY(int rightValue READ getRightValue WRITE setRightValue)
+    Q_PROPERTY(int minValue READ minValue WRITE setMinValue)
+    Q_PROPERTY(int maxValue READ maxValue WRITE setMaxValue)
+    Q_PROPERTY(int leftValue READ leftValue WRITE setLeftValue)
+    Q_PROPERTY(int rightValue READ rightValue WRITE setRightValue)
 
-    Q_PROPERTY(int borderWidth READ getBorderWidth WRITE setBorderWidth)
-    Q_PROPERTY(bool horizontal READ getHorizontal WRITE setHorizontal)
-    Q_PROPERTY(bool showText READ getShowText WRITE setShowText)
+    Q_PROPERTY(int borderWidth READ borderWidth WRITE setBorderWidth)
+    Q_PROPERTY(bool horizontal READ horizontal WRITE setHorizontal)
+    Q_PROPERTY(bool isTextVisiable READ isTextVisiable WRITE setTextVisiable)
 
-    Q_PROPERTY(QColor usedColor READ getUsedColor WRITE setUsedColor)
-    Q_PROPERTY(QColor freeColor READ getFreeColor WRITE setFreeColor)
-    Q_PROPERTY(QColor textColor READ getTextColor WRITE setTextColor)
-    Q_PROPERTY(QColor rangeTextColor READ getRangeTextColor WRITE setRangeTextColor)
-    Q_PROPERTY(QColor sliderColor READ getSliderColor WRITE setSliderColor)
-    Q_PROPERTY(QColor borderColor READ getBorderColor WRITE setBorderColor)
+    Q_PROPERTY(QColor usedColor READ usedColor WRITE setUsedColor)
+    Q_PROPERTY(QColor freeColor READ freeColor WRITE setFreeColor)
+    Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
+    Q_PROPERTY(QColor rangeTextColor READ rangeTextColor WRITE setRangeTextColor)
+    Q_PROPERTY(QColor sliderColor READ sliderColor WRITE setSliderColor)
+    Q_PROPERTY(QColor borderColor READ borderColor WRITE setBorderColor)
 
-    Q_PROPERTY(SliderStyle sliderStyle READ getSliderStyle WRITE setSliderStyle)
-    Q_PROPERTY(SliderBgPercent sliderBgPercent READ getSliderBgPercent WRITE setSliderBgPercent)
-    Q_PROPERTY(SliderPercent sliderPercent READ getSliderPercent WRITE setSliderPercent)
+    Q_PROPERTY(SliderStyle sliderStyle READ sliderStyle WRITE setSliderStyle)
+    Q_PROPERTY(SliderBgPercent sliderBgPercent READ sliderBgPercent WRITE setSliderBackgroundPercent)
+    Q_PROPERTY(SliderPercent sliderPercent READ sliderPercent WRITE setSliderPercent)
 
 public:
     enum SliderStyle
     {
-        SliderStyle_Line = 0,       //线条状风格
-        SliderStyle_Circle = 1      //圆形状风格
+        SliderStyle_Line = 0,
+        SliderStyle_Circle = 1
     };
     Q_ENUMS(SliderStyle)
 
@@ -91,70 +92,34 @@ public:
     };
     Q_ENUMS(SliderPercent)
 
-    explicit QEXTRangeSlider(QWidget *parent = 0);
+    explicit QEXTRangeSlider(QWidget *parent = QEXT_DECL_NULLPTR);
     ~QEXTRangeSlider();
 
-protected:
-    void mousePressEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
-    void mouseMoveEvent(QMouseEvent *);
-    void paintEvent(QPaintEvent *);
-    void drawSliderBg(QPainter *painter);
-    void drawSliderLine(QPainter *painter);
-    void drawSliderCircle(QPainter *painter);
-    void drawValue(QPainter *painter);
+    int minValue() const;
+    int maxValue() const;
+    int leftValue() const;
+    int rightValue() const;
 
-private:
-    int minValue;
-    int maxValue;
-    int leftValue;
-    int rightValue;
+    int borderWidth() const;
+    bool horizontal() const;
+    bool isTextVisiable() const;
 
-    int borderWidth;
-    bool horizontal;
-    bool showText;
+    QColor usedColor() const;
+    QColor freeColor() const;
+    QColor textColor() const;
+    QColor rangeTextColor() const;
+    QColor sliderColor() const;
+    QColor borderColor() const;
 
-    QColor usedColor;
-    QColor freeColor;
-    QColor textColor;
-    QColor rangeTextColor;
-    QColor sliderColor;
-    QColor borderColor;
+    SliderStyle sliderStyle() const;
+    SliderBgPercent sliderBgPercent() const;
+    SliderPercent sliderPercent() const;
 
-    SliderStyle sliderStyle;
-    SliderBgPercent sliderBgPercent;
-    SliderPercent sliderPercent;
+    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
 
-    bool leftPressed;
-    bool rightPressed;
-
-    int sliderLen;
-    QRect leftSliderRect;
-    QRect rightSliderRect;
-
-public:
-    int getMinValue()               const;
-    int getMaxValue()               const;
-    int getLeftValue()              const;
-    int getRightValue()             const;
-
-    int getBorderWidth()            const;
-    bool getHorizontal()            const;
-    bool getShowText()              const;
-
-    QColor getUsedColor()           const;
-    QColor getFreeColor()           const;
-    QColor getTextColor()           const;
-    QColor getRangeTextColor()      const;
-    QColor getSliderColor()         const;
-    QColor getBorderColor()         const;
-
-    SliderStyle getSliderStyle()    const;
-    SliderBgPercent getSliderBgPercent()const;
-    SliderPercent getSliderPercent()const;
-
-    QSize sizeHint()                const;
-    QSize minimumSizeHint()         const;
+Q_SIGNALS:
+    void valueChanged(int leftValue, int rightValue);
 
 public Q_SLOTS:
     void setRange(int minValue, int maxValue);
@@ -170,28 +135,42 @@ public Q_SLOTS:
 
     void setHorizontal(bool horizontal);
 
-    void setShowText(bool showText);
+    void setTextVisiable(bool visiable);
 
-    void setUsedColor(const QColor &usedColor);
+    void setUsedColor(const QColor &color);
 
-    void setFreeColor(const QColor &freeColor);
+    void setFreeColor(const QColor &color);
 
-    void setTextColor(const QColor &textColor);
+    void setTextColor(const QColor &color);
 
-    void setRangeTextColor(const QColor &rangeTextColor);
+    void setRangeTextColor(const QColor &color);
 
-    void setSliderColor(const QColor &sliderColor);
+    void setSliderColor(const QColor &color);
 
-    void setBorderColor(const QColor &borderColor);
+    void setBorderColor(const QColor &color);
 
     void setSliderStyle(const SliderStyle &sliderStyle);
 
-    void setSliderBgPercent(const SliderBgPercent &sliderBgPercent);
+    void setSliderBackgroundPercent(const SliderBgPercent &percent);
 
-    void setSliderPercent(const SliderPercent &sliderPercent);
+    void setSliderPercent(const SliderPercent &percent);
 
-Q_SIGNALS:
-    void valueChanged(int leftValue, int rightValue);
+protected:
+    void mousePressEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent *);
+    void paintEvent(QPaintEvent *);
+
+    void drawSliderBackground(QPainter *painter);
+    void drawSliderLine(QPainter *painter);
+    void drawSliderCircle(QPainter *painter);
+    void drawValue(QPainter *painter);
+
+    QScopedPointer<QEXTRangeSliderPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTRangeSlider)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTRangeSlider)
 };
 
 #endif // _QEXTRANGESLIDER_H

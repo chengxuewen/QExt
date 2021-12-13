@@ -9,8 +9,6 @@
 class QEXTTumbler;
 class QEXT_WIDGETS_API QEXTTumblerPrivate
 {
-    Q_DISABLE_COPY(QEXTTumblerPrivate)
-    Q_DECLARE_PUBLIC(QEXTTumbler)
 public:
     explicit QEXTTumblerPrivate(QEXTTumbler *q);
     virtual ~QEXTTumblerPrivate();
@@ -32,6 +30,10 @@ public:
     bool m_pressed;
     int m_pressedPos;
     int m_currentPos;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTTumblerPrivate)
+    QEXT_DECL_PUBLIC(QEXTTumbler)
 };
 
 #endif // _QEXTTUMBLER_P_H

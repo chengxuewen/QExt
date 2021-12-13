@@ -38,8 +38,6 @@ class QEXTWaveChartPrivate;
 class QEXT_WIDGETS_API QEXTWaveChart : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTWaveChart)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTWaveChart)
 
     Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
     Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
@@ -126,6 +124,10 @@ protected:
     void drawPoint(QPainter *painter);
 
     QScopedPointer<QEXTWaveChartPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTWaveChart)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTWaveChart)
 };
 
 

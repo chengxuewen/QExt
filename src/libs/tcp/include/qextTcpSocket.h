@@ -18,7 +18,7 @@ class QEXT_TCP_API QEXTTcpSocket : public QTcpSocket
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTTcpSocket)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpSocket)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpSocket)
 public:
     enum TransferErrorType {
         TransferError_SocketError = 0,

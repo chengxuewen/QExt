@@ -9,10 +9,10 @@ class QEXTFramelessHelperPrivate;
 class QEXT_FRAMELESSHELPER_API QEXTFramelessHelper : public QObject
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTFramelessHelper)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTFramelessHelper)
 
 public:
-    explicit QEXTFramelessHelper(QWidget *parent = nullptr);
+    explicit QEXTFramelessHelper(QWidget *parent = QEXT_DECL_NULLPTR);
     virtual ~QEXTFramelessHelper();
 
     void setDraggableMargins(int left, int top, int right, int bottom);
@@ -47,7 +47,7 @@ public slots:
     void setTitleBarHeight(int value);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *ev) final;
+    bool eventFilter(QObject *obj, QEvent *event);
 
     QScopedPointer<QEXTFramelessHelperPrivate> dd_ptr;
 };

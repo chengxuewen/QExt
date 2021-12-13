@@ -1,0 +1,73 @@
+// ************************************************************************** //
+//
+//  Model-view-view-model framework for large GUI applications
+//
+//! @license   GNU General Public License v3 or higher (see COPYING)
+//! @authors   see AUTHORS
+//
+// ************************************************************************** //
+
+#ifndef MVVM_VIEWMODEL_VIEWITEM_H
+#define MVVM_VIEWMODEL_VIEWITEM_H
+
+#include <memory>
+#include <qextMvvmVariant.h>
+#include <qextMvvmGlobal.h>
+#include <vector>
+
+namespace ModelView
+{
+
+class QEXTMvvmSessionItem;
+
+//! Represents the view of QEXTMvvmSessionItem's data in a single cell of ViewModel.
+
+class QEXT_MVVM_API ViewItem
+{
+public:
+    virtual ~ViewItem();
+
+    int rowCount() const;
+
+    int columnCount() const;
+
+    void appendRow(std::vector<std::unique_ptr<ViewItem>> items);
+
+    void insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items);
+
+    void removeRow(int row);
+
+    void clear();
+
+    ViewItem* parent() const;
+
+    ViewItem* child(int row, int column) const;
+
+    QEXTMvvmSessionItem* item() const;
+
+    int item_role() const;
+
+    int row() const;
+
+    int column() const;
+
+    virtual QVariant data(int qt_role) const;
+
+    virtual bool setData(const QVariant& value, int qt_role);
+
+    virtual Qt::ItemFlags flags() const;
+
+    std::vector<ViewItem*> children() const;
+
+protected:
+    ViewItem(QEXTMvvmSessionItem* item, int role);
+    void setParent(ViewItem* parent);
+
+private:
+    struct ViewItemImpl;
+    std::unique_ptr<ViewItemImpl> p_impl;
+};
+
+}; // namespace ModelView
+
+#endif // MVVM_VIEWMODEL_VIEWITEM_H

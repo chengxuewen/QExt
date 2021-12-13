@@ -10,8 +10,6 @@ class QEXTStyleSheetPrivate;
 class QEXT_WIDGETS_API QEXTStyleSheet : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTStyleSheet)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTStyleSheet)
 
 public:
     explicit QEXTStyleSheet(QObject *parent = QEXT_DECL_NULLPTR);
@@ -20,6 +18,10 @@ public:
 
 protected:
     QScopedPointer<QEXTStyleSheetPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTStyleSheet)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTStyleSheet)
 };
 
 #endif // _QEXTSTYLESHEET_H

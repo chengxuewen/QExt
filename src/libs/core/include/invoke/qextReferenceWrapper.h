@@ -73,8 +73,8 @@ struct QEXTConstReferenceWrapper
  * automatic invalidation of the adaptors when the object is deleted
  * or overwritten.
  *
- * @param v Reference to store.
- * @return A reference wrapper.
+ * \param v Reference to store.
+ * \return A reference wrapper.
  */
 template <typename T_type>
 QEXTReferenceWrapper<T_type> qextReferenceWrapper(T_type &value)
@@ -89,8 +89,8 @@ QEXTReferenceWrapper<T_type> qextReferenceWrapper(T_type &value)
  * automatic invalidation of the adaptors when the object is deleted
  * or overwritten.
  *
- * @param value Reference to store.
- * @return A reference wrapper.
+ * \param value Reference to store.
+ * \return A reference wrapper.
  */
 template <typename T_type>
 QEXTConstReferenceWrapper<T_type> qextReferenceWrapper(const T_type &value)

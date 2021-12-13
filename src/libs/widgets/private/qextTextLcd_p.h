@@ -12,8 +12,6 @@
 class QEXTTextLcd;
 class QEXT_WIDGETS_API QEXTTextLcdPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTTextLcd)
-    Q_DISABLE_COPY(QEXTTextLcdPrivate)
 public:
     explicit QEXTTextLcdPrivate(QEXTTextLcd *q);
     virtual ~QEXTTextLcdPrivate();
@@ -44,6 +42,10 @@ public:
     QScopedPointer<QTimer> m_animationTimer;
     int m_animationInterval;
     int m_animationOffset;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTTextLcdPrivate)
+    QEXT_DECL_PUBLIC(QEXTTextLcd)
 };
 
 

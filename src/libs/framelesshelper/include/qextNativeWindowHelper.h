@@ -13,7 +13,7 @@ class QEXT_FRAMELESSHELPER_API QEXTNativeWindowHelper : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTNativeWindowHelper)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTNativeWindowHelper)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNativeWindowHelper)
 
 public:
     QEXTNativeWindowHelper(QWindow *window, QEXTNativeWindowTester *tester);

@@ -27,7 +27,7 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(qext_lib_base_name QEXTDeviceWatcher)
+set(QEXT_LIB_BASE_NAME QEXTDeviceWatcher)
 set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 
 
@@ -35,39 +35,39 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 # Set lib file list
 #--------------------------------------------------------------------------------
-set(qext_lib_public_headers
+set(QEXT_LIB_PUBLIC_HEADERS
     include/qextDeviceWatcher.h
     include/qextDeviceWatcherPch.h
     include/qextDeviceWatcherGlobal.h
     )
 
-set(qext_lib_private_headers
+set(QEXT_LIB_PRIVATE_HEADERS
     private/qextDeviceWatcher_p.h
     )
 
-set(qext_lib_sources
+set(QEXT_LIB_SOURCES
     source/qextDeviceWatcher.cpp
     )
 
-set(qext_lib_forms
+set(QEXT_LIB_FORMS
 
     )
 
-set(qext_lib_resources
+set(QEXT_LIB_RESOURCES
 
     )
 
 if(UNIX)
     if (QEXT_SYSTEM_LINUX)
-        list(APPEND qext_lib_sources source/qextDeviceWatcher_linux.cpp)
+        list(APPEND QEXT_LIB_SOURCES source/qextDeviceWatcher_linux.cpp)
     elseif(QEXT_SYSTEM_MAC)
-        list(APPEND qext_lib_sources source/qextDeviceWatcher_mac.cpp)
+        list(APPEND QEXT_LIB_SOURCES source/qextDeviceWatcher_mac.cpp)
     endif()
 else()
     if (QEXT_SYSTEM_WINCE)
-        list(APPEND qext_lib_sources source/qextDeviceWatcher_wince.cpp)
+        list(APPEND QEXT_LIB_SOURCES source/qextDeviceWatcher_wince.cpp)
     else()
-        list(APPEND qext_lib_sources source/qextDeviceWatcher_win32.cpp)
+        list(APPEND QEXT_LIB_SOURCES source/qextDeviceWatcher_win32.cpp)
     endif()
 endif()
 
@@ -76,65 +76,65 @@ endif()
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
-set(qext_lib_link_libraries)
+set(QEXT_LIB_LINK_LIBRARIES)
 
 if(UNIX)
-    list(APPEND qext_lib_link_libraries ${CMAKE_DL_LIBS})
+    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_DL_LIBS})
 endif()
 
 if(WIN32)
-    list(APPEND qext_lib_link_libraries shlwapi.lib setupapi.lib advapi32.lib user32.lib)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES shlwapi.lib setupapi.lib advapi32.lib user32.lib)
 endif()
 
 if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND qext_lib_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND qext_lib_link_libraries Qt4::QtCore)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND qext_lib_link_libraries Qt${QEXT_QT_VERSION_MAJOR}::Core)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND qext_lib_link_libraries QEXTCore)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore)
 
 
 
 #--------------------------------------------------------------------------------
 # Add lib target
 #--------------------------------------------------------------------------------
-add_library(${qext_lib_base_name}
-    ${qext_lib_public_headers}
-    ${qext_lib_private_headers}
-    ${qext_lib_sources}
-    ${qext_lib_forms}
-    ${qext_lib_resources}
+add_library(${QEXT_LIB_BASE_NAME}
+    ${QEXT_LIB_PUBLIC_HEADERS}
+    ${QEXT_LIB_PRIVATE_HEADERS}
+    ${QEXT_LIB_SOURCES}
+    ${QEXT_LIB_FORMS}
+    ${QEXT_LIB_RESOURCES}
     )
 if (QEXT_BUILD_COMPILER_WARNING)
-    qextFunctionSetCompilerWarnings(${qext_lib_base_name})
+    qextFunctionSetCompilerWarnings(${QEXT_LIB_BASE_NAME})
 endif()
 if (QEXT_BUILD_USE_PCH)
-    qextFunctionActivatePrecompiledHeaders(${qext_lib_base_name} PRIVATE include/qextDeviceWatcherPch.h)
+    qextFunctionActivatePrecompiledHeaders(${QEXT_LIB_BASE_NAME} PRIVATE include/qextDeviceWatcherPch.h)
 endif()
-target_link_libraries(${qext_lib_base_name} PUBLIC ${qext_lib_link_libraries})
-target_include_directories(${qext_lib_base_name} PUBLIC
+target_link_libraries(${QEXT_LIB_BASE_NAME} PUBLIC ${QEXT_LIB_LINK_LIBRARIES})
+target_include_directories(${QEXT_LIB_BASE_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
     $<INSTALL_INTERFACE:include>
     )
-target_compile_definitions(${qext_lib_base_name} PRIVATE QEXT_BUILD_DEVICEWATCHER_LIB)
+target_compile_definitions(${QEXT_LIB_BASE_NAME} PRIVATE QEXT_BUILD_DEVICEWATCHER_LIB)
 
 
 # set target properties
-set_target_properties(${qext_lib_base_name} PROPERTIES
+set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
     VERSION ${QEXT_VERSION} SOVERSION ${QEXT_SO_VERSION}
     CXX_STANDARD ${QEXT_CXX_STANDARD}
     DEBUG_POSTFIX ${QEXT_DEBUG_POSTFIX}
     )
 if (QEXT_BUILD_SHARED_LIBS)
-    set_target_properties(${qext_lib_base_name} PROPERTIES
+    set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
         CXX_VISIBILITY_PRESET hidden
         VISIBILITY_INLINES_HIDDEN 1)
 endif()

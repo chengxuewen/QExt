@@ -9,8 +9,6 @@
 class QEXTProgressRing;
 class QEXT_WIDGETS_API QEXTProgressRingPrivate
 {
-    Q_DISABLE_COPY(QEXTProgressRingPrivate)
-    Q_DECLARE_PUBLIC(QEXTProgressRing)
 public:
     explicit QEXTProgressRingPrivate(QEXTProgressRing *q);
     virtual ~QEXTProgressRingPrivate();
@@ -49,6 +47,10 @@ public:
     bool m_animationEnable;
     double m_currentValue;
     QPropertyAnimation *m_animation;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressRingPrivate)
+    QEXT_DECL_PUBLIC(QEXTProgressRing)
 };
 
 

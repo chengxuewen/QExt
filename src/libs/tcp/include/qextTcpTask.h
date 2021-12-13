@@ -14,7 +14,7 @@ class QEXT_TCP_API QEXTTcpTask : public QObject, public QRunnable
 {
     Q_OBJECT
     Q_DISABLE_COPY(QEXTTcpTask)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTTcpTask)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpTask)
 public:
     QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver);
     QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,

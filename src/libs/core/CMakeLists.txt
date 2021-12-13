@@ -27,7 +27,7 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(qext_lib_base_name QEXTCore)
+set(QEXT_LIB_BASE_NAME QEXTCore)
 set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 
 
@@ -35,7 +35,7 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 # Set lib file list
 #--------------------------------------------------------------------------------
-set(qext_lib_public_headers
+set(QEXT_LIB_PUBLIC_HEADERS
     include/global/qextCompiler.h
     include/global/qextGlobal.h
     include/global/qextProcessor.h
@@ -77,10 +77,10 @@ set(qext_lib_public_headers
     include/qextPch.h
     )
 
-set(qext_lib_private_headers
+set(QEXT_LIB_PRIVATE_HEADERS
     )
 
-set(qext_lib_sources
+set(QEXT_LIB_SOURCES
     source/invoke/qextConnection.cpp
     source/invoke/qextSignal.cpp
     source/invoke/qextFunction.cpp
@@ -89,11 +89,11 @@ set(qext_lib_sources
     source/tools/qextLinearFunction.cpp
     )
 
-set(qext_lib_forms
+set(QEXT_LIB_FORMS
 
     )
 
-set(qext_lib_resources
+set(QEXT_LIB_RESOURCES
 
     )
 
@@ -102,24 +102,24 @@ set(qext_lib_resources
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
-set(qext_lib_link_libraries)
+set(QEXT_LIB_LINK_LIBRARIES)
 
 if(UNIX)
-    list(APPEND qext_lib_link_libraries ${CMAKE_DL_LIBS})
+    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_DL_LIBS})
 endif()
 
 if(WIN32)
-    list(APPEND qext_lib_link_libraries shlwapi.lib)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES shlwapi.lib)
 endif()
 
 if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND qext_lib_link_libraries ${CMAKE_THREAD_LIBS_INIT})
+    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND qext_lib_link_libraries Qt4::QtCore)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND qext_lib_link_libraries
+    list(APPEND QEXT_LIB_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         )
 else()
@@ -131,22 +131,22 @@ endif()
 #--------------------------------------------------------------------------------
 # Add lib target
 #--------------------------------------------------------------------------------
-add_library(${qext_lib_base_name}
-    ${qext_lib_public_headers}
-    ${qext_lib_private_headers}
-    ${qext_lib_sources}
-    ${qext_lib_forms}
-    ${qext_lib_resources}
+add_library(${QEXT_LIB_BASE_NAME}
+    ${QEXT_LIB_PUBLIC_HEADERS}
+    ${QEXT_LIB_PRIVATE_HEADERS}
+    ${QEXT_LIB_SOURCES}
+    ${QEXT_LIB_FORMS}
+    ${QEXT_LIB_RESOURCES}
     ${QEXT_CONFIG_HPP_FILE_PATH}
     )
 if (QEXT_BUILD_COMPILER_WARNING)
-    qextFunctionSetCompilerWarnings(${qext_lib_base_name})
+    qextFunctionSetCompilerWarnings(${QEXT_LIB_BASE_NAME})
 endif()
 if (QEXT_BUILD_USE_PCH)
-    qextFunctionActivatePrecompiledHeaders(${qext_lib_base_name} PRIVATE include/qextPch.h)
+    qextFunctionActivatePrecompiledHeaders(${QEXT_LIB_BASE_NAME} PRIVATE include/qextPch.h)
 endif()
-target_link_libraries(${qext_lib_base_name} PUBLIC ${qext_lib_link_libraries})
-target_include_directories(${qext_lib_base_name} PUBLIC
+target_link_libraries(${QEXT_LIB_BASE_NAME} PUBLIC ${QEXT_LIB_LINK_LIBRARIES})
+target_include_directories(${QEXT_LIB_BASE_NAME} PUBLIC
     $<BUILD_INTERFACE:${QEXT_CONFIG_HPP_FILE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/invoke>
@@ -154,31 +154,31 @@ target_include_directories(${qext_lib_base_name} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/tools>
     $<INSTALL_INTERFACE:include>
     )
-set(${qext_lib_base_name}_PRIVATE_INCLUDE_DIRS
+set(${QEXT_LIB_BASE_NAME}_PRIVATE_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/private
     ${CMAKE_CURRENT_SOURCE_DIR}/private/invoke
     ${CMAKE_CURRENT_SOURCE_DIR}/private/global
     ${CMAKE_CURRENT_SOURCE_DIR}/private/tools
-    CACHE INTERNAL "${qext_lib_base_name} private include dirs"
+    CACHE INTERNAL "${QEXT_LIB_BASE_NAME} private include dirs"
     )
-target_include_directories(${qext_lib_base_name} PRIVATE
-    $<BUILD_INTERFACE:${${qext_lib_base_name}_PRIVATE_INCLUDE_DIRS}>
+target_include_directories(${QEXT_LIB_BASE_NAME} PRIVATE
+    $<BUILD_INTERFACE:${${QEXT_LIB_BASE_NAME}_PRIVATE_INCLUDE_DIRS}>
     $<INSTALL_INTERFACE:private>
     )
 if(QEXT_BUILD_SHARED_LIBS)
-    target_compile_definitions(${qext_lib_base_name} PUBLIC QEXT_BUILD_SHARED_LIBS)
+    target_compile_definitions(${QEXT_LIB_BASE_NAME} PUBLIC QEXT_BUILD_SHARED_LIBS)
 endif()
-target_compile_definitions(${qext_lib_base_name} PRIVATE QEXT_BUILD_CORE_LIB)
+target_compile_definitions(${QEXT_LIB_BASE_NAME} PRIVATE QEXT_BUILD_CORE_LIB)
 
 
 # set target properties
-set_target_properties(${qext_lib_base_name} PROPERTIES
+set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
     VERSION ${QEXT_VERSION} SOVERSION ${QEXT_SO_VERSION}
     CXX_STANDARD ${QEXT_CXX_STANDARD}
     DEBUG_POSTFIX ${QEXT_DEBUG_POSTFIX}
     )
 if (QEXT_BUILD_SHARED_LIBS)
-    set_target_properties(${qext_lib_base_name} PROPERTIES
+    set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
         CXX_VISIBILITY_PRESET hidden
         VISIBILITY_INLINES_HIDDEN 1)
 endif()

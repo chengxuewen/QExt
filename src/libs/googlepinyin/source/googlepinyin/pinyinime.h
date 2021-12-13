@@ -29,9 +29,9 @@ extern "C" {
   /**
    * Open the decoder engine via the system and user dictionary file names.
    *
-   * @param fn_sys_dict The file name of the system dictionary.
-   * @param fn_usr_dict The file name of the user dictionary.
-   * @return true if open the decoder engine successfully.
+   * \param fn_sys_dict The file name of the system dictionary.
+   * \param fn_usr_dict The file name of the user dictionary.
+   * \return true if open the decoder engine successfully.
    */
   bool im_open_decoder(const char *fn_sys_dict, const char *fn_usr_dict);
 
@@ -40,12 +40,12 @@ extern "C" {
    * file name. Because on Android, the system dictionary is embedded in the
    * whole application apk file.
    *
-   * @param sys_fd The file in which the system dictionary is embedded.
-   * @param start_offset The starting position of the system dictionary in the
+   * \param sys_fd The file in which the system dictionary is embedded.
+   * \param start_offset The starting position of the system dictionary in the
    * file sys_fd.
-   * @param length The length of the system dictionary in the file sys_fd,
+   * \param length The length of the system dictionary in the file sys_fd,
    * counted in byte.
-   * @return true if succeed.
+   * \return true if succeed.
    */
   bool im_open_decoder_fd(int sys_fd, long start_offset, long length,
                           const char *fn_usr_dict);
@@ -63,7 +63,7 @@ extern "C" {
    * user adds a new letter, the input or the output string is longer than the
    * limitations, the engine will discard the recent letter.
    *
-   * @param max_sps_len Maximum length of the spelling string(Pinyin string).
+   * \param max_sps_len Maximum length of the spelling string(Pinyin string).
    * @max_hzs_len Maximum length of the decoded Chinese character string.
    */
   void im_set_max_lens(size_t max_sps_len, size_t max_hzs_len);
@@ -83,9 +83,9 @@ extern "C" {
    * first. Calling im_search() is equivalent to calling im_add_letter() one by
    * one.
    *
-   * @param sps_buf The spelling string buffer to decode.
-   * @param sps_len The length of the spelling string buffer.
-   * @return The number of candidates.
+   * \param sps_buf The spelling string buffer to decode.
+   * \param sps_len The length of the spelling string buffer.
+   * \return The number of candidates.
    */
   size_t im_search(const char* sps_buf, size_t sps_len);
 
@@ -93,11 +93,11 @@ extern "C" {
    * Make a delete operation in the current search result, and make research if
    * necessary.
    *
-   * @param pos The posistion of char in spelling string to delete, or the
+   * \param pos The posistion of char in spelling string to delete, or the
    * position of spelling id in result string to delete.
-   * @param is_pos_in_splid Indicate whether the pos parameter is the position
+   * \param is_pos_in_splid Indicate whether the pos parameter is the position
    * in the spelling string, or the position in the result spelling id string.
-   * @return The number of candidates.
+   * \return The number of candidates.
    */
   size_t im_delsearch(size_t pos, bool is_pos_in_splid,
                       bool clear_fixed_this_step);
@@ -112,28 +112,28 @@ extern "C" {
    * decoder fails in adding the letter, it will do nothing. im_get_sps_str()
    * can be used to get the spelling string kept by decoder currently.
    *
-   * @param ch The letter to add.
-   * @return The number of candidates.
+   * \param ch The letter to add.
+   * \return The number of candidates.
    */
   size_t im_add_letter(char ch);
 
   /**
    * Get the spelling string kept by the decoder.
    *
-   * @param decoded_len Used to return how many characters in the spelling
+   * \param decoded_len Used to return how many characters in the spelling
    * string is successfully parsed.
-   * @return The spelling string kept by the decoder.
+   * \return The spelling string kept by the decoder.
    */
   const char *im_get_sps_str(size_t *decoded_len);
 
   /**
    * Get a candidate(or choice) string.
    *
-   * @param cand_id The id to get a candidate. Started from 0. Usually, id 0
+   * \param cand_id The id to get a candidate. Started from 0. Usually, id 0
    * is a sentence-level candidate.
-   * @param cand_str The buffer to store the candidate.
-   * @param max_len The maximum length of the buffer.
-   * @return cand_str if succeeds, otherwise NULL.
+   * \param cand_str The buffer to store the candidate.
+   * \param max_len The maximum length of the buffer.
+   * \return cand_str if succeeds, otherwise NULL.
    */
   char16* im_get_candidate(size_t cand_id, char16* cand_str,
                            size_t max_len);
@@ -142,8 +142,8 @@ extern "C" {
    * Get the segmentation information(the starting positions) of the spelling
    * string.
    *
-   * @param spl_start Used to return the starting posistions.
-   * @return The number of spelling ids. If it is L, there will be L+1 valid
+   * \param spl_start Used to return the starting posistions.
+   * \return The number of spelling ids. If it is L, there will be L+1 valid
    * elements in spl_start, and spl_start[L] is the posistion after the end of
    * the last spelling id.
    */
@@ -156,8 +156,8 @@ extern "C" {
    * spelling ids, there will be only one new candidates, or the whole fixed
    * sentence.
    *
-   * @param cand_id The id of candidate to select and make it fixed.
-   * @return The number of candidates. If after the selection, the whole result
+   * \param cand_id The id of candidate to select and make it fixed.
+   * \return The number of candidates. If after the selection, the whole result
    * string has been fixed, there will be only one candidate.
    */
   size_t im_choose(size_t cand_id);
@@ -165,14 +165,14 @@ extern "C" {
   /**
    * Cancel the last selection, or revert the last operation of im_choose().
    *
-   * @return The number of candidates.
+   * \return The number of candidates.
    */
   size_t im_cancel_last_choice();
 
   /**
    * Get the number of fixed spelling ids, or Chinese characters.
    *
-   * @return The number of fixed spelling ids, of Chinese characters.
+   * \return The number of fixed spelling ids, of Chinese characters.
    */
   size_t im_get_fixed_len();
 
@@ -185,10 +185,10 @@ extern "C" {
    * Get prediction candiates based on the given fixed Chinese string as the
    * history.
    *
-   * @param his_buf The history buffer to do the prediction. It should be ended
+   * \param his_buf The history buffer to do the prediction. It should be ended
    * with '\0'.
-   * @param pre_buf Used to return prediction result list.
-   * @return The number of predicted result string.
+   * \param pre_buf Used to return prediction result list.
+   * \return The number of predicted result string.
    */
   size_t im_get_predicts(const char16 *his_buf,
                          char16 (*&pre_buf)[kMaxPredictSize + 1]);
@@ -206,7 +206,7 @@ extern "C" {
   /**
    * Initializes or uninitializes the user dictionary.
    *
-   * @param fn_usr_dict The file name of the user dictionary.
+   * \param fn_usr_dict The file name of the user dictionary.
    */
   void im_init_user_dictionary(const char *fn_usr_dict);
 

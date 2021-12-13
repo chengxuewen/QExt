@@ -30,7 +30,7 @@ class QEXTDeviceWatcherPrivate;
 class QEXT_DEVICEWATCHER_API QEXTDeviceWatcher : public QObject
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTDeviceWatcher)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTDeviceWatcher)
 
 public:
     explicit QEXTDeviceWatcher(QObject *parent = 0);

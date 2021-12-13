@@ -172,7 +172,7 @@ class QEXTSerialPortPrivate;
 class QEXT_SERIALPORT_API QEXTSerialPort : public QIODevice
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTSerialPort)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTSerialPort)
 
     Q_PROPERTY(QString portName READ portName WRITE setPortName)
     Q_PROPERTY(QueryMode queryMode READ queryMode WRITE setQueryMode)

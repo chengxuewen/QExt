@@ -39,8 +39,6 @@ class QEXTBreathingLightPrivate;
 class QEXT_WIDGETS_API QEXTBreathingLight : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTBreathingLight)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QEXTBreathingLight)
 
     Q_PROPERTY(int step READ step WRITE setStep)
     Q_PROPERTY(int interval READ interval WRITE setInterval)
@@ -68,6 +66,10 @@ protected:
     void drawBackground(QPainter *painter);
 
     QScopedPointer<QEXTBreathingLightPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTBreathingLight)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTBreathingLight)
 };
 
 #endif // _QEXTBREATHINGLIGHT_H

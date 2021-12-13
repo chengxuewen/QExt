@@ -34,105 +34,58 @@
 
 #include <QSlider>
 
+class QEXTRulerSliderPrivate;
 class QEXT_WIDGETS_API QEXTRulerSlider : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(double minValue READ getMinValue WRITE setMinValue)
-    Q_PROPERTY(double maxValue READ getMaxValue WRITE setMaxValue)
-    Q_PROPERTY(double value READ getValue WRITE setValue)
-    Q_PROPERTY(int precision READ getPrecision WRITE setPrecision)
+    Q_PROPERTY(double minValue READ minValue WRITE setMinValue)
+    Q_PROPERTY(double maxValue READ maxValue WRITE setMaxValue)
+    Q_PROPERTY(double value READ value WRITE setValue)
+    Q_PROPERTY(int precision READ precision WRITE setPrecision)
 
-    Q_PROPERTY(int longStep READ getLongStep WRITE setLongStep)
-    Q_PROPERTY(int shortStep READ getShortStep WRITE setShortStep)
-    Q_PROPERTY(int space READ getSpace WRITE setSpace)
+    Q_PROPERTY(int longStep READ longStep WRITE setLongStep)
+    Q_PROPERTY(int shortStep READ shortStep WRITE setShortStep)
+    Q_PROPERTY(int space READ space WRITE setSpace)
 
-    Q_PROPERTY(QColor bgColorStart READ getBgColorStart WRITE setBgColorStart)
-    Q_PROPERTY(QColor bgColorEnd READ getBgColorEnd WRITE setBgColorEnd)
-    Q_PROPERTY(QColor lineColor READ getLineColor WRITE setLineColor)
+    Q_PROPERTY(QColor backgroundStartColor READ backgroundStartColor WRITE setBackgroundStartColor)
+    Q_PROPERTY(QColor backgroundEndColor READ backgroundEndColor WRITE setBackgroundEndColor)
+    Q_PROPERTY(QColor lineColor READ lineColor WRITE setLineColor)
 
-    Q_PROPERTY(QColor sliderColorTop READ getSliderColorTop WRITE setSliderColorTop)
-    Q_PROPERTY(QColor sliderColorBottom READ getSliderColorBottom WRITE setSliderColorBottom)
+    Q_PROPERTY(QColor sliderTopColor READ sliderTopColor WRITE setSliderTopColor)
+    Q_PROPERTY(QColor sliderBottomColor READ sliderBottomColor WRITE setSliderBottomColor)
 
-    Q_PROPERTY(QColor tipBgColor READ getTipBgColor WRITE setTipBgColor)
-    Q_PROPERTY(QColor tipTextColor READ getTipTextColor WRITE setTipTextColor)
-
-public:
-    explicit QEXTRulerSlider(QWidget *parent = 0);
-
-protected:
-    void resizeEvent(QResizeEvent *);
-    void showEvent(QShowEvent *);
-    void wheelEvent(QWheelEvent *);
-    void mousePressEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
-    void mouseMoveEvent(QMouseEvent *);
-    void paintEvent(QPaintEvent *);
-    void drawBg(QPainter *painter);
-    void drawRule(QPainter *painter);
-    void drawSlider(QPainter *painter);
-    void drawTip(QPainter *painter);
-
-private:
-    double minValue;
-    double maxValue;
-    double value;
-    int precision;
-
-    int longStep;
-    int shortStep;
-    int space;
-
-    QColor bgColorStart;
-    QColor bgColorEnd;
-    QColor lineColor;
-
-    QColor sliderColorTop;
-    QColor sliderColorBottom;
-
-    QColor tipBgColor;
-    QColor tipTextColor;
-
-    bool pressed;
-    double currentValue;
-
-    double longLineHeight;
-    double shortLineHeight;
-    double sliderTopHeight;
-    double sliderBottomHeight;
-
-    QPointF sliderLastPot;
-    QPointF sliderTopPot;
-    QPointF sliderLeftPot;
-    QPointF sliderRightPot;
-
-    QRectF sliderRect;
-    QRectF tipRect;
-    QPointF lineLeftPot;
-    QPointF lineRightPot;
+    Q_PROPERTY(QColor tipBackgroundColor READ tipBackgroundColor WRITE setTipBackgroundColor)
+    Q_PROPERTY(QColor tipTextColor READ tipTextColor WRITE setTipTextColor)
 
 public:
-    double getMinValue()            const;
-    double getMaxValue()            const;
-    double getValue()               const;
-    int getPrecision()              const;
+    explicit QEXTRulerSlider(QWidget *parent = QEXT_DECL_NULLPTR);
+    ~QEXTRulerSlider();
 
-    int getLongStep()               const;
-    int getShortStep()              const;
-    int getSpace()                  const;
+    double minValue() const;
+    double maxValue() const;
+    double value() const;
+    int precision() const;
 
-    QColor getBgColorStart()        const;
-    QColor getBgColorEnd()          const;
-    QColor getLineColor()           const;
+    int longStep() const;
+    int shortStep() const;
+    int space() const;
 
-    QColor getSliderColorTop()      const;
-    QColor getSliderColorBottom()   const;
+    QColor backgroundStartColor() const;
+    QColor backgroundEndColor() const;
+    QColor lineColor() const;
 
-    QColor getTipBgColor()          const;
-    QColor getTipTextColor()        const;
+    QColor sliderTopColor() const;
+    QColor sliderBottomColor() const;
 
-    QSize sizeHint()                const;
-    QSize minimumSizeHint()         const;
+    QColor tipBackgroundColor() const;
+    QColor tipTextColor() const;
+
+    QSize sizeHint() const;
+    QSize minimumSizeHint() const;
+
+Q_SIGNALS:
+    void valueChanged(double value);
 
 public Q_SLOTS:
     void setRange(double minValue, double maxValue);
@@ -151,19 +104,36 @@ public Q_SLOTS:
 
     void setSpace(int space);
 
-    void setBgColorStart(const QColor &bgColorStart);
-    void setBgColorEnd(const QColor &bgColorEnd);
+    void setBackgroundStartColor(const QColor &color);
+    void setBackgroundEndColor(const QColor &color);
 
-    void setLineColor(const QColor &lineColor);
+    void setLineColor(const QColor &color);
 
-    void setSliderColorTop(const QColor &sliderColorTop);
-    void setSliderColorBottom(const QColor &sliderColorBottom);
+    void setSliderTopColor(const QColor &color);
+    void setSliderBottomColor(const QColor &color);
 
-    void setTipBgColor(const QColor &tipBgColor);
-    void setTipTextColor(const QColor &tipTextColor);
+    void setTipBackgroundColor(const QColor &color);
+    void setTipTextColor(const QColor &color);
 
-Q_SIGNALS:
-    void valueChanged(double value);
+protected:
+    void resizeEvent(QResizeEvent *);
+    void showEvent(QShowEvent *);
+    void wheelEvent(QWheelEvent *);
+    void mousePressEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent *);
+    void paintEvent(QPaintEvent *);
+
+    void drawBackground(QPainter *painter);
+    void drawRule(QPainter *painter);
+    void drawSlider(QPainter *painter);
+    void drawTip(QPainter *painter);
+
+    QScopedPointer<QEXTRulerSliderPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_DISABLE_COPY_MOVE(QEXTRulerSlider)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTRulerSlider)
 };
 
 #endif // _QEXTRULERSLIDER_H
