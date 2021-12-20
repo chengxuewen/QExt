@@ -1,8 +1,7 @@
 #include <qextVLCMetaManager.h>
 #include <qextVLCMedia.h>
 
-#include <vlc/vlc.h>
-#include <vlc/deprecated.h>
+#include <qextVLCHeaders.h>
 
 QEXTVLCMetaManager::QEXTVLCMetaManager(QEXTVLCMedia *media)
     : m_media(media)

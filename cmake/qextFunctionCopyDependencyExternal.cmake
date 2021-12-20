@@ -27,7 +27,7 @@
 function(qextFunctionCopyDependencyExternal)
     set(multiValueArgs LIBS)
     set(oneValueArgs TARGET SOURCE DESTINATION)
-    set(options PRE_BUILD PRE_LINK POST_BUILD VERBOSE)
+    set(options PRE_BUILD PRE_LINK POST_BUILD VERBOSE MATCHING)
     cmake_parse_arguments(MY "${options}" "${oneValueArgs}" "${multiValueArgs}" "${ARGN}")
 
     set(HAPPENS)
@@ -56,12 +56,21 @@ function(qextFunctionCopyDependencyExternal)
     foreach(child ${MY_LIBS})
         find_path(LIB_PATH ${MY_SOURCE}/${child} ${MY_SOURCE})
         if(NOT LIB_PATH EQUAL "LIB_PATH-NOTFOUND")
-            add_custom_command(
-                TARGET ${MY_TARGET}
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MY_SOURCE}/${child} ${MY_DESTINATION}
-                COMMENT "copy the depends external lib file ${child} to the ${MY_DESTINATION} folder"
-                ${HAPPENS}
-                )
+            if(MY_MATCHING)
+                add_custom_command(
+                    TARGET ${MY_TARGET}
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MY_SOURCE}/${child}* ${MY_DESTINATION}
+                    COMMENT "copy the depends external lib file ${child} to the ${MY_DESTINATION} folder"
+                    ${HAPPENS}
+                    )
+            else()
+                add_custom_command(
+                    TARGET ${MY_TARGET}
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MY_SOURCE}/${child} ${MY_DESTINATION}
+                    COMMENT "copy the depends external lib file ${child} to the ${MY_DESTINATION} folder"
+                    ${HAPPENS}
+                    )
+            endif()
         else()
             message(FATAL_ERROR "Could not find ${MY_SOURCE}/${child} lib file")
         endif()

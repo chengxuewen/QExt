@@ -97,7 +97,7 @@ public:
     */
     QEXTVLCVideo *video() const;
 
-#if QEXT_LIBVLC_VERSION >= 0x020200
+#if QEXT_LIBVLC_VERSION >= 3
     /*!
         \brief Returns equalizer object.
         \return equalizer (QEXTVLCEqualizer *)

@@ -6,11 +6,11 @@
 #include <qextVLCVideo.h>
 #include <qextVLCVideoDelegate.h>
 
-#if QEXT_LIBVLC_VERSION >= 0x020200
+#if QEXT_LIBVLC_VERSION >= 3
 #include <qextVLCEqualizer.h>
 #endif
 
-#include <vlc/vlc.h>
+#include <qextVLCThread.h>
 
 class QEXTVLCMediaPlayerPrivate
 {
@@ -27,7 +27,7 @@ public:
 
     QEXTVLCAudio *m_vlcAudio;
     QEXTVLCVideo *m_vlcVideo;
-#if QEXT_LIBVLC_VERSION >= 0x020200
+#if QEXT_LIBVLC_VERSION >= 3
     QEXTVLCEqualizer *m_vlcEqualizer;
 #endif
 
@@ -68,7 +68,7 @@ QEXTVLCMediaPlayer::QEXTVLCMediaPlayer(QEXTVLCInstance *instance)
 
     d->m_vlcAudio = new QEXTVLCAudio(this);
     d->m_vlcVideo = new QEXTVLCVideo(this);
-#if QEXT_LIBVLC_VERSION >= 0x020200
+#if QEXT_LIBVLC_VERSION >= 3
     d->m_vlcEqualizer = new QEXTVLCEqualizer(this);
 #endif
 
@@ -87,7 +87,7 @@ QEXTVLCMediaPlayer::~QEXTVLCMediaPlayer()
 
     delete d->m_vlcAudio;
     delete d->m_vlcVideo;
-#if QEXT_LIBVLC_VERSION >= 0x020200
+#if QEXT_LIBVLC_VERSION >= 3
     delete d->m_vlcEqualizer;
 #endif
 
@@ -114,7 +114,7 @@ QEXTVLCVideo *QEXTVLCMediaPlayer::video() const
     return d->m_vlcVideo;
 }
 
-#if QEXT_LIBVLC_VERSION >= 0x020200
+#if QEXT_LIBVLC_VERSION >= 3
 QEXTVLCEqualizer *QEXTVLCMediaPlayer::equalizer() const
 {
     Q_D(const QEXTVLCMediaPlayer);
@@ -506,7 +506,7 @@ float QEXTVLCMediaPlayer::sampleAspectRatio()
     {
         return 0.0;
     }
-#if QEXT_LIBVLC_VERSION >= 0x020100
+#if QEXT_LIBVLC_VERSION >= 3
     float sar = 0.0;
 
     libvlc_media_track_t **tracks;
@@ -532,7 +532,7 @@ float QEXTVLCMediaPlayer::sampleAspectRatio()
     return sar;
 #else
     return 1.0;
-#endif // QEXT_LIBVLC_VERSION >= 0x020100
+#endif // QEXT_LIBVLC_VERSION >= 3
 }
 
 void QEXTVLCMediaPlayer::setPosition(float pos)

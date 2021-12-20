@@ -16,9 +16,9 @@
 * along with this library. If not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 
-#include <vlc/vlc.h>
-#include <vlc_common.h>
-#include <vlc_variables.h>
+#include <qextVLCHeaders.h>
+//#include <vlc_common.h>
+//#include <vlc_variables.h>
 
 #include "qextVLCAudio.h"
 #include "qextVLCError.h"
@@ -27,54 +27,54 @@
 /*!
     \private
 */
-class QEXTVLCAudioCallbackHelper
-{
-public:
-    static int volumeCallback(vlc_object_t *obj,
-                              const char *name,
-                              vlc_value_t oldVal,
-                              vlc_value_t newVal,
-                              void *data)
-    {
-        Q_UNUSED(obj)
-        Q_UNUSED(name)
-        Q_UNUSED(oldVal)
+//class QEXTVLCAudioCallbackHelper
+//{
+//public:
+//    static int volumeCallback(vlc_object_t *obj,
+//                              const char *name,
+//                              vlc_value_t oldVal,
+//                              vlc_value_t newVal,
+//                              void *data)
+//    {
+//        Q_UNUSED(obj)
+//        Q_UNUSED(name)
+//        Q_UNUSED(oldVal)
 
-        QEXTVLCAudio *core = static_cast<QEXTVLCAudio *>(data);
-        emit core->volumeChangedF(newVal.f_float);
-        int vol = newVal.f_float < 0 ? -1 : qRound(newVal.f_float * 100.f);
-        emit core->volumeChanged(vol);
-        return VLC_SUCCESS;
-    }
+//        QEXTVLCAudio *core = static_cast<QEXTVLCAudio *>(data);
+//        emit core->volumeChangedF(newVal.f_float);
+//        int vol = newVal.f_float < 0 ? -1 : qRound(newVal.f_float * 100.f);
+//        emit core->volumeChanged(vol);
+//        return VLC_SUCCESS;
+//    }
 
-    static int muteCallback(vlc_object_t *obj,
-                            const char *name,
-                            vlc_value_t oldVal,
-                            vlc_value_t newVal,
-                            void *data)
-    {
-        Q_UNUSED(obj);
-        Q_UNUSED(name);
-        Q_UNUSED(oldVal);
+//    static int muteCallback(vlc_object_t *obj,
+//                            const char *name,
+//                            vlc_value_t oldVal,
+//                            vlc_value_t newVal,
+//                            void *data)
+//    {
+//        Q_UNUSED(obj);
+//        Q_UNUSED(name);
+//        Q_UNUSED(oldVal);
 
-        QEXTVLCAudio *core = static_cast<QEXTVLCAudio *>(data);
-        emit core->muteChanged(newVal.b_bool);
-        return VLC_SUCCESS;
-    }
-};
+//        QEXTVLCAudio *core = static_cast<QEXTVLCAudio *>(data);
+//        emit core->muteChanged(newVal.b_bool);
+//        return VLC_SUCCESS;
+//    }
+//};
 
 QEXTVLCAudio::QEXTVLCAudio(QEXTVLCMediaPlayer *player)
     : QObject(player),
       _vlcMediaPlayer(player->core())
 {
-    var_AddCallback((vlc_object_t *)_vlcMediaPlayer, "volume", QEXTVLCAudioCallbackHelper::volumeCallback, this);
-    var_AddCallback((vlc_object_t *)_vlcMediaPlayer, "mute", QEXTVLCAudioCallbackHelper::muteCallback, this);
+//    var_AddCallback((vlc_object_t *)_vlcMediaPlayer, "volume", QEXTVLCAudioCallbackHelper::volumeCallback, this);
+//    var_AddCallback((vlc_object_t *)_vlcMediaPlayer, "mute", QEXTVLCAudioCallbackHelper::muteCallback, this);
 }
 
 QEXTVLCAudio::~QEXTVLCAudio()
 {
-    var_DelCallback((vlc_object_t *)_vlcMediaPlayer, "volume", QEXTVLCAudioCallbackHelper::volumeCallback, this);
-    var_DelCallback((vlc_object_t *)_vlcMediaPlayer, "mute", QEXTVLCAudioCallbackHelper::muteCallback, this);
+//    var_DelCallback((vlc_object_t *)_vlcMediaPlayer, "volume", QEXTVLCAudioCallbackHelper::volumeCallback, this);
+//    var_DelCallback((vlc_object_t *)_vlcMediaPlayer, "mute", QEXTVLCAudioCallbackHelper::muteCallback, this);
 }
 
 bool QEXTVLCAudio::getMute() const

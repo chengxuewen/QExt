@@ -18,7 +18,7 @@
 
 #include <QtCore/QDebug>
 
-#include <vlc/vlc.h>
+#include <qextVLCHeaders.h>
 
 #include "qextVLCError.h"
 #include "qextVLCInstance.h"

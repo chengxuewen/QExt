@@ -17,7 +17,7 @@
 *****************************************************************************/
 
 #include <cmath>
-#include <vlc/vlc.h>
+#include <qextVLCHeaders.h>
 
 #include "qextVLCEqualizer.h"
 #include "qextVLCError.h"

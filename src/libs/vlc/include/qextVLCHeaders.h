@@ -1,13 +1,14 @@
-﻿#ifndef VLCHEAD_H
-#define VLCHEAD_H 1
+﻿#ifndef _QEXTVLCHEADERS_H
+#define _QEXTVLCHEADERS_H
 
-# ifdef __cplusplus
+#include <qextVLCConfig.h>
+
+#ifdef __cplusplus
 extern "C" {
-# endif
+#endif
 
-#define vlc3
-
-#ifdef vlc3
+#if QEXT_LIBVLC_VERSION >= 3
+#include <vlc/libvlc.h>
 #include <vlc/libvlc.h>
 #include <vlc/libvlc_renderer_discoverer.h>
 #include <vlc/libvlc_media.h>
@@ -19,8 +20,9 @@ extern "C" {
 #include <vlc/libvlc_events.h>
 #include <vlc/libvlc_dialog.h>
 #include <vlc/libvlc_vlm.h>
-#include <vlc/deprecated.h>
+#include <deprecated.h>
 #else
+#include <vlc.h>
 #include <libvlc.h>
 #include <libvlc_structures.h>
 #include <libvlc_media.h>
@@ -34,11 +36,11 @@ extern "C" {
 #include <deprecated.h>
 #endif
 
-# ifdef __cplusplus
+#ifdef __cplusplus
 }
-# endif
+#endif
 
-#include "qdatetime.h"
+#include <QDateTime>
 #pragma execution_character_set("utf-8")
 
 
@@ -50,4 +52,4 @@ extern "C" {
 #define STRDATETIME     qPrintable(QDateTime::currentDateTime().toString("yyyy-MM-dd-HH-mm-ss"))
 #define STRDATETIMEMS   qPrintable(QDateTime::currentDateTime().toString("yyyy-MM-dd-HH-mm-ss-zzz"))
 
-#endif // VLCHEAD_H
+#endif // _QEXTVLCHEADERS_H

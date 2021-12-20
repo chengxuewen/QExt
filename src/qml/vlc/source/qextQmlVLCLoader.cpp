@@ -6,7 +6,6 @@
 #include "qextQmlVLCPlayer.h"
 #include "qextQmlVLCSource.h"
 #include "qextQmlVLCVideoOutput.h"
-#include "qextQmlVLCVideoPlayer.h"
 
 void QEXTQmlVLCLoader::load(QQmlEngine *engine)
 {
@@ -26,9 +25,6 @@ void QEXTQmlVLCLoader::registerTypes(const char *uri)
 
     qmlRegisterType<QEXTQmlVLCPlayer>(uri, major, minor, "QEXTQmlVLCPlayer");
     qmlRegisterType<QEXTQmlVLCVideoOutput>(uri, major, minor, "QEXTQmlVLCVideoOutput");
-
-    // Deprecated
-    qmlRegisterType<QEXTQmlVLCVideoPlayer>(uri, major, minor, "QEXTQmlVLCVideoPlayer");
 }
 
 void QEXTQmlVLCLoader::initQmlEngine(QQmlEngine *engine, const char *uri)

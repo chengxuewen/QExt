@@ -35,7 +35,7 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 # Configure a header file to pass some of the CMake settings to the source code
 #--------------------------------------------------------------------------------
-set(QEXT_VLC_CONFIG_HPP_FILE_DIR ${QEXT_INCLUDE_OUTPUT_DIR})
+set(QEXT_VLC_CONFIG_HPP_FILE_DIR ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME})
 set(QEXT_VLC_CONFIG_HPP_FILE_PATH ${QEXT_VLC_CONFIG_HPP_FILE_DIR}/qextVLCConfig.h)
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/qextVLCConfig.h.in"
@@ -49,11 +49,8 @@ configure_file(
 #--------------------------------------------------------------------------------
 set(QEXT_LIB_PUBLIC_HEADERS
     include/qextVLCPch.h
+    include/qextVLCHeaders.h
     include/qextVLCGlobal.h
-
-    include/vlc.h
-    include/vlchead.h
-
     include/qextVLCAbstractVideoFrame.h
     include/qextVLCAbstractVideoStream.h
     include/qextVLCAudio.h
@@ -75,7 +72,6 @@ set(QEXT_LIB_PUBLIC_HEADERS
     include/qextVLCVideo.h
     include/qextVLCVideoDelegate.h
     include/qextVLCVideoFrame.h
-    include/qextVLCVideoMemoryStream.h
     include/qextVLCVideoStream.h
     include/qextVLCWidgetSeek.h
     include/qextVLCWidgetSeekProgress.h
@@ -84,8 +80,7 @@ set(QEXT_LIB_PUBLIC_HEADERS
     include/qextVLCYUVVideoFrame.h
     include/qextVLCASprintf.h
     include/qextVLC.h
-
-
+    include/qextVLCThread.h
     )
 
 set(QEXT_LIB_PRIVATE_HEADERS
@@ -111,7 +106,6 @@ set(QEXT_LIB_SOURCES
     source/qextVLCTrackModel.cpp
     source/qextVLCVideo.cpp
     source/qextVLCVideoFrame.cpp
-    source/qextVLCVideoMemoryStream.cpp
     source/qextVLCVideoStream.cpp
     source/qextVLCWidgetSeek.cpp
     source/qextVLCWidgetSeekProgress.cpp
@@ -120,8 +114,7 @@ set(QEXT_LIB_SOURCES
     source/qextVLCYUVVideoFrame.cpp
     source/qextVLCASprintf.c
     source/qextVLCVASprintf.c
-
-    source/vlc.cpp
+    source/qextVLCThread.cpp
     )
 
 set(QEXT_LIB_FORMS
@@ -181,11 +174,13 @@ qextMacroFindLibVLC()
 list(APPEND QEXT_LIB_LINK_LIBRARIES ${QEXT_LIBVLC_LIBRARY} ${QEXT_LIBVLC_CORE_LIBRARY})
 list(APPEND QEXT_LIB_INCLUDE_DIRECTORIES
     ${QEXT_LIBVLC_EXTRA_INCLUDE_DIR}
+    ${QEXT_LIBVLC_EXTRA_INCLUDE_DIR}/vlc
     ${QEXT_LIBVLC_EXTRA_INCLUDE_DIR}/vlc/plugins
     ${QEXT_LIBVLC_INCLUDE_DIR}
+    ${QEXT_LIBVLC_INCLUDE_DIR}/vlc
     ${QEXT_LIBVLC_INCLUDE_DIR}/vlc/plugins
     )
-SET(QEXT_LIBVLC_VERSION 0x020200 CACHE STRING "libVLC version used")
+SET(QEXT_LIBVLC_VERSION 2 CACHE STRING "libVLC version used")
 
 
 

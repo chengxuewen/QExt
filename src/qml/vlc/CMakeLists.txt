@@ -41,10 +41,8 @@ set(QEXT_QML_PLUGIN_VERSION_MAJOR 1)
 set(QEXT_QML_PLUGIN_VERSION_MINOR 0)
 if (QEXT_BUILDIN_QMLPLUGINDUMP)
     set(QEXT_QML_PLUGIN_USE_KIT_QMLPLUGINDUMP OFF)
-    message(STATUS "----QEXT---- Use build in qmlplugindump app")
 else()
     set(QEXT_QML_PLUGIN_USE_KIT_QMLPLUGINDUMP ON)
-    message(STATUS "----QEXT---- Use kit qmlplugindump app")
 endif()
 set(QEXT_QML_PLUGIN_CONFIG_FILE_DIR ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_QML_PLUGIN_BASE_NAME})
 set(QEXT_QML_PLUGIN_CONFIG_FILE_PATH ${QEXT_QML_PLUGIN_CONFIG_FILE_DIR}/qextQmlVLCConfig.h)
@@ -63,9 +61,7 @@ set(QEXT_QML_PLUGIN_PUBLIC_HEADERS
     include/qextQmlVLCGLSLPainter.h
     include/qextQmlVLCPlayer.h
     include/qextQmlVLCSource.h
-    include/qextQmlVLCVideoObject.h
     include/qextQmlVLCVideoOutput.h
-    include/qextQmlVLCVideoPlayer.h
     include/qextQmlVLCVideoStream.h
     include/qextQmlVLCVideoMaterial.h
     include/qextQmlVLCVideoMaterialShader.h
@@ -84,9 +80,7 @@ set(QEXT_QML_PLUGIN_SOURCES
     source/qextQmlVLCGLSLPainter.cpp
     source/qextQmlVLCPlayer.cpp
     source/qextQmlVLCSource.cpp
-    source/qextQmlVLCVideoObject.cpp
     source/qextQmlVLCVideoOutput.cpp
-    source/qextQmlVLCVideoPlayer.cpp
     source/qextQmlVLCVideoStream.cpp
     source/qextQmlVLCVideoMaterial.cpp
     source/qextQmlVLCVideoMaterialShader.cpp

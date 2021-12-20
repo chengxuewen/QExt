@@ -44,60 +44,84 @@ macro(qextMacroFindLibVLC)
     find_path(QEXT_LIBVLC_INCLUDE_DIR vlc/vlc.h
         HINTS "$ENV{LIBVLC_INCLUDE_PATH}"
         PATHS
+        #Env
+        "$ENV{LIB_DIR}/include"
+        "$ENV{LIB_DIR}/include/vlc"
         #Mac OS and Contribs
         "${CMAKE_CURRENT_SOURCE_DIR}/contribs/include"
         "${CMAKE_CURRENT_SOURCE_DIR}/contribs/include/vlc"
         "/Applications/VLC.app/Contents/MacOS/include"
         "/Applications/VLC.app/Contents/MacOS/include/vlc"
-        # Env
-        "$ENV{LIB_DIR}/include"
-        "$ENV{LIB_DIR}/include/vlc"
-        #
+        #Unix
         "/usr/include"
         "/usr/include/vlc"
         "/usr/local/include"
         "/usr/local/include/vlc"
-        #mingw
+        #MinGW
         c:/msys/local/include
         "c:/Program Files (x86)/VideoLAN/VLC/sdk/include"
         )
-    find_path(QEXT_LIBVLC_INCLUDE_DIR PATHS "${CMAKE_INCLUDE_PATH}/vlc" NAMES vlc.h)
+
 
     #Put here path to custom location
     #example: /home/user/vlc/lib etc..
-    find_library(QEXT_LIBVLC_LIBRARY NAMES vlc libvlc
+    find_library(QEXT_LIBVLC_LIBRARY NAMES vlc libvlc libvlc.so.5
         HINTS "$ENV{LIBVLC_LIBRARY_PATH}"
         PATHS
+        #Env
         "$ENV{LIB_DIR}/lib"
         #Mac OS
         "${CMAKE_CURRENT_SOURCE_DIR}/contribs/lib"
         "${CMAKE_CURRENT_SOURCE_DIR}/contribs/plugins"
         "/Applications/VLC.app/Contents/MacOS/lib"
         "/Applications/VLC.app/Contents/MacOS/plugins"
-        #mingw
+        #Unix
+        "/usr/lib"
+        "/usr/lib/vlc"
+        "/usr/local/lib"
+        "/usr/local/lib/vlc"
+        #MinGW
         c:/msys/local/lib
         "c:/Program Files (x86)/VideoLAN/VLC/sdk/lib"
         )
-    find_library(QEXT_LIBVLC_LIBRARY NAMES vlc libvlc)
-    find_library(QEXT_LIBVLC_CORE_LIBRARY NAMES vlccore libvlccore
+
+
+    find_library(QEXT_LIBVLC_CORE_LIBRARY NAMES vlccore libvlccore libvlccore.so.8
         HINTS "$ENV{LIBVLC_LIBRARY_PATH}"
         PATHS
+        #Env
         "$ENV{LIB_DIR}/lib"
         #Mac OS
         "${CMAKE_CURRENT_SOURCE_DIR}/contribs/lib"
         "${CMAKE_CURRENT_SOURCE_DIR}/contribs/plugins"
         "/Applications/VLC.app/Contents/MacOS/lib"
         "/Applications/VLC.app/Contents/MacOS/plugins"
-        #mingw
+        #Unix
+        "/usr/lib"
+        "/usr/lib/vlc"
+        "/usr/local/lib"
+        "/usr/local/lib/vlc"
+        #MinGW
         c:/msys/local/lib
         "c:/Program Files (x86)/VideoLAN/VLC/sdk/lib"
         )
-    find_library(QEXT_LIBVLC_CORE_LIBRARY NAMES vlccore libvlccore)
+
 
     if(QEXT_LIBVLC_INCLUDE_DIR AND QEXT_LIBVLC_LIBRARY AND QEXT_LIBVLC_CORE_LIBRARY)
         set(QEXT_LIBVLC_FOUND TRUE)
         set(QEXT_LIBVLC_PLUGIN_DIR ${QEXT_LIBVLC_INCLUDE_DIR}/vlc/plugins)
-    endif (QEXT_LIBVLC_INCLUDE_DIR AND QEXT_LIBVLC_LIBRARY AND QEXT_LIBVLC_CORE_LIBRARY)
+    else()
+        if(NOT QEXT_LIBVLC_INCLUDE_DIR AND QEXT_LIBVLC_FIND_REQUIRED)
+            message(FATAL_ERROR "----QEXT---- Could not find LibVLC,${QEXT_LIBVLC_INCLUDE_DIR}")
+        endif()
+        if(NOT QEXT_LIBVLC_LIBRARY AND QEXT_LIBVLC_FIND_REQUIRED)
+            message(FATAL_ERROR "----QEXT---- Could not find LibVLC,${QEXT_LIBVLC_LIBRARY}")
+        endif()
+        if(NOT QEXT_LIBVLC_CORE_LIBRARY AND QEXT_LIBVLC_FIND_REQUIRED)
+            message(FATAL_ERROR "----QEXT---- Could not find LibVLC,${QEXT_LIBVLC_CORE_LIBRARY}")
+        endif()
+    endif()
+
 
     if(QEXT_LIBVLC_FOUND)
         message(STATUS "----QEXT---- Found LibVLC include-dir path: ${QEXT_LIBVLC_INCLUDE_DIR}")

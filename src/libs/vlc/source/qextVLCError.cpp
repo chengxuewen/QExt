@@ -1,6 +1,6 @@
 #include <qextVLCError.h>
 
-#include <vlc/vlc.h>
+#include <qextVLCHeaders.h>
 
 #include <QtCore/QDebug>
 

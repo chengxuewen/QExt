@@ -6,7 +6,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
 
-#include <vlc/vlc.h>
+#include <qextVLCHeaders.h>
 
 QEXTVLCMedia::QEXTVLCMedia(const QString &location, bool localFile, QEXTVLCInstance *instance)
     : QObject(instance)

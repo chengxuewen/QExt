@@ -1,7 +1,7 @@
 #include <qextVLCAbstractVideoStream.h>
 #include <qextVLCMediaPlayer.h>
 
-#include <vlc/vlc.h>
+#include <qextVLCHeaders.h>
 
 static inline QEXTVLCAbstractVideoStream *p_this(void *opaque)
 {

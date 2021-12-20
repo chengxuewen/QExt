@@ -16,7 +16,7 @@
 * along with this library. If not, see <http://www.gnu.org/licenses/>.
 *****************************************************************************/
 
-#include <vlc/vlc.h>
+#include <qextVLCHeaders.h>
 
 #include "qextVLCError.h"
 #include "qextVLCInstance.h"

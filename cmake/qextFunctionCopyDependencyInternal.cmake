@@ -27,7 +27,7 @@
 function(qextFunctionCopyDependencyInternal)
     set(multiValueArgs LIBS)
     set(oneValueArgs TARGET DESTINATION)
-    set(options PRE_BUILD PRE_LINK POST_BUILD VERBOSE)
+    set(options PRE_BUILD PRE_LINK POST_BUILD VERBOSE MATCHING)
     cmake_parse_arguments(MY "${options}" "${oneValueArgs}" "${multiValueArgs}" "${ARGN}")
 
     set(HAPPENS)
@@ -53,12 +53,21 @@ function(qextFunctionCopyDependencyInternal)
     endif()
 
     foreach(child ${MY_LIBS})
-        add_custom_command(
-            TARGET ${MY_TARGET}
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${child}> ${MY_DESTINATION}
-            COMMENT "copy the depends internal lib ${child} to the ${MY_DESTINATION} folder"
-            ${HAPPENS}
-            )
+        if(MY_MATCHING)
+            add_custom_command(
+                TARGET ${MY_TARGET}
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_LINKER_FILE:${child}>* ${MY_DESTINATION}
+                COMMENT "copy the depends internal lib ${child} to the ${MY_DESTINATION} folder"
+                ${HAPPENS}
+                )
+        else()
+            add_custom_command(
+                TARGET ${MY_TARGET}
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${child}> ${MY_DESTINATION}
+                COMMENT "copy the depends internal lib ${child} to the ${MY_DESTINATION} folder"
+                ${HAPPENS}
+                )
+        endif()
     endforeach()
 
 endfunction(qextFunctionCopyDependencyInternal)

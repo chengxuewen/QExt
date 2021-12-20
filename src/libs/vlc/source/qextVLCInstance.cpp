@@ -7,7 +7,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QStringList>
 
-#include <vlc/vlc.h>
+#include <qextVLCHeaders.h>
 
 #ifdef Q_OS_WIN
 #include "compat/asprintf.h"

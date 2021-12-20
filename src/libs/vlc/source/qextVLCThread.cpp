@@ -1,4 +1,4 @@
-﻿#include "vlc.h"
+﻿#include "qextVLCThread.h"
 
 VlcThread::VlcThread(QObject *parent) : QThread(parent)
 {

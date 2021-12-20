@@ -6,7 +6,7 @@
 #include <QtWidgets>
 #endif
 
-#include "vlchead.h"
+#include <qextVLCHeaders.h>
 #include <qextVLCGlobal.h>
 
 class QEXT_VLC_API VlcThread : public QThread

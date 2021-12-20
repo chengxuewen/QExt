@@ -47,6 +47,8 @@ int main(int argc, char *argv[])
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
     QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, false);
+    QLoggingCategory::defaultCategory()->setEnabled(QtWarningMsg, false);
+//    QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, false);
 #endif
     qInstallMessageHandler(&logMessageHandler);
 
@@ -58,10 +60,10 @@ int main(int argc, char *argv[])
     QEXTVLCCommon::setPluginPath(QString(LIBVLC_PLUGINS_DIR));
 #endif
 
-    QThread thread;
+//    QThread thread;
     QEXTVLCInstance instance(QEXTVLCCommon::args());
-    instance.moveToThread(&thread);
-    thread.start();
+//    instance.moveToThread(&thread);
+//    thread.start();
     instance.setLogLevel(QEXTVLC::LogLevel_Debug);
     Player *testPlayer = new Player(&instance);
     testPlayer->show();
