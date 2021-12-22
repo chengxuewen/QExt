@@ -61,5 +61,6 @@
         <file>C_MoveArea.qml</file>
         <file>C_ResizeArea.qml</file>
         <file>C_Collapse.qml</file>
+        <file>C_CircularProgressBar.qml</file>
     </qresource>
 </RCC>

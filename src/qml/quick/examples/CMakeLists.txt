@@ -35,9 +35,6 @@ configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/qextQuickExampleConfig.h.in"
     "${QEXT_EXAMPLE_CONFIG_FILE_PATH}"
     )
-set(QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXTQUICK_IMPORT_DIR} ${QEXTQUICK_SOURCE_DIR})
-#set(QML_IMPORT_PATH "${QEXT_QML_IMPORT_PATH}" CACHE STRING "Qt Creator extra qml import paths" FORCE)
-#message(QML_IMPORT_PATH=${QML_IMPORT_PATH})
 
 
 

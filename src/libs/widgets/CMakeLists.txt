@@ -204,7 +204,7 @@ else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore QEXTIcons QEXTGooglePinYin)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore QEXTIconFont QEXTGooglePinYin)
 
 
 

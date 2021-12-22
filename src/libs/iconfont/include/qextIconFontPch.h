@@ -1,5 +1,5 @@
-#ifndef _QEXTFONTSPCH_H
-#define _QEXTFONTSPCH_H
+#ifndef _QEXTICONFONTPCH_H
+#define _QEXTICONFONTPCH_H
 
 #include <QString>
 #include <QObject>
@@ -15,4 +15,4 @@
 #include <QMutex>
 #include <QMutexLocker>
 
-#endif // _QEXTFONTSPCH_H
+#endif // _QEXTICONFONTPCH_H

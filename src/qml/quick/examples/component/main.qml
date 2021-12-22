@@ -51,6 +51,7 @@ Window {
                 {label: "Tag", uri: "qrc:/C_Tag.qml"},
                 {label: "ProgressBar", uri: "qrc:/C_ProgressBar.qml"},
                 {label: "CheckBox", uri: "qrc:/C_CheckBox.qml"},
+                {label: "CircularProgressBar", uri: "qrc:/C_CircularProgressBar.qml"},
                 {label: "Switch", uri: "qrc:/C_Switch.qml"},
                 {label: "RadioButton", uri: "qrc:/C_RadioButton.qml"},
                 {label: "Toast", uri: "qrc:/C_Toast.qml"},

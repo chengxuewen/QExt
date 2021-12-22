@@ -145,62 +145,64 @@ int QEXTQuick::stateToEnum(const QString &state) const
     }
 }
 
-void QEXTQuick::registerTypes(const char *uri)
+void QEXTQuick::registerTypes(const char *url)
 {
-    Q_ASSERT(uri == QLatin1String(QEXTQUICK_NAME));
-    Q_INIT_RESOURCE(QEXTQuick);
-//    MyNamespace::myFunction();
+    Q_ASSERT(url == QLatin1String(QEXTQUICK_NAME));
+//    Q_INIT_RESOURCE(QEXTQuick);
+    MyNamespace::myFunction();
 
     int major = QEXTQUICK_VERSION_MAJOR;
     int minor = QEXTQUICK_VERSION_MINOR;
 
-    qmlRegisterSingletonType<QEXTQuick>(uri, major, minor, "QEXTQuick", QEXTQuick::qmlSingletonTypeProvider);
-    qmlRegisterSingletonType<QEXTQuickFontAwesome>(uri, major, minor, "QEXTQuickFontAwesome", QEXTQuickFontAwesome::qmlSingletonTypeProvider);
-    qmlRegisterSingletonType<QEXTQuickPalette>(uri, major, minor, "QEXTQuickPalette", QEXTQuickPalette::qmlSingletonTypeProvider);
+    qmlRegisterSingletonType<QEXTQuick>(url, major, minor, "QEXTQuick", QEXTQuick::qmlSingletonTypeProvider);
+    qmlRegisterSingletonType<QEXTQuickFontAwesome>(url, major, minor, "QEXTQuickFontAwesome", QEXTQuickFontAwesome::qmlSingletonTypeProvider);
+    qmlRegisterSingletonType<QEXTQuickPalette>(url, major, minor, "QEXTQuickPalette", QEXTQuickPalette::qmlSingletonTypeProvider);
 
-    qmlRegisterType<QEXTQuickTextGadget>(uri, major, minor, "QEXTQuickTextGadget");
-    qmlRegisterType<QEXTQuickBorderGadget>(uri, major, minor, "QEXTQuickBorderGadget");
-    qmlRegisterType<QEXTQuickBackgroundGadget>(uri, major, minor, "QEXTQuickBackgroundGadget");
-    qmlRegisterType<QEXTQuickIconGadget>(uri, major, minor, "QEXTQuickIconGadget");
-    qmlRegisterType<QEXTQuickItemGadget>(uri, major, minor, "QEXTQuickItemGadget");
-    qmlRegisterType<QEXTQuickWorld>( uri, major, minor, "QEXTQuickWorld");
+    qmlRegisterType<QEXTQuickTextGadget>(url, major, minor, "QEXTQuickTextGadget");
+    qmlRegisterType<QEXTQuickBorderGadget>(url, major, minor, "QEXTQuickBorderGadget");
+    qmlRegisterType<QEXTQuickBackgroundGadget>(url, major, minor, "QEXTQuickBackgroundGadget");
+    qmlRegisterType<QEXTQuickIconGadget>(url, major, minor, "QEXTQuickIconGadget");
+    qmlRegisterType<QEXTQuickItemGadget>(url, major, minor, "QEXTQuickItemGadget");
+    qmlRegisterType<QEXTQuickWorld>( url, major, minor, "QEXTQuickWorld");
 
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTAvatar.qml"), uri, major, minor, "QEXTAvatar");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTAwesomeIcon.qml"), uri, major, minor, "QEXTAwesomeIcon");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTBadge.qml"), uri, major, minor, "QEXTBadge");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTBusyIndicator.qml"), uri, major, minor, "QEXTBusyIndicator");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTButton.qml"), uri, major, minor, "QEXTButton");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTCarousel.qml"), uri, major, minor, "QEXTCarousel");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTCarouselElement.qml"), uri, major, minor, "QEXTCarouselElement");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTCheckBox.qml"), uri, major, minor, "QEXTCheckBox");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTCollapse.qml"), uri, major, minor, "QEXTCollapse");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTCollapseElement.qml"), uri, major, minor, "QEXTCollapseElement");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTDialog.qml"), uri, major, minor, "QEXTDialog");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTDialogButton.qml"), uri, major, minor, "QEXTDialogButton");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTDividerLine.qml"), uri, major, minor, "QEXTDividerLine");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTFpsMonitor.qml"), uri, major, minor, "QEXTFpsMonitor");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTIcon.qml"), uri, major, minor, "QEXTIcon");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTIconButton.qml"), uri, major, minor, "QEXTIconButton");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTInputField.qml"), uri, major, minor, "QEXTInputField");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTMask.qml"), uri, major, minor, "QEXTMask");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTMoveArea.qml"), uri, major, minor, "QEXTMoveArea");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTNavigationBar.qml"), uri, major, minor, "QEXTNavigationBar");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTNavigationElement.qml"), uri, major, minor, "QEXTNavigationElement");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTObject.qml"), uri, major, minor, "QEXTObject");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTPagination.qml"), uri, major, minor, "QEXTPagination");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTProgressBar.qml"), uri, major, minor, "QEXTProgressBar");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTRadioButton.qml"), uri, major, minor, "QEXTRadioButton");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTResizeArea.qml"), uri, major, minor, "QEXTResizeArea");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTScrollbarH.qml"), uri, major, minor, "QEXTScrollbarH");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTScrollbarV.qml"), uri, major, minor, "QEXTScrollbarV");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTSplitView.qml"), uri, major, minor, "QEXTSplitView");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTSVGIcon.qml"), uri, major, minor, "QEXTSVGIcon");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTSwitch.qml"), uri, major, minor, "QEXTSwitch");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTTag.qml"), uri, major, minor, "QEXTTag");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTWindow.qml"), uri, major, minor, "QEXTWindow");
-    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTWindowTitleBar.qml"), uri, major, minor, "QEXTWindowTitleBar");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTAvatar.qml"), url, major, minor, "QEXTAvatar");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTAwesomeIcon.qml"), url, major, minor, "QEXTAwesomeIcon");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTBadge.qml"), url, major, minor, "QEXTBadge");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTBusyIndicator.qml"), url, major, minor, "QEXTBusyIndicator");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTButton.qml"), url, major, minor, "QEXTButton");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTCarousel.qml"), url, major, minor, "QEXTCarousel");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTCarouselElement.qml"), url, major, minor, "QEXTCarouselElement");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTCheckBox.qml"), url, major, minor, "QEXTCheckBox");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTCircularProgressBar.qml"), url, major, minor, "QEXTCircularProgressBar");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTCollapse.qml"), url, major, minor, "QEXTCollapse");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTCollapseElement.qml"), url, major, minor, "QEXTCollapseElement");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTDialog.qml"), url, major, minor, "QEXTDialog");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTDialogButton.qml"), url, major, minor, "QEXTDialogButton");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTDividerLine.qml"), url, major, minor, "QEXTDividerLine");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTFpsMonitor.qml"), url, major, minor, "QEXTFpsMonitor");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTIcon.qml"), url, major, minor, "QEXTIcon");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTIconButton.qml"), url, major, minor, "QEXTIconButton");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTInputField.qml"), url, major, minor, "QEXTInputField");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTMask.qml"), url, major, minor, "QEXTMask");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTMoveArea.qml"), url, major, minor, "QEXTMoveArea");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTNavigationBar.qml"), url, major, minor, "QEXTNavigationBar");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTNavigationElement.qml"), url, major, minor, "QEXTNavigationElement");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTObject.qml"), url, major, minor, "QEXTObject");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTPagination.qml"), url, major, minor, "QEXTPagination");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTProgressBar.qml"), url, major, minor, "QEXTProgressBar");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTRadioButton.qml"), url, major, minor, "QEXTRadioButton");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTResizeArea.qml"), url, major, minor, "QEXTResizeArea");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTRoundRectangle.qml"), url, major, minor, "QEXTRoundRectangle");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTScrollbarH.qml"), url, major, minor, "QEXTScrollbarH");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTScrollbarV.qml"), url, major, minor, "QEXTScrollbarV");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTSplitView.qml"), url, major, minor, "QEXTSplitView");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTSVGIcon.qml"), url, major, minor, "QEXTSVGIcon");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTSwitch.qml"), url, major, minor, "QEXTSwitch");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTTag.qml"), url, major, minor, "QEXTTag");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTWindow.qml"), url, major, minor, "QEXTWindow");
+    qmlRegisterType(QUrl("qrc:/QEXTQuick/control/QEXTWindowTitleBar.qml"), url, major, minor, "QEXTWindowTitleBar");
 
-    qmlRegisterSingletonType(QUrl("qrc:/QEXTQuick/control/QEXTToast.qml"), uri, major, minor, "QEXTToast");
+    qmlRegisterSingletonType(QUrl("qrc:/QEXTQuick/control/QEXTToast.qml"), url, major, minor, "QEXTToast");
 }
 
 void QEXTQuick::initQmlEngine(QQmlEngine *engine, const char *uri)

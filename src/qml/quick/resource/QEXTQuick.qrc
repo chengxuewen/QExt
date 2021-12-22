@@ -44,6 +44,8 @@
         <file>control/QEXTCollapse.qml</file>
         <file>control/QEXTCollapseElement.qml</file>
         <file>control/QEXTSplitView.qml</file>
+        <file>control/QEXTRoundRectangle.qml</file>
+        <file>control/QEXTCircularProgressBar.qml</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

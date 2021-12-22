@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/QEXTIcons">
+    <qresource prefix="/QEXTIconFont">
         <file>fontawesome/fontawesome-webfont.ttf</file>
         <file>material/svg/zodiac-virgo.svg</file>
         <file>material/svg/zodiac-taurus.svg</file>

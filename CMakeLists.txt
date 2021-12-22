@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.11.2.1 LANGUAGES CXX)
+project(QEXT VERSION 0.11.3.1 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -196,43 +196,15 @@ endif ()
 #--------------------------------------------------------------------------------
 # Specify the output dir
 #--------------------------------------------------------------------------------
-set(QEXT_PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
-set(QEXT_PROJECT_BINARY_DIR ${PROJECT_BINARY_DIR})
-if (NOT QEXT_APP_OUTPUT_DIR)
-    set(QEXT_APP_OUTPUT_DIR "${PROJECT_BINARY_DIR}/bin")
-endif()
-
-if (NOT QEXT_LIB_OUTPUT_DIR)
-    set(QEXT_LIB_OUTPUT_DIR "${PROJECT_BINARY_DIR}/lib")
-endif()
-
-if (NOT QEXT_QTLIB_OUTPUT_DIR)
-    set(QEXT_QTLIB_OUTPUT_DIR "${PROJECT_BINARY_DIR}/lib/qt")
-endif()
-
-if (NOT QEXT_SYSLIB_OUTPUT_DIR)
-    set(QEXT_SYSLIB_OUTPUT_DIR "${PROJECT_BINARY_DIR}/lib/sys")
-endif()
-
-if (NOT QEXT_PLUGIN_OUTPUT_DIR)
-    set(QEXT_PLUGIN_OUTPUT_DIR "${PROJECT_BINARY_DIR}/plugin")
-endif()
-
-if (NOT QEXT_QML_OUTPUT_DIR)
-    set(QEXT_QML_OUTPUT_DIR "${PROJECT_BINARY_DIR}/qml")
-endif()
-
-if (NOT QEXT_INCLUDE_OUTPUT_DIR)
-    set(QEXT_INCLUDE_OUTPUT_DIR "${PROJECT_BINARY_DIR}/include")
-endif()
-
-if (NOT QEXT_EXAMPLE_OUTPUT_DIR)
-    set(QEXT_EXAMPLE_OUTPUT_DIR "${PROJECT_BINARY_DIR}/example")
-endif()
-
-if (NOT QEXT_TEST_OUTPUT_DIR)
-    set(QEXT_TEST_OUTPUT_DIR "${PROJECT_BINARY_DIR}/test")
-endif()
+set(QEXT_PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR} CACHE STRING "QEXT project source dir" FORCE)
+set(QEXT_PROJECT_BINARY_DIR ${PROJECT_BINARY_DIR} CACHE STRING "QEXT project binary dir" FORCE)
+set(QEXT_APP_OUTPUT_DIR ${PROJECT_BINARY_DIR}/bin CACHE STRING "QEXT bin output dir" FORCE)
+set(QEXT_LIB_OUTPUT_DIR ${PROJECT_BINARY_DIR}/lib CACHE STRING "QEXT lib output dir" FORCE)
+set(QEXT_PLUGIN_OUTPUT_DIR ${PROJECT_BINARY_DIR}/plugin CACHE STRING "QEXT plugin output dir" FORCE)
+set(QEXT_QML_OUTPUT_DIR ${PROJECT_BINARY_DIR}/qml CACHE STRING "QEXT qml output dir" FORCE)
+set(QEXT_INCLUDE_OUTPUT_DIR ${PROJECT_BINARY_DIR}/include CACHE STRING "QEXT include output dir" FORCE)
+set(QEXT_EXAMPLE_OUTPUT_DIR ${PROJECT_BINARY_DIR}/example CACHE STRING "QEXT example output dir" FORCE)
+set(QEXT_TEST_OUTPUT_DIR ${PROJECT_BINARY_DIR}/test CACHE STRING "QEXT test output dir" FORCE)
 
 # here we specify the installation directory
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -274,7 +246,7 @@ include(qextMacroFindLibVLC)
 option(QEXT_BUILD_SHARED_LIBS "Build shared library" ON)
 option(QEXT_BUILD_TESTS "Build tests" OFF)
 option(QEXT_BUILD_EXAMPLES "Build examples" OFF)
-option(QEXT_BUILD_APPS "Build apps" OFF)
+option(QEXT_BUILD_APPS "Build apps" ON)
 option(QEXT_BUILD_PLUGINS "Build plugins" OFF)
 option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ON)
 option(QEXT_BUILD_DOCUMENTATION "Enable this to build the documentation" OFF)
@@ -286,7 +258,7 @@ option(QEXT_BUILD_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib"
 option(QEXT_BUILD_LIB_FONTS "Enable this to build the fonts lib" ON)
 option(QEXT_BUILD_LIB_FRAMELESSHELPER "Enable this to build the framelesshelper lib" ON)
 option(QEXT_BUILD_LIB_GOOGLEPINYIN "Enable this to build the googlepinyin lib" ON)
-option(QEXT_BUILD_LIB_ICONS "Enable this to build the icons lib" ON)
+option(QEXT_BUILD_LIB_ICONFONT "Enable this to build the iconfont lib" ON)
 option(QEXT_BUILD_LIB_MVVM "Enable this to build the mvvm lib" OFF)
 option(QEXT_BUILD_LIB_QUICK "Enable this to build the quick lib" ON)
 option(QEXT_BUILD_LIB_SERIALPORT "Enable this to build the serialport lib" ON)

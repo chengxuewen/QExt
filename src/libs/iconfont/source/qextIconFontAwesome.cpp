@@ -1,4 +1,4 @@
-#include <qextIconsFontAwesome.h>
+#include <qextIconFontAwesome.h>
 
 #include <QDebug>
 #include <QFile>
@@ -11,30 +11,30 @@
 namespace
 {
 
-    // internal helper method to merge to option amps
-    static QEXTIconsFontAwesome::FontOptionValueMap qextMergeFontOptions(const QEXTIconsFontAwesome::FontOptionValueMap &defaults,
-            const QEXTIconsFontAwesome::FontOptionValueMap &override)
+// internal helper method to merge to option amps
+static QEXTIconFontAwesome::FontOptionValueMap qextMergeFontOptions(const QEXTIconFontAwesome::FontOptionValueMap &defaults,
+                                                                    const QEXTIconFontAwesome::FontOptionValueMap &override)
+{
+    QEXTIconFontAwesome::FontOptionValueMap result = defaults;
+    if (!override.isEmpty())
     {
-        QEXTIconsFontAwesome::FontOptionValueMap result = defaults;
-        if (!override.isEmpty())
+        QEXTIconFontAwesome::FontOptionValueMap::const_iterator iter;
+        for (iter = override.begin(); iter != override.end(); ++iter)
         {
-            QEXTIconsFontAwesome::FontOptionValueMap::const_iterator iter;
-            for (iter = override.begin(); iter != override.end(); ++iter)
-            {
-                result.insert(iter.key(), iter.value());
-            }
+            result.insert(iter.key(), iter.value());
         }
-        return result;
     }
+    return result;
+}
 
 }
 
 /// The font-awesome icon painter
-class QEXTIconsFontAwesomeCharIconPainter : public QEXTIconsFontAwesomeIconPainterInterface
+class QEXTIconFontAwesomeCharIconPainter : public QEXTIconFontAwesomeIconPainterInterface
 {
 public:
-    virtual void paint(QEXTIconsFontAwesome *awesome, QPainter *painter, const QRect &rect, QIcon::Mode mode,
-                       QIcon::State state, const QEXTIconsFontAwesome::FontOptionValueMap &options) QEXT_DECL_OVERRIDE
+    virtual void paint(QEXTIconFontAwesome *awesome, QPainter *painter, const QRect &rect, QIcon::Mode mode,
+                       QIcon::State state, const QEXTIconFontAwesome::FontOptionValueMap &options) QEXT_DECL_OVERRIDE
     {
         Q_UNUSED(state);
         Q_UNUSED(options);
@@ -42,15 +42,15 @@ public:
         painter->save();
 
         // set the correct color
-        QColor color = options.value(QEXTIconsFontAwesome::Option_Color).value<QColor>();
-        QString text = options.value(QEXTIconsFontAwesome::Option_Text).toString();
+        QColor color = options.value(QEXTIconFontAwesome::Option_Color).value<QColor>();
+        QString text = options.value(QEXTIconFontAwesome::Option_Text).toString();
 
         if (mode == QIcon::Disabled)
         {
-            QEXTIconsFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTIconsFontAwesome::Option_ColorDisabled :
-            QEXTIconsFontAwesome::Option_ColorDisabledOff;
-            QEXTIconsFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTIconsFontAwesome::Option_TextDisabled :
-            QEXTIconsFontAwesome::Option_TextDisabledOff;
+            QEXTIconFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTIconFontAwesome::Option_ColorDisabled :
+                                                                                 QEXTIconFontAwesome::Option_ColorDisabledOff;
+            QEXTIconFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTIconFontAwesome::Option_TextDisabled :
+                                                                                QEXTIconFontAwesome::Option_TextDisabledOff;
             color = options.value(colorOption).value<QColor>();
             QVariant alt = options.value(textOption);
             if (alt.isValid())
@@ -60,10 +60,10 @@ public:
         }
         else if (mode == QIcon::Active)
         {
-            QEXTIconsFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTIconsFontAwesome::Option_ColorActive :
-                    QEXTIconsFontAwesome::Option_ColorActiveOff;
-            QEXTIconsFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTIconsFontAwesome::Option_TextActive :
-                    QEXTIconsFontAwesome::Option_TextActiveOff;
+            QEXTIconFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTIconFontAwesome::Option_ColorActive :
+                                                                                 QEXTIconFontAwesome::Option_ColorActiveOff;
+            QEXTIconFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTIconFontAwesome::Option_TextActive :
+                                                                                QEXTIconFontAwesome::Option_TextActiveOff;
             color = options.value(colorOption).value<QColor>();
             QVariant alt = options.value(textOption);
             if (alt.isValid())
@@ -73,10 +73,10 @@ public:
         }
         else if (mode == QIcon::Selected)
         {
-            QEXTIconsFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTIconsFontAwesome::Option_ColorSelected :
-                    QEXTIconsFontAwesome::Option_ColorSelectedOff;
-            QEXTIconsFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTIconsFontAwesome::Option_TextSelected :
-                    QEXTIconsFontAwesome::Option_TextSelectedOff;
+            QEXTIconFontAwesome::OptionType colorOption = (QIcon::On == state) ? QEXTIconFontAwesome::Option_ColorSelected :
+                                                                                 QEXTIconFontAwesome::Option_ColorSelectedOff;
+            QEXTIconFontAwesome::OptionType textOption = (QIcon::On == state) ? QEXTIconFontAwesome::Option_TextSelected :
+                                                                                QEXTIconFontAwesome::Option_TextSelectedOff;
             color = options.value(colorOption).value<QColor>();
             QVariant alt = options.value(textOption);
             if (alt.isValid())
@@ -87,7 +87,7 @@ public:
         painter->setPen(color);
 
         // add some 'padding' around the icon
-        int drawSize = qRound(rect.height() * options.value(QEXTIconsFontAwesome::Option_ScaleFactor).toFloat());
+        int drawSize = qRound(rect.height() * options.value(QEXTIconFontAwesome::Option_ScaleFactor).toFloat());
 
         painter->setFont(awesome->font(drawSize));
         painter->drawText(rect, text, QTextOption(Qt::AlignCenter | Qt::AlignVCenter));
@@ -96,23 +96,23 @@ public:
 };
 
 /// The painter icon engine.
-class QEXTIconsFontAwesomeIconPainterIconEngine : public QIconEngine
+class QEXTIconFontAwesomeIconPainterIconEngine : public QIconEngine
 {
 public:
-    QEXTIconsFontAwesomeIconPainterIconEngine(QEXTIconsFontAwesome *awesome,
-                                         QEXTIconsFontAwesomeIconPainterInterface *painter,
-                                         const QEXTIconsFontAwesome::FontOptionValueMap &options)
+    QEXTIconFontAwesomeIconPainterIconEngine(QEXTIconFontAwesome *awesome,
+                                              QEXTIconFontAwesomeIconPainterInterface *painter,
+                                              const QEXTIconFontAwesome::FontOptionValueMap &options)
         : m_awesomeRef(awesome),
           m_iconPainterRef(painter),
           m_options(options)
     {
     }
 
-    virtual ~QEXTIconsFontAwesomeIconPainterIconEngine() {}
+    virtual ~QEXTIconFontAwesomeIconPainterIconEngine() {}
 
-    QEXTIconsFontAwesomeIconPainterIconEngine *clone() const
+    QEXTIconFontAwesomeIconPainterIconEngine *clone() const
     {
-        return new QEXTIconsFontAwesomeIconPainterIconEngine(m_awesomeRef, m_iconPainterRef, m_options);
+        return new QEXTIconFontAwesomeIconPainterIconEngine(m_awesomeRef, m_iconPainterRef, m_options);
     }
 
     void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state) QEXT_DECL_OVERRIDE
@@ -134,13 +134,13 @@ public:
     }
 
 private:
-    QEXTIconsFontAwesome *m_awesomeRef;                         ///< a reference to the QEXTIconsFontAwesome instance
-    QEXTIconsFontAwesomeIconPainterInterface *m_iconPainterRef; ///< a reference to the icon painter
-    QEXTIconsFontAwesome::FontOptionValueMap m_options;                                 ///< the options for this icon painter
+    QEXTIconFontAwesome *m_awesomeRef;                         ///< a reference to the QEXTIconFontAwesome instance
+    QEXTIconFontAwesomeIconPainterInterface *m_iconPainterRef; ///< a reference to the icon painter
+    QEXTIconFontAwesome::FontOptionValueMap m_options;                                 ///< the options for this icon painter
 };
 
 /// The default icon colors
-QEXTIconsFontAwesome::QEXTIconsFontAwesome(QObject *parent) : QObject(parent)
+QEXTIconFontAwesome::QEXTIconFontAwesome(QObject *parent) : QObject(parent)
 {
     // initialize the default options
     this->setDefaultOption(Option_ScaleFactor, 0.9);
@@ -155,7 +155,7 @@ QEXTIconsFontAwesome::QEXTIconsFontAwesome(QObject *parent) : QObject(parent)
     this->setDefaultOption(Option_TextActive, QVariant());
     this->setDefaultOption(Option_TextSelected, QVariant());
 
-    m_fontIconPainter = new QEXTIconsFontAwesomeCharIconPainter;
+    m_fontIconPainter = new QEXTIconFontAwesomeCharIconPainter;
     m_fontNameTextMap = this->fontNameTextMap();
 
     static int fontAwesomeFontId = -1;
@@ -168,13 +168,13 @@ QEXTIconsFontAwesome::QEXTIconsFontAwesome(QObject *parent) : QObject(parent)
         ///
         // I've checked th qInitResource_* code and calling this method mutliple times shouldn't be any problem
         // (More info about this subject:  http://qt-project.org/wiki/QtResources)
-        Q_INIT_RESOURCE(QEXTIcons);
+        Q_INIT_RESOURCE(QEXTIconFont);
 
         // load the font file
-        QFile res(":/QEXTIcons/fontawesome/fontawesome-webfont.ttf");
+        QFile res(":/QEXTIconFont/fontawesome/fontawesome-webfont.ttf");
         if (!res.open(QIODevice::ReadOnly))
         {
-            qWarning() << "QEXTIconsFontAwesome::QEXTIconsFontAwesome(): Font awesome font could not be loaded!";
+            qWarning() << "QEXTIconFontAwesome::QEXTIconFontAwesome(): Font awesome font could not be loaded!";
         }
         QByteArray fontData(res.readAll());
         res.close();
@@ -190,33 +190,33 @@ QEXTIconsFontAwesome::QEXTIconsFontAwesome(QObject *parent) : QObject(parent)
     }
     else
     {
-        qWarning() << "QEXTIconsFontAwesome::QEXTIconsFontAwesome(): Font awesome font is empty?!";
+        qWarning() << "QEXTIconFontAwesome::QEXTIconFontAwesome(): Font awesome font is empty?!";
         fontAwesomeFontId = -1; // restore the font-awesome id
     }
 }
 
-QEXTIconsFontAwesome::~QEXTIconsFontAwesome()
+QEXTIconFontAwesome::~QEXTIconFontAwesome()
 {
     delete m_fontIconPainter;
     qDeleteAll(m_painterMap);
 }
 
-int QEXTIconsFontAwesome::maiorVersion()
+int QEXTIconFontAwesome::maiorVersion()
 {
     return 4;
 }
 
-int QEXTIconsFontAwesome::minorVersion()
+int QEXTIconFontAwesome::minorVersion()
 {
     return 7;
 }
 
-QString QEXTIconsFontAwesome::version() const
+QString QEXTIconFontAwesome::version() const
 {
     return QString("%1.%2").arg(this->maiorVersion()).arg(this->minorVersion());
 }
 
-QString QEXTIconsFontAwesome::textFromKey(const QString &key)
+QString QEXTIconFontAwesome::textFromKey(const QString &key)
 {
     if(!key.isEmpty())
     {
@@ -226,14 +226,14 @@ QString QEXTIconsFontAwesome::textFromKey(const QString &key)
     return QString();
 }
 
-QString QEXTIconsFontAwesome::textFromValue(const int &type)
+QString QEXTIconFontAwesome::textFromValue(const int &type)
 {
     return QString(type);
 }
 
-QList<QString> QEXTIconsFontAwesome::fontNamelist()
+QList<QString> QEXTIconFontAwesome::fontNamelist()
 {
-    QMetaEnum enumType = QEXTIconsFontAwesome::staticMetaObject.enumerator(QEXTIconsFontAwesome::staticMetaObject.indexOfEnumerator("FontType"));
+    QMetaEnum enumType = QEXTIconFontAwesome::staticMetaObject.enumerator(QEXTIconFontAwesome::staticMetaObject.indexOfEnumerator("FontType"));
     QList<QString> list;
     for(int i = 0; i < enumType.keyCount(); ++i)
     {
@@ -242,9 +242,9 @@ QList<QString> QEXTIconsFontAwesome::fontNamelist()
     return list;
 }
 
-QList<QString> QEXTIconsFontAwesome::fontTextlist()
+QList<QString> QEXTIconFontAwesome::fontTextlist()
 {
-    QMetaEnum enumType = QEXTIconsFontAwesome::staticMetaObject.enumerator(QEXTIconsFontAwesome::staticMetaObject.indexOfEnumerator("FontType"));
+    QMetaEnum enumType = QEXTIconFontAwesome::staticMetaObject.enumerator(QEXTIconFontAwesome::staticMetaObject.indexOfEnumerator("FontType"));
     int index = this->staticMetaObject.indexOfEnumerator("FontType");
     QList<QString> list;
     for(int i = 0; i < enumType.keyCount(); ++i)
@@ -256,10 +256,10 @@ QList<QString> QEXTIconsFontAwesome::fontTextlist()
     return list;
 }
 
-QEXTIconsFontAwesome::FontNameTextMap QEXTIconsFontAwesome::fontNameTextMap()
+QEXTIconFontAwesome::FontNameTextMap QEXTIconFontAwesome::fontNameTextMap()
 {
     FontNameTextMap nameTextMap;
-    QMetaEnum enumType = QEXTIconsFontAwesome::staticMetaObject.enumerator(QEXTIconsFontAwesome::staticMetaObject.indexOfEnumerator("FontType"));
+    QMetaEnum enumType = QEXTIconFontAwesome::staticMetaObject.enumerator(QEXTIconFontAwesome::staticMetaObject.indexOfEnumerator("FontType"));
     int index = this->staticMetaObject.indexOfEnumerator("FontType");
     for(int i = 0; i < enumType.keyCount(); ++i)
     {
@@ -270,22 +270,22 @@ QEXTIconsFontAwesome::FontNameTextMap QEXTIconsFontAwesome::fontNameTextMap()
     return nameTextMap;
 }
 
-void QEXTIconsFontAwesome::setDefaultOption(const OptionType &option, const QVariant &value)
+void QEXTIconFontAwesome::setDefaultOption(const OptionType &option, const QVariant &value)
 {
     m_defaultOptions.insert(option, value);
 }
 
-QVariant QEXTIconsFontAwesome::defaultOption(const OptionType &option)
+QVariant QEXTIconFontAwesome::defaultOption(const OptionType &option)
 {
     return m_defaultOptions.value(option);
 }
 
-QChar QEXTIconsFontAwesome::fontChar(QEXTIconsFontAwesome::FontType character)
+QChar QEXTIconFontAwesome::fontChar(QEXTIconFontAwesome::FontType character)
 {
     return QChar(character);
 }
 
-QIcon QEXTIconsFontAwesome::icon(FontType character, const FontOptionValueMap &options)
+QIcon QEXTIconFontAwesome::icon(FontType character, const FontOptionValueMap &options)
 {
     // create a merged QVariantMap to have default options and icon-specific options
     FontOptionValueMap optionMap = qextMergeFontOptions(m_defaultOptions, options);
@@ -294,7 +294,7 @@ QIcon QEXTIconsFontAwesome::icon(FontType character, const FontOptionValueMap &o
     return this->icon(m_fontIconPainter, optionMap);
 }
 
-QIcon QEXTIconsFontAwesome::icon(QEXTIconsFontAwesome::FontType character, const QColor &color)
+QIcon QEXTIconFontAwesome::icon(QEXTIconFontAwesome::FontType character, const QColor &color)
 {
     FontOptionValueMap options;
     options.insert(Option_Color, color);
@@ -312,7 +312,7 @@ QIcon QEXTIconsFontAwesome::icon(QEXTIconsFontAwesome::FontType character, const
     return this->icon(m_fontIconPainter, optionMap);
 }
 
-QIcon QEXTIconsFontAwesome::icon(const QString &name, const FontOptionValueMap &options)
+QIcon QEXTIconFontAwesome::icon(const QString &name, const FontOptionValueMap &options)
 {
     // when it's a named codepoint
     if (m_fontNameTextMap.count(name))
@@ -324,7 +324,7 @@ QIcon QEXTIconsFontAwesome::icon(const QString &name, const FontOptionValueMap &
     FontOptionValueMap optionMap = qextMergeFontOptions(m_defaultOptions, options);
 
     // this method first tries to retrieve the icon
-    QEXTIconsFontAwesomeIconPainterInterface *painter = m_painterMap.value(name);
+    QEXTIconFontAwesomeIconPainterInterface *painter = m_painterMap.value(name);
     if (!painter)
     {
         return QIcon();
@@ -333,7 +333,7 @@ QIcon QEXTIconsFontAwesome::icon(const QString &name, const FontOptionValueMap &
     return this->icon(painter, optionMap);
 }
 
-QIcon QEXTIconsFontAwesome::icon(const QString &name, const QColor &color)
+QIcon QEXTIconFontAwesome::icon(const QString &name, const QColor &color)
 {
     FontOptionValueMap options;
     options.insert(Option_Color, color);
@@ -355,7 +355,7 @@ QIcon QEXTIconsFontAwesome::icon(const QString &name, const QColor &color)
     FontOptionValueMap optionMap = qextMergeFontOptions(m_defaultOptions, options);
 
     // this method first tries to retrieve the icon
-    QEXTIconsFontAwesomeIconPainterInterface *painter = m_painterMap.value(name);
+    QEXTIconFontAwesomeIconPainterInterface *painter = m_painterMap.value(name);
     if (!painter)
     {
         return QIcon();
@@ -364,41 +364,41 @@ QIcon QEXTIconsFontAwesome::icon(const QString &name, const QColor &color)
     return this->icon(painter, optionMap);
 }
 
-QIcon QEXTIconsFontAwesome::icon(QEXTIconsFontAwesomeIconPainterInterface *painter, const FontOptionValueMap &optionMap)
+QIcon QEXTIconFontAwesome::icon(QEXTIconFontAwesomeIconPainterInterface *painter, const FontOptionValueMap &optionMap)
 {
     // Warning, when you use memoryleak detection. You should turn it of for the next call
     // QIcon's placed in gui items are often cached and not deleted when my memory-leak detection checks for leaks.
     // I'm not sure if it's a Qt bug or something I do wrong
-    QEXTIconsFontAwesomeIconPainterIconEngine *engine = new QEXTIconsFontAwesomeIconPainterIconEngine(this, painter, optionMap);
+    QEXTIconFontAwesomeIconPainterIconEngine *engine = new QEXTIconFontAwesomeIconPainterIconEngine(this, painter, optionMap);
     return QIcon(engine);
 }
 
-void QEXTIconsFontAwesome::give(const QString &name, QEXTIconsFontAwesomeIconPainterInterface *painter)
+void QEXTIconFontAwesome::give(const QString &name, QEXTIconFontAwesomeIconPainterInterface *painter)
 {
     delete m_painterMap.value(name); // delete the old one
     m_painterMap.insert(name, painter);
 }
 
-QFont QEXTIconsFontAwesome::font(int size)
+QFont QEXTIconFontAwesome::font(int size)
 {
     QFont font(m_fontName);
     font.setPixelSize(size);
     return font;
 }
 
-QString QEXTIconsFontAwesome::fontName()
+QString QEXTIconFontAwesome::fontName()
 {
     return m_fontName;
 }
 
-QEXTIconsFontAwesome *qextGlobalFontAwesome()
+QEXTIconFontAwesome *qextGlobalFontAwesome()
 {
-    static QEXTIconsFontAwesome *fontAwesome = QEXT_DECL_NULLPTR;
+    static QEXTIconFontAwesome *fontAwesome = QEXT_DECL_NULLPTR;
     static QMutex mutex;
     QMutexLocker mutexLocker(&mutex);
     if (QEXT_DECL_NULLPTR == fontAwesome)
     {
-        fontAwesome = new QEXTIconsFontAwesome(qApp);
+        fontAwesome = new QEXTIconFontAwesome(qApp);
     }
     return fontAwesome;
 }

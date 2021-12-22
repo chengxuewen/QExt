@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-#include <qextIconsFontAwesome.h>
+#include <qextIconFontAwesome.h>
 
 #include <QToolButton>
 #include <QVBoxLayout>
@@ -16,10 +16,10 @@ LFAMMainWindow::LFAMMainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setFixedSize(700, 800);
 
-    qextIconsFontAwesome->setDefaultOption(QEXTIconsFontAwesome::Option_Color, QColor(255, 0, 0));
-    qextIconsFontAwesome->setDefaultOption(QEXTIconsFontAwesome::Option_ColorSelected, QColor(0, 255, 0));
-    qextIconsFontAwesome->setDefaultOption(QEXTIconsFontAwesome::Option_ColorSelectedOff, QColor(0, 0, 255));
-    QEXTIconsFontAwesome::FontNameTextMap hasnMap = qextIconsFontAwesome->fontNameTextMap();
+    qextIconFontAwesome->setDefaultOption(QEXTIconFontAwesome::Option_Color, QColor(255, 0, 0));
+    qextIconFontAwesome->setDefaultOption(QEXTIconFontAwesome::Option_ColorSelected, QColor(0, 255, 0));
+    qextIconFontAwesome->setDefaultOption(QEXTIconFontAwesome::Option_ColorSelectedOff, QColor(0, 0, 255));
+    QEXTIconFontAwesome::FontNameTextMap hasnMap = qextIconFontAwesome->fontNameTextMap();
     QList<QString> keyList = hasnMap.keys();
     QVBoxLayout *vBoxLayout = new QVBoxLayout;
     ui->scrollAreaWidgetContents->setLayout(vBoxLayout);
@@ -32,8 +32,8 @@ LFAMMainWindow::LFAMMainWindow(QWidget *parent) :
             vBoxLayout->addLayout(hBoxLayout);
         }
         QString key = keyList.at(i);
-        QEXTIconsFontAwesome::FontType type = hasnMap.value(key);
-        QIcon icon = qextIconsFontAwesome->icon(type);
+        QEXTIconFontAwesome::FontType type = hasnMap.value(key);
+        QIcon icon = qextIconFontAwesome->icon(type);
         QToolButton *button = new QToolButton(this);
         button->setIcon(icon);
         button->setText(key);

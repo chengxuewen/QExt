@@ -1,4 +1,4 @@
-import QtQuick 2.12
+import QtQuick 2.7
 
 /*https://www.iconfont.cn
  default is async load mode
@@ -8,22 +8,20 @@ Item {
     width: 16
     height: 16
 
-    property bool asynchronous: true
-    property bool smooth: true
-    property bool mipmap: true
-    property color color
-    property string source
-
+    property alias color: mShaderItem.color
+    property alias asynchronous: mImage.asynchronous
+    property alias source: mImage.source
+    property alias mipmap: mImage.mipmap
+    property alias smooth: mImage.smooth
     property alias status: mImage.status
 
     Image {
         id: mImage
-        asynchronous: qextSVGIcon.asynchronous
+        asynchronous: true
         autoTransform: true
         anchors.fill: qextSVGIcon
-        source: qextSVGIcon.source
-        mipmap: qextSVGIcon.mipmap
-        smooth: qextSVGIcon.smooth
+        mipmap: true
+        smooth: true
         visible: false
         enabled: false
     }
@@ -31,7 +29,8 @@ Item {
     ShaderEffect {
         id: mShaderItem
         property variant source: mImage
-        property color color: qextSVGIcon.color
+        property color color: "#000000"
+
         enabled: false
         fragmentShader: "qrc:/QEXTQuick/font/svg.cso"
         anchors.fill: parent

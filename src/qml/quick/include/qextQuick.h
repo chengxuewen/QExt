@@ -119,7 +119,7 @@ public:
     Q_INVOKABLE QString stateToString(int state) const;
     Q_INVOKABLE int stateToEnum(const QString &state) const;
 
-    void registerTypes(const char *uri);
+    void registerTypes(const char *url);
     void initQmlEngine(QQmlEngine *engine, const char *uri);
     void initQuickRoot(QQuickWindow *rootWindow);
     void initWorld(QEXTQuickWorld *world);

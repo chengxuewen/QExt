@@ -27,8 +27,8 @@
 #--------------------------------------------------------------------------------
 # Set example output path
 #--------------------------------------------------------------------------------
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/icons)
-set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/icons)
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/iconfont)
+set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/iconfont)
 
 
 
@@ -60,14 +60,14 @@ else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QEXTIcons)
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QEXTIconFont)
 
 
 
 #--------------------------------------------------------------------------------
 # Add qext_exp_fontAwesome example
 #--------------------------------------------------------------------------------
-set(qext_example_name qext_exp_iconsFontAwesome)
+set(qext_example_name qext_exp_iconFontAwesome)
 set(qext_example_headers
     fontAwesomeView/MainWindow.h
     )
@@ -89,7 +89,7 @@ set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
     qextFunctionCopyDependencyInternal(
         TARGET ${qext_example_name}
-        LIBS QEXTCore QEXTIcons
+        LIBS QEXTCore QEXTIconFont
         DESTINATION ${EXECUTABLE_OUTPUT_PATH}
         POST_BUILD
         )

@@ -33,10 +33,6 @@ if(QEXT_BUILD_LIB_DEVICEWATCHER)
     add_subdirectory(devicewatcher)
 endif()
 
-if(QEXT_BUILD_LIB_FONTS)
-    add_subdirectory(fonts)
-endif()
-
 if(QEXT_BUILD_LIB_FRAMELESSHELPER)
     add_subdirectory(framelesshelper)
 endif()
@@ -45,8 +41,8 @@ if(QEXT_BUILD_LIB_GOOGLEPINYIN)
     add_subdirectory(googlepinyin)
 endif()
 
-if(QEXT_BUILD_LIB_ICONS)
-    add_subdirectory(icons)
+if(QEXT_BUILD_LIB_ICONFONT)
+    add_subdirectory(iconfont)
 endif()
 
 if(QEXT_BUILD_LIB_MVVM)

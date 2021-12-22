@@ -86,7 +86,7 @@ list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QEXTStyleSheet)
 #if(WIN32)
 #qextFunctionCopyDependencyInternal(
 #    TARGET ${qext_example_name}
-#    LIBS QEXTCore QEXTIcons
+#    LIBS QEXTCore QEXTIconFont
 #    DESTINATION ${EXECUTABLE_OUTPUT_PATH}
 #    POST_BUILD
 #    )

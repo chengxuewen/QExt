@@ -33,7 +33,7 @@ Flickable {
             id: mGrid
             columns: 6
             spacing: 20
-            Repeater{
+            Repeater {
                 model: [
                     "#46A0FC",
                     "#46A0FC",
@@ -49,11 +49,12 @@ Flickable {
                     "#F36D6F",
                 ]
 
-                delegate: QEXTSVGIcon{
+                delegate: QEXTSVGIcon {
                     width: 40
                     height: 40
                     source: "qrc:/images/svg"+index+".svg"
                     color: modelData
+                    mirror: true
                 }
             }
         }

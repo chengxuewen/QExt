@@ -29,6 +29,10 @@
 #--------------------------------------------------------------------------------
 set(QEXT_QML_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "QEXT qml source dir" FORCE)
 
+list(APPEND QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXTQUICK_IMPORT_DIR})
+list(REMOVE_DUPLICATES QML_IMPORT_PATH)
+set(QML_IMPORT_PATH ${QML_IMPORT_PATH} CACHE STRING "Qt Creator extra qml import paths" FORCE)
+
 if(QEXT_BUILD_LIB_QUICK)
     add_subdirectory(quick)
 endif()

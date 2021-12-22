@@ -27,7 +27,7 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(QEXT_LIB_BASE_NAME QEXTFonts)
+set(QEXT_LIB_BASE_NAME QEXTIconFont)
 set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 
 
@@ -36,16 +36,19 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(QEXT_LIB_PUBLIC_HEADERS
-    include/qextFonts.h
-    include/qextFontsPch.h
-    include/qextFontsGlobal.h
+    include/qextIconFontAwesome.h
+    include/qextIconFontGlobal.h
+    include/qextIconFontMaterial.h
+    include/qextIconFontPch.h
     )
 
 set(QEXT_LIB_PRIVATE_HEADERS
+    private/qextIconFontMaterial_p.h
     )
 
 set(QEXT_LIB_SOURCES
-    source/qextFonts.cpp
+    source/qextIconFontAwesome.cpp
+    source/qextIconFontMaterial.cpp
     )
 
 set(QEXT_LIB_FORMS
@@ -53,7 +56,7 @@ set(QEXT_LIB_FORMS
     )
 
 set(QEXT_LIB_RESOURCES
-    resource/QEXTFonts.qrc
+    resource/QEXTIconFont.qrc
     )
 
 list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore)
@@ -63,7 +66,6 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore)
 # Add lib link libraries
 #--------------------------------------------------------------------------------
 set(QEXT_LIB_LINK_LIBRARIES)
-set(QEXT_LIB_INCLUDE_DIRECTORIES)
 
 if(UNIX)
     list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_DL_LIBS})
@@ -78,19 +80,12 @@ if(CMAKE_THREAD_LIBS_INIT)
 endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
-    list(APPEND QEXT_LIB_INCLUDE_DIRECTORIES
-        ${Qt4Gui_PRIVATE_INCLUDE_DIRS}
-        ${Qt4Widgets_PRIVATE_INCLUDE_DIRS}
-        )
+    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Gui
-        )
-    list(APPEND QEXT_LIB_INCLUDE_DIRECTORIES
-        ${Qt${QEXT_QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS}
-        ${Qt${QEXT_QT_VERSION_MAJOR}Widgets_PRIVATE_INCLUDE_DIRS}
+        Qt${QEXT_QT_VERSION_MAJOR}::Network
         )
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
@@ -114,16 +109,15 @@ if (QEXT_BUILD_COMPILER_WARNING)
     qextFunctionSetCompilerWarnings(${QEXT_LIB_BASE_NAME})
 endif()
 if (QEXT_BUILD_USE_PCH)
-    qextFunctionActivatePrecompiledHeaders(${QEXT_LIB_BASE_NAME} PRIVATE include/qextFontsPch.h)
+    qextFunctionActivatePrecompiledHeaders(${QEXT_LIB_BASE_NAME} PRIVATE include/qextIconFontPch.h)
 endif()
 target_link_libraries(${QEXT_LIB_BASE_NAME} PUBLIC ${QEXT_LIB_LINK_LIBRARIES})
 target_include_directories(${QEXT_LIB_BASE_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-    $<BUILD_INTERFACE:${QEXT_LIB_INCLUDE_DIRECTORIES}>
     $<INSTALL_INTERFACE:include>
     )
-target_compile_definitions(${QEXT_LIB_BASE_NAME} PRIVATE QEXT_BUILD_FONTS_LIB)
+target_compile_definitions(${QEXT_LIB_BASE_NAME} PRIVATE QEXT_BUILD_ICONFONT_LIB)
 
 
 # set target properties
