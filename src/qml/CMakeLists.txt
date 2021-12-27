@@ -36,7 +36,13 @@ set(QML_IMPORT_PATH ${QML_IMPORT_PATH} CACHE STRING "Qt Creator extra qml import
 if(QEXT_BUILD_LIB_QUICK)
     add_subdirectory(quick)
 endif()
-add_subdirectory(framelesshelper)
-add_subdirectory(theme)
-add_subdirectory(vlc)
 
+if(QEXT_BUILD_LIB_FRAMELESSHELPER)
+    add_subdirectory(framelesshelper)
+endif()
+
+add_subdirectory(theme)
+
+if(QEXT_BUILD_LIB_VLC)
+    add_subdirectory(vlc)
+endif()
