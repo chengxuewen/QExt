@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.11.4.1 LANGUAGES CXX)
+project(QEXT VERSION 0.11.4.2 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -345,7 +345,7 @@ add_subdirectory(src/apps)
 add_subdirectory(src/libs)
 add_subdirectory(src/plugins)
 
-if(NOT QEXT_BUILD_QML)
+if(QEXT_BUILD_QML)
     add_subdirectory(src/qml)
 endif()
 
