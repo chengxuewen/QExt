@@ -33,9 +33,21 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 
 
 #--------------------------------------------------------------------------------
+# Configure a header file to pass some of the CMake settings to the source code
+#--------------------------------------------------------------------------------
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/qextConfig.h.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/qextConfig.h"
+    )
+
+
+
+#--------------------------------------------------------------------------------
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(QEXT_LIB_PUBLIC_HEADERS
+    ${CMAKE_CURRENT_BINARY_DIR}/qextConfig.h
+
     include/global/qextCompiler.h
     include/global/qextGlobal.h
     include/global/qextProcessor.h
@@ -50,11 +62,6 @@ set(QEXT_LIB_PUBLIC_HEADERS
     include/invoke/qextFunction.h
     include/invoke/qextInPlace.h
     include/invoke/qextHideFunctor.h
-    include/invoke/qextLambda.h
-    include/invoke/qextLambdaBase.h
-    include/invoke/qextLambdaGroup.h
-    include/invoke/qextLambdaOperator.h
-    include/invoke/qextLambdaSelect.h
     include/invoke/qextLimitReference.h
     include/invoke/qextLinearFunction.h
     include/invoke/qextMemberFunctor.h
@@ -137,7 +144,6 @@ add_library(${QEXT_LIB_BASE_NAME}
     ${QEXT_LIB_SOURCES}
     ${QEXT_LIB_FORMS}
     ${QEXT_LIB_RESOURCES}
-    ${QEXT_CONFIG_HPP_FILE_PATH}
     )
 if (QEXT_BUILD_COMPILER_WARNING)
     qextFunctionSetCompilerWarnings(${QEXT_LIB_BASE_NAME})
@@ -146,30 +152,25 @@ if (QEXT_BUILD_USE_PCH)
     qextFunctionActivatePrecompiledHeaders(${QEXT_LIB_BASE_NAME} PRIVATE include/qextPch.h)
 endif()
 target_link_libraries(${QEXT_LIB_BASE_NAME} PUBLIC ${QEXT_LIB_LINK_LIBRARIES})
-target_include_directories(${QEXT_LIB_BASE_NAME} PUBLIC
-    $<BUILD_INTERFACE:${QEXT_CONFIG_HPP_FILE_DIR}>
+target_include_directories(${QEXT_LIB_BASE_NAME}
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/invoke>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/global>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/invoke>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/tools>
-    $<INSTALL_INTERFACE:include>
-    )
-set(${QEXT_LIB_BASE_NAME}_PRIVATE_INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/private
-    ${CMAKE_CURRENT_SOURCE_DIR}/private/invoke
-    ${CMAKE_CURRENT_SOURCE_DIR}/private/global
-    ${CMAKE_CURRENT_SOURCE_DIR}/private/tools
-    CACHE INTERNAL "${QEXT_LIB_BASE_NAME} private include dirs"
-    )
-target_include_directories(${QEXT_LIB_BASE_NAME} PRIVATE
-    $<BUILD_INTERFACE:${${QEXT_LIB_BASE_NAME}_PRIVATE_INCLUDE_DIRS}>
-    $<INSTALL_INTERFACE:private>
+    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}>
+    PRIVATE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private/global>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private/invoke>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private/tools>
+    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}/private>
     )
 if(QEXT_BUILD_SHARED_LIBS)
     target_compile_definitions(${QEXT_LIB_BASE_NAME} PUBLIC QEXT_BUILD_SHARED_LIBS)
 endif()
 target_compile_definitions(${QEXT_LIB_BASE_NAME} PRIVATE QEXT_BUILD_CORE_LIB)
-
 
 # set target properties
 set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
@@ -182,6 +183,25 @@ if (QEXT_BUILD_SHARED_LIBS)
         CXX_VISIBILITY_PRESET hidden
         VISIBILITY_INLINES_HIDDEN 1)
 endif()
+
+# set include files copy command
+add_custom_command(
+    TARGET ${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E remove_directory ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}/private
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/include/global/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/include/invoke/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/include/tools/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+#    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/private/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}/private
+#    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/private/global/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}/private
+#    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/private/invoke/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}/private
+#    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/private/tools/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}/private
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/qextConfig.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+    COMMENT "Copy ${QEXT_LIB_BASE_NAME} include files to output dir"
+    POST_BUILD
+    )
 
 
 

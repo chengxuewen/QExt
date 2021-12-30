@@ -171,7 +171,7 @@ bool QEXTQmlThemeJsonFileParser::parseThemeFile(const QString &strPath, QMap<QSt
         themeInfoMap.insert(QLatin1String(QEXTQmlThemeConstant::THEME_INFO_AUTHOR_KEY), strAuthor);
         themeDataMap.insert(QEXTQmlThemeConstant::THEME_INFO_KEY, themeInfoMap);
 
-        QString libVersion = QString("%1.%2").arg(QEXT_QML_PLUGIN_VERSION_MAJOR).arg(QEXT_QML_PLUGIN_VERSION_MINOR);
+        QString libVersion = QString("%1.%2").arg(QEXT_QMLTHEME_PLUGIN_VERSION_MAJOR).arg(QEXT_QMLTHEME_PLUGIN_VERSION_MINOR);
         if (libVersion != strVersion)
         {
             strError = QString("Theme file %1 version number %2 mismatch, valid version number is %3!")
@@ -229,7 +229,7 @@ bool QEXTQmlThemeJsonFileParser::generateThemeTemplateFile(QString &strError, QE
     QJsonObject newJsonObject;
     QJsonObject newInfoJsonObject;
     QJsonObject newThemeJsonObject = oldJsonObject[QEXTQmlThemeConstant::THEME_THEME_KEY].toObject();
-    newInfoJsonObject[QEXTQmlThemeConstant::THEME_INFO_VERSION_KEY] = QString("%1.%2").arg(QEXT_QML_PLUGIN_VERSION_MAJOR).arg(QEXT_QML_PLUGIN_VERSION_MINOR);
+    newInfoJsonObject[QEXTQmlThemeConstant::THEME_INFO_VERSION_KEY] = QString("%1.%2").arg(QEXT_QMLTHEME_PLUGIN_VERSION_MAJOR).arg(QEXT_QMLTHEME_PLUGIN_VERSION_MINOR);
     newInfoJsonObject[QEXTQmlThemeConstant::THEME_INFO_ABOUT_KEY] = QLatin1String("TQuick theme template file");
     newInfoJsonObject[QEXTQmlThemeConstant::THEME_INFO_NAME_KEY] = QLatin1String("Template");
     newInfoJsonObject[QEXTQmlThemeConstant::THEME_INFO_AUTHOR_KEY] = QLatin1String("TQuick");

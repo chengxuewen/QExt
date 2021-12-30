@@ -82,7 +82,7 @@ QEXTQuick *QEXTQuick::instance()
 
 QString QEXTQuick::version() const
 {
-    return QString("%1.%2").arg(QEXTQUICK_VERSION_MAJOR).arg(QEXTQUICK_VERSION_MINOR);
+    return QString("%1.%2").arg(QEXT_QUICK_PLUGIN_VERSION_MAJOR).arg(QEXT_QUICK_PLUGIN_VERSION_MINOR);
 }
 
 QString QEXTQuick::stateToString(int state) const
@@ -147,12 +147,12 @@ int QEXTQuick::stateToEnum(const QString &state) const
 
 void QEXTQuick::registerTypes(const char *url)
 {
-    Q_ASSERT(url == QLatin1String(QEXTQUICK_NAME));
-//    Q_INIT_RESOURCE(QEXTQuick);
-    MyNamespace::myFunction();
+    Q_ASSERT(url == QLatin1String(QEXT_QUICK_PLUGIN_NAME));
+    Q_INIT_RESOURCE(QEXTQuick);
+//    MyNamespace::myFunction();
 
-    int major = QEXTQUICK_VERSION_MAJOR;
-    int minor = QEXTQUICK_VERSION_MINOR;
+    int major = QEXT_QUICK_PLUGIN_VERSION_MAJOR;
+    int minor = QEXT_QUICK_PLUGIN_VERSION_MINOR;
 
     qmlRegisterSingletonType<QEXTQuick>(url, major, minor, "QEXTQuick", QEXTQuick::qmlSingletonTypeProvider);
     qmlRegisterSingletonType<QEXTQuickFontAwesome>(url, major, minor, "QEXTQuickFontAwesome", QEXTQuickFontAwesome::qmlSingletonTypeProvider);

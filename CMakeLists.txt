@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.11.4.3 LANGUAGES CXX)
+project(QEXT VERSION 0.11.5.1 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -207,23 +207,6 @@ set(QEXT_INCLUDE_OUTPUT_DIR ${PROJECT_BINARY_DIR}/include CACHE STRING "QEXT inc
 set(QEXT_EXAMPLE_OUTPUT_DIR ${PROJECT_BINARY_DIR}/example CACHE STRING "QEXT example output dir" FORCE)
 set(QEXT_TEST_OUTPUT_DIR ${PROJECT_BINARY_DIR}/test CACHE STRING "QEXT test output dir" FORCE)
 
-# here we specify the installation directory
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/install" CACHE PATH  "QEXT install prefix" FORCE)
-endif()
-
-
-
-#--------------------------------------------------------------------------------
-# Configure a header file to pass some of the CMake settings to the source code
-#--------------------------------------------------------------------------------
-set(QEXT_CONFIG_HPP_FILE_DIR ${QEXT_INCLUDE_OUTPUT_DIR})
-set(QEXT_CONFIG_HPP_FILE_PATH ${QEXT_CONFIG_HPP_FILE_DIR}/qextConfig.h)
-configure_file(
-    "${PROJECT_SOURCE_DIR}/cmake/qextConfig.h.in"
-    "${QEXT_CONFIG_HPP_FILE_PATH}"
-    )
-
 
 
 #--------------------------------------------------------------------------------
@@ -249,6 +232,7 @@ option(QEXT_BUILD_TESTS "Build tests" OFF)
 option(QEXT_BUILD_EXAMPLES "Build examples" OFF)
 option(QEXT_BUILD_APPS "Build apps" ON)
 option(QEXT_BUILD_PLUGINS "Build plugins" OFF)
+option(QEXT_BUILD_INSTALL "Build install" ON)
 option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ON)
 option(QEXT_BUILD_DOCUMENTATION "Enable this to build the documentation" OFF)
 option(QEXT_BUILD_COMPILER_WARNING "Build target with compiler warnings" OFF)
@@ -339,22 +323,73 @@ endif()
 
 
 #--------------------------------------------------------------------------------
+# Set install
+#--------------------------------------------------------------------------------
+if(QEXT_BUILD_INSTALL)
+    include(CPackComponent)
+    include(InstallRequiredSystemLibraries)
+    set(CPACK_PACKAGE_NAME ${QEXT_PRODUCT_NAME})
+    set(CPACK_PACKAGE_FILE_NAME ${QEXT_PRODUCT_NAME})
+    set(CPACK_PACKAGE_VENDOR ${QEXT_PRODUCT_NAME})
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY @ApplicationsDir@)    # Installation directory on the target system.
+    set(CPACK_SOURCE_GENERATOR ";")
+    set(CPACK_CREATE_DESKTOP_LINKS ${QEXT_PRODUCT_NAME})
+    include(CPack REQUIRED)
+
+    install(
+        DIRECTORY ${QEXT_APP_OUTPUT_DIR}
+        DESTINATION ./bin
+        COMPONENT Apps
+        PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
+        )
+    install(
+        DIRECTORY ${QEXT_LIB_OUTPUT_DIR}
+        DESTINATION ./lib
+        COMPONENT Libs
+        )
+    install(
+        DIRECTORY ${QEXT_QML_OUTPUT_DIR}
+        DESTINATION ./qml
+        COMPONENT Qml
+        )
+    install(
+        DIRECTORY ${QEXT_EXAMPLE_OUTPUT_DIR}
+        DESTINATION ./example
+        COMPONENT Example
+        PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
+        )
+    install(
+        DIRECTORY ${QEXT_INCLUDE_OUTPUT_DIR}
+        DESTINATION ./include
+        COMPONENT Include
+        )
+endif()
+
+
+
+#--------------------------------------------------------------------------------
 # add subdirectory
 #--------------------------------------------------------------------------------
 add_subdirectory(src/apps)
 add_subdirectory(src/libs)
 add_subdirectory(src/plugins)
-
 if(QEXT_BUILD_QML)
     add_subdirectory(src/qml)
 endif()
 
+
+
+#--------------------------------------------------------------------------------
+# add thirdparty subdirectory
+#--------------------------------------------------------------------------------
 if(QEXT_BUILD_LIB_QWT)
     add_subdirectory(thirdparty/qwt-6.1.3)
 endif()
 
 if(QEXT_BUILD_LIB_QWT3D)
-#    add_subdirectory(thirdparty/qwtplot3d-0.2.7)
+    if(UNIX)
+        add_subdirectory(thirdparty/qwtplot3d-0.2.7)
+    endif()
     add_subdirectory(thirdparty/qwtplot3dext)
 endif()
 

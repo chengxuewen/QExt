@@ -88,7 +88,11 @@ endif()
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Gui Qt${QEXT_QT_VERSION_MAJOR}::Network)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Network
+        )
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
@@ -114,13 +118,15 @@ if (QEXT_BUILD_USE_PCH)
     qextFunctionActivatePrecompiledHeaders(${QEXT_LIB_BASE_NAME} PRIVATE include/qextUtilsPch.h)
 endif()
 target_link_libraries(${QEXT_LIB_BASE_NAME} PUBLIC ${QEXT_LIB_LINK_LIBRARIES})
-target_include_directories(${QEXT_LIB_BASE_NAME} PUBLIC
+target_include_directories(${QEXT_LIB_BASE_NAME}
+    PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}>
+    PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}/private>
     )
 target_compile_definitions(${QEXT_LIB_BASE_NAME} PRIVATE QEXT_BUILD_UTILS_LIB)
-
 
 # set target properties
 set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
@@ -133,6 +139,18 @@ if (QEXT_BUILD_SHARED_LIBS)
         CXX_VISIBILITY_PRESET hidden
         VISIBILITY_INLINES_HIDDEN 1)
 endif()
+
+# set include files copy command
+add_custom_command(
+    TARGET ${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E remove_directory ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}/private
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/private/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}/private
+    COMMENT "Copy ${QEXT_LIB_BASE_NAME} include files to output dir"
+    POST_BUILD
+    )
 
 
 

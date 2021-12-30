@@ -4,8 +4,8 @@
 
 void QEXTQuickLoader::load(QQmlEngine *engine)
 {
-    QEXTQuick::instance()->registerTypes(QEXTQUICK_NAME);
-    QEXTQuick::instance()->initQmlEngine(engine, QEXTQUICK_NAME);
+    QEXTQuick::instance()->registerTypes(QEXT_QUICK_PLUGIN_NAME);
+    QEXTQuick::instance()->initQmlEngine(engine, QEXT_QUICK_PLUGIN_NAME);
 }
 
 QString QEXTQuickLoader::version()

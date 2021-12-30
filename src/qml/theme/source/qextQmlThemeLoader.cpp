@@ -6,15 +6,15 @@
 
 void QEXTQmlThemeLoader::load(QQmlEngine *engine)
 {
-    QEXTQmlThemeLoader::registerTypes(QEXT_QML_PLUGIN_NAME);
-    QEXTQmlThemeLoader::initQmlEngine(engine, QEXT_QML_PLUGIN_NAME);
+    QEXTQmlThemeLoader::registerTypes(QEXT_QMLTHEME_PLUGIN_NAME);
+    QEXTQmlThemeLoader::initQmlEngine(engine, QEXT_QMLTHEME_PLUGIN_NAME);
 }
 
 void QEXTQmlThemeLoader::registerTypes(const char *uri)
 {
     Q_INIT_RESOURCE(QEXTQmlTheme);
-    int major = QEXT_QML_PLUGIN_VERSION_MAJOR;
-    int minor = QEXT_QML_PLUGIN_VERSION_MINOR;
+    int major = QEXT_QMLTHEME_PLUGIN_VERSION_MAJOR;
+    int minor = QEXT_QMLTHEME_PLUGIN_VERSION_MINOR;
 
     qmlRegisterType<QEXTQmlThemeBinder>(uri, major, minor, "QEXTQmlThemeBinder");
     qmlRegisterSingletonType<QEXTQmlThemeManager>(uri, major, minor, "QEXTQmlThemeManager", QEXTQmlThemeManager::qmlSingletonTypeProvider);
@@ -28,5 +28,5 @@ void QEXTQmlThemeLoader::initQmlEngine(QQmlEngine *engine, const char *uri)
 
 QString QEXTQmlThemeLoader::version()
 {
-    return QString("%1.%2").arg(QEXT_QML_PLUGIN_VERSION_MAJOR).arg(QEXT_QML_PLUGIN_VERSION_MINOR);
+    return QString("%1.%2").arg(QEXT_QMLTHEME_PLUGIN_VERSION_MAJOR).arg(QEXT_QMLTHEME_PLUGIN_VERSION_MINOR);
 }

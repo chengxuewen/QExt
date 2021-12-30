@@ -44,11 +44,15 @@ if (QEXT_BUILDIN_QMLPLUGINDUMP)
 else()
     set(QEXT_QML_PLUGIN_USE_KIT_QMLPLUGINDUMP ON)
 endif()
-set(QEXT_QML_PLUGIN_CONFIG_FILE_DIR ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_QML_PLUGIN_BASE_NAME})
-set(QEXT_QML_PLUGIN_CONFIG_FILE_PATH ${QEXT_QML_PLUGIN_CONFIG_FILE_DIR}/qextQmlVLCConfig.h)
+
+
+
+#--------------------------------------------------------------------------------
+# Configure a header file to pass some of the CMake settings to the source code
+#--------------------------------------------------------------------------------
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/qextQmlVLCConfig.h.in"
-    "${QEXT_QML_PLUGIN_CONFIG_FILE_PATH}"
+    "${CMAKE_CURRENT_BINARY_DIR}/qextQmlVLCConfig.h"
     )
 
 
@@ -57,6 +61,8 @@ configure_file(
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(QEXT_QML_PLUGIN_PUBLIC_HEADERS
+    ${CMAKE_CURRENT_BINARY_DIR}/qextQmlVLCConfig.h
+
     include/qextQmlVLCGLPainter.h
     include/qextQmlVLCGLSLPainter.h
     include/qextQmlVLCPlayer.h
@@ -128,7 +134,6 @@ add_library(${QEXT_QML_PLUGIN_BASE_NAME}
     ${QEXT_QML_PLUGIN_PRIVATE_HEADERS}
     ${QEXT_QML_PLUGIN_SOURCES}
     ${QEXT_QML_PLUGIN_RESOURCES}
-    ${QEXT_QML_PLUGIN_CONFIG_FILE_PATH}
     )
 if (QEXT_BUILD_COMPILER_WARNING)
     qextFunctionSetCompilerWarnings(${QEXT_QML_PLUGIN_BASE_NAME})
@@ -137,12 +142,14 @@ if (QEXT_BUILD_USE_PCH)
     qextFunctionActivatePrecompiledHeaders(${QEXT_QML_PLUGIN_BASE_NAME} PRIVATE include/qextQmlVLCPch.h)
 endif()
 target_link_libraries(${QEXT_QML_PLUGIN_BASE_NAME} PUBLIC ${QEXT_QML_PLUGIN_LINK_LIBRARIES})
-target_include_directories(${QEXT_QML_PLUGIN_BASE_NAME} PUBLIC
+target_include_directories(${QEXT_QML_PLUGIN_BASE_NAME}
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include/${QEXT_QML_PLUGIN_BASE_NAME}>
+    PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-    $<BUILD_INTERFACE:${QEXT_QML_PLUGIN_INCLUDE_DIRECTORIES}>
-    $<BUILD_INTERFACE:${QEXT_QML_PLUGIN_CONFIG_FILE_DIR}>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include/${QEXT_QML_PLUGIN_BASE_NAME}/private>
     )
 target_compile_definitions(${QEXT_QML_PLUGIN_BASE_NAME} PRIVATE QEXT_BUILD_QMLVLC_LIB)
 target_compile_definitions(${QEXT_QML_PLUGIN_BASE_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
@@ -157,6 +164,19 @@ if (QEXT_BUILD_SHARED_LIBS)
         CXX_VISIBILITY_PRESET hidden
         VISIBILITY_INLINES_HIDDEN 1)
 endif()
+
+# set include files copy command
+add_custom_command(
+    TARGET ${QEXT_QML_PLUGIN_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E remove_directory ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_LIB_BASE_NAME}/private
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}
+#    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/private/*.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}/private
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/qextQmlVLCConfig.h ${QEXT_INCLUDE_OUTPUT_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}
+    COMMENT "Copy ${QEXT_QML_PLUGIN_BASE_NAME} include files to output dir"
+    POST_BUILD
+    )
 
 # qmlplugindump -nonrelocatable QEXTQuick 1.2 ${QEXT_QML_OUTPUT_DIR} > ${QEXT_QML_OUTPUT_DIR}/QEXTQuick/plugin.qmltypes
 if(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
