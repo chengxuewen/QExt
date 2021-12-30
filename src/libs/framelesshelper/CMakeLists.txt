@@ -51,7 +51,7 @@ set(QEXT_LIB_PRIVATE_HEADERS
     )
 
 set(QEXT_LIB_SOURCES
-    source/qextFramelessHelper.cpp
+    source/qextFramelessHelper_linux.cpp
     source/qextFramelessHelper_win.cpp
     source/qextNativeWindowFilter_linux.cpp
     source/qextNativeWindowFilter_win.cpp

@@ -38,7 +38,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Define GL2PSDLL at compile time to build a Windows DLL */
+#ifdef QWT3D_DLL
+#   define GL2PSDLL
+#   if defined(QWT3D_MAKEDLL)     // create a DLL library
+#       define GL2PSDLL_EXPORTS
+#   endif
+#endif // GL2PSDLL_API
+
+
+///* Define GL2PSDLL at compile time to build a Windows DLL */
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 #  if defined(_MSC_VER)
@@ -60,6 +68,7 @@
 #else
 #  define GL2PSDLL_API
 #endif
+
 
 #if defined(__APPLE__) || defined(HAVE_OPENGL_GL_H)
 #  include <OpenGL/gl.h>

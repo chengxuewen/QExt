@@ -5,6 +5,8 @@
 #include <QApplication>
 #include <QDebug>
 
+#if defined(QEXT_OS_LINUX)
+
 QEXTFramelessHelperPrivate::QEXTFramelessHelperPrivate()
     : m_window(QEXT_DECL_NULLPTR)
     , m_helper(QEXT_DECL_NULLPTR)
@@ -273,3 +275,5 @@ bool QEXTFramelessHelper::eventFilter(QObject *obj, QEvent *event)
 
     return QObject::eventFilter(obj, event);
 }
+
+#endif // defined(QEXT_OS_LINUX)

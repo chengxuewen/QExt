@@ -162,7 +162,7 @@ QEXTIconFontAwesome::QEXTIconFontAwesome(QObject *parent) : QObject(parent)
     // only load font-awesome once
     if (fontAwesomeFontId < 0)
     {
-        // The macro below internally calls "qInitResources_QEXTIconsFontAwesome()". this initializes
+        // The macro below internally calls "qInitResources_QEXTIconFontAwesome()". this initializes
         // the resource system. For a .pri project this isn't required, but when building and using a
         // static library the resource need to initialized first.
         ///

@@ -22,8 +22,8 @@ QEXTNativeWindowHelperPrivate::QEXTNativeWindowHelperPrivate(QEXTNativeWindowHel
     : q_ptr(q)
     , m_window(nullptr)
     , m_tester(nullptr)
-    , m_oldWindow(NULL)
     , m_scaleFactor(1.0)
+    , m_oldWindow(NULL)
 {
 }
 

@@ -4,7 +4,7 @@
 
 namespace Qwt3D {
 
-class CurvePlot : public Plot3D {
+class QWT3D_EXPORT CurvePlot : public Plot3D {
 public:
     explicit CurvePlot(QWidget *parent = nullptr);
     ~CurvePlot();

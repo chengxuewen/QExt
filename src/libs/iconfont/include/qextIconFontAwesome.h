@@ -1047,7 +1047,7 @@ private:
     QHash<QString, QEXTIconFontAwesomeIconPainterInterface *> m_painterMap; ///< A map of custom painters
 };
 
-/// The QEXTIconsFontAwesomeIconPainter is a specialized painter for painting icons
+/// The QEXTIconFontAwesomeIconPainter is a specialized painter for painting icons
 /// your can implement an iconpainter to create custom font-icon code
 class QEXTIconFontAwesomeIconPainterInterface
 {

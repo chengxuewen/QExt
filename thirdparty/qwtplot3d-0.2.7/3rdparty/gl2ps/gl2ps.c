@@ -5745,7 +5745,7 @@ GL2PSDLL_API GLint gl2psEndViewport(void)
   return res;
 }
 
-GL2PSDLL_API GLint gl2psTextOpt(const char *str, const char *fontname, 
+GL2PSDLL_API GLint gl2psTextOpt(const char *str, const char *fontname,
                                 GLshort fontsize, GLint alignment, GLfloat angle)
 {
   return gl2psAddText(GL2PS_TEXT, str, fontname, fontsize, alignment, angle);

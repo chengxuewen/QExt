@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.11.4.2 LANGUAGES CXX)
+project(QEXT VERSION 0.11.4.3 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -354,7 +354,7 @@ if(QEXT_BUILD_LIB_QWT)
 endif()
 
 if(QEXT_BUILD_LIB_QWT3D)
-    add_subdirectory(thirdparty/qwtplot3d-0.2.7)
+#    add_subdirectory(thirdparty/qwtplot3d-0.2.7)
     add_subdirectory(thirdparty/qwtplot3dext)
 endif()
 

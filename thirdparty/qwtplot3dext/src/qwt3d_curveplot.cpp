@@ -40,7 +40,8 @@ CurvePlot::CurvePlot(QWidget *parent)
     , mOrder(0)
     , mLinePoints()
 {
-    gluNurbsCallback(mGLU_Nurb, GLU_ERROR, (GLvoid(*)())nurbsError);
+//    gluNurbsCallback(mGLU_Nurb, GLU_ERROR, (GLvoid(*)())nurbsError);
+    gluNurbsCallback(mGLU_Nurb, GLU_ERROR, (GLvoid(CALLBACK*)())nurbsError);
     plotlets_p[0].data = ValuePtr<Data>(new CurveData);
 //    plotlets_p[0].data->setHull(ParallelEpiped(Triple(-1, -1, -1), Triple(1, 1, 1)));
     createCoordinateSystem();
