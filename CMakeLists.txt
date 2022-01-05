@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.11.5.2 LANGUAGES CXX)
+project(QEXT VERSION 0.11.5.3 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -326,15 +326,15 @@ endif()
 # Set install
 #--------------------------------------------------------------------------------
 if(QEXT_BUILD_INSTALL)
-#    include(CPackComponent)
-#    include(InstallRequiredSystemLibraries)
+    #    include(CPackComponent)
+    #    include(InstallRequiredSystemLibraries)
     set(CPACK_PACKAGE_NAME ${QEXT_PRODUCT_NAME})
     set(CPACK_PACKAGE_FILE_NAME ${QEXT_PRODUCT_NAME})
     set(CPACK_PACKAGE_VENDOR ${QEXT_PRODUCT_NAME})
     set(CPACK_PACKAGE_INSTALL_DIRECTORY @ApplicationsDir@)    # Installation directory on the target system.
     set(CPACK_SOURCE_GENERATOR ";")
     set(CPACK_CREATE_DESKTOP_LINKS ${QEXT_PRODUCT_NAME})
-#    include(CPack REQUIRED)
+    #    include(CPack REQUIRED)
 
     install(
         DIRECTORY ${QEXT_APP_OUTPUT_DIR}
@@ -387,10 +387,16 @@ if(QEXT_BUILD_LIB_QWT)
 endif()
 
 if(QEXT_BUILD_LIB_QWT3D)
-    if(UNIX)
-        add_subdirectory(thirdparty/qwtplot3d-0.2.7)
+    if (POLICY CMP0072)
+        set(OpenGL_GL_PREFERENCE LEGACY)
     endif()
-    add_subdirectory(thirdparty/qwtplot3dext)
+    find_package(OpenGL REQUIRED)
+    if(OPENGL_FOUND AND OPENGL_GLU_FOUND)
+        if(UNIX)
+            add_subdirectory(thirdparty/qwtplot3d-0.2.7)
+        endif()
+        add_subdirectory(thirdparty/qwtplot3dext)
+    endif()
 endif()
 
 if(QEXT_QT_VERSION_MAJOR GREATER 4)

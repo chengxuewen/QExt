@@ -84,6 +84,9 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
+if (POLICY CMP0072)
+    set(OpenGL_GL_PREFERENCE LEGACY)
+endif()
 find_package(OpenGL REQUIRED)
 
 

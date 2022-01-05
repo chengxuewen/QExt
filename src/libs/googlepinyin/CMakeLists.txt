@@ -146,7 +146,6 @@ target_include_directories(${QEXT_LIB_BASE_NAME}
     PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}>
-    PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
     $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}/private>
     )
