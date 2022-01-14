@@ -1,18 +1,10 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSERIALIZATIONJSONITEMTAGSCONVERTER_H
+#define _QEXTMVVMSERIALIZATIONJSONITEMTAGSCONVERTER_H
 
-#ifndef MVVM_SERIALIZATION_JSONITEMTAGSCONVERTER_H
-#define MVVM_SERIALIZATION_JSONITEMTAGSCONVERTER_H
+#include <qextMvvmGlobal.h>
 
 #include <functional>
 #include <memory>
-#include <qextMvvmGlobal.h>
 
 class QJsonObject;
 
@@ -20,20 +12,20 @@ namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class SessionItemTags;
-class ConverterCallbacks;
+class QEXTMvvmSessionItemTags;
+class QEXTMvvmConverterCallbacks;
 
 //! Converter between SessionItemTags and JSON object.
 
-class QEXT_MVVM_API JsonItemTagsConverter
+class QEXT_MVVM_API QEXTMvvmJsonItemTagsConverter
 {
 public:
-    JsonItemTagsConverter(ConverterCallbacks callbacks);
-    ~JsonItemTagsConverter();
+    QEXTMvvmJsonItemTagsConverter(QEXTMvvmConverterCallbacks callbacks);
+    ~QEXTMvvmJsonItemTagsConverter();
 
-    QJsonObject to_json(const SessionItemTags& item_tags);
+    QJsonObject to_json(const QEXTMvvmSessionItemTags& item_tags);
 
-    void from_json(const QJsonObject& json, SessionItemTags& item_tags);
+    void from_json(const QJsonObject& json, QEXTMvvmSessionItemTags& item_tags);
 
 private:
     struct JsonItemTagsConverterImpl;
@@ -42,4 +34,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONITEMTAGSCONVERTER_H
+#endif // _QEXTMVVMSERIALIZATIONJSONITEMTAGSCONVERTER_H

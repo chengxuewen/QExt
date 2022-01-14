@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_EDITORS_INTEGEREDITOR_H
-#define MVVM_EDITORS_INTEGEREDITOR_H
+#ifndef _QEXTMVVMEDITORSINTEGEREDITOR_H
+#define _QEXTMVVMEDITORSINTEGEREDITOR_H
 
 #include <qextMvvmCustomEditor.h>
 
@@ -19,12 +10,12 @@ namespace ModelView
 
 //! Custom editor for QVariant based on integer with possibility to set limits.
 
-class QEXT_MVVM_API IntegerEditor : public CustomEditor
+class QEXT_MVVM_API QEXTMvvmIntegerEditor : public QEXTMvvmCustomEditor
 {
     Q_OBJECT
 
 public:
-    explicit IntegerEditor(QWidget* parent = nullptr);
+    explicit QEXTMvvmIntegerEditor(QWidget* parent = nullptr);
 
     void setRange(int minimum, int maximum);
 
@@ -38,4 +29,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_INTEGEREDITOR_H
+#endif // _QEXTMVVMEDITORSINTEGEREDITOR_H

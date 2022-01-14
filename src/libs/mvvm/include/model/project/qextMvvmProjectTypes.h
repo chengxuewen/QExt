@@ -1,38 +1,30 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPROJECTPROJECTTYPES_H
+#define _QEXTMVVMPROJECTPROJECTTYPES_H
 
-#ifndef MVVM_PROJECT_PROJECT_TYPES_H
-#define MVVM_PROJECT_PROJECT_TYPES_H
+#include <qextMvvmGlobal.h>
 
 #include <functional>
-#include <qextMvvmGlobal.h>
 #include <string>
 #include <vector>
 
 namespace ModelView
 {
 
-class SessionModel;
+class QEXTMvvmSessionModel;
 
 //! Possible user answers on question "Project was modified".
 enum class SaveChangesAnswer { SAVE = 0, DISCARD = 1, CANCEL = 2 };
 
 //! Provides necessary information for Project construction.
 
-struct QEXT_MVVM_API ProjectContext {
+struct QEXT_MVVM_API QEXTMvvmProjectContext {
     //!< To notify about the change of the project with respect to what was written on disk.
     using modified_callback_t = std::function<void()>;
 
     //! To ask for a vector of models to save/load to/from disk.
     //! This is intentionally obtained via callback since save request might come after
     //! the Project construction.
-    using models_callback_t = std::function<std::vector<SessionModel*>()>;
+    using models_callback_t = std::function<std::vector<QEXTMvvmSessionModel*>()>;
 
     modified_callback_t m_modified_callback;
     models_callback_t m_models_callback;
@@ -58,4 +50,4 @@ struct QEXT_MVVM_API UserInteractionContext {
 
 } // namespace ModelView
 
-#endif // MVVM_PROJECT_PROJECT_TYPES_H
+#endif // _QEXTMVVMPROJECTPROJECTTYPES_H

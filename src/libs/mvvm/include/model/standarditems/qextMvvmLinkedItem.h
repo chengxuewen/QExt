@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_STANDARDITEMS_LINKEDITEM_H
-#define MVVM_STANDARDITEMS_LINKEDITEM_H
+#ifndef _QEXTMVVMSTANDARDITEMSLINKEDITEM_H
+#define _QEXTMVVMSTANDARDITEMSLINKEDITEM_H
 
 #include <qextMvvmSessionItem.h>
 #include <qextMvvmSessionModel.h>
@@ -23,10 +14,10 @@ namespace ModelView
 //! Provided mechanism is persistent and outlive serialization. Can be used to find items in
 //! different models. For that being the case, models should use same ItemPool.
 
-class QEXT_MVVM_API LinkedItem : public QEXTMvvmSessionItem
+class QEXT_MVVM_API QEXTMvvmLinkedItem : public QEXTMvvmSessionItem
 {
 public:
-    LinkedItem();
+    QEXTMvvmLinkedItem();
 
     void setLink(const QEXTMvvmSessionItem* item);
 
@@ -35,11 +26,11 @@ public:
 
 //! Returns item linked to given item. Works only in model context.
 
-template <typename T> T* LinkedItem::get() const
+template <typename T> T* QEXTMvvmLinkedItem::get() const
 {
     return model() ? dynamic_cast<T*>(model()->findItem(data<std::string>())) : nullptr;
 }
 
 } // namespace ModelView
 
-#endif // MVVM_STANDARDITEMS_LINKEDITEM_H
+#endif // _QEXTMVVMSTANDARDITEMSLINKEDITEM_H

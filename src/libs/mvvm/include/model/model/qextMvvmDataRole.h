@@ -1,16 +1,6 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMMODELDATAROLE_H
+#define _QEXTMVVMMODELDATAROLE_H
 
-#ifndef MVVM_MODEL_DATAROLE_H
-#define MVVM_MODEL_DATAROLE_H
-
-#include <qextMvvmVariant.h>
 #include <qextMvvmGlobal.h>
 
 namespace ModelView
@@ -18,15 +8,15 @@ namespace ModelView
 
 //! Represents pair of data,role for SessionItemData.
 
-class QEXT_MVVM_API DataRole
+class QEXT_MVVM_API QEXTMvvmDataRole
 {
 public:
-    DataRole(Variant data = Variant(), int role = -1);
-    Variant m_data;
+    QEXTMvvmDataRole(QVariant data = QVariant(), int role = -1);
+    QVariant m_data;
     int m_role;
-    bool operator==(const DataRole& other) const;
+    bool operator==(const QEXTMvvmDataRole& other) const;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_DATAROLE_H
+#endif // _QEXTMVVMMODELDATAROLE_H

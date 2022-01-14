@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_SIGNALS_ITEMLISTENERBASE_H
-#define MVVM_SIGNALS_ITEMLISTENERBASE_H
+#ifndef _QEXTMVVMSIGNALSITEMLISTENERBASE_H
+#define _QEXTMVVMSIGNALSITEMLISTENERBASE_H
 
 #include <qextMvvmGlobal.h>
 #include <qextMvvmCallbackTypes.h>
@@ -24,24 +15,24 @@ class QEXTMvvmSessionItem;
 //! Automatically tracks the time of life of QEXTMvvmSessionItem. Unsubscribes from the item on
 //! own destruction. Can be switched from tracking one item to another of the same type.
 
-class QEXT_MVVM_API ItemListenerBase
+class QEXT_MVVM_API QEXTMvvmItemListenerBase
 {
 public:
-    explicit ItemListenerBase(QEXTMvvmSessionItem* item = nullptr);
-    virtual ~ItemListenerBase();
+    explicit QEXTMvvmItemListenerBase(QEXTMvvmSessionItem* item = nullptr);
+    virtual ~QEXTMvvmItemListenerBase();
 
-    ItemListenerBase& operator=(const ItemListenerBase& other) = delete;
-    ItemListenerBase(const ItemListenerBase& other) = delete;
+    QEXTMvvmItemListenerBase& operator=(const QEXTMvvmItemListenerBase& other) = delete;
+    QEXTMvvmItemListenerBase(const QEXTMvvmItemListenerBase& other) = delete;
 
     void setItem(QEXTMvvmSessionItem* item);
 
-    void setOnItemDestroy(Callbacks::item_t f);
-    void setOnDataChange(Callbacks::item_int_t f);
-    void setOnPropertyChange(Callbacks::item_str_t f);
-    void setOnChildPropertyChange(Callbacks::item_str_t f);
-    void setOnItemInserted(Callbacks::item_tagrow_t f);
-    void setOnItemRemoved(Callbacks::item_tagrow_t f);
-    void setOnAboutToRemoveItem(Callbacks::item_tagrow_t f);
+    void setOnItemDestroy(QEXTMvvmCallbacks::item_t f);
+    void setOnDataChange(QEXTMvvmCallbacks::item_int_t f);
+    void setOnPropertyChange(QEXTMvvmCallbacks::item_str_t f);
+    void setOnChildPropertyChange(QEXTMvvmCallbacks::item_str_t f);
+    void setOnItemInserted(QEXTMvvmCallbacks::item_tagrow_t f);
+    void setOnItemRemoved(QEXTMvvmCallbacks::item_tagrow_t f);
+    void setOnAboutToRemoveItem(QEXTMvvmCallbacks::item_tagrow_t f);
 
 protected:
     virtual void subscribe() {}   //! For necessary manipulations on new item.
@@ -55,4 +46,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_SIGNALS_ITEMLISTENERBASE_H
+#endif // _QEXTMVVMSIGNALSITEMLISTENERBASE_H

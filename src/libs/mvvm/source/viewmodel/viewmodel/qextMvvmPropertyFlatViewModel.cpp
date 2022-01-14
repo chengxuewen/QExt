@@ -12,7 +12,7 @@
 
 using namespace ModelView;
 
-PropertyFlatViewModel::PropertyFlatViewModel(SessionModel* model, QObject* parent)
-    : ViewModel(std::make_unique<PropertyFlatViewModelController>(model, this), parent)
+QEXTMvvmPropertyFlatViewModel::QEXTMvvmPropertyFlatViewModel(QEXTMvvmSessionModel* model, QObject* parent)
+    : QEXTMvvmViewModel(make_unique<QEXTMvvmPropertyFlatViewModelController>(model, this), parent)
 {
 }

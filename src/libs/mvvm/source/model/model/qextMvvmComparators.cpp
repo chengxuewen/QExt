@@ -16,21 +16,21 @@
 
 using namespace ModelView;
 
-bool Comparators::m_is_registered = false;
+bool QEXTMvvmComparators::m_is_registered = false;
 
-void Comparators::registerComparators()
+void QEXTMvvmComparators::registerComparators()
 {
     if (!m_is_registered) {
         QMetaType::registerComparators<std::string>();
         QMetaType::registerComparators<std::vector<double>>();
-        QMetaType::registerComparators<ComboProperty>();
-        QMetaType::registerComparators<ExternalProperty>();
-        QMetaType::registerComparators<RealLimits>();
+        QMetaType::registerComparators<QEXTMvvmComboProperty>();
+        QMetaType::registerComparators<QEXTMvvmExternalProperty>();
+        QMetaType::registerComparators<QEXTMvvmRealLimits>();
         m_is_registered = true;
     }
 }
 
-bool Comparators::registered()
+bool QEXTMvvmComparators::registered()
 {
     return m_is_registered;
 }

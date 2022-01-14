@@ -18,23 +18,23 @@ using namespace ModelView;
 namespace
 {
 void check_input_data(const QEXTMvvmSessionItem* item, const QEXTMvvmSessionItem* parent);
-std::string generate_description(const TagRow& tagrow);
+std::string generate_description(const QEXTMvvmTagRow& tagrow);
 } // namespace
 
 struct QEXTMvvmMoveItemCommand::MoveItemCommandImpl {
-    TagRow target_tagrow;
-    Path target_parent_path;
-    Path original_parent_path;
-    TagRow original_tagrow;
-    MoveItemCommandImpl(TagRow tagrow) : target_tagrow(std::move(tagrow))
+    QEXTMvvmTagRow target_tagrow;
+    QEXTMvvmPath target_parent_path;
+    QEXTMvvmPath original_parent_path;
+    QEXTMvvmTagRow original_tagrow;
+    MoveItemCommandImpl(QEXTMvvmTagRow tagrow) : target_tagrow(std::move(tagrow))
     {
         if (target_tagrow.row < 0)
             throw std::runtime_error("QEXTMvvmMoveItemCommand() -> Error. Uninitialized target row");
     }
 };
 
-QEXTMvvmMoveItemCommand::QEXTMvvmMoveItemCommand(QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* new_parent, TagRow tagrow)
-    : QEXTMvvmItemCommand(new_parent), p_impl(std::make_unique<MoveItemCommandImpl>(tagrow))
+QEXTMvvmMoveItemCommand::QEXTMvvmMoveItemCommand(QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* new_parent, QEXTMvvmTagRow tagrow)
+    : QEXTMvvmItemCommand(new_parent), p_impl(make_unique<MoveItemCommandImpl>(tagrow))
 {
     setResult(true);
 
@@ -115,7 +115,7 @@ void check_input_data(const QEXTMvvmSessionItem* item, const QEXTMvvmSessionItem
             "QEXTMvvmMoveItemCommand::QEXTMvvmMoveItemCommand() -> Item doesn't have a parent");
 }
 
-std::string generate_description(const TagRow& tagrow)
+std::string generate_description(const QEXTMvvmTagRow& tagrow)
 {
     std::ostringstream ostr;
     ostr << "Move item to tag '" << tagrow.tag << "', row:" << tagrow.row;

@@ -1,34 +1,26 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGVIEWPORTAXISPLOTCONTROLLER_H
+#define _QEXTMVVMPLOTTINGVIEWPORTAXISPLOTCONTROLLER_H
 
-#ifndef MVVM_PLOTTING_VIEWPORTAXISPLOTCONTROLLER_H
-#define MVVM_PLOTTING_VIEWPORTAXISPLOTCONTROLLER_H
-
-#include <memory>
 #include <qextMvvmItemListener.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 class QCPAxis;
 
 namespace ModelView
 {
 
-class ViewportAxisItem;
+class QEXTMvvmViewportAxisItem;
 
 //! Establishes communication between QCPAxis and ViewportAxisItem.
 //! Provide mutual update of axis parameters (min, max, title) for two axes representations.
 
-class QEXT_MVVM_API ViewportAxisPlotController : public ItemListener<ViewportAxisItem>
+class QEXT_MVVM_API QEXTMvvmViewportAxisPlotController : public QEXTMvvmItemListener<QEXTMvvmViewportAxisItem>
 {
 public:
-    explicit ViewportAxisPlotController(QCPAxis* axis);
-    ~ViewportAxisPlotController() override;
+    explicit QEXTMvvmViewportAxisPlotController(QCPAxis* axis);
+    ~QEXTMvvmViewportAxisPlotController() override;
 
 protected:
     void subscribe() override;
@@ -41,4 +33,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_VIEWPORTAXISPLOTCONTROLLER_H
+#endif // _QEXTMVVMPLOTTINGVIEWPORTAXISPLOTCONTROLLER_H

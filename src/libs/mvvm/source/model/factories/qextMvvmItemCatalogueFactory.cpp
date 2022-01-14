@@ -12,25 +12,25 @@
 
 using namespace ModelView;
 
-std::unique_ptr<ItemCatalogue> ModelView::CreateStandardItemCatalogue()
+std::unique_ptr<QEXTMvvmItemCatalogue> ModelView::CreateStandardItemCatalogue()
 {
-    auto result = std::make_unique<ItemCatalogue>();
-    result->registerItem<ColorMapItem>();
-    result->registerItem<ColorMapViewportItem>();
+    auto result = make_unique<QEXTMvvmItemCatalogue>();
+    result->registerItem<QEXTMvvmColorMapItem>();
+    result->registerItem<QEXTMvvmColorMapViewportItem>();
     result->registerItem<QEXTMvvmCompoundItem>();
-    result->registerItem<ContainerItem>();
-    result->registerItem<Data1DItem>();
-    result->registerItem<Data2DItem>();
-    result->registerItem<FixedBinAxisItem>();
-    result->registerItem<GraphItem>();
-    result->registerItem<GraphViewportItem>();
-    result->registerItem<LinkedItem>();
-    result->registerItem<PenItem>();
-    result->registerItem<PointwiseAxisItem>();
-    result->registerItem<PropertyItem>();
+    result->registerItem<QEXTMvvmContainerItem>();
+    result->registerItem<QEXTMvvmData1DItem>();
+    result->registerItem<QEXTMvvmData2DItem>();
+    result->registerItem<QEXTMvvmFixedBinAxisItem>();
+    result->registerItem<QEXTMvvmGraphItem>();
+    result->registerItem<QEXTMvvmGraphViewportItem>();
+    result->registerItem<QEXTMvvmLinkedItem>();
+    result->registerItem<QEXTMvvmPenItem>();
+    result->registerItem<QEXTMvvmPointwiseAxisItem>();
+    result->registerItem<QEXTMvvmPropertyItem>();
     result->registerItem<QEXTMvvmSessionItem>();
-    result->registerItem<TextItem>();
-    result->registerItem<VectorItem>();
-    result->registerItem<ViewportAxisItem>();
+    result->registerItem<QEXTMvvmTextItem>();
+    result->registerItem<QEXTMvvmVectorItem>();
+    result->registerItem<QEXTMvvmViewportAxisItem>();
     return result;
 }

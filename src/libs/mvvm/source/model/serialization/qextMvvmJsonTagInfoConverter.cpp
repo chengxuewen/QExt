@@ -21,14 +21,14 @@ namespace
 QStringList expected_taginfo_keys()
 {
     QStringList result = QStringList()
-                         << JsonTagInfoConverter::nameKey << JsonTagInfoConverter::minKey
-                         << JsonTagInfoConverter::maxKey << JsonTagInfoConverter::modelsKey;
+                         << QEXTMvvmJsonTagInfoConverter::nameKey << QEXTMvvmJsonTagInfoConverter::minKey
+                         << QEXTMvvmJsonTagInfoConverter::maxKey << QEXTMvvmJsonTagInfoConverter::modelsKey;
     std::sort(result.begin(), result.end());
     return result;
 }
 } // namespace
 
-QJsonObject JsonTagInfoConverter::to_json(const ModelView::TagInfo& tag)
+QJsonObject QEXTMvvmJsonTagInfoConverter::to_json(const ModelView::QEXTMvvmTagInfo& tag)
 {
     QJsonObject result;
     result[nameKey] = QString::fromStdString(tag.name());
@@ -42,7 +42,7 @@ QJsonObject JsonTagInfoConverter::to_json(const ModelView::TagInfo& tag)
     return result;
 }
 
-TagInfo JsonTagInfoConverter::from_json(const QJsonObject& object)
+QEXTMvvmTagInfo QEXTMvvmJsonTagInfoConverter::from_json(const QJsonObject& object)
 {
     if (!isTagInfo(object))
         throw std::runtime_error("JsonTagInfo::get_tags() -> Invalid json object.");
@@ -54,12 +54,12 @@ TagInfo JsonTagInfoConverter::from_json(const QJsonObject& object)
     for (const auto ref : object[modelsKey].toArray())
         models.push_back(ref.toString().toStdString());
 
-    return TagInfo(name, min, max, models);
+    return QEXTMvvmTagInfo(name, min, max, models);
 }
 
 //! Returns true if given json object represents TagInfo object.
 
-bool JsonTagInfoConverter::isTagInfo(const QJsonObject& object)
+bool QEXTMvvmJsonTagInfoConverter::isTagInfo(const QJsonObject& object)
 {
     static const QStringList expected = expected_taginfo_keys();
 

@@ -1,35 +1,26 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_MODEL_PROPERTYITEM_H
-#define MVVM_MODEL_PROPERTYITEM_H
+#ifndef _QEXTMVVMMODELPROPERTYITEM_H
+#define _QEXTMVVMMODELPROPERTYITEM_H
 
 #include <qextMvvmSessionItem.h>
 
 namespace ModelView
 {
 
-class RealLimits;
+class QEXTMvvmRealLimits;
 
 //! Item to carry concrete editable entity (e.g. 'double' value with limits).
 //! Intended for use as a child or CompountItem, not expected to have own children.
 
-class QEXT_MVVM_API PropertyItem : public QEXTMvvmSessionItem
+class QEXT_MVVM_API QEXTMvvmPropertyItem : public QEXTMvvmSessionItem
 {
 public:
-    PropertyItem();
+    QEXTMvvmPropertyItem();
 
-    PropertyItem* setDisplayName(const std::string& name) override;
+    QEXTMvvmPropertyItem* setDisplayName(const std::string& name) override;
 
-    PropertyItem* setLimits(const RealLimits& value);
+    QEXTMvvmPropertyItem* setLimits(const QEXTMvvmRealLimits& value);
 };
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_PROPERTYITEM_H
+#endif // _QEXTMVVMMODELPROPERTYITEM_H

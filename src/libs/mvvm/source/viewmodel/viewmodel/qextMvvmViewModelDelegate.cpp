@@ -21,55 +21,58 @@ const double scale_default_height_factor{1.2};
 
 using namespace ModelView;
 
-ViewModelDelegate::ViewModelDelegate(QObject* parent)
+QEXTMvvmViewModelDelegate::QEXTMvvmViewModelDelegate(QObject* parent)
     : QStyledItemDelegate(parent)
-    , m_editor_factory(std::make_unique<DefaultEditorFactory>())
-    , m_cell_decoration(std::make_unique<DefaultCellDecorator>())
+    , m_editor_factory(make_unique<QEXTMvvmDefaultEditorFactory>())
+    , m_cell_decoration(make_unique<QEXTMvvmDefaultCellDecorator>())
 {
 }
 
-ViewModelDelegate::~ViewModelDelegate() = default;
+QEXTMvvmViewModelDelegate::~QEXTMvvmViewModelDelegate()
+{
 
-void ViewModelDelegate::setEditorFactory(std::unique_ptr<EditorFactoryInterface> editor_factory)
+}
+
+void QEXTMvvmViewModelDelegate::setEditorFactory(std::unique_ptr<QEXTMvvmEditorFactoryInterface> editor_factory)
 {
     m_editor_factory = std::move(editor_factory);
 }
 
-void ViewModelDelegate::setCellDecoration(std::unique_ptr<CellDecoratorInterface> cell_decoration)
+void QEXTMvvmViewModelDelegate::setCellDecoration(std::unique_ptr<QEXTMvvmCellDecoratorInterface> cell_decoration)
 {
     m_cell_decoration = std::move(cell_decoration);
 }
 
-QWidget* ViewModelDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option,
+QWidget* QEXTMvvmViewModelDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option,
                                          const QModelIndex& index) const
 {
     if (auto editor = m_editor_factory->createEditor(index)) {
         editor->setParent(parent);
-        connect(editor.get(), &CustomEditor::dataChanged, this,
-                &ViewModelDelegate::onCustomEditorDataChanged);
+        connect(editor.get(), &QEXTMvvmCustomEditor::dataChanged, this,
+                &QEXTMvvmViewModelDelegate::onCustomEditorDataChanged);
         return editor.release();
     }
     return QStyledItemDelegate::createEditor(parent, option, index);
 }
 
-void ViewModelDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
+void QEXTMvvmViewModelDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const
 {
     if (!index.isValid())
         return;
 
-    if (auto customEditor = dynamic_cast<CustomEditor*>(editor))
+    if (auto customEditor = dynamic_cast<QEXTMvvmCustomEditor*>(editor))
         customEditor->setData(index.data());
     else
         QStyledItemDelegate::setEditorData(editor, index);
 }
 
-void ViewModelDelegate::setModelData(QWidget* editor, QAbstractItemModel* model,
+void QEXTMvvmViewModelDelegate::setModelData(QWidget* editor, QAbstractItemModel* model,
                                      const QModelIndex& index) const
 {
     if (!index.isValid())
         return;
 
-    if (auto customEditor = dynamic_cast<CustomEditor*>(editor)) {
+    if (auto customEditor = dynamic_cast<QEXTMvvmCustomEditor*>(editor)) {
         model->setData(index, customEditor->data());
     } else {
         QStyledItemDelegate::setModelData(editor, model, index);
@@ -78,7 +81,7 @@ void ViewModelDelegate::setModelData(QWidget* editor, QAbstractItemModel* model,
 
 //! Increases height of the row by 20% wrt the default.
 
-QSize ViewModelDelegate::sizeHint(const QStyleOptionViewItem& option,
+QSize QEXTMvvmViewModelDelegate::sizeHint(const QStyleOptionViewItem& option,
                                   const QModelIndex& index) const
 {
     QSize result = QStyledItemDelegate::sizeHint(option, index);
@@ -90,22 +93,22 @@ QSize ViewModelDelegate::sizeHint(const QStyleOptionViewItem& option,
 //! as a decoration (i.e. icon of material property), it will be hidden as soon as editor
 //! up and running.
 
-void ViewModelDelegate::updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option,
+void QEXTMvvmViewModelDelegate::updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option,
                                              const QModelIndex& index) const
 {
     QStyledItemDelegate::updateEditorGeometry(editor, option, index);
     editor->setGeometry(option.rect);
 }
 
-void ViewModelDelegate::onCustomEditorDataChanged()
+void QEXTMvvmViewModelDelegate::onCustomEditorDataChanged()
 {
-    auto editor = qobject_cast<CustomEditor*>(sender());
+    auto editor = qobject_cast<QEXTMvvmCustomEditor*>(sender());
     emit commitData(editor);
     if (!editor->is_persistent())
         emit closeEditor(editor);
 }
 
-void ViewModelDelegate::initStyleOption(QStyleOptionViewItem* option,
+void QEXTMvvmViewModelDelegate::initStyleOption(QStyleOptionViewItem* option,
                                         const QModelIndex& index) const
 {
     QStyledItemDelegate::initStyleOption(option, index);

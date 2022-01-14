@@ -28,7 +28,7 @@ GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     , m_resetViewportAction(nullptr)
     , m_addGraphAction(nullptr)
     , m_removeGraphAction(nullptr)
-    , m_graphCanvas(new GraphCanvas)
+    , m_graphCanvas(new QEXTMvvmGraphCanvas)
     , m_propertyWidget(new GraphPropertyWidget)
     , m_model(nullptr)
 {
@@ -58,7 +58,7 @@ void GraphWidget::setModel(GraphModel* model)
 
     m_propertyWidget->setModel(model);
 
-    m_graphCanvas->setItem(model->topItem<GraphViewportItem>());
+    m_graphCanvas->setItem(model->topItem<QEXTMvvmGraphViewportItem>());
 }
 
 void GraphWidget::init_actions()
@@ -68,7 +68,7 @@ void GraphWidget::init_actions()
 
     m_resetViewportAction = new QAction("Reset view", this);
     auto on_reset = [this]() {
-        auto viewport = m_model->topItem<GraphViewportItem>();
+        auto viewport = m_model->topItem<QEXTMvvmGraphViewportItem>();
         viewport->setViewportToContent(0.0, 0.1, 0.0, 0.1);
     };
     connect(m_resetViewportAction, &QAction::triggered, on_reset);

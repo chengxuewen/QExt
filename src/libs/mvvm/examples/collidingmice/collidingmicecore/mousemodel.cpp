@@ -21,9 +21,9 @@ namespace
 {
 static const int MouseCount = 7;
 
-std::unique_ptr<ModelView::ItemCatalogue> CreateItemCatalogue()
+std::unique_ptr<ModelView::QEXTMvvmItemCatalogue> CreateItemCatalogue()
 {
-    auto result = std::make_unique<ModelView::ItemCatalogue>();
+    auto result = make_unique<ModelView::QEXTMvvmItemCatalogue>();
     result->registerItem<MouseItem>();
     return result;
 }
@@ -33,19 +33,19 @@ std::unique_ptr<ModelView::ItemCatalogue> CreateItemCatalogue()
 MouseItem::MouseItem() : ModelView::QEXTMvvmCompoundItem("MouseItem")
 {
     addProperty(P_COLOR, QColor(Qt::red))->setDisplayName("Color");
-    addProperty(P_XPOS, 0.0)->setLimits(ModelView::RealLimits::limitless())->setDisplayName("X");
-    addProperty(P_YPOS, 0.0)->setLimits(ModelView::RealLimits::limitless())->setDisplayName("Y");
+    addProperty(P_XPOS, 0.0)->setLimits(ModelView::QEXTMvvmRealLimits::limitless())->setDisplayName("X");
+    addProperty(P_YPOS, 0.0)->setLimits(ModelView::QEXTMvvmRealLimits::limitless())->setDisplayName("Y");
     addProperty(P_ANGLE, 0.0)
-        ->setLimits(ModelView::RealLimits::limitless())
+        ->setLimits(ModelView::QEXTMvvmRealLimits::limitless())
         ->setDisplayName("Angle of yaw");
     addProperty(P_SPEED, 0.0)
-        ->setLimits(ModelView::RealLimits::limitless())
+        ->setLimits(ModelView::QEXTMvvmRealLimits::limitless())
         ->setDisplayName("Speed");
 }
 
 // ----------------------------------------------------------------------------
 
-MouseModel::MouseModel() : ModelView::SessionModel("MouseModel")
+MouseModel::MouseModel() : ModelView::QEXTMvvmSessionModel("MouseModel")
 {
     setItemCatalogue(CreateItemCatalogue());
     populate_model();
@@ -69,7 +69,7 @@ void MouseModel::writeToFile(const QString& name)
 
 void MouseModel::setUndoPosition(int value)
 {
-    int desired_command_id = undoStack()->count() * std::clamp(value, 0, 100) / 100;
+    int desired_command_id = undoStack()->count() * clamp(value, 0, 100) / 100;
 
     if (undoStack()->index() < desired_command_id) {
         while (undoStack()->index() != desired_command_id)
@@ -86,6 +86,6 @@ void MouseModel::populate_model()
         auto item = insertItem<MouseItem>();
         item->setProperty(MouseItem::P_XPOS, std::sin((i * 6.28) / MouseCount) * 200);
         item->setProperty(MouseItem::P_YPOS, std::cos((i * 6.28) / MouseCount) * 200);
-        item->setProperty(MouseItem::P_COLOR, ModelView::Utils::RandomColor());
+        item->setProperty(MouseItem::P_COLOR, ModelView::QEXTMvvmUtils::RandomColor());
     }
 }

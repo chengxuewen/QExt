@@ -27,14 +27,14 @@ using namespace ModelView;
 namespace DragAndView
 {
 
-DragViewModel::DragViewModel(SessionModel* model, QObject* parent)
-    : PropertyTableViewModel(model, parent)
+DragViewModel::DragViewModel(QEXTMvvmSessionModel* model, QObject* parent)
+    : QEXTMvvmPropertyTableViewModel(model, parent)
 {
 }
 
 Qt::ItemFlags DragViewModel::flags(const QModelIndex& index) const
 {
-    Qt::ItemFlags defaultFlags = PropertyTableViewModel::flags(index);
+    Qt::ItemFlags defaultFlags = QEXTMvvmPropertyTableViewModel::flags(index);
 
     if (index.isValid())
         return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | defaultFlags;
@@ -45,15 +45,15 @@ Qt::ItemFlags DragViewModel::flags(const QModelIndex& index) const
 QMimeData* DragViewModel::mimeData(const QModelIndexList& index_list) const
 {
     auto mimeData = new QMimeData;
-    auto items = Utils::ParentItemsFromIndex(index_list);
+    auto items = QEXTMvvmUtils::ParentItemsFromIndex(index_list);
 
     // Saving list of QEXTMvvmSessionItem's identifiers related to all DemoItem
 
     QStringList identifiers;
-    for (auto item : Utils::ParentItemsFromIndex(index_list))
+    for (auto item : QEXTMvvmUtils::ParentItemsFromIndex(index_list))
         identifiers.append(QString::fromStdString(item->identifier()));
 
-    mimeData->setData(AppMimeType, Utils::serialize(identifiers));
+    mimeData->setData(AppMimeType, QEXTMvvmUtils::serialize(identifiers));
     return mimeData;
 }
 
@@ -85,11 +85,11 @@ bool DragViewModel::dropMimeData(const QMimeData* data, Qt::DropAction action, i
     int requested_row = parent.isValid() ? parent.row() : row;
 
     // retrieving list of item identifiers and accessing items
-    auto identifiers = Utils::deserialize(data->data(AppMimeType));
+    auto identifiers = QEXTMvvmUtils::deserialize(data->data(AppMimeType));
     for (auto id : identifiers) {
         auto item = sessionModel()->findItem(id.toStdString());
 
-        int row = std::clamp(requested_row, 0, item->parent()->itemCount(item->tag()) - 1);
+        int row = clamp(requested_row, 0, item->parent()->itemCount(item->tag()) - 1);
         sessionModel()->moveItem(item, rootSessionItem(), {"", row});
     }
 

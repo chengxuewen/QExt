@@ -1,32 +1,23 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_STANDARDITEMS_COLORMAPVIEWPORTITEM_H
-#define MVVM_STANDARDITEMS_COLORMAPVIEWPORTITEM_H
+#ifndef _QEXTMVVMSTANDARDITEMSCOLORMAPVIEWPORTITEM_H
+#define _QEXTMVVMSTANDARDITEMSCOLORMAPVIEWPORTITEM_H
 
 #include <qextMvvmViewPortItem.h>
 
 namespace ModelView
 {
 
-class Data2DItem;
+class QEXTMvvmData2DItem;
 
 //! Container with viewport and collection of ColorMapItem's to plot.
 
-class QEXT_MVVM_API ColorMapViewportItem : public ViewportItem
+class QEXT_MVVM_API QEXTMvvmColorMapViewportItem : public QEXTMvvmViewportItem
 {
 public:
     static inline const std::string P_ZAXIS = "P_ZAXIS";
 
-    ColorMapViewportItem();
+    QEXTMvvmColorMapViewportItem();
 
-    ViewportAxisItem* zAxis() const;
+    QEXTMvvmViewportAxisItem* zAxis() const;
 
     void setViewportToContent() override;
 
@@ -35,10 +26,10 @@ protected:
     virtual std::pair<double, double> data_yaxis_range() const override;
 
 private:
-    Data2DItem* data_item() const;
+    QEXTMvvmData2DItem* data_item() const;
     void update_data_range();
 };
 
 } // namespace ModelView
 
-#endif // MVVM_STANDARDITEMS_COLORMAPVIEWPORTITEM_H
+#endif // _QEXTMVVMSTANDARDITEMSCOLORMAPVIEWPORTITEM_H

@@ -18,8 +18,8 @@ class QAction;
 
 namespace ModelView
 {
-class ItemsTreeView;
-class ColorMapCanvas;
+class QEXTMvvmItemsTreeView;
+class QEXTMvvmColorMapCanvas;
 } // namespace ModelView
 
 namespace PlotColorMap
@@ -49,7 +49,7 @@ private:
     QAction* m_resetViewportAction{nullptr};
 
     ColorMapPropertyWidget* m_propertyWidget{nullptr};
-    ModelView::ColorMapCanvas* m_colorMapCanvas{nullptr};
+    ModelView::QEXTMvvmColorMapCanvas* m_colorMapCanvas{nullptr};
     ColorMapModel* m_model{nullptr};
 };
 

@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_VIEWMODEL_DEFAULTVIEWMODEL_H
-#define MVVM_VIEWMODEL_DEFAULTVIEWMODEL_H
+#ifndef _QEXTMVVMVIEWMODELDEFAULTVIEWMODEL_H
+#define _QEXTMVVMVIEWMODELDEFAULTVIEWMODEL_H
 
 #include <qextMvvmViewModel.h>
 
@@ -20,13 +11,13 @@ namespace ModelView
 //! Provides two column tree with label/data, with one-to-one child/parent
 //! correspondence as in the original SessionModel.
 
-class QEXT_MVVM_API DefaultViewModel : public ViewModel
+class QEXT_MVVM_API QEXTMvvmDefaultViewModel : public QEXTMvvmViewModel
 {
     Q_OBJECT
 public:
-    DefaultViewModel(SessionModel* model, QObject* parent = nullptr);
+    QEXTMvvmDefaultViewModel(QEXTMvvmSessionModel* model, QObject* parent = nullptr);
 };
 
 } // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_DEFAULTVIEWMODEL_H
+#endif // _QEXTMVVMVIEWMODELDEFAULTVIEWMODEL_H

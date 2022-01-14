@@ -20,18 +20,18 @@ using namespace ModelView;
 
 namespace
 {
-std::string generate_description(const std::string& modelType, const TagRow& tagrow);
+std::string generate_description(const std::string& modelType, const QEXTMvvmTagRow& tagrow);
 } // namespace
 
 struct QEXTMvvmCopyItemCommand::CopyItemCommandImpl {
-    TagRow tagrow;
+    QEXTMvvmTagRow tagrow;
     std::unique_ptr<QEXTMvvmItemBackupStrategy> backup_strategy;
-    Path item_path;
-    CopyItemCommandImpl(TagRow tagrow) : tagrow(std::move(tagrow)) {}
+    QEXTMvvmPath item_path;
+    CopyItemCommandImpl(QEXTMvvmTagRow tagrow) : tagrow(std::move(tagrow)) {}
 };
 
-QEXTMvvmCopyItemCommand::QEXTMvvmCopyItemCommand(const QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* parent, TagRow tagrow)
-    : QEXTMvvmItemCommand(parent), p_impl(std::make_unique<CopyItemCommandImpl>(std::move(tagrow)))
+QEXTMvvmCopyItemCommand::QEXTMvvmCopyItemCommand(const QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow)
+    : QEXTMvvmItemCommand(parent), p_impl(make_unique<CopyItemCommandImpl>(std::move(tagrow)))
 {
     setResult(nullptr);
 
@@ -69,7 +69,7 @@ void QEXTMvvmCopyItemCommand::execute_command()
 
 namespace
 {
-std::string generate_description(const std::string& modelType, const TagRow& tagrow)
+std::string generate_description(const std::string& modelType, const QEXTMvvmTagRow& tagrow)
 {
     std::ostringstream ostr;
     ostr << "Copy item'" << modelType << "' tag:'" << tagrow.tag << "', row:" << tagrow.row;

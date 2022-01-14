@@ -1,33 +1,25 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGAXISTITLECONTROLLER_H
+#define _QEXTMVVMPLOTTINGAXISTITLECONTROLLER_H
 
-#ifndef MVVM_PLOTTING_AXISTITLECONTROLLER_H
-#define MVVM_PLOTTING_AXISTITLECONTROLLER_H
-
-#include <memory>
 #include <qextMvvmItemListener.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 class QCPAxis;
 
 namespace ModelView
 {
 
-class TextItem;
+class QEXTMvvmTextItem;
 
 //! Propagates title settings from TextItem to QCPAxis.
 
-class QEXT_MVVM_API AxisTitleController : public ItemListener<TextItem>
+class QEXT_MVVM_API QEXTMvvmAxisTitleController : public QEXTMvvmItemListener<QEXTMvvmTextItem>
 {
 public:
-    explicit AxisTitleController(QCPAxis* axis);
-    ~AxisTitleController() override;
+    explicit QEXTMvvmAxisTitleController(QCPAxis* axis);
+    ~QEXTMvvmAxisTitleController() override;
 
 protected:
     void subscribe() override;
@@ -39,4 +31,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_AXISTITLECONTROLLER_H
+#endif // _QEXTMVVMPLOTTINGAXISTITLECONTROLLER_H

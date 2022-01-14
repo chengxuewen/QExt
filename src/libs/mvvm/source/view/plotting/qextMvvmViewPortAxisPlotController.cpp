@@ -18,20 +18,20 @@
 
 using namespace ModelView;
 
-struct ViewportAxisPlotController::AxesPlotControllerImpl {
+struct QEXTMvvmViewportAxisPlotController::AxesPlotControllerImpl {
 
-    ViewportAxisPlotController* m_self{nullptr};
+    QEXTMvvmViewportAxisPlotController* m_self{nullptr};
     QCPAxis* m_axis{nullptr};
     bool m_blockUpdate{false};
     std::unique_ptr<QMetaObject::Connection> m_axisConn;
-    std::unique_ptr<AxisTitleController> m_titleController;
+    std::unique_ptr<QEXTMvvmAxisTitleController> m_titleController;
 
-    AxesPlotControllerImpl(ViewportAxisPlotController* controller, QCPAxis* axis)
+    AxesPlotControllerImpl(QEXTMvvmViewportAxisPlotController* controller, QCPAxis* axis)
         : m_self(controller), m_axis(axis)
     {
         if (!axis)
             throw std::runtime_error("AxisPlotController: axis is not initialized.");
-        m_axisConn = std::make_unique<QMetaObject::Connection>();
+        m_axisConn = make_unique<QMetaObject::Connection>();
     }
 
     //! Connects QCustomPlot signals with controller methods.
@@ -64,59 +64,59 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl {
 
     void setAxisLogScaleFromItem()
     {
-        Utils::SetLogarithmicScale(m_axis, m_self->currentItem()->is_in_log());
+        QEXTMvvmUtils::SetLogarithmicScale(m_axis, m_self->currentItem()->is_in_log());
     }
 
     //! Init axis from item and setup connections.
 
     void init_axis()
     {
-        m_titleController = std::make_unique<AxisTitleController>(m_axis);
-        auto text_item = m_self->currentItem()->item<TextItem>(ViewportAxisItem::P_TITLE);
+        m_titleController = make_unique<QEXTMvvmAxisTitleController>(m_axis);
+        auto text_item = m_self->currentItem()->item<QEXTMvvmTextItem>(QEXTMvvmViewportAxisItem::P_TITLE);
         m_titleController->setItem(text_item);
         setAxisRangeFromItem();
         setAxisLogScaleFromItem();
         setConnected();
     }
 
-    void updateLowerRange(const ViewportAxisItem* item)
+    void updateLowerRange(const QEXTMvvmViewportAxisItem* item)
     {
         setDisconnected();
-        m_axis->setRangeLower(item->property<double>(ViewportAxisItem::P_MIN));
+        m_axis->setRangeLower(item->property<double>(QEXTMvvmViewportAxisItem::P_MIN));
         setConnected();
     }
 
-    void updateUpperRange(const ViewportAxisItem* item)
+    void updateUpperRange(const QEXTMvvmViewportAxisItem* item)
     {
         setDisconnected();
-        m_axis->setRangeUpper(item->property<double>(ViewportAxisItem::P_MAX));
+        m_axis->setRangeUpper(item->property<double>(QEXTMvvmViewportAxisItem::P_MAX));
         setConnected();
     }
 
     ~AxesPlotControllerImpl() { setDisconnected(); }
 };
 
-ViewportAxisPlotController::ViewportAxisPlotController(QCPAxis* axis)
-    : p_impl(std::make_unique<AxesPlotControllerImpl>(this, axis))
+QEXTMvvmViewportAxisPlotController::QEXTMvvmViewportAxisPlotController(QCPAxis* axis)
+    : p_impl(make_unique<AxesPlotControllerImpl>(this, axis))
 
 {
 }
 
-ViewportAxisPlotController::~ViewportAxisPlotController() = default;
+QEXTMvvmViewportAxisPlotController::~QEXTMvvmViewportAxisPlotController() = default;
 
-void ViewportAxisPlotController::subscribe()
+void QEXTMvvmViewportAxisPlotController::subscribe()
 {
     auto on_property_change = [this](QEXTMvvmSessionItem*, std::string name) {
         if (p_impl->m_blockUpdate)
             return;
 
-        if (name == ViewportAxisItem::P_MIN)
+        if (name == QEXTMvvmViewportAxisItem::P_MIN)
             p_impl->updateLowerRange(currentItem());
 
-        if (name == ViewportAxisItem::P_MAX)
+        if (name == QEXTMvvmViewportAxisItem::P_MAX)
             p_impl->updateUpperRange(currentItem());
 
-        if (name == ViewportAxisItem::P_IS_LOG)
+        if (name == QEXTMvvmViewportAxisItem::P_IS_LOG)
             p_impl->setAxisLogScaleFromItem();
 
         p_impl->m_axis->parentPlot()->replot();
@@ -126,7 +126,7 @@ void ViewportAxisPlotController::subscribe()
     p_impl->init_axis();
 }
 
-void ViewportAxisPlotController::unsubscribe()
+void QEXTMvvmViewportAxisPlotController::unsubscribe()
 {
     p_impl->setDisconnected();
 }

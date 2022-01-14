@@ -1,20 +1,13 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_MODEL_COMPOUNDITEM_H
-#define MVVM_MODEL_COMPOUNDITEM_H
+#ifndef _QEXTMVVMMODELCOMPOUNDITEM_H
+#define _QEXTMVVMMODELCOMPOUNDITEM_H
 
 #include <qextMvvmCustomVariants.h>
 #include <qextMvvmPropertyItem.h>
 #include <qextMvvmSessionItem.h>
 #include <qextMvvmTagInfo.h>
 #include <qextMvvmRealLimits.h>
+
+#include <qextTypeTrait.h>
 
 namespace ModelView
 {
@@ -24,15 +17,15 @@ namespace ModelView
 class QEXT_MVVM_API QEXTMvvmCompoundItem : public QEXTMvvmSessionItem
 {
 public:
-    QEXTMvvmCompoundItem(const std::string& modelType = Constants::CompoundItemType);
+    QEXTMvvmCompoundItem(const std::string& modelType = QEXTMvvmConstants::CompoundItemType);
 
     //! Adds property item of given type.
-    template <typename T = PropertyItem> T* addProperty(const std::string& name);
+    template <typename T = QEXTMvvmPropertyItem> T* addProperty(const std::string& name);
 
-    template <typename V> PropertyItem* addProperty(const std::string& name, const V& value);
+    template <typename V> QEXTMvvmPropertyItem* addProperty(const std::string& name, const V& value);
 
     //! Register char property. Special case to turn it into std::string.
-    PropertyItem* addProperty(const std::string& name, const char* value);
+    QEXTMvvmPropertyItem* addProperty(const std::string& name, const char* value);
 
     std::string displayName() const override;
 };
@@ -40,30 +33,29 @@ public:
 template <typename T> T* QEXTMvvmCompoundItem::addProperty(const std::string& name)
 {
     T* property = new T;
-    registerTag(TagInfo::propertyTag(name, property->modelType()));
+    registerTag(QEXTMvvmTagInfo::propertyTag(name, property->modelType()));
     property->setDisplayName(name);
     insertItem(property, {name, 0});
     return property;
 }
 
-inline PropertyItem* QEXTMvvmCompoundItem::addProperty(const std::string& name, const char* value)
+inline QEXTMvvmPropertyItem* QEXTMvvmCompoundItem::addProperty(const std::string& name, const char* value)
 {
     return addProperty(name, std::string(value));
 }
 
 template <typename V>
-PropertyItem* QEXTMvvmCompoundItem::addProperty(const std::string& name, const V& value)
+QEXTMvvmPropertyItem* QEXTMvvmCompoundItem::addProperty(const std::string& name, const V& value)
 {
-    auto property = new PropertyItem;
-    registerTag(TagInfo::propertyTag(name, property->modelType()));
+    auto property = new QEXTMvvmPropertyItem;
+    registerTag(QEXTMvvmTagInfo::propertyTag(name, property->modelType()));
     property->setDisplayName(name);
     property->setData(value);
 
     // FIXME consider limitless values by default.
-
-    if constexpr (std::is_floating_point_v<V>)
+    if (QEXTTypeIsFloatingPoint<V>::value)
     {
-        property->setData(RealLimits::nonnegative(), ItemDataRole::LIMITS);
+        property->setData(QEXTMvvmRealLimits::nonnegative(), ItemDataRole::LIMITS);
     }
 
     insertItem(property, {name, 0});
@@ -72,4 +64,4 @@ PropertyItem* QEXTMvvmCompoundItem::addProperty(const std::string& name, const V
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_COMPOUNDITEM_H
+#endif // _QEXTMVVMMODELCOMPOUNDITEM_H

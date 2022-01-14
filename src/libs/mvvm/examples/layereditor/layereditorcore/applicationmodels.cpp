@@ -20,19 +20,19 @@ struct ApplicationModels::ApplicationModelsImpl {
     std::unique_ptr<MaterialModel> m_material_model;
     std::unique_ptr<SampleModel> m_sample_model;
     std::unique_ptr<MaterialPropertyController> m_property_controller;
-    std::unique_ptr<ModelDocumentInterface> m_document;
+    std::unique_ptr<QEXTMVVMModelDocumentInterface> m_document;
 
     ApplicationModelsImpl()
     {
-        m_material_model = std::make_unique<MaterialModel>();
-        m_sample_model = std::make_unique<SampleModel>();
-        m_property_controller = std::make_unique<MaterialPropertyController>(m_material_model.get(),
+        m_material_model = make_unique<MaterialModel>();
+        m_sample_model = make_unique<SampleModel>();
+        m_property_controller = make_unique<MaterialPropertyController>(m_material_model.get(),
                                                                              m_sample_model.get());
         m_document = CreateJsonDocument({m_material_model.get(), m_sample_model.get()});
     }
 };
 
-ApplicationModels::ApplicationModels() : p_impl(std::make_unique<ApplicationModelsImpl>()) {}
+ApplicationModels::ApplicationModels() : p_impl(make_unique<ApplicationModelsImpl>()) {}
 
 ApplicationModels::~ApplicationModels() = default;
 

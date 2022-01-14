@@ -1,34 +1,26 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGDATA1DPLOTCONTROLLER_H
+#define _QEXTMVVMPLOTTINGDATA1DPLOTCONTROLLER_H
 
-#ifndef MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
-#define MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
-
-#include <memory>
 #include <qextMvvmItemListener.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 class QCPGraph;
 
 namespace ModelView
 {
 
-class Data1DItem;
+class QEXTMvvmData1DItem;
 
 //! Establishes communication between QCPGraph and Data1DItem.
 //! Provides update of data points on QCPGraph when Graph1DItem is changed.
 
-class QEXT_MVVM_API Data1DPlotController : public ItemListener<Data1DItem>
+class QEXT_MVVM_API QEXTMvvmData1DPlotController : public QEXTMvvmItemListener<QEXTMvvmData1DItem>
 {
 public:
-    explicit Data1DPlotController(QCPGraph* graph);
-    ~Data1DPlotController() override;
+    explicit QEXTMvvmData1DPlotController(QCPGraph* graph);
+    ~QEXTMvvmData1DPlotController() override;
 
 protected:
     void subscribe() override;
@@ -41,4 +33,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
+#endif // _QEXTMVVMPLOTTINGDATA1DPLOTCONTROLLER_H

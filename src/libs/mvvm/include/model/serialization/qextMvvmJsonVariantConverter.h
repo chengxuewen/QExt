@@ -1,19 +1,10 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSERIALIZATIONJSONVARIANTCONVERTER_H
+#define _QEXTMVVMSERIALIZATIONJSONVARIANTCONVERTER_H
 
-#ifndef MVVM_SERIALIZATION_JSONVARIANTCONVERTER_H
-#define MVVM_SERIALIZATION_JSONVARIANTCONVERTER_H
-
-#include <functional>
-#include <map>
-#include <qextMvvmVariant.h>
 #include <qextMvvmJsonVariantConverterInterface.h>
+
+#include <map>
+#include <functional>
 #include <string>
 
 class QJsonObject;
@@ -24,21 +15,21 @@ namespace ModelView
 
 //! Default converter between supported variants and json objects.
 
-class QEXT_MVVM_API JsonVariantConverter : public JsonVariantConverterInterface
+class QEXT_MVVM_API QEXTMvvmJsonVariantConverter : public QEXTMvvmJsonVariantConverterInterface
 {
 public:
-    JsonVariantConverter();
+    QEXTMvvmJsonVariantConverter();
 
-    QJsonObject get_json(const Variant& variant) override;
+    QJsonObject get_json(const QVariant& variant) override;
 
-    Variant get_variant(const QJsonObject& object) override;
+    QVariant get_variant(const QJsonObject& object) override;
 
     bool isVariant(const QJsonObject& object) const;
 
 private:
     struct Converters {
-        std::function<QJsonObject(const Variant& variant)> variant_to_json;
-        std::function<Variant(const QJsonObject& json)> json_to_variant;
+        std::function<QJsonObject(const QVariant& variant)> variant_to_json;
+        std::function<QVariant(const QJsonObject& json)> json_to_variant;
     };
 
     std::map<std::string, Converters> m_converters;
@@ -46,4 +37,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONVARIANTCONVERTER_H
+#endif // _QEXTMVVMSERIALIZATIONJSONVARIANTCONVERTER_H

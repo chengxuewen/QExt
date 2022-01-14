@@ -1,27 +1,18 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_STANDARDITEMS_COLORMAPITEM_H
-#define MVVM_STANDARDITEMS_COLORMAPITEM_H
+#ifndef _QEXTMVVMSTANDARDITEMSCOLORMAPITEM_H
+#define _QEXTMVVMSTANDARDITEMSCOLORMAPITEM_H
 
 #include <qextMvvmCompoundItem.h>
 
 namespace ModelView
 {
 
-class Data2DItem;
+class QEXTMvvmData2DItem;
 
 //! Two-dimensional color map representation of Data2DItem.
 //! Contains plot properties (i.e. color, gradient etc) and link to Data2DItem, which will provide
 //! actual data to plot. ColorMapItem is intended for plotting only via ColorMapViewportItem.
 
-class QEXT_MVVM_API ColorMapItem : public QEXTMvvmCompoundItem
+class QEXT_MVVM_API QEXTMvvmColorMapItem : public QEXTMvvmCompoundItem
 {
 public:
     static inline const std::string P_LINK = "P_LINK";
@@ -29,13 +20,13 @@ public:
     static inline const std::string P_GRADIENT = "P_GRADIENT";
     static inline const std::string P_INTERPOLATION = "P_INTERPOLATION";
 
-    ColorMapItem();
+    QEXTMvvmColorMapItem();
 
-    void setDataItem(const Data2DItem* item);
+    void setDataItem(const QEXTMvvmData2DItem* item);
 
-    Data2DItem* dataItem() const;
+    QEXTMvvmData2DItem* dataItem() const;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_STANDARDITEMS_COLORMAPITEM_H
+#endif // _QEXTMVVMSTANDARDITEMSCOLORMAPITEM_H

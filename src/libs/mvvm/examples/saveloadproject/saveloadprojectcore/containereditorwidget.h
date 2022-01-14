@@ -11,6 +11,7 @@
 #define CONTAINEREDITORWIDGET_H
 
 #include <QWidget>
+
 #include <memory>
 #include <vector>
 
@@ -21,8 +22,8 @@ class QItemSelectionModel;
 
 namespace ModelView
 {
-class ViewModel;
-class ViewModelDelegate;
+class QEXTMvvmViewModel;
+class QEXTMvvmViewModelDelegate;
 class QEXTMvvmSessionItem;
 } // namespace ModelView
 
@@ -54,8 +55,8 @@ private:
     QBoxLayout* create_button_layout();
 
     QTreeView* m_treeView{nullptr};
-    std::unique_ptr<ModelView::ViewModel> m_viewModel;
-    std::unique_ptr<ModelView::ViewModelDelegate> m_delegate;
+    std::unique_ptr<ModelView::QEXTMvvmViewModel> m_viewModel;
+    std::unique_ptr<ModelView::QEXTMvvmViewModelDelegate> m_delegate;
     SampleModel* m_model{nullptr};
 };
 

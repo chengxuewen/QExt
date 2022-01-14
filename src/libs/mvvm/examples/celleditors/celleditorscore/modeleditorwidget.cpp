@@ -27,7 +27,7 @@ ModelEditorWidget::ModelEditorWidget(SampleModel* model, QWidget* parent)
     , m_verticalTree(new QTreeView)
     , m_horizontalTree(new QTreeView)
     , m_tableView(new QTableView)
-    , m_delegate(std::make_unique<ViewModelDelegate>())
+    , m_delegate(make_unique<QEXTMvvmViewModelDelegate>())
 {
     auto mainLayout = new QHBoxLayout;
     mainLayout->setSpacing(10);
@@ -45,14 +45,14 @@ void ModelEditorWidget::setModel(SampleModel* model)
         return;
 
     // setting up left tree
-    m_verticalViewModel = std::make_unique<DefaultViewModel>(model);
+    m_verticalViewModel = make_unique<QEXTMvvmDefaultViewModel>(model);
     m_verticalTree->setModel(m_verticalViewModel.get());
     m_verticalTree->setItemDelegate(m_delegate.get());
     m_verticalTree->expandAll();
     m_verticalTree->resizeColumnToContents(0);
 
     // setting up right tree
-    m_horizontalViewModel = std::make_unique<PropertyTableViewModel>(model);
+    m_horizontalViewModel = make_unique<QEXTMvvmPropertyTableViewModel>(model);
     m_horizontalTree->setModel(m_horizontalViewModel.get());
     m_horizontalTree->setItemDelegate(m_delegate.get());
     m_horizontalTree->expandAll();

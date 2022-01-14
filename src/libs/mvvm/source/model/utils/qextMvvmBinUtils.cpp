@@ -17,7 +17,7 @@ bool is_control_char(int ch);
 bool null_check(int* buffer, int buffer_size);
 } // namespace
 
-namespace ModelView ::Utils
+namespace ModelView ::QEXTMvvmUtils
 {
 
 // length of buffer

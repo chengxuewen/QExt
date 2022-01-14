@@ -18,8 +18,8 @@ class MaterialModel;
 
 namespace ModelView
 {
-class ViewModel;
-class ViewModelDelegate;
+class QEXTMvvmViewModel;
+class QEXTMvvmViewModelDelegate;
 class QEXTMvvmSessionItem;
 } // namespace ModelView
 
@@ -37,8 +37,8 @@ public:
 
 private:
     QTreeView* m_treeView;
-    std::unique_ptr<ModelView::ViewModel> m_viewModel;
-    std::unique_ptr<ModelView::ViewModelDelegate> m_delegate;
+    std::unique_ptr<ModelView::QEXTMvvmViewModel> m_viewModel;
+    std::unique_ptr<ModelView::QEXTMvvmViewModelDelegate> m_delegate;
 };
 
 #endif // MATERIALTABLEWIDGETS_H

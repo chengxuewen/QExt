@@ -11,18 +11,18 @@
 #include <qextMvvmSessionItem.h>
 #include <qextMvvmItemMapper.h>
 
-ModelView::ItemListenerBase::ItemListenerBase(ModelView::QEXTMvvmSessionItem* item)
+ModelView::QEXTMvvmItemListenerBase::QEXTMvvmItemListenerBase(ModelView::QEXTMvvmSessionItem* item)
 {
     setItem(item);
 }
 
-ModelView::ItemListenerBase::~ItemListenerBase()
+ModelView::QEXTMvvmItemListenerBase::~QEXTMvvmItemListenerBase()
 {
     if (m_item)
         m_item->mapper()->unsubscribe(this);
 }
 
-void ModelView::ItemListenerBase::setItem(ModelView::QEXTMvvmSessionItem* item)
+void ModelView::QEXTMvvmItemListenerBase::setItem(ModelView::QEXTMvvmSessionItem* item)
 {
     if (m_item == item)
         return;
@@ -34,7 +34,7 @@ void ModelView::ItemListenerBase::setItem(ModelView::QEXTMvvmSessionItem* item)
     if (!m_item)
         return;
 
-    auto on_item_destroy = [this](auto) {
+    auto on_item_destroy = [this](QEXTMvvmSessionItem *) {
         m_item = nullptr;
         unsubscribe();
     };
@@ -43,7 +43,7 @@ void ModelView::ItemListenerBase::setItem(ModelView::QEXTMvvmSessionItem* item)
     subscribe();
 }
 
-void ModelView::ItemListenerBase::setOnItemDestroy(ModelView::Callbacks::item_t f)
+void ModelView::QEXTMvvmItemListenerBase::setOnItemDestroy(ModelView::QEXTMvvmCallbacks::item_t f)
 {
     item()->mapper()->setOnItemDestroy(f, this);
 }
@@ -51,7 +51,7 @@ void ModelView::ItemListenerBase::setOnItemDestroy(ModelView::Callbacks::item_t 
 //! Sets callback to be notified on item's data change.
 //! Callback will be called with (QEXTMvvmSessionItem*, data_role).
 
-void ModelView::ItemListenerBase::setOnDataChange(ModelView::Callbacks::item_int_t f)
+void ModelView::QEXTMvvmItemListenerBase::setOnDataChange(ModelView::QEXTMvvmCallbacks::item_int_t f)
 {
     item()->mapper()->setOnDataChange(f, this);
 }
@@ -59,7 +59,7 @@ void ModelView::ItemListenerBase::setOnDataChange(ModelView::Callbacks::item_int
 //! Sets callback to be notified on item's property change.
 //! Callback will be called with (compound_item, property_name).
 
-void ModelView::ItemListenerBase::setOnPropertyChange(ModelView::Callbacks::item_str_t f)
+void ModelView::QEXTMvvmItemListenerBase::setOnPropertyChange(ModelView::QEXTMvvmCallbacks::item_str_t f)
 {
     item()->mapper()->setOnPropertyChange(f, this);
 }
@@ -69,7 +69,7 @@ void ModelView::ItemListenerBase::setOnPropertyChange(ModelView::Callbacks::item
 //! layer with "thickness" property, the signal will be triggered on thickness change using
 //! (layeritem*, "thickness") as callback parameters.
 
-void ModelView::ItemListenerBase::setOnChildPropertyChange(ModelView::Callbacks::item_str_t f)
+void ModelView::QEXTMvvmItemListenerBase::setOnChildPropertyChange(ModelView::QEXTMvvmCallbacks::item_str_t f)
 {
     item()->mapper()->setOnChildPropertyChange(f, this);
 }
@@ -79,7 +79,7 @@ void ModelView::ItemListenerBase::setOnChildPropertyChange(ModelView::Callbacks:
 //! tag, the signal will be triggered on layer insertion with
 //! (multilayer*, {T_LAYER, row}) as callback parameters.
 
-void ModelView::ItemListenerBase::setOnItemInserted(ModelView::Callbacks::item_tagrow_t f)
+void ModelView::QEXTMvvmItemListenerBase::setOnItemInserted(ModelView::QEXTMvvmCallbacks::item_tagrow_t f)
 {
     item()->mapper()->setOnItemInserted(f, this);
 }
@@ -89,12 +89,12 @@ void ModelView::ItemListenerBase::setOnItemInserted(ModelView::Callbacks::item_t
 //! tag, the signal will be triggered on layer removal with
 //! (multilayer*, {T_LAYER, oldrow}) as callback parameters.
 
-void ModelView::ItemListenerBase::setOnItemRemoved(ModelView::Callbacks::item_tagrow_t f)
+void ModelView::QEXTMvvmItemListenerBase::setOnItemRemoved(ModelView::QEXTMvvmCallbacks::item_tagrow_t f)
 {
     item()->mapper()->setOnItemRemoved(f, this);
 }
 
-void ModelView::ItemListenerBase::setOnAboutToRemoveItem(ModelView::Callbacks::item_tagrow_t f)
+void ModelView::QEXTMvvmItemListenerBase::setOnAboutToRemoveItem(ModelView::QEXTMvvmCallbacks::item_tagrow_t f)
 {
     item()->mapper()->setOnAboutToRemoveItem(f, this);
 }
@@ -104,12 +104,12 @@ void ModelView::ItemListenerBase::setOnAboutToRemoveItem(ModelView::Callbacks::i
 //! tag, the signal will be triggered on layer deletion with
 //! (multilayer*, {T_LAYER, row}) as callback parameters.
 
-ModelView::QEXTMvvmSessionItem* ModelView::ItemListenerBase::item() const
+ModelView::QEXTMvvmSessionItem* ModelView::QEXTMvvmItemListenerBase::item() const
 {
     return m_item;
 }
 
-void ModelView::ItemListenerBase::unsubscribe_from_current()
+void ModelView::QEXTMvvmItemListenerBase::unsubscribe_from_current()
 {
     if (!m_item)
         return;

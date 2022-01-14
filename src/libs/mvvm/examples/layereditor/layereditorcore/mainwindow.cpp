@@ -13,9 +13,11 @@
 #include <QMenuBar>
 #include <QSettings>
 #include <QTabWidget>
+
 #include <layereditorcore/applicationmodels.h>
 #include <layereditorcore/mainwindow.h>
 #include <layereditorcore/samplewidget.h>
+#include <qextMvvmGlobal.h>
 
 namespace
 {
@@ -25,7 +27,7 @@ const QString pos_key = "pos";
 } // namespace
 
 MainWindow::MainWindow()
-    : m_tabWidget(new QTabWidget), m_models(std::make_unique<ApplicationModels>())
+    : m_tabWidget(new QTabWidget), m_models(make_unique<ApplicationModels>())
 {
     m_tabWidget->addTab(new SampleWidget(m_models.get()), "Materials and Layers");
 

@@ -1,39 +1,30 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_VIEWMODEL_VIEWMODEL_H
-#define MVVM_VIEWMODEL_VIEWMODEL_H
+#ifndef _QEXTMVVMVIEWMODELVIEWMODEL_H
+#define _QEXTMVVMVIEWMODELVIEWMODEL_H
 
 #include <qextMvvmViewModelBase.h>
 
 namespace ModelView
 {
 
-class SessionModel;
+class QEXTMvvmSessionModel;
 class QEXTMvvmSessionItem;
-class ViewItem;
-class ViewModelController;
+class QEXTMvvmViewItem;
+class QEXTMvvmViewModelController;
 
 //! Main class to represent content of SessionModel in Qt's trees and tables.
 
-class QEXT_MVVM_API ViewModel : public ViewModelBase
+class QEXT_MVVM_API QEXTMvvmViewModel : public QEXTMvvmViewModelBase
 {
     Q_OBJECT
 
 public:
-    ViewModel(std::unique_ptr<ViewModelController> controller, QObject* parent = nullptr);
-    ~ViewModel() override;
+    QEXTMvvmViewModel(std::unique_ptr<QEXTMvvmViewModelController> controller, QObject* parent = nullptr);
+    ~QEXTMvvmViewModel() override;
 
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
 
-    SessionModel* sessionModel() const;
+    QEXTMvvmSessionModel* sessionModel() const;
 
     QEXTMvvmSessionItem* rootSessionItem();
 
@@ -41,16 +32,16 @@ public:
 
     QEXTMvvmSessionItem* sessionItemFromIndex(const QModelIndex& index) const;
 
-    ViewItem* viewItemFromIndex(const QModelIndex& index) const;
+    QEXTMvvmViewItem* viewItemFromIndex(const QModelIndex& index) const;
 
     QModelIndexList indexOfSessionItem(const QEXTMvvmSessionItem* item) const;
 
-    std::vector<ViewItem*> findViews(const ModelView::QEXTMvvmSessionItem* item) const;
+    std::vector<QEXTMvvmViewItem*> findViews(const ModelView::QEXTMvvmSessionItem* item) const;
 
 private:
-    std::unique_ptr<ViewModelController> m_controller;
+    std::unique_ptr<QEXTMvvmViewModelController> m_controller;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_VIEWMODEL_H
+#endif // _QEXTMVVMVIEWMODELVIEWMODEL_H

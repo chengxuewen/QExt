@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_EDITORS_SCIENTIFICDOUBLEEDITOR_H
-#define MVVM_EDITORS_SCIENTIFICDOUBLEEDITOR_H
+#ifndef _QEXTMVVMEDITORSSCIENTIFICDOUBLEEDITOR_H
+#define _QEXTMVVMEDITORSSCIENTIFICDOUBLEEDITOR_H
 
 #include <qextMvvmCustomEditor.h>
 
@@ -20,12 +11,12 @@ namespace ModelView
 
 //! Custom editor for QVariant based on double with scientific notation support.
 
-class QEXT_MVVM_API ScientificDoubleEditor : public CustomEditor
+class QEXT_MVVM_API QEXTMvvmScientificDoubleEditor : public QEXTMvvmCustomEditor
 {
     Q_OBJECT
 
 public:
-    explicit ScientificDoubleEditor(QWidget* parent = nullptr);
+    explicit QEXTMvvmScientificDoubleEditor(QWidget* parent = nullptr);
 
     void setRange(double minimum, double maximum);
 
@@ -40,4 +31,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_SCIENTIFICDOUBLEEDITOR_H
+#endif // _QEXTMVVMEDITORSSCIENTIFICDOUBLEEDITOR_H

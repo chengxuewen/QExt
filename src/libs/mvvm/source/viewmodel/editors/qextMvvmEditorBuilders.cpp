@@ -38,21 +38,21 @@ double getStep(double val)
 
 } // namespace
 
-namespace ModelView ::EditorBuilders
+namespace ModelView ::QEXTMvvmEditorBuilders
 {
 
 builder_t BoolEditorBuilder()
 {
-    auto builder = [](const QEXTMvvmSessionItem*) -> editor_t { return std::make_unique<BoolEditor>(); };
+    auto builder = [](const QEXTMvvmSessionItem*) -> editor_t { return make_unique<QEXTMvvmBoolEditor>(); };
     return builder;
 }
 
 builder_t IntegerEditorBuilder()
 {
     auto builder = [](const QEXTMvvmSessionItem* item) -> editor_t {
-        auto editor = std::make_unique<IntegerEditor>();
+        auto editor = make_unique<QEXTMvvmIntegerEditor>();
         if (item && item->hasData(ItemDataRole::LIMITS)) {
-            auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
+            auto limits = item->data<QEXTMvvmRealLimits>(ItemDataRole::LIMITS);
             editor->setRange(limits.lowerLimit(), limits.upperLimit());
         }
         return std::move(editor);
@@ -63,12 +63,12 @@ builder_t IntegerEditorBuilder()
 builder_t DoubleEditorBuilder()
 {
     auto builder = [](const QEXTMvvmSessionItem* item) -> editor_t {
-        auto editor = std::make_unique<DoubleEditor>();
+        auto editor = make_unique<QEXTMvvmDoubleEditor>();
         if (item && item->hasData(ItemDataRole::LIMITS)) {
-            auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
+            auto limits = item->data<QEXTMvvmRealLimits>(ItemDataRole::LIMITS);
             editor->setRange(limits.lowerLimit(), limits.upperLimit());
-            editor->setSingleStep(singleStep(Constants::default_double_decimals));
-            editor->setDecimals(Constants::default_double_decimals);
+            editor->setSingleStep(singleStep(QEXTMvvmConstants::default_double_decimals));
+            editor->setDecimals(QEXTMvvmConstants::default_double_decimals);
         }
         return std::move(editor);
     };
@@ -78,9 +78,9 @@ builder_t DoubleEditorBuilder()
 builder_t ScientificDoubleEditorBuilder()
 {
     auto builder = [](const QEXTMvvmSessionItem* item) -> editor_t {
-        auto editor = std::make_unique<ScientificDoubleEditor>();
+        auto editor = make_unique<QEXTMvvmScientificDoubleEditor>();
         if (item && item->hasData(ItemDataRole::LIMITS)) {
-            auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
+            auto limits = item->data<QEXTMvvmRealLimits>(ItemDataRole::LIMITS);
             editor->setRange(limits.lowerLimit(), limits.upperLimit());
         }
         return std::move(editor);
@@ -91,15 +91,15 @@ builder_t ScientificDoubleEditorBuilder()
 builder_t ScientificSpinBoxEditorBuilder()
 {
     auto builder = [](const QEXTMvvmSessionItem* item) -> editor_t {
-        auto editor = std::make_unique<ScientificSpinBoxEditor>();
+        auto editor = make_unique<QEXTMvvmScientificSpinBoxEditor>();
         if (item) {
             if (item->hasData(ItemDataRole::LIMITS)) {
-                auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
+                auto limits = item->data<QEXTMvvmRealLimits>(ItemDataRole::LIMITS);
                 editor->setRange(limits.lowerLimit(), limits.upperLimit());
             }
             editor->setSingleStep(getStep(item->data<double>()));
         }
-        editor->setDecimals(Constants::default_double_decimals);
+        editor->setDecimals(QEXTMvvmConstants::default_double_decimals);
         return std::move(editor);
     };
     return builder;
@@ -107,14 +107,14 @@ builder_t ScientificSpinBoxEditorBuilder()
 
 builder_t ColorEditorBuilder()
 {
-    auto builder = [](const QEXTMvvmSessionItem*) -> editor_t { return std::make_unique<ColorEditor>(); };
+    auto builder = [](const QEXTMvvmSessionItem*) -> editor_t { return make_unique<QEXTMvvmColorEditor>(); };
     return builder;
 }
 
 builder_t ComboPropertyEditorBuilder()
 {
     auto builder = [](const QEXTMvvmSessionItem*) -> editor_t {
-        return std::make_unique<ComboPropertyEditor>();
+        return make_unique<QEXTMvvmComboPropertyEditor>();
     };
     return builder;
 }
@@ -122,7 +122,7 @@ builder_t ComboPropertyEditorBuilder()
 builder_t ExternalPropertyEditorBuilder()
 {
     auto builder = [](const QEXTMvvmSessionItem*) -> editor_t {
-        return std::make_unique<ExternalPropertyEditor>();
+        return make_unique<QEXTMvvmExternalPropertyEditor>();
     };
     return builder;
 }
@@ -130,7 +130,7 @@ builder_t ExternalPropertyEditorBuilder()
 builder_t SelectableComboPropertyEditorBuilder()
 {
     auto builder = [](const QEXTMvvmSessionItem*) -> editor_t {
-        return std::make_unique<SelectableComboBoxEditor>();
+        return make_unique<QEXTMvvmSelectableComboBoxEditor>();
     };
     return builder;
 }

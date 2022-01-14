@@ -20,7 +20,7 @@ class QSlider;
 
 namespace ModelView
 {
-class ItemsTreeView;
+class QEXTMvvmItemsTreeView;
 } // namespace ModelView
 
 //! Shows model content in standard tree view.
@@ -39,7 +39,7 @@ private:
 
     QBoxLayout* create_button_layout();
     QSlider* m_slider{nullptr};
-    ModelView::ItemsTreeView* m_treeView{nullptr};
+    ModelView::QEXTMvvmItemsTreeView* m_treeView{nullptr};
     SceneModel* m_model{nullptr};
 };
 

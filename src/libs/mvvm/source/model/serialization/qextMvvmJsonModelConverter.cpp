@@ -22,7 +22,7 @@ using namespace ModelView;
 
 namespace
 {
-std::unique_ptr<JsonItemConverterInterface> CreateConverter(const QEXTMvvmItemFactoryInterface* factory,
+std::unique_ptr<QEXTMvvmJsonItemConverterInterface> CreateConverter(const QEXTMvvmItemFactoryInterface* factory,
                                                             ConverterMode mode)
 {
     if (mode == ConverterMode::clone)
@@ -37,18 +37,18 @@ std::unique_ptr<JsonItemConverterInterface> CreateConverter(const QEXTMvvmItemFa
 
 } // namespace
 
-JsonModelConverter::JsonModelConverter(ConverterMode mode) : m_mode(mode) {}
+QEXTMvvmJsonModelConverter::QEXTMvvmJsonModelConverter(ConverterMode mode) : m_mode(mode) {}
 
-JsonModelConverter::~JsonModelConverter() = default;
+QEXTMvvmJsonModelConverter::~QEXTMvvmJsonModelConverter() = default;
 
-QJsonObject JsonModelConverter::to_json(const SessionModel& model) const
+QJsonObject QEXTMvvmJsonModelConverter::to_json(const QEXTMvvmSessionModel& model) const
 {
     QJsonObject result;
 
     if (!model.rootItem())
         throw std::runtime_error("JsonModel::to_json() -> Error. Model is not initialized.");
 
-    result[JsonItemFormatAssistant::sessionModelKey] = QString::fromStdString(model.modelType());
+    result[QEXTMvvmJsonItemFormatAssistant::sessionModelKey] = QString::fromStdString(model.modelType());
 
     QJsonArray itemArray;
 
@@ -57,33 +57,33 @@ QJsonObject JsonModelConverter::to_json(const SessionModel& model) const
     for (auto item : model.rootItem()->children())
         itemArray.append(itemConverter->to_json(item));
 
-    result[JsonItemFormatAssistant::itemsKey] = itemArray;
+    result[QEXTMvvmJsonItemFormatAssistant::itemsKey] = itemArray;
 
     return result;
 }
 
-void JsonModelConverter::from_json(const QJsonObject& json, SessionModel& model) const
+void QEXTMvvmJsonModelConverter::from_json(const QJsonObject& json, QEXTMvvmSessionModel& model) const
 {
     if (!model.rootItem())
         throw std::runtime_error("JsonModel::json_to_model() -> Error. Model is not initialized.");
 
-    JsonItemFormatAssistant assistant;
+    QEXTMvvmJsonItemFormatAssistant assistant;
     if (!assistant.isSessionModel(json))
         throw std::runtime_error("JsonModel::json_to_model() -> Error. Invalid json object.");
 
-    if (json[JsonItemFormatAssistant::sessionModelKey].toString()
+    if (json[QEXTMvvmJsonItemFormatAssistant::sessionModelKey].toString()
         != QString::fromStdString(model.modelType()))
         throw std::runtime_error(
             "JsonModel::json_to_model() -> Unexpected model type '" + model.modelType()
             + "', json key '"
-            + json[JsonItemFormatAssistant::sessionModelKey].toString().toStdString() + "'");
+            + json[QEXTMvvmJsonItemFormatAssistant::sessionModelKey].toString().toStdString() + "'");
 
     auto itemConverter = CreateConverter(model.factory(), m_mode);
 
-    auto rebuild_root = [&json, &itemConverter](auto parent) {
-        for (const auto ref : json[JsonItemFormatAssistant::itemsKey].toArray()) {
+    auto rebuild_root = [&json, &itemConverter](QEXTMvvmSessionItem *parent) {
+        for (const auto ref : json[QEXTMvvmJsonItemFormatAssistant::itemsKey].toArray()) {
             auto item = itemConverter->from_json(ref.toObject());
-            parent->insertItem(item.release(), TagRow::append());
+            parent->insertItem(item.release(), QEXTMvvmTagRow::append());
         }
     };
     model.clear(rebuild_root);

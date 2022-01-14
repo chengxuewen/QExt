@@ -13,19 +13,19 @@
 
 using namespace ModelView;
 
-ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue> catalogue)
+QEXTMvvmItemFactory::QEXTMvvmItemFactory(std::unique_ptr<QEXTMvvmItemCatalogue> catalogue)
     : m_catalogue(std::move(catalogue))
 {
 }
 
-ItemFactory::~ItemFactory() = default;
+QEXTMvvmItemFactory::~QEXTMvvmItemFactory() = default;
 
-std::unique_ptr<QEXTMvvmSessionItem> ItemFactory::createItem(const model_type& modelType) const
+std::unique_ptr<QEXTMvvmSessionItem> QEXTMvvmItemFactory::createItem(const model_type& modelType) const
 {
     return m_catalogue->create(modelType);
 }
 
-std::unique_ptr<QEXTMvvmSessionItem> ItemFactory::createEmptyItem() const
+std::unique_ptr<QEXTMvvmSessionItem> QEXTMvvmItemFactory::createEmptyItem() const
 {
-    return std::make_unique<QEXTMvvmSessionItem>();
+    return make_unique<QEXTMvvmSessionItem>();
 }

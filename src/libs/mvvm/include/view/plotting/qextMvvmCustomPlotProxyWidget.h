@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGCUSTOMPLOTPROXYWIDGET_H
+#define _QEXTMVVMPLOTTINGCUSTOMPLOTPROXYWIDGET_H
 
-#ifndef MVVM_PLOTTING_CUSTOMPLOTPROXYWIDGET_H
-#define MVVM_PLOTTING_CUSTOMPLOTPROXYWIDGET_H
+#include <qextMvvmGlobal.h>
 
 #include <QGraphicsProxyWidget>
-#include <qextMvvmGlobal.h>
 
 class QWidget;
 
@@ -20,12 +12,12 @@ namespace ModelView
 
 //! Custom proxy widget to embed color map in graphics scene.
 
-class QEXT_MVVM_API CustomPlotProxyWidget : public QGraphicsProxyWidget
+class QEXT_MVVM_API QEXTMvvmCustomPlotProxyWidget : public QGraphicsProxyWidget
 {
     Q_OBJECT
 
 public:
-    CustomPlotProxyWidget(QWidget* colormap);
+    QEXTMvvmCustomPlotProxyWidget(QWidget* colormap);
 
     bool eventFilter(QObject* object, QEvent* event);
 
@@ -43,4 +35,4 @@ private:
 
 } // namespace ModelView
 
-#endif //  MVVM_PLOTTING_CUSTOMPLOTPROXYWIDGET_H
+#endif //  _QEXTMVVMPLOTTINGCUSTOMPLOTPROXYWIDGET_H

@@ -17,7 +17,7 @@
 
 using namespace ModelView;
 
-CollapsibleBar::CollapsibleBar(QWidget* parent)
+QEXTMvvmCollapsibleBar::QEXTMvvmCollapsibleBar(QWidget* parent)
     : QFrame(parent), m_pixmapLabel(new QLabel), m_titleLabel(new QLabel)
 {
     m_pixmapLabel->setPixmap(QPixmap(":/icons/chevron-down.svg"));
@@ -28,11 +28,11 @@ CollapsibleBar::CollapsibleBar(QWidget* parent)
     layout->addWidget(m_pixmapLabel, Qt::AlignLeft);
     layout->addWidget(m_titleLabel, Qt::AlignCenter);
 
-    setFixedHeight(ModelView::Utils::HeightOfLetterM() * 2);
+    setFixedHeight(ModelView::QEXTMvvmUtils::HeightOfLetterM() * 2);
     setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
 }
 
-void CollapsibleBar::setWidget(QWidget* widget, const QString& title)
+void QEXTMvvmCollapsibleBar::setWidget(QWidget* widget, const QString& title)
 {
     m_controlledWidget = widget;
     m_titleLabel->setText(title);
@@ -40,7 +40,7 @@ void CollapsibleBar::setWidget(QWidget* widget, const QString& title)
     updatePixmap();
 }
 
-void CollapsibleBar::mousePressEvent(QMouseEvent* event)
+void QEXTMvvmCollapsibleBar::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton)
         m_controlledWidget->setHidden(m_controlledWidget->isVisible());
@@ -49,7 +49,7 @@ void CollapsibleBar::mousePressEvent(QMouseEvent* event)
 
 //! Listens for widget signals and update collapse/expand icon on visibility change.
 
-bool CollapsibleBar::eventFilter(QObject* obj, QEvent* event)
+bool QEXTMvvmCollapsibleBar::eventFilter(QObject* obj, QEvent* event)
 {
     bool is_event_of_interest = (event->type() == QEvent::Show || event->type() == QEvent::Hide);
     if (obj == m_controlledWidget && is_event_of_interest)
@@ -59,7 +59,7 @@ bool CollapsibleBar::eventFilter(QObject* obj, QEvent* event)
 
 //! Set pixmap depending from the visibility of the widget.
 
-void CollapsibleBar::updatePixmap()
+void QEXTMvvmCollapsibleBar::updatePixmap()
 {
     if (m_controlledWidget->isVisible()) {
         m_pixmapLabel->setPixmap(QPixmap(":/icons/chevron-down.svg"));

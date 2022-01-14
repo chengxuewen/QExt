@@ -1,17 +1,8 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMMODELCOMBOPROPERTY_H
+#define _QEXTMVVMMODELCOMBOPROPERTY_H
 
-#ifndef MVVM_MODEL_COMBOPROPERTY_H
-#define MVVM_MODEL_COMBOPROPERTY_H
-
-#include <qextMvvmVariant.h>
 #include <qextMvvmGlobal.h>
+
 #include <string>
 #include <vector>
 
@@ -20,12 +11,12 @@ namespace ModelView
 
 //! Custom property to define list of string values with multiple selections.
 
-class QEXT_MVVM_API ComboProperty
+class QEXT_MVVM_API QEXTMvvmComboProperty
 {
 public:
-    ComboProperty();
+    QEXTMvvmComboProperty();
 
-    static ComboProperty createFrom(const std::vector<std::string>& values,
+    static QEXTMvvmComboProperty createFrom(const std::vector<std::string>& values,
                                     const std::string& current_value = {});
 
     std::string value() const;
@@ -40,11 +31,11 @@ public:
     int currentIndex() const;
     void setCurrentIndex(int index);
 
-    ComboProperty& operator<<(const std::string& str);
-    ComboProperty& operator<<(const std::vector<std::string>& str);
-    bool operator==(const ComboProperty& other) const;
-    bool operator!=(const ComboProperty& other) const;
-    bool operator<(const ComboProperty& other) const;
+    QEXTMvvmComboProperty& operator<<(const std::string& str);
+    QEXTMvvmComboProperty& operator<<(const std::vector<std::string>& str);
+    bool operator==(const QEXTMvvmComboProperty& other) const;
+    bool operator!=(const QEXTMvvmComboProperty& other) const;
+    bool operator<(const QEXTMvvmComboProperty& other) const;
 
     std::string stringOfValues() const;
     void setStringOfValues(const std::string& values);
@@ -61,7 +52,7 @@ public:
     std::string label() const;
 
 private:
-    ComboProperty(std::vector<std::string> values);
+    QEXTMvvmComboProperty(std::vector<std::string> values);
 
     std::vector<std::string> m_values;
     std::vector<std::string> m_tooltips;
@@ -70,6 +61,6 @@ private:
 
 } // namespace ModelView
 
-Q_DECLARE_METATYPE(ModelView::ComboProperty)
+Q_DECLARE_METATYPE(ModelView::QEXTMvvmComboProperty)
 
-#endif // MVVM_MODEL_COMBOPROPERTY_H
+#endif // _QEXTMVVMMODELCOMBOPROPERTY_H

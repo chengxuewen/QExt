@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_SERIALIZATION_JSONTAGINFOCONVERTERINTERFACE_H
-#define MVVM_SERIALIZATION_JSONTAGINFOCONVERTERINTERFACE_H
+#ifndef _QEXTMVVMSERIALIZATIONJSONTAGINFOCONVERTERINTERFACE_H
+#define _QEXTMVVMSERIALIZATIONJSONTAGINFOCONVERTERINTERFACE_H
 
 #include <qextMvvmGlobal.h>
 
@@ -17,20 +8,20 @@ class QJsonObject;
 namespace ModelView
 {
 
-class TagInfo;
+class QEXTMvvmTagInfo;
 
 //! Base class for all converters of TagInfo to/from json object
 
-class QEXT_MVVM_API JsonTagInfoConverterInterface
+class QEXT_MVVM_API QEXTMvvmJsonTagInfoConverterInterface
 {
 public:
-    virtual ~JsonTagInfoConverterInterface() = default;
+    virtual ~QEXTMvvmJsonTagInfoConverterInterface() = default;
 
-    virtual QJsonObject to_json(const TagInfo&) = 0;
+    virtual QJsonObject to_json(const QEXTMvvmTagInfo&) = 0;
 
-    virtual TagInfo from_json(const QJsonObject&) = 0;
+    virtual QEXTMvvmTagInfo from_json(const QJsonObject&) = 0;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONTAGINFOCONVERTERINTERFACE_H
+#endif // _QEXTMVVMSERIALIZATIONJSONTAGINFOCONVERTERINTERFACE_H

@@ -20,9 +20,9 @@ struct QEXTMvvmItemCommand::AbstractItemCommandImpl {
     bool is_obsolete{false};
     std::string text;
     EStatus status{INITIAL};
-    SessionModel* model{nullptr};
+    QEXTMvvmSessionModel* model{nullptr};
     QEXTMvvmItemCommand* parent_impl{nullptr};
-    CommandResult m_result;
+    QEXTMvvmCommandResult m_result;
     AbstractItemCommandImpl(QEXTMvvmItemCommand* parent) : parent_impl(parent) {}
 
     void set_after_execute() { status = AFTER_EXECUTE; }
@@ -32,7 +32,7 @@ struct QEXTMvvmItemCommand::AbstractItemCommandImpl {
 };
 
 QEXTMvvmItemCommand::QEXTMvvmItemCommand(QEXTMvvmSessionItem* receiver)
-    : p_impl(std::make_unique<QEXTMvvmItemCommand::AbstractItemCommandImpl>(this))
+    : p_impl(make_unique<QEXTMvvmItemCommand::AbstractItemCommandImpl>(this))
 {
     if (!receiver)
         throw std::runtime_error("Invalid item.");
@@ -83,7 +83,7 @@ std::string QEXTMvvmItemCommand::description() const
     return p_impl->text;
 }
 
-CommandResult QEXTMvvmItemCommand::result() const
+QEXTMvvmCommandResult QEXTMvvmItemCommand::result() const
 {
     return p_impl->m_result;
 }
@@ -102,22 +102,22 @@ void QEXTMvvmItemCommand::setDescription(const std::string& text)
     p_impl->text = text;
 }
 
-Path QEXTMvvmItemCommand::pathFromItem(QEXTMvvmSessionItem* item) const
+QEXTMvvmPath QEXTMvvmItemCommand::pathFromItem(QEXTMvvmSessionItem* item) const
 {
     return p_impl->model->pathFromItem(item);
 }
 
-QEXTMvvmSessionItem* QEXTMvvmItemCommand::itemFromPath(const Path& path) const
+QEXTMvvmSessionItem* QEXTMvvmItemCommand::itemFromPath(const QEXTMvvmPath& path) const
 {
     return p_impl->model->itemFromPath(path);
 }
 
-SessionModel* QEXTMvvmItemCommand::model() const
+QEXTMvvmSessionModel* QEXTMvvmItemCommand::model() const
 {
     return p_impl->model;
 }
 
-void QEXTMvvmItemCommand::setResult(const CommandResult& command_result)
+void QEXTMvvmItemCommand::setResult(const QEXTMvvmCommandResult& command_result)
 {
     p_impl->m_result = command_result;
 }

@@ -1,40 +1,32 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPROJECTPROJECTUTILS_H
+#define _QEXTMVVMPROJECTPROJECTUTILS_H
 
-#ifndef MVVM_PROJECT_PROJECTUTILS_H
-#define MVVM_PROJECT_PROJECTUTILS_H
+#include <qextMvvmGlobal.h>
 
 #include <memory>
-#include <qextMvvmGlobal.h>
 #include <string>
 #include <vector>
 
 namespace ModelView
 {
 
-class SessionModel;
-class ProjectInterface;
-struct ProjectContext;
+class QEXTMvvmSessionModel;
+class QEXTMvvmProjectInterface;
+struct QEXTMvvmProjectContext;
 
 //! Collection of utility functions to handle project saving and loading.
 
-namespace ProjectUtils
+namespace QEXTMvvmProjectUtils
 {
 
-QEXT_MVVM_API std::string SuggestFileName(const SessionModel& model);
+QEXT_MVVM_API std::string SuggestFileName(const QEXTMvvmSessionModel& model);
 
 QEXT_MVVM_API bool IsPossibleProjectDir(const std::string& project_dir);
 
-QEXT_MVVM_API std::unique_ptr<ProjectInterface>
-CreateUntitledProject(const ProjectContext& context);
+QEXT_MVVM_API std::unique_ptr<QEXTMvvmProjectInterface>
+CreateUntitledProject(const QEXTMvvmProjectContext& context);
 
-QEXT_MVVM_API std::string ProjectWindowTitle(const ProjectInterface& project);
+QEXT_MVVM_API std::string ProjectWindowTitle(const QEXTMvvmProjectInterface& project);
 
 QEXT_MVVM_API std::string ProjectWindowTitle(const std::string& project_dir, bool is_modified);
 
@@ -42,4 +34,4 @@ QEXT_MVVM_API std::string ProjectWindowTitle(const std::string& project_dir, boo
 
 } // namespace ModelView
 
-#endif // MVVM_PROJECT_PROJECTUTILS_H
+#endif // _QEXTMVVMPROJECTPROJECTUTILS_H

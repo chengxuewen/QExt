@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGCUSTOMPLOTSCENEADAPTER_H
+#define _QEXTMVVMPLOTTINGCUSTOMPLOTSCENEADAPTER_H
 
-#ifndef MVVM_PLOTTING_CUSTOMPLOTSCENEADAPTER_H
-#define MVVM_PLOTTING_CUSTOMPLOTSCENEADAPTER_H
+#include <qextMvvmSceneAdapterInterface.h>
 
 #include <memory>
-#include <qextMvvmSceneAdapterInterface.h>
 
 class QCustomPlot;
 
@@ -21,11 +13,11 @@ namespace ModelView
 //! Converts QGraphicsScene coordinates in the coordinates of local system of QCustomPlot
 //! and vice versa.
 
-class QEXT_MVVM_API CustomPlotSceneAdapter : public SceneAdapterInterface
+class QEXT_MVVM_API QEXTMvvmCustomPlotSceneAdapter : public QEXTMvvmSceneAdapterInterface
 {
 public:
-    explicit CustomPlotSceneAdapter(QCustomPlot* custom_plot);
-    ~CustomPlotSceneAdapter() override;
+    explicit QEXTMvvmCustomPlotSceneAdapter(QCustomPlot* custom_plot);
+    ~QEXTMvvmCustomPlotSceneAdapter() override;
 
     double toSceneX(double customplot_x) const override;
 
@@ -44,4 +36,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_CUSTOMPLOTSCENEADAPTER_H
+#endif // _QEXTMVVMPLOTTINGCUSTOMPLOTSCENEADAPTER_H

@@ -1,16 +1,8 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_MODEL_PATH_H
-#define MVVM_MODEL_PATH_H
+#ifndef _QEXTMVVMMODELPATH_H
+#define _QEXTMVVMMODELPATH_H
 
 #include <qextMvvmGlobal.h>
+
 #include <string>
 #include <vector>
 
@@ -20,7 +12,7 @@ namespace ModelView
 //! Supports navigation through SessionModel. It contains a chain of row indexes that have to
 //! be used to reach the desired QEXTMvvmSessionItem starting from the root item.
 
-class QEXT_MVVM_API Path
+class QEXT_MVVM_API QEXTMvvmPath
 {
 public:
     using PathElement = int;
@@ -28,11 +20,11 @@ public:
     using iterator = container_t::iterator;
     using const_iterator = container_t::const_iterator;
 
-    Path() = default;
+    QEXTMvvmPath() = default;
 
-    static Path fromString(const std::string& str);
+    static QEXTMvvmPath fromString(const std::string& str);
 
-    static Path fromVector(const std::vector<int>& data);
+    static QEXTMvvmPath fromVector(const std::vector<int>& data);
 
     std::string str() const;
 
@@ -51,4 +43,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_PATH_H
+#endif // _QEXTMVVMMODELPATH_H

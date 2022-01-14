@@ -1,33 +1,25 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGCOLORSCALEPLOTCONTROLLER_H
+#define _QEXTMVVMPLOTTINGCOLORSCALEPLOTCONTROLLER_H
 
-#ifndef MVVM_PLOTTING_COLORSCALEPLOTCONTROLLER_H
-#define MVVM_PLOTTING_COLORSCALEPLOTCONTROLLER_H
-
-#include <memory>
 #include <qextMvvmItemListener.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 class QCPColorScale;
 
 namespace ModelView
 {
 
-class ViewportAxisItem;
+class QEXTMvvmViewportAxisItem;
 
 //! Establishes communication between QCPColorScale and ViewportAxisItem.
 
-class QEXT_MVVM_API ColorScalePlotController : public ItemListener<ViewportAxisItem>
+class QEXT_MVVM_API QEXTMvvmColorScalePlotController : public QEXTMvvmItemListener<QEXTMvvmViewportAxisItem>
 {
 public:
-    explicit ColorScalePlotController(QCPColorScale* color_scale);
-    ~ColorScalePlotController() override;
+    explicit QEXTMvvmColorScalePlotController(QCPColorScale* color_scale);
+    ~QEXTMvvmColorScalePlotController() override;
 
 protected:
     void subscribe() override;
@@ -39,4 +31,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_COLORSCALEPLOTCONTROLLER_H
+#endif // _QEXTMVVMPLOTTINGCOLORSCALEPLOTCONTROLLER_H

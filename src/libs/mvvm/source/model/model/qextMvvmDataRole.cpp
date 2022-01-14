@@ -12,9 +12,9 @@
 
 using namespace ModelView;
 
-DataRole::DataRole(Variant data, int role) : m_data(std::move(data)), m_role(role) {}
+QEXTMvvmDataRole::QEXTMvvmDataRole(QVariant data, int role) : m_data(std::move(data)), m_role(role) {}
 
-bool DataRole::operator==(const DataRole& other) const
+bool QEXTMvvmDataRole::operator==(const QEXTMvvmDataRole& other) const
 {
-    return m_role == other.m_role && Utils::IsTheSame(m_data, other.m_data);
+    return m_role == other.m_role && QEXTMvvmUtils::IsTheSame(m_data, other.m_data);
 }

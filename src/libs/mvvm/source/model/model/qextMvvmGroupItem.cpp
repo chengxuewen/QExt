@@ -15,45 +15,45 @@
 
 using namespace ModelView;
 
-GroupItem::~GroupItem() = default;
+QEXTMvvmGroupItem::~QEXTMvvmGroupItem() = default;
 
-GroupItem::GroupItem(model_type modelType)
+QEXTMvvmGroupItem::QEXTMvvmGroupItem(model_type modelType)
     : QEXTMvvmSessionItem(std::move(modelType))
-    , m_catalogue(std::make_unique<ItemCatalogue>())
+    , m_catalogue(make_unique<QEXTMvvmItemCatalogue>())
     , m_default_selected_index(0)
 {
-    registerTag(TagInfo::universalTag(T_GROUP_ITEMS), /*set_as_default*/ true);
-    setData(ComboProperty());
+    registerTag(QEXTMvvmTagInfo::universalTag(T_GROUP_ITEMS), /*set_as_default*/ true);
+    setData(QEXTMvvmComboProperty());
 }
 
-int GroupItem::currentIndex() const
+int QEXTMvvmGroupItem::currentIndex() const
 {
-    return data<ComboProperty>().currentIndex();
+    return data<QEXTMvvmComboProperty>().currentIndex();
 }
 
 //! Returns currently selected item.
 
-const QEXTMvvmSessionItem* GroupItem::currentItem() const
+const QEXTMvvmSessionItem* QEXTMvvmGroupItem::currentItem() const
 {
     return is_valid_index() ? getItem("", currentIndex()) : nullptr;
 }
 
-QEXTMvvmSessionItem* GroupItem::currentItem()
+QEXTMvvmSessionItem* QEXTMvvmGroupItem::currentItem()
 {
-    return const_cast<QEXTMvvmSessionItem*>(static_cast<const GroupItem*>(this)->currentItem());
+    return const_cast<QEXTMvvmSessionItem*>(static_cast<const QEXTMvvmGroupItem*>(this)->currentItem());
 }
 
-std::string GroupItem::currentType() const
+std::string QEXTMvvmGroupItem::currentType() const
 {
     return is_valid_index() ? m_catalogue->modelTypes()[static_cast<size_t>(currentIndex())] : "";
 }
 
 //! Sets item corresponding to given model type.
 
-void GroupItem::setCurrentType(const std::string& model_type)
+void QEXTMvvmGroupItem::setCurrentType(const std::string& model_type)
 {
     auto model_types = m_catalogue->modelTypes();
-    int index = Utils::IndexOfItem(model_types, model_type);
+    int index = QEXTMvvmUtils::IndexOfItem(model_types, model_type);
     if (index == -1)
         throw std::runtime_error("GroupItem::setCurrentType() -> Model type '" + model_type
                                  + "' doesn't belong to the group");
@@ -61,14 +61,14 @@ void GroupItem::setCurrentType(const std::string& model_type)
     setCurrentIndex(index);
 }
 
-void GroupItem::setCurrentIndex(int index)
+void QEXTMvvmGroupItem::setCurrentIndex(int index)
 {
-    auto combo = data<ComboProperty>();
+    auto combo = data<QEXTMvvmComboProperty>();
     combo.setCurrentIndex(index);
     setData(combo, ItemDataRole::DATA);
 }
 
-bool GroupItem::is_valid_index() const
+bool QEXTMvvmGroupItem::is_valid_index() const
 {
     return currentIndex() != -1;
 }
@@ -76,12 +76,12 @@ bool GroupItem::is_valid_index() const
 //! Inits group item by creating all registered items and constructing combo property
 //! for switching between items.
 
-void GroupItem::init_group()
+void QEXTMvvmGroupItem::init_group()
 {
-    ComboProperty combo;
+    QEXTMvvmComboProperty combo;
     combo.setValues(m_catalogue->labels());
     combo.setCurrentIndex(m_default_selected_index);
     setData(combo, ItemDataRole::DATA);
     for (const auto& x : m_catalogue->modelTypes())
-        insertItem(m_catalogue->create(x).release(), TagRow::append(T_GROUP_ITEMS));
+        insertItem(m_catalogue->create(x).release(), QEXTMvvmTagRow::append(T_GROUP_ITEMS));
 }

@@ -1,32 +1,24 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMEDITORSEDITORBUILDERS_H
+#define _QEXTMVVMEDITORSEDITORBUILDERS_H
 
-#ifndef MVVM_EDITORS_EDITORBUILDERS_H
-#define MVVM_EDITORS_EDITORBUILDERS_H
+#include <qextMvvmGlobal.h>
 
 #include <functional>
 #include <memory>
-#include <qextMvvmGlobal.h>
 
 namespace ModelView
 {
 
-class CustomEditor;
+class QEXTMvvmCustomEditor;
 class QEXTMvvmSessionItem;
 
 //! Collection of methods to build custom editors for trees/tables cells.
 //! Used to edit QEXTMvvmSessionItem data in the context of DefaultEditorFactory.
 
-namespace EditorBuilders
+namespace QEXTMvvmEditorBuilders
 {
 
-using editor_t = std::unique_ptr<CustomEditor>;
+using editor_t = std::unique_ptr<QEXTMvvmCustomEditor>;
 using builder_t = std::function<editor_t(const QEXTMvvmSessionItem*)>;
 
 //! Builder for boolean property editor.
@@ -60,4 +52,4 @@ QEXT_MVVM_API builder_t SelectableComboPropertyEditorBuilder();
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_EDITORBUILDERS_H
+#endif // _QEXTMVVMEDITORSEDITORBUILDERS_H

@@ -19,9 +19,9 @@ namespace DragAndView
 
 namespace
 {
-std::unique_ptr<ModelView::ItemCatalogue> CreateToyItemCatalogue()
+std::unique_ptr<ModelView::QEXTMvvmItemCatalogue> CreateToyItemCatalogue()
 {
-    auto result = std::make_unique<ModelView::ItemCatalogue>();
+    auto result = make_unique<ModelView::QEXTMvvmItemCatalogue>();
     result->registerItem<DemoItem>();
     result->registerItem<DemoContainerItem>();
     return result;
@@ -35,7 +35,7 @@ std::string random_name()
     std::string result;
     for (size_t i = 0; i < len; ++i) {
         size_t random_index = static_cast<size_t>(
-            ModelView::Utils::RandInt(0, static_cast<int>(alphabet.size() - 1)));
+            ModelView::QEXTMvvmUtils::RandInt(0, static_cast<int>(alphabet.size() - 1)));
         result.push_back(alphabet[random_index]);
     }
 
@@ -43,7 +43,7 @@ std::string random_name()
 }
 } // namespace
 
-SampleModel::SampleModel() : SessionModel("SampleModel")
+SampleModel::SampleModel() : QEXTMvvmSessionModel("SampleModel")
 {
     setItemCatalogue(CreateToyItemCatalogue());
     init_model_content();
@@ -53,9 +53,9 @@ SampleModel::SampleModel() : SessionModel("SampleModel")
 void SampleModel::append_random_item(ModelView::QEXTMvvmSessionItem* container)
 {
     auto item = insertItem<DemoItem>(container);
-    item->setProperty(DemoItem::P_COLOR_PROPERTY, ModelView::Utils::RandomColor());
+    item->setProperty(DemoItem::P_COLOR_PROPERTY, ModelView::QEXTMvvmUtils::RandomColor());
     item->setProperty(DemoItem::P_STRING_PROPERTY, random_name());
-    item->setProperty(DemoItem::P_INTEGER_PROPERTY, ModelView::Utils::RandInt(0, 10));
+    item->setProperty(DemoItem::P_INTEGER_PROPERTY, ModelView::QEXTMvvmUtils::RandInt(0, 10));
 }
 
 //! Generates initial model content.

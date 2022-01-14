@@ -1,28 +1,20 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMFACTORIESMODELDOCUMENTFACTORY_H
+#define _QEXTMVVMFACTORIESMODELDOCUMENTFACTORY_H
 
-#ifndef MVVM_FACTORIES_MODELDOCUMENTFACTORY_H
-#define MVVM_FACTORIES_MODELDOCUMENTFACTORY_H
+#include <qextMvvmModelDocumentInterface.h>
 
 #include <memory>
-#include <qextMvvmModelDocumentInterface.h>
 #include <vector>
 
 namespace ModelView
 {
 
-class SessionModel;
+class QEXTMvvmSessionModel;
 
 //! Creates JsonDocument to save and load models.
 QEXT_MVVM_API std::unique_ptr<QEXTMVVMModelDocumentInterface>
-CreateJsonDocument(const std::vector<SessionModel*>& models);
+CreateJsonDocument(const std::vector<QEXTMvvmSessionModel*>& models);
 
 } // namespace ModelView
 
-#endif // MVVM_FACTORIES_MODELDOCUMENTFACTORY_H
+#endif // _QEXTMVVMFACTORIESMODELDOCUMENTFACTORY_H

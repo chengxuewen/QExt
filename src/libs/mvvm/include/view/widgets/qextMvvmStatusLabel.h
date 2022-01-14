@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMWIDGETSSTATUSLABEL_H
+#define _QEXTMVVMWIDGETSSTATUSLABEL_H
 
-#ifndef MVVM_WIDGETS_STATUSLABEL_H
-#define MVVM_WIDGETS_STATUSLABEL_H
+#include <qextMvvmGlobal.h>
 
 #include <QFrame>
-#include <qextMvvmGlobal.h>
 
 class QPaintEvent;
 
@@ -22,12 +14,12 @@ namespace ModelView
 //! Opposite to QLabel, doesn't trigger layout resize, being happy with place it has. If text string
 //! is too long for current size, it will be clipped.
 
-class QEXT_MVVM_API StatusLabel : public QFrame
+class QEXT_MVVM_API QEXTMvvmStatusLabel : public QFrame
 {
     Q_OBJECT
 
 public:
-    explicit StatusLabel(QWidget* parent = nullptr);
+    explicit QEXTMvvmStatusLabel(QWidget* parent = nullptr);
 
     void setText(const QString& text);
     void setFont(const QFont& font);
@@ -45,4 +37,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_WIDGETS_STATUSLABEL_H
+#endif // _QEXTMVVMWIDGETSSTATUSLABEL_H

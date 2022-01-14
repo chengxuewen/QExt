@@ -19,20 +19,20 @@ const QString qstring_name = "QString";
 
 using namespace ModelView;
 
-std::string Utils::VariantName(const Variant& variant)
+std::string QEXTMvvmUtils::VariantName(const QVariant& variant)
 {
-    return variant.isValid() ? variant.typeName() : Constants::invalid_type_name;
+    return variant.isValid() ? variant.typeName() : QEXTMvvmConstants::invalid_type_name;
 }
 
-int Utils::VariantType(const Variant& variant)
+int QEXTMvvmUtils::VariantType(const QVariant& variant)
 {
     auto result = static_cast<int>(variant.type());
-    if (result == Variant::UserType)
+    if (result == QVariant::UserType)
         result = variant.userType();
     return result;
 }
 
-bool Utils::CompatibleVariantTypes(const Variant& oldValue, const Variant& newValue)
+bool QEXTMvvmUtils::CompatibleVariantTypes(const QVariant& oldValue, const QVariant& newValue)
 {
     // Invalid variant can be rewritten by any variant.
     // Valid Variant can be replaced by invalid variant.
@@ -41,10 +41,10 @@ bool Utils::CompatibleVariantTypes(const Variant& oldValue, const Variant& newVa
     if (!oldValue.isValid() || !newValue.isValid())
         return true;
 
-    return Utils::VariantType(oldValue) == Utils::VariantType(newValue);
+    return QEXTMvvmUtils::VariantType(oldValue) == QEXTMvvmUtils::VariantType(newValue);
 }
 
-bool Utils::IsTheSame(const Variant& var1, const Variant& var2)
+bool QEXTMvvmUtils::IsTheSame(const QVariant& var1, const QVariant& var2)
 {
     // variants of different type are always reported as not the same
     if (VariantType(var1) != VariantType(var2))
@@ -54,78 +54,78 @@ bool Utils::IsTheSame(const Variant& var1, const Variant& var2)
     return var1 == var2;
 }
 
-Variant Utils::toQtVariant(const Variant& custom)
+QVariant QEXTMvvmUtils::toQtVariant(const QVariant& custom)
 {
     if (!custom.isValid())
         return custom;
 
     // converts variant based on std::string to variant based on QString
-    if (custom.typeName() == Constants::string_type_name) {
-        return Variant(QString::fromStdString(custom.value<std::string>()));
+    if (custom.typeName() == QEXTMvvmConstants::string_type_name) {
+        return QVariant(QString::fromStdString(custom.value<std::string>()));
     } else if (IsDoubleVectorVariant(custom)) {
         QString str =
             QString("vector of %1 elements").arg(custom.value<std::vector<double>>().size());
-        return Variant(str);
+        return QVariant(str);
     }
 
     // in other cases returns unchanged variant
     return custom;
 }
 
-Variant Utils::toCustomVariant(const Variant& standard)
+QVariant QEXTMvvmUtils::toCustomVariant(const QVariant& standard)
 {
     if (!standard.isValid())
         return standard;
 
     // converts variant based on std::string to variant based on QString
     if (standard.typeName() == qstring_name)
-        return Variant::fromValue(standard.toString().toStdString());
+        return QVariant::fromValue(standard.toString().toStdString());
 
     // in other cases returns unchanged variant
     return standard;
 }
 
-bool Utils::IsBoolVariant(const Variant& variant)
+bool QEXTMvvmUtils::IsBoolVariant(const QVariant& variant)
 {
-    return variant.type() == Variant::Bool;
+    return variant.type() == QVariant::Bool;
 }
 
-bool Utils::IsIntVariant(const Variant& variant)
+bool QEXTMvvmUtils::IsIntVariant(const QVariant& variant)
 {
-    return variant.type() == Variant::Int;
+    return variant.type() == QVariant::Int;
 }
 
-bool Utils::IsDoubleVariant(const Variant& variant)
+bool QEXTMvvmUtils::IsDoubleVariant(const QVariant& variant)
 {
-    return variant.type() == Variant::Double;
+    return variant.type() == QVariant::Double;
 }
 
-bool Utils::IsComboVariant(const Variant& variant)
+bool QEXTMvvmUtils::IsComboVariant(const QVariant& variant)
 {
-    return variant.canConvert<ComboProperty>();
+    return variant.canConvert<QEXTMvvmComboProperty>();
 }
 
-bool Utils::IsStdStringVariant(const Variant& variant)
+bool QEXTMvvmUtils::IsStdStringVariant(const QVariant& variant)
 {
     return variant.canConvert<std::string>();
 }
 
-bool Utils::IsDoubleVectorVariant(const Variant& variant)
+bool QEXTMvvmUtils::IsDoubleVectorVariant(const QVariant& variant)
 {
-    return variant.typeName() == Constants::vector_double_type_name;
+    return variant.typeName() == QEXTMvvmConstants::vector_double_type_name;
 }
 
-bool Utils::IsColorVariant(const Variant& variant)
+bool QEXTMvvmUtils::IsColorVariant(const QVariant& variant)
 {
-    return variant.type() == Variant::Color;
+    return variant.type() == QVariant::Color;
 }
 
-bool Utils::IsExtPropertyVariant(const Variant& variant)
+bool QEXTMvvmUtils::IsExtPropertyVariant(const QVariant& variant)
 {
-    return variant.canConvert<ExternalProperty>();
+    return variant.canConvert<QEXTMvvmExternalProperty>();
 }
 
-bool Utils::IsRealLimitsVariant(const Variant& variant)
+bool QEXTMvvmUtils::IsRealLimitsVariant(const QVariant& variant)
 {
-    return variant.canConvert<RealLimits>();
+    return variant.canConvert<QEXTMvvmRealLimits>();
 }

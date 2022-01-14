@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Reflectometry simulation software prototype
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMWIDGETSCOLLAPSIBLELISTWIDGET_H
+#define _QEXTMVVMWIDGETSCOLLAPSIBLELISTWIDGET_H
 
-#ifndef MVVM_WIDGETS_COLLAPSIBLELISTWIDGET_H
-#define MVVM_WIDGETS_COLLAPSIBLELISTWIDGET_H
+#include <qextMvvmGlobal.h>
 
 #include <QWidget>
-#include <qextMvvmGlobal.h>
 
 class QSplitter;
 class QString;
@@ -23,12 +15,12 @@ namespace ModelView
 //! Each panel contains user widget and can be collapsed/expanded. When expanded,
 //! the place occupied by the panel can be changed by draging a splitter.
 
-class QEXT_MVVM_API CollapsibleListWidget : public QWidget
+class QEXT_MVVM_API QEXTMvvmCollapsibleListWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    CollapsibleListWidget(QWidget* parent = nullptr);
+    QEXTMvvmCollapsibleListWidget(QWidget* parent = nullptr);
 
     void addWidget(QWidget* widget, const QString& title, bool collapsed = false);
 
@@ -38,4 +30,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_WIDGETS_COLLAPSIBLELISTWIDGET_H
+#endif // _QEXTMVVMWIDGETSCOLLAPSIBLELISTWIDGET_H

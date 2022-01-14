@@ -18,9 +18,9 @@ class ApplicationModels;
 
 namespace ModelView
 {
-class ViewModel;
+class QEXTMvvmViewModel;
 class QEXTMvvmSessionItem;
-class ViewModelDelegate;
+class QEXTMvvmViewModelDelegate;
 } // namespace ModelView
 
 //! Shows content of multi layer in a tree view in special "flat" form.
@@ -35,8 +35,8 @@ public:
 
 private:
     QTreeView* m_treeView;
-    std::unique_ptr<ModelView::ViewModel> m_viewModel;
-    std::unique_ptr<ModelView::ViewModelDelegate> m_delegate;
+    std::unique_ptr<ModelView::QEXTMvvmViewModel> m_viewModel;
+    std::unique_ptr<ModelView::QEXTMvvmViewModelDelegate> m_delegate;
 };
 
 #endif // MULTILAYERTREEVIEW_H

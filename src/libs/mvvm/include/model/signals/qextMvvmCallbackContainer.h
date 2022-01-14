@@ -1,33 +1,25 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSIGNALSCALLBACKCONTAINER_H
+#define _QEXTMVVMSIGNALSCALLBACKCONTAINER_H
 
-#ifndef MVVM_SIGNALS_CALLBACKCONTAINER_H
-#define MVVM_SIGNALS_CALLBACKCONTAINER_H
+#include <qextMvvmGlobal.h>
+#include <qextMvvmCallbackTypes.h>
 
 #include <algorithm>
 #include <functional>
 #include <list>
-#include <qextMvvmGlobal.h>
-#include <qextMvvmCallbackTypes.h>
 
 namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class SessionModel;
+class QEXTMvvmSessionModel;
 
 //! Container to hold callbacks in the context of ModelMapper.
 
-template <typename T, typename U> class SignalBase
+template <typename T, typename U> class QEXTMvvmSignalBase
 {
 public:
-    SignalBase() = default;
+    QEXTMvvmSignalBase() = default;
 
     void connect(T callback, U client);
 
@@ -39,7 +31,7 @@ private:
     std::list<std::pair<T, U>> m_callbacks;
 };
 
-template <typename T, typename U> void SignalBase<T, U>::connect(T callback, U client)
+template <typename T, typename U> void QEXTMvvmSignalBase<T, U>::connect(T callback, U client)
 {
     m_callbacks.push_back(std::make_pair(callback, client));
 }
@@ -47,7 +39,7 @@ template <typename T, typename U> void SignalBase<T, U>::connect(T callback, U c
 //! Notify clients using given list of arguments.
 template <typename T, typename U>
 template <typename... Args>
-void SignalBase<T, U>::operator()(Args... args)
+void QEXTMvvmSignalBase<T, U>::operator()(Args... args)
 {
     for (const auto& f : m_callbacks) {
         f.first(args...);
@@ -56,7 +48,7 @@ void SignalBase<T, U>::operator()(Args... args)
 
 //! Remove client from the list to call back.
 
-template <typename T, typename U> void SignalBase<T, U>::remove_client(U client)
+template <typename T, typename U> void QEXTMvvmSignalBase<T, U>::remove_client(U client)
 {
     m_callbacks.remove_if(
         [client](const std::pair<T, U>& x) -> bool { return (x.second == client ? true : false); });
@@ -64,10 +56,10 @@ template <typename T, typename U> void SignalBase<T, U>::remove_client(U client)
 
 //! Callback container for specific client type.
 
-template <typename T> class Signal : public SignalBase<T, Callbacks::slot_t>
+template <typename T> class Signal : public QEXTMvvmSignalBase<T, QEXTMvvmCallbacks::slot_t>
 {
 };
 
 } // namespace ModelView
 
-#endif // MVVM_SIGNALS_CALLBACKCONTAINER_H
+#endif // _QEXTMVVMSIGNALSCALLBACKCONTAINER_H

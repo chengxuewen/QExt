@@ -26,7 +26,7 @@ const QString pos_key = "pos";
 } // namespace
 
 MainWindow::MainWindow()
-    : m_sampleModel(std::make_unique<SampleModel>()), m_actionManager(new ActionManager(this))
+    : m_sampleModel(make_unique<SampleModel>()), m_actionManager(new ActionManager(this))
 {
     init_application();
     init_components();

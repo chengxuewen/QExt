@@ -19,19 +19,19 @@
 
 using namespace ModelView;
 
-struct GraphViewportPlotController::GraphViewportPlotControllerImpl {
-    GraphViewportPlotController* master{nullptr};
+struct QEXTMvvmGraphViewportPlotController::GraphViewportPlotControllerImpl {
+    QEXTMvvmGraphViewportPlotController* master{nullptr};
     QCustomPlot* custom_plot{nullptr};
-    std::list<std::unique_ptr<GraphPlotController>> graph_controllers;
-    std::unique_ptr<ViewportAxisPlotController> xAxisController;
-    std::unique_ptr<ViewportAxisPlotController> yAxisController;
+    std::list<std::unique_ptr<QEXTMvvmGraphPlotController>> graph_controllers;
+    std::unique_ptr<QEXTMvvmViewportAxisPlotController> xAxisController;
+    std::unique_ptr<QEXTMvvmViewportAxisPlotController> yAxisController;
 
-    GraphViewportPlotControllerImpl(GraphViewportPlotController* master, QCustomPlot* plot)
+    GraphViewportPlotControllerImpl(QEXTMvvmGraphViewportPlotController* master, QCustomPlot* plot)
         : master(master), custom_plot(plot)
     {
     }
 
-    GraphViewportItem* viewport_item() { return master->currentItem(); }
+    QEXTMvvmGraphViewportItem* viewport_item() { return master->currentItem(); }
 
     //! Setup controller components.
     void setup_components()
@@ -46,10 +46,10 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl {
     {
         auto viewport = viewport_item();
 
-        xAxisController = std::make_unique<ViewportAxisPlotController>(custom_plot->xAxis);
+        xAxisController = make_unique<QEXTMvvmViewportAxisPlotController>(custom_plot->xAxis);
         xAxisController->setItem(viewport->xAxis());
 
-        yAxisController = std::make_unique<ViewportAxisPlotController>(custom_plot->yAxis);
+        yAxisController = make_unique<QEXTMvvmViewportAxisPlotController>(custom_plot->yAxis);
         yAxisController->setItem(viewport->yAxis());
     }
 
@@ -60,7 +60,7 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl {
         graph_controllers.clear();
         auto viewport = viewport_item();
         for (auto graph_item : viewport->graphItems()) {
-            auto controller = std::make_unique<GraphPlotController>(custom_plot);
+            auto controller = make_unique<QEXTMvvmGraphPlotController>(custom_plot);
             controller->setItem(graph_item);
             graph_controllers.push_back(std::move(controller));
         }
@@ -68,15 +68,15 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl {
     }
 
     //! Adds controller for item.
-    void add_controller_for_item(QEXTMvvmSessionItem* parent, const TagRow& tagrow)
+    void add_controller_for_item(QEXTMvvmSessionItem* parent, const QEXTMvvmTagRow& tagrow)
     {
-        auto added_child = dynamic_cast<GraphItem*>(parent->getItem(tagrow.tag, tagrow.row));
+        auto added_child = dynamic_cast<QEXTMvvmGraphItem*>(parent->getItem(tagrow.tag, tagrow.row));
 
         for (auto& controller : graph_controllers)
             if (controller->currentItem() == added_child)
                 throw std::runtime_error("Attempt to create second controller");
 
-        auto controller = std::make_unique<GraphPlotController>(custom_plot);
+        auto controller = make_unique<QEXTMvvmGraphPlotController>(custom_plot);
         controller->setItem(added_child);
         graph_controllers.push_back(std::move(controller));
         custom_plot->replot();
@@ -84,10 +84,10 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl {
 
     //! Remove GraphPlotController corresponding to GraphItem.
 
-    void remove_controller_for_item(QEXTMvvmSessionItem* parent, const TagRow& tagrow)
+    void remove_controller_for_item(QEXTMvvmSessionItem* parent, const QEXTMvvmTagRow& tagrow)
     {
         auto child_about_to_be_removed = parent->getItem(tagrow.tag, tagrow.row);
-        auto if_func = [&](const std::unique_ptr<GraphPlotController>& cntrl) -> bool {
+        auto if_func = [&](const std::unique_ptr<QEXTMvvmGraphPlotController>& cntrl) -> bool {
             return cntrl->currentItem() == child_about_to_be_removed;
         };
         graph_controllers.remove_if(if_func);
@@ -95,19 +95,19 @@ struct GraphViewportPlotController::GraphViewportPlotControllerImpl {
     }
 };
 
-GraphViewportPlotController::GraphViewportPlotController(QCustomPlot* custom_plot)
-    : p_impl(std::make_unique<GraphViewportPlotControllerImpl>(this, custom_plot))
+QEXTMvvmGraphViewportPlotController::QEXTMvvmGraphViewportPlotController(QCustomPlot* custom_plot)
+    : p_impl(make_unique<GraphViewportPlotControllerImpl>(this, custom_plot))
 {
 }
 
-void GraphViewportPlotController::subscribe()
+void QEXTMvvmGraphViewportPlotController::subscribe()
 {
-    auto on_item_inserted = [this](QEXTMvvmSessionItem* parent, TagRow tagrow) {
+    auto on_item_inserted = [this](QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow) {
         p_impl->add_controller_for_item(parent, tagrow);
     };
     setOnItemInserted(on_item_inserted);
 
-    auto on_about_to_remove_item = [this](QEXTMvvmSessionItem* parent, TagRow tagrow) {
+    auto on_about_to_remove_item = [this](QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow) {
         p_impl->remove_controller_for_item(parent, tagrow);
     };
     setOnAboutToRemoveItem(on_about_to_remove_item);
@@ -115,4 +115,4 @@ void GraphViewportPlotController::subscribe()
     p_impl->setup_components();
 }
 
-GraphViewportPlotController::~GraphViewportPlotController() = default;
+QEXTMvvmGraphViewportPlotController::~QEXTMvvmGraphViewportPlotController() = default;

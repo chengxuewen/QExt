@@ -1,20 +1,13 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMVIEWMODELVIEWMODELUTILS_H
+#define _QEXTMVVMVIEWMODELVIEWMODELUTILS_H
 
-#ifndef MVVM_VIEWMODEL_VIEWMODELUTILS_H
-#define MVVM_VIEWMODEL_VIEWMODELUTILS_H
+#include <qextMvvmGlobal.h>
 
 #include <QModelIndex>
 #include <QModelIndexList>
 #include <QVector>
+
 #include <functional>
-#include <qextMvvmGlobal.h>
 #include <vector>
 
 class QStandardItemModel;
@@ -24,10 +17,10 @@ class QVariant;
 namespace ModelView
 {
 
-class ViewItem;
+class QEXTMvvmViewItem;
 class QEXTMvvmSessionItem;
 
-namespace Utils
+namespace QEXTMvvmUtils
 {
 
 //! Iterates through QAbstractItem model
@@ -67,4 +60,4 @@ ParentItemsFromIndex(const QModelIndexList& index_list);
 
 } // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_VIEWMODELUTILS_H
+#endif // _QEXTMVVMVIEWMODELVIEWMODELUTILS_H

@@ -15,9 +15,9 @@ using namespace ModelView;
 
 namespace
 {
-std::unique_ptr<ModelView::ItemCatalogue> CreateItemCatalogue()
+std::unique_ptr<ModelView::QEXTMvvmItemCatalogue> CreateItemCatalogue()
 {
-    auto result = std::make_unique<ItemCatalogue>();
+    auto result = make_unique<QEXTMvvmItemCatalogue>();
     result->registerItem<BeamItem>();
     result->registerItem<DistributionNoneItem>();
     result->registerItem<DistributionGaussianItem>();
@@ -28,7 +28,7 @@ std::unique_ptr<ModelView::ItemCatalogue> CreateItemCatalogue()
 }
 } // namespace
 
-SampleModel::SampleModel() : SessionModel("SampleModel")
+SampleModel::SampleModel() : QEXTMvvmSessionModel("SampleModel")
 {
     setItemCatalogue(CreateItemCatalogue());
     init_model();

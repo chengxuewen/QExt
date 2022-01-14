@@ -15,21 +15,21 @@
 
 using namespace ModelView;
 
-struct ColorScalePlotController::ColorScalePlotControllerImpl {
+struct QEXTMvvmColorScalePlotController::ColorScalePlotControllerImpl {
 
-    ColorScalePlotController* controller{nullptr};
+    QEXTMvvmColorScalePlotController* controller{nullptr};
     QCPColorScale* color_scale{nullptr};
     QCPLayoutGrid* layout_grid{new QCPLayoutGrid};
-    std::unique_ptr<ViewportAxisPlotController> axisController;
+    std::unique_ptr<QEXTMvvmViewportAxisPlotController> axisController;
     QCPMarginGroup* margin_group{nullptr};
 
-    ColorScalePlotControllerImpl(ColorScalePlotController* controller, QCPColorScale* color_scale)
+    ColorScalePlotControllerImpl(QEXTMvvmColorScalePlotController* controller, QCPColorScale* color_scale)
         : controller(controller), color_scale(color_scale)
     {
         if (!color_scale)
             throw std::runtime_error("ColorScalePlotController: axis is not initialized.");
 
-        axisController = std::make_unique<ViewportAxisPlotController>(color_scale->axis());
+        axisController = make_unique<QEXTMvvmViewportAxisPlotController>(color_scale->axis());
     }
 
     void setup_components()
@@ -81,18 +81,18 @@ struct ColorScalePlotController::ColorScalePlotControllerImpl {
     QCustomPlot* customPlot() { return color_scale->parentPlot(); }
 };
 
-ColorScalePlotController::ColorScalePlotController(QCPColorScale* color_scale)
-    : p_impl(std::make_unique<ColorScalePlotControllerImpl>(this, color_scale))
+QEXTMvvmColorScalePlotController::QEXTMvvmColorScalePlotController(QCPColorScale* color_scale)
+    : p_impl(make_unique<ColorScalePlotControllerImpl>(this, color_scale))
 
 {
 }
 
-ColorScalePlotController::~ColorScalePlotController() = default;
+QEXTMvvmColorScalePlotController::~QEXTMvvmColorScalePlotController() = default;
 
-void ColorScalePlotController::subscribe()
+void QEXTMvvmColorScalePlotController::subscribe()
 {
     auto on_property_change = [this](QEXTMvvmSessionItem*, std::string property_name) {
-        if (property_name == ViewportAxisItem::P_IS_LOG)
+        if (property_name == QEXTMvvmViewportAxisItem::P_IS_LOG)
             p_impl->update_log_scale();
     };
     setOnPropertyChange(on_property_change);

@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_UTILS_IFACTORY_H
-#define MVVM_UTILS_IFACTORY_H
+#ifndef _QEXTMVVMUTILSIFACTORY_H
+#define _QEXTMVVMUTILSIFACTORY_H
 
 #include <functional>
 #include <map>
@@ -21,7 +12,7 @@ namespace ModelView
 
 //! Base for factories.
 
-template <class Key, class Value> class IFactory
+template <class Key, class Value> class QEXTMvvmIFactory
 {
 public:
     using function_t = std::function<std::unique_ptr<Value>()>;
@@ -61,4 +52,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_UTILS_IFACTORY_H
+#endif // _QEXTMVVMUTILSIFACTORY_H

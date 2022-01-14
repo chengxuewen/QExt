@@ -13,11 +13,11 @@
 
 namespace ModelView
 {
-std::unique_ptr<ProjectManagerInterface>
-CreateProjectManager(const ProjectContext& project_context,
+std::unique_ptr<QEXTMvvmProjectManagerInterface>
+CreateProjectManager(const QEXTMvvmProjectContext& project_context,
                      const UserInteractionContext& user_context)
 {
-    return std::make_unique<ProjectManagerDecorator>(project_context, user_context);
+    return make_unique<QEXTMvvmProjectManagerDecorator>(project_context, user_context);
 }
 
 } // namespace ModelView

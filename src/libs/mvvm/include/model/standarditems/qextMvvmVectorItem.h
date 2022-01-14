@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_STANDARDITEMS_VECTORITEM_H
-#define MVVM_STANDARDITEMS_VECTORITEM_H
+#ifndef _QEXTMVVMSTANDARDITEMSVECTORITEM_H
+#define _QEXTMVVMSTANDARDITEMSVECTORITEM_H
 
 #include <qextMvvmCompoundItem.h>
 
@@ -17,14 +8,14 @@ namespace ModelView
 
 //! Vector item with three x,y,z property items.
 
-class QEXT_MVVM_API VectorItem : public QEXTMvvmCompoundItem
+class QEXT_MVVM_API QEXTMvvmVectorItem : public QEXTMvvmCompoundItem
 {
 public:
     static inline const std::string P_X = "P_X";
     static inline const std::string P_Y = "P_Y";
     static inline const std::string P_Z = "P_Z";
 
-    VectorItem();
+    QEXTMvvmVectorItem();
 
     void activate() override;
 
@@ -34,4 +25,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_STANDARDITEMS_VECTORITEM_H
+#endif // _QEXTMVVMSTANDARDITEMSVECTORITEM_H

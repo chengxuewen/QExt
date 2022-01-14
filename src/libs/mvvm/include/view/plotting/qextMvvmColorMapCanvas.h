@@ -1,39 +1,32 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGCOLORMAPCANVAS_H
+#define _QEXTMVVMPLOTTINGCOLORMAPCANVAS_H
 
-#ifndef MVVM_PLOTTING_COLORMAPCANVAS_H
-#define MVVM_PLOTTING_COLORMAPCANVAS_H
+#include <qextMvvmGlobal.h>
 
 #include <QWidget>
+
 #include <memory>
-#include <qextMvvmGlobal.h>
 
 namespace ModelView
 {
 
-class ColorMapViewportItem;
-class SceneAdapterInterface;
+class QEXTMvvmColorMapViewportItem;
+class QEXTMvvmSceneAdapterInterface;
 
 //! Widget to show 2D data as color map.
 //! Contains embedded QCustomPlot widget, shows content of ColorMapViewportItem.
 
-class QEXT_MVVM_API ColorMapCanvas : public QWidget
+class QEXT_MVVM_API QEXTMvvmColorMapCanvas : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ColorMapCanvas(QWidget* parent = nullptr);
-    ~ColorMapCanvas() override;
+    explicit QEXTMvvmColorMapCanvas(QWidget* parent = nullptr);
+    ~QEXTMvvmColorMapCanvas() override;
 
-    void setItem(ColorMapViewportItem* viewport_item);
+    void setItem(QEXTMvvmColorMapViewportItem* viewport_item);
 
-    std::unique_ptr<SceneAdapterInterface> createSceneAdapter() const;
+    std::unique_ptr<QEXTMvvmSceneAdapterInterface> createSceneAdapter() const;
 
 private:
     struct ColorMapCanvasImpl;
@@ -42,4 +35,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_COLORMAPCANVAS_H
+#endif // _QEXTMVVMPLOTTINGCOLORMAPCANVAS_H

@@ -15,9 +15,9 @@ using namespace ModelView;
 
 namespace
 {
-std::unique_ptr<ModelView::ItemCatalogue> CreateItemCatalogue()
+std::unique_ptr<ModelView::QEXTMvvmItemCatalogue> CreateItemCatalogue()
 {
-    auto result = std::make_unique<ItemCatalogue>();
+    auto result = make_unique<QEXTMvvmItemCatalogue>();
     result->registerItem<TreeViews::MultiLayer>();
     result->registerItem<TreeViews::LayerItem>();
     result->registerItem<TreeViews::ParticleItem>();
@@ -33,7 +33,7 @@ std::unique_ptr<ModelView::ItemCatalogue> CreateItemCatalogue()
 namespace TreeViews
 {
 
-SampleModel::SampleModel() : SessionModel("SampleModel")
+SampleModel::SampleModel() : QEXTMvvmSessionModel("SampleModel")
 {
     setItemCatalogue(CreateItemCatalogue());
     init_model();

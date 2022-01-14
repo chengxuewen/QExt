@@ -19,7 +19,7 @@
 
 using namespace ModelView;
 
-bool Utils::exists(const std::string& fileName)
+bool QEXTMvvmUtils::exists(const std::string& fileName)
 {
 #ifdef ENABLE_FILESYSTEM
     return std::filesystem::exists(fileName);
@@ -29,7 +29,7 @@ bool Utils::exists(const std::string& fileName)
 #endif
 }
 
-std::string Utils::join(const std::string& part1, const std::string& part2)
+std::string QEXTMvvmUtils::join(const std::string& part1, const std::string& part2)
 {
 #ifdef ENABLE_FILESYSTEM
     auto path = std::filesystem::path(part1) / std::filesystem::path(part2);
@@ -39,7 +39,7 @@ std::string Utils::join(const std::string& part1, const std::string& part2)
 #endif
 }
 
-bool Utils::create_directory(const std::string& path)
+bool QEXTMvvmUtils::create_directory(const std::string& path)
 {
 #ifdef ENABLE_FILESYSTEM
     return std::filesystem::create_directory(path);
@@ -49,7 +49,7 @@ bool Utils::create_directory(const std::string& path)
 #endif
 }
 
-bool Utils::remove(const std::string& path)
+bool QEXTMvvmUtils::remove(const std::string& path)
 {
 #ifdef ENABLE_FILESYSTEM
     return std::filesystem::remove(path);
@@ -59,7 +59,7 @@ bool Utils::remove(const std::string& path)
 #endif
 }
 
-void Utils::remove_all(const std::string& path)
+void QEXTMvvmUtils::remove_all(const std::string& path)
 {
 #ifdef ENABLE_FILESYSTEM
     std::filesystem::remove_all(path);
@@ -70,7 +70,7 @@ void Utils::remove_all(const std::string& path)
 #endif
 }
 
-std::string Utils::base_name(const std::string& path)
+std::string QEXTMvvmUtils::base_name(const std::string& path)
 {
 #ifdef ENABLE_FILESYSTEM
     return std::filesystem::path(path).stem().string();
@@ -79,7 +79,7 @@ std::string Utils::base_name(const std::string& path)
 #endif
 }
 
-std::vector<std::string> Utils::FindFiles(const std::string& dirname, const std::string& ext)
+std::vector<std::string> QEXTMvvmUtils::FindFiles(const std::string& dirname, const std::string& ext)
 {
 #ifdef ENABLE_FILESYSTEM
     std::vector<std::string> result;
@@ -103,7 +103,7 @@ std::vector<std::string> Utils::FindFiles(const std::string& dirname, const std:
 #endif
 }
 
-std::string Utils::parent_path(const std::string& path)
+std::string QEXTMvvmUtils::parent_path(const std::string& path)
 {
 #ifdef ENABLE_FILESYSTEM
     return std::filesystem::path(path).parent_path().string();
@@ -113,7 +113,7 @@ std::string Utils::parent_path(const std::string& path)
 #endif
 }
 
-bool Utils::is_empty(const std::string& path)
+bool QEXTMvvmUtils::is_empty(const std::string& path)
 {
 #ifdef ENABLE_FILESYSTEM
     return std::filesystem::is_empty(path);

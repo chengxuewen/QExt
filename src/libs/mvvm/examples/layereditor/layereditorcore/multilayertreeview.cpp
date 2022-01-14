@@ -22,7 +22,7 @@
 using namespace ModelView;
 
 MultiLayerTreeView::MultiLayerTreeView(ApplicationModels* models, QWidget* parent)
-    : QWidget(parent), m_treeView(new QTreeView), m_delegate(std::make_unique<ViewModelDelegate>())
+    : QWidget(parent), m_treeView(new QTreeView), m_delegate(make_unique<QEXTMvvmViewModelDelegate>())
 {
     auto layout = new QVBoxLayout;
     layout->setMargin(0);
@@ -30,7 +30,7 @@ MultiLayerTreeView::MultiLayerTreeView(ApplicationModels* models, QWidget* paren
     layout->addWidget(m_treeView);
     setLayout(layout);
 
-    m_delegate->setEditorFactory(std::make_unique<CustomEditorFactory>(models));
+    m_delegate->setEditorFactory(make_unique<CustomEditorFactory>(models));
 
     m_treeView->setItemDelegate(m_delegate.get());
     m_treeView->setEditTriggers(QAbstractItemView::AllEditTriggers); // provide one click editing
@@ -45,7 +45,7 @@ void MultiLayerTreeView::setItem(ModelView::QEXTMvvmSessionItem* multilayer)
         return;
 
     m_viewModel =
-        Factory::CreateViewModel<TopItemsStrategy, CustomLayerRowStrategy>(multilayer->model());
+        QEXTMvvmFactory::CreateViewModel<QEXTMvvmTopItemsStrategy, CustomLayerRowStrategy>(multilayer->model());
     m_viewModel->setRootSessionItem(multilayer);
 
     m_treeView->setModel(m_viewModel.get());

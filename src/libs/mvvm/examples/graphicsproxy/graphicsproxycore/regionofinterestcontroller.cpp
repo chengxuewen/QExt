@@ -16,13 +16,13 @@ using namespace ModelView;
 
 struct RegionOfInterestController::RegionOfInterestControllerImpl {
     RegionOfInterestItem* roi_item{nullptr};
-    const SceneAdapterInterface* scene_adapter{nullptr};
+    const QEXTMvvmSceneAdapterInterface* scene_adapter{nullptr};
     RegionOfInterestView* roi_view{nullptr};
     bool block_on_property_changed{false};
     QRectF roi_rectangle;
 
     RegionOfInterestControllerImpl(RegionOfInterestItem* item,
-                                   const ModelView::SceneAdapterInterface* scene_adapter,
+                                   const ModelView::QEXTMvvmSceneAdapterInterface* scene_adapter,
                                    RegionOfInterestView* view)
         : roi_item(item), scene_adapter(scene_adapter), roi_view(view)
     {
@@ -106,9 +106,9 @@ struct RegionOfInterestController::RegionOfInterestControllerImpl {
 };
 
 RegionOfInterestController::RegionOfInterestController(
-    RegionOfInterestItem* item, const ModelView::SceneAdapterInterface* scene_adapter,
+    RegionOfInterestItem* item, const ModelView::QEXTMvvmSceneAdapterInterface* scene_adapter,
     RegionOfInterestView* view)
-    : p_impl(std::make_unique<RegionOfInterestControllerImpl>(item, scene_adapter, view))
+    : p_impl(make_unique<RegionOfInterestControllerImpl>(item, scene_adapter, view))
 {
     setItem(item);
 }

@@ -25,8 +25,8 @@ QStringList toList(const std::vector<std::string>& container)
 
 using namespace ModelView;
 
-ComboPropertyEditor::ComboPropertyEditor(QWidget* parent)
-    : CustomEditor(parent), m_box(new QComboBox)
+QEXTMvvmComboPropertyEditor::QEXTMvvmComboPropertyEditor(QWidget* parent)
+    : QEXTMvvmCustomEditor(parent), m_box(new QComboBox)
 {
     setAutoFillBackground(true);
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
@@ -40,32 +40,32 @@ ComboPropertyEditor::ComboPropertyEditor(QWidget* parent)
     setConnected(true);
 }
 
-QSize ComboPropertyEditor::sizeHint() const
+QSize QEXTMvvmComboPropertyEditor::sizeHint() const
 {
     return m_box->sizeHint();
 }
 
-QSize ComboPropertyEditor::minimumSizeHint() const
+QSize QEXTMvvmComboPropertyEditor::minimumSizeHint() const
 {
     return m_box->minimumSizeHint();
 }
 
-bool ComboPropertyEditor::is_persistent() const
+bool QEXTMvvmComboPropertyEditor::is_persistent() const
 {
     return true;
 }
 
-void ComboPropertyEditor::onIndexChanged(int index)
+void QEXTMvvmComboPropertyEditor::onIndexChanged(int index)
 {
-    auto comboProperty = m_data.value<ComboProperty>();
+    auto comboProperty = m_data.value<QEXTMvvmComboProperty>();
 
     if (comboProperty.currentIndex() != index) {
         comboProperty.setCurrentIndex(index);
-        setDataIntern(QVariant::fromValue<ComboProperty>(comboProperty));
+        setDataIntern(QVariant::fromValue<QEXTMvvmComboProperty>(comboProperty));
     }
 }
 
-void ComboPropertyEditor::update_components()
+void QEXTMvvmComboPropertyEditor::update_components()
 {
     setConnected(false);
 
@@ -78,30 +78,30 @@ void ComboPropertyEditor::update_components()
 
 //! Returns list of labels for QComboBox
 
-std::vector<std::string> ComboPropertyEditor::internLabels()
+std::vector<std::string> QEXTMvvmComboPropertyEditor::internLabels()
 {
-    if (!m_data.canConvert<ComboProperty>())
+    if (!m_data.canConvert<QEXTMvvmComboProperty>())
         return {};
-    auto comboProperty = m_data.value<ComboProperty>();
+    auto comboProperty = m_data.value<QEXTMvvmComboProperty>();
     return comboProperty.values();
 }
 
 //! Returns index for QComboBox.
 
-int ComboPropertyEditor::internIndex()
+int QEXTMvvmComboPropertyEditor::internIndex()
 {
-    if (!m_data.canConvert<ComboProperty>())
+    if (!m_data.canConvert<QEXTMvvmComboProperty>())
         return 0;
-    auto comboProperty = m_data.value<ComboProperty>();
+    auto comboProperty = m_data.value<QEXTMvvmComboProperty>();
     return comboProperty.currentIndex();
 }
 
-void ComboPropertyEditor::setConnected(bool isConnected)
+void QEXTMvvmComboPropertyEditor::setConnected(bool isConnected)
 {
     if (isConnected)
         connect(m_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-                &ComboPropertyEditor::onIndexChanged, Qt::UniqueConnection);
+                &QEXTMvvmComboPropertyEditor::onIndexChanged, Qt::UniqueConnection);
     else
         disconnect(m_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-                   this, &ComboPropertyEditor::onIndexChanged);
+                   this, &QEXTMvvmComboPropertyEditor::onIndexChanged);
 }

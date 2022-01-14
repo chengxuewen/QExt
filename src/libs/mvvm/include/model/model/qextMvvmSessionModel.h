@@ -1,23 +1,14 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMMODELSESSIONMODEL_H
+#define _QEXTMVVMMODELSESSIONMODEL_H
 
-#ifndef MVVM_MODEL_SESSIONMODEL_H
-#define MVVM_MODEL_SESSIONMODEL_H
-
-#include <memory>
 #include <qextMvvmTypes.h>
-#include <qextMvvmVariant.h>
 #include <qextMvvmFunctionTypes.h>
 #include <qextMvvmPath.h>
 #include <qextMvvmSessionItem.h>
 #include <qextMvvmTagRow.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 namespace ModelView
 {
@@ -25,51 +16,51 @@ namespace ModelView
 class QEXTMvvmSessionItem;
 class ItemManager;
 class QEXTMvvmCommandService;
-class ModelMapper;
-class ItemCatalogue;
-class ItemPool;
+class QEXTMvvmModelMapper;
+class QEXTMvvmItemCatalogue;
+class QEXTMvvmItemPool;
 class QEXTMvvmItemFactoryInterface;
 class QEXTMvvmUndoStackInterface;
 
-class QEXT_MVVM_API SessionModel
+class QEXT_MVVM_API QEXTMvvmSessionModel
 {
 public:
-    explicit SessionModel(std::string model_type = {}, std::shared_ptr<ItemPool> pool = {});
+    explicit QEXTMvvmSessionModel(std::string model_type = {}, std::shared_ptr<QEXTMvvmItemPool> pool = {});
 
-    virtual ~SessionModel();
+    virtual ~QEXTMvvmSessionModel();
 
-    void setItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue);
+    void setItemCatalogue(std::unique_ptr<QEXTMvvmItemCatalogue> catalogue);
 
     std::string modelType() const;
 
     QEXTMvvmSessionItem* insertNewItem(const model_type& modelType, QEXTMvvmSessionItem* parent = nullptr,
-                               const TagRow& tagrow = {});
+                               const QEXTMvvmTagRow& tagrow = {});
 
-    template <typename T> T* insertItem(QEXTMvvmSessionItem* parent = nullptr, const TagRow& tagrow = {});
+    template <typename T> T* insertItem(QEXTMvvmSessionItem* parent = nullptr, const QEXTMvvmTagRow& tagrow = {});
 
-    QEXTMvvmSessionItem* copyItem(const QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* parent, const TagRow& tagrow = {});
+    QEXTMvvmSessionItem* copyItem(const QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* parent, const QEXTMvvmTagRow& tagrow = {});
 
     QEXTMvvmSessionItem* rootItem() const;
 
-    Variant data(QEXTMvvmSessionItem* item, int role) const;
+    QVariant data(QEXTMvvmSessionItem* item, int role) const;
 
-    bool setData(QEXTMvvmSessionItem* item, const Variant& value, int role);
+    bool setData(QEXTMvvmSessionItem* item, const QVariant& value, int role);
 
-    Path pathFromItem(const QEXTMvvmSessionItem* item) const;
-    QEXTMvvmSessionItem* itemFromPath(const Path& path) const;
+    QEXTMvvmPath pathFromItem(const QEXTMvvmSessionItem* item) const;
+    QEXTMvvmSessionItem* itemFromPath(const QEXTMvvmPath& path) const;
 
     void setUndoRedoEnabled(bool value);
 
     QEXTMvvmUndoStackInterface* undoStack() const;
 
-    void removeItem(QEXTMvvmSessionItem* parent, const TagRow& tagrow);
+    void removeItem(QEXTMvvmSessionItem* parent, const QEXTMvvmTagRow& tagrow);
 
-    void moveItem(QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* new_parent, const TagRow& tagrow);
+    void moveItem(QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* new_parent, const QEXTMvvmTagRow& tagrow);
 
     void register_item(QEXTMvvmSessionItem* item);
     void unregister_item(QEXTMvvmSessionItem* item);
 
-    ModelMapper* mapper();
+    QEXTMvvmModelMapper* mapper();
 
     void clear(std::function<void(QEXTMvvmSessionItem*)> callback = {});
 
@@ -84,24 +75,24 @@ public:
 private:
     void createRootItem();
     QEXTMvvmSessionItem* intern_insert(const item_factory_func_t& func, QEXTMvvmSessionItem* parent,
-                               const TagRow& tagrow);
+                               const QEXTMvvmTagRow& tagrow);
 
     std::string m_model_type;
     std::unique_ptr<ItemManager> m_item_manager;
     std::unique_ptr<QEXTMvvmCommandService> m_commands;
-    std::unique_ptr<ModelMapper> m_mapper;
+    std::unique_ptr<QEXTMvvmModelMapper> m_mapper;
     std::unique_ptr<QEXTMvvmSessionItem> m_root_item;
 };
 
-template <typename T> T* SessionModel::insertItem(QEXTMvvmSessionItem* parent, const TagRow& tagrow)
+template <typename T> T* QEXTMvvmSessionModel::insertItem(QEXTMvvmSessionItem* parent, const QEXTMvvmTagRow& tagrow)
 {
-    return static_cast<T*>(intern_insert([]() { return std::make_unique<T>(); }, parent, tagrow));
+    return static_cast<T*>(intern_insert([]() { return make_unique<T>(); }, parent, tagrow));
 }
 
 //! Returns top item of the given type. If more than one item exists, return the first one.
 //! The top item is an item that is a child of an invisible root item.
 
-template <typename T> std::vector<T*> SessionModel::topItems() const
+template <typename T> std::vector<T*> QEXTMvvmSessionModel::topItems() const
 {
     std::vector<T*> result;
     for (auto child : rootItem()->children()) {
@@ -115,7 +106,7 @@ template <typename T> std::vector<T*> SessionModel::topItems() const
 //! Returns top items of the given type.
 //! The top item is an item that is a child of an invisible root item.
 
-template <typename T> T* SessionModel::topItem() const
+template <typename T> T* QEXTMvvmSessionModel::topItem() const
 {
     auto items = topItems<T>();
     return items.empty() ? nullptr : items.front();
@@ -123,4 +114,4 @@ template <typename T> T* SessionModel::topItem() const
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_SESSIONMODEL_H
+#endif // _QEXTMVVMMODELSESSIONMODEL_H

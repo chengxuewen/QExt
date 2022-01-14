@@ -26,13 +26,13 @@ using namespace ModelView;
 namespace TreeViews
 {
 
-SampleEditorWdiget::SampleEditorWdiget(SessionModel* model, QWidget* parent)
+SampleEditorWdiget::SampleEditorWdiget(QEXTMvvmSessionModel* model, QWidget* parent)
     : QWidget(parent)
     , m_undoView(new QUndoView)
-    , m_defaultTreeView(new AllItemsTreeView(model))
-    , m_topItemView(new TopItemsTreeView(model))
-    , m_subsetTreeView(new AllItemsTreeView(model))
-    , m_propertyTreeView(new PropertyTreeView)
+    , m_defaultTreeView(new QEXTMvvmAllItemsTreeView(model))
+    , m_topItemView(new QEXTMvvmTopItemsTreeView(model))
+    , m_subsetTreeView(new QEXTMvvmAllItemsTreeView(model))
+    , m_propertyTreeView(new QEXTMvvmPropertyTreeView)
     , m_sessionModel(model)
 {
     auto layout = new QHBoxLayout;
@@ -92,7 +92,7 @@ void SampleEditorWdiget::connect_views()
         m_propertyTreeView->setItem(item);
         m_topItemView->setSelected(item);
     };
-    connect(m_defaultTreeView, &AllItemsTreeView::itemSelected, on_item_selected);
+    connect(m_defaultTreeView, &QEXTMvvmAllItemsTreeView::itemSelected, on_item_selected);
 
     m_defaultTreeView->treeView()->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(m_defaultTreeView->treeView(), &QTreeView::customContextMenuRequested, this,
@@ -100,7 +100,7 @@ void SampleEditorWdiget::connect_views()
 
     // will notify m_defaultTreeView
     auto on_top_item_selected = [this](QEXTMvvmSessionItem* item) { m_defaultTreeView->setSelected(item); };
-    connect(m_topItemView, &TopItemsTreeView::itemSelected, on_top_item_selected);
+    connect(m_topItemView, &QEXTMvvmTopItemsTreeView::itemSelected, on_top_item_selected);
 }
 
 QBoxLayout* SampleEditorWdiget::createLeftLayout()

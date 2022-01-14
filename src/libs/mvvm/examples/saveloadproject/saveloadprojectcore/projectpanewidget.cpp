@@ -18,7 +18,7 @@ namespace
 {
 int widget_height()
 {
-    return ModelView::Utils::SizeOfLetterM().height() * 3;
+    return ModelView::QEXTMvvmUtils::SizeOfLetterM().height() * 3;
 }
 } // namespace
 
@@ -42,8 +42,8 @@ void ProjectPaneWidget::setCurrentProject(const QString& project_dir, bool is_mo
     m_active = true;
     m_project_dir = project_dir;
 
-    auto trimmed_project_dir = ModelView::Utils::WithTildeHomePath(project_dir);
-    auto project_title = ModelView::Utils::ProjectWindowTitle(project_dir, is_modified);
+    auto trimmed_project_dir = ModelView::QEXTMvvmUtils::WithTildeHomePath(project_dir);
+    auto project_title = ModelView::QEXTMvvmUtils::ProjectWindowTitle(project_dir, is_modified);
 
     m_current_project_dir->setText(trimmed_project_dir);
     m_current_project_dir->setToolTip(m_project_dir);

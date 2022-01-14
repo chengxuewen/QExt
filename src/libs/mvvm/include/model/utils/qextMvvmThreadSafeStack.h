@@ -1,20 +1,12 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMUTILSTHREADSAFESTACK_H
+#define _QEXTMVVMUTILSTHREADSAFESTACK_H
 
-#ifndef MVVM_UTILS_THREADSAFESTACK_H
-#define MVVM_UTILS_THREADSAFESTACK_H
+#include <qextMvvmGlobal.h>
 
 #include <atomic>
 #include <condition_variable>
 #include <memory>
 #include <mutex>
-#include <qextMvvmGlobal.h>
 #include <stack>
 #include <stdexcept>
 #include <thread>
@@ -129,4 +121,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_UTILS_THREADSAFESTACK_H
+#endif // _QEXTMVVMUTILSTHREADSAFESTACK_H

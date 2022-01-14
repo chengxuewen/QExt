@@ -20,38 +20,38 @@ using namespace ModelView;
 namespace TreeViews
 {
 
-MultiLayer::MultiLayer() : QEXTMvvmCompoundItem(::Constants::MultiLayerItemType)
+MultiLayer::MultiLayer() : QEXTMvvmCompoundItem(::QEXTMvvmConstants::MultiLayerItemType)
 {
-    registerTag(TagInfo::universalTag(T_LAYERS, {::Constants::LayerItemType}),
+    registerTag(QEXTMvvmTagInfo::universalTag(T_LAYERS, {::QEXTMvvmConstants::LayerItemType}),
                 /*set_as_default*/ true);
 }
 
 // ----------------------------------------------------------------------------
 
-LayerItem::LayerItem() : QEXTMvvmCompoundItem(::Constants::LayerItemType)
+LayerItem::LayerItem() : QEXTMvvmCompoundItem(::QEXTMvvmConstants::LayerItemType)
 {
     addProperty(P_THICKNESS, 42.0);
     addProperty(P_COLOR, QColor(Qt::green));
-    registerTag(TagInfo::universalTag(T_PARTICLES, {::Constants::ParticleItemType}),
+    registerTag(QEXTMvvmTagInfo::universalTag(T_PARTICLES, {::QEXTMvvmConstants::ParticleItemType}),
                 /*set_as_default*/ true);
 }
 
 // ----------------------------------------------------------------------------
 
-ParticleItem::ParticleItem() : QEXTMvvmCompoundItem(::Constants::ParticleItemType)
+ParticleItem::ParticleItem() : QEXTMvvmCompoundItem(::QEXTMvvmConstants::ParticleItemType)
 {
-    addProperty<VectorItem>(P_POSITION);
+    addProperty<QEXTMvvmVectorItem>(P_POSITION);
     addProperty<ShapeGroupItem>(P_SHAPES);
 }
 
 // ----------------------------------------------------------------------------
 
-LatticeItem::LatticeItem() : QEXTMvvmCompoundItem(::Constants::LatticeItemType)
+LatticeItem::LatticeItem() : QEXTMvvmCompoundItem(::QEXTMvvmConstants::LatticeItemType)
 {
     addProperty(P_ROTATION_ANLE, 90.0);
     addProperty(P_INTEGRATION, true);
 
-    auto combo = ComboProperty::createFrom({"Default", "Square", "Hexagonal"});
+    auto combo = QEXTMvvmComboProperty::createFrom({"Default", "Square", "Hexagonal"});
     addProperty(P_LATTICE_TYPE, combo);
 
     update_appearance();
@@ -75,7 +75,7 @@ void LatticeItem::update_appearance()
 
 // ----------------------------------------------------------------------------
 
-CylinderItem::CylinderItem() : QEXTMvvmCompoundItem(::Constants::CylinderItemType)
+CylinderItem::CylinderItem() : QEXTMvvmCompoundItem(::QEXTMvvmConstants::CylinderItemType)
 {
     addProperty(P_RADIUS, 8.0);
     addProperty(P_HEIGHT, 10.0);
@@ -83,14 +83,14 @@ CylinderItem::CylinderItem() : QEXTMvvmCompoundItem(::Constants::CylinderItemTyp
 
 // ----------------------------------------------------------------------------
 
-SphereItem::SphereItem() : QEXTMvvmCompoundItem(::Constants::SphereItemType)
+SphereItem::SphereItem() : QEXTMvvmCompoundItem(::QEXTMvvmConstants::SphereItemType)
 {
     addProperty(P_RADIUS, 8.0);
 }
 
 // ----------------------------------------------------------------------------
 
-AnysoPyramidItem::AnysoPyramidItem() : QEXTMvvmCompoundItem(::Constants::AnysoPyramidItemType)
+AnysoPyramidItem::AnysoPyramidItem() : QEXTMvvmCompoundItem(::QEXTMvvmConstants::AnysoPyramidItemType)
 {
     addProperty(P_LENGTH, 8.0);
     addProperty(P_WIDTH, 9.0);
@@ -100,7 +100,7 @@ AnysoPyramidItem::AnysoPyramidItem() : QEXTMvvmCompoundItem(::Constants::AnysoPy
 
 // ----------------------------------------------------------------------------
 
-ShapeGroupItem::ShapeGroupItem() : GroupItem(::Constants::ShapeGroupItemType)
+ShapeGroupItem::ShapeGroupItem() : QEXTMvvmGroupItem(::QEXTMvvmConstants::ShapeGroupItemType)
 {
     registerItem<CylinderItem>("Cylinder");
     registerItem<SphereItem>("Full sphere", /*make_selected*/ true);

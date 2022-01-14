@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_MODEL_SESSIONITEMDATA_H
-#define MVVM_MODEL_SESSIONITEMDATA_H
+#ifndef _QEXTMVVMMODELSESSIONITEMDATA_H
+#define _QEXTMVVMMODELSESSIONITEMDATA_H
 
 #include <qextMvvmDataRole.h>
 #include <qextMvvmGlobal.h>
+
 #include <vector>
 
 namespace ModelView
@@ -19,17 +11,17 @@ namespace ModelView
 
 //! Handles data roles for QEXTMvvmSessionItem.
 
-class QEXT_MVVM_API SessionItemData
+class QEXT_MVVM_API QEXTMvvmSessionItemData
 {
 public:
-    using container_type = std::vector<DataRole>;
+    using container_type = std::vector<QEXTMvvmDataRole>;
     using const_iterator = container_type::const_iterator;
 
     std::vector<int> roles() const;
 
-    Variant data(int role) const;
+    QVariant data(int role) const;
 
-    bool setData(const Variant& value, int role);
+    bool setData(const QVariant& value, int role);
 
     const_iterator begin() const;
     const_iterator end() const;
@@ -37,10 +29,10 @@ public:
     bool hasData(int role) const;
 
 private:
-    void assure_validity(const Variant& variant, int role);
+    void assure_validity(const QVariant& variant, int role);
     container_type m_values;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_SESSIONITEMDATA_H
+#endif // _QEXTMVVMMODELSESSIONITEMDATA_H

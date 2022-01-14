@@ -13,9 +13,9 @@
 #include <sstream>
 #include <stdexcept>
 
-ModelView::TagInfo::TagInfo() : m_min(0), m_max(-1) {}
+ModelView::QEXTMvvmTagInfo::QEXTMvvmTagInfo() : m_min(0), m_max(-1) {}
 
-ModelView::TagInfo::TagInfo(std::string name, int min, int max, std::vector<std::string> modelTypes)
+ModelView::QEXTMvvmTagInfo::QEXTMvvmTagInfo(std::string name, int min, int max, std::vector<std::string> modelTypes)
     : m_name(std::move(name)), m_min(min), m_max(max), m_modelTypes(std::move(modelTypes))
 {
     if (m_min < 0 || (m_min > m_max && m_max >= 0) || m_name.empty()) {
@@ -26,54 +26,54 @@ ModelView::TagInfo::TagInfo(std::string name, int min, int max, std::vector<std:
     }
 }
 
-ModelView::TagInfo ModelView::TagInfo::universalTag(std::string name,
+ModelView::QEXTMvvmTagInfo ModelView::QEXTMvvmTagInfo::universalTag(std::string name,
                                                     std::vector<std::string> modelTypes)
 {
-    return TagInfo(std::move(name), 0, -1, std::move(modelTypes));
+    return QEXTMvvmTagInfo(std::move(name), 0, -1, std::move(modelTypes));
 }
 
-ModelView::TagInfo ModelView::TagInfo::propertyTag(std::string name, std::string model_type)
+ModelView::QEXTMvvmTagInfo ModelView::QEXTMvvmTagInfo::propertyTag(std::string name, std::string model_type)
 {
-    return TagInfo(std::move(name), 1, 1, {std::move(model_type)});
+    return QEXTMvvmTagInfo(std::move(name), 1, 1, {std::move(model_type)});
 }
 
-std::string ModelView::TagInfo::name() const
+std::string ModelView::QEXTMvvmTagInfo::name() const
 {
     return m_name;
 }
 
-int ModelView::TagInfo::min() const
+int ModelView::QEXTMvvmTagInfo::min() const
 {
     return m_min;
 }
 
-int ModelView::TagInfo::max() const
+int ModelView::QEXTMvvmTagInfo::max() const
 {
     return m_max;
 }
 
-std::vector<std::string> ModelView::TagInfo::modelTypes() const
+std::vector<std::string> ModelView::QEXTMvvmTagInfo::modelTypes() const
 {
     return m_modelTypes;
 }
 
-bool ModelView::TagInfo::isValidChild(const std::string& child) const
+bool ModelView::QEXTMvvmTagInfo::isValidChild(const std::string& child) const
 {
-    return m_modelTypes.empty() ? true : Utils::Contains(m_modelTypes, child);
+    return m_modelTypes.empty() ? true : QEXTMvvmUtils::Contains(m_modelTypes, child);
 }
 
-bool ModelView::TagInfo::isSinglePropertyTag() const
+bool ModelView::QEXTMvvmTagInfo::isSinglePropertyTag() const
 {
     return m_min == 1 && m_max == 1;
 }
 
-bool ModelView::TagInfo::operator==(const ModelView::TagInfo& other) const
+bool ModelView::QEXTMvvmTagInfo::operator==(const ModelView::QEXTMvvmTagInfo& other) const
 {
     return m_name == other.m_name && m_min == other.m_min && m_max == other.m_max
            && m_modelTypes == other.m_modelTypes;
 }
 
-bool ModelView::TagInfo::operator!=(const ModelView::TagInfo& other) const
+bool ModelView::QEXTMvvmTagInfo::operator!=(const ModelView::QEXTMvvmTagInfo& other) const
 {
     return !(*this == other);
 }

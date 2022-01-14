@@ -1,49 +1,41 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_STANDARDITEMS_DATA2DITEM_H
-#define MVVM_STANDARDITEMS_DATA2DITEM_H
+#ifndef _QEXTMVVMSTANDARDITEMSDATA2DITEM_H
+#define _QEXTMVVMSTANDARDITEMSDATA2DITEM_H
 
 #include <qextMvvmCompoundItem.h>
+
 #include <vector>
 
 namespace ModelView
 {
 
-class BinnedAxisItem;
+class QEXTMvvmBinnedAxisItem;
 
 //! Represents two-dimensional data (axes definition and 2d array of values).
 //! Values are stored in Data2DItem itself, axes are attached as children. Corresponding plot
 //! properties will be served by ColorMapItem.
 
-class QEXT_MVVM_API Data2DItem : public QEXTMvvmCompoundItem
+class QEXT_MVVM_API QEXTMvvmData2DItem : public QEXTMvvmCompoundItem
 {
 public:
     static inline const std::string T_XAXIS = "T_XAXIS";
     static inline const std::string T_YAXIS = "T_YAXIS";
 
-    Data2DItem();
+    QEXTMvvmData2DItem();
 
-    void setAxes(std::unique_ptr<BinnedAxisItem> x_axis, std::unique_ptr<BinnedAxisItem> y_axis);
+    void setAxes(std::unique_ptr<QEXTMvvmBinnedAxisItem> x_axis, std::unique_ptr<QEXTMvvmBinnedAxisItem> y_axis);
 
-    BinnedAxisItem* xAxis() const;
+    QEXTMvvmBinnedAxisItem* xAxis() const;
 
-    BinnedAxisItem* yAxis() const;
+    QEXTMvvmBinnedAxisItem* yAxis() const;
 
     void setContent(const std::vector<double>& data);
 
     std::vector<double> content() const;
 
 private:
-    void insert_axis(std::unique_ptr<BinnedAxisItem> axis, const std::string& tag);
+    void insert_axis(std::unique_ptr<QEXTMvvmBinnedAxisItem> axis, const std::string& tag);
 };
 
 } // namespace ModelView
 
-#endif // MVVM_STANDARDITEMS_DATA2DITEM_H
+#endif // _QEXTMVVMSTANDARDITEMSDATA2DITEM_H

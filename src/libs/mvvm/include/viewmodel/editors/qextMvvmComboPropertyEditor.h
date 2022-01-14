@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_EDITORS_COMBOPROPERTYEDITOR_H
-#define MVVM_EDITORS_COMBOPROPERTYEDITOR_H
+#ifndef _QEXTMVVMEDITORSCOMBOPROPERTYEDITOR_H
+#define _QEXTMVVMEDITORSCOMBOPROPERTYEDITOR_H
 
 #include <qextMvvmCustomEditor.h>
 
@@ -19,12 +10,12 @@ namespace ModelView
 
 //! Custom editor for QVariant based on ComboProperty.
 
-class QEXT_MVVM_API ComboPropertyEditor : public CustomEditor
+class QEXT_MVVM_API QEXTMvvmComboPropertyEditor : public QEXTMvvmCustomEditor
 {
     Q_OBJECT
 
 public:
-    explicit ComboPropertyEditor(QWidget* parent = nullptr);
+    explicit QEXTMvvmComboPropertyEditor(QWidget* parent = nullptr);
 
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
@@ -44,4 +35,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_COMBOPROPERTYEDITOR_H
+#endif // _QEXTMVVMEDITORSCOMBOPROPERTYEDITOR_H

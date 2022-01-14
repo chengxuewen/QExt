@@ -1,18 +1,10 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSERIALIZATIONJSONITEMCONTAINERCONVERTER_H
+#define _QEXTMVVMSERIALIZATIONJSONITEMCONTAINERCONVERTER_H
 
-#ifndef MVVM_SERIALIZATION_JSONITEMCONTAINERCONVERTER_H
-#define MVVM_SERIALIZATION_JSONITEMCONTAINERCONVERTER_H
+#include <qextMvvmGlobal.h>
 
 #include <functional>
 #include <memory>
-#include <qextMvvmGlobal.h>
 
 class QJsonObject;
 
@@ -20,20 +12,20 @@ namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class SessionItemContainer;
-class ConverterCallbacks;
+class QEXTMvvmSessionItemContainer;
+class QEXTMvvmConverterCallbacks;
 
 //! Converter between SessionItemContainer and JSON object.
 
-class QEXT_MVVM_API JsonItemContainerConverter
+class QEXT_MVVM_API QEXTMvvmJsonItemContainerConverter
 {
 public:
-    JsonItemContainerConverter(ConverterCallbacks callbacks);
-    ~JsonItemContainerConverter();
+    QEXTMvvmJsonItemContainerConverter(QEXTMvvmConverterCallbacks callbacks);
+    ~QEXTMvvmJsonItemContainerConverter();
 
-    QJsonObject to_json(const SessionItemContainer& container);
+    QJsonObject to_json(const QEXTMvvmSessionItemContainer& container);
 
-    void from_json(const QJsonObject& json, SessionItemContainer& container);
+    void from_json(const QJsonObject& json, QEXTMvvmSessionItemContainer& container);
 
 private:
     struct JsonItemContainerConverterImpl;
@@ -42,4 +34,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONITEMCONTAINERCONVERTER_H
+#endif // _QEXTMVVMSERIALIZATIONJSONITEMCONTAINERCONVERTER_H

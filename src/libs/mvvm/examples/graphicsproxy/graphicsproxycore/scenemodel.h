@@ -14,12 +14,12 @@
 
 namespace ModelView
 {
-class ContainerItem;
+class QEXTMvvmContainerItem;
 }
 
 //! Main application model with data for graphics scene.
 
-class SceneModel : public ModelView::SessionModel
+class SceneModel : public ModelView::QEXTMvvmSessionModel
 {
 public:
     SceneModel();

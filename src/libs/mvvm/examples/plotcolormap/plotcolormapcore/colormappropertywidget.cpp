@@ -21,7 +21,7 @@ namespace PlotColorMap
 {
 
 ColorMapPropertyWidget::ColorMapPropertyWidget(ColorMapModel* model, QWidget* parent)
-    : QWidget(parent), m_slider(new QSlider), m_treeView(new ItemsTreeView), m_model(model)
+    : QWidget(parent), m_slider(new QSlider), m_treeView(new QEXTMvvmItemsTreeView), m_model(model)
 {
     auto layout = new QVBoxLayout;
     layout->addWidget(m_slider);
@@ -38,7 +38,7 @@ void ColorMapPropertyWidget::setModel(ColorMapModel* model)
 
     m_model = model;
 
-    m_treeView->setViewModel(Factory::CreateDefaultViewModel(model));
+    m_treeView->setViewModel(QEXTMvvmFactory::CreateDefaultViewModel(model));
 }
 
 //! Slider to regenerate the data in the model.

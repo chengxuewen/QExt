@@ -13,13 +13,13 @@
 
 using namespace ModelView;
 
-RootViewItem::RootViewItem(QEXTMvvmSessionItem* item) : ViewItem(item, ItemDataRole::DATA) {}
+QEXTMvvmRootViewItem::QEXTMvvmRootViewItem(QEXTMvvmSessionItem* item) : QEXTMvvmViewItem(item, ItemDataRole::DATA) {}
 
 //! ---------------------------------------------------------------------------
 
-ViewLabelItem::ViewLabelItem(QEXTMvvmSessionItem* item) : ViewItem(item, ItemDataRole::DISPLAY) {}
+QEXTMvvmViewLabelItem::QEXTMvvmViewLabelItem(QEXTMvvmSessionItem* item) : QEXTMvvmViewItem(item, ItemDataRole::DISPLAY) {}
 
-QVariant ViewLabelItem::data(int role) const
+QVariant QEXTMvvmViewLabelItem::data(int role) const
 {
     if (!item())
         return QVariant();
@@ -28,35 +28,35 @@ QVariant ViewLabelItem::data(int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole)
         return QString::fromStdString(item()->displayName());
 
-    return ViewItem::data(role);
+    return QEXTMvvmViewItem::data(role);
 }
 
 //! ---------------------------------------------------------------------------
 
-ViewDataItem::ViewDataItem(QEXTMvvmSessionItem* item) : ViewItem(item, ItemDataRole::DATA) {}
+QEXTMvvmViewDataItem::QEXTMvvmViewDataItem(QEXTMvvmSessionItem* item) : QEXTMvvmViewItem(item, ItemDataRole::DATA) {}
 
-Qt::ItemFlags ViewDataItem::flags() const
+Qt::ItemFlags QEXTMvvmViewDataItem::flags() const
 {
-    Qt::ItemFlags result = ViewItem::flags();
+    Qt::ItemFlags result = QEXTMvvmViewItem::flags();
     if (item() && item()->isEditable() && item()->isEnabled() && item()->data<QVariant>().isValid())
         result |= Qt::ItemIsEditable;
 
     return result;
 }
 
-QVariant ViewDataItem::data(int role) const
+QVariant QEXTMvvmViewDataItem::data(int role) const
 {
     if (role == Qt::DecorationRole)
-        return Utils::DecorationRole(*item());
+        return QEXTMvvmUtils::DecorationRole(*item());
     else if (role == Qt::CheckStateRole)
-        return Utils::CheckStateRole(*item());
+        return QEXTMvvmUtils::CheckStateRole(*item());
 
-    return ViewItem::data(role);
+    return QEXTMvvmViewItem::data(role);
 }
 
-ViewEmptyItem::ViewEmptyItem() : ViewItem(nullptr, 0) {}
+QEXTMvvmViewEmptyItem::QEXTMvvmViewEmptyItem() : QEXTMvvmViewItem(nullptr, 0) {}
 
-QVariant ViewEmptyItem::data(int) const
+QVariant QEXTMvvmViewEmptyItem::data(int) const
 {
     return QVariant();
 }

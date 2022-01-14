@@ -14,7 +14,7 @@
 
 namespace ModelView
 {
-class SceneAdapterInterface;
+class QEXTMvvmSceneAdapterInterface;
 }
 
 //! Transparent rectangle to cover axes area of QCustomPlot on QGraphicsScene. The size of
@@ -26,7 +26,7 @@ class AxesRectangleView : public QGraphicsObject
     Q_OBJECT
 
 public:
-    AxesRectangleView(const ModelView::SceneAdapterInterface* scene_adapter);
+    AxesRectangleView(const ModelView::QEXTMvvmSceneAdapterInterface* scene_adapter);
 
     QRectF boundingRect() const override;
 
@@ -36,7 +36,7 @@ protected:
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override;
 
 private:
-    const ModelView::SceneAdapterInterface* scene_adapter{nullptr};
+    const ModelView::QEXTMvvmSceneAdapterInterface* scene_adapter{nullptr};
     QRectF rect;
 };
 

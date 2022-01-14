@@ -1,29 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMFACTORIESPROJECTMANAGERFACTORY_H
+#define _QEXTMVVMFACTORIESPROJECTMANAGERFACTORY_H
 
-#ifndef MVVM_FACTORIES_PROJECTMANAGERFACTORY_H
-#define MVVM_FACTORIES_PROJECTMANAGERFACTORY_H
+#include <qextMvvmProjectManagerInterface.h>
 
 #include <memory>
-#include <qextMvvmProjectManagerInterface.h>
 
 namespace ModelView
 {
 
-struct ProjectContext;
+struct QEXTMvvmProjectContext;
 struct UserInteractionContext;
 
 //! Creates default ProjectManager to save and load models.
-QEXT_MVVM_API std::unique_ptr<ProjectManagerInterface>
-CreateProjectManager(const ProjectContext& project_context,
+QEXT_MVVM_API std::unique_ptr<QEXTMvvmProjectManagerInterface>
+CreateProjectManager(const QEXTMvvmProjectContext& project_context,
                      const UserInteractionContext& user_context);
 
 } // namespace ModelView
 
-#endif // MVVM_FACTORIES_PROJECTMANAGERFACTORY_H
+#endif // _QEXTMVVMFACTORIESPROJECTMANAGERFACTORY_H

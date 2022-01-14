@@ -22,7 +22,7 @@ namespace DragAndView
 
 //! Main application model.
 
-class SampleModel : public ModelView::SessionModel
+class SampleModel : public ModelView::QEXTMvvmSessionModel
 {
 public:
     SampleModel();

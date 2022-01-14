@@ -15,14 +15,14 @@ using namespace ModelView;
 
 // ----------------------------------------------------------------------------
 
-std::vector<QEXTMvvmSessionItem*> AllChildrenStrategy::children(const QEXTMvvmSessionItem* item) const
+std::vector<QEXTMvvmSessionItem*> QEXTMvvmAllChildrenStrategy::children(const QEXTMvvmSessionItem* item) const
 {
     return item ? item->children() : std::vector<QEXTMvvmSessionItem*>();
 }
 
-std::vector<QEXTMvvmSessionItem*> TopItemsStrategy::children(const QEXTMvvmSessionItem* item) const
+std::vector<QEXTMvvmSessionItem*> QEXTMvvmTopItemsStrategy::children(const QEXTMvvmSessionItem* item) const
 {
-    return item ? Utils::TopLevelItems(*item) : std::vector<QEXTMvvmSessionItem*>();
+    return item ? QEXTMvvmUtils::TopLevelItems(*item) : std::vector<QEXTMvvmSessionItem*>();
 }
 
 // ----------------------------------------------------------------------------
@@ -45,14 +45,14 @@ Particle
         Radius
 */
 
-std::vector<QEXTMvvmSessionItem*> PropertyItemsStrategy::children(const QEXTMvvmSessionItem* item) const
+std::vector<QEXTMvvmSessionItem*> QEXTMvvmPropertyItemsStrategy::children(const QEXTMvvmSessionItem* item) const
 {
     if (!item)
         return std::vector<QEXTMvvmSessionItem*>();
 
-    auto group = dynamic_cast<const GroupItem*>(item);
+    auto group = dynamic_cast<const QEXTMvvmGroupItem*>(item);
     auto next_item = group ? group->currentItem() : item;
-    return Utils::SinglePropertyItems(*next_item);
+    return QEXTMvvmUtils::SinglePropertyItems(*next_item);
 }
 
 // ----------------------------------------------------------------------------
@@ -75,19 +75,19 @@ Particle
     Radius
 */
 
-std::vector<QEXTMvvmSessionItem*> PropertyItemsFlatStrategy::children(const QEXTMvvmSessionItem* item) const
+std::vector<QEXTMvvmSessionItem*> QEXTMvvmPropertyItemsFlatStrategy::children(const QEXTMvvmSessionItem* item) const
 {
     if (!item)
         return std::vector<QEXTMvvmSessionItem*>();
 
-    if (auto group = dynamic_cast<const GroupItem*>(item); group)
-        return Utils::SinglePropertyItems(*group->currentItem());
+    if (auto group = dynamic_cast<const QEXTMvvmGroupItem*>(item); group)
+        return QEXTMvvmUtils::SinglePropertyItems(*group->currentItem());
 
     std::vector<QEXTMvvmSessionItem*> result;
-    for (auto child : Utils::SinglePropertyItems(*item)) {
-        if (auto group_item = dynamic_cast<GroupItem*>(child); group_item) {
+    for (auto child : QEXTMvvmUtils::SinglePropertyItems(*item)) {
+        if (auto group_item = dynamic_cast<QEXTMvvmGroupItem*>(child); group_item) {
             result.push_back(group_item);
-            for (auto sub_property : Utils::SinglePropertyItems(*group_item->currentItem()))
+            for (auto sub_property : QEXTMvvmUtils::SinglePropertyItems(*group_item->currentItem()))
                 result.push_back(sub_property);
         } else {
             result.push_back(child);

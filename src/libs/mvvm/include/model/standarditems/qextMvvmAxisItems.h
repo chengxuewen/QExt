@@ -1,20 +1,12 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_STANDARDITEMS_AXISITEMS_H
-#define MVVM_STANDARDITEMS_AXISITEMS_H
+#ifndef _QEXTMVVMSTANDARDITEMSAXISITEMS_H
+#define _QEXTMVVMSTANDARDITEMSAXISITEMS_H
 
 //! @file axisitems.h
 //! Collection of axis items for 1D and 2D data/plotting support.
 
-#include <memory>
 #include <qextMvvmCompoundItem.h>
+
+#include <memory>
 #include <vector>
 
 namespace ModelView
@@ -22,13 +14,13 @@ namespace ModelView
 
 //! Base class for all axes items. Has min, max defined, but nothing else.
 
-class QEXT_MVVM_API BasicAxisItem : public QEXTMvvmCompoundItem
+class QEXT_MVVM_API QEXTMvvmBasicAxisItem : public QEXTMvvmCompoundItem
 {
 public:
     static inline const std::string P_MIN = "P_MIN";
     static inline const std::string P_MAX = "P_MAX";
 
-    explicit BasicAxisItem(const std::string& model_type);
+    explicit QEXTMvvmBasicAxisItem(const std::string& model_type);
 
 protected:
     void register_min_max();
@@ -37,12 +29,12 @@ protected:
 //! Item to represent viewport axis.
 //! Serves as a counterpart of QCPAxis from QCustomPlot. Intended to cary title, fonts etc.
 
-class QEXT_MVVM_API ViewportAxisItem : public BasicAxisItem
+class QEXT_MVVM_API QEXTMvvmViewportAxisItem : public QEXTMvvmBasicAxisItem
 {
 public:
     static inline const std::string P_TITLE = "P_TITLE";
     static inline const std::string P_IS_LOG = "P_IS_LOG";
-    explicit ViewportAxisItem(const std::string& model_type = Constants::ViewportAxisItemType);
+    explicit QEXTMvvmViewportAxisItem(const std::string& model_type = QEXTMvvmConstants::ViewportAxisItemType);
 
     std::pair<double, double> range() const;
 
@@ -56,10 +48,10 @@ public:
 //! Data2Ditem to store 1d and 2d data.  Doesn't carry any appearance info (e.g. axis title, label
 //! size, etc) and thus not intended for direct plotting.
 
-class QEXT_MVVM_API BinnedAxisItem : public BasicAxisItem
+class QEXT_MVVM_API QEXTMvvmBinnedAxisItem : public QEXTMvvmBasicAxisItem
 {
 public:
-    explicit BinnedAxisItem(const std::string& model_type);
+    explicit QEXTMvvmBinnedAxisItem(const std::string& model_type);
 
     virtual std::pair<double, double> range() const = 0;
 
@@ -71,15 +63,15 @@ public:
 //! Item to represent fixed bin axis.
 //! Defines an axis with equidistant binning.
 
-class QEXT_MVVM_API FixedBinAxisItem : public BinnedAxisItem
+class QEXT_MVVM_API QEXTMvvmFixedBinAxisItem : public QEXTMvvmBinnedAxisItem
 {
 public:
     static inline const std::string P_NBINS = "P_NBINS";
-    FixedBinAxisItem(const std::string& model_type = Constants::FixedBinAxisItemType);
+    QEXTMvvmFixedBinAxisItem(const std::string& model_type = QEXTMvvmConstants::FixedBinAxisItemType);
 
     void setParameters(int nbins, double xmin, double xmax);
 
-    static std::unique_ptr<FixedBinAxisItem> create(int nbins, double xmin, double xmax);
+    static std::unique_ptr<QEXTMvvmFixedBinAxisItem> create(int nbins, double xmin, double xmax);
 
     std::pair<double, double> range() const override;
 
@@ -91,14 +83,14 @@ public:
 //! Item to represent pointwise axis.
 //! Defines an axis via array of points representing point coordinates.
 
-class QEXT_MVVM_API PointwiseAxisItem : public BinnedAxisItem
+class QEXT_MVVM_API QEXTMvvmPointwiseAxisItem : public QEXTMvvmBinnedAxisItem
 {
 public:
-    PointwiseAxisItem(const std::string& model_type = Constants::PointwiseAxisItemType);
+    QEXTMvvmPointwiseAxisItem(const std::string& model_type = QEXTMvvmConstants::PointwiseAxisItemType);
 
     void setParameters(const std::vector<double>& data);
 
-    static std::unique_ptr<PointwiseAxisItem> create(const std::vector<double>& data);
+    static std::unique_ptr<QEXTMvvmPointwiseAxisItem> create(const std::vector<double>& data);
 
     std::pair<double, double> range() const override;
 
@@ -109,4 +101,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_STANDARDITEMS_AXISITEMS_H
+#endif // _QEXTMVVMSTANDARDITEMSAXISITEMS_H

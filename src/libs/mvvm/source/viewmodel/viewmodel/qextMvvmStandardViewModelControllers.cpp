@@ -18,40 +18,40 @@ using namespace ModelView;
 
 // ----------------------------------------------------------------------------
 
-DefaultViewModelController::DefaultViewModelController(SessionModel* session_model,
-                                                       ViewModelBase* view_model)
-    : ViewModelController(session_model, view_model)
+QEXTMvvmDefaultViewModelController::QEXTMvvmDefaultViewModelController(QEXTMvvmSessionModel* session_model,
+                                                       QEXTMvvmViewModelBase* view_model)
+    : QEXTMvvmViewModelController(session_model, view_model)
 {
-    setChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-    setRowStrategy(std::make_unique<LabelDataRowStrategy>());
+    setChildrenStrategy(make_unique<QEXTMvvmAllChildrenStrategy>());
+    setRowStrategy(make_unique<QEXTMvvmLabelDataRowStrategy>());
 }
 
 // ----------------------------------------------------------------------------
 
-TopItemsViewModelController::TopItemsViewModelController(SessionModel* session_model,
-                                                         ViewModelBase* view_model)
-    : ViewModelController(session_model, view_model)
+QEXTMvvmTopItemsViewModelController::QEXTMvvmTopItemsViewModelController(QEXTMvvmSessionModel* session_model,
+                                                         QEXTMvvmViewModelBase* view_model)
+    : QEXTMvvmViewModelController(session_model, view_model)
 {
-    setChildrenStrategy(std::make_unique<TopItemsStrategy>());
-    setRowStrategy(std::make_unique<LabelDataRowStrategy>());
+    setChildrenStrategy(make_unique<QEXTMvvmTopItemsStrategy>());
+    setRowStrategy(make_unique<QEXTMvvmLabelDataRowStrategy>());
 }
 
 // ----------------------------------------------------------------------------
 
-PropertyViewModelController::PropertyViewModelController(SessionModel* session_model,
-                                                         ViewModelBase* view_model)
-    : ViewModelController(session_model, view_model)
+QEXTMvvmPropertyViewModelController::QEXTMvvmPropertyViewModelController(QEXTMvvmSessionModel* session_model,
+                                                         QEXTMvvmViewModelBase* view_model)
+    : QEXTMvvmViewModelController(session_model, view_model)
 {
-    setChildrenStrategy(std::make_unique<PropertyItemsStrategy>());
-    setRowStrategy(std::make_unique<LabelDataRowStrategy>());
+    setChildrenStrategy(make_unique<QEXTMvvmPropertyItemsStrategy>());
+    setRowStrategy(make_unique<QEXTMvvmLabelDataRowStrategy>());
 }
 
-void PropertyViewModelController::onDataChange(QEXTMvvmSessionItem* item, int role)
+void QEXTMvvmPropertyViewModelController::onDataChange(QEXTMvvmSessionItem* item, int role)
 {
-    ViewModelController::onDataChange(item, role);
+    QEXTMvvmViewModelController::onDataChange(item, role);
     // If data change occured with GroupItem, performs cleanup and regeneration of
     // ViewItems, corresponding to groupItem's current index.
-    if (auto group = dynamic_cast<GroupItem*>(item))
+    if (auto group = dynamic_cast<QEXTMvvmGroupItem*>(item))
         update_branch(group);
 }
 
@@ -59,29 +59,29 @@ void PropertyViewModelController::onDataChange(QEXTMvvmSessionItem* item, int ro
 
 // FIXME What to do with group property?
 
-PropertyTableViewModelController::PropertyTableViewModelController(
-    SessionModel* session_model, ViewModelBase* view_model, const std::vector<std::string>& labels)
-    : ViewModelController(session_model, view_model)
+QEXTMvvmPropertyTableViewModelController::QEXTMvvmPropertyTableViewModelController(
+    QEXTMvvmSessionModel* session_model, QEXTMvvmViewModelBase* view_model, const std::vector<std::string>& labels)
+    : QEXTMvvmViewModelController(session_model, view_model)
 {
-    setChildrenStrategy(std::make_unique<TopItemsStrategy>());
-    setRowStrategy(std::make_unique<PropertiesRowStrategy>(labels));
+    setChildrenStrategy(make_unique<QEXTMvvmTopItemsStrategy>());
+    setRowStrategy(make_unique<QEXTMvvmPropertiesRowStrategy>(labels));
 }
 
 // ----------------------------------------------------------------------------
 
-PropertyFlatViewModelController::PropertyFlatViewModelController(SessionModel* session_model,
-                                                                 ViewModelBase* view_model)
-    : ViewModelController(session_model, view_model)
+QEXTMvvmPropertyFlatViewModelController::QEXTMvvmPropertyFlatViewModelController(QEXTMvvmSessionModel* session_model,
+                                                                 QEXTMvvmViewModelBase* view_model)
+    : QEXTMvvmViewModelController(session_model, view_model)
 {
-    setChildrenStrategy(std::make_unique<PropertyItemsFlatStrategy>());
-    setRowStrategy(std::make_unique<LabelDataRowStrategy>());
+    setChildrenStrategy(make_unique<QEXTMvvmPropertyItemsFlatStrategy>());
+    setRowStrategy(make_unique<QEXTMvvmLabelDataRowStrategy>());
 }
 
-void PropertyFlatViewModelController::onDataChange(QEXTMvvmSessionItem* item, int role)
+void QEXTMvvmPropertyFlatViewModelController::onDataChange(QEXTMvvmSessionItem* item, int role)
 {
-    ViewModelController::onDataChange(item, role);
+    QEXTMvvmViewModelController::onDataChange(item, role);
     // If data change occured with GroupItem, performs cleanup and regeneration of
     // ViewItems, corresponding to groupItem's current index.
-    if (auto group = dynamic_cast<GroupItem*>(item))
+    if (auto group = dynamic_cast<QEXTMvvmGroupItem*>(item))
         update_branch(group->parent());
 }

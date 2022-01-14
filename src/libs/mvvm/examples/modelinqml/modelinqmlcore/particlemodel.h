@@ -60,7 +60,7 @@ public:
 
 //! Special group of shapes.
 
-class ShapeGroupItem : public ModelView::GroupItem
+class ShapeGroupItem : public ModelView::QEXTMvvmGroupItem
 {
 public:
     ShapeGroupItem();
@@ -68,7 +68,7 @@ public:
 
 //! Main application model.
 
-class ParticleModel : public ModelView::SessionModel
+class ParticleModel : public ModelView::QEXTMvvmSessionModel
 {
 public:
     ParticleModel();

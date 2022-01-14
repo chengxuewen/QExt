@@ -21,7 +21,7 @@ const QString size_key = "size";
 const QString pos_key = "pos";
 } // namespace
 
-MainWindow::MainWindow() : m_model(std::make_unique<SceneModel>())
+MainWindow::MainWindow() : m_model(make_unique<SceneModel>())
 {
     setCentralWidget(new SceneWidget(m_model.get()));
 

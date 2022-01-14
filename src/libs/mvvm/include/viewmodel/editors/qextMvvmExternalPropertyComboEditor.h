@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTEXTERNALPROPERTYCOMBOEDITOR_H
+#define _QEXTEXTERNALPROPERTYCOMBOEDITOR_H
 
-#ifndef EXTERNALPROPERTYCOMBOEDITOR_H
-#define EXTERNALPROPERTYCOMBOEDITOR_H
+#include <qextMvvmCustomEditor.h>
 
 #include <functional>
-#include <qextMvvmCustomEditor.h>
 #include <vector>
 
 class QComboBox;
@@ -20,19 +12,19 @@ class QStandardItemModel;
 namespace ModelView
 {
 
-class ExternalProperty;
+class QEXTMvvmExternalProperty;
 
 //! Custom editor for table/tree cells to select ExternalProperty from the list of
 //! external properties. Uses callbacks to retrieve vector of possible properties.
 
-class QEXT_MVVM_API ExternalPropertyComboEditor : public CustomEditor
+class QEXT_MVVM_API QEXTMvvmExternalPropertyComboEditor : public QEXTMvvmCustomEditor
 {
     Q_OBJECT
 
 public:
-    using callback_t = std::function<std::vector<ModelView::ExternalProperty>()>;
+    using callback_t = std::function<std::vector<ModelView::QEXTMvvmExternalProperty>()>;
 
-    ExternalPropertyComboEditor(callback_t callback, QWidget* parent = nullptr);
+    QEXTMvvmExternalPropertyComboEditor(callback_t callback, QWidget* parent = nullptr);
 
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
@@ -52,4 +44,4 @@ private:
 
 } // namespace ModelView
 
-#endif // EXTERNALPROPERTYCOMBOEDITOR_H
+#endif // _QEXTEXTERNALPROPERTYCOMBOEDITOR_H

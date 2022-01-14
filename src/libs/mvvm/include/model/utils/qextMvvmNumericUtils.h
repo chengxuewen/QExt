@@ -1,21 +1,12 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_UTILS_NUMERICUTILS_H
-#define MVVM_UTILS_NUMERICUTILS_H
+#ifndef _QEXTMVVMUTILSNUMERICUTILS_H
+#define _QEXTMVVMUTILSNUMERICUTILS_H
 
 #include <qextMvvmGlobal.h>
 
 namespace ModelView
 {
 
-namespace Utils
+namespace QEXTMvvmUtils
 {
 
 //! Returns true if two doubles agree within epsilon*tolerance.
@@ -31,4 +22,4 @@ QEXT_MVVM_API double RandDouble(double low, double high);
 
 } // namespace ModelView
 
-#endif // MVVM_UTILS_NUMERICUTILS_H
+#endif // _QEXTMVVMUTILSNUMERICUTILS_H

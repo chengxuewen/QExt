@@ -48,7 +48,7 @@ using namespace ModelView;
 namespace PlotGraphs
 {
 
-GraphModel::GraphModel() : SessionModel("GraphModel")
+GraphModel::GraphModel() : QEXTMvvmSessionModel("GraphModel")
 {
     init_model();
 }
@@ -60,13 +60,13 @@ void GraphModel::add_graph()
     if (undoStack())
         undoStack()->beginMacro("addGraph");
 
-    auto data = insertItem<Data1DItem>(data_container());
-    data->setAxis<FixedBinAxisItem>(npoints, xmin, xmax);
-    data->setValues(bin_values(ModelView::Utils::RandDouble(0.5, 1.0)));
+    auto data = insertItem<QEXTMvvmData1DItem>(data_container());
+    data->setAxis<QEXTMvvmFixedBinAxisItem>(npoints, xmin, xmax);
+    data->setValues(bin_values(ModelView::QEXTMvvmUtils::RandDouble(0.5, 1.0)));
 
-    auto graph = insertItem<GraphItem>(viewport());
+    auto graph = insertItem<QEXTMvvmGraphItem>(viewport());
     graph->setDataItem(data);
-    graph->setNamedColor(ModelView::Utils::RandomNamedColor());
+    graph->setNamedColor(ModelView::QEXTMvvmUtils::RandomNamedColor());
 
     if (undoStack())
         undoStack()->endMacro();
@@ -79,8 +79,8 @@ void GraphModel::remove_graph()
     if (undoStack())
         undoStack()->beginMacro("removeGraph");
 
-    const int graph_count = viewport()->itemCount(ViewportItem::T_ITEMS);
-    const int data_count = data_container()->itemCount(ContainerItem::T_ITEMS);
+    const int graph_count = viewport()->itemCount(QEXTMvvmViewportItem::T_ITEMS);
+    const int data_count = data_container()->itemCount(QEXTMvvmContainerItem::T_ITEMS);
 
     if (graph_count != data_count)
         throw std::runtime_error("Number of graphs do not much number of data items.");
@@ -99,10 +99,10 @@ void GraphModel::remove_graph()
 
 void GraphModel::randomize_graphs()
 {
-    for (auto item : data_container()->items<Data1DItem>(ContainerItem::T_ITEMS)) {
+    for (auto item : data_container()->items<QEXTMvvmData1DItem>(QEXTMvvmContainerItem::T_ITEMS)) {
         auto values = item->binValues();
         std::transform(std::begin(values), std::end(values), std::begin(values),
-                       [](auto x) { return x * ModelView::Utils::RandDouble(0.8, 1.2); });
+                       [](double x) { return x * ModelView::QEXTMvvmUtils::RandDouble(0.8, 1.2); });
         item->setValues(values);
     }
 }
@@ -121,24 +121,24 @@ void GraphModel::redo()
 
 //! Returns viewport item containig graph items.
 
-GraphViewportItem* GraphModel::viewport()
+QEXTMvvmGraphViewportItem* GraphModel::viewport()
 {
-    return topItem<GraphViewportItem>();
+    return topItem<QEXTMvvmGraphViewportItem>();
 }
 
 //! Returns container with data items.
 
-ContainerItem* GraphModel::data_container()
+QEXTMvvmContainerItem* GraphModel::data_container()
 {
-    return topItem<ContainerItem>();
+    return topItem<QEXTMvvmContainerItem>();
 }
 
 void GraphModel::init_model()
 {
-    auto container = insertItem<ContainerItem>();
+    auto container = insertItem<QEXTMvvmContainerItem>();
     container->setDisplayName("Data container");
 
-    auto viewport = insertItem<GraphViewportItem>();
+    auto viewport = insertItem<QEXTMvvmGraphViewportItem>();
     viewport->setDisplayName("Graph container");
 
     add_graph();

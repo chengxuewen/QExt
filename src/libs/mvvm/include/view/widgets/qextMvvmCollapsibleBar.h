@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Reflectometry simulation software prototype
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMWIDGETSCOLLAPSIBLEBAR_H
+#define _QEXTMVVMWIDGETSCOLLAPSIBLEBAR_H
 
-#ifndef MVVM_WIDGETS_COLLAPSIBLEBAR_H
-#define MVVM_WIDGETS_COLLAPSIBLEBAR_H
+#include <qextMvvmGlobal.h>
 
 #include <QFrame>
-#include <qextMvvmGlobal.h>
 
 class QLabel;
 class QString;
@@ -22,12 +14,12 @@ namespace ModelView
 //! Horizontal collapsible bar, part of CollapsibleListWidget.
 //! Intended for placement into the QSplitter, makes client widget visible/invisible on clicks.
 
-class QEXT_MVVM_API CollapsibleBar : public QFrame
+class QEXT_MVVM_API QEXTMvvmCollapsibleBar : public QFrame
 {
     Q_OBJECT
 
 public:
-    CollapsibleBar(QWidget* parent = nullptr);
+    QEXTMvvmCollapsibleBar(QWidget* parent = nullptr);
 
     void setWidget(QWidget* widget, const QString& title);
 
@@ -45,4 +37,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_WIDGETS_COLLAPSIBLEBAR_H
+#endif // _QEXTMVVMWIDGETSCOLLAPSIBLEBAR_H

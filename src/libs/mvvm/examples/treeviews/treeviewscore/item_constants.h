@@ -14,7 +14,7 @@
 
 //! Constants to define toy items.
 
-namespace Constants
+namespace QEXTMvvmConstants
 {
 
 const std::string MultiLayerItemType = "MultiLayer";

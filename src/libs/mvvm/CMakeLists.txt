@@ -50,7 +50,6 @@ set(qext_lib_public_headers
     include/model/core/qextMvvmFileSystem.h
     include/model/core/qextMvvmTypes.h
     include/model/core/qextMvvmUniqueIdGenerator.h
-    include/model/core/qextMvvmVariant.h
     include/model/core/qextMvvmVersion.h
     include/model/factories/qextMvvmItemCatalogueFactory.h
     include/model/factories/qextMvvmItemConverterFactory.h

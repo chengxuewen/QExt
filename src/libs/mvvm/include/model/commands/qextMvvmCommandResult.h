@@ -1,16 +1,7 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMCOMMANDSCOMMANDRESULT_H
+#define _QEXTMVVMCOMMANDSCOMMANDRESULT_H
 
-#ifndef MVVM_COMMANDS_COMMANDRESULT_H
-#define MVVM_COMMANDS_COMMANDRESULT_H
-
-#include <variant>
+#include <QObject>
 
 namespace ModelView
 {
@@ -18,8 +9,22 @@ namespace ModelView
 class QEXTMvvmSessionItem;
 
 //! Results of command execution.
-using CommandResult = std::variant<bool, ModelView::QEXTMvvmSessionItem*>;
+//using QEXTMvvmCommandResult = std::variant<bool, ModelView::QEXTMvvmSessionItem*>;
+class QEXTMvvmCommandResult
+{
+public:
+    QEXTMvvmCommandResult() : m_item(nullptr), m_success(false) {}
+    QEXTMvvmCommandResult(ModelView::QEXTMvvmSessionItem *item) : m_item(item), m_success(false) {}
+    QEXTMvvmCommandResult(bool success) : m_item(nullptr), m_success(success) {}
+
+    ModelView::QEXTMvvmSessionItem *item() const { return m_item; }
+    bool success() const { return m_success; }
+
+private:
+    ModelView::QEXTMvvmSessionItem *m_item;
+    bool m_success;
+};
 
 } // namespace ModelView
 
-#endif // MVVM_COMMANDS_COMMANDRESULT_H
+#endif // _QEXTMVVMCOMMANDSCOMMANDRESULT_H

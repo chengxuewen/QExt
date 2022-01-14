@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSERIALIZATIONJSONITEMCOPYSTRATEGY_H
+#define _QEXTMVVMSERIALIZATIONJSONITEMCOPYSTRATEGY_H
 
-#ifndef MVVM_SERIALIZATION_JSONITEMCOPYSTRATEGY_H
-#define MVVM_SERIALIZATION_JSONITEMCOPYSTRATEGY_H
+#include <qextMvvmItemCopyStrategy.h>
 
 #include <memory>
-#include <qextMvvmItemCopyStrategy.h>
 
 namespace ModelView
 {
@@ -21,11 +13,11 @@ class QEXTMvvmItemFactoryInterface;
 
 //! Provide QEXTMvvmSessionItem copying using json based strategy.
 
-class QEXT_MVVM_API JsonItemCopyStrategy : public QEXTMvvmItemCopyStrategy
+class QEXT_MVVM_API QEXTMvvmJsonItemCopyStrategy : public QEXTMvvmItemCopyStrategy
 {
 public:
-    JsonItemCopyStrategy(const QEXTMvvmItemFactoryInterface* item_factory);
-    ~JsonItemCopyStrategy();
+    QEXTMvvmJsonItemCopyStrategy(const QEXTMvvmItemFactoryInterface* item_factory);
+    ~QEXTMvvmJsonItemCopyStrategy();
 
     std::unique_ptr<QEXTMvvmSessionItem> createCopy(const QEXTMvvmSessionItem* item) const;
 
@@ -36,4 +28,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONITEMCOPYSTRATEGY_H
+#endif // _QEXTMVVMSERIALIZATIONJSONITEMCOPYSTRATEGY_H

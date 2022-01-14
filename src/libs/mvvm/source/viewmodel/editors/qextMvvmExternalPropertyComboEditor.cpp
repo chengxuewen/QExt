@@ -16,8 +16,8 @@
 
 using namespace ModelView;
 
-ExternalPropertyComboEditor::ExternalPropertyComboEditor(callback_t callback, QWidget* parent)
-    : CustomEditor(parent)
+QEXTMvvmExternalPropertyComboEditor::QEXTMvvmExternalPropertyComboEditor(callback_t callback, QWidget* parent)
+    : QEXTMvvmCustomEditor(parent)
     , m_getPropertiesCallback(std::move(callback))
     , m_box(new QComboBox)
     , m_comboModel(new QStandardItemModel(this))
@@ -36,19 +36,19 @@ ExternalPropertyComboEditor::ExternalPropertyComboEditor(callback_t callback, QW
     setConnected(true);
 }
 
-QSize ExternalPropertyComboEditor::sizeHint() const
+QSize QEXTMvvmExternalPropertyComboEditor::sizeHint() const
 {
     return m_box->sizeHint();
 }
 
-QSize ExternalPropertyComboEditor::minimumSizeHint() const
+QSize QEXTMvvmExternalPropertyComboEditor::minimumSizeHint() const
 {
     return m_box->minimumSizeHint();
 }
 
-void ExternalPropertyComboEditor::onIndexChanged(int index)
+void QEXTMvvmExternalPropertyComboEditor::onIndexChanged(int index)
 {
-    auto property = m_data.value<ModelView::ExternalProperty>();
+    auto property = m_data.value<ModelView::QEXTMvvmExternalProperty>();
     auto mdata = m_getPropertiesCallback();
 
     if (index >= 0 && index < static_cast<int>(mdata.size())) {
@@ -57,7 +57,7 @@ void ExternalPropertyComboEditor::onIndexChanged(int index)
     }
 }
 
-void ExternalPropertyComboEditor::update_components()
+void QEXTMvvmExternalPropertyComboEditor::update_components()
 {
     setConnected(false);
 
@@ -77,12 +77,12 @@ void ExternalPropertyComboEditor::update_components()
 
 //! Returns index for QComboBox.
 
-int ExternalPropertyComboEditor::internIndex()
+int QEXTMvvmExternalPropertyComboEditor::internIndex()
 {
-    if (!m_data.canConvert<ModelView::ExternalProperty>())
+    if (!m_data.canConvert<ModelView::QEXTMvvmExternalProperty>())
         return 0;
 
-    auto property = m_data.value<ModelView::ExternalProperty>();
+    auto property = m_data.value<ModelView::QEXTMvvmExternalProperty>();
     int result(-1);
     for (auto prop : m_getPropertiesCallback()) {
         ++result;
@@ -93,12 +93,12 @@ int ExternalPropertyComboEditor::internIndex()
     return result;
 }
 
-void ExternalPropertyComboEditor::setConnected(bool isConnected)
+void QEXTMvvmExternalPropertyComboEditor::setConnected(bool isConnected)
 {
     if (isConnected)
         connect(m_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-                &ExternalPropertyComboEditor::onIndexChanged, Qt::UniqueConnection);
+                &QEXTMvvmExternalPropertyComboEditor::onIndexChanged, Qt::UniqueConnection);
     else
         disconnect(m_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-                   this, &ExternalPropertyComboEditor::onIndexChanged);
+                   this, &QEXTMvvmExternalPropertyComboEditor::onIndexChanged);
 }

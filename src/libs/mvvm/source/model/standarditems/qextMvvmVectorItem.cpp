@@ -14,7 +14,7 @@
 
 using namespace ModelView;
 
-VectorItem::VectorItem() : QEXTMvvmCompoundItem(Constants::VectorItemType)
+QEXTMvvmVectorItem::QEXTMvvmVectorItem() : QEXTMvvmCompoundItem(QEXTMvvmConstants::VectorItemType)
 {
     addProperty(P_X, 0.0)->setDisplayName("X");
     addProperty(P_Y, 0.0)->setDisplayName("Y");
@@ -25,16 +25,16 @@ VectorItem::VectorItem() : QEXTMvvmCompoundItem(Constants::VectorItemType)
     update_label();
 }
 
-void VectorItem::activate()
+void QEXTMvvmVectorItem::activate()
 {
     auto on_property_change = [this](QEXTMvvmSessionItem*, const std::string&) { update_label(); };
     mapper()->setOnPropertyChange(on_property_change, this);
 }
 
-void VectorItem::update_label()
+void QEXTMvvmVectorItem::update_label()
 {
     std::ostringstream ostr;
     ostr << "(" << property<double>(P_X) << ", " << property<double>(P_Y) << ", "
          << property<double>(P_Z) << ")";
-    setDataIntern(Variant::fromValue(ostr.str()), ItemDataRole::DATA);
+    setDataIntern(QVariant::fromValue(ostr.str()), ItemDataRole::DATA);
 }

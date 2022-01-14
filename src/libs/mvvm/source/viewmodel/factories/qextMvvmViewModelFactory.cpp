@@ -16,27 +16,27 @@
 
 using namespace ModelView;
 
-std::unique_ptr<ViewModel> Factory::CreateDefaultViewModel(ModelView::SessionModel* model)
+std::unique_ptr<QEXTMvvmViewModel> QEXTMvvmFactory::CreateDefaultViewModel(ModelView::QEXTMvvmSessionModel* model)
 {
-    return std::make_unique<DefaultViewModel>(model);
+    return make_unique<QEXTMvvmDefaultViewModel>(model);
 }
 
-std::unique_ptr<ViewModel> Factory::CreatePropertyViewModel(SessionModel* model)
+std::unique_ptr<QEXTMvvmViewModel> QEXTMvvmFactory::CreatePropertyViewModel(QEXTMvvmSessionModel* model)
 {
-    return std::make_unique<PropertyViewModel>(model);
+    return make_unique<QEXTMvvmPropertyViewModel>(model);
 }
 
-std::unique_ptr<ViewModel> Factory::CreatePropertyTableViewModel(SessionModel* model)
+std::unique_ptr<QEXTMvvmViewModel> QEXTMvvmFactory::CreatePropertyTableViewModel(QEXTMvvmSessionModel* model)
 {
-    return std::make_unique<PropertyTableViewModel>(model);
+    return make_unique<QEXTMvvmPropertyTableViewModel>(model);
 }
 
-std::unique_ptr<ViewModel> Factory::CreateTopItemsViewModel(SessionModel* model)
+std::unique_ptr<QEXTMvvmViewModel> QEXTMvvmFactory::CreateTopItemsViewModel(QEXTMvvmSessionModel* model)
 {
-    return std::make_unique<TopItemsViewModel>(model);
+    return make_unique<QEXTMvvmTopItemsViewModel>(model);
 }
 
-std::unique_ptr<ViewModel> Factory::CreatePropertyFlatViewModel(SessionModel* model)
+std::unique_ptr<QEXTMvvmViewModel> QEXTMvvmFactory::CreatePropertyFlatViewModel(QEXTMvvmSessionModel* model)
 {
-    return std::make_unique<PropertyFlatViewModel>(model);
+    return make_unique<QEXTMvvmPropertyFlatViewModel>(model);
 }

@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.11.6.1 LANGUAGES CXX)
+project(QEXT VERSION 0.11.7.1 LANGUAGES CXX)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -47,7 +47,7 @@ set(QEXT_VERSION_STR "${QEXT_VERSION_MAJOR}.${QEXT_VERSION_MINOR}.${QEXT_VERSION
 set(QEXT_COPYRIGHT "Copyright (c) 2021 ChengXueWen 1398831004@qq.com")
 set(QEXT_LICENSE "MIT License")
 set(QEXT_PRODUCT_NAME "QEXT")
-set(QEXT_CXX_STANDARD 17)
+set(QEXT_CXX_STANDARD 11)
 math(EXPR QEXT_VERSION_CALC "${QEXT_VERSION_MAJOR}*1000 + ${QEXT_VERSION_MINOR}*100 + ${QEXT_VERSION_PATCH}")
 message(STATUS "==============================================================================")
 message(STATUS "----QEXT---- Project version: ${QEXT_VERSION}")
@@ -215,6 +215,7 @@ set(QEXT_TEST_OUTPUT_DIR ${PROJECT_BINARY_DIR}/test CACHE STRING "QEXT test outp
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 include(qextFunctionActivatePrecompiledHeaders)
 include(qextFunctionCopyDependencyInternal)
+include(qextFunctionCheckCompileFeature)
 include(qextFunctionSetCompilerWarnings)
 include(qextFunctionQmlPlugin)
 include(qextMacroBuildDoxygen)

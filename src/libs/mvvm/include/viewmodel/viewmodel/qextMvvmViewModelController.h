@@ -1,20 +1,13 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMVIEWMODELREFVIEWMODELCONTROLLER_H
+#define _QEXTMVVMVIEWMODELREFVIEWMODELCONTROLLER_H
 
-#ifndef MVVM_VIEWMODEL_REFVIEWMODELCONTROLLER_H
-#define MVVM_VIEWMODEL_REFVIEWMODELCONTROLLER_H
-
-#include <QStringList>
-#include <memory>
 #include <qextMvvmTagRow.h>
 #include <qextMvvmModelListener.h>
 #include <qextMvvmGlobal.h>
+
+#include <QStringList>
+
+#include <memory>
 #include <vector>
 
 class QStandardItem;
@@ -22,42 +15,42 @@ class QStandardItem;
 namespace ModelView
 {
 
-class SessionModel;
+class QEXTMvvmSessionModel;
 class QEXTMvvmSessionItem;
-class ViewModelBase;
-class ViewItem;
-class ChildrenStrategyInterface;
-class RowStrategyInterface;
+class QEXTMvvmViewModelBase;
+class QEXTMvvmViewItem;
+class QEXTMvvmChildrenStrategyInterface;
+class QEXTMvvmRowStrategyInterface;
 
 //! Propagates changes from SessionModel to its ViewModelBase.
 
-class QEXT_MVVM_API ViewModelController : public ModelListener<SessionModel>
+class QEXT_MVVM_API QEXTMvvmViewModelController : public QEXTMvvmModelListener<QEXTMvvmSessionModel>
 {
 public:
-    ViewModelController(SessionModel* session_model, ViewModelBase* view_model = nullptr);
-    ~ViewModelController();
+    QEXTMvvmViewModelController(QEXTMvvmSessionModel* session_model, QEXTMvvmViewModelBase* view_model = nullptr);
+    ~QEXTMvvmViewModelController();
 
-    void setViewModel(ViewModelBase* view_model);
+    void setViewModel(QEXTMvvmViewModelBase* view_model);
 
-    void setChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
+    void setChildrenStrategy(std::unique_ptr<QEXTMvvmChildrenStrategyInterface> children_strategy);
 
-    void setRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
+    void setRowStrategy(std::unique_ptr<QEXTMvvmRowStrategyInterface> row_strategy);
 
-    SessionModel* sessionModel() const;
+    QEXTMvvmSessionModel* sessionModel() const;
 
     void setRootSessionItem(QEXTMvvmSessionItem* item);
 
     QEXTMvvmSessionItem* rootSessionItem() const;
 
-    std::vector<ViewItem*> findViews(const ModelView::QEXTMvvmSessionItem* item) const;
+    std::vector<QEXTMvvmViewItem*> findViews(const ModelView::QEXTMvvmSessionItem* item) const;
 
     QStringList horizontalHeaderLabels() const;
 
 protected:
     virtual void onDataChange(QEXTMvvmSessionItem* item, int role);
-    virtual void onItemInserted(QEXTMvvmSessionItem* parent, TagRow tagrow);
-    virtual void onItemRemoved(QEXTMvvmSessionItem* parent, TagRow tagrow);
-    virtual void onAboutToRemoveItem(QEXTMvvmSessionItem* parent, TagRow tagrow);
+    virtual void onItemInserted(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow);
+    virtual void onItemRemoved(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow);
+    virtual void onAboutToRemoveItem(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow);
 
     void update_branch(const QEXTMvvmSessionItem* item);
 
@@ -68,4 +61,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_REFVIEWMODELCONTROLLER_H
+#endif // _QEXTMVVMVIEWMODELREFVIEWMODELCONTROLLER_H

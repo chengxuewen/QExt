@@ -12,7 +12,7 @@
 
 using namespace ModelView;
 
-DefaultViewModel::DefaultViewModel(SessionModel* model, QObject* parent)
-    : ViewModel(std::make_unique<DefaultViewModelController>(model, this), parent)
+QEXTMvvmDefaultViewModel::QEXTMvvmDefaultViewModel(QEXTMvvmSessionModel* model, QObject* parent)
+    : QEXTMvvmViewModel(make_unique<QEXTMvvmDefaultViewModelController>(model, this), parent)
 {
 }

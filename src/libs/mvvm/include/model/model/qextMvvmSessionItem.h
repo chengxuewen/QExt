@@ -1,22 +1,15 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMMODELSESSIONITEM_H
+#define _QEXTMVVMMODELSESSIONITEM_H
 
-#ifndef MVVM_MODEL_SESSIONITEM_H
-#define MVVM_MODEL_SESSIONITEM_H
-
-#include <memory>
-#include <qextMvvmVariant.h>
 #include <qextMvvmCustomVariants.h>
 #include <qextMvvmTypes.h>
 #include <qextMvvmConstantsTypes.h>
 #include <qextMvvmTagRow.h>
 #include <qextMvvmGlobal.h>
+
+#include <QVariant>
+
+#include <memory>
 #include <stdexcept>
 #include <type_traits>
 #include <vector>
@@ -24,15 +17,16 @@
 namespace ModelView
 {
 
-class SessionModel;
-class TagInfo;
-class ItemMapper;
-class SessionItemData;
+class QEXTMvvmSessionItemTags;
+class QEXTMvvmSessionModel;
+class QEXTMvvmTagInfo;
+class QEXTMvvmItemMapper;
+class QEXTMvvmSessionItemData;
 
 class QEXT_MVVM_API QEXTMvvmSessionItem
 {
 public:
-    explicit QEXTMvvmSessionItem(model_type modelType = Constants::BaseType);
+    explicit QEXTMvvmSessionItem(model_type modelType = QEXTMvvmConstants::BaseType);
     virtual ~QEXTMvvmSessionItem();
     QEXTMvvmSessionItem(const QEXTMvvmSessionItem&) = delete;
     QEXTMvvmSessionItem& operator=(const QEXTMvvmSessionItem&) = delete;
@@ -45,21 +39,21 @@ public:
     std::string identifier() const;
 
     template <typename T> bool setData(const T& value, int role = ItemDataRole::DATA);
-    bool setDataIntern(const Variant& variant, int role);
+    bool setDataIntern(const QVariant& variant, int role);
 
     bool hasData(int role = ItemDataRole::DATA) const;
 
     template <typename T> T data(int role = ItemDataRole::DATA) const;
 
-    SessionModel* model() const;
+    QEXTMvvmSessionModel* model() const;
 
     QEXTMvvmSessionItem* parent() const;
 
     int childrenCount() const;
 
-    bool insertItem(QEXTMvvmSessionItem* item, const TagRow& tagrow);
+    bool insertItem(QEXTMvvmSessionItem* item, const QEXTMvvmTagRow& tagrow);
 
-    QEXTMvvmSessionItem* takeItem(const TagRow& tagrow);
+    QEXTMvvmSessionItem* takeItem(const QEXTMvvmTagRow& tagrow);
 
     std::vector<QEXTMvvmSessionItem*> children() const;
 
@@ -69,13 +63,13 @@ public:
     std::string defaultTag() const;
     void setDefaultTag(const std::string& tag);
 
-    void registerTag(const TagInfo& tagInfo, bool set_as_default = false);
+    void registerTag(const QEXTMvvmTagInfo& tagInfo, bool set_as_default = false);
 
     bool isTag(const std::string& name) const;
 
     std::string tag() const;
 
-    TagRow tagRow() const;
+    QEXTMvvmTagRow tagRow() const;
 
     // access tagged items
     int itemCount(const std::string& tag) const;
@@ -84,9 +78,9 @@ public:
     template <typename T> T* item(const std::string& tag) const;
     template <typename T = QEXTMvvmSessionItem> std::vector<T*> items(const std::string& tag) const;
     std::string tagOfItem(const QEXTMvvmSessionItem* item) const;
-    TagRow tagRowOfItem(const QEXTMvvmSessionItem* item) const;
+    QEXTMvvmTagRow tagRowOfItem(const QEXTMvvmSessionItem* item) const;
 
-    ItemMapper* mapper();
+    QEXTMvvmItemMapper* mapper();
 
     bool isEditable() const;
     QEXTMvvmSessionItem* setEditable(bool value);
@@ -109,22 +103,22 @@ public:
     void setProperty(const std::string& tag, const char* value);
 
     // FIXME refactor converter access to item internals
-    SessionItemData* itemData();
-    const SessionItemData* itemData() const;
+    QEXTMvvmSessionItemData* itemData();
+    const QEXTMvvmSessionItemData* itemData() const;
 
 private:
-    friend class SessionModel;
-    friend class JsonItemConverter;
+    friend class QEXTMvvmSessionModel;
+    friend class QEXTMvvmJsonItemConverter;
     virtual void activate() {}
-    bool set_data_internal(Variant value, int role);
-    Variant data_internal(int role) const;
+    bool set_data_internal(QVariant value, int role);
+    QVariant data_internal(int role) const;
     void setParent(QEXTMvvmSessionItem* parent);
-    void setModel(SessionModel* model);
+    void setModel(QEXTMvvmSessionModel* model);
     void setAppearanceFlag(int flag, bool value);
 
-    class SessionItemTags* itemTags() const;
-    void setDataAndTags(std::unique_ptr<SessionItemData> data,
-                        std::unique_ptr<SessionItemTags> tags);
+    QEXTMvvmSessionItemTags* itemTags() const;
+    void setDataAndTags(std::unique_ptr<QEXTMvvmSessionItemData> data,
+                        std::unique_ptr<QEXTMvvmSessionItemTags> tags);
 
     struct SessionItemImpl;
     std::unique_ptr<SessionItemImpl> p_impl;
@@ -134,16 +128,16 @@ private:
 
 template <typename T> inline bool QEXTMvvmSessionItem::setData(const T& value, int role)
 {
-    if constexpr (std::is_same<T, Variant>::value)
+    if constexpr (std::is_same<T, QVariant>::value)
         return set_data_internal(value, role);
-    return set_data_internal(Variant::fromValue(value), role);
+    return set_data_internal(QVariant::fromValue(value), role);
 }
 
 //! Returns data of given type T for given role.
 
 template <typename T> inline T QEXTMvvmSessionItem::data(int role) const
 {
-    if constexpr (std::is_same<T, Variant>::value)
+    if constexpr (std::is_same<T, QVariant>::value)
         return data_internal(role);
     return data_internal(role).value<T>();
 }
@@ -203,4 +197,4 @@ template <typename T> std::vector<T*> QEXTMvvmSessionItem::items(const std::stri
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_SESSIONITEM_H
+#endif // _QEXTMVVMMODELSESSIONITEM_H

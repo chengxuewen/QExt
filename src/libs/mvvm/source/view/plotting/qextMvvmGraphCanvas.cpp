@@ -41,15 +41,15 @@ QCP::MarginSides autoMarginPolicy(int left, int top, int right, int bottom)
 
 using namespace ModelView;
 
-struct GraphCanvas::GraphCanvasImpl {
+struct QEXTMvvmGraphCanvas::GraphCanvasImpl {
     QCustomPlot* custom_plot{nullptr};
-    std::unique_ptr<GraphViewportPlotController> viewport_controller;
-    std::unique_ptr<StatusStringReporter> reporter;
-    StatusLabel* status_label{nullptr};
+    std::unique_ptr<QEXTMvvmGraphViewportPlotController> viewport_controller;
+    std::unique_ptr<QEXTMvvmStatusStringReporter> reporter;
+    QEXTMvvmStatusLabel* status_label{nullptr};
 
-    GraphCanvasImpl() : custom_plot(new QCustomPlot), status_label(new StatusLabel)
+    GraphCanvasImpl() : custom_plot(new QCustomPlot), status_label(new QEXTMvvmStatusLabel)
     {
-        viewport_controller = std::make_unique<GraphViewportPlotController>(custom_plot);
+        viewport_controller = make_unique<QEXTMvvmGraphViewportPlotController>(custom_plot);
 
         auto on_mouse_move = [this](const std::string& str) {
             status_label->setText(QString::fromStdString(str));
@@ -76,8 +76,8 @@ struct GraphCanvas::GraphCanvasImpl {
     QCustomPlot* customPlot() { return custom_plot; }
 };
 
-GraphCanvas::GraphCanvas(QWidget* parent)
-    : QWidget(parent), p_impl(std::make_unique<GraphCanvasImpl>())
+QEXTMvvmGraphCanvas::QEXTMvvmGraphCanvas(QWidget* parent)
+    : QWidget(parent), p_impl(make_unique<GraphCanvasImpl>())
 {
     auto layout = new QVBoxLayout(this);
     layout->setMargin(0);
@@ -98,24 +98,24 @@ GraphCanvas::GraphCanvas(QWidget* parent)
     connect(p_impl->customPlot(), &QCustomPlot::afterReplot, this, on_replot);
 }
 
-GraphCanvas::~GraphCanvas() = default;
+QEXTMvvmGraphCanvas::~QEXTMvvmGraphCanvas() = default;
 
-void GraphCanvas::setItem(GraphViewportItem* viewport_item)
+void QEXTMvvmGraphCanvas::setItem(QEXTMvvmGraphViewportItem* viewport_item)
 {
     p_impl->viewport_controller->setItem(viewport_item);
 }
 
-std::unique_ptr<SceneAdapterInterface> GraphCanvas::createSceneAdapter() const
+std::unique_ptr<QEXTMvvmSceneAdapterInterface> QEXTMvvmGraphCanvas::createSceneAdapter() const
 {
-    return std::make_unique<CustomPlotSceneAdapter>(p_impl->customPlot());
+    return make_unique<QEXTMvvmCustomPlotSceneAdapter>(p_impl->customPlot());
 }
 
-void GraphCanvas::setViewportToContent(double left, double top, double right, double bottom)
+void QEXTMvvmGraphCanvas::setViewportToContent(double left, double top, double right, double bottom)
 {
     p_impl->setViewportToContent(left, top, right, bottom);
 }
 
-void GraphCanvas::setViewportToContent()
+void QEXTMvvmGraphCanvas::setViewportToContent()
 {
     p_impl->setViewportToContent();
 }
@@ -123,7 +123,7 @@ void GraphCanvas::setViewportToContent()
 //! Set margins between axes rectangle and widget borders.
 //! If the value is negative, leave old margin intact and allow automatic margin adjustment.
 
-void GraphCanvas::setAxisMargins(int left, int top, int right, int bottom)
+void QEXTMvvmGraphCanvas::setAxisMargins(int left, int top, int right, int bottom)
 {
     auto customPlot = p_impl->customPlot();
     customPlot->axisRect()->setAutoMargins(autoMarginPolicy(left, top, right, bottom));

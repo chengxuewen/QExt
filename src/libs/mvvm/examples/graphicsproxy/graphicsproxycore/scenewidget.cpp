@@ -28,7 +28,7 @@ SceneWidget::SceneWidget(SceneModel* model, QWidget* parent)
     , m_toolBar(new QToolBar)
     , m_resetViewportAction(nullptr)
     , m_propertyWidget(new ScenePropertyWidget)
-    , m_colorMapCanvas(new ColorMapCanvas)
+    , m_colorMapCanvas(new QEXTMvvmColorMapCanvas)
     , graphics_scene(new GraphicsScene(this))
     , graphics_view(new GraphicsView(graphics_scene, this))
     , m_model(model)
@@ -47,7 +47,7 @@ SceneWidget::SceneWidget(SceneModel* model, QWidget* parent)
     setLayout(mainLayout);
 
     m_propertyWidget->setModel(model);
-    m_colorMapCanvas->setItem(model->topItem<ColorMapViewportItem>());
+    m_colorMapCanvas->setItem(model->topItem<QEXTMvvmColorMapViewportItem>());
     init_actions();
 
     graphics_scene->setContext(m_colorMapCanvas, model->topItem<RegionOfInterestItem>());
@@ -60,7 +60,7 @@ void SceneWidget::init_actions()
 
     m_resetViewportAction = new QAction("Reset view", this);
     auto on_reset = [this]() {
-        auto viewport = m_model->topItem<ColorMapViewportItem>();
+        auto viewport = m_model->topItem<QEXTMvvmColorMapViewportItem>();
         viewport->setViewportToContent();
     };
     connect(m_resetViewportAction, &QAction::triggered, on_reset);
@@ -68,7 +68,7 @@ void SceneWidget::init_actions()
 
     m_setViewportToRoiAction = new QAction("Set to ROI", this);
     auto on_set_to_roi = [this]() {
-        auto viewport = m_model->topItem<ColorMapViewportItem>();
+        auto viewport = m_model->topItem<QEXTMvvmColorMapViewportItem>();
         auto roi = m_model->topItem<RegionOfInterestItem>();
         viewport->xAxis()->set_range(roi->property<double>(RegionOfInterestItem::P_XLOW),
                                      roi->property<double>(RegionOfInterestItem::P_XUP));

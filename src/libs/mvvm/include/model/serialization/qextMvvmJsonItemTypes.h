@@ -1,21 +1,13 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_SERIALIZATION_JSONITEM_TYPES_H
-#define MVVM_SERIALIZATION_JSONITEM_TYPES_H
+#ifndef _QEXTMVVMSERIALIZATIONJSONITEMTYPES_H
+#define _QEXTMVVMSERIALIZATIONJSONITEMTYPES_H
 
 //! @file jsonitem_types.h
 //! Collection of custom types involved into QEXTMvvmSessionItem and JSON mutual convertion.
 
+#include <qextMvvmGlobal.h>
+
 #include <functional>
 #include <memory>
-#include <qextMvvmGlobal.h>
 #include <vector>
 
 class QJsonObject;
@@ -28,7 +20,7 @@ class QEXTMvvmItemFactoryInterface;
 
 //! Provides necessary callbacks to convert QEXTMvvmSessionItem to JSON and back.
 
-struct QEXT_MVVM_API ConverterCallbacks {
+struct QEXT_MVVM_API QEXTMvvmConverterCallbacks {
     using create_json_t = std::function<QJsonObject(const QEXTMvvmSessionItem&)>;
     using create_item_t = std::function<std::unique_ptr<QEXTMvvmSessionItem>(const QJsonObject&)>;
     using update_item_t = std::function<void(const QJsonObject&, QEXTMvvmSessionItem*)>;
@@ -62,11 +54,11 @@ inline bool isRebuildItemDataAndTagFromJson(ConverterMode mode)
 
 //! Collection of input paramters for SessionItemConverter
 
-struct QEXT_MVVM_API ConverterContext {
+struct QEXT_MVVM_API QEXTMvvmConverterContext {
     const QEXTMvvmItemFactoryInterface* m_factory{nullptr};
     ConverterMode m_mode = ConverterMode::none;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONITEM_TYPES_H
+#endif // _QEXTMVVMSERIALIZATIONJSONITEMTYPES_H

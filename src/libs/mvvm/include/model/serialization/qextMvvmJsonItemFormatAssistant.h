@@ -1,18 +1,11 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSERIALIZATIONJSONITEMFORMATASSISTANT_H
+#define _QEXTMVVMSERIALIZATIONJSONITEMFORMATASSISTANT_H
 
-#ifndef MVVM_SERIALIZATION_JSONITEMFORMATASSISTANT_H
-#define MVVM_SERIALIZATION_JSONITEMFORMATASSISTANT_H
+#include <qextMvvmJsonItemConverterInterface.h>
 
 #include <QString>
+
 #include <memory>
-#include <serialization/qextMvvmJsonItemConverterInterface.h>
 
 namespace ModelView
 {
@@ -23,7 +16,7 @@ class QEXTMvvmItemFactoryInterface;
 //! SessionModel. It is made a class (and not a set of free functions) to allow different formats in
 //! the future.
 
-class QEXT_MVVM_API JsonItemFormatAssistant
+class QEXT_MVVM_API QEXTMvvmJsonItemFormatAssistant
 {
 public:
     static inline const QString modelKey = "model";
@@ -47,4 +40,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONITEMFORMATASSISTANT_H
+#endif // _QEXTMVVMSERIALIZATIONJSONITEMFORMATASSISTANT_H

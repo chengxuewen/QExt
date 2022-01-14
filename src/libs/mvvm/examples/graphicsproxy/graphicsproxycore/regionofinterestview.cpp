@@ -22,8 +22,8 @@ const double bbox_margins = 5; // additional margins around rectangle to form bo
 } // namespace
 
 RegionOfInterestView::RegionOfInterestView(RegionOfInterestItem* item,
-                                           const ModelView::SceneAdapterInterface* scene_adapter)
-    : controller(std::make_unique<RegionOfInterestController>(item, scene_adapter, this))
+                                           const ModelView::QEXTMvvmSceneAdapterInterface* scene_adapter)
+    : controller(make_unique<RegionOfInterestController>(item, scene_adapter, this))
 {
     if (!scene_adapter)
         throw std::runtime_error("Error in RegionOfInterestView: scene adapter is not initialized");
@@ -141,7 +141,7 @@ SizeHandleElement* RegionOfInterestView::findOpposite(SizeHandleElement* element
 
     auto opposite = element->oppositeHandlePosition();
     auto it = std::find_if(handles.begin(), handles.end(),
-                           [opposite](auto x) { return x->handlePosition() == opposite; });
+                           [opposite](SizeHandleElement *x) { return x->handlePosition() == opposite; });
     if (it == handles.end())
         throw std::runtime_error("Error in RegionOfInterestView: can't find opposite handle");
     return *it;

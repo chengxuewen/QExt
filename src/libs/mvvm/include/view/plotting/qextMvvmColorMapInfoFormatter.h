@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_PLOTTING_COLORMAPINFOFORMATTER_H
-#define MVVM_PLOTTING_COLORMAPINFOFORMATTER_H
+#ifndef _QEXTMVVMPLOTTINGCOLORMAPINFOFORMATTER_H
+#define _QEXTMVVMPLOTTINGCOLORMAPINFOFORMATTER_H
 
 #include <qextMvvmStatusStringFormatterInterface.h>
 
@@ -21,7 +12,7 @@ namespace ModelView
 //! Includes coordinates of mouse pointer in viewport axes coordinates, add bins info for
 //! QCPColorMap beneath.
 
-class QEXT_MVVM_API ColorMapInfoFormatter : public StatusStringFormatterInterface
+class QEXT_MVVM_API QEXTMvvmColorMapInfoFormatter : public QEXTMvvmStatusStringFormatterInterface
 {
 public:
     //! Returns status string representing data in color map.
@@ -32,4 +23,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_COLORMAPINFOFORMATTER_H
+#endif // _QEXTMVVMPLOTTINGCOLORMAPINFOFORMATTER_H

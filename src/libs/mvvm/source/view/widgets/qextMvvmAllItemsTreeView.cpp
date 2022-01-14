@@ -13,11 +13,11 @@
 
 namespace ModelView
 {
-AllItemsTreeView::AllItemsTreeView(SessionModel* model, QWidget* parent) : ItemsTreeView(parent)
+QEXTMvvmAllItemsTreeView::QEXTMvvmAllItemsTreeView(QEXTMvvmSessionModel* model, QWidget* parent) : QEXTMvvmItemsTreeView(parent)
 {
-    setViewModel(Factory::CreateDefaultViewModel(model));
+    setViewModel(QEXTMvvmFactory::CreateDefaultViewModel(model));
 }
 
-AllItemsTreeView::~AllItemsTreeView() = default;
+QEXTMvvmAllItemsTreeView::~QEXTMvvmAllItemsTreeView() = default;
 
 } // namespace ModelView

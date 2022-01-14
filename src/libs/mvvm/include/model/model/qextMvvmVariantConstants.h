@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_MODEL_VARIANTCONSTANTS_H
-#define MVVM_MODEL_VARIANTCONSTANTS_H
+#ifndef _QEXTMVVMMODELVARIANTCONSTANTS_H
+#define _QEXTMVVMMODELVARIANTCONSTANTS_H
 
 #include <string>
 
@@ -17,7 +8,7 @@
 
 namespace ModelView
 {
-namespace Constants
+namespace QEXTMvvmConstants
 {
 
 const std::string invalid_type_name = "invalid";
@@ -35,4 +26,4 @@ const std::string reallimits_type_name = "ModelView::RealLimits";
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_VARIANTCONSTANTS_H
+#endif // _QEXTMVVMMODELVARIANTCONSTANTS_H

@@ -15,8 +15,8 @@
 
 using namespace ModelView;
 
-ScientificSpinBoxEditor::ScientificSpinBoxEditor(QWidget* parent)
-    : CustomEditor(parent), m_doubleEditor(new ScientificSpinBox)
+QEXTMvvmScientificSpinBoxEditor::QEXTMvvmScientificSpinBoxEditor(QWidget* parent)
+    : QEXTMvvmCustomEditor(parent), m_doubleEditor(new QEXTMvvmScientificSpinBox)
 {
     setAutoFillBackground(true);
     setFocusPolicy(Qt::StrongFocus);
@@ -29,43 +29,43 @@ ScientificSpinBoxEditor::ScientificSpinBoxEditor(QWidget* parent)
 
     layout->addWidget(m_doubleEditor);
 
-    connect(m_doubleEditor, &ScientificSpinBox::valueChanged, [=] { this->onEditingFinished(); });
+    connect(m_doubleEditor, &QEXTMvvmScientificSpinBox::valueChanged, [=] { this->onEditingFinished(); });
 
     setLayout(layout);
 
     setFocusProxy(m_doubleEditor);
 }
 
-void ScientificSpinBoxEditor::setRange(double minimum, double maximum)
+void QEXTMvvmScientificSpinBoxEditor::setRange(double minimum, double maximum)
 {
     m_doubleEditor->setMinimum(minimum);
     m_doubleEditor->setMaximum(maximum);
 }
 
-void ScientificSpinBoxEditor::setDecimals(int decimals)
+void QEXTMvvmScientificSpinBoxEditor::setDecimals(int decimals)
 {
     m_doubleEditor->setDecimals(decimals);
 }
 
-void ScientificSpinBoxEditor::setSingleStep(double step)
+void QEXTMvvmScientificSpinBoxEditor::setSingleStep(double step)
 {
     m_doubleEditor->setSingleStep(step);
 }
 
-bool ScientificSpinBoxEditor::is_persistent() const
+bool QEXTMvvmScientificSpinBoxEditor::is_persistent() const
 {
     return true;
 }
 
-void ScientificSpinBoxEditor::onEditingFinished()
+void QEXTMvvmScientificSpinBoxEditor::onEditingFinished()
 {
     double new_value = m_doubleEditor->value();
 
-    if (!Utils::AreAlmostEqual(new_value, m_data.value<double>()))
+    if (!QEXTMvvmUtils::AreAlmostEqual(new_value, m_data.value<double>()))
         setDataIntern(QVariant::fromValue(new_value));
 }
 
-void ScientificSpinBoxEditor::update_components()
+void QEXTMvvmScientificSpinBoxEditor::update_components()
 {
     if (m_data.type() != QVariant::Double)
         throw std::runtime_error(

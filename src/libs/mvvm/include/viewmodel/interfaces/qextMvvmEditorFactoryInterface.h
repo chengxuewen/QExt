@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMEDITORSEDITORFACTORYINTERFACE_H
+#define _QEXTMVVMEDITORSEDITORFACTORYINTERFACE_H
 
-#ifndef MVVM_EDITORS_EDITORFACTORYINTERFACE_H
-#define MVVM_EDITORS_EDITORFACTORYINTERFACE_H
+#include <qextMvvmGlobal.h>
 
 #include <memory>
-#include <qextMvvmGlobal.h>
 #include <string>
 
 class QModelIndex;
@@ -20,19 +12,19 @@ class QWidget;
 namespace ModelView
 {
 
-class CustomEditor;
+class QEXTMvvmCustomEditor;
 
 //! Interface for custom editor factory.
 //! Intended for editor construction in cells of tables and trees in the context of delegate.
 
-class QEXT_MVVM_API EditorFactoryInterface
+class QEXT_MVVM_API QEXTMvvmEditorFactoryInterface
 {
 public:
-    virtual ~EditorFactoryInterface() = default;
+    virtual ~QEXTMvvmEditorFactoryInterface() = default;
 
-    virtual std::unique_ptr<CustomEditor> createEditor(const QModelIndex& index) const = 0;
+    virtual std::unique_ptr<QEXTMvvmCustomEditor> createEditor(const QModelIndex& index) const = 0;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_EDITORFACTORYINTERFACE_H
+#endif // _QEXTMVVMEDITORSEDITORFACTORYINTERFACE_H

@@ -11,25 +11,25 @@
 
 using namespace ModelView;
 
-ProgressHandler::ProgressHandler(ProgressHandler::callback_t callback, size_t max_ticks_count)
+QEXTMvvmProgressHandler::QEXTMvvmProgressHandler(QEXTMvvmProgressHandler::callback_t callback, size_t max_ticks_count)
     : runner_callback(std::move(callback)), max_ticks_count(max_ticks_count)
 {
 }
 
-void ProgressHandler::subscribe(ProgressHandler::callback_t callback)
+void QEXTMvvmProgressHandler::subscribe(QEXTMvvmProgressHandler::callback_t callback)
 {
     runner_callback = std::move(callback);
 }
 
 //! Sets expected ticks count, representing progress of a computation.
 
-void ProgressHandler::setMaxTicksCount(size_t value)
+void QEXTMvvmProgressHandler::setMaxTicksCount(size_t value)
 {
     reset();
     max_ticks_count = value;
 }
 
-bool ProgressHandler::has_interrupt_request() const
+bool QEXTMvvmProgressHandler::has_interrupt_request() const
 {
     return interrupt_request;
 }
@@ -37,7 +37,7 @@ bool ProgressHandler::has_interrupt_request() const
 //! Increment number of completed computation steps. Performs callback to inform
 //! subscriber about current progress (in percents) and retrieves interrupt request flag.
 
-void ProgressHandler::setCompletedTicks(size_t value)
+void QEXTMvvmProgressHandler::setCompletedTicks(size_t value)
 {
     std::unique_lock<std::mutex> lock(mutex);
     completed_ticks += value;
@@ -49,7 +49,7 @@ void ProgressHandler::setCompletedTicks(size_t value)
 
 //! Resets progress.
 
-void ProgressHandler::reset()
+void QEXTMvvmProgressHandler::reset()
 {
     interrupt_request = false;
     completed_ticks = 0;

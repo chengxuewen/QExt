@@ -1,32 +1,24 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSERIALIZATIONJSONDOCUMENT_H
+#define _QEXTMVVMSERIALIZATIONJSONDOCUMENT_H
 
-#ifndef MVVM_SERIALIZATION_JSONDOCUMENT_H
-#define MVVM_SERIALIZATION_JSONDOCUMENT_H
+#include <qextMvvmModelDocumentInterface.h>
 
 #include <vector>
 #include <memory>
-#include <qextMvvmModelDocumentInterface.h>
 
 namespace ModelView
 {
 
-class SessionModel;
+class QEXTMvvmSessionModel;
 
 //! Saves and restores list of SessionModel's to/from disk using json format.
 //! Single JsonDocument corresponds to a single file on disk.
 
-class QEXT_MVVM_API JsonDocument : public QEXTMVVMModelDocumentInterface
+class QEXT_MVVM_API QEXTMvvmJsonDocument : public QEXTMVVMModelDocumentInterface
 {
 public:
-    JsonDocument(const std::vector<SessionModel*>& models);
-    ~JsonDocument() override;
+    QEXTMvvmJsonDocument(const std::vector<QEXTMvvmSessionModel*>& models);
+    ~QEXTMvvmJsonDocument() override;
 
     void save(const std::string& file_name) const override;
     void load(const std::string& file_name) override;
@@ -38,4 +30,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_ITEMBACKUPSTRATEGY_H
+#endif // _QEXTMVVMSERIALIZATIONJSONDOCUMENT_H

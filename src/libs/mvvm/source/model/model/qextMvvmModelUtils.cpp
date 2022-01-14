@@ -13,13 +13,13 @@
 
 using namespace ModelView;
 
-void Utils::PopulateEmptyModel(const JsonModelConverterInterface* converter, const SessionModel& source, SessionModel& target)
+void QEXTMvvmUtils::PopulateEmptyModel(const QEXTMvvmJsonModelConverterInterface* converter, const QEXTMvvmSessionModel& source, QEXTMvvmSessionModel& target)
 {
     QJsonObject object = converter->to_json(source);
     converter->from_json(object, target);
 }
 
-void Utils::DeleteItemFromModel(QEXTMvvmSessionItem* item)
+void QEXTMvvmUtils::DeleteItemFromModel(QEXTMvvmSessionItem* item)
 {
     auto model = item->model();
     if (!model)
@@ -28,7 +28,7 @@ void Utils::DeleteItemFromModel(QEXTMvvmSessionItem* item)
     model->removeItem(item->parent(), item->tagRow());
 }
 
-void Utils::MoveUp(QEXTMvvmSessionItem* item)
+void QEXTMvvmUtils::MoveUp(QEXTMvvmSessionItem* item)
 {
     auto tagrow = item->tagRow();
     if (tagrow.row == 0)
@@ -36,7 +36,7 @@ void Utils::MoveUp(QEXTMvvmSessionItem* item)
     item->model()->moveItem(item, item->parent(), tagrow.prev());
 }
 
-void Utils::MoveDown(QEXTMvvmSessionItem* item)
+void QEXTMvvmUtils::MoveDown(QEXTMvvmSessionItem* item)
 {
     auto tagrow = item->tagRow();
     if (tagrow.row == item->parent()->itemCount(tagrow.tag) - 1)
@@ -44,19 +44,19 @@ void Utils::MoveDown(QEXTMvvmSessionItem* item)
     item->model()->moveItem(item, item->parent(), tagrow.next());
 }
 
-void Utils::Undo(SessionModel& model)
+void QEXTMvvmUtils::Undo(QEXTMvvmSessionModel& model)
 {
     if (auto stack = model.undoStack(); stack)
         stack->undo();
 }
 
-void Utils::Redo(SessionModel& model)
+void QEXTMvvmUtils::Redo(QEXTMvvmSessionModel& model)
 {
     if (auto stack = model.undoStack(); stack)
         stack->redo();
 }
 
-void Utils::BeginMacros(const QEXTMvvmSessionItem* item, const std::string& macro_name)
+void QEXTMvvmUtils::BeginMacros(const QEXTMvvmSessionItem* item, const std::string& macro_name)
 {
     if (!item->model())
         return;
@@ -65,7 +65,7 @@ void Utils::BeginMacros(const QEXTMvvmSessionItem* item, const std::string& macr
         stack->beginMacro(macro_name);
 }
 
-void Utils::EndMacros(const QEXTMvvmSessionItem* item)
+void QEXTMvvmUtils::EndMacros(const QEXTMvvmSessionItem* item)
 {
     if (!item->model())
         return;

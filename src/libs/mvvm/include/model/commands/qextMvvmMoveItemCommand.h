@@ -1,30 +1,22 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMCOMMANDSMOVEITEMCOMMAND_H
+#define _QEXTMVVMCOMMANDSMOVEITEMCOMMAND_H
 
-#ifndef MVVM_COMMANDS_MOVEITEMCOMMAND_H
-#define MVVM_COMMANDS_MOVEITEMCOMMAND_H
+#include <qextMvvmItemCommand.h>
 
 #include <memory>
-#include <commands/qextMvvmItemCommand.h>
 
 namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class TagRow;
+class QEXTMvvmTagRow;
 
 //! Command for unddo/redo framework to move item from one parent to another.
 
 class QEXT_MVVM_API QEXTMvvmMoveItemCommand : public QEXTMvvmItemCommand
 {
 public:
-    QEXTMvvmMoveItemCommand(QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* new_parent, TagRow tagrow);
+    QEXTMvvmMoveItemCommand(QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* new_parent, QEXTMvvmTagRow tagrow);
     ~QEXTMvvmMoveItemCommand() override;
 
 private:
@@ -37,4 +29,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_COMMANDS_MOVEITEMCOMMAND_H
+#endif // _QEXTMVVMCOMMANDSMOVEITEMCOMMAND_H

@@ -1,16 +1,8 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_PLOTTING_STATUSSTRINGFORMATTERINTERFACE_H
-#define MVVM_PLOTTING_STATUSSTRINGFORMATTERINTERFACE_H
+#ifndef _QEXTMVVMPLOTTINGSTATUSSTRINGFORMATTERINTERFACE_H
+#define _QEXTMVVMPLOTTINGSTATUSSTRINGFORMATTERINTERFACE_H
 
 #include <qextMvvmGlobal.h>
+
 #include <string>
 
 class QCustomPlot;
@@ -21,14 +13,14 @@ namespace ModelView
 //! Pure virtual interface to format string with status info corresponding to the current mouse
 //! position on QCustomPlot.
 
-class QEXT_MVVM_API StatusStringFormatterInterface
+class QEXT_MVVM_API QEXTMvvmStatusStringFormatterInterface
 {
 public:
-    virtual ~StatusStringFormatterInterface() = default;
+    virtual ~QEXTMvvmStatusStringFormatterInterface() = default;
 
     virtual std::string status_string(QCustomPlot* custom_plot, double x, double y) const = 0;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_STATUSSTRINGFORMATTERINTERFACE_H
+#endif // _QEXTMVVMPLOTTINGSTATUSSTRINGFORMATTERINTERFACE_H

@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_MODEL_UNIQUEIDGENERATOR_H
-#define MVVM_MODEL_UNIQUEIDGENERATOR_H
+#ifndef _QEXTMVVMMODELUNIQUEIDGENERATOR_H
+#define _QEXTMVVMMODELUNIQUEIDGENERATOR_H
 
 #include <qextMvvmTypes.h>
 #include <qextMvvmGlobal.h>
@@ -34,4 +25,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_UNIQUEIDGENERATOR_H
+#endif // _QEXTMVVMMODELUNIQUEIDGENERATOR_H

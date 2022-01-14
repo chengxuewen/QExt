@@ -1,18 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMVIEWMODELVIEWITEM_H
+#define _QEXTMVVMVIEWMODELVIEWITEM_H
 
-#ifndef MVVM_VIEWMODEL_VIEWITEM_H
-#define MVVM_VIEWMODEL_VIEWITEM_H
+#include <qextMvvmGlobal.h>
 
 #include <memory>
-#include <qextMvvmVariant.h>
-#include <qextMvvmGlobal.h>
 #include <vector>
 
 namespace ModelView
@@ -22,26 +13,26 @@ class QEXTMvvmSessionItem;
 
 //! Represents the view of QEXTMvvmSessionItem's data in a single cell of ViewModel.
 
-class QEXT_MVVM_API ViewItem
+class QEXT_MVVM_API QEXTMvvmViewItem
 {
 public:
-    virtual ~ViewItem();
+    virtual ~QEXTMvvmViewItem();
 
     int rowCount() const;
 
     int columnCount() const;
 
-    void appendRow(std::vector<std::unique_ptr<ViewItem>> items);
+    void appendRow(std::vector<std::unique_ptr<QEXTMvvmViewItem>> items);
 
-    void insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items);
+    void insertRow(int row, std::vector<std::unique_ptr<QEXTMvvmViewItem>> items);
 
     void removeRow(int row);
 
     void clear();
 
-    ViewItem* parent() const;
+    QEXTMvvmViewItem* parent() const;
 
-    ViewItem* child(int row, int column) const;
+    QEXTMvvmViewItem* child(int row, int column) const;
 
     QEXTMvvmSessionItem* item() const;
 
@@ -57,11 +48,11 @@ public:
 
     virtual Qt::ItemFlags flags() const;
 
-    std::vector<ViewItem*> children() const;
+    std::vector<QEXTMvvmViewItem*> children() const;
 
 protected:
-    ViewItem(QEXTMvvmSessionItem* item, int role);
-    void setParent(ViewItem* parent);
+    QEXTMvvmViewItem(QEXTMvvmSessionItem* item, int role);
+    void setParent(QEXTMvvmViewItem* parent);
 
 private:
     struct ViewItemImpl;
@@ -70,4 +61,4 @@ private:
 
 }; // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_VIEWITEM_H
+#endif // _QEXTMVVMVIEWMODELVIEWITEM_H

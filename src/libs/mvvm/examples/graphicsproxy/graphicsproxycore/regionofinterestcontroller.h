@@ -15,7 +15,7 @@
 
 namespace ModelView
 {
-class SceneAdapterInterface;
+class QEXTMvvmSceneAdapterInterface;
 }
 
 class RegionOfInterestItem;
@@ -26,11 +26,11 @@ class QRectF;
 //! Provides updates of view position/appearance on graphics scene, when underlying item changes.
 //! Similarly, provides update of item's properties when view is moved/resized by the user.
 
-class RegionOfInterestController : public ModelView::ItemListener<RegionOfInterestItem>
+class RegionOfInterestController : public ModelView::QEXTMvvmItemListener<RegionOfInterestItem>
 {
 public:
     RegionOfInterestController(RegionOfInterestItem* item,
-                               const ModelView::SceneAdapterInterface* scene_adapter,
+                               const ModelView::QEXTMvvmSceneAdapterInterface* scene_adapter,
                                RegionOfInterestView* view);
     ~RegionOfInterestController() override;
 

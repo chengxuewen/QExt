@@ -16,7 +16,7 @@
 
 namespace ModelView
 {
-class ProjectManagerInterface;
+class QEXTMvvmProjectManagerInterface;
 }
 
 class RecentProjectSettings;
@@ -55,7 +55,7 @@ private:
 
     std::unique_ptr<RecentProjectSettings> m_recentProjectSettings;
     std::unique_ptr<UserInteractor> m_userInteractor;
-    std::unique_ptr<ModelView::ProjectManagerInterface> m_projectManager;
+    std::unique_ptr<ModelView::QEXTMvvmProjectManagerInterface> m_projectManager;
     SampleModel* m_model{nullptr};
 };
 

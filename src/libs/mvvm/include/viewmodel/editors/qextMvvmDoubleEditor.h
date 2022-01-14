@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_EDITORS_DOUBLEEDITOR_H
-#define MVVM_EDITORS_DOUBLEEDITOR_H
+#ifndef _QEXTMVVMEDITORSDOUBLEEDITOR_H
+#define _QEXTMVVMEDITORSDOUBLEEDITOR_H
 
 #include <qextMvvmCustomEditor.h>
 
@@ -19,12 +10,12 @@ namespace ModelView
 
 //! Custom editor for QVariant based on double with possibility to set limits.
 
-class QEXT_MVVM_API DoubleEditor : public CustomEditor
+class QEXT_MVVM_API QEXTMvvmDoubleEditor : public QEXTMvvmCustomEditor
 {
     Q_OBJECT
 
 public:
-    explicit DoubleEditor(QWidget* parent = nullptr);
+    explicit QEXTMvvmDoubleEditor(QWidget* parent = nullptr);
 
     void setRange(double minimum, double maximum);
 
@@ -42,4 +33,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_DOUBLEEDITOR_H
+#endif // _QEXTMVVMEDITORSDOUBLEEDITOR_H

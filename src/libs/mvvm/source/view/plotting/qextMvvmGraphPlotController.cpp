@@ -18,14 +18,14 @@
 
 using namespace ModelView;
 
-struct GraphPlotController::GraphItemControllerImpl {
-    GraphPlotController* m_self{nullptr};
+struct QEXTMvvmGraphPlotController::GraphItemControllerImpl {
+    QEXTMvvmGraphPlotController* m_self{nullptr};
     QCustomPlot* m_customPlot{nullptr};
     QCPGraph* m_graph{nullptr};
-    std::unique_ptr<Data1DPlotController> m_dataController;
-    std::unique_ptr<PenController> m_penController;
+    std::unique_ptr<QEXTMvvmData1DPlotController> m_dataController;
+    std::unique_ptr<QEXTMvvmPenController> m_penController;
 
-    GraphItemControllerImpl(GraphPlotController* master, QCustomPlot* plot)
+    GraphItemControllerImpl(QEXTMvvmGraphPlotController* master, QCustomPlot* plot)
         : m_self(master), m_customPlot(plot)
     {
     }
@@ -35,8 +35,8 @@ struct GraphPlotController::GraphItemControllerImpl {
     void init_graph()
     {
         m_graph = m_customPlot->addGraph();
-        m_dataController = std::make_unique<Data1DPlotController>(m_graph);
-        m_penController = std::make_unique<PenController>(m_graph);
+        m_dataController = make_unique<QEXTMvvmData1DPlotController>(m_graph);
+        m_penController = make_unique<QEXTMvvmPenController>(m_graph);
 
         update_data_controller();
         update_graph_pen();
@@ -49,7 +49,7 @@ struct GraphPlotController::GraphItemControllerImpl {
             m_customPlot->removePlottable(m_graph);
     }
 
-    GraphItem* graph_item() { return m_self->currentItem(); }
+    QEXTMvvmGraphItem* graph_item() { return m_self->currentItem(); }
 
     void update_data_controller() { m_dataController->setItem(graph_item()->dataItem()); }
 
@@ -63,7 +63,7 @@ struct GraphPlotController::GraphItemControllerImpl {
     //! Update visible
     void update_visible()
     {
-        m_graph->setVisible(graph_item()->property<bool>(GraphItem::P_DISPLAYED));
+        m_graph->setVisible(graph_item()->property<bool>(QEXTMvvmGraphItem::P_DISPLAYED));
         m_customPlot->replot();
     }
 
@@ -77,18 +77,18 @@ struct GraphPlotController::GraphItemControllerImpl {
     }
 };
 
-GraphPlotController::GraphPlotController(QCustomPlot* custom_plot)
-    : p_impl(std::make_unique<GraphItemControllerImpl>(this, custom_plot))
+QEXTMvvmGraphPlotController::QEXTMvvmGraphPlotController(QCustomPlot* custom_plot)
+    : p_impl(make_unique<GraphItemControllerImpl>(this, custom_plot))
 {
 }
 
-void GraphPlotController::subscribe()
+void QEXTMvvmGraphPlotController::subscribe()
 {
     auto on_property_change = [this](QEXTMvvmSessionItem*, const std::string& property_name) {
-        if (property_name == GraphItem::P_LINK)
+        if (property_name == QEXTMvvmGraphItem::P_LINK)
             p_impl->update_data_controller();
 
-        if (property_name == GraphItem::P_DISPLAYED)
+        if (property_name == QEXTMvvmGraphItem::P_DISPLAYED)
             p_impl->update_visible();
     };
     setOnPropertyChange(on_property_change);
@@ -96,9 +96,9 @@ void GraphPlotController::subscribe()
     p_impl->init_graph();
 }
 
-void GraphPlotController::unsubscribe()
+void QEXTMvvmGraphPlotController::unsubscribe()
 {
     p_impl->reset_graph();
 }
 
-GraphPlotController::~GraphPlotController() = default;
+QEXTMvvmGraphPlotController::~QEXTMvvmGraphPlotController() = default;

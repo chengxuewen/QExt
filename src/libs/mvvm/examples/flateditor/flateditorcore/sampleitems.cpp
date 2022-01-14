@@ -22,9 +22,9 @@ const std::string neutrons = "neutrons";
 
 // ----------------------------------------------------------------------------
 
-BeamItem::BeamItem() : ModelView::QEXTMvvmCompoundItem(::Constants::BeamItemType)
+BeamItem::BeamItem() : ModelView::QEXTMvvmCompoundItem(::QEXTMvvmConstants::BeamItemType)
 {
-    auto combo = ComboProperty::createFrom({xrays, neutrons});
+    auto combo = QEXTMvvmComboProperty::createFrom({xrays, neutrons});
     addProperty(P_BEAM_TYPE, combo)->setDisplayName("Type");
 
     addProperty(P_IS_POLARIZED, false)->setDisplayName("Polarization");
@@ -52,18 +52,18 @@ void BeamItem::activate()
 void BeamItem::update_appearance()
 {
     auto polarized_property = getItem(P_IS_POLARIZED);
-    auto beam_type = property<ComboProperty>(P_BEAM_TYPE).value();
+    auto beam_type = property<QEXTMvvmComboProperty>(P_BEAM_TYPE).value();
 
     if (beam_type == xrays)
         setProperty(P_IS_POLARIZED, false);
 
-    polarized_property->setEnabled(property<ComboProperty>(P_BEAM_TYPE).value() == neutrons);
+    polarized_property->setEnabled(property<QEXTMvvmComboProperty>(P_BEAM_TYPE).value() == neutrons);
 }
 
 // ----------------------------------------------------------------------------
 
 DistributionNoneItem::DistributionNoneItem()
-    : ModelView::QEXTMvvmCompoundItem(::Constants::DistributionNoneItemType)
+    : ModelView::QEXTMvvmCompoundItem(::QEXTMvvmConstants::DistributionNoneItemType)
 {
     setDisplayName("Fixed value");
     addProperty(P_MEAN, 0.5)->setDisplayName("Value");
@@ -72,7 +72,7 @@ DistributionNoneItem::DistributionNoneItem()
 // ----------------------------------------------------------------------------
 
 DistributionGaussianItem::DistributionGaussianItem()
-    : ModelView::QEXTMvvmCompoundItem(::Constants::DistributionGaussianItemType)
+    : ModelView::QEXTMvvmCompoundItem(::QEXTMvvmConstants::DistributionGaussianItemType)
 {
     addProperty(P_MEAN, 0.5)->setDisplayName("Mean");
     addProperty(P_STD_DEV, 1.0)->setDisplayName("StdDev");
@@ -81,7 +81,7 @@ DistributionGaussianItem::DistributionGaussianItem()
 // ----------------------------------------------------------------------------
 
 DistributionLogNormalItem::DistributionLogNormalItem()
-    : ModelView::QEXTMvvmCompoundItem(::Constants::DistributionLogNormalItemType)
+    : ModelView::QEXTMvvmCompoundItem(::QEXTMvvmConstants::DistributionLogNormalItemType)
 {
     addProperty(P_MEDIAN, 1.0)->setDisplayName("Median");
     addProperty(P_SCALE_PAR, 1.0)->setDisplayName("Scale");
@@ -90,7 +90,7 @@ DistributionLogNormalItem::DistributionLogNormalItem()
 // ----------------------------------------------------------------------------
 
 DistributionTrapezoidItem::DistributionTrapezoidItem()
-    : ModelView::QEXTMvvmCompoundItem(::Constants::DistributionTrapezoidItemType)
+    : ModelView::QEXTMvvmCompoundItem(::QEXTMvvmConstants::DistributionTrapezoidItemType)
 {
     addProperty(P_CENTER, 1.0)->setDisplayName("Center");
     addProperty(P_LEFTWIDTH, 0.5)->setDisplayName("Left width");
@@ -100,7 +100,7 @@ DistributionTrapezoidItem::DistributionTrapezoidItem()
 
 // ----------------------------------------------------------------------------
 
-DistributionGroupItem::DistributionGroupItem() : GroupItem(::Constants::DistributionGroupItemType)
+DistributionGroupItem::DistributionGroupItem() : QEXTMvvmGroupItem(::QEXTMvvmConstants::DistributionGroupItemType)
 {
     registerItem<DistributionNoneItem>("Fixed value");
     registerItem<DistributionGaussianItem>("Gaussian");

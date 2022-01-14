@@ -1,31 +1,23 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPROJECTPROJECT_H
+#define _QEXTMVVMPROJECTPROJECT_H
 
-#ifndef MVVM_PROJECT_PROJECT_H
-#define MVVM_PROJECT_PROJECT_H
+#include <qextMvvmProjectInterface.h>
 
 #include <memory>
-#include <qextMvvmProjectInterface.h>
 
 namespace ModelView
 {
 
-struct ProjectContext;
+struct QEXTMvvmProjectContext;
 
 //! Project represents content of all application models in a folder on disk.
 //! Responsible for saving/loading application models to/from disk.
 
-class QEXT_MVVM_API Project : public ModelView::ProjectInterface
+class QEXT_MVVM_API QEXTMvvmProject : public ModelView::QEXTMvvmProjectInterface
 {
 public:
-    Project(const ProjectContext& context);
-    ~Project();
+    QEXTMvvmProject(const QEXTMvvmProjectContext& context);
+    ~QEXTMvvmProject();
 
     std::string projectDir() const override;
 
@@ -42,4 +34,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PROJECT_PROJECT_H
+#endif // _QEXTMVVMPROJECTPROJECT_H

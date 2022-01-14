@@ -15,9 +15,9 @@
 
 namespace
 {
-std::unique_ptr<ModelView::ItemFactory> DefaultItemFactory()
+std::unique_ptr<ModelView::QEXTMvvmItemFactory> DefaultItemFactory()
 {
-    return std::make_unique<ModelView::ItemFactory>(ModelView::CreateStandardItemCatalogue());
+    return make_unique<ModelView::QEXTMvvmItemFactory>(ModelView::CreateStandardItemCatalogue());
 }
 } // namespace
 
@@ -30,7 +30,7 @@ void ItemManager::setItemFactory(std::unique_ptr<QEXTMvvmItemFactoryInterface> f
     m_item_factory = std::move(factory);
 }
 
-void ItemManager::setItemPool(std::shared_ptr<ItemPool> pool)
+void ItemManager::setItemPool(std::shared_ptr<QEXTMvvmItemPool> pool)
 {
     m_item_pool = std::move(pool);
 }
@@ -57,12 +57,12 @@ identifier_type ItemManager::findIdentifier(QEXTMvvmSessionItem* item) const
     return m_item_pool ? m_item_pool->key_for_item(item) : identifier_type();
 }
 
-const ItemPool* ItemManager::itemPool() const
+const QEXTMvvmItemPool* ItemManager::itemPool() const
 {
     return m_item_pool.get();
 }
 
-ItemPool* ItemManager::itemPool()
+QEXTMvvmItemPool* ItemManager::itemPool()
 {
     return m_item_pool.get();
 }

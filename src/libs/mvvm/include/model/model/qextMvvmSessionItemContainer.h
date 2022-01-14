@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_MODEL_SESSIONITEMCONTAINER_H
-#define MVVM_MODEL_SESSIONITEMCONTAINER_H
+#ifndef _QEXTMVVMMODELSESSIONITEMCONTAINER_H
+#define _QEXTMVVMMODELSESSIONITEMCONTAINER_H
 
 #include <qextMvvmTagInfo.h>
 #include <qextMvvmGlobal.h>
+
 #include <vector>
 
 namespace ModelView
@@ -21,16 +13,16 @@ class QEXTMvvmSessionItem;
 
 //! Holds collection of QEXTMvvmSessionItem objects related to the same tag.
 
-class QEXT_MVVM_API SessionItemContainer
+class QEXT_MVVM_API QEXTMvvmSessionItemContainer
 {
 public:
     using container_t = std::vector<QEXTMvvmSessionItem*>;
     using const_iterator = container_t::const_iterator;
 
-    SessionItemContainer(TagInfo tag_info);
-    SessionItemContainer(const SessionItemContainer&) = delete;
-    SessionItemContainer& operator=(const SessionItemContainer&) = delete;
-    ~SessionItemContainer();
+    QEXTMvvmSessionItemContainer(QEXTMvvmTagInfo tag_info);
+    QEXTMvvmSessionItemContainer(const QEXTMvvmSessionItemContainer&) = delete;
+    QEXTMvvmSessionItemContainer& operator=(const QEXTMvvmSessionItemContainer&) = delete;
+    ~QEXTMvvmSessionItemContainer();
 
     bool empty() const;
 
@@ -52,7 +44,7 @@ public:
 
     std::string name() const;
 
-    TagInfo tagInfo() const;
+    QEXTMvvmTagInfo tagInfo() const;
 
     const_iterator begin() const;
 
@@ -62,10 +54,10 @@ private:
     bool maximum_reached() const;
     bool minimum_reached() const;
     bool is_valid_item(const QEXTMvvmSessionItem* item) const;
-    TagInfo m_tag_info;
+    QEXTMvvmTagInfo m_tag_info;
     container_t m_items;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_SESSIONITEMCONTAINER_H
+#endif // _QEXTMVVMMODELSESSIONITEMCONTAINER_H

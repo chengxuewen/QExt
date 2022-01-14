@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_UTILS_REALLIMITS_H
-#define MVVM_UTILS_REALLIMITS_H
+#ifndef _QEXTMVVMUTILSREALLIMITS_H
+#define _QEXTMVVMUTILSREALLIMITS_H
 
 #include <qextMvvmGlobal.h>
 
@@ -18,28 +9,28 @@ namespace ModelView
 //! Limits for double.
 //! @ingroup fitting
 
-class QEXT_MVVM_API RealLimits
+class QEXT_MVVM_API QEXTMvvmRealLimits
 {
 public:
-    RealLimits();
+    QEXTMvvmRealLimits();
 
     //! Creates an object bounded from the left
-    static RealLimits lowerLimited(double bound_value);
+    static QEXTMvvmRealLimits lowerLimited(double bound_value);
 
     //! Creates an object which can have only positive values (>0., zero is not included)
-    static RealLimits positive();
+    static QEXTMvvmRealLimits positive();
 
     //! Creates an object which can have only positive values with 0. included
-    static RealLimits nonnegative();
+    static QEXTMvvmRealLimits nonnegative();
 
     //! Creates an object bounded from the right
-    static RealLimits upperLimited(double bound_value);
+    static QEXTMvvmRealLimits upperLimited(double bound_value);
 
     //! Creates an object bounded from the left and right
-    static RealLimits limited(double left_bound_value, double right_bound_value);
+    static QEXTMvvmRealLimits limited(double left_bound_value, double right_bound_value);
 
     //! Creates an object withoud bounds (default)
-    static RealLimits limitless();
+    static QEXTMvvmRealLimits limitless();
 
     //! if has lower limit
     bool hasLowerLimit() const;
@@ -59,9 +50,9 @@ public:
     //! returns true if proposed value is in limits range
     bool isInRange(double value) const;
 
-    bool operator==(const RealLimits& other) const;
-    bool operator!=(const RealLimits& other) const;
-    bool operator<(const RealLimits& other) const;
+    bool operator==(const QEXTMvvmRealLimits& other) const;
+    bool operator!=(const QEXTMvvmRealLimits& other) const;
+    bool operator<(const QEXTMvvmRealLimits& other) const;
 
     bool isLimitless() const;
     bool isPositive() const;
@@ -71,7 +62,7 @@ public:
     bool isLimited() const;
 
 protected:
-    RealLimits(bool has_lower_limit, bool has_upper_limit, double lower_limit, double upper_limit);
+    QEXTMvvmRealLimits(bool has_lower_limit, bool has_upper_limit, double lower_limit, double upper_limit);
 
     bool m_has_lower_limit; //! parameter has lower bound
     bool m_has_upper_limit; //! parameter has upper bound
@@ -81,4 +72,4 @@ protected:
 
 } // namespace ModelView
 
-#endif // MVVM_UTILS_REALLIMITS_H
+#endif // _QEXTMVVMUTILSREALLIMITS_H

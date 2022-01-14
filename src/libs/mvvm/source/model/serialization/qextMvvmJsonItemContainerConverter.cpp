@@ -21,14 +21,14 @@
 
 using namespace ModelView;
 
-struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
-    std::unique_ptr<JsonTagInfoConverterInterface> m_taginfo_converter;
-    ConverterCallbacks m_converter_callbacks;
+struct QEXTMvvmJsonItemContainerConverter::JsonItemContainerConverterImpl {
+    std::unique_ptr<QEXTMvvmJsonTagInfoConverterInterface> m_taginfo_converter;
+    QEXTMvvmConverterCallbacks m_converter_callbacks;
 
-    JsonItemContainerConverterImpl(ConverterCallbacks callbacks = {})
+    JsonItemContainerConverterImpl(QEXTMvvmConverterCallbacks callbacks = {})
         : m_converter_callbacks(std::move(callbacks))
     {
-        m_taginfo_converter = std::make_unique<JsonTagInfoConverter>();
+        m_taginfo_converter = make_unique<QEXTMvvmJsonTagInfoConverter>();
     }
 
     QJsonObject create_json(const QEXTMvvmSessionItem& item)
@@ -51,9 +51,9 @@ struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
 
     //! Update container from json content. Number of existing container items should match size
     //! of json array.
-    void update_items(const QJsonObject& json, SessionItemContainer& container)
+    void update_items(const QJsonObject& json, QEXTMvvmSessionItemContainer& container)
     {
-        auto array = json[JsonItemFormatAssistant::itemsKey].toArray();
+        auto array = json[QEXTMvvmJsonItemFormatAssistant::itemsKey].toArray();
         if (array.size() != container.itemCount())
             throw std::runtime_error("Error in JsonItemContainerConverter: size is different");
         int index{0};
@@ -61,9 +61,9 @@ struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
             update_item(obj.toObject(), container.itemAt(index++));
     }
 
-    void create_items(const QJsonObject& json, SessionItemContainer& container)
+    void create_items(const QJsonObject& json, QEXTMvvmSessionItemContainer& container)
     {
-        for (const auto obj : json[JsonItemFormatAssistant::itemsKey].toArray()) {
+        for (const auto obj : json[QEXTMvvmJsonItemFormatAssistant::itemsKey].toArray()) {
             if (auto item = create_item(obj.toObject()); item)
                 container.insertItem(item.release(), container.itemCount());
         }
@@ -71,7 +71,7 @@ struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
 
     //! Populates container with content reconstructed from JSON object. Container must be empty.
 
-    void populate_container(const QJsonObject& json, SessionItemContainer& container)
+    void populate_container(const QJsonObject& json, QEXTMvvmSessionItemContainer& container)
     {
         if (!container.empty())
             throw std::runtime_error(
@@ -83,18 +83,18 @@ struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
     //! Update container with content reconstructed from JSON object.
     //! It is assumed, that container has some items already created.
 
-    void update_container(const QJsonObject& json, SessionItemContainer& container)
+    void update_container(const QJsonObject& json, QEXTMvvmSessionItemContainer& container)
     {
-        TagInfo tagInfo =
-            m_taginfo_converter->from_json(json[JsonItemFormatAssistant::tagInfoKey].toObject());
+        QEXTMvvmTagInfo tagInfo =
+            m_taginfo_converter->from_json(json[QEXTMvvmJsonItemFormatAssistant::tagInfoKey].toObject());
 
-        if (Compatibility::IsCompatibleSinglePropertyTag(container, tagInfo))
+        if (QEXTMvvmCompatibility::IsCompatibleSinglePropertyTag(container, tagInfo))
             update_items(json, container);
 
-        else if (Compatibility::IsCompatibleGroupTag(container, tagInfo))
+        else if (QEXTMvvmCompatibility::IsCompatibleGroupTag(container, tagInfo))
             update_items(json, container);
 
-        else if (Compatibility::IsCompatibleUniversalTag(container, tagInfo))
+        else if (QEXTMvvmCompatibility::IsCompatibleUniversalTag(container, tagInfo))
             create_items(json, container);
 
         else
@@ -102,23 +102,23 @@ struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
     }
 };
 
-JsonItemContainerConverter::JsonItemContainerConverter(ConverterCallbacks callbacks)
-    : p_impl(std::make_unique<JsonItemContainerConverterImpl>(std::move(callbacks)))
+QEXTMvvmJsonItemContainerConverter::QEXTMvvmJsonItemContainerConverter(QEXTMvvmConverterCallbacks callbacks)
+    : p_impl(make_unique<JsonItemContainerConverterImpl>(std::move(callbacks)))
 {
 }
 
-JsonItemContainerConverter::~JsonItemContainerConverter() = default;
+QEXTMvvmJsonItemContainerConverter::~QEXTMvvmJsonItemContainerConverter() = default;
 
-QJsonObject JsonItemContainerConverter::to_json(const SessionItemContainer& container)
+QJsonObject QEXTMvvmJsonItemContainerConverter::to_json(const QEXTMvvmSessionItemContainer& container)
 {
     QJsonObject result;
-    result[JsonItemFormatAssistant::tagInfoKey] =
+    result[QEXTMvvmJsonItemFormatAssistant::tagInfoKey] =
         p_impl->m_taginfo_converter->to_json(container.tagInfo());
 
     QJsonArray itemArray;
     for (auto item : container)
         itemArray.append(p_impl->create_json(*item));
-    result[JsonItemFormatAssistant::itemsKey] = itemArray;
+    result[QEXTMvvmJsonItemFormatAssistant::itemsKey] = itemArray;
 
     return result;
 }
@@ -128,16 +128,16 @@ QJsonObject JsonItemContainerConverter::to_json(const SessionItemContainer& cont
 //! + If SessionItemContainer contains some items already, they will be populated from JSON.
 //! Second mode is used when loading project from disk to allow back compatibility.
 
-void JsonItemContainerConverter::from_json(const QJsonObject& json, SessionItemContainer& container)
+void QEXTMvvmJsonItemContainerConverter::from_json(const QJsonObject& json, QEXTMvvmSessionItemContainer& container)
 {
-    static JsonItemFormatAssistant assistant;
+    static QEXTMvvmJsonItemFormatAssistant assistant;
 
     if (!assistant.isSessionItemContainer(json))
         throw std::runtime_error("Error in JsonItemContainerConverter: given JSON can't represent "
                                  "SessionItemContainer.");
 
-    TagInfo tagInfo = p_impl->m_taginfo_converter->from_json(
-        json[JsonItemFormatAssistant::tagInfoKey].toObject());
+    QEXTMvvmTagInfo tagInfo = p_impl->m_taginfo_converter->from_json(
+        json[QEXTMvvmJsonItemFormatAssistant::tagInfoKey].toObject());
 
     if (tagInfo.name() != container.tagInfo().name())
         throw std::runtime_error("Error in JsonItemContainerConverter: attempt to update "

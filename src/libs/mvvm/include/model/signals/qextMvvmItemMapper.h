@@ -1,18 +1,10 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSIGNALSITEMMAPPER_H
+#define _QEXTMVVMSIGNALSITEMMAPPER_H
 
-#ifndef MVVM_SIGNALS_ITEMMAPPER_H
-#define MVVM_SIGNALS_ITEMMAPPER_H
-
-#include <memory>
 #include <qextMvvmItemListenerInterface.h>
 #include <qextMvvmModelListener.h>
+
+#include <memory>
 
 namespace ModelView
 {
@@ -24,22 +16,22 @@ class QEXTMvvmSessionItem;
 //! signals which are related to the given item. Notifies all interested subscribers about things
 //! going with the item and its relatives.
 
-class QEXT_MVVM_API ItemMapper : public QEXTMvvmItemListenerInterface,
-                                     private ModelListener<SessionModel>
+class QEXT_MVVM_API QEXTMvvmItemMapper : public QEXTMvvmItemListenerInterface,
+        private QEXTMvvmModelListener<QEXTMvvmSessionModel>
 {
 public:
-    ItemMapper(QEXTMvvmSessionItem* item);
-    ~ItemMapper();
+    QEXTMvvmItemMapper(QEXTMvvmSessionItem* item);
+    ~QEXTMvvmItemMapper();
 
-    void setOnItemDestroy(Callbacks::item_t f, Callbacks::slot_t owner) override;
-    void setOnDataChange(Callbacks::item_int_t f, Callbacks::slot_t owner) override;
-    void setOnPropertyChange(Callbacks::item_str_t f, Callbacks::slot_t owner) override;
-    void setOnChildPropertyChange(Callbacks::item_str_t f, Callbacks::slot_t owner) override;
-    void setOnItemInserted(Callbacks::item_tagrow_t f, Callbacks::slot_t owner) override;
-    void setOnItemRemoved(Callbacks::item_tagrow_t f, Callbacks::slot_t owner) override;
-    void setOnAboutToRemoveItem(Callbacks::item_tagrow_t f, Callbacks::slot_t owner) override;
+    void setOnItemDestroy(QEXTMvvmCallbacks::item_t f, QEXTMvvmCallbacks::slot_t owner) override;
+    void setOnDataChange(QEXTMvvmCallbacks::item_int_t f, QEXTMvvmCallbacks::slot_t owner) override;
+    void setOnPropertyChange(QEXTMvvmCallbacks::item_str_t f, QEXTMvvmCallbacks::slot_t owner) override;
+    void setOnChildPropertyChange(QEXTMvvmCallbacks::item_str_t f, QEXTMvvmCallbacks::slot_t owner) override;
+    void setOnItemInserted(QEXTMvvmCallbacks::item_tagrow_t f, QEXTMvvmCallbacks::slot_t owner) override;
+    void setOnItemRemoved(QEXTMvvmCallbacks::item_tagrow_t f, QEXTMvvmCallbacks::slot_t owner) override;
+    void setOnAboutToRemoveItem(QEXTMvvmCallbacks::item_tagrow_t f, QEXTMvvmCallbacks::slot_t owner) override;
 
-    void unsubscribe(Callbacks::slot_t client) override;
+    void unsubscribe(QEXTMvvmCallbacks::slot_t client) override;
 
     void setActive(bool value);
 
@@ -53,4 +45,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_SIGNALS_ITEMMAPPER_H
+#endif // _QEXTMVVMSIGNALSITEMMAPPER_H

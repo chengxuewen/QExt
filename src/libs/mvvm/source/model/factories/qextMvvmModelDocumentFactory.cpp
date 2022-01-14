@@ -8,14 +8,15 @@
 // ************************************************************************** //
 
 #include <qextMvvmModelDocumentFactory.h>
-#include <serialization/qextMvvmJsonDocument.h>
+#include <qextMvvmJsonDocument.h>
+#include <qextMvvmTypes.h>
 
 namespace ModelView
 {
 
-std::unique_ptr<QEXTMVVMModelDocumentInterface> CreateJsonDocument(const std::vector<SessionModel*>& models)
+std::unique_ptr<QEXTMVVMModelDocumentInterface> CreateJsonDocument(const std::vector<QEXTMvvmSessionModel*>& models)
 {
-    return std::make_unique<JsonDocument>(models);
+    return make_unique<QEXTMvvmJsonDocument>(models);
 }
 
 } // namespace ModelView

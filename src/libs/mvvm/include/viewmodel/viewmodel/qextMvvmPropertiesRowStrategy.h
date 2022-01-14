@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_VIEWMODEL_PROPERTIESROWSTRATEGY_H
-#define MVVM_VIEWMODEL_PROPERTIESROWSTRATEGY_H
+#ifndef _QEXTMVVMVIEWMODELPROPERTIESROWSTRATEGY_H
+#define _QEXTMVVMVIEWMODELPROPERTIESROWSTRATEGY_H
 
 #include <qextMvvmRowStrategyInterface.h>
 
@@ -22,14 +13,14 @@ class QEXTMvvmSessionItem;
 //! Constructs row of QStandardItem's for given QEXTMvvmSessionItem.
 //! Row consists of columns with all PropertyItem's of given QEXTMvvmSessionItem.
 
-class QEXT_MVVM_API PropertiesRowStrategy : public RowStrategyInterface
+class QEXT_MVVM_API QEXTMvvmPropertiesRowStrategy : public QEXTMvvmRowStrategyInterface
 {
 public:
-    PropertiesRowStrategy(std::vector<std::string> labels = {});
+    QEXTMvvmPropertiesRowStrategy(std::vector<std::string> labels = {});
 
     QStringList horizontalHeaderLabels() const override;
 
-    std::vector<std::unique_ptr<ViewItem>> constructRow(QEXTMvvmSessionItem* item) override;
+    std::vector<std::unique_ptr<QEXTMvvmViewItem>> constructRow(QEXTMvvmSessionItem* item) override;
 
 private:
     void update_column_labels(std::vector<ModelView::QEXTMvvmSessionItem*> items);
@@ -39,4 +30,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_PROPERTIESROWSTRATEGY_H
+#endif // _QEXTMVVMVIEWMODELPROPERTIESROWSTRATEGY_H

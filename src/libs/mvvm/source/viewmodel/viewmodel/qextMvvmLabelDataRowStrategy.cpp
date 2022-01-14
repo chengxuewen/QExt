@@ -17,20 +17,20 @@ using namespace ModelView;
 //! For LayerItem two items will be generated: ViewLabelItem and ViewEmptyItem, both uneditable.
 //! For LayerItem's thickness property, two items will be generated: ViewLabelItem and ViewDataItem.
 
-QStringList LabelDataRowStrategy::horizontalHeaderLabels() const
+QStringList QEXTMvvmLabelDataRowStrategy::horizontalHeaderLabels() const
 {
     return QStringList() << "Name"
                          << "Value";
 }
 
-std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::constructRow(QEXTMvvmSessionItem* item)
+std::vector<std::unique_ptr<QEXTMvvmViewItem>> QEXTMvvmLabelDataRowStrategy::constructRow(QEXTMvvmSessionItem* item)
 {
-    std::vector<std::unique_ptr<ViewItem>> result;
+    std::vector<std::unique_ptr<QEXTMvvmViewItem>> result;
 
     if (!item)
         return result;
 
-    result.emplace_back(std::make_unique<ViewLabelItem>(item));
-    result.emplace_back(std::make_unique<ViewDataItem>(item));
+    result.emplace_back(make_unique<QEXTMvvmViewLabelItem>(item));
+    result.emplace_back(make_unique<QEXTMvvmViewDataItem>(item));
     return result;
 }

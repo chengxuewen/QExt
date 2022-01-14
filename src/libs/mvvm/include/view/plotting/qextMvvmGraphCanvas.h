@@ -1,39 +1,32 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGGRAPHCANVAS_H
+#define _QEXTMVVMPLOTTINGGRAPHCANVAS_H
 
-#ifndef MVVM_PLOTTING_GRAPHCANVAS_H
-#define MVVM_PLOTTING_GRAPHCANVAS_H
+#include <qextMvvmGlobal.h>
 
 #include <QWidget>
+
 #include <memory>
-#include <qextMvvmGlobal.h>
 
 namespace ModelView
 {
 
-class GraphViewportItem;
-class SceneAdapterInterface;
+class QEXTMvvmGraphViewportItem;
+class QEXTMvvmSceneAdapterInterface;
 
 //! Widget to show scientific figure with multiple 1D graphs.
 //! Contains embedded QCustomPlot widget, shows content of GraphViewportItem.
 
-class QEXT_MVVM_API GraphCanvas : public QWidget
+class QEXT_MVVM_API QEXTMvvmGraphCanvas : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit GraphCanvas(QWidget* parent = nullptr);
-    ~GraphCanvas() override;
+    explicit QEXTMvvmGraphCanvas(QWidget* parent = nullptr);
+    ~QEXTMvvmGraphCanvas() override;
 
-    void setItem(GraphViewportItem* viewport_item);
+    void setItem(QEXTMvvmGraphViewportItem* viewport_item);
 
-    std::unique_ptr<SceneAdapterInterface> createSceneAdapter() const;
+    std::unique_ptr<QEXTMvvmSceneAdapterInterface> createSceneAdapter() const;
 
     void setViewportToContent(double left, double top, double right, double bottom);
 
@@ -51,4 +44,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_GRAPHCANVAS_H
+#endif // _QEXTMVVMPLOTTINGGRAPHCANVAS_H

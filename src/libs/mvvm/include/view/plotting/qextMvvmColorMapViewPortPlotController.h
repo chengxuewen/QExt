@@ -1,34 +1,26 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGCOLORMAPVIEWPORTPLOTCONTROLLER_H
+#define _QEXTMVVMPLOTTINGCOLORMAPVIEWPORTPLOTCONTROLLER_H
 
-#ifndef MVVM_PLOTTING_COLORMAPVIEWPORTPLOTCONTROLLER_H
-#define MVVM_PLOTTING_COLORMAPVIEWPORTPLOTCONTROLLER_H
-
-#include <memory>
 #include <qextMvvmItemListener.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 class QCustomPlot;
 
 namespace ModelView
 {
 
-class ColorMapViewportItem;
+class QEXTMvvmColorMapViewportItem;
 
 //! Establishes communications and mutual updates for ColorMapViewportItem and QCutomPlot.
 //! Populates custom plot with color map and tracks updates in items.
 
-class QEXT_MVVM_API ColorMapViewportPlotController : public ItemListener<ColorMapViewportItem>
+class QEXT_MVVM_API QEXTMvvmColorMapViewportPlotController : public QEXTMvvmItemListener<QEXTMvvmColorMapViewportItem>
 {
 public:
-    explicit ColorMapViewportPlotController(QCustomPlot* plot);
-    ~ColorMapViewportPlotController() override;
+    explicit QEXTMvvmColorMapViewportPlotController(QCustomPlot* plot);
+    ~QEXTMvvmColorMapViewportPlotController() override;
 
 protected:
     void subscribe() override;
@@ -41,4 +33,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_COLORMAPVIEWPORTPLOTCONTROLLER_H
+#endif // _QEXTMVVMPLOTTINGCOLORMAPVIEWPORTPLOTCONTROLLER_H

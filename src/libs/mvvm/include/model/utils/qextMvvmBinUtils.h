@@ -1,19 +1,10 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_UTILS_BINUTILS_H
-#define MVVM_UTILS_BINUTILS_H
+#ifndef _QEXTMVVMUTILSBINUTILS_H
+#define _QEXTMVVMUTILSBINUTILS_H
 
 #include <qextMvvmGlobal.h>
 #include <string>
 
-namespace ModelView ::Utils
+namespace ModelView ::QEXTMvvmUtils
 {
 
 //! Returns true if file is binary
@@ -24,4 +15,4 @@ QEXT_MVVM_API bool is_text(const std::string& filename);
 
 } // namespace ModelView::Utils
 
-#endif // MVVM_UTILS_BINUTILS_H
+#endif // _QEXTMVVMUTILSBINUTILS_H

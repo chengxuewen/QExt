@@ -32,8 +32,8 @@ Player::Player(QEXTVLCInstance *instance, QWidget *parent)
 
 //    m_media = new QEXTVLCMedia("http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_480p_surround-fix.avi", _instance);
 //    m_media = new QEXTVLCMedia("rtsp://192.168.91.227:8554/", m_instance);
-//    m_media = new QEXTVLCMedia("rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov", m_instance);
-    m_media = new QEXTVLCMedia("rtsp://admin:12345@192.168.5.51:8554/0", m_instance);
+    m_media = new QEXTVLCMedia("rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov", m_instance);
+//    m_media = new QEXTVLCMedia("rtsp://admin:12345@192.168.5.51:8554/0", m_instance);
     m_media->setOption(":rtsp-tcp");
 //    m_media->setOption(QString(":avcodec-hw=%1").arg("none"));
     m_media->setOption(QString(":ffmpeg-hw"));

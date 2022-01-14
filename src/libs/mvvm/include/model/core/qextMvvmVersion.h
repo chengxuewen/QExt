@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_CORE_VERSION_H
-#define MVVM_CORE_VERSION_H
+#ifndef _QEXTMVVMCOREVERSION_H
+#define _QEXTMVVMCOREVERSION_H
 
 //! @file version.h
 //! Automatically generated from mvvm_version.h.in
@@ -48,4 +39,4 @@ inline std::string ProjectVersion()
 
 } // namespace ModelView
 
-#endif // MVVM_CORE_VERSION_H
+#endif // _QEXTMVVMCOREVERSION_H

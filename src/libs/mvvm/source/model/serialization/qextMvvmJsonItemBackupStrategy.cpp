@@ -14,25 +14,25 @@
 
 using namespace ModelView;
 
-struct JsonItemBackupStrategy::JsonItemBackupStrategyImpl {
-    std::unique_ptr<JsonItemConverterInterface> m_converter;
+struct QEXTMvvmJsonItemBackupStrategy::JsonItemBackupStrategyImpl {
+    std::unique_ptr<QEXTMvvmJsonItemConverterInterface> m_converter;
     QJsonObject m_json;
 };
 
-JsonItemBackupStrategy::JsonItemBackupStrategy(const QEXTMvvmItemFactoryInterface* item_factory)
-    : p_impl(std::make_unique<JsonItemBackupStrategyImpl>())
+QEXTMvvmJsonItemBackupStrategy::QEXTMvvmJsonItemBackupStrategy(const QEXTMvvmItemFactoryInterface* item_factory)
+    : p_impl(make_unique<JsonItemBackupStrategyImpl>())
 {
     p_impl->m_converter = CreateItemCloneConverter(item_factory);
 }
 
-JsonItemBackupStrategy::~JsonItemBackupStrategy() = default;
+QEXTMvvmJsonItemBackupStrategy::~QEXTMvvmJsonItemBackupStrategy() = default;
 
-std::unique_ptr<QEXTMvvmSessionItem> JsonItemBackupStrategy::restoreItem() const
+std::unique_ptr<QEXTMvvmSessionItem> QEXTMvvmJsonItemBackupStrategy::restoreItem() const
 {
     return p_impl->m_converter->from_json(p_impl->m_json);
 }
 
-void JsonItemBackupStrategy::saveItem(const QEXTMvvmSessionItem* item)
+void QEXTMvvmJsonItemBackupStrategy::saveItem(const QEXTMvvmSessionItem* item)
 {
     p_impl->m_json = p_impl->m_converter->to_json(item);
 }

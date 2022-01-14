@@ -16,7 +16,7 @@
 
 namespace ModelView
 {
-class SceneAdapterInterface;
+class QEXTMvvmSceneAdapterInterface;
 }
 
 class RegionOfInterestItem;
@@ -30,7 +30,7 @@ class RegionOfInterestView : public QGraphicsItem
 {
 public:
     RegionOfInterestView(RegionOfInterestItem* item,
-                         const ModelView::SceneAdapterInterface* scene_adapter);
+                         const ModelView::QEXTMvvmSceneAdapterInterface* scene_adapter);
     ~RegionOfInterestView() override;
 
     QRectF boundingRect() const override;

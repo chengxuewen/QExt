@@ -22,7 +22,7 @@ class QSlider;
 
 namespace ModelView
 {
-class AllItemsTreeView;
+class QEXTMvvmAllItemsTreeView;
 }
 
 class MainWindow : public QMainWindow
@@ -45,7 +45,7 @@ private:
     QTimer* timer;
     QSlider* slider;
     std::unique_ptr<MouseModel> mouse_model;
-    ModelView::AllItemsTreeView* itemsTreeView;
+    ModelView::QEXTMvvmAllItemsTreeView* itemsTreeView;
 };
 
 #endif //  MAINWINDOW_H

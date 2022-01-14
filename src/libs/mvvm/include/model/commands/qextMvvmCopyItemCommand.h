@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_COMMANDS_COPYITEMCOMMAND_H
-#define MVVM_COMMANDS_COPYITEMCOMMAND_H
+#ifndef _QEXTMVVMCOMMANDSCOPYITEMCOMMAND_H
+#define _QEXTMVVMCOMMANDSCOPYITEMCOMMAND_H
 
 #include <commands/qextMvvmItemCommand.h>
 
@@ -16,14 +7,14 @@ namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class TagRow;
+class QEXTMvvmTagRow;
 
 //! Command to copy an item.
 
 class QEXT_MVVM_API QEXTMvvmCopyItemCommand : public QEXTMvvmItemCommand
 {
 public:
-    QEXTMvvmCopyItemCommand(const QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* parent, TagRow tagrow);
+    QEXTMvvmCopyItemCommand(const QEXTMvvmSessionItem* item, QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow);
     ~QEXTMvvmCopyItemCommand() override;
 
 private:
@@ -36,4 +27,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_COMMANDS_COPYITEMCOMMAND_H
+#endif // _QEXTMVVMCOMMANDSCOPYITEMCOMMAND_H

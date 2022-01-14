@@ -1,37 +1,30 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMVIEWMODELVIEWMODELDELEGATE_H
+#define _QEXTMVVMVIEWMODELVIEWMODELDELEGATE_H
 
-#ifndef MVVM_VIEWMODEL_VIEWMODELDELEGATE_H
-#define MVVM_VIEWMODEL_VIEWMODELDELEGATE_H
+#include <qextMvvmGlobal.h>
 
 #include <QStyledItemDelegate>
+
 #include <memory>
-#include <qextMvvmGlobal.h>
 
 namespace ModelView
 {
 
-class EditorFactoryInterface;
-class CellDecoratorInterface;
+class QEXTMvvmEditorFactoryInterface;
+class QEXTMvvmCellDecoratorInterface;
 
 //! Model delegate to provide editing/painting for custom variants.
 
-class QEXT_MVVM_API ViewModelDelegate : public QStyledItemDelegate
+class QEXT_MVVM_API QEXTMvvmViewModelDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
 public:
-    explicit ViewModelDelegate(QObject* parent = nullptr);
-    ~ViewModelDelegate() override;
+    explicit QEXTMvvmViewModelDelegate(QObject* parent = nullptr);
+    ~QEXTMvvmViewModelDelegate();
 
-    void setEditorFactory(std::unique_ptr<EditorFactoryInterface> editor_factory);
-    void setCellDecoration(std::unique_ptr<CellDecoratorInterface> cell_decoration);
+    void setEditorFactory(std::unique_ptr<QEXTMvvmEditorFactoryInterface> editor_factory);
+    void setCellDecoration(std::unique_ptr<QEXTMvvmCellDecoratorInterface> cell_decoration);
 
     QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option,
                           const QModelIndex& index) const override;
@@ -51,10 +44,10 @@ public slots:
 protected:
     void initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index) const override;
 
-    std::unique_ptr<EditorFactoryInterface> m_editor_factory;
-    std::unique_ptr<CellDecoratorInterface> m_cell_decoration;
+    std::unique_ptr<QEXTMvvmEditorFactoryInterface> m_editor_factory;
+    std::unique_ptr<QEXTMvvmCellDecoratorInterface> m_cell_decoration;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_VIEWMODELDELEGATE_H
+#endif // _QEXTMVVMVIEWMODELVIEWMODELDELEGATE_H

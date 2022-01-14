@@ -1,29 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMWIDGETSSCIENTIFICSPINBOX_H
+#define _QEXTMVVMWIDGETSSCIENTIFICSPINBOX_H
 
-#ifndef MVVM_WIDGETS_SCIENTIFICSPINBOX_H
-#define MVVM_WIDGETS_SCIENTIFICSPINBOX_H
+#include <qextMvvmGlobal.h>
 
 #include <QAbstractSpinBox>
-#include <qextMvvmGlobal.h>
 
 namespace ModelView
 {
 
-class QEXT_MVVM_API ScientificSpinBox : public QAbstractSpinBox
+class QEXT_MVVM_API QEXTMvvmScientificSpinBox : public QAbstractSpinBox
 {
     Q_OBJECT
     Q_PROPERTY(double value MEMBER m_value READ value WRITE setValue NOTIFY valueChanged USER true)
 
 public:
-    ScientificSpinBox(QWidget* parent = nullptr);
-    ~ScientificSpinBox() override;
+    QEXTMvvmScientificSpinBox(QWidget* parent = nullptr);
+    ~QEXTMvvmScientificSpinBox() override;
 
     double value() const;
     void setValue(double val);
@@ -68,4 +60,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_WIDGETS_SCIENTIFICSPINBOX_H
+#endif // _QEXTMVVMWIDGETSSCIENTIFICSPINBOX_H

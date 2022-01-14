@@ -46,7 +46,7 @@ std::string UserInteractor::onSelectDirRequest()
     if (dirname.empty()) // no valid selection
         return {};
 
-    if (!ModelView::ProjectUtils::IsPossibleProjectDir(dirname)) {
+    if (!ModelView::QEXTMvvmProjectUtils::IsPossibleProjectDir(dirname)) {
         QMessageBox msgBox;
         msgBox.setText(
             "Selected directory doesn't look like a project directory, choose another one");
@@ -67,7 +67,7 @@ std::string UserInteractor::onCreateDirRequest()
     if (dirname.empty()) // no valid selection
         return {};
 
-    if (!ModelView::Utils::is_empty(dirname)) {
+    if (!ModelView::QEXTMvvmUtils::is_empty(dirname)) {
         QMessageBox msgBox;
         msgBox.setText("The selected directory is not empty, choose another one.");
         msgBox.exec();

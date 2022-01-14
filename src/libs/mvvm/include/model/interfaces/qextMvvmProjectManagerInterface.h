@@ -1,16 +1,8 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_INTERFACES_PROJECTMANAGERINTERFACE_H
-#define MVVM_INTERFACES_PROJECTMANAGERINTERFACE_H
+#ifndef _QEXTMVVMINTERFACESPROJECTMANAGERINTERFACE_H
+#define _QEXTMVVMINTERFACESPROJECTMANAGERINTERFACE_H
 
 #include <qextMvvmGlobal.h>
+
 #include <string>
 
 namespace ModelView
@@ -21,10 +13,10 @@ namespace ModelView
 //! Responsible for handling new/save/save-as/close Project logic, where the Project represents
 //! a collection of serialized application models in the project directory.
 
-class QEXT_MVVM_API ProjectManagerInterface
+class QEXT_MVVM_API QEXTMvvmProjectManagerInterface
 {
 public:
-    virtual ~ProjectManagerInterface() = default;
+    virtual ~QEXTMvvmProjectManagerInterface() = default;
     virtual bool createNewProject(const std::string& dirname = {}) = 0;
 
     virtual bool saveCurrentProject() = 0;
@@ -42,4 +34,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_INTERFACES_PROJECTMANAGERINTERFACE_H
+#endif // _QEXTMVVMINTERFACESPROJECTMANAGERINTERFACE_H

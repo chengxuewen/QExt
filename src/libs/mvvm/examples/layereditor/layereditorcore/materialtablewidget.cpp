@@ -19,7 +19,7 @@
 using namespace ModelView;
 
 MaterialTableWidget::MaterialTableWidget(MaterialModel* material_model, QWidget* parent)
-    : QWidget(parent), m_treeView(new QTreeView), m_delegate(std::make_unique<ViewModelDelegate>())
+    : QWidget(parent), m_treeView(new QTreeView), m_delegate(make_unique<QEXTMvvmViewModelDelegate>())
 {
     auto layout = new QVBoxLayout;
     layout->setMargin(0);
@@ -32,8 +32,8 @@ MaterialTableWidget::MaterialTableWidget(MaterialModel* material_model, QWidget*
     m_treeView->setEditTriggers(QAbstractItemView::AllEditTriggers); // provide one click editing
     m_treeView->setAlternatingRowColors(true);
 
-    auto on_model_reset = [this, material_model](auto) {
-        setItem(material_model->topItem<ModelView::ContainerItem>());
+    auto on_model_reset = [this, material_model](QEXTMvvmSessionModel*) {
+        setItem(material_model->topItem<ModelView::QEXTMvvmContainerItem>());
     };
     material_model->mapper()->setOnModelReset(on_model_reset, this);
     on_model_reset(material_model);
@@ -41,7 +41,7 @@ MaterialTableWidget::MaterialTableWidget(MaterialModel* material_model, QWidget*
 
 void MaterialTableWidget::setItem(QEXTMvvmSessionItem* material_container)
 {
-    m_viewModel = Factory::CreatePropertyTableViewModel(material_container->model());
+    m_viewModel = QEXTMvvmFactory::CreatePropertyTableViewModel(material_container->model());
     m_viewModel->setRootSessionItem(material_container);
     m_treeView->setModel(m_viewModel.get());
     m_treeView->expandAll();

@@ -17,46 +17,47 @@
 
 using namespace ModelView;
 
-struct Project::ProjectImpl {
+struct QEXTMvvmProject::ProjectImpl {
     std::string m_project_dir;
-    ProjectContext m_context;
-    ProjectChangedController m_change_controller;
+    QEXTMvvmProjectContext m_context;
+    QEXTMvvmProjectChangedController m_change_controller;
 
-    ProjectImpl(const ProjectContext& context)
+    ProjectImpl(const QEXTMvvmProjectContext& context)
         : m_context(context)
         , m_change_controller(context.m_models_callback(), context.m_modified_callback)
     {
     }
 
     //! Returns list of models which are subject to save/load.
-    std::vector<SessionModel*> models() const { return m_context.m_models_callback(); }
+    std::vector<QEXTMvvmSessionModel*> models() const { return m_context.m_models_callback(); }
 
     //! Processes all models one by one and either save or load them to/from given directory.
     //! Template parameter `method` specifies QEXTMVVMModelDocumentInterface's method to use.
     template <typename T> bool process(const std::string& dirname, T method)
     {
-        if (!Utils::exists(dirname))
-            return false;
+//        if (!QEXTMvvmUtils::exists(dirname))
+//            return false;
 
-        for (auto model : models()) {
-            auto document = CreateJsonDocument({model});
-            auto filename = Utils::join(dirname, ProjectUtils::SuggestFileName(*model));
-            std::invoke(method, document, filename);
-        }
-        m_project_dir = dirname;
-        m_change_controller.resetChanged();
+//        for (auto model : models()) {
+//            auto document = CreateJsonDocument({model});
+//            auto filename = QEXTMvvmUtils::join(dirname, QEXTMvvmProjectUtils::SuggestFileName(*model));
+
+//            std::invoke(method, document, filename);
+//        }
+//        m_project_dir = dirname;
+//        m_change_controller.resetChanged();
         return true;
     }
 };
 
-Project::Project(const ProjectContext& context) : p_impl(std::make_unique<ProjectImpl>(context)) {}
+QEXTMvvmProject::QEXTMvvmProject(const QEXTMvvmProjectContext& context) : p_impl(make_unique<ProjectImpl>(context)) {}
 
-Project::~Project() = default;
+QEXTMvvmProject::~QEXTMvvmProject() = default;
 
 //! Returns the full path to a project directory. It is a name where the project has been last time
 //! saved, or loaded from.
 
-std::string Project::projectDir() const
+std::string QEXTMvvmProject::projectDir() const
 {
     return p_impl->m_project_dir;
 }
@@ -64,18 +65,40 @@ std::string Project::projectDir() const
 //! Saves all models to a given directory. Directory should exist.
 //! Provided name will become 'projectDir'.
 
-bool Project::save(const std::string& dirname) const
+bool QEXTMvvmProject::save(const std::string& dirname) const
 {
-    return p_impl->process(dirname, &QEXTMVVMModelDocumentInterface::save);
+//    return p_impl->process(dirname, &QEXTMVVMModelDocumentInterface::save);
+    if (!QEXTMvvmUtils::exists(dirname))
+        return false;
+
+    for (auto model : p_impl->models()) {
+        std::unique_ptr<QEXTMVVMModelDocumentInterface> document = CreateJsonDocument({model});
+        std::string filename = QEXTMvvmUtils::join(dirname, QEXTMvvmProjectUtils::SuggestFileName(*model));
+        document->save(filename);
+    }
+    p_impl->m_project_dir = dirname;
+    p_impl->m_change_controller.resetChanged();
+    return true;
 }
 
 //! Loads all models from the given directory.
-bool Project::load(const std::string& dirname)
+bool QEXTMvvmProject::load(const std::string& dirname)
 {
-    return p_impl->process(dirname, &QEXTMVVMModelDocumentInterface::load);
+//    return p_impl->process(dirname, &QEXTMVVMModelDocumentInterface::load);
+    if (!QEXTMvvmUtils::exists(dirname))
+        return false;
+
+    for (auto model : p_impl->models()) {
+        std::unique_ptr<QEXTMVVMModelDocumentInterface> document = CreateJsonDocument({model});
+        std::string filename = QEXTMvvmUtils::join(dirname, QEXTMvvmProjectUtils::SuggestFileName(*model));
+        document->load(filename);
+    }
+    p_impl->m_project_dir = dirname;
+    p_impl->m_change_controller.resetChanged();
+    return true;
 }
 
-bool Project::isModified() const
+bool QEXTMvvmProject::isModified() const
 {
     return p_impl->m_change_controller.hasChanged();
 }

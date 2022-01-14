@@ -19,18 +19,18 @@
 
 using namespace ModelView;
 
-struct JsonDocument::JsonDocumentImpl {
-    std::vector<SessionModel*> models;
-    JsonDocumentImpl(const std::vector<SessionModel*>& models) : models(models) {}
+struct QEXTMvvmJsonDocument::JsonDocumentImpl {
+    std::vector<QEXTMvvmSessionModel*> models;
+    JsonDocumentImpl(const std::vector<QEXTMvvmSessionModel*>& models) : models(models) {}
 };
 
-JsonDocument::JsonDocument(const std::vector<SessionModel*>& models)
-    : p_impl(std::make_unique<JsonDocumentImpl>(models))
+QEXTMvvmJsonDocument::QEXTMvvmJsonDocument(const std::vector<QEXTMvvmSessionModel*>& models)
+    : p_impl(make_unique<JsonDocumentImpl>(models))
 {
 }
 
 //! Saves models on disk.
-void JsonDocument::save(const std::string& file_name) const
+void QEXTMvvmJsonDocument::save(const std::string& file_name) const
 {
     auto converter = ModelView::CreateModelProjectConverter();
     QJsonArray array;
@@ -51,7 +51,7 @@ void JsonDocument::save(const std::string& file_name) const
 
 //! Loads models from disk. If models have some data already, it will be rewritten.
 
-void JsonDocument::load(const std::string& file_name)
+void QEXTMvvmJsonDocument::load(const std::string& file_name)
 {
     QFile file(QString::fromStdString(file_name));
     if (!file.open(QIODevice::ReadOnly))
@@ -76,4 +76,4 @@ void JsonDocument::load(const std::string& file_name)
     file.close();
 }
 
-JsonDocument::~JsonDocument() = default;
+QEXTMvvmJsonDocument::~QEXTMvvmJsonDocument() = default;

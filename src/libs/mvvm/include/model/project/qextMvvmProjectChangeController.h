@@ -1,25 +1,17 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPROJECTPROJECTCHANGECONTROLLER_H
+#define _QEXTMVVMPROJECTPROJECTCHANGECONTROLLER_H
 
-#ifndef MVVM_PROJECT_PROJECTCHANGECONTROLLER_H
-#define MVVM_PROJECT_PROJECTCHANGECONTROLLER_H
+#include <qextMvvmGlobal.h>
 
 #include <functional>
 #include <memory>
-#include <qextMvvmGlobal.h>
 #include <vector>
 
 namespace ModelView
 {
 
-class SessionModel;
-class ModelHasChangedController;
+class QEXTMvvmSessionModel;
+class QEXTMvvmModelHasChangedController;
 
 //! Tracks changes in all models.
 //! Allows to check if one or more models have been changed since last call of ::resetChanged().
@@ -29,13 +21,13 @@ class ModelHasChangedController;
 //! To avoid extra signaling while being in already "changed" mode, the controller reports only
 //! once.
 
-class QEXT_MVVM_API ProjectChangedController
+class QEXT_MVVM_API QEXTMvvmProjectChangedController
 {
 public:
     using callback_t = std::function<void()>;
-    ProjectChangedController(const std::vector<SessionModel*>& models,
+    QEXTMvvmProjectChangedController(const std::vector<QEXTMvvmSessionModel*>& models,
                              callback_t project_changed_callback = {});
-    ~ProjectChangedController();
+    ~QEXTMvvmProjectChangedController();
 
     bool hasChanged() const;
 
@@ -48,4 +40,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PROJECT_PROJECTCHANGECONTROLLER_H
+#endif // _QEXTMVVMPROJECTPROJECTCHANGECONTROLLER_H

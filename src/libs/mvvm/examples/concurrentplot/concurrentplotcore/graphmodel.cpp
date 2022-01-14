@@ -21,7 +21,7 @@
 namespace
 {
 
-auto simulation_result(double amp_factor = 1.0)
+ToySimulation::Result simulation_result(double amp_factor = 1.0)
 {
     ToySimulation simulation(amp_factor);
     simulation.runSimulation();
@@ -32,7 +32,7 @@ auto simulation_result(double amp_factor = 1.0)
 
 using namespace ModelView;
 
-GraphModel::GraphModel() : SessionModel("GraphModel")
+GraphModel::GraphModel() : QEXTMvvmSessionModel("GraphModel")
 {
     init_model();
 }
@@ -41,7 +41,7 @@ GraphModel::GraphModel() : SessionModel("GraphModel")
 
 void GraphModel::set_data(const std::vector<double>& data)
 {
-    auto item = topItem<ContainerItem>()->item<Data1DItem>(ContainerItem::T_ITEMS);
+    auto item = topItem<QEXTMvvmContainerItem>()->item<QEXTMvvmData1DItem>(QEXTMvvmContainerItem::T_ITEMS);
     item->setValues(data);
 }
 
@@ -49,10 +49,10 @@ void GraphModel::set_data(const std::vector<double>& data)
 
 void GraphModel::init_model()
 {
-    auto container = insertItem<ContainerItem>();
+    auto container = insertItem<QEXTMvvmContainerItem>();
     container->setDisplayName("Data container");
 
-    auto viewport = insertItem<GraphViewportItem>();
+    auto viewport = insertItem<QEXTMvvmGraphViewportItem>();
     viewport->setDisplayName("Graph container");
 
     add_graph(container, viewport);
@@ -60,16 +60,16 @@ void GraphModel::init_model()
 
 //! Adds Graph1DItem with some random points.
 
-void GraphModel::add_graph(ModelView::ContainerItem* container,
-                           ModelView::GraphViewportItem* viewport)
+void GraphModel::add_graph(ModelView::QEXTMvvmContainerItem* container,
+                           ModelView::QEXTMvvmGraphViewportItem* viewport)
 {
-    auto [xmin, xmax, points] = simulation_result(ModelView::Utils::RandDouble(0.5, 1.0));
+    auto [xmin, xmax, points] = simulation_result(ModelView::QEXTMvvmUtils::RandDouble(0.5, 1.0));
 
-    auto data = insertItem<Data1DItem>(container);
-    data->setAxis<FixedBinAxisItem>(static_cast<int>(points.size()), xmin, xmax);
+    auto data = insertItem<QEXTMvvmData1DItem>(container);
+    data->setAxis<QEXTMvvmFixedBinAxisItem>(static_cast<int>(points.size()), xmin, xmax);
     data->setValues(points);
 
-    auto graph = insertItem<GraphItem>(viewport);
+    auto graph = insertItem<QEXTMvvmGraphItem>(viewport);
     graph->setDataItem(data);
-    graph->setNamedColor(ModelView::Utils::RandomNamedColor());
+    graph->setNamedColor(ModelView::QEXTMvvmUtils::RandomNamedColor());
 }

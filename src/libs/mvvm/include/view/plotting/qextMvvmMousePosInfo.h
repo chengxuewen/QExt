@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_PLOTTING_MOUSEPOSINFO_H
-#define MVVM_PLOTTING_MOUSEPOSINFO_H
+#ifndef _QEXTMVVMPLOTTINGMOUSEPOSINFO_H
+#define _QEXTMVVMPLOTTINGMOUSEPOSINFO_H
 
 #include <qextMvvmGlobal.h>
 
@@ -20,7 +11,8 @@ namespace ModelView
 //! Aggregate to hold mouse position info in QCustomPlot context.
 //! Position is given in axis coordinates corresponding to the current zoom level.
 
-struct QEXT_MVVM_API MousePosInfo {
+struct QEXT_MVVM_API QEXTMvvmMousePosInfo
+{
     double xpos{0.0};
     double ypos{0.0};
     bool in_axes_range{false};
@@ -28,4 +20,4 @@ struct QEXT_MVVM_API MousePosInfo {
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_MOUSEPOSINFO_H
+#endif // _QEXTMVVMPLOTTINGMOUSEPOSINFO_H

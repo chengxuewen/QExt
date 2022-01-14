@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMMODELITEMUTILS_H
+#define _QEXTMVVMMODELITEMUTILS_H
 
-#ifndef MVVM_MODEL_ITEMUTILS_H
-#define MVVM_MODEL_ITEMUTILS_H
+#include <qextMvvmGlobal.h>
 
 #include <functional>
-#include <qextMvvmGlobal.h>
 #include <vector>
 
 namespace ModelView
@@ -19,7 +11,7 @@ namespace ModelView
 
 class QEXTMvvmSessionItem;
 
-namespace Utils
+namespace QEXTMvvmUtils
 {
 
 //! Iterates through item and all its children.
@@ -84,4 +76,4 @@ template <typename T> std::vector<T*> CastedItems(const std::vector<QEXTMvvmSess
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_ITEMUTILS_H
+#endif // _QEXTMVVMMODELITEMUTILS_H

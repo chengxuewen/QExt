@@ -19,7 +19,7 @@ void remove(QGridLayout* layout, int row, int column, bool deleteWidgets);
 void deleteChildWidgets(QLayoutItem* item);
 } // namespace
 
-void LayoutUtils::clearLayout(QLayout* layout, bool deleteWidgets)
+void QEXTMvvmLayoutUtils::clearLayout(QLayout* layout, bool deleteWidgets)
 {
     if (!layout)
         return;
@@ -28,7 +28,7 @@ void LayoutUtils::clearLayout(QLayout* layout, bool deleteWidgets)
         if (deleteWidgets)
             delete item->widget();
         if (QLayout* childLayout = item->layout())
-            LayoutUtils::clearLayout(childLayout, deleteWidgets);
+            QEXTMvvmLayoutUtils::clearLayout(childLayout, deleteWidgets);
         delete item;
     }
 }
@@ -42,7 +42,7 @@ void LayoutUtils::clearLayout(QLayout* layout, bool deleteWidgets)
  * will stay the same after this function has been called).
  */
 
-void LayoutUtils::removeRow(QGridLayout* layout, int row, bool deleteWidgets)
+void QEXTMvvmLayoutUtils::removeRow(QGridLayout* layout, int row, bool deleteWidgets)
 {
     remove(layout, row, -1, deleteWidgets);
     layout->setRowMinimumHeight(row, 0);
@@ -58,17 +58,17 @@ void LayoutUtils::removeRow(QGridLayout* layout, int row, bool deleteWidgets)
  * indices will stay the same after this function has been called).
  */
 
-void LayoutUtils::removeColumn(QGridLayout* layout, int column, bool deleteWidgets)
+void QEXTMvvmLayoutUtils::removeColumn(QGridLayout* layout, int column, bool deleteWidgets)
 {
     remove(layout, -1, column, deleteWidgets);
     layout->setColumnMinimumWidth(column, 0);
     layout->setColumnStretch(column, 0);
 }
 
-void LayoutUtils::clearGridLayout(QGridLayout* layout, bool deleteWidgets)
+void QEXTMvvmLayoutUtils::clearGridLayout(QGridLayout* layout, bool deleteWidgets)
 {
     for (int i_row = 0; i_row < layout->rowCount(); ++i_row) {
-        LayoutUtils::removeRow(layout, i_row, deleteWidgets);
+        QEXTMvvmLayoutUtils::removeRow(layout, i_row, deleteWidgets);
     }
 }
 
@@ -114,7 +114,7 @@ void deleteChildWidgets(QLayoutItem* item)
 
 } // namespace
 
-QWidget* LayoutUtils::placeHolder()
+QWidget* QEXTMvvmLayoutUtils::placeHolder()
 {
     auto result = new QWidget;
     result->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

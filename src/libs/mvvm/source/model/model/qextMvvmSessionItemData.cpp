@@ -15,7 +15,7 @@
 
 using namespace ModelView;
 
-std::vector<int> SessionItemData::roles() const
+std::vector<int> QEXTMvvmSessionItemData::roles() const
 {
     std::vector<int> result;
     for (const auto& value : m_values)
@@ -23,26 +23,26 @@ std::vector<int> SessionItemData::roles() const
     return result;
 }
 
-Variant SessionItemData::data(int role) const
+QVariant QEXTMvvmSessionItemData::data(int role) const
 {
     for (const auto& value : m_values) {
         if (value.m_role == role)
             return value.m_data;
     }
-    return Variant();
+    return QVariant();
 }
 
 //! Sets the data for given role. Returns true if data was changed.
 //! If variant is invalid, corresponding role will be removed.
 
-bool SessionItemData::setData(const Variant& value, int role)
+bool QEXTMvvmSessionItemData::setData(const QVariant& value, int role)
 {
     assure_validity(value, role);
 
     for (auto it = m_values.begin(); it != m_values.end(); ++it) {
         if (it->m_role == role) {
             if (value.isValid()) {
-                if (Utils::IsTheSame(it->m_data, value))
+                if (QEXTMvvmUtils::IsTheSame(it->m_data, value))
                     return false;
                 it->m_data = value;
             } else {
@@ -51,36 +51,36 @@ bool SessionItemData::setData(const Variant& value, int role)
             return true;
         }
     }
-    m_values.push_back(DataRole(value, role));
+    m_values.push_back(QEXTMvvmDataRole(value, role));
     return true;
 }
 
-SessionItemData::const_iterator SessionItemData::begin() const
+QEXTMvvmSessionItemData::const_iterator QEXTMvvmSessionItemData::begin() const
 {
     return m_values.begin();
 }
 
-SessionItemData::const_iterator SessionItemData::end() const
+QEXTMvvmSessionItemData::const_iterator QEXTMvvmSessionItemData::end() const
 {
     return m_values.end();
 }
 
 //! Returns true if item has data with given role.
 
-bool SessionItemData::hasData(int role) const
+bool QEXTMvvmSessionItemData::hasData(int role) const
 {
-    auto has_role = [role](const auto& x) { return x.m_role == role; };
+    auto has_role = [role](const QEXTMvvmDataRole& x) { return x.m_role == role; };
     return std::find_if(m_values.begin(), m_values.end(), has_role) != m_values.end();
 }
 
 //! Check if variant is compatible
 
-void SessionItemData::assure_validity(const Variant& variant, int role)
+void QEXTMvvmSessionItemData::assure_validity(const QVariant& variant, int role)
 {
     if (variant.typeName() == QStringLiteral("QString"))
         throw std::runtime_error("Attempt to set QString based variant");
 
-    if (!Utils::CompatibleVariantTypes(data(role), variant)) {
+    if (!QEXTMvvmUtils::CompatibleVariantTypes(data(role), variant)) {
         std::ostringstream ostr;
         ostr << "SessionItemData::assure_validity() -> Error. Variant types mismatch. "
              << "Old variant type '" << data(role).typeName() << "' "

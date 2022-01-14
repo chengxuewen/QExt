@@ -1,39 +1,31 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSERIALIZATIONJSONITEMDATACONVERTERINTERFACE_H
+#define _QEXTMVVMSERIALIZATIONJSONITEMDATACONVERTERINTERFACE_H
 
-#ifndef MVVM_SERIALIZATION_JSONITEMDATACONVERTERINTERFACE_H
-#define MVVM_SERIALIZATION_JSONITEMDATACONVERTERINTERFACE_H
+#include <qextMvvmGlobal.h>
 
 #include <memory>
-#include <qextMvvmGlobal.h>
 
 class QJsonArray;
 
 namespace ModelView
 {
 
-class SessionItemData;
+class QEXTMvvmSessionItemData;
 
 //! Base class for all converters of SessionItemData to/from JSON object.
 
-class QEXT_MVVM_API JsonItemDataConverterInterface
+class QEXT_MVVM_API QEXTMvvmJsonItemDataConverterInterface
 {
 public:
-    virtual ~JsonItemDataConverterInterface() = default;
+    virtual ~QEXTMvvmJsonItemDataConverterInterface() = default;
 
     //! Converts SessionItemData to JSON;
-    virtual QJsonArray to_json(const SessionItemData&) = 0;
+    virtual QJsonArray to_json(const QEXTMvvmSessionItemData&) = 0;
 
     //! Converts SessionItemData from JSON;
-    virtual void from_json(const QJsonArray& object, SessionItemData& data) = 0;
+    virtual void from_json(const QJsonArray& object, QEXTMvvmSessionItemData& data) = 0;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONITEMDATACONVERTERINTERFACE_H
+#endif // _QEXTMVVMSERIALIZATIONJSONITEMDATACONVERTERINTERFACE_H

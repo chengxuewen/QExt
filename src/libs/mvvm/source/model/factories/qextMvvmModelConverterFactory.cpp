@@ -16,25 +16,25 @@
 //! Saves a full deep copy of model in JSON. When restoring, reconstruct full copy.
 //! This will lead to item ID's which are identical to original.
 
-std::unique_ptr<ModelView::JsonModelConverterInterface> ModelView::CreateModelCloneConverter()
+std::unique_ptr<ModelView::QEXTMvvmJsonModelConverterInterface> ModelView::CreateModelCloneConverter()
 {
-    return std::make_unique<JsonModelConverter>(ConverterMode::clone);
+    return make_unique<QEXTMvvmJsonModelConverter>(ConverterMode::clone);
 }
 
 //! Creates a JSON model converter intended for model copying.
 //! Saves a full deep copy of model in JSON. When restoring, reconstruct full copy and regenerate
 //! item's ID to make them unique.
 
-std::unique_ptr<ModelView::JsonModelConverterInterface> ModelView::CreateModelCopyConverter()
+std::unique_ptr<ModelView::QEXTMvvmJsonModelConverterInterface> ModelView::CreateModelCopyConverter()
 {
-    return std::make_unique<JsonModelConverter>(ConverterMode::copy);
+    return make_unique<QEXTMvvmJsonModelConverter>(ConverterMode::copy);
 }
 
 //! Creates a JSON model converter intended for save/load of the project on disk.
 //! When saving to disk, only certain data is saved. When loading from disk, items
 //! in memory is gently updated from JSON content.
 
-std::unique_ptr<ModelView::JsonModelConverterInterface> ModelView::CreateModelProjectConverter()
+std::unique_ptr<ModelView::QEXTMvvmJsonModelConverterInterface> ModelView::CreateModelProjectConverter()
 {
-    return std::make_unique<JsonModelConverter>(ConverterMode::project);
+    return make_unique<QEXTMvvmJsonModelConverter>(ConverterMode::project);
 }

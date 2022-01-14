@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_FACTORIES_STANDARDITEMCATALOGUE_H
-#define MVVM_FACTORIES_STANDARDITEMCATALOGUE_H
+#ifndef _QEXTMVVMFACTORIESSTANDARDITEMCATALOGUE_H
+#define _QEXTMVVMFACTORIESSTANDARDITEMCATALOGUE_H
 
 #include <qextMvvmItemCatalogue.h>
 
@@ -16,8 +7,8 @@ namespace ModelView
 {
 
 //! Creates a catalog of items supported by SessionModel out-of-the-box.
-QEXT_MVVM_API std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue();
+QEXT_MVVM_API std::unique_ptr<QEXTMvvmItemCatalogue> CreateStandardItemCatalogue();
 
 } // namespace ModelView
 
-#endif // MVVM_FACTORIES_STANDARDITEMCATALOGUE_H
+#endif // _QEXTMVVMFACTORIESSTANDARDITEMCATALOGUE_H

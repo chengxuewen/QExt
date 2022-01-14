@@ -14,12 +14,12 @@
 
 using namespace ModelView;
 
-PropertiesRowStrategy::PropertiesRowStrategy(std::vector<std::string> labels)
+QEXTMvvmPropertiesRowStrategy::QEXTMvvmPropertiesRowStrategy(std::vector<std::string> labels)
     : user_defined_column_labels(std::move(labels))
 {
 }
 
-QStringList PropertiesRowStrategy::horizontalHeaderLabels() const
+QStringList QEXTMvvmPropertiesRowStrategy::horizontalHeaderLabels() const
 {
     QStringList result;
     auto labels =
@@ -29,22 +29,22 @@ QStringList PropertiesRowStrategy::horizontalHeaderLabels() const
     return result;
 }
 
-std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::constructRow(QEXTMvvmSessionItem* item)
+std::vector<std::unique_ptr<QEXTMvvmViewItem>> QEXTMvvmPropertiesRowStrategy::constructRow(QEXTMvvmSessionItem* item)
 {
-    std::vector<std::unique_ptr<ViewItem>> result;
+    std::vector<std::unique_ptr<QEXTMvvmViewItem>> result;
 
     if (!item)
         return result;
 
-    auto items_in_row = Utils::SinglePropertyItems(*item);
+    auto items_in_row = QEXTMvvmUtils::SinglePropertyItems(*item);
     if (user_defined_column_labels.empty())
         update_column_labels(items_in_row);
 
     for (auto child : items_in_row) {
         if (child->hasData())
-            result.emplace_back(std::make_unique<ViewDataItem>(child));
+            result.emplace_back(make_unique<QEXTMvvmViewDataItem>(child));
         else
-            result.emplace_back(std::make_unique<ViewLabelItem>(child));
+            result.emplace_back(make_unique<QEXTMvvmViewLabelItem>(child));
     }
 
     return result;
@@ -52,7 +52,7 @@ std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::constructRow(QEXTM
 
 //! Updates current column labels.
 
-void PropertiesRowStrategy::update_column_labels(std::vector<QEXTMvvmSessionItem*> items)
+void QEXTMvvmPropertiesRowStrategy::update_column_labels(std::vector<QEXTMvvmSessionItem*> items)
 {
     current_column_labels.clear();
     std::transform(items.begin(), items.end(), std::back_inserter(current_column_labels),

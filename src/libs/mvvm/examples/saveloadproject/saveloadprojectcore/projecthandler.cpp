@@ -21,8 +21,8 @@ using namespace ModelView;
 
 ProjectHandler::ProjectHandler(SampleModel* sample_model, QMainWindow* main_window)
     : QObject(main_window)
-    , m_recentProjectSettings(std::make_unique<RecentProjectSettings>())
-    , m_userInteractor(std::make_unique<UserInteractor>(m_recentProjectSettings.get(), main_window))
+    , m_recentProjectSettings(make_unique<RecentProjectSettings>())
+    , m_userInteractor(make_unique<UserInteractor>(m_recentProjectSettings.get(), main_window))
     , m_model(sample_model)
 {
     initProjectManager();
@@ -74,8 +74,8 @@ void ProjectHandler::onSaveProjectAs()
 void ProjectHandler::initProjectManager()
 {
     auto modified_callback = [this]() { updateCurrentProjectName(); };
-    auto models_callback = [this]() -> std::vector<SessionModel*> { return {m_model}; };
-    ProjectContext project_context{modified_callback, models_callback};
+    auto models_callback = [this]() -> std::vector<QEXTMvvmSessionModel*> { return {m_model}; };
+    QEXTMvvmProjectContext project_context{modified_callback, models_callback};
 
     auto select_dir_callback = [this]() { return m_userInteractor->onSelectDirRequest(); };
     auto create_dir_callback = [this]() { return m_userInteractor->onCreateDirRequest(); };
@@ -93,8 +93,8 @@ void ProjectHandler::updateCurrentProjectName()
     const auto is_modified = m_projectManager->isModified();
 
     // set main window title
-    auto title = ModelView::Utils::ProjectWindowTitle(current_project_dir, is_modified);
-    if (auto main_window = ModelView::Utils::FindMainWindow(); main_window)
+    auto title = ModelView::QEXTMvvmUtils::ProjectWindowTitle(current_project_dir, is_modified);
+    if (auto main_window = ModelView::QEXTMvvmUtils::FindMainWindow(); main_window)
         main_window->setWindowTitle(title);
 
     currentProjectModified(current_project_dir, is_modified);

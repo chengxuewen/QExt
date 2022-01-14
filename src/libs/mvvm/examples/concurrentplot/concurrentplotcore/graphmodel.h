@@ -14,14 +14,14 @@
 
 namespace ModelView
 {
-class GraphViewportItem;
-class ContainerItem;
+class QEXTMvvmGraphViewportItem;
+class QEXTMvvmContainerItem;
 } // namespace ModelView
 
 //! Main application model holding data for single graph.
 //! Contains few Data1DItem's, GraphItem's and ViewPortItem.
 
-class GraphModel : public ModelView::SessionModel
+class GraphModel : public ModelView::QEXTMvvmSessionModel
 {
 public:
     GraphModel();
@@ -30,7 +30,7 @@ public:
 
 private:
     void init_model();
-    void add_graph(ModelView::ContainerItem* container, ModelView::GraphViewportItem* viewport);
+    void add_graph(ModelView::QEXTMvvmContainerItem* container, ModelView::QEXTMvvmGraphViewportItem* viewport);
 };
 
 #endif // GRAPHMODEL_H

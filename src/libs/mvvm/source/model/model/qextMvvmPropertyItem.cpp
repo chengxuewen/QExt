@@ -13,15 +13,15 @@
 
 using namespace ModelView;
 
-PropertyItem::PropertyItem() : QEXTMvvmSessionItem(Constants::PropertyType) {}
+QEXTMvvmPropertyItem::QEXTMvvmPropertyItem() : QEXTMvvmSessionItem(QEXTMvvmConstants::PropertyType) {}
 
-PropertyItem* PropertyItem::setDisplayName(const std::string& name)
+QEXTMvvmPropertyItem* QEXTMvvmPropertyItem::setDisplayName(const std::string& name)
 {
     QEXTMvvmSessionItem::setDisplayName(name);
     return this;
 }
 
-PropertyItem* PropertyItem::setLimits(const RealLimits& value)
+QEXTMvvmPropertyItem* QEXTMvvmPropertyItem::setLimits(const QEXTMvvmRealLimits& value)
 {
     this->setData(value, ItemDataRole::LIMITS);
     return this;

@@ -21,7 +21,7 @@ namespace PlotGraphs
 {
 
 GraphPropertyWidget::GraphPropertyWidget(GraphModel* model, QWidget* parent)
-    : QWidget(parent), m_treeView(new ItemsTreeView), m_model(model)
+    : QWidget(parent), m_treeView(new QEXTMvvmItemsTreeView), m_model(model)
 {
     auto mainLayout = new QVBoxLayout;
 
@@ -39,7 +39,7 @@ void GraphPropertyWidget::setModel(GraphModel* model)
 
     m_model = model;
 
-    m_treeView->setViewModel(Factory::CreateDefaultViewModel(model));
+    m_treeView->setViewModel(QEXTMvvmFactory::CreateDefaultViewModel(model));
 }
 
 QBoxLayout* GraphPropertyWidget::create_button_layout()

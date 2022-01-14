@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_INTERFACES_UNDDOSTACKINTERFACE_H
-#define MVVM_INTERFACES_UNDDOSTACKINTERFACE_H
+#ifndef _QEXTMVVMINTERFACESUNDDOSTACKINTERFACE_H
+#define _QEXTMVVMINTERFACESUNDDOSTACKINTERFACE_H
 
 #include <memory>
 #include <string>
@@ -50,4 +41,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_INTERFACES_UNDDOSTACKINTERFACE_H
+#endif // _QEXTMVVMINTERFACESUNDDOSTACKINTERFACE_H

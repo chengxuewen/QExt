@@ -13,7 +13,7 @@
 #include <serialization/qextMvvmCompatibilityUtils.h>
 #include <set>
 
-namespace ModelView ::Compatibility
+namespace ModelView ::QEXTMvvmCompatibility
 {
 
 /*
@@ -23,7 +23,7 @@ Container is considered to be compatible (i.e. can be updated from serialized co
 exactly same tag, and it is empty.
 */
 
-bool IsCompatibleUniversalTag(const SessionItemContainer& container, const TagInfo& taginfo)
+bool IsCompatibleUniversalTag(const QEXTMvvmSessionItemContainer& container, const QEXTMvvmTagInfo& taginfo)
 {
     auto container_taginfo = container.tagInfo();
 
@@ -42,7 +42,7 @@ Container is considered to be compatible (i.e. can be updated from serialized co
 exactly same tag, and property item ready for update.
 */
 
-bool IsCompatibleSinglePropertyTag(const SessionItemContainer& container, const TagInfo& taginfo)
+bool IsCompatibleSinglePropertyTag(const QEXTMvvmSessionItemContainer& container, const QEXTMvvmTagInfo& taginfo)
 {
     auto container_taginfo = container.tagInfo();
 
@@ -61,14 +61,14 @@ Container is considered to be compatible (i.e. can be updated from serialized co
 if it has exactly same tag, and it's name corresponds to GroupItem.
 */
 
-bool IsCompatibleGroupTag(const SessionItemContainer& container, const TagInfo& taginfo)
+bool IsCompatibleGroupTag(const QEXTMvvmSessionItemContainer& container, const QEXTMvvmTagInfo& taginfo)
 {
     auto container_taginfo = container.tagInfo();
     bool has_item = !container.empty();
     bool same_tags = container_taginfo == taginfo;
     bool both_are_universal =
         !container_taginfo.isSinglePropertyTag() && !taginfo.isSinglePropertyTag();
-    bool valid_tag_name = taginfo.name() == GroupItem::T_GROUP_ITEMS;
+    bool valid_tag_name = taginfo.name() == QEXTMvvmGroupItem::T_GROUP_ITEMS;
     return both_are_universal && same_tags && has_item && valid_tag_name;
 }
 

@@ -14,8 +14,8 @@
 
 namespace ModelView
 {
-class GraphViewportItem;
-class ContainerItem;
+class QEXTMvvmGraphViewportItem;
+class QEXTMvvmContainerItem;
 } // namespace ModelView
 
 namespace PlotGraphs
@@ -25,7 +25,7 @@ namespace PlotGraphs
 //! Contains few Data1DItem's, GraphItem's and ViewPortItem. Provides functionality to easily
 //! add and remove graphs.
 
-class GraphModel : public ModelView::SessionModel
+class GraphModel : public ModelView::QEXTMvvmSessionModel
 {
 public:
     GraphModel();
@@ -41,8 +41,8 @@ public:
     void redo();
 
 private:
-    ModelView::GraphViewportItem* viewport();
-    ModelView::ContainerItem* data_container();
+    ModelView::QEXTMvvmGraphViewportItem* viewport();
+    ModelView::QEXTMvvmContainerItem* data_container();
 
     void init_model();
 };

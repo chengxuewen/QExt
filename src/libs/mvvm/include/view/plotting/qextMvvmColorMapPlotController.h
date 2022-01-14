@@ -1,18 +1,10 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGCOLORMAPPLOTCONTROLLER_H
+#define _QEXTMVVMPLOTTINGCOLORMAPPLOTCONTROLLER_H
 
-#ifndef MVVM_PLOTTING_COLORMAPPLOTCONTROLLER_H
-#define MVVM_PLOTTING_COLORMAPPLOTCONTROLLER_H
-
-#include <memory>
 #include <qextMvvmItemListener.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 class QCustomPlot;
 class QCPColorScale;
@@ -20,18 +12,18 @@ class QCPColorScale;
 namespace ModelView
 {
 
-class ColorMapItem;
+class QEXTMvvmColorMapItem;
 
 //! Establish communication between QCPColorMap and ColorMapItem.
 //! Provide update on QCPColorMap when ColorMapItem is changed. QCPColorMap is added to
 //! QCustomPlot plottables, when controller is created, and removed from plottables, when controller
 //! is destroyed.
 
-class QEXT_MVVM_API ColorMapPlotController : public ItemListener<ColorMapItem>
+class QEXT_MVVM_API QEXTMvvmColorMapPlotController : public QEXTMvvmItemListener<QEXTMvvmColorMapItem>
 {
 public:
-    explicit ColorMapPlotController(QCustomPlot* plot, QCPColorScale* color_scale = nullptr);
-    ~ColorMapPlotController() override;
+    explicit QEXTMvvmColorMapPlotController(QCustomPlot* plot, QCPColorScale* color_scale = nullptr);
+    ~QEXTMvvmColorMapPlotController() override;
 
 protected:
     void subscribe() override;
@@ -44,4 +36,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_COLORMAPPLOTCONTROLLER_H
+#endif // _QEXTMVVMPLOTTINGCOLORMAPPLOTCONTROLLER_H

@@ -20,7 +20,7 @@ const QString false_text = "False";
 
 using namespace ModelView;
 
-BoolEditor::BoolEditor(QWidget* parent) : CustomEditor(parent), m_checkBox(new QCheckBox)
+QEXTMvvmBoolEditor::QEXTMvvmBoolEditor(QWidget* parent) : QEXTMvvmCustomEditor(parent), m_checkBox(new QCheckBox)
 
 {
     setAutoFillBackground(true);
@@ -29,23 +29,23 @@ BoolEditor::BoolEditor(QWidget* parent) : CustomEditor(parent), m_checkBox(new Q
     layout->addWidget(m_checkBox);
     setLayout(layout);
 
-    connect(m_checkBox, &QCheckBox::toggled, this, &BoolEditor::onCheckBoxChange);
+    connect(m_checkBox, &QCheckBox::toggled, this, &QEXTMvvmBoolEditor::onCheckBoxChange);
     setFocusProxy(m_checkBox);
     m_checkBox->setText(true_text);
 }
 
-bool BoolEditor::is_persistent() const
+bool QEXTMvvmBoolEditor::is_persistent() const
 {
     return true;
 }
 
-void BoolEditor::onCheckBoxChange(bool value)
+void QEXTMvvmBoolEditor::onCheckBoxChange(bool value)
 {
     if (value != m_data.value<bool>())
         setDataIntern(QVariant(value));
 }
 
-void BoolEditor::update_components()
+void QEXTMvvmBoolEditor::update_components()
 {
     if (m_data.type() != QVariant::Bool)
         throw std::runtime_error("BoolEditor::update_components() -> Error. Wrong variant type");

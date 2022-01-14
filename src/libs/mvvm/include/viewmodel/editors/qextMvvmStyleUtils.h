@@ -1,21 +1,12 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_EDITORS_STYLEUTILS_H
-#define MVVM_EDITORS_STYLEUTILS_H
+#ifndef _QEXTMVVMEDITORSSTYLEUTILS_H
+#define _QEXTMVVMEDITORSSTYLEUTILS_H
 
 #include <qextMvvmGlobal.h>
 
 namespace ModelView
 {
 
-namespace Style
+namespace QEXTMvvmStyle
 {
 
 //! Returns int value corresponding to pixmap in standard Qt table/tree decorations.
@@ -31,4 +22,4 @@ QEXT_MVVM_API int DefaultInfoBarTextSize();
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_STYLEUTILS_H
+#endif // _QEXTMVVMEDITORSSTYLEUTILS_H

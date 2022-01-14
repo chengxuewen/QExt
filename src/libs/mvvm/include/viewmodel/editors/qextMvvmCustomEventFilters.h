@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMEDITORSCUSTOMEVENTFILTERS_H
+#define _QEXTMVVMEDITORSCUSTOMEVENTFILTERS_H
 
-#ifndef MVVM_EDITORS_CUSTOMEVENTFILTERS_H
-#define MVVM_EDITORS_CUSTOMEVENTFILTERS_H
+#include <qextMvvmGlobal.h>
 
 #include <QObject>
-#include <qextMvvmGlobal.h>
 
 namespace ModelView
 {
@@ -21,12 +13,12 @@ namespace ModelView
 //! editor is created by clicking on a cell of a tree and it appears as  modal window on top of a
 //! tree.
 
-class QEXT_MVVM_API LostFocusFilter : public QObject
+class QEXT_MVVM_API QEXTMvvmLostFocusFilter : public QObject
 {
     Q_OBJECT
 
 public:
-    LostFocusFilter(QObject* parent = nullptr);
+    QEXTMvvmLostFocusFilter(QObject* parent = nullptr);
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
@@ -35,12 +27,12 @@ protected:
 //! Event filter to install on combo boxes and spin boxes to ignore wheel events during scrolling.
 //! Helpful than the spin box is a child of some larger scroll area.
 
-class QEXT_MVVM_API WheelEventFilter : public QObject
+class QEXT_MVVM_API QEXTMvvmWheelEventFilter : public QObject
 {
     Q_OBJECT
 
 public:
-    WheelEventFilter(QObject* parent = nullptr);
+    QEXTMvvmWheelEventFilter(QObject* parent = nullptr);
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event);
@@ -48,4 +40,4 @@ protected:
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_CUSTOMEVENTFILTERS_H
+#endif // _QEXTMVVMEDITORSCUSTOMEVENTFILTERS_H

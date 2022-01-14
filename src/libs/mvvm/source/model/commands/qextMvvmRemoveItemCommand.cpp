@@ -18,19 +18,19 @@ using namespace ModelView;
 
 namespace
 {
-std::string generate_description(const TagRow& tagrow);
+std::string generate_description(const QEXTMvvmTagRow& tagrow);
 } // namespace
 
 struct QEXTMvvmRemoveItemCommand::RemoveItemCommandImpl {
-    TagRow tagrow;
+    QEXTMvvmTagRow tagrow;
     std::unique_ptr<QEXTMvvmItemBackupStrategy> backup_strategy;
-    Path item_path;
-    RemoveItemCommandImpl(TagRow tagrow) : tagrow(std::move(tagrow)) {}
+    QEXTMvvmPath item_path;
+    RemoveItemCommandImpl(QEXTMvvmTagRow tagrow) : tagrow(std::move(tagrow)) {}
 };
 
-QEXTMvvmRemoveItemCommand::QEXTMvvmRemoveItemCommand(QEXTMvvmSessionItem* parent, TagRow tagrow)
+QEXTMvvmRemoveItemCommand::QEXTMvvmRemoveItemCommand(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow)
     : QEXTMvvmItemCommand(parent)
-    , p_impl(std::make_unique<RemoveItemCommandImpl>(std::move(tagrow)))
+    , p_impl(make_unique<RemoveItemCommandImpl>(std::move(tagrow)))
 {
     setResult(false);
 
@@ -63,7 +63,7 @@ void QEXTMvvmRemoveItemCommand::execute_command()
 
 namespace
 {
-std::string generate_description(const TagRow& tagrow)
+std::string generate_description(const QEXTMvvmTagRow& tagrow)
 {
     std::ostringstream ostr;
     ostr << "Remove item from tag '" << tagrow.tag << "', row " << tagrow.row;

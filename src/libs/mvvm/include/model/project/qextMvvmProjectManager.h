@@ -1,22 +1,14 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPROJECTPROJECTMANAGER_H
+#define _QEXTMVVMPROJECTPROJECTMANAGER_H
 
-#ifndef MVVM_PROJECT_PROJECTMANAGER_H
-#define MVVM_PROJECT_PROJECTMANAGER_H
+#include <qextMvvmProjectManagerInterface.h>
 
 #include <memory>
-#include <qextMvvmProjectManagerInterface.h>
 
 namespace ModelView
 {
 
-struct ProjectContext;
+struct QEXTMvvmProjectContext;
 
 //! Responsible for handling new/save/save-as/close Project logic, where the Project represents
 //! a collection of serialized application models in the project directory.
@@ -25,14 +17,14 @@ struct ProjectContext;
 //! the creation of a new project will be possible only if the old project is in a saved state. See
 //! description to the class methods.
 
-class QEXT_MVVM_API ProjectManager : public ModelView::ProjectManagerInterface
+class QEXT_MVVM_API QEXTMvvmProjectManager : public ModelView::QEXTMvvmProjectManagerInterface
 {
 public:
-    ProjectManager(const ProjectContext& context);
-    ~ProjectManager() override;
+    QEXTMvvmProjectManager(const QEXTMvvmProjectContext& context);
+    ~QEXTMvvmProjectManager() override;
 
-    ProjectManager(const ProjectManager& other) = delete;
-    ProjectManager& operator=(const ProjectManager& other) = delete;
+    QEXTMvvmProjectManager(const QEXTMvvmProjectManager& other) = delete;
+    QEXTMvvmProjectManager& operator=(const QEXTMvvmProjectManager& other) = delete;
 
     bool createNewProject(const std::string& dirname) override;
 
@@ -55,4 +47,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PROJECT_PROJECTMANAGER_H
+#endif // _QEXTMVVMPROJECTPROJECTMANAGER_H

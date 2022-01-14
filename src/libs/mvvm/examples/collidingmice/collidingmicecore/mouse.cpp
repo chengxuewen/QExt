@@ -90,7 +90,7 @@ Mouse::Mouse(MouseItem* item)
     mouse_item->mapper()->setOnPropertyChange(on_property_change, this);
 
     setPos(item->property<double>(MouseItem::P_XPOS), item->property<double>(MouseItem::P_YPOS));
-    setRotation(ModelView::Utils::RandInt(0, 360 * 16));
+    setRotation(ModelView::QEXTMvvmUtils::RandInt(0, 360 * 16));
 }
 //! [0]
 
@@ -203,18 +203,18 @@ void Mouse::advance(int step)
 
     // Add some random movement
     //! [10]
-    if (dangerMice.size() > 1 && ModelView::Utils::RandInt(0, 10) == 0) {
-        if (ModelView::Utils::RandInt(0, 1))
-            angle += ModelView::Utils::RandDouble(0.0, 1 / 500.0);
+    if (dangerMice.size() > 1 && ModelView::QEXTMvvmUtils::RandInt(0, 10) == 0) {
+        if (ModelView::QEXTMvvmUtils::RandInt(0, 1))
+            angle += ModelView::QEXTMvvmUtils::RandDouble(0.0, 1 / 500.0);
         else
-            angle -= ModelView::Utils::RandDouble(0.0, 1 / 500.0);
+            angle -= ModelView::QEXTMvvmUtils::RandDouble(0.0, 1 / 500.0);
     }
     //! [10]
 
     //! [11]
 
     qreal speed = mouse_item->property<double>(MouseItem::P_SPEED);
-    speed += (-50 + ModelView::Utils::RandInt(0, 100)) / 100.0;
+    speed += (-50 + ModelView::QEXTMvvmUtils::RandInt(0, 100)) / 100.0;
 
     qreal dx = ::sin(angle) * 10;
     mouseEyeDirection = (qAbs(dx / 5) < 1) ? 0 : dx / 5;

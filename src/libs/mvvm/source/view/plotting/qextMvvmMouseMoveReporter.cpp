@@ -15,11 +15,11 @@
 
 using namespace ModelView;
 
-struct MouseMoveReporter::MouseMoveReporterImpl {
-    MouseMoveReporter* reporter{nullptr};
+struct QEXTMvvmMouseMoveReporter::MouseMoveReporterImpl {
+    QEXTMvvmMouseMoveReporter* reporter{nullptr};
     QCustomPlot* custom_plot{nullptr};
     callback_t callback;
-    MouseMoveReporterImpl(MouseMoveReporter* reporter, QCustomPlot* custom_plot,
+    MouseMoveReporterImpl(QEXTMvvmMouseMoveReporter* reporter, QCustomPlot* custom_plot,
                           callback_t callback)
         : reporter(reporter), custom_plot(custom_plot), callback(std::move(callback))
     {
@@ -36,7 +36,13 @@ struct MouseMoveReporter::MouseMoveReporterImpl {
             double x = pixelToXaxisCoord(event->pos().x());
             double y = pixelToYaxisCoord(event->pos().y());
             if (callback)
-                callback({x, y, axesRangeContains(x, y)});
+            {
+                QEXTMvvmMousePosInfo info;
+                info.xpos = x;
+                info.ypos = y;
+                info.in_axes_range = axesRangeContains(x, y);
+                callback(info);
+            }
         };
 
         QObject::connect(custom_plot, &QCustomPlot::mouseMove, on_mouse_move);
@@ -53,9 +59,9 @@ struct MouseMoveReporter::MouseMoveReporterImpl {
     }
 };
 
-MouseMoveReporter::MouseMoveReporter(QCustomPlot* custom_plot, callback_t callback)
-    : p_impl(std::make_unique<MouseMoveReporterImpl>(this, custom_plot, callback))
+QEXTMvvmMouseMoveReporter::QEXTMvvmMouseMoveReporter(QCustomPlot* custom_plot, callback_t callback)
+    : p_impl(make_unique<MouseMoveReporterImpl>(this, custom_plot, callback))
 {
 }
 
-MouseMoveReporter::~MouseMoveReporter() = default;
+QEXTMvvmMouseMoveReporter::~QEXTMvvmMouseMoveReporter() = default;

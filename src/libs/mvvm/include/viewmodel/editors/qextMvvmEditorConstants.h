@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_EDITORS_EDITORCONSTANTS_H
-#define MVVM_EDITORS_EDITORCONSTANTS_H
+#ifndef _QEXTMVVMEDITORSEDITORCONSTANTS_H
+#define _QEXTMVVMEDITORSEDITORCONSTANTS_H
 
 //! @file editor_constants.h
 //! Collection of constants specific for cell editing.
@@ -18,7 +9,7 @@
 namespace ModelView
 {
 
-namespace Constants
+namespace QEXTMvvmConstants
 {
 
 const std::string BoolEditorType = "BoolEditor";
@@ -37,4 +28,4 @@ const int default_double_decimals = 4; //! number of digits after decimal points
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_EDITORCONSTANTS_H
+#endif // _QEXTMVVMEDITORSEDITORCONSTANTS_H

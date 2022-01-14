@@ -1,36 +1,28 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGMOUSEMOVEREPORTER_H
+#define _QEXTMVVMPLOTTINGMOUSEMOVEREPORTER_H
 
-#ifndef MVVM_PLOTTING_MOUSEMOVEREPORTER_H
-#define MVVM_PLOTTING_MOUSEMOVEREPORTER_H
+#include <qextMvvmGlobal.h>
 
 #include <functional>
 #include <memory>
-#include <qextMvvmGlobal.h>
 
 class QCustomPlot;
 
 namespace ModelView
 {
 
-struct MousePosInfo;
+struct QEXTMvvmMousePosInfo;
 
 //! Tracks mouse moves in QCustomPlot canvas.
 //! Notifies client about mouse moves and corresponding pointer coordinates expressed in axes units
 //! at current zoom level.
 
-class QEXT_MVVM_API MouseMoveReporter
+class QEXT_MVVM_API QEXTMvvmMouseMoveReporter
 {
 public:
-    using callback_t = std::function<void(const MousePosInfo& pos_info)>;
-    MouseMoveReporter(QCustomPlot* custom_plot, callback_t callback);
-    ~MouseMoveReporter();
+    using callback_t = std::function<void(const QEXTMvvmMousePosInfo& pos_info)>;
+    QEXTMvvmMouseMoveReporter(QCustomPlot* custom_plot, callback_t callback);
+    ~QEXTMvvmMouseMoveReporter();
 
 private:
     struct MouseMoveReporterImpl;
@@ -39,4 +31,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_MOUSEMOVEREPORTER_H
+#endif // _QEXTMVVMPLOTTINGMOUSEMOVEREPORTER_H

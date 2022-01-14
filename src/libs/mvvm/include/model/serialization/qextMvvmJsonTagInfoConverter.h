@@ -1,24 +1,16 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSERIALIZATIONJSONTAGINFOCONVERTER_H
+#define _QEXTMVVMSERIALIZATIONJSONTAGINFOCONVERTER_H
 
-#ifndef MVVM_SERIALIZATION_JSONTAGINFOCONVERTER_H
-#define MVVM_SERIALIZATION_JSONTAGINFOCONVERTER_H
+#include <qextMvvmJsonTagInfoConverterInterface.h>
 
 #include <QString>
-#include <qextMvvmJsonTagInfoConverterInterface.h>
 
 namespace ModelView
 {
 
 //! Default converter between TagInfo and json object.
 
-class QEXT_MVVM_API JsonTagInfoConverter : public JsonTagInfoConverterInterface
+class QEXT_MVVM_API QEXTMvvmJsonTagInfoConverter : public QEXTMvvmJsonTagInfoConverterInterface
 {
 public:
     static inline const QString nameKey = "name";
@@ -26,13 +18,13 @@ public:
     static inline const QString maxKey = "max";
     static inline const QString modelsKey = "models";
 
-    QJsonObject to_json(const TagInfo& tag) override;
+    QJsonObject to_json(const QEXTMvvmTagInfo& tag) override;
 
-    TagInfo from_json(const QJsonObject& object) override;
+    QEXTMvvmTagInfo from_json(const QJsonObject& object) override;
 
     bool isTagInfo(const QJsonObject& object);
 };
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONTAGINFOCONVERTER_H
+#endif // _QEXTMVVMSERIALIZATIONJSONTAGINFOCONVERTER_H

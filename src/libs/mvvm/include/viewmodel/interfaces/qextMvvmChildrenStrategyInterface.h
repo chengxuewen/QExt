@@ -1,16 +1,8 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
-#define MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
+#ifndef _QEXTMVVMINTERFACESCHILDRENSTRATEGYINTERFACE_H
+#define _QEXTMVVMINTERFACESCHILDRENSTRATEGYINTERFACE_H
 
 #include <qextMvvmGlobal.h>
+
 #include <vector>
 
 namespace ModelView
@@ -24,10 +16,10 @@ class QEXTMvvmSessionItem;
 //! The strategy is used in context of AbstractViewModel while exposing SessionModel to Qt.
 //! Thanks to this strategy ViewModel decides which items to visit.
 
-class QEXT_MVVM_API ChildrenStrategyInterface
+class QEXT_MVVM_API QEXTMvvmChildrenStrategyInterface
 {
 public:
-    virtual ~ChildrenStrategyInterface() = default;
+    virtual ~QEXTMvvmChildrenStrategyInterface() = default;
 
     //! Returns vector of children of given item.
     virtual std::vector<QEXTMvvmSessionItem*> children(const QEXTMvvmSessionItem* item) const = 0;
@@ -35,4 +27,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
+#endif // _QEXTMVVMINTERFACESCHILDRENSTRATEGYINTERFACE_H

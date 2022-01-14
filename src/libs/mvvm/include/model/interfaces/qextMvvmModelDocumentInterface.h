@@ -1,16 +1,8 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_CORE_MODELDOCUMENTINTERFACE_H
-#define MVVM_CORE_MODELDOCUMENTINTERFACE_H
+#ifndef _QEXTMVVMCOREMODELDOCUMENTINTERFACE_H
+#define _QEXTMVVMCOREMODELDOCUMENTINTERFACE_H
 
 #include <qextMvvmGlobal.h>
+
 #include <string>
 
 namespace ModelView
@@ -29,4 +21,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_CORE_MODELDOCUMENTINTERFACE_H
+#endif // _QEXTMVVMCOREMODELDOCUMENTINTERFACE_H

@@ -15,18 +15,18 @@
 namespace ModelView
 {
 
-std::unique_ptr<StatusStringReporter>
+std::unique_ptr<QEXTMvvmStatusStringReporter>
 CreateGraphReporter(QCustomPlot* custom_plot, std::function<void(const std::string&)> callback)
 {
-    return std::make_unique<StatusStringReporter>(custom_plot, callback,
-                                                  std::make_unique<GraphInfoFormatter>());
+    return make_unique<QEXTMvvmStatusStringReporter>(custom_plot, callback,
+                                                  make_unique<QEXTMvvmGraphInfoFormatter>());
 }
 
-std::unique_ptr<StatusStringReporter>
+std::unique_ptr<QEXTMvvmStatusStringReporter>
 CreateColorMapReporter(QCustomPlot* custom_plot, std::function<void(const std::string&)> callback)
 {
-    return std::make_unique<StatusStringReporter>(custom_plot, callback,
-                                                  std::make_unique<ColorMapInfoFormatter>());
+    return make_unique<QEXTMvvmStatusStringReporter>(custom_plot, callback,
+                                                  make_unique<QEXTMvvmColorMapInfoFormatter>());
 }
 
 } // namespace ModelView

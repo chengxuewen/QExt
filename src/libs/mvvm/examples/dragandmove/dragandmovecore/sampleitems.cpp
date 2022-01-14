@@ -36,7 +36,7 @@ DemoItem::DemoItem() : QEXTMvvmCompoundItem(DemoItemType)
 
 DemoContainerItem::DemoContainerItem() : QEXTMvvmCompoundItem(DemoContainerItemType)
 {
-    registerTag(TagInfo::universalTag(T_ITEMS, {DemoItemType}), /*set_default*/ true);
+    registerTag(QEXTMvvmTagInfo::universalTag(T_ITEMS, {DemoItemType}), /*set_default*/ true);
 }
 
 } // namespace DragAndView

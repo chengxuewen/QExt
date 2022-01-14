@@ -27,7 +27,7 @@ namespace ModelView
 //! Suggests file name which can be used to store json content of given model.
 //! Uses the model type to construct a filename: MaterialModel -> materialmodel.json
 
-std::string ProjectUtils::SuggestFileName(const SessionModel& model)
+std::string QEXTMvvmProjectUtils::SuggestFileName(const QEXTMvvmSessionModel& model)
 {
     std::string result = model.modelType();
     std::transform(result.begin(), result.end(), result.begin(), ::tolower);
@@ -37,21 +37,21 @@ std::string ProjectUtils::SuggestFileName(const SessionModel& model)
 //! Returns 'true' if given directory might be a project directory.
 //! This simplified check counts number of files with json extention.
 
-bool ProjectUtils::IsPossibleProjectDir(const std::string& project_dir)
+bool QEXTMvvmProjectUtils::IsPossibleProjectDir(const std::string& project_dir)
 {
-    return !Utils::FindFiles(project_dir, json_extention).empty();
+    return !QEXTMvvmUtils::FindFiles(project_dir, json_extention).empty();
 }
 
 //! Creates new untitled project.
 
-std::unique_ptr<ProjectInterface> ProjectUtils::CreateUntitledProject(const ProjectContext& context)
+std::unique_ptr<QEXTMvvmProjectInterface> QEXTMvvmProjectUtils::CreateUntitledProject(const QEXTMvvmProjectContext& context)
 {
-    return std::make_unique<Project>(context);
+    return make_unique<QEXTMvvmProject>(context);
 }
 
 //! Returns a MainWindow title for given project.
 
-std::string ProjectUtils::ProjectWindowTitle(const ProjectInterface& project)
+std::string QEXTMvvmProjectUtils::ProjectWindowTitle(const QEXTMvvmProjectInterface& project)
 {
     return ProjectWindowTitle(project.projectDir(), project.isModified());
 }
@@ -60,7 +60,7 @@ std::string ProjectUtils::ProjectWindowTitle(const ProjectInterface& project)
 //! Project without projectDir will be "Untitled", modified project will be "*Untitled".
 //! Project with projectDir in "/home/user/project1" will get title "project1".
 
-std::string ProjectUtils::ProjectWindowTitle(const std::string& project_dir, bool is_modified)
+std::string QEXTMvvmProjectUtils::ProjectWindowTitle(const std::string& project_dir, bool is_modified)
 {
     auto pos = project_dir.find_last_of('/');
     auto project_name = (pos == std::string::npos ? untitled_name : project_dir.substr(pos + 1));

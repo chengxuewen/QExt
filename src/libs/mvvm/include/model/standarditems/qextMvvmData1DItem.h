@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_STANDARDITEMS_DATA1DITEM_H
-#define MVVM_STANDARDITEMS_DATA1DITEM_H
+#ifndef _QEXTMVVMSTANDARDITEMSDATA1DITEM_H
+#define _QEXTMVVMSTANDARDITEMSDATA1DITEM_H
 
 #include <qextMvvmCompoundItem.h>
 #include <qextMvvmSessionModel.h>
@@ -17,20 +8,20 @@
 namespace ModelView
 {
 
-class BinnedAxisItem;
+class QEXTMvvmBinnedAxisItem;
 
 //! Represents one-dimensional data (axis and values).
 //! Values are stored in Data1DItem itself, axis is attached as a child. Corresponding plot
 //! properties will be served by GraphItem.
 
-class QEXT_MVVM_API Data1DItem : public QEXTMvvmCompoundItem
+class QEXT_MVVM_API QEXTMvvmData1DItem : public QEXTMvvmCompoundItem
 {
 public:
     static inline const std::string P_VALUES = "P_VALUES";
     static inline const std::string P_ERRORS = "P_ERRORS";
     static inline const std::string T_AXIS = "T_AXIS";
 
-    Data1DItem();
+    QEXTMvvmData1DItem();
 
 //    void setAxis(std::unique_ptr<BinnedAxisItem> axis);
 
@@ -51,7 +42,7 @@ public:
 // b) via model directly c) in constructor?
 
 template<typename T, typename... Args>
-T* Data1DItem::setAxis(Args&&... args)
+T* QEXTMvvmData1DItem::setAxis(Args&&... args)
 {
     // we disable possibility to re-create axis to facilitate undo/redo
     if (getItem(T_AXIS, 0))
@@ -72,4 +63,4 @@ T* Data1DItem::setAxis(Args&&... args)
 
 } // namespace ModelView
 
-#endif // MVVM_STANDARDITEMS_DATA1DITEM_H
+#endif // _QEXTMVVMSTANDARDITEMSDATA1DITEM_H

@@ -23,9 +23,9 @@ const std::string SphereType = "Sphere";
 const std::string AnysoPyramidType = "AnysoPyramid";
 const std::string ShapeGroupType = "ShapeGroup";
 
-std::unique_ptr<ModelView::ItemCatalogue> CreateItemCatalogue()
+std::unique_ptr<ModelView::QEXTMvvmItemCatalogue> CreateItemCatalogue()
 {
-    auto result = std::make_unique<ItemCatalogue>();
+    auto result = make_unique<QEXTMvvmItemCatalogue>();
     result->registerItem<ParticleItem>();
     result->registerItem<SphereItem>();
     result->registerItem<CylinderItem>();
@@ -64,7 +64,7 @@ AnysoPyramidItem::AnysoPyramidItem() : QEXTMvvmCompoundItem(AnysoPyramidType)
     addProperty(P_ALPHA, 11.0);
 }
 
-ShapeGroupItem::ShapeGroupItem() : GroupItem(ShapeGroupType)
+ShapeGroupItem::ShapeGroupItem() : QEXTMvvmGroupItem(ShapeGroupType)
 {
     registerItem<CylinderItem>("Cylinder");
     registerItem<SphereItem>("Full sphere", /*make_selected*/ true);
@@ -74,7 +74,7 @@ ShapeGroupItem::ShapeGroupItem() : GroupItem(ShapeGroupType)
 
 //! ---------------------------------------------------------------------------
 
-ParticleModel::ParticleModel() : SessionModel("ParticleModel")
+ParticleModel::ParticleModel() : QEXTMvvmSessionModel("ParticleModel")
 {
     setItemCatalogue(CreateItemCatalogue());
     insertItem<ParticleItem>();

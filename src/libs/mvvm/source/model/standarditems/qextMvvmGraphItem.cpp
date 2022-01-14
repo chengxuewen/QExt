@@ -16,59 +16,59 @@
 
 using namespace ModelView;
 
-GraphItem::GraphItem(const std::string& model_type) : QEXTMvvmCompoundItem(model_type)
+QEXTMvvmGraphItem::QEXTMvvmGraphItem(const std::string& model_type) : QEXTMvvmCompoundItem(model_type)
 {
-    addProperty<LinkedItem>(P_LINK)->setDisplayName("Link");
-    addProperty<TextItem>(P_GRAPH_TITLE)->setDisplayName("Graph title");
-    addProperty<PenItem>(P_PEN)->setDisplayName("Pen");
+    addProperty<QEXTMvvmLinkedItem>(P_LINK)->setDisplayName("Link");
+    addProperty<QEXTMvvmTextItem>(P_GRAPH_TITLE)->setDisplayName("Graph title");
+    addProperty<QEXTMvvmPenItem>(P_PEN)->setDisplayName("Pen");
     addProperty(P_DISPLAYED, true)->setDisplayName("Displayed");
 }
 
 //! Sets link to the data item.
 
-void GraphItem::setDataItem(const Data1DItem* data_item)
+void QEXTMvvmGraphItem::setDataItem(const QEXTMvvmData1DItem* data_item)
 {
-    item<LinkedItem>(P_LINK)->setLink(data_item);
+    item<QEXTMvvmLinkedItem>(P_LINK)->setLink(data_item);
 }
 
 //! Update item from the content of given graph. Link to the data will be set
 //! as in given item, other properties copied.
 
-void GraphItem::setFromGraphItem(const GraphItem* graph_item)
+void QEXTMvvmGraphItem::setFromGraphItem(const QEXTMvvmGraphItem* graph_item)
 {
     setDataItem(graph_item->dataItem());
-    auto pen = item<PenItem>(P_PEN);
-    auto source_pen = graph_item->item<PenItem>(P_PEN);
-    pen->setProperty(PenItem::P_COLOR, source_pen->property<QColor>(PenItem::P_COLOR));
-    pen->setProperty(PenItem::P_STYLE, source_pen->property<ComboProperty>(PenItem::P_STYLE));
-    pen->setProperty(PenItem::P_WIDTH, source_pen->property<int>(PenItem::P_WIDTH));
+    auto pen = item<QEXTMvvmPenItem>(P_PEN);
+    auto source_pen = graph_item->item<QEXTMvvmPenItem>(P_PEN);
+    pen->setProperty(QEXTMvvmPenItem::P_COLOR, source_pen->property<QColor>(QEXTMvvmPenItem::P_COLOR));
+    pen->setProperty(QEXTMvvmPenItem::P_STYLE, source_pen->property<QEXTMvvmComboProperty>(QEXTMvvmPenItem::P_STYLE));
+    pen->setProperty(QEXTMvvmPenItem::P_WIDTH, source_pen->property<int>(QEXTMvvmPenItem::P_WIDTH));
 }
 
 //! Returns data item linked to the given GraphItem.
 
-Data1DItem* GraphItem::dataItem() const
+QEXTMvvmData1DItem* QEXTMvvmGraphItem::dataItem() const
 {
-    return item<LinkedItem>(P_LINK)->get<Data1DItem>();
+    return item<QEXTMvvmLinkedItem>(P_LINK)->get<QEXTMvvmData1DItem>();
 }
 
-std::vector<double> GraphItem::binCenters() const
+std::vector<double> QEXTMvvmGraphItem::binCenters() const
 {
     return dataItem() ? dataItem()->binCenters() : std::vector<double>();
 }
 
-std::vector<double> GraphItem::binValues() const
+std::vector<double> QEXTMvvmGraphItem::binValues() const
 {
     return dataItem() ? dataItem()->binValues() : std::vector<double>();
 }
 
-std::vector<double> GraphItem::binErrors() const
+std::vector<double> QEXTMvvmGraphItem::binErrors() const
 {
     return dataItem() ? dataItem()->binErrors() : std::vector<double>();
 }
 
 //! Returns color name in #RRGGBB format.
 
-std::string GraphItem::colorName() const
+std::string QEXTMvvmGraphItem::colorName() const
 {
     return penItem()->colorName();
 }
@@ -76,12 +76,12 @@ std::string GraphItem::colorName() const
 //! Sets named color following schema from https://www.w3.org/TR/css-color-3/#svg-color.
 //! e.g. "mediumaquamarine"
 
-void GraphItem::setNamedColor(const std::string& named_color)
+void QEXTMvvmGraphItem::setNamedColor(const std::string& named_color)
 {
     penItem()->setNamedColor(named_color);
 }
 
-PenItem* GraphItem::penItem() const
+QEXTMvvmPenItem* QEXTMvvmGraphItem::penItem() const
 {
-    return item<PenItem>(P_PEN);
+    return item<QEXTMvvmPenItem>(P_PEN);
 }

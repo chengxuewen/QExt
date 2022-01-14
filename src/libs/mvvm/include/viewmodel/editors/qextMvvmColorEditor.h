@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_EDITORS_COLOREDITOR_H
-#define MVVM_EDITORS_COLOREDITOR_H
+#ifndef _QEXTMVVMEDITORSCOLOREDITOR_H
+#define _QEXTMVVMEDITORSCOLOREDITOR_H
 
 #include <qextMvvmCustomEditor.h>
 
@@ -17,16 +8,16 @@ class QLabel;
 namespace ModelView
 {
 
-class LostFocusFilter;
+class QEXTMvvmLostFocusFilter;
 
 //! Custom editor for QVariant based on QColor.
 
-class QEXT_MVVM_API ColorEditor : public CustomEditor
+class QEXT_MVVM_API QEXTMvvmColorEditor : public QEXTMvvmCustomEditor
 {
     Q_OBJECT
 
 public:
-    explicit ColorEditor(QWidget* parent = nullptr);
+    explicit QEXTMvvmColorEditor(QWidget* parent = nullptr);
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;
@@ -37,9 +28,9 @@ private:
     void update_components() override;
     QLabel* m_textLabel{nullptr};
     QLabel* m_pixmapLabel{nullptr};
-    LostFocusFilter* m_focusFilter;
+    QEXTMvvmLostFocusFilter* m_focusFilter;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_COLOREDITOR_H
+#endif // _QEXTMVVMEDITORSCOLOREDITOR_H

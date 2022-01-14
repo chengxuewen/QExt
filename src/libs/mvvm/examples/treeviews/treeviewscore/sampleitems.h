@@ -102,7 +102,7 @@ public:
 
 //! Special group of shapes.
 
-class ShapeGroupItem : public ModelView::GroupItem
+class ShapeGroupItem : public ModelView::QEXTMvvmGroupItem
 {
 public:
     ShapeGroupItem();

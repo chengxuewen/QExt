@@ -26,7 +26,7 @@ GraphicsScene::GraphicsScene(QObject* parent) : QGraphicsScene(parent)
     setSceneRect(default_scene_rect);
 }
 
-void GraphicsScene::setContext(ModelView::ColorMapCanvas* colormap, RegionOfInterestItem* roi)
+void GraphicsScene::setContext(ModelView::QEXTMvvmColorMapCanvas* colormap, RegionOfInterestItem* roi)
 {
     clear();
     create_colormap_proxy(colormap);
@@ -48,10 +48,10 @@ void GraphicsScene::update_size(const QSize& newSize)
     }
 }
 
-void GraphicsScene::create_colormap_proxy(ModelView::ColorMapCanvas* colormap)
+void GraphicsScene::create_colormap_proxy(ModelView::QEXTMvvmColorMapCanvas* colormap)
 {
     scene_adapter = colormap->createSceneAdapter();
-    colormap_proxy = new ModelView::CustomPlotProxyWidget(colormap);
+    colormap_proxy = new ModelView::QEXTMvvmCustomPlotProxyWidget(colormap);
     addItem(colormap_proxy);
 }
 

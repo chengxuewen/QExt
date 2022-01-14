@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_PLOTTING_CUSTOMPLOTUTILS_H
-#define MVVM_PLOTTING_CUSTOMPLOTUTILS_H
+#ifndef _QEXTMVVMPLOTTINGCUSTOMPLOTUTILS_H
+#define _QEXTMVVMPLOTTINGCUSTOMPLOTUTILS_H
 
 #include <qextMvvmGlobal.h>
 
@@ -18,7 +9,7 @@ class QCPAxis;
 namespace ModelView
 {
 
-namespace Utils
+namespace QEXTMvvmUtils
 {
 
 //! Switch axis to logarithmic scale mode.
@@ -33,4 +24,4 @@ QEXT_MVVM_API void SetLogarithmicScale(QCPAxis* axis, bool is_log_scale);
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_CUSTOMPLOTUTILS_H
+#endif // _QEXTMVVMPLOTTINGCUSTOMPLOTUTILS_H

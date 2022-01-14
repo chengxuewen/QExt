@@ -1,29 +1,20 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMCOMMANDSREMOVEITEMCOMMAND_H
+#define _QEXTMVVMCOMMANDSREMOVEITEMCOMMAND_H
 
-#ifndef MVVM_COMMANDS_REMOVEITEMCOMMAND_H
-#define MVVM_COMMANDS_REMOVEITEMCOMMAND_H
-
-#include <commands/qextMvvmItemCommand.h>
+#include <qextMvvmItemCommand.h>
 
 namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class TagRow;
+class QEXTMvvmTagRow;
 
 //! Command for unddo/redo framework to remove item from a model using child's tag and row.
 
 class QEXT_MVVM_API QEXTMvvmRemoveItemCommand : public QEXTMvvmItemCommand
 {
 public:
-    QEXTMvvmRemoveItemCommand(QEXTMvvmSessionItem* parent, TagRow tagrow);
+    QEXTMvvmRemoveItemCommand(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow);
     ~QEXTMvvmRemoveItemCommand() override;
 
 private:
@@ -36,4 +27,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_COMMANDS_REMOVEITEMCOMMAND_H
+#endif // _QEXTMVVMCOMMANDSREMOVEITEMCOMMAND_H

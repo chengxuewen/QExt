@@ -10,4 +10,4 @@
 #include <modelinqmlcore/particlemodel.h>
 #include <modelinqmlcore/particleviewmodel.h>
 
-ParticleViewModel::ParticleViewModel(ParticleModel* model) : ModelView::PropertyViewModel(model) {}
+ParticleViewModel::ParticleViewModel(ParticleModel* model) : ModelView::QEXTMvvmPropertyViewModel(model) {}

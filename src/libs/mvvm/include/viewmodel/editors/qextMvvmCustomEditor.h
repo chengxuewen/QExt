@@ -1,31 +1,22 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMEDITORSCUSTOMEDITOR_H
+#define _QEXTMVVMEDITORSCUSTOMEDITOR_H
 
-#ifndef MVVM_EDITORS_CUSTOMEDITOR_H
-#define MVVM_EDITORS_CUSTOMEDITOR_H
+#include <qextMvvmGlobal.h>
 
 #include <QWidget>
-#include <qextMvvmVariant.h>
-#include <qextMvvmGlobal.h>
 
 namespace ModelView
 {
 
 //! Base class for all custom variant editors.
 
-class QEXT_MVVM_API CustomEditor : public QWidget
+class QEXT_MVVM_API QEXTMvvmCustomEditor : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QVariant value MEMBER m_data READ data WRITE setData NOTIFY dataChanged USER true)
 
 public:
-    explicit CustomEditor(QWidget* parent = nullptr);
+    explicit QEXTMvvmCustomEditor(QWidget* parent = nullptr);
 
     QVariant data() const;
 
@@ -47,4 +38,4 @@ protected:
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_CUSTOMEDITOR_H
+#endif // _QEXTMVVMEDITORSCUSTOMEDITOR_H

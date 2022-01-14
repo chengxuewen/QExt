@@ -20,25 +20,41 @@ namespace
 
 //! Constructs vector of all possible handle elements together with accompanying information.
 
-auto create_handle_data()
+std::vector<SizeHandleElement::HandleInfo> create_handle_data()
 {
-    std::vector<SizeHandleElement::HandleInfo> result = {
-        {SizeHandleElement::TOPLEFT, Qt::SizeFDiagCursor, SizeHandleElement::BOTTOMRIGHT,
-         [](auto r) { return r.topLeft(); }},
-        {SizeHandleElement::TOPMIDDLE, Qt::SizeVerCursor, SizeHandleElement::BOTTOMMIDLE,
-         [](auto r) { return QPointF(r.x() + r.width() / 2., r.y()); }},
-        {SizeHandleElement::TOPRIGHT, Qt::SizeBDiagCursor, SizeHandleElement::BOTTOMLEFT,
-         [](auto r) { return r.topRight(); }},
-        {SizeHandleElement::MIDDLERIGHT, Qt::SizeHorCursor, SizeHandleElement::MIDDLELEFT,
-         [](auto r) { return QPointF(r.x() + r.width(), r.y() + r.height() / 2.); }},
-        {SizeHandleElement::BOTTOMRIGHT, Qt::SizeFDiagCursor, SizeHandleElement::TOPLEFT,
-         [](auto r) { return r.bottomRight(); }},
-        {SizeHandleElement::BOTTOMMIDLE, Qt::SizeVerCursor, SizeHandleElement::TOPMIDDLE,
-         [](auto r) { return QPointF(r.x() + r.width() / 2., r.y() + r.height()); }},
-        {SizeHandleElement::BOTTOMLEFT, Qt::SizeBDiagCursor, SizeHandleElement::TOPRIGHT,
-         [](auto r) { return r.bottomLeft(); }},
-        {SizeHandleElement::MIDDLELEFT, Qt::SizeHorCursor, SizeHandleElement::MIDDLERIGHT,
-         [](auto r) { return QPointF(r.x(), r.y() + r.height() / 2.); }}};
+    std::vector<SizeHandleElement::HandleInfo> result;
+    result.push_back(SizeHandleElement::HandleInfo(SizeHandleElement::TOPLEFT,
+                                                   Qt::SizeFDiagCursor,
+                                                   SizeHandleElement::BOTTOMRIGHT,
+                                                   [](QRectF r) { return r.topLeft(); }));
+    result.push_back(SizeHandleElement::HandleInfo(SizeHandleElement::TOPMIDDLE,
+                                                   Qt::SizeVerCursor,
+                                                   SizeHandleElement::BOTTOMMIDLE,
+                                                   [](QRectF r) { return QPointF(r.x() + r.width() / 2., r.y()); }));                                                                                            SizeHandleElement::BOTTOMRIGHT,
+            result.push_back(SizeHandleElement::HandleInfo(SizeHandleElement::TOPRIGHT,
+                                                           Qt::SizeBDiagCursor,
+                                                           SizeHandleElement::BOTTOMLEFT,
+                                                           [](QRectF r) { return r.topRight(); }));
+    result.push_back(SizeHandleElement::HandleInfo(SizeHandleElement::MIDDLERIGHT,
+                                                   Qt::SizeHorCursor,
+                                                   SizeHandleElement::MIDDLELEFT,
+                                                   [](QRectF r) { return QPointF(r.x() + r.width(), r.y() + r.height() / 2.); }));
+    result.push_back(SizeHandleElement::HandleInfo(SizeHandleElement::BOTTOMRIGHT,
+                                                   Qt::SizeFDiagCursor,
+                                                   SizeHandleElement::TOPLEFT,
+                                                   [](QRectF r) { return r.bottomRight(); }));
+    result.push_back(SizeHandleElement::HandleInfo(SizeHandleElement::BOTTOMMIDLE,
+                                                   Qt::SizeVerCursor,
+                                                   SizeHandleElement::TOPMIDDLE,
+                                                   [](QRectF r) { return QPointF(r.x() + r.width() / 2., r.y() + r.height()); }));
+    result.push_back(SizeHandleElement::HandleInfo(SizeHandleElement::BOTTOMLEFT,
+                                                   Qt::SizeBDiagCursor,
+                                                   SizeHandleElement::TOPRIGHT,
+                                                   [](QRectF r) { return r.bottomLeft(); }));
+    result.push_back(SizeHandleElement::HandleInfo(SizeHandleElement::MIDDLELEFT,
+                                                   Qt::SizeHorCursor,
+                                                   SizeHandleElement::MIDDLERIGHT,
+                                                   [](QRectF r) { return QPointF(r.x(), r.y() + r.height() / 2.); }));
 
     return result;
 }
@@ -66,7 +82,7 @@ SizeHandleElement* SizeHandleElement::create(SizeHandleElement::EHandlePosition 
 {
     static auto handle_data = create_handle_data();
     auto info = std::find_if(handle_data.begin(), handle_data.end(),
-                             [position](auto d) { return d.position == position; });
+                             [position](SizeHandleElement::HandleInfo d) { return d.position == position; });
     if (info == handle_data.end())
         throw std::runtime_error("Error in SizeHandleElement: can't construct the data");
 
@@ -80,7 +96,7 @@ std::vector<SizeHandleElement::EHandlePosition> SizeHandleElement::possible_hand
     static auto handle_data = create_handle_data();
     std::vector<SizeHandleElement::EHandlePosition> result;
     std::transform(handle_data.begin(), handle_data.end(), std::back_inserter(result),
-                   [](auto x) { return x.position; });
+                   [](SizeHandleElement::HandleInfo x) { return x.position; });
     return result;
 }
 

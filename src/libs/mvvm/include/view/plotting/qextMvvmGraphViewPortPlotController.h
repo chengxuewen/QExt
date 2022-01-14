@@ -1,34 +1,26 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGGRAPHVIEWPORTPLOTCONTROLLER_H
+#define _QEXTMVVMPLOTTINGGRAPHVIEWPORTPLOTCONTROLLER_H
 
-#ifndef MVVM_PLOTTING_GRAPHVIEWPORTPLOTCONTROLLER_H
-#define MVVM_PLOTTING_GRAPHVIEWPORTPLOTCONTROLLER_H
-
-#include <memory>
 #include <qextMvvmItemListener.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 class QCustomPlot;
 
 namespace ModelView
 {
 
-class GraphViewportItem;
+class QEXTMvvmGraphViewportItem;
 
 //! Establishes communications and mutual updates for GraphViewportItem and QCutomPlot.
 //! Populates custom plot with all graphs found in GraphViewportItem.
 
-class QEXT_MVVM_API GraphViewportPlotController : public ItemListener<GraphViewportItem>
+class QEXT_MVVM_API QEXTMvvmGraphViewportPlotController : public QEXTMvvmItemListener<QEXTMvvmGraphViewportItem>
 {
 public:
-    explicit GraphViewportPlotController(QCustomPlot* plot);
-    ~GraphViewportPlotController() override;
+    explicit QEXTMvvmGraphViewportPlotController(QCustomPlot* plot);
+    ~QEXTMvvmGraphViewportPlotController() override;
 
 protected:
     void subscribe() override;
@@ -40,4 +32,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_GRAPHVIEWPORTPLOTCONTROLLER_H
+#endif // _QEXTMVVMPLOTTINGGRAPHVIEWPORTPLOTCONTROLLER_H

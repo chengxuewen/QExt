@@ -8,18 +8,20 @@
 // ************************************************************************** //
 
 #include <QUndoStack>
-#include <commands/qextMvvmCommandAdapter.h>
-#include <commands/qextMvvmUndoStack.h>
+
+#include <qextMvvmCommandAdapter.h>
+#include <qextMvvmUndoStack.h>
+#include <qextMvvmTypes.h>
 
 using namespace ModelView;
 
 struct QEXTMvvmUndoStack::UndoStackImpl {
     std::unique_ptr<QUndoStack> m_undoStack;
-    UndoStackImpl() : m_undoStack(std::make_unique<QUndoStack>()) {}
+    UndoStackImpl() : m_undoStack(make_unique<QUndoStack>()) {}
     QUndoStack* undoStack() { return m_undoStack.get(); }
 };
 
-QEXTMvvmUndoStack::QEXTMvvmUndoStack() : p_impl(std::make_unique<UndoStackImpl>()) {}
+QEXTMvvmUndoStack::QEXTMvvmUndoStack() : p_impl(make_unique<UndoStackImpl>()) {}
 
 void QEXTMvvmUndoStack::execute(std::shared_ptr<QEXTMvvmItemCommand> command)
 {

@@ -13,7 +13,7 @@
 
 using namespace ModelView;
 
-AdjustingScrollArea::AdjustingScrollArea(QWidget* parent) : QScrollArea(parent)
+QEXTMvvmAdjustingScrollArea::QEXTMvvmAdjustingScrollArea(QWidget* parent) : QScrollArea(parent)
 {
     setObjectName("AdjustingScrollArea");
     setContentsMargins(0, 0, 0, 0);
@@ -22,20 +22,20 @@ AdjustingScrollArea::AdjustingScrollArea(QWidget* parent) : QScrollArea(parent)
     setStyleSheet("QScrollArea#AdjustingScrollArea {border: 0px; background-color:transparent;}");
 }
 
-void AdjustingScrollArea::setWidget(QWidget* w)
+void QEXTMvvmAdjustingScrollArea::setWidget(QWidget* w)
 {
     QScrollArea::setWidget(w);
     w->installEventFilter(this);
 }
 
-QSize AdjustingScrollArea::sizeHint() const
+QSize QEXTMvvmAdjustingScrollArea::sizeHint() const
 {
     auto horizontal = horizontalScrollBar();
     QSize result(viewport()->width(), widget()->height() + horizontal->height() * 2);
     return result;
 }
 
-bool AdjustingScrollArea::eventFilter(QObject* obj, QEvent* ev)
+bool QEXTMvvmAdjustingScrollArea::eventFilter(QObject* obj, QEvent* ev)
 {
     if (obj == widget() && ev->type() != QEvent::Resize) {
         widget()->setMaximumWidth(viewport()->width());

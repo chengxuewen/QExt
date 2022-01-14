@@ -1,46 +1,39 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSERIALIZATIONJSONITEMDATACONVERTER_H
+#define _QEXTMVVMSERIALIZATIONJSONITEMDATACONVERTER_H
 
-#ifndef MVVM_SERIALIZATION_JSONITEMDATACONVERTER_H
-#define MVVM_SERIALIZATION_JSONITEMDATACONVERTER_H
+#include <qextMvvmJsonItemDataConverterInterface.h>
 
 #include <QString>
+
 #include <functional>
 #include <memory>
-#include <qextMvvmJsonItemDataConverterInterface.h>
 
 class QJsonObject;
 
 namespace ModelView
 {
 
-class JsonVariantConverterInterface;
+class QEXTMvvmJsonVariantConverterInterface;
 
 //! Default converter of SessionItemData to/from json object.
 
-class QEXT_MVVM_API JsonItemDataConverter : public JsonItemDataConverterInterface
+class QEXT_MVVM_API QEXTMvvmJsonItemDataConverter : public QEXTMvvmJsonItemDataConverterInterface
 {
 public:
     using accept_strategy_t = std::function<bool(int)>;
 
-    JsonItemDataConverter(accept_strategy_t to_json_accept = {},
+    QEXTMvvmJsonItemDataConverter(accept_strategy_t to_json_accept = {},
                           accept_strategy_t from_json_accept = {});
 
-    ~JsonItemDataConverter() override;
+    ~QEXTMvvmJsonItemDataConverter() override;
 
-    QJsonArray to_json(const SessionItemData& data) override;
+    QJsonArray to_json(const QEXTMvvmSessionItemData& data) override;
 
-    void from_json(const QJsonArray& object, SessionItemData& data) override;
+    void from_json(const QJsonArray& object, QEXTMvvmSessionItemData& data) override;
 
-    static std::unique_ptr<JsonItemDataConverterInterface> createCopyConverter();
+    static std::unique_ptr<QEXTMvvmJsonItemDataConverterInterface> createCopyConverter();
 
-    static std::unique_ptr<JsonItemDataConverterInterface> createProjectConverter();
+    static std::unique_ptr<QEXTMvvmJsonItemDataConverterInterface> createProjectConverter();
 
 private:
     bool isRoleToJson(int role) const;
@@ -48,9 +41,9 @@ private:
 
     accept_strategy_t m_to_json_accept;   //!< callback to find whether to write role to json
     accept_strategy_t m_from_json_accept; //!< callback to find whether to read role from json
-    std::unique_ptr<JsonVariantConverterInterface> m_variant_converter;
+    std::unique_ptr<QEXTMvvmJsonVariantConverterInterface> m_variant_converter;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONITEMDATACONVERTER_H
+#endif // _QEXTMVVMSERIALIZATIONJSONITEMDATACONVERTER_H

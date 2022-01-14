@@ -18,7 +18,7 @@ class QColor;
 
 namespace ModelView
 {
-class ExternalProperty;
+class QEXTMvvmExternalProperty;
 }
 
 //! Represents material based on scattering length density.
@@ -38,16 +38,16 @@ public:
 
 //! Model to hold MaterialItems.
 
-class MaterialModel : public ModelView::SessionModel
+class MaterialModel : public ModelView::QEXTMvvmSessionModel
 {
 public:
     MaterialModel();
 
-    static ModelView::ExternalProperty undefined_material();
+    static ModelView::QEXTMvvmExternalProperty undefined_material();
 
-    std::vector<ModelView::ExternalProperty> material_data();
+    std::vector<ModelView::QEXTMvvmExternalProperty> material_data();
 
-    ModelView::ExternalProperty material_property(const std::string& id);
+    ModelView::QEXTMvvmExternalProperty material_property(const std::string& id);
 
 private:
     void init_model();

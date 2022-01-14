@@ -15,10 +15,10 @@
 
 namespace ModelView
 {
-class SessionModel;
-class AllItemsTreeView;
-class PropertyTreeView;
-class PropertyFlatView;
+class QEXTMvvmSessionModel;
+class QEXTMvvmAllItemsTreeView;
+class QEXTMvvmPropertyTreeView;
+class QEXTMvvmPropertyFlatView;
 } // namespace ModelView
 
 class QBoxLayout;
@@ -30,7 +30,7 @@ class DemoWidget : public QWidget
     Q_OBJECT
 
 public:
-    DemoWidget(ModelView::SessionModel* model, QWidget* parent = nullptr);
+    DemoWidget(ModelView::QEXTMvvmSessionModel* model, QWidget* parent = nullptr);
     ~DemoWidget();
 
 private:
@@ -39,10 +39,10 @@ private:
 
     void connect_views();
 
-    ModelView::AllItemsTreeView* m_defaultTreeView{nullptr};
-    ModelView::PropertyTreeView* m_propertyTreeView{nullptr};
-    ModelView::PropertyFlatView* m_propertyFlatView{nullptr};
-    ModelView::SessionModel* m_sessionModel{nullptr};
+    ModelView::QEXTMvvmAllItemsTreeView* m_defaultTreeView{nullptr};
+    ModelView::QEXTMvvmPropertyTreeView* m_propertyTreeView{nullptr};
+    ModelView::QEXTMvvmPropertyFlatView* m_propertyFlatView{nullptr};
+    ModelView::QEXTMvvmSessionModel* m_sessionModel{nullptr};
 };
 
 #endif // FLATEDITORCORE_DEMOWIDGET_H

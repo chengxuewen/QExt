@@ -22,15 +22,15 @@ struct BackEnd::BackEndImpl {
     TableModel* m_tableModel{nullptr};
 
     BackEndImpl()
-        : m_model(std::make_unique<ParticleModel>()),
-          m_viewModel(std::make_unique<ParticleViewModel>(m_model.get())),
+        : m_model(make_unique<ParticleModel>()),
+          m_viewModel(make_unique<ParticleViewModel>(m_model.get())),
           m_tableModel(new TableModel)
     {
         m_viewModel->setRootSessionItem(m_model->topItem());
     }
 };
 
-BackEnd::BackEnd(QObject* parent) : QObject(parent), p_impl(std::make_unique<BackEndImpl>()) {}
+BackEnd::BackEnd(QObject* parent) : QObject(parent), p_impl(make_unique<BackEndImpl>()) {}
 
 BackEnd::~BackEnd() = default;
 

@@ -1,30 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_EDITORS_SCIENTIFICSPINBOXEDITOR_H
-#define MVVM_EDITORS_SCIENTIFICSPINBOXEDITOR_H
+#ifndef _QEXTMVVMEDITORSSCIENTIFICSPINBOXEDITOR_H
+#define _QEXTMVVMEDITORSSCIENTIFICSPINBOXEDITOR_H
 
 #include <qextMvvmCustomEditor.h>
 
 namespace ModelView
 {
 
-class ScientificSpinBox;
+class QEXTMvvmScientificSpinBox;
 
 //! Custom editor for QVariant based on double with scientific notation support.
 
-class QEXT_MVVM_API ScientificSpinBoxEditor : public CustomEditor
+class QEXT_MVVM_API QEXTMvvmScientificSpinBoxEditor : public QEXTMvvmCustomEditor
 {
     Q_OBJECT
 
 public:
-    explicit ScientificSpinBoxEditor(QWidget* parent = nullptr);
+    explicit QEXTMvvmScientificSpinBoxEditor(QWidget* parent = nullptr);
 
     void setRange(double minimum, double maximum);
     void setDecimals(int decimals);
@@ -37,9 +28,9 @@ private slots:
 
 private:
     void update_components() override;
-    ScientificSpinBox* m_doubleEditor;
+    QEXTMvvmScientificSpinBox* m_doubleEditor;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_SCIENTIFICSPINBOXEDITOR_H
+#endif // _QEXTMVVMEDITORSSCIENTIFICSPINBOXEDITOR_H

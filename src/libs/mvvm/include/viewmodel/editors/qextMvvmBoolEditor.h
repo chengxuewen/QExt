@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_EDITORS_BOOLEDITOR_H
-#define MVVM_EDITORS_BOOLEDITOR_H
+#ifndef _QEXTMVVMEDITORSBOOLEDITOR_H
+#define _QEXTMVVMEDITORSBOOLEDITOR_H
 
 #include <qextMvvmCustomEditor.h>
 
@@ -19,12 +10,12 @@ namespace ModelView
 
 //! Custom editor for QVariant based on bool values.
 
-class QEXT_MVVM_API BoolEditor : public CustomEditor
+class QEXT_MVVM_API QEXTMvvmBoolEditor : public QEXTMvvmCustomEditor
 {
     Q_OBJECT
 
 public:
-    explicit BoolEditor(QWidget* parent = nullptr);
+    explicit QEXTMvvmBoolEditor(QWidget* parent = nullptr);
 
     bool is_persistent() const override;
 
@@ -38,4 +29,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_BOOLEDITOR_H
+#endif // _QEXTMVVMEDITORSBOOLEDITOR_H

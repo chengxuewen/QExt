@@ -9,6 +9,7 @@
 
 #include <qextMvvmComboProperty.h>
 #include <qextMvvmContainerUtils.h>
+
 #include <sstream>
 #include <stdexcept>
 
@@ -50,14 +51,14 @@ std::vector<std::string> tokenize(const std::string& str, const std::string& del
 
 using namespace ModelView;
 
-ComboProperty::ComboProperty() = default;
+QEXTMvvmComboProperty::QEXTMvvmComboProperty() = default;
 
-ComboProperty::ComboProperty(std::vector<std::string> values) : m_values(std::move(values)) {}
+QEXTMvvmComboProperty::QEXTMvvmComboProperty(std::vector<std::string> values) : m_values(std::move(values)) {}
 
-ComboProperty ComboProperty::createFrom(const std::vector<std::string>& values,
+QEXTMvvmComboProperty QEXTMvvmComboProperty::createFrom(const std::vector<std::string>& values,
                                         const std::string& current_value)
 {
-    ComboProperty result(values);
+    QEXTMvvmComboProperty result(values);
 
     if (!current_value.empty())
         result.setValue(current_value);
@@ -67,54 +68,54 @@ ComboProperty ComboProperty::createFrom(const std::vector<std::string>& values,
     return result;
 }
 
-std::string ComboProperty::value() const
+std::string QEXTMvvmComboProperty::value() const
 {
     return currentIndex() < 0 ? std::string() : m_values.at(static_cast<size_t>(currentIndex()));
 }
 
-void ComboProperty::setValue(const std::string& name)
+void QEXTMvvmComboProperty::setValue(const std::string& name)
 {
-    if (!Utils::Contains(m_values, name))
+    if (!QEXTMvvmUtils::Contains(m_values, name))
         throw std::runtime_error("ComboProperty::setValue() -> Error. Combo doesn't contain "
                                  "value "
                                  + name);
-    setCurrentIndex(Utils::IndexOfItem(m_values, name));
+    setCurrentIndex(QEXTMvvmUtils::IndexOfItem(m_values, name));
 }
 
-std::vector<std::string> ComboProperty::values() const
+std::vector<std::string> QEXTMvvmComboProperty::values() const
 {
     return m_values;
 }
 
 //! Sets new list of values. Current value will be preserved, if exists in a new list.
 
-void ComboProperty::setValues(const std::vector<std::string>& values)
+void QEXTMvvmComboProperty::setValues(const std::vector<std::string>& values)
 {
     if (values.empty())
         return;
 
     auto current = value();
     m_values = values;
-    setCurrentIndex(Utils::Contains(m_values, current) ? Utils::IndexOfItem(m_values, current) : 0);
+    setCurrentIndex(QEXTMvvmUtils::Contains(m_values, current) ? QEXTMvvmUtils::IndexOfItem(m_values, current) : 0);
 }
 
 //! returns list of tool tips for all values
-std::vector<std::string> ComboProperty::toolTips() const
+std::vector<std::string> QEXTMvvmComboProperty::toolTips() const
 {
     return m_tooltips;
 }
 
-void ComboProperty::setToolTips(const std::vector<std::string>& tooltips)
+void QEXTMvvmComboProperty::setToolTips(const std::vector<std::string>& tooltips)
 {
     m_tooltips = tooltips;
 }
 
-int ComboProperty::currentIndex() const
+int QEXTMvvmComboProperty::currentIndex() const
 {
     return m_selected_indices.empty() ? -1 : m_selected_indices.at(0);
 }
 
-void ComboProperty::setCurrentIndex(int index)
+void QEXTMvvmComboProperty::setCurrentIndex(int index)
 {
     if (index < 0 || index >= static_cast<int>(m_values.size()))
         throw std::runtime_error("ComboProperty::setCurrentIndex(int index) -> Error. "
@@ -123,7 +124,7 @@ void ComboProperty::setCurrentIndex(int index)
     m_selected_indices.push_back(index);
 }
 
-ComboProperty& ComboProperty::operator<<(const std::string& str)
+QEXTMvvmComboProperty& QEXTMvvmComboProperty::operator<<(const std::string& str)
 {
     m_values.push_back(str);
     if (currentIndex() == -1)
@@ -131,7 +132,7 @@ ComboProperty& ComboProperty::operator<<(const std::string& str)
     return *this;
 }
 
-ComboProperty& ComboProperty::operator<<(const std::vector<std::string>& str)
+QEXTMvvmComboProperty& QEXTMvvmComboProperty::operator<<(const std::vector<std::string>& str)
 {
     m_values.insert(m_values.end(), str.begin(), str.end());
     if (currentIndex() == -1)
@@ -139,7 +140,7 @@ ComboProperty& ComboProperty::operator<<(const std::vector<std::string>& str)
     return *this;
 }
 
-bool ComboProperty::operator==(const ComboProperty& other) const
+bool QEXTMvvmComboProperty::operator==(const QEXTMvvmComboProperty& other) const
 {
     if (m_selected_indices != other.m_selected_indices)
         return false;
@@ -148,42 +149,42 @@ bool ComboProperty::operator==(const ComboProperty& other) const
     return true;
 }
 
-bool ComboProperty::operator!=(const ComboProperty& other) const
+bool QEXTMvvmComboProperty::operator!=(const QEXTMvvmComboProperty& other) const
 {
     return !(*this == other);
 }
 
-bool ComboProperty::operator<(const ComboProperty& other) const
+bool QEXTMvvmComboProperty::operator<(const QEXTMvvmComboProperty& other) const
 {
     return m_selected_indices < other.m_selected_indices && m_values < other.m_values;
 }
 
 //! Returns a single string containing values delimited with ';'.
 
-std::string ComboProperty::stringOfValues() const
+std::string QEXTMvvmComboProperty::stringOfValues() const
 {
     return toString(m_values, value_separator);
 }
 
 //! Sets values from the string containing delimeter ';'.
 
-void ComboProperty::setStringOfValues(const std::string& values)
+void QEXTMvvmComboProperty::setStringOfValues(const std::string& values)
 {
     auto current = value();
     m_values = tokenize(values, value_separator);
-    setCurrentIndex(Utils::Contains(m_values, current) ? Utils::IndexOfItem(m_values, current) : 0);
+    setCurrentIndex(QEXTMvvmUtils::Contains(m_values, current) ? QEXTMvvmUtils::IndexOfItem(m_values, current) : 0);
 }
 
 //! Returns vector of selected indices.
 
-std::vector<int> ComboProperty::selectedIndices() const
+std::vector<int> QEXTMvvmComboProperty::selectedIndices() const
 {
     return m_selected_indices;
 }
 
 //! Returns list of string with selected values;
 
-std::vector<std::string> ComboProperty::selectedValues() const
+std::vector<std::string> QEXTMvvmComboProperty::selectedValues() const
 {
     std::vector<std::string> result;
     for (auto index : m_selected_indices)
@@ -194,7 +195,7 @@ std::vector<std::string> ComboProperty::selectedValues() const
 //! Sets given index selection flag.
 //! If false, index will be excluded from selection.
 
-void ComboProperty::setSelected(int index, bool value)
+void QEXTMvvmComboProperty::setSelected(int index, bool value)
 {
     if (index < 0 || index >= static_cast<int>(m_values.size()))
         return;
@@ -210,14 +211,14 @@ void ComboProperty::setSelected(int index, bool value)
     std::sort(m_selected_indices.begin(), m_selected_indices.end());
 }
 
-void ComboProperty::setSelected(const std::string& name, bool value)
+void QEXTMvvmComboProperty::setSelected(const std::string& name, bool value)
 {
-    setSelected(Utils::IndexOfItem(m_values, name), value);
+    setSelected(QEXTMvvmUtils::IndexOfItem(m_values, name), value);
 }
 
 //! Return string with coma separated list of selected indices.
 
-std::string ComboProperty::stringOfSelections() const
+std::string QEXTMvvmComboProperty::stringOfSelections() const
 {
     std::vector<std::string> text;
     for (auto index : m_selected_indices)
@@ -227,7 +228,7 @@ std::string ComboProperty::stringOfSelections() const
 
 //! Sets selected indices from string.
 
-void ComboProperty::setStringOfSelections(const std::string& values)
+void QEXTMvvmComboProperty::setStringOfSelections(const std::string& values)
 {
     m_selected_indices.clear();
     if (values.empty())
@@ -241,7 +242,7 @@ void ComboProperty::setStringOfSelections(const std::string& values)
 
 //! Returns the label to show.
 
-std::string ComboProperty::label() const
+std::string QEXTMvvmComboProperty::label() const
 {
     if (m_selected_indices.size() > 1) {
         return multiple_label;

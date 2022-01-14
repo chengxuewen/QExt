@@ -1,37 +1,29 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMWIDGETSITEMSTREEVIEWINTERFACE_H
+#define _QEXTMVVMWIDGETSITEMSTREEVIEWINTERFACE_H
 
-#ifndef MVVM_WIDGETS_ITEMSTREEVIEWINTERFACE_H
-#define MVVM_WIDGETS_ITEMSTREEVIEWINTERFACE_H
+#include <qextMvvmGlobal.h>
 
 #include <QWidget>
-#include <qextMvvmGlobal.h>
 
 class QTreeView;
 
 namespace ModelView
 {
 
-class SessionModel;
+class QEXTMvvmSessionModel;
 
 //! Saves and restores list of SessionModel's to/from disk using json format.
 
-class QEXT_MVVM_API ItemsTreeViewInterface : public QWidget
+class QEXT_MVVM_API QEXTMvvmItemsTreeViewInterface : public QWidget
 {
     Q_OBJECT
 
 public:
-    virtual void setSessionModel(SessionModel* model) = 0;
+    virtual void setSessionModel(QEXTMvvmSessionModel* model) = 0;
 
     virtual QTreeView* treeView() const = 0;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_WIDGETS_ITEMSTREEVIEWINTERFACE_H
+#endif // _QEXTMVVMWIDGETSITEMSTREEVIEWINTERFACE_H

@@ -1,34 +1,26 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGDATA2DPLOTCONTROLLER_H
+#define _QEXTMVVMPLOTTINGDATA2DPLOTCONTROLLER_H
 
-#ifndef MVVM_PLOTTING_DATA2DPLOTCONTROLLER_H
-#define MVVM_PLOTTING_DATA2DPLOTCONTROLLER_H
-
-#include <memory>
 #include <qextMvvmItemListener.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 class QCPColorMap;
 
 namespace ModelView
 {
 
-class Data2DItem;
+class QEXTMvvmData2DItem;
 
 //! Establish communication between QCPColorMap and Data2DItem.
 //! Provide update of data points on QCPColorMap when Graph2DItem is changed.
 
-class QEXT_MVVM_API Data2DPlotController : public ItemListener<Data2DItem>
+class QEXT_MVVM_API QEXTMvvmData2DPlotController : public QEXTMvvmItemListener<QEXTMvvmData2DItem>
 {
 public:
-    explicit Data2DPlotController(QCPColorMap* color_map);
-    ~Data2DPlotController() override;
+    explicit QEXTMvvmData2DPlotController(QCPColorMap* color_map);
+    ~QEXTMvvmData2DPlotController() override;
 
 protected:
     void subscribe() override;
@@ -41,4 +33,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_DATA2DPLOTCONTROLLER_H
+#endif // _QEXTMVVMPLOTTINGDATA2DPLOTCONTROLLER_H

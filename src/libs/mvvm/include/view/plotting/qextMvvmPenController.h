@@ -1,34 +1,26 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGPENCONTROLLER_H
+#define _QEXTMVVMPLOTTINGPENCONTROLLER_H
 
-#ifndef MVVM_PLOTTING_PENCONTROLLER_H
-#define MVVM_PLOTTING_PENCONTROLLER_H
-
-#include <memory>
 #include <qextMvvmItemListener.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 class QCPGraph;
 
 namespace ModelView
 {
 
-class PenItem;
+class QEXTMvvmPenItem;
 
 //! Establishes communication between QCPGraph and PenItem.
 //! Provides update of QCPGraph's color, line style and width when PenItem is changed.
 
-class QEXT_MVVM_API PenController : public ItemListener<PenItem>
+class QEXT_MVVM_API QEXTMvvmPenController : public QEXTMvvmItemListener<QEXTMvvmPenItem>
 {
 public:
-    explicit PenController(QCPGraph* graph);
-    ~PenController() override;
+    explicit QEXTMvvmPenController(QCPGraph* graph);
+    ~QEXTMvvmPenController() override;
 
 protected:
     void subscribe() override;
@@ -40,4 +32,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_PENCONTROLLER_H
+#endif // _QEXTMVVMPLOTTINGPENCONTROLLER_H

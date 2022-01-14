@@ -1,18 +1,10 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPLOTTINGSTATUSSTRINGREPORTER_H
+#define _QEXTMVVMPLOTTINGSTATUSSTRINGREPORTER_H
 
-#ifndef MVVM_PLOTTING_STATUSSTRINGREPORTER_H
-#define MVVM_PLOTTING_STATUSSTRINGREPORTER_H
+#include <qextMvvmGlobal.h>
 
 #include <functional>
 #include <memory>
-#include <qextMvvmGlobal.h>
 #include <string>
 
 class QCustomPlot;
@@ -20,18 +12,18 @@ class QCustomPlot;
 namespace ModelView
 {
 
-class StatusStringFormatterInterface;
+class QEXTMvvmStatusStringFormatterInterface;
 
 //! Reports back status string composed for current mouse position in QCustomPlot.
 //! Doesn't report if cursor is outside of the axes range.
 
-class QEXT_MVVM_API StatusStringReporter
+class QEXT_MVVM_API QEXTMvvmStatusStringReporter
 {
 public:
     using callback_t = std::function<void(const std::string&)>;
-    StatusStringReporter(QCustomPlot* custom_plot, callback_t callback,
-                         std::unique_ptr<StatusStringFormatterInterface> formatter);
-    ~StatusStringReporter();
+    QEXTMvvmStatusStringReporter(QCustomPlot* custom_plot, callback_t callback,
+                         std::unique_ptr<QEXTMvvmStatusStringFormatterInterface> formatter);
+    ~QEXTMvvmStatusStringReporter();
 
 private:
     struct StatusStringReporterImpl;
@@ -40,4 +32,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_STATUSSTRINGREPORTER_H
+#endif // _QEXTMVVMPLOTTINGSTATUSSTRINGREPORTER_H

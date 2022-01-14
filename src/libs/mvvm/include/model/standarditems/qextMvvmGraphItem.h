@@ -1,28 +1,19 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_STANDARDITEMS_GRAPHITEM_H
-#define MVVM_STANDARDITEMS_GRAPHITEM_H
+#ifndef _QEXTMVVMSTANDARDITEMSGRAPHITEM_H
+#define _QEXTMVVMSTANDARDITEMSGRAPHITEM_H
 
 #include <qextMvvmCompoundItem.h>
 
 namespace ModelView
 {
 
-class Data1DItem;
-class PenItem;
+class QEXTMvvmData1DItem;
+class QEXTMvvmPenItem;
 
 //! One-dimensional graph representation of Data1DItem.
 //! Contains plot properties (i.e. color, line type etc) and link to Data1DItem, which will provide
 //! actual data to plot. GraphItem is intended for plotting only via GraphViewportItem.
 
-class QEXT_MVVM_API GraphItem : public QEXTMvvmCompoundItem
+class QEXT_MVVM_API QEXTMvvmGraphItem : public QEXTMvvmCompoundItem
 {
 public:
     static inline const std::string P_LINK = "P_LINK";
@@ -30,13 +21,13 @@ public:
     static inline const std::string P_PEN = "P_PEN";
     static inline const std::string P_DISPLAYED = "P_DISPLAYED";
 
-    GraphItem(const std::string& model_type = Constants::GraphItemType);
+    QEXTMvvmGraphItem(const std::string& model_type = QEXTMvvmConstants::GraphItemType);
 
-    void setDataItem(const Data1DItem* item);
+    void setDataItem(const QEXTMvvmData1DItem* item);
 
-    void setFromGraphItem(const GraphItem* graph_item);
+    void setFromGraphItem(const QEXTMvvmGraphItem* graph_item);
 
-    Data1DItem* dataItem() const;
+    QEXTMvvmData1DItem* dataItem() const;
 
     std::vector<double> binCenters() const;
 
@@ -47,9 +38,9 @@ public:
     std::string colorName() const;
     void setNamedColor(const std::string& named_color);
 
-    PenItem* penItem() const;
+    QEXTMvvmPenItem* penItem() const;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_STANDARDITEMS_GRAPHITEM_H
+#endif // _QEXTMVVMSTANDARDITEMSGRAPHITEM_H

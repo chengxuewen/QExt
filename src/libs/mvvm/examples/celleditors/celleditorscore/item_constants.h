@@ -14,7 +14,7 @@
 
 //! Collection of toy items and models for testing purposes.
 
-namespace Constants
+namespace QEXTMvvmConstants
 {
 
 const std::string DemoPropertiesType = "DemoProperties";

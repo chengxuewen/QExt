@@ -18,44 +18,43 @@
 
 using namespace ModelView;
 
-bool DefaultCellDecorator::hasCustomDecoration(const QModelIndex& index) const
+bool QEXTMvvmDefaultCellDecorator::hasCustomDecoration(const QModelIndex& index) const
 {
-    return cellText(index).has_value();
+    return cellText(index).isValid();
 }
 
-std::optional<std::string> DefaultCellDecorator::cellText(const QModelIndex& index) const
+QVariant QEXTMvvmDefaultCellDecorator::cellText(const QModelIndex& index) const
 {
     auto variant = index.data();
 
-    if (Utils::IsComboVariant(variant))
-        return std::optional<std::string>{variant.value<ComboProperty>().label()};
+    if (QEXTMvvmUtils::IsComboVariant(variant))
+        return QString::fromStdString(variant.value<QEXTMvvmComboProperty>().label());
 
-    else if (Utils::IsBoolVariant(variant))
-        return variant.value<bool>() ? std::optional<std::string>{"True"}
-                                     : std::optional<std::string>{"False"};
+    else if (QEXTMvvmUtils::IsBoolVariant(variant))
+        return variant.toBool() ? "TRUE" : "FALSE";
 
-    else if (Utils::IsExtPropertyVariant(variant))
-        return std::optional<std::string>{variant.value<ExternalProperty>().text()};
+    else if (QEXTMvvmUtils::IsExtPropertyVariant(variant))
+        return QString::fromStdString(variant.value<QEXTMvvmExternalProperty>().text());
 
-    else if (Utils::IsColorVariant(variant))
-        return std::optional<std::string>{std::string()};
+    else if (QEXTMvvmUtils::IsColorVariant(variant))
+        return QString("");
 
-    else if (Utils::IsDoubleVariant(variant))
-        return std::optional<std::string>{
-            ScientificSpinBox::toString(index.data(Qt::EditRole).value<double>(),
-                                        Constants::default_double_decimals)
-                .toStdString()};
+    else if (QEXTMvvmUtils::IsDoubleVariant(variant))
+        return QEXTMvvmScientificSpinBox::toString(index.data(Qt::EditRole).value<double>(),
+                                                   QEXTMvvmConstants::default_double_decimals);
 
     return {};
 }
 
-void DefaultCellDecorator::initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index)
+void QEXTMvvmDefaultCellDecorator::initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index)
 {
     if (!hasCustomDecoration(index))
         return;
 
-    auto value = cellText(index).value();
-    option->text = QString::fromStdString(value);
-    if (value.empty())
+    auto value = cellText(index);
+    option->text = value.toString();
+    if (!value.isValid())
+    {
         option->features &= ~QStyleOptionViewItem::HasDisplay;
+    }
 }

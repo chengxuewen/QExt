@@ -17,7 +17,7 @@
 using namespace ModelView;
 
 GraphPropertyWidget::GraphPropertyWidget(GraphModel* model, QWidget* parent)
-    : QWidget(parent), m_treeView(new ItemsTreeView)
+    : QWidget(parent), m_treeView(new QEXTMvvmItemsTreeView)
 {
     auto layout = new QVBoxLayout;
     layout->addWidget(m_treeView);
@@ -32,5 +32,5 @@ void GraphPropertyWidget::setModel(GraphModel* model)
     if (!model)
         return;
 
-    m_treeView->setViewModel(Factory::CreateDefaultViewModel(model));
+    m_treeView->setViewModel(QEXTMvvmFactory::CreateDefaultViewModel(model));
 }

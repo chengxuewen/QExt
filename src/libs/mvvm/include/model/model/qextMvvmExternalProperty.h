@@ -1,18 +1,10 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMMODELEXTERNALPROPERTY_H
+#define _QEXTMVVMMODELEXTERNALPROPERTY_H
 
-#ifndef MVVM_MODEL_EXTERNALPROPERTY_H
-#define MVVM_MODEL_EXTERNALPROPERTY_H
+#include <qextMvvmGlobal.h>
 
 #include <QColor>
-#include <qextMvvmVariant.h>
-#include <qextMvvmGlobal.h>
+
 #include <string>
 
 namespace ModelView
@@ -21,13 +13,13 @@ namespace ModelView
 //! Property to carry text, color and identifier.
 //! Can be used to link items with each other.
 
-class QEXT_MVVM_API ExternalProperty
+class QEXT_MVVM_API QEXTMvvmExternalProperty
 {
 public:
-    ExternalProperty();
-    ExternalProperty(std::string text, QColor color, std::string id = {});
+    QEXTMvvmExternalProperty();
+    QEXTMvvmExternalProperty(std::string text, QColor color, std::string id = {});
 
-    static ExternalProperty undefined();
+    static QEXTMvvmExternalProperty undefined();
 
     std::string text() const;
 
@@ -37,9 +29,9 @@ public:
 
     bool isValid() const;
 
-    bool operator==(const ExternalProperty& other) const;
-    bool operator!=(const ExternalProperty& other) const;
-    bool operator<(const ExternalProperty& other) const;
+    bool operator==(const QEXTMvvmExternalProperty& other) const;
+    bool operator!=(const QEXTMvvmExternalProperty& other) const;
+    bool operator<(const QEXTMvvmExternalProperty& other) const;
 
 private:
     std::string m_text;
@@ -49,6 +41,6 @@ private:
 
 } // namespace ModelView
 
-Q_DECLARE_METATYPE(ModelView::ExternalProperty)
+Q_DECLARE_METATYPE(ModelView::QEXTMvvmExternalProperty)
 
-#endif // MVVM_MODEL_EXTERNALPROPERTY_H
+#endif // _QEXTMVVMMODELEXTERNALPROPERTY_H

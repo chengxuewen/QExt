@@ -35,6 +35,19 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 # Configure a header file to pass some of the CMake settings to the source code
 #--------------------------------------------------------------------------------
+set(QEXT_LIBVLC_FIND_REQUIRED ON)
+qextMacroFindLibVLC()
+if(EXISTS ${QEXT_LIBVLC_INCLUDE_DIR}/vlc/libvlc_structures.h)
+    SET(QEXT_LIBVLC_VERSION 2)
+else()
+    SET(QEXT_LIBVLC_VERSION 3)
+endif()
+
+
+
+#--------------------------------------------------------------------------------
+# Configure a header file to pass some of the CMake settings to the source code
+#--------------------------------------------------------------------------------
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/qextVLCConfig.h.in"
     "${CMAKE_CURRENT_BINARY_DIR}/qextVLCConfig.h"
@@ -168,9 +181,6 @@ endif()
 
 
 list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore)
-
-set(QEXT_LIBVLC_FIND_REQUIRED ON)
-qextMacroFindLibVLC()
 list(APPEND QEXT_LIB_LINK_LIBRARIES ${QEXT_LIBVLC_LIBRARY} ${QEXT_LIBVLC_CORE_LIBRARY})
 list(APPEND QEXT_LIB_INCLUDE_DIRECTORIES
     ${QEXT_LIBVLC_EXTRA_INCLUDE_DIR}
@@ -180,7 +190,6 @@ list(APPEND QEXT_LIB_INCLUDE_DIRECTORIES
     ${QEXT_LIBVLC_INCLUDE_DIR}/vlc
     ${QEXT_LIBVLC_INCLUDE_DIR}/vlc/plugins
     )
-SET(QEXT_LIBVLC_VERSION 2 CACHE STRING "libVLC version used")
 
 
 
@@ -203,10 +212,10 @@ endif()
 target_link_libraries(${QEXT_LIB_BASE_NAME} PUBLIC ${QEXT_LIB_LINK_LIBRARIES})
 target_include_directories(${QEXT_LIB_BASE_NAME}
     PUBLIC
+    $<BUILD_INTERFACE:${QEXT_LIB_INCLUDE_DIRECTORIES}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}>
-    PRIVATE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
     $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}/private>
     )

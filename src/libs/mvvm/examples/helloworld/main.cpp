@@ -26,7 +26,7 @@ int main(int argc, char** argv)
 
     QApplication app(argc, argv);
 
-    SessionModel model;
+    QEXTMvvmSessionModel model;
     auto item = model.insertItem<QEXTMvvmCompoundItem>();
     item->setDisplayName("Item");
 
@@ -39,8 +39,8 @@ int main(int argc, char** argv)
     };
     item->mapper()->setOnPropertyChange(on_property, nullptr);
 
-    DefaultViewModel viewmodel(&model);
-    ViewModelDelegate delegate;
+    QEXTMvvmDefaultViewModel viewmodel(&model);
+    QEXTMvvmViewModelDelegate delegate;
 
     QTreeView view;
     view.setModel(&viewmodel);

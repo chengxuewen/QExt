@@ -35,8 +35,8 @@ MainWindow::MainWindow()
     , view(new QGraphicsView(scene))
     , timer(new QTimer)
     , slider(new QSlider)
-    , mouse_model(std::make_unique<MouseModel>())
-    , itemsTreeView(new ModelView::AllItemsTreeView(mouse_model.get()))
+    , mouse_model(make_unique<MouseModel>())
+    , itemsTreeView(new ModelView::QEXTMvvmAllItemsTreeView(mouse_model.get()))
 {
     create_central_widget();
     init_scene();
@@ -104,7 +104,7 @@ void MainWindow::init_toolbar()
     slider->setMaximumWidth(300);
     toolbar->addWidget(slider);
 
-    auto on_slider_moved = [this](auto value) { mouse_model->setUndoPosition(value); };
+    auto on_slider_moved = [this](int value) { mouse_model->setUndoPosition(value); };
     connect(slider, &QSlider::sliderMoved, on_slider_moved);
 
     auto on_slider_pressed = [this]() { timer->stop(); };

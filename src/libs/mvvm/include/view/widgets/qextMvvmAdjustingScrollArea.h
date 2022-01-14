@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMWIDGETSADJUSTINGSCROLLAREA_H
+#define _QEXTMVVMWIDGETSADJUSTINGSCROLLAREA_H
 
-#ifndef MVVM_WIDGETS_ADJUSTINGSCROLLAREA_H
-#define MVVM_WIDGETS_ADJUSTINGSCROLLAREA_H
+#include <qextMvvmGlobal.h>
 
 #include <QScrollArea>
-#include <qextMvvmGlobal.h>
 
 namespace ModelView
 {
@@ -19,12 +11,12 @@ namespace ModelView
 //! Modification of standard scroll area, which makes widget with dynamic layout occupy the whole
 //! available space.
 
-class QEXT_MVVM_API AdjustingScrollArea : public QScrollArea
+class QEXT_MVVM_API QEXTMvvmAdjustingScrollArea : public QScrollArea
 {
     Q_OBJECT
 
 public:
-    AdjustingScrollArea(QWidget* parent = 0);
+    QEXTMvvmAdjustingScrollArea(QWidget* parent = 0);
     void setWidget(QWidget* w);
 
     QSize sizeHint() const;
@@ -35,4 +27,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_WIDGETS_ADJUSTINGSCROLLAREA_H
+#endif // _QEXTMVVMWIDGETSADJUSTINGSCROLLAREA_H

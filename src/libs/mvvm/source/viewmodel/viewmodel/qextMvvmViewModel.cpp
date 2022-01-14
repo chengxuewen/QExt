@@ -15,14 +15,14 @@
 
 using namespace ModelView;
 
-ViewModel::ViewModel(std::unique_ptr<ViewModelController> controller, QObject* parent)
-    : ViewModelBase(parent), m_controller(std::move(controller))
+QEXTMvvmViewModel::QEXTMvvmViewModel(std::unique_ptr<QEXTMvvmViewModelController> controller, QObject* parent)
+    : QEXTMvvmViewModelBase(parent), m_controller(std::move(controller))
 {
     m_controller->setViewModel(this);
     m_controller->setRootSessionItem(sessionModel()->rootItem());
 }
 
-QVariant ViewModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant QEXTMvvmViewModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         auto data = m_controller->horizontalHeaderLabels();
@@ -32,38 +32,38 @@ QVariant ViewModel::headerData(int section, Qt::Orientation orientation, int rol
     return QVariant();
 }
 
-SessionModel* ViewModel::sessionModel() const
+QEXTMvvmSessionModel* QEXTMvvmViewModel::sessionModel() const
 {
     return m_controller->sessionModel();
 }
 
-QEXTMvvmSessionItem* ViewModel::rootSessionItem()
+QEXTMvvmSessionItem* QEXTMvvmViewModel::rootSessionItem()
 {
     return m_controller->rootSessionItem();
 }
 
-ViewModel::~ViewModel() = default;
+QEXTMvvmViewModel::~QEXTMvvmViewModel() = default;
 
-void ViewModel::setRootSessionItem(QEXTMvvmSessionItem* item)
+void QEXTMvvmViewModel::setRootSessionItem(QEXTMvvmSessionItem* item)
 {
     if (!item)
         throw std::runtime_error("Error in ViewModel: atttemp to set nulptr as root item");
     m_controller->setRootSessionItem(item);
 }
 
-QEXTMvvmSessionItem* ViewModel::sessionItemFromIndex(const QModelIndex& index) const
+QEXTMvvmSessionItem* QEXTMvvmViewModel::sessionItemFromIndex(const QModelIndex& index) const
 {
     return index.isValid() ? itemFromIndex(index)->item() : m_controller->rootSessionItem();
 }
 
-ViewItem* ViewModel::viewItemFromIndex(const QModelIndex& index) const
+QEXTMvvmViewItem* QEXTMvvmViewModel::viewItemFromIndex(const QModelIndex& index) const
 {
     return itemFromIndex(index);
 }
 
 //! Returns list of model indices representing given QEXTMvvmSessionItem.
 
-QModelIndexList ViewModel::indexOfSessionItem(const QEXTMvvmSessionItem* item) const
+QModelIndexList QEXTMvvmViewModel::indexOfSessionItem(const QEXTMvvmSessionItem* item) const
 {
     QModelIndexList result;
     for (auto view : m_controller->findViews(item))
@@ -73,7 +73,7 @@ QModelIndexList ViewModel::indexOfSessionItem(const QEXTMvvmSessionItem* item) c
 
 //! Returns vector of all ViewItem's representing given QEXTMvvmSessionItem.
 
-std::vector<ViewItem*> ViewModel::findViews(const QEXTMvvmSessionItem* item) const
+std::vector<QEXTMvvmViewItem*> QEXTMvvmViewModel::findViews(const QEXTMvvmSessionItem* item) const
 {
     return m_controller->findViews(item);
 }

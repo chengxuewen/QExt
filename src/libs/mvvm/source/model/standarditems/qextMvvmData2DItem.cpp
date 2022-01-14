@@ -15,7 +15,7 @@ using namespace ModelView;
 
 namespace
 {
-size_t total_bin_count(Data2DItem* item)
+size_t total_bin_count(QEXTMvvmData2DItem* item)
 {
     if (auto xaxis = item->xAxis(); xaxis)
         if (auto yaxis = item->yAxis(); yaxis)
@@ -24,18 +24,18 @@ size_t total_bin_count(Data2DItem* item)
 }
 } // namespace
 
-Data2DItem::Data2DItem() : QEXTMvvmCompoundItem(Constants::Data2DItemType)
+QEXTMvvmData2DItem::QEXTMvvmData2DItem() : QEXTMvvmCompoundItem(QEXTMvvmConstants::Data2DItemType)
 {
-    registerTag(TagInfo(T_XAXIS, 0, 1, {Constants::FixedBinAxisItemType}));
-    registerTag(TagInfo(T_YAXIS, 0, 1, {Constants::FixedBinAxisItemType}));
+    registerTag(QEXTMvvmTagInfo(T_XAXIS, 0, 1, {QEXTMvvmConstants::FixedBinAxisItemType}));
+    registerTag(QEXTMvvmTagInfo(T_YAXIS, 0, 1, {QEXTMvvmConstants::FixedBinAxisItemType}));
     setContent(std::vector<double>()); // prevent editing in widgets, since there is no
                                        // corresponding editor
 }
 
 //! Sets axes and put data points to zero.
 
-void Data2DItem::setAxes(std::unique_ptr<BinnedAxisItem> x_axis,
-                         std::unique_ptr<BinnedAxisItem> y_axis)
+void QEXTMvvmData2DItem::setAxes(std::unique_ptr<QEXTMvvmBinnedAxisItem> x_axis,
+                         std::unique_ptr<QEXTMvvmBinnedAxisItem> y_axis)
 {
     insert_axis(std::move(x_axis), T_XAXIS);
     insert_axis(std::move(y_axis), T_YAXIS);
@@ -44,19 +44,19 @@ void Data2DItem::setAxes(std::unique_ptr<BinnedAxisItem> x_axis,
 
 //! Returns x-axis (nullptr if it doesn't exist).
 
-BinnedAxisItem* Data2DItem::xAxis() const
+QEXTMvvmBinnedAxisItem* QEXTMvvmData2DItem::xAxis() const
 {
-    return item<BinnedAxisItem>(T_XAXIS);
+    return item<QEXTMvvmBinnedAxisItem>(T_XAXIS);
 }
 
 //! Returns y-axis (nullptr if it doesn't exist).
 
-BinnedAxisItem* Data2DItem::yAxis() const
+QEXTMvvmBinnedAxisItem* QEXTMvvmData2DItem::yAxis() const
 {
-    return item<BinnedAxisItem>(T_YAXIS);
+    return item<QEXTMvvmBinnedAxisItem>(T_YAXIS);
 }
 
-void Data2DItem::setContent(const std::vector<double>& data)
+void QEXTMvvmData2DItem::setContent(const std::vector<double>& data)
 {
     if (total_bin_count(this) != data.size())
         throw std::runtime_error("Data1DItem::setContent() -> Data doesn't match size of axis");
@@ -66,14 +66,14 @@ void Data2DItem::setContent(const std::vector<double>& data)
 
 //! Returns 2d vector representing 2d data.
 
-std::vector<double> Data2DItem::content() const
+std::vector<double> QEXTMvvmData2DItem::content() const
 {
     return data<std::vector<double>>();
 }
 
 //! Insert axis under given tag. Previous axis will be deleted and data points invalidated.
 
-void Data2DItem::insert_axis(std::unique_ptr<BinnedAxisItem> axis, const std::string& tag)
+void QEXTMvvmData2DItem::insert_axis(std::unique_ptr<QEXTMvvmBinnedAxisItem> axis, const std::string& tag)
 {
     // removing previous axis
     if (auto axis = getItem(tag, 0))

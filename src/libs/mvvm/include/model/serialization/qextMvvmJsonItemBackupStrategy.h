@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSERIALIZATIONJSONITEMBACKUPSTRATEGY_H
+#define _QEXTMVVMSERIALIZATIONJSONITEMBACKUPSTRATEGY_H
 
-#ifndef MVVM_SERIALIZATION_JSONITEMBACKUPSTRATEGY_H
-#define MVVM_SERIALIZATION_JSONITEMBACKUPSTRATEGY_H
+#include <qextMvvmItemBackupStrategy.h>
 
 #include <memory>
-#include <qextMvvmItemBackupStrategy.h>
 
 namespace ModelView
 {
@@ -21,11 +13,11 @@ class QEXTMvvmItemFactoryInterface;
 
 //! Provide backup of QEXTMvvmSessionItem using json strategy.
 
-class QEXT_MVVM_API JsonItemBackupStrategy : public QEXTMvvmItemBackupStrategy
+class QEXT_MVVM_API QEXTMvvmJsonItemBackupStrategy : public QEXTMvvmItemBackupStrategy
 {
 public:
-    JsonItemBackupStrategy(const QEXTMvvmItemFactoryInterface* item_factory);
-    ~JsonItemBackupStrategy() override;
+    QEXTMvvmJsonItemBackupStrategy(const QEXTMvvmItemFactoryInterface* item_factory);
+    ~QEXTMvvmJsonItemBackupStrategy() override;
 
     std::unique_ptr<QEXTMvvmSessionItem> restoreItem() const override;
 
@@ -38,4 +30,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONITEMBACKUPSTRATEGY_H
+#endif // _QEXTMVVMSERIALIZATIONJSONITEMBACKUPSTRATEGY_H

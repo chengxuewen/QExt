@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_EDITORS_SELECTABLECOMBOBOXEDITOR_H
-#define MVVM_EDITORS_SELECTABLECOMBOBOXEDITOR_H
+#ifndef _QEXTMVVMEDITORSSELECTABLECOMBOBOXEDITOR_H
+#define _QEXTMVVMEDITORSSELECTABLECOMBOBOXEDITOR_H
 
 #include <qextMvvmCustomEditor.h>
 
@@ -18,16 +9,16 @@ class QStandardItemModel;
 namespace ModelView
 {
 
-class WheelEventFilter;
+class QEXTMvvmWheelEventFilter;
 
 //! Adds multi-selection capabilities to QComboBox.
 
-class QEXT_MVVM_API SelectableComboBoxEditor : public CustomEditor
+class QEXT_MVVM_API QEXTMvvmSelectableComboBoxEditor : public QEXTMvvmCustomEditor
 {
     Q_OBJECT
 
 public:
-    explicit SelectableComboBoxEditor(QWidget* parent = nullptr);
+    explicit QEXTMvvmSelectableComboBoxEditor(QWidget* parent = nullptr);
 
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
@@ -51,10 +42,10 @@ private:
     bool isClickToExpand(QObject* obj, QEvent* event) const;
 
     QComboBox* m_box{nullptr};
-    WheelEventFilter* m_wheelEventFilter{nullptr};
+    QEXTMvvmWheelEventFilter* m_wheelEventFilter{nullptr};
     QStandardItemModel* m_model{nullptr};
 };
 
 } // namespace ModelView
 
-#endif // MVVM_EDITORS_SELECTABLECOMBOBOXEDITOR_H
+#endif // _QEXTMVVMEDITORSSELECTABLECOMBOBOXEDITOR_H

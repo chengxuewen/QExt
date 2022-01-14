@@ -19,24 +19,24 @@ using namespace ModelView;
 namespace
 {
 //! Returns QCPRange of axis.
-QCPRange qcpRange(const BinnedAxisItem* axis)
+QCPRange qcpRange(const QEXTMvvmBinnedAxisItem* axis)
 {
     auto centers = axis->binCenters(); // QCPColorMapData expects centers of bin
     return centers.empty() ? QCPRange() : QCPRange(centers.front(), centers.back());
 }
 } // namespace
 
-struct Data2DPlotController::Data2DPlotControllerImpl {
-    Data2DPlotController* master{nullptr};
+struct QEXTMvvmData2DPlotController::Data2DPlotControllerImpl {
+    QEXTMvvmData2DPlotController* master{nullptr};
     QCPColorMap* color_map{nullptr};
-    Data2DPlotControllerImpl(Data2DPlotController* master, QCPColorMap* color_map)
+    Data2DPlotControllerImpl(QEXTMvvmData2DPlotController* master, QCPColorMap* color_map)
         : master(master), color_map(color_map)
     {
         if (!color_map)
             throw std::runtime_error("Uninitialised colormap in Data2DPlotController");
     }
 
-    Data2DItem* dataItem() { return master->currentItem(); }
+    QEXTMvvmData2DItem* dataItem() { return master->currentItem(); }
 
     void update_data_points()
     {
@@ -68,14 +68,14 @@ struct Data2DPlotController::Data2DPlotControllerImpl {
     void reset_colormap() { color_map->data()->clear(); }
 };
 
-Data2DPlotController::Data2DPlotController(QCPColorMap* color_map)
-    : p_impl(std::make_unique<Data2DPlotControllerImpl>(this, color_map))
+QEXTMvvmData2DPlotController::QEXTMvvmData2DPlotController(QCPColorMap* color_map)
+    : p_impl(make_unique<Data2DPlotControllerImpl>(this, color_map))
 {
 }
 
-Data2DPlotController::~Data2DPlotController() = default;
+QEXTMvvmData2DPlotController::~QEXTMvvmData2DPlotController() = default;
 
-void Data2DPlotController::subscribe()
+void QEXTMvvmData2DPlotController::subscribe()
 {
     auto on_data_change = [this](QEXTMvvmSessionItem*, int) { p_impl->update_data_points(); };
     setOnDataChange(on_data_change);
@@ -83,7 +83,7 @@ void Data2DPlotController::subscribe()
     p_impl->update_data_points();
 }
 
-void Data2DPlotController::unsubscribe()
+void QEXTMvvmData2DPlotController::unsubscribe()
 {
     p_impl->reset_colormap();
 }

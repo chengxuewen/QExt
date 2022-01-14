@@ -17,30 +17,30 @@ using namespace ModelView;
 
 namespace
 {
-const ComboProperty gradientCombo =
-    ComboProperty::createFrom({"Grayscale", "Hot", "Cold", "Night", "Candy", "Geography", "Ion",
+const QEXTMvvmComboProperty gradientCombo =
+    QEXTMvvmComboProperty::createFrom({"Grayscale", "Hot", "Cold", "Night", "Candy", "Geography", "Ion",
                                "Thermal", "Polar", "Spectrum", "Jet", "Hues"},
                               "Polar");
 }
 
-ColorMapItem::ColorMapItem() : QEXTMvvmCompoundItem(Constants::ColorMapItemType)
+QEXTMvvmColorMapItem::QEXTMvvmColorMapItem() : QEXTMvvmCompoundItem(QEXTMvvmConstants::ColorMapItemType)
 {
-    addProperty<LinkedItem>(P_LINK)->setDisplayName("Link");
-    addProperty<TextItem>(P_TITLE)->setDisplayName("Title");
+    addProperty<QEXTMvvmLinkedItem>(P_LINK)->setDisplayName("Link");
+    addProperty<QEXTMvvmTextItem>(P_TITLE)->setDisplayName("Title");
     addProperty(P_GRADIENT, gradientCombo)->setDisplayName("Gradient");
     addProperty(P_INTERPOLATION, true)->setDisplayName("Interpolation");
 }
 
 //! Sets link to the data item.
 
-void ColorMapItem::setDataItem(const Data2DItem* data_item)
+void QEXTMvvmColorMapItem::setDataItem(const QEXTMvvmData2DItem* data_item)
 {
-    item<LinkedItem>(P_LINK)->setLink(data_item);
+    item<QEXTMvvmLinkedItem>(P_LINK)->setLink(data_item);
 }
 
 //! Returns data item linked to the given ColorMapItem.
 
-Data2DItem* ColorMapItem::dataItem() const
+QEXTMvvmData2DItem* QEXTMvvmColorMapItem::dataItem() const
 {
-    return item<LinkedItem>(P_LINK)->get<Data2DItem>();
+    return item<QEXTMvvmLinkedItem>(P_LINK)->get<QEXTMvvmData2DItem>();
 }

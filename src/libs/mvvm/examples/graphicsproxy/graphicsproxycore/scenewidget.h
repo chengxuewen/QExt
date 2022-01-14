@@ -22,7 +22,7 @@ class GraphicsView;
 
 namespace ModelView
 {
-class ColorMapCanvas;
+class QEXTMvvmColorMapCanvas;
 } // namespace ModelView
 
 //! Shows canvas with plots on the left and property editor on the right.
@@ -45,7 +45,7 @@ private:
     QAction* m_setViewportToRoiAction{nullptr};
 
     ScenePropertyWidget* m_propertyWidget{nullptr};
-    ModelView::ColorMapCanvas* m_colorMapCanvas{nullptr};
+    ModelView::QEXTMvvmColorMapCanvas* m_colorMapCanvas{nullptr};
     GraphicsScene* graphics_scene{nullptr};
     GraphicsView* graphics_view{nullptr};
     SceneModel* m_model{nullptr};

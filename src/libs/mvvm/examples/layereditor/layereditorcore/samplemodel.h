@@ -36,7 +36,7 @@ public:
 
 //! Model to hold layers and multi-layers.
 
-class SampleModel : public ModelView::SessionModel
+class SampleModel : public ModelView::QEXTMvvmSessionModel
 {
 public:
     SampleModel();

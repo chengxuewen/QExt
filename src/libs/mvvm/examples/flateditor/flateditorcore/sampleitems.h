@@ -14,7 +14,7 @@
 #include <qextMvvmGroupItem.h>
 #include <string>
 
-namespace Constants
+namespace QEXTMvvmConstants
 {
 
 const std::string BeamItemType = "Beam";
@@ -91,7 +91,7 @@ public:
 
 //! Group to hold probability distribution items.
 
-class DistributionGroupItem : public ModelView::GroupItem
+class DistributionGroupItem : public ModelView::QEXTMvvmGroupItem
 {
 public:
     DistributionGroupItem();

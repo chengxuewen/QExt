@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_MODEL_ITEMMANAGER_H
-#define MVVM_MODEL_ITEMMANAGER_H
+#ifndef _QEXTMVVMMODELITEMMANAGER_H
+#define _QEXTMVVMMODELITEMMANAGER_H
 
 #include <memory>
 #include <qextMvvmTypes.h>
@@ -18,7 +9,7 @@ namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class ItemPool;
+class QEXTMvvmItemPool;
 class QEXTMvvmItemFactoryInterface;
 
 //! Manages item creation/registration for SessionModel.
@@ -30,7 +21,7 @@ public:
     ~ItemManager();
 
     void setItemFactory(std::unique_ptr<QEXTMvvmItemFactoryInterface> factory);
-    void setItemPool(std::shared_ptr<ItemPool> pool);
+    void setItemPool(std::shared_ptr<QEXTMvvmItemPool> pool);
 
     std::unique_ptr<QEXTMvvmSessionItem> createItem(const model_type& modelType = {}) const;
 
@@ -40,8 +31,8 @@ public:
 
     identifier_type findIdentifier(QEXTMvvmSessionItem* item) const;
 
-    const ItemPool* itemPool() const;
-    ItemPool* itemPool();
+    const QEXTMvvmItemPool* itemPool() const;
+    QEXTMvvmItemPool* itemPool();
 
     void register_item(QEXTMvvmSessionItem* item);
     void unregister_item(QEXTMvvmSessionItem* item);
@@ -49,10 +40,10 @@ public:
     const QEXTMvvmItemFactoryInterface* factory() const;
 
 private:
-    std::shared_ptr<ItemPool> m_item_pool;
+    std::shared_ptr<QEXTMvvmItemPool> m_item_pool;
     std::unique_ptr<QEXTMvvmItemFactoryInterface> m_item_factory;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_ITEMMANAGER_H
+#endif // _QEXTMVVMMODELITEMMANAGER_H

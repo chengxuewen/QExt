@@ -36,6 +36,9 @@ public:
     //! Aggregate to hold all handle's accompanying information.
 
     struct HandleInfo {
+        HandleInfo(SizeHandleElement::EHandlePosition p, Qt::CursorShape c,
+                   SizeHandleElement::EHandlePosition o, std::function<QPointF(const QRectF&)> rtp)
+            : position(p), cursor(c), opposite_position(o), rect_to_pos(rtp) {}
         SizeHandleElement::EHandlePosition position;          //! position of handle on rectangle
         Qt::CursorShape cursor;                               //! shape of cursor when hover on
         SizeHandleElement::EHandlePosition opposite_position; //! position of opposite corner

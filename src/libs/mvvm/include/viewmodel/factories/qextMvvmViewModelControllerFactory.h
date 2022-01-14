@@ -1,44 +1,36 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMFACTORIESVIEWMODELCONTROLLERFACTORY_H
+#define _QEXTMVVMFACTORIESVIEWMODELCONTROLLERFACTORY_H
 
-#ifndef MVVM_FACTORIES_VIEWMODELCONTROLLERFACTORY_H
-#define MVVM_FACTORIES_VIEWMODELCONTROLLERFACTORY_H
-
-#include <memory>
 #include <qextMvvmViewModelControllerBuilder.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 namespace ModelView
 {
 
-class SessionModel;
-class ViewModelBase;
-class ViewModelController;
+class QEXTMvvmSessionModel;
+class QEXTMvvmViewModelBase;
+class QEXTMvvmViewModelController;
 
-namespace Factory
+namespace QEXTMvvmFactory
 {
 
 //! Create universal controller.
 
 template <typename ChildrenStrategy, typename RowStrategy>
-std::unique_ptr<ViewModelController> CreateController(SessionModel* session_model,
-                                                      ViewModelBase* view_model)
+std::unique_ptr<QEXTMvvmViewModelController> CreateController(QEXTMvvmSessionModel* session_model,
+                                                      QEXTMvvmViewModelBase* view_model)
 {
-    return ViewModelControllerBuilder()
+    return QEXTMvvmViewModelControllerBuilder()
         .model(session_model)
         .viewModel(view_model)
-        .childrenStrategy(std::make_unique<ChildrenStrategy>())
-        .rowStrategy(std::make_unique<RowStrategy>());
+        .childrenStrategy(make_unique<ChildrenStrategy>())
+        .rowStrategy(make_unique<RowStrategy>());
 }
 
 } // namespace Factory
 
 } // namespace ModelView
 
-#endif // MVVM_FACTORIES_VIEWMODELCONTROLLERFACTORY_H
+#endif // _QEXTMVVMFACTORIESVIEWMODELCONTROLLERFACTORY_H

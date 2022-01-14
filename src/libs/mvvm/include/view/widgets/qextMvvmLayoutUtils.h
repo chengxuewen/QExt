@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_WIDGETS_LAYOUTUTILS_H
-#define MVVM_WIDGETS_LAYOUTUTILS_H
+#ifndef _QEXTMVVMWIDGETSLAYOUTUTILS_H
+#define _QEXTMVVMWIDGETSLAYOUTUTILS_H
 
 #include <qextMvvmGlobal.h>
 
@@ -21,7 +12,7 @@ class QWidget;
 //! Taken from https://stackoverflow.com/questions/5395266/removing-widgets-from-qgridlayout
 //! Caveat: according to explanations given, grid layouts can only grow and never shrink.
 
-namespace LayoutUtils
+namespace QEXTMvvmLayoutUtils
 {
 
 //! Removes content from box layout.
@@ -41,4 +32,4 @@ QEXT_MVVM_API QWidget* placeHolder();
 
 } // namespace LayoutUtils
 
-#endif // MVVM_WIDGETS_LAYOUTUTILS_H
+#endif // _QEXTMVVMWIDGETSLAYOUTUTILS_H

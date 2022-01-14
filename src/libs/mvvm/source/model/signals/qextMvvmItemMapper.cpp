@@ -16,22 +16,22 @@
 
 using namespace ModelView;
 
-struct ItemMapper::ItemMapperImpl {
-    ItemMapper* m_itemMapper{nullptr};
-    Signal<Callbacks::item_t> m_on_item_destroy;
-    Signal<Callbacks::item_int_t> m_on_data_change;
-    Signal<Callbacks::item_str_t> m_on_property_change;
-    Signal<Callbacks::item_str_t> m_on_child_property_change;
-    Signal<Callbacks::item_tagrow_t> m_on_item_inserted;
-    Signal<Callbacks::item_tagrow_t> m_on_item_removed;
-    Signal<Callbacks::item_tagrow_t> m_on_about_to_remove_item;
+struct QEXTMvvmItemMapper::ItemMapperImpl {
+    QEXTMvvmItemMapper* m_itemMapper{nullptr};
+    Signal<QEXTMvvmCallbacks::item_t> m_on_item_destroy;
+    Signal<QEXTMvvmCallbacks::item_int_t> m_on_data_change;
+    Signal<QEXTMvvmCallbacks::item_str_t> m_on_property_change;
+    Signal<QEXTMvvmCallbacks::item_str_t> m_on_child_property_change;
+    Signal<QEXTMvvmCallbacks::item_tagrow_t> m_on_item_inserted;
+    Signal<QEXTMvvmCallbacks::item_tagrow_t> m_on_item_removed;
+    Signal<QEXTMvvmCallbacks::item_tagrow_t> m_on_about_to_remove_item;
 
     bool m_active{true};
     QEXTMvvmSessionItem* m_item{nullptr};
 
-    ItemMapperImpl(ItemMapper* item_mapper) : m_itemMapper(item_mapper) {}
+    ItemMapperImpl(QEXTMvvmItemMapper* item_mapper) : m_itemMapper(item_mapper) {}
 
-    void unsubscribe(Callbacks::slot_t client)
+    void unsubscribe(QEXTMvvmCallbacks::slot_t client)
     {
         m_on_item_destroy.remove_client(client);
         m_on_data_change.remove_client(client);
@@ -72,19 +72,19 @@ struct ItemMapper::ItemMapperImpl {
         }
     }
 
-    void processItemInserted(QEXTMvvmSessionItem* parent, TagRow tagrow)
+    void processItemInserted(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow)
     {
         if (parent == m_item)
             callOnItemInserted(m_item, tagrow);
     }
 
-    void processItemRemoved(QEXTMvvmSessionItem* parent, TagRow tagrow)
+    void processItemRemoved(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow)
     {
         if (parent == m_item)
             callOnItemRemoved(m_item, tagrow);
     }
 
-    void processAboutToRemoveItem(QEXTMvvmSessionItem* parent, TagRow tagrow)
+    void processAboutToRemoveItem(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow)
     {
         if (parent == m_item)
             callOnAboutToRemoveItem(m_item, tagrow);
@@ -116,7 +116,7 @@ struct ItemMapper::ItemMapperImpl {
 
     //! Notifies all callbacks subscribed to "on row inserted" event.
 
-    void callOnItemInserted(QEXTMvvmSessionItem* parent, TagRow tagrow)
+    void callOnItemInserted(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow)
     {
         if (m_active)
             m_on_item_inserted(parent, tagrow);
@@ -124,7 +124,7 @@ struct ItemMapper::ItemMapperImpl {
 
     //! Notifies all callbacks subscribed to "on row removed" event.
 
-    void callOnItemRemoved(QEXTMvvmSessionItem* parent, TagRow tagrow)
+    void callOnItemRemoved(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow)
     {
         if (m_active)
             m_on_item_removed(parent, tagrow);
@@ -132,15 +132,15 @@ struct ItemMapper::ItemMapperImpl {
 
     //! Notifies all callbacks subscribed to "on row about to be removed".
 
-    void callOnAboutToRemoveItem(QEXTMvvmSessionItem* parent, TagRow tagrow)
+    void callOnAboutToRemoveItem(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow)
     {
         if (m_active)
             m_on_about_to_remove_item(parent, tagrow);
     }
 };
 
-ItemMapper::ItemMapper(QEXTMvvmSessionItem* item)
-    : ModelListener(item->model()), p_impl(std::make_unique<ItemMapperImpl>(this))
+QEXTMvvmItemMapper::QEXTMvvmItemMapper(QEXTMvvmSessionItem* item)
+    : QEXTMvvmModelListener(item->model()), p_impl(make_unique<ItemMapperImpl>(this))
 {
     if (!item)
         throw std::runtime_error("ItemMapper::ItemMapper() -> Not initialized item");
@@ -150,77 +150,77 @@ ItemMapper::ItemMapper(QEXTMvvmSessionItem* item)
 
     p_impl->m_item = item;
 
-    auto on_data_change = [this](auto item, auto role) { p_impl->processDataChange(item, role); };
-    ModelListener::setOnDataChange(on_data_change);
+    auto on_data_change = [this](QEXTMvvmSessionItem* item, int role) { p_impl->processDataChange(item, role); };
+    QEXTMvvmModelListener::setOnDataChange(on_data_change);
 
-    auto on_item_inserted = [this](auto item, auto tagrow) {
+    auto on_item_inserted = [this](QEXTMvvmSessionItem* item, QEXTMvvmTagRow tagrow) {
         p_impl->processItemInserted(item, tagrow);
     };
-    ModelListener::setOnItemInserted(on_item_inserted, this);
+    QEXTMvvmModelListener::setOnItemInserted(on_item_inserted, this);
 
-    auto on_item_removed = [this](auto item, auto tagrow) {
+    auto on_item_removed = [this](QEXTMvvmSessionItem* item, QEXTMvvmTagRow tagrow) {
         p_impl->processItemRemoved(item, tagrow);
     };
-    ModelListener::setOnItemRemoved(on_item_removed, this);
+    QEXTMvvmModelListener::setOnItemRemoved(on_item_removed, this);
 
-    auto on_about_to_remove_item = [this](auto item, auto tagrow) {
+    auto on_about_to_remove_item = [this](QEXTMvvmSessionItem* item, QEXTMvvmTagRow tagrow) {
         p_impl->processAboutToRemoveItem(item, tagrow);
     };
-    ModelListener::setOnAboutToRemoveItem(on_about_to_remove_item, this);
+    QEXTMvvmModelListener::setOnAboutToRemoveItem(on_about_to_remove_item, this);
 }
 
-ItemMapper::~ItemMapper() = default;
+QEXTMvvmItemMapper::~QEXTMvvmItemMapper() = default;
 
-void ItemMapper::setOnItemDestroy(Callbacks::item_t f, Callbacks::slot_t owner)
+void QEXTMvvmItemMapper::setOnItemDestroy(QEXTMvvmCallbacks::item_t f, QEXTMvvmCallbacks::slot_t owner)
 {
     p_impl->m_on_item_destroy.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnDataChange(Callbacks::item_int_t f, Callbacks::slot_t owner)
+void QEXTMvvmItemMapper::setOnDataChange(QEXTMvvmCallbacks::item_int_t f, QEXTMvvmCallbacks::slot_t owner)
 {
     p_impl->m_on_data_change.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnPropertyChange(Callbacks::item_str_t f, Callbacks::slot_t owner)
+void QEXTMvvmItemMapper::setOnPropertyChange(QEXTMvvmCallbacks::item_str_t f, QEXTMvvmCallbacks::slot_t owner)
 {
     p_impl->m_on_property_change.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnChildPropertyChange(Callbacks::item_str_t f, Callbacks::slot_t owner)
+void QEXTMvvmItemMapper::setOnChildPropertyChange(QEXTMvvmCallbacks::item_str_t f, QEXTMvvmCallbacks::slot_t owner)
 {
     p_impl->m_on_child_property_change.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnItemInserted(Callbacks::item_tagrow_t f, Callbacks::slot_t owner)
+void QEXTMvvmItemMapper::setOnItemInserted(QEXTMvvmCallbacks::item_tagrow_t f, QEXTMvvmCallbacks::slot_t owner)
 {
     p_impl->m_on_item_inserted.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnItemRemoved(Callbacks::item_tagrow_t f, Callbacks::slot_t owner)
+void QEXTMvvmItemMapper::setOnItemRemoved(QEXTMvvmCallbacks::item_tagrow_t f, QEXTMvvmCallbacks::slot_t owner)
 {
     p_impl->m_on_item_removed.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnAboutToRemoveItem(Callbacks::item_tagrow_t f, Callbacks::slot_t owner)
+void QEXTMvvmItemMapper::setOnAboutToRemoveItem(QEXTMvvmCallbacks::item_tagrow_t f, QEXTMvvmCallbacks::slot_t owner)
 {
     p_impl->m_on_about_to_remove_item.connect(std::move(f), owner);
 }
 
-void ItemMapper::unsubscribe(Callbacks::slot_t client)
+void QEXTMvvmItemMapper::unsubscribe(QEXTMvvmCallbacks::slot_t client)
 {
     p_impl->unsubscribe(client);
 }
 
 //! Sets activity flag to given value. Will disable all callbacks if false.
 
-void ItemMapper::setActive(bool value)
+void QEXTMvvmItemMapper::setActive(bool value)
 {
     p_impl->m_active = value;
 }
 
 //! Calls all callbacks subscribed to "item is destroyed" event.
 
-void ItemMapper::callOnItemDestroy()
+void QEXTMvvmItemMapper::callOnItemDestroy()
 {
     if (p_impl->m_active)
         p_impl->m_on_item_destroy(p_impl->m_item);

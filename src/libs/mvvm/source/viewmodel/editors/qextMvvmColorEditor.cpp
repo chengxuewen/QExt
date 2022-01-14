@@ -18,8 +18,8 @@
 
 using namespace ModelView;
 
-ColorEditor::ColorEditor(QWidget* parent)
-    : CustomEditor(parent), m_pixmapLabel(new QLabel), m_focusFilter(new LostFocusFilter(this))
+QEXTMvvmColorEditor::QEXTMvvmColorEditor(QWidget* parent)
+    : QEXTMvvmCustomEditor(parent), m_pixmapLabel(new QLabel), m_focusFilter(new QEXTMvvmLostFocusFilter(this))
 
 {
     setMouseTracking(true);
@@ -37,7 +37,7 @@ ColorEditor::ColorEditor(QWidget* parent)
     setLayout(layout);
 }
 
-void ColorEditor::mousePressEvent(QMouseEvent*)
+void QEXTMvvmColorEditor::mousePressEvent(QMouseEvent*)
 {
     // temporarily installing filter to prevent loss of focus caused by too insistent dialog
     installEventFilter(m_focusFilter);
@@ -52,17 +52,17 @@ void ColorEditor::mousePressEvent(QMouseEvent*)
     }
 }
 
-QColor ColorEditor::currentColor() const
+QColor QEXTMvvmColorEditor::currentColor() const
 {
     return m_data.value<QColor>();
 }
 
-void ColorEditor::update_components()
+void QEXTMvvmColorEditor::update_components()
 {
-    if (!Utils::IsColorVariant(m_data))
+    if (!QEXTMvvmUtils::IsColorVariant(m_data))
         throw std::runtime_error("ColorEditor::update_components() -> Error. Wrong variant type");
 
-    QPixmap pixmap(Style::DefaultPixmapSize(), Style::DefaultPixmapSize());
+    QPixmap pixmap(QEXTMvvmStyle::DefaultPixmapSize(), QEXTMvvmStyle::DefaultPixmapSize());
     pixmap.fill(currentColor());
     //    m_textLabel->setText(currentColor().name());
     m_pixmapLabel->setPixmap(pixmap);

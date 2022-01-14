@@ -28,25 +28,25 @@ QJsonValue keyValue(const QJsonValue& parent_value, const QString& key)
 }
 } // namespace
 
-JsonItemDataConverter::JsonItemDataConverter(accept_strategy_t to_json_accept,
+QEXTMvvmJsonItemDataConverter::QEXTMvvmJsonItemDataConverter(accept_strategy_t to_json_accept,
                                              accept_strategy_t from_json_accept)
     : m_to_json_accept(to_json_accept)
     , m_from_json_accept(from_json_accept)
-    , m_variant_converter(std::make_unique<JsonVariantConverter>())
+    , m_variant_converter(make_unique<QEXTMvvmJsonVariantConverter>())
 {
 }
 
-JsonItemDataConverter::~JsonItemDataConverter() = default;
+QEXTMvvmJsonItemDataConverter::~QEXTMvvmJsonItemDataConverter() = default;
 
-QJsonArray JsonItemDataConverter::to_json(const SessionItemData& data)
+QJsonArray QEXTMvvmJsonItemDataConverter::to_json(const QEXTMvvmSessionItemData& data)
 {
     QJsonArray result;
 
     for (const auto& x : data) {
         QJsonObject object;
         if (isRoleToJson(x.m_role)) {
-            object[JsonItemFormatAssistant::roleKey] = x.m_role;
-            object[JsonItemFormatAssistant::variantKey] = m_variant_converter->get_json(x.m_data);
+            object[QEXTMvvmJsonItemFormatAssistant::roleKey] = x.m_role;
+            object[QEXTMvvmJsonItemFormatAssistant::variantKey] = m_variant_converter->get_json(x.m_data);
             result.append(object);
         }
     }
@@ -56,17 +56,17 @@ QJsonArray JsonItemDataConverter::to_json(const SessionItemData& data)
 
 //! Updates existing data with JSON content.
 
-void JsonItemDataConverter::from_json(const QJsonArray& object, SessionItemData& data)
+void QEXTMvvmJsonItemDataConverter::from_json(const QJsonArray& object, QEXTMvvmSessionItemData& data)
 {
-    static JsonItemFormatAssistant assistant;
-    auto persistent_data = std::make_unique<SessionItemData>();
+    static QEXTMvvmJsonItemFormatAssistant assistant;
+    auto persistent_data = make_unique<QEXTMvvmSessionItemData>();
 
     for (const auto& x : object) {
         if (!assistant.isSessionItemData(x.toObject()))
             throw std::runtime_error("JsonItemData::get_data() -> Invalid json object.");
-        auto role = keyValue(x, JsonItemFormatAssistant::roleKey).toInt();
+        auto role = keyValue(x, QEXTMvvmJsonItemFormatAssistant::roleKey).toInt();
         auto variant = m_variant_converter->get_variant(
-            keyValue(x, JsonItemFormatAssistant::variantKey).toObject());
+            keyValue(x, QEXTMvvmJsonItemFormatAssistant::variantKey).toObject());
         if (isRoleFromJson(role))
             persistent_data->setData(variant, role);
     }
@@ -86,32 +86,32 @@ void JsonItemDataConverter::from_json(const QJsonArray& object, SessionItemData&
 
 //! Creates JSON data converter intended for simple data copying. Nothing is filtered out.
 
-std::unique_ptr<JsonItemDataConverterInterface> JsonItemDataConverter::createCopyConverter()
+std::unique_ptr<QEXTMvvmJsonItemDataConverterInterface> QEXTMvvmJsonItemDataConverter::createCopyConverter()
 {
-    return std::make_unique<JsonItemDataConverter>();
+    return make_unique<QEXTMvvmJsonItemDataConverter>();
 }
 
 //! Creates JSON data converter intended for project saving. Only IDENTIFIER and DATA gous to/from
 //! JSON.
 
-std::unique_ptr<JsonItemDataConverterInterface> JsonItemDataConverter::createProjectConverter()
+std::unique_ptr<QEXTMvvmJsonItemDataConverterInterface> QEXTMvvmJsonItemDataConverter::createProjectConverter()
 {
-    auto accept_roles = [](auto role) {
+    auto accept_roles = [](int role) {
         return role == ItemDataRole::IDENTIFIER || role == ItemDataRole::DATA;
     };
-    return std::make_unique<JsonItemDataConverter>(accept_roles, accept_roles);
+    return make_unique<QEXTMvvmJsonItemDataConverter>(accept_roles, accept_roles);
 }
 
 //! Returns true if given role should be saved in json object.
 
-bool JsonItemDataConverter::isRoleToJson(int role) const
+bool QEXTMvvmJsonItemDataConverter::isRoleToJson(int role) const
 {
     return m_to_json_accept ? m_to_json_accept(role) : true;
 }
 
 //! Returns true if given role should be parsed from json object.
 
-bool JsonItemDataConverter::isRoleFromJson(int role) const
+bool QEXTMvvmJsonItemDataConverter::isRoleFromJson(int role) const
 {
     return m_from_json_accept ? m_from_json_accept(role) : true;
 }

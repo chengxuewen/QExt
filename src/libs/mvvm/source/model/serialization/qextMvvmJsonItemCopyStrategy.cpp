@@ -14,19 +14,19 @@
 
 using namespace ModelView;
 
-struct JsonItemCopyStrategy::JsonItemCopyStrategyImpl {
-    std::unique_ptr<JsonItemConverterInterface> m_converter;
+struct QEXTMvvmJsonItemCopyStrategy::JsonItemCopyStrategyImpl {
+    std::unique_ptr<QEXTMvvmJsonItemConverterInterface> m_converter;
 };
 
-JsonItemCopyStrategy::JsonItemCopyStrategy(const QEXTMvvmItemFactoryInterface* item_factory)
-    : p_impl(std::make_unique<JsonItemCopyStrategyImpl>())
+QEXTMvvmJsonItemCopyStrategy::QEXTMvvmJsonItemCopyStrategy(const QEXTMvvmItemFactoryInterface* item_factory)
+    : p_impl(make_unique<JsonItemCopyStrategyImpl>())
 {
     p_impl->m_converter = CreateItemCopyConverter(item_factory);
 }
 
-JsonItemCopyStrategy::~JsonItemCopyStrategy() = default;
+QEXTMvvmJsonItemCopyStrategy::~QEXTMvvmJsonItemCopyStrategy() = default;
 
-std::unique_ptr<QEXTMvvmSessionItem> JsonItemCopyStrategy::createCopy(const QEXTMvvmSessionItem* item) const
+std::unique_ptr<QEXTMvvmSessionItem> QEXTMvvmJsonItemCopyStrategy::createCopy(const QEXTMvvmSessionItem* item) const
 {
     auto json = p_impl->m_converter->to_json(item);
     return p_impl->m_converter->from_json(json);

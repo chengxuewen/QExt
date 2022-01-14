@@ -17,13 +17,13 @@ class ApplicationModels;
 //! Editor factory with custom editors.
 //! Will create custom material selector for all cells containing ExternalProperty.
 
-class CustomEditorFactory : public ModelView::DefaultEditorFactory
+class CustomEditorFactory : public ModelView::QEXTMvvmDefaultEditorFactory
 {
 public:
     CustomEditorFactory(ApplicationModels* models);
     ~CustomEditorFactory();
 
-    std::unique_ptr<ModelView::CustomEditor> createEditor(const QModelIndex& index) const;
+    std::unique_ptr<ModelView::QEXTMvvmCustomEditor> createEditor(const QModelIndex& index) const;
 
 private:
     ApplicationModels* m_models;

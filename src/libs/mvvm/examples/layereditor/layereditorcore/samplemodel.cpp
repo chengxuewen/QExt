@@ -17,9 +17,9 @@ using namespace ModelView;
 
 namespace
 {
-std::unique_ptr<ItemCatalogue> CreateItemCatalogue()
+std::unique_ptr<QEXTMvvmItemCatalogue> CreateItemCatalogue()
 {
-    auto result = std::make_unique<ItemCatalogue>();
+    auto result = make_unique<QEXTMvvmItemCatalogue>();
     result->registerItem<MultiLayerItem>();
     result->registerItem<LayerItem>();
     return result;
@@ -43,10 +43,10 @@ MultiLayerItem::MultiLayerItem() : QEXTMvvmCompoundItem(MultiLayerType)
 {
     addProperty(P_NREPETITIONS, 1)->setDisplayName("Nr.");
     std::vector<std::string> allowed_child = {MultiLayerType, LayerType};
-    registerTag(TagInfo::universalTag(T_LAYERS, allowed_child), /*set_default*/ true);
+    registerTag(QEXTMvvmTagInfo::universalTag(T_LAYERS, allowed_child), /*set_default*/ true);
 }
 
-SampleModel::SampleModel() : SessionModel("SampleModel")
+SampleModel::SampleModel() : QEXTMvvmSessionModel("SampleModel")
 {
     setItemCatalogue(CreateItemCatalogue());
     init_model();

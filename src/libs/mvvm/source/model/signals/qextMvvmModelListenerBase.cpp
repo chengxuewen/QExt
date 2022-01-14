@@ -14,14 +14,14 @@
 
 using namespace ModelView;
 
-ModelListenerBase::ModelListenerBase(SessionModel* model) : m_model(model)
+QEXTMvvmModelListenerBase::QEXTMvvmModelListenerBase(QEXTMvvmSessionModel* model) : m_model(model)
 {
     if (!m_model)
         throw std::runtime_error("Error in ModelListenerBase: no model defined");
-    setOnModelDestroyed([this](SessionModel*) { m_model = nullptr; });
+    setOnModelDestroyed([this](QEXTMvvmSessionModel*) { m_model = nullptr; });
 }
 
-ModelListenerBase::~ModelListenerBase()
+QEXTMvvmModelListenerBase::~QEXTMvvmModelListenerBase()
 {
     unsubscribe();
 }
@@ -29,7 +29,7 @@ ModelListenerBase::~ModelListenerBase()
 //! Sets callback to be notified on item's data change. The callback will be called
 //! with (QEXTMvvmSessionItem*, data_role).
 
-void ModelListenerBase::setOnDataChange(ModelView::Callbacks::item_int_t f, Callbacks::slot_t)
+void QEXTMvvmModelListenerBase::setOnDataChange(ModelView::QEXTMvvmCallbacks::item_int_t f, QEXTMvvmCallbacks::slot_t)
 {
     m_model->mapper()->setOnDataChange(f, this);
 }
@@ -37,7 +37,7 @@ void ModelListenerBase::setOnDataChange(ModelView::Callbacks::item_int_t f, Call
 //! Sets callback to be notified on item insert. The callback will be called with
 //! (QEXTMvvmSessionItem* parent, tagrow), where 'tagrow' denotes inserted child position.
 
-void ModelListenerBase::setOnItemInserted(ModelView::Callbacks::item_tagrow_t f, Callbacks::slot_t)
+void QEXTMvvmModelListenerBase::setOnItemInserted(ModelView::QEXTMvvmCallbacks::item_tagrow_t f, QEXTMvvmCallbacks::slot_t)
 {
     m_model->mapper()->setOnItemInserted(f, this);
 }
@@ -45,7 +45,7 @@ void ModelListenerBase::setOnItemInserted(ModelView::Callbacks::item_tagrow_t f,
 //! Sets callback to be notified on item remove. The callback will be called with
 //! (QEXTMvvmSessionItem* parent, tagrow), where 'tagrow' denotes child position before the removal.
 
-void ModelListenerBase::setOnItemRemoved(ModelView::Callbacks::item_tagrow_t f, Callbacks::slot_t)
+void QEXTMvvmModelListenerBase::setOnItemRemoved(ModelView::QEXTMvvmCallbacks::item_tagrow_t f, QEXTMvvmCallbacks::slot_t)
 {
     m_model->mapper()->setOnItemRemoved(f, this);
 }
@@ -53,34 +53,34 @@ void ModelListenerBase::setOnItemRemoved(ModelView::Callbacks::item_tagrow_t f, 
 //! Sets callback to be notified when the item is about to be removed. The callback will be called
 //! with (QEXTMvvmSessionItem* parent, tagrow), where 'tagrow' denotes child position being removed.
 
-void ModelListenerBase::setOnAboutToRemoveItem(ModelView::Callbacks::item_tagrow_t f,
-                                               Callbacks::slot_t)
+void QEXTMvvmModelListenerBase::setOnAboutToRemoveItem(ModelView::QEXTMvvmCallbacks::item_tagrow_t f,
+                                               QEXTMvvmCallbacks::slot_t)
 {
     m_model->mapper()->setOnAboutToRemoveItem(f, this);
 }
 
 //! Sets the callback for notifications on model destruction.
 
-void ModelListenerBase::setOnModelDestroyed(Callbacks::model_t f, Callbacks::slot_t)
+void QEXTMvvmModelListenerBase::setOnModelDestroyed(QEXTMvvmCallbacks::model_t f, QEXTMvvmCallbacks::slot_t)
 {
     m_model->mapper()->setOnModelDestroyed(f, this);
 }
 
 //! Sets the callback to be notified before model's full reset (root item recreated).
 
-void ModelListenerBase::setOnModelAboutToBeReset(Callbacks::model_t f, Callbacks::slot_t)
+void QEXTMvvmModelListenerBase::setOnModelAboutToBeReset(QEXTMvvmCallbacks::model_t f, QEXTMvvmCallbacks::slot_t)
 {
     m_model->mapper()->setOnModelAboutToBeReset(f, this);
 }
 
 //! Sets the callback to be notified after model was fully reset (root item recreated).
 
-void ModelListenerBase::setOnModelReset(ModelView::Callbacks::model_t f, Callbacks::slot_t)
+void QEXTMvvmModelListenerBase::setOnModelReset(ModelView::QEXTMvvmCallbacks::model_t f, QEXTMvvmCallbacks::slot_t)
 {
     m_model->mapper()->setOnModelReset(f, this);
 }
 
-void ModelListenerBase::unsubscribe(Callbacks::slot_t)
+void QEXTMvvmModelListenerBase::unsubscribe(QEXTMvvmCallbacks::slot_t)
 {
     if (m_model)
         m_model->mapper()->unsubscribe(this);

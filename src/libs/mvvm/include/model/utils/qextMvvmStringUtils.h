@@ -1,21 +1,13 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_UTILS_STRINGUTILS_H
-#define MVVM_UTILS_STRINGUTILS_H
+#ifndef _QEXTMVVMUTILSSTRINGUTILS_H
+#define _QEXTMVVMUTILSSTRINGUTILS_H
 
 #include <qextMvvmGlobal.h>
+
 #include <optional>
 #include <string>
 #include <vector>
 
-namespace ModelView ::Utils
+namespace ModelView ::QEXTMvvmUtils
 {
 
 //! Returns string representation of double with given precision.
@@ -32,16 +24,6 @@ QEXT_MVVM_API std::string TrimWhitespace(const std::string& str);
 //! Removes repeating spaces for a string.
 QEXT_MVVM_API std::string RemoveRepeatedSpaces(std::string str);
 
-//! Converts string to double value using classc locale and returns it in the form of optional.
-//! Requires that string represents exactly one double and contains no other literals. Empty
-//! spaces at the beginning and end of the string are still allowed.
-QEXT_MVVM_API std::optional<double> StringToDouble(const std::string& str);
-
-//! Converts string to integer. Requires that string represents exactly one integer and
-//! no extra symbols are defined. Empty spaces at the beginning and end of the string are still
-//! allowed.
-QEXT_MVVM_API std::optional<int> StringToInteger(const std::string& str);
-
 //! Split string on substring using given delimeter. Reproduces Python's str.split() behavior.
 QEXT_MVVM_API std::vector<std::string> SplitString(const std::string& str,
                                                        const std::string& delimeter);
@@ -57,4 +39,4 @@ QEXT_MVVM_API void ParseSpaceSeparatedDoubles(const std::string& str,
 
 } // namespace ModelView::Utils
 
-#endif // MVVM_UTILS_STRINGUTILS_H
+#endif // _QEXTMVVMUTILSSTRINGUTILS_H

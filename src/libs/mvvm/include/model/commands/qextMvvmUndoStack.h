@@ -1,18 +1,10 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMCOMMANDSUNDOSTACK_H
+#define _QEXTMVVMCOMMANDSUNDOSTACK_H
 
-#ifndef MVVM_COMMANDS_UNDOSTACK_H
-#define MVVM_COMMANDS_UNDOSTACK_H
-
-#include <memory>
 #include <qextMvvmUndoStackInterface.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 class QUndoStack;
 
@@ -54,4 +46,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_COMMANDS_UNDOSTACK_H
+#endif // _QEXTMVVMCOMMANDSUNDOSTACK_H

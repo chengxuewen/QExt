@@ -33,21 +33,21 @@ int appearance(const ModelView::QEXTMvvmSessionItem& item)
 struct QEXTMvvmSessionItem::SessionItemImpl {
     QEXTMvvmSessionItem* m_this_item{nullptr};
     QEXTMvvmSessionItem* m_parent{nullptr};
-    SessionModel* m_model{nullptr};
-    std::unique_ptr<ItemMapper> m_mapper;
-    std::unique_ptr<SessionItemData> m_data;
-    std::unique_ptr<SessionItemTags> m_tags;
+    QEXTMvvmSessionModel* m_model{nullptr};
+    std::unique_ptr<QEXTMvvmItemMapper> m_mapper;
+    std::unique_ptr<QEXTMvvmSessionItemData> m_data;
+    std::unique_ptr<QEXTMvvmSessionItemTags> m_tags;
     model_type m_modelType;
 
     SessionItemImpl(QEXTMvvmSessionItem* this_item)
         : m_this_item(this_item)
-        , m_data(std::make_unique<SessionItemData>())
-        , m_tags(std::make_unique<SessionItemTags>())
+        , m_data(make_unique<QEXTMvvmSessionItemData>())
+        , m_tags(make_unique<QEXTMvvmSessionItemTags>())
     {
     }
 
     //! Sets the data for given role, notifies the model.
-    bool setData(const Variant& variant, int role)
+    bool setData(const QVariant& variant, int role)
     {
         bool result = m_data->setData(variant, role);
         if (result && m_model)
@@ -56,7 +56,7 @@ struct QEXTMvvmSessionItem::SessionItemImpl {
     }
 };
 
-QEXTMvvmSessionItem::QEXTMvvmSessionItem(model_type modelType) : p_impl(std::make_unique<SessionItemImpl>(this))
+QEXTMvvmSessionItem::QEXTMvvmSessionItem(model_type modelType) : p_impl(make_unique<SessionItemImpl>(this))
 {
     p_impl->m_modelType = std::move(modelType);
     setData(QEXTMvvmUniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
@@ -100,7 +100,7 @@ bool QEXTMvvmSessionItem::hasData(int role) const
     return p_impl->m_data->hasData(role);
 }
 
-SessionModel* QEXTMvvmSessionItem::model() const
+QEXTMvvmSessionModel* QEXTMvvmSessionItem::model() const
 {
     return p_impl->m_model;
 }
@@ -117,7 +117,7 @@ int QEXTMvvmSessionItem::childrenCount() const
 
 //! Insert item into given tag under the given row.
 
-bool QEXTMvvmSessionItem::insertItem(QEXTMvvmSessionItem* item, const TagRow& tagrow)
+bool QEXTMvvmSessionItem::insertItem(QEXTMvvmSessionItem* item, const QEXTMvvmTagRow& tagrow)
 {
     // think of passing unique_ptr directly
 
@@ -147,7 +147,7 @@ bool QEXTMvvmSessionItem::insertItem(QEXTMvvmSessionItem* item, const TagRow& ta
 
 //! Removes item from given row from given tag, returns it to the caller.
 
-QEXTMvvmSessionItem* QEXTMvvmSessionItem::takeItem(const TagRow& tagrow)
+QEXTMvvmSessionItem* QEXTMvvmSessionItem::takeItem(const QEXTMvvmTagRow& tagrow)
 {
     if (!p_impl->m_tags->canTakeItem(tagrow))
         return nullptr;
@@ -195,7 +195,7 @@ void QEXTMvvmSessionItem::setDefaultTag(const std::string& tag)
 
 //! Registers tag to hold items under given name.
 
-void QEXTMvvmSessionItem::registerTag(const TagInfo& tagInfo, bool set_as_default)
+void QEXTMvvmSessionItem::registerTag(const QEXTMvvmTagInfo& tagInfo, bool set_as_default)
 {
     p_impl->m_tags->registerTag(tagInfo, set_as_default);
 }
@@ -216,9 +216,9 @@ std::string QEXTMvvmSessionItem::tag() const
 
 //! Returns TagRow of this item under which it is accessible for its parent.
 
-TagRow QEXTMvvmSessionItem::tagRow() const
+QEXTMvvmTagRow QEXTMvvmSessionItem::tagRow() const
 {
-    return parent() ? parent()->tagRowOfItem(this) : TagRow();
+    return parent() ? parent()->tagRowOfItem(this) : QEXTMvvmTagRow();
 }
 
 //! Returns number of items in given tag.
@@ -251,15 +251,15 @@ std::string QEXTMvvmSessionItem::tagOfItem(const QEXTMvvmSessionItem* item) cons
 //! Returns pair of tag and row corresponding to given item.
 //! Returns {"", -1} if item doesn't belong to children.
 
-TagRow QEXTMvvmSessionItem::tagRowOfItem(const QEXTMvvmSessionItem* item) const
+QEXTMvvmTagRow QEXTMvvmSessionItem::tagRowOfItem(const QEXTMvvmSessionItem* item) const
 {
     return p_impl->m_tags->tagRowOfItem(item);
 }
 
-ItemMapper* QEXTMvvmSessionItem::mapper()
+QEXTMvvmItemMapper* QEXTMvvmSessionItem::mapper()
 {
     if (!p_impl->m_mapper)
-        p_impl->m_mapper = std::make_unique<ItemMapper>(this);
+        p_impl->m_mapper = make_unique<QEXTMvvmItemMapper>(this);
     return p_impl->m_mapper.get();
 }
 
@@ -327,14 +327,14 @@ bool QEXTMvvmSessionItem::isSinglePropertyTag(const std::string& tag) const
 //! Sets the data for given role.
 //! Method invented to hide implementaiton details.
 
-bool QEXTMvvmSessionItem::set_data_internal(Variant value, int role)
+bool QEXTMvvmSessionItem::set_data_internal(QVariant value, int role)
 {
     return model() ? model()->setData(this, value, role) : setDataIntern(value, role);
 }
 
 //! Returns data for given role. Method invented to hide implementaiton details.
 
-Variant QEXTMvvmSessionItem::data_internal(int role) const
+QVariant QEXTMvvmSessionItem::data_internal(int role) const
 {
     return p_impl->m_data->data(role);
 }
@@ -344,7 +344,7 @@ void QEXTMvvmSessionItem::setParent(QEXTMvvmSessionItem* parent)
     p_impl->m_parent = parent;
 }
 
-void QEXTMvvmSessionItem::setModel(SessionModel* model)
+void QEXTMvvmSessionItem::setModel(QEXTMvvmSessionModel* model)
 {
     if (p_impl->m_model)
         p_impl->m_model->unregister_item(this);
@@ -372,29 +372,29 @@ void QEXTMvvmSessionItem::setAppearanceFlag(int flag, bool value)
     setDataIntern(flags, ItemDataRole::APPEARANCE);
 }
 
-const SessionItemData* QEXTMvvmSessionItem::itemData() const
+const QEXTMvvmSessionItemData* QEXTMvvmSessionItem::itemData() const
 {
     return p_impl->m_data.get();
 }
 
-SessionItemData* QEXTMvvmSessionItem::itemData()
+QEXTMvvmSessionItemData* QEXTMvvmSessionItem::itemData()
 {
     return p_impl->m_data.get();
 }
 
-SessionItemTags* QEXTMvvmSessionItem::itemTags() const
+QEXTMvvmSessionItemTags* QEXTMvvmSessionItem::itemTags() const
 {
     return p_impl->m_tags.get();
 }
 
-void QEXTMvvmSessionItem::setDataAndTags(std::unique_ptr<SessionItemData> data,
-                                 std::unique_ptr<SessionItemTags> tags)
+void QEXTMvvmSessionItem::setDataAndTags(std::unique_ptr<QEXTMvvmSessionItemData> data,
+                                 std::unique_ptr<QEXTMvvmSessionItemTags> tags)
 {
     p_impl->m_data = std::move(data);
     p_impl->m_tags = std::move(tags);
 }
 
-bool QEXTMvvmSessionItem::setDataIntern(const Variant& variant, int role)
+bool QEXTMvvmSessionItem::setDataIntern(const QVariant& variant, int role)
 {
     return p_impl->setData(variant, role);
 }

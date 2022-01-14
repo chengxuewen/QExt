@@ -1,56 +1,48 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSIGNALSMODELMAPPER_H
+#define _QEXTMVVMSIGNALSMODELMAPPER_H
 
-#ifndef MVVM_SIGNALS_MODELMAPPER_H
-#define MVVM_SIGNALS_MODELMAPPER_H
+#include <qextMvvmModelListenerInterface.h>
 
 #include <memory>
-#include <qextMvvmModelListenerInterface.h>
 
 namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class SessionModel;
+class QEXTMvvmSessionModel;
 
 //! Provides notifications on various SessionModel changes.
 //! Allows to subscribe to SessionModel's changes, and triggers notifications.
 
-class QEXT_MVVM_API ModelMapper : public ModelListenerInterface
+class QEXT_MVVM_API QEXTMvvmModelMapper : public QEXTMvvmModelListenerInterface
 {
 public:
-    ModelMapper(SessionModel* model);
-    ~ModelMapper();
+    QEXTMvvmModelMapper(QEXTMvvmSessionModel* model);
+    ~QEXTMvvmModelMapper();
 
-    ModelMapper(const ModelMapper& other) = delete;
-    ModelMapper& operator=(const ModelMapper& other) = delete;
+    QEXTMvvmModelMapper(const QEXTMvvmModelMapper& other) = delete;
+    QEXTMvvmModelMapper& operator=(const QEXTMvvmModelMapper& other) = delete;
 
-    void setOnDataChange(Callbacks::item_int_t f, Callbacks::slot_t client) override;
-    void setOnItemInserted(Callbacks::item_tagrow_t f, Callbacks::slot_t client) override;
-    void setOnItemRemoved(Callbacks::item_tagrow_t f, Callbacks::slot_t client) override;
-    void setOnAboutToRemoveItem(Callbacks::item_tagrow_t f, Callbacks::slot_t client) override;
-    void setOnModelDestroyed(Callbacks::model_t f, Callbacks::slot_t client) override;
-    void setOnModelAboutToBeReset(Callbacks::model_t f, Callbacks::slot_t client) override;
-    void setOnModelReset(Callbacks::model_t f, Callbacks::slot_t client) override;
+    void setOnDataChange(QEXTMvvmCallbacks::item_int_t f, QEXTMvvmCallbacks::slot_t client) override;
+    void setOnItemInserted(QEXTMvvmCallbacks::item_tagrow_t f, QEXTMvvmCallbacks::slot_t client) override;
+    void setOnItemRemoved(QEXTMvvmCallbacks::item_tagrow_t f, QEXTMvvmCallbacks::slot_t client) override;
+    void setOnAboutToRemoveItem(QEXTMvvmCallbacks::item_tagrow_t f, QEXTMvvmCallbacks::slot_t client) override;
+    void setOnModelDestroyed(QEXTMvvmCallbacks::model_t f, QEXTMvvmCallbacks::slot_t client) override;
+    void setOnModelAboutToBeReset(QEXTMvvmCallbacks::model_t f, QEXTMvvmCallbacks::slot_t client) override;
+    void setOnModelReset(QEXTMvvmCallbacks::model_t f, QEXTMvvmCallbacks::slot_t client) override;
 
     void setActive(bool value);
 
-    void unsubscribe(Callbacks::slot_t client) override;
+    void unsubscribe(QEXTMvvmCallbacks::slot_t client) override;
 
 private:
-    friend class SessionModel;
+    friend class QEXTMvvmSessionModel;
     friend class QEXTMvvmSessionItem;
 
     void callOnDataChange(QEXTMvvmSessionItem* item, int role);
-    void callOnItemInserted(QEXTMvvmSessionItem* parent, TagRow tagrow);
-    void callOnItemRemoved(QEXTMvvmSessionItem* parent, TagRow tagrow);
-    void callOnItemAboutToBeRemoved(QEXTMvvmSessionItem* parent, TagRow tagrow);
+    void callOnItemInserted(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow);
+    void callOnItemRemoved(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow);
+    void callOnItemAboutToBeRemoved(QEXTMvvmSessionItem* parent, QEXTMvvmTagRow tagrow);
     void callOnModelDestroyed();
     void callOnModelAboutToBeReset();
     void callOnModelReset();
@@ -61,4 +53,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_SIGNALS_MODELMAPPER_H
+#endif // _QEXTMVVMSIGNALSMODELMAPPER_H

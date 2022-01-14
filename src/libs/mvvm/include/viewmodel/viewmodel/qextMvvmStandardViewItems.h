@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_VIEWMODEL_VIEWITEMS_H
-#define MVVM_VIEWMODEL_VIEWITEMS_H
+#ifndef _QEXTMVVMVIEWMODELVIEWITEMS_H
+#define _QEXTMVVMVIEWMODELVIEWITEMS_H
 
 #include <qextMvvmViewItem.h>
 
@@ -19,37 +10,37 @@ class QEXTMvvmSessionItem;
 
 //! Represents root item.
 
-class QEXT_MVVM_API RootViewItem : public ViewItem
+class QEXT_MVVM_API QEXTMvvmRootViewItem : public QEXTMvvmViewItem
 {
 public:
-    explicit RootViewItem(QEXTMvvmSessionItem* item);
+    explicit QEXTMvvmRootViewItem(QEXTMvvmSessionItem* item);
 };
 
 //! Represents empty cell of tree or table.
 
-class QEXT_MVVM_API ViewEmptyItem : public ViewItem
+class QEXT_MVVM_API QEXTMvvmViewEmptyItem : public QEXTMvvmViewItem
 {
 public:
-    ViewEmptyItem();
+    QEXTMvvmViewEmptyItem();
     QVariant data(int role) const override;
 };
 
 //! Represents display name of QEXTMvvmSessionItem in any cell of Qt's trees and tables.
 
-class QEXT_MVVM_API ViewLabelItem : public ViewItem
+class QEXT_MVVM_API QEXTMvvmViewLabelItem : public QEXTMvvmViewItem
 {
 public:
-    explicit ViewLabelItem(QEXTMvvmSessionItem* item);
+    explicit QEXTMvvmViewLabelItem(QEXTMvvmSessionItem* item);
 
     QVariant data(int role) const override;
 };
 
 //! Represents data role of QEXTMvvmSessionItem in any cell of Qt's trees and tables.
 
-class QEXT_MVVM_API ViewDataItem : public ViewItem
+class QEXT_MVVM_API QEXTMvvmViewDataItem : public QEXTMvvmViewItem
 {
 public:
-    explicit ViewDataItem(QEXTMvvmSessionItem* item);
+    explicit QEXTMvvmViewDataItem(QEXTMvvmSessionItem* item);
 
     Qt::ItemFlags flags() const override;
 
@@ -58,4 +49,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_VIEWITEMS_H
+#endif // _QEXTMVVMVIEWMODELVIEWITEMS_H

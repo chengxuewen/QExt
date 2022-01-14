@@ -25,7 +25,7 @@ const int nbinsx = 200;
 const int nbinsy = 100;
 
 // fills with data point
-void fill_data(Data2DItem* data_item, double scale = 1.0)
+void fill_data(QEXTMvvmData2DItem* data_item, double scale = 1.0)
 {
     const auto xAxis = data_item->xAxis();
     const auto yAxis = data_item->yAxis();
@@ -41,16 +41,16 @@ void fill_data(Data2DItem* data_item, double scale = 1.0)
     data_item->setContent(values);
 }
 
-std::unique_ptr<ModelView::ItemCatalogue> CreateItemCatalogue()
+std::unique_ptr<ModelView::QEXTMvvmItemCatalogue> CreateItemCatalogue()
 {
-    auto result = std::make_unique<ItemCatalogue>();
+    auto result = make_unique<QEXTMvvmItemCatalogue>();
     result->registerItem<RegionOfInterestItem>();
     return result;
 }
 
 } // namespace
 
-SceneModel::SceneModel() : SessionModel("ColorMapModel")
+SceneModel::SceneModel() : QEXTMvvmSessionModel("ColorMapModel")
 {
     setItemCatalogue(CreateItemCatalogue());
 
@@ -63,7 +63,7 @@ SceneModel::SceneModel() : SessionModel("ColorMapModel")
 
 void SceneModel::update_data(double scale)
 {
-    fill_data(topItem<Data2DItem>(), scale);
+    fill_data(topItem<QEXTMvvmData2DItem>(), scale);
 }
 
 //! Creates item representing region of interest in the context of color map and graphics scene.
@@ -81,9 +81,9 @@ void SceneModel::create_roi()
 
 void SceneModel::create_data()
 {
-    auto data_item = insertItem<Data2DItem>();
-    data_item->setAxes(FixedBinAxisItem::create(nbinsx, -5.0, 5.0),
-                       FixedBinAxisItem::create(nbinsy, 0.0, 5.0));
+    auto data_item = insertItem<QEXTMvvmData2DItem>();
+    data_item->setAxes(QEXTMvvmFixedBinAxisItem::create(nbinsx, -5.0, 5.0),
+                       QEXTMvvmFixedBinAxisItem::create(nbinsy, 0.0, 5.0));
     fill_data(data_item);
 }
 
@@ -91,7 +91,7 @@ void SceneModel::create_data()
 
 void SceneModel::create_colormap()
 {
-    auto viewport_item = insertItem<ColorMapViewportItem>();
-    auto colormap_item = insertItem<ColorMapItem>(viewport_item);
-    colormap_item->setDataItem(topItem<Data2DItem>());
+    auto viewport_item = insertItem<QEXTMvvmColorMapViewportItem>();
+    auto colormap_item = insertItem<QEXTMvvmColorMapItem>(viewport_item);
+    colormap_item->setDataItem(topItem<QEXTMvvmData2DItem>());
 }

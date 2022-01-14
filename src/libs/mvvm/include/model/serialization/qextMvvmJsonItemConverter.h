@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_SERIALIZATION_JSONITEMCONVERTER_H
-#define MVVM_SERIALIZATION_JSONITEMCONVERTER_H
+#ifndef _QEXTMVVMSERIALIZATIONJSONITEMCONVERTER_H
+#define _QEXTMVVMSERIALIZATIONJSONITEMCONVERTER_H
 
 #include <qextMvvmJsonConverterInterfaces.h>
 
@@ -16,18 +7,18 @@ namespace ModelView
 {
 
 class QEXTMvvmItemFactoryInterface;
-class ConverterContext;
+class QEXTMvvmConverterContext;
 
 //! Converter between QEXTMvvmSessionItem and JSON object.
 
-class QEXT_MVVM_API JsonItemConverter : public JsonItemConverterInterface
+class QEXT_MVVM_API QEXTMvvmJsonItemConverter : public QEXTMvvmJsonItemConverterInterface
 {
 public:
-    JsonItemConverter(const ConverterContext& context);
-    JsonItemConverter(const JsonItemConverter&) = delete;
-    JsonItemConverter& operator=(const JsonItemConverter&) = delete;
+    QEXTMvvmJsonItemConverter(const QEXTMvvmConverterContext& context);
+    QEXTMvvmJsonItemConverter(const QEXTMvvmJsonItemConverter&) = delete;
+    QEXTMvvmJsonItemConverter& operator=(const QEXTMvvmJsonItemConverter&) = delete;
 
-    ~JsonItemConverter() override;
+    ~QEXTMvvmJsonItemConverter() override;
 
     QJsonObject to_json(const QEXTMvvmSessionItem* item) const override;
 
@@ -40,4 +31,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONITEMCONVERTER_H
+#endif // _QEXTMVVMSERIALIZATIONJSONITEMCONVERTER_H

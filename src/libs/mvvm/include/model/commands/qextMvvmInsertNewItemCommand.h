@@ -1,30 +1,21 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMCOMMANDSINSERTNEWITEMCOMMAND_H
+#define _QEXTMVVMCOMMANDSINSERTNEWITEMCOMMAND_H
 
-#ifndef MVVM_COMMANDS_INSERTNEWITEMCOMMAND_H
-#define MVVM_COMMANDS_INSERTNEWITEMCOMMAND_H
-
-#include <commands/qextMvvmItemCommand.h>
+#include <qextMvvmItemCommand.h>
 #include <qextMvvmFunctionTypes.h>
 
 namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class TagRow;
+class QEXTMvvmTagRow;
 
 //! Command for unddo/redo to insert new item.
 
 class QEXT_MVVM_API QEXTMvvmInsertNewItemCommand : public QEXTMvvmItemCommand
 {
 public:
-    QEXTMvvmInsertNewItemCommand(item_factory_func_t func, QEXTMvvmSessionItem* parent, const TagRow& tagrow);
+    QEXTMvvmInsertNewItemCommand(item_factory_func_t func, QEXTMvvmSessionItem* parent, const QEXTMvvmTagRow& tagrow);
     ~QEXTMvvmInsertNewItemCommand() override;
 
 private:
@@ -37,4 +28,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_COMMANDS_INSERTNEWITEMCOMMAND_H
+#endif // _QEXTMVVMCOMMANDSINSERTNEWITEMCOMMAND_H

@@ -1,17 +1,7 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMCOMMANDSSETVALUECOMMAND_H
+#define _QEXTMVVMCOMMANDSSETVALUECOMMAND_H
 
-#ifndef MVVM_COMMANDS_SETVALUECOMMAND_H
-#define MVVM_COMMANDS_SETVALUECOMMAND_H
-
-#include <commands/qextMvvmItemCommand.h>
-#include <qextMvvmVariant.h>
+#include <qextMvvmItemCommand.h>
 
 namespace ModelView
 {
@@ -23,7 +13,7 @@ class QEXTMvvmSessionItem;
 class QEXT_MVVM_API QEXTMvvmSetValueCommand : public QEXTMvvmItemCommand
 {
 public:
-    QEXTMvvmSetValueCommand(QEXTMvvmSessionItem* item, Variant value, int role);
+    QEXTMvvmSetValueCommand(QEXTMvvmSessionItem* item, QVariant value, int role);
     ~QEXTMvvmSetValueCommand() override;
 
 private:
@@ -37,4 +27,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_COMMANDS_SETVALUECOMMAND_H
+#endif // _QEXTMVVMCOMMANDSSETVALUECOMMAND_H

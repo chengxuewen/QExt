@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMSERIALIZATIONJSONITEMCONVERTERINTERFACE_H
+#define _QEXTMVVMSERIALIZATIONJSONITEMCONVERTERINTERFACE_H
 
-#ifndef MVVM_SERIALIZATION_JSONITEMCONVERTERINTERFACE_H
-#define MVVM_SERIALIZATION_JSONITEMCONVERTERINTERFACE_H
+#include <qextMvvmGlobal.h>
 
 #include <memory>
-#include <qextMvvmGlobal.h>
 
 class QJsonObject;
 
@@ -22,10 +14,10 @@ class QEXTMvvmSessionItem;
 
 //! Base class for all converters of QEXTMvvmSessionItem to/from JSON object.
 
-class QEXT_MVVM_API JsonItemConverterInterface
+class QEXT_MVVM_API QEXTMvvmJsonItemConverterInterface
 {
 public:
-    virtual ~JsonItemConverterInterface() = default;
+    virtual ~QEXTMvvmJsonItemConverterInterface() = default;
 
     //! Converts item to JSON.
     virtual QJsonObject to_json(const QEXTMvvmSessionItem* item) const = 0;
@@ -36,4 +28,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_SERIALIZATION_JSONITEMCONVERTERINTERFACE_H
+#endif // _QEXTMVVMSERIALIZATIONJSONITEMCONVERTERINTERFACE_H

@@ -60,13 +60,13 @@ void RecentProjectWidget::setRecentProjectsList(const QStringList& projects)
 
 QSize RecentProjectWidget::sizeHint() const
 {
-    const auto panel_width = ModelView::Utils::WidthOfLetterM() * 32;
+    const auto panel_width = ModelView::QEXTMvvmUtils::WidthOfLetterM() * 32;
     return QSize(panel_width, panel_width * 2);
 }
 
 QSize RecentProjectWidget::minimumSizeHint() const
 {
-    const auto minimum_panel_width = ModelView::Utils::WidthOfLetterM() * 16;
+    const auto minimum_panel_width = ModelView::QEXTMvvmUtils::WidthOfLetterM() * 16;
     return QSize(minimum_panel_width, minimum_panel_width * 2);
 }
 
@@ -97,12 +97,12 @@ QBoxLayout* RecentProjectWidget::createRecentProjectLayout()
 
 QWidget* RecentProjectWidget::createRecentProjectScrollArea()
 {
-    auto result = new ModelView::AdjustingScrollArea;
+    auto result = new ModelView::QEXTMvvmAdjustingScrollArea;
 
     auto content = new QWidget;
     auto layout = new QVBoxLayout;
     layout->addLayout(createCurrentProjectLayout());
-    layout->addSpacing(ModelView::Utils::SizeOfLetterM().height());
+    layout->addSpacing(ModelView::QEXTMvvmUtils::SizeOfLetterM().height());
     layout->addLayout(createRecentProjectLayout());
     content->setLayout(layout);
 

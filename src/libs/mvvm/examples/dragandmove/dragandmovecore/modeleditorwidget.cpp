@@ -71,12 +71,12 @@ void ModelEditorWidget::setModel(SampleModel* model)
 
 void ModelEditorWidget::onUndo()
 {
-    Utils::Undo(*m_model);
+    QEXTMvvmUtils::Undo(*m_model);
 }
 
 void ModelEditorWidget::onRedo()
 {
-    Utils::Redo(*m_model);
+    QEXTMvvmUtils::Redo(*m_model);
 }
 
 void ModelEditorWidget::init_actions()

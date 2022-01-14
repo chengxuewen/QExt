@@ -24,26 +24,26 @@
 
 using namespace ModelView;
 
-struct PropertyFlatView::PropertyFlatViewImpl {
-    std::unique_ptr<ViewModel> view_model;
-    std::unique_ptr<ViewModelDelegate> m_delegate;
-    std::unique_ptr<DefaultEditorFactory> editor_factory;
+struct QEXTMvvmPropertyFlatView::PropertyFlatViewImpl {
+    std::unique_ptr<QEXTMvvmViewModel> view_model;
+    std::unique_ptr<QEXTMvvmViewModelDelegate> m_delegate;
+    std::unique_ptr<QEXTMvvmDefaultEditorFactory> editor_factory;
     std::vector<std::unique_ptr<QDataWidgetMapper>> widget_mappers;
-    std::map<ViewItem*, QWidget*> item_to_widget;
+    std::map<QEXTMvvmViewItem*, QWidget*> item_to_widget;
 
     QGridLayout* grid_layout{nullptr};
     PropertyFlatViewImpl()
-        : m_delegate(std::make_unique<ViewModelDelegate>())
-        , editor_factory(std::make_unique<DefaultEditorFactory>())
+        : m_delegate(make_unique<QEXTMvvmViewModelDelegate>())
+        , editor_factory(make_unique<QEXTMvvmDefaultEditorFactory>())
         , grid_layout(new QGridLayout)
     {
     }
 
     //! Creates label for given index.
 
-    std::unique_ptr<QLabel> create_label(ViewItem* view_item)
+    std::unique_ptr<QLabel> create_label(QEXTMvvmViewItem* view_item)
     {
-        auto result = std::make_unique<QLabel>(view_item->data(Qt::DisplayRole).toString());
+        auto result = make_unique<QLabel>(view_item->data(Qt::DisplayRole).toString());
         result->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
         result->setEnabled(view_item->item()->isEnabled());
         return result;
@@ -51,12 +51,12 @@ struct PropertyFlatView::PropertyFlatViewImpl {
 
     //! Creates custom editor for given index.
 
-    std::unique_ptr<CustomEditor> create_editor(const QModelIndex& index)
+    std::unique_ptr<QEXTMvvmCustomEditor> create_editor(const QModelIndex& index)
     {
         auto editor = editor_factory->createEditor(index);
         m_delegate->setEditorData(editor.get(), index);
-        connect(editor.get(), &CustomEditor::dataChanged, m_delegate.get(),
-                &ViewModelDelegate::onCustomEditorDataChanged);
+        connect(editor.get(), &QEXTMvvmCustomEditor::dataChanged, m_delegate.get(),
+                &QEXTMvvmViewModelDelegate::onCustomEditorDataChanged);
         editor->setEnabled(view_model->sessionItemFromIndex(index)->isEnabled());
         return editor;
     }
@@ -79,13 +79,13 @@ struct PropertyFlatView::PropertyFlatViewImpl {
                     it->second->setEnabled(view_item->item()->isEnabled());
             }
         };
-        connect(view_model.get(), &ViewModel::dataChanged, on_data_change);
+        connect(view_model.get(), &QEXTMvvmViewModel::dataChanged, on_data_change);
 
         auto on_row_inserted = [this](const QModelIndex&, int, int) { update_grid_layout(); };
-        connect(view_model.get(), &ViewModel::rowsInserted, on_row_inserted);
+        connect(view_model.get(), &QEXTMvvmViewModel::rowsInserted, on_row_inserted);
 
         auto on_row_removed = [this](const QModelIndex&, int, int) { update_grid_layout(); };
-        connect(view_model.get(), &ViewModel::rowsRemoved, on_row_removed);
+        connect(view_model.get(), &QEXTMvvmViewModel::rowsRemoved, on_row_removed);
     }
 
     //! Creates widget for given index to appear in grid layout.
@@ -93,7 +93,7 @@ struct PropertyFlatView::PropertyFlatViewImpl {
     std::unique_ptr<QWidget> create_widget(const QModelIndex& index)
     {
         auto view_item = view_model->viewItemFromIndex(index);
-        if (auto label_item = dynamic_cast<ViewLabelItem*>(view_item); label_item)
+        if (auto label_item = dynamic_cast<QEXTMvvmViewLabelItem*>(view_item); label_item)
             return create_label(label_item);
 
         return create_editor(index);
@@ -105,7 +105,7 @@ struct PropertyFlatView::PropertyFlatViewImpl {
     {
         widget_mappers.clear();
         for (int row = 0; row < view_model->rowCount(); ++row) {
-            auto mapper = std::make_unique<QDataWidgetMapper>();
+            auto mapper = make_unique<QDataWidgetMapper>();
             mapper->setModel(view_model.get());
             mapper->setItemDelegate(m_delegate.get());
             mapper->setRootIndex(QModelIndex());
@@ -118,7 +118,7 @@ struct PropertyFlatView::PropertyFlatViewImpl {
 
     void update_grid_layout()
     {
-        LayoutUtils::clearGridLayout(grid_layout, true);
+        QEXTMvvmLayoutUtils::clearGridLayout(grid_layout, true);
 
         update_mappers();
         item_to_widget.clear();
@@ -134,8 +134,8 @@ struct PropertyFlatView::PropertyFlatViewImpl {
     }
 };
 
-PropertyFlatView::PropertyFlatView(QWidget* parent)
-    : QWidget(parent), p_impl(std::make_unique<PropertyFlatViewImpl>())
+QEXTMvvmPropertyFlatView::QEXTMvvmPropertyFlatView(QWidget* parent)
+    : QWidget(parent), p_impl(make_unique<PropertyFlatViewImpl>())
 {
     auto main_layout = new QVBoxLayout;
     main_layout->setMargin(0);
@@ -148,11 +148,11 @@ PropertyFlatView::PropertyFlatView(QWidget* parent)
     setLayout(main_layout);
 }
 
-PropertyFlatView::~PropertyFlatView() = default;
+QEXTMvvmPropertyFlatView::~QEXTMvvmPropertyFlatView() = default;
 
-void PropertyFlatView::setItem(QEXTMvvmSessionItem* item)
+void QEXTMvvmPropertyFlatView::setItem(QEXTMvvmSessionItem* item)
 {
-    p_impl->view_model = Factory::CreatePropertyFlatViewModel(item->model());
+    p_impl->view_model = QEXTMvvmFactory::CreatePropertyFlatViewModel(item->model());
     p_impl->view_model->setRootSessionItem(item);
     p_impl->connect_model();
     p_impl->update_grid_layout();

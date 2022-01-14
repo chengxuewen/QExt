@@ -11,17 +11,18 @@
 #include <qextMvvmChildrenStrategyInterface.h>
 #include <qextMvvmRowStrategyInterface.h>
 #include <qextMvvmSessionModel.h>
-#include <viewmodel/qextMvvmViewModelController.h>
+#include <qextMvvmViewModelController.h>
+
 #include <stdexcept>
 
 namespace ModelView
 {
 
-ViewModelControllerBuilder::ViewModelControllerBuilder() = default;
+QEXTMvvmViewModelControllerBuilder::QEXTMvvmViewModelControllerBuilder() = default;
 
-ViewModelControllerBuilder::~ViewModelControllerBuilder() = default;
+QEXTMvvmViewModelControllerBuilder::~QEXTMvvmViewModelControllerBuilder() = default;
 
-ViewModelControllerBuilder::operator std::unique_ptr<ViewModelController>()
+QEXTMvvmViewModelControllerBuilder::operator std::unique_ptr<QEXTMvvmViewModelController>()
 {
     if (!context.model)
         throw std::runtime_error("Error in ViewModelController: undefined model");
@@ -32,34 +33,34 @@ ViewModelControllerBuilder::operator std::unique_ptr<ViewModelController>()
     if (!context.row_strategy)
         throw std::runtime_error("Error in ViewModelController: no row strategy defined.");
 
-    auto result = std::make_unique<ViewModelController>(context.model, context.view_model);
+    auto result = make_unique<QEXTMvvmViewModelController>(context.model, context.view_model);
     result->setChildrenStrategy(std::move(context.children_strategy));
     result->setRowStrategy(std::move(context.row_strategy));
 
     return result;
 }
 
-ViewModelControllerBuilder::self& ViewModelControllerBuilder::model(SessionModel* model)
+QEXTMvvmViewModelControllerBuilder::self& QEXTMvvmViewModelControllerBuilder::model(QEXTMvvmSessionModel* model)
 {
     context.model = model;
     return *this;
 }
 
-ViewModelControllerBuilder::self& ViewModelControllerBuilder::viewModel(ViewModelBase* view_model)
+QEXTMvvmViewModelControllerBuilder::self& QEXTMvvmViewModelControllerBuilder::viewModel(QEXTMvvmViewModelBase* view_model)
 {
     context.view_model = view_model;
     return *this;
 }
 
-ViewModelControllerBuilder::self& ViewModelControllerBuilder::childrenStrategy(
-    std::unique_ptr<ChildrenStrategyInterface> children_strategy)
+QEXTMvvmViewModelControllerBuilder::self& QEXTMvvmViewModelControllerBuilder::childrenStrategy(
+    std::unique_ptr<QEXTMvvmChildrenStrategyInterface> children_strategy)
 {
     context.children_strategy = std::move(children_strategy);
     return *this;
 }
 
-ViewModelControllerBuilder::self&
-ViewModelControllerBuilder::rowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy)
+QEXTMvvmViewModelControllerBuilder::self&
+QEXTMvvmViewModelControllerBuilder::rowStrategy(std::unique_ptr<QEXTMvvmRowStrategyInterface> row_strategy)
 {
     context.row_strategy = std::move(row_strategy);
     return *this;

@@ -14,7 +14,7 @@
 
 namespace ModelView
 {
-class ContainerItem;
+class QEXTMvvmContainerItem;
 }
 
 namespace PlotColorMap
@@ -22,7 +22,7 @@ namespace PlotColorMap
 
 //! Main application model to demonstrate how to plot data.
 
-class ColorMapModel : public ModelView::SessionModel
+class ColorMapModel : public ModelView::QEXTMvvmSessionModel
 {
 public:
     ColorMapModel();
@@ -30,7 +30,7 @@ public:
     void update_data(double scale);
 
 private:
-    ModelView::ContainerItem* data_container();
+    ModelView::QEXTMvvmContainerItem* data_container();
     void init_model();
     void add_colormap();
 };

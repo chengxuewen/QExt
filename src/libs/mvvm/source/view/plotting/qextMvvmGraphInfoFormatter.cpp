@@ -45,20 +45,22 @@ struct Context {
 std::string compose_string(const Context& context)
 {
     std::ostringstream ostr;
-    ostr << "[x: " << Utils::DoubleToString(context.xpos, 3) << ", ";
-    ostr << "y: " << Utils::DoubleToString(context.ypos, 3) << "] ";
+    ostr << "[x: " << QEXTMvvmUtils::DoubleToString(context.xpos, 3) << ", ";
+    ostr << "y: " << QEXTMvvmUtils::DoubleToString(context.ypos, 3) << "] ";
     if (context.close_to_graph) {
         ostr << "[binx: " << context.nx << "] ";
-        ostr << "[value: " << Utils::ScientificDoubleToString(context.value) << "]";
+        ostr << "[value: " << QEXTMvvmUtils::ScientificDoubleToString(context.value) << "]";
     }
     return ostr.str();
 }
 
 } // namespace
 
-std::string GraphInfoFormatter::status_string(QCustomPlot* custom_plot, double x, double y) const
+std::string QEXTMvvmGraphInfoFormatter::status_string(QCustomPlot* custom_plot, double x, double y) const
 {
-    Context context{x, y};
+    Context context;
+    context.xpos = x;
+    context.ypos = y;
 
     if (auto qcp_graph = find_graph_nearby(custom_plot, x, y); qcp_graph) {
         context.close_to_graph = true;

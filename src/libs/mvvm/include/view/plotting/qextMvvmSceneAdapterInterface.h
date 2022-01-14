@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_PLOTTING_SCENEADAPTERINTERFACE_H
-#define MVVM_PLOTTING_SCENEADAPTERINTERFACE_H
+#ifndef _QEXTMVVMPLOTTINGSCENEADAPTERINTERFACE_H
+#define _QEXTMVVMPLOTTINGSCENEADAPTERINTERFACE_H
 
 #include <qextMvvmGlobal.h>
 
@@ -21,10 +12,10 @@ namespace ModelView
 //! Used in the context of QCustomPlot being embedded into QGraphicsScene. Converts QGraphicsScene
 //! coordinates in the coordinates of local system of QCustomPlot and vice versa.
 
-class QEXT_MVVM_API SceneAdapterInterface
+class QEXT_MVVM_API QEXTMvvmSceneAdapterInterface
 {
 public:
-    virtual ~SceneAdapterInterface() = default;
+    virtual ~QEXTMvvmSceneAdapterInterface() = default;
 
     //! convert local x-coordinate to scene coordinate
     virtual double toSceneX(double) const = 0;
@@ -44,4 +35,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_SCENEADAPTERINTERFACE_H
+#endif // _QEXTMVVMPLOTTINGSCENEADAPTERINTERFACE_H

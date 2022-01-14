@@ -1,18 +1,11 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMWIDGETSPROPERTYFLATVIEW_H
+#define _QEXTMVVMWIDGETSPROPERTYFLATVIEW_H
 
-#ifndef MVVM_WIDGETS_PROPERTYFLATVIEW_H
-#define MVVM_WIDGETS_PROPERTYFLATVIEW_H
+#include <qextMvvmGlobal.h>
 
 #include <QWidget>
+
 #include <memory>
-#include <qextMvvmGlobal.h>
 
 namespace ModelView
 {
@@ -22,13 +15,13 @@ class QEXTMvvmSessionItem;
 //! Widget holding grid layout with editors and intended for displaying all properties of given
 //! QEXTMvvmSessionItem.
 
-class QEXT_MVVM_API PropertyFlatView : public QWidget
+class QEXT_MVVM_API QEXTMvvmPropertyFlatView : public QWidget
 {
     Q_OBJECT
 
 public:
-    PropertyFlatView(QWidget* parent = nullptr);
-    ~PropertyFlatView();
+    QEXTMvvmPropertyFlatView(QWidget* parent = nullptr);
+    ~QEXTMvvmPropertyFlatView();
 
     void setItem(QEXTMvvmSessionItem* item);
 
@@ -39,4 +32,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_WIDGETS_PROPERTYFLATVIEW_H
+#endif // _QEXTMVVMWIDGETSPROPERTYFLATVIEW_H

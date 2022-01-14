@@ -20,12 +20,12 @@ CustomEditorFactory::~CustomEditorFactory() = default;
 
 CustomEditorFactory::CustomEditorFactory(ApplicationModels* models) : m_models(models) {}
 
-std::unique_ptr<CustomEditor> CustomEditorFactory::createEditor(const QModelIndex& index) const
+std::unique_ptr<QEXTMvvmCustomEditor> CustomEditorFactory::createEditor(const QModelIndex& index) const
 {
     auto value = index.data(Qt::EditRole);
-    if (Utils::IsExtPropertyVariant(value))
-        return std::make_unique<ExternalPropertyComboEditor>(
+    if (QEXTMvvmUtils::IsExtPropertyVariant(value))
+        return make_unique<QEXTMvvmExternalPropertyComboEditor>(
             [this]() { return m_models->materialModel()->material_data(); });
     else
-        return DefaultEditorFactory::createEditor(index);
+        return QEXTMvvmDefaultEditorFactory::createEditor(index);
 }

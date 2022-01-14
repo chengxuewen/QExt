@@ -13,15 +13,15 @@
 #include <serialization/qextMvvmJsonItemCopyStrategy.h>
 
 std::unique_ptr<ModelView::QEXTMvvmItemBackupStrategy>
-ModelView::CreateItemBackupStrategy(const ModelView::SessionModel* model)
+ModelView::CreateItemBackupStrategy(const ModelView::QEXTMvvmSessionModel* model)
 {
     assert(model);
-    return std::make_unique<JsonItemBackupStrategy>(model->factory());
+    return make_unique<QEXTMvvmJsonItemBackupStrategy>(model->factory());
 }
 
 std::unique_ptr<ModelView::QEXTMvvmItemCopyStrategy>
-ModelView::CreateItemCopyStrategy(const ModelView::SessionModel* model)
+ModelView::CreateItemCopyStrategy(const ModelView::QEXTMvvmSessionModel* model)
 {
     assert(model);
-    return std::make_unique<JsonItemCopyStrategy>(model->factory());
+    return make_unique<QEXTMvvmJsonItemCopyStrategy>(model->factory());
 }

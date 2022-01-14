@@ -1,22 +1,14 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMPROJECTPROJECTMANAGERDECORATOR_H
+#define _QEXTMVVMPROJECTPROJECTMANAGERDECORATOR_H
 
-#ifndef MVVM_PROJECT_PROJECTMANAGERDECORATOR_H
-#define MVVM_PROJECT_PROJECTMANAGERDECORATOR_H
+#include <qextMvvmProjectManagerInterface.h>
 
 #include <memory>
-#include <qextMvvmProjectManagerInterface.h>
 
 namespace ModelView
 {
 
-struct ProjectContext;
+struct QEXTMvvmProjectContext;
 struct UserInteractionContext;
 
 //! Decorator for ProjectManager to provide interaction with the user on open/save-as requests.
@@ -25,15 +17,15 @@ struct UserInteractionContext;
 //! For example, on createNewProject it will check if previous project is saved, and will
 //! call external dialog save/discard/cancel via provided callback.
 
-class QEXT_MVVM_API ProjectManagerDecorator : public ProjectManagerInterface
+class QEXT_MVVM_API QEXTMvvmProjectManagerDecorator : public QEXTMvvmProjectManagerInterface
 {
 public:
-    ProjectManagerDecorator(const ProjectContext& project_context,
+    QEXTMvvmProjectManagerDecorator(const QEXTMvvmProjectContext& project_context,
                             const UserInteractionContext& user_context);
 
-    ~ProjectManagerDecorator() override;
-    ProjectManagerDecorator(const ProjectManagerDecorator& other) = delete;
-    ProjectManagerDecorator& operator=(const ProjectManagerDecorator& other) = delete;
+    ~QEXTMvvmProjectManagerDecorator() override;
+    QEXTMvvmProjectManagerDecorator(const QEXTMvvmProjectManagerDecorator& other) = delete;
+    QEXTMvvmProjectManagerDecorator& operator=(const QEXTMvvmProjectManagerDecorator& other) = delete;
 
     bool createNewProject(const std::string& dirname = {}) override;
 
@@ -56,4 +48,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PROJECT_PROJECTMANAGERDECORATOR_H
+#endif // _QEXTMVVMPROJECTPROJECTMANAGERDECORATOR_H

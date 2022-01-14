@@ -21,7 +21,7 @@
 
 using namespace ModelView;
 
-void Utils::iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
+void QEXTMvvmUtils::iterate_model(const QAbstractItemModel* model, const QModelIndex& parent,
                           const std::function<void(const QModelIndex& child)>& fun)
 {
     if (!model)
@@ -42,7 +42,7 @@ void Utils::iterate_model(const QAbstractItemModel* model, const QModelIndex& pa
 
 //! Translates QEXTMvvmSessionItem's data role to vector of Qt roles.
 
-QVector<int> Utils::ItemRoleToQtRole(int role)
+QVector<int> QEXTMvvmUtils::ItemRoleToQtRole(int role)
 {
     QVector<int> result;
     // In Qt when we are editing the data in a view two roles are emmited.
@@ -60,55 +60,55 @@ QVector<int> Utils::ItemRoleToQtRole(int role)
     return result;
 }
 
-QVariant Utils::TextColorRole(const QEXTMvvmSessionItem& item)
+QVariant QEXTMvvmUtils::TextColorRole(const QEXTMvvmSessionItem& item)
 {
     return item.isEnabled() ? QVariant() : QColor(Qt::gray);
 }
 
-QVariant Utils::CheckStateRole(const QEXTMvvmSessionItem& item)
+QVariant QEXTMvvmUtils::CheckStateRole(const QEXTMvvmSessionItem& item)
 {
     auto value = item.data<QVariant>();
-    if (Utils::IsBoolVariant(value))
+    if (QEXTMvvmUtils::IsBoolVariant(value))
         return value.value<bool>() ? Qt::Checked : Qt::Unchecked;
     return QVariant();
 }
 
-QVariant Utils::DecorationRole(const QEXTMvvmSessionItem& item)
+QVariant QEXTMvvmUtils::DecorationRole(const QEXTMvvmSessionItem& item)
 {
     auto value = item.data<QVariant>();
-    if (Utils::IsColorVariant(value))
+    if (QEXTMvvmUtils::IsColorVariant(value))
         return value;
-    else if (Utils::IsExtPropertyVariant(value))
-        return value.value<ExternalProperty>().color();
+    else if (QEXTMvvmUtils::IsExtPropertyVariant(value))
+        return value.value<QEXTMvvmExternalProperty>().color();
     return QVariant();
 }
 
-QVariant Utils::ToolTipRole(const QEXTMvvmSessionItem& item)
+QVariant QEXTMvvmUtils::ToolTipRole(const QEXTMvvmSessionItem& item)
 {
-    return item.hasData(ItemDataRole::TOOLTIP) ? Variant(QString::fromStdString(item.toolTip()))
+    return item.hasData(ItemDataRole::TOOLTIP) ? QVariant(QString::fromStdString(item.toolTip()))
                                                : QVariant();
 }
 
-std::vector<QEXTMvvmSessionItem*> Utils::ItemsFromIndex(const QModelIndexList& index_list)
+std::vector<QEXTMvvmSessionItem*> QEXTMvvmUtils::ItemsFromIndex(const QModelIndexList& index_list)
 {
     if (index_list.empty())
         return {};
 
     std::vector<QEXTMvvmSessionItem*> result;
 
-    if (auto model = dynamic_cast<const ViewModelBase*>(index_list.front().model()))
+    if (auto model = dynamic_cast<const QEXTMvvmViewModelBase*>(index_list.front().model()))
         std::transform(index_list.begin(), index_list.end(), std::back_inserter(result),
-                       [model](auto index) { return model->itemFromIndex(index)->item(); });
+                       [model](QModelIndex index) { return model->itemFromIndex(index)->item(); });
 
     return result;
 }
 
-std::vector<QEXTMvvmSessionItem*> Utils::UniqueItemsFromIndex(const QModelIndexList& index_list)
+std::vector<QEXTMvvmSessionItem*> QEXTMvvmUtils::UniqueItemsFromIndex(const QModelIndexList& index_list)
 {
-    return Utils::UniqueItems(Utils::ItemsFromIndex(index_list));
+    return QEXTMvvmUtils::UniqueItems(QEXTMvvmUtils::ItemsFromIndex(index_list));
 }
 
-std::vector<QEXTMvvmSessionItem*> Utils::ParentItemsFromIndex(const QModelIndexList& index_list)
+std::vector<QEXTMvvmSessionItem*> QEXTMvvmUtils::ParentItemsFromIndex(const QModelIndexList& index_list)
 {
     std::set<QEXTMvvmSessionItem*> unique_parents;
     for (auto item : ItemsFromIndex(index_list))

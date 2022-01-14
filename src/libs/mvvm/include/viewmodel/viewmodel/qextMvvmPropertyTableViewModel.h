@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_VIEWMODEL_PROPERTYTABLEVIEWMODEL_H
-#define MVVM_VIEWMODEL_PROPERTYTABLEVIEWMODEL_H
+#ifndef _QEXTMVVMVIEWMODELPROPERTYTABLEVIEWMODEL_H
+#define _QEXTMVVMVIEWMODELPROPERTYTABLEVIEWMODEL_H
 
 #include <qextMvvmViewModel.h>
 
@@ -20,13 +11,13 @@ namespace ModelView
 //! Intended to show registered properties of items in table-like view.
 //! Registered properties will form columns of the table, top level items will form table rows.
 
-class QEXT_MVVM_API PropertyTableViewModel : public ViewModel
+class QEXT_MVVM_API QEXTMvvmPropertyTableViewModel : public QEXTMvvmViewModel
 {
     Q_OBJECT
 public:
-    PropertyTableViewModel(SessionModel* model, QObject* parent = nullptr);
+    QEXTMvvmPropertyTableViewModel(QEXTMvvmSessionModel* model, QObject* parent = nullptr);
 };
 
 } // namespace ModelView
 
-#endif // MVVM_VIEWMODEL_PROPERTYTABLEVIEWMODEL_H
+#endif // _QEXTMVVMVIEWMODELPROPERTYTABLEVIEWMODEL_H

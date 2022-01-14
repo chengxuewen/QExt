@@ -1,32 +1,24 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMMODELMODELUTILS_H
+#define _QEXTMVVMMODELMODELUTILS_H
 
-#ifndef MVVM_MODEL_MODELUTILS_H
-#define MVVM_MODEL_MODELUTILS_H
-
-#include <memory>
 #include <qextMvvmModelConverterFactory.h>
 #include <qextMvvmItemUtils.h>
 #include <qextMvvmSessionItem.h>
 #include <qextMvvmSessionModel.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 #include <vector>
 
 namespace ModelView
 {
 
-namespace Utils
+namespace QEXTMvvmUtils
 {
 
 //! Returns all top level items of given type.
 
-template <typename T = QEXTMvvmSessionItem> std::vector<T*> TopItems(const SessionModel* model)
+template <typename T = QEXTMvvmSessionItem> std::vector<T*> TopItems(const QEXTMvvmSessionModel* model)
 {
     std::vector<T*> result;
     for (auto child : model->rootItem()->children()) {
@@ -39,7 +31,7 @@ template <typename T = QEXTMvvmSessionItem> std::vector<T*> TopItems(const Sessi
 
 //! Returns top level item of given type.
 
-template <typename T = QEXTMvvmSessionItem> T* TopItem(const SessionModel* model)
+template <typename T = QEXTMvvmSessionItem> T* TopItem(const QEXTMvvmSessionModel* model)
 {
     auto items = TopItems<T>(model);
     return items.empty() ? nullptr : items.front();
@@ -47,7 +39,7 @@ template <typename T = QEXTMvvmSessionItem> T* TopItem(const SessionModel* model
 
 //! Returns all items in a tree of given type.
 
-template <typename T = QEXTMvvmSessionItem> std::vector<T*> FindItems(const SessionModel* model)
+template <typename T = QEXTMvvmSessionItem> std::vector<T*> FindItems(const QEXTMvvmSessionModel* model)
 {
     std::vector<T*> result;
 
@@ -63,22 +55,22 @@ template <typename T = QEXTMvvmSessionItem> std::vector<T*> FindItems(const Sess
 
 //! Populate empty model with content of target model using provided converter.
 //! Serves as auxiliary function for model copying and cloning.
-void QEXT_MVVM_API PopulateEmptyModel(const JsonModelConverterInterface* converter,
-                                          const SessionModel& source, SessionModel& target);
+void QEXT_MVVM_API PopulateEmptyModel(const QEXTMvvmJsonModelConverterInterface* converter,
+                                          const QEXTMvvmSessionModel& source, QEXTMvvmSessionModel& target);
 
 //! Creates full deep copy of given model. All item's ID will be generated.
-template <typename T = SessionModel> std::unique_ptr<T> CreateCopy(const T& model)
+template <typename T = QEXTMvvmSessionModel> std::unique_ptr<T> CreateCopy(const T& model)
 {
-    auto result = std::make_unique<T>();
+    auto result = make_unique<T>();
     auto converter = CreateModelCopyConverter();
     PopulateEmptyModel(converter.get(), model, *result.get());
     return result;
 }
 
 //! Creates exact clone of given model. All item's ID will be preserved.
-template <typename T = SessionModel> std::unique_ptr<T> CreateClone(const T& model)
+template <typename T = QEXTMvvmSessionModel> std::unique_ptr<T> CreateClone(const T& model)
 {
-    auto result = std::make_unique<T>();
+    auto result = make_unique<T>();
     auto converter = CreateModelCloneConverter();
     PopulateEmptyModel(converter.get(), model, *result.get());
     return result;
@@ -94,10 +86,10 @@ void QEXT_MVVM_API MoveUp(QEXTMvvmSessionItem* item);
 void QEXT_MVVM_API MoveDown(QEXTMvvmSessionItem* item);
 
 //! Undo last model operation. If not undo/redo enabled, will do nothing.
-void QEXT_MVVM_API Undo(SessionModel& model);
+void QEXT_MVVM_API Undo(QEXTMvvmSessionModel& model);
 
 //! Redo model operation which was undone just before. If not undo/redo enabled, will do nothing.
-void QEXT_MVVM_API Redo(SessionModel& model);
+void QEXT_MVVM_API Redo(QEXTMvvmSessionModel& model);
 
 //! Begin undo/redo macros with given name. Works only if item belongs to the model, and model has
 //! undo/redo enabled. Otherwise, do nothing.
@@ -110,4 +102,4 @@ void QEXT_MVVM_API EndMacros(const QEXTMvvmSessionItem* item);
 } // namespace Utils
 } // namespace ModelView
 
-#endif // MVVM_MODEL_MODELUTILS_H
+#endif // _QEXTMVVMMODELMODELUTILS_H

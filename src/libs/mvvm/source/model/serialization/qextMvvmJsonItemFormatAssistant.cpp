@@ -18,8 +18,8 @@ namespace
 //! Returns list of keys which should be in QJsonObject to represent QEXTMvvmSessionItem.
 QStringList expected_item_keys()
 {
-    QStringList result{JsonItemFormatAssistant::modelKey, JsonItemFormatAssistant::itemDataKey,
-                       JsonItemFormatAssistant::itemTagsKey};
+    QStringList result{QEXTMvvmJsonItemFormatAssistant::modelKey, QEXTMvvmJsonItemFormatAssistant::itemDataKey,
+                       QEXTMvvmJsonItemFormatAssistant::itemTagsKey};
     std::sort(result.begin(), result.end());
     return result;
 }
@@ -28,7 +28,7 @@ QStringList expected_item_keys()
 
 QStringList expected_itemdata_keys()
 {
-    QStringList result{JsonItemFormatAssistant::roleKey, JsonItemFormatAssistant::variantKey};
+    QStringList result{QEXTMvvmJsonItemFormatAssistant::roleKey, QEXTMvvmJsonItemFormatAssistant::variantKey};
     std::sort(result.begin(), result.end());
     return result;
 }
@@ -37,8 +37,8 @@ QStringList expected_itemdata_keys()
 
 QStringList expected_tags_keys()
 {
-    QStringList result{JsonItemFormatAssistant::defaultTagKey,
-                       JsonItemFormatAssistant::containerKey};
+    QStringList result{QEXTMvvmJsonItemFormatAssistant::defaultTagKey,
+                       QEXTMvvmJsonItemFormatAssistant::containerKey};
     std::sort(result.begin(), result.end());
     return result;
 }
@@ -47,7 +47,7 @@ QStringList expected_tags_keys()
 
 QStringList expected_itemcontainer_keys()
 {
-    QStringList result = {JsonItemFormatAssistant::tagInfoKey, JsonItemFormatAssistant::itemsKey};
+    QStringList result = {QEXTMvvmJsonItemFormatAssistant::tagInfoKey, QEXTMvvmJsonItemFormatAssistant::itemsKey};
     std::sort(result.begin(), result.end());
     return result;
 }
@@ -56,7 +56,7 @@ QStringList expected_itemcontainer_keys()
 
 QStringList expected_sessionmodel_keys()
 {
-    QStringList result{JsonItemFormatAssistant::sessionModelKey, JsonItemFormatAssistant::itemsKey};
+    QStringList result{QEXTMvvmJsonItemFormatAssistant::sessionModelKey, QEXTMvvmJsonItemFormatAssistant::itemsKey};
     std::sort(result.begin(), result.end());
     return result;
 }
@@ -65,7 +65,7 @@ QStringList expected_sessionmodel_keys()
 
 //! Returns true if given json object represents QEXTMvvmSessionItem.
 
-bool JsonItemFormatAssistant::isSessionItem(const QJsonObject& json) const
+bool QEXTMvvmJsonItemFormatAssistant::isSessionItem(const QJsonObject& json) const
 {
     static const QStringList expected = expected_item_keys();
 
@@ -81,7 +81,7 @@ bool JsonItemFormatAssistant::isSessionItem(const QJsonObject& json) const
     return true;
 }
 
-bool JsonItemFormatAssistant::isSessionItemData(const QJsonObject& json) const
+bool QEXTMvvmJsonItemFormatAssistant::isSessionItemData(const QJsonObject& json) const
 {
     static const QStringList expected = expected_itemdata_keys();
     return json.keys() == expected;
@@ -89,7 +89,7 @@ bool JsonItemFormatAssistant::isSessionItemData(const QJsonObject& json) const
 
 //! Returns true if given json object represents SessionItemTags.
 
-bool JsonItemFormatAssistant::isSessionItemTags(const QJsonObject& json) const
+bool QEXTMvvmJsonItemFormatAssistant::isSessionItemTags(const QJsonObject& json) const
 {
     static const QStringList expected = expected_tags_keys();
 
@@ -104,7 +104,7 @@ bool JsonItemFormatAssistant::isSessionItemTags(const QJsonObject& json) const
 
 //! Returns true if given json object represents SessionItemContainer.
 
-bool JsonItemFormatAssistant::isSessionItemContainer(const QJsonObject& json) const
+bool QEXTMvvmJsonItemFormatAssistant::isSessionItemContainer(const QJsonObject& json) const
 {
     static const QStringList expected = expected_itemcontainer_keys();
 
@@ -122,7 +122,7 @@ bool JsonItemFormatAssistant::isSessionItemContainer(const QJsonObject& json) co
 
 //! Returns true if given json object represents SessionModel.
 
-bool JsonItemFormatAssistant::isSessionModel(const QJsonObject& object) const
+bool QEXTMvvmJsonItemFormatAssistant::isSessionModel(const QJsonObject& object) const
 {
     static const QStringList expected = expected_sessionmodel_keys();
 

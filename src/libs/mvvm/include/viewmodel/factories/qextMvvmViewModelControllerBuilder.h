@@ -1,54 +1,46 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMFACTORIESVIEWMODELCONTROLLERBUILDER_H
+#define _QEXTMVVMFACTORIESVIEWMODELCONTROLLERBUILDER_H
 
-#ifndef MVVM_FACTORIES_VIEWMODELCONTROLLERBUILDER_H
-#define MVVM_FACTORIES_VIEWMODELCONTROLLERBUILDER_H
-
-#include <memory>
 #include <qextMvvmViewModelController.h>
 #include <qextMvvmGlobal.h>
+
+#include <memory>
 
 namespace ModelView
 {
 
-class SessionModel;
-class ViewModelBase;
-class ChildrenStrategyInterface;
-class RowStrategyInterface;
+class QEXTMvvmSessionModel;
+class QEXTMvvmViewModelBase;
+class QEXTMvvmChildrenStrategyInterface;
+class QEXTMvvmRowStrategyInterface;
 
 //! Builder class for ViewModelController.
 
-class QEXT_MVVM_API ViewModelControllerBuilder
+class QEXT_MVVM_API QEXTMvvmViewModelControllerBuilder
 {
 public:
-    using self = ViewModelControllerBuilder;
+    using self = QEXTMvvmViewModelControllerBuilder;
 
-    ViewModelControllerBuilder();
-    ~ViewModelControllerBuilder();
+    QEXTMvvmViewModelControllerBuilder();
+    ~QEXTMvvmViewModelControllerBuilder();
 
-    ViewModelControllerBuilder(const ViewModelControllerBuilder& other) = delete;
-    ViewModelControllerBuilder& operator=(const ViewModelControllerBuilder& other) = delete;
+    QEXTMvvmViewModelControllerBuilder(const QEXTMvvmViewModelControllerBuilder& other) = delete;
+    QEXTMvvmViewModelControllerBuilder& operator=(const QEXTMvvmViewModelControllerBuilder& other) = delete;
 
-    self& model(SessionModel* model);
-    self& viewModel(ViewModelBase* view_model);
-    self& childrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
-    self& rowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
+    self& model(QEXTMvvmSessionModel* model);
+    self& viewModel(QEXTMvvmViewModelBase* view_model);
+    self& childrenStrategy(std::unique_ptr<QEXTMvvmChildrenStrategyInterface> children_strategy);
+    self& rowStrategy(std::unique_ptr<QEXTMvvmRowStrategyInterface> row_strategy);
 
-    operator std::unique_ptr<ViewModelController>();
+    operator std::unique_ptr<QEXTMvvmViewModelController>();
 
 private:
     //! Components necessary to build ViewModelController
     struct Context {
-        SessionModel* model{nullptr};
-        ViewModelBase* view_model{nullptr};
-        std::unique_ptr<ChildrenStrategyInterface> children_strategy;
-        std::unique_ptr<RowStrategyInterface> row_strategy;
+        QEXTMvvmSessionModel* model{nullptr};
+        QEXTMvvmViewModelBase* view_model{nullptr};
+        std::unique_ptr<QEXTMvvmChildrenStrategyInterface> children_strategy;
+        std::unique_ptr<QEXTMvvmRowStrategyInterface> row_strategy;
     };
 
     Context context;
@@ -56,4 +48,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_FACTORIES_VIEWMODELCONTROLLERBUILDER_H
+#endif // _QEXTMVVMFACTORIESVIEWMODELCONTROLLERBUILDER_H

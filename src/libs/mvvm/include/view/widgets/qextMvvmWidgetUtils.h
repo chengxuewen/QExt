@@ -7,12 +7,14 @@
 //
 // ************************************************************************** //
 
-#ifndef MVVM_WIDGETS_UTILS_H
-#define MVVM_WIDGETS_UTILS_H
+#ifndef _QEXTMVVMWIDGETSUTILS_H
+#define _QEXTMVVMWIDGETSUTILS_H
+
+#include <qextMvvmGlobal.h>
 
 #include <QString>
 #include <QStringList>
-#include <qextMvvmGlobal.h>
+
 #include <string>
 #include <vector>
 
@@ -26,7 +28,7 @@ namespace ModelView
 
 //! Collection of various widget-related utils.
 
-namespace Utils
+namespace QEXTMvvmUtils
 {
 
 //! Returns random color.
@@ -88,4 +90,4 @@ QEXT_MVVM_API QStringList deserialize(const QByteArray& byteArray);
 
 } // namespace ModelView
 
-#endif // MVVM_WIDGETS_UTILS_H
+#endif // _QEXTMVVMWIDGETSUTILS_H

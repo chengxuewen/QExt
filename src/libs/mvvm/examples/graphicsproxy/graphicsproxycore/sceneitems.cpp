@@ -19,8 +19,8 @@ using namespace ModelView;
 
 RegionOfInterestItem::RegionOfInterestItem() : QEXTMvvmCompoundItem(RegionOfInterestItemType)
 {
-    addProperty(P_XLOW, 0.0)->setDisplayName("Xlow")->setLimits(RealLimits::limitless());
-    addProperty(P_YLOW, 0.0)->setDisplayName("Ylow")->setLimits(RealLimits::limitless());
-    addProperty(P_XUP, 0.0)->setDisplayName("Xup")->setLimits(RealLimits::limitless());
-    addProperty(P_YUP, 0.0)->setDisplayName("Yup")->setLimits(RealLimits::limitless());
+    addProperty(P_XLOW, 0.0)->setDisplayName("Xlow")->setLimits(QEXTMvvmRealLimits::limitless());
+    addProperty(P_YLOW, 0.0)->setDisplayName("Ylow")->setLimits(QEXTMvvmRealLimits::limitless());
+    addProperty(P_XUP, 0.0)->setDisplayName("Xup")->setLimits(QEXTMvvmRealLimits::limitless());
+    addProperty(P_YUP, 0.0)->setDisplayName("Yup")->setLimits(QEXTMvvmRealLimits::limitless());
 }

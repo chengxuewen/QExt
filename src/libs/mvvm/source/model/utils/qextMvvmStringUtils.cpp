@@ -15,9 +15,11 @@
 #include <sstream>
 #include <string_view>
 
+#include <QString>
+
 using namespace ModelView;
 
-std::string Utils::DoubleToString(double input, int precision)
+std::string QEXTMvvmUtils::DoubleToString(double input, int precision)
 {
     std::ostringstream inter;
     inter << std::setprecision(precision);
@@ -31,7 +33,7 @@ std::string Utils::DoubleToString(double input, int precision)
     return inter.str();
 }
 
-std::string Utils::ScientificDoubleToString(double input, int precision)
+std::string QEXTMvvmUtils::ScientificDoubleToString(double input, int precision)
 {
     std::ostringstream inter;
     inter << std::scientific;
@@ -52,7 +54,7 @@ std::string Utils::ScientificDoubleToString(double input, int precision)
     return part1 + part2;
 }
 
-std::string Utils::TrimWhitespace(const std::string& str)
+std::string QEXTMvvmUtils::TrimWhitespace(const std::string& str)
 {
     const char whitespace[]{" \t\n"};
     const size_t first = str.find_first_not_of(whitespace);
@@ -62,34 +64,18 @@ std::string Utils::TrimWhitespace(const std::string& str)
     return str.substr(first, (last - first + 1));
 }
 
-std::string Utils::RemoveRepeatedSpaces(std::string str)
+std::string QEXTMvvmUtils::RemoveRepeatedSpaces(std::string str)
 {
     if (str.empty())
         return {};
     auto it = std::unique(str.begin(), str.end(),
-                          [](auto x, auto y) { return x == y && std::isspace(x); });
+                          [](std::string::value_type x, std::string::value_type y) { return x == y && std::isspace(x); });
     str.erase(it, str.end());
     return str;
 }
 
-std::optional<double> Utils::StringToDouble(const std::string& str)
-{
-    std::istringstream iss(Utils::TrimWhitespace(str));
-    iss.imbue(std::locale::classic());
-    double value;
-    iss >> value;
-    return (!iss.fail() && iss.eof()) ? std::optional<double>(value) : std::optional<double>{};
-}
 
-std::optional<int> Utils::StringToInteger(const std::string& str)
-{
-    std::istringstream iss(Utils::TrimWhitespace(str));
-    int value;
-    iss >> value;
-    return (!iss.fail() && iss.eof()) ? std::optional<int>(value) : std::optional<int>{};
-}
-
-std::vector<std::string> Utils::SplitString(const std::string& str, const std::string& delimeter)
+std::vector<std::string> QEXTMvvmUtils::SplitString(const std::string& str, const std::string& delimeter)
 {
     // splitting string following Python's str.split()
     if (delimeter.empty())
@@ -98,25 +84,34 @@ std::vector<std::string> Utils::SplitString(const std::string& str, const std::s
         return {};
 
     std::vector<std::string> result;
-    std::string_view view(str);
-    size_t pos{0};
+//    std::string_view view(str);
+//    size_t pos{0};
+    //    while ((pos = view.find(delimeter)) != std::string::npos) {
+    //        result.emplace_back(std::string(view.substr(0, pos)));
+    //        view.remove_prefix(pos + delimeter.length());
+    //    }
+    //    result.emplace_back(std::string(view));
 
-    while ((pos = view.find(delimeter)) != std::string::npos) {
-        result.emplace_back(std::string(view.substr(0, pos)));
-        view.remove_prefix(pos + delimeter.length());
+    QString view = QString::fromStdString(str);
+    QString qdelimeter = QString::fromStdString(delimeter);
+    int pos = -1;
+    while ((pos = view.indexOf(qdelimeter)) != -1) {
+        result.emplace_back(view.left(pos).toStdString());
+        view = view.mid(pos + delimeter.length());
     }
-    result.emplace_back(std::string(view));
+    result.emplace_back(view.toStdString());
+
     return result;
 }
 
-std::vector<double> Utils::ParseSpaceSeparatedDoubles(const std::string& str)
+std::vector<double> QEXTMvvmUtils::ParseSpaceSeparatedDoubles(const std::string& str)
 {
     std::vector<double> result;
     ParseSpaceSeparatedDoubles(str, result);
     return result;
 }
 
-void Utils::ParseSpaceSeparatedDoubles(const std::string& str, std::vector<double>& result)
+void QEXTMvvmUtils::ParseSpaceSeparatedDoubles(const std::string& str, std::vector<double>& result)
 {
     std::istringstream iss(str);
     iss.imbue(std::locale::classic());

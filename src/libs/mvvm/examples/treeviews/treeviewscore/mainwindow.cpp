@@ -24,7 +24,7 @@ const QString pos_key = "pos";
 namespace TreeViews
 {
 
-MainWindow::MainWindow() : m_sample_model(std::make_unique<SampleModel>())
+MainWindow::MainWindow() : m_sample_model(make_unique<SampleModel>())
 {
     auto central_widget = new SampleEditorWdiget(m_sample_model.get());
     setCentralWidget(central_widget);

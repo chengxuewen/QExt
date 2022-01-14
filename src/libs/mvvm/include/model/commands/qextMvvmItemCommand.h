@@ -1,26 +1,18 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMCOMMANDSABSTRACTITEMCOMMAND_H
+#define _QEXTMVVMCOMMANDSABSTRACTITEMCOMMAND_H
 
-#ifndef MVVM_COMMANDS_ABSTRACTITEMCOMMAND_H
-#define MVVM_COMMANDS_ABSTRACTITEMCOMMAND_H
+#include <qextMvvmCommandResult.h>
+#include <qextMvvmGlobal.h>
 
 #include <memory>
-#include <commands/qextMvvmCommandResult.h>
-#include <qextMvvmGlobal.h>
 #include <string>
 
 namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class SessionModel;
-class Path;
+class QEXTMvvmSessionModel;
+class QEXTMvvmPath;
 
 //! Abstract command interface to manipulate QEXTMvvmSessionItem in model context.
 
@@ -41,15 +33,15 @@ public:
 
     std::string description() const;
 
-    CommandResult result() const;
+    QEXTMvvmCommandResult result() const;
 
 protected:
     void setObsolete(bool flag);
     void setDescription(const std::string& text);
-    Path pathFromItem(QEXTMvvmSessionItem* item) const;
-    QEXTMvvmSessionItem* itemFromPath(const Path& path) const;
-    SessionModel* model() const;
-    void setResult(const CommandResult& command_result);
+    QEXTMvvmPath pathFromItem(QEXTMvvmSessionItem* item) const;
+    QEXTMvvmSessionItem* itemFromPath(const QEXTMvvmPath& path) const;
+    QEXTMvvmSessionModel* model() const;
+    void setResult(const QEXTMvvmCommandResult& command_result);
 
 private:
     virtual void execute_command() = 0;
@@ -61,4 +53,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_COMMANDS_ABSTRACTITEMCOMMAND_H
+#endif // _QEXTMVVMCOMMANDSABSTRACTITEMCOMMAND_H

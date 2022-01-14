@@ -29,7 +29,7 @@ public:
 
 //! Holds collection of mice.
 
-class MouseModel : public ModelView::SessionModel
+class MouseModel : public ModelView::QEXTMvvmSessionModel
 {
 public:
     MouseModel();

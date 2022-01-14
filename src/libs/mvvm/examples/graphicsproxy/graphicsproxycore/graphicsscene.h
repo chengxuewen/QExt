@@ -15,9 +15,9 @@
 
 namespace ModelView
 {
-class ColorMapCanvas;
-class SceneAdapterInterface;
-class CustomPlotProxyWidget;
+class QEXTMvvmColorMapCanvas;
+class QEXTMvvmSceneAdapterInterface;
+class QEXTMvvmCustomPlotProxyWidget;
 } // namespace ModelView
 
 class RegionOfInterestItem;
@@ -32,16 +32,16 @@ public:
     GraphicsScene(QObject* parent);
     ~GraphicsScene() override;
 
-    void setContext(ModelView::ColorMapCanvas* colormap, RegionOfInterestItem* roi);
+    void setContext(ModelView::QEXTMvvmColorMapCanvas* colormap, RegionOfInterestItem* roi);
 
     void update_size(const QSize& newSize);
 
 private:
-    void create_colormap_proxy(ModelView::ColorMapCanvas* colormap);
+    void create_colormap_proxy(ModelView::QEXTMvvmColorMapCanvas* colormap);
     void create_roi_view(RegionOfInterestItem* roi_item);
 
-    ModelView::CustomPlotProxyWidget* colormap_proxy{nullptr};
-    std::unique_ptr<ModelView::SceneAdapterInterface> scene_adapter;
+    ModelView::QEXTMvvmCustomPlotProxyWidget* colormap_proxy{nullptr};
+    std::unique_ptr<ModelView::QEXTMvvmSceneAdapterInterface> scene_adapter;
 };
 
 #endif //  GRAPHICSPROXY_GRAPHICSSCENE_H

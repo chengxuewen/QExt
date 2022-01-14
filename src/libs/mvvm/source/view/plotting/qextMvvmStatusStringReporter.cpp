@@ -15,17 +15,17 @@
 
 using namespace ModelView;
 
-struct StatusStringReporter::StatusStringReporterImpl {
-    StatusStringReporter* parent{nullptr};
+struct QEXTMvvmStatusStringReporter::StatusStringReporterImpl {
+    QEXTMvvmStatusStringReporter* parent{nullptr};
     QCustomPlot* custom_plot{nullptr};
     callback_t callback;
-    std::unique_ptr<StatusStringFormatterInterface> fmt;
-    std::unique_ptr<MouseMoveReporter> mouse_reporter;
-    MousePosInfo prevPos;
+    std::unique_ptr<QEXTMvvmStatusStringFormatterInterface> fmt;
+    std::unique_ptr<QEXTMvvmMouseMoveReporter> mouse_reporter;
+    QEXTMvvmMousePosInfo prevPos;
 
-    StatusStringReporterImpl(StatusStringReporter* parent, QCustomPlot* custom_plot,
+    StatusStringReporterImpl(QEXTMvvmStatusStringReporter* parent, QCustomPlot* custom_plot,
                              callback_t callback,
-                             std::unique_ptr<StatusStringFormatterInterface> formatter)
+                             std::unique_ptr<QEXTMvvmStatusStringFormatterInterface> formatter)
         : parent(parent)
         , custom_plot(custom_plot)
         , callback(std::move(callback))
@@ -34,7 +34,7 @@ struct StatusStringReporter::StatusStringReporterImpl {
         if (!custom_plot)
             throw std::runtime_error("StatusStringReporter: not initialized custom plot.");
 
-        auto on_mouse_move = [this](const MousePosInfo& pos) {
+        auto on_mouse_move = [this](const QEXTMvvmMousePosInfo& pos) {
             if (pos.in_axes_range) {
                 notify_client(pos);
                 if (!prevPos.in_axes_range)
@@ -46,12 +46,12 @@ struct StatusStringReporter::StatusStringReporterImpl {
 
             prevPos = pos;
         };
-        mouse_reporter = std::make_unique<MouseMoveReporter>(custom_plot, on_mouse_move);
+        mouse_reporter = make_unique<QEXTMvvmMouseMoveReporter>(custom_plot, on_mouse_move);
     }
 
     //! Notify client about mouse move with formatted status string.
 
-    void notify_client(const MousePosInfo& pos)
+    void notify_client(const QEXTMvvmMousePosInfo& pos)
     {
         callback(fmt->status_string(this->custom_plot, pos.xpos, pos.ypos));
     }
@@ -72,12 +72,12 @@ struct StatusStringReporter::StatusStringReporterImpl {
     }
 };
 
-StatusStringReporter::StatusStringReporter(
+QEXTMvvmStatusStringReporter::QEXTMvvmStatusStringReporter(
     QCustomPlot* custom_plot, callback_t callback,
-    std::unique_ptr<StatusStringFormatterInterface> formatter)
-    : p_impl(std::make_unique<StatusStringReporterImpl>(this, custom_plot, callback,
+    std::unique_ptr<QEXTMvvmStatusStringFormatterInterface> formatter)
+    : p_impl(make_unique<StatusStringReporterImpl>(this, custom_plot, callback,
                                                         std::move(formatter)))
 {
 }
 
-StatusStringReporter::~StatusStringReporter() = default;
+QEXTMvvmStatusStringReporter::~QEXTMvvmStatusStringReporter() = default;

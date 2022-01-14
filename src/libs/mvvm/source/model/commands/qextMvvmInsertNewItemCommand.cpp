@@ -16,23 +16,23 @@ using namespace ModelView;
 
 namespace
 {
-std::string generate_description(const std::string& modelType, const TagRow& tagrow);
+std::string generate_description(const std::string& modelType, const QEXTMvvmTagRow& tagrow);
 } // namespace
 
 struct QEXTMvvmInsertNewItemCommand::InsertNewItemCommandImpl {
     item_factory_func_t factory_func;
-    TagRow tagrow;
-    Path item_path;
+    QEXTMvvmTagRow tagrow;
+    QEXTMvvmPath item_path;
     std::string initial_identifier;
-    InsertNewItemCommandImpl(item_factory_func_t func, TagRow tagrow)
+    InsertNewItemCommandImpl(item_factory_func_t func, QEXTMvvmTagRow tagrow)
         : factory_func(std::move(func)), tagrow(std::move(tagrow))
     {
     }
 };
 
 QEXTMvvmInsertNewItemCommand::QEXTMvvmInsertNewItemCommand(item_factory_func_t func, QEXTMvvmSessionItem* parent,
-                                           const TagRow& tagrow)
-    : QEXTMvvmItemCommand(parent), p_impl(std::make_unique<InsertNewItemCommandImpl>(func, tagrow))
+                                           const QEXTMvvmTagRow& tagrow)
+    : QEXTMvvmItemCommand(parent), p_impl(make_unique<InsertNewItemCommandImpl>(func, tagrow))
 {
     setResult(nullptr);
     p_impl->item_path = pathFromItem(parent);
@@ -71,7 +71,7 @@ void QEXTMvvmInsertNewItemCommand::execute_command()
 
 namespace
 {
-std::string generate_description(const std::string& modelType, const TagRow& tagrow)
+std::string generate_description(const std::string& modelType, const QEXTMvvmTagRow& tagrow)
 {
     std::ostringstream ostr;
     ostr << "New item type '" << modelType << "' tag:'" << tagrow.tag << "', row:" << tagrow.row;

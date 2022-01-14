@@ -1,17 +1,10 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_MODEL_ITEMCATALOGUE_H
-#define MVVM_MODEL_ITEMCATALOGUE_H
+#ifndef _QEXTMVVMMODELITEMCATALOGUE_H
+#define _QEXTMVVMMODELITEMCATALOGUE_H
 
 #include <qextMvvmFunctionTypes.h>
 #include <qextMvvmGlobal.h>
+#include <qextMvvmTypes.h>
+
 #include <string>
 #include <vector>
 
@@ -22,14 +15,14 @@ class QEXTMvvmSessionItem;
 
 //! Catalogue for item constructions.
 
-class QEXT_MVVM_API ItemCatalogue
+class QEXT_MVVM_API QEXTMvvmItemCatalogue
 {
 public:
-    ItemCatalogue();
-    ~ItemCatalogue();
+    QEXTMvvmItemCatalogue();
+    ~QEXTMvvmItemCatalogue();
 
-    ItemCatalogue(const ItemCatalogue& other);
-    ItemCatalogue& operator=(const ItemCatalogue& other);
+    QEXTMvvmItemCatalogue(const QEXTMvvmItemCatalogue& other);
+    QEXTMvvmItemCatalogue& operator=(const QEXTMvvmItemCatalogue& other);
 
     template <typename T> void registerItem(const std::string& label = {});
 
@@ -42,7 +35,7 @@ public:
 
     int itemCount() const;
 
-    void merge(const ItemCatalogue& other);
+    void merge(const QEXTMvvmItemCatalogue& other);
 
 private:
     void add(const std::string& model_type, item_factory_func_t func, const std::string& label);
@@ -50,13 +43,12 @@ private:
     std::unique_ptr<ItemCatalogueImpl> p_impl;
 };
 
-template <typename T> void ItemCatalogue::registerItem(const std::string& label)
+template <typename T> void QEXTMvvmItemCatalogue::registerItem(const std::string& label)
 {
     T x;
-    add(
-        x.modelType(), []() { return std::make_unique<T>(); }, label);
+    add(x.modelType(), []() { return make_unique<T>(); }, label);
 }
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_ITEMCATALOGUE_H
+#endif // _QEXTMVVMMODELITEMCATALOGUE_H

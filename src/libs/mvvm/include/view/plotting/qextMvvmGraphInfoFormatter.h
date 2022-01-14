@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_PLOTTING_GRAPHINFOFORMATTER_H
-#define MVVM_PLOTTING_GRAPHINFOFORMATTER_H
+#ifndef _QEXTMVVMPLOTTINGGRAPHINFOFORMATTER_H
+#define _QEXTMVVMPLOTTINGGRAPHINFOFORMATTER_H
 
 #include <qextMvvmStatusStringFormatterInterface.h>
 
@@ -21,7 +12,7 @@ namespace ModelView
 //! Includes coordinates of mouse pointer in viewport axes coordinates, add graph info if there is
 //! one nearby.
 
-class QEXT_MVVM_API GraphInfoFormatter : public StatusStringFormatterInterface
+class QEXT_MVVM_API QEXTMvvmGraphInfoFormatter : public QEXTMvvmStatusStringFormatterInterface
 {
 public:
     //! Returns status string representing graph nearby.
@@ -32,4 +23,4 @@ public:
 
 } // namespace ModelView
 
-#endif // MVVM_PLOTTING_GRAPHINFOFORMATTER_H
+#endif // _QEXTMVVMPLOTTINGGRAPHINFOFORMATTER_H

@@ -7,32 +7,33 @@
 //
 // ************************************************************************** //
 
-#include <algorithm>
 #include <qextMvvmCustomVariants.h>
 #include <qextMvvmSessionItem.h>
 #include <qextMvvmContainerUtils.h>
-#include <viewmodel/qextMvvmViewItem.h>
-#include <viewmodel/qextMvvmViewModelUtils.h>
+#include <qextMvvmViewItem.h>
+#include <qextMvvmViewModelUtils.h>
+
+#include <algorithm>
 #include <stdexcept>
 #include <vector>
 
 using namespace ModelView;
 
-struct ViewItem::ViewItemImpl {
-    std::vector<std::unique_ptr<ViewItem>> children; //! buffer to hold rows x columns
+struct QEXTMvvmViewItem::ViewItemImpl {
+    std::vector<std::unique_ptr<QEXTMvvmViewItem>> children; //! buffer to hold rows x columns
     int rows{0};
     int columns{0};
     QEXTMvvmSessionItem* item{nullptr};
     int role{0};
-    ViewItem* parent_view_item{nullptr};
+    QEXTMvvmViewItem* parent_view_item{nullptr};
     ViewItemImpl(QEXTMvvmSessionItem* item, int role) : item(item), role(role) {}
 
-    void appendRow(std::vector<std::unique_ptr<ViewItem>> items)
+    void appendRow(std::vector<std::unique_ptr<QEXTMvvmViewItem>> items)
     {
         insertRow(rows, std::move(items));
     }
 
-    void insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
+    void insertRow(int row, std::vector<std::unique_ptr<QEXTMvvmViewItem>> items)
     {
         if (items.empty())
             throw std::runtime_error("Error in ViewItemImpl: attempt to insert empty row");
@@ -64,7 +65,7 @@ struct ViewItem::ViewItemImpl {
             columns = 0;
     }
 
-    ViewItem* child(int row, int column) const
+    QEXTMvvmViewItem* child(int row, int column) const
     {
         if (row < 0 || row >= rows)
             throw std::runtime_error("Error in RefViewItem: wrong row)");
@@ -75,11 +76,14 @@ struct ViewItem::ViewItemImpl {
         return children.at(static_cast<size_t>(column + row * columns)).get();
     }
 
-    ViewItem* parent() { return parent_view_item; }
+    QEXTMvvmViewItem* parent() { return parent_view_item; }
 
-    int index_of_child(const ViewItem* child)
+    int index_of_child(const QEXTMvvmViewItem* child)
     {
-        return Utils::IndexOfItem(children.begin(), children.end(), child);
+//        return QEXTMvvmUtils::IndexOfItem(children.begin(), children.end(), child);
+        auto pos = std::find_if(children.begin(), children.end(), [&child](const std::unique_ptr<QEXTMvvmViewItem>& x) {
+            return x.get() == child; });
+        return pos == children.end() ? -1 : static_cast<int>(std::distance(children.begin(), pos));
     }
 
     //! Returns item data associated with this RefViewItem.
@@ -88,31 +92,31 @@ struct ViewItem::ViewItemImpl {
 
     //! Returns vector of children.
 
-    std::vector<ViewItem*> get_children() const
+    std::vector<QEXTMvvmViewItem*> get_children() const
     {
-        std::vector<ViewItem*> result;
+        std::vector<QEXTMvvmViewItem*> result;
         std::transform(children.begin(), children.end(), std::back_inserter(result),
-                       [](const auto& x) { return x.get(); });
+                       [](const std::unique_ptr<QEXTMvvmViewItem>& x) { return x.get(); });
         return result;
     }
 };
 
-ViewItem::ViewItem(QEXTMvvmSessionItem* item, int role) : p_impl(std::make_unique<ViewItemImpl>(item, role))
+QEXTMvvmViewItem::QEXTMvvmViewItem(QEXTMvvmSessionItem* item, int role) : p_impl(make_unique<ViewItemImpl>(item, role))
 {
 }
 
-ViewItem::~ViewItem() = default;
+QEXTMvvmViewItem::~QEXTMvvmViewItem() = default;
 
 //! Returns the number of child item rows that the item has.
 
-int ViewItem::rowCount() const
+int QEXTMvvmViewItem::rowCount() const
 {
     return p_impl->rows;
 }
 
 //! Returns the number of child item columns that the item has.
 
-int ViewItem::columnCount() const
+int QEXTMvvmViewItem::columnCount() const
 {
     return p_impl->columns;
 }
@@ -120,7 +124,7 @@ int ViewItem::columnCount() const
 //! Appends a row containing items. Number of items should be the same as columnCount()
 //! (if there are already some rows). If it is a first row, then items can be of any size.
 
-void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
+void QEXTMvvmViewItem::appendRow(std::vector<std::unique_ptr<QEXTMvvmViewItem>> items)
 {
     for (auto& x : items)
         x->setParent(this);
@@ -129,7 +133,7 @@ void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
 
 //! Insert a row of items at index 'row'.
 
-void ViewItem::insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
+void QEXTMvvmViewItem::insertRow(int row, std::vector<std::unique_ptr<QEXTMvvmViewItem>> items)
 {
     for (auto& x : items)
         x->setParent(this);
@@ -138,34 +142,34 @@ void ViewItem::insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
 
 //! Removes row of items at given 'row'. Items will be deleted.
 
-void ViewItem::removeRow(int row)
+void QEXTMvvmViewItem::removeRow(int row)
 {
     p_impl->removeRow(row);
 }
 
-void ViewItem::clear()
+void QEXTMvvmViewItem::clear()
 {
     p_impl->children.clear();
     p_impl->rows = 0;
     p_impl->columns = 0;
 }
 
-ViewItem* ViewItem::parent() const
+QEXTMvvmViewItem* QEXTMvvmViewItem::parent() const
 {
     return p_impl->parent();
 }
 
-ViewItem* ViewItem::child(int row, int column) const
+QEXTMvvmViewItem* QEXTMvvmViewItem::child(int row, int column) const
 {
     return p_impl->child(row, column);
 }
 
-QEXTMvvmSessionItem* ViewItem::item() const
+QEXTMvvmSessionItem* QEXTMvvmViewItem::item() const
 {
     return p_impl->item;
 }
 
-int ViewItem::item_role() const
+int QEXTMvvmViewItem::item_role() const
 {
     return p_impl->role;
 }
@@ -173,7 +177,7 @@ int ViewItem::item_role() const
 //! Returns the row where the item is located in its parent's child table, or -1 if the item has no
 //! parent.
 
-int ViewItem::row() const
+int QEXTMvvmViewItem::row() const
 {
     auto index = parent() ? parent()->p_impl->index_of_child(this) : -1;
     return index >= 0 ? index / parent()->p_impl->columns : -1;
@@ -182,7 +186,7 @@ int ViewItem::row() const
 //! Returns the column where the item is located in its parent's child table, or -1 if the item has
 //! no parent.
 
-int ViewItem::column() const
+int QEXTMvvmViewItem::column() const
 {
     auto index = parent() ? parent()->p_impl->index_of_child(this) : -1;
     return index >= 0 ? index % parent()->p_impl->columns : -1;
@@ -191,21 +195,21 @@ int ViewItem::column() const
 //! Returns the data for given role according to Qt::ItemDataRole namespace definitions.
 //! Converts data and roles from underlying QEXTMvvmSessionItem to what Qt expects.
 
-QVariant ViewItem::data(int qt_role) const
+QVariant QEXTMvvmViewItem::data(int qt_role) const
 {
     if (!p_impl->item)
         return QVariant();
 
     if (qt_role == Qt::DisplayRole || qt_role == Qt::EditRole)
-        return Utils::toQtVariant(p_impl->data());
+        return QEXTMvvmUtils::toQtVariant(p_impl->data());
 #if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
     else if (qt_role == Qt::ForegroundRole)
 #else
     else if (qt_role == Qt::TextColorRole)
 #endif
-        return Utils::TextColorRole(*p_impl->item);
+        return QEXTMvvmUtils::TextColorRole(*p_impl->item);
     else if (qt_role == Qt::ToolTipRole)
-        return Utils::ToolTipRole(*p_impl->item);
+        return QEXTMvvmUtils::ToolTipRole(*p_impl->item);
     else
         return QVariant();
 }
@@ -213,28 +217,28 @@ QVariant ViewItem::data(int qt_role) const
 //! Sets the data to underlying QEXTMvvmSessionItem.
 //! Converts data and roles from Qt definitions to what QEXTMvvmSessionItem expects.
 
-bool ViewItem::setData(const QVariant& value, int qt_role)
+bool QEXTMvvmViewItem::setData(const QVariant& value, int qt_role)
 {
     if (p_impl->item && qt_role == Qt::EditRole)
-        return p_impl->item->setData(Utils::toCustomVariant(value), p_impl->role);
+        return p_impl->item->setData(QEXTMvvmUtils::toCustomVariant(value), p_impl->role);
     return false;
 }
 
 //! Returns Qt's item flags.
 //! Converts internal QEXTMvvmSessionItem's status enable/disabled/readonly to what Qt expects.
 
-Qt::ItemFlags ViewItem::flags() const
+Qt::ItemFlags QEXTMvvmViewItem::flags() const
 {
     Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
     return result;
 }
 
-std::vector<ViewItem*> ViewItem::children() const
+std::vector<QEXTMvvmViewItem*> QEXTMvvmViewItem::children() const
 {
     return p_impl->get_children();
 }
 
-void ViewItem::setParent(ViewItem* parent)
+void QEXTMvvmViewItem::setParent(QEXTMvvmViewItem* parent)
 {
     p_impl->parent_view_item = parent;
 }

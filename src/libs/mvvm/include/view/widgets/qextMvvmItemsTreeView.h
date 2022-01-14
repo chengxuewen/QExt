@@ -1,18 +1,11 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXTMVVMWIDGETSITEMSTREEVIEW_H
+#define _QEXTMVVMWIDGETSITEMSTREEVIEW_H
 
-#ifndef MVVM_WIDGETS_ITEMSTREEVIEW_H
-#define MVVM_WIDGETS_ITEMSTREEVIEW_H
+#include <qextMvvmGlobal.h>
 
 #include <QWidget>
+
 #include <memory>
-#include <qextMvvmGlobal.h>
 
 class QTreeView;
 class QItemSelection;
@@ -22,31 +15,31 @@ namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class ViewModel;
-class ViewModelDelegate;
+class QEXTMvvmViewModel;
+class QEXTMvvmViewModelDelegate;
 
 //! Tree view to show items of SessionModel via ViewModel mechanism.
 //! Provides notification mechanism for QEXTMvvmSessionItem selections, use custom delegate.
 
-class QEXT_MVVM_API ItemsTreeView : public QWidget
+class QEXT_MVVM_API QEXTMvvmItemsTreeView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ItemsTreeView(QWidget* parent = nullptr);
-    ~ItemsTreeView() override;
+    explicit QEXTMvvmItemsTreeView(QWidget* parent = nullptr);
+    ~QEXTMvvmItemsTreeView() override;
 
     QTreeView* treeView();
 
-    void setViewModel(std::unique_ptr<ViewModel> viewModel);
+    void setViewModel(std::unique_ptr<QEXTMvvmViewModel> viewModel);
 
-    void setViewModelDelegate(std::unique_ptr<ViewModelDelegate> delegate);
+    void setViewModelDelegate(std::unique_ptr<QEXTMvvmViewModelDelegate> delegate);
 
     void setSelected(QEXTMvvmSessionItem* item);
 
     void setRootSessionItem(QEXTMvvmSessionItem* item);
 
-    ViewModel* viewModel() const;
+    QEXTMvvmViewModel* viewModel() const;
 
 signals:
     void itemSelected(ModelView::QEXTMvvmSessionItem*);
@@ -60,11 +53,11 @@ private:
     void set_connected(bool flag);
 
     QTreeView* m_treeView{nullptr};
-    std::unique_ptr<ViewModel> m_viewModel;
-    std::unique_ptr<ViewModelDelegate> m_delegate;
+    std::unique_ptr<QEXTMvvmViewModel> m_viewModel;
+    std::unique_ptr<QEXTMvvmViewModelDelegate> m_delegate;
     bool m_block_selection;
 };
 
 } // namespace ModelView
 
-#endif // MVVM_WIDGETS_ITEMSTREEVIEW_H
+#endif // _QEXTMVVMWIDGETSITEMSTREEVIEW_H

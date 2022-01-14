@@ -38,21 +38,23 @@ struct Context {
 std::string compose_string(const Context& context)
 {
     std::ostringstream ostr;
-    ostr << "[x: " << Utils::DoubleToString(context.xpos, 3) << ", ";
-    ostr << "y: " << Utils::DoubleToString(context.ypos, 3) << "] ";
+    ostr << "[x: " << QEXTMvvmUtils::DoubleToString(context.xpos, 3) << ", ";
+    ostr << "y: " << QEXTMvvmUtils::DoubleToString(context.ypos, 3) << "] ";
     ostr << "[binx: " << context.nx << ", ";
     ostr << "biny: " << context.ny << "] ";
-    ostr << "[value: " << Utils::ScientificDoubleToString(context.value) << "]";
+    ostr << "[value: " << QEXTMvvmUtils::ScientificDoubleToString(context.value) << "]";
     return ostr.str();
 }
 
 } // namespace
 
-std::string ColorMapInfoFormatter::status_string(QCustomPlot* custom_plot, double x, double y) const
+std::string QEXTMvvmColorMapInfoFormatter::status_string(QCustomPlot* custom_plot, double x, double y) const
 {
     // shall we provide caching here?
     auto color_map = find_colormap(custom_plot);
-    Context context{x, y};
+    Context context;
+    context.xpos = x;
+    context.ypos = y;
 
     color_map->data()->coordToCell(x, y, &context.nx, &context.ny);
     context.value = color_map->data()->cell(context.nx, context.ny);

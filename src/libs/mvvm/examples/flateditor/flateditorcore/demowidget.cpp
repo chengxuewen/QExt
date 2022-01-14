@@ -20,11 +20,11 @@
 
 using namespace ModelView;
 
-DemoWidget::DemoWidget(SessionModel* model, QWidget* parent)
+DemoWidget::DemoWidget(QEXTMvvmSessionModel* model, QWidget* parent)
     : QWidget(parent)
-    , m_defaultTreeView(new AllItemsTreeView(model))
-    , m_propertyTreeView(new PropertyTreeView)
-    , m_propertyFlatView(new PropertyFlatView)
+    , m_defaultTreeView(new QEXTMvvmAllItemsTreeView(model))
+    , m_propertyTreeView(new QEXTMvvmPropertyTreeView)
+    , m_propertyFlatView(new QEXTMvvmPropertyFlatView)
     , m_sessionModel(model)
 {
 
@@ -48,7 +48,7 @@ void DemoWidget::connect_views()
         m_propertyTreeView->setItem(item);
         m_propertyFlatView->setItem(item);
     };
-    connect(m_defaultTreeView, &AllItemsTreeView::itemSelected, on_item_selected);
+    connect(m_defaultTreeView, &QEXTMvvmAllItemsTreeView::itemSelected, on_item_selected);
 }
 
 QBoxLayout* DemoWidget::create_left_layout()

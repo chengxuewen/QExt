@@ -23,7 +23,7 @@ const double failback_max = 1.0;
 //! Find min and max values along all data points in all graphs.
 //! Function 'func' is used to run either through binCenters or binValues.
 
-template <typename T> auto get_min_max(const std::vector<GraphItem*>& graphs, T func)
+template <typename T> std::pair<double, double> get_min_max(const std::vector<QEXTMvvmGraphItem*>& graphs, T func)
 {
     std::vector<double> values;
     for (auto graph : graphs) {
@@ -37,64 +37,64 @@ template <typename T> auto get_min_max(const std::vector<GraphItem*>& graphs, T 
 
 } // namespace
 
-GraphViewportItem::GraphViewportItem(const std::string& model_type) : ViewportItem(model_type)
+QEXTMvvmGraphViewportItem::QEXTMvvmGraphViewportItem(const std::string& model_type) : QEXTMvvmViewportItem(model_type)
 {
     register_xy_axes();
-    registerTag(TagInfo::universalTag(T_ITEMS, {Constants::GraphItemType}), /*set_default*/ true);
+    registerTag(QEXTMvvmTagInfo::universalTag(T_ITEMS, {QEXTMvvmConstants::GraphItemType}), /*set_default*/ true);
 }
 
 //! Returns the selected graph items.
 
-std::vector<GraphItem*> GraphViewportItem::graphItems() const
+std::vector<QEXTMvvmGraphItem*> QEXTMvvmGraphViewportItem::graphItems() const
 {
-    return items<GraphItem>(T_ITEMS);
+    return items<QEXTMvvmGraphItem>(T_ITEMS);
 }
 
 //! Returns the selected graph items.
 
-std::vector<GraphItem*> GraphViewportItem::visibleGraphItems() const
+std::vector<QEXTMvvmGraphItem*> QEXTMvvmGraphViewportItem::visibleGraphItems() const
 {
-    std::vector<GraphItem*> all_items = items<GraphItem>(T_ITEMS);
-    std::vector<GraphItem*> visible_items;
+    std::vector<QEXTMvvmGraphItem*> all_items = items<QEXTMvvmGraphItem>(T_ITEMS);
+    std::vector<QEXTMvvmGraphItem*> visible_items;
     std::copy_if(all_items.begin(), all_items.end(), std::back_inserter(visible_items),
-                 [](const GraphItem* graph_item) {
-                     return graph_item->property<bool>(GraphItem::P_DISPLAYED);
+                 [](const QEXTMvvmGraphItem* graph_item) {
+                     return graph_item->property<bool>(QEXTMvvmGraphItem::P_DISPLAYED);
                  });
     return visible_items;
 }
 
 //! Set the graph selection.
 
-void GraphViewportItem::setVisible(const std::vector<GraphItem*>& visible_graph_items)
+void QEXTMvvmGraphViewportItem::setVisible(const std::vector<QEXTMvvmGraphItem*>& visible_graph_items)
 {
-    std::vector<GraphItem*> output;
-    for (auto graph_item : items<GraphItem>(T_ITEMS)) {
+    std::vector<QEXTMvvmGraphItem*> output;
+    for (auto graph_item : items<QEXTMvvmGraphItem>(T_ITEMS)) {
         if (std::find(visible_graph_items.begin(), visible_graph_items.end(), graph_item)
             != visible_graph_items.end())
-            graph_item->setProperty(GraphItem::P_DISPLAYED, true);
+            graph_item->setProperty(QEXTMvvmGraphItem::P_DISPLAYED, true);
         else
-            graph_item->setProperty(GraphItem::P_DISPLAYED, false);
+            graph_item->setProperty(QEXTMvvmGraphItem::P_DISPLAYED, false);
     }
 }
 
 //! Reset the graph selection.
 
-void GraphViewportItem::setAllVisible()
+void QEXTMvvmGraphViewportItem::setAllVisible()
 {
-    for (auto graph_item : items<GraphItem>(T_ITEMS))
-        graph_item->setProperty(GraphItem::P_DISPLAYED, true);
+    for (auto graph_item : items<QEXTMvvmGraphItem>(T_ITEMS))
+        graph_item->setProperty(QEXTMvvmGraphItem::P_DISPLAYED, true);
 }
 
 //! Returns lower, upper range on x-axis occupied by all data points of all graphs.
 
-std::pair<double, double> GraphViewportItem::data_xaxis_range() const
+std::pair<double, double> QEXTMvvmGraphViewportItem::data_xaxis_range() const
 {
-    return get_min_max(visibleGraphItems(), [](GraphItem* graph) { return graph->binCenters(); });
+    return get_min_max(visibleGraphItems(), [](QEXTMvvmGraphItem* graph) { return graph->binCenters(); });
 }
 
 //! Returns lower, upper range on y-axis occupied by all data points of all graphs.
 
-std::pair<double, double> GraphViewportItem::data_yaxis_range() const
+std::pair<double, double> QEXTMvvmGraphViewportItem::data_yaxis_range() const
 {
-    return get_min_max(visibleGraphItems(), [](GraphItem* graph) { return graph->binValues(); });
+    return get_min_max(visibleGraphItems(), [](QEXTMvvmGraphItem* graph) { return graph->binValues(); });
 }

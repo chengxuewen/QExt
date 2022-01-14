@@ -1,36 +1,27 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_STANDARDITEMS_GRAPHVIEWPORTITEM_H
-#define MVVM_STANDARDITEMS_GRAPHVIEWPORTITEM_H
+#ifndef _QEXTMVVMSTANDARDITEMSGRAPHVIEWPORTITEM_H
+#define _QEXTMVVMSTANDARDITEMSGRAPHVIEWPORTITEM_H
 
 #include <qextMvvmViewPortItem.h>
 
 namespace ModelView
 {
 
-class GraphItem;
+class QEXTMvvmGraphItem;
 
 //! 2D viewport specialized for showing multiple GraphItem's.
 //! Provides calculation of viewport's x-axis and y-axis range basing on GraphItem data.
 //! Provides functionality to hide selected graphs.
 
-class QEXT_MVVM_API GraphViewportItem : public ViewportItem
+class QEXT_MVVM_API QEXTMvvmGraphViewportItem : public QEXTMvvmViewportItem
 {
 public:
-    GraphViewportItem(const std::string& model_type = Constants::GraphViewportItemType);
+    QEXTMvvmGraphViewportItem(const std::string& model_type = QEXTMvvmConstants::GraphViewportItemType);
 
-    std::vector<GraphItem*> graphItems() const;
+    std::vector<QEXTMvvmGraphItem*> graphItems() const;
 
-    std::vector<GraphItem*> visibleGraphItems() const;
+    std::vector<QEXTMvvmGraphItem*> visibleGraphItems() const;
 
-    void setVisible(const std::vector<GraphItem*>& visible_graph_items);
+    void setVisible(const std::vector<QEXTMvvmGraphItem*>& visible_graph_items);
 
     void setAllVisible();
 
@@ -41,4 +32,4 @@ protected:
 
 } // namespace ModelView
 
-#endif // MVVM_STANDARDITEMS_GRAPHVIEWPORTITEM_H
+#endif // _QEXTMVVMSTANDARDITEMSGRAPHVIEWPORTITEM_H

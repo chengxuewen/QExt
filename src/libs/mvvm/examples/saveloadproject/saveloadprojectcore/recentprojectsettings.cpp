@@ -53,7 +53,7 @@ QString RecentProjectSettings::currentWorkdir() const
 void RecentProjectSettings::updateWorkdirFromSelection(const QString& dirname)
 {
     if (!dirname.isEmpty()) {
-        auto parent_path = ModelView::Utils::parent_path(dirname.toStdString());
+        auto parent_path = ModelView::QEXTMvvmUtils::parent_path(dirname.toStdString());
         m_currentWorkdir = QString::fromStdString(parent_path);
     }
 }
@@ -63,7 +63,7 @@ QStringList RecentProjectSettings::recentProjects()
 {
     QStringList updatedList;
     for (const auto& fileName : m_recentProjects) {
-        if (ModelView::Utils::exists(fileName.toStdString()))
+        if (ModelView::QEXTMvvmUtils::exists(fileName.toStdString()))
             updatedList.append(fileName);
     }
     m_recentProjects = updatedList;

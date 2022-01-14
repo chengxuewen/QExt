@@ -1,14 +1,5 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_PROJECT_MODELHASCHANGEDCONTROLLER_H
-#define MVVM_PROJECT_MODELHASCHANGEDCONTROLLER_H
+#ifndef _QEXTMVVMPROJECTMODELHASCHANGEDCONTROLLER_H
+#define _QEXTMVVMPROJECTMODELHASCHANGEDCONTROLLER_H
 
 #include <functional>
 #include <qextMvvmModelListener.h>
@@ -20,11 +11,11 @@ namespace ModelView
 //! Allows to check if model has been changed (e.g. modified, inserted or removed items) since last
 //! call of ::resetChanged().
 
-class QEXT_MVVM_API ModelHasChangedController : public ModelListener<SessionModel>
+class QEXT_MVVM_API QEXTMvvmModelHasChangedController : public QEXTMvvmModelListener<QEXTMvvmSessionModel>
 {
 public:
     using callback_t = std::function<void()>;
-    ModelHasChangedController(SessionModel* model, callback_t callback = {});
+    QEXTMvvmModelHasChangedController(QEXTMvvmSessionModel* model, callback_t callback = {});
 
     bool hasChanged() const;
 
@@ -38,4 +29,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_PROJECT_MODELHASCHANGEDCONTROLLER_H
+#endif // _QEXTMVVMPROJECTMODELHASCHANGEDCONTROLLER_H

@@ -1,16 +1,8 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_MODEL_TAGINFO_H
-#define MVVM_MODEL_TAGINFO_H
+#ifndef _QEXTMVVMMODELTAGINFO_H
+#define _QEXTMVVMMODELTAGINFO_H
 
 #include <qextMvvmGlobal.h>
+
 #include <string>
 #include <vector>
 
@@ -19,18 +11,18 @@ namespace ModelView
 
 //! Holds info about single tag for QEXTMvvmSessionItem.
 
-class QEXT_MVVM_API TagInfo
+class QEXT_MVVM_API QEXTMvvmTagInfo
 {
 public:
-    TagInfo();
+    QEXTMvvmTagInfo();
 
-    TagInfo(std::string name, int min, int max, std::vector<std::string> modelTypes);
+    QEXTMvvmTagInfo(std::string name, int min, int max, std::vector<std::string> modelTypes);
 
     //! Constructs universal tag intended for unlimited amount of various items.
-    static TagInfo universalTag(std::string name, std::vector<std::string> modelTypes = {});
+    static QEXTMvvmTagInfo universalTag(std::string name, std::vector<std::string> modelTypes = {});
 
     //! Constructs tag intended for single property.
-    static TagInfo propertyTag(std::string name, std::string model_type);
+    static QEXTMvvmTagInfo propertyTag(std::string name, std::string model_type);
 
     std::string name() const;
 
@@ -46,8 +38,8 @@ public:
 
     bool isSinglePropertyTag() const;
 
-    bool operator==(const TagInfo& other) const;
-    bool operator!=(const TagInfo& other) const;
+    bool operator==(const QEXTMvvmTagInfo& other) const;
+    bool operator!=(const QEXTMvvmTagInfo& other) const;
 
 private:
     std::string m_name;
@@ -58,4 +50,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_TAGINFO_H
+#endif // _QEXTMVVMMODELTAGINFO_H

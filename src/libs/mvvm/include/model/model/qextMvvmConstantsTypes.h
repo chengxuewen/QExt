@@ -1,23 +1,15 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-#ifndef MVVM_MODEL_MVVM_TYPES_H
-#define MVVM_MODEL_MVVM_TYPES_H
+#ifndef _QEXTMVVMMODELMVVMTYPES_H
+#define _QEXTMVVMMODELMVVMTYPES_H
 
 #include <qextMvvmTypes.h>
+
 #include <string>
 
 namespace ModelView
 {
 
 class QEXTMvvmSessionItem;
-class SessionModel;
+class QEXTMvvmSessionModel;
 
 //! Defines constants to be used as QEXTMvvmSessionItem data role.
 
@@ -38,7 +30,7 @@ enum Appearance {
     EDITABLE = 0x002 // editable in Qt widgets; readonly otherwise
 };
 
-namespace Constants
+namespace QEXTMvvmConstants
 {
 const model_type BaseType = "QEXTMvvmSessionItem";
 const model_type ColorMapItemType = "ColorMap";
@@ -62,4 +54,4 @@ const model_type ViewportAxisItemType = "ViewportAxis";
 
 } // namespace ModelView
 
-#endif // MVVM_MODEL_MVVM_TYPES_H
+#endif // _QEXTMVVMMODELMVVMTYPES_H

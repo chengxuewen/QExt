@@ -26,7 +26,7 @@ template <typename T> QVector<T> fromStdVector(const std::vector<T>& vec)
 
 using namespace ModelView;
 
-struct Data1DPlotController::Data1DPlotControllerImpl {
+struct QEXTMvvmData1DPlotController::Data1DPlotControllerImpl {
     QCPGraph* m_graph{nullptr};
     QCPErrorBars* m_errorBars{nullptr};
 
@@ -36,21 +36,21 @@ struct Data1DPlotController::Data1DPlotControllerImpl {
             throw std::runtime_error("Uninitialised graph in Data1DPlotController");
     }
 
-    void initGraphFromItem(Data1DItem* item)
+    void initGraphFromItem(QEXTMvvmData1DItem* item)
     {
         assert(item);
         updateGraphPointsFromItem(item);
         updateErrorBarsFromItem(item);
     }
 
-    void updateGraphPointsFromItem(Data1DItem* item)
+    void updateGraphPointsFromItem(QEXTMvvmData1DItem* item)
     {
         m_graph->setData(fromStdVector<double>(item->binCenters()),
                          fromStdVector<double>(item->binValues()));
         customPlot()->replot();
     }
 
-    void updateErrorBarsFromItem(Data1DItem* item)
+    void updateErrorBarsFromItem(QEXTMvvmData1DItem* item)
     {
         auto errors = item->binErrors();
         if (errors.empty()) {
@@ -84,19 +84,19 @@ struct Data1DPlotController::Data1DPlotControllerImpl {
     }
 };
 
-Data1DPlotController::Data1DPlotController(QCPGraph* graph)
-    : p_impl(std::make_unique<Data1DPlotControllerImpl>(graph))
+QEXTMvvmData1DPlotController::QEXTMvvmData1DPlotController(QCPGraph* graph)
+    : p_impl(make_unique<Data1DPlotControllerImpl>(graph))
 {
 }
 
-Data1DPlotController::~Data1DPlotController() = default;
+QEXTMvvmData1DPlotController::~QEXTMvvmData1DPlotController() = default;
 
-void Data1DPlotController::subscribe()
+void QEXTMvvmData1DPlotController::subscribe()
 {
     auto on_property_change = [this](QEXTMvvmSessionItem*, std::string property_name) {
-        if (property_name == Data1DItem::P_VALUES)
+        if (property_name == QEXTMvvmData1DItem::P_VALUES)
             p_impl->updateGraphPointsFromItem(currentItem());
-        if (property_name == Data1DItem::P_ERRORS)
+        if (property_name == QEXTMvvmData1DItem::P_ERRORS)
             p_impl->updateErrorBarsFromItem(currentItem());
     };
     setOnPropertyChange(on_property_change);
@@ -104,7 +104,7 @@ void Data1DPlotController::subscribe()
     p_impl->initGraphFromItem(currentItem());
 }
 
-void Data1DPlotController::unsubscribe()
+void QEXTMvvmData1DPlotController::unsubscribe()
 {
     p_impl->resetGraph();
 }

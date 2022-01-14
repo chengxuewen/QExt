@@ -19,8 +19,8 @@ class JobManager;
 
 namespace ModelView
 {
-class ItemsTreeView;
-class GraphCanvas;
+class QEXTMvvmItemsTreeView;
+class QEXTMvvmGraphCanvas;
 } // namespace ModelView
 
 //! Shows canvas with plots on the left and property editor on the right.
@@ -43,7 +43,7 @@ private:
     void init_jobmanager_connections();
 
     GraphWidgetToolBar* m_toolbar{nullptr};
-    ModelView::GraphCanvas* m_graphCanvas{nullptr};
+    ModelView::QEXTMvvmGraphCanvas* m_graphCanvas{nullptr};
     GraphPropertyWidget* m_propertyWidget{nullptr};
     GraphModel* m_model{nullptr};
     JobManager* m_jobManager{nullptr};
