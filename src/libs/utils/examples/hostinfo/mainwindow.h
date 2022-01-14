@@ -11,13 +11,13 @@ namespace Ui {
 class MainWindow;
 }
 
-class LFAMMainWindow : public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit LFAMMainWindow(QWidget *parent = QEXT_DECL_NULLPTR);
-    ~LFAMMainWindow();
+    explicit MainWindow(QWidget *parent = QEXT_DECL_NULLPTR);
+    ~MainWindow();
 
 protected slots:
     void updateCpu(const quint64 &ulPercent);

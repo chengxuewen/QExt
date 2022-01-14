@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
     QApplication app(argc, argv);
 
-    LFAMMainWindow w;
+    MainWindow w;
     w.show();
 
     return app.exec();

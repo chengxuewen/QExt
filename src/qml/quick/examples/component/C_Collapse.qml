@@ -3,7 +3,7 @@ import QtQuick.Controls 2.12
 import QEXTQuick 1.0
 
 Rectangle {
-    id: lfamMeasureSampleView
+    id: root
     clip: true
 
     QEXTCollapse {

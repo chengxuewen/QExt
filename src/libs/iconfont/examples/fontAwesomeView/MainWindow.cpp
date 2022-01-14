@@ -9,7 +9,7 @@
 #include <QScrollArea>
 #include <QListWidget>
 
-LFAMMainWindow::LFAMMainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -44,7 +44,7 @@ LFAMMainWindow::LFAMMainWindow(QWidget *parent) :
     }
 }
 
-LFAMMainWindow::~LFAMMainWindow()
+MainWindow::~MainWindow()
 {
     delete ui;
 }

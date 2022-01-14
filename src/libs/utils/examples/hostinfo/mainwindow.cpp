@@ -4,7 +4,7 @@
 
 
 
-LFAMMainWindow::LFAMMainWindow(QWidget *parent) : QMainWindow(parent),
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -17,17 +17,17 @@ LFAMMainWindow::LFAMMainWindow(QWidget *parent) : QMainWindow(parent),
     connect(info, SIGNAL(diskChanged(QList<QEXTDiskInfo>)), this, SLOT(updateDisk(QList<QEXTDiskInfo>)));
 }
 
-LFAMMainWindow::~LFAMMainWindow()
+MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-void LFAMMainWindow::updateCpu(const quint64 &ulPercent)
+void MainWindow::updateCpu(const quint64 &ulPercent)
 {
     qDebug() << "MainWindow::updateCpu():ulPercent=" << ulPercent;
 }
 
-void LFAMMainWindow::updateMemory(const quint64 &ulIdle, const quint64 &ulTotal, const quint64 &ulPercent)
+void MainWindow::updateMemory(const quint64 &ulIdle, const quint64 &ulTotal, const quint64 &ulPercent)
 {
     qDebug() << "MainWindow::updateMemory()----------------------";
     qDebug() << "ulIdle=" << ulIdle;
@@ -35,7 +35,7 @@ void LFAMMainWindow::updateMemory(const quint64 &ulIdle, const quint64 &ulTotal,
     qDebug() << "ulPercent=" << ulPercent;
 }
 
-void LFAMMainWindow::updateDisk(const QList<QEXTDiskInfo> &listDiskInfo)
+void MainWindow::updateDisk(const QList<QEXTDiskInfo> &listDiskInfo)
 {
     qDebug() << "MainWindow::updateDisk()----------------------";
     foreach (QEXTDiskInfo info, listDiskInfo) {

@@ -7,13 +7,13 @@ namespace Ui {
 class MainWindow;
 }
 
-class LFAMMainWindow : public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit LFAMMainWindow(QWidget *parent = 0);
-    ~LFAMMainWindow();
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
 private:
     Ui::MainWindow *ui;

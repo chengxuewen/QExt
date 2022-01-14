@@ -12,7 +12,7 @@
 #include "MessageWindow.h"
 #include "Test.h"
 
-LFAMMainWindow::LFAMMainWindow()
+MainWindow::MainWindow()
 {
     //central widget
     Test *qespTest = new Test();
@@ -27,7 +27,7 @@ LFAMMainWindow::LFAMMainWindow()
     setWindowTitle(tr("QEXTSerialPort Test Application"));
 }
 
-void LFAMMainWindow::about()
+void MainWindow::about()
 {
     QMessageBox::about(this, tr("About "),
                        tr("<B>""</B><BR>"
@@ -35,7 +35,7 @@ void LFAMMainWindow::about()
                           "<a href='mailto:xpolik@users.sourceforge.net'>xpolik@users.sourceforge.net</a>"));
 }
 
-void LFAMMainWindow::createActions()
+void MainWindow::createActions()
 {
     //File actions
     exitAct = new QAction(tr("E&xit"), this);
@@ -50,7 +50,7 @@ void LFAMMainWindow::createActions()
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 }
 
-void LFAMMainWindow::createMenus()
+void MainWindow::createMenus()
 {
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(exitAct);

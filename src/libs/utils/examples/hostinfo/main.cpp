@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication a(argc, argv);
-    LFAMMainWindow w;
+    MainWindow w;
     w.show();
 
     return a.exec();
