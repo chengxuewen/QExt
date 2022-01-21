@@ -27,8 +27,8 @@
 #--------------------------------------------------------------------------------
 # Set example output path
 #--------------------------------------------------------------------------------
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/stylesheet)
-set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/stylesheet)
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/styletheme)
+set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/styletheme)
 
 
 
@@ -52,42 +52,54 @@ endif()
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Gui Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QEXTStyleSheet)
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QEXTCore QEXTStyleTheme)
 
 
 
 #--------------------------------------------------------------------------------
-# Add  example
+# define function
 #--------------------------------------------------------------------------------
-#set(_example_name exp_qext)
-#set(_example_headers
-#    )
-#set(_example_sources
-#    )
-#set(_example_forms
-#    )
-#set(_example_resource
-#    styles/styles.qrc
-#    )
-#add_executable(${_example_name}
-#    ${_example_headers}
-#    ${_example_sources}
-#    ${_example_forms}
-#    ${_example_resource}
-#    )
-#target_link_libraries(${_example_name} PRIVATE ${QEXT_EXAMPLE_LINK_LIBRARIES})
-#target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/styles)
-#set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
-#if(WIN32)
-#qextFunctionCopyDependencyInternal(
-#    TARGET ${qext_example_name}
-#    LIBS QEXTCore QEXTIconFont
-#    DESTINATION ${EXECUTABLE_OUTPUT_PATH}
-#    POST_BUILD
-#    )
-#endif()
+function(qextFunctionStyleThemeAddExample EXAMPLE_NAME)
+    set(multiValueArgs EXAMPLE_SOURCE EXAMPLE_INCLUDE_DIRS)
+    cmake_parse_arguments(MY "" "" "${multiValueArgs}" "${ARGN}")
+    add_executable(${EXAMPLE_NAME} ${MY_EXAMPLE_SOURCE})
+    target_link_libraries(${EXAMPLE_NAME} PRIVATE ${QEXT_EXAMPLE_LINK_LIBRARIES})
+    target_include_directories(${EXAMPLE_NAME} PRIVATE
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${MY_EXAMPLE_INCLUDE_DIRS}
+        ${QEXT_EXAMPLE_INCLUDE_DIRECTORIES}
+        )
+    set_property(TARGET ${EXAMPLE_NAME} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
+    if(QEXT_BUILD_SHARED_LIBS AND WIN32)
+        qextFunctionCopyDependencyInternal(
+            TARGET ${EXAMPLE_NAME}
+            LIBS QEXTCore QEXTStyleTheme
+            DESTINATION ${EXECUTABLE_OUTPUT_PATH}
+            POST_BUILD
+            )
+    endif()
+endfunction()
+
+
+
+#--------------------------------------------------------------------------------
+# Add example
+#--------------------------------------------------------------------------------
+qextFunctionStyleThemeAddExample(qext_exp_styleThemeGallery
+    EXAMPLE_SOURCE
+    gallery/mainwindow.cpp
+    gallery/mainwindow.h
+    gallery/mainwindow.ui
+    gallery/main.cpp
+    EXAMPLE_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/gallery
+    )

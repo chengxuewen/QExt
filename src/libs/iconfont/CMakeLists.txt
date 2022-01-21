@@ -39,6 +39,7 @@ set(QEXT_LIB_PUBLIC_HEADERS
     include/qextIconFontAwesome.h
     include/qextIconFontGlobal.h
     include/qextIconFontMaterial.h
+    include/qextIconFontConstants.h
     include/qextIconFontPch.h
     )
 

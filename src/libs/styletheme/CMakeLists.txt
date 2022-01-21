@@ -37,8 +37,13 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_LIB_OUTPUT_DIR})
 #--------------------------------------------------------------------------------
 set(QEXT_LIB_PUBLIC_HEADERS
     include/qextStyleTheme.h
-    include/qextStyleThemePch.h
+    include/qextStyleThemeConstants.h
+    include/qextStyleThemeDefault.h
     include/qextStyleThemeGlobal.h
+    include/qextStyleThemeIconEngine.h
+    include/qextStyleThemeManager.h
+    include/qextStyleThemeMaterial.h
+    include/qextStyleThemePch.h
     )
 
 set(QEXT_LIB_PRIVATE_HEADERS
@@ -46,6 +51,10 @@ set(QEXT_LIB_PRIVATE_HEADERS
 
 set(QEXT_LIB_SOURCES
     source/qextStyleTheme.cpp
+    source/qextStyleThemeDefault.cpp
+    source/qextStyleThemeIconEngine.cpp
+    source/qextStyleThemeManager.cpp
+    source/qextStyleThemeMaterial.cpp
     )
 
 set(QEXT_LIB_FORMS
@@ -53,7 +62,7 @@ set(QEXT_LIB_FORMS
     )
 
 set(QEXT_LIB_RESOURCES
-    resource/qextStyleTheme.qrc
+    resource/QEXTStyleTheme.qrc
     )
 
 list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore)
@@ -87,10 +96,7 @@ elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Gui
-        )
-    list(APPEND QEXT_LIB_INCLUDE_DIRECTORIES
-        ${Qt${QEXT_QT_VERSION_MAJOR}Gui_PRIVATE_INCLUDE_DIRS}
-        ${Qt${QEXT_QT_VERSION_MAJOR}Widgets_PRIVATE_INCLUDE_DIRS}
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets
         )
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
