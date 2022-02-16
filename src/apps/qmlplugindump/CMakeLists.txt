@@ -28,8 +28,8 @@
 # Set example output path
 #--------------------------------------------------------------------------------
 set(QEXT_APP_BASE_NAME qmlplugindump)
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_APP_OUTPUT_DIR})
-set(QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXT_QML_OUTPUT_DIR})
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_APP_DIR})
+set(QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXT_OUTPUT_QML_DIR})
 set(QML_IMPORT_PATH "${QEXT_QML_IMPORT_PATH}" CACHE STRING "Qt Creator extra qml import paths")
 
 

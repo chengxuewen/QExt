@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
     QCoreApplication app(argc, argv);
 
-    QEXTTestController testController(QEXT_TEST_OUTPUT_DIR, QEXTTestController::Output_All);
+    QEXTTestController testController(QEXT_OUTPUT_TEST_DIR, QEXTTestController::Output_All);
     QObject::connect(&testController, SIGNAL(allTestFinished()), QCoreApplication::instance(), SLOT(quit()));
     testController.runTest();
 
