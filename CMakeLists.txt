@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.12.2.2 LANGUAGES CXX C)
+project(QEXT VERSION 0.12.3.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -194,21 +194,6 @@ endif()
 
 
 #--------------------------------------------------------------------------------
-# Specify the output dir
-#--------------------------------------------------------------------------------
-set(QEXT_PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR} CACHE STRING "QEXT project source dir" FORCE)
-set(QEXT_PROJECT_BINARY_DIR ${PROJECT_BINARY_DIR} CACHE STRING "QEXT project binary dir" FORCE)
-set(QEXT_OUTPUT_APP_DIR ${PROJECT_BINARY_DIR}/bin CACHE STRING "QEXT bin output dir" FORCE)
-set(QEXT_OUTPUT_LIB_DIR ${PROJECT_BINARY_DIR}/lib CACHE STRING "QEXT lib output dir" FORCE)
-set(QEXT_OUTPUT_PLUGIN_DIR ${PROJECT_BINARY_DIR}/plugin CACHE STRING "QEXT plugin output dir" FORCE)
-set(QEXT_OUTPUT_QML_DIR ${PROJECT_BINARY_DIR}/qml CACHE STRING "QEXT qml output dir" FORCE)
-set(QEXT_OUTPUT_INCLUDE_DIR ${PROJECT_BINARY_DIR}/include CACHE STRING "QEXT include output dir" FORCE)
-set(QEXT_OUTPUT_EXAMPLE_DIR ${PROJECT_BINARY_DIR}/example CACHE STRING "QEXT example output dir" FORCE)
-set(QEXT_OUTPUT_TEST_DIR ${PROJECT_BINARY_DIR}/test CACHE STRING "QEXT test output dir" FORCE)
-
-
-
-#--------------------------------------------------------------------------------
 # Add CMake function(s) and macro(s)
 #--------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
@@ -226,27 +211,45 @@ include(qextMacroFindLibVLC)
 
 
 #--------------------------------------------------------------------------------
+# Specify the output dir
+#--------------------------------------------------------------------------------
+qextMacroEnsureDefineVariable(QEXT_PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
+qextMacroEnsureDefineVariable(QEXT_PROJECT_BINARY_DIR ${PROJECT_BINARY_DIR})
+qextMacroEnsureDefineVariable(QEXT_OUTPUT_APP_DIR ${PROJECT_BINARY_DIR}/bin)
+qextMacroEnsureDefineVariable(QEXT_OUTPUT_LIB_DIR ${PROJECT_BINARY_DIR}/lib)
+qextMacroEnsureDefineVariable(QEXT_OUTPUT_PLUGIN_DIR ${PROJECT_BINARY_DIR}/plugin)
+qextMacroEnsureDefineVariable(QEXT_OUTPUT_QML_DIR ${PROJECT_BINARY_DIR}/qml)
+qextMacroEnsureDefineVariable(QEXT_OUTPUT_INCLUDE_DIR ${PROJECT_BINARY_DIR}/include)
+qextMacroEnsureDefineVariable(QEXT_OUTPUT_EXAMPLE_DIR ${PROJECT_BINARY_DIR}/example)
+qextMacroEnsureDefineVariable(QEXT_OUTPUT_TEST_DIR ${PROJECT_BINARY_DIR}/test)
+
+
+
+#--------------------------------------------------------------------------------
 # Set option
 #--------------------------------------------------------------------------------
+qextMacroEnsureDefineVariable(BUILD_QEXT_ALL ON)
 qextMacroEnsureDefineVariable(BUILD_QEXT_SHARED ON)
-qextMacroEnsureDefineVariable(BUILD_QEXT_TEST OFF)
-qextMacroEnsureDefineVariable(BUILD_QEXT_EXAMPLES OFF)
-qextMacroEnsureDefineVariable(BUILD_QEXT_APPS OFF)
-qextMacroEnsureDefineVariable(BUILD_QEXT_PLUGINS OFF)
-qextMacroEnsureDefineVariable(BUILD_QEXT_INSTALL OFF)
 qextMacroEnsureDefineVariable(BUILD_QEXT_USE_PCH ON)
-qextMacroEnsureDefineVariable(BUILD_QEXT_DOCUMENTATION OFF)
 qextMacroEnsureDefineVariable(BUILD_QEXT_COMPILER_WARNING OFF)
-option(QEXT_BUILD_SHARED_LIBS "Build shared library" ${BUILD_QEXT_SHARED})
-option(QEXT_BUILD_TESTS "Build tests" ${BUILD_QEXT_TEST})
-option(QEXT_BUILD_EXAMPLES "Build examples" ${BUILD_QEXT_EXAMPLES})
+qextMacroEnsureDefineVariable(BUILD_QEXT_TEST ${BUILD_QEXT_ALL})
+qextMacroEnsureDefineVariable(BUILD_QEXT_EXAMPLES ${BUILD_QEXT_ALL})
+qextMacroEnsureDefineVariable(BUILD_QEXT_APPS ${BUILD_QEXT_ALL})
+qextMacroEnsureDefineVariable(BUILD_QEXT_PLUGINS ${BUILD_QEXT_ALL})
+qextMacroEnsureDefineVariable(BUILD_QEXT_INSTALL ${BUILD_QEXT_ALL})
+qextMacroEnsureDefineVariable(BUILD_QEXT_DOCUMENTATION ${BUILD_QEXT_ALL})
+
 option(QEXT_BUILD_APPS "Build apps" ${BUILD_QEXT_APPS})
+option(QEXT_BUILD_TESTS "Build tests" ${BUILD_QEXT_TEST})
 option(QEXT_BUILD_PLUGINS "Build plugins" ${BUILD_QEXT_PLUGINS})
+option(QEXT_BUILD_EXAMPLES "Build examples" ${BUILD_QEXT_EXAMPLES})
 option(QEXT_BUILD_INSTALL "Build install" ${BUILD_QEXT_INSTALL})
+option(QEXT_BUILD_SHARED_LIBS "Build shared library" ${BUILD_QEXT_SHARED})
+option(QEXT_BUILD_COMPILER_WARNING "Build target with compiler warnings" ${BUILD_QEXT_COMPILER_WARNING})
 option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ${BUILD_QEXT_USE_PCH})
 option(QEXT_BUILD_DOCUMENTATION "Enable this to build the documentation" ${BUILD_QEXT_DOCUMENTATION})
-option(QEXT_BUILD_COMPILER_WARNING "Build target with compiler warnings" ${BUILD_QEXT_COMPILER_WARNING})
-option(QEXT_BUILD_ALL "Build all artifacts" OFF)
+option(QEXT_BUILD_ALL "Build all artifacts" ${BUILD_QEXT_ALL})
+
 
 qextMacroEnsureDefineVariable(USE_QEXT_ALL ON)
 qextMacroEnsureDefineVariable(USE_QEXT_DEVICEWATCHER ${USE_QEXT_ALL})
@@ -262,10 +265,14 @@ qextMacroEnsureDefineVariable(USE_QEXT_TCP ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_UTILS ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_VLC ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_WIDGETS ${USE_QEXT_ALL})
+
+qextMacroEnsureDefineVariable(USE_QEXT_QML_QUICK ${USE_QEXT_ALL})
+qextMacroEnsureDefineVariable(USE_QEXT_QML_THEME ${USE_QEXT_ALL})
+
 qextMacroEnsureDefineVariable(USE_QEXT_QWT ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_QWT3D ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_QCUSTOMPLOT ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_QTAV OFF)
+
 option(QEXT_BUILD_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" ${USE_QEXT_DEVICEWATCHER})
 option(QEXT_BUILD_LIB_FRAMELESSHELPER "Enable this to build the framelesshelper lib" ${USE_QEXT_FRAMELESSHELPER})
 option(QEXT_BUILD_LIB_GOOGLEPINYIN "Enable this to build the googlepinyin lib" ${USE_QEXT_GOOGLEPINYIN})
@@ -279,10 +286,13 @@ option(QEXT_BUILD_LIB_TCP "Enable this to build the tcp lib" ${USE_QEXT_TCP})
 option(QEXT_BUILD_LIB_UTILS "Enable this to build the utils lib" ${USE_QEXT_UTILS})
 option(QEXT_BUILD_LIB_VLC "Enable this to build the VLC lib" ${USE_QEXT_VLC})
 option(QEXT_BUILD_LIB_WIDGETS "Enable this to build the widgets lib" ${USE_QEXT_WIDGETS})
+
+option(QEXT_BUILD_LIB_QML_QUICK "Enable this to build the qml quick lib" ${USE_QEXT_QML_QUICK})
+option(QEXT_BUILD_LIB_QML_THEME "Enable this to build the qml theme lib" ${USE_QEXT_QML_THEME})
+
 option(QEXT_BUILD_LIB_QWT "Enable this to build the qwt lib" ${USE_QEXT_QWT})
 option(QEXT_BUILD_LIB_QWT3D "Enable this to build the qwt3d lib" ${USE_QEXT_QWT3D})
 option(QEXT_BUILD_LIB_QCUSTOMPLOT "Enable this to build the qcustomplot lib" ${USE_QEXT_QCUSTOMPLOT})
-option(QEXT_BUILD_LIB_QTAV "Enable this to build the QtAV lib" ${USE_QEXT_QTAV})
 
 
 if(QEXT_BUILD_SHARED_LIBS)
@@ -308,7 +318,7 @@ endif()
 
 
 # enable build doc
-if(QEXT_BUILD_DOCUMENTATION)
+if(QEXT_BUILD_DOCUMENTATION OR QEXT_BUILD_ALL)
     qextMacroBuildDoxygen()
     message(STATUS "----QEXT---- Build with the documentation")
 else()
@@ -436,8 +446,4 @@ if(QEXT_BUILD_LIB_QCUSTOMPLOT)
     if(QEXT_QT_VERSION_MAJOR GREATER 4)
         add_subdirectory(3rdparty/qcustomplot)
     endif()
-endif()
-
-if(QEXT_BUILD_LIB_QTAV)
-    add_subdirectory(3rdparty/QtAV-1.13.0)
 endif()

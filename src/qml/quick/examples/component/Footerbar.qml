@@ -10,7 +10,7 @@ Rectangle {
         anchors.centerIn: parent
 
         Label{
-            text: "Powered by QEXTQuick"
+            text: "Powered by QEXTQmlQuick"
             color: "#FFF"
             font.bold: true
             font.pixelSize: 15

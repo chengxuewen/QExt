@@ -1,5 +1,5 @@
-#ifndef _QEXTQUICKFRAMELESSHELPER_P_H
-#define _QEXTQUICKFRAMELESSHELPER_P_H
+#ifndef _QEXTQMLFRAMELESSHELPER_P_H
+#define _QEXTQMLFRAMELESSHELPER_P_H
 
 #include <qextQmlFramelessHelperGlobal.h>
 #include <qextQmlFramelessHelper.h>
@@ -33,4 +33,4 @@ public:
     int m_titleBarHeight;
 };
 
-#endif // _QEXTQUICKFRAMELESSHELPER_P_H
+#endif // _QEXTQMLFRAMELESSHELPER_P_H

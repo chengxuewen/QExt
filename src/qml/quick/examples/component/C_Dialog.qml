@@ -1,6 +1,6 @@
 ﻿import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Column {
     spacing: 10
@@ -30,21 +30,21 @@ Column {
                     anchors.horizontalCenter: parent.horizontalCenter
                     Label {
                         id: label
-                        text: "Hi QEXTQuick"
+                        text: "Hi QEXTQmlQuick"
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter: parent.verticalCenter
                         font.bold: true
-                        font.pixelSize: QEXTQuick.PH5
+                        font.pixelSize: QEXTQmlQuick.PH5
                     }
 
-                    QEXTIconButton {
+                    QEXTQmlQuickIconButton {
                         padding: 10
                         width: 30
                         height: 30
                         background: null
                         visible: true
-                        iconSource: "qrc:/QEXTQuick/svg/close-px.svg"
-                        iconDisplay: QEXTQuick.IconDisplay_IconOnly
+                        iconSource: "qrc:/QEXTQmlQuick/svg/close-px.svg"
+                        iconDisplay: QEXTQmlQuick.IconDisplay_IconOnly
                         anchors.right: parent.right
                         anchors.rightMargin: 5
                         anchors.verticalCenter: parent.verticalCenter
@@ -62,7 +62,7 @@ Column {
                     }
                 }
 
-                QEXTDividerLine {
+                QEXTQmlQuickDividerLine {
                     width: parent.width * 0.95
                     height: 1
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -72,7 +72,7 @@ Column {
                     width: 100
                     height: 45
                     anchors.horizontalCenter: parent.horizontalCenter
-                    QEXTButton {
+                    QEXTQmlQuickButton {
                         background: null
                         anchors.centerIn: parent
                         text: "Agree"
@@ -92,35 +92,35 @@ Column {
 
 
     Row{
-        QEXTButton {
+        QEXTQmlQuickButton {
             text: "Open default"
             textColor: "#46A0FC"
             background: null
             onClicked: dialog.open()
         }
 
-        QEXTButton {
+        QEXTQmlQuickButton {
             text: "Open Not centered"
             textColor: "#46A0FC"
             background: null
             onClicked: dialog2.open()
         }
 
-        QEXTButton {
+        QEXTQmlQuickButton {
             text: "Open Input"
             textColor: "#46A0FC"
             background: null
             onClicked: dialog_input.open()
         }
 
-        QEXTButton {
+        QEXTQmlQuickButton {
             text: "Open List view"
             textColor: "#46A0FC"
             background: null
             onClicked: dialog_list.open()
         }
 
-        QEXTButton {
+        QEXTQmlQuickButton {
             text: "test"
             textColor: "#46A0FC"
             background: null
@@ -128,15 +128,15 @@ Column {
         }
 
 
-        QEXTDialog {
+        QEXTQmlQuickDialog {
             id: dialog
-            title: "Hi QEXTQuick"
+            title: "Hi QEXTQmlQuick"
             contentText: "This a dialog style for default"
             buttons: [
-                QEXTDialogButton {
+                QEXTQmlQuickDialogButton {
                     text: "Agree"
                     textFont.bold: true
-                    textFont.pixelSize: QEXTQuick.PH5
+                    textFont.pixelSize: QEXTQmlQuick.PH5
                     textColor: "#46A0FC"
                 }
             ]
@@ -145,20 +145,20 @@ Column {
         }
 
 
-        QEXTDialog {
+        QEXTQmlQuickDialog {
             id: dialog2
-            headerText: "Hi QEXTQuick"
+            headerText: "Hi QEXTQmlQuick"
             layoutInCenter: false
 
             buttons: [
-                QEXTDialogButton {
+                QEXTQmlQuickDialogButton {
                     text: "Cancel"
-                    textFont.pixelSize: QEXTQuick.PH5
+                    textFont.pixelSize: QEXTQmlQuick.PH5
                 },
-                QEXTDialogButton {
+                QEXTQmlQuickDialogButton {
                     text: "Agree"
                     textFont.bold: true
-                    textFont.pixelSize: QEXTQuick.PH5
+                    textFont.pixelSize: QEXTQmlQuick.PH5
                     textColor: "#46A0FC"
                     lighter:true
                 }
@@ -179,20 +179,20 @@ Column {
         }
 
 
-        QEXTDialog {
+        QEXTQmlQuickDialog {
             id: dialog_input
             headerText: "Tell me your name"
             closeable: false
             buttons: [
-                QEXTDialogButton {
+                QEXTQmlQuickDialogButton {
                     text: "Cancel"
-                    textFont.pixelSize: QEXTQuick.PH5
+                    textFont.pixelSize: QEXTQmlQuick.PH5
                     //                    backgroundVisiable: true
                 },
-                QEXTDialogButton {
+                QEXTQmlQuickDialogButton {
                     text: "OK"
                     textFont.bold: true
-                    textFont.pixelSize: QEXTQuick.PH5
+                    textFont.pixelSize: QEXTQmlQuick.PH5
                     textColor: "#46A0FC"
                     lighter: true
                 }
@@ -201,7 +201,7 @@ Column {
                 property alias text: input.text
                 implicitWidth: parent.implicitWidth
                 implicitHeight: 50
-                QEXTInputField {
+                QEXTQmlQuickInputField {
                     id: input
                     width: parent.width - 40
                     height: parent.height - 10
@@ -212,14 +212,14 @@ Column {
 
             onButtonTriggered: {
                 if (button.text === "OK" && item.text) {
-                    QEXTToast.showSuccess("Hi, " + item.text , 2000)
+                    QEXTQmlQuickToast.showSuccess("Hi, " + item.text , 2000)
                 } else {
-                    QEXTToast.showError("What's your name？", 2000)
+                    QEXTQmlQuickToast.showError("What's your name？", 2000)
                 }
                 accept()
             }
         }
-        QEXTDialog {
+        QEXTQmlQuickDialog {
             id: dialog_list
             headerText: "ListView Dialog"
             closeable: true
@@ -240,7 +240,7 @@ Column {
             }
         }
 
-        QEXTDialog {
+        QEXTQmlQuickDialog {
             id: mTestDialog
 
             contentText: "aefwwewfdewfewcfvrasgvafdsvdfsvadfvasdfvcasdfv sdfvdsfvadsvafsdvvasdfv
@@ -250,33 +250,33 @@ Column {
                             FP;Oihnbsdfoivhnzfiodvhniodfvbu aiodfvhniaohnrvc ;ioZDHUUUV"
 
             buttons: [
-                QEXTDialogButton {
+                QEXTQmlQuickDialogButton {
                     text: "Cancel"
-                    textFont.pixelSize: QEXTQuick.PH5
+                    textFont.pixelSize: QEXTQmlQuick.PH5
                     //                    backgroundVisiable: true
                 },
-                QEXTDialogButton {
+                QEXTQmlQuickDialogButton {
                     text: "OK"
                     textFont.bold: true
-                    textFont.pixelSize: QEXTQuick.PH5
+                    textFont.pixelSize: QEXTQmlQuick.PH5
                     //                backgroundVisiable: true
                     textColor: "#46A0FC"
                     lighter: true
                 },
 
-                QEXTDialogButton {
+                QEXTQmlQuickDialogButton {
                     text: "OK"
                     textFont.bold: true
-                    textFont.pixelSize: QEXTQuick.PH5
+                    textFont.pixelSize: QEXTQmlQuick.PH5
                     //                backgroundVisiable: true
                     textColor: "#46A0FC"
                     lighter: true
                 },
 
-                QEXTDialogButton {
+                QEXTQmlQuickDialogButton {
                     text: "OK"
                     textFont.bold: true
-                    textFont.pixelSize: QEXTQuick.PH5
+                    textFont.pixelSize: QEXTQmlQuick.PH5
                     backgroundVisiable: true
                     textColor: "#46A0FC"
                     lighter: true

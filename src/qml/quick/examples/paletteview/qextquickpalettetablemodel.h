@@ -1,16 +1,16 @@
-#ifndef _QEXTQUICKPALETTETABLEMODEL_H
-#define _QEXTQUICKPALETTETABLEMODEL_H
+#ifndef _QEXTQMLQUICKPALETTETABLEMODEL_H
+#define _QEXTQMLQUICKPALETTETABLEMODEL_H
 
 #include <QPointer>
 #include <QAbstractTableModel>
 
 #include <qextGlobal.h>
-#include <qextQuickPalette.h>
+#include <qextQmlQuickPalette.h>
 
-class QEXTQuickPaletteTableModel : public QAbstractTableModel
+class QEXTQmlQuickPaletteTableModel : public QAbstractTableModel
 {
 public:
-    QEXTQuickPaletteTableModel(QObject *parent = nullptr);
+    QEXTQmlQuickPaletteTableModel(QObject *parent = nullptr);
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -18,7 +18,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-    QPointer<QEXTQuickPalette> m_quickPalette;
+    QPointer<QEXTQmlQuickPalette> m_quickPalette;
 };
 
-#endif // _QEXTQUICKPALETTETABLEMODEL_H
+#endif // _QEXTQMLQUICKPALETTETABLEMODEL_H

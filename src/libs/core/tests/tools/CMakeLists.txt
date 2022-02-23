@@ -21,8 +21,8 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/core/tools)
-set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/core/tools)
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR}/core/tools)
+set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR}/core/tools)
 
 
 

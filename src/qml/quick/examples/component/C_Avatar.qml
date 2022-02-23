@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Column{
     spacing: 15
@@ -8,21 +8,21 @@ Column{
         id:layout
         spacing: 20
 
-        QEXTAvatar{
+        QEXTQmlQuickAvatar{
             width: 60
             height: 60
             source: "qrc:/images/0.jpg"
             radius: 5
         }
 
-        QEXTAvatar{
+        QEXTQmlQuickAvatar{
             width: 60
             height: 60
             source: "qrc:/images/1.jpg"
             radius: 20
         }
 
-        QEXTAvatar{
+        QEXTQmlQuickAvatar{
             width: 60
             height: 60
             source: "qrc:/images/2.jpg"
@@ -31,14 +31,14 @@ Column{
             borderColor: "#F56C6C"
         }
 
-        QEXTAvatar{
+        QEXTQmlQuickAvatar{
             width: 60
             height: 60
             source: "qrc:/images/3.jpg"
             radius: 20
         }
 
-        QEXTAvatar{
+        QEXTQmlQuickAvatar{
             width: 60
             height: 60
             source: "qrc:/images/4.jpg"

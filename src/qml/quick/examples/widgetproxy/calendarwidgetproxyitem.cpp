@@ -5,6 +5,6 @@
 #include <QPushButton>
 
 CalendarWidgetProxyItem::CalendarWidgetProxyItem(QQuickItem *parent)
-    : QEXTQuickWidgetProxyItem(new QDial, parent)
+    : QEXTQmlQuickWidgetProxyItem(new QDial, parent)
 {
 }

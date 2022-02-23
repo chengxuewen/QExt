@@ -29,20 +29,26 @@
 #--------------------------------------------------------------------------------
 set(QEXT_QML_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "QEXT qml source dir" FORCE)
 
-list(APPEND QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXTQUICK_IMPORT_DIR})
+list(APPEND QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXT_OUTPUT_QML_DIR})
 list(REMOVE_DUPLICATES QML_IMPORT_PATH)
 set(QML_IMPORT_PATH ${QML_IMPORT_PATH} CACHE STRING "Qt Creator extra qml import paths" FORCE)
 
-if(QEXT_BUILD_LIB_QUICK)
+if(QEXT_BUILD_LIB_QML_QUICK)
+    message(STATUS "----QEXT---- Build qml quick plugin.")
     add_subdirectory(quick)
 endif()
 
+if(QEXT_BUILD_LIB_QML_THEME)
+    message(STATUS "----QEXT---- Build qml theme plugin.")
+    add_subdirectory(theme)
+endif()
+
 if(QEXT_BUILD_LIB_FRAMELESSHELPER)
+    message(STATUS "----QEXT---- Build qml framelesshelper plugin.")
     add_subdirectory(framelesshelper)
 endif()
 
-add_subdirectory(theme)
-
 if(QEXT_BUILD_LIB_VLC)
+    message(STATUS "----QEXT---- Build qml vlc plugin.")
     add_subdirectory(vlc)
 endif()

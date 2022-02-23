@@ -1,13 +1,12 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 
-#include <qextQmlVLCLoader.h>
-
-#include <qextQmlVLCExampleConfig.h>
-
 #ifndef QEXT_BUILD_SHARED_LIBS
+#include <qextQmlVLCLoader.h>
 #include <QtPlugin>
 Q_IMPORT_PLUGIN(QEXTQmlVLC)
+#else
+#include <qextQmlVLCExampleConfig.h>
 #endif
 
 int main(int argc, char *argv[])
@@ -16,7 +15,13 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    engine.addImportPath(QEXT_QML_OUTPUT_DIR);
+
+#ifndef QEXT_BUILD_SHARED_LIBS
+    QEXTQmlVLCLoader::load(&engine);
+#else
+    engine.addImportPath(QEXT_OUTPUT_QML_DIR);
+#endif
+
     engine.load(QUrl(QStringLiteral("qrc:/video.qml")));
 
     return app.exec();

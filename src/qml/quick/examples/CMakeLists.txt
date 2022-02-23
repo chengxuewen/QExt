@@ -27,13 +27,17 @@
 #--------------------------------------------------------------------------------
 # Set example output path
 #--------------------------------------------------------------------------------
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/quick)
-set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/quick)
-set(QEXT_EXAMPLE_CONFIG_FILE_DIR ${QEXT_EXAMPLE_OUTPUT_DIR}/quick)
-set(QEXT_EXAMPLE_CONFIG_FILE_PATH ${QEXT_EXAMPLE_CONFIG_FILE_DIR}/qextQuickExampleConfig.h)
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_EXAMPLE_DIR}/quick)
+set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_EXAMPLE_DIR}/quick)
+
+
+
+#--------------------------------------------------------------------------------
+# Configure a header file to pass some of the CMake settings to the source code
+#--------------------------------------------------------------------------------
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/qextQuickExampleConfig.h.in"
-    "${QEXT_EXAMPLE_CONFIG_FILE_PATH}"
+    "${CMAKE_CURRENT_BINARY_DIR}/qextQuickExampleConfig.h"
     )
 
 
@@ -64,7 +68,7 @@ else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
 
-list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QEXTQuick)
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QEXTQmlQuick)
 
 
 
@@ -80,14 +84,12 @@ function(qextFunctionQuickAddExample EXAMPLE_NAME)
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${MY_EXAMPLE_INCLUDE_DIRS}
-        ${QEXT_EXAMPLE_INCLUDE_DIRECTORIES}
-        ${QEXT_EXAMPLE_CONFIG_FILE_DIR}
         )
     set_property(TARGET ${EXAMPLE_NAME} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
     if(QEXT_BUILD_SHARED_LIBS AND WIN32)
         qextFunctionCopyDependencyInternal(
             TARGET ${EXAMPLE_NAME}
-            LIBS QEXTCore QEXTQuick QEXTWidgets
+            LIBS QEXTCore QEXTQmlQuick QEXTWidgets
             DESTINATION ${EXECUTABLE_OUTPUT_PATH}
             POST_BUILD
             )
@@ -99,7 +101,7 @@ endfunction()
 #--------------------------------------------------------------------------------
 # Add example
 #--------------------------------------------------------------------------------
-qextFunctionQuickAddExample(qext_exp_quickWidgetProxy
+qextFunctionQuickAddExample(qext_exp_qmlQuickWidgetProxy
     EXAMPLE_SOURCE
     widgetproxy/calendarwidgetproxyitem.cpp
     widgetproxy/calendarwidgetproxyitem.h
@@ -108,23 +110,23 @@ qextFunctionQuickAddExample(qext_exp_quickWidgetProxy
     EXAMPLE_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/widgetproxy
     )
-qextFunctionQuickAddExample(qext_exp_quickSimple
+qextFunctionQuickAddExample(qext_exp_qmlQuickSimple
     EXAMPLE_SOURCE
-    simple/QEXTQuickSimple.qrc
+    simple/QEXTQmlQuickSimple.qrc
     simple/main.cpp
     EXAMPLE_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/simple
     )
-qextFunctionQuickAddExample(qext_exp_quickComponent
+qextFunctionQuickAddExample(qext_exp_qmlQuickComponent
     EXAMPLE_SOURCE
-    component/QEXTQuickComponent.qrc
+    component/QEXTQmlQuickComponent.qrc
     component/main.cpp
     EXAMPLE_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/component
     )
-qextFunctionQuickAddExample(qext_exp_quickPaletteView
+qextFunctionQuickAddExample(qext_exp_qmlQuickPaletteView
     EXAMPLE_SOURCE
-    paletteview/QEXTQuickPaletteView.qrc
+    paletteview/QEXTQmlQuickPaletteView.qrc
     paletteview/qextquickpalettetablemodel.h
     paletteview/qextquickpalettetablemodel.cpp
     paletteview/main.cpp

@@ -2,12 +2,12 @@
 # Make sure module name coincides with module import path.
 # For example: path to our module is my/plugin/example and module name
 # is my.plugin.example
-module QEXTQuick
+module QEXTQmlQuick
 
 # Plugin name.
 # Make sure that is the same name as your library target in
 # CMakeLists.txt
-plugin QEXTQuick
+plugin QEXTQmlQuick
 
 # Resourse files
 # 'qmldir' syntax for resources is:

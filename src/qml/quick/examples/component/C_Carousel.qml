@@ -1,28 +1,28 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Column {
     spacing: 20
-    QEXTCarousel{
+    QEXTQmlQuickCarousel{
         width: 400
         height: 180
         itemWidth: 350
         itemHeight:160
 
-        QEXTCarouselElement {
+        QEXTQmlQuickCarouselElement {
             otherData: "#409EFF"
         }
 
-        QEXTCarouselElement {
+        QEXTQmlQuickCarouselElement {
             otherData: "#67C23A"
         }
 
-        QEXTCarouselElement {
+        QEXTQmlQuickCarouselElement {
             otherData: "#E6A23C"
         }
 
-        QEXTCarouselElement {
+        QEXTQmlQuickCarouselElement {
             otherData: "#F56C6C"
         }
 
@@ -49,26 +49,26 @@ Column {
         }
     }
 
-    QEXTCarousel {
+    QEXTQmlQuickCarousel {
         width: 400
         height: 180
         itemWidth: width
         itemHeight:height
         pathItemCount: 3
 
-        QEXTCarouselElement {
+        QEXTQmlQuickCarouselElement {
             otherData: "#409EFF"
         }
 
-        QEXTCarouselElement {
+        QEXTQmlQuickCarouselElement {
             otherData: "#67C23A"
         }
 
-        QEXTCarouselElement {
+        QEXTQmlQuickCarouselElement {
             otherData: "#E6A23C"
         }
 
-        QEXTCarouselElement {
+        QEXTQmlQuickCarouselElement {
             otherData: "#F56C6C"
         }
 

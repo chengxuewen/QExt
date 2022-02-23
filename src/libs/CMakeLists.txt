@@ -27,52 +27,65 @@
 #--------------------------------------------------------------------------------
 # Add subdirectory
 #--------------------------------------------------------------------------------
+message(STATUS "----QEXT---- Build core lib.")
 add_subdirectory(core)
 
 if(QEXT_BUILD_LIB_DEVICEWATCHER)
+    message(STATUS "----QEXT---- Build devicewatcher lib.")
     add_subdirectory(devicewatcher)
 endif()
 
 if(QEXT_BUILD_LIB_FRAMELESSHELPER)
+    message(STATUS "----QEXT---- Build framelesshelper lib.")
     add_subdirectory(framelesshelper)
 endif()
 
 if(QEXT_BUILD_LIB_GOOGLEPINYIN)
+    message(STATUS "----QEXT---- Build googlepinyin lib.")
     add_subdirectory(googlepinyin)
 endif()
 
 if(QEXT_BUILD_LIB_ICONFONT)
+    message(STATUS "----QEXT---- Build iconfont lib.")
     add_subdirectory(iconfont)
 endif()
 
 if(QEXT_BUILD_LIB_MVVM)
+    message(STATUS "----QEXT---- Build mvvm lib.")
     add_subdirectory(mvvm)
 endif()
 
 if(QEXT_BUILD_LIB_SERIALPORT)
+    message(STATUS "----QEXT---- Build serialport lib.")
     add_subdirectory(serialport)
 endif()
 
 if(QEXT_BUILD_LIB_SINGLEAPP)
+    message(STATUS "----QEXT---- Build singleapp lib.")
     add_subdirectory(singleapp)
 endif()
 
 if(QEXT_BUILD_LIB_STYLETHEME)
+    message(STATUS "----QEXT---- Build styletheme lib.")
     add_subdirectory(styletheme)
 endif()
 
 if(QEXT_BUILD_LIB_TCP)
+    message(STATUS "----QEXT---- Build tcp lib.")
     add_subdirectory(tcp)
 endif()
 
 if(QEXT_BUILD_LIB_UTILS)
+    message(STATUS "----QEXT---- Build utils lib.")
     add_subdirectory(utils)
 endif()
 
 if(QEXT_BUILD_LIB_VLC)
+    message(STATUS "----QEXT---- Build vlc lib.")
     add_subdirectory(vlc)
 endif()
 
 if(QEXT_BUILD_LIB_WIDGETS)
+    message(STATUS "----QEXT---- Build widgets lib.")
     add_subdirectory(widgets)
 endif()

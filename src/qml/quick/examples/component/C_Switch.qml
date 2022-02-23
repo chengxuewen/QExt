@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Rectangle {
     color: "lightgray"
@@ -12,7 +12,7 @@ Rectangle {
             id:layout
             spacing: 10
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 textInLeft: true
                 text: "Pay by Year"
                 onStateChanged: {
@@ -20,22 +20,22 @@ Rectangle {
                 }
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 text: "Pay by Year"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 checked: true
                 text: "Pay by Month"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 width: 80
                 checked: true
                 text: "Pay by Monthds"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 checked: true
             }
 
@@ -44,31 +44,31 @@ Rectangle {
         Row{
             spacing: 10
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchCircleOutItem
                 textInLeft: true
                 text: "Pay by Year"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchCircleOutItem
                 text: "Pay by Year"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchCircleOutItem
                 checked: true
                 text: "Pay by Month"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchCircleOutItem
                 width: 80
                 checked: true
                 text: "Pay by Monthds"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchCircleOutItem
                 checked: true
             }
@@ -78,31 +78,31 @@ Rectangle {
         Row{
             spacing: 10
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchRectInItem
                 textInLeft: true
                 text: "Pay by Year"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchRectInItem
                 text: "Pay by Year"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchRectInItem
                 checked: true
                 text: "Pay by Month"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchRectInItem
                 width: 80
                 checked: true
                 text: "Pay by Monthds"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchRectInItem
                 checked: true
             }
@@ -112,31 +112,31 @@ Rectangle {
         Row{
             spacing: 10
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchRectOutItem
                 textInLeft: true
                 text: "Pay by Year"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchRectOutItem
                 text: "Pay by Year"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchRectOutItem
                 checked: true
                 text: "Pay by Month"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchRectOutItem
                 width: 80
                 checked: true
                 text: "Pay by Monthds"
             }
 
-            QEXTSwitch {
+            QEXTQmlQuickSwitch {
                 switchItem: switchRectOutItem
                 checked: true
             }

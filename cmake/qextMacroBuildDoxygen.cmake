@@ -36,12 +36,12 @@ macro(qextMacroBuildDoxygen)
         configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
 
         # note the option ALL which allows to build the docs together with the application
-        add_custom_target( docs ALL
+        add_custom_target(docs ALL
             COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             COMMENT "Generating API documentation with Doxygen"
             VERBATIM )
     else (DOXYGEN_FOUND)
-        message("Doxygen need to be installed to generate the doxygen documentation")
+        message(STATUS "----QEXT---- Doxygen need to be installed to generate the doxygen documentation")
     endif (DOXYGEN_FOUND)
-endmacro()
+endmacro(qextMacroBuildDoxygen)

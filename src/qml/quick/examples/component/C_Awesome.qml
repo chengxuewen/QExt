@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Item{
     id: page
@@ -13,13 +13,13 @@ Item{
         cellWidth: 120
         cellHeight: 60
 
-        model: QEXTQuickFontAwesome.awesomelist()
+        model: QEXTQmlQuickFontAwesome.awesomelist()
 
         delegate: Item{
             clip: true
             width: 110
             height: 60
-            QEXTAwesomeIcon {
+            QEXTQmlQuickAwesomeIcon {
                 source: modelData
                 width: 30
                 height: 30

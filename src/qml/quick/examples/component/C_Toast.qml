@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Column {
     spacing: 20
@@ -26,15 +26,15 @@ Column {
             x:20
             y:(parent.height - height) / 2
             spacing: 10
-            QEXTSVGIcon {
+            QEXTQmlQuickSVGIcon {
                 id:ticon4
                 anchors.verticalCenter: parent.verticalCenter
                 source:{
                     switch("const_info"){
-                    case "const_success": return "qrc:/QEXTQuick/svg/success.svg"
-                    case "const_warning": return "qrc:/QEXTQuick/svg/warning.svg"
-                    case "const_info":    return "qrc:/QEXTQuick/svg/info.svg"
-                    case "const_error":   return "qrc:/QEXTQuick/svg/error.svg"
+                    case "const_success": return "qrc:/QEXTQmlQuick/svg/success.svg"
+                    case "const_warning": return "qrc:/QEXTQmlQuick/svg/warning.svg"
+                    case "const_info":    return "qrc:/QEXTQmlQuick/svg/info.svg"
+                    case "const_error":   return "qrc:/QEXTQmlQuick/svg/error.svg"
                     }
                     return "#FFFFFF"
                 }
@@ -74,14 +74,14 @@ Column {
             }
         }
 
-        QEXTIconButton {
+        QEXTQmlQuickIconButton {
             y:4
             x:parent.width - width
             width: height
             iconWidth: 12
             iconHeight: 12
-            iconDisplay: QEXTQuick.IconDisplay_IconOnly
-            iconSource: "qrc:/QEXTQuick/svg/close-px.svg"
+            iconDisplay: QEXTQmlQuick.IconDisplay_IconOnly
+            iconSource: "qrc:/QEXTQmlQuick/svg/close-px.svg"
             iconColor: "#ADADAD"
             background: null
         }
@@ -89,34 +89,34 @@ Column {
 
     Row{
         height: 30
-        QEXTButton {
+        QEXTQmlQuickButton {
             background: null
             text: "Show Success"
             textColor: "#46A0FC"
             onClicked: {
-                QEXTToast.showSuccess("Welcome to QEXTQuick", 5000, "No discord, no concord.")
+                QEXTQmlQuickToast.showSuccess("Welcome to QEXTQmlQuick", 5000, "No discord, no concord.")
             }
         }
 
-        QEXTButton {
+        QEXTQmlQuickButton {
             background: null
             text: "Show Warning"
             textColor: "#46A0FC"
-            onClicked: QEXTToast.showWarning("Welcome to QEXTQuick", 2000)
+            onClicked: QEXTQmlQuickToast.showWarning("Welcome to QEXTQmlQuick", 2000)
         }
 
-        QEXTButton {
+        QEXTQmlQuickButton {
             background: null
             text: "Show Info"
             textColor: "#46A0FC"
-            onClicked: QEXTToast.showInfo("Welcome to QEXTQuick", 2000)
+            onClicked: QEXTQmlQuickToast.showInfo("Welcome to QEXTQmlQuick", 2000)
         }
 
-        QEXTButton{
+        QEXTQmlQuickButton{
             background: null
             text: "Show Error"
             textColor: "#46A0FC"
-            onClicked: QEXTToast.showError("Welcome to QEXTQuick", 2000)
+            onClicked: QEXTQmlQuickToast.showError("Welcome to QEXTQmlQuick", 2000)
         }
     }
 

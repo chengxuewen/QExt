@@ -27,7 +27,7 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(QEXT_QML_PLUGIN_BASE_NAME QEXTQuick)
+set(QEXT_QML_PLUGIN_BASE_NAME QEXTQmlQuick)
 set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME})
 
 
@@ -51,8 +51,8 @@ endif()
 # Configure a header file to pass some of the CMake settings to the source code
 #--------------------------------------------------------------------------------
 configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/qextQuickConfig.h.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/qextQuickConfig.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/qextQmlQuickConfig.h.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/qextQmlQuickConfig.h"
     )
 
 
@@ -61,55 +61,55 @@ configure_file(
 # Set lib file list
 #--------------------------------------------------------------------------------
 set(QEXT_QML_PLUGIN_PUBLIC_HEADERS
-    ${CMAKE_CURRENT_BINARY_DIR}/qextQuickConfig.h
+    ${CMAKE_CURRENT_BINARY_DIR}/qextQmlQuickConfig.h
 
-    include/gadget/qextQuickBackgroundGadget.h
-    include/gadget/qextQuickBorderGadget.h
-    include/gadget/qextQuickIconGadget.h
-    include/gadget/qextQuickItemGadget.h
-    include/gadget/qextQuickTextGadget.h
+    include/gadget/qextQmlQuickBackgroundGadget.h
+    include/gadget/qextQmlQuickBorderGadget.h
+    include/gadget/qextQmlQuickIconGadget.h
+    include/gadget/qextQmlQuickItemGadget.h
+    include/gadget/qextQmlQuickTextGadget.h
 
-    include/qextQuickFontAwesome.h
-    include/qextQuick.h
-    include/qextQuickLoader.h
-    include/qextQuickPalette.h
-    include/qextQuickPlugin.h
-    include/qextQuickWorld.h
-    include/qextQuickPch.h
-    include/qextQuickGlobal.h
-    include/qextQuickWidgetProxyItem.h
+    include/qextQmlQuickFontAwesome.h
+    include/qextQmlQuick.h
+    include/qextQmlQuickLoader.h
+    include/qextQmlQuickPalette.h
+    include/qextQmlQuickPlugin.h
+    include/qextQmlQuickWorld.h
+    include/qextQmlQuickPch.h
+    include/qextQmlQuickGlobal.h
+    include/qextQmlQuickWidgetProxyItem.h
     )
 
 set(QEXT_QML_PLUGIN_PRIVATE_HEADERS
-    private/gadget/qextQuickBackgroundGadget_p.h
-    private/gadget/qextQuickBorderGadget_p.h
-    private/gadget/qextQuickIconGadget_p.h
-    private/gadget/qextQuickItemGadget_p.h
-    private/gadget/qextQuickTextGadget_p.h
+    private/gadget/qextQmlQuickBackgroundGadget_p.h
+    private/gadget/qextQmlQuickBorderGadget_p.h
+    private/gadget/qextQmlQuickIconGadget_p.h
+    private/gadget/qextQmlQuickItemGadget_p.h
+    private/gadget/qextQmlQuickTextGadget_p.h
 
-    private/qextQuick_p.h
-    private/qextQuickWorld_p.h
-    private/qextQuickPalette_p.h
+    private/qextQmlQuick_p.h
+    private/qextQmlQuickWorld_p.h
+    private/qextQmlQuickPalette_p.h
     )
 
 set(QEXT_QML_PLUGIN_SOURCES
-    source/gadget/qextQuickBackgroundGadget.cpp
-    source/gadget/qextQuickBorderGadget.cpp
-    source/gadget/qextQuickIconGadget.cpp
-    source/gadget/qextQuickItemGadget.cpp
-    source/gadget/qextQuickTextGadget.cpp
+    source/gadget/qextQmlQuickBackgroundGadget.cpp
+    source/gadget/qextQmlQuickBorderGadget.cpp
+    source/gadget/qextQmlQuickIconGadget.cpp
+    source/gadget/qextQmlQuickItemGadget.cpp
+    source/gadget/qextQmlQuickTextGadget.cpp
 
-    source/qextQuickFontAwesome.cpp
-    source/qextQuick.cpp
-    source/qextQuickLoader.cpp
-    source/qextQuickPalette.cpp
-    source/qextQuickPlugin.cpp
-    source/qextQuickWorld.cpp
-    source/qextQuickWidgetProxyItem.cpp
+    source/qextQmlQuickFontAwesome.cpp
+    source/qextQmlQuick.cpp
+    source/qextQmlQuickLoader.cpp
+    source/qextQmlQuickPalette.cpp
+    source/qextQmlQuickPlugin.cpp
+    source/qextQmlQuickWorld.cpp
+    source/qextQmlQuickWidgetProxyItem.cpp
     )
 
 set(QEXT_QML_PLUGIN_RESOURCES
-    resource/QEXTQuick.qrc
+    resource/QEXTQmlQuick.qrc
     )
 
 
@@ -152,7 +152,7 @@ if (QEXT_BUILD_COMPILER_WARNING)
     qextFunctionSetCompilerWarnings(${QEXT_QML_PLUGIN_BASE_NAME})
 endif()
 if (QEXT_BUILD_USE_PCH)
-    qextFunctionActivatePrecompiledHeaders(${QEXT_QML_PLUGIN_BASE_NAME} PRIVATE include/qextQuickPch.h)
+    qextFunctionActivatePrecompiledHeaders(${QEXT_QML_PLUGIN_BASE_NAME} PRIVATE include/qextQmlQuickPch.h)
 endif()
 target_link_libraries(${QEXT_QML_PLUGIN_BASE_NAME} PUBLIC ${QEXT_QML_PLUGIN_LINK_LIBRARIES})
 target_include_directories(${QEXT_QML_PLUGIN_BASE_NAME}
@@ -201,7 +201,7 @@ add_custom_command(
     POST_BUILD
     )
 
-# qmlplugindump -nonrelocatable QEXTQuick 1.2 ${QEXT_OUTPUT_QML_DIR} > ${QEXT_OUTPUT_QML_DIR}/QEXTQuick/plugin.qmltypes
+# qmlplugindump -nonrelocatable QEXTQmlQuick 1.2 ${QEXT_OUTPUT_QML_DIR} > ${QEXT_OUTPUT_QML_DIR}/QEXTQmlQuick/plugin.qmltypes
 if(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
     message(STATUS "----QEXT---- Enable create qml plugin ${QEXT_QML_PLUGIN_BASE_NAME} plugin.qmltypes")
     if(QEXT_QML_PLUGIN_USE_KIT_QMLPLUGINDUMP)

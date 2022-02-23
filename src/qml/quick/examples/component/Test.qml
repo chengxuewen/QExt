@@ -1,12 +1,12 @@
 ﻿import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Item {
     id: mTest
     clip: true
 
-    QEXTButton {
+    QEXTQmlQuickButton {
         anchors.centerIn: parent
         onClicked: {
 

@@ -27,13 +27,17 @@
 #--------------------------------------------------------------------------------
 # Set example output path
 #--------------------------------------------------------------------------------
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/qml/framelesshelper)
-set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/qml/framelesshelper)
-set(QEXT_EXAMPLE_CONFIG_FILE_DIR ${QEXT_EXAMPLE_OUTPUT_DIR}/qml/framelesshelper)
-set(QEXT_EXAMPLE_CONFIG_FILE_PATH ${QEXT_EXAMPLE_CONFIG_FILE_DIR}/qextQmlFramelessHelperExampleConfig.h)
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_EXAMPLE_DIR}/qml/framelesshelper)
+set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_EXAMPLE_DIR}/qml/framelesshelper)
+
+
+
+#--------------------------------------------------------------------------------
+# Configure a header file to pass some of the CMake settings to the source code
+#--------------------------------------------------------------------------------
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/qextQmlFramelessHelperExampleConfig.h.in"
-    "${QEXT_EXAMPLE_CONFIG_FILE_PATH}"
+    "${CMAKE_CURRENT_BINARY_DIR}/qextQmlFramelessHelperExampleConfig.h"
     )
 
 
@@ -82,8 +86,6 @@ function(qextFunctionAddQmlFramelessHelperExample EXAMPLE_NAME)
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${MY_EXAMPLE_INCLUDE_DIRS}
-        ${QEXT_EXAMPLE_INCLUDE_DIRECTORIES}
-        ${QEXT_EXAMPLE_CONFIG_FILE_DIR}
         )
     set_property(TARGET ${EXAMPLE_NAME} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
     if(QEXT_BUILD_SHARED_LIBS AND WIN32)

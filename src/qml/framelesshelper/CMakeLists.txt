@@ -169,7 +169,7 @@ add_custom_command(
     POST_BUILD
     )
 
-# qmlplugindump -nonrelocatable QEXTQuick 1.2 ${QEXT_OUTPUT_QML_DIR} > ${QEXT_OUTPUT_QML_DIR}/QEXTQuick/plugin.qmltypes
+# qmlplugindump -nonrelocatable QEXTQmlQuick 1.2 ${QEXT_OUTPUT_QML_DIR} > ${QEXT_OUTPUT_QML_DIR}/QEXTQmlQuick/plugin.qmltypes
 if(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
     message(STATUS "----QEXT---- Enable create qml plugin ${QEXT_QML_PLUGIN_BASE_NAME} plugin.qmltypes")
     if(QEXT_QML_PLUGIN_USE_KIT_QMLPLUGINDUMP)

@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Item {
     clip: true
@@ -11,7 +11,7 @@ Item {
         height: 200
         color: "LightGray"
 
-        QEXTResizeArea {
+        QEXTQmlQuickResizeArea {
             anchors.fill: parent
         }
     }
@@ -21,7 +21,7 @@ Item {
         width: 50
         height: 20
         color: "Red"
-        QEXTResizeArea {
+        QEXTQmlQuickResizeArea {
             anchors.fill: parent
         }
     }
@@ -31,7 +31,7 @@ Item {
         width: 50
         height: 10
         color: "Gray"
-        QEXTResizeArea {
+        QEXTQmlQuickResizeArea {
             anchors.fill: parent
         }
     }

@@ -148,7 +148,7 @@ void QEXTTrackObjectFunctorTest::testLambda()
 
     // auto-disconnect
     // If you want to auto-disconnect a slot with a C++11 lambda expression
-    // that contains references to QEXTObject-derived objects, you must use
+    // that contains references to QEXTQmlQuickObject-derived objects, you must use
     // qextTrackObjectFunctor().
     QEXTFunction<std::string, int> sl1;
     QEXTFunction<void, std::string &> sl10;
@@ -202,7 +202,7 @@ void QEXTTrackObjectFunctorTest::testLambda()
     QVERIFY("" == *sg_string);
 
     {
-        //struct bar : public QEXTObject {} some_bar;
+        //struct bar : public QEXTQmlQuickObject {} some_bar;
         QEXTSignal<void> someSignal;
         {
             *sg_string = "";

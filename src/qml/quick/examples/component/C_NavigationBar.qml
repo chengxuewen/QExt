@@ -1,31 +1,31 @@
 import QtQuick 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Column{
     spacing: 20
 
-    QEXTNavigationBar {
+    QEXTQmlQuickNavigationBar {
         width: 400
         itemWidth: 90
         itemActiveTextFont.bold: true
-        QEXTNavigationElement {
+        QEXTQmlQuickNavigationElement {
             text: "User"
         }
 
-        QEXTNavigationElement {
+        QEXTQmlQuickNavigationElement {
             text: "Config"
         }
 
-        QEXTNavigationElement {
+        QEXTQmlQuickNavigationElement {
             text: "Role"
         }
 
-        QEXTNavigationElement {
+        QEXTQmlQuickNavigationElement {
             text: "Task"
         }
 
         children: [
-            QEXTDividerLine{
+            QEXTQmlQuickDividerLine{
                 width: parent.width
                 height: 1
                 color: "#DCDCDC"
@@ -36,7 +36,7 @@ Column{
     }
 
 
-    QEXTNavigationBar {
+    QEXTQmlQuickNavigationBar {
         id:nb
         width: 400
         itemWidth: 90
@@ -44,28 +44,28 @@ Column{
         itemActiveTextColor: "#F36D6F"
         itemActiveIconColor: "#F36D6F"
 
-        QEXTNavigationElement {
-            iconSource: QEXTQuickFontAwesome.FA_apple
+        QEXTQmlQuickNavigationElement {
+            iconSource: QEXTQmlQuickFontAwesome.FA_apple
             text: "Apple"
         }
 
-        QEXTNavigationElement {
-            iconSource: QEXTQuickFontAwesome.FA_android
+        QEXTQmlQuickNavigationElement {
+            iconSource: QEXTQmlQuickFontAwesome.FA_android
             text: "Android"
         }
 
-        QEXTNavigationElement {
-            iconSource: QEXTQuickFontAwesome.FA_github
+        QEXTQmlQuickNavigationElement {
+            iconSource: QEXTQmlQuickFontAwesome.FA_github
             text: "Github"
         }
 
-        QEXTNavigationElement {
-            iconSource: QEXTQuickFontAwesome.FA_youtube
+        QEXTQmlQuickNavigationElement {
+            iconSource: QEXTQmlQuickFontAwesome.FA_youtube
             text: "Youtube"
         }
 
         children: [
-            QEXTDividerLine {
+            QEXTQmlQuickDividerLine {
                 anchors.bottom: parent.bottom
                 width: nb.currentItem.width
                 height: 2
@@ -82,7 +82,7 @@ Column{
         ]
     }
 
-    QEXTNavigationBar {
+    QEXTQmlQuickNavigationBar {
         width: 400
         itemWidth: 90
 
@@ -92,23 +92,23 @@ Column{
         itemActiveBackgroundColor: "#1A76D3"
         itemBackgroundVisiable: true
 
-        QEXTNavigationElement {
-            iconSource: QEXTQuickFontAwesome.FA_apple
+        QEXTQmlQuickNavigationElement {
+            iconSource: QEXTQmlQuickFontAwesome.FA_apple
             text: "Apple"
         }
 
-        QEXTNavigationElement {
-            iconSource: QEXTQuickFontAwesome.FA_android
+        QEXTQmlQuickNavigationElement {
+            iconSource: QEXTQmlQuickFontAwesome.FA_android
             text: "Android"
         }
 
-        QEXTNavigationElement {
-            iconSource: QEXTQuickFontAwesome.FA_github
+        QEXTQmlQuickNavigationElement {
+            iconSource: QEXTQmlQuickFontAwesome.FA_github
             text: "Github"
         }
 
-        QEXTNavigationElement {
-            iconSource: QEXTQuickFontAwesome.FA_youtube
+        QEXTQmlQuickNavigationElement {
+            iconSource: QEXTQmlQuickFontAwesome.FA_youtube
             text: "Youtube"
         }
 

@@ -1,19 +1,19 @@
 import QtQuick 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Column{
     spacing: 10
     Row{
         spacing: 30
 
-        QEXTInputField{
+        QEXTQmlQuickInputField{
             width: 180
             placeholderText: "Default Input"
         }
 
-        QEXTInputField{
+        QEXTQmlQuickInputField{
             width: 180
-            placeholderIconSource: QEXTQuickFontAwesome.FA_search
+            placeholderIconSource: QEXTQmlQuickFontAwesome.FA_search
             placeholderText: "Icon Placeholder"
         }
 
@@ -23,21 +23,21 @@ Column{
     Row{
         spacing: 30
 
-        QEXTInputField{
+        QEXTQmlQuickInputField{
             width: 180
             backgroundRadius: height/2
-            placeholderIconSource: QEXTQuickFontAwesome.FA_pencil
+            placeholderIconSource: QEXTQmlQuickFontAwesome.FA_pencil
             placeholderText: "Left Align"
-            placeholderPosition: QEXTQuick.Position_Left
+            placeholderPosition: QEXTQmlQuick.Position_Left
         }
 
-        QEXTInputField{
+        QEXTQmlQuickInputField{
             width: 180
             backgroundRadius: height/2
-            placeholderIconSource: QEXTQuickFontAwesome.FA_inbox
+            placeholderIconSource: QEXTQmlQuickFontAwesome.FA_inbox
             text: "Clearn Input"
             clearable: true
-            placeholderPosition: QEXTQuick.Position_Left
+            placeholderPosition: QEXTQmlQuick.Position_Left
         }
 
     }

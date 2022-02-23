@@ -21,8 +21,8 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/core/invoke)
-set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/core/invoke)
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR}/core/invoke)
+set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR}/core/invoke)
 
 
 ##--------------------------------------------------------------------------------
@@ -38,7 +38,6 @@ qextFunctionCoreAddTest(qext_tst_coreBindReturnFunctor TEST_SOURCE tst_qextBindR
 qextFunctionCoreAddTest(qext_tst_coreConnection TEST_SOURCE tst_qextConnection.cpp)
 qextFunctionCoreAddTest(qext_tst_coreFunctorTrait TEST_SOURCE tst_qextFunctorTrait.cpp)
 qextFunctionCoreAddTest(qext_tst_coreHideFunctor TEST_SOURCE tst_qextHideFunctor.cpp)
-qextFunctionCoreAddTest(qext_tst_coreLambda TEST_SOURCE tst_qextLambda.cpp)
 qextFunctionCoreAddTest(qext_tst_coreLimitReference TEST_SOURCE tst_qextLimitReference.cpp)
 qextFunctionCoreAddTest(qext_tst_coreReturnTypeDeduce TEST_SOURCE tst_qextReturnTypeDeduce.cpp)
 qextFunctionCoreAddTest(qext_tst_coreRetypeReturnFunctor TEST_SOURCE tst_qextRetypeReturnFunctor.cpp)

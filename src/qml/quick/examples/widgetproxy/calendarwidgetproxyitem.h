@@ -3,9 +3,9 @@
 
 #include <QQuickItem>
 
-#include <qextQuickWidgetProxyItem.h>
+#include <qextQmlQuickWidgetProxyItem.h>
 
-class CalendarWidgetProxyItem : public QEXTQuickWidgetProxyItem
+class CalendarWidgetProxyItem : public QEXTQmlQuickWidgetProxyItem
 {
     Q_OBJECT
 

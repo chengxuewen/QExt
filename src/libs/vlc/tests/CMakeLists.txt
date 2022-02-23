@@ -21,20 +21,17 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/vlc)
-set(LIBRARY_OUTPUT_PATH ${QEXT_TEST_OUTPUT_DIR}/vlc)
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR}/vlc)
+set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR}/vlc)
 
 
 
 #--------------------------------------------------------------------------------
 # Configure a header file to pass some of the CMake settings to the source code
 #--------------------------------------------------------------------------------
-set(QEXT_TEST_SAMPLES_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(QEXT_TEST_CONFIG_HPP_FILE_DIR ${EXECUTABLE_OUTPUT_PATH})
-set(QEXT_TEST_CONFIG_HPP_FILE_PATH ${QEXT_TEST_CONFIG_HPP_FILE_DIR}/TestsConfig.h)
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/TestsConfig.h.in"
-    "${QEXT_TEST_CONFIG_HPP_FILE_PATH}"
+    "${CMAKE_CURRENT_BINARY_DIR}/TestsConfig.h"
     )
 
 
@@ -70,7 +67,7 @@ function(qextFunctionAddVLCTest TEST_NAME)
     add_executable(${TEST_NAME} ${MY_TEST_SOURCE} ${QEXT_TEST_CONFIG_HPP_FILE_PATH})
     add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
     target_link_libraries(${TEST_NAME} PRIVATE ${QEXT_TEST_LINK_LIBRARIES})
-    target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${QEXT_TEST_INCLUDE_DIRECTORIES})
+    target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
     if(QEXT_BUILD_SHARED_LIBS AND WIN32)
         qextFunctionCopyDependencyInternal(${TEST_NAME}
             QEXTCore QEXTVLC

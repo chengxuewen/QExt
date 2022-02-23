@@ -14,8 +14,8 @@ Window {
     QEXTQmlVLCPlayer {
         id: player
         logLevel: QEXTVLC.LogLevel_Warning
-//        url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov"
-        url: "rtsp://admin:12345@192.168.5.50:8554/0"
+        url: "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov"
+//        url: "rtsp://admin:12345@192.168.5.50:8554/0"
     }
     QEXTQmlVLCVideoOutput {
         id: video

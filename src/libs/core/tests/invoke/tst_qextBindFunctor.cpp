@@ -262,7 +262,7 @@ void QEXTBindFunctorTest::testReferences()
     QVERIFY("" == *sg_string);
 
     {
-        //Because Param derives from QEXTObject(), qextReferenceWrapper() should disconnect
+        //Because Param derives from QEXTQmlQuickObject(), qextReferenceWrapper() should disconnect
         // the signal handler when param is destroyed.
         Param param("murrayc");
         // A convoluted way to do

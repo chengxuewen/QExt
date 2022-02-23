@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Column{
     spacing: 15
@@ -12,24 +12,24 @@ Column{
         id:layout
         spacing: 3
 
-        QEXTRadioButton {
+        QEXTQmlQuickRadioButton {
             text: "Guangzhou"
             checked: true
             ButtonGroup.group: mBtnGroup1
         }
 
-        QEXTRadioButton {
+        QEXTQmlQuickRadioButton {
             text: "Shanghai"
             ButtonGroup.group: mBtnGroup1
         }
 
-        QEXTRadioButton {
+        QEXTQmlQuickRadioButton {
             enabled: false
             text: "Hong Kong"
             ButtonGroup.group: mBtnGroup1
         }
 
-        QEXTRadioButton {
+        QEXTQmlQuickRadioButton {
             id:result
             text: "esDF"
             width: 40
@@ -42,7 +42,7 @@ Column{
         id:layoutborder
         spacing: 25
 
-        QEXTRadioButton {
+        QEXTQmlQuickRadioButton {
             id:tb
             text: "Primary"
             textInLeft: true
@@ -62,7 +62,7 @@ Column{
             ]
         }
 
-        QEXTRadioButton {
+        QEXTQmlQuickRadioButton {
             id:tb2
             text: "Success"
             textInLeft: true
@@ -82,7 +82,7 @@ Column{
             ]
         }
 
-        QEXTRadioButton {
+        QEXTQmlQuickRadioButton {
             id:tb3
             text: "Warning"
             textInLeft: true
@@ -102,7 +102,7 @@ Column{
             ]
         }
 
-        QEXTRadioButton {
+        QEXTQmlQuickRadioButton {
             id:tb4
             text: "Danger"
             textInLeft: true

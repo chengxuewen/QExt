@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Column {
     spacing: 20
@@ -12,7 +12,7 @@ Column {
             text: p1.formatText
             anchors.horizontalCenter: parent.horizontalCenter
         }
-        QEXTProgressBar {
+        QEXTQmlQuickProgressBar {
             id:p1
             maxValue: 125
             format: "$v - $max"
@@ -24,7 +24,7 @@ Column {
         width: p2.width
         height: p2.height
         anchors.horizontalCenter: parent.horizontalCenter
-        QEXTProgressBar {
+        QEXTQmlQuickProgressBar {
             id: p2
             foreground.color: "#F36D6F"
             format: "$p%"
@@ -39,7 +39,7 @@ Column {
     }
 
 
-    QEXTProgressBar {
+    QEXTQmlQuickProgressBar {
         id: p3
         height: 25
         maxValue: 66
@@ -79,7 +79,7 @@ Column {
 
 
     //custom image progress, for reference
-    QEXTProgressBar {
+    QEXTQmlQuickProgressBar {
         id: imgprogress
         width: 336
         height: 46
@@ -127,7 +127,7 @@ Column {
                 radius: height / 2
             }
 
-            QEXTMask {
+            QEXTQmlQuickMask {
                 sourceItem: fg
                 maskItem: mask
                 width: mask.width

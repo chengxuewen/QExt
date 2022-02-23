@@ -1,12 +1,12 @@
 #include "qextquickpalettetablemodel.h"
 
-QEXTQuickPaletteTableModel::QEXTQuickPaletteTableModel(QObject *parent)
+QEXTQmlQuickPaletteTableModel::QEXTQmlQuickPaletteTableModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    m_quickPalette = QEXTQuickPalette::instance();
+    m_quickPalette = QEXTQmlQuickPalette::instance();
 }
 
-QVariant QEXTQuickPaletteTableModel::data(const QModelIndex &index, int role) const
+QVariant QEXTQmlQuickPaletteTableModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
         return QVariant();
@@ -25,19 +25,19 @@ QVariant QEXTQuickPaletteTableModel::data(const QModelIndex &index, int role) co
     return QVariant();
 }
 
-int QEXTQuickPaletteTableModel::rowCount(const QModelIndex &parent) const
+int QEXTQmlQuickPaletteTableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return QEXTQuickPalette::DepthTypeNum;
+    return QEXTQmlQuickPalette::DepthTypeNum;
 }
 
-int QEXTQuickPaletteTableModel::columnCount(const QModelIndex &parent) const
+int QEXTQmlQuickPaletteTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return QEXTQuickPalette::ColorTypeNum;
+    return QEXTQmlQuickPalette::ColorTypeNum;
 }
 
-QHash<int, QByteArray> QEXTQuickPaletteTableModel::roleNames() const
+QHash<int, QByteArray> QEXTQmlQuickPaletteTableModel::roleNames() const
 {
     QHash<int, QByteArray> mapNames;
     mapNames[Qt::DisplayRole] = "colorName";
@@ -47,7 +47,7 @@ QHash<int, QByteArray> QEXTQuickPaletteTableModel::roleNames() const
     return mapNames;
 }
 
-Qt::ItemFlags QEXTQuickPaletteTableModel::flags(const QModelIndex &index) const
+Qt::ItemFlags QEXTQmlQuickPaletteTableModel::flags(const QModelIndex &index) const
 {
     Q_UNUSED(index);
     return Qt::ItemIsSelectable;

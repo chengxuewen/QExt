@@ -1,6 +1,6 @@
 ﻿import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Flickable {
 
@@ -11,17 +11,17 @@ Flickable {
             spacing: 18
             Repeater{
                 model: [
-                    {s:QEXTQuickFontAwesome.FA_bus,c:"#46A0FC"},
-                    {s:QEXTQuickFontAwesome.FA_cog,c:"#46A0FC"},
-                    {s:QEXTQuickFontAwesome.FA_qq,c:"#6AC044"},
-                    {s:QEXTQuickFontAwesome.FA_github,c:"#6AC044"},
-                    {s:QEXTQuickFontAwesome.FA_google_plus_circle,c:"#E4A147"},
-                    {s:QEXTQuickFontAwesome.FA_coffee,c:"#E4A147"},
-                    {s:QEXTQuickFontAwesome.FA_flag,c:"#F36D6F"},
-                    {s:QEXTQuickFontAwesome.FA_facebook_official,c:"#F36D6F"}
+                    {s:QEXTQmlQuickFontAwesome.FA_bus,c:"#46A0FC"},
+                    {s:QEXTQmlQuickFontAwesome.FA_cog,c:"#46A0FC"},
+                    {s:QEXTQmlQuickFontAwesome.FA_qq,c:"#6AC044"},
+                    {s:QEXTQmlQuickFontAwesome.FA_github,c:"#6AC044"},
+                    {s:QEXTQmlQuickFontAwesome.FA_google_plus_circle,c:"#E4A147"},
+                    {s:QEXTQmlQuickFontAwesome.FA_coffee,c:"#E4A147"},
+                    {s:QEXTQmlQuickFontAwesome.FA_flag,c:"#F36D6F"},
+                    {s:QEXTQmlQuickFontAwesome.FA_facebook_official,c:"#F36D6F"}
                 ]
 
-                delegate: QEXTAwesomeIcon{
+                delegate: QEXTQmlQuickAwesomeIcon{
                     width: 25
                     height: 25
                     source: modelData.s
@@ -49,12 +49,12 @@ Flickable {
                     "#F36D6F",
                 ]
 
-                delegate: QEXTSVGIcon {
+                delegate: QEXTQmlQuickSVGIcon {
                     width: 40
                     height: 40
                     source: "qrc:/images/svg"+index+".svg"
                     color: modelData
-                    mirror: true
+//                    mirror: true
                 }
             }
         }

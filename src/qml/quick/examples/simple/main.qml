@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Window 2.2
-import QEXTQuick 1.0
+import QEXTQmlQuick 1.0
 
 Window {
     id: root
@@ -13,16 +13,16 @@ Window {
     //        root.showNormal()
     //    }
 
-    QEXTQuickBorderGadget {
+    QEXTQmlQuickBorderGadget {
 
     }
 
-//    QEXTButton {
+//    QEXTQmlQuickButton {
 //        textColor: "Red"
 //        anchors.centerIn: parent
 //    }
 
-//    QEXTIconButton {
+//    QEXTQmlQuickIconButton {
 //        iconColor: "Red"
 //        iconSource: ""
 

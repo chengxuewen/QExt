@@ -12,7 +12,6 @@
     #include <qextQuickExampleConfig.h>
 #endif
 
-
 int main(int argc, char *argv[])
 {
     QElapsedTimer timer;
@@ -24,9 +23,9 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
 #ifndef QEXT_BUILD_SHARED_LIBS
-    QEXTQuickLoader::load(&engine);
+    QEXTQmlQuickLoader::load(&engine);
 #else
-    engine.addImportPath(QEXT_QML_OUTPUT_DIR);
+    engine.addImportPath(QEXT_OUTPUT_QML_DIR);
 #endif
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
