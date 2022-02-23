@@ -20,8 +20,7 @@ public:
     };
     Q_ENUM(StyleType)
 
-    explicit QEXTStyleThemeManager(QWidget *parent = QEXT_DECL_NULLPTR);
-    explicit QEXTStyleThemeManager(QApplication *parent = QEXT_DECL_NULLPTR);
+    explicit QEXTStyleThemeManager(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTStyleThemeManager();
 
     QEXTStyleTheme *styleTheme(StyleType type) const;

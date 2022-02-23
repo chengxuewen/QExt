@@ -9,8 +9,8 @@
 #include <qextQmlQuickItemGadget.h>
 #include <qextQmlQuickPalette.h>
 #include <qextQmlQuickFontAwesome.h>
+#include <qextQmlQuickConfig.h>
 
-#include <qextQuickConfig.h>
 #include <qextGlobal.h>
 
 #include <QMutex>

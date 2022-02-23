@@ -1,6 +1,6 @@
 #include <qextQmlQuickLoader.h>
 #include <qextQmlQuick.h>
-#include <qextQuickConfig.h>
+#include <qextQmlQuickConfig.h>
 
 void QEXTQmlQuickLoader::load(QQmlEngine *engine)
 {

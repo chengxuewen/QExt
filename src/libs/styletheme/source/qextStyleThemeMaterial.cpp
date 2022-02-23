@@ -45,12 +45,12 @@ QString QEXTStyleThemeMaterial::styleName() const
 
 QString QEXTStyleThemeMaterial::themeName(int type) const
 {
-
+    return "";
 }
 
 int QEXTStyleThemeMaterial::currentTheme() const
 {
-
+    return 0;
 }
 
 void QEXTStyleThemeMaterial::setCurrentTheme(int type)
@@ -60,12 +60,12 @@ void QEXTStyleThemeMaterial::setCurrentTheme(int type)
 
 QString QEXTStyleThemeMaterial::styleSheet() const
 {
-
+    return "";
 }
 
 QString QEXTStyleThemeMaterial::additionalStyle() const
 {
-
+    return "";
 }
 
 void QEXTStyleThemeMaterial::setAdditionalStyle(const QString &style)

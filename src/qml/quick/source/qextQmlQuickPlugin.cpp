@@ -31,8 +31,8 @@
 #include <QQmlEngine>
 #include <QFontDatabase>
 
+#include <qextQmlQuickConfig.h>
 #include <qextQmlQuickPlugin.h>
-#include <qextQuickConfig.h>
 #include <qextQmlQuickFontAwesome.h>
 #include <qextQmlQuick.h>
 

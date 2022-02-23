@@ -155,13 +155,17 @@ target_compile_definitions(${QEXT_QML_PLUGIN_BASE_NAME} PRIVATE $<$<OR:$<CONFIG:
 
 # set target properties
 set_target_properties(${QEXT_QML_PLUGIN_BASE_NAME} PROPERTIES
-    VERSION ${QEXT_VERSION} SOVERSION ${QEXT_SO_VERSION}
+    PREFIX ""
+    VERSION ${QEXT_VERSION}
+    SOVERSION ${QEXT_SO_VERSION}
     CXX_STANDARD ${QEXT_CXX_STANDARD}
+    OUTPUT_NAME ${QEXT_QML_PLUGIN_BASE_NAME}
     )
 if (QEXT_BUILD_SHARED_LIBS)
     set_target_properties(${QEXT_QML_PLUGIN_BASE_NAME} PROPERTIES
         CXX_VISIBILITY_PRESET hidden
-        VISIBILITY_INLINES_HIDDEN 1)
+        VISIBILITY_INLINES_HIDDEN 1
+        )
 endif()
 
 # set include files copy command
@@ -179,7 +183,7 @@ add_custom_command(
     COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}
     COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}/private
     COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_QML_PLUGIN_PUBLIC_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}
-#    COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_QML_PLUGIN_PRIVATE_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}/private
+    #    COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_QML_PLUGIN_PRIVATE_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}/private
     COMMENT "Copy ${QEXT_QML_PLUGIN_BASE_NAME} include files to output dir"
     POST_BUILD
     )
@@ -191,8 +195,8 @@ if(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
         qextMacroFindQmlPluginDump()
         set(QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
     else()
-        add_dependencies(${QEXT_QML_PLUGIN_BASE_NAME} qmlplugindump)
-        set(QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE ${QEXT_OUTPUT_APP_DIR}/qmlplugindump)
+        add_dependencies(${QEXT_QML_PLUGIN_BASE_NAME} qext_tool_qmlplugindump)
+        set(QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE ${QEXT_OUTPUT_APP_DIR}/qext_tool_qmlplugindump)
         if (WIN32)
             set(QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE ${QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE}.exe)
         endif()
@@ -209,14 +213,26 @@ if(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
         >
         ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}/plugin.qmltypes
         )
+    qextFunctionCopyDependencyInternal(
+        TARGET ${QEXT_QML_PLUGIN_BASE_NAME}
+        LIBS QEXTCore QEXTVLC
+        DESTINATION ${QEXT_OUTPUT_APP_DIR}
+        POST_BUILD
+        )
     add_custom_command(
         TARGET ${QEXT_QML_PLUGIN_BASE_NAME}
         COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:QEXTCore> ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:QEXTVLC> ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
         COMMAND ${QEXTQUICK_GENERATE_QMLTYPES_COMMAND}
+        COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}/plugin.qmltypes ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Generating qextquick.qmltypes with qmlplugindump"
+        POST_BUILD
+        )
+else()
+    add_custom_command(
+        TARGET ${QEXT_QML_PLUGIN_BASE_NAME}
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/plugin.qmltypes ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}
+        COMMENT "Copy qextquick.qmltypes to output qml plugin dir."
         POST_BUILD
         )
 endif()
@@ -227,7 +243,7 @@ endif()
 # Add lib tests and examples
 #--------------------------------------------------------------------------------
 if (QEXT_BUILD_TESTS OR QEXT_BUILD_ALL)
-#    add_subdirectory(tests)
+    #    add_subdirectory(tests)
 endif()
 
 if (QEXT_BUILD_EXAMPLES OR QEXT_BUILD_ALL)

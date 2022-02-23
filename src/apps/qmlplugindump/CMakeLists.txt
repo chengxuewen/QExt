@@ -27,7 +27,7 @@
 #--------------------------------------------------------------------------------
 # Set example output path
 #--------------------------------------------------------------------------------
-set(QEXT_APP_BASE_NAME qmlplugindump)
+set(QEXT_APP_BASE_NAME qext_tool_qmlplugindump)
 set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_APP_DIR})
 set(QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXT_OUTPUT_QML_DIR})
 set(QML_IMPORT_PATH "${QEXT_QML_IMPORT_PATH}" CACHE STRING "Qt Creator extra qml import paths")
@@ -49,12 +49,16 @@ if(CMAKE_THREAD_LIBS_INIT)
     list(APPEND QEXT_APP_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
-if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND QEXT_APP_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
-    list(APPEND QEXT_APP_LINK_LIBRARIES Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
-    list(APPEND QEXT_APP_LINK_LIBRARIES Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Quick)
+if(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND QEXT_APP_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets
+        Qt${QEXT_QT_VERSION_MAJOR}::Network
+        Qt${QEXT_QT_VERSION_MAJOR}::Qml
+        Qt${QEXT_QT_VERSION_MAJOR}::Quick
+        Qt${QEXT_QT_VERSION_MAJOR}::QuickControls2
+        )
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
@@ -124,9 +128,28 @@ target_include_directories(${QEXT_APP_BASE_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
     )
-
-
 # set target properties
 set_target_properties(${QEXT_APP_BASE_NAME} PROPERTIES
     CXX_STANDARD ${QEXT_CXX_STANDARD}
     )
+# copy dependency libs
+if(WIN32)
+    if(CMAKE_BUILD_TYPE MATCHES Release)
+        set(QEXT_APP_DEPLOY_TYPE --release)
+    else()
+        set(QEXT_APP_DEPLOY_TYPE --debug)
+    endif()
+    find_program(QEXT_QT_WINDEPLOY NAMES windeployqt.exe PATHS ${QEXT_QT_BIN_DIR} NO_DEFAULT_PATH)
+    if(QEXT_QT_WINDEPLOY EQUAL "QEXT_QT_WINDEPLOY-NOTFOUND")
+        message(FATAL_ERROR "----QEXT---- Not find Qt windeployqt.exe")
+    else()
+        message(STATUS "----QEXT---- Qt${QEXT_QT_VERSION_MAJOR} windeployqt.exe found")
+        add_custom_command(
+            TARGET ${QEXT_APP_BASE_NAME}
+            COMMAND ${QEXT_QT_WINDEPLOY} ${QEXT_APP_DEPLOY_TYPE} --qmldir ${QEXT_QT_KIT_DIR}/qml ${EXECUTABLE_OUTPUT_PATH}/${QEXT_APP_BASE_NAME}.exe --verbose 2
+            COMMAND ${CMAKE_COMMAND} -E copy_directory ${QEXT_QT_KIT_DIR}/plugins/platforms ${EXECUTABLE_OUTPUT_PATH}/platforms
+            COMMENT "Run windeployqt to deploy ${QEXT_APP_BASE_NAME}"
+            POST_BUILD
+            )
+    endif()
+endif()

@@ -138,14 +138,16 @@ endif()
 
 # set target properties
 set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
-    VERSION ${QEXT_VERSION} SOVERSION ${QEXT_SO_VERSION}
+    VERSION ${QEXT_VERSION}
+    SOVERSION ${QEXT_SO_VERSION}
     CXX_STANDARD ${QEXT_CXX_STANDARD}
     DEBUG_POSTFIX ${QEXT_DEBUG_POSTFIX}
     )
 if (QEXT_BUILD_SHARED_LIBS)
     set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
         CXX_VISIBILITY_PRESET hidden
-        VISIBILITY_INLINES_HIDDEN 1)
+        VISIBILITY_INLINES_HIDDEN 1
+        )
 endif()
 
 # set include files copy command

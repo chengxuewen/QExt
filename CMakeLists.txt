@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.12.3.1 LANGUAGES CXX C)
+project(QEXT VERSION 0.13.1.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -84,9 +84,12 @@ if (QEXT_QT_VERSION_MAJOR EQUAL 4)
     set(QEXT_QT_OPENGL_FOUND ${QT_QTOPENGL_FOUND})
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     message(STATUS "----QEXT---- Expected Qt version is Qt${QEXT_QT_VERSION}")
-    find_package(Qt5 COMPONENTS Core Widgets Network Quick Test PrintSupport Svg REQUIRED)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Widgets Network Quick Test PrintSupport Svg REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL)
     set(QEXT_QT_OPENGL_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGL_FOUND})
+    if(QEXT_QT_VERSION_MAJOR EQUAL 5 AND QEXT_QT_VERSION_MINOR GREATER 6)
+        find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Qml QuickControls2 REQUIRED)
+    endif()
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
@@ -118,13 +121,21 @@ endif()
 
 
 #--------------------------------------------------------------------------------
-# Specify the C++ standard
+# Specify the C++ standard and flags
 #--------------------------------------------------------------------------------
 set(CMAKE_CXX_STANDARD ${QEXT_CXX_STANDARD})
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 message(STATUS "----QEXT---- Using C++: ${QEXT_CXX_STANDARD}")
 message(STATUS "----QEXT---- Set C++ extensions: ${CMAKE_CXX_EXTENSIONS}")
+
+if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+    # open bigobj flags in msvc compiler(bigobj)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    # open bigobj flags in gnu/mingw compiler(File too big/too many sections)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj")
+endif()
 
 
 
@@ -198,6 +209,7 @@ endif()
 #--------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 include(qextFunctionActivatePrecompiledHeaders)
+include(qextFunctionCopyDependencyExternal)
 include(qextFunctionCopyDependencyInternal)
 include(qextFunctionCheckCompileFeature)
 include(qextFunctionSetCompilerWarnings)
@@ -325,9 +337,9 @@ else()
     message(STATUS "----QEXT---- Build with no documentation")
 endif()
 
-if(WIN32)
-    set(QEXT_BUILD_QML OFF)
-endif()
+#if(WIN32)
+#    set(QEXT_BUILD_QML OFF)
+#endif()
 
 if(NOT QEXT_BUILD_QML)
     message(STATUS "----QEXT---- Not use qml, Not build with the qml lib")

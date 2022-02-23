@@ -36,15 +36,7 @@ QEXTStyleThemeManagerPrivate::~QEXTStyleThemeManagerPrivate()
 
 
 
-QEXTStyleThemeManager::QEXTStyleThemeManager(QWidget *parent)
-    : QObject(parent)
-    , dd_ptr(new QEXTStyleThemeManagerPrivate(this))
-{
-    Q_D(QEXTStyleThemeManager);
-    d->m_styleTheme.reset(this->styleTheme(d->m_styleType));
-}
-
-QEXTStyleThemeManager::QEXTStyleThemeManager(QApplication *parent)
+QEXTStyleThemeManager::QEXTStyleThemeManager(QObject *parent)
     : QObject(parent)
     , dd_ptr(new QEXTStyleThemeManagerPrivate(this))
 {
