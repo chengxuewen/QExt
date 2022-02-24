@@ -42,7 +42,7 @@ private slots:
 
 void TestInstance::init()
 {
-    qunsetenv("VLC_PLUGIN_PATH");
+    QEXT_DECL_UNSETENV("VLC_PLUGIN_PATH");
 }
 
 void TestInstance::wrongArguments()
@@ -66,7 +66,7 @@ void TestInstance::envArguments()
 
     delete instance;
 
-    qunsetenv("VLC_ARGS");
+    QEXT_DECL_UNSETENV("VLC_ARGS");
 }
 
 void TestInstance::withExternalPluginsSet()

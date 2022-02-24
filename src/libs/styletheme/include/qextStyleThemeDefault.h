@@ -23,7 +23,7 @@ public:
         Role_DarkStartColor,
         Role_DarkEndColor,
     };
-    Q_ENUM(RoleType)
+    Q_ENUMS(RoleType)
     static const int RoleNum; //=9
 
     enum ThemeType
@@ -32,10 +32,10 @@ public:
         Theme_LightBlue,
         Theme_PSBlack,
     };
-    Q_ENUM(ThemeType)
+    Q_ENUMS(ThemeType)
     static const int ThemeNum; //=3
 
-    explicit QEXTStyleThemeDefault(QObject *parent = nullptr);
+    explicit QEXTStyleThemeDefault(QObject *parent = 0);
     ~QEXTStyleThemeDefault();
 
     QString styleName() const QEXT_DECL_OVERRIDE;

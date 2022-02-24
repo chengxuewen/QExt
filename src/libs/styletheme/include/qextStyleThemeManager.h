@@ -18,7 +18,7 @@ public:
         Style_Material,
         Style_Universal,
     };
-    Q_ENUM(StyleType)
+    Q_ENUMS(StyleType)
 
     explicit QEXTStyleThemeManager(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTStyleThemeManager();

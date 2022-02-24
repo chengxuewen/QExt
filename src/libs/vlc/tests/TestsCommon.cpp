@@ -26,7 +26,7 @@
 
 void TestsCommon::init()
 {
-    qunsetenv("VLC_PLUGIN_PATH");
+    QEXT_DECL_UNSETENV("VLC_PLUGIN_PATH");
 
 #ifndef Q_OS_DARWIN
     QEXTVLCCommon::setPluginPath(QString(QEXT_LIBVLC_PLUGIN_DIR));

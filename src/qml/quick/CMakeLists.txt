@@ -173,12 +173,14 @@ target_compile_definitions(${QEXT_QML_PLUGIN_BASE_NAME} PRIVATE $<$<OR:$<CONFIG:
 
 # set target properties
 set_target_properties(${QEXT_QML_PLUGIN_BASE_NAME} PROPERTIES
-    PREFIX ""
-    VERSION ${QEXT_VERSION}
-    SOVERSION ${QEXT_SO_VERSION}
     CXX_STANDARD ${QEXT_CXX_STANDARD}
     OUTPUT_NAME ${QEXT_QML_PLUGIN_BASE_NAME}
     )
+if(WIN32)
+    set_target_properties(${QEXT_QML_PLUGIN_BASE_NAME} PROPERTIES
+        PREFIX ""
+        )
+endif()
 if (QEXT_BUILD_SHARED_LIBS)
     set_target_properties(${QEXT_QML_PLUGIN_BASE_NAME} PROPERTIES
         CXX_VISIBILITY_PRESET hidden
@@ -242,15 +244,7 @@ if(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
         COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
         COMMAND ${QEXT_QML_GENERATE_QMLTYPES_COMMAND}
-        COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}/plugin.qmltypes ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Generating ${QEXT_QML_PLUGIN_BASE_NAME} quick.qmltypes with qmlplugindump."
-        POST_BUILD
-        )
-else()
-    add_custom_command(
-        TARGET ${QEXT_QML_PLUGIN_BASE_NAME}
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/plugin.qmltypes ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}
-        COMMENT "Copy ${QEXT_QML_PLUGIN_BASE_NAME} quick.qmltypes to output qml plugin dir."
         POST_BUILD
         )
 endif()

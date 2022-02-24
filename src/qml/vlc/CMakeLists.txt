@@ -155,12 +155,14 @@ target_compile_definitions(${QEXT_QML_PLUGIN_BASE_NAME} PRIVATE $<$<OR:$<CONFIG:
 
 # set target properties
 set_target_properties(${QEXT_QML_PLUGIN_BASE_NAME} PROPERTIES
-    PREFIX ""
-    VERSION ${QEXT_VERSION}
-    SOVERSION ${QEXT_SO_VERSION}
     CXX_STANDARD ${QEXT_CXX_STANDARD}
     OUTPUT_NAME ${QEXT_QML_PLUGIN_BASE_NAME}
     )
+if(WIN32)
+    set_target_properties(${QEXT_QML_PLUGIN_BASE_NAME} PROPERTIES
+        PREFIX ""
+        )
+endif()
 if (QEXT_BUILD_SHARED_LIBS)
     set_target_properties(${QEXT_QML_PLUGIN_BASE_NAME} PROPERTIES
         CXX_VISIBILITY_PRESET hidden

@@ -41,7 +41,7 @@ QEXTStyleThemeManager::QEXTStyleThemeManager(QObject *parent)
     , dd_ptr(new QEXTStyleThemeManagerPrivate(this))
 {
     Q_D(QEXTStyleThemeManager);
-    d->m_styleTheme.reset(this->styleTheme(d->m_styleType));
+    d->m_styleTheme = QSharedPointer<QEXTStyleTheme>(this->styleTheme(d->m_styleType));
 }
 
 QEXTStyleThemeManager::~QEXTStyleThemeManager()
@@ -77,7 +77,7 @@ void QEXTStyleThemeManager::setCurrentStyle(StyleType type)
     if (type != d->m_styleType)
     {
         d->m_styleType = type;
-        d->m_styleTheme.reset(this->styleTheme(type));
+        d->m_styleTheme = QSharedPointer<QEXTStyleTheme>(this->styleTheme(type));
     }
 }
 

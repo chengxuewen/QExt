@@ -7,7 +7,7 @@ class QEXTIconFontMaterial : public QObject
 {
     Q_OBJECT
 public:
-    explicit QEXTIconFontMaterial(QObject *parent = nullptr);
+    explicit QEXTIconFontMaterial(QObject *parent = 0);
 
 signals:
 

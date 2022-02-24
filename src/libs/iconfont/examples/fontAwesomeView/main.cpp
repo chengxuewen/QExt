@@ -13,9 +13,9 @@ int main(int argc, char *argv[])
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
     QLoggingCategory::defaultCategory()->setEnabled(QtDebugMsg, true);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 #endif
 
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
     QApplication app(argc, argv);
 
     MainWindow w;

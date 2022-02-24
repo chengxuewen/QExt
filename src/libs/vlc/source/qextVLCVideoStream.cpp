@@ -49,7 +49,7 @@ unsigned QEXTVLCVideoStream::formatCallback(char *chroma, unsigned *width, unsig
 
 void QEXTVLCVideoStream::formatCleanUpCallback()
 {
-    m_renderFrame.reset();
+    m_renderFrame.clear();
     m_lockedFramesList.clear();
     m_framesQueue.clear();
 

@@ -8,7 +8,7 @@ class QEXTStyleThemeMaterialPrivate;
 class QEXTStyleThemeMaterial : public QObject, public QEXTStyleTheme
 {
 public:
-    explicit QEXTStyleThemeMaterial(QObject *parent = nullptr);
+    explicit QEXTStyleThemeMaterial(QObject *parent = 0);
     ~QEXTStyleThemeMaterial();
 
     QString styleName() const QEXT_DECL_OVERRIDE;

@@ -1,5 +1,7 @@
 #include <qextVLCYUVVideoFrame.h>
 
+#include <stdint.h>
+
 QEXTVLCYUVVideoFrame::QEXTVLCYUVVideoFrame(unsigned *width, unsigned *height,
                                            unsigned *pitches, unsigned *lines)
     : QEXTVLCAbstractVideoFrame(3)

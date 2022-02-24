@@ -4,6 +4,7 @@
 #include <qextWidgetGlobal.h>
 
 #include <QWidget>
+#include <QObject>
 #include <QSize>
 #include <QColor>
 
@@ -11,7 +12,6 @@ class QEXTLedPrivate;
 class QEXT_WIDGETS_API QEXTLed : public QWidget
 {
     Q_OBJECT
-
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(bool state READ isOn WRITE setOn NOTIFY stateChanged)
 
@@ -22,8 +22,8 @@ public:
     QColor color() const;
     bool isOn() const;
 
-    QSize sizeHint() const Q_DECL_OVERRIDE;
-    QSize minimumSizeHint() const Q_DECL_OVERRIDE;
+    QSize sizeHint() const QEXT_DECL_OVERRIDE;
+    QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
 
 Q_SIGNALS:
     void colorChanged(QColor ledColor);
@@ -37,7 +37,7 @@ public Q_SLOTS:
     void toggle();
 
 protected:
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) QEXT_DECL_OVERRIDE;
 
     QScopedPointer<QEXTLedPrivate> dd_ptr;
 

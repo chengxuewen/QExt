@@ -162,10 +162,10 @@ add_custom_command(
 #--------------------------------------------------------------------------------
 # Add lib tests and examples
 #--------------------------------------------------------------------------------
-if (QEXT_BUILD_TESTS OR QEXT_BUILD_ALL)
+if (QEXT_BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-if (QEXT_BUILD_EXAMPLES OR QEXT_BUILD_ALL)
+if (QEXT_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
