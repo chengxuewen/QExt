@@ -226,15 +226,7 @@ if(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
         COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
         COMMAND ${QEXTQUICK_GENERATE_QMLTYPES_COMMAND}
-        COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}/plugin.qmltypes ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Generating qextquick.qmltypes with qmlplugindump"
-        POST_BUILD
-        )
-else()
-    add_custom_command(
-        TARGET ${QEXT_QML_PLUGIN_BASE_NAME}
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/plugin.qmltypes ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}
-        COMMENT "Copy qextquick.qmltypes to output qml plugin dir."
         POST_BUILD
         )
 endif()
