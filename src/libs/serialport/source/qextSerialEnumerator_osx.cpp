@@ -35,6 +35,7 @@
 #include <IOKit/serial/IOSerialKeys.h>
 #include <CoreFoundation/CFNumber.h>
 #include <sys/param.h>
+#
 
 
 
@@ -57,7 +58,7 @@ QList<QEXTPortInfo> QEXTSerialEnumeratorPrivate::getPorts_sys()
 
     // first try to get any serialbsd devices, then try any USBCDC devices
     if (!(matchingDictionary = IOServiceMatching(kIOSerialBSDServiceValue))) {
-        QESP_WARNING("IOServiceMatching returned a NULL dictionary.");
+        qWarning("IOServiceMatching returned a NULL dictionary.");
         return infoList;
     }
     CFDictionaryAddValue(matchingDictionary, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDAllTypes));
@@ -72,7 +73,7 @@ QList<QEXTPortInfo> QEXTSerialEnumeratorPrivate::getPorts_sys()
     serialPortIterator = 0;
 
     if (!(matchingDictionary = IOServiceNameMatching("AppleUSBCDC"))) {
-        QESP_WARNING("IOServiceNameMatching returned a NULL dictionary.");
+        qWarning("IOServiceNameMatching returned a NULL dictionary.");
         return infoList;
     }
 
@@ -243,7 +244,7 @@ bool QEXTSerialEnumeratorPrivate::setUpNotifications_sys(bool /*setup*/)
         CFDictionarySetValue(classesToMatch, CFSTR(kIOSerialBSDTypeKey), CFSTR(kIOSerialBSDAllTypes));
 
     if (!(cdcClassesToMatch = IOServiceNameMatching("AppleUSBCDC"))) {
-        QESP_WARNING("couldn't create cdc matching dict");
+        qWarning("couldn't create cdc matching dict");
         return false;
     }
 

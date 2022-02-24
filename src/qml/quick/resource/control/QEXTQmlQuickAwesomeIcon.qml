@@ -1,5 +1,5 @@
-import QtQuick 2.9
-import QtQml 2.9
+import QtQuick 2.12
+import QtQml 2.12
 
 import QEXTQmlQuick 1.0
 

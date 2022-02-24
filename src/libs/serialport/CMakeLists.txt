@@ -91,6 +91,12 @@ if(WIN32)
     list(APPEND QEXT_LIB_LINK_LIBRARIES shlwapi.lib setupapi.lib advapi32.lib user32.lib)
 endif()
 
+if(APPLE)
+    find_library(COREFOUNDATION_LIB CoreFoundation)
+    find_library(IOKIT_LIB IOKit)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES ${COREFOUNDATION_LIB} ${IOKIT_LIB})
+endif()
+
 if(CMAKE_THREAD_LIBS_INIT)
     list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 endif()

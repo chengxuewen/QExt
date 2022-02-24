@@ -261,9 +261,9 @@ void QEXTVLCMediaPlayer::play()
     if (d->m_currentWId)
     {
 #if defined(Q_OS_WIN32)
-        libvlc_media_player_set_hwnd(_vlcMediaPlayer, (void *)_currentWId);
+        libvlc_media_player_set_hwnd(d->m_vlcMediaPlayer, (void *)d->m_currentWId);
 #elif defined(Q_OS_DARWIN)
-        libvlc_media_player_set_nsobject(_vlcMediaPlayer, (void *)_currentWId);
+        libvlc_media_player_set_nsobject(d->m_vlcMediaPlayer, (void *)d->m_currentWId);
 #elif defined(Q_OS_UNIX)
         libvlc_media_player_set_xwindow(d->m_vlcMediaPlayer, d->m_currentWId);
 #endif
