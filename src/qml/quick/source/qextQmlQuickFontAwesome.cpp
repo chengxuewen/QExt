@@ -77,14 +77,19 @@ QString QEXTQmlQuickFontAwesome::awesomeFromKey(const QString &key)
 {
     if(!key.isEmpty()) {
         int index = this->staticMetaObject.indexOfEnumerator("FontAwesomeType");
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+        return QChar(this->staticMetaObject.enumerator(index).keysToValue(key.toStdString().c_str()));
+#else
         return QString(this->staticMetaObject.enumerator(index).keysToValue(key.toStdString().c_str()));
+#endif
     }
     return QString();
 }
 
 QString QEXTQmlQuickFontAwesome::awesomeFromValue(const int &type)
 {
-    return QString(type);
+    return QChar(type);
 }
 
 QStringList QEXTQmlQuickFontAwesome::awesomelist()

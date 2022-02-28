@@ -97,7 +97,12 @@ void QEXTNavigationButton::paintEvent(QPaintEvent *)
     this->drawTriangle(&painter);
 
     QStyleOption opt;
+
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    opt.initFrom(this);
+#else
     opt.init(this);
+#endif
     this->style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
 }
 

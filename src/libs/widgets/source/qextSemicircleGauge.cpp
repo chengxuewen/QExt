@@ -181,8 +181,9 @@ void QEXTSemicircleGauge::drawScaleNum(QPainter *painter)
         double value = 1.0 * i * ((d->m_maxValue - d->m_minValue) / d->m_scaleMajor) + d->m_minValue;
 
         QString strValue = QString("%1").arg(value);
-        double textWidth = fontMetrics().width(strValue);
-        double textHeight = fontMetrics().height() - d->m_offsetY;
+        QRect strRect = this->fontMetrics().boundingRect(strValue);
+        double textWidth = strRect.width();
+        double textHeight = strRect.height() - d->m_offsetY;
         int x = radius * cosa - textWidth / 2;
         int y = -radius * sina + textHeight / 4;
         painter->drawText(x, y, strValue);

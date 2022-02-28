@@ -62,7 +62,11 @@ QwtDynGridLayout::QwtDynGridLayout( QWidget *parent,
     init();
 
     setSpacing( spacing );
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 0, 0))
+    this->setContentsMargins(margin, margin, margin, margin);
+#else
     setMargin( margin );
+#endif
 }
 
 /*!

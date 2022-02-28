@@ -72,17 +72,16 @@ void QEXTRulerSlider::showEvent(QShowEvent *)
     this->resizeEvent(NULL);
 }
 
-void QEXTRulerSlider::wheelEvent(QWheelEvent *e)
+void QEXTRulerSlider::wheelEvent(QWheelEvent *event)
 {
     Q_D(QEXTRulerSlider);
-    int degrees = e->delta() / 8;
+    QPoint numDegrees = event->angleDelta() / 8;
+    QPoint numSteps = numDegrees / 15;
 
-    int steps = degrees / 15;
+    if (!numSteps.isNull()) {
+        double value = d->m_currentValue - numSteps.y();
 
-    if (e->orientation() == Qt::Vertical) {
-        double value = d->m_currentValue - steps;
-
-        if (steps > 0) {
+        if (numSteps.y() > 0) {
             if (value > d->m_minValue) {
                 this->setValue(value);
             } else {

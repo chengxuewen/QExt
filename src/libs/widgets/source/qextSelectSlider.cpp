@@ -313,7 +313,7 @@ void QEXTSelectSlider::drawSlider(QPainter *painter)
     Q_D(QEXTSelectSlider);
     painter->save();
 
-    painter->setPen(d->m_sliderColor.light(100));
+    painter->setPen(d->m_sliderColor.lighter(100));
     painter->setBrush(d->m_sliderColor);
     painter->drawRect(d->m_leftRect);
     painter->drawLine(d->m_leftRect.x(), 20, d->m_leftRect.x() + 15, 30);
@@ -321,7 +321,7 @@ void QEXTSelectSlider::drawSlider(QPainter *painter)
     painter->setPen(d->m_rangeTextColor);
     painter->drawText(d->m_leftRect, Qt::AlignCenter, QString::number(d->m_leftValue));
 
-    painter->setPen(d->m_sliderColor.light(100));
+    painter->setPen(d->m_sliderColor.lighter(100));
     painter->setBrush(d->m_sliderColor);
     painter->drawRect(d->m_rightRect);
     painter->drawLine(d->m_rightRect.x(), 20, d->m_rightRect.x() + 15, 30);

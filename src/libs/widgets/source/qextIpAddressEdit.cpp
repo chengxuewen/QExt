@@ -4,11 +4,17 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QBoxLayout>
-#include <QRegExp>
 #include <QValidator>
 #include <QEvent>
 #include <QKeyEvent>
 #include <QDebug>
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5,0,0))
+#include <QRegularExpression>
+#include <QRegularExpressionValidator>
+#else
+#include <QRegExp>
+#endif
 
 QEXTIpAddressEditPrivate::QEXTIpAddressEditPrivate(QEXTIpAddressEdit *q)
     : q_ptr(q)
@@ -65,11 +71,19 @@ void QEXTIpAddressEditPrivate::initForm(QEXTIpAddressEdit *qq)
     m_txtIP4->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QObject::connect(m_txtIP4, SIGNAL(textChanged(QString)), qq, SLOT(textChanged(QString)));
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5,0,0))
+    QRegularExpression regExp("(2[0-5]{2}|2[0-4][0-9]|1?[0-9]{1,2})");
+    m_txtIP1->setValidator(new QRegularExpressionValidator(regExp, qq));
+    m_txtIP2->setValidator(new QRegularExpressionValidator(regExp, qq));
+    m_txtIP3->setValidator(new QRegularExpressionValidator(regExp, qq));
+    m_txtIP4->setValidator(new QRegularExpressionValidator(regExp, qq));
+#else
     QRegExp regExp("(2[0-5]{2}|2[0-4][0-9]|1?[0-9]{1,2})");
     m_txtIP1->setValidator(new QRegExpValidator(regExp, qq));
     m_txtIP2->setValidator(new QRegExpValidator(regExp, qq));
     m_txtIP3->setValidator(new QRegExpValidator(regExp, qq));
     m_txtIP4->setValidator(new QRegExpValidator(regExp, qq));
+#endif
 
     m_txtIP1->installEventFilter(qq);
     m_txtIP2->installEventFilter(qq);

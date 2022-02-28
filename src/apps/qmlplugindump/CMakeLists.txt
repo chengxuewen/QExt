@@ -100,7 +100,17 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 5)
         message(FATAL_ERROR "----QEXT---- qmlplugindump unknown version")
     endif()
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
-    message(FATAL_ERROR "----QEXT---- qmlplugindump unknown version")
+    if(QEXT_QT_VERSION_MINOR EQUAL 2)
+        list(APPEND QEXT_APP_SOURCES
+            qt602/qmltypereader.h
+            qt602/qmltypereader.cpp
+            qt602/qqmljsstreamwriter_p.h
+            qt602/qqmljsstreamwriter.cpp
+            qt602/main.cpp
+            )
+    else()
+        message(FATAL_ERROR "----QEXT---- qmlplugindump unknown version")
+    endif()
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()

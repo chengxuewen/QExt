@@ -487,7 +487,7 @@ void QEXTIndicatorLight::drawBorderOut(QPainter *painter)
     }
     case QEXTIndicatorLight::Shape_Rounded:
     {
-        painter->drawRoundRect(-radius, -radius, radius * 2, radius * 2);
+        painter->drawRoundedRect(-radius, -radius, radius * 2, radius * 2, radius / 2, radius / 2);
         break;
     }
     default:
@@ -525,7 +525,7 @@ void QEXTIndicatorLight::drawBorderIn(QPainter *painter)
     }
     case QEXTIndicatorLight::Shape_Rounded:
     {
-        painter->drawRoundRect(-radius, -radius, radius * 2, radius * 2);
+        painter->drawRoundedRect(-radius, -radius, radius * 2, radius * 2, radius / 2, radius / 2);
         break;
     }
     default:
@@ -560,7 +560,7 @@ void QEXTIndicatorLight::drawBackground(QPainter *painter)
     }
     case QEXTIndicatorLight::Shape_Rounded:
     {
-        painter->drawRoundRect(-radius, -radius, radius * 2, radius * 2);
+        painter->drawRoundedRect(-radius, -radius, radius * 2, radius * 2, radius / 2, radius / 2);
         break;
     }
     default:
@@ -631,7 +631,7 @@ void QEXTIndicatorLight::drawOverlay(QPainter *painter)
     case QEXTIndicatorLight::Shape_Rounded:
     {
         radius -= 1;
-        smallCircle.addRoundRect(-radius, -radius, radius * 2, radius * 2, 25, 25);
+        smallCircle.addRoundedRect(-radius, -radius, radius * 2, radius * 2, 25, 25);
         radius *= 2;
         bigCircle.addEllipse(-radius + 30, -radius + 140, radius * 2, radius * 2);
         break;

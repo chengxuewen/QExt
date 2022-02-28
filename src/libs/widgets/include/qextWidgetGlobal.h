@@ -3,6 +3,8 @@
 
 #include <qextGlobal.h>
 
+#include <QColor>
+
 /********************************************************************************
    QEXT Compiler specific cmds for export and import code to DLL
 ********************************************************************************/

@@ -72,7 +72,11 @@ QwtAnalogClock::QwtAnalogClock( QWidget *parent ):
     setScale( scaleDiv );
 
     QColor knobColor = palette().color( QPalette::Active, QPalette::Text );
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    knobColor = knobColor.darker( 120 );
+#else
     knobColor = knobColor.dark( 120 );
+#endif
 
     QColor handColor;
     int width;
@@ -82,7 +86,11 @@ QwtAnalogClock::QwtAnalogClock( QWidget *parent ):
         if ( i == SecondHand )
         {
             width = 2;
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+            handColor = knobColor.darker( 120 );
+#else
             handColor = knobColor.dark( 120 );
+#endif
         }
         else
         {

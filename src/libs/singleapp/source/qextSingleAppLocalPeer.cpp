@@ -44,6 +44,11 @@
 #include <QCoreApplication>
 #include <QDataStream>
 #include <QTime>
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+#include <QRegularExpression>
+#else
+#include <QRegExp>
+#endif
 
 #if defined(Q_OS_WIN)
 #include <QLibrary>
@@ -70,13 +75,18 @@ QEXTSingleAppLocalPeer::QEXTSingleAppLocalPeer(QObject* parent, const QString &a
 #endif
         prefix = m_id.section(QLatin1Char('/'), -1);
     }
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    prefix.remove(QRegularExpression("[^a-zA-Z]"));
+#else
     prefix.remove(QRegExp("[^a-zA-Z]"));
+#endif
     prefix.truncate(6);
 
     QByteArray idc = m_id.toUtf8();
     quint16 idNum = qChecksum(idc.constData(), idc.size());
     m_socketName = QLatin1String("qtsingleapp-") + prefix
-                 + QLatin1Char('-') + QString::number(idNum, 16);
+            + QLatin1Char('-') + QString::number(idNum, 16);
 
 #if defined(Q_OS_WIN)
     if (!pProcessIdToSessionId) {
@@ -94,8 +104,8 @@ QEXTSingleAppLocalPeer::QEXTSingleAppLocalPeer(QObject* parent, const QString &a
 
     m_server = new QLocalServer(this);
     QString lockName = QDir(QDir::tempPath()).absolutePath()
-                       + QLatin1Char('/') + m_socketName
-                       + QLatin1String("-lockfile");
+            + QLatin1Char('/') + m_socketName
+            + QLatin1String("-lockfile");
     m_lockFile.setFileName(lockName);
     m_lockFile.open(QIODevice::ReadWrite);
 }

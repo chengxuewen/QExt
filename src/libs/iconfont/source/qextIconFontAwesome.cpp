@@ -221,14 +221,14 @@ QString QEXTIconFontAwesome::textFromKey(const QString &key)
     if(!key.isEmpty())
     {
         int index = this->staticMetaObject.indexOfEnumerator("FontType");
-        return QString(this->staticMetaObject.enumerator(index).keysToValue(key.toLatin1().data()));
+        return QChar(this->staticMetaObject.enumerator(index).keysToValue(key.toLatin1().data()));
     }
     return QString();
 }
 
 QString QEXTIconFontAwesome::textFromValue(const int &type)
 {
-    return QString(type);
+    return QChar(type);
 }
 
 QList<QString> QEXTIconFontAwesome::fontNamelist()
@@ -250,7 +250,7 @@ QList<QString> QEXTIconFontAwesome::fontTextlist()
     for(int i = 0; i < enumType.keyCount(); ++i)
     {
         QString key = enumType.key(i);
-        QString value = QString(this->staticMetaObject.enumerator(index).keysToValue(key.toLatin1().data()));
+        QString value = QChar(this->staticMetaObject.enumerator(index).keysToValue(key.toLatin1().data()));
         list.append(value);
     }
     return list;

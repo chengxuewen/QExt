@@ -118,7 +118,7 @@ public Q_SLOTS:
 protected:
     void resizeEvent(QResizeEvent *);
     void showEvent(QShowEvent *);
-    void wheelEvent(QWheelEvent *);
+    void wheelEvent(QWheelEvent *event);
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);

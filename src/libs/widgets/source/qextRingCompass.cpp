@@ -112,23 +112,27 @@ void QEXTRingCompass::drawFourText(QPainter *painter)
     QFontMetrics fm = painter->fontMetrics();
 
     QString str1 = "北";
-    QRectF titleRect(-fm.width(str1) / 2, -rect.height() / 2 + offset, fm.width(str1), fm.height());
+    QRect str1Rect = fm.boundingRect(str1);
+    QRectF titleRect(-str1Rect.width() / 2, -rect.height() / 2 + offset, str1Rect.width(), fm.height());
     painter->drawText(titleRect, Qt::AlignCenter, str1);
 
     painter->setPen(d->m_textColor);
     painter->rotate(-90);
     QString str2 = "西";
-    QRectF titleRect2(-fm.width(str2) / 2, -rect.height() / 2 + offset, fm.width(str2), fm.height());
+    QRect str2Rect = fm.boundingRect(str2);
+    QRectF titleRect2(-str2Rect.width() / 2, -rect.height() / 2 + offset, str2Rect.width(), fm.height());
     painter->drawText(titleRect2, Qt::AlignCenter, str2);
 
     painter->rotate(-90);
     QString str3 = "南";
-    QRectF titleRect3(-fm.width(str3) / 2, -rect.height() / 2 + offset, fm.width(str3), fm.height());
+    QRect str3Rect = fm.boundingRect(str3);
+    QRectF titleRect3(-str3Rect.width() / 2, -rect.height() / 2 + offset, str3Rect.width(), fm.height());
     painter->drawText(titleRect3, Qt::AlignCenter, str3);
 
     painter->rotate(-90);
     QString str4 = "东";
-    QRectF titleRect4(-fm.width(str4) / 2, -rect.height() / 2 + offset, fm.width(str4), fm.height());
+    QRect str4Rect = fm.boundingRect(str4);
+    QRectF titleRect4(-str4Rect.width() / 2, -rect.height() / 2 + offset, str4Rect.width(), fm.height());
     painter->drawText(titleRect4, Qt::AlignCenter, str4);
 
     painter->restore();

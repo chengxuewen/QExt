@@ -1,5 +1,7 @@
 #include <QApplication>
+#if (QT_VERSION < QT_VERSION_CHECK(6,0,0))
 #include <QTextCodec>
+#endif
 #include <QFont>
 #include <QDebug>
 
@@ -12,7 +14,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setFont(QFont("Microsoft Yahei", 9));
 
-#if (QT_VERSION <= QT_VERSION_CHECK(5,0,0))
+#if (QT_VERSION < QT_VERSION_CHECK(5,0,0))
 #if _MSC_VER
     QTextCodec *codec = QTextCodec::codecForName("gbk");
 #else
@@ -21,7 +23,7 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForLocale(codec);
     QTextCodec::setCodecForCStrings(codec);
     QTextCodec::setCodecForTr(codec);
-#else
+#elif (QT_VERSION < QT_VERSION_CHECK(6,0,0))
     QTextCodec *codec = QTextCodec::codecForName("utf-8");
     QTextCodec::setCodecForLocale(codec);
 #endif

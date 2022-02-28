@@ -234,8 +234,9 @@ void QEXTWaveChart::drawText(QPainter *painter)
 
     for (int i = 0; i <= step; i++) {
         strValue = QString("%1").arg(value);
-        double textWidth = fontMetrics().width(strValue);
-        double textHeight = fontMetrics().height();
+        QRect strRect = this->fontMetrics().boundingRect(strValue);
+        double textWidth = strRect.width();
+        double textHeight = strRect.height();
         QPointF textPot(d->m_plotAreaRect.topLeft().x() - 5 - textWidth, startY + textHeight / 2);
         painter->drawText(textPot, strValue);
         value -= d->m_yAxisStep;
@@ -260,8 +261,9 @@ void QEXTWaveChart::drawTitle(QPainter *painter)
 
     double titleX = (double)width() / 2;
     double titleY = d->m_space;
-    double textWidth = this->fontMetrics().width(d->m_title);
-    double textHeight = this->fontMetrics().height();
+    QRect textRect = this->fontMetrics().boundingRect(d->m_title);
+    double textWidth = textRect.width();
+    double textHeight = textRect.height();
 
     QFont titleFont;
     titleFont.setBold(true);

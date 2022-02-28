@@ -248,8 +248,9 @@ void QEXTCircleGauge::drawScaleNum(QPainter *painter)
         double value = 1.0 * i * ((d->m_maxValue - d->m_minValue) / d->m_scaleMajor) + d->m_minValue;
 
         QString strValue = QString("%1").arg((double)value, 0, 'f', d->m_precision);
-        double textWidth = fontMetrics().width(strValue);
-        double textHeight = fontMetrics().height();
+        QRect strRect = fontMetrics().boundingRect(strValue);
+        double textWidth = strRect.width();
+        double textHeight = strRect.height();
         int x = radius * cosa - textWidth / 2;
         int y = -radius * sina + textHeight / 4;
         painter->drawText(x, y, strValue);

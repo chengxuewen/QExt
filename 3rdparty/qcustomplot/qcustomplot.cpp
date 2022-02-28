@@ -6604,7 +6604,7 @@ QCPAxisTickerText::QCPAxisTickerText() :
 */
 void QCPAxisTickerText::setTicks(const QMap<double, QString> &ticks)
 {
-  mTicks = ticks;
+  mTicks = QMultiMap<double, QString>(ticks);
 }
 
 /*! \overload

@@ -101,15 +101,6 @@ endfunction()
 #--------------------------------------------------------------------------------
 # Add example
 #--------------------------------------------------------------------------------
-qextFunctionQuickAddExample(qext_exp_qmlQuickWidgetProxy
-    EXAMPLE_SOURCE
-    widgetproxy/calendarwidgetproxyitem.cpp
-    widgetproxy/calendarwidgetproxyitem.h
-    widgetproxy/example.qrc
-    widgetproxy/main.cpp
-    EXAMPLE_INCLUDE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/widgetproxy
-    )
 qextFunctionQuickAddExample(qext_exp_qmlQuickSimple
     EXAMPLE_SOURCE
     simple/QEXTQmlQuickSimple.qrc

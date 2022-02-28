@@ -7,11 +7,22 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_EXAMPLE_OUTPUT_DIR}/mvvm)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt5 5.12 COMPONENTS Widgets Core Gui PrintSupport Quick Qml REQUIRED)
+if(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::PrintSupport
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets
+        Qt${QEXT_QT_VERSION_MAJOR}::Quick
+        Qt${QEXT_QT_VERSION_MAJOR}::Qml
+        )
+else()
+    message(FATAL_ERROR "----QEXT---- Not find Qt package")
+endif()
 
 set(executable_name qext_exp_mvvmModelInQml)
 add_subdirectory(modelinqmlcore)
 add_executable(${executable_name} main.cpp ${CMAKE_CURRENT_LIST_DIR}/qml/app.qrc)
 
-target_link_libraries(${executable_name} modelinqmlcore Qt5::Gui Qt5::Widgets Qt5::Qml Qt5::Quick QEXTMvvm)
+target_link_libraries(${executable_name} modelinqmlcore ${QEXT_EXAMPLE_LINK_LIBRARIES} QEXTMvvm)
 target_include_directories(${executable_name} PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>)

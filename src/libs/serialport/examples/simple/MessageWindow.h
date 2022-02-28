@@ -41,7 +41,7 @@ public:
          *     \param parent parent widget.
          *     \param flags widget flags.
          */
-    MessageWindow(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    MessageWindow(QWidget* parent = 0, Qt::WindowFlags flags = Qt::Widget);
 
     /**
          * Append message wrapper. Since ISO forbids casting member functions

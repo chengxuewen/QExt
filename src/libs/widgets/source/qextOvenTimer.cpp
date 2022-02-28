@@ -85,11 +85,11 @@ void QEXTOvenTimer::draw(QPainter *painter)
         {-2, -49}, {+2, -49}, {0, -47}
     };
 
-    QPen thickPen(palette().foreground(), 1.5);
-    QPen thinPen(palette().foreground(), 0.5);
+    QPen thickPen(palette().windowText(), 1.5);
+    QPen thinPen(palette().windowText(), 0.5);
 
     painter->setPen(thinPen);
-    painter->setBrush(palette().foreground());
+    painter->setBrush(palette().windowText());
     painter->drawPolygon(QPolygon(3, &triangle[0][0]));
 
     QConicalGradient coneGradient(0, 0, -90.0);

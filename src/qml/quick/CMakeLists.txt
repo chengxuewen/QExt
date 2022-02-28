@@ -77,7 +77,6 @@ set(QEXT_QML_PLUGIN_PUBLIC_HEADERS
     include/qextQmlQuickWorld.h
     include/qextQmlQuickPch.h
     include/qextQmlQuickGlobal.h
-    include/qextQmlQuickWidgetProxyItem.h
     )
 
 set(QEXT_QML_PLUGIN_PRIVATE_HEADERS
@@ -105,7 +104,6 @@ set(QEXT_QML_PLUGIN_SOURCES
     source/qextQmlQuickPalette.cpp
     source/qextQmlQuickPlugin.cpp
     source/qextQmlQuickWorld.cpp
-    source/qextQmlQuickWidgetProxyItem.cpp
     )
 
 set(QEXT_QML_PLUGIN_RESOURCES

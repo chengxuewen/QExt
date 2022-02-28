@@ -152,7 +152,9 @@ QString QEXTStyleThemeDefault::styleSheet() const
     if (file.open(QFile::ReadOnly))
     {
         QTextStream stream(&file);
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
         stream.setCodec("utf-8");
+#endif
         QStringList list;
         while (!stream.atEnd())
         {

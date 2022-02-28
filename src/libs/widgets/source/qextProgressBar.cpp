@@ -79,7 +79,7 @@ void QEXTProgressBar::drawBar(QPainter *painter)
     QString strValue = QString("%1%").arg(currentValue, 0, 'f', d->m_precision);
     QString strMaxValue = QString("%1%").arg(d->m_maxValue, 0, 'f', d->m_precision);
 
-    int textWidth = painter->fontMetrics().width(strMaxValue) + 10;
+    int textWidth = painter->fontMetrics().boundingRect(strMaxValue).width() + 10;
 
     QPointF textTopLeft(width() - d->m_space - textWidth, d->m_space);
     QPointF textBottomRight(width() - d->m_space, height() - d->m_space);

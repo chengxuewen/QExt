@@ -103,8 +103,15 @@ endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore)
-elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core)
+elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        )
+elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Core5Compat
+        )
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()

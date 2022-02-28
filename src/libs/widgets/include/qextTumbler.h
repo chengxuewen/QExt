@@ -87,7 +87,7 @@ Q_SIGNALS:
     void currentValueChanged(const QString &value);
 
 protected:
-    void wheelEvent(QWheelEvent *);
+    void wheelEvent(QWheelEvent *event);
     void mousePressEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);

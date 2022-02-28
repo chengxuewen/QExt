@@ -1,5 +1,4 @@
 #include <QApplication>
-#include <QTextCodec>
 #include <QDebug>
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 2, 0))
@@ -7,7 +6,6 @@
 #endif
 
 #include <MainWindow.h>
-
 
 int main(int argc, char *argv[])
 {

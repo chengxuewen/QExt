@@ -49,18 +49,17 @@ QEXTTumbler::~QEXTTumbler()
 
 }
 
-void QEXTTumbler::wheelEvent(QWheelEvent *e)
+void QEXTTumbler::wheelEvent(QWheelEvent *event)
 {
     Q_D(QEXTTumbler);
-    int degrees = e->delta() / 8;
+    QPoint numDegrees = event->angleDelta() / 8;
+    QPoint numSteps = numDegrees / 15;
 
-    int steps = degrees / 15;
-
-    if (e->orientation() == Qt::Vertical)
+    if (!numSteps.isNull())
     {
-        int index = d->m_currentIndex - steps;
+        int index = d->m_currentIndex - numSteps.y();
 
-        if (steps > 0)
+        if (numSteps.y() > 0)
         {
             if (index > 0)
             {
@@ -281,7 +280,7 @@ void QEXTTumbler::drawText(QPainter *painter, int index, int offset)
 
     if (d->m_isHorizontal)
     {
-        int textWidth = painter->fontMetrics().width(strValue);
+        int textWidth = painter->fontMetrics().boundingRect(strValue).width();
         int initX = width / 2 + offset - textWidth / 2;
         painter->drawText(QRect(initX, 0, textWidth, height), Qt::AlignCenter, strValue);
 
