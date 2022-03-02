@@ -28,7 +28,7 @@
 # Set example output path
 #--------------------------------------------------------------------------------
 set(QEXT_APP_BASE_NAME qext_tool_qmlplugindump)
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_APP_DIR})
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_APP_DIR}/qmlplugindump)
 set(QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXT_OUTPUT_QML_DIR})
 set(QML_IMPORT_PATH "${QEXT_QML_IMPORT_PATH}" CACHE STRING "Qt Creator extra qml import paths")
 
@@ -159,7 +159,7 @@ if(WIN32)
             COMMAND ${QEXT_QT_WINDEPLOY} ${QEXT_APP_DEPLOY_TYPE} --qmldir ${QEXT_QT_KIT_DIR}/qml ${EXECUTABLE_OUTPUT_PATH}/${QEXT_APP_BASE_NAME}.exe --verbose 2
             COMMAND ${CMAKE_COMMAND} -E copy_directory ${QEXT_QT_KIT_DIR}/plugins/platforms ${EXECUTABLE_OUTPUT_PATH}/platforms
             COMMENT "Run windeployqt to deploy ${QEXT_APP_BASE_NAME}"
-            POST_BUILD
+            POST_BUILDT
             )
     endif()
 endif()

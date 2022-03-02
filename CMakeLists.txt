@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.14.1.1 LANGUAGES CXX C)
+project(QEXT VERSION 0.14.2.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -244,31 +244,11 @@ qextMacroEnsureDefineVariable(QEXT_OUTPUT_TEST_DIR ${PROJECT_BINARY_DIR}/test)
 #--------------------------------------------------------------------------------
 # Set option
 #--------------------------------------------------------------------------------
-qextMacroEnsureDefineVariable(BUILD_QEXT_ALL ON)
 qextMacroEnsureDefineVariable(BUILD_QEXT_SHARED ON)
 qextMacroEnsureDefineVariable(BUILD_QEXT_USE_PCH ON)
 qextMacroEnsureDefineVariable(BUILD_QEXT_COMPILER_WARNING OFF)
-qextMacroEnsureDefineVariable(BUILD_QEXT_TEST ${BUILD_QEXT_ALL})
-qextMacroEnsureDefineVariable(BUILD_QEXT_EXAMPLES ${BUILD_QEXT_ALL})
-qextMacroEnsureDefineVariable(BUILD_QEXT_APPS ${BUILD_QEXT_ALL})
-qextMacroEnsureDefineVariable(BUILD_QEXT_PLUGINS ${BUILD_QEXT_ALL})
-qextMacroEnsureDefineVariable(BUILD_QEXT_INSTALL ${BUILD_QEXT_ALL})
-qextMacroEnsureDefineVariable(BUILD_QEXT_DOCUMENTATION ${BUILD_QEXT_ALL})
 
-option(QEXT_BUILD_APPS "Build apps" ${BUILD_QEXT_APPS})
-option(QEXT_BUILD_TESTS "Build tests" ${BUILD_QEXT_TEST})
-option(QEXT_BUILD_PLUGINS "Build plugins" ${BUILD_QEXT_PLUGINS})
-option(QEXT_BUILD_EXAMPLES "Build examples" ${BUILD_QEXT_EXAMPLES})
-option(QEXT_BUILD_INSTALL "Build install" ${BUILD_QEXT_INSTALL})
-option(QEXT_BUILD_DOCUMENTATION "Enable this to build the documentation" ${BUILD_QEXT_DOCUMENTATION})
-option(QEXT_BUILD_ALL "Build all artifacts" ${BUILD_QEXT_ALL})
-
-option(QEXT_BUILD_SHARED_LIBS "Build shared library" ${BUILD_QEXT_SHARED})
-option(QEXT_BUILD_COMPILER_WARNING "Build target with compiler warnings" ${BUILD_QEXT_COMPILER_WARNING})
-option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ${BUILD_QEXT_USE_PCH})
-
-
-qextMacroEnsureDefineVariable(USE_QEXT_ALL ${QEXT_BUILD_ALL})
+qextMacroEnsureDefineVariable(USE_QEXT_ALL ON)
 qextMacroEnsureDefineVariable(USE_QEXT_DEVICEWATCHER ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_FRAMELESSHELPER ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_GOOGLEPINYIN ${USE_QEXT_ALL})
@@ -283,18 +263,30 @@ qextMacroEnsureDefineVariable(USE_QEXT_UTILS ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_VLC ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_WIDGETS ${USE_QEXT_ALL})
 
+qextMacroEnsureDefineVariable(USE_QEXT_QML_FRAMELESSHELPER ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_QML_QUICK ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_QML_THEME ${USE_QEXT_ALL})
+qextMacroEnsureDefineVariable(USE_QEXT_QML_VLC ${USE_QEXT_ALL})
 
 qextMacroEnsureDefineVariable(USE_QEXT_QWT ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_QCUSTOMPLOT ${USE_QEXT_ALL})
+
+option(QEXT_BUILD_QMLS "Build qmls" ON)
+option(QEXT_BUILD_TESTS "Build tests" OFF)
+option(QEXT_BUILD_PLUGINS "Build plugins" ON)
+option(QEXT_BUILD_EXAMPLES "Build examples" OFF)
+option(QEXT_BUILD_INSTALL "Build install" OFF)
+option(QEXT_BUILD_DOCUMENTATION "Enable this to build the documentation" OFF)
+option(QEXT_BUILD_SHARED_LIBS "Build shared library" ${BUILD_QEXT_SHARED})
+option(QEXT_BUILD_COMPILER_WARNING "Build target with compiler warnings" ${BUILD_QEXT_COMPILER_WARNING})
+option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ${BUILD_QEXT_USE_PCH})
+
 
 option(QEXT_BUILD_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" ${USE_QEXT_DEVICEWATCHER})
 option(QEXT_BUILD_LIB_FRAMELESSHELPER "Enable this to build the framelesshelper lib" ${USE_QEXT_FRAMELESSHELPER})
 option(QEXT_BUILD_LIB_GOOGLEPINYIN "Enable this to build the googlepinyin lib" ${USE_QEXT_GOOGLEPINYIN})
 option(QEXT_BUILD_LIB_ICONFONT "Enable this to build the iconfont lib" ${USE_QEXT_ICONFONT})
 option(QEXT_BUILD_LIB_MVVM "Enable this to build the mvvm lib" ${USE_QEXT_MVVM})
-option(QEXT_BUILD_LIB_QUICK "Enable this to build the quick lib" ${USE_QEXT_QUICK})
 option(QEXT_BUILD_LIB_SERIALPORT "Enable this to build the serialport lib" ${USE_QEXT_SERIALPORT})
 option(QEXT_BUILD_LIB_SINGLEAPP "Enable this to build the singleapp lib" ${USE_QEXT_SINGLEAPP})
 option(QEXT_BUILD_LIB_STYLETHEME "Enable this to build the styletheme lib" ${USE_QEXT_STYLETHEME})
@@ -303,8 +295,10 @@ option(QEXT_BUILD_LIB_UTILS "Enable this to build the utils lib" ${USE_QEXT_UTIL
 option(QEXT_BUILD_LIB_VLC "Enable this to build the VLC lib" ${USE_QEXT_VLC})
 option(QEXT_BUILD_LIB_WIDGETS "Enable this to build the widgets lib" ${USE_QEXT_WIDGETS})
 
+option(QEXT_BUILD_LIB_QML_FRAMELESSHELPER "Enable this to build the qml framelesshelper lib" ${USE_QEXT_QML_FRAMELESSHELPER})
 option(QEXT_BUILD_LIB_QML_QUICK "Enable this to build the qml quick lib" ${USE_QEXT_QML_QUICK})
 option(QEXT_BUILD_LIB_QML_THEME "Enable this to build the qml theme lib" ${USE_QEXT_QML_THEME})
+option(QEXT_BUILD_LIB_QML_VLC "Enable this to build the qml VLC lib" ${USE_QEXT_QML_VLC})
 
 option(QEXT_BUILD_LIB_QWT "Enable this to build the qwt lib" ${USE_QEXT_QWT})
 option(QEXT_BUILD_LIB_QCUSTOMPLOT "Enable this to build the qcustomplot lib" ${USE_QEXT_QCUSTOMPLOT})
@@ -318,12 +312,6 @@ else()
     message(STATUS "----QEXT---- Build as static libraries")
 endif()
 
-
-# one precompiled headers cannot be used for multiple ninja targets
-# thats why we have to disable this option, when MTK_BUILD_SHARED_LIBS is OFF
-# (every target will create the same PCH.pch file)
-# to get it working, we need the feature to enable different source properties
-# for different targets
 if(QEXT_BUILD_USE_PCH)
     if(NOT ${QEXT_BUILD_SHARED_LIBS})
         set(QEXT_BUILD_USE_PCH FALSE)
@@ -331,7 +319,6 @@ if(QEXT_BUILD_USE_PCH)
     endif()
 endif()
 
-# enable build doc
 if(QEXT_BUILD_DOCUMENTATION)
     qextMacroBuildDoxygen()
     message(STATUS "----QEXT---- Build with the documentation")
@@ -388,6 +375,7 @@ if(QEXT_BUILD_LIB_WIDGETS)
 endif()
 
 if(NOT QEXT_QT_HAS_QML)
+    set(QEXT_BUILD_QMLS ON)
     message(STATUS "----QEXT---- Do not build the qml lib, becase Qt version must greater equal than 5.9.")
 endif()
 
@@ -407,6 +395,29 @@ endif()
 
 if(QEXT_BUILD_TESTS)
     enable_testing()
+endif()
+
+
+
+#--------------------------------------------------------------------------------
+# add subdirectory
+#--------------------------------------------------------------------------------
+add_subdirectory(src/libs)
+add_subdirectory(src/apps)
+add_subdirectory(src/plugins)
+add_subdirectory(src/qml)
+
+
+
+#--------------------------------------------------------------------------------
+# add 3rdparty subdirectory
+#--------------------------------------------------------------------------------
+if(QEXT_BUILD_LIB_QWT)
+    add_subdirectory(3rdparty/qwt-6.1.3)
+endif()
+
+if(QEXT_BUILD_LIB_QCUSTOMPLOT)
+    add_subdirectory(3rdparty/qcustomplot)
 endif()
 
 
@@ -452,36 +463,4 @@ if(QEXT_BUILD_INSTALL)
         DESTINATION ./include
         COMPONENT Include
         )
-endif()
-
-
-
-#--------------------------------------------------------------------------------
-# add subdirectory
-#--------------------------------------------------------------------------------
-add_subdirectory(src/libs)
-
-if(QEXT_BUILD_APPS)
-    add_subdirectory(src/apps)
-endif()
-
-if(QEXT_BUILD_PLUGINS)
-    add_subdirectory(src/plugins)
-endif()
-
-if(QEXT_QT_HAS_QML)
-    add_subdirectory(src/qml)
-endif()
-
-
-
-#--------------------------------------------------------------------------------
-# add 3rdparty subdirectory
-#--------------------------------------------------------------------------------
-if(QEXT_BUILD_LIB_QWT)
-    add_subdirectory(3rdparty/qwt-6.1.3)
-endif()
-
-if(QEXT_BUILD_LIB_QCUSTOMPLOT)
-    add_subdirectory(3rdparty/qcustomplot)
 endif()
