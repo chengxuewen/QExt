@@ -34,7 +34,7 @@ cmake_minimum_required(VERSION 3.10)
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 0.14.2.1 LANGUAGES CXX C)
+project(QEXT VERSION 0.14.3.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -218,10 +218,11 @@ include(qextFunctionCopyDependencyInternal)
 include(qextFunctionCheckCompileFeature)
 include(qextFunctionSetCompilerWarnings)
 include(qextFunctionQmlPlugin)
-include(qextMacroBuildDoxygen)
+include(qextMacroEnsureDefineCacheVariable)
 include(qextMacroEnsureDefineVariable)
 include(qextMacroFindQmlPluginDump)
 include(qextMacroFindReadline)
+include(qextMacroBuildDoxygen)
 include(qextMacroFindLibVLC)
 
 
@@ -229,15 +230,15 @@ include(qextMacroFindLibVLC)
 #--------------------------------------------------------------------------------
 # Specify the output dir
 #--------------------------------------------------------------------------------
-qextMacroEnsureDefineVariable(QEXT_PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
-qextMacroEnsureDefineVariable(QEXT_PROJECT_BINARY_DIR ${PROJECT_BINARY_DIR})
-qextMacroEnsureDefineVariable(QEXT_OUTPUT_APP_DIR ${PROJECT_BINARY_DIR}/bin)
-qextMacroEnsureDefineVariable(QEXT_OUTPUT_LIB_DIR ${PROJECT_BINARY_DIR}/lib)
-qextMacroEnsureDefineVariable(QEXT_OUTPUT_PLUGIN_DIR ${PROJECT_BINARY_DIR}/plugin)
-qextMacroEnsureDefineVariable(QEXT_OUTPUT_QML_DIR ${PROJECT_BINARY_DIR}/qml)
-qextMacroEnsureDefineVariable(QEXT_OUTPUT_INCLUDE_DIR ${PROJECT_BINARY_DIR}/include)
-qextMacroEnsureDefineVariable(QEXT_OUTPUT_EXAMPLE_DIR ${PROJECT_BINARY_DIR}/example)
-qextMacroEnsureDefineVariable(QEXT_OUTPUT_TEST_DIR ${PROJECT_BINARY_DIR}/test)
+qextMacroEnsureDefineCacheVariable(QEXT_PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR} STRING)
+qextMacroEnsureDefineCacheVariable(QEXT_PROJECT_BINARY_DIR ${PROJECT_BINARY_DIR} STRING)
+qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_APP_DIR ${PROJECT_BINARY_DIR}/bin STRING)
+qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_LIB_DIR ${PROJECT_BINARY_DIR}/lib STRING)
+qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_PLUGIN_DIR ${PROJECT_BINARY_DIR}/plugin STRING)
+qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_QML_DIR ${PROJECT_BINARY_DIR}/qml STRING)
+qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_INCLUDE_DIR ${PROJECT_BINARY_DIR}/include STRING)
+qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_EXAMPLE_DIR ${PROJECT_BINARY_DIR}/example STRING)
+qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_TEST_DIR ${PROJECT_BINARY_DIR}/test STRING)
 
 
 
@@ -254,7 +255,6 @@ qextMacroEnsureDefineVariable(USE_QEXT_FRAMELESSHELPER ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_GOOGLEPINYIN ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_ICONFONT ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_MVVM ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_QUICK ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_SERIALPORT ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_SINGLEAPP ${USE_QEXT_ALL})
 qextMacroEnsureDefineVariable(USE_QEXT_STYLETHEME ${USE_QEXT_ALL})
