@@ -20,7 +20,7 @@ QEXTSliderPrivate::QEXTSliderPrivate(QEXTSlider *q)
     m_tooltipHeight = 30;
     m_tooltipFont = q_ptr->font();
 
-    m_timeVisiable = false;
+    m_timeVisible = false;
     m_clickEnable = true;
     m_unitText = "";
 
@@ -134,7 +134,7 @@ void QEXTSlider::mouseMoveEvent(QMouseEvent *e)
 
     QString str = QString("%1").arg(value());
 
-    if (d->m_timeVisiable)
+    if (d->m_timeVisible)
     {
         uint length = value() / 1000;
         str = (QString("%1:%2").arg(length / 60, 2, 10, QChar('0')).arg(length % 60, 2, 10, QChar('0')));
@@ -193,10 +193,10 @@ QFont QEXTSlider::toolTipFont() const
     return d->m_tooltipFont;
 }
 
-bool QEXTSlider::timeVisiable() const
+bool QEXTSlider::timeVisible() const
 {
     Q_D(const QEXTSlider);
-    return d->m_timeVisiable;
+    return d->m_timeVisible;
 }
 
 bool QEXTSlider::clickEnable() const
@@ -297,12 +297,12 @@ void QEXTSlider::setToolTipFont(const QFont &font)
     }
 }
 
-void QEXTSlider::setTimeVisiable(bool visiable)
+void QEXTSlider::setTimeVisible(bool visiable)
 {
     Q_D(QEXTSlider);
-    if (d->m_timeVisiable != visiable)
+    if (d->m_timeVisible != visiable)
     {
-        d->m_timeVisiable = visiable;
+        d->m_timeVisible = visiable;
     }
 }
 

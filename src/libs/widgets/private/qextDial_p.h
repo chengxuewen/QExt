@@ -27,7 +27,7 @@ public:
     QColor m_lightColor;
     QColor m_textColor;
 
-    bool m_valueVisiable;
+    bool m_valueVisible;
     QEXTDial::PointerStyleType m_pointerStyle;
     bool m_pressed;
 

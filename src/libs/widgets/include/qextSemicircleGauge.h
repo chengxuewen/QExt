@@ -49,7 +49,7 @@ class QEXT_WIDGETS_API QEXTSemicircleGauge : public QWidget
     Q_PROPERTY(int startAngle READ startAngle WRITE setStartAngle)
     Q_PROPERTY(int endAngle READ endAngle WRITE setEndAngle)
 
-    Q_PROPERTY(bool animationVisiable READ animationEnable WRITE setAnimationEnable)
+    Q_PROPERTY(bool animationVisible READ animationEnable WRITE setAnimationEnable)
     Q_PROPERTY(int animationDuration READ animationDuration WRITE setAnimationDuration)
     Q_PROPERTY(QEasingCurve::Type animationEasingCurve READ animationEasingCurve WRITE setAnimationEasingCurve)
 
@@ -61,7 +61,7 @@ class QEXT_WIDGETS_API QEXTSemicircleGauge : public QWidget
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
     Q_PROPERTY(QColor titleColor READ titleColor WRITE setTitleColor)
 
-    Q_PROPERTY(bool overlayVisiable READ overlayVisiable WRITE setOverlayVisiable)
+    Q_PROPERTY(bool overlayVisible READ overlayVisible WRITE setOverlayVisible)
     Q_PROPERTY(QColor overlayColor READ overlayColor WRITE setOverlayColor)
 
     Q_PROPERTY(PointerStyleType pointerStyle READ pointerStyle WRITE setPointerStyle)
@@ -100,7 +100,7 @@ public:
     QColor textColor() const;
     QColor titleColor() const;
 
-    bool overlayVisiable() const;
+    bool overlayVisible() const;
     QColor overlayColor() const;
 
     PointerStyleType pointerStyle() const;
@@ -145,7 +145,7 @@ public Q_SLOTS:
 
     void setTitleColor(const QColor &titleColor);
 
-    void setOverlayVisiable(bool visiable);
+    void setOverlayVisible(bool visiable);
 
     void setOverlayColor(const QColor &overlayColor);
 

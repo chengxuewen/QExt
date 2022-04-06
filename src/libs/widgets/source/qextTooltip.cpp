@@ -12,11 +12,11 @@ QEXTTooltipPrivate::QEXTTooltipPrivate(QEXTTooltip *q)
     m_backgroundColor = QColor(100, 184, 255);
     m_foregroundColor = QColor(255, 255, 255);
 
-    m_arrowVisiable = true;
+    m_arrowVisible = true;
     m_arrowSize = 5;
     m_arrowPosition = QEXTTooltip::ArrowPosition_Right;
 
-    m_triangleVisiable = false;
+    m_triangleVisible = false;
     m_triangleLen = 5;
     m_trianglePosition = QEXTTooltip::TrianglePosition_Left;
     m_triangleColor = QColor(255, 255, 255);
@@ -93,7 +93,7 @@ void QEXTTooltip::drawBackground(QPainter *painter)
         pts.setPoints(3, width / 2 - d->m_arrowSize, d->m_arrowSize, width / 2 + d->m_arrowSize, d->m_arrowSize, width / 2, 0);
     }
 
-    if (!d->m_arrowVisiable)
+    if (!d->m_arrowVisible)
     {
         d->m_backgroundRect = this->rect();
         painter->drawRoundedRect(d->m_backgroundRect, d->m_borderRadius, d->m_borderRadius);
@@ -120,7 +120,7 @@ void QEXTTooltip::drawText(QPainter *painter)
 void QEXTTooltip::drawTriangle(QPainter *painter)
 {
     Q_D(QEXTTooltip);
-    if (!d->m_triangleVisiable)
+    if (!d->m_triangleVisible)
     {
         return;
     }
@@ -175,10 +175,10 @@ QColor QEXTTooltip::foregroundColor() const
     return d->m_foregroundColor;
 }
 
-bool QEXTTooltip::arrowVisiable() const
+bool QEXTTooltip::arrowVisible() const
 {
     Q_D(const QEXTTooltip);
-    return d->m_arrowVisiable;
+    return d->m_arrowVisible;
 }
 
 int QEXTTooltip::arrowSize() const
@@ -193,10 +193,10 @@ QEXTTooltip::ArrowPositionType QEXTTooltip::arrowPosition() const
     return d->m_arrowPosition;
 }
 
-bool QEXTTooltip::triangleVisiable() const
+bool QEXTTooltip::triangleVisible() const
 {
     Q_D(const QEXTTooltip);
-    return d->m_triangleVisiable;
+    return d->m_triangleVisible;
 }
 
 int QEXTTooltip::triangleLen() const
@@ -237,12 +237,12 @@ void QEXTTooltip::setBorderRadius(int radius)
     }
 }
 
-void QEXTTooltip::setArrowVisiable(bool visiable)
+void QEXTTooltip::setArrowVisible(bool visiable)
 {
     Q_D(QEXTTooltip);
-    if (d->m_arrowVisiable != visiable)
+    if (d->m_arrowVisible != visiable)
     {
-        d->m_arrowVisiable = visiable;
+        d->m_arrowVisible = visiable;
         this->update();
     }
 }
@@ -267,12 +267,12 @@ void QEXTTooltip::setArrowPosition(const QEXTTooltip::ArrowPositionType &positio
     }
 }
 
-void QEXTTooltip::setTriangleVisiable(bool visiable)
+void QEXTTooltip::setTriangleVisible(bool visiable)
 {
     Q_D(QEXTTooltip);
-    if (d->m_triangleVisiable != visiable)
+    if (d->m_triangleVisible != visiable)
     {
-        d->m_triangleVisiable = visiable;
+        d->m_triangleVisible = visiable;
         this->update();
     }
 }

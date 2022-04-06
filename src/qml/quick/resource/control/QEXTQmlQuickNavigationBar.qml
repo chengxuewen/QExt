@@ -25,15 +25,15 @@ Item {
 
     property int currentIndex: -1
 
-    property bool backgroundVisiable: true
+    property bool backgroundVisible: true
     property color backgroundColor: "#FFFFFF"
     property real backgroundOpacity: 1
     property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
     property real backgroundBorderWidth: 1
     property real backgroundRadius: 2
 
-    property bool itemBackgroundVisiable: false
-    property bool itemBackgroundBorderVisiable: false
+    property bool itemBackgroundVisible: false
+    property bool itemBackgroundBorderVisible: false
     property real itemBackgroundRadius: 2
     property color itemBackgroundColor: "#FFFFFF"
     property real itemBackgroundOpacity: 1
@@ -77,11 +77,11 @@ Item {
         scale: isActiveItem ? itemActiveScale : itemScale
 
         backgroundRadius: itemBackgroundRadius
-        backgroundVisiable: itemBackgroundVisiable
+        backgroundVisible: itemBackgroundVisible
         backgroundColor: isActiveItem ? itemActiveBackgroundColor : itemBackgroundColor
         backgroundOpacity: isActiveItem ? itemActiveBackgroundOpacity : itemBackgroundOpacity
 
-        backgroundBorderVisiable: itemBackgroundBorderVisiable
+        backgroundBorderVisible: itemBackgroundBorderVisible
         backgroundBorderColor: isActiveItem ? itemActiveBackgroundBorderColor : itemBackgroundBorderColor
         backgroundBorderWidth: isActiveItem ? itemActiveBackgroundBorderWidth : itemBackgroundBorderWidth
 

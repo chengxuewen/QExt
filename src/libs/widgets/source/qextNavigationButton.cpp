@@ -15,12 +15,12 @@ QEXTNavigationButtonPrivate::QEXTNavigationButtonPrivate(QEXTNavigationButton *q
     m_bottomPadding = 5;
     m_textAlign = QEXTNavigationButton::TextAlign_Center;
 
-    m_triangleVisiable = false;
+    m_triangleVisible = false;
     m_triangleLen = 5;
     m_trianglePosition = QEXTNavigationButton::Position_Right;
     m_triangleColor = QColor(255, 255, 255);
 
-    m_iconVisiable = false;
+    m_iconVisible = false;
     m_iconPosition = QEXTNavigationButton::Position_Left;
     m_iconSpace = 10;
     m_iconSize = QSize(16, 16);
@@ -28,7 +28,7 @@ QEXTNavigationButtonPrivate::QEXTNavigationButtonPrivate(QEXTNavigationButton *q
     m_hoverIcon = QPixmap();
     m_checkIcon = QPixmap();
 
-    m_lineVisiable = true;
+    m_lineVisible = true;
     m_lineSpace = 0;
     m_lineWidth = 5;
     m_linePosition = QEXTNavigationButton::Position_Left;
@@ -208,7 +208,7 @@ void QEXTNavigationButton::drawText(QPainter *painter)
 void QEXTNavigationButton::drawIcon(QPainter *painter)
 {
     Q_D(QEXTNavigationButton);
-    if (!d->m_iconVisiable)
+    if (!d->m_iconVisible)
     {
         return;
     }
@@ -277,7 +277,7 @@ void QEXTNavigationButton::drawIcon(QPainter *painter)
 void QEXTNavigationButton::drawLine(QPainter *painter)
 {
     Q_D(QEXTNavigationButton);
-    if (!d->m_lineVisiable)
+    if (!d->m_lineVisible)
     {
         return;
     }
@@ -324,7 +324,7 @@ void QEXTNavigationButton::drawLine(QPainter *painter)
 void QEXTNavigationButton::drawTriangle(QPainter *painter)
 {
     Q_D(QEXTNavigationButton);
-    if (!d->m_triangleVisiable)
+    if (!d->m_triangleVisible)
     {
         return;
     }
@@ -396,10 +396,10 @@ QEXTNavigationButton::TextAlignType QEXTNavigationButton::textAlign() const
     return d->m_textAlign;
 }
 
-bool QEXTNavigationButton::isTriangleVisiable() const
+bool QEXTNavigationButton::isTriangleVisible() const
 {
     Q_D(const QEXTNavigationButton);
-    return d->m_triangleVisiable;
+    return d->m_triangleVisible;
 }
 
 int QEXTNavigationButton::triangleLen() const
@@ -420,10 +420,10 @@ QColor QEXTNavigationButton::triangleColor() const
     return d->m_triangleColor;
 }
 
-bool QEXTNavigationButton::isIconVisiable() const
+bool QEXTNavigationButton::isIconVisible() const
 {
     Q_D(const QEXTNavigationButton);
-    return d->m_iconVisiable;
+    return d->m_iconVisible;
 }
 
 QEXTNavigationButton::PositionType QEXTNavigationButton::iconPosition() const
@@ -480,10 +480,10 @@ QChar QEXTNavigationButton::checkedFontIcon() const
     return d->m_checkFontIcon;
 }
 
-bool QEXTNavigationButton::isLineVisiable() const
+bool QEXTNavigationButton::isLineVisible() const
 {
     Q_D(const QEXTNavigationButton);
-    return d->m_lineVisiable;
+    return d->m_lineVisible;
 }
 
 int QEXTNavigationButton::lineSpace() const
@@ -621,12 +621,12 @@ void QEXTNavigationButton::setTextAlign(const QEXTNavigationButton::TextAlignTyp
     }
 }
 
-void QEXTNavigationButton::setTriangleVisiable(bool visiable)
+void QEXTNavigationButton::setTriangleVisible(bool visiable)
 {
     Q_D(QEXTNavigationButton);
-    if (d->m_triangleVisiable != visiable)
+    if (d->m_triangleVisible != visiable)
     {
-        d->m_triangleVisiable = visiable;
+        d->m_triangleVisible = visiable;
         this->update();
     }
 }
@@ -661,12 +661,12 @@ void QEXTNavigationButton::setTriangleColor(const QColor &color)
     }
 }
 
-void QEXTNavigationButton::setIconVisiable(bool visiable)
+void QEXTNavigationButton::setIconVisible(bool visiable)
 {
     Q_D(QEXTNavigationButton);
-    if (d->m_iconVisiable != visiable)
+    if (d->m_iconVisible != visiable)
     {
-        d->m_iconVisiable = visiable;
+        d->m_iconVisible = visiable;
         this->update();
     }
 }
@@ -766,12 +766,12 @@ void QEXTNavigationButton::setCheckFontIcon(const QChar &icon)
     }
 }
 
-void QEXTNavigationButton::setLineVisiable(bool visiable)
+void QEXTNavigationButton::setLineVisible(bool visiable)
 {
     Q_D(QEXTNavigationButton);
-    if (d->m_lineVisiable != visiable)
+    if (d->m_lineVisible != visiable)
     {
-        d->m_lineVisiable = visiable;
+        d->m_lineVisible = visiable;
         this->update();
     }
 }

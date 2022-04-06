@@ -36,7 +36,7 @@ public:
     QColor m_centerStartColor;
     QColor m_centerEndColor;
 
-    bool m_animationVisiable;
+    bool m_animationVisible;
     double m_currentValue;
     QScopedPointer<QPropertyAnimation> m_animation;
 

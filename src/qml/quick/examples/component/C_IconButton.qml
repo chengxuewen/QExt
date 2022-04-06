@@ -7,7 +7,7 @@ Column{
     spacing: 10
 
     CheckBox {
-        id: mIconVisiableCheckBox
+        id: mIconVisibleCheckBox
         text: "Icon visiable"
         checked: true
     }
@@ -21,7 +21,7 @@ Column{
             textFont.bold: true
             iconSource: QEXTQmlQuickFontAwesome.FA_apple
             iconColor: textColor
-            iconVisiable: mIconVisiableCheckBox.checked
+            iconVisible: mIconVisibleCheckBox.checked
         }
 
         QEXTQmlQuickIconButton{
@@ -31,7 +31,7 @@ Column{
             backgroundColor: "#46A0FC"
             iconSource: QEXTQmlQuickFontAwesome.FA_apple
             iconColor: textColor
-            iconVisiable: mIconVisiableCheckBox.checked
+            iconVisible: mIconVisibleCheckBox.checked
         }
 
         QEXTQmlQuickIconButton{

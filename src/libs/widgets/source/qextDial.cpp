@@ -25,7 +25,7 @@ QEXTDialPrivate::QEXTDialPrivate(QEXTDial *q)
     m_lightColor = QColor(250, 250, 250);
     m_textColor = QColor(0, 0, 0);
 
-    m_valueVisiable = true;
+    m_valueVisible = true;
     m_pointerStyle = QEXTDial::PointerStyle_Triangle;
 }
 
@@ -297,7 +297,7 @@ void QEXTDial::drawPointerTriangle(QPainter *painter)
 void QEXTDial::drawCenterCircle(QPainter *painter)
 {
     Q_D(QEXTDial);
-    if (!d->m_valueVisiable)
+    if (!d->m_valueVisible)
     {
         return;
     }
@@ -316,7 +316,7 @@ void QEXTDial::drawCenterCircle(QPainter *painter)
 void QEXTDial::drawValue(QPainter *painter)
 {
     Q_D(QEXTDial);
-    if (!d->m_valueVisiable)
+    if (!d->m_valueVisible)
     {
         return;
     }
@@ -430,10 +430,10 @@ QColor QEXTDial::textColor() const
     return d->m_textColor;
 }
 
-bool QEXTDial::valueVisiable() const
+bool QEXTDial::valueVisible() const
 {
     Q_D(const QEXTDial);
-    return d->m_valueVisiable;
+    return d->m_valueVisible;
 }
 
 QEXTDial::PointerStyleType QEXTDial::pointerStyle() const
@@ -598,9 +598,9 @@ void QEXTDial::setTextColor(const QColor &color)
 void QEXTDial::setShowValue(bool visiable)
 {
     Q_D(QEXTDial);
-    if (d->m_valueVisiable != visiable)
+    if (d->m_valueVisible != visiable)
     {
-        d->m_valueVisiable = visiable;
+        d->m_valueVisible = visiable;
         this->update();
     }
 }

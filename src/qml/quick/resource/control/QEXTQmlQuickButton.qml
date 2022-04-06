@@ -18,8 +18,8 @@ Button {
     property int textVerticalAlignment: Text.AlignVCenter
     property int textElide: Text.ElideRight
 
-    property bool backgroundVisiable: true
-    property bool backgroundBorderVisiable: true
+    property bool backgroundVisible: true
+    property bool backgroundBorderVisible: true
     property color backgroundColor: "#FFFFFF"
     property real backgroundOpacity: 1
     property real backgroundRadius: 2
@@ -40,9 +40,9 @@ Button {
 
     background: Rectangle {
         anchors.fill: qextButton
-        color: qextButton.backgroundVisiable ? qextButton.backgroundColor : Qt.rgba(0, 0, 0, 0)
+        color: qextButton.backgroundVisible ? qextButton.backgroundColor : Qt.rgba(0, 0, 0, 0)
         opacity: qextButton.backgroundOpacity
-        border.color: qextButton.backgroundBorderVisiable ? qextButton.backgroundBorderColor : Qt.rgba(0, 0, 0, 0)
+        border.color: qextButton.backgroundBorderVisible ? qextButton.backgroundBorderColor : Qt.rgba(0, 0, 0, 0)
         border.width: qextButton.backgroundBorderWidth
         radius: qextButton.backgroundRadius
     }

@@ -19,12 +19,12 @@ Flickable {
         anchors.bottom: parent.bottom
     }
 
-    property bool separatorLineVisiable: true
+    property bool separatorLineVisible: true
     property bool accordionMode: false
     property real padding: 5
     property real spacing: 5
 
-    property bool backgroundVisiable: false
+    property bool backgroundVisible: false
     property color backgroundColor: "#FFFFFF"
     property real backgroundOpacity: 1
     property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
@@ -36,7 +36,7 @@ Flickable {
     property int titleTextHorizontalAlignment: Text.AlignHCenter
     property int titleTextElide: Text.ElideRight
     property font titleTextFont
-    property bool titleBackgroundVisiable: false
+    property bool titleBackgroundVisible: false
     property color titleBackgroundColor: "#FCFCFC"
     property real titleBackgroundOpacity: 1
     property color titleBackgroundBorderColor: "#DCDCDC"
@@ -142,7 +142,7 @@ Flickable {
                 Loader {
                     width: parent.width
                     anchors.horizontalCenter: parent.horizontalCenter
-                    sourceComponent: (0 === index && qextCollapse.separatorLineVisiable ) ? mSeparatorLineComponent : null
+                    sourceComponent: (0 === index && qextCollapse.separatorLineVisible ) ? mSeparatorLineComponent : null
                 }
                 Rectangle {
                     id: mCollapseElementBackground
@@ -150,9 +150,9 @@ Flickable {
                     height: mCollapseItem.elementCollapsed ? mCollapseItem.elementCollapsedHeight :
                                                              mCollapseItem.elementExpandHeight
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: qextCollapse.backgroundVisiable ? qextCollapse.backgroundColor : Qt.rgba(0, 0, 0, 0)
+                    color: qextCollapse.backgroundVisible ? qextCollapse.backgroundColor : Qt.rgba(0, 0, 0, 0)
                     opacity: qextCollapse.backgroundOpacity
-                    border.color: qextCollapse.backgroundVisiable ? qextCollapse.backgroundBorderColor : Qt.rgba(0, 0, 0, 0)
+                    border.color: qextCollapse.backgroundVisible ? qextCollapse.backgroundBorderColor : Qt.rgba(0, 0, 0, 0)
                     border.width: qextCollapse.backgroundBorderWidth
                     radius: qextCollapse.backgroundRadius
                     clip: true
@@ -170,9 +170,9 @@ Flickable {
                         anchors.top: parent.top
                         anchors.horizontalCenter: parent.horizontalCenter
                         enabled: mCollapseItem.elementEnabled
-                        color: qextCollapse.titleBackgroundVisiable ? qextCollapse.titleBackgroundColor : Qt.rgba(0, 0, 0, 0)
+                        color: qextCollapse.titleBackgroundVisible ? qextCollapse.titleBackgroundColor : Qt.rgba(0, 0, 0, 0)
                         opacity: qextCollapse.titleBackgroundOpacity
-                        border.color: qextCollapse.titleBackgroundVisiable ? qextCollapse.titleBackgroundBorderColor : Qt.rgba(0, 0, 0, 0)
+                        border.color: qextCollapse.titleBackgroundVisible ? qextCollapse.titleBackgroundBorderColor : Qt.rgba(0, 0, 0, 0)
                         border.width: qextCollapse.titleBackgroundBorderWidth
                         radius: qextCollapse.titleBackgroundRadius
                         clip: true
@@ -251,7 +251,7 @@ Flickable {
                 Loader {
                     width: parent.width
                     anchors.horizontalCenter: parent.horizontalCenter
-                    sourceComponent: qextCollapse.separatorLineVisiable ? mSeparatorLineComponent : null
+                    sourceComponent: qextCollapse.separatorLineVisible ? mSeparatorLineComponent : null
                 }
 
             }

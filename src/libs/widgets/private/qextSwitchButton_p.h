@@ -18,8 +18,8 @@ public:
     int m_space;
     int m_rectRadius;
     bool m_checked;
-    bool m_textVisiable;
-    bool m_circleVisiable;
+    bool m_textVisible;
+    bool m_circleVisible;
     bool m_animationEnable;
 
     QEXTSwitchButton::Style m_buttonStyle;

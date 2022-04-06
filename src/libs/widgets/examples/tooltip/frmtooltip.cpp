@@ -50,8 +50,8 @@ void FrmTooltip::initForm()
     ui->navLabel51->setBackgroundColor(QColor(80,80,80));
     ui->navLabel52->setBackgroundColor(QColor(80,80,80));
     ui->navLabel53->setBackgroundColor(QColor(80,80,80));
-    ui->navLabel52->setTriangleVisiable(true);
-    ui->navLabel53->setTriangleVisiable(true);
-    ui->navLabel53->setArrowVisiable(false);
+    ui->navLabel52->setTriangleVisible(true);
+    ui->navLabel53->setTriangleVisible(true);
+    ui->navLabel53->setArrowVisible(false);
 
 }

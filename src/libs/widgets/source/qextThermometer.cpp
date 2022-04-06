@@ -22,7 +22,7 @@ QEXTThermometerPrivate::QEXTThermometerPrivate(QEXTThermometer *q)
     m_animation = false;
     m_animationStep = 1.0;
 
-    m_userValueVisiable = false;
+    m_userValueVisible = false;
     m_userValue = 80;
     m_userValueColor = QColor(255, 107, 107);
 
@@ -245,7 +245,7 @@ void QEXTThermometer::drawBar(QPainter *painter)
     path.setFillRule(Qt::WindingFill);
     painter->drawPath(path);
 
-    if (d->m_userValueVisiable) {
+    if (d->m_userValueVisible) {
         if (d->m_tickPosition == TickPosition_Left || d->m_tickPosition == TickPosition_Both) {
             QPolygon pts;
             int offset = 15;
@@ -342,10 +342,10 @@ double QEXTThermometer::animationStep() const
     return d->m_animationStep;
 }
 
-bool QEXTThermometer::userValueVisiable() const
+bool QEXTThermometer::userValueVisible() const
 {
     Q_D(const QEXTThermometer);
-    return d->m_userValueVisiable;
+    return d->m_userValueVisible;
 }
 
 double QEXTThermometer::userValue() const
@@ -543,11 +543,11 @@ void QEXTThermometer::setAnimationStep(double animationStep)
     }
 }
 
-void QEXTThermometer::setUserValueVisiable(bool visiable)
+void QEXTThermometer::setUserValueVisible(bool visiable)
 {
     Q_D(QEXTThermometer);
-    if (d->m_userValueVisiable != visiable) {
-        d->m_userValueVisiable = visiable;
+    if (d->m_userValueVisible != visiable) {
+        d->m_userValueVisible = visiable;
         this->update();
     }
 }

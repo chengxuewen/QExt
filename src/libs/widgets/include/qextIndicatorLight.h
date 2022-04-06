@@ -53,7 +53,7 @@ class QEXT_WIDGETS_API QEXTIndicatorLight : public QWidget
     Q_PROPERTY(QColor borderInEndColor READ inBorderEndColor WRITE setBorderInEndColor)
 
     Q_PROPERTY(bool isMoveEnable READ isMoveEnable WRITE setMoveEnable)
-    Q_PROPERTY(bool overlayVisiable READ isOverlayVisiable WRITE setOverlayVisiable)
+    Q_PROPERTY(bool overlayVisible READ isOverlayVisible WRITE setOverlayVisible)
     Q_PROPERTY(QColor overlayColor READ overlayColor WRITE setOverlayColor)
 
     Q_PROPERTY(Style styleType READ styleType WRITE setStyleType)
@@ -102,7 +102,7 @@ public:
     QColor inBorderEndColor() const;
 
     bool isMoveEnable() const;
-    bool isOverlayVisiable() const;
+    bool isOverlayVisible() const;
     QColor overlayColor() const;
 
     Style styleType() const;
@@ -133,7 +133,7 @@ public Q_SLOTS:
     void setBorderInEndColor(const QColor &color);
 
     void setMoveEnable(const bool &enable);
-    void setOverlayVisiable(const bool &visiable);
+    void setOverlayVisible(const bool &visiable);
     void setOverlayColor(const QColor &color);
 
     void setStyleType(const Style &type);

@@ -29,7 +29,7 @@ public:
     QColor m_percentColor;
 
     bool m_rangeBisectionEnable;
-    bool m_valueVisiable;
+    bool m_valueVisible;
     QEXTScaleKnob::PointerStyle m_pointerStyle;
     bool m_pressed;
 

@@ -17,11 +17,11 @@ public:
     QColor m_backgroundColor;
     QColor m_foregroundColor;
 
-    bool m_arrowVisiable;
+    bool m_arrowVisible;
     int m_arrowSize;
     QEXTTooltip::ArrowPositionType m_arrowPosition;
 
-    bool m_triangleVisiable;
+    bool m_triangleVisible;
     int m_triangleLen;
     QEXTTooltip::TrianglePositionType m_trianglePosition;
     QColor m_triangleColor;

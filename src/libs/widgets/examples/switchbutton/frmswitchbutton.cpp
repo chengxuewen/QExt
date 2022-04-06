@@ -34,11 +34,11 @@ void frmSwitchButton::initBtn1()
     ui->switchButton13->setOnBackgroundColor(color3);
     ui->switchButton14->setOnBackgroundColor(color4);
 
-    ui->switchButton11->setTextVisiable(false);
-    ui->switchButton12->setTextVisiable(false);
-    ui->switchButton13->setTextVisiable(true);
-    ui->switchButton14->setTextVisiable(true);
-    ui->switchButton12->setCircleVisiable(true);
+    ui->switchButton11->setTextVisible(false);
+    ui->switchButton12->setTextVisible(false);
+    ui->switchButton13->setTextVisible(true);
+    ui->switchButton14->setTextVisible(true);
+    ui->switchButton12->setCircleVisible(true);
     ui->switchButton14->setAnimationEnable(true);
     ui->switchButton12->setChecked(true);
     ui->switchButton14->setChecked(true);
@@ -61,11 +61,11 @@ void frmSwitchButton::initBtn2()
     ui->switchButton23->setOnBackgroundColor(color3);
     ui->switchButton24->setOnBackgroundColor(color4);
 
-    ui->switchButton21->setTextVisiable(false);
-    ui->switchButton22->setTextVisiable(false);
-    ui->switchButton23->setTextVisiable(true);
-    ui->switchButton24->setTextVisiable(true);
-    ui->switchButton22->setCircleVisiable(true);
+    ui->switchButton21->setTextVisible(false);
+    ui->switchButton22->setTextVisible(false);
+    ui->switchButton23->setTextVisible(true);
+    ui->switchButton24->setTextVisible(true);
+    ui->switchButton22->setCircleVisible(true);
     ui->switchButton24->setAnimationEnable(true);
     ui->switchButton22->setChecked(true);
     ui->switchButton24->setChecked(true);
@@ -105,10 +105,10 @@ void frmSwitchButton::initBtn3()
     ui->switchButton33->setOnSliderColor(color3);
     ui->switchButton34->setOnSliderColor(color4);
 
-    ui->switchButton31->setTextVisiable(false);
-    ui->switchButton32->setTextVisiable(false);
-    ui->switchButton33->setTextVisiable(true);
-    ui->switchButton34->setTextVisiable(true);
+    ui->switchButton31->setTextVisible(false);
+    ui->switchButton32->setTextVisible(false);
+    ui->switchButton33->setTextVisible(true);
+    ui->switchButton34->setTextVisible(true);
     ui->switchButton34->setAnimationEnable(true);
     ui->switchButton32->setChecked(true);
     ui->switchButton34->setChecked(true);

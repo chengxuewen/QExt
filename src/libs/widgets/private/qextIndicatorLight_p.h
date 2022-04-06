@@ -31,7 +31,7 @@ public:
     QEXTIndicatorLight::Shape m_shape;
 
     bool m_moveEnable;
-    bool m_overlayVisiable;
+    bool m_overlayVisible;
     QColor m_overlayColor;
 
     QScopedPointer<QTimer> m_flickerTimer;

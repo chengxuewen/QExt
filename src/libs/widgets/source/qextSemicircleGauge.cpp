@@ -27,7 +27,7 @@ QEXTSemicircleGaugePrivate::QEXTSemicircleGaugePrivate(QEXTSemicircleGauge *q)
     m_textColor = QColor(250, 250, 250);
     m_titleColor = QColor(50, 50, 50);
 
-    m_overlayVisiable = false;
+    m_overlayVisible = false;
     m_overlayColor = QColor(70, 70, 70, 60);
 
     m_pointerStyle = QEXTSemicircleGauge::PointerStyle_Triangle;
@@ -36,7 +36,7 @@ QEXTSemicircleGaugePrivate::QEXTSemicircleGaugePrivate(QEXTSemicircleGauge *q)
     m_radiusY = 20;
 
     m_currentValue = 0;
-    m_animationVisiable = false;
+    m_animationVisible = false;
 }
 
 QEXTSemicircleGaugePrivate::~QEXTSemicircleGaugePrivate()
@@ -322,7 +322,7 @@ void QEXTSemicircleGauge::drawValue(QPainter *painter)
 void QEXTSemicircleGauge::drawOverlay(QPainter *painter)
 {
     Q_D(QEXTSemicircleGauge);
-    if (!d->m_overlayVisiable)
+    if (!d->m_overlayVisible)
     {
         return;
     }
@@ -408,7 +408,7 @@ int QEXTSemicircleGauge::endAngle() const
 bool QEXTSemicircleGauge::animationEnable() const
 {
     Q_D(const QEXTSemicircleGauge);
-    return d->m_animationVisiable;
+    return d->m_animationVisible;
 }
 
 int QEXTSemicircleGauge::animationDuration() const
@@ -459,10 +459,10 @@ QColor QEXTSemicircleGauge::titleColor() const
     return d->m_titleColor;
 }
 
-bool QEXTSemicircleGauge::overlayVisiable() const
+bool QEXTSemicircleGauge::overlayVisible() const
 {
     Q_D(const QEXTSemicircleGauge);
-    return d->m_overlayVisiable;
+    return d->m_overlayVisible;
 }
 
 QColor QEXTSemicircleGauge::overlayColor() const
@@ -538,7 +538,7 @@ void QEXTSemicircleGauge::setValue(double value)
     d->m_value = value;
     emit this->valueChanged(value);
 
-    if (!d->m_animationVisiable)
+    if (!d->m_animationVisible)
     {
         d->m_currentValue = d->m_value;
         this->update();
@@ -599,9 +599,9 @@ void QEXTSemicircleGauge::setEndAngle(int endAngle)
 void QEXTSemicircleGauge::setAnimationEnable(bool enable)
 {
     Q_D(QEXTSemicircleGauge);
-    if (d->m_animationVisiable != enable)
+    if (d->m_animationVisible != enable)
     {
-        d->m_animationVisiable = enable;
+        d->m_animationVisible = enable;
         this->update();
     }
 }
@@ -687,12 +687,12 @@ void QEXTSemicircleGauge::setTitleColor(const QColor &titleColor)
     }
 }
 
-void QEXTSemicircleGauge::setOverlayVisiable(bool visiable)
+void QEXTSemicircleGauge::setOverlayVisible(bool visiable)
 {
     Q_D(QEXTSemicircleGauge);
-    if (d->m_overlayVisiable != visiable)
+    if (d->m_overlayVisible != visiable)
     {
-        d->m_overlayVisiable = visiable;
+        d->m_overlayVisible = visiable;
         this->update();
     }
 }

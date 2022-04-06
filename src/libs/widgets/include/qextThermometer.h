@@ -51,7 +51,7 @@ class QEXT_WIDGETS_API QEXTThermometer : public QWidget
     Q_PROPERTY(bool animationEnable READ animationEnable WRITE setAnimationEnable)
     Q_PROPERTY(double animationStep READ animationStep WRITE setAnimationStep)
 
-    Q_PROPERTY(bool userValueVisiable READ userValueVisiable WRITE setUserValueVisiable)
+    Q_PROPERTY(bool userValueVisible READ userValueVisible WRITE setUserValueVisible)
     Q_PROPERTY(double userValue READ userValue WRITE setUserValue)
     Q_PROPERTY(QColor userValueColor READ userValueColor WRITE setUserValueColor)
 
@@ -95,7 +95,7 @@ public:
     bool animationEnable() const;
     double animationStep() const;
 
-    bool userValueVisiable() const;
+    bool userValueVisible() const;
     double userValue() const;
     QColor userValueColor() const;
 
@@ -135,7 +135,7 @@ public Q_SLOTS:
 
     void setAnimationStep(double animationStep);
 
-    void setUserValueVisiable(bool visiable);
+    void setUserValueVisible(bool visiable);
 
     void setUserValue(double userValue);
     void setUserValue(int userValue);

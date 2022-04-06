@@ -39,7 +39,7 @@ public:
     QColor m_centerCircleColor;
     QColor m_textColor;
 
-    bool m_overlayVisiable;
+    bool m_overlayVisible;
     QColor m_overlayColor;
 
     int m_circleWidth;

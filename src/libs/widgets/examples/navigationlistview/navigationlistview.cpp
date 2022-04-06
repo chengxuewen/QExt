@@ -182,11 +182,11 @@ void NavigationListView::onItemPressed4(QEXTNavigationListItem *item)
 {
     if (item->isChildItem())
     {
-//        item->setVisiable(false);
+//        item->setVisible(false);
 //        item->setEnable(false);
 //        item->setEnable(false);
 //        item->parentItem()->setEnable(false);
-//        item->parentItem()->setVisiable(false);
+//        item->parentItem()->setVisible(false);
     }
     else
     {

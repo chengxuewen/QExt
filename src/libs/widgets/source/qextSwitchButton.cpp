@@ -13,8 +13,8 @@ QEXTSwitchButtonPrivate::QEXTSwitchButtonPrivate(QEXTSwitchButton *q)
     m_space = 2;
     m_rectRadius = 5;
     m_checked = false;
-    m_textVisiable = true;
-    m_circleVisiable = false;
+    m_textVisible = true;
+    m_circleVisible = false;
     m_animationEnable = false;
 
     m_buttonStyle	= QEXTSwitchButton::Style_CircleIn;
@@ -154,7 +154,7 @@ void QEXTSwitchButton::drawBackground(QPainter *painter)
     }
 
     if (d->m_buttonStyle == Style_Rect || d->m_buttonStyle == Style_CircleIn) {
-        if (d->m_textVisiable) {
+        if (d->m_textVisible) {
             int sliderWidth = qMin(width(), height()) - d->m_space * 2;
             if (d->m_buttonStyle == Style_Rect) {
                 sliderWidth = width() / 2 - 5;
@@ -171,7 +171,7 @@ void QEXTSwitchButton::drawBackground(QPainter *painter)
                 painter->setPen(d->m_offTextColor);
                 painter->drawText(textRect, Qt::AlignCenter, d->m_offText);
             }
-        } else if (d->m_circleVisiable) {
+        } else if (d->m_circleVisible) {
             int side = qMin(width(), height()) / 2;
             int y = (height() - side) / 2;
 
@@ -281,16 +281,16 @@ bool QEXTSwitchButton::checked() const
     return d->m_checked;
 }
 
-bool QEXTSwitchButton::isTextVisiable() const
+bool QEXTSwitchButton::isTextVisible() const
 {
     Q_D(const QEXTSwitchButton);
-    return d->m_textVisiable;
+    return d->m_textVisible;
 }
 
-bool QEXTSwitchButton::isCircleVisiable() const
+bool QEXTSwitchButton::isCircleVisible() const
 {
     Q_D(const QEXTSwitchButton);
-    return d->m_circleVisiable;
+    return d->m_circleVisible;
 }
 
 bool QEXTSwitchButton::isAnimationEnable() const
@@ -393,20 +393,20 @@ void QEXTSwitchButton::setChecked(bool checked)
     }
 }
 
-void QEXTSwitchButton::setTextVisiable(bool visiable)
+void QEXTSwitchButton::setTextVisible(bool visiable)
 {
     Q_D(QEXTSwitchButton);
-    if (d->m_textVisiable != visiable) {
-        d->m_textVisiable = visiable;
+    if (d->m_textVisible != visiable) {
+        d->m_textVisible = visiable;
         this->update();
     }
 }
 
-void QEXTSwitchButton::setCircleVisiable(bool visiable)
+void QEXTSwitchButton::setCircleVisible(bool visiable)
 {
     Q_D(QEXTSwitchButton);
-    if (d->m_circleVisiable != visiable) {
-        d->m_circleVisiable = visiable;
+    if (d->m_circleVisible != visiable) {
+        d->m_circleVisible = visiable;
         this->update();
     }
 }

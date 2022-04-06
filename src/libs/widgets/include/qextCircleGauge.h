@@ -67,7 +67,7 @@ class QEXT_WIDGETS_API QEXTCircleGauge : public QWidget
     Q_PROPERTY(QColor centerCircleColor READ centerCircleColor WRITE setCenterCircleColor)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
 
-    Q_PROPERTY(bool overlayVisiable READ overlayVisiable WRITE setOverlayVisiable)
+    Q_PROPERTY(bool overlayVisible READ overlayVisible WRITE setOverlayVisible)
     Q_PROPERTY(QColor overlayColor READ overlayColor WRITE setOverlayColor)
 
     Q_PROPERTY(int circleWidth READ circleWidth WRITE setCircleWidth)
@@ -122,7 +122,7 @@ public:
     QColor centerCircleColor() const;
     QColor textColor() const;
 
-    bool overlayVisiable() const;
+    bool overlayVisible() const;
     QColor overlayColor() const;
 
     int circleWidth() const;
@@ -166,7 +166,7 @@ public Q_SLOTS:
     void setCenterCircleColor(const QColor &color);
     void setTextColor(const QColor &color);
 
-    void setOverlayVisiable(bool visiable);
+    void setOverlayVisible(bool visiable);
     void setOverlayColor(const QColor &color);
 
     void setCircleWidth(int width);

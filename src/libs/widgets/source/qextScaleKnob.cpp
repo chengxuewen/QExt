@@ -25,7 +25,7 @@ QEXTScaleKnobPrivate::QEXTScaleKnobPrivate(QEXTScaleKnob *q)
     m_percentColor = QColor(100, 184, 255);
 
     m_rangeBisectionEnable = true;
-    m_valueVisiable = false;
+    m_valueVisible = false;
     m_pointerStyle = QEXTScaleKnob::PointerStyle_Line;
 
 }
@@ -334,7 +334,7 @@ void QEXTScaleKnob::drawPointerTriangle(QPainter *painter)
 void QEXTScaleKnob::drawValue(QPainter *painter)
 {
     Q_D(QEXTScaleKnob);
-    if (!d->m_valueVisiable)
+    if (!d->m_valueVisible)
     {
         return;
     }
@@ -457,10 +457,10 @@ bool QEXTScaleKnob::isRangeBisectionEnable() const
     return d->m_rangeBisectionEnable;
 }
 
-bool QEXTScaleKnob::isValueVisiable() const
+bool QEXTScaleKnob::isValueVisible() const
 {
     Q_D(const QEXTScaleKnob);
-    return d->m_valueVisiable;
+    return d->m_valueVisible;
 }
 
 QEXTScaleKnob::PointerStyle QEXTScaleKnob::pointerStyle() const
@@ -632,12 +632,12 @@ void QEXTScaleKnob::setRangeBisectionEnable(bool enable)
     }
 }
 
-void QEXTScaleKnob::setValueVisiable(bool visiable)
+void QEXTScaleKnob::setValueVisible(bool visiable)
 {
     Q_D(QEXTScaleKnob);
-    if (d->m_valueVisiable != visiable)
+    if (d->m_valueVisible != visiable)
     {
-        d->m_valueVisiable = visiable;
+        d->m_valueVisible = visiable;
         this->update();
     }
 }

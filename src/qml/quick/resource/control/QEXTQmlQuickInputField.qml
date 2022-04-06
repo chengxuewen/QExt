@@ -24,7 +24,7 @@ Item {
     property color placeholderTextColor: QEXTQmlQuickPalette.textPlaceholderColor
     property font placeholderTextFont
 
-    property bool backgroundVisiable: true
+    property bool backgroundVisible: true
     property color backgroundColor: "#FFFFFF"
     property real backgroundRadius: 2
     property real backgroundOpacity: 1
@@ -84,9 +84,9 @@ Item {
     Rectangle {
         anchors.fill: parent
         border.width: qextInputField.backgroundBorderWidth
-        border.color: backgroundVisiable ? qextInputField.backgroundBorderColor : Qt.rgba(0, 0, 0, 0)
+        border.color: backgroundVisible ? qextInputField.backgroundBorderColor : Qt.rgba(0, 0, 0, 0)
         clip: true
-        color: backgroundVisiable ? backgroundColor : Qt.rgba(0, 0, 0, 0)
+        color: backgroundVisible ? backgroundColor : Qt.rgba(0, 0, 0, 0)
         radius: backgroundRadius
         opacity: backgroundOpacity
 

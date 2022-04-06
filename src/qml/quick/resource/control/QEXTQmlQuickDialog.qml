@@ -149,7 +149,7 @@ Dialog {
                     iconHeight: modelData.iconHeight
                     iconColor: modelData.iconColor
 
-                    backgroundVisiable: modelData.backgroundVisiable
+                    backgroundVisible: modelData.backgroundVisible
                     backgroundColor: modelData.backgroundColor
                     backgroundBorderColor: modelData.backgroundBorderColor
                     backgroundBorderWidth: modelData.backgroundBorderWidth

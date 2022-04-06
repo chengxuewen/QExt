@@ -26,8 +26,8 @@ public:
 
     QEXTNumberLed::Symbol m_symbol;
 
-    bool m_dotVisiable;
-    bool m_colonVisiable;
+    bool m_dotVisible;
+    bool m_colonVisible;
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTNumberLedPrivate)

@@ -19,12 +19,12 @@ public:
     int m_bottomPadding;
     QEXTNavigationButton::TextAlignType m_textAlign;
 
-    bool m_triangleVisiable;
+    bool m_triangleVisible;
     QEXTNavigationButton::PositionType m_trianglePosition;
     int m_triangleLen;
     QColor m_triangleColor;
 
-    bool m_iconVisiable;
+    bool m_iconVisible;
     QEXTNavigationButton::PositionType m_iconPosition;
     int m_iconSpace;
     QSize m_iconSize;
@@ -35,7 +35,7 @@ public:
     QChar m_hoverFontIcon;
     QChar m_checkFontIcon;
 
-    bool m_lineVisiable;
+    bool m_lineVisible;
     QEXTNavigationButton::PositionType m_linePosition;
     int m_lineSpace;
     int m_lineWidth;

@@ -90,7 +90,7 @@ Column{
         itemActiveIconColor: "#F36D6F"
         itemBackgroundColor: "#FAFAFA"
         itemActiveBackgroundColor: "#1A76D3"
-        itemBackgroundVisiable: true
+        itemBackgroundVisible: true
 
         QEXTQmlQuickNavigationElement {
             iconSource: QEXTQmlQuickFontAwesome.FA_apple

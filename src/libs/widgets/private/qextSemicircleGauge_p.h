@@ -33,7 +33,7 @@ public:
     QColor m_textColor;
     QColor m_titleColor;
 
-    bool m_overlayVisiable;
+    bool m_overlayVisible;
     QColor m_overlayColor;
 
     QEXTSemicircleGauge::PointerStyleType m_pointerStyle;
@@ -42,7 +42,7 @@ public:
     int m_radiusY;
 
     double m_currentValue;
-    bool m_animationVisiable;
+    bool m_animationVisible;
     QPropertyAnimation *m_animation;
 
 private:

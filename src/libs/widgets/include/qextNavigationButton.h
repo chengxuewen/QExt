@@ -45,12 +45,12 @@ class QEXT_WIDGETS_API QEXTNavigationButton : public QPushButton
     Q_PROPERTY(int bottomPadding READ bottomPadding WRITE setBottomPadding)
     Q_PROPERTY(TextAlignType textAlign READ textAlign WRITE setTextAlign)
 
-    Q_PROPERTY(bool triangleVisiable READ isTriangleVisiable WRITE setTriangleVisiable)
+    Q_PROPERTY(bool triangleVisible READ isTriangleVisible WRITE setTriangleVisible)
     Q_PROPERTY(int triangleLen READ triangleLen WRITE setTriangleLen)
     Q_PROPERTY(PositionType trianglePosition READ trianglePosition WRITE setTrianglePosition)
     Q_PROPERTY(QColor triangleColor READ triangleColor WRITE setTriangleColor)
 
-    Q_PROPERTY(bool iconVisiable READ isIconVisiable WRITE setIconVisiable)
+    Q_PROPERTY(bool iconVisible READ isIconVisible WRITE setIconVisible)
     Q_PROPERTY(int iconSpace READ iconSpace WRITE setIconSpace)
     Q_PROPERTY(QSize iconSize READ iconSize WRITE setIconSize)
     Q_PROPERTY(QPixmap normalIcon READ normalIcon WRITE setNormalIcon)
@@ -60,7 +60,7 @@ class QEXT_WIDGETS_API QEXTNavigationButton : public QPushButton
     Q_PROPERTY(QChar hoveredFontIcon READ hoveredFontIcon WRITE setHoverFontIcon)
     Q_PROPERTY(QChar checkedFontIcon READ checkedFontIcon WRITE setCheckFontIcon)
 
-    Q_PROPERTY(bool lineVisiable READ isLineVisiable WRITE setLineVisiable)
+    Q_PROPERTY(bool lineVisible READ isLineVisible WRITE setLineVisible)
     Q_PROPERTY(int lineSpace READ lineSpace WRITE setLineSpace)
     Q_PROPERTY(int lineWidth READ lineWidth WRITE setLineWidth)
     Q_PROPERTY(PositionType linePosition READ linePosition WRITE setLinePosition)
@@ -104,12 +104,12 @@ public:
     int bottomPadding() const;
     TextAlignType textAlign() const;
 
-    bool isTriangleVisiable() const;
+    bool isTriangleVisible() const;
     PositionType trianglePosition() const;
     int triangleLen() const;
     QColor triangleColor() const;
 
-    bool isIconVisiable() const;
+    bool isIconVisible() const;
     PositionType iconPosition() const;
     int iconSpace() const;
     QSize iconSize() const;
@@ -120,7 +120,7 @@ public:
     QChar hoveredFontIcon() const;
     QChar checkedFontIcon() const;
 
-    bool isLineVisiable() const;
+    bool isLineVisible() const;
     PositionType linePosition() const;
     int lineSpace() const;
     int lineWidth() const;
@@ -146,12 +146,12 @@ public Q_SLOTS:
 
     void setTextAlign(const TextAlignType &textAlign);
 
-    void setTriangleVisiable(bool visiable);
+    void setTriangleVisible(bool visiable);
     void setTrianglePosition(const PositionType &position);
     void setTriangleLen(int len);
     void setTriangleColor(const QColor &color);
 
-    void setIconVisiable(bool visiable);
+    void setIconVisible(bool visiable);
     void setIconPosition(const PositionType &position);
     void setIconSpace(int space);
     void setIconSize(const QSize &size);
@@ -164,7 +164,7 @@ public Q_SLOTS:
     void setHoverFontIcon(const QChar &icon);
     void setCheckFontIcon(const QChar &icon);
 
-    void setLineVisiable(bool visiable);
+    void setLineVisible(bool visiable);
     void setLinePosition(const PositionType &position);
     void setLineSpace(int space);
     void setLineWidth(int width);

@@ -48,7 +48,7 @@ class QEXT_WIDGETS_API QEXTProgressRing : public QWidget
 
     Q_PROPERTY(bool clipCenter READ clipCenter WRITE setClipCenter)
     Q_PROPERTY(bool clockWise READ clockWise WRITE setClockWise)
-    Q_PROPERTY(bool percentVisiable READ percentVisiable WRITE setPercentVisiable)
+    Q_PROPERTY(bool percentVisible READ percentVisible WRITE setPercentVisible)
 
     Q_PROPERTY(int alarmMode READ alarmMode WRITE setAlarmMode)
     Q_PROPERTY(int startAngle READ startAngle WRITE setStartAngle)
@@ -85,7 +85,7 @@ public:
 
     bool clipCenter() const;
     bool clockWise() const;
-    bool percentVisiable() const;
+    bool percentVisible() const;
 
     int alarmMode() const;
     int startAngle() const;
@@ -128,7 +128,7 @@ public Q_SLOTS:
 
     void setClipCenter(bool clipCenter);
     void setClockWise(bool clockWise);
-    void setPercentVisiable(bool visiable);
+    void setPercentVisible(bool visiable);
 
     void setAlarmMode(int alarmMode);
     void setStartAngle(int startAngle);

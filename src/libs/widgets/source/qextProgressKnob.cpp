@@ -27,8 +27,8 @@ QEXTProgressKnobPrivate::QEXTProgressKnobPrivate(QEXTProgressKnob *q)
     m_circleEndColor = QColor(50, 50, 50);
     m_textColor = QColor(200, 200, 200);
 
-    m_pointerVisiable = true;
-    m_valueVisiable = false;
+    m_pointerVisible = true;
+    m_valueVisible = false;
     m_pointerStyle = QEXTProgressKnob::PointerStyle_Circle;
 
     m_hover = false;
@@ -198,7 +198,7 @@ void QEXTProgressKnob::drawCircle(QPainter *painter)
 void QEXTProgressKnob::drawPointerCircle(QPainter *painter)
 {
     Q_D(QEXTProgressKnob);
-    if (!d->m_pointerVisiable)
+    if (!d->m_pointerVisible)
     {
         return;
     }
@@ -221,7 +221,7 @@ void QEXTProgressKnob::drawPointerCircle(QPainter *painter)
 void QEXTProgressKnob::drawPointerIndicator(QPainter *painter)
 {
     Q_D(QEXTProgressKnob);
-    if (!d->m_pointerVisiable)
+    if (!d->m_pointerVisible)
     {
         return;
     }
@@ -248,7 +248,7 @@ void QEXTProgressKnob::drawPointerIndicator(QPainter *painter)
 void QEXTProgressKnob::drawPointerIndicatorR(QPainter *painter)
 {
     Q_D(QEXTProgressKnob);
-    if (!d->m_pointerVisiable)
+    if (!d->m_pointerVisible)
     {
         return;
     }
@@ -284,7 +284,7 @@ void QEXTProgressKnob::drawPointerIndicatorR(QPainter *painter)
 void QEXTProgressKnob::drawPointerTriangle(QPainter *painter)
 {
     Q_D(QEXTProgressKnob);
-    if (!d->m_pointerVisiable)
+    if (!d->m_pointerVisible)
     {
         return;
     }
@@ -309,7 +309,7 @@ void QEXTProgressKnob::drawPointerTriangle(QPainter *painter)
 void QEXTProgressKnob::drawValue(QPainter *painter)
 {
     Q_D(QEXTProgressKnob);
-    if (!d->m_valueVisiable)
+    if (!d->m_valueVisible)
     {
         return;
     }
@@ -319,7 +319,7 @@ void QEXTProgressKnob::drawValue(QPainter *painter)
     painter->setPen(d->m_textColor);
 
     QFont font;
-    font.setPixelSize(d->m_pointerVisiable ? radius - 50 : radius - 15);
+    font.setPixelSize(d->m_pointerVisible ? radius - 50 : radius - 15);
     font.setBold(true);
     painter->setFont(font);
 
@@ -452,16 +452,16 @@ QColor QEXTProgressKnob::textColor() const
     return d->m_textColor;
 }
 
-bool QEXTProgressKnob::pointerVisiable() const
+bool QEXTProgressKnob::pointerVisible() const
 {
     Q_D(const QEXTProgressKnob);
-    return d->m_pointerVisiable;
+    return d->m_pointerVisible;
 }
 
-bool QEXTProgressKnob::valueVisiable() const
+bool QEXTProgressKnob::valueVisible() const
 {
     Q_D(const QEXTProgressKnob);
-    return d->m_valueVisiable;
+    return d->m_valueVisible;
 }
 
 QEXTProgressKnob::PointerStyle QEXTProgressKnob::pointerStyle() const
@@ -633,22 +633,22 @@ void QEXTProgressKnob::setTextColor(const QColor &color)
     }
 }
 
-void QEXTProgressKnob::setPointerVisiable(bool visiable)
+void QEXTProgressKnob::setPointerVisible(bool visiable)
 {
     Q_D(QEXTProgressKnob);
-    if (d->m_pointerVisiable != visiable)
+    if (d->m_pointerVisible != visiable)
     {
-        d->m_pointerVisiable = visiable;
+        d->m_pointerVisible = visiable;
         this->update();
     }
 }
 
-void QEXTProgressKnob::setValueVisiable(bool visiable)
+void QEXTProgressKnob::setValueVisible(bool visiable)
 {
     Q_D(QEXTProgressKnob);
-    if (d->m_valueVisiable != visiable)
+    if (d->m_valueVisible != visiable)
     {
-        d->m_valueVisiable = visiable;
+        d->m_valueVisible = visiable;
         this->update();
     }
 }

@@ -43,15 +43,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_checkBox_overlay_clicked(bool checked)
 {
-    ui->qtklightbutton_1->setOverlayVisiable(checked);
-    ui->qtklightbutton_2->setOverlayVisiable(checked);
-    ui->qtklightbutton_3->setOverlayVisiable(checked);
-    ui->qtklightbutton_4->setOverlayVisiable(checked);
-    ui->qtklightbutton_5->setOverlayVisiable(checked);
-    ui->qtklightbutton_6->setOverlayVisiable(checked);
-    ui->qtklightbutton_7->setOverlayVisiable(checked);
-    ui->qtklightbutton_8->setOverlayVisiable(checked);
-    ui->qtklightbutton_9->setOverlayVisiable(checked);
+    ui->qtklightbutton_1->setOverlayVisible(checked);
+    ui->qtklightbutton_2->setOverlayVisible(checked);
+    ui->qtklightbutton_3->setOverlayVisible(checked);
+    ui->qtklightbutton_4->setOverlayVisible(checked);
+    ui->qtklightbutton_5->setOverlayVisible(checked);
+    ui->qtklightbutton_6->setOverlayVisible(checked);
+    ui->qtklightbutton_7->setOverlayVisible(checked);
+    ui->qtklightbutton_8->setOverlayVisible(checked);
+    ui->qtklightbutton_9->setOverlayVisible(checked);
 }
 
 void MainWindow::on_checkBox_flicker_clicked(bool checked)

@@ -50,7 +50,7 @@ class QEXT_WIDGETS_API QEXTSlider : public QSlider
     Q_PROPERTY(int toolTipHeight READ toolTipHeight WRITE setToolTipHeight)
     Q_PROPERTY(QFont toolTipFont READ toolTipFont WRITE setToolTipFont)
 
-    Q_PROPERTY(bool timeVisiable READ timeVisiable WRITE setTimeVisiable)
+    Q_PROPERTY(bool timeVisible READ timeVisible WRITE setTimeVisible)
     Q_PROPERTY(bool clickEnable READ clickEnable WRITE setClickEnable)
     Q_PROPERTY(QString unitText READ unitText WRITE setUnitText)
 
@@ -78,7 +78,7 @@ public:
     int toolTipHeight() const;
     QFont toolTipFont() const;
 
-    bool timeVisiable() const;
+    bool timeVisible() const;
     bool clickEnable() const;
     QString unitText() const;
 
@@ -104,7 +104,7 @@ public Q_SLOTS:
 
     void setToolTipFont(const QFont &font);
 
-    void setTimeVisiable(bool visiable);
+    void setTimeVisible(bool visiable);
 
     void setClickEnable(bool enable);
 

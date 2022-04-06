@@ -27,7 +27,7 @@ public:
     int m_tooltipHeight;
     QFont m_tooltipFont;
 
-    bool m_timeVisiable;
+    bool m_timeVisible;
     bool m_clickEnable;
     QString m_unitText;
 

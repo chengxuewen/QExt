@@ -26,7 +26,7 @@ QEXTIndicatorLightPrivate::QEXTIndicatorLightPrivate(QEXTIndicatorLight *q)
     m_inBorderEndColor = QColor(255, 255, 255);
 
     m_moveEnable = false;
-    m_overlayVisiable = true;
+    m_overlayVisible = true;
     m_overlayColor = QColor(255, 255, 255);
 
     m_lightState = false;
@@ -123,10 +123,10 @@ bool QEXTIndicatorLight::isMoveEnable() const
     return d->m_moveEnable;
 }
 
-bool QEXTIndicatorLight::isOverlayVisiable() const
+bool QEXTIndicatorLight::isOverlayVisible() const
 {
     Q_D(const QEXTIndicatorLight);
-    return d->m_overlayVisiable;
+    return d->m_overlayVisible;
 }
 
 QColor QEXTIndicatorLight::overlayColor() const
@@ -278,11 +278,11 @@ void QEXTIndicatorLight::setMoveEnable(const bool &enable)
     }
 }
 
-void QEXTIndicatorLight::setOverlayVisiable(const bool &visiable)
+void QEXTIndicatorLight::setOverlayVisible(const bool &visiable)
 {
     Q_D(QEXTIndicatorLight);
-    if (visiable != d->m_overlayVisiable) {
-        d->m_overlayVisiable = visiable;
+    if (visiable != d->m_overlayVisible) {
+        d->m_overlayVisible = visiable;
         this->update();
     }
 }
@@ -591,7 +591,7 @@ void QEXTIndicatorLight::drawText(QPainter *painter)
 void QEXTIndicatorLight::drawOverlay(QPainter *painter)
 {
     Q_D(QEXTIndicatorLight);
-    if (!d->m_overlayVisiable) {
+    if (!d->m_overlayVisible) {
         return;
     }
 

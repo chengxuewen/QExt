@@ -77,8 +77,8 @@ public:
     bool isExpand() const;
     void setExpand(const bool &expand);
 
-    bool isVisiable() const;
-    void setVisiable(const bool &visiable);
+    bool isVisible() const;
+    void setVisible(const bool &visiable);
 
     bool isEnabled() const;
     void setEnable(const bool &enable);
@@ -87,7 +87,7 @@ public:
     bool isChecked() const;
     bool setChecked(bool check);
 
-    bool isLastVisiableItem() const;
+    bool isLastVisibleItem() const;
     bool isChildItem() const;
     bool isParentItem() const;
     QEXTNavigationListItem *parentItem() const;
@@ -158,8 +158,8 @@ protected slots:
     void onItemEnableChanged(QEXTNavigationListItem *item);
     void onItemExpandChanged(QEXTNavigationListItem *item);
     void onItemCheckChanged(QEXTNavigationListItem *item);
-    void onItemVisiableAboutToBeChanged(QEXTNavigationListItem *item);
-    void onItemVisiableChanged(QEXTNavigationListItem *item);
+    void onItemVisibleAboutToBeChanged(QEXTNavigationListItem *item);
+    void onItemVisibleChanged(QEXTNavigationListItem *item);
     void onChildItemAboutToBeInserted(QEXTNavigationListItem *item, QEXTNavigationListItem *parent);
     void onChildItemInserted(QEXTNavigationListItem *item, QEXTNavigationListItem *parent);
     void onChildItemAboutToBeRemoved(QEXTNavigationListItem *item, QEXTNavigationListItem *parent);

@@ -36,7 +36,7 @@ void FrmNavigationButton::initForm()
         btn->setLeftPadding(32);
         btn->setLineSpace(6);
 
-        btn->setIconVisiable(true);
+        btn->setIconVisible(true);
         btn->setIconSpace(15);
         btn->setIconSize(QSize(10, 10));
         btn->setNormalIcon(iconNormal);
@@ -67,9 +67,9 @@ void FrmNavigationButton::initForm()
         btn->setLineSpace(0);
         btn->setLineWidth(8);
         btn->setLineColor(QColor(255, 107, 107));
-        btn->setTriangleVisiable(true);
+        btn->setTriangleVisible(true);
 
-        btn->setIconVisiable(true);
+        btn->setIconVisible(true);
         btn->setIconSpace(10);
         btn->setIconSize(QSize(22, 22));
 
@@ -107,12 +107,12 @@ void FrmNavigationButton::initForm()
         btn->setLeftPadding(35);
         btn->setLineWidth(10);
         btn->setLineColor(QColor("#029FEA"));
-        btn->setTriangleVisiable(true);
+        btn->setTriangleVisible(true);
         btn->setTextAlign(QEXTNavigationButton::TextAlign_Left);
         btn->setTrianglePosition(QEXTNavigationButton::Position_Left);
         btn->setLinePosition(QEXTNavigationButton::Position_Right);
 
-        btn->setIconVisiable(true);
+        btn->setIconVisible(true);
         btn->setIconSpace(10);
         btn->setIconSize(QSize(22, 22));
 
@@ -152,12 +152,12 @@ void FrmNavigationButton::initForm()
         btn->setLineSpace(10);
         btn->setLineWidth(10);
         btn->setRightPadding(25);
-        btn->setTriangleVisiable(true);
+        btn->setTriangleVisible(true);
         btn->setTextAlign(QEXTNavigationButton::TextAlign_Right);
         btn->setTrianglePosition(QEXTNavigationButton::Position_Left);
         btn->setLinePosition(QEXTNavigationButton::Position_Right);
 
-        btn->setIconVisiable(true);
+        btn->setIconVisible(true);
         btn->setIconSpace(25);
         btn->setIconSize(QSize(15, 15));
         btn->setNormalIcon(iconNormal);
@@ -188,11 +188,11 @@ void FrmNavigationButton::initForm()
         QEXTNavigationButton *btn = btns5.at(i);
         btn->setFont(font);
         btn->setLeftPadding(20);
-        btn->setLineVisiable(false);
+        btn->setLineVisible(false);
         btn->setTextAlign(QEXTNavigationButton::TextAlign_Center);
         btn->setLinePosition(QEXTNavigationButton::Position_Bottom);
 
-        btn->setIconVisiable(true);
+        btn->setIconVisible(true);
         btn->setIconSpace(15);
         btn->setIconSize(QSize(22, 22));
 
@@ -229,11 +229,11 @@ void FrmNavigationButton::initForm()
         QEXTNavigationButton *btn = btns6.at(i);
         btn->setFont(font);
         btn->setLeftPadding(20);
-        btn->setLineVisiable(false);
+        btn->setLineVisible(false);
         btn->setTextAlign(QEXTNavigationButton::TextAlign_Center);
         btn->setLinePosition(QEXTNavigationButton::Position_Bottom);
 
-        btn->setIconVisiable(true);
+        btn->setIconVisible(true);
         btn->setIconSpace(15);
         btn->setIconSize(QSize(22, 22));
 
@@ -275,7 +275,7 @@ void FrmNavigationButton::initForm()
         btn->setFont(font);
         btn->setLeftPadding(0);
         btn->setLineSpace(0);
-        btn->setTriangleVisiable(true);
+        btn->setTriangleVisible(true);
         btn->setTextAlign(QEXTNavigationButton::TextAlign_Center);
         btn->setTrianglePosition(QEXTNavigationButton::Position_Bottom);
         btn->setLinePosition(QEXTNavigationButton::Position_Top);

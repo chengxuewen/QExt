@@ -256,13 +256,13 @@ void QEXTNavigationListItem::setExpand(const bool &expand)
     }
 }
 
-bool QEXTNavigationListItem::isVisiable() const
+bool QEXTNavigationListItem::isVisible() const
 {
     Q_D(const QEXTNavigationListItem);
     return d->m_visiable;
 }
 
-void QEXTNavigationListItem::setVisiable(const bool &visiable)
+void QEXTNavigationListItem::setVisible(const bool &visiable)
 {
     Q_D(QEXTNavigationListItem);
     if (visiable != d->m_visiable)
@@ -326,7 +326,7 @@ bool QEXTNavigationListItem::isChecked() const
 bool QEXTNavigationListItem::setChecked(bool check)
 {
     Q_D(QEXTNavigationListItem);
-    if (!this->isVisiable() && check)
+    if (!this->isVisible() && check)
     {
         qWarning() << "QEXTNavigationListItem::setChecked(): item not visiable, can not set check";
         return false;
@@ -349,7 +349,7 @@ bool QEXTNavigationListItem::setChecked(bool check)
     return true;
 }
 
-bool QEXTNavigationListItem::isLastVisiableItem() const
+bool QEXTNavigationListItem::isLastVisibleItem() const
 {
     Q_D(const QEXTNavigationListItem);
     if (!d->m_parent.isNull() && d->m_visiable)
@@ -441,7 +441,7 @@ QList<QEXTNavigationListItem *> QEXTNavigationListItem::visiableChildItems() con
     QList<QEXTNavigationListItem *>::const_iterator iter;
     for (iter = d->m_childItems.begin(); iter != d->m_childItems.end(); ++iter)
     {
-        if ((*iter)->isVisiable())
+        if ((*iter)->isVisible())
         {
             result.append(*iter);
         }
@@ -608,7 +608,7 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
     if (m_navData->m_separateVisible)
     {
-        if (item->isParentItem() || (item->isChildItem() && item->isLastVisiableItem()))
+        if (item->isParentItem() || (item->isChildItem() && item->isLastVisibleItem()))
         {
             painter->setPen(QPen(m_navData->m_separateColor, m_navData->m_separateHeight));
             painter->drawLine(QPointF(x, y + height), QPointF(x + width, y + height));
@@ -738,13 +738,13 @@ void QEXTNavigationListModelPrivate::deleteAllItems()
     m_allItemSet.clear();
 }
 
-void QEXTNavigationListModelPrivate::refreshVisiableList()
+void QEXTNavigationListModelPrivate::refreshVisibleList()
 {
     m_visiableItemList.clear();
     QList<QEXTNavigationListItem *>::iterator iter;
     for (iter = m_parentItemList.begin(); iter != m_parentItemList.end(); ++iter)
     {
-        if ((*iter)->isVisiable())
+        if ((*iter)->isVisible())
         {
             m_visiableItemList.append(*iter);
             if ((*iter)->isExpand())
@@ -782,9 +782,9 @@ void QEXTNavigationListModelPrivate::initItemConnection(QEXTNavigationListItem *
     QObject::connect(item, SIGNAL(expandChanged(QEXTNavigationListItem*)), q, SLOT(onItemExpandChanged(QEXTNavigationListItem*)));
     QObject::connect(item, SIGNAL(checkChanged(QEXTNavigationListItem*)), q, SLOT(onItemCheckChanged(QEXTNavigationListItem*)));
     QObject::connect(item, SIGNAL(visiableAboutToBeChanged(QEXTNavigationListItem*)),
-                     q, SLOT(onItemVisiableAboutToBeChanged(QEXTNavigationListItem*)));
+                     q, SLOT(onItemVisibleAboutToBeChanged(QEXTNavigationListItem*)));
     QObject::connect(item, SIGNAL(visiableChanged(QEXTNavigationListItem*)),
-                     q, SLOT(onItemVisiableChanged(QEXTNavigationListItem*)));
+                     q, SLOT(onItemVisibleChanged(QEXTNavigationListItem*)));
     QObject::connect(item, SIGNAL(childItemAboutToBeInserted(QEXTNavigationListItem*,QEXTNavigationListItem*)),
                      q, SLOT(onChildItemAboutToBeInserted(QEXTNavigationListItem*,QEXTNavigationListItem*)));
     QObject::connect(item, SIGNAL(childItemInserted(QEXTNavigationListItem*,QEXTNavigationListItem*)),
@@ -1033,7 +1033,7 @@ void QEXTNavigationListModel::setItems(const QList<QEXTNavigationListItem *> &it
 
         d->deleteAllItems();
         d->m_allItemSet = cacheItemSet;
-        d->refreshVisiableList();
+        d->refreshVisibleList();
         d->initAllItemsConnection();
 
         this->endResetModel();
@@ -1057,7 +1057,7 @@ void QEXTNavigationListModel::onItemAboutToDestroyed(QEXTNavigationListItem *ite
     {
         d->m_allItemSet.remove(item);
         d->m_parentItemList.removeOne(item);
-        if (item->isVisiable())
+        if (item->isVisible())
         {
             int row = d->m_visiableItemList.indexOf(item);
             int count = item->visiableChildItemsCount();
@@ -1094,7 +1094,7 @@ void QEXTNavigationListModel::onItemChanged(QEXTNavigationListItem *item)
 void QEXTNavigationListModel::onItemEnableChanged(QEXTNavigationListItem *item)
 {
     Q_D(QEXTNavigationListModel);
-    if (item->isVisiable())
+    if (item->isVisible())
     {
         int row = d->m_visiableItemList.indexOf(item);
         int count = item->isParentItem() ? item->visiableChildItemsCount() : 0;
@@ -1159,10 +1159,10 @@ void QEXTNavigationListModel::onItemCheckChanged(QEXTNavigationListItem *item)
     }
 }
 
-void QEXTNavigationListModel::onItemVisiableAboutToBeChanged(QEXTNavigationListItem *item)
+void QEXTNavigationListModel::onItemVisibleAboutToBeChanged(QEXTNavigationListItem *item)
 {
     Q_D(QEXTNavigationListModel);
-    if (item->isVisiable())
+    if (item->isVisible())
     {
         int row = d->m_visiableItemList.indexOf(item);
         int count = item->isExpand() ? item->visiableChildItemsCount() : 0;
@@ -1171,7 +1171,7 @@ void QEXTNavigationListModel::onItemVisiableAboutToBeChanged(QEXTNavigationListI
     else
     {
         QList<QEXTNavigationListItem *> visiableChildItems = item->visiableChildItems();
-        int visiableChildcount = (item->isExpand() && item->isParentItem() && item->isVisiable()) ? visiableChildItems.size() : 0;
+        int visiableChildcount = (item->isExpand() && item->isParentItem() && item->isVisible()) ? visiableChildItems.size() : 0;
         int row = 0;
         bool located = false;
         QList<QEXTNavigationListItem *>::iterator iter;
@@ -1181,7 +1181,7 @@ void QEXTNavigationListModel::onItemVisiableAboutToBeChanged(QEXTNavigationListI
             {
                 break;
             }
-            if ((*iter)->isVisiable())
+            if ((*iter)->isVisible())
             {
                 if (item == *iter)
                 {
@@ -1194,7 +1194,7 @@ void QEXTNavigationListModel::onItemVisiableAboutToBeChanged(QEXTNavigationListI
                     QList<QEXTNavigationListItem *> childItems = (*iter)->childItems();
                     for (childIter = childItems.begin(); childIter != childItems.end(); ++childIter)
                     {
-                        if (item == *childIter && (*iter)->isVisiable())
+                        if (item == *childIter && (*iter)->isVisible())
                         {
                             located = true;
                             break;
@@ -1208,10 +1208,10 @@ void QEXTNavigationListModel::onItemVisiableAboutToBeChanged(QEXTNavigationListI
     }
 }
 
-void QEXTNavigationListModel::onItemVisiableChanged(QEXTNavigationListItem *item)
+void QEXTNavigationListModel::onItemVisibleChanged(QEXTNavigationListItem *item)
 {
     Q_D(QEXTNavigationListModel);
-    if (item->isVisiable())
+    if (item->isVisible())
     {
         int row = 0;
         bool located = false;
@@ -1222,7 +1222,7 @@ void QEXTNavigationListModel::onItemVisiableChanged(QEXTNavigationListItem *item
             {
                 break;
             }
-            if ((*iter)->isVisiable())
+            if ((*iter)->isVisible())
             {
                 QList<QEXTNavigationListItem *> childItems = (*iter)->childItems();
                 if (item == *iter)
@@ -1233,7 +1233,7 @@ void QEXTNavigationListModel::onItemVisiableChanged(QEXTNavigationListItem *item
                         QList<QEXTNavigationListItem *>::iterator childIter;
                         for (childIter = childItems.begin(); childIter != childItems.end(); ++childIter)
                         {
-                            if ((*childIter)->isVisiable())
+                            if ((*childIter)->isVisible())
                             {
                                 d->m_visiableItemList.insert(row++, *childIter);
                             }
@@ -1248,7 +1248,7 @@ void QEXTNavigationListModel::onItemVisiableChanged(QEXTNavigationListItem *item
                     QList<QEXTNavigationListItem *>::iterator childIter;
                     for (childIter = childItems.begin(); childIter != childItems.end(); ++childIter)
                     {
-                        if (item == *childIter && (*childIter)->isVisiable())
+                        if (item == *childIter && (*childIter)->isVisible())
                         {
                             d->m_visiableItemList.insert(row++, *childIter);
                             located = true;
@@ -1277,7 +1277,7 @@ void QEXTNavigationListModel::onItemVisiableChanged(QEXTNavigationListItem *item
 void QEXTNavigationListModel::onChildItemAboutToBeInserted(QEXTNavigationListItem *item, QEXTNavigationListItem *parent)
 {
     Q_D(QEXTNavigationListModel);
-    if (item->isVisiable() && parent->isVisiable())
+    if (item->isVisible() && parent->isVisible())
     {
         int index = d->m_visiableItemList.indexOf(parent);
         int row = parent->visiableChildItemsCount() + 1;
@@ -1288,7 +1288,7 @@ void QEXTNavigationListModel::onChildItemAboutToBeInserted(QEXTNavigationListIte
 void QEXTNavigationListModel::onChildItemInserted(QEXTNavigationListItem *item, QEXTNavigationListItem *parent)
 {
     Q_D(QEXTNavigationListModel);
-    if (item->isVisiable() && parent->isVisiable())
+    if (item->isVisible() && parent->isVisible())
     {
         int index = d->m_visiableItemList.indexOf(parent);
         int row = parent->visiableChildItemsCount();

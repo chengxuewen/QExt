@@ -13,7 +13,7 @@ QEXTQmlQuickButton {
     property real iconWidth: 25
     property real iconHeight: 25
     property color iconColor: QEXTQmlQuickPalette.textPrimaryColor
-    property bool iconVisiable: true
+    property bool iconVisible: true
     property real iconOpacity: 1
     property real iconPadding: 10
     property real iconSpacing: 5
@@ -62,9 +62,9 @@ QEXTQmlQuickButton {
 
     background: Rectangle {
         anchors.fill: parent
-        color: qextIconButton.backgroundVisiable ? qextIconButton.backgroundColor : Qt.rgba(0, 0, 0, 0)
+        color: qextIconButton.backgroundVisible ? qextIconButton.backgroundColor : Qt.rgba(0, 0, 0, 0)
         opacity: qextIconButton.backgroundOpacity
-        border.color: qextIconButton.backgroundBorderVisiable ? qextIconButton.backgroundBorderColor : Qt.rgba(0, 0, 0, 0)
+        border.color: qextIconButton.backgroundBorderVisible ? qextIconButton.backgroundBorderColor : Qt.rgba(0, 0, 0, 0)
         border.width: qextIconButton.backgroundBorderWidth
         radius: qextIconButton.backgroundRadius
     }
@@ -74,7 +74,7 @@ QEXTQmlQuickButton {
         Item {
             Loader {
                 anchors.centerIn: parent
-                visible: qextIconButton.iconVisiable
+                visible: qextIconButton.iconVisible
                 opacity: qextIconButton.iconOpacity
                 sourceComponent: iconItem
             }
@@ -101,7 +101,7 @@ QEXTQmlQuickButton {
             Loader {
                 width: qextIconButton.iconWidth
                 height: qextIconButton.iconHeight
-                visible: qextIconButton.iconVisiable
+                visible: qextIconButton.iconVisible
                 opacity: qextIconButton.iconOpacity
                 anchors.verticalCenter: parent.verticalCenter
                 sourceComponent: iconItem
@@ -131,7 +131,7 @@ QEXTQmlQuickButton {
             Loader {
                 width: qextIconButton.iconWidth
                 height: qextIconButton.iconHeight
-                visible: qextIconButton.iconVisiable
+                visible: qextIconButton.iconVisible
                 opacity: qextIconButton.iconOpacity
                 anchors.verticalCenter: parent.verticalCenter
                 sourceComponent: iconItem
@@ -148,7 +148,7 @@ QEXTQmlQuickButton {
             Loader {
                 width: qextIconButton.iconWidth
                 height: qextIconButton.iconHeight
-                visible: qextIconButton.iconVisiable
+                visible: qextIconButton.iconVisible
                 opacity: qextIconButton.iconOpacity
                 anchors.horizontalCenter: parent.horizontalCenter
                 sourceComponent: iconItem
@@ -177,7 +177,7 @@ QEXTQmlQuickButton {
             Loader {
                 width: qextIconButton.iconWidth
                 height: qextIconButton.iconHeight
-                visible: qextIconButton.iconVisiable
+                visible: qextIconButton.iconVisible
                 opacity: qextIconButton.iconOpacity
                 anchors.horizontalCenter: parent.horizontalCenter
                 sourceComponent: iconItem

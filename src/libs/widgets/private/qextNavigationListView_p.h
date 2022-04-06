@@ -74,7 +74,7 @@ public:
     QEXTNavigationListModel * const q_ptr;
 
     void deleteAllItems();
-    void refreshVisiableList();
+    void refreshVisibleList();
     void initAllItemsConnection();
     void initItemConnection(QEXTNavigationListItem *item);
 

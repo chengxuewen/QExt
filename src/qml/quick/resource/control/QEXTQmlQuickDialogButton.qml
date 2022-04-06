@@ -16,7 +16,7 @@ QEXTQmlQuickObject {
     property real iconHeight
     property color iconColor
 
-    property bool backgroundVisiable: false
+    property bool backgroundVisible: false
     property color backgroundColor: "#FFFFFF"
     property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
     property real backgroundBorderWidth: 1

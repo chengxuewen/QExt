@@ -112,11 +112,11 @@ QEXTWaveChartPrivate::QEXTWaveChartPrivate(QEXTWaveChart *q)
     m_space = 40;
     m_title = "WaveChart";
     m_smooth = false;
-    m_hLineVisiable = true;
-    m_vLineVisiable = true;
-    m_pointVisiable = true;
-    m_pointBackgroundVisiable = true;
-    m_titleVisiable = true;
+    m_hLineVisible = true;
+    m_vLineVisible = true;
+    m_pointVisible = true;
+    m_pointBackgroundVisible = true;
+    m_titleVisible = true;
 
     m_backgroundStartColor = QColor(79, 79, 79);
     m_backgroundEndColor = QColor(51, 51, 51);
@@ -184,7 +184,7 @@ void QEXTWaveChart::drawBox(QPainter *painter)
     d->m_plotAreaRect = QRectF(topLeftPoint, bottomRightPoint);
     painter->drawRect(d->m_plotAreaRect);
 
-    if (d->m_hLineVisiable) {
+    if (d->m_hLineVisible) {
         QPen pen(d->m_textColor, 1, Qt::DotLine);
         painter->setPen(pen);
 
@@ -199,7 +199,7 @@ void QEXTWaveChart::drawBox(QPainter *painter)
             painter->drawLine(leftPoint, rightPoint);
         }
     }
-    if (d->m_vLineVisiable) {
+    if (d->m_vLineVisible) {
         QPen pen(d->m_textColor, 1, Qt::DotLine);
         painter->setPen(pen);
 
@@ -249,7 +249,7 @@ void QEXTWaveChart::drawText(QPainter *painter)
 void QEXTWaveChart::drawTitle(QPainter *painter)
 {
     Q_D(QEXTWaveChart);
-    if (!d->m_titleVisiable)
+    if (!d->m_titleVisible)
     {
         return;
     }
@@ -284,7 +284,7 @@ void QEXTWaveChart::drawPoint(QPainter *painter)
     double startX = d->m_plotAreaRect.topRight().x();
     QVector<QPointF> points;
 
-    if (d->m_pointBackgroundVisiable) {
+    if (d->m_pointBackgroundVisible) {
         points.push_back(QPointF(startX, d->m_plotAreaRect.bottomRight().y()));
     }
 
@@ -294,18 +294,18 @@ void QEXTWaveChart::drawPoint(QPainter *painter)
         startX -= d->m_xAxisStep;
     }
 
-    if (d->m_pointBackgroundVisiable) {
+    if (d->m_pointBackgroundVisible) {
         points.push_back(QPointF(startX, d->m_plotAreaRect.bottomRight().y()));
     }
 
-    if (d->m_pointBackgroundVisiable && points.count() <= 2) {
+    if (d->m_pointBackgroundVisible && points.count() <= 2) {
         painter->restore();
         return;
     }
 
     painter->setPen(d->m_pointColor);
 
-    if (d->m_pointBackgroundVisiable) {
+    if (d->m_pointBackgroundVisible) {
         painter->setBrush(QColor(d->m_pointColor.red(), d->m_pointColor.green(), d->m_pointColor.blue(), 150));
         if (!d->m_smooth) {
             painter->drawPolygon(QPolygonF(points));
@@ -322,7 +322,7 @@ void QEXTWaveChart::drawPoint(QPainter *painter)
         painter->drawPath(path);
     }
 
-    if (d->m_pointVisiable) {
+    if (d->m_pointVisible) {
         for (int i = 0; i < points.count(); i++) {
             QPointF dataPot = points.at(i);
             painter->setBrush(d->m_pointColor);
@@ -400,34 +400,34 @@ bool QEXTWaveChart::smoothEnable() const
     return d->m_smooth;
 }
 
-bool QEXTWaveChart::titleVisiable() const
+bool QEXTWaveChart::titleVisible() const
 {
     Q_D(const QEXTWaveChart);
-    return d->m_titleVisiable;
+    return d->m_titleVisible;
 }
 
-bool QEXTWaveChart::hLineVisiable() const
+bool QEXTWaveChart::hLineVisible() const
 {
     Q_D(const QEXTWaveChart);
-    return d->m_hLineVisiable;
+    return d->m_hLineVisible;
 }
 
-bool QEXTWaveChart::vLineVisiable() const
+bool QEXTWaveChart::vLineVisible() const
 {
     Q_D(const QEXTWaveChart);
-    return d->m_vLineVisiable;
+    return d->m_vLineVisible;
 }
 
-bool QEXTWaveChart::pointVisiable() const
+bool QEXTWaveChart::pointVisible() const
 {
     Q_D(const QEXTWaveChart);
-    return d->m_pointVisiable;
+    return d->m_pointVisible;
 }
 
-bool QEXTWaveChart::pointBackgroundVisiable() const
+bool QEXTWaveChart::pointBackgroundVisible() const
 {
     Q_D(const QEXTWaveChart);
-    return d->m_pointBackgroundVisiable;
+    return d->m_pointBackgroundVisible;
 }
 
 QColor QEXTWaveChart::backgroundStartColor() const
@@ -569,47 +569,47 @@ void QEXTWaveChart::setSmoothEnable(bool enable)
     }
 }
 
-void QEXTWaveChart::setTitleVisiable(bool visiable)
+void QEXTWaveChart::setTitleVisible(bool visiable)
 {
     Q_D(QEXTWaveChart);
-    if (d->m_titleVisiable != visiable) {
-        d->m_titleVisiable = visiable;
+    if (d->m_titleVisible != visiable) {
+        d->m_titleVisible = visiable;
         this->update();
     }
 }
 
-void QEXTWaveChart::setHLineVisiable(bool visiable)
+void QEXTWaveChart::setHLineVisible(bool visiable)
 {
     Q_D(QEXTWaveChart);
-    if (d->m_hLineVisiable != visiable) {
-        d->m_hLineVisiable = visiable;
+    if (d->m_hLineVisible != visiable) {
+        d->m_hLineVisible = visiable;
         this->update();
     }
 }
 
-void QEXTWaveChart::setVLineVisiable(bool visiable)
+void QEXTWaveChart::setVLineVisible(bool visiable)
 {
     Q_D(QEXTWaveChart);
-    if (d->m_vLineVisiable != visiable) {
-        d->m_vLineVisiable = visiable;
+    if (d->m_vLineVisible != visiable) {
+        d->m_vLineVisible = visiable;
         this->update();
     }
 }
 
-void QEXTWaveChart::setPointVisiable(bool visiable)
+void QEXTWaveChart::setPointVisible(bool visiable)
 {
     Q_D(QEXTWaveChart);
-    if (d->m_pointVisiable != visiable) {
-        d->m_pointVisiable = visiable;
+    if (d->m_pointVisible != visiable) {
+        d->m_pointVisible = visiable;
         this->update();
     }
 }
 
-void QEXTWaveChart::setPointBackgroundVisiable(bool visiable)
+void QEXTWaveChart::setPointBackgroundVisible(bool visiable)
 {
     Q_D(QEXTWaveChart);
-    if (d->m_pointBackgroundVisiable != visiable) {
-        d->m_pointBackgroundVisiable = visiable;
+    if (d->m_pointBackgroundVisible != visiable) {
+        d->m_pointBackgroundVisible = visiable;
         this->update();
     }
 }

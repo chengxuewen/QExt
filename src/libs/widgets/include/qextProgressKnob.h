@@ -56,8 +56,8 @@ class QEXT_WIDGETS_API QEXTProgressKnob : public QWidget
     Q_PROPERTY(QColor circleEndColor READ circleEndColor WRITE setCircleEndColor)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
 
-    Q_PROPERTY(bool pointerVisiable READ pointerVisiable WRITE setPointerVisiable)
-    Q_PROPERTY(bool valueVisiable READ valueVisiable WRITE setValueVisiable)
+    Q_PROPERTY(bool pointerVisible READ pointerVisible WRITE setPointerVisible)
+    Q_PROPERTY(bool valueVisible READ valueVisible WRITE setValueVisible)
     Q_PROPERTY(PointerStyle pointerStyle READ pointerStyle WRITE setPointerStyle)
 
 public:
@@ -87,8 +87,8 @@ public:
     QColor circleEndColor() const;
     QColor textColor() const;
 
-    bool pointerVisiable() const;
-    bool valueVisiable() const;
+    bool pointerVisible() const;
+    bool valueVisible() const;
     PointerStyle pointerStyle() const;
 
     QSize sizeHint() const;
@@ -119,8 +119,8 @@ public Q_SLOTS:
 
     void setTextColor(const QColor &color);
 
-    void setPointerVisiable(bool visiable);
-    void setValueVisiable(bool visiable);
+    void setPointerVisible(bool visiable);
+    void setValueVisible(bool visiable);
     void setPointerStyle(PointerStyle style);
 
 Q_SIGNALS:

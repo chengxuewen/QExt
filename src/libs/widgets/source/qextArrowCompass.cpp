@@ -30,7 +30,7 @@ QEXTArrowCompassPrivate::QEXTArrowCompassPrivate(QEXTArrowCompass *q)
     m_centerStartColor = QColor(230, 230, 230);
     m_centerEndColor = QColor(210, 210, 210);
 
-    m_animationVisiable = false;
+    m_animationVisible = false;
     m_currentValue = 0;
 }
 
@@ -295,7 +295,7 @@ int QEXTArrowCompass::precision() const
 bool QEXTArrowCompass::animationEnable() const
 {
     Q_D(const QEXTArrowCompass);
-    return d->m_animationVisiable;
+    return d->m_animationVisible;
 }
 
 int QEXTArrowCompass::animationDuration() const
@@ -412,7 +412,7 @@ void QEXTArrowCompass::setValue(double value)
     d->m_value = value;
     emit this->valueChanged(value);
 
-    if (!d->m_animationVisiable)
+    if (!d->m_animationVisible)
     {
         d->m_currentValue = d->m_value;
         this->update();
@@ -443,9 +443,9 @@ void QEXTArrowCompass::setPrecision(int precision)
 void QEXTArrowCompass::setAnimationEnable(bool enable)
 {
     Q_D(QEXTArrowCompass);
-    if (d->m_animationVisiable != enable)
+    if (d->m_animationVisible != enable)
     {
-        d->m_animationVisiable = enable;
+        d->m_animationVisible = enable;
         this->update();
     }
 }

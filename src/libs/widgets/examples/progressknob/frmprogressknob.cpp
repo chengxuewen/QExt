@@ -36,7 +36,7 @@ void FrmProgressKnob::on_ckShowPointer_stateChanged(int arg1)
     bool check = (arg1 != 0);
     int count = gauges.count();
     for (int i = 0; i < count; i++) {
-        gauges.at(i)->setPointerVisiable(check);
+        gauges.at(i)->setPointerVisible(check);
     }
 }
 
@@ -45,7 +45,7 @@ void FrmProgressKnob::on_ckShowValue_stateChanged(int arg1)
     bool check = (arg1 != 0);
     int count = gauges.count();
     for (int i = 0; i < count; i++) {
-        gauges.at(i)->setValueVisiable(check);
+        gauges.at(i)->setValueVisible(check);
     }
 }
 

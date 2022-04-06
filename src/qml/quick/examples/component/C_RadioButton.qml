@@ -46,7 +46,7 @@ Column{
             id:tb
             text: "Primary"
             textInLeft: true
-            backgroundVisiable: true
+            backgroundVisible: true
             backgroundBorderWidth: 1
             radioItem: radioFlatItem
             ButtonGroup.group: mBtnGroup2
@@ -66,7 +66,7 @@ Column{
             id:tb2
             text: "Success"
             textInLeft: true
-            backgroundVisiable: true
+            backgroundVisible: true
             backgroundBorderWidth: 1
             backgroundColor: "#F0F9EB"
             radioItem: radioFlatItem
@@ -86,7 +86,7 @@ Column{
             id:tb3
             text: "Warning"
             textInLeft: true
-            backgroundVisiable: true
+            backgroundVisible: true
             backgroundBorderWidth: 1
             backgroundColor: "#FDF6ED"
             radioItem: radioFlatItem
@@ -106,7 +106,7 @@ Column{
             id:tb4
             text: "Danger"
             textInLeft: true
-            backgroundVisiable: true
+            backgroundVisible: true
             backgroundBorderWidth: 1
             backgroundColor: "#FEF0F0"
             radioItem: radioFlatItem

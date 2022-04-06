@@ -16,8 +16,8 @@ frmRangeSlider::~frmRangeSlider()
 
 void frmRangeSlider::initForm()
 {
-    ui->sliderRange3->setTextVisiable(true);
-    ui->sliderRange4->setTextVisiable(true);
+    ui->sliderRange3->setTextVisible(true);
+    ui->sliderRange4->setTextVisible(true);
     ui->sliderRange3->setSliderStyle(QEXTRangeSlider::SliderStyle_Circle);
     ui->sliderRange4->setSliderStyle(QEXTRangeSlider::SliderStyle_Circle);
 

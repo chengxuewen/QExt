@@ -35,7 +35,7 @@ QEXTCircleGaugePrivate::QEXTCircleGaugePrivate(QEXTCircleGauge *q)
     m_centerCircleColor = QColor(250, 250, 250);
     m_textColor = QColor(0, 0, 0);
 
-    m_overlayVisiable = true;
+    m_overlayVisible = true;
     m_overlayColor = QColor(255, 255, 255, 60);
 
     m_circleWidth = 15;
@@ -390,7 +390,7 @@ void QEXTCircleGauge::drawValue(QPainter *painter)
 void QEXTCircleGauge::drawOverlay(QPainter *painter)
 {
     Q_D(QEXTCircleGauge);
-    if (!d->m_overlayVisiable)
+    if (!d->m_overlayVisible)
     {
         return;
     }
@@ -558,10 +558,10 @@ QColor QEXTCircleGauge::textColor() const
     return d->m_textColor;
 }
 
-bool QEXTCircleGauge::overlayVisiable() const
+bool QEXTCircleGauge::overlayVisible() const
 {
     Q_D(const QEXTCircleGauge);
-    return d->m_overlayVisiable;
+    return d->m_overlayVisible;
 }
 
 QColor QEXTCircleGauge::overlayColor() const
@@ -854,12 +854,12 @@ void QEXTCircleGauge::setTextColor(const QColor &color)
     }
 }
 
-void QEXTCircleGauge::setOverlayVisiable(bool visiable)
+void QEXTCircleGauge::setOverlayVisible(bool visiable)
 {
     Q_D(QEXTCircleGauge);
-    if (d->m_overlayVisiable != visiable)
+    if (d->m_overlayVisible != visiable)
     {
-        d->m_overlayVisiable = visiable;
+        d->m_overlayVisible = visiable;
         update();
     }
 }

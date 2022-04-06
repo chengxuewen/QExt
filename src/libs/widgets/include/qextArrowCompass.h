@@ -43,7 +43,7 @@ class QEXT_WIDGETS_API QEXTArrowCompass : public QWidget
     Q_PROPERTY(double value READ value WRITE setValue)
     Q_PROPERTY(int precision READ precision WRITE setPrecision)
 
-    Q_PROPERTY(bool animationVisiable READ animationEnable WRITE setAnimationEnable)
+    Q_PROPERTY(bool animationVisible READ animationEnable WRITE setAnimationEnable)
     Q_PROPERTY(int animationDuration READ animationDuration WRITE setAnimationDuration)
     Q_PROPERTY(QEasingCurve::Type animationEasingCurve READ animationEasingCurve WRITE setAnimationEasingCurve)
 

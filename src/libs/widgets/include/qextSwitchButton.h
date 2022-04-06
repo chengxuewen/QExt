@@ -42,8 +42,8 @@ class QEXT_WIDGETS_API QEXTSwitchButton : public QWidget
     Q_PROPERTY(int space READ space WRITE setSpace)
     Q_PROPERTY(int rectRadius READ rectRadius WRITE setRectRadius)
     Q_PROPERTY(bool checked READ checked WRITE setChecked)
-    Q_PROPERTY(bool isTextVisiable READ isTextVisiable WRITE setTextVisiable)
-    Q_PROPERTY(bool isCircleVisiable READ isCircleVisiable WRITE setCircleVisiable)
+    Q_PROPERTY(bool isTextVisible READ isTextVisible WRITE setTextVisible)
+    Q_PROPERTY(bool isCircleVisible READ isCircleVisible WRITE setCircleVisible)
     Q_PROPERTY(bool isAnimationEnable READ isAnimationEnable WRITE setAnimationEnable)
     Q_PROPERTY(Style styleType READ styleType WRITE setStyleType)
 
@@ -72,8 +72,8 @@ public:
     int space() const;
     int rectRadius() const;
     bool checked() const;
-    bool isTextVisiable() const;
-    bool isCircleVisiable() const;
+    bool isTextVisible() const;
+    bool isCircleVisible() const;
     bool isAnimationEnable() const;
 
     Style styleType() const;
@@ -101,9 +101,9 @@ public Q_SLOTS:
 
     void setChecked(bool checked);
 
-    void setTextVisiable(bool visiable);
+    void setTextVisible(bool visiable);
 
-    void setCircleVisiable(bool visiable);
+    void setCircleVisible(bool visiable);
 
     void setAnimationEnable(bool enable);
 

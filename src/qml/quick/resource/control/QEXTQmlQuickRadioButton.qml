@@ -23,7 +23,7 @@ RadioButton {
     property int textElide: Text.ElideRight
 
     property color backgroundColor: "#FFFFFF"
-    property bool backgroundVisiable: false
+    property bool backgroundVisible: false
     property real backgroundOpacity: qextRadioButton.enabled ? 1 : 0.3
     property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
     property real backgroundBorderWidth: 0
@@ -66,7 +66,7 @@ RadioButton {
     background: Rectangle {
         anchors.fill: parent
         color: qextRadioButton.backgroundColor
-        visible: qextRadioButton.backgroundVisiable
+        visible: qextRadioButton.backgroundVisible
         opacity: qextRadioButton.backgroundOpacity
         border.color: qextRadioButton.backgroundBorderColor
         border.width: qextRadioButton.backgroundBorderWidth

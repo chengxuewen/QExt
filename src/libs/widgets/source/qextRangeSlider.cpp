@@ -18,7 +18,7 @@ QEXTRangeSliderPrivate::QEXTRangeSliderPrivate(QEXTRangeSlider *q)
 
     m_borderWidth = 3;
     m_horizontal = true;
-    m_textVisiable = false;
+    m_textVisible = false;
 
     m_usedColor = QColor(24, 189, 155);
     m_freeColor = QColor(70, 70, 70);
@@ -223,7 +223,7 @@ void QEXTRangeSlider::drawSliderCircle(QPainter *painter)
 void QEXTRangeSlider::drawValue(QPainter *painter)
 {
     Q_D(QEXTRangeSlider);
-    if (!d->m_textVisiable) {
+    if (!d->m_textVisible) {
         return;
     }
 
@@ -278,10 +278,10 @@ bool QEXTRangeSlider::horizontal() const
     return d->m_horizontal;
 }
 
-bool QEXTRangeSlider::isTextVisiable() const
+bool QEXTRangeSlider::isTextVisible() const
 {
     Q_D(const QEXTRangeSlider);
-    return d->m_textVisiable;
+    return d->m_textVisible;
 }
 
 QColor QEXTRangeSlider::usedColor() const
@@ -433,11 +433,11 @@ void QEXTRangeSlider::setHorizontal(bool horizontal)
     }
 }
 
-void QEXTRangeSlider::setTextVisiable(bool visiable)
+void QEXTRangeSlider::setTextVisible(bool visiable)
 {
     Q_D(QEXTRangeSlider);
-    if (d->m_textVisiable != visiable) {
-        d->m_textVisiable = visiable;
+    if (d->m_textVisible != visiable) {
+        d->m_textVisible = visiable;
         this->update();
     }
 }

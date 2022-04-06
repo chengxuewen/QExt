@@ -265,7 +265,7 @@ bool QEXTProgressRing::clockWise() const
     return d->m_clockWise;
 }
 
-bool QEXTProgressRing::percentVisiable() const
+bool QEXTProgressRing::percentVisible() const
 {
     Q_D(const QEXTProgressRing);
     return d->m_showPercent;
@@ -503,7 +503,7 @@ void QEXTProgressRing::setClockWise(bool clockWise)
     }
 }
 
-void QEXTProgressRing::setPercentVisiable(bool visiable)
+void QEXTProgressRing::setPercentVisible(bool visiable)
 {
     Q_D(QEXTProgressRing);
     if (d->m_showPercent != visiable)

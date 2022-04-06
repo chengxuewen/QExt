@@ -100,10 +100,10 @@ void FrmNavigationListView::onItemPressed(QEXTNavigationListItem *item)
 
 //        item->setEnable(false);
 //        item->parentItem()->setEnable(false);
-//                item->setVisiable(false);
+//                item->setVisible(false);
 //        item->setChecked(false);
 
-//        item->parentItem()->setVisiable(true);
+//        item->parentItem()->setVisible(true);
     } else {
 //        item->setEnable(false);
 //        QList<QEXTNavigationListItem *> childItems = item->childItems();
@@ -116,7 +116,7 @@ void FrmNavigationListView::onItemPressed(QEXTNavigationListItem *item)
 //        {
 //            QList<QEXTNavigationListItem *>::iterator iter;
 //            for (iter = m_parentItems.begin(); iter != m_parentItems.end(); ++iter) {
-//                (*iter)->setVisiable(true);
+//                (*iter)->setVisible(true);
 //            }
 //        }
     }

@@ -47,10 +47,10 @@ class QEXT_WIDGETS_API QEXTWaveChart : public QWidget
     Q_PROPERTY(double space READ space WRITE setSpace)
     Q_PROPERTY(QString title READ title WRITE setTitle)
     Q_PROPERTY(bool smoothEnable READ smoothEnable WRITE setSmoothEnable)
-    Q_PROPERTY(bool hLineVisiable READ hLineVisiable WRITE setHLineVisiable)
-    Q_PROPERTY(bool vLineVisiable READ vLineVisiable WRITE setVLineVisiable)
-    Q_PROPERTY(bool pointVisiable READ pointVisiable WRITE setPointVisiable)
-    Q_PROPERTY(bool pointBackgroundVisiable READ pointBackgroundVisiable WRITE setPointBackgroundVisiable)
+    Q_PROPERTY(bool hLineVisible READ hLineVisible WRITE setHLineVisible)
+    Q_PROPERTY(bool vLineVisible READ vLineVisible WRITE setVLineVisible)
+    Q_PROPERTY(bool pointVisible READ pointVisible WRITE setPointVisible)
+    Q_PROPERTY(bool pointBackgroundVisible READ pointBackgroundVisible WRITE setPointBackgroundVisible)
 
     Q_PROPERTY(QColor backgroundStartColor READ backgroundStartColor WRITE setBackgroundStartColor)
     Q_PROPERTY(QColor backgroundEndColor READ backgroundEndColor WRITE setBackgroundEndColor)
@@ -71,11 +71,11 @@ public:
     double space() const;
     QString title() const;
     bool smoothEnable() const;
-    bool titleVisiable() const;
-    bool hLineVisiable() const;
-    bool vLineVisiable() const;
-    bool pointVisiable() const;
-    bool pointBackgroundVisiable() const;
+    bool titleVisible() const;
+    bool hLineVisible() const;
+    bool vLineVisible() const;
+    bool pointVisible() const;
+    bool pointBackgroundVisible() const;
 
     QColor backgroundStartColor() const;
     QColor backgroundEndColor() const;
@@ -100,11 +100,11 @@ public Q_SLOTS:
     void setSpace(double space);
     void setTitle(const QString &title);
     void setSmoothEnable(bool enable);
-    void setTitleVisiable(bool visiable);
-    void setHLineVisiable(bool visiable);
-    void setVLineVisiable(bool visiable);
-    void setPointVisiable(bool visiable);
-    void setPointBackgroundVisiable(bool visiable);
+    void setTitleVisible(bool visiable);
+    void setHLineVisible(bool visiable);
+    void setVLineVisible(bool visiable);
+    void setPointVisible(bool visiable);
+    void setPointBackgroundVisible(bool visiable);
 
     void setBackgroundStartColor(const QColor &color);
     void setBackgroundEndColor(const QColor &color);

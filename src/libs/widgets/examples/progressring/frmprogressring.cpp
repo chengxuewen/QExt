@@ -17,12 +17,12 @@ frmProgressRing::~frmProgressRing()
 void frmProgressRing::initForm()
 {
     ui->progressRing2->setRingColor(QColor(71, 164, 233));
-    ui->progressRing2->setPercentVisiable(true);
+    ui->progressRing2->setPercentVisible(true);
     ui->progressRing2->setRingPadding(8);
     ui->progressRing2->setRingWidth(30);
 
     ui->progressRing3->setRingColor(QColor(214, 77, 84));
-    ui->progressRing3->setPercentVisiable(true);
+    ui->progressRing3->setPercentVisible(true);
     ui->progressRing3->setRingPadding(0);
     ui->progressRing3->setRingWidth(5);
 
@@ -32,12 +32,12 @@ void frmProgressRing::initForm()
     ui->progressRing5->setBackgroundColor(QColor(255, 255, 255));
     ui->progressRing5->setRingColor(QColor(77, 206, 247));
     ui->progressRing5->setRingBgColor(QColor(214, 77, 84));
-    ui->progressRing5->setPercentVisiable(true);
+    ui->progressRing5->setPercentVisible(true);
     ui->progressRing5->setRingPadding(8);
     ui->progressRing5->setRingWidth(30);
 
     ui->progressRing6->setCircleColor(QColor(0, 0, 0, 0));
-    ui->progressRing6->setPercentVisiable(true);
+    ui->progressRing6->setPercentVisible(true);
     ui->progressRing6->setRingPadding(0);
     ui->progressRing6->setRingWidth(5);
 

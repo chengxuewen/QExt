@@ -25,7 +25,7 @@ public:
     bool m_animation;
     double m_animationStep;
 
-    bool m_userValueVisiable;
+    bool m_userValueVisible;
     double m_userValue;
     QColor m_userValueColor;
 

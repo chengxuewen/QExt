@@ -187,7 +187,7 @@ Column {
                 QEXTQmlQuickDialogButton {
                     text: "Cancel"
                     textFont.pixelSize: QEXTQmlQuick.PH5
-                    //                    backgroundVisiable: true
+                    //                    backgroundVisible: true
                 },
                 QEXTQmlQuickDialogButton {
                     text: "OK"
@@ -253,13 +253,13 @@ Column {
                 QEXTQmlQuickDialogButton {
                     text: "Cancel"
                     textFont.pixelSize: QEXTQmlQuick.PH5
-                    //                    backgroundVisiable: true
+                    //                    backgroundVisible: true
                 },
                 QEXTQmlQuickDialogButton {
                     text: "OK"
                     textFont.bold: true
                     textFont.pixelSize: QEXTQmlQuick.PH5
-                    //                backgroundVisiable: true
+                    //                backgroundVisible: true
                     textColor: "#46A0FC"
                     lighter: true
                 },
@@ -268,7 +268,7 @@ Column {
                     text: "OK"
                     textFont.bold: true
                     textFont.pixelSize: QEXTQmlQuick.PH5
-                    //                backgroundVisiable: true
+                    //                backgroundVisible: true
                     textColor: "#46A0FC"
                     lighter: true
                 },
@@ -277,7 +277,7 @@ Column {
                     text: "OK"
                     textFont.bold: true
                     textFont.pixelSize: QEXTQmlQuick.PH5
-                    backgroundVisiable: true
+                    backgroundVisible: true
                     textColor: "#46A0FC"
                     lighter: true
                 }

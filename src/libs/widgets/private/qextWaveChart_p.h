@@ -42,11 +42,11 @@ public:
     double m_space;
     QString m_title;
     bool m_smooth;
-    bool m_titleVisiable;
-    bool m_hLineVisiable;
-    bool m_vLineVisiable;
-    bool m_pointVisiable;
-    bool m_pointBackgroundVisiable;
+    bool m_titleVisible;
+    bool m_hLineVisible;
+    bool m_vLineVisible;
+    bool m_pointVisible;
+    bool m_pointBackgroundVisible;
 
     QColor m_backgroundStartColor;
     QColor m_backgroundEndColor;

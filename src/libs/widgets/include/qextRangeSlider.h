@@ -46,7 +46,7 @@ class QEXT_WIDGETS_API QEXTRangeSlider : public QWidget
 
     Q_PROPERTY(int borderWidth READ borderWidth WRITE setBorderWidth)
     Q_PROPERTY(bool horizontal READ horizontal WRITE setHorizontal)
-    Q_PROPERTY(bool isTextVisiable READ isTextVisiable WRITE setTextVisiable)
+    Q_PROPERTY(bool isTextVisible READ isTextVisible WRITE setTextVisible)
 
     Q_PROPERTY(QColor usedColor READ usedColor WRITE setUsedColor)
     Q_PROPERTY(QColor freeColor READ freeColor WRITE setFreeColor)
@@ -102,7 +102,7 @@ public:
 
     int borderWidth() const;
     bool horizontal() const;
-    bool isTextVisiable() const;
+    bool isTextVisible() const;
 
     QColor usedColor() const;
     QColor freeColor() const;
@@ -135,7 +135,7 @@ public Q_SLOTS:
 
     void setHorizontal(bool horizontal);
 
-    void setTextVisiable(bool visiable);
+    void setTextVisible(bool visiable);
 
     void setUsedColor(const QColor &color);
 

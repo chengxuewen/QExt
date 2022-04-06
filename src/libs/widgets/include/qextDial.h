@@ -53,7 +53,7 @@ class QEXT_WIDGETS_API QEXTDial : public QWidget
     Q_PROPERTY(QColor lightColor READ lightColor WRITE setLightColor)
     Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor)
 
-    Q_PROPERTY(bool valueVisiable READ valueVisiable WRITE setShowValue)
+    Q_PROPERTY(bool valueVisible READ valueVisible WRITE setShowValue)
     Q_PROPERTY(PointerStyleType pointerStyle READ pointerStyle WRITE setPointerStyle)
 
 public:
@@ -83,7 +83,7 @@ public:
     QColor lightColor() const;
     QColor textColor() const;
 
-    bool valueVisiable() const;
+    bool valueVisible() const;
     PointerStyleType pointerStyle() const;
 
     QSize sizeHint() const;

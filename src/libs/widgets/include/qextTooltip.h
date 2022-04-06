@@ -43,11 +43,11 @@ class QEXT_WIDGETS_API QEXTTooltip : public QLabel
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(QColor foregroundColor READ foregroundColor WRITE setForegroundColor)
 
-    Q_PROPERTY(bool arrowVisiable READ arrowVisiable WRITE setArrowVisiable)
+    Q_PROPERTY(bool arrowVisible READ arrowVisible WRITE setArrowVisible)
     Q_PROPERTY(int arrowSize READ arrowSize WRITE setArrowSize)
     Q_PROPERTY(ArrowPositionType arrowPosition READ arrowPosition WRITE setArrowPosition)
 
-    Q_PROPERTY(bool triangleVisiable READ triangleVisiable WRITE setTriangleVisiable)
+    Q_PROPERTY(bool triangleVisible READ triangleVisible WRITE setTriangleVisible)
     Q_PROPERTY(int triangleLen READ triangleLen WRITE setTriangleLen)
     Q_PROPERTY(TrianglePositionType trianglePosition READ trianglePosition WRITE setTrianglePosition)
     Q_PROPERTY(QColor triangleColor READ triangleColor WRITE setTriangleColor)
@@ -78,11 +78,11 @@ public:
     QColor backgroundColor() const;
     QColor foregroundColor() const;
 
-    bool arrowVisiable() const;
+    bool arrowVisible() const;
     int arrowSize() const;
     ArrowPositionType arrowPosition() const;
 
-    bool triangleVisiable() const;
+    bool triangleVisible() const;
     int triangleLen() const;
     TrianglePositionType trianglePosition() const;
     QColor triangleColor() const;
@@ -97,13 +97,13 @@ public Q_SLOTS:
 
     void setForegroundColor(const QColor &color);
 
-    void setArrowVisiable(bool visiable);
+    void setArrowVisible(bool visiable);
 
     void setArrowSize(int size);
 
     void setArrowPosition(const ArrowPositionType &position);
 
-    void setTriangleVisiable(bool visiable);
+    void setTriangleVisible(bool visiable);
 
     void setTriangleLen(int len);
 

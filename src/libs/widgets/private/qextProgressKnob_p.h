@@ -29,8 +29,8 @@ public:
     QColor m_circleEndColor;
     QColor m_textColor;
 
-    bool m_pointerVisiable;
-    bool m_valueVisiable;
+    bool m_pointerVisible;
+    bool m_valueVisible;
     QEXTProgressKnob::PointerStyle m_pointerStyle;
 
     bool m_pressed;

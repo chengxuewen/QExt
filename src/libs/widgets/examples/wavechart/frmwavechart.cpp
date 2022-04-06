@@ -28,12 +28,12 @@ void frmWaveChart::initForm()
     ui->waveChart2->setSpace(30);
     ui->waveChart2->setPointColor(QColor(255, 107, 107));
     ui->waveChart2->setTitle("简单曲线图示例 2");
-    ui->waveChart2->setPointVisiable(false);
+    ui->waveChart2->setPointVisible(false);
     ui->waveChart2->setSmoothEnable(true);
     ui->waveChart2->setYAxisStep(20);
     ui->waveChart2->setXAxisStep(1);
     ui->waveChart2->setVLineStep(30);
-    ui->waveChart2->setHLineVisiable(false);
+    ui->waveChart2->setHLineVisible(false);
 
     QTime t = QTime::currentTime();
     qsrand(t.msec() + t.second() * 1000);
@@ -64,22 +64,22 @@ void frmWaveChart::on_ckSmooth_stateChanged(int arg1)
 void frmWaveChart::on_ckShowHLine_stateChanged(int arg1)
 {
     bool show = (arg1 != 0);
-    ui->waveChart1->setHLineVisiable(show);
-    ui->waveChart2->setHLineVisiable(show);
+    ui->waveChart1->setHLineVisible(show);
+    ui->waveChart2->setHLineVisible(show);
 }
 
 void frmWaveChart::on_ckShowPoint_stateChanged(int arg1)
 {
     bool show = (arg1 != 0);
-    ui->waveChart1->setPointVisiable(show);
-    ui->waveChart2->setPointVisiable(show);
+    ui->waveChart1->setPointVisible(show);
+    ui->waveChart2->setPointVisible(show);
 }
 
 void frmWaveChart::on_ckShowPointBg_stateChanged(int arg1)
 {
     bool show = (arg1 != 0);
-    ui->waveChart1->setPointBackgroundVisiable(show);
-    ui->waveChart2->setPointBackgroundVisiable(show);
+    ui->waveChart1->setPointBackgroundVisible(show);
+    ui->waveChart2->setPointBackgroundVisible(show);
 }
 
 void frmWaveChart::on_btnSetData_clicked()

@@ -23,7 +23,7 @@ CheckBox {
     property real textSpacing: 5
 
     property color backgroundColor: "#FFFFFF"
-    property bool backgroundVisiable: true
+    property bool backgroundVisible: true
     property real backgroundOpacity: qextCheckBox.enabled ? 1 : 0.3
     property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
     property real backgroundBorderWidth: 0
@@ -74,7 +74,7 @@ CheckBox {
     background: Rectangle {
         anchors.fill: parent
         color: qextCheckBox.backgroundColor
-        visible: qextCheckBox.backgroundVisiable
+        visible: qextCheckBox.backgroundVisible
         opacity: qextCheckBox.backgroundOpacity
         border.color: qextCheckBox.backgroundBorderColor
         border.width: qextCheckBox.backgroundBorderWidth

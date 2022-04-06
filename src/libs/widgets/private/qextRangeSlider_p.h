@@ -20,7 +20,7 @@ public:
 
     int m_borderWidth;
     bool m_horizontal;
-    bool m_textVisiable;
+    bool m_textVisible;
 
     QColor m_usedColor;
     QColor m_freeColor;

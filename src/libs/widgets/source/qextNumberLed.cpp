@@ -19,8 +19,8 @@ QEXTNumberLedPrivate::QEXTNumberLedPrivate(QEXTNumberLed *q)
 
     m_symbol = QEXTNumberLed::Symbol_None;
 
-    m_dotVisiable = false;
-    m_colonVisiable = false;
+    m_dotVisible = false;
+    m_colonVisible = false;
 }
 
 QEXTNumberLedPrivate::~QEXTNumberLedPrivate()

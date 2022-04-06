@@ -54,7 +54,7 @@ class QEXT_WIDGETS_API QEXTScaleKnob : public QWidget
     Q_PROPERTY(QColor percentColor READ percentColor WRITE setPercentColor)
 
     Q_PROPERTY(bool isRangeBisectionEnable READ isRangeBisectionEnable WRITE setRangeBisectionEnable)
-    Q_PROPERTY(bool isValueVisiable READ isValueVisiable WRITE setValueVisiable)
+    Q_PROPERTY(bool isValueVisible READ isValueVisible WRITE setValueVisible)
     Q_PROPERTY(PointerStyle pointerStyle READ pointerStyle WRITE setPointerStyle)
 
 public:
@@ -85,7 +85,7 @@ public:
     QColor percentColor() const;
 
     bool isRangeBisectionEnable() const;
-    bool isValueVisiable() const;
+    bool isValueVisible() const;
     PointerStyle pointerStyle() const;
 
     QSize sizeHint() const;
@@ -119,7 +119,7 @@ public Q_SLOTS:
 
     void setRangeBisectionEnable(bool enable);
 
-    void setValueVisiable(bool visiable);
+    void setValueVisible(bool visiable);
 
     void setPointerStyle(const PointerStyle &style);
 
