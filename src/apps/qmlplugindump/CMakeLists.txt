@@ -57,10 +57,12 @@ if(QEXT_QT_VERSION_MAJOR GREATER 4)
         Qt${QEXT_QT_VERSION_MAJOR}::Network
         Qt${QEXT_QT_VERSION_MAJOR}::Qml
         Qt${QEXT_QT_VERSION_MAJOR}::Quick
-        Qt${QEXT_QT_VERSION_MAJOR}::QuickControls2
-        )
+    )
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
+endif()
+if(QEXT_QT_VERSION VERSION_GREATER_EQUAL 5.12)
+    list(APPEND QEXT_APP_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::QuickControls2)
 endif()
 
 include_directories(${Qt${QT_VERSION_MAJOR}Core_PRIVATE_INCLUDE_DIRS})
@@ -79,26 +81,26 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 5)
             qt509/qmltypereader.h
             qt509/qmltypereader.cpp
             qt509/main.cpp
-            )
-    elseif(QEXT_QT_VERSION_MINOR EQUAL 12)
-        list(APPEND QEXT_APP_SOURCES
-            qt512/qmlstreamwriter.h
-            qt512/qmlstreamwriter.cpp
-            qt512/qmltypereader.h
-            qt512/qmltypereader.cpp
-            qt512/main.cpp
-            )
-    elseif(QEXT_QT_VERSION_MINOR EQUAL 15)
-        list(APPEND QEXT_APP_SOURCES
-            qt515/qmlstreamwriter.h
-            qt515/qmlstreamwriter.cpp
-            qt515/qmltypereader.h
-            qt515/qmltypereader.cpp
-            qt515/main.cpp
-            )
-    else()
-        message(FATAL_ERROR "----QEXT---- qmlplugindump unknown version")
-    endif()
+        )
+elseif(QEXT_QT_VERSION_MINOR EQUAL 12)
+    list(APPEND QEXT_APP_SOURCES
+        qt512/qmlstreamwriter.h
+        qt512/qmlstreamwriter.cpp
+        qt512/qmltypereader.h
+        qt512/qmltypereader.cpp
+        qt512/main.cpp
+    )
+elseif(QEXT_QT_VERSION_MINOR EQUAL 15)
+    list(APPEND QEXT_APP_SOURCES
+        qt515/qmlstreamwriter.h
+        qt515/qmlstreamwriter.cpp
+        qt515/qmltypereader.h
+        qt515/qmltypereader.cpp
+        qt515/main.cpp
+    )
+else()
+    message(FATAL_ERROR "----QEXT---- qmlplugindump unknown version")
+endif()
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     if(QEXT_QT_VERSION_MINOR EQUAL 2)
         list(APPEND QEXT_APP_SOURCES
@@ -107,10 +109,10 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
             qt602/qqmljsstreamwriter_p.h
             qt602/qqmljsstreamwriter.cpp
             qt602/main.cpp
-            )
-    else()
-        message(FATAL_ERROR "----QEXT---- qmlplugindump unknown version")
-    endif()
+        )
+else()
+    message(FATAL_ERROR "----QEXT---- qmlplugindump unknown version")
+endif()
 else()
     message(FATAL_ERROR "----QEXT---- Not find Qt package")
 endif()
@@ -137,11 +139,11 @@ target_include_directories(${QEXT_APP_BASE_NAME} PUBLIC
     $<BUILD_INTERFACE:${QEXT_CONFIG_HPP_FILE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
-    )
+)
 # set target properties
 set_target_properties(${QEXT_APP_BASE_NAME} PROPERTIES
     CXX_STANDARD ${QEXT_CXX_STANDARD}
-    )
+)
 # copy dependency libs
 if(WIN32)
     if(CMAKE_BUILD_TYPE MATCHES Release)
@@ -160,6 +162,6 @@ if(WIN32)
             COMMAND ${CMAKE_COMMAND} -E copy_directory ${QEXT_QT_KIT_DIR}/plugins/platforms ${EXECUTABLE_OUTPUT_PATH}/platforms
             COMMENT "Run windeployqt to deploy ${QEXT_APP_BASE_NAME}"
             POST_BUILDT
-            )
-    endif()
+        )
+endif()
 endif()
