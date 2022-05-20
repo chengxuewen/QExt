@@ -26,6 +26,7 @@
 
 
 set(QEXT_QTIFW_SEARCH_SUB_PATHS "")
+set(QEXT_QTIFW_SEARCH_SUB_DIRS "")
 set(_SEARCH_ROOT_PATHS "")
 macro(_findSubDirs)
     set(root_path ${_SEARCH_ROOT_PATHS})
@@ -33,8 +34,7 @@ macro(_findSubDirs)
     list(APPEND QEXT_QTIFW_SEARCH_SUB_PATHS ${root_path})
     foreach(child ${children})
         if(IS_DIRECTORY ${root_path}/${child})
-            set(_SEARCH_ROOT_PATHS ${root_path}/${child})
-            _findSubDirs()
+            list(APPEND QEXT_QTIFW_SEARCH_SUB_PATHS ${root_path}/${child})
         endif()
     endforeach()
 endmacro(_findSubDirs)
