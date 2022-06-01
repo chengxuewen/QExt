@@ -50,11 +50,6 @@ if(QEXT_BUILD_LIB_ICONFONT)
     add_subdirectory(iconfont)
 endif()
 
-if(QEXT_BUILD_LIB_MVVM)
-    message(STATUS "----QEXT---- Build mvvm lib.")
-    add_subdirectory(mvvm)
-endif()
-
 if(QEXT_BUILD_LIB_SERIALPORT)
     message(STATUS "----QEXT---- Build serialport lib.")
     add_subdirectory(serialport)

@@ -38,7 +38,7 @@
 # This file defines the following variables:
 #
 # QMLPLUGINDUMP_FOUND - system has qmlplugindump
-# QMLPLUGINDUMP_EXECUTABLE - QEXTMvvmPath to qmlplugindump executable
+# QMLPLUGINDUMP_EXECUTABLE - Path to qmlplugindump executable
 #
 # Also defines MACRO to create qmltypes file, when QML directory is supplied
 #

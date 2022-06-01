@@ -37,7 +37,7 @@ public:
         Invalid = -1,
 
         //! Draw a QPainterPath
-        QEXTMvvmPath,
+        Path,
 
         //! Draw a QPixmap
         Pixmap,
