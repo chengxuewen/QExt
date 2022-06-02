@@ -17,7 +17,7 @@ QwtPainterCommand::QwtPainterCommand():
 
 //! Copy constructor
 QwtPainterCommand::QwtPainterCommand( const QPainterPath &path ):
-    d_type( QEXTMvvmPath )
+    d_type( Path )
 {
     d_path = new QPainterPath( path );
 }
@@ -156,7 +156,7 @@ void QwtPainterCommand::copy( const QwtPainterCommand &other )
 
     switch( other.d_type )
     {
-        case QEXTMvvmPath:
+        case Path:
         {
             d_path = new QPainterPath( *other.d_path );
             break;
@@ -185,7 +185,7 @@ void QwtPainterCommand::reset()
 {
     switch( d_type )
     {
-        case QEXTMvvmPath:
+        case Path:
         {
             delete d_path;
             break;

@@ -71,7 +71,7 @@ static inline void qwtExecCommand(
 {
     switch( cmd.type() )
     {
-        case QwtPainterCommand::QEXTMvvmPath:
+        case QwtPainterCommand::Path:
         {
             bool doMap = false;
 
