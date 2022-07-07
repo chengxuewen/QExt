@@ -3,6 +3,7 @@ import QtQml 2.12
 
 Rectangle {
     id: qextRoundRectangle
+    layer.enabled: true
     property int radiusCorners: Qt.AlignLeft | Qt.AlignRight | Qt.AlignTop | Qt.AlignBottom /* Default: */
     /*
                             Qt.AlignLeft |      Qt.AlignLeft |      Qt.AlignRight |     Qt.AlignLeft |      Qt.AlignLeft |
