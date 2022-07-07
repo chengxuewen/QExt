@@ -76,6 +76,7 @@ set(QEXT_LIB_PUBLIC_HEADERS
     include/qextScaleKnob.h
     include/qextLed.h
     include/qextOvenTimer.h
+    include/qextHidableTabWidget.h
     include/qextWidgetGlobal.h
     include/qextWidgetPch.h
     )
@@ -117,6 +118,7 @@ set(QEXT_LIB_PRIVATE_HEADERS
     private/qextProgressButton_p.h
     private/qextProgressPie_p.h
     private/qextProgressWait_p.h
+    private/qextHidableTabWidget_p.h
     private/qextRangeSlider_p.h
     private/qextRulerSlider_p.h
     private/qextThermometer_p.h
@@ -161,6 +163,7 @@ set(QEXT_LIB_SOURCES
     source/qextRingCompass.cpp
     source/qextProgressKnob.cpp
     source/qextScaleKnob.cpp
+    source/qextHidableTabWidget.cpp
     source/qextLed.cpp
     source/qextOvenTimer.cpp
     )
