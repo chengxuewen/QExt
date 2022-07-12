@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQml 2.12
 import QEXTQmlQuick 1.0
 
 Column {
@@ -123,5 +124,10 @@ Column {
     Label{
         text: "( Theme! For real effects, please click to show)"
         anchors.horizontalCenter: parent.horizontalCenter
+    }
+
+    Component.onCompleted: {
+        QEXTQmlQuickToast.horizontalAlignment = Qt.AlignRight
+        QEXTQmlQuickToast.verticalAlignment = Qt.AlignBottom
     }
 }

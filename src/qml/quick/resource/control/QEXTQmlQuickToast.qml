@@ -16,7 +16,12 @@ import QEXTQmlQuick 1.0
 QEXTQmlQuickObject {
     id: qextToast
 
-    property int layoutY: 75
+    property int horizontalAlignment: Qt.AlignHCenter
+    property int verticalAlignment: Qt.AlignTop
+    property real leftPadding: 10
+    property real topPadding: 10
+    property real rightPadding: 10
+    property real bottomPadding: 10
 
     function showSuccess(text, duration, moremsg) {
         mControl.create(mControl.const_success, text, duration, moremsg ? moremsg : "")
@@ -76,7 +81,6 @@ QEXTQmlQuickObject {
         function initScreenLayout() {
             if (screenLayout == null) {
                 screenLayout = screenlayoutComponent.createObject(rootWindow)
-                screenLayout.y = qextToast.layoutY
                 screenLayout.z = Number.MAX_VALUE
             }
         }
@@ -94,6 +98,21 @@ QEXTQmlQuickObject {
                     }
                 }
 
+                property real parentHeight: parent.height
+
+
+                Component.onCompleted: {
+                    updatePos()
+                }
+
+                onParentHeightChanged: {
+                    updatePos()
+                }
+
+                onHeightChanged: {
+                    updatePos()
+                }
+
                 onChildrenChanged: {
                     if (children.length === 0)  {
                         destroy()
@@ -104,6 +123,20 @@ QEXTQmlQuickObject {
                         return children[children.length - 1]
                     }
                     return null
+                }
+                function updatePos() {
+                    switch (qextToast.verticalAlignment) {
+                    case Qt.AlignVCenter:
+                        y = (parentHeight - height) / 2
+                        break
+                    case Qt.AlignBottom:
+                        y = parentHeight - height - qextToast.bottomPadding
+                        break
+                    case Qt.AlignTop:
+                    default:
+                        y = qextToast.topPadding
+                        break
+                    }
                 }
             }
         }
@@ -139,8 +172,20 @@ QEXTQmlQuickObject {
 
                 Loader {
                     id: mLoader
-                    x: (parent.width - width) / 2
+
                     property var _super: mContent
+                    property real parentWidth: parent.width
+
+                    onWidthChanged: {
+                        updatePos()
+                    }
+                    onParentWidthChanged: {
+                        updatePos()
+                    }
+
+                    Component.onCompleted: {
+                        updatePos()
+                    }
 
                     scale: item ? 1 : 0
                     asynchronous: true
@@ -149,6 +194,21 @@ QEXTQmlQuickObject {
                         NumberAnimation {
                             easing.type: Easing.OutBack
                             duration: 100
+                        }
+                    }
+
+                    function updatePos() {
+                        switch (qextToast.horizontalAlignment) {
+                        case Qt.AlignHCenter:
+                            x = (parentWidth - width) / 2
+                            break
+                        case Qt.AlignRight:
+                            x = parentWidth - width - qextToast.rightPadding
+                            break
+                        case Qt.AlignLeft:
+                        default:
+                            x = qextToast.leftPadding
+                            break
                         }
                     }
 
