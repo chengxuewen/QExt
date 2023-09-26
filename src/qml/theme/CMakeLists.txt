@@ -114,7 +114,7 @@ if(QEXT_QT_VERSION_MAJOR GREATER 4)
         ${Qt${QEXT_QT_VERSION_MAJOR}Widgets_PRIVATE_INCLUDE_DIRS}
         )
 else()
-    message(FATAL_ERROR "----QEXT---- Not find Qt package")
+    message(FATAL_ERROR "Not find Qt package")
 endif()
 
 list(APPEND QEXT_QML_PLUGIN_LINK_LIBRARIES QEXTCore)
@@ -187,7 +187,7 @@ add_custom_command(
 
 # qmlplugindump -nonrelocatable QEXTQmlQuick 1.2 ${QEXT_OUTPUT_QML_DIR} > ${QEXT_OUTPUT_QML_DIR}/QEXTQmlQuick/plugin.qmltypes
 if(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
-    message(STATUS "----QEXT---- Enable create qml plugin ${QEXT_QML_PLUGIN_BASE_NAME} plugin.qmltypes")
+    message(STATUS "Enable create qml plugin ${QEXT_QML_PLUGIN_BASE_NAME} plugin.qmltypes")
     if(QEXT_QML_PLUGIN_USE_KIT_QMLPLUGINDUMP)
         qextMacroFindQmlPluginDump()
         set(QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})

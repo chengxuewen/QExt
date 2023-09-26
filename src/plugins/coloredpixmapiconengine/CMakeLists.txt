@@ -63,7 +63,7 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     list(APPEND _lib_link_libraries Qt5::Core Qt5::Gui Qt5::Network)
 else()
-    message(FATAL_ERROR "----QEXT---- Not find Qt package")
+    message(FATAL_ERROR "Not find Qt package")
 endif()
 
 list(APPEND _lib_link_libraries QEXTCore)

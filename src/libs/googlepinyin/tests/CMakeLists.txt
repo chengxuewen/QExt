@@ -36,7 +36,7 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_TEST_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Test)
 else()
-    message(FATAL_ERROR "----QEXT---- Not find Qt package")
+    message(FATAL_ERROR "Not find Qt package")
 endif()
 
 list(APPEND QEXT_TEST_LINK_LIBRARIES QEXTWidgets)

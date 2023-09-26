@@ -28,14 +28,14 @@
 # Set cmake min version and policy
 #--------------------------------------------------------------------------------
 if(QEXT_BUILD_TESTS)
-    message(STATUS "----QEXT---- Build alltestrunner app.")
+    message(STATUS "Build alltestrunner app.")
     add_subdirectory(alltestrunner)
 
-    message(STATUS "----QEXT---- Build ctestrunner app.")
+    message(STATUS "Build ctestrunner app.")
     add_subdirectory(ctestrunner)
 endif()
 
 if(QEXT_BUILD_QMLS)
-    message(STATUS "----QEXT---- Build qmlplugindump app.")
+    message(STATUS "Build qmlplugindump app.")
     add_subdirectory(qmlplugindump)
 endif()

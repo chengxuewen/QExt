@@ -67,7 +67,7 @@ if(QEXT_QT_VERSION_MAJOR GREATER 4)
         Qt${QEXT_QT_VERSION_MAJOR}::Quick
         )
 else()
-    message(FATAL_ERROR "----QEXT---- Not find Qt package")
+    message(FATAL_ERROR "Not find Qt package")
 endif()
 
 list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QEXTQmlTheme)

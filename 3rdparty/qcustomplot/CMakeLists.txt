@@ -48,7 +48,7 @@ elseif(QCP_QT_VERSION_MAJOR GREATER 4)
         Qt${QCP_QT_VERSION_MAJOR}::PrintSupport
         )
 else()
-    message(FATAL_ERROR "----QEXT---- Not find Qt package")
+    message(FATAL_ERROR "Not find Qt package")
 endif()
 
 add_library(${library_name} STATIC qcustomplot.h qcustomplot.cpp)

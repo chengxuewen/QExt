@@ -40,7 +40,7 @@ elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
         Qt${QEXT_QT_VERSION_MAJOR}::Test
         )
 else()
-    message(FATAL_ERROR "----QEXT---- Not find Qt package")
+    message(FATAL_ERROR "Not find Qt package")
 endif()
 
 list(APPEND QEXT_TEST_LINK_LIBRARIES QEXTCore)
