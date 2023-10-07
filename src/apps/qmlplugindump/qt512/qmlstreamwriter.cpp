@@ -90,7 +90,7 @@ void QmlStreamWriter::writeEndObject()
 
 void QmlStreamWriter::writeScriptBinding(const QString &name, const QString &rhs)
 {
-    if (rhs.contains("QEXT")) {
+    if (rhs.contains("QExt")) {
         qDebug() << QString("write type name = %1").arg(rhs);
     }
     if ("exports" == name) {

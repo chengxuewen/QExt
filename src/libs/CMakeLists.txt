@@ -1,6 +1,6 @@
 #################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
 #
@@ -24,11 +24,8 @@
 #
 #################################################################################
 
-#--------------------------------------------------------------------------------
-# Add subdirectory
-#--------------------------------------------------------------------------------
-message(STATUS "Build core lib.")
-add_subdirectory(core)
+qext_add_subdirectory(core)
+qext_add_subdirectory(serialport ON)
 
 #if(QEXT_BUILD_LIB_DEVICEWATCHER)
 #    message(STATUS "Build devicewatcher lib.")

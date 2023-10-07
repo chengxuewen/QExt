@@ -38,7 +38,7 @@
 class QEXT_QUICK_API QEXTQmlQuickPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "com.QEXT.QEXTQmlQuickPlugin")
+    Q_PLUGIN_METADATA(IID "com.QExt.QEXTQmlQuickPlugin")
 
 public:
     // QQmlExtensionInterface interface

@@ -1,6 +1,6 @@
 ﻿/*************************************************************************************
 **
-** Library: QEXT
+** Library: QExt
 **
 ** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 ** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493

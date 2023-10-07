@@ -1,6 +1,6 @@
 #################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
 #
@@ -27,7 +27,7 @@
 #--------------------------------------------------------------------------------
 # Add subdirectory
 #--------------------------------------------------------------------------------
-set(QEXT_QML_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "QEXT qml source dir" FORCE)
+set(QEXT_QML_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "QExt qml source dir" FORCE)
 
 list(APPEND QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXT_OUTPUT_QML_DIR})
 list(REMOVE_DUPLICATES QML_IMPORT_PATH)

@@ -24,7 +24,7 @@ if(__qext_disable_package_version_check)
         set(QEXT_NO_PACKAGE_VERSION_INCOMPATIBLE_WARNING TRUE)
     endif()
 
-    # Warn if version check is disabled regardless if it's a QEXT repo build or user project build.
+    # Warn if version check is disabled regardless if it's a QExt repo build or user project build.
     # Allow to opt out of warning.
     if(__qext_package_version_incompatible AND NOT QEXT_NO_PACKAGE_VERSION_INCOMPATIBLE_WARNING
        AND NOT ${CMAKE_FIND_PACKAGE_NAME}_FIND_QUIETLY)
@@ -39,7 +39,7 @@ if(__qext_disable_package_version_check)
     set(PACKAGE_VERSION_COMPATIBLE TRUE)
     unset(PACKAGE_VERSION_UNSUITABLE)
 
-# If QEXT_REPO_MODULE_VERSION is set, that means we are building a QEXT repo. Show message that one can
+# If QEXT_REPO_MODULE_VERSION is set, that means we are building a QExt repo. Show message that one can
 # disable the check if they need to.
 elseif(QEXT_REPO_MODULE_VERSION AND __qext_package_version_incompatible)
     if(PACKAGE_FIND_VERSION_RANGE)

@@ -1,6 +1,6 @@
 /*************************************************************************************
 *
-* Library: QEXT
+* Library: QExt
 *
 * Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 * Copyright (C) 2012 Tadej Novak <tadej@tano.si>
@@ -104,7 +104,7 @@ public:
         Know when it is OK to read metadata and track information
 
         \return parsed status (const bool)
-        \since QEXT 0.11.1
+        \since QExt 0.11.1
     */
     bool parsed() const;
 
@@ -115,7 +115,7 @@ public:
         This call is async.
 
         \see parsedChanged
-        \since QEXT 0.11.1
+        \since QExt 0.11.1
     */
     void parse();
 
@@ -136,14 +136,14 @@ public:
     /*!
         \brief Get media state
         \return current media state
-        \since QEXT 0.11.1
+        \since QExt 0.11.1
     */
     QEXTVLC::StateType state() const;
 
     /*!
         \brief Get media duration
         \return duration
-        \since QEXT 0.11.1
+        \since QExt 0.11.1
     */
     qint64 duration() const;
 
@@ -319,7 +319,7 @@ signals:
     /*!
         \brief Signal sent on parsed change
         \param status new parsed status
-        @deprecated Deprecated since QEXT 0.11.1, will be removed in 2.0
+        @deprecated Deprecated since QExt 0.11.1, will be removed in 2.0
     */
     Q_DECL_DEPRECATED void parsedChanged(int status);
 

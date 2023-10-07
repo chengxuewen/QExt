@@ -1,6 +1,6 @@
 #################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
 #
@@ -38,18 +38,6 @@ elseif (QEXT_QT_VERSION_MAJOR GREATER 4)
     )
 else ()
     message(FATAL_ERROR "Not find Qt package")
-endif ()
-
-
-#--------------------------------------------------------------------------------
-# Add lib tests and examples
-#--------------------------------------------------------------------------------
-if (QEXT_BUILD_TESTS)
-    add_subdirectory(tests)
-endif ()
-
-if (QEXT_BUILD_EXAMPLES)
-    add_subdirectory(examples)
 endif ()
 
 
@@ -93,3 +81,15 @@ qext_add_library(Core
         source/qextPch.h
         LIBRARIES
         ${QEXT_LIB_LINK_LIBRARIES})
+
+
+#--------------------------------------------------------------------------------
+# Add lib tests and examples
+#--------------------------------------------------------------------------------
+if (QEXT_BUILD_TESTS)
+    add_subdirectory(tests)
+endif ()
+
+if (QEXT_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif ()

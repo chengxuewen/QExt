@@ -8,7 +8,7 @@
 class QEXT_QMLVLC_API QEXTQmlVLCPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "com.QEXT.QEXTQmlVLCPlugin")
+    Q_PLUGIN_METADATA(IID "com.QExt.QEXTQmlVLCPlugin")
 
 public:
     // QQmlExtensionInterface interface

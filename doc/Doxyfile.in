@@ -1,5 +1,5 @@
 # 项目名称，将作为于所生成的程序文档首页标题
-PROJECT_NAME = “QEXT”
+PROJECT_NAME = “QExt”
 # 文档版本号，可对应于项目版本号，譬如 svn、cvs 所生成的项目版本号
 PROJECT_NUMBER = "1.0.0"
 PROJECT_BRIEF = "xxx"

@@ -1,6 +1,6 @@
 /*************************************************************************************
 **
-** Library: QEXT
+** Library: QExt
 **
 ** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 ** Copyright 2002, The libsigc++ Development Team
@@ -62,7 +62,7 @@ struct QEXTAdaptorBase : public QEXTFunctorBase
  * is actually a (member) function type. Multi-type functors are not
  * supported.
  *
- * QEXT adaptors use
+ * QExt adaptors use
  * <tt>typename ReturnTypeDeduce<Functor, list of arg_types>::Type</tt>
  * to determine the return type of their <tt>templated operator()</tt> overloads.
  *

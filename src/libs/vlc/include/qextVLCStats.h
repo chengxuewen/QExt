@@ -1,6 +1,6 @@
 /*************************************************************************************
 *
-* Library: QEXT
+* Library: QExt
 *
 * Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 * Copyright (C) 2014 Tadej Novak <tadej@tano.si>

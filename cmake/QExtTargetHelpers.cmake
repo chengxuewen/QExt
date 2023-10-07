@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -153,7 +153,7 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Marks a target with a property that it is a library (shared or static) which was built using the
-# internal QEXT API (qext_internal_add_library, qext_internal_add_plugin, etc) as opposed to it being
+# internal QExt API (qext_internal_add_library, qext_internal_add_plugin, etc) as opposed to it being
 # a user project library (qext_internal_add_library, qext_add_plugin, etc).
 #
 # Needed to allow selectively applying certain flags via platformXinternal targets.
@@ -164,7 +164,7 @@ endfunction()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Common function to add QEXT prefixes to the target name, use the QEXT'fied library name as a framework identifier.
+# Common function to add QExt prefixes to the target name, use the QExt'fied library name as a framework identifier.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_target_add_fied out_var target)
     set(${out_var} "QExt${target}" PARENT_SCOPE)
@@ -203,16 +203,16 @@ function(qext_set_target_info_properties target)
         set(arg_TARGET_VERSION "${PROJECT_VERSION}.0")
     endif()
     if("${arg_TARGET_PRODUCT}" STREQUAL "")
-        set(arg_TARGET_PRODUCT "QEXT")
+        set(arg_TARGET_PRODUCT "QExt")
     endif()
     if("${arg_TARGET_DESCRIPTION}" STREQUAL "")
-        set(arg_TARGET_DESCRIPTION "C++ QEXT Application Development Framework")
+        set(arg_TARGET_DESCRIPTION "C++ QExt Application Development Framework")
     endif()
     if("${arg_TARGET_COMPANY}" STREQUAL "")
-        set(arg_TARGET_COMPANY "The QEXT Open Source Organization.")
+        set(arg_TARGET_COMPANY "The QExt Open Source Organization.")
     endif()
     if("${arg_TARGET_COPYRIGHT}" STREQUAL "")
-        set(arg_TARGET_COPYRIGHT "Copyright (C) 2022 The QEXT Open Source Organization.")
+        set(arg_TARGET_COPYRIGHT "Copyright (C) 2022 The QExt Open Source Organization.")
     endif()
     set_target_properties(${target} PROPERTIES
         QEXT_TARGET_VERSION "${arg_TARGET_VERSION}"
@@ -328,12 +328,12 @@ endmacro()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Create a QEXT*AdditionalTargetInfo.cmake file that is included by QEXT*Config.cmake
+# Create a QExt*AdditionalTargetInfo.cmake file that is included by QExt*Config.cmake
 # and sets IMPORTED_*_<CONFIG> properties on the exported targets.
 #
 # The file also makes the targets global if the QEXT_PROMOTE_TO_GLOBAL_TARGETS property is set in the consuming project.
 # When using a CMake version lower than 3.21, only the specified TARGETS are made global.
-# E.g. transitive non-QEXT 3rd party targets of the specified targets are not made global.
+# E.g. transitive non-QExt 3rd party targets of the specified targets are not made global.
 #
 # EXPORT_NAME_PREFIX:
 #    The portion of the file name before AdditionalTargetInfo.cmake
@@ -765,7 +765,7 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_adjust_main_config_runtime_output_dir target output_dir)
-    # When building QEXT with multiple configurations, place the main configuration executable
+    # When building QExt with multiple configurations, place the main configuration executable
     # directly in ${output_dir}, rather than a ${output_dir}/<CONFIG> subdirectory.
     qext_internal_get_upper_case_main_cmake_configuration(main_cmake_configuration)
     set_target_properties("${target}" PROPERTIES RUNTIME_OUTPUT_DIRECTORY_${main_cmake_configuration} "${output_dir}")

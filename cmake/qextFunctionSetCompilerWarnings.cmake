@@ -1,6 +1,6 @@
 #################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
 # Copyright (c) 2014 - 2018 Axel Menzel <info@rttr.org>

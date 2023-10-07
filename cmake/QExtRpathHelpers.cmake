@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -41,7 +41,7 @@
 # RELATIVE_RPATH is the equivalent of qmake's relative_qext_rpath.
 # INSTALL_PATH is used to implement the equivalent of qmake's $$qextRelativeRPathBase().
 #
-# QEXT_DISABLE_RPATH can be set to disable embedding any QEXT specific rpaths.
+# QEXT_DISABLE_RPATH can be set to disable embedding any QExt specific rpaths.
 function(qext_apply_rpaths)
     # No rpath support for win32 and android.
     if(WIN32 OR ANDROID)
@@ -112,7 +112,7 @@ function(qext_apply_rpaths)
     endif()
 
     # Somewhat similar to mkspecs/features/qext.prf
-    # Embed either an absolute path to the installed QEXT lib dir, or a relative one, based on
+    # Embed either an absolute path to the installed QExt lib dir, or a relative one, based on
     # where ${target} is installed.
     # Don't embed relative rpaths if the platform does not support it.
     if(arg_RELATIVE_RPATH AND relative_rpath_supported)

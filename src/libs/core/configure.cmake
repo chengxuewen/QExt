@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2023 ChengXueWen.
 #
@@ -23,16 +23,16 @@
 
 
 qext_configure_feature("ENABLE_ASSERT" PUBLIC
-    LABEL "Enable this to build enable assert"
-    CONDITION ON)
+        LABEL "Enable this to build enable assert"
+        CONDITION ON)
 
 qext_configure_feature("ENABLE_CHECK" PUBLIC
-    LABEL "Enable this to build enable check"
-    CONDITION ON)
+        LABEL "Enable this to build enable check"
+        CONDITION ON)
 
 qext_configure_feature("ENABLE_DEBUG" PUBLIC
-    LABEL "Enable this to build enable debug"
-    CONDITION ON)
+        LABEL "Enable this to build enable debug"
+        CONDITION ON)
 
 qext_configure_definition("QEXT_VERSION_NAME" PUBLIC VALUE "\"${QEXT_VERSION_NAME}\"")
 qext_configure_definition("QEXT_VERSION_MAJOR" PUBLIC VALUE ${QEXT_VERSION_MAJOR})
@@ -44,3 +44,15 @@ qext_configure_definition("QEXT_SYSTEM_NAME" PUBLIC VALUE ${QEXT_SYSTEM_NAME})
 qext_configure_definition("QEXT_SYSTEM_VERSION" PUBLIC VALUE ${QEXT_SYSTEM_VERSION})
 qext_configure_definition("QEXT_SYSTEM_PROCESSOR" PUBLIC VALUE ${QEXT_SYSTEM_PROCESSOR})
 qext_configure_definition("QEXT_CXX_COMPILER_ID" PUBLIC VALUE ${QEXT_CXX_COMPILER_ID})
+
+# utk lib type
+if (BUILD_SHARED_LIBS)
+    qext_configure_definition("QEXT_BUILD_SHARED" PUBLIC)
+else ()
+    qext_configure_definition("QEXT_BUILD_STATIC" PUBLIC)
+endif ()
+
+# utk debug/optimization type
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    qext_configure_definition("QEXT_BUILD_DEBUG" PUBLIC)
+endif ()

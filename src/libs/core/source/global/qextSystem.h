@@ -65,7 +65,7 @@
             #define QEXT_OS_MACOS
         #endif
     #else
-        #       error "QEXT has not been ported to this Apple platform"
+        #       error "QExt has not been ported to this Apple platform"
     #endif
 #elif defined(__WEBOS__)
     #define QEXT_OS_WEBOS
@@ -124,7 +124,7 @@
 #elif defined(__MACH__)
     #define QEXT_OS_MACH
 #else
-    #    error "QEXT has not been ported to this OS"
+    #    error "QExt has not been ported to this OS"
 #endif
 
 #if defined(QEXT_OS_WIN32) || defined(QEXT_OS_WIN64)
@@ -173,7 +173,7 @@
     #endif
     #
     #// Numerical checks are preferred to named checks, but to be safe
-    #// we define the missing version names in case QEXT uses them.
+    #// we define the missing version names in case QExt uses them.
     #
     #if !defined(__MAC_10_11)
         #define __MAC_10_11 101100

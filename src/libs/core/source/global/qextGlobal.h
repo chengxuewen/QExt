@@ -7,7 +7,7 @@
 #include <QtGlobal>
 
 /********************************************************************************
-    QEXT compiler dll visibility macro declare
+    QExt compiler dll visibility macro declare
 ********************************************************************************/
 #if !defined(Q_DECL_EXPORT)
 #if defined(QEXT_CC_GNU) && (QEXT_CC_GNU > 400)
@@ -41,7 +41,7 @@
 
 
 /********************************************************************************
-    QEXT compiler CXX11 feature macro declare
+    QExt compiler CXX11 feature macro declare
 ********************************************************************************/
 #if QEXT_CC_FEATURE_NULLPTR
 #define QEXT_DECL_NULLPTR nullptr
@@ -115,7 +115,7 @@
 
 
 /********************************************************************************
-    QEXT disable copy move macro declare
+    QExt disable copy move macro declare
 ********************************************************************************/
 // disable copy macro define
 #define QEXT_DECL_DISABLE_COPY(Class)               \
@@ -171,7 +171,7 @@ template <typename Wrapper> static inline typename Wrapper::pointer qextGetPtrHe
 
 
 /********************************************************************************
-    QEXT force inline macro declare
+    QExt force inline macro declare
 ********************************************************************************/
 #if defined(QEXT_CC_MSVC)
 #define QEXT_DECL_ALWAYS_INLINE   __forceinline
@@ -194,7 +194,7 @@ template <typename Wrapper> static inline typename Wrapper::pointer qextGetPtrHe
 
 
 /********************************************************************************
-    QEXT unused macro declare
+    QExt unused macro declare
 ********************************************************************************/
 #if defined(QEXT_CC_GNU) || defined(QEXT_CC_CLANG)
 #define QEXT_DECL_UNUSED  __attribute__((__unused__))
@@ -207,7 +207,7 @@ template <typename Wrapper> static inline typename Wrapper::pointer qextGetPtrHe
 
 
 /********************************************************************************
-   QEXT Compiler specific cmds for export and import code to DLL and declare namespace
+   QExt Compiler specific cmds for export and import code to DLL and declare namespace
 ********************************************************************************/
 #ifdef QEXT_BUILD_SHARED_LIBS // compiled as a dynamic lib.
 #ifdef QEXT_BUILD_CORE_LIB    // defined if we are building the lib
@@ -224,7 +224,7 @@ template <typename Wrapper> static inline typename Wrapper::pointer qextGetPtrHe
 
 
 /********************************************************************************
-   QEXT assert macro
+   QExt assert macro
 ********************************************************************************/
 #ifndef QT_ASSERT
 QEXT_CORE_API void qextAssert(const char *assertion, const char *file, int line) QEXT_DECL_NOTHROW;
@@ -301,7 +301,7 @@ class QEXTStaticAssertFailure< true >
 
 
 /********************************************************************************
-   QEXT version macro
+   QExt version macro
 ********************************************************************************/
 // QEXT_VERSION is (major << 16) + (minor << 8) + patch.
 #define QEXT_VERSION QEXT_VERSION_CHECK(QEXT_VERSION_MAJOR, QEXT_VERSION_MINOR, QEXT_VERSION_PATCH)

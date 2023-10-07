@@ -6,7 +6,7 @@
 #include <QColor>
 
 /********************************************************************************
-   QEXT Compiler specific cmds for export and import code to DLL
+   QExt Compiler specific cmds for export and import code to DLL
 ********************************************************************************/
 #ifdef QEXT_BUILD_SHARED_LIBS // compiled as a dynamic lib.
     #ifdef QEXT_BUILD_WIDGETS_LIB // defined if we are building the lib

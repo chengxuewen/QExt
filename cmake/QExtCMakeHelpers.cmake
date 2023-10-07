@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -398,7 +398,7 @@ function(qext_internal_write_qext_package_version_file package_name out_path)
     # yet available when configuring the file for the BuildInternals package.
     if(FEATURE_developer_build OR QEXT_FEATURE_developer_build)
         string(APPEND extra_code "
-            # Disabling version check because QEXT was configured with -developer-build.
+            # Disabling version check because QExt was configured with -developer-build.
             set(__qext_disable_package_version_check TRUE)
             set(__qext_disable_package_version_check_due_to_developer_build TRUE)")
     endif()

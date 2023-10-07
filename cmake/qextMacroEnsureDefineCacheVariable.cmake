@@ -1,6 +1,6 @@
 #################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
 #
@@ -34,6 +34,6 @@
 # So we look for another one by default
 macro(qextMacroEnsureDefineCacheVariable NAME VALUE TYPE)
     if(NOT DEFINED ${NAME})
-        set(${NAME} "${VALUE}" CACHE "${TYPE}" "QEXT qml source dir" FORCE)
+        set(${NAME} "${VALUE}" CACHE "${TYPE}" "QExt qml source dir" FORCE)
     endif()
 endmacro(qextMacroEnsureDefineCacheVariable)

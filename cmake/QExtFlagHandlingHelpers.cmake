@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -53,12 +53,12 @@ function(qext_internal_library_deprecation_level result)
         # including the inlines
         list(APPEND deprecations "QEXT_DISABLE_DEPRECATED_BEFORE=0x040800")
     else()
-        # On other platforms, QEXT's own compilation goes needs to compile the QEXT 5.0 API
+        # On other platforms, QExt's own compilation goes needs to compile the QExt 5.0 API
         list(APPEND deprecations "QEXT_DISABLE_DEPRECATED_BEFORE=0x050000")
     endif()
     # QEXT_DEPRECATED_WARNINGS_SINCE controls the upper-bound of deprecation
     # warnings that are emitted. E.g. if it is set to 7.0 then all deprecations
-    # during the 6.* lifetime will be warned about in QEXT builds.
+    # during the 6.* lifetime will be warned about in QExt builds.
     list(APPEND deprecations "QEXT_DEPRECATED_WARNINGS_SINCE=0x070000")
     set("${result}" "${deprecations}" PARENT_SCOPE)
 endfunction()
@@ -79,8 +79,8 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_set_language_standards_interface_compile_features target)
-    # Regardless of which C++ standard is used to build QEXT itself, require C++17 when building
-    # QEXT applications using CMake (because the QEXT header files use C++17 features).
+    # Regardless of which C++ standard is used to build QExt itself, require C++17 when building
+    # QExt applications using CMake (because the QExt header files use C++17 features).
     set(cpp_feature "cxx_std_17")
     target_compile_features("${target}" INTERFACE ${cpp_feature})
 endfunction()

@@ -37,7 +37,7 @@
 class QEXT_QMLTHEME_API QEXTQmlThemePlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "com.QEXT.QEXTQmlThemePlugin")
+    Q_PLUGIN_METADATA(IID "com.QExt.QEXTQmlThemePlugin")
 
 public:
     // QQmlExtensionInterface interface

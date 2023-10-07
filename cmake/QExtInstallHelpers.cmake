@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -46,7 +46,7 @@ function(qext_install)
     if(NOT is_install_targets AND arg_EXPORT)
         # For prefixed builds (both top-level and per-repo) export build tree CMake Targets files so
         # they can be used in CMake ExternalProjects. One such case is examples built as
-        # ExternalProjects as part of the QEXT build.
+        # ExternalProjects as part of the QExt build.
         # In a top-level build the exported config files are placed under qextCore/lib/cmake.
         # In a per-repo build, they will be placed in each repo's build dir/lib/cmake.
         if(QEXT_WILL_INSTALL)

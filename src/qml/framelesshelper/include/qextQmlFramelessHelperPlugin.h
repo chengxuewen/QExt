@@ -8,7 +8,7 @@
 class QEXT_QMLFRAMELESSHELPER_API QEXTQmlFramelessHelperPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "com.QEXT.QEXTQmlFramelessHelperPlugin")
+    Q_PLUGIN_METADATA(IID "com.QExt.QEXTQmlFramelessHelperPlugin")
 
 public:
     // QQmlExtensionInterface interface

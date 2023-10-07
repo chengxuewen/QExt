@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -55,7 +55,7 @@ function(qext_internal_try_compile_binary_for_strip binary_out_var)
     endif()
 
     # Make sure the built project files are not installed when doing an in-source build (like it
-    # happens in QEXT's CI) by choosing a build dir that does not coincide with the installed
+    # happens in QExt's CI) by choosing a build dir that does not coincide with the installed
     # source dir. Otherwise the config test binaries will be packaged up, which we don't want.
     set(binary_dir "${CMAKE_CURRENT_BINARY_DIR}/${config_test_dir}_built")
 
@@ -63,7 +63,7 @@ function(qext_internal_try_compile_binary_for_strip binary_out_var)
     qext_get_platform_try_compile_vars(platform_try_compile_vars)
     list(APPEND flags ${platform_try_compile_vars})
 
-    # CI passes the project dir of the QEXT repository as absolute path without drive letter:
+    # CI passes the project dir of the QExt repository as absolute path without drive letter:
     #   \Users\qext\work\qext\qextbase
     # Ensure that arg_PROJECT_PATH is an absolute path with drive letter:
     #   C:/Users/qext/work/qext/qextbase
@@ -98,7 +98,7 @@ endfunction()
 # breaks the separate debug info feature.
 #
 # Generate a wrapper shell script that passes an option to keep the debug section.
-# The wrapper is used when targeting Linux or MinGW with a shared QEXT build.
+# The wrapper is used when targeting Linux or MinGW with a shared QExt build.
 # The check to see if the option is supported by 'strip', is done once for every repo configured,
 # because different machines might have different strip versions installed, without support for
 # the option we need.
@@ -107,7 +107,7 @@ endfunction()
 # https://gitlab.kitware.com/cmake/cmake/-/issues/23346
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_generate_binary_strip_wrapper)
-    # Return early if check was done already, if explicitly skipped, or when building a static QEXT.
+    # Return early if check was done already, if explicitly skipped, or when building a static QExt.
     if(DEFINED CACHE{QEXT_INTERNAL_STRIP_SUPPORTS_KEEP_SECTION}
         OR QEXT_NO_STRIP_WRAPPER
         OR (NOT QEXT_BUILD_SHARED_LIBS)
@@ -215,9 +215,9 @@ function(qext_internal_generate_binary_strip_wrapper)
         configure_file("${wrapper_in}" "${wrapper_out}" @ONLY)
 
         # Override the strip binary to be used by CMake install target.
-        set(CMAKE_STRIP "${wrapper_out}" CACHE INTERNAL "Custom QEXT strip wrapper")
+        set(CMAKE_STRIP "${wrapper_out}" CACHE INTERNAL "Custom QExt strip wrapper")
 
-        message(STATUS "CMAKE_STRIP (used by QEXT): ${CMAKE_STRIP}")
+        message(STATUS "CMAKE_STRIP (used by QExt): ${CMAKE_STRIP}")
     endif()
 endfunction()
 

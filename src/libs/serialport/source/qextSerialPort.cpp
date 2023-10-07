@@ -30,7 +30,7 @@
 ****************************************************************************/
 
 #include <qextSerialPort.h>
-#include <qextSerialPort_p.h>
+#include <private/qextSerialPort_p.h>
 
 #include <stdio.h>
 #include <QtCore/QDebug>

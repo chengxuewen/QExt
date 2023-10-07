@@ -1,6 +1,6 @@
 /*************************************************************************************
 **
-** Library: QEXT
+** Library: QExt
 **
 ** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 ** Copyright 2002, The libsigc++ Development Team
@@ -65,7 +65,7 @@
  *
  * qextRetypeReturnFunctor() alters the return type of an arbitrary functor.
  * Like in qextRetypeFunctor() a C-style cast is performed. Usage qextRetypeReturnFunctor() is
- * not restricted to QEXT functor types but you need to
+ * not restricted to QExt functor types but you need to
  * specify the new return type as a template parameter.
  *
  * @par Example:

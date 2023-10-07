@@ -1,6 +1,6 @@
 #################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
 #
@@ -46,7 +46,7 @@ endif ()
 #--------------------------------------------------------------------------------
 # add tests
 #--------------------------------------------------------------------------------
-qext_internal_add_test(qext_tst_coreTypeTrait
+qext_internal_add_test(tst_QExtCoreTypeTrait
         SOURCES
         tools/tst_qextTypeTrait.cpp
         LIBRARIES

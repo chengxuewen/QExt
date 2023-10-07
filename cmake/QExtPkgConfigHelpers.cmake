@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -39,7 +39,7 @@ macro(qext_internal_set_pkg_config_cpp_flags var options flag)
     unset(tmpopts)
 endmacro()
 
-# Create a QEXT*.pc file intended for pkg-config consumption.
+# Create a QExt*.pc file intended for pkg-config consumption.
 function(qext_internal_generate_pkg_config_file module)
     # TODO: PkgConfig is supported under MSVC with pkgconf (github.com/pkgconf/pkgconf)
     if((NOT UNIX OR QEXT_FEATURE_framework)
@@ -52,7 +52,7 @@ function(qext_internal_generate_pkg_config_file module)
 
     set(pkgconfig_file "${QEXT_CMAKE_EXPORT_NAMESPACE}${module}")
     set(pkgconfig_name "${QEXT_CMAKE_EXPORT_NAMESPACE} ${module}")
-    set(pkgconfig_description "QEXT ${module} module")
+    set(pkgconfig_description "QExt ${module} module")
     set(target "${QEXT_CMAKE_EXPORT_NAMESPACE}::${module}")
     set(is_interface_library "$<STREQUAL:$<TARGET_PROPERTY:${target},TYPE>,INTERFACE_LIBRARY>")
     # The flags macro expanded this variables so it's better to set them at
@@ -82,9 +82,9 @@ function(qext_internal_generate_pkg_config_file module)
     qext_internal_collect_direct_target_dependencies(${target} loose_target_requires)
     foreach(dep IN LISTS loose_target_requires)
         if(dep MATCHES "^QExt::")
-            string(REGEX REPLACE "QEXT" "${QEXT_CMAKE_EXPORT_NAMESPACE}" dep ${dep})
+            string(REGEX REPLACE "QExt" "${QEXT_CMAKE_EXPORT_NAMESPACE}" dep ${dep})
         else()
-            # TODO: Figure out a way to get non-QEXT requirements PkgConfig files.
+            # TODO: Figure out a way to get non-QExt requirements PkgConfig files.
             continue()
         endif()
         if(NOT TARGET ${dep})

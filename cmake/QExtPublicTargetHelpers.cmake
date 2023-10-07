@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -337,7 +337,7 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 # This function ends up being called multiple times as part of a find_package(QEXTFoo) call,
-# due sub-packages depending on the QEXT package. Ensure the finalizer is ran only once per
+# due sub-packages depending on the QExt package. Ensure the finalizer is ran only once per
 # directory scope.
 #-----------------------------------------------------------------------------------------------------------------------
 function(__qext_internal_defer_promote_targets_in_dir_scope_to_global)

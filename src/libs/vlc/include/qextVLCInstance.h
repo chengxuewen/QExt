@@ -1,6 +1,6 @@
 /*************************************************************************************
 *
-* Library: QEXT
+* Library: QExt
 *
 * Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 * Copyright (C) 2012 Tadej Novak <tadej@tano.si>
@@ -78,7 +78,7 @@ public:
     /*!
         \brief Returns current log level (default QEXTVLC::ErrorLevel)
         \return log level
-        \since QEXT 0.11.1
+        \since QExt 0.11.1
     */
     QEXTVLC::LogLevelType logLevel() const;
 
@@ -86,7 +86,7 @@ public:
         \brief Set current log level
         \param level desired log level
         \see QEXTVLC::LogLevel
-        \since QEXT 0.11.1
+        \since QExt 0.11.1
     */
     void setLogLevel(QEXTVLC::LogLevelType level);
 
@@ -129,7 +129,7 @@ public:
         \param icon application icon name, e.g. "foobar"
 
         \see setUserAgent
-        \brief QEXT 0.11.1
+        \brief QExt 0.11.1
     */
     void setAppId(const QString &id, const QString &version, const QString &icon);
 

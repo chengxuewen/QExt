@@ -1,6 +1,6 @@
 /*************************************************************************************
 *
-* Library: QEXT
+* Library: QExt
 *
 * Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 * Copyright (C) 2014 Tadej Novak <tadej@tano.si>
@@ -39,7 +39,7 @@
     \ingroup QEXTVLC
     \brief Video frame data container (deprecated)
     \see QEXTVLCAbstractVideoFrame
-    @deprecated Deprecated since QEXT 0.11.1
+    @deprecated Deprecated since QExt 0.11.1
 */
 struct Q_DECL_DEPRECATED QEXT_VLC_API QEXTVLCVideoFrame
 {

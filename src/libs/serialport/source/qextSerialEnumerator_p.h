@@ -43,7 +43,8 @@
 // We mean it.
 //
 
-#include "qextSerialEnumerator.h"
+#include <qextSerialEnumerator.h>
+#include <qextSerialPortConfig.h>
 
 #ifdef Q_OS_WIN
 // needed for mingw to pull in appropriate dbt business...
@@ -61,7 +62,7 @@
 #  include <IOKit/usb/IOUSBLib.h>
 #endif /*Q_OS_MAC*/
 
-#if defined(Q_OS_LINUX) && !defined(QEXT_SERIALPORT_NO_UDEV)
+#if defined(Q_OS_LINUX) && !QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
 #  include <QSocketNotifier>
 extern "C" {
 #  include <libudev.h>
@@ -106,7 +107,7 @@ public:
     IONotificationPortRef notificationPortRef;
 #endif // Q_OS_MAC
 
-#if defined(Q_OS_LINUX) && !defined(QEXT_SERIALPORT_NO_UDEV)
+#if defined(Q_OS_LINUX) && !QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
     QSocketNotifier *notifier;
     int notifierFd;
     struct udev *udev;

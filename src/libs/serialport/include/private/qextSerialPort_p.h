@@ -1,0 +1,1 @@
+#include "../../source/qextSerialPort_p.h"

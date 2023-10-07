@@ -1,6 +1,6 @@
 /*************************************************************************************
 *
-* Library: QEXT
+* Library: QExt
 *
 * Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 * Copyright (C) 2016 Tadej Novak <tadej@tano.si>
@@ -42,7 +42,7 @@
     \struct QEXTVLCYUVVideoFrame qextVLCYUVVideoFrame.h
     \ingroup QEXTVLC
     \brief Video YUV frame data container
-    \since QEXT 0.11.1
+    \since QExt 0.11.1
 */
 struct QEXT_VLC_API QEXTVLCYUVVideoFrame : QEXTVLCAbstractVideoFrame
 {

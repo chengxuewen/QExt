@@ -29,8 +29,9 @@
 **
 ****************************************************************************/
 
-#include "qextSerialEnumerator.h"
-#include "qextSerialEnumerator_p.h"
+#include <qextSerialEnumerator.h>
+#include <private/qextSerialEnumerator_p.h>
+
 #include <QtCore/QDebug>
 #include <IOKit/serial/IOSerialKeys.h>
 #include <CoreFoundation/CFNumber.h>

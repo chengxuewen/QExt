@@ -1,6 +1,6 @@
 /*************************************************************************************
 *
-* Library: QEXT
+* Library: QExt
 *
 * Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 * Copyright (C) 2012 Tadej Novak <tadej@tano.si>
@@ -49,7 +49,7 @@ public:
     /*!
         \enum LogLevel
         \brief libVLC log levels
-        \since QEXT 0.11.1
+        \since QExt 0.11.1
     */
     enum LogLevelType
     {
@@ -64,7 +64,7 @@ public:
     /*!
         \enum RenderFormat
         \brief Frame format used for custom rendering
-        \since QEXT 0.11.1
+        \since QExt 0.11.1
     */
     enum RenderFormatType
     {

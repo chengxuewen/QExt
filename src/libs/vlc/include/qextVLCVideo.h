@@ -1,6 +1,6 @@
 /*************************************************************************************
 *
-* Library: QEXT
+* Library: QExt
 *
 * Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 * Copyright (C) 2012 Tadej Novak <tadej@tano.si>
@@ -209,7 +209,7 @@ public:
     /*!
         \brief Get available video subtitles.
         \return dictionary with available video subtitles (const QMap<int, QString>)
-        \since QEXT 0.11.1
+        \since QExt 0.11.1
     */
     QMap<int, QString> subtitles() const;
 
@@ -258,7 +258,7 @@ public:
     /*!
         \brief Get available video tracks.
         \return dictionary with available video tracks (const QMap<int, QString>)
-        \since QEXT 0.11.1
+        \since QExt 0.11.1
     */
     QMap<int, QString> tracks() const;
 

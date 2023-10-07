@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -245,7 +245,7 @@ if(NOT DEFINED QEXT_DEFAULT_PLATFORM_DEFINITIONS)
     set(QEXT_DEFAULT_PLATFORM_DEFINITIONS "")
 endif()
 
-set(QEXT_PLATFORM_DEFINITIONS ${QEXT_DEFAULT_PLATFORM_DEFINITIONS} CACHE STRING "QEXT platform specific pre-processor defines")
+set(QEXT_PLATFORM_DEFINITIONS ${QEXT_DEFAULT_PLATFORM_DEFINITIONS} CACHE STRING "QExt platform specific pre-processor defines")
 
 
 #-----------------------------------------------------------------------------------------------------------------------

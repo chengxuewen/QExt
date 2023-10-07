@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -44,7 +44,7 @@ macro(qext_find_package)
     set(multiValueArgs PROVIDED_TARGETS COMPONENTS OPTIONAL_COMPONENTS)
     cmake_parse_arguments(arg "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-    # If some QEXT internal project calls qext_find_package(WrapFreeType), but WrapFreeType was already
+    # If some QExt internal project calls qext_find_package(WrapFreeType), but WrapFreeType was already
     # found as part of a find_dependency() call from a ModuleDependencies.cmake file (or similar),
     # and the provided target is also found, that means this might have been an unnecessary
     # qext_find_package() call, because the dependency was already found via some other transitive
@@ -146,8 +146,8 @@ macro(qext_find_package)
     endforeach()
 
     # TODO: Handle packages with components where a previous component is already found.
-    # E.g. find_package(QEXT COMPONENTS BuildInternals) followed by
-    # qext_find_package(QEXT COMPONENTS Core) doesn't end up calling find_package(QEXT6Core).
+    # E.g. find_package(QExt COMPONENTS BuildInternals) followed by
+    # qext_find_package(QExt COMPONENTS Core) doesn't end up calling find_package(QEXT6Core).
     if(NOT ${ARGV0}_FOUND AND NOT _qext_find_package_skip_find_package)
         # Call original function without our custom arguments.
         find_package(${arg_UNPARSED_ARGUMENTS})
@@ -163,7 +163,7 @@ macro(qext_find_package)
 
     if(${ARGV0}_FOUND AND arg_PROVIDED_TARGETS AND NOT _qext_find_package_skip_find_package)
         # If package was found, associate each target with its package name. This will be used
-        # later when creating Config files for QEXT libraries, to generate correct find_dependency()
+        # later when creating Config files for QExt libraries, to generate correct find_dependency()
         # calls. Also make the provided targets global, so that the properties can be read in
         # all scopes.
         foreach(qext_find_package_target_name ${arg_PROVIDED_TARGETS})
@@ -221,7 +221,7 @@ endmacro()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# This function stores the list of QEXT targets a library depend on,
+# This function stores the list of QExt targets a library depend on,
 # along with their version info, for usage in ${target}Depends.cmake file
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_register_target_dependencies target public_libs private_libs)
@@ -286,7 +286,7 @@ endfunction()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Get the CMake package name that contains / exported the QEXT module target.
+# Get the CMake package name that contains / exported the QExt module target.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_get_package_name_of_target target package_name_out_var)
     # Get the package name from the module's target property.
@@ -319,7 +319,7 @@ endfunction()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Try to get the CMake package version of a QEXT target.
+# Try to get the CMake package version of a QExt target.
 #
 # Query the target's _qext_package_version property, or try to read it from the CMake package version
 # variable set from calling find_package(QEXT${target}).

@@ -5,7 +5,7 @@
 #include <qextSystem.h>
 
 /********************************************************************************
-    QEXT compiler type version macro define
+    QExt compiler type version macro define
 ********************************************************************************/
 /*
     The compiler, must be one of: (QEXT_CC_x)
@@ -100,7 +100,7 @@
 
 
 /********************************************************************************
-    QEXT compiler cplusplus std value macro define
+    QExt compiler cplusplus std value macro define
 ********************************************************************************/
 #if defined(_MSVC_LANG) && !defined(__clang__)
     #define QEXT_CC_STD_VALUE (_MSC_VER == 1900 ? 201103L : _MSVC_LANG)
@@ -118,7 +118,7 @@
 
 
 /********************************************************************************
-    QEXT compiler CXX11 feature macro define
+    QExt compiler CXX11 feature macro define
 ********************************************************************************/
 /*QEXT_CC_GNU*/
 #if defined(QEXT_CC_GNU) && !defined(QEXT_CC_INTEL) && !defined(QEXT_CC_CLANG)
@@ -717,7 +717,7 @@
 
 
 /********************************************************************************
-    QEXT compiler Warning/diagnostic handling macro define
+    QExt compiler Warning/diagnostic handling macro define
 ********************************************************************************/
 #define QEXT_DO_PRAGMA(text) _Pragma(#text)
 #if defined(QEXT_CC_INTEL) && defined(QEXT_CC_MSVC)
@@ -798,7 +798,7 @@
 
 
 /********************************************************************************
-    QEXT compiler other macro define
+    QExt compiler other macro define
 ********************************************************************************/
 #if defined(QEXT_CC_GNU)
     #define QEXT_NORETURN __attribute__((__noreturn__))

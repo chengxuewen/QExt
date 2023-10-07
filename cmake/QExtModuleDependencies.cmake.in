@@ -29,7 +29,7 @@ endif()
 set(__qext_@target@_third_party_deps "@third_party_deps@")
 _qext_internal_find_third_party_dependencies("@target@" __qext_@target@_third_party_deps)
 
-# Find QEXT tool package.
+# Find QExt tool package.
 set(__qext_@target@_tool_deps "@main_module_tool_deps@")
 _qext_internal_find_tool_dependencies("@target@" __qext_@target@_tool_deps)
 

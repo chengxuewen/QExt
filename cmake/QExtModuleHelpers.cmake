@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -83,7 +83,7 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Resolve the dependencies of the given module.
-# "Module" in the sense of QEXT repository.
+# "Module" in the sense of QExt repository.
 #
 # Side effects: Sets the global properties QEXT_DEPS_FOR_${module} and QEXT_REQUIRED_DEPS_FOR_${module}
 # with the direct (required) dependencies of module.
@@ -91,7 +91,7 @@ endfunction()
 #
 # Positional arguments:
 #
-# module is the QEXT repository.
+# module is the QExt repository.
 #
 # out_ordered is where the result is stored. This is a list of all dependencies, including
 # transitive ones, in topologically sorted order. Note that ${module} itself is also part of
@@ -229,7 +229,7 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Resolves the dependencies of the given modules.
-# "Module" is here used in the sense of QEXT repository.
+# "Module" is here used in the sense of QExt repository.
 #
 # Returns all dependencies, including transitive ones, in topologically sorted order.
 #
@@ -289,6 +289,6 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 macro(qext_internal_set_known_plugins)
-    set(QEXT_KNOWN_PLUGINS ${ARGN} CACHE INTERNAL "Known QEXT plugins" FORCE)
+    set(QEXT_KNOWN_PLUGINS ${ARGN} CACHE INTERNAL "Known QExt plugins" FORCE)
 endmacro()
 

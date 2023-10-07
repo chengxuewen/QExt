@@ -1,6 +1,6 @@
 #################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
 # 
@@ -35,7 +35,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #--------------------------------------------------------------------------------
 # Set project name and version
 #--------------------------------------------------------------------------------
-project(QEXT VERSION 1.1.1.1 LANGUAGES CXX C)
+project(QExt VERSION 1.1.1.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -47,10 +47,10 @@ set(QEXT_DEBUG_POSTFIX "d")
 set(QEXT_VERSION_STR "${QEXT_VERSION_MAJOR}.${QEXT_VERSION_MINOR}.${QEXT_VERSION_PATCH}")
 set(QEXT_COPYRIGHT "Copyright (c) 2021 ChengXueWen 1398831004@qq.com")
 set(QEXT_LICENSE "MIT License")
-set(QEXT_PRODUCT_NAME "QEXT")
+set(QEXT_PRODUCT_NAME "QExt")
 set(QEXT_CXX_STANDARD 11)
 math(EXPR QEXT_VERSION_CALC "${QEXT_VERSION_MAJOR}*1000 + ${QEXT_VERSION_MINOR}*100 + ${QEXT_VERSION_PATCH}")
-message(STATUS "=====================================QEXT=========================================")
+message(STATUS "=====================================QExt=========================================")
 message(STATUS "Project version: ${QEXT_VERSION}")
 message(STATUS "Project copyright: ${QEXT_COPYRIGHT}")
 message(STATUS "Project license: ${QEXT_LICENSE}")
@@ -137,20 +137,21 @@ if (NOT QEXT_FEATURE_NO_PREFIX AND INPUT_QEXT_FEATURE_NO_PREFIX AND NOT "${INPUT
     set(QEXT_FEATURE_NO_PREFIX ON)
 endif ()
 
+# here we specify the installation directory
 if (NOT QEXT_BUILD_STANDALONE_TESTS)
     if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
         # Handle both FEATURE_ and QEXT_FEATURE_ cases when they are specified on the command line explicitly.
         # It's possible for one to be set, but not the other, because core/configure.cmake is not processed by this point.
         if ((QEXT_FEATURE_DEV_BUILD OR QEXT_FEATURE_NO_PREFIX) AND NOT CMAKE_STAGING_PREFIX)
-            # Handle non-prefix builds by setting the CMake install prefix to point to QEXT's build dir.
+            # Handle non-prefix builds by setting the CMake install prefix to point to QExt's build dir.
             set(QEXT_DEFAULT_PREFIX "${QEXT_BINARY_DIR}")
         else ()
             if (CMAKE_HOST_WIN32)
-                set(QEXT_DEFAULT_PREFIX "C:/QEXT/")
+                set(QEXT_DEFAULT_PREFIX "C:/QExt/")
             else ()
                 set(QEXT_DEFAULT_PREFIX "/usr/local/")
             endif ()
-            string(APPEND QEXT_DEFAULT_PREFIX "QEXT-${QEXT_VERSION}")
+            string(APPEND QEXT_DEFAULT_PREFIX "QExt-${QEXT_VERSION}")
         endif ()
         set(CMAKE_INSTALL_PREFIX ${QEXT_DEFAULT_PREFIX} CACHE PATH "Install path prefix, prepended onto install directories." FORCE)
     endif ()
@@ -164,7 +165,10 @@ if (NOT QEXT_BUILD_STANDALONE_TESTS)
     else ()
         set(QEXT_WILL_INSTALL_VALUE ON)
     endif ()
-    set(QEXT_WILL_INSTALL ${QEXT_WILL_INSTALL_VALUE} CACHE BOOL "Boolean indicating if doing a QEXT prefix build (vs non-prefix build)." FORCE)
+    set(QEXT_WILL_INSTALL ${QEXT_WILL_INSTALL_VALUE} CACHE BOOL "Boolean indicating if doing a QExt prefix build (vs non-prefix build)." FORCE)
+endif ()
+if (NOT CMAKE_INSTALL_PREFIX)
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/install" CACHE PATH "Install path prefix, prepended onto install directories." FORCE)
 endif ()
 
 if (QEXT_FEATURE_DEV_BUILD)
@@ -401,14 +405,16 @@ include(qextMacroFindReadline)
 include(qextMacroBuildDoxygen)
 include(qextMacroFindLibVLC)
 
+include(QExtPrecompiledHeadersHelpers)
 include(QExtScopeFinalizerHelpers)
+include(QExtPublicTargetHelpers)
+include(QExtFlagHandlingHelpers)
+include(QExtSubdirectoryHelpers)
+include(QExtCMakeVersionHelpers)
 include(QExtGlobalStateHelpers)
 include(QExtSyncIncludeHelpers)
 include(QExtFindPackageHelpers)
 include(QExtPrecompiledHelpers)
-include(QExtPublicTargetHelpers)
-include(QExtFlagHandlingHelpers)
-include(QExtCMakeVersionHelpers)
 include(QExtExecutableHelpers)
 include(QExtSeparateDebugInfo)
 include(QExtConfigureHelpers)
@@ -418,10 +424,10 @@ include(QExtLibraryHelpers)
 include(QExtInstallHelpers)
 include(QExtModuleHelpers)
 include(QExtTargetHelpers)
-include(QExtCMakeHelpers)
-include(QExtTestHelpers)
-include(QExtRpathHelpers)
 include(QExtOptionHelpers)
+include(QExtCMakeHelpers)
+include(QExtRpathHelpers)
+include(QExtTestHelpers)
 
 #
 ##--------------------------------------------------------------------------------
@@ -495,7 +501,7 @@ include(QExtOptionHelpers)
 #if(QEXT_BUILD_USE_PCH)
 #    if(NOT ${QEXT_BUILD_SHARED_LIBS})
 #        set(QEXT_BUILD_USE_PCH FALSE)
-#        message(STATUS "Do not build use pch, becase QEXT build shared library.")
+#        message(STATUS "Do not build use pch, becase QExt build shared library.")
 #    endif()
 #endif()
 #
@@ -637,12 +643,12 @@ qext_configure_process_path(INSTALL_DATADIR "." "Arch-independent data [PREFIX]"
 qext_configure_process_path(INSTALL_DOCDIR "${INSTALL_DATADIR}/doc" "Documentation [DATADIR/doc]")
 qext_configure_process_path(INSTALL_TRANSLATIONSDIR "${INSTALL_DATADIR}/translations" "Translations [DATADIR/translations]")
 if (APPLE)
-    set(QEXT_DEFAULT_SYS_CONF_DIR "/Library/Preferences/QEXT")
+    set(QEXT_DEFAULT_SYS_CONF_DIR "/Library/Preferences/QExt")
 else ()
     set(QEXT_DEFAULT_SYS_CONF_DIR "etc/xdg")
 endif ()
 qext_configure_process_path(INSTALL_SYSCONFDIR
-        "${QEXT_DEFAULT_SYS_CONF_DIR}" "Settings used by QEXT programs [PREFIX/etc/xdg]/[/Library/Preferences/QEXT]")
+        "${QEXT_DEFAULT_SYS_CONF_DIR}" "Settings used by QExt programs [PREFIX/etc/xdg]/[/Library/Preferences/QExt]")
 qext_configure_process_path(INSTALL_EXAMPLESDIR "examples" "Examples [PREFIX/examples]")
 qext_configure_process_path(INSTALL_TESTSDIR "tests" "Tests [PREFIX/tests]")
 qext_configure_process_path(INSTALL_DESCRIPTIONSDIR
@@ -658,7 +664,7 @@ function(qext_internal_set_up_global_paths)
     # Compute the values of QEXT_BUILD_DIR, QEXT_INSTALL_DIR, QEXT_CONFIG_BUILD_DIR, QEXT_CONFIG_INSTALL_DIR
     # taking into account whether the current build is a prefix build or a non-prefix build,
     # and whether it is a superbuild or non-superbuild.
-    # A third case is when another module or standalone tests are built against a super-built QEXT.
+    # A third case is when another module or standalone tests are built against a super-built QExt.
     # The layout for the third case is the same as for non-superbuilds.
     #
     # These values should be prepended to file paths in commands or properties,
@@ -689,7 +695,7 @@ function(qext_internal_set_up_global_paths)
             set(QEXT_BUILD_DIR "${CMAKE_BINARY_DIR}")
             set(QEXT_INSTALL_DIR "")
         else ()
-            # When doing a non-prefix build, both the build dir and install dir are the same, pointing to the QEXT build dir.
+            # When doing a non-prefix build, both the build dir and install dir are the same, pointing to the QExt build dir.
             set(QEXT_BUILD_DIR "${QEXT_STAGING_PREFIX}")
             set(QEXT_INSTALL_DIR "${QEXT_BUILD_DIR}")
         endif ()
@@ -750,7 +756,7 @@ if (NOT QEXT_NO_DISABLE_CMAKE_INSTALL_RPATH_USE_LINK_PATH)
     set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
 endif ()
 
-# Ensure that GNUInstallDirs's CMAKE_INSTALL_LIBDIR points to the same lib dir that QEXT was
+# Ensure that GNUInstallDirs's CMAKE_INSTALL_LIBDIR points to the same lib dir that QExt was
 # configured with. Currently this is important for QML plugins, which embed an rpath based
 # on that value.
 set(CMAKE_INSTALL_LIBDIR "${INSTALL_LIBDIR}")
@@ -773,6 +779,12 @@ if (QEXT_BUILD_TESTS)
     include(CTest)
     enable_testing()
 endif ()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Set platform and mkspecs define
+#-----------------------------------------------------------------------------------------------------------------------
+include(QExtPlatformSupport)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -806,7 +818,7 @@ set(QEXT_TOP_LEVEL_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Prevent warnings about object files without any symbols. This is a common thing in QEXT as we tend to build files
+# Prevent warnings about object files without any symbols. This is a common thing in QExt as we tend to build files
 # unconditionally, and then use ifdefs to compile out parts that are not relevant.
 #-----------------------------------------------------------------------------------------------------------------------
 if (CMAKE_HOST_APPLE AND APPLE)
@@ -828,7 +840,7 @@ if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif ()
 
 if (CMAKE_CROSSCOMPILING AND NOT IS_DIRECTORY "${QEXT_HOST_PATH}")
-    message(FATAL_ERROR "You need to set QEXT_HOST_PATH to cross compile QEXT.")
+    message(FATAL_ERROR "You need to set QEXT_HOST_PATH to cross compile QExt.")
 endif ()
 
 
@@ -883,9 +895,9 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 # add subdirectory
 #--------------------------------------------------------------------------------
 add_subdirectory(src/libs)
-#add_subdirectory(src/apps)
-#add_subdirectory(src/plugins)
-#add_subdirectory(src/qml)
+#utk_add_subdirectory(src/apps QEXT_BUILD_APPS)
+#utk_add_subdirectory(src/qml QEXT_BUILD_QMLS)
+#utk_add_subdirectory(src/plugins QEXT_BUILD_PLUGINS)
 
 
 #--------------------------------------------------------------------------------
@@ -914,30 +926,25 @@ if (QEXT_BUILD_INSTALL)
     set(CPACK_CREATE_DESKTOP_LINKS ${QEXT_PRODUCT_NAME})
     include(CPack REQUIRED)
 
-    install(
-            DIRECTORY ${QEXT_OUTPUT_APP_DIR}
+    install(DIRECTORY ${QEXT_OUTPUT_APP_DIR}
             DESTINATION ./bin
             COMPONENT Apps
             PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
     )
-    install(
-            DIRECTORY ${QEXT_OUTPUT_LIB_DIR}
+    install(DIRECTORY ${QEXT_OUTPUT_LIB_DIR}
             DESTINATION ./lib
             COMPONENT Libs
     )
-    install(
-            DIRECTORY ${QEXT_OUTPUT_QML_DIR}
+    install(DIRECTORY ${QEXT_OUTPUT_QML_DIR}
             DESTINATION ./qml
             COMPONENT Qml
     )
-    install(
-            DIRECTORY ${QEXT_OUTPUT_EXAMPLE_DIR}
+    install(DIRECTORY ${QEXT_OUTPUT_EXAMPLE_DIR}
             DESTINATION ./example
             COMPONENT Example
             PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
     )
-    install(
-            DIRECTORY ${QEXT_OUTPUT_INCLUDE_DIR}
+    install(DIRECTORY ${QEXT_OUTPUT_INCLUDE_DIR}
             DESTINATION ./include
             COMPONENT Include
     )

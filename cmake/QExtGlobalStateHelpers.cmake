@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -24,7 +24,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_clear_repo_known_libraries)
-    set(QEXT_REPO_KNOWN_LIBRARIES "" CACHE INTERNAL "Known current repo QEXT libraries" FORCE)
+    set(QEXT_REPO_KNOWN_LIBRARIES "" CACHE INTERNAL "Known current repo QExt libraries" FORCE)
 endfunction()
 
 
@@ -33,7 +33,7 @@ endfunction()
 function(qext_internal_add_repo_known_library)
     if(NOT (${ARGN} IN_LIST QEXT_REPO_KNOWN_LIBRARIES))
         set(QEXT_REPO_KNOWN_LIBRARIES ${QEXT_REPO_KNOWN_LIBRARIES} ${ARGN}
-            CACHE INTERNAL "Known current repo QEXT libraries" FORCE)
+            CACHE INTERNAL "Known current repo QExt libraries" FORCE)
     endif()
 endfunction()
 
@@ -50,9 +50,9 @@ endfunction()
 macro(qext_internal_append_known_libraries_with_tools library)
     if(NOT ${library} IN_LIST QEXT_KNOWN_LIBRARIES_WITH_TOOLS)
         set(QEXT_KNOWN_LIBRARIES_WITH_TOOLS "${QEXT_KNOWN_LIBRARIES_WITH_TOOLS};${library}"
-            CACHE INTERNAL "Known QEXT libraries with tools" FORCE)
+            CACHE INTERNAL "Known QExt libraries with tools" FORCE)
         set(QEXT_KNOWN_LIBRARIES_${library}_TOOLS ""
-            CACHE INTERNAL "Known QEXT libraries ${library} tools" FORCE)
+            CACHE INTERNAL "Known QExt libraries ${library} tools" FORCE)
     endif()
 endmacro()
 
@@ -63,7 +63,7 @@ macro(qext_internal_append_known_library_tool library tool)
     if(NOT ${tool} IN_LIST QEXT_KNOWN_LIBRARIES_${library}_TOOLS)
         list(APPEND QEXT_KNOWN_LIBRARIES_${library}_TOOLS "${tool}")
         set(QEXT_KNOWN_LIBRARIES_${library}_TOOLS "${QEXT_KNOWN_LIBRARIES_${library}_TOOLS}"
-            CACHE INTERNAL "Known QEXT library ${library} tools" FORCE)
+            CACHE INTERNAL "Known QExt library ${library} tools" FORCE)
     endif()
 endmacro()
 
@@ -82,7 +82,7 @@ macro(qext_build_repo_begin)
 #        # In a top-level build, print a message only in qextbase, which is the first repository.
 #        if(NOT QEXT_SUPERBUILD OR (PROJECT_NAME STREQUAL "QEXTBase"))
 #            install(CODE [[message(FATAL_ERROR
-#                    "QEXT was configured as non-prefix build. "
+#                    "QExt was configured as non-prefix build. "
 #                    "Installation is not supported for this arrangement.")]])
 #        endif()
 #
@@ -170,7 +170,7 @@ endmacro()
 #-----------------------------------------------------------------------------------------------------------------------
 macro(qext_build_repo_end)
     if(NOT QEXT_BUILD_STANDALONE_TESTS)
-        # Delayed actions on some of the QEXT targets:
+        # Delayed actions on some of the QExt targets:
         include(QEXTPostProcess)
 
         # Install the repo-specific cmake find modules.

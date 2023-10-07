@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2023 ChengXueWen.
 #
@@ -58,18 +58,18 @@ endmacro()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# This is the main entry function for creating a QEXT library, that typically consists of a library, public header files,
+# This is the main entry function for creating a QExt library, that typically consists of a library, public header files,
 # private header files and configurable features.
 #
 # A CMake target with the specified target parameter is created. If the current source directory has a configure.cmake
 # file, then that is also processed for feature definition and testing. Any features defined as well as any features
 # coming from dependencies to this library are imported into the scope of the calling feature.
 #
-# Target is without leading "QEXT". So e.g. the "QEXTCore" library has the target "Core".
+# Target is without leading "QExt". So e.g. the "QEXTCore" library has the target "Core".
 #
 # Options:
 #   NO_ADDITIONAL_TARGET_INFO
-#     Don't generate a QEXT*AdditionalTargetInfo.cmake file.
+#     Don't generate a QExt*AdditionalTargetInfo.cmake file.
 #     The caller is responsible for creating one.
 #
 #   LIBRARY_INTERFACE_NAME
@@ -81,14 +81,14 @@ endmacro()
 #        For the SomeInternalModulePrivate target, the LIBRARY_INTERFACE_NAME will be SomeInternalModule
 #
 #   HEADER_LIBRARY
-#     Creates an interface library instead of following the QEXT configuration default. Mutually
+#     Creates an interface library instead of following the QExt configuration default. Mutually
 #     exclusive with STATIC.
 #
 #   STATIC
-#     Creates a static library instead of following the QEXT configuration default. Mutually exclusive with HEADER_LIBRARY.
+#     Creates a static library instead of following the QExt configuration default. Mutually exclusive with HEADER_LIBRARY.
 #
 #   EXTERNAL_HEADERS
-#     A explicit list of non QEXT headers (like 3rdparty) to be installed.
+#     A explicit list of non QExt headers (like 3rdparty) to be installed.
 #     Note this option overrides install headers used as PUBLIC_HEADER by cmake install(TARGET).
 #
 #   EXTERNAL_HEADERS_DIR
@@ -136,7 +136,7 @@ function(qext_add_library target)
     elseif(arg_STATIC)
         set(type_to_create STATIC)
     else()
-        set(type_to_create "") # Use default depending on QEXT configuration.
+        set(type_to_create "") # Use default depending on QExt configuration.
     endif()
 
     # add target library. If type_to_create is empty, it will be set afterwards
@@ -154,7 +154,7 @@ function(qext_add_library target)
     elseif(target_type STREQUAL "SHARED_LIBRARY")
         set(is_shared_lib 1)
     else()
-        message(FATAL_ERROR "Invalid target type '${target_type}' for QEXT library '${target}'")
+        message(FATAL_ERROR "Invalid target type '${target_type}' for QExt library '${target}'")
     endif()
 
     if(NOT arg_NO_SYNC_QEXT AND NOT arg_NO_LIBRARY_HEADERS AND arg_LIBRARY_INCLUDE_NAME)
@@ -191,8 +191,8 @@ function(qext_add_library target)
     if(NOT arg_CONFIG_LIBRARY_NAME)
         set(arg_CONFIG_LIBRARY_NAME "${target}")
     endif()
-    set(library_config_header "QExt${arg_CONFIG_LIBRARY_NAME}Config.h")
-    set(library_config_private_header "QExt${arg_CONFIG_LIBRARY_NAME}Config_p.h")
+    set(library_config_header "qext${arg_CONFIG_LIBRARY_NAME}Config.h")
+    set(library_config_private_header "qext${arg_CONFIG_LIBRARY_NAME}Config_p.h")
 
     # Library define needs to take into account the config library name.
     string(TOUPPER "${arg_CONFIG_LIBRARY_NAME}" library_define_infix)
@@ -222,8 +222,8 @@ function(qext_add_library target)
 
     if(NOT QEXT_FEATURE_NO_DIRENT_EXTERN_ACCESS AND QEXT_FEATURE_REDUCE_RELOCATIONS AND UNIX AND NOT is_interface_lib)
         # On x86 and x86-64 systems with ELF binaries (especially Linux), due to a new optimization in GCC 5.x in
-        # combination with a recent version of GNU binutils, compiling QEXT applications with -fPIE is no longer enough.
-        # Applications now need to be compiled with the -fPIC option if the QEXT option \"reduce relocations\" is active.
+        # combination with a recent version of GNU binutils, compiling QExt applications with -fPIE is no longer enough.
+        # Applications now need to be compiled with the -fPIC option if the QExt option \"reduce relocations\" is active.
         target_compile_options(${target} INTERFACE -fPIC)
         if(GCC AND is_shared_lib)
             target_link_options(${target} PRIVATE LINKER:-Bsymbolic-functions)
@@ -282,7 +282,7 @@ function(qext_add_library target)
             # probability of undefined symbols at link time.
             # These failures are only observed on Linux with the ld linker (not sure about ld.gold).
             # Allow opting out and modifying the value via cache value,  in case if we urgently need to increase it
-            # without waiting for the QEXT change to propagate to other dependent repos.
+            # without waiting for the QExt change to propagate to other dependent repos.
             # The proper fix will be to get rid of the cycles in the future.
             set(default_link_cycle_multiplicity "3")
             if(DEFINED QEXT_LINK_CYCLE_MULTIPLICITY)
@@ -460,8 +460,8 @@ function(qext_add_library target)
         # For the syncqext headers
         list(APPEND ${public_headers_list} "$<INSTALL_INTERFACE:${library_install_interface_include_dir}>")
 
-        # To support finding QEXT library includes that are not installed into the main QEXT prefix.
-        # Use case: A QEXT library built by Conan installed into a prefix other than the main prefix.
+        # To support finding QExt library includes that are not installed into the main QExt prefix.
+        # Use case: A QExt library built by Conan installed into a prefix other than the main prefix.
         # This does duplicate the include path set on QExt::platform target, but CMake is smart
         # enough to deduplicate the include paths on the command line.
         # Frameworks are automatically handled by CMake in cmLocalGenerator::GetIncludeFlags()
@@ -593,7 +593,7 @@ function(qext_add_library target)
     if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigExtras.cmake.in")
         if(target STREQUAL Core)
             set(extra_cmake_code "")
-            # Add some variables for compatibility with QEXT config files.
+            # Add some variables for compatibility with QExt config files.
             if(QEXT_FEATURE_REDUCE_EXPORTS)
                 string(APPEND qext_extra_cmake_code "set(QEXT_VISIBILITY_AVAILABLE TRUE)")
             endif()
@@ -712,7 +712,7 @@ function(qext_add_library target)
         CONFIG_INSTALL_DIR "${config_install_dir}")
 
     ### fixme: cmake is missing a built-in variable for this. We want to apply it only to modules and plugins
-    # that belong to QEXT.
+    # that belong to QExt.
     if(NOT arg_HEADER_LIBRARY)
         qext_internal_add_link_flags_no_undefined("${target}")
     endif()
@@ -790,10 +790,10 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 # Creates a library target by forwarding the arguments to add_library.
 #
-# Applies some QEXT specific behaviors:
+# Applies some QExt specific behaviors:
 # - If no type option is specified, rather than defaulting to STATIC it defaults to STATIC or SHARED
-#   depending on the QEXT configuration.
-# - Applies QEXT specific prefixes and suffixes to file names depending on platform.
+#   depending on the QExt configuration.
+# - Applies QExt specific prefixes and suffixes to file names depending on platform.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_add_library target)
     set(opt_args STATIC SHARED MODULE INTERFACE OBJECT)
@@ -823,7 +823,7 @@ function(qext_internal_add_library target)
         message(FATAL_ERROR "Multiple type options were given. Only one should be used.")
     endif()
 
-    # If no explicit type option is set, default to the flavor of the QEXT build.
+    # If no explicit type option is set, default to the flavor of the QExt build.
     # This in contrast to CMake which defaults to STATIC.
     if(NOT arg_STATIC AND NOT arg_SHARED AND NOT arg_MODULE AND NOT arg_INTERFACE AND NOT arg_OBJECT)
         if(QEXT_BUILD_SHARED_LIBS)
@@ -833,7 +833,6 @@ function(qext_internal_add_library target)
         endif()
     endif()
 
-    message(target=${target})
     add_library(${target} ${type_to_create} ${arg_UNPARSED_ARGUMENTS})
     qext_internal_set_up_static_runtime_library(${target})
 
@@ -843,7 +842,7 @@ function(qext_internal_add_library target)
 
     if(arg_MODULE AND APPLE)
         # CMake defaults to using .so extensions for loadable modules, aka plugins,
-        # but QEXT plugins are actually suffixed with .dylib.
+        # but QExt plugins are actually suffixed with .dylib.
         set_property(TARGET "${target}" PROPERTY SUFFIX ".dylib")
     endif()
 
@@ -854,7 +853,7 @@ endfunction()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Get a set of QEXT library related values based on the target.
+# Get a set of QExt library related values based on the target.
 #
 # The function uses the _qext_library_interface_name and _qext_library_include_name target properties to
 # preform values for the output variables. _qext_library_interface_name it's the basic name of library
@@ -868,7 +867,7 @@ endfunction()
 # When doing qext_internal_library_info(foo Core) this method will set the following variables in
 # the caller's scope:
 #  * foo with the value "QEXTCore"
-#  * foo_versioned with the value "QEXTCore" (based on major QEXT version)
+#  * foo_versioned with the value "QEXTCore" (based on major QExt version)
 #  * foo_upper with the value "CORE"
 #  * foo_lower with the value "core"
 #  * foo_include_name with the value"QEXTCore"
@@ -905,7 +904,7 @@ endfunction()
 #    e.g. qextbase_build_dir/include
 #  * repo_install_interface_include_dir contains path to the non-prefixed top-level include
 #    directory is used for the installation, e.g. include
-# Note: that for non-prefixed QEXT configurations the build interface paths will start with
+# Note: that for non-prefixed QExt configurations the build interface paths will start with
 # <build_directory>/qextbase/include, e.g foo_build_interface_include_dir of the Qml library looks
 # like qext_toplevel_build_dir/qextbase/include/QEXTQml
 #-----------------------------------------------------------------------------------------------------------------------
@@ -1026,7 +1025,7 @@ function(qext_internal_apply_win_prefix_and_suffix target)
         # static - qext_edid_support.lib (platform support libraries / or static qext_core, etc)
         # shared - qext_core.dll
         # shared import library - qext_core.lib
-        # library aka QEXT plugin - qext_windows.dll
+        # library aka QExt plugin - qext_windows.dll
         # library import library - qext_windows.lib
         #
         # The CMake defaults are fine for us.
@@ -1035,7 +1034,7 @@ function(qext_internal_apply_win_prefix_and_suffix target)
         # static - qext_edid_support.a (platform support libraries / or static qext_core, etc)
         # shared - qext_core.dll
         # shared import library - libqext_core.a
-        # library aka QEXT plugin - qext_windows.dll
+        # library aka QExt plugin - qext_windows.dll
         # library import library - libqext_windows.a
         #
         # CMake for Windows-GNU platforms defaults the prefix to "lib".
@@ -1320,7 +1319,7 @@ function(qext_internal_create_library_depends_file target)
         get_target_property(optional_public_depends "${target}_private" INTERFACE_LINK_LIBRARIES)
     endif()
 
-    # Used for collecting QEXT module dependencies that should be find_package()'d in ModuleDependencies.cmake.
+    # Used for collecting QExt module dependencies that should be find_package()'d in ModuleDependencies.cmake.
     get_target_property(target_deps "${target}" _qext_target_deps)
     set(target_deps_seen "")
     set(qext_library_dependencies "")
@@ -1346,12 +1345,12 @@ function(qext_internal_create_library_depends_file target)
     set(third_party_deps "")
     set(third_party_deps_seen "")
 
-    # Used for collecting QEXT tool dependencies that should be find_package()'d in
+    # Used for collecting QExt tool dependencies that should be find_package()'d in
     # ModuleToolsDependencies.cmake.
     set(tool_deps "")
     set(tool_deps_seen "")
 
-    # Used for collecting QEXT tool dependencies that should be find_package()'d in
+    # Used for collecting QExt tool dependencies that should be find_package()'d in
     # ModuleDependencies.cmake.
     set(main_library_tool_deps "")
 
@@ -1446,7 +1445,7 @@ function(qext_internal_create_library_depends_file target)
         qext_path_join(config_build_dir ${QEXT_CONFIG_BUILD_DIR} ${path_suffix})
         qext_path_join(config_install_dir ${QEXT_CONFIG_INSTALL_DIR} ${path_suffix})
 
-        # All module packages should look for the QEXT6 package version that QEXT was originally built as.
+        # All module packages should look for the QEXT6 package version that QExt was originally built as.
         qext_internal_get_package_version_of_target(Platform main_qext_package_version)
 
         # Configure and install ModuleDependencies file.
@@ -1461,7 +1460,7 @@ function(qext_internal_create_library_depends_file target)
             COMPONENT Devel)
 
         message(TRACE "Recorded dependencies for library: ${target}\n"
-            "    QEXT dependencies: ${target_deps}\n"
+            "    QExt dependencies: ${target_deps}\n"
             "    3rd-party dependencies: ${third_party_deps}")
     endif()
     if(tool_deps)
@@ -1527,8 +1526,8 @@ macro(qext_collect_third_party_deps target)
         set(_target_is_static ON)
     endif()
     unset(_target_type)
-    # If we are doing a non-static QEXT build, we only want to propagate public dependencies.
-    # If we are doing a static QEXT build, we need to propagate all dependencies.
+    # If we are doing a non-static QExt build, we only want to propagate public dependencies.
+    # If we are doing a static QExt build, we need to propagate all dependencies.
     set(depends_var "public_depends")
     if(_target_is_static)
         set(depends_var "depends")
@@ -1536,7 +1535,7 @@ macro(qext_collect_third_party_deps target)
     unset(_target_is_static)
 
     foreach(dep ${${depends_var}} ${optional_public_depends} ${extra_third_party_deps})
-        # Gather third party packages that should be found when using the QEXT module.
+        # Gather third party packages that should be found when using the QExt module.
         # Also handle nolink target dependencies.
         string(REGEX REPLACE "_nolink$" "" base_dep "${dep}")
         if(NOT base_dep STREQUAL dep)
@@ -1581,7 +1580,7 @@ endmacro()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Gets the list of all known QEXT libraries both found and that were built as part of the current project.
+# Gets the list of all known QExt libraries both found and that were built as part of the current project.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_get_all_known_librarys out_var)
     qext_internal_get_repo_known_librarys(repo_known_librarys)

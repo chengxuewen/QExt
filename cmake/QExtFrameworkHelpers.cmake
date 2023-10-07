@@ -1,6 +1,6 @@
 ########################################################################################################################
 #
-# Library: QEXT
+# Library: QExt
 #
 # Copyright (C) 2022 ChengXueWen.
 #
@@ -131,7 +131,7 @@ function(qext_internal_get_framework_info out_var target)
     get_target_property(${out_var}_bundle_version ${target} MACOSX_FRAMEWORK_BUNDLE_VERSION)
 
     # The library name might be different of the actual target name
-    # and we want to use the QEXT'fied library name as a framework identifier.
+    # and we want to use the QExt'fied library name as a framework identifier.
     get_target_property(library_interface_name ${target} _qext_library_interface_name)
     if(library_interface_name)
         qext_internal_target_add_fied(library ${library_interface_name})
