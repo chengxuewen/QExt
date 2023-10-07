@@ -241,7 +241,7 @@ function(qext_register_target_dependencies target public_libs private_libs)
         set(target_is_static TRUE)
     endif()
 
-    # Record 'qext::foo'-like private dependencies of static library targets, this will be used to
+    # Record 'QExt::foo'-like private dependencies of static library targets, this will be used to
     # generate find_dependency() calls.
     #
     # Private static library dependencies will become $<LINK_ONLY:> dependencies in
@@ -251,7 +251,7 @@ function(qext_register_target_dependencies target public_libs private_libs)
     endif()
 
     foreach(lib IN LISTS lib_list)
-        if("${lib}" MATCHES "^qext::(.*)")
+        if("${lib}" MATCHES "^QExt::(.*)")
             set(lib "${CMAKE_MATCH_1}")
             qext_internal_get_package_name_of_target("${lib}" package_name)
             qext_internal_get_package_version_of_target("${lib}" package_version)
@@ -259,7 +259,7 @@ function(qext_register_target_dependencies target public_libs private_libs)
         endif()
     endforeach()
 
-    # Record 'qext::foo'-like shared private dependencies of shared library targets.
+    # Record 'QExt::foo'-like shared private dependencies of shared library targets.
     #
     # Private shared library dependencies are listed in the target's
     # IMPORTED_LINK_DEPENDENT_LIBRARIES and used in rpath-link calculation.
@@ -267,7 +267,7 @@ function(qext_register_target_dependencies target public_libs private_libs)
     # INTERFACE libraries. INTERFACE libraries in most cases will be FooPrivate libraries.
     if(target_is_shared AND private_libs)
         foreach(lib IN LISTS private_libs)
-            if("${lib}" MATCHES "^qext::(.*)")
+            if("${lib}" MATCHES "^QExt::(.*)")
                 set(lib_namespaced "${lib}")
                 set(lib "${CMAKE_MATCH_1}")
 
@@ -296,7 +296,7 @@ function(qext_internal_get_package_name_of_target target package_name_out_var)
     # their builds not to contain stale FooDependencies.cmakes files without the
     # _qext_package_name property.
     set(package_name "")
-    set(package_name_default "${INSTALL_CMAKE_NAMESPACE}_${target}")
+    set(package_name_default "${INSTALL_CMAKE_NAMESPACE}${target}")
     set(target_namespaced "${QEXT_CMAKE_EXPORT_NAMESPACE}::${target}")
     #    message(target_namespaced=${target_namespaced})
     if(TARGET "${target_namespaced}")
@@ -337,7 +337,7 @@ function(qext_internal_get_package_version_of_target target package_version_out_
 
     # Try to get the version from the corresponding package version variable.
     if(NOT package_version)
-        set(package_version "${${QEXT_CMAKE_EXPORT_NAMESPACE}_${target}_VERSION}")
+        set(package_version "${${QEXT_CMAKE_EXPORT_NAMESPACE}${target}_VERSION}")
     endif()
 
     # Try non-Private target.
@@ -350,7 +350,7 @@ function(qext_internal_get_package_version_of_target target package_version_out_
     endif()
 
     if(NOT package_version)
-        set(package_version "${${QEXT_CMAKE_EXPORT_NAMESPACE}_${target}_VERSION}")
+        set(package_version "${${QEXT_CMAKE_EXPORT_NAMESPACE}${target}_VERSION}")
     endif()
 
     if(NOT package_version)

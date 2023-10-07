@@ -206,7 +206,7 @@ function(qext_configure_file)
     endif()
 
     if(arg_CONTENT)
-        set(template_name "QEXTFileConfigure.txt.in")
+        set(template_name "QExtFileConfigure.txt.in")
         set(input_file "${PROJECT_SOURCE_DIR}/cmake/${template_name}")
         set(__qext_file_configure_content "${arg_CONTENT}")
     elseif(arg_INPUT)

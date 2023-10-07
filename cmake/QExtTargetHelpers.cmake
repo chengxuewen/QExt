@@ -111,9 +111,9 @@ function(qext_internal_extend_target target)
         # CorePrivate).
         set(qext_libs_private "")
         foreach(it ${known_librarys})
-            list(FIND arg_LIBRARIES "qext::${it}_private" pos)
+            list(FIND arg_LIBRARIES "QExt::${it}_private" pos)
             if(pos GREATER -1)
-                list(APPEND qext_libs_private "qext::${it}_private")
+                list(APPEND qext_libs_private "QExt::${it}_private")
             endif()
         endforeach()
 
@@ -167,17 +167,17 @@ endfunction()
 # Common function to add QEXT prefixes to the target name, use the QEXT'fied library name as a framework identifier.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_target_add_fied out_var target)
-    set(${out_var} "qext${target}" PARENT_SCOPE)
-    set(${out_var}_versioned "qext${QEXT_NAMESPACE_VERSION}${target}" PARENT_SCOPE)
+    set(${out_var} "QExt${target}" PARENT_SCOPE)
+    set(${out_var}_versioned "QExt${QEXT_NAMESPACE_VERSION}${target}" PARENT_SCOPE)
 endfunction()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Add qext::target and qext1::target as aliases for the target
+# Add QExt::target and qext1::target as aliases for the target
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_add_target_aliases target)
-    set(versionless_alias "qext::${target}")
-    set(versionfull_alias "qext${QEXT_NAMESPACE_VERSION}::${target}")
+    set(versionless_alias "QExt::${target}")
+    set(versionfull_alias "QExt${QEXT_NAMESPACE_VERSION}::${target}")
     set_target_properties("${target}" PROPERTIES _qext_versionless_alias "${versionless_alias}")
     set_target_properties("${target}" PROPERTIES _qext_versionfull_alias "${versionfull_alias}")
 
@@ -263,7 +263,7 @@ function(qext_internal_set_compile_pdb_names target)
         if(target_type STREQUAL "STATIC_LIBRARY" OR target_type STREQUAL "OBJECT_LIBRARY")
             get_target_property(output_name ${target} OUTPUT_NAME)
             if(NOT output_name)
-                set(output_name "${INSTALL_CMAKE_NAMESPACE}_${target}")
+                set(output_name "${INSTALL_CMAKE_NAMESPACE}${target}")
             endif()
             set_target_properties(${target} PROPERTIES COMPILE_PDB_NAME "${output_name}")
             set_target_properties(${target} PROPERTIES COMPILE_PDB_NAME_DEBUG "${output_name}d")
@@ -348,7 +348,7 @@ endmacro()
 #
 # TARGETS and TARGET_EXPORT_NAMES must contain exactly the same number of elements.
 # Example: TARGETS = scriptjs_native
-#          TARGET_EXPORT_NAMES = qext::scriptJs
+#          TARGET_EXPORT_NAMES = QExt::scriptJs
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_export_additional_targets_file)
     qext_internal_get_export_additional_targets_keywords(option_args single_args multi_args)
@@ -451,7 +451,7 @@ function(qext_internal_export_modern_cmake_config_targets_file)
 
         qext_install(TARGETS "${target}Versionless" EXPORT ${export_name})
     endforeach()
-    qext_install(EXPORT ${export_name} NAMESPACE qext:: DESTINATION "${__arg_CONFIG_INSTALL_DIR}")
+    qext_install(EXPORT ${export_name} NAMESPACE QExt:: DESTINATION "${__arg_CONFIG_INSTALL_DIR}")
 endfunction()
 
 

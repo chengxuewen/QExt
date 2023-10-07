@@ -81,7 +81,7 @@ function(qext_internal_generate_pkg_config_file module)
     # TODO: Handle macOS framework builds
     qext_internal_collect_direct_target_dependencies(${target} loose_target_requires)
     foreach(dep IN LISTS loose_target_requires)
-        if(dep MATCHES "^qext::")
+        if(dep MATCHES "^QExt::")
             string(REGEX REPLACE "QEXT" "${QEXT_CMAKE_EXPORT_NAMESPACE}" dep ${dep})
         else()
             # TODO: Figure out a way to get non-QEXT requirements PkgConfig files.

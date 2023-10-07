@@ -24,200 +24,72 @@
 #
 #################################################################################
 
-#--------------------------------------------------------------------------------
-# Set lib base name and out put path
-#--------------------------------------------------------------------------------
-set(QEXT_LIB_BASE_NAME Core)
-
-
-
-#--------------------------------------------------------------------------------
-# Set lib file list
-#--------------------------------------------------------------------------------
-#set(QEXT_LIB_PUBLIC_HEADERS
-#    ${CMAKE_CURRENT_BINARY_DIR}/qextConfig.h
-
-#    include/global/qextCompiler.h
-#    include/global/qextGlobal.h
-#    include/global/qextProcessor.h
-#    include/global/qextSystem.h
-
-
-#    include/qextPch.h
-#    )
-
-#set(QEXT_LIB_PRIVATE_HEADERS
-#    )
-
-#set(QEXT_LIB_SOURCES
-#    source/invoke/qextConnection.cpp
-#    source/invoke/qextSignal.cpp
-#    source/invoke/qextFunction.cpp
-
-#    source/tools/qextId.cpp
-#    source/tools/qextLinearFunction.cpp
-#    )
-
-#set(QEXT_LIB_FORMS
-
-#    )
-
-#set(QEXT_LIB_RESOURCES
-
-#    )
-
-
 
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
 set(QEXT_LIB_LINK_LIBRARIES)
 
-if(UNIX)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_DL_LIBS})
-endif()
-
-if(WIN32)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES shlwapi.lib)
-endif()
-
-if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
-endif()
-
-if(QEXT_QT_VERSION_MAJOR EQUAL 4)
+if (QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore)
-elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+elseif (QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
-        Qt${QEXT_QT_VERSION_MAJOR}::Core
+            Qt${QEXT_QT_VERSION_MAJOR}::Core
     )
-else()
+else ()
     message(FATAL_ERROR "Not find Qt package")
-endif()
-
-
-
-##--------------------------------------------------------------------------------
-## Add lib target
-##--------------------------------------------------------------------------------
-#add_library(${QEXT_LIB_BASE_NAME}
-#    ${QEXT_LIB_PUBLIC_HEADERS}
-#    ${QEXT_LIB_PRIVATE_HEADERS}
-#    ${QEXT_LIB_SOURCES}
-#    ${QEXT_LIB_FORMS}
-#    ${QEXT_LIB_RESOURCES}
-#    )
-#if (QEXT_BUILD_COMPILER_WARNING)
-#    qextFunctionSetCompilerWarnings(${QEXT_LIB_BASE_NAME})
-#endif()
-#if (QEXT_BUILD_USE_PCH)
-#    qextFunctionActivatePrecompiledHeaders(${QEXT_LIB_BASE_NAME} PRIVATE include/qextPch.h)
-#endif()
-#target_link_libraries(${QEXT_LIB_BASE_NAME} PUBLIC ${QEXT_LIB_LINK_LIBRARIES})
-#target_include_directories(${QEXT_LIB_BASE_NAME}
-#    PUBLIC
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/global>
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/invoke>
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/tools>
-#    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}>
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private/global>
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private/invoke>
-#    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private/tools>
-#    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}/private>
-#    )
-#if(QEXT_BUILD_SHARED_LIBS)
-#    target_compile_definitions(${QEXT_LIB_BASE_NAME} PUBLIC QEXT_BUILD_SHARED_LIBS)
-#endif()
-#target_compile_definitions(${QEXT_LIB_BASE_NAME} PRIVATE QEXT_BUILD_CORE_LIB)
-
-## set target properties
-#set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
-#    VERSION ${QEXT_VERSION}
-#    SOVERSION ${QEXT_SO_VERSION}
-#    CXX_STANDARD ${QEXT_CXX_STANDARD}
-#    DEBUG_POSTFIX ${QEXT_DEBUG_POSTFIX}
-#    )
-#if (QEXT_BUILD_SHARED_LIBS)
-#    set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
-#        CXX_VISIBILITY_PRESET hidden
-#        VISIBILITY_INLINES_HIDDEN 1
-#        )
-#endif()
-
-## set include files copy command
-#foreach(HEADER ${QEXT_LIB_PUBLIC_HEADERS})
-#    get_filename_component(HEADER_ABSOLUTE_PATH ${HEADER} ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR})
-#    list(APPEND QEXT_LIB_PUBLIC_ABSOLUTE_HEADERS ${HEADER_ABSOLUTE_PATH})
-#endforeach()
-#foreach(HEADER ${QEXT_LIB_PRIVATE_HEADERS})
-#    get_filename_component(HEADER_ABSOLUTE_PATH ${HEADER} ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR})
-#    list(APPEND QEXT_LIB_PRIVATE_ABSOLUTE_HEADERS ${HEADER_ABSOLUTE_PATH})
-#endforeach()
-#add_custom_command(
-#    TARGET ${QEXT_LIB_BASE_NAME}
-#    COMMAND ${CMAKE_COMMAND} -E remove_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-#    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-#    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}/private
-#    COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_LIB_PUBLIC_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-##    COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_LIB_PRIVATE_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}/private
-#    COMMENT "Copy ${QEXT_LIB_BASE_NAME} include files to output dir"
-#    POST_BUILD
-#    )
-
+endif ()
 
 
 #--------------------------------------------------------------------------------
 # Add lib tests and examples
 #--------------------------------------------------------------------------------
-#if (QEXT_BUILD_TESTS)
-#    add_subdirectory(tests)
-#endif()
+if (QEXT_BUILD_TESTS)
+    add_subdirectory(tests)
+endif ()
 
-#if (QEXT_BUILD_EXAMPLES)
-#    add_subdirectory(examples)
-#endif()
+if (QEXT_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif ()
 
 
-qext_add_library(${QEXT_LIB_BASE_NAME}
-    EXCEPTIONS
-    SOURCES
-    source/global/qextCompiler.h
-    source/global/qextGlobal.h
-    source/global/qextPreprocessor.h
-    source/global/qextProcessor.h
-    source/global/qextSystem.h
-    source/invoke/qextAdaptorTrait.h
-    source/invoke/qextBindFunctor.h
-    source/invoke/qextBindReturnFunctor.h
-    source/invoke/qextBoundArgument.h
-    source/invoke/qextComposeFunctor.h
-    source/invoke/qextConnection.h
-    source/invoke/qextConnection.cpp
-    source/invoke/qextEmitter.h
-    source/invoke/qextFunction.h
-    source/invoke/qextFunction.cpp
-    source/invoke/qextHideFunctor.h
-    source/invoke/qextInPlace.h
-    source/invoke/qextLimitReference.h
-    source/invoke/qextMemberFunctor.h
-    source/invoke/qextPointerFunctor.h
-    source/invoke/qextReferenceWrapper.h
-    source/invoke/qextReturnTypeDeduce.h
-    source/invoke/qextRetypeFunctor.h
-    source/invoke/qextRetypeReturnFunctor.h
-    source/invoke/qextSignal.h
-    source/invoke/qextSignal.cpp
-    source/invoke/qextTrackObjectFunctor.h
-    source/invoke/qextVisitor.h
-    source/tools/qextId.h
-    source/tools/qextId.cpp
-    source/tools/qextTypeInfo.h
-    source/tools/qextTypeTrait.h
-    source/tools/qextUniquePointer.h
-    PRECOMPILED_HEADER
-    source/qextPch.h
-    LIBRARIES
-    ${QEXT_LIB_LINK_LIBRARIES})
+qext_add_library(Core
+        EXCEPTIONS
+        SOURCES
+        source/global/qextCompiler.h
+        source/global/qextGlobal.h
+        source/global/qextPreprocessor.h
+        source/global/qextProcessor.h
+        source/global/qextSystem.h
+        source/invoke/qextAdaptorTrait.h
+        source/invoke/qextBindFunctor.h
+        source/invoke/qextBindReturnFunctor.h
+        source/invoke/qextBoundArgument.h
+        source/invoke/qextComposeFunctor.h
+        source/invoke/qextConnection.h
+        source/invoke/qextConnection.cpp
+        source/invoke/qextEmitter.h
+        source/invoke/qextFunction.h
+        source/invoke/qextFunction.cpp
+        source/invoke/qextHideFunctor.h
+        source/invoke/qextInPlace.h
+        source/invoke/qextLimitReference.h
+        source/invoke/qextMemberFunctor.h
+        source/invoke/qextPointerFunctor.h
+        source/invoke/qextReferenceWrapper.h
+        source/invoke/qextReturnTypeDeduce.h
+        source/invoke/qextRetypeFunctor.h
+        source/invoke/qextRetypeReturnFunctor.h
+        source/invoke/qextSignal.h
+        source/invoke/qextSignal.cpp
+        source/invoke/qextTrackObjectFunctor.h
+        source/invoke/qextVisitor.h
+        source/tools/qextId.h
+        source/tools/qextId.cpp
+        source/tools/qextTypeInfo.h
+        source/tools/qextTypeTrait.h
+        source/tools/qextUniquePointer.h
+        PRECOMPILED_HEADER
+        source/qextPch.h
+        LIBRARIES
+        ${QEXT_LIB_LINK_LIBRARIES})

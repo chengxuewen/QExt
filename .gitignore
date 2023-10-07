@@ -74,5 +74,8 @@ Thumbs.db
 # cmake user file
 CMakeLists.txt.user
 
+
 build
+.idea
 .vscode
+cmake-build-debug

@@ -165,7 +165,7 @@ function(qext_add_library target)
     set_target_properties(${target} PROPERTIES
         _qext_library_interface_name "${arg_LIBRARY_INTERFACE_NAME}"
         _qext_package_version "${PROJECT_VERSION}"
-        _qext_package_name "${INSTALL_CMAKE_NAMESPACE}_${target}")
+        _qext_package_name "${INSTALL_CMAKE_NAMESPACE}${target}")
     set(export_properties
         "_qext_library_interface_name"
         "_qext_package_version"
@@ -191,8 +191,8 @@ function(qext_add_library target)
     if(NOT arg_CONFIG_LIBRARY_NAME)
         set(arg_CONFIG_LIBRARY_NAME "${target}")
     endif()
-    set(library_config_header "qext${arg_CONFIG_LIBRARY_NAME}Config.h")
-    set(library_config_private_header "qext${arg_CONFIG_LIBRARY_NAME}Config_p.h")
+    set(library_config_header "QExt${arg_CONFIG_LIBRARY_NAME}Config.h")
+    set(library_config_private_header "QExt${arg_CONFIG_LIBRARY_NAME}Config_p.h")
 
     # Library define needs to take into account the config library name.
     string(TOUPPER "${arg_CONFIG_LIBRARY_NAME}" library_define_infix)
@@ -213,8 +213,8 @@ function(qext_add_library target)
         set(is_framework 1)
         set_target_properties(${target} PROPERTIES
             FRAMEWORK TRUE
-            FRAMEWORK_VERSION "A" # Not based on QEXT major version
-            MACOSX_FRAMEWORK_IDENTIFIER org.qext-project.${library}
+            FRAMEWORK_VERSION "A" # Not based on QExt major version
+            MACOSX_FRAMEWORK_IDENTIFIER org.QExt-project.${library}
             MACOSX_FRAMEWORK_BUNDLE_VERSION ${PROJECT_VERSION}
             MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
         qext_internal_get_framework_info(fw ${target})
@@ -254,7 +254,7 @@ function(qext_add_library target)
         set_target_properties(${target_private} PROPERTIES
             _qext_config_library_name ${arg_CONFIG_LIBRARY_NAME}_private
             _qext_package_version "${PROJECT_VERSION}"
-            _qext_package_name "${INSTALL_CMAKE_NAMESPACE}_${target}"
+            _qext_package_name "${INSTALL_CMAKE_NAMESPACE}${target}"
             _qext_is_private_library TRUE
             _qext_public_library_target_name "${target}")
         set(export_properties
@@ -301,7 +301,7 @@ function(qext_add_library target)
             set_target_properties(${target} PROPERTIES OUTPUT_NAME ${fw_name})
         else()
             set_target_properties(${target} PROPERTIES
-                OUTPUT_NAME "${INSTALL_CMAKE_NAMESPACE}_${library_interface_name}${QEXT_LIBINFIX}")
+                OUTPUT_NAME "${INSTALL_CMAKE_NAMESPACE}${library_interface_name}${QEXT_LIBINFIX}")
         endif()
 
         qext_set_common_target_properties(${target})
@@ -345,7 +345,7 @@ function(qext_add_library target)
                 "${generate_private_cpp_export}")
         endif()
 
-        set(library_depends_header "${library_build_interface_include_dir}/qext${target}Depends.h")
+        set(library_depends_header "${library_build_interface_include_dir}/QExt${target}Depends.h")
         set(library_header "${CMAKE_CURRENT_SOURCE_DIR}/include/${library}")
         if(NOT EXISTS "${library_header}")
             set(once_macro "_QEXT${library_upper}_LIBRARY_H")
@@ -462,7 +462,7 @@ function(qext_add_library target)
 
         # To support finding QEXT library includes that are not installed into the main QEXT prefix.
         # Use case: A QEXT library built by Conan installed into a prefix other than the main prefix.
-        # This does duplicate the include path set on qext::platform target, but CMake is smart
+        # This does duplicate the include path set on QExt::platform target, but CMake is smart
         # enough to deduplicate the include paths on the command line.
         # Frameworks are automatically handled by CMake in cmLocalGenerator::GetIncludeFlags()
         # by additionally passing the 'QEXTFoo.framework/..' dir with an -iframework argument.
@@ -580,7 +580,7 @@ function(qext_add_library target)
     endif()
 
     # Handle creation of cmake files for consumers of find_package().
-    set(path_suffix "${INSTALL_CMAKE_NAMESPACE}_${target}")
+    set(path_suffix "${INSTALL_CMAKE_NAMESPACE}${target}")
     qext_path_join(config_build_dir ${QEXT_CONFIG_BUILD_DIR} ${path_suffix})
     qext_path_join(config_install_dir ${QEXT_CONFIG_INSTALL_DIR} ${path_suffix})
 
@@ -642,7 +642,7 @@ function(qext_add_library target)
         VERSION ${PROJECT_VERSION}
         COMPATIBILITY AnyNewerVersion)
     qext_internal_write_qext_package_version_file(
-        "${INSTALL_CMAKE_NAMESPACE}_${target}"
+        "${INSTALL_CMAKE_NAMESPACE}${target}"
         "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigVersion.cmake")
     qext_install(FILES
         "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}Config.cmake"
@@ -702,7 +702,7 @@ function(qext_add_library target)
         #        message(INSTALL_CMAKE_NAMESPACE=${INSTALL_CMAKE_NAMESPACE})
         qext_internal_export_additional_targets_file(
             TARGETS ${exported_targets}
-            EXPORT_NAME_PREFIX "${INSTALL_CMAKE_NAMESPACE}_${target}"
+            EXPORT_NAME_PREFIX "${INSTALL_CMAKE_NAMESPACE}${target}"
             CONFIG_INSTALL_DIR "${config_install_dir}")
     endif()
 
@@ -833,6 +833,7 @@ function(qext_internal_add_library target)
         endif()
     endif()
 
+    message(target=${target})
     add_library(${target} ${type_to_create} ${arg_UNPARSED_ARGUMENTS})
     qext_internal_set_up_static_runtime_library(${target})
 
@@ -1367,10 +1368,10 @@ function(qext_internal_create_library_depends_file target)
 
     set(all_depends ${depends} ${public_depends})
     foreach(dep ${all_depends})
-        # Normalize module by stripping leading "qext::" and trailing "Private"
+        # Normalize module by stripping leading "QExt::" and trailing "Private"
         if(dep MATCHES "(qext|${QEXT_CMAKE_EXPORT_NAMESPACE})::([-_A-Za-z0-9]+)")
             set(dep "${CMAKE_MATCH_2}")
-            set(real_dep_target "qext::${dep}")
+            set(real_dep_target "QExt::${dep}")
 
             if(TARGET "${real_dep_target}")
                 get_target_property(is_versionless_target "${real_dep_target}" _qext_is_versionless_target)
@@ -1441,7 +1442,7 @@ function(qext_internal_create_library_depends_file target)
     endif()
 
     if(third_party_deps OR main_library_tool_deps OR target_deps)
-        set(path_suffix "${INSTALL_CMAKE_NAMESPACE}_${target}")
+        set(path_suffix "${INSTALL_CMAKE_NAMESPACE}${target}")
         qext_path_join(config_build_dir ${QEXT_CONFIG_BUILD_DIR} ${path_suffix})
         qext_path_join(config_install_dir ${QEXT_CONFIG_INSTALL_DIR} ${path_suffix})
 
@@ -1473,7 +1474,7 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_write_depends_file target include_name)
-    set(outfile "${QEXT_BUILD_DIR}/include/${include_name}/qext${target}Depends.h")
+    set(outfile "${QEXT_BUILD_DIR}/include/${include_name}/QExt${target}Depends.h")
     set(contents "/* This file was generated by cmake with the info from ${target} target. */\n")
     string(APPEND contents "#ifdef __cplusplus /* create empty PCH in C mode */\n")
     foreach(m ${ARGN})

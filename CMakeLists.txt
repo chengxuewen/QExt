@@ -56,21 +56,21 @@ message(STATUS "Project copyright: ${QEXT_COPYRIGHT}")
 message(STATUS "Project license: ${QEXT_LICENSE}")
 
 
-
 #--------------------------------------------------------------------------------
 # find qt and include path, set cmake moc uic rcc on
 #--------------------------------------------------------------------------------
-if(CMAKE_VERSION VERSION_LESS "3.7.0")
+if (CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
-endif()
+endif ()
 
+set(CMAKE_PREFIX_PATH "/Users/cxw/Qt/5.15.2/clang_64")
 set(QEXT_QT_HAS_QJSON OFF)
 set(QEXT_QT_HAS_QML OFF)
 find_package(Qt4 QUIET COMPONENTS QtCore QUIET)
 if (NOT QT_FOUND)
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core QUIET)
     find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core QUIET)
-endif()
+endif ()
 set(QEXT_QT_VERSION_MAJOR ${QT_VERSION_MAJOR})
 set(QEXT_QT_VERSION_MINOR ${QT_VERSION_MINOR})
 set(QEXT_QT_VERSION_PATCH ${QT_VERSION_PATCH})
@@ -78,7 +78,7 @@ set(QEXT_QT_VERSION "${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}
 if (QEXT_QT_VERSION_MAJOR EQUAL 4)
     if (QEXT_QT_VERSION_MINOR LESS 8)
         message(FATAL_ERROR "Expected Qt4 version must greater than or equal to Qt4.8")
-    endif()
+    endif ()
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt4 REQUIRED QtCore QtGui QtTest QtNetwork)
     include(${QT_USE_FILE})
@@ -86,20 +86,20 @@ if (QEXT_QT_VERSION_MAJOR EQUAL 4)
     find_package(Qt4 COMPONENTS QtOpenGL)
     set(QEXT_QT_OPENGL_FOUND ${QT_QTOPENGL_FOUND})
     set(QEXT_CXX_STANDARD 98)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
+elseif (QEXT_QT_VERSION_MAJOR EQUAL 5)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Widgets Network Quick Test PrintSupport Svg REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL)
     set(QEXT_QT_OPENGL_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGL_FOUND})
-    if(QEXT_QT_VERSION_MAJOR EQUAL 5 AND QEXT_QT_VERSION_MINOR GREATER_EQUAL 12)
+    if (QEXT_QT_VERSION_MAJOR EQUAL 5 AND QEXT_QT_VERSION_MINOR GREATER_EQUAL 12)
         find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Qml QuickControls2 REQUIRED)
         set(QEXT_QT_HAS_QML ON)
-    else()
+    else ()
         set(QEXT_QT_HAS_QML OFF)
-    endif()
+    endif ()
     set(QEXT_QT_HAS_QJSON ON)
     set(QEXT_CXX_STANDARD 11)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
+elseif (QEXT_QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Widgets Network Quick Test PrintSupport Svg REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Qml QuickControls2 Core5Compat REQUIRED)
@@ -109,9 +109,9 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     set(QEXT_QT_HAS_QML ON)
     set(QEXT_QT_HAS_QJSON ON)
     set(QEXT_CXX_STANDARD 17)
-else()
+else ()
     message(FATAL_ERROR "Not find Qt package")
-endif()
+endif ()
 
 get_filename_component(QEXT_QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
 get_filename_component(QEXT_QT_KIT_DIR "${QEXT_QT_BIN_DIR}" DIRECTORY)
@@ -120,7 +120,6 @@ set(QEXT_QT_LIB_DIR ${QEXT_QT_KIT_DIR}/lib)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -300,7 +299,6 @@ check_pie_supported()
 set(CMAKE_LINK_DEPENDS_NO_SHARED ON)
 
 
-
 #--------------------------------------------------------------------------------
 # Specify the C++ standard and flags
 #--------------------------------------------------------------------------------
@@ -310,16 +308,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 message(STATUS "Using C++: ${QEXT_CXX_STANDARD}")
 message(STATUS "Set C++ extensions: ${CMAKE_CXX_EXTENSIONS}")
 
-if(WIN32)
-    if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+if (WIN32)
+    if (CMAKE_CXX_COMPILER_ID MATCHES MSVC)
         # open bigobj flags in msvc compiler(bigobj)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    elseif (CMAKE_CXX_COMPILER_ID MATCHES GNU)
         # open bigobj flags in gnu/mingw compiler(File too big/too many sections)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj")
-    endif()
-endif()
-
+    endif ()
+endif ()
 
 
 #--------------------------------------------------------------------------------
@@ -331,60 +328,59 @@ set(QEXT_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR})
 set(QEXT_CXX_COMPILER_ID ${CMAKE_CXX_COMPILER_ID})
 
 # specify system
-if(CMAKE_SYSTEM_NAME STREQUAL Linux)
+if (CMAKE_SYSTEM_NAME STREQUAL Linux)
     set(QEXT_SYSTEM_LINUX ON)
-elseif(CMAKE_SYSTEM_NAME STREQUAL Darwin)
+elseif (CMAKE_SYSTEM_NAME STREQUAL Darwin)
     set(QEXT_SYSTEM_MAC ON)
     set(QEXT_SYSTEM_DARWIN ON)
-elseif(CMAKE_SYSTEM_NAME STREQUAL Windows)
+elseif (CMAKE_SYSTEM_NAME STREQUAL Windows)
     set(QEXT_SYSTEM_WIN ON)
-elseif(CMAKE_SYSTEM_NAME STREQUAL WindowsCE)
+elseif (CMAKE_SYSTEM_NAME STREQUAL WindowsCE)
     set(QEXT_SYSTEM_WIN ON)
     set(QEXT_SYSTEM_WINCE ON)
-elseif(CMAKE_SYSTEM_NAME STREQUAL QNX)
+elseif (CMAKE_SYSTEM_NAME STREQUAL QNX)
     set(QEXT_SYSTEM_QNX ON)
-else()
+else ()
     set(QEXT_SYSTEM_UNKNOWN ON)
-endif()
+endif ()
 
 # specify compiler
-if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+if (CMAKE_CXX_COMPILER_ID MATCHES MSVC)
     set(QEXT_CXX_COMPILER_MSVC ON)
-elseif(CMAKE_CXX_COMPILER_ID MATCHES Intel)
+elseif (CMAKE_CXX_COMPILER_ID MATCHES Intel)
     set(QEXT_CXX_COMPILER_INTEL ON)
-elseif(CMAKE_CXX_COMPILER_ID MATCHES AppleClang)
+elseif (CMAKE_CXX_COMPILER_ID MATCHES AppleClang)
     set(QEXT_CXX_COMPILER_CLANG_APPLE ON)
     set(QEXT_CXX_COMPILER_CLANG ON)
-elseif(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+elseif (CMAKE_CXX_COMPILER_ID MATCHES Clang)
     set(QEXT_CXX_COMPILER_CLANG ON)
-elseif(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+elseif (CMAKE_CXX_COMPILER_ID MATCHES GNU)
     set(QEXT_CXX_COMPILER_GNU ON)
-else()
+else ()
     set(QEXT_CXX_COMPILER_UNKNOWN Unknown)
-endif()
+endif ()
 
 # specify arch bit
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(QEXT_ARCH_64 ON)
-else()
+else ()
     set(QEXT_ARCH_32 ON)
-endif()
+endif ()
 
 # specify processor
-if(CMAKE_SYSTEM_PROCESSOR MATCHES i386)
+if (CMAKE_SYSTEM_PROCESSOR MATCHES i386)
     set(QEXT_SYSTEM_PROCESSOR_I386 ON)
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES i686)
+elseif (CMAKE_SYSTEM_PROCESSOR MATCHES i686)
     set(QEXT_SYSTEM_PROCESSOR_I686 ON)
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES x86_64)
+elseif (CMAKE_SYSTEM_PROCESSOR MATCHES x86_64)
     set(QEXT_SYSTEM_PROCESSOR_X86_64 ON)
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES AMD64)
+elseif (CMAKE_SYSTEM_PROCESSOR MATCHES AMD64)
     set(QEXT_SYSTEM_PROCESSOR_AMD64 ON)
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES ARM)
+elseif (CMAKE_SYSTEM_PROCESSOR MATCHES ARM)
     set(QEXT_SYSTEM_PROCESSOR_ARM ON)
-else()
+else ()
     set(QEXT_SYSTEM_PROCESSOR_UNKNOWN Unknown)
-endif()
-
+endif ()
 
 
 #--------------------------------------------------------------------------------
@@ -405,185 +401,213 @@ include(qextMacroFindReadline)
 include(qextMacroBuildDoxygen)
 include(qextMacroFindLibVLC)
 
-include(QEXTScopeFinalizerHelpers)
-include(QEXTGlobalStateHelpers)
-include(QEXTSyncIncludeHelpers)
-include(QEXTFindPackageHelpers)
-include(QEXTPrecompiledHelpers)
-include(QEXTPublicTargetHelpers)
-include(QEXTFlagHandlingHelpers)
-include(QEXTCMakeVersionHelpers)
-include(QEXTSeparateDebugInfo)
-include(QEXTConfigureHelpers)
-include(QEXTFrameworkHelpers)
-include(QEXTPkgConfigHelpers)
-include(QEXTLibraryHelpers)
-include(QEXTInstallHelpers)
-include(QEXTModuleHelpers)
-include(QEXTTargetHelpers)
-include(QEXTCMakeHelpers)
-include(QEXTRpathHelpers)
+include(QExtScopeFinalizerHelpers)
+include(QExtGlobalStateHelpers)
+include(QExtSyncIncludeHelpers)
+include(QExtFindPackageHelpers)
+include(QExtPrecompiledHelpers)
+include(QExtPublicTargetHelpers)
+include(QExtFlagHandlingHelpers)
+include(QExtCMakeVersionHelpers)
+include(QExtExecutableHelpers)
+include(QExtSeparateDebugInfo)
+include(QExtConfigureHelpers)
+include(QExtFrameworkHelpers)
+include(QExtPkgConfigHelpers)
+include(QExtLibraryHelpers)
+include(QExtInstallHelpers)
+include(QExtModuleHelpers)
+include(QExtTargetHelpers)
+include(QExtCMakeHelpers)
+include(QExtTestHelpers)
+include(QExtRpathHelpers)
+include(QExtOptionHelpers)
+
+#
+##--------------------------------------------------------------------------------
+## Set option
+##--------------------------------------------------------------------------------
+#qextMacroEnsureDefineVariable(BUILD_QEXT_SHARED ON)
+#qextMacroEnsureDefineVariable(BUILD_QEXT_USE_PCH ON)
+#qextMacroEnsureDefineVariable(BUILD_QEXT_COMPILER_WARNING OFF)
+#
+#qextMacroEnsureDefineVariable(USE_QEXT_ALL ON)
+#qextMacroEnsureDefineVariable(USE_QEXT_DEVICEWATCHER ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_FRAMELESSHELPER ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_GOOGLEPINYIN ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_ICONFONT ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_SERIALPORT ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_SINGLEAPP ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_STYLETHEME ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_TCP ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_UTILS ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_VLC ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_WIDGETS ${USE_QEXT_ALL})
+#
+#qextMacroEnsureDefineVariable(USE_QEXT_QML_FRAMELESSHELPER ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_QML_QUICK ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_QML_THEME ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_QML_VLC ${USE_QEXT_ALL})
+#
+#qextMacroEnsureDefineVariable(USE_QEXT_QWT ${USE_QEXT_ALL})
+#qextMacroEnsureDefineVariable(USE_QEXT_QCUSTOMPLOT ${USE_QEXT_ALL})
+#
+#option(QEXT_BUILD_QMLS "Build qmls" ON)
+#option(QEXT_BUILD_TESTS "Build tests" OFF)
+#option(QEXT_BUILD_PLUGINS "Build plugins" ON)
+#option(QEXT_BUILD_EXAMPLES "Build examples" OFF)
+#option(QEXT_BUILD_INSTALL "Build install" OFF)
+#option(QEXT_BUILD_DOCUMENTATION "Enable this to build the documentation" OFF)
+#option(QEXT_BUILD_SHARED_LIBS "Build shared library" ${BUILD_QEXT_SHARED})
+#option(QEXT_BUILD_COMPILER_WARNING "Build target with compiler warnings" ${BUILD_QEXT_COMPILER_WARNING})
+#option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ${BUILD_QEXT_USE_PCH})
+#
+#
+#option(QEXT_BUILD_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" ${USE_QEXT_DEVICEWATCHER})
+#option(QEXT_BUILD_LIB_FRAMELESSHELPER "Enable this to build the framelesshelper lib" ${USE_QEXT_FRAMELESSHELPER})
+#option(QEXT_BUILD_LIB_GOOGLEPINYIN "Enable this to build the googlepinyin lib" ${USE_QEXT_GOOGLEPINYIN})
+#option(QEXT_BUILD_LIB_ICONFONT "Enable this to build the iconfont lib" ${USE_QEXT_ICONFONT})
+#option(QEXT_BUILD_LIB_SERIALPORT "Enable this to build the serialport lib" ${USE_QEXT_SERIALPORT})
+#option(QEXT_BUILD_LIB_SINGLEAPP "Enable this to build the singleapp lib" ${USE_QEXT_SINGLEAPP})
+#option(QEXT_BUILD_LIB_STYLETHEME "Enable this to build the styletheme lib" ${USE_QEXT_STYLETHEME})
+#option(QEXT_BUILD_LIB_TCP "Enable this to build the tcp lib" ${USE_QEXT_TCP})
+#option(QEXT_BUILD_LIB_UTILS "Enable this to build the utils lib" ${USE_QEXT_UTILS})
+#option(QEXT_BUILD_LIB_VLC "Enable this to build the VLC lib" ${USE_QEXT_VLC})
+#option(QEXT_BUILD_LIB_WIDGETS "Enable this to build the widgets lib" ${USE_QEXT_WIDGETS})
+#
+#option(QEXT_BUILD_LIB_QML_FRAMELESSHELPER "Enable this to build the qml framelesshelper lib" ${USE_QEXT_QML_FRAMELESSHELPER})
+#option(QEXT_BUILD_LIB_QML_QUICK "Enable this to build the qml quick lib" ${USE_QEXT_QML_QUICK})
+#option(QEXT_BUILD_LIB_QML_THEME "Enable this to build the qml theme lib" ${USE_QEXT_QML_THEME})
+#option(QEXT_BUILD_LIB_QML_VLC "Enable this to build the qml VLC lib" ${USE_QEXT_QML_VLC})
+#
+#option(QEXT_BUILD_LIB_QWT "Enable this to build the qwt lib" ${USE_QEXT_QWT})
+#option(QEXT_BUILD_LIB_QCUSTOMPLOT "Enable this to build the qcustomplot lib" ${USE_QEXT_QCUSTOMPLOT})
+#
+#
+#if(QEXT_BUILD_SHARED_LIBS)
+#    set(BUILD_SHARED_LIBS ON CACHE BOOL "Build as shared libraries")
+#    message(STATUS "Build as shared libraries")
+#else()
+#    set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build as static libraries")
+#    message(STATUS "Build as static libraries")
+#endif()
+#
+#if(QEXT_BUILD_USE_PCH)
+#    if(NOT ${QEXT_BUILD_SHARED_LIBS})
+#        set(QEXT_BUILD_USE_PCH FALSE)
+#        message(STATUS "Do not build use pch, becase QEXT build shared library.")
+#    endif()
+#endif()
+#
+#if(QEXT_BUILD_DOCUMENTATION)
+#    qextMacroBuildDoxygen()
+#    message(STATUS "Build with the documentation")
+#else()
+#    message(STATUS "Build with no documentation")
+#endif()
+#
+#
+#if(QEXT_BUILD_LIB_TCP)
+#    set(QEXT_BUILD_LIB_UTILS ON)
+#endif()
+#
+#if(QEXT_BUILD_LIB_FRAMELESSHELPER)
+#    if(QEXT_QT_VERSION_MAJOR LESS 5)
+#        message(STATUS "Do not build framelesshelper lib, becase Qt major version must greater than 5.")
+#        set(QEXT_BUILD_LIB_FRAMELESSHELPER OFF)
+#    endif()
+#    if(NOT WIN32)
+#        message(STATUS "Do not build framelesshelper lib, becase framelesshelper only support windows platform.")
+#        set(QEXT_BUILD_LIB_FRAMELESSHELPER OFF)
+#    endif()
+#endif()
+#
+#if(QEXT_BUILD_LIB_VLC)
+#    if(QEXT_QT_VERSION LESS 5.0)
+#        set(QEXT_BUILD_LIB_VLC OFF)
+#        message(STATUS "Do not build the vlc lib, becase Qt major version must greater than 5.0.")
+#    endif()
+#    qextMacroFindLibVLC()
+#    if(NOT QEXT_LIBVLC_FOUND)
+#        set(QEXT_BUILD_LIB_VLC OFF)
+#        message(STATUS "Do not build the vlc lib, becase not found vlc lib.")
+#    endif()
+#    if(APPLE)
+#        set(QEXT_BUILD_LIB_VLC OFF)
+#        message(STATUS "Do not build the vlc lib, becase macos platform not support.")
+#    endif()
+#endif()
+#
+#if(QEXT_BUILD_LIB_WIDGETS)
+#    set(QEXT_BUILD_LIB_ICONS ON)
+#    set(QEXT_BUILD_LIB_GOOGLEPINYIN ON)
+#endif()
+#
+#if(NOT QEXT_QT_HAS_QML)
+#    set(QEXT_BUILD_QMLS OFF)
+#    message(STATUS "Do not build the qml lib, becase Qt version must greater equal than 5.9.")
+#endif()
+#
+#if(QEXT_BUILD_LIB_QCUSTOMPLOT)
+#    if(NOT QEXT_QT_VERSION_MAJOR EQUAL 5)
+#        set(QEXT_BUILD_LIB_QCUSTOMPLOT OFF)
+#        message(STATUS "Do not build the qcustomplot lib, becase Qt major version must equal 5.")
+#    endif()
+#endif()
+#
+#if(QEXT_BUILD_LIB_QWT)
+#    if(QEXT_QT_VERSION_MAJOR GREATER_EQUAL 6)
+#        set(QEXT_BUILD_LIB_QWT OFF)
+#        message(STATUS "Do not build the Qwt lib, becase Qt major version must less than 6.")
+#    endif()
+#endif()
+#
+#if(QEXT_BUILD_TESTS)
+#    enable_testing()
+#endif()
 
 
-
-#--------------------------------------------------------------------------------
-# Specify the output dir
-#--------------------------------------------------------------------------------
-qextMacroEnsureDefineCacheVariable(QEXT_PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR} STRING)
-qextMacroEnsureDefineCacheVariable(QEXT_PROJECT_BINARY_DIR ${PROJECT_BINARY_DIR} STRING)
-qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_APP_DIR ${PROJECT_BINARY_DIR}/bin STRING)
-qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_LIB_DIR ${PROJECT_BINARY_DIR}/lib STRING)
-qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_PLUGIN_DIR ${PROJECT_BINARY_DIR}/plugin STRING)
-qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_QML_DIR ${PROJECT_BINARY_DIR}/qml STRING)
-qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_INCLUDE_DIR ${PROJECT_BINARY_DIR}/include STRING)
-qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_EXAMPLE_DIR ${PROJECT_BINARY_DIR}/example STRING)
-qextMacroEnsureDefineCacheVariable(QEXT_OUTPUT_TEST_DIR ${PROJECT_BINARY_DIR}/test STRING)
+#-----------------------------------------------------------------------------------------------------------------------
+# Set the output dir
+#-----------------------------------------------------------------------------------------------------------------------
+qext_ensure_define_variable(QEXT_OUTPUT_APP_DIR "${PROJECT_BINARY_DIR}/bin")
+qext_ensure_define_variable(QEXT_OUTPUT_LIB_DIR "${PROJECT_BINARY_DIR}/lib")
+qext_ensure_define_variable(QEXT_OUTPUT_LIBEXEC_DIR "${PROJECT_BINARY_DIR}/libexec")
+qext_ensure_define_variable(QEXT_OUTPUT_PLUGIN_DIR "${PROJECT_BINARY_DIR}/plugin")
+qext_ensure_define_variable(QEXT_OUTPUT_EXAMPLE_DIR "${PROJECT_BINARY_DIR}/example")
+qext_ensure_define_variable(QEXT_OUTPUT_TEST_DIR "${PROJECT_BINARY_DIR}/test")
+qext_ensure_define_variable(QEXT_OUTPUT_INCLUDE_DIR "${PROJECT_BINARY_DIR}/include")
+qext_ensure_define_variable(QEXT_OUTPUT_DOC_DIR "${PROJECT_BINARY_DIR}/doc")
 
 
-
-#--------------------------------------------------------------------------------
-# Set option
-#--------------------------------------------------------------------------------
-qextMacroEnsureDefineVariable(BUILD_QEXT_SHARED ON)
-qextMacroEnsureDefineVariable(BUILD_QEXT_USE_PCH ON)
-qextMacroEnsureDefineVariable(BUILD_QEXT_COMPILER_WARNING OFF)
-
-qextMacroEnsureDefineVariable(USE_QEXT_ALL ON)
-qextMacroEnsureDefineVariable(USE_QEXT_DEVICEWATCHER ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_FRAMELESSHELPER ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_GOOGLEPINYIN ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_ICONFONT ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_SERIALPORT ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_SINGLEAPP ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_STYLETHEME ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_TCP ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_UTILS ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_VLC ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_WIDGETS ${USE_QEXT_ALL})
-
-qextMacroEnsureDefineVariable(USE_QEXT_QML_FRAMELESSHELPER ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_QML_QUICK ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_QML_THEME ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_QML_VLC ${USE_QEXT_ALL})
-
-qextMacroEnsureDefineVariable(USE_QEXT_QWT ${USE_QEXT_ALL})
-qextMacroEnsureDefineVariable(USE_QEXT_QCUSTOMPLOT ${USE_QEXT_ALL})
-
-option(QEXT_BUILD_QMLS "Build qmls" ON)
-option(QEXT_BUILD_TESTS "Build tests" OFF)
-option(QEXT_BUILD_PLUGINS "Build plugins" ON)
-option(QEXT_BUILD_EXAMPLES "Build examples" OFF)
-option(QEXT_BUILD_INSTALL "Build install" OFF)
-option(QEXT_BUILD_DOCUMENTATION "Enable this to build the documentation" OFF)
-option(QEXT_BUILD_SHARED_LIBS "Build shared library" ${BUILD_QEXT_SHARED})
-option(QEXT_BUILD_COMPILER_WARNING "Build target with compiler warnings" ${BUILD_QEXT_COMPILER_WARNING})
-option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ${BUILD_QEXT_USE_PCH})
+#-----------------------------------------------------------------------------------------------------------------------
+# Set build options
+#-----------------------------------------------------------------------------------------------------------------------
+qext_option(QEXT_BUILD_ALL "Enable this to build all artifacts" OFF)
+qext_option(QEXT_BUILD_SHARED_LIBS "Enable this to build as dynamically" ON
+        SET BUILD_SHARED_LIBS)
+qext_option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ON
+        DEPENDS QEXT_BUILD_SHARED_LIBS)
+qext_option(QEXT_BUILD_COMPILER_WARNING "Enable this to build target with compiler warnings" OFF)
+qext_option(QEXT_BUILD_WARNINGS_ARE_ERRORS "Build UTK with warnings as errors" ${__qext_build_warnings_as_errors})
+qext_option(QEXT_BUILD_BENCHMARKS "Enable this to build the benchmarks" ${__qext_build_benchmarks}
+        SET __qext_build_tests_default)
+qext_option(QEXT_BUILD_EXAMPLES "Enable this to build examples" ON)
+qext_option(QEXT_BUILD_TESTS "Enable this to build tests" ON)
+qext_option(QEXT_BUILD_PLUGINS "Enable this to build the plugins." ON)
+qext_option(QEXT_BUILD_TOOLS "Enable this to build the tools." "${__qext_build_tools_default}")
+qext_option(QEXT_BUILD_APPS "Enable this to build apps" ON)
+qext_option(QEXT_BUILD_DOCS "Enable this to build the documentation" OFF)
+qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" ON)
 
 
-option(QEXT_BUILD_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" ${USE_QEXT_DEVICEWATCHER})
-option(QEXT_BUILD_LIB_FRAMELESSHELPER "Enable this to build the framelesshelper lib" ${USE_QEXT_FRAMELESSHELPER})
-option(QEXT_BUILD_LIB_GOOGLEPINYIN "Enable this to build the googlepinyin lib" ${USE_QEXT_GOOGLEPINYIN})
-option(QEXT_BUILD_LIB_ICONFONT "Enable this to build the iconfont lib" ${USE_QEXT_ICONFONT})
-option(QEXT_BUILD_LIB_SERIALPORT "Enable this to build the serialport lib" ${USE_QEXT_SERIALPORT})
-option(QEXT_BUILD_LIB_SINGLEAPP "Enable this to build the singleapp lib" ${USE_QEXT_SINGLEAPP})
-option(QEXT_BUILD_LIB_STYLETHEME "Enable this to build the styletheme lib" ${USE_QEXT_STYLETHEME})
-option(QEXT_BUILD_LIB_TCP "Enable this to build the tcp lib" ${USE_QEXT_TCP})
-option(QEXT_BUILD_LIB_UTILS "Enable this to build the utils lib" ${USE_QEXT_UTILS})
-option(QEXT_BUILD_LIB_VLC "Enable this to build the VLC lib" ${USE_QEXT_VLC})
-option(QEXT_BUILD_LIB_WIDGETS "Enable this to build the widgets lib" ${USE_QEXT_WIDGETS})
-
-option(QEXT_BUILD_LIB_QML_FRAMELESSHELPER "Enable this to build the qml framelesshelper lib" ${USE_QEXT_QML_FRAMELESSHELPER})
-option(QEXT_BUILD_LIB_QML_QUICK "Enable this to build the qml quick lib" ${USE_QEXT_QML_QUICK})
-option(QEXT_BUILD_LIB_QML_THEME "Enable this to build the qml theme lib" ${USE_QEXT_QML_THEME})
-option(QEXT_BUILD_LIB_QML_VLC "Enable this to build the qml VLC lib" ${USE_QEXT_QML_VLC})
-
-option(QEXT_BUILD_LIB_QWT "Enable this to build the qwt lib" ${USE_QEXT_QWT})
-option(QEXT_BUILD_LIB_QCUSTOMPLOT "Enable this to build the qcustomplot lib" ${USE_QEXT_QCUSTOMPLOT})
-
-
-if(QEXT_BUILD_SHARED_LIBS)
-    set(BUILD_SHARED_LIBS ON CACHE BOOL "Build as shared libraries")
-    message(STATUS "Build as shared libraries")
-else()
-    set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build as static libraries")
-    message(STATUS "Build as static libraries")
-endif()
-
-if(QEXT_BUILD_USE_PCH)
-    if(NOT ${QEXT_BUILD_SHARED_LIBS})
-        set(QEXT_BUILD_USE_PCH FALSE)
-        message(STATUS "Do not build use pch, becase QEXT build shared library.")
-    endif()
-endif()
-
-if(QEXT_BUILD_DOCUMENTATION)
-    qextMacroBuildDoxygen()
-    message(STATUS "Build with the documentation")
-else()
-    message(STATUS "Build with no documentation")
-endif()
-
-
-if(QEXT_BUILD_LIB_TCP)
-    set(QEXT_BUILD_LIB_UTILS ON)
-endif()
-
-if(QEXT_BUILD_LIB_FRAMELESSHELPER)
-    if(QEXT_QT_VERSION_MAJOR LESS 5)
-        message(STATUS "Do not build framelesshelper lib, becase Qt major version must greater than 5.")
-        set(QEXT_BUILD_LIB_FRAMELESSHELPER OFF)
-    endif()
-    if(NOT WIN32)
-        message(STATUS "Do not build framelesshelper lib, becase framelesshelper only support windows platform.")
-        set(QEXT_BUILD_LIB_FRAMELESSHELPER OFF)
-    endif()
-endif()
-
-if(QEXT_BUILD_LIB_VLC)
-    if(QEXT_QT_VERSION LESS 5.0)
-        set(QEXT_BUILD_LIB_VLC OFF)
-        message(STATUS "Do not build the vlc lib, becase Qt major version must greater than 5.0.")
-    endif()
-    qextMacroFindLibVLC()
-    if(NOT QEXT_LIBVLC_FOUND)
-        set(QEXT_BUILD_LIB_VLC OFF)
-        message(STATUS "Do not build the vlc lib, becase not found vlc lib.")
-    endif()
-    if(APPLE)
-        set(QEXT_BUILD_LIB_VLC OFF)
-        message(STATUS "Do not build the vlc lib, becase macos platform not support.")
-    endif()
-endif()
-
-if(QEXT_BUILD_LIB_WIDGETS)
-    set(QEXT_BUILD_LIB_ICONS ON)
-    set(QEXT_BUILD_LIB_GOOGLEPINYIN ON)
-endif()
-
-if(NOT QEXT_QT_HAS_QML)
-    set(QEXT_BUILD_QMLS OFF)
-    message(STATUS "Do not build the qml lib, becase Qt version must greater equal than 5.9.")
-endif()
-
-if(QEXT_BUILD_LIB_QCUSTOMPLOT)
-    if(NOT QEXT_QT_VERSION_MAJOR EQUAL 5)
-        set(QEXT_BUILD_LIB_QCUSTOMPLOT OFF)
-        message(STATUS "Do not build the qcustomplot lib, becase Qt major version must equal 5.")
-    endif()
-endif()
-
-if(QEXT_BUILD_LIB_QWT)
-    if(QEXT_QT_VERSION_MAJOR GREATER_EQUAL 6)
-        set(QEXT_BUILD_LIB_QWT OFF)
-        message(STATUS "Do not build the Qwt lib, becase Qt major version must less than 6.")
-    endif()
-endif()
-
-if(QEXT_BUILD_TESTS)
-    enable_testing()
-endif()
-
-
+#-----------------------------------------------------------------------------------------------------------------------
+# Set doxygen build config
+#-----------------------------------------------------------------------------------------------------------------------
+if (QEXT_BUILD_DOCS)
+    message(STATUS "Project build documentation")
+    qext_build_doxygen()
+endif ()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -748,26 +772,23 @@ qext_setup_tool_path_command()
 if (QEXT_BUILD_TESTS)
     include(CTest)
     enable_testing()
-    qext_find_package(WrapUnity PROVIDED_TARGETS WrapUnity::WrapUnity)
 endif ()
-
-
 
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Set namespace and separator
 #-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_NAMESPACE_VERSION ${QEXT_VERSION_MAJOR})
-set(QEXT_NAMESPACE "" CACHE STRING "QEXT Namespace")
+set(QEXT_NAMESPACE "" CACHE STRING "QExt Namespace")
 if (NOT INSTALL_CMAKE_NAMESPACE)
-    set(INSTALL_CMAKE_NAMESPACE "qext${QEXT_NAMESPACE_VERSION}" CACHE STRING "CMake namespace [qext${QEXT_NAMESPACE_VERSION}]")
+    set(INSTALL_CMAKE_NAMESPACE "QExt${QEXT_NAMESPACE_VERSION}" CACHE STRING "CMake namespace [QExt${QEXT_NAMESPACE_VERSION}]")
 endif ()
 if (NOT QEXT_CMAKE_EXPORT_NAMESPACE)
-    set(QEXT_CMAKE_EXPORT_NAMESPACE "qext${QEXT_NAMESPACE_VERSION}"
-            CACHE STRING "CMake namespace used when exporting targets [qext${QEXT_NAMESPACE_VERSION}]")
+    set(QEXT_CMAKE_EXPORT_NAMESPACE "QExt${QEXT_NAMESPACE_VERSION}"
+            CACHE STRING "CMake namespace used when exporting targets [QExt${QEXT_NAMESPACE_VERSION}]")
 endif ()
 
-set(QEXT_KNOWN_LIBRARIES_WITH_TOOLS "" CACHE INTERNAL "Known QEXT modules with tools" FORCE)
+set(QEXT_KNOWN_LIBRARIES_WITH_TOOLS "" CACHE INTERNAL "Known QExt modules with tools" FORCE)
 
 # For adjusting variables when running tests, we need to know what
 # the correct variable is for separating entries in PATH-alike
@@ -809,8 +830,6 @@ endif ()
 if (CMAKE_CROSSCOMPILING AND NOT IS_DIRECTORY "${QEXT_HOST_PATH}")
     message(FATAL_ERROR "You need to set QEXT_HOST_PATH to cross compile QEXT.")
 endif ()
-
-
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -860,9 +879,6 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
         ${QEXT_DEFAULT_PUBLIC_ARGS})
 
 
-
-
-
 #--------------------------------------------------------------------------------
 # add subdirectory
 #--------------------------------------------------------------------------------
@@ -870,7 +886,6 @@ add_subdirectory(src/libs)
 #add_subdirectory(src/apps)
 #add_subdirectory(src/plugins)
 #add_subdirectory(src/qml)
-
 
 
 #--------------------------------------------------------------------------------
@@ -885,11 +900,10 @@ add_subdirectory(src/libs)
 #endif()
 
 
-
 #--------------------------------------------------------------------------------
 # Set install
 #--------------------------------------------------------------------------------
-if(QEXT_BUILD_INSTALL)
+if (QEXT_BUILD_INSTALL)
     include(CPackComponent)
     include(InstallRequiredSystemLibraries)
     set(CPACK_PACKAGE_NAME ${QEXT_PRODUCT_NAME})
@@ -901,30 +915,30 @@ if(QEXT_BUILD_INSTALL)
     include(CPack REQUIRED)
 
     install(
-        DIRECTORY ${QEXT_OUTPUT_APP_DIR}
-        DESTINATION ./bin
-        COMPONENT Apps
-        PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
-        )
+            DIRECTORY ${QEXT_OUTPUT_APP_DIR}
+            DESTINATION ./bin
+            COMPONENT Apps
+            PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
+    )
     install(
-        DIRECTORY ${QEXT_OUTPUT_LIB_DIR}
-        DESTINATION ./lib
-        COMPONENT Libs
-        )
+            DIRECTORY ${QEXT_OUTPUT_LIB_DIR}
+            DESTINATION ./lib
+            COMPONENT Libs
+    )
     install(
-        DIRECTORY ${QEXT_OUTPUT_QML_DIR}
-        DESTINATION ./qml
-        COMPONENT Qml
-        )
+            DIRECTORY ${QEXT_OUTPUT_QML_DIR}
+            DESTINATION ./qml
+            COMPONENT Qml
+    )
     install(
-        DIRECTORY ${QEXT_OUTPUT_EXAMPLE_DIR}
-        DESTINATION ./example
-        COMPONENT Example
-        PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
-        )
+            DIRECTORY ${QEXT_OUTPUT_EXAMPLE_DIR}
+            DESTINATION ./example
+            COMPONENT Example
+            PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
+    )
     install(
-        DIRECTORY ${QEXT_OUTPUT_INCLUDE_DIR}
-        DESTINATION ./include
-        COMPONENT Include
-        )
-endif()
+            DIRECTORY ${QEXT_OUTPUT_INCLUDE_DIR}
+            DESTINATION ./include
+            COMPONENT Include
+    )
+endif ()

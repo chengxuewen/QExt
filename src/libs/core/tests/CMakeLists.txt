@@ -21,9 +21,8 @@
 #--------------------------------------------------------------------------------
 # Set lib base name and out put path
 #--------------------------------------------------------------------------------
-set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR})
-set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR})
-
+set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR}/core)
+set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR}/core)
 
 
 #--------------------------------------------------------------------------------
@@ -32,39 +31,144 @@ set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR})
 set(QEXT_TEST_LINK_LIBRARIES)
 set(QEXT_TEST_INCLUDE_DIRECTORIES)
 
-if(QEXT_QT_VERSION_MAJOR EQUAL 4)
+if (QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_TEST_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtTest)
-elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+elseif (QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_TEST_LINK_LIBRARIES
-        Qt${QEXT_QT_VERSION_MAJOR}::Core
-        Qt${QEXT_QT_VERSION_MAJOR}::Test
-        )
-else()
+            Qt${QEXT_QT_VERSION_MAJOR}::Core
+            Qt${QEXT_QT_VERSION_MAJOR}::Test
+    )
+else ()
     message(FATAL_ERROR "Not find Qt package")
-endif()
-
-list(APPEND QEXT_TEST_LINK_LIBRARIES QEXTCore)
+endif ()
 
 
 #--------------------------------------------------------------------------------
-# define function
+# add tests
 #--------------------------------------------------------------------------------
-function(qextFunctionCoreAddTest TEST_NAME)
-    set(multiValueArgs TEST_SOURCE)
-    cmake_parse_arguments(MY "" "" "${multiValueArgs}" "${ARGN}")
-    add_executable(${TEST_NAME} ${MY_TEST_SOURCE})
-    add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
-    target_link_libraries(${TEST_NAME} PRIVATE ${QEXT_TEST_LINK_LIBRARIES})
-    target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${QEXT_TEST_INCLUDE_DIRECTORIES})
-    if(QEXT_BUILD_SHARED_LIBS AND WIN32)
-        qextFunctionCopyDependencyInternal(${TEST_NAME} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
-    endif()
-endfunction()
-
-
-##--------------------------------------------------------------------------------
-## Add subdirectory
-##--------------------------------------------------------------------------------
-add_subdirectory(invoke)
-add_subdirectory(tools)
-
+qext_internal_add_test(qext_tst_coreTypeTrait
+        SOURCES
+        tools/tst_qextTypeTrait.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCorePointerFunctor
+        SOURCES
+        invoke/tst_qextPointerFunctor.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreMemberFunctor
+        SOURCES
+        invoke/tst_qextMemberFunctor.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreFunction
+        SOURCES
+        invoke/tst_qextFunction.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreVisitor
+        SOURCES
+        invoke/tst_qextVisitor.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreTrackable
+        SOURCES
+        invoke/tst_qextTrackable.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreBindFunctor
+        SOURCES
+        invoke/tst_qextBindFunctor.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreBindReturnFunctor
+        SOURCES
+        invoke/tst_qextBindReturnFunctor.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreConnection
+        SOURCES
+        invoke/tst_qextConnection.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreFunctorTrait
+        SOURCES
+        invoke/tst_qextFunctorTrait.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreHideFunctor
+        SOURCES
+        invoke/tst_qextHideFunctor.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreLimitReference
+        SOURCES
+        invoke/tst_qextLimitReference.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreReturnTypeDeduce
+        SOURCES
+        invoke/tst_qextReturnTypeDeduce.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreRetypeReturnFunctor
+        SOURCES
+        invoke/tst_qextRetypeReturnFunctor.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreTrackObjectFunctor
+        SOURCES
+        invoke/tst_qextTrackObjectFunctor.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreRetypeFunctor
+        SOURCES
+        invoke/tst_qextRetypeFunctor.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreSignal
+        SOURCES
+        invoke/tst_qextSignal.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtCoreSlot
+        SOURCES
+        invoke/tst_qextSlot.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})

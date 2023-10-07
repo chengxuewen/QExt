@@ -31,63 +31,33 @@ set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_EXAMPLE_DIR}/core)
 set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_EXAMPLE_DIR}/core)
 
 
-
 #--------------------------------------------------------------------------------
 # Set example link libraries
 #--------------------------------------------------------------------------------
 set(QEXT_EXAMPLE_LINK_LIBRARIES)
 
-if(UNIX)
-    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES dl)
-endif()
-
-if(WIN32)
-    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES shlwapi.lib)
-endif()
-
-if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
-endif()
-
-if(QEXT_QT_VERSION_MAJOR EQUAL 4)
+if (QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
-elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core Qt${QEXT_QT_VERSION_MAJOR}::Gui Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
-else()
+elseif (QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
+            Qt${QEXT_QT_VERSION_MAJOR}::Core
+            Qt${QEXT_QT_VERSION_MAJOR}::Gui
+            Qt${QEXT_QT_VERSION_MAJOR}::Widgets
+    )
+else ()
     message(FATAL_ERROR "Not find Qt package")
-endif()
-
-list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QEXTCore)
-
+endif ()
 
 
 #--------------------------------------------------------------------------------
-# Add qext_exp_coreSimpleObject example
+# Add examples
 #--------------------------------------------------------------------------------
-set(qext_example_name qext_exp_coreSimpleObject)
-set(qext_example_headers
-    )
-set(qext_example_sources
-    object/simpleObj.cpp
-    )
-set(qext_example_forms
-    )
-add_executable(${qext_example_name}
-    ${qext_example_headers}
-    ${qext_example_sources}
-    ${qext_example_forms}
-    )
-target_link_libraries(${qext_example_name} PRIVATE ${QEXT_EXAMPLE_LINK_LIBRARIES})
-target_include_directories(${qext_example_name} PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/object
-    ${CMAKE_CURRENT_BINARY_DIR}/
-    )
-set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
-if(WIN32)
-    qextFunctionCopyDependencyInternal(
-        TARGET ${qext_example_name}
-        LIBS QEXTCore
-        DESTINATION ${EXECUTABLE_OUTPUT_PATH}
-        POST_BUILD
-        )
-endif()
+qext_add_executable(exp_QExtCoreSimpleObject
+        SOURCES
+        object/exp_core_simpleObj.cpp
+        LIBRARIES
+        ${QEXT_EXAMPLE_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH}
+        DEFINES
+        EXECUTABLE_OUTPUT_PATH="${EXECUTABLE_OUTPUT_PATH}")

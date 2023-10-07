@@ -106,7 +106,7 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Function combines __qext_internal_static_link_order_public_test and
-# __qext_internal_set_link_order_matters calls on qext::platform target.
+# __qext_internal_set_link_order_matters calls on QExt::platform target.
 #-----------------------------------------------------------------------------------------------------------------------
 function(__qext_internal_check_link_order_matters)
     __qext_internal_static_link_order_public_test(link_order_matters)
