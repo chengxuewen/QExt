@@ -1,10 +1,10 @@
 #include <qextHostInfoUtils.h>
-#include <qextHostInfoUtils_p.h>
+#include <private/qextHostInfoUtils_p.h>
 
-#include <QFileInfoList>
 #include <QDir>
 #include <QTimer>
 #include <QDebug>
+#include <QFileInfoList>
 
 #if defined(Q_CC_GNU) && !defined(Q_WS_QWS)
 #include <cpuid.h>

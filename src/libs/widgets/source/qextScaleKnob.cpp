@@ -1,5 +1,4 @@
-﻿#include <qextScaleKnob.h>
-#include <qextScaleKnob_p.h>
+﻿#include <private/qextScaleKnob_p.h>
 
 #include <QMouseEvent>
 #include <QPainter>

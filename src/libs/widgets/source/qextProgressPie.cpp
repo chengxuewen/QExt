@@ -1,5 +1,4 @@
-﻿#include <qextProgressPie.h>
-#include <qextProgressPie_p.h>
+﻿#include <private/qextProgressPie_p.h>
 
 #include <QPainter>
 #include <QPainterPath>

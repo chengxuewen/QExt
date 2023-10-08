@@ -306,10 +306,10 @@ function(qext_configure_library_end)
     if(__qext_configure_library)
         set(injections "")
         qext_compute_injection_forwarding_header("${__qext_configure_library}"
-            SOURCE "${__qext_configure_public_file}"
+            SOURCE "${__qext_configure_public_file}" CONFIG
             OUT_VAR injections)
         qext_compute_injection_forwarding_header("${__qext_configure_library}"
-            SOURCE "${__qext_configure_private_file}" PRIVATE
+            SOURCE "${__qext_configure_private_file}" CONFIG PRIVATE
             OUT_VAR injections)
         set(${arg_OUT_VAR_PREFIX}extra_library_injections ${injections} PARENT_SCOPE)
     endif()

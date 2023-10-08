@@ -1,5 +1,4 @@
-#include <qextTcpSocket.h>
-#include <qextTcpSocket_p.h>
+#include <private/qextTcpSocket_p.h>
 #include <qextTcpPacketParser.h>
 #include <qextTcpUtils.h>
 

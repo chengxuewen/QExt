@@ -1,5 +1,4 @@
-#include <qextLed.h>
-#include <qextLed_p.h>
+#include <private/qextLed_p.h>
 
 #include <QPainter>
 #include <QPainterPath>

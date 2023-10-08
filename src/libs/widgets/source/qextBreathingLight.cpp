@@ -1,5 +1,4 @@
-#include <qextBreathingLight.h>
-#include <qextBreathingLight_p.h>
+#include <private/qextBreathingLight_p.h>
 
 #include <QDebug>
 #include <QPainter>

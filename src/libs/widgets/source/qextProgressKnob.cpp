@@ -1,5 +1,4 @@
-﻿#include <qextProgressKnob.h>
-#include <qextProgressKnob_p.h>
+﻿#include <private/qextProgressKnob_p.h>
 
 #include <QPropertyAnimation>
 #include <QMouseEvent>

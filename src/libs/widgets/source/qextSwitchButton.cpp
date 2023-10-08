@@ -1,5 +1,4 @@
-﻿#include <qextSwitchButton.h>
-#include <qextSwitchButton_p.h>
+﻿#include <private/qextSwitchButton_p.h>
 
 #include <QDebug>
 #include <QEvent>

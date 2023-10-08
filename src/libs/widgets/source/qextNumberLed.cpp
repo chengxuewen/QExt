@@ -1,5 +1,4 @@
-#include <qextNumberLed.h>
-#include <qextNumberLed_p.h>
+#include <private/qextNumberLed_p.h>
 
 #include <QDebug>
 #include <QColor>

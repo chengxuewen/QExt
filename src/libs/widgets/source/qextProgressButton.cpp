@@ -1,5 +1,4 @@
-﻿#include <qextProgressButton.h>
-#include <qextProgressButton_p.h>
+﻿#include <private/qextProgressButton_p.h>
 
 #include <QPainter>
 #include <QEvent>

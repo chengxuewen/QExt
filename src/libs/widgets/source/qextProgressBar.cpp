@@ -1,5 +1,4 @@
-﻿#include <qextProgressBar.h>
-#include <qextProgressBar_p.h>
+﻿#include <private/qextProgressBar_p.h>
 #include <QPainter>
 #include <QTimer>
 #include <QDebug>

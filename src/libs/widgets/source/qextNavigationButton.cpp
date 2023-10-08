@@ -1,5 +1,4 @@
-#include <qextNavigationButton.h>
-#include <qextNavigationButton_p.h>
+#include <private/qextNavigationButton_p.h>
 
 #include <QDebug>
 #include <QStyle>

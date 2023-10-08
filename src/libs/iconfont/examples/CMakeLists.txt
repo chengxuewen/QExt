@@ -31,7 +31,6 @@ set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_EXAMPLE_DIR}/iconfont)
 set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_EXAMPLE_DIR}/iconfont)
 
 
-
 #--------------------------------------------------------------------------------
 # Set example link libraries
 #--------------------------------------------------------------------------------
@@ -53,44 +52,30 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
-        Qt${QEXT_QT_VERSION_MAJOR}::Core
-        Qt${QEXT_QT_VERSION_MAJOR}::Gui
-        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+            Qt${QEXT_QT_VERSION_MAJOR}::Core
+            Qt${QEXT_QT_VERSION_MAJOR}::Gui
+            Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QEXTIconFont)
-
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::IconFont)
 
 
 #--------------------------------------------------------------------------------
-# Add qext_exp_fontAwesome example
+# Add examples
 #--------------------------------------------------------------------------------
-set(qext_example_name qext_exp_iconFontAwesome)
-set(qext_example_headers
-    fontAwesomeView/MainWindow.h
-    )
-set(qext_example_sources
-    fontAwesomeView/MainWindow.cpp
-    fontAwesomeView/main.cpp
-    )
-set(qext_example_forms
-    fontAwesomeView/MainWindow.ui
-    )
-add_executable(${qext_example_name}
-    ${qext_example_headers}
-    ${qext_example_sources}
-    ${qext_example_forms}
-    )
-target_link_libraries(${qext_example_name} PRIVATE ${QEXT_EXAMPLE_LINK_LIBRARIES})
-target_include_directories(${qext_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/fontAwesomeView)
-set_property(TARGET ${qext_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
-if(WIN32)
-    qextFunctionCopyDependencyInternal(
-        TARGET ${qext_example_name}
-        LIBS QEXTCore QEXTIconFont
-        DESTINATION ${EXECUTABLE_OUTPUT_PATH}
-        POST_BUILD
-        )
-endif()
+qext_add_executable(exp_QExtIconFontAwesomeView
+        SOURCES
+        fontAwesomeView/main.cpp
+        fontAwesomeView/MainWindow.cpp
+        fontAwesomeView/MainWindow.h
+        fontAwesomeView/MainWindow.ui
+        LIBRARIES
+        ${QEXT_EXAMPLE_LINK_LIBRARIES}
+        INCLUDE_DIRECTORIES
+        ${CMAKE_CURRENT_SOURCE_DIR}/fontAwesomeView
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH}
+        DEFINES
+        EXECUTABLE_OUTPUT_PATH="${EXECUTABLE_OUTPUT_PATH}")

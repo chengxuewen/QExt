@@ -1,5 +1,4 @@
-#include <qextWaveChart.h>
-#include <qextWaveChart_p.h>
+#include <private/qextWaveChart_p.h>
 
 #include <QPainter>
 #include <QDebug>

@@ -1,5 +1,4 @@
-﻿#include <qextIpAddressEdit.h>
-#include <qextIpAddressEdit_p.h>
+﻿#include <private/qextIpAddressEdit_p.h>
 
 #include <QLabel>
 #include <QLineEdit>

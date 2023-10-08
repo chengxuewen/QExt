@@ -63,7 +63,7 @@ private:
     QList<QLabel *> m_listMoreChineseLabel;
 
     QStringList m_listAllPinYin;
-    QTKGooglePinYin m_googlePinYin;
+    QExtGooglePinYin m_googlePinYin;
 
     QString m_strMainTextColor;
     QString m_strButtonHoveColor;
@@ -97,7 +97,7 @@ void QEXTInputPrivate::initForm()
 #else
     q_ptr->setWindowFlags(Qt::Tool | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
 #endif
-    Q_INIT_RESOURCE(QEXTWidgets);
+    Q_INIT_RESOURCE(qextWidgets);
     m_pCurrentWidget = 0;
     m_bIsUpper = false;
     m_bIsNumber = false;
@@ -959,7 +959,7 @@ void QEXTInput::setUpper(const bool &bIsUpper)
     }
 
     //Change the icon
-    ui->btnUpper->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg(bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->m_strIconType)));
+    ui->btnUpper->setIcon(QIcon(QString(":/QExtWidgets/image/btn_%1_%2.png").arg(bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->m_strIconType)));
 }
 
 void QEXTInput::setNumber(const bool &bIsNumber)
@@ -1023,10 +1023,10 @@ void QEXTInput::setStyleType(const StyleTypes &eStyle)
         dd_ptr->m_strIconType = "black";
     }
 
-    ui->labMore->setPixmap(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg("more").arg(dd_ptr->m_strIconType));
-    ui->btnDelete->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
-    ui->btnDelete2->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
-    ui->btnUpper->setIcon(QIcon(QString(":/QEXTWidgets/image/btn_%1_%2.png").arg(dd_ptr->m_bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->m_strIconType)));
+    ui->labMore->setPixmap(QString(":/QExtWidgets/image/btn_%1_%2.png").arg("more").arg(dd_ptr->m_strIconType));
+    ui->btnDelete->setIcon(QIcon(QString(":/QExtWidgets/image/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
+    ui->btnDelete2->setIcon(QIcon(QString(":/QExtWidgets/image/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
+    ui->btnUpper->setIcon(QIcon(QString(":/QExtWidgets/image/btn_%1_%2.png").arg(dd_ptr->m_bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->m_strIconType)));
 }
 
 void QEXTInput::setColor(const QString &mainBkgColor, const QString &mainTextColor,

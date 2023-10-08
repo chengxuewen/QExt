@@ -184,11 +184,14 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_compute_injection_forwarding_header target)
     qext_parse_all_arguments(arg "qext_compute_injection_forwarding_header"
-        "PRIVATE" "SOURCE;OUT_VAR" "" ${ARGN})
+        "PRIVATE;CONFIG" "SOURCE;OUT_VAR" "" ${ARGN})
     qext_internal_library_info(module "${target}")
     get_filename_component(file_name "${arg_SOURCE}" NAME)
-
-    set(source_absolute_path "${CMAKE_CURRENT_SOURCE_DIR}/${arg_SOURCE}")
+    if(arg_CONFIG)
+        set(source_absolute_path "${CMAKE_CURRENT_BINARY_DIR}/${arg_SOURCE}")
+    else()
+        set(source_absolute_path "${CMAKE_CURRENT_SOURCE_DIR}/${arg_SOURCE}")
+    endif()
     file(RELATIVE_PATH relpath "${PROJECT_BINARY_DIR}" "${source_absolute_path}")
 
     if(arg_PRIVATE)

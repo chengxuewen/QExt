@@ -1,4 +1,0 @@
-module QEXTQmlFramelessHelper
-plugin QEXTQmlFramelessHelper
-classname QEXTQmlFramelessHelperPlugin
-typeinfo plugin.qmltypes

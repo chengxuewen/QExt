@@ -1,5 +1,4 @@
-#include "qextStyleSheet.h"
-#include "qextStyleSheet_p.h"
+#include <private/qextStyleSheet_p.h>
 
 QEXTStyleSheetPrivate::QEXTStyleSheetPrivate(QEXTStyleSheet *q)
     : q_ptr(q)

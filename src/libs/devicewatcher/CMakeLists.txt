@@ -24,54 +24,6 @@
 #
 #################################################################################
 
-#--------------------------------------------------------------------------------
-# Set lib base name and out put path
-#--------------------------------------------------------------------------------
-set(QEXT_LIB_BASE_NAME QEXTDeviceWatcher)
-set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_LIB_DIR})
-
-
-
-#--------------------------------------------------------------------------------
-# Set lib file list
-#--------------------------------------------------------------------------------
-set(QEXT_LIB_PUBLIC_HEADERS
-    include/qextDeviceWatcher.h
-    include/qextDeviceWatcherPch.h
-    include/qextDeviceWatcherGlobal.h
-    )
-
-set(QEXT_LIB_PRIVATE_HEADERS
-    private/qextDeviceWatcher_p.h
-    )
-
-set(QEXT_LIB_SOURCES
-    source/qextDeviceWatcher.cpp
-    )
-
-set(QEXT_LIB_FORMS
-
-    )
-
-set(QEXT_LIB_RESOURCES
-
-    )
-
-if(UNIX)
-    if (QEXT_SYSTEM_LINUX)
-        list(APPEND QEXT_LIB_SOURCES source/qextDeviceWatcher_linux.cpp)
-    elseif(QEXT_SYSTEM_MAC)
-        list(APPEND QEXT_LIB_SOURCES source/qextDeviceWatcher_mac.cpp)
-    endif()
-else()
-    if (QEXT_SYSTEM_WINCE)
-        list(APPEND QEXT_LIB_SOURCES source/qextDeviceWatcher_wince.cpp)
-    else()
-        list(APPEND QEXT_LIB_SOURCES source/qextDeviceWatcher_win32.cpp)
-    endif()
-endif()
-
-
 
 #--------------------------------------------------------------------------------
 # Add lib link libraries
@@ -99,85 +51,51 @@ endif()
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES
+            Qt${QEXT_QT_VERSION_MAJOR}::Core)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
-
-list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore)
-
 
 
 #--------------------------------------------------------------------------------
 # Add lib target
 #--------------------------------------------------------------------------------
-add_library(${QEXT_LIB_BASE_NAME}
-    ${QEXT_LIB_PUBLIC_HEADERS}
-    ${QEXT_LIB_PRIVATE_HEADERS}
-    ${QEXT_LIB_SOURCES}
-    ${QEXT_LIB_FORMS}
-    ${QEXT_LIB_RESOURCES}
-    )
-if(QEXT_BUILD_COMPILER_WARNING)
-    qextFunctionSetCompilerWarnings(${QEXT_LIB_BASE_NAME})
+qext_add_library(DeviceWatcher
+        EXCEPTIONS
+        SOURCES
+        source/qextDeviceWatcher.cpp
+        source/qextDeviceWatcher.h
+        source/qextDeviceWatcher_p.h
+        source/qextDeviceWatcherGlobal.h
+        PRECOMPILED_HEADER
+        source/qextDeviceWatcherPch.h
+        PUBLIC_LIBRARIES
+        ${QEXT_LIB_LINK_LIBRARIES}
+        Core)
+
+if(UNIX)
+    if(QEXT_SYSTEM_LINUX)
+        qext_internal_extend_target(DeviceWatcher SOURCES source/qextDeviceWatcher_linux.cpp)
+    elseif(QEXT_SYSTEM_MACOS)
+        qext_internal_extend_target(DeviceWatcher SOURCES source/qextDeviceWatcher_mac.cpp)
+    endif()
+else()
+    if(QEXT_SYSTEM_WINCE)
+        qext_internal_extend_target(DeviceWatcher SOURCES source/qextDeviceWatcher_wince.cpp)
+    else()
+        qext_internal_extend_target(DeviceWatcher SOURCES source/qextDeviceWatcher_win32.cpp)
+    endif()
 endif()
-if (QEXT_BUILD_USE_PCH)
-    qextFunctionActivatePrecompiledHeaders(${QEXT_LIB_BASE_NAME} PRIVATE include/qextDeviceWatcherPch.h)
-endif()
-target_link_libraries(${QEXT_LIB_BASE_NAME} PUBLIC ${QEXT_LIB_LINK_LIBRARIES})
-target_include_directories(${QEXT_LIB_BASE_NAME}
-    PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}/private>
-    )
-target_compile_definitions(${QEXT_LIB_BASE_NAME} PRIVATE QEXT_BUILD_DEVICEWATCHER_LIB)
-
-
-# set target properties
-set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
-    VERSION ${QEXT_VERSION}
-    SOVERSION ${QEXT_SO_VERSION}
-    CXX_STANDARD ${QEXT_CXX_STANDARD}
-    DEBUG_POSTFIX ${QEXT_DEBUG_POSTFIX}
-    )
-if(QEXT_BUILD_SHARED_LIBS)
-    set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
-        CXX_VISIBILITY_PRESET hidden
-        VISIBILITY_INLINES_HIDDEN 1
-        )
-endif()
-
-# set include files copy command
-foreach(HEADER ${QEXT_LIB_PUBLIC_HEADERS})
-    get_filename_component(HEADER_ABSOLUTE_PATH ${HEADER} ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR})
-    list(APPEND QEXT_LIB_PUBLIC_ABSOLUTE_HEADERS ${HEADER_ABSOLUTE_PATH})
-endforeach()
-foreach(HEADER ${QEXT_LIB_PRIVATE_HEADERS})
-    get_filename_component(HEADER_ABSOLUTE_PATH ${HEADER} ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR})
-    list(APPEND QEXT_LIB_PRIVATE_ABSOLUTE_HEADERS ${HEADER_ABSOLUTE_PATH})
-endforeach()
-add_custom_command(
-    TARGET ${QEXT_LIB_BASE_NAME}
-    COMMAND ${CMAKE_COMMAND} -E remove_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}/private
-    COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_LIB_PUBLIC_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-    COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_LIB_PRIVATE_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}/private
-    COMMENT "Copy ${QEXT_LIB_BASE_NAME} include files to output dir"
-    POST_BUILD
-    )
-
 
 
 #--------------------------------------------------------------------------------
 # Add lib tests and examples
 #--------------------------------------------------------------------------------
 if(QEXT_BUILD_TESTS)
-    add_subdirectory(tests)
+    #    add_subdirectory(tests)
 endif()
 
 if(QEXT_BUILD_EXAMPLES)
-    add_subdirectory(examples)
+    #    add_subdirectory(examples)
 endif()

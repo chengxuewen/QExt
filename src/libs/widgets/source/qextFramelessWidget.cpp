@@ -1,5 +1,4 @@
-﻿#include <qextFramelessWidget.h>
-#include <qextFramelessWidget_p.h>
+﻿#include <private/qextFramelessWidget_p.h>
 
 #include <QStyleOption>
 #include <QHoverEvent>

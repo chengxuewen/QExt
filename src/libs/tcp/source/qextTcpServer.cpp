@@ -1,5 +1,4 @@
-#include <qextTcpServer.h>
-#include <qextTcpServer_p.h>
+#include <private/qextTcpServer_p.h>
 #include <qextTcpFactory.h>
 #include <qextTcpTaskPool.h>
 #include <qextTcpPacketParser.h>

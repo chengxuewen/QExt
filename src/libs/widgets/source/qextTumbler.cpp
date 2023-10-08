@@ -1,5 +1,4 @@
-﻿#include <qextTumbler.h>
-#include <qextTumbler_p.h>
+﻿#include <private/qextTumbler_p.h>
 
 #include <QPainter>
 #include <QEvent>

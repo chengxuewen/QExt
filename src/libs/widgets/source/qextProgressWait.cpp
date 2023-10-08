@@ -1,5 +1,4 @@
-﻿#include <qextProgressWait.h>
-#include <qextProgressWait_p.h>
+﻿#include <private/qextProgressWait_p.h>
 
 #include <QPainter>
 #include <QPainterPath>

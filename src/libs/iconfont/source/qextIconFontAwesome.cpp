@@ -168,10 +168,10 @@ QEXTIconFontAwesome::QEXTIconFontAwesome(QObject *parent) : QObject(parent)
         ///
         // I've checked th qInitResource_* code and calling this method mutliple times shouldn't be any problem
         // (More info about this subject:  http://qt-project.org/wiki/QtResources)
-        Q_INIT_RESOURCE(QEXTIconFont);
+        Q_INIT_RESOURCE(qextIconFont);
 
         // load the font file
-        QFile res(":/QEXTIconFont/fontawesome/fontawesome-webfont.ttf");
+        QFile res(":/QExtIconFont/fontawesome/fontawesome-webfont.ttf");
         if (!res.open(QIODevice::ReadOnly))
         {
             qWarning() << "QEXTIconFontAwesome::QEXTIconFontAwesome(): Font awesome font could not be loaded!";

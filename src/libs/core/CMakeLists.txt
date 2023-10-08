@@ -41,6 +41,9 @@ else ()
 endif ()
 
 
+#--------------------------------------------------------------------------------
+# Add lib target
+#--------------------------------------------------------------------------------
 qext_add_library(Core
         EXCEPTIONS
         SOURCES
@@ -79,7 +82,7 @@ qext_add_library(Core
         source/tools/qextUniquePointer.h
         PRECOMPILED_HEADER
         source/qextPch.h
-        LIBRARIES
+        PUBLIC_LIBRARIES
         ${QEXT_LIB_LINK_LIBRARIES})
 
 

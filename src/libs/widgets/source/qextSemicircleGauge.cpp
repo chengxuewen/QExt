@@ -1,5 +1,4 @@
-﻿#include <qextSemicircleGauge.h>
-#include <qextSemicircleGauge_p.h>
+﻿#include <private/qextSemicircleGauge_p.h>
 
 #include <QPainter>
 #include <QTimer>

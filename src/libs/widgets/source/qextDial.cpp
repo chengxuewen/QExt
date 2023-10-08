@@ -1,5 +1,4 @@
-﻿#include <qextDial.h>
-#include <qextDial_p.h>
+﻿#include <private/qextDial_p.h>
 
 #include <QPainter>
 #include <QPointF>

@@ -1,5 +1,4 @@
-﻿#include <qextSelectSlider.h>
-#include <qextSelectSlider_p.h>
+﻿#include <private/qextSelectSlider_p.h>
 
 #include <QPainter>
 #include <QMouseEvent>

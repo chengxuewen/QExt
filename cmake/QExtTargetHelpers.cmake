@@ -111,13 +111,13 @@ function(qext_internal_extend_target target)
         # CorePrivate).
         set(qext_libs_private "")
         foreach(it ${known_librarys})
-            list(FIND arg_LIBRARIES "QExt::${it}_private" pos)
+            list(FIND arg_LIBRARIES "QExt::${it}Private" pos)
             if(pos GREATER -1)
-                list(APPEND qext_libs_private "QExt::${it}_private")
+                list(APPEND qext_libs_private "QExt::${it}Private")
             endif()
         endforeach()
 
-        set(target_private "${target}_private")
+        set(target_private "${target}Private")
         get_target_property(is_internal_library ${target} _qext_is_internal_library)
         # Internal modules don't have Private targets but we still need to propagate their private dependencies.
         if(is_internal_library)
@@ -130,7 +130,7 @@ function(qext_internal_extend_target target)
             string(APPEND warning_message
                 "The PRIVATE_LIBRARY_INTERFACE option was provided the values:"
                 "'${arg_PRIVATE_LIBRARY_INTERFACE}' "
-                "but there is no ${target}_private target to assign them to."
+                "but there is no ${target}Private target to assign them to."
                 "Ensure the target exists or remove the option.")
             message(AUTHOR_WARNING "${warning_message}")
         endif()

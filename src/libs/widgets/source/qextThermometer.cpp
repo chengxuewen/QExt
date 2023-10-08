@@ -1,5 +1,4 @@
-﻿#include <qextThermometer.h>
-#include <qextThermometer_p.h>
+﻿#include <private/qextThermometer_p.h>
 
 #include <QPainter>
 #include <QPainterPath>

@@ -1,5 +1,4 @@
-#include <qextIndicatorLight.h>
-#include <qextIndicatorLight_p.h>
+#include <private/qextIndicatorLight_p.h>
 
 #include <QDebug>
 #include <QPainter>

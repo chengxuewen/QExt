@@ -1,5 +1,4 @@
-﻿#include <qextTextLcd.h>
-#include <qextTextLcd_p.h>
+﻿#include <private/qextTextLcd_p.h>
 
 #include <QDebug>
 #include <QPainter>

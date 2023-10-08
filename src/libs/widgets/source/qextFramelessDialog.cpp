@@ -1,5 +1,4 @@
-﻿#include <qextFramelessDialog.h>
-#include <qextFramelessDialog_p.h>
+﻿#include <private/qextFramelessDialog_p.h>
 
 #include <QHoverEvent>
 #include <QStyleOption>

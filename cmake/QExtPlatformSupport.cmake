@@ -92,6 +92,7 @@ qext_set01(QEXT_SYSTEM_MACOS
 qext_set01(QEXT_SYSTEM_UNIX UNIX)
 qext_set01(QEXT_SYSTEM_WIN32 WIN32)
 qext_set01(QEXT_SYSTEM_APPLE APPLE)
+qext_set01(QEXT_SYSTEM_MAC APPLE)
 
 
 #-----------------------------------------------------------------------------------------------------------------------

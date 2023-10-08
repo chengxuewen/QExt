@@ -1,5 +1,4 @@
-#include <qextIconLabel.h>
-#include <qextIconLabel_p.h>
+#include <private/qextIconLabel_p.h>
 
 
 QEXTIconLabelPrivate::QEXTIconLabelPrivate(QEXTIconLabel *q)

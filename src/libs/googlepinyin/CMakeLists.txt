@@ -25,175 +25,80 @@
 #################################################################################
 
 #--------------------------------------------------------------------------------
-# Set lib base name and out put path
-#--------------------------------------------------------------------------------
-set(QEXT_LIB_BASE_NAME QEXTGooglePinYin)
-set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_LIB_DIR})
-
-
-
-#--------------------------------------------------------------------------------
-# Set lib file list
-#--------------------------------------------------------------------------------
-set(QEXT_LIB_PUBLIC_HEADERS
-    include/qextGooglePinYin.h
-    include/qextGooglePinYinPch.h
-    include/qextGooglePinYinGlobal.h
-    )
-
-set(QEXT_LIB_PRIVATE_HEADERS
-    )
-
-set(QEXT_LIB_SOURCES
-    source/qextGooglePinYin.cpp
-    source/googlepinyin/atomdictbase.h
-    source/googlepinyin/dictbuilder.cpp
-    source/googlepinyin/dictbuilder.h
-    source/googlepinyin/dictdef.h
-    source/googlepinyin/dictlist.cpp
-    source/googlepinyin/dictlist.h
-    source/googlepinyin/dicttrie.cpp
-    source/googlepinyin/dicttrie.h
-    source/googlepinyin/lpicache.cpp
-    source/googlepinyin/lpicache.h
-    source/googlepinyin/matrixsearch.cpp
-    source/googlepinyin/matrixsearch.h
-    source/googlepinyin/mystdlib.cpp
-    source/googlepinyin/mystdlib.h
-    source/googlepinyin/ngram.cpp
-    source/googlepinyin/ngram.h
-    source/googlepinyin/pinyinime.cpp
-    source/googlepinyin/pinyinime.h
-    source/googlepinyin/searchutility.cpp
-    source/googlepinyin/searchutility.h
-    source/googlepinyin/spellingtable.cpp
-    source/googlepinyin/spellingtable.h
-    source/googlepinyin/spellingtrie.cpp
-    source/googlepinyin/spellingtrie.h
-    source/googlepinyin/sync.cpp
-    source/googlepinyin/sync.h
-    source/googlepinyin/userdict.cpp
-    source/googlepinyin/userdict.h
-    source/googlepinyin/splparser.cpp
-    source/googlepinyin/splparser.h
-    source/googlepinyin/utf16char.cpp
-    source/googlepinyin/utf16char.h
-    source/googlepinyin/utf16reader.cpp
-    source/googlepinyin/utf16reader.h
-    )
-
-set(QEXT_LIB_FORMS
-
-    )
-
-set(QEXT_LIB_RESOURCES
-    resource/QEXTGooglePinYin.qrc
-    )
-
-list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore)
-
-
-#--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
 set(QEXT_LIB_LINK_LIBRARIES)
-
-if(UNIX)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_DL_LIBS})
-endif()
-
-if(WIN32)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES shlwapi.lib)
-endif()
-
-if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
-endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
-        Qt${QEXT_QT_VERSION_MAJOR}::Core
-        Qt${QEXT_QT_VERSION_MAJOR}::Gui
-        )
+            Qt${QEXT_QT_VERSION_MAJOR}::Core
+            Qt${QEXT_QT_VERSION_MAJOR}::Gui
+    )
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore)
-
+list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
 
 
 #--------------------------------------------------------------------------------
 # Add lib target
 #--------------------------------------------------------------------------------
-add_library(${QEXT_LIB_BASE_NAME}
-    ${QEXT_LIB_PUBLIC_HEADERS}
-    ${QEXT_LIB_PRIVATE_HEADERS}
-    ${QEXT_LIB_SOURCES}
-    ${QEXT_LIB_FORMS}
-    ${QEXT_LIB_RESOURCES}
-    )
-if (QEXT_BUILD_COMPILER_WARNING)
-    qextFunctionSetCompilerWarnings(${QEXT_LIB_BASE_NAME})
-endif()
-if (QEXT_BUILD_USE_PCH)
-    qextFunctionActivatePrecompiledHeaders(${QEXT_LIB_BASE_NAME} PRIVATE include/qextGooglePinYinPch.h)
-endif()
-target_link_libraries(${QEXT_LIB_BASE_NAME} PUBLIC ${QEXT_LIB_LINK_LIBRARIES})
-target_include_directories(${QEXT_LIB_BASE_NAME}
-    PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}/private>
-    )
-target_compile_definitions(${QEXT_LIB_BASE_NAME} PRIVATE QEXT_BUILD_GOOGLEPINYIN_LIB)
-
-# set target properties
-set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
-    VERSION ${QEXT_VERSION}
-    SOVERSION ${QEXT_SO_VERSION}
-    CXX_STANDARD ${QEXT_CXX_STANDARD}
-    DEBUG_POSTFIX ${QEXT_DEBUG_POSTFIX}
-    )
-if (QEXT_BUILD_SHARED_LIBS)
-    set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
-        CXX_VISIBILITY_PRESET hidden
-        VISIBILITY_INLINES_HIDDEN 1
-        )
-endif()
-
-# set include files copy command
-foreach(HEADER ${QEXT_LIB_PUBLIC_HEADERS})
-    get_filename_component(HEADER_ABSOLUTE_PATH ${HEADER} ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR})
-    list(APPEND QEXT_LIB_PUBLIC_ABSOLUTE_HEADERS ${HEADER_ABSOLUTE_PATH})
-endforeach()
-foreach(HEADER ${QEXT_LIB_PRIVATE_HEADERS})
-    get_filename_component(HEADER_ABSOLUTE_PATH ${HEADER} ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR})
-    list(APPEND QEXT_LIB_PRIVATE_ABSOLUTE_HEADERS ${HEADER_ABSOLUTE_PATH})
-endforeach()
-add_custom_command(
-    TARGET ${QEXT_LIB_BASE_NAME}
-    COMMAND ${CMAKE_COMMAND} -E remove_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}/private
-    COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_LIB_PUBLIC_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-#    COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_LIB_PRIVATE_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}/private
-    COMMENT "Copy ${QEXT_LIB_BASE_NAME} include files to output dir"
-    POST_BUILD
-    )
-
+qext_add_library(GooglePinYin
+        EXCEPTIONS
+        SOURCES
+        source/googlepinyin/atomdictbase.h
+        source/googlepinyin/dictbuilder.cpp
+        source/googlepinyin/dictbuilder.h
+        source/googlepinyin/dictdef.h
+        source/googlepinyin/dictlist.cpp
+        source/googlepinyin/dictlist.h
+        source/googlepinyin/dicttrie.cpp
+        source/googlepinyin/dicttrie.h
+        source/googlepinyin/lpicache.cpp
+        source/googlepinyin/lpicache.h
+        source/googlepinyin/matrixsearch.cpp
+        source/googlepinyin/matrixsearch.h
+        source/googlepinyin/mystdlib.cpp
+        source/googlepinyin/mystdlib.h
+        source/googlepinyin/ngram.cpp
+        source/googlepinyin/ngram.h
+        source/googlepinyin/pinyinime.cpp
+        source/googlepinyin/pinyinime.h
+        source/googlepinyin/searchutility.cpp
+        source/googlepinyin/searchutility.h
+        source/googlepinyin/spellingtable.cpp
+        source/googlepinyin/spellingtable.h
+        source/googlepinyin/spellingtrie.cpp
+        source/googlepinyin/spellingtrie.h
+        source/googlepinyin/sync.cpp
+        source/googlepinyin/sync.h
+        source/googlepinyin/userdict.cpp
+        source/googlepinyin/userdict.h
+        source/googlepinyin/splparser.cpp
+        source/googlepinyin/splparser.h
+        source/googlepinyin/utf16char.cpp
+        source/googlepinyin/utf16char.h
+        source/googlepinyin/utf16reader.cpp
+        source/googlepinyin/utf16reader.h
+        source/qextGooglePinYin.cpp
+        source/qextGooglePinYin.h
+        source/qextGooglePinYinGlobal.h
+        source/qextGooglePinYinPch.h
+        resource/qextGooglePinYin.qrc
+        PUBLIC_LIBRARIES
+        ${QEXT_LIB_LINK_LIBRARIES})
 
 
 #--------------------------------------------------------------------------------
 # Add lib tests and examples
 #--------------------------------------------------------------------------------
-if (QEXT_BUILD_TESTS)
+if(QEXT_BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-if (QEXT_BUILD_EXAMPLES)
-#    add_subdirectory(examples)
+if(QEXT_BUILD_EXAMPLES)
+    add_subdirectory(examples)
 endif()

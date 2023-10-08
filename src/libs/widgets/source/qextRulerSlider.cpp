@@ -1,5 +1,4 @@
-﻿#include <qextRulerSlider.h>
-#include <qextRulerSlider_p.h>
+﻿#include <private/qextRulerSlider_p.h>
 
 #include <QPainter>
 #include <QMouseEvent>

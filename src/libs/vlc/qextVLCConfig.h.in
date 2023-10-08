@@ -1,7 +1,0 @@
-#ifndef _QEXTVLCCONFIG_H
-#define _QEXTVLCCONFIG_H
-
-// libVLC this library is built with
-#define QEXT_LIBVLC_VERSION @QEXT_LIBVLC_VERSION@
-
-#endif // _QEXTVLCCONFIG_H

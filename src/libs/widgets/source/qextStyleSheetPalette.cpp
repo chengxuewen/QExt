@@ -1,5 +1,4 @@
-#include <qextStyleSheetPalette.h>
-#include <qextStyleSheetPalette_p.h>
+#include <private/qextStyleSheetPalette_p.h>
 
 
 QEXTStyleSheetPalettePrivate::QEXTStyleSheetPalettePrivate(QEXTStyleSheetPalette *q)

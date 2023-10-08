@@ -25,7 +25,6 @@ set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR})
 set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_TEST_DIR})
 
 
-
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
@@ -35,54 +34,36 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_TEST_LINK_LIBRARIES Qt4::QtCore Qt4::QtTest)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_TEST_LINK_LIBRARIES
-        Qt${QEXT_QT_VERSION_MAJOR}::Core
-        Qt${QEXT_QT_VERSION_MAJOR}::Test)
+            Qt${QEXT_QT_VERSION_MAJOR}::Core
+            Qt${QEXT_QT_VERSION_MAJOR}::Test)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_TEST_LINK_LIBRARIES QEXTUtils)
-
-
-
-#--------------------------------------------------------------------------------
-# Add qext_tst_utilsDatatime example
-#--------------------------------------------------------------------------------
-set(qext_test_name qext_tst_utilsDatatime)
-add_executable(${qext_test_name} tst_qextDataTimeUtils.cpp)
-add_test(NAME ${qext_test_name} COMMAND ${qext_test_name})
-target_link_libraries(${qext_test_name} PRIVATE ${QEXT_TEST_LINK_LIBRARIES})
-target_include_directories(${qext_test_name} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
-if(WIN32)
-    qextFunctionCopyDependencyInternal(${qext_test_name} QEXTUtils ${EXECUTABLE_OUTPUT_PATH})
-    qextFunctionCopyDependencyInternal(${qext_test_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
-endif()
+list(APPEND QEXT_TEST_LINK_LIBRARIES QExt::Utils)
 
 
 #--------------------------------------------------------------------------------
-# Add qext_tst_utilsNetwork test
+# add tests
 #--------------------------------------------------------------------------------
-set(qext_test_name qext_tst_utilsNetwork)
-add_executable(${qext_test_name} tst_qextNetworkUtils.cpp)
-add_test(NAME ${qext_test_name} COMMAND ${qext_test_name})
-target_link_libraries(${qext_test_name} PRIVATE ${QEXT_TEST_LINK_LIBRARIES})
-target_include_directories(${qext_test_name} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
-if(WIN32)
-    qextFunctionCopyDependencyInternal(${qext_test_name} QEXTUtils ${EXECUTABLE_OUTPUT_PATH})
-    qextFunctionCopyDependencyInternal(${qext_test_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
-endif()
-
-
-
-#--------------------------------------------------------------------------------
-# Add qext_tst_utilsCodec test
-#--------------------------------------------------------------------------------
-set(qext_test_name qext_tst_utilsCodec)
-add_executable(${qext_test_name} tst_qextCodecUtils.cpp)
-add_test(NAME ${qext_test_name} COMMAND ${qext_test_name})
-target_link_libraries(${qext_test_name} PRIVATE ${QEXT_TEST_LINK_LIBRARIES})
-target_include_directories(${qext_test_name} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
-if(WIN32)
-    qextFunctionCopyDependencyInternal(${qext_test_name} QEXTUtils ${EXECUTABLE_OUTPUT_PATH})
-    qextFunctionCopyDependencyInternal(${qext_test_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
-endif()
+qext_internal_add_test(tst_QExtUtilsDatatime
+        SOURCES
+        tst_qextDataTimeUtils.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtUtilsNetwork
+        SOURCES
+        tst_qextNetworkUtils.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})
+qext_internal_add_test(tst_QExtUtilsCodec
+        SOURCES
+        tst_qextCodecUtils.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${EXECUTABLE_OUTPUT_PATH})

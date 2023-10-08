@@ -1,5 +1,4 @@
-﻿#include <qextTooltip.h>
-#include <qextTooltip_p.h>
+﻿#include <private/qextTooltip_p.h>
 
 #include <QPainter>
 #include <QEvent>

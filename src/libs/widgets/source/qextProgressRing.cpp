@@ -1,5 +1,4 @@
-﻿#include <qextProgressRing.h>
-#include <qextProgressRing_p.h>
+﻿#include <private/qextProgressRing_p.h>
 
 #include <QPainter>
 #include <QTimer>

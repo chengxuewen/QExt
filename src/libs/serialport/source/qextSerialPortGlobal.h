@@ -6,7 +6,7 @@
 /********************************************************************************
    QExt Compiler specific cmds for export and import code to DLL
 ********************************************************************************/
-#ifdef QEXT_BUILD_SHARED_LIBS // compiled as a dynamic lib.
+#ifdef QEXT_BUILD_SHARED // compiled as a dynamic lib.
     #ifdef QEXT_BUILD_SERIALPORT_LIB // defined if we are building the lib
         #define QEXT_SERIALPORT_API Q_DECL_EXPORT
     #else

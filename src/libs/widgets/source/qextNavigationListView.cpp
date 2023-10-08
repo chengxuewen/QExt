@@ -1,5 +1,4 @@
-﻿#include <qextNavigationListView.h>
-#include <qextNavigationListView_p.h>
+﻿#include <private/qextNavigationListView_p.h>
 
 #include <QDebug>
 #include <QPainter>
@@ -470,8 +469,8 @@ QEXTNavListDelegate::QEXTNavListDelegate(QEXTNavigationListViewPrivate *navData)
     QFontDatabase fontDb;
     if (!fontDb.families().contains("FontAwesome"))
     {
-        Q_INIT_RESOURCE(QEXTWidgets);
-        int fontId = fontDb.addApplicationFont(":/QEXTWidgets/font/fontawesome-webfont.ttf");
+        Q_INIT_RESOURCE(qextWidgets);
+        int fontId = fontDb.addApplicationFont(":/QExtWidgets/font/fontawesome-webfont.ttf");
         QStringList fontName = fontDb.applicationFontFamilies(fontId);
         if (fontName.count() == 0)
         {

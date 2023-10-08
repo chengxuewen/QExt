@@ -1,5 +1,4 @@
-﻿#include <qextSlider.h>
-#include <qextSlider_p.h>
+﻿#include <private/qextSlider_p.h>
 #include <qextTooltip.h>
 
 #include <QEvent>

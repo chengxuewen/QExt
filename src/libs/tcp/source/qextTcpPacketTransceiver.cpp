@@ -1,5 +1,4 @@
-#include <qextTcpPacketTransceiver.h>
-#include <qextTcpPacketTransceiver_p.h>
+#include <private/qextTcpPacketTransceiver_p.h>
 #include <qextTcpPacketDispatcher.h>
 #include <qextTcpPacketParserInterface.h>
 

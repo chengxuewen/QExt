@@ -1,5 +1,4 @@
-﻿#include <qextRangeSlider.h>
-#include <qextRangeSlider_p.h>
+﻿#include <private/qextRangeSlider_p.h>
 
 #include <QPainter>
 #include <QMouseEvent>

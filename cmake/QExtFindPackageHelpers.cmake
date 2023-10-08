@@ -33,7 +33,7 @@
 # Uses __qext_internal_walk_libs.
 function(qext_find_package_promote_targets_to_global_scope target)
     __qext_internal_walk_libs("${target}" _discarded_out_var _discarded_out_var_2
-        "qext_find_package_targets_dict" "promote_global")
+            "qext_find_package_targets_dict" "promote_global")
 endfunction()
 
 macro(qext_find_package)
@@ -64,7 +64,7 @@ macro(qext_find_package)
 
         if(_qext_find_package_skip_find_package)
             message(AUTHOR_WARNING "qext_find_package(${ARGV0}) called even though the package "
-                "was already found. Consider removing the call.")
+                    "was already found. Consider removing the call.")
         endif()
     endif()
 
@@ -175,33 +175,33 @@ macro(qext_find_package)
                 endif()
 
                 set_target_properties(${qext_find_package_target_name} PROPERTIES
-                    INTERFACE_QEXT_PACKAGE_NAME ${ARGV0}
-                    INTERFACE_QEXT_PACKAGE_IS_OPTIONAL ${arg_MARK_OPTIONAL})
+                        INTERFACE_QEXT_PACKAGE_NAME ${ARGV0}
+                        INTERFACE_QEXT_PACKAGE_IS_OPTIONAL ${arg_MARK_OPTIONAL})
                 if(package_version)
                     set_target_properties(${qext_find_package_target_name}
-                        PROPERTIES INTERFACE_QEXT_PACKAGE_VERSION ${ARGV1})
+                            PROPERTIES INTERFACE_QEXT_PACKAGE_VERSION ${ARGV1})
                 endif()
 
                 if(arg_COMPONENTS)
                     string(REPLACE ";" " " components_as_string "${arg_COMPONENTS}")
                     set_property(TARGET ${qext_find_package_target_name}
-                        PROPERTY INTERFACE_QEXT_PACKAGE_COMPONENTS ${components_as_string})
+                            PROPERTY INTERFACE_QEXT_PACKAGE_COMPONENTS ${components_as_string})
                 endif()
 
                 if(arg_OPTIONAL_COMPONENTS)
                     string(REPLACE ";" " " components_as_string "${arg_OPTIONAL_COMPONENTS}")
                     set_property(TARGET ${qext_find_package_target_name}
-                        PROPERTY INTERFACE_QEXT_PACKAGE_OPTIONAL_COMPONENTS
-                        ${components_as_string})
+                            PROPERTY INTERFACE_QEXT_PACKAGE_OPTIONAL_COMPONENTS
+                            ${components_as_string})
                 endif()
 
                 get_property(is_global TARGET ${qext_find_package_target_name} PROPERTY
-                    IMPORTED_GLOBAL)
+                        IMPORTED_GLOBAL)
                 qext_internal_should_not_promote_package_target_to_global("${qext_find_package_target_name}" should_not_promote)
                 if(NOT is_global AND NOT should_not_promote)
                     __qext_internal_promote_target_to_global(${qext_find_package_target_name})
                     qext_find_package_promote_targets_to_global_scope(
-                        "${qext_find_package_target_name}")
+                            "${qext_find_package_target_name}")
                 endif()
             endif()
 
@@ -298,19 +298,20 @@ function(qext_internal_get_package_name_of_target target package_name_out_var)
     set(package_name "")
     set(package_name_default "${INSTALL_CMAKE_NAMESPACE}${target}")
     set(target_namespaced "${QEXT_CMAKE_EXPORT_NAMESPACE}::${target}")
-    #    message(target_namespaced=${target_namespaced})
+#    message(target_namespaced=${target_namespaced})
     if(TARGET "${target_namespaced}")
         get_target_property(package_name_from_prop "${target_namespaced}" _qext_package_name)
+#        message(package_name_from_prop=${package_name_from_prop})
         if(package_name_from_prop)
             set(package_name "${package_name_from_prop}")
         endif()
     endif()
-    #    message(package_name=${package_name})
+#    message(package_name=${package_name})
     if(NOT package_name)
         message(WARNING
-            "Could not find target ${target_namespaced} to query its package name. "
-            "Defaulting to package name ${package_name_default}. Consider re-arranging the "
-            "project structure to ensure the target exists by this point.")
+                "Could not find target ${target_namespaced} to query its package name. "
+                "Defaulting to package name ${package_name_default}. Consider re-arranging the "
+                "project structure to ensure the target exists by this point.")
         set(package_name "${package_name_default}")
     endif()
 
@@ -357,8 +358,8 @@ function(qext_internal_get_package_version_of_target target package_version_out_
         set(package_version "${PROJECT_VERSION}")
         if(FEATURE_developer_build)
             message(WARNING
-                "Could not determine package version of target ${target}. "
-                "Defaulting to project version ${PROJECT_VERSION}.")
+                    "Could not determine package version of target ${target}. "
+                    "Defaulting to project version ${PROJECT_VERSION}.")
         endif()
     endif()
 

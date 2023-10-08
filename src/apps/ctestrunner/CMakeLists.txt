@@ -61,7 +61,8 @@ endif()
 # Configure a header file to pass some of the CMake settings to the source code
 #--------------------------------------------------------------------------------
 set(QEXT_CTEST_RUNNER_CONFIG_FILE_DIR ${CMAKE_CURRENT_BINARY_DIR})
-set(QEXT_CTEST_RUNNER_CONFIG_FILE_PATH ${QEXT_CTEST_RUNNER_CONFIG_FILE_DIR}/qextCTestRunnerConfig.h)
+set(QEXT_CTEST_RUNNER_CONFIG_FILE_PATH ${QEXT_CTEST_RUNNER_CONFIG_FILE_DIR}/qextCTestRunnerConfig.h
+        ../../libs/stylethemes/source/qextStyleThemes_p.h)
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/qextCTestRunnerConfig.h.in"
     "${QEXT_CTEST_RUNNER_CONFIG_FILE_PATH}"

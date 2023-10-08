@@ -1,5 +1,4 @@
-﻿#include <qextDateTimeTumbler.h>
-#include <qextDateTimeTumbler_p.h>
+﻿#include <private/qextDateTimeTumbler_p.h>
 #include <qextTumbler.h>
 
 #include <QBoxLayout>

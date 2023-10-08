@@ -1,5 +1,4 @@
-﻿#include <qextRingCompass.h>
-#include <qextRingCompass_p.h>
+﻿#include <private/qextRingCompass_p.h>
 
 #include <QPainter>
 #include <QPainterPath>

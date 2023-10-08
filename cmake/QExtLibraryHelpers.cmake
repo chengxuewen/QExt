@@ -174,7 +174,7 @@ function(qext_add_library target)
         set_target_properties(${target} PROPERTIES __qext_is_public_library TRUE)
         list(APPEND export_properties "__qext_is_public_library")
         if(NOT ${arg_NO_PRIVATE_LIBRARY})
-            set_target_properties(${target} PROPERTIES _qext_private_library_target_name "${target}_private")
+            set_target_properties(${target} PROPERTIES _qext_private_library_target_name "${target}Private")
             list(APPEND export_properties "_qext_private_library_target_name")
         endif()
     endif()
@@ -214,7 +214,7 @@ function(qext_add_library target)
         set_target_properties(${target} PROPERTIES
             FRAMEWORK TRUE
             FRAMEWORK_VERSION "A" # Not based on QExt major version
-            MACOSX_FRAMEWORK_IDENTIFIER org.QExt-project.${library}
+            MACOSX_FRAMEWORK_IDENTIFIER org.QExt.${library}
             MACOSX_FRAMEWORK_BUNDLE_VERSION ${PROJECT_VERSION}
             MACOSX_FRAMEWORK_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR})
         qext_internal_get_framework_info(fw ${target})
@@ -247,12 +247,12 @@ function(qext_add_library target)
     endif()
 
     # Add Private target to link against the private headers:
-    set(target_private "${target}_private")
+    set(target_private "${target}Private")
     if(NOT ${arg_NO_PRIVATE_LIBRARY})
         add_library("${target_private}" INTERFACE)
         qext_internal_add_target_aliases("${target_private}")
         set_target_properties(${target_private} PROPERTIES
-            _qext_config_library_name ${arg_CONFIG_LIBRARY_NAME}_private
+            _qext_config_library_name ${arg_CONFIG_LIBRARY_NAME}Private
             _qext_package_version "${PROJECT_VERSION}"
             _qext_package_name "${INSTALL_CMAKE_NAMESPACE}${target}"
             _qext_is_private_library TRUE
@@ -353,7 +353,7 @@ function(qext_add_library target)
             file(GENERATE OUTPUT "${library_header}" CONTENT "${contents}")
         endif()
         qext_compute_injection_forwarding_header("${target}"
-            SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/include/${library}"
+            SOURCE "include/${library}"
             OUT_VAR injections)
         list(APPEND library_headers_injections "${injections}")
         list(APPEND library_headers_public "${CMAKE_CURRENT_SOURCE_DIR}/include/${library}")
@@ -393,13 +393,6 @@ function(qext_add_library target)
     if(NOT arg_HEADER_LIBRARY)
         #        qext_autogen_tools_initial_setup(${target}) ###TODO:rcc autogen?
     endif()
-
-    set(private_includes
-        #        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
-        #        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-        #        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>"
-        #        "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
-        ${arg_INCLUDE_DIRECTORIES})
 
     set(public_includes "")
     set(public_headers_list "public_includes")
@@ -494,9 +487,9 @@ function(qext_add_library target)
             ${deprecation_define})
     endif()
 
-    #    foreach(dir ${public_includes})
-    #        message(dir=${dir})
-    #    endforeach()
+#        foreach(dir ${public_includes})
+#            message(dir=${dir})
+#        endforeach()
     # qext_internal_add_repo_local_defines("${target}")
     qext_internal_extend_target("${target}"
         ${header_library}
@@ -572,9 +565,9 @@ function(qext_add_library target)
     if(extra_library_injections)
         string(APPEND final_injections "${extra_library_injections} ")
     endif()
-    #    foreach(e ${final_injections})
-    #        message(injection=${e})
-    #    endforeach()
+#        foreach(e ${final_injections})
+#            message(injection=${e})
+#        endforeach()
     if(final_injections)
         qext_install_injections(${target} "${QEXT_BUILD_DIR}" "${QEXT_INSTALL_DIR}" ${final_injections})
     endif()
@@ -1315,8 +1308,8 @@ function(qext_internal_create_library_depends_file target)
     get_target_property(public_depends "${target}" INTERFACE_LINK_LIBRARIES)
 
     unset(optional_public_depends)
-    if(TARGET "${target}_private")
-        get_target_property(optional_public_depends "${target}_private" INTERFACE_LINK_LIBRARIES)
+    if(TARGET "${target}Private")
+        get_target_property(optional_public_depends "${target}Private" INTERFACE_LINK_LIBRARIES)
     endif()
 
     # Used for collecting QExt module dependencies that should be find_package()'d in ModuleDependencies.cmake.

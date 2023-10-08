@@ -1,5 +1,4 @@
-﻿#include <qextNavigationBar.h>
-#include <qextNavigationBar_p.h>
+﻿#include <private/qextNavigationBar_p.h>
 
 #include <QEvent>
 #include <QPainter>

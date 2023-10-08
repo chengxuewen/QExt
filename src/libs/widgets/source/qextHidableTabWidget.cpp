@@ -1,6 +1,6 @@
 #include <qextHidableTabWidget.h>
-#include <qextHidableTabWidget_p.h>
 #include <qextIconFontAwesome.h>
+#include <private/qextHidableTabWidget_p.h>
 
 #include <QTabBar>
 #include <QToolButton>

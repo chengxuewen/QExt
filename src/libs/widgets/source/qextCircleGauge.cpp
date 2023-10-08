@@ -1,5 +1,4 @@
-﻿#include <qextCircleGauge.h>
-#include <qextCircleGauge_p.h>
+﻿#include <private/qextCircleGauge_p.h>
 
 #include <QPainter>
 #include <QVariant>

@@ -1,5 +1,4 @@
-﻿#include <qextArrowCompass.h>
-#include <qextArrowCompass_p.h>
+﻿#include <private/qextArrowCompass_p.h>
 
 #include <QPainter>
 #include <QTimer>

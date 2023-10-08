@@ -24,60 +24,13 @@
 #
 #################################################################################
 
-qext_add_subdirectory(core)
+add_subdirectory(core)
+qext_add_subdirectory(tcp ON)
+qext_add_subdirectory(utils ON)
+qext_add_subdirectory(widgets ON)
+qext_add_subdirectory(iconfont ON)
 qext_add_subdirectory(serialport ON)
+qext_add_subdirectory(stylethemes ON)
+qext_add_subdirectory(googlepinyin ON)
+qext_add_subdirectory(devicewatcher ON)
 
-#if(QEXT_BUILD_LIB_DEVICEWATCHER)
-#    message(STATUS "Build devicewatcher lib.")
-#    add_subdirectory(devicewatcher)
-#endif()
-
-#if(QEXT_BUILD_LIB_FRAMELESSHELPER)
-#    message(STATUS "Build framelesshelper lib.")
-#    add_subdirectory(framelesshelper)
-#endif()
-
-#if(QEXT_BUILD_LIB_GOOGLEPINYIN)
-#    message(STATUS "Build googlepinyin lib.")
-#    add_subdirectory(googlepinyin)
-#endif()
-
-#if(QEXT_BUILD_LIB_ICONFONT)
-#    message(STATUS "Build iconfont lib.")
-#    add_subdirectory(iconfont)
-#endif()
-
-#if(QEXT_BUILD_LIB_SERIALPORT)
-#    message(STATUS "Build serialport lib.")
-#    add_subdirectory(serialport)
-#endif()
-
-#if(QEXT_BUILD_LIB_SINGLEAPP)
-#    message(STATUS "Build singleapp lib.")
-#    add_subdirectory(singleapp)
-#endif()
-
-#if(QEXT_BUILD_LIB_STYLETHEME)
-#    message(STATUS "Build styletheme lib.")
-#    add_subdirectory(styletheme)
-#endif()
-
-#if(QEXT_BUILD_LIB_TCP)
-#    message(STATUS "Build tcp lib.")
-#    add_subdirectory(tcp)
-#endif()
-
-#if(QEXT_BUILD_LIB_UTILS)
-#    message(STATUS "Build utils lib.")
-#    add_subdirectory(utils)
-#endif()
-
-#if(QEXT_BUILD_LIB_VLC)
-#    message(STATUS "Build vlc lib.")
-#    add_subdirectory(vlc)
-#endif()
-
-#if(QEXT_BUILD_LIB_WIDGETS)
-#    message(STATUS "Build widgets lib.")
-#    add_subdirectory(widgets)
-#endif()

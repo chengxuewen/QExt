@@ -1,5 +1,4 @@
-﻿#include <qextOvenTimer.h>
-#include <qextOvenTimer_p.h>
+﻿#include <private/qextOvenTimer_p.h>
 
 #include <QPainter>
 #include <QEvent>

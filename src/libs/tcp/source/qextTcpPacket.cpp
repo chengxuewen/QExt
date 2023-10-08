@@ -1,5 +1,4 @@
-#include <qextTcpPacket.h>
-#include <qextTcpPacket_p.h>
+#include <private/qextTcpPacket_p.h>
 
 #include <QDebug>
 

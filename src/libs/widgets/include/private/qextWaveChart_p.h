@@ -1,0 +1,1 @@
+#include "../../source/qextWaveChart_p.h"

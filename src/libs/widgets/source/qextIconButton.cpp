@@ -1,5 +1,4 @@
-#include <qextIconButton.h>
-#include <qextIconButton_p.h>
+#include <private/qextIconButton_p.h>
 
 //#include <lib/qtmaterialstyle.h"
 //#include <lib/qtmaterialrippleoverlay.h"

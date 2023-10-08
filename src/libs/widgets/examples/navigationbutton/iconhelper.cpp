@@ -19,7 +19,7 @@ IconHelper::IconHelper(QObject *parent) : QObject(parent)
     //判断图形字体是否存在,不存在则加入
     QFontDatabase fontDb;
     if (!fontDb.families().contains("FontAwesome")) {
-        int fontId = fontDb.addApplicationFont(":/QEXTWidgets/font/fontawesome-webfont.ttf");
+        int fontId = fontDb.addApplicationFont(":/QExtWidgets/font/fontawesome-webfont.ttf");
         QStringList fontName = fontDb.applicationFontFamilies(fontId);
         if (fontName.count() == 0) {
             qDebug() << "load fontawesome-webfont.ttf error";

@@ -24,262 +24,170 @@
 #
 #################################################################################
 
-#--------------------------------------------------------------------------------
-# Set lib base name and out put path
-#--------------------------------------------------------------------------------
-set(QEXT_LIB_BASE_NAME QEXTWidgets)
-set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_LIB_DIR})
-
-
-
-#--------------------------------------------------------------------------------
-# Set lib file list
-#--------------------------------------------------------------------------------
-set(QEXT_LIB_PUBLIC_HEADERS
-    include/qextBreathingLight.h
-    include/qextIndicatorLight.h
-    include/qextDial.h
-    include/qextFramelessDialog.h
-    include/qextFramelessMainwindow.h
-    include/qextFramelessWidget.h
-    include/qextCircleGauge.h
-    include/qextArrowCompass.h
-    include/qextSemicircleGauge.h
-    include/qextIconButton.h
-    include/qextIconLabel.h
-    include/qextInput.h
-    include/qextIpAddressEdit.h
-    include/qextNumberLed.h
-    include/qextTextLcd.h
-    include/qextNavigationButton.h
-    include/qextNavigationListView.h
-    include/qextNavigationBar.h
-    include/qextProgressBar.h
-    include/qextProgressButton.h
-    include/qextProgressPie.h
-    include/qextProgressRing.h
-    include/qextProgressWait.h
-    include/qextRangeSlider.h
-    include/qextSwitchButton.h
-    include/qextRulerSlider.h
-    include/qextSelectSlider.h
-    include/qextSlider.h
-    include/qextStyleSheet.h
-    include/qextStyleSheetPalette.h
-    include/qextThermometer.h
-    include/qextTooltip.h
-    include/qextTumbler.h
-    include/qextDateTimeTumbler.h
-    include/qextWaveChart.h
-    include/qextRingCompass.h
-    include/qextProgressKnob.h
-    include/qextScaleKnob.h
-    include/qextLed.h
-    include/qextOvenTimer.h
-    include/qextHidableTabWidget.h
-    include/qextWidgetGlobal.h
-    include/qextWidgetPch.h
-    )
-
-set(QEXT_LIB_PRIVATE_HEADERS
-    private/qextBreathingLight_p.h
-    private/qextIndicatorLight_p.h
-    private/qextFramelessDialog_p.h
-    private/qextFramelessMainwindow_p.h
-    private/qextFramelessWidget_p.h
-    private/qextCircleGauge_p.h
-    private/qextArrowCompass_p.h
-    private/qextSemicircleGauge_p.h
-    private/qextIconButton_p.h
-    private/qextIconLabel_p.h
-    private/qextIpAddressEdit_p.h
-    private/qextNumberLed_p.h
-    private/qextTextLcd_p.h
-    private/qextNavigationButton_p.h
-    private/qextNavigationListView_p.h
-    private/qextSwitchButton_p.h
-    private/qextWaveChart_p.h
-    private/qextRingCompass_p.h
-    private/qextSelectSlider_p.h
-    private/qextSlider_p.h
-    private/qextStyleSheetPalette_p.h
-    private/qextStyleSheet_p.h
-    private/qextTooltip_p.h
-    private/qextTumbler_p.h
-    private/qextDateTimeTumbler_p.h
-    private/qextDial_p.h
-    private/qextProgressKnob_p.h
-    private/qextScaleKnob_p.h
-    private/qextProgressRing_p.h
-    private/qextLed_p.h
-    private/qextNavigationBar_p.h
-    private/qextOvenTimer_p.h
-    private/qextProgressBar_p.h
-    private/qextProgressButton_p.h
-    private/qextProgressPie_p.h
-    private/qextProgressWait_p.h
-    private/qextHidableTabWidget_p.h
-    private/qextRangeSlider_p.h
-    private/qextRulerSlider_p.h
-    private/qextThermometer_p.h
-    )
-
-set(QEXT_LIB_SOURCES
-    source/qextBreathingLight.cpp
-    source/qextIndicatorLight.cpp
-    source/qextDial.cpp
-    source/qextFramelessDialog.cpp
-    source/qextFramelessMainwindow.cpp
-    source/qextFramelessWidget.cpp
-    source/qextCircleGauge.cpp
-    source/qextArrowCompass.cpp
-    source/qextSemicircleGauge.cpp
-    source/qextIconButton.cpp
-    source/qextIconLabel.cpp
-    source/qextInput.cpp
-    source/qextIpAddressEdit.cpp
-    source/qextNumberLed.cpp
-    source/qextTextLcd.cpp
-    source/qextNavigationButton.cpp
-    source/qextNavigationListView.cpp
-    source/qextNavigationBar.cpp
-    source/qextProgressBar.cpp
-    source/qextProgressButton.cpp
-    source/qextProgressPie.cpp
-    source/qextProgressRing.cpp
-    source/qextProgressWait.cpp
-    source/qextRangeSlider.cpp
-    source/qextRulerSlider.cpp
-    source/qextSelectSlider.cpp
-    source/qextSlider.cpp
-    source/qextStyleSheet.cpp
-    source/qextStyleSheetPalette.cpp
-    source/qextSwitchButton.cpp
-    source/qextThermometer.cpp
-    source/qextTooltip.cpp
-    source/qextTumbler.cpp
-    source/qextDateTimeTumbler.cpp
-    source/qextWaveChart.cpp
-    source/qextRingCompass.cpp
-    source/qextProgressKnob.cpp
-    source/qextScaleKnob.cpp
-    source/qextHidableTabWidget.cpp
-    source/qextLed.cpp
-    source/qextOvenTimer.cpp
-    )
-
-set(QEXT_LIB_FORMS
-    source/qextInput.ui
-    )
-
-set(QEXT_LIB_RESOURCES
-    resource/QEXTWidgets.qrc
-    )
-
-
 
 #--------------------------------------------------------------------------------
 # Add lib link libraries
 #--------------------------------------------------------------------------------
 set(QEXT_LIB_LINK_LIBRARIES)
 
-if(UNIX)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_DL_LIBS})
-endif()
-
-if(WIN32)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES shlwapi.lib)
-endif()
-
-if(CMAKE_THREAD_LIBS_INIT)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
-endif()
-
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
-        Qt${QEXT_QT_VERSION_MAJOR}::Core
-        Qt${QEXT_QT_VERSION_MAJOR}::Gui
-        Qt${QEXT_QT_VERSION_MAJOR}::Widgets
-        )
+            Qt${QEXT_QT_VERSION_MAJOR}::Core
+            Qt${QEXT_QT_VERSION_MAJOR}::Gui
+            Qt${QEXT_QT_VERSION_MAJOR}::Widgets
+    )
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
-
-list(APPEND QEXT_LIB_LINK_LIBRARIES QEXTCore QEXTIconFont QEXTGooglePinYin)
-
 
 
 #--------------------------------------------------------------------------------
 # Add lib target
 #--------------------------------------------------------------------------------
-add_library(${QEXT_LIB_BASE_NAME}
-    ${QEXT_LIB_PUBLIC_HEADERS}
-    ${QEXT_LIB_PRIVATE_HEADERS}
-    ${QEXT_LIB_SOURCES}
-    ${QEXT_LIB_FORMS}
-    ${QEXT_LIB_RESOURCES}
-    )
-if (QEXT_BUILD_COMPILER_WARNING)
-    qextFunctionSetCompilerWarnings(${QEXT_LIB_BASE_NAME})
-endif()
-if (QEXT_BUILD_USE_PCH)
-    qextFunctionActivatePrecompiledHeaders(${QEXT_LIB_BASE_NAME} PRIVATE include/qextWidgetPch.h)
-endif()
-target_link_libraries(${QEXT_LIB_BASE_NAME} PUBLIC ${QEXT_LIB_LINK_LIBRARIES})
-target_include_directories(${QEXT_LIB_BASE_NAME}
-    PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-    $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}/private>
-    )
-target_compile_definitions(${QEXT_LIB_BASE_NAME} PRIVATE QEXT_BUILD_WIDGETS_LIB)
-
-# set target properties
-set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
-    VERSION ${QEXT_VERSION}
-    SOVERSION ${QEXT_SO_VERSION}
-    CXX_STANDARD ${QEXT_CXX_STANDARD}
-    DEBUG_POSTFIX ${QEXT_DEBUG_POSTFIX}
-    )
-if (QEXT_BUILD_SHARED_LIBS)
-    set_target_properties(${QEXT_LIB_BASE_NAME} PROPERTIES
-        CXX_VISIBILITY_PRESET hidden
-        VISIBILITY_INLINES_HIDDEN 1
-        )
-endif()
-
-# set include files copy command
-foreach(HEADER ${QEXT_LIB_PUBLIC_HEADERS})
-    get_filename_component(HEADER_ABSOLUTE_PATH ${HEADER} ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR})
-    list(APPEND QEXT_LIB_PUBLIC_ABSOLUTE_HEADERS ${HEADER_ABSOLUTE_PATH})
-endforeach()
-foreach(HEADER ${QEXT_LIB_PRIVATE_HEADERS})
-    get_filename_component(HEADER_ABSOLUTE_PATH ${HEADER} ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR})
-    list(APPEND QEXT_LIB_PRIVATE_ABSOLUTE_HEADERS ${HEADER_ABSOLUTE_PATH})
-endforeach()
-add_custom_command(
-    TARGET ${QEXT_LIB_BASE_NAME}
-    COMMAND ${CMAKE_COMMAND} -E remove_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}/private
-    COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_LIB_PUBLIC_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}
-    COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_LIB_PRIVATE_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_LIB_BASE_NAME}/private
-    COMMENT "Copy ${QEXT_LIB_BASE_NAME} include files to output dir"
-    POST_BUILD
-    )
-
+qext_add_library(Widgets
+        EXCEPTIONS
+        SOURCES
+        source/qextArrowCompass.cpp
+        source/qextArrowCompass.h
+        source/qextArrowCompass_p.h
+        source/qextBreathingLight.cpp
+        source/qextBreathingLight.h
+        source/qextBreathingLight_p.h
+        source/qextCircleGauge.cpp
+        source/qextCircleGauge.h
+        source/qextCircleGauge_p.h
+        source/qextDateTimeTumbler.cpp
+        source/qextDateTimeTumbler.h
+        source/qextDateTimeTumbler_p.h
+        source/qextDial.cpp
+        source/qextDial.h
+        source/qextDial_p.h
+        source/qextFramelessDialog.h
+        source/qextFramelessDialog_p.h
+        source/qextFramelessDialog.cpp
+        source/qextFramelessMainwindow.h
+        source/qextFramelessMainwindow_p.h
+        source/qextFramelessMainwindow.cpp
+        source/qextFramelessWidget.h
+        source/qextFramelessWidget_p.h
+        source/qextFramelessWidget.cpp
+        source/qextHidableTabWidget.cpp
+        source/qextHidableTabWidget.h
+        source/qextHidableTabWidget_p.h
+        source/qextIconButton.cpp
+        source/qextIconButton.h
+        source/qextIconButton_p.h
+        source/qextIconLabel.cpp
+        source/qextIconLabel.h
+        source/qextIconLabel_p.h
+        source/qextIndicatorLight.cpp
+        source/qextIndicatorLight.h
+        source/qextIndicatorLight_p.h
+        source/qextInput.cpp
+        source/qextInput.h
+        source/qextInput.ui
+        source/qextIpAddressEdit.cpp
+        source/qextIpAddressEdit.h
+        source/qextIpAddressEdit_p.h
+        source/qextLed.cpp
+        source/qextLed.h
+        source/qextLed_p.h
+        source/qextNavigationBar.cpp
+        source/qextNavigationBar.h
+        source/qextNavigationBar_p.h
+        source/qextNavigationButton.cpp
+        source/qextNavigationButton.h
+        source/qextNavigationButton_p.h
+        source/qextNavigationListView.cpp
+        source/qextNavigationListView.h
+        source/qextNavigationListView_p.h
+        source/qextNumberLed.cpp
+        source/qextNumberLed.h
+        source/qextNumberLed_p.h
+        source/qextOvenTimer.cpp
+        source/qextOvenTimer.h
+        source/qextOvenTimer_p.h
+        source/qextProgressBar.cpp
+        source/qextProgressBar.h
+        source/qextProgressBar_p.h
+        source/qextProgressButton.cpp
+        source/qextProgressButton.h
+        source/qextProgressButton_p.h
+        source/qextProgressKnob.cpp
+        source/qextProgressKnob.h
+        source/qextProgressKnob_p.h
+        source/qextProgressPie.cpp
+        source/qextProgressPie.h
+        source/qextProgressPie_p.h
+        source/qextProgressRing.cpp
+        source/qextProgressRing.h
+        source/qextProgressRing_p.h
+        source/qextProgressWait.cpp
+        source/qextProgressWait.h
+        source/qextProgressWait_p.h
+        source/qextRangeSlider.cpp
+        source/qextRangeSlider.h
+        source/qextRangeSlider_p.h
+        source/qextRingCompass.cpp
+        source/qextRingCompass.h
+        source/qextRingCompass_p.h
+        source/qextRulerSlider.cpp
+        source/qextRulerSlider.h
+        source/qextRulerSlider_p.h
+        source/qextScaleKnob.cpp
+        source/qextScaleKnob.h
+        source/qextScaleKnob_p.h
+        source/qextSelectSlider.cpp
+        source/qextSelectSlider.h
+        source/qextSelectSlider_p.h
+        source/qextSemicircleGauge.cpp
+        source/qextSemicircleGauge.h
+        source/qextSemicircleGauge_p.h
+        source/qextSlider.cpp
+        source/qextSlider.h
+        source/qextSlider_p.h
+        source/qextStyleSheet.h
+        source/qextStyleSheet_p.h
+        source/qextStyleSheet.cpp
+        source/qextStyleSheetPalette.cpp
+        source/qextStyleSheetPalette.h
+        source/qextStyleSheetPalette_p.h
+        source/qextSwitchButton.cpp
+        source/qextSwitchButton.h
+        source/qextSwitchButton_p.h
+        source/qextTextLcd.cpp
+        source/qextTextLcd.h
+        source/qextTextLcd_p.h
+        source/qextThermometer.cpp
+        source/qextThermometer.h
+        source/qextThermometer_p.h
+        source/qextTooltip.cpp
+        source/qextTooltip.h
+        source/qextTooltip_p.h
+        source/qextTumbler.cpp
+        source/qextTumbler.h
+        source/qextTumbler_p.h
+        source/qextWaveChart.cpp
+        source/qextWaveChart.h
+        source/qextWaveChart_p.h
+        source/qextWidgetGlobal.h
+        resource/qextWidgets.qrc
+        PRECOMPILED_HEADER
+        source/qextWidgetPch.h
+        PUBLIC_LIBRARIES
+        ${QEXT_LIB_LINK_LIBRARIES}
+        Core IconFont GooglePinYin)
 
 
 #--------------------------------------------------------------------------------
 # Add lib tests and examples
 #--------------------------------------------------------------------------------
-if (QEXT_BUILD_TESTS)
+if(QEXT_BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-if (QEXT_BUILD_EXAMPLES)
+if(QEXT_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
