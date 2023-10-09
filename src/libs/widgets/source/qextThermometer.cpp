@@ -1,4 +1,29 @@
-﻿#include <private/qextThermometer_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2022~Present ChengXueWen. Contact: 1398831004@qq.com.
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextThermometer_p.h>
 
 #include <QPainter>
 #include <QPainterPath>
@@ -6,7 +31,7 @@
 #include <QDebug>
 
 
-QEXTThermometerPrivate::QEXTThermometerPrivate(QEXTThermometer *q)
+QExtThermometerPrivate::QExtThermometerPrivate(QExtThermometer *q)
     : q_ptr(q)
 {
     m_minValue = 0;
@@ -32,14 +57,14 @@ QEXTThermometerPrivate::QEXTThermometerPrivate(QEXTThermometer *q)
     m_barBackgroundColor = QColor(230, 230, 230);
     m_barColor = QColor(100, 184, 255);
 
-    m_barPosition = QEXTThermometer::BarPosition_Center;
-    m_tickPosition = QEXTThermometer::TickPosition_Both;
+    m_barPosition = QExtThermometer::BarPosition_Center;
+    m_tickPosition = QExtThermometer::TickPosition_Both;
 
     m_reverse = false;
     m_currentValue = 0;
 }
 
-QEXTThermometerPrivate::~QEXTThermometerPrivate()
+QExtThermometerPrivate::~QExtThermometerPrivate()
 {
     if (m_timer->isActive()) {
         m_timer->stop();
@@ -48,11 +73,11 @@ QEXTThermometerPrivate::~QEXTThermometerPrivate()
 
 
 
-QEXTThermometer::QEXTThermometer(QWidget *parent)
+QExtThermometer::QExtThermometer(QWidget *parent)
     : QWidget(parent)
-    , dd_ptr(new QEXTThermometerPrivate(this))
+    , dd_ptr(new QExtThermometerPrivate(this))
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     d->m_timer = new QTimer(this);
     d->m_timer->setInterval(10);
     connect(d->m_timer, SIGNAL(timeout()), this, SLOT(updateValue()));
@@ -60,14 +85,14 @@ QEXTThermometer::QEXTThermometer(QWidget *parent)
     this->setFont(QFont("Arial", 9));
 }
 
-QEXTThermometer::~QEXTThermometer()
+QExtThermometer::~QExtThermometer()
 {
 
 }
 
-void QEXTThermometer::resizeEvent(QResizeEvent *)
+void QExtThermometer::resizeEvent(QResizeEvent *)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     d->m_radius = qMin(width(), height()) / 5;
     d->m_barWidth = (d->m_radius * 2) / 3;
     d->m_barHeight = height() - d->m_radius * 2;
@@ -83,9 +108,9 @@ void QEXTThermometer::resizeEvent(QResizeEvent *)
     this->setValue(d->m_value);
 }
 
-void QEXTThermometer::paintEvent(QPaintEvent *)
+void QExtThermometer::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
@@ -107,9 +132,9 @@ void QEXTThermometer::paintEvent(QPaintEvent *)
     this->drawValue(&painter);
 }
 
-void QEXTThermometer::drawBackground(QPainter *painter)
+void QExtThermometer::drawBackground(QPainter *painter)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     painter->save();
     painter->setPen(Qt::NoPen);
     QLinearGradient bgGradient(QPointF(0, 0), QPointF(0, height()));
@@ -120,9 +145,9 @@ void QEXTThermometer::drawBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTThermometer::drawBarBackground(QPainter *painter)
+void QExtThermometer::drawBarBackground(QPainter *painter)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     painter->save();
     painter->setPen(Qt::NoPen);
     painter->setBrush(d->m_barBackgroundColor);
@@ -144,9 +169,9 @@ void QEXTThermometer::drawBarBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTThermometer::drawRuler(QPainter *painter, int type)
+void QExtThermometer::drawRuler(QPainter *painter, int type)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     painter->save();
     painter->setPen(d->m_lineColor);
 
@@ -205,9 +230,9 @@ void QEXTThermometer::drawRuler(QPainter *painter, int type)
     painter->restore();
 }
 
-void QEXTThermometer::drawBar(QPainter *painter)
+void QExtThermometer::drawBar(QPainter *painter)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     painter->save();
     painter->setPen(Qt::NoPen);
     painter->setBrush(d->m_barColor);
@@ -273,9 +298,9 @@ void QEXTThermometer::drawBar(QPainter *painter)
     painter->restore();
 }
 
-void QEXTThermometer::drawValue(QPainter *painter)
+void QExtThermometer::drawValue(QPainter *painter)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     painter->save();
 
     QFont font;
@@ -287,133 +312,133 @@ void QEXTThermometer::drawValue(QPainter *painter)
     painter->restore();
 }
 
-double QEXTThermometer::minValue() const
+double QExtThermometer::minValue() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_minValue;
 }
 
-double QEXTThermometer::maxValue() const
+double QExtThermometer::maxValue() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_maxValue;
 }
 
-double QEXTThermometer::value() const
+double QExtThermometer::value() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_value;
 }
 
-int QEXTThermometer::precision() const
+int QExtThermometer::precision() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_precision;
 }
 
-int QEXTThermometer::longStep() const
+int QExtThermometer::longStep() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_longStep;
 }
 
-int QEXTThermometer::shortStep() const
+int QExtThermometer::shortStep() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_shortStep;
 }
 
-int QEXTThermometer::space() const
+int QExtThermometer::space() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_space;
 }
 
-bool QEXTThermometer::animationEnable() const
+bool QExtThermometer::animationEnable() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_animation;
 }
 
-double QEXTThermometer::animationStep() const
+double QExtThermometer::animationStep() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_animationStep;
 }
 
-bool QEXTThermometer::userValueVisible() const
+bool QExtThermometer::userValueVisible() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_userValueVisible;
 }
 
-double QEXTThermometer::userValue() const
+double QExtThermometer::userValue() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_userValue;
 }
 
-QColor QEXTThermometer::userValueColor() const
+QColor QExtThermometer::userValueColor() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_userValueColor;
 }
 
-QColor QEXTThermometer::backgroundStartColor() const
+QColor QExtThermometer::backgroundStartColor() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_backgroundStartColor;
 }
 
-QColor QEXTThermometer::backgroundEndColor() const
+QColor QExtThermometer::backgroundEndColor() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_backgroundEndColor;
 }
 
-QColor QEXTThermometer::lineColor() const
+QColor QExtThermometer::lineColor() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_lineColor;
 }
 
-QColor QEXTThermometer::barBackgroundColor() const
+QColor QExtThermometer::barBackgroundColor() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_barBackgroundColor;
 }
 
-QColor QEXTThermometer::barColor() const
+QColor QExtThermometer::barColor() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_barColor;
 }
 
-QEXTThermometer::BarPosition QEXTThermometer::barPosition() const
+QExtThermometer::BarPosition QExtThermometer::barPosition() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_barPosition;
 }
 
-QEXTThermometer::TickPosition QEXTThermometer::tickPosition() const
+QExtThermometer::TickPosition QExtThermometer::tickPosition() const
 {
-    Q_D(const QEXTThermometer);
+    Q_D(const QExtThermometer);
     return d->m_tickPosition;
 }
 
-QSize QEXTThermometer::sizeHint() const
+QSize QExtThermometer::sizeHint() const
 {
     return QSize(130, 350);
 }
 
-QSize QEXTThermometer::minimumSizeHint() const
+QSize QExtThermometer::minimumSizeHint() const
 {
     return QSize(20, 50);
 }
 
-void QEXTThermometer::setRange(double minValue, double maxValue)
+void QExtThermometer::setRange(double minValue, double maxValue)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (minValue >= maxValue) {
         return;
     }
@@ -428,26 +453,26 @@ void QEXTThermometer::setRange(double minValue, double maxValue)
     this->update();
 }
 
-void QEXTThermometer::setRange(int minValue, int maxValue)
+void QExtThermometer::setRange(int minValue, int maxValue)
 {
     this->setRange((double)minValue, (double)maxValue);
 }
 
-void QEXTThermometer::setMinValue(double minValue)
+void QExtThermometer::setMinValue(double minValue)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     this->setRange(minValue, d->m_maxValue);
 }
 
-void QEXTThermometer::setMaxValue(double maxValue)
+void QExtThermometer::setMaxValue(double maxValue)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     this->setRange(d->m_minValue, maxValue);
 }
 
-void QEXTThermometer::setValue(double value)
+void QExtThermometer::setValue(double value)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (value == d->m_value) {
         return;
     }
@@ -475,23 +500,23 @@ void QEXTThermometer::setValue(double value)
     }
 }
 
-void QEXTThermometer::setValue(int value)
+void QExtThermometer::setValue(int value)
 {
     this->setValue((double)value);
 }
 
-void QEXTThermometer::setPrecision(int precision)
+void QExtThermometer::setPrecision(int precision)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (precision <= 3 && d->m_precision != precision) {
         d->m_precision = precision;
         this->update();
     }
 }
 
-void QEXTThermometer::setLongStep(int longStep)
+void QExtThermometer::setLongStep(int longStep)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (longStep < d->m_shortStep) {
         return;
     }
@@ -502,9 +527,9 @@ void QEXTThermometer::setLongStep(int longStep)
     }
 }
 
-void QEXTThermometer::setShortStep(int shortStep)
+void QExtThermometer::setShortStep(int shortStep)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_longStep < shortStep) {
         return;
     }
@@ -515,45 +540,45 @@ void QEXTThermometer::setShortStep(int shortStep)
     }
 }
 
-void QEXTThermometer::setSpace(int space)
+void QExtThermometer::setSpace(int space)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_space != space) {
         d->m_space = space;
         this->update();
     }
 }
 
-void QEXTThermometer::setAnimationEnable(bool enable)
+void QExtThermometer::setAnimationEnable(bool enable)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_animation != enable) {
         d->m_animation = enable;
         this->update();
     }
 }
 
-void QEXTThermometer::setAnimationStep(double animationStep)
+void QExtThermometer::setAnimationStep(double animationStep)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_animationStep != animationStep) {
         d->m_animationStep = animationStep;
         this->update();
     }
 }
 
-void QEXTThermometer::setUserValueVisible(bool visiable)
+void QExtThermometer::setUserValueVisible(bool visiable)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_userValueVisible != visiable) {
         d->m_userValueVisible = visiable;
         this->update();
     }
 }
 
-void QEXTThermometer::setUserValue(double userValue)
+void QExtThermometer::setUserValue(double userValue)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (userValue < d->m_minValue || userValue > d->m_maxValue) {
         return;
     }
@@ -564,86 +589,86 @@ void QEXTThermometer::setUserValue(double userValue)
     }
 }
 
-void QEXTThermometer::setUserValue(int userValue)
+void QExtThermometer::setUserValue(int userValue)
 {
     this->setUserValue((double)userValue);
 }
 
-void QEXTThermometer::setUserValueColor(const QColor &color)
+void QExtThermometer::setUserValueColor(const QColor &color)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_userValueColor != color) {
         d->m_userValueColor = color;
         this->update();
     }
 }
 
-void QEXTThermometer::setBgColorStart(const QColor &color)
+void QExtThermometer::setBgColorStart(const QColor &color)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_backgroundStartColor != color) {
         d->m_backgroundStartColor = color;
         this->update();
     }
 }
 
-void QEXTThermometer::setBgColorEnd(const QColor &color)
+void QExtThermometer::setBgColorEnd(const QColor &color)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_backgroundEndColor != color) {
         d->m_backgroundEndColor = color;
         this->update();
     }
 }
 
-void QEXTThermometer::setLineColor(const QColor &color)
+void QExtThermometer::setLineColor(const QColor &color)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_lineColor != color) {
         d->m_lineColor = color;
         this->update();
     }
 }
 
-void QEXTThermometer::setBarBackgroundColor(const QColor &color)
+void QExtThermometer::setBarBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_barBackgroundColor != color) {
         d->m_barBackgroundColor = color;
         this->update();
     }
 }
 
-void QEXTThermometer::setBarColor(const QColor &color)
+void QExtThermometer::setBarColor(const QColor &color)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_barColor != color) {
         d->m_barColor = color;
         this->update();
     }
 }
 
-void QEXTThermometer::setBarPosition(const QEXTThermometer::BarPosition &position)
+void QExtThermometer::setBarPosition(const QExtThermometer::BarPosition &position)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_barPosition != position) {
         d->m_barPosition = position;
         this->update();
     }
 }
 
-void QEXTThermometer::setTickPosition(const QEXTThermometer::TickPosition &position)
+void QExtThermometer::setTickPosition(const QExtThermometer::TickPosition &position)
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (d->m_tickPosition != position) {
         d->m_tickPosition = position;
         this->update();
     }
 }
 
-void QEXTThermometer::updateValue()
+void QExtThermometer::updateValue()
 {
-    Q_D(QEXTThermometer);
+    Q_D(QExtThermometer);
     if (!d->m_reverse) {
         if (d->m_currentValue >= d->m_value) {
             d->m_currentValue = d->m_value;

@@ -1,31 +1,27 @@
-/*************************************************************************************
+/***********************************************************************************************************************
 **
 ** Library: QExt
 **
-** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 ** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
 **
 ** License: MIT License
 **
-** Permission is hereby granted, free of charge, to any person obtaining
-** a copy of this software and associated documentation files (the "Software"),
-** to deal in the Software without restriction, including without limitation
-** the rights to use, copy, modify, merge, publish, distribute, sublicense,
-** and/or sell copies of the Software, and to permit persons to whom the
-** Software is furnished to do so, subject to the following conditions:
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 **
-** The above copyright notice and this permission notice shall be included in
-** all copies or substantial portions of the Software.
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
 **
-** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-** SOFTWARE.
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
 **
-*************************************************************************************/
+***********************************************************************************************************************/
 
 #ifndef _QEXTNUMBERLED_H
 #define _QEXTNUMBERLED_H
@@ -35,8 +31,8 @@
 #include <QWidget>
 #include <QObject>
 
-class QEXTNumberLedPrivate;
-class QEXT_WIDGETS_API QEXTNumberLed : public QWidget
+class QExtNumberLedPrivate;
+class QEXT_WIDGETS_API QExtNumberLed : public QWidget
 {
     Q_OBJECT
 
@@ -60,8 +56,8 @@ public:
     Q_ENUMS(Symbol)
 
 public:
-    explicit QEXTNumberLed(QWidget *parent = QEXT_DECL_NULLPTR);
-    ~QEXTNumberLed();
+    explicit QExtNumberLed(QWidget *parent = QEXT_DECL_NULLPTR);
+    ~QExtNumberLed();
 
     int number() const;
     int space() const;
@@ -96,11 +92,11 @@ protected:
     void drawBackground(QPainter *painter);
     void drawNumber(QPainter *painter);
 
-    QScopedPointer<QEXTNumberLedPrivate> dd_ptr;
+    QScopedPointer<QExtNumberLedPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNumberLed)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNumberLed)
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtNumberLed)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtNumberLed)
 };
 
 #endif // _QEXTNUMBERLED_H

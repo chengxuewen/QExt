@@ -1,3 +1,28 @@
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2018 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
 #include <private/qextNavigationButton_p.h>
 
 #include <QDebug>
@@ -5,22 +30,22 @@
 #include <QStyleOption>
 #include <QPainter>
 
-QEXTNavigationButtonPrivate::QEXTNavigationButtonPrivate(QEXTNavigationButton *q)
+QExtNavigationButtonPrivate::QExtNavigationButtonPrivate(QExtNavigationButton *q)
     : q_ptr(q)
 {
     m_leftPadding = 5;
     m_rightPadding = 5;
     m_topPadding = 5;
     m_bottomPadding = 5;
-    m_textAlign = QEXTNavigationButton::TextAlign_Center;
+    m_textAlign = QExtNavigationButton::TextAlign_Center;
 
     m_triangleVisible = false;
     m_triangleLen = 5;
-    m_trianglePosition = QEXTNavigationButton::Position_Right;
+    m_trianglePosition = QExtNavigationButton::Position_Right;
     m_triangleColor = QColor(255, 255, 255);
 
     m_iconVisible = false;
-    m_iconPosition = QEXTNavigationButton::Position_Left;
+    m_iconPosition = QExtNavigationButton::Position_Left;
     m_iconSpace = 10;
     m_iconSize = QSize(16, 16);
     m_normalIcon = QPixmap();
@@ -30,7 +55,7 @@ QEXTNavigationButtonPrivate::QEXTNavigationButtonPrivate(QEXTNavigationButton *q
     m_lineVisible = true;
     m_lineSpace = 0;
     m_lineWidth = 5;
-    m_linePosition = QEXTNavigationButton::Position_Left;
+    m_linePosition = QExtNavigationButton::Position_Left;
     m_lineColor = QColor(0, 187, 158);
 
     m_normalBackgroundColor = QColor(230, 230, 230);
@@ -47,44 +72,44 @@ QEXTNavigationButtonPrivate::QEXTNavigationButtonPrivate(QEXTNavigationButton *q
     m_hovered = false;
 }
 
-QEXTNavigationButtonPrivate::~QEXTNavigationButtonPrivate()
+QExtNavigationButtonPrivate::~QExtNavigationButtonPrivate()
 {
 
 }
 
 
-QEXTNavigationButton::QEXTNavigationButton(QWidget *parent)
-    : QPushButton(parent), dd_ptr(new QEXTNavigationButtonPrivate(this))
+QExtNavigationButton::QExtNavigationButton(QWidget *parent)
+    : QPushButton(parent), dd_ptr(new QExtNavigationButtonPrivate(this))
 {
     this->setCheckable(true);
 }
 
-QEXTNavigationButton::~QEXTNavigationButton()
+QExtNavigationButton::~QExtNavigationButton()
 {
 
 }
 
-void QEXTNavigationButton::setIcon(const QIcon &icon)
+void QExtNavigationButton::setIcon(const QIcon &icon)
 {
     this->setIcon(icon.pixmap(100, 100));
     QPushButton::setIcon(icon);
 }
 
-void QEXTNavigationButton::enterEvent(QEvent *)
+void QExtNavigationButton::enterEvent(QEvent *)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     d->m_hovered = true;
     this->update();
 }
 
-void QEXTNavigationButton::leaveEvent(QEvent *)
+void QExtNavigationButton::leaveEvent(QEvent *)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     d->m_hovered = false;
     this->update();
 }
 
-void QEXTNavigationButton::paintEvent(QPaintEvent *)
+void QExtNavigationButton::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -105,9 +130,9 @@ void QEXTNavigationButton::paintEvent(QPaintEvent *)
     this->style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
 }
 
-void QEXTNavigationButton::drawBackground(QPainter *painter)
+void QExtNavigationButton::drawBackground(QPainter *painter)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     painter->save();
     painter->setPen(Qt::NoPen);
 
@@ -174,9 +199,9 @@ void QEXTNavigationButton::drawBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTNavigationButton::drawText(QPainter *painter)
+void QExtNavigationButton::drawText(QPainter *painter)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
 
     painter->save();
     int width = this->width();
@@ -204,9 +229,9 @@ void QEXTNavigationButton::drawText(QPainter *painter)
     painter->restore();
 }
 
-void QEXTNavigationButton::drawIcon(QPainter *painter)
+void QExtNavigationButton::drawIcon(QPainter *painter)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (!d->m_iconVisible)
     {
         return;
@@ -273,9 +298,9 @@ void QEXTNavigationButton::drawIcon(QPainter *painter)
     painter->restore();
 }
 
-void QEXTNavigationButton::drawLine(QPainter *painter)
+void QExtNavigationButton::drawLine(QPainter *painter)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (!d->m_lineVisible)
     {
         return;
@@ -320,9 +345,9 @@ void QEXTNavigationButton::drawLine(QPainter *painter)
     painter->restore();
 }
 
-void QEXTNavigationButton::drawTriangle(QPainter *painter)
+void QExtNavigationButton::drawTriangle(QPainter *painter)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (!d->m_triangleVisible)
     {
         return;
@@ -365,199 +390,199 @@ void QEXTNavigationButton::drawTriangle(QPainter *painter)
     painter->restore();
 }
 
-int QEXTNavigationButton::leftPadding() const
+int QExtNavigationButton::leftPadding() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_leftPadding;
 }
 
-int QEXTNavigationButton::rightPadding() const
+int QExtNavigationButton::rightPadding() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_rightPadding;
 }
 
-int QEXTNavigationButton::topPadding() const
+int QExtNavigationButton::topPadding() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_topPadding;
 }
 
-int QEXTNavigationButton::bottomPadding() const
+int QExtNavigationButton::bottomPadding() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_bottomPadding;
 }
 
-QEXTNavigationButton::TextAlignType QEXTNavigationButton::textAlign() const
+QExtNavigationButton::TextAlignType QExtNavigationButton::textAlign() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_textAlign;
 }
 
-bool QEXTNavigationButton::isTriangleVisible() const
+bool QExtNavigationButton::isTriangleVisible() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_triangleVisible;
 }
 
-int QEXTNavigationButton::triangleLen() const
+int QExtNavigationButton::triangleLen() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_triangleLen;
 }
 
-QEXTNavigationButton::PositionType QEXTNavigationButton::trianglePosition() const
+QExtNavigationButton::PositionType QExtNavigationButton::trianglePosition() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_trianglePosition;
 }
 
-QColor QEXTNavigationButton::triangleColor() const
+QColor QExtNavigationButton::triangleColor() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_triangleColor;
 }
 
-bool QEXTNavigationButton::isIconVisible() const
+bool QExtNavigationButton::isIconVisible() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_iconVisible;
 }
 
-QEXTNavigationButton::PositionType QEXTNavigationButton::iconPosition() const
+QExtNavigationButton::PositionType QExtNavigationButton::iconPosition() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_iconPosition;
 }
 
-int QEXTNavigationButton::iconSpace() const
+int QExtNavigationButton::iconSpace() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_iconSpace;
 }
 
-QSize QEXTNavigationButton::iconSize() const
+QSize QExtNavigationButton::iconSize() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_iconSize;
 }
 
-QPixmap QEXTNavigationButton::normalIcon() const
+QPixmap QExtNavigationButton::normalIcon() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_normalIcon;
 }
 
-QPixmap QEXTNavigationButton::hoveredIcon() const
+QPixmap QExtNavigationButton::hoveredIcon() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_hoverIcon;
 }
 
-QPixmap QEXTNavigationButton::checkedIcon() const
+QPixmap QExtNavigationButton::checkedIcon() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_checkIcon;
 }
 
-QChar QEXTNavigationButton::normalFontIcon() const
+QChar QExtNavigationButton::normalFontIcon() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_normalFontIcon;
 }
 
-QChar QEXTNavigationButton::hoveredFontIcon() const
+QChar QExtNavigationButton::hoveredFontIcon() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_hoverFontIcon;
 }
 
-QChar QEXTNavigationButton::checkedFontIcon() const
+QChar QExtNavigationButton::checkedFontIcon() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_checkFontIcon;
 }
 
-bool QEXTNavigationButton::isLineVisible() const
+bool QExtNavigationButton::isLineVisible() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_lineVisible;
 }
 
-int QEXTNavigationButton::lineSpace() const
+int QExtNavigationButton::lineSpace() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_lineSpace;
 }
 
-int QEXTNavigationButton::lineWidth() const
+int QExtNavigationButton::lineWidth() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_lineWidth;
 }
 
-QEXTNavigationButton::PositionType QEXTNavigationButton::linePosition() const
+QExtNavigationButton::PositionType QExtNavigationButton::linePosition() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_linePosition;
 }
 
-QColor QEXTNavigationButton::lineColor() const
+QColor QExtNavigationButton::lineColor() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_lineColor;
 }
 
-QColor QEXTNavigationButton::normalBackgroundColor() const
+QColor QExtNavigationButton::normalBackgroundColor() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_normalBackgroundColor;
 }
 
-QColor QEXTNavigationButton::hoveredBackgroundColor() const
+QColor QExtNavigationButton::hoveredBackgroundColor() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_hoverBackgroundColor;
 }
 
-QColor QEXTNavigationButton::checkedBackgroundColor() const
+QColor QExtNavigationButton::checkedBackgroundColor() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_checkBackgroundColor;
 }
 
-QColor QEXTNavigationButton::normalTextColor() const
+QColor QExtNavigationButton::normalTextColor() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_normalTextColor;
 }
 
-QColor QEXTNavigationButton::hoveredTextColor() const
+QColor QExtNavigationButton::hoveredTextColor() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_hoverTextColor;
 }
 
-QColor QEXTNavigationButton::checkedTextColor() const
+QColor QExtNavigationButton::checkedTextColor() const
 {
-    Q_D(const QEXTNavigationButton);
+    Q_D(const QExtNavigationButton);
     return d->m_checkTextColor;
 }
 
-QSize QEXTNavigationButton::sizeHint() const
+QSize QExtNavigationButton::sizeHint() const
 {
     return QSize(100, 30);
 }
 
-QSize QEXTNavigationButton::minimumSizeHint() const
+QSize QExtNavigationButton::minimumSizeHint() const
 {
     return QSize(20, 10);
 }
 
-void QEXTNavigationButton::setLeftPadding(int padding)
+void QExtNavigationButton::setLeftPadding(int padding)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_leftPadding != padding)
     {
         d->m_leftPadding = padding;
@@ -565,9 +590,9 @@ void QEXTNavigationButton::setLeftPadding(int padding)
     }
 }
 
-void QEXTNavigationButton::setRightPadding(int padding)
+void QExtNavigationButton::setRightPadding(int padding)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_rightPadding != padding)
     {
         d->m_rightPadding = padding;
@@ -575,9 +600,9 @@ void QEXTNavigationButton::setRightPadding(int padding)
     }
 }
 
-void QEXTNavigationButton::setTopPadding(int padding)
+void QExtNavigationButton::setTopPadding(int padding)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_topPadding != padding)
     {
         d->m_topPadding = padding;
@@ -585,9 +610,9 @@ void QEXTNavigationButton::setTopPadding(int padding)
     }
 }
 
-void QEXTNavigationButton::setBottomPadding(int padding)
+void QExtNavigationButton::setBottomPadding(int padding)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_bottomPadding != padding)
     {
         d->m_bottomPadding = padding;
@@ -595,14 +620,14 @@ void QEXTNavigationButton::setBottomPadding(int padding)
     }
 }
 
-void QEXTNavigationButton::setPadding(int padding)
+void QExtNavigationButton::setPadding(int padding)
 {
     this->setPadding(padding, padding, padding, padding);
 }
 
-void QEXTNavigationButton::setPadding(int left, int right, int top, int bottom)
+void QExtNavigationButton::setPadding(int left, int right, int top, int bottom)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     d->m_leftPadding = left;
     d->m_rightPadding = right;
     d->m_topPadding = top;
@@ -610,9 +635,9 @@ void QEXTNavigationButton::setPadding(int left, int right, int top, int bottom)
     this->update();
 }
 
-void QEXTNavigationButton::setTextAlign(const QEXTNavigationButton::TextAlignType &textAlign)
+void QExtNavigationButton::setTextAlign(const QExtNavigationButton::TextAlignType &textAlign)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_textAlign != textAlign)
     {
         d->m_textAlign = textAlign;
@@ -620,9 +645,9 @@ void QEXTNavigationButton::setTextAlign(const QEXTNavigationButton::TextAlignTyp
     }
 }
 
-void QEXTNavigationButton::setTriangleVisible(bool visiable)
+void QExtNavigationButton::setTriangleVisible(bool visiable)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_triangleVisible != visiable)
     {
         d->m_triangleVisible = visiable;
@@ -630,9 +655,9 @@ void QEXTNavigationButton::setTriangleVisible(bool visiable)
     }
 }
 
-void QEXTNavigationButton::setTriangleLen(int len)
+void QExtNavigationButton::setTriangleLen(int len)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_triangleLen != len)
     {
         d->m_triangleLen = len;
@@ -640,9 +665,9 @@ void QEXTNavigationButton::setTriangleLen(int len)
     }
 }
 
-void QEXTNavigationButton::setTrianglePosition(const QEXTNavigationButton::PositionType &position)
+void QExtNavigationButton::setTrianglePosition(const QExtNavigationButton::PositionType &position)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_trianglePosition != position)
     {
         d->m_trianglePosition = position;
@@ -650,9 +675,9 @@ void QEXTNavigationButton::setTrianglePosition(const QEXTNavigationButton::Posit
     }
 }
 
-void QEXTNavigationButton::setTriangleColor(const QColor &color)
+void QExtNavigationButton::setTriangleColor(const QColor &color)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_triangleColor != color)
     {
         d->m_triangleColor = color;
@@ -660,9 +685,9 @@ void QEXTNavigationButton::setTriangleColor(const QColor &color)
     }
 }
 
-void QEXTNavigationButton::setIconVisible(bool visiable)
+void QExtNavigationButton::setIconVisible(bool visiable)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_iconVisible != visiable)
     {
         d->m_iconVisible = visiable;
@@ -670,9 +695,9 @@ void QEXTNavigationButton::setIconVisible(bool visiable)
     }
 }
 
-void QEXTNavigationButton::setIconPosition(const QEXTNavigationButton::PositionType &position)
+void QExtNavigationButton::setIconPosition(const QExtNavigationButton::PositionType &position)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_iconPosition != position)
     {
         d->m_iconPosition = position;
@@ -680,9 +705,9 @@ void QEXTNavigationButton::setIconPosition(const QEXTNavigationButton::PositionT
     }
 }
 
-void QEXTNavigationButton::setIconSpace(int space)
+void QExtNavigationButton::setIconSpace(int space)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_iconSpace != space)
     {
         d->m_iconSpace = space;
@@ -690,9 +715,9 @@ void QEXTNavigationButton::setIconSpace(int space)
     }
 }
 
-void QEXTNavigationButton::setIconSize(const QSize &size)
+void QExtNavigationButton::setIconSize(const QSize &size)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_iconSize != size)
     {
         d->m_iconSize = size;
@@ -700,44 +725,44 @@ void QEXTNavigationButton::setIconSize(const QSize &size)
     }
 }
 
-void QEXTNavigationButton::setIcon(const QPixmap &pixmap)
+void QExtNavigationButton::setIcon(const QPixmap &pixmap)
 {
     this->setNormalIcon(pixmap);
     this->setHoverIcon(pixmap);
     this->setCheckIcon(pixmap);
 }
 
-void QEXTNavigationButton::setNormalIcon(const QPixmap &pixmap)
+void QExtNavigationButton::setNormalIcon(const QPixmap &pixmap)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     d->m_normalIcon = pixmap;
     this->update();
 }
 
-void QEXTNavigationButton::setHoverIcon(const QPixmap &pixmap)
+void QExtNavigationButton::setHoverIcon(const QPixmap &pixmap)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     d->m_hoverIcon = pixmap;
     this->update();
 }
 
-void QEXTNavigationButton::setCheckIcon(const QPixmap &pixmap)
+void QExtNavigationButton::setCheckIcon(const QPixmap &pixmap)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     d->m_checkIcon = pixmap;
     this->update();
 }
 
-void QEXTNavigationButton::setFontIcon(const QChar &icon)
+void QExtNavigationButton::setFontIcon(const QChar &icon)
 {
     this->setNormalFontIcon(icon);
     this->setHoverFontIcon(icon);
     this->setCheckFontIcon(icon);
 }
 
-void QEXTNavigationButton::setNormalFontIcon(const QChar &icon)
+void QExtNavigationButton::setNormalFontIcon(const QChar &icon)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (icon != d->m_normalFontIcon)
     {
         d->m_normalFontIcon = icon;
@@ -745,9 +770,9 @@ void QEXTNavigationButton::setNormalFontIcon(const QChar &icon)
     }
 }
 
-void QEXTNavigationButton::setHoverFontIcon(const QChar &icon)
+void QExtNavigationButton::setHoverFontIcon(const QChar &icon)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (icon != d->m_hoverFontIcon)
     {
         d->m_hoverFontIcon = icon;
@@ -755,9 +780,9 @@ void QEXTNavigationButton::setHoverFontIcon(const QChar &icon)
     }
 }
 
-void QEXTNavigationButton::setCheckFontIcon(const QChar &icon)
+void QExtNavigationButton::setCheckFontIcon(const QChar &icon)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (icon != d->m_checkFontIcon)
     {
         d->m_checkFontIcon = icon;
@@ -765,9 +790,9 @@ void QEXTNavigationButton::setCheckFontIcon(const QChar &icon)
     }
 }
 
-void QEXTNavigationButton::setLineVisible(bool visiable)
+void QExtNavigationButton::setLineVisible(bool visiable)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_lineVisible != visiable)
     {
         d->m_lineVisible = visiable;
@@ -775,9 +800,9 @@ void QEXTNavigationButton::setLineVisible(bool visiable)
     }
 }
 
-void QEXTNavigationButton::setLineSpace(int space)
+void QExtNavigationButton::setLineSpace(int space)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_lineSpace != space)
     {
         d->m_lineSpace = space;
@@ -785,9 +810,9 @@ void QEXTNavigationButton::setLineSpace(int space)
     }
 }
 
-void QEXTNavigationButton::setLineWidth(int width)
+void QExtNavigationButton::setLineWidth(int width)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_lineWidth != width)
     {
         d->m_lineWidth = width;
@@ -795,9 +820,9 @@ void QEXTNavigationButton::setLineWidth(int width)
     }
 }
 
-void QEXTNavigationButton::setLinePosition(const QEXTNavigationButton::PositionType &position)
+void QExtNavigationButton::setLinePosition(const QExtNavigationButton::PositionType &position)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_linePosition != position)
     {
         d->m_linePosition = position;
@@ -805,9 +830,9 @@ void QEXTNavigationButton::setLinePosition(const QEXTNavigationButton::PositionT
     }
 }
 
-void QEXTNavigationButton::setLineColor(const QColor &color)
+void QExtNavigationButton::setLineColor(const QColor &color)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_lineColor != color)
     {
         d->m_lineColor = color;
@@ -815,9 +840,9 @@ void QEXTNavigationButton::setLineColor(const QColor &color)
     }
 }
 
-void QEXTNavigationButton::setNormalBackgroundColor(const QColor &color)
+void QExtNavigationButton::setNormalBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_normalBackgroundColor != color)
     {
         d->m_normalBackgroundColor = color;
@@ -825,9 +850,9 @@ void QEXTNavigationButton::setNormalBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTNavigationButton::setHoverBackgroundColor(const QColor &color)
+void QExtNavigationButton::setHoverBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_hoverBackgroundColor != color)
     {
         d->m_hoverBackgroundColor = color;
@@ -835,9 +860,9 @@ void QEXTNavigationButton::setHoverBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTNavigationButton::setCheckBackgroundColor(const QColor &color)
+void QExtNavigationButton::setCheckBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_checkBackgroundColor != color)
     {
         d->m_checkBackgroundColor = color;
@@ -845,9 +870,9 @@ void QEXTNavigationButton::setCheckBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTNavigationButton::setNormalTextColor(const QColor &color)
+void QExtNavigationButton::setNormalTextColor(const QColor &color)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_normalTextColor != color)
     {
         d->m_normalTextColor = color;
@@ -855,9 +880,9 @@ void QEXTNavigationButton::setNormalTextColor(const QColor &color)
     }
 }
 
-void QEXTNavigationButton::setHoverTextColor(const QColor &color)
+void QExtNavigationButton::setHoverTextColor(const QColor &color)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_hoverTextColor != color)
     {
         d->m_hoverTextColor = color;
@@ -865,9 +890,9 @@ void QEXTNavigationButton::setHoverTextColor(const QColor &color)
     }
 }
 
-void QEXTNavigationButton::setCheckTextColor(const QColor &color)
+void QExtNavigationButton::setCheckTextColor(const QColor &color)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_checkTextColor != color)
     {
         d->m_checkTextColor = color;
@@ -875,9 +900,9 @@ void QEXTNavigationButton::setCheckTextColor(const QColor &color)
     }
 }
 
-void QEXTNavigationButton::setNormalBackgroundBrush(const QBrush &brush)
+void QExtNavigationButton::setNormalBackgroundBrush(const QBrush &brush)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_normalBackgroundBrush != brush)
     {
         d->m_normalBackgroundBrush = brush;
@@ -885,9 +910,9 @@ void QEXTNavigationButton::setNormalBackgroundBrush(const QBrush &brush)
     }
 }
 
-void QEXTNavigationButton::setHoverBackgroundBrush(const QBrush &brush)
+void QExtNavigationButton::setHoverBackgroundBrush(const QBrush &brush)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_hoverBackgroundBrush != brush)
     {
         d->m_hoverBackgroundBrush = brush;
@@ -895,9 +920,9 @@ void QEXTNavigationButton::setHoverBackgroundBrush(const QBrush &brush)
     }
 }
 
-void QEXTNavigationButton::setCheckBackgroundBrush(const QBrush &brush)
+void QExtNavigationButton::setCheckBackgroundBrush(const QBrush &brush)
 {
-    Q_D(QEXTNavigationButton);
+    Q_D(QExtNavigationButton);
     if (d->m_checkBackgroundBrush != brush)
     {
         d->m_checkBackgroundBrush = brush;

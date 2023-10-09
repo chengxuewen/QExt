@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-class QEXTNavigationButton;
+class QExtNavigationButton;
 
 namespace Ui
 {
@@ -20,13 +20,13 @@ public:
 
 private:
     Ui::FrmNavigationButton *ui;
-    QList< QEXTNavigationButton * > btns1;
-    QList< QEXTNavigationButton * > btns2;
-    QList< QEXTNavigationButton * > btns3;
-    QList< QEXTNavigationButton * > btns4;
-    QList< QEXTNavigationButton * > btns5;
-    QList< QEXTNavigationButton * > btns6;
-    QList< QEXTNavigationButton * > btns7;
+    QList< QExtNavigationButton * > btns1;
+    QList< QExtNavigationButton * > btns2;
+    QList< QExtNavigationButton * > btns3;
+    QList< QExtNavigationButton * > btns4;
+    QList< QExtNavigationButton * > btns5;
+    QList< QExtNavigationButton * > btns6;
+    QList< QExtNavigationButton * > btns7;
 
 private slots:
     void initForm();

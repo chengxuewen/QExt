@@ -51,10 +51,10 @@ void frmSwitchButton::initBtn1()
 
 void frmSwitchButton::initBtn2()
 {
-    ui->switchButton21->setStyleType(QEXTSwitchButton::Style_Rect);
-    ui->switchButton22->setStyleType(QEXTSwitchButton::Style_Rect);
-    ui->switchButton23->setStyleType(QEXTSwitchButton::Style_Rect);
-    ui->switchButton24->setStyleType(QEXTSwitchButton::Style_Rect);
+    ui->switchButton21->setStyleType(QExtSwitchButton::Style_Rect);
+    ui->switchButton22->setStyleType(QExtSwitchButton::Style_Rect);
+    ui->switchButton23->setStyleType(QExtSwitchButton::Style_Rect);
+    ui->switchButton24->setStyleType(QExtSwitchButton::Style_Rect);
 
     ui->switchButton21->setOnBackgroundColor(color1);
     ui->switchButton22->setOnBackgroundColor(color2);
@@ -78,10 +78,10 @@ void frmSwitchButton::initBtn2()
 
 void frmSwitchButton::initBtn3()
 {
-    ui->switchButton31->setStyleType(QEXTSwitchButton::Style_CircleOut);
-    ui->switchButton32->setStyleType(QEXTSwitchButton::Style_CircleOut);
-    ui->switchButton33->setStyleType(QEXTSwitchButton::Style_CircleOut);
-    ui->switchButton34->setStyleType(QEXTSwitchButton::Style_CircleOut);
+    ui->switchButton31->setStyleType(QExtSwitchButton::Style_CircleOut);
+    ui->switchButton32->setStyleType(QExtSwitchButton::Style_CircleOut);
+    ui->switchButton33->setStyleType(QExtSwitchButton::Style_CircleOut);
+    ui->switchButton34->setStyleType(QExtSwitchButton::Style_CircleOut);
 
     int space = 8;
     ui->switchButton31->setSpace(space);

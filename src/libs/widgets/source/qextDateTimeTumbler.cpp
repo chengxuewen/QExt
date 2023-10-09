@@ -1,10 +1,35 @@
-﻿#include <private/qextDateTimeTumbler_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextDateTimeTumbler_p.h>
 #include <qextTumbler.h>
 
 #include <QBoxLayout>
 #include <QDebug>
 
-QEXTDateTimeTumblerPrivate::QEXTDateTimeTumblerPrivate(QEXTDateTimeTumbler *q)
+QExtDateTimeTumblerPrivate::QExtDateTimeTumblerPrivate(QExtDateTimeTumbler *q)
     : q_ptr(q)
     , m_year(0)
     , m_month(0)
@@ -22,43 +47,43 @@ QEXTDateTimeTumblerPrivate::QEXTDateTimeTumblerPrivate(QEXTDateTimeTumbler *q)
 
 }
 
-QEXTDateTimeTumblerPrivate::~QEXTDateTimeTumblerPrivate()
+QExtDateTimeTumblerPrivate::~QExtDateTimeTumblerPrivate()
 {
 
 }
 
 
 
-QEXTDateTimeTumbler::QEXTDateTimeTumbler(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTDateTimeTumblerPrivate(this))
+QExtDateTimeTumbler::QExtDateTimeTumbler(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtDateTimeTumblerPrivate(this))
 {
     this->initForm();
 }
 
-QEXTDateTimeTumbler::~QEXTDateTimeTumbler()
+QExtDateTimeTumbler::~QExtDateTimeTumbler()
 {
 
 }
 
-void QEXTDateTimeTumbler::initForm()
+void QExtDateTimeTumbler::initForm()
 {
-    Q_D(QEXTDateTimeTumbler);
+    Q_D(QExtDateTimeTumbler);
 
-    d->m_tumblerYear = new QEXTTumbler(this);
+    d->m_tumblerYear = new QExtTumbler(this);
     QStringList listYear;
     for (int i = 2015; i <= 2030; i++) {
         listYear << QString("%1").arg(i);
     }
     d->m_tumblerYear->setValueList(listYear);
 
-    d->m_tumblerMonth = new QEXTTumbler(this);
+    d->m_tumblerMonth = new QExtTumbler(this);
     QStringList listMonth;
     for (int i = 1; i <= 12; i++) {
         listMonth << QString("%1 月").arg(i);
     }
     d->m_tumblerMonth->setValueList(listMonth);
 
-    d->m_tumblerDay = new QEXTTumbler(this);
+    d->m_tumblerDay = new QExtTumbler(this);
     QStringList listDay;
     for (int i = 1; i <= 31; i++) {
         listDay << QString("%1").arg(i);
@@ -68,21 +93,21 @@ void QEXTDateTimeTumbler::initForm()
     connect(d->m_tumblerYear, SIGNAL(currentValueChanged(QString)), this, SLOT(currentValueChanged(QString)));
     connect(d->m_tumblerMonth, SIGNAL(currentValueChanged(QString)), this, SLOT(currentValueChanged(QString)));
 
-    d->m_tumblerHour = new QEXTTumbler(this);
+    d->m_tumblerHour = new QExtTumbler(this);
     QStringList listHour;
     for (int i = 0; i <= 23; i++) {
         listHour << QString("%1").arg(i);
     }
     d->m_tumblerHour->setValueList(listHour);
 
-    d->m_tumblerMin = new QEXTTumbler(this);
+    d->m_tumblerMin = new QExtTumbler(this);
     QStringList listMin;
     for (int i = 0; i <= 59; i++) {
         listMin << QString("%1").arg(i);
     }
     d->m_tumblerMin->setValueList(listMin);
 
-    d->m_tumblerSec = new QEXTTumbler(this);
+    d->m_tumblerSec = new QExtTumbler(this);
     QStringList listSec;
     for (int i = 0; i <= 59; i++) {
         listSec << QString("%1").arg(i);
@@ -100,9 +125,9 @@ void QEXTDateTimeTumbler::initForm()
     layout->addWidget(d->m_tumblerSec);
 }
 
-void QEXTDateTimeTumbler::currentValueChanged(const QString &)
+void QExtDateTimeTumbler::currentValueChanged(const QString &)
 {
-    Q_D(QEXTDateTimeTumbler);
+    Q_D(QExtDateTimeTumbler);
     int month = d->m_tumblerMonth->currentValue().left(2).toInt();
 
     //Remember the previous date
@@ -138,79 +163,79 @@ void QEXTDateTimeTumbler::currentValueChanged(const QString &)
     }
 }
 
-int QEXTDateTimeTumbler::year() const
+int QExtDateTimeTumbler::year() const
 {
-    Q_D(const QEXTDateTimeTumbler);
+    Q_D(const QExtDateTimeTumbler);
     return d->m_tumblerYear->currentValue().toInt();
 }
 
-int QEXTDateTimeTumbler::month() const
+int QExtDateTimeTumbler::month() const
 {
-    Q_D(const QEXTDateTimeTumbler);
+    Q_D(const QExtDateTimeTumbler);
     return d->m_tumblerMonth->currentValue().left(2).toInt();
 }
 
-int QEXTDateTimeTumbler::day() const
+int QExtDateTimeTumbler::day() const
 {
-    Q_D(const QEXTDateTimeTumbler);
+    Q_D(const QExtDateTimeTumbler);
     return d->m_tumblerDay->currentValue().toInt();
 }
 
-int QEXTDateTimeTumbler::hour() const
+int QExtDateTimeTumbler::hour() const
 {
-    Q_D(const QEXTDateTimeTumbler);
+    Q_D(const QExtDateTimeTumbler);
     return d->m_tumblerHour->currentValue().toInt();
 }
 
-int QEXTDateTimeTumbler::min() const
+int QExtDateTimeTumbler::min() const
 {
-    Q_D(const QEXTDateTimeTumbler);
+    Q_D(const QExtDateTimeTumbler);
     return d->m_tumblerMin->currentValue().toInt();
 }
 
-int QEXTDateTimeTumbler::sec() const
+int QExtDateTimeTumbler::sec() const
 {
-    Q_D(const QEXTDateTimeTumbler);
+    Q_D(const QExtDateTimeTumbler);
     return d->m_tumblerSec->currentValue().toInt();
 }
 
-void QEXTDateTimeTumbler::setYear(int year)
+void QExtDateTimeTumbler::setYear(int year)
 {
-    Q_D(QEXTDateTimeTumbler);
+    Q_D(QExtDateTimeTumbler);
     d->m_tumblerYear->setCurrentValue(QString("%1").arg(year));
 }
 
-void QEXTDateTimeTumbler::setMonth(int month)
+void QExtDateTimeTumbler::setMonth(int month)
 {
-    Q_D(QEXTDateTimeTumbler);
+    Q_D(QExtDateTimeTumbler);
     d->m_tumblerMonth->setCurrentValue(QString("%1 月").arg(month));
 }
 
-void QEXTDateTimeTumbler::setDay(int day)
+void QExtDateTimeTumbler::setDay(int day)
 {
-    Q_D(QEXTDateTimeTumbler);
+    Q_D(QExtDateTimeTumbler);
     d->m_tumblerDay->setCurrentValue(QString("%1").arg(day));
 }
 
-void QEXTDateTimeTumbler::setHour(int hour)
+void QExtDateTimeTumbler::setHour(int hour)
 {
-    Q_D(QEXTDateTimeTumbler);
+    Q_D(QExtDateTimeTumbler);
     d->m_tumblerHour->setCurrentValue(QString("%1").arg(hour));
 }
 
-void QEXTDateTimeTumbler::setMin(int min)
+void QExtDateTimeTumbler::setMin(int min)
 {
-    Q_D(QEXTDateTimeTumbler);
+    Q_D(QExtDateTimeTumbler);
     d->m_tumblerMin->setCurrentValue(QString("%1").arg(min));
 }
 
-void QEXTDateTimeTumbler::setSec(int sec)
+void QExtDateTimeTumbler::setSec(int sec)
 {
-    Q_D(QEXTDateTimeTumbler);
+    Q_D(QExtDateTimeTumbler);
     d->m_tumblerSec->setCurrentValue(QString("%1").arg(sec));
 }
 
-void QEXTDateTimeTumbler::setDateTime(int year, int month, int day, int hour, int min, int sec)
+void QExtDateTimeTumbler::setDateTime(int year, int month, int day, int hour, int min, int sec)
 {
     this->setYear(year);
     this->setMonth(month);

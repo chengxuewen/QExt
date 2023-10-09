@@ -1,4 +1,28 @@
-﻿#include <private/qextFramelessWidget_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextFramelessWidget_p.h>
 
 #include <QStyleOption>
 #include <QHoverEvent>
@@ -15,7 +39,7 @@
 #define TIMEMS qPrintable(QTime::currentTime().toString("HH:mm:ss zzz"))
 
 
-QEXTFramelessWidgetPrivate::QEXTFramelessWidgetPrivate(QEXTFramelessWidget *q)
+QExtFramelessWidgetPrivate::QExtFramelessWidgetPrivate(QExtFramelessWidget *q)
     : q_ptr(q)
 {
     m_padding = 8;
@@ -36,17 +60,17 @@ QEXTFramelessWidgetPrivate::QEXTFramelessWidgetPrivate(QEXTFramelessWidget *q)
     m_titleBar = 0;
 }
 
-QEXTFramelessWidgetPrivate::~QEXTFramelessWidgetPrivate()
+QExtFramelessWidgetPrivate::~QExtFramelessWidgetPrivate()
 {
 
 }
 
 
 
-QEXTFramelessWidget::QEXTFramelessWidget(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTFramelessWidgetPrivate(this))
+QExtFramelessWidget::QExtFramelessWidget(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtFramelessWidgetPrivate(this))
 {
-    Q_D(QEXTFramelessWidget);
+    Q_D(QExtFramelessWidget);
     d->m_flags = this->windowFlags();
 
     this->setAttribute(Qt::WA_Hover);
@@ -62,19 +86,19 @@ QEXTFramelessWidget::QEXTFramelessWidget(QWidget *parent)
 #endif
 }
 
-QEXTFramelessWidget::~QEXTFramelessWidget()
+QExtFramelessWidget::~QExtFramelessWidget()
 {
 
 }
 
-void QEXTFramelessWidget::showEvent(QShowEvent *event)
+void QExtFramelessWidget::showEvent(QShowEvent *event)
 {
     //Fixed the BUG that sometimes the window will not refresh when it is displayed again
     this->setAttribute(Qt::WA_Mapped);
     QWidget::showEvent(event);
 }
 
-void QEXTFramelessWidget::paintEvent(QPaintEvent *event)
+void QExtFramelessWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter painter(this);
@@ -84,9 +108,9 @@ void QEXTFramelessWidget::paintEvent(QPaintEvent *event)
     QWidget::paintEvent(event);
 }
 
-void QEXTFramelessWidget::doWindowStateChange(QEvent */*event*/)
+void QExtFramelessWidget::doWindowStateChange(QEvent */*event*/)
 {
-    Q_D(QEXTFramelessWidget);
+    Q_D(QExtFramelessWidget);
     //Non-maximized to move and drag size
     if (this->windowState() == Qt::WindowNoState)
     {
@@ -122,9 +146,9 @@ void QEXTFramelessWidget::doWindowStateChange(QEvent */*event*/)
 #endif
 }
 
-void QEXTFramelessWidget::doResizeEvent(QEvent *event)
+void QExtFramelessWidget::doResizeEvent(QEvent *event)
 {
-    Q_D(QEXTFramelessWidget);
+    Q_D(QExtFramelessWidget);
     //For borderless stretching in non-WIN system, nativeEvent has been adopted to deal with stretching in WIN system
     //Why don't you just do it computationally because on Win you get a shiver when you stretch to the left
 #ifndef Q_OS_WIN
@@ -345,9 +369,9 @@ void QEXTFramelessWidget::doResizeEvent(QEvent *event)
 #endif
 }
 
-bool QEXTFramelessWidget::eventFilter(QObject *watched, QEvent *event)
+bool QExtFramelessWidget::eventFilter(QObject *watched, QEvent *event)
 {
-    Q_D(QEXTFramelessWidget);
+    Q_D(QExtFramelessWidget);
     if (watched == this)
     {
         if (event->type() == QEvent::WindowStateChange)
@@ -379,12 +403,12 @@ bool QEXTFramelessWidget::eventFilter(QObject *watched, QEvent *event)
 }
 
 #if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
-bool QEXTFramelessWidget::nativeEvent(const QByteArray &eventType, void *message, qintptr *result)
+bool QExtFramelessWidget::nativeEvent(const QByteArray &eventType, void *message, qintptr *result)
 #else
-bool QEXTFramelessWidget::nativeEvent(const QByteArray &eventType, void *message, long *result)
+bool QExtFramelessWidget::nativeEvent(const QByteArray &eventType, void *message, long *result)
 #endif
 {
-    Q_D(QEXTFramelessWidget);
+    Q_D(QExtFramelessWidget);
     if (eventType == "windows_generic_MSG")
     {
 #ifdef Q_OS_WIN
@@ -492,34 +516,34 @@ bool QEXTFramelessWidget::nativeEvent(const QByteArray &eventType, void *message
 
 #if (QT_VERSION < QT_VERSION_CHECK(5,0,0))
 #ifdef Q_OS_WIN
-bool QEXTFramelessWidget::winEvent(MSG *message, long *result)
+bool QExtFramelessWidget::winEvent(MSG *message, long *result)
 {
     return nativeEvent("windows_generic_MSG", message, result);
 }
 #endif
 #endif
 
-void QEXTFramelessWidget::setPadding(int padding)
+void QExtFramelessWidget::setPadding(int padding)
 {
-    Q_D(QEXTFramelessWidget);
+    Q_D(QExtFramelessWidget);
     d->m_padding = padding;
 }
 
-void QEXTFramelessWidget::setMoveEnable(bool moveEnable)
+void QExtFramelessWidget::setMoveEnable(bool moveEnable)
 {
-    Q_D(QEXTFramelessWidget);
+    Q_D(QExtFramelessWidget);
     d->m_moveEnable = moveEnable;
 }
 
-void QEXTFramelessWidget::setResizeEnable(bool resizeEnable)
+void QExtFramelessWidget::setResizeEnable(bool resizeEnable)
 {
-    Q_D(QEXTFramelessWidget);
+    Q_D(QExtFramelessWidget);
     d->m_resizeEnable = resizeEnable;
 }
 
-void QEXTFramelessWidget::setTitleBar(QWidget *titleBar)
+void QExtFramelessWidget::setTitleBar(QWidget *titleBar)
 {
-    Q_D(QEXTFramelessWidget);
+    Q_D(QExtFramelessWidget);
     d->m_titleBar = titleBar;
     d->m_titleBar->installEventFilter(this);
 }

@@ -1,4 +1,29 @@
-﻿#include <qextInput.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <qextInput.h>
 #include <ui_qextInput.h>
 
 #include <QPropertyAnimation>
@@ -15,11 +40,11 @@
 
 
 
-class QEXTInputPrivate
+class QExtInputPrivate
 {
 public:
-    QEXTInputPrivate();
-    ~QEXTInputPrivate();
+    QExtInputPrivate();
+    ~QExtInputPrivate();
 
     void initForm();        //Move to the right place
     void init();            //Initializes the database and more
@@ -43,8 +68,8 @@ public:
     void hidePanel();       //Hide the input method panel
 
 private:
-    QEXTInput *q_ptr;
-    Q_DECLARE_PUBLIC(QEXTInput)
+    QExtInput *q_ptr;
+    Q_DECLARE_PUBLIC(QExtInput)
 
     bool m_bIsUpper;
     bool m_bIsNumber;
@@ -54,9 +79,9 @@ private:
 
     QString m_strDataBasePath;
     QString m_strIconType;
-    QEXTInput::PopUpTypes m_ePopUpType;
-    QEXTInput::InputTypes m_eInputType;
-    QEXTInput::StyleTypes m_eStyleType;
+    QExtInput::PopUpTypes m_ePopUpType;
+    QExtInput::InputTypes m_eInputType;
+    QExtInput::StyleTypes m_eStyleType;
 
     QWidget *m_pCurrentWidget;
     QList<QLabel *> m_listChineseLabel;
@@ -79,18 +104,18 @@ private:
 };
 
 
-QEXTInputPrivate::QEXTInputPrivate()
+QExtInputPrivate::QExtInputPrivate()
 {
-    m_ePopUpType = QEXTInput::PopUp_BottomCenter;
-    m_eStyleType = QEXTInput::Style_Black;
+    m_ePopUpType = QExtInput::PopUp_BottomCenter;
+    m_eStyleType = QExtInput::Style_Black;
 }
 
-QEXTInputPrivate::~QEXTInputPrivate()
+QExtInputPrivate::~QExtInputPrivate()
 {
 
 }
 
-void QEXTInputPrivate::initForm()
+void QExtInputPrivate::initForm()
 {
 #if (QT_VERSION > QT_VERSION_CHECK(5,0,0))
     q_ptr->setWindowFlags(Qt::Tool | Qt::WindowDoesNotAcceptFocus | Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
@@ -175,9 +200,9 @@ void QEXTInputPrivate::initForm()
     //The height of the top Chinese character area
     q_ptr->setTopHeight(40);
     //Input method Mode English mode Chinese mode number Special character mode
-    q_ptr->setInputType(QEXTInput::Input_English);
+    q_ptr->setInputType(QExtInput::Input_English);
     //Input method panel style black- black blue- light blue brown- gray- black gray- gray Silvery - silver
-    q_ptr->setStyleType(QEXTInput::Style_Black);
+    q_ptr->setStyleType(QExtInput::Style_Black);
 
     //Define an animation to produce a smooth value
     m_pChineseAnimation = new QPropertyAnimation(q_ptr->ui->scrollAreaCn->horizontalScrollBar(), "value");
@@ -189,7 +214,7 @@ void QEXTInputPrivate::initForm()
     m_pMoreAnimation->setDuration(500);
 }
 
-void QEXTInputPrivate::init()
+void QExtInputPrivate::init()
 {
     if (m_bOnlyControl) {
         q_ptr->ui->labPY->setVisible(false);
@@ -217,7 +242,7 @@ void QEXTInputPrivate::init()
     this->readChinese();
 }
 
-void QEXTInputPrivate::buttonClicked()
+void QExtInputPrivate::buttonClicked()
 {
     QPushButton *pButton = qobject_cast<QPushButton *>(q_ptr->sender());
     QString strObjectName = pButton->objectName();
@@ -232,14 +257,14 @@ void QEXTInputPrivate::buttonClicked()
         clearChinese();
         q_ptr->ui->labPY->clear();
     } else if ("btnNumber" == strObjectName) {
-        q_ptr->setInputType(QEXTInput::Input_Number);
+        q_ptr->setInputType(QExtInput::Input_Number);
     } else if ("btnNumber2" == strObjectName) {
         m_bIsNumber = !m_bIsNumber;
         q_ptr->setNumber(m_bIsNumber);
     } else if ("btnDelete" == strObjectName || "btnDelete2" == strObjectName) {
         //If the current mode is Chinese, delete the corresponding pinyin, and then delete the content of the corresponding text input box after deleting the pinyin
         int iLength = strLabelText.length();
-        if (QEXTInput::Input_Chinese == m_eInputType && iLength > 0) {
+        if (QExtInput::Input_Chinese == m_eInputType && iLength > 0) {
             q_ptr->ui->labPY->setText(strLabelText.left(iLength - 1));
             this->selectChinese();
         } else {
@@ -250,7 +275,7 @@ void QEXTInputPrivate::buttonClicked()
         q_ptr->ui->scrollAreaMore->verticalScrollBar()->setValue(0);
     } else if ("btnSpace" == strObjectName || "btnSpace2" == strObjectName) {
         //If The Chinese mode is to be entered and the character is to be entered, the first Chinese character is inserted if there is any Chinese character
-        if (QEXTInput::Input_Chinese == m_eInputType && !strLabelText.isEmpty()) {
+        if (QExtInput::Input_Chinese == m_eInputType && !strLabelText.isEmpty()) {
             QString strText = m_listChineseLabel.first()->text();
             if (strText.isEmpty()) {
                 this->insertValue(strLabelText);
@@ -263,7 +288,7 @@ void QEXTInputPrivate::buttonClicked()
         }
     } else if ("btnEnter" == strObjectName || "btnEnter2" == strObjectName) {
         //If Chinese mode and the letter is to be entered, insert the letter immediately
-        if (QEXTInput::Input_Chinese == m_eInputType && !strLabelText.isEmpty()) {
+        if (QExtInput::Input_Chinese == m_eInputType && !strLabelText.isEmpty()) {
             this->insertValue(strLabelText);
             this->clearChinese();
         }
@@ -282,7 +307,7 @@ void QEXTInputPrivate::buttonClicked()
         }
 
         //If the current mode is not Chinese, click the button corresponding to text as the passing parameter, uppercase first
-        if (QEXTInput::Input_Chinese != m_eInputType || m_bIsUpper) {
+        if (QExtInput::Input_Chinese != m_eInputType || m_bIsUpper) {
             this->insertValue(strButtonText);
         } else {
             if (pButton->property("btnLetter").toBool()) {
@@ -293,7 +318,7 @@ void QEXTInputPrivate::buttonClicked()
     }
 }
 
-void QEXTInputPrivate::focusChanged(QWidget *oldWidget, QWidget *nowWidget)
+void QExtInputPrivate::focusChanged(QWidget *oldWidget, QWidget *nowWidget)
 {
     //    qDebug() << "oldWidget:" << oldWidget << "nowWidget:" << nowWidget;
     Q_UNUSED(oldWidget);
@@ -335,7 +360,7 @@ void QEXTInputPrivate::focusChanged(QWidget *oldWidget, QWidget *nowWidget)
     }
 }
 
-void QEXTInputPrivate::movePosition()
+void QExtInputPrivate::movePosition()
 {
     //According to the user's choice of input method location Settings - center display - bottom fill - displayed directly below the input box
     static int iDeskWidth = qApp->desktop()->availableGeometry().width();
@@ -343,10 +368,10 @@ void QEXTInputPrivate::movePosition()
     int iWidth = q_ptr->width();
     int iHeight = q_ptr->height();
 
-    if (QEXTInput::PopUp_Center == m_ePopUpType) {
+    if (QExtInput::PopUp_Center == m_ePopUpType) {
         QPoint pos = QPoint(iDeskWidth / 2 - iWidth / 2, iDeskHeight / 2 - iHeight / 2);
         q_ptr->setGeometry(pos.x(), pos.y(), iWidth, iHeight);
-    } else if (QEXTInput::PopUp_BottomCenter == m_ePopUpType) {
+    } else if (QExtInput::PopUp_BottomCenter == m_ePopUpType) {
         QRect rect = m_pCurrentWidget->rect();
         QPoint pos = QPoint(rect.left(), rect.bottom() + 2);
         pos = m_pCurrentWidget->mapToGlobal(pos);
@@ -356,7 +381,7 @@ void QEXTInputPrivate::movePosition()
             iY = pos.y() - iHeight - rect.height() - 2;
         }
         q_ptr->setGeometry(iX, iY, iWidth, iHeight);
-    } else if (QEXTInput::PopUp_FocusHCenter == m_ePopUpType) {
+    } else if (QExtInput::PopUp_FocusHCenter == m_ePopUpType) {
         QRect rect = m_pCurrentWidget->rect();
         QPoint pos = QPoint(rect.left(), rect.bottom() + 2);
         pos = m_pCurrentWidget->mapToGlobal(pos);
@@ -366,7 +391,7 @@ void QEXTInputPrivate::movePosition()
             iY = iY - iHeight - rect.height() - 2;
         }
         q_ptr->setGeometry(iX, iY, iWidth, iHeight);
-    } else if (QEXTInput::PopUp_Control == m_ePopUpType) {
+    } else if (QExtInput::PopUp_Control == m_ePopUpType) {
         QRect rect = m_pCurrentWidget->rect();
         QPoint pos = QPoint(rect.left(), rect.bottom() + 2);
         pos = m_pCurrentWidget->mapToGlobal(pos);
@@ -382,7 +407,7 @@ void QEXTInputPrivate::movePosition()
     }
 }
 
-void QEXTInputPrivate::selectChinese()
+void QExtInputPrivate::selectChinese()
 {
     //Empty the Chinese characters
     this->clearChinese();
@@ -435,7 +460,7 @@ void QEXTInputPrivate::selectChinese()
     this->showChinese();
 }
 
-void QEXTInputPrivate::showChinese()
+void QExtInputPrivate::showChinese()
 {
     for (int i = 0; i < m_iMaxCount; i++) {
         m_listChineseLabel.at(i)->clear();
@@ -452,7 +477,7 @@ void QEXTInputPrivate::showChinese()
     }
 }
 
-void QEXTInputPrivate::clearChinese()
+void QExtInputPrivate::clearChinese()
 {
     m_listAllPinYin.clear();
     for (int i = 0; i < m_iMaxCount; i++) {
@@ -463,7 +488,7 @@ void QEXTInputPrivate::clearChinese()
     }
 }
 
-void QEXTInputPrivate::readChinese()
+void QExtInputPrivate::readChinese()
 {
     //Load the local priority lexicon
     m_listSelectKey.clear();
@@ -498,10 +523,10 @@ void QEXTInputPrivate::readChinese()
     }
 }
 
-void QEXTInputPrivate::saveChinese(const QString &value)
+void QExtInputPrivate::saveChinese(const QString &value)
 {
     //Not currently in Chinese input state need not be processed
-    if (QEXTInput::Input_Chinese != m_eInputType || value.isEmpty() || m_strLastText.isEmpty()) {
+    if (QExtInput::Input_Chinese != m_eInputType || value.isEmpty() || m_strLastText.isEmpty()) {
         return;
     }
 
@@ -547,7 +572,7 @@ void QEXTInputPrivate::saveChinese(const QString &value)
     }
 }
 
-void QEXTInputPrivate::insertValue(const QString &value)
+void QExtInputPrivate::insertValue(const QString &value)
 {
     //Just use it as a separate panel and send the selected content
     if (m_bOnlyControl) {
@@ -574,7 +599,7 @@ void QEXTInputPrivate::insertValue(const QString &value)
     this->clearValue();
 }
 
-void QEXTInputPrivate::clearValue()
+void QExtInputPrivate::clearValue()
 {
     //Empty the pinyin TAB and restore the scroll bar
     q_ptr->ui->labPY->clear();
@@ -589,7 +614,7 @@ void QEXTInputPrivate::clearValue()
     }
 }
 
-void QEXTInputPrivate::deleteValue()
+void QExtInputPrivate::deleteValue()
 {
     if (QEXT_DECL_NULLPTR == m_pCurrentWidget) {
         return;
@@ -599,7 +624,7 @@ void QEXTInputPrivate::deleteValue()
     QApplication::sendEvent(m_pCurrentWidget, &keyPress);
 }
 
-void QEXTInputPrivate::showPanel()
+void QExtInputPrivate::showPanel()
 {
     if (q_ptr->isEnabled()) {
         //Hide the Chinese character panel and display the letter panel if it is displayed on the Chinese character panel
@@ -609,17 +634,17 @@ void QEXTInputPrivate::showPanel()
         }
 
         if (strFlag == "number") {
-            if (QEXTInput::Input_Number != m_eInputType) {
+            if (QExtInput::Input_Number != m_eInputType) {
                 q_ptr->setVisible(false);
-                q_ptr->setInputType(QEXTInput::Input_Number);
+                q_ptr->setInputType(QExtInput::Input_Number);
             }
 
             m_bIsNumber = false;
             q_ptr->setNumber(m_bIsNumber);
         } else {
-            if (QEXTInput::Input_Number == m_eInputType) {
+            if (QExtInput::Input_Number == m_eInputType) {
                 q_ptr->setVisible(false);
-                q_ptr->setInputType(QEXTInput::Input_English);
+                q_ptr->setInputType(QExtInput::Input_English);
             }
         }
 
@@ -627,20 +652,20 @@ void QEXTInputPrivate::showPanel()
     }
 }
 
-void QEXTInputPrivate::hidePanel()
+void QExtInputPrivate::hidePanel()
 {
     this->clearChinese();
     q_ptr->ui->labPY->clear();
     q_ptr->setVisible(false);
 }
 
-QEXTInput *QEXTInput::sm_pInstance = QEXT_DECL_NULLPTR;
-QEXTInput *QEXTInput::Instance()
+QExtInput *QExtInput::sm_pInstance = QEXT_DECL_NULLPTR;
+QExtInput *QExtInput::Instance()
 {
     if (QEXT_DECL_NULLPTR == sm_pInstance) {
         static QMutex mutex;
         QMutexLocker locker(&mutex);
-        sm_pInstance = new QEXTInput;
+        sm_pInstance = new QExtInput;
 #ifdef Q_WS_QWS
         sm_pInstance->show();
 #endif
@@ -649,27 +674,27 @@ QEXTInput *QEXTInput::Instance()
     return sm_pInstance;
 }
 
-QEXTInput::QEXTInput(QWidget *parent) : QWidget(parent), ui(new Ui::QEXTInput)
+QExtInput::QExtInput(QWidget *parent) : QWidget(parent), ui(new Ui::QExtInput)
 {
     ui->setupUi(this);
-    dd_ptr = new QEXTInputPrivate;
+    dd_ptr = new QExtInputPrivate;
     dd_ptr->q_ptr = this;
     dd_ptr->initForm();
     QTimer::singleShot(100, this, SLOT(init()));
 }
 
-QEXTInput::~QEXTInput()
+QExtInput::~QExtInput()
 {
     delete dd_ptr;
     delete ui;
 }
 
-void QEXTInput::showEvent(QShowEvent *)
+void QExtInput::showEvent(QShowEvent *)
 {
     this->update();
 }
 
-bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
+bool QExtInput::eventFilter(QObject *watched, QEvent *event)
 {
     if (watched == this) {
         //Handle dragging itself
@@ -849,7 +874,7 @@ bool QEXTInput::eventFilter(QObject *watched, QEvent *event)
     return QWidget::eventFilter(watched, event);
 }
 
-void QEXTInput::setFontInfo(const QString &fontName, const int &iBtnFontSize, const int &iLabFontSize)
+void QExtInput::setFontInfo(const QString &fontName, const int &iBtnFontSize, const int &iLabFontSize)
 {
     QFont btnFont(fontName, iBtnFontSize);
     QFont labFont(fontName, iLabFontSize);
@@ -873,7 +898,7 @@ void QEXTInput::setFontInfo(const QString &fontName, const int &iBtnFontSize, co
     }
 }
 
-void QEXTInput::setIconSize(const int &iIconWidth, const int &iIconHeight)
+void QExtInput::setIconSize(const int &iIconWidth, const int &iIconHeight)
 {
     QSize sizeUpper(iIconWidth + 3, iIconHeight);
     QSize sizeDelete(iIconWidth + 10, iIconHeight);
@@ -882,7 +907,7 @@ void QEXTInput::setIconSize(const int &iIconWidth, const int &iIconHeight)
     ui->btnDelete2->setIconSize(sizeDelete);
 }
 
-void QEXTInput::setSpacing(const int &iSpacing)
+void QExtInput::setSpacing(const int &iSpacing)
 {
     ui->widgetLetter1->layout()->setSpacing(iSpacing);
     ui->widgetLetter2->layout()->setSpacing(iSpacing);
@@ -892,37 +917,37 @@ void QEXTInput::setSpacing(const int &iSpacing)
     ui->widgetNumber3->layout()->setSpacing(iSpacing);
 }
 
-void QEXTInput::setTopHeight(const int &iTopHeight)
+void QExtInput::setTopHeight(const int &iTopHeight)
 {
     ui->widgetTop->setFixedHeight(iTopHeight);
 }
 
-void QEXTInput::setOnlyControl(const bool &bOnlyControl)
+void QExtInput::setOnlyControl(const bool &bOnlyControl)
 {
     dd_ptr->m_bOnlyControl = bOnlyControl;
 }
 
-void QEXTInput::setColumnCount(const int &iColumnCount)
+void QExtInput::setColumnCount(const int &iColumnCount)
 {
     dd_ptr->m_iColumnCount = iColumnCount;
 }
 
-void QEXTInput::setMaxCount(const int &iMaxCount)
+void QExtInput::setMaxCount(const int &iMaxCount)
 {
     dd_ptr->m_iMaxCount = iMaxCount;
 }
 
-void QEXTInput::setDbPath(const QString &dbPath)
+void QExtInput::setDbPath(const QString &dbPath)
 {
     dd_ptr->m_strDataBasePath = dbPath;
 }
 
-void QEXTInput::setPopUpType(const QEXTInput::PopUpTypes &eType)
+void QExtInput::setPopUpType(const QExtInput::PopUpTypes &eType)
 {
     dd_ptr->m_ePopUpType = eType;
 }
 
-void QEXTInput::setInputType(const InputTypes &eInputType)
+void QExtInput::setInputType(const InputTypes &eInputType)
 {
     //Each mode change clears out the original characters
     dd_ptr->clearChinese();
@@ -950,7 +975,7 @@ void QEXTInput::setInputType(const InputTypes &eInputType)
     }
 }
 
-void QEXTInput::setUpper(const bool &bIsUpper)
+void QExtInput::setUpper(const bool &bIsUpper)
 {
     QList<QPushButton *> listButtons = ui->widgetLetter->findChildren<QPushButton *>();
     foreach (QPushButton *pButton, listButtons) {
@@ -962,7 +987,7 @@ void QEXTInput::setUpper(const bool &bIsUpper)
     ui->btnUpper->setIcon(QIcon(QString(":/QExtWidgets/image/btn_%1_%2.png").arg(bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->m_strIconType)));
 }
 
-void QEXTInput::setNumber(const bool &bIsNumber)
+void QExtInput::setNumber(const bool &bIsNumber)
 {
     //You can change special symbols
     QStringList listChars;
@@ -1006,7 +1031,7 @@ void QEXTInput::setNumber(const bool &bIsNumber)
     ui->btnNumber2->setText(QString("%1").arg(dd_ptr->m_bIsNumber ? "123" : "#+="));
 }
 
-void QEXTInput::setStyleType(const StyleTypes &eStyle)
+void QExtInput::setStyleType(const StyleTypes &eStyle)
 {
     dd_ptr->m_eStyleType = eStyle;
     dd_ptr->m_strIconType = "white";
@@ -1029,7 +1054,7 @@ void QEXTInput::setStyleType(const StyleTypes &eStyle)
     ui->btnUpper->setIcon(QIcon(QString(":/QExtWidgets/image/btn_%1_%2.png").arg(dd_ptr->m_bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->m_strIconType)));
 }
 
-void QEXTInput::setColor(const QString &mainBkgColor, const QString &mainTextColor,
+void QExtInput::setColor(const QString &mainBkgColor, const QString &mainTextColor,
                         const QString &btnBkgColor, const QString &btnHoveColor,
                         const QString &btnHoveTextColor, const QString &labHoveColor,
                         const QString &labHoveTextColor)

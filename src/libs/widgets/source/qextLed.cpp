@@ -1,3 +1,27 @@
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
 #include <private/qextLed_p.h>
 
 #include <QPainter>
@@ -5,50 +29,50 @@
 #include <QRadialGradient>
 
 
-QEXTLedPrivate::QEXTLedPrivate(QEXTLed *q)
+QExtLedPrivate::QExtLedPrivate(QExtLed *q)
     : q_ptr(q)
 {
     m_color = QColor(107, 223, 51);
     m_on = true;
 }
 
-QEXTLedPrivate::~QEXTLedPrivate()
+QExtLedPrivate::~QExtLedPrivate()
 {
 
 }
 
 
 
-QEXTLed::QEXTLed(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTLedPrivate(this))
+QExtLed::QExtLed(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtLedPrivate(this))
 {
 
 }
 
-QEXTLed::~QEXTLed()
+QExtLed::~QExtLed()
 {
 
 }
 
-QColor QEXTLed::color() const
+QColor QExtLed::color() const
 {
-    Q_D(const QEXTLed);
+    Q_D(const QExtLed);
     return d->m_color;
 }
 
-QSize QEXTLed::sizeHint() const
+QSize QExtLed::sizeHint() const
 {
     return QSize(20,20);
 }
 
-QSize QEXTLed::minimumSizeHint() const
+QSize QExtLed::minimumSizeHint() const
 {
     return QSize(10, 10);
 }
 
-void QEXTLed::setColor(const QColor &color)
+void QExtLed::setColor(const QColor &color)
 {
-    Q_D(QEXTLed);
+    Q_D(QExtLed);
     if (d->m_color != color)
     {
         d->m_color = color;
@@ -57,15 +81,15 @@ void QEXTLed::setColor(const QColor &color)
     }
 }
 
-bool QEXTLed::isOn() const
+bool QExtLed::isOn() const
 {
-    Q_D(const QEXTLed);
+    Q_D(const QExtLed);
     return d->m_on;
 }
 
-void QEXTLed::setOn(bool on)
+void QExtLed::setOn(bool on)
 {
-    Q_D(QEXTLed);
+    Q_D(QExtLed);
     if (on != d->m_on)
     {
         d->m_on = on;
@@ -74,26 +98,26 @@ void QEXTLed::setOn(bool on)
     }
 }
 
-void QEXTLed::turnOn()
+void QExtLed::turnOn()
 {
     setOn(true);
 }
 
-void QEXTLed::turnOff()
+void QExtLed::turnOff()
 {
     this->setOn(false);
 }
 
-void QEXTLed::toggle()
+void QExtLed::toggle()
 {
-    Q_D(QEXTLed);
+    Q_D(QExtLed);
     this->setOn(!d->m_on);
 }
 
-void QEXTLed::paintEvent(QPaintEvent* event)
+void QExtLed::paintEvent(QPaintEvent* event)
 {
     Q_UNUSED(event)
-    Q_D(QEXTLed);
+    Q_D(QExtLed);
     const qreal r = std::min(width(), height()) / 2; // maximum radius including glow
     const qreal glowOffset = std::max(2., r/5.);
     const qreal borderOffset = std::max(1., r/10.);

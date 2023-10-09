@@ -1,4 +1,29 @@
-﻿#include <private/qextProgressWait_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextProgressWait_p.h>
 
 #include <QPainter>
 #include <QPainterPath>
@@ -6,7 +31,7 @@
 #include <QDebug>
 #include <qmath.h>
 
-QEXTProgressWaitPrivate::QEXTProgressWaitPrivate(QEXTProgressWait *q)
+QExtProgressWaitPrivate::QExtProgressWaitPrivate(QExtProgressWait *q)
     : q_ptr(q)
 {
     m_clockWise = true;
@@ -15,13 +40,13 @@ QEXTProgressWaitPrivate::QEXTProgressWaitPrivate(QEXTProgressWait *q)
     m_maxValue = 10;
     m_interval = 100;
 
-    m_barStyle = QEXTProgressWait::Style_Line;
+    m_barStyle = QExtProgressWait::Style_Line;
     m_background = QColor(255, 255, 255);
     m_foreground = QColor(100, 184, 255);
     m_textColor = QColor(100, 184, 255);
 }
 
-QEXTProgressWaitPrivate::~QEXTProgressWaitPrivate()
+QExtProgressWaitPrivate::~QExtProgressWaitPrivate()
 {
     if (m_timer->isActive()) {
         m_timer->stop();
@@ -30,11 +55,11 @@ QEXTProgressWaitPrivate::~QEXTProgressWaitPrivate()
 
 
 
-QEXTProgressWait::QEXTProgressWait(QWidget *parent)
+QExtProgressWait::QExtProgressWait(QWidget *parent)
     : QWidget(parent)
-    , dd_ptr(new QEXTProgressWaitPrivate(this))
+    , dd_ptr(new QExtProgressWaitPrivate(this))
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     d->m_timer = new QTimer(this);
     d->m_timer->setInterval(d->m_interval);
     connect(d->m_timer, SIGNAL(timeout()), this, SLOT(updateValue()));
@@ -44,12 +69,12 @@ QEXTProgressWait::QEXTProgressWait(QWidget *parent)
     this->setFont(QFont("Arial", 8));
 }
 
-QEXTProgressWait::~QEXTProgressWait()
+QExtProgressWait::~QExtProgressWait()
 {
 
 }
 
-void QEXTProgressWait::resizeEvent(QResizeEvent *)
+void QExtProgressWait::resizeEvent(QResizeEvent *)
 {
     //    if (barStyle == BarStyle_DoubleCircle) {
     //        int radius = 200;
@@ -63,9 +88,9 @@ void QEXTProgressWait::resizeEvent(QResizeEvent *)
     //    }
 }
 
-void QEXTProgressWait::paintEvent(QPaintEvent *)
+void QExtProgressWait::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
@@ -84,9 +109,9 @@ void QEXTProgressWait::paintEvent(QPaintEvent *)
     this->drawValue(&painter);
 }
 
-void QEXTProgressWait::drawArc(QPainter *painter)
+void QExtProgressWait::drawArc(QPainter *painter)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     painter->save();
     painter->setPen(Qt::NoPen);
 
@@ -144,9 +169,9 @@ void QEXTProgressWait::drawArc(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressWait::drawDot(QPainter *painter)
+void QExtProgressWait::drawDot(QPainter *painter)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     painter->save();
     painter->setPen(Qt::NoPen);
 
@@ -179,9 +204,9 @@ void QEXTProgressWait::drawDot(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressWait::drawPie(QPainter *painter)
+void QExtProgressWait::drawPie(QPainter *painter)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     int radius = 99;
     painter->save();
 
@@ -204,9 +229,9 @@ void QEXTProgressWait::drawPie(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressWait::drawLine(QPainter *painter)
+void QExtProgressWait::drawLine(QPainter *painter)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     int radius = 95;
 
     int initY = 50;
@@ -243,9 +268,9 @@ void QEXTProgressWait::drawLine(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressWait::drawRing(QPainter *painter)
+void QExtProgressWait::drawRing(QPainter *painter)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     int radius = 99;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -289,9 +314,9 @@ void QEXTProgressWait::drawRing(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressWait::drawSingleCircle(QPainter *painter)
+void QExtProgressWait::drawSingleCircle(QPainter *painter)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     int radius = d->m_currentValue * 10;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -300,9 +325,9 @@ void QEXTProgressWait::drawSingleCircle(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressWait::drawDoubleCircle(QPainter *painter)
+void QExtProgressWait::drawDoubleCircle(QPainter *painter)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (d->m_leftRadius <= d->m_minRadius) {
         d->m_leftIncrease = true;
     } else if (d->m_leftRadius >= d->m_maxRadius) {
@@ -341,9 +366,9 @@ void QEXTProgressWait::drawDoubleCircle(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressWait::drawValue(QPainter *painter)
+void QExtProgressWait::drawValue(QPainter *painter)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (!d->m_showPercent) {
         return;
     }
@@ -360,14 +385,14 @@ void QEXTProgressWait::drawValue(QPainter *painter)
     painter->restore();
 }
 
-double QEXTProgressWait::degreesToRadians(double degrees)
+double QExtProgressWait::degreesToRadians(double degrees)
 {
     return degrees * (M_PI / 180);
 }
 
-void QEXTProgressWait::updateValue()
+void QExtProgressWait::updateValue()
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (d->m_currentValue < d->m_maxValue) {
         d->m_currentValue++;
     } else {
@@ -377,100 +402,100 @@ void QEXTProgressWait::updateValue()
     this->update();
 }
 
-bool QEXTProgressWait::clockWise() const
+bool QExtProgressWait::clockWise() const
 {
-    Q_D(const QEXTProgressWait);
+    Q_D(const QExtProgressWait);
     return d->m_clockWise;
 }
 
-bool QEXTProgressWait::showPercent() const
+bool QExtProgressWait::showPercent() const
 {
-    Q_D(const QEXTProgressWait);
+    Q_D(const QExtProgressWait);
     return d->m_showPercent;
 }
 
-int QEXTProgressWait::currentValue() const
+int QExtProgressWait::currentValue() const
 {
-    Q_D(const QEXTProgressWait);
+    Q_D(const QExtProgressWait);
     return d->m_currentValue;
 }
 
-int QEXTProgressWait::maxValue() const
+int QExtProgressWait::maxValue() const
 {
-    Q_D(const QEXTProgressWait);
+    Q_D(const QExtProgressWait);
     return d->m_maxValue;
 }
 
-int QEXTProgressWait::interval() const
+int QExtProgressWait::interval() const
 {
-    Q_D(const QEXTProgressWait);
+    Q_D(const QExtProgressWait);
     return d->m_interval;
 }
 
-QEXTProgressWait::Style QEXTProgressWait::barStyle() const
+QExtProgressWait::Style QExtProgressWait::barStyle() const
 {
-    Q_D(const QEXTProgressWait);
+    Q_D(const QExtProgressWait);
     return d->m_barStyle;
 }
 
-QColor QEXTProgressWait::backgroundColor() const
+QColor QExtProgressWait::backgroundColor() const
 {
-    Q_D(const QEXTProgressWait);
+    Q_D(const QExtProgressWait);
     return d->m_background;
 }
 
-QColor QEXTProgressWait::foregroundColor() const
+QColor QExtProgressWait::foregroundColor() const
 {
-    Q_D(const QEXTProgressWait);
+    Q_D(const QExtProgressWait);
     return d->m_foreground;
 }
 
-QColor QEXTProgressWait::textColor() const
+QColor QExtProgressWait::textColor() const
 {
-    Q_D(const QEXTProgressWait);
+    Q_D(const QExtProgressWait);
     return d->m_textColor;
 }
 
-QSize QEXTProgressWait::sizeHint() const
+QSize QExtProgressWait::sizeHint() const
 {
     return QSize(100, 100);
 }
 
-QSize QEXTProgressWait::minimumSizeHint() const
+QSize QExtProgressWait::minimumSizeHint() const
 {
     return QSize(20, 20);
 }
 
-void QEXTProgressWait::setClockWise(bool clockWise)
+void QExtProgressWait::setClockWise(bool clockWise)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (d->m_clockWise != clockWise) {
         d->m_clockWise = clockWise;
         this->update();
     }
 }
 
-void QEXTProgressWait::setShowPercent(bool showPercent)
+void QExtProgressWait::setShowPercent(bool showPercent)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (d->m_showPercent != showPercent) {
         d->m_showPercent = showPercent;
         this->update();
     }
 }
 
-void QEXTProgressWait::setCurrentValue(int currentValue)
+void QExtProgressWait::setCurrentValue(int currentValue)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (d->m_currentValue != currentValue) {
         d->m_currentValue = currentValue;
         this->update();
     }
 }
 
-void QEXTProgressWait::setMaxValue(int maxValue)
+void QExtProgressWait::setMaxValue(int maxValue)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (d->m_maxValue != maxValue) {
         d->m_maxValue = maxValue;
         d->m_currentValue = 0;
@@ -478,9 +503,9 @@ void QEXTProgressWait::setMaxValue(int maxValue)
     }
 }
 
-void QEXTProgressWait::setInterval(int interval)
+void QExtProgressWait::setInterval(int interval)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (d->m_interval != interval) {
         d->m_interval = interval;
         d->m_timer->setInterval(interval);
@@ -488,36 +513,36 @@ void QEXTProgressWait::setInterval(int interval)
     }
 }
 
-void QEXTProgressWait::setBarStyle(const QEXTProgressWait::Style &barStyle)
+void QExtProgressWait::setBarStyle(const QExtProgressWait::Style &barStyle)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (d->m_barStyle != barStyle) {
         d->m_barStyle = barStyle;
         this->update();
     }
 }
 
-void QEXTProgressWait::setBackgroundColor(const QColor &color)
+void QExtProgressWait::setBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (d->m_background != color) {
         d->m_background = color;
         this->update();
     }
 }
 
-void QEXTProgressWait::setForegroundColor(const QColor &color)
+void QExtProgressWait::setForegroundColor(const QColor &color)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (d->m_foreground != color) {
         d->m_foreground = color;
         this->update();
     }
 }
 
-void QEXTProgressWait::setTextColor(const QColor &color)
+void QExtProgressWait::setTextColor(const QColor &color)
 {
-    Q_D(QEXTProgressWait);
+    Q_D(QExtProgressWait);
     if (d->m_textColor != color) {
         d->m_textColor = color;
         this->update();

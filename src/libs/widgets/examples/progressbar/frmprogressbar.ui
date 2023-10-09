@@ -24,7 +24,7 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QEXTProgressBar" name="progressColor1" native="true"/>
+     <widget class="QExtProgressBar" name="progressColor1" native="true"/>
     </item>
     <item>
      <widget class="QSlider" name="horizontalSlider1">
@@ -34,7 +34,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QEXTProgressBar" name="progressColor2" native="true"/>
+     <widget class="QExtProgressBar" name="progressColor2" native="true"/>
     </item>
     <item>
      <widget class="QSlider" name="horizontalSlider2">
@@ -44,7 +44,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QEXTProgressBar" name="progressColor3" native="true"/>
+     <widget class="QExtProgressBar" name="progressColor3" native="true"/>
     </item>
     <item>
      <widget class="QSlider" name="horizontalSlider3">
@@ -58,7 +58,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTProgressBar</class>
+   <class>QExtProgressBar</class>
    <extends>QWidget</extends>
    <header>qextProgressBar.h</header>
    <container>1</container>

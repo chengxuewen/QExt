@@ -1,11 +1,36 @@
-﻿#include <private/qextProgressPie_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextProgressPie_p.h>
 
 #include <QPainter>
 #include <QPainterPath>
 #include <QDebug>
 
 
-QEXTProgressPiePrivate::QEXTProgressPiePrivate(QEXTProgressPie *q)
+QExtProgressPiePrivate::QExtProgressPiePrivate(QExtProgressPie *q)
     : q_ptr(q)
 {
     m_backgroundColor = Qt::transparent;
@@ -24,33 +49,33 @@ QEXTProgressPiePrivate::QEXTProgressPiePrivate(QEXTProgressPie *q)
     m_outlinePenWidth = 1;
     m_dataPenWidth = 2;
 
-    m_barStyle = QEXTProgressPie::BarStyle_Pie;
+    m_barStyle = QExtProgressPie::BarStyle_Pie;
     m_format = "%p";
     m_clockWise = true;
 }
 
-QEXTProgressPiePrivate::~QEXTProgressPiePrivate()
+QExtProgressPiePrivate::~QExtProgressPiePrivate()
 {
 
 }
 
 
 
-QEXTProgressPie::QEXTProgressPie(QWidget *parent)
+QExtProgressPie::QExtProgressPie(QWidget *parent)
     : QWidget(parent)
-    , dd_ptr(new QEXTProgressPiePrivate(this))
+    , dd_ptr(new QExtProgressPiePrivate(this))
 {
     this->setFont(QFont("Arial", 8));
 }
 
-QEXTProgressPie::~QEXTProgressPie()
+QExtProgressPie::~QExtProgressPie()
 {
 
 }
 
-void QEXTProgressPie::paintEvent(QPaintEvent *)
+void QExtProgressPie::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     double outerRadius = qMin(width(), height());
     QRectF baseRect(2, 2, outerRadius - 4, outerRadius - 4);
 
@@ -83,14 +108,14 @@ void QEXTProgressPie::paintEvent(QPaintEvent *)
     p.drawImage(point, buffer);
 }
 
-void QEXTProgressPie::drawBackground(QPainter *painter, const QRectF &baseRect)
+void QExtProgressPie::drawBackground(QPainter *painter, const QRectF &baseRect)
 {
     painter->fillRect(baseRect,  Qt::transparent);
 }
 
-void QEXTProgressPie::drawBase(QPainter *painter, const QRectF &baseRect)
+void QExtProgressPie::drawBase(QPainter *painter, const QRectF &baseRect)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     //    switch (barStyle) {
     //    case BarStyle_Donut:
     //        painter->setPen(QPen(baseColor, outlinePenWidth));
@@ -112,9 +137,9 @@ void QEXTProgressPie::drawBase(QPainter *painter, const QRectF &baseRect)
     //    }
 }
 
-void QEXTProgressPie::drawProgress(QPainter *painter, const QRectF &baseRect)
+void QExtProgressPie::drawProgress(QPainter *painter, const QRectF &baseRect)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_value == d->m_minValue) {
         return;
     }
@@ -145,7 +170,7 @@ void QEXTProgressPie::drawProgress(QPainter *painter, const QRectF &baseRect)
     painter->drawPath(dataPath);
 }
 
-void QEXTProgressPie::calculateInnerRect(const QRectF &/*baseRect*/, double outerRadius, QRectF &innerRect, double &innerRadius)
+void QExtProgressPie::calculateInnerRect(const QRectF &/*baseRect*/, double outerRadius, QRectF &innerRect, double &innerRadius)
 {
     //    if (barStyle == BarStyle_Line) {
     //        innerRadius = outerRadius - outlinePenWidth;
@@ -157,7 +182,7 @@ void QEXTProgressPie::calculateInnerRect(const QRectF &/*baseRect*/, double oute
     innerRect = QRectF(delta, delta, innerRadius, innerRadius);
 }
 
-//void QEXTProgressPie::drawInnerBackground(QPainter *painter, const QRectF &innerRect)
+//void QExtProgressPie::drawInnerBackground(QPainter *painter, const QRectF &innerRect)
 //{
 ////    if (barStyle == BarStyle_Donut) {
 //        painter->setBrush(innerBgColor);
@@ -165,9 +190,9 @@ void QEXTProgressPie::calculateInnerRect(const QRectF &/*baseRect*/, double oute
 ////    }
 //}
 
-void QEXTProgressPie::drawValue(QPainter *painter, const QRectF &innerRect, double innerRadius)
+void QExtProgressPie::drawValue(QPainter *painter, const QRectF &innerRect, double innerRadius)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_format.isEmpty()) {
         return;
     }
@@ -192,9 +217,9 @@ void QEXTProgressPie::drawValue(QPainter *painter, const QRectF &innerRect, doub
     painter->drawText(textRect, Qt::AlignCenter, strValue);
 }
 
-void QEXTProgressPie::rebuildDataBrushIfNeeded()
+void QExtProgressPie::rebuildDataBrushIfNeeded()
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_gradientData.count() == 0) {
         return;
     }
@@ -213,175 +238,175 @@ void QEXTProgressPie::rebuildDataBrushIfNeeded()
     this->setPalette(p);
 }
 
-QColor QEXTProgressPie::backgroundColor() const
+QColor QExtProgressPie::backgroundColor() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_backgroundColor;
 }
 
-QColor QEXTProgressPie::textColor() const
+QColor QExtProgressPie::textColor() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_textColor;
 }
 
-QColor QEXTProgressPie::baseColor() const
+QColor QExtProgressPie::baseColor() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_baseColor;
 }
 
-QColor QEXTProgressPie::innerBgColor() const
+QColor QExtProgressPie::innerBgColor() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_innerBackgroundColor;
 }
 
-QColor QEXTProgressPie::borderColor() const
+QColor QExtProgressPie::borderColor() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_borderColor;
 }
 
-QColor QEXTProgressPie::progressColor() const
+QColor QExtProgressPie::progressColor() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_progressColor;
 }
 
-double QEXTProgressPie::value() const
+double QExtProgressPie::value() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_value;
 }
 
-double QEXTProgressPie::minValue() const
+double QExtProgressPie::minValue() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_minValue;
 }
 
-double QEXTProgressPie::maxValue() const
+double QExtProgressPie::maxValue() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_maxValue;
 }
 
-int QEXTProgressPie::precision() const
+int QExtProgressPie::precision() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_precision;
 }
 
-double QEXTProgressPie::nullPosition() const
+double QExtProgressPie::nullPosition() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_nullPosition;
 }
 
-double QEXTProgressPie::outlinePenWidth() const
+double QExtProgressPie::outlinePenWidth() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_outlinePenWidth;
 }
 
-double QEXTProgressPie::dataPenWidth() const
+double QExtProgressPie::dataPenWidth() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_dataPenWidth;
 }
 
-QEXTProgressPie::BarStyle QEXTProgressPie::barStyle() const
+QExtProgressPie::BarStyle QExtProgressPie::barStyle() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_barStyle;
 }
 
-QString QEXTProgressPie::format() const
+QString QExtProgressPie::format() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_format;
 }
 
-bool QEXTProgressPie::clockWise() const
+bool QExtProgressPie::clockWise() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_clockWise;
 }
 
-QGradientStops QEXTProgressPie::gradientData() const
+QGradientStops QExtProgressPie::gradientData() const
 {
-    Q_D(const QEXTProgressPie);
+    Q_D(const QExtProgressPie);
     return d->m_gradientData;
 }
 
-QSize QEXTProgressPie::sizeHint() const
+QSize QExtProgressPie::sizeHint() const
 {
     return QSize(100, 100);
 }
 
-QSize QEXTProgressPie::minimumSizeHint() const
+QSize QExtProgressPie::minimumSizeHint() const
 {
     return QSize(10, 10);
 }
 
-void QEXTProgressPie::setBackgroundColor(const QColor &color)
+void QExtProgressPie::setBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_backgroundColor != color) {
         d->m_backgroundColor = color;
         this->update();
     }
 }
 
-void QEXTProgressPie::setTextColor(const QColor &color)
+void QExtProgressPie::setTextColor(const QColor &color)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_textColor != color) {
         d->m_textColor = color;
         this->update();
     }
 }
 
-void QEXTProgressPie::setBaseColor(const QColor &color)
+void QExtProgressPie::setBaseColor(const QColor &color)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_baseColor != color) {
         d->m_baseColor = color;
         this->update();
     }
 }
 
-void QEXTProgressPie::setInnerBackgroundColor(const QColor &color)
+void QExtProgressPie::setInnerBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_innerBackgroundColor != color) {
         d->m_innerBackgroundColor = color;
         this->update();
     }
 }
 
-void QEXTProgressPie::setBorderColor(const QColor &color)
+void QExtProgressPie::setBorderColor(const QColor &color)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_borderColor != color) {
         d->m_borderColor = color;
         this->update();
     }
 }
 
-void QEXTProgressPie::setProgressColor(const QColor &color)
+void QExtProgressPie::setProgressColor(const QColor &color)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_progressColor != color) {
         d->m_progressColor = color;
         this->update();
     }
 }
 
-void QEXTProgressPie::setRange(double minValue, double maxValue)
+void QExtProgressPie::setRange(double minValue, double maxValue)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     d->m_minValue = minValue;
     d->m_maxValue = maxValue;
 
@@ -398,26 +423,26 @@ void QEXTProgressPie::setRange(double minValue, double maxValue)
     this->update();
 }
 
-void QEXTProgressPie::setRange(int minValue, int maxValue)
+void QExtProgressPie::setRange(int minValue, int maxValue)
 {
     this->setRange((double)minValue, (double)maxValue);
 }
 
-void QEXTProgressPie::setMinValue(double minValue)
+void QExtProgressPie::setMinValue(double minValue)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     this->setRange(minValue, d->m_maxValue);
 }
 
-void QEXTProgressPie::setMaxValue(double maxValue)
+void QExtProgressPie::setMaxValue(double maxValue)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     this->setRange(d->m_minValue, maxValue);
 }
 
-void QEXTProgressPie::setValue(double value)
+void QExtProgressPie::setValue(double value)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (value == d->m_value) {
         return;
     }
@@ -432,77 +457,77 @@ void QEXTProgressPie::setValue(double value)
     this->update();
 }
 
-void QEXTProgressPie::setValue(int value)
+void QExtProgressPie::setValue(int value)
 {
     this->setValue(double(value));
 }
 
-void QEXTProgressPie::setPrecision(int precision)
+void QExtProgressPie::setPrecision(int precision)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (precision >= 0 && d->m_precision != precision) {
         d->m_precision = precision;
         this->update();
     }
 }
 
-void QEXTProgressPie::setNullPosition(double nullPosition)
+void QExtProgressPie::setNullPosition(double nullPosition)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_nullPosition != nullPosition) {
         d->m_nullPosition = nullPosition;
         this->update();
     }
 }
 
-void QEXTProgressPie::setBarStyle(BarStyle barStyle)
+void QExtProgressPie::setBarStyle(BarStyle barStyle)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_barStyle != barStyle) {
         d->m_barStyle = barStyle;
         this->update();
     }
 }
 
-void QEXTProgressPie::setFormat(const QString &format)
+void QExtProgressPie::setFormat(const QString &format)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_format != format) {
         d->m_format = format;
         this->update();
     }
 }
 
-void QEXTProgressPie::setOutlinePenWidth(double width)
+void QExtProgressPie::setOutlinePenWidth(double width)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_outlinePenWidth != width) {
         d->m_outlinePenWidth = width;
         this->update();
     }
 }
 
-void QEXTProgressPie::setDataPenWidth(double width)
+void QExtProgressPie::setDataPenWidth(double width)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_dataPenWidth != width) {
         d->m_dataPenWidth = width;
         this->update();
     }
 }
 
-void QEXTProgressPie::setClockWise(bool clockWise)
+void QExtProgressPie::setClockWise(bool clockWise)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_clockWise != clockWise) {
         d->m_clockWise = clockWise;
         this->update();
     }
 }
 
-void QEXTProgressPie::setGradientData(const QGradientStops &gradientData)
+void QExtProgressPie::setGradientData(const QGradientStops &gradientData)
 {
-    Q_D(QEXTProgressPie);
+    Q_D(QExtProgressPie);
     if (d->m_gradientData != gradientData) {
         d->m_gradientData = gradientData;
         this->update();

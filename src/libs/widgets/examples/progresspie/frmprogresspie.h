@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-class QEXTProgressPie;
+class QExtProgressPie;
 
 namespace Ui
 {
@@ -23,7 +23,7 @@ private:
 
 private slots:
     void initForm();
-	void connectToSlider(QEXTProgressPie *bar);
+	void connectToSlider(QExtProgressPie *bar);
 };
 
 #endif // FRMPROGRESSPIE_H

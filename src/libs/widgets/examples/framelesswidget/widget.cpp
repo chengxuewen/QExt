@@ -2,7 +2,7 @@
 #include "ui_widget.h"
 //#include "head.h"
 
-Widget::Widget(QWidget *parent) : QEXTFramelessWidget(parent), ui(new Ui::Widget)
+Widget::Widget(QWidget *parent) : QExtFramelessWidget(parent), ui(new Ui::Widget)
 {
     ui->setupUi(this);
     this->initForm();

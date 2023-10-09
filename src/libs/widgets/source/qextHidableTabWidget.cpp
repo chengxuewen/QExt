@@ -1,6 +1,29 @@
-#include <qextHidableTabWidget.h>
-#include <qextIconFontAwesome.h>
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2022~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
 #include <private/qextHidableTabWidget_p.h>
+#include <qextIconFontAwesome.h>
 
 #include <QTabBar>
 #include <QToolButton>
@@ -11,21 +34,21 @@
 #define DOUBLE_CLICK_DELAY (200) // ms
 
 
-QEXTHidableTabWidgetPrivate::QEXTHidableTabWidgetPrivate(QEXTHidableTabWidget *q)
+QExtHidableTabWidgetPrivate::QExtHidableTabWidgetPrivate(QExtHidableTabWidget *q)
     : q_ptr(q)
 {
 
 }
 
-QEXTHidableTabWidgetPrivate::~QEXTHidableTabWidgetPrivate()
+QExtHidableTabWidgetPrivate::~QExtHidableTabWidgetPrivate()
 {
 
 }
 
 
 
-QEXTHidableTabWidget::QEXTHidableTabWidget(QWidget *parent) :
-    QTabWidget(parent), dd_ptr(new QEXTHidableTabWidgetPrivate(this))
+QExtHidableTabWidget::QExtHidableTabWidget(QWidget *parent) :
+    QTabWidget(parent), dd_ptr(new QExtHidableTabWidgetPrivate(this))
 {
     dd_ptr->m_maxHeight = this->maximumHeight();
     dd_ptr->m_hideAction.reset(new QAction("", this));
@@ -39,54 +62,54 @@ QEXTHidableTabWidget::QEXTHidableTabWidget(QWidget *parent) :
     this->setCornerWidget(dd_ptr->m_hideButton.data());
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-    connect(dd_ptr->m_hideAction.data(), &QAction::toggled, this, &QEXTHidableTabWidget::onHideAction);
+    connect(dd_ptr->m_hideAction.data(), &QAction::toggled, this, &QExtHidableTabWidget::onHideAction);
     this->connectSignals();
 }
 
-QEXTHidableTabWidget::~QEXTHidableTabWidget()
+QExtHidableTabWidget::~QExtHidableTabWidget()
 {
 
 }
 
-void QEXTHidableTabWidget::onHideAction(bool checked)
+void QExtHidableTabWidget::onHideAction(bool checked)
 {
     if (checked) // hide
     {
         this->setFixedHeight(this->tabBar()->height());
-        disconnect(this, &QEXTHidableTabWidget::tabBarDoubleClicked, this, &QEXTHidableTabWidget::onTabBarDoubleClicked);
-        QTimer::singleShot(DOUBLE_CLICK_DELAY, this, &QEXTHidableTabWidget::connectSignals);
+        disconnect(this, &QExtHidableTabWidget::tabBarDoubleClicked, this, &QExtHidableTabWidget::onTabBarDoubleClicked);
+        QTimer::singleShot(DOUBLE_CLICK_DELAY, this, &QExtHidableTabWidget::connectSignals);
     }
     else // show
     {
         this->setMaximumHeight(dd_ptr->m_maxHeight); // just a very big number
-        disconnect(this, &QEXTHidableTabWidget::tabBarClicked, this, &QEXTHidableTabWidget::onTabBarClicked);
-        QTimer::singleShot(DOUBLE_CLICK_DELAY, this, &QEXTHidableTabWidget::connectSignals);
+        disconnect(this, &QExtHidableTabWidget::tabBarClicked, this, &QExtHidableTabWidget::onTabBarClicked);
+        QTimer::singleShot(DOUBLE_CLICK_DELAY, this, &QExtHidableTabWidget::connectSignals);
     }
 }
 
-void QEXTHidableTabWidget::onTabBarClicked()
+void QExtHidableTabWidget::onTabBarClicked()
 {
     dd_ptr->m_hideAction->setChecked(false);
 }
 
-void QEXTHidableTabWidget::onTabBarDoubleClicked()
+void QExtHidableTabWidget::onTabBarDoubleClicked()
 {
     dd_ptr->m_hideAction->setChecked(true);
 }
 
-void QEXTHidableTabWidget::connectSignals()
+void QExtHidableTabWidget::connectSignals()
 {
     if (dd_ptr->m_hideAction->isChecked()) // hidden
     {
-        connect(this, &QEXTHidableTabWidget::tabBarClicked, this, &QEXTHidableTabWidget::onTabBarClicked);
+        connect(this, &QExtHidableTabWidget::tabBarClicked, this, &QExtHidableTabWidget::onTabBarClicked);
     }
     else // shown
     {
-        connect(this, &QEXTHidableTabWidget::tabBarDoubleClicked, this, &QEXTHidableTabWidget::onTabBarDoubleClicked);
+        connect(this, &QExtHidableTabWidget::tabBarDoubleClicked, this, &QExtHidableTabWidget::onTabBarDoubleClicked);
     }
 }
 
-void QEXTHidableTabWidget::showTabs()
+void QExtHidableTabWidget::showTabs()
 {
     dd_ptr->m_hideAction->setChecked(false);
 }

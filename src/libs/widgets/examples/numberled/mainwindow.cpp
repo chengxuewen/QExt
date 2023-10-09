@@ -35,6 +35,6 @@ void MainWindow::updateValue()
 
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
-    ui->lcdNumber1->setSymbolType(QEXTNumberLed::Symbol(index));
-    ui->lcdNumber2->setSymbolType(QEXTNumberLed::Symbol(index));
+    ui->lcdNumber1->setSymbolType(QExtNumberLed::Symbol(index));
+    ui->lcdNumber2->setSymbolType(QExtNumberLed::Symbol(index));
 }

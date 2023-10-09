@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QEXTCircleGauge" name="gaugeCar" native="true">
+    <widget class="QExtCircleGauge" name="gaugeCar" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -99,7 +99,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTCircleGauge</class>
+   <class>QExtCircleGauge</class>
    <extends>QWidget</extends>
    <header>qextCircleGauge.h</header>
   </customwidget>

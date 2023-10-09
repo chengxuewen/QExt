@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QEXTSwitchButton" name="switchButton11" native="true">
+  <widget class="QExtSwitchButton" name="switchButton11" native="true">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTSwitchButton" name="switchButton12" native="true">
+  <widget class="QExtSwitchButton" name="switchButton12" native="true">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -33,7 +33,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTSwitchButton" name="switchButton13" native="true">
+  <widget class="QExtSwitchButton" name="switchButton13" native="true">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -43,7 +43,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTSwitchButton" name="switchButton14" native="true">
+  <widget class="QExtSwitchButton" name="switchButton14" native="true">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -53,7 +53,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTSwitchButton" name="switchButton23" native="true">
+  <widget class="QExtSwitchButton" name="switchButton23" native="true">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -63,7 +63,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTSwitchButton" name="switchButton22" native="true">
+  <widget class="QExtSwitchButton" name="switchButton22" native="true">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -73,7 +73,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTSwitchButton" name="switchButton21" native="true">
+  <widget class="QExtSwitchButton" name="switchButton21" native="true">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -83,7 +83,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTSwitchButton" name="switchButton24" native="true">
+  <widget class="QExtSwitchButton" name="switchButton24" native="true">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -93,7 +93,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTSwitchButton" name="switchButton31" native="true">
+  <widget class="QExtSwitchButton" name="switchButton31" native="true">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -103,7 +103,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTSwitchButton" name="switchButton33" native="true">
+  <widget class="QExtSwitchButton" name="switchButton33" native="true">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -113,7 +113,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTSwitchButton" name="switchButton34" native="true">
+  <widget class="QExtSwitchButton" name="switchButton34" native="true">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -123,7 +123,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTSwitchButton" name="switchButton32" native="true">
+  <widget class="QExtSwitchButton" name="switchButton32" native="true">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -136,7 +136,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTSwitchButton</class>
+   <class>QExtSwitchButton</class>
    <extends>QWidget</extends>
    <header>qextSwitchButton.h</header>
    <container>1</container>

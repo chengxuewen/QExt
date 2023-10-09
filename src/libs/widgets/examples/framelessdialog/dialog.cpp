@@ -1,7 +1,7 @@
 ﻿#include "dialog.h"
 #include "ui_dialog.h"
 
-Dialog::Dialog(QWidget *parent) : QEXTFramelessDialog(parent), ui(new Ui::Dialog)
+Dialog::Dialog(QWidget *parent) : QExtFramelessDialog(parent), ui(new Ui::Dialog)
 {
     ui->setupUi(this);
     this->initForm();

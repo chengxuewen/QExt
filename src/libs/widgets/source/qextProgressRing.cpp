@@ -1,11 +1,36 @@
-﻿#include <private/qextProgressRing_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextProgressRing_p.h>
 
 #include <QPainter>
 #include <QTimer>
 #include <QDebug>
 #include <qmath.h>
 
-QEXTProgressRingPrivate::QEXTProgressRingPrivate(QEXTProgressRing *q)
+QExtProgressRingPrivate::QExtProgressRingPrivate(QExtProgressRing *q)
     : q_ptr(q)
 {
     m_minValue = 0;
@@ -39,7 +64,7 @@ QEXTProgressRingPrivate::QEXTProgressRingPrivate(QEXTProgressRing *q)
     m_currentValue = 0;
 }
 
-QEXTProgressRingPrivate::~QEXTProgressRingPrivate()
+QExtProgressRingPrivate::~QExtProgressRingPrivate()
 {
 
 }
@@ -47,24 +72,24 @@ QEXTProgressRingPrivate::~QEXTProgressRingPrivate()
 
 
 
-QEXTProgressRing::QEXTProgressRing(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTProgressRingPrivate(this))
+QExtProgressRing::QExtProgressRing(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtProgressRingPrivate(this))
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     d->m_animation = new QPropertyAnimation(this);
     d->m_animation->setDuration(500);
     connect(d->m_animation, SIGNAL(valueChanged(QVariant)), this, SLOT(updateValue(QVariant)));
     this->setFont(QFont("Arial", 8));
 }
 
-QEXTProgressRing::~QEXTProgressRing()
+QExtProgressRing::~QExtProgressRing()
 {
 
 }
 
-void QEXTProgressRing::paintEvent(QPaintEvent *)
+void QExtProgressRing::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
@@ -87,9 +112,9 @@ void QEXTProgressRing::paintEvent(QPaintEvent *)
     this->drawValue(&painter);
 }
 
-void QEXTProgressRing::drawBackground(QPainter *painter)
+void QExtProgressRing::drawBackground(QPainter *painter)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     int radius = 99;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -98,9 +123,9 @@ void QEXTProgressRing::drawBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressRing::drawRing(QPainter *painter)
+void QExtProgressRing::drawRing(QPainter *painter)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     int radius = 99 - d->m_ringPadding;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -159,9 +184,9 @@ void QEXTProgressRing::drawRing(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressRing::drawPadding(QPainter *painter)
+void QExtProgressRing::drawPadding(QPainter *painter)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     int radius = 99 - d->m_ringWidth - d->m_ringPadding;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -170,9 +195,9 @@ void QEXTProgressRing::drawPadding(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressRing::drawCircle(QPainter *painter)
+void QExtProgressRing::drawCircle(QPainter *painter)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     int radius = 99 - d->m_ringWidth - (d->m_ringPadding * 2);
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -181,9 +206,9 @@ void QEXTProgressRing::drawCircle(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressRing::drawValue(QPainter *painter)
+void QExtProgressRing::drawValue(QPainter *painter)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     int radius = 99 - d->m_ringWidth - (d->m_ringPadding * 2);
     painter->save();
     painter->setPen(d->m_textColor);
@@ -211,9 +236,9 @@ void QEXTProgressRing::drawValue(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressRing::updateValue(const QVariant &value)
+void QExtProgressRing::updateValue(const QVariant &value)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     const double animationValue = value.toDouble();
     if (animationValue != d->m_currentValue)
     {
@@ -222,175 +247,175 @@ void QEXTProgressRing::updateValue(const QVariant &value)
     }
 }
 
-double QEXTProgressRing::minValue() const
+double QExtProgressRing::minValue() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_minValue;
 }
 
-double QEXTProgressRing::maxValue() const
+double QExtProgressRing::maxValue() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_maxValue;
 }
 
-double QEXTProgressRing::getValue() const
+double QExtProgressRing::getValue() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_value;
 }
 
-int QEXTProgressRing::precision() const
+int QExtProgressRing::precision() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_precision;
 }
 
-QString QEXTProgressRing::text() const
+QString QExtProgressRing::text() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_text;
 }
 
-bool QEXTProgressRing::clipCenter() const
+bool QExtProgressRing::clipCenter() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_clipCenter;
 }
 
-bool QEXTProgressRing::clockWise() const
+bool QExtProgressRing::clockWise() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_clockWise;
 }
 
-bool QEXTProgressRing::percentVisible() const
+bool QExtProgressRing::percentVisible() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_showPercent;
 }
 
-int QEXTProgressRing::alarmMode() const
+int QExtProgressRing::alarmMode() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_alarmMode;
 }
 
-int QEXTProgressRing::startAngle() const
+int QExtProgressRing::startAngle() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_startAngle;
 }
 
-int QEXTProgressRing::ringPadding() const
+int QExtProgressRing::ringPadding() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_ringPadding;
 }
 
-int QEXTProgressRing::ringWidth() const
+int QExtProgressRing::ringWidth() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_ringWidth;
 }
 
-bool QEXTProgressRing::animationEnable() const
+bool QExtProgressRing::animationEnable() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_animationEnable;
 }
 
-int QEXTProgressRing::animationDuration() const
+int QExtProgressRing::animationDuration() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_animation->duration();
 }
 
-QEasingCurve::Type QEXTProgressRing::animationEasingCurve() const
+QEasingCurve::Type QExtProgressRing::animationEasingCurve() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_animation->easingCurve().type();
 }
 
-QColor QEXTProgressRing::backgroundColor() const
+QColor QExtProgressRing::backgroundColor() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_backgroundColor;
 }
 
-QColor QEXTProgressRing::textColor() const
+QColor QExtProgressRing::textColor() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_textColor;
 }
 
-QColor QEXTProgressRing::ringColor() const
+QColor QExtProgressRing::ringColor() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_ringColor;
 }
 
-QColor QEXTProgressRing::ringBackgroundColor() const
+QColor QExtProgressRing::ringBackgroundColor() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_ringBackgroundColor;
 }
 
-QColor QEXTProgressRing::circleColor() const
+QColor QExtProgressRing::circleColor() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_circleColor;
 }
 
-int QEXTProgressRing::ringValue1() const
+int QExtProgressRing::ringValue1() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_ringValue1;
 }
 
-int QEXTProgressRing::ringValue2() const
+int QExtProgressRing::ringValue2() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_ringValue2;
 }
 
-int QEXTProgressRing::ringValue3() const
+int QExtProgressRing::ringValue3() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_ringValue3;
 }
 
-QColor QEXTProgressRing::ringColor1() const
+QColor QExtProgressRing::ringColor1() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_ringColor1;
 }
 
-QColor QEXTProgressRing::ringColor2() const
+QColor QExtProgressRing::ringColor2() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_ringColor2;
 }
 
-QColor QEXTProgressRing::ringColor3() const
+QColor QExtProgressRing::ringColor3() const
 {
-    Q_D(const QEXTProgressRing);
+    Q_D(const QExtProgressRing);
     return d->m_ringColor3;
 }
 
-QSize QEXTProgressRing::sizeHint() const
+QSize QExtProgressRing::sizeHint() const
 {
     return QSize(200, 200);
 }
 
-QSize QEXTProgressRing::minimumSizeHint() const
+QSize QExtProgressRing::minimumSizeHint() const
 {
     return QSize(20, 20);
 }
 
-void QEXTProgressRing::setRange(double minValue, double maxValue)
+void QExtProgressRing::setRange(double minValue, double maxValue)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (minValue >= maxValue)
     {
         return;
@@ -407,26 +432,26 @@ void QEXTProgressRing::setRange(double minValue, double maxValue)
     this->update();
 }
 
-void QEXTProgressRing::setRange(int minValue, int maxValue)
+void QExtProgressRing::setRange(int minValue, int maxValue)
 {
     this->setRange((double)minValue, (double)maxValue);
 }
 
-void QEXTProgressRing::setMinValue(double minValue)
+void QExtProgressRing::setMinValue(double minValue)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     this->setRange(minValue, d->m_maxValue);
 }
 
-void QEXTProgressRing::setMaxValue(double maxValue)
+void QExtProgressRing::setMaxValue(double maxValue)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     this->setRange(d->m_minValue, maxValue);
 }
 
-void QEXTProgressRing::setValue(double value)
+void QExtProgressRing::setValue(double value)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (value == d->m_value)
     {
         return;
@@ -457,14 +482,14 @@ void QEXTProgressRing::setValue(double value)
     }
 }
 
-void QEXTProgressRing::setValue(int value)
+void QExtProgressRing::setValue(int value)
 {
     this->setValue((double)value);
 }
 
-void QEXTProgressRing::setPrecision(int precision)
+void QExtProgressRing::setPrecision(int precision)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (precision <= 3 && d->m_precision != precision)
     {
         d->m_precision = precision;
@@ -472,9 +497,9 @@ void QEXTProgressRing::setPrecision(int precision)
     }
 }
 
-void QEXTProgressRing::setText(const QString &text)
+void QExtProgressRing::setText(const QString &text)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_text != text)
     {
         d->m_text = text;
@@ -482,9 +507,9 @@ void QEXTProgressRing::setText(const QString &text)
     }
 }
 
-void QEXTProgressRing::setClipCenter(bool clipCenter)
+void QExtProgressRing::setClipCenter(bool clipCenter)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_clipCenter != clipCenter)
     {
         d->m_clipCenter = clipCenter;
@@ -492,9 +517,9 @@ void QEXTProgressRing::setClipCenter(bool clipCenter)
     }
 }
 
-void QEXTProgressRing::setClockWise(bool clockWise)
+void QExtProgressRing::setClockWise(bool clockWise)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_clockWise != clockWise)
     {
         d->m_clockWise = clockWise;
@@ -502,9 +527,9 @@ void QEXTProgressRing::setClockWise(bool clockWise)
     }
 }
 
-void QEXTProgressRing::setPercentVisible(bool visiable)
+void QExtProgressRing::setPercentVisible(bool visiable)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_showPercent != visiable)
     {
         d->m_showPercent = visiable;
@@ -512,9 +537,9 @@ void QEXTProgressRing::setPercentVisible(bool visiable)
     }
 }
 
-void QEXTProgressRing::setAlarmMode(int alarmMode)
+void QExtProgressRing::setAlarmMode(int alarmMode)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_alarmMode != alarmMode)
     {
         d->m_alarmMode = alarmMode;
@@ -522,9 +547,9 @@ void QEXTProgressRing::setAlarmMode(int alarmMode)
     }
 }
 
-void QEXTProgressRing::setStartAngle(int startAngle)
+void QExtProgressRing::setStartAngle(int startAngle)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_startAngle != startAngle)
     {
         d->m_startAngle = startAngle;
@@ -532,9 +557,9 @@ void QEXTProgressRing::setStartAngle(int startAngle)
     }
 }
 
-void QEXTProgressRing::setRingPadding(int padding)
+void QExtProgressRing::setRingPadding(int padding)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_ringPadding != padding)
     {
         d->m_ringPadding = padding;
@@ -542,9 +567,9 @@ void QEXTProgressRing::setRingPadding(int padding)
     }
 }
 
-void QEXTProgressRing::setRingWidth(int width)
+void QExtProgressRing::setRingWidth(int width)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_ringWidth != width)
     {
         d->m_ringWidth = width;
@@ -552,9 +577,9 @@ void QEXTProgressRing::setRingWidth(int width)
     }
 }
 
-void QEXTProgressRing::setAnimationEnable(bool enable)
+void QExtProgressRing::setAnimationEnable(bool enable)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_animationEnable != enable)
     {
         d->m_animationEnable = enable;
@@ -562,9 +587,9 @@ void QEXTProgressRing::setAnimationEnable(bool enable)
     }
 }
 
-void QEXTProgressRing::setAnimationDuration(int duration)
+void QExtProgressRing::setAnimationDuration(int duration)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_animation->duration() != duration)
     {
         d->m_animation->setDuration(duration);
@@ -572,15 +597,15 @@ void QEXTProgressRing::setAnimationDuration(int duration)
     }
 }
 
-void QEXTProgressRing::setAnimationEasingCurve(QEasingCurve::Type easingCurve)
+void QExtProgressRing::setAnimationEasingCurve(QEasingCurve::Type easingCurve)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     d->m_animation->setEasingCurve(easingCurve);
 }
 
-void QEXTProgressRing::setBackgroundColor(const QColor &color)
+void QExtProgressRing::setBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_backgroundColor != color)
     {
         d->m_backgroundColor = color;
@@ -588,9 +613,9 @@ void QEXTProgressRing::setBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTProgressRing::setTextColor(const QColor &color)
+void QExtProgressRing::setTextColor(const QColor &color)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_textColor != color)
     {
         d->m_textColor = color;
@@ -598,9 +623,9 @@ void QEXTProgressRing::setTextColor(const QColor &color)
     }
 }
 
-void QEXTProgressRing::setRingColor(const QColor &color)
+void QExtProgressRing::setRingColor(const QColor &color)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_ringColor != color)
     {
         d->m_ringColor = color;
@@ -608,9 +633,9 @@ void QEXTProgressRing::setRingColor(const QColor &color)
     }
 }
 
-void QEXTProgressRing::setRingBgColor(const QColor &color)
+void QExtProgressRing::setRingBgColor(const QColor &color)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_ringBackgroundColor != color)
     {
         d->m_ringBackgroundColor = color;
@@ -618,9 +643,9 @@ void QEXTProgressRing::setRingBgColor(const QColor &color)
     }
 }
 
-void QEXTProgressRing::setCircleColor(const QColor &color)
+void QExtProgressRing::setCircleColor(const QColor &color)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_circleColor != color)
     {
         d->m_circleColor = color;
@@ -628,9 +653,9 @@ void QEXTProgressRing::setCircleColor(const QColor &color)
     }
 }
 
-void QEXTProgressRing::setRingValue1(int value)
+void QExtProgressRing::setRingValue1(int value)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_ringValue1 != value)
     {
         d->m_ringValue1 = value;
@@ -638,9 +663,9 @@ void QEXTProgressRing::setRingValue1(int value)
     }
 }
 
-void QEXTProgressRing::setRingValue2(int value)
+void QExtProgressRing::setRingValue2(int value)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_ringValue2 != value)
     {
         d->m_ringValue2 = value;
@@ -648,9 +673,9 @@ void QEXTProgressRing::setRingValue2(int value)
     }
 }
 
-void QEXTProgressRing::setRingValue3(int value)
+void QExtProgressRing::setRingValue3(int value)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_ringValue3 != value)
     {
         d->m_ringValue3 = value;
@@ -658,9 +683,9 @@ void QEXTProgressRing::setRingValue3(int value)
     }
 }
 
-void QEXTProgressRing::setRingColor1(const QColor &color)
+void QExtProgressRing::setRingColor1(const QColor &color)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_ringColor1 != color)
     {
         d->m_ringColor1 = color;
@@ -668,9 +693,9 @@ void QEXTProgressRing::setRingColor1(const QColor &color)
     }
 }
 
-void QEXTProgressRing::setRingColor2(const QColor &color)
+void QExtProgressRing::setRingColor2(const QColor &color)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_ringColor2 != color)
     {
         d->m_ringColor2 = color;
@@ -678,9 +703,9 @@ void QEXTProgressRing::setRingColor2(const QColor &color)
     }
 }
 
-void QEXTProgressRing::setRingColor3(const QColor &color)
+void QExtProgressRing::setRingColor3(const QColor &color)
 {
-    Q_D(QEXTProgressRing);
+    Q_D(QExtProgressRing);
     if (d->m_ringColor3 != color)
     {
         d->m_ringColor3 = color;

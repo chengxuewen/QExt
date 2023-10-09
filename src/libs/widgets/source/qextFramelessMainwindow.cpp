@@ -1,4 +1,28 @@
-﻿#include <private/qextFramelessMainwindow_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextFramelessMainwindow_p.h>
 
 #include <QStyleOption>
 #include <QHoverEvent>
@@ -18,7 +42,7 @@
 #define TIMEMS qPrintable(QTime::currentTime().toString("HH:mm:ss zzz"))
 
 
-QEXTFramelessMainWindowPrivate::QEXTFramelessMainWindowPrivate(QEXTFramelessMainWindow *q)
+QExtFramelessMainWindowPrivate::QExtFramelessMainWindowPrivate(QExtFramelessMainWindow *q)
     : q_ptr(q)
 {
     m_padding = 8;
@@ -39,16 +63,16 @@ QEXTFramelessMainWindowPrivate::QEXTFramelessMainWindowPrivate(QEXTFramelessMain
     m_titleBar = 0;
 }
 
-QEXTFramelessMainWindowPrivate::~QEXTFramelessMainWindowPrivate()
+QExtFramelessMainWindowPrivate::~QExtFramelessMainWindowPrivate()
 {
 
 }
 
 
-QEXTFramelessMainWindow::QEXTFramelessMainWindow(QWidget *parent)
-    : QMainWindow(parent), dd_ptr(new QEXTFramelessMainWindowPrivate(this))
+QExtFramelessMainWindow::QExtFramelessMainWindow(QWidget *parent)
+    : QMainWindow(parent), dd_ptr(new QExtFramelessMainWindowPrivate(this))
 {
-    Q_D(QEXTFramelessMainWindow);
+    Q_D(QExtFramelessMainWindow);
     d->m_flags = this->windowFlags();
 
     this->setAttribute(Qt::WA_Hover);
@@ -65,21 +89,21 @@ QEXTFramelessMainWindow::QEXTFramelessMainWindow(QWidget *parent)
 #endif
 }
 
-QEXTFramelessMainWindow::~QEXTFramelessMainWindow()
+QExtFramelessMainWindow::~QExtFramelessMainWindow()
 {
 
 }
 
-void QEXTFramelessMainWindow::showEvent(QShowEvent *event)
+void QExtFramelessMainWindow::showEvent(QShowEvent *event)
 {
     //Fixed the BUG that sometimes the window will not refresh when it is displayed again
     this->setAttribute(Qt::WA_Mapped);
     QMainWindow::showEvent(event);
 }
 
-void QEXTFramelessMainWindow::doWindowStateChange(QEvent */*event*/)
+void QExtFramelessMainWindow::doWindowStateChange(QEvent */*event*/)
 {
-    Q_D(QEXTFramelessMainWindow);
+    Q_D(QExtFramelessMainWindow);
     //Non-maximized to move and drag size
     if (this->windowState() == Qt::WindowNoState)
     {
@@ -115,9 +139,9 @@ void QEXTFramelessMainWindow::doWindowStateChange(QEvent */*event*/)
 #endif
 }
 
-void QEXTFramelessMainWindow::doResizeEvent(QEvent *event)
+void QExtFramelessMainWindow::doResizeEvent(QEvent *event)
 {
-    Q_D(QEXTFramelessMainWindow);
+    Q_D(QExtFramelessMainWindow);
     //For borderless stretching in non-WIN system, nativeEvent has been adopted to deal with stretching in WIN system
     //Why don't you just do it computationally because on Win you get a shiver when you stretch to the left
 #ifndef Q_OS_WIN
@@ -338,9 +362,9 @@ void QEXTFramelessMainWindow::doResizeEvent(QEvent *event)
 #endif
 }
 
-bool QEXTFramelessMainWindow::eventFilter(QObject *watched, QEvent *event)
+bool QExtFramelessMainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    Q_D(QEXTFramelessMainWindow);
+    Q_D(QExtFramelessMainWindow);
     if (watched == this)
     {
         if (event->type() == QEvent::WindowStateChange)
@@ -371,7 +395,7 @@ bool QEXTFramelessMainWindow::eventFilter(QObject *watched, QEvent *event)
     return QMainWindow::eventFilter(watched, event);
 }
 
-void QEXTFramelessMainWindow::paintEvent(QPaintEvent *event)
+void QExtFramelessMainWindow::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QPainter painter(this);
@@ -382,12 +406,12 @@ void QEXTFramelessMainWindow::paintEvent(QPaintEvent *event)
 }
 
 #if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
-bool QEXTFramelessMainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result)
+bool QExtFramelessMainWindow::nativeEvent(const QByteArray &eventType, void *message, qintptr *result)
 #else
-bool QEXTFramelessMainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
+bool QExtFramelessMainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
 #endif
 {
-    Q_D(QEXTFramelessMainWindow);
+    Q_D(QExtFramelessMainWindow);
     if (eventType == "windows_generic_MSG")
     {
 #ifdef Q_OS_WIN
@@ -495,16 +519,16 @@ bool QEXTFramelessMainWindow::nativeEvent(const QByteArray &eventType, void *mes
 
 #if (QT_VERSION < QT_VERSION_CHECK(5,0,0))
 #ifdef Q_OS_WIN
-bool QEXTFramelessMainWindow::winEvent(MSG *message, long *result)
+bool QExtFramelessMainWindow::winEvent(MSG *message, long *result)
 {
     return this->nativeEvent("windows_generic_MSG", message, result);
 }
 #endif
 #endif
 
-void QEXTFramelessMainWindow::setPadding(int padding)
+void QExtFramelessMainWindow::setPadding(int padding)
 {
-    Q_D(QEXTFramelessMainWindow);
+    Q_D(QExtFramelessMainWindow);
     if (d->m_padding != padding)
     {
         d->m_padding = padding;
@@ -512,9 +536,9 @@ void QEXTFramelessMainWindow::setPadding(int padding)
     }
 }
 
-void QEXTFramelessMainWindow::setMoveEnable(bool moveEnable)
+void QExtFramelessMainWindow::setMoveEnable(bool moveEnable)
 {
-    Q_D(QEXTFramelessMainWindow);
+    Q_D(QExtFramelessMainWindow);
     if (d->m_moveEnable != moveEnable)
     {
         d->m_moveEnable = moveEnable;
@@ -522,9 +546,9 @@ void QEXTFramelessMainWindow::setMoveEnable(bool moveEnable)
     }
 }
 
-void QEXTFramelessMainWindow::setResizeEnable(bool resizeEnable)
+void QExtFramelessMainWindow::setResizeEnable(bool resizeEnable)
 {
-    Q_D(QEXTFramelessMainWindow);
+    Q_D(QExtFramelessMainWindow);
     if (d->m_resizeEnable != resizeEnable)
     {
         d->m_resizeEnable = resizeEnable;
@@ -532,9 +556,9 @@ void QEXTFramelessMainWindow::setResizeEnable(bool resizeEnable)
     }
 }
 
-void QEXTFramelessMainWindow::setTitleBar(QWidget *titleBar)
+void QExtFramelessMainWindow::setTitleBar(QWidget *titleBar)
 {
-    Q_D(QEXTFramelessMainWindow);
+    Q_D(QExtFramelessMainWindow);
     if (d->m_titleBar.data() != titleBar)
     {
         d->m_titleBar = titleBar;

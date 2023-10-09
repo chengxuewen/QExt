@@ -7,7 +7,7 @@ namespace Ui {
 class Widget;
 }
 
-class Widget : public QEXTFramelessWidget
+class Widget : public QExtFramelessWidget
 {
     Q_OBJECT
 

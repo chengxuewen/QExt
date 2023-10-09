@@ -1,18 +1,42 @@
-﻿#ifndef _QEXTFRAMELESSDIALOG_H
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#ifndef _QEXTFRAMELESSDIALOG_H
 #define _QEXTFRAMELESSDIALOG_H
 
 #include <qextWidgetGlobal.h>
 
 #include <QDialog>
 
-class QEXTFramelessDialogPrivate;
-class QEXT_WIDGETS_API QEXTFramelessDialog : public QDialog
+class QExtFramelessDialogPrivate;
+class QEXT_WIDGETS_API QExtFramelessDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit QEXTFramelessDialog(QWidget *parent = QEXT_DECL_NULLPTR);
-    ~QEXTFramelessDialog();
+    explicit QExtFramelessDialog(QWidget *parent = QEXT_DECL_NULLPTR);
+    ~QExtFramelessDialog();
 
 public:
     void setPadding(int padding);
@@ -49,11 +73,11 @@ protected:
     void doWindowStateChange(QEvent *event);
     void doResizeEvent(QEvent *event);
 
-    QScopedPointer<QEXTFramelessDialogPrivate> dd_ptr;
+    QScopedPointer<QExtFramelessDialogPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTFramelessDialog)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTFramelessDialog)
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtFramelessDialog)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtFramelessDialog)
 };
 
 #endif // _QEXTFRAMELESSDIALOG_H

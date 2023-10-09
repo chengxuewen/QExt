@@ -18,7 +18,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QEXTIndicatorLight" name="qtklightbutton_1" native="true">
+       <widget class="QExtIndicatorLight" name="qtklightbutton_1" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -28,7 +28,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTIndicatorLight" name="qtklightbutton_2" native="true">
+       <widget class="QExtIndicatorLight" name="qtklightbutton_2" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -38,7 +38,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTIndicatorLight" name="qtklightbutton_3" native="true">
+       <widget class="QExtIndicatorLight" name="qtklightbutton_3" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -52,7 +52,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QEXTIndicatorLight" name="qtklightbutton_4" native="true">
+       <widget class="QExtIndicatorLight" name="qtklightbutton_4" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -62,7 +62,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTIndicatorLight" name="qtklightbutton_5" native="true">
+       <widget class="QExtIndicatorLight" name="qtklightbutton_5" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -72,7 +72,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTIndicatorLight" name="qtklightbutton_6" native="true">
+       <widget class="QExtIndicatorLight" name="qtklightbutton_6" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -86,7 +86,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <widget class="QEXTIndicatorLight" name="qtklightbutton_7" native="true">
+       <widget class="QExtIndicatorLight" name="qtklightbutton_7" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -96,7 +96,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTIndicatorLight" name="qtklightbutton_8" native="true">
+       <widget class="QExtIndicatorLight" name="qtklightbutton_8" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -106,7 +106,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTIndicatorLight" name="qtklightbutton_9" native="true">
+       <widget class="QExtIndicatorLight" name="qtklightbutton_9" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -200,7 +200,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>QEXTIndicatorLight</class>
+   <class>QExtIndicatorLight</class>
    <extends>QWidget</extends>
    <header location="global">qextIndicatorLight.h</header>
    <container>1</container>

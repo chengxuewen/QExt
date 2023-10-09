@@ -41,37 +41,37 @@ void NavigationListView::initForm()
     m_parentItems2 = ui->navListView2->setItems(items.join(","));
     m_parentItems3 = ui->navListView3->setItems(items.join(","));
 //    m_parentItems4 = ui->navListView4->setItems(items.join(","));
-    QList<QEXTNavigationListItem *> itemList;
-    QEXTNavigationListItem *parentItem = new QEXTNavigationListItem;
+    QList<QExtNavigationListItem *> itemList;
+    QExtNavigationListItem *parentItem = new QExtNavigationListItem;
     itemList.append(parentItem);
     parentItem->setText("警情查询");
     parentItem->setTip("11");
     parentItem->setFontIcon(QChar(0xf073));
 
-    QEXTNavigationListItem *item = new QEXTNavigationListItem(parentItem);
+    QExtNavigationListItem *item = new QExtNavigationListItem(parentItem);
     item->setText("记录查询");
     item->setTip("ss");
     item->setFontIcon(QChar(0xf073));
 
-    item = new QEXTNavigationListItem;
+    item = new QExtNavigationListItem;
     item->setParentItem(parentItem);
     item->setText("图像查询");
     item->setTip("ss");
     item->setFontIcon(QChar(0xf03e));
 
-    item = new QEXTNavigationListItem();
+    item = new QExtNavigationListItem();
     item->setParentItem(parentItem);
     item->setText("视频查询");
     item->setTip("ss");
     item->setFontIcon(QChar(0xf03d));
 
-    item = new QEXTNavigationListItem();
+    item = new QExtNavigationListItem();
     item->setParentItem(parentItem);
     item->setText("数据回放");
     item->setTip("ss");
     item->setFontIcon(QChar(0xf080));
 
-    parentItem = new QEXTNavigationListItem;
+    parentItem = new QExtNavigationListItem;
     itemList.append(parentItem);
     parentItem->setText("帮助文档");
     parentItem->setTip("11");
@@ -133,13 +133,13 @@ void NavigationListView::initForm()
     ui->navListView2->setExpendMode(QEXTNavigationListView::ExpendMode_DoubleClick);
     ui->navListView3->setExpendMode(QEXTNavigationListView::ExpendMode_SingleClick);
     ui->navListView4->setExpendMode(QEXTNavigationListView::ExpendMode_SingleClick);
-    connect(ui->navListView1, SIGNAL(itemPressed(QEXTNavigationListItem*)), this, SLOT(onItemPressed1(QEXTNavigationListItem*)));
-    connect(ui->navListView2, SIGNAL(itemPressed(QEXTNavigationListItem*)), this, SLOT(onItemPressed2(QEXTNavigationListItem*)));
-    connect(ui->navListView3, SIGNAL(itemPressed(QEXTNavigationListItem*)), this, SLOT(onItemPressed3(QEXTNavigationListItem*)));
-    connect(ui->navListView4, SIGNAL(itemPressed(QEXTNavigationListItem*)), this, SLOT(onItemPressed4(QEXTNavigationListItem*)));
+    connect(ui->navListView1, SIGNAL(itemPressed(QExtNavigationListItem*)), this, SLOT(onItemPressed1(QExtNavigationListItem*)));
+    connect(ui->navListView2, SIGNAL(itemPressed(QExtNavigationListItem*)), this, SLOT(onItemPressed2(QExtNavigationListItem*)));
+    connect(ui->navListView3, SIGNAL(itemPressed(QExtNavigationListItem*)), this, SLOT(onItemPressed3(QExtNavigationListItem*)));
+    connect(ui->navListView4, SIGNAL(itemPressed(QExtNavigationListItem*)), this, SLOT(onItemPressed4(QExtNavigationListItem*)));
 }
 
-void NavigationListView::onItemPressed1(QEXTNavigationListItem *item)
+void NavigationListView::onItemPressed1(QExtNavigationListItem *item)
 {
     if (item->isChildItem())
     {
@@ -152,7 +152,7 @@ void NavigationListView::onItemPressed1(QEXTNavigationListItem *item)
     }
 }
 
-void NavigationListView::onItemPressed2(QEXTNavigationListItem *item)
+void NavigationListView::onItemPressed2(QExtNavigationListItem *item)
 {
     if (item->isChildItem())
     {
@@ -165,7 +165,7 @@ void NavigationListView::onItemPressed2(QEXTNavigationListItem *item)
     }
 }
 
-void NavigationListView::onItemPressed3(QEXTNavigationListItem *item)
+void NavigationListView::onItemPressed3(QExtNavigationListItem *item)
 {
     if (item->isChildItem())
     {
@@ -178,7 +178,7 @@ void NavigationListView::onItemPressed3(QEXTNavigationListItem *item)
     }
 }
 
-void NavigationListView::onItemPressed4(QEXTNavigationListItem *item)
+void NavigationListView::onItemPressed4(QExtNavigationListItem *item)
 {
     if (item->isChildItem())
     {

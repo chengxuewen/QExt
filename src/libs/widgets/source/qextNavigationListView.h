@@ -1,31 +1,27 @@
-﻿/*************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
-** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 ** Copyright (C) 2018 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
 **
 ** License: MIT License
 **
-** Permission is hereby granted, free of charge, to any person obtaining
-** a copy of this software and associated documentation files (the "Software"),
-** to deal in the Software without restriction, including without limitation
-** the rights to use, copy, modify, merge, publish, distribute, sublicense,
-** and/or sell copies of the Software, and to permit persons to whom the
-** Software is furnished to do so, subject to the following conditions:
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 **
-** The above copyright notice and this permission notice shall be included in
-** all copies or substantial portions of the Software.
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
 **
-** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-** SOFTWARE.
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
 **
-*************************************************************************************/
+***********************************************************************************************************************/
 
 #ifndef _QEXTNAVIGATIONLISTVIEW_H
 #define _QEXTNAVIGATIONLISTVIEW_H
@@ -37,23 +33,23 @@
 #include <QListView>
 #include <QList>
 
-class QEXTNavigationListItemPrivate;
-class QEXT_WIDGETS_API QEXTNavigationListItem : public QObject
+class QExtNavigationListItemPrivate;
+class QEXT_WIDGETS_API QExtNavigationListItem : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit QEXTNavigationListItem(QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QEXTNavigationListItem(const QString &text, QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QEXTNavigationListItem(const QString &text, const QPixmap &icon, QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QEXTNavigationListItem(const QString &text, const QPixmap &icon, bool expand, QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QEXTNavigationListItem(const QString &text, const QString &tip, const QPixmap &icon, QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QEXTNavigationListItem(const QString &text, const QString &tip, const QPixmap &icon, bool expand, QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QEXTNavigationListItem(const QString &text, const QChar &fontChar, QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QEXTNavigationListItem(const QString &text, const QChar &fontChar, bool expand, QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QEXTNavigationListItem(const QString &text, const QString &tip, const QChar &fontChar, QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QEXTNavigationListItem(const QString &text, const QString &tip, const QChar &fontChar, bool expand, QEXTNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    ~QEXTNavigationListItem();
+    explicit QExtNavigationListItem(QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
+    QExtNavigationListItem(const QString &text, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QPixmap &icon, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QPixmap &icon, bool expand, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QString &tip, const QPixmap &icon, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QString &tip, const QPixmap &icon, bool expand, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QChar &fontChar, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QChar &fontChar, bool expand, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QString &tip, const QChar &fontChar, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QString &tip, const QChar &fontChar, bool expand, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
+    ~QExtNavigationListItem();
 
     QPixmap normalIcon() const;
     QPixmap hoverIcon() const;
@@ -90,43 +86,43 @@ public:
     bool isLastVisibleItem() const;
     bool isChildItem() const;
     bool isParentItem() const;
-    QEXTNavigationListItem *parentItem() const;
-    bool setParentItem(QEXTNavigationListItem *parent);
+    QExtNavigationListItem *parentItem() const;
+    bool setParentItem(QExtNavigationListItem *parent);
 
     int childItemsCount() const;
     int visiableChildItemsCount() const;
-    QList<QEXTNavigationListItem *> childItems() const;
-    QList<QEXTNavigationListItem *> visiableChildItems() const;
+    QList<QExtNavigationListItem *> childItems() const;
+    QList<QExtNavigationListItem *> visiableChildItems() const;
 
 signals:
-    void itemAboutToDestroyed(QEXTNavigationListItem *item);
-    void iconChanged(QEXTNavigationListItem *item);
-    void fontIconChanged(QEXTNavigationListItem *item);
-    void textChanged(QEXTNavigationListItem *item);
-    void tipChanged(QEXTNavigationListItem *item);
-    void expandChanged(QEXTNavigationListItem *item);
-    void enableChanged(QEXTNavigationListItem *item);
-    void checkChanged(QEXTNavigationListItem *item);
+    void itemAboutToDestroyed(QExtNavigationListItem *item);
+    void iconChanged(QExtNavigationListItem *item);
+    void fontIconChanged(QExtNavigationListItem *item);
+    void textChanged(QExtNavigationListItem *item);
+    void tipChanged(QExtNavigationListItem *item);
+    void expandChanged(QExtNavigationListItem *item);
+    void enableChanged(QExtNavigationListItem *item);
+    void checkChanged(QExtNavigationListItem *item);
 
-    void visiableAboutToBeChanged(QEXTNavigationListItem *item);
-    void visiableChanged(QEXTNavigationListItem *item);
+    void visiableAboutToBeChanged(QExtNavigationListItem *item);
+    void visiableChanged(QExtNavigationListItem *item);
 
-    void childItemAboutToBeInserted(QEXTNavigationListItem *item, QEXTNavigationListItem *parent);
-    void childItemInserted(QEXTNavigationListItem *item, QEXTNavigationListItem *parent);
+    void childItemAboutToBeInserted(QExtNavigationListItem *item, QExtNavigationListItem *parent);
+    void childItemInserted(QExtNavigationListItem *item, QExtNavigationListItem *parent);
 
-    void childItemAboutToBeRemoved(QEXTNavigationListItem *item, QEXTNavigationListItem *parent);
-    void childItemRemoved(QEXTNavigationListItem *item, QEXTNavigationListItem *parent);
+    void childItemAboutToBeRemoved(QExtNavigationListItem *item, QExtNavigationListItem *parent);
+    void childItemRemoved(QExtNavigationListItem *item, QExtNavigationListItem *parent);
 
 protected Q_SLOTS:
-    void onChildItemAboutToBeDestroyed(QEXTNavigationListItem *item);
+    void onChildItemAboutToBeDestroyed(QExtNavigationListItem *item);
 
 protected:
-    QScopedPointer<QEXTNavigationListItemPrivate> dd_ptr;
+    QScopedPointer<QExtNavigationListItemPrivate> dd_ptr;
 
 private:
     friend class QEXTNavigationListModel;
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListItem)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNavigationListItem)
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtNavigationListItem)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtNavigationListItem)
 };
 
 
@@ -139,31 +135,31 @@ public:
     explicit QEXTNavigationListModel(QObject *parent = QEXT_DECL_NULLPTR);
     ~QEXTNavigationListModel();
 
-    QEXTNavigationListItem *checkedItem() const;
-    QList<QEXTNavigationListItem *> allItems() const;
-    QList<QEXTNavigationListItem *> parentItems() const;
-    QList<QEXTNavigationListItem *> visiableItems() const;
+    QExtNavigationListItem *checkedItem() const;
+    QList<QExtNavigationListItem *> allItems() const;
+    QList<QExtNavigationListItem *> parentItems() const;
+    QList<QExtNavigationListItem *> visiableItems() const;
 
 public slots:
     void setItems(const QStringList &items);
-    void setItems(const QList<QEXTNavigationListItem *> &items);
+    void setItems(const QList<QExtNavigationListItem *> &items);
     void expandCollapseItem(const QModelIndex &index);
 
 signals:
-    void checkedItemChanged(QEXTNavigationListItem *item);
+    void checkedItemChanged(QExtNavigationListItem *item);
 
 protected slots:
-    void onItemAboutToDestroyed(QEXTNavigationListItem *item);
-    void onItemChanged(QEXTNavigationListItem *item);
-    void onItemEnableChanged(QEXTNavigationListItem *item);
-    void onItemExpandChanged(QEXTNavigationListItem *item);
-    void onItemCheckChanged(QEXTNavigationListItem *item);
-    void onItemVisibleAboutToBeChanged(QEXTNavigationListItem *item);
-    void onItemVisibleChanged(QEXTNavigationListItem *item);
-    void onChildItemAboutToBeInserted(QEXTNavigationListItem *item, QEXTNavigationListItem *parent);
-    void onChildItemInserted(QEXTNavigationListItem *item, QEXTNavigationListItem *parent);
-    void onChildItemAboutToBeRemoved(QEXTNavigationListItem *item, QEXTNavigationListItem *parent);
-    void onChildItemRemoved(QEXTNavigationListItem *item, QEXTNavigationListItem *parent);
+    void onItemAboutToDestroyed(QExtNavigationListItem *item);
+    void onItemChanged(QExtNavigationListItem *item);
+    void onItemEnableChanged(QExtNavigationListItem *item);
+    void onItemExpandChanged(QExtNavigationListItem *item);
+    void onItemCheckChanged(QExtNavigationListItem *item);
+    void onItemVisibleAboutToBeChanged(QExtNavigationListItem *item);
+    void onItemVisibleChanged(QExtNavigationListItem *item);
+    void onChildItemAboutToBeInserted(QExtNavigationListItem *item, QExtNavigationListItem *parent);
+    void onChildItemInserted(QExtNavigationListItem *item, QExtNavigationListItem *parent);
+    void onChildItemAboutToBeRemoved(QExtNavigationListItem *item, QExtNavigationListItem *parent);
+    void onChildItemRemoved(QExtNavigationListItem *item, QExtNavigationListItem *parent);
 
 protected:
     int rowCount(const QModelIndex &parent) const QEXT_DECL_OVERRIDE;
@@ -246,11 +242,11 @@ public:
     QListView *view() const;
     QEXTNavigationListModel *model() const;
 
-    QEXTNavigationListItem * selectedItem() const;
-    QEXTNavigationListItem * checkedItem() const;
-    QList<QEXTNavigationListItem *> allItems() const;
-    QList<QEXTNavigationListItem *> parentItems() const;
-    QList<QEXTNavigationListItem *> visiableItems() const;
+    QExtNavigationListItem * selectedItem() const;
+    QExtNavigationListItem * checkedItem() const;
+    QList<QExtNavigationListItem *> allItems() const;
+    QList<QExtNavigationListItem *> parentItems() const;
+    QList<QExtNavigationListItem *> visiableItems() const;
 
     bool itemRightIconVisible() const;
     bool itemTipVisible() const;
@@ -306,12 +302,12 @@ public:
 public Q_SLOTS:
     void setModel(QEXTNavigationListModel *model);
 
-    QList<QEXTNavigationListItem *> setItems(const QString &items);
-    QList<QEXTNavigationListItem *> setItems(const QStringList &items);
-    void setItems(const QList<QEXTNavigationListItem *> &items);
+    QList<QExtNavigationListItem *> setItems(const QString &items);
+    QList<QExtNavigationListItem *> setItems(const QStringList &items);
+    void setItems(const QList<QExtNavigationListItem *> &items);
 
     bool setCurrentRow(int row);
-    bool setSelectedItem(QEXTNavigationListItem *item);
+    bool setSelectedItem(QExtNavigationListItem *item);
     void setItemRightIconVisible(bool visible);
 
     void setItemTipVisible(bool visible);
@@ -362,9 +358,9 @@ public Q_SLOTS:
     void setExpendMode(const ExpendMode &mode);
 
 signals:
-    void itemPressed(QEXTNavigationListItem *item);
-    void checkedItemChanged(QEXTNavigationListItem *item);
-    void selectedItemChanged(QEXTNavigationListItem *item);
+    void itemPressed(QExtNavigationListItem *item);
+    void checkedItemChanged(QExtNavigationListItem *item);
+    void selectedItemChanged(QExtNavigationListItem *item);
 
 protected:
     void paintEvent(QPaintEvent *event) QEXT_DECL_OVERRIDE;

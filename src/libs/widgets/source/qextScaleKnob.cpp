@@ -1,4 +1,29 @@
-﻿#include <private/qextScaleKnob_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextScaleKnob_p.h>
 
 #include <QMouseEvent>
 #include <QPainter>
@@ -6,7 +31,7 @@
 #include <QDebug>
 #include <qmath.h>
 
-QEXTScaleKnobPrivate::QEXTScaleKnobPrivate(QEXTScaleKnob *q)
+QExtScaleKnobPrivate::QExtScaleKnobPrivate(QExtScaleKnob *q)
     : q_ptr(q)
 {
     m_minValue = -100.0;
@@ -25,53 +50,53 @@ QEXTScaleKnobPrivate::QEXTScaleKnobPrivate(QEXTScaleKnob *q)
 
     m_rangeBisectionEnable = true;
     m_valueVisible = false;
-    m_pointerStyle = QEXTScaleKnob::PointerStyle_Line;
+    m_pointerStyle = QExtScaleKnob::PointerStyle_Line;
 
 }
 
-QEXTScaleKnobPrivate::~QEXTScaleKnobPrivate()
+QExtScaleKnobPrivate::~QExtScaleKnobPrivate()
 {
 
 }
 
 
 
-QEXTScaleKnob::QEXTScaleKnob(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTScaleKnobPrivate(this))
+QExtScaleKnob::QExtScaleKnob(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtScaleKnobPrivate(this))
 {
     this->setFont(QFont("Arial", 9));
 }
 
-QEXTScaleKnob::~QEXTScaleKnob()
+QExtScaleKnob::~QExtScaleKnob()
 {
 
 }
 
-void QEXTScaleKnob::mousePressEvent(QMouseEvent *e)
+void QExtScaleKnob::mousePressEvent(QMouseEvent *e)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     d->m_pressed = true;
     this->setPressedValue(e->pos());
 }
 
-void QEXTScaleKnob::mouseReleaseEvent(QMouseEvent *)
+void QExtScaleKnob::mouseReleaseEvent(QMouseEvent *)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     d->m_pressed = false;
 }
 
-void QEXTScaleKnob::mouseMoveEvent(QMouseEvent *e)
+void QExtScaleKnob::mouseMoveEvent(QMouseEvent *e)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (d->m_pressed)
     {
         this->setPressedValue(e->pos());
     }
 }
 
-void QEXTScaleKnob::paintEvent(QPaintEvent *)
+void QExtScaleKnob::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
@@ -106,9 +131,9 @@ void QEXTScaleKnob::paintEvent(QPaintEvent *)
     this->drawValue(&painter);
 }
 
-void QEXTScaleKnob::drawScale(QPainter *painter)
+void QExtScaleKnob::drawScale(QPainter *painter)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     int radius = 96;
     int offset = 10;
     painter->save();
@@ -177,9 +202,9 @@ void QEXTScaleKnob::drawScale(QPainter *painter)
     painter->restore();
 }
 
-void QEXTScaleKnob::drawBackgroundCircle(QPainter *painter)
+void QExtScaleKnob::drawBackgroundCircle(QPainter *painter)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     int radius = 75;
     painter->save();
 
@@ -194,9 +219,9 @@ void QEXTScaleKnob::drawBackgroundCircle(QPainter *painter)
     painter->restore();
 }
 
-void QEXTScaleKnob::drawCenterCircle(QPainter *painter)
+void QExtScaleKnob::drawCenterCircle(QPainter *painter)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     int radius = 15;
     painter->save();
 
@@ -214,9 +239,9 @@ void QEXTScaleKnob::drawCenterCircle(QPainter *painter)
     painter->restore();
 }
 
-void QEXTScaleKnob::drawPointerLine(QPainter *painter)
+void QExtScaleKnob::drawPointerLine(QPainter *painter)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     int radius = 62;
     painter->save();
 
@@ -237,9 +262,9 @@ void QEXTScaleKnob::drawPointerLine(QPainter *painter)
     painter->restore();
 }
 
-void QEXTScaleKnob::drawPointerIndicator(QPainter *painter)
+void QExtScaleKnob::drawPointerIndicator(QPainter *painter)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     int radius = 65;
     int offset = 8;
     painter->save();
@@ -266,9 +291,9 @@ void QEXTScaleKnob::drawPointerIndicator(QPainter *painter)
     painter->restore();
 }
 
-void QEXTScaleKnob::drawPointerIndicatorR(QPainter *painter)
+void QExtScaleKnob::drawPointerIndicatorR(QPainter *painter)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     int radius = 62;
     int offset = 8;
     painter->save();
@@ -302,9 +327,9 @@ void QEXTScaleKnob::drawPointerIndicatorR(QPainter *painter)
     painter->restore();
 }
 
-void QEXTScaleKnob::drawPointerTriangle(QPainter *painter)
+void QExtScaleKnob::drawPointerTriangle(QPainter *painter)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     int radius = 25;
     int offset = 40;
     painter->save();
@@ -330,9 +355,9 @@ void QEXTScaleKnob::drawPointerTriangle(QPainter *painter)
     painter->restore();
 }
 
-void QEXTScaleKnob::drawValue(QPainter *painter)
+void QExtScaleKnob::drawValue(QPainter *painter)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (!d->m_valueVisible)
     {
         return;
@@ -360,9 +385,9 @@ void QEXTScaleKnob::drawValue(QPainter *painter)
     painter->restore();
 }
 
-void QEXTScaleKnob::setPressedValue(QPointF pressedPoint)
+void QExtScaleKnob::setPressedValue(QPointF pressedPoint)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     double length = 360 - d->m_startAngle - d->m_endAngle;
 
     QPointF point = pressedPoint - rect().center();
@@ -384,103 +409,103 @@ void QEXTScaleKnob::setPressedValue(QPointF pressedPoint)
     this->setValue(currentValue);
 }
 
-double QEXTScaleKnob::minValue() const
+double QExtScaleKnob::minValue() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_minValue;
 }
 
-double QEXTScaleKnob::maxValue() const
+double QExtScaleKnob::maxValue() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_maxValue;
 }
 
-double QEXTScaleKnob::value() const
+double QExtScaleKnob::value() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_value;
 }
 
-int QEXTScaleKnob::precision() const
+int QExtScaleKnob::precision() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_precision;
 }
 
-int QEXTScaleKnob::scaleStep() const
+int QExtScaleKnob::scaleStep() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_scaleStep;
 }
 
-int QEXTScaleKnob::startAngle() const
+int QExtScaleKnob::startAngle() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_startAngle;
 }
 
-int QEXTScaleKnob::endAngle() const
+int QExtScaleKnob::endAngle() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_endAngle;
 }
 
-QColor QEXTScaleKnob::borderColor() const
+QColor QExtScaleKnob::borderColor() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_borderColor;
 }
 
-QColor QEXTScaleKnob::backgroundColor() const
+QColor QExtScaleKnob::backgroundColor() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_backgroundColor;
 }
 
-QColor QEXTScaleKnob::textColor() const
+QColor QExtScaleKnob::textColor() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_textColor;
 }
 
-QColor QEXTScaleKnob::percentColor() const
+QColor QExtScaleKnob::percentColor() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_percentColor;
 }
 
-bool QEXTScaleKnob::isRangeBisectionEnable() const
+bool QExtScaleKnob::isRangeBisectionEnable() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_rangeBisectionEnable;
 }
 
-bool QEXTScaleKnob::isValueVisible() const
+bool QExtScaleKnob::isValueVisible() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_valueVisible;
 }
 
-QEXTScaleKnob::PointerStyle QEXTScaleKnob::pointerStyle() const
+QExtScaleKnob::PointerStyle QExtScaleKnob::pointerStyle() const
 {
-    Q_D(const QEXTScaleKnob);
+    Q_D(const QExtScaleKnob);
     return d->m_pointerStyle;
 }
 
-QSize QEXTScaleKnob::sizeHint() const
+QSize QExtScaleKnob::sizeHint() const
 {
     return QSize(200, 200);
 }
 
-QSize QEXTScaleKnob::minimumSizeHint() const
+QSize QExtScaleKnob::minimumSizeHint() const
 {
     return QSize(50, 50);
 }
 
-void QEXTScaleKnob::setRange(double minValue, double maxValue)
+void QExtScaleKnob::setRange(double minValue, double maxValue)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (minValue >= maxValue)
     {
         return;
@@ -497,26 +522,26 @@ void QEXTScaleKnob::setRange(double minValue, double maxValue)
     this->update();
 }
 
-void QEXTScaleKnob::setRange(int minValue, int maxValue)
+void QExtScaleKnob::setRange(int minValue, int maxValue)
 {
     this->setRange((double)minValue, (double)maxValue);
 }
 
-void QEXTScaleKnob::setMinValue(double minValue)
+void QExtScaleKnob::setMinValue(double minValue)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     this->setRange(minValue, d->m_maxValue);
 }
 
-void QEXTScaleKnob::setMaxValue(double maxValue)
+void QExtScaleKnob::setMaxValue(double maxValue)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     this->setRange(d->m_minValue, maxValue);
 }
 
-void QEXTScaleKnob::setValue(double value)
+void QExtScaleKnob::setValue(double value)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (value == d->m_value)
     {
         return;
@@ -536,14 +561,14 @@ void QEXTScaleKnob::setValue(double value)
     this->update();
 }
 
-void QEXTScaleKnob::setValue(int value)
+void QExtScaleKnob::setValue(int value)
 {
     this->setValue((double)value);
 }
 
-void QEXTScaleKnob::setPrecision(int precision)
+void QExtScaleKnob::setPrecision(int precision)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (precision <= 3 && d->m_precision != precision)
     {
         d->m_precision = precision;
@@ -551,9 +576,9 @@ void QEXTScaleKnob::setPrecision(int precision)
     }
 }
 
-void QEXTScaleKnob::setScaleStep(int step)
+void QExtScaleKnob::setScaleStep(int step)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (d->m_scaleStep != step)
     {
         d->m_scaleStep = step;
@@ -561,9 +586,9 @@ void QEXTScaleKnob::setScaleStep(int step)
     }
 }
 
-void QEXTScaleKnob::setStartAngle(int angle)
+void QExtScaleKnob::setStartAngle(int angle)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (d->m_startAngle != angle)
     {
         d->m_startAngle = angle;
@@ -571,9 +596,9 @@ void QEXTScaleKnob::setStartAngle(int angle)
     }
 }
 
-void QEXTScaleKnob::setEndAngle(int angle)
+void QExtScaleKnob::setEndAngle(int angle)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (d->m_endAngle != angle)
     {
         d->m_endAngle = angle;
@@ -581,9 +606,9 @@ void QEXTScaleKnob::setEndAngle(int angle)
     }
 }
 
-void QEXTScaleKnob::setBorderColor(const QColor &color)
+void QExtScaleKnob::setBorderColor(const QColor &color)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (d->m_borderColor != color)
     {
         d->m_borderColor = color;
@@ -591,9 +616,9 @@ void QEXTScaleKnob::setBorderColor(const QColor &color)
     }
 }
 
-void QEXTScaleKnob::setBackgroundColor(const QColor &color)
+void QExtScaleKnob::setBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (d->m_backgroundColor != color)
     {
         d->m_backgroundColor = color;
@@ -601,9 +626,9 @@ void QEXTScaleKnob::setBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTScaleKnob::setTextColor(const QColor &color)
+void QExtScaleKnob::setTextColor(const QColor &color)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (d->m_textColor != color)
     {
         d->m_textColor = color;
@@ -611,9 +636,9 @@ void QEXTScaleKnob::setTextColor(const QColor &color)
     }
 }
 
-void QEXTScaleKnob::setPercentColor(const QColor &color)
+void QExtScaleKnob::setPercentColor(const QColor &color)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (d->m_percentColor != color)
     {
         d->m_percentColor = color;
@@ -621,9 +646,9 @@ void QEXTScaleKnob::setPercentColor(const QColor &color)
     }
 }
 
-void QEXTScaleKnob::setRangeBisectionEnable(bool enable)
+void QExtScaleKnob::setRangeBisectionEnable(bool enable)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (d->m_rangeBisectionEnable != enable)
     {
         d->m_rangeBisectionEnable = enable;
@@ -631,9 +656,9 @@ void QEXTScaleKnob::setRangeBisectionEnable(bool enable)
     }
 }
 
-void QEXTScaleKnob::setValueVisible(bool visiable)
+void QExtScaleKnob::setValueVisible(bool visiable)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (d->m_valueVisible != visiable)
     {
         d->m_valueVisible = visiable;
@@ -641,9 +666,9 @@ void QEXTScaleKnob::setValueVisible(bool visiable)
     }
 }
 
-void QEXTScaleKnob::setPointerStyle(const QEXTScaleKnob::PointerStyle &style)
+void QExtScaleKnob::setPointerStyle(const QExtScaleKnob::PointerStyle &style)
 {
-    Q_D(QEXTScaleKnob);
+    Q_D(QExtScaleKnob);
     if (d->m_pointerStyle != style)
     {
         d->m_pointerStyle = style;

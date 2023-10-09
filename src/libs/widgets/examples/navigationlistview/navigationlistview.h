@@ -9,7 +9,7 @@ namespace Ui
 class NavigationListView;
 }
 
-class QEXTNavigationListItem;
+class QExtNavigationListItem;
 class NavigationListView : public QWidget
 {
 	Q_OBJECT
@@ -20,18 +20,18 @@ public:
 
 private slots:
 	void initForm();
-    void onItemPressed1(QEXTNavigationListItem *item);
-    void onItemPressed2(QEXTNavigationListItem *item);
-    void onItemPressed3(QEXTNavigationListItem *item);
-    void onItemPressed4(QEXTNavigationListItem *item);
+    void onItemPressed1(QExtNavigationListItem *item);
+    void onItemPressed2(QExtNavigationListItem *item);
+    void onItemPressed3(QExtNavigationListItem *item);
+    void onItemPressed4(QExtNavigationListItem *item);
 
 private:
     Ui::NavigationListView *ui;
 private:
-    QList<QEXTNavigationListItem *> m_parentItems1;
-    QList<QEXTNavigationListItem *> m_parentItems2;
-    QList<QEXTNavigationListItem *> m_parentItems3;
-    QList<QEXTNavigationListItem *> m_parentItems4;
+    QList<QExtNavigationListItem *> m_parentItems1;
+    QList<QExtNavigationListItem *> m_parentItems2;
+    QList<QExtNavigationListItem *> m_parentItems3;
+    QList<QExtNavigationListItem *> m_parentItems4;
 };
 
 #endif // NAVIGATIONLISTVIEW_H

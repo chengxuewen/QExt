@@ -54,21 +54,21 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QEXTTooltip" name="navLabel51">
+        <widget class="QExtTooltip" name="navLabel51">
          <property name="text">
           <string>首页</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QEXTTooltip" name="navLabel52">
+        <widget class="QExtTooltip" name="navLabel52">
          <property name="text">
           <string>学生管理</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QEXTTooltip" name="navLabel53">
+        <widget class="QExtTooltip" name="navLabel53">
          <property name="text">
           <string>成绩查询</string>
          </property>
@@ -111,42 +111,42 @@
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <widget class="QEXTTooltip" name="navLabel11">
+        <widget class="QExtTooltip" name="navLabel11">
          <property name="text">
           <string>当前温度</string>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QEXTTooltip" name="navLabel21">
+        <widget class="QExtTooltip" name="navLabel21">
          <property name="text">
           <string>温度告警值</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QEXTTooltip" name="navLabel12">
+        <widget class="QExtTooltip" name="navLabel12">
          <property name="text">
           <string>当前湿度</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QEXTTooltip" name="navLabel22">
+        <widget class="QExtTooltip" name="navLabel22">
          <property name="text">
           <string>湿度告警值</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QEXTTooltip" name="navLabel13">
+        <widget class="QExtTooltip" name="navLabel13">
          <property name="text">
           <string>当前压力</string>
          </property>
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QEXTTooltip" name="navLabel23">
+        <widget class="QExtTooltip" name="navLabel23">
          <property name="text">
           <string>压力告警值</string>
          </property>
@@ -189,7 +189,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QEXTTooltip" name="navLabel31">
+        <widget class="QExtTooltip" name="navLabel31">
          <property name="text">
           <string>当
 前
@@ -199,7 +199,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QEXTTooltip" name="navLabel32">
+        <widget class="QExtTooltip" name="navLabel32">
          <property name="text">
           <string>当
 前
@@ -209,7 +209,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QEXTTooltip" name="navLabel33">
+        <widget class="QExtTooltip" name="navLabel33">
          <property name="text">
           <string>当
 前
@@ -219,7 +219,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QEXTTooltip" name="navLabel41">
+        <widget class="QExtTooltip" name="navLabel41">
          <property name="text">
           <string>当
 前
@@ -229,7 +229,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QEXTTooltip" name="navLabel42">
+        <widget class="QExtTooltip" name="navLabel42">
          <property name="text">
           <string>当
 前
@@ -239,7 +239,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QEXTTooltip" name="navLabel43">
+        <widget class="QExtTooltip" name="navLabel43">
          <property name="text">
           <string>当
 前
@@ -256,7 +256,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTTooltip</class>
+   <class>QExtTooltip</class>
    <extends>QLabel</extends>
    <header>qextTooltip.h</header>
   </customwidget>

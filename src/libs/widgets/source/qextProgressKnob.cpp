@@ -1,4 +1,29 @@
-﻿#include <private/qextProgressKnob_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextProgressKnob_p.h>
 
 #include <QPropertyAnimation>
 #include <QMouseEvent>
@@ -8,7 +33,7 @@
 #include <QEvent>
 #include <qmath.h>
 
-QEXTProgressKnobPrivate::QEXTProgressKnobPrivate(QEXTProgressKnob *q)
+QExtProgressKnobPrivate::QExtProgressKnobPrivate(QExtProgressKnob *q)
     : q_ptr(q)
 {
     m_minValue = 0;
@@ -28,24 +53,24 @@ QEXTProgressKnobPrivate::QEXTProgressKnobPrivate(QEXTProgressKnob *q)
 
     m_pointerVisible = true;
     m_valueVisible = false;
-    m_pointerStyle = QEXTProgressKnob::PointerStyle_Circle;
+    m_pointerStyle = QExtProgressKnob::PointerStyle_Circle;
 
     m_hover = false;
     m_radiusCoverCircle = 85;
     m_radiusCircle = 80;
 }
 
-QEXTProgressKnobPrivate::~QEXTProgressKnobPrivate()
+QExtProgressKnobPrivate::~QExtProgressKnobPrivate()
 {
 
 }
 
 
 
-QEXTProgressKnob::QEXTProgressKnob(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTProgressKnobPrivate(this))
+QExtProgressKnob::QExtProgressKnob(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtProgressKnobPrivate(this))
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     d->m_animation = new QPropertyAnimation(this, "");
     d->m_animation->setStartValue(0);
     d->m_animation->setEndValue(10);
@@ -54,52 +79,52 @@ QEXTProgressKnob::QEXTProgressKnob(QWidget *parent)
     this->setFont(QFont("Arial", 9));
 }
 
-QEXTProgressKnob::~QEXTProgressKnob()
+QExtProgressKnob::~QExtProgressKnob()
 {
 
 }
 
-void QEXTProgressKnob::enterEvent(QEvent *)
+void QExtProgressKnob::enterEvent(QEvent *)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     d->m_hover = true;
     d->m_animation->stop();
     d->m_animation->start();
 }
 
-void QEXTProgressKnob::leaveEvent(QEvent *)
+void QExtProgressKnob::leaveEvent(QEvent *)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     d->m_hover = false;
     d->m_animation->stop();
     d->m_animation->start();
 }
 
-void QEXTProgressKnob::mousePressEvent(QMouseEvent *e)
+void QExtProgressKnob::mousePressEvent(QMouseEvent *e)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     d->m_pressed = true;
     this->setPressedValue(e->pos());
 }
 
-void QEXTProgressKnob::mouseReleaseEvent(QMouseEvent *)
+void QExtProgressKnob::mouseReleaseEvent(QMouseEvent *)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     d->m_pressed = false;
 }
 
-void QEXTProgressKnob::mouseMoveEvent(QMouseEvent *e)
+void QExtProgressKnob::mouseMoveEvent(QMouseEvent *e)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_pressed)
     {
         this->setPressedValue(e->pos());
     }
 }
 
-void QEXTProgressKnob::paintEvent(QPaintEvent *)
+void QExtProgressKnob::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     int width = this->width();
     int height = this->height();
     int side = qMin(width, height);
@@ -134,9 +159,9 @@ void QEXTProgressKnob::paintEvent(QPaintEvent *)
     this->drawValue(&painter);
 }
 
-void QEXTProgressKnob::drawBackground(QPainter *painter)
+void QExtProgressKnob::drawBackground(QPainter *painter)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     int radius = 99;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -145,9 +170,9 @@ void QEXTProgressKnob::drawBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressKnob::drawColorPie(QPainter *painter)
+void QExtProgressKnob::drawColorPie(QPainter *painter)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     int radius = 95;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -167,9 +192,9 @@ void QEXTProgressKnob::drawColorPie(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressKnob::drawCoverCircle(QPainter *painter)
+void QExtProgressKnob::drawCoverCircle(QPainter *painter)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
 
     int radius = d->m_radiusCoverCircle;
     painter->save();
@@ -179,9 +204,9 @@ void QEXTProgressKnob::drawCoverCircle(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressKnob::drawCircle(QPainter *painter)
+void QExtProgressKnob::drawCircle(QPainter *painter)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     int radius = d->m_radiusCircle;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -194,9 +219,9 @@ void QEXTProgressKnob::drawCircle(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressKnob::drawPointerCircle(QPainter *painter)
+void QExtProgressKnob::drawPointerCircle(QPainter *painter)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (!d->m_pointerVisible)
     {
         return;
@@ -217,9 +242,9 @@ void QEXTProgressKnob::drawPointerCircle(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressKnob::drawPointerIndicator(QPainter *painter)
+void QExtProgressKnob::drawPointerIndicator(QPainter *painter)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (!d->m_pointerVisible)
     {
         return;
@@ -244,9 +269,9 @@ void QEXTProgressKnob::drawPointerIndicator(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressKnob::drawPointerIndicatorR(QPainter *painter)
+void QExtProgressKnob::drawPointerIndicatorR(QPainter *painter)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (!d->m_pointerVisible)
     {
         return;
@@ -280,9 +305,9 @@ void QEXTProgressKnob::drawPointerIndicatorR(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressKnob::drawPointerTriangle(QPainter *painter)
+void QExtProgressKnob::drawPointerTriangle(QPainter *painter)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (!d->m_pointerVisible)
     {
         return;
@@ -305,9 +330,9 @@ void QEXTProgressKnob::drawPointerTriangle(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressKnob::drawValue(QPainter *painter)
+void QExtProgressKnob::drawValue(QPainter *painter)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (!d->m_valueVisible)
     {
         return;
@@ -328,17 +353,17 @@ void QEXTProgressKnob::drawValue(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressKnob::setEasingCurve()
+void QExtProgressKnob::setEasingCurve()
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
 
     int index = qrand() % 40;
     d->m_animation->setEasingCurve((QEasingCurve::Type)index);
 }
 
-void QEXTProgressKnob::updateRadius(QVariant radius)
+void QExtProgressKnob::updateRadius(QVariant radius)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     int step = radius.toInt();
 
     if (d->m_hover)
@@ -355,9 +380,9 @@ void QEXTProgressKnob::updateRadius(QVariant radius)
     this->update();
 }
 
-void QEXTProgressKnob::setPressedValue(QPointF pressedPoint)
+void QExtProgressKnob::setPressedValue(QPointF pressedPoint)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     double length = 360 - d->m_startAngle - d->m_endAngle;
 
     QPointF point = pressedPoint - rect().center();
@@ -379,109 +404,109 @@ void QEXTProgressKnob::setPressedValue(QPointF pressedPoint)
     this->setValue(currentValue);
 }
 
-double QEXTProgressKnob::minValue() const
+double QExtProgressKnob::minValue() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_minValue;
 }
 
-double QEXTProgressKnob::maxValue() const
+double QExtProgressKnob::maxValue() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_maxValue;
 }
 
-double QEXTProgressKnob::value() const
+double QExtProgressKnob::value() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_value;
 }
 
-int QEXTProgressKnob::precision() const
+int QExtProgressKnob::precision() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_precision;
 }
 
-int QEXTProgressKnob::startAngle() const
+int QExtProgressKnob::startAngle() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_startAngle;
 }
 
-int QEXTProgressKnob::endAngle() const
+int QExtProgressKnob::endAngle() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_endAngle;
 }
 
-QColor QEXTProgressKnob::backgroundColor() const
+QColor QExtProgressKnob::backgroundColor() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_backgroundColor;
 }
 
-QColor QEXTProgressKnob::progressColor() const
+QColor QExtProgressKnob::progressColor() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_progressColor;
 }
 
-QColor QEXTProgressKnob::progressBackgroundColor() const
+QColor QExtProgressKnob::progressBackgroundColor() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_progressBackgroundColor;
 }
 
-QColor QEXTProgressKnob::circleStartColor() const
+QColor QExtProgressKnob::circleStartColor() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_circleStartColor;
 }
 
-QColor QEXTProgressKnob::circleEndColor() const
+QColor QExtProgressKnob::circleEndColor() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_circleEndColor;
 }
 
-QColor QEXTProgressKnob::textColor() const
+QColor QExtProgressKnob::textColor() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_textColor;
 }
 
-bool QEXTProgressKnob::pointerVisible() const
+bool QExtProgressKnob::pointerVisible() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_pointerVisible;
 }
 
-bool QEXTProgressKnob::valueVisible() const
+bool QExtProgressKnob::valueVisible() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_valueVisible;
 }
 
-QEXTProgressKnob::PointerStyle QEXTProgressKnob::pointerStyle() const
+QExtProgressKnob::PointerStyle QExtProgressKnob::pointerStyle() const
 {
-    Q_D(const QEXTProgressKnob);
+    Q_D(const QExtProgressKnob);
     return d->m_pointerStyle;
 }
 
-QSize QEXTProgressKnob::sizeHint() const
+QSize QExtProgressKnob::sizeHint() const
 {
     return QSize(200, 200);
 }
 
-QSize QEXTProgressKnob::minimumSizeHint() const
+QSize QExtProgressKnob::minimumSizeHint() const
 {
     return QSize(20, 20);
 }
 
-void QEXTProgressKnob::setRange(double minValue, double maxValue)
+void QExtProgressKnob::setRange(double minValue, double maxValue)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (minValue >= maxValue)
     {
         return;
@@ -498,26 +523,26 @@ void QEXTProgressKnob::setRange(double minValue, double maxValue)
     this->update();
 }
 
-void QEXTProgressKnob::setRange(int minValue, int maxValue)
+void QExtProgressKnob::setRange(int minValue, int maxValue)
 {
     this->setRange((double)minValue, (double)maxValue);
 }
 
-void QEXTProgressKnob::setMinValue(double minValue)
+void QExtProgressKnob::setMinValue(double minValue)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     this->setRange(minValue, d->m_maxValue);
 }
 
-void QEXTProgressKnob::setMaxValue(double maxValue)
+void QExtProgressKnob::setMaxValue(double maxValue)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     this->setRange(d->m_minValue, maxValue);
 }
 
-void QEXTProgressKnob::setValue(double value)
+void QExtProgressKnob::setValue(double value)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (value == d->m_value)
     {
         return;
@@ -537,14 +562,14 @@ void QEXTProgressKnob::setValue(double value)
     this->update();
 }
 
-void QEXTProgressKnob::setValue(int value)
+void QExtProgressKnob::setValue(int value)
 {
     this->setValue((double)value);
 }
 
-void QEXTProgressKnob::setPrecision(int precision)
+void QExtProgressKnob::setPrecision(int precision)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (precision <= 3 && d->m_precision != precision)
     {
         d->m_precision = precision;
@@ -552,9 +577,9 @@ void QEXTProgressKnob::setPrecision(int precision)
     }
 }
 
-void QEXTProgressKnob::setStartAngle(int angle)
+void QExtProgressKnob::setStartAngle(int angle)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_startAngle != angle)
     {
         d->m_startAngle = angle;
@@ -562,9 +587,9 @@ void QEXTProgressKnob::setStartAngle(int angle)
     }
 }
 
-void QEXTProgressKnob::setEndAngle(int angle)
+void QExtProgressKnob::setEndAngle(int angle)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_endAngle != angle)
     {
         d->m_endAngle = angle;
@@ -572,9 +597,9 @@ void QEXTProgressKnob::setEndAngle(int angle)
     }
 }
 
-void QEXTProgressKnob::setBackgroundColor(const QColor &color)
+void QExtProgressKnob::setBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_backgroundColor != color)
     {
         d->m_backgroundColor = color;
@@ -582,9 +607,9 @@ void QEXTProgressKnob::setBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTProgressKnob::setProgressColor(const QColor &color)
+void QExtProgressKnob::setProgressColor(const QColor &color)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_progressColor != color)
     {
         d->m_progressColor = color;
@@ -592,9 +617,9 @@ void QEXTProgressKnob::setProgressColor(const QColor &color)
     }
 }
 
-void QEXTProgressKnob::setProgressBackgroundColor(const QColor &color)
+void QExtProgressKnob::setProgressBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_progressBackgroundColor != color)
     {
         d->m_progressBackgroundColor = color;
@@ -602,9 +627,9 @@ void QEXTProgressKnob::setProgressBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTProgressKnob::setCircleStartColor(const QColor &color)
+void QExtProgressKnob::setCircleStartColor(const QColor &color)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_circleStartColor != color)
     {
         d->m_circleStartColor = color;
@@ -612,9 +637,9 @@ void QEXTProgressKnob::setCircleStartColor(const QColor &color)
     }
 }
 
-void QEXTProgressKnob::setCircleEndColor(const QColor &color)
+void QExtProgressKnob::setCircleEndColor(const QColor &color)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_circleEndColor != color)
     {
         d->m_circleEndColor = color;
@@ -622,9 +647,9 @@ void QEXTProgressKnob::setCircleEndColor(const QColor &color)
     }
 }
 
-void QEXTProgressKnob::setTextColor(const QColor &color)
+void QExtProgressKnob::setTextColor(const QColor &color)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_textColor != color)
     {
         d->m_textColor = color;
@@ -632,9 +657,9 @@ void QEXTProgressKnob::setTextColor(const QColor &color)
     }
 }
 
-void QEXTProgressKnob::setPointerVisible(bool visiable)
+void QExtProgressKnob::setPointerVisible(bool visiable)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_pointerVisible != visiable)
     {
         d->m_pointerVisible = visiable;
@@ -642,9 +667,9 @@ void QEXTProgressKnob::setPointerVisible(bool visiable)
     }
 }
 
-void QEXTProgressKnob::setValueVisible(bool visiable)
+void QExtProgressKnob::setValueVisible(bool visiable)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_valueVisible != visiable)
     {
         d->m_valueVisible = visiable;
@@ -652,9 +677,9 @@ void QEXTProgressKnob::setValueVisible(bool visiable)
     }
 }
 
-void QEXTProgressKnob::setPointerStyle(PointerStyle pointerStyle)
+void QExtProgressKnob::setPointerStyle(PointerStyle pointerStyle)
 {
-    Q_D(QEXTProgressKnob);
+    Q_D(QExtProgressKnob);
     if (d->m_pointerStyle != pointerStyle)
     {
         d->m_pointerStyle = pointerStyle;

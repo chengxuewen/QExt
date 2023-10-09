@@ -1,3 +1,28 @@
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2018 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
 #ifndef _QEXTNAVIGATIONLISTVIEW_P_H
 #define _QEXTNAVIGATIONLISTVIEW_P_H
 
@@ -9,14 +34,14 @@
 #include <QAbstractListModel>
 #include <QStyledItemDelegate>
 
-class QEXTNavigationListItem;
-class QEXT_WIDGETS_API QEXTNavigationListItemPrivate
+class QExtNavigationListItem;
+class QEXT_WIDGETS_API QExtNavigationListItemPrivate
 {
 public:
-    explicit QEXTNavigationListItemPrivate(QEXTNavigationListItem *q);
-    virtual ~QEXTNavigationListItemPrivate();
+    explicit QExtNavigationListItemPrivate(QExtNavigationListItem *q);
+    virtual ~QExtNavigationListItemPrivate();
 
-    QEXTNavigationListItem * const q_ptr;
+    QExtNavigationListItem * const q_ptr;
 
     QPixmap m_normalIcon;
     QPixmap m_hoverIcon;
@@ -29,12 +54,12 @@ public:
     bool m_visiable;
     bool m_enable;
     bool m_checkd;
-    QPointer<QEXTNavigationListItem> m_parent;
-    QList<QEXTNavigationListItem *> m_childItems;
+    QPointer<QExtNavigationListItem> m_parent;
+    QList<QExtNavigationListItem *> m_childItems;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListItemPrivate)
-    QEXT_DECL_PUBLIC(QEXTNavigationListItem)
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtNavigationListItemPrivate)
+    QEXT_DECL_PUBLIC(QExtNavigationListItem)
 };
 
 class QEXTNavListView : public QListView
@@ -75,12 +100,12 @@ public:
     void deleteAllItems();
     void refreshVisibleList();
     void initAllItemsConnection();
-    void initItemConnection(QEXTNavigationListItem *item);
+    void initItemConnection(QExtNavigationListItem *item);
 
-    QPointer<QEXTNavigationListItem> m_checkedItem;
-    QList<QEXTNavigationListItem *> m_parentItemList;
-    QList<QEXTNavigationListItem *> m_visiableItemList;
-    QSet<QEXTNavigationListItem *> m_allItemSet;
+    QPointer<QExtNavigationListItem> m_checkedItem;
+    QList<QExtNavigationListItem *> m_parentItemList;
+    QList<QExtNavigationListItem *> m_visiableItemList;
+    QSet<QExtNavigationListItem *> m_allItemSet;
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListModelPrivate)
@@ -100,9 +125,9 @@ public:
     QFont itemFont() const;
 
     QStringList m_stringItems;
-    QList<QEXTNavigationListItem *> m_items;
+    QList<QExtNavigationListItem *> m_items;
 
-    QPointer<QEXTNavigationListItem> m_selectedItem;
+    QPointer<QExtNavigationListItem> m_selectedItem;
 
     QPointer<QEXTNavigationListModel> m_model;
     QScopedPointer<QEXTNavListView> m_listView;

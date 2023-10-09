@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-class QEXTProgressKnob;
+class QExtProgressKnob;
 
 namespace Ui {
 class FrmProgressKnob;
@@ -19,7 +19,7 @@ public:
 
 private:
     Ui::FrmProgressKnob *ui;
-    QList<QEXTProgressKnob *> gauges;
+    QList<QExtProgressKnob *> gauges;
 
 private slots:
     void initForm();

@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QList>
 
-class QEXTBreathingLight;
+class QExtBreathingLight;
 namespace Ui {
 class MainWindow;
 }
@@ -19,7 +19,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QList<QEXTBreathingLight *> listLightPoint;
+    QList<QExtBreathingLight *> listLightPoint;
 };
 
 #endif // MAINWINDOW_H

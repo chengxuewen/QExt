@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QEXTProgressRing" name="progressRing1" native="true">
+    <widget class="QExtProgressRing" name="progressRing1" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QEXTProgressRing" name="progressRing2" native="true">
+    <widget class="QExtProgressRing" name="progressRing2" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -35,7 +35,7 @@
     </widget>
    </item>
    <item row="0" column="2">
-    <widget class="QEXTProgressRing" name="progressRing3" native="true">
+    <widget class="QExtProgressRing" name="progressRing3" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -45,7 +45,7 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QEXTProgressRing" name="progressRing4" native="true">
+    <widget class="QExtProgressRing" name="progressRing4" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -55,7 +55,7 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QEXTProgressRing" name="progressRing5" native="true">
+    <widget class="QExtProgressRing" name="progressRing5" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -65,7 +65,7 @@
     </widget>
    </item>
    <item row="1" column="2">
-    <widget class="QEXTProgressRing" name="progressRing6" native="true">
+    <widget class="QExtProgressRing" name="progressRing6" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -165,7 +165,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTProgressRing</class>
+   <class>QExtProgressRing</class>
    <extends>QWidget</extends>
    <header>qextProgressRing.h</header>
   </customwidget>

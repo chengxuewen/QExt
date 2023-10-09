@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QEXTRingCompass" name="qextRingCompass" native="true">
+    <widget class="QExtRingCompass" name="qextRingCompass" native="true">
      <property name="value" stdset="0">
       <double>0.000000000000000</double>
      </property>
@@ -35,7 +35,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTRingCompass</class>
+   <class>QExtRingCompass</class>
    <extends>QWidget</extends>
    <header>qextRingCompass.h</header>
   </customwidget>

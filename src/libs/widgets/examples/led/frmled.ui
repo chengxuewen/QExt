@@ -24,40 +24,40 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QEXTLed" name="led" native="true"/>
+       <widget class="QExtLed" name="led" native="true"/>
       </item>
       <item row="0" column="1">
-       <widget class="QEXTLed" name="led_2" native="true"/>
+       <widget class="QExtLed" name="led_2" native="true"/>
       </item>
       <item row="0" column="2">
-       <widget class="QEXTLed" name="led_3" native="true"/>
+       <widget class="QExtLed" name="led_3" native="true"/>
       </item>
       <item row="0" column="3">
-       <widget class="QEXTLed" name="led_4" native="true"/>
+       <widget class="QExtLed" name="led_4" native="true"/>
       </item>
       <item row="1" column="0">
-       <widget class="QEXTLed" name="led_5" native="true"/>
+       <widget class="QExtLed" name="led_5" native="true"/>
       </item>
       <item row="1" column="1">
-       <widget class="QEXTLed" name="led_6" native="true"/>
+       <widget class="QExtLed" name="led_6" native="true"/>
       </item>
       <item row="1" column="2">
-       <widget class="QEXTLed" name="led_7" native="true"/>
+       <widget class="QExtLed" name="led_7" native="true"/>
       </item>
       <item row="1" column="3">
-       <widget class="QEXTLed" name="led_8" native="true"/>
+       <widget class="QExtLed" name="led_8" native="true"/>
       </item>
       <item row="2" column="0">
-       <widget class="QEXTLed" name="led_9" native="true"/>
+       <widget class="QExtLed" name="led_9" native="true"/>
       </item>
       <item row="2" column="1">
-       <widget class="QEXTLed" name="led_10" native="true"/>
+       <widget class="QExtLed" name="led_10" native="true"/>
       </item>
       <item row="2" column="2">
-       <widget class="QEXTLed" name="led_11" native="true"/>
+       <widget class="QExtLed" name="led_11" native="true"/>
       </item>
       <item row="2" column="3">
-       <widget class="QEXTLed" name="led_12" native="true"/>
+       <widget class="QExtLed" name="led_12" native="true"/>
       </item>
      </layout>
     </widget>
@@ -66,7 +66,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTLed</class>
+   <class>QExtLed</class>
    <extends>QWidget</extends>
    <header>qextLed.h</header>
    <container>1</container>

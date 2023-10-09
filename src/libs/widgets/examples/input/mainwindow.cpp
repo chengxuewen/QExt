@@ -41,7 +41,7 @@ void MainWindow::initForm()
     ui->textBrowser->setReadOnly(true);
 
     connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(returnPressed()));
-    connect(QEXTInput::Instance(), SIGNAL(receiveValue(QString)), this, SLOT(receiveValue(QString)));
+    connect(QExtInput::Instance(), SIGNAL(receiveValue(QString)), this, SLOT(receiveValue(QString)));
 }
 
 void MainWindow::returnPressed()
@@ -162,10 +162,10 @@ void MainWindow::on_btnAbout_clicked()
 
 void MainWindow::on_btnOpen_clicked()
 {
-    QEXTInput::Instance()->show();
+    QExtInput::Instance()->show();
 }
 
 void MainWindow::on_btnClose_clicked()
 {
-    QEXTInput::Instance()->hide();
+    QExtInput::Instance()->hide();
 }

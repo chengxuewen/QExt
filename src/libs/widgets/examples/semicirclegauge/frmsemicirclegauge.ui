@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QEXTSemicircleGauge" name="gaugeSimple"/>
+    <widget class="QExtSemicircleGauge" name="gaugeSimple"/>
    </item>
    <item>
     <widget class="QSlider" name="horizontalSlider">
@@ -31,7 +31,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTSemicircleGauge</class>
+   <class>QExtSemicircleGauge</class>
    <extends>QWidget</extends>
    <header>qextSemicircleGauge.h</header>
    <slots>

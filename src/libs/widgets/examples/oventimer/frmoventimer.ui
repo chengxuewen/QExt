@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QEXTOvenTimer" name="ovenTimer" native="true"/>
+    <widget class="QExtOvenTimer" name="ovenTimer" native="true"/>
    </item>
    <item>
     <widget class="QSlider" name="horizontalSlider">
@@ -34,7 +34,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTOvenTimer</class>
+   <class>QExtOvenTimer</class>
    <extends>QWidget</extends>
    <header>qextOvenTimer.h</header>
    <container>1</container>

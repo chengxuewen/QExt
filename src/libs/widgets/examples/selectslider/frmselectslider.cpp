@@ -22,7 +22,7 @@ void frmSelectSlider::initForm()
 
     sliders << ui->sliderSelect1 << ui->sliderSelect2 << ui->sliderSelect3;
 
-    foreach (QEXTSelectSlider *slider, sliders) {
+    foreach (QExtSelectSlider *slider, sliders) {
         connect(ui->sliderLeftValue, SIGNAL(valueChanged(int)), slider, SLOT(setLeftValue(int)));
         connect(ui->sliderRightValue, SIGNAL(valueChanged(int)), slider, SLOT(setRightValue(int)));
         connect(ui->sliderRangeValue, SIGNAL(valueChanged(int)), slider, SLOT(setRangeValue(int)));

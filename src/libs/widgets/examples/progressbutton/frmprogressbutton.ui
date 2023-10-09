@@ -24,16 +24,16 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QEXTProgressButton" name="progressButton1" native="true"/>
+     <widget class="QExtProgressButton" name="progressButton1" native="true"/>
     </item>
     <item>
-     <widget class="QEXTProgressButton" name="progressButton2" native="true"/>
+     <widget class="QExtProgressButton" name="progressButton2" native="true"/>
     </item>
     <item>
-     <widget class="QEXTProgressButton" name="progressButton3" native="true"/>
+     <widget class="QExtProgressButton" name="progressButton3" native="true"/>
     </item>
     <item>
-     <widget class="QEXTProgressButton" name="progressButton4" native="true"/>
+     <widget class="QExtProgressButton" name="progressButton4" native="true"/>
     </item>
    </layout>
   </widget>
@@ -48,17 +48,17 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
-     <widget class="QEXTProgressButton" name="progressButton5" native="true"/>
+     <widget class="QExtProgressButton" name="progressButton5" native="true"/>
     </item>
     <item>
-     <widget class="QEXTProgressButton" name="progressButton6" native="true"/>
+     <widget class="QExtProgressButton" name="progressButton6" native="true"/>
     </item>
    </layout>
   </widget>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTProgressButton</class>
+   <class>QExtProgressButton</class>
    <extends>QWidget</extends>
    <header>qextProgressButton.h</header>
    <container>1</container>

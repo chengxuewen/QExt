@@ -41,14 +41,14 @@ void FrmNavigationBar::initForm()
     ui->navBar4->setBarEndColor(QColor(26, 188, 156));
 
     ui->navBar3->setLineWidth(3);
-    ui->navBar3->setBarStyle(QEXTNavigationBar::BarStyle_Line_Top);
+    ui->navBar3->setBarStyle(QExtNavigationBar::BarStyle_Line_Top);
 
     ui->navBar4->setLineWidth(3);
-    ui->navBar4->setBarStyle(QEXTNavigationBar::BarStyle_Line_Top);
+    ui->navBar4->setBarStyle(QExtNavigationBar::BarStyle_Line_Top);
 
     ui->navBar5->setLineWidth(4);
     ui->navBar5->setLineColor(QColor(24, 189, 155));
-    ui->navBar5->setBarStyle(QEXTNavigationBar::BarStyle_Line_Bottom);
+    ui->navBar5->setBarStyle(QExtNavigationBar::BarStyle_Line_Bottom);
 
     ui->navBar6->setLineWidth(4);
     ui->navBar6->setLineColor(QColor(24, 189, 155));
@@ -58,7 +58,7 @@ void FrmNavigationBar::initForm()
     ui->navBar6->setBarEndColor(Qt::transparent);
     ui->navBar6->setTextNormalColor(QColor(50, 50, 50));
     ui->navBar6->setTextSelectColor(QColor(255, 107, 107));
-    ui->navBar6->setBarStyle(QEXTNavigationBar::BarStyle_Line_Bottom);
+    ui->navBar6->setBarStyle(QExtNavigationBar::BarStyle_Line_Bottom);
 
     ui->navBar1->setItems(item);
     ui->navBar2->setItems(item);
@@ -71,7 +71,7 @@ void FrmNavigationBar::initForm()
     ui->navBarLeft->setSpace(15);
     ui->navBarLeft->setKeyMoveEnable(true);
     ui->navBarLeft->setHorizontal(false);
-    ui->navBarLeft->setBarStyle(QEXTNavigationBar::BarStyle_Line_Left);
+    ui->navBarLeft->setBarStyle(QExtNavigationBar::BarStyle_Line_Left);
 
     ui->navBarLeft->setBackgroundStartColor(QColor(13, 138, 166));
     ui->navBarLeft->setBackgroundEndColor(QColor(13, 138, 166));

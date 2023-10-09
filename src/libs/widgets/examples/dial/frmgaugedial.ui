@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QEXTDial" name="gaugeDial" native="true">
+    <widget class="QExtDial" name="gaugeDial" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -79,7 +79,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTDial</class>
+   <class>QExtDial</class>
    <extends>QWidget</extends>
    <header>qextDial.h</header>
   </customwidget>

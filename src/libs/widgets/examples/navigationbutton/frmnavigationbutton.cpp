@@ -32,7 +32,7 @@ void FrmNavigationButton::initForm()
     btns1 << ui->navButton11 << ui->navButton12 << ui->navButton13 << ui->navButton14;
     for (int i = 0; i < btns1.count(); i++)
     {
-        QEXTNavigationButton *btn = btns1.at(i);
+        QExtNavigationButton *btn = btns1.at(i);
         btn->setLeftPadding(32);
         btn->setLineSpace(6);
 
@@ -62,7 +62,7 @@ void FrmNavigationButton::initForm()
     btns2 << ui->navButton21 << ui->navButton22 << ui->navButton23 << ui->navButton24;
     for (int i = 0; i < btns2.count(); i++)
     {
-        QEXTNavigationButton *btn = btns2.at(i);
+        QExtNavigationButton *btn = btns2.at(i);
         btn->setLeftPadding(35);
         btn->setLineSpace(0);
         btn->setLineWidth(8);
@@ -103,14 +103,14 @@ void FrmNavigationButton::initForm()
     btns3 << ui->navButton31 << ui->navButton32 << ui->navButton33 << ui->navButton34;
     for (int i = 0; i < btns3.count(); i++)
     {
-        QEXTNavigationButton *btn = btns3.at(i);
+        QExtNavigationButton *btn = btns3.at(i);
         btn->setLeftPadding(35);
         btn->setLineWidth(10);
         btn->setLineColor(QColor("#029FEA"));
         btn->setTriangleVisible(true);
-        btn->setTextAlign(QEXTNavigationButton::TextAlign_Left);
-        btn->setTrianglePosition(QEXTNavigationButton::Position_Left);
-        btn->setLinePosition(QEXTNavigationButton::Position_Right);
+        btn->setTextAlign(QExtNavigationButton::TextAlign_Left);
+        btn->setTrianglePosition(QExtNavigationButton::Position_Left);
+        btn->setLinePosition(QExtNavigationButton::Position_Right);
 
         btn->setIconVisible(true);
         btn->setIconSpace(10);
@@ -148,14 +148,14 @@ void FrmNavigationButton::initForm()
     btns4 << ui->navButton41 << ui->navButton42 << ui->navButton43 << ui->navButton44;
     for (int i = 0; i < btns4.count(); i++)
     {
-        QEXTNavigationButton *btn = btns4.at(i);
+        QExtNavigationButton *btn = btns4.at(i);
         btn->setLineSpace(10);
         btn->setLineWidth(10);
         btn->setRightPadding(25);
         btn->setTriangleVisible(true);
-        btn->setTextAlign(QEXTNavigationButton::TextAlign_Right);
-        btn->setTrianglePosition(QEXTNavigationButton::Position_Left);
-        btn->setLinePosition(QEXTNavigationButton::Position_Right);
+        btn->setTextAlign(QExtNavigationButton::TextAlign_Right);
+        btn->setTrianglePosition(QExtNavigationButton::Position_Left);
+        btn->setLinePosition(QExtNavigationButton::Position_Right);
 
         btn->setIconVisible(true);
         btn->setIconSpace(25);
@@ -185,12 +185,12 @@ void FrmNavigationButton::initForm()
     btns5 << ui->navButton51 << ui->navButton52 << ui->navButton53 << ui->navButton54 << ui->navButton55;
     for (int i = 0; i < btns5.count(); i++)
     {
-        QEXTNavigationButton *btn = btns5.at(i);
+        QExtNavigationButton *btn = btns5.at(i);
         btn->setFont(font);
         btn->setLeftPadding(20);
         btn->setLineVisible(false);
-        btn->setTextAlign(QEXTNavigationButton::TextAlign_Center);
-        btn->setLinePosition(QEXTNavigationButton::Position_Bottom);
+        btn->setTextAlign(QExtNavigationButton::TextAlign_Center);
+        btn->setLinePosition(QExtNavigationButton::Position_Bottom);
 
         btn->setIconVisible(true);
         btn->setIconSpace(15);
@@ -226,12 +226,12 @@ void FrmNavigationButton::initForm()
     btns6 << ui->navButton61 << ui->navButton62 << ui->navButton63 << ui->navButton64 << ui->navButton65;
     for (int i = 0; i < btns6.count(); i++)
     {
-        QEXTNavigationButton *btn = btns6.at(i);
+        QExtNavigationButton *btn = btns6.at(i);
         btn->setFont(font);
         btn->setLeftPadding(20);
         btn->setLineVisible(false);
-        btn->setTextAlign(QEXTNavigationButton::TextAlign_Center);
-        btn->setLinePosition(QEXTNavigationButton::Position_Bottom);
+        btn->setTextAlign(QExtNavigationButton::TextAlign_Center);
+        btn->setLinePosition(QExtNavigationButton::Position_Bottom);
 
         btn->setIconVisible(true);
         btn->setIconSpace(15);
@@ -271,14 +271,14 @@ void FrmNavigationButton::initForm()
     btns7 << ui->navButton71 << ui->navButton72 << ui->navButton73 << ui->navButton74 << ui->navButton75 << ui->navButton76;
     for (int i = 0; i < btns7.count(); i++)
     {
-        QEXTNavigationButton *btn = btns7.at(i);
+        QExtNavigationButton *btn = btns7.at(i);
         btn->setFont(font);
         btn->setLeftPadding(0);
         btn->setLineSpace(0);
         btn->setTriangleVisible(true);
-        btn->setTextAlign(QEXTNavigationButton::TextAlign_Center);
-        btn->setTrianglePosition(QEXTNavigationButton::Position_Bottom);
-        btn->setLinePosition(QEXTNavigationButton::Position_Top);
+        btn->setTextAlign(QExtNavigationButton::TextAlign_Center);
+        btn->setTrianglePosition(QExtNavigationButton::Position_Bottom);
+        btn->setLinePosition(QExtNavigationButton::Position_Top);
 
         btn->setNormalTextColor(normalTextColor);
         btn->setHoverTextColor(hoverTextColor);
@@ -305,77 +305,77 @@ void FrmNavigationButton::initForm()
 
 void FrmNavigationButton::buttonClick1()
 {
-    QEXTNavigationButton *b = (QEXTNavigationButton *)sender();
+    QExtNavigationButton *b = (QExtNavigationButton *)sender();
     qDebug() << "当前按下" << b->text();
     for (int i = 0; i < btns1.count(); i++)
     {
-        QEXTNavigationButton *btn = btns1.at(i);
+        QExtNavigationButton *btn = btns1.at(i);
         btn->setChecked(b == btn);
     }
 }
 
 void FrmNavigationButton::buttonClick2()
 {
-    QEXTNavigationButton *b = (QEXTNavigationButton *)sender();
+    QExtNavigationButton *b = (QExtNavigationButton *)sender();
     qDebug() << "当前按下" << b->text();
     for (int i = 0; i < btns2.count(); i++)
     {
-        QEXTNavigationButton *btn = btns2.at(i);
+        QExtNavigationButton *btn = btns2.at(i);
         btn->setChecked(b == btn);
     }
 }
 
 void FrmNavigationButton::buttonClick3()
 {
-    QEXTNavigationButton *b = (QEXTNavigationButton *)sender();
+    QExtNavigationButton *b = (QExtNavigationButton *)sender();
     qDebug() << "当前按下" << b->text();
     for (int i = 0; i < btns3.count(); i++)
     {
-        QEXTNavigationButton *btn = btns3.at(i);
+        QExtNavigationButton *btn = btns3.at(i);
         btn->setChecked(b == btn);
     }
 }
 
 void FrmNavigationButton::buttonClick4()
 {
-    QEXTNavigationButton *b = (QEXTNavigationButton *)sender();
+    QExtNavigationButton *b = (QExtNavigationButton *)sender();
     qDebug() << "当前按下" << b->text();
     for (int i = 0; i < btns4.count(); i++)
     {
-        QEXTNavigationButton *btn = btns4.at(i);
+        QExtNavigationButton *btn = btns4.at(i);
         btn->setChecked(b == btn);
     }
 }
 
 void FrmNavigationButton::buttonClick5()
 {
-    QEXTNavigationButton *b = (QEXTNavigationButton *)sender();
+    QExtNavigationButton *b = (QExtNavigationButton *)sender();
     qDebug() << "当前按下" << b->text();
     for (int i = 0; i < btns5.count(); i++)
     {
-        QEXTNavigationButton *btn = btns5.at(i);
+        QExtNavigationButton *btn = btns5.at(i);
         btn->setChecked(b == btn);
     }
 }
 
 void FrmNavigationButton::buttonClick6()
 {
-    QEXTNavigationButton *b = (QEXTNavigationButton *)sender();
+    QExtNavigationButton *b = (QExtNavigationButton *)sender();
     qDebug() << "当前按下" << b->text();
     for (int i = 0; i < btns6.count(); i++)
     {
-        QEXTNavigationButton *btn = btns6.at(i);
+        QExtNavigationButton *btn = btns6.at(i);
         btn->setChecked(b == btn);
     }
 }
 
 void FrmNavigationButton::buttonClick7()
 {
-    QEXTNavigationButton *b = (QEXTNavigationButton *)sender();
+    QExtNavigationButton *b = (QExtNavigationButton *)sender();
     qDebug() << "当前按下" << b->text();
     for (int i = 0; i < btns7.count(); i++)
     {
-        QEXTNavigationButton *btn = btns7.at(i);
+        QExtNavigationButton *btn = btns7.at(i);
         btn->setChecked(b == btn);
     }
 }

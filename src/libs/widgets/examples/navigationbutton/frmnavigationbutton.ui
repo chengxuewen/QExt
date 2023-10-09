@@ -60,7 +60,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton71">
+       <widget class="QExtNavigationButton" name="navButton71">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -73,7 +73,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton72">
+       <widget class="QExtNavigationButton" name="navButton72">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -86,7 +86,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton73">
+       <widget class="QExtNavigationButton" name="navButton73">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -99,7 +99,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton74">
+       <widget class="QExtNavigationButton" name="navButton74">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -112,7 +112,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton75">
+       <widget class="QExtNavigationButton" name="navButton75">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -125,7 +125,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton76">
+       <widget class="QExtNavigationButton" name="navButton76">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -156,28 +156,28 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton11">
+       <widget class="QExtNavigationButton" name="navButton11">
         <property name="text">
          <string>学生管理</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton12">
+       <widget class="QExtNavigationButton" name="navButton12">
         <property name="text">
          <string>教师管理</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton13">
+       <widget class="QExtNavigationButton" name="navButton13">
         <property name="text">
          <string>成绩管理</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton14">
+       <widget class="QExtNavigationButton" name="navButton14">
         <property name="text">
          <string>记录查询</string>
         </property>
@@ -202,28 +202,28 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton21">
+       <widget class="QExtNavigationButton" name="navButton21">
         <property name="text">
          <string>访客登记</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton22">
+       <widget class="QExtNavigationButton" name="navButton22">
         <property name="text">
          <string>记录查询</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton23">
+       <widget class="QExtNavigationButton" name="navButton23">
         <property name="text">
          <string>系统设置</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton24">
+       <widget class="QExtNavigationButton" name="navButton24">
         <property name="text">
          <string>系统重启</string>
         </property>
@@ -263,7 +263,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton51">
+       <widget class="QExtNavigationButton" name="navButton51">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -276,7 +276,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton52">
+       <widget class="QExtNavigationButton" name="navButton52">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -289,7 +289,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton53">
+       <widget class="QExtNavigationButton" name="navButton53">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -302,7 +302,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton54">
+       <widget class="QExtNavigationButton" name="navButton54">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -315,7 +315,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton55">
+       <widget class="QExtNavigationButton" name="navButton55">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -361,7 +361,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton61">
+       <widget class="QExtNavigationButton" name="navButton61">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -374,7 +374,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton62">
+       <widget class="QExtNavigationButton" name="navButton62">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -387,7 +387,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton63">
+       <widget class="QExtNavigationButton" name="navButton63">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -400,7 +400,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton64">
+       <widget class="QExtNavigationButton" name="navButton64">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -413,7 +413,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton65">
+       <widget class="QExtNavigationButton" name="navButton65">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -447,28 +447,28 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton31">
+       <widget class="QExtNavigationButton" name="navButton31">
         <property name="text">
          <string>学生管理</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton32">
+       <widget class="QExtNavigationButton" name="navButton32">
         <property name="text">
          <string>教师管理</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton33">
+       <widget class="QExtNavigationButton" name="navButton33">
         <property name="text">
          <string>成绩管理</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton34">
+       <widget class="QExtNavigationButton" name="navButton34">
         <property name="text">
          <string>记录查询</string>
         </property>
@@ -493,28 +493,28 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton41">
+       <widget class="QExtNavigationButton" name="navButton41">
         <property name="text">
          <string>学生管理</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton42">
+       <widget class="QExtNavigationButton" name="navButton42">
         <property name="text">
          <string>教师管理</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton43">
+       <widget class="QExtNavigationButton" name="navButton43">
         <property name="text">
          <string>成绩管理</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QEXTNavigationButton" name="navButton44">
+       <widget class="QExtNavigationButton" name="navButton44">
         <property name="text">
          <string>记录查询</string>
         </property>
@@ -540,7 +540,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTNavigationButton</class>
+   <class>QExtNavigationButton</class>
    <extends>QPushButton</extends>
    <header location="global">qextNavigationButton.h</header>
   </customwidget>

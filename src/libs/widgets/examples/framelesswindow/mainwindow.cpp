@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QEXTFramelessMainWindow(parent), ui(new Ui::MainWindow)
+    : QExtFramelessMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->initForm();

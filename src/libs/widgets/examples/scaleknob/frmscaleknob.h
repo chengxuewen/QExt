@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-class QEXTScaleKnob;
+class QExtScaleKnob;
 class QLabel;
 
 namespace Ui {
@@ -20,7 +20,7 @@ public:
 
 private:
     Ui::FrmScaleKnob *ui;
-    QList<QEXTScaleKnob *> gauges;
+    QList<QExtScaleKnob *> gauges;
     QList<QLabel *> labs;
 
 private slots:

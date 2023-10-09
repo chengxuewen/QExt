@@ -60,7 +60,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QEXTNavigationBar" name="navBar" native="true">
+       <widget class="QExtNavigationBar" name="navBar" native="true">
         <property name="lineWidth" stdset="0">
          <number>5</number>
         </property>
@@ -171,7 +171,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTNavigationBar</class>
+   <class>QExtNavigationBar</class>
    <extends>QWidget</extends>
    <header>qextNavigationBar.h</header>
    <container>1</container>

@@ -18,8 +18,8 @@ void frmRangeSlider::initForm()
 {
     ui->sliderRange3->setTextVisible(true);
     ui->sliderRange4->setTextVisible(true);
-    ui->sliderRange3->setSliderStyle(QEXTRangeSlider::SliderStyle_Circle);
-    ui->sliderRange4->setSliderStyle(QEXTRangeSlider::SliderStyle_Circle);
+    ui->sliderRange3->setSliderStyle(QExtRangeSlider::SliderStyle_Circle);
+    ui->sliderRange4->setSliderStyle(QExtRangeSlider::SliderStyle_Circle);
 
     ui->sliderRange2->setUsedColor(QColor(255, 107, 107));
     ui->sliderRange4->setUsedColor(QColor(255, 107, 107));

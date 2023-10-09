@@ -1,9 +1,35 @@
-﻿#include <private/qextProgressBar_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextProgressBar_p.h>
+
 #include <QPainter>
 #include <QTimer>
 #include <QDebug>
 
-QEXTProgressBarPrivate::QEXTProgressBarPrivate(QEXTProgressBar *q)
+QExtProgressBarPrivate::QExtProgressBarPrivate(QExtProgressBar *q)
     : q_ptr(q)
 {
     m_minValue = 0;
@@ -25,26 +51,26 @@ QEXTProgressBarPrivate::QEXTProgressBarPrivate(QEXTProgressBar *q)
     m_barColor = QColor(100, 184, 255);
 }
 
-QEXTProgressBarPrivate::~QEXTProgressBarPrivate()
+QExtProgressBarPrivate::~QExtProgressBarPrivate()
 {
 
 }
 
 
 
-QEXTProgressBar::QEXTProgressBar(QWidget *parent)
+QExtProgressBar::QExtProgressBar(QWidget *parent)
     : QWidget(parent)
-    , dd_ptr(new QEXTProgressBarPrivate(this))
+    , dd_ptr(new QExtProgressBarPrivate(this))
 {    
     this->setFont(QFont("Arial", 8));
 }
 
-QEXTProgressBar::~QEXTProgressBar()
+QExtProgressBar::~QExtProgressBar()
 {
 
 }
 
-void QEXTProgressBar::paintEvent(QPaintEvent *)
+void QExtProgressBar::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -52,9 +78,9 @@ void QEXTProgressBar::paintEvent(QPaintEvent *)
     this->drawBar(&painter);
 }
 
-void QEXTProgressBar::drawBackground(QPainter *painter)
+void QExtProgressBar::drawBackground(QPainter *painter)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     painter->save();
     painter->setPen(Qt::NoPen);
     QLinearGradient bgGradient(QPointF(0, 0), QPointF(0, height()));
@@ -65,9 +91,9 @@ void QEXTProgressBar::drawBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTProgressBar::drawBar(QPainter *painter)
+void QExtProgressBar::drawBar(QPainter *painter)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     painter->save();
 
     QFont font;
@@ -118,97 +144,97 @@ void QEXTProgressBar::drawBar(QPainter *painter)
     painter->restore();
 }
 
-double QEXTProgressBar::minValue() const
+double QExtProgressBar::minValue() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_minValue;
 }
 
-double QEXTProgressBar::maxValue() const
+double QExtProgressBar::maxValue() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_maxValue;
 }
 
-double QEXTProgressBar::value() const
+double QExtProgressBar::value() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_value;
 }
 
-int QEXTProgressBar::precision() const
+int QExtProgressBar::precision() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_precision;
 }
 
-int QEXTProgressBar::step() const
+int QExtProgressBar::step() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_step;
 }
 
-int QEXTProgressBar::space() const
+int QExtProgressBar::space() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_space;
 }
 
-int QEXTProgressBar::radius() const
+int QExtProgressBar::radius() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_radius;
 }
 
-QColor QEXTProgressBar::backgroundStartColor() const
+QColor QExtProgressBar::backgroundStartColor() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_backgroundStartColor;
 }
 
-QColor QEXTProgressBar::backgroundEndColor() const
+QColor QExtProgressBar::backgroundEndColor() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_backgroundEndColor;
 }
 
-QColor QEXTProgressBar::lineColor() const
+QColor QExtProgressBar::lineColor() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_lineColor;
 }
 
-QColor QEXTProgressBar::textColor() const
+QColor QExtProgressBar::textColor() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_textColor;
 }
 
-QColor QEXTProgressBar::barBackgroundColor() const
+QColor QExtProgressBar::barBackgroundColor() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_barBackgroundColor;
 }
 
-QColor QEXTProgressBar::barColor() const
+QColor QExtProgressBar::barColor() const
 {
-    Q_D(const QEXTProgressBar);
+    Q_D(const QExtProgressBar);
     return d->m_barColor;
 }
 
-QSize QEXTProgressBar::sizeHint() const
+QSize QExtProgressBar::sizeHint() const
 {
     return QSize(300, 30);
 }
 
-QSize QEXTProgressBar::minimumSizeHint() const
+QSize QExtProgressBar::minimumSizeHint() const
 {
     return QSize(50, 20);
 }
 
-void QEXTProgressBar::setRange(double minValue, double maxValue)
+void QExtProgressBar::setRange(double minValue, double maxValue)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (minValue >= maxValue) {
         return;
     }
@@ -223,26 +249,26 @@ void QEXTProgressBar::setRange(double minValue, double maxValue)
     this->update();
 }
 
-void QEXTProgressBar::setRange(int minValue, int maxValue)
+void QExtProgressBar::setRange(int minValue, int maxValue)
 {
     this->setRange((double)minValue, (double)maxValue);
 }
 
-void QEXTProgressBar::setMinValue(double minValue)
+void QExtProgressBar::setMinValue(double minValue)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     this->setRange(minValue, d->m_maxValue);
 }
 
-void QEXTProgressBar::setMaxValue(double maxValue)
+void QExtProgressBar::setMaxValue(double maxValue)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     this->setRange(d->m_minValue, maxValue);
 }
 
-void QEXTProgressBar::setValue(double value)
+void QExtProgressBar::setValue(double value)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (value == d->m_value) {
         return;
     }
@@ -258,95 +284,95 @@ void QEXTProgressBar::setValue(double value)
     this->update();
 }
 
-void QEXTProgressBar::setValue(int value)
+void QExtProgressBar::setValue(int value)
 {
     this->setValue((double)value);
 }
 
-void QEXTProgressBar::setPrecision(int precision)
+void QExtProgressBar::setPrecision(int precision)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (precision <= 3 && d->m_precision != precision) {
         d->m_precision = precision;
         this->update();
     }
 }
 
-void QEXTProgressBar::setStep(int step)
+void QExtProgressBar::setStep(int step)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (d->m_step != step) {
         d->m_step = step;
         this->update();
     }
 }
 
-void QEXTProgressBar::setSpace(int space)
+void QExtProgressBar::setSpace(int space)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (d->m_space != space) {
         d->m_space = space;
         this->update();
     }
 }
 
-void QEXTProgressBar::setRadius(int radius)
+void QExtProgressBar::setRadius(int radius)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (d->m_radius != radius) {
         d->m_radius = radius;
         this->update();
     }
 }
 
-void QEXTProgressBar::setBgColorStart(const QColor &color)
+void QExtProgressBar::setBgColorStart(const QColor &color)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (d->m_backgroundStartColor != color) {
         d->m_backgroundStartColor = color;
         this->update();
     }
 }
 
-void QEXTProgressBar::setBgColorEnd(const QColor &color)
+void QExtProgressBar::setBgColorEnd(const QColor &color)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (d->m_backgroundEndColor != color) {
         d->m_backgroundEndColor = color;
         this->update();
     }
 }
 
-void QEXTProgressBar::setLineColor(const QColor &color)
+void QExtProgressBar::setLineColor(const QColor &color)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (d->m_lineColor != color) {
         d->m_lineColor = color;
         this->update();
     }
 }
 
-void QEXTProgressBar::setTextColor(const QColor &color)
+void QExtProgressBar::setTextColor(const QColor &color)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (d->m_textColor != color) {
         d->m_textColor = color;
         this->update();
     }
 }
 
-void QEXTProgressBar::setBarBgColor(const QColor &color)
+void QExtProgressBar::setBarBgColor(const QColor &color)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (d->m_barBackgroundColor != color) {
         d->m_barBackgroundColor = color;
         this->update();
     }
 }
 
-void QEXTProgressBar::setBarColor(const QColor &color)
+void QExtProgressBar::setBarColor(const QColor &color)
 {
-    Q_D(QEXTProgressBar);
+    Q_D(QExtProgressBar);
     if (d->m_barColor != color) {
         d->m_barColor = color;
         this->update();

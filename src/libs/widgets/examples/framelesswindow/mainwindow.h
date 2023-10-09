@@ -7,7 +7,7 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QEXTFramelessMainWindow
+class MainWindow : public QExtFramelessMainWindow
 {
     Q_OBJECT
 

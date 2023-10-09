@@ -30,12 +30,12 @@ void FrmSlider::initForm()
     ui->verticalSlider1->setBackgroundColor("#1ABC9C");
     ui->verticalSlider2->setBackgroundColor("#1ABC9C");
 
-    ui->horizontalSlider1->setArrowStyle(QEXTSlider::ArrowStyle_Bottom);
-    ui->horizontalSlider2->setArrowStyle(QEXTSlider::ArrowStyle_Top);
-    ui->horizontalSlider3->setArrowStyle(QEXTSlider::ArrowStyle_Bottom);
-    ui->horizontalSlider4->setArrowStyle(QEXTSlider::ArrowStyle_Top);
-    ui->verticalSlider1->setArrowStyle(QEXTSlider::ArrowStyle_Right);
-    ui->verticalSlider2->setArrowStyle(QEXTSlider::ArrowStyle_Left);
+    ui->horizontalSlider1->setArrowStyle(QExtSlider::ArrowStyle_Bottom);
+    ui->horizontalSlider2->setArrowStyle(QExtSlider::ArrowStyle_Top);
+    ui->horizontalSlider3->setArrowStyle(QExtSlider::ArrowStyle_Bottom);
+    ui->horizontalSlider4->setArrowStyle(QExtSlider::ArrowStyle_Top);
+    ui->verticalSlider1->setArrowStyle(QExtSlider::ArrowStyle_Right);
+    ui->verticalSlider2->setArrowStyle(QExtSlider::ArrowStyle_Left);
 
     QFont font;
     font.setPixelSize(20);

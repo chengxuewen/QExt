@@ -15,7 +15,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QEXTThermometer" name="thermometer1" native="true">
+    <widget class="QExtThermometer" name="thermometer1" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>2</horstretch>
@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QEXTThermometer" name="thermometer2" native="true">
+    <widget class="QExtThermometer" name="thermometer2" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>3</horstretch>
@@ -35,7 +35,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QEXTThermometer" name="thermometer3" native="true">
+    <widget class="QExtThermometer" name="thermometer3" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>3</horstretch>
@@ -45,7 +45,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QEXTThermometer" name="thermometer4" native="true">
+    <widget class="QExtThermometer" name="thermometer4" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>3</horstretch>
@@ -55,7 +55,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QEXTThermometer" name="thermometer5" native="true">
+    <widget class="QExtThermometer" name="thermometer5" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>2</horstretch>
@@ -68,7 +68,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTThermometer</class>
+   <class>QExtThermometer</class>
    <extends>QWidget</extends>
    <header>qextThermometer.h</header>
    <container>1</container>

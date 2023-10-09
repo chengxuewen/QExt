@@ -19,12 +19,12 @@ frmThermometer::~frmThermometer()
 
 void frmThermometer::initForm()
 {
-    ui->thermometer1->setTickPosition(QEXTThermometer::TickPosition_Left);
-    ui->thermometer1->setBarPosition(QEXTThermometer::BarPosition_Right);
-    ui->thermometer2->setTickPosition(QEXTThermometer::TickPosition_Left);
-    ui->thermometer4->setTickPosition(QEXTThermometer::TickPosition_Right);
-    ui->thermometer5->setTickPosition(QEXTThermometer::TickPosition_Right);
-    ui->thermometer5->setBarPosition(QEXTThermometer::BarPosition_Left);
+    ui->thermometer1->setTickPosition(QExtThermometer::TickPosition_Left);
+    ui->thermometer1->setBarPosition(QExtThermometer::BarPosition_Right);
+    ui->thermometer2->setTickPosition(QExtThermometer::TickPosition_Left);
+    ui->thermometer4->setTickPosition(QExtThermometer::TickPosition_Right);
+    ui->thermometer5->setTickPosition(QExtThermometer::TickPosition_Right);
+    ui->thermometer5->setBarPosition(QExtThermometer::BarPosition_Left);
 
     ui->thermometer3->setAnimationEnable(true);
 

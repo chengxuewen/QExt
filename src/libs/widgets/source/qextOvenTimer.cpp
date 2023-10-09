@@ -1,4 +1,28 @@
-﻿#include <private/qextOvenTimer_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextOvenTimer_p.h>
 
 #include <QPainter>
 #include <QEvent>
@@ -15,13 +39,13 @@ const int MaxMinutes = 45;
 const int MaxSeconds = MaxMinutes * 60;
 const int UpdateInterval = 1;
 
-QEXTOvenTimerPrivate::QEXTOvenTimerPrivate(QEXTOvenTimer *q)
+QExtOvenTimerPrivate::QExtOvenTimerPrivate(QExtOvenTimer *q)
     : q_ptr(q)
 {
 
 }
 
-QEXTOvenTimerPrivate::~QEXTOvenTimerPrivate()
+QExtOvenTimerPrivate::~QExtOvenTimerPrivate()
 {
     if (m_updateTimer->isActive()) {
         m_updateTimer->stop();
@@ -34,11 +58,11 @@ QEXTOvenTimerPrivate::~QEXTOvenTimerPrivate()
 
 
 
-QEXTOvenTimer::QEXTOvenTimer(QWidget *parent)
+QExtOvenTimer::QExtOvenTimer(QWidget *parent)
     : QWidget(parent)
-    , dd_ptr(new QEXTOvenTimerPrivate(this))
+    , dd_ptr(new QExtOvenTimerPrivate(this))
 {
-    Q_D(QEXTOvenTimer);
+    Q_D(QExtOvenTimer);
     d->m_finishTime = QDateTime::currentDateTime();
 
     d->m_updateTimer = new QTimer(this);
@@ -52,19 +76,19 @@ QEXTOvenTimer::QEXTOvenTimer(QWidget *parent)
     setFont(QFont("Arial", 8));
 }
 
-QEXTOvenTimer::~QEXTOvenTimer()
+QExtOvenTimer::~QExtOvenTimer()
 {
 
 }
 
-void QEXTOvenTimer::mousePressEvent(QMouseEvent *event)
+void QExtOvenTimer::mousePressEvent(QMouseEvent *event)
 {
     QPointF point = event->pos() - rect().center();
     double theta = qAtan2(-point.x(), point.y()) * 180.0 / M_PI;
     this->setDuration(duration() + int(theta / DegreesPerSecond));
 }
 
-void QEXTOvenTimer::paintEvent(QPaintEvent *)
+void QExtOvenTimer::paintEvent(QPaintEvent *)
 {
     int width = this->width();
     int height = this->height();
@@ -78,7 +102,7 @@ void QEXTOvenTimer::paintEvent(QPaintEvent *)
     this->draw(&painter);
 }
 
-void QEXTOvenTimer::draw(QPainter *painter)
+void QExtOvenTimer::draw(QPainter *painter)
 {
     static const int triangle[3][2] = {
         {-2, -49}, {+2, -49}, {0, -47}
@@ -137,9 +161,9 @@ void QEXTOvenTimer::draw(QPainter *painter)
     }
 }
 
-int QEXTOvenTimer::duration() const
+int QExtOvenTimer::duration() const
 {
-    Q_D(const QEXTOvenTimer);
+    Q_D(const QExtOvenTimer);
     int secs = QDateTime::currentDateTime().secsTo(d->m_finishTime);
     if (secs < 0) {
         secs = 0;
@@ -147,19 +171,19 @@ int QEXTOvenTimer::duration() const
     return secs;
 }
 
-QSize QEXTOvenTimer::sizeHint() const
+QSize QExtOvenTimer::sizeHint() const
 {
     return QSize(200, 200);
 }
 
-QSize QEXTOvenTimer::minimumSizeHint() const
+QSize QExtOvenTimer::minimumSizeHint() const
 {
     return QSize(50, 50);
 }
 
-void QEXTOvenTimer::setDuration(int secs)
+void QExtOvenTimer::setDuration(int secs)
 {
-    Q_D(QEXTOvenTimer);
+    Q_D(QExtOvenTimer);
     secs = qBound(0, secs, MaxSeconds);
 
     d->m_finishTime = QDateTime::currentDateTime().addSecs(secs);

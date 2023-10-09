@@ -1,3 +1,28 @@
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
 #ifndef _QEXTINPUT_H
 #define _QEXTINPUT_H
 
@@ -9,11 +34,11 @@
 
 namespace Ui
 {
-    class QEXTInput;
+    class QExtInput;
 }
 
-class QEXTInputPrivate;
-class QEXT_WIDGETS_API QEXTInput : public QWidget
+class QExtInputPrivate;
+class QEXT_WIDGETS_API QExtInput : public QWidget
 {
     Q_OBJECT
 
@@ -43,8 +68,8 @@ public:
     };
 
 public:
-    static QEXTInput *Instance();
-    ~QEXTInput();
+    static QExtInput *Instance();
+    ~QExtInput();
 
 public Q_SLOTS:
     //Sets the font name and size, including the font size of the button and the font size of the Chinese character section
@@ -91,14 +116,14 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event);
 
 private:
-    explicit QEXTInput(QWidget *parent = 0);
+    explicit QExtInput(QWidget *parent = 0);
 
 private:
-    Ui::QEXTInput *ui;
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTInput)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTInput)
-    static QEXTInput *sm_pInstance;
-    QEXTInputPrivate *dd_ptr;
+    Ui::QExtInput *ui;
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtInput)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtInput)
+    static QExtInput *sm_pInstance;
+    QExtInputPrivate *dd_ptr;
     Q_PRIVATE_SLOT(d_func(), void init())
     Q_PRIVATE_SLOT(d_func(), void buttonClicked())
     Q_PRIVATE_SLOT(d_func(), void focusChanged(QWidget *oldWidget, QWidget *nowWidget))

@@ -9,15 +9,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->qtklightbutton_1->setStyleType(QEXTIndicatorLight::Style_Green);
-    ui->qtklightbutton_2->setStyleType(QEXTIndicatorLight::Style_Red);
-    ui->qtklightbutton_3->setStyleType(QEXTIndicatorLight::Style_Yellow);
-    ui->qtklightbutton_4->setStyleType(QEXTIndicatorLight::Style_Black);
-    ui->qtklightbutton_5->setStyleType(QEXTIndicatorLight::Style_Gray);
-    ui->qtklightbutton_6->setStyleType(QEXTIndicatorLight::Style_Blue);
-    ui->qtklightbutton_7->setStyleType(QEXTIndicatorLight::Style_LightBlue);
-    ui->qtklightbutton_8->setStyleType(QEXTIndicatorLight::Style_LightRed);
-    ui->qtklightbutton_9->setStyleType(QEXTIndicatorLight::Style_LightGreen);
+    ui->qtklightbutton_1->setStyleType(QExtIndicatorLight::Style_Green);
+    ui->qtklightbutton_2->setStyleType(QExtIndicatorLight::Style_Red);
+    ui->qtklightbutton_3->setStyleType(QExtIndicatorLight::Style_Yellow);
+    ui->qtklightbutton_4->setStyleType(QExtIndicatorLight::Style_Black);
+    ui->qtklightbutton_5->setStyleType(QExtIndicatorLight::Style_Gray);
+    ui->qtklightbutton_6->setStyleType(QExtIndicatorLight::Style_Blue);
+    ui->qtklightbutton_7->setStyleType(QExtIndicatorLight::Style_LightBlue);
+    ui->qtklightbutton_8->setStyleType(QExtIndicatorLight::Style_LightRed);
+    ui->qtklightbutton_9->setStyleType(QExtIndicatorLight::Style_LightGreen);
 
     ui->qtklightbutton_1->setText("light");
     ui->qtklightbutton_2->setText("light");
@@ -29,10 +29,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->qtklightbutton_6->setText("light");
     ui->qtklightbutton_7->setText("light");
 
-    ui->qtklightbutton_1->setShapeType(QEXTIndicatorLight::Shape_Circle);
-    ui->qtklightbutton_2->setShapeType(QEXTIndicatorLight::Shape_Square);
-    ui->qtklightbutton_3->setShapeType(QEXTIndicatorLight::Shape_Triangle);
-    ui->qtklightbutton_4->setShapeType(QEXTIndicatorLight::Shape_Rounded);
+    ui->qtklightbutton_1->setShapeType(QExtIndicatorLight::Shape_Circle);
+    ui->qtklightbutton_2->setShapeType(QExtIndicatorLight::Shape_Square);
+    ui->qtklightbutton_3->setShapeType(QExtIndicatorLight::Shape_Triangle);
+    ui->qtklightbutton_4->setShapeType(QExtIndicatorLight::Shape_Rounded);
 
 }
 

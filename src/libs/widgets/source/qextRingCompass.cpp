@@ -1,4 +1,29 @@
-﻿#include <private/qextRingCompass_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextRingCompass_p.h>
 
 #include <QPainter>
 #include <QPainterPath>
@@ -6,7 +31,7 @@
 #include <QDebug>
 #include <qmath.h>
 
-QEXTRingCompassPrivate::QEXTRingCompassPrivate(QEXTRingCompass *q)
+QExtRingCompassPrivate::QExtRingCompassPrivate(QExtRingCompass *q)
     : q_ptr(q)
 {
     m_value = 0;
@@ -20,7 +45,7 @@ QEXTRingCompassPrivate::QEXTRingCompassPrivate(QEXTRingCompass *q)
     m_pointerColor = QColor(214, 77, 84);
 }
 
-QEXTRingCompassPrivate::~QEXTRingCompassPrivate()
+QExtRingCompassPrivate::~QExtRingCompassPrivate()
 {
 
 }
@@ -28,18 +53,18 @@ QEXTRingCompassPrivate::~QEXTRingCompassPrivate()
 
 
 
-QEXTRingCompass::QEXTRingCompass(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTRingCompassPrivate(this))
+QExtRingCompass::QExtRingCompass(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtRingCompassPrivate(this))
 {
     this->setFont(QFont("Microsoft Yahei", 9));
 }
 
-QEXTRingCompass::~QEXTRingCompass()
+QExtRingCompass::~QExtRingCompass()
 {
 
 }
 
-void QEXTRingCompass::paintEvent(QPaintEvent *)
+void QExtRingCompass::paintEvent(QPaintEvent *)
 {
     int width = this->width();
     int height = this->height();
@@ -58,9 +83,9 @@ void QEXTRingCompass::paintEvent(QPaintEvent *)
     this->drawValue(&painter);
 }
 
-void QEXTRingCompass::drawBackground(QPainter *painter)
+void QExtRingCompass::drawBackground(QPainter *painter)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     int radius = 85;
     painter->save();
 
@@ -74,9 +99,9 @@ void QEXTRingCompass::drawBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTRingCompass::drawFourDots(QPainter *painter)
+void QExtRingCompass::drawFourDots(QPainter *painter)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     int radius = 85;
     int offset = 5;
     painter->save();
@@ -95,9 +120,9 @@ void QEXTRingCompass::drawFourDots(QPainter *painter)
     painter->restore();
 }
 
-void QEXTRingCompass::drawFourText(QPainter *painter)
+void QExtRingCompass::drawFourText(QPainter *painter)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     int radius = 85;
     int offset = 5;
     painter->save();
@@ -137,9 +162,9 @@ void QEXTRingCompass::drawFourText(QPainter *painter)
     painter->restore();
 }
 
-void QEXTRingCompass::drawPointer(QPainter *painter)
+void QExtRingCompass::drawPointer(QPainter *painter)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     int radius = 45;
     painter->save();
 
@@ -165,9 +190,9 @@ void QEXTRingCompass::drawPointer(QPainter *painter)
     painter->restore();
 }
 
-void QEXTRingCompass::drawValue(QPainter *painter)
+void QExtRingCompass::drawValue(QPainter *painter)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     int radius = 100;
     painter->save();
 
@@ -234,67 +259,67 @@ void QEXTRingCompass::drawValue(QPainter *painter)
     painter->restore();
 }
 
-double QEXTRingCompass::value() const
+double QExtRingCompass::value() const
 {
-    Q_D(const QEXTRingCompass);
+    Q_D(const QExtRingCompass);
     return d->m_value;
 }
 
-QColor QEXTRingCompass::backgroundColor() const
+QColor QExtRingCompass::backgroundColor() const
 {
-    Q_D(const QEXTRingCompass);
+    Q_D(const QExtRingCompass);
     return d->m_backgroundColor;
 }
 
-QColor QEXTRingCompass::textColor() const
+QColor QExtRingCompass::textColor() const
 {
-    Q_D(const QEXTRingCompass);
+    Q_D(const QExtRingCompass);
     return d->m_textColor;
 }
 
-QColor QEXTRingCompass::borderColor() const
+QColor QExtRingCompass::borderColor() const
 {
-    Q_D(const QEXTRingCompass);
+    Q_D(const QExtRingCompass);
     return d->m_borderColor;
 }
 
-int QEXTRingCompass::borderWidth() const
+int QExtRingCompass::borderWidth() const
 {
-    Q_D(const QEXTRingCompass);
+    Q_D(const QExtRingCompass);
     return d->m_borderWidth;
 }
 
-QColor QEXTRingCompass::northDotColor() const
+QColor QExtRingCompass::northDotColor() const
 {
-    Q_D(const QEXTRingCompass);
+    Q_D(const QExtRingCompass);
     return d->m_northDotColor;
 }
 
-QColor QEXTRingCompass::otherDotColor() const
+QColor QExtRingCompass::otherDotColor() const
 {
-    Q_D(const QEXTRingCompass);
+    Q_D(const QExtRingCompass);
     return d->m_otherDotColor;
 }
 
-QColor QEXTRingCompass::pointerColor() const
+QColor QExtRingCompass::pointerColor() const
 {
-    Q_D(const QEXTRingCompass);
+    Q_D(const QExtRingCompass);
     return d->m_pointerColor;
 }
 
-QSize QEXTRingCompass::sizeHint() const
+QSize QExtRingCompass::sizeHint() const
 {
     return QSize(200, 200);
 }
 
-QSize QEXTRingCompass::minimumSizeHint() const
+QSize QExtRingCompass::minimumSizeHint() const
 {
     return QSize(50, 50);
 }
 
-void QEXTRingCompass::setValue(double value)
+void QExtRingCompass::setValue(double value)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     if(d->m_value != value)
     {
         d->m_value = qAbs((int)value % 360);
@@ -302,9 +327,9 @@ void QEXTRingCompass::setValue(double value)
     }
 }
 
-void QEXTRingCompass::setBackgroundColor(const QColor &color)
+void QExtRingCompass::setBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     if (d->m_backgroundColor != color)
     {
         d->m_backgroundColor = color;
@@ -312,9 +337,9 @@ void QEXTRingCompass::setBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTRingCompass::setTextColor(const QColor &color)
+void QExtRingCompass::setTextColor(const QColor &color)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     if (d->m_textColor != color)
     {
         d->m_textColor = color;
@@ -322,9 +347,9 @@ void QEXTRingCompass::setTextColor(const QColor &color)
     }
 }
 
-void QEXTRingCompass::setBorderColor(const QColor &color)
+void QExtRingCompass::setBorderColor(const QColor &color)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     if (d->m_borderColor != color)
     {
         d->m_borderColor = color;
@@ -332,9 +357,9 @@ void QEXTRingCompass::setBorderColor(const QColor &color)
     }
 }
 
-void QEXTRingCompass::setBorderWidth(int width)
+void QExtRingCompass::setBorderWidth(int width)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     if (d->m_borderWidth != width)
     {
         d->m_borderWidth = width;
@@ -342,9 +367,9 @@ void QEXTRingCompass::setBorderWidth(int width)
     }
 }
 
-void QEXTRingCompass::setNorthDotColor(const QColor &color)
+void QExtRingCompass::setNorthDotColor(const QColor &color)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     if (d->m_northDotColor != color)
     {
         d->m_northDotColor = color;
@@ -352,9 +377,9 @@ void QEXTRingCompass::setNorthDotColor(const QColor &color)
     }
 }
 
-void QEXTRingCompass::setOtherDotColor(const QColor &color)
+void QExtRingCompass::setOtherDotColor(const QColor &color)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     if (d->m_otherDotColor != color)
     {
         d->m_otherDotColor = color;
@@ -362,9 +387,9 @@ void QEXTRingCompass::setOtherDotColor(const QColor &color)
     }
 }
 
-void QEXTRingCompass::setPointerColor(const QColor &color)
+void QExtRingCompass::setPointerColor(const QColor &color)
 {
-    Q_D(QEXTRingCompass);
+    Q_D(QExtRingCompass);
     if (d->m_pointerColor != color)
     {
         d->m_pointerColor = color;

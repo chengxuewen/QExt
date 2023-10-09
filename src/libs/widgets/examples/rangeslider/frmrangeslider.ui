@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QEXTRangeSlider" name="sliderRange1" native="true">
+  <widget class="QExtRangeSlider" name="sliderRange1" native="true">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTRangeSlider" name="sliderRange2" native="true">
+  <widget class="QExtRangeSlider" name="sliderRange2" native="true">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -33,7 +33,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTRangeSlider" name="sliderRange3" native="true">
+  <widget class="QExtRangeSlider" name="sliderRange3" native="true">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -43,7 +43,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTRangeSlider" name="sliderRange4" native="true">
+  <widget class="QExtRangeSlider" name="sliderRange4" native="true">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -56,7 +56,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTRangeSlider</class>
+   <class>QExtRangeSlider</class>
    <extends>QWidget</extends>
    <header>qextRangeSlider.h</header>
    <container>1</container>

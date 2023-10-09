@@ -21,7 +21,7 @@
     <number>10</number>
    </property>
    <item row="5" column="0">
-    <widget class="QEXTSlider" name="horizontalSlider4">
+    <widget class="QExtSlider" name="horizontalSlider4">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -34,7 +34,7 @@
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QEXTSlider" name="horizontalSlider3">
+    <widget class="QExtSlider" name="horizontalSlider3">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -50,7 +50,7 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QEXTSlider" name="horizontalSlider2">
+    <widget class="QExtSlider" name="horizontalSlider2">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -63,21 +63,21 @@
     </widget>
    </item>
    <item row="0" column="2" rowspan="6">
-    <widget class="QEXTSlider" name="verticalSlider2">
+    <widget class="QExtSlider" name="verticalSlider2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
    <item row="0" column="1" rowspan="6">
-    <widget class="QEXTSlider" name="verticalSlider1">
+    <widget class="QExtSlider" name="verticalSlider1">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QEXTSlider" name="horizontalSlider1">
+    <widget class="QExtSlider" name="horizontalSlider1">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -106,7 +106,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTSlider</class>
+   <class>QExtSlider</class>
    <extends>QSlider</extends>
    <header>qextSlider.h</header>
   </customwidget>

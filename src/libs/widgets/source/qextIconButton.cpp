@@ -1,3 +1,27 @@
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2022~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
 #include <private/qextIconButton_p.h>
 
 //#include <lib/qtmaterialstyle.h"
@@ -7,18 +31,18 @@
 #include <QEvent>
 #include <QStyleOption>
 
-QEXTIconButtonPrivate::QEXTIconButtonPrivate(QEXTIconButton *q)
+QExtIconButtonPrivate::QExtIconButtonPrivate(QExtIconButton *q)
     : q_ptr(q)
 {
 }
 
-QEXTIconButtonPrivate::~QEXTIconButtonPrivate()
+QExtIconButtonPrivate::~QExtIconButtonPrivate()
 {
 }
 
-void QEXTIconButtonPrivate::init()
+void QExtIconButtonPrivate::init()
 {
-    Q_Q(QEXTIconButton);
+    Q_Q(QExtIconButton);
 
     //    rippleOverlay  = new QtMaterialRippleOverlay(q->parentWidget());
     m_useThemeColors = true;
@@ -31,9 +55,9 @@ void QEXTIconButtonPrivate::init()
     //    q->setSizePolicy(policy);
 }
 
-void QEXTIconButtonPrivate::updateRipple()
+void QExtIconButtonPrivate::updateRipple()
 {
-    Q_Q(QEXTIconButton);
+    Q_Q(QExtIconButton);
 
     //    QRect r(q->rect());
     //    r.setSize(QSize(q->width() * 2, q->height() * 2));
@@ -42,37 +66,37 @@ void QEXTIconButtonPrivate::updateRipple()
 }
 
 /*!
- *  \class QEXTIconButton
+ *  \class QExtIconButton
  */
 
-QEXTIconButton::QEXTIconButton(const QIcon &icon, QWidget *parent)
-    : QPushButton(parent), dd_ptr(new QEXTIconButtonPrivate(this))
+QExtIconButton::QExtIconButton(const QIcon &icon, QWidget *parent)
+    : QPushButton(parent), dd_ptr(new QExtIconButtonPrivate(this))
 {
     d_func()->init();
     this->setIcon(icon);
 }
 
-QEXTIconButton::QEXTIconButton(QWidget *parent)
-    : QPushButton(parent), dd_ptr(new QEXTIconButtonPrivate(this))
+QExtIconButton::QExtIconButton(QWidget *parent)
+    : QPushButton(parent), dd_ptr(new QExtIconButtonPrivate(this))
 {
     d_func()->init();
 }
 
-QEXTIconButton::~QEXTIconButton()
+QExtIconButton::~QExtIconButton()
 {
 }
 
 /*!
  *  \reimp
  */
-QSize QEXTIconButton::sizeHint() const
+QSize QExtIconButton::sizeHint() const
 {
     return this->iconSize();
 }
 
-void QEXTIconButton::setBackgroundColor(const QColor &color)
+void QExtIconButton::setBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTIconButton);
+    Q_D(QExtIconButton);
 
     d->m_backgroundColor = color;
 
@@ -80,9 +104,9 @@ void QEXTIconButton::setBackgroundColor(const QColor &color)
     this->update();
 }
 
-QColor QEXTIconButton::backgroundColor() const
+QColor QExtIconButton::backgroundColor() const
 {
-    Q_D(const QEXTIconButton);
+    Q_D(const QExtIconButton);
 
     //    if (d->useThemeColors || !d->color.isValid())
     //    {
@@ -91,9 +115,9 @@ QColor QEXTIconButton::backgroundColor() const
     return d->m_backgroundColor;
 }
 
-//void QEXTIconButton::setUseThemeColors(bool value)
+//void QExtIconButton::setUseThemeColors(bool value)
 //{
-//    Q_D(QEXTIconButton);
+//    Q_D(QExtIconButton);
 
 //    if (d->m_useThemeColors == value)
 //    {
@@ -104,16 +128,16 @@ QColor QEXTIconButton::backgroundColor() const
 //    this->update();
 //}
 
-//bool QEXTIconButton::useThemeColors() const
+//bool QExtIconButton::useThemeColors() const
 //{
-//    Q_D(const QEXTIconButton);
+//    Q_D(const QExtIconButton);
 
 //    return d->m_useThemeColors;
 //}
 
-void QEXTIconButton::setIconColor(const QColor &color)
+void QExtIconButton::setIconColor(const QColor &color)
 {
-    Q_D(QEXTIconButton);
+    Q_D(QExtIconButton);
 
     d->m_iconColor = color;
 
@@ -121,9 +145,9 @@ void QEXTIconButton::setIconColor(const QColor &color)
     this->update();
 }
 
-QColor QEXTIconButton::iconColor() const
+QColor QExtIconButton::iconColor() const
 {
-    Q_D(const QEXTIconButton);
+    Q_D(const QExtIconButton);
 
     //    if (d->useThemeColors || !d->color.isValid())
     //    {
@@ -132,9 +156,9 @@ QColor QEXTIconButton::iconColor() const
     return d->m_iconColor;
 }
 
-void QEXTIconButton::setDisabledColor(const QColor &color)
+void QExtIconButton::setDisabledColor(const QColor &color)
 {
-    Q_D(QEXTIconButton);
+    Q_D(QExtIconButton);
 
     d->m_disabledColor = color;
 
@@ -142,9 +166,9 @@ void QEXTIconButton::setDisabledColor(const QColor &color)
     update();
 }
 
-QColor QEXTIconButton::disabledColor() const
+QColor QExtIconButton::disabledColor() const
 {
-    Q_D(const QEXTIconButton);
+    Q_D(const QExtIconButton);
 
     //    if (d->useThemeColors || !d->disabledColor.isValid())
     //    {
@@ -153,16 +177,16 @@ QColor QEXTIconButton::disabledColor() const
     return d->m_disabledColor;
 }
 
-QEXTIconButton::QEXTIconButton(QEXTIconButtonPrivate &d, QWidget *parent)
+QExtIconButton::QExtIconButton(QExtIconButtonPrivate &d, QWidget *parent)
     : QPushButton(parent),
       dd_ptr(&d)
 {
     d_func()->init();
 }
 
-bool QEXTIconButton::event(QEvent *event)
+bool QExtIconButton::event(QEvent *event)
 {
-    Q_D(QEXTIconButton);
+    Q_D(QExtIconButton);
 
     switch (event->type())
     {
@@ -188,11 +212,11 @@ bool QEXTIconButton::event(QEvent *event)
 /*!
  *  \reimp
  */
-bool QEXTIconButton::eventFilter(QObject *obj, QEvent *event)
+bool QExtIconButton::eventFilter(QObject *obj, QEvent *event)
 {
     if (QEvent::Resize == event->type())
     {
-        Q_D(QEXTIconButton);
+        Q_D(QExtIconButton);
 
         //        d->updateRipple();
     }
@@ -202,9 +226,9 @@ bool QEXTIconButton::eventFilter(QObject *obj, QEvent *event)
 /*!
  *  \reimp
  */
-void QEXTIconButton::mousePressEvent(QMouseEvent *event)
+void QExtIconButton::mousePressEvent(QMouseEvent *event)
 {
-    Q_D(QEXTIconButton);
+    Q_D(QExtIconButton);
 
     //    d->rippleOverlay->addRipple(QPoint(d->rippleOverlay->width(), d->rippleOverlay->height()) / 2, iconSize().width());
     emit clicked();
@@ -215,7 +239,7 @@ void QEXTIconButton::mousePressEvent(QMouseEvent *event)
 /*!
  *  \reimp
  */
-void QEXTIconButton::paintEvent(QPaintEvent *event)
+void QExtIconButton::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
 

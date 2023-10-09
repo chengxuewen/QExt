@@ -18,22 +18,22 @@
     <widget class="QWidget" name="widget" native="true">
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QEXTProgressKnob" name="gaugeProgress1" native="true"/>
+       <widget class="QExtProgressKnob" name="gaugeProgress1" native="true"/>
       </item>
       <item row="0" column="1">
-       <widget class="QEXTProgressKnob" name="gaugeProgress2" native="true"/>
+       <widget class="QExtProgressKnob" name="gaugeProgress2" native="true"/>
       </item>
       <item row="0" column="2">
-       <widget class="QEXTProgressKnob" name="gaugeProgress3" native="true"/>
+       <widget class="QExtProgressKnob" name="gaugeProgress3" native="true"/>
       </item>
       <item row="1" column="0">
-       <widget class="QEXTProgressKnob" name="gaugeProgress4" native="true"/>
+       <widget class="QExtProgressKnob" name="gaugeProgress4" native="true"/>
       </item>
       <item row="1" column="1">
-       <widget class="QEXTProgressKnob" name="gaugeProgress5" native="true"/>
+       <widget class="QExtProgressKnob" name="gaugeProgress5" native="true"/>
       </item>
       <item row="1" column="2">
-       <widget class="QEXTProgressKnob" name="gaugeProgress6" native="true"/>
+       <widget class="QExtProgressKnob" name="gaugeProgress6" native="true"/>
       </item>
      </layout>
     </widget>
@@ -90,7 +90,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTProgressKnob</class>
+   <class>QExtProgressKnob</class>
    <extends>QWidget</extends>
    <header>qextProgressKnob.h</header>
   </customwidget>

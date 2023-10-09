@@ -1,4 +1,29 @@
-﻿#include <private/qextIpAddressEdit_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextIpAddressEdit_p.h>
 
 #include <QLabel>
 #include <QLineEdit>
@@ -15,18 +40,18 @@
 #include <QRegExp>
 #endif
 
-QEXTIpAddressEditPrivate::QEXTIpAddressEditPrivate(QEXTIpAddressEdit *q)
+QExtIpAddressEditPrivate::QExtIpAddressEditPrivate(QExtIpAddressEdit *q)
     : q_ptr(q)
 {
 
 }
 
-QEXTIpAddressEditPrivate::~QEXTIpAddressEditPrivate()
+QExtIpAddressEditPrivate::~QExtIpAddressEditPrivate()
 {
 
 }
 
-void QEXTIpAddressEditPrivate::initForm(QEXTIpAddressEdit *qq)
+void QExtIpAddressEditPrivate::initForm(QExtIpAddressEdit *qq)
 {
     m_backgroundColor = "#FFFFFF";
     m_textColor = "#303030";
@@ -109,7 +134,7 @@ void QEXTIpAddressEditPrivate::initForm(QEXTIpAddressEdit *qq)
     layout->addWidget(m_txtIP4);
 }
 
-void QEXTIpAddressEditPrivate::updateQSS(QEXTIpAddressEdit *qq)
+void QExtIpAddressEditPrivate::updateQSS(QExtIpAddressEdit *qq)
 {
     QStringList qss;
     qss.append(QString("QFrame#frameIP{border:1px solid %1;border-radius:%2px;}").arg(m_borderColor.name()).arg(m_borderRadius));
@@ -121,23 +146,23 @@ void QEXTIpAddressEditPrivate::updateQSS(QEXTIpAddressEdit *qq)
 }
 
 
-QEXTIpAddressEdit::QEXTIpAddressEdit(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTIpAddressEditPrivate(this))
+QExtIpAddressEdit::QExtIpAddressEdit(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtIpAddressEditPrivate(this))
 {
-    Q_D(QEXTIpAddressEdit);
+    Q_D(QExtIpAddressEdit);
     this->setObjectName("IpAddressEdit");
     d->initForm(this);
     d->updateQSS(this);
 }
 
-QEXTIpAddressEdit::~QEXTIpAddressEdit()
+QExtIpAddressEdit::~QExtIpAddressEdit()
 {
 
 }
 
-bool QEXTIpAddressEdit::eventFilter(QObject *watched, QEvent *event)
+bool QExtIpAddressEdit::eventFilter(QObject *watched, QEvent *event)
 {
-    Q_D(QEXTIpAddressEdit);
+    Q_D(QExtIpAddressEdit);
     if (event->type() == QEvent::KeyPress)
     {
         QLineEdit *txt = (QLineEdit *)watched;
@@ -163,9 +188,9 @@ bool QEXTIpAddressEdit::eventFilter(QObject *watched, QEvent *event)
     return QWidget::eventFilter(watched, event);
 }
 
-void QEXTIpAddressEdit::textChanged(const QString &text)
+void QExtIpAddressEdit::textChanged(const QString &text)
 {
-    Q_D(QEXTIpAddressEdit);
+    Q_D(QExtIpAddressEdit);
     int len = text.length();
     int value = text.toInt();
 
@@ -181,55 +206,55 @@ void QEXTIpAddressEdit::textChanged(const QString &text)
     emit this->ipChanged(d->m_ip);
 }
 
-QString QEXTIpAddressEdit::iP() const
+QString QExtIpAddressEdit::iP() const
 {
-    Q_D(const QEXTIpAddressEdit);
+    Q_D(const QExtIpAddressEdit);
     return d->m_ip;
 }
 
-QColor QEXTIpAddressEdit::backgroundColor() const
+QColor QExtIpAddressEdit::backgroundColor() const
 {
-    Q_D(const QEXTIpAddressEdit);
+    Q_D(const QExtIpAddressEdit);
     return d->m_backgroundColor;
 }
 
-QColor QEXTIpAddressEdit::textColor() const
+QColor QExtIpAddressEdit::textColor() const
 {
-    Q_D(const QEXTIpAddressEdit);
+    Q_D(const QExtIpAddressEdit);
     return d->m_textColor;
 }
 
-QColor QEXTIpAddressEdit::dotColor() const
+QColor QExtIpAddressEdit::dotColor() const
 {
-    Q_D(const QEXTIpAddressEdit);
+    Q_D(const QExtIpAddressEdit);
     return d->m_dotColor;
 }
 
-QColor QEXTIpAddressEdit::borderColor() const
+QColor QExtIpAddressEdit::borderColor() const
 {
-    Q_D(const QEXTIpAddressEdit);
+    Q_D(const QExtIpAddressEdit);
     return d->m_borderColor;
 }
 
-int QEXTIpAddressEdit::borderRadius() const
+int QExtIpAddressEdit::borderRadius() const
 {
-    Q_D(const QEXTIpAddressEdit);
+    Q_D(const QExtIpAddressEdit);
     return d->m_borderRadius;
 }
 
-QSize QEXTIpAddressEdit::sizeHint() const
+QSize QExtIpAddressEdit::sizeHint() const
 {
     return QSize(250, 20);
 }
 
-QSize QEXTIpAddressEdit::minimumSizeHint() const
+QSize QExtIpAddressEdit::minimumSizeHint() const
 {
     return QSize(30, 10);
 }
 
-void QEXTIpAddressEdit::setIP(const QString &ip)
+void QExtIpAddressEdit::setIP(const QString &ip)
 {
-    Q_D(QEXTIpAddressEdit);
+    Q_D(QExtIpAddressEdit);
     QRegExp regExp("((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)");
     if (!regExp.exactMatch(ip))
     {
@@ -248,9 +273,9 @@ void QEXTIpAddressEdit::setIP(const QString &ip)
     }
 }
 
-void QEXTIpAddressEdit::clear()
+void QExtIpAddressEdit::clear()
 {
-    Q_D(QEXTIpAddressEdit);
+    Q_D(QExtIpAddressEdit);
     d->m_txtIP1->clear();
     d->m_txtIP2->clear();
     d->m_txtIP3->clear();
@@ -258,9 +283,9 @@ void QEXTIpAddressEdit::clear()
     d->m_txtIP1->setFocus();
 }
 
-void QEXTIpAddressEdit::setBackgroundColor(const QColor &color)
+void QExtIpAddressEdit::setBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTIpAddressEdit);
+    Q_D(QExtIpAddressEdit);
     if (d->m_backgroundColor != color)
     {
         d->m_backgroundColor = color;
@@ -268,9 +293,9 @@ void QEXTIpAddressEdit::setBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTIpAddressEdit::setTextColor(const QColor &color)
+void QExtIpAddressEdit::setTextColor(const QColor &color)
 {
-    Q_D(QEXTIpAddressEdit);
+    Q_D(QExtIpAddressEdit);
     if (d->m_textColor != color)
     {
         d->m_textColor = color;
@@ -278,9 +303,9 @@ void QEXTIpAddressEdit::setTextColor(const QColor &color)
     }
 }
 
-void QEXTIpAddressEdit::setDotColor(const QColor &color)
+void QExtIpAddressEdit::setDotColor(const QColor &color)
 {
-    Q_D(QEXTIpAddressEdit);
+    Q_D(QExtIpAddressEdit);
     if (d->m_dotColor != color)
     {
         d->m_dotColor = color;
@@ -288,9 +313,9 @@ void QEXTIpAddressEdit::setDotColor(const QColor &color)
     }
 }
 
-void QEXTIpAddressEdit::setBorderColor(const QColor &color)
+void QExtIpAddressEdit::setBorderColor(const QColor &color)
 {
-    Q_D(QEXTIpAddressEdit);
+    Q_D(QExtIpAddressEdit);
     if (d->m_borderColor != color)
     {
         d->m_borderColor = color;
@@ -298,9 +323,9 @@ void QEXTIpAddressEdit::setBorderColor(const QColor &color)
     }
 }
 
-void QEXTIpAddressEdit::setBorderRadius(int radius)
+void QExtIpAddressEdit::setBorderRadius(int radius)
 {
-    Q_D(QEXTIpAddressEdit);
+    Q_D(QExtIpAddressEdit);
     if (d->m_borderRadius != radius)
     {
         d->m_borderRadius = radius;

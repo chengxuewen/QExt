@@ -1,32 +1,28 @@
-﻿/*************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
-** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
-** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493
 ** Copyright (C) 2017 逆风微光(QQ:787701109)
+** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2022~Present ChengXueWen. Contact: 1398831004@qq.com.
 **
 ** License: MIT License
 **
-** Permission is hereby granted, free of charge, to any person obtaining
-** a copy of this software and associated documentation files (the "Software"),
-** to deal in the Software without restriction, including without limitation
-** the rights to use, copy, modify, merge, publish, distribute, sublicense,
-** and/or sell copies of the Software, and to permit persons to whom the
-** Software is furnished to do so, subject to the following conditions:
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 **
-** The above copyright notice and this permission notice shall be included in
-** all copies or substantial portions of the Software.
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
 **
-** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-** SOFTWARE.
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
 **
-*************************************************************************************/
+***********************************************************************************************************************/
 
 #ifndef _QEXTSELECTSLIDER_H
 #define _QEXTSELECTSLIDER_H
@@ -35,8 +31,8 @@
 
 #include <QWidget>
 
-class QEXTSelectSliderPrivate;
-class QEXT_WIDGETS_API QEXTSelectSlider : public QWidget
+class QExtSelectSliderPrivate;
+class QEXT_WIDGETS_API QExtSelectSlider : public QWidget
 {
     Q_OBJECT
 
@@ -61,8 +57,8 @@ class QEXT_WIDGETS_API QEXTSelectSlider : public QWidget
     Q_PROPERTY(QColor buttonPressColor READ buttonPressColor WRITE setButtonPressColor)
 
 public:
-    explicit QEXTSelectSlider(QWidget *parent = QEXT_DECL_NULLPTR);
-    ~QEXTSelectSlider();
+    explicit QExtSelectSlider(QWidget *parent = QEXT_DECL_NULLPTR);
+    ~QExtSelectSlider();
 
     int minValue() const;
     int maxValue() const;
@@ -139,11 +135,11 @@ protected:
     void drawSlider(QPainter *painter);
     void updateUI();
 
-    QScopedPointer<QEXTSelectSliderPrivate> dd_ptr;
+    QScopedPointer<QExtSelectSliderPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTSelectSlider)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTSelectSlider)
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtSelectSlider)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSelectSlider)
 };
 
 #endif // _QEXTSELECTSLIDER_H

@@ -1,32 +1,29 @@
-#################################################################################
+########################################################################################################################
 #
 # Library: QExt
 #
-# Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
+# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
+# License: MIT License
 #
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+# to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 #
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions
+# of the Software.
 #
-#################################################################################
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  AUTHORS
+# OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+########################################################################################################################
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Set example output path
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_APP_BASE_NAME qext_tool_qmlplugindump)
 set(EXECUTABLE_OUTPUT_PATH ${QEXT_OUTPUT_APP_DIR}/qmlplugindump)
 set(QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXT_OUTPUT_QML_DIR})
@@ -34,9 +31,9 @@ set(QML_IMPORT_PATH "${QEXT_QML_IMPORT_PATH}" CACHE STRING "Qt Creator extra qml
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Set app link libraries
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 if(UNIX)
     list(APPEND QEXT_APP_LINK_LIBRARIES ${CMAKE_DL_LIBS})
 endif()
@@ -70,9 +67,9 @@ include_directories(${Qt${QT_VERSION_MAJOR}Quick_PRIVATE_INCLUDE_DIRS})
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Set file list
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 if(QEXT_QT_VERSION_MAJOR EQUAL 5)
     if(QEXT_QT_VERSION_MINOR EQUAL 9)
         list(APPEND QEXT_APP_SOURCES
@@ -127,9 +124,9 @@ endif(QEXT_APP_SOURCES)
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Add app target
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 add_executable(${QEXT_APP_BASE_NAME} ${QEXT_APP_SOURCES})
 if (QEXT_BUILD_COMPILER_WARNING)
     qextFunctionSetCompilerWarnings(${QEXT_APP_BASE_NAME})

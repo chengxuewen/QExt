@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-class QEXTNavigationBar;
+class QExtNavigationBar;
 
 namespace Ui
 {

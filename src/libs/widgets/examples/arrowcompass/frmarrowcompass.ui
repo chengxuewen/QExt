@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QEXTArrowCompass" name="gaugeCompass"/>
+    <widget class="QExtArrowCompass" name="gaugeCompass"/>
    </item>
    <item>
     <widget class="QSlider" name="horizontalSlider">
@@ -31,7 +31,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTArrowCompass</class>
+   <class>QExtArrowCompass</class>
    <extends>QWidget</extends>
    <header>qextArrowCompass.h</header>
   </customwidget>

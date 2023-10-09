@@ -64,7 +64,7 @@ void FrmNavigationListView::initForm()
     m_parentItems = ui->navListWidget->setItems(items.join(","));
     ui->navListWidget->setCurrentRow(1);
     connect(ui->navListWidget->view(), SIGNAL(pressed(QModelIndex)), this, SLOT(onNavListWidgetPressed(QModelIndex)));
-    connect(ui->navListWidget, SIGNAL(itemPressed(QEXTNavigationListItem*)), this, SLOT(onItemPressed(QEXTNavigationListItem*)));
+    connect(ui->navListWidget, SIGNAL(itemPressed(QExtNavigationListItem*)), this, SLOT(onItemPressed(QExtNavigationListItem*)));
     this->onNavListWidgetPressed(ui->navListWidget->view()->currentIndex());
 }
 
@@ -80,7 +80,7 @@ void FrmNavigationListView::onNavListWidgetPressed(const QModelIndex &index)
     }
 }
 
-void FrmNavigationListView::onItemPressed(QEXTNavigationListItem *item)
+void FrmNavigationListView::onItemPressed(QExtNavigationListItem *item)
 {
     if (item->isChildItem())
     {
@@ -106,15 +106,15 @@ void FrmNavigationListView::onItemPressed(QEXTNavigationListItem *item)
 //        item->parentItem()->setVisible(true);
     } else {
 //        item->setEnable(false);
-//        QList<QEXTNavigationListItem *> childItems = item->childItems();
-//        QList<QEXTNavigationListItem *>::iterator iter;
+//        QList<QExtNavigationListItem *> childItems = item->childItems();
+//        QList<QExtNavigationListItem *>::iterator iter;
 //        for (iter = childItems.begin(); iter != childItems.end(); ++iter) {
 //            (*iter)->setChecked(false);
 //        }
 
 //        if (0 == item->childItemsCount())
 //        {
-//            QList<QEXTNavigationListItem *>::iterator iter;
+//            QList<QExtNavigationListItem *>::iterator iter;
 //            for (iter = m_parentItems.begin(); iter != m_parentItems.end(); ++iter) {
 //                (*iter)->setVisible(true);
 //            }

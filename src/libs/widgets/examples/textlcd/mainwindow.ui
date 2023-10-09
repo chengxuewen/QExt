@@ -20,7 +20,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QEXTTextLcd" name="ledText1" native="true">
+         <widget class="QExtTextLcd" name="ledText1" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -39,7 +39,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QEXTTextLcd" name="ledText2" native="true">
+         <widget class="QExtTextLcd" name="ledText2" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -58,7 +58,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QEXTTextLcd" name="ledText3" native="true">
+         <widget class="QExtTextLcd" name="ledText3" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -79,7 +79,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QEXTTextLcd" name="ledText4" native="true">
+       <widget class="QExtTextLcd" name="ledText4" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -94,7 +94,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QEXTTextLcd" name="ledText5" native="true">
+     <widget class="QExtTextLcd" name="ledText5" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -113,7 +113,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QEXTTextLcd" name="ledText6" native="true">
+     <widget class="QExtTextLcd" name="ledText6" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -156,7 +156,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>QEXTTextLcd</class>
+   <class>QExtTextLcd</class>
    <extends>QWidget</extends>
    <header location="global">qextTextLcd.h</header>
    <container>1</container>

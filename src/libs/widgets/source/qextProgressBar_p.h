@@ -1,16 +1,41 @@
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
 #ifndef _QEXTPROGRESSBAR_P_H
 #define _QEXTPROGRESSBAR_P_H
 
 #include <qextProgressBar.h>
 
-class QEXTProgressBar;
-class QEXT_WIDGETS_API QEXTProgressBarPrivate
+class QExtProgressBar;
+class QEXT_WIDGETS_API QExtProgressBarPrivate
 {
 public:
-    explicit QEXTProgressBarPrivate(QEXTProgressBar *q);
-    virtual ~QEXTProgressBarPrivate();
+    explicit QExtProgressBarPrivate(QExtProgressBar *q);
+    virtual ~QExtProgressBarPrivate();
 
-    QEXTProgressBar * const q_ptr;
+    QExtProgressBar * const q_ptr;
 
     double m_minValue;
     double m_maxValue;
@@ -31,8 +56,8 @@ public:
     QColor m_barColor;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTProgressBarPrivate)
-    QEXT_DECL_PUBLIC(QEXTProgressBar)
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtProgressBarPrivate)
+    QEXT_DECL_PUBLIC(QExtProgressBar)
 };
 
 #endif // _QEXTPROGRESSBAR_P_H

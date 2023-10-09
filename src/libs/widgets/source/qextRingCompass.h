@@ -1,31 +1,27 @@
-﻿/*************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
-** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 ** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
 **
 ** License: MIT License
 **
-** Permission is hereby granted, free of charge, to any person obtaining
-** a copy of this software and associated documentation files (the "Software"),
-** to deal in the Software without restriction, including without limitation
-** the rights to use, copy, modify, merge, publish, distribute, sublicense,
-** and/or sell copies of the Software, and to permit persons to whom the
-** Software is furnished to do so, subject to the following conditions:
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 **
-** The above copyright notice and this permission notice shall be included in
-** all copies or substantial portions of the Software.
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
 **
-** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-** SOFTWARE.
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
 **
-*************************************************************************************/
+***********************************************************************************************************************/
 
 #ifndef _QEXTRINGCOMPASS_H
 #define _QEXTRINGCOMPASS_H
@@ -34,8 +30,8 @@
 
 #include <QWidget>
 
-class QEXTRingCompassPrivate;
-class QEXT_WIDGETS_API QEXTRingCompass : public QWidget
+class QExtRingCompassPrivate;
+class QEXT_WIDGETS_API QExtRingCompass : public QWidget
 {
     Q_OBJECT
 
@@ -50,8 +46,8 @@ class QEXT_WIDGETS_API QEXTRingCompass : public QWidget
     Q_PROPERTY(QColor pointerColor READ pointerColor WRITE setPointerColor)
 
 public:
-    explicit QEXTRingCompass(QWidget *parent = QEXT_DECL_NULLPTR);
-    ~QEXTRingCompass();
+    explicit QExtRingCompass(QWidget *parent = QEXT_DECL_NULLPTR);
+    ~QExtRingCompass();
 
     double value() const;
     QColor backgroundColor() const;
@@ -95,11 +91,11 @@ protected:
     void drawPointer(QPainter *painter);
     void drawValue(QPainter *painter);
 
-    QScopedPointer<QEXTRingCompassPrivate> dd_ptr;
+    QScopedPointer<QExtRingCompassPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTRingCompass)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTRingCompass)
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtRingCompass)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtRingCompass)
 };
 
 #endif // _QEXTRINGCOMPASS_H

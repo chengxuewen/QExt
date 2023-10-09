@@ -38,7 +38,7 @@ void FrmScaleKnob::initForm()
 
 void FrmScaleKnob::valueChanged(double value)
 {
-    QEXTScaleKnob *gauge = (QEXTScaleKnob *)sender();
+    QExtScaleKnob *gauge = (QExtScaleKnob *)sender();
     int index = gauges.indexOf(gauge);
     labs.at(index)->setText(QString::number(value, 'f', 1));
 }
@@ -54,7 +54,7 @@ void FrmScaleKnob::on_ckDouble_stateChanged(int arg1)
 
 void FrmScaleKnob::on_cboxPointerStyle_currentIndexChanged(int index)
 {
-    QEXTScaleKnob::PointerStyle style = (QEXTScaleKnob::PointerStyle)index;
+    QExtScaleKnob::PointerStyle style = (QExtScaleKnob::PointerStyle)index;
     int count = gauges.count();
     for (int i = 0; i < count; i++) {
         gauges.at(i)->setPointerStyle(style);

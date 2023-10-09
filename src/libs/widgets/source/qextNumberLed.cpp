@@ -1,10 +1,35 @@
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
 #include <private/qextNumberLed_p.h>
 
 #include <QDebug>
 #include <QColor>
 #include <QPainter>
 
-QEXTNumberLedPrivate::QEXTNumberLedPrivate(QEXTNumberLed *q)
+QExtNumberLedPrivate::QExtNumberLedPrivate(QExtNumberLed *q)
     : q_ptr(q)
 {
     m_number = 0;
@@ -16,87 +41,87 @@ QEXTNumberLedPrivate::QEXTNumberLedPrivate(QEXTNumberLed *q)
     m_numberStartColor = QColor(100, 184, 255);
     m_numberEndColor = QColor(79, 148, 205);
 
-    m_symbol = QEXTNumberLed::Symbol_None;
+    m_symbol = QExtNumberLed::Symbol_None;
 
     m_dotVisible = false;
     m_colonVisible = false;
 }
 
-QEXTNumberLedPrivate::~QEXTNumberLedPrivate()
+QExtNumberLedPrivate::~QExtNumberLedPrivate()
 {
 
 }
 
 
-QEXTNumberLed::QEXTNumberLed(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTNumberLedPrivate(this))
+QExtNumberLed::QExtNumberLed(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtNumberLedPrivate(this))
 {
 
 }
 
-QEXTNumberLed::~QEXTNumberLed()
+QExtNumberLed::~QExtNumberLed()
 {
 
 }
 
-int QEXTNumberLed::number() const
+int QExtNumberLed::number() const
 {
-    Q_D(const QEXTNumberLed);
+    Q_D(const QExtNumberLed);
     return d->m_number;
 }
 
-int QEXTNumberLed::space() const
+int QExtNumberLed::space() const
 {
-    Q_D(const QEXTNumberLed);
+    Q_D(const QExtNumberLed);
     return d->m_space;
 }
 
-QColor QEXTNumberLed::backgroundStartColor() const
+QColor QExtNumberLed::backgroundStartColor() const
 {
-    Q_D(const QEXTNumberLed);
+    Q_D(const QExtNumberLed);
     return d->m_backgroundStartColor;
 }
 
-QColor QEXTNumberLed::backgroundEndColor() const
+QColor QExtNumberLed::backgroundEndColor() const
 {
-    Q_D(const QEXTNumberLed);
+    Q_D(const QExtNumberLed);
     return d->m_backgroundEndColor;
 }
 
-QColor QEXTNumberLed::numberStartColor() const
+QColor QExtNumberLed::numberStartColor() const
 {
-    Q_D(const QEXTNumberLed);
+    Q_D(const QExtNumberLed);
     return d->m_numberStartColor;
 }
 
-QColor QEXTNumberLed::numberEndColor() const
+QColor QExtNumberLed::numberEndColor() const
 {
-    Q_D(const QEXTNumberLed);
+    Q_D(const QExtNumberLed);
     return d->m_numberEndColor;
 }
 
-QEXTNumberLed::Symbol QEXTNumberLed::symbolType() const
+QExtNumberLed::Symbol QExtNumberLed::symbolType() const
 {
-    Q_D(const QEXTNumberLed);
+    Q_D(const QExtNumberLed);
     return d->m_symbol;
 }
 
-QSize QEXTNumberLed::sizeHint() const
+QSize QExtNumberLed::sizeHint() const
 {
     return QSize(150, 200);
 }
 
-QSize QEXTNumberLed::minimumSizeHint() const
+QSize QExtNumberLed::minimumSizeHint() const
 {
     return QSize(20, 30);
 }
 
-void QEXTNumberLed::setNumber(int number)
+void QExtNumberLed::setNumber(int number)
 {
-    Q_D(QEXTNumberLed);
+    Q_D(QExtNumberLed);
     if (number < 0 || number > 9)
     {
-        qCritical() << "QEXTNumberLed::setNumber():iNumber must be in range of 0~9!";
+        qCritical() << "QExtNumberLed::setNumber():iNumber must be in range of 0~9!";
         return;
     }
     if (number != d->m_number) {
@@ -105,11 +130,11 @@ void QEXTNumberLed::setNumber(int number)
     }
 }
 
-void QEXTNumberLed::setSpace(int space)
+void QExtNumberLed::setSpace(int space)
 {
-    Q_D(QEXTNumberLed);
+    Q_D(QExtNumberLed);
     if (space < 0) {
-        qCritical() << "QEXTNumberLed::setNumber():iNumber must br greate than zero!";
+        qCritical() << "QExtNumberLed::setNumber():iNumber must br greate than zero!";
         return;
     }
     if (space != d->m_space) {
@@ -118,52 +143,52 @@ void QEXTNumberLed::setSpace(int space)
     }
 }
 
-void QEXTNumberLed::setBackgroundStartColor(const QColor &color)
+void QExtNumberLed::setBackgroundStartColor(const QColor &color)
 {
-    Q_D(QEXTNumberLed);
+    Q_D(QExtNumberLed);
     if (color != d->m_backgroundStartColor) {
         d->m_backgroundStartColor = color;
         this->update();
     }
 }
 
-void QEXTNumberLed::setBackgroundEndColor(const QColor &color)
+void QExtNumberLed::setBackgroundEndColor(const QColor &color)
 {
-    Q_D(QEXTNumberLed);
+    Q_D(QExtNumberLed);
     if (color != d->m_backgroundEndColor) {
         d->m_backgroundEndColor = color;
         this->update();
     }
 }
 
-void QEXTNumberLed::setNumberStartColor(const QColor &color)
+void QExtNumberLed::setNumberStartColor(const QColor &color)
 {
-    Q_D(QEXTNumberLed);
+    Q_D(QExtNumberLed);
     if (color != d->m_numberStartColor) {
         d->m_numberStartColor = color;
         this->update();
     }
 }
 
-void QEXTNumberLed::setNumberEndColor(const QColor &color)
+void QExtNumberLed::setNumberEndColor(const QColor &color)
 {
-    Q_D(QEXTNumberLed);
+    Q_D(QExtNumberLed);
     if (color != d->m_numberEndColor) {
         d->m_numberEndColor = color;
         this->update();
     }
 }
 
-void QEXTNumberLed::setSymbolType(const QEXTNumberLed::Symbol &type)
+void QExtNumberLed::setSymbolType(const QExtNumberLed::Symbol &type)
 {
-    Q_D(QEXTNumberLed);
+    Q_D(QExtNumberLed);
     if (type != d->m_symbol) {
         d->m_symbol = type;
         this->update();
     }
 }
 
-void QEXTNumberLed::paintEvent(QPaintEvent *)
+void QExtNumberLed::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -172,9 +197,9 @@ void QEXTNumberLed::paintEvent(QPaintEvent *)
     this->drawNumber(&painter);
 }
 
-void QEXTNumberLed::drawBackground(QPainter *painter)
+void QExtNumberLed::drawBackground(QPainter *painter)
 {
-    Q_D(QEXTNumberLed);
+    Q_D(QExtNumberLed);
     painter->save();
     painter->setPen(Qt::NoPen);
     QLinearGradient bgGradient(QPointF(0, 0), QPointF(0, this->height()));
@@ -185,9 +210,9 @@ void QEXTNumberLed::drawBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTNumberLed::drawNumber(QPainter *painter)
+void QExtNumberLed::drawNumber(QPainter *painter)
 {
-    Q_D(QEXTNumberLed);
+    Q_D(QExtNumberLed);
     painter->save();
     painter->setPen(Qt::NoPen);
 
@@ -353,19 +378,19 @@ void QEXTNumberLed::drawNumber(QPainter *painter)
     }
 
     switch (d->m_symbol) {
-    case QEXTNumberLed::Symbol_Dot:
+    case QExtNumberLed::Symbol_Dot:
     {
         painter->drawEllipse(bottomRight.x() + margin, bottomRight.y() - recHeight - recRadius / 2, recRadius, recRadius);
         break;
     }
-    case QEXTNumberLed::Symbol_Colon:
+    case QExtNumberLed::Symbol_Colon:
     {
         int iHeight = this->height() / 3;
         painter->drawEllipse(bottomRight.x() + margin, iHeight, recRadius, recRadius);
         painter->drawEllipse(bottomRight.x() + margin, iHeight * 2, recRadius, recRadius);
         break;
     }
-    case QEXTNumberLed::Symbol_Line:
+    case QExtNumberLed::Symbol_Line:
     {
         QVector<QPointF> lineRectVec;
         lineRectVec.append(QPointF(midRight.x() + recRadius, midRight.y() - recHeight));

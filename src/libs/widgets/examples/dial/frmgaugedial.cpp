@@ -26,7 +26,7 @@ void frmGaugeDial::initForm()
 
 void frmGaugeDial::on_cboxPointerStyle_currentIndexChanged(int index)
 {
-    ui->gaugeDial->setPointerStyle((QEXTDial::PointerStyleType)index);
+    ui->gaugeDial->setPointerStyle((QExtDial::PointerStyleType)index);
 }
 
 void frmGaugeDial::on_ckShowValue_stateChanged(int arg1)

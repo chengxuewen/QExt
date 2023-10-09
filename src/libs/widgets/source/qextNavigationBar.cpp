@@ -1,4 +1,29 @@
-﻿#include <private/qextNavigationBar_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextNavigationBar_p.h>
 
 #include <QEvent>
 #include <QPainter>
@@ -7,7 +32,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 
-QEXTNavigationBarPrivate::QEXTNavigationBarPrivate(QEXTNavigationBar *q)
+QExtNavigationBarPrivate::QExtNavigationBarPrivate(QExtNavigationBar *q)
     : q_ptr(q)
 {
     m_backgroundStartColor = QColor(121, 121, 121);
@@ -32,7 +57,7 @@ QEXTNavigationBarPrivate::QEXTNavigationBarPrivate(QEXTNavigationBar *q)
     m_lineWidth = 3;
     m_lineColor = QColor(255, 107, 107);
 
-    m_barStyle = QEXTNavigationBar::BarStyle_Rect;
+    m_barStyle = QExtNavigationBar::BarStyle_Rect;
 
     m_keyMoveEnable = false;
     m_horizontal = true;
@@ -45,7 +70,7 @@ QEXTNavigationBarPrivate::QEXTNavigationBarPrivate(QEXTNavigationBar *q)
     m_isVirgin = true;
 }
 
-QEXTNavigationBarPrivate::~QEXTNavigationBarPrivate()
+QExtNavigationBarPrivate::~QExtNavigationBarPrivate()
 {
     if (m_timer->isActive())
     {
@@ -53,7 +78,7 @@ QEXTNavigationBarPrivate::~QEXTNavigationBarPrivate()
     }
 }
 
-int QEXTNavigationBarPrivate::initStep(int distance)
+int QExtNavigationBarPrivate::initStep(int distance)
 {
     int n = 1;
 
@@ -74,23 +99,23 @@ int QEXTNavigationBarPrivate::initStep(int distance)
 
 
 
-QEXTNavigationBar::QEXTNavigationBar(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTNavigationBarPrivate(this))
+QExtNavigationBar::QExtNavigationBar(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtNavigationBarPrivate(this))
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     d->m_timer = new QTimer(this);
     d->m_timer->setInterval(10);
     connect(d->m_timer, SIGNAL(timeout()), this, SLOT(slide()));
 }
 
-QEXTNavigationBar::~QEXTNavigationBar()
+QExtNavigationBar::~QExtNavigationBar()
 {
 
 }
 
-void QEXTNavigationBar::resizeEvent(QResizeEvent *)
+void QExtNavigationBar::resizeEvent(QResizeEvent *)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     int index = 0;
     int count = d->m_listItem.count();
     if (count == 0)
@@ -116,14 +141,14 @@ void QEXTNavigationBar::resizeEvent(QResizeEvent *)
     this->moveTo(index);
 }
 
-void QEXTNavigationBar::mousePressEvent(QMouseEvent *e)
+void QExtNavigationBar::mousePressEvent(QMouseEvent *e)
 {
     this->moveTo(e->pos());
 }
 
-void QEXTNavigationBar::keyPressEvent(QKeyEvent *keyEvent)
+void QExtNavigationBar::keyPressEvent(QKeyEvent *keyEvent)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (!d->m_keyMoveEnable)
     {
         return;
@@ -139,9 +164,9 @@ void QEXTNavigationBar::keyPressEvent(QKeyEvent *keyEvent)
     }
 }
 
-void QEXTNavigationBar::paintEvent(QPaintEvent *)
+void QExtNavigationBar::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
@@ -150,9 +175,9 @@ void QEXTNavigationBar::paintEvent(QPaintEvent *)
     this->drawText(&painter);
 }
 
-void QEXTNavigationBar::drawBackground(QPainter *painter)
+void QExtNavigationBar::drawBackground(QPainter *painter)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     painter->save();
     painter->setPen(Qt::NoPen);
     QLinearGradient bgGradient(QPoint(0, 0), QPoint(0, height()));
@@ -163,9 +188,9 @@ void QEXTNavigationBar::drawBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTNavigationBar::drawBar(QPainter *painter)
+void QExtNavigationBar::drawBar(QPainter *painter)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     painter->save();
     QPen pen;
 
@@ -213,9 +238,9 @@ void QEXTNavigationBar::drawBar(QPainter *painter)
     painter->restore();
 }
 
-void QEXTNavigationBar::drawText(QPainter *painter)
+void QExtNavigationBar::drawText(QPainter *painter)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     painter->save();
 
     QFont textFont;
@@ -284,9 +309,9 @@ void QEXTNavigationBar::drawText(QPainter *painter)
     painter->restore();
 }
 
-void QEXTNavigationBar::slide()
+void QExtNavigationBar::slide()
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_step > 1)
     {
         d->m_step--;
@@ -332,134 +357,134 @@ void QEXTNavigationBar::slide()
     this->update();
 }
 
-QColor QEXTNavigationBar::backgroundStartColor() const
+QColor QExtNavigationBar::backgroundStartColor() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_backgroundStartColor;
 }
 
-QColor QEXTNavigationBar::backgroundEndColor() const
+QColor QExtNavigationBar::backgroundEndColor() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_backgroundEndColor;
 }
 
-QColor QEXTNavigationBar::barStartColor() const
+QColor QExtNavigationBar::barStartColor() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_barStartColor;
 }
 
-QColor QEXTNavigationBar::barEndColor() const
+QColor QExtNavigationBar::barEndColor() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_barEndColor;
 }
 
-QColor QEXTNavigationBar::textNormalColor() const
+QColor QExtNavigationBar::textNormalColor() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_textNormalColor;
 }
 
-QColor QEXTNavigationBar::textSelectColor() const
+QColor QExtNavigationBar::textSelectColor() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_textSelectColor;
 }
 
-QString QEXTNavigationBar::items() const
+QString QExtNavigationBar::items() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_items;
 }
 
-int QEXTNavigationBar::currentIndex() const
+int QExtNavigationBar::currentIndex() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_currentIndex;
 }
 
-QString QEXTNavigationBar::currentItem() const
+QString QExtNavigationBar::currentItem() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_currentItem;
 }
 
-int QEXTNavigationBar::backgroundRadius() const
+int QExtNavigationBar::backgroundRadius() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_backgroundRadius;
 }
 
-int QEXTNavigationBar::barRadius() const
+int QExtNavigationBar::barRadius() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_barRadius;
 }
 
-int QEXTNavigationBar::space() const
+int QExtNavigationBar::space() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_space;
 }
 
-int QEXTNavigationBar::lineWidth() const
+int QExtNavigationBar::lineWidth() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_lineWidth;
 }
 
-QColor QEXTNavigationBar::lineColor() const
+QColor QExtNavigationBar::lineColor() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_lineColor;
 }
 
-QEXTNavigationBar::BarStyleType QEXTNavigationBar::barStyle() const
+QExtNavigationBar::BarStyleType QExtNavigationBar::barStyle() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_barStyle;
 }
 
-bool QEXTNavigationBar::keyMoveEnable() const
+bool QExtNavigationBar::keyMoveEnable() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_keyMoveEnable;
 }
 
-bool QEXTNavigationBar::isHorizontal() const
+bool QExtNavigationBar::isHorizontal() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_horizontal;
 }
 
-bool QEXTNavigationBar::isFlat() const
+bool QExtNavigationBar::isFlat() const
 {
-    Q_D(const QEXTNavigationBar);
+    Q_D(const QExtNavigationBar);
     return d->m_flat;
 }
 
-QSize QEXTNavigationBar::sizeHint() const
+QSize QExtNavigationBar::sizeHint() const
 {
     return QSize(500, 30);
 }
 
-QSize QEXTNavigationBar::minimumSizeHint() const
+QSize QExtNavigationBar::minimumSizeHint() const
 {
     return QSize(30, 30);
 }
 
-void QEXTNavigationBar::clearItem()
+void QExtNavigationBar::clearItem()
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     d->m_listItem.clear();
     this->update();
 }
 
-void QEXTNavigationBar::setBackgroundStartColor(const QColor &color)
+void QExtNavigationBar::setBackgroundStartColor(const QColor &color)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_backgroundStartColor != color)
     {
         d->m_backgroundStartColor = color;
@@ -467,9 +492,9 @@ void QEXTNavigationBar::setBackgroundStartColor(const QColor &color)
     }
 }
 
-void QEXTNavigationBar::setBackgroundEndColor(const QColor &color)
+void QExtNavigationBar::setBackgroundEndColor(const QColor &color)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_backgroundEndColor != color)
     {
         d->m_backgroundEndColor = color;
@@ -478,9 +503,9 @@ void QEXTNavigationBar::setBackgroundEndColor(const QColor &color)
     }
 }
 
-void QEXTNavigationBar::setBarStartColor(const QColor &color)
+void QExtNavigationBar::setBarStartColor(const QColor &color)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_barStartColor != color)
     {
         d->m_barStartColor = color;
@@ -488,9 +513,9 @@ void QEXTNavigationBar::setBarStartColor(const QColor &color)
     }
 }
 
-void QEXTNavigationBar::setBarEndColor(const QColor &color)
+void QExtNavigationBar::setBarEndColor(const QColor &color)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_barEndColor != color)
     {
         d->m_barEndColor = color;
@@ -499,9 +524,9 @@ void QEXTNavigationBar::setBarEndColor(const QColor &color)
     }
 }
 
-void QEXTNavigationBar::setTextNormalColor(const QColor &color)
+void QExtNavigationBar::setTextNormalColor(const QColor &color)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_textNormalColor != color)
     {
         d->m_textNormalColor = color;
@@ -509,9 +534,9 @@ void QEXTNavigationBar::setTextNormalColor(const QColor &color)
     }
 }
 
-void QEXTNavigationBar::setTextSelectColor(const QColor &color)
+void QExtNavigationBar::setTextSelectColor(const QColor &color)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_textSelectColor != color)
     {
         d->m_textSelectColor = color;
@@ -519,9 +544,9 @@ void QEXTNavigationBar::setTextSelectColor(const QColor &color)
     }
 }
 
-void QEXTNavigationBar::setItems(const QString &items)
+void QExtNavigationBar::setItems(const QString &items)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     d->m_items = items;
     d->m_listItem.clear();
 
@@ -534,19 +559,19 @@ void QEXTNavigationBar::setItems(const QString &items)
     this->update();
 }
 
-void QEXTNavigationBar::setCurrentIndex(int index)
+void QExtNavigationBar::setCurrentIndex(int index)
 {
     this->moveTo(index);
 }
 
-void QEXTNavigationBar::setCurrentItem(const QString &item)
+void QExtNavigationBar::setCurrentItem(const QString &item)
 {
     this->moveTo(item);
 }
 
-void QEXTNavigationBar::setBackgroundRadius(int radius)
+void QExtNavigationBar::setBackgroundRadius(int radius)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_backgroundRadius != radius)
     {
         d->m_backgroundRadius = radius;
@@ -554,9 +579,9 @@ void QEXTNavigationBar::setBackgroundRadius(int radius)
     }
 }
 
-void QEXTNavigationBar::setBarRadius(int radius)
+void QExtNavigationBar::setBarRadius(int radius)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_barRadius != radius)
     {
         d->m_barRadius = radius;
@@ -564,9 +589,9 @@ void QEXTNavigationBar::setBarRadius(int radius)
     }
 }
 
-void QEXTNavigationBar::setSpace(int space)
+void QExtNavigationBar::setSpace(int space)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_space != space)
     {
         d->m_space = space;
@@ -574,9 +599,9 @@ void QEXTNavigationBar::setSpace(int space)
     }
 }
 
-void QEXTNavigationBar::setLineWidth(int width)
+void QExtNavigationBar::setLineWidth(int width)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_lineWidth != width)
     {
         d->m_lineWidth = width;
@@ -584,9 +609,9 @@ void QEXTNavigationBar::setLineWidth(int width)
     }
 }
 
-void QEXTNavigationBar::setLineColor(const QColor &color)
+void QExtNavigationBar::setLineColor(const QColor &color)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_lineColor != color)
     {
         d->m_lineColor = color;
@@ -594,9 +619,9 @@ void QEXTNavigationBar::setLineColor(const QColor &color)
     }
 }
 
-void QEXTNavigationBar::setBarStyle(const QEXTNavigationBar::BarStyleType &style)
+void QExtNavigationBar::setBarStyle(const QExtNavigationBar::BarStyleType &style)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_barStyle != style)
     {
         d->m_barStyle = style;
@@ -604,9 +629,9 @@ void QEXTNavigationBar::setBarStyle(const QEXTNavigationBar::BarStyleType &style
     }
 }
 
-void QEXTNavigationBar::setKeyMoveEnable(bool enable)
+void QExtNavigationBar::setKeyMoveEnable(bool enable)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_keyMoveEnable != enable)
     {
         d->m_keyMoveEnable = enable;
@@ -621,9 +646,9 @@ void QEXTNavigationBar::setKeyMoveEnable(bool enable)
     }
 }
 
-void QEXTNavigationBar::setHorizontal(bool horizontal)
+void QExtNavigationBar::setHorizontal(bool horizontal)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_horizontal != horizontal)
     {
         d->m_horizontal = horizontal;
@@ -631,9 +656,9 @@ void QEXTNavigationBar::setHorizontal(bool horizontal)
     }
 }
 
-void QEXTNavigationBar::setFlat(bool flat)
+void QExtNavigationBar::setFlat(bool flat)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_flat != flat)
     {
         if (flat)
@@ -652,9 +677,9 @@ void QEXTNavigationBar::setFlat(bool flat)
     }
 }
 
-void QEXTNavigationBar::moveFirst()
+void QExtNavigationBar::moveFirst()
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     int index = 0;
     if (d->m_currentIndex != index)
     {
@@ -662,9 +687,9 @@ void QEXTNavigationBar::moveFirst()
     }
 }
 
-void QEXTNavigationBar::moveLast()
+void QExtNavigationBar::moveLast()
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     int index = d->m_listItem.count() - 1;
     if (d->m_currentIndex != index)
     {
@@ -672,9 +697,9 @@ void QEXTNavigationBar::moveLast()
     }
 }
 
-void QEXTNavigationBar::movePrevious()
+void QExtNavigationBar::movePrevious()
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_currentIndex > 0)
     {
         d->m_currentIndex--;
@@ -682,9 +707,9 @@ void QEXTNavigationBar::movePrevious()
     }
 }
 
-void QEXTNavigationBar::moveNext()
+void QExtNavigationBar::moveNext()
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (d->m_currentIndex < d->m_listItem.count() - 1)
     {
         d->m_currentIndex++;
@@ -692,9 +717,9 @@ void QEXTNavigationBar::moveNext()
     }
 }
 
-void QEXTNavigationBar::moveTo(int index)
+void QExtNavigationBar::moveTo(int index)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     if (index >= 0 && d->m_listItem.count() > index)
     {
         QRectF rec = d->m_listItem.at(index).second;
@@ -703,9 +728,9 @@ void QEXTNavigationBar::moveTo(int index)
     }
 }
 
-void QEXTNavigationBar::moveTo(const QString &item)
+void QExtNavigationBar::moveTo(const QString &item)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     int count = d->m_listItem.count();
     for (int i = 0; i < count; i++)
     {
@@ -717,9 +742,9 @@ void QEXTNavigationBar::moveTo(const QString &item)
     }
 }
 
-void QEXTNavigationBar::moveTo(const QPointF &point)
+void QExtNavigationBar::moveTo(const QPointF &point)
 {
-    Q_D(QEXTNavigationBar);
+    Q_D(QExtNavigationBar);
     int count = d->m_listItem.count();
     for (int i = 0; i < count; i++)
     {

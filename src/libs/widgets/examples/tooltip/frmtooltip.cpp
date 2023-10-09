@@ -16,21 +16,21 @@ FrmTooltip::~FrmTooltip()
 
 void FrmTooltip::initForm()
 {
-    ui->navLabel11->setArrowPosition(QEXTTooltip::ArrowPosition_Left);
-    ui->navLabel12->setArrowPosition(QEXTTooltip::ArrowPosition_Left);
-    ui->navLabel13->setArrowPosition(QEXTTooltip::ArrowPosition_Left);
+    ui->navLabel11->setArrowPosition(QExtTooltip::ArrowPosition_Left);
+    ui->navLabel12->setArrowPosition(QExtTooltip::ArrowPosition_Left);
+    ui->navLabel13->setArrowPosition(QExtTooltip::ArrowPosition_Left);
 
-    ui->navLabel21->setArrowPosition(QEXTTooltip::ArrowPosition_Right);
-    ui->navLabel22->setArrowPosition(QEXTTooltip::ArrowPosition_Right);
-    ui->navLabel23->setArrowPosition(QEXTTooltip::ArrowPosition_Right);
+    ui->navLabel21->setArrowPosition(QExtTooltip::ArrowPosition_Right);
+    ui->navLabel22->setArrowPosition(QExtTooltip::ArrowPosition_Right);
+    ui->navLabel23->setArrowPosition(QExtTooltip::ArrowPosition_Right);
 
-    ui->navLabel31->setArrowPosition(QEXTTooltip::ArrowPosition_Top);
-    ui->navLabel32->setArrowPosition(QEXTTooltip::ArrowPosition_Top);
-    ui->navLabel33->setArrowPosition(QEXTTooltip::ArrowPosition_Top);
+    ui->navLabel31->setArrowPosition(QExtTooltip::ArrowPosition_Top);
+    ui->navLabel32->setArrowPosition(QExtTooltip::ArrowPosition_Top);
+    ui->navLabel33->setArrowPosition(QExtTooltip::ArrowPosition_Top);
 
-    ui->navLabel41->setArrowPosition(QEXTTooltip::ArrowPosition_Bottom);
-    ui->navLabel42->setArrowPosition(QEXTTooltip::ArrowPosition_Bottom);
-    ui->navLabel43->setArrowPosition(QEXTTooltip::ArrowPosition_Bottom);
+    ui->navLabel41->setArrowPosition(QExtTooltip::ArrowPosition_Bottom);
+    ui->navLabel42->setArrowPosition(QExtTooltip::ArrowPosition_Bottom);
+    ui->navLabel43->setArrowPosition(QExtTooltip::ArrowPosition_Bottom);
 
     ui->navLabel12->setBackgroundColor(QColor(255, 107, 107));
     ui->navLabel13->setBackgroundColor(QColor(24, 189, 155));

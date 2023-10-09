@@ -1,3 +1,28 @@
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2019 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
 #include <private/qextIndicatorLight_p.h>
 
 #include <QDebug>
@@ -7,12 +32,12 @@
 #include <QPainterPath>
 
 
-QEXTIndicatorLightPrivate::QEXTIndicatorLightPrivate(QEXTIndicatorLight *q)
+QExtIndicatorLightPrivate::QExtIndicatorLightPrivate(QExtIndicatorLight *q)
     : q_ptr(q)
 {
     m_text = "";
-    m_style = QEXTIndicatorLight::Style_Red;
-    m_shape = QEXTIndicatorLight::Shape_Circle;
+    m_style = QExtIndicatorLight::Style_Red;
+    m_shape = QExtIndicatorLight::Shape_Circle;
     m_lightTextColor = QColor(255, 255, 255);
     m_normalTextColor = QColor(255, 255, 255);
     m_lightBackgroundColor = QColor(255, 0, 0);
@@ -31,7 +56,7 @@ QEXTIndicatorLightPrivate::QEXTIndicatorLightPrivate(QEXTIndicatorLight *q)
     m_lightState = false;
 }
 
-QEXTIndicatorLightPrivate::~QEXTIndicatorLightPrivate()
+QExtIndicatorLightPrivate::~QExtIndicatorLightPrivate()
 {
     if (m_flickerTimer->isActive()) {
         m_flickerTimer->stop();
@@ -39,10 +64,10 @@ QEXTIndicatorLightPrivate::~QEXTIndicatorLightPrivate()
 }
 
 
-QEXTIndicatorLight::QEXTIndicatorLight(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTIndicatorLightPrivate(this))
+QExtIndicatorLight::QExtIndicatorLight(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtIndicatorLightPrivate(this))
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     d->m_flickerTimer.reset(new QTimer);
     connect(d->m_flickerTimer.data(), SIGNAL(timeout()), this, SLOT(flicker()));
     d->m_flickerTimer->setInterval(500);
@@ -50,178 +75,178 @@ QEXTIndicatorLight::QEXTIndicatorLight(QWidget *parent)
     this->setFont(QFont("Arial", 4));
 }
 
-QEXTIndicatorLight::~QEXTIndicatorLight()
+QExtIndicatorLight::~QExtIndicatorLight()
 {
 
 }
 
 
-QString QEXTIndicatorLight::text() const
+QString QExtIndicatorLight::text() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_text;
 }
 
-QColor QEXTIndicatorLight::lightTextColor() const
+QColor QExtIndicatorLight::lightTextColor() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_lightTextColor;
 }
 
-QColor QEXTIndicatorLight::normalTextColor() const
+QColor QExtIndicatorLight::normalTextColor() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_normalTextColor;
 }
 
-QColor QEXTIndicatorLight::lightBackgroundColor() const
+QColor QExtIndicatorLight::lightBackgroundColor() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_lightBackgroundColor;
 }
 
-QColor QEXTIndicatorLight::normalBackgroundColor() const
+QColor QExtIndicatorLight::normalBackgroundColor() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_normalBackgroundColor;
 }
 
-int QEXTIndicatorLight::fontPixelSize() const
+int QExtIndicatorLight::fontPixelSize() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_fontPixelSize;
 }
 
-QColor QEXTIndicatorLight::outBorderStartColor() const
+QColor QExtIndicatorLight::outBorderStartColor() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_outBorderStartColor;
 }
 
-QColor QEXTIndicatorLight::outBorderEndColor() const
+QColor QExtIndicatorLight::outBorderEndColor() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_outBorderEndColor;
 }
 
-QColor QEXTIndicatorLight::inBorderStartColor() const
+QColor QExtIndicatorLight::inBorderStartColor() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_inBorderStartColor;
 }
 
-QColor QEXTIndicatorLight::inBorderEndColor() const
+QColor QExtIndicatorLight::inBorderEndColor() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_inBorderEndColor;
 }
 
-bool QEXTIndicatorLight::isMoveEnable() const
+bool QExtIndicatorLight::isMoveEnable() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_moveEnable;
 }
 
-bool QEXTIndicatorLight::isOverlayVisible() const
+bool QExtIndicatorLight::isOverlayVisible() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_overlayVisible;
 }
 
-QColor QEXTIndicatorLight::overlayColor() const
+QColor QExtIndicatorLight::overlayColor() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_overlayColor;
 }
 
-QEXTIndicatorLight::Style QEXTIndicatorLight::styleType() const
+QExtIndicatorLight::Style QExtIndicatorLight::styleType() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_style;
 }
 
-QEXTIndicatorLight::Shape QEXTIndicatorLight::shapeType() const
+QExtIndicatorLight::Shape QExtIndicatorLight::shapeType() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_shape;
 }
 
-bool QEXTIndicatorLight::lightState() const
+bool QExtIndicatorLight::lightState() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_lightState;
 }
 
-bool QEXTIndicatorLight::flickerState() const
+bool QExtIndicatorLight::flickerState() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_flickerTimer->isActive();
 }
 
-int QEXTIndicatorLight::flickerInterval() const
+int QExtIndicatorLight::flickerInterval() const
 {
-    Q_D(const QEXTIndicatorLight);
+    Q_D(const QExtIndicatorLight);
     return d->m_flickerTimer->interval();
 }
 
-QSize QEXTIndicatorLight::sizeHint() const
+QSize QExtIndicatorLight::sizeHint() const
 {
     return QSize(100, 100);
 }
 
-QSize QEXTIndicatorLight::minimumSizeHint() const
+QSize QExtIndicatorLight::minimumSizeHint() const
 {
     return QSize(10, 10);
 }
 
-void QEXTIndicatorLight::setText(const QString &text)
+void QExtIndicatorLight::setText(const QString &text)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (text != d->m_text) {
         d->m_text = text;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setTextLightColor(const QColor &color)
+void QExtIndicatorLight::setTextLightColor(const QColor &color)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (color != d->m_lightTextColor) {
         d->m_lightTextColor = color;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setTextNormalColor(const QColor &color)
+void QExtIndicatorLight::setTextNormalColor(const QColor &color)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (color != d->m_normalTextColor) {
         d->m_normalTextColor = color;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setBackgroundLightColor(const QColor &color)
+void QExtIndicatorLight::setBackgroundLightColor(const QColor &color)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (color != d->m_lightBackgroundColor) {
         d->m_lightBackgroundColor = color;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setBackgroundNormalColor(const QColor &color)
+void QExtIndicatorLight::setBackgroundNormalColor(const QColor &color)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (color != d->m_normalBackgroundColor) {
         d->m_normalBackgroundColor = color;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setFontPixelSize(const int &size)
+void QExtIndicatorLight::setFontPixelSize(const int &size)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (size <= 0) {
         qCritical() << "QEXTLightButton::setFontPixelSize():iSize must be greater than zero!";
         return;
@@ -232,72 +257,72 @@ void QEXTIndicatorLight::setFontPixelSize(const int &size)
     }
 }
 
-void QEXTIndicatorLight::setBorderOutStartColor(const QColor &color)
+void QExtIndicatorLight::setBorderOutStartColor(const QColor &color)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (color != d->m_outBorderStartColor) {
         d->m_outBorderStartColor = color;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setBorderOutEndColor(const QColor &color)
+void QExtIndicatorLight::setBorderOutEndColor(const QColor &color)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (color != d->m_outBorderEndColor) {
         d->m_outBorderEndColor = color;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setBorderInStartColor(const QColor &color)
+void QExtIndicatorLight::setBorderInStartColor(const QColor &color)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (color != d->m_inBorderStartColor) {
         d->m_inBorderStartColor = color;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setBorderInEndColor(const QColor &color)
+void QExtIndicatorLight::setBorderInEndColor(const QColor &color)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (color != d->m_inBorderEndColor) {
         d->m_inBorderEndColor = color;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setMoveEnable(const bool &enable)
+void QExtIndicatorLight::setMoveEnable(const bool &enable)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (enable != d->m_moveEnable) {
         d->m_moveEnable = enable;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setOverlayVisible(const bool &visiable)
+void QExtIndicatorLight::setOverlayVisible(const bool &visiable)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (visiable != d->m_overlayVisible) {
         d->m_overlayVisible = visiable;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setOverlayColor(const QColor &color)
+void QExtIndicatorLight::setOverlayColor(const QColor &color)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (color != d->m_overlayColor) {
         d->m_overlayColor = color;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setStyleType(const QEXTIndicatorLight::Style &type)
+void QExtIndicatorLight::setStyleType(const QExtIndicatorLight::Style &type)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (type != d->m_style) {
         d->m_style = type;
         switch (type) {
@@ -353,25 +378,25 @@ void QEXTIndicatorLight::setStyleType(const QEXTIndicatorLight::Style &type)
     }
 }
 
-void QEXTIndicatorLight::setShapeType(const QEXTIndicatorLight::Shape &type)
+void QExtIndicatorLight::setShapeType(const QExtIndicatorLight::Shape &type)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (type != d->m_shape) {
         d->m_shape = type;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setLightState(const bool &state)
+void QExtIndicatorLight::setLightState(const bool &state)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (state != d->m_lightState) {
         d->m_lightState = state;
         this->update();
     }
 }
 
-void QEXTIndicatorLight::setFlickerState(const bool &state)
+void QExtIndicatorLight::setFlickerState(const bool &state)
 {
     if (state) {
         this->startFlicker();
@@ -380,9 +405,9 @@ void QEXTIndicatorLight::setFlickerState(const bool &state)
     }
 }
 
-void QEXTIndicatorLight::setFlickerInterval(const int &interval)
+void QExtIndicatorLight::setFlickerInterval(const int &interval)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (interval <= 0) {
         qCritical() << "QEXTLightButton::setFlickerInterval():interval must be greate than zero!";
         return;
@@ -396,17 +421,17 @@ void QEXTIndicatorLight::setFlickerInterval(const int &interval)
     }
 }
 
-void QEXTIndicatorLight::startFlicker()
+void QExtIndicatorLight::startFlicker()
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (!d->m_flickerTimer->isActive()) {
         d->m_flickerTimer->start();
     }
 }
 
-void QEXTIndicatorLight::stopFlicker()
+void QExtIndicatorLight::stopFlicker()
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (d->m_flickerTimer->isActive()) {
         d->m_flickerTimer->stop();
         d->m_lightState = false;
@@ -414,9 +439,9 @@ void QEXTIndicatorLight::stopFlicker()
     }
 }
 
-bool QEXTIndicatorLight::eventFilter(QObject *watched, QEvent *event)
+bool QExtIndicatorLight::eventFilter(QObject *watched, QEvent *event)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (d->m_moveEnable) {
         static QPoint lastPnt;
         static bool pressed = false;
@@ -438,7 +463,7 @@ bool QEXTIndicatorLight::eventFilter(QObject *watched, QEvent *event)
     return QWidget::eventFilter(watched, event);
 }
 
-void QEXTIndicatorLight::paintEvent(QPaintEvent *)
+void QExtIndicatorLight::paintEvent(QPaintEvent *)
 {
     int width = this->width();
     int height = this->height();
@@ -457,9 +482,9 @@ void QEXTIndicatorLight::paintEvent(QPaintEvent *)
     this->drawOverlay(&painter);
 }
 
-void QEXTIndicatorLight::drawBorderOut(QPainter *painter)
+void QExtIndicatorLight::drawBorderOut(QPainter *painter)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     int radius = 99;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -468,23 +493,23 @@ void QEXTIndicatorLight::drawBorderOut(QPainter *painter)
     borderGradient.setColorAt(1, d->m_outBorderEndColor);
     painter->setBrush(borderGradient);
     switch (d->m_shape) {
-    case QEXTIndicatorLight::Shape_Circle:
+    case QExtIndicatorLight::Shape_Circle:
     {
         painter->drawEllipse(-radius, -radius, radius * 2, radius * 2);
         break;
     }
-    case QEXTIndicatorLight::Shape_Square:
+    case QExtIndicatorLight::Shape_Square:
     {
         painter->drawRect(-radius, -radius, radius * 2, radius * 2);
         break;
     }
-    case QEXTIndicatorLight::Shape_Triangle:
+    case QExtIndicatorLight::Shape_Triangle:
     {
         QPointF points[3] = {QPoint(0, -radius), QPoint(-radius, radius), QPoint(radius, radius)};
         painter->drawPolygon(points, 3);
         break;
     }
-    case QEXTIndicatorLight::Shape_Rounded:
+    case QExtIndicatorLight::Shape_Rounded:
     {
         painter->drawRoundedRect(-radius, -radius, radius * 2, radius * 2, radius / 2, radius / 2);
         break;
@@ -495,9 +520,9 @@ void QEXTIndicatorLight::drawBorderOut(QPainter *painter)
     painter->restore();
 }
 
-void QEXTIndicatorLight::drawBorderIn(QPainter *painter)
+void QExtIndicatorLight::drawBorderIn(QPainter *painter)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     int radius = 90;
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -506,23 +531,23 @@ void QEXTIndicatorLight::drawBorderIn(QPainter *painter)
     borderGradient.setColorAt(1, d->m_inBorderEndColor);
     painter->setBrush(borderGradient);
     switch (d->m_shape) {
-    case QEXTIndicatorLight::Shape_Circle:
+    case QExtIndicatorLight::Shape_Circle:
     {
         painter->drawEllipse(-radius, -radius, radius * 2, radius * 2);
         break;
     }
-    case QEXTIndicatorLight::Shape_Square:
+    case QExtIndicatorLight::Shape_Square:
     {
         painter->drawRect(-radius, -radius, radius * 2, radius * 2);
         break;
     }
-    case QEXTIndicatorLight::Shape_Triangle:
+    case QExtIndicatorLight::Shape_Triangle:
     {
         QPointF points[3] = {QPoint(0, -radius), QPoint(-radius, radius), QPoint(radius, radius)};
         painter->drawPolygon(points, 3);
         break;
     }
-    case QEXTIndicatorLight::Shape_Rounded:
+    case QExtIndicatorLight::Shape_Rounded:
     {
         painter->drawRoundedRect(-radius, -radius, radius * 2, radius * 2, radius / 2, radius / 2);
         break;
@@ -533,31 +558,31 @@ void QEXTIndicatorLight::drawBorderIn(QPainter *painter)
     painter->restore();
 }
 
-void QEXTIndicatorLight::drawBackground(QPainter *painter)
+void QExtIndicatorLight::drawBackground(QPainter *painter)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     int radius = 80;
     painter->save();
     painter->setPen(Qt::NoPen);
     painter->setBrush(d->m_lightState ? d->m_lightBackgroundColor : d->m_normalBackgroundColor);
     switch (d->m_shape) {
-    case QEXTIndicatorLight::Shape_Circle:
+    case QExtIndicatorLight::Shape_Circle:
     {
         painter->drawEllipse(-radius, -radius, radius * 2, radius * 2);
         break;
     }
-    case QEXTIndicatorLight::Shape_Square:
+    case QExtIndicatorLight::Shape_Square:
     {
         painter->drawRect(-radius, -radius, radius * 2, radius * 2);
         break;
     }
-    case QEXTIndicatorLight::Shape_Triangle:
+    case QExtIndicatorLight::Shape_Triangle:
     {
         QPointF points[3] = {QPoint(0, -radius), QPoint(-radius, radius), QPoint(radius, radius)};
         painter->drawPolygon(points, 3);
         break;
     }
-    case QEXTIndicatorLight::Shape_Rounded:
+    case QExtIndicatorLight::Shape_Rounded:
     {
         painter->drawRoundedRect(-radius, -radius, radius * 2, radius * 2, radius / 2, radius / 2);
         break;
@@ -568,9 +593,9 @@ void QEXTIndicatorLight::drawBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTIndicatorLight::drawText(QPainter *painter)
+void QExtIndicatorLight::drawText(QPainter *painter)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (d->m_text.isEmpty()) {
         return;
     }
@@ -587,9 +612,9 @@ void QEXTIndicatorLight::drawText(QPainter *painter)
     painter->restore();
 }
 
-void QEXTIndicatorLight::drawOverlay(QPainter *painter)
+void QExtIndicatorLight::drawOverlay(QPainter *painter)
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     if (!d->m_overlayVisible) {
         return;
     }
@@ -601,7 +626,7 @@ void QEXTIndicatorLight::drawOverlay(QPainter *painter)
     QPainterPath smallCircle;
     QPainterPath bigCircle;
     switch (d->m_shape) {
-    case QEXTIndicatorLight::Shape_Circle:
+    case QExtIndicatorLight::Shape_Circle:
     {
         radius -= 1;
         smallCircle.addEllipse(-radius, -radius, radius * 2, radius * 2);
@@ -609,7 +634,7 @@ void QEXTIndicatorLight::drawOverlay(QPainter *painter)
         bigCircle.addEllipse(-radius + 30, -radius + 140, radius * 2, radius * 2);
         break;
     }
-    case QEXTIndicatorLight::Shape_Square:
+    case QExtIndicatorLight::Shape_Square:
     {
         radius -= 1;
         smallCircle.addRect(-radius, -radius, radius * 2, radius * 2);
@@ -617,7 +642,7 @@ void QEXTIndicatorLight::drawOverlay(QPainter *painter)
         bigCircle.addEllipse(-radius + 30, -radius + 140, radius * 2, radius * 2);
         break;
     }
-    case QEXTIndicatorLight::Shape_Triangle:
+    case QExtIndicatorLight::Shape_Triangle:
     {
         radius -= 1;
         QPolygonF smallPolygonF;
@@ -627,7 +652,7 @@ void QEXTIndicatorLight::drawOverlay(QPainter *painter)
         bigCircle.addEllipse(-radius + 30, -radius + 170, radius * 2, radius * 2);
         break;
     }
-    case QEXTIndicatorLight::Shape_Rounded:
+    case QExtIndicatorLight::Shape_Rounded:
     {
         radius -= 1;
         smallCircle.addRoundedRect(-radius, -radius, radius * 2, radius * 2, 25, 25);
@@ -651,9 +676,9 @@ void QEXTIndicatorLight::drawOverlay(QPainter *painter)
     painter->restore();
 }
 
-void QEXTIndicatorLight::flicker()
+void QExtIndicatorLight::flicker()
 {
-    Q_D(QEXTIndicatorLight);
+    Q_D(QExtIndicatorLight);
     d->m_lightState = !d->m_lightState;
     this->update();
 }

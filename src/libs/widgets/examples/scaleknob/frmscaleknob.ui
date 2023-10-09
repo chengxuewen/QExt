@@ -116,7 +116,7 @@
        </widget>
       </item>
       <item row="0" column="2">
-       <widget class="QEXTScaleKnob" name="gaugeMini3" native="true">
+       <widget class="QExtScaleKnob" name="gaugeMini3" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -126,7 +126,7 @@
        </widget>
       </item>
       <item row="3" column="2">
-       <widget class="QEXTScaleKnob" name="gaugeMini6" native="true">
+       <widget class="QExtScaleKnob" name="gaugeMini6" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -136,7 +136,7 @@
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QEXTScaleKnob" name="gaugeMini1" native="true">
+       <widget class="QExtScaleKnob" name="gaugeMini1" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -146,7 +146,7 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QEXTScaleKnob" name="gaugeMini5" native="true">
+       <widget class="QExtScaleKnob" name="gaugeMini5" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -156,7 +156,7 @@
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QEXTScaleKnob" name="gaugeMini4" native="true">
+       <widget class="QExtScaleKnob" name="gaugeMini4" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -166,7 +166,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QEXTScaleKnob" name="gaugeMini2" native="true">
+       <widget class="QExtScaleKnob" name="gaugeMini2" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -219,7 +219,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTScaleKnob</class>
+   <class>QExtScaleKnob</class>
    <extends>QWidget</extends>
    <header>qextScaleKnob.h</header>
    <container>1</container>

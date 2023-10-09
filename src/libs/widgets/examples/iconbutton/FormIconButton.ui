@@ -14,17 +14,17 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QEXTIconButton
+   <string notr="true">QExtIconButton
 {
 	background-color: rgb(0, 170, 0);
 	qproperty-iconColor:rgb(170, 0, 255);
 }
-QEXTIconButton:hover
+QExtIconButton:hover
 {
 	background-color: rgb(255, 0, 0);
 	qproperty-iconColor:rgb(255, 255, 255);
 }
-QEXTIconButton:pressed
+QExtIconButton:pressed
 {
 	background-color: rgb(0, 170, 0);
 	qproperty-iconColor:rgb(255, 255, 255);
@@ -139,7 +139,7 @@ QEXTIconButton:pressed
     </widget>
    </item>
    <item>
-    <widget class="QEXTIconButton" name="pushButton">
+    <widget class="QExtIconButton" name="pushButton">
      <property name="minimumSize">
       <size>
        <width>80</width>
@@ -177,7 +177,7 @@ QEXTIconButton:pressed
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTIconButton</class>
+   <class>QExtIconButton</class>
    <extends>QPushButton</extends>
    <header>qextIconButton.h</header>
   </customwidget>

@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-class QEXTSelectSlider;
+class QExtSelectSlider;
 
 namespace Ui
 {
@@ -20,7 +20,7 @@ public:
 
 private:
     Ui::frmSelectSlider *ui;
-    QList<QEXTSelectSlider *> sliders;
+    QList<QExtSelectSlider *> sliders;
 
 private slots:
     void initForm();

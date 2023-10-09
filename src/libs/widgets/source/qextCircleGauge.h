@@ -1,31 +1,27 @@
-﻿/*************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
-** Copyright (C) 2021 ChengXueWen. Contact: 1398831004@qq.com
 ** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
 **
 ** License: MIT License
 **
-** Permission is hereby granted, free of charge, to any person obtaining
-** a copy of this software and associated documentation files (the "Software"),
-** to deal in the Software without restriction, including without limitation
-** the rights to use, copy, modify, merge, publish, distribute, sublicense,
-** and/or sell copies of the Software, and to permit persons to whom the
-** Software is furnished to do so, subject to the following conditions:
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 **
-** The above copyright notice and this permission notice shall be included in
-** all copies or substantial portions of the Software.
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
 **
-** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-** IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-** FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-** AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-** LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-** OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-** SOFTWARE.
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
 **
-*************************************************************************************/
+***********************************************************************************************************************/
 
 #ifndef _QEXTCIRCLEGAUGE_H
 #define _QEXTCIRCLEGAUGE_H
@@ -35,8 +31,8 @@
 #include <QWidget>
 #include <QEasingCurve>
 
-class QEXTCircleGaugePrivate;
-class QEXT_WIDGETS_API QEXTCircleGauge : public QWidget
+class QExtCircleGaugePrivate;
+class QEXT_WIDGETS_API QExtCircleGauge : public QWidget
 {
     Q_OBJECT
 
@@ -91,8 +87,8 @@ public:
     };
     Q_ENUMS(PointerStyleType)
 
-    explicit QEXTCircleGauge(QWidget *parent = QEXT_DECL_NULLPTR);
-    ~QEXTCircleGauge();
+    explicit QExtCircleGauge(QWidget *parent = QEXT_DECL_NULLPTR);
+    ~QExtCircleGauge();
 
 public:
     double minValue() const;
@@ -194,14 +190,14 @@ protected:
     void drawValue(QPainter *painter);
     void drawOverlay(QPainter *painter);
 
-    QScopedPointer<QEXTCircleGaugePrivate> dd_ptr;
+    QScopedPointer<QExtCircleGaugePrivate> dd_ptr;
 
 private slots:
     void updateValue(const QVariant &value);
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTCircleGauge)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTCircleGauge)
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtCircleGauge)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtCircleGauge)
 };
 
 #endif // _QEXTCIRCLEGAUGE_H

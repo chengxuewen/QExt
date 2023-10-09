@@ -1,40 +1,37 @@
-#################################################################################
+########################################################################################################################
 #
 # Library: QExt
 #
-# Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
+# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
+# License: MIT License
 #
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+# to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 #
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions
+# of the Software.
 #
-#################################################################################
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  AUTHORS
+# OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+########################################################################################################################
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Set lib base name and out put path
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_QML_PLUGIN_BASE_NAME QEXTQmlQuick)
 set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME})
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Set lib qmltype and cfg
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE ON)
 set(QEXT_QML_PLUGIN_NAME ${QEXT_QML_PLUGIN_BASE_NAME})
 set(QEXT_QML_PLUGIN_VERSION_MAJOR 1)
@@ -47,9 +44,9 @@ endif()
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Configure a header file to pass some of the CMake settings to the source code
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/qextQmlQuickConfig.h.in"
     "${CMAKE_CURRENT_BINARY_DIR}/qextQmlQuickConfig.h"
@@ -57,9 +54,9 @@ configure_file(
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Set lib file list
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_QML_PLUGIN_PUBLIC_HEADERS
     ${CMAKE_CURRENT_BINARY_DIR}/qextQmlQuickConfig.h
 
@@ -112,9 +109,9 @@ set(QEXT_QML_PLUGIN_RESOURCES
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Add lib link libraries
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_QML_PLUGIN_LINK_LIBRARIES)
 
 if(QEXT_QT_VERSION_MAJOR GREATER 4)
@@ -140,9 +137,9 @@ list(APPEND QEXT_QML_PLUGIN_LINK_LIBRARIES QEXTCore)
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 add_library(${QEXT_QML_PLUGIN_BASE_NAME}
     ${QEXT_QML_PLUGIN_PUBLIC_HEADERS}
     ${QEXT_QML_PLUGIN_PRIVATE_HEADERS}
@@ -251,9 +248,9 @@ endif()
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Add lib tests and examples
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 if (QEXT_BUILD_TESTS OR QEXT_BUILD_ALL)
     add_subdirectory(tests)
 endif()

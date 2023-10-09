@@ -1,4 +1,29 @@
-﻿#include <private/qextRangeSlider_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextRangeSlider_p.h>
 
 #include <QPainter>
 #include <QMouseEvent>
@@ -7,7 +32,7 @@
 #include <qmath.h>
 
 
-QEXTRangeSliderPrivate::QEXTRangeSliderPrivate(QEXTRangeSlider *q)
+QExtRangeSliderPrivate::QExtRangeSliderPrivate(QExtRangeSlider *q)
     : q_ptr(q)
 {
     m_minValue = 0;
@@ -26,36 +51,36 @@ QEXTRangeSliderPrivate::QEXTRangeSliderPrivate(QEXTRangeSlider *q)
     m_sliderColor = QColor(250, 250, 250);
     m_borderColor = QColor(255, 107, 107);
 
-    m_sliderStyle = QEXTRangeSlider::SliderStyle_Line;
-    m_sliderBackgroundPercent = QEXTRangeSlider::SliderBgPercent_0_2;
-    m_sliderPercent = QEXTRangeSlider::SliderPercent_0_3;
+    m_sliderStyle = QExtRangeSlider::SliderStyle_Line;
+    m_sliderBackgroundPercent = QExtRangeSlider::SliderBgPercent_0_2;
+    m_sliderPercent = QExtRangeSlider::SliderPercent_0_3;
 
     m_leftPressed = false;
     m_rightPressed = false;
 }
 
-QEXTRangeSliderPrivate::~QEXTRangeSliderPrivate()
+QExtRangeSliderPrivate::~QExtRangeSliderPrivate()
 {
 
 }
 
 
 
-QEXTRangeSlider::QEXTRangeSlider(QWidget *parent)
+QExtRangeSlider::QExtRangeSlider(QWidget *parent)
     : QWidget(parent)
-    , dd_ptr(new QEXTRangeSliderPrivate(this))
+    , dd_ptr(new QExtRangeSliderPrivate(this))
 {
     this->setFont(QFont("Arial", 8));
 }
 
-QEXTRangeSlider::~QEXTRangeSlider()
+QExtRangeSlider::~QExtRangeSlider()
 {
 
 }
 
-void QEXTRangeSlider::mousePressEvent(QMouseEvent *e)
+void QExtRangeSlider::mousePressEvent(QMouseEvent *e)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (e->button() & Qt::LeftButton) {
         if (d->m_leftSliderRect.contains(e->pos())) {
             d->m_leftPressed = true;
@@ -67,17 +92,17 @@ void QEXTRangeSlider::mousePressEvent(QMouseEvent *e)
     }
 }
 
-void QEXTRangeSlider::mouseReleaseEvent(QMouseEvent *)
+void QExtRangeSlider::mouseReleaseEvent(QMouseEvent *)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     d->m_leftPressed = false;
     d->m_rightPressed = false;
     this->update();
 }
 
-void QEXTRangeSlider::mouseMoveEvent(QMouseEvent *e)
+void QExtRangeSlider::mouseMoveEvent(QMouseEvent *e)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_leftPressed) {
         if (e->pos().x() >= rect().x()) {
             int width = this->width();
@@ -106,9 +131,9 @@ void QEXTRangeSlider::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
-void QEXTRangeSlider::paintEvent(QPaintEvent *)
+void QExtRangeSlider::paintEvent(QPaintEvent *)
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
@@ -123,9 +148,9 @@ void QEXTRangeSlider::paintEvent(QPaintEvent *)
     this->drawValue(&painter);
 }
 
-void QEXTRangeSlider::drawSliderBackground(QPainter *painter)
+void QExtRangeSlider::drawSliderBackground(QPainter *painter)
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     painter->save();
 
     int width = this->width();
@@ -146,9 +171,9 @@ void QEXTRangeSlider::drawSliderBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTRangeSlider::drawSliderLine(QPainter *painter)
+void QExtRangeSlider::drawSliderLine(QPainter *painter)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     painter->save();
     painter->setPen(Qt::NoPen);
 
@@ -180,9 +205,9 @@ void QEXTRangeSlider::drawSliderLine(QPainter *painter)
     painter->restore();
 }
 
-void QEXTRangeSlider::drawSliderCircle(QPainter *painter)
+void QExtRangeSlider::drawSliderCircle(QPainter *painter)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     painter->save();
     painter->setPen(Qt::NoPen);
 
@@ -219,9 +244,9 @@ void QEXTRangeSlider::drawSliderCircle(QPainter *painter)
     painter->restore();
 }
 
-void QEXTRangeSlider::drawValue(QPainter *painter)
+void QExtRangeSlider::drawValue(QPainter *painter)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (!d->m_textVisible) {
         return;
     }
@@ -241,115 +266,115 @@ void QEXTRangeSlider::drawValue(QPainter *painter)
     painter->restore();
 }
 
-int QEXTRangeSlider::minValue() const
+int QExtRangeSlider::minValue() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_minValue;
 }
 
-int QEXTRangeSlider::maxValue() const
+int QExtRangeSlider::maxValue() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_maxValue;
 }
 
-int QEXTRangeSlider::leftValue() const
+int QExtRangeSlider::leftValue() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_leftValue;
 }
 
-int QEXTRangeSlider::rightValue() const
+int QExtRangeSlider::rightValue() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_rightValue;
 }
 
-int QEXTRangeSlider::borderWidth() const
+int QExtRangeSlider::borderWidth() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_borderWidth;
 }
 
-bool QEXTRangeSlider::horizontal() const
+bool QExtRangeSlider::horizontal() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_horizontal;
 }
 
-bool QEXTRangeSlider::isTextVisible() const
+bool QExtRangeSlider::isTextVisible() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_textVisible;
 }
 
-QColor QEXTRangeSlider::usedColor() const
+QColor QExtRangeSlider::usedColor() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_usedColor;
 }
 
-QColor QEXTRangeSlider::freeColor() const
+QColor QExtRangeSlider::freeColor() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_freeColor;
 }
 
-QColor QEXTRangeSlider::textColor() const
+QColor QExtRangeSlider::textColor() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_textColor;
 }
 
-QColor QEXTRangeSlider::rangeTextColor() const
+QColor QExtRangeSlider::rangeTextColor() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_rangeTextColor;
 }
 
-QColor QEXTRangeSlider::sliderColor() const
+QColor QExtRangeSlider::sliderColor() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_sliderColor;
 }
 
-QColor QEXTRangeSlider::borderColor() const
+QColor QExtRangeSlider::borderColor() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_borderColor;
 }
 
-QEXTRangeSlider::SliderStyle QEXTRangeSlider::sliderStyle() const
+QExtRangeSlider::SliderStyle QExtRangeSlider::sliderStyle() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_sliderStyle;
 }
 
-QEXTRangeSlider::SliderBgPercent QEXTRangeSlider::sliderBgPercent() const
+QExtRangeSlider::SliderBgPercent QExtRangeSlider::sliderBgPercent() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_sliderBackgroundPercent;
 }
 
-QEXTRangeSlider::SliderPercent QEXTRangeSlider::sliderPercent() const
+QExtRangeSlider::SliderPercent QExtRangeSlider::sliderPercent() const
 {
-    Q_D(const QEXTRangeSlider);
+    Q_D(const QExtRangeSlider);
     return d->m_sliderPercent;
 }
 
-QSize QEXTRangeSlider::sizeHint() const
+QSize QExtRangeSlider::sizeHint() const
 {
     return QSize(300, 50);
 }
 
-QSize QEXTRangeSlider::minimumSizeHint() const
+QSize QExtRangeSlider::minimumSizeHint() const
 {
     return QSize(10, 10);
 }
 
-void QEXTRangeSlider::setRange(int minValue, int maxValue)
+void QExtRangeSlider::setRange(int minValue, int maxValue)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (minValue >= maxValue) {
         return;
     }
@@ -372,21 +397,21 @@ void QEXTRangeSlider::setRange(int minValue, int maxValue)
     this->update();
 }
 
-void QEXTRangeSlider::setMinValue(int minValue)
+void QExtRangeSlider::setMinValue(int minValue)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     this->setRange(minValue, d->m_maxValue);
 }
 
-void QEXTRangeSlider::setMaxValue(int maxValue)
+void QExtRangeSlider::setMaxValue(int maxValue)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     this->setRange(d->m_minValue, maxValue);
 }
 
-void QEXTRangeSlider::setCurrentRange(int leftValue, int rightValue)
+void QExtRangeSlider::setCurrentRange(int leftValue, int rightValue)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (leftValue > rightValue) {
         return;
     }
@@ -402,120 +427,120 @@ void QEXTRangeSlider::setCurrentRange(int leftValue, int rightValue)
     this->update();
 }
 
-void QEXTRangeSlider::setLeftValue(int leftValue)
+void QExtRangeSlider::setLeftValue(int leftValue)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     this->setCurrentRange(leftValue, d->m_rightValue);
 }
 
-void QEXTRangeSlider::setRightValue(int rightValue)
+void QExtRangeSlider::setRightValue(int rightValue)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     this->setCurrentRange(d->m_leftValue, rightValue);
 }
 
-void QEXTRangeSlider::setBorderWidth(int borderWidth)
+void QExtRangeSlider::setBorderWidth(int borderWidth)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_borderWidth != borderWidth) {
         d->m_borderWidth = borderWidth;
         this->update();
     }
 }
 
-void QEXTRangeSlider::setHorizontal(bool horizontal)
+void QExtRangeSlider::setHorizontal(bool horizontal)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_horizontal != horizontal) {
         d->m_horizontal = horizontal;
         this->update();
     }
 }
 
-void QEXTRangeSlider::setTextVisible(bool visiable)
+void QExtRangeSlider::setTextVisible(bool visiable)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_textVisible != visiable) {
         d->m_textVisible = visiable;
         this->update();
     }
 }
 
-void QEXTRangeSlider::setUsedColor(const QColor &color)
+void QExtRangeSlider::setUsedColor(const QColor &color)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_usedColor != color) {
         d->m_usedColor = color;
         this->update();
     }
 }
 
-void QEXTRangeSlider::setFreeColor(const QColor &color)
+void QExtRangeSlider::setFreeColor(const QColor &color)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_freeColor != color) {
         d->m_freeColor = color;
         this->update();
     }
 }
 
-void QEXTRangeSlider::setTextColor(const QColor &color)
+void QExtRangeSlider::setTextColor(const QColor &color)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_textColor != color) {
         d->m_textColor = color;
         this->update();
     }
 }
 
-void QEXTRangeSlider::setRangeTextColor(const QColor &color)
+void QExtRangeSlider::setRangeTextColor(const QColor &color)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_rangeTextColor != color) {
         d->m_rangeTextColor = color;
         this->update();
     }
 }
 
-void QEXTRangeSlider::setSliderColor(const QColor &color)
+void QExtRangeSlider::setSliderColor(const QColor &color)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_sliderColor != color) {
         d->m_sliderColor = color;
         this->update();
     }
 }
 
-void QEXTRangeSlider::setBorderColor(const QColor &color)
+void QExtRangeSlider::setBorderColor(const QColor &color)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_borderColor != color) {
         d->m_borderColor = color;
         this->update();
     }
 }
 
-void QEXTRangeSlider::setSliderStyle(const QEXTRangeSlider::SliderStyle &sliderStyle)
+void QExtRangeSlider::setSliderStyle(const QExtRangeSlider::SliderStyle &sliderStyle)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_sliderStyle != sliderStyle) {
         d->m_sliderStyle = sliderStyle;
         this->update();
     }
 }
 
-void QEXTRangeSlider::setSliderBackgroundPercent(const QEXTRangeSlider::SliderBgPercent &percent)
+void QExtRangeSlider::setSliderBackgroundPercent(const QExtRangeSlider::SliderBgPercent &percent)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_sliderBackgroundPercent != percent) {
         d->m_sliderBackgroundPercent = percent;
         this->update();
     }
 }
 
-void QEXTRangeSlider::setSliderPercent(const QEXTRangeSlider::SliderPercent &percent)
+void QExtRangeSlider::setSliderPercent(const QExtRangeSlider::SliderPercent &percent)
 {
-    Q_D(QEXTRangeSlider);
+    Q_D(QExtRangeSlider);
     if (d->m_sliderPercent != percent) {
         d->m_sliderPercent = percent;
         this->update();

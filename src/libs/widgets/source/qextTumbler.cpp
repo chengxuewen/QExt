@@ -1,11 +1,36 @@
-﻿#include <private/qextTumbler_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2022~Present ChengXueWen. Contact: 1398831004@qq.com.
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextTumbler_p.h>
 
 #include <QPainter>
 #include <QEvent>
 #include <QWheelEvent>
 #include <QDebug>
 
-QEXTTumblerPrivate::QEXTTumblerPrivate(QEXTTumbler *q)
+QExtTumblerPrivate::QExtTumblerPrivate(QExtTumbler *q)
     : q_ptr(q)
 {
     m_currentIndex = 0;
@@ -30,27 +55,27 @@ QEXTTumblerPrivate::QEXTTumblerPrivate(QEXTTumbler *q)
     m_currentPos = 0;
 }
 
-QEXTTumblerPrivate::~QEXTTumblerPrivate()
+QExtTumblerPrivate::~QExtTumblerPrivate()
 {
 
 }
 
 
 
-QEXTTumbler::QEXTTumbler(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTTumblerPrivate(this))
+QExtTumbler::QExtTumbler(QWidget *parent)
+    : QWidget(parent), dd_ptr(new QExtTumblerPrivate(this))
 {
     this->setFont(QFont("Arial", 8));
 }
 
-QEXTTumbler::~QEXTTumbler()
+QExtTumbler::~QExtTumbler()
 {
 
 }
 
-void QEXTTumbler::wheelEvent(QWheelEvent *event)
+void QExtTumbler::wheelEvent(QWheelEvent *event)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     QPoint numDegrees = event->angleDelta() / 8;
     QPoint numSteps = numDegrees / 15;
 
@@ -83,9 +108,9 @@ void QEXTTumbler::wheelEvent(QWheelEvent *event)
     }
 }
 
-void QEXTTumbler::mousePressEvent(QMouseEvent *e)
+void QExtTumbler::mousePressEvent(QMouseEvent *e)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     d->m_pressed = true;
     int target = e->pos().x();
 
@@ -97,9 +122,9 @@ void QEXTTumbler::mousePressEvent(QMouseEvent *e)
     d->m_pressedPos = target;
 }
 
-void QEXTTumbler::mouseMoveEvent(QMouseEvent *e)
+void QExtTumbler::mouseMoveEvent(QMouseEvent *e)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     int count = d->m_valueList.count();
 
     if (count <= 1)
@@ -149,9 +174,9 @@ void QEXTTumbler::mouseMoveEvent(QMouseEvent *e)
     }
 }
 
-void QEXTTumbler::mouseReleaseEvent(QMouseEvent *)
+void QExtTumbler::mouseReleaseEvent(QMouseEvent *)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     if (d->m_pressed)
     {
         d->m_pressed = false;
@@ -159,9 +184,9 @@ void QEXTTumbler::mouseReleaseEvent(QMouseEvent *)
     }
 }
 
-void QEXTTumbler::paintEvent(QPaintEvent *)
+void QExtTumbler::paintEvent(QPaintEvent *)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
@@ -217,9 +242,9 @@ void QEXTTumbler::paintEvent(QPaintEvent *)
     }
 }
 
-void QEXTTumbler::drawBackground(QPainter *painter)
+void QExtTumbler::drawBackground(QPainter *painter)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     painter->save();
     painter->setPen(Qt::NoPen);
     painter->setBrush(d->m_backgroundColor);
@@ -227,9 +252,9 @@ void QEXTTumbler::drawBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTTumbler::drawLine(QPainter *painter)
+void QExtTumbler::drawLine(QPainter *painter)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     int offset = 10;
     int width = this->width();
     int height = this->height();
@@ -257,9 +282,9 @@ void QEXTTumbler::drawLine(QPainter *painter)
     painter->restore();
 }
 
-void QEXTTumbler::drawText(QPainter *painter, int index, int offset)
+void QExtTumbler::drawText(QPainter *painter, int index, int offset)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     painter->save();
 
     int width = this->width();
@@ -303,9 +328,9 @@ void QEXTTumbler::drawText(QPainter *painter, int index, int offset)
     painter->restore();
 }
 
-void QEXTTumbler::checkPosition()
+void QExtTumbler::checkPosition()
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     int target = this->width();
 
     if (!d->m_isHorizontal)
@@ -331,67 +356,67 @@ void QEXTTumbler::checkPosition()
     }
 }
 
-QStringList QEXTTumbler::valueList() const
+QStringList QExtTumbler::valueList() const
 {
-    Q_D(const QEXTTumbler);
+    Q_D(const QExtTumbler);
     return d->m_valueList;
 }
 
-int QEXTTumbler::currentIndex() const
+int QExtTumbler::currentIndex() const
 {
-    Q_D(const QEXTTumbler);
+    Q_D(const QExtTumbler);
     return d->m_currentIndex;
 }
 
-QString QEXTTumbler::currentValue() const
+QString QExtTumbler::currentValue() const
 {
-    Q_D(const QEXTTumbler);
+    Q_D(const QExtTumbler);
     return d->m_currentValue;
 }
 
-bool QEXTTumbler::isHorizontal() const
+bool QExtTumbler::isHorizontal() const
 {
-    Q_D(const QEXTTumbler);
+    Q_D(const QExtTumbler);
     return d->m_isHorizontal;
 }
 
-QColor QEXTTumbler::foregroundColor() const
+QColor QExtTumbler::foregroundColor() const
 {
-    Q_D(const QEXTTumbler);
+    Q_D(const QExtTumbler);
     return d->m_foregroundColor;
 }
 
-QColor QEXTTumbler::backgroundColor() const
+QColor QExtTumbler::backgroundColor() const
 {
-    Q_D(const QEXTTumbler);
+    Q_D(const QExtTumbler);
     return d->m_backgroundColor;
 }
 
-QColor QEXTTumbler::lineColor() const
+QColor QExtTumbler::lineColor() const
 {
-    Q_D(const QEXTTumbler);
+    Q_D(const QExtTumbler);
     return d->m_lineColor;
 }
 
-QColor QEXTTumbler::textColor() const
+QColor QExtTumbler::textColor() const
 {
-    Q_D(const QEXTTumbler);
+    Q_D(const QExtTumbler);
     return d->m_textColor;
 }
 
-QSize QEXTTumbler::sizeHint() const
+QSize QExtTumbler::sizeHint() const
 {
     return QSize(50, 150);
 }
 
-QSize QEXTTumbler::minimumSizeHint() const
+QSize QExtTumbler::minimumSizeHint() const
 {
     return QSize(10, 10);
 }
 
-void QEXTTumbler::setValueList(const QStringList &values)
+void QExtTumbler::setValueList(const QStringList &values)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     if (values.count() > 0)
     {
         d->m_valueList = values;
@@ -401,9 +426,9 @@ void QEXTTumbler::setValueList(const QStringList &values)
     }
 }
 
-void QEXTTumbler::setCurrentIndex(int index)
+void QExtTumbler::setCurrentIndex(int index)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     if (index >= 0)
     {
         d->m_currentIndex = index;
@@ -414,9 +439,9 @@ void QEXTTumbler::setCurrentIndex(int index)
     }
 }
 
-void QEXTTumbler::setCurrentValue(const QString &value)
+void QExtTumbler::setCurrentValue(const QString &value)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     if (d->m_valueList.contains(value))
     {
         d->m_currentValue = value;
@@ -427,9 +452,9 @@ void QEXTTumbler::setCurrentValue(const QString &value)
     }
 }
 
-void QEXTTumbler::setHorizontal(bool horizontal)
+void QExtTumbler::setHorizontal(bool horizontal)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     if (d->m_isHorizontal != horizontal)
     {
         d->m_isHorizontal = horizontal;
@@ -437,9 +462,9 @@ void QEXTTumbler::setHorizontal(bool horizontal)
     }
 }
 
-void QEXTTumbler::setForegroundColor(const QColor &color)
+void QExtTumbler::setForegroundColor(const QColor &color)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     if (d->m_foregroundColor != color)
     {
         d->m_foregroundColor = color;
@@ -447,9 +472,9 @@ void QEXTTumbler::setForegroundColor(const QColor &color)
     }
 }
 
-void QEXTTumbler::setBackgroundColor(const QColor &color)
+void QExtTumbler::setBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     if (d->m_backgroundColor != color)
     {
         d->m_backgroundColor = color;
@@ -457,9 +482,9 @@ void QEXTTumbler::setBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTTumbler::setLineColor(const QColor &color)
+void QExtTumbler::setLineColor(const QColor &color)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     if (d->m_lineColor != color)
     {
         d->m_lineColor = color;
@@ -467,9 +492,9 @@ void QEXTTumbler::setLineColor(const QColor &color)
     }
 }
 
-void QEXTTumbler::setTextColor(const QColor &color)
+void QExtTumbler::setTextColor(const QColor &color)
 {
-    Q_D(QEXTTumbler);
+    Q_D(QExtTumbler);
     if (d->m_textColor != color)
     {
         d->m_textColor = color;

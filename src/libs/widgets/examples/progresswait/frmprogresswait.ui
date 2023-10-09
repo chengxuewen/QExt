@@ -15,34 +15,34 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QEXTProgressWait" name="progressWait1" native="true"/>
+    <widget class="QExtProgressWait" name="progressWait1" native="true"/>
    </item>
    <item row="0" column="1">
-    <widget class="QEXTProgressWait" name="progressWait2" native="true"/>
+    <widget class="QExtProgressWait" name="progressWait2" native="true"/>
    </item>
    <item row="0" column="2">
-    <widget class="QEXTProgressWait" name="progressWait3" native="true"/>
+    <widget class="QExtProgressWait" name="progressWait3" native="true"/>
    </item>
    <item row="0" column="3">
-    <widget class="QEXTProgressWait" name="progressWait4" native="true"/>
+    <widget class="QExtProgressWait" name="progressWait4" native="true"/>
    </item>
    <item row="1" column="0">
-    <widget class="QEXTProgressWait" name="progressWait5" native="true"/>
+    <widget class="QExtProgressWait" name="progressWait5" native="true"/>
    </item>
    <item row="1" column="1">
-    <widget class="QEXTProgressWait" name="progressWait6" native="true"/>
+    <widget class="QExtProgressWait" name="progressWait6" native="true"/>
    </item>
    <item row="1" column="2">
-    <widget class="QEXTProgressWait" name="progressWait7" native="true"/>
+    <widget class="QExtProgressWait" name="progressWait7" native="true"/>
    </item>
    <item row="1" column="3">
-    <widget class="QEXTProgressWait" name="progressWait8" native="true"/>
+    <widget class="QExtProgressWait" name="progressWait8" native="true"/>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTProgressWait</class>
+   <class>QExtProgressWait</class>
    <extends>QWidget</extends>
    <header>qextProgressWait.h</header>
   </customwidget>

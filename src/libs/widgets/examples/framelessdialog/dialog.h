@@ -7,7 +7,7 @@ namespace Ui {
 class Dialog;
 }
 
-class Dialog : public QEXTFramelessDialog
+class Dialog : public QExtFramelessDialog
 {
     Q_OBJECT
 

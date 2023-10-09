@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QEXTTumbler" name="tumbler1" native="true">
+  <widget class="QExtTumbler" name="tumbler1" native="true">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -32,7 +32,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QEXTTumbler" name="tumbler2" native="true">
+  <widget class="QExtTumbler" name="tumbler2" native="true">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -51,7 +51,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QEXTTumbler" name="tumbler3" native="true">
+  <widget class="QExtTumbler" name="tumbler3" native="true">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -70,7 +70,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QEXTTumbler" name="tumbler4" native="true">
+  <widget class="QExtTumbler" name="tumbler4" native="true">
    <property name="geometry">
     <rect>
      <x>226</x>
@@ -86,7 +86,7 @@
     </sizepolicy>
    </property>
   </widget>
-  <widget class="QEXTTumbler" name="tumbler5" native="true">
+  <widget class="QExtTumbler" name="tumbler5" native="true">
    <property name="geometry">
     <rect>
      <x>316</x>
@@ -102,7 +102,7 @@
     </sizepolicy>
    </property>
   </widget>
-  <widget class="QEXTTumbler" name="tumbler6" native="true">
+  <widget class="QExtTumbler" name="tumbler6" native="true">
    <property name="geometry">
     <rect>
      <x>407</x>
@@ -121,7 +121,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTTumbler</class>
+   <class>QExtTumbler</class>
    <extends>QWidget</extends>
    <header>qextTumbler.h</header>
    <container>1</container>

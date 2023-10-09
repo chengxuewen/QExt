@@ -1,16 +1,41 @@
-﻿#include <private/qextSlider_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2017 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2022~Present ChengXueWen. Contact: 1398831004@qq.com.
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextSlider_p.h>
 #include <qextTooltip.h>
 
 #include <QEvent>
 #include <QDebug>
 #include <QMouseEvent>
 
-QEXTSliderPrivate::QEXTSliderPrivate(QEXTSlider *q)
+QExtSliderPrivate::QExtSliderPrivate(QExtSlider *q)
     : q_ptr(q)
 {
     m_borderRadius = 5;
     m_arrowSize = 5;
-    m_arrowStyle = QEXTSlider::ArrowStyle_Bottom;
+    m_arrowStyle = QExtSlider::ArrowStyle_Bottom;
 
     m_backgroundColor = QColor(100, 184, 255);
     m_foregroundColor = QColor(255, 255, 255);
@@ -23,10 +48,10 @@ QEXTSliderPrivate::QEXTSliderPrivate(QEXTSlider *q)
     m_clickEnable = true;
     m_unitText = "";
 
-    m_tooltip = new QEXTTooltip;
+    m_tooltip = new QExtTooltip;
     m_tooltip->setBorderRadius(m_borderRadius);
     m_tooltip->setArrowSize(m_arrowSize);
-    m_tooltip->setArrowPosition((QEXTTooltip::ArrowPositionType)m_arrowStyle);
+    m_tooltip->setArrowPosition((QExtTooltip::ArrowPositionType)m_arrowStyle);
     m_tooltip->setBackgroundColor(m_backgroundColor);
     m_tooltip->setForegroundColor(m_foregroundColor);
     m_tooltip->resize(m_tooltipWidth, m_tooltipHeight);
@@ -37,27 +62,27 @@ QEXTSliderPrivate::QEXTSliderPrivate(QEXTSlider *q)
     m_tooltip->setAttribute(Qt::WA_TranslucentBackground, false);
 }
 
-QEXTSliderPrivate::~QEXTSliderPrivate()
+QExtSliderPrivate::~QExtSliderPrivate()
 {
     m_tooltip->deleteLater();
 }
 
 
 
-QEXTSlider::QEXTSlider(QWidget *parent)
-    : QSlider(parent), dd_ptr(new QEXTSliderPrivate(this))
+QExtSlider::QExtSlider(QWidget *parent)
+    : QSlider(parent), dd_ptr(new QExtSliderPrivate(this))
 {
     this->setOrientation(Qt::Horizontal);
 }
 
-QEXTSlider::~QEXTSlider()
+QExtSlider::~QExtSlider()
 {
 
 }
 
-void QEXTSlider::mousePressEvent(QMouseEvent *e)
+void QExtSlider::mousePressEvent(QMouseEvent *e)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (e->button() != Qt::LeftButton)
     {
         return;
@@ -87,16 +112,16 @@ void QEXTSlider::mousePressEvent(QMouseEvent *e)
     QSlider::mousePressEvent(e);
 }
 
-void QEXTSlider::mouseReleaseEvent(QMouseEvent *e)
+void QExtSlider::mouseReleaseEvent(QMouseEvent *e)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     d->m_tooltip->setVisible(false);
     QSlider::mouseReleaseEvent(e);
 }
 
-void QEXTSlider::mouseMoveEvent(QMouseEvent *e)
+void QExtSlider::mouseMoveEvent(QMouseEvent *e)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (e->button() & Qt::RightButton)
     {
         return;
@@ -144,81 +169,81 @@ void QEXTSlider::mouseMoveEvent(QMouseEvent *e)
     QSlider::mouseMoveEvent(e);
 }
 
-int QEXTSlider::borderRadius() const
+int QExtSlider::borderRadius() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_borderRadius;
 }
 
-int QEXTSlider::arrowSize() const
+int QExtSlider::arrowSize() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_arrowSize;
 }
 
-QEXTSlider::ArrowStyleType QEXTSlider::arrowStyle() const
+QExtSlider::ArrowStyleType QExtSlider::arrowStyle() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_arrowStyle;
 }
 
-QColor QEXTSlider::backgroundColor() const
+QColor QExtSlider::backgroundColor() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_backgroundColor;
 }
 
-QColor QEXTSlider::foregroundColor() const
+QColor QExtSlider::foregroundColor() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_foregroundColor;
 }
 
-int QEXTSlider::toolTipWidth() const
+int QExtSlider::toolTipWidth() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_tooltipWidth;
 }
 
-int QEXTSlider::toolTipHeight() const
+int QExtSlider::toolTipHeight() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_tooltipHeight;
 }
 
-QFont QEXTSlider::toolTipFont() const
+QFont QExtSlider::toolTipFont() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_tooltipFont;
 }
 
-bool QEXTSlider::timeVisible() const
+bool QExtSlider::timeVisible() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_timeVisible;
 }
 
-bool QEXTSlider::clickEnable() const
+bool QExtSlider::clickEnable() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_clickEnable;
 }
 
-QString QEXTSlider::unitText() const
+QString QExtSlider::unitText() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_unitText;
 }
 
-QEXTTooltip *QEXTSlider::tooltip() const
+QExtTooltip *QExtSlider::tooltip() const
 {
-    Q_D(const QEXTSlider);
+    Q_D(const QExtSlider);
     return d->m_tooltip;
 }
 
-void QEXTSlider::setBorderRadius(int radius)
+void QExtSlider::setBorderRadius(int radius)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (d->m_borderRadius != radius)
     {
         d->m_borderRadius = radius;
@@ -226,9 +251,9 @@ void QEXTSlider::setBorderRadius(int radius)
     }
 }
 
-void QEXTSlider::setArrowSize(int size)
+void QExtSlider::setArrowSize(int size)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (d->m_arrowSize != size)
     {
         d->m_arrowSize = size;
@@ -236,19 +261,19 @@ void QEXTSlider::setArrowSize(int size)
     }
 }
 
-void QEXTSlider::setArrowStyle(const QEXTSlider::ArrowStyleType &style)
+void QExtSlider::setArrowStyle(const QExtSlider::ArrowStyleType &style)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (d->m_arrowStyle != style)
     {
         d->m_arrowStyle = style;
-        d->m_tooltip->setArrowPosition((QEXTTooltip::ArrowPositionType)style);
+        d->m_tooltip->setArrowPosition((QExtTooltip::ArrowPositionType)style);
     }
 }
 
-void QEXTSlider::setBackgroundColor(const QColor &color)
+void QExtSlider::setBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (d->m_backgroundColor != color)
     {
         d->m_backgroundColor = color;
@@ -256,9 +281,9 @@ void QEXTSlider::setBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTSlider::setForegroundColor(const QColor &color)
+void QExtSlider::setForegroundColor(const QColor &color)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (d->m_foregroundColor != color)
     {
         d->m_foregroundColor = color;
@@ -266,9 +291,9 @@ void QEXTSlider::setForegroundColor(const QColor &color)
     }
 }
 
-void QEXTSlider::setToolTipWidth(int width)
+void QExtSlider::setToolTipWidth(int width)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (d->m_tooltipWidth != width)
     {
         d->m_tooltipWidth = width;
@@ -276,9 +301,9 @@ void QEXTSlider::setToolTipWidth(int width)
     }
 }
 
-void QEXTSlider::setToolTipHeight(int height)
+void QExtSlider::setToolTipHeight(int height)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (d->m_tooltipHeight != height)
     {
         d->m_tooltipHeight = height;
@@ -286,9 +311,9 @@ void QEXTSlider::setToolTipHeight(int height)
     }
 }
 
-void QEXTSlider::setToolTipFont(const QFont &font)
+void QExtSlider::setToolTipFont(const QFont &font)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (d->m_tooltipFont != font)
     {
         d->m_tooltipFont = font;
@@ -296,27 +321,27 @@ void QEXTSlider::setToolTipFont(const QFont &font)
     }
 }
 
-void QEXTSlider::setTimeVisible(bool visiable)
+void QExtSlider::setTimeVisible(bool visiable)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (d->m_timeVisible != visiable)
     {
         d->m_timeVisible = visiable;
     }
 }
 
-void QEXTSlider::setClickEnable(bool enable)
+void QExtSlider::setClickEnable(bool enable)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (d->m_clickEnable != enable)
     {
         d->m_clickEnable = enable;
     }
 }
 
-void QEXTSlider::setUnitText(const QString &unit)
+void QExtSlider::setUnitText(const QString &unit)
 {
-    Q_D(QEXTSlider);
+    Q_D(QExtSlider);
     if (d->m_unitText != unit)
     {
         d->m_unitText = unit;

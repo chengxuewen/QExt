@@ -9,7 +9,7 @@ namespace Ui
 class FrmNavigationListView;
 }
 
-class QEXTNavigationListItem;
+class QExtNavigationListItem;
 class FrmNavigationListView : public QWidget
 {
     Q_OBJECT
@@ -24,10 +24,10 @@ private:
 private slots:
     void initForm();
     void onNavListWidgetPressed(const QModelIndex &index);
-    void onItemPressed(QEXTNavigationListItem *item);
+    void onItemPressed(QExtNavigationListItem *item);
 
 private:
-    QList<QEXTNavigationListItem *> m_parentItems;
+    QList<QExtNavigationListItem *> m_parentItems;
 };
 
 #endif // FRMNAVIGATIONLISTVIEW_H

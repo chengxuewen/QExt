@@ -51,7 +51,7 @@ void FrmProgressKnob::on_ckShowValue_stateChanged(int arg1)
 
 void FrmProgressKnob::on_cboxPointerStyle_currentIndexChanged(int index)
 {
-    QEXTProgressKnob::PointerStyle style = (QEXTProgressKnob::PointerStyle)index;
+    QExtProgressKnob::PointerStyle style = (QExtProgressKnob::PointerStyle)index;
     int count = gauges.count();
     for (int i = 0; i < count; i++) {
         gauges.at(i)->setPointerStyle(style);

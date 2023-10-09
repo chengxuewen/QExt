@@ -1,3 +1,27 @@
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
 #ifndef _QEXTICONLABEL_H
 #define _QEXTICONLABEL_H
 
@@ -5,23 +29,23 @@
 
 #include <QWidget>
 
-class QEXTIconLabelPrivate;
-class QEXT_WIDGETS_API QEXTIconLabel : public QWidget
+class QExtIconLabelPrivate;
+class QEXT_WIDGETS_API QExtIconLabel : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit QEXTIconLabel(QWidget *parent = QEXT_DECL_NULLPTR);
-    ~QEXTIconLabel();
+    explicit QExtIconLabel(QWidget *parent = QEXT_DECL_NULLPTR);
+    ~QExtIconLabel();
 
 protected:
     void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
 
-    QScopedPointer<QEXTIconLabelPrivate> dd_ptr;
+    QScopedPointer<QExtIconLabelPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTIconLabel)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTIconLabel)
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtIconLabel)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtIconLabel)
 };
 
 #endif // _QEXTICONLABEL_H

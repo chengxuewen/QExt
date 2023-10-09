@@ -38,7 +38,7 @@ void frmProgressPie::initForm()
     ui->progressRound2->setBorderColor(QColor(255, 107, 107));
 
     ui->progressRound2->setNullPosition(0);
-    ui->progressRound2->setBarStyle(QEXTProgressPie::BarStyle_Pie);
+    ui->progressRound2->setBarStyle(QExtProgressPie::BarStyle_Pie);
     connectToSlider(ui->progressRound2);
 
     //线状图+线颜色
@@ -76,7 +76,7 @@ void frmProgressPie::initForm()
     ui->progressRound5->setBorderColor(QColor(24, 189, 155));
 
     ui->progressRound5->setNullPosition(180);
-    ui->progressRound5->setBarStyle(QEXTProgressPie::BarStyle_Pie);
+    ui->progressRound5->setBarStyle(QExtProgressPie::BarStyle_Pie);
     connectToSlider(ui->progressRound5);
 
     //线状样式+自定义边框宽度
@@ -92,7 +92,7 @@ void frmProgressPie::initForm()
     connectToSlider(ui->progressRound6);
 }
 
-void frmProgressPie::connectToSlider(QEXTProgressPie *bar)
+void frmProgressPie::connectToSlider(QExtProgressPie *bar)
 {
     bar->setRange(ui->slider->minimum(), ui->slider->maximum());
     bar->setValue(ui->slider->value());

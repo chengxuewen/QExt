@@ -25,12 +25,12 @@ void FrmCircleGauge::initForm()
 
 void FrmCircleGauge::on_cboxPieStyle_currentIndexChanged(int index)
 {
-    ui->gaugeCar->setPieStyle((QEXTCircleGauge::PieStyleType)index);
+    ui->gaugeCar->setPieStyle((QExtCircleGauge::PieStyleType)index);
 }
 
 void FrmCircleGauge::on_cboxPointerStyle_currentIndexChanged(int index)
 {
-    ui->gaugeCar->setPointerStyle((QEXTCircleGauge::PointerStyleType)index);
+    ui->gaugeCar->setPointerStyle((QExtCircleGauge::PointerStyleType)index);
 }
 
 void FrmCircleGauge::on_ckAnimation_stateChanged(int arg1)

@@ -19,22 +19,22 @@
      <widget class="QWidget" name="widget" native="true">
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="QEXTBreathingLight" name="qtklightpoint_1" native="true"/>
+        <widget class="QExtBreathingLight" name="qtklightpoint_1" native="true"/>
        </item>
        <item row="0" column="1">
-        <widget class="QEXTBreathingLight" name="qtklightpoint_2" native="true"/>
+        <widget class="QExtBreathingLight" name="qtklightpoint_2" native="true"/>
        </item>
        <item row="0" column="2">
-        <widget class="QEXTBreathingLight" name="qtklightpoint_3" native="true"/>
+        <widget class="QExtBreathingLight" name="qtklightpoint_3" native="true"/>
        </item>
        <item row="1" column="0">
-        <widget class="QEXTBreathingLight" name="qtklightpoint_4" native="true"/>
+        <widget class="QExtBreathingLight" name="qtklightpoint_4" native="true"/>
        </item>
        <item row="1" column="1">
-        <widget class="QEXTBreathingLight" name="qtklightpoint_5" native="true"/>
+        <widget class="QExtBreathingLight" name="qtklightpoint_5" native="true"/>
        </item>
        <item row="1" column="2">
-        <widget class="QEXTBreathingLight" name="qtklightpoint_6" native="true"/>
+        <widget class="QExtBreathingLight" name="qtklightpoint_6" native="true"/>
        </item>
       </layout>
      </widget>
@@ -64,7 +64,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>QEXTBreathingLight</class>
+   <class>QExtBreathingLight</class>
    <extends>QWidget</extends>
    <header location="global">qextBreathingLight.h</header>
    <container>1</container>

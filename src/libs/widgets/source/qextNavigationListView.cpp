@@ -1,4 +1,29 @@
-﻿#include <private/qextNavigationListView_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2018 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextNavigationListView_p.h>
 
 #include <QDebug>
 #include <QPainter>
@@ -8,7 +33,7 @@
 #include <QMutableStringListIterator>
 #endif
 
-QEXTNavigationListItemPrivate::QEXTNavigationListItemPrivate(QEXTNavigationListItem *q)
+QExtNavigationListItemPrivate::QExtNavigationListItemPrivate(QExtNavigationListItem *q)
     : q_ptr(q)
 {
     m_expand = false;
@@ -17,63 +42,63 @@ QEXTNavigationListItemPrivate::QEXTNavigationListItemPrivate(QEXTNavigationListI
     m_checkd = false;
 }
 
-QEXTNavigationListItemPrivate::~QEXTNavigationListItemPrivate()
+QExtNavigationListItemPrivate::~QExtNavigationListItemPrivate()
 {
     m_childItems.clear();
 }
 
-QEXTNavigationListItem::QEXTNavigationListItem(QEXTNavigationListItem *parent)
-    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
+QExtNavigationListItem::QExtNavigationListItem(QExtNavigationListItem *parent)
+    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     this->setParentItem(parent);
 }
 
-QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, QEXTNavigationListItem *parent)
-    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
+QExtNavigationListItem::QExtNavigationListItem(const QString &text, QExtNavigationListItem *parent)
+    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_text = text;
     this->setParentItem(parent);
 }
 
-QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QPixmap &icon,
-                                             QEXTNavigationListItem *parent)
-    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
+QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QPixmap &icon,
+                                             QExtNavigationListItem *parent)
+    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_text = text;
     this->setIcon(icon);
     this->setParentItem(parent);
 }
 
-QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QPixmap &icon,
-                                             bool expand, QEXTNavigationListItem *parent)
-    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
+QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QPixmap &icon,
+                                             bool expand, QExtNavigationListItem *parent)
+    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_text = text;
     d->m_expand = expand;
     this->setIcon(icon);
     this->setParentItem(parent);
 }
 
-QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QString &tip,
-                                             const QPixmap &icon, QEXTNavigationListItem *parent)
-    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
+QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QString &tip,
+                                             const QPixmap &icon, QExtNavigationListItem *parent)
+    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_text = text;
     d->m_tip = tip;
     this->setIcon(icon);
     this->setParentItem(parent);
 }
 
-QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QString &tip,
-                                             const QPixmap &icon, bool expand, QEXTNavigationListItem *parent)
-    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
+QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QString &tip,
+                                             const QPixmap &icon, bool expand, QExtNavigationListItem *parent)
+    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_text = text;
     d->m_tip = tip;
     d->m_expand = expand;
@@ -81,43 +106,43 @@ QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QStrin
     this->setParentItem(parent);
 }
 
-QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QChar &fontChar,
-                                             QEXTNavigationListItem *parent)
-    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
+QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QChar &fontChar,
+                                             QExtNavigationListItem *parent)
+    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_text = text;
     d->m_fontIcon = fontChar;
     this->setParentItem(parent);
 }
 
-QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QChar &fontChar,
-                                             bool expand, QEXTNavigationListItem *parent)
-    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
+QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QChar &fontChar,
+                                             bool expand, QExtNavigationListItem *parent)
+    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_text = text;
     d->m_fontIcon = fontChar;
     d->m_expand = expand;
     this->setParentItem(parent);
 }
 
-QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QString &tip,
-                                             const QChar &fontChar, QEXTNavigationListItem *parent)
-    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
+QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QString &tip,
+                                             const QChar &fontChar, QExtNavigationListItem *parent)
+    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_text = text;
     d->m_tip = tip;
     d->m_fontIcon = fontChar;
     this->setParentItem(parent);
 }
 
-QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QString &tip,
-                                             const QChar &fontChar, bool expand, QEXTNavigationListItem *parent)
-    : QObject(), dd_ptr(new QEXTNavigationListItemPrivate(this))
+QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QString &tip,
+                                             const QChar &fontChar, bool expand, QExtNavigationListItem *parent)
+    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_text = text;
     d->m_tip = tip;
     d->m_fontIcon = fontChar;
@@ -125,37 +150,37 @@ QEXTNavigationListItem::QEXTNavigationListItem(const QString &text, const QStrin
     this->setParentItem(parent);
 }
 
-QEXTNavigationListItem::~QEXTNavigationListItem()
+QExtNavigationListItem::~QExtNavigationListItem()
 {
     this->setChecked(false);
     emit this->itemAboutToDestroyed(this);
 }
 
-QPixmap QEXTNavigationListItem::normalIcon() const
+QPixmap QExtNavigationListItem::normalIcon() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_normalIcon;
 }
 
-QPixmap QEXTNavigationListItem::hoverIcon() const
+QPixmap QExtNavigationListItem::hoverIcon() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_hoverIcon;
 }
 
-QPixmap QEXTNavigationListItem::checkedIcon() const
+QPixmap QExtNavigationListItem::checkedIcon() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_checkedIcon;
 }
 
-QPixmap QEXTNavigationListItem::selectedIcon() const
+QPixmap QExtNavigationListItem::selectedIcon() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_selectedIcon;
 }
 
-void QEXTNavigationListItem::setIcon(const QPixmap &icon)
+void QExtNavigationListItem::setIcon(const QPixmap &icon)
 {
     this->setNormalIcon(icon);
     this->setHoverIcon(icon);
@@ -163,43 +188,43 @@ void QEXTNavigationListItem::setIcon(const QPixmap &icon)
     this->setSelectedIcon(icon);
 }
 
-void QEXTNavigationListItem::setNormalIcon(const QPixmap &icon)
+void QExtNavigationListItem::setNormalIcon(const QPixmap &icon)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_normalIcon = icon;
     emit this->iconChanged(this);
 }
 
-void QEXTNavigationListItem::setHoverIcon(const QPixmap &icon)
+void QExtNavigationListItem::setHoverIcon(const QPixmap &icon)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_hoverIcon = icon;
     emit this->iconChanged(this);
 }
 
-void QEXTNavigationListItem::setCheckedIcon(const QPixmap &icon)
+void QExtNavigationListItem::setCheckedIcon(const QPixmap &icon)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_checkedIcon = icon;
     emit this->iconChanged(this);
 }
 
-void QEXTNavigationListItem::setSelectedIcon(const QPixmap &icon)
+void QExtNavigationListItem::setSelectedIcon(const QPixmap &icon)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     d->m_selectedIcon = icon;
     emit this->iconChanged(this);
 }
 
-QChar QEXTNavigationListItem::fontIcon() const
+QChar QExtNavigationListItem::fontIcon() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_fontIcon;
 }
 
-void QEXTNavigationListItem::setFontIcon(const QChar &ch)
+void QExtNavigationListItem::setFontIcon(const QChar &ch)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     if (ch != d->m_fontIcon)
     {
         d->m_fontIcon = ch;
@@ -207,15 +232,15 @@ void QEXTNavigationListItem::setFontIcon(const QChar &ch)
     }
 }
 
-QString QEXTNavigationListItem::text() const
+QString QExtNavigationListItem::text() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_text;
 }
 
-void QEXTNavigationListItem::setText(const QString &text)
+void QExtNavigationListItem::setText(const QString &text)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     if (text != d->m_text)
     {
         d->m_text = text;
@@ -223,15 +248,15 @@ void QEXTNavigationListItem::setText(const QString &text)
     }
 }
 
-QString QEXTNavigationListItem::tip() const
+QString QExtNavigationListItem::tip() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_tip;
 }
 
-void QEXTNavigationListItem::setTip(const QString &tip)
+void QExtNavigationListItem::setTip(const QString &tip)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     if (tip != d->m_tip)
     {
         d->m_tip = tip;
@@ -239,15 +264,15 @@ void QEXTNavigationListItem::setTip(const QString &tip)
     }
 }
 
-bool QEXTNavigationListItem::isExpand() const
+bool QExtNavigationListItem::isExpand() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_expand;
 }
 
-void QEXTNavigationListItem::setExpand(const bool &expand)
+void QExtNavigationListItem::setExpand(const bool &expand)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     if (expand != d->m_expand)
     {
         d->m_expand = expand;
@@ -255,20 +280,20 @@ void QEXTNavigationListItem::setExpand(const bool &expand)
     }
 }
 
-bool QEXTNavigationListItem::isVisible() const
+bool QExtNavigationListItem::isVisible() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_visiable;
 }
 
-void QEXTNavigationListItem::setVisible(const bool &visiable)
+void QExtNavigationListItem::setVisible(const bool &visiable)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     if (visiable != d->m_visiable)
     {
         if (!visiable)
         {
-            QList<QEXTNavigationListItem *>::const_iterator iter;
+            QList<QExtNavigationListItem *>::const_iterator iter;
             for (iter = d->m_childItems.begin(); iter != d->m_childItems.end(); ++iter)
             {
                 (*iter)->setChecked(false);
@@ -280,15 +305,15 @@ void QEXTNavigationListItem::setVisible(const bool &visiable)
     }
 }
 
-bool QEXTNavigationListItem::isEnabled() const
+bool QExtNavigationListItem::isEnabled() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_enable;
 }
 
-void QEXTNavigationListItem::setEnable(const bool &enable)
+void QExtNavigationListItem::setEnable(const bool &enable)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     if (enable != d->m_enable)
     {
         d->m_enable = enable;
@@ -296,12 +321,12 @@ void QEXTNavigationListItem::setEnable(const bool &enable)
     }
 }
 
-Qt::CheckState QEXTNavigationListItem::checkState() const
+Qt::CheckState QExtNavigationListItem::checkState() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     if (this->isParentItem())
     {
-        QList<QEXTNavigationListItem *>::const_iterator iter;
+        QList<QExtNavigationListItem *>::const_iterator iter;
         for (iter = d->m_childItems.begin(); iter != d->m_childItems.end(); ++iter)
         {
             if ((*iter)->isChecked())
@@ -317,27 +342,27 @@ Qt::CheckState QEXTNavigationListItem::checkState() const
     }
 }
 
-bool QEXTNavigationListItem::isChecked() const
+bool QExtNavigationListItem::isChecked() const
 {
     return Qt::Checked == this->checkState();
 }
 
-bool QEXTNavigationListItem::setChecked(bool check)
+bool QExtNavigationListItem::setChecked(bool check)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     if (!this->isVisible() && check)
     {
-        qWarning() << "QEXTNavigationListItem::setChecked(): item not visiable, can not set check";
+        qWarning() << "QExtNavigationListItem::setChecked(): item not visiable, can not set check";
         return false;
     }
     if (!this->isEnabled() && check)
     {
-        qWarning() << "QEXTNavigationListItem::setChecked(): item not enabled, can not set check";
+        qWarning() << "QExtNavigationListItem::setChecked(): item not enabled, can not set check";
         return false;
     }
     if (this->isParentItem())
     {
-        qWarning() << "QEXTNavigationListItem::setChecked(): item is parent, can not set check";
+        qWarning() << "QExtNavigationListItem::setChecked(): item is parent, can not set check";
         return false;
     }
     if (check != d->m_checkd)
@@ -348,9 +373,9 @@ bool QEXTNavigationListItem::setChecked(bool check)
     return true;
 }
 
-bool QEXTNavigationListItem::isLastVisibleItem() const
+bool QExtNavigationListItem::isLastVisibleItem() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     if (!d->m_parent.isNull() && d->m_visiable)
     {
         return this == d->m_parent->visiableChildItems().last();
@@ -358,40 +383,40 @@ bool QEXTNavigationListItem::isLastVisibleItem() const
     return false;
 }
 
-bool QEXTNavigationListItem::isChildItem() const
+bool QExtNavigationListItem::isChildItem() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return !d->m_parent.isNull();
 }
 
-bool QEXTNavigationListItem::isParentItem() const
+bool QExtNavigationListItem::isParentItem() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_parent.isNull();
 }
 
-QEXTNavigationListItem *QEXTNavigationListItem::parentItem() const
+QExtNavigationListItem *QExtNavigationListItem::parentItem() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_parent.data();
 }
 
-bool QEXTNavigationListItem::setParentItem(QEXTNavigationListItem *parent)
+bool QExtNavigationListItem::setParentItem(QExtNavigationListItem *parent)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     if (this == parent)
     {
-        qWarning() << "QEXTNavigationListItem::setParentItem(): parent can not equal to item self";
+        qWarning() << "QExtNavigationListItem::setParentItem(): parent can not equal to item self";
         return false;
     }
     if (!d->m_childItems.isEmpty())
     {
-        qWarning() << "QEXTNavigationListItem::setParentItem(): current item is parent item, can not set parent";
+        qWarning() << "QExtNavigationListItem::setParentItem(): current item is parent item, can not set parent";
         return false;
     }
     if (d->m_parent.data() != parent)
     {
-        QEXTNavigationListItem *oldParent = d->m_parent.data();
+        QExtNavigationListItem *oldParent = d->m_parent.data();
         d->m_parent = parent;
 
         if (oldParent)
@@ -406,8 +431,8 @@ bool QEXTNavigationListItem::setParentItem(QEXTNavigationListItem *parent)
         {
             emit parent->childItemAboutToBeInserted(this, parent);
             parent->d_func()->m_childItems.append(this);
-            connect(this, SIGNAL(itemAboutToDestroyed(QEXTNavigationListItem*)),
-                    parent, SLOT(onChildItemAboutToBeDestroyed(QEXTNavigationListItem*)));
+            connect(this, SIGNAL(itemAboutToDestroyed(QExtNavigationListItem*)),
+                    parent, SLOT(onChildItemAboutToBeDestroyed(QExtNavigationListItem*)));
             emit parent->childItemInserted(this, parent);
         }
 
@@ -416,28 +441,28 @@ bool QEXTNavigationListItem::setParentItem(QEXTNavigationListItem *parent)
     return false;
 }
 
-int QEXTNavigationListItem::childItemsCount() const
+int QExtNavigationListItem::childItemsCount() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_childItems.count();
 }
 
-int QEXTNavigationListItem::visiableChildItemsCount() const
+int QExtNavigationListItem::visiableChildItemsCount() const
 {
     return this->visiableChildItems().count();
 }
 
-QList<QEXTNavigationListItem *> QEXTNavigationListItem::childItems() const
+QList<QExtNavigationListItem *> QExtNavigationListItem::childItems() const
 {
-    Q_D(const QEXTNavigationListItem);
+    Q_D(const QExtNavigationListItem);
     return d->m_childItems;
 }
 
-QList<QEXTNavigationListItem *> QEXTNavigationListItem::visiableChildItems() const
+QList<QExtNavigationListItem *> QExtNavigationListItem::visiableChildItems() const
 {
-    Q_D(const QEXTNavigationListItem);
-    QList<QEXTNavigationListItem *> result;
-    QList<QEXTNavigationListItem *>::const_iterator iter;
+    Q_D(const QExtNavigationListItem);
+    QList<QExtNavigationListItem *> result;
+    QList<QExtNavigationListItem *>::const_iterator iter;
     for (iter = d->m_childItems.begin(); iter != d->m_childItems.end(); ++iter)
     {
         if ((*iter)->isVisible())
@@ -448,9 +473,9 @@ QList<QEXTNavigationListItem *> QEXTNavigationListItem::visiableChildItems() con
     return result;
 }
 
-void QEXTNavigationListItem::onChildItemAboutToBeDestroyed(QEXTNavigationListItem *item)
+void QExtNavigationListItem::onChildItemAboutToBeDestroyed(QExtNavigationListItem *item)
 {
-    Q_D(QEXTNavigationListItem);
+    Q_D(QExtNavigationListItem);
     if (item && d->m_childItems.contains(item))
     {
         emit this->childItemAboutToBeRemoved(item, this);
@@ -491,7 +516,7 @@ QEXTNavListDelegate::~QEXTNavListDelegate() {}
 
 QSize QEXTNavListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QEXTNavigationListItem *item = (QEXTNavigationListItem *)index.data(Qt::UserRole).toLongLong();
+    QExtNavigationListItem *item = (QExtNavigationListItem *)index.data(Qt::UserRole).toLongLong();
 
     QSize size(50, item->isParentItem() ? m_navData->m_parentHeight : m_navData->m_childHeight);
     return size;
@@ -500,7 +525,7 @@ QSize QEXTNavListDelegate::sizeHint(const QStyleOptionViewItem &option, const QM
 void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     painter->setRenderHint(QPainter::Antialiasing);
-    QEXTNavigationListItem *item = (QEXTNavigationListItem *)index.data(Qt::UserRole).toLongLong();
+    QExtNavigationListItem *item = (QExtNavigationListItem *)index.data(Qt::UserRole).toLongLong();
 
     QRect optionRect = option.rect;
     int x = optionRect.x();
@@ -728,7 +753,7 @@ QEXTNavigationListModelPrivate::~QEXTNavigationListModelPrivate()
 
 void QEXTNavigationListModelPrivate::deleteAllItems()
 {
-    QSet<QEXTNavigationListItem *>::iterator iter;
+    QSet<QExtNavigationListItem *>::iterator iter;
     for (iter = m_allItemSet.begin(); iter != m_allItemSet.end(); ++iter)
     {
         (*iter)->disconnect();
@@ -740,7 +765,7 @@ void QEXTNavigationListModelPrivate::deleteAllItems()
 void QEXTNavigationListModelPrivate::refreshVisibleList()
 {
     m_visiableItemList.clear();
-    QList<QEXTNavigationListItem *>::iterator iter;
+    QList<QExtNavigationListItem *>::iterator iter;
     for (iter = m_parentItemList.begin(); iter != m_parentItemList.end(); ++iter)
     {
         if ((*iter)->isVisible())
@@ -748,7 +773,7 @@ void QEXTNavigationListModelPrivate::refreshVisibleList()
             m_visiableItemList.append(*iter);
             if ((*iter)->isExpand())
             {
-                QList<QEXTNavigationListItem *> childItems = (*iter)->visiableChildItems();
+                QList<QExtNavigationListItem *> childItems = (*iter)->visiableChildItems();
                 if (!childItems.isEmpty())
                 {
                     m_visiableItemList.append(childItems);
@@ -760,38 +785,38 @@ void QEXTNavigationListModelPrivate::refreshVisibleList()
 
 void QEXTNavigationListModelPrivate::initAllItemsConnection()
 {
-    QSet<QEXTNavigationListItem *>::iterator iter;
+    QSet<QExtNavigationListItem *>::iterator iter;
     for (iter = m_allItemSet.begin(); iter != m_allItemSet.end(); ++iter)
     {
-        QEXTNavigationListItem *item = *iter;
+        QExtNavigationListItem *item = *iter;
         this->initItemConnection(item);
     }
 }
 
-void QEXTNavigationListModelPrivate::initItemConnection(QEXTNavigationListItem *item)
+void QEXTNavigationListModelPrivate::initItemConnection(QExtNavigationListItem *item)
 {
     Q_Q(QEXTNavigationListModel);
     item->disconnect(q);
-    QObject::connect(item, SIGNAL(itemAboutToDestroyed(QEXTNavigationListItem*)), q, SLOT(onItemAboutToDestroyed(QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(iconChanged(QEXTNavigationListItem*)), q, SLOT(onItemChanged(QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(fontIconChanged(QEXTNavigationListItem*)), q, SLOT(onItemChanged(QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(textChanged(QEXTNavigationListItem*)), q, SLOT(onItemChanged(QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(tipChanged(QEXTNavigationListItem*)), q, SLOT(onItemChanged(QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(enableChanged(QEXTNavigationListItem*)), q, SLOT(onItemChanged(QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(expandChanged(QEXTNavigationListItem*)), q, SLOT(onItemExpandChanged(QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(checkChanged(QEXTNavigationListItem*)), q, SLOT(onItemCheckChanged(QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(visiableAboutToBeChanged(QEXTNavigationListItem*)),
-                     q, SLOT(onItemVisibleAboutToBeChanged(QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(visiableChanged(QEXTNavigationListItem*)),
-                     q, SLOT(onItemVisibleChanged(QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(childItemAboutToBeInserted(QEXTNavigationListItem*,QEXTNavigationListItem*)),
-                     q, SLOT(onChildItemAboutToBeInserted(QEXTNavigationListItem*,QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(childItemInserted(QEXTNavigationListItem*,QEXTNavigationListItem*)),
-                     q, SLOT(onChildItemInserted(QEXTNavigationListItem*,QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(childItemAboutToBeRemoved(QEXTNavigationListItem*,QEXTNavigationListItem*)),
-                     q, SLOT(onChildItemAboutToBeRemoved(QEXTNavigationListItem*,QEXTNavigationListItem*)));
-    QObject::connect(item, SIGNAL(childItemRemoved(QEXTNavigationListItem*,QEXTNavigationListItem*)),
-                     q, SLOT(onChildItemRemoved(QEXTNavigationListItem*,QEXTNavigationListItem*)));
+    QObject::connect(item, SIGNAL(itemAboutToDestroyed(QExtNavigationListItem*)), q, SLOT(onItemAboutToDestroyed(QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(iconChanged(QExtNavigationListItem*)), q, SLOT(onItemChanged(QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(fontIconChanged(QExtNavigationListItem*)), q, SLOT(onItemChanged(QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(textChanged(QExtNavigationListItem*)), q, SLOT(onItemChanged(QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(tipChanged(QExtNavigationListItem*)), q, SLOT(onItemChanged(QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(enableChanged(QExtNavigationListItem*)), q, SLOT(onItemChanged(QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(expandChanged(QExtNavigationListItem*)), q, SLOT(onItemExpandChanged(QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(checkChanged(QExtNavigationListItem*)), q, SLOT(onItemCheckChanged(QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(visiableAboutToBeChanged(QExtNavigationListItem*)),
+                     q, SLOT(onItemVisibleAboutToBeChanged(QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(visiableChanged(QExtNavigationListItem*)),
+                     q, SLOT(onItemVisibleChanged(QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(childItemAboutToBeInserted(QExtNavigationListItem*,QExtNavigationListItem*)),
+                     q, SLOT(onChildItemAboutToBeInserted(QExtNavigationListItem*,QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(childItemInserted(QExtNavigationListItem*,QExtNavigationListItem*)),
+                     q, SLOT(onChildItemInserted(QExtNavigationListItem*,QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(childItemAboutToBeRemoved(QExtNavigationListItem*,QExtNavigationListItem*)),
+                     q, SLOT(onChildItemAboutToBeRemoved(QExtNavigationListItem*,QExtNavigationListItem*)));
+    QObject::connect(item, SIGNAL(childItemRemoved(QExtNavigationListItem*,QExtNavigationListItem*)),
+                     q, SLOT(onChildItemRemoved(QExtNavigationListItem*,QExtNavigationListItem*)));
 }
 
 
@@ -806,25 +831,25 @@ QEXTNavigationListModel::~QEXTNavigationListModel()
 
 }
 
-QEXTNavigationListItem *QEXTNavigationListModel::checkedItem() const
+QExtNavigationListItem *QEXTNavigationListModel::checkedItem() const
 {
     Q_D(const QEXTNavigationListModel);
     return d->m_checkedItem.data();
 }
 
-QList<QEXTNavigationListItem *> QEXTNavigationListModel::allItems() const
+QList<QExtNavigationListItem *> QEXTNavigationListModel::allItems() const
 {
     Q_D(const QEXTNavigationListModel);
     return d->m_allItemSet.toList();
 }
 
-QList<QEXTNavigationListItem *> QEXTNavigationListModel::parentItems() const
+QList<QExtNavigationListItem *> QEXTNavigationListModel::parentItems() const
 {
     Q_D(const QEXTNavigationListModel);
     return d->m_parentItemList;
 }
 
-QList<QEXTNavigationListItem *> QEXTNavigationListModel::visiableItems() const
+QList<QExtNavigationListItem *> QEXTNavigationListModel::visiableItems() const
 {
     Q_D(const QEXTNavigationListModel);
     return d->m_visiableItemList;
@@ -874,8 +899,8 @@ Qt::ItemFlags QEXTNavigationListModel::flags(const QModelIndex &index) const
         int row = index.row();
         if (row >= 0 && row < d->m_visiableItemList.size())
         {
-            QEXTNavigationListItem *item = d->m_visiableItemList.at(row);
-            QEXTNavigationListItem *parentItem = item->parentItem();
+            QExtNavigationListItem *item = d->m_visiableItemList.at(row);
+            QExtNavigationListItem *parentItem = item->parentItem();
             if (!item->isEnabled() || (parentItem && !parentItem->isEnabled()))
             {
                 return item->isParentItem() ? Qt::ItemIsEnabled : Qt::NoItemFlags;
@@ -893,7 +918,7 @@ void QEXTNavigationListModel::setItems(const QStringList &items)
 
         bool ok;
         QStringList itemStringList = items;
-        QList<QEXTNavigationListItem *> parentItemList;
+        QList<QExtNavigationListItem *> parentItemList;
         QMutableStringListIterator iter(itemStringList);
         while (iter.hasNext())
         {
@@ -913,7 +938,7 @@ void QEXTNavigationListModel::setItems(const QStringList &items)
             icon = icon.replace("0x", "");
             if (parentText.isEmpty())
             {
-                QEXTNavigationListItem *parentItem = new QEXTNavigationListItem;
+                QExtNavigationListItem *parentItem = new QExtNavigationListItem;
                 parentItemList.append(parentItem);
                 parentItem->setExpand(expand.toInt());
                 parentItem->setText(text);
@@ -942,7 +967,7 @@ void QEXTNavigationListModel::setItems(const QStringList &items)
                     childIcon = childIcon.replace("0x", "");
                     if (text == childParentText)
                     {
-                        QEXTNavigationListItem *childItem = new QEXTNavigationListItem;
+                        QExtNavigationListItem *childItem = new QExtNavigationListItem;
                         childItem->setText(childText);
                         childItem->setTip(childTip);
                         if (!childIcon.isEmpty())
@@ -973,7 +998,7 @@ void QEXTNavigationListModel::setItems(const QStringList &items)
             QString tip = list.at(3);
             QString icon = list.at(4);
             icon = icon.replace("0x", "");
-            QEXTNavigationListItem *parentItem = new QEXTNavigationListItem;
+            QExtNavigationListItem *parentItem = new QExtNavigationListItem;
             parentItemList.append(parentItem);
             parentItem->setExpand(expand.toInt());
             parentItem->setText(text);
@@ -992,21 +1017,21 @@ void QEXTNavigationListModel::setItems(const QStringList &items)
 }
 
 
-void QEXTNavigationListModel::setItems(const QList<QEXTNavigationListItem *> &items)
+void QEXTNavigationListModel::setItems(const QList<QExtNavigationListItem *> &items)
 {
     Q_D(QEXTNavigationListModel);
     if (!items.isEmpty())
     {
         this->beginResetModel();
 
-        QSet<QEXTNavigationListItem *> cacheItemSet;
+        QSet<QExtNavigationListItem *> cacheItemSet;
         d->m_visiableItemList.clear();
         d->m_parentItemList.clear();
 
-        QList<QEXTNavigationListItem *>::const_iterator iter;
+        QList<QExtNavigationListItem *>::const_iterator iter;
         for (iter = items.begin(); iter != items.end(); ++iter)
         {
-            QEXTNavigationListItem *item = *iter;
+            QExtNavigationListItem *item = *iter;
             if (item->isParentItem())
             {
                 cacheItemSet.insert(item);
@@ -1016,11 +1041,11 @@ void QEXTNavigationListModel::setItems(const QList<QEXTNavigationListItem *> &it
                     d->m_allItemSet.remove(item);
                 }
 
-                QList<QEXTNavigationListItem *> childItems = item->childItems();
-                QList<QEXTNavigationListItem *>::iterator childIter;
+                QList<QExtNavigationListItem *> childItems = item->childItems();
+                QList<QExtNavigationListItem *>::iterator childIter;
                 for (childIter = childItems.begin(); childIter != childItems.end(); ++childIter)
                 {
-                    QEXTNavigationListItem *childItem = *childIter;
+                    QExtNavigationListItem *childItem = *childIter;
                     cacheItemSet.insert(childItem);
                     if (d->m_allItemSet.contains(childItem))
                     {
@@ -1042,14 +1067,14 @@ void QEXTNavigationListModel::setItems(const QList<QEXTNavigationListItem *> &it
 void QEXTNavigationListModel::expandCollapseItem(const QModelIndex &index)
 {
     Q_D(QEXTNavigationListModel);
-    QEXTNavigationListItem *item = d->m_visiableItemList.at(index.row());
+    QExtNavigationListItem *item = d->m_visiableItemList.at(index.row());
     if (0 != item->visiableChildItemsCount())
     {
         item->setExpand(!item->isExpand());
     }
 }
 
-void QEXTNavigationListModel::onItemAboutToDestroyed(QEXTNavigationListItem *item)
+void QEXTNavigationListModel::onItemAboutToDestroyed(QExtNavigationListItem *item)
 {
     Q_D(QEXTNavigationListModel);
     if (item->isParentItem())
@@ -1063,11 +1088,11 @@ void QEXTNavigationListModel::onItemAboutToDestroyed(QEXTNavigationListItem *ite
             this->beginRemoveRows(QModelIndex(), row, row + count);
             d->m_visiableItemList.removeOne(item);
 
-            QList<QEXTNavigationListItem *>::iterator iter;
-            QList<QEXTNavigationListItem *> childItems = item->childItems();
+            QList<QExtNavigationListItem *>::iterator iter;
+            QList<QExtNavigationListItem *> childItems = item->childItems();
             for (iter = childItems.begin(); iter != childItems.end(); ++iter)
             {
-                QEXTNavigationListItem *childItem = *iter;
+                QExtNavigationListItem *childItem = *iter;
                 if (childItem->parentItem() == item)
                 {
                     d->m_allItemSet.remove(childItem);
@@ -1082,7 +1107,7 @@ void QEXTNavigationListModel::onItemAboutToDestroyed(QEXTNavigationListItem *ite
     }
 }
 
-void QEXTNavigationListModel::onItemChanged(QEXTNavigationListItem *item)
+void QEXTNavigationListModel::onItemChanged(QExtNavigationListItem *item)
 {
     Q_D(QEXTNavigationListModel);
     int row = d->m_visiableItemList.indexOf(item);
@@ -1090,7 +1115,7 @@ void QEXTNavigationListModel::onItemChanged(QEXTNavigationListItem *item)
     emit this->dataChanged(index, index);
 }
 
-void QEXTNavigationListModel::onItemEnableChanged(QEXTNavigationListItem *item)
+void QEXTNavigationListModel::onItemEnableChanged(QExtNavigationListItem *item)
 {
     Q_D(QEXTNavigationListModel);
     if (item->isVisible())
@@ -1103,10 +1128,10 @@ void QEXTNavigationListModel::onItemEnableChanged(QEXTNavigationListItem *item)
     }
 }
 
-void QEXTNavigationListModel::onItemExpandChanged(QEXTNavigationListItem *item)
+void QEXTNavigationListModel::onItemExpandChanged(QExtNavigationListItem *item)
 {
     Q_D(QEXTNavigationListModel);
-    QList<QEXTNavigationListItem *> visiableItems = item->visiableChildItems();
+    QList<QExtNavigationListItem *> visiableItems = item->visiableChildItems();
     int count = visiableItems.count();
     int index = d->m_visiableItemList.indexOf(item);
     if (item->isExpand())
@@ -1129,7 +1154,7 @@ void QEXTNavigationListModel::onItemExpandChanged(QEXTNavigationListItem *item)
     }
 }
 
-void QEXTNavigationListModel::onItemCheckChanged(QEXTNavigationListItem *item)
+void QEXTNavigationListModel::onItemCheckChanged(QExtNavigationListItem *item)
 {
     Q_D(QEXTNavigationListModel);
     int row = d->m_visiableItemList.indexOf(item);
@@ -1140,7 +1165,7 @@ void QEXTNavigationListModel::onItemCheckChanged(QEXTNavigationListItem *item)
     {
         if (item != d->m_checkedItem.data())
         {
-            QEXTNavigationListItem *oldCheckedItem = d->m_checkedItem.data();
+            QExtNavigationListItem *oldCheckedItem = d->m_checkedItem.data();
             d->m_checkedItem = item;
             if (oldCheckedItem)
             {
@@ -1153,12 +1178,12 @@ void QEXTNavigationListModel::onItemCheckChanged(QEXTNavigationListItem *item)
     {
         if (item == d->m_checkedItem.data())
         {
-            emit this->checkedItemChanged((QEXTNavigationListItem *)QEXT_DECL_NULLPTR);
+            emit this->checkedItemChanged((QExtNavigationListItem *)QEXT_DECL_NULLPTR);
         }
     }
 }
 
-void QEXTNavigationListModel::onItemVisibleAboutToBeChanged(QEXTNavigationListItem *item)
+void QEXTNavigationListModel::onItemVisibleAboutToBeChanged(QExtNavigationListItem *item)
 {
     Q_D(QEXTNavigationListModel);
     if (item->isVisible())
@@ -1169,11 +1194,11 @@ void QEXTNavigationListModel::onItemVisibleAboutToBeChanged(QEXTNavigationListIt
     }
     else
     {
-        QList<QEXTNavigationListItem *> visiableChildItems = item->visiableChildItems();
+        QList<QExtNavigationListItem *> visiableChildItems = item->visiableChildItems();
         int visiableChildcount = (item->isExpand() && item->isParentItem() && item->isVisible()) ? visiableChildItems.size() : 0;
         int row = 0;
         bool located = false;
-        QList<QEXTNavigationListItem *>::iterator iter;
+        QList<QExtNavigationListItem *>::iterator iter;
         for (iter = d->m_parentItemList.begin(); iter != d->m_parentItemList.end(); ++iter)
         {
             if (located)
@@ -1189,8 +1214,8 @@ void QEXTNavigationListModel::onItemVisibleAboutToBeChanged(QEXTNavigationListIt
                 row++;
                 if ((*iter)->isExpand())
                 {
-                    QList<QEXTNavigationListItem *>::iterator childIter;
-                    QList<QEXTNavigationListItem *> childItems = (*iter)->childItems();
+                    QList<QExtNavigationListItem *>::iterator childIter;
+                    QList<QExtNavigationListItem *> childItems = (*iter)->childItems();
                     for (childIter = childItems.begin(); childIter != childItems.end(); ++childIter)
                     {
                         if (item == *childIter && (*iter)->isVisible())
@@ -1207,14 +1232,14 @@ void QEXTNavigationListModel::onItemVisibleAboutToBeChanged(QEXTNavigationListIt
     }
 }
 
-void QEXTNavigationListModel::onItemVisibleChanged(QEXTNavigationListItem *item)
+void QEXTNavigationListModel::onItemVisibleChanged(QExtNavigationListItem *item)
 {
     Q_D(QEXTNavigationListModel);
     if (item->isVisible())
     {
         int row = 0;
         bool located = false;
-        QList<QEXTNavigationListItem *>::iterator iter;
+        QList<QExtNavigationListItem *>::iterator iter;
         for (iter = d->m_parentItemList.begin(); iter != d->m_parentItemList.end(); ++iter)
         {
             if (located)
@@ -1223,13 +1248,13 @@ void QEXTNavigationListModel::onItemVisibleChanged(QEXTNavigationListItem *item)
             }
             if ((*iter)->isVisible())
             {
-                QList<QEXTNavigationListItem *> childItems = (*iter)->childItems();
+                QList<QExtNavigationListItem *> childItems = (*iter)->childItems();
                 if (item == *iter)
                 {
                     d->m_visiableItemList.insert(row++, *iter);
                     if ((*iter)->isExpand())
                     {
-                        QList<QEXTNavigationListItem *>::iterator childIter;
+                        QList<QExtNavigationListItem *>::iterator childIter;
                         for (childIter = childItems.begin(); childIter != childItems.end(); ++childIter)
                         {
                             if ((*childIter)->isVisible())
@@ -1244,7 +1269,7 @@ void QEXTNavigationListModel::onItemVisibleChanged(QEXTNavigationListItem *item)
 
                 if ((*iter)->isExpand())
                 {
-                    QList<QEXTNavigationListItem *>::iterator childIter;
+                    QList<QExtNavigationListItem *>::iterator childIter;
                     for (childIter = childItems.begin(); childIter != childItems.end(); ++childIter)
                     {
                         if (item == *childIter && (*childIter)->isVisible())
@@ -1273,7 +1298,7 @@ void QEXTNavigationListModel::onItemVisibleChanged(QEXTNavigationListItem *item)
     }
 }
 
-void QEXTNavigationListModel::onChildItemAboutToBeInserted(QEXTNavigationListItem *item, QEXTNavigationListItem *parent)
+void QEXTNavigationListModel::onChildItemAboutToBeInserted(QExtNavigationListItem *item, QExtNavigationListItem *parent)
 {
     Q_D(QEXTNavigationListModel);
     if (item->isVisible() && parent->isVisible())
@@ -1284,7 +1309,7 @@ void QEXTNavigationListModel::onChildItemAboutToBeInserted(QEXTNavigationListIte
     }
 }
 
-void QEXTNavigationListModel::onChildItemInserted(QEXTNavigationListItem *item, QEXTNavigationListItem *parent)
+void QEXTNavigationListModel::onChildItemInserted(QExtNavigationListItem *item, QExtNavigationListItem *parent)
 {
     Q_D(QEXTNavigationListModel);
     if (item->isVisible() && parent->isVisible())
@@ -1296,7 +1321,7 @@ void QEXTNavigationListModel::onChildItemInserted(QEXTNavigationListItem *item, 
     }
 }
 
-void QEXTNavigationListModel::onChildItemAboutToBeRemoved(QEXTNavigationListItem *item, QEXTNavigationListItem *parent)
+void QEXTNavigationListModel::onChildItemAboutToBeRemoved(QExtNavigationListItem *item, QExtNavigationListItem *parent)
 {
     Q_D(QEXTNavigationListModel);
     if (d->m_visiableItemList.contains(item))
@@ -1306,7 +1331,7 @@ void QEXTNavigationListModel::onChildItemAboutToBeRemoved(QEXTNavigationListItem
     }
 }
 
-void QEXTNavigationListModel::onChildItemRemoved(QEXTNavigationListItem *item, QEXTNavigationListItem *parent)
+void QEXTNavigationListModel::onChildItemRemoved(QExtNavigationListItem *item, QExtNavigationListItem *parent)
 {
     Q_D(QEXTNavigationListModel);
     d->m_allItemSet.remove(item);
@@ -1420,31 +1445,31 @@ QEXTNavigationListModel *QEXTNavigationListView::model() const
     return d->m_model.data();
 }
 
-QEXTNavigationListItem *QEXTNavigationListView::selectedItem() const
+QExtNavigationListItem *QEXTNavigationListView::selectedItem() const
 {
     Q_D(const QEXTNavigationListView);
     return d->m_selectedItem.data();
 }
 
-QEXTNavigationListItem *QEXTNavigationListView::checkedItem() const
+QExtNavigationListItem *QEXTNavigationListView::checkedItem() const
 {
     Q_D(const QEXTNavigationListView);
     return d->m_model->checkedItem();
 }
 
-QList<QEXTNavigationListItem *> QEXTNavigationListView::allItems() const
+QList<QExtNavigationListItem *> QEXTNavigationListView::allItems() const
 {
     Q_D(const QEXTNavigationListView);
     return d->m_model->allItems();
 }
 
-QList<QEXTNavigationListItem *> QEXTNavigationListView::parentItems() const
+QList<QExtNavigationListItem *> QEXTNavigationListView::parentItems() const
 {
     Q_D(const QEXTNavigationListView);
     return d->m_model->parentItems();
 }
 
-QList<QEXTNavigationListItem *> QEXTNavigationListView::visiableItems() const
+QList<QExtNavigationListItem *> QEXTNavigationListView::visiableItems() const
 {
     Q_D(const QEXTNavigationListView);
     return d->m_model->visiableItems();
@@ -1464,7 +1489,7 @@ void QEXTNavigationListView::paintEvent(QPaintEvent *event)
 
 void QEXTNavigationListView::onItemPressed(const QModelIndex &index)
 {
-    QEXTNavigationListItem *item = (QEXTNavigationListItem *)index.data(Qt::UserRole).toLongLong();
+    QExtNavigationListItem *item = (QExtNavigationListItem *)index.data(Qt::UserRole).toLongLong();
     if (item)
     {
         if (item->isChildItem())
@@ -1733,7 +1758,7 @@ void QEXTNavigationListView::setModel(QEXTNavigationListModel *model)
         if (!d->m_model.isNull())
         {
             disconnect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)), model, SLOT(expandCollapseItem(QModelIndex)));
-            disconnect(d->m_model.data(), SIGNAL(checkedItemChanged(QEXTNavigationListItem*)), this, SIGNAL(checkedItemChanged(QEXTNavigationListItem*)));
+            disconnect(d->m_model.data(), SIGNAL(checkedItemChanged(QExtNavigationListItem*)), this, SIGNAL(checkedItemChanged(QExtNavigationListItem*)));
             d->m_model->deleteLater();
             d->m_model = QEXT_DECL_NULLPTR;
             d->m_listView->setModel(d->m_model.data());
@@ -1743,12 +1768,12 @@ void QEXTNavigationListView::setModel(QEXTNavigationListModel *model)
             d->m_model = model;
             d->m_listView->setModel(d->m_model.data());
             connect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)), model, SLOT(expandCollapseItem(QModelIndex)));
-            connect(d->m_model.data(), SIGNAL(checkedItemChanged(QEXTNavigationListItem*)), this, SIGNAL(checkedItemChanged(QEXTNavigationListItem*)));
+            connect(d->m_model.data(), SIGNAL(checkedItemChanged(QExtNavigationListItem*)), this, SIGNAL(checkedItemChanged(QExtNavigationListItem*)));
         }
     }
 }
 
-QList<QEXTNavigationListItem *> QEXTNavigationListView::setItems(const QString &items)
+QList<QExtNavigationListItem *> QEXTNavigationListView::setItems(const QString &items)
 {
     Q_D(QEXTNavigationListView);
     QStringList item = items.split(",");
@@ -1760,7 +1785,7 @@ QList<QEXTNavigationListItem *> QEXTNavigationListView::setItems(const QString &
     return d->m_model->parentItems();
 }
 
-QList<QEXTNavigationListItem *> QEXTNavigationListView::setItems(const QStringList &items)
+QList<QExtNavigationListItem *> QEXTNavigationListView::setItems(const QStringList &items)
 {
     Q_D(QEXTNavigationListView);
     if (d->m_stringItems != items)
@@ -1771,7 +1796,7 @@ QList<QEXTNavigationListItem *> QEXTNavigationListView::setItems(const QStringLi
     return d->m_model->parentItems();
 }
 
-void QEXTNavigationListView::setItems(const QList<QEXTNavigationListItem *> &items)
+void QEXTNavigationListView::setItems(const QList<QExtNavigationListItem *> &items)
 {
     Q_D(QEXTNavigationListView);
     if (d->m_items != items)
@@ -1784,10 +1809,10 @@ void QEXTNavigationListView::setItems(const QList<QEXTNavigationListItem *> &ite
 bool QEXTNavigationListView::setCurrentRow(int row)
 {
     Q_D(QEXTNavigationListView);
-    QList<QEXTNavigationListItem *> visiableItems = d->m_model->visiableItems();
+    QList<QExtNavigationListItem *> visiableItems = d->m_model->visiableItems();
     if (row >= 0 && row < visiableItems.size())
     {
-        QEXTNavigationListItem *item = visiableItems.at(row);
+        QExtNavigationListItem *item = visiableItems.at(row);
         if (d->m_selectedItem.data() != item)
         {
             d->m_selectedItem = item;
@@ -1803,13 +1828,13 @@ bool QEXTNavigationListView::setCurrentRow(int row)
     }
 }
 
-bool QEXTNavigationListView::setSelectedItem(QEXTNavigationListItem *item)
+bool QEXTNavigationListView::setSelectedItem(QExtNavigationListItem *item)
 {
     Q_D(QEXTNavigationListView);
-    QList<QEXTNavigationListItem *> visiableItems = d->m_model->visiableItems();
+    QList<QExtNavigationListItem *> visiableItems = d->m_model->visiableItems();
     if (visiableItems.contains(item))
     {
-        QList<QEXTNavigationListItem *>::iterator iter;
+        QList<QExtNavigationListItem *>::iterator iter;
         for (iter = visiableItems.begin(); iter != visiableItems.end(); ++iter)
         {
             if ((*iter)->isChildItem())

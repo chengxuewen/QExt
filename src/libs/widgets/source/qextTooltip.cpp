@@ -1,10 +1,35 @@
-﻿#include <private/qextTooltip_p.h>
+﻿/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2016 feiyangqingyun. Contact: QQ:517216493
+** Copyright (C) 2022~Present ChengXueWen. Contact: 1398831004@qq.com.
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
+#include <private/qextTooltip_p.h>
 
 #include <QPainter>
 #include <QEvent>
 #include <QDebug>
 
-QEXTTooltipPrivate::QEXTTooltipPrivate(QEXTTooltip *q)
+QExtTooltipPrivate::QExtTooltipPrivate(QExtTooltip *q)
     : q_ptr(q)
 {
     m_borderRadius = 5;
@@ -13,40 +38,40 @@ QEXTTooltipPrivate::QEXTTooltipPrivate(QEXTTooltip *q)
 
     m_arrowVisible = true;
     m_arrowSize = 5;
-    m_arrowPosition = QEXTTooltip::ArrowPosition_Right;
+    m_arrowPosition = QExtTooltip::ArrowPosition_Right;
 
     m_triangleVisible = false;
     m_triangleLen = 5;
-    m_trianglePosition = QEXTTooltip::TrianglePosition_Left;
+    m_trianglePosition = QExtTooltip::TrianglePosition_Left;
     m_triangleColor = QColor(255, 255, 255);
 
     m_backgroundRect = q_ptr->geometry();
 }
 
-QEXTTooltipPrivate::~QEXTTooltipPrivate()
+QExtTooltipPrivate::~QExtTooltipPrivate()
 {
 
 }
 
 
 
-QEXTTooltip::QEXTTooltip(QWidget *parent)
-    : QLabel(parent), dd_ptr(new QEXTTooltipPrivate(this))
+QExtTooltip::QExtTooltip(QWidget *parent)
+    : QLabel(parent), dd_ptr(new QExtTooltipPrivate(this))
 {
     this->setFont(QFont("Microsoft Yahei", 10));
 }
 
-QEXTTooltip::~QEXTTooltip()
+QExtTooltip::~QExtTooltip()
 {
 
 }
 
-void QEXTTooltip::mousePressEvent(QMouseEvent *)
+void QExtTooltip::mousePressEvent(QMouseEvent *)
 {
     emit this->clicked();
 }
 
-void QEXTTooltip::paintEvent(QPaintEvent *)
+void QExtTooltip::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -58,9 +83,9 @@ void QEXTTooltip::paintEvent(QPaintEvent *)
     this->drawTriangle(&painter);
 }
 
-void QEXTTooltip::drawBackground(QPainter *painter)
+void QExtTooltip::drawBackground(QPainter *painter)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     int width = this->width();
     int height = this->height();
     int endX = width - d->m_arrowSize;
@@ -106,9 +131,9 @@ void QEXTTooltip::drawBackground(QPainter *painter)
     painter->restore();
 }
 
-void QEXTTooltip::drawText(QPainter *painter)
+void QExtTooltip::drawText(QPainter *painter)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     painter->save();
     painter->setPen(d->m_foregroundColor);
     painter->setBrush(Qt::NoBrush);
@@ -116,9 +141,9 @@ void QEXTTooltip::drawText(QPainter *painter)
     painter->restore();
 }
 
-void QEXTTooltip::drawTriangle(QPainter *painter)
+void QExtTooltip::drawTriangle(QPainter *painter)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     if (!d->m_triangleVisible)
     {
         return;
@@ -156,79 +181,79 @@ void QEXTTooltip::drawTriangle(QPainter *painter)
     painter->restore();
 }
 
-int QEXTTooltip::borderRadius() const
+int QExtTooltip::borderRadius() const
 {
-    Q_D(const QEXTTooltip);
+    Q_D(const QExtTooltip);
     return d->m_borderRadius;
 }
 
-QColor QEXTTooltip::backgroundColor() const
+QColor QExtTooltip::backgroundColor() const
 {
-    Q_D(const QEXTTooltip);
+    Q_D(const QExtTooltip);
     return d->m_backgroundColor;
 }
 
-QColor QEXTTooltip::foregroundColor() const
+QColor QExtTooltip::foregroundColor() const
 {
-    Q_D(const QEXTTooltip);
+    Q_D(const QExtTooltip);
     return d->m_foregroundColor;
 }
 
-bool QEXTTooltip::arrowVisible() const
+bool QExtTooltip::arrowVisible() const
 {
-    Q_D(const QEXTTooltip);
+    Q_D(const QExtTooltip);
     return d->m_arrowVisible;
 }
 
-int QEXTTooltip::arrowSize() const
+int QExtTooltip::arrowSize() const
 {
-    Q_D(const QEXTTooltip);
+    Q_D(const QExtTooltip);
     return d->m_arrowSize;
 }
 
-QEXTTooltip::ArrowPositionType QEXTTooltip::arrowPosition() const
+QExtTooltip::ArrowPositionType QExtTooltip::arrowPosition() const
 {
-    Q_D(const QEXTTooltip);
+    Q_D(const QExtTooltip);
     return d->m_arrowPosition;
 }
 
-bool QEXTTooltip::triangleVisible() const
+bool QExtTooltip::triangleVisible() const
 {
-    Q_D(const QEXTTooltip);
+    Q_D(const QExtTooltip);
     return d->m_triangleVisible;
 }
 
-int QEXTTooltip::triangleLen() const
+int QExtTooltip::triangleLen() const
 {
-    Q_D(const QEXTTooltip);
+    Q_D(const QExtTooltip);
     return d->m_triangleLen;
 }
 
-QEXTTooltip::TrianglePositionType QEXTTooltip::trianglePosition() const
+QExtTooltip::TrianglePositionType QExtTooltip::trianglePosition() const
 {
-    Q_D(const QEXTTooltip);
+    Q_D(const QExtTooltip);
     return d->m_trianglePosition;
 }
 
-QColor QEXTTooltip::triangleColor() const
+QColor QExtTooltip::triangleColor() const
 {
-    Q_D(const QEXTTooltip);
+    Q_D(const QExtTooltip);
     return d->m_triangleColor;
 }
 
-QSize QEXTTooltip::sizeHint() const
+QSize QExtTooltip::sizeHint() const
 {
     return QSize(100, 30);
 }
 
-QSize QEXTTooltip::minimumSizeHint() const
+QSize QExtTooltip::minimumSizeHint() const
 {
     return QSize(20, 10);
 }
 
-void QEXTTooltip::setBorderRadius(int radius)
+void QExtTooltip::setBorderRadius(int radius)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     if (d->m_borderRadius != radius)
     {
         d->m_borderRadius = radius;
@@ -236,9 +261,9 @@ void QEXTTooltip::setBorderRadius(int radius)
     }
 }
 
-void QEXTTooltip::setArrowVisible(bool visiable)
+void QExtTooltip::setArrowVisible(bool visiable)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     if (d->m_arrowVisible != visiable)
     {
         d->m_arrowVisible = visiable;
@@ -246,9 +271,9 @@ void QEXTTooltip::setArrowVisible(bool visiable)
     }
 }
 
-void QEXTTooltip::setArrowSize(int size)
+void QExtTooltip::setArrowSize(int size)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     if (d->m_arrowSize != size)
     {
         d->m_arrowSize = size;
@@ -256,9 +281,9 @@ void QEXTTooltip::setArrowSize(int size)
     }
 }
 
-void QEXTTooltip::setArrowPosition(const QEXTTooltip::ArrowPositionType &position)
+void QExtTooltip::setArrowPosition(const QExtTooltip::ArrowPositionType &position)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     if (d->m_arrowPosition != position)
     {
         d->m_arrowPosition = position;
@@ -266,9 +291,9 @@ void QEXTTooltip::setArrowPosition(const QEXTTooltip::ArrowPositionType &positio
     }
 }
 
-void QEXTTooltip::setTriangleVisible(bool visiable)
+void QExtTooltip::setTriangleVisible(bool visiable)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     if (d->m_triangleVisible != visiable)
     {
         d->m_triangleVisible = visiable;
@@ -276,9 +301,9 @@ void QEXTTooltip::setTriangleVisible(bool visiable)
     }
 }
 
-void QEXTTooltip::setTriangleLen(int len)
+void QExtTooltip::setTriangleLen(int len)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     if (d->m_triangleLen != len)
     {
         d->m_triangleLen = len;
@@ -286,9 +311,9 @@ void QEXTTooltip::setTriangleLen(int len)
     }
 }
 
-void QEXTTooltip::setTrianglePosition(const QEXTTooltip::TrianglePositionType &position)
+void QExtTooltip::setTrianglePosition(const QExtTooltip::TrianglePositionType &position)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     if (d->m_trianglePosition != position)
     {
         d->m_trianglePosition = position;
@@ -296,9 +321,9 @@ void QEXTTooltip::setTrianglePosition(const QEXTTooltip::TrianglePositionType &p
     }
 }
 
-void QEXTTooltip::setTriangleColor(const QColor &color)
+void QExtTooltip::setTriangleColor(const QColor &color)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     if (d->m_triangleColor != color)
     {
         d->m_triangleColor = color;
@@ -306,9 +331,9 @@ void QEXTTooltip::setTriangleColor(const QColor &color)
     }
 }
 
-void QEXTTooltip::setBackgroundColor(const QColor &color)
+void QExtTooltip::setBackgroundColor(const QColor &color)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     if (d->m_backgroundColor != color)
     {
         d->m_backgroundColor = color;
@@ -316,9 +341,9 @@ void QEXTTooltip::setBackgroundColor(const QColor &color)
     }
 }
 
-void QEXTTooltip::setForegroundColor(const QColor &color)
+void QExtTooltip::setForegroundColor(const QColor &color)
 {
-    Q_D(QEXTTooltip);
+    Q_D(QExtTooltip);
     if (d->m_foregroundColor != color)
     {
         d->m_foregroundColor = color;

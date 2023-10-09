@@ -1,34 +1,37 @@
-#################################################################################
+########################################################################################################################
 #
 # Library: QExt
 #
-# Copyright (c) ChengXueWen. Contact: 1398831004@qq.com
+# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+# License: MIT License
 #
-#     http://www.apache.org/licenses/LICENSE-2.0.txt
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+# to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 #
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions
+# of the Software.
 #
-#################################################################################
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  AUTHORS
+# OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+########################################################################################################################
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Set lib base name and out put path
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 set(_lib_base_name QEXTColoredPixmapIcon)
 set(LIBRARY_OUTPUT_PATH ${QEXT_PLUGIN_OUTPUT_DIR})
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Set lib file list
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 set(_lib_public_headers
     include/qextColoredPixmapIconEngine.h
     include/qextColoredPixmapIconGlobal.h
@@ -53,9 +56,9 @@ set(_lib_resources
 list(APPEND _lib_link_libraries QEXTCore)
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Add lib link libraries
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 set(_lib_link_libraries)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
@@ -70,9 +73,9 @@ list(APPEND _lib_link_libraries QEXTCore)
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 add_library(${_lib_base_name} STATIC
     ${_lib_public_headers}
     ${_lib_private_headers}
@@ -109,9 +112,9 @@ endif()
 
 
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Add lib tests and examples
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 if (QEXT_BUILD_TESTS OR QEXT_BUILD_ALL)
     add_subdirectory(tests)
 endif()

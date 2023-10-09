@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QEXTDateTimeTumbler" name="tumblerDateTime1" native="true">
+  <widget class="QExtDateTimeTumbler" name="tumblerDateTime1" native="true">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QEXTDateTimeTumbler" name="tumblerDateTime2" native="true">
+  <widget class="QExtDateTimeTumbler" name="tumblerDateTime2" native="true">
    <property name="geometry">
     <rect>
      <x>9</x>
@@ -36,7 +36,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTDateTimeTumbler</class>
+   <class>QExtDateTimeTumbler</class>
    <extends>QWidget</extends>
    <header location="global">qextDateTimeTumbler.h</header>
    <container>1</container>

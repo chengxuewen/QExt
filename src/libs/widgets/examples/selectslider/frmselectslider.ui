@@ -24,13 +24,13 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QEXTSelectSlider" name="sliderSelect1" native="true"/>
+     <widget class="QExtSelectSlider" name="sliderSelect1" native="true"/>
     </item>
     <item>
-     <widget class="QEXTSelectSlider" name="sliderSelect2" native="true"/>
+     <widget class="QExtSelectSlider" name="sliderSelect2" native="true"/>
     </item>
     <item>
-     <widget class="QEXTSelectSlider" name="sliderSelect3" native="true"/>
+     <widget class="QExtSelectSlider" name="sliderSelect3" native="true"/>
     </item>
     <item>
      <layout class="QGridLayout" name="gridLayout">
@@ -149,7 +149,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTSelectSlider</class>
+   <class>QExtSelectSlider</class>
    <extends>QWidget</extends>
    <header>qextSelectSlider.h</header>
    <container>1</container>
