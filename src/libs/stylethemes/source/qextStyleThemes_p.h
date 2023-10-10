@@ -33,9 +33,12 @@
 #include <QJsonArray>
 #include <QDir>
 
-class QEXT_STYLETHEMS_API QExtStyleThemePrivate
+class QEXT_STYLETHEMS_API QExtStyleThemesPrivate
 {
 public:
+    /**
+     * Groups the data the build a parsed palette color entry
+     */
     struct PaletteColorEntry
     {
         QPalette::ColorGroup Group;
@@ -58,67 +61,82 @@ public:
         }
     };
 
-    explicit QExtStyleThemePrivate(QExtStyleTheme *q);
-    virtual ~QExtStyleThemePrivate();
+    explicit QExtStyleThemesPrivate(QExtStyleThemes *q);
+    virtual ~QExtStyleThemesPrivate();
 
     bool generateStylesheet(); // Generate the final stylesheet from the stylesheet template file
-    bool exportInternalStylesheet(const QString &Filename); // Export the internal generated stylesheet
-    bool storeStylesheet(const QString &Stylesheet, const QString &Filename); // Store the given stylesheet
+    bool exportInternalStylesheet(const QString &filename); // Export the internal generated stylesheet
+    bool storeStylesheet(const QString &stylesheet, const QString &filename); // Store the given stylesheet
     /* Parse a list of theme variables */
-    bool parseVariablesFromXml(QXmlStreamReader &s, const QString &VariableTagName, QMap<QString, QString> &Variable);
-    bool parseThemeFile(const QString &ThemeFilename); // Parse the theme file for
+    bool parseVariablesFromXml(QXmlStreamReader &reader, const QString &tagName, QMap<QString, QString> &variables);
+    bool parseThemeFile(const QString &fileName); // Parse the theme file for
     bool parseStyleJsonFile(); // Parse the style JSON file
     /* Creates an Rgba color from a given color and an opacity value in the range from 0 (transparent) to 1 (opaque) */
     QString rgbaColor(const QString &RgbColor, float Opacity);
-    void replaceStylesheetVariables(QString &Template); // Replace the stylesheet variables in the given template
+    void replaceStylesheetVariables(QString &templateContent); // Replace the stylesheet variables in the given template
     void addFonts(QDir *Dir = nullptr); // Register the style fonts to the font database
     /* Generate the resources for the variuous states */
-    bool generateResourcesFor(const QString &SubDir, const QJsonObject &JsonObject, const QFileInfoList &Entries);
+    bool generateResourcesFor(const QString &subDir, const QJsonObject &JsonObject, const QFileInfoList &entries);
     /* Replace the in the given content the template color string with the theme color string */
-    void replaceColor(QByteArray &Content, const QString &TemplateColor, const QString &ThemeColor) const;
+    void replaceColor(QByteArray &content, const QString &templateColor, const QString &themeColor) const;
     /* Set error code and error string */
-    void setError(QExtStyleTheme::eError Error, const QString &ErrorString);
+    void setError(QExtStyleThemes::ErrorEnum error, const QString &ErrorString);
     /*Convenience function to ease clearing the error*/
-    void clearError()
-    {
-        setError(QExtStyleTheme::NoError, QString());
-    }
+    void clearError() { this->setError(QExtStyleThemes::NoError, QString()); }
     void parsePaletteFromJson(); // Parse palette from JSON file
     /* Parse palette color group from the given palette json parameters */
-    void parsePaletteColorGroup(QJsonObject &jPalette, QPalette::ColorGroup ColorGroup);
+    void parsePaletteColorGroup(QJsonObject &jPalette, QPalette::ColorGroup colorGroup);
     /* Use this function to access the icon color replace list, to ensure, that is is properly initialized */
-    const QExtStyleTheme::ColorReplaceVector &iconColorReplaceList() const;
+    const QExtStyleThemes::ColorReplaceVector &iconColorReplaceList() const;
     /* Parse a color replace list from the given JsonObject */
-    QExtStyleTheme::ColorReplaceVector parseColorReplaceList(const QJsonObject &JsonObject) const;
+    QExtStyleThemes::ColorReplaceVector parseColorReplaceList(const QJsonObject &jsonObject) const;
 
-    QExtStyleTheme * const q_ptr;
+    /* Converts a color role string into a color role enum */
+    static QPalette::ColorRole colorRoleFromString(const QString &text);
+    /* Returns the color group string for a given QPalette::ColorGroup */
+    static QString colorGroupString(QPalette::ColorGroup colorGroup);
 
-    QString StylesDir;
-    QString OutputDir;
-    QMap<QString, QString> StyleVariables;
-    QMap<QString, QString> ThemeColors;
-    QMap<QString, QString> ThemeVariables;// theme variables contains StyleVariables and ThemeColors
-    QString Stylesheet;
-    QString CurrentStyle;
-    QString CurrentTheme;
-    QString DefaultTheme;
-    QString StyleName;
-    QString IconFile;
-    QVector<QExtStyleTheme::StringPair> ResourceReplaceList;
-    QVector<PaletteColorEntry> PaletteColors;
-    QString PaletteBaseColor;
-    QJsonObject JsonStyleParam;
-    QString ErrorString;
-    QExtStyleTheme::eError Error;
-    mutable QIcon Icon;
-    QStringList Styles;
-    QStringList Themes;
-    bool IsDarkTheme = false;
-    mutable QExtStyleTheme::ColorReplaceVector IconColorReplaceList;
+    template<class Key, class T>
+    static void insertIntoMap(QMap<Key, T> &Map, const QMap<Key, T> &map)
+    {
+#if QT_VERSION >= 0x050F00
+        Map.insert(map);
+#else
+        for (auto itc = map.constBegin(); itc != map.constEnd(); ++itc)
+        {
+            Map.insert(itc.key(), itc.value());
+        }
+#endif
+    }
+
+    QExtStyleThemes * const q_ptr;
+
+    QString m_stylesDir;
+    QString m_outputDir;
+    QMap<QString, QString> m_themeColors;
+    QMap<QString, QString> m_styleVariables;
+    QMap<QString, QString> m_themeVariables;// theme variables contains StyleVariables and ThemeColors
+    QString m_stylesheet;
+    QString m_currentStyle;
+    QString m_currentTheme;
+    QString m_defaultTheme;
+    QString m_styleName;
+    QString m_iconFile;
+    QVector<QExtStyleThemes::StringPair> ResourceReplaceList;
+    QVector<PaletteColorEntry> m_paletteColors;
+    QString m_paletteBaseColor;
+    QJsonObject m_jsonStyleParam;
+    QString m_errorString;
+    QExtStyleThemes::ErrorEnum m_error;
+    mutable QIcon m_icon;
+    QStringList m_styles;
+    QStringList m_themes;
+    bool m_isDarkTheme;
+    mutable QExtStyleThemes::ColorReplaceVector m_iconColorReplaceList;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtStyleThemePrivate)
-    QEXT_DECL_PUBLIC(QExtStyleTheme)
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtStyleThemesPrivate)
+    QEXT_DECL_PUBLIC(QExtStyleThemes)
 };
 
 #endif //_QEXTSTYLETHEMES_P_H

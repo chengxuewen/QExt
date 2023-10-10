@@ -60,7 +60,7 @@ namespace acss {
     class CSVGIconEngine : public QIconEngine {
     private:
         QByteArray m_SvgTemplate;
-        QByteArray m_SvgContent; ///< memory buffer with SVG data load from file
+        QByteArray m_svgContent; ///< memory buffer with SVG data load from file
         QtAdvancedStylesheet *m_AdvancedStyleheet = nullptr;
 
     public:
@@ -88,8 +88,8 @@ namespace acss {
          * Update the SVG content with the current theme icon colors
          */
         void update() {
-            m_SvgContent = m_SvgTemplate;
-            m_AdvancedStyleheet->replaceSvgColors(m_SvgContent);
+            m_svgContent = m_SvgTemplate;
+            m_AdvancedStyleheet->replaceSvgColors(m_svgContent);
         }
 
         /**
@@ -106,7 +106,7 @@ namespace acss {
             Q_UNUSED(mode);
             Q_UNUSED(state);
 
-            QSvgRenderer renderer(m_SvgContent);
+            QSvgRenderer renderer(m_svgContent);
             renderer.render(painter, rect);
         }
 

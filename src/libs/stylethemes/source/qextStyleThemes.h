@@ -32,15 +32,15 @@
 #include <QWidget>
 #include <QIcon>
 
-class QExtStyleThemePrivate;
-class QEXT_STYLETHEMS_API QExtStyleTheme : public QObject
+class QExtStyleThemesPrivate;
+class QEXT_STYLETHEMS_API QExtStyleThemes : public QObject
 {
     Q_OBJECT
 public:
     typedef QPair<QString, QString> StringPair;
     typedef QVector<StringPair> ColorReplaceVector;
 
-    enum eError
+    enum ErrorEnum
     {
         NoError,
         CssTemplateError,
@@ -50,15 +50,15 @@ public:
         ResourceGeneratorError,
     };
 
-    enum eLocation
+    enum LocationEnum
     {
         ThemesLocation,
         ResourceTemplatesLocation,
         FontsLocation
     };
 
-    explicit QExtStyleTheme(QObject *parent=0);
-    ~QExtStyleTheme() QEXT_DECL_OVERRIDE;
+    explicit QExtStyleThemes(QObject *parent = 0);
+    ~QExtStyleThemes() QEXT_DECL_OVERRIDE;
 
     /**
      * @brief Set the directory path that contains all styles.
@@ -109,7 +109,7 @@ public:
      * @param location
      * @return
      */
-    QString path(eLocation location) const;
+    QString path(LocationEnum location) const;
 
     /**
      * @brief Returns the absolute output dir path where the generated styles will get stored.
@@ -196,7 +196,7 @@ public:
      * @brief Returns the error state of the object.
      * @return
      */
-    eError error() const;
+    ErrorEnum error() const;
 
     /**
      * @brief Returns a string describing the last error that occured
@@ -239,7 +239,7 @@ public:
      * @param filename The svg file name.
      * @return
      */
-    QIcon loadThemeAwareSvgIcon(const QString &filename);
+    QIcon loadThemeAwareSvgIcon(const QString &fileName);
 
 public slots:
     /**
@@ -328,12 +328,12 @@ signals:
     void stylesheetChanged();
 
 protected:
-    QScopedPointer<QExtStyleThemePrivate> dd_ptr;
+    QScopedPointer<QExtStyleThemesPrivate> dd_ptr;
 
 private:
 
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtStyleTheme)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtStyleTheme)
+    QEXT_DECL_DISABLE_COPY_MOVE(QExtStyleThemes)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtStyleThemes)
 };
 
 #endif // _QEXTSTYLETHEMES_H

@@ -25,7 +25,7 @@
 #ifndef _QEXTSTYLETHEMESCONSTANTS_H
 #define _QEXTSTYLETHEMESCONSTANTS_H
 
-namespace QExtStyleThemeConstants
+namespace QExtStyleThemesConstants
 {
 const char *DEFAULT_STYLE_NAME = "StyleName";
 const char *DEFAULT_STYLE_TEXT_COLOR = "TextColor";

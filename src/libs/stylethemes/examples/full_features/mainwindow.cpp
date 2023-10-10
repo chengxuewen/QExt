@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+#include <qextStyleThemes.h>
 #include <QtAdvancedStylesheet.h>
 //#include <QmlStyleUrlInterceptor.h>
 
@@ -28,7 +29,8 @@ struct MainWindowPrivate
 {
 	CMainWindow* _this;
 	Ui::MainWindow ui;
-	acss::QtAdvancedStylesheet* AdvancedStyleSheet;
+//	acss::QtAdvancedStylesheet* AdvancedStyleSheet;
+    QExtStyleThemes* AdvancedStyleSheet;
 	QVector<QPushButton*> ThemeColorButtons;
 
 	/**
@@ -153,7 +155,8 @@ CMainWindow::CMainWindow(QWidget *parent)
     QString AppDir = qApp->applicationDirPath();
     QString StylesDir = STRINGIFY(STYLES_DIR);
     qDebug() << "StylesDir=" << StylesDir;
-    d->AdvancedStyleSheet = new acss::QtAdvancedStylesheet(this);
+//    d->AdvancedStyleSheet = new acss::QtAdvancedStylesheet(this);
+    d->AdvancedStyleSheet = new QExtStyleThemes(this);
     d->AdvancedStyleSheet->setStylesDirPath(StylesDir);
     d->AdvancedStyleSheet->setOutputDirPath(AppDir + "/output");
     d->AdvancedStyleSheet->setCurrentStyle("qt_material");
