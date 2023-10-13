@@ -5,7 +5,7 @@
 PortListener::PortListener(const QString &portName)
 {
     qDebug() << "hi there";
-    this->port = new QEXTSerialPort(portName, QEXTSerialPort::EventDriven);
+    this->port = new QExtSerialPort(portName, QExtSerialPort::EventDriven);
     port->setBaudRate(BAUD9600);
     port->setFlowControl(FLOW_OFF);
     port->setParity(PAR_NONE);

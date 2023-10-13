@@ -56,16 +56,16 @@
 
 
 
-// This is QEXTSerialPort's read buffer, needed by posix system.
+// This is QExtSerialPort's read buffer, needed by posix system.
 // ref: QRingBuffer & QIODevicePrivateLinearBuffer
-class QEXT_SERIALPORT_API QEXTReadBuffer
+class QEXT_SERIALPORT_API QExtReadBuffer
 {
 public:
-    inline QEXTReadBuffer(size_t growth=4096)
+    inline QExtReadBuffer(size_t growth=4096)
         : len(0), first(0), buf(0), capacity(0), basicBlockSize(growth) {
     }
 
-    ~QEXTReadBuffer() {
+    ~QExtReadBuffer() {
         delete [] buf;
     }
 
@@ -177,13 +177,13 @@ private:
 class QWinEventNotifier;
 class QSocketNotifier;
 
-class QEXT_SERIALPORT_API QEXTSerialPortPrivate
+class QEXT_SERIALPORT_API QExtSerialPortPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTSerialPort)
+    Q_DECLARE_PUBLIC(QExtSerialPort)
 
 public:
-    QEXTSerialPortPrivate(QEXTSerialPort *q);
-    ~QEXTSerialPortPrivate();
+    QExtSerialPortPrivate(QExtSerialPort *q);
+    ~QExtSerialPortPrivate();
     enum DirtyFlagEnum
     {
         DFE_BaudRate = 0x0001,
@@ -198,10 +198,10 @@ public:
     mutable QReadWriteLock lock;
     QString port;
     PortSettings settings;
-    QEXTReadBuffer readBuffer;
+    QExtReadBuffer readBuffer;
     int settingsDirtyFlags;
     ulong lastErr;
-    QEXTSerialPort::QueryMode queryMode;
+    QExtSerialPort::QueryMode queryMode;
 
     // platform specific members
 #ifdef Q_OS_UNIX
@@ -249,7 +249,7 @@ public:
 #endif
     void _q_canRead();
 
-    QEXTSerialPort *q_ptr;
+    QExtSerialPort *q_ptr;
 };
 
 

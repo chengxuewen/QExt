@@ -90,7 +90,7 @@
 
 
 /** Adaptor that adds a dummy parameter to the wrapped functor.
-* Use the convenience function qextHideFunctor() to create an instance of QEXTHideFunctor.
+* Use the convenience function qextHideFunctor() to create an instance of QExtHideFunctor.
 *
 * The following template arguments are used:
 * - @e I_location Zero-based position of the dummy parameter (@p -1 for the last parameter).
@@ -99,46 +99,46 @@
 *
 * \ingroup qextHideFunctor
 */
-template <int I_location, typename T_functor>
-struct QEXTHideFunctor;
-
+template<int I_location, typename T_functor>
+struct QExtHideFunctor;
 
 /** Adaptor that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the last parameter in operator()().
 *
 * \ingroup qextHideFunctor
 */
-template <typename T_functor>
-struct QEXTHideFunctor<-1, T_functor> : public QEXTAdapts<T_functor>
+template<typename T_functor>
+struct QExtHideFunctor<-1, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QEXTAdapts<T_functor>::Adaptor   Adaptor;
+    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
+            typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
-            typename QEXTTypeTrait<T_arg1>::Pass,
-            typename QEXTTypeTrait<T_arg2>::Pass,
-            typename QEXTTypeTrait<T_arg3>::Pass,
-            typename QEXTTypeTrait<T_arg4>::Pass,
-            typename QEXTTypeTrait<T_arg5>::Pass,
-            typename QEXTTypeTrait<T_arg6>::Pass >::Type Type;
+        typedef typename Adaptor::template ReturnTypeDeduce<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass>::Type Type;
     };
 
-    typedef typename Adaptor::Return  Return;
+    typedef typename Adaptor::Return Return;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
     */
-    explicit QEXTHideFunctor(const T_functor &func) : QEXTAdapts<T_functor>(func) {}
-    QEXTHideFunctor(const QEXTHideFunctor &other) : QEXTAdapts<T_functor>(other) {}
+    explicit QExtHideFunctor(const T_functor &func) : QExtAdapts<T_functor>(func) {}
+
+    QExtHideFunctor(const QExtHideFunctor &other) : QExtAdapts<T_functor>(other) {}
 
     /** Invokes the wrapped functor ignoring the only argument.
     * \param arg1 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1>
+    template<typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type
     operator()(T_arg1)
     {
@@ -150,13 +150,13 @@ struct QEXTHideFunctor<-1, T_functor> : public QEXTAdapts<T_functor>
     * \param arg2 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2>
+    template<typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
     operator()(T_arg1 arg1, T_arg2)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass >
-               (arg1);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass>
+                (arg1);
     }
 
     /** Invokes the wrapped functor, ignoring the last argument.
@@ -165,14 +165,14 @@ struct QEXTHideFunctor<-1, T_functor> : public QEXTAdapts<T_functor>
     * \param arg3 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
+    template<typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass >
-               (arg1, arg2);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass>
+                (arg1, arg2);
     }
 
     /** Invokes the wrapped functor, ignoring the last argument.
@@ -182,15 +182,15 @@ struct QEXTHideFunctor<-1, T_functor> : public QEXTAdapts<T_functor>
     * \param arg4 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass >
-               (arg1, arg2, arg3);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass>
+                (arg1, arg2, arg3);
     }
 
     /** Invokes the wrapped functor, ignoring the last argument.
@@ -201,16 +201,16 @@ struct QEXTHideFunctor<-1, T_functor> : public QEXTAdapts<T_functor>
     * \param arg5 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass >
-               (arg1, arg2, arg3, arg4);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass>
+                (arg1, arg2, arg3, arg4);
     }
 
     /** Invokes the wrapped functor, ignoring the last argument.
@@ -222,17 +222,17 @@ struct QEXTHideFunctor<-1, T_functor> : public QEXTAdapts<T_functor>
     * \param arg6 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass >
-               (arg1, arg2, arg3, arg4, arg5);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass>
+                (arg1, arg2, arg3, arg4, arg5);
     }
 
     /** Invokes the wrapped functor, ignoring the last argument.
@@ -245,58 +245,58 @@ struct QEXTHideFunctor<-1, T_functor> : public QEXTAdapts<T_functor>
     * \param arg7 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass >
-               (arg1, arg2, arg3, arg4, arg5, arg6);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass>
+                (arg1, arg2, arg3, arg4, arg5, arg6);
     }
 };
-
 
 /** Adaptor that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the 1st parameter in operator()().
 *
 * \ingroup qextHideFunctor
 */
-template <typename T_functor>
-struct QEXTHideFunctor <0, T_functor> : public QEXTAdapts<T_functor>
+template<typename T_functor>
+struct QExtHideFunctor<0, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QEXTAdapts<T_functor>::Adaptor   Adaptor;
+    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
+            typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
-            typename QEXTTypeTrait<T_arg2>::Pass,
-            typename QEXTTypeTrait<T_arg3>::Pass,
-            typename QEXTTypeTrait<T_arg4>::Pass,
-            typename QEXTTypeTrait<T_arg5>::Pass,
-            typename QEXTTypeTrait<T_arg6>::Pass,
-            typename QEXTTypeTrait<T_arg7>::Pass >::Type Type;
+        typedef typename Adaptor::template ReturnTypeDeduce<
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
 
-    typedef typename Adaptor::Return  Return;
+    typedef typename Adaptor::Return Return;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
     */
-    explicit QEXTHideFunctor(const T_functor &func) : QEXTAdapts<T_functor>(func) {}
-    QEXTHideFunctor(const QEXTHideFunctor &other) : QEXTAdapts<T_functor>(other) {}
+    explicit QExtHideFunctor(const T_functor &func) : QExtAdapts<T_functor>(func) {}
+
+    QExtHideFunctor(const QExtHideFunctor &other) : QExtAdapts<T_functor>(other) {}
 
     /** Invokes the wrapped functor ignoring the only argument.
     * \param arg1 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1>
+    template<typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type
     operator()(T_arg1)
     {
@@ -308,13 +308,13 @@ struct QEXTHideFunctor <0, T_functor> : public QEXTAdapts<T_functor>
     * \param arg2 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2>
+    template<typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
     operator()(T_arg1, T_arg2 arg2)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg2>::Pass >
-               (arg2);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg2>::Pass>
+                (arg2);
     }
 
     /** Invokes the wrapped functor, ignoring the 1st argument.
@@ -323,14 +323,14 @@ struct QEXTHideFunctor <0, T_functor> : public QEXTAdapts<T_functor>
     * \param arg3 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
+    template<typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
     operator()(T_arg1, T_arg2 arg2, T_arg3 arg3)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass >
-               (arg2, arg3);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass>
+                (arg2, arg3);
     }
 
     /** Invokes the wrapped functor, ignoring the 1st argument.
@@ -340,15 +340,15 @@ struct QEXTHideFunctor <0, T_functor> : public QEXTAdapts<T_functor>
     * \param arg4 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
     operator()(T_arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass >
-               (arg2, arg3, arg4);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass>
+                (arg2, arg3, arg4);
     }
 
     /** Invokes the wrapped functor, ignoring the 1st argument.
@@ -359,16 +359,16 @@ struct QEXTHideFunctor <0, T_functor> : public QEXTAdapts<T_functor>
     * \param arg5 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
     operator()(T_arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass >
-               (arg2, arg3, arg4, arg5);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass>
+                (arg2, arg3, arg4, arg5);
     }
 
     /** Invokes the wrapped functor, ignoring the 1st argument.
@@ -380,17 +380,17 @@ struct QEXTHideFunctor <0, T_functor> : public QEXTAdapts<T_functor>
     * \param arg6 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
     operator()(T_arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass >
-               (arg2, arg3, arg4, arg5, arg6);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass>
+                (arg2, arg3, arg4, arg5, arg6);
     }
 
     /** Invokes the wrapped functor, ignoring the 1st argument.
@@ -403,65 +403,65 @@ struct QEXTHideFunctor <0, T_functor> : public QEXTAdapts<T_functor>
     * \param arg7 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass,
-               typename QEXTTypeTrait<T_arg7>::Pass >
-               (arg2, arg3, arg4, arg5, arg6, arg7);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>
+                (arg2, arg3, arg4, arg5, arg6, arg7);
     }
 };
-
 
 /** Adaptor that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the 2nd parameter in operator()().
 *
 * \ingroup qextHideFunctor
 */
-template <typename T_functor>
-struct QEXTHideFunctor<1, T_functor> : public QEXTAdapts<T_functor>
+template<typename T_functor>
+struct QExtHideFunctor<1, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QEXTAdapts<T_functor>::Adaptor   Adaptor;
+    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
+            typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
-            typename QEXTTypeTrait<T_arg1>::Pass,
-            typename QEXTTypeTrait<T_arg3>::Pass,
-            typename QEXTTypeTrait<T_arg4>::Pass,
-            typename QEXTTypeTrait<T_arg5>::Pass,
-            typename QEXTTypeTrait<T_arg6>::Pass,
-            typename QEXTTypeTrait<T_arg7>::Pass >::Type Type;
+        typedef typename Adaptor::template ReturnTypeDeduce<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
 
-    typedef typename Adaptor::Return  Return;
+    typedef typename Adaptor::Return Return;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
     */
-    explicit QEXTHideFunctor(const T_functor &func): QEXTAdapts<T_functor>(func) {}
-    QEXTHideFunctor(const QEXTHideFunctor &other): QEXTAdapts<T_functor>(other) {}
+    explicit QExtHideFunctor(const T_functor &func) : QExtAdapts<T_functor>(func) {}
+
+    QExtHideFunctor(const QExtHideFunctor &other) : QExtAdapts<T_functor>(other) {}
 
     /** Invokes the wrapped functor, ignoring the 2nd argument.
     * \param arg1 Argument to be passed on to the functor.
     * \param arg2 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2>
+    template<typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
     operator()(T_arg1 arg1, T_arg2)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass >
-               (arg1);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass>
+                (arg1);
     }
 
     /** Invokes the wrapped functor, ignoring the 2nd argument.
@@ -470,14 +470,14 @@ struct QEXTHideFunctor<1, T_functor> : public QEXTAdapts<T_functor>
     * \param arg3 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
+    template<typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
     operator()(T_arg1 arg1, T_arg2, T_arg3 arg3)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass >
-               (arg1, arg3);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass>
+                (arg1, arg3);
     }
 
     /** Invokes the wrapped functor, ignoring the 2nd argument.
@@ -487,15 +487,15 @@ struct QEXTHideFunctor<1, T_functor> : public QEXTAdapts<T_functor>
     * \param arg4 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
     operator()(T_arg1 arg1, T_arg2, T_arg3 arg3, T_arg4 arg4)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass >
-               (arg1, arg3, arg4);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass>
+                (arg1, arg3, arg4);
     }
 
     /** Invokes the wrapped functor, ignoring the 2nd argument.
@@ -506,16 +506,16 @@ struct QEXTHideFunctor<1, T_functor> : public QEXTAdapts<T_functor>
     * \param arg5 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
     operator()(T_arg1 arg1, T_arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass >
-               (arg1, arg3, arg4, arg5);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass>
+                (arg1, arg3, arg4, arg5);
     }
 
     /** Invokes the wrapped functor, ignoring the 2nd argument.
@@ -527,17 +527,17 @@ struct QEXTHideFunctor<1, T_functor> : public QEXTAdapts<T_functor>
     * \param arg6 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
     operator()(T_arg1 arg1, T_arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass >
-               (arg1, arg3, arg4, arg5, arg6);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass>
+                (arg1, arg3, arg4, arg5, arg6);
     }
 
     /** Invokes the wrapped functor, ignoring the 2nd argument.
@@ -550,18 +550,18 @@ struct QEXTHideFunctor<1, T_functor> : public QEXTAdapts<T_functor>
     * \param arg7 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1 arg1, T_arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass,
-               typename QEXTTypeTrait<T_arg7>::Pass >
-               (arg1, arg3, arg4, arg5, arg6, arg7);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>
+                (arg1, arg3, arg4, arg5, arg6, arg7);
     }
 };
 
@@ -570,30 +570,31 @@ struct QEXTHideFunctor<1, T_functor> : public QEXTAdapts<T_functor>
 *
 * \ingroup qextHideFunctor
 */
-template <typename T_functor>
-struct QEXTHideFunctor<2, T_functor> : public QEXTAdapts<T_functor>
+template<typename T_functor>
+struct QExtHideFunctor<2, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QEXTAdapts<T_functor>::Adaptor   Adaptor;
+    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
+            typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
-            typename QEXTTypeTrait<T_arg1>::Pass,
-            typename QEXTTypeTrait<T_arg2>::Pass,
-            typename QEXTTypeTrait<T_arg4>::Pass,
-            typename QEXTTypeTrait<T_arg5>::Pass,
-            typename QEXTTypeTrait<T_arg6>::Pass,
-            typename QEXTTypeTrait<T_arg7>::Pass >::Type Type;
+        typedef typename Adaptor::template ReturnTypeDeduce<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename Adaptor::Return Return;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
     */
-    explicit QEXTHideFunctor(const T_functor &func) : QEXTAdapts<T_functor>(func) {}
-    QEXTHideFunctor(const QEXTHideFunctor &other) : QEXTAdapts<T_functor>(other) {}
+    explicit QExtHideFunctor(const T_functor &func) : QExtAdapts<T_functor>(func) {}
+
+    QExtHideFunctor(const QExtHideFunctor &other) : QExtAdapts<T_functor>(other) {}
 
     /** Invokes the wrapped functor, ignoring the 3rd argument.
     * \param arg1 Argument to be passed on to the functor.
@@ -601,14 +602,14 @@ struct QEXTHideFunctor<2, T_functor> : public QEXTAdapts<T_functor>
     * \param arg3 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
+    template<typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass >
-               (arg1, arg2);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass>
+                (arg1, arg2);
     }
 
     /** Invokes the wrapped functor, ignoring the 3rd argument.
@@ -618,15 +619,15 @@ struct QEXTHideFunctor<2, T_functor> : public QEXTAdapts<T_functor>
     * \param arg4 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3, T_arg4 arg4)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass >
-               (arg1, arg2, arg4);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass>
+                (arg1, arg2, arg4);
     }
 
     /** Invokes the wrapped functor, ignoring the 3rd argument.
@@ -637,16 +638,16 @@ struct QEXTHideFunctor<2, T_functor> : public QEXTAdapts<T_functor>
     * \param arg5 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3, T_arg4 arg4, T_arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass >
-               (arg1, arg2, arg4, arg5);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass>
+                (arg1, arg2, arg4, arg5);
     }
 
     /** Invokes the wrapped functor, ignoring the 3rd argument.
@@ -658,17 +659,17 @@ struct QEXTHideFunctor<2, T_functor> : public QEXTAdapts<T_functor>
     * \param arg6 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass >
-               (arg1, arg2, arg4, arg5, arg6);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass>
+                (arg1, arg2, arg4, arg5, arg6);
     }
 
     /** Invokes the wrapped functor, ignoring the 3rd argument.
@@ -681,50 +682,50 @@ struct QEXTHideFunctor<2, T_functor> : public QEXTAdapts<T_functor>
     * \param arg7 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass,
-               typename QEXTTypeTrait<T_arg7>::Pass >
-               (arg1, arg2, arg4, arg5, arg6, arg7);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>
+                (arg1, arg2, arg4, arg5, arg6, arg7);
     }
 };
-
 
 /** Adaptor that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the 4th parameter in operator()().
 *
 * \ingroup qextHideFunctor
 */
-template <typename T_functor>
-struct QEXTHideFunctor<3, T_functor> : public QEXTAdapts<T_functor>
+template<typename T_functor>
+struct QExtHideFunctor<3, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QEXTAdapts<T_functor>::Adaptor   Adaptor;
+    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void, typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void, typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
-            typename QEXTTypeTrait<T_arg1>::Pass,
-            typename QEXTTypeTrait<T_arg2>::Pass,
-            typename QEXTTypeTrait<T_arg3>::Pass,
-            typename QEXTTypeTrait<T_arg5>::Pass,
-            typename QEXTTypeTrait<T_arg6>::Pass,
-            typename QEXTTypeTrait<T_arg7>::Pass >::Type Type;
+        typedef typename Adaptor::template ReturnTypeDeduce<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
-    typedef typename Adaptor::Return   Return;
+    typedef typename Adaptor::Return Return;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
     */
-    explicit QEXTHideFunctor(const T_functor &func) : QEXTAdapts<T_functor>(func) { }
-    QEXTHideFunctor(const QEXTHideFunctor &other) : QEXTAdapts<T_functor>(other) { }
+    explicit QExtHideFunctor(const T_functor &func) : QExtAdapts<T_functor>(func) {}
+
+    QExtHideFunctor(const QExtHideFunctor &other) : QExtAdapts<T_functor>(other) {}
 
     /** Invokes the wrapped functor, ignoring the 4th argument.
     * \param arg1 Argument to be passed on to the functor.
@@ -733,15 +734,15 @@ struct QEXTHideFunctor<3, T_functor> : public QEXTAdapts<T_functor>
     * \param arg4 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass >
-               (arg1, arg2, arg3);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass>
+                (arg1, arg2, arg3);
     }
 
     /** Invokes the wrapped functor, ignoring the 4th argument.
@@ -752,16 +753,16 @@ struct QEXTHideFunctor<3, T_functor> : public QEXTAdapts<T_functor>
     * \param arg5 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4, T_arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass >
-               (arg1, arg2, arg3, arg5);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass>
+                (arg1, arg2, arg3, arg5);
     }
 
     /** Invokes the wrapped functor, ignoring the 4th argument.
@@ -773,17 +774,17 @@ struct QEXTHideFunctor<3, T_functor> : public QEXTAdapts<T_functor>
     * \param arg6 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4, T_arg5 arg5, T_arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass >
-               (arg1, arg2, arg3, arg5, arg6);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass>
+                (arg1, arg2, arg3, arg5, arg6);
     }
 
     /** Invokes the wrapped functor, ignoring the 4th argument.
@@ -796,18 +797,18 @@ struct QEXTHideFunctor<3, T_functor> : public QEXTAdapts<T_functor>
     * \param arg7 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass,
-               typename QEXTTypeTrait<T_arg7>::Pass >
-               (arg1, arg2, arg3, arg5, arg6, arg7);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>
+                (arg1, arg2, arg3, arg5, arg6, arg7);
     }
 };
 
@@ -816,30 +817,31 @@ struct QEXTHideFunctor<3, T_functor> : public QEXTAdapts<T_functor>
 *
 * \ingroup qextHideFunctor
 */
-template <typename T_functor>
-struct QEXTHideFunctor<4, T_functor> : public QEXTAdapts<T_functor>
+template<typename T_functor>
+struct QExtHideFunctor<4, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QEXTAdapts<T_functor>::Adaptor   Adaptor;
+    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
+            typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
-            typename QEXTTypeTrait<T_arg1>::Pass,
-            typename QEXTTypeTrait<T_arg2>::Pass,
-            typename QEXTTypeTrait<T_arg3>::Pass,
-            typename QEXTTypeTrait<T_arg4>::Pass,
-            typename QEXTTypeTrait<T_arg6>::Pass,
-            typename QEXTTypeTrait<T_arg7>::Pass >::Type Type;
+        typedef typename Adaptor::template ReturnTypeDeduce<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
-    typedef typename Adaptor::Return   Return;
+    typedef typename Adaptor::Return Return;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
     */
-    explicit QEXTHideFunctor(const T_functor &func) : QEXTAdapts<T_functor>(func) { }
-    QEXTHideFunctor(const QEXTHideFunctor &other) : QEXTAdapts<T_functor>(other) { }
+    explicit QExtHideFunctor(const T_functor &func) : QExtAdapts<T_functor>(func) {}
+
+    QExtHideFunctor(const QExtHideFunctor &other) : QExtAdapts<T_functor>(other) {}
 
     /** Invokes the wrapped functor, ignoring the 5th argument.
     * \param arg1 Argument to be passed on to the functor.
@@ -849,16 +851,16 @@ struct QEXTHideFunctor<4, T_functor> : public QEXTAdapts<T_functor>
     * \param arg5 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass >
-               (arg1, arg2, arg3, arg4);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass>
+                (arg1, arg2, arg3, arg4);
     }
 
     /** Invokes the wrapped functor, ignoring the 5th argument.
@@ -870,17 +872,17 @@ struct QEXTHideFunctor<4, T_functor> : public QEXTAdapts<T_functor>
     * \param arg6 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5, T_arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass >
-               (arg1, arg2, arg3, arg4, arg6);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass>
+                (arg1, arg2, arg3, arg4, arg6);
     }
 
     /** Invokes the wrapped functor, ignoring the 5th argument.
@@ -893,18 +895,18 @@ struct QEXTHideFunctor<4, T_functor> : public QEXTAdapts<T_functor>
     * \param arg7 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5, T_arg6 arg6, T_arg7 arg7)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass,
-               typename QEXTTypeTrait<T_arg7>::Pass >
-               (arg1, arg2, arg3, arg4, arg6, arg7);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>
+                (arg1, arg2, arg3, arg4, arg6, arg7);
     }
 };
 
@@ -913,30 +915,31 @@ struct QEXTHideFunctor<4, T_functor> : public QEXTAdapts<T_functor>
 *
 * \ingroup qextHideFunctor
 */
-template <typename T_functor>
-struct QEXTHideFunctor<5, T_functor> : public QEXTAdapts<T_functor>
+template<typename T_functor>
+struct QExtHideFunctor<5, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QEXTAdapts<T_functor>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
+            typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
-            typename QEXTTypeTrait<T_arg1>::Pass,
-            typename QEXTTypeTrait<T_arg2>::Pass,
-            typename QEXTTypeTrait<T_arg3>::Pass,
-            typename QEXTTypeTrait<T_arg4>::Pass,
-            typename QEXTTypeTrait<T_arg5>::Pass,
-            typename QEXTTypeTrait<T_arg7>::Pass >::Type Type;
+        typedef typename Adaptor::template ReturnTypeDeduce<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
-    typedef typename Adaptor::Return   Return;
+    typedef typename Adaptor::Return Return;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
     */
-    explicit QEXTHideFunctor(const T_functor &func) : QEXTAdapts<T_functor>(func) { }
-    QEXTHideFunctor(const QEXTHideFunctor &other) : QEXTAdapts<T_functor>(other) { }
+    explicit QExtHideFunctor(const T_functor &func) : QExtAdapts<T_functor>(func) {}
+
+    QExtHideFunctor(const QExtHideFunctor &other) : QExtAdapts<T_functor>(other) {}
 
     /** Invokes the wrapped functor, ignoring the 6th argument.
     * \param arg1 Argument to be passed on to the functor.
@@ -947,17 +950,17 @@ struct QEXTHideFunctor<5, T_functor> : public QEXTAdapts<T_functor>
     * \param arg6 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass >
-               (arg1, arg2, arg3, arg4, arg5);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass>
+                (arg1, arg2, arg3, arg4, arg5);
     }
 
     /** Invokes the wrapped functor, ignoring the 6th argument.
@@ -970,51 +973,52 @@ struct QEXTHideFunctor<5, T_functor> : public QEXTAdapts<T_functor>
     * \param arg7 Argument to be passed on to the functor.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6, T_arg7 arg7)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass,
-               typename QEXTTypeTrait<T_arg7>::Pass >
-               (arg1, arg2, arg3, arg4, arg5, arg7);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg7>::Pass>
+                (arg1, arg2, arg3, arg4, arg5, arg7);
     }
 };
-
 
 /** Adaptor that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the 7th parameter in operator()().
 *
 * \ingroup qextHideFunctor
 */
-template <typename T_functor>
-struct QEXTHideFunctor<6, T_functor> : public QEXTAdapts<T_functor>
+template<typename T_functor>
+struct QExtHideFunctor<6, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QEXTAdapts<T_functor>::Adaptor   Adaptor;
+    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template<typename T_arg1 = void,
+            typename T_arg2 = void, typename T_arg3 = void,
+            typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
-            typename QEXTTypeTrait<T_arg1>::Pass,
-            typename QEXTTypeTrait<T_arg2>::Pass,
-            typename QEXTTypeTrait<T_arg3>::Pass,
-            typename QEXTTypeTrait<T_arg4>::Pass,
-            typename QEXTTypeTrait<T_arg5>::Pass,
-            typename QEXTTypeTrait<T_arg6>::Pass >::Type Type;
+        typedef typename Adaptor::template ReturnTypeDeduce<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass>::Type Type;
     };
-    typedef typename Adaptor::Return   Return;
+    typedef typename Adaptor::Return Return;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
     */
-    explicit QEXTHideFunctor(const T_functor &func) : QEXTAdapts<T_functor>(func) { }
-    QEXTHideFunctor(const QEXTHideFunctor &other) : QEXTAdapts<T_functor>(other) { }
+    explicit QExtHideFunctor(const T_functor &func) : QExtAdapts<T_functor>(func) {}
+
+    QExtHideFunctor(const QExtHideFunctor &other) : QExtAdapts<T_functor>(other) {}
 
     /** Invokes the wrapped functor, ignoring the 7th argument.
     * \param arg1 Argument to be passed on to the functor.
@@ -1026,40 +1030,40 @@ struct QEXTHideFunctor<6, T_functor> : public QEXTAdapts<T_functor>
     * \param arg7 Argument to be ignored.
     * \return The return value of the functor invocation.
     */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+    template<typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7)
     {
-        return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_arg1>::Pass,
-               typename QEXTTypeTrait<T_arg2>::Pass,
-               typename QEXTTypeTrait<T_arg3>::Pass,
-               typename QEXTTypeTrait<T_arg4>::Pass,
-               typename QEXTTypeTrait<T_arg5>::Pass,
-               typename QEXTTypeTrait<T_arg6>::Pass >
-               (arg1, arg2, arg3, arg4, arg5, arg6);
+        return this->m_functor.template operator()<
+                typename QExtTypeTrait<T_arg1>::Pass,
+                typename QExtTypeTrait<T_arg2>::Pass,
+                typename QExtTypeTrait<T_arg3>::Pass,
+                typename QExtTypeTrait<T_arg4>::Pass,
+                typename QExtTypeTrait<T_arg5>::Pass,
+                typename QExtTypeTrait<T_arg6>::Pass>
+                (arg1, arg2, arg3, arg4, arg5, arg6);
     }
 };
 
 //template specialization of visitor<>::do_visit_each<>(action, functor):
 /** Performs a functor on each of the targets of a functor.
-* The function overload for QEXTHideFunctor performs a functor on the
-* functor stored in the QEXTHideFunctor object.
+* The function overload for QExtHideFunctor performs a functor on the
+* functor stored in the QExtHideFunctor object.
 *
 * \ingroup qextHideFunctor
 */
-template <int I_location, typename T_functor>
-struct QEXTVisitor<QEXTHideFunctor<I_location, T_functor> >
+template<int I_location, typename T_functor>
+struct QExtVisitor<QExtHideFunctor<I_location, T_functor> >
 {
-    template <typename T_action>
+    template<typename T_action>
     static void doVisitEach(const T_action &action,
-                            const QEXTHideFunctor<I_location, T_functor> &target)
+                            const QExtHideFunctor<I_location, T_functor> &target)
     {
         qextVisitEach(action, target.m_functor);
     }
 };
 
-/** Creates an adaptor of type QEXTHideFunctor which adds a dummy parameter to the passed functor.
+/** Creates an adaptor of type QExtHideFunctor which adds a dummy parameter to the passed functor.
 * The optional template argument @e I_location specifies the zero-based
 * position of the dummy parameter in the returned functor (@p -1 stands for the last parameter).
 *
@@ -1068,15 +1072,14 @@ struct QEXTVisitor<QEXTHideFunctor<I_location, T_functor> >
 *
 * \ingroup qextHideFunctor
 */
-template <int I_location, typename T_functor>
-inline QEXTHideFunctor<I_location, T_functor>
+template<int I_location, typename T_functor>
+inline QExtHideFunctor<I_location, T_functor>
 qextHideFunctor(const T_functor &func)
 {
-    return QEXTHideFunctor<I_location, T_functor>(func);
+    return QExtHideFunctor<I_location, T_functor>(func);
 }
 
-
-/** Creates an adaptor of type QEXTHideFunctor which adds a dummy parameter to the passed functor.
+/** Creates an adaptor of type QExtHideFunctor which adds a dummy parameter to the passed functor.
 * This overload adds a dummy parameter at the back of the functor's parameter list.
 *
 * \param func Functor that should be wrapped.
@@ -1084,13 +1087,12 @@ qextHideFunctor(const T_functor &func)
 *
 * \ingroup qextHideFunctor
 */
-template <typename T_functor>
-inline QEXTHideFunctor<-1, T_functor >
+template<typename T_functor>
+inline QExtHideFunctor<-1, T_functor>
 qextHideFunctor(const T_functor &func)
 {
-    return QEXTHideFunctor < -1, T_functor > (func);
+    return QExtHideFunctor<-1, T_functor>(func);
 }
-
 
 
 #endif // _QEXTHIDEFUNCTOR_H

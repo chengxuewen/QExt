@@ -43,12 +43,12 @@ static uint qHash(const QEXTStringHolder &sh)
     return sh.h;
 }
 
-struct QEXTIdCache : public QHash<QEXTStringHolder, int>
+struct QExtIdCache : public QHash<QEXTStringHolder, int>
 {
     // dont allow static leaks
-    ~QEXTIdCache()
+    ~QExtIdCache()
     {
-        for (QEXTIdCache::iterator it = begin(); it != end(); ++it) {
+        for (QExtIdCache::iterator it = begin(); it != end(); ++it) {
             delete[](const_cast<char *>(it.key().str));
         }
     }
@@ -57,7 +57,7 @@ struct QEXTIdCache : public QHash<QEXTStringHolder, int>
 static int firstUnusedId = 0;
 
 static QHash<int, QEXTStringHolder> stringFromId;
-static QEXTIdCache idFromString;
+static QExtIdCache idFromString;
 
 static int theId(const char *str, int n = 0)
 {
@@ -82,92 +82,92 @@ static int theId(const QByteArray &ba)
 }
 
 
-QEXTId::QEXTId()
+QExtId::QExtId()
 {
     m_id = 0;
 }
 
-QEXTId::QEXTId(int id)
+QExtId::QExtId(int id)
 {
     m_id = id;
 }
 
-QEXTId::QEXTId(const char *name)
+QExtId::QExtId(const char *name)
 {
     m_id = theId(name, 0);
 }
 
-QEXTId::QEXTId(const QString &name)
+QExtId::QExtId(const QString &name)
 {
     m_id = theId(name.toLatin1().data(), 0);
 }
 
-QByteArray QEXTId::name() const
+QByteArray QExtId::name() const
 {
     return stringFromId.value(m_id).str;
 }
 
-QString QEXTId::toString() const
+QString QExtId::toString() const
 {
     return QString::fromUtf8(stringFromId.value(m_id).str);
 }
 
-QEXTId QEXTId::fromString(const QString &string)
+QExtId QExtId::fromString(const QString &string)
 {
-    return QEXTId(theId(string.toUtf8()));
+    return QExtId(theId(string.toUtf8()));
 }
 
-QEXTId QEXTId::fromName(const QByteArray &byteArray)
+QExtId QExtId::fromName(const QByteArray &byteArray)
 {
-    return QEXTId(theId(byteArray));
+    return QExtId(theId(byteArray));
 }
 
-QVariant QEXTId::toVariant() const
+QVariant QExtId::toVariant() const
 {
     return QVariant(QString::fromUtf8(stringFromId.value(m_id).str));
 }
 
-QEXTId QEXTId::fromVariant(const QVariant &variant)
+QExtId QExtId::fromVariant(const QVariant &variant)
 {
     const QByteArray ba = variant.toString().toUtf8();
     if (ba.isEmpty()) {
-        return QEXTId();
+        return QExtId();
     }
-    return QEXTId(theId(ba));
+    return QExtId(theId(ba));
 }
 
-QEXTId QEXTId::withSuffix(int suffix) const
+QExtId QExtId::withSuffix(int suffix) const
 {
     const QByteArray byteArray = name() + QByteArray::number(suffix);
-    return QEXTId(byteArray.constData());
+    return QExtId(byteArray.constData());
 }
 
-QEXTId QEXTId::withSuffix(const char *suffix) const
+QExtId QExtId::withSuffix(const char *suffix) const
 {
     const QByteArray ba = name() + suffix;
-    return QEXTId(ba.constData());
+    return QExtId(ba.constData());
 }
 
-QEXTId QEXTId::withSuffix(const QString &suffix) const
+QExtId QExtId::withSuffix(const QString &suffix) const
 {
     const QByteArray ba = name() + suffix.toUtf8();
-    return QEXTId(ba.constData());
+    return QExtId(ba.constData());
 }
 
-QEXTId QEXTId::withPrefix(const char *prefix) const
+QExtId QExtId::withPrefix(const char *prefix) const
 {
     const QByteArray ba = prefix + name();
-    return QEXTId(ba.constData());
+    return QExtId(ba.constData());
 }
 
-void QEXTId::registerId(int id, const char *name)
+void QExtId::registerId(int id, const char *name)
 {
     QEXTStringHolder sh(name, 0);
     idFromString[sh] = id;
     stringFromId[id] = sh;
 }
 
-bool QEXTId::operator==(const char *name) const
+bool QExtId::operator==(const char *name) const
 {
     const char *string = stringFromId.value(m_id).str;
     if (string && name) {
@@ -182,12 +182,12 @@ const char *nameForId(int id)
     return stringFromId.value(id).str;
 }
 
-bool QEXTId::alphabeticallyBefore(QEXTId other) const
+bool QExtId::alphabeticallyBefore(QExtId other) const
 {
     return toString().compare(other.toString(), Qt::CaseInsensitive) < 0;
 }
 
-QString QEXTId::suffixAfter(QEXTId baseId) const
+QString QExtId::suffixAfter(QExtId baseId) const
 {
     const QByteArray b = baseId.name();
     const QByteArray n = name();
@@ -196,15 +196,15 @@ QString QEXTId::suffixAfter(QEXTId baseId) const
 
 
 
-QDataStream &operator<<(QDataStream &ds, const QEXTId &id)
+QDataStream &operator<<(QDataStream &ds, const QExtId &id)
 {
     return ds << id.name();
 }
 
-QDataStream &operator>>(QDataStream &ds, QEXTId &id)
+QDataStream &operator>>(QDataStream &ds, QExtId &id)
 {
     QByteArray ba;
     ds >> ba;
-    id = QEXTId::fromName(ba);
+    id = QExtId::fromName(ba);
     return ds;
 }

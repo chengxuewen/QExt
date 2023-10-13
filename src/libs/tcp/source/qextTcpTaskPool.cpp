@@ -4,15 +4,15 @@
 
 #include <QQueue>
 
-QEXTTcpTaskPoolPrivate::QEXTTcpTaskPoolPrivate(QEXTTcpTaskPool *q)
+QExtTcpTaskPoolPrivate::QExtTcpTaskPoolPrivate(QExtTcpTaskPool *q)
     : q_ptr(q)
 {
 
 }
 
-QEXTTcpTaskPoolPrivate::~QEXTTcpTaskPoolPrivate()
+QExtTcpTaskPoolPrivate::~QExtTcpTaskPoolPrivate()
 {
-    QQueue<QEXTTcpTask *>::iterator iter;
+    QQueue<QExtTcpTask *>::iterator iter;
     for (iter = m_waitingTaskQueue.begin(); iter != m_waitingTaskQueue.end(); ++iter)
     {
         (*iter)->disconnect();
@@ -24,51 +24,51 @@ QEXTTcpTaskPoolPrivate::~QEXTTcpTaskPoolPrivate()
     m_threadPool.waitForDone(1000);
 }
 
-QEXTTcpTaskPool::QEXTTcpTaskPool(QEXTTcpPacketDispatcher *dispatcher)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QEXTTcpTaskPoolPrivate(this))
+QExtTcpTaskPool::QExtTcpTaskPool(QExtTcpPacketDispatcher *dispatcher)
+    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpTaskPoolPrivate(this))
 {
-    Q_D(QEXTTcpTaskPool);
+    Q_D(QExtTcpTaskPool);
     d->m_packetDispatcher = dispatcher;
 }
 
-QEXTTcpTaskPool::~QEXTTcpTaskPool()
+QExtTcpTaskPool::~QExtTcpTaskPool()
 {
 
 }
 
-bool QEXTTcpTaskPool::isWaitingTaskEmpty() const
+bool QExtTcpTaskPool::isWaitingTaskEmpty() const
 {
-    Q_D(const QEXTTcpTaskPool);
+    Q_D(const QExtTcpTaskPool);
     return 0 == d->m_waitingTaskQueue.count();
 }
 
-bool QEXTTcpTaskPool::isRunningTaskEmpty() const
+bool QExtTcpTaskPool::isRunningTaskEmpty() const
 {
-    Q_D(const QEXTTcpTaskPool);
+    Q_D(const QExtTcpTaskPool);
     return 0 == d->m_runningTaskSet.count();
 }
 
-int QEXTTcpTaskPool::waitingTaskCount() const
+int QExtTcpTaskPool::waitingTaskCount() const
 {
-    Q_D(const QEXTTcpTaskPool);
+    Q_D(const QExtTcpTaskPool);
     return d->m_waitingTaskQueue.count();
 }
 
-int QEXTTcpTaskPool::runningTaskCount() const
+int QExtTcpTaskPool::runningTaskCount() const
 {
-    Q_D(const QEXTTcpTaskPool);
+    Q_D(const QExtTcpTaskPool);
     return d->m_runningTaskSet.count();
 }
 
-QThreadPool *QEXTTcpTaskPool::threadPool() const
+QThreadPool *QExtTcpTaskPool::threadPool() const
 {
-    Q_D(const QEXTTcpTaskPool);
+    Q_D(const QExtTcpTaskPool);
     return const_cast<QThreadPool *>(&d->m_threadPool);
 }
 
-void QEXTTcpTaskPool::enqueueTask(QEXTTcpTask *task)
+void QExtTcpTaskPool::enqueueTask(QExtTcpTask *task)
 {
-    Q_D(QEXTTcpTaskPool);
+    Q_D(QExtTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_mutex);
     task->setParent(QEXT_DECL_NULLPTR);
     task->setAutoDelete(true);
@@ -86,22 +86,22 @@ void QEXTTcpTaskPool::enqueueTask(QEXTTcpTask *task)
     }
 }
 
-void QEXTTcpTaskPool::onTaskError(const QString &error)
+void QExtTcpTaskPool::onTaskError(const QString &error)
 {
-    Q_D(QEXTTcpTaskPool);
+    Q_D(QExtTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_mutex);
-    QEXTTcpTask *task = qobject_cast<QEXTTcpTask *>(this->sender());
+    QExtTcpTask *task = qobject_cast<QExtTcpTask *>(this->sender());
     quint64 id = d->m_idToTaskMap.key(task);
-    QEXTId identityId = d->m_idToIdentityIdMap.value(id);
+    QExtId identityId = d->m_idToIdentityIdMap.value(id);
     emit this->taskError(identityId, error);
 }
 
-void QEXTTcpTaskPool::onTaskFinished(quint64 id)
+void QExtTcpTaskPool::onTaskFinished(quint64 id)
 {
-    Q_D(QEXTTcpTaskPool);
+    Q_D(QExtTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_mutex);
-    QEXTTcpTask *task = d->m_idToTaskMap.value(id);
-    QEXTId identityId = d->m_idToIdentityIdMap.value(id);
+    QExtTcpTask *task = d->m_idToTaskMap.value(id);
+    QExtId identityId = d->m_idToIdentityIdMap.value(id);
     d->m_idToTaskMap.remove(id);
     d->m_idToIdentityIdMap.remove(id);
     d->m_runningTaskSet.remove(task);

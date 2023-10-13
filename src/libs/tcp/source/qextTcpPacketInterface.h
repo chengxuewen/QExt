@@ -8,18 +8,18 @@
 
 #include <QSharedPointer>
 
-class QEXT_TCP_API QEXTTcpPacketInterface
+class QEXT_TCP_API QExtTcpPacketInterface
 {
 public:
-    virtual ~QEXTTcpPacketInterface() {}
+    virtual ~QExtTcpPacketInterface() {}
 
     virtual QDateTime timestamp() const = 0;
     virtual bool isValid() const = 0;
 
     virtual QByteArray stream() const = 0;
 
-    virtual QSharedPointer<QEXTTcpPacketHeaderInterface> header() const = 0;
-    virtual bool setHeader(const QSharedPointer<QEXTTcpPacketHeaderInterface> &header) = 0;
+    virtual QSharedPointer<QExtTcpPacketHeaderInterface> header() const = 0;
+    virtual bool setHeader(const QSharedPointer<QExtTcpPacketHeaderInterface> &header) = 0;
 
     virtual QByteArray content() const = 0;
     virtual bool setContent(const QByteArray &content) = 0;

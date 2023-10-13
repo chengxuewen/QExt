@@ -18,8 +18,8 @@ class QEXTEmitter
     template<typename T_event>
     struct EventHandler QEXT_DECL_FINAL: EventHandlerBase
     {
-        typedef QEXTFunction<void, T_event &, T_emitter &>  Listener;
-        typedef QEXTSignal<void, T_event &, T_emitter &>    Signal;
+        typedef QExtFunction<void, T_event &, T_emitter &>  Listener;
+        typedef QExtSignal<void, T_event &, T_emitter &>    Signal;
         typedef typename Signal::Iterator                   Iterator;
 
         bool isEmpty() const QEXT_DECL_NOEXCEPT QEXT_DECL_OVERRIDE

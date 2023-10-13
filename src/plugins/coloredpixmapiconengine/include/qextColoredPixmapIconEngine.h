@@ -5,7 +5,7 @@
 
 #include <QtGui/private/qicon_p.h>
 
-class QEXT_COLOREDPIXMAPICON_API QEXTColoredPixmapIconEngine : public QPixmapIconEngine
+class QEXT_COLOREDPIXMAPICON_API QExtColoredPixmapIconEngine : public QPixmapIconEngine
 {
 public:
     QPixmap pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state) QEXT_DECL_OVERRIDE;

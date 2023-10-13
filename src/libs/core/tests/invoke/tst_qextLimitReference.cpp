@@ -10,7 +10,7 @@
 #include <string>
 #include <sstream>
 
-class QEXTLimitReferenceTest : public QObject
+class QExtLimitReferenceTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -41,22 +41,22 @@ public:
 };
 
 
-void QEXTLimitReferenceTest::testSimple()
+void QExtLimitReferenceTest::testSimple()
 {
     sg_string = "";
     Derived *instance = new Derived;
-    QEXTFunction<void> handler = qextMemberFunctor(instance, &Derived::method);
+    QExtFunction<void> handler = qextMemberFunctor(instance, &Derived::method);
     handler();
     QVERIFY("method()" == sg_string);
 
     sg_string = "";
-    QEXTFunction<void> param = qextBindFunctor(QEXTFunction<void, Derived &>(), qextReferenceWrapper(*instance));
+    QExtFunction<void> param = qextBindFunctor(QExtFunction<void, Derived &>(), qextReferenceWrapper(*instance));
     param();
     QVERIFY("" == sg_string);
 
     sg_string = "";
     //TODO
-    //        QEXTFunction<Derived *> ret = qextBindReturnFunctor(QEXTFunction<void>(), qextReferenceWrapper(*instance));
+    //        QExtFunction<Derived *> ret = qextBindReturnFunctor(QExtFunction<void>(), qextReferenceWrapper(*instance));
     //        ret();
     //        CHECK("" == sg_string);
 
@@ -70,6 +70,6 @@ void QEXTLimitReferenceTest::testSimple()
 
 
 
-QTEST_APPLESS_MAIN(QEXTLimitReferenceTest)
+QTEST_APPLESS_MAIN(QExtLimitReferenceTest)
 
 #include <tst_qextLimitReference.moc>

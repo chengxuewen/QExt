@@ -1,5 +1,5 @@
 /******************************************************************************
-    QEXTDeviceWatcher: Device watcher class
+    QExtDeviceWatcher: Device watcher class
     Copyright (C) 2011-2015 Wang Bin <wbsecg1@gmail.com>
 
     This library is free software; you can redistribute it and/or
@@ -25,16 +25,16 @@
 #include <QtCore/QObject>
 #include <QtCore/QEvent>
 
-class QEXTDeviceWatcherPrivate;
+class QExtDeviceWatcherPrivate;
 
-class QEXT_DEVICEWATCHER_API QEXTDeviceWatcher : public QObject
+class QEXT_DEVICEWATCHER_API QExtDeviceWatcher : public QObject
 {
     Q_OBJECT
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTDeviceWatcher)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtDeviceWatcher)
 
 public:
-    explicit QEXTDeviceWatcher(QObject *parent = 0);
-    ~QEXTDeviceWatcher();
+    explicit QExtDeviceWatcher(QObject *parent = 0);
+    ~QExtDeviceWatcher();
 
     bool start();
     bool stop();
@@ -49,17 +49,17 @@ signals:
 
 protected:
     bool running;
-    QEXTDeviceWatcherPrivate *dd_ptr;
+    QExtDeviceWatcherPrivate *dd_ptr;
 };
 
 
-class QEXT_DEVICEWATCHER_API QEXTDeviceChangeEvent : public QEvent
+class QEXT_DEVICEWATCHER_API QExtDeviceChangeEvent : public QEvent
 {
 public:
     enum Action { Add, Remove, Change};
     //static const Type EventType; //VC link error
 
-    explicit QEXTDeviceChangeEvent(Action action, const QString& device);
+    explicit QExtDeviceChangeEvent(Action action, const QString& device);
 
     Action action() const {return m_action;}
     QString device() const {return m_device;}

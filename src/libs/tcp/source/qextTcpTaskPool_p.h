@@ -12,28 +12,28 @@
 #include <QThreadPool>
 #include <QWeakPointer>
 
-class QEXTTcpPacketDispatcher;
-class QEXTTcpTask;
-class QEXTTcpTaskPool;
-class QEXT_TCP_API QEXTTcpTaskPoolPrivate
+class QExtTcpPacketDispatcher;
+class QExtTcpTask;
+class QExtTcpTaskPool;
+class QEXT_TCP_API QExtTcpTaskPoolPrivate
 {
 public:
-    explicit QEXTTcpTaskPoolPrivate(QEXTTcpTaskPool *q);
-    virtual ~QEXTTcpTaskPoolPrivate();
+    explicit QExtTcpTaskPoolPrivate(QExtTcpTaskPool *q);
+    virtual ~QExtTcpTaskPoolPrivate();
 
-    QEXTTcpTaskPool * const q_ptr;
+    QExtTcpTaskPool * const q_ptr;
 
     mutable QMutex m_mutex;
     QThreadPool m_threadPool;
-    QPointer<QEXTTcpPacketDispatcher> m_packetDispatcher;
-    QQueue<QEXTTcpTask *> m_waitingTaskQueue;
-    QSet<QEXTTcpTask *> m_runningTaskSet;
-    QMap<quint64, QEXTTcpTask *> m_idToTaskMap;
-    QMap<quint64, QEXTId> m_idToIdentityIdMap;
+    QPointer<QExtTcpPacketDispatcher> m_packetDispatcher;
+    QQueue<QExtTcpTask *> m_waitingTaskQueue;
+    QSet<QExtTcpTask *> m_runningTaskSet;
+    QMap<quint64, QExtTcpTask *> m_idToTaskMap;
+    QMap<quint64, QExtId> m_idToIdentityIdMap;
 
 private:
-    Q_DECLARE_PUBLIC(QEXTTcpTaskPool)
-    Q_DISABLE_COPY(QEXTTcpTaskPoolPrivate)
+    Q_DECLARE_PUBLIC(QExtTcpTaskPool)
+    Q_DISABLE_COPY(QExtTcpTaskPoolPrivate)
 };
 
 #endif // _QEXTTCPTASKPOOL_P_H

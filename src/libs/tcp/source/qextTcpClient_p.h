@@ -10,29 +10,28 @@
 #include <QMutex>
 #include <QMap>
 
-class QEXTTcpSocket;
-class QEXTTcpFactory;
-class QEXTTcpTaskPool;
-class QEXTTcpPacketDispatcher;
-class QEXTTcpPacketParserInterface;
-class QEXTTcpClient;
-class QEXT_TCP_API QEXTTcpClientPrivate : public QEXTTcpPacketTransceiverPrivate
+class QExtTcpSocket;
+class QExtTcpFactory;
+class QExtTcpTaskPool;
+class QExtTcpPacketDispatcher;
+class QExtTcpPacketParserInterface;
+class QExtTcpClient;
+class QEXT_TCP_API QExtTcpClientPrivate : public QExtTcpPacketTransceiverPrivate
 {
 public:
-    explicit QEXTTcpClientPrivate(QEXTTcpClient *q);
-    ~QEXTTcpClientPrivate();
+    explicit QExtTcpClientPrivate(QExtTcpClient *q);
+    ~QExtTcpClientPrivate();
 
     mutable QMutex m_socketMutex;
     int m_maxTaskThreadCount;
-    QSharedPointer<QEXTTcpSocket> m_socket;
+    QSharedPointer<QExtTcpSocket> m_socket;
     QSharedPointer<QThread> m_socketThread;
-    QSharedPointer<QEXTTcpFactory> m_tcpFactory;
+    QSharedPointer<QExtTcpFactory> m_tcpFactory;
 
 private:
-    Q_DECLARE_PUBLIC(QEXTTcpClient)
-    Q_DISABLE_COPY(QEXTTcpClientPrivate)
+    Q_DECLARE_PUBLIC(QExtTcpClient)
+    Q_DISABLE_COPY(QExtTcpClientPrivate)
 };
-
 
 
 #endif // _QEXTTCPCLIENT_P_H

@@ -4,12 +4,12 @@
 #include <QLoggingCategory>
 #include <QtGui/private/qguiapplication_p.h>
 
-Q_LOGGING_CATEGORY(lcQEXTColoredPixmapIconEngine, "QEXTColoredPixmapIconEngine")
+Q_LOGGING_CATEGORY(lcQExtColoredPixmapIconEngine, "QExtColoredPixmapIconEngine")
 
-#define lcDebug qCDebug(lcQEXTColoredPixmapIconEngine)
+#define lcDebug qCDebug(lcQExtColoredPixmapIconEngine)
 
 
-QPixmap QEXTColoredPixmapIconEngine::pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state)
+QPixmap QExtColoredPixmapIconEngine::pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state)
 {
     QPixmap pix = QPixmapIconEngine::pixmap(size, mode, state);
     if (pix.isNull())

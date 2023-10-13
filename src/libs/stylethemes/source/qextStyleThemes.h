@@ -33,9 +33,10 @@
 #include <QIcon>
 
 class QExtStyleThemesPrivate;
+
 class QEXT_STYLETHEMS_API QExtStyleThemes : public QObject
 {
-    Q_OBJECT
+Q_OBJECT
 public:
     typedef QPair<QString, QString> StringPair;
     typedef QVector<StringPair> ColorReplaceVector;
@@ -58,6 +59,7 @@ public:
     };
 
     explicit QExtStyleThemes(QObject *parent = 0);
+
     ~QExtStyleThemes() QEXT_DECL_OVERRIDE;
 
     /**
@@ -242,6 +244,7 @@ public:
     QIcon loadThemeAwareSvgIcon(const QString &fileName);
 
 public slots:
+
     /**
      * @brief Sets the theme to use.
      * Use the theme name without the file extension. That means, if your theme file id dark_cyan.xml then set the theme
@@ -308,6 +311,7 @@ public slots:
 
 
 signals:
+
     /**
      * @brief This signal is emitted if the selected style changed
      * @param style The Style name.
@@ -333,6 +337,7 @@ protected:
 private:
 
     QEXT_DECL_DISABLE_COPY_MOVE(QExtStyleThemes)
+
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtStyleThemes)
 };
 

@@ -7,19 +7,19 @@
 
 #include <QTcpServer>
 
-class QEXTTcpFactory;
-class QEXTTcpServerPrivate;
-class QEXT_TCP_API QEXTTcpServer : public QTcpServer
+class QExtTcpFactory;
+class QExtTcpServerPrivate;
+class QEXT_TCP_API QExtTcpServer : public QTcpServer
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTTcpServer)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpServer)
+    Q_DISABLE_COPY(QExtTcpServer)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtTcpServer)
 public:
-    QEXTTcpServer();
-    QEXTTcpServer(const QSharedPointer<QEXTTcpFactory> &tcpFactory);
-    QEXTTcpServer(QEXTTcpServerPrivate *d);
-    QEXTTcpServer(QEXTTcpServerPrivate *d, const QSharedPointer<QEXTTcpFactory> &tcpFactory);
-    ~QEXTTcpServer();
+    QExtTcpServer();
+    QExtTcpServer(const QSharedPointer<QExtTcpFactory> &tcpFactory);
+    QExtTcpServer(QExtTcpServerPrivate *d);
+    QExtTcpServer(QExtTcpServerPrivate *d, const QSharedPointer<QExtTcpFactory> &tcpFactory);
+    ~QExtTcpServer();
 
     size_t allSocketCount() const;
 
@@ -30,26 +30,26 @@ public:
     void setMaxTaskThreadCount(size_t count);
 
     void runTask(int function);
-    void runTask(QEXTTcpTask *task);
-    QSharedPointer<QEXTTcpFactory> tcpFactory() const;
-    void setTcpFactory(const QSharedPointer<QEXTTcpFactory> &tcpFactory);
+    void runTask(QExtTcpTask *task);
+    QSharedPointer<QExtTcpFactory> tcpFactory() const;
+    void setTcpFactory(const QSharedPointer<QExtTcpFactory> &tcpFactory);
 
 Q_SIGNALS:
     void serverMessage(const QString &msg);
-    void socketError(const QSharedPointer<QEXTTcpSocket> &socket, const QAbstractSocket::SocketError &error);
-    void socketTransferError(const QSharedPointer<QEXTTcpSocket> &socket, const QEXTTcpSocket::TransferErrorType &error);
-    void socketConnected(const QSharedPointer<QEXTTcpSocket> &socket);
-    void socketDisconnected(const QSharedPointer<QEXTTcpSocket> &socket);
+    void socketError(const QSharedPointer<QExtTcpSocket> &socket, const QAbstractSocket::SocketError &error);
+    void socketTransferError(const QSharedPointer<QExtTcpSocket> &socket, const QExtTcpSocket::TransferErrorType &error);
+    void socketConnected(const QSharedPointer<QExtTcpSocket> &socket);
+    void socketDisconnected(const QSharedPointer<QExtTcpSocket> &socket);
 
 protected Q_SLOTS:
     void onSocketDisconnected();
     void onSocketError(QAbstractSocket::SocketError error);
-    void onSocketTransferError(QEXTTcpSocket::TransferErrorType error);
+    void onSocketTransferError(QExtTcpSocket::TransferErrorType error);
 
 protected:
     void incomingConnection(QEXTSocketDescriptor socketDescriptor) QEXT_DECL_OVERRIDE;
 
-    QScopedPointer<QEXTTcpServerPrivate> dd_ptr;
+    QScopedPointer<QExtTcpServerPrivate> dd_ptr;
 };
 
 #endif // _QEXTTCPSERVER_H

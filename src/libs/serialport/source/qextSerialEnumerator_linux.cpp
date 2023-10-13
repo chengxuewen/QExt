@@ -39,7 +39,7 @@
 
 
 
-void QEXTSerialEnumeratorPrivate::platformSpecificInit()
+void QExtSerialEnumeratorPrivate::platformSpecificInit()
 {
 #if QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
     monitor = NULL;
@@ -52,7 +52,7 @@ void QEXTSerialEnumeratorPrivate::platformSpecificInit()
 #endif
 }
 
-void QEXTSerialEnumeratorPrivate::platformSpecificDestruct()
+void QExtSerialEnumeratorPrivate::platformSpecificDestruct()
 {
 #if QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
     if (notifier) {
@@ -84,7 +84,7 @@ static QEXTPortInfo portInfoFromDevice(struct udev_device *dev)
 }
 #endif
 
-QList<QEXTPortInfo> QEXTSerialEnumeratorPrivate::getPorts_sys()
+QList<QEXTPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
 {
     QList<QEXTPortInfo> infoList;
 #if QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
@@ -163,11 +163,11 @@ QList<QEXTPortInfo> QEXTSerialEnumeratorPrivate::getPorts_sys()
     return infoList;
 }
 
-bool QEXTSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
+bool QExtSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
 {
     Q_UNUSED(setup);
 #if QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
-    Q_Q(QEXTSerialEnumerator);
+    Q_Q(QExtSerialEnumerator);
     if (!udev) {
         qCritical() << "Unable to initialize notifications because udev is not initialized.";
         return false;
@@ -194,9 +194,9 @@ bool QEXTSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
 }
 
 #if QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
-void QEXTSerialEnumeratorPrivate::_q_deviceEvent()
+void QExtSerialEnumeratorPrivate::_q_deviceEvent()
 {
-    Q_Q(QEXTSerialEnumerator);
+    Q_Q(QExtSerialEnumerator);
     struct udev_device *dev = udev_monitor_receive_device(monitor);
     if (dev) {
         QEXTPortInfo pi = portInfoFromDevice(dev);

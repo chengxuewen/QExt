@@ -1,6 +1,6 @@
 
 /******************************************************************************
-    QEXTDeviceWatcher_wince.cpp: for wince. TO BE TESTED
+    QExtDeviceWatcher_wince.cpp: for wince. TO BE TESTED
     Copyright (C) 2012-2015 Wang Bin <wbsecg1@gmail.com>
 
     This library is free software; you can redistribute it and/or
@@ -46,11 +46,11 @@ typedef union {
 } Q_DEVDETAIL;
 
 
-QEXTDeviceWatcherPrivate::~QEXTDeviceWatcherPrivate()
+QExtDeviceWatcherPrivate::~QExtDeviceWatcherPrivate()
 {
 }
 
-bool QEXTDeviceWatcherPrivate::start()
+bool QExtDeviceWatcherPrivate::start()
 {
     if (!init())
         return false;
@@ -59,7 +59,7 @@ bool QEXTDeviceWatcherPrivate::start()
 }
 
 
-bool QEXTDeviceWatcherPrivate::stop()
+bool QExtDeviceWatcherPrivate::stop()
 {
     quit();
 
@@ -75,7 +75,7 @@ bool QEXTDeviceWatcherPrivate::stop()
 }
 
 
-bool QEXTDeviceWatcherPrivate::init()
+bool QExtDeviceWatcherPrivate::init()
 {
     MSGQUEUEOPTIONS msgopts;
 
@@ -103,7 +103,7 @@ bool QEXTDeviceWatcherPrivate::init()
     return true;
 }
 
-void QEXTDeviceWatcherPrivate::run()
+void QExtDeviceWatcherPrivate::run()
 {
     DWORD flags;
     DWORD size;
@@ -113,13 +113,13 @@ void QEXTDeviceWatcherPrivate::run()
         if(WaitForSingleObject(mQueueHandle, 3000) == WAIT_OBJECT_0) {
             while(ReadMsgQueue(mQueueHandle, &detail, sizeof(detail), &size, 1, &flags)) {
                 QString dev = TCHAR2QString(detail.d.szName);
-                QEXTDeviceChangeEvent *event = 0;
+                QExtDeviceChangeEvent *event = 0;
                 if (detail.d.fAttached) {
                     emitDeviceAdded(dev);
-                    event = new QEXTDeviceChangeEvent(QEXTDeviceChangeEvent::Add, dev);
+                    event = new QExtDeviceChangeEvent(QExtDeviceChangeEvent::Add, dev);
                 } else {
                     emitDeviceRemoved(dev);
-                    event = new QEXTDeviceChangeEvent(QEXTDeviceChangeEvent::Remove, dev);
+                    event = new QExtDeviceChangeEvent(QExtDeviceChangeEvent::Remove, dev);
                 }
                 if (event != 0 && !event_receivers.isEmpty()) {
                     foreach(QObject* obj, event_receivers) {
@@ -131,7 +131,7 @@ void QEXTDeviceWatcherPrivate::run()
     }
 }
 
-void QEXTDeviceWatcherPrivate::parseDeviceInfo()
+void QExtDeviceWatcherPrivate::parseDeviceInfo()
 {
 }
 

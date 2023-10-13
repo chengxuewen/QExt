@@ -22,7 +22,7 @@ public:
 
 private slots:
     void onSocketError(QAbstractSocket::SocketError socketError);
-    void onTransferError(const QEXTTcpSocket::TransferErrorType &error);
+    void onTransferError(const QExtTcpSocket::TransferErrorType &error);
 
     void onSocketConnected();
     void onSocketDisconnected();
@@ -38,7 +38,7 @@ private slots:
 private:
     Ui::CMainWindow *ui;
 
-    QScopedPointer<QEXTTcpClient> m_tcpClient;
+    QScopedPointer<QExtTcpClient> m_tcpClient;
     QThread *m_thread;
 };
 

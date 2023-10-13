@@ -1,24 +1,24 @@
 #include <qextSignal.h>
 
 
-namespace qextPrivate
+namespace QExtPrivate
 {
 
-    QEXTSignalData::QEXTSignalData()
-        : m_referenceCount(0)
-        , m_executionCount(0)
-        , m_deferred(0)
+    QExtSignalData::QExtSignalData()
+            : m_referenceCount(0)
+              , m_executionCount(0)
+              , m_deferred(0)
     {
 
     }
 
-    QEXTSignalData::~QEXTSignalData()
+    QExtSignalData::~QExtSignalData()
     {
         m_slotList.clear();
         m_selfIteratorList.clear();
     }
 
-    QEXTSignalData &QEXTSignalData::operator=(const QEXTSignalData &other)
+    QExtSignalData &QExtSignalData::operator=(const QExtSignalData &other)
     {
         if (this != &other)
         {
@@ -30,7 +30,7 @@ namespace qextPrivate
         return *this;
     }
 
-    bool QEXTSignalData::operator==(const QEXTSignalData &other) const
+    bool QExtSignalData::operator==(const QExtSignalData &other) const
     {
         if (m_referenceCount == other.m_referenceCount)
         {
@@ -45,20 +45,20 @@ namespace qextPrivate
         return false;
     }
 
-    bool QEXTSignalData::operator!=(const QEXTSignalData &other) const
+    bool QExtSignalData::operator!=(const QExtSignalData &other) const
     {
         return !(*this == other);
     }
 
-    void QEXTSignalData::clear()
+    void QExtSignalData::clear()
     {
-        // Don't let QEXTSignalImpl::notify() erase the slots. It would invalidate the
+        // Don't let QExtSignalImpl::notify() erase the slots. It would invalidate the
         // iterator in the following loop.
         const bool savedDeferred = m_deferred;
-        QEXTSignalExecution execution(this);
+        QExtSignalExecution execution(this);
 
         // Disconnect all connected slots before they are deleted.
-        // QEXTSignalImpl::notify() will be called and delete the QEXTSelfIterator structs.
+        // QExtSignalImpl::notify() will be called and delete the QEXTSelfIterator structs.
         for (Iterator iter = m_slotList.begin(); iter != m_slotList.end(); ++iter)
         {
             iter->disconnect();
@@ -67,12 +67,12 @@ namespace qextPrivate
         m_slotList.clear();
     }
 
-    QEXTSignalData::Size QEXTSignalData::size() const
+    QExtSignalData::Size QExtSignalData::size() const
     {
         return m_slotList.size();
     }
 
-    bool QEXTSignalData::isBlocked() const
+    bool QExtSignalData::isBlocked() const
     {
         for (ConstIterator iter = m_slotList.begin(); iter != m_slotList.end(); ++iter)
         {
@@ -84,7 +84,7 @@ namespace qextPrivate
         return true;
     }
 
-    void QEXTSignalData::setBlock(bool block)
+    void QExtSignalData::setBlock(bool block)
     {
         for (Iterator iter = m_slotList.begin(); iter != m_slotList.end(); ++iter)
         {
@@ -92,12 +92,12 @@ namespace qextPrivate
         }
     }
 
-    QEXTSignalData::Iterator QEXTSignalData::connect(const QEXTFunctionBase &slot)
+    QExtSignalData::Iterator QExtSignalData::connect(const QExtFunctionBase &slot)
     {
         return this->insert(m_slotList.end(), slot);
     }
 
-    QEXTSignalData::Iterator QEXTSignalData::insert(Iterator iter, const QEXTFunctionBase &slot)
+    QExtSignalData::Iterator QExtSignalData::insert(Iterator iter, const QExtFunctionBase &slot)
     {
         Iterator temp = m_slotList.insert(iter, slot);
         m_selfIteratorList.push_back(SelfIterator(this, temp));
@@ -106,27 +106,27 @@ namespace qextPrivate
         return temp;
     }
 
-    QEXTSignalData::Iterator QEXTSignalData::erase(Iterator iter)
+    QExtSignalData::Iterator QExtSignalData::erase(Iterator iter)
     {
-        // Don't let QEXTSignalImpl::notify() erase the slot. It would be more
-        // difficult to get the correct return value from QEXTSignalImpl::erase().
+        // Don't let QExtSignalImpl::notify() erase the slot. It would be more
+        // difficult to get the correct return value from QExtSignalImpl::erase().
         const bool savedDeferred = m_deferred;
-        QEXTSignalExecution execution(this);
+        QExtSignalExecution execution(this);
 
         // Disconnect the slot before it is deleted.
-        // QEXTSignalImpl::notify() will be called and delete the QEXTSelfIterator struct.
+        // QExtSignalImpl::notify() will be called and delete the QEXTSelfIterator struct.
         iter->disconnect();
 
         m_deferred = savedDeferred;
         return m_slotList.erase(iter);
     }
 
-    void QEXTSignalData::sweep()
+    void QExtSignalData::sweep()
     {
-        // The deletion of a slot may cause the deletion of a QEXTSignalBase,
+        // The deletion of a slot may cause the deletion of a QExtSignalBase,
         // a decrementation of m_refCount, and the deletion of this.
-        // In that case, the deletion of this is deferred to ~QEXTSignalExecution().
-        QEXTSignalExecution execution(this);
+        // In that case, the deletion of this is deferred to ~QExtSignalExecution().
+        QExtSignalExecution execution(this);
 
         m_deferred = QEXT_ATOMIC_INT_FALSE;
         Iterator iter = m_slotList.begin();
@@ -143,46 +143,44 @@ namespace qextPrivate
         }
     }
 
-    void *QEXTSignalData::notify(void *data)
+    void *QExtSignalData::notify(void *data)
     {
         SelfIterator *selfIter = static_cast<SelfIterator *>(data);
 
         if (0 == selfIter->first->m_executionCount)
         {
-            // The deletion of a slot may cause the deletion of a QEXTSignalBase,
+            // The deletion of a slot may cause the deletion of a QExtSignalBase,
             // a decrementation of selfIter->m_self->m_referenceCount, and the deletion of selfIter->m_self.
-            // In that case, the deletion of selfIter->m_self is deferred to ~QEXTSignalExecution().
-            QEXTSignalExecution execution(selfIter->first);
+            // In that case, the deletion of selfIter->m_self is deferred to ~QExtSignalExecution().
+            QExtSignalExecution execution(selfIter->first);
             selfIter->first->m_slotList.erase(selfIter->second);
         }
         else        // This is occuring during signal send or slot erasure.
         {
-            selfIter->first->m_deferred = QEXT_ATOMIC_INT_TRUE; // => sweep() will be called from ~QEXTSignalExecution() after signal send.
+            selfIter->first->m_deferred = QEXT_ATOMIC_INT_TRUE; // => sweep() will be called from ~QExtSignalExecution() after signal send.
         }
         // This is safer because we don't have to care about our iterators in send(), clear(), and erase().
         return QEXT_DECL_NULLPTR;
     }
 
-
-
-    QEXTSignalBase::QEXTSignalBase()
-        : m_data(QEXT_DECL_NULLPTR)
+    QExtSignalBase::QExtSignalBase()
+            : m_data(QEXT_DECL_NULLPTR)
     {
 
     }
 
-    QEXTSignalBase::QEXTSignalBase(const QEXTSignalBase &other)
-        : m_data(other.data())
+    QExtSignalBase::QExtSignalBase(const QExtSignalBase &other)
+            : m_data(other.data())
     {
         m_data->reference();
     }
 
-    QEXTSignalBase::~QEXTSignalBase()
+    QExtSignalBase::~QExtSignalBase()
     {
         if (m_data)
         {
             // Disconnect all slots before m_impl is deleted.
-            // TODO: Move the QEXTSignalImpl::clear() call to ~QEXTSignalImpl() when ABI can be broken.
+            // TODO: Move the QExtSignalImpl::clear() call to ~QExtSignalImpl() when ABI can be broken.
             if (m_data->m_referenceCount == 1)
             {
                 m_data->clear();
@@ -191,14 +189,14 @@ namespace qextPrivate
         }
     }
 
-    QEXTSignalBase &QEXTSignalBase::operator=(const QEXTSignalBase &other)
+    QExtSignalBase &QExtSignalBase::operator=(const QExtSignalBase &other)
     {
         if (this != &other)
         {
             if (this->data())
             {
                 // Disconnect all slots before m_impl is deleted.
-                // TODO: Move the QEXTSignalImpl::clear() call to ~QEXTSignalImpl() when ABI can be broken.
+                // TODO: Move the QExtSignalImpl::clear() call to ~QExtSignalImpl() when ABI can be broken.
                 if (m_data->m_referenceCount == 1)
                 {
                     m_data->clear();
@@ -212,7 +210,7 @@ namespace qextPrivate
         return *this;
     }
 
-    bool QEXTSignalBase::operator==(const QEXTSignalBase &other) const
+    bool QExtSignalBase::operator==(const QExtSignalBase &other) const
     {
         if (QEXT_DECL_NULLPTR != m_data && QEXT_DECL_NULLPTR != other.m_data)
         {
@@ -225,12 +223,12 @@ namespace qextPrivate
         return false;
     }
 
-    bool QEXTSignalBase::operator!=(const QEXTSignalBase &other) const
+    bool QExtSignalBase::operator!=(const QExtSignalBase &other) const
     {
         return !(*this == other);
     }
 
-    void QEXTSignalBase::clear()
+    void QExtSignalBase::clear()
     {
         if (m_data)
         {
@@ -238,17 +236,17 @@ namespace qextPrivate
         }
     }
 
-    QEXTSignalBase::Size QEXTSignalBase::size() const
+    QExtSignalBase::Size QExtSignalBase::size() const
     {
         return (m_data ? m_data->size() : 0);
     }
 
-    bool QEXTSignalBase::isBlocked() const
+    bool QExtSignalBase::isBlocked() const
     {
         return (m_data ? m_data->isBlocked() : true);
     }
 
-    void QEXTSignalBase::setBlock(bool block)
+    void QExtSignalBase::setBlock(bool block)
     {
         if (m_data)
         {
@@ -256,7 +254,7 @@ namespace qextPrivate
         }
     }
 
-    void QEXTSignalBase::unblock()
+    void QExtSignalBase::unblock()
     {
         if (m_data)
         {
@@ -264,45 +262,43 @@ namespace qextPrivate
         }
     }
 
-    QEXTSignalBase::Iterator QEXTSignalBase::connect(const QEXTFunctionBase &slot)
+    QExtSignalBase::Iterator QExtSignalBase::connect(const QExtFunctionBase &slot)
     {
         return this->data()->connect(slot);
     }
 
-    QEXTSignalBase::Iterator QEXTSignalBase::insert(Iterator iter, const QEXTFunctionBase &slot)
+    QExtSignalBase::Iterator QExtSignalBase::insert(Iterator iter, const QExtFunctionBase &slot)
     {
         return this->data()->insert(iter, slot);
     }
 
-    QEXTSignalBase::Iterator QEXTSignalBase::erase(Iterator iter)
+    QExtSignalBase::Iterator QExtSignalBase::erase(Iterator iter)
     {
         return this->data()->erase(iter);
     }
 
-    QEXTSignalData *QEXTSignalBase::data() const
+    QExtSignalData *QExtSignalBase::data() const
     {
         if (!m_data)
         {
-            m_data = new QEXTSignalData;
+            m_data = new QExtSignalData;
             m_data->reference();  // start with a reference count of 1
         }
         return m_data;
     }
 
-
-
-    QEXTSignalExecution::QEXTSignalExecution(const QEXTSignalData *signalData)
-        : m_data(const_cast<QEXTSignalData *>(signalData))
+    QExtSignalExecution::QExtSignalExecution(const QExtSignalData *signalData)
+            : m_data(const_cast<QExtSignalData *>(signalData))
     {
         m_data->referenceExecution();
     }
 
-    QEXTSignalExecution::~QEXTSignalExecution()
+    QExtSignalExecution::~QExtSignalExecution()
     {
         m_data->unreferenceExecution();
     }
 
-} // namespace qextPrivate
+} // namespace QExtPrivate
 
 
 

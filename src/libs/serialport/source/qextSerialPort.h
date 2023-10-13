@@ -168,11 +168,11 @@ struct PortSettings
     long Timeout_Millisec;
 };
 
-class QEXTSerialPortPrivate;
-class QEXT_SERIALPORT_API QEXTSerialPort : public QIODevice
+class QExtSerialPortPrivate;
+class QEXT_SERIALPORT_API QExtSerialPort : public QIODevice
 {
     Q_OBJECT
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTSerialPort)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSerialPort)
 
     Q_PROPERTY(QString portName READ portName WRITE setPortName)
     Q_PROPERTY(QueryMode queryMode READ queryMode WRITE setQueryMode)
@@ -183,12 +183,12 @@ public:
     };
     Q_ENUMS(QueryMode)
 
-    explicit QEXTSerialPort(QueryMode mode = EventDriven, QObject *parent = 0);
-    explicit QEXTSerialPort(const QString &name, QueryMode mode = EventDriven, QObject *parent = 0);
-    explicit QEXTSerialPort(const PortSettings &s, QueryMode mode = EventDriven, QObject *parent = 0);
-    QEXTSerialPort(const QString &name, const PortSettings &s, QueryMode mode = EventDriven, QObject *parent=0);
+    explicit QExtSerialPort(QueryMode mode = EventDriven, QObject *parent = 0);
+    explicit QExtSerialPort(const QString &name, QueryMode mode = EventDriven, QObject *parent = 0);
+    explicit QExtSerialPort(const PortSettings &s, QueryMode mode = EventDriven, QObject *parent = 0);
+    QExtSerialPort(const QString &name, const PortSettings &s, QueryMode mode = EventDriven, QObject *parent=0);
 
-    ~QEXTSerialPort();
+    ~QExtSerialPort();
 
     QString portName() const;
     QueryMode queryMode() const;
@@ -232,14 +232,14 @@ protected:
     qint64 writeData(const char *data, qint64 maxSize);
 
 private:
-    Q_DISABLE_COPY(QEXTSerialPort)
+    Q_DISABLE_COPY(QExtSerialPort)
 
 #ifdef Q_OS_WIN
     Q_PRIVATE_SLOT(d_func(), void _q_onWinEvent(HANDLE))
 #endif
     Q_PRIVATE_SLOT(d_func(), void _q_canRead())
 
-    QEXTSerialPortPrivate *const dd_ptr;
+    QExtSerialPortPrivate *const dd_ptr;
 };
 
 

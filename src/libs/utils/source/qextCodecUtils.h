@@ -7,11 +7,11 @@
 
 #include <stdint.h>
 
-class QEXT_UTILS_API QEXTCodecUtils
+class QEXT_UTILS_API QExtCodecUtils
 {
 public:
-    QEXTCodecUtils();
-    virtual ~QEXTCodecUtils() {}
+    QExtCodecUtils();
+    virtual ~QExtCodecUtils() {}
 
     static bool isHexCode(char value);
     static bool isHexChar(char value);

@@ -6,12 +6,12 @@
 
 #include <QObject>
 
-class QEXTHostInfoUtilsPrivate;
-class QEXT_UTILS_API QEXTHostInfoUtils : public QObject
+class QExtHostInfoUtilsPrivate;
+class QEXT_UTILS_API QExtHostInfoUtils : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTHostInfoUtils)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTHostInfoUtils)
+    Q_DISABLE_COPY(QExtHostInfoUtils)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtHostInfoUtils)
 public:
     enum HostArchType {
         HostArch_X86,
@@ -31,8 +31,8 @@ public:
     };
     Q_ENUMS(HostOSType)
 
-    explicit QEXTHostInfoUtils(QObject *parent = QEXT_DECL_NULLPTR);
-    ~QEXTHostInfoUtils();
+    explicit QExtHostInfoUtils(QObject *parent = QEXT_DECL_NULLPTR);
+    ~QExtHostInfoUtils();
 
     static QString cpuID();
     static HostOSType hostOSType();
@@ -75,10 +75,10 @@ Q_SIGNALS:
     void memoryChanged(quint64 percent);
     void memoryChanged(quint64 free, quint64 all);
     void memoryChanged(quint64 free, quint64 all, quint64 percent);
-    void diskChanged(const QList<QEXTDiskInfo> &diskInfoList);
+    void diskChanged(const QList<QExtDiskInfo> &diskInfoList);
 
 protected:
-    QScopedPointer<QEXTHostInfoUtilsPrivate> dd_ptr;
+    QScopedPointer<QExtHostInfoUtilsPrivate> dd_ptr;
 };
 
 #endif // _QEXTHOSTINFOUTILS_H

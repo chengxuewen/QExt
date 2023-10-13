@@ -5,17 +5,17 @@
 #include <qextTcpPacketDispatcher.h>
 #include <qextTcpTask.h>
 
-struct QEXT_TCP_API QEXTTcpFactory
+struct QEXT_TCP_API QExtTcpFactory
 {
-    virtual ~QEXTTcpFactory() {}
+    virtual ~QExtTcpFactory() {}
 
-    virtual QSharedPointer<QEXTTcpPacketDispatcher> createPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket);
-    virtual QSharedPointer<QEXTTcpPacketParserInterface> createPacketParser();
+    virtual QSharedPointer<QExtTcpPacketDispatcher> createPacketDispatcher(const QSharedPointer<QExtTcpSocket> &socket);
+    virtual QSharedPointer<QExtTcpPacketParserInterface> createPacketParser();
 
-    virtual QEXTTcpTask *createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, int function);
-    virtual QEXTTcpTask *createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, const QSharedPointer<QEXTTcpPacketInterface> &packet);
+    virtual QExtTcpTask *createTask(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher, int function);
+    virtual QExtTcpTask *createTask(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher, const QSharedPointer<QExtTcpPacketInterface> &packet);
 
-    virtual QSharedPointer<QEXTTcpFactory> clone();
+    virtual QSharedPointer<QExtTcpFactory> clone();
 };
 
 #endif // _QEXTTCPFACTORY_H

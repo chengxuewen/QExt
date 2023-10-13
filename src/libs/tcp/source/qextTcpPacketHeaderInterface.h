@@ -6,10 +6,10 @@
 
 #include <QSharedPointer>
 
-class QEXT_TCP_API QEXTTcpPacketHeaderInterface
+class QEXT_TCP_API QExtTcpPacketHeaderInterface
 {
 public:
-    virtual ~QEXTTcpPacketHeaderInterface() {}
+    virtual ~QExtTcpPacketHeaderInterface() {}
 
     virtual quint16 headerSize() const = 0;
     virtual quint16 contentSize() const = 0;
@@ -20,8 +20,8 @@ public:
 
     virtual bool isHeaderDataExist(const QString &name) const = 0;
     virtual QList<QString> headerList() const = 0;
-    virtual QEXTTcpPacketVariant headerData(const QString &name) const = 0;
-    virtual bool setHeaderData(const QString &name, const QEXTTcpPacketVariant &data) = 0;
+    virtual QExtTcpPacketVariant headerData(const QString &name) const = 0;
+    virtual bool setHeaderData(const QString &name, const QExtTcpPacketVariant &data) = 0;
 };
 
 #endif // _QEXTTCPPACKETHEADERINTERFACE_H

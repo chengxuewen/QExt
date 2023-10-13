@@ -26,50 +26,56 @@ using std::in_place_index_t;
 
 #include <cstddef>
 
-namespace qextPrivate
+namespace QExtPrivate
 {
 
     template<typename T>
-    struct QEXTInPlaceTypeTag {};
+    struct QExtInPlaceTypeTag
+    {
+    };
 
     template<std::size_t K>
-    struct QEXTInPlaceIndexTag {};
+    struct QExtInPlaceIndexTag
+    {
+    };
 
-} // namespace qextPrivate
+} // namespace QExtPrivate
 
-struct QEXTInPlaceT {};
+struct QExtInPlaceT
+{
+};
 
 template<typename T>
-inline QEXTInPlaceT qextInPlace(qextPrivate::QEXTInPlaceTypeTag<T> = qextPrivate::QEXTInPlaceTypeTag<T>())
+inline QExtInPlaceT qextInPlace(QExtPrivate::QExtInPlaceTypeTag<T> = QExtPrivate::QExtInPlaceTypeTag<T>())
 {
-    return QEXTInPlaceT();
+    return QExtInPlaceT();
 }
 
 template<std::size_t K>
-inline QEXTInPlaceT qextInPlace(qextPrivate::QEXTInPlaceIndexTag<K> = qextPrivate::QEXTInPlaceIndexTag<K>())
+inline QExtInPlaceT qextInPlace(QExtPrivate::QExtInPlaceIndexTag<K> = QExtPrivate::QExtInPlaceIndexTag<K>())
 {
-    return QEXTInPlaceT();
+    return QExtInPlaceT();
 }
 
 template<typename T>
-inline QEXTInPlaceT qextInPlaceType(qextPrivate::QEXTInPlaceTypeTag<T> = qextPrivate::QEXTInPlaceTypeTag<T>())
+inline QExtInPlaceT qextInPlaceType(QExtPrivate::QExtInPlaceTypeTag<T> = QExtPrivate::QExtInPlaceTypeTag<T>())
 {
-    return QEXTInPlaceT();
+    return QExtInPlaceT();
 }
 
-template< std::size_t K >
-inline QEXTInPlaceT qextInPlaceIndex(qextPrivate::QEXTInPlaceIndexTag<K> = qextPrivate::QEXTInPlaceIndexTag<K>())
+template<std::size_t K>
+inline QExtInPlaceT qextInPlaceIndex(QExtPrivate::QExtInPlaceIndexTag<K> = QExtPrivate::QExtInPlaceIndexTag<K>())
 {
-    return QEXTInPlaceT();
+    return QExtInPlaceT();
 }
 
 
-#define QEXT_IN_PLACE_T(      T)  QEXTInPlaceT(&)( qextPrivate::QEXTInPlaceTypeTag<T >  )
-#define QEXT_IN_PLACE_TYPE_T( T)  QEXTInPlaceT(&)( qextPrivate::QEXTInPlaceTypeTag<T >  )
-#define QEXT_IN_PLACE_INDEX_T(K)  QEXTInPlaceT(&)( qextPrivate::QEXTInPlaceIndexTag<K > )
+#define QEXT_IN_PLACE_T(T)  QExtInPlaceT(&)( QExtPrivate::QExtInPlaceTypeTag<T >  )
+#define QEXT_IN_PLACE_TYPE_T(T)  QExtInPlaceT(&)( QExtPrivate::QExtInPlaceTypeTag<T >  )
+#define QEXT_IN_PLACE_INDEX_T(K)  QExtInPlaceT(&)( QExtPrivate::QExtInPlaceIndexTag<K > )
 
-#define QEXT_IN_PLACE(      T)    qextInPlaceType<T >
-#define QEXT_IN_PLACE_TYPE( T)    qextInPlaceType<T >
+#define QEXT_IN_PLACE(T)    qextInPlaceType<T >
+#define QEXT_IN_PLACE_TYPE(T)    qextInPlaceType<T >
 #define QEXT_IN_PLACE_INDEX(K)    qextInPlaceIndex<K >
 
 #endif

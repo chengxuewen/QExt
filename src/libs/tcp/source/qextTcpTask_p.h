@@ -10,20 +10,20 @@
 #include <QHash>
 #include <QMutex>
 
-class QEXTTcpPacketInterface;
-class QEXTTcpPacketTransceiver;
-class QEXTTcpTask;
-class QEXT_TCP_API QEXTTcpTaskPrivate
+class QExtTcpPacketInterface;
+class QExtTcpPacketTransceiver;
+class QExtTcpTask;
+class QEXT_TCP_API QExtTcpTaskPrivate
 {
 public:
-    explicit QEXTTcpTaskPrivate(QEXTTcpTask *q);
-    virtual ~QEXTTcpTaskPrivate();
+    explicit QExtTcpTaskPrivate(QExtTcpTask *q);
+    virtual ~QExtTcpTaskPrivate();
 
-    QEXTTcpTask * const q_ptr;
+    QExtTcpTask * const q_ptr;
 
     const QDateTime m_timestamp;
-    QSharedPointer<QEXTTcpPacketTransceiver> m_packetTransceiver;
-    QSharedPointer<QEXTTcpPacketInterface> m_receivedPacket;
+    QSharedPointer<QExtTcpPacketTransceiver> m_packetTransceiver;
+    QSharedPointer<QExtTcpPacketInterface> m_receivedPacket;
 
     mutable QMutex m_mutex;
     bool m_finished;
@@ -33,8 +33,8 @@ public:
     static quint64 sm_id;
 
 private:
-    Q_DECLARE_PUBLIC(QEXTTcpTask)
-    Q_DISABLE_COPY(QEXTTcpTaskPrivate)
+    Q_DECLARE_PUBLIC(QExtTcpTask)
+    Q_DISABLE_COPY(QExtTcpTaskPrivate)
 };
 
 #endif // _QEXTTCPTASK_P_H

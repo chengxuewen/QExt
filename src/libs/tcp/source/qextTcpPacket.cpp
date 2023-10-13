@@ -4,7 +4,7 @@
 
 
 
-QEXTTcpPacketPrivate::QEXTTcpPacketPrivate(QEXTTcpPacket *q)
+QExtTcpPacketPrivate::QExtTcpPacketPrivate(QExtTcpPacket *q)
     : q_ptr(q)
 {
     m_nextBlockSize = 0;
@@ -12,87 +12,87 @@ QEXTTcpPacketPrivate::QEXTTcpPacketPrivate(QEXTTcpPacket *q)
     m_timestamp = QDateTime::currentDateTime();
 }
 
-QEXTTcpPacketPrivate::~QEXTTcpPacketPrivate()
+QExtTcpPacketPrivate::~QExtTcpPacketPrivate()
 {
 
 }
 
 
 
-QEXTTcpPacket::QEXTTcpPacket(const QSharedPointer<QEXTTcpPacketHeaderInterface> &header)
-    : dd_ptr(new QEXTTcpPacketPrivate(this))
+QExtTcpPacket::QExtTcpPacket(const QSharedPointer<QExtTcpPacketHeaderInterface> &header)
+    : dd_ptr(new QExtTcpPacketPrivate(this))
 {
-    Q_D(QEXTTcpPacket);
+    Q_D(QExtTcpPacket);
     d->m_header = header;
 }
 
-QEXTTcpPacket::QEXTTcpPacket(QEXTTcpPacketPrivate *d,
-                             const QSharedPointer<QEXTTcpPacketHeaderInterface> &header)
+QExtTcpPacket::QExtTcpPacket(QExtTcpPacketPrivate *d,
+                             const QSharedPointer<QExtTcpPacketHeaderInterface> &header)
     : dd_ptr(d)
 {
     dd_ptr->m_header = header;
 }
 
-QEXTTcpPacket::~QEXTTcpPacket()
+QExtTcpPacket::~QExtTcpPacket()
 {
 
 }
 
-QDateTime QEXTTcpPacket::timestamp() const
+QDateTime QExtTcpPacket::timestamp() const
 {
-    Q_D(const QEXTTcpPacket);
+    Q_D(const QExtTcpPacket);
     return d->m_timestamp;
 }
 
-bool QEXTTcpPacket::isValid() const
+bool QExtTcpPacket::isValid() const
 {
-    Q_D(const QEXTTcpPacket);
+    Q_D(const QExtTcpPacket);
     return d->m_valid;
 }
 
-QByteArray QEXTTcpPacket::stream() const
+QByteArray QExtTcpPacket::stream() const
 {
-    Q_D(const QEXTTcpPacket);
+    Q_D(const QExtTcpPacket);
     return d->m_header->stream() + d->m_content;
 }
 
-QSharedPointer<QEXTTcpPacketHeaderInterface> QEXTTcpPacket::header() const
+QSharedPointer<QExtTcpPacketHeaderInterface> QExtTcpPacket::header() const
 {
-    Q_D(const QEXTTcpPacket);
+    Q_D(const QExtTcpPacket);
     return d->m_header;
 }
 
-bool QEXTTcpPacket::setHeader(const QSharedPointer<QEXTTcpPacketHeaderInterface> &header)
+bool QExtTcpPacket::setHeader(const QSharedPointer<QExtTcpPacketHeaderInterface> &header)
 {
-    Q_D(QEXTTcpPacket);
+    Q_D(QExtTcpPacket);
     d->m_header = header;
     return true;
 }
 
-QByteArray QEXTTcpPacket::content() const
+QByteArray QExtTcpPacket::content() const
 {
-    Q_D(const QEXTTcpPacket);
+    Q_D(const QExtTcpPacket);
     return d->m_content;
 }
 
-bool QEXTTcpPacket::setContent(const QByteArray &content)
+bool QExtTcpPacket::setContent(const QByteArray &content)
 {
-    Q_D(QEXTTcpPacket);
+    Q_D(QExtTcpPacket);
     d->m_content = content;
     d->m_header->setContentSize(content.size());
     d->m_valid = true;
     return true;
 }
 
-qint64 QEXTTcpPacket::nextBlockSize() const
+qint64 QExtTcpPacket::nextBlockSize() const
 {
-    Q_D(const QEXTTcpPacket);
+    Q_D(const QExtTcpPacket);
     return d->m_nextBlockSize;
 }
 
-bool QEXTTcpPacket::setNextBlockSize(qint64 size)
+bool QExtTcpPacket::setNextBlockSize(qint64 size)
 {
-    Q_D(QEXTTcpPacket);
+    Q_D(QExtTcpPacket);
     d->m_nextBlockSize = size;
     return true;
 }

@@ -37,13 +37,13 @@
 #include <QRegExp>
 
 
-QEXTSerialEnumeratorPrivate::QEXTSerialEnumeratorPrivate(QEXTSerialEnumerator *enumrator)
-    :q_ptr(enumrator)
+QExtSerialEnumeratorPrivate::QExtSerialEnumeratorPrivate(QExtSerialEnumerator *enumrator)
+        : q_ptr(enumrator)
 {
     platformSpecificInit();
 }
 
-QEXTSerialEnumeratorPrivate::~QEXTSerialEnumeratorPrivate()
+QExtSerialEnumeratorPrivate::~QExtSerialEnumeratorPrivate()
 {
     platformSpecificDestruct();
 }
@@ -65,9 +65,9 @@ QEXTSerialEnumeratorPrivate::~QEXTSerialEnumeratorPrivate()
   \endcode
  */
 
-/*! \class QEXTSerialEnumerator
+/*! \class QExtSerialEnumerator
 
-    \brief The QEXTSerialEnumerator class provides list of ports available in the system.
+    \brief The QExtSerialEnumerator class provides list of ports available in the system.
 
     \section1 Usage
     To poll the system for a list of connected devices, simply use getPorts().  Each
@@ -75,7 +75,7 @@ QEXTSerialEnumeratorPrivate::~QEXTSerialEnumeratorPrivate()
 
     \bold Example
     \code
-    QList<QEXTPortInfo> ports = QEXTSerialEnumerator::getPorts();
+    QList<QEXTPortInfo> ports = QExtSerialEnumerator::getPorts();
     foreach (QEXTPortInfo port, ports) {
         // inspect port...
     }
@@ -87,7 +87,7 @@ QEXTSerialEnumeratorPrivate::~QEXTSerialEnumeratorPrivate()
 
     \bold Example
     \code
-    QEXTSerialEnumerator *enumerator = new QEXTSerialEnumerator();
+    QExtSerialEnumerator *enumerator = new QExtSerialEnumerator();
     connect(enumerator, SIGNAL(deviceDiscovered(const QEXTPortInfo &)),
                myClass, SLOT(onDeviceDiscovered(const QEXTPortInfo &)));
     connect(enumerator, SIGNAL(deviceRemoved(const QEXTPortInfo &)),
@@ -104,7 +104,7 @@ QEXTSerialEnumeratorPrivate::~QEXTSerialEnumeratorPrivate()
 */
 
 /*!
-    \fn void QEXTSerialEnumerator::deviceDiscovered(const QEXTPortInfo &info)
+    \fn void QExtSerialEnumerator::deviceDiscovered(const QEXTPortInfo &info)
     A new device has been connected to the system.
 
     setUpNotifications() must be called first to enable event-driven device notifications.
@@ -114,7 +114,7 @@ QEXTSerialEnumeratorPrivate::~QEXTSerialEnumeratorPrivate()
 */
 
 /*!
-   \fn void QEXTSerialEnumerator::deviceRemoved(const QEXTPortInfo &info);
+   \fn void QExtSerialEnumerator::deviceRemoved(const QEXTPortInfo &info);
     A device has been disconnected from the system.
 
     setUpNotifications() must be called first to enable event-driven device notifications.
@@ -124,19 +124,21 @@ QEXTSerialEnumeratorPrivate::~QEXTSerialEnumeratorPrivate()
 */
 
 /*!
-   Constructs a QEXTSerialEnumerator object with the given \a parent.
+   Constructs a QExtSerialEnumerator object with the given \a parent.
 */
-QEXTSerialEnumerator::QEXTSerialEnumerator(QObject *parent)
-    :QObject(parent), dd_ptr(new QEXTSerialEnumeratorPrivate(this))
+QExtSerialEnumerator::QExtSerialEnumerator(QObject *parent)
+        : QObject(parent), dd_ptr(new QExtSerialEnumeratorPrivate(this))
 {
     if (!QMetaType::isRegistered(QMetaType::type("QEXTPortInfo")))
+    {
         qRegisterMetaType<QEXTPortInfo>("QEXTPortInfo");
+    }
 }
 
 /*!
-   Destructs the QEXTSerialEnumerator object.
+   Destructs the QExtSerialEnumerator object.
 */
-QEXTSerialEnumerator::~QEXTSerialEnumerator()
+QExtSerialEnumerator::~QExtSerialEnumerator()
 {
     delete dd_ptr;
 }
@@ -146,19 +148,21 @@ QEXTSerialEnumerator::~QEXTSerialEnumerator()
 
     return list of ports currently available in the system.
 */
-QList<QEXTPortInfo> QEXTSerialEnumerator::portInfoList()
+QList<QEXTPortInfo> QExtSerialEnumerator::portInfoList()
 {
-    return QEXTSerialEnumeratorPrivate::getPorts_sys();
+    return QExtSerialEnumeratorPrivate::getPorts_sys();
 }
 
 /*!
     Enable event-driven notifications of board discovery/removal.
 */
-void QEXTSerialEnumerator::setUpNotifications()
+void QExtSerialEnumerator::setUpNotifications()
 {
-    Q_D(QEXTSerialEnumerator);
+    Q_D(QExtSerialEnumerator);
     if (!d->setUpNotifications_sys(true))
+    {
         qWarning("Setup Notification Failed...");
+    }
 }
 
 #include "moc_qextSerialEnumerator.cpp"

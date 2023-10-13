@@ -7,7 +7,7 @@
 #include <string>
 #include <sstream>
 
-class QEXTRetypeFunctorTest : public QObject
+class QExtRetypeFunctorTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -51,7 +51,7 @@ void Bar(short s)
 }
 
 
-void QEXTRetypeFunctorTest::testSimple()
+void QExtRetypeFunctorTest::testSimple()
 {
     std::string string;
     sg_string = &string;
@@ -75,9 +75,9 @@ void QEXTRetypeFunctorTest::testSimple()
     return;
 
     *sg_string = "";
-    QEXTFunction<float, float> s1 = qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testInt));
-    QEXTFunction<float, int>   s2 = qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testFloat));
-    QEXTFunction<void, double> s3 = qextRetypeFunctor(qextPointerFunctor(&Bar));
+    QExtFunction<float, float> s1 = qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testInt));
+    QExtFunction<float, int>   s2 = qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testFloat));
+    QExtFunction<void, double> s3 = qextRetypeFunctor(qextPointerFunctor(&Bar));
     QVERIFY(1.5 == s1(1.234f));
     QVERIFY("Foo::testInt(int 1) " == *sg_string);
 
@@ -96,6 +96,6 @@ void QEXTRetypeFunctorTest::testSimple()
     QVERIFY("Foo::testInt(int 5) " == *sg_string);
 }
 
-QTEST_APPLESS_MAIN(QEXTRetypeFunctorTest)
+QTEST_APPLESS_MAIN(QExtRetypeFunctorTest)
 
 #include <tst_qextRetypeFunctor.moc>

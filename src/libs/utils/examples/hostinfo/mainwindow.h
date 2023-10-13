@@ -22,7 +22,7 @@ public:
 protected slots:
     void updateCpu(const quint64 &ulPercent);
     void updateMemory(const quint64 &ulIdle, const quint64 &ulTotal, const quint64 &ulPercent);
-    void updateDisk(const QList<QEXTDiskInfo> &listDiskInfo);
+    void updateDisk(const QList<QExtDiskInfo> &listDiskInfo);
 
 private:
     Ui::MainWindow *ui;

@@ -5,12 +5,12 @@
 
 #include <QObject>
 
-class QEXT_UTILS_API QEXTDiskInfo
+class QEXT_UTILS_API QExtDiskInfo
 {
 public:
-    QEXTDiskInfo();
-    QEXTDiskInfo(const QEXTDiskInfo &info);
-    ~QEXTDiskInfo();
+    QExtDiskInfo();
+    QExtDiskInfo(const QExtDiskInfo &info);
+    ~QExtDiskInfo();
 
     QString name() const { return m_name; }
     void setName(const QString &name) { m_name = name; }
@@ -27,16 +27,16 @@ public:
     double usedPercent() const { return m_usedPercent; }
     void setUsedPercent(double percent) { m_usedPercent = percent; }
 
-    bool compare(const QEXTDiskInfo &info) const;
-    QEXTDiskInfo &copy(const QEXTDiskInfo &info);
+    bool compare(const QExtDiskInfo &info) const;
+    QExtDiskInfo &copy(const QExtDiskInfo &info);
 
-    friend bool operator==(const QEXTDiskInfo &info1, const QEXTDiskInfo &info2) {
+    friend bool operator==(const QExtDiskInfo &info1, const QExtDiskInfo &info2) {
         return info1.compare(info2);
     }
-    friend bool operator!=(const QEXTDiskInfo &info1, const QEXTDiskInfo &info2) {
+    friend bool operator!=(const QExtDiskInfo &info1, const QExtDiskInfo &info2) {
         return !info1.compare(info2);
     }
-    QEXTDiskInfo &operator=(const QEXTDiskInfo &info) {
+    QExtDiskInfo &operator=(const QExtDiskInfo &info) {
         return this->copy(info);
     }
 

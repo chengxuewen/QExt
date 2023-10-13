@@ -10,7 +10,7 @@
 #include <string>
 #include <sstream>
 
-class QEXTRetypeReturnFunctorTest : public QObject
+class QExtRetypeReturnFunctorTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -19,7 +19,7 @@ private Q_SLOTS:
 
 static std::string *sg_string = QEXT_DECL_NULLPTR;
 
-struct Foo : public QEXTFunctorBase
+struct Foo : public QExtFunctorBase
 {
     typedef float Return;
 
@@ -40,7 +40,7 @@ struct Foo : public QEXTFunctorBase
     }
 };
 
-struct Bar : public QEXTFunctorBase
+struct Bar : public QExtFunctorBase
 {
     typedef int Return;
 
@@ -56,7 +56,7 @@ struct Bar : public QEXTFunctorBase
 
 
 
-void QEXTRetypeReturnFunctorTest::testSimple()
+void QExtRetypeReturnFunctorTest::testSimple()
 {
     std::string string;
     sg_string = &string;
@@ -68,7 +68,7 @@ void QEXTRetypeReturnFunctorTest::testSimple()
 
     // retype_return<void> / hide_return
     *sg_string = "";
-    QEXTFunction<void, int> sl;
+    QExtFunction<void, int> sl;
     sl = qextRetypeReturnFunctor<void>(Bar());
     sl(5);
     QVERIFY("Bar(int 5)" == *sg_string);
@@ -81,6 +81,6 @@ void QEXTRetypeReturnFunctorTest::testSimple()
 
 
 
-QTEST_APPLESS_MAIN(QEXTRetypeReturnFunctorTest)
+QTEST_APPLESS_MAIN(QExtRetypeReturnFunctorTest)
 
 #include <tst_qextRetypeReturnFunctor.moc>

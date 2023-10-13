@@ -7,52 +7,52 @@
 #include <QPointer>
 #include <QSharedPointer>
 
-class QEXTTcpTask;
-class QEXTTcpSocket;
-class QEXTTcpTaskPool;
-class QEXTTcpPacketParserInterface;
-class QEXTTcpPacketTransceiver;
-class QEXTTcpPacketInterface;
-class QEXTTcpFactory;
-class QEXTTcpPacketDispatcherPrivate;
-class QEXT_TCP_API QEXTTcpPacketDispatcher : public QObject
+class QExtTcpTask;
+class QExtTcpSocket;
+class QExtTcpTaskPool;
+class QExtTcpPacketParserInterface;
+class QExtTcpPacketTransceiver;
+class QExtTcpPacketInterface;
+class QExtTcpFactory;
+class QExtTcpPacketDispatcherPrivate;
+class QEXT_TCP_API QExtTcpPacketDispatcher : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTTcpPacketDispatcher)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpPacketDispatcher)
+    Q_DISABLE_COPY(QExtTcpPacketDispatcher)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtTcpPacketDispatcher)
 public:
-    QEXTTcpPacketDispatcher(QEXTTcpSocket *socket);
-    QEXTTcpPacketDispatcher(QEXTTcpSocket *socket, const QSharedPointer<QEXTTcpFactory> &tcpFactory);
-    QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate *d, QEXTTcpSocket *socket);
-    QEXTTcpPacketDispatcher(QEXTTcpPacketDispatcherPrivate *d, QEXTTcpSocket *socket,
-                            const QSharedPointer<QEXTTcpFactory> &tcpFactory);
-    ~QEXTTcpPacketDispatcher();
+    QExtTcpPacketDispatcher(QExtTcpSocket *socket);
+    QExtTcpPacketDispatcher(QExtTcpSocket *socket, const QSharedPointer<QExtTcpFactory> &tcpFactory);
+    QExtTcpPacketDispatcher(QExtTcpPacketDispatcherPrivate *d, QExtTcpSocket *socket);
+    QExtTcpPacketDispatcher(QExtTcpPacketDispatcherPrivate *d, QExtTcpSocket *socket,
+                            const QSharedPointer<QExtTcpFactory> &tcpFactory);
+    ~QExtTcpPacketDispatcher();
 
     bool isSocketValid() const;
-    QPointer<QEXTTcpSocket> socket() const;
+    QPointer<QExtTcpSocket> socket() const;
 
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser() const;
-    QSharedPointer<QEXTTcpTaskPool> taskPool() const;
+    QSharedPointer<QExtTcpPacketParserInterface> packetParser() const;
+    QSharedPointer<QExtTcpTaskPool> taskPool() const;
 
-    QSharedPointer<QEXTTcpFactory> tcpFactory() const;
-    void setTcpFactory(const QSharedPointer<QEXTTcpFactory> &tcpFactory);
+    QSharedPointer<QExtTcpFactory> tcpFactory() const;
+    void setTcpFactory(const QSharedPointer<QExtTcpFactory> &tcpFactory);
 
-    QSharedPointer<QEXTTcpPacketTransceiver> createPacketTransceiver() const;
-    void registerRequestPacketIdWithTransceiver(quint64 requestPacketId, QEXTTcpPacketTransceiver *transceiver);
+    QSharedPointer<QExtTcpPacketTransceiver> createPacketTransceiver() const;
+    void registerRequestPacketIdWithTransceiver(quint64 requestPacketId, QExtTcpPacketTransceiver *transceiver);
     void unregisterRequestPacketId(quint64 requestPacketId);
-    void unregisterTransceiver(QEXTTcpPacketTransceiver *transceiver);
-    bool sendPacket(QEXTTcpPacketTransceiver *transceiver, const QSharedPointer<QEXTTcpPacketInterface> &packet);
+    void unregisterTransceiver(QExtTcpPacketTransceiver *transceiver);
+    bool sendPacket(QExtTcpPacketTransceiver *transceiver, const QSharedPointer<QExtTcpPacketInterface> &packet);
 
-    virtual bool dispatchPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet, QString *error = QEXT_DECL_NULLPTR);
-    bool dispatchToTransceiver(const QSharedPointer<QEXTTcpPacketInterface> &packet);
-    bool dispatchToTask(const QSharedPointer<QEXTTcpPacketInterface> &packet);
+    virtual bool dispatchPacket(const QSharedPointer<QExtTcpPacketInterface> &packet, QString *error = QEXT_DECL_NULLPTR);
+    bool dispatchToTransceiver(const QSharedPointer<QExtTcpPacketInterface> &packet);
+    bool dispatchToTask(const QSharedPointer<QExtTcpPacketInterface> &packet);
 
 Q_SIGNALS:
     void error(const QString &error);
     void send();
 
 protected:
-    QScopedPointer<QEXTTcpPacketDispatcherPrivate> dd_ptr;
+    QScopedPointer<QExtTcpPacketDispatcherPrivate> dd_ptr;
 };
 
 #endif // _QEXTTCPPACKETDISPATCHER_H

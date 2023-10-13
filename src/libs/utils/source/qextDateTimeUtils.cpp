@@ -1,16 +1,16 @@
-#include "qextDateTimeUtils.h"
-#include <QDebug>
-#include <QTime>
-#include <QDateTime>
-#include <QProcess>
+#include <qextDateTimeUtils.h>
+
 #include <QCoreApplication>
+#include <QDateTime>
+#include <QDebug>
+#include <QProcess>
+#include <QTime>
 
-
-
-void QEXTDateTimeUtils::mSleep(const int &iMSec)
+void QExtDateTimeUtils::mSleep(const int &iMSec)
 {
     QTime dieTime = QTime::currentTime().addMSecs(iMSec);
-    while( QTime::currentTime() < dieTime ) {
+    while (QTime::currentTime() < dieTime)
+    {
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     }
 }

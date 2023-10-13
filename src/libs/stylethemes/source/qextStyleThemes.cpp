@@ -24,6 +24,7 @@
 
 
 class QExtStyleThemesSvgIconEngine;
+
 typedef QSet<QExtStyleThemesSvgIconEngine *> QExtStyleThemesSvgIconEngineSet;
 Q_GLOBAL_STATIC(QExtStyleThemesSvgIconEngineSet, sg_iconEngineInstances)
 
@@ -33,18 +34,12 @@ Q_GLOBAL_STATIC(QExtStyleThemesSvgIconEngineSet, sg_iconEngineInstances)
  */
 class QExtStyleThemesSvgIconEngine : public QIconEngine
 {
-private:
-    QByteArray m_svgContent; ///< memory buffer with SVG data load from file
-    QByteArray m_svgTemplate;
-    QExtStyleThemes *m_styleTheme;
-
 public:
     /**
      * Creates an icon engine with the given SVG content an assigned AndvancedStylesheet object
      */
     explicit QExtStyleThemesSvgIconEngine(const QByteArray &svgContent, QExtStyleThemes *styleThemes)
-        : m_svgTemplate(svgContent)
-        , m_styleTheme(styleThemes)
+            : m_svgTemplate(svgContent), m_styleTheme(styleThemes)
     {
         this->update();
         sg_iconEngineInstances->insert(this);
@@ -110,12 +105,16 @@ public:
         }
         return pixmap;
     }
+
+private:
+    QByteArray m_svgContent; ///< memory buffer with SVG data load from file
+    QByteArray m_svgTemplate;
+    QExtStyleThemes *m_styleTheme;
 };
 
 
 QExtStyleThemesPrivate::QExtStyleThemesPrivate(QExtStyleThemes *q)
-    : q_ptr(q)
-    , m_isDarkTheme(false)
+        : q_ptr(q), m_isDarkTheme(false)
 {
 
 }
@@ -174,7 +173,8 @@ bool QExtStyleThemesPrivate::storeStylesheet(const QString &stylesheet, const QS
     return true;
 }
 
-bool QExtStyleThemesPrivate::parseVariablesFromXml(QXmlStreamReader &reader, const QString &tagName, QMap<QString, QString> &variables)
+bool QExtStyleThemesPrivate::parseVariablesFromXml(QXmlStreamReader &reader, const QString &tagName,
+                                                   QMap<QString, QString> &variables)
 {
     Q_Q(QExtStyleThemes);
     while (reader.readNextStartElement())
@@ -182,7 +182,8 @@ bool QExtStyleThemesPrivate::parseVariablesFromXml(QXmlStreamReader &reader, con
         if (reader.name() != tagName)
         {
             this->setError(QExtStyleThemes::ThemeXmlError,
-                           "Malformed theme file - expected tag <" + tagName + "> instead of " + reader.name().toString());
+                           "Malformed theme file - expected tag <" + tagName + "> instead of " +
+                           reader.name().toString());
             return false;
         }
         QStringRef name = reader.attributes().value("name");
@@ -341,7 +342,8 @@ void QExtStyleThemesPrivate::addFonts(QDir *dir)
 {
     Q_Q(QExtStyleThemes);
     /* I dont't know, if this is the right way to detect, if there are any widgets. The call to
-     * QFontDatabase::addApplicationFont() will crash, if there are no widgets */
+     * QFontDatabase::addApplicationFont() will crash, if there are no widgets
+     */
     if (qApp->allWidgets().isEmpty())
     {
         return;
@@ -371,7 +373,8 @@ void QExtStyleThemesPrivate::addFonts(QDir *dir)
     }
 }
 
-bool QExtStyleThemesPrivate::generateResourcesFor(const QString &subDir, const QJsonObject &jsonObject, const QFileInfoList &entries)
+bool QExtStyleThemesPrivate::generateResourcesFor(const QString &subDir, const QJsonObject &jsonObject,
+                                                  const QFileInfoList &entries)
 {
     Q_Q(QExtStyleThemes);
     const QString outputDir = q->currentStyleOutputPath() + "/" + subDir;
@@ -399,7 +402,8 @@ bool QExtStyleThemesPrivate::generateResourcesFor(const QString &subDir, const Q
     return true;
 }
 
-void QExtStyleThemesPrivate::replaceColor(QByteArray &content, const QString &templateColor, const QString &themeColor) const
+void
+QExtStyleThemesPrivate::replaceColor(QByteArray &content, const QString &templateColor, const QString &themeColor) const
 {
     content.replace(templateColor.toLatin1(), themeColor.toLatin1());
 }
@@ -494,30 +498,30 @@ QExtStyleThemes::ColorReplaceVector QExtStyleThemesPrivate::parseColorReplaceLis
 QPalette::ColorRole QExtStyleThemesPrivate::colorRoleFromString(const QString &text)
 {
     static QMap<QString, QPalette::ColorRole> colorRoleMap =
-    {{"WindowText", QPalette::WindowText},
-      {"Button", QPalette::Button},
-      {"Light", QPalette::Light},
-      {"Midlight", QPalette::Midlight},
-      {"Dark", QPalette::Dark},
-      {"Mid", QPalette::Mid},
-      {"Text", QPalette::Text},
-      {"BrightText", QPalette::BrightText},
-      {"ButtonTextd", QPalette::ButtonText},
-      {"Base", QPalette::Base},
-      {"Window", QPalette::Window},
-      {"Shadow", QPalette::Shadow},
-      {"Highlight", QPalette::Highlight},
-      {"HighlightedText", QPalette::HighlightedText},
-      {"Link", QPalette::Link},
-      {"LinkVisited", QPalette::LinkVisited},
-      {"AlternateBase", QPalette::AlternateBase},
-      {"NoRole", QPalette::NoRole},
-      {"ToolTipBase", QPalette::ToolTipBase},
-      {"ToolTipText", QPalette::ToolTipText},
+            {{"WindowText", QPalette::WindowText},
+             {"Button", QPalette::Button},
+             {"Light", QPalette::Light},
+             {"Midlight", QPalette::Midlight},
+             {"Dark", QPalette::Dark},
+             {"Mid", QPalette::Mid},
+             {"Text", QPalette::Text},
+             {"BrightText", QPalette::BrightText},
+             {"ButtonTextd", QPalette::ButtonText},
+             {"Base", QPalette::Base},
+             {"Window", QPalette::Window},
+             {"Shadow", QPalette::Shadow},
+             {"Highlight", QPalette::Highlight},
+             {"HighlightedText", QPalette::HighlightedText},
+             {"Link", QPalette::Link},
+             {"LinkVisited", QPalette::LinkVisited},
+             {"AlternateBase", QPalette::AlternateBase},
+             {"NoRole", QPalette::NoRole},
+             {"ToolTipBase", QPalette::ToolTipBase},
+             {"ToolTipText", QPalette::ToolTipText},
 #if QT_VERSION >= 0x050C00
-      {"PlaceholderText", QPalette::PlaceholderText}
+             {"PlaceholderText", QPalette::PlaceholderText}
 #endif
-    };
+            };
 
     return colorRoleMap.value(text, QPalette::NoRole);
 }
@@ -526,19 +530,17 @@ QString QExtStyleThemesPrivate::colorGroupString(QPalette::ColorGroup colorGroup
 {
     switch (colorGroup)
     {
-    case QPalette::Active: return "active";
-    case QPalette::Disabled: return "disabled";
-    case QPalette::Inactive: return "inactive";
-    default: return QString();
+        case QPalette::Active: return "active";
+        case QPalette::Disabled: return "disabled";
+        case QPalette::Inactive: return "inactive";
+        default: return QString();
     }
     return QString();
 }
 
 
-
 QExtStyleThemes::QExtStyleThemes(QObject *parent)
-    : QObject(parent)
-    , dd_ptr(new QExtStyleThemesPrivate(this))
+        : QObject(parent), dd_ptr(new QExtStyleThemesPrivate(this))
 {
 
 }
@@ -597,12 +599,9 @@ QString QExtStyleThemes::path(LocationEnum location) const
     Q_D(const QExtStyleThemes);
     switch (location)
     {
-    case ThemesLocation:
-        return this->currentStylePath() + "/themes";
-    case ResourceTemplatesLocation:
-        return this->currentStylePath() + "/resources";
-    case FontsLocation:
-        return this->currentStylePath() + "/fonts";
+        case ThemesLocation:return this->currentStylePath() + "/themes";
+        case ResourceTemplatesLocation:return this->currentStylePath() + "/resources";
+        case FontsLocation:return this->currentStylePath() + "/fonts";
     }
     return QString();
 }

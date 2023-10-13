@@ -8,18 +8,18 @@
 #include <QVector>
 #include <QPair>
 
-class QEXTTcpPacketHeaderPrivate;
-class QEXT_TCP_API QEXTTcpPacketHeader : public QEXTTcpPacketHeaderInterface
+class QExtTcpPacketHeaderPrivate;
+class QEXT_TCP_API QExtTcpPacketHeader : public QExtTcpPacketHeaderInterface
 {
-    Q_DISABLE_COPY(QEXTTcpPacketHeader)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpPacketHeader)
+    Q_DISABLE_COPY(QExtTcpPacketHeader)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtTcpPacketHeader)
 public:
     typedef QPair<quint8, QString> DataInfoPair;
     typedef QVector<DataInfoPair> DataInfoVector;
 
-    QEXTTcpPacketHeader(const DataInfoVector &dataInfoVector);
-    QEXTTcpPacketHeader(QEXTTcpPacketHeaderPrivate *d, const DataInfoVector &dataInfoVector);
-    ~QEXTTcpPacketHeader();
+    QExtTcpPacketHeader(const DataInfoVector &dataInfoVector);
+    QExtTcpPacketHeader(QExtTcpPacketHeaderPrivate *d, const DataInfoVector &dataInfoVector);
+    ~QExtTcpPacketHeader();
 
     quint16 headerSize() const QEXT_DECL_OVERRIDE;
     quint16 contentSize() const QEXT_DECL_OVERRIDE;
@@ -30,11 +30,11 @@ public:
 
     bool isHeaderDataExist(const QString &name) const QEXT_DECL_OVERRIDE;
     QList<QString> headerList() const QEXT_DECL_OVERRIDE;
-    QEXTTcpPacketVariant headerData(const QString &name) const QEXT_DECL_OVERRIDE;
-    bool setHeaderData(const QString &name, const QEXTTcpPacketVariant &data) QEXT_DECL_OVERRIDE;
+    QExtTcpPacketVariant headerData(const QString &name) const QEXT_DECL_OVERRIDE;
+    bool setHeaderData(const QString &name, const QExtTcpPacketVariant &data) QEXT_DECL_OVERRIDE;
 
 protected:
-    QScopedPointer<QEXTTcpPacketHeaderPrivate> dd_ptr;
+    QScopedPointer<QExtTcpPacketHeaderPrivate> dd_ptr;
 };
 
 #endif // _QEXTTCPPACKETHEADER_H

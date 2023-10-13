@@ -7,8 +7,8 @@ namespace Ui {
     class Dialog;
 }
 class QTimer;
-class QEXTSerialPort;
-class QEXTSerialEnumerator;
+class QExtSerialPort;
+class QExtSerialEnumerator;
 
 class Dialog : public QDialog
 {
@@ -38,8 +38,8 @@ private Q_SLOTS:
 private:
     Ui::Dialog *ui;
     QTimer *timer;
-    QEXTSerialPort *port;
-    QEXTSerialEnumerator *enumerator;
+    QExtSerialPort *port;
+    QExtSerialEnumerator *enumerator;
 };
 
 #endif // DIALOG_H

@@ -7,26 +7,27 @@
 
 #include <QTcpSocket>
 
-class QEXTTcpTask;
-class QEXTTcpSocket;
-class QEXTTcpFactory;
-class QEXTTcpClientProxy;
-class QEXTTcpPacketDispatcher;
-class QEXTTcpPacketParserInterface;
-class QEXTTcpClientPrivate;
-class QEXT_TCP_API QEXTTcpClient : public QEXTTcpPacketTransceiver
+class QExtTcpTask;
+class QExtTcpSocket;
+class QExtTcpFactory;
+class QExtTcpClientProxy;
+class QExtTcpPacketDispatcher;
+class QExtTcpPacketParserInterface;
+class QExtTcpClientPrivate;
+class QEXT_TCP_API QExtTcpClient : public QExtTcpPacketTransceiver
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(QEXTTcpClient)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpClient)
-public:
-    QEXTTcpClient();
-    QEXTTcpClient(const QSharedPointer<QEXTTcpFactory> &tcpFactory);
-    QEXTTcpClient(QEXTTcpClientPrivate *d);
-    QEXTTcpClient(QEXTTcpClientPrivate *d, const QSharedPointer<QEXTTcpFactory> &tcpFactory);
-    ~QEXTTcpClient();
+Q_OBJECT
+    Q_DISABLE_COPY(QExtTcpClient)
 
-    QSharedPointer<QEXTTcpSocket> socket() const;
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtTcpClient)
+public:
+    QExtTcpClient();
+    QExtTcpClient(const QSharedPointer<QExtTcpFactory> &tcpFactory);
+    QExtTcpClient(QExtTcpClientPrivate *d);
+    QExtTcpClient(QExtTcpClientPrivate *d, const QSharedPointer<QExtTcpFactory> &tcpFactory);
+    ~QExtTcpClient();
+
+    QSharedPointer<QExtTcpSocket> socket() const;
     QAbstractSocket::SocketState socketState() const;
     bool isSocketConnected() const;
     void startConnection(const QString &ipAddr = "", quint16 port = 0);
@@ -40,12 +41,12 @@ public:
     void setMaxTaskThreadCount(int maxThreadCount);
 
     void runTask(int function);
-    void runTask(QEXTTcpTask *task);
-    QSharedPointer<QEXTTcpFactory> tcpFactory() const;
-    void setTcpFactory(const QSharedPointer<QEXTTcpFactory> tcpFactory);
+    void runTask(QExtTcpTask *task);
+    QSharedPointer<QExtTcpFactory> tcpFactory() const;
+    void setTcpFactory(const QSharedPointer<QExtTcpFactory> tcpFactory);
 
-    QEXTTcpPacketDispatcher *packetDispatcher() const;
-    void setPacketDispatcher(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
+    QExtTcpPacketDispatcher *packetDispatcher() const;
+    void setPacketDispatcher(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher);
 
 Q_SIGNALS:
     void tryToConnect(const QString &ipAddress, quint16 port);
@@ -56,7 +57,7 @@ Q_SIGNALS:
     void socketDisconnected();
     void socketStateChanged(QAbstractSocket::SocketState state);
     void socketError(QAbstractSocket::SocketError error);
-    void transferError(QEXTTcpSocket::TransferErrorType error);
+    void transferError(QExtTcpSocket::TransferErrorType error);
 
 protected:
     void initClient();

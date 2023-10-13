@@ -29,28 +29,28 @@
 **
 ****************************************************************************/
 
-#include "qextSerialEnumerator.h"
-#include "qextSerialEnumerator_p.h"
-#include <QtCore/QDebug>
+#include <qextSerialEnumerator.h>
+#include <private/qextSerialEnumerator_p.h>
+
+#include <QDebug>
 
 
-
-void QEXTSerialEnumeratorPrivate::platformSpecificInit()
+void QExtSerialEnumeratorPrivate::platformSpecificInit()
 {
 }
 
-void QEXTSerialEnumeratorPrivate::platformSpecificDestruct()
+void QExtSerialEnumeratorPrivate::platformSpecificDestruct()
 {
 }
 
-QList<QEXTPortInfo> QEXTSerialEnumeratorPrivate::getPorts_sys()
+QList <QEXTPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
 {
-    QList<QEXTPortInfo> infoList;
+    QList <QEXTPortInfo> infoList;
     qWarning("Enumeration for POSIX systems (except Linux) is not implemented yet.");
     return infoList;
 }
 
-bool QEXTSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
+bool QExtSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
 {
     Q_UNUSED(setup)
     qWarning("Notifications for *Nix/FreeBSD are not implemented yet");

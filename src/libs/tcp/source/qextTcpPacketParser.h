@@ -8,43 +8,43 @@
 
 #include <QString>
 
-class QEXTTcpPacketParserPrivate;
-class QEXT_TCP_API QEXTTcpPacketParser : public QEXTTcpPacketParserInterface
+class QExtTcpPacketParserPrivate;
+class QEXT_TCP_API QExtTcpPacketParser : public QExtTcpPacketParserInterface
 {
-    Q_DISABLE_COPY(QEXTTcpPacketParser)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpPacketParser)
+    Q_DISABLE_COPY(QExtTcpPacketParser)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtTcpPacketParser)
 public:
-    QEXTTcpPacketParser(const QEXTTcpPacketHeader::DataInfoVector &extraHeaderDataInfo = QEXTTcpPacketHeader::DataInfoVector());
-    QEXTTcpPacketParser(QEXTTcpPacketParserPrivate *d);
-    ~QEXTTcpPacketParser();
+    QExtTcpPacketParser(const QExtTcpPacketHeader::DataInfoVector &extraHeaderDataInfo = QExtTcpPacketHeader::DataInfoVector());
+    QExtTcpPacketParser(QExtTcpPacketParserPrivate *d);
+    ~QExtTcpPacketParser();
 
     QString name() const QEXT_DECL_OVERRIDE;
     QString errorString() const QEXT_DECL_OVERRIDE;
 
-    bool comparePacket(const QSharedPointer<QEXTTcpPacketInterface> &lpacket, const QSharedPointer<QEXTTcpPacketInterface> &rpacket) const QEXT_DECL_OVERRIDE;
-    bool checkIsSyncReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &send, const QSharedPointer<QEXTTcpPacketInterface> &rcv) const QEXT_DECL_OVERRIDE;
-    quint64 packetId(const QSharedPointer<QEXTTcpPacketInterface> &packet) const QEXT_DECL_OVERRIDE;
+    bool comparePacket(const QSharedPointer<QExtTcpPacketInterface> &lpacket, const QSharedPointer<QExtTcpPacketInterface> &rpacket) const QEXT_DECL_OVERRIDE;
+    bool checkIsSyncReplyPacket(const QSharedPointer<QExtTcpPacketInterface> &send, const QSharedPointer<QExtTcpPacketInterface> &rcv) const QEXT_DECL_OVERRIDE;
+    quint64 packetId(const QSharedPointer<QExtTcpPacketInterface> &packet) const QEXT_DECL_OVERRIDE;
 
-    bool isRequestPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const QEXT_DECL_OVERRIDE;
-    bool setRequestPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) QEXT_DECL_OVERRIDE;
+    bool isRequestPacket(const QSharedPointer<QExtTcpPacketInterface> &packet) const QEXT_DECL_OVERRIDE;
+    bool setRequestPacket(const QSharedPointer<QExtTcpPacketInterface> &packet) QEXT_DECL_OVERRIDE;
 
-    bool isReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const QEXT_DECL_OVERRIDE;
-    bool setReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &send, const QSharedPointer<QEXTTcpPacketInterface> &rcv) QEXT_DECL_OVERRIDE;
+    bool isReplyPacket(const QSharedPointer<QExtTcpPacketInterface> &packet) const QEXT_DECL_OVERRIDE;
+    bool setReplyPacket(const QSharedPointer<QExtTcpPacketInterface> &send, const QSharedPointer<QExtTcpPacketInterface> &rcv) QEXT_DECL_OVERRIDE;
 
-    bool isNotifyPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const QEXT_DECL_OVERRIDE;
-    bool setNotifyPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) QEXT_DECL_OVERRIDE;
+    bool isNotifyPacket(const QSharedPointer<QExtTcpPacketInterface> &packet) const QEXT_DECL_OVERRIDE;
+    bool setNotifyPacket(const QSharedPointer<QExtTcpPacketInterface> &packet) QEXT_DECL_OVERRIDE;
 
-    QSharedPointer<QEXTTcpPacketHeaderInterface> createHeader() const QEXT_DECL_OVERRIDE;
-    QSharedPointer<QEXTTcpPacketInterface> createPacket() const QEXT_DECL_OVERRIDE;
-    QSharedPointer<QEXTTcpPacketInterface> clonePacket(const QSharedPointer<QEXTTcpPacketInterface> &packet) const QEXT_DECL_OVERRIDE;
-    QSharedPointer<QEXTTcpPacketInterface> createReplyPacket(const QSharedPointer<QEXTTcpPacketInterface> &rcv) const QEXT_DECL_OVERRIDE;
-    QSharedPointer<QEXTTcpPacketParserInterface> clonePacketParser() const QEXT_DECL_OVERRIDE;
+    QSharedPointer<QExtTcpPacketHeaderInterface> createHeader() const QEXT_DECL_OVERRIDE;
+    QSharedPointer<QExtTcpPacketInterface> createPacket() const QEXT_DECL_OVERRIDE;
+    QSharedPointer<QExtTcpPacketInterface> clonePacket(const QSharedPointer<QExtTcpPacketInterface> &packet) const QEXT_DECL_OVERRIDE;
+    QSharedPointer<QExtTcpPacketInterface> createReplyPacket(const QSharedPointer<QExtTcpPacketInterface> &rcv) const QEXT_DECL_OVERRIDE;
+    QSharedPointer<QExtTcpPacketParserInterface> clonePacketParser() const QEXT_DECL_OVERRIDE;
 
-    QSharedPointer<QEXTTcpPacketInterface> readData(QEXTTcpSocket *socket, bool &success) QEXT_DECL_OVERRIDE;
-    qint64 writeData(QEXTTcpSocket *socket, const QSharedPointer<QEXTTcpPacketInterface> &packet) QEXT_DECL_OVERRIDE;
+    QSharedPointer<QExtTcpPacketInterface> readData(QExtTcpSocket *socket, bool &success) QEXT_DECL_OVERRIDE;
+    qint64 writeData(QExtTcpSocket *socket, const QSharedPointer<QExtTcpPacketInterface> &packet) QEXT_DECL_OVERRIDE;
 
 protected:
-    QScopedPointer<QEXTTcpPacketParserPrivate> dd_ptr;
+    QScopedPointer<QExtTcpPacketParserPrivate> dd_ptr;
 };
 
 

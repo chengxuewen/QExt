@@ -12,34 +12,34 @@
 #include <QPointer>
 #include <QThread>
 
-class QEXTTcpSocket;
-class QEXT_TCP_API QEXTTcpSocketPrivate
+class QExtTcpSocket;
+class QEXT_TCP_API QExtTcpSocketPrivate
 {
 public:
-    explicit QEXTTcpSocketPrivate(QEXTTcpSocket *q);
-    virtual ~QEXTTcpSocketPrivate();
+    explicit QExtTcpSocketPrivate(QExtTcpSocket *q);
+    virtual ~QExtTcpSocketPrivate();
 
-    QEXTTcpSocket * const q_ptr;
+    QExtTcpSocket * const q_ptr;
 
     mutable QMutex m_packetMutex;
-    QQueue<QSharedPointer<QEXTTcpPacketInterface> > m_sendPacketQueue;
+    QQueue<QSharedPointer<QExtTcpPacketInterface> > m_sendPacketQueue;
 
     mutable QMutex m_packetParserMutex;
-    QSharedPointer<QEXTTcpPacketParserInterface> m_packetParser;
+    QSharedPointer<QExtTcpPacketParserInterface> m_packetParser;
 
     mutable QMutex m_packetDispatcherMutex;
-    QSharedPointer<QEXTTcpPacketDispatcher> m_packetDispatcher;
+    QSharedPointer<QExtTcpPacketDispatcher> m_packetDispatcher;
 
     QSharedPointer<QThread> m_workThread;
 
     QString m_peerAddress;
     quint16 m_peerPort;
-    QEXTId m_identityId;
+    QExtId m_identityId;
     static int sm_id;
 
 private:
-    Q_DECLARE_PUBLIC(QEXTTcpSocket)
-    Q_DISABLE_COPY(QEXTTcpSocketPrivate)
+    Q_DECLARE_PUBLIC(QExtTcpSocket)
+    Q_DISABLE_COPY(QExtTcpSocketPrivate)
 };
 
 

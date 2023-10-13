@@ -71,13 +71,13 @@ extern "C" {
 
 
 
-class QEXTSerialRegistrationWidget;
-class QEXT_SERIALPORT_API QEXTSerialEnumeratorPrivate
+class QExtSerialRegistrationWidget;
+class QEXT_SERIALPORT_API QExtSerialEnumeratorPrivate
 {
-    Q_DECLARE_PUBLIC(QEXTSerialEnumerator)
+    Q_DECLARE_PUBLIC(QExtSerialEnumerator)
 public:
-    QEXTSerialEnumeratorPrivate(QEXTSerialEnumerator *enumrator);
-    ~QEXTSerialEnumeratorPrivate();
+    QExtSerialEnumeratorPrivate(QExtSerialEnumerator *enumrator);
+    ~QExtSerialEnumeratorPrivate();
     void platformSpecificInit();
     void platformSpecificDestruct();
 
@@ -88,7 +88,7 @@ public:
     LRESULT onDeviceChanged(WPARAM wParam, LPARAM lParam);
     bool matchAndDispatchChangedDevice(const QString &deviceID, const GUID &guid, WPARAM wParam);
 #  ifdef QT_GUI_LIB
-    QEXTSerialRegistrationWidget *notificationWidget;
+    QExtSerialRegistrationWidget *notificationWidget;
 #  endif
 #endif /*Q_OS_WIN*/
 
@@ -117,7 +117,7 @@ public:
 #endif
 
 private:
-    QEXTSerialEnumerator *q_ptr;
+    QExtSerialEnumerator *q_ptr;
 };
 
 

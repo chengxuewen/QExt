@@ -31,58 +31,58 @@
 
 
 
-QEXTConnection::QEXTConnection()
+QExtConnection::QExtConnection()
     : m_slot(QEXT_DECL_NULLPTR)
 {
 }
 
-QEXTConnection::QEXTConnection(const QEXTConnection &other)
+QExtConnection::QExtConnection(const QExtConnection &other)
     : m_slot(other.m_slot)
 {
 }
 
-QEXTConnection::QEXTConnection(SlotFunctionBase &slot)
+QExtConnection::QExtConnection(SlotFunctionBase &slot)
     : m_slot(&slot)
 {
 }
 
-QEXTConnection::~QEXTConnection()
+QExtConnection::~QExtConnection()
 {
 
 }
 
-QEXTConnection &QEXTConnection::operator=(const QEXTConnection &other)
+QExtConnection &QExtConnection::operator=(const QExtConnection &other)
 {
     this->setSlot(other.m_slot);
     return *this;
 }
 
-bool QEXTConnection::isEmpty() const
+bool QExtConnection::isEmpty() const
 {
     return (!m_slot || m_slot->isValid());
 }
 
-bool QEXTConnection::isBlocked() const
+bool QExtConnection::isBlocked() const
 {
     return (m_slot ? m_slot->isBlocked() : false);
 }
 
-bool QEXTConnection::setBlock(bool block)
+bool QExtConnection::setBlock(bool block)
 {
     return (m_slot ? m_slot->setBlock(block) : false);
 }
 
-bool QEXTConnection::unblock()
+bool QExtConnection::unblock()
 {
     return (m_slot ? m_slot->unblock() : false);
 }
 
-bool QEXTConnection::isConnected() const
+bool QExtConnection::isConnected() const
 {
     return !this->isEmpty();
 }
 
-void QEXTConnection::disconnect()
+void QExtConnection::disconnect()
 {
     if (m_slot)
     {
@@ -90,19 +90,19 @@ void QEXTConnection::disconnect()
     }
 }
 
-void *QEXTConnection::notify(void *data)
+void *QExtConnection::notify(void *data)
 {
-    QEXTConnection *self = reinterpret_cast<QEXTConnection *>(data);
+    QExtConnection *self = reinterpret_cast<QExtConnection *>(data);
     self->m_slot = QEXT_DECL_NULLPTR;
     return QEXT_DECL_NULLPTR;
 }
 
-void QEXTConnection::setSlot(SlotFunctionBase *slot)
+void QExtConnection::setSlot(SlotFunctionBase *slot)
 {
     m_slot = slot;
 }
 
-QEXTConnection::operator bool()
+QExtConnection::operator bool()
 {
     return !this->isEmpty();
 }

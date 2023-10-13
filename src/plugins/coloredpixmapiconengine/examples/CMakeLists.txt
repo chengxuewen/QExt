@@ -54,7 +54,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND _example_link_libraries QEXTColoredPixmapIcon)
+list(APPEND _example_link_libraries QExtColoredPixmapIcon)
 
 
 
@@ -86,5 +86,5 @@ target_include_directories(${_example_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/c
 set_property(TARGET ${_example_name} PROPERTY INTERFACE_CXX_EXTENSIONS OFF)
 if(WIN32)
     qextFunctionCopyDependencyInternal(${_example_name} QEXTFontAwesome ${EXECUTABLE_OUTPUT_PATH})
-    qextFunctionCopyDependencyInternal(${_example_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+    qextFunctionCopyDependencyInternal(${_example_name} QExtCore ${EXECUTABLE_OUTPUT_PATH})
 endif()

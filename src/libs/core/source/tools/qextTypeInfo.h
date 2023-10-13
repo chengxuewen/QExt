@@ -9,14 +9,14 @@
  * \brief type trait functionality
  * catch-all template.
  */
-template < typename T_type >
-class QEXTTypeInfo
+template<typename T_type>
+class QExtTypeInfo
 {
 public:
     enum
     {
         isPointer = false,
-        isIntegral = QEXTTypeIsIntegral< T_type >::value,
+        isIntegral = QExtTypeIsIntegral<T_type>::value,
         isComplex = true,
         isStatic = true,
         isRelocatable = QEXT_IS_ENUM(T_type),
@@ -26,8 +26,8 @@ public:
     };
 };
 
-template <>
-class QEXTTypeInfo< void >
+template<>
+class QExtTypeInfo<void>
 {
 public:
     enum
@@ -43,8 +43,8 @@ public:
     };
 };
 
-template < typename T_type >
-class QEXTTypeInfo< T_type * >
+template<typename T_type>
+class QExtTypeInfo<T_type *>
 {
 public:
     enum
@@ -61,12 +61,12 @@ public:
 };
 
 /*!
-    \class QEXTTypeInfoQuery
-    \inmodule QEXTCore
+    \class QExtTypeInfoQuery
+    \inmodule QExtCore
     \internal
-    \brief QEXTTypeInfoQuery is used to query the values of a given QEXTTypeInfo<T_type>
+    \brief QExtTypeInfoQuery is used to query the values of a given QExtTypeInfo<T_type>
 
-    We use it because there may be some QEXTTypeInfo<T_type> specializations in user
+    We use it because there may be some QExtTypeInfo<T_type> specializations in user
     code that don't provide certain flags that we added after Qt 5.0. They are:
     \list
       \li isRelocatable: defaults to !isStatic
@@ -74,52 +74,57 @@ public:
 
     DO NOT specialize this class elsewhere.
 */
-// apply defaults for a generic QEXTTypeInfo<T_type> that didn't provide the new values
-template < typename T_type, typename = void >
-struct QEXTTypeInfoQuery : public QEXTTypeInfo< T_type >
+// apply defaults for a generic QExtTypeInfo<T_type> that didn't provide the new values
+template<typename T_type, typename = void>
+struct QExtTypeInfoQuery : public QExtTypeInfo<T_type>
 {
     enum
     {
-        isRelocatable = !QEXTTypeInfo< T_type >::isStatic
+        isRelocatable = !QExtTypeInfo<T_type>::isStatic
     };
 };
 
-// if QEXTTypeInfo<T_type>::isRelocatable exists, use it
-template < typename T_type >
-struct QEXTTypeInfoQuery< T_type, typename QEXTTypeEnableIf< QEXTTypeInfo< T_type >::isRelocatable || true >::Type > : public QEXTTypeInfo< T_type >
+// if QExtTypeInfo<T_type>::isRelocatable exists, use it
+template<typename T_type>
+struct QExtTypeInfoQuery<T_type, typename QExtTypeEnableIf<QExtTypeInfo<T_type>::isRelocatable || true>::Type>
+        : public QExtTypeInfo<T_type>
 {
 };
 
 /*!
-    \class QEXTTypeInfoMerger
-    \inmodule QEXTCore
+    \class QExtTypeInfoMerger
+    \inmodule QExtCore
 
-    \brief QEXTTypeInfoMerger merges the QEXTTypeInfo flags of T1, T2... and presents them
-    as a QEXTTypeInfo<T_type> would do.
+    \brief QExtTypeInfoMerger merges the QExtTypeInfo flags of T1, T2... and presents them
+    as a QExtTypeInfo<T_type> would do.
 
     Let's assume that we have a simple set of structs:
 
     \snippet code/src_corelib_global_qglobal.cpp 50
 
-    To create a proper QEXTTypeInfo specialization for A struct, we have to check
+    To create a proper QExtTypeInfo specialization for A struct, we have to check
     all sub-components; B, C and D, then take the lowest common denominator and call
     QEXT_DECL_TYPEINFO with the resulting flags. An easier and less fragile approach is to
-    use QEXTTypeInfoMerger, which does that automatically. So struct A would have
-    the following QEXTTypeInfo definition:
+    use QExtTypeInfoMerger, which does that automatically. So struct A would have
+    the following QExtTypeInfo definition:
 
     \snippet code/src_corelib_global_qglobal.cpp 51
 */
-template < typename T_type, typename T1, typename T2 = T1, typename T3 = T1, typename T4 = T1 >
-class QEXTTypeInfoMerger
+template<typename T_type, typename T1, typename T2 = T1, typename T3 = T1, typename T4 = T1>
+class QExtTypeInfoMerger
 {
 public:
     enum
     {
         isComplex
-        = QEXTTypeInfoQuery< T1 >::isComplex || QEXTTypeInfoQuery< T2 >::isComplex || QEXTTypeInfoQuery< T3 >::isComplex || QEXTTypeInfoQuery< T4 >::isComplex,
-        isStatic = QEXTTypeInfoQuery< T1 >::isStatic || QEXTTypeInfoQuery< T2 >::isStatic || QEXTTypeInfoQuery< T3 >::isStatic || QEXTTypeInfoQuery< T4 >::isStatic,
-        isRelocatable = QEXTTypeInfoQuery< T1 >::isRelocatable && QEXTTypeInfoQuery< T2 >::isRelocatable && QEXTTypeInfoQuery< T3 >::isRelocatable
-                        && QEXTTypeInfoQuery< T4 >::isRelocatable,
+        = QExtTypeInfoQuery<T1>::isComplex || QExtTypeInfoQuery<T2>::isComplex || QExtTypeInfoQuery<T3>::isComplex ||
+          QExtTypeInfoQuery<T4>::isComplex,
+        isStatic =
+        QExtTypeInfoQuery<T1>::isStatic || QExtTypeInfoQuery<T2>::isStatic || QExtTypeInfoQuery<T3>::isStatic ||
+        QExtTypeInfoQuery<T4>::isStatic,
+        isRelocatable = QExtTypeInfoQuery<T1>::isRelocatable && QExtTypeInfoQuery<T2>::isRelocatable &&
+                        QExtTypeInfoQuery<T3>::isRelocatable
+                        && QExtTypeInfoQuery<T4>::isRelocatable,
         isLarge = sizeof(T_type) > sizeof(void *),
         isPointer = false,
         isIntegral = false,
@@ -132,7 +137,7 @@ public:
     template < typename T_type >                                                                                                                               \
     class CONTAINER;                                                                                                                                           \
     template < typename T_type >                                                                                                                               \
-    class QEXTTypeInfo< CONTAINER< T_type > >                                                                                                                    \
+    class QExtTypeInfo< CONTAINER< T_type > >                                                                                                                    \
     {                                                                                                                                                          \
     public:                                                                                                                                                    \
         enum                                                                                                                                                   \
@@ -168,7 +173,7 @@ enum QEXT_TYPEINFO_FLAGS /* TYPEINFO flags */
 };
 
 #define QEXT_DECL_TYPEINFO_BODY(TYPE, FLAGS)                                                   \
-    class QEXTTypeInfo< TYPE >                                                                 \
+    class QExtTypeInfo< TYPE >                                                                 \
     {                                                                                        \
     public:                                                                                  \
         enum                                                                                 \
@@ -178,7 +183,7 @@ enum QEXT_TYPEINFO_FLAGS /* TYPEINFO flags */
             isRelocatable = !isStatic || ((FLAGS)&QEXT_TYPEINFO_RELOCATABLE),                  \
             isLarge = (sizeof(TYPE) > sizeof(void *)),                                       \
             isPointer = false,                                                               \
-            isIntegral = QEXTTypeIsIntegral< TYPE >::value,                                    \
+            isIntegral = QExtTypeIsIntegral< TYPE >::value,                                    \
             isDummy = (((FLAGS)&QEXT_TYPEINFO_DUMMY) != 0),                                    \
             sizeOf = sizeof(TYPE)                                                            \
         };                                                                                   \
@@ -192,11 +197,11 @@ enum QEXT_TYPEINFO_FLAGS /* TYPEINFO flags */
     template <>                                                                              \
     QEXT_DECL_TYPEINFO_BODY(TYPE, FLAGS)
 
-/* Specialize QEXTTypeInfo for TestClass<T_type> */
-template < typename T_type >
+/* Specialize QExtTypeInfo for TestClass<T_type> */
+template<typename T_type>
 class TestClass;
-template < typename T_type >
-QEXT_DECL_TYPEINFO_BODY(TestClass< T_type >, QEXT_TYPEINFO_PRIMITIVE);
+template<typename T_type>
+QEXT_DECL_TYPEINFO_BODY(TestClass<T_type>, QEXT_TYPEINFO_PRIMITIVE);
 
 /*
    Specialize a shared type with:
@@ -223,7 +228,7 @@ QEXT_DECL_TYPEINFO_BODY(TestClass< T_type >, QEXT_TYPEINFO_PRIMITIVE);
 #define QEXT_DECL_SHARED(TYPE) QEXT_DECL_SHARED_IMPL(TYPE, QEXT_TYPEINFO_MOVABLE)
 
 /*
-   QEXTTypeInfo primitive specializations
+   QExtTypeInfo primitive specializations
 */
 QEXT_DECL_TYPEINFO(bool, QEXT_TYPEINFO_PRIMITIVE);
 QEXT_DECL_TYPEINFO(char, QEXT_TYPEINFO_PRIMITIVE);
@@ -242,7 +247,6 @@ QEXT_DECL_TYPEINFO(double, QEXT_TYPEINFO_PRIMITIVE);
 #ifndef _QEXT_OS_DARWIN
 QEXT_DECL_TYPEINFO(long double, QEXT_TYPEINFO_PRIMITIVE);
 #endif
-
 
 
 #endif // _QEXTTYPEINFO_H

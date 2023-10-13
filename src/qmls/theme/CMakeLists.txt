@@ -114,7 +114,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_QML_PLUGIN_LINK_LIBRARIES QEXTCore)
+list(APPEND QEXT_QML_PLUGIN_LINK_LIBRARIES QExtCore)
 
 
 
@@ -209,7 +209,7 @@ if(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
         )
     qextFunctionCopyDependencyInternal(
         TARGET ${QEXT_QML_PLUGIN_BASE_NAME}
-        LIBS QEXTCore
+        LIBS QExtCore
         DESTINATION ${QEXT_OUTPUT_APP_DIR}
         POST_BUILD
         )

@@ -11,7 +11,7 @@
 #include <string>
 #include <sstream>
 
-class QEXTBindFunctorTest : public QObject
+class QExtBindFunctorTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -27,7 +27,7 @@ private Q_SLOTS:
 
 static std::string *sg_string = QEXT_DECL_NULLPTR;
 
-struct Foo : public QEXTFunctorBase
+struct Foo : public QExtFunctorBase
 {
     // choose a type that can hold all return values
     typedef int Return;
@@ -57,7 +57,7 @@ struct Foo : public QEXTFunctorBase
     }
 };
 
-struct FooVoid : public QEXTFunctorBase
+struct FooVoid : public QExtFunctorBase
 {
     typedef void Return;
 
@@ -139,7 +139,7 @@ void handler(Param &param)
 }
 
 
-void QEXTBindFunctorTest::testBind2nd()
+void QExtBindFunctorTest::testBind2nd()
 {
     std::string string;
     sg_string = &string;
@@ -155,7 +155,7 @@ void QEXTBindFunctorTest::testBind2nd()
     QVERIFY("Foo(int 5, int -12345) " == *sg_string);
 }
 
-void QEXTBindFunctorTest::testMultiple()
+void QExtBindFunctorTest::testMultiple()
 {
     std::string string;
     sg_string = &string;
@@ -165,7 +165,7 @@ void QEXTBindFunctorTest::testMultiple()
     QVERIFY("Foo(int 1, int 2) " == *sg_string);
 }
 
-void QEXTBindFunctorTest::testBindFromEnd()
+void QExtBindFunctorTest::testBindFromEnd()
 {
     std::string string;
     sg_string = &string;
@@ -179,7 +179,7 @@ void QEXTBindFunctorTest::testBindFromEnd()
     QVERIFY("Foo(int 3, int 4) " == *sg_string);
 }
 
-void QEXTBindFunctorTest::testUsedTogether()
+void QExtBindFunctorTest::testUsedTogether()
 {
     std::string string;
     sg_string = &string;
@@ -189,7 +189,7 @@ void QEXTBindFunctorTest::testUsedTogether()
     QVERIFY("Foo(int 7, int 8) " == *sg_string);
 }
 
-void QEXTBindFunctorTest::testVoidReturn()
+void QExtBindFunctorTest::testVoidReturn()
 {
     std::string string;
     sg_string = &string;
@@ -203,7 +203,7 @@ void QEXTBindFunctorTest::testVoidReturn()
     QVERIFY("FooVoid(int 12)" == *sg_string);
 }
 
-void QEXTBindFunctorTest::testFunctionPointerInsteadOfFunctor()
+void QExtBindFunctorTest::testFunctionPointerInsteadOfFunctor()
 {
     std::string string;
     sg_string = &string;
@@ -214,7 +214,7 @@ void QEXTBindFunctorTest::testFunctionPointerInsteadOfFunctor()
     QVERIFY("otto" == *sg_string);
 }
 
-void QEXTBindFunctorTest::testReturnTypeOfBindFunctorOverloadWithNoArguments()
+void QExtBindFunctorTest::testReturnTypeOfBindFunctorOverloadWithNoArguments()
 {
     std::string string;
     sg_string = &string;
@@ -228,7 +228,7 @@ void QEXTBindFunctorTest::testReturnTypeOfBindFunctorOverloadWithNoArguments()
     QVERIFY("simple(bool 1) " == *sg_string);
 }
 
-void QEXTBindFunctorTest::testReferences()
+void QExtBindFunctorTest::testReferences()
 {
     std::string string;
     sg_string = &string;
@@ -238,7 +238,7 @@ void QEXTBindFunctorTest::testReferences()
     QVERIFY("egon was here" == str);
     QVERIFY("egon(string 'guest book')" == *sg_string);
 
-    QEXTFunction<void> slot;
+    QExtFunction<void> slot;
     {
         *sg_string = "";
         Book guestBook("karl");
@@ -254,8 +254,8 @@ void QEXTBindFunctorTest::testReferences()
 
 
 
-    QEXTFunction<void, Param &> slotFull = qextPointerFunctor(handler);
-    QEXTFunction<void> slotBound;
+    QExtFunction<void, Param &> slotFull = qextPointerFunctor(handler);
+    QExtFunction<void> slotBound;
 
     *sg_string = "";
     slotBound();
@@ -279,6 +279,6 @@ void QEXTBindFunctorTest::testReferences()
 }
 
 
-QTEST_APPLESS_MAIN(QEXTBindFunctorTest)
+QTEST_APPLESS_MAIN(QExtBindFunctorTest)
 
 #include <tst_qextBindFunctor.moc>

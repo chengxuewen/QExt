@@ -18,9 +18,9 @@ Test::Test(QWidget *parent)
 {
     //modify the port settings on your own
 #ifdef Q_OS_UNIX
-    port = new QEXTSerialPort(QLatin1String("/dev/ttyS0"), QEXTSerialPort::Polling);
+    port = new QExtSerialPort(QLatin1String("/dev/ttyS0"), QExtSerialPort::Polling);
 #else
-    port = new QEXTSerialPort(QLatin1String("COM1"), QEXTSerialPort::Polling);
+    port = new QExtSerialPort(QLatin1String("COM1"), QExtSerialPort::Polling);
 #endif /*Q_OS_UNIX*/
     port->setBaudRate(BAUD19200);
     port->setFlowControl(FLOW_OFF);

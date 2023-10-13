@@ -7,25 +7,25 @@
 #include <QScopedPointer>
 #include <QDateTime>
 
-class QEXTTcpPacketHeaderInterface;
-class QEXTTcpPacket;
-class QEXT_TCP_API QEXTTcpPacketPrivate
+class QExtTcpPacketHeaderInterface;
+class QExtTcpPacket;
+class QEXT_TCP_API QExtTcpPacketPrivate
 {
 public:
-    explicit QEXTTcpPacketPrivate(QEXTTcpPacket *q);
-    virtual ~QEXTTcpPacketPrivate();
+    explicit QExtTcpPacketPrivate(QExtTcpPacket *q);
+    virtual ~QExtTcpPacketPrivate();
 
-    QEXTTcpPacket * const q_ptr;
+    QExtTcpPacket * const q_ptr;
 
-    QSharedPointer<QEXTTcpPacketHeaderInterface> m_header;
+    QSharedPointer<QExtTcpPacketHeaderInterface> m_header;
     QByteArray m_content;
     quint64 m_nextBlockSize;
     QDateTime m_timestamp;
     bool m_valid;
 
 private:
-    Q_DECLARE_PUBLIC(QEXTTcpPacket)
-    Q_DISABLE_COPY(QEXTTcpPacketPrivate)
+    Q_DECLARE_PUBLIC(QExtTcpPacket)
+    Q_DISABLE_COPY(QExtTcpPacketPrivate)
 };
 
 

@@ -7,9 +7,9 @@
 
 #include <QDebug>
 
-quint64 QEXTTcpTaskPrivate::sm_id = 0;
+quint64 QExtTcpTaskPrivate::sm_id = 0;
 
-QEXTTcpTaskPrivate::QEXTTcpTaskPrivate(QEXTTcpTask *q)
+QExtTcpTaskPrivate::QExtTcpTaskPrivate(QExtTcpTask *q)
     : q_ptr(q),
       m_timestamp(QDateTime::currentDateTime())
 {
@@ -17,114 +17,114 @@ QEXTTcpTaskPrivate::QEXTTcpTaskPrivate(QEXTTcpTask *q)
     m_finished = false;
 }
 
-QEXTTcpTaskPrivate::~QEXTTcpTaskPrivate()
+QExtTcpTaskPrivate::~QExtTcpTaskPrivate()
 {
 
 }
 
 
 
-QEXTTcpTask::QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QEXTTcpTaskPrivate(this))
-{
-    dd_ptr->m_packetTransceiver = transceiver;
-}
-
-QEXTTcpTask::QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
-                         const QSharedPointer<QEXTTcpPacketInterface> &packet)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QEXTTcpTaskPrivate(this))
-{
-    dd_ptr->m_packetTransceiver = transceiver;
-    dd_ptr->m_receivedPacket = packet;
-}
-
-QEXTTcpTask::QEXTTcpTask(QEXTTcpTaskPrivate *d,
-                         const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
+QExtTcpTask::QExtTcpTask(const QSharedPointer<QExtTcpPacketTransceiver> &transceiver)
+    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpTaskPrivate(this))
 {
     dd_ptr->m_packetTransceiver = transceiver;
 }
 
-QEXTTcpTask::QEXTTcpTask(QEXTTcpTaskPrivate *d,
-                         const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
-                         const QSharedPointer<QEXTTcpPacketInterface> &packet)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
+QExtTcpTask::QExtTcpTask(const QSharedPointer<QExtTcpPacketTransceiver> &transceiver,
+                         const QSharedPointer<QExtTcpPacketInterface> &packet)
+    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpTaskPrivate(this))
 {
     dd_ptr->m_packetTransceiver = transceiver;
     dd_ptr->m_receivedPacket = packet;
 }
 
-QEXTTcpTask::~QEXTTcpTask()
+QExtTcpTask::QExtTcpTask(QExtTcpTaskPrivate *d,
+                         const QSharedPointer<QExtTcpPacketTransceiver> &transceiver)
+    : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
+{
+    dd_ptr->m_packetTransceiver = transceiver;
+}
+
+QExtTcpTask::QExtTcpTask(QExtTcpTaskPrivate *d,
+                         const QSharedPointer<QExtTcpPacketTransceiver> &transceiver,
+                         const QSharedPointer<QExtTcpPacketInterface> &packet)
+    : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
+{
+    dd_ptr->m_packetTransceiver = transceiver;
+    dd_ptr->m_receivedPacket = packet;
+}
+
+QExtTcpTask::~QExtTcpTask()
 {
     emit this->aboutToBeDelete(dd_ptr->m_id);
 }
 
-QSharedPointer<QEXTTcpPacketInterface> QEXTTcpTask::receivedPacket() const
+QSharedPointer<QExtTcpPacketInterface> QExtTcpTask::receivedPacket() const
 {
-    Q_D(const QEXTTcpTask);
+    Q_D(const QExtTcpTask);
     return d->m_receivedPacket;
 }
 
-QSharedPointer<QEXTTcpPacketTransceiver> QEXTTcpTask::packetTransceiver() const
+QSharedPointer<QExtTcpPacketTransceiver> QExtTcpTask::packetTransceiver() const
 {
-    Q_D(const QEXTTcpTask);
+    Q_D(const QExtTcpTask);
     return d->m_packetTransceiver;
 }
 
-quint64 QEXTTcpTask::id() const
+quint64 QExtTcpTask::id() const
 {
-    Q_D(const QEXTTcpTask);
+    Q_D(const QExtTcpTask);
     return d->m_id;
 }
 
-QEXTId QEXTTcpTask::identityId() const
+QExtId QExtTcpTask::identityId() const
 {
-    Q_D(const QEXTTcpTask);
+    Q_D(const QExtTcpTask);
     return QString("%1-%3:%4")
             .arg(this->packetTransceiver()->identityId().toString())
             .arg(this->typeId().toString()).arg(d->m_id);
 }
 
-QDateTime QEXTTcpTask::timestamp() const
+QDateTime QExtTcpTask::timestamp() const
 {
-    Q_D(const QEXTTcpTask);
+    Q_D(const QExtTcpTask);
     return d->m_timestamp;
 }
 
-bool QEXTTcpTask::isFinished() const
+bool QExtTcpTask::isFinished() const
 {
-    Q_D(const QEXTTcpTask);
+    Q_D(const QExtTcpTask);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_finished;
 }
 
-bool QEXTTcpTask::isErrored() const
+bool QExtTcpTask::isErrored() const
 {
-    Q_D(const QEXTTcpTask);
+    Q_D(const QExtTcpTask);
     QMutexLocker mutexLocker(&d->m_mutex);
     return !d->m_errorString.isEmpty();
 }
 
-QString QEXTTcpTask::errorString() const
+QString QExtTcpTask::errorString() const
 {
-    Q_D(const QEXTTcpTask);
+    Q_D(const QExtTcpTask);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_errorString;
 }
 
-QEXTId QEXTTcpTask::typeId() const
+QExtId QExtTcpTask::typeId() const
 {
-    return "QEXTTcpTask";
+    return "QExtTcpTask";
 }
 
-void QEXTTcpTask::run()
+void QExtTcpTask::run()
 {
-    qDebug() << "QEXTTcpTask::run(): do nothing";
+    qDebug() << "QExtTcpTask::run(): do nothing";
 }
 
-void QEXTTcpTask::setErrorString(const QString &string)
+void QExtTcpTask::setErrorString(const QString &string)
 {
-    Q_D(QEXTTcpTask);
+    Q_D(QExtTcpTask);
     QMutexLocker mutexLocker(&d->m_mutex);
     d->m_errorString = string;
     emit this->error(string);
@@ -132,37 +132,37 @@ void QEXTTcpTask::setErrorString(const QString &string)
 
 
 
-QEXTTcpPostBackTask::QEXTTcpPostBackTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
-                                         const QSharedPointer<QEXTTcpPacketInterface> &packet)
-    : QEXTTcpTask(transceiver, packet)
+QExtTcpPostBackTask::QExtTcpPostBackTask(const QSharedPointer<QExtTcpPacketTransceiver> &transceiver,
+                                         const QSharedPointer<QExtTcpPacketInterface> &packet)
+    : QExtTcpTask(transceiver, packet)
 {
 
 }
 
-QEXTTcpPostBackTask::QEXTTcpPostBackTask(QEXTTcpTaskPrivate *d,
-                                         const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
-                                         const QSharedPointer<QEXTTcpPacketInterface> &packet)
-    : QEXTTcpTask(d, transceiver, packet)
+QExtTcpPostBackTask::QExtTcpPostBackTask(QExtTcpTaskPrivate *d,
+                                         const QSharedPointer<QExtTcpPacketTransceiver> &transceiver,
+                                         const QSharedPointer<QExtTcpPacketInterface> &packet)
+    : QExtTcpTask(d, transceiver, packet)
 {
 
 }
 
-QEXTTcpPostBackTask::~QEXTTcpPostBackTask()
+QExtTcpPostBackTask::~QExtTcpPostBackTask()
 {
 
 }
 
-QEXTId QEXTTcpPostBackTask::typeId() const
+QExtId QExtTcpPostBackTask::typeId() const
 {
-    return "QEXTTcpPostBackTask";
+    return "QExtTcpPostBackTask";
 }
 
-void QEXTTcpPostBackTask::run()
+void QExtTcpPostBackTask::run()
 {
-    qDebug() << "QEXTTcpPostBackTask::run()-------------------------";
-    QEXTTcpUtils::printPacket(this->receivedPacket());
-    QSharedPointer<QEXTTcpPacketInterface> receivedPacket = this->receivedPacket();
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser = this->packetTransceiver()->packetParser();
-    QSharedPointer<QEXTTcpPacketInterface> packet = packetParser->clonePacket(receivedPacket);
+    qDebug() << "QExtTcpPostBackTask::run()-------------------------";
+    QExtTcpUtils::printPacket(this->receivedPacket());
+    QSharedPointer<QExtTcpPacketInterface> receivedPacket = this->receivedPacket();
+    QSharedPointer<QExtTcpPacketParserInterface> packetParser = this->packetTransceiver()->packetParser();
+    QSharedPointer<QExtTcpPacketInterface> packet = packetParser->clonePacket(receivedPacket);
     this->packetTransceiver()->send(packet);
 }

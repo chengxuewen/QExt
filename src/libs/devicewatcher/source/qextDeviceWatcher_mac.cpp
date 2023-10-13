@@ -1,6 +1,6 @@
 
 /******************************************************************************
-  QEXTDeviceWatcherPrivate: watching depends on platform
+  QExtDeviceWatcherPrivate: watching depends on platform
   Copyright (C) 2014-2015 Wang Bin <wbsecg1@gmail.com>
 
     This library is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ static void onDiskAppear(DADiskRef disk, void *context)
     if (sDevices.contains(disk_name))
         return;
     sDevices.append(disk_name);
-    QEXTDeviceWatcherPrivate *p = static_cast<QEXTDeviceWatcherPrivate*>(context);
+    QExtDeviceWatcherPrivate *p = static_cast<QExtDeviceWatcherPrivate*>(context);
     p->emitDeviceAdded(disk_name);
 }
 
@@ -42,22 +42,22 @@ static void onDiskDisappear(DADiskRef disk, void *context)
 {
     QString disk_name = DADiskGetBSDName(disk);
     sDevices.removeAll(disk_name); //erase?
-    QEXTDeviceWatcherPrivate *p = static_cast<QEXTDeviceWatcherPrivate*>(context);
+    QExtDeviceWatcherPrivate *p = static_cast<QExtDeviceWatcherPrivate*>(context);
     p->emitDeviceRemoved(disk_name);
 }
 
-QEXTDeviceWatcherPrivate::~QEXTDeviceWatcherPrivate()
+QExtDeviceWatcherPrivate::~QExtDeviceWatcherPrivate()
 {
     stop();
 }
 
-bool QEXTDeviceWatcherPrivate::start()
+bool QExtDeviceWatcherPrivate::start()
 {
     init();
     QThread::start();
 }
 
-bool QEXTDeviceWatcherPrivate::stop()
+bool QExtDeviceWatcherPrivate::stop()
 {
     mStop = true;
     wait();
@@ -67,12 +67,12 @@ bool QEXTDeviceWatcherPrivate::stop()
 }
 
 
-void QEXTDeviceWatcherPrivate::parseDeviceInfo()
+void QExtDeviceWatcherPrivate::parseDeviceInfo()
 {
 }
 
 
-bool QEXTDeviceWatcherPrivate::init()
+bool QExtDeviceWatcherPrivate::init()
 {
     //get sDevices
     //FSGetVolumeInfo()
@@ -83,7 +83,7 @@ bool QEXTDeviceWatcherPrivate::init()
 
 }
 
-void QEXTDeviceWatcherPrivate::run()
+void QExtDeviceWatcherPrivate::run()
 {
     mStop = false;
 

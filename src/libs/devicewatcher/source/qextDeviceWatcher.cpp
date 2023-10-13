@@ -1,5 +1,5 @@
 /******************************************************************************
-    QEXTDeviceWatcher: Device watcher class
+    QExtDeviceWatcher: Device watcher class
     Copyright (C) 2011-2015 Wang Bin <wbsecg1@gmail.com>
 
     This library is free software; you can redistribute it and/or
@@ -20,14 +20,14 @@
 #include "qextDeviceWatcher.h"
 #include "qextDeviceWatcher_p.h"
 
-QEXTDeviceWatcher::QEXTDeviceWatcher(QObject* parent)
-    : QObject(parent),running(false),dd_ptr(new QEXTDeviceWatcherPrivate)
+QExtDeviceWatcher::QExtDeviceWatcher(QObject* parent)
+    : QObject(parent),running(false),dd_ptr(new QExtDeviceWatcherPrivate)
 {
-    Q_D(QEXTDeviceWatcher);
+    Q_D(QExtDeviceWatcher);
     d->setWatcher(this);
 }
 
-QEXTDeviceWatcher::~QEXTDeviceWatcher()
+QExtDeviceWatcher::~QExtDeviceWatcher()
 {
     if (dd_ptr) {
         delete dd_ptr;
@@ -35,9 +35,9 @@ QEXTDeviceWatcher::~QEXTDeviceWatcher()
     }
 }
 
-bool QEXTDeviceWatcher::start()
+bool QExtDeviceWatcher::start()
 {
-    Q_D(QEXTDeviceWatcher);
+    Q_D(QExtDeviceWatcher);
     if (!d->start()) {
         stop();
         running = false;
@@ -46,43 +46,43 @@ bool QEXTDeviceWatcher::start()
     return running;
 }
 
-bool QEXTDeviceWatcher::stop()
+bool QExtDeviceWatcher::stop()
 {
-    Q_D(QEXTDeviceWatcher);
+    Q_D(QExtDeviceWatcher);
     running = !d->stop();
     return !running;
 }
 
-bool QEXTDeviceWatcher::isRunning() const
+bool QExtDeviceWatcher::isRunning() const
 {
     return running;
 }
 
-void QEXTDeviceWatcher::appendEventReceiver(QObject *receiver)
+void QExtDeviceWatcher::appendEventReceiver(QObject *receiver)
 {
-    Q_D(QEXTDeviceWatcher);
+    Q_D(QExtDeviceWatcher);
     d->event_receivers.append(receiver);
 }
 
-void QEXTDeviceWatcherPrivate::emitDeviceAdded(const QString &dev)
+void QExtDeviceWatcherPrivate::emitDeviceAdded(const QString &dev)
 {
     if (!QMetaObject::invokeMethod(watcher, "deviceAdded", Q_ARG(QString, dev)))
         qWarning("invoke deviceAdded failed");
 }
 
-void QEXTDeviceWatcherPrivate::emitDeviceChanged(const QString &dev)
+void QExtDeviceWatcherPrivate::emitDeviceChanged(const QString &dev)
 {
     if (!QMetaObject::invokeMethod(watcher, "deviceChanged", Q_ARG(QString, dev)))
         qWarning("invoke deviceChanged failed");
 }
 
-void QEXTDeviceWatcherPrivate::emitDeviceRemoved(const QString &dev)
+void QExtDeviceWatcherPrivate::emitDeviceRemoved(const QString &dev)
 {
     if (!QMetaObject::invokeMethod(watcher, "deviceRemoved", Q_ARG(QString, dev)))
         qWarning("invoke deviceRemoved failed");
 }
 
-void QEXTDeviceWatcherPrivate::emitDeviceAction(const QString &dev, const QString &action)
+void QExtDeviceWatcherPrivate::emitDeviceAction(const QString &dev, const QString &action)
 {
     QString a(action.toLower());
     if (a == QLatin1String("add"))
@@ -94,8 +94,8 @@ void QEXTDeviceWatcherPrivate::emitDeviceAction(const QString &dev, const QStrin
 }
 
 
-//const QEvent::Type  QEXTDeviceChangeEvent::EventType = static_cast<QEvent::Type>(QEvent::registerEventType());
-QEXTDeviceChangeEvent::QEXTDeviceChangeEvent(Action action, const QString &device) :
+//const QEvent::Type  QExtDeviceChangeEvent::EventType = static_cast<QEvent::Type>(QEvent::registerEventType());
+QExtDeviceChangeEvent::QExtDeviceChangeEvent(Action action, const QString &device) :
     QEvent(registeredType())
 {
     m_action = action;

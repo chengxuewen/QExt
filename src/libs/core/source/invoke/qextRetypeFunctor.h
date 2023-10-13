@@ -38,7 +38,7 @@
 
 
 /** @defgroup retype qextRetypeFunctor(), qextRetypeReturnFunctor()
- * qextRetypeFunctor() alters a QEXTPointerFunctor, a QEXTMemberFunctor or a QEXTFunction
+ * qextRetypeFunctor() alters a QExtPointerFunctor, a QExtMemberFunctor or a QExtFunction
  * in that it makes C-style casts to the functor's parameter types
  * of all parameters passed through operator()().
  *
@@ -50,17 +50,17 @@
  * @endcode
  *
  * The functor that qextRetypeFunctor() returns can be passed directly into
- * QEXTSignal::connect().
+ * QExtSignal::connect().
  *
  * @par Example:
  * @code
- * QEXTSignal<void,float> some_signal;
+ * QExtSignal<void,float> some_signal;
  * void foo(int);
  * some_signal.connect(qextRetypeFunctor(qextPointerFunctor(&foo)));
  * @endcode
  *
- * This adaptor builds an exception in that it only works on QEXTPointerFunctor,
- * qextMemberFunctor and QEXTFunction because it needs sophisticated information about
+ * This adaptor builds an exception in that it only works on QExtPointerFunctor,
+ * qextMemberFunctor and QExtFunction because it needs sophisticated information about
  * the parameter types that cannot be deduced from arbitrary functor types.
  *
  * qextRetypeReturnFunctor() alters the return type of an arbitrary functor.
@@ -94,27 +94,27 @@
  * \ingroup retype
  */
 template <typename T_functor,
-          typename T_type1 = QEXTNil, typename T_type2 = QEXTNil, typename T_type3 = QEXTNil,
-          typename T_type4 = QEXTNil, typename T_type5 = QEXTNil, typename T_type6 = QEXTNil, typename T_type7 = QEXTNil>
-struct QEXTRetypeFunctor : public QEXTAdapts<T_functor>
+          typename T_type1 = QExtNil, typename T_type2 = QExtNil, typename T_type3 = QExtNil,
+          typename T_type4 = QExtNil, typename T_type5 = QExtNil, typename T_type6 = QExtNil, typename T_type7 = QExtNil>
+struct QExtRetypeFunctor : public QExtAdapts<T_functor>
 {
-    typedef typename QEXTAdapts<T_functor>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
 
     template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
               typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename Adaptor::template ReturnTypeDeduce <
-            typename QEXTTypeTrait<T_arg1>::Pass,
-            typename QEXTTypeTrait<T_arg2>::Pass,
-            typename QEXTTypeTrait<T_arg3>::Pass,
-            typename QEXTTypeTrait<T_arg4>::Pass,
-            typename QEXTTypeTrait<T_arg5>::Pass,
-            typename QEXTTypeTrait<T_arg6>::Pass,
-            typename QEXTTypeTrait<T_arg7>::Pass >::Type Type;
+            typename QExtTypeTrait<T_arg1>::Pass,
+            typename QExtTypeTrait<T_arg2>::Pass,
+            typename QExtTypeTrait<T_arg3>::Pass,
+            typename QExtTypeTrait<T_arg4>::Pass,
+            typename QExtTypeTrait<T_arg5>::Pass,
+            typename QExtTypeTrait<T_arg6>::Pass,
+            typename QExtTypeTrait<T_arg7>::Pass >::Type Type;
     };
 
-    typedef typename QEXTAdapts<T_functor>::Return   Return;
+    typedef typename QExtAdapts<T_functor>::Return   Return;
 
     Return operator()()
     {
@@ -126,7 +126,7 @@ struct QEXTRetypeFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1)
     {
         return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_type1>::Take >
+               typename QExtTypeTrait<T_type1>::Take >
                (static_cast<T_type1>(arg1));
     }
 
@@ -136,8 +136,8 @@ struct QEXTRetypeFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2)
     {
         return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_type1>::Take,
-               typename QEXTTypeTrait<T_type2>::Take >
+               typename QExtTypeTrait<T_type1>::Take,
+               typename QExtTypeTrait<T_type2>::Take >
                (static_cast<T_type1>(arg1), static_cast<T_type2>(arg2));
     }
 
@@ -148,9 +148,9 @@ struct QEXTRetypeFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
     {
         return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_type1>::Take,
-               typename QEXTTypeTrait<T_type2>::Take,
-               typename QEXTTypeTrait<T_type3>::Take >
+               typename QExtTypeTrait<T_type1>::Take,
+               typename QExtTypeTrait<T_type2>::Take,
+               typename QExtTypeTrait<T_type3>::Take >
                (static_cast<T_type1>(arg1), static_cast<T_type2>(arg2), static_cast<T_type3>(arg3));
     }
 
@@ -161,10 +161,10 @@ struct QEXTRetypeFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
     {
         return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_type1>::Take,
-               typename QEXTTypeTrait<T_type2>::Take,
-               typename QEXTTypeTrait<T_type3>::Take,
-               typename QEXTTypeTrait<T_type4>::Take >
+               typename QExtTypeTrait<T_type1>::Take,
+               typename QExtTypeTrait<T_type2>::Take,
+               typename QExtTypeTrait<T_type3>::Take,
+               typename QExtTypeTrait<T_type4>::Take >
                (static_cast<T_type1>(arg1), static_cast<T_type2>(arg2), static_cast<T_type3>(arg3), static_cast<T_type4>(arg4));
     }
 
@@ -174,11 +174,11 @@ struct QEXTRetypeFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
     {
         return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_type1>::Take,
-               typename QEXTTypeTrait<T_type2>::Take,
-               typename QEXTTypeTrait<T_type3>::Take,
-               typename QEXTTypeTrait<T_type4>::Take,
-               typename QEXTTypeTrait<T_type5>::Take >
+               typename QExtTypeTrait<T_type1>::Take,
+               typename QExtTypeTrait<T_type2>::Take,
+               typename QExtTypeTrait<T_type3>::Take,
+               typename QExtTypeTrait<T_type4>::Take,
+               typename QExtTypeTrait<T_type5>::Take >
                (static_cast<T_type1>(arg1), static_cast<T_type2>(arg2), static_cast<T_type3>(arg3),
                 static_cast<T_type4>(arg4), static_cast<T_type5>(arg5));
     }
@@ -189,12 +189,12 @@ struct QEXTRetypeFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
     {
         return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_type1>::Take,
-               typename QEXTTypeTrait<T_type2>::Take,
-               typename QEXTTypeTrait<T_type3>::Take,
-               typename QEXTTypeTrait<T_type4>::Take,
-               typename QEXTTypeTrait<T_type5>::Take,
-               typename QEXTTypeTrait<T_type6>::Take >
+               typename QExtTypeTrait<T_type1>::Take,
+               typename QExtTypeTrait<T_type2>::Take,
+               typename QExtTypeTrait<T_type3>::Take,
+               typename QExtTypeTrait<T_type4>::Take,
+               typename QExtTypeTrait<T_type5>::Take,
+               typename QExtTypeTrait<T_type6>::Take >
                (static_cast<T_type1>(arg1), static_cast<T_type2>(arg2), static_cast<T_type3>(arg3),
                 static_cast<T_type4>(arg4), static_cast<T_type5>(arg5), static_cast<T_type6>(arg6));
     }
@@ -204,13 +204,13 @@ struct QEXTRetypeFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7)
     {
         return this->m_functor.template operator () <
-               typename QEXTTypeTrait<T_type1>::Take,
-               typename QEXTTypeTrait<T_type2>::Take,
-               typename QEXTTypeTrait<T_type3>::Take,
-               typename QEXTTypeTrait<T_type4>::Take,
-               typename QEXTTypeTrait<T_type5>::Take,
-               typename QEXTTypeTrait<T_type6>::Take,
-               typename QEXTTypeTrait<T_type7>::Take >
+               typename QExtTypeTrait<T_type1>::Take,
+               typename QExtTypeTrait<T_type2>::Take,
+               typename QExtTypeTrait<T_type3>::Take,
+               typename QExtTypeTrait<T_type4>::Take,
+               typename QExtTypeTrait<T_type5>::Take,
+               typename QExtTypeTrait<T_type6>::Take,
+               typename QExtTypeTrait<T_type7>::Take >
                (static_cast<T_type1>(arg1), static_cast<T_type2>(arg2), static_cast<T_type3>(arg3),
                 static_cast<T_type4>(arg4), static_cast<T_type5>(arg5), static_cast<T_type6>(arg6), static_cast<T_type7>(arg7));
     }
@@ -219,8 +219,8 @@ struct QEXTRetypeFunctor : public QEXTAdapts<T_functor>
     /** Constructs a retype_functor object that performs C-style casts on the parameters passed on to the functor.
      * \param functor Functor to invoke from operator()().
      */
-    explicit QEXTRetypeFunctor(typename QEXTTypeTrait<T_functor>::Take functor)
-        : QEXTAdapts<T_functor>(functor) {}
+    explicit QExtRetypeFunctor(typename QExtTypeTrait<T_functor>::Take functor)
+        : QExtAdapts<T_functor>(functor) {}
 };
 
 
@@ -234,18 +234,18 @@ struct QEXTRetypeFunctor : public QEXTAdapts<T_functor>
 template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3,
           typename T_type4, typename T_type5, typename T_type6, typename T_type7>
-struct QEXTVisitor<QEXTRetypeFunctor<T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7> >
+struct QExtVisitor<QExtRetypeFunctor<T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7> >
 {
     template <typename T_action>
     static void doVisitEach(const T_action &action,
-                            const QEXTRetypeFunctor<T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7> &target)
+                            const QExtRetypeFunctor<T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7> &target)
     {
         qextVisitEach(action, target.m_functor);
     }
 };
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTFunction.
+ * This function template specialization works on QExtFunction.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -255,10 +255,10 @@ struct QEXTVisitor<QEXTRetypeFunctor<T_functor, T_type1, T_type2, T_type3, T_typ
 template <typename T_return,
           typename T_arg1, typename T_arg2, typename T_arg3,
           typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-inline QEXTRetypeFunctor<QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
-qextRetypeFunctor(const QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
+inline QExtRetypeFunctor<QExtFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+qextRetypeFunctor(const QExtFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
 {
-    return QEXTRetypeFunctor<QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
+    return QExtRetypeFunctor<QExtFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -270,10 +270,10 @@ qextRetypeFunctor(const QEXTFunction<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T
  * \ingroup retype
  */
 template <typename T_return>
-inline QEXTRetypeFunctor<QEXTPointerFunctor<T_return> >
-qextRetypeFunctor(const QEXTPointerFunctor<T_return> &functor)
+inline QExtRetypeFunctor<QExtPointerFunctor<T_return> >
+qextRetypeFunctor(const QExtPointerFunctor<T_return> &functor)
 {
-    return QEXTRetypeFunctor<QEXTPointerFunctor<T_return> >(functor);
+    return QExtRetypeFunctor<QExtPointerFunctor<T_return> >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -285,10 +285,10 @@ qextRetypeFunctor(const QEXTPointerFunctor<T_return> &functor)
  * \ingroup retype
  */
 template <typename T_return, typename T_arg1>
-inline QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1>, T_arg1 >
-qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1> &functor)
+inline QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1>, T_arg1 >
+qextRetypeFunctor(const QExtPointerFunctor<T_return, T_arg1> &functor)
 {
-    return QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1>, T_arg1 >(functor);
+    return QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1>, T_arg1 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -300,10 +300,10 @@ qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1> &functor)
  * \ingroup retype
  */
 template <typename T_return, typename T_arg1, typename T_arg2>
-inline QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2>, T_arg1, T_arg2 >
-qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2> &functor)
+inline QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2>, T_arg1, T_arg2 >
+qextRetypeFunctor(const QExtPointerFunctor<T_return, T_arg1, T_arg2> &functor)
 {
-    return QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
+    return QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -315,10 +315,10 @@ qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2> &functor)
  * \ingroup retype
  */
 template <typename T_return, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
-qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3> &functor)
+inline QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
+qextRetypeFunctor(const QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3> &functor)
 {
-    return QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
+    return QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -330,10 +330,10 @@ qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3> &fu
  * \ingroup retype
  */
 template <typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
-qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
+inline QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
+qextRetypeFunctor(const QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
 {
-    return QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
+    return QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -345,10 +345,10 @@ qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-inline QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
-qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
+inline QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+qextRetypeFunctor(const QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
 {
-    return QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
+    return QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -360,10 +360,10 @@ qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-inline QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
-qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
+inline QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+qextRetypeFunctor(const QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
 {
-    return QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
+    return QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -375,10 +375,10 @@ qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-inline QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
-qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
+inline QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+qextRetypeFunctor(const QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
 {
-    return QEXTRetypeFunctor<QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
+    return QExtRetypeFunctor<QExtPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -390,10 +390,10 @@ qextRetypeFunctor(const QEXTPointerFunctor<T_return, T_arg1, T_arg2, T_arg3, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj>
-inline QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj> >
-qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj> &functor)
+inline QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj> >
+qextRetypeFunctor(const QExtMemberFunctor<T_return, T_obj> &functor)
 {
-    return QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj> >(functor);
+    return QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj> >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -405,10 +405,10 @@ qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj> &functor)
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1>
-inline QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
-qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1> &functor)
+inline QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
+qextRetypeFunctor(const QExtMemberFunctor<T_return, T_obj, T_arg1> &functor)
 {
-    return QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
+    return QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -420,10 +420,10 @@ qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1> &functor)
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
-qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
+inline QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
+qextRetypeFunctor(const QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
 {
-    return QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
+    return QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -435,10 +435,10 @@ qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &func
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
-qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
+inline QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
+qextRetypeFunctor(const QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
 {
-    return QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
+    return QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -450,10 +450,10 @@ qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
-qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
+inline QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
+qextRetypeFunctor(const QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
 {
-    return QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
+    return QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -465,10 +465,10 @@ qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-inline QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
-qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
+inline QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+qextRetypeFunctor(const QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
 {
-    return QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
+    return QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -480,10 +480,10 @@ qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-inline QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
-qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
+inline QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+qextRetypeFunctor(const QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
 {
-    return QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
+    return QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
@@ -495,14 +495,14 @@ qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-inline QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
-qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
+inline QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+qextRetypeFunctor(const QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
 {
-    return QEXTRetypeFunctor<QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
+    return QExtRetypeFunctor<QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstMemberFunctor.
+ * This function template specialization works on QExtConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -510,14 +510,14 @@ qextRetypeFunctor(const QEXTMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg
  * \ingroup retype
  */
 template <typename T_return, typename T_obj>
-inline QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj> >
-qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj> &functor)
+inline QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj> >
+qextRetypeFunctor(const QExtConstMemberFunctor<T_return, T_obj> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj> >(functor);
+    return QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj> >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstMemberFunctor.
+ * This function template specialization works on QExtConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -525,14 +525,14 @@ qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj> &functor)
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1>
-inline QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
-qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1> &functor)
+inline QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
+qextRetypeFunctor(const QExtConstMemberFunctor<T_return, T_obj, T_arg1> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
+    return QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstMemberFunctor.
+ * This function template specialization works on QExtConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -540,14 +540,14 @@ qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1> &functor
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
-qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
+inline QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
+qextRetypeFunctor(const QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
+    return QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstMemberFunctor.
+ * This function template specialization works on QExtConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -555,14 +555,14 @@ qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2> 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
-qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
+inline QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
+qextRetypeFunctor(const QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
+    return QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstMemberFunctor.
+ * This function template specialization works on QExtConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -570,14 +570,14 @@ qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
-qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
+inline QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
+qextRetypeFunctor(const QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
+    return QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstMemberFunctor.
+ * This function template specialization works on QExtConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -585,14 +585,14 @@ qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-inline QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
-qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
+inline QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+qextRetypeFunctor(const QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
+    return QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstMemberFunctor.
+ * This function template specialization works on QExtConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -600,14 +600,14 @@ qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-inline QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
-qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
+inline QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+qextRetypeFunctor(const QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
+    return QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstMemberFunctor.
+ * This function template specialization works on QExtConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -615,14 +615,14 @@ qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-inline QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
-qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
+inline QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+qextRetypeFunctor(const QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
+    return QExtRetypeFunctor<QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTVolatileMemberFunctor.
+ * This function template specialization works on QExtVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -630,14 +630,14 @@ qextRetypeFunctor(const QEXTConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj>
-inline QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj> >
-qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj> &functor)
+inline QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj> >
+qextRetypeFunctor(const QExtVolatileMemberFunctor<T_return, T_obj> &functor)
 {
-    return QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj> >(functor);
+    return QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj> >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTVolatileMemberFunctor.
+ * This function template specialization works on QExtVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -645,14 +645,14 @@ qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj> &functor)
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1>
-inline QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
-qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1> &functor)
+inline QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
+qextRetypeFunctor(const QExtVolatileMemberFunctor<T_return, T_obj, T_arg1> &functor)
 {
-    return QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
+    return QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTVolatileMemberFunctor.
+ * This function template specialization works on QExtVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -660,14 +660,14 @@ qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1> &func
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
-qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
+inline QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
+qextRetypeFunctor(const QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
 {
-    return QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
+    return QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTVolatileMemberFunctor.
+ * This function template specialization works on QExtVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -675,14 +675,14 @@ qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
-qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
+inline QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
+qextRetypeFunctor(const QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
 {
-    return QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
+    return QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTVolatileMemberFunctor.
+ * This function template specialization works on QExtVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -690,14 +690,14 @@ qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
-qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
+inline QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
+qextRetypeFunctor(const QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
 {
-    return QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
+    return QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTVolatileMemberFunctor.
+ * This function template specialization works on QExtVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -705,14 +705,14 @@ qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-inline QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
-qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
+inline QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+qextRetypeFunctor(const QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
 {
-    return QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
+    return QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTVolatileMemberFunctor.
+ * This function template specialization works on QExtVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -720,14 +720,14 @@ qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-inline QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
-qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
+inline QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+qextRetypeFunctor(const QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
 {
-    return QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
+    return QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTVolatileMemberFunctor.
+ * This function template specialization works on QExtVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -735,14 +735,14 @@ qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-inline QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
-qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
+inline QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+qextRetypeFunctor(const QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
 {
-    return QEXTRetypeFunctor<QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
+    return QExtRetypeFunctor<QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstVolatileMemberFunctor.
+ * This function template specialization works on QExtConstVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -750,14 +750,14 @@ qextRetypeFunctor(const QEXTVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg
  * \ingroup retype
  */
 template <typename T_return, typename T_obj>
-inline QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj> >
-qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj> &functor)
+inline QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj> >
+qextRetypeFunctor(const QExtConstVolatileMemberFunctor<T_return, T_obj> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj> >(functor);
+    return QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj> >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstVolatileMemberFunctor.
+ * This function template specialization works on QExtConstVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -765,14 +765,14 @@ qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj> &functor
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1>
-inline QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
-qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1> &functor)
+inline QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
+qextRetypeFunctor(const QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
+    return QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstVolatileMemberFunctor.
+ * This function template specialization works on QExtConstVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -780,14 +780,14 @@ qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1> 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
-qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
+inline QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
+qextRetypeFunctor(const QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
+    return QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstVolatileMemberFunctor.
+ * This function template specialization works on QExtConstVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -795,14 +795,14 @@ qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
-qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
+inline QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
+qextRetypeFunctor(const QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
+    return QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstVolatileMemberFunctor.
+ * This function template specialization works on QExtConstVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -810,14 +810,14 @@ qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
-qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
+inline QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
+qextRetypeFunctor(const QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
+    return QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstVolatileMemberFunctor.
+ * This function template specialization works on QExtConstVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -825,14 +825,14 @@ qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-inline QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
-qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
+inline QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+qextRetypeFunctor(const QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
+    return QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstVolatileMemberFunctor.
+ * This function template specialization works on QExtConstVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -840,14 +840,14 @@ qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-inline QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
-qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
+inline QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+qextRetypeFunctor(const QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
+    return QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTConstVolatileMemberFunctor.
+ * This function template specialization works on QExtConstVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -855,14 +855,14 @@ qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-inline QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
-qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
+inline QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+qextRetypeFunctor(const QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
 {
-    return QEXTRetypeFunctor<QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
+    return QExtRetypeFunctor<QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundMemberFunctor.
+ * This function template specialization works on QExtBoundMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -870,14 +870,14 @@ qextRetypeFunctor(const QEXTConstVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj>
-inline QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj> >
-qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj> &functor)
+inline QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj> >
+qextRetypeFunctor(const QExtBoundMemberFunctor<T_return, T_obj> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj> >(functor);
+    return QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj> >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundMemberFunctor.
+ * This function template specialization works on QExtBoundMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -885,14 +885,14 @@ qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj> &functor)
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1>
-inline QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
-qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1> &functor)
+inline QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
+qextRetypeFunctor(const QExtBoundMemberFunctor<T_return, T_obj, T_arg1> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
+    return QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundMemberFunctor.
+ * This function template specialization works on QExtBoundMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -900,14 +900,14 @@ qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1> &functor
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
-qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
+inline QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
+qextRetypeFunctor(const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
+    return QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundMemberFunctor.
+ * This function template specialization works on QExtBoundMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -915,14 +915,14 @@ qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2> 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
-qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
+inline QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
+qextRetypeFunctor(const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
+    return QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundMemberFunctor.
+ * This function template specialization works on QExtBoundMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -930,14 +930,14 @@ qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
-qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
+inline QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
+qextRetypeFunctor(const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
+    return QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundMemberFunctor.
+ * This function template specialization works on QExtBoundMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -945,14 +945,14 @@ qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-inline QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
-qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
+inline QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+qextRetypeFunctor(const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
+    return QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundMemberFunctor.
+ * This function template specialization works on QExtBoundMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -960,14 +960,14 @@ qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-inline QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
-qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
+inline QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+qextRetypeFunctor(const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
+    return QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundMemberFunctor.
+ * This function template specialization works on QExtBoundMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -975,14 +975,14 @@ qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-inline QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
-qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
+inline QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+qextRetypeFunctor(const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
+    return QExtRetypeFunctor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstMemberFunctor.
+ * This function template specialization works on QExtBoundConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -990,14 +990,14 @@ qextRetypeFunctor(const QEXTBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj>
-inline QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj> >
-qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj> &functor)
+inline QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj> >
+qextRetypeFunctor(const QExtBoundConstMemberFunctor<T_return, T_obj> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj> >(functor);
+    return QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj> >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstMemberFunctor.
+ * This function template specialization works on QExtBoundConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1005,14 +1005,14 @@ qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj> &functor)
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1>
-inline QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
-qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1> &functor)
+inline QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
+qextRetypeFunctor(const QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstMemberFunctor.
+ * This function template specialization works on QExtBoundConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1020,14 +1020,14 @@ qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1> &fu
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
-qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
+inline QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
+qextRetypeFunctor(const QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstMemberFunctor.
+ * This function template specialization works on QExtBoundConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1035,14 +1035,14 @@ qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
-qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
+inline QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
+qextRetypeFunctor(const QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstMemberFunctor.
+ * This function template specialization works on QExtBoundConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1050,14 +1050,14 @@ qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
-qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
+inline QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
+qextRetypeFunctor(const QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstMemberFunctor.
+ * This function template specialization works on QExtBoundConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1065,14 +1065,14 @@ qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-inline QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
-qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
+inline QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+qextRetypeFunctor(const QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstMemberFunctor.
+ * This function template specialization works on QExtBoundConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1080,14 +1080,14 @@ qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-inline QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
-qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
+inline QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+qextRetypeFunctor(const QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstMemberFunctor.
+ * This function template specialization works on QExtBoundConstMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1095,14 +1095,14 @@ qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-inline QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
-qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
+inline QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+qextRetypeFunctor(const QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundVolatileMemberFunctor.
+ * This function template specialization works on QExtBoundVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1110,14 +1110,14 @@ qextRetypeFunctor(const QEXTBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj>
-inline QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj> >
-qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj> &functor)
+inline QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj> >
+qextRetypeFunctor(const QExtBoundVolatileMemberFunctor<T_return, T_obj> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj> >(functor);
+    return QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj> >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundVolatileMemberFunctor.
+ * This function template specialization works on QExtBoundVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1125,14 +1125,14 @@ qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj> &functor
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1>
-inline QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
-qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1> &functor)
+inline QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
+qextRetypeFunctor(const QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
+    return QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundVolatileMemberFunctor.
+ * This function template specialization works on QExtBoundVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1140,14 +1140,14 @@ qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1> 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
-qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
+inline QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
+qextRetypeFunctor(const QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
+    return QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundVolatileMemberFunctor.
+ * This function template specialization works on QExtBoundVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1155,14 +1155,14 @@ qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
-qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
+inline QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
+qextRetypeFunctor(const QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
+    return QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundVolatileMemberFunctor.
+ * This function template specialization works on QExtBoundVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1170,14 +1170,14 @@ qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
-qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
+inline QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
+qextRetypeFunctor(const QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
+    return QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundVolatileMemberFunctor.
+ * This function template specialization works on QExtBoundVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1185,14 +1185,14 @@ qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-inline QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
-qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
+inline QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+qextRetypeFunctor(const QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
+    return QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundVolatileMemberFunctor.
+ * This function template specialization works on QExtBoundVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1200,14 +1200,14 @@ qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-inline QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
-qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
+inline QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+qextRetypeFunctor(const QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
+    return QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundVolatileMemberFunctor.
+ * This function template specialization works on QExtBoundVolatileMemberFunctor.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1215,14 +1215,14 @@ qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-inline QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
-qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
+inline QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+qextRetypeFunctor(const QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
+    return QExtRetypeFunctor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstVolatileMemberFunctor7.
+ * This function template specialization works on QExtBoundConstVolatileMemberFunctor7.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1230,14 +1230,14 @@ qextRetypeFunctor(const QEXTBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, 
  * \ingroup retype
  */
 template <typename T_return, typename T_obj>
-inline QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj> >
-qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj> &functor)
+inline QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj> >
+qextRetypeFunctor(const QExtBoundConstVolatileMemberFunctor<T_return, T_obj> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj> >(functor);
+    return QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj> >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstVolatileMemberFunctor7.
+ * This function template specialization works on QExtBoundConstVolatileMemberFunctor7.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1245,14 +1245,14 @@ qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj> &fu
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1>
-inline QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
-qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1> &functor)
+inline QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >
+qextRetypeFunctor(const QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1>, T_arg1 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstVolatileMemberFunctor7.
+ * This function template specialization works on QExtBoundConstVolatileMemberFunctor7.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1260,14 +1260,14 @@ qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
-qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
+inline QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >
+qextRetypeFunctor(const QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>, T_arg1, T_arg2 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstVolatileMemberFunctor7.
+ * This function template specialization works on QExtBoundConstVolatileMemberFunctor7.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1275,14 +1275,14 @@ qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
-qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
+inline QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >
+qextRetypeFunctor(const QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>, T_arg1, T_arg2, T_arg3 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstVolatileMemberFunctor7.
+ * This function template specialization works on QExtBoundConstVolatileMemberFunctor7.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1290,14 +1290,14 @@ qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
-qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
+inline QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >
+qextRetypeFunctor(const QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>, T_arg1, T_arg2, T_arg3, T_arg4 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstVolatileMemberFunctor7.
+ * This function template specialization works on QExtBoundConstVolatileMemberFunctor7.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1305,14 +1305,14 @@ qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-inline QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
-qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
+inline QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+qextRetypeFunctor(const QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstVolatileMemberFunctor7.
+ * This function template specialization works on QExtBoundConstVolatileMemberFunctor7.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1320,14 +1320,14 @@ qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-inline QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
-qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
+inline QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+qextRetypeFunctor(const QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(functor);
 }
 
 /** Creates an adaptor of type qextRetypeFunctor which performs C-style casts on the parameters passed on to the functor.
- * This function template specialization works on QEXTBoundConstVolatileMemberFunctor7.
+ * This function template specialization works on QExtBoundConstVolatileMemberFunctor7.
  *
  * \param functor Functor that should be wrapped.
  * \return Adaptor that executes @e functor performing C-style casts on the paramters passed on.
@@ -1335,10 +1335,10 @@ qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_a
  * \ingroup retype
  */
 template <typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-inline QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
-qextRetypeFunctor(const QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
+inline QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+qextRetypeFunctor(const QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &functor)
 {
-    return QEXTRetypeFunctor<QEXTBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
+    return QExtRetypeFunctor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(functor);
 }
 
 

@@ -24,7 +24,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Set lib base name and out put path
 #-----------------------------------------------------------------------------------------------------------------------
-set(_lib_base_name QEXTColoredPixmapIcon)
+set(_lib_base_name QExtColoredPixmapIcon)
 set(LIBRARY_OUTPUT_PATH ${QEXT_PLUGIN_OUTPUT_DIR})
 
 
@@ -50,10 +50,10 @@ set(_lib_forms
     )
 
 set(_lib_resources
-    resource/QEXTColoredPixmapIcon.qrc
+    resource/QExtColoredPixmapIcon.qrc
     )
 
-list(APPEND _lib_link_libraries QEXTCore)
+list(APPEND _lib_link_libraries QExtCore)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND _lib_link_libraries QEXTCore)
+list(APPEND _lib_link_libraries QExtCore)
 
 
 

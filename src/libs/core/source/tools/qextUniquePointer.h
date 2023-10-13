@@ -1,5 +1,3 @@
-// clang-format off
-// clang-format off
 #ifndef _QEXTUNIQUEPOINTER_H
 #define _QEXTUNIQUEPOINTER_H
 
@@ -9,45 +7,48 @@
 #include <stdlib.h>
 
 
-
-template <typename T>
-struct QEXTUniquePointerDeleter
+template<typename T>
+struct QExtUniquePointerDeleter
 {
     inline void operator()(T *pointer)
     {
         // Enforce a complete type.
-        typedef char IsIncompleteType[ sizeof(T) ? 1 : -1 ];
+        typedef char IsIncompleteType[sizeof(T) ? 1 : -1];
         (void) sizeof(IsIncompleteType);
 
         delete pointer;
     }
 };
 
-template <typename T, typename Deleter = QEXTUniquePointerDeleter<T> >
-class QEXTUniquePointer
+template<typename T, typename Deleter = QExtUniquePointerDeleter<T> >
+class QExtUniquePointer
 {
 public:
     typedef T *Pointer;
 
-    explicit QEXTUniquePointer(T *p = QEXT_DECL_NULLPTR) QEXT_DECL_NOEXCEPT
-        : d(p), deleter(Deleter())
+    explicit QExtUniquePointer(T *p = QEXT_DECL_NULLPTR)
+
+    QEXT_DECL_NOEXCEPT
+            : d(p), deleter(Deleter())
     {
     }
 
-    QEXTUniquePointer(T *p, const Deleter &d) QEXT_DECL_NOEXCEPT
-        : d(p), deleter(d)
+    QExtUniquePointer(T *p, const Deleter &d)
+
+    QEXT_DECL_NOEXCEPT
+            : d(p), deleter(d)
     {
     }
 
-    QEXTUniquePointer(const QEXTUniquePointer &other)
+    QExtUniquePointer(const QExtUniquePointer &other)
     {
         d = other.d;
         deleter = other.deleter;
-        QEXTUniquePointer &oth = const_cast<QEXTUniquePointer &>(other);
+        QExtUniquePointer &oth = const_cast<QExtUniquePointer &>(other);
         oth.d = QEXT_DECL_NULLPTR;
     }
 
-    virtual ~QEXTUniquePointer()
+    virtual ~QExtUniquePointer()
     {
         if (d)
         {
@@ -57,7 +58,7 @@ public:
         }
     }
 
-    QEXTUniquePointer &operator=(const QEXTUniquePointer &other)
+    QExtUniquePointer &operator=(const QExtUniquePointer &other)
     {
         if (this != &other)
         {
@@ -69,18 +70,18 @@ public:
             }
             d = other.d;
             deleter = other.deleter;
-            QEXTUniquePointer &oth = const_cast<QEXTUniquePointer &>(other);
+            QExtUniquePointer &oth = const_cast<QExtUniquePointer &>(other);
             oth.d = QEXT_DECL_NULLPTR;
         }
         return *this;
     }
 
-    bool operator==(const QEXTUniquePointer &other) const
+    bool operator==(const QExtUniquePointer &other) const
     {
         return d == other.d;
     }
 
-    bool operator!=(const QEXTUniquePointer &other) const
+    bool operator!=(const QExtUniquePointer &other) const
     {
         return !(*this == other);
     }
@@ -91,12 +92,14 @@ public:
         return *d;
     }
 
-    T *operator->() const QEXT_DECL_NOEXCEPT
+    T *operator->() const
+    QEXT_DECL_NOEXCEPT
     {
         return d;
     }
 
-    bool operator!() const QEXT_DECL_NOEXCEPT
+    bool operator!() const
+    QEXT_DECL_NOEXCEPT
     {
         return !d;
     }
@@ -106,22 +109,26 @@ public:
         return !this->isNull();
     }
 
-    T *data() const QEXT_DECL_NOEXCEPT
+    T *data() const
+    QEXT_DECL_NOEXCEPT
     {
         return d;
     }
 
-    T *get() const QEXT_DECL_NOEXCEPT
+    T *get() const
+    QEXT_DECL_NOEXCEPT
     {
         return d;
     }
 
-    bool isNull() const QEXT_DECL_NOEXCEPT
+    bool isNull() const
+    QEXT_DECL_NOEXCEPT
     {
         return !d;
     }
 
-    void reset(T *other = QEXT_DECL_NULLPTR) QEXT_DECL_NOEXCEPT
+    void reset(T *other = QEXT_DECL_NULLPTR)
+    QEXT_DECL_NOEXCEPT
     {
         if (d != other)
         {
@@ -131,20 +138,23 @@ public:
         }
     }
 
-    T *take() QEXT_DECL_NOEXCEPT
+    T *take()
+    QEXT_DECL_NOEXCEPT
     {
         T *oldD = d;
         d = QEXT_DECL_NULLPTR;
         return oldD;
     }
 
-    void swap(QEXTUniquePointer &other) QEXT_DECL_NOEXCEPT
+    void swap(QExtUniquePointer &other)
+    QEXT_DECL_NOEXCEPT
     {
         std::swap(d, other.d);
         std::swap(deleter, other.deleter);
     }
 
-    friend void swap(QEXTUniquePointer<T, Deleter> &p1, QEXTUniquePointer<T, Deleter> &p2) QEXT_DECL_NOEXCEPT
+    friend void swap(QExtUniquePointer<T, Deleter> &p1, QExtUniquePointer<T, Deleter> &p2)
+    QEXT_DECL_NOEXCEPT
     {
         p1.swap(p2);
     }
@@ -154,22 +164,20 @@ protected:
     Deleter deleter;
 };
 
-
-
-template <typename T>
-struct QEXTUniqueArrayPointerDeleter
+template<typename T>
+struct QExtUniqueArrayPointerDeleter
 {
     inline void operator()(T *pointer)
     {
         // Enforce a complete type.
-        typedef char IsIncompleteType[ sizeof(T) ? 1 : -1 ];
+        typedef char IsIncompleteType[sizeof(T) ? 1 : -1];
         (void) sizeof(IsIncompleteType);
 
         delete[] pointer;
     }
 };
 
-struct QEXTUniquePodPointerDeleter
+struct QExtUniquePodPointerDeleter
 {
     static inline void cleanup(void *pointer)
     {
@@ -180,60 +188,63 @@ struct QEXTUniquePodPointerDeleter
     }
 };
 
-
-namespace qextPrivate
+namespace QExtPrivate
 {
-template <typename X, typename Y> struct QEXTUniqueArrayEnsureSameType;
-template <typename X> struct QEXTUniqueArrayEnsureSameType<X, X>
-{
-    typedef X *Type;
-};
-template <typename X> struct QEXTUniqueArrayEnsureSameType<const X, X>
-{
-    typedef X *Type;
-};
+    template<typename X, typename Y>
+    struct QExtUniqueArrayEnsureSameType;
+    template<typename X>
+    struct QExtUniqueArrayEnsureSameType<X, X>
+    {
+        typedef X *Type;
+    };
+    template<typename X>
+    struct QExtUniqueArrayEnsureSameType<const X, X>
+    {
+        typedef X *Type;
+    };
 }
 
-template <typename T, typename Deleter = QEXTUniqueArrayPointerDeleter<T> >
-class QEXTUniqueArrayPointer : public QEXTUniquePointer<T, Deleter>
+template<typename T, typename Deleter = QExtUniqueArrayPointerDeleter<T> >
+class QExtUniqueArrayPointer : public QExtUniquePointer<T, Deleter>
 {
 public:
-    inline QEXTUniqueArrayPointer() : QEXTUniquePointer<T, Deleter>(QEXT_DECL_NULLPTR) {}
+    inline QExtUniqueArrayPointer() : QExtUniquePointer<T, Deleter>(QEXT_DECL_NULLPTR) {}
 
-    template <typename D>
-    explicit inline QEXTUniqueArrayPointer(D *p, typename qextPrivate::QEXTUniqueArrayEnsureSameType<T, D>::Type = 0)
-        : QEXTUniquePointer<T, Deleter>(p)
+    template<typename D>
+    explicit inline QExtUniqueArrayPointer(D *p, typename QExtPrivate::QExtUniqueArrayEnsureSameType<T, D>::Type = 0)
+            : QExtUniquePointer<T, Deleter>(p)
     {
     }
 
-    template <typename D>
-    inline QEXTUniqueArrayPointer(D *p, const Deleter &d, typename qextPrivate::QEXTUniqueArrayEnsureSameType<T, D>::Type = 0)
-        : QEXTUniquePointer<T, Deleter>(p, d)
+    template<typename D>
+    inline
+    QExtUniqueArrayPointer(D *p, const Deleter &d, typename QExtPrivate::QExtUniqueArrayEnsureSameType<T, D>::Type = 0)
+            : QExtUniquePointer<T, Deleter>(p, d)
     {
     }
 
-    QEXTUniqueArrayPointer(const QEXTUniqueArrayPointer &other)
-        : QEXTUniquePointer<T, Deleter>(other)
+    QExtUniqueArrayPointer(const QExtUniqueArrayPointer &other)
+            : QExtUniquePointer<T, Deleter>(other)
     {
     }
 
-    QEXTUniqueArrayPointer &operator=(const QEXTUniqueArrayPointer &other)
+    QExtUniqueArrayPointer &operator=(const QExtUniqueArrayPointer &other)
     {
         if (this != &other)
         {
-            QEXTUniquePointer<T, Deleter>::operator=(other);
+            QExtUniquePointer<T, Deleter>::operator=(other);
         }
         return *this;
     }
 
-    bool operator==(const QEXTUniqueArrayPointer &other) const
+    bool operator==(const QExtUniqueArrayPointer &other) const
     {
-        return QEXTUniquePointer<T, Deleter>::operator ==(other);
+        return QExtUniquePointer<T, Deleter>::operator==(other);
     }
 
-    bool operator!=(const QEXTUniqueArrayPointer &other) const
+    bool operator!=(const QExtUniqueArrayPointer &other) const
     {
-        return QEXTUniquePointer<T, Deleter>::operator !=(other);
+        return QExtUniquePointer<T, Deleter>::operator!=(other);
     }
 
     inline T &operator[](int i)
@@ -246,18 +257,20 @@ public:
         return this->d[i];
     }
 
-    void swap(QEXTUniqueArrayPointer &other) QEXT_DECL_NOEXCEPT // prevent QEXTScopedPointer <->QEXTScopedArrayPointer swaps
+    void swap(QExtUniqueArrayPointer &other)
+    QEXT_DECL_NOEXCEPT // prevent QEXTScopedPointer <->QEXTScopedArrayPointer swaps
     {
-        QEXTUniquePointer<T, Deleter>::swap(other);
+        QExtUniquePointer<T, Deleter>::swap(other);
     }
 
-    friend void swap(QEXTUniqueArrayPointer<T, Deleter> &p1, QEXTUniqueArrayPointer<T, Deleter> &p2) QEXT_DECL_NOEXCEPT
+    friend void swap(QExtUniqueArrayPointer<T, Deleter> &p1, QExtUniqueArrayPointer<T, Deleter> &p2)
+    QEXT_DECL_NOEXCEPT
     {
         p1.swap(p2);
     }
 
 private:
-    explicit inline QEXTUniqueArrayPointer(void *)
+    explicit inline QExtUniqueArrayPointer(void *)
     {
         // Enforce the same type.
 
@@ -271,9 +284,4 @@ private:
 };
 
 
-
 #endif // _QEXTUNIQUEPOINTER_H
-
-// clang-format on
-
-// clang-format on

@@ -1,60 +1,61 @@
 #include <qextDiskInfo.h>
 
 #include <QDebug>
-#include <QProcess>
-#include <QFileInfo>
-#include <QTimer>
 #include <QDir>
+#include <QFileInfo>
+#include <QProcess>
+#include <QTimer>
 
 #ifdef Q_OS_WIN
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x502
-#endif
-#include "windows.h"
+#   ifndef _WIN32_WINNT
+#       define _WIN32_WINNT 0x502
+#   endif
+#   include "windows.h"
 #endif
 #define GB (1024 * 1024 * 1024)
 #define MB (1024 * 1024)
 #define KB (1024)
 
 
-
-
-
-QEXTDiskInfo::QEXTDiskInfo()
+QExtDiskInfo::QExtDiskInfo()
 {
 }
 
-QEXTDiskInfo::QEXTDiskInfo(const QEXTDiskInfo &info)
+QExtDiskInfo::QExtDiskInfo(const QExtDiskInfo &info)
 {
     this->copy(info);
 }
 
-QEXTDiskInfo::~QEXTDiskInfo()
+QExtDiskInfo::~QExtDiskInfo()
 {
-
 }
 
-bool QEXTDiskInfo::compare(const QEXTDiskInfo &info) const
+bool QExtDiskInfo::compare(const QExtDiskInfo &info) const
 {
-    if (info.name() != m_name) {
+    if (info.name() != m_name)
+    {
         return false;
     }
-    if (info.usedSize() != m_usedSize) {
+    if (info.usedSize() != m_usedSize)
+    {
         return false;
     }
-    if (info.freeSize() != m_freeSize) {
+    if (info.freeSize() != m_freeSize)
+    {
         return false;
     }
-    if (info.allSize() != m_allSize) {
+    if (info.allSize() != m_allSize)
+    {
         return false;
     }
-    if (info.usedPercent() != m_usedPercent) {
+    if (info.usedPercent() != m_usedPercent)
+    {
         return false;
     }
     return true;
 }
 
-QEXTDiskInfo &QEXTDiskInfo::copy(const QEXTDiskInfo &info)
+QExtDiskInfo &QExtDiskInfo::copy(const QExtDiskInfo &info)
 {
     m_name = info.name();
     m_usedSize = info.usedSize();

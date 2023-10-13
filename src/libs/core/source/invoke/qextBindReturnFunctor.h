@@ -35,7 +35,7 @@
 #include <qextReferenceWrapper.h>
 
 /** Adaptor that fixes the return value of the wrapped functor.
- * Use the convenience function qextBindReturnFunctor() to create an instance of QEXTBindReturnFunctor.
+ * Use the convenience function qextBindReturnFunctor() to create an instance of QExtBindReturnFunctor.
  *
  * The following template arguments are used:
  * - @e T_return Type of the fixed return value.
@@ -44,7 +44,7 @@
  * \ingroup qextBindFunctor
  */
 template <typename T_return, typename T_functor>
-struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
+struct QExtBindReturnFunctor : public QExtAdapts<T_functor>
 {
     template <typename T_arg1 = void, typename T_arg2 = void>
     struct ReturnTypeDeduce
@@ -57,10 +57,10 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
      * \param functor Functor to invoke from operator()().
      * \param returnValue Value to return from operator()().
      */
-    QEXTBindReturnFunctor(typename QEXTTypeTrait<T_functor>::Take functor, typename QEXTTypeTrait<T_return>::Take returnValue)
-        : QEXTAdapts<T_functor>(functor), m_returnValue(returnValue) {}
-    QEXTBindReturnFunctor(const QEXTBindReturnFunctor &other)
-        : QEXTAdapts<T_functor>(other), m_returnValue(other.m_returnValue) {}
+    QExtBindReturnFunctor(typename QExtTypeTrait<T_functor>::Take functor, typename QExtTypeTrait<T_return>::Take returnValue)
+        : QExtAdapts<T_functor>(functor), m_returnValue(returnValue) {}
+    QExtBindReturnFunctor(const QExtBindReturnFunctor &other)
+        : QExtAdapts<T_functor>(other), m_returnValue(other.m_returnValue) {}
 
     /** Invokes the wrapped functor dropping its return value.
      * \return The fixed return value.
@@ -81,7 +81,7 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1)
     {
         this->m_functor.template operator() <
-        typename QEXTTypeTrait<T_arg1>::Pass > (arg1);
+        typename QExtTypeTrait<T_arg1>::Pass > (arg1);
         return m_returnValue.invoke();
     }
 
@@ -95,8 +95,8 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2)
     {
         this->m_functor.template operator() <
-        typename QEXTTypeTrait<T_arg1>::Pass,
-                 typename QEXTTypeTrait<T_arg2>::Pass > (arg1, arg2);
+        typename QExtTypeTrait<T_arg1>::Pass,
+                 typename QExtTypeTrait<T_arg2>::Pass > (arg1, arg2);
         return m_returnValue.invoke();
     }
 
@@ -111,9 +111,9 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
     {
         this->m_functor.template operator() <
-        typename QEXTTypeTrait<T_arg1>::Pass,
-                 typename QEXTTypeTrait<T_arg2>::Pass,
-                 typename QEXTTypeTrait<T_arg3>::Pass > (arg1, arg2, arg3);
+        typename QExtTypeTrait<T_arg1>::Pass,
+                 typename QExtTypeTrait<T_arg2>::Pass,
+                 typename QExtTypeTrait<T_arg3>::Pass > (arg1, arg2, arg3);
         return m_returnValue.invoke();
     }
 
@@ -129,10 +129,10 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
     {
         this->m_functor.template operator() <
-        typename QEXTTypeTrait<T_arg1>::Pass,
-                 typename QEXTTypeTrait<T_arg2>::Pass,
-                 typename QEXTTypeTrait<T_arg3>::Pass,
-                 typename QEXTTypeTrait<T_arg4>::Pass > (arg1, arg2, arg3, arg4);
+        typename QExtTypeTrait<T_arg1>::Pass,
+                 typename QExtTypeTrait<T_arg2>::Pass,
+                 typename QExtTypeTrait<T_arg3>::Pass,
+                 typename QExtTypeTrait<T_arg4>::Pass > (arg1, arg2, arg3, arg4);
         return m_returnValue.invoke();
     }
 
@@ -149,11 +149,11 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
     {
         this->m_functor.template operator() <
-        typename QEXTTypeTrait<T_arg1>::Pass,
-                 typename QEXTTypeTrait<T_arg2>::Pass,
-                 typename QEXTTypeTrait<T_arg3>::Pass,
-                 typename QEXTTypeTrait<T_arg4>::Pass,
-                 typename QEXTTypeTrait<T_arg5>::Pass > (arg1, arg2, arg3, arg4, arg5);
+        typename QExtTypeTrait<T_arg1>::Pass,
+                 typename QExtTypeTrait<T_arg2>::Pass,
+                 typename QExtTypeTrait<T_arg3>::Pass,
+                 typename QExtTypeTrait<T_arg4>::Pass,
+                 typename QExtTypeTrait<T_arg5>::Pass > (arg1, arg2, arg3, arg4, arg5);
         return m_returnValue.invoke();
     }
 
@@ -171,12 +171,12 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
     {
         this->m_functor.template operator() <
-        typename QEXTTypeTrait<T_arg1>::Pass,
-                 typename QEXTTypeTrait<T_arg2>::Pass,
-                 typename QEXTTypeTrait<T_arg3>::Pass,
-                 typename QEXTTypeTrait<T_arg4>::Pass,
-                 typename QEXTTypeTrait<T_arg5>::Pass,
-                 typename QEXTTypeTrait<T_arg6>::Pass > (arg1, arg2, arg3, arg4, arg5, arg6);
+        typename QExtTypeTrait<T_arg1>::Pass,
+                 typename QExtTypeTrait<T_arg2>::Pass,
+                 typename QExtTypeTrait<T_arg3>::Pass,
+                 typename QExtTypeTrait<T_arg4>::Pass,
+                 typename QExtTypeTrait<T_arg5>::Pass,
+                 typename QExtTypeTrait<T_arg6>::Pass > (arg1, arg2, arg3, arg4, arg5, arg6);
         return m_returnValue.invoke();
     }
 
@@ -195,41 +195,41 @@ struct QEXTBindReturnFunctor : public QEXTAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7)
     {
         this->m_functor.template operator() <
-        typename QEXTTypeTrait<T_arg1>::Pass,
-                 typename QEXTTypeTrait<T_arg2>::Pass,
-                 typename QEXTTypeTrait<T_arg3>::Pass,
-                 typename QEXTTypeTrait<T_arg4>::Pass,
-                 typename QEXTTypeTrait<T_arg5>::Pass,
-                 typename QEXTTypeTrait<T_arg6>::Pass,
-                 typename QEXTTypeTrait<T_arg7>::Pass > (arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        typename QExtTypeTrait<T_arg1>::Pass,
+                 typename QExtTypeTrait<T_arg2>::Pass,
+                 typename QExtTypeTrait<T_arg3>::Pass,
+                 typename QExtTypeTrait<T_arg4>::Pass,
+                 typename QExtTypeTrait<T_arg5>::Pass,
+                 typename QExtTypeTrait<T_arg6>::Pass,
+                 typename QExtTypeTrait<T_arg7>::Pass > (arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         return m_returnValue.invoke();
     }
 
     // The fixed return value.
-    QEXTBoundArgument<T_return> m_returnValue;
+    QExtBoundArgument<T_return> m_returnValue;
 };
 
 
 //template specialization of visitor<>::do_visit_each<>(action, functor):
 /** Performs a functor on each of the targets of a functor.
- * The function overload for QEXTBindReturnFunctor performs a functor on the
- * functor and on the object instance stored in the QEXTBindReturnFunctor object.
+ * The function overload for QExtBindReturnFunctor performs a functor on the
+ * functor and on the object instance stored in the QExtBindReturnFunctor object.
  *
  * \ingroup qextBindFunctor
  */
 template <typename T_return, typename T_functor>
-struct QEXTVisitor<QEXTBindReturnFunctor<T_return, T_functor> >
+struct QExtVisitor<QExtBindReturnFunctor<T_return, T_functor> >
 {
     template <typename T_action>
     static void doVisitEach(const T_action &action,
-                            const QEXTBindReturnFunctor<T_return, T_functor> &target)
+                            const QExtBindReturnFunctor<T_return, T_functor> &target)
     {
         qextVisitEach(action, target.m_returnValue);
         qextVisitEach(action, target.m_functor);
     }
 };
 
-/** Creates an adaptor of type QEXTBindReturnFunctor which fixes the return value of the passed functor to the passed argument.
+/** Creates an adaptor of type QExtBindReturnFunctor which fixes the return value of the passed functor to the passed argument.
  *
  * \param functor Functor that should be wrapped.
  * \param returnValue Argument to fix the return value of @e functor to.
@@ -238,10 +238,10 @@ struct QEXTVisitor<QEXTBindReturnFunctor<T_return, T_functor> >
  * \ingroup qextBindFunctor
  */
 template <typename T_return, typename T_functor>
-QEXTBindReturnFunctor<T_return, T_functor>
+QExtBindReturnFunctor<T_return, T_functor>
 qextBindReturnFunctor(const T_functor &functor, T_return returnValue)
 {
-    return QEXTBindReturnFunctor<T_return, T_functor>(functor, returnValue);
+    return QExtBindReturnFunctor<T_return, T_functor>(functor, returnValue);
 }
 
 #endif // _QEXTBINDRETURNFUNCTOR_H

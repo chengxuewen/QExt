@@ -594,8 +594,8 @@ else()
 endif()
 
 # Save the value of the current first project source dir.
-# This will be /path/to/QEXTCore for QEXTCore both in a super-build and a non super-build.
-# This will be /path/to/QEXTCore/tests when building standalone tests.
+# This will be /path/to/QExtCore for QExtCore both in a super-build and a non super-build.
+# This will be /path/to/QExtCore/tests when building standalone tests.
 set(QEXT_TOP_LEVEL_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 
 

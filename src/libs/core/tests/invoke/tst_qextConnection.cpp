@@ -8,7 +8,7 @@
 #include <string>
 #include <sstream>
 
-class QEXTConnectionTest : public QObject
+class QExtConnectionTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -17,7 +17,7 @@ private Q_SLOTS:
 
 static QString sg_string = "";
 
-QEXTConnection connection;
+QExtConnection connection;
 class HandlerClass : public QObject
 {
 public:
@@ -28,17 +28,17 @@ public:
     }
 };
 
-void QEXTConnectionTest::testDisconnectDuringEmit()
+void QExtConnectionTest::testDisconnectDuringEmit()
 {
     HandlerClass instance;
 
     sg_string = "";
-    QEXTSignal<void> signal_test;
+    QExtSignal<void> signal_test;
     connection = signal_test.connect(instance, &HandlerClass::handler);
     signal_test.send();
     QVERIFY("handler called" == sg_string);
 }
 
-QTEST_APPLESS_MAIN(QEXTConnectionTest)
+QTEST_APPLESS_MAIN(QExtConnectionTest)
 
 #include <tst_qextConnection.moc>

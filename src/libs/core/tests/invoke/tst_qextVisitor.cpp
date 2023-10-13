@@ -10,7 +10,7 @@
 
 static std::string sg_string = "";
 
-class QEXTVisitorTest : public QObject
+class QExtVisitorTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -111,14 +111,14 @@ private:
 
 
 template <typename T_functor>
-struct MyAdaptor1 : public QEXTAdapts<T_functor>
+struct MyAdaptor1 : public QExtAdapts<T_functor>
 {
     template <typename T_arg1 = void, class T_arg2 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename QEXTReturnTypeDeduce<T_functor, T_arg1, T_arg2>::Type Type;
+        typedef typename QExtReturnTypeDeduce<T_functor, T_arg1, T_arg2>::Type Type;
     };
-    typedef typename QEXTFunctorTrait<T_functor>::Return   Return;
+    typedef typename QExtFunctorTrait<T_functor>::Return   Return;
 
     Return
     operator()() const
@@ -145,7 +145,7 @@ struct MyAdaptor1 : public QEXTAdapts<T_functor>
 
     // Constructs a MyAdaptor1 object that wraps the passed functor.
     // Initializes adapts<T_functor>::m_functor, which is invoked from operator()().
-    explicit MyAdaptor1(const T_functor &functor) : QEXTAdapts<T_functor>(functor) {}
+    explicit MyAdaptor1(const T_functor &functor) : QExtAdapts<T_functor>(functor) {}
 };
 
 template <typename T_action, class T_functor>
@@ -164,7 +164,7 @@ my_adaptor1(const T_functor &func)
 
 
 template <typename T_functor>
-struct QEXTVisitor<MyAdaptor1<T_functor> >
+struct QExtVisitor<MyAdaptor1<T_functor> >
 {
     template <typename T_action>
     static void doVisitEach(const T_action &action,
@@ -175,11 +175,11 @@ struct QEXTVisitor<MyAdaptor1<T_functor> >
 };
 
 
-void QEXTVisitorTest::testTypeVisitor()
+void QExtVisitorTest::testTypeVisitor()
 {
     MClassFunctor mClassFunctor;
     MClass1 mClass1;
-    QEXTBoundConstMemberFunctor<void, MClass1, int> boundMemFunctor = qextMemberFunctor(&mClass1, &MClass1::exec);
+    QExtBoundConstMemberFunctor<void, MClass1, int> boundMemFunctor = qextMemberFunctor(&mClass1, &MClass1::exec);
 
     // test valid inherit visit, action exec success
     sg_string = "";
@@ -192,9 +192,9 @@ void QEXTVisitorTest::testTypeVisitor()
     QVERIFY("" == sg_string);
 }
 
-void QEXTVisitorTest::testCase1()
+void QExtVisitorTest::testCase1()
 {
-    QEXTFunction<void, int> sl1;
+    QExtFunction<void, int> sl1;
     {
         sg_string = "";
         MyClass1 my_class1("x=");
@@ -208,6 +208,6 @@ void QEXTVisitorTest::testCase1()
     QVERIFY("" == sg_string);
 }
 
-QTEST_APPLESS_MAIN(QEXTVisitorTest)
+QTEST_APPLESS_MAIN(QExtVisitorTest)
 
 #include <tst_qextVisitor.moc>

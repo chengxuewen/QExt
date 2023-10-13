@@ -5,63 +5,63 @@
 #include <QDebug>
 #include <QDateTime>
 
-QEXTTcpPacketTransceiverPrivate::QEXTTcpPacketTransceiverPrivate(QEXTTcpPacketTransceiver *q)
+QExtTcpPacketTransceiverPrivate::QExtTcpPacketTransceiverPrivate(QExtTcpPacketTransceiver *q)
     : q_ptr(q)
 {
     m_cancelled = false;
     m_receivedReply = false;
 }
 
-QEXTTcpPacketTransceiverPrivate::~QEXTTcpPacketTransceiverPrivate()
+QExtTcpPacketTransceiverPrivate::~QExtTcpPacketTransceiverPrivate()
 {
     m_waitForSyncReply.wakeAll();
 }
 
-QEXTTcpPacketTransceiver::QEXTTcpPacketTransceiver(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QEXTTcpPacketTransceiverPrivate(this))
+QExtTcpPacketTransceiver::QExtTcpPacketTransceiver(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher)
+    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpPacketTransceiverPrivate(this))
 {
-    Q_D(QEXTTcpPacketTransceiver);
+    Q_D(QExtTcpPacketTransceiver);
     d->m_packetDispatcher = dispatcher;
 }
 
-QEXTTcpPacketTransceiver::QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate *d)
+QExtTcpPacketTransceiver::QExtTcpPacketTransceiver(QExtTcpPacketTransceiverPrivate *d)
     : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
 {
 }
 
-QEXTTcpPacketTransceiver::QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate *d,
-                                                   const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher)
+QExtTcpPacketTransceiver::QExtTcpPacketTransceiver(QExtTcpPacketTransceiverPrivate *d,
+                                                   const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher)
     : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
 {
     dd_ptr->m_packetDispatcher = dispatcher;
 }
 
-QEXTTcpPacketTransceiver::~QEXTTcpPacketTransceiver()
+QExtTcpPacketTransceiver::~QExtTcpPacketTransceiver()
 {
 
 }
 
-QEXTId QEXTTcpPacketTransceiver::identityId() const
+QExtId QExtTcpPacketTransceiver::identityId() const
 {
-    Q_D(const QEXTTcpPacketTransceiver);
+    Q_D(const QExtTcpPacketTransceiver);
     return d->m_identityId;
 }
 
-bool QEXTTcpPacketTransceiver::isSocketValid() const
+bool QExtTcpPacketTransceiver::isSocketValid() const
 {
     return this->dispatcher()->isSocketValid();
 }
 
-bool QEXTTcpPacketTransceiver::send(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket)
+bool QExtTcpPacketTransceiver::send(const QSharedPointer<QExtTcpPacketInterface> &sendPacket)
 {
-    Q_D(QEXTTcpPacketTransceiver);
-    QSharedPointer<QEXTTcpPacketDispatcher> dispatcher = this->dispatcher();
+    Q_D(QExtTcpPacketTransceiver);
+    QSharedPointer<QExtTcpPacketDispatcher> dispatcher = this->dispatcher();
     if (!dispatcher->isSocketValid())
     {
         this->setError("socket not connected");
         return false;
     }
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser = dispatcher->packetParser();
+    QSharedPointer<QExtTcpPacketParserInterface> packetParser = dispatcher->packetParser();
     if (packetParser.isNull())
     {
         this->setError("packetParser not exist");
@@ -70,17 +70,17 @@ bool QEXTTcpPacketTransceiver::send(const QSharedPointer<QEXTTcpPacketInterface>
     return dispatcher->sendPacket(this, sendPacket);
 }
 
-bool QEXTTcpPacketTransceiver::sendReply(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket,
-                                         QSharedPointer<QEXTTcpPacketInterface> &receivedPacket)
+bool QExtTcpPacketTransceiver::sendReply(const QSharedPointer<QExtTcpPacketInterface> &sendPacket,
+                                         QSharedPointer<QExtTcpPacketInterface> &receivedPacket)
 {
-    Q_D(QEXTTcpPacketTransceiver);
-    QSharedPointer<QEXTTcpPacketDispatcher> dispatcher = this->dispatcher();
+    Q_D(QExtTcpPacketTransceiver);
+    QSharedPointer<QExtTcpPacketDispatcher> dispatcher = this->dispatcher();
     if (!dispatcher->isSocketValid())
     {
         this->setError("socket not connected");
         return false;
     }
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser = dispatcher->packetParser();
+    QSharedPointer<QExtTcpPacketParserInterface> packetParser = dispatcher->packetParser();
     if (packetParser.isNull())
     {
         this->setError("packetParser not exist");
@@ -94,16 +94,16 @@ bool QEXTTcpPacketTransceiver::sendReply(const QSharedPointer<QEXTTcpPacketInter
     return dispatcher->sendPacket(this, sendPacket);
 }
 
-bool QEXTTcpPacketTransceiver::sendNotify(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket)
+bool QExtTcpPacketTransceiver::sendNotify(const QSharedPointer<QExtTcpPacketInterface> &sendPacket)
 {
-    Q_D(QEXTTcpPacketTransceiver);
-    QSharedPointer<QEXTTcpPacketDispatcher> dispatcher = this->dispatcher();
+    Q_D(QExtTcpPacketTransceiver);
+    QSharedPointer<QExtTcpPacketDispatcher> dispatcher = this->dispatcher();
     if (!dispatcher->isSocketValid())
     {
         this->setError("socket not connected");
         return false;
     }
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser = dispatcher->packetParser();
+    QSharedPointer<QExtTcpPacketParserInterface> packetParser = dispatcher->packetParser();
     if (packetParser.isNull())
     {
         this->setError("packetParser not exist");
@@ -117,16 +117,16 @@ bool QEXTTcpPacketTransceiver::sendNotify(const QSharedPointer<QEXTTcpPacketInte
     return dispatcher->sendPacket(this, sendPacket);
 }
 
-bool QEXTTcpPacketTransceiver::sendRequest(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket)
+bool QExtTcpPacketTransceiver::sendRequest(const QSharedPointer<QExtTcpPacketInterface> &sendPacket)
 {
-    Q_D(QEXTTcpPacketTransceiver);
-    QSharedPointer<QEXTTcpPacketDispatcher> dispatcher = this->dispatcher();
+    Q_D(QExtTcpPacketTransceiver);
+    QSharedPointer<QExtTcpPacketDispatcher> dispatcher = this->dispatcher();
     if (!dispatcher->isSocketValid())
     {
         this->setError("socket not connected");
         return false;
     }
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser = dispatcher->packetParser();
+    QSharedPointer<QExtTcpPacketParserInterface> packetParser = dispatcher->packetParser();
     if (packetParser.isNull())
     {
         this->setError("packetParser not exist");
@@ -140,11 +140,11 @@ bool QEXTTcpPacketTransceiver::sendRequest(const QSharedPointer<QEXTTcpPacketInt
     return dispatcher->sendPacket(this, sendPacket);
 }
 
-bool QEXTTcpPacketTransceiver::sendRequestSync(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket,
-                                               QSharedPointer<QEXTTcpPacketInterface> &receivedPacket,
+bool QExtTcpPacketTransceiver::sendRequestSync(const QSharedPointer<QExtTcpPacketInterface> &sendPacket,
+                                               QSharedPointer<QExtTcpPacketInterface> &receivedPacket,
                                                quint16 timeoutMsecs)
 {
-    Q_D(QEXTTcpPacketTransceiver);
+    Q_D(QExtTcpPacketTransceiver);
     this->setRequestSyncFlag(sendPacket);
     if (this->sendRequest(sendPacket))
     {
@@ -157,9 +157,9 @@ bool QEXTTcpPacketTransceiver::sendRequestSync(const QSharedPointer<QEXTTcpPacke
     return false;
 }
 
-bool QEXTTcpPacketTransceiver::waitForData(int msecs)
+bool QExtTcpPacketTransceiver::waitForData(int msecs)
 {
-    Q_D(QEXTTcpPacketTransceiver);
+    Q_D(QExtTcpPacketTransceiver);
     d->m_syncMutex.lock();
     d->m_cancelled = false;
     bool success = true;
@@ -172,58 +172,58 @@ bool QEXTTcpPacketTransceiver::waitForData(int msecs)
     return success;
 }
 
-void QEXTTcpPacketTransceiver::cancelWait()
+void QExtTcpPacketTransceiver::cancelWait()
 {
-    Q_D(QEXTTcpPacketTransceiver);
+    Q_D(QExtTcpPacketTransceiver);
     d->m_syncMutex.lock();
     d->m_cancelled = true;
     d->m_waitForSyncReply.wakeAll();
     d->m_syncMutex.unlock();
 }
 
-QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketTransceiver::syncSendedPacket() const
+QSharedPointer<QExtTcpPacketInterface> QExtTcpPacketTransceiver::syncSendedPacket() const
 {
-    Q_D(const QEXTTcpPacketTransceiver);
+    Q_D(const QExtTcpPacketTransceiver);
     QMutexLocker mutexLocker(&d->m_packetMutex);
     return d->m_sendPacket;
 }
 
-QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketTransceiver::syncReceivedPacket() const
+QSharedPointer<QExtTcpPacketInterface> QExtTcpPacketTransceiver::syncReceivedPacket() const
 {
-    Q_D(const QEXTTcpPacketTransceiver);
+    Q_D(const QExtTcpPacketTransceiver);
     QMutexLocker mutexLocker(&d->m_packetMutex);
     return d->m_receivedPacket;
 }
 
-int QEXTTcpPacketTransceiver::packetCount() const
+int QExtTcpPacketTransceiver::packetCount() const
 {
-    Q_D(const QEXTTcpPacketTransceiver);
+    Q_D(const QExtTcpPacketTransceiver);
     QMutexLocker mutexLocker(&d->m_packetMutex);
     return d->m_receivedPacketQueue.size();
 }
 
-bool QEXTTcpPacketTransceiver::isPacketQueueEmpty() const
+bool QExtTcpPacketTransceiver::isPacketQueueEmpty() const
 {
-    Q_D(const QEXTTcpPacketTransceiver);
+    Q_D(const QExtTcpPacketTransceiver);
     QMutexLocker mutexLocker(&d->m_packetMutex);
     return d->m_receivedPacketQueue.isEmpty();
 }
 
-QSharedPointer<QEXTTcpPacketInterface> QEXTTcpPacketTransceiver::dequeuePacket()
+QSharedPointer<QExtTcpPacketInterface> QExtTcpPacketTransceiver::dequeuePacket()
 {
-    Q_D(QEXTTcpPacketTransceiver);
+    Q_D(QExtTcpPacketTransceiver);
     QMutexLocker mutexLocker(&d->m_packetMutex);
     if (!d->m_receivedPacketQueue.isEmpty())
     {
         return d->m_receivedPacketQueue.dequeue();
     }
-    return QSharedPointer<QEXTTcpPacketInterface>();
+    return QSharedPointer<QExtTcpPacketInterface>();
 }
 
-void QEXTTcpPacketTransceiver::enqueuePacket(const QSharedPointer<QEXTTcpPacketInterface> &packet)
+void QExtTcpPacketTransceiver::enqueuePacket(const QSharedPointer<QExtTcpPacketInterface> &packet)
 {
-    Q_D(QEXTTcpPacketTransceiver);
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser = d->m_packetDispatcher->packetParser();
+    Q_D(QExtTcpPacketTransceiver);
+    QSharedPointer<QExtTcpPacketParserInterface> packetParser = d->m_packetDispatcher->packetParser();
     if (packetParser->checkIsSyncReplyPacket(this->syncSendedPacket(), packet))
     {
         this->resetRequestSyncFlag(packet);
@@ -236,29 +236,29 @@ void QEXTTcpPacketTransceiver::enqueuePacket(const QSharedPointer<QEXTTcpPacketI
     }
 }
 
-QSharedPointer<QEXTTcpPacketParserInterface> QEXTTcpPacketTransceiver::packetParser() const
+QSharedPointer<QExtTcpPacketParserInterface> QExtTcpPacketTransceiver::packetParser() const
 {
-    Q_D(const QEXTTcpPacketTransceiver);
+    Q_D(const QExtTcpPacketTransceiver);
     QMutexLocker locker(&d->m_packetDispatcherMutex);
     return d->m_packetDispatcher->packetParser();
 }
 
-QSharedPointer<QEXTTcpPacketDispatcher> QEXTTcpPacketTransceiver::dispatcher() const
+QSharedPointer<QExtTcpPacketDispatcher> QExtTcpPacketTransceiver::dispatcher() const
 {
-    Q_D(const QEXTTcpPacketTransceiver);
+    Q_D(const QExtTcpPacketTransceiver);
     QMutexLocker locker(&d->m_packetDispatcherMutex);
     return d->m_packetDispatcher;
 }
 
-QString QEXTTcpPacketTransceiver::lastError() const
+QString QExtTcpPacketTransceiver::lastError() const
 {
-    Q_D(const QEXTTcpPacketTransceiver);
+    Q_D(const QExtTcpPacketTransceiver);
     return d->m_lastError;
 }
 
-void QEXTTcpPacketTransceiver::setRequestSyncFlag(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket)
+void QExtTcpPacketTransceiver::setRequestSyncFlag(const QSharedPointer<QExtTcpPacketInterface> &sendPacket)
 {
-    Q_D(QEXTTcpPacketTransceiver);
+    Q_D(QExtTcpPacketTransceiver);
     QMutexLocker locker(&d->m_syncMutex);
     if (sendPacket)
     {
@@ -269,9 +269,9 @@ void QEXTTcpPacketTransceiver::setRequestSyncFlag(const QSharedPointer<QEXTTcpPa
     }
 }
 
-void QEXTTcpPacketTransceiver::resetRequestSyncFlag(const QSharedPointer<QEXTTcpPacketInterface> &receivedPacket)
+void QExtTcpPacketTransceiver::resetRequestSyncFlag(const QSharedPointer<QExtTcpPacketInterface> &receivedPacket)
 {
-    Q_D(QEXTTcpPacketTransceiver);
+    Q_D(QExtTcpPacketTransceiver);
     QMutexLocker locker(&d->m_packetMutex);
     d->m_receivedReply = true;
     d->m_receivedPacket = receivedPacket;
@@ -279,9 +279,9 @@ void QEXTTcpPacketTransceiver::resetRequestSyncFlag(const QSharedPointer<QEXTTcp
     d->m_waitForSyncReply.wakeAll();
 }
 
-void QEXTTcpPacketTransceiver::setError(const QString &error)
+void QExtTcpPacketTransceiver::setError(const QString &error)
 {
-    Q_D(QEXTTcpPacketTransceiver);
+    Q_D(QExtTcpPacketTransceiver);
     d->m_lastError = error;
     emit this->error(d->m_lastError);
 }

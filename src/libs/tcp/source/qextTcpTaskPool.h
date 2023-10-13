@@ -7,17 +7,17 @@
 #include <QObject>
 #include <QThreadPool>
 
-class QEXTTcpPacketDispatcher;
-class QEXTTcpTask;
-class QEXTTcpTaskPoolPrivate;
-class QEXT_TCP_API QEXTTcpTaskPool : public QObject
+class QExtTcpPacketDispatcher;
+class QExtTcpTask;
+class QExtTcpTaskPoolPrivate;
+class QEXT_TCP_API QExtTcpTaskPool : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTTcpTaskPool)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpTaskPool)
+    Q_DISABLE_COPY(QExtTcpTaskPool)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtTcpTaskPool)
 public:
-    QEXTTcpTaskPool(QEXTTcpPacketDispatcher *dispatcher);
-    ~QEXTTcpTaskPool();
+    QExtTcpTaskPool(QExtTcpPacketDispatcher *dispatcher);
+    ~QExtTcpTaskPool();
 
     bool isWaitingTaskEmpty() const;
     bool isRunningTaskEmpty() const;
@@ -25,18 +25,18 @@ public:
     int runningTaskCount() const;
 
     QThreadPool *threadPool() const;
-    void enqueueTask(QEXTTcpTask *task);
+    void enqueueTask(QExtTcpTask *task);
 
 Q_SIGNALS:
-    void taskError(const QEXTId &id, const QString &error);
-    void taskFinished(const QEXTId &id);
+    void taskError(const QExtId &id, const QString &error);
+    void taskFinished(const QExtId &id);
 
 protected Q_SLOTS:
     void onTaskError(const QString &error);
     void onTaskFinished(quint64 id);
 
 protected:
-    QScopedPointer<QEXTTcpTaskPoolPrivate> dd_ptr;
+    QScopedPointer<QExtTcpTaskPoolPrivate> dd_ptr;
 };
 
 #endif // _QEXTTCPTASKPOOL_H

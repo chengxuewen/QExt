@@ -6,19 +6,19 @@
 
 static const int QEXT_TCP_PACKET_HEADER_META_DATA_MAX_NUM = 255;
 
-QEXTTcpPacketHeaderPrivate::QEXTTcpPacketHeaderPrivate(QEXTTcpPacketHeader *q)
+QExtTcpPacketHeaderPrivate::QExtTcpPacketHeaderPrivate(QExtTcpPacketHeader *q)
     : q_ptr(q)
 {
     this->updateHeaderSize();
     m_contentSize = 0;
 }
 
-QEXTTcpPacketHeaderPrivate::~QEXTTcpPacketHeaderPrivate()
+QExtTcpPacketHeaderPrivate::~QExtTcpPacketHeaderPrivate()
 {
 
 }
 
-void QEXTTcpPacketHeaderPrivate::initHeaderData(const QEXTTcpPacketHeader::DataInfoVector &dataInfoVector)
+void QExtTcpPacketHeaderPrivate::initHeaderData(const QExtTcpPacketHeader::DataInfoVector &dataInfoVector)
 {
     m_typeMap.clear();
     m_dataMap.clear();
@@ -26,99 +26,99 @@ void QEXTTcpPacketHeaderPrivate::initHeaderData(const QEXTTcpPacketHeader::DataI
         m_dataInfoVector = dataInfoVector;
         for (int i = 0; i < dataInfoVector.size(); ++i) {
             if (m_dataMap.contains(dataInfoVector.at(i).second)) {
-                qCritical() << QString("QEXTTcpPacketHeaderPrivate::initHeaderData():data key %1 already exist!")
+                qCritical() << QString("QExtTcpPacketHeaderPrivate::initHeaderData():data key %1 already exist!")
                                .arg(dataInfoVector.at(i).second);
             } else if (dataInfoVector.at(i).second.isEmpty()) {
-                qCritical() << QString("QEXTTcpPacketHeaderPrivate::initHeaderData():data key in No.%1 can not be empty!")
+                qCritical() << QString("QExtTcpPacketHeaderPrivate::initHeaderData():data key in No.%1 can not be empty!")
                                .arg(dataInfoVector.at(i).second);
             } else {
                 m_typeMap.insert(dataInfoVector.at(i).second, dataInfoVector.at(i).first);
-                m_dataMap.insert(dataInfoVector.at(i).second, QEXTTcpPacketVariant(QByteArray(), dataInfoVector.at(i).first));
+                m_dataMap.insert(dataInfoVector.at(i).second, QExtTcpPacketVariant(QByteArray(), dataInfoVector.at(i).first));
             }
         }
         this->updateHeaderSize();
     } else {
-        qCritical() << QString("QEXTTcpPacketHeaderPrivate::initDataPair():dataInfoVector size must less than %1")
+        qCritical() << QString("QExtTcpPacketHeaderPrivate::initDataPair():dataInfoVector size must less than %1")
                        .arg(QEXT_TCP_PACKET_HEADER_META_DATA_MAX_NUM);
     }
 }
 
-void QEXTTcpPacketHeaderPrivate::updateHeaderSize()
+void QExtTcpPacketHeaderPrivate::updateHeaderSize()
 {
     m_headerSize = sizeof(m_headerSize);
     QList<QString> keyList = m_typeMap.keys();
     for (int i = 0; i < keyList.size(); ++i) {
         quint8 dataType = m_typeMap.value(keyList.at(i));
-        m_headerSize += QEXTTcpPacketVariant::dataTypeSize(dataType);
+        m_headerSize += QExtTcpPacketVariant::dataTypeSize(dataType);
     }
     m_headerSize += sizeof(m_contentSize);
 }
 
 
 
-QEXTTcpPacketHeader::QEXTTcpPacketHeader(const QEXTTcpPacketHeader::DataInfoVector &dataInfoVector)
-    : dd_ptr(new QEXTTcpPacketHeaderPrivate(this))
+QExtTcpPacketHeader::QExtTcpPacketHeader(const QExtTcpPacketHeader::DataInfoVector &dataInfoVector)
+    : dd_ptr(new QExtTcpPacketHeaderPrivate(this))
 {
-    Q_D(QEXTTcpPacketHeader);
+    Q_D(QExtTcpPacketHeader);
     d->initHeaderData(dataInfoVector);
 }
 
-QEXTTcpPacketHeader::QEXTTcpPacketHeader(QEXTTcpPacketHeaderPrivate *d,
+QExtTcpPacketHeader::QExtTcpPacketHeader(QExtTcpPacketHeaderPrivate *d,
                                          const DataInfoVector &dataInfoVector)
     : dd_ptr(d)
 {
     dd_ptr->initHeaderData(dataInfoVector);
 }
 
-QEXTTcpPacketHeader::~QEXTTcpPacketHeader()
+QExtTcpPacketHeader::~QExtTcpPacketHeader()
 {
 
 }
 
-quint16 QEXTTcpPacketHeader::headerSize() const
+quint16 QExtTcpPacketHeader::headerSize() const
 {
-    Q_D(const QEXTTcpPacketHeader);
+    Q_D(const QExtTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_headerSize;
 }
 
-quint16 QEXTTcpPacketHeader::contentSize() const
+quint16 QExtTcpPacketHeader::contentSize() const
 {
-    Q_D(const QEXTTcpPacketHeader);
+    Q_D(const QExtTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_contentSize;
 }
 
-void QEXTTcpPacketHeader::setContentSize(const quint16 &size)
+void QExtTcpPacketHeader::setContentSize(const quint16 &size)
 {
-    Q_D(QEXTTcpPacketHeader);
+    Q_D(QExtTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     d->m_contentSize = size;
 }
 
-QByteArray QEXTTcpPacketHeader::stream() const
+QByteArray QExtTcpPacketHeader::stream() const
 {
-    Q_D(const QEXTTcpPacketHeader);
+    Q_D(const QExtTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     QByteArray stream;
-    stream.append(QEXTNetworkUtils::quint16HostToNet(d->m_headerSize));
+    stream.append(QExtNetworkUtils::quint16HostToNet(d->m_headerSize));
 
     QList<QString> keyList = d->m_typeMap.keys();
     for (int i = 0; i < keyList.size(); ++i) {
         QString key = keyList.at(i);
         quint8 type = d->m_typeMap.value(key);
-        int size = QEXTTcpPacketVariant::dataTypeSize(type);
+        int size = QExtTcpPacketVariant::dataTypeSize(type);
         QByteArray variantStream = d->m_dataMap.value(key).toStream().rightJustified(size, 0, true);
         stream.append(variantStream);
     }
 
-    stream.append(QEXTNetworkUtils::quint16HostToNet(d->m_contentSize));
+    stream.append(QExtNetworkUtils::quint16HostToNet(d->m_contentSize));
     return stream;
 }
 
-bool QEXTTcpPacketHeader::setStream(const QByteArray &stream)
+bool QExtTcpPacketHeader::setStream(const QByteArray &stream)
 {
-    Q_D(QEXTTcpPacketHeader);
+    Q_D(QExtTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     if (stream.size() == d->m_headerSize) {
         QList<QString> keyList = d->m_typeMap.keys();
@@ -127,55 +127,55 @@ bool QEXTTcpPacketHeader::setStream(const QByteArray &stream)
         for (int i = 0; i < keyList.size(); ++i) {
             QString key = keyList.at(i);
             quint8 type = d->m_typeMap.value(key);
-            int size = QEXTTcpPacketVariant::dataTypeSize(type);
+            int size = QExtTcpPacketVariant::dataTypeSize(type);
             QByteArray data(stream.data() + offset, size);
-            d->m_dataMap.insert(key, QEXTTcpPacketVariant(data, type));
+            d->m_dataMap.insert(key, QExtTcpPacketVariant(data, type));
             offset += size;
         }
 
         offset = d->m_headerSize - sizeof(d->m_contentSize);
-        QEXTNetworkUtils::quint16NetToHost(stream.data() + offset, &d->m_contentSize);
+        QExtNetworkUtils::quint16NetToHost(stream.data() + offset, &d->m_contentSize);
         return true;
     }
     return false;
 }
 
-bool QEXTTcpPacketHeader::isHeaderDataExist(const QString &name) const
+bool QExtTcpPacketHeader::isHeaderDataExist(const QString &name) const
 {
-    Q_D(const QEXTTcpPacketHeader);
+    Q_D(const QExtTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_dataMap.contains(name);
 }
 
-QList<QString> QEXTTcpPacketHeader::headerList() const
+QList<QString> QExtTcpPacketHeader::headerList() const
 {
-    Q_D(const QEXTTcpPacketHeader);
+    Q_D(const QExtTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     return d->m_dataMap.keys();
 }
 
-QEXTTcpPacketVariant QEXTTcpPacketHeader::headerData(const QString &name) const
+QExtTcpPacketVariant QExtTcpPacketHeader::headerData(const QString &name) const
 {
-    Q_D(const QEXTTcpPacketHeader);
+    Q_D(const QExtTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
-    return d->m_dataMap.value(name, QEXTTcpPacketVariant());
+    return d->m_dataMap.value(name, QExtTcpPacketVariant());
 }
 
-bool QEXTTcpPacketHeader::setHeaderData(const QString &name, const QEXTTcpPacketVariant &data)
+bool QExtTcpPacketHeader::setHeaderData(const QString &name, const QExtTcpPacketVariant &data)
 {
-    Q_D(QEXTTcpPacketHeader);
+    Q_D(QExtTcpPacketHeader);
     QMutexLocker mutexLocker(&d->m_mutex);
     if (d->m_dataMap.contains(name)) {
         quint8 type = d->m_typeMap.value(name);
-        bool isChars = data.dataType() >= QEXTTcpPacketVariant::Data_chars && data.dataType() <= type;
+        bool isChars = data.dataType() >= QExtTcpPacketVariant::Data_chars && data.dataType() <= type;
         if (data.dataType() == type || isChars) {
             d->m_dataMap.insert(name, data);
             return true;
         } else {
-            qCritical() << QString("QEXTTcpPacketHeader::setHeaderData():%1 data type must be %2!").arg(name).arg(type);
+            qCritical() << QString("QExtTcpPacketHeader::setHeaderData():%1 data type must be %2!").arg(name).arg(type);
         }
     } else {
-        qCritical() << QString("QEXTTcpPacketHeader::setHeaderData():%1 data not exist!");
+        qCritical() << QString("QExtTcpPacketHeader::setHeaderData():%1 data not exist!");
     }
     return false;
 }

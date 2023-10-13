@@ -8,7 +8,7 @@
 #include <QByteArray>
 #include <QMap>
 
-class QEXT_TCP_API QEXTTcpPacketVariant
+class QEXT_TCP_API QExtTcpPacketVariant
 {
 public:
     enum DataType {
@@ -33,26 +33,26 @@ public:
         quint64 uint64;
     };
 
-    QEXTTcpPacketVariant();
-    QEXTTcpPacketVariant(const qint8 &data);
-    QEXTTcpPacketVariant(const quint8 &data);
-    QEXTTcpPacketVariant(const qint16 &data);
-    QEXTTcpPacketVariant(const quint16 &data);
-    QEXTTcpPacketVariant(const qint32 &data);
-    QEXTTcpPacketVariant(const quint32 &data);
-    QEXTTcpPacketVariant(const qint64 &data);
-    QEXTTcpPacketVariant(const quint64 &data);
-    QEXTTcpPacketVariant(const QByteArray &data);
-    QEXTTcpPacketVariant(const QString &data);
-    QEXTTcpPacketVariant(const char *data);
-    QEXTTcpPacketVariant(const QVariant &data, const quint8 &type);
-    QEXTTcpPacketVariant(const QByteArray &stream, const quint8 &type);
-    QEXTTcpPacketVariant(const QEXTTcpPacketVariant &variant);
-    virtual ~QEXTTcpPacketVariant() {}
+    QExtTcpPacketVariant();
+    QExtTcpPacketVariant(const qint8 &data);
+    QExtTcpPacketVariant(const quint8 &data);
+    QExtTcpPacketVariant(const qint16 &data);
+    QExtTcpPacketVariant(const quint16 &data);
+    QExtTcpPacketVariant(const qint32 &data);
+    QExtTcpPacketVariant(const quint32 &data);
+    QExtTcpPacketVariant(const qint64 &data);
+    QExtTcpPacketVariant(const quint64 &data);
+    QExtTcpPacketVariant(const QByteArray &data);
+    QExtTcpPacketVariant(const QString &data);
+    QExtTcpPacketVariant(const char *data);
+    QExtTcpPacketVariant(const QVariant &data, const quint8 &type);
+    QExtTcpPacketVariant(const QByteArray &stream, const quint8 &type);
+    QExtTcpPacketVariant(const QExtTcpPacketVariant &variant);
+    virtual ~QExtTcpPacketVariant() {}
 
-    QEXTTcpPacketVariant &operator=(const QEXTTcpPacketVariant &variant);
-    bool operator==(const QEXTTcpPacketVariant &variant) const;
-    bool operator!=(const QEXTTcpPacketVariant &variant) const;
+    QExtTcpPacketVariant &operator=(const QExtTcpPacketVariant &variant);
+    bool operator==(const QExtTcpPacketVariant &variant) const;
+    bool operator!=(const QExtTcpPacketVariant &variant) const;
 
     qint8 toInt8() const { return m_intData.int8; }
     quint8 toUint8() const { return m_intData.uint8; }

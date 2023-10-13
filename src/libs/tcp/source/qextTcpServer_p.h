@@ -12,38 +12,38 @@
 #include <QPointer>
 #include <QQueue>
 
-class QEXTTcpFactory;
-class QEXTTcpTaskPool;
-class QEXTTcpTaskThreadPool;
-class QEXTTcpPacketParserInterface;
-class QEXTTcpPacketDispatcherFactory;
-class QEXTTcpServer;
-class QEXT_TCP_API QEXTTcpServerPrivate
+class QExtTcpFactory;
+class QExtTcpTaskPool;
+class QExtTcpTaskThreadPool;
+class QExtTcpPacketParserInterface;
+class QExtTcpPacketDispatcherFactory;
+class QExtTcpServer;
+class QEXT_TCP_API QExtTcpServerPrivate
 {
 public:
-    explicit QEXTTcpServerPrivate(QEXTTcpServer *q);
-    virtual ~QEXTTcpServerPrivate();
+    explicit QExtTcpServerPrivate(QExtTcpServer *q);
+    virtual ~QExtTcpServerPrivate();
 
     void initServer();
 
-    QEXTTcpServer * const q_ptr;
+    QExtTcpServer * const q_ptr;
 
     mutable QMutex m_socketMutex;
     QHostAddress m_address;
     quint16 m_port;
     size_t m_maxSocketConnectionCount;
     size_t m_maxTaskThreadCount;
-    QSet<QSharedPointer<QEXTTcpSocket> > m_allTcpSocketSet;
-    QMap<QEXTId, QSharedPointer<QEXTTcpSocket> > m_idToTcpSocketMap;
-    QMap<QEXTId, QSharedPointer<QEXTTcpPacketDispatcher> > m_idToTcpPacketDispatcher;
+    QSet<QSharedPointer<QExtTcpSocket> > m_allTcpSocketSet;
+    QMap<QExtId, QSharedPointer<QExtTcpSocket> > m_idToTcpSocketMap;
+    QMap<QExtId, QSharedPointer<QExtTcpPacketDispatcher> > m_idToTcpPacketDispatcher;
     QQueue<QSharedPointer<QThread> > m_socketWorkThreadQueue;
 
-    QSharedPointer<QEXTTcpFactory> m_tcpFactory;
+    QSharedPointer<QExtTcpFactory> m_tcpFactory;
     QThread m_socketThread;
 
 private:
-    Q_DECLARE_PUBLIC(QEXTTcpServer)
-    Q_DISABLE_COPY(QEXTTcpServerPrivate)
+    Q_DECLARE_PUBLIC(QExtTcpServer)
+    Q_DISABLE_COPY(QExtTcpServerPrivate)
 };
 
 

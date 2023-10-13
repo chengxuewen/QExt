@@ -5,17 +5,17 @@
 #include <QDebug>
 #include <QHostAddress>
 
-int QEXTTcpSocketPrivate::sm_id = 0;
+int QExtTcpSocketPrivate::sm_id = 0;
 
-QEXTTcpSocketPrivate::QEXTTcpSocketPrivate(QEXTTcpSocket *q)
+QExtTcpSocketPrivate::QExtTcpSocketPrivate(QExtTcpSocket *q)
     : q_ptr(q)
 {
     sm_id++;
     qRegisterMetaType<QAbstractSocket::SocketError>("QAbstractSocket::SocketError");
-    qRegisterMetaType<QEXTTcpSocket::TransferErrorType>("QEXTTcpSocket::TransferErrorType");
+    qRegisterMetaType<QExtTcpSocket::TransferErrorType>("QExtTcpSocket::TransferErrorType");
 }
 
-QEXTTcpSocketPrivate::~QEXTTcpSocketPrivate()
+QExtTcpSocketPrivate::~QExtTcpSocketPrivate()
 {
 
 }
@@ -23,56 +23,56 @@ QEXTTcpSocketPrivate::~QEXTTcpSocketPrivate()
 
 
 
-QEXTTcpSocket::QEXTTcpSocket()
-    : QTcpSocket(QEXT_DECL_NULLPTR), dd_ptr(new QEXTTcpSocketPrivate(this))
+QExtTcpSocket::QExtTcpSocket()
+    : QTcpSocket(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpSocketPrivate(this))
 {
-    Q_D(QEXTTcpSocket);
+    Q_D(QExtTcpSocket);
     connect(this, SIGNAL(connected()), this, SLOT(updateIdentityId()));
     connect(this, SIGNAL(readyRead()), this, SLOT(readPacket()));
-    this->setPacketParser(QSharedPointer<QEXTTcpPacketParserInterface>(new QEXTTcpPacketParser));
-    this->setPacketDispatcher(QSharedPointer<QEXTTcpPacketDispatcher>(new QEXTTcpPacketDispatcher(this)));
+    this->setPacketParser(QSharedPointer<QExtTcpPacketParserInterface>(new QExtTcpPacketParser));
+    this->setPacketDispatcher(QSharedPointer<QExtTcpPacketDispatcher>(new QExtTcpPacketDispatcher(this)));
 }
 
-QEXTTcpSocket::QEXTTcpSocket(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser)
-    : QTcpSocket(QEXT_DECL_NULLPTR), dd_ptr(new QEXTTcpSocketPrivate(this))
+QExtTcpSocket::QExtTcpSocket(const QSharedPointer<QExtTcpPacketParserInterface> &packetParser)
+    : QTcpSocket(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpSocketPrivate(this))
 {
-    Q_D(QEXTTcpSocket);
+    Q_D(QExtTcpSocket);
     connect(this, SIGNAL(connected()), this, SLOT(updateIdentityId()));
     connect(this, SIGNAL(readyRead()), this, SLOT(readPacket()));
     this->setPacketParser(packetParser);
-    this->setPacketDispatcher(QSharedPointer<QEXTTcpPacketDispatcher>(new QEXTTcpPacketDispatcher(this)));
+    this->setPacketDispatcher(QSharedPointer<QExtTcpPacketDispatcher>(new QExtTcpPacketDispatcher(this)));
 }
 
-QEXTTcpSocket::QEXTTcpSocket(QEXTTcpSocketPrivate *d,
-                             const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser)
+QExtTcpSocket::QExtTcpSocket(QExtTcpSocketPrivate *d,
+                             const QSharedPointer<QExtTcpPacketParserInterface> &packetParser)
     : QTcpSocket(QEXT_DECL_NULLPTR), dd_ptr(d)
 {
     connect(this, SIGNAL(connected()), this, SLOT(updateIdentityId()));
     connect(this, SIGNAL(readyRead()), this, SLOT(readPacket()));
     this->setPacketParser(packetParser);
-    this->setPacketDispatcher(QSharedPointer<QEXTTcpPacketDispatcher>(new QEXTTcpPacketDispatcher(this)));
+    this->setPacketDispatcher(QSharedPointer<QExtTcpPacketDispatcher>(new QExtTcpPacketDispatcher(this)));
 }
 
-QEXTTcpSocket::~QEXTTcpSocket()
+QExtTcpSocket::~QExtTcpSocket()
 {
 
 }
 
-bool QEXTTcpSocket::isConnected() const
+bool QExtTcpSocket::isConnected() const
 {
     return QTcpSocket::ConnectedState == this->state();
 }
 
-QSharedPointer<QEXTTcpPacketParserInterface> QEXTTcpSocket::packetParser() const
+QSharedPointer<QExtTcpPacketParserInterface> QExtTcpSocket::packetParser() const
 {
-    Q_D(const QEXTTcpSocket);
+    Q_D(const QExtTcpSocket);
     QMutexLocker mutexLocker(&d->m_packetParserMutex);
     return d->m_packetParser;
 }
 
-void QEXTTcpSocket::setPacketParser(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser)
+void QExtTcpSocket::setPacketParser(const QSharedPointer<QExtTcpPacketParserInterface> &packetParser)
 {
-    Q_D(QEXTTcpSocket);
+    Q_D(QExtTcpSocket);
     QMutexLocker mutexLocker(&d->m_packetParserMutex);
     if (packetParser != d->m_packetParser)
     {
@@ -80,16 +80,16 @@ void QEXTTcpSocket::setPacketParser(const QSharedPointer<QEXTTcpPacketParserInte
     }
 }
 
-QSharedPointer<QEXTTcpPacketDispatcher> QEXTTcpSocket::packetDispatcher() const
+QSharedPointer<QExtTcpPacketDispatcher> QExtTcpSocket::packetDispatcher() const
 {
-    Q_D(const QEXTTcpSocket);
+    Q_D(const QExtTcpSocket);
     QMutexLocker mutexLocker(&d->m_packetDispatcherMutex);
     return d->m_packetDispatcher;
 }
 
-void QEXTTcpSocket::setPacketDispatcher(const QSharedPointer<QEXTTcpPacketDispatcher> &packetDispatcher)
+void QExtTcpSocket::setPacketDispatcher(const QSharedPointer<QExtTcpPacketDispatcher> &packetDispatcher)
 {
-    Q_D(QEXTTcpSocket);
+    Q_D(QExtTcpSocket);
     QMutexLocker mutexLocker(&d->m_packetDispatcherMutex);
     if (packetDispatcher != d->m_packetDispatcher)
     {
@@ -97,15 +97,15 @@ void QEXTTcpSocket::setPacketDispatcher(const QSharedPointer<QEXTTcpPacketDispat
     }
 }
 
-QSharedPointer<QThread> QEXTTcpSocket::workThread() const
+QSharedPointer<QThread> QExtTcpSocket::workThread() const
 {
-    Q_D(const QEXTTcpSocket);
+    Q_D(const QExtTcpSocket);
     return d->m_workThread;
 }
 
-QSharedPointer<QThread> QEXTTcpSocket::detachWorkThread()
+QSharedPointer<QThread> QExtTcpSocket::detachWorkThread()
 {
-    Q_D(QEXTTcpSocket);
+    Q_D(QExtTcpSocket);
     QSharedPointer<QThread> thread = d->m_workThread;
     if (!d->m_workThread.isNull())
     {
@@ -116,9 +116,9 @@ QSharedPointer<QThread> QEXTTcpSocket::detachWorkThread()
     return thread;
 }
 
-void QEXTTcpSocket::attatchWorkThread(const QSharedPointer<QThread> &thread)
+void QExtTcpSocket::attatchWorkThread(const QSharedPointer<QThread> &thread)
 {
-    Q_D(QEXTTcpSocket);
+    Q_D(QExtTcpSocket);
     if (d->m_workThread != thread)
     {
         this->setParent(QEXT_DECL_NULLPTR);
@@ -127,20 +127,20 @@ void QEXTTcpSocket::attatchWorkThread(const QSharedPointer<QThread> &thread)
     }
 }
 
-void QEXTTcpSocket::enqueueSendPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet)
+void QExtTcpSocket::enqueueSendPacket(const QSharedPointer<QExtTcpPacketInterface> &packet)
 {
-    Q_D(QEXTTcpSocket);
+    Q_D(QExtTcpSocket);
     QMutexLocker mutexLocker(&d->m_packetMutex);
     d->m_sendPacketQueue.enqueue(packet);
 }
 
-QEXTId QEXTTcpSocket::identityId() const
+QExtId QExtTcpSocket::identityId() const
 {
-    Q_D(const QEXTTcpSocket);
+    Q_D(const QExtTcpSocket);
     return d->m_identityId;
 }
 
-QString QEXTTcpSocket::transferErrorText(int error)
+QString QExtTcpSocket::transferErrorText(int error)
 {
     switch (error)
     {
@@ -168,9 +168,9 @@ QString QEXTTcpSocket::transferErrorText(int error)
     return "";
 }
 
-QEXTId QEXTTcpSocket::updateIdentityId()
+QExtId QExtTcpSocket::updateIdentityId()
 {
-    Q_D(QEXTTcpSocket);
+    Q_D(QExtTcpSocket);
     if (this->state() == QTcpSocket::ConnectedState)
     {
         d->m_peerAddress = this->peerAddress().toString();
@@ -183,81 +183,81 @@ QEXTId QEXTTcpSocket::updateIdentityId()
     return d->m_identityId;
 }
 
-void QEXTTcpSocket::sendPacket()
+void QExtTcpSocket::sendPacket()
 {
-    Q_D(QEXTTcpSocket);
+    Q_D(QExtTcpSocket);
     QMutexLocker mutexLocker(&d->m_packetMutex);
     if (!d->m_packetParser.isNull())
     {
         while (!d->m_sendPacketQueue.isEmpty())
         {
-            QSharedPointer<QEXTTcpPacketInterface> packet = d->m_sendPacketQueue.dequeue();
+            QSharedPointer<QExtTcpPacketInterface> packet = d->m_sendPacketQueue.dequeue();
             d->m_packetParser->writeData(this, packet);
-            emit this->newPacketSend(QEXTTcpUtils::packetData(packet));
+            emit this->newPacketSend(QExtTcpUtils::packetData(packet));
         }
         d->m_sendPacketQueue.clear();
     }
     else
     {
-        emit this->transferError(QEXTTcpSocket::TransferError_PacketParserNotExist);
-        emit this->transferErrorString(this->transferErrorText(QEXTTcpSocket::TransferError_PacketParserNotExist));
+        emit this->transferError(QExtTcpSocket::TransferError_PacketParserNotExist);
+        emit this->transferErrorString(this->transferErrorText(QExtTcpSocket::TransferError_PacketParserNotExist));
     }
 }
 
-void QEXTTcpSocket::connectToServer(const QString &ipAddress, quint16 port)
+void QExtTcpSocket::connectToServer(const QString &ipAddress, quint16 port)
 {
     this->abort();
     this->connectToHost(ipAddress, port);
 }
 
-void QEXTTcpSocket::closeSocket()
+void QExtTcpSocket::closeSocket()
 {
     this->close();
 }
 
-void QEXTTcpSocket::abortSocket()
+void QExtTcpSocket::abortSocket()
 {
     this->abort();
 }
 
-void QEXTTcpSocket::readPacket()
+void QExtTcpSocket::readPacket()
 {
-    Q_D(QEXTTcpSocket);
-    //    qDebug() << "QEXTTcpSocket::readPacket():" << this->thread();
+    Q_D(QExtTcpSocket);
+    //    qDebug() << "QExtTcpSocket::readPacket():" << this->thread();
     if (!d->m_packetParser.isNull())
     {
         bool success = true;
-        QSharedPointer<QEXTTcpPacketInterface> packet = d->m_packetParser->readData(this, success);
+        QSharedPointer<QExtTcpPacketInterface> packet = d->m_packetParser->readData(this, success);
         if (!packet.isNull())
         {
-            emit this->newPacketReceived(QEXTTcpUtils::packetData(packet));
+            emit this->newPacketReceived(QExtTcpUtils::packetData(packet));
             if (!d->m_packetDispatcher.isNull())
             {
                 if (!d->m_packetDispatcher->dispatchPacket(packet))
                 {
-                    //                    QEXTTcpUtils::printPacket(packet);
-                    emit this->transferError(QEXTTcpSocket::TransferError_PacketTransceiverNotExist);
-                    emit this->transferErrorString(this->transferErrorText(QEXTTcpSocket::TransferError_PacketTransceiverNotExist));
+                    //                    QExtTcpUtils::printPacket(packet);
+                    emit this->transferError(QExtTcpSocket::TransferError_PacketTransceiverNotExist);
+                    emit this->transferErrorString(this->transferErrorText(QExtTcpSocket::TransferError_PacketTransceiverNotExist));
                 }
             }
             else
             {
-                //                QEXTTcpUtils::printPacket(packet);
-                emit this->transferError(QEXTTcpSocket::TransferError_PacketDispatcherNotExist);
-                emit this->transferErrorString(this->transferErrorText(QEXTTcpSocket::TransferError_PacketDispatcherNotExist));
+                //                QExtTcpUtils::printPacket(packet);
+                emit this->transferError(QExtTcpSocket::TransferError_PacketDispatcherNotExist);
+                emit this->transferErrorString(this->transferErrorText(QExtTcpSocket::TransferError_PacketDispatcherNotExist));
             }
         }
         else if (!success)
         {
             this->readAll();
-            emit this->transferError(QEXTTcpSocket::TransferError_PacketParserReadFailed);
-            emit this->transferErrorString(this->transferErrorText(QEXTTcpSocket::TransferError_PacketParserReadFailed));
+            emit this->transferError(QExtTcpSocket::TransferError_PacketParserReadFailed);
+            emit this->transferErrorString(this->transferErrorText(QExtTcpSocket::TransferError_PacketParserReadFailed));
         }
     }
     else
     {
         this->readAll();
-        emit this->transferError(QEXTTcpSocket::TransferError_PacketParserNotExist);
-        emit this->transferErrorString(this->transferErrorText(QEXTTcpSocket::TransferError_PacketParserNotExist));
+        emit this->transferError(QExtTcpSocket::TransferError_PacketParserNotExist);
+        emit this->transferErrorString(this->transferErrorText(QExtTcpSocket::TransferError_PacketParserNotExist));
     }
 }

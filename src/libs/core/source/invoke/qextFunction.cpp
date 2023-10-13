@@ -1,13 +1,13 @@
 #include <qextFunction.h>
 
-namespace qextPrivate
+namespace QExtPrivate
 {
 
-    QEXTFunctionData::QEXTFunctionData() : m_trackable(QEXT_ATOMIC_INT_FALSE) {}
+    QExtFunctionData::QExtFunctionData() : m_trackable(QEXT_ATOMIC_INT_FALSE) {}
 
-    QEXTFunctionData::QEXTFunctionData(const QEXTFunctionData &other) : m_trackable(other.m_trackable), m_objectList(other.m_objectList) {}
+    QExtFunctionData::QExtFunctionData(const QExtFunctionData &other) : m_trackable(other.m_trackable), m_objectList(other.m_objectList) {}
 
-    QEXTFunctionData &QEXTFunctionData::operator=(const QEXTFunctionData &other)
+    QExtFunctionData &QExtFunctionData::operator=(const QExtFunctionData &other)
     {
         if (this != &other)
         {
@@ -17,7 +17,7 @@ namespace qextPrivate
         return *this;
     }
 
-    bool QEXTFunctionData::operator==(const QEXTFunctionData &other) const
+    bool QExtFunctionData::operator==(const QExtFunctionData &other) const
     {
         if (m_trackable == other.m_trackable)
         {
@@ -26,27 +26,27 @@ namespace qextPrivate
         return false;
     }
 
-    bool QEXTFunctionData::operator!=(const QEXTFunctionData &other) const
+    bool QExtFunctionData::operator!=(const QExtFunctionData &other) const
     {
         return !(*this == other);
     }
 
-    QEXTFunctionBase::QEXTFunctionBase()
+    QExtFunctionBase::QExtFunctionBase()
         : m_blocked(QEXT_ATOMIC_INT_FALSE), m_parent(QEXT_DECL_NULLPTR), m_cleanupFunc(QEXT_DECL_NULLPTR), m_callFunc(QEXT_DECL_NULLPTR)
     {
     }
 
-    QEXTFunctionBase::QEXTFunctionBase(const QSharedPointer< QEXTFunctionData > &data)
+    QExtFunctionBase::QExtFunctionBase(const QSharedPointer< QExtFunctionData > &data)
         : m_blocked(QEXT_ATOMIC_INT_FALSE), m_parent(QEXT_DECL_NULLPTR), m_cleanupFunc(QEXT_DECL_NULLPTR), m_callFunc(QEXT_DECL_NULLPTR), m_data(data)
     {
     }
 
-    QEXTFunctionBase::QEXTFunctionBase(const QEXTFunctionBase &other)
+    QExtFunctionBase::QExtFunctionBase(const QExtFunctionBase &other)
         : m_blocked(other.m_blocked), m_parent(other.m_parent), m_cleanupFunc(other.m_cleanupFunc), m_callFunc(other.m_callFunc), m_data(other.m_data)
     {
     }
 
-    QEXTFunctionBase &QEXTFunctionBase::operator=(const QEXTFunctionBase &other)
+    QExtFunctionBase &QExtFunctionBase::operator=(const QExtFunctionBase &other)
     {
         if (this != &other)
         {
@@ -59,7 +59,7 @@ namespace qextPrivate
         return *this;
     }
 
-    bool QEXTFunctionBase::operator==(const QEXTFunctionBase &other) const
+    bool QExtFunctionBase::operator==(const QExtFunctionBase &other) const
     {
         if (m_blocked == other.m_blocked && m_parent == other.m_parent)
         {
@@ -71,12 +71,12 @@ namespace qextPrivate
         return false;
     }
 
-    bool QEXTFunctionBase::operator!=(const QEXTFunctionBase &other) const
+    bool QExtFunctionBase::operator!=(const QExtFunctionBase &other) const
     {
         return !(*this == other);
     }
 
-    bool QEXTFunctionBase::isNull() const
+    bool QExtFunctionBase::isNull() const
     {
         if (this->isTrackable() && !m_data->m_objectList.empty())
         {
@@ -92,7 +92,7 @@ namespace qextPrivate
         return false;
     }
 
-    bool QEXTFunctionBase::isTrackable() const
+    bool QExtFunctionBase::isTrackable() const
     {
         if (!m_data.isNull())
         {
@@ -101,40 +101,40 @@ namespace qextPrivate
         return false;
     }
 
-    bool QEXTFunctionBase::isBlocked() const
+    bool QExtFunctionBase::isBlocked() const
     {
         return m_blocked == QEXT_ATOMIC_INT_TRUE;
     }
 
-    bool QEXTFunctionBase::setBlock(bool block)
+    bool QExtFunctionBase::setBlock(bool block)
     {
         m_blocked = block ? QEXT_ATOMIC_INT_TRUE : QEXT_ATOMIC_INT_FALSE;
         return true;
     }
 
-    bool QEXTFunctionBase::unblock()
+    bool QExtFunctionBase::unblock()
     {
         m_blocked = QEXT_ATOMIC_INT_FALSE;
         return true;
     }
 
-    bool QEXTFunctionBase::isValid() const
+    bool QExtFunctionBase::isValid() const
     {
         return QEXT_DECL_NULLPTR != m_callFunc && !m_data.isNull() && !this->isNull();
     }
 
-    void QEXTFunctionBase::setParent(void *parent, HookFunction cleanup)
+    void QExtFunctionBase::setParent(void *parent, HookFunction cleanup)
     {
         m_parent = parent;
         m_cleanupFunc = cleanup;
     }
 
-    bool QEXTFunctionBase::isConnected() const
+    bool QExtFunctionBase::isConnected() const
     {
         return m_parent && m_cleanupFunc;
     }
 
-    void QEXTFunctionBase::disconnect()
+    void QExtFunctionBase::disconnect()
     {
         if (m_parent)
         {
@@ -145,6 +145,6 @@ namespace qextPrivate
         }
     }
 
-} // namespace qextPrivate
+} // namespace QExtPrivate
 
 

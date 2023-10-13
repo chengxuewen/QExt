@@ -10,27 +10,27 @@
 
 
 
-class QEXTTcpPacketInterface;
-class QEXTTcpPacketParser;
-class QEXT_TCP_API QEXTTcpPacketParserPrivate
+class QExtTcpPacketInterface;
+class QExtTcpPacketParser;
+class QEXT_TCP_API QExtTcpPacketParserPrivate
 {
 public:
-    explicit QEXTTcpPacketParserPrivate(QEXTTcpPacketParser *q);
-    virtual ~QEXTTcpPacketParserPrivate();
+    explicit QExtTcpPacketParserPrivate(QExtTcpPacketParser *q);
+    virtual ~QExtTcpPacketParserPrivate();
 
-    QEXTTcpPacketParser * const q_ptr;
+    QExtTcpPacketParser * const q_ptr;
 
     QString m_errorString;
-    QEXTTcpPacketHeader::DataInfoVector m_headerDataPairVector;
-    QEXTTcpPacketHeader::DataInfoVector m_extraHeaderDataPairVector;
+    QExtTcpPacketHeader::DataInfoVector m_headerDataPairVector;
+    QExtTcpPacketHeader::DataInfoVector m_extraHeaderDataPairVector;
 
     mutable QMutex m_mutex;
-    QHash<QEXTId, QSharedPointer<QEXTTcpPacketInterface> > m_packetIdMap;
+    QHash<QExtId, QSharedPointer<QExtTcpPacketInterface> > m_packetIdMap;
     static quint32 sm_id;
 
 private:
-    Q_DECLARE_PUBLIC(QEXTTcpPacketParser)
-    Q_DISABLE_COPY(QEXTTcpPacketParserPrivate)
+    Q_DECLARE_PUBLIC(QExtTcpPacketParser)
+    Q_DISABLE_COPY(QExtTcpPacketParserPrivate)
 };
 
 

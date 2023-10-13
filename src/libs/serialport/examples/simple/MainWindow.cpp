@@ -24,7 +24,7 @@ MainWindow::MainWindow()
     createActions();
     createMenus();
 
-    setWindowTitle(tr("QEXTSerialPort Test Application"));
+    setWindowTitle(tr("QExtSerialPort Test Application"));
 }
 
 void MainWindow::about()

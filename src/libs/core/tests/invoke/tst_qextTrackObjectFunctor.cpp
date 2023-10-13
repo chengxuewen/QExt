@@ -8,7 +8,7 @@
 #include <string>
 #include <sstream>
 
-class QEXTTrackObjectFunctorTest : public QObject
+class QExtTrackObjectFunctorTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -39,7 +39,7 @@ class BarGroup4 : public QObject
 {
 };
 
-class Functor1 : public QEXTFunctorBase
+class Functor1 : public QExtFunctorBase
 {
 public:
     typedef std::string Return;
@@ -55,7 +55,7 @@ private:
     const BarGroup4 &m_bar;
 };
 
-class Functor2 : public QEXTFunctorBase
+class Functor2 : public QExtFunctorBase
 {
 public:
     typedef std::string Return;
@@ -98,12 +98,12 @@ void fooGroup4(BarGroup4 &)
 
 
 
-void QEXTTrackObjectFunctorTest::testSimple()
+void QExtTrackObjectFunctorTest::testSimple()
 {
     std::string string;
     sg_string = &string;
 
-    QEXTFunction<std::string, int> sl1;
+    QExtFunction<std::string, int> sl1;
     {
         *sg_string = "";
         BarGroup4 bar4;
@@ -121,7 +121,7 @@ void QEXTTrackObjectFunctorTest::testSimple()
 
     //    Allocate on the heap. valgrind can then find erroneous memory accesses.
     //            (There should be none, of course.)
-    QEXTFunction<std::string, int, std::string> *psl2 = new QEXTFunction<std::string, int, std::string>;
+    QExtFunction<std::string, int, std::string> *psl2 = new QExtFunction<std::string, int, std::string>;
     BarGroup4 *bar4 = new BarGroup4;
     Book *book4 = new Book("A Book");
     *sg_string = "";
@@ -140,7 +140,7 @@ void QEXTTrackObjectFunctorTest::testSimple()
     bar4 = 0;
 }
 
-void QEXTTrackObjectFunctorTest::testLambda()
+void QExtTrackObjectFunctorTest::testLambda()
 {
 #if QEXT_CC_STD_11
     std::string string;
@@ -150,8 +150,8 @@ void QEXTTrackObjectFunctorTest::testLambda()
     // If you want to auto-disconnect a slot with a C++11 lambda expression
     // that contains references to QEXTQmlQuickObject-derived objects, you must use
     // qextTrackObjectFunctor().
-    QEXTFunction<std::string, int> sl1;
-    QEXTFunction<void, std::string &> sl10;
+    QExtFunction<std::string, int> sl1;
+    QExtFunction<void, std::string &> sl10;
     {
         *sg_string = "";
         Book guestBook("karl");
@@ -174,8 +174,8 @@ void QEXTTrackObjectFunctorTest::testLambda()
     QVERIFY("" == *sg_string);
 
     // auto-disconnect
-    QEXTFunction<std::string, int> sl2;
-    QEXTFunction<void> sl20;
+    QExtFunction<std::string, int> sl2;
+    QExtFunction<void> sl20;
     {
         *sg_string = "";
         Book guestBook("karl");
@@ -203,7 +203,7 @@ void QEXTTrackObjectFunctorTest::testLambda()
 
     {
         //struct bar : public QEXTQmlQuickObject {} some_bar;
-        QEXTSignal<void> someSignal;
+        QExtSignal<void> someSignal;
         {
             *sg_string = "";
             BarGroup4 someBar;
@@ -229,6 +229,6 @@ void QEXTTrackObjectFunctorTest::testLambda()
 
 
 
-QTEST_APPLESS_MAIN(QEXTTrackObjectFunctorTest)
+QTEST_APPLESS_MAIN(QExtTrackObjectFunctorTest)
 
 #include <tst_qextTrackObjectFunctor.moc>

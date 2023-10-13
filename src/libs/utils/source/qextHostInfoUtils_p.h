@@ -7,16 +7,16 @@
 #include <QProcess>
 #include <QTimer>
 
-class QEXTHostInfoUtils;
-class QEXT_UTILS_API QEXTHostInfoUtilsPrivate
+class QExtHostInfoUtils;
+class QEXT_UTILS_API QExtHostInfoUtilsPrivate
 {
 public:
-    explicit QEXTHostInfoUtilsPrivate(QEXTHostInfoUtils *q);
-    virtual ~QEXTHostInfoUtilsPrivate();
+    explicit QExtHostInfoUtilsPrivate(QExtHostInfoUtils *q);
+    virtual ~QExtHostInfoUtilsPrivate();
 
-    QEXTHostInfoUtils * const q_ptr;
+    QExtHostInfoUtils * const q_ptr;
 
-    QEXTDiskInfo checkDiskSize(const QString &result, const QString &name);
+    QExtDiskInfo checkDiskSize(const QString &result, const QString &name);
 
     QScopedPointer<QTimer> m_cpuTimer;
     QScopedPointer<QProcess> m_cpuProcess;
@@ -39,8 +39,8 @@ public:
     QScopedPointer<QProcess> m_diskProcess;
 
 private:
-    Q_DISABLE_COPY(QEXTHostInfoUtilsPrivate)
-    Q_DECLARE_PUBLIC(QEXTHostInfoUtils)
+    Q_DISABLE_COPY(QExtHostInfoUtilsPrivate)
+    Q_DECLARE_PUBLIC(QExtHostInfoUtils)
 };
 
 

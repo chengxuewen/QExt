@@ -114,18 +114,18 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 # Collects the framework related information and paths from the target properties.
 # Output variables:
-#    <out_var>_name framework base name, e.g. 'QEXTCore'.
-#    <out_var>_dir framework base directory, e.g. 'QEXTCore.framework'.
+#    <out_var>_name framework base name, e.g. 'QExtCore'.
+#    <out_var>_dir framework base directory, e.g. 'QExtCore.framework'.
 #    <out_var>_version framework version, e.g. 'A', 'B' etc.
 #    <out_var>_bundle_version framework bundle version, same as the PROJECT_VERSION, e.g. '6.0.0'.
-#    <out_var>_header_dir top-level header directory, e.g. 'QEXTCore.framework/Headers'.
+#    <out_var>_header_dir top-level header directory, e.g. 'QExtCore.framework/Headers'.
 #    <out_var>_versioned_header_dir header directory for specific framework version,
-#        e.g. 'QEXTCore.framework/Versions/A/Headers'
+#        e.g. 'QExtCore.framework/Versions/A/Headers'
 #    <out_var>_private_header_dir header directory for the specific framework version and
-#       framework bundle version e.g. 'QEXTCore.framework/Versions/A/Headers/1.1.1'
+#       framework bundle version e.g. 'QExtCore.framework/Versions/A/Headers/1.1.1'
 #    <out_var>_private_library_header_dir private header directory for the specific framework
 #       version, framework bundle version and tailing library name, e.g.
-#       'QEXTCore.framework/Versions/A/Headers/1.1.1/Core'
+#       'QExtCore.framework/Versions/A/Headers/1.1.1/Core'
 function(qext_internal_get_framework_info out_var target)
     get_target_property(${out_var}_version ${target} FRAMEWORK_VERSION)
     get_target_property(${out_var}_bundle_version ${target} MACOSX_FRAMEWORK_BUNDLE_VERSION)

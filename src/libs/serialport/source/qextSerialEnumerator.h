@@ -38,7 +38,8 @@
 #include <QtCore/QObject>
 
 
-struct QEXTPortInfo {
+struct QEXTPortInfo
+{
     QString portName;   ///< Port name.
     QString physName;   ///< Physical name.
     QString friendName; ///< Friendly name.
@@ -47,14 +48,14 @@ struct QEXTPortInfo {
     int productID;      ///< Product ID
 };
 
-class QEXTSerialEnumeratorPrivate;
-class QEXT_SERIALPORT_API QEXTSerialEnumerator : public QObject
+class QExtSerialEnumeratorPrivate;
+class QEXT_SERIALPORT_API QExtSerialEnumerator : public QObject
 {
-    Q_OBJECT
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTSerialEnumerator)
+Q_OBJECT
+
 public:
-    QEXTSerialEnumerator(QObject *parent=0);
-    ~QEXTSerialEnumerator();
+    QExtSerialEnumerator(QObject *parent = 0);
+    ~QExtSerialEnumerator();
 
     static QList<QEXTPortInfo> portInfoList();
     void setUpNotifications();
@@ -64,13 +65,14 @@ Q_SIGNALS:
     void deviceRemoved(const QEXTPortInfo &info);
 
 private:
-    Q_DISABLE_COPY(QEXTSerialEnumerator)
+    Q_DISABLE_COPY(QExtSerialEnumerator)
 #if defined(Q_OS_LINUX) && !QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
     Q_PRIVATE_SLOT(d_func(), void _q_deviceEvent())
 #endif
-    QEXTSerialEnumeratorPrivate *dd_ptr;
-};
+    QExtSerialEnumeratorPrivate *dd_ptr;
 
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtSerialEnumerator)
+};
 
 
 #endif /*_QEXTSERIALENUMERATOR_H*/

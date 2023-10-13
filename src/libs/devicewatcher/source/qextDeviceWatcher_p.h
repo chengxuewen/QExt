@@ -1,5 +1,5 @@
 /******************************************************************************
-    QEXTDeviceWatcherPrivate: watching depends on platform
+    QExtDeviceWatcherPrivate: watching depends on platform
     Copyright (C) 2011-2015 Wang Bin <wbsecg1@gmail.com>
 
     This library is free software; you can redistribute it and/or
@@ -56,8 +56,8 @@
 
 #include "qextDeviceWatcherGlobal.h"
 
-class QEXTDeviceWatcher;
-class QEXT_DEVICEWATCHER_API QEXTDeviceWatcherPrivate
+class QExtDeviceWatcher;
+class QEXT_DEVICEWATCHER_API QExtDeviceWatcherPrivate
         #if CONFIG_THREAD
         : public QThread
         #else
@@ -66,7 +66,7 @@ class QEXT_DEVICEWATCHER_API QEXTDeviceWatcherPrivate
 {
     Q_OBJECT
 public:
-    QEXTDeviceWatcherPrivate(QObject *parent = 0) :
+    QExtDeviceWatcherPrivate(QObject *parent = 0) :
     #if CONFIG_THREAD
         QThread(parent)
   #else
@@ -75,9 +75,9 @@ public:
     {
         //init();
     }
-    ~QEXTDeviceWatcherPrivate();
+    ~QExtDeviceWatcherPrivate();
 
-    void setWatcher(QEXTDeviceWatcher *w) {watcher=w;}
+    void setWatcher(QExtDeviceWatcher *w) {watcher=w;}
     bool start(); //conflict with QThread::start()
     bool stop();
 
@@ -93,7 +93,7 @@ private slots:
     void parseDeviceInfo();
 
 private:
-    QEXTDeviceWatcher *watcher;
+    QExtDeviceWatcher *watcher;
 
     bool init();
 #if CONFIG_THREAD

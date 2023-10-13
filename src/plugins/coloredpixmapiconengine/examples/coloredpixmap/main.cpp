@@ -6,7 +6,7 @@
 
 #include <QtPlugin>
 
-Q_IMPORT_PLUGIN(QEXTColoredPixmapIconEnginePlugin)
+Q_IMPORT_PLUGIN(QExtColoredPixmapIconEnginePlugin)
 
 
 int main(int argc, char *argv[])

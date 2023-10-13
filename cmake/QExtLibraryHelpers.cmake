@@ -65,7 +65,7 @@ endmacro()
 # file, then that is also processed for feature definition and testing. Any features defined as well as any features
 # coming from dependencies to this library are imported into the scope of the calling feature.
 #
-# Target is without leading "QExt". So e.g. the "QEXTCore" library has the target "Core".
+# Target is without leading "QExt". So e.g. the "QExtCore" library has the target "Core".
 #
 # Options:
 #   NO_ADDITIONAL_TARGET_INFO
@@ -859,17 +859,17 @@ endfunction()
 #
 # When doing qext_internal_library_info(foo Core) this method will set the following variables in
 # the caller's scope:
-#  * foo with the value "QEXTCore"
-#  * foo_versioned with the value "QEXTCore" (based on major QExt version)
+#  * foo with the value "QExtCore"
+#  * foo_versioned with the value "QExtCore" (based on major QExt version)
 #  * foo_upper with the value "CORE"
 #  * foo_lower with the value "core"
-#  * foo_include_name with the value"QEXTCore"
+#  * foo_include_name with the value"QExtCore"
 #    Usually the library name from ${foo} is used, but the name might be different if the
 #    LIBRARY_INCLUDE_NAME argument is set when creating the library.
-#  * foo_versioned_include_dir with the value "QEXTCore/6.2.0"
-#  * foo_versioned_inner_include_dir with the value "QEXTCore/6.2.0/QEXTCore"
-#  * foo_private_include_dir with the value "QEXTCore/6.2.0/QEXTCore/private"
-#  * foo_qpa_include_dir with the value "QEXTCore/6.2.0/QEXTCore/qpa"
+#  * foo_versioned_include_dir with the value "QExtCore/6.2.0"
+#  * foo_versioned_inner_include_dir with the value "QExtCore/6.2.0/QExtCore"
+#  * foo_private_include_dir with the value "QExtCore/6.2.0/QExtCore/private"
+#  * foo_qpa_include_dir with the value "QExtCore/6.2.0/QExtCore/qpa"
 #  * foo_interface_name the interface name of the library stored in _qext_library_interface_name
 #    property, e.g. Core.
 #
@@ -878,20 +878,20 @@ endfunction()
 # accordingly.
 # The following variables are set in the caller's scope:
 #  * foo_<build|install>_interface_include_dir with
-#    qextbase_build_dir/include/QEXTCore for build interface and
-#    include/QEXTCore for install interface.
+#    qextbase_build_dir/include/QExtCore for build interface and
+#    include/QExtCore for install interface.
 #  * foo_<build|install>_interface_versioned_include_dir with
-#    qextbase_build_dir/include/QEXTCore/6.2.0 for build interface and
-#    include/QEXTCore/6.2.0 for install interface.
+#    qextbase_build_dir/include/QExtCore/6.2.0 for build interface and
+#    include/QExtCore/6.2.0 for install interface.
 #  * foo_<build|install>_versioned_inner_include_dir with
-#    qextbase_build_dir/include/QEXTCore/6.2.0/QEXTCore for build interface and
-#    include/QEXTCore/6.2.0/QEXTCore for install interface.
+#    qextbase_build_dir/include/QExtCore/6.2.0/QExtCore for build interface and
+#    include/QExtCore/6.2.0/QExtCore for install interface.
 #  * foo_<build|install>_private_include_dir with
-#    qextbase_build_dir/include/QEXTCore/6.2.0/QEXTCore/private for build interface and
-#    include/QEXTCore/6.2.0/QEXTCore/private for install interface.
+#    qextbase_build_dir/include/QExtCore/6.2.0/QExtCore/private for build interface and
+#    include/QExtCore/6.2.0/QExtCore/private for install interface.
 #  * foo_<build|install>_qpa_include_dir with
-#    qextbase_build_dir/include/QEXTCore/6.2.0/QEXTCore/qpa for build interface and
-#    include/QEXTCore/6.2.0/QEXTCore/qpa for install interface.
+#    qextbase_build_dir/include/QExtCore/6.2.0/QExtCore/qpa for build interface and
+#    include/QExtCore/6.2.0/QExtCore/qpa for install interface.
 # The following values are set by the function and might be useful in caller's scope:
 #  * repo_install_interface_include_dir contains path to the top-level repository include directory,
 #    e.g. qextbase_build_dir/include

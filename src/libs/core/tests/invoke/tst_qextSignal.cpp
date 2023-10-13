@@ -15,7 +15,7 @@
 #include <string.h>
 #include <stdio.h>
 
-class QEXTSignalTest : public QObject
+class QExtSignalTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -100,12 +100,12 @@ struct B : public QObject
         m_signal.send();
     }
 
-    QEXTSignal<void> m_signal;
+    QExtSignal<void> m_signal;
 };
 
 
 
-QEXTConnection connection;
+QExtConnection connection;
 class HandlerClass : public QObject
 {
 public:
@@ -195,18 +195,18 @@ int bar1(double i)
 }
 
 
-void QEXTSignalTest::testEmptySignal()
+void QExtSignalTest::testEmptySignal()
 {
-    QEXTSignal<int, int> sig;
+    QExtSignal<int, int> sig;
     QVERIFY(0 == sig.size());
     sg_string = "";
     sig(0);
     QVERIFY("" == sg_string);
 }
 
-void QEXTSignalTest::testConnectSlots()
+void QExtSignalTest::testConnectSlots()
 {
-    QEXTSignal<int, int> sig;
+    QExtSignal<int, int> sig;
     // connect some slots before emitting & test auto-disconnection
     {
         sg_string = "";
@@ -224,24 +224,24 @@ void QEXTSignalTest::testConnectSlots()
     QVERIFY("foo(int 2) bar(float 2) " == sg_string);
 }
 
-void QEXTSignalTest::testReference()
+void QExtSignalTest::testReference()
 {
     sg_string = "";
     A a;
     QString str("guest book");
-    QEXTSignal<void, QString &> sigstr;
+    QExtSignal<void, QString &> sigstr;
     sigstr.connect(&a, &A::bar);
     sigstr(str);
     sg_string += str;
     QVERIFY("A::bar(string 'guest book') bar was here" == sg_string);
 }
 
-void QEXTSignalTest::testCompareOperator()
+void QExtSignalTest::testCompareOperator()
 {
     A a;
-    QEXTSignal<void, QString &> sigstr1;
+    QExtSignal<void, QString &> sigstr1;
     sigstr1.connect(&a, &A::bar);
-    QEXTSignal<void, QString &> sigstr2;
+    QExtSignal<void, QString &> sigstr2;
     QVERIFY(sigstr1 != sigstr2);
     sigstr2 = sigstr1;
     QVERIFY(sigstr1 == sigstr2);
@@ -250,11 +250,11 @@ void QEXTSignalTest::testCompareOperator()
     QVERIFY(sigstr1 != sigstr2);
 }
 
-void QEXTSignalTest::testCopyOperator()
+void QExtSignalTest::testCopyOperator()
 {
-    QEXTSignal<int, int> sigstr1;
+    QExtSignal<int, int> sigstr1;
     sigstr1.connect(&foo);
-    QEXTSignal<int, int> sigstr2;
+    QExtSignal<int, int> sigstr2;
     sigstr2 = sigstr1;
 
     sg_string = "";
@@ -272,22 +272,22 @@ void QEXTSignalTest::testCopyOperator()
 //    QVERIFY("foo(int 2) foo(int 2) " == sg_string);
 }
 
-void QEXTSignalTest::testMakeSlot()
+void QExtSignalTest::testMakeSlot()
 {
-    QEXTSignal<int, int> sig;
+    QExtSignal<int, int> sig;
     sg_string = "";
     sig.connect(&foo);
-    QEXTSignal<int, int> sig2;
+    QExtSignal<int, int> sig2;
     sig2.connect(sig.makeSlot());
     sig2(3);
     QVERIFY("foo(int 3) " == sg_string);
 }
 
-void QEXTSignalTest::testDisconnect()
+void QExtSignalTest::testDisconnect()
 {
-    QEXTSignal<int, int> sig;
-    QEXTSignal<int, int>::Iterator confoo;
-    QEXTSignal<int, int>::Iterator conbar;
+    QExtSignal<int, int> sig;
+    QExtSignal<int, int>::Iterator confoo;
+    QExtSignal<int, int>::Iterator conbar;
 
     {
         sg_string = "";
@@ -305,7 +305,7 @@ void QEXTSignalTest::testDisconnect()
     QVERIFY(2 == sig.size());
     QVERIFY("foo(int 2) bar(float 2) " == sg_string);
 
-    QEXTConnection cona;  // connection objects are safe to use beyond the life time of a signal.
+    QExtConnection cona;  // connection objects are safe to use beyond the life time of a signal.
     sg_string = "";
     A a;                  // iterators stay valid after further connections.
     cona = sig.slotList().insert(conbar, qextMemberFunctor(&a, &A::foo));
@@ -339,21 +339,21 @@ void QEXTSignalTest::testDisconnect()
     QVERIFY("Good bye world!" == sg_string);
 }
 
-void QEXTSignalTest::testDisconnectDuringEmit()
+void QExtSignalTest::testDisconnectDuringEmit()
 {
     HandlerClass instance;
 
     sg_string = "";
-    QEXTSignal<void> signal_test;
+    QExtSignal<void> signal_test;
     connection = signal_test.connect(instance, &HandlerClass::handler);
     signal_test.send();
     QVERIFY("handler called" == sg_string);
 }
 
-void QEXTSignalTest::testAccumulated()
+void QExtSignalTest::testAccumulated()
 {
-    QEXTSignal<int, int>::Accumulated<arithmetic_mean_accumulator> sig;
-    QEXTSignal<int, int>::Accumulated<vector_accumulator<int> > sig_vec;
+    QExtSignal<int, int>::Accumulated<arithmetic_mean_accumulator> sig;
+    QExtSignal<int, int>::Accumulated<vector_accumulator<int> > sig_vec;
 
     QVERIFY(-1 == sig(0));
     QVERIFY(sig_vec(0).empty());
@@ -396,9 +396,9 @@ void QEXTSignalTest::testAccumulated()
     QVERIFY("10 46 12 " == sg_string);
 }
 
-void QEXTSignalTest::testAccumulatedIter()
+void QExtSignalTest::testAccumulatedIter()
 {
-    QEXTSignal<int>::Accumulated<min_accum<int> > signal;
+    QExtSignal<int>::Accumulated<min_accum<int> > signal;
 
     signal.connect(qextBindFunctor(&ident, 3));
     signal.connect(qextBindFunctor(&ident, 1));
@@ -407,16 +407,16 @@ void QEXTSignalTest::testAccumulatedIter()
     QVERIFY(1 == signal.send());
 }
 
-void QEXTSignalTest::teststdLambda()
+void QExtSignalTest::teststdLambda()
 {
 #if QEXT_CC_STD_11
-    QEXTSignal<int> readValue;
+    QExtSignal<int> readValue;
     int data = 1000;
     readValue.connect([&data] () -> int { return data; });
     QVERIFY(1000 == readValue());
 #endif
 }
 
-QTEST_APPLESS_MAIN(QEXTSignalTest)
+QTEST_APPLESS_MAIN(QExtSignalTest)
 
 #include <tst_qextSignal.moc>

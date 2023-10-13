@@ -1,6 +1,6 @@
 
 /******************************************************************************
-  QEXTDeviceWatcherPrivate: watching depends on platform
+  QExtDeviceWatcherPrivate: watching depends on platform
   Copyright (C) 2011-2015 Wang Bin <wbsecg1@gmail.com>
 
     This library is free software; you can redistribute it and/or
@@ -58,14 +58,14 @@ enum udev_monitor_netlink_group {
     UDEV_MONITOR_UDEV
 };
 
-QEXTDeviceWatcherPrivate::~QEXTDeviceWatcherPrivate()
+QExtDeviceWatcherPrivate::~QExtDeviceWatcherPrivate()
 {
     stop();
     close(netlink_socket);
     netlink_socket = -1;
 }
 
-bool QEXTDeviceWatcherPrivate::start()
+bool QExtDeviceWatcherPrivate::start()
 {
     if (!init())
         return false;
@@ -79,7 +79,7 @@ bool QEXTDeviceWatcherPrivate::start()
     return true;
 }
 
-bool QEXTDeviceWatcherPrivate::stop()
+bool QExtDeviceWatcherPrivate::stop()
 {
     if (netlink_socket!=-1) {
 #if CONFIG_SOCKETNOTIFIER
@@ -97,7 +97,7 @@ bool QEXTDeviceWatcherPrivate::stop()
 }
 
 
-void QEXTDeviceWatcherPrivate::parseDeviceInfo()
+void QExtDeviceWatcherPrivate::parseDeviceInfo()
 {//zDebug("%s active", qPrintable(QTime::currentTime().toString()));
     QByteArray data;
 #if CONFIG_SOCKETNOTIFIER
@@ -125,7 +125,7 @@ void QEXTDeviceWatcherPrivate::parseDeviceInfo()
 
 #if CONFIG_THREAD
 //another thread
-void QEXTDeviceWatcherPrivate::run()
+void QExtDeviceWatcherPrivate::run()
 {
     QByteArray data;
     //loop only when event happens. because of recv() block the function?
@@ -169,7 +169,7 @@ void QEXTDeviceWatcherPrivate::run()
  * device nodes are created.
  **/
 
-bool QEXTDeviceWatcherPrivate::init()
+bool QExtDeviceWatcherPrivate::init()
 {
     struct sockaddr_nl snl;
     const int buffersize = 16 * 1024 * 1024;
@@ -225,7 +225,7 @@ bool QEXTDeviceWatcherPrivate::init()
     return true;
 }
 
-void QEXTDeviceWatcherPrivate::parseLine(const QByteArray &line)
+void QExtDeviceWatcherPrivate::parseLine(const QByteArray &line)
 {
     //    zDebug("%s", line.constData());
 #define USE_REGEXP 0
@@ -242,17 +242,17 @@ void QEXTDeviceWatcherPrivate::parseLine(const QByteArray &line)
     QString action_str = line.left(line.indexOf('@')).toLower();
     QString dev = "/dev/" + line.right(line.length() - line.lastIndexOf('/') - 1);
 #endif //USE_REGEXP
-    QEXTDeviceChangeEvent *event = 0;
+    QExtDeviceChangeEvent *event = 0;
 
     if (action_str==QLatin1String("add")) {
         emitDeviceAdded(dev);
-        event = new QEXTDeviceChangeEvent(QEXTDeviceChangeEvent::Add, dev);
+        event = new QExtDeviceChangeEvent(QExtDeviceChangeEvent::Add, dev);
     } else if (action_str==QLatin1String("remove")) {
         emitDeviceRemoved(dev);
-        event = new QEXTDeviceChangeEvent(QEXTDeviceChangeEvent::Remove, dev);
+        event = new QExtDeviceChangeEvent(QExtDeviceChangeEvent::Remove, dev);
     } else if (action_str==QLatin1String("change")) {
         emitDeviceChanged(dev);
-        event = new QEXTDeviceChangeEvent(QEXTDeviceChangeEvent::Change, dev);
+        event = new QExtDeviceChangeEvent(QExtDeviceChangeEvent::Change, dev);
     }
 
     //    zDebug("%s %s", qPrintable(action_str), qPrintable(dev));

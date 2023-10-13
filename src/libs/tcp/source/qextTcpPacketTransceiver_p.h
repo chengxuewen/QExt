@@ -11,18 +11,18 @@
 #include <QSharedPointer>
 #include <QPointer>
 
-class QEXTTcpPacketDispatcher;
-class QEXTTcpPacketInterface;
-class QEXTTcpPacketTransceiver;
-class QEXT_TCP_API QEXTTcpPacketTransceiverPrivate
+class QExtTcpPacketDispatcher;
+class QExtTcpPacketInterface;
+class QExtTcpPacketTransceiver;
+class QEXT_TCP_API QExtTcpPacketTransceiverPrivate
 {
 public:
-    explicit QEXTTcpPacketTransceiverPrivate(QEXTTcpPacketTransceiver *q);
-    virtual ~QEXTTcpPacketTransceiverPrivate();
+    explicit QExtTcpPacketTransceiverPrivate(QExtTcpPacketTransceiver *q);
+    virtual ~QExtTcpPacketTransceiverPrivate();
 
-    QEXTTcpPacketTransceiver * const q_ptr;
+    QExtTcpPacketTransceiver * const q_ptr;
 
-    QEXTId m_identityId;
+    QExtId m_identityId;
 
     bool m_cancelled;
     bool m_receivedReply;
@@ -30,18 +30,18 @@ public:
     QWaitCondition m_waitForSyncReply;
 
     mutable QMutex m_packetDispatcherMutex;
-    QSharedPointer<QEXTTcpPacketDispatcher> m_packetDispatcher;
+    QSharedPointer<QExtTcpPacketDispatcher> m_packetDispatcher;
 
     mutable QMutex m_packetMutex;
-    QSharedPointer<QEXTTcpPacketInterface> m_receivedPacket;
-    QSharedPointer<QEXTTcpPacketInterface> m_sendPacket;
-    QQueue<QSharedPointer<QEXTTcpPacketInterface> > m_receivedPacketQueue;
+    QSharedPointer<QExtTcpPacketInterface> m_receivedPacket;
+    QSharedPointer<QExtTcpPacketInterface> m_sendPacket;
+    QQueue<QSharedPointer<QExtTcpPacketInterface> > m_receivedPacketQueue;
 
     QString m_lastError;
 
 private:
-    Q_DECLARE_PUBLIC(QEXTTcpPacketTransceiver)
-    Q_DISABLE_COPY(QEXTTcpPacketTransceiverPrivate)
+    Q_DECLARE_PUBLIC(QExtTcpPacketTransceiver)
+    Q_DISABLE_COPY(QExtTcpPacketTransceiverPrivate)
 };
 
 #endif // _QEXTTCPPACKETSYNCRECEIVER_P_H

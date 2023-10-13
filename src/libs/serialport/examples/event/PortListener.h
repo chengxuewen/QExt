@@ -16,7 +16,7 @@ public:
     PortListener(const QString &portName);
 
 private:
-    QEXTSerialPort *port;
+    QExtSerialPort *port;
 
 private slots:
     void onReadyRead();

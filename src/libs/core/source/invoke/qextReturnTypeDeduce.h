@@ -34,31 +34,30 @@
 #include <qextTypeTrait.h>
 
 
-
 /** A hint to the compiler.
  * Functors which have all methods based on templates
  * should publicly inherit from this hint and define
  * a nested template class @p ReturnTypeDeduce that
  * can be used to deduce the methods' return types.
  *
- * adaptor_base inherits from the QEXTFunctorBase hint so
+ * adaptor_base inherits from the QExtFunctorBase hint so
  * derived types should also have a result_type defined.
  *
  * Adaptors don't inherit from this type directly. They use
- * use QEXTAdaptors as a base type instead. QEXTAdaptors
+ * use QExtAdaptors as a base type instead. QExtAdaptors
  * wraps arbitrary functor types as well as function pointers
  * and class methods.
  *
  * \ingroup qextAdaptors
  */
-struct QEXTAdaptorBase : public QEXTFunctorBase
+struct QExtAdaptorBase : public QExtFunctorBase
 {
 };
 
 /** Deduce the return type of a functor.
  * <tt>typename ReturnTypeDeduce<Functor, list of arg_types>::Type</tt>
  * deduces a functor's result type if @p Functor inherits from
- * QEXTFunctorBase and defines @p Return or if @p functor_type
+ * QExtFunctorBase and defines @p Return or if @p functor_type
  * is actually a (member) function type. Multi-type functors are not
  * supported.
  *
@@ -73,101 +72,100 @@ struct QEXTAdaptorBase : public QEXTFunctorBase
  *
  * \ingroup qextAdaptors
  */
-template <
-    typename T_functor,
-    typename T_arg1 = void,
-    typename T_arg2 = void,
-    typename T_arg3 = void,
-    typename T_arg4 = void,
-    typename T_arg5 = void,
-    typename T_arg6 = void,
-    typename T_arg7 = void,
-    bool I_derives_adaptor_base = QEXTIsBaseOf< QEXTAdaptorBase, T_functor >::value >
-struct QEXTReturnTypeDeduce
+template<
+        typename T_functor,
+        typename T_arg1 = void,
+        typename T_arg2 = void,
+        typename T_arg3 = void,
+        typename T_arg4 = void,
+        typename T_arg5 = void,
+        typename T_arg6 = void,
+        typename T_arg7 = void,
+        bool I_derives_adaptor_base = QEXTIsBaseOf<QExtAdaptorBase, T_functor>::value>
+struct QExtReturnTypeDeduce
 {
-    typedef typename QEXTFunctorTrait< T_functor >::Return Type;
+    typedef typename QExtFunctorTrait<T_functor>::Return Type;
 };
 
 /** Deduce the return type of a functor.
- * This is the template specialization of the QEXTReturnTypeDeduce template
+ * This is the template specialization of the QExtReturnTypeDeduce template
  * for 0 arguments.
  */
-template < typename T_functor >
-struct QEXTReturnTypeDeduce< T_functor, void, void, void, void, void, void, void, true >
+template<typename T_functor>
+struct QExtReturnTypeDeduce<T_functor, void, void, void, void, void, void, void, true>
 {
     typedef typename T_functor::template ReturnTypeDeduce<>::Type Type;
 };
 
 /** Deduce the return type of a functor.
- * This is the template specialization of the QEXTReturnTypeDeduce template
+ * This is the template specialization of the QExtReturnTypeDeduce template
  * for 1 arguments.
  */
-template < typename T_functor, typename T_arg1 >
-struct QEXTReturnTypeDeduce< T_functor, T_arg1, void, void, void, void, void, void, true >
+template<typename T_functor, typename T_arg1>
+struct QExtReturnTypeDeduce<T_functor, T_arg1, void, void, void, void, void, void, true>
 {
-    typedef typename T_functor::template ReturnTypeDeduce< T_arg1 >::Type Type;
+    typedef typename T_functor::template ReturnTypeDeduce<T_arg1>::Type Type;
 };
 
 /** Deduce the return type of a functor.
- * This is the template specialization of the QEXTReturnTypeDeduce template
+ * This is the template specialization of the QExtReturnTypeDeduce template
  * for 2 arguments.
  */
-template < typename T_functor, typename T_arg1, typename T_arg2 >
-struct QEXTReturnTypeDeduce< T_functor, T_arg1, T_arg2, void, void, void, void, void, true >
+template<typename T_functor, typename T_arg1, typename T_arg2>
+struct QExtReturnTypeDeduce<T_functor, T_arg1, T_arg2, void, void, void, void, void, true>
 {
-    typedef typename T_functor::template ReturnTypeDeduce< T_arg1, T_arg2 >::Type Type;
+    typedef typename T_functor::template ReturnTypeDeduce<T_arg1, T_arg2>::Type Type;
 };
 
 /** Deduce the return type of a functor.
- * This is the template specialization of the QEXTReturnTypeDeduce template
+ * This is the template specialization of the QExtReturnTypeDeduce template
  * for 3 arguments.
  */
-template < typename T_functor, typename T_arg1, typename T_arg2, typename T_arg3 >
-struct QEXTReturnTypeDeduce< T_functor, T_arg1, T_arg2, T_arg3, void, void, void, void, true >
+template<typename T_functor, typename T_arg1, typename T_arg2, typename T_arg3>
+struct QExtReturnTypeDeduce<T_functor, T_arg1, T_arg2, T_arg3, void, void, void, void, true>
 {
-    typedef typename T_functor::template ReturnTypeDeduce< T_arg1, T_arg2, T_arg3 >::Type Type;
+    typedef typename T_functor::template ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type Type;
 };
 
 /** Deduce the return type of a functor.
- * This is the template specialization of the QEXTReturnTypeDeduce template
+ * This is the template specialization of the QExtReturnTypeDeduce template
  * for 4 arguments.
  */
-template < typename T_functor, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
-struct QEXTReturnTypeDeduce< T_functor, T_arg1, T_arg2, T_arg3, T_arg4, void, void, void, true >
+template<typename T_functor, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
+struct QExtReturnTypeDeduce<T_functor, T_arg1, T_arg2, T_arg3, T_arg4, void, void, void, true>
 {
-    typedef typename T_functor::template ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4 >::Type Type;
+    typedef typename T_functor::template ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type Type;
 };
 
 /** Deduce the return type of a functor.
- * This is the template specialization of the QEXTReturnTypeDeduce template
+ * This is the template specialization of the QExtReturnTypeDeduce template
  * for 5 arguments.
  */
-template < typename T_functor, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
-struct QEXTReturnTypeDeduce< T_functor, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, void, void, true >
+template<typename T_functor, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
+struct QExtReturnTypeDeduce<T_functor, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, void, void, true>
 {
-    typedef typename T_functor::template ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >::Type Type;
+    typedef typename T_functor::template ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type Type;
 };
 
 /** Deduce the return type of a functor.
- * This is the template specialization of the QEXTReturnTypeDeduce template
+ * This is the template specialization of the QExtReturnTypeDeduce template
  * for 6 arguments.
  */
-template < typename T_functor, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
-struct QEXTReturnTypeDeduce< T_functor, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, void, true >
+template<typename T_functor, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
+struct QExtReturnTypeDeduce<T_functor, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, void, true>
 {
-    typedef typename T_functor::template ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >::Type Type;
+    typedef typename T_functor::template ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type Type;
 };
 
 /** Deduce the return type of a functor.
- * This is the template specialization of the QEXTReturnTypeDeduce template
+ * This is the template specialization of the QExtReturnTypeDeduce template
  * for 7 arguments.
  */
-template < typename T_functor, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7 >
-struct QEXTReturnTypeDeduce< T_functor, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, true >
+template<typename T_functor, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+struct QExtReturnTypeDeduce<T_functor, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, true>
 {
-    typedef typename T_functor::template ReturnTypeDeduce< T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
+    typedef typename T_functor::template ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type Type;
 };
-
 
 
 #endif // _QEXTRETURNTYPEDEDUCE_H

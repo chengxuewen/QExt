@@ -5,7 +5,7 @@
 #include <string>
 #include <sstream>
 
-class QEXTHideFunctorTest : public QObject
+class QExtHideFunctorTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -14,7 +14,7 @@ private Q_SLOTS:
 
 static std::string sg_string = "";
 
-struct Foo : public QEXTFunctorBase
+struct Foo : public QExtFunctorBase
 {
     // choose a type that can hold all return values
     typedef int Return;
@@ -34,7 +34,7 @@ struct Foo : public QEXTFunctorBase
     }
 };
 
-struct FooVoid : public QEXTFunctorBase
+struct FooVoid : public QExtFunctorBase
 {
     typedef void Return;
 
@@ -45,7 +45,7 @@ struct FooVoid : public QEXTFunctorBase
 };
 
 
-void QEXTHideFunctorTest::testSimple()
+void QExtHideFunctorTest::testSimple()
 {
     sg_string = "";
     QVERIFY(3 == qextHideFunctor<0>(Foo())(1, 2));
@@ -68,6 +68,6 @@ void QEXTHideFunctorTest::testSimple()
     QVERIFY("FooVoid()" == sg_string);
 }
 
-QTEST_APPLESS_MAIN(QEXTHideFunctorTest)
+QTEST_APPLESS_MAIN(QExtHideFunctorTest)
 
 #include <tst_qextHideFunctor.moc>

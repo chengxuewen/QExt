@@ -4,14 +4,14 @@
 
 #include <QDebug>
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant()
+QExtTcpPacketVariant::QExtTcpPacketVariant()
     : m_dataType(Data_int8)
 {
     m_intData.uint64 = 0;
     m_valid = false;
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const quint8 &data)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const quint8 &data)
     : m_dataType(Data_uint8)
 {
     m_valid = true;
@@ -19,55 +19,55 @@ QEXTTcpPacketVariant::QEXTTcpPacketVariant(const quint8 &data)
     m_stream.append(data);
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const qint16 &data)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const qint16 &data)
     : m_dataType(Data_int16)
 {
     m_valid = true;
     m_intData.int16 = data;
-    m_stream = QEXTNetworkUtils::qint16HostToNet(data);
+    m_stream = QExtNetworkUtils::qint16HostToNet(data);
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const quint16 &data)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const quint16 &data)
     : m_dataType(Data_uint16)
 {
     m_valid = true;
     m_intData.uint16 = data;
-    m_stream = QEXTNetworkUtils::quint16HostToNet(data);
+    m_stream = QExtNetworkUtils::quint16HostToNet(data);
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const qint32 &data)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const qint32 &data)
     : m_dataType(Data_int32)
 {
     m_valid = true;
     m_intData.int32 = data;
-    m_stream = QEXTNetworkUtils::qint32HostToNet(data);
+    m_stream = QExtNetworkUtils::qint32HostToNet(data);
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const quint32 &data)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const quint32 &data)
     : m_dataType(Data_uint32)
 {
     m_valid = true;
     m_intData.uint32 = data;
-    m_stream = QEXTNetworkUtils::quint32HostToNet(data);
+    m_stream = QExtNetworkUtils::quint32HostToNet(data);
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const qint64 &data)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const qint64 &data)
     : m_dataType(Data_int64)
 {
     m_valid = true;
     m_intData.int64 = data;
-    m_stream = QEXTNetworkUtils::qint64HostToNet(data);
+    m_stream = QExtNetworkUtils::qint64HostToNet(data);
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const quint64 &data)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const quint64 &data)
     : m_dataType(Data_uint64)
 {
     m_valid = true;
     m_intData.uint64 = data;
-    m_stream = QEXTNetworkUtils::quint64HostToNet(data);
+    m_stream = QExtNetworkUtils::quint64HostToNet(data);
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const QByteArray &data)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const QByteArray &data)
     : m_dataType(Data_chars + data.size())
 {
     m_intData.uint64 = 0;
@@ -76,7 +76,7 @@ QEXTTcpPacketVariant::QEXTTcpPacketVariant(const QByteArray &data)
     m_stream = data;
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const QString &data)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const QString &data)
     : m_dataType(Data_chars + data.toLatin1().size())
 {
     m_intData.uint64 = 0;
@@ -85,7 +85,7 @@ QEXTTcpPacketVariant::QEXTTcpPacketVariant(const QString &data)
     m_stream = m_charsData;
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const char *data)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const char *data)
     : m_dataType(Data_chars + strlen(data))
 {
     m_intData.uint64 = 0;
@@ -94,7 +94,7 @@ QEXTTcpPacketVariant::QEXTTcpPacketVariant(const char *data)
     m_stream = m_charsData;
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const QVariant &data, const quint8 &type)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const QVariant &data, const quint8 &type)
     : m_dataType(type)
 {
     m_intData.uint64 = 0;
@@ -102,7 +102,7 @@ QEXTTcpPacketVariant::QEXTTcpPacketVariant(const QVariant &data, const quint8 &t
     this->setData(data);
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const QByteArray &stream, const quint8 &type)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const QByteArray &stream, const quint8 &type)
     : m_dataType(type)
 {
     m_intData.uint64 = 0;
@@ -110,7 +110,7 @@ QEXTTcpPacketVariant::QEXTTcpPacketVariant(const QByteArray &stream, const quint
     this->setStream(stream);
 }
 
-QEXTTcpPacketVariant::QEXTTcpPacketVariant(const QEXTTcpPacketVariant &variant)
+QExtTcpPacketVariant::QExtTcpPacketVariant(const QExtTcpPacketVariant &variant)
     : m_dataType(variant.m_dataType)
 {
     m_intData = variant.m_intData;
@@ -120,7 +120,7 @@ QEXTTcpPacketVariant::QEXTTcpPacketVariant(const QEXTTcpPacketVariant &variant)
     m_errorString = variant.m_errorString;
 }
 
-QEXTTcpPacketVariant &QEXTTcpPacketVariant::operator=(const QEXTTcpPacketVariant &variant)
+QExtTcpPacketVariant &QExtTcpPacketVariant::operator=(const QExtTcpPacketVariant &variant)
 {
     m_intData = variant.m_intData;
     m_charsData = variant.m_charsData;
@@ -130,7 +130,7 @@ QEXTTcpPacketVariant &QEXTTcpPacketVariant::operator=(const QEXTTcpPacketVariant
     return *this;
 }
 
-bool QEXTTcpPacketVariant::operator==(const QEXTTcpPacketVariant &variant) const
+bool QExtTcpPacketVariant::operator==(const QExtTcpPacketVariant &variant) const
 {
     if (m_intData.uint64 != variant.m_intData.uint64) {
         return false;
@@ -150,12 +150,12 @@ bool QEXTTcpPacketVariant::operator==(const QEXTTcpPacketVariant &variant) const
     return true;
 }
 
-bool QEXTTcpPacketVariant::operator!=(const QEXTTcpPacketVariant &variant) const
+bool QExtTcpPacketVariant::operator!=(const QExtTcpPacketVariant &variant) const
 {
     return !(*this == variant);
 }
 
-QByteArray QEXTTcpPacketVariant::toChars(bool trimmed) const
+QByteArray QExtTcpPacketVariant::toChars(bool trimmed) const
 {
     if (trimmed) {
         int index = m_charsData.lastIndexOf('\0');
@@ -164,12 +164,12 @@ QByteArray QEXTTcpPacketVariant::toChars(bool trimmed) const
     return m_charsData;
 }
 
-QByteArray QEXTTcpPacketVariant::toHostByteArray() const
+QByteArray QExtTcpPacketVariant::toHostByteArray() const
 {
     return this->toHostString().toLatin1();
 }
 
-QString QEXTTcpPacketVariant::toHostString() const
+QString QExtTcpPacketVariant::toHostString() const
 {
     switch (m_dataType) {
     case Data_int8:
@@ -193,62 +193,62 @@ QString QEXTTcpPacketVariant::toHostString() const
     }
 }
 
-void QEXTTcpPacketVariant::setData(const qint8 &data)
+void QExtTcpPacketVariant::setData(const qint8 &data)
 {
     m_intData.int8 = data;
 }
 
-void QEXTTcpPacketVariant::setData(const quint8 &data)
+void QExtTcpPacketVariant::setData(const quint8 &data)
 {
     m_intData.uint8 = data;
 }
 
-void QEXTTcpPacketVariant::setData(const qint16 &data)
+void QExtTcpPacketVariant::setData(const qint16 &data)
 {
     m_intData.int16 = data;
 }
 
-void QEXTTcpPacketVariant::setData(const quint16 &data)
+void QExtTcpPacketVariant::setData(const quint16 &data)
 {
     m_intData.uint16 = data;
 }
 
-void QEXTTcpPacketVariant::setData(const qint32 &data)
+void QExtTcpPacketVariant::setData(const qint32 &data)
 {
     m_intData.int32 = data;
 }
 
-void QEXTTcpPacketVariant::setData(const quint32 &data)
+void QExtTcpPacketVariant::setData(const quint32 &data)
 {
     m_intData.uint32 = data;
 }
 
-void QEXTTcpPacketVariant::setData(const qint64 &data)
+void QExtTcpPacketVariant::setData(const qint64 &data)
 {
     m_intData.int64 = data;
 }
 
-void QEXTTcpPacketVariant::setData(const quint64 &data)
+void QExtTcpPacketVariant::setData(const quint64 &data)
 {
     m_intData.uint64 = data;
 }
 
-void QEXTTcpPacketVariant::setData(const QByteArray &data)
+void QExtTcpPacketVariant::setData(const QByteArray &data)
 {
     m_charsData = data;
 }
 
-void QEXTTcpPacketVariant::setData(const QString &data)
+void QExtTcpPacketVariant::setData(const QString &data)
 {
     m_charsData = data.toLatin1();
 }
 
-void QEXTTcpPacketVariant::setData(const char *data)
+void QExtTcpPacketVariant::setData(const char *data)
 {
     m_charsData = QByteArray(data, strlen(data));
 }
 
-void QEXTTcpPacketVariant::setData(const QVariant &data)
+void QExtTcpPacketVariant::setData(const QVariant &data)
 {
     switch (m_dataType) {
     case Data_int8:
@@ -286,7 +286,7 @@ void QEXTTcpPacketVariant::setData(const QVariant &data)
     }
 }
 
-void QEXTTcpPacketVariant::setStream(const QByteArray &stream)
+void QExtTcpPacketVariant::setStream(const QByteArray &stream)
 {
     m_stream = stream;
     switch (m_dataType) {
@@ -308,7 +308,7 @@ void QEXTTcpPacketVariant::setStream(const QByteArray &stream)
         break;
     case Data_int16:
         if (2 == stream.size()) {
-            m_intData.int16 = QEXTNetworkUtils::qint16NetToHost(stream);
+            m_intData.int16 = QExtNetworkUtils::qint16NetToHost(stream);
         } else {
             m_valid = false;
             m_errorString = "stream.size() must be 2";
@@ -316,7 +316,7 @@ void QEXTTcpPacketVariant::setStream(const QByteArray &stream)
         break;
     case Data_uint16:
         if (2 == stream.size()) {
-            m_intData.uint16 = QEXTNetworkUtils::quint16NetToHost(stream);
+            m_intData.uint16 = QExtNetworkUtils::quint16NetToHost(stream);
         } else {
             m_valid = false;
             m_errorString = "stream.size() must be 2";
@@ -324,7 +324,7 @@ void QEXTTcpPacketVariant::setStream(const QByteArray &stream)
         break;
     case Data_int32:
         if (4 == stream.size()) {
-            m_intData.int32 = QEXTNetworkUtils::qint32NetToHost(stream);
+            m_intData.int32 = QExtNetworkUtils::qint32NetToHost(stream);
         } else {
             m_valid = false;
             m_errorString = "stream.size() must be 4";
@@ -332,7 +332,7 @@ void QEXTTcpPacketVariant::setStream(const QByteArray &stream)
         break;
     case Data_uint32:
         if (4 == stream.size()) {
-            m_intData.uint32 = QEXTNetworkUtils::quint32NetToHost(stream);
+            m_intData.uint32 = QExtNetworkUtils::quint32NetToHost(stream);
         } else {
             m_valid = false;
             m_errorString = "stream.size() must be 4";
@@ -340,7 +340,7 @@ void QEXTTcpPacketVariant::setStream(const QByteArray &stream)
         break;
     case Data_int64:
         if (8 == stream.size()) {
-            m_intData.int64 = QEXTNetworkUtils::qint64NetToHost(stream);
+            m_intData.int64 = QExtNetworkUtils::qint64NetToHost(stream);
         } else {
             m_valid = false;
             m_errorString = "stream.size() must be 8";
@@ -348,7 +348,7 @@ void QEXTTcpPacketVariant::setStream(const QByteArray &stream)
         break;
     case Data_uint64:
         if (8 == stream.size()) {
-            m_intData.uint64 = QEXTNetworkUtils::quint64NetToHost(stream);
+            m_intData.uint64 = QExtNetworkUtils::quint64NetToHost(stream);
         } else {
             m_valid = false;
             m_errorString = "stream.size() must be 8";
@@ -362,12 +362,12 @@ void QEXTTcpPacketVariant::setStream(const QByteArray &stream)
     }
 }
 
-quint8 QEXTTcpPacketVariant::size() const
+quint8 QExtTcpPacketVariant::size() const
 {
     return this->dataTypeSize(m_dataType);
 }
 
-quint8 QEXTTcpPacketVariant::dataTypeSize(const quint8 &type)
+quint8 QExtTcpPacketVariant::dataTypeSize(const quint8 &type)
 {
     switch (type) {
     case Data_int8:
@@ -393,7 +393,7 @@ quint8 QEXTTcpPacketVariant::dataTypeSize(const quint8 &type)
     return 0;
 }
 
-bool QEXTTcpPacketVariant::isChartsDataType(const quint8 &type)
+bool QExtTcpPacketVariant::isChartsDataType(const quint8 &type)
 {
     return type >= Data_chars;
 }

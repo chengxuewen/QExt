@@ -50,41 +50,41 @@
  *
  * \ingroup signal
  */
-class QEXT_CORE_API QEXTConnection
+class QEXT_CORE_API QExtConnection
 {
 public:
-    typedef qextPrivate::QEXTFunctionBase SlotFunctionBase;
+    typedef QExtPrivate::QExtFunctionBase SlotFunctionBase;
 
     /** Constructs an empty connection object. */
-    QEXTConnection();
+    QExtConnection();
     /** Constructs a connection object copying an existing one.
      * \param src The connection object to make a copy from.
      */
-    QEXTConnection(const QEXTConnection &other);
+    QExtConnection(const QExtConnection &other);
     /** Constructs a connection object from a slot list iterator.
      * \param iter The slot list iterator to take the slot from.
      */
     template <typename T_slot>
-    QEXTConnection(const qextPrivate::QEXTFunctionIterator<T_slot> &iter) : m_slot(&(*iter))
+    QExtConnection(const QExtPrivate::QExtFunctionIterator<T_slot> &iter) : m_slot(&(*iter))
     {
     }
     /** Constructs a connection object from a slot object.
      * This is only useful if you create your own slot list.
      * \param sl The slot to operate on.
      */
-    explicit QEXTConnection(SlotFunctionBase &slot);
-    virtual ~QEXTConnection();
+    explicit QExtConnection(SlotFunctionBase &slot);
+    virtual ~QExtConnection();
 
     /** Overrides this connection object copying another one.
      * \param other The connection object to make a copy from.
      */
-    QEXTConnection &operator=(const QEXTConnection &other);
+    QExtConnection &operator=(const QExtConnection &other);
 
     /** Overrides this connection object with another slot list iterator.
      * \param iter The new slot list iterator to take the slot from.
      */
     template <typename T_slot>
-    QEXTConnection &operator=(const qextPrivate::QEXTFunctionIterator<T_slot> &iter)
+    QExtConnection &operator=(const QExtPrivate::QExtFunctionIterator<T_slot> &iter)
     {
         this->setSlot(&(*iter));
         return *this;
@@ -99,7 +99,7 @@ public:
      */
     bool isBlocked() const;
     /** Sets or unsets the blocking state of this connection.
-     * See QEXTFunctionBase::setBlock() for details.
+     * See QExtFunctionBase::setBlock() for details.
      * \param should_block Indicates whether the blocking state should be set or unset.
      * \return @p true if the connection has been in blocking state before.
      */

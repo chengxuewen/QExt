@@ -8,31 +8,31 @@
 #include <QHash>
 #include <QMutex>
 
-class QEXTTcpSocket;
-class QEXTTcpFactory;
-class QEXTTcpTaskPool;
-class QEXTTcpPacketTransceiver;
-class QEXTTcpPacketDispatcher;
-class QEXT_TCP_API QEXTTcpPacketDispatcherPrivate
+class QExtTcpSocket;
+class QExtTcpFactory;
+class QExtTcpTaskPool;
+class QExtTcpPacketTransceiver;
+class QExtTcpPacketDispatcher;
+class QEXT_TCP_API QExtTcpPacketDispatcherPrivate
 {
 public:
-    explicit QEXTTcpPacketDispatcherPrivate(QEXTTcpPacketDispatcher *q);
-    virtual ~QEXTTcpPacketDispatcherPrivate();
+    explicit QExtTcpPacketDispatcherPrivate(QExtTcpPacketDispatcher *q);
+    virtual ~QExtTcpPacketDispatcherPrivate();
 
-    QEXTTcpPacketDispatcher * const q_ptr;
+    QExtTcpPacketDispatcher * const q_ptr;
 
-    QPointer<QEXTTcpSocket> m_socket;
-    QSharedPointer<QEXTTcpTaskPool> m_taskPool;
+    QPointer<QExtTcpSocket> m_socket;
+    QSharedPointer<QExtTcpTaskPool> m_taskPool;
 
     mutable QMutex m_taskMutex;
-    QSharedPointer<QEXTTcpFactory> m_tcpFactory;
+    QSharedPointer<QExtTcpFactory> m_tcpFactory;
 
     mutable QMutex m_transceiverMutex;
-    QHash<quint64, QPointer<QEXTTcpPacketTransceiver> > m_requestPacketIdToReceiverMap;
+    QHash<quint64, QPointer<QExtTcpPacketTransceiver> > m_requestPacketIdToReceiverMap;
 
 private:
-    Q_DECLARE_PUBLIC(QEXTTcpPacketDispatcher)
-    Q_DISABLE_COPY(QEXTTcpPacketDispatcherPrivate)
+    Q_DECLARE_PUBLIC(QExtTcpPacketDispatcher)
+    Q_DISABLE_COPY(QExtTcpPacketDispatcherPrivate)
 };
 
 #endif // _QEXTTCPPACKETDISPATCHER_P_H

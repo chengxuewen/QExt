@@ -8,11 +8,10 @@
 #include <QObject>
 
 
-
-class QEXT_UTILS_API QEXTNetworkUtils
+class QEXT_UTILS_API QExtNetworkUtils
 {
 public:
-    QEXTNetworkUtils();
+    QExtNetworkUtils();
 
     static QByteArray qint16HostToNet(qint16 src);
     static QByteArray quint16HostToNet(quint16 src);
@@ -65,7 +64,6 @@ public:
     static QString quint64ToBinaryString(quint64 src);
     static QString byteArrayToBinaryString(QByteArray src);
 };
-
 
 
 #endif // _QEXTNETWORKUTILS_H

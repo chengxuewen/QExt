@@ -84,7 +84,7 @@ function(qext_install_injections target build_dir install_dir)
         get_target_property(is_framework ${target} FRAMEWORK)
     endif()
     # examples:
-    #  SYNCQEXT.INJECTIONS = src/corelib/global/qconfig.h:qconfig.h:QEXTConfig src/corelib/global/qconfig_p.h:5.12.0/QEXTCore/private/qconfig_p.h
+    #  SYNCQEXT.INJECTIONS = src/corelib/global/qconfig.h:qconfig.h:QExtConfig src/corelib/global/qconfig_p.h:5.12.0/QExtCore/private/qconfig_p.h
     # The are 3 parts to the assignment, divded by colons ':'.
     # The first part contains a path to a generated file in a build folder.
     # The second part contains the file name that the forwarding header should have, which points
@@ -160,7 +160,7 @@ function(qext_install_injections target build_dir install_dir)
                 string(APPEND upper_case_forwarding_header_path "/${destinationdir}")
             endif()
 
-            # Generate upper case forwarding header like QVulkanFunctions or QEXTConfig.
+            # Generate upper case forwarding header like QVulkanFunctions or QExtConfig.
             qext_configure_file(OUTPUT "${build_dir}/${upper_case_forwarding_header_path}/${fwd_hdr}"
                 CONTENT "#include \"${destinationname}\"\n")
 

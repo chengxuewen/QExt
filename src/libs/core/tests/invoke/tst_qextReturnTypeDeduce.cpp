@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 
-class QEXTReturnTypeDeduceTest : public QObject
+class QExtReturnTypeDeduceTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -40,7 +40,7 @@ void Bar<double>(double)
     sg_string = "double";
 }
 
-struct Foo : public QEXTFunctorBase
+struct Foo : public QExtFunctorBase
 {
     typedef double Return;
 
@@ -50,7 +50,7 @@ struct Foo : public QEXTFunctorBase
 
 struct Foo2 : public Foo {};
 
-struct Foo3 : public QEXTFunctorBase
+struct Foo3 : public QExtFunctorBase
 {
     typedef int Return;
 
@@ -58,27 +58,27 @@ struct Foo3 : public QEXTFunctorBase
     double operator()(const int &, int);
 };
 
-void QEXTReturnTypeDeduceTest::testSimple()
+void QExtReturnTypeDeduceTest::testSimple()
 {
     sg_string = "";
-    Bar(QEXTReturnTypeDeduce<Foo2, long>::Type());
+    Bar(QExtReturnTypeDeduce<Foo2, long>::Type());
     QVERIFY("double" == sg_string);
 
     sg_string = "";
-    Bar(QEXTReturnTypeDeduce<Foo2, int, int>::Type());
+    Bar(QExtReturnTypeDeduce<Foo2, int, int>::Type());
     QVERIFY("double" == sg_string);
 
     sg_string = "";
-    Bar(QEXTReturnTypeDeduce<Foo3, int, int>::Type());
+    Bar(QExtReturnTypeDeduce<Foo3, int, int>::Type());
     QVERIFY("int" == sg_string);
 
     sg_string = "";
-    Bar(QEXTReturnTypeDeduce<Foo2, int, int, int>::Type());
+    Bar(QExtReturnTypeDeduce<Foo2, int, int, int>::Type());
     QVERIFY("double" == sg_string);
 }
 
 
 
-QTEST_APPLESS_MAIN(QEXTReturnTypeDeduceTest)
+QTEST_APPLESS_MAIN(QExtReturnTypeDeduceTest)
 
 #include <tst_qextReturnTypeDeduce.moc>

@@ -5,16 +5,16 @@
 
 #include <QSharedPointer>
 
-class QEXTTcpPacketInterface;
-class QEXT_TCP_API QEXTTcpUtils
+class QExtTcpPacketInterface;
+class QEXT_TCP_API QExtTcpUtils
 {
 public:
-    QEXTTcpUtils();
+    QExtTcpUtils();
 
-    static QString packetData(const QSharedPointer<QEXTTcpPacketInterface> &packet);
-    static QString packetData(QEXTTcpPacketInterface *packet);
-    static void printPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet);
-    static void printPacket(QEXTTcpPacketInterface *packet);
+    static QString packetData(const QSharedPointer<QExtTcpPacketInterface> &packet);
+    static QString packetData(QExtTcpPacketInterface *packet);
+    static void printPacket(const QSharedPointer<QExtTcpPacketInterface> &packet);
+    static void printPacket(QExtTcpPacketInterface *packet);
 };
 
 #endif // _QEXTTCPUTILS_H

@@ -35,7 +35,7 @@
 #include <qextVisitor.h>
 
 template < typename T_functor >
-struct QEXTAdapts;
+struct QExtAdapts;
 
 /** @defgroup adaptors Adaptors
  * Adaptors are functors that alter the signature of a functor's
@@ -45,7 +45,7 @@ struct QEXTAdapts;
  * qextRetypeReturnFunctor(), qextRetypeFunctor(), qextComposeFunctor(), qextTrackObjectFunctor()
  * and qextLambdaGroup().
  *
- * You can easily derive your own adaptor type from QEXTAdapts.
+ * You can easily derive your own adaptor type from QExtAdapts.
  */
 
 /** Converts an arbitrary functor into an adaptor type.
@@ -62,12 +62,12 @@ struct QEXTAdapts;
  * The template argument @e T_functor determines the type of stored
  * functor.
  *
- * \ingroup QEXTAdapts
+ * \ingroup QExtAdapts
  */
 template < typename T_functor >
-struct QEXTAdaptorFunctor : public QEXTAdaptorBase
+struct QExtAdaptorFunctor : public QExtAdaptorBase
 {
-    typedef typename QEXTFunctorTrait< T_functor >::Return Return;
+    typedef typename QExtFunctorTrait< T_functor >::Return Return;
 
     template <
         typename T_arg1 = void,
@@ -79,7 +79,7 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
         typename T_arg7 = void >
     struct ReturnTypeDeduce
     {
-        typedef typename QEXTReturnTypeDeduce< T_functor, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
+        typedef typename QExtReturnTypeDeduce< T_functor, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
 
     /** Invokes the wrapped functor passing on the arguments.
@@ -184,17 +184,17 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
     }
 
     // Constructs an invalid functor.
-    QEXTAdaptorFunctor() {}
+    QExtAdaptorFunctor() {}
     /** Constructs an adaptor_functor object that wraps the passed functor.
      * \param functor Functor to invoke from operator()().
      */
-    explicit QEXTAdaptorFunctor(const T_functor &functor) : m_functor(functor) {}
+    explicit QExtAdaptorFunctor(const T_functor &functor) : m_functor(functor) {}
     template < typename T_type >
     /** Constructs an adaptor_functor object that wraps the passed (member)
      * function pointer.
      * \param type Pointer to function or class method to invoke from operator()().
      */
-    explicit QEXTAdaptorFunctor(const T_type &type) : m_functor(type)
+    explicit QExtAdaptorFunctor(const T_type &type) : m_functor(type)
     {
     }
 
@@ -203,39 +203,39 @@ struct QEXTAdaptorFunctor : public QEXTAdaptorBase
 };
 
 /** Performs a functor on each of the targets of a functor.
- * The function overload for QEXTAdaptorFunctor performs a functor
- * on the functor stored in the QEXTAdaptorFunctor object.
+ * The function overload for QExtAdaptorFunctor performs a functor
+ * on the functor stored in the QExtAdaptorFunctor object.
  *
- * \ingroup QEXTAdapts
+ * \ingroup QExtAdapts
  */
 template < typename T_functor >
-struct QEXTVisitor< QEXTAdaptorFunctor< T_functor > >
+struct QExtVisitor< QExtAdaptorFunctor< T_functor > >
 {
     template < typename T_action >
-    static void doVisitEach(const T_action &action, const QEXTAdaptorFunctor< T_functor > &target)
+    static void doVisitEach(const T_action &action, const QExtAdaptorFunctor< T_functor > &target)
     {
         qextVisitEach(action, target.m_functor);
     }
 };
 
 /** Trait that specifies what is the adaptor version of a functor type.
- * Template specializations for QEXTAdaptorBase derived functors,
+ * Template specializations for QExtAdaptorBase derived functors,
  * for function pointers and for class methods are provided.
  *
  * The template argument @e T_functor is the functor type to convert.
- * @e I_isadaptor indicates whether @e T_functor inherits from QEXTAdaptorBase.
+ * @e I_isadaptor indicates whether @e T_functor inherits from QExtAdaptorBase.
  *
- * \ingroup QEXTAdapts
+ * \ingroup QExtAdapts
  */
-template < typename T_functor, bool I_isadaptor = QEXTIsBaseOf< QEXTAdaptorBase, T_functor >::value >
-struct QEXTAdaptorTrait;
+template < typename T_functor, bool I_isadaptor = QEXTIsBaseOf< QExtAdaptorBase, T_functor >::value >
+struct QExtAdaptorTrait;
 
 /** Trait that specifies what is the adaptor version of a functor type.
  * This template specialization is used for types that inherit from adaptor_base.
  * Adaptor is equal to @p T_functor in this case.
  */
 template < typename T_functor >
-struct QEXTAdaptorTrait< T_functor, true >
+struct QExtAdaptorTrait< T_functor, true >
 {
     typedef typename T_functor::Return Return;
     typedef T_functor Functor;
@@ -245,36 +245,36 @@ struct QEXTAdaptorTrait< T_functor, true >
 /** Trait that specifies what is the adaptor version of a functor type.
  * This template specialization is used for arbitrary functors,
  * for function pointers and for class methods are provided.
- * The latter are converted into @p QEXTPointerFunctor or @p QEXTMemberFunctor types.
+ * The latter are converted into @p QExtPointerFunctor or @p QExtMemberFunctor types.
  * Adaptor is equal to @p AdaptorFunctor<Functor>.
  */
 template < typename T_functor >
-struct QEXTAdaptorTrait< T_functor, false >
+struct QExtAdaptorTrait< T_functor, false >
 {
-    typedef typename QEXTFunctorTrait< T_functor >::Return Return;
-    typedef typename QEXTFunctorTrait< T_functor >::Functor Functor;
-    typedef QEXTAdaptorFunctor< Functor > Adaptor;
+    typedef typename QExtFunctorTrait< T_functor >::Return Return;
+    typedef typename QExtFunctorTrait< T_functor >::Functor Functor;
+    typedef QExtAdaptorFunctor< Functor > Adaptor;
 };
 
 /** Base type for adaptors.
- * QEXTAdapts wraps adaptors, functors, function pointers and class methods.
- * It contains a single member functor which is always a QEXTAdaptorBase.
+ * QExtAdapts wraps adaptors, functors, function pointers and class methods.
+ * It contains a single member functor which is always a QExtAdaptorBase.
  * The typedef Adaptor defines the exact type that is used
  * to store the adaptor, functor, function pointer or class method passed
  * into the constructor. It differs from @a T_functor unless @a T_functor
- * inherits from QEXTAdaptorBase.
+ * inherits from QExtAdaptorBase.
  *
  * @par Example of a simple adaptor:
  * @code
  * namespace my_ns
  * {
  * template <typename T_functor>
- * struct my_adaptor : public QEXTAdapts<T_functor>
+ * struct my_adaptor : public QExtAdapts<T_functor>
  * {
  *   template <typename T_arg1 = void, typename T_arg2 = void>
  *   struct ReturnTypeDeduce
- *   { typedef typename QEXTReturnTypeDeduce<T_functor, T_arg1, T_arg2>::Type Type; };
- *   typedef typename QEXTFunctorTrait<T_functor>::Return   Return;
+ *   { typedef typename QExtReturnTypeDeduce<T_functor, T_arg1, T_arg2>::Type Type; };
+ *   typedef typename QExtFunctorTrait<T_functor>::Return   Return;
  *   //
  *   result_type
  *   operator()() const;
@@ -288,16 +288,16 @@ struct QEXTAdaptorTrait< T_functor, false >
  *   operator()(T_arg1 arg1, T_arg2 arg2) const;
  *   //
  *   // Constructs a my_adaptor object that wraps the passed functor.
- *   // Initializes QEXTAdapts<T_functor>::m_functor, which is invoked from operator()().
+ *   // Initializes QExtAdapts<T_functor>::m_functor, which is invoked from operator()().
  *   explicit my_adaptor(const T_functor &functor)
- *     : QEXTAdapts<T_functor>(functor) {}
+ *     : QExtAdapts<T_functor>(functor) {}
  * };
  * } // end namespace my_ns
  * //
- * // Specialization of QEXTVisitor for my_adaptor.
+ * // Specialization of QExtVisitor for my_adaptor.
  *
  * template <typename T_functor>
- * struct QEXTVisitor<my_ns::my_adaptor<T_functor> >
+ * struct QExtVisitor<my_ns::my_adaptor<T_functor> >
  * {
  *   template <typename T_action>
  *   static void doVisitEach(const T_action &action,
@@ -309,24 +309,24 @@ struct QEXTAdaptorTrait< T_functor, false >
  * @endcode
  *
  * If you implement your own adaptor, you must also provide your specialization
- * of QEXTVisitor<>::doVisitEach<>() that will forward the call to the functor(s)
+ * of QExtVisitor<>::doVisitEach<>() that will forward the call to the functor(s)
  * your adapter is wrapping. Otherwise, pointers stored within the functor won't be
  * invalidated when a QObject object is destroyed and you can end up
  * executing callbacks on destroyed objects.
  *
  *
- * \ingroup QEXTAdapts
+ * \ingroup QExtAdapts
  */
 template < typename T_functor >
-struct QEXTAdapts : public QEXTAdaptorBase
+struct QExtAdapts : public QExtAdaptorBase
 {
-    typedef typename QEXTAdaptorTrait< T_functor >::Return Return;
-    typedef typename QEXTAdaptorTrait< T_functor >::Adaptor Adaptor;
+    typedef typename QExtAdaptorTrait< T_functor >::Return Return;
+    typedef typename QExtAdaptorTrait< T_functor >::Adaptor Adaptor;
 
     /** Constructs an adaptor that wraps the passed functor.
      * \param functor Functor to invoke from operator()().
      */
-    explicit QEXTAdapts(const T_functor &functor) : m_functor(functor) {}
+    explicit QExtAdapts(const T_functor &functor) : m_functor(functor) {}
 
     // Adaptor that is invoked from operator()().
     mutable Adaptor m_functor;

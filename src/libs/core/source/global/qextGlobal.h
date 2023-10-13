@@ -339,7 +339,7 @@ typedef qintptr QEXTSocketDescriptor;
 typedef int QEXTSocketDescriptor;
 #endif
 
-struct QEXTNil {};
+struct QExtNil {};
 
 #define QEXT_ATOMIC_INT_TRUE 1
 #define QEXT_ATOMIC_INT_FALSE 0

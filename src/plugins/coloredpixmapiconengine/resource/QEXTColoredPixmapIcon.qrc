@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>QEXTColoredPixmapIcon.json</file>
+        <file>QExtColoredPixmapIcon.json</file>
     </qresource>
 </RCC>

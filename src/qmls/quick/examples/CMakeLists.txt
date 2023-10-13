@@ -86,7 +86,7 @@ function(qextFunctionQuickAddExample EXAMPLE_NAME)
     if(QEXT_BUILD_SHARED_LIBS AND WIN32)
         qextFunctionCopyDependencyInternal(
             TARGET ${EXAMPLE_NAME}
-            LIBS QEXTCore QEXTQmlQuick QEXTWidgets
+            LIBS QExtCore QEXTQmlQuick QExtWidgets
             DESTINATION ${EXECUTABLE_OUTPUT_PATH}
             POST_BUILD
             )

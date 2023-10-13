@@ -12,45 +12,45 @@
 #include <qextTcpPacketParser.h>
 #include <qextTcpFactory.h>
 
-struct STcpFactory : public QEXTTcpFactory
+struct STcpFactory : public QExtTcpFactory
 {
-    QSharedPointer<QEXTTcpPacketDispatcher> createPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket);
-    QSharedPointer<QEXTTcpPacketParserInterface> createPacketParser();
+    QSharedPointer<QExtTcpPacketDispatcher> createPacketDispatcher(const QSharedPointer<QExtTcpSocket> &socket);
+    QSharedPointer<QExtTcpPacketParserInterface> createPacketParser();
 
-    QEXTTcpTask *createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, int function);
-    QEXTTcpTask *createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, const QSharedPointer<QEXTTcpPacketInterface> &packet);
+    QExtTcpTask *createTask(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher, int function);
+    QExtTcpTask *createTask(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher, const QSharedPointer<QExtTcpPacketInterface> &packet);
 
-    QSharedPointer<QEXTTcpFactory> clone();
+    QSharedPointer<QExtTcpFactory> clone();
 };
 
 
-QSharedPointer<QEXTTcpPacketDispatcher> STcpFactory::createPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket)
+QSharedPointer<QExtTcpPacketDispatcher> STcpFactory::createPacketDispatcher(const QSharedPointer<QExtTcpSocket> &socket)
 {
-    return QEXTTcpFactory::createPacketDispatcher(socket);
+    return QExtTcpFactory::createPacketDispatcher(socket);
 }
 
-QSharedPointer<QEXTTcpPacketParserInterface> STcpFactory::createPacketParser()
+QSharedPointer<QExtTcpPacketParserInterface> STcpFactory::createPacketParser()
 {
-    QEXTTcpPacketHeader::DataInfoVector headerDataInfoVector;
-    headerDataInfoVector.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 16, "src"));
-    headerDataInfoVector.append(QEXTTcpPacketHeader::DataInfoPair(QEXTTcpPacketVariant::Data_chars + 8, "des"));
-    return QSharedPointer<QEXTTcpPacketParserInterface>(new QEXTTcpPacketParser(headerDataInfoVector));
+    QExtTcpPacketHeader::DataInfoVector headerDataInfoVector;
+    headerDataInfoVector.append(QExtTcpPacketHeader::DataInfoPair(QExtTcpPacketVariant::Data_chars + 16, "src"));
+    headerDataInfoVector.append(QExtTcpPacketHeader::DataInfoPair(QExtTcpPacketVariant::Data_chars + 8, "des"));
+    return QSharedPointer<QExtTcpPacketParserInterface>(new QExtTcpPacketParser(headerDataInfoVector));
 }
 
-QEXTTcpTask *STcpFactory::createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, int function)
+QExtTcpTask *STcpFactory::createTask(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher, int function)
 {
-    return QEXTTcpFactory::createTask(dispatcher, function);
+    return QExtTcpFactory::createTask(dispatcher, function);
 }
 
-QEXTTcpTask *STcpFactory::createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher,
-                                     const QSharedPointer<QEXTTcpPacketInterface> &packet)
+QExtTcpTask *STcpFactory::createTask(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher,
+                                     const QSharedPointer<QExtTcpPacketInterface> &packet)
 {
-    return QEXTTcpFactory::createTask(dispatcher, packet);
+    return QExtTcpFactory::createTask(dispatcher, packet);
 }
 
-QSharedPointer<QEXTTcpFactory> STcpFactory::clone()
+QSharedPointer<QExtTcpFactory> STcpFactory::clone()
 {
-    return QSharedPointer<QEXTTcpFactory>(new STcpFactory);
+    return QSharedPointer<QExtTcpFactory>(new STcpFactory);
 }
 
 
@@ -81,16 +81,16 @@ SMainWindow::SMainWindow(QWidget *parent) :
     ui->lineEdit_serverIP->setText(ipAddress);
     ui->lineEdit_serverPort->setText("8080");
 
-    m_tcpServer.reset(new QEXTTcpServer);
-    m_tcpServer->setTcpFactory(QSharedPointer<QEXTTcpFactory>(new STcpFactory));
-    connect(m_tcpServer.data(), SIGNAL(socketError(QSharedPointer<QEXTTcpSocket>, QAbstractSocket::SocketError)),
-            this, SLOT(onSocketError(QSharedPointer<QEXTTcpSocket>, QAbstractSocket::SocketError)));
+    m_tcpServer.reset(new QExtTcpServer);
+    m_tcpServer->setTcpFactory(QSharedPointer<QExtTcpFactory>(new STcpFactory));
+    connect(m_tcpServer.data(), SIGNAL(socketError(QSharedPointer<QExtTcpSocket>, QAbstractSocket::SocketError)),
+            this, SLOT(onSocketError(QSharedPointer<QExtTcpSocket>, QAbstractSocket::SocketError)));
     connect(m_tcpServer.data(), SIGNAL(serverMessage(QString)),
             this, SLOT(onServerMessageReceived(QString)));
-    connect(m_tcpServer.data(), SIGNAL(socketConnected(QSharedPointer<QEXTTcpSocket>)),
-            this, SLOT(onSocketConnected(QSharedPointer<QEXTTcpSocket>)));
-    connect(m_tcpServer.data(), SIGNAL(socketDisconnected(QSharedPointer<QEXTTcpSocket>)),
-            this, SLOT(onSocketDisConected(QSharedPointer<QEXTTcpSocket>)));
+    connect(m_tcpServer.data(), SIGNAL(socketConnected(QSharedPointer<QExtTcpSocket>)),
+            this, SLOT(onSocketConnected(QSharedPointer<QExtTcpSocket>)));
+    connect(m_tcpServer.data(), SIGNAL(socketDisconnected(QSharedPointer<QExtTcpSocket>)),
+            this, SLOT(onSocketDisConected(QSharedPointer<QExtTcpSocket>)));
 }
 
 SMainWindow::~SMainWindow()
@@ -98,7 +98,7 @@ SMainWindow::~SMainWindow()
     delete ui;
 }
 
-void SMainWindow::onSocketError(const QSharedPointer<QEXTTcpSocket> &socket, const QAbstractSocket::SocketError &error)
+void SMainWindow::onSocketError(const QSharedPointer<QExtTcpSocket> &socket, const QAbstractSocket::SocketError &error)
 {
     qDebug() << "SMainWindow::onSocketError():" << socket->errorString();
 }
@@ -109,7 +109,7 @@ void SMainWindow::onServerMessageReceived(const QString &msg)
     ui->textEditServerMsg->append(msg);
 }
 
-void SMainWindow::onSocketConnected(const QSharedPointer<QEXTTcpSocket> &socket)
+void SMainWindow::onSocketConnected(const QSharedPointer<QExtTcpSocket> &socket)
 {
     SSocketMsgBrowser *msgBrowser = new SSocketMsgBrowser(ui->tabWidgetSocket);
     connect(socket.data(), SIGNAL(newPacketReceived(QString)), msgBrowser, SLOT(onNewPacketReceived(QString)));
@@ -119,7 +119,7 @@ void SMainWindow::onSocketConnected(const QSharedPointer<QEXTTcpSocket> &socket)
     ui->tabWidgetSocket->addTab(msgBrowser, socket->identityId().toString());
 }
 
-void SMainWindow::onSocketDisConected(const QSharedPointer<QEXTTcpSocket> &socket)
+void SMainWindow::onSocketDisConected(const QSharedPointer<QExtTcpSocket> &socket)
 {
 
 }

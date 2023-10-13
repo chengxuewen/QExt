@@ -7,15 +7,15 @@
 #include <QVector>
 #include <QPair>
 
-class QEXT_TCP_API QEXTTcpPacketHeaderPrivate
+class QEXT_TCP_API QExtTcpPacketHeaderPrivate
 {
 public:
-    explicit QEXTTcpPacketHeaderPrivate(QEXTTcpPacketHeader *q);
-    virtual ~QEXTTcpPacketHeaderPrivate();
+    explicit QExtTcpPacketHeaderPrivate(QExtTcpPacketHeader *q);
+    virtual ~QExtTcpPacketHeaderPrivate();
 
-    QEXTTcpPacketHeader * const q_ptr;
+    QExtTcpPacketHeader * const q_ptr;
 
-    void initHeaderData(const QEXTTcpPacketHeader::DataInfoVector &dataInfoVector);
+    void initHeaderData(const QExtTcpPacketHeader::DataInfoVector &dataInfoVector);
     void updateHeaderSize();
 
     quint16 m_headerSize;
@@ -23,12 +23,12 @@ public:
 
     mutable QMutex m_mutex;
     QVector<QPair<quint8, QString> > m_dataInfoVector;
-    QMap<QString, QEXTTcpPacketVariant> m_dataMap;
+    QMap<QString, QExtTcpPacketVariant> m_dataMap;
     QMap<QString, quint8> m_typeMap;
 
 private:
-    Q_DECLARE_PUBLIC(QEXTTcpPacketHeader)
-    Q_DISABLE_COPY(QEXTTcpPacketHeaderPrivate)
+    Q_DECLARE_PUBLIC(QExtTcpPacketHeader)
+    Q_DISABLE_COPY(QExtTcpPacketHeaderPrivate)
 };
 
 

@@ -10,15 +10,15 @@
 #include <QPointer>
 #include <QThread>
 
-class QEXTTcpPacketInterface;
-class QEXTTcpPacketDispatcher;
-class QEXTTcpPacketParserInterface;
-class QEXTTcpSocketPrivate;
-class QEXT_TCP_API QEXTTcpSocket : public QTcpSocket
+class QExtTcpPacketInterface;
+class QExtTcpPacketDispatcher;
+class QExtTcpPacketParserInterface;
+class QExtTcpSocketPrivate;
+class QEXT_TCP_API QExtTcpSocket : public QTcpSocket
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTTcpSocket)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpSocket)
+    Q_DISABLE_COPY(QExtTcpSocket)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtTcpSocket)
 public:
     enum TransferErrorType {
         TransferError_SocketError = 0,
@@ -33,35 +33,35 @@ public:
         TransferError_Unknown
     };
 
-    QEXTTcpSocket();
-    QEXTTcpSocket(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser);
-    QEXTTcpSocket(QEXTTcpSocketPrivate *d, const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser);
-    ~QEXTTcpSocket();
+    QExtTcpSocket();
+    QExtTcpSocket(const QSharedPointer<QExtTcpPacketParserInterface> &packetParser);
+    QExtTcpSocket(QExtTcpSocketPrivate *d, const QSharedPointer<QExtTcpPacketParserInterface> &packetParser);
+    ~QExtTcpSocket();
 
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser() const;
-    void setPacketParser(const QSharedPointer<QEXTTcpPacketParserInterface> &packetParser);
+    QSharedPointer<QExtTcpPacketParserInterface> packetParser() const;
+    void setPacketParser(const QSharedPointer<QExtTcpPacketParserInterface> &packetParser);
 
-    QSharedPointer<QEXTTcpPacketDispatcher> packetDispatcher() const;
-    void setPacketDispatcher(const QSharedPointer<QEXTTcpPacketDispatcher> &packetDispatcher);
+    QSharedPointer<QExtTcpPacketDispatcher> packetDispatcher() const;
+    void setPacketDispatcher(const QSharedPointer<QExtTcpPacketDispatcher> &packetDispatcher);
 
     QSharedPointer<QThread> workThread() const;
     QSharedPointer<QThread> detachWorkThread();
     void attatchWorkThread(const QSharedPointer<QThread> &thread);
 
-    void enqueueSendPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet);
+    void enqueueSendPacket(const QSharedPointer<QExtTcpPacketInterface> &packet);
 
     bool isConnected() const;
-    QEXTId identityId() const;
+    QExtId identityId() const;
     static QString transferErrorText(int error);
 
 Q_SIGNALS:
     void newPacketSend(const QString &data);
     void newPacketReceived(const QString &data);
     void transferErrorString(const QString &error);
-    void transferError(const QEXTTcpSocket::TransferErrorType &error);
+    void transferError(const QExtTcpSocket::TransferErrorType &error);
 
 public Q_SLOTS:
-    QEXTId updateIdentityId();
+    QExtId updateIdentityId();
     void sendPacket();
 
     void connectToServer(const QString &ipAddress, quint16 port);
@@ -72,7 +72,7 @@ protected Q_SLOTS:
     void readPacket();
 
 protected:
-    QScopedPointer<QEXTTcpSocketPrivate> dd_ptr;
+    QScopedPointer<QExtTcpSocketPrivate> dd_ptr;
 };
 
 

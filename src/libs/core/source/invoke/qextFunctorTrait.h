@@ -53,11 +53,11 @@
  *
  * \ingroup qextFunctors
  */
-struct QEXT_CORE_API QEXTFunctorBase
+struct QEXT_CORE_API QExtFunctorBase
 {
     typedef void Return;
     typedef void Object;
-    virtual ~QEXTFunctorBase() {}
+    virtual ~QExtFunctorBase() {}
 };
 
 #if QEXT_CC_FEATURE_DECLTYPE
@@ -91,34 +91,34 @@ public:
 
 // For generic types, directly use the result of the signature of its 'operator()'
 template < typename T_functor >
-struct QEXTDecltypeFunctionTraits : public QEXTDecltypeFunctionTraits< decltype(&T_functor::operator()) >
+struct QExtDecltypeFunctionTraits : public QExtDecltypeFunctionTraits< decltype(&T_functor::operator()) >
 {
 };
 
 // we specialize for pointers to member function
 template < typename T_class, typename T_return, typename... T_args >
-struct QEXTDecltypeFunctionTraits< T_return (T_class::*)(T_args...) >
+struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) >
 {
     typedef T_return Return;
 };
 
 // we specialize for pointers to member const function
 template < typename T_class, typename T_return, typename... T_args >
-struct QEXTDecltypeFunctionTraits< T_return (T_class::*)(T_args...) const >
+struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) const >
 {
     typedef T_return Return;
 };
 
 // we specialize for pointers to member volatile function
 template < typename T_class, typename T_return, typename... T_args >
-struct QEXTDecltypeFunctionTraits< T_return (T_class::*)(T_args...) volatile >
+struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) volatile >
 {
     typedef T_return Return;
 };
 
 // we specialize for pointers to member const volatile function
 template < typename T_class, typename T_return, typename... T_args >
-struct QEXTDecltypeFunctionTraits< T_return (T_class::*)(T_args...) const volatile >
+struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) const volatile >
 {
     typedef T_return Return;
 };
@@ -135,12 +135,12 @@ public:
 #endif // #if QEXT_CC_FEATURE_DECLTYPE
 
 /** Trait that specifies the return type of any type.
- * Template specializations for functors derived from QEXTFunctorBase,
+ * Template specializations for functors derived from QExtFunctorBase,
  * for other functors whose result type can be deduced with decltype(),
  * for function pointers and for class methods are provided.
  *
  * @tparam T_functor Functor type.
- * @tparam I_derives_functor_base Whether @p T_functor inherits from QEXTFunctorBase.
+ * @tparam I_derives_functor_base Whether @p T_functor inherits from QExtFunctorBase.
  * @tparam I_can_use_decltype Whether the result type of @p T_functor can be deduced
  *                            with decltype().
  *
@@ -148,9 +148,9 @@ public:
  */
 template <
     typename T_functor,
-    bool I_derives_functor_base = QEXTIsBaseOf< QEXTFunctorBase, T_functor >::value,
+    bool I_derives_functor_base = QEXTIsBaseOf< QExtFunctorBase, T_functor >::value,
     bool I_can_use_decltype = QEXTCanDeduceResultTypeWithDecltype< T_functor >::value >
-struct QEXTFunctorTrait
+struct QExtFunctorTrait
 {
     typedef void Return;
     typedef void Object;
@@ -163,7 +163,7 @@ struct QEXTFunctorTrait
 };
 
 template < typename T_functor, bool I_can_use_decltype >
-struct QEXTFunctorTrait< T_functor, true, I_can_use_decltype >
+struct QExtFunctorTrait< T_functor, true, I_can_use_decltype >
 {
     typedef typename T_functor::Return Return;
     typedef typename T_functor::Object Object;
@@ -171,15 +171,15 @@ struct QEXTFunctorTrait< T_functor, true, I_can_use_decltype >
 
     QString typeName() const
     {
-        return "QEXTFunctorBase";
+        return "QExtFunctorBase";
     }
 };
 
 #if QEXT_CC_FEATURE_LAMBDA
 template < typename T_functor >
-struct QEXTFunctorTrait< T_functor, false, true >
+struct QExtFunctorTrait< T_functor, false, true >
 {
-    typedef typename QEXTDecltypeFunctionTraits< T_functor >::Return Return;
+    typedef typename QExtDecltypeFunctionTraits< T_functor >::Return Return;
     typedef T_functor Functor;
     typedef void Object;
 
@@ -192,7 +192,7 @@ struct QEXTFunctorTrait< T_functor, false, true >
 
 /** Helper macro, if you want to mix user-defined and third party functors.
  *
- * If you want to mix functors not derived from QEXTFunctorBase, and
+ * If you want to mix functors not derived from QExtFunctorBase, and
  * these functors define @p Return, use this macro like so:
  * @code
  * QEXT_FUNCTORS_HAVE_RESULT_TYPE
@@ -205,7 +205,7 @@ struct QEXTFunctorTrait< T_functor, false, true >
  */
 #define QEXT_FUNCTORS_HAVE_RESULT_TYPE                                                                                                                           \
     template < typename T_functor >                                                                                                                            \
-    struct QEXTFunctorTrait< T_functor, false, false >                                                                                                           \
+    struct QExtFunctorTrait< T_functor, false, false >                                                                                                           \
     {                                                                                                                                                          \
         typedef typename T_functor::Return Return;                                                                                                             \
         typedef T_functor Functor;                                                                                                                             \
@@ -213,7 +213,7 @@ struct QEXTFunctorTrait< T_functor, false, true >
 
 /** Helper macro, if you want to mix user-defined and third party functors.
  *
- * If you want to mix functors not derived from QEXTFunctorBase, and
+ * If you want to mix functors not derived from QExtFunctorBase, and
  * these functors don't define @p Return, use this macro inside namespace sigc
  * to expose the return type of the functors like so:
  * @code
@@ -226,7 +226,7 @@ struct QEXTFunctorTrait< T_functor, false, true >
  */
 #define QEXT_FUNCTOR_TRAIT(T_functor, T_return)                                                                                                                  \
     template <>                                                                                                                                                \
-    struct QEXTFunctorTrait< T_functor, false, false >                                                                                                           \
+    struct QExtFunctorTrait< T_functor, false, false >                                                                                                           \
     {                                                                                                                                                          \
         typedef T_return Return;                                                                                                                               \
         typedef T_functor Functor;                                                                                                                             \
@@ -234,7 +234,7 @@ struct QEXTFunctorTrait< T_functor, false, true >
 
 /** Helper macro, if you want to mix user-defined and third party functors.
  *
- * If you want to mix functors not derived from QEXTFunctorBase,
+ * If you want to mix functors not derived from QExtFunctorBase,
  * and your compiler can deduce the result type of the functor with the C++11
  * keyword <tt>decltype</tt>, use this macro like so:
  * @code
@@ -255,33 +255,33 @@ struct QEXTFunctorTrait< T_functor, false, true >
 #else
 #define QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE                                                                                                           \
     template < typename T_functor >                                                                                                                            \
-    struct QEXTDecltypeFunctionTraits : public QEXTDecltypeFunctionTraits< decltype(&T_functor::operator()) >                                                      \
+    struct QExtDecltypeFunctionTraits : public QExtDecltypeFunctionTraits< decltype(&T_functor::operator()) >                                                      \
     {                                                                                                                                                          \
     };                                                                                                                                                         \
     template < typename T_class, typename T_return, typename... T_args >                                                                                       \
-    struct QEXTDecltypeFunctionTraits< T_return (T_class::*)(T_args...) >                                                                                        \
-    {                                                                                                                                                          \
-        typedef T_return Return;                                                                                                                               \
-    };                                                                                                                                                         \
-    template < typename T_class, typename T_return, typename... T_args >                                                                                       \
-    struct QEXTDecltypeFunctionTraits< T_return (T_class::*)(T_args...) const >                                                                                  \
+    struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) >                                                                                        \
     {                                                                                                                                                          \
         typedef T_return Return;                                                                                                                               \
     };                                                                                                                                                         \
     template < typename T_class, typename T_return, typename... T_args >                                                                                       \
-    struct QEXTDecltypeFunctionTraits< T_return (T_class::*)(T_args...) volatile >                                                                               \
+    struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) const >                                                                                  \
     {                                                                                                                                                          \
         typedef T_return Return;                                                                                                                               \
     };                                                                                                                                                         \
     template < typename T_class, typename T_return, typename... T_args >                                                                                       \
-    struct QEXTDecltypeFunctionTraits< T_return (T_class::*)(T_args...) const volatile >                                                                         \
+    struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) volatile >                                                                               \
+    {                                                                                                                                                          \
+        typedef T_return Return;                                                                                                                               \
+    };                                                                                                                                                         \
+    template < typename T_class, typename T_return, typename... T_args >                                                                                       \
+    struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) const volatile >                                                                         \
     {                                                                                                                                                          \
         typedef T_return Return;                                                                                                                               \
     };                                                                                                                                                         \
     template < typename T_functor, bool I_can_use_decltype >                                                                                                   \
-    struct QEXTFunctorTrait< T_functor, false, I_can_use_decltype >                                                                                              \
+    struct QExtFunctorTrait< T_functor, false, I_can_use_decltype >                                                                                              \
     {                                                                                                                                                          \
-        typedef typename QEXTDecltypeFunctionTraits< T_functor >::Return Return;                                                                                 \
+        typedef typename QExtDecltypeFunctionTraits< T_functor >::Return Return;                                                                                 \
         typedef T_functor Functor;                                                                                                                             \
         typedef void Object;                                                                                                                               \
         QString typeName() const                                                                                                                           \
@@ -292,109 +292,109 @@ struct QEXTFunctorTrait< T_functor, false, true >
 #endif
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7 >
-class QEXTPointerFunctor;
+class QExtPointerFunctor;
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7 >
-struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7), false, false >
+struct QExtFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7), false, false >
 {
     typedef T_return Return;
     typedef void Object;
-    typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
+    typedef QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
 
     QString typeName() const
     {
-        return "QEXTPointerFunctor7";
+        return "QExtPointerFunctor7";
     }
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
-struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6), false, false >
+struct QExtFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6), false, false >
 {
     typedef T_return Return;
     typedef void Object;
-    typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil > Functor;
+    typedef QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTPointerFunctor6";
+        return "QExtPointerFunctor6";
     }
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
-struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5), false, false >
+struct QExtFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5), false, false >
 {
     typedef T_return Return;
     typedef void Object;
-    typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXTNil > Functor;
+    typedef QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTPointerFunctor5";
+        return "QExtPointerFunctor5";
     }
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
-struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4), false, false >
+struct QExtFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3, T_arg4), false, false >
 {
     typedef T_return Return;
     typedef void Object;
-    typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTPointerFunctor4";
+        return "QExtPointerFunctor4";
     }
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3 >
-struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3), false, false >
+struct QExtFunctorTrait< T_return (*)(T_arg1, T_arg2, T_arg3), false, false >
 {
     typedef T_return Return;
     typedef void Object;
-    typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTPointerFunctor3";
+        return "QExtPointerFunctor3";
     }
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2 >
-struct QEXTFunctorTrait< T_return (*)(T_arg1, T_arg2), false, false >
+struct QExtFunctorTrait< T_return (*)(T_arg1, T_arg2), false, false >
 {
     typedef T_return Return;
     typedef void Object;
-    typedef QEXTPointerFunctor< T_return, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtPointerFunctor< T_return, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTPointerFunctor2";
+        return "QExtPointerFunctor2";
     }
 };
 
 template < typename T_return, typename T_arg1 >
-struct QEXTFunctorTrait< T_return (*)(T_arg1), false, false >
+struct QExtFunctorTrait< T_return (*)(T_arg1), false, false >
 {
     typedef T_return Return;
     typedef void Object;
-    typedef QEXTPointerFunctor< T_return, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtPointerFunctor< T_return, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTPointerFunctor1";
+        return "QExtPointerFunctor1";
     }
 };
 
-//template <typename T_return> class QEXTPointerFunctor;
+//template <typename T_return> class QExtPointerFunctor;
 template < typename T_return >
-struct QEXTFunctorTrait< T_return (*)(), false, false >
+struct QExtFunctorTrait< T_return (*)(), false, false >
 {
     typedef T_return Return;
     typedef void Object;
-    typedef QEXTPointerFunctor< T_return, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtPointerFunctor< T_return, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTPointerFunctor0";
+        return "QExtPointerFunctor0";
     }
 };
 
@@ -408,7 +408,7 @@ template <
     typename T_arg5,
     typename T_arg6,
     typename T_arg7 >
-class QEXTMemberFunctor;
+class QExtMemberFunctor;
 template <
     typename T_return,
     typename T_obj,
@@ -419,7 +419,7 @@ template <
     typename T_arg5,
     typename T_arg6,
     typename T_arg7 >
-class QEXTConstMemberFunctor;
+class QExtConstMemberFunctor;
 template <
     typename T_return,
     typename T_obj,
@@ -430,7 +430,7 @@ template <
     typename T_arg5,
     typename T_arg6,
     typename T_arg7 >
-class QEXTVolatileMemberFunctor;
+class QExtVolatileMemberFunctor;
 template <
     typename T_return,
     typename T_obj,
@@ -441,7 +441,7 @@ template <
     typename T_arg5,
     typename T_arg6,
     typename T_arg7 >
-class QEXTConstVolatileMemberFunctor;
+class QExtConstVolatileMemberFunctor;
 template <
     typename T_return,
     typename T_obj,
@@ -452,15 +452,15 @@ template <
     typename T_arg5,
     typename T_arg6,
     typename T_arg7 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7), false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7), false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
+    typedef QExtMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
 
     QString typeName() const
     {
-        return "QEXTMemberFunctor7";
+        return "QExtMemberFunctor7";
     }
 };
 template <
@@ -473,15 +473,15 @@ template <
     typename T_arg5,
     typename T_arg6,
     typename T_arg7 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
+    typedef QExtConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstMemberFunctor7";
+        return "QExtConstMemberFunctor7";
     }
 };
 template <
@@ -494,15 +494,15 @@ template <
     typename T_arg5,
     typename T_arg6,
     typename T_arg7 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
+    typedef QExtVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
 
     QString typeName() const
     {
-        return "QEXTVolatileMemberFunctor7";
+        return "QExtVolatileMemberFunctor7";
     }
 };
 template <
@@ -515,358 +515,358 @@ template <
     typename T_arg5,
     typename T_arg6,
     typename T_arg7 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
+    typedef QExtConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstVolatileMemberFunctor7";
+        return "QExtConstVolatileMemberFunctor7";
     }
 };
 
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6), false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6), false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil > Functor;
+    typedef QExtMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTMemberFunctor6";
+        return "QExtMemberFunctor6";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil > Functor;
+    typedef QExtConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstMemberFunctor6";
+        return "QExtConstMemberFunctor6";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil > Functor;
+    typedef QExtVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTVolatileMemberFunctor6";
+        return "QExtVolatileMemberFunctor6";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil > Functor;
+    typedef QExtConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstVolatileMemberFunctor6";
+        return "QExtConstVolatileMemberFunctor6";
     }
 };
 
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5), false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5), false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXTNil > Functor;
+    typedef QExtMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTMemberFunctor5";
+        return "QExtMemberFunctor5";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstMemberFunctor5";
+        return "QExtConstMemberFunctor5";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXTNil > Functor;
+    typedef QExtVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTVolatileMemberFunctor5";
+        return "QExtVolatileMemberFunctor5";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstVolatileMemberFunctor5";
+        return "QExtConstVolatileMemberFunctor5";
     }
 };
 
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4), false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4), false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil> Functor;
+    typedef QExtMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil> Functor;
 
     QString typeName() const
     {
-        return "QEXTMemberFunctor4";
+        return "QExtMemberFunctor4";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4) const, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4) const, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstMemberFunctor4";
+        return "QExtConstMemberFunctor4";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4) volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4) volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTVolatileMemberFunctor4";
+        return "QExtVolatileMemberFunctor4";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4) const volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4) const volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstVolatileMemberFunctor4";
+        return "QExtConstVolatileMemberFunctor4";
     }
 };
 
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3), false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3), false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTMemberFunctor3";
+        return "QExtMemberFunctor3";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3) const, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3) const, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstMemberFunctor3";
+        return "QExtConstMemberFunctor3";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3) volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3) volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTVolatileMemberFunctor3";
+        return "QExtVolatileMemberFunctor3";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3) const volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3) const volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstVolatileMemberFunctor3";
+        return "QExtConstVolatileMemberFunctor3";
     }
 };
 
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2), false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2), false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTMemberFunctor2";
+        return "QExtMemberFunctor2";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2) const, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2) const, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstMemberFunctor2";
+        return "QExtConstMemberFunctor2";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2) volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2) volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTVolatileMemberFunctor2";
+        return "QExtVolatileMemberFunctor2";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1, typename T_arg2 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2) const volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2) const volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstVolatileMemberFunctor2";
+        return "QExtConstVolatileMemberFunctor2";
     }
 };
 
 template < typename T_return, typename T_obj, typename T_arg1 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1), false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1), false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTMemberFunctor< T_return, T_obj, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtMemberFunctor< T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTMemberFunctor1";
+        return "QExtMemberFunctor1";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1) const, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1) const, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstMemberFunctor< T_return, T_obj, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstMemberFunctor< T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstMemberFunctor1";
+        return "QExtConstMemberFunctor1";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1) volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1) volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTVolatileMemberFunctor< T_return, T_obj, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtVolatileMemberFunctor< T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTVolatileMemberFunctor1";
+        return "QExtVolatileMemberFunctor1";
     }
 };
 template < typename T_return, typename T_obj, typename T_arg1 >
-struct QEXTFunctorTrait< T_return (T_obj::*)(T_arg1) const volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1) const volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstVolatileMemberFunctor< T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstVolatileMemberFunctor1";
+        return "QExtConstVolatileMemberFunctor1";
     }
 };
 
 template < typename T_return, typename T_obj >
-struct QEXTFunctorTrait< T_return (T_obj::*)(), false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)(), false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTMemberFunctor< T_return, T_obj, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtMemberFunctor< T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTMemberFunctor0";
+        return "QExtMemberFunctor0";
     }
 };
 template < typename T_return, typename T_obj >
-struct QEXTFunctorTrait< T_return (T_obj::*)() const, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)() const, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstMemberFunctor< T_return, T_obj, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstMemberFunctor< T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstMemberFunctor0";
+        return "QExtConstMemberFunctor0";
     }
 };
 template < typename T_return, typename T_obj >
-struct QEXTFunctorTrait< T_return (T_obj::*)() volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)() volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTVolatileMemberFunctor< T_return, T_obj, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtVolatileMemberFunctor< T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTVolatileMemberFunctor0";
+        return "QExtVolatileMemberFunctor0";
     }
 };
 template < typename T_return, typename T_obj >
-struct QEXTFunctorTrait< T_return (T_obj::*)() const volatile, false, false >
+struct QExtFunctorTrait< T_return (T_obj::*)() const volatile, false, false >
 {
     typedef T_return Return;
     typedef T_obj Object;
-    typedef QEXTConstVolatileMemberFunctor< T_return, T_obj, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > Functor;
+    typedef QExtConstVolatileMemberFunctor< T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > Functor;
 
     QString typeName() const
     {
-        return "QEXTConstVolatileMemberFunctor0";
+        return "QExtConstVolatileMemberFunctor0";
     }
 };
 

@@ -6,10 +6,10 @@
 
 #include <QObject>
 
-class QEXT_UTILS_API QEXTDateTimeUtils
+class QEXT_UTILS_API QExtDateTimeUtils
 {
 public:
-    virtual ~QEXTDateTimeUtils() {}
+    virtual ~QExtDateTimeUtils() {}
 
     static void mSleep(const int &iMSec);
 };

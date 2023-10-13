@@ -46,17 +46,17 @@
 #ifdef QT_GUI_LIB
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 #include <QtGui/QWidget>
-class QEXTSerialRegistrationWidget : public QWidget
+class QExtSerialRegistrationWidget : public QWidget
 #else
 #include <QtGui/QWindow>
-class QEXTSerialRegistrationWidget : public QWindow
+class QExtSerialRegistrationWidget : public QWindow
 #endif
 {
 public:
-    QEXTSerialRegistrationWidget(QEXTSerialEnumeratorPrivate *qese) {
+    QExtSerialRegistrationWidget(QExtSerialEnumeratorPrivate *qese) {
         this->qese = qese;
     }
-    ~QEXTSerialRegistrationWidget() {}
+    ~QExtSerialRegistrationWidget() {}
 
 protected:
 
@@ -74,12 +74,12 @@ protected:
         return false;
     }
 private:
-    QEXTSerialEnumeratorPrivate *qese;
+    QExtSerialEnumeratorPrivate *qese;
 };
 
 #endif // QT_GUI_LIB
 
-void QEXTSerialEnumeratorPrivate::platformSpecificInit()
+void QExtSerialEnumeratorPrivate::platformSpecificInit()
 {
 #ifdef QT_GUI_LIB
     notificationWidget = 0;
@@ -89,7 +89,7 @@ void QEXTSerialEnumeratorPrivate::platformSpecificInit()
 /*!
   default
 */
-void QEXTSerialEnumeratorPrivate::platformSpecificDestruct()
+void QExtSerialEnumeratorPrivate::platformSpecificDestruct()
 {
 #ifdef QT_GUI_LIB
     if (notificationWidget)
@@ -227,7 +227,7 @@ static bool lessThan(const QEXTPortInfo &s1, const QEXTPortInfo &s2)
 
     return list of ports currently available in the system.
 */
-QList<QEXTPortInfo> QEXTSerialEnumeratorPrivate::getPorts_sys()
+QList<QEXTPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
 {
     QList<QEXTPortInfo> ports;
     const int count = sizeof(deviceClassGuids)/sizeof(deviceClassGuids[0]);
@@ -241,17 +241,17 @@ QList<QEXTPortInfo> QEXTSerialEnumeratorPrivate::getPorts_sys()
 /*
     Enable event-driven notifications of board discovery/removal.
 */
-bool QEXTSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
+bool QExtSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
 {
 #ifndef QT_GUI_LIB
     Q_UNUSED(setup)
-    qWarning("QEXTSerialEnumerator: GUI not enabled - can't register for device notifications.");
+    qWarning("QExtSerialEnumerator: GUI not enabled - can't register for device notifications.");
     return false;
 #else
-    Q_Q(QEXTSerialEnumerator);
+    Q_Q(QExtSerialEnumerator);
     if (setup && notificationWidget) //already setup
         return true;
-    notificationWidget = new QEXTSerialRegistrationWidget(this);
+    notificationWidget = new QExtSerialRegistrationWidget(this);
 
     DEV_BROADCAST_DEVICEINTERFACE dbh;
     ::ZeroMemory(&dbh, sizeof(dbh));
@@ -271,7 +271,7 @@ bool QEXTSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
 #endif // QT_GUI_LIB
 }
 
-LRESULT QEXTSerialEnumeratorPrivate::onDeviceChanged(WPARAM wParam, LPARAM lParam)
+LRESULT QExtSerialEnumeratorPrivate::onDeviceChanged(WPARAM wParam, LPARAM lParam)
 {
     if (DBT_DEVICEARRIVAL == wParam || DBT_DEVICEREMOVECOMPLETE == wParam) {
         PDEV_BROADCAST_HDR pHdr = (PDEV_BROADCAST_HDR)lParam;
@@ -290,9 +290,9 @@ LRESULT QEXTSerialEnumeratorPrivate::onDeviceChanged(WPARAM wParam, LPARAM lPara
     return 0;
 }
 
-bool QEXTSerialEnumeratorPrivate::matchAndDispatchChangedDevice(const QString &deviceID, const GUID &guid, WPARAM wParam)
+bool QExtSerialEnumeratorPrivate::matchAndDispatchChangedDevice(const QString &deviceID, const GUID &guid, WPARAM wParam)
 {
-    Q_Q(QEXTSerialEnumerator);
+    Q_Q(QExtSerialEnumerator);
     bool rv = false;
     DWORD dwFlag = (DBT_DEVICEARRIVAL == wParam) ? DIGCF_PRESENT : DIGCF_ALLCLASSES;
     HDEVINFO devInfo;

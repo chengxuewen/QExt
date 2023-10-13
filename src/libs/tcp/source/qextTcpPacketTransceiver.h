@@ -7,46 +7,46 @@
 #include <QObject>
 #include <QSharedPointer>
 
-class QEXTTcpPacketParserInterface;
-class QEXTTcpPacketDispatcher;
-class QEXTTcpPacketInterface;
-class QEXTTcpPacketTransceiverPrivate;
-class QEXT_TCP_API QEXTTcpPacketTransceiver : public QObject
+class QExtTcpPacketParserInterface;
+class QExtTcpPacketDispatcher;
+class QExtTcpPacketInterface;
+class QExtTcpPacketTransceiverPrivate;
+class QEXT_TCP_API QExtTcpPacketTransceiver : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTTcpPacketTransceiver)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpPacketTransceiver)
+    Q_DISABLE_COPY(QExtTcpPacketTransceiver)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtTcpPacketTransceiver)
 public:
-    QEXTTcpPacketTransceiver(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
-    QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate *d);
-    QEXTTcpPacketTransceiver(QEXTTcpPacketTransceiverPrivate *d, const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher);
-    ~QEXTTcpPacketTransceiver();
+    QExtTcpPacketTransceiver(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher);
+    QExtTcpPacketTransceiver(QExtTcpPacketTransceiverPrivate *d);
+    QExtTcpPacketTransceiver(QExtTcpPacketTransceiverPrivate *d, const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher);
+    ~QExtTcpPacketTransceiver();
 
-    QEXTId identityId() const;
+    QExtId identityId() const;
     bool isSocketValid() const;
 
-    bool send(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket);
-    bool sendReply(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket,
-                   QSharedPointer<QEXTTcpPacketInterface> &receivedPacket);
-    bool sendNotify(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket);
-    bool sendRequest(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket);
-    bool sendRequestSync(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket,
-                         QSharedPointer<QEXTTcpPacketInterface> &receivedPacket,
+    bool send(const QSharedPointer<QExtTcpPacketInterface> &sendPacket);
+    bool sendReply(const QSharedPointer<QExtTcpPacketInterface> &sendPacket,
+                   QSharedPointer<QExtTcpPacketInterface> &receivedPacket);
+    bool sendNotify(const QSharedPointer<QExtTcpPacketInterface> &sendPacket);
+    bool sendRequest(const QSharedPointer<QExtTcpPacketInterface> &sendPacket);
+    bool sendRequestSync(const QSharedPointer<QExtTcpPacketInterface> &sendPacket,
+                         QSharedPointer<QExtTcpPacketInterface> &receivedPacket,
                          quint16 timeoutMsecs = 1500);
 
     bool waitForData(int msecs = 3000);
     void cancelWait();
 
-    QSharedPointer<QEXTTcpPacketInterface> syncSendedPacket() const;
-    QSharedPointer<QEXTTcpPacketInterface> syncReceivedPacket() const;
+    QSharedPointer<QExtTcpPacketInterface> syncSendedPacket() const;
+    QSharedPointer<QExtTcpPacketInterface> syncReceivedPacket() const;
 
     int packetCount() const;
     bool isPacketQueueEmpty() const;
-    QSharedPointer<QEXTTcpPacketInterface> dequeuePacket();
-    void enqueuePacket(const QSharedPointer<QEXTTcpPacketInterface> &packet);
+    QSharedPointer<QExtTcpPacketInterface> dequeuePacket();
+    void enqueuePacket(const QSharedPointer<QExtTcpPacketInterface> &packet);
 
-    QSharedPointer<QEXTTcpPacketParserInterface> packetParser() const;
-    QSharedPointer<QEXTTcpPacketDispatcher> dispatcher() const;
+    QSharedPointer<QExtTcpPacketParserInterface> packetParser() const;
+    QSharedPointer<QExtTcpPacketDispatcher> dispatcher() const;
     QString lastError() const;
 
 Q_SIGNALS:
@@ -54,11 +54,11 @@ Q_SIGNALS:
     void packetReady();
 
 protected:
-    void setRequestSyncFlag(const QSharedPointer<QEXTTcpPacketInterface> &sendPacket);
-    void resetRequestSyncFlag(const QSharedPointer<QEXTTcpPacketInterface> &receivedPacket);
+    void setRequestSyncFlag(const QSharedPointer<QExtTcpPacketInterface> &sendPacket);
+    void resetRequestSyncFlag(const QSharedPointer<QExtTcpPacketInterface> &receivedPacket);
     void setError(const QString &error);
 
-    QScopedPointer<QEXTTcpPacketTransceiverPrivate> dd_ptr;
+    QScopedPointer<QExtTcpPacketTransceiverPrivate> dd_ptr;
 };
 
 #endif // _QEXTTCPPACKETTRANSCEIVER_H

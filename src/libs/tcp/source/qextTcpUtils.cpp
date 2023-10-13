@@ -3,12 +3,12 @@
 
 #include <QDebug>
 
-QEXTTcpUtils::QEXTTcpUtils()
+QExtTcpUtils::QExtTcpUtils()
 {
 
 }
 
-QString QEXTTcpUtils::packetData(const QSharedPointer<QEXTTcpPacketInterface> &packet)
+QString QExtTcpUtils::packetData(const QSharedPointer<QExtTcpPacketInterface> &packet)
 {
     QString packetData;
     if (!packet.isNull())
@@ -24,7 +24,7 @@ QString QEXTTcpUtils::packetData(const QSharedPointer<QEXTTcpPacketInterface> &p
     return packetData;
 }
 
-QString QEXTTcpUtils::packetData(QEXTTcpPacketInterface *packet)
+QString QExtTcpUtils::packetData(QExtTcpPacketInterface *packet)
 {
     QString packetData;
     if (packet)
@@ -40,9 +40,9 @@ QString QEXTTcpUtils::packetData(QEXTTcpPacketInterface *packet)
     return packetData;
 }
 
-void QEXTTcpUtils::printPacket(const QSharedPointer<QEXTTcpPacketInterface> &packet)
+void QExtTcpUtils::printPacket(const QSharedPointer<QExtTcpPacketInterface> &packet)
 {
-    qDebug() << "QEXTTcpUtils::printPacket():-----------------";
+    qDebug() << "QExtTcpUtils::printPacket():-----------------";
     if (!packet.isNull())
     {
         QList<QString> dataList = packet->header()->headerList();
@@ -55,9 +55,9 @@ void QEXTTcpUtils::printPacket(const QSharedPointer<QEXTTcpPacketInterface> &pac
     }
 }
 
-void QEXTTcpUtils::printPacket(QEXTTcpPacketInterface *packet)
+void QExtTcpUtils::printPacket(QExtTcpPacketInterface *packet)
 {
-    qDebug() << "QEXTTcpUtils::printPacket():-----------------";
+    qDebug() << "QExtTcpUtils::printPacket():-----------------";
     if (packet)
     {
         QList<QString> dataList = packet->header()->headerList();

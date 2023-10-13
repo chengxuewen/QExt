@@ -42,7 +42,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND _test_link_libraries QEXTWidget)
+list(APPEND _test_link_libraries QExtWidget)
 
 
 
@@ -56,5 +56,5 @@ list(APPEND _test_link_libraries QEXTWidget)
 #target_include_directories(${_test_name} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 #if(WIN32)
 #    qextFunctionCopyDependencyInternal(${_test_name} QEXTUtils ${EXECUTABLE_OUTPUT_PATH})
-#    qextFunctionCopyDependencyInternal(${_test_name} QEXTCore ${EXECUTABLE_OUTPUT_PATH})
+#    qextFunctionCopyDependencyInternal(${_test_name} QExtCore ${EXECUTABLE_OUTPUT_PATH})
 #endif()

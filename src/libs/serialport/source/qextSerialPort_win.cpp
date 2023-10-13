@@ -42,7 +42,7 @@
 #else
 #  include <QtCore/private/qwineventnotifier_p.h>
 #endif
-void QEXTSerialPortPrivate::platformSpecificInit()
+void QExtSerialPortPrivate::platformSpecificInit()
 {
     handle = INVALID_HANDLE_VALUE;
     ZeroMemory(&overlap, sizeof(OVERLAPPED));
@@ -51,7 +51,7 @@ void QEXTSerialPortPrivate::platformSpecificInit()
     bytesToWriteLock = new QReadWriteLock;
 }
 
-void QEXTSerialPortPrivate::platformSpecificDestruct() {
+void QExtSerialPortPrivate::platformSpecificDestruct() {
     CloseHandle(overlap.hEvent);
     delete bytesToWriteLock;
 }
@@ -72,13 +72,13 @@ static QString fullPortNameWin(const QString &name)
     return fullName;
 }
 
-bool QEXTSerialPortPrivate::open_sys(QIODevice::OpenMode mode)
+bool QExtSerialPortPrivate::open_sys(QIODevice::OpenMode mode)
 {
-    Q_Q(QEXTSerialPort);
+    Q_Q(QExtSerialPort);
     DWORD confSize = sizeof(COMMCONFIG);
     commConfig.dwSize = confSize;
     DWORD dwFlagsAndAttributes = 0;
-    if (queryMode == QEXTSerialPort::EventDriven)
+    if (queryMode == QExtSerialPort::EventDriven)
         dwFlagsAndAttributes += FILE_FLAG_OVERLAPPED;
 
     /*open the port*/
@@ -103,7 +103,7 @@ bool QEXTSerialPortPrivate::open_sys(QIODevice::OpenMode mode)
         updatePortSettings();
 
         //init event driven approach
-        if (queryMode == QEXTSerialPort::EventDriven) {
+        if (queryMode == QExtSerialPort::EventDriven) {
             if (!SetCommMask(handle, EV_TXEMPTY | EV_RXCHAR | EV_DSR)) {
                 qWarning()<<"failed to set Comm Mask. Error code:"<<GetLastError();
                 return false;
@@ -118,7 +118,7 @@ bool QEXTSerialPortPrivate::open_sys(QIODevice::OpenMode mode)
     return false;
 }
 
-bool QEXTSerialPortPrivate::close_sys()
+bool QExtSerialPortPrivate::close_sys()
 {
     flush_sys();
     CancelIo(handle);
@@ -138,13 +138,13 @@ bool QEXTSerialPortPrivate::close_sys()
     return true;
 }
 
-bool QEXTSerialPortPrivate::flush_sys()
+bool QExtSerialPortPrivate::flush_sys()
 {
     FlushFileBuffers(handle);
     return true;
 }
 
-qint64 QEXTSerialPortPrivate::bytesAvailable_sys() const
+qint64 QExtSerialPortPrivate::bytesAvailable_sys() const
 {
     DWORD Errors;
     COMSTAT Status;
@@ -155,9 +155,9 @@ qint64 QEXTSerialPortPrivate::bytesAvailable_sys() const
 }
 
 /*
-    Translates a system-specific error code to a QEXTSerialPort error code.  Used internally.
+    Translates a system-specific error code to a QExtSerialPort error code.  Used internally.
 */
-void QEXTSerialPortPrivate::translateError(ulong error)
+void QExtSerialPortPrivate::translateError(ulong error)
 {
     if (error & CE_BREAK) {
         lastErr = E_BREAK_CONDITION;
@@ -193,11 +193,11 @@ void QEXTSerialPortPrivate::translateError(ulong error)
     \warning before calling this function ensure that serial port associated with this class
     is currently open (use isOpen() function to check if port is open).
 */
-qint64 QEXTSerialPortPrivate::readData_sys(char *data, qint64 maxSize)
+qint64 QExtSerialPortPrivate::readData_sys(char *data, qint64 maxSize)
 {
     DWORD bytesRead = 0;
     bool failed = false;
-    if (queryMode == QEXTSerialPort::EventDriven) {
+    if (queryMode == QExtSerialPort::EventDriven) {
         OVERLAPPED overlapRead;
         ZeroMemory(&overlapRead, sizeof(OVERLAPPED));
         if (!ReadFile(handle, (void *)data, (DWORD)maxSize, &bytesRead, &overlapRead)) {
@@ -224,11 +224,11 @@ qint64 QEXTSerialPortPrivate::readData_sys(char *data, qint64 maxSize)
     \warning before calling this function ensure that serial port associated with this class
     is currently open (use isOpen() function to check if port is open).
 */
-qint64 QEXTSerialPortPrivate::writeData_sys(const char *data, qint64 maxSize)
+qint64 QExtSerialPortPrivate::writeData_sys(const char *data, qint64 maxSize)
 {
     DWORD bytesWritten = 0;
     bool failed = false;
-    if (queryMode == QEXTSerialPort::EventDriven) {
+    if (queryMode == QExtSerialPort::EventDriven) {
         OVERLAPPED *newOverlapWrite = new OVERLAPPED;
         ZeroMemory(newOverlapWrite, sizeof(OVERLAPPED));
         newOverlapWrite->hEvent = CreateEvent(NULL, true, false, NULL);
@@ -242,12 +242,12 @@ qint64 QEXTSerialPortPrivate::writeData_sys(const char *data, qint64 maxSize)
             pendingWrites.append(newOverlapWrite);
         }
         else {
-            qWarning()<<"QEXTSerialPort write error:"<<GetLastError();
+            qWarning()<<"QExtSerialPort write error:"<<GetLastError();
             failed = true;
             if (!CancelIo(newOverlapWrite->hEvent))
-                qWarning("QEXTSerialPort: couldn't cancel IO");
+                qWarning("QExtSerialPort: couldn't cancel IO");
             if (!CloseHandle(newOverlapWrite->hEvent))
-                qWarning("QEXTSerialPort: couldn't close OVERLAPPED handle");
+                qWarning("QExtSerialPort: couldn't close OVERLAPPED handle");
             delete newOverlapWrite;
         }
     } else if (!WriteFile(handle, (void *)data, (DWORD)maxSize, &bytesWritten, NULL)) {
@@ -261,15 +261,15 @@ qint64 QEXTSerialPortPrivate::writeData_sys(const char *data, qint64 maxSize)
     return -1;
 }
 
-void QEXTSerialPortPrivate::setDtr_sys(bool set) {
+void QExtSerialPortPrivate::setDtr_sys(bool set) {
     EscapeCommFunction(handle, set ? SETDTR : CLRDTR);
 }
 
-void QEXTSerialPortPrivate::setRts_sys(bool set) {
+void QExtSerialPortPrivate::setRts_sys(bool set) {
     EscapeCommFunction(handle, set ? SETRTS : CLRRTS);
 }
 
-ulong QEXTSerialPortPrivate::lineStatus_sys(void) {
+ulong QExtSerialPortPrivate::lineStatus_sys(void) {
     unsigned long Status = 0, Temp = 0;
     GetCommModemStatus(handle, &Temp);
     if (Temp & MS_CTS_ON) Status |= LS_CTS;
@@ -282,9 +282,9 @@ ulong QEXTSerialPortPrivate::lineStatus_sys(void) {
 /*
   Triggered when there's activity on our HANDLE.
 */
-void QEXTSerialPortPrivate::_q_onWinEvent(HANDLE h)
+void QExtSerialPortPrivate::_q_onWinEvent(HANDLE h)
 {
-    Q_Q(QEXTSerialPort);
+    Q_Q(QExtSerialPort);
     if (h == overlap.hEvent) {
         if (eventMask & EV_RXCHAR) {
             if (q->sender() != q && bytesAvailable_sys() > 0)
@@ -330,7 +330,7 @@ void QEXTSerialPortPrivate::_q_onWinEvent(HANDLE h)
     WaitCommEvent(handle, &eventMask, &overlap);
 }
 
-void QEXTSerialPortPrivate::updatePortSettings()
+void QExtSerialPortPrivate::updatePortSettings()
 {
     if (!q_ptr->isOpen() || !settingsDirtyFlags)
         return;
@@ -387,7 +387,7 @@ void QEXTSerialPortPrivate::updatePortSettings()
 
     //fill struct : COMMTIMEOUTS
     if (settingsDirtyFlags & DFE_TimeOut) {
-        if (queryMode != QEXTSerialPort::EventDriven) {
+        if (queryMode != QExtSerialPort::EventDriven) {
             int millisec = settings.Timeout_Millisec;
             if (millisec == -1) {
                 commTimeouts.ReadIntervalTimeout = MAXDWORD;

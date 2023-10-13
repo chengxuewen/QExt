@@ -12,7 +12,7 @@
 #include <string>
 #include <sstream>
 
-class QEXTBindReturnFunctorTest : public QObject
+class QExtBindReturnFunctorTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
@@ -53,24 +53,24 @@ public:
 };
 
 
-void QEXTBindReturnFunctorTest::testSimple()
+void QExtBindReturnFunctorTest::testSimple()
 {
     QVERIFY(-12345 == qextBindReturnFunctor(Foo(), -12345)(5));
     QVERIFY("Foo(int 5) " == sg_string);
 }
 
-void QEXTBindReturnFunctorTest::testReferences()
+void QExtBindReturnFunctorTest::testReferences()
 {
     std::string str("guest book");
 
-    qextBindReturnFunctor<QEXTReferenceWrapper<std::string> >(Foo(), qextReferenceWrapper(str))(6) = "main";
+    qextBindReturnFunctor<QExtReferenceWrapper<std::string> >(Foo(), qextReferenceWrapper(str))(6) = "main";
     sg_string += str;
     QVERIFY("Foo(int 6) main" == sg_string);
 }
 
-void QEXTBindReturnFunctorTest::testAutoDisconnect()
+void QExtBindReturnFunctorTest::testAutoDisconnect()
 {
-    QEXTFunction<int, int> slot;
+    QExtFunction<int, int> slot;
     {
         Bar choco(-1);
         slot = qextBindReturnFunctor(Foo(), qextReferenceWrapper(choco));
@@ -81,6 +81,6 @@ void QEXTBindReturnFunctorTest::testAutoDisconnect()
     QVERIFY(0 == slot(8));
 }
 
-QTEST_APPLESS_MAIN(QEXTBindReturnFunctorTest)
+QTEST_APPLESS_MAIN(QExtBindReturnFunctorTest)
 
 #include <tst_qextBindReturnFunctor.moc>

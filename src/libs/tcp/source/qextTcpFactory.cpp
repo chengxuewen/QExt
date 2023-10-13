@@ -3,26 +3,26 @@
 
 #include <QSharedPointer>
 
-QSharedPointer<QEXTTcpPacketDispatcher>
-QEXTTcpFactory::createPacketDispatcher(const QSharedPointer<QEXTTcpSocket> &socket) {
-    return QSharedPointer<QEXTTcpPacketDispatcher>(new QEXTTcpPacketDispatcher(socket.data(), this->clone()));
+QSharedPointer<QExtTcpPacketDispatcher>
+QExtTcpFactory::createPacketDispatcher(const QSharedPointer<QExtTcpSocket> &socket) {
+    return QSharedPointer<QExtTcpPacketDispatcher>(new QExtTcpPacketDispatcher(socket.data(), this->clone()));
 }
 
-QSharedPointer<QEXTTcpPacketParserInterface> QEXTTcpFactory::createPacketParser() {
-    return QSharedPointer<QEXTTcpPacketParser>(new QEXTTcpPacketParser);
+QSharedPointer<QExtTcpPacketParserInterface> QExtTcpFactory::createPacketParser() {
+    return QSharedPointer<QExtTcpPacketParser>(new QExtTcpPacketParser);
 }
 
-QEXTTcpTask *QEXTTcpFactory::createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher, int function) {
+QExtTcpTask *QExtTcpFactory::createTask(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher, int function) {
     Q_UNUSED(dispatcher);
     Q_UNUSED(function);
     return QEXT_DECL_NULLPTR;
 }
 
-QEXTTcpTask *QEXTTcpFactory::createTask(const QSharedPointer<QEXTTcpPacketDispatcher> &dispatcher,
-                                        const QSharedPointer<QEXTTcpPacketInterface> &packet) {
-    return new QEXTTcpPostBackTask(dispatcher->createPacketTransceiver(), packet);
+QExtTcpTask *QExtTcpFactory::createTask(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher,
+                                        const QSharedPointer<QExtTcpPacketInterface> &packet) {
+    return new QExtTcpPostBackTask(dispatcher->createPacketTransceiver(), packet);
 }
 
-QSharedPointer<QEXTTcpFactory> QEXTTcpFactory::clone() {
-    return QSharedPointer<QEXTTcpFactory>(new QEXTTcpFactory);
+QSharedPointer<QExtTcpFactory> QExtTcpFactory::clone() {
+    return QSharedPointer<QExtTcpFactory>(new QExtTcpFactory);
 }

@@ -9,7 +9,7 @@
 
 class QLineEdit;
 class QTextEdit;
-class QEXTSerialPort;
+class QExtSerialPort;
 class QSpinBox;
 
 class Test :  public QWidget
@@ -24,7 +24,7 @@ private:
     QLineEdit *message;
     QSpinBox *delaySpinBox;
     QTextEdit *received_msg;
-    QEXTSerialPort *port;
+    QExtSerialPort *port;
 
 private slots:
     void transmitMsg();

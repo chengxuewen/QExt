@@ -88,7 +88,7 @@ function(qextFunctionAddQmlThemeExample EXAMPLE_NAME)
     if(QEXT_BUILD_SHARED_LIBS AND WIN32)
         qextFunctionCopyDependencyInternal(
             TARGET ${EXAMPLE_NAME}
-            LIBS QEXTCore QEXTQmlTheme
+            LIBS QExtCore QEXTQmlTheme
             DESTINATION ${EXECUTABLE_OUTPUT_PATH}
             POST_BUILD
             )

@@ -39,30 +39,30 @@
 
 #include <QPair>
 
-template <typename T_type, typename U> struct QEXTTypeIsSame;
-template <typename T_type> struct QEXTTypeIsIntegral;
-template <typename T_type> struct QEXTTypeIsFloating;
-template <typename T_type> struct QEXTTypeIsPointer;
-template <typename T_type> struct QEXTTypeIsFloatingPoint;
+template <typename T_type, typename U> struct QExtTypeIsSame;
+template <typename T_type> struct QExtTypeIsIntegral;
+template <typename T_type> struct QExtTypeIsFloating;
+template <typename T_type> struct QExtTypeIsPointer;
+template <typename T_type> struct QExtTypeIsFloatingPoint;
 // MSVC can't compile this correctly, and neither can gcc 3.3.5 (at least)
 #if !defined(_MSC_VER) && !(defined(__GNUC__) && __GNUC__ <= 3)
 // is_enum uses is_convertible, which is not available on MSVC.
-template <typename T_type> struct QEXTTypeIsEnum;
+template <typename T_type> struct QExtTypeIsEnum;
 #endif
-template <typename T_type> struct QEXTTypeIsPod;
-template <typename T_type> struct QEXTTypeIsReference;
-template <typename T_type> struct QEXTTypeHasTrivialConstructor;
-template <typename T_type> struct QEXTTypeHasTrivialCopy;
-template <typename T_type> struct QEXTTypeHasTrivialAssign;
-template <typename T_type> struct QEXTTypeHasTrivialDestructor;
-template <typename T_type> struct QEXTTypeRemoveConst;
-template <typename T_type> struct QEXTTypeRemoveVolatile;
-template <typename T_type> struct QEXTTypeRemoveConstVolatile;
-template <typename T_type> struct QEXTTypeRemoveReference;
-template <typename T_type> struct QEXTTypeAddReference;
-template <typename T_type> struct QEXTTypeRemovePointer;
+template <typename T_type> struct QExtTypeIsPod;
+template <typename T_type> struct QExtTypeIsReference;
+template <typename T_type> struct QExtTypeHasTrivialConstructor;
+template <typename T_type> struct QExtTypeHasTrivialCopy;
+template <typename T_type> struct QExtTypeHasTrivialAssign;
+template <typename T_type> struct QExtTypeHasTrivialDestructor;
+template <typename T_type> struct QExtTypeRemoveConst;
+template <typename T_type> struct QExtTypeRemoveVolatile;
+template <typename T_type> struct QExtTypeRemoveConstVolatile;
+template <typename T_type> struct QExtTypeRemoveReference;
+template <typename T_type> struct QExtTypeAddReference;
+template <typename T_type> struct QExtTypeRemovePointer;
 #if !defined(_MSC_VER) && !(defined(__GNUC__) && __GNUC__ <= 3)
-template <typename From, typename To> struct QEXTTypeIsConvertible;
+template <typename From, typename To> struct QExtTypeIsConvertible;
 #endif
 
 namespace internal
@@ -87,7 +87,7 @@ namespace internal
 }
 
 template <typename T_type>
-struct QEXTTypeTrait
+struct QExtTypeTrait
 {
     typedef T_type          Type;
     typedef T_type         &Pass;
@@ -96,7 +96,7 @@ struct QEXTTypeTrait
 };
 
 template <typename T_type, int N>
-struct QEXTTypeTrait<T_type[N]>
+struct QExtTypeTrait<T_type[N]>
 {
     typedef T_type         *Type;
     typedef T_type        *&Pass;
@@ -105,7 +105,7 @@ struct QEXTTypeTrait<T_type[N]>
 };
 
 template <typename T_type>
-struct QEXTTypeTrait<T_type &>
+struct QExtTypeTrait<T_type &>
 {
     typedef T_type          Type;
     typedef T_type         &Pass;
@@ -114,7 +114,7 @@ struct QEXTTypeTrait<T_type &>
 };
 
 template <typename T_type>
-struct QEXTTypeTrait<const T_type &>
+struct QExtTypeTrait<const T_type &>
 {
     typedef const T_type    Type;
     typedef const T_type   &Pass;
@@ -123,7 +123,7 @@ struct QEXTTypeTrait<const T_type &>
 };
 
 template<>
-struct QEXTTypeTrait<void>
+struct QExtTypeTrait<void>
 {
     typedef void            Type;
     typedef void            Pass;
@@ -133,180 +133,180 @@ struct QEXTTypeTrait<void>
 
 
 
-// QEXTTypeIntegralConstant, defined in tr1, is a wrapper for an integer
+// QExtTypeIntegralConstant, defined in tr1, is a wrapper for an integer
 // value. We don't really need this generality; we could get away
 // with hardcoding the integer type to bool. We use the fully
-// general QEXTIntegralConstant for compatibility with tr1.
+// general QExtIntegralConstant for compatibility with tr1.
 template<typename T_type, T_type v>
-struct QEXTTypeIntegralConstant
+struct QExtTypeIntegralConstant
 {
     static const T_type value = v;
     typedef T_type Value;
-    typedef QEXTTypeIntegralConstant<T_type, v> Type;
+    typedef QExtTypeIntegralConstant<T_type, v> Type;
 };
 
-template<typename T_type, T_type v> const T_type QEXTTypeIntegralConstant<T_type, v>::value;
+template<typename T_type, T_type v> const T_type QExtTypeIntegralConstant<T_type, v>::value;
 
 // Abbreviations: true_type and false_type are structs that represent boolean
 // true and false values. Also define the boost::mpl versions of those names,
 // true_ and false_.
-typedef QEXTTypeIntegralConstant<bool, true>  QEXTTypeTrue;
-typedef QEXTTypeIntegralConstant<bool, false> QEXTTypeFalse;
+typedef QExtTypeIntegralConstant<bool, true>  QExtTypeTrue;
+typedef QExtTypeIntegralConstant<bool, false> QExtTypeFalse;
 
 
 
-template <bool, typename T_type = void> struct QEXTTypeEnableIf { };
-template <typename T_type> struct QEXTTypeEnableIf<true, T_type>
+template <bool, typename T_type = void> struct QExtTypeEnableIf { };
+template <typename T_type> struct QExtTypeEnableIf<true, T_type>
 {
     typedef T_type Type;
 };
 
 
-// QEXTTypeIf is a templatized conditional statement.
-// QEXTTypeIf<cond, T_A, T_B> is a compile time evaluation of cond.
-// QEXTTypeIf<>::Type contains T_A if cond is true, T_B otherwise.
+// QExtTypeIf is a templatized conditional statement.
+// QExtTypeIf<cond, T_A, T_B> is a compile time evaluation of cond.
+// QExtTypeIf<>::Type contains T_A if cond is true, T_B otherwise.
 template<bool cond, typename T_A, typename T_B>
-struct QEXTTypeIf
+struct QExtTypeIf
 {
     typedef T_A Type;
 };
 
 template<typename T_A, typename T_B>
-struct QEXTTypeIf<false, T_A, T_B>
+struct QExtTypeIf<false, T_A, T_B>
 {
     typedef T_B Type;
 };
 
 
-// QEXTTypeAnd is a template && operator.
-// QEXTTypeAnd<T_A, T_B>::value evaluates "T_A::value && T_B::value".
+// QExtTypeAnd is a template && operator.
+// QExtTypeAnd<T_A, T_B>::value evaluates "T_A::value && T_B::value".
 template<typename T_A, typename T_B>
-struct QEXTTypeAnd : public QEXTTypeIntegralConstant<bool, (T_A::value && T_B::value)> { };
+struct QExtTypeAnd : public QExtTypeIntegralConstant<bool, (T_A::value && T_B::value)> { };
 
-// QEXTTypeOr is a template || operator.
-// QEXTTypeOr<T_A, T_B>::value evaluates "T_A::value || T_B::value".
+// QExtTypeOr is a template || operator.
+// QExtTypeOr<T_A, T_B>::value evaluates "T_A::value || T_B::value".
 template<typename T_A, typename T_B>
-struct QEXTTypeOr : public QEXTTypeIntegralConstant<bool, (T_A::value || T_B::value)> { };
+struct QExtTypeOr : public QExtTypeIntegralConstant<bool, (T_A::value || T_B::value)> { };
 
-// a metafunction to invert an QEXTTypeIntegralConstant:
+// a metafunction to invert an QExtTypeIntegralConstant:
 template <typename T_type>
-struct QEXTTypeNot : QEXTTypeIntegralConstant<bool, !T_type::value> {};
+struct QExtTypeNot : QExtTypeIntegralConstant<bool, !T_type::value> {};
 
 
-// QEXTTypeEquals is a template type comparator, similar to Loki IsSameType.
-// QEXTTypeEquals<T_A, T_B>::value is true iff "T_A" is the same type as "T_B".
+// QExtTypeEquals is a template type comparator, similar to Loki IsSameType.
+// QExtTypeEquals<T_A, T_B>::value is true iff "T_A" is the same type as "T_B".
 //
 // New code should prefer base::is_same, defined in base/type_traits.h.
 // It is functionally identical, but is_same is the standard spelling.
-template<typename T_type, typename T_unknown> struct QEXTTypeEquals : public QEXTTypeFalse { };
-template<typename T_type> struct QEXTTypeEquals<T_type, T_type> : public QEXTTypeTrue { };
+template<typename T_type, typename T_unknown> struct QExtTypeEquals : public QExtTypeFalse { };
+template<typename T_type> struct QExtTypeEquals<T_type, T_type> : public QExtTypeTrue { };
 
-// QEXTTypeIsSame
-template<typename T_type, typename T_unknown> struct QEXTTypeIsSame : QEXTTypeFalse {};
-template<typename T_type>  struct QEXTTypeIsSame<T_type, T_type> : QEXTTypeTrue {};
+// QExtTypeIsSame
+template<typename T_type, typename T_unknown> struct QExtTypeIsSame : QExtTypeFalse {};
+template<typename T_type>  struct QExtTypeIsSame<T_type, T_type> : QExtTypeTrue {};
 
-// QEXTTypeIsVoid
-template<typename T_type> struct QEXTTypeIsVoid : QEXTTypeFalse { };
-template<> struct QEXTTypeIsVoid<void> : QEXTTypeTrue { };
+// QExtTypeIsVoid
+template<typename T_type> struct QExtTypeIsVoid : QExtTypeFalse { };
+template<> struct QExtTypeIsVoid<void> : QExtTypeTrue { };
 
 
-// QEXTTypeIsIntegral
-template<typename T_type> struct QEXTTypeIsIntegral : QEXTTypeFalse { };
-template<> struct QEXTTypeIsIntegral<bool> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsIntegral<char> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsIntegral<unsigned char> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsIntegral<signed char> : QEXTTypeTrue { };
+// QExtTypeIsIntegral
+template<typename T_type> struct QExtTypeIsIntegral : QExtTypeFalse { };
+template<> struct QExtTypeIsIntegral<bool> : QExtTypeTrue { };
+template<> struct QExtTypeIsIntegral<char> : QExtTypeTrue { };
+template<> struct QExtTypeIsIntegral<unsigned char> : QExtTypeTrue { };
+template<> struct QExtTypeIsIntegral<signed char> : QExtTypeTrue { };
 #if defined(_MSC_VER)
 // wchar_t is not by default a distinct type from unsigned short in
 // Microsoft C.
 // See http://msdn2.microsoft.com/en-us/library/dh8che7s(VS.80).aspx
-template<> struct QEXTTypeIsIntegral<__wchar_t> : QEXTTypeTrue { };
+template<> struct QExtTypeIsIntegral<__wchar_t> : QExtTypeTrue { };
 #else
-template<> struct QEXTTypeIsIntegral<wchar_t> : QEXTTypeTrue { };
+template<> struct QExtTypeIsIntegral<wchar_t> : QExtTypeTrue { };
 #endif
-template<> struct QEXTTypeIsIntegral<short> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsIntegral<unsigned short> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsIntegral<int> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsIntegral<unsigned int> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsIntegral<long> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsIntegral<unsigned long> : QEXTTypeTrue { };
+template<> struct QExtTypeIsIntegral<short> : QExtTypeTrue { };
+template<> struct QExtTypeIsIntegral<unsigned short> : QExtTypeTrue { };
+template<> struct QExtTypeIsIntegral<int> : QExtTypeTrue { };
+template<> struct QExtTypeIsIntegral<unsigned int> : QExtTypeTrue { };
+template<> struct QExtTypeIsIntegral<long> : QExtTypeTrue { };
+template<> struct QExtTypeIsIntegral<unsigned long> : QExtTypeTrue { };
 #if defined(Q_OS_WIN) && !defined(Q_CC_GNU)
-template<> struct QEXTTypeIsIntegral<__int64> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsIntegral<unsigned __int64> : QEXTTypeTrue { };
+template<> struct QExtTypeIsIntegral<__int64> : QExtTypeTrue { };
+template<> struct QExtTypeIsIntegral<unsigned __int64> : QExtTypeTrue { };
 #else
-template<> struct QEXTTypeIsIntegral<long long> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsIntegral<unsigned long long> : QEXTTypeTrue { };
+template<> struct QExtTypeIsIntegral<long long> : QExtTypeTrue { };
+template<> struct QExtTypeIsIntegral<unsigned long long> : QExtTypeTrue { };
 #endif
 
-template<typename T_type> struct QEXTTypeIsIntegral<const T_type> : QEXTTypeIsIntegral<T_type> { };
-template<typename T_type> struct QEXTTypeIsIntegral<volatile T_type> : QEXTTypeIsIntegral<T_type> { };
-template<typename T_type> struct QEXTTypeIsIntegral<const volatile T_type> : QEXTTypeIsIntegral<T_type> { };
+template<typename T_type> struct QExtTypeIsIntegral<const T_type> : QExtTypeIsIntegral<T_type> { };
+template<typename T_type> struct QExtTypeIsIntegral<volatile T_type> : QExtTypeIsIntegral<T_type> { };
+template<typename T_type> struct QExtTypeIsIntegral<const volatile T_type> : QExtTypeIsIntegral<T_type> { };
 #if QEXT_CC_FEATURE_UNICODE_STRINGS
-template<> struct QEXTTypeIsIntegral<char16_t> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsIntegral<char32_t> : QEXTTypeTrue { };
+template<> struct QExtTypeIsIntegral<char16_t> : QExtTypeTrue { };
+template<> struct QExtTypeIsIntegral<char32_t> : QExtTypeTrue { };
 #endif
 
-// QEXTTypeIsFloating
-template<typename T_type> struct QEXTTypeIsFloating : QEXTTypeFalse { };
-template<> struct QEXTTypeIsFloating<float> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsFloating<double> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsFloating<long double> : QEXTTypeTrue { };
+// QExtTypeIsFloating
+template<typename T_type> struct QExtTypeIsFloating : QExtTypeFalse { };
+template<> struct QExtTypeIsFloating<float> : QExtTypeTrue { };
+template<> struct QExtTypeIsFloating<double> : QExtTypeTrue { };
+template<> struct QExtTypeIsFloating<long double> : QExtTypeTrue { };
 
-template<typename T_type> struct QEXTTypeIsFloating<const T_type> : QEXTTypeIsFloating<T_type> { };
-template<typename T_type> struct QEXTTypeIsFloating<volatile T_type> : QEXTTypeIsFloating<T_type> { };
-template<typename T_type> struct QEXTTypeIsFloating<const volatile T_type> : QEXTTypeIsFloating<T_type> { };
+template<typename T_type> struct QExtTypeIsFloating<const T_type> : QExtTypeIsFloating<T_type> { };
+template<typename T_type> struct QExtTypeIsFloating<volatile T_type> : QExtTypeIsFloating<T_type> { };
+template<typename T_type> struct QExtTypeIsFloating<const volatile T_type> : QExtTypeIsFloating<T_type> { };
 
 
-// QEXTTypeIsFloatingPoint is false except for the built-in floating-point types.
+// QExtTypeIsFloatingPoint is false except for the built-in floating-point types.
 // T_A cv-qualified type is integral if and only if the underlying type is.
-template <typename T_type> struct QEXTTypeIsFloatingPoint : QEXTTypeFalse { };
-template<> struct QEXTTypeIsFloatingPoint<float> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsFloatingPoint<double> : QEXTTypeTrue { };
-template<> struct QEXTTypeIsFloatingPoint<long double> : QEXTTypeTrue { };
-template <typename T_type> struct QEXTTypeIsFloatingPoint<const T_type> : QEXTTypeIsFloatingPoint<T_type> { };
-template <typename T_type> struct QEXTTypeIsFloatingPoint<volatile T_type> : QEXTTypeIsFloatingPoint<T_type> { };
-template <typename T_type> struct QEXTTypeIsFloatingPoint<const volatile T_type> : QEXTTypeIsFloatingPoint<T_type> { };
+template <typename T_type> struct QExtTypeIsFloatingPoint : QExtTypeFalse { };
+template<> struct QExtTypeIsFloatingPoint<float> : QExtTypeTrue { };
+template<> struct QExtTypeIsFloatingPoint<double> : QExtTypeTrue { };
+template<> struct QExtTypeIsFloatingPoint<long double> : QExtTypeTrue { };
+template <typename T_type> struct QExtTypeIsFloatingPoint<const T_type> : QExtTypeIsFloatingPoint<T_type> { };
+template <typename T_type> struct QExtTypeIsFloatingPoint<volatile T_type> : QExtTypeIsFloatingPoint<T_type> { };
+template <typename T_type> struct QExtTypeIsFloatingPoint<const volatile T_type> : QExtTypeIsFloatingPoint<T_type> { };
 
 
-// QEXTTypeIsPointer is false except for pointer types. T_A cv-qualified type (e.g.
+// QExtTypeIsPointer is false except for pointer types. T_A cv-qualified type (e.g.
 // "int* const", as opposed to "int const*") is cv-qualified if and only if
 // the underlying type is.
-// QEXTTypeIsPointer
-template <typename T_type> struct QEXTTypeIsPointer : QEXTTypeFalse { };
-template <typename T_type> struct QEXTTypeIsPointer<T_type *> : QEXTTypeTrue { };
-template <typename T_type> struct QEXTTypeIsPointer<const T_type> : QEXTTypeIsPointer<T_type> { };
-template <typename T_type> struct QEXTTypeIsPointer<volatile T_type> : QEXTTypeIsPointer<T_type> { };
-template <typename T_type> struct QEXTTypeIsPointer<const volatile T_type> : QEXTTypeIsPointer<T_type> { };
+// QExtTypeIsPointer
+template <typename T_type> struct QExtTypeIsPointer : QExtTypeFalse { };
+template <typename T_type> struct QExtTypeIsPointer<T_type *> : QExtTypeTrue { };
+template <typename T_type> struct QExtTypeIsPointer<const T_type> : QExtTypeIsPointer<T_type> { };
+template <typename T_type> struct QExtTypeIsPointer<volatile T_type> : QExtTypeIsPointer<T_type> { };
+template <typename T_type> struct QExtTypeIsPointer<const volatile T_type> : QExtTypeIsPointer<T_type> { };
 
 
 // is_reference is false except for reference types.
-template<typename T_type> struct QEXTTypeIsReference : QEXTTypeFalse {};
-template<typename T_type> struct QEXTTypeIsReference<T_type &> : QEXTTypeTrue {};
+template<typename T_type> struct QExtTypeIsReference : QExtTypeFalse {};
+template<typename T_type> struct QExtTypeIsReference<T_type &> : QExtTypeTrue {};
 
 
 // Specified by TR1 [4.5.3] Type Properties
-template <typename T_type> struct QEXTTypeIsConst : QEXTTypeFalse {};
-template <typename T_type> struct QEXTTypeIsConst<const T_type> : QEXTTypeTrue {};
-template <typename T_type> struct QEXTTypeIsVolatile : QEXTTypeFalse {};
-template <typename T_type> struct QEXTTypeIsVolatile<volatile T_type> : QEXTTypeTrue {};
+template <typename T_type> struct QExtTypeIsConst : QExtTypeFalse {};
+template <typename T_type> struct QExtTypeIsConst<const T_type> : QExtTypeTrue {};
+template <typename T_type> struct QExtTypeIsVolatile : QExtTypeFalse {};
+template <typename T_type> struct QExtTypeIsVolatile<volatile T_type> : QExtTypeTrue {};
 
 
 #if !defined(_MSC_VER) && !(defined(__GNUC__) && __GNUC__ <= 3)
 
-template <typename T_type> struct QEXTTypeIsClassOrUnion
+template <typename T_type> struct QExtTypeIsClassOrUnion
 {
     template <typename U> static internal::Small tester(void (U::*)());
     template <typename U> static internal::Big tester(...);
     static const bool value = sizeof(tester<T_type>(0)) == sizeof(internal::Small);
 };
 
-// QEXTTypeIsConvertible chokes if the first argument is an array. That's why
-// we use QEXTTypeAddReference here.
+// QExtTypeIsConvertible chokes if the first argument is an array. That's why
+// we use QExtTypeAddReference here.
 template <bool NotUnum, typename T_type>
-struct QEXTTypeIsEnumImpl : QEXTTypeIsConvertible<typename QEXTTypeAddReference<T_type>::Type, int>
+struct QExtTypeIsEnumImpl : QExtTypeIsConvertible<typename QExtTypeAddReference<T_type>::Type, int>
 {
 };
-template <typename T_type> struct QEXTTypeIsEnumImpl<true, T_type> : QEXTTypeFalse { };
+template <typename T_type> struct QExtTypeIsEnumImpl<true, T_type> : QExtTypeFalse { };
 
 
 // Specified by TR1 [4.5.1] primary type categories.
@@ -324,19 +324,19 @@ template <typename T_type> struct QEXTTypeIsEnumImpl<true, T_type> : QEXTTypeFal
 // Is-convertible-to-int check is done only if all other checks pass,
 // because it can't be used with some types (e.g. void or classes with
 // inaccessible conversion operators).
-template <typename T_type> struct QEXTTypeIsEnum
-    : QEXTTypeIsEnumImpl<QEXTTypeIsSame<T_type, void>::value ||
-                        QEXTTypeIsIntegral<T_type>::value ||
-                        QEXTTypeIsFloatingPoint<T_type>::value ||
-                        QEXTTypeIsReference<T_type>::value ||
-                        QEXTTypeIsClassOrUnion<T_type>::value,
+template <typename T_type> struct QExtTypeIsEnum
+    : QExtTypeIsEnumImpl<QExtTypeIsSame<T_type, void>::value ||
+                        QExtTypeIsIntegral<T_type>::value ||
+                        QExtTypeIsFloatingPoint<T_type>::value ||
+                        QExtTypeIsReference<T_type>::value ||
+                        QExtTypeIsClassOrUnion<T_type>::value,
       T_type>
 {
 };
 
-template <typename T_type> struct QEXTTypeIsEnum<const T_type> : QEXTTypeIsEnum<T_type> { };
-template <typename T_type> struct QEXTTypeIsEnum<volatile T_type> : QEXTTypeIsEnum<T_type> { };
-template <typename T_type> struct QEXTTypeIsEnum<const volatile T_type> : QEXTTypeIsEnum<T_type> { };
+template <typename T_type> struct QExtTypeIsEnum<const T_type> : QExtTypeIsEnum<T_type> { };
+template <typename T_type> struct QExtTypeIsEnum<volatile T_type> : QExtTypeIsEnum<T_type> { };
+template <typename T_type> struct QExtTypeIsEnum<const volatile T_type> : QExtTypeIsEnum<T_type> { };
 
 #endif
 
@@ -353,82 +353,82 @@ template <typename T_type> struct QEXTTypeIsEnum<const volatile T_type> : QEXTTy
 #endif
 
 #ifndef QEXT_IS_ENUM
-    #define QEXT_IS_ENUM(x) QEXTTypeIsEnum<x>::value
+    #define QEXT_IS_ENUM(x) QExtTypeIsEnum<x>::value
 #endif
 
 
-// We can't get QEXTTypeIsPod right without compiler help, so fail conservatively.
+// We can't get QExtTypeIsPod right without compiler help, so fail conservatively.
 // We will assume it's false except for arithmetic types, enumerations,
 // pointers and cv-qualified versions thereof. Note that QPair<T_type,U>
 // is not a POD even if T_type and U are PODs.
-template <typename T_type> struct QEXTTypeIsPod
-    : QEXTTypeIntegralConstant < bool, (QEXTTypeIsIntegral<T_type>::value || QEXTTypeIsFloatingPoint<T_type>::value ||
+template <typename T_type> struct QExtTypeIsPod
+    : QExtTypeIntegralConstant < bool, (QExtTypeIsIntegral<T_type>::value || QExtTypeIsFloatingPoint<T_type>::value ||
 #if !defined(_MSC_VER) && !(defined(__GNUC__) && __GNUC__ <= 3)
-    // QEXTTypeIsEnum is not available on MSVC.
-    QEXTTypeIsEnum<T_type>::value ||
+    // QExtTypeIsEnum is not available on MSVC.
+    QExtTypeIsEnum<T_type>::value ||
 #endif
-    QEXTTypeIsPointer<T_type>::value) >
+    QExtTypeIsPointer<T_type>::value) >
 {
 };
-template <typename T_type> struct QEXTTypeIsPod<const T_type> : QEXTTypeIsPod<T_type> { };
-template <typename T_type> struct QEXTTypeIsPod<volatile T_type> : QEXTTypeIsPod<T_type> { };
-template <typename T_type> struct QEXTTypeIsPod<const volatile T_type> : QEXTTypeIsPod<T_type> { };
+template <typename T_type> struct QExtTypeIsPod<const T_type> : QExtTypeIsPod<T_type> { };
+template <typename T_type> struct QExtTypeIsPod<volatile T_type> : QExtTypeIsPod<T_type> { };
+template <typename T_type> struct QExtTypeIsPod<const volatile T_type> : QExtTypeIsPod<T_type> { };
 
 
 
-// We can't get QEXTTypeHasTrivialConstructor right without compiler help, so
+// We can't get QExtTypeHasTrivialConstructor right without compiler help, so
 // fail conservatively. We will assume it's false except for: (1) types
-// for which QEXTTypeIsPod is true. (2) QPair of types with trivial
+// for which QExtTypeIsPod is true. (2) QPair of types with trivial
 // constructors. (3) array of a type with a trivial constructor.
 // (4) const versions thereof.
-template <typename T_type> struct QEXTTypeHasTrivialConstructor
-    : QEXTTypeIsPod<T_type> { };
-template <typename T_type, typename U> struct QEXTTypeHasTrivialConstructor<QPair<T_type, U> >
-    : QEXTTypeIntegralConstant<bool, (QEXTTypeHasTrivialConstructor<T_type>::value && QEXTTypeHasTrivialConstructor<U>::value) > { };
-template <typename T_A, int N> struct QEXTTypeHasTrivialConstructor<T_A[N]>
-    : QEXTTypeHasTrivialConstructor<T_A> { };
-template <typename T_type> struct QEXTTypeHasTrivialConstructor<const T_type>
-    : QEXTTypeHasTrivialConstructor<T_type> { };
+template <typename T_type> struct QExtTypeHasTrivialConstructor
+    : QExtTypeIsPod<T_type> { };
+template <typename T_type, typename U> struct QExtTypeHasTrivialConstructor<QPair<T_type, U> >
+    : QExtTypeIntegralConstant<bool, (QExtTypeHasTrivialConstructor<T_type>::value && QExtTypeHasTrivialConstructor<U>::value) > { };
+template <typename T_A, int N> struct QExtTypeHasTrivialConstructor<T_A[N]>
+    : QExtTypeHasTrivialConstructor<T_A> { };
+template <typename T_type> struct QExtTypeHasTrivialConstructor<const T_type>
+    : QExtTypeHasTrivialConstructor<T_type> { };
 
 
-// We can't get QEXTTypeHasTrivialCopy right without compiler help, so fail
+// We can't get QExtTypeHasTrivialCopy right without compiler help, so fail
 // conservatively. We will assume it's false except for: (1) types
-// for which QEXTTypeIsPod is true. (2) QPair of types with trivial copy
+// for which QExtTypeIsPod is true. (2) QPair of types with trivial copy
 // constructors. (3) array of a type with a trivial copy constructor.
 // (4) const versions thereof.
-template <typename T_type> struct QEXTTypeHasTrivialCopy
-    : QEXTTypeIsPod<T_type> { };
-template <typename T_type, typename U> struct QEXTTypeHasTrivialCopy<QPair<T_type, U> >
-    : QEXTTypeIntegralConstant<bool, (QEXTTypeHasTrivialCopy<T_type>::value && QEXTTypeHasTrivialCopy<U>::value) > { };
-template <typename T_A, int N> struct QEXTTypeHasTrivialCopy<T_A[N]>
-    : QEXTTypeHasTrivialCopy<T_A> { };
-template <typename T_type> struct QEXTTypeHasTrivialCopy<const T_type> : QEXTTypeHasTrivialCopy<T_type> { };
+template <typename T_type> struct QExtTypeHasTrivialCopy
+    : QExtTypeIsPod<T_type> { };
+template <typename T_type, typename U> struct QExtTypeHasTrivialCopy<QPair<T_type, U> >
+    : QExtTypeIntegralConstant<bool, (QExtTypeHasTrivialCopy<T_type>::value && QExtTypeHasTrivialCopy<U>::value) > { };
+template <typename T_A, int N> struct QExtTypeHasTrivialCopy<T_A[N]>
+    : QExtTypeHasTrivialCopy<T_A> { };
+template <typename T_type> struct QExtTypeHasTrivialCopy<const T_type> : QExtTypeHasTrivialCopy<T_type> { };
 
 
-// We can't get QEXTTypeHasTrivialAssign right without compiler help, so fail
+// We can't get QExtTypeHasTrivialAssign right without compiler help, so fail
 // conservatively. We will assume it's false except for: (1) types
-// for which QEXTTypeIsPod is true. (2) QPair of types with trivial copy
+// for which QExtTypeIsPod is true. (2) QPair of types with trivial copy
 // constructors. (3) array of a type with a trivial assign constructor.
-template <typename T_type> struct QEXTTypeHasTrivialAssign
-    : QEXTTypeIsPod<T_type> { };
-template <typename T_type, typename U> struct QEXTTypeHasTrivialAssign<QPair<T_type, U> >
-    : QEXTTypeIntegralConstant<bool, (QEXTTypeHasTrivialAssign<T_type>::value && QEXTTypeHasTrivialAssign<U>::value) > { };
-template <typename T_A, int N> struct QEXTTypeHasTrivialAssign<T_A[N]>
-    : QEXTTypeHasTrivialAssign<T_A> { };
+template <typename T_type> struct QExtTypeHasTrivialAssign
+    : QExtTypeIsPod<T_type> { };
+template <typename T_type, typename U> struct QExtTypeHasTrivialAssign<QPair<T_type, U> >
+    : QExtTypeIntegralConstant<bool, (QExtTypeHasTrivialAssign<T_type>::value && QExtTypeHasTrivialAssign<U>::value) > { };
+template <typename T_A, int N> struct QExtTypeHasTrivialAssign<T_A[N]>
+    : QExtTypeHasTrivialAssign<T_A> { };
 
-// We can't get QEXTTypeHasTrivialDestructor right without compiler help, so
+// We can't get QExtTypeHasTrivialDestructor right without compiler help, so
 // fail conservatively. We will assume it's false except for: (1) types
-// for which QEXTTypeIsPod is true. (2) QPair of types with trivial
+// for which QExtTypeIsPod is true. (2) QPair of types with trivial
 // destructors. (3) array of a type with a trivial destructor.
 // (4) const versions thereof.
-template <typename T_type> struct QEXTTypeHasTrivialDestructor
-    : QEXTTypeIsPod<T_type> { };
-template <typename T_type, typename U> struct QEXTTypeHasTrivialDestructor<QPair<T_type, U> >
-    : QEXTTypeIntegralConstant<bool, (QEXTTypeHasTrivialDestructor<T_type>::value && QEXTTypeHasTrivialDestructor<U>::value) > { };
-template <typename T_A, int N> struct QEXTTypeHasTrivialDestructor<T_A[N]>
-    : QEXTTypeHasTrivialDestructor<T_A> { };
-template <typename T_type> struct QEXTTypeHasTrivialDestructor<const T_type>
-    : QEXTTypeHasTrivialDestructor<T_type> { };
+template <typename T_type> struct QExtTypeHasTrivialDestructor
+    : QExtTypeIsPod<T_type> { };
+template <typename T_type, typename U> struct QExtTypeHasTrivialDestructor<QPair<T_type, U> >
+    : QExtTypeIntegralConstant<bool, (QExtTypeHasTrivialDestructor<T_type>::value && QExtTypeHasTrivialDestructor<U>::value) > { };
+template <typename T_A, int N> struct QExtTypeHasTrivialDestructor<T_A[N]>
+    : QExtTypeHasTrivialDestructor<T_A> { };
+template <typename T_type> struct QExtTypeHasTrivialDestructor<const T_type>
+    : QExtTypeHasTrivialDestructor<T_type> { };
 
 
 // Specified by TR1 [4.6] Relationships between types
@@ -436,8 +436,8 @@ template <typename T_type> struct QEXTTypeHasTrivialDestructor<const T_type>
 namespace internal
 {
 
-    // This class is an implementation detail for QEXTTypeIsConvertible, and you
-    // don't need to know how it works to use QEXTTypeIsConvertible. For those
+    // This class is an implementation detail for QExtTypeIsConvertible, and you
+    // don't need to know how it works to use QExtTypeIsConvertible. For those
     // who care: we declare two different functions, one whose argument is
     // of type To and one with a variadic argument list. We give them
     // return types of different size, so we can use sizeof to trick the
@@ -456,8 +456,8 @@ namespace internal
 
 // Inherits from true_type if From is convertible to To, false_type otherwise.
 template <typename From, typename To>
-struct QEXTTypeIsConvertible :
-        QEXTTypeIntegralConstant<bool,
+struct QExtTypeIsConvertible :
+        QExtTypeIntegralConstant<bool,
         sizeof(internal::ConvertHelper<From, To>::Test(
         internal::ConvertHelper<From, To>::Create())) == sizeof(internal::Small)>
 {
@@ -467,40 +467,40 @@ struct QEXTTypeIsConvertible :
 
 
 // Checks whether a type is unsigned (T_type must be convertible to unsigned int):
-template <typename T_type> struct QEXTTypeIsUnsigned : QEXTTypeIntegralConstant<bool, (T_type(0)<T_type(-1))> {};
+template <typename T_type> struct QExtTypeIsUnsigned : QExtTypeIntegralConstant<bool, (T_type(0)<T_type(-1))> {};
 
 // Checks whether a type is signed (T_type must be convertible to int):
-template <typename T_type> struct QEXTTypeIsSigned : QEXTTypeNot<QEXTTypeIsUnsigned<T_type> > {};
+template <typename T_type> struct QExtTypeIsSigned : QExtTypeNot<QExtTypeIsUnsigned<T_type> > {};
 
-QEXT_STATIC_ASSERT(( QEXTTypeIsUnsigned<quint8>::value));
-QEXT_STATIC_ASSERT((!QEXTTypeIsUnsigned<qint8>::value));
+QEXT_STATIC_ASSERT(( QExtTypeIsUnsigned<quint8>::value));
+QEXT_STATIC_ASSERT((!QExtTypeIsUnsigned<qint8>::value));
 
-QEXT_STATIC_ASSERT((!QEXTTypeIsSigned<quint8>::value));
-QEXT_STATIC_ASSERT(( QEXTTypeIsSigned<qint8>::value));
+QEXT_STATIC_ASSERT((!QExtTypeIsSigned<quint8>::value));
+QEXT_STATIC_ASSERT(( QExtTypeIsSigned<qint8>::value));
 
-QEXT_STATIC_ASSERT(( QEXTTypeIsUnsigned<quint16>::value));
-QEXT_STATIC_ASSERT((!QEXTTypeIsUnsigned<qint16>::value));
+QEXT_STATIC_ASSERT(( QExtTypeIsUnsigned<quint16>::value));
+QEXT_STATIC_ASSERT((!QExtTypeIsUnsigned<qint16>::value));
 
-QEXT_STATIC_ASSERT((!QEXTTypeIsSigned<quint16>::value));
-QEXT_STATIC_ASSERT(( QEXTTypeIsSigned<qint16>::value));
+QEXT_STATIC_ASSERT((!QExtTypeIsSigned<quint16>::value));
+QEXT_STATIC_ASSERT(( QExtTypeIsSigned<qint16>::value));
 
-QEXT_STATIC_ASSERT(( QEXTTypeIsUnsigned<quint32>::value));
-QEXT_STATIC_ASSERT((!QEXTTypeIsUnsigned<qint32>::value));
+QEXT_STATIC_ASSERT(( QExtTypeIsUnsigned<quint32>::value));
+QEXT_STATIC_ASSERT((!QExtTypeIsUnsigned<qint32>::value));
 
-QEXT_STATIC_ASSERT((!QEXTTypeIsSigned<quint32>::value));
-QEXT_STATIC_ASSERT(( QEXTTypeIsSigned<qint32>::value));
+QEXT_STATIC_ASSERT((!QExtTypeIsSigned<quint32>::value));
+QEXT_STATIC_ASSERT(( QExtTypeIsSigned<qint32>::value));
 
-QEXT_STATIC_ASSERT(( QEXTTypeIsUnsigned<quint64>::value));
-QEXT_STATIC_ASSERT((!QEXTTypeIsUnsigned<qint64>::value));
+QEXT_STATIC_ASSERT(( QExtTypeIsUnsigned<quint64>::value));
+QEXT_STATIC_ASSERT((!QExtTypeIsUnsigned<qint64>::value));
 
-QEXT_STATIC_ASSERT((!QEXTTypeIsSigned<quint64>::value));
-QEXT_STATIC_ASSERT(( QEXTTypeIsSigned<qint64>::value));
+QEXT_STATIC_ASSERT((!QExtTypeIsSigned<quint64>::value));
+QEXT_STATIC_ASSERT(( QExtTypeIsSigned<qint64>::value));
 
 
-template<typename T_type = void> struct QEXTTypeIsDefaultConstructible;
+template<typename T_type = void> struct QExtTypeIsDefaultConstructible;
 
 template<>
-struct QEXTTypeIsDefaultConstructible<void>
+struct QExtTypeIsDefaultConstructible<void>
 {
 protected:
     template<bool> struct Test
@@ -512,13 +512,13 @@ public:
 };
 
 template<>
-struct QEXTTypeIsDefaultConstructible<>::Test<true>
+struct QExtTypeIsDefaultConstructible<>::Test<true>
 {
     typedef double Type;
 };
 
 template<typename T_type>
-struct QEXTTypeIsDefaultConstructible : QEXTTypeIsDefaultConstructible<>
+struct QExtTypeIsDefaultConstructible : QExtTypeIsDefaultConstructible<>
 {
 private:
     template<typename U> static typename Test < !!sizeof(::new U()) >::Type sfinae(U *);
@@ -581,12 +581,12 @@ private:
     struct InternalClass
     {
         static Big  isBaseClass(...);
-        static char isBaseClass(typename QEXTTypeTrait<T_base>::Pointer);
+        static char isBaseClass(typename QExtTypeTrait<T_base>::Pointer);
     };
 
 public:
     static const bool value =
-        sizeof(InternalClass::isBaseClass(reinterpret_cast<typename QEXTTypeTrait<T_derived>::Pointer>(0))) ==
+        sizeof(InternalClass::isBaseClass(reinterpret_cast<typename QExtTypeTrait<T_derived>::Pointer>(0))) ==
         sizeof(char);
 
 #else //SELF_REFERENCE_IN_MEMBER_INITIALIZATION
@@ -595,11 +595,11 @@ public:
     //It says "The incomplete type "test" must not be used as a qualifier.
     //It does not seem necessary anyway.
     static Big  isBaseClass(...);
-    static char isBaseClass(typename QEXTTypeTrait<T_base>::Pointer);
+    static char isBaseClass(typename QExtTypeTrait<T_base>::Pointer);
 
 public:
     static const bool value =
-        sizeof(isBaseClass(reinterpret_cast<typename QEXTTypeTrait<T_derived>::Pointer>(0))) ==
+        sizeof(isBaseClass(reinterpret_cast<typename QExtTypeTrait<T_derived>::Pointer>(0))) ==
         sizeof(char);
 
 #endif //SELF_REFERENCE_IN_MEMBER_INITIALIZATION
@@ -619,58 +619,58 @@ struct QEXTIsBaseOf<T_base, T_base>
 
 // Specified by TR1 [4.7.1]
 template<typename T_type>
-struct QEXTTypeRemoveConst
+struct QExtTypeRemoveConst
 {
     typedef T_type Type;
 };
 
 template<typename T_type>
-struct QEXTTypeRemoveConst<T_type const>
+struct QExtTypeRemoveConst<T_type const>
 {
     typedef T_type Type;
 };
 
 template<typename T_type>
-struct QEXTTypeRemoveVolatile
+struct QExtTypeRemoveVolatile
 {
     typedef T_type Type;
 };
 
 template<typename T_type>
-struct QEXTTypeRemoveVolatile<T_type volatile>
+struct QExtTypeRemoveVolatile<T_type volatile>
 {
     typedef T_type Type;
 };
 
 template<typename T_type>
-struct QEXTTypeRemoveConstVolatile
+struct QExtTypeRemoveConstVolatile
 {
-    typedef typename QEXTTypeRemoveConst<typename QEXTTypeRemoveVolatile<T_type>::Type>::Type Type;
+    typedef typename QExtTypeRemoveConst<typename QExtTypeRemoveVolatile<T_type>::Type>::Type Type;
 };
 
 
 // Specified by TR1 [4.7.2] Reference modifications.
 template<typename T_type>
-struct QEXTTypeRemoveReference
+struct QExtTypeRemoveReference
 {
     typedef T_type Type;
 };
 
 template<typename T_type>
-struct QEXTTypeRemoveReference<T_type &>
+struct QExtTypeRemoveReference<T_type &>
 {
     typedef T_type Type;
 };
 
 
 template <typename T_type>
-struct QEXTTypeAddReference
+struct QExtTypeAddReference
 {
     typedef T_type &Type;
 };
 
 template <typename T_type>
-struct QEXTTypeAddReference<T_type &>
+struct QExtTypeAddReference<T_type &>
 {
     typedef T_type &Type;
 };
@@ -678,61 +678,61 @@ struct QEXTTypeAddReference<T_type &>
 
 // Specified by TR1 [4.7.4] Pointer modifications.
 template<typename T_type>
-struct QEXTTypeRemovePointer
+struct QExtTypeRemovePointer
 {
     typedef T_type Type;
 };
 
 template<typename T_type>
-struct QEXTTypeRemovePointer<T_type *>
+struct QExtTypeRemovePointer<T_type *>
 {
     typedef T_type Type;
 };
 
 template<typename T_type>
-struct QEXTTypeRemovePointer<T_type *const>
+struct QExtTypeRemovePointer<T_type *const>
 {
     typedef T_type Type;
 };
 
 template<typename T_type>
-struct QEXTTypeRemovePointer<T_type *volatile>
+struct QExtTypeRemovePointer<T_type *volatile>
 {
     typedef T_type Type;
 };
 
 template<typename T_type>
-struct QEXTTypeRemovePointer<T_type *const volatile>
+struct QExtTypeRemovePointer<T_type *const volatile>
 {
     typedef T_type Type;
 };
 
 
 template<typename T_type>
-struct QEXTTypeAddConst
+struct QExtTypeAddConst
 {
     typedef T_type const Type;
 };
 
 
 template<typename T_type>
-struct QEXTTypeAddVolatile
+struct QExtTypeAddVolatile
 {
     typedef T_type volatile Type;
 };
 
 
 template<typename T_type>
-struct QEXTTypeAddConstVolatile
+struct QExtTypeAddConstVolatile
 {
-    typedef typename QEXTTypeAddConst<typename QEXTTypeAddVolatile<T_type>::Type>::Type Type;
+    typedef typename QExtTypeAddConst<typename QExtTypeAddVolatile<T_type>::Type>::Type Type;
 };
 
 
 template<typename T_type>
-struct QEXTTypeAddPointer
+struct QExtTypeAddPointer
 {
-    typedef typename QEXTTypeRemoveReference<T_type>::Type *Type;
+    typedef typename QExtTypeRemoveReference<T_type>::Type *Type;
 };
 
 

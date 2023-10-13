@@ -13,7 +13,7 @@ Dialog::Dialog(QWidget *parent) :
     ui->setupUi(this);
 
     //! [0]
-    foreach (QEXTPortInfo info, QEXTSerialEnumerator::portInfoList())
+    foreach (QEXTPortInfo info, QExtSerialEnumerator::portInfoList())
         ui->portBox->addItem(info.portName);
     //make sure user can input their own port name!
     ui->portBox->setEditable(true);
@@ -38,8 +38,8 @@ Dialog::Dialog(QWidget *parent) :
     ui->stopBitsBox->addItem("1", STOP_1);
     ui->stopBitsBox->addItem("2", STOP_2);
 
-    ui->queryModeBox->addItem("Polling", QEXTSerialPort::Polling);
-    ui->queryModeBox->addItem("EventDriven", QEXTSerialPort::EventDriven);
+    ui->queryModeBox->addItem("Polling", QExtSerialPort::Polling);
+    ui->queryModeBox->addItem("EventDriven", QExtSerialPort::EventDriven);
     //! [0]
 
     ui->led->turnOff();
@@ -48,10 +48,10 @@ Dialog::Dialog(QWidget *parent) :
     timer->setInterval(40);
     //! [1]
     PortSettings settings = {BAUD9600, DATA_8, PAR_NONE, STOP_1, FLOW_OFF, 10};
-    port = new QEXTSerialPort(ui->portBox->currentText(), settings, QEXTSerialPort::Polling);
+    port = new QExtSerialPort(ui->portBox->currentText(), settings, QExtSerialPort::Polling);
     //! [1]
 
-    enumerator = new QEXTSerialEnumerator(this);
+    enumerator = new QExtSerialEnumerator(this);
     enumerator->setUpNotifications();
 
     connect(ui->baudRateBox, SIGNAL(currentIndexChanged(int)), SLOT(onBaudRateChanged(int)));
@@ -69,7 +69,7 @@ Dialog::Dialog(QWidget *parent) :
     connect(enumerator, SIGNAL(deviceDiscovered(QEXTPortInfo)), SLOT(onPortAddedOrRemoved()));
     connect(enumerator, SIGNAL(deviceRemoved(QEXTPortInfo)), SLOT(onPortAddedOrRemoved()));
 
-    setWindowTitle(tr("QEXTSerialPort Demo"));
+    setWindowTitle(tr("QExtSerialPort Demo"));
 }
 
 Dialog::~Dialog()
@@ -120,7 +120,7 @@ void Dialog::onStopBitsChanged(int idx)
 
 void Dialog::onQueryModeChanged(int idx)
 {
-    port->setQueryMode((QEXTSerialPort::QueryMode)ui->queryModeBox->itemData(idx).toInt());
+    port->setQueryMode((QExtSerialPort::QueryMode)ui->queryModeBox->itemData(idx).toInt());
 }
 
 void Dialog::onTimeoutChanged(int val)
@@ -140,7 +140,7 @@ void Dialog::onOpenCloseButtonClicked()
     }
 
     //If using polling mode, we need a QTimer
-    if (port->isOpen() && port->queryMode() == QEXTSerialPort::Polling)
+    if (port->isOpen() && port->queryMode() == QExtSerialPort::Polling)
         timer->start();
     else
         timer->stop();
@@ -170,7 +170,7 @@ void Dialog::onPortAddedOrRemoved()
 
     ui->portBox->blockSignals(true);
     ui->portBox->clear();
-    foreach (QEXTPortInfo info, QEXTSerialEnumerator::portInfoList())
+    foreach (QEXTPortInfo info, QExtSerialEnumerator::portInfoList())
         ui->portBox->addItem(info.portName);
 
     ui->portBox->setCurrentIndex(ui->portBox->findText(current));

@@ -9,35 +9,35 @@
 
 #include <QRunnable>
 
-class QEXTTcpTaskPrivate;
-class QEXT_TCP_API QEXTTcpTask : public QObject, public QRunnable
+class QExtTcpTaskPrivate;
+class QEXT_TCP_API QExtTcpTask : public QObject, public QRunnable
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QEXTTcpTask)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTTcpTask)
+    Q_DISABLE_COPY(QExtTcpTask)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtTcpTask)
 public:
-    QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver);
-    QEXTTcpTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
-                const QSharedPointer<QEXTTcpPacketInterface> &packet);
-    QEXTTcpTask(QEXTTcpTaskPrivate *d,
-                const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver);
-    QEXTTcpTask(QEXTTcpTaskPrivate *d,
-                const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver,
-                const QSharedPointer<QEXTTcpPacketInterface> &packet);
-    ~QEXTTcpTask();
+    QExtTcpTask(const QSharedPointer<QExtTcpPacketTransceiver> &transceiver);
+    QExtTcpTask(const QSharedPointer<QExtTcpPacketTransceiver> &transceiver,
+                const QSharedPointer<QExtTcpPacketInterface> &packet);
+    QExtTcpTask(QExtTcpTaskPrivate *d,
+                const QSharedPointer<QExtTcpPacketTransceiver> &transceiver);
+    QExtTcpTask(QExtTcpTaskPrivate *d,
+                const QSharedPointer<QExtTcpPacketTransceiver> &transceiver,
+                const QSharedPointer<QExtTcpPacketInterface> &packet);
+    ~QExtTcpTask();
 
-    QSharedPointer<QEXTTcpPacketInterface> receivedPacket() const;
-    QSharedPointer<QEXTTcpPacketTransceiver> packetTransceiver() const;
+    QSharedPointer<QExtTcpPacketInterface> receivedPacket() const;
+    QSharedPointer<QExtTcpPacketTransceiver> packetTransceiver() const;
     QDateTime timestamp() const;
 
     quint64 id() const;
-    QEXTId identityId() const;
+    QExtId identityId() const;
 
     bool isFinished() const;
     bool isErrored() const;
     QString errorString() const;
 
-    virtual QEXTId typeId() const;
+    virtual QExtId typeId() const;
     void run() QEXT_DECL_OVERRIDE;
 
 Q_SIGNALS:
@@ -47,18 +47,18 @@ Q_SIGNALS:
 protected:
     void setErrorString(const QString &string);
 
-    QScopedPointer<QEXTTcpTaskPrivate> dd_ptr;
+    QScopedPointer<QExtTcpTaskPrivate> dd_ptr;
 };
 
 
-class QEXT_TCP_API QEXTTcpPostBackTask : public QEXTTcpTask
+class QEXT_TCP_API QExtTcpPostBackTask : public QExtTcpTask
 {
 public:
-    QEXTTcpPostBackTask(const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver, const QSharedPointer<QEXTTcpPacketInterface> &packet);
-    QEXTTcpPostBackTask(QEXTTcpTaskPrivate *d, const QSharedPointer<QEXTTcpPacketTransceiver> &transceiver, const QSharedPointer<QEXTTcpPacketInterface> &packet);
-    ~QEXTTcpPostBackTask();
+    QExtTcpPostBackTask(const QSharedPointer<QExtTcpPacketTransceiver> &transceiver, const QSharedPointer<QExtTcpPacketInterface> &packet);
+    QExtTcpPostBackTask(QExtTcpTaskPrivate *d, const QSharedPointer<QExtTcpPacketTransceiver> &transceiver, const QSharedPointer<QExtTcpPacketInterface> &packet);
+    ~QExtTcpPostBackTask();
 
-    QEXTId typeId() const QEXT_DECL_OVERRIDE;
+    QExtId typeId() const QEXT_DECL_OVERRIDE;
     void run() QEXT_DECL_OVERRIDE;
 };
 

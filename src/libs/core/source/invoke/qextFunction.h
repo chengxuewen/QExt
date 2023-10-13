@@ -14,38 +14,38 @@
 
 QEXT_WARNING_DISABLE_GCC("-Wcast-function-type")
 
-namespace qextPrivate
+namespace QExtPrivate
 {
 
-    struct QEXT_CORE_API QEXTFunctionData
+    struct QEXT_CORE_API QExtFunctionData
     {
-        QEXTFunctionData();
-        QEXTFunctionData(const QEXTFunctionData &other);
-        virtual ~QEXTFunctionData() {}
+        QExtFunctionData();
+        QExtFunctionData(const QExtFunctionData &other);
+        virtual ~QExtFunctionData() {}
 
-        QEXTFunctionData &operator=(const QEXTFunctionData &other);
+        QExtFunctionData &operator=(const QExtFunctionData &other);
 
-        bool operator==(const QEXTFunctionData &other) const;
-        bool operator!=(const QEXTFunctionData &other) const;
+        bool operator==(const QExtFunctionData &other) const;
+        bool operator!=(const QExtFunctionData &other) const;
 
         QAtomicInt m_trackable;
         QList<QPointer< QObject > > m_objectList;
     };
 
-    class QEXT_CORE_API QEXTFunctionBase
+    class QEXT_CORE_API QExtFunctionBase
     {
     public:
         typedef void *(*HookFunction)(void *);
 
-        QEXTFunctionBase();
-        QEXTFunctionBase(const QSharedPointer< QEXTFunctionData > &data);
-        QEXTFunctionBase(const QEXTFunctionBase &other);
-        virtual ~QEXTFunctionBase() {}
+        QExtFunctionBase();
+        QExtFunctionBase(const QSharedPointer< QExtFunctionData > &data);
+        QExtFunctionBase(const QExtFunctionBase &other);
+        virtual ~QExtFunctionBase() {}
 
-        QEXTFunctionBase &operator=(const QEXTFunctionBase &other);
+        QExtFunctionBase &operator=(const QExtFunctionBase &other);
 
-        bool operator==(const QEXTFunctionBase &other) const;
-        bool operator!=(const QEXTFunctionBase &other) const;
+        bool operator==(const QExtFunctionBase &other) const;
+        bool operator!=(const QExtFunctionBase &other) const;
 
         bool isNull() const;
         bool isTrackable() const;
@@ -60,19 +60,19 @@ namespace qextPrivate
         void disconnect();
 
     public:
-        friend struct QEXTFunctionObjectBind;
+        friend struct QExtFunctionObjectBind;
         QAtomicInt m_blocked;
         void *m_parent;
         HookFunction m_cleanupFunc;
 
         HookFunction m_callFunc;
-        mutable QSharedPointer< QEXTFunctionData > m_data;
+        mutable QSharedPointer< QExtFunctionData > m_data;
     };
 
-    struct QEXTFunctionObjectBind
+    struct QExtFunctionObjectBind
     {
-        QEXTFunctionObjectBind(QEXTFunctionData *data) : m_data(data) {}
-        virtual ~QEXTFunctionObjectBind() {}
+        QExtFunctionObjectBind(QExtFunctionData *data) : m_data(data) {}
+        virtual ~QExtFunctionObjectBind() {}
 
         void operator()(const QObject *object) const
         {
@@ -84,20 +84,20 @@ namespace qextPrivate
             }
         }
 
-        QEXTFunctionData *m_data;
+        QExtFunctionData *m_data;
     };
 
     template < typename T_functor >
-    struct QEXTFunctionFunctorData : public QEXTFunctionData
+    struct QExtFunctionFunctorData : public QExtFunctionData
     {
-        typedef QEXTFunctionFunctorData< T_functor > Self;
-        typedef typename QEXTAdaptorTrait< T_functor >::Adaptor Adaptor;
+        typedef QExtFunctionFunctorData< T_functor > Self;
+        typedef typename QExtAdaptorTrait< T_functor >::Adaptor Adaptor;
 
-        QEXTFunctionFunctorData(const T_functor &functor) : m_functor(functor)
+        QExtFunctionFunctorData(const T_functor &functor) : m_functor(functor)
         {
-            qextVisitEachType< QObject * >(QEXTFunctionObjectBind(this), functor);
+            qextVisitEachType< QObject * >(QExtFunctionObjectBind(this), functor);
         }
-        QEXTFunctionFunctorData(const QEXTFunctionFunctorData &other) : QEXTFunctionData(other), m_functor(other.m_functor) {}
+        QExtFunctionFunctorData(const QExtFunctionFunctorData &other) : QExtFunctionData(other), m_functor(other.m_functor) {}
 
         Adaptor m_functor;
     };
@@ -112,216 +112,216 @@ namespace qextPrivate
         typename T_arg5,
         typename T_arg6,
         typename T_arg7 >
-    struct QEXTFunctionCall7
+    struct QExtFunctionCall7
     {
         static T_return call(
-            const QSharedPointer< QEXTFunctionData > &functionData,
-            typename QEXTTypeTrait< T_arg1 >::Take arg1,
-            typename QEXTTypeTrait< T_arg2 >::Take arg2,
-            typename QEXTTypeTrait< T_arg3 >::Take arg3,
-            typename QEXTTypeTrait< T_arg4 >::Take arg4,
-            typename QEXTTypeTrait< T_arg5 >::Take arg5,
-            typename QEXTTypeTrait< T_arg6 >::Take arg6,
-            typename QEXTTypeTrait< T_arg7 >::Take arg7)
+            const QSharedPointer< QExtFunctionData > &functionData,
+            typename QExtTypeTrait< T_arg1 >::Take arg1,
+            typename QExtTypeTrait< T_arg2 >::Take arg2,
+            typename QExtTypeTrait< T_arg3 >::Take arg3,
+            typename QExtTypeTrait< T_arg4 >::Take arg4,
+            typename QExtTypeTrait< T_arg5 >::Take arg5,
+            typename QExtTypeTrait< T_arg6 >::Take arg6,
+            typename QExtTypeTrait< T_arg7 >::Take arg7)
         {
-            typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
+            typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
                    .template operator() <
-                   typename QEXTTypeTrait< T_arg1 >::Take,
-                   typename QEXTTypeTrait< T_arg2 >::Take,
-                   typename QEXTTypeTrait< T_arg3 >::Take,
-                   typename QEXTTypeTrait< T_arg4 >::Take,
-                   typename QEXTTypeTrait< T_arg5 >::Take,
-                   typename QEXTTypeTrait< T_arg6 >::Take,
-                   typename QEXTTypeTrait< T_arg7 >::Take > (arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+                   typename QExtTypeTrait< T_arg1 >::Take,
+                   typename QExtTypeTrait< T_arg2 >::Take,
+                   typename QExtTypeTrait< T_arg3 >::Take,
+                   typename QExtTypeTrait< T_arg4 >::Take,
+                   typename QExtTypeTrait< T_arg5 >::Take,
+                   typename QExtTypeTrait< T_arg6 >::Take,
+                   typename QExtTypeTrait< T_arg7 >::Take > (arg1, arg2, arg3, arg4, arg5, arg6, arg7);
         }
 
-        static QEXTFunctionBase::HookFunction address()
+        static QExtFunctionBase::HookFunction address()
         {
-            return reinterpret_cast< QEXTFunctionBase::HookFunction >(&call);
+            return reinterpret_cast< QExtFunctionBase::HookFunction >(&call);
         }
     };
 
     template < typename T_functor, typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
-    struct QEXTFunctionCall6
+    struct QExtFunctionCall6
     {
         static T_return call(
-            const QSharedPointer< QEXTFunctionData > &functionData,
-            typename QEXTTypeTrait< T_arg1 >::Take arg1,
-            typename QEXTTypeTrait< T_arg2 >::Take arg2,
-            typename QEXTTypeTrait< T_arg3 >::Take arg3,
-            typename QEXTTypeTrait< T_arg4 >::Take arg4,
-            typename QEXTTypeTrait< T_arg5 >::Take arg5,
-            typename QEXTTypeTrait< T_arg6 >::Take arg6)
+            const QSharedPointer< QExtFunctionData > &functionData,
+            typename QExtTypeTrait< T_arg1 >::Take arg1,
+            typename QExtTypeTrait< T_arg2 >::Take arg2,
+            typename QExtTypeTrait< T_arg3 >::Take arg3,
+            typename QExtTypeTrait< T_arg4 >::Take arg4,
+            typename QExtTypeTrait< T_arg5 >::Take arg5,
+            typename QExtTypeTrait< T_arg6 >::Take arg6)
         {
-            typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
+            typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
                    .template operator() <
-                   typename QEXTTypeTrait< T_arg1 >::Take,
-                   typename QEXTTypeTrait< T_arg2 >::Take,
-                   typename QEXTTypeTrait< T_arg3 >::Take,
-                   typename QEXTTypeTrait< T_arg4 >::Take,
-                   typename QEXTTypeTrait< T_arg5 >::Take,
-                   typename QEXTTypeTrait< T_arg6 >::Take > (arg1, arg2, arg3, arg4, arg5, arg6);
+                   typename QExtTypeTrait< T_arg1 >::Take,
+                   typename QExtTypeTrait< T_arg2 >::Take,
+                   typename QExtTypeTrait< T_arg3 >::Take,
+                   typename QExtTypeTrait< T_arg4 >::Take,
+                   typename QExtTypeTrait< T_arg5 >::Take,
+                   typename QExtTypeTrait< T_arg6 >::Take > (arg1, arg2, arg3, arg4, arg5, arg6);
         }
 
-        static QEXTFunctionBase::HookFunction address()
+        static QExtFunctionBase::HookFunction address()
         {
-            return reinterpret_cast< QEXTFunctionBase::HookFunction >(&call);
+            return reinterpret_cast< QExtFunctionBase::HookFunction >(&call);
         }
     };
 
     template < typename T_functor, typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
-    struct QEXTFunctionCall5
+    struct QExtFunctionCall5
     {
         static T_return call(
-            const QSharedPointer< QEXTFunctionData > &functionData,
-            typename QEXTTypeTrait< T_arg1 >::Take arg1,
-            typename QEXTTypeTrait< T_arg2 >::Take arg2,
-            typename QEXTTypeTrait< T_arg3 >::Take arg3,
-            typename QEXTTypeTrait< T_arg4 >::Take arg4,
-            typename QEXTTypeTrait< T_arg5 >::Take arg5)
+            const QSharedPointer< QExtFunctionData > &functionData,
+            typename QExtTypeTrait< T_arg1 >::Take arg1,
+            typename QExtTypeTrait< T_arg2 >::Take arg2,
+            typename QExtTypeTrait< T_arg3 >::Take arg3,
+            typename QExtTypeTrait< T_arg4 >::Take arg4,
+            typename QExtTypeTrait< T_arg5 >::Take arg5)
         {
-            typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
+            typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
                    .template operator() <
-                   typename QEXTTypeTrait< T_arg1 >::Take,
-                   typename QEXTTypeTrait< T_arg2 >::Take,
-                   typename QEXTTypeTrait< T_arg3 >::Take,
-                   typename QEXTTypeTrait< T_arg4 >::Take,
-                   typename QEXTTypeTrait< T_arg5 >::Take > (arg1, arg2, arg3, arg4, arg5);
+                   typename QExtTypeTrait< T_arg1 >::Take,
+                   typename QExtTypeTrait< T_arg2 >::Take,
+                   typename QExtTypeTrait< T_arg3 >::Take,
+                   typename QExtTypeTrait< T_arg4 >::Take,
+                   typename QExtTypeTrait< T_arg5 >::Take > (arg1, arg2, arg3, arg4, arg5);
         }
 
-        static QEXTFunctionBase::HookFunction address()
+        static QExtFunctionBase::HookFunction address()
         {
-            return reinterpret_cast< QEXTFunctionBase::HookFunction >(&call);
+            return reinterpret_cast< QExtFunctionBase::HookFunction >(&call);
         }
     };
 
     template < typename T_functor, typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
-    struct QEXTFunctionCall4
+    struct QExtFunctionCall4
     {
         static T_return call(
-            const QSharedPointer< QEXTFunctionData > &functionData,
-            typename QEXTTypeTrait< T_arg1 >::Take arg1,
-            typename QEXTTypeTrait< T_arg2 >::Take arg2,
-            typename QEXTTypeTrait< T_arg3 >::Take arg3,
-            typename QEXTTypeTrait< T_arg4 >::Take arg4)
+            const QSharedPointer< QExtFunctionData > &functionData,
+            typename QExtTypeTrait< T_arg1 >::Take arg1,
+            typename QExtTypeTrait< T_arg2 >::Take arg2,
+            typename QExtTypeTrait< T_arg3 >::Take arg3,
+            typename QExtTypeTrait< T_arg4 >::Take arg4)
         {
-            typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
+            typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
                    .template operator() <
-                   typename QEXTTypeTrait< T_arg1 >::Take,
-                   typename QEXTTypeTrait< T_arg2 >::Take,
-                   typename QEXTTypeTrait< T_arg3 >::Take,
-                   typename QEXTTypeTrait< T_arg4 >::Take > (arg1, arg2, arg3, arg4);
+                   typename QExtTypeTrait< T_arg1 >::Take,
+                   typename QExtTypeTrait< T_arg2 >::Take,
+                   typename QExtTypeTrait< T_arg3 >::Take,
+                   typename QExtTypeTrait< T_arg4 >::Take > (arg1, arg2, arg3, arg4);
         }
 
-        static QEXTFunctionBase::HookFunction address()
+        static QExtFunctionBase::HookFunction address()
         {
-            return reinterpret_cast< QEXTFunctionBase::HookFunction >(&call);
+            return reinterpret_cast< QExtFunctionBase::HookFunction >(&call);
         }
     };
 
     template < typename T_functor, typename T_return, typename T_arg1, typename T_arg2, typename T_arg3 >
-    struct QEXTFunctionCall3
+    struct QExtFunctionCall3
     {
         static T_return call(
-            const QSharedPointer< QEXTFunctionData > &functionData,
-            typename QEXTTypeTrait< T_arg1 >::Take arg1,
-            typename QEXTTypeTrait< T_arg3 >::Take arg2,
-            typename QEXTTypeTrait< T_arg3 >::Take arg3)
+            const QSharedPointer< QExtFunctionData > &functionData,
+            typename QExtTypeTrait< T_arg1 >::Take arg1,
+            typename QExtTypeTrait< T_arg3 >::Take arg2,
+            typename QExtTypeTrait< T_arg3 >::Take arg3)
         {
-            typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
+            typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
-                   .template operator()< typename QEXTTypeTrait< T_arg1 >::Take, typename QEXTTypeTrait< T_arg2 >::Take, typename QEXTTypeTrait< T_arg3 >::Take >(
+                   .template operator()< typename QExtTypeTrait< T_arg1 >::Take, typename QExtTypeTrait< T_arg2 >::Take, typename QExtTypeTrait< T_arg3 >::Take >(
                        arg1, arg2, arg3);
         }
 
-        static QEXTFunctionBase::HookFunction address()
+        static QExtFunctionBase::HookFunction address()
         {
-            return reinterpret_cast< QEXTFunctionBase::HookFunction >(&call);
+            return reinterpret_cast< QExtFunctionBase::HookFunction >(&call);
         }
     };
 
     template < typename T_functor, typename T_return, typename T_arg1, typename T_arg2 >
-    struct QEXTFunctionCall2
+    struct QExtFunctionCall2
     {
         static T_return
-        call(const QSharedPointer< QEXTFunctionData > &functionData, typename QEXTTypeTrait< T_arg1 >::Take arg1, typename QEXTTypeTrait< T_arg2 >::Take arg2)
+        call(const QSharedPointer< QExtFunctionData > &functionData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
         {
-            typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
+            typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)
-                   .template operator()< typename QEXTTypeTrait< T_arg1 >::Take, typename QEXTTypeTrait< T_arg2 >::Take >(arg1, arg2);
+                   .template operator()< typename QExtTypeTrait< T_arg1 >::Take, typename QExtTypeTrait< T_arg2 >::Take >(arg1, arg2);
         }
 
-        static QEXTFunctionBase::HookFunction address()
+        static QExtFunctionBase::HookFunction address()
         {
-            return reinterpret_cast< QEXTFunctionBase::HookFunction >(&call);
+            return reinterpret_cast< QExtFunctionBase::HookFunction >(&call);
         }
     };
 
     template < typename T_functor, typename T_return, typename T_arg1 >
-    struct QEXTFunctionCall1
+    struct QExtFunctionCall1
     {
-        static T_return call(const QSharedPointer< QEXTFunctionData > &functionData, typename QEXTTypeTrait< T_arg1 >::Take arg1)
+        static T_return call(const QSharedPointer< QExtFunctionData > &functionData, typename QExtTypeTrait< T_arg1 >::Take arg1)
         {
-            typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
+            typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
-            return (functionFunctorData->m_functor).template operator()< typename QEXTTypeTrait< T_arg1 >::Take >(arg1);
+            return (functionFunctorData->m_functor).template operator()< typename QExtTypeTrait< T_arg1 >::Take >(arg1);
         }
 
-        static QEXTFunctionBase::HookFunction address()
+        static QExtFunctionBase::HookFunction address()
         {
-            return reinterpret_cast< QEXTFunctionBase::HookFunction >(&call);
+            return reinterpret_cast< QExtFunctionBase::HookFunction >(&call);
         }
     };
 
     template < typename T_functor, typename T_return >
-    struct QEXTFunctionCall0
+    struct QExtFunctionCall0
     {
-        static T_return call(const QSharedPointer< QEXTFunctionData > &functionData)
+        static T_return call(const QSharedPointer< QExtFunctionData > &functionData)
         {
-            typedef QEXTFunctionFunctorData< T_functor > FunctionFunctorData;
+            typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
             return (functionFunctorData->m_functor)();
         }
 
-        static QEXTFunctionBase::HookFunction address()
+        static QExtFunctionBase::HookFunction address()
         {
-            return reinterpret_cast< QEXTFunctionBase::HookFunction >(&call);
+            return reinterpret_cast< QExtFunctionBase::HookFunction >(&call);
         }
     };
 
     template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7 >
-    class QEXTFunction7 : public QEXTFunctionBase
+    class QExtFunction7 : public QExtFunctionBase
     {
     public:
         typedef T_return Return;
-        typedef typename QEXTTypeTrait< T_arg1 >::Take Arg1;
-        typedef typename QEXTTypeTrait< T_arg2 >::Take Arg2;
-        typedef typename QEXTTypeTrait< T_arg3 >::Take Arg3;
-        typedef typename QEXTTypeTrait< T_arg4 >::Take Arg4;
-        typedef typename QEXTTypeTrait< T_arg5 >::Take Arg5;
-        typedef typename QEXTTypeTrait< T_arg6 >::Take Arg6;
-        typedef typename QEXTTypeTrait< T_arg7 >::Take Arg7;
+        typedef typename QExtTypeTrait< T_arg1 >::Take Arg1;
+        typedef typename QExtTypeTrait< T_arg2 >::Take Arg2;
+        typedef typename QExtTypeTrait< T_arg3 >::Take Arg3;
+        typedef typename QExtTypeTrait< T_arg4 >::Take Arg4;
+        typedef typename QExtTypeTrait< T_arg5 >::Take Arg5;
+        typedef typename QExtTypeTrait< T_arg6 >::Take Arg6;
+        typedef typename QExtTypeTrait< T_arg7 >::Take Arg7;
 
-        typedef T_return (*CallFunction)(const QSharedPointer< QEXTFunctionData > &, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7);
+        typedef T_return (*CallFunction)(const QSharedPointer< QExtFunctionData > &, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7);
 
-        QEXTFunction7() {}
+        QExtFunction7() {}
         template < typename T_functor >
-        QEXTFunction7(const T_functor &functor)
-            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QExtFunction7(const T_functor &functor)
+            : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = qextPrivate::QEXTFunctionCall7< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::address();
+            m_callFunc = QExtPrivate::QExtFunctionCall7< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::address();
         }
-        QEXTFunction7(const QEXTFunction7 &other) : QEXTFunctionBase(other) {}
+        QExtFunction7(const QExtFunction7 &other) : QExtFunctionBase(other) {}
 
         T_return operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6, Arg7 arg7) const
         {
@@ -334,27 +334,27 @@ namespace qextPrivate
     };
 
     template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
-    class QEXTFunction6 : public QEXTFunctionBase
+    class QExtFunction6 : public QExtFunctionBase
     {
     public:
         typedef T_return Return;
-        typedef typename QEXTTypeTrait< T_arg1 >::Take Arg1;
-        typedef typename QEXTTypeTrait< T_arg2 >::Take Arg2;
-        typedef typename QEXTTypeTrait< T_arg3 >::Take Arg3;
-        typedef typename QEXTTypeTrait< T_arg4 >::Take Arg4;
-        typedef typename QEXTTypeTrait< T_arg5 >::Take Arg5;
-        typedef typename QEXTTypeTrait< T_arg6 >::Take Arg6;
+        typedef typename QExtTypeTrait< T_arg1 >::Take Arg1;
+        typedef typename QExtTypeTrait< T_arg2 >::Take Arg2;
+        typedef typename QExtTypeTrait< T_arg3 >::Take Arg3;
+        typedef typename QExtTypeTrait< T_arg4 >::Take Arg4;
+        typedef typename QExtTypeTrait< T_arg5 >::Take Arg5;
+        typedef typename QExtTypeTrait< T_arg6 >::Take Arg6;
 
-        typedef T_return (*CallFunction)(const QSharedPointer< QEXTFunctionData > &, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6);
+        typedef T_return (*CallFunction)(const QSharedPointer< QExtFunctionData > &, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6);
 
-        QEXTFunction6() {}
+        QExtFunction6() {}
         template < typename T_functor >
-        QEXTFunction6(const T_functor &functor)
-            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QExtFunction6(const T_functor &functor)
+            : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = qextPrivate::QEXTFunctionCall6< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >::address();
+            m_callFunc = QExtPrivate::QExtFunctionCall6< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >::address();
         }
-        QEXTFunction6(const QEXTFunction6 &other) : QEXTFunctionBase(other) {}
+        QExtFunction6(const QExtFunction6 &other) : QExtFunctionBase(other) {}
 
         T_return operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6) const
         {
@@ -367,26 +367,26 @@ namespace qextPrivate
     };
 
     template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
-    class QEXTFunction5 : public QEXTFunctionBase
+    class QExtFunction5 : public QExtFunctionBase
     {
     public:
         typedef T_return Return;
-        typedef typename QEXTTypeTrait< T_arg1 >::Take Arg1;
-        typedef typename QEXTTypeTrait< T_arg2 >::Take Arg2;
-        typedef typename QEXTTypeTrait< T_arg3 >::Take Arg3;
-        typedef typename QEXTTypeTrait< T_arg4 >::Take Arg4;
-        typedef typename QEXTTypeTrait< T_arg5 >::Take Arg5;
+        typedef typename QExtTypeTrait< T_arg1 >::Take Arg1;
+        typedef typename QExtTypeTrait< T_arg2 >::Take Arg2;
+        typedef typename QExtTypeTrait< T_arg3 >::Take Arg3;
+        typedef typename QExtTypeTrait< T_arg4 >::Take Arg4;
+        typedef typename QExtTypeTrait< T_arg5 >::Take Arg5;
 
-        typedef T_return (*CallFunction)(const QSharedPointer< QEXTFunctionData > &, Arg1, Arg2, Arg3, Arg4, Arg5);
+        typedef T_return (*CallFunction)(const QSharedPointer< QExtFunctionData > &, Arg1, Arg2, Arg3, Arg4, Arg5);
 
-        QEXTFunction5() {}
+        QExtFunction5() {}
         template < typename T_functor >
-        QEXTFunction5(const T_functor &functor)
-            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QExtFunction5(const T_functor &functor)
+            : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = qextPrivate::QEXTFunctionCall5< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >::address();
+            m_callFunc = QExtPrivate::QExtFunctionCall5< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >::address();
         }
-        QEXTFunction5(const QEXTFunction5 &other) : QEXTFunctionBase(other) {}
+        QExtFunction5(const QExtFunction5 &other) : QExtFunctionBase(other) {}
 
         T_return operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5) const
         {
@@ -399,25 +399,25 @@ namespace qextPrivate
     };
 
     template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
-    class QEXTFunction4 : public QEXTFunctionBase
+    class QExtFunction4 : public QExtFunctionBase
     {
     public:
         typedef T_return Return;
-        typedef typename QEXTTypeTrait< T_arg1 >::Take Arg1;
-        typedef typename QEXTTypeTrait< T_arg2 >::Take Arg2;
-        typedef typename QEXTTypeTrait< T_arg3 >::Take Arg3;
-        typedef typename QEXTTypeTrait< T_arg4 >::Take Arg4;
+        typedef typename QExtTypeTrait< T_arg1 >::Take Arg1;
+        typedef typename QExtTypeTrait< T_arg2 >::Take Arg2;
+        typedef typename QExtTypeTrait< T_arg3 >::Take Arg3;
+        typedef typename QExtTypeTrait< T_arg4 >::Take Arg4;
 
-        typedef T_return (*CallFunction)(const QSharedPointer< QEXTFunctionData > &, Arg1, Arg2, Arg3, Arg4);
+        typedef T_return (*CallFunction)(const QSharedPointer< QExtFunctionData > &, Arg1, Arg2, Arg3, Arg4);
 
-        QEXTFunction4() {}
+        QExtFunction4() {}
         template < typename T_functor >
-        QEXTFunction4(const T_functor &functor)
-            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QExtFunction4(const T_functor &functor)
+            : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = qextPrivate::QEXTFunctionCall4< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4 >::address();
+            m_callFunc = QExtPrivate::QExtFunctionCall4< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4 >::address();
         }
-        QEXTFunction4(const QEXTFunction4 &other) : QEXTFunctionBase(other) {}
+        QExtFunction4(const QExtFunction4 &other) : QExtFunctionBase(other) {}
 
         T_return operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4) const
         {
@@ -430,24 +430,24 @@ namespace qextPrivate
     };
 
     template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3 >
-    class QEXTFunction3 : public QEXTFunctionBase
+    class QExtFunction3 : public QExtFunctionBase
     {
     public:
         typedef T_return Return;
-        typedef typename QEXTTypeTrait< T_arg1 >::Take Arg1;
-        typedef typename QEXTTypeTrait< T_arg2 >::Take Arg2;
-        typedef typename QEXTTypeTrait< T_arg3 >::Take Arg3;
+        typedef typename QExtTypeTrait< T_arg1 >::Take Arg1;
+        typedef typename QExtTypeTrait< T_arg2 >::Take Arg2;
+        typedef typename QExtTypeTrait< T_arg3 >::Take Arg3;
 
-        typedef T_return (*CallFunction)(const QSharedPointer< QEXTFunctionData > &, Arg1, Arg2, Arg3);
+        typedef T_return (*CallFunction)(const QSharedPointer< QExtFunctionData > &, Arg1, Arg2, Arg3);
 
-        QEXTFunction3() {}
+        QExtFunction3() {}
         template < typename T_functor >
-        QEXTFunction3(const T_functor &functor)
-            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QExtFunction3(const T_functor &functor)
+            : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = qextPrivate::QEXTFunctionCall3< T_functor, T_return, T_arg1, T_arg2, T_arg3 >::address();
+            m_callFunc = QExtPrivate::QExtFunctionCall3< T_functor, T_return, T_arg1, T_arg2, T_arg3 >::address();
         }
-        QEXTFunction3(const QEXTFunction3 &other) : QEXTFunctionBase(other) {}
+        QExtFunction3(const QExtFunction3 &other) : QExtFunctionBase(other) {}
 
         T_return operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3) const
         {
@@ -460,23 +460,23 @@ namespace qextPrivate
     };
 
     template < typename T_return, typename T_arg1, typename T_arg2 >
-    class QEXTFunction2 : public QEXTFunctionBase
+    class QExtFunction2 : public QExtFunctionBase
     {
     public:
         typedef T_return Return;
-        typedef typename QEXTTypeTrait< T_arg1 >::Take Arg1;
-        typedef typename QEXTTypeTrait< T_arg2 >::Take Arg2;
+        typedef typename QExtTypeTrait< T_arg1 >::Take Arg1;
+        typedef typename QExtTypeTrait< T_arg2 >::Take Arg2;
 
-        typedef T_return (*CallFunction)(const QSharedPointer< QEXTFunctionData > &, Arg1, Arg2);
+        typedef T_return (*CallFunction)(const QSharedPointer< QExtFunctionData > &, Arg1, Arg2);
 
-        QEXTFunction2() {}
+        QExtFunction2() {}
         template < typename T_functor >
-        QEXTFunction2(const T_functor &functor)
-            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QExtFunction2(const T_functor &functor)
+            : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = qextPrivate::QEXTFunctionCall2< T_functor, T_return, T_arg1, T_arg2 >::address();
+            m_callFunc = QExtPrivate::QExtFunctionCall2< T_functor, T_return, T_arg1, T_arg2 >::address();
         }
-        QEXTFunction2(const QEXTFunction2 &other) : QEXTFunctionBase(other) {}
+        QExtFunction2(const QExtFunction2 &other) : QExtFunctionBase(other) {}
 
         T_return operator()(Arg1 arg1, Arg2 arg2) const
         {
@@ -489,22 +489,22 @@ namespace qextPrivate
     };
 
     template < typename T_return, typename T_arg1 >
-    class QEXTFunction1 : public QEXTFunctionBase
+    class QExtFunction1 : public QExtFunctionBase
     {
     public:
         typedef T_return Return;
-        typedef typename QEXTTypeTrait< T_arg1 >::Take Arg1;
+        typedef typename QExtTypeTrait< T_arg1 >::Take Arg1;
 
-        typedef T_return (*CallFunction)(const QSharedPointer< QEXTFunctionData > &, Arg1);
+        typedef T_return (*CallFunction)(const QSharedPointer< QExtFunctionData > &, Arg1);
 
-        QEXTFunction1() {}
+        QExtFunction1() {}
         template < typename T_functor >
-        QEXTFunction1(const T_functor &functor)
-            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QExtFunction1(const T_functor &functor)
+            : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = qextPrivate::QEXTFunctionCall1< T_functor, T_return, T_arg1 >::address();
+            m_callFunc = QExtPrivate::QExtFunctionCall1< T_functor, T_return, T_arg1 >::address();
         }
-        QEXTFunction1(const QEXTFunction1 &other) : QEXTFunctionBase(other) {}
+        QExtFunction1(const QExtFunction1 &other) : QExtFunctionBase(other) {}
 
         T_return operator()(Arg1 arg1) const
         {
@@ -517,21 +517,21 @@ namespace qextPrivate
     };
 
     template < typename T_return >
-    class QEXTFunction0 : public QEXTFunctionBase
+    class QExtFunction0 : public QExtFunctionBase
     {
     public:
         typedef T_return Return;
 
-        typedef T_return (*CallFunction)(const QSharedPointer< QEXTFunctionData > &);
+        typedef T_return (*CallFunction)(const QSharedPointer< QExtFunctionData > &);
 
-        QEXTFunction0() {}
+        QExtFunction0() {}
         template < typename T_functor >
-        QEXTFunction0(const T_functor &functor)
-            : QEXTFunctionBase(QSharedPointer< QEXTFunctionData >(new QEXTFunctionFunctorData< T_functor >(functor)))
+        QExtFunction0(const T_functor &functor)
+            : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = qextPrivate::QEXTFunctionCall0< T_functor, T_return >::address();
+            m_callFunc = QExtPrivate::QExtFunctionCall0< T_functor, T_return >::address();
         }
-        QEXTFunction0(const QEXTFunction0 &other) : QEXTFunctionBase(other) {}
+        QExtFunction0(const QExtFunction0 &other) : QExtFunctionBase(other) {}
 
         T_return operator()() const
         {
@@ -543,74 +543,74 @@ namespace qextPrivate
         }
     };
 
-} // namespace qextPrivate
+} // namespace QExtPrivate
 
 template <
     typename T_return,
-    typename T_arg1 = QEXTNil,
-    typename T_arg2 = QEXTNil,
-    typename T_arg3 = QEXTNil,
-    typename T_arg4 = QEXTNil,
-    typename T_arg5 = QEXTNil,
-    typename T_arg6 = QEXTNil,
-    typename T_arg7 = QEXTNil >
-class QEXTFunction : public qextPrivate::QEXTFunction7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+    typename T_arg1 = QExtNil,
+    typename T_arg2 = QExtNil,
+    typename T_arg3 = QExtNil,
+    typename T_arg4 = QExtNil,
+    typename T_arg5 = QExtNil,
+    typename T_arg6 = QExtNil,
+    typename T_arg7 = QExtNil >
+class QExtFunction : public QExtPrivate::QExtFunction7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
 {
 public:
-    typedef qextPrivate::QEXTFunction7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Base;
+    typedef QExtPrivate::QExtFunction7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Base;
 
-    QEXTFunction() {}
-    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7))
-        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(func))
+    QExtFunction() {}
+    QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7))
+        : Base(QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(func))
     {
     }
     template < typename T_functor >
-    QEXTFunction(const T_functor &functor) : Base(functor)
+    QExtFunction(const T_functor &functor) : Base(functor)
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7))
-        : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7))
+        : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7))
-        : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7))
+        : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(
+    QExtFunction(
         T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(
+    QExtFunction(
         T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >(obj, func))
     {
     }
-    QEXTFunction(const QEXTFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
+    QExtFunction(const QExtFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
 
     T_return operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7) const
     {
@@ -619,62 +619,62 @@ public:
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
-class QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QEXTNil >
-    : public qextPrivate::QEXTFunction6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+class QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil >
+    : public QExtPrivate::QExtFunction6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
 {
 public:
-    typedef qextPrivate::QEXTFunction6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 > Base;
+    typedef QExtPrivate::QExtFunction6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 > Base;
 
-    QEXTFunction() {}
-    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6))
-        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(func))
+    QExtFunction() {}
+    QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6))
+        : Base(QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(func))
     {
     }
     template < typename T_functor >
-    QEXTFunction(const T_functor &functor) : Base(functor)
+    QExtFunction(const T_functor &functor) : Base(functor)
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6))
-        : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6))
+        : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6))
-        : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6))
+        : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >(obj, func))
     {
     }
-    QEXTFunction(const QEXTFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
+    QExtFunction(const QExtFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
 
     T_return operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6) const
     {
@@ -683,62 +683,62 @@ public:
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
-class QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QEXTNil, QEXTNil >
-    : public qextPrivate::QEXTFunction5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+class QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil >
+    : public QExtPrivate::QExtFunction5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
 {
 public:
-    typedef qextPrivate::QEXTFunction5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 > Base;
+    typedef QExtPrivate::QExtFunction5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 > Base;
 
-    QEXTFunction() {}
-    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5))
-        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(func))
+    QExtFunction() {}
+    QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5))
+        : Base(QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(func))
     {
     }
     template < typename T_functor >
-    QEXTFunction(const T_functor &functor) : Base(functor)
+    QExtFunction(const T_functor &functor) : Base(functor)
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5))
-        : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5))
+        : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5))
-        : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5))
+        : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >(obj, func))
     {
     }
-    QEXTFunction(const QEXTFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
+    QExtFunction(const QExtFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
 
     T_return operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5) const
     {
@@ -747,62 +747,62 @@ public:
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
-class QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QEXTNil, QEXTNil, QEXTNil >
-    : public qextPrivate::QEXTFunction4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >
+class QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil >
+    : public QExtPrivate::QExtFunction4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >
 {
 public:
-    typedef qextPrivate::QEXTFunction4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 > Base;
+    typedef QExtPrivate::QExtFunction4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 > Base;
 
-    QEXTFunction() {}
-    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4))
-        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >(func))
+    QExtFunction() {}
+    QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4))
+        : Base(QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >(func))
     {
     }
     template < typename T_functor >
-    QEXTFunction(const T_functor &functor) : Base(functor)
+    QExtFunction(const T_functor &functor) : Base(functor)
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4))
-        : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4))
+        : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4))
-        : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4))
+        : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4 >(obj, func))
     {
     }
-    QEXTFunction(const QEXTFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
+    QExtFunction(const QExtFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
 
     T_return operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4) const
     {
@@ -811,61 +811,61 @@ public:
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3 >
-class QEXTFunction< T_return, T_arg1, T_arg2, T_arg3, QEXTNil, QEXTNil, QEXTNil, QEXTNil > : public qextPrivate::QEXTFunction3< T_return, T_arg1, T_arg2, T_arg3 >
+class QExtFunction< T_return, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtFunction3< T_return, T_arg1, T_arg2, T_arg3 >
 {
 public:
-    typedef qextPrivate::QEXTFunction3< T_return, T_arg1, T_arg2, T_arg3 > Base;
+    typedef QExtPrivate::QExtFunction3< T_return, T_arg1, T_arg2, T_arg3 > Base;
 
-    QEXTFunction() {}
-    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3))
-        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2, T_arg3 >(func))
+    QExtFunction() {}
+    QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3))
+        : Base(QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3 >(func))
     {
     }
     template < typename T_functor >
-    QEXTFunction(const T_functor &functor) : Base(functor)
+    QExtFunction(const T_functor &functor) : Base(functor)
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3))
-        : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3))
+        : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3))
-        : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3))
+        : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2, T_arg3 >(obj, func))
     {
     }
-    QEXTFunction(const QEXTFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
+    QExtFunction(const QExtFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
 
     T_return operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3) const
     {
@@ -874,59 +874,59 @@ public:
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2 >
-class QEXTFunction< T_return, T_arg1, T_arg2, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > : public qextPrivate::QEXTFunction2< T_return, T_arg1, T_arg2 >
+class QExtFunction< T_return, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtFunction2< T_return, T_arg1, T_arg2 >
 {
 public:
-    typedef qextPrivate::QEXTFunction2< T_return, T_arg1, T_arg2 > Base;
+    typedef QExtPrivate::QExtFunction2< T_return, T_arg1, T_arg2 > Base;
 
-    QEXTFunction() {}
-    QEXTFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2))
-        : Base(QEXTPointerFunctor< T_return, T_arg1, T_arg2 >(func))
+    QExtFunction() {}
+    QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2))
+        : Base(QExtPointerFunctor< T_return, T_arg1, T_arg2 >(func))
     {
     }
     template < typename T_functor >
-    QEXTFunction(const T_functor &functor) : Base(functor)
+    QExtFunction(const T_functor &functor) : Base(functor)
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2)) : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2)) : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2)) : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2)) : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) const)
-        : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) const)
+        : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) volatile)
-        : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) volatile)
+        : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1, T_arg2 arg2) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1, T_arg2 >(obj, func))
     {
     }
-    QEXTFunction(const QEXTFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
+    QExtFunction(const QExtFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
 
     T_return operator()(T_arg1 arg1, T_arg2 arg2) const
     {
@@ -935,55 +935,55 @@ public:
 };
 
 template < typename T_return, typename T_arg1 >
-class QEXTFunction< T_return, T_arg1, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > : public qextPrivate::QEXTFunction1< T_return, T_arg1 >
+class QExtFunction< T_return, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtFunction1< T_return, T_arg1 >
 {
 public:
-    typedef qextPrivate::QEXTFunction1< T_return, T_arg1 > Base;
+    typedef QExtPrivate::QExtFunction1< T_return, T_arg1 > Base;
 
-    QEXTFunction() {}
-    QEXTFunction(T_return (*func)(T_arg1 arg1))
-        : Base(QEXTPointerFunctor< T_return, T_arg1 >(func))
+    QExtFunction() {}
+    QExtFunction(T_return (*func)(T_arg1 arg1))
+        : Base(QExtPointerFunctor< T_return, T_arg1 >(func))
     {
     }
     template < typename T_functor >
-    QEXTFunction(const T_functor &functor) : Base(functor)
+    QExtFunction(const T_functor &functor) : Base(functor)
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1)) : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1)) : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1)) : Base(QEXTBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1)) : Base(QExtBoundMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1) const) : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1) const) : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1) const) : Base(QEXTBoundConstMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1) const) : Base(QExtBoundConstMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1) volatile) : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1) volatile) : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1) volatile) : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1) volatile) : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)(T_arg1 arg1) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1) const volatile)
-        : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)(T_arg1 arg1) const volatile)
+        : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj, T_arg1 >(obj, func))
     {
     }
-    QEXTFunction(const QEXTFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
+    QExtFunction(const QExtFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
 
     T_return operator()(T_arg1 arg1) const
     {
@@ -992,53 +992,53 @@ public:
 };
 
 template < typename T_return >
-class QEXTFunction< T_return, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil, QEXTNil > : public qextPrivate::QEXTFunction0< T_return >
+class QExtFunction< T_return, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtFunction0< T_return >
 {
 public:
-    typedef qextPrivate::QEXTFunction0< T_return > Base;
+    typedef QExtPrivate::QExtFunction0< T_return > Base;
 
-    QEXTFunction() {}
-    QEXTFunction(T_return (*func)())
-        : Base(QEXTPointerFunctor< T_return >(func))
+    QExtFunction() {}
+    QExtFunction(T_return (*func)())
+        : Base(QExtPointerFunctor< T_return >(func))
     {
     }
     template < typename T_functor >
-    QEXTFunction(const T_functor &functor) : Base(functor)
+    QExtFunction(const T_functor &functor) : Base(functor)
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)()) : Base(QEXTBoundMemberFunctor< T_return, T_obj >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)()) : Base(QExtBoundMemberFunctor< T_return, T_obj >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)()) : Base(QEXTBoundMemberFunctor< T_return, T_obj >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)()) : Base(QExtBoundMemberFunctor< T_return, T_obj >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)() const) : Base(QEXTBoundConstMemberFunctor< T_return, T_obj >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)() const) : Base(QExtBoundConstMemberFunctor< T_return, T_obj >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)() const) : Base(QEXTBoundConstMemberFunctor< T_return, T_obj >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)() const) : Base(QExtBoundConstMemberFunctor< T_return, T_obj >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)() volatile) : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)() volatile) : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)() volatile) : Base(QEXTBoundVolatileMemberFunctor< T_return, T_obj >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)() volatile) : Base(QExtBoundVolatileMemberFunctor< T_return, T_obj >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj *obj, T_return (T_obj::*func)() const volatile) : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj >(obj, func))
+    QExtFunction(T_obj *obj, T_return (T_obj::*func)() const volatile) : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj >(obj, func))
     {
     }
     template < typename T_obj >
-    QEXTFunction(T_obj &obj, T_return (T_obj::*func)() const volatile) : Base(QEXTBoundConstVolatileMemberFunctor< T_return, T_obj >(obj, func))
+    QExtFunction(T_obj &obj, T_return (T_obj::*func)() const volatile) : Base(QExtBoundConstVolatileMemberFunctor< T_return, T_obj >(obj, func))
     {
     }
-    QEXTFunction(const QEXTFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
+    QExtFunction(const QExtFunction &other) : Base(reinterpret_cast< const Base & >(other)) {}
 
     T_return operator()() const
     {

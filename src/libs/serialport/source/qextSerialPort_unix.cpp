@@ -46,7 +46,7 @@
 
 
 
-void QEXTSerialPortPrivate::platformSpecificInit()
+void QExtSerialPortPrivate::platformSpecificInit()
 {
     fd = 0;
     readNotifier = 0;
@@ -55,7 +55,7 @@ void QEXTSerialPortPrivate::platformSpecificInit()
 /*!
     Standard destructor.
 */
-void QEXTSerialPortPrivate::platformSpecificDestruct()
+void QExtSerialPortPrivate::platformSpecificDestruct()
 {
 }
 
@@ -66,9 +66,9 @@ static QString fullPortName(const QString &name)
     return QLatin1String("/dev/")+name;
 }
 
-bool QEXTSerialPortPrivate::open_sys(QIODevice::OpenMode mode)
+bool QExtSerialPortPrivate::open_sys(QIODevice::OpenMode mode)
 {
-    Q_Q(QEXTSerialPort);
+    Q_Q(QExtSerialPort);
     //note: linux 2.6.21 seems to ignore O_NDELAY flag
     if ((fd = ::open(fullPortName(port).toLatin1() ,O_RDWR | O_NOCTTY | O_NDELAY)) != -1) {
 
@@ -97,7 +97,7 @@ bool QEXTSerialPortPrivate::open_sys(QIODevice::OpenMode mode)
         settingsDirtyFlags = DFE_ALL;
         updatePortSettings();
 
-        if (queryMode == QEXTSerialPort::EventDriven) {
+        if (queryMode == QExtSerialPort::EventDriven) {
             readNotifier = new QSocketNotifier(fd, QSocketNotifier::Read, q);
             q->connect(readNotifier, SIGNAL(activated(int)), q, SLOT(_q_canRead()));
         }
@@ -108,7 +108,7 @@ bool QEXTSerialPortPrivate::open_sys(QIODevice::OpenMode mode)
     }
 }
 
-bool QEXTSerialPortPrivate::close_sys()
+bool QExtSerialPortPrivate::close_sys()
 {
     // Force a flush and then restore the original termios
     flush_sys();
@@ -122,13 +122,13 @@ bool QEXTSerialPortPrivate::close_sys()
     return true;
 }
 
-bool QEXTSerialPortPrivate::flush_sys()
+bool QExtSerialPortPrivate::flush_sys()
 {
     ::tcdrain(fd);
     return true;
 }
 
-qint64 QEXTSerialPortPrivate::bytesAvailable_sys() const
+qint64 QExtSerialPortPrivate::bytesAvailable_sys() const
 {
     int bytesQueued;
     if (::ioctl(fd, FIONREAD, &bytesQueued) == -1) {
@@ -138,9 +138,9 @@ qint64 QEXTSerialPortPrivate::bytesAvailable_sys() const
 }
 
 /*!
-    Translates a system-specific error code to a QEXTSerialPort error code.  Used internally.
+    Translates a system-specific error code to a QExtSerialPort error code.  Used internally.
 */
-void QEXTSerialPortPrivate::translateError(ulong error)
+void QExtSerialPortPrivate::translateError(ulong error)
 {
     switch (error) {
     case EBADF:
@@ -162,7 +162,7 @@ void QEXTSerialPortPrivate::translateError(ulong error)
     }
 }
 
-void QEXTSerialPortPrivate::setDtr_sys(bool set)
+void QExtSerialPortPrivate::setDtr_sys(bool set)
 {
     int status;
     ::ioctl(fd, TIOCMGET, &status);
@@ -173,7 +173,7 @@ void QEXTSerialPortPrivate::setDtr_sys(bool set)
     ::ioctl(fd, TIOCMSET, &status);
 }
 
-void QEXTSerialPortPrivate::setRts_sys(bool set)
+void QExtSerialPortPrivate::setRts_sys(bool set)
 {
     int status;
     ::ioctl(fd, TIOCMGET, &status);
@@ -184,7 +184,7 @@ void QEXTSerialPortPrivate::setRts_sys(bool set)
     ::ioctl(fd, TIOCMSET, &status);
 }
 
-unsigned long QEXTSerialPortPrivate::lineStatus_sys()
+unsigned long QExtSerialPortPrivate::lineStatus_sys()
 {
     unsigned long Status=0, Temp=0;
     ::ioctl(fd, TIOCMGET, &Temp);
@@ -207,7 +207,7 @@ unsigned long QEXTSerialPortPrivate::lineStatus_sys()
     \warning before calling this function ensure that serial port associated with this class
     is currently open (use isOpen() function to check if port is open).
 */
-qint64 QEXTSerialPortPrivate::readData_sys(char *data, qint64 maxSize)
+qint64 QExtSerialPortPrivate::readData_sys(char *data, qint64 maxSize)
 {
     int retVal = ::read(fd, data, maxSize);
     if (retVal == -1)
@@ -224,7 +224,7 @@ qint64 QEXTSerialPortPrivate::readData_sys(char *data, qint64 maxSize)
     \warning before calling this function ensure that serial port associated with this class
     is currently open (use isOpen() function to check if port is open).
 */
-qint64 QEXTSerialPortPrivate::writeData_sys(const char *data, qint64 maxSize)
+qint64 QExtSerialPortPrivate::writeData_sys(const char *data, qint64 maxSize)
 {
     int retVal = ::write(fd, data, maxSize);
     if (retVal == -1)
@@ -247,7 +247,7 @@ static void setBaudRate2Termios(termios *config, int baudRate)
 /*
     All the platform settings was performed in this function.
 */
-void QEXTSerialPortPrivate::updatePortSettings()
+void QExtSerialPortPrivate::updatePortSettings()
 {
     if (!q_func()->isOpen() || !settingsDirtyFlags)
         return;
