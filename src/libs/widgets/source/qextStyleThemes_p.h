@@ -33,7 +33,7 @@
 #include <QJsonArray>
 #include <QDir>
 
-class QEXT_STYLETHEMS_API QExtStyleThemesPrivate
+class QEXT_WIDGETS_API QExtStyleThemesPrivate
 {
 public:
     /**
@@ -41,23 +41,23 @@ public:
      */
     struct PaletteColorEntry
     {
-        QPalette::ColorGroup Group;
-        QPalette::ColorRole Role;
-        QString ColorVariable;
+        QPalette::ColorGroup group;
+        QPalette::ColorRole role;
+        QString colorVariable;
 
         PaletteColorEntry(QPalette::ColorGroup group = QPalette::Active,
                           QPalette::ColorRole role = QPalette::NoRole,
                           const QString &variable = QString())
-            : Group(group)
-            , Role(role)
-            , ColorVariable(variable)
+            : group(group)
+            , role(role)
+            , colorVariable(variable)
         {
 
         }
 
         bool isValid() const
         {
-            return !ColorVariable.isEmpty() && Role != QPalette::NoRole;
+            return !colorVariable.isEmpty() && role != QPalette::NoRole;
         }
     };
 
@@ -82,7 +82,7 @@ public:
     /* Set error code and error string */
     void setError(QExtStyleThemes::ErrorEnum error, const QString &ErrorString);
     /*Convenience function to ease clearing the error*/
-    void clearError() { this->setError(QExtStyleThemes::NoError, QString()); }
+    void clearError() { this->setError(QExtStyleThemes::Error_None, QString()); }
     void parsePaletteFromJson(); // Parse palette from JSON file
     /* Parse palette color group from the given palette json parameters */
     void parsePaletteColorGroup(QJsonObject &jPalette, QPalette::ColorGroup colorGroup);

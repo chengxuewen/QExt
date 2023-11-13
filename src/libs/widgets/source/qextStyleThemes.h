@@ -25,7 +25,7 @@
 #ifndef _QEXTSTYLETHEMES_H
 #define _QEXTSTYLETHEMES_H
 
-#include <qextStyleThemesGlobal.h>
+#include <qextWidgetGlobal.h>
 
 #include <QApplication>
 #include <QObject>
@@ -33,40 +33,54 @@
 #include <QIcon>
 
 class QExtStyleThemesPrivate;
-
-class QEXT_STYLETHEMS_API QExtStyleThemes : public QObject
+class QEXT_WIDGETS_API QExtStyleThemes : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     typedef QPair<QString, QString> StringPair;
     typedef QVector<StringPair> ColorReplaceVector;
 
     enum ErrorEnum
     {
-        NoError,
-        CssTemplateError,
-        CssExportError,
-        ThemeXmlError,
-        StyleJsonError,
-        ResourceGeneratorError,
+        Error_None = 0,
+        Error_ThemeXml,
+        Error_StyleJson,
+        Error_CssExport,
+        Error_CssTemplate,
+        Error_ResourceGenerator
     };
+    QEXT_STATIC_CONSTANT(int, ErrorNum = Error_ResourceGenerator + 1);
 
     enum LocationEnum
     {
-        ThemesLocation,
-        ResourceTemplatesLocation,
-        FontsLocation
+        Location_Fonts = 0,
+        Location_Themes,
+        Location_SvgsTemplates
     };
+    QEXT_STATIC_CONSTANT(int, LocationNum = Location_SvgsTemplates + 1);
+
+    enum StyleEnum
+    {
+        Style_Flat = 0,
+        Style_Material
+    };
+    QEXT_STATIC_CONSTANT(int, StyleNum = Style_Material + 1);
 
     explicit QExtStyleThemes(QObject *parent = 0);
 
     ~QExtStyleThemes() QEXT_DECL_OVERRIDE;
 
     /**
+     * @brief setCurrentStyle
+     * @param style
+     */
+    void setCurrentStyle(StyleEnum style);
+
+    /**
      * @brief Set the directory path that contains all styles.
      * @param path The styles dir path.
      */
-    void setStylesDirPath(const QString &path);
+    void setStylesDirPath(const QString &path = QString());
 
     /**
      * @brief Returns the set styles dir
@@ -243,6 +257,10 @@ public:
      */
     QIcon loadThemeAwareSvgIcon(const QString &fileName);
 
+    static QString resourcePath(StyleEnum style);
+
+    static QString styleEnumString(int style, bool isTR = true);
+
 public slots:
 
     /**
@@ -311,7 +329,6 @@ public slots:
 
 
 signals:
-
     /**
      * @brief This signal is emitted if the selected style changed
      * @param style The Style name.

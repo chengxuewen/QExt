@@ -39,7 +39,7 @@ public:
      * Creates an icon engine with the given SVG content an assigned AndvancedStylesheet object
      */
     explicit QExtStyleThemesSvgIconEngine(const QByteArray &svgContent, QExtStyleThemes *styleThemes)
-            : m_svgTemplate(svgContent), m_styleTheme(styleThemes)
+        : m_svgTemplate(svgContent), m_styleTheme(styleThemes)
     {
         this->update();
         sg_iconEngineInstances->insert(this);
@@ -114,7 +114,7 @@ private:
 
 
 QExtStyleThemesPrivate::QExtStyleThemesPrivate(QExtStyleThemes *q)
-        : q_ptr(q), m_isDarkTheme(false)
+    : q_ptr(q), m_isDarkTheme(false)
 {
 
 }
@@ -136,7 +136,7 @@ bool QExtStyleThemesPrivate::generateStylesheet()
     QString templateFilePath = q->currentStylePath() + "/" + cssTemplateFileName;
     if (!QFile::exists(templateFilePath))
     {
-        this->setError(QExtStyleThemes::CssTemplateError,
+        this->setError(QExtStyleThemes::Error_CssTemplate,
                        "m_stylesheet folder does not contain the CSS template file " + cssTemplateFileName);
         return false;
     }
@@ -164,7 +164,7 @@ bool QExtStyleThemesPrivate::storeStylesheet(const QString &stylesheet, const QS
     QFile outputFile(outputFilename);
     if (!outputFile.open(QIODevice::WriteOnly))
     {
-        this->setError(QExtStyleThemes::CssExportError,
+        this->setError(QExtStyleThemes::Error_CssExport,
                        "Exporting stylesheet " + filename + " caused error: " + outputFile.errorString());
         return false;
     }
@@ -181,15 +181,15 @@ bool QExtStyleThemesPrivate::parseVariablesFromXml(QXmlStreamReader &reader, con
     {
         if (reader.name() != tagName)
         {
-            this->setError(QExtStyleThemes::ThemeXmlError,
+            this->setError(QExtStyleThemes::Error_ThemeXml,
                            "Malformed theme file - expected tag <" + tagName + "> instead of " +
-                           reader.name().toString());
+                               reader.name().toString());
             return false;
         }
         QStringRef name = reader.attributes().value("name");
         if (name.isEmpty())
         {
-            this->setError(QExtStyleThemes::ThemeXmlError,
+            this->setError(QExtStyleThemes::Error_ThemeXml,
                            "Malformed theme file - name attribute missing in <" + tagName + "> tag");
             return false;
         }
@@ -197,7 +197,7 @@ bool QExtStyleThemesPrivate::parseVariablesFromXml(QXmlStreamReader &reader, con
         QString value = reader.readElementText(QXmlStreamReader::SkipChildElements);
         if (value.isEmpty())
         {
-            this->setError(QExtStyleThemes::ThemeXmlError,
+            this->setError(QExtStyleThemes::Error_ThemeXml,
                            "Malformed theme file - text of <" + tagName + "> tag is empty");
             return false;
         }
@@ -211,14 +211,14 @@ bool QExtStyleThemesPrivate::parseVariablesFromXml(QXmlStreamReader &reader, con
 bool QExtStyleThemesPrivate::parseThemeFile(const QString &fileName)
 {
     Q_Q(QExtStyleThemes);
-    QString themeFileName = q->path(QExtStyleThemes::ThemesLocation) + "/" + fileName;
+    QString themeFileName = q->path(QExtStyleThemes::Location_Themes) + "/" + fileName;
     QFile themeFile(themeFileName);
     themeFile.open(QIODevice::ReadOnly);
     QXmlStreamReader reader(&themeFile);
     reader.readNextStartElement();
     if (reader.name() != QLatin1String("resources"))
     {
-        this->setError(QExtStyleThemes::ThemeXmlError,
+        this->setError(QExtStyleThemes::Error_ThemeXml,
                        "Malformed theme file - expected tag <resources> instead of " + reader.name().toString());
         return false;
     }
@@ -239,14 +239,14 @@ bool QExtStyleThemesPrivate::parseStyleJsonFile()
     QFileInfoList jsonFiles = dir.entryInfoList(QStringList() << "*.json", QDir::Files);
     if (jsonFiles.count() < 1)
     {
-        this->setError(QExtStyleThemes::StyleJsonError,
+        this->setError(QExtStyleThemes::Error_StyleJson,
                        "m_stylesheet folder does not contain a style json file");
         return false;
     }
 
     if (jsonFiles.count() > 1)
     {
-        this->setError(QExtStyleThemes::StyleJsonError,
+        this->setError(QExtStyleThemes::Error_StyleJson,
                        "m_stylesheet folder contains multiple theme json files");
         return false;
     }
@@ -259,7 +259,7 @@ bool QExtStyleThemesPrivate::parseStyleJsonFile()
     QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonData, &parseError);
     if (jsonDocument.isNull())
     {
-        this->setError(QExtStyleThemes::StyleJsonError,
+        this->setError(QExtStyleThemes::Error_StyleJson,
                        "Loading style json file caused error: " + parseError.errorString());
         return false;
     }
@@ -268,7 +268,7 @@ bool QExtStyleThemesPrivate::parseStyleJsonFile()
     m_styleName = json.value("name").toString();
     if (m_styleName.isEmpty())
     {
-        this->setError(QExtStyleThemes::StyleJsonError, "No key \"name\" found in style json file");
+        this->setError(QExtStyleThemes::Error_StyleJson, "No key \"name\" found in style json file");
         return false;
     }
 
@@ -286,7 +286,7 @@ bool QExtStyleThemesPrivate::parseStyleJsonFile()
     m_defaultTheme = json.value("default_theme").toString();
     if (m_defaultTheme.isEmpty())
     {
-        this->setError(QExtStyleThemes::StyleJsonError, "No key \"default_theme\" found in style json file");
+        this->setError(QExtStyleThemes::Error_StyleJson, "No key \"default_theme\" found in style json file");
         return false;
     }
 
@@ -305,7 +305,7 @@ void QExtStyleThemesPrivate::replaceStylesheetVariables(QString &templateContent
 {
     Q_Q(QExtStyleThemes);
     static const int opacityStrSize = QString("opacity(").size();
-    QRegularExpression re("\\{\\{.*\\}\\}");
+    static const QRegularExpression re("\\{\\{.*\\}\\}");
     QRegularExpressionMatch match;
     int index = 0;
     while ((index = templateContent.indexOf(re, index, &match)) != -1)
@@ -351,7 +351,7 @@ void QExtStyleThemesPrivate::addFonts(QDir *dir)
 
     if (!dir)
     {
-        QDir fontsDir(q->path(QExtStyleThemes::FontsLocation));
+        QDir fontsDir(q->path(QExtStyleThemes::Location_Fonts));
         this->addFonts(&fontsDir);
     }
     else
@@ -360,12 +360,12 @@ void QExtStyleThemesPrivate::addFonts(QDir *dir)
         for (QStringList::Iterator iter = folders.begin(); iter != folders.end(); ++iter)
         {
             dir->cd(*iter);
-            addFonts(dir);
+            this->addFonts(dir);
             dir->cdUp();
         }
 
         QStringList fontFiles = dir->entryList({"*.ttf"}, QDir::Files);
-        for (QStringList::Iterator iter = folders.begin(); iter != folders.end(); ++iter)
+        for (QStringList::Iterator iter = fontFiles.begin(); iter != fontFiles.end(); ++iter)
         {
             QString fontFilename = dir->absoluteFilePath(*iter);
             QFontDatabase::addApplicationFont(fontFilename);
@@ -380,7 +380,7 @@ bool QExtStyleThemesPrivate::generateResourcesFor(const QString &subDir, const Q
     const QString outputDir = q->currentStyleOutputPath() + "/" + subDir;
     if (!QDir().mkpath(outputDir))
     {
-        this->setError(QExtStyleThemes::ResourceGeneratorError, "error creating resource output folder: " + outputDir);
+        this->setError(QExtStyleThemes::Error_ResourceGenerator, "error creating resource output folder: " + outputDir);
         return false;
     }
 
@@ -402,8 +402,7 @@ bool QExtStyleThemesPrivate::generateResourcesFor(const QString &subDir, const Q
     return true;
 }
 
-void
-QExtStyleThemesPrivate::replaceColor(QByteArray &content, const QString &templateColor, const QString &themeColor) const
+void QExtStyleThemesPrivate::replaceColor(QByteArray &content, const QString &templateColor, const QString &themeColor) const
 {
     content.replace(templateColor.toLatin1(), themeColor.toLatin1());
 }
@@ -412,7 +411,7 @@ void QExtStyleThemesPrivate::setError(QExtStyleThemes::ErrorEnum error, const QS
 {
     m_error = error;
     m_errorString = errorString;
-    if (m_error != QExtStyleThemes::NoError)
+    if (m_error != QExtStyleThemes::Error_None)
     {
         qDebug() << "QExtStyleThemes error: " << m_error << " " << m_errorString;
     }
@@ -498,30 +497,30 @@ QExtStyleThemes::ColorReplaceVector QExtStyleThemesPrivate::parseColorReplaceLis
 QPalette::ColorRole QExtStyleThemesPrivate::colorRoleFromString(const QString &text)
 {
     static QMap<QString, QPalette::ColorRole> colorRoleMap =
-            {{"WindowText", QPalette::WindowText},
-             {"Button", QPalette::Button},
-             {"Light", QPalette::Light},
-             {"Midlight", QPalette::Midlight},
-             {"Dark", QPalette::Dark},
-             {"Mid", QPalette::Mid},
-             {"Text", QPalette::Text},
-             {"BrightText", QPalette::BrightText},
-             {"ButtonTextd", QPalette::ButtonText},
-             {"Base", QPalette::Base},
-             {"Window", QPalette::Window},
-             {"Shadow", QPalette::Shadow},
-             {"Highlight", QPalette::Highlight},
-             {"HighlightedText", QPalette::HighlightedText},
-             {"Link", QPalette::Link},
-             {"LinkVisited", QPalette::LinkVisited},
-             {"AlternateBase", QPalette::AlternateBase},
-             {"NoRole", QPalette::NoRole},
-             {"ToolTipBase", QPalette::ToolTipBase},
-             {"ToolTipText", QPalette::ToolTipText},
+    {{"WindowText", QPalette::WindowText},
+      {"Button", QPalette::Button},
+      {"Light", QPalette::Light},
+      {"Midlight", QPalette::Midlight},
+      {"Dark", QPalette::Dark},
+      {"Mid", QPalette::Mid},
+      {"Text", QPalette::Text},
+      {"BrightText", QPalette::BrightText},
+      {"ButtonTextd", QPalette::ButtonText},
+      {"Base", QPalette::Base},
+      {"Window", QPalette::Window},
+      {"Shadow", QPalette::Shadow},
+      {"Highlight", QPalette::Highlight},
+      {"HighlightedText", QPalette::HighlightedText},
+      {"Link", QPalette::Link},
+      {"LinkVisited", QPalette::LinkVisited},
+      {"AlternateBase", QPalette::AlternateBase},
+      {"NoRole", QPalette::NoRole},
+      {"ToolTipBase", QPalette::ToolTipBase},
+      {"ToolTipText", QPalette::ToolTipText},
 #if QT_VERSION >= 0x050C00
-             {"PlaceholderText", QPalette::PlaceholderText}
+      {"PlaceholderText", QPalette::PlaceholderText}
 #endif
-            };
+    };
 
     return colorRoleMap.value(text, QPalette::NoRole);
 }
@@ -530,17 +529,17 @@ QString QExtStyleThemesPrivate::colorGroupString(QPalette::ColorGroup colorGroup
 {
     switch (colorGroup)
     {
-        case QPalette::Active: return "active";
-        case QPalette::Disabled: return "disabled";
-        case QPalette::Inactive: return "inactive";
-        default: return QString();
+    case QPalette::Active: return "active";
+    case QPalette::Disabled: return "disabled";
+    case QPalette::Inactive: return "inactive";
+    default: return QString();
     }
     return QString();
 }
 
 
 QExtStyleThemes::QExtStyleThemes(QObject *parent)
-        : QObject(parent), dd_ptr(new QExtStyleThemesPrivate(this))
+    : QObject(parent), dd_ptr(new QExtStyleThemesPrivate(this))
 {
 
 }
@@ -550,10 +549,15 @@ QExtStyleThemes::~QExtStyleThemes()
 
 }
 
+void QExtStyleThemes::setCurrentStyle(StyleEnum style)
+{
+
+}
+
 void QExtStyleThemes::setStylesDirPath(const QString &path)
 {
     Q_D(QExtStyleThemes);
-    d->m_stylesDir = path;
+    d->m_stylesDir = path.isEmpty() ? ":/QExtWidgets" : path;
     QDir Dir(d->m_stylesDir);
     d->m_styles = Dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 }
@@ -599,9 +603,9 @@ QString QExtStyleThemes::path(LocationEnum location) const
     Q_D(const QExtStyleThemes);
     switch (location)
     {
-        case ThemesLocation:return this->currentStylePath() + "/themes";
-        case ResourceTemplatesLocation:return this->currentStylePath() + "/resources";
-        case FontsLocation:return this->currentStylePath() + "/fonts";
+    case Location_Fonts: return this->currentStylePath() + "/fonts";
+    case Location_Themes: return this->currentStylePath() + "/themes";
+    case Location_SvgsTemplates: return this->currentStylePath() + "/svgs";
     }
     return QString();
 }
@@ -710,10 +714,10 @@ QPalette QExtStyleThemes::generateThemePalette() const
     QVector<QExtStyleThemesPrivate::PaletteColorEntry>::ConstIterator iter = d->m_paletteColors.constBegin();
     while (iter != d->m_paletteColors.constEnd())
     {
-        QColor color = themeColor(iter->ColorVariable);
+        QColor color = this->themeColor(iter->colorVariable);
         if (color.isValid())
         {
-            palette.setColor(iter->Group, iter->Role, themeColor(iter->ColorVariable));
+            palette.setColor(iter->group, iter->role, themeColor(iter->colorVariable));
         }
         iter++;
     }
@@ -736,10 +740,10 @@ bool QExtStyleThemes::isCurrentThemeDark() const
 void QExtStyleThemes::replaceSvgColors(QByteArray &svgContent, const ColorReplaceVector &colorReplaceVector)
 {
     Q_D(QExtStyleThemes);
-    const QExtStyleThemes::ColorReplaceVector &ReplaceList = colorReplaceVector.isEmpty() ? d->iconColorReplaceList()
+    const QExtStyleThemes::ColorReplaceVector &replaceList = colorReplaceVector.isEmpty() ? d->iconColorReplaceList()
                                                                                           : colorReplaceVector;
-    QExtStyleThemes::ColorReplaceVector::ConstIterator iter = ReplaceList.begin();
-    while (iter != ReplaceList.end())
+    QExtStyleThemes::ColorReplaceVector::ConstIterator iter = replaceList.begin();
+    while (iter != replaceList.end())
     {
         d->replaceColor(svgContent, iter->first, iter->second);
         iter++;
@@ -752,6 +756,26 @@ QIcon QExtStyleThemes::loadThemeAwareSvgIcon(const QString &fileName)
     svgFile.open(QIODevice::ReadOnly);
     QByteArray content = svgFile.readAll();
     return QIcon(new QExtStyleThemesSvgIconEngine(content, this));
+}
+
+QString QExtStyleThemes::resourcePath(StyleEnum style)
+{
+    switch (style)
+    {
+    case Style_Material: return ":/QExtStyleThemes/material";
+    default: break;
+    }
+    return "";
+}
+
+QString QExtStyleThemes::styleEnumString(int style, bool isTR)
+{
+    switch (style)
+    {
+    case Style_Material: return isTR ? tr("Material") : "Material";
+    default: break;
+    }
+    return "";
 }
 
 bool QExtStyleThemes::setCurrentTheme(const QString &theme)
@@ -782,8 +806,8 @@ bool QExtStyleThemes::setCurrentStyle(const QString &style)
     Q_D(QExtStyleThemes);
     d->clearError();
     d->m_currentStyle = style;
-    QDir dir(path(ThemesLocation));
-    d->m_themes = dir.entryList({"*.xml"}, QDir::Files);
+    QDir dir(this->path(Location_Themes));
+    d->m_themes = dir.entryList(QStringList() << "*.xml", QDir::Files);
     for (QStringList::Iterator iter = d->m_themes.begin(); iter != d->m_themes.end(); ++iter)
     {
         iter->replace(".xml", "");
@@ -806,7 +830,7 @@ bool QExtStyleThemes::updateStylesheet()
 
     d->m_iconColorReplaceList.clear();
     QExtStyleThemesSvgIconEngine::updateAllIcons();
-    if (!d->generateStylesheet() && (error() != QExtStyleThemes::NoError))
+    if (!d->generateStylesheet() && (error() != QExtStyleThemes::Error_None))
     {
         return false;
     }
@@ -824,24 +848,24 @@ bool QExtStyleThemes::processStyleTemplate()
 bool QExtStyleThemes::generateResources()
 {
     Q_D(QExtStyleThemes);
-    QDir resourceDir(path(QExtStyleThemes::ResourceTemplatesLocation));
+    QDir resourceDir(this->path(QExtStyleThemes::Location_SvgsTemplates));
     QFileInfoList entries = resourceDir.entryInfoList({"*.svg"}, QDir::Files);
 
-    QJsonObject jresources = d->m_jsonStyleParam.value("resources").toObject();
-    if (jresources.isEmpty())
+    QJsonObject jsonResources = d->m_jsonStyleParam.value("resources").toObject();
+    if (jsonResources.isEmpty())
     {
-        d->setError(QExtStyleThemes::StyleJsonError, "Key resources missing in style json file");
+        d->setError(QExtStyleThemes::Error_StyleJson, "Key resources missing in style json file");
         return false;
     }
 
     // Process all resource generation variants
     bool result = true;
-    for (QJsonObject::ConstIterator iter = jresources.constBegin(); iter != jresources.constEnd(); ++iter)
+    for (QJsonObject::ConstIterator iter = jsonResources.constBegin(); iter != jsonResources.constEnd(); ++iter)
     {
         QJsonObject param = iter.value().toObject();
         if (param.isEmpty())
         {
-            d->setError(QExtStyleThemes::StyleJsonError, "Key resources missing in style json file");
+            d->setError(QExtStyleThemes::Error_StyleJson, "Key resources missing in style json file");
             result = false;
             continue;
         }
@@ -856,5 +880,5 @@ bool QExtStyleThemes::generateResources()
 
 void QExtStyleThemes::updateApplicationPaletteColors()
 {
-    qApp->setPalette(generateThemePalette());
+    qApp->setPalette(this->generateThemePalette());
 }

@@ -51,14 +51,10 @@ endif()
 qext_add_library(StyleThemes
         EXCEPTIONS
         SOURCES
-        source/qextStyleThemes.cpp
-        source/qextStyleThemes.h
-        source/qextStyleThemes_p.h
         source/qextStyleThemesConstants.h
         source/qextStyleThemesGlobal.h
         source/QtAdvancedStylesheet.cpp
         source/QtAdvancedStylesheet.h
-        resource/qextStyleThemes.qrc
         PRECOMPILED_HEADER
         source/qextStyleThemesPch.h
         PUBLIC_LIBRARIES

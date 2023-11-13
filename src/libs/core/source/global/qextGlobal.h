@@ -34,33 +34,33 @@
     QExt compiler dll visibility macro declare
 ********************************************************************************/
 #if !defined(Q_DECL_EXPORT)
-#if defined(QEXT_CC_GNU) && (QEXT_CC_GNU > 400)
-#define QEXT_DECL_EXPORT __attribute__((visibility("default")))
-#define QEXT_DECL_IMPORT __attribute__((visibility("default")))
-#define QEXT_DECL_HIDDEN __attribute__((visibility("hidden")))
-#elif defined(QEXT_CC_MINGW) || defined(QEXT_CC_MSVC)
-#define QEXT_DECL_EXPORT __declspec(dllexport)
-#define QEXT_DECL_IMPORT __declspec(dllimport)
-#define QEXT_DECL_HIDDEN
-#elif defined(QEXT_CC_CLANG)
-#define QEXT_DECL_EXPORT __attribute__((visibility("default")))
-#define QEXT_DECL_IMPORT __attribute__((visibility("default")))
-#define QEXT_DECL_HIDDEN __attribute__((visibility("hidden")))
-#endif
+#   if defined(QEXT_CC_GNU) && (QEXT_CC_GNU > 400)
+#       define QEXT_DECL_EXPORT __attribute__((visibility("default")))
+#       define QEXT_DECL_IMPORT __attribute__((visibility("default")))
+#       define QEXT_DECL_HIDDEN __attribute__((visibility("hidden")))
+#   elif defined(QEXT_CC_MINGW) || defined(QEXT_CC_MSVC)
+#       define QEXT_DECL_EXPORT __declspec(dllexport)
+#       define QEXT_DECL_IMPORT __declspec(dllimport)
+#       define QEXT_DECL_HIDDEN
+#   elif defined(QEXT_CC_CLANG)
+#       define QEXT_DECL_EXPORT __attribute__((visibility("default")))
+#       define QEXT_DECL_IMPORT __attribute__((visibility("default")))
+#       define QEXT_DECL_HIDDEN __attribute__((visibility("hidden")))
+#   endif
 #else
-#define QEXT_DECL_EXPORT Q_DECL_EXPORT
-#define QEXT_DECL_IMPORT Q_DECL_IMPORT
-#define QEXT_DECL_HIDDEN Q_DECL_HIDDEN
+#   define QEXT_DECL_EXPORT Q_DECL_EXPORT
+#   define QEXT_DECL_IMPORT Q_DECL_IMPORT
+#   define QEXT_DECL_HIDDEN Q_DECL_HIDDEN
 #endif
 
 #ifndef QEXT_DECL_EXPORT
-#define QEXT_DECL_EXPORT
+#   define QEXT_DECL_EXPORT
 #endif
 #ifndef QEXT_DECL_IMPORT
-#define QEXT_DECL_IMPORT
+#   define QEXT_DECL_IMPORT
 #endif
 #ifndef QEXT_DECL_HIDDEN
-#define QEXT_DECL_HIDDEN
+#   define QEXT_DECL_HIDDEN
 #endif
 
 
@@ -68,73 +68,73 @@
     QExt compiler CXX11 feature macro declare
 ********************************************************************************/
 #if QEXT_CC_FEATURE_NULLPTR
-#define QEXT_DECL_NULLPTR nullptr
+#   define QEXT_DECL_NULLPTR nullptr
 #else
-#define QEXT_DECL_NULLPTR NULL
+#   define QEXT_DECL_NULLPTR NULL
 #endif
 
 #if QEXT_CC_FEATURE_CONSTEXPR
-#define QEXT_DECL_CONSTEXPR constexpr
-#define QEXT_DECL_RELAXED_CONSTEXPR constexpr
+#   define QEXT_DECL_CONSTEXPR constexpr
+#   define QEXT_DECL_RELAXED_CONSTEXPR constexpr
+#   define QEXT_STATIC_CONSTANT(type, assignment) static constexpr type assignment
 #else
-#define QEXT_DECL_CONSTEXPR
-#define QEXT_DECL_RELAXED_CONSTEXPR const
+#   define QEXT_DECL_CONSTEXPR
+#   define QEXT_DECL_RELAXED_CONSTEXPR const
+#   define QEXT_STATIC_CONSTANT(type, assignment) enum { assignment }
 #endif
 
 #if QEXT_CC_FEATURE_EXPLICIT_OVERRIDES
-#define QEXT_DECL_OVERRIDE override
-#define QEXT_DECL_FINAL final
+#   define QEXT_DECL_OVERRIDE override
+#   define QEXT_DECL_FINAL final
 #else
-#define QEXT_DECL_OVERRIDE
-#define QEXT_DECL_FINAL
+#   define QEXT_DECL_OVERRIDE
+#   define QEXT_DECL_FINAL
 #endif
 
 #if QEXT_CC_FEATURE_EXPLICIT_OVERRIDES
-#define QEXT_DECL_OVERRIDE override
-#define QEXT_DECL_FINAL final
+#   define QEXT_DECL_OVERRIDE override
+#   define QEXT_DECL_FINAL final
 #else
-#define QEXT_DECL_OVERRIDE
-#define QEXT_DECL_FINAL
+#   define QEXT_DECL_OVERRIDE
+#   define QEXT_DECL_FINAL
 #endif
 
 #if QEXT_CC_FEATURE_NOEXCEPT
-#define QEXT_DECL_NOEXCEPT noexcept
-#define QEXT_DECL_NOEXCEPT_EXPR(x) noexcept(x)
+#   define QEXT_DECL_NOEXCEPT noexcept
+#   define QEXT_DECL_NOEXCEPT_EXPR(x) noexcept(x)
 #else
-#define QEXT_DECL_NOEXCEPT
-#define QEXT_DECL_NOEXCEPT_EXPR(x)
+#   define QEXT_DECL_NOEXCEPT
+#   define QEXT_DECL_NOEXCEPT_EXPR(x)
 #endif
 #define QEXT_DECL_NOTHROW QEXT_DECL_NOEXCEPT
 
 #if QEXT_CC_FEATURE_DEFAULT_MEMBERS
-#define QEXT_DECL_EQ_DEFAULT = default
-#define QEXT_DECL_EQ_DEFAULT_FUNC = default;
+#   define QEXT_DECL_EQ_DEFAULT = default
+#   define QEXT_DECL_EQ_DEFAULT_FUNC = default;
 #else
-#define QEXT_DECL_EQ_DEFAULT
-#define QEXT_DECL_EQ_DEFAULT_FUNC {}
+#   define QEXT_DECL_EQ_DEFAULT
+#   define QEXT_DECL_EQ_DEFAULT_FUNC {}
 #endif
 
 #if QEXT_CC_FEATURE_DELETE_MEMBERS
-#define QEXT_DECL_EQ_DELETE = delete
-#define QEXT_DECL_EQ_DELETE_FUNC = delete;
+#   define QEXT_DECL_EQ_DELETE = delete
+#   define QEXT_DECL_EQ_DELETE_FUNC = delete;
 #else
-#define QEXT_DECL_EQ_DELETE
-#define QEXT_DECL_EQ_DELETE_FUNC {}
+#   define QEXT_DECL_EQ_DELETE
+#   define QEXT_DECL_EQ_DELETE_FUNC {}
 #endif
 
 #if QEXT_CC_FEATURE_ALIGNOF
-#define QEXT_DECL_ALIGNOF(x)  alignof(x)
+#   define QEXT_DECL_ALIGNOF(x)  alignof(x)
 #else
-#define QEXT_DECL_ALIGNOF(x)
+#   define QEXT_DECL_ALIGNOF(x)
 #endif
 
 #if QEXT_CC_FEATURE_ALIGNAS
-#define QEXT_DECL_ALIGN(n)   alignas(n)
+#   define QEXT_DECL_ALIGN(n)   alignas(n)
 #else
-#define QEXT_DECL_ALIGN(n)
+#   define QEXT_DECL_ALIGN(n)
 #endif
-
-
 
 
 
@@ -143,13 +143,13 @@
 ********************************************************************************/
 // disable copy macro define
 #define QEXT_DECL_DISABLE_COPY(Class)               \
-    Class(const Class &) QEXT_DECL_EQ_DELETE;       \
+Class(const Class &) QEXT_DECL_EQ_DELETE;       \
     Class &operator=(const Class &) QEXT_DECL_EQ_DELETE;
 
 // disable move macro define
 #if QEXT_CC_FEATURE_RVALUE_REFS
 #   define QEXT_DECL_DISABLE_MOVE(Class)   \
-    Class(Class &&) QEXT_DECL_EQ_DELETE;   \
+Class(Class &&) QEXT_DECL_EQ_DELETE;   \
     Class &operator=(Class &&) QEXT_DECL_EQ_DELETE;
 #else
 #   define QEXT_DECL_DISABLE_MOVE(Class)
@@ -157,31 +157,31 @@
 
 // disable copy move macro define
 #define QEXT_DECL_DISABLE_COPY_MOVE(Class) \
-    QEXT_DECL_DISABLE_COPY(Class)          \
+QEXT_DECL_DISABLE_COPY(Class)          \
     QEXT_DECL_DISABLE_MOVE(Class)
 
 
-template <typename T> inline T *qextGetPtrHelper(T *ptr) { return ptr; }
+    template <typename T> inline T *qextGetPtrHelper(T *ptr) { return ptr; }
 template <typename Wrapper> static inline typename Wrapper::pointer qextGetPtrHelper(const Wrapper &p) { return p.data(); }
 
 // The body must be a statement:
 #define QEXT_CAST_IGNORE_ALIGN(body) QEXT_WARNING_PUSH QEXT_WARNING_DISABLE_GCC("-Wcast-align") body QEXT_WARNING_POP
 #define QEXT_DECL_PRIVATE(Class) \
-    inline Class##Private* d_func() \
+inline Class##Private* d_func() \
 { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(d_ptr));) } \
     inline const Class##Private* d_func() const \
 { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(d_ptr));) } \
     friend class Class##Private;
 
 #define QEXT_DECL_PRIVATE_D(Dptr, Class) \
-    inline Class##Private* d_func()     \
+inline Class##Private* d_func()     \
 { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(Dptr));) } \
     inline const Class##Private* d_func() const \
 { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(Dptr));) } \
     friend class Class##Private;
 
 #define QEXT_DECL_PUBLIC(Class)                                    \
-    inline Class* q_func() { return static_cast<Class *>(q_ptr); } \
+inline Class* q_func() { return static_cast<Class *>(q_ptr); } \
     inline const Class* q_func() const { return static_cast<const Class *>(q_ptr); } \
     friend class Class;
 
@@ -257,8 +257,8 @@ inline void qextNoop(void) {}
 #if !defined(QEXT_ASSERT)
 #if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
 #define QEXT_ASSERT(cond)                                                                                                                                        \
-    do                                                                                                                                                         \
-{                                                                                                                                                          \
+do                                                                                                                                                         \
+    {                                                                                                                                                          \
     } while ((false) && (cond))
 #else
 #define QEXT_ASSERT(cond) ((!(cond)) ? qextAssert(#cond, __FILE__, __LINE__) : qextNoop())
@@ -269,13 +269,13 @@ inline void qextNoop(void) {}
 #define QT_NO_PAINT_DEBUG
 #endif
 
-QEXT_CORE_API void qextAssertX(const char *where, const char *what, const char *file, int line) QEXT_DECL_NOTHROW;
+    QEXT_CORE_API void qextAssertX(const char *where, const char *what, const char *file, int line) QEXT_DECL_NOTHROW;
 
 #if !defined(QEXT_ASSERT_X)
 #if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
 #define QEXT_ASSERT_X(cond, where, what)                                                                                                                         \
-    do                                                                                                                                                         \
-{                                                                                                                                                          \
+do                                                                                                                                                         \
+    {                                                                                                                                                          \
     } while ((false) && (cond))
 #else
 #define QEXT_ASSERT_X(cond, where, what) ((!(cond)) ? qextAssertX(where, what, __FILE__, __LINE__) : qextNoop())
@@ -305,16 +305,16 @@ class QEXTStaticAssertFailure< true >
 #define QEXT_STATIC_ASSERT_PRIVATE_JOIN_IMPL(A, B) A##B
 #ifdef __COUNTER__
 #define QEXT_STATIC_ASSERT(Condition)                                                                                                                            \
-    enum                                                                                                                                                       \
+enum                                                                                                                                                       \
 {                                                                                                                                                          \
-    QEXT_STATIC_ASSERT_PRIVATE_JOIN(qextStaticAssertResult, __COUNTER__) = sizeof(QEXTStaticAssertFailure< !!(Condition) >)                                      \
-    }
+        QEXT_STATIC_ASSERT_PRIVATE_JOIN(qextStaticAssertResult, __COUNTER__) = sizeof(QEXTStaticAssertFailure< !!(Condition) >)                                      \
+}
 #else
 #define QEXT_STATIC_ASSERT(Condition)                                                                                                                            \
-    enum                                                                                                                                                       \
+enum                                                                                                                                                       \
 {                                                                                                                                                          \
-    QEXT_STATIC_ASSERT_PRIVATE_JOIN(qextStaticAssertResult, __LINE__) = sizeof(QEXTStaticAssertFailure< !!(Condition) >)                                         \
-    }
+        QEXT_STATIC_ASSERT_PRIVATE_JOIN(qextStaticAssertResult, __LINE__) = sizeof(QEXTStaticAssertFailure< !!(Condition) >)                                         \
+}
 #endif /* __COUNTER__ */
 #define QEXT_STATIC_ASSERT_X(Condition, Message) QEXT_STATIC_ASSERT(Condition)
 #endif
@@ -334,7 +334,7 @@ class QEXTStaticAssertFailure< true >
 
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-typedef qintptr QEXTSocketDescriptor;
+    typedef qintptr QEXTSocketDescriptor;
 #else
 typedef int QEXTSocketDescriptor;
 #endif

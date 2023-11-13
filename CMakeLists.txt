@@ -397,7 +397,7 @@ qext_option(QEXT_BUILD_BENCHMARKS "Enable this to build the benchmarks" ${__qext
 qext_option(QEXT_BUILD_DOCS "Enable this to build the documentation" OFF)
 qext_option(QEXT_BUILD_TESTS "Enable this to build tests" ON)
 qext_option(QEXT_BUILD_EXAMPLES "Enable this to build examples" ON)
-qext_option(QEXT_BUILD_QMLS "Enable this to build the qmls." OFF)
+qext_option(QEXT_BUILD_QMLS "Enable this to build the qmls." ON)
 qext_option(QEXT_BUILD_APPS "Enable this to build apps" OFF)
 qext_option(QEXT_BUILD_TOOLS "Enable this to build the tools." "${__qext_build_tools_default}")
 qext_option(QEXT_BUILD_PLUGINS "Enable this to build the plugins." OFF)

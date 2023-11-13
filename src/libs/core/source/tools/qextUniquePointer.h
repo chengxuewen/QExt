@@ -26,19 +26,9 @@ class QExtUniquePointer
 public:
     typedef T *Pointer;
 
-    explicit QExtUniquePointer(T *p = QEXT_DECL_NULLPTR)
+    explicit QExtUniquePointer(T *p = QEXT_DECL_NULLPTR) QEXT_DECL_NOEXCEPT : d(p), deleter(Deleter()) { }
 
-    QEXT_DECL_NOEXCEPT
-            : d(p), deleter(Deleter())
-    {
-    }
-
-    QExtUniquePointer(T *p, const Deleter &d)
-
-    QEXT_DECL_NOEXCEPT
-            : d(p), deleter(d)
-    {
-    }
+    QExtUniquePointer(T *p, const Deleter &d) QEXT_DECL_NOEXCEPT : d(p), deleter(d) { }
 
     QExtUniquePointer(const QExtUniquePointer &other)
     {
