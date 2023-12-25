@@ -54,7 +54,7 @@ public:
 	};
     Q_ENUMS(Style)
 
-    QExtProgressWait(QWidget *parent = QEXT_DECL_NULLPTR);
+    QExtProgressWait(QWidget *parent = QEXT_NULLPTR);
     ~QExtProgressWait();
 
 protected:

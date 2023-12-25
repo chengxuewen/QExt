@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/QExtIcons">
+        <file>fontawesome/fontawesome-webfont.ttf</file>
+        <file>material/Editing3DObject.svg</file>
+        <file>material/Editing3DOutlined.svg</file>
+        <file>material/Editing3D.svg</file>
+    </qresource>
+</RCC>

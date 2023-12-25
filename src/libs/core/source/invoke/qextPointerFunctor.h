@@ -98,7 +98,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtPointerFunctor7() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtPointerFunctor7() : m_funcPtr(QEXT_NULLPTR) {}
         /** Constructs a QExtPointerFunctor7 object that wraps an existing function.
      * \param func Pointer to function that will be invoked from operator()().
      */
@@ -153,7 +153,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtPointerFunctor6() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtPointerFunctor6() : m_funcPtr(QEXT_NULLPTR) {}
         /** Constructs a QExtPointerFunctor6 object that wraps an existing function.
      * \param func Pointer to function that will be invoked from operator()().
      */
@@ -205,7 +205,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtPointerFunctor5() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtPointerFunctor5() : m_funcPtr(QEXT_NULLPTR) {}
         /** Constructs a QExtPointerFunctor5 object that wraps an existing function.
      * \param func Pointer to function that will be invoked from operator()().
      */
@@ -254,7 +254,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtPointerFunctor4() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtPointerFunctor4() : m_funcPtr(QEXT_NULLPTR) {}
         /** Constructs a QExtPointerFunctor4 object that wraps an existing function.
      * \param func Pointer to function that will be invoked from operator()().
      */
@@ -300,7 +300,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtPointerFunctor3() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtPointerFunctor3() : m_funcPtr(QEXT_NULLPTR) {}
         /** Constructs a QExtPointerFunctor3 object that wraps an existing function.
      * \param func Pointer to function that will be invoked from operator()().
      */
@@ -341,7 +341,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtPointerFunctor2() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtPointerFunctor2() : m_funcPtr(QEXT_NULLPTR) {}
         /** Constructs a QExtPointerFunctor2 object that wraps an existing function.
      * \param func Pointer to function that will be invoked from operator()().
      */
@@ -379,7 +379,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtPointerFunctor1() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtPointerFunctor1() : m_funcPtr(QEXT_NULLPTR) {}
         /** Constructs a QExtPointerFunctor1 object that wraps an existing function.
      * \param func Pointer to function that will be invoked from operator()().
      */
@@ -414,7 +414,7 @@ namespace QExtPrivate
         typedef T_return (*Function)();
         typedef T_return Return;
 
-        QExtPointerFunctor0() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtPointerFunctor0() : m_funcPtr(QEXT_NULLPTR) {}
         /** Constructs a QExtPointerFunctor0 object that wraps an existing function.
      * \param func Pointer to function that will be invoked from operator()().
      */

@@ -47,7 +47,7 @@ protected Q_SLOTS:
     void onSocketTransferError(QExtTcpSocket::TransferErrorType error);
 
 protected:
-    void incomingConnection(QEXTSocketDescriptor socketDescriptor) QEXT_DECL_OVERRIDE;
+    void incomingConnection(QEXTSocketDescriptor socketDescriptor) QEXT_OVERRIDE;
 
     QScopedPointer<QExtTcpServerPrivate> dd_ptr;
 };

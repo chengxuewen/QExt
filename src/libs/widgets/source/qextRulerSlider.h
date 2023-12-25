@@ -55,7 +55,7 @@ class QEXT_WIDGETS_API QExtRulerSlider : public QWidget
     Q_PROPERTY(QColor tipTextColor READ tipTextColor WRITE setTipTextColor)
 
 public:
-    explicit QExtRulerSlider(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtRulerSlider(QWidget *parent = QEXT_NULLPTR);
     ~QExtRulerSlider();
 
     double minValue() const;

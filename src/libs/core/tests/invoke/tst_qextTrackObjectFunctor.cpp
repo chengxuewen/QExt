@@ -16,7 +16,7 @@ private Q_SLOTS:
     void testLambda();
 };
 
-static std::string *sg_string = QEXT_DECL_NULLPTR;
+static std::string *sg_string = QEXT_NULLPTR;
 
 
 class Book : public QObject

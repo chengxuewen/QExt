@@ -1,0 +1,21 @@
+# find qt dependencies package
+find_package(@QWT_QT_FINDPKG_CMDSTR@)
+
+@PACKAGE_INIT@
+
+set(QWT_VERSION_MAJOR "@QWT_VERSION_MAJOR@")
+set(QWT_VERSION_MINOR "@QWT_VERSION_MINOR@")
+set(QWT_VERSION_PATCH "@QWT_VERSION_PATCH@")
+
+set_and_check(QWT_INCLUDE_DIRS "@PACKAGE_INCLUDE_INSTALL_DIRS@")
+
+include("${CMAKE_CURRENT_LIST_DIR}/Qwt-targets.cmake")
+
+# Make sure we find packages for our dependencies
+foreach(_PKG IN ITEMS @QWT_PKGS@)
+    find_package(${_PKG} REQUIRED)
+endforeach ()
+
+set(QWT_LIBRARY Qwt::Qwt)
+
+check_required_components(@PROJECT_NAME@)

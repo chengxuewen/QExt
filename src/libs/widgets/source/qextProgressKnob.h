@@ -65,7 +65,7 @@ public:
 	};
     Q_ENUMS(PointerStyle)
 
-    explicit QExtProgressKnob(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtProgressKnob(QWidget *parent = QEXT_NULLPTR);
     ~QExtProgressKnob();
 
     double minValue() const;

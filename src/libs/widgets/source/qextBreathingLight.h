@@ -41,15 +41,15 @@ class QEXT_WIDGETS_API QExtBreathingLight : public QWidget
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
 
 public:
-    explicit QExtBreathingLight(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtBreathingLight(QWidget *parent = QEXT_NULLPTR);
     ~QExtBreathingLight();
 
     int step() const;
     int interval() const;
     QColor backgroundColor() const;
 
-    QSize sizeHint() const QEXT_DECL_OVERRIDE;
-    QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
+    QSize sizeHint() const QEXT_OVERRIDE;
+    QSize minimumSizeHint() const QEXT_OVERRIDE;
 
 public slots:
     void setStep(const int &step);
@@ -57,7 +57,7 @@ public slots:
     void setBackgroundColor(const QColor &color);
 
 protected:
-    void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
 
     void drawBackground(QPainter *painter);
 

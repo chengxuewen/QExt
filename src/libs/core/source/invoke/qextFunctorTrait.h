@@ -83,10 +83,10 @@ private:
     // If decltype(&X_functor::operator()) can't be evaluated, this check() overload
     // is ignored because of the SFINAE rule (Substitution Failure Is Not An Error).
     template < typename X_functor >
-    static int check(X_functor *obj, decltype(&X_functor::operator()) p = QEXT_DECL_NULLPTR);
+    static int check(X_functor *obj, decltype(&X_functor::operator()) p = QEXT_NULLPTR);
 
 public:
-    static const bool value = sizeof(check(static_cast< T_functor * >(QEXT_DECL_NULLPTR))) == sizeof(int);
+    static const bool value = sizeof(check(static_cast< T_functor * >(QEXT_NULLPTR))) == sizeof(int);
 };
 
 // For generic types, directly use the result of the signature of its 'operator()'

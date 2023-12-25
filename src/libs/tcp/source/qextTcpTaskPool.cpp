@@ -25,7 +25,7 @@ QExtTcpTaskPoolPrivate::~QExtTcpTaskPoolPrivate()
 }
 
 QExtTcpTaskPool::QExtTcpTaskPool(QExtTcpPacketDispatcher *dispatcher)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpTaskPoolPrivate(this))
+    : QObject(QEXT_NULLPTR), dd_ptr(new QExtTcpTaskPoolPrivate(this))
 {
     Q_D(QExtTcpTaskPool);
     d->m_packetDispatcher = dispatcher;
@@ -70,7 +70,7 @@ void QExtTcpTaskPool::enqueueTask(QExtTcpTask *task)
 {
     Q_D(QExtTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_mutex);
-    task->setParent(QEXT_DECL_NULLPTR);
+    task->setParent(QEXT_NULLPTR);
     task->setAutoDelete(true);
     connect(task, SIGNAL(aboutToBeDelete(quint64)), this, SLOT(onTaskFinished(quint64)));
     connect(task, SIGNAL(error(QString)), this, SLOT(onTaskError(QString)));

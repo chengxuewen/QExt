@@ -127,7 +127,7 @@ public:
     void setMouseAreaCursorShape(const Qt::CursorShape &cursor);
 
 protected:
-    explicit QEXTQmlQuick(QObject *parent = QEXT_DECL_NULLPTR);
+    explicit QEXTQmlQuick(QObject *parent = QEXT_NULLPTR);
 
     QScopedPointer<QEXTQmlQuickPrivate> dd_ptr;
 };

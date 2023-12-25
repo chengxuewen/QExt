@@ -51,7 +51,7 @@ class QEXT_QUICK_API QEXTQmlQuickBorderGadget : public QObject
     Q_PROPERTY(bool valid READ isValid NOTIFY validChanged)
 
 public:
-    explicit QEXTQmlQuickBorderGadget(QObject *parent = QEXT_DECL_NULLPTR);
+    explicit QEXTQmlQuickBorderGadget(QObject *parent = QEXT_NULLPTR);
     ~QEXTQmlQuickBorderGadget();
 
     QColor color() const;

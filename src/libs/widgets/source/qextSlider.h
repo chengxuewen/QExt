@@ -60,7 +60,7 @@ public:
     };
     Q_ENUMS(ArrowStyleType)
 
-    explicit QExtSlider(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtSlider(QWidget *parent = QEXT_NULLPTR);
     ~QExtSlider();
 
     int borderRadius() const;

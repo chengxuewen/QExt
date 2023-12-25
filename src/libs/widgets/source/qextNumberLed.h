@@ -56,7 +56,7 @@ public:
     Q_ENUMS(Symbol)
 
 public:
-    explicit QExtNumberLed(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtNumberLed(QWidget *parent = QEXT_NULLPTR);
     ~QExtNumberLed();
 
     int number() const;
@@ -70,8 +70,8 @@ public:
 
     Symbol symbolType() const;
 
-    QSize sizeHint() const QEXT_DECL_OVERRIDE;
-    QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
+    QSize sizeHint() const QEXT_OVERRIDE;
+    QSize minimumSizeHint() const QEXT_OVERRIDE;
 
 public Q_SLOTS:
     void setNumber(int number);
@@ -87,7 +87,7 @@ public Q_SLOTS:
     void setSymbolType(const Symbol &type);
 
 protected:
-    void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
 
     void drawBackground(QPainter *painter);
     void drawNumber(QPainter *painter);

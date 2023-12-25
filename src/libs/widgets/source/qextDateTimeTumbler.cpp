@@ -37,12 +37,12 @@ QExtDateTimeTumblerPrivate::QExtDateTimeTumblerPrivate(QExtDateTimeTumbler *q)
     , m_hour(0)
     , m_min(0)
     , m_sec(0)
-    , m_tumblerYear(QEXT_DECL_NULLPTR)
-    , m_tumblerMonth(QEXT_DECL_NULLPTR)
-    , m_tumblerDay(QEXT_DECL_NULLPTR)
-    , m_tumblerHour(QEXT_DECL_NULLPTR)
-    , m_tumblerMin(QEXT_DECL_NULLPTR)
-    , m_tumblerSec(QEXT_DECL_NULLPTR)
+    , m_tumblerYear(QEXT_NULLPTR)
+    , m_tumblerMonth(QEXT_NULLPTR)
+    , m_tumblerDay(QEXT_NULLPTR)
+    , m_tumblerHour(QEXT_NULLPTR)
+    , m_tumblerMin(QEXT_NULLPTR)
+    , m_tumblerSec(QEXT_NULLPTR)
 {
 
 }

@@ -18,7 +18,7 @@
 #include <functional>
 #endif
 
-static QString *sg_string = QEXT_DECL_NULLPTR;
+static QString *sg_string = QEXT_NULLPTR;
 
 class MFunctor
 {

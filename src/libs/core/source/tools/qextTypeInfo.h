@@ -221,7 +221,7 @@ QEXT_DECL_TYPEINFO_BODY(TestClass<T_type>, QEXT_TYPEINFO_PRIMITIVE);
 
 #define QEXT_DECL_SHARED_IMPL(TYPE, FLAGS)                                                                    \
     QEXT_DECL_TYPEINFO(TYPE, FLAGS);                                                                          \
-    inline void swap(TYPE &value1, TYPE &value2) QEXT_DECL_NOEXCEPT_EXPR(noexcept(value1.swap(value2)))       \
+    inline void swap(TYPE &value1, TYPE &value2) QEXT_NOEXCEPT_EXPR(noexcept(value1.swap(value2)))       \
     {                                                                                                       \
         value1.swap(value2);                                                                                \
     }

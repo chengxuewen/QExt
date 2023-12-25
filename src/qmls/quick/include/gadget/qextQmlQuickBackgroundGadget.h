@@ -51,7 +51,7 @@ class QEXT_QUICK_API QEXTQmlQuickBackgroundGadget : public QObject
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged)
 
 public:
-    explicit QEXTQmlQuickBackgroundGadget(QObject *parent = QEXT_DECL_NULLPTR);
+    explicit QEXTQmlQuickBackgroundGadget(QObject *parent = QEXT_NULLPTR);
     ~QEXTQmlQuickBackgroundGadget();
 
     QColor color() const;

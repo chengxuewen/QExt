@@ -37,46 +37,14 @@ public:
 
     QExtNavigationButton * const q_ptr;
 
-    int m_leftPadding;
-    int m_rightPadding;
-    int m_topPadding;
-    int m_bottomPadding;
-    QExtNavigationButton::TextAlignType m_textAlign;
-
-    bool m_triangleVisible;
-    QExtNavigationButton::PositionType m_trianglePosition;
-    int m_triangleLen;
-    QColor m_triangleColor;
-
-    bool m_iconVisible;
-    QExtNavigationButton::PositionType m_iconPosition;
+    int m_padding;
     int m_iconSpace;
-    QSize m_iconSize;
-    QPixmap m_normalIcon;
+    bool m_hovered;
+    bool m_iconVisible;
     QPixmap m_hoverIcon;
     QPixmap m_checkIcon;
-    QChar m_normalFontIcon;
-    QChar m_hoverFontIcon;
-    QChar m_checkFontIcon;
-
-    bool m_lineVisible;
-    QExtNavigationButton::PositionType m_linePosition;
-    int m_lineSpace;
-    int m_lineWidth;
-    QColor m_lineColor;
-
-    QColor m_normalBackgroundColor;
-    QColor m_hoverBackgroundColor;
-    QColor m_checkBackgroundColor;
-    QColor m_normalTextColor;
-    QColor m_hoverTextColor;
-    QColor m_checkTextColor;
-
-    QBrush m_normalBackgroundBrush;
-    QBrush m_hoverBackgroundBrush;
-    QBrush m_checkBackgroundBrush;
-
-    bool m_hovered;
+    QPixmap m_normalIcon;
+    QExtNavigationButton::PositionEnum m_navigationPosition;
 
 private:
     QEXT_DECL_DISABLE_COPY_MOVE(QExtNavigationButtonPrivate)

@@ -82,7 +82,7 @@ public:
     Q_ENUMS(Shape)
 
 public:
-    explicit QExtIndicatorLight(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtIndicatorLight(QWidget *parent = QEXT_NULLPTR);
     ~QExtIndicatorLight();
 
     QString text() const;
@@ -108,8 +108,8 @@ public:
     bool flickerState() const;
     int flickerInterval() const;
 
-    QSize sizeHint() const QEXT_DECL_OVERRIDE;
-    QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
+    QSize sizeHint() const QEXT_OVERRIDE;
+    QSize minimumSizeHint() const QEXT_OVERRIDE;
 
 public Q_SLOTS:
     void setText(const QString &text);
@@ -145,8 +145,8 @@ protected Q_SLOTS:
     void flicker();
 
 protected:
-    bool eventFilter(QObject *watched, QEvent *event) QEXT_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
+    bool eventFilter(QObject *watched, QEvent *event) QEXT_OVERRIDE;
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
 
     void drawBorderOut(QPainter *painter);
     void drawBorderIn(QPainter *painter);

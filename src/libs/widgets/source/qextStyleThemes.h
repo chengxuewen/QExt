@@ -61,14 +61,14 @@ public:
 
     enum StyleEnum
     {
-        Style_Flat = 0,
+        Style_Fusion = 0,
         Style_Material
     };
     QEXT_STATIC_CONSTANT(int, StyleNum = Style_Material + 1);
 
     explicit QExtStyleThemes(QObject *parent = 0);
 
-    ~QExtStyleThemes() QEXT_DECL_OVERRIDE;
+    ~QExtStyleThemes() QEXT_OVERRIDE;
 
     /**
      * @brief setCurrentStyle

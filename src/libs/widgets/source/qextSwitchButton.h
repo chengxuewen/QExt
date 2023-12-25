@@ -62,7 +62,7 @@ public:
     };
     Q_ENUMS(Style)
 
-    explicit QExtSwitchButton(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtSwitchButton(QWidget *parent = QEXT_NULLPTR);
     ~QExtSwitchButton();
 
     int space() const;
@@ -84,8 +84,8 @@ public:
     QString offText() const;
     QString onText() const;
 
-    QSize sizeHint() const QEXT_DECL_OVERRIDE;
-    QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
+    QSize sizeHint() const QEXT_OVERRIDE;
+    QSize minimumSizeHint() const QEXT_OVERRIDE;
 
 Q_SIGNALS:
     void checkedChanged(bool checked);
@@ -118,9 +118,9 @@ public Q_SLOTS:
     void setOnText(const QString &text);
 
 protected:
-    void mousePressEvent(QMouseEvent *) QEXT_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *) QEXT_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *) QEXT_OVERRIDE;
+    void resizeEvent(QResizeEvent *) QEXT_OVERRIDE;
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
 
     void drawBackground(QPainter *painter);
     void drawSlider(QPainter *painter);

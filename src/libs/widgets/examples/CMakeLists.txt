@@ -567,11 +567,107 @@ qext_add_executable(exp_QExtWidgetStyleThemes
     stylethemes/mainwindow.cpp
     stylethemes/mainwindow.h
     stylethemes/mainwindow.ui
+    stylethemes/WidgetForm.cpp
+    stylethemes/WidgetForm.h
+    stylethemes/WidgetForm.ui
+    navigationbutton/iconhelper.cpp
+    navigationbutton/iconhelper.h
+    navigationbutton/frmnavigationbutton.cpp
+    navigationbutton/frmnavigationbutton.h
+    navigationbutton/frmnavigationbutton.ui
     stylethemes/main.cpp
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/stylethemes
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+qext_add_executable(exp_QExtWidgetPropertyBrowserSimple
+    SOURCES
+    propertybrowser/simple/main.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/simple
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+qext_add_executable(exp_QExtWidgetPropertyBrowserDemo
+    SOURCES
+    propertybrowser/demo/main.cpp
+    propertybrowser/demo/demo.qrc
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/demo
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+qext_add_executable(exp_QExtWidgetPropertyBrowserExtension
+    SOURCES
+    propertybrowser/extension/main.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/extension
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+qext_add_executable(exp_QExtWidgetPropertyBrowserDecoration
+    SOURCES
+    propertybrowser/decoration/main.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/decoration
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+qext_add_executable(exp_QExtWidgetPropertyBrowserCanvasTyped
+    SOURCES
+    propertybrowser/canvas_typed/main.cpp
+    propertybrowser/canvas_typed/mainwindow.cpp
+    propertybrowser/canvas_typed/mainwindow.h
+    propertybrowser/canvas_typed/qtcanvas.cpp
+    propertybrowser/canvas_typed/qtcanvas.h
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/canvas_typed
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+qext_add_executable(exp_QExtWidgetPropertyBrowserCanvasVariant
+    SOURCES
+    propertybrowser/canvas_variant/main.cpp
+    propertybrowser/canvas_variant/mainwindow.cpp
+    propertybrowser/canvas_variant/mainwindow.h
+    propertybrowser/canvas_variant/qtcanvas.cpp
+    propertybrowser/canvas_variant/qtcanvas.h
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/canvas_variant
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+qext_add_executable(exp_QExtWidgetPropertyBrowserObjectController
+    SOURCES
+    propertybrowser/object_controller/main.cpp
+    propertybrowser/object_controller/objectcontroller.cpp
+    propertybrowser/object_controller/objectcontroller.h
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/object_controller
     OUTPUT_DIRECTORY
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES

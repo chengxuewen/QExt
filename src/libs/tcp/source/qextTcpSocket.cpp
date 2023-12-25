@@ -24,7 +24,7 @@ QExtTcpSocketPrivate::~QExtTcpSocketPrivate()
 
 
 QExtTcpSocket::QExtTcpSocket()
-    : QTcpSocket(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpSocketPrivate(this))
+    : QTcpSocket(QEXT_NULLPTR), dd_ptr(new QExtTcpSocketPrivate(this))
 {
     Q_D(QExtTcpSocket);
     connect(this, SIGNAL(connected()), this, SLOT(updateIdentityId()));
@@ -34,7 +34,7 @@ QExtTcpSocket::QExtTcpSocket()
 }
 
 QExtTcpSocket::QExtTcpSocket(const QSharedPointer<QExtTcpPacketParserInterface> &packetParser)
-    : QTcpSocket(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpSocketPrivate(this))
+    : QTcpSocket(QEXT_NULLPTR), dd_ptr(new QExtTcpSocketPrivate(this))
 {
     Q_D(QExtTcpSocket);
     connect(this, SIGNAL(connected()), this, SLOT(updateIdentityId()));
@@ -45,7 +45,7 @@ QExtTcpSocket::QExtTcpSocket(const QSharedPointer<QExtTcpPacketParserInterface> 
 
 QExtTcpSocket::QExtTcpSocket(QExtTcpSocketPrivate *d,
                              const QSharedPointer<QExtTcpPacketParserInterface> &packetParser)
-    : QTcpSocket(QEXT_DECL_NULLPTR), dd_ptr(d)
+    : QTcpSocket(QEXT_NULLPTR), dd_ptr(d)
 {
     connect(this, SIGNAL(connected()), this, SLOT(updateIdentityId()));
     connect(this, SIGNAL(readyRead()), this, SLOT(readPacket()));
@@ -109,7 +109,7 @@ QSharedPointer<QThread> QExtTcpSocket::detachWorkThread()
     QSharedPointer<QThread> thread = d->m_workThread;
     if (!d->m_workThread.isNull())
     {
-        this->setParent(QEXT_DECL_NULLPTR);
+        this->setParent(QEXT_NULLPTR);
         thread->disconnect(this);
         d->m_workThread.clear();
     }
@@ -121,7 +121,7 @@ void QExtTcpSocket::attatchWorkThread(const QSharedPointer<QThread> &thread)
     Q_D(QExtTcpSocket);
     if (d->m_workThread != thread)
     {
-        this->setParent(QEXT_DECL_NULLPTR);
+        this->setParent(QEXT_NULLPTR);
         this->moveToThread(thread.data());
         d->m_workThread = thread;
     }

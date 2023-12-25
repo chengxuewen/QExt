@@ -15,7 +15,7 @@ QSharedPointer<QExtTcpPacketParserInterface> QExtTcpFactory::createPacketParser(
 QExtTcpTask *QExtTcpFactory::createTask(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher, int function) {
     Q_UNUSED(dispatcher);
     Q_UNUSED(function);
-    return QEXT_DECL_NULLPTR;
+    return QEXT_NULLPTR;
 }
 
 QExtTcpTask *QExtTcpFactory::createTask(const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher,

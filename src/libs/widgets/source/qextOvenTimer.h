@@ -39,7 +39,7 @@ class QEXT_WIDGETS_API QExtOvenTimer : public QWidget
     Q_PROPERTY(int duration READ duration WRITE setDuration)
 
 public:
-    QExtOvenTimer(QWidget *parent = QEXT_DECL_NULLPTR);
+    QExtOvenTimer(QWidget *parent = QEXT_NULLPTR);
     ~QExtOvenTimer();
 
     int duration() const;

@@ -10,24 +10,24 @@ class QEXTEmitter
 {
     struct EventHandlerBase
     {
-        virtual ~EventHandlerBase() QEXT_DECL_NOEXCEPT {}
-        virtual bool isEmpty() const QEXT_DECL_NOEXCEPT = 0;
-        virtual void clear() QEXT_DECL_NOEXCEPT = 0;
+        virtual ~EventHandlerBase() QEXT_NOEXCEPT {}
+        virtual bool isEmpty() const QEXT_NOEXCEPT = 0;
+        virtual void clear() QEXT_NOEXCEPT = 0;
     };
 
     template<typename T_event>
-    struct EventHandler QEXT_DECL_FINAL: EventHandlerBase
+    struct EventHandler QEXT_FINAL: EventHandlerBase
     {
         typedef QExtFunction<void, T_event &, T_emitter &>  Listener;
         typedef QExtSignal<void, T_event &, T_emitter &>    Signal;
         typedef typename Signal::Iterator                   Iterator;
 
-        bool isEmpty() const QEXT_DECL_NOEXCEPT QEXT_DECL_OVERRIDE
+        bool isEmpty() const QEXT_NOEXCEPT QEXT_OVERRIDE
         {
             return m_singleSignal.isEmpty() && m_signal.isEmpty();
         }
 
-        void clear() QEXT_DECL_NOEXCEPT QEXT_DECL_OVERRIDE
+        void clear() QEXT_NOEXCEPT QEXT_OVERRIDE
         {
             m_singleSignal.clear();
             m_signal.clear();
@@ -43,7 +43,7 @@ class QEXTEmitter
             return m_signal.connect(listener);
         }
 
-        void eraseListener(Iterator iter) QEXT_DECL_NOEXCEPT
+        void eraseListener(Iterator iter) QEXT_NOEXCEPT
         {
             m_singleSignal.erase(iter);
             m_signal.erase(iter);
@@ -62,21 +62,21 @@ class QEXTEmitter
     };
 
 
-    static int nextType() QEXT_DECL_NOEXCEPT
+    static int nextType() QEXT_NOEXCEPT
     {
         static int counter = 0;
         return counter++;
     }
 
     template<typename>
-    static int eventType() QEXT_DECL_NOEXCEPT
+    static int eventType() QEXT_NOEXCEPT
     {
         static int value = QEXTEmitter::nextType();
         return value;
     }
 
     template<typename T_event>
-    EventHandler<T_event> &handler() QEXT_DECL_NOEXCEPT
+    EventHandler<T_event> &handler() QEXT_NOEXCEPT
     {
         int type = QEXTEmitter::eventType<T_event>();
 
@@ -103,7 +103,7 @@ public:
 
     QEXTEmitter() { }
 
-    virtual ~QEXTEmitter() QEXT_DECL_NOEXCEPT
+    virtual ~QEXTEmitter() QEXT_NOEXCEPT
     {
         Iterator iter;
         for (iter = m_eventHandlers.begin(); iter != m_eventHandlers.end(); ++iter)
@@ -161,7 +161,7 @@ public:
      * \param conn A valid Connection object
      */
     template<typename T_event>
-    void erase(typename EventHandler<T_event>::Iterator iter) QEXT_DECL_NOEXCEPT
+    void erase(typename EventHandler<T_event>::Iterator iter) QEXT_NOEXCEPT
     {
         this->handler<T_event>().erase(iter);
     }
@@ -170,7 +170,7 @@ public:
      * \brief Disconnects all the listeners for the given event type.
      */
     template<typename T_event>
-    void clear() QEXT_DECL_NOEXCEPT
+    void clear() QEXT_NOEXCEPT
     {
         this->handler<T_event>().clear();
     }
@@ -178,7 +178,7 @@ public:
     /**
      * \brief Disconnects all the listeners.
      */
-    void clear() QEXT_DECL_NOEXCEPT
+    void clear() QEXT_NOEXCEPT
     {
         Iterator iter;
         for (iter = m_eventHandlers.begin(); iter != m_eventHandlers.end(); ++iter)
@@ -197,7 +197,7 @@ public:
      * false otherwise.
      */
     template<typename T_event>
-    bool isEmpty() const QEXT_DECL_NOEXCEPT
+    bool isEmpty() const QEXT_NOEXCEPT
     {
         int type = QEXTEmitter::eventType<T_event>();
         bool empty = static_cast<EventHandler<T_event>&>(*m_eventHandlers[type]).isEmpty();
@@ -209,7 +209,7 @@ public:
      * \return True if there are no listeners registered with the event emitter,
      * false otherwise.
      */
-    bool isEmpty() const QEXT_DECL_NOEXCEPT
+    bool isEmpty() const QEXT_NOEXCEPT
     {
         ConstIterator iter;
         for (iter = m_eventHandlers.begin(); iter < m_eventHandlers.end(); ++iter)

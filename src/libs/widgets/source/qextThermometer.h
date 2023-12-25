@@ -76,7 +76,7 @@ public:
     };
     Q_ENUMS(TickPosition)
 
-    explicit QExtThermometer(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtThermometer(QWidget *parent = QEXT_NULLPTR);
     ~QExtThermometer();
 
     double minValue() const;

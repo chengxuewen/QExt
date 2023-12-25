@@ -23,9 +23,9 @@
 
 add_subdirectory(core)
 qext_add_subdirectory(tcp ON)
+qext_add_subdirectory(icons ON)
 qext_add_subdirectory(utils ON)
 qext_add_subdirectory(widgets ON)
-qext_add_subdirectory(iconfont ON)
 qext_add_subdirectory(serialport ON)
 qext_add_subdirectory(stylethemes ON)
 qext_add_subdirectory(googlepinyin ON)

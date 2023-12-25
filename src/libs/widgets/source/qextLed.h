@@ -40,14 +40,14 @@ class QEXT_WIDGETS_API QExtLed : public QWidget
     Q_PROPERTY(bool state READ isOn WRITE setOn NOTIFY stateChanged)
 
 public:
-    explicit QExtLed(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtLed(QWidget *parent = QEXT_NULLPTR);
     ~QExtLed();
 
     QColor color() const;
     bool isOn() const;
 
-    QSize sizeHint() const QEXT_DECL_OVERRIDE;
-    QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
+    QSize sizeHint() const QEXT_OVERRIDE;
+    QSize minimumSizeHint() const QEXT_OVERRIDE;
 
 Q_SIGNALS:
     void colorChanged(QColor ledColor);
@@ -61,7 +61,7 @@ public Q_SLOTS:
     void toggle();
 
 protected:
-    void paintEvent(QPaintEvent *event) QEXT_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) QEXT_OVERRIDE;
 
     QScopedPointer<QExtLedPrivate> dd_ptr;
 

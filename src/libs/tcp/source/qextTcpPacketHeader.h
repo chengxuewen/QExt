@@ -21,17 +21,17 @@ public:
     QExtTcpPacketHeader(QExtTcpPacketHeaderPrivate *d, const DataInfoVector &dataInfoVector);
     ~QExtTcpPacketHeader();
 
-    quint16 headerSize() const QEXT_DECL_OVERRIDE;
-    quint16 contentSize() const QEXT_DECL_OVERRIDE;
-    void setContentSize(const quint16 &size) QEXT_DECL_OVERRIDE;
+    quint16 headerSize() const QEXT_OVERRIDE;
+    quint16 contentSize() const QEXT_OVERRIDE;
+    void setContentSize(const quint16 &size) QEXT_OVERRIDE;
 
-    QByteArray stream() const QEXT_DECL_OVERRIDE;
-    bool setStream(const QByteArray &stream) QEXT_DECL_OVERRIDE;
+    QByteArray stream() const QEXT_OVERRIDE;
+    bool setStream(const QByteArray &stream) QEXT_OVERRIDE;
 
-    bool isHeaderDataExist(const QString &name) const QEXT_DECL_OVERRIDE;
-    QList<QString> headerList() const QEXT_DECL_OVERRIDE;
-    QExtTcpPacketVariant headerData(const QString &name) const QEXT_DECL_OVERRIDE;
-    bool setHeaderData(const QString &name, const QExtTcpPacketVariant &data) QEXT_DECL_OVERRIDE;
+    bool isHeaderDataExist(const QString &name) const QEXT_OVERRIDE;
+    QList<QString> headerList() const QEXT_OVERRIDE;
+    QExtTcpPacketVariant headerData(const QString &name) const QEXT_OVERRIDE;
+    bool setHeaderData(const QString &name, const QExtTcpPacketVariant &data) QEXT_OVERRIDE;
 
 protected:
     QScopedPointer<QExtTcpPacketHeaderPrivate> dd_ptr;

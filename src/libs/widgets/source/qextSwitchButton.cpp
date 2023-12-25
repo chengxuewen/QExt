@@ -262,7 +262,7 @@ void QExtSwitchButton::drawSlider(QPainter *painter)
 
 void QExtSwitchButton::change()
 {
-    mousePressEvent(QEXT_DECL_NULLPTR);
+    mousePressEvent(QEXT_NULLPTR);
 }
 
 void QExtSwitchButton::updateValue()

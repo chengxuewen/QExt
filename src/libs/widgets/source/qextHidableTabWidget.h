@@ -36,7 +36,7 @@ class QEXT_WIDGETS_API QExtHidableTabWidget : public QTabWidget
     Q_OBJECT
 
 public:
-    explicit QExtHidableTabWidget(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtHidableTabWidget(QWidget *parent = QEXT_NULLPTR);
     ~QExtHidableTabWidget();
 
 public slots:

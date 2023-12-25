@@ -140,7 +140,7 @@ void MainWindowPrivate::setupQuickWidget()
 void MainWindowPrivate::loadThemeAwareToolbarActionIcons()
 {
     ui.actionSelected->setIcon(AdvancedStyleSheet->loadThemeAwareSvgIcon(":/full_features/images/edit.svg"));
-    ui.actionaction->setIcon(AdvancedStyleSheet->loadThemeAwareSvgIcon(":/full_features/images/folder_open.svg"));
+    ui.actionWidget->setIcon(AdvancedStyleSheet->loadThemeAwareSvgIcon(":/full_features/images/folder_open.svg"));
     ui.actionaction2->setIcon(AdvancedStyleSheet->loadThemeAwareSvgIcon(":/full_features/images/save.svg"));
     ui.actionaction3->setIcon(AdvancedStyleSheet->loadThemeAwareSvgIcon(":/full_features/images/help_outline.svg"));
 }

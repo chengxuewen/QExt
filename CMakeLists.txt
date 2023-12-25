@@ -60,7 +60,6 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
     set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
 
-set(CMAKE_PREFIX_PATH "/Users/cxw/Qt/5.15.2/clang_64")
 set(QEXT_QT_HAS_QJSON OFF)
 set(QEXT_QT_HAS_QML OFF)
 find_package(Qt4 QUIET COMPONENTS QtCore QUIET)
@@ -319,6 +318,10 @@ if(WIN32)
     endif()
 endif()
 
+include(ProcessorCount)
+processorcount(QEXT_PROCESSOR_COUNT)
+set(QEXT_NUMBER_OF_ASYNC_JOBS ${QEXT_PROCESSOR_COUNT})
+
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Add CMake function(s) and macro(s)
@@ -327,6 +330,7 @@ set(QEXT_CMAKE_DIR "${PROJECT_SOURCE_DIR}/cmake")
 set(CMAKE_MODULE_PATH ${QEXT_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 include(QExtPrecompiledHeadersHelpers)
 include(QExtScopeFinalizerHelpers)
+include(QExtPublicWalkLibsHelpers)
 include(QExtPublicTargetHelpers)
 include(QExtFlagHandlingHelpers)
 include(QExtSubdirectoryHelpers)
@@ -686,13 +690,10 @@ qext_add_subdirectory(src/plugins QEXT_BUILD_PLUGINS)
 #-----------------------------------------------------------------------------------------------------------------------
 # add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
-#if(QEXT_BUILD_LIB_QWT)
-#    add_subdirectory(3rdparty/qwt-6.1.3)
-#endif()
+#add_subdirectory(3rdparty/qwt-6.1.3)
+qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
+qext_find_package(WrapCJSON PROVIDED_TARGETS QExt3rdparty::WrapCJSON)
 
-#if(QEXT_BUILD_LIB_QCUSTOMPLOT)
-#    add_subdirectory(3rdparty/qcustomplot)
-#endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------

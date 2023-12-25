@@ -39,6 +39,8 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
+list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Icons QExt::GooglePinYin)
+
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
@@ -124,6 +126,9 @@ qext_add_library(Widgets
     source/qextProgressWait.cpp
     source/qextProgressWait.h
     source/qextProgressWait_p.h
+    source/qextPropertyBrowser.cpp
+    source/qextPropertyBrowser.h
+    source/qextPropertyBrowser_p.h
     source/qextRangeSlider.cpp
     source/qextRangeSlider.h
     source/qextRangeSlider_p.h
@@ -171,8 +176,7 @@ qext_add_library(Widgets
     PRECOMPILED_HEADER
     source/qextWidgetPch.h
     PUBLIC_LIBRARIES
-    ${QEXT_LIB_LINK_LIBRARIES}
-    Core IconFont GooglePinYin)
+    ${QEXT_LIB_LINK_LIBRARIES})
 
 
 #-----------------------------------------------------------------------------------------------------------------------

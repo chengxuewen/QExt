@@ -43,7 +43,7 @@ class QEXT_WIDGETS_API QExtIpAddressEdit : public QWidget
     Q_PROPERTY(int borderRadius READ borderRadius WRITE setBorderRadius)
 
 public:
-    explicit QExtIpAddressEdit(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtIpAddressEdit(QWidget *parent = QEXT_NULLPTR);
     ~QExtIpAddressEdit();
 
     QString iP() const;

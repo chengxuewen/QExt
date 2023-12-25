@@ -67,7 +67,7 @@ public:
     };
     Q_ENUMS(TrianglePositionType)
 
-    explicit QExtTooltip(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtTooltip(QWidget *parent = QEXT_NULLPTR);
     ~QExtTooltip();
 
     int borderRadius() const;

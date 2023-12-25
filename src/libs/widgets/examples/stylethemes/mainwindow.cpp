@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "widgetform.h"
 
 #include <qextStyleThemes.h>
 
@@ -12,34 +13,34 @@
 #include <QPushButton>
 #include <QColorDialog>
 #include <QDebug>
-#include <iostream>
+#include <QMetaEnum>
+#include <QHBoxLayout>
+#include <QStyleFactory>
 
+#include <iostream>
 
 /**
  * Private data class - pimpl
  */
 struct MainWindowPrivate
 {
-    Ui::MainWindow ui;
+    MainWindowPrivate(CMainWindow* _public) : q_ptr(_public), m_widgetForm(0) {}
+
+    void setSomeIcons();
+    void fillThemeMenu();
+    void updateThemeColorButtons();
+    void createThemeColorDockWidget();
+    void loadThemeAwareToolbarActionIcons();
+
+    void initPaletteColorTableWidget(const QPalette &palette = QPalette());
+
+    Ui::MainWindow *ui;
 
     CMainWindow *q_ptr;
     QExtStyleThemes* m_styleThemes;
     QVector<QPushButton*> m_themeColorButtons;
 
-    /**
-	 * Private data constructor
-     */
-    MainWindowPrivate(CMainWindow* _public) : q_ptr(_public) {}
-
-    void createThemeColorDockWidget();
-    void fillThemeMenu();
-    void setSomeIcons();
-    void updateThemeColorButtons();
-
-    /**
-	 * Loads theme aware icons for the actions in the toolbar
-     */
-    void loadThemeAwareToolbarActionIcons();
+    WidgetForm *m_widgetForm;
 };
 
 
@@ -84,7 +85,7 @@ void MainWindowPrivate::updateThemeColorButtons()
 void MainWindowPrivate::fillThemeMenu()
 {
     // Add actions for theme selection
-    QMenu *menu = ui.menuThemes;
+    QMenu *menu = ui->menuThemes;
     const QStringList &themes = m_styleThemes->themes();
     for (QStringList::ConstIterator iter = themes.constBegin(); iter != themes.constEnd(); ++iter)
     {
@@ -97,33 +98,74 @@ void MainWindowPrivate::fillThemeMenu()
 
 void MainWindowPrivate::setSomeIcons()
 {
-    ui.actionToolbar->setIcon(m_styleThemes->styleIcon());
+    ui->actionToolbar->setIcon(m_styleThemes->styleIcon());
     QIcon Icon(":/full_features/images/logo_frame.svg");
-    for (int i = 0; i < ui.listWidget_2->count(); ++i)
+    for (int i = 0; i < ui->listWidget_2->count(); ++i)
     {
-        ui.listWidget_2->item(i)->setIcon(Icon);
+        ui->listWidget_2->item(i)->setIcon(Icon);
     }
 }
 
 
 void MainWindowPrivate::loadThemeAwareToolbarActionIcons()
 {
-    ui.actionSelected->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/edit.svg"));
-    ui.actionaction->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/folder_open.svg"));
-    ui.actionaction2->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/save.svg"));
-    ui.actionaction3->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/help_outline.svg"));
+    ui->actionSelected->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/edit.svg"));
+    ui->actionaction->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/folder_open.svg"));
+    ui->actionaction2->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/save.svg"));
+    ui->actionaction3->setIcon(m_styleThemes->loadThemeAwareSvgIcon(":/full_features/images/help_outline.svg"));
+}
+
+void MainWindowPrivate::initPaletteColorTableWidget(const QPalette &palette)
+{
+    QMetaEnum colorGroupMetaEnum = QMetaEnum::fromType<QPalette::ColorGroup>();
+    QMetaEnum colorRoleMetaEnum = QMetaEnum::fromType<QPalette::ColorRole>();
+    ui->tableWidgetPalette->setColumnCount(QPalette::NColorGroups + 1);
+    ui->tableWidgetPalette->setRowCount(QPalette::NColorRoles);
+    ui->tableWidgetPalette->setHorizontalHeaderItem(0, new QTableWidgetItem("Role"));
+    for (int i = 0; i < QPalette::NColorGroups; ++i)
+    {
+        ui->tableWidgetPalette->setHorizontalHeaderItem(i + 1, new QTableWidgetItem(colorGroupMetaEnum.key(i)));
+    }
+    ui->tableWidgetPalette->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    for (int i = 0; i < QPalette::NColorRoles; ++i)
+    {
+        QTableWidgetItem *itemRole = new QTableWidgetItem(colorRoleMetaEnum.valueToKey(i));
+        ui->tableWidgetPalette->setItem(i, 0, itemRole);
+        for (int j = 0; j < QPalette::NColorGroups; ++j)
+        {
+            QBrush brush = palette.brush(QPalette::ColorGroup(j), QPalette::ColorRole(i));
+            QHBoxLayout *layout = new QHBoxLayout;
+            QWidget *widget = new QWidget;
+            widget->setLayout(layout);
+            QLabel *labelName = new QLabel(widget);
+            labelName->setText(brush.color().name());
+            labelName->setFixedWidth(100);
+            QLabel *labelColor = new QLabel(widget);
+            labelColor->setFixedWidth(100);
+            labelColor->setStyleSheet(QString("background:%1").arg(brush.color().name()));
+            layout->addWidget(labelName);
+            layout->addWidget(labelColor);
+            layout->setMargin(0);
+            layout->setSpacing(0);
+            ui->tableWidgetPalette->setCellWidget(i, j + 1, widget);
+        }
+    }
 }
 
 
 CMainWindow::CMainWindow(QWidget *parent)
-    : QMainWindow(parent),
-    d(new MainWindowPrivate(this))
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+    , d(new MainWindowPrivate(this))
 {
-    d->ui.setupUi(this);
+    ui->setupUi(this);
+    d->ui = ui;
     d->m_styleThemes = new QExtStyleThemes(this);
     d->m_styleThemes->setStylesDirPath();
     d->m_styleThemes->setOutputDirPath(qApp->applicationDirPath() + "/output");
-    d->m_styleThemes->setCurrentStyle("material");
+//    d->m_styleThemes->setCurrentStyle("material");
+    d->m_styleThemes->setCurrentStyle("fusion");
+//    QApplication::setStyle(QStyleFactory::create("Fusion"));
     d->m_styleThemes->setDefaultTheme();
     d->m_styleThemes->updateStylesheet();
     this->setWindowIcon(d->m_styleThemes->styleIcon());
@@ -134,10 +176,16 @@ CMainWindow::CMainWindow(QWidget *parent)
     d->fillThemeMenu();
     d->setSomeIcons();
     d->loadThemeAwareToolbarActionIcons();
+
+    connect(ui->pushButtonWidget, SIGNAL(clicked(bool)), this, SLOT(onWidgetButtonClicked()));
+    qApp->installEventFilter(this);
+
+//    qDebug() << this->font().family();
 }
 
 CMainWindow::~CMainWindow()
 {
+    delete ui;
     delete d;
 }
 
@@ -172,3 +220,33 @@ void CMainWindow::onThemeColorButtonClicked()
     d->m_styleThemes->updateStylesheet();
 }
 
+void CMainWindow::onWidgetButtonClicked()
+{
+    if (!d->m_widgetForm)
+    {
+        d->m_widgetForm = new WidgetForm(this);
+    }
+    d->m_widgetForm->show();
+}
+
+bool CMainWindow::event(QEvent *event)
+{
+    return QMainWindow::event(event);
+}
+
+bool CMainWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    if (QString("QPushButton") == watched->metaObject()->className())
+    {
+        if (event->type() == QEvent::MouseButtonPress)
+        {
+            QPushButton *button = qobject_cast<QPushButton *>(watched);
+            if (button)
+            {
+                qDebug() << watched->objectName();
+                d->initPaletteColorTableWidget(button->palette());
+            }
+        }
+    }
+    return QMainWindow::eventFilter(watched, event);
+}

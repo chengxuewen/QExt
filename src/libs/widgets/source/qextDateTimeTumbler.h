@@ -46,7 +46,7 @@ class QEXT_WIDGETS_API QExtDateTimeTumbler : public QWidget
     Q_PROPERTY(int sec READ sec WRITE setSec)
 
 public:
-    explicit QExtDateTimeTumbler(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtDateTimeTumbler(QWidget *parent = QEXT_NULLPTR);
     ~QExtDateTimeTumbler();
 
     int year() const;

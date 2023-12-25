@@ -160,11 +160,11 @@ namespace QExtPrivate
             selfIter->first->m_deferred = QEXT_ATOMIC_INT_TRUE; // => sweep() will be called from ~QExtSignalExecution() after signal send.
         }
         // This is safer because we don't have to care about our iterators in send(), clear(), and erase().
-        return QEXT_DECL_NULLPTR;
+        return QEXT_NULLPTR;
     }
 
     QExtSignalBase::QExtSignalBase()
-            : m_data(QEXT_DECL_NULLPTR)
+            : m_data(QEXT_NULLPTR)
     {
 
     }
@@ -202,7 +202,7 @@ namespace QExtPrivate
                     m_data->clear();
                 }
                 m_data->unreference();
-                m_data = QEXT_DECL_NULLPTR;
+                m_data = QEXT_NULLPTR;
                 this->data();
             }
             *m_data = *(other.data());
@@ -212,11 +212,11 @@ namespace QExtPrivate
 
     bool QExtSignalBase::operator==(const QExtSignalBase &other) const
     {
-        if (QEXT_DECL_NULLPTR != m_data && QEXT_DECL_NULLPTR != other.m_data)
+        if (QEXT_NULLPTR != m_data && QEXT_NULLPTR != other.m_data)
         {
             return *m_data == *other.m_data;
         }
-        else if (QEXT_DECL_NULLPTR == m_data && QEXT_DECL_NULLPTR == other.m_data)
+        else if (QEXT_NULLPTR == m_data && QEXT_NULLPTR == other.m_data)
         {
             return true;
         }

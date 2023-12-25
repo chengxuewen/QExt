@@ -22,7 +22,7 @@ class QEXT_QUICK_API QEXTQmlQuickIconGadget : public QObject
     Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
 
 public:
-    explicit QEXTQmlQuickIconGadget(QObject *parent = QEXT_DECL_NULLPTR);
+    explicit QEXTQmlQuickIconGadget(QObject *parent = QEXT_NULLPTR);
     ~QEXTQmlQuickIconGadget();
 
     qreal width() const;

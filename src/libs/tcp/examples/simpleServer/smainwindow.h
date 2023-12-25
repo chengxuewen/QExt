@@ -16,7 +16,7 @@ class SMainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit SMainWindow(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit SMainWindow(QWidget *parent = QEXT_NULLPTR);
     ~SMainWindow();
 
 

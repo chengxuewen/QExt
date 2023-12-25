@@ -88,7 +88,7 @@ public:
     };
     Q_ENUMS(SliderPercent)
 
-    explicit QExtRangeSlider(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtRangeSlider(QWidget *parent = QEXT_NULLPTR);
     ~QExtRangeSlider();
 
     int minValue() const;

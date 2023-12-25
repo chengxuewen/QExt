@@ -1178,7 +1178,7 @@ void QEXTNavigationListModel::onItemCheckChanged(QExtNavigationListItem *item)
     {
         if (item == d->m_checkedItem.data())
         {
-            emit this->checkedItemChanged((QExtNavigationListItem *)QEXT_DECL_NULLPTR);
+            emit this->checkedItemChanged((QExtNavigationListItem *)QEXT_NULLPTR);
         }
     }
 }
@@ -1760,7 +1760,7 @@ void QEXTNavigationListView::setModel(QEXTNavigationListModel *model)
             disconnect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)), model, SLOT(expandCollapseItem(QModelIndex)));
             disconnect(d->m_model.data(), SIGNAL(checkedItemChanged(QExtNavigationListItem*)), this, SIGNAL(checkedItemChanged(QExtNavigationListItem*)));
             d->m_model->deleteLater();
-            d->m_model = QEXT_DECL_NULLPTR;
+            d->m_model = QEXT_NULLPTR;
             d->m_listView->setModel(d->m_model.data());
         }
         if (model)

@@ -70,7 +70,7 @@ class QEXT_WIDGETS_API QExtProgressRing : public QWidget
     Q_PROPERTY(QColor ringColor3 READ ringColor3 WRITE setRingColor3)
 
 public:
-    explicit QExtProgressRing(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtProgressRing(QWidget *parent = QEXT_NULLPTR);
     ~QExtProgressRing();
 
     double minValue() const;

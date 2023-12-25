@@ -62,7 +62,8 @@ class QEXT_WIDGETS_API QExtNavigationBar : public QWidget
     Q_PROPERTY(bool isFlat READ isFlat WRITE setFlat)
 
 public:
-    enum BarStyleType {
+    enum BarStyleType
+    {
         BarStyle_Rect = 0,
         BarStyle_Line_Top = 1,
         BarStyle_Line_Right = 2,
@@ -71,7 +72,7 @@ public:
     };
     Q_ENUMS(BarStyleType)
 
-    explicit QExtNavigationBar(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtNavigationBar(QWidget *parent = QEXT_NULLPTR);
     ~QExtNavigationBar();
 
     QColor backgroundStartColor() const;

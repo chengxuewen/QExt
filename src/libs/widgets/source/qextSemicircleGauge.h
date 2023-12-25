@@ -72,7 +72,7 @@ public:
     };
     Q_ENUMS(PointerStyleType)
 
-    explicit QExtSemicircleGauge(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtSemicircleGauge(QWidget *parent = QEXT_NULLPTR);
     ~QExtSemicircleGauge();
 
     double minValue() const;

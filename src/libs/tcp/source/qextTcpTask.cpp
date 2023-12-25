@@ -25,14 +25,14 @@ QExtTcpTaskPrivate::~QExtTcpTaskPrivate()
 
 
 QExtTcpTask::QExtTcpTask(const QSharedPointer<QExtTcpPacketTransceiver> &transceiver)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpTaskPrivate(this))
+    : QObject(QEXT_NULLPTR), dd_ptr(new QExtTcpTaskPrivate(this))
 {
     dd_ptr->m_packetTransceiver = transceiver;
 }
 
 QExtTcpTask::QExtTcpTask(const QSharedPointer<QExtTcpPacketTransceiver> &transceiver,
                          const QSharedPointer<QExtTcpPacketInterface> &packet)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpTaskPrivate(this))
+    : QObject(QEXT_NULLPTR), dd_ptr(new QExtTcpTaskPrivate(this))
 {
     dd_ptr->m_packetTransceiver = transceiver;
     dd_ptr->m_receivedPacket = packet;
@@ -40,7 +40,7 @@ QExtTcpTask::QExtTcpTask(const QSharedPointer<QExtTcpPacketTransceiver> &transce
 
 QExtTcpTask::QExtTcpTask(QExtTcpTaskPrivate *d,
                          const QSharedPointer<QExtTcpPacketTransceiver> &transceiver)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
+    : QObject(QEXT_NULLPTR), dd_ptr(d)
 {
     dd_ptr->m_packetTransceiver = transceiver;
 }
@@ -48,7 +48,7 @@ QExtTcpTask::QExtTcpTask(QExtTcpTaskPrivate *d,
 QExtTcpTask::QExtTcpTask(QExtTcpTaskPrivate *d,
                          const QSharedPointer<QExtTcpPacketTransceiver> &transceiver,
                          const QSharedPointer<QExtTcpPacketInterface> &packet)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
+    : QObject(QEXT_NULLPTR), dd_ptr(d)
 {
     dd_ptr->m_packetTransceiver = transceiver;
     dd_ptr->m_receivedPacket = packet;

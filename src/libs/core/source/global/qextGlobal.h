@@ -28,6 +28,8 @@
 #include <qextCompiler.h>
 #include <qextCoreConfig.h>
 
+#include <QObject>
+#include <QVariant>
 #include <QtGlobal>
 
 /********************************************************************************
@@ -68,45 +70,37 @@
     QExt compiler CXX11 feature macro declare
 ********************************************************************************/
 #if QEXT_CC_FEATURE_NULLPTR
-#   define QEXT_DECL_NULLPTR nullptr
+#   define QEXT_NULLPTR nullptr
 #else
-#   define QEXT_DECL_NULLPTR NULL
+#   define QEXT_NULLPTR NULL
 #endif
 
 #if QEXT_CC_FEATURE_CONSTEXPR
-#   define QEXT_DECL_CONSTEXPR constexpr
-#   define QEXT_DECL_RELAXED_CONSTEXPR constexpr
+#   define QEXT_CONSTEXPR constexpr
+#   define QEXT_RELAXED_CONSTEXPR constexpr
 #   define QEXT_STATIC_CONSTANT(type, assignment) static constexpr type assignment
 #else
-#   define QEXT_DECL_CONSTEXPR
-#   define QEXT_DECL_RELAXED_CONSTEXPR const
+#   define QEXT_CONSTEXPR
+#   define QEXT_RELAXED_CONSTEXPR const
 #   define QEXT_STATIC_CONSTANT(type, assignment) enum { assignment }
 #endif
 
 #if QEXT_CC_FEATURE_EXPLICIT_OVERRIDES
-#   define QEXT_DECL_OVERRIDE override
-#   define QEXT_DECL_FINAL final
+#   define QEXT_OVERRIDE override
+#   define QEXT_FINAL final
 #else
-#   define QEXT_DECL_OVERRIDE
-#   define QEXT_DECL_FINAL
-#endif
-
-#if QEXT_CC_FEATURE_EXPLICIT_OVERRIDES
-#   define QEXT_DECL_OVERRIDE override
-#   define QEXT_DECL_FINAL final
-#else
-#   define QEXT_DECL_OVERRIDE
-#   define QEXT_DECL_FINAL
+#   define QEXT_OVERRIDE
+#   define QEXT_FINAL
 #endif
 
 #if QEXT_CC_FEATURE_NOEXCEPT
-#   define QEXT_DECL_NOEXCEPT noexcept
-#   define QEXT_DECL_NOEXCEPT_EXPR(x) noexcept(x)
+#   define QEXT_NOEXCEPT noexcept
+#   define QEXT_NOEXCEPT_EXPR(x) noexcept(x)
 #else
-#   define QEXT_DECL_NOEXCEPT
-#   define QEXT_DECL_NOEXCEPT_EXPR(x)
+#   define QEXT_NOEXCEPT
+#   define QEXT_NOEXCEPT_EXPR(x)
 #endif
-#define QEXT_DECL_NOTHROW QEXT_DECL_NOEXCEPT
+#define QEXT_DECL_NOTHROW QEXT_NOEXCEPT
 
 #if QEXT_CC_FEATURE_DEFAULT_MEMBERS
 #   define QEXT_DECL_EQ_DEFAULT = default
@@ -192,6 +186,30 @@ inline Class* q_func() { return static_cast<Class *>(q_ptr); } \
 #define QEXT_DECL_UNSETENV(env)
 #endif
 
+
+template<typename T>
+inline T qextFindChild(const QObject *o, const QString &name = QString())
+{
+    return o->findChild<T>(name);
+}
+
+template<typename T>
+inline QList<T> qextFindChildren(const QObject *o, const QString &name = QString())
+{
+    return o->findChildren<T>(name);
+}
+
+template<typename T>
+inline T qextVariantValue(const QVariant &variant)
+{
+    return qvariant_cast<T>(variant);
+}
+
+template<typename T>
+inline bool qextVariantCanConvert(const QVariant &variant)
+{
+    return variant.template canConvert<T>();
+}
 
 
 /********************************************************************************

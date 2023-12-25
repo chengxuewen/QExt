@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 
-static QString *sg_memberString = QEXT_DECL_NULLPTR;
+static QString *sg_memberString = QEXT_NULLPTR;
 
 class MemberBase
 {

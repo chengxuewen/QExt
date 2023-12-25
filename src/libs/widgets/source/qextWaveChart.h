@@ -54,7 +54,7 @@ class QEXT_WIDGETS_API QExtWaveChart : public QWidget
     Q_PROPERTY(QColor pointColor READ pointColor WRITE setPointColor)
 
 public:
-    explicit QExtWaveChart(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtWaveChart(QWidget *parent = QEXT_NULLPTR);
     ~QExtWaveChart();
 
     double minValue() const;
@@ -78,8 +78,8 @@ public:
     QColor textColor() const;
     QColor pointColor() const;
 
-    QSize sizeHint() const QEXT_DECL_OVERRIDE;
-    QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
+    QSize sizeHint() const QEXT_OVERRIDE;
+    QSize minimumSizeHint() const QEXT_OVERRIDE;
 
 public Q_SLOTS:
     void addData(double data);
@@ -111,7 +111,7 @@ protected Q_SLOTS:
     void updateData();
 
 protected:
-    void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
 
     void drawBackground(QPainter *painter);
     void drawBox(QPainter *painter);

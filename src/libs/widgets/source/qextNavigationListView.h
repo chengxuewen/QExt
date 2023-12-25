@@ -39,16 +39,16 @@ class QEXT_WIDGETS_API QExtNavigationListItem : public QObject
     Q_OBJECT
 
 public:
-    explicit QExtNavigationListItem(QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QExtNavigationListItem(const QString &text, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QExtNavigationListItem(const QString &text, const QPixmap &icon, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QExtNavigationListItem(const QString &text, const QPixmap &icon, bool expand, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QExtNavigationListItem(const QString &text, const QString &tip, const QPixmap &icon, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QExtNavigationListItem(const QString &text, const QString &tip, const QPixmap &icon, bool expand, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QExtNavigationListItem(const QString &text, const QChar &fontChar, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QExtNavigationListItem(const QString &text, const QChar &fontChar, bool expand, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QExtNavigationListItem(const QString &text, const QString &tip, const QChar &fontChar, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
-    QExtNavigationListItem(const QString &text, const QString &tip, const QChar &fontChar, bool expand, QExtNavigationListItem *parent = QEXT_DECL_NULLPTR);
+    explicit QExtNavigationListItem(QExtNavigationListItem *parent = QEXT_NULLPTR);
+    QExtNavigationListItem(const QString &text, QExtNavigationListItem *parent = QEXT_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QPixmap &icon, QExtNavigationListItem *parent = QEXT_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QPixmap &icon, bool expand, QExtNavigationListItem *parent = QEXT_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QString &tip, const QPixmap &icon, QExtNavigationListItem *parent = QEXT_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QString &tip, const QPixmap &icon, bool expand, QExtNavigationListItem *parent = QEXT_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QChar &fontChar, QExtNavigationListItem *parent = QEXT_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QChar &fontChar, bool expand, QExtNavigationListItem *parent = QEXT_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QString &tip, const QChar &fontChar, QExtNavigationListItem *parent = QEXT_NULLPTR);
+    QExtNavigationListItem(const QString &text, const QString &tip, const QChar &fontChar, bool expand, QExtNavigationListItem *parent = QEXT_NULLPTR);
     ~QExtNavigationListItem();
 
     QPixmap normalIcon() const;
@@ -132,7 +132,7 @@ class QEXT_WIDGETS_API QEXTNavigationListModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    explicit QEXTNavigationListModel(QObject *parent = QEXT_DECL_NULLPTR);
+    explicit QEXTNavigationListModel(QObject *parent = QEXT_NULLPTR);
     ~QEXTNavigationListModel();
 
     QExtNavigationListItem *checkedItem() const;
@@ -162,9 +162,9 @@ protected slots:
     void onChildItemRemoved(QExtNavigationListItem *item, QExtNavigationListItem *parent);
 
 protected:
-    int rowCount(const QModelIndex &parent) const QEXT_DECL_OVERRIDE;
-    QVariant data(const QModelIndex &index, int role) const QEXT_DECL_OVERRIDE;
-    Qt::ItemFlags flags(const QModelIndex &index) const QEXT_DECL_OVERRIDE;
+    int rowCount(const QModelIndex &parent) const QEXT_OVERRIDE;
+    QVariant data(const QModelIndex &index, int role) const QEXT_OVERRIDE;
+    Qt::ItemFlags flags(const QModelIndex &index) const QEXT_OVERRIDE;
 
     QScopedPointer<QEXTNavigationListModelPrivate> dd_ptr;
 
@@ -236,7 +236,7 @@ public:
     };
     Q_ENUMS(ExpendMode)
 
-    explicit QEXTNavigationListView(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QEXTNavigationListView(QWidget *parent = QEXT_NULLPTR);
     ~QEXTNavigationListView();
 
     QListView *view() const;
@@ -296,8 +296,8 @@ public:
 
     ExpendMode expendMode() const;
 
-    QSize sizeHint() const QEXT_DECL_OVERRIDE;
-    QSize minimumSizeHint() const QEXT_DECL_OVERRIDE;
+    QSize sizeHint() const QEXT_OVERRIDE;
+    QSize minimumSizeHint() const QEXT_OVERRIDE;
 
 public Q_SLOTS:
     void setModel(QEXTNavigationListModel *model);
@@ -363,7 +363,7 @@ signals:
     void selectedItemChanged(QExtNavigationListItem *item);
 
 protected:
-    void paintEvent(QPaintEvent *event) QEXT_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) QEXT_OVERRIDE;
 
     QScopedPointer<QEXTNavigationListViewPrivate> dd_ptr;
 

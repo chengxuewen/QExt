@@ -62,7 +62,7 @@ class QEXT_WIDGETS_API QExtArrowCompass : public QWidget
     Q_PROPERTY(QColor centerEndColor READ centerEndColor WRITE setCenterEndColor)
 
 public:
-    explicit QExtArrowCompass(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtArrowCompass(QWidget *parent = QEXT_NULLPTR);
     ~QExtArrowCompass();
 
     double value() const;

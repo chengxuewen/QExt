@@ -18,11 +18,11 @@ public:
     static bool isHexString(const char *chs, size_t len);
     static bool isHexString(const QString &string);
 
-    static char hexCharToHexCode(char value, bool *ok = QEXT_DECL_NULLPTR);
-    static QByteArray hexStringToHexByteArray(const char *chs, size_t len, bool *ok = QEXT_DECL_NULLPTR);
-    static QByteArray hexStringToHexByteArray(const QString &string, bool *ok = QEXT_DECL_NULLPTR);
+    static char hexCharToHexCode(char value, bool *ok = QEXT_NULLPTR);
+    static QByteArray hexStringToHexByteArray(const char *chs, size_t len, bool *ok = QEXT_NULLPTR);
+    static QByteArray hexStringToHexByteArray(const QString &string, bool *ok = QEXT_NULLPTR);
 
-    static char hexCodeToHexChar(char value, bool *ok = QEXT_DECL_NULLPTR);
+    static char hexCodeToHexChar(char value, bool *ok = QEXT_NULLPTR);
     static QString hexByteArrayToHexString(const char *chs, size_t len);
     static QString hexByteArrayToHexString(const QByteArray &value);
     static QString hexUInt8ToHexString(uint8_t value);

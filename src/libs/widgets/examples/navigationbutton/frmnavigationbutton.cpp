@@ -10,6 +10,7 @@ FrmNavigationButton::FrmNavigationButton(QWidget *parent) : QWidget(parent), ui(
 {
     ui->setupUi(this);
     this->initForm();
+    ui->widgetNav4->setEnabled(false);
 }
 
 FrmNavigationButton::~FrmNavigationButton()
@@ -33,15 +34,14 @@ void FrmNavigationButton::initForm()
     for (int i = 0; i < btns1.count(); i++)
     {
         QExtNavigationButton *btn = btns1.at(i);
-        btn->setLeftPadding(32);
-        btn->setLineSpace(6);
-
+        btn->setPadding(32);
         btn->setIconVisible(true);
         btn->setIconSpace(15);
         btn->setIconSize(QSize(10, 10));
         btn->setNormalIcon(iconNormal);
         btn->setHoverIcon(iconHover);
         btn->setCheckIcon(iconCheck);
+        btn->setNavigationPosition(QExtNavigationButton::Position_Right);
 
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick1()));
     }
@@ -63,15 +63,12 @@ void FrmNavigationButton::initForm()
     for (int i = 0; i < btns2.count(); i++)
     {
         QExtNavigationButton *btn = btns2.at(i);
-        btn->setLeftPadding(35);
-        btn->setLineSpace(0);
-        btn->setLineWidth(8);
-        btn->setLineColor(QColor(255, 107, 107));
-        btn->setTriangleVisible(true);
-
+        btn->setFlat(true);
+        btn->setPadding(16);
         btn->setIconVisible(true);
         btn->setIconSpace(10);
         btn->setIconSize(QSize(22, 22));
+        btn->setNavigationPosition(QExtNavigationButton::Position_Right);
 
         //分开设置图标
         QChar icon = pixChar.at(i);
@@ -82,13 +79,6 @@ void FrmNavigationButton::initForm()
         btn->setNormalIcon(iconNormal);
         btn->setHoverIcon(iconHover);
         btn->setCheckIcon(iconCheck);
-
-        btn->setNormalBackgroundColor(normalBgColor);
-        btn->setHoverBackgroundColor(hoverBgColor);
-        btn->setCheckBackgroundColor(checkBgColor);
-        btn->setNormalTextColor(normalTextColor);
-        btn->setHoverTextColor(hoverTextColor);
-        btn->setCheckTextColor(checkTextColor);
 
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick2()));
     }
@@ -104,17 +94,11 @@ void FrmNavigationButton::initForm()
     for (int i = 0; i < btns3.count(); i++)
     {
         QExtNavigationButton *btn = btns3.at(i);
-        btn->setLeftPadding(35);
-        btn->setLineWidth(10);
-        btn->setLineColor(QColor("#029FEA"));
-        btn->setTriangleVisible(true);
-        btn->setTextAlign(QExtNavigationButton::TextAlign_Left);
-        btn->setTrianglePosition(QExtNavigationButton::Position_Left);
-        btn->setLinePosition(QExtNavigationButton::Position_Right);
-
+        btn->setPadding(35);
         btn->setIconVisible(true);
         btn->setIconSpace(10);
         btn->setIconSize(QSize(22, 22));
+        btn->setNavigationPosition(QExtNavigationButton::Position_Left);
 
         //分开设置图标
         QChar icon = pixChar.at(i);
@@ -125,13 +109,6 @@ void FrmNavigationButton::initForm()
         btn->setNormalIcon(iconNormal);
         btn->setHoverIcon(iconHover);
         btn->setCheckIcon(iconCheck);
-
-        btn->setNormalBackgroundColor(normalBgColor);
-        btn->setHoverBackgroundColor(hoverBgColor);
-        btn->setCheckBackgroundColor(checkBgColor);
-        btn->setNormalTextColor(normalTextColor);
-        btn->setHoverTextColor(hoverTextColor);
-        btn->setCheckTextColor(checkTextColor);
 
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick3()));
     }
@@ -149,13 +126,8 @@ void FrmNavigationButton::initForm()
     for (int i = 0; i < btns4.count(); i++)
     {
         QExtNavigationButton *btn = btns4.at(i);
-        btn->setLineSpace(10);
-        btn->setLineWidth(10);
-        btn->setRightPadding(25);
-        btn->setTriangleVisible(true);
-        btn->setTextAlign(QExtNavigationButton::TextAlign_Right);
-        btn->setTrianglePosition(QExtNavigationButton::Position_Left);
-        btn->setLinePosition(QExtNavigationButton::Position_Right);
+        btn->setPadding(25);
+        btn->setNavigationPosition(QExtNavigationButton::Position_Left);
 
         btn->setIconVisible(true);
         btn->setIconSpace(25);
@@ -187,10 +159,7 @@ void FrmNavigationButton::initForm()
     {
         QExtNavigationButton *btn = btns5.at(i);
         btn->setFont(font);
-        btn->setLeftPadding(20);
-        btn->setLineVisible(false);
-        btn->setTextAlign(QExtNavigationButton::TextAlign_Center);
-        btn->setLinePosition(QExtNavigationButton::Position_Bottom);
+        btn->setPadding(20);
 
         btn->setIconVisible(true);
         btn->setIconSpace(15);
@@ -205,13 +174,6 @@ void FrmNavigationButton::initForm()
         btn->setNormalIcon(iconNormal);
         btn->setHoverIcon(iconHover);
         btn->setCheckIcon(iconCheck);
-
-        btn->setNormalBackgroundColor(normalBgColor);
-        btn->setHoverBackgroundColor(hoverBgColor);
-        btn->setCheckBackgroundColor(checkBgColor);
-        btn->setNormalTextColor(normalTextColor);
-        btn->setHoverTextColor(hoverTextColor);
-        btn->setCheckTextColor(checkTextColor);
 
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick5()));
     }
@@ -228,10 +190,7 @@ void FrmNavigationButton::initForm()
     {
         QExtNavigationButton *btn = btns6.at(i);
         btn->setFont(font);
-        btn->setLeftPadding(20);
-        btn->setLineVisible(false);
-        btn->setTextAlign(QExtNavigationButton::TextAlign_Center);
-        btn->setLinePosition(QExtNavigationButton::Position_Bottom);
+        btn->setPadding(20);
 
         btn->setIconVisible(true);
         btn->setIconSpace(15);
@@ -246,13 +205,6 @@ void FrmNavigationButton::initForm()
         btn->setNormalIcon(iconNormal);
         btn->setHoverIcon(iconHover);
         btn->setCheckIcon(iconCheck);
-
-        btn->setNormalBackgroundColor(normalBgColor);
-        btn->setHoverBackgroundColor(hoverBgColor);
-        btn->setCheckBackgroundColor(checkBgColor);
-        btn->setNormalTextColor(normalTextColor);
-        btn->setHoverTextColor(hoverTextColor);
-        btn->setCheckTextColor(checkTextColor);
 
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick6()));
     }
@@ -273,20 +225,8 @@ void FrmNavigationButton::initForm()
     {
         QExtNavigationButton *btn = btns7.at(i);
         btn->setFont(font);
-        btn->setLeftPadding(0);
-        btn->setLineSpace(0);
-        btn->setTriangleVisible(true);
-        btn->setTextAlign(QExtNavigationButton::TextAlign_Center);
-        btn->setTrianglePosition(QExtNavigationButton::Position_Bottom);
-        btn->setLinePosition(QExtNavigationButton::Position_Top);
-
-        btn->setNormalTextColor(normalTextColor);
-        btn->setHoverTextColor(hoverTextColor);
-        btn->setCheckTextColor(checkTextColor);
-
-        btn->setNormalBackgroundBrush(normalBgBrush);
-        btn->setHoverBackgroundBrush(hoverBgBrush);
-        btn->setCheckBackgroundBrush(hoverBgBrush);
+        btn->setPadding(0);
+        btn->setNavigationPosition(QExtNavigationButton::Position_Bottom);
 
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick7()));
     }

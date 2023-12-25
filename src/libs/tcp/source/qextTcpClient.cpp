@@ -205,7 +205,7 @@ void QExtTcpClient::initClient()
     QMutexLocker mutexLocker(&d->m_socketMutex);
     if (!d->m_socket.isNull())
     {
-        d->m_socket->setParent(QEXT_DECL_NULLPTR);
+        d->m_socket->setParent(QEXT_NULLPTR);
         d->m_socket->attatchWorkThread(d->m_socketThread);
         if (!d->m_tcpFactory.isNull())
         {

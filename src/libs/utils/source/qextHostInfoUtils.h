@@ -31,7 +31,7 @@ public:
     };
     Q_ENUMS(HostOSType)
 
-    explicit QExtHostInfoUtils(QObject *parent = QEXT_DECL_NULLPTR);
+    explicit QExtHostInfoUtils(QObject *parent = QEXT_NULLPTR);
     ~QExtHostInfoUtils();
 
     static QString cpuID();

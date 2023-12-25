@@ -45,7 +45,7 @@ class QEXT_WIDGETS_API QExtTumbler : public QWidget
     Q_PROPERTY(QColor m_textColor READ textColor WRITE setTextColor)
 
 public:
-    explicit QExtTumbler(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtTumbler(QWidget *parent = QEXT_NULLPTR);
     ~QExtTumbler();
 
     QStringList valueList() const;

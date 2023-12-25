@@ -62,7 +62,7 @@ public:
     };
     Q_ENUMS(PointerStyleType)
 
-    explicit QExtDial(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtDial(QWidget *parent = QEXT_NULLPTR);
     ~QExtDial();
 
     double minValue() const;

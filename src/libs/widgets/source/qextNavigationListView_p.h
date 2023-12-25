@@ -66,7 +66,7 @@ class QEXTNavListView : public QListView
 {
     Q_OBJECT
 public:
-    explicit QEXTNavListView(QWidget *parent = QEXT_DECL_NULLPTR) : QListView(parent) { }
+    explicit QEXTNavListView(QWidget *parent = QEXT_NULLPTR) : QListView(parent) { }
     ~QEXTNavListView() {}
 };
 
@@ -79,8 +79,8 @@ public:
     ~QEXTNavListDelegate();
 
 protected:
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_DECL_OVERRIDE;
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_DECL_OVERRIDE;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
 
 private:
     QEXTNavigationListViewPrivate *m_navData;

@@ -63,7 +63,7 @@ public:
     };
     Q_ENUMS(PointerStyle)
 
-    explicit QExtScaleKnob(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtScaleKnob(QWidget *parent = QEXT_NULLPTR);
     ~QExtScaleKnob();
 
     double minValue() const;

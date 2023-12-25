@@ -122,7 +122,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtMemberFunctor7() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtMemberFunctor7() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtMemberFunctor7 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -206,7 +206,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtMemberFunctor6() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtMemberFunctor6() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtMemberFunctor6 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -285,7 +285,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtMemberFunctor5() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtMemberFunctor5() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtMemberFunctor5 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -359,7 +359,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtMemberFunctor4() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtMemberFunctor4() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtMemberFunctor4 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -428,7 +428,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtMemberFunctor3() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtMemberFunctor3() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtMemberFunctor3 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -488,7 +488,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtMemberFunctor2() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtMemberFunctor2() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtMemberFunctor2 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -543,7 +543,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtMemberFunctor1() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtMemberFunctor1() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtMemberFunctor1 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -593,7 +593,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtMemberFunctor0() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtMemberFunctor0() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtMemberFunctor0 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -657,7 +657,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstMemberFunctor7() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstMemberFunctor7() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstMemberFunctor7 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -741,7 +741,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstMemberFunctor6() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstMemberFunctor6() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstMemberFunctor6 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -820,7 +820,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstMemberFunctor5() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstMemberFunctor5() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstMemberFunctor5 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -894,7 +894,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstMemberFunctor4() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstMemberFunctor4() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstMemberFunctor4 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -963,7 +963,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstMemberFunctor3() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstMemberFunctor3() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstMemberFunctor3 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -1027,7 +1027,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstMemberFunctor2() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstMemberFunctor2() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstMemberFunctor2 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -1082,7 +1082,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstMemberFunctor1() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstMemberFunctor1() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstMemberFunctor1 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -1132,7 +1132,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstMemberFunctor0() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstMemberFunctor0() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstMemberFunctor0 object that wraps the passed method.
      * \param func Pointer to method will be invoked from operator()().
@@ -1196,7 +1196,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtVolatileMemberFunctor7() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtVolatileMemberFunctor7() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtVolatileMemberFunctor7 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -1280,7 +1280,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtVolatileMemberFunctor6() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtVolatileMemberFunctor6() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtVolatileMemberFunctor6 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -1359,7 +1359,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtVolatileMemberFunctor5() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtVolatileMemberFunctor5() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtVolatileMemberFunctor5 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -1433,7 +1433,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtVolatileMemberFunctor4() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtVolatileMemberFunctor4() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtVolatileMemberFunctor4 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -1502,7 +1502,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtVolatileMemberFunctor3() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtVolatileMemberFunctor3() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtVolatileMemberFunctor3 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -1562,7 +1562,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtVolatileMemberFunctor2() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtVolatileMemberFunctor2() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtVolatileMemberFunctor2 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -1617,7 +1617,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtVolatileMemberFunctor1() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtVolatileMemberFunctor1() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtVolatileMemberFunctor1 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -1667,7 +1667,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtVolatileMemberFunctor0() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtVolatileMemberFunctor0() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtVolatileMemberFunctor0 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -1731,7 +1731,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstVolatileMemberFunctor7() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstVolatileMemberFunctor7() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstVolatileMemberFunctor7 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -1815,7 +1815,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstVolatileMemberFunctor6() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstVolatileMemberFunctor6() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstVolatileMemberFunctor6 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -1894,7 +1894,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstVolatileMemberFunctor5() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstVolatileMemberFunctor5() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstVolatileMemberFunctor5 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -1968,7 +1968,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstVolatileMemberFunctor4() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstVolatileMemberFunctor4() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstVolatileMemberFunctor4 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -2037,7 +2037,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstVolatileMemberFunctor3() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstVolatileMemberFunctor3() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstVolatileMemberFunctor3 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -2101,7 +2101,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstVolatileMemberFunctor2() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstVolatileMemberFunctor2() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstVolatileMemberFunctor2 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -2156,7 +2156,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstVolatileMemberFunctor1() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstVolatileMemberFunctor1() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstVolatileMemberFunctor1 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().
@@ -2206,7 +2206,7 @@ namespace QExtPrivate
         typedef T_return Return;
 
         // Constructs an invalid functor.
-        QExtConstVolatileMemberFunctor0() : m_funcPtr(QEXT_DECL_NULLPTR) {}
+        QExtConstVolatileMemberFunctor0() : m_funcPtr(QEXT_NULLPTR) {}
 
         /** Constructs a QExtConstVolatileMemberFunctor0 object that wraps the passed method.
          * \param func Pointer to method will be invoked from operator()().

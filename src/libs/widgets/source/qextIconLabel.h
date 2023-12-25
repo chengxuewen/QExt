@@ -35,11 +35,11 @@ class QEXT_WIDGETS_API QExtIconLabel : public QWidget
     Q_OBJECT
 
 public:
-    explicit QExtIconLabel(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtIconLabel(QWidget *parent = QEXT_NULLPTR);
     ~QExtIconLabel();
 
 protected:
-    void paintEvent(QPaintEvent *) QEXT_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
 
     QScopedPointer<QExtIconLabelPrivate> dd_ptr;
 

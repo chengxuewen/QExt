@@ -39,7 +39,7 @@ void QExtTrackableTest::testSimple()
     myClass->i = 11;
     slot = qextMemberFunctor(myClass, &MYClass::foo);
     delete myClass;
-    myClass = QEXT_DECL_NULLPTR;
+    myClass = QEXT_NULLPTR;
 
     QExtFunction<void> sl;
     {
@@ -57,7 +57,7 @@ void QExtTrackableTest::testSimple()
 
     MYClass *myCLass = new MYClass;
     delete myCLass;
-    myCLass = QEXT_DECL_NULLPTR;
+    myCLass = QEXT_NULLPTR;
 }
 
 QTEST_APPLESS_MAIN(QExtTrackableTest)

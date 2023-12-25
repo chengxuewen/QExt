@@ -16,7 +16,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit MainWindow(QWidget *parent = QEXT_NULLPTR);
     ~MainWindow();
 
 protected slots:

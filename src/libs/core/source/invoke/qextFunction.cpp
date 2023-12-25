@@ -32,12 +32,12 @@ namespace QExtPrivate
     }
 
     QExtFunctionBase::QExtFunctionBase()
-        : m_blocked(QEXT_ATOMIC_INT_FALSE), m_parent(QEXT_DECL_NULLPTR), m_cleanupFunc(QEXT_DECL_NULLPTR), m_callFunc(QEXT_DECL_NULLPTR)
+        : m_blocked(QEXT_ATOMIC_INT_FALSE), m_parent(QEXT_NULLPTR), m_cleanupFunc(QEXT_NULLPTR), m_callFunc(QEXT_NULLPTR)
     {
     }
 
     QExtFunctionBase::QExtFunctionBase(const QSharedPointer< QExtFunctionData > &data)
-        : m_blocked(QEXT_ATOMIC_INT_FALSE), m_parent(QEXT_DECL_NULLPTR), m_cleanupFunc(QEXT_DECL_NULLPTR), m_callFunc(QEXT_DECL_NULLPTR), m_data(data)
+        : m_blocked(QEXT_ATOMIC_INT_FALSE), m_parent(QEXT_NULLPTR), m_cleanupFunc(QEXT_NULLPTR), m_callFunc(QEXT_NULLPTR), m_data(data)
     {
     }
 
@@ -120,7 +120,7 @@ namespace QExtPrivate
 
     bool QExtFunctionBase::isValid() const
     {
-        return QEXT_DECL_NULLPTR != m_callFunc && !m_data.isNull() && !this->isNull();
+        return QEXT_NULLPTR != m_callFunc && !m_data.isNull() && !this->isNull();
     }
 
     void QExtFunctionBase::setParent(void *parent, HookFunction cleanup)
@@ -141,7 +141,7 @@ namespace QExtPrivate
             // Invalidate the slot.
             // Must be done here because m_parent might defer the actual
             (m_cleanupFunc)(m_parent);  // Notify the parent (might lead to destruction of this!).
-            m_parent = QEXT_DECL_NULLPTR; // Just a precaution.
+            m_parent = QEXT_NULLPTR; // Just a precaution.
         }
     }
 

@@ -57,7 +57,7 @@ class QEXT_WIDGETS_API QExtSelectSlider : public QWidget
     Q_PROPERTY(QColor buttonPressColor READ buttonPressColor WRITE setButtonPressColor)
 
 public:
-    explicit QExtSelectSlider(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtSelectSlider(QWidget *parent = QEXT_NULLPTR);
     ~QExtSelectSlider();
 
     int minValue() const;

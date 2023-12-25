@@ -46,7 +46,7 @@ class QEXT_WIDGETS_API QExtRingCompass : public QWidget
     Q_PROPERTY(QColor pointerColor READ pointerColor WRITE setPointerColor)
 
 public:
-    explicit QExtRingCompass(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtRingCompass(QWidget *parent = QEXT_NULLPTR);
     ~QExtRingCompass();
 
     double value() const;

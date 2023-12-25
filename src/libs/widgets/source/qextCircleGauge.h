@@ -87,7 +87,7 @@ public:
     };
     Q_ENUMS(PointerStyleType)
 
-    explicit QExtCircleGauge(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtCircleGauge(QWidget *parent = QEXT_NULLPTR);
     ~QExtCircleGauge();
 
 public:

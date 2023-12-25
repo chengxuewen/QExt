@@ -22,7 +22,7 @@ QExtTcpPacketDispatcherPrivate::~QExtTcpPacketDispatcherPrivate()
 
 
 QExtTcpPacketDispatcher::QExtTcpPacketDispatcher(QExtTcpSocket *socket)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpPacketDispatcherPrivate(this))
+    : QObject(QEXT_NULLPTR), dd_ptr(new QExtTcpPacketDispatcherPrivate(this))
 {
     Q_D(QExtTcpPacketDispatcher);
     connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
@@ -33,7 +33,7 @@ QExtTcpPacketDispatcher::QExtTcpPacketDispatcher(QExtTcpSocket *socket)
 
 QExtTcpPacketDispatcher::QExtTcpPacketDispatcher(QExtTcpSocket *socket,
                                                  const QSharedPointer<QExtTcpFactory> &tcpFactory)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(new QExtTcpPacketDispatcherPrivate(this))
+    : QObject(QEXT_NULLPTR), dd_ptr(new QExtTcpPacketDispatcherPrivate(this))
 {
     Q_D(QExtTcpPacketDispatcher);
     connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
@@ -44,7 +44,7 @@ QExtTcpPacketDispatcher::QExtTcpPacketDispatcher(QExtTcpSocket *socket,
 
 QExtTcpPacketDispatcher::QExtTcpPacketDispatcher(QExtTcpPacketDispatcherPrivate *d,
                                                  QExtTcpSocket *socket)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
+    : QObject(QEXT_NULLPTR), dd_ptr(d)
 {
     connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
     dd_ptr->m_socket = socket;
@@ -55,7 +55,7 @@ QExtTcpPacketDispatcher::QExtTcpPacketDispatcher(QExtTcpPacketDispatcherPrivate 
 QExtTcpPacketDispatcher::QExtTcpPacketDispatcher(QExtTcpPacketDispatcherPrivate *d,
                                                  QExtTcpSocket *socket,
                                                  const QSharedPointer<QExtTcpFactory> &tcpFactory)
-    : QObject(QEXT_DECL_NULLPTR), dd_ptr(d)
+    : QObject(QEXT_NULLPTR), dd_ptr(d)
 {
     connect(this, SIGNAL(send()), socket, SLOT(sendPacket()));
     dd_ptr->m_socket = socket;
@@ -177,12 +177,12 @@ bool QExtTcpPacketDispatcher::dispatchToTransceiver(const QSharedPointer<QExtTcp
     quint64 id = d->m_socket->packetParser()->packetId(packet);
     QMutexLocker transceiverMutexLocker(&d->m_transceiverMutex);
     /*remove null transceiver*/
-    QList<quint64> invalIdList = d->m_requestPacketIdToReceiverMap.keys(QEXT_DECL_NULLPTR);
+    QList<quint64> invalIdList = d->m_requestPacketIdToReceiverMap.keys(QEXT_NULLPTR);
     for (QList<quint64>::Iterator iter = invalIdList.begin(); iter != invalIdList.end(); ++iter) {
         d->m_requestPacketIdToReceiverMap.remove((*iter));
     }
     /*find target transceiver*/
-    QPointer<QExtTcpPacketTransceiver> transceiver = d->m_requestPacketIdToReceiverMap.value(id, QEXT_DECL_NULLPTR);
+    QPointer<QExtTcpPacketTransceiver> transceiver = d->m_requestPacketIdToReceiverMap.value(id, QEXT_NULLPTR);
     if (!transceiver.isNull())
     {
         transceiver->enqueuePacket(packet);

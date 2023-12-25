@@ -204,7 +204,7 @@ Q_SIGNALS:
     void borderLevel4ColorChanged();
 
 protected:
-    explicit QEXTQmlQuickPalette(QObject *parent = QEXT_DECL_NULLPTR);
+    explicit QEXTQmlQuickPalette(QObject *parent = QEXT_NULLPTR);
 
     QScopedPointer<QEXTQmlQuickPalettePrivate> dd_ptr;
 };

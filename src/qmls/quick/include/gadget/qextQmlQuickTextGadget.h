@@ -50,7 +50,7 @@ class QEXT_QUICK_API QEXTQmlQuickTextGadget : public QObject
     Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
 
 public:
-    explicit QEXTQmlQuickTextGadget(QObject *parent = QEXT_DECL_NULLPTR);
+    explicit QEXTQmlQuickTextGadget(QObject *parent = QEXT_NULLPTR);
     ~QEXTQmlQuickTextGadget();
 
     QString text() const;

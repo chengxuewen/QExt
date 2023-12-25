@@ -39,11 +39,11 @@ class QEXT_WIDGETS_API QExtIconButton : public QPushButton
     Q_PROPERTY(QColor iconColor READ iconColor WRITE setIconColor)
 
 public:
-    QExtIconButton(const QIcon &icon, QWidget *parent = QEXT_DECL_NULLPTR);
-    explicit QExtIconButton(QWidget *parent = QEXT_DECL_NULLPTR);
+    QExtIconButton(const QIcon &icon, QWidget *parent = QEXT_NULLPTR);
+    explicit QExtIconButton(QWidget *parent = QEXT_NULLPTR);
     ~QExtIconButton();
 
-    QSize sizeHint() const QEXT_DECL_OVERRIDE;
+    QSize sizeHint() const QEXT_OVERRIDE;
 
     void setBackgroundColor(const QColor &color);
     QColor backgroundColor() const;
@@ -55,12 +55,12 @@ public:
     QColor disabledColor() const;
 
 protected:
-    QExtIconButton(QExtIconButtonPrivate &d, QWidget *parent = QEXT_DECL_NULLPTR);
+    QExtIconButton(QExtIconButtonPrivate &d, QWidget *parent = QEXT_NULLPTR);
 
-    bool event(QEvent *event) QEXT_DECL_OVERRIDE;
-    bool eventFilter(QObject *obj, QEvent *event) QEXT_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *event) QEXT_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *event) QEXT_DECL_OVERRIDE;
+    bool event(QEvent *event) QEXT_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *event) QEXT_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) QEXT_OVERRIDE;
+    void paintEvent(QPaintEvent *event) QEXT_OVERRIDE;
 
     const QScopedPointer<QExtIconButtonPrivate> dd_ptr;
 

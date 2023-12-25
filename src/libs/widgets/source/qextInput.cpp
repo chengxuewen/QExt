@@ -293,7 +293,7 @@ void QExtInputPrivate::buttonClicked()
             this->clearChinese();
         }
 
-        if (QEXT_DECL_NULLPTR != m_pCurrentWidget && !m_bOnlyControl) {
+        if (QEXT_NULLPTR != m_pCurrentWidget && !m_bOnlyControl) {
             this->hidePanel();
             QKeyEvent keyPress(QEvent::KeyPress, Qt::Key_Enter, Qt::NoModifier, QString("\n"));
             QApplication::sendEvent(m_pCurrentWidget, &keyPress);
@@ -616,7 +616,7 @@ void QExtInputPrivate::clearValue()
 
 void QExtInputPrivate::deleteValue()
 {
-    if (QEXT_DECL_NULLPTR == m_pCurrentWidget) {
+    if (QEXT_NULLPTR == m_pCurrentWidget) {
         return;
     }
 
@@ -659,10 +659,10 @@ void QExtInputPrivate::hidePanel()
     q_ptr->setVisible(false);
 }
 
-QExtInput *QExtInput::sm_pInstance = QEXT_DECL_NULLPTR;
+QExtInput *QExtInput::sm_pInstance = QEXT_NULLPTR;
 QExtInput *QExtInput::Instance()
 {
-    if (QEXT_DECL_NULLPTR == sm_pInstance) {
+    if (QEXT_NULLPTR == sm_pInstance) {
         static QMutex mutex;
         QMutexLocker locker(&mutex);
         sm_pInstance = new QExtInput;

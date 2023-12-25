@@ -59,7 +59,7 @@ static QExtIdCache idFromString;
 
 static int theId(const char *str, int n = 0)
 {
-    if (QEXT_DECL_NULLPTR == str || !*str) {
+    if (QEXT_NULLPTR == str || !*str) {
         qCritical() << "theId():parameter str error!";
         return 0;
     }

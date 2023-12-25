@@ -37,7 +37,7 @@ private Q_SLOTS:
 };
 
 static int sg_result = 0;
-static std::string *sg_string = QEXT_DECL_NULLPTR;
+static std::string *sg_string = QEXT_NULLPTR;
 
 void fooObj(QObject &)
 {

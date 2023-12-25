@@ -63,7 +63,7 @@ class QEXT_QUICK_API QEXTQmlQuickWorld : public QQuickItem
     Q_PROPERTY(int mouseAreaCursorShape READ mouseAreaCursorShape WRITE setMouseAreaCursorShape)
 
 public:
-    explicit QEXTQmlQuickWorld(QQuickItem* parent = QEXT_DECL_NULLPTR);
+    explicit QEXTQmlQuickWorld(QQuickItem* parent = QEXT_NULLPTR);
     ~QEXTQmlQuickWorld();
 
     int mouseAreaCursorShape() const;

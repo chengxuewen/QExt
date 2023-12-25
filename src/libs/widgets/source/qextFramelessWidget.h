@@ -34,7 +34,7 @@ class QEXT_WIDGETS_API QExtFramelessWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QExtFramelessWidget(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtFramelessWidget(QWidget *parent = QEXT_NULLPTR);
     ~QExtFramelessWidget();
 
 public:
@@ -49,16 +49,16 @@ signals:
     void windowStateChanged(bool max);
 
 protected:
-    void showEvent(QShowEvent *event) QEXT_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *event) QEXT_DECL_OVERRIDE;
+    void showEvent(QShowEvent *event) QEXT_OVERRIDE;
+    void paintEvent(QPaintEvent *event) QEXT_OVERRIDE;
 
-    bool eventFilter(QObject *watched, QEvent *event) QEXT_DECL_OVERRIDE;
+    bool eventFilter(QObject *watched, QEvent *event) QEXT_OVERRIDE;
 
     //Intercepting system events is used to fix a BUG that wakes up the system after sleep
 #if (QT_VERSION >= QT_VERSION_CHECK(6,0,0))
-    bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) QEXT_DECL_OVERRIDE;
+    bool nativeEvent(const QByteArray &eventType, void *message, qintptr *result) QEXT_OVERRIDE;
 #else
-    bool nativeEvent(const QByteArray &eventType, void *message, long *result) QEXT_DECL_OVERRIDE;
+    bool nativeEvent(const QByteArray &eventType, void *message, long *result) QEXT_OVERRIDE;
 #endif
 
     //Qt4 spelled

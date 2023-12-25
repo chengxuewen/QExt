@@ -447,7 +447,7 @@ namespace QExtPrivate
         typedef std::reverse_iterator< Iterator >       ReverseIterator;
         typedef std::reverse_iterator< ConstIterator >  ConstReverseIterator;
 
-        QExtFunctionList() : m_list(QEXT_DECL_NULLPTR) {}
+        QExtFunctionList() : m_list(QEXT_NULLPTR) {}
 
         explicit QExtFunctionList(QExtPrivate::QExtSignalData *list) : m_list(list) {}
 
@@ -579,7 +579,7 @@ namespace QExtPrivate
 
         typedef QExtSignalData::ConstIterator             Iterator;
 
-        QExtFunctionIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
+        QExtFunctionIteratorBuffer() : m_sender(QEXT_NULLPTR), m_invoked(false) {}
 
         QExtFunctionIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
@@ -657,7 +657,7 @@ namespace QExtPrivate
 
         typedef QExtSignalData::ConstIterator         Iterator;
 
-        QExtFunctionIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
+        QExtFunctionIteratorBuffer() : m_sender(QEXT_NULLPTR), m_invoked(false) {}
 
         QExtFunctionIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
@@ -734,7 +734,7 @@ namespace QExtPrivate
 
         typedef QExtSignalData::ConstIterator         Iterator;
 
-        QExtFunctionReverseIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
+        QExtFunctionReverseIteratorBuffer() : m_sender(QEXT_NULLPTR), m_invoked(false) {}
 
         QExtFunctionReverseIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
@@ -813,7 +813,7 @@ namespace QExtPrivate
 
         typedef QExtSignalData::ConstIterator         Iterator;
 
-        QExtFunctionReverseIteratorBuffer() : m_sender(QEXT_DECL_NULLPTR), m_invoked(false) {}
+        QExtFunctionReverseIteratorBuffer() : m_sender(QEXT_NULLPTR), m_invoked(false) {}
 
         QExtFunctionReverseIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
 

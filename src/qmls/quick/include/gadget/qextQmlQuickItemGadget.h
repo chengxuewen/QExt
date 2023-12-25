@@ -45,7 +45,7 @@ class QEXT_QUICK_API QEXTQmlQuickItemGadget : public QObject
     Q_PROPERTY(qreal height READ height WRITE setHeight NOTIFY heightChanged)
 
 public:
-    explicit QEXTQmlQuickItemGadget(QObject *parent = QEXT_DECL_NULLPTR);
+    explicit QEXTQmlQuickItemGadget(QObject *parent = QEXT_NULLPTR);
     ~QEXTQmlQuickItemGadget();
 
     qreal width() const;

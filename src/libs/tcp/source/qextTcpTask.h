@@ -38,7 +38,7 @@ public:
     QString errorString() const;
 
     virtual QExtId typeId() const;
-    void run() QEXT_DECL_OVERRIDE;
+    void run() QEXT_OVERRIDE;
 
 Q_SIGNALS:
     void aboutToBeDelete(quint64 id);
@@ -58,8 +58,8 @@ public:
     QExtTcpPostBackTask(QExtTcpTaskPrivate *d, const QSharedPointer<QExtTcpPacketTransceiver> &transceiver, const QSharedPointer<QExtTcpPacketInterface> &packet);
     ~QExtTcpPostBackTask();
 
-    QExtId typeId() const QEXT_DECL_OVERRIDE;
-    void run() QEXT_DECL_OVERRIDE;
+    QExtId typeId() const QEXT_OVERRIDE;
+    void run() QEXT_OVERRIDE;
 };
 
 #endif // _QEXTTCPTASK_H

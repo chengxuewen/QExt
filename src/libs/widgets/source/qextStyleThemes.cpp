@@ -48,7 +48,7 @@ public:
     /**
      * Removes itself from the set of instances
      */
-    virtual ~QExtStyleThemesSvgIconEngine()
+    ~QExtStyleThemesSvgIconEngine() QEXT_OVERRIDE
     {
         if (!sg_iconEngineInstances.isDestroyed())
         {
@@ -87,12 +87,12 @@ public:
         renderer.render(painter, rect);
     }
 
-    virtual QIconEngine *clone() const QEXT_DECL_OVERRIDE
+    virtual QIconEngine *clone() const QEXT_OVERRIDE
     {
         return new QExtStyleThemesSvgIconEngine(*this);
     }
 
-    virtual QPixmap pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state) QEXT_DECL_OVERRIDE
+    virtual QPixmap pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state) QEXT_OVERRIDE
     {
         // This function is necessary to create an EMPTY pixmap. It's called always before paint()
         QImage image(size, QImage::Format_ARGB32);
@@ -557,7 +557,7 @@ void QExtStyleThemes::setCurrentStyle(StyleEnum style)
 void QExtStyleThemes::setStylesDirPath(const QString &path)
 {
     Q_D(QExtStyleThemes);
-    d->m_stylesDir = path.isEmpty() ? ":/QExtWidgets" : path;
+    d->m_stylesDir = path.isEmpty() ? ":/QExtWidgets/stylethemes" : path;
     QDir Dir(d->m_stylesDir);
     d->m_styles = Dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 }
@@ -762,7 +762,8 @@ QString QExtStyleThemes::resourcePath(StyleEnum style)
 {
     switch (style)
     {
-    case Style_Material: return ":/QExtStyleThemes/material";
+    case Style_Fusion: return ":/QExtWidgets/stylethemes/fusion";
+    case Style_Material: return ":/QExtWidgets/stylethemes/material";
     default: break;
     }
     return "";
@@ -772,6 +773,7 @@ QString QExtStyleThemes::styleEnumString(int style, bool isTR)
 {
     switch (style)
     {
+    case Style_Fusion: return isTR ? tr("Fusion") : "Fusion";
     case Style_Material: return isTR ? tr("Material") : "Material";
     default: break;
     }

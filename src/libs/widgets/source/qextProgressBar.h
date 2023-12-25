@@ -53,7 +53,7 @@ class QEXT_WIDGETS_API QExtProgressBar : public QWidget
     Q_PROPERTY(QColor barColor READ barColor WRITE setBarColor)
 
 public:
-    explicit QExtProgressBar(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtProgressBar(QWidget *parent = QEXT_NULLPTR);
     ~QExtProgressBar();
 
     double minValue() const;

@@ -211,7 +211,7 @@ void QEXTQmlQuick::initQmlEngine(QQmlEngine *engine, const char *uri)
     Q_UNUSED(uri)
     d->m_qmlEngine = engine;
     QFontDatabase::addApplicationFont(":/QEXTQmlQuick/font/fontawesome-webfont.ttf");
-    d->m_qmlEngine->rootContext()->setContextProperty("qextRootWindow", QEXT_DECL_NULLPTR);
+    d->m_qmlEngine->rootContext()->setContextProperty("qextRootWindow", QEXT_NULLPTR);
 }
 
 void QEXTQmlQuick::initQuickRoot(QQuickWindow *rootWindow)

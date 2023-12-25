@@ -32,7 +32,7 @@
 
 
 QExtConnection::QExtConnection()
-    : m_slot(QEXT_DECL_NULLPTR)
+    : m_slot(QEXT_NULLPTR)
 {
 }
 
@@ -93,8 +93,8 @@ void QExtConnection::disconnect()
 void *QExtConnection::notify(void *data)
 {
     QExtConnection *self = reinterpret_cast<QExtConnection *>(data);
-    self->m_slot = QEXT_DECL_NULLPTR;
-    return QEXT_DECL_NULLPTR;
+    self->m_slot = QEXT_NULLPTR;
+    return QEXT_NULLPTR;
 }
 
 void QExtConnection::setSlot(SlotFunctionBase *slot)

@@ -4,7 +4,6 @@
 cmake_minimum_required(VERSION 3.10)
 
 
-
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
@@ -22,11 +21,9 @@ set(QWT_LICENSE "Qwt License")
 set(QWT_PRODUCT_NAME "Qwt")
 set(QWT_CXX_STANDARD 98)
 math(EXPR QWT_VERSION_CALC "${QWT_VERSION_MAJOR}*1000 + ${QWT_VERSION_MINOR}*100 + ${QWT_VERSION_PATCH}")
-message(STATUS "==============================================================================")
-message(STATUS "----Qwt---- Project version: ${QWT_VERSION}")
-message(STATUS "----Qwt---- Project license: ${QWT_LICENSE}")
-
-
+message(STATUS "Project version: Qwt ${QWT_VERSION}")
+message(STATUS "Project license: ${QWT_LICENSE}")
+include(GNUInstallDirs)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -37,7 +34,7 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
 endif()
 
 find_package(Qt4 QUIET COMPONENTS QtCore QUIET)
-if (NOT QT_FOUND)
+if(NOT QT_FOUND)
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core QUIET)
     find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core QUIET)
 endif()
@@ -47,41 +44,43 @@ set(QWT_QT_VERSION_PATCH ${QT_VERSION_PATCH})
 set(QWT_QT_VERSION "${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}")
 set(QWT_QT_OPENGL_FOUND OFF)
 set(QWT_QT_OPENGL)
-if (QWT_QT_VERSION_MAJOR EQUAL 4)
-    if (QWT_QT_VERSION_MINOR LESS 5)
-        message(FATAL_ERROR "----Qwt---- Expected Qt4 version must greater than or equal to Qt4.5")
+if(QWT_QT_VERSION_MAJOR EQUAL 4)
+    if(QWT_QT_VERSION_MINOR LESS 5)
+        message(FATAL_ERROR "Expected Qt4 version must greater than or equal to Qt4.5")
     endif()
-    message(STATUS "----Qwt---- Expected Qt version is Qt${QWT_QT_VERSION}")
-    find_package(Qt4 REQUIRED QtCore QtGui QtSvg QtXml)
-    find_package(Qt4 COMPONENTS QtOpenGL)
+    message(STATUS "Expected Qt version is Qt${QWT_QT_VERSION}")
+    set(QWT_QT_FINDPKG_CONTENT Qt${QWT_QT_VERSION_MAJOR} COMPONENTS QtCore QtGui QtSvg QtXml REQUIRED QtOpenGL)
+    find_package(${QWT_QT_FINDPKG_CONTENT})
     set(QWT_QT_OPENGL_FOUND ${QT_QTOPENGL_FOUND})
-    if (QWT_QT_OPENGL_FOUND)
+    if(QWT_QT_OPENGL_FOUND)
         set(QWT_QT_OPENGL Qt4::QtOpenGL)
     endif()
     INCLUDE(${QT_USE_FILE})
     ADD_DEFINITIONS(${QT_DEFINITIONS})
 elseif(QWT_QT_VERSION_MAJOR EQUAL 5)
-    message(STATUS "----Qwt---- Expected Qt version is Qt${QWT_QT_VERSION}")
-    find_package(Qt${QWT_QT_VERSION_MAJOR} COMPONENTS Core Widgets Concurrent PrintSupport Svg Xml REQUIRED)
-    find_package(Qt${QWT_QT_VERSION_MAJOR} COMPONENTS OpenGL)
+    message(STATUS "Expected Qt version is Qt${QWT_QT_VERSION}")
+    set(QWT_QT_FINDPKG_CMD Qt${QWT_QT_VERSION_MAJOR} COMPONENTS Core Widgets Concurrent PrintSupport Svg Xml REQUIRED OpenGL)
+    find_package(${QWT_QT_FINDPKG_CMD})
     set(QWT_QT_OPENGL_FOUND ${Qt${QWT_QT_VERSION_MAJOR}OpenGL_FOUND})
-    if (QWT_QT_OPENGL_FOUND)
+    if(QWT_QT_OPENGL_FOUND)
         set(QWT_QT_OPENGL Qt${QWT_QT_VERSION_MAJOR}::OpenGL)
     endif()
 elseif(QWT_QT_VERSION_MAJOR EQUAL 6)
-    message(STATUS "----Qwt---- Expected Qt version is Qt${QWT_QT_VERSION}")
-    find_package(Qt${QWT_QT_VERSION_MAJOR} COMPONENTS Core Widgets Concurrent PrintSupport Svg Xml REQUIRED)
-    find_package(Qt${QWT_QT_VERSION_MAJOR} COMPONENTS OpenGL)
+    message(STATUS "Expected Qt version is Qt${QWT_QT_VERSION}")
+    set(QWT_QT_FINDPKG_CONTENT Qt${QWT_QT_VERSION_MAJOR} COMPONENTS Core Widgets Concurrent PrintSupport Svg Xml REQUIRED OpenGL)
+    find_package(${QWT_QT_FINDPKG_CONTENT})
     set(QWT_QT_OPENGL_FOUND ${Qt${QWT_QT_VERSION_MAJOR}OpenGL_FOUND})
-    if (QWT_QT_OPENGL_FOUND)
+    if(QWT_QT_OPENGL_FOUND)
         set(QWT_QT_OPENGL Qt${QWT_QT_VERSION_MAJOR}::OpenGL)
     endif()
+    list(APPEND QWT_LINK_QT_LIBRARIES Qt6::Core Qt6::Widgets Qt6::Concurrent Qt6::PrintSupport Qt6::Svg Qt6::Xml ${QWT_QT_OPENGL})
 else()
-    message(FATAL_ERROR "----Qwt---- Not find Qt package")
+    message(FATAL_ERROR "Not find Qt package")
 endif()
+string(REPLACE ";" " " QWT_QT_FINDPKG_CMDSTR "${QWT_QT_FINDPKG_CMD}")
 
-if (QWT_QT_OPENGL_FOUND)
-    message(STATUS "----Qwt---- Qt${QWT_QT_VERSION_MAJOR} OpenGL found")
+if(QWT_QT_OPENGL_FOUND)
+    message(STATUS "Qt${QWT_QT_VERSION_MAJOR} OpenGL found")
 endif()
 
 get_filename_component(QWT_QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
@@ -93,28 +92,6 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Specify the output dir
-#-----------------------------------------------------------------------------------------------------------------------
-set(QWT_PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
-set(QWT_PROJECT_BINARY_DIR ${PROJECT_BINARY_DIR})
-set(QWT_APP_OUTPUT_DIR "${PROJECT_BINARY_DIR}/bin")
-set(QWT_LIB_OUTPUT_DIR "${PROJECT_BINARY_DIR}/lib")
-set(QWT_QTLIB_OUTPUT_DIR "${PROJECT_BINARY_DIR}/lib/qt")
-set(QWT_SYSLIB_OUTPUT_DIR "${PROJECT_BINARY_DIR}/lib/sys")
-set(QWT_PLUGIN_OUTPUT_DIR "${PROJECT_BINARY_DIR}/plugin")
-set(QWT_INCLUDE_OUTPUT_DIR "${PROJECT_BINARY_DIR}/include")
-set(QWT_EXAMPLE_OUTPUT_DIR "${PROJECT_BINARY_DIR}/example")
-set(QWT_TEST_OUTPUT_DIR "${PROJECT_BINARY_DIR}/test")
-
-# here we specify the installation directory
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(CMAKE_INSTALL_PREFIX "${PROJECT_BINARY_DIR}/install" CACHE PATH  "QWT install prefix" FORCE)
-endif()
-
-
-
 #-----------------------------------------------------------------------------------------------------------------------
 # Set option
 #-----------------------------------------------------------------------------------------------------------------------
@@ -122,14 +99,15 @@ option(QWT_BUILD_SHARED_LIBS "Build shared library" ON)
 option(QWT_BUILD_TESTS "Build tests" OFF)
 option(QWT_BUILD_EXAMPLES "Build examples" OFF)
 option(QWT_BUILD_COMPILER_WARNING "Build target with compiler warnings" OFF)
+option(QWT_BUILD_INSTALL "Build with install" OFF)
 option(QWT_BUILD_ALL "Build all artifacts" OFF)
 
 if(QWT_BUILD_SHARED_LIBS)
     set(BUILD_SHARED_LIBS ON CACHE BOOL "Build as shared libraries")
-    message(STATUS "----Qwt---- Build as shared libraries")
+    message(STATUS "Build as shared libraries")
 else()
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build as static libraries")
-    message(STATUS "----Qwt---- Build as static libraries")
+    message(STATUS "Build as static libraries")
 endif()
 
 if(QWT_BUILD_TESTS OR QWT_BUILD_ALL)
@@ -137,18 +115,9 @@ if(QWT_BUILD_TESTS OR QWT_BUILD_ALL)
 endif()
 
 
-
 #-----------------------------------------------------------------------------------------------------------------------
-# Set lib base name and out put path
-#-----------------------------------------------------------------------------------------------------------------------
-set(QWT_LIB_NAME Qwt)
-set(LIBRARY_OUTPUT_PATH ${QWT_LIB_OUTPUT_DIR})
-
-
-
-#----------------------------------------------------------------
 # Sources
-#----------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 set(QWT_HEADERS
     ${PROJECT_SOURCE_DIR}/include/qwt_abstract_legend.h
     ${PROJECT_SOURCE_DIR}/include/qwt_abstract_scale.h
@@ -244,8 +213,7 @@ set(QWT_HEADERS
     ${PROJECT_SOURCE_DIR}/include/qwt_thermo.h
     ${PROJECT_SOURCE_DIR}/include/qwt_transform.h
     ${PROJECT_SOURCE_DIR}/include/qwt_wheel.h
-    ${PROJECT_SOURCE_DIR}/include/qwt_widget_overlay.h
-    )
+    ${PROJECT_SOURCE_DIR}/include/qwt_widget_overlay.h)
 
 set(QWT_SOURCES
     ${PROJECT_SOURCE_DIR}/src/qwt_abstract_legend.cpp
@@ -341,62 +309,89 @@ set(QWT_SOURCES
     ${PROJECT_SOURCE_DIR}/src/qwt_thermo.cpp
     ${PROJECT_SOURCE_DIR}/src/qwt_transform.cpp
     ${PROJECT_SOURCE_DIR}/src/qwt_wheel.cpp
-    ${PROJECT_SOURCE_DIR}/src/qwt_widget_overlay.cpp
-    )
+    ${PROJECT_SOURCE_DIR}/src/qwt_widget_overlay.cpp)
 
-if (QWT_QT_OPENGL_FOUND)
+if(QWT_QT_OPENGL_FOUND)
     list(APPEND QWT_HEADERS ${PROJECT_SOURCE_DIR}/include/qwt_plot_glcanvas.h)
     list(APPEND QWT_SOURCES ${PROJECT_SOURCE_DIR}/src/qwt_plot_glcanvas.cpp)
 endif()
 
 
-#----------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
-#----------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 if(QWT_BUILD_SHARED_LIBS)
-    add_library(${QWT_LIB_NAME} SHARED ${QWT_HEADERS} ${QWT_SOURCES})
-    target_compile_definitions(${QWT_LIB_NAME}
+    add_library(${PROJECT_NAME} SHARED ${QWT_HEADERS} ${QWT_SOURCES})
+    target_compile_definitions(${PROJECT_NAME}
         PUBLIC
         $<$<BOOL:MSVC>:QWT_DLL>
         PRIVATE
-        $<$<BOOL:MSVC>:QWT_MAKEDLL>
-        )
+        $<$<BOOL:MSVC>:QWT_MAKEDLL>)
 else()
-    add_library(${QWT_LIB_NAME} STATIC ${QWT_HEADERS} ${QWT_SOURCES})
+    add_library(${PROJECT_NAME} STATIC ${QWT_HEADERS} ${QWT_SOURCES})
 endif()
 
-if (NOT QWT_QT_OPENGL_FOUND)
-    target_compile_definitions(${QWT_LIB_NAME} PUBLIC QWT_NO_OPENGL)
+if(NOT QWT_QT_OPENGL_FOUND)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC QWT_NO_OPENGL)
 endif()
 
-target_include_directories(${QWT_LIB_NAME}
-    PUBLIC
-    ${PROJECT_SOURCE_DIR}/include
-    )
+target_include_directories(${PROJECT_NAME} PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
 
-if (QWT_QT_VERSION_MAJOR EQUAL 4)
-    target_link_libraries(${QWT_LIB_NAME}
+if(QWT_QT_VERSION_MAJOR EQUAL 4)
+    target_link_libraries(${PROJECT_NAME}
         PUBLIC
         Qt4::QtCore
         Qt4::QtSvg
-        ${QWT_QT_OPENGL}
-        )
+        ${QWT_QT_OPENGL})
 else(QWT_QT_VERSION_MAJOR GREATER 4)
-    target_link_libraries(${QWT_LIB_NAME}
+    target_link_libraries(${PROJECT_NAME}
         PUBLIC
         Qt${QWT_QT_VERSION_MAJOR}::Core
         Qt${QWT_QT_VERSION_MAJOR}::Concurrent
         Qt${QWT_QT_VERSION_MAJOR}::PrintSupport
         Qt${QWT_QT_VERSION_MAJOR}::Svg
-        ${QWT_QT_OPENGL}
-        )
+        ${QWT_QT_OPENGL})
+endif()
+
+if(QWT_BUILD_INSTALL)
+    install(TARGETS ${PROJECT_NAME}
+        EXPORT ${PROJECT_NAME}-target
+        FRAMEWORK DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_FULL_INCLUDEDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_FULL_BINDIR})
+
+    install(FILES ${QWT_HEADERS}
+        DESTINATION ${CMAKE_INSTALL_FULL_INCLUDEDIR})
+
+    install(EXPORT ${PROJECT_NAME}-target
+        FILE ${PROJECT_NAME}-targets.cmake
+        NAMESPACE Qwt::
+        DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}/cmake/Qwt")
+
+    export(EXPORT ${PROJECT_NAME}-target
+        FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-targets.cmake
+        NAMESPACE Qwt::)
+
+    include(CMakePackageConfigHelpers)
+    set(INCLUDE_INSTALL_DIRS "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
+    set(version_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake")
+    set(project_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake")
+    write_basic_package_version_file("${version_config}"
+        VERSION ${NNG_PACKAGE_VERSION}
+        COMPATIBILITY SameMajorVersion)
+    configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}-config.cmake.in "${project_config}"
+        INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
+        PATH_VARS INCLUDE_INSTALL_DIRS)
+    install(FILES "${project_config}" "${version_config}"
+        DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}/cmake/${PROJECT_NAME}")
 endif()
 
 
-
-#----------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # Add subdirectory
-#----------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 add_subdirectory(textengines)
 if(QWT_BUILD_EXAMPLES OR QWT_BUILD_ALL)
     add_subdirectory(examples)

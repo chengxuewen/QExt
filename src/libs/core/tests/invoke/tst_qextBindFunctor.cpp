@@ -25,7 +25,7 @@ private Q_SLOTS:
     void testReferences();
 };
 
-static std::string *sg_string = QEXT_DECL_NULLPTR;
+static std::string *sg_string = QEXT_NULLPTR;
 
 struct Foo : public QExtFunctorBase
 {

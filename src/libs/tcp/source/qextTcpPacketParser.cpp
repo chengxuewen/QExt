@@ -247,7 +247,7 @@ QSharedPointer<QExtTcpPacketInterface> QExtTcpPacketParser::readData(QExtTcpSock
         }
 
         char *header = new char[headerSize];
-        if (QEXT_DECL_NULLPTR == header)
+        if (QEXT_NULLPTR == header)
         {
             socket->readAll(); // give up socket data
             d->m_errorString = "malloc header memory failed";

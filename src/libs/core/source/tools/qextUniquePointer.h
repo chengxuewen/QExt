@@ -26,16 +26,16 @@ class QExtUniquePointer
 public:
     typedef T *Pointer;
 
-    explicit QExtUniquePointer(T *p = QEXT_DECL_NULLPTR) QEXT_DECL_NOEXCEPT : d(p), deleter(Deleter()) { }
+    explicit QExtUniquePointer(T *p = QEXT_NULLPTR) QEXT_NOEXCEPT : d(p), deleter(Deleter()) { }
 
-    QExtUniquePointer(T *p, const Deleter &d) QEXT_DECL_NOEXCEPT : d(p), deleter(d) { }
+    QExtUniquePointer(T *p, const Deleter &d) QEXT_NOEXCEPT : d(p), deleter(d) { }
 
     QExtUniquePointer(const QExtUniquePointer &other)
     {
         d = other.d;
         deleter = other.deleter;
         QExtUniquePointer &oth = const_cast<QExtUniquePointer &>(other);
-        oth.d = QEXT_DECL_NULLPTR;
+        oth.d = QEXT_NULLPTR;
     }
 
     virtual ~QExtUniquePointer()
@@ -43,7 +43,7 @@ public:
         if (d)
         {
             T *oldD = d;
-            d = QEXT_DECL_NULLPTR;
+            d = QEXT_NULLPTR;
             deleter(oldD);
         }
     }
@@ -55,13 +55,13 @@ public:
             if (d)
             {
                 T *oldD = d;
-                d = QEXT_DECL_NULLPTR;
+                d = QEXT_NULLPTR;
                 deleter(oldD);
             }
             d = other.d;
             deleter = other.deleter;
             QExtUniquePointer &oth = const_cast<QExtUniquePointer &>(other);
-            oth.d = QEXT_DECL_NULLPTR;
+            oth.d = QEXT_NULLPTR;
         }
         return *this;
     }
@@ -83,13 +83,13 @@ public:
     }
 
     T *operator->() const
-    QEXT_DECL_NOEXCEPT
+    QEXT_NOEXCEPT
     {
         return d;
     }
 
     bool operator!() const
-    QEXT_DECL_NOEXCEPT
+    QEXT_NOEXCEPT
     {
         return !d;
     }
@@ -100,25 +100,25 @@ public:
     }
 
     T *data() const
-    QEXT_DECL_NOEXCEPT
+    QEXT_NOEXCEPT
     {
         return d;
     }
 
     T *get() const
-    QEXT_DECL_NOEXCEPT
+    QEXT_NOEXCEPT
     {
         return d;
     }
 
     bool isNull() const
-    QEXT_DECL_NOEXCEPT
+    QEXT_NOEXCEPT
     {
         return !d;
     }
 
-    void reset(T *other = QEXT_DECL_NULLPTR)
-    QEXT_DECL_NOEXCEPT
+    void reset(T *other = QEXT_NULLPTR)
+    QEXT_NOEXCEPT
     {
         if (d != other)
         {
@@ -129,22 +129,22 @@ public:
     }
 
     T *take()
-    QEXT_DECL_NOEXCEPT
+    QEXT_NOEXCEPT
     {
         T *oldD = d;
-        d = QEXT_DECL_NULLPTR;
+        d = QEXT_NULLPTR;
         return oldD;
     }
 
     void swap(QExtUniquePointer &other)
-    QEXT_DECL_NOEXCEPT
+    QEXT_NOEXCEPT
     {
         std::swap(d, other.d);
         std::swap(deleter, other.deleter);
     }
 
     friend void swap(QExtUniquePointer<T, Deleter> &p1, QExtUniquePointer<T, Deleter> &p2)
-    QEXT_DECL_NOEXCEPT
+    QEXT_NOEXCEPT
     {
         p1.swap(p2);
     }
@@ -198,7 +198,7 @@ template<typename T, typename Deleter = QExtUniqueArrayPointerDeleter<T> >
 class QExtUniqueArrayPointer : public QExtUniquePointer<T, Deleter>
 {
 public:
-    inline QExtUniqueArrayPointer() : QExtUniquePointer<T, Deleter>(QEXT_DECL_NULLPTR) {}
+    inline QExtUniqueArrayPointer() : QExtUniquePointer<T, Deleter>(QEXT_NULLPTR) {}
 
     template<typename D>
     explicit inline QExtUniqueArrayPointer(D *p, typename QExtPrivate::QExtUniqueArrayEnsureSameType<T, D>::Type = 0)
@@ -248,13 +248,13 @@ public:
     }
 
     void swap(QExtUniqueArrayPointer &other)
-    QEXT_DECL_NOEXCEPT // prevent QEXTScopedPointer <->QEXTScopedArrayPointer swaps
+    QEXT_NOEXCEPT // prevent QEXTScopedPointer <->QEXTScopedArrayPointer swaps
     {
         QExtUniquePointer<T, Deleter>::swap(other);
     }
 
     friend void swap(QExtUniqueArrayPointer<T, Deleter> &p1, QExtUniqueArrayPointer<T, Deleter> &p2)
-    QEXT_DECL_NOEXCEPT
+    QEXT_NOEXCEPT
     {
         p1.swap(p2);
     }

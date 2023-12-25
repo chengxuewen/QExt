@@ -17,13 +17,20 @@ public:
     CMainWindow(QWidget *parent = nullptr);
     virtual ~CMainWindow();
 
-private:
-    MainWindowPrivate* d;
-    friend struct MainWindowPrivate;// pimpl
-
-private slots:
+protected slots:
 	void onThemeActionTriggered();
 	void onStyleManagerStylesheetChanged();
-	void onThemeColorButtonClicked();
+    void onThemeColorButtonClicked();
+    void onWidgetButtonClicked();
+
+protected:
+    bool event(QEvent *event) override;
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
+private:
+    Ui::MainWindow *ui;
+    MainWindowPrivate* d;
+    friend struct MainWindowPrivate;// pimpl
 };
 #endif // CMAINWINDOW_H
+

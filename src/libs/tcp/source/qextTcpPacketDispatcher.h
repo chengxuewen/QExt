@@ -43,7 +43,7 @@ public:
     void unregisterTransceiver(QExtTcpPacketTransceiver *transceiver);
     bool sendPacket(QExtTcpPacketTransceiver *transceiver, const QSharedPointer<QExtTcpPacketInterface> &packet);
 
-    virtual bool dispatchPacket(const QSharedPointer<QExtTcpPacketInterface> &packet, QString *error = QEXT_DECL_NULLPTR);
+    virtual bool dispatchPacket(const QSharedPointer<QExtTcpPacketInterface> &packet, QString *error = QEXT_NULLPTR);
     bool dispatchToTransceiver(const QSharedPointer<QExtTcpPacketInterface> &packet);
     bool dispatchToTask(const QSharedPointer<QExtTcpPacketInterface> &packet);
 

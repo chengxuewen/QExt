@@ -62,7 +62,7 @@ public:
     };
     Q_ENUMS(BarStyle)
 
-    explicit QExtProgressPie(QWidget *parent = QEXT_DECL_NULLPTR);
+    explicit QExtProgressPie(QWidget *parent = QEXT_NULLPTR);
     ~QExtProgressPie();
 
     QColor backgroundColor() const;
