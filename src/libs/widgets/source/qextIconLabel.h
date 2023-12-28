@@ -44,7 +44,7 @@ protected:
     QScopedPointer<QExtIconLabelPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtIconLabel)
+    QEXT_DISABLE_COPY_MOVE(QExtIconLabel)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtIconLabel)
 };
 

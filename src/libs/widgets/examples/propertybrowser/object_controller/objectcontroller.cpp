@@ -19,7 +19,7 @@ public:
     void updateClassProperties(const QMetaObject *metaObject, bool recursive);
     void saveExpandedState();
     void restoreExpandedState();
-    void slotValueChanged(QtProperty *property, const QVariant &value);
+    void slotValueChanged(QExtProperty *property, const QVariant &value);
     int enumToInt(const QMetaEnum &metaEnum, int enumValue) const;
     int intToEnum(const QMetaEnum &metaEnum, int intValue) const;
     int flagToInt(const QMetaEnum &metaEnum, int flagValue) const;
@@ -29,18 +29,18 @@ public:
 
     QObject                  *m_object;
 
-    QMap<const QMetaObject *, QtProperty *> m_classToProperty;
-    QMap<QtProperty *, const QMetaObject *> m_propertyToClass;
-    QMap<QtProperty *, int>     m_propertyToIndex;
-    QMap<const QMetaObject *, QMap<int, QtVariantProperty *> > m_classToIndexToProperty;
+    QMap<const QMetaObject *, QExtProperty *> m_classToProperty;
+    QMap<QExtProperty *, const QMetaObject *> m_propertyToClass;
+    QMap<QExtProperty *, int>     m_propertyToIndex;
+    QMap<const QMetaObject *, QMap<int, QExtVariantProperty *> > m_classToIndexToProperty;
 
-    QMap<QtProperty *, bool>    m_propertyToExpanded;
+    QMap<QExtProperty *, bool>    m_propertyToExpanded;
 
-    QList<QtProperty *>         m_topLevelProperties;
+    QList<QExtProperty *>         m_topLevelProperties;
 
-    QtAbstractPropertyBrowser    *m_browser;
-    QtVariantPropertyManager *m_manager;
-    QtVariantPropertyManager *m_readOnlyManager;
+    QExtAbstractPropertyBrowser    *m_browser;
+    QExtVariantPropertyManager *m_manager;
+    QExtVariantPropertyManager *m_readOnlyManager;
 };
 
 int ObjectControllerPrivate::enumToInt(const QMetaEnum &metaEnum, int enumValue) const
@@ -152,7 +152,7 @@ void ObjectControllerPrivate::updateClassProperties(const QMetaObject *metaObjec
     if (recursive)
         updateClassProperties(metaObject->superClass(), recursive);
 
-    QtProperty *classProperty = m_classToProperty.value(metaObject);
+    QExtProperty *classProperty = m_classToProperty.value(metaObject);
     if (!classProperty)
         return;
 
@@ -160,7 +160,7 @@ void ObjectControllerPrivate::updateClassProperties(const QMetaObject *metaObjec
         QMetaProperty metaProperty = metaObject->property(idx);
         if (metaProperty.isReadable()) {
             if (m_classToIndexToProperty.contains(metaObject) && m_classToIndexToProperty[metaObject].contains(idx)) {
-                QtVariantProperty *subProperty = m_classToIndexToProperty[metaObject][idx];
+                QExtVariantProperty *subProperty = m_classToIndexToProperty[metaObject][idx];
                 if (metaProperty.isEnumType()) {
                     if (metaProperty.isFlagType())
                         subProperty->setValue(flagToInt(metaProperty.enumerator(), metaProperty.read(m_object).toInt()));
@@ -181,23 +181,23 @@ void ObjectControllerPrivate::addClassProperties(const QMetaObject *metaObject)
 
     addClassProperties(metaObject->superClass());
 
-    QtProperty *classProperty = m_classToProperty.value(metaObject);
+    QExtProperty *classProperty = m_classToProperty.value(metaObject);
     if (!classProperty) {
         QString className = QLatin1String(metaObject->className());
-        classProperty = m_manager->addProperty(QtVariantPropertyManager::groupTypeId(), className);
+        classProperty = m_manager->addProperty(QExtVariantPropertyManager::groupTypeId(), className);
         m_classToProperty[metaObject] = classProperty;
         m_propertyToClass[classProperty] = metaObject;
 
         for (int idx = metaObject->propertyOffset(); idx < metaObject->propertyCount(); idx++) {
             QMetaProperty metaProperty = metaObject->property(idx);
             int type = metaProperty.userType();
-            QtVariantProperty *subProperty = 0;
+            QExtVariantProperty *subProperty = 0;
             if (!metaProperty.isReadable()) {
                 subProperty = m_readOnlyManager->addProperty(QVariant::String, QLatin1String(metaProperty.name()));
                 subProperty->setValue(QLatin1String("< Non Readable >"));
             } else if (metaProperty.isEnumType()) {
                 if (metaProperty.isFlagType()) {
-                    subProperty = m_manager->addProperty(QtVariantPropertyManager::flagTypeId(), QLatin1String(metaProperty.name()));
+                    subProperty = m_manager->addProperty(QExtVariantPropertyManager::flagTypeId(), QLatin1String(metaProperty.name()));
                     QMetaEnum metaEnum = metaProperty.enumerator();
                     QMap<int, bool> valueMap;
                     QStringList flagNames;
@@ -211,7 +211,7 @@ void ObjectControllerPrivate::addClassProperties(const QMetaObject *metaObject)
                     subProperty->setValue(flagToInt(metaEnum, metaProperty.read(m_object).toInt()));
                     }
                 } else {
-                    subProperty = m_manager->addProperty(QtVariantPropertyManager::enumTypeId(), QLatin1String(metaProperty.name()));
+                    subProperty = m_manager->addProperty(QExtVariantPropertyManager::enumTypeId(), QLatin1String(metaProperty.name()));
                     QMetaEnum metaEnum = metaProperty.enumerator();
                     QMap<int, bool> valueMap; // dont show multiple enum values which have the same values
                     QStringList enumNames;
@@ -260,7 +260,7 @@ void ObjectControllerPrivate::restoreExpandedState()
 
 }
 
-void ObjectControllerPrivate::slotValueChanged(QtProperty *property, const QVariant &value)
+void ObjectControllerPrivate::slotValueChanged(QExtProperty *property, const QVariant &value)
 {
     if (!m_propertyToIndex.contains(property))
         return;
@@ -294,26 +294,26 @@ ObjectController::ObjectController(QWidget *parent)
     QScrollArea *scroll = new QScrollArea(this);
     scroll->setWidgetResizable(true);
 
-    d_ptr->m_browser = new QtGroupBoxPropertyBrowser(this);
+    d_ptr->m_browser = new QExtGroupBoxPropertyBrowser(this);
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setMargin(0);
     layout->addWidget(scroll);
     scroll->setWidget(d_ptr->m_browser);
 */
-    QtTreePropertyBrowser *browser = new QtTreePropertyBrowser(this);
+    QExtTreePropertyBrowser *browser = new QExtTreePropertyBrowser(this);
     browser->setRootIsDecorated(false);
     d_ptr->m_browser = browser;
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setMargin(0);
     layout->addWidget(d_ptr->m_browser);
 
-    d_ptr->m_readOnlyManager = new QtVariantPropertyManager(this);
-    d_ptr->m_manager = new QtVariantPropertyManager(this);
-    QtVariantEditorFactory *factory = new QtVariantEditorFactory(this);
+    d_ptr->m_readOnlyManager = new QExtVariantPropertyManager(this);
+    d_ptr->m_manager = new QExtVariantPropertyManager(this);
+    QExtVariantEditorFactory *factory = new QExtVariantEditorFactory(this);
     d_ptr->m_browser->setFactoryForManager(d_ptr->m_manager, factory);
 
-    connect(d_ptr->m_manager, SIGNAL(valueChanged(QtProperty *, const QVariant &)),
-                this, SLOT(slotValueChanged(QtProperty *, const QVariant &)));
+    connect(d_ptr->m_manager, SIGNAL(valueChanged(QExtProperty *, const QVariant &)),
+                this, SLOT(slotValueChanged(QExtProperty *, const QVariant &)));
 }
 
 ObjectController::~ObjectController()
@@ -328,7 +328,7 @@ void ObjectController::setObject(QObject *object)
 
     if (d_ptr->m_object) {
         d_ptr->saveExpandedState();
-        QListIterator<QtProperty *> it(d_ptr->m_topLevelProperties);
+        QListIterator<QExtProperty *> it(d_ptr->m_topLevelProperties);
         while (it.hasNext()) {
             d_ptr->m_browser->removeProperty(it.next());
         }

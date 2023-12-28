@@ -58,7 +58,7 @@ public:
     QExtTooltip *m_tooltip;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtSliderPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtSliderPrivate)
     QEXT_DECL_PUBLIC(QExtSlider)
 };
 

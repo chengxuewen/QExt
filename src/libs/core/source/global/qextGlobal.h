@@ -32,9 +32,9 @@
 #include <QVariant>
 #include <QtGlobal>
 
-/********************************************************************************
-    QExt compiler dll visibility macro declare
-********************************************************************************/
+/***********************************************************************************************************************
+ *   QExt compiler dll visibility macro declare
+***********************************************************************************************************************/
 #if !defined(Q_DECL_EXPORT)
 #   if defined(QEXT_CC_GNU) && (QEXT_CC_GNU > 400)
 #       define QEXT_DECL_EXPORT __attribute__((visibility("default")))
@@ -66,9 +66,9 @@
 #endif
 
 
-/********************************************************************************
+/***********************************************************************************************************************
     QExt compiler CXX11 feature macro declare
-********************************************************************************/
+***********************************************************************************************************************/
 #if QEXT_CC_FEATURE_NULLPTR
 #   define QEXT_NULLPTR nullptr
 #else
@@ -132,58 +132,58 @@
 
 
 
-/********************************************************************************
+/***********************************************************************************************************************
     QExt disable copy move macro declare
-********************************************************************************/
+***********************************************************************************************************************/
 // disable copy macro define
-#define QEXT_DECL_DISABLE_COPY(Class)               \
-Class(const Class &) QEXT_DECL_EQ_DELETE;       \
+#define QEXT_DECL_DISABLE_COPY(Class) \
+    Class(const Class &) QEXT_DECL_EQ_DELETE; \
     Class &operator=(const Class &) QEXT_DECL_EQ_DELETE;
 
 // disable move macro define
 #if QEXT_CC_FEATURE_RVALUE_REFS
-#   define QEXT_DECL_DISABLE_MOVE(Class)   \
-Class(Class &&) QEXT_DECL_EQ_DELETE;   \
+#   define QEXT_DECL_DISABLE_MOVE(Class) \
+    Class(Class &&) QEXT_DECL_EQ_DELETE; \
     Class &operator=(Class &&) QEXT_DECL_EQ_DELETE;
 #else
 #   define QEXT_DECL_DISABLE_MOVE(Class)
 #endif
 
 // disable copy move macro define
-#define QEXT_DECL_DISABLE_COPY_MOVE(Class) \
-QEXT_DECL_DISABLE_COPY(Class)          \
+#define QEXT_DISABLE_COPY_MOVE(Class) \
+    QEXT_DECL_DISABLE_COPY(Class) \
     QEXT_DECL_DISABLE_MOVE(Class)
 
 
-    template <typename T> inline T *qextGetPtrHelper(T *ptr) { return ptr; }
+template <typename T> inline T *qextGetPtrHelper(T *ptr) { return ptr; }
 template <typename Wrapper> static inline typename Wrapper::pointer qextGetPtrHelper(const Wrapper &p) { return p.data(); }
 
 // The body must be a statement:
 #define QEXT_CAST_IGNORE_ALIGN(body) QEXT_WARNING_PUSH QEXT_WARNING_DISABLE_GCC("-Wcast-align") body QEXT_WARNING_POP
 #define QEXT_DECL_PRIVATE(Class) \
-inline Class##Private* d_func() \
-{ QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(d_ptr));) } \
+    inline Class##Private* d_func() \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(d_ptr));) } \
     inline const Class##Private* d_func() const \
-{ QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(d_ptr));) } \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(d_ptr));) } \
     friend class Class##Private;
 
 #define QEXT_DECL_PRIVATE_D(Dptr, Class) \
-inline Class##Private* d_func()     \
-{ QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(Dptr));) } \
+    inline Class##Private* d_func() \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(Dptr));) } \
     inline const Class##Private* d_func() const \
-{ QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(Dptr));) } \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(Dptr));) } \
     friend class Class##Private;
 
-#define QEXT_DECL_PUBLIC(Class)                                    \
-inline Class* q_func() { return static_cast<Class *>(q_ptr); } \
+#define QEXT_DECL_PUBLIC(Class) \
+    inline Class* q_func() { return static_cast<Class *>(q_ptr); } \
     inline const Class* q_func() const { return static_cast<const Class *>(q_ptr); } \
     friend class Class;
 
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
-#define QEXT_DECL_UNSETENV(env) qunsetenv(env)
+#   define QEXT_DECL_UNSETENV(env) qunsetenv(env)
 #else
-#define QEXT_DECL_UNSETENV(env)
+#   define QEXT_DECL_UNSETENV(env)
 #endif
 
 
@@ -212,45 +212,45 @@ inline bool qextVariantCanConvert(const QVariant &variant)
 }
 
 
-/********************************************************************************
+/***********************************************************************************************************************
     QExt force inline macro declare
-********************************************************************************/
+***********************************************************************************************************************/
 #if defined(QEXT_CC_MSVC)
-#define QEXT_DECL_ALWAYS_INLINE   __forceinline
-#define QEXT_DECL_FORCE_INLINE    __forceinline
-#define QEXT_DECL_NEVER_INLINE    __declspec(noinline)
+#   define QEXT_DECL_ALWAYS_INLINE   __forceinline
+#   define QEXT_DECL_FORCE_INLINE    __forceinline
+#   define QEXT_DECL_NEVER_INLINE    __declspec(noinline)
 #elif defined(QEXT_CC_GNU)
-#define QEXT_DECL_FORCE_INLINE    inline __attribute__((always_inline))
-#define QEXT_DECL_ALWAYS_INLINE   inline __attribute__((always_inline))
-#define QEXT_DECL_NEVER_INLINE    __attribute__((noinline))
+#   define QEXT_DECL_FORCE_INLINE    inline __attribute__((always_inline))
+#   define QEXT_DECL_ALWAYS_INLINE   inline __attribute__((always_inline))
+#   define QEXT_DECL_NEVER_INLINE    __attribute__((noinline))
 #elif defined(QEXT_CC_CLANG)
-#define QEXT_DECL_FORCE_INLINE    inline __attribute__((always_inline))
-#define QEXT_DECL_ALWAYS_INLINE   inline __attribute__((always_inline))
-#define QEXT_DECL_NEVER_INLINE
+#   define QEXT_DECL_FORCE_INLINE    inline __attribute__((always_inline))
+#   define QEXT_DECL_ALWAYS_INLINE   inline __attribute__((always_inline))
+#   define QEXT_DECL_NEVER_INLINE
 #else
-#define QEXT_DECL_FORCE_INLINE    inline // no force inline for other platforms possible
-#define QEXT_DECL_ALWAYS_INLINE   inline
-#define QEXT_DECL_NEVER_INLINE
+#   define QEXT_DECL_FORCE_INLINE    inline // no force inline for other platforms possible
+#   define QEXT_DECL_ALWAYS_INLINE   inline
+#   define QEXT_DECL_NEVER_INLINE
 #endif
 
 
 
-/********************************************************************************
+/***********************************************************************************************************************
     QExt unused macro declare
-********************************************************************************/
+***********************************************************************************************************************/
 #if defined(QEXT_CC_GNU) || defined(QEXT_CC_CLANG)
-#define QEXT_DECL_UNUSED  __attribute__((__unused__))
+#   define QEXT_DECL_UNUSED  __attribute__((__unused__))
 #endif
 
 #ifndef QEXT_DECL_UNUSED
-#define QEXT_DECL_UNUSED
+#   define QEXT_DECL_UNUSED
 #endif
 
 
 
-/********************************************************************************
+/***********************************************************************************************************************
    QExt Compiler specific cmds for export and import code to DLL and declare namespace
-********************************************************************************/
+***********************************************************************************************************************/
 #ifdef QEXT_BUILD_SHARED // compiled as a dynamic lib.
 #   ifdef QEXT_BUILD_CORE_LIB    // defined if we are building the lib
 #       define QEXT_CORE_API QEXT_DECL_EXPORT
@@ -265,86 +265,63 @@ inline bool qextVariantCanConvert(const QVariant &variant)
 
 
 
-/********************************************************************************
+/***********************************************************************************************************************
    QExt assert macro
-********************************************************************************/
+***********************************************************************************************************************/
 #ifndef QT_ASSERT
 QEXT_CORE_API void qextAssert(const char *assertion, const char *file, int line) QEXT_DECL_NOTHROW;
 inline void qextNoop(void) {}
-
-#if !defined(QEXT_ASSERT)
-#if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
-#define QEXT_ASSERT(cond)                                                                                                                                        \
-do                                                                                                                                                         \
-    {                                                                                                                                                          \
-    } while ((false) && (cond))
-#else
-#define QEXT_ASSERT(cond) ((!(cond)) ? qextAssert(#cond, __FILE__, __LINE__) : qextNoop())
-#endif
-#endif
-
-#if defined(QT_NO_DEBUG) && !defined(QT_PAINT_DEBUG)
-#define QT_NO_PAINT_DEBUG
-#endif
-
+#   if !defined(QEXT_ASSERT)
+#       if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
+#           define QEXT_ASSERT(cond)  do { } while ((false) && (cond))
+#       else
+#           define QEXT_ASSERT(cond) ((!(cond)) ? qextAssert(#cond, __FILE__, __LINE__) : qextNoop())
+#       endif
+#   endif
+#   if defined(QT_NO_DEBUG) && !defined(QT_PAINT_DEBUG)
+#       define QT_NO_PAINT_DEBUG
+#   endif
     QEXT_CORE_API void qextAssertX(const char *where, const char *what, const char *file, int line) QEXT_DECL_NOTHROW;
-
-#if !defined(QEXT_ASSERT_X)
-#if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
-#define QEXT_ASSERT_X(cond, where, what)                                                                                                                         \
-do                                                                                                                                                         \
-    {                                                                                                                                                          \
-    } while ((false) && (cond))
+#   if !defined(QEXT_ASSERT_X)
+#       if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
+#           define QEXT_ASSERT_X(cond, where, what) do { } while ((false) && (cond))
+#       else
+#           define QEXT_ASSERT_X(cond, where, what) ((!(cond)) ? qextAssertX(where, what, __FILE__, __LINE__) : qextNoop())
+#       endif
+#   endif
 #else
-#define QEXT_ASSERT_X(cond, where, what) ((!(cond)) ? qextAssertX(where, what, __FILE__, __LINE__) : qextNoop())
+#   define QEXT_ASSERT(cond) Q_ASSERT(cond)
+#   define QEXT_ASSERT_X(cond, where, what) Q_ASSERT(cond, where, what)
 #endif
-#endif
-#else
-#define QEXT_ASSERT(cond) Q_ASSERT(cond)
-#define QEXT_ASSERT_X(cond, where, what) Q_ASSERT(cond, where, what)
-#endif
-
 
 #ifndef Q_STATIC_ASSERT
-#if QEXT_CC_FEATURE_STATIC_ASSERT
-#define QEXT_STATIC_ASSERT(Condition) static_assert(bool(Condition), #Condition)
-#define QEXT_STATIC_ASSERT_X(Condition, Message) static_assert(bool(Condition), Message)
-#else
+#   if QEXT_CC_FEATURE_STATIC_ASSERT
+#       define QEXT_STATIC_ASSERT(Condition) static_assert(bool(Condition), #Condition)
+#       define QEXT_STATIC_ASSERT_X(Condition, Message) static_assert(bool(Condition), Message)
+#   else
 // Intentionally undefined
-template < bool Test >
-class QEXTStaticAssertFailure;
-template <>
-class QEXTStaticAssertFailure< true >
-{
-};
-
-
-#define QEXT_STATIC_ASSERT_PRIVATE_JOIN(A, B) QEXT_STATIC_ASSERT_PRIVATE_JOIN_IMPL(A, B)
-#define QEXT_STATIC_ASSERT_PRIVATE_JOIN_IMPL(A, B) A##B
-#ifdef __COUNTER__
-#define QEXT_STATIC_ASSERT(Condition)                                                                                                                            \
-enum                                                                                                                                                       \
-{                                                                                                                                                          \
-        QEXT_STATIC_ASSERT_PRIVATE_JOIN(qextStaticAssertResult, __COUNTER__) = sizeof(QEXTStaticAssertFailure< !!(Condition) >)                                      \
-}
+template < bool Test > class QEXTStaticAssertFailure;
+template <> class QEXTStaticAssertFailure< true > { };
+#       define QEXT_STATIC_ASSERT_PRIVATE_JOIN(A, B) QEXT_STATIC_ASSERT_PRIVATE_JOIN_IMPL(A, B)
+#       define QEXT_STATIC_ASSERT_PRIVATE_JOIN_IMPL(A, B) A##B
+#       ifdef __COUNTER__
+#           define QEXT_STATIC_ASSERT(Condition) \
+            enum { QEXT_STATIC_ASSERT_PRIVATE_JOIN(qextStaticAssertResult, __COUNTER__) = sizeof(QEXTStaticAssertFailure< !!(Condition) >) }
+#       else
+#           define QEXT_STATIC_ASSERT(Condition) \
+            enum { QEXT_STATIC_ASSERT_PRIVATE_JOIN(qextStaticAssertResult, __LINE__) = sizeof(QEXTStaticAssertFailure< !!(Condition) >) }
+#       endif /* __COUNTER__ */
+#       define QEXT_STATIC_ASSERT_X(Condition, Message) QEXT_STATIC_ASSERT(Condition)
+#   endif
 #else
-#define QEXT_STATIC_ASSERT(Condition)                                                                                                                            \
-enum                                                                                                                                                       \
-{                                                                                                                                                          \
-        QEXT_STATIC_ASSERT_PRIVATE_JOIN(qextStaticAssertResult, __LINE__) = sizeof(QEXTStaticAssertFailure< !!(Condition) >)                                         \
-}
-#endif /* __COUNTER__ */
-#define QEXT_STATIC_ASSERT_X(Condition, Message) QEXT_STATIC_ASSERT(Condition)
-#endif
-#else
-#define QEXT_STATIC_ASSERT(Condition) Q_STATIC_ASSERT(Condition)
-#define QEXT_STATIC_ASSERT_X(Condition) Q_STATIC_ASSERT_X(Condition)
+#   define QEXT_STATIC_ASSERT(Condition) Q_STATIC_ASSERT(Condition)
+#   define QEXT_STATIC_ASSERT_X(Condition) Q_STATIC_ASSERT_X(Condition)
 #endif
 
 
-/********************************************************************************
+/***********************************************************************************************************************
    QExt version macro
-********************************************************************************/
+***********************************************************************************************************************/
 // QEXT_VERSION is (major << 16) + (minor << 8) + patch.
 #define QEXT_VERSION QEXT_VERSION_CHECK(QEXT_VERSION_MAJOR, QEXT_VERSION_MINOR, QEXT_VERSION_PATCH)
 // can be used like #if (QEXT_VERSION >= QEXT_VERSION_CHECK(0, 3, 1))

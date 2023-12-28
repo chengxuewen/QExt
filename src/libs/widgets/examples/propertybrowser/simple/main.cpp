@@ -8,13 +8,13 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-    QtVariantPropertyManager *variantManager = new QtVariantPropertyManager();
+    QExtVariantPropertyManager *variantManager = new QExtVariantPropertyManager();
 
     int i = 0;
-    QtProperty *topItem = variantManager->addProperty(QtVariantPropertyManager::groupTypeId(),
+    QExtProperty *topItem = variantManager->addProperty(QExtVariantPropertyManager::groupTypeId(),
                 QString::number(i++) + QLatin1String(" Group Property"));
 
-    QtVariantProperty *item = variantManager->addProperty(QVariant::Bool, QString::number(i++) + QLatin1String(" Bool Property"));
+    QExtVariantProperty *item = variantManager->addProperty(QVariant::Bool, QString::number(i++) + QLatin1String(" Bool Property"));
     item->setValue(true);
     topItem->addSubProperty(item);
 
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
     item->setAttribute(QLatin1String("constraint"), QRectF(0, 0, 50, 50));
     item->setAttribute(QLatin1String("decimals"), 3);
 
-    item = variantManager->addProperty(QtVariantPropertyManager::enumTypeId(),
+    item = variantManager->addProperty(QExtVariantPropertyManager::enumTypeId(),
                     QString::number(i++) + QLatin1String(" Enum Property"));
     QStringList enumNames;
     enumNames << "Enum0" << "Enum1" << "Enum2";
@@ -126,7 +126,7 @@ int main(int argc, char **argv)
     item->setValue(1);
     topItem->addSubProperty(item);
 
-    item = variantManager->addProperty(QtVariantPropertyManager::flagTypeId(),
+    item = variantManager->addProperty(QExtVariantPropertyManager::flagTypeId(),
                     QString::number(i++) + QLatin1String(" Flag Property"));
     QStringList flagNames;
     flagNames << "Flag0" << "Flag1" << "Flag2";
@@ -146,9 +146,9 @@ int main(int argc, char **argv)
     item = variantManager->addProperty(QVariant::Color, QString::number(i++) + QLatin1String(" Color Property"));
     topItem->addSubProperty(item);
 
-    QtVariantEditorFactory *variantFactory = new QtVariantEditorFactory();
+    QExtVariantEditorFactory *variantFactory = new QExtVariantEditorFactory();
 
-    QtTreePropertyBrowser *variantEditor = new QtTreePropertyBrowser();
+    QExtTreePropertyBrowser *variantEditor = new QExtTreePropertyBrowser();
     variantEditor->setFactoryForManager(variantManager, variantFactory);
     variantEditor->addProperty(topItem);
     variantEditor->setPropertiesWithoutValueMarked(true);

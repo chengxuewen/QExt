@@ -77,7 +77,7 @@ protected:
     QScopedPointer<QExtDateTimeTumblerPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtDateTimeTumbler)
+    QEXT_DISABLE_COPY_MOVE(QExtDateTimeTumbler)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtDateTimeTumbler)
 };
 

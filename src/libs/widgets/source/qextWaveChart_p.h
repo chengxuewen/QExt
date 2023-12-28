@@ -79,7 +79,7 @@ public:
     QColor m_pointColor;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtWaveChartPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtWaveChartPrivate)
     QEXT_DECL_PUBLIC(QExtWaveChart)
 };
 

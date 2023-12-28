@@ -62,7 +62,7 @@ public:
     bool m_lightState;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtIndicatorLightPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtIndicatorLightPrivate)
     QEXT_DECL_PUBLIC(QExtIndicatorLight)
 };
 

@@ -75,7 +75,7 @@ public:
     QPointF m_lineRightPot;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtRulerSliderPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtRulerSliderPrivate)
     QEXT_DECL_PUBLIC(QExtRulerSlider)
 };
 

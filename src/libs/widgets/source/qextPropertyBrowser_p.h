@@ -15,10 +15,10 @@ class QMouseEvent;
 class QCheckBox;
 class QLineEdit;
 
-class QEXT_WIDGETS_API QtCursorDatabase
+class QEXT_WIDGETS_API QExtCursorDatabase
 {
 public:
-    QtCursorDatabase();
+    QExtCursorDatabase();
     void clear();
 
     QStringList cursorShapeNames() const;
@@ -31,13 +31,14 @@ public:
 #endif
 private:
     void appendCursor(Qt::CursorShape shape, const QString &name, const QIcon &icon);
+
     QStringList m_cursorNames;
     QMap<int, QIcon> m_cursorIcons;
     QMap<int, Qt::CursorShape> m_valueToCursorShape;
     QMap<Qt::CursorShape, int> m_cursorShapeToValue;
 };
 
-class QEXT_WIDGETS_API QtPropertyBrowserUtils
+class QEXT_WIDGETS_API QExtPropertyBrowserUtils
 {
 public:
     static QPixmap brushValuePixmap(const QBrush &b);
@@ -48,11 +49,12 @@ public:
     static QString fontValueText(const QFont &f);
 };
 
-class QEXT_WIDGETS_API QtBoolEdit : public QWidget
+class QEXT_WIDGETS_API QExtBoolEdit : public QWidget
 {
     Q_OBJECT
 public:
-    QtBoolEdit(QWidget *parent = 0);
+    QExtBoolEdit(QWidget *parent = QEXT_NULLPTR);
+    ~QExtBoolEdit() QEXT_OVERRIDE {}
 
     bool textVisible() const { return m_textVisible; }
     void setTextVisible(bool textVisible);
@@ -69,35 +71,41 @@ Q_SIGNALS:
     void toggled(bool);
 
 protected:
-    void mousePressEvent(QMouseEvent * event);
-    void paintEvent(QPaintEvent *);
+    void mousePressEvent(QMouseEvent * event) QEXT_OVERRIDE;
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
 
 private:
     QCheckBox *m_checkBox;
     bool m_textVisible;
 };
 
-class QEXT_WIDGETS_API QtKeySequenceEdit : public QWidget
+class QEXT_WIDGETS_API QExtKeySequenceEdit : public QWidget
 {
     Q_OBJECT
 public:
-    QtKeySequenceEdit(QWidget *parent = 0);
+    QExtKeySequenceEdit(QWidget *parent = QEXT_NULLPTR);
+    ~QExtKeySequenceEdit() QEXT_OVERRIDE { }
 
     QKeySequence keySequence() const;
-    bool eventFilter(QObject *o, QEvent *e);
+    bool eventFilter(QObject *o, QEvent *e) QEXT_OVERRIDE;
+
 public Q_SLOTS:
     void setKeySequence(const QKeySequence &sequence);
+
 Q_SIGNALS:
     void keySequenceChanged(const QKeySequence &sequence);
+
 protected:
-    void focusInEvent(QFocusEvent *e);
-    void focusOutEvent(QFocusEvent *e);
-    void keyPressEvent(QKeyEvent *e);
-    void keyReleaseEvent(QKeyEvent *e);
-    void paintEvent(QPaintEvent *);
-    bool event(QEvent *e);
+    void focusInEvent(QFocusEvent *e) QEXT_OVERRIDE;
+    void focusOutEvent(QFocusEvent *e) QEXT_OVERRIDE;
+    void keyPressEvent(QKeyEvent *e) QEXT_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent *e) QEXT_OVERRIDE;
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
+    bool event(QEvent *e) QEXT_OVERRIDE;
+
 private slots:
     void slotClearShortcut();
+
 private:
     void handleKeyEvent(QKeyEvent *e);
     int translateModifiers(Qt::KeyboardModifiers state, const QString &text) const;
@@ -109,43 +117,52 @@ private:
 
 
 /***********************************************************************************************************************
-** qtpropertymanager
+** property manager
 ***********************************************************************************************************************/
-class QtMetaEnumWrapper : public QObject
+class QExtMetaEnumWrapper : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QSizePolicy::Policy policy READ policy)
+
 public:
     QSizePolicy::Policy policy() const { return QSizePolicy::Ignored; }
+
 private:
-    QtMetaEnumWrapper(QObject *parent) : QObject(parent) {}
+    QExtMetaEnumWrapper(QObject *parent) : QObject(parent) {}
+    ~QExtMetaEnumWrapper() QEXT_OVERRIDE {}
 };
 
 
 /***********************************************************************************************************************
-** qteditorfactory
+** editor factory
 ***********************************************************************************************************************/
-class QtCharEdit : public QWidget
+class QExtCharEdit : public QWidget
 {
     Q_OBJECT
 public:
-    QtCharEdit(QWidget *parent = 0);
+    QExtCharEdit(QWidget *parent = QEXT_NULLPTR);
+    ~QExtCharEdit() QEXT_OVERRIDE {}
 
     QChar value() const;
-    bool eventFilter(QObject *o, QEvent *e);
+    bool eventFilter(QObject *o, QEvent *e) QEXT_OVERRIDE;
+
 public Q_SLOTS:
     void setValue(const QChar &value);
+
 Q_SIGNALS:
     void valueChanged(const QChar &value);
+
 protected:
-    void focusInEvent(QFocusEvent *e);
-    void focusOutEvent(QFocusEvent *e);
-    void keyPressEvent(QKeyEvent *e);
-    void keyReleaseEvent(QKeyEvent *e);
-    void paintEvent(QPaintEvent *);
-    bool event(QEvent *e);
+    void focusInEvent(QFocusEvent *e) QEXT_OVERRIDE;
+    void focusOutEvent(QFocusEvent *e) QEXT_OVERRIDE;
+    void keyPressEvent(QKeyEvent *e) QEXT_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent *e) QEXT_OVERRIDE;
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
+    bool event(QEvent *e) QEXT_OVERRIDE;
+
 private slots:
     void slotClearChar();
+
 private:
     void handleKeyEvent(QKeyEvent *e);
 
@@ -154,13 +171,15 @@ private:
 };
 
 
-class QtColorEditWidget : public QWidget {
+class QExtColorEditWidget : public QWidget
+{
     Q_OBJECT
 
 public:
-    QtColorEditWidget(QWidget *parent);
+    QExtColorEditWidget(QWidget *parent);
+    ~QExtColorEditWidget() QEXT_OVERRIDE {}
 
-    bool eventFilter(QObject *obj, QEvent *ev);
+    bool eventFilter(QObject *obj, QEvent *ev) QEXT_OVERRIDE;
 
 public Q_SLOTS:
     void setValue(const QColor &value);
@@ -169,7 +188,7 @@ Q_SIGNALS:
     void valueChanged(const QColor &value);
 
 protected:
-    void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
 
 private Q_SLOTS:
     void buttonClicked();
@@ -182,13 +201,15 @@ private:
 };
 
 
-class QtFontEditWidget : public QWidget {
+class QExtFontEditWidget : public QWidget
+{
     Q_OBJECT
 
 public:
-    QtFontEditWidget(QWidget *parent);
+    QExtFontEditWidget(QWidget *parent);
+    ~QExtFontEditWidget() QEXT_OVERRIDE {}
 
-    bool eventFilter(QObject *obj, QEvent *ev);
+    bool eventFilter(QObject *obj, QEvent *ev) QEXT_OVERRIDE;
 
 public Q_SLOTS:
     void setValue(const QFont &value);
@@ -197,7 +218,7 @@ Q_SIGNALS:
     void valueChanged(const QFont &value);
 
 protected:
-    void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
 
 private Q_SLOTS:
     void buttonClicked();
@@ -211,67 +232,64 @@ private:
 
 
 /***********************************************************************************************************************
-** qttreepropertybrowser
+** tree property browser
 ***********************************************************************************************************************/
-class QtPropertyEditorView : public QTreeWidget
+class QExtPropertyEditorView : public QTreeWidget
 {
     Q_OBJECT
+
 public:
-    QtPropertyEditorView(QWidget *parent = 0);
+    QExtPropertyEditorView(QWidget *parent = QEXT_NULLPTR);
+    ~QExtPropertyEditorView() QEXT_OVERRIDE {}
 
-    void setEditorPrivate(QtTreePropertyBrowserPrivate *editorPrivate)
-    { m_editorPrivate = editorPrivate; }
+    void setEditorPrivate(QExtTreePropertyBrowserPrivate *editorPrivate) { m_editorPrivate = editorPrivate; }
 
-    QTreeWidgetItem *indexToItem(const QModelIndex &index) const
-    { return itemFromIndex(index); }
+    QTreeWidgetItem *indexToItem(const QModelIndex &index) const { return itemFromIndex(index); }
 
 protected:
-    void keyPressEvent(QKeyEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void keyPressEvent(QKeyEvent *event) QEXT_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) QEXT_OVERRIDE;
+    void drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
 
 private:
-    QtTreePropertyBrowserPrivate *m_editorPrivate;
+    QExtTreePropertyBrowserPrivate *m_editorPrivate;
 };
 
-class QtPropertyEditorDelegate : public QItemDelegate
+class QExtPropertyEditorDelegate : public QItemDelegate
 {
     Q_OBJECT
+
 public:
-    QtPropertyEditorDelegate(QObject *parent = 0)
+    QExtPropertyEditorDelegate(QObject *parent = QEXT_NULLPTR)
         : QItemDelegate(parent), m_editorPrivate(0), m_editedItem(0), m_editedWidget(0), m_disablePainting(false)
     {}
+    ~QExtPropertyEditorDelegate() QEXT_OVERRIDE {}
 
-    void setEditorPrivate(QtTreePropertyBrowserPrivate *editorPrivate)
-    { m_editorPrivate = editorPrivate; }
+    void setEditorPrivate(QExtTreePropertyBrowserPrivate *editorPrivate) { m_editorPrivate = editorPrivate; }
 
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-                          const QModelIndex &index) const;
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
 
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
-                              const QModelIndex &index) const;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
 
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
 
-    void setModelData(QWidget *, QAbstractItemModel *,
-                      const QModelIndex &) const {}
+    void setModelData(QWidget *, QAbstractItemModel *, const QModelIndex &) const QEXT_OVERRIDE {}
 
-    void setEditorData(QWidget *, const QModelIndex &) const {}
+    void setEditorData(QWidget *, const QModelIndex &) const QEXT_OVERRIDE {}
 
-    bool eventFilter(QObject *object, QEvent *event);
-    void closeEditor(QtProperty *property);
+    bool eventFilter(QObject *object, QEvent *event) QEXT_OVERRIDE;
+
+    void closeEditor(QExtProperty *property);
 
     QTreeWidgetItem *editedItem() const { return m_editedItem; }
 
 protected:
-
     void drawDecoration(QPainter *painter, const QStyleOptionViewItem &option,
-                        const QRect &rect, const QPixmap &pixmap) const;
+                        const QRect &rect, const QPixmap &pixmap) const QEXT_OVERRIDE;
     void drawDisplay(QPainter *painter, const QStyleOptionViewItem &option,
-                     const QRect &rect, const QString &text) const;
+                     const QRect &rect, const QString &text) const QEXT_OVERRIDE;
 
 private slots:
     void slotEditorDestroyed(QObject *object);
@@ -279,12 +297,12 @@ private slots:
 private:
     int indentation(const QModelIndex &index) const;
 
-    typedef QMap<QWidget *, QtProperty *> EditorToPropertyMap;
+    typedef QMap<QWidget *, QExtProperty *> EditorToPropertyMap;
     mutable EditorToPropertyMap m_editorToProperty;
 
-    typedef QMap<QtProperty *, QWidget *> PropertyToEditorMap;
+    typedef QMap<QExtProperty *, QWidget *> PropertyToEditorMap;
     mutable PropertyToEditorMap m_propertyToEditor;
-    QtTreePropertyBrowserPrivate *m_editorPrivate;
+    QExtTreePropertyBrowserPrivate *m_editorPrivate;
     mutable QTreeWidgetItem *m_editedItem;
     mutable QWidget *m_editedWidget;
     mutable bool m_disablePainting;

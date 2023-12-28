@@ -114,7 +114,7 @@ protected:
     QScopedPointer<QExtSliderPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtSlider)
+    QEXT_DISABLE_COPY_MOVE(QExtSlider)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtSlider)
 };
 

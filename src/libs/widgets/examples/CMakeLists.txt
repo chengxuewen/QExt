@@ -672,3 +672,14 @@ qext_add_executable(exp_QExtWidgetPropertyBrowserObjectController
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+qext_add_executable(exp_QExtWidgetKeyboard
+    SOURCES
+    keyboard/main
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/keyboard
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")

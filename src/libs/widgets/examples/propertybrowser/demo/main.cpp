@@ -16,36 +16,36 @@ int main(int argc, char **argv)
 
     QWidget *w = new QWidget();
 
-    QtBoolPropertyManager *boolManager = new QtBoolPropertyManager(w);
-    QtIntPropertyManager *intManager = new QtIntPropertyManager(w);
-    QtStringPropertyManager *stringManager = new QtStringPropertyManager(w);
-    QtSizePropertyManager *sizeManager = new QtSizePropertyManager(w);
-    QtRectPropertyManager *rectManager = new QtRectPropertyManager(w);
-    QtSizePolicyPropertyManager *sizePolicyManager = new QtSizePolicyPropertyManager(w);
-    QtEnumPropertyManager *enumManager = new QtEnumPropertyManager(w);
-    QtGroupPropertyManager *groupManager = new QtGroupPropertyManager(w);
+    QExtBoolPropertyManager *boolManager = new QExtBoolPropertyManager(w);
+    QExtIntPropertyManager *intManager = new QExtIntPropertyManager(w);
+    QExtStringPropertyManager *stringManager = new QExtStringPropertyManager(w);
+    QExtSizePropertyManager *sizeManager = new QExtSizePropertyManager(w);
+    QExtRectPropertyManager *rectManager = new QExtRectPropertyManager(w);
+    QExtSizePolicyPropertyManager *sizePolicyManager = new QExtSizePolicyPropertyManager(w);
+    QExtEnumPropertyManager *enumManager = new QExtEnumPropertyManager(w);
+    QExtGroupPropertyManager *groupManager = new QExtGroupPropertyManager(w);
 
-    QtProperty *item0 = groupManager->addProperty("QObject");
+    QExtProperty *item0 = groupManager->addProperty("QObject");
 
-    QtProperty *item1 = stringManager->addProperty("objectName");
+    QExtProperty *item1 = stringManager->addProperty("objectName");
     item0->addSubProperty(item1);
 
-    QtProperty *item2 = boolManager->addProperty("enabled");
+    QExtProperty *item2 = boolManager->addProperty("enabled");
     item0->addSubProperty(item2);
 
-    QtProperty *item3 = rectManager->addProperty("geometry");
+    QExtProperty *item3 = rectManager->addProperty("geometry");
     item0->addSubProperty(item3);
 
-    QtProperty *item4 = sizePolicyManager->addProperty("sizePolicy");
+    QExtProperty *item4 = sizePolicyManager->addProperty("sizePolicy");
     item0->addSubProperty(item4);
 
-    QtProperty *item5 = sizeManager->addProperty("sizeIncrement");
+    QExtProperty *item5 = sizeManager->addProperty("sizeIncrement");
     item0->addSubProperty(item5);
 
-    QtProperty *item7 = boolManager->addProperty("mouseTracking");
+    QExtProperty *item7 = boolManager->addProperty("mouseTracking");
     item0->addSubProperty(item7);
 
-    QtProperty *item8 = enumManager->addProperty("direction");
+    QExtProperty *item8 = enumManager->addProperty("direction");
     QStringList enumNames;
     enumNames << "Up" << "Right" << "Down" << "Left";
     enumManager->setEnumNames(item8, enumNames);
@@ -57,18 +57,18 @@ int main(int argc, char **argv)
     enumManager->setEnumIcons(item8, enumIcons);
     item0->addSubProperty(item8);
 
-    QtProperty *item9 = intManager->addProperty("value");
+    QExtProperty *item9 = intManager->addProperty("value");
     intManager->setRange(item9, -100, 100);
     item0->addSubProperty(item9);
 
-    QtCheckBoxFactory *checkBoxFactory = new QtCheckBoxFactory(w);
-    QtSpinBoxFactory *spinBoxFactory = new QtSpinBoxFactory(w);
-    QtSliderFactory *sliderFactory = new QtSliderFactory(w);
-    QtScrollBarFactory *scrollBarFactory = new QtScrollBarFactory(w);
-    QtLineEditFactory *lineEditFactory = new QtLineEditFactory(w);
-    QtEnumEditorFactory *comboBoxFactory = new QtEnumEditorFactory(w);
+    QExtCheckBoxFactory *checkBoxFactory = new QExtCheckBoxFactory(w);
+    QExtSpinBoxFactory *spinBoxFactory = new QExtSpinBoxFactory(w);
+    QExtSliderFactory *sliderFactory = new QExtSliderFactory(w);
+    QExtScrollBarFactory *scrollBarFactory = new QExtScrollBarFactory(w);
+    QExtLineEditFactory *lineEditFactory = new QExtLineEditFactory(w);
+    QExtEnumEditorFactory *comboBoxFactory = new QExtEnumEditorFactory(w);
 
-    QtAbstractPropertyBrowser *editor1 = new QtTreePropertyBrowser();
+    QExtAbstractPropertyBrowser *editor1 = new QExtTreePropertyBrowser();
     editor1->setFactoryForManager(boolManager, checkBoxFactory);
     editor1->setFactoryForManager(intManager, spinBoxFactory);
     editor1->setFactoryForManager(stringManager, lineEditFactory);
@@ -80,10 +80,10 @@ int main(int argc, char **argv)
 
     editor1->addProperty(item0);
 
-    QtAbstractPropertyBrowser *editor2 = new QtTreePropertyBrowser();
+    QExtAbstractPropertyBrowser *editor2 = new QExtTreePropertyBrowser();
     editor2->addProperty(item0);
 
-    QtAbstractPropertyBrowser *editor3 = new QtGroupBoxPropertyBrowser();
+    QExtAbstractPropertyBrowser *editor3 = new QExtGroupBoxPropertyBrowser();
     editor3->setFactoryForManager(boolManager, checkBoxFactory);
     editor3->setFactoryForManager(intManager, spinBoxFactory);
     editor3->setFactoryForManager(stringManager, lineEditFactory);
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
     scroll3->setWidgetResizable(true);
     scroll3->setWidget(editor3);
 
-    QtAbstractPropertyBrowser *editor4 = new QtGroupBoxPropertyBrowser();
+    QExtAbstractPropertyBrowser *editor4 = new QExtGroupBoxPropertyBrowser();
     editor4->setFactoryForManager(boolManager, checkBoxFactory);
     editor4->setFactoryForManager(intManager, scrollBarFactory);
     editor4->setFactoryForManager(stringManager, lineEditFactory);
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
     scroll4->setWidgetResizable(true);
     scroll4->setWidget(editor4);
 
-    QtAbstractPropertyBrowser *editor5 = new QtButtonPropertyBrowser();
+    QExtAbstractPropertyBrowser *editor5 = new QExtButtonPropertyBrowser();
     editor5->setFactoryForManager(boolManager, checkBoxFactory);
     editor5->setFactoryForManager(intManager, scrollBarFactory);
     editor5->setFactoryForManager(stringManager, lineEditFactory);

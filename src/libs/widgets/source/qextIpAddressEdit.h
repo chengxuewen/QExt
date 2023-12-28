@@ -78,7 +78,7 @@ private Q_SLOTS:
     void textChanged(const QString &text);
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtIpAddressEdit)
+    QEXT_DISABLE_COPY_MOVE(QExtIpAddressEdit)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtIpAddressEdit)
 };
 

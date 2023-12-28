@@ -15,16 +15,16 @@ class QTime;
 class QDateTime;
 class QLocale;
 
-class QtAbstractPropertyManager;
-class QtPropertyPrivate;
-class QEXT_WIDGETS_API QtProperty
+class QExtAbstractPropertyManager;
+class QExtPropertyPrivate;
+class QEXT_WIDGETS_API QExtProperty
 {
 public:
-    virtual ~QtProperty();
+    virtual ~QExtProperty();
 
-    QList<QtProperty *> subProperties() const;
+    QList<QExtProperty *> subProperties() const;
 
-    QtAbstractPropertyManager *propertyManager() const;
+    QExtAbstractPropertyManager *propertyManager() const;
 
     QString toolTip() const;
     QString statusTip() const;
@@ -45,75 +45,80 @@ public:
     void setEnabled(bool enable);
     void setModified(bool modified);
 
-    void addSubProperty(QtProperty *property);
-    void insertSubProperty(QtProperty *property, QtProperty *afterProperty);
-    void removeSubProperty(QtProperty *property);
+    void addSubProperty(QExtProperty *property);
+    void insertSubProperty(QExtProperty *property, QExtProperty *afterProperty);
+    void removeSubProperty(QExtProperty *property);
+
 protected:
-    explicit QtProperty(QtAbstractPropertyManager *manager);
+    explicit QExtProperty(QExtAbstractPropertyManager *manager);
     void propertyChanged();
+
 private:
-    friend class QtAbstractPropertyManager;
-    QtPropertyPrivate *d_ptr;
+    friend class QExtAbstractPropertyManager;
+    QExtPropertyPrivate *d_ptr;
 };
 
-class QtAbstractPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtAbstractPropertyManager : public QObject
+class QExtAbstractPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtAbstractPropertyManager : public QObject
 {
     Q_OBJECT
+
 public:
+    explicit QExtAbstractPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtAbstractPropertyManager() QEXT_OVERRIDE;
 
-    explicit QtAbstractPropertyManager(QObject *parent = 0);
-    ~QtAbstractPropertyManager();
-
-    QSet<QtProperty *> properties() const;
     void clear() const;
+    QSet<QExtProperty *> properties() const;
+    QExtProperty *addProperty(const QString &name = QString());
 
-    QtProperty *addProperty(const QString &name = QString());
 Q_SIGNALS:
+    void propertyChanged(QExtProperty *property);
+    void propertyDestroyed(QExtProperty *property);
+    void propertyRemoved(QExtProperty *property, QExtProperty *parent);
+    void propertyInserted(QExtProperty *property, QExtProperty *parent, QExtProperty *after);
 
-    void propertyInserted(QtProperty *property,
-                          QtProperty *parent, QtProperty *after);
-    void propertyChanged(QtProperty *property);
-    void propertyRemoved(QtProperty *property, QtProperty *parent);
-    void propertyDestroyed(QtProperty *property);
 protected:
-    virtual bool hasValue(const QtProperty *property) const;
-    virtual QIcon valueIcon(const QtProperty *property) const;
-    virtual QString valueText(const QtProperty *property) const;
-    virtual QString displayText(const QtProperty *property) const;
-    virtual EchoMode echoMode(const QtProperty *) const;
-    virtual void initializeProperty(QtProperty *property) = 0;
-    virtual void uninitializeProperty(QtProperty *property);
-    virtual QtProperty *createProperty();
+    virtual bool hasValue(const QExtProperty *property) const;
+    virtual QIcon valueIcon(const QExtProperty *property) const;
+    virtual QString valueText(const QExtProperty *property) const;
+    virtual QString displayText(const QExtProperty *property) const;
+    virtual EchoMode echoMode(const QExtProperty *) const;
+    virtual void initializeProperty(QExtProperty *property) = 0;
+    virtual void uninitializeProperty(QExtProperty *property);
+    virtual QExtProperty *createProperty();
+
 private:
-    friend class QtProperty;
-    QtAbstractPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtAbstractPropertyManager)
-    Q_DISABLE_COPY(QtAbstractPropertyManager)
+    friend class QExtProperty;
+    QExtAbstractPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtAbstractPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtAbstractPropertyManager)
 };
 
-class QEXT_WIDGETS_API QtAbstractEditorFactoryBase : public QObject
+class QEXT_WIDGETS_API QExtAbstractEditorFactoryBase : public QObject
 {
     Q_OBJECT
 public:
-    virtual QWidget *createEditor(QtProperty *property, QWidget *parent) = 0;
-protected:
-    explicit QtAbstractEditorFactoryBase(QObject *parent = 0)
-        : QObject(parent) {}
+    virtual QWidget *createEditor(QExtProperty *property, QWidget *parent) = 0;
 
-    virtual void breakConnection(QtAbstractPropertyManager *manager) = 0;
+protected:
+    explicit QExtAbstractEditorFactoryBase(QObject *parent = QEXT_NULLPTR) : QObject(parent) {}
+
+    virtual void breakConnection(QExtAbstractPropertyManager *manager) = 0;
+
 protected Q_SLOTS:
     virtual void managerDestroyed(QObject *manager) = 0;
 
-    friend class QtAbstractPropertyBrowser;
+    friend class QExtAbstractPropertyBrowser;
 };
 
-template <class PropertyManager>
-class QtAbstractEditorFactory : public QtAbstractEditorFactoryBase
+template <typename PropertyManager>
+class QExtAbstractEditorFactory : public QExtAbstractEditorFactoryBase
 {
 public:
-    explicit QtAbstractEditorFactory(QObject *parent) : QtAbstractEditorFactoryBase(parent) {}
-    QWidget *createEditor(QtProperty *property, QWidget *parent)
+    explicit QExtAbstractEditorFactory(QObject *parent) : QExtAbstractEditorFactoryBase(parent) {}
+    ~QExtAbstractEditorFactory() QEXT_OVERRIDE {}
+
+    QWidget *createEditor(QExtProperty *property, QWidget *parent) QEXT_OVERRIDE
     {
         QSetIterator<PropertyManager *> it(m_managers);
         while (it.hasNext())
@@ -149,1205 +154,1305 @@ public:
     {
         return m_managers;
     }
-    PropertyManager *propertyManager(QtProperty *property) const
+    PropertyManager *propertyManager(QExtProperty *property) const
     {
-        QtAbstractPropertyManager *manager = property->propertyManager();
+        QExtAbstractPropertyManager *manager = property->propertyManager();
         QSetIterator<PropertyManager *> itManager(m_managers);
-        while (itManager.hasNext()) {
+        while (itManager.hasNext())
+        {
             PropertyManager *m = itManager.next();
-            if (m == manager) {
+            if (m == manager)
+            {
                 return m;
             }
         }
         return 0;
     }
+
 protected:
     virtual void connectPropertyManager(PropertyManager *manager) = 0;
-    virtual QWidget *createEditor(PropertyManager *manager, QtProperty *property,
-                                  QWidget *parent) = 0;
     virtual void disconnectPropertyManager(PropertyManager *manager) = 0;
-    void managerDestroyed(QObject *manager)
+    virtual QWidget *createEditor(PropertyManager *manager, QExtProperty *property, QWidget *parent) = 0;
+    void managerDestroyed(QObject *manager) QEXT_OVERRIDE
     {
         QSetIterator<PropertyManager *> it(m_managers);
-        while (it.hasNext()) {
+        while (it.hasNext())
+        {
             PropertyManager *m = it.next();
-            if (m == manager) {
+            if (m == manager)
+            {
                 m_managers.remove(m);
                 return;
             }
         }
     }
+
 private:
-    void breakConnection(QtAbstractPropertyManager *manager)
+    void breakConnection(QExtAbstractPropertyManager *manager) QEXT_OVERRIDE
     {
         QSetIterator<PropertyManager *> it(m_managers);
-        while (it.hasNext()) {
+        while (it.hasNext())
+        {
             PropertyManager *m = it.next();
-            if (m == manager) {
+            if (m == manager)
+            {
                 removePropertyManager(m);
                 return;
             }
         }
     }
+
 private:
     QSet<PropertyManager *> m_managers;
     friend class QtAbstractPropertyEditor;
 };
 
-class QtAbstractPropertyBrowser;
-class QtBrowserItemPrivate;
-class QEXT_WIDGETS_API QtBrowserItem
+class QExtAbstractPropertyBrowser;
+class QExtBrowserItemPrivate;
+class QEXT_WIDGETS_API QExtBrowserItem
 {
 public:
-    QtProperty *property() const;
-    QtBrowserItem *parent() const;
-    QList<QtBrowserItem *> children() const;
-    QtAbstractPropertyBrowser *browser() const;
+    QExtProperty *property() const;
+    QExtBrowserItem *parent() const;
+    QList<QExtBrowserItem *> children() const;
+    QExtAbstractPropertyBrowser *browser() const;
+
 private:
-    explicit QtBrowserItem(QtAbstractPropertyBrowser *browser, QtProperty *property, QtBrowserItem *parent);
-    ~QtBrowserItem();
-    QtBrowserItemPrivate *d_ptr;
-    friend class QtAbstractPropertyBrowserPrivate;
+    explicit QExtBrowserItem(QExtAbstractPropertyBrowser *browser, QExtProperty *property, QExtBrowserItem *parent);
+    ~QExtBrowserItem();
+
+    QExtBrowserItemPrivate *d_ptr;
+    friend class QExtAbstractPropertyBrowserPrivate;
 };
 
-class QtAbstractPropertyBrowserPrivate;
-class QEXT_WIDGETS_API QtAbstractPropertyBrowser : public QWidget
+class QExtAbstractPropertyBrowserPrivate;
+class QEXT_WIDGETS_API QExtAbstractPropertyBrowser : public QWidget
 {
     Q_OBJECT
+
 public:
+    explicit QExtAbstractPropertyBrowser(QWidget *parent = QEXT_NULLPTR);
+    ~QExtAbstractPropertyBrowser() QEXT_OVERRIDE;
 
-    explicit QtAbstractPropertyBrowser(QWidget *parent = 0);
-    ~QtAbstractPropertyBrowser();
-
-    QList<QtProperty *> properties() const;
-    QList<QtBrowserItem *> items(QtProperty *property) const;
-    QtBrowserItem *topLevelItem(QtProperty *property) const;
-    QList<QtBrowserItem *> topLevelItems() const;
     void clear();
+    QList<QExtProperty *> properties() const;
+    QList<QExtBrowserItem *> topLevelItems() const;
+    QList<QExtBrowserItem *> items(QExtProperty *property) const;
+    QExtBrowserItem *topLevelItem(QExtProperty *property) const;
 
     template <class PropertyManager>
-    void setFactoryForManager(PropertyManager *manager,
-                              QtAbstractEditorFactory<PropertyManager> *factory) {
-        QtAbstractPropertyManager *abstractManager = manager;
-        QtAbstractEditorFactoryBase *abstractFactory = factory;
-
-        if (addFactory(abstractManager, abstractFactory))
+    void setFactoryForManager(PropertyManager *manager, QExtAbstractEditorFactory<PropertyManager> *factory)
+    {
+        QExtAbstractPropertyManager *abstractManager = manager;
+        QExtAbstractEditorFactoryBase *abstractFactory = factory;
+        if (this->addFactory(abstractManager, abstractFactory))
+        {
             factory->addPropertyManager(manager);
+        }
     }
 
-    void unsetFactoryForManager(QtAbstractPropertyManager *manager);
+    void unsetFactoryForManager(QExtAbstractPropertyManager *manager);
 
-    QtBrowserItem *currentItem() const;
-    void setCurrentItem(QtBrowserItem *);
+    QExtBrowserItem *currentItem() const;
+    void setCurrentItem(QExtBrowserItem *);
 
 Q_SIGNALS:
-    void currentItemChanged(QtBrowserItem *);
+    void currentItemChanged(QExtBrowserItem *);
 
 public Q_SLOTS:
-
-    QtBrowserItem *addProperty(QtProperty *property);
-    QtBrowserItem *insertProperty(QtProperty *property, QtProperty *afterProperty);
-    void removeProperty(QtProperty *property);
+    void removeProperty(QExtProperty *property);
+    QExtBrowserItem *addProperty(QExtProperty *property);
+    QExtBrowserItem *insertProperty(QExtProperty *property, QExtProperty *afterProperty);
 
 protected:
-
-    virtual void itemInserted(QtBrowserItem *item, QtBrowserItem *afterItem) = 0;
-    virtual void itemRemoved(QtBrowserItem *item) = 0;
+    virtual void itemRemoved(QExtBrowserItem *item) = 0;
     // can be tooltip, statustip, whatsthis, name, icon, text.
-    virtual void itemChanged(QtBrowserItem *item) = 0;
+    virtual void itemChanged(QExtBrowserItem *item) = 0;
+    virtual QWidget *createEditor(QExtProperty *property, QWidget *parent);
+    virtual void itemInserted(QExtBrowserItem *item, QExtBrowserItem *afterItem) = 0;
 
-    virtual QWidget *createEditor(QtProperty *property, QWidget *parent);
 private:
+    bool addFactory(QExtAbstractPropertyManager *abstractManager, QExtAbstractEditorFactoryBase *abstractFactory);
 
-    bool addFactory(QtAbstractPropertyManager *abstractManager,
-                    QtAbstractEditorFactoryBase *abstractFactory);
-
-    QtAbstractPropertyBrowserPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtAbstractPropertyBrowser)
-    Q_DISABLE_COPY(QtAbstractPropertyBrowser)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyInserted(QtProperty *,
-                                                       QtProperty *, QtProperty *))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyRemoved(QtProperty *,
-                                                      QtProperty *))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDataChanged(QtProperty *))
-
+    QExtAbstractPropertyBrowserPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtAbstractPropertyBrowser)
+    QEXT_DISABLE_COPY_MOVE(QExtAbstractPropertyBrowser)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyInserted(QExtProperty *, QExtProperty *, QExtProperty *))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyRemoved(QExtProperty *, QExtProperty *))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDataChanged(QExtProperty *))
 };
 
 
 /***********************************************************************************************************************
-** qtpropertymanager
+** property manager
 ***********************************************************************************************************************/
-class QEXT_WIDGETS_API QtGroupPropertyManager : public QtAbstractPropertyManager
+class QEXT_WIDGETS_API QExtGroupPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtGroupPropertyManager(QObject *parent = 0);
-    ~QtGroupPropertyManager();
+    QExtGroupPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtGroupPropertyManager() QEXT_OVERRIDE;
 
-protected:
-    virtual bool hasValue(const QtProperty *property) const;
-
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+protected:    
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual bool hasValue(const QExtProperty *property) const QEXT_OVERRIDE;
 };
 
-class QtIntPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtIntPropertyManager : public QtAbstractPropertyManager
+class QExtIntPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtIntPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
-public:
-    QtIntPropertyManager(QObject *parent = 0);
-    ~QtIntPropertyManager();
 
-    int value(const QtProperty *property) const;
-    int minimum(const QtProperty *property) const;
-    int maximum(const QtProperty *property) const;
-    int singleStep(const QtProperty *property) const;
-    bool isReadOnly(const QtProperty *property) const;
+public:
+    QExtIntPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtIntPropertyManager() QEXT_OVERRIDE;
+
+    int value(const QExtProperty *property) const;
+    int minimum(const QExtProperty *property) const;
+    int maximum(const QExtProperty *property) const;
+    int singleStep(const QExtProperty *property) const;
+    bool isReadOnly(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, int val);
-    void setMinimum(QtProperty *property, int minVal);
-    void setMaximum(QtProperty *property, int maxVal);
-    void setRange(QtProperty *property, int minVal, int maxVal);
-    void setSingleStep(QtProperty *property, int step);
-    void setReadOnly(QtProperty *property, bool readOnly);
+    void setValue(QExtProperty *property, int val);
+    void setMinimum(QExtProperty *property, int minVal);
+    void setMaximum(QExtProperty *property, int maxVal);
+    void setRange(QExtProperty *property, int minVal, int maxVal);
+    void setSingleStep(QExtProperty *property, int step);
+    void setReadOnly(QExtProperty *property, bool readOnly);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, int val);
-    void rangeChanged(QtProperty *property, int minVal, int maxVal);
-    void singleStepChanged(QtProperty *property, int step);
-    void readOnlyChanged(QtProperty *property, bool readOnly);
+    void valueChanged(QExtProperty *property, int val);
+    void rangeChanged(QExtProperty *property, int minVal, int maxVal);
+    void singleStepChanged(QExtProperty *property, int step);
+    void readOnlyChanged(QExtProperty *property, bool readOnly);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtIntPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtIntPropertyManager)
-    Q_DISABLE_COPY(QtIntPropertyManager)
+    QExtIntPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtIntPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtIntPropertyManager)
 };
 
-class QtBoolPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtBoolPropertyManager : public QtAbstractPropertyManager
+class QExtBoolPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtBoolPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
-public:
-    QtBoolPropertyManager(QObject *parent = 0);
-    ~QtBoolPropertyManager();
 
-    bool value(const QtProperty *property) const;
-    bool textVisible(const QtProperty *property) const;
+public:
+    QExtBoolPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtBoolPropertyManager() QEXT_OVERRIDE;
+
+    bool value(const QExtProperty *property) const;
+    bool textVisible(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, bool val);
-    void setTextVisible(QtProperty *property, bool textVisible);
+    void setValue(QExtProperty *property, bool val);
+    void setTextVisible(QExtProperty *property, bool textVisible);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, bool val);
-    void textVisibleChanged(QtProperty *property, bool);
+    void valueChanged(QExtProperty *property, bool val);
+    void textVisibleChanged(QExtProperty *property, bool);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    QIcon valueIcon(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QIcon valueIcon(const QExtProperty *property) const QEXT_OVERRIDE;
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtBoolPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtBoolPropertyManager)
-    Q_DISABLE_COPY(QtBoolPropertyManager)
+    QExtBoolPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtBoolPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtBoolPropertyManager)
 };
 
-class QtDoublePropertyManagerPrivate;
-class QEXT_WIDGETS_API QtDoublePropertyManager : public QtAbstractPropertyManager
+class QExtDoublePropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtDoublePropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
-public:
-    QtDoublePropertyManager(QObject *parent = 0);
-    ~QtDoublePropertyManager();
 
-    double value(const QtProperty *property) const;
-    double minimum(const QtProperty *property) const;
-    double maximum(const QtProperty *property) const;
-    double singleStep(const QtProperty *property) const;
-    int decimals(const QtProperty *property) const;
-    bool isReadOnly(const QtProperty *property) const;
+public:
+    QExtDoublePropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtDoublePropertyManager() QEXT_OVERRIDE;
+
+    double value(const QExtProperty *property) const;
+    double minimum(const QExtProperty *property) const;
+    double maximum(const QExtProperty *property) const;
+    double singleStep(const QExtProperty *property) const;
+    int decimals(const QExtProperty *property) const;
+    bool isReadOnly(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, double val);
-    void setMinimum(QtProperty *property, double minVal);
-    void setMaximum(QtProperty *property, double maxVal);
-    void setRange(QtProperty *property, double minVal, double maxVal);
-    void setSingleStep(QtProperty *property, double step);
-    void setDecimals(QtProperty *property, int prec);
-    void setReadOnly(QtProperty *property, bool readOnly);
+    void setValue(QExtProperty *property, double val);
+    void setMinimum(QExtProperty *property, double minVal);
+    void setMaximum(QExtProperty *property, double maxVal);
+    void setRange(QExtProperty *property, double minVal, double maxVal);
+    void setSingleStep(QExtProperty *property, double step);
+    void setDecimals(QExtProperty *property, int prec);
+    void setReadOnly(QExtProperty *property, bool readOnly);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, double val);
-    void rangeChanged(QtProperty *property, double minVal, double maxVal);
-    void singleStepChanged(QtProperty *property, double step);
-    void decimalsChanged(QtProperty *property, int prec);
-    void readOnlyChanged(QtProperty *property, bool readOnly);
+    void valueChanged(QExtProperty *property, double val);
+    void rangeChanged(QExtProperty *property, double minVal, double maxVal);
+    void singleStepChanged(QExtProperty *property, double step);
+    void decimalsChanged(QExtProperty *property, int prec);
+    void readOnlyChanged(QExtProperty *property, bool readOnly);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtDoublePropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtDoublePropertyManager)
-    Q_DISABLE_COPY(QtDoublePropertyManager)
+    QExtDoublePropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtDoublePropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtDoublePropertyManager)
 };
 
-class QtStringPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtStringPropertyManager : public QtAbstractPropertyManager
+class QExtStringPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtStringPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
-public:
-    QtStringPropertyManager(QObject *parent = 0);
-    ~QtStringPropertyManager();
 
-    QString value(const QtProperty *property) const;
-    QRegExp regExp(const QtProperty *property) const;
-    EchoMode echoMode(const QtProperty *property) const;
-    bool isReadOnly(const QtProperty *property) const;
+public:
+    QExtStringPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtStringPropertyManager() QEXT_OVERRIDE;
+
+    QString value(const QExtProperty *property) const;
+    QRegExp regExp(const QExtProperty *property) const;
+    bool isReadOnly(const QExtProperty *property) const;
+    EchoMode echoMode(const QExtProperty *property) const QEXT_OVERRIDE;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QString &val);
-    void setRegExp(QtProperty *property, const QRegExp &regExp);
-    void setEchoMode(QtProperty *property, EchoMode echoMode);
-    void setReadOnly(QtProperty *property, bool readOnly);
+    void setValue(QExtProperty *property, const QString &val);
+    void setRegExp(QExtProperty *property, const QRegExp &regExp);
+    void setEchoMode(QExtProperty *property, EchoMode echoMode);
+    void setReadOnly(QExtProperty *property, bool readOnly);
 
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QString &val);
-    void regExpChanged(QtProperty *property, const QRegExp &regExp);
-    void echoModeChanged(QtProperty *property, const int);
-    void readOnlyChanged(QtProperty *property, bool);
+    void valueChanged(QExtProperty *property, const QString &val);
+    void regExpChanged(QExtProperty *property, const QRegExp &regExp);
+    void echoModeChanged(QExtProperty *property, const int);
+    void readOnlyChanged(QExtProperty *property, bool);
 
 protected:
-    QString valueText(const QtProperty *property) const;
-    QString displayText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    QString displayText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtStringPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtStringPropertyManager)
-    Q_DISABLE_COPY(QtStringPropertyManager)
+    QExtStringPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtStringPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtStringPropertyManager)
 };
 
-class QtDatePropertyManagerPrivate;
-class QEXT_WIDGETS_API QtDatePropertyManager : public QtAbstractPropertyManager
+class QExtDatePropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtDatePropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
-public:
-    QtDatePropertyManager(QObject *parent = 0);
-    ~QtDatePropertyManager();
 
-    QDate value(const QtProperty *property) const;
-    QDate minimum(const QtProperty *property) const;
-    QDate maximum(const QtProperty *property) const;
+public:
+    QExtDatePropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtDatePropertyManager() QEXT_OVERRIDE;
+
+    QDate value(const QExtProperty *property) const;
+    QDate minimum(const QExtProperty *property) const;
+    QDate maximum(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QDate &val);
-    void setMinimum(QtProperty *property, const QDate &minVal);
-    void setMaximum(QtProperty *property, const QDate &maxVal);
-    void setRange(QtProperty *property, const QDate &minVal, const QDate &maxVal);
+    void setValue(QExtProperty *property, const QDate &val);
+    void setMinimum(QExtProperty *property, const QDate &minVal);
+    void setMaximum(QExtProperty *property, const QDate &maxVal);
+    void setRange(QExtProperty *property, const QDate &minVal, const QDate &maxVal);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QDate &val);
-    void rangeChanged(QtProperty *property, const QDate &minVal, const QDate &maxVal);
+    void valueChanged(QExtProperty *property, const QDate &val);
+    void rangeChanged(QExtProperty *property, const QDate &minVal, const QDate &maxVal);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtDatePropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtDatePropertyManager)
-    Q_DISABLE_COPY(QtDatePropertyManager)
+    QExtDatePropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtDatePropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtDatePropertyManager)
 };
 
-class QtTimePropertyManagerPrivate;
-class QEXT_WIDGETS_API QtTimePropertyManager : public QtAbstractPropertyManager
+class QExtTimePropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtTimePropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
-public:
-    QtTimePropertyManager(QObject *parent = 0);
-    ~QtTimePropertyManager();
 
-    QTime value(const QtProperty *property) const;
+public:
+    QExtTimePropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtTimePropertyManager() QEXT_OVERRIDE;
+
+    QTime value(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QTime &val);
+    void setValue(QExtProperty *property, const QTime &val);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QTime &val);
+    void valueChanged(QExtProperty *property, const QTime &val);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtTimePropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtTimePropertyManager)
-    Q_DISABLE_COPY(QtTimePropertyManager)
+    QExtTimePropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtTimePropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtTimePropertyManager)
 };
 
-class QtDateTimePropertyManagerPrivate;
-class QEXT_WIDGETS_API QtDateTimePropertyManager : public QtAbstractPropertyManager
+class QExtDateTimePropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtDateTimePropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
-public:
-    QtDateTimePropertyManager(QObject *parent = 0);
-    ~QtDateTimePropertyManager();
 
-    QDateTime value(const QtProperty *property) const;
+public:
+    QExtDateTimePropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtDateTimePropertyManager() QEXT_OVERRIDE;
+
+    QDateTime value(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QDateTime &val);
+    void setValue(QExtProperty *property, const QDateTime &val);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QDateTime &val);
+    void valueChanged(QExtProperty *property, const QDateTime &val);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtDateTimePropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtDateTimePropertyManager)
-    Q_DISABLE_COPY(QtDateTimePropertyManager)
+    QExtDateTimePropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtDateTimePropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtDateTimePropertyManager)
 };
 
-class QtKeySequencePropertyManagerPrivate;
-class QEXT_WIDGETS_API QtKeySequencePropertyManager : public QtAbstractPropertyManager
+class QExtKeySequencePropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtKeySequencePropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
-public:
-    QtKeySequencePropertyManager(QObject *parent = 0);
-    ~QtKeySequencePropertyManager();
 
-    QKeySequence value(const QtProperty *property) const;
+public:
+    QExtKeySequencePropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtKeySequencePropertyManager() QEXT_OVERRIDE;
+
+    QKeySequence value(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QKeySequence &val);
+    void setValue(QExtProperty *property, const QKeySequence &val);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QKeySequence &val);
+    void valueChanged(QExtProperty *property, const QKeySequence &val);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtKeySequencePropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtKeySequencePropertyManager)
-    Q_DISABLE_COPY(QtKeySequencePropertyManager)
+    QExtKeySequencePropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtKeySequencePropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtKeySequencePropertyManager)
 };
 
-class QtCharPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtCharPropertyManager : public QtAbstractPropertyManager
+class QExtCharPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtCharPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
-public:
-    QtCharPropertyManager(QObject *parent = 0);
-    ~QtCharPropertyManager();
 
-    QChar value(const QtProperty *property) const;
+public:
+    QExtCharPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtCharPropertyManager() QEXT_OVERRIDE;
+
+    QChar value(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QChar &val);
+    void setValue(QExtProperty *property, const QChar &val);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QChar &val);
+    void valueChanged(QExtProperty *property, const QChar &val);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtCharPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtCharPropertyManager)
-    Q_DISABLE_COPY(QtCharPropertyManager)
+    QExtCharPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtCharPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtCharPropertyManager)
 };
 
-class QtEnumPropertyManager;
-class QtLocalePropertyManagerPrivate;
-class QEXT_WIDGETS_API QtLocalePropertyManager : public QtAbstractPropertyManager
+class QExtEnumPropertyManager;
+class QExtLocalePropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtLocalePropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtLocalePropertyManager(QObject *parent = 0);
-    ~QtLocalePropertyManager();
+    QExtLocalePropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtLocalePropertyManager() QEXT_OVERRIDE;
 
-    QtEnumPropertyManager *subEnumPropertyManager() const;
+    QExtEnumPropertyManager *subEnumPropertyManager() const;
 
-    QLocale value(const QtProperty *property) const;
+    QLocale value(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QLocale &val);
+    void setValue(QExtProperty *property, const QLocale &val);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QLocale &val);
+    void valueChanged(QExtProperty *property, const QLocale &val);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtLocalePropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtLocalePropertyManager)
-    Q_DISABLE_COPY(QtLocalePropertyManager)
-    Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
+    QExtLocalePropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtLocalePropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtLocalePropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
 };
 
-class QtPointPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtPointPropertyManager : public QtAbstractPropertyManager
+class QExtPointPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtPointPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtPointPropertyManager(QObject *parent = 0);
-    ~QtPointPropertyManager();
+    QExtPointPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtPointPropertyManager() QEXT_OVERRIDE;
 
-    QtIntPropertyManager *subIntPropertyManager() const;
+    QExtIntPropertyManager *subIntPropertyManager() const;
 
-    QPoint value(const QtProperty *property) const;
+    QPoint value(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QPoint &val);
+    void setValue(QExtProperty *property, const QPoint &val);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QPoint &val);
+    void valueChanged(QExtProperty *property, const QPoint &val);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtPointPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtPointPropertyManager)
-    Q_DISABLE_COPY(QtPointPropertyManager)
-    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
+    QExtPointPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtPointPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtPointPropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
 };
 
-class QtPointFPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtPointFPropertyManager : public QtAbstractPropertyManager
+class QExtPointFPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtPointFPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtPointFPropertyManager(QObject *parent = 0);
-    ~QtPointFPropertyManager();
+    QExtPointFPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtPointFPropertyManager() QEXT_OVERRIDE;
 
-    QtDoublePropertyManager *subDoublePropertyManager() const;
+    QExtDoublePropertyManager *subDoublePropertyManager() const;
 
-    QPointF value(const QtProperty *property) const;
-    int decimals(const QtProperty *property) const;
+    QPointF value(const QExtProperty *property) const;
+    int decimals(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QPointF &val);
-    void setDecimals(QtProperty *property, int prec);
+    void setDecimals(QExtProperty *property, int prec);
+    void setValue(QExtProperty *property, const QPointF &val);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QPointF &val);
-    void decimalsChanged(QtProperty *property, int prec);
+    void decimalsChanged(QExtProperty *property, int prec);
+    void valueChanged(QExtProperty *property, const QPointF &val);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtPointFPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtPointFPropertyManager)
-    Q_DISABLE_COPY(QtPointFPropertyManager)
-    Q_PRIVATE_SLOT(d_func(), void slotDoubleChanged(QtProperty *, double))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
+    QExtPointFPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtPointFPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtPointFPropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotDoubleChanged(QExtProperty *, double))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
 };
 
-class QtSizePropertyManagerPrivate;
-class QEXT_WIDGETS_API QtSizePropertyManager : public QtAbstractPropertyManager
+class QExtSizePropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtSizePropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtSizePropertyManager(QObject *parent = 0);
-    ~QtSizePropertyManager();
+    QExtSizePropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtSizePropertyManager() QEXT_OVERRIDE;
 
-    QtIntPropertyManager *subIntPropertyManager() const;
+    QExtIntPropertyManager *subIntPropertyManager() const;
 
-    QSize value(const QtProperty *property) const;
-    QSize minimum(const QtProperty *property) const;
-    QSize maximum(const QtProperty *property) const;
+    QSize value(const QExtProperty *property) const;
+    QSize minimum(const QExtProperty *property) const;
+    QSize maximum(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QSize &val);
-    void setMinimum(QtProperty *property, const QSize &minVal);
-    void setMaximum(QtProperty *property, const QSize &maxVal);
-    void setRange(QtProperty *property, const QSize &minVal, const QSize &maxVal);
+    void setValue(QExtProperty *property, const QSize &val);
+    void setMinimum(QExtProperty *property, const QSize &minVal);
+    void setMaximum(QExtProperty *property, const QSize &maxVal);
+    void setRange(QExtProperty *property, const QSize &minVal, const QSize &maxVal);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QSize &val);
-    void rangeChanged(QtProperty *property, const QSize &minVal, const QSize &maxVal);
+    void valueChanged(QExtProperty *property, const QSize &val);
+    void rangeChanged(QExtProperty *property, const QSize &minVal, const QSize &maxVal);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtSizePropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtSizePropertyManager)
-    Q_DISABLE_COPY(QtSizePropertyManager)
-    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
+    QExtSizePropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtSizePropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtSizePropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
 };
 
-class QtSizeFPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtSizeFPropertyManager : public QtAbstractPropertyManager
+class QExtSizeFPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtSizeFPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
 public:
-    QtSizeFPropertyManager(QObject *parent = 0);
-    ~QtSizeFPropertyManager();
+    QExtSizeFPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtSizeFPropertyManager() QEXT_OVERRIDE;
 
-    QtDoublePropertyManager *subDoublePropertyManager() const;
+    QExtDoublePropertyManager *subDoublePropertyManager() const;
 
-    QSizeF value(const QtProperty *property) const;
-    QSizeF minimum(const QtProperty *property) const;
-    QSizeF maximum(const QtProperty *property) const;
-    int decimals(const QtProperty *property) const;
+    QSizeF value(const QExtProperty *property) const;
+    QSizeF minimum(const QExtProperty *property) const;
+    QSizeF maximum(const QExtProperty *property) const;
+    int decimals(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QSizeF &val);
-    void setMinimum(QtProperty *property, const QSizeF &minVal);
-    void setMaximum(QtProperty *property, const QSizeF &maxVal);
-    void setRange(QtProperty *property, const QSizeF &minVal, const QSizeF &maxVal);
-    void setDecimals(QtProperty *property, int prec);
+    void setDecimals(QExtProperty *property, int prec);
+    void setValue(QExtProperty *property, const QSizeF &val);
+    void setMinimum(QExtProperty *property, const QSizeF &minVal);
+    void setMaximum(QExtProperty *property, const QSizeF &maxVal);
+    void setRange(QExtProperty *property, const QSizeF &minVal, const QSizeF &maxVal);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QSizeF &val);
-    void rangeChanged(QtProperty *property, const QSizeF &minVal, const QSizeF &maxVal);
-    void decimalsChanged(QtProperty *property, int prec);
+    void decimalsChanged(QExtProperty *property, int prec);
+    void valueChanged(QExtProperty *property, const QSizeF &val);
+    void rangeChanged(QExtProperty *property, const QSizeF &minVal, const QSizeF &maxVal);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtSizeFPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtSizeFPropertyManager)
-    Q_DISABLE_COPY(QtSizeFPropertyManager)
-    Q_PRIVATE_SLOT(d_func(), void slotDoubleChanged(QtProperty *, double))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
+    QExtSizeFPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtSizeFPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtSizeFPropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotDoubleChanged(QExtProperty *, double))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
 };
 
-class QtRectPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtRectPropertyManager : public QtAbstractPropertyManager
+class QExtRectPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtRectPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtRectPropertyManager(QObject *parent = 0);
-    ~QtRectPropertyManager();
+    QExtRectPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtRectPropertyManager() QEXT_OVERRIDE;
 
-    QtIntPropertyManager *subIntPropertyManager() const;
+    QExtIntPropertyManager *subIntPropertyManager() const;
 
-    QRect value(const QtProperty *property) const;
-    QRect constraint(const QtProperty *property) const;
+    QRect value(const QExtProperty *property) const;
+    QRect constraint(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QRect &val);
-    void setConstraint(QtProperty *property, const QRect &constraint);
+    void setValue(QExtProperty *property, const QRect &val);
+    void setConstraint(QExtProperty *property, const QRect &constraint);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QRect &val);
-    void constraintChanged(QtProperty *property, const QRect &constraint);
+    void valueChanged(QExtProperty *property, const QRect &val);
+    void constraintChanged(QExtProperty *property, const QRect &constraint);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtRectPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtRectPropertyManager)
-    Q_DISABLE_COPY(QtRectPropertyManager)
-    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
+    QExtRectPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtRectPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtRectPropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
 };
 
-class QtRectFPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtRectFPropertyManager : public QtAbstractPropertyManager
+class QExtRectFPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtRectFPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtRectFPropertyManager(QObject *parent = 0);
-    ~QtRectFPropertyManager();
+    QExtRectFPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtRectFPropertyManager() QEXT_OVERRIDE;
 
-    QtDoublePropertyManager *subDoublePropertyManager() const;
+    QExtDoublePropertyManager *subDoublePropertyManager() const;
 
-    QRectF value(const QtProperty *property) const;
-    QRectF constraint(const QtProperty *property) const;
-    int decimals(const QtProperty *property) const;
+    QRectF value(const QExtProperty *property) const;
+    QRectF constraint(const QExtProperty *property) const;
+    int decimals(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QRectF &val);
-    void setConstraint(QtProperty *property, const QRectF &constraint);
-    void setDecimals(QtProperty *property, int prec);
+    void setDecimals(QExtProperty *property, int prec);
+    void setValue(QExtProperty *property, const QRectF &val);
+    void setConstraint(QExtProperty *property, const QRectF &constraint);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QRectF &val);
-    void constraintChanged(QtProperty *property, const QRectF &constraint);
-    void decimalsChanged(QtProperty *property, int prec);
+    void decimalsChanged(QExtProperty *property, int prec);
+    void valueChanged(QExtProperty *property, const QRectF &val);
+    void constraintChanged(QExtProperty *property, const QRectF &constraint);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtRectFPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtRectFPropertyManager)
-    Q_DISABLE_COPY(QtRectFPropertyManager)
-    Q_PRIVATE_SLOT(d_func(), void slotDoubleChanged(QtProperty *, double))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
+    QExtRectFPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtRectFPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtRectFPropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotDoubleChanged(QExtProperty *, double))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
 };
 
-class QtEnumPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtEnumPropertyManager : public QtAbstractPropertyManager
+class QExtEnumPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtEnumPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
-public:
-    QtEnumPropertyManager(QObject *parent = 0);
-    ~QtEnumPropertyManager();
 
-    int value(const QtProperty *property) const;
-    QStringList enumNames(const QtProperty *property) const;
-    QMap<int, QIcon> enumIcons(const QtProperty *property) const;
+public:
+    QExtEnumPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtEnumPropertyManager() QEXT_OVERRIDE;
+
+    int value(const QExtProperty *property) const;
+    QStringList enumNames(const QExtProperty *property) const;
+    QMap<int, QIcon> enumIcons(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, int val);
-    void setEnumNames(QtProperty *property, const QStringList &names);
-    void setEnumIcons(QtProperty *property, const QMap<int, QIcon> &icons);
+    void setValue(QExtProperty *property, int val);
+    void setEnumNames(QExtProperty *property, const QStringList &names);
+    void setEnumIcons(QExtProperty *property, const QMap<int, QIcon> &icons);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, int val);
-    void enumNamesChanged(QtProperty *property, const QStringList &names);
-    void enumIconsChanged(QtProperty *property, const QMap<int, QIcon> &icons);
+    void valueChanged(QExtProperty *property, int val);
+    void enumNamesChanged(QExtProperty *property, const QStringList &names);
+    void enumIconsChanged(QExtProperty *property, const QMap<int, QIcon> &icons);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    QIcon valueIcon(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QIcon valueIcon(const QExtProperty *property) const QEXT_OVERRIDE;
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtEnumPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtEnumPropertyManager)
-    Q_DISABLE_COPY(QtEnumPropertyManager)
+    QExtEnumPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtEnumPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtEnumPropertyManager)
 };
 
-class QtFlagPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtFlagPropertyManager : public QtAbstractPropertyManager
+class QExtFlagPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtFlagPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtFlagPropertyManager(QObject *parent = 0);
-    ~QtFlagPropertyManager();
+    QExtFlagPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtFlagPropertyManager() QEXT_OVERRIDE;
 
-    QtBoolPropertyManager *subBoolPropertyManager() const;
+    QExtBoolPropertyManager *subBoolPropertyManager() const;
 
-    int value(const QtProperty *property) const;
-    QStringList flagNames(const QtProperty *property) const;
+    int value(const QExtProperty *property) const;
+    QStringList flagNames(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, int val);
-    void setFlagNames(QtProperty *property, const QStringList &names);
+    void setValue(QExtProperty *property, int val);
+    void setFlagNames(QExtProperty *property, const QStringList &names);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, int val);
-    void flagNamesChanged(QtProperty *property, const QStringList &names);
+    void valueChanged(QExtProperty *property, int val);
+    void flagNamesChanged(QExtProperty *property, const QStringList &names);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtFlagPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtFlagPropertyManager)
-    Q_DISABLE_COPY(QtFlagPropertyManager)
-    Q_PRIVATE_SLOT(d_func(), void slotBoolChanged(QtProperty *, bool))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
+    QExtFlagPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtFlagPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtFlagPropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotBoolChanged(QExtProperty *, bool))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
 };
 
-class QtSizePolicyPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtSizePolicyPropertyManager : public QtAbstractPropertyManager
+class QExtSizePolicyPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtSizePolicyPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtSizePolicyPropertyManager(QObject *parent = 0);
-    ~QtSizePolicyPropertyManager();
+    QExtSizePolicyPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtSizePolicyPropertyManager() QEXT_OVERRIDE;
 
-    QtIntPropertyManager *subIntPropertyManager() const;
-    QtEnumPropertyManager *subEnumPropertyManager() const;
+    QExtIntPropertyManager *subIntPropertyManager() const;
+    QExtEnumPropertyManager *subEnumPropertyManager() const;
 
-    QSizePolicy value(const QtProperty *property) const;
+    QSizePolicy value(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QSizePolicy &val);
+    void setValue(QExtProperty *property, const QSizePolicy &val);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QSizePolicy &val);
+    void valueChanged(QExtProperty *property, const QSizePolicy &val);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtSizePolicyPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtSizePolicyPropertyManager)
-    Q_DISABLE_COPY(QtSizePolicyPropertyManager)
-    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
+    QExtSizePolicyPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtSizePolicyPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtSizePolicyPropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
 };
 
-class QtFontPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtFontPropertyManager : public QtAbstractPropertyManager
+class QExtFontPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtFontPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtFontPropertyManager(QObject *parent = 0);
-    ~QtFontPropertyManager();
+    QExtFontPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtFontPropertyManager() QEXT_OVERRIDE;
 
-    QtIntPropertyManager *subIntPropertyManager() const;
-    QtEnumPropertyManager *subEnumPropertyManager() const;
-    QtBoolPropertyManager *subBoolPropertyManager() const;
+    QExtIntPropertyManager *subIntPropertyManager() const;
+    QExtEnumPropertyManager *subEnumPropertyManager() const;
+    QExtBoolPropertyManager *subBoolPropertyManager() const;
 
-    QFont value(const QtProperty *property) const;
+    QFont value(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QFont &val);
+    void setValue(QExtProperty *property, const QFont &val);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QFont &val);
+    void valueChanged(QExtProperty *property, const QFont &val);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    QIcon valueIcon(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QIcon valueIcon(const QExtProperty *property) const QEXT_OVERRIDE;
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtFontPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtFontPropertyManager)
-    Q_DISABLE_COPY(QtFontPropertyManager)
-    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotBoolChanged(QtProperty *, bool))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
+    QExtFontPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtFontPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtFontPropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotBoolChanged(QExtProperty *, bool))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
     Q_PRIVATE_SLOT(d_func(), void slotFontDatabaseChanged())
     Q_PRIVATE_SLOT(d_func(), void slotFontDatabaseDelayedChange())
 };
 
-class QtColorPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtColorPropertyManager : public QtAbstractPropertyManager
+class QExtColorPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtColorPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtColorPropertyManager(QObject *parent = 0);
-    ~QtColorPropertyManager();
+    QExtColorPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtColorPropertyManager() QEXT_OVERRIDE;
 
-    QtIntPropertyManager *subIntPropertyManager() const;
+    QExtIntPropertyManager *subIntPropertyManager() const;
 
-    QColor value(const QtProperty *property) const;
+    QColor value(const QExtProperty *property) const;
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QColor &val);
+    void setValue(QExtProperty *property, const QColor &val);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QColor &val);
+    void valueChanged(QExtProperty *property, const QColor &val);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    QIcon valueIcon(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QIcon valueIcon(const QExtProperty *property) const QEXT_OVERRIDE;
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtColorPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtColorPropertyManager)
-    Q_DISABLE_COPY(QtColorPropertyManager)
-    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QtProperty *))
+    QExtColorPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtColorPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtColorPropertyManager)
+    Q_PRIVATE_SLOT(d_func(), void slotIntChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyDestroyed(QExtProperty *))
 };
 
-class QtCursorPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtCursorPropertyManager : public QtAbstractPropertyManager
+class QExtCursorPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtCursorPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
+
 public:
-    QtCursorPropertyManager(QObject *parent = 0);
-    ~QtCursorPropertyManager();
+    QExtCursorPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtCursorPropertyManager() QEXT_OVERRIDE;
 
 #ifndef QT_NO_CURSOR
-    QCursor value(const QtProperty *property) const;
+    QCursor value(const QExtProperty *property) const;
 #endif
 
 public Q_SLOTS:
-    void setValue(QtProperty *property, const QCursor &val);
+    void setValue(QExtProperty *property, const QCursor &val);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QCursor &val);
+    void valueChanged(QExtProperty *property, const QCursor &val);
+
 protected:
-    QString valueText(const QtProperty *property) const;
-    QIcon valueIcon(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QIcon valueIcon(const QExtProperty *property) const QEXT_OVERRIDE;
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+
 private:
-    QtCursorPropertyManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtCursorPropertyManager)
-    Q_DISABLE_COPY(QtCursorPropertyManager)
+    QExtCursorPropertyManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtCursorPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtCursorPropertyManager)
 };
 
 
 /***********************************************************************************************************************
-** qteditorfactory
+** editor factory
 ***********************************************************************************************************************/
-class QtSpinBoxFactoryPrivate;
-class QEXT_WIDGETS_API QtSpinBoxFactory : public QtAbstractEditorFactory<QtIntPropertyManager>
+class QExtSpinBoxFactoryPrivate;
+class QEXT_WIDGETS_API QExtSpinBoxFactory : public QExtAbstractEditorFactory<QExtIntPropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtSpinBoxFactory(QObject *parent = 0);
-    ~QtSpinBoxFactory();
+    QExtSpinBoxFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtSpinBoxFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtIntPropertyManager *manager);
-    QWidget *createEditor(QtIntPropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtIntPropertyManager *manager);
+    void connectPropertyManager(QExtIntPropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtIntPropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtIntPropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtSpinBoxFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtSpinBoxFactory)
-    Q_DISABLE_COPY(QtSpinBoxFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QtProperty *, int, int))
-    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotReadOnlyChanged(QtProperty *, bool))
+    QExtSpinBoxFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtSpinBoxFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtSpinBoxFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtProperty *, int, int))
+    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotReadOnlyChanged(QExtProperty *, bool))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(int))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtSliderFactoryPrivate;
-
-class QEXT_WIDGETS_API QtSliderFactory : public QtAbstractEditorFactory<QtIntPropertyManager>
+class QExtSliderFactoryPrivate;
+class QEXT_WIDGETS_API QExtSliderFactory : public QExtAbstractEditorFactory<QExtIntPropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtSliderFactory(QObject *parent = 0);
-    ~QtSliderFactory();
+    QExtSliderFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtSliderFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtIntPropertyManager *manager);
-    QWidget *createEditor(QtIntPropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtIntPropertyManager *manager);
+    void connectPropertyManager(QExtIntPropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtIntPropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtIntPropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtSliderFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtSliderFactory)
-    Q_DISABLE_COPY(QtSliderFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QtProperty *, int, int))
-    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QtProperty *, int))
+    QExtSliderFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtSliderFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtSliderFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtProperty *, int, int))
+    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QExtProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(int))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtScrollBarFactoryPrivate;
-
-class QEXT_WIDGETS_API QtScrollBarFactory : public QtAbstractEditorFactory<QtIntPropertyManager>
+class QExtScrollBarFactoryPrivate;
+class QEXT_WIDGETS_API QExtScrollBarFactory : public QExtAbstractEditorFactory<QExtIntPropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtScrollBarFactory(QObject *parent = 0);
-    ~QtScrollBarFactory();
+    QExtScrollBarFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtScrollBarFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtIntPropertyManager *manager);
-    QWidget *createEditor(QtIntPropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtIntPropertyManager *manager);
+    void connectPropertyManager(QExtIntPropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtIntPropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtIntPropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtScrollBarFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtScrollBarFactory)
-    Q_DISABLE_COPY(QtScrollBarFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QtProperty *, int, int))
-    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QtProperty *, int))
+    QExtScrollBarFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtScrollBarFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtScrollBarFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtProperty *, int, int))
+    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QExtProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(int))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtCheckBoxFactoryPrivate;
-
-class QEXT_WIDGETS_API QtCheckBoxFactory : public QtAbstractEditorFactory<QtBoolPropertyManager>
+class QExtCheckBoxFactoryPrivate;
+class QEXT_WIDGETS_API QExtCheckBoxFactory : public QExtAbstractEditorFactory<QExtBoolPropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtCheckBoxFactory(QObject *parent = 0);
-    ~QtCheckBoxFactory();
+    QExtCheckBoxFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtCheckBoxFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtBoolPropertyManager *manager);
-    QWidget *createEditor(QtBoolPropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtBoolPropertyManager *manager);
+    void connectPropertyManager(QExtBoolPropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtBoolPropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtBoolPropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtCheckBoxFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtCheckBoxFactory)
-    Q_DISABLE_COPY(QtCheckBoxFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, bool))
-    Q_PRIVATE_SLOT(d_func(), void slotTextVisibleChanged(QtProperty *, bool))
+    QExtCheckBoxFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtCheckBoxFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtCheckBoxFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, bool))
+    Q_PRIVATE_SLOT(d_func(), void slotTextVisibleChanged(QExtProperty *, bool))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(bool))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtDoubleSpinBoxFactoryPrivate;
-
-class QEXT_WIDGETS_API QtDoubleSpinBoxFactory : public QtAbstractEditorFactory<QtDoublePropertyManager>
+class QExtDoubleSpinBoxFactoryPrivate;
+class QEXT_WIDGETS_API QExtDoubleSpinBoxFactory : public QExtAbstractEditorFactory<QExtDoublePropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtDoubleSpinBoxFactory(QObject *parent = 0);
-    ~QtDoubleSpinBoxFactory();
+    QExtDoubleSpinBoxFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtDoubleSpinBoxFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtDoublePropertyManager *manager);
-    QWidget *createEditor(QtDoublePropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtDoublePropertyManager *manager);
+    void connectPropertyManager(QExtDoublePropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtDoublePropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtDoublePropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtDoubleSpinBoxFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtDoubleSpinBoxFactory)
-    Q_DISABLE_COPY(QtDoubleSpinBoxFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, double))
-    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QtProperty *, double, double))
-    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QtProperty *, double))
-    Q_PRIVATE_SLOT(d_func(), void slotDecimalsChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotReadOnlyChanged(QtProperty *, bool))
+    QExtDoubleSpinBoxFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtDoubleSpinBoxFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtDoubleSpinBoxFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, double))
+    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtProperty *, double, double))
+    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QExtProperty *, double))
+    Q_PRIVATE_SLOT(d_func(), void slotDecimalsChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotReadOnlyChanged(QExtProperty *, bool))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(double))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtLineEditFactoryPrivate;
-
-class QEXT_WIDGETS_API QtLineEditFactory : public QtAbstractEditorFactory<QtStringPropertyManager>
+class QExtLineEditFactoryPrivate;
+class QEXT_WIDGETS_API QExtLineEditFactory : public QExtAbstractEditorFactory<QExtStringPropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtLineEditFactory(QObject *parent = 0);
-    ~QtLineEditFactory();
+    QExtLineEditFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtLineEditFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtStringPropertyManager *manager);
-    QWidget *createEditor(QtStringPropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtStringPropertyManager *manager);
+    void connectPropertyManager(QExtStringPropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtStringPropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtStringPropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtLineEditFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtLineEditFactory)
-    Q_DISABLE_COPY(QtLineEditFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, const QString &))
-    Q_PRIVATE_SLOT(d_func(), void slotRegExpChanged(QtProperty *, const QRegExp &))
-    Q_PRIVATE_SLOT(d_func(), void slotEchoModeChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotReadOnlyChanged(QtProperty *, bool))
+    QExtLineEditFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtLineEditFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtLineEditFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, const QString &))
+    Q_PRIVATE_SLOT(d_func(), void slotRegExpChanged(QExtProperty *, const QRegExp &))
+    Q_PRIVATE_SLOT(d_func(), void slotEchoModeChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotReadOnlyChanged(QExtProperty *, bool))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QString &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtDateEditFactoryPrivate;
-
-class QEXT_WIDGETS_API QtDateEditFactory : public QtAbstractEditorFactory<QtDatePropertyManager>
+class QExtDateEditFactoryPrivate;
+class QEXT_WIDGETS_API QExtDateEditFactory : public QExtAbstractEditorFactory<QExtDatePropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtDateEditFactory(QObject *parent = 0);
-    ~QtDateEditFactory();
+    QExtDateEditFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtDateEditFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtDatePropertyManager *manager);
-    QWidget *createEditor(QtDatePropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtDatePropertyManager *manager);
+    void connectPropertyManager(QExtDatePropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtDatePropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtDatePropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtDateEditFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtDateEditFactory)
-    Q_DISABLE_COPY(QtDateEditFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, const QDate &))
-    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QtProperty *,
-                                                   const QDate &, const QDate &))
+    QExtDateEditFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtDateEditFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtDateEditFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, const QDate &))
+    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtProperty *, const QDate &, const QDate &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QDate &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtTimeEditFactoryPrivate;
-
-class QEXT_WIDGETS_API QtTimeEditFactory : public QtAbstractEditorFactory<QtTimePropertyManager>
+class QExtTimeEditFactoryPrivate;
+class QEXT_WIDGETS_API QExtTimeEditFactory : public QExtAbstractEditorFactory<QExtTimePropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtTimeEditFactory(QObject *parent = 0);
-    ~QtTimeEditFactory();
+    QExtTimeEditFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtTimeEditFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtTimePropertyManager *manager);
-    QWidget *createEditor(QtTimePropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtTimePropertyManager *manager);
+    void connectPropertyManager(QExtTimePropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtTimePropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtTimePropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtTimeEditFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtTimeEditFactory)
-    Q_DISABLE_COPY(QtTimeEditFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, const QTime &))
+    QExtTimeEditFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtTimeEditFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtTimeEditFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, const QTime &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QTime &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtDateTimeEditFactoryPrivate;
-
-class QEXT_WIDGETS_API QtDateTimeEditFactory : public QtAbstractEditorFactory<QtDateTimePropertyManager>
+class QExtDateTimeEditFactoryPrivate;
+class QEXT_WIDGETS_API QExtDateTimeEditFactory : public QExtAbstractEditorFactory<QExtDateTimePropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtDateTimeEditFactory(QObject *parent = 0);
-    ~QtDateTimeEditFactory();
+    QExtDateTimeEditFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtDateTimeEditFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtDateTimePropertyManager *manager);
-    QWidget *createEditor(QtDateTimePropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtDateTimePropertyManager *manager);
+    void connectPropertyManager(QExtDateTimePropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtDateTimePropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtDateTimePropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtDateTimeEditFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtDateTimeEditFactory)
-    Q_DISABLE_COPY(QtDateTimeEditFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, const QDateTime &))
+    QExtDateTimeEditFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtDateTimeEditFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtDateTimeEditFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, const QDateTime &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QDateTime &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtKeySequenceEditorFactoryPrivate;
-
-class QEXT_WIDGETS_API QtKeySequenceEditorFactory : public QtAbstractEditorFactory<QtKeySequencePropertyManager>
+class QExtKeySequenceEditorFactoryPrivate;
+class QEXT_WIDGETS_API QExtKeySequenceEditorFactory : public QExtAbstractEditorFactory<QExtKeySequencePropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtKeySequenceEditorFactory(QObject *parent = 0);
-    ~QtKeySequenceEditorFactory();
+    QExtKeySequenceEditorFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtKeySequenceEditorFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtKeySequencePropertyManager *manager);
-    QWidget *createEditor(QtKeySequencePropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtKeySequencePropertyManager *manager);
+    void connectPropertyManager(QExtKeySequencePropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtKeySequencePropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtKeySequencePropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtKeySequenceEditorFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtKeySequenceEditorFactory)
-    Q_DISABLE_COPY(QtKeySequenceEditorFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, const QKeySequence &))
+    QExtKeySequenceEditorFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtKeySequenceEditorFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtKeySequenceEditorFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, const QKeySequence &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QKeySequence &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtCharEditorFactoryPrivate;
-
-class QEXT_WIDGETS_API QtCharEditorFactory : public QtAbstractEditorFactory<QtCharPropertyManager>
+class QExtCharEditorFactoryPrivate;
+class QEXT_WIDGETS_API QExtCharEditorFactory : public QExtAbstractEditorFactory<QExtCharPropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtCharEditorFactory(QObject *parent = 0);
-    ~QtCharEditorFactory();
+    QExtCharEditorFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtCharEditorFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtCharPropertyManager *manager);
-    QWidget *createEditor(QtCharPropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtCharPropertyManager *manager);
+    void connectPropertyManager(QExtCharPropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtCharPropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtCharPropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtCharEditorFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtCharEditorFactory)
-    Q_DISABLE_COPY(QtCharEditorFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, const QChar &))
+    QExtCharEditorFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtCharEditorFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtCharEditorFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, const QChar &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QChar &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtEnumEditorFactoryPrivate;
-
-class QEXT_WIDGETS_API QtEnumEditorFactory : public QtAbstractEditorFactory<QtEnumPropertyManager>
+class QExtEnumEditorFactoryPrivate;
+class QEXT_WIDGETS_API QExtEnumEditorFactory : public QExtAbstractEditorFactory<QExtEnumPropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtEnumEditorFactory(QObject *parent = 0);
-    ~QtEnumEditorFactory();
+    QExtEnumEditorFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtEnumEditorFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtEnumPropertyManager *manager);
-    QWidget *createEditor(QtEnumPropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtEnumPropertyManager *manager);
+    void connectPropertyManager(QExtEnumPropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtEnumPropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtEnumPropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtEnumEditorFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtEnumEditorFactory)
-    Q_DISABLE_COPY(QtEnumEditorFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotEnumNamesChanged(QtProperty *,
-                                                       const QStringList &))
-    Q_PRIVATE_SLOT(d_func(), void slotEnumIconsChanged(QtProperty *,
-                                                       const QMap<int, QIcon> &))
+    QExtEnumEditorFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtEnumEditorFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtEnumEditorFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotEnumNamesChanged(QExtProperty *, const QStringList &))
+    Q_PRIVATE_SLOT(d_func(), void slotEnumIconsChanged(QExtProperty *, const QMap<int, QIcon> &))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(int))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtCursorEditorFactoryPrivate;
-
-class QEXT_WIDGETS_API QtCursorEditorFactory : public QtAbstractEditorFactory<QtCursorPropertyManager>
+class QExtCursorEditorFactoryPrivate;
+class QEXT_WIDGETS_API QExtCursorEditorFactory : public QExtAbstractEditorFactory<QExtCursorPropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtCursorEditorFactory(QObject *parent = 0);
-    ~QtCursorEditorFactory();
+    QExtCursorEditorFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtCursorEditorFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtCursorPropertyManager *manager);
-    QWidget *createEditor(QtCursorPropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtCursorPropertyManager *manager);
+    void connectPropertyManager(QExtCursorPropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtCursorPropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtCursorPropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtCursorEditorFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtCursorEditorFactory)
-    Q_DISABLE_COPY(QtCursorEditorFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, const QCursor &))
-    Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QtProperty *, int))
+    QExtCursorEditorFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtCursorEditorFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtCursorEditorFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, const QCursor &))
+    Q_PRIVATE_SLOT(d_func(), void slotEnumChanged(QExtProperty *, int))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
 };
 
-class QtColorEditorFactoryPrivate;
-
-class QEXT_WIDGETS_API QtColorEditorFactory : public QtAbstractEditorFactory<QtColorPropertyManager>
+class QExtColorEditorFactoryPrivate;
+class QEXT_WIDGETS_API QExtColorEditorFactory : public QExtAbstractEditorFactory<QExtColorPropertyManager>
 {
     Q_OBJECT
+
 public:
-    QtColorEditorFactory(QObject *parent = 0);
-    ~QtColorEditorFactory();
+    QExtColorEditorFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtColorEditorFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtColorPropertyManager *manager);
-    QWidget *createEditor(QtColorPropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtColorPropertyManager *manager);
+    void connectPropertyManager(QExtColorPropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtColorPropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtColorPropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtColorEditorFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtColorEditorFactory)
-    Q_DISABLE_COPY(QtColorEditorFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, const QColor &))
+    QExtColorEditorFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtColorEditorFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtColorEditorFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, const QColor &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QColor &))
 };
 
-class QtFontEditorFactoryPrivate;
-
-class QEXT_WIDGETS_API QtFontEditorFactory : public QtAbstractEditorFactory<QtFontPropertyManager>
+class QExtFontEditorFactoryPrivate;
+class QEXT_WIDGETS_API QExtFontEditorFactory : public QExtAbstractEditorFactory<QExtFontPropertyManager>
 {
     Q_OBJECT
 public:
-    QtFontEditorFactory(QObject *parent = 0);
-    ~QtFontEditorFactory();
+    QExtFontEditorFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtFontEditorFactory() QEXT_OVERRIDE;
+
 protected:
-    void connectPropertyManager(QtFontPropertyManager *manager);
-    QWidget *createEditor(QtFontPropertyManager *manager, QtProperty *property,
-                          QWidget *parent);
-    void disconnectPropertyManager(QtFontPropertyManager *manager);
+    void connectPropertyManager(QExtFontPropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtFontPropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtFontPropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
+
 private:
-    QtFontEditorFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtFontEditorFactory)
-    Q_DISABLE_COPY(QtFontEditorFactory)
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QtProperty *, const QFont &))
+    QExtFontEditorFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtFontEditorFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtFontEditorFactory)
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyChanged(QExtProperty *, const QFont &))
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed(QObject *))
     Q_PRIVATE_SLOT(d_func(), void slotSetValue(const QFont &))
 };
 
 
 /***********************************************************************************************************************
-** qtbuttonpropertybrowser
+** button property browser
 ***********************************************************************************************************************/
-class QtButtonPropertyBrowserPrivate;
-class QEXT_WIDGETS_API QtButtonPropertyBrowser : public QtAbstractPropertyBrowser
+class QExtButtonPropertyBrowserPrivate;
+class QEXT_WIDGETS_API QExtButtonPropertyBrowser : public QExtAbstractPropertyBrowser
 {
     Q_OBJECT
+
 public:
+    QExtButtonPropertyBrowser(QWidget *parent = QEXT_NULLPTR);
+    ~QExtButtonPropertyBrowser() QEXT_OVERRIDE;
 
-    QtButtonPropertyBrowser(QWidget *parent = 0);
-    ~QtButtonPropertyBrowser();
-
-    void setExpanded(QtBrowserItem *item, bool expanded);
-    bool isExpanded(QtBrowserItem *item) const;
+    void setExpanded(QExtBrowserItem *item, bool expanded);
+    bool isExpanded(QExtBrowserItem *item) const;
 
 Q_SIGNALS:
-
-    void collapsed(QtBrowserItem *item);
-    void expanded(QtBrowserItem *item);
+    void collapsed(QExtBrowserItem *item);
+    void expanded(QExtBrowserItem *item);
 
 protected:
-    virtual void itemInserted(QtBrowserItem *item, QtBrowserItem *afterItem);
-    virtual void itemRemoved(QtBrowserItem *item);
-    virtual void itemChanged(QtBrowserItem *item);
+    virtual void itemInserted(QExtBrowserItem *item, QExtBrowserItem *afterItem) QEXT_OVERRIDE;
+    virtual void itemRemoved(QExtBrowserItem *item) QEXT_OVERRIDE;
+    virtual void itemChanged(QExtBrowserItem *item) QEXT_OVERRIDE;
 
 private:
-    QtButtonPropertyBrowserPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtButtonPropertyBrowser)
-    Q_DISABLE_COPY(QtButtonPropertyBrowser)
+    QExtButtonPropertyBrowserPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtButtonPropertyBrowser)
+    QEXT_DISABLE_COPY_MOVE(QExtButtonPropertyBrowser)
     Q_PRIVATE_SLOT(d_func(), void slotUpdate())
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed())
     Q_PRIVATE_SLOT(d_func(), void slotToggled(bool))
@@ -1356,27 +1461,26 @@ private:
 
 
 /***********************************************************************************************************************
-** qtgroupboxpropertybrowser
+** groupbox property browser
 ***********************************************************************************************************************/
-class QtGroupBoxPropertyBrowserPrivate;
-class QEXT_WIDGETS_API QtGroupBoxPropertyBrowser : public QtAbstractPropertyBrowser
+class QExtGroupBoxPropertyBrowserPrivate;
+class QEXT_WIDGETS_API QExtGroupBoxPropertyBrowser : public QExtAbstractPropertyBrowser
 {
     Q_OBJECT
-public:
 
-    QtGroupBoxPropertyBrowser(QWidget *parent = 0);
-    ~QtGroupBoxPropertyBrowser();
+public:
+    QExtGroupBoxPropertyBrowser(QWidget *parent = QEXT_NULLPTR);
+    ~QExtGroupBoxPropertyBrowser() QEXT_OVERRIDE;
 
 protected:
-    virtual void itemInserted(QtBrowserItem *item, QtBrowserItem *afterItem);
-    virtual void itemRemoved(QtBrowserItem *item);
-    virtual void itemChanged(QtBrowserItem *item);
+    virtual void itemInserted(QExtBrowserItem *item, QExtBrowserItem *afterItem) QEXT_OVERRIDE;
+    virtual void itemRemoved(QExtBrowserItem *item) QEXT_OVERRIDE;
+    virtual void itemChanged(QExtBrowserItem *item) QEXT_OVERRIDE;
 
 private:
-
-    QtGroupBoxPropertyBrowserPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtGroupBoxPropertyBrowser)
-    Q_DISABLE_COPY(QtGroupBoxPropertyBrowser)
+    QExtGroupBoxPropertyBrowserPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtGroupBoxPropertyBrowser)
+    QEXT_DISABLE_COPY_MOVE(QExtGroupBoxPropertyBrowser)
     Q_PRIVATE_SLOT(d_func(), void slotUpdate())
     Q_PRIVATE_SLOT(d_func(), void slotEditorDestroyed())
 
@@ -1384,11 +1488,11 @@ private:
 
 
 /***********************************************************************************************************************
-** qttreepropertybrowser
+** tree property browser
 ***********************************************************************************************************************/
 class QTreeWidgetItem;
-class QtTreePropertyBrowserPrivate;
-class QEXT_WIDGETS_API QtTreePropertyBrowser : public QtAbstractPropertyBrowser
+class QExtTreePropertyBrowserPrivate;
+class QEXT_WIDGETS_API QExtTreePropertyBrowser : public QExtAbstractPropertyBrowser
 {
     Q_OBJECT
     Q_ENUMS(ResizeMode)
@@ -1399,8 +1503,8 @@ class QEXT_WIDGETS_API QtTreePropertyBrowser : public QtAbstractPropertyBrowser
     Q_PROPERTY(ResizeMode resizeMode READ resizeMode WRITE setResizeMode)
     Q_PROPERTY(int splitterPosition READ splitterPosition WRITE setSplitterPosition)
     Q_PROPERTY(bool propertiesWithoutValueMarked READ propertiesWithoutValueMarked WRITE setPropertiesWithoutValueMarked)
-public:
 
+public:
     enum ResizeMode
     {
         Interactive,
@@ -1409,8 +1513,8 @@ public:
         ResizeToContents
     };
 
-    QtTreePropertyBrowser(QWidget *parent = 0);
-    ~QtTreePropertyBrowser();
+    QExtTreePropertyBrowser(QWidget *parent = QEXT_NULLPTR);
+    ~QExtTreePropertyBrowser() QEXT_OVERRIDE;
 
     int indentation() const;
     void setIndentation(int i);
@@ -1430,55 +1534,54 @@ public:
     int splitterPosition() const;
     void setSplitterPosition(int position);
 
-    void setExpanded(QtBrowserItem *item, bool expanded);
-    bool isExpanded(QtBrowserItem *item) const;
+    void setExpanded(QExtBrowserItem *item, bool expanded);
+    bool isExpanded(QExtBrowserItem *item) const;
 
-    bool isItemVisible(QtBrowserItem *item) const;
-    void setItemVisible(QtBrowserItem *item, bool visible);
+    bool isItemVisible(QExtBrowserItem *item) const;
+    void setItemVisible(QExtBrowserItem *item, bool visible);
 
-    void setBackgroundColor(QtBrowserItem *item, const QColor &color);
-    QColor backgroundColor(QtBrowserItem *item) const;
-    QColor calculatedBackgroundColor(QtBrowserItem *item) const;
+    void setBackgroundColor(QExtBrowserItem *item, const QColor &color);
+    QColor backgroundColor(QExtBrowserItem *item) const;
+    QColor calculatedBackgroundColor(QExtBrowserItem *item) const;
 
     void setPropertiesWithoutValueMarked(bool mark);
     bool propertiesWithoutValueMarked() const;
 
-    void editItem(QtBrowserItem *item);
+    void editItem(QExtBrowserItem *item);
 
 Q_SIGNALS:
-
-    void collapsed(QtBrowserItem *item);
-    void expanded(QtBrowserItem *item);
+    void collapsed(QExtBrowserItem *item);
+    void expanded(QExtBrowserItem *item);
 
 protected:
-    virtual void itemInserted(QtBrowserItem *item, QtBrowserItem *afterItem);
-    virtual void itemRemoved(QtBrowserItem *item);
-    virtual void itemChanged(QtBrowserItem *item);
+    virtual void itemInserted(QExtBrowserItem *item, QExtBrowserItem *afterItem) QEXT_OVERRIDE;
+    virtual void itemRemoved(QExtBrowserItem *item) QEXT_OVERRIDE;
+    virtual void itemChanged(QExtBrowserItem *item) QEXT_OVERRIDE;
 
 private:
-
-    QtTreePropertyBrowserPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtTreePropertyBrowser)
-    Q_DISABLE_COPY(QtTreePropertyBrowser)
+    QExtTreePropertyBrowserPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtTreePropertyBrowser)
+    QEXT_DISABLE_COPY_MOVE(QExtTreePropertyBrowser)
 
     Q_PRIVATE_SLOT(d_func(), void slotCollapsed(const QModelIndex &))
     Q_PRIVATE_SLOT(d_func(), void slotExpanded(const QModelIndex &))
-    Q_PRIVATE_SLOT(d_func(), void slotCurrentBrowserItemChanged(QtBrowserItem *))
+    Q_PRIVATE_SLOT(d_func(), void slotCurrentBrowserItemChanged(QExtBrowserItem *))
     Q_PRIVATE_SLOT(d_func(), void slotCurrentTreeItemChanged(QTreeWidgetItem *, QTreeWidgetItem *))
 
 };
 
 
 /***********************************************************************************************************************
-** qtvariantproperty
+** variant property
 ***********************************************************************************************************************/
 typedef QMap<int, QIcon> QtIconMap;
-class QtVariantPropertyManager;
-class QtVariantPropertyPrivate;
-class QEXT_WIDGETS_API QtVariantProperty : public QtProperty
+class QExtVariantPropertyManager;
+class QExtVariantPropertyPrivate;
+class QEXT_WIDGETS_API QExtVariantProperty : public QExtProperty
 {
 public:
-    ~QtVariantProperty();
+    ~QExtVariantProperty() QEXT_OVERRIDE;
+
     QVariant value() const;
     QVariant attributeValue(const QString &attribute) const;
     int valueType() const;
@@ -1486,117 +1589,120 @@ public:
 
     void setValue(const QVariant &value);
     void setAttribute(const QString &attribute, const QVariant &value);
+
 protected:
-    QtVariantProperty(QtVariantPropertyManager *manager);
+    QExtVariantProperty(QExtVariantPropertyManager *manager);
+
 private:
-    friend class QtVariantPropertyManager;
-    QtVariantPropertyPrivate *d_ptr;
+    friend class QExtVariantPropertyManager;
+    QExtVariantPropertyPrivate *d_ptr;
 };
 
-class QtVariantPropertyManagerPrivate;
-class QEXT_WIDGETS_API QtVariantPropertyManager : public QtAbstractPropertyManager
+class QExtVariantPropertyManagerPrivate;
+class QEXT_WIDGETS_API QExtVariantPropertyManager : public QExtAbstractPropertyManager
 {
     Q_OBJECT
 public:
-    QtVariantPropertyManager(QObject *parent = 0);
-    ~QtVariantPropertyManager();
+    QExtVariantPropertyManager(QObject *parent = QEXT_NULLPTR);
+    ~QExtVariantPropertyManager() QEXT_OVERRIDE;
 
-    virtual QtVariantProperty *addProperty(int propertyType, const QString &name = QString());
+    virtual QExtVariantProperty *addProperty(int propertyType, const QString &name = QString());
 
-    int propertyType(const QtProperty *property) const;
-    int valueType(const QtProperty *property) const;
-    QtVariantProperty *variantProperty(const QtProperty *property) const;
+    int propertyType(const QExtProperty *property) const;
+    int valueType(const QExtProperty *property) const;
+    QExtVariantProperty *variantProperty(const QExtProperty *property) const;
 
     virtual bool isPropertyTypeSupported(int propertyType) const;
     virtual int valueType(int propertyType) const;
     virtual QStringList attributes(int propertyType) const;
     virtual int attributeType(int propertyType, const QString &attribute) const;
 
-    virtual QVariant value(const QtProperty *property) const;
-    virtual QVariant attributeValue(const QtProperty *property, const QString &attribute) const;
+    virtual QVariant value(const QExtProperty *property) const;
+    virtual QVariant attributeValue(const QExtProperty *property, const QString &attribute) const;
 
     static int enumTypeId();
     static int flagTypeId();
     static int groupTypeId();
     static int iconMapTypeId();
+
 public Q_SLOTS:
-    virtual void setValue(QtProperty *property, const QVariant &val);
-    virtual void setAttribute(QtProperty *property,
-                              const QString &attribute, const QVariant &value);
+    virtual void setValue(QExtProperty *property, const QVariant &val);
+    virtual void setAttribute(QExtProperty *property, const QString &attribute, const QVariant &value);
+
 Q_SIGNALS:
-    void valueChanged(QtProperty *property, const QVariant &val);
-    void attributeChanged(QtProperty *property,
-                          const QString &attribute, const QVariant &val);
+    void valueChanged(QExtProperty *property, const QVariant &val);
+    void attributeChanged(QExtProperty *property, const QString &attribute, const QVariant &val);
+
 protected:
-    virtual bool hasValue(const QtProperty *property) const;
-    QString valueText(const QtProperty *property) const;
-    QIcon valueIcon(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
-    virtual QtProperty *createProperty();
+    QString valueText(const QExtProperty *property) const QEXT_OVERRIDE;
+    QIcon valueIcon(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual bool hasValue(const QExtProperty *property) const QEXT_OVERRIDE;
+    virtual void initializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual void uninitializeProperty(QExtProperty *property) QEXT_OVERRIDE;
+    virtual QExtProperty *createProperty() QEXT_OVERRIDE;
 
 private:
-    QtVariantPropertyManagerPrivate *d_ptr;
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QtProperty *, int, int))
-    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, double))
-    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QtProperty *, double, double))
-    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QtProperty *, double))
-    Q_PRIVATE_SLOT(d_func(), void slotDecimalsChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, bool))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QString &))
-    Q_PRIVATE_SLOT(d_func(), void slotRegExpChanged(QtProperty *, const QRegExp &))
-    Q_PRIVATE_SLOT(d_func(), void slotEchoModeChanged(QtProperty *, int))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QDate &))
-    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QtProperty *, const QDate &, const QDate &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QTime &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QDateTime &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QKeySequence &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QChar &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QLocale &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QPoint &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QPointF &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QSize &))
-    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QtProperty *, const QSize &, const QSize &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QSizeF &))
-    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QtProperty *, const QSizeF &, const QSizeF &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QRect &))
-    Q_PRIVATE_SLOT(d_func(), void slotConstraintChanged(QtProperty *, const QRect &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QRectF &))
-    Q_PRIVATE_SLOT(d_func(), void slotConstraintChanged(QtProperty *, const QRectF &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QColor &))
-    Q_PRIVATE_SLOT(d_func(), void slotEnumNamesChanged(QtProperty *, const QStringList &))
-    Q_PRIVATE_SLOT(d_func(), void slotEnumIconsChanged(QtProperty *, const QMap<int, QIcon> &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QSizePolicy &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QFont &))
-    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QtProperty *, const QCursor &))
-    Q_PRIVATE_SLOT(d_func(), void slotFlagNamesChanged(QtProperty *, const QStringList &))
-    Q_PRIVATE_SLOT(d_func(), void slotReadOnlyChanged(QtProperty *, bool))
-    Q_PRIVATE_SLOT(d_func(), void slotTextVisibleChanged(QtProperty *, bool))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyInserted(QtProperty *, QtProperty *, QtProperty *))
-    Q_PRIVATE_SLOT(d_func(), void slotPropertyRemoved(QtProperty *, QtProperty *))
-    Q_DECLARE_PRIVATE(QtVariantPropertyManager)
-    Q_DISABLE_COPY(QtVariantPropertyManager)
+    QExtVariantPropertyManagerPrivate *d_ptr;
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtProperty *, int, int))
+    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, double))
+    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtProperty *, double, double))
+    Q_PRIVATE_SLOT(d_func(), void slotSingleStepChanged(QExtProperty *, double))
+    Q_PRIVATE_SLOT(d_func(), void slotDecimalsChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, bool))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QString &))
+    Q_PRIVATE_SLOT(d_func(), void slotRegExpChanged(QExtProperty *, const QRegExp &))
+    Q_PRIVATE_SLOT(d_func(), void slotEchoModeChanged(QExtProperty *, int))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QDate &))
+    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtProperty *, const QDate &, const QDate &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QTime &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QDateTime &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QKeySequence &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QChar &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QLocale &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QPoint &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QPointF &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QSize &))
+    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtProperty *, const QSize &, const QSize &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QSizeF &))
+    Q_PRIVATE_SLOT(d_func(), void slotRangeChanged(QExtProperty *, const QSizeF &, const QSizeF &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QRect &))
+    Q_PRIVATE_SLOT(d_func(), void slotConstraintChanged(QExtProperty *, const QRect &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QRectF &))
+    Q_PRIVATE_SLOT(d_func(), void slotConstraintChanged(QExtProperty *, const QRectF &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QColor &))
+    Q_PRIVATE_SLOT(d_func(), void slotEnumNamesChanged(QExtProperty *, const QStringList &))
+    Q_PRIVATE_SLOT(d_func(), void slotEnumIconsChanged(QExtProperty *, const QMap<int, QIcon> &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QSizePolicy &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QFont &))
+    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QCursor &))
+    Q_PRIVATE_SLOT(d_func(), void slotFlagNamesChanged(QExtProperty *, const QStringList &))
+    Q_PRIVATE_SLOT(d_func(), void slotReadOnlyChanged(QExtProperty *, bool))
+    Q_PRIVATE_SLOT(d_func(), void slotTextVisibleChanged(QExtProperty *, bool))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyInserted(QExtProperty *, QExtProperty *, QExtProperty *))
+    Q_PRIVATE_SLOT(d_func(), void slotPropertyRemoved(QExtProperty *, QExtProperty *))
+    Q_DECLARE_PRIVATE(QExtVariantPropertyManager)
+    QEXT_DISABLE_COPY_MOVE(QExtVariantPropertyManager)
 };
 
-class QtVariantEditorFactoryPrivate;
-class QEXT_WIDGETS_API QtVariantEditorFactory : public QtAbstractEditorFactory<QtVariantPropertyManager>
+class QExtVariantEditorFactoryPrivate;
+class QEXT_WIDGETS_API QExtVariantEditorFactory : public QExtAbstractEditorFactory<QExtVariantPropertyManager>
 {
     Q_OBJECT
 public:
-    QtVariantEditorFactory(QObject *parent = 0);
-    ~QtVariantEditorFactory();
+    QExtVariantEditorFactory(QObject *parent = QEXT_NULLPTR);
+    ~QExtVariantEditorFactory() QEXT_OVERRIDE;
 
 protected:
-    void connectPropertyManager(QtVariantPropertyManager *manager);
-    void disconnectPropertyManager(QtVariantPropertyManager *manager);
-    QWidget *createEditor(QtVariantPropertyManager *manager, QtProperty *property, QWidget *parent);
+    void connectPropertyManager(QExtVariantPropertyManager *manager) QEXT_OVERRIDE;
+    void disconnectPropertyManager(QExtVariantPropertyManager *manager) QEXT_OVERRIDE;
+    QWidget *createEditor(QExtVariantPropertyManager *manager, QExtProperty *property, QWidget *parent) QEXT_OVERRIDE;
 
 private:
-    QtVariantEditorFactoryPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtVariantEditorFactory)
-    Q_DISABLE_COPY(QtVariantEditorFactory)
+    QExtVariantEditorFactoryPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QExtVariantEditorFactory)
+    QEXT_DISABLE_COPY_MOVE(QExtVariantEditorFactory)
 };
 
 Q_DECLARE_METATYPE(QIcon)

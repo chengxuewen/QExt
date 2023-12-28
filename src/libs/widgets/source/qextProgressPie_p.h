@@ -59,7 +59,7 @@ public:
     QGradientStops m_gradientData;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtProgressPiePrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtProgressPiePrivate)
     QEXT_DECL_PUBLIC(QExtProgressPie)
 };
 

@@ -94,7 +94,7 @@ protected:
     QScopedPointer<QExtRingCompassPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtRingCompass)
+    QEXT_DISABLE_COPY_MOVE(QExtRingCompass)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtRingCompass)
 };
 

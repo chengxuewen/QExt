@@ -78,12 +78,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fillAction, SIGNAL(triggered(bool)), this, SLOT(fillView()));
     editMenu->addAction(fillAction);
 
-    variantManager = new QtVariantPropertyManager(this);
+    variantManager = new QExtVariantPropertyManager(this);
 
-    connect(variantManager, SIGNAL(valueChanged(QtProperty *, const QVariant &)),
-                this, SLOT(valueChanged(QtProperty *, const QVariant &)));
+    connect(variantManager, SIGNAL(valueChanged(QExtProperty *, const QVariant &)),
+                this, SLOT(valueChanged(QExtProperty *, const QVariant &)));
 
-    QtVariantEditorFactory *variantFactory = new QtVariantEditorFactory(this);
+    QExtVariantEditorFactory *variantFactory = new QExtVariantEditorFactory(this);
 
     canvas = new QtCanvas(800, 600);
     canvasView = new CanvasView(canvas, this);
@@ -92,7 +92,7 @@ MainWindow::MainWindow(QWidget *parent)
     QDockWidget *dock = new QDockWidget(this);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
-    propertyEditor = new QtTreePropertyBrowser(dock);
+    propertyEditor = new QExtTreePropertyBrowser(dock);
     propertyEditor->setFactoryForManager(variantManager, variantFactory);
     dock->setWidget(propertyEditor);
 
@@ -221,11 +221,11 @@ void MainWindow::itemMoved(QtCanvasItem *item)
 
 void MainWindow::updateExpandState()
 {
-    QList<QtBrowserItem *> list = propertyEditor->topLevelItems();
-    QListIterator<QtBrowserItem *> it(list);
+    QList<QExtBrowserItem *> list = propertyEditor->topLevelItems();
+    QListIterator<QExtBrowserItem *> it(list);
     while (it.hasNext()) {
-        QtBrowserItem *item = it.next();
-        QtProperty *prop = item->property();
+        QExtBrowserItem *item = it.next();
+        QExtProperty *prop = item->property();
         idToExpanded[propertyToId[prop]] = propertyEditor->isExpanded(item);
     }
 }
@@ -234,7 +234,7 @@ void MainWindow::itemClicked(QtCanvasItem *item)
 {
     updateExpandState();
 
-    QMap<QtProperty *, QString>::ConstIterator itProp = propertyToId.constBegin();
+    QMap<QExtProperty *, QString>::ConstIterator itProp = propertyToId.constBegin();
     while (itProp != propertyToId.constEnd()) {
         delete itProp.key();
         itProp++;
@@ -250,7 +250,7 @@ void MainWindow::itemClicked(QtCanvasItem *item)
 
     deleteAction->setEnabled(true);
 
-    QtVariantProperty *property;
+    QExtVariantProperty *property;
 
     property = variantManager->addProperty(QVariant::Double, tr("Position X"));
     property->setAttribute(QLatin1String("minimum"), 0);
@@ -321,16 +321,16 @@ void MainWindow::itemClicked(QtCanvasItem *item)
     }
 }
 
-void MainWindow::addProperty(QtVariantProperty *property, const QString &id)
+void MainWindow::addProperty(QExtVariantProperty *property, const QString &id)
 {
     propertyToId[property] = id;
     idToProperty[id] = property;
-    QtBrowserItem *item = propertyEditor->addProperty(property);
+    QExtBrowserItem *item = propertyEditor->addProperty(property);
     if (idToExpanded.contains(id))
         propertyEditor->setExpanded(item, idToExpanded[id]);
 }
 
-void MainWindow::valueChanged(QtProperty *property, const QVariant &value)
+void MainWindow::valueChanged(QExtProperty *property, const QVariant &value)
 {
     if (!propertyToId.contains(property))
         return;

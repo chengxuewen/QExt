@@ -135,7 +135,7 @@ public:
     mutable QExtStyleThemes::ColorReplaceVector m_iconColorReplaceList;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtStyleThemesPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtStyleThemesPrivate)
     QEXT_DECL_PUBLIC(QExtStyleThemes)
 };
 

@@ -50,7 +50,7 @@ public:
     QColor m_pointerColor;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtRingCompassPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtRingCompassPrivate)
     QEXT_DECL_PUBLIC(QExtRingCompass)
 };
 

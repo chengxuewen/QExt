@@ -26,7 +26,6 @@
 #include <QtCore/QEvent>
 
 class QExtDeviceWatcherPrivate;
-
 class QEXT_DEVICEWATCHER_API QExtDeviceWatcher : public QObject
 {
     Q_OBJECT

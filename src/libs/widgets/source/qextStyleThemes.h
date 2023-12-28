@@ -353,7 +353,7 @@ protected:
 
 private:
 
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtStyleThemes)
+    QEXT_DISABLE_COPY_MOVE(QExtStyleThemes)
 
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtStyleThemes)
 };

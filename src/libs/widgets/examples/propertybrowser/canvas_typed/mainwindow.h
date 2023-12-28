@@ -8,7 +8,7 @@
 #include <QMap>
 #include "qtcanvas.h"
 
-class QtProperty;
+class QExtProperty;
 
 class CanvasView : public QtCanvasView
 {
@@ -48,36 +48,36 @@ private slots:
 
     void itemClicked(QtCanvasItem *item);
     void itemMoved(QtCanvasItem *item);
-    void valueChanged(QtProperty *property, double value);
-    void valueChanged(QtProperty *property, const QString &value);
-    void valueChanged(QtProperty *property, const QColor &value);
-    void valueChanged(QtProperty *property, const QFont &value);
-    void valueChanged(QtProperty *property, const QPoint &value);
-    void valueChanged(QtProperty *property, const QSize &value);
+    void valueChanged(QExtProperty *property, double value);
+    void valueChanged(QExtProperty *property, const QString &value);
+    void valueChanged(QExtProperty *property, const QColor &value);
+    void valueChanged(QExtProperty *property, const QFont &value);
+    void valueChanged(QExtProperty *property, const QPoint &value);
+    void valueChanged(QExtProperty *property, const QSize &value);
 private:
 
     QtCanvasItem *addRectangle();
     QtCanvasItem *addEllipse();
     QtCanvasItem *addLine();
     QtCanvasItem *addText();
-    void addProperty(QtProperty *property, const QString &id);
+    void addProperty(QExtProperty *property, const QString &id);
     void updateExpandState();
 
     QAction *deleteAction;
 
-    class QtDoublePropertyManager *doubleManager;
-    class QtStringPropertyManager *stringManager;
-    class QtColorPropertyManager *colorManager;
-    class QtFontPropertyManager *fontManager;
-    class QtPointPropertyManager *pointManager;
-    class QtSizePropertyManager *sizeManager;
+    class QExtDoublePropertyManager *doubleManager;
+    class QExtStringPropertyManager *stringManager;
+    class QExtColorPropertyManager *colorManager;
+    class QExtFontPropertyManager *fontManager;
+    class QExtPointPropertyManager *pointManager;
+    class QExtSizePropertyManager *sizeManager;
 
-    class QtTreePropertyBrowser *propertyEditor;
+    class QExtTreePropertyBrowser *propertyEditor;
     CanvasView *canvasView;
     QtCanvas *canvas;
     QtCanvasItem *currentItem;
-    QMap<QtProperty *, QString> propertyToId;
-    QMap<QString, QtProperty *> idToProperty;
+    QMap<QExtProperty *, QString> propertyToId;
+    QMap<QString, QExtProperty *> idToProperty;
     QMap<QString, bool> idToExpanded;
 };
 

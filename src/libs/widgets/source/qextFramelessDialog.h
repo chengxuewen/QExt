@@ -76,7 +76,7 @@ protected:
     QScopedPointer<QExtFramelessDialogPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtFramelessDialog)
+    QEXT_DISABLE_COPY_MOVE(QExtFramelessDialog)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtFramelessDialog)
 };
 

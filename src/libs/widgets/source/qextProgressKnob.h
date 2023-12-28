@@ -149,7 +149,7 @@ private slots:
 private:
     void setPressedValue(QPointF pressedPoint);
 
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtProgressKnob)
+    QEXT_DISABLE_COPY_MOVE(QExtProgressKnob)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtProgressKnob)
 };
 

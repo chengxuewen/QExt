@@ -75,7 +75,7 @@ protected:
     QScopedPointer<QExtFramelessWidgetPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtFramelessWidget)
+    QEXT_DISABLE_COPY_MOVE(QExtFramelessWidget)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtFramelessWidget)
 };
 

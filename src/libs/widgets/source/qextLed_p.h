@@ -42,7 +42,7 @@ public:
     bool m_on;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtLedPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtLedPrivate)
     QEXT_DECL_PUBLIC(QExtLed)
 };
 

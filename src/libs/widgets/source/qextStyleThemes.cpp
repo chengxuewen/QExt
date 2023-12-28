@@ -18,6 +18,7 @@
 #include <QSvgRenderer>
 #include <QPainter>
 #include <QSet>
+#include <QMetaEnum>
 #include <QStringView>
 
 #include <iostream>
@@ -717,7 +718,13 @@ QPalette QExtStyleThemes::generateThemePalette() const
         QColor color = this->themeColor(iter->colorVariable);
         if (color.isValid())
         {
-            palette.setColor(iter->group, iter->role, themeColor(iter->colorVariable));
+            QMetaEnum colorGroupEnum = QMetaEnum::fromType<QPalette::ColorGroup>();
+            QMetaEnum colorRoleEnum = QMetaEnum::fromType<QPalette::ColorRole>();
+            qDebug() << QString("group=%1, role=%2, color=%3")
+                            .arg(colorGroupEnum.valueToKey(iter->group))
+                            .arg(colorRoleEnum.valueToKey(iter->role))
+                            .arg(color.name());
+            palette.setColor(iter->group, iter->role, color);
         }
         iter++;
     }

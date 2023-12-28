@@ -39,7 +39,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Icons QExt::GooglePinYin)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Icons QExt::Pinyin)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -90,6 +90,9 @@ qext_add_library(Widgets
     source/qextIpAddressEdit.cpp
     source/qextIpAddressEdit.h
     source/qextIpAddressEdit_p.h
+    source/qextKeyboard.cpp
+    source/qextKeyboard.h
+    source/qextKeyboard_p.h
     source/qextLed.cpp
     source/qextLed.h
     source/qextLed_p.h
@@ -141,6 +144,9 @@ qext_add_library(Widgets
     source/qextScaleKnob.cpp
     source/qextScaleKnob.h
     source/qextScaleKnob_p.h
+    source/qextScroller.cpp
+    source/qextScroller.h
+    source/qextScroller_p.h
     source/qextSelectSlider.cpp
     source/qextSelectSlider.h
     source/qextSelectSlider_p.h

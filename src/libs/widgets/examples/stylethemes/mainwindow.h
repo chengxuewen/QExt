@@ -23,6 +23,15 @@ protected slots:
     void onThemeColorButtonClicked();
     void onWidgetButtonClicked();
 
+    void onWarnMsgDialogButtonClicked();
+    void onInfoMsgDialogButtonClicked();
+    void onCriticalMsgDialogButtonClicked();
+    void onQuestionMsgDialogButtonClicked();
+    void onAboutMsgDialogButtonClicked();
+    void onAboutQtMsgDialogButtonClicked();
+    void onColorDialogButtonClicked();
+    void onProcessDialogButtonClicked();
+
 protected:
     bool event(QEvent *event) override;
     bool eventFilter(QObject *watched, QEvent *event) override;

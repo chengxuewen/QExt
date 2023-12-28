@@ -88,7 +88,7 @@ private:
     QList<QLabel *> m_listMoreChineseLabel;
 
     QStringList m_listAllPinYin;
-    QExtGooglePinYin m_googlePinYin;
+    QExtPinyin m_googlePinYin;
 
     QString m_strMainTextColor;
     QString m_strButtonHoveColor;

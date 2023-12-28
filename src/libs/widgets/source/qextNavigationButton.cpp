@@ -118,7 +118,20 @@ void QExtNavigationButton::drawBackground(QPainter *painter)
     painter->setPen(Qt::NoPen);
     if (this->isFlat())
     {
-        color = palette.color(QPalette::Button);
+        if (this->isChecked())
+        {
+            color = palette.color(QPalette::ButtonText);
+            color.setAlphaF(0.2);
+        }
+        else if (this->isEnabled() && d->m_hovered)
+        {
+            color = palette.color(QPalette::ButtonText);
+            color.setAlphaF(0.2);
+        }
+        else
+        {
+            color = palette.color(QPalette::Button);
+        }
     }
     else
     {
@@ -174,8 +187,7 @@ void QExtNavigationButton::drawText(QPainter *painter)
     const bool checked = this->isChecked();
     if (this->isFlat())
     {
-        color = checked || d->m_hovered ? palette.color(QPalette::ButtonText)
-                                        : palette.color(QPalette::BrightText);
+        color = palette.color(QPalette::ButtonText);
     }
     else
     {
@@ -233,8 +245,7 @@ void QExtNavigationButton::drawIcon(QPainter *painter)
     const bool checked = this->isChecked();
     if (this->isFlat())
     {
-        iconColor = checked || d->m_hovered ? palette.color(QPalette::ButtonText)
-                                            : palette.color(QPalette::BrightText);
+        iconColor = palette.color(QPalette::ButtonText);
     }
     else
     {

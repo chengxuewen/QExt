@@ -3,6 +3,7 @@
 #include "widgetform.h"
 
 #include <qextStyleThemes.h>
+#include <qextScroller.h>
 
 #include <QDir>
 #include <QApplication>
@@ -14,14 +15,15 @@
 #include <QColorDialog>
 #include <QDebug>
 #include <QMetaEnum>
+#include <QScroller>
+#include <QMessageBox>
 #include <QHBoxLayout>
+#include <QColorDialog>
+#include <QProgressDialog>
 #include <QStyleFactory>
 
 #include <iostream>
 
-/**
- * Private data class - pimpl
- */
 struct MainWindowPrivate
 {
     MainWindowPrivate(CMainWindow* _public) : q_ptr(_public), m_widgetForm(0) {}
@@ -117,6 +119,20 @@ void MainWindowPrivate::loadThemeAwareToolbarActionIcons()
 
 void MainWindowPrivate::initPaletteColorTableWidget(const QPalette &palette)
 {
+    static bool inited = false;
+    if (!inited)
+    {
+        inited = true;
+        ui->tableWidgetPalette->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+        ui->tableWidgetPalette->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+#if 0
+        QScroller *scroller = QScroller::scroller(ui->tableWidgetPalette);
+        scroller->grabGesture(ui->tableWidgetPalette, QScroller::LeftMouseButtonGesture);
+#else
+        QExtScroller *scroller = QExtScroller::scroller(ui->tableWidgetPalette);
+        scroller->grabGesture(ui->tableWidgetPalette, QExtScroller::LeftMouseButtonGesture);
+#endif
+    }
     QMetaEnum colorGroupMetaEnum = QMetaEnum::fromType<QPalette::ColorGroup>();
     QMetaEnum colorRoleMetaEnum = QMetaEnum::fromType<QPalette::ColorRole>();
     ui->tableWidgetPalette->setColumnCount(QPalette::NColorGroups + 1);
@@ -126,7 +142,6 @@ void MainWindowPrivate::initPaletteColorTableWidget(const QPalette &palette)
     {
         ui->tableWidgetPalette->setHorizontalHeaderItem(i + 1, new QTableWidgetItem(colorGroupMetaEnum.key(i)));
     }
-    ui->tableWidgetPalette->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     for (int i = 0; i < QPalette::NColorRoles; ++i)
     {
         QTableWidgetItem *itemRole = new QTableWidgetItem(colorRoleMetaEnum.valueToKey(i));
@@ -163,9 +178,9 @@ CMainWindow::CMainWindow(QWidget *parent)
     d->m_styleThemes = new QExtStyleThemes(this);
     d->m_styleThemes->setStylesDirPath();
     d->m_styleThemes->setOutputDirPath(qApp->applicationDirPath() + "/output");
-//    d->m_styleThemes->setCurrentStyle("material");
-    d->m_styleThemes->setCurrentStyle("fusion");
-//    QApplication::setStyle(QStyleFactory::create("Fusion"));
+    d->m_styleThemes->setCurrentStyle("material");
+    //    d->m_styleThemes->setCurrentStyle("fusion");
+    //    QApplication::setStyle(QStyleFactory::create("Fusion"));
     d->m_styleThemes->setDefaultTheme();
     d->m_styleThemes->updateStylesheet();
     this->setWindowIcon(d->m_styleThemes->styleIcon());
@@ -180,7 +195,15 @@ CMainWindow::CMainWindow(QWidget *parent)
     connect(ui->pushButtonWidget, SIGNAL(clicked(bool)), this, SLOT(onWidgetButtonClicked()));
     qApp->installEventFilter(this);
 
-//    qDebug() << this->font().family();
+    connect(ui->pushButtonMsgDialogInfo, SIGNAL(clicked(bool)), this, SLOT(onInfoMsgDialogButtonClicked()));
+    connect(ui->pushButtonMsgDialogWarn, SIGNAL(clicked(bool)), this, SLOT(onWarnMsgDialogButtonClicked()));
+    connect(ui->pushButtonMsgDialogCritical, SIGNAL(clicked(bool)), this, SLOT(onCriticalMsgDialogButtonClicked()));
+    connect(ui->pushButtonMsgDialogQuestion, SIGNAL(clicked(bool)), this, SLOT(onQuestionMsgDialogButtonClicked()));
+    connect(ui->pushButtonMsgDialogAbout, SIGNAL(clicked(bool)), this, SLOT(onAboutMsgDialogButtonClicked()));
+    connect(ui->pushButtonMsgDialogAboutQt, SIGNAL(clicked(bool)), this, SLOT(onAboutQtMsgDialogButtonClicked()));
+    connect(ui->pushButtonProcessDialog, SIGNAL(clicked(bool)), this, SLOT(onProcessDialogButtonClicked()));
+    connect(ui->pushButtonColorDialog, SIGNAL(clicked(bool)), this, SLOT(onColorDialogButtonClicked()));
+    //    qDebug() << this->font().family();
 }
 
 CMainWindow::~CMainWindow()
@@ -229,6 +252,60 @@ void CMainWindow::onWidgetButtonClicked()
     d->m_widgetForm->show();
 }
 
+void CMainWindow::onWarnMsgDialogButtonClicked()
+{
+    QMessageBox::warning(this, "StyleTheme", "warning QMessageBox!", QMessageBox::No | QMessageBox::Yes);
+}
+
+void CMainWindow::onInfoMsgDialogButtonClicked()
+{
+    QMessageBox::information(this, "StyleTheme", "information QMessageBox!", QMessageBox::No | QMessageBox::Yes);
+}
+
+void CMainWindow::onCriticalMsgDialogButtonClicked()
+{
+    QMessageBox::critical(this, "StyleTheme", "critical QMessageBox!", QMessageBox::No | QMessageBox::Yes);
+}
+
+void CMainWindow::onQuestionMsgDialogButtonClicked()
+{
+    QMessageBox::question(this, "StyleTheme", "question QMessageBox!", QMessageBox::No | QMessageBox::Yes);
+}
+
+void CMainWindow::onAboutMsgDialogButtonClicked()
+{
+    QMessageBox::about(this, "StyleTheme", "about QMessageBox!");
+}
+
+void CMainWindow::onAboutQtMsgDialogButtonClicked()
+{
+    QMessageBox::aboutQt(this, "StyleTheme");
+}
+
+void CMainWindow::onColorDialogButtonClicked()
+{
+    QColorDialog::getColor(Qt::white, this, "StyleTheme QColorDialog");
+}
+
+void CMainWindow::onProcessDialogButtonClicked()
+{
+    QProgressDialog dialog("StyleTheme QProgressDialog", "Cancel", 0, 1000000, this);
+    dialog.setWindowModality(Qt::WindowModal);
+    dialog.show();
+    for (int i = 0; i < dialog.maximum(); i++)
+    {
+        dialog.setValue(i);
+        if (dialog.wasCanceled())
+        {
+            break;
+        }
+    }
+    if (!dialog.wasCanceled())
+    {
+        dialog.setValue(dialog.maximum());
+    }
+}
+
 bool CMainWindow::event(QEvent *event)
 {
     return QMainWindow::event(event);
@@ -236,17 +313,26 @@ bool CMainWindow::event(QEvent *event)
 
 bool CMainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    if (QString("QPushButton") == watched->metaObject()->className())
+    if (event->type() == QEvent::MouseButtonPress)
     {
-        if (event->type() == QEvent::MouseButtonPress)
+        QWidget *widget = qobject_cast<QWidget *>(watched);
+        if (widget)
         {
-            QPushButton *button = qobject_cast<QPushButton *>(watched);
-            if (button)
-            {
-                qDebug() << watched->objectName();
-                d->initPaletteColorTableWidget(button->palette());
-            }
+            qDebug() << watched->objectName();
+            d->initPaletteColorTableWidget(widget->palette());
         }
     }
+    //    if (QString("QPushButton") == watched->metaObject()->className())
+    //    {
+    //        if (event->type() == QEvent::MouseButtonPress)
+    //        {
+    //            QPushButton *button = qobject_cast<QPushButton *>(watched);
+    //            if (button)
+    //            {
+    //                qDebug() << watched->objectName();
+    //                d->initPaletteColorTableWidget(button->palette());
+    //            }
+    //        }
+    //    }
     return QMainWindow::eventFilter(watched, event);
 }

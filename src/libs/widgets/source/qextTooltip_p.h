@@ -53,7 +53,7 @@ public:
     QRect m_backgroundRect;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtTooltipPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtTooltipPrivate)
     QEXT_DECL_PUBLIC(QExtTooltip)
 };
 

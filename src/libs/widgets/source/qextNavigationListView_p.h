@@ -58,7 +58,7 @@ public:
     QList<QExtNavigationListItem *> m_childItems;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtNavigationListItemPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtNavigationListItemPrivate)
     QEXT_DECL_PUBLIC(QExtNavigationListItem)
 };
 
@@ -108,7 +108,7 @@ public:
     QSet<QExtNavigationListItem *> m_allItemSet;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListModelPrivate)
+    QEXT_DISABLE_COPY_MOVE(QEXTNavigationListModelPrivate)
     QEXT_DECL_PUBLIC(QEXTNavigationListModel)
 };
 
@@ -182,7 +182,7 @@ public:
     QEXTNavigationListView::ExpendMode m_expendMode;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListViewPrivate)
+    QEXT_DISABLE_COPY_MOVE(QEXTNavigationListViewPrivate)
     QEXT_DECL_PUBLIC(QEXTNavigationListView)
 };
 

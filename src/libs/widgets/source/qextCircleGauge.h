@@ -196,7 +196,7 @@ private slots:
     void updateValue(const QVariant &value);
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtCircleGauge)
+    QEXT_DISABLE_COPY_MOVE(QExtCircleGauge)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtCircleGauge)
 };
 

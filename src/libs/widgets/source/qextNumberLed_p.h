@@ -54,7 +54,7 @@ public:
     bool m_colonVisible;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtNumberLedPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtNumberLedPrivate)
     QEXT_DECL_PUBLIC(QExtNumberLed)
 };
 

@@ -1,4 +1,3 @@
-
 /******************************************************************************
   QExtDeviceWatcherPrivate: watching depends on platform
   Copyright (C) 2014-2015 Wang Bin <wbsecg1@gmail.com>

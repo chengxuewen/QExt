@@ -62,7 +62,7 @@ protected:
     QScopedPointer<QExtOvenTimerPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtOvenTimer)
+    QEXT_DISABLE_COPY_MOVE(QExtOvenTimer)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtOvenTimer)
 };
 

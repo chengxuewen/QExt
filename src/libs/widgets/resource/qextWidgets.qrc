@@ -14,25 +14,6 @@
         <file>stylethemes/material/material_icon.svg</file>
         <file>stylethemes/material/material.json</file>
         <file>stylethemes/material/material.css.template</file>
-        <file>stylethemes/material/themes/light_lightgreen.xml</file>
-        <file>stylethemes/material/themes/dark_lightgreen.xml</file>
-        <file>stylethemes/material/themes/light_cyan_500.xml</file>
-        <file>stylethemes/material/themes/light_yellow.xml</file>
-        <file>stylethemes/material/themes/light_purple.xml</file>
-        <file>stylethemes/material/themes/light_amber.xml</file>
-        <file>stylethemes/material/themes/dark_yellow.xml</file>
-        <file>stylethemes/material/themes/dark_purple.xml</file>
-        <file>stylethemes/material/themes/light_teal.xml</file>
-        <file>stylethemes/material/themes/light_pink.xml</file>
-        <file>stylethemes/material/themes/light_cyan.xml</file>
-        <file>stylethemes/material/themes/light_blue.xml</file>
-        <file>stylethemes/material/themes/dark_amber.xml</file>
-        <file>stylethemes/material/themes/light_red.xml</file>
-        <file>stylethemes/material/themes/dark_teal.xml</file>
-        <file>stylethemes/material/themes/dark_pink.xml</file>
-        <file>stylethemes/material/themes/dark_cyan.xml</file>
-        <file>stylethemes/material/themes/dark_blue.xml</file>
-        <file>stylethemes/material/themes/dark_red.xml</file>
         <file>stylethemes/material/svgs/checklist_indeterminate_invert.svg</file>
         <file>stylethemes/material/svgs/checkbox_indeterminate_invert.svg</file>
         <file>stylethemes/material/svgs/radiobutton_unchecked_invert.svg</file>
@@ -167,5 +148,44 @@
         <file>stylethemes/fusion/fonts/RobotoCondensed-Bold.ttf</file>
         <file>stylethemes/fusion/fonts/Roboto-Light.ttf</file>
         <file>stylethemes/fusion/fonts/Roboto-Medium.ttf</file>
+        <file>stylethemes/material/themes/LightIndigo.xml</file>
+        <file>stylethemes/material/themes/LightGrey.xml</file>
+        <file>stylethemes/material/themes/LightBrown.xml</file>
+        <file>stylethemes/material/themes/LightOrange.xml</file>
+        <file>stylethemes/material/themes/LightLime.xml</file>
+        <file>stylethemes/material/themes/LightGreen.xml</file>
+        <file>stylethemes/material/themes/DarkPurple.xml</file>
+        <file>stylethemes/material/themes/DarkIndigo.xml</file>
+        <file>stylethemes/material/themes/LightYellow.xml</file>
+        <file>stylethemes/material/themes/LightPurple.xml</file>
+        <file>stylethemes/material/themes/LightAmber.xml</file>
+        <file>stylethemes/material/themes/DarkYellow.xml</file>
+        <file>stylethemes/material/themes/LightTeal.xml</file>
+        <file>stylethemes/material/themes/LightPink.xml</file>
+        <file>stylethemes/material/themes/LightCyan.xml</file>
+        <file>stylethemes/material/themes/LightBlue.xml</file>
+        <file>stylethemes/material/themes/DarkAmber.xml</file>
+        <file>stylethemes/material/themes/LightRed.xml</file>
+        <file>stylethemes/material/themes/DarkTeal.xml</file>
+        <file>stylethemes/material/themes/DarkPink.xml</file>
+        <file>stylethemes/material/themes/DarkCyan.xml</file>
+        <file>stylethemes/material/themes/DarkBlue.xml</file>
+        <file>stylethemes/material/themes/DarkRed.xml</file>
+        <file>stylethemes/material/themes/DarkBrown.xml</file>
+        <file>stylethemes/material/themes/PureDarkGrey.xml</file>
+        <file>stylethemes/material/themes/PureLightGrey.xml</file>
+        <file>stylethemes/material/themes/PureDarkBlue.xml</file>
+        <file>stylethemes/material/themes/PureLightBlue.xml</file>
+        <file>stylethemes/material/themes/DarkGrey.xml</file>
+        <file>stylethemes/material/themes/DarkOrange.xml</file>
+        <file>stylethemes/material/themes/DarkLime.xml</file>
+        <file>stylethemes/material/themes/DarkGreen.xml</file>
+        <file>pinyin/valid_utf16.txt</file>
+        <file>pinyin/sort.h</file>
+        <file>pinyin/rawdict_utf16_65105_freq.txt</file>
+        <file>pinyin/rawdict_utf16_65105_freq_sort.txt</file>
+        <file>pinyin/dict_pinyin.dat</file>
+        <file>pinyin/pinyin_phrase.txt</file>
+        <file>pinyin/pinyin.txt</file>
     </qresource>
 </RCC>

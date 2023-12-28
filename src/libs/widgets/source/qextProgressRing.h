@@ -167,7 +167,7 @@ private slots:
     void updateValue(const QVariant &value);
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtProgressRing)
+    QEXT_DISABLE_COPY_MOVE(QExtProgressRing)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtProgressRing)
 };
 

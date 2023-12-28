@@ -144,7 +144,7 @@ private slots:
     void updateValue(const QVariant &value);
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtArrowCompass)
+    QEXT_DISABLE_COPY_MOVE(QExtArrowCompass)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtArrowCompass)
 };
 

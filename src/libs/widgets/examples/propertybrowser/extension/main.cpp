@@ -4,45 +4,45 @@
 #include <QApplication>
 #include <qextPropertyBrowser.h>
 
-class VariantManager : public QtVariantPropertyManager
+class VariantManager : public QExtVariantPropertyManager
 {
     Q_OBJECT
 public:
     VariantManager(QObject *parent = 0);
     ~VariantManager();
 
-    virtual QVariant value(const QtProperty *property) const;
+    virtual QVariant value(const QExtProperty *property) const;
     virtual int valueType(int propertyType) const;
     virtual bool isPropertyTypeSupported(int propertyType) const;
 
-    QString valueText(const QtProperty *property) const;
+    QString valueText(const QExtProperty *property) const;
 
 public slots:
-    virtual void setValue(QtProperty *property, const QVariant &val);
+    virtual void setValue(QExtProperty *property, const QVariant &val);
 protected:
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    virtual void initializeProperty(QExtProperty *property);
+    virtual void uninitializeProperty(QExtProperty *property);
 private slots:
-    void slotValueChanged(QtProperty *property, const QVariant &value);
-    void slotPropertyDestroyed(QtProperty *property);
+    void slotValueChanged(QExtProperty *property, const QVariant &value);
+    void slotPropertyDestroyed(QExtProperty *property);
 private:
     struct Data {
         QVariant value;
-        QtVariantProperty *x;
-        QtVariantProperty *y;
+        QExtVariantProperty *x;
+        QExtVariantProperty *y;
     };
-    QMap<const QtProperty *, Data> propertyToData;
-    QMap<const QtProperty *, QtProperty *> xToProperty;
-    QMap<const QtProperty *, QtProperty *> yToProperty;
+    QMap<const QExtProperty *, Data> propertyToData;
+    QMap<const QExtProperty *, QExtProperty *> xToProperty;
+    QMap<const QExtProperty *, QExtProperty *> yToProperty;
 };
 
 VariantManager::VariantManager(QObject *parent)
-    : QtVariantPropertyManager(parent)
+    : QExtVariantPropertyManager(parent)
 {
-    connect(this, SIGNAL(valueChanged(QtProperty *, const QVariant &)),
-                this, SLOT(slotValueChanged(QtProperty *, const QVariant &)));
-    connect(this, SIGNAL(propertyDestroyed(QtProperty *)),
-                this, SLOT(slotPropertyDestroyed(QtProperty *)));
+    connect(this, SIGNAL(valueChanged(QExtProperty *, const QVariant &)),
+                this, SLOT(slotValueChanged(QExtProperty *, const QVariant &)));
+    connect(this, SIGNAL(propertyDestroyed(QExtProperty *)),
+                this, SLOT(slotPropertyDestroyed(QExtProperty *)));
 }
 
 VariantManager::~VariantManager()
@@ -50,16 +50,16 @@ VariantManager::~VariantManager()
 
 }
 
-void VariantManager::slotValueChanged(QtProperty *property, const QVariant &value)
+void VariantManager::slotValueChanged(QExtProperty *property, const QVariant &value)
 {
     if (xToProperty.contains(property)) {
-        QtProperty *pointProperty = xToProperty[property];
+        QExtProperty *pointProperty = xToProperty[property];
         QVariant v = this->value(pointProperty);
         QPointF p = v.value<QPointF>();
         p.setX(value.value<double>());
         setValue(pointProperty, p);
     } else if (yToProperty.contains(property)) {
-        QtProperty *pointProperty = yToProperty[property];
+        QExtProperty *pointProperty = yToProperty[property];
         QVariant v = this->value(pointProperty);
         QPointF p = v.value<QPointF>();
         p.setY(value.value<double>());
@@ -67,14 +67,14 @@ void VariantManager::slotValueChanged(QtProperty *property, const QVariant &valu
     }
 }
 
-void VariantManager::slotPropertyDestroyed(QtProperty *property)
+void VariantManager::slotPropertyDestroyed(QExtProperty *property)
 {
     if (xToProperty.contains(property)) {
-        QtProperty *pointProperty = xToProperty[property];
+        QExtProperty *pointProperty = xToProperty[property];
         propertyToData[pointProperty].x = 0;
         xToProperty.remove(property);
     } else if (yToProperty.contains(property)) {
-        QtProperty *pointProperty = yToProperty[property];
+        QExtProperty *pointProperty = yToProperty[property];
         propertyToData[pointProperty].y = 0;
         yToProperty.remove(property);
     }
@@ -84,24 +84,24 @@ bool VariantManager::isPropertyTypeSupported(int propertyType) const
 {
     if (propertyType == QVariant::PointF)
         return true;
-    return QtVariantPropertyManager::isPropertyTypeSupported(propertyType);
+    return QExtVariantPropertyManager::isPropertyTypeSupported(propertyType);
 }
 
 int VariantManager::valueType(int propertyType) const
 {
     if (propertyType == QVariant::PointF)
         return QVariant::PointF;
-    return QtVariantPropertyManager::valueType(propertyType);
+    return QExtVariantPropertyManager::valueType(propertyType);
 }
 
-QVariant VariantManager::value(const QtProperty *property) const
+QVariant VariantManager::value(const QExtProperty *property) const
 {
     if (propertyToData.contains(property))
         return propertyToData[property].value;
-    return QtVariantPropertyManager::value(property);
+    return QExtVariantPropertyManager::value(property);
 }
 
-QString VariantManager::valueText(const QtProperty *property) const
+QString VariantManager::valueText(const QExtProperty *property) const
 {
     if (propertyToData.contains(property)) {
         QVariant v = propertyToData[property].value;
@@ -109,10 +109,10 @@ QString VariantManager::valueText(const QtProperty *property) const
         return QString(tr("(%1, %2)").arg(QString::number(p.x()))
                                  .arg(QString::number(p.y())));
     }
-    return QtVariantPropertyManager::valueText(property);
+    return QExtVariantPropertyManager::valueText(property);
 }
 
-void VariantManager::setValue(QtProperty *property, const QVariant &val)
+void VariantManager::setValue(QExtProperty *property, const QVariant &val)
 {
     if (propertyToData.contains(property)) {
         if (val.type() != QVariant::PointF && !val.canConvert(QVariant::PointF))
@@ -129,10 +129,10 @@ void VariantManager::setValue(QtProperty *property, const QVariant &val)
         emit valueChanged(property, p);
         return;
     }
-    QtVariantPropertyManager::setValue(property, val);
+    QExtVariantPropertyManager::setValue(property, val);
 }
 
-void VariantManager::initializeProperty(QtProperty *property)
+void VariantManager::initializeProperty(QExtProperty *property)
 {
     if (propertyType(property) == QVariant::PointF) {
         Data d;
@@ -153,10 +153,10 @@ void VariantManager::initializeProperty(QtProperty *property)
 
         propertyToData[property] = d;
     }
-    QtVariantPropertyManager::initializeProperty(property);
+    QExtVariantPropertyManager::initializeProperty(property);
 }
 
-void VariantManager::uninitializeProperty(QtProperty *property)
+void VariantManager::uninitializeProperty(QExtProperty *property)
 {
     if (propertyToData.contains(property)) {
         Data d = propertyToData[property];
@@ -166,7 +166,7 @@ void VariantManager::uninitializeProperty(QtProperty *property)
             yToProperty.remove(d.y);
         propertyToData.remove(property);
     }
-    QtVariantPropertyManager::uninitializeProperty(property);
+    QExtVariantPropertyManager::uninitializeProperty(property);
 }
 
 int main(int argc, char **argv)
@@ -175,14 +175,14 @@ int main(int argc, char **argv)
 
     VariantManager *variantManager = new VariantManager();
 
-    QtVariantProperty *item = variantManager->addProperty(QVariant::PointF,
+    QExtVariantProperty *item = variantManager->addProperty(QVariant::PointF,
                 "PointF Property");
     item->setValue(QPointF(2.5, 13.13));
 
-    QtVariantEditorFactory *variantFactory = new QtVariantEditorFactory();
+    QExtVariantEditorFactory *variantFactory = new QExtVariantEditorFactory();
 
-    QtTreePropertyBrowser ed1;
-    QtVariantPropertyManager *varMan = variantManager;
+    QExtTreePropertyBrowser ed1;
+    QExtVariantPropertyManager *varMan = variantManager;
     ed1.setFactoryForManager(varMan, variantFactory);
     ed1.addProperty(item);
 

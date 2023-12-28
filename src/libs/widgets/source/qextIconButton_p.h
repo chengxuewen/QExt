@@ -49,7 +49,7 @@ public:
     bool m_useThemeColors;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtIconButtonPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtIconButtonPrivate)
     QEXT_DECL_PUBLIC(QExtIconButton)
 };
 

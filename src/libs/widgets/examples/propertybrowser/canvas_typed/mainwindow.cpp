@@ -78,31 +78,31 @@ MainWindow::MainWindow(QWidget *parent)
     connect(fillAction, SIGNAL(triggered(bool)), this, SLOT(fillView()));
     editMenu->addAction(fillAction);
 
-    doubleManager = new QtDoublePropertyManager(this);
-    stringManager = new QtStringPropertyManager(this);
-    colorManager = new QtColorPropertyManager(this);
-    fontManager = new QtFontPropertyManager(this);
-    pointManager = new QtPointPropertyManager(this);
-    sizeManager = new QtSizePropertyManager(this);
+    doubleManager = new QExtDoublePropertyManager(this);
+    stringManager = new QExtStringPropertyManager(this);
+    colorManager = new QExtColorPropertyManager(this);
+    fontManager = new QExtFontPropertyManager(this);
+    pointManager = new QExtPointPropertyManager(this);
+    sizeManager = new QExtSizePropertyManager(this);
 
-    connect(doubleManager, SIGNAL(valueChanged(QtProperty *, double)),
-                this, SLOT(valueChanged(QtProperty *, double)));
-    connect(stringManager, SIGNAL(valueChanged(QtProperty *, const QString &)),
-                this, SLOT(valueChanged(QtProperty *, const QString &)));
-    connect(colorManager, SIGNAL(valueChanged(QtProperty *, const QColor &)),
-                this, SLOT(valueChanged(QtProperty *, const QColor &)));
-    connect(fontManager, SIGNAL(valueChanged(QtProperty *, const QFont &)),
-                this, SLOT(valueChanged(QtProperty *, const QFont &)));
-    connect(pointManager, SIGNAL(valueChanged(QtProperty *, const QPoint &)),
-                this, SLOT(valueChanged(QtProperty *, const QPoint &)));
-    connect(sizeManager, SIGNAL(valueChanged(QtProperty *, const QSize &)),
-                this, SLOT(valueChanged(QtProperty *, const QSize &)));
+    connect(doubleManager, SIGNAL(valueChanged(QExtProperty *, double)),
+                this, SLOT(valueChanged(QExtProperty *, double)));
+    connect(stringManager, SIGNAL(valueChanged(QExtProperty *, const QString &)),
+                this, SLOT(valueChanged(QExtProperty *, const QString &)));
+    connect(colorManager, SIGNAL(valueChanged(QExtProperty *, const QColor &)),
+                this, SLOT(valueChanged(QExtProperty *, const QColor &)));
+    connect(fontManager, SIGNAL(valueChanged(QExtProperty *, const QFont &)),
+                this, SLOT(valueChanged(QExtProperty *, const QFont &)));
+    connect(pointManager, SIGNAL(valueChanged(QExtProperty *, const QPoint &)),
+                this, SLOT(valueChanged(QExtProperty *, const QPoint &)));
+    connect(sizeManager, SIGNAL(valueChanged(QExtProperty *, const QSize &)),
+                this, SLOT(valueChanged(QExtProperty *, const QSize &)));
 
-    QtDoubleSpinBoxFactory *doubleSpinBoxFactory = new QtDoubleSpinBoxFactory(this);
-    QtCheckBoxFactory *checkBoxFactory = new QtCheckBoxFactory(this);
-    QtSpinBoxFactory *spinBoxFactory = new QtSpinBoxFactory(this);
-    QtLineEditFactory *lineEditFactory = new QtLineEditFactory(this);
-    QtEnumEditorFactory *comboBoxFactory = new QtEnumEditorFactory(this);
+    QExtDoubleSpinBoxFactory *doubleSpinBoxFactory = new QExtDoubleSpinBoxFactory(this);
+    QExtCheckBoxFactory *checkBoxFactory = new QExtCheckBoxFactory(this);
+    QExtSpinBoxFactory *spinBoxFactory = new QExtSpinBoxFactory(this);
+    QExtLineEditFactory *lineEditFactory = new QExtLineEditFactory(this);
+    QExtEnumEditorFactory *comboBoxFactory = new QExtEnumEditorFactory(this);
 
     canvas = new QtCanvas(800, 600);
     canvasView = new CanvasView(canvas, this);
@@ -111,7 +111,7 @@ MainWindow::MainWindow(QWidget *parent)
     QDockWidget *dock = new QDockWidget(this);
     addDockWidget(Qt::RightDockWidgetArea, dock);
 
-    propertyEditor = new QtTreePropertyBrowser(dock);
+    propertyEditor = new QExtTreePropertyBrowser(dock);
     propertyEditor->setFactoryForManager(doubleManager, doubleSpinBoxFactory);
     propertyEditor->setFactoryForManager(stringManager, lineEditFactory);
     propertyEditor->setFactoryForManager(colorManager->subIntPropertyManager(), spinBoxFactory);
@@ -247,11 +247,11 @@ void MainWindow::itemMoved(QtCanvasItem *item)
 
 void MainWindow::updateExpandState()
 {
-    QList<QtBrowserItem *> list = propertyEditor->topLevelItems();
-    QListIterator<QtBrowserItem *> it(list);
+    QList<QExtBrowserItem *> list = propertyEditor->topLevelItems();
+    QListIterator<QExtBrowserItem *> it(list);
     while (it.hasNext()) {
-        QtBrowserItem *item = it.next();
-        QtProperty *prop = item->property();
+        QExtBrowserItem *item = it.next();
+        QExtProperty *prop = item->property();
         idToExpanded[propertyToId[prop]] = propertyEditor->isExpanded(item);
     }
 }
@@ -260,7 +260,7 @@ void MainWindow::itemClicked(QtCanvasItem *item)
 {
     updateExpandState();
 
-    QMap<QtProperty *, QString>::ConstIterator itProp = propertyToId.constBegin();
+    QMap<QExtProperty *, QString>::ConstIterator itProp = propertyToId.constBegin();
     while (itProp != propertyToId.constEnd()) {
         delete itProp.key();
         itProp++;
@@ -276,7 +276,7 @@ void MainWindow::itemClicked(QtCanvasItem *item)
 
     deleteAction->setEnabled(true);
 
-    QtProperty *property;
+    QExtProperty *property;
 
     property = doubleManager->addProperty(tr("Position X"));
     doubleManager->setRange(property, 0, canvas->width());
@@ -345,16 +345,16 @@ void MainWindow::itemClicked(QtCanvasItem *item)
     }
 }
 
-void MainWindow::addProperty(QtProperty *property, const QString &id)
+void MainWindow::addProperty(QExtProperty *property, const QString &id)
 {
     propertyToId[property] = id;
     idToProperty[id] = property;
-    QtBrowserItem *item = propertyEditor->addProperty(property);
+    QExtBrowserItem *item = propertyEditor->addProperty(property);
     if (idToExpanded.contains(id))
         propertyEditor->setExpanded(item, idToExpanded[id]);
 }
 
-void MainWindow::valueChanged(QtProperty *property, double value)
+void MainWindow::valueChanged(QExtProperty *property, double value)
 {
     if (!propertyToId.contains(property))
         return;
@@ -373,7 +373,7 @@ void MainWindow::valueChanged(QtProperty *property, double value)
     canvas->update();
 }
 
-void MainWindow::valueChanged(QtProperty *property, const QString &value)
+void MainWindow::valueChanged(QExtProperty *property, const QString &value)
 {
     if (!propertyToId.contains(property))
         return;
@@ -391,7 +391,7 @@ void MainWindow::valueChanged(QtProperty *property, const QString &value)
     canvas->update();
 }
 
-void MainWindow::valueChanged(QtProperty *property, const QColor &value)
+void MainWindow::valueChanged(QExtProperty *property, const QColor &value)
 {
     if (!propertyToId.contains(property))
         return;
@@ -425,7 +425,7 @@ void MainWindow::valueChanged(QtProperty *property, const QColor &value)
     canvas->update();
 }
 
-void MainWindow::valueChanged(QtProperty *property, const QFont &value)
+void MainWindow::valueChanged(QExtProperty *property, const QFont &value)
 {
     if (!propertyToId.contains(property))
         return;
@@ -443,7 +443,7 @@ void MainWindow::valueChanged(QtProperty *property, const QFont &value)
     canvas->update();
 }
 
-void MainWindow::valueChanged(QtProperty *property, const QPoint &value)
+void MainWindow::valueChanged(QExtProperty *property, const QPoint &value)
 {
     if (!propertyToId.contains(property))
         return;
@@ -461,7 +461,7 @@ void MainWindow::valueChanged(QtProperty *property, const QPoint &value)
     canvas->update();
 }
 
-void MainWindow::valueChanged(QtProperty *property, const QSize &value)
+void MainWindow::valueChanged(QExtProperty *property, const QSize &value)
 {
     if (!propertyToId.contains(property))
         return;

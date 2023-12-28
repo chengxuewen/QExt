@@ -7,35 +7,35 @@
 
 #include <qextPropertyBrowser.h>
 
-class DecoratedDoublePropertyManager : public QtDoublePropertyManager
+class DecoratedDoublePropertyManager : public QExtDoublePropertyManager
 {
     Q_OBJECT
 public:
     DecoratedDoublePropertyManager(QObject *parent = 0);
     ~DecoratedDoublePropertyManager();
 
-    QString prefix(const QtProperty *property) const;
-    QString suffix(const QtProperty *property) const;
+    QString prefix(const QExtProperty *property) const;
+    QString suffix(const QExtProperty *property) const;
 public Q_SLOTS:
-    void setPrefix(QtProperty *property, const QString &prefix);
-    void setSuffix(QtProperty *property, const QString &suffix);
+    void setPrefix(QExtProperty *property, const QString &prefix);
+    void setSuffix(QExtProperty *property, const QString &suffix);
 Q_SIGNALS:
-    void prefixChanged(QtProperty *property, const QString &prefix);
-    void suffixChanged(QtProperty *property, const QString &suffix);
+    void prefixChanged(QExtProperty *property, const QString &prefix);
+    void suffixChanged(QExtProperty *property, const QString &suffix);
 protected:
-    QString valueText(const QtProperty *property) const;
-    virtual void initializeProperty(QtProperty *property);
-    virtual void uninitializeProperty(QtProperty *property);
+    QString valueText(const QExtProperty *property) const;
+    virtual void initializeProperty(QExtProperty *property);
+    virtual void uninitializeProperty(QExtProperty *property);
 private:
     struct Data {
         QString prefix;
         QString suffix;
     };
-    QMap<const QtProperty *, Data> propertyToData;
+    QMap<const QExtProperty *, Data> propertyToData;
 };
 
 DecoratedDoublePropertyManager::DecoratedDoublePropertyManager(QObject *parent)
-    : QtDoublePropertyManager(parent)
+    : QExtDoublePropertyManager(parent)
 {
 }
 
@@ -43,21 +43,21 @@ DecoratedDoublePropertyManager::~DecoratedDoublePropertyManager()
 {
 }
 
-QString DecoratedDoublePropertyManager::prefix(const QtProperty *property) const
+QString DecoratedDoublePropertyManager::prefix(const QExtProperty *property) const
 {
     if (!propertyToData.contains(property))
         return QString();
     return propertyToData[property].prefix;
 }
 
-QString DecoratedDoublePropertyManager::suffix(const QtProperty *property) const
+QString DecoratedDoublePropertyManager::suffix(const QExtProperty *property) const
 {
     if (!propertyToData.contains(property))
         return QString();
     return propertyToData[property].suffix;
 }
 
-void DecoratedDoublePropertyManager::setPrefix(QtProperty *property, const QString &prefix)
+void DecoratedDoublePropertyManager::setPrefix(QExtProperty *property, const QString &prefix)
 {
     if (!propertyToData.contains(property))
         return;
@@ -73,7 +73,7 @@ void DecoratedDoublePropertyManager::setPrefix(QtProperty *property, const QStri
     emit prefixChanged(property, prefix);
 }
 
-void DecoratedDoublePropertyManager::setSuffix(QtProperty *property, const QString &suffix)
+void DecoratedDoublePropertyManager::setSuffix(QExtProperty *property, const QString &suffix)
 {
     if (!propertyToData.contains(property))
         return;
@@ -89,9 +89,9 @@ void DecoratedDoublePropertyManager::setSuffix(QtProperty *property, const QStri
     emit suffixChanged(property, suffix);
 }
 
-QString DecoratedDoublePropertyManager::valueText(const QtProperty *property) const
+QString DecoratedDoublePropertyManager::valueText(const QExtProperty *property) const
 {
-    QString text = QtDoublePropertyManager::valueText(property);
+    QString text = QExtDoublePropertyManager::valueText(property);
     if (!propertyToData.contains(property))
         return text;
 
@@ -101,20 +101,20 @@ QString DecoratedDoublePropertyManager::valueText(const QtProperty *property) co
     return text;
 }
 
-void DecoratedDoublePropertyManager::initializeProperty(QtProperty *property)
+void DecoratedDoublePropertyManager::initializeProperty(QExtProperty *property)
 {
     propertyToData[property] = DecoratedDoublePropertyManager::Data();
-    QtDoublePropertyManager::initializeProperty(property);
+    QExtDoublePropertyManager::initializeProperty(property);
 }
 
-void DecoratedDoublePropertyManager::uninitializeProperty(QtProperty *property)
+void DecoratedDoublePropertyManager::uninitializeProperty(QExtProperty *property)
 {
     propertyToData.remove(property);
-    QtDoublePropertyManager::uninitializeProperty(property);
+    QExtDoublePropertyManager::uninitializeProperty(property);
 }
 
 
-class DecoratedDoubleSpinBoxFactory : public QtAbstractEditorFactory<DecoratedDoublePropertyManager>
+class DecoratedDoubleSpinBoxFactory : public QExtAbstractEditorFactory<DecoratedDoublePropertyManager>
 {
     Q_OBJECT
 public:
@@ -122,26 +122,26 @@ public:
     ~DecoratedDoubleSpinBoxFactory();
 protected:
     void connectPropertyManager(DecoratedDoublePropertyManager *manager);
-    QWidget *createEditor(DecoratedDoublePropertyManager *manager, QtProperty *property,
+    QWidget *createEditor(DecoratedDoublePropertyManager *manager, QExtProperty *property,
                 QWidget *parent);
     void disconnectPropertyManager(DecoratedDoublePropertyManager *manager);
 private slots:
 
-    void slotPrefixChanged(QtProperty *property, const QString &prefix);
-    void slotSuffixChanged(QtProperty *property, const QString &prefix);
+    void slotPrefixChanged(QExtProperty *property, const QString &prefix);
+    void slotSuffixChanged(QExtProperty *property, const QString &prefix);
     void slotEditorDestroyed(QObject *object);
 private:
-    /* We delegate responsibilities for QtDoublePropertyManager, which is a base class
-       of DecoratedDoublePropertyManager to appropriate QtDoubleSpinBoxFactory */
-    QtDoubleSpinBoxFactory *originalFactory;
-    QMap<QtProperty *, QList<QDoubleSpinBox *> > createdEditors;
-    QMap<QDoubleSpinBox *, QtProperty *> editorToProperty;
+    /* We delegate responsibilities for QExtDoublePropertyManager, which is a base class
+       of DecoratedDoublePropertyManager to appropriate QExtDoubleSpinBoxFactory */
+    QExtDoubleSpinBoxFactory *originalFactory;
+    QMap<QExtProperty *, QList<QDoubleSpinBox *> > createdEditors;
+    QMap<QDoubleSpinBox *, QExtProperty *> editorToProperty;
 };
 
 DecoratedDoubleSpinBoxFactory::DecoratedDoubleSpinBoxFactory(QObject *parent)
-    : QtAbstractEditorFactory<DecoratedDoublePropertyManager>(parent)
+    : QExtAbstractEditorFactory<DecoratedDoublePropertyManager>(parent)
 {
-    originalFactory = new QtDoubleSpinBoxFactory(this);
+    originalFactory = new QExtDoubleSpinBoxFactory(this);
 }
 
 DecoratedDoubleSpinBoxFactory::~DecoratedDoubleSpinBoxFactory()
@@ -152,14 +152,14 @@ DecoratedDoubleSpinBoxFactory::~DecoratedDoubleSpinBoxFactory()
 void DecoratedDoubleSpinBoxFactory::connectPropertyManager(DecoratedDoublePropertyManager *manager)
 {
     originalFactory->addPropertyManager(manager);
-    connect(manager, SIGNAL(prefixChanged(QtProperty *, const QString &)), this, SLOT(slotPrefixChanged(QtProperty *, const QString &)));
-    connect(manager, SIGNAL(suffixChanged(QtProperty *, const QString &)), this, SLOT(slotSuffixChanged(QtProperty *, const QString &)));
+    connect(manager, SIGNAL(prefixChanged(QExtProperty *, const QString &)), this, SLOT(slotPrefixChanged(QExtProperty *, const QString &)));
+    connect(manager, SIGNAL(suffixChanged(QExtProperty *, const QString &)), this, SLOT(slotSuffixChanged(QExtProperty *, const QString &)));
 }
 
-QWidget *DecoratedDoubleSpinBoxFactory::createEditor(DecoratedDoublePropertyManager *manager, QtProperty *property,
+QWidget *DecoratedDoubleSpinBoxFactory::createEditor(DecoratedDoublePropertyManager *manager, QExtProperty *property,
         QWidget *parent)
 {
-    QtAbstractEditorFactoryBase *base = originalFactory;
+    QExtAbstractEditorFactoryBase *base = originalFactory;
     QWidget *w = base->createEditor(property, parent);
     if (!w)
         return 0;
@@ -180,11 +180,11 @@ QWidget *DecoratedDoubleSpinBoxFactory::createEditor(DecoratedDoublePropertyMana
 void DecoratedDoubleSpinBoxFactory::disconnectPropertyManager(DecoratedDoublePropertyManager *manager)
 {
     originalFactory->removePropertyManager(manager);
-    disconnect(manager, SIGNAL(prefixChanged(QtProperty *, const QString &)), this, SLOT(slotPrefixChanged(QtProperty *, const QString &)));
-    disconnect(manager, SIGNAL(suffixChanged(QtProperty *, const QString &)), this, SLOT(slotSuffixChanged(QtProperty *, const QString &)));
+    disconnect(manager, SIGNAL(prefixChanged(QExtProperty *, const QString &)), this, SLOT(slotPrefixChanged(QExtProperty *, const QString &)));
+    disconnect(manager, SIGNAL(suffixChanged(QExtProperty *, const QString &)), this, SLOT(slotSuffixChanged(QExtProperty *, const QString &)));
 }
 
-void DecoratedDoubleSpinBoxFactory::slotPrefixChanged(QtProperty *property, const QString &prefix)
+void DecoratedDoubleSpinBoxFactory::slotPrefixChanged(QExtProperty *property, const QString &prefix)
 {
     if (!createdEditors.contains(property))
         return;
@@ -201,7 +201,7 @@ void DecoratedDoubleSpinBoxFactory::slotPrefixChanged(QtProperty *property, cons
     }
 }
 
-void DecoratedDoubleSpinBoxFactory::slotSuffixChanged(QtProperty *property, const QString &prefix)
+void DecoratedDoubleSpinBoxFactory::slotSuffixChanged(QExtProperty *property, const QString &prefix)
 {
     if (!createdEditors.contains(property))
         return;
@@ -220,12 +220,12 @@ void DecoratedDoubleSpinBoxFactory::slotSuffixChanged(QtProperty *property, cons
 
 void DecoratedDoubleSpinBoxFactory::slotEditorDestroyed(QObject *object)
 {
-    QMap<QDoubleSpinBox *, QtProperty *>::ConstIterator itEditor =
+    QMap<QDoubleSpinBox *, QExtProperty *>::ConstIterator itEditor =
                 editorToProperty.constBegin();
     while (itEditor != editorToProperty.constEnd()) {
         if (itEditor.key() == object) {
             QDoubleSpinBox *editor = itEditor.key();
-            QtProperty *property = itEditor.value();
+            QExtProperty *property = itEditor.value();
             editorToProperty.remove(editor);
             createdEditors[property].removeAll(editor);
             if (createdEditors[property].isEmpty())
@@ -241,20 +241,20 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-    QtDoublePropertyManager *undecoratedManager = new QtDoublePropertyManager();
-    QtProperty *undecoratedProperty = undecoratedManager->addProperty("Undecorated");
+    QExtDoublePropertyManager *undecoratedManager = new QExtDoublePropertyManager();
+    QExtProperty *undecoratedProperty = undecoratedManager->addProperty("Undecorated");
     undecoratedManager->setValue(undecoratedProperty, 123.45);
 
     DecoratedDoublePropertyManager *decoratedManager = new DecoratedDoublePropertyManager();
-    QtProperty *decoratedProperty = decoratedManager->addProperty("Decorated");
+    QExtProperty *decoratedProperty = decoratedManager->addProperty("Decorated");
     decoratedManager->setPrefix(decoratedProperty, "speed: ");
     decoratedManager->setSuffix(decoratedProperty, " km/h");
     decoratedManager->setValue(decoratedProperty, 123.45);
 
-    QtDoubleSpinBoxFactory *undecoratedFactory = new QtDoubleSpinBoxFactory();
+    QExtDoubleSpinBoxFactory *undecoratedFactory = new QExtDoubleSpinBoxFactory();
     DecoratedDoubleSpinBoxFactory *decoratedFactory = new DecoratedDoubleSpinBoxFactory();
 
-    QtTreePropertyBrowser *editor = new QtTreePropertyBrowser();
+    QExtTreePropertyBrowser *editor = new QExtTreePropertyBrowser();
     editor->setFactoryForManager(undecoratedManager, undecoratedFactory);
     editor->setFactoryForManager(decoratedManager, decoratedFactory);
     editor->addProperty(undecoratedProperty);

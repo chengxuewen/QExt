@@ -121,7 +121,7 @@ protected:
 
 private:
     friend class QEXTNavigationListModel;
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtNavigationListItem)
+    QEXT_DISABLE_COPY_MOVE(QExtNavigationListItem)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtNavigationListItem)
 };
 
@@ -169,7 +169,7 @@ protected:
     QScopedPointer<QEXTNavigationListModelPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListModel)
+    QEXT_DISABLE_COPY_MOVE(QEXTNavigationListModel)
     QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNavigationListModel)
 };
 
@@ -371,7 +371,7 @@ private Q_SLOTS:
     void onItemPressed(const QModelIndex &index);
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QEXTNavigationListView)
+    QEXT_DISABLE_COPY_MOVE(QEXTNavigationListView)
     QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNavigationListView)
 };
 

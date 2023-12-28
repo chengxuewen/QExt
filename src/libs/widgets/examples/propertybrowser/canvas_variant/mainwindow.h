@@ -8,8 +8,8 @@
 #include <QMap>
 #include "qtcanvas.h"
 
-class QtVariantProperty;
-class QtProperty;
+class QExtVariantProperty;
+class QExtProperty;
 
 class QtBrowserIndex;
 
@@ -52,26 +52,26 @@ private slots:
 
     void itemClicked(QtCanvasItem *item);
     void itemMoved(QtCanvasItem *item);
-    void valueChanged(QtProperty *property, const QVariant &value);
+    void valueChanged(QExtProperty *property, const QVariant &value);
 private:
 
     QtCanvasItem *addRectangle();
     QtCanvasItem *addEllipse();
     QtCanvasItem *addLine();
     QtCanvasItem *addText();
-    void addProperty(QtVariantProperty *property, const QString &id);
+    void addProperty(QExtVariantProperty *property, const QString &id);
     void updateExpandState();
 
     QAction *deleteAction;
 
-    class QtVariantPropertyManager *variantManager;
+    class QExtVariantPropertyManager *variantManager;
 
-    class QtTreePropertyBrowser *propertyEditor;
+    class QExtTreePropertyBrowser *propertyEditor;
     CanvasView *canvasView;
     QtCanvas *canvas;
     QtCanvasItem *currentItem;
-    QMap<QtProperty *, QString> propertyToId;
-    QMap<QString, QtVariantProperty *> idToProperty;
+    QMap<QExtProperty *, QString> propertyToId;
+    QMap<QString, QExtVariantProperty *> idToProperty;
     QMap<QString, bool> idToExpanded;
 };
 

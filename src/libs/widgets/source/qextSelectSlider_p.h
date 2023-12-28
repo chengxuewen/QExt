@@ -86,7 +86,7 @@ public:
     QRect m_rightRectTemp;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtSelectSliderPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtSelectSliderPrivate)
     QEXT_DECL_PUBLIC(QExtSelectSlider)
 };
 

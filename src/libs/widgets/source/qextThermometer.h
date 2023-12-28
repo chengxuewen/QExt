@@ -166,7 +166,7 @@ private slots:
     void updateValue();
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtThermometer)
+    QEXT_DISABLE_COPY_MOVE(QExtThermometer)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtThermometer)
 };
 

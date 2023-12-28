@@ -59,7 +59,7 @@ public:
     QTimer *m_timer;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtProgressWaitPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtProgressWaitPrivate)
     QEXT_DECL_PUBLIC(QExtProgressWait)
 };
 

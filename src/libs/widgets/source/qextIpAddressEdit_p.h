@@ -61,7 +61,7 @@ public:
     int m_borderRadius;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtIpAddressEditPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtIpAddressEditPrivate)
     QEXT_DECL_PUBLIC(QExtIpAddressEdit)
 };
 

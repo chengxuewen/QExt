@@ -27,7 +27,7 @@
 #define _QEXTINPUT_H
 
 #include <qextWidgetGlobal.h>
-#include <qextGooglePinYin.h>
+#include <qextPinyin.h>
 
 #include <QWidget>
 #include <QPropertyAnimation>
@@ -120,7 +120,7 @@ private:
 
 private:
     Ui::QExtInput *ui;
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtInput)
+    QEXT_DISABLE_COPY_MOVE(QExtInput)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtInput)
     static QExtInput *sm_pInstance;
     QExtInputPrivate *dd_ptr;

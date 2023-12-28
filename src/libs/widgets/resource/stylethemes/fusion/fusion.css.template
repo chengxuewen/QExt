@@ -8,33 +8,39 @@
   selection-color: {{primaryTextColor}};
 }
 
-*:focus {
+*:focus
+{
    outline: none;
 }
 
 /*  ------------------------------------------------------------------------  */
 /*  Custom colors  */
 
-.danger{
+.danger
+{
   color: {{danger}};
 }
 
-.warning{
+.warning
+{
   color: {{warning}};
 }
 
-.success{
+.success
+{
   color: {{success}};
 }
 
 /*  ------------------------------------------------------------------------  */
 /*  Basic widgets  */
 
-QWidget {
+QWidget
+{
   background-color: {{secondaryDarkColor}};
 }
 
-QFrame {
+QFrame
+{
   background-color: {{secondaryDarkColor}};
   border: 1px solid {{secondaryColor}};
   border-radius: 4px;
@@ -238,9 +244,10 @@ QPushButton {
 }
 
 QPushButton:checked,
-QPushButton:pressed {
-  color: {{secondaryDarkColor}};
-  background-color: {{primaryColor}};
+QPushButton:pressed
+{
+    color: {{secondaryDarkColor}};
+    background-color: {{primaryColor}};
 }
 
 QPushButton:flat {

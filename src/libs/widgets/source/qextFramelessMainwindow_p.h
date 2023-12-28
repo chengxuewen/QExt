@@ -60,7 +60,7 @@ public:
     Qt::WindowFlags m_flags;
 
 private:
-    QEXT_DECL_DISABLE_COPY_MOVE(QExtFramelessMainWindowPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtFramelessMainWindowPrivate)
     QEXT_DECL_PUBLIC(QExtFramelessMainWindow)
 };
 
