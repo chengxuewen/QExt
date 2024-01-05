@@ -674,7 +674,7 @@ qext_add_executable(exp_QExtWidgetPropertyBrowserObjectController
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
 qext_add_executable(exp_QExtWidgetKeyboard
     SOURCES
-    keyboard/main
+    keyboard/main.cpp
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
     INCLUDE_DIRECTORIES

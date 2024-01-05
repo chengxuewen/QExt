@@ -30,9 +30,7 @@ set(QEXT_LIB_LINK_LIBRARIES)
 if (QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore)
 elseif (QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES
-            Qt${QEXT_QT_VERSION_MAJOR}::Core
-    )
+    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core)
 else ()
     message(FATAL_ERROR "Not find Qt package")
 endif ()
@@ -42,45 +40,51 @@ endif ()
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
 qext_add_library(Core
-        EXCEPTIONS
-        SOURCES
-        source/global/qextCompiler.h
-        source/global/qextGlobal.h
-        source/global/qextPreprocessor.h
-        source/global/qextProcessor.h
-        source/global/qextSystem.h
-        source/invoke/qextAdaptorTrait.h
-        source/invoke/qextBindFunctor.h
-        source/invoke/qextBindReturnFunctor.h
-        source/invoke/qextBoundArgument.h
-        source/invoke/qextComposeFunctor.h
-        source/invoke/qextConnection.h
-        source/invoke/qextConnection.cpp
-        source/invoke/qextEmitter.h
-        source/invoke/qextFunction.h
-        source/invoke/qextFunction.cpp
-        source/invoke/qextHideFunctor.h
-        source/invoke/qextInPlace.h
-        source/invoke/qextLimitReference.h
-        source/invoke/qextMemberFunctor.h
-        source/invoke/qextPointerFunctor.h
-        source/invoke/qextReferenceWrapper.h
-        source/invoke/qextReturnTypeDeduce.h
-        source/invoke/qextRetypeFunctor.h
-        source/invoke/qextRetypeReturnFunctor.h
-        source/invoke/qextSignal.h
-        source/invoke/qextSignal.cpp
-        source/invoke/qextTrackObjectFunctor.h
-        source/invoke/qextVisitor.h
-        source/tools/qextId.h
-        source/tools/qextId.cpp
-        source/tools/qextTypeInfo.h
-        source/tools/qextTypeTrait.h
-        source/tools/qextUniquePointer.h
-        PRECOMPILED_HEADER
-        source/qextPch.h
-        PUBLIC_LIBRARIES
-        ${QEXT_LIB_LINK_LIBRARIES})
+    EXCEPTIONS
+    SOURCES
+    source/global/qextCompiler.h
+    source/global/qextGlobal.h
+    source/global/qextPreprocessor.h
+    source/global/qextProcessor.h
+    source/global/qextSystem.h
+    source/invoke/qextAdaptorTrait.h
+    source/invoke/qextBindFunctor.h
+    source/invoke/qextBindReturnFunctor.h
+    source/invoke/qextBoundArgument.h
+    source/invoke/qextComposeFunctor.h
+    source/invoke/qextConnection.h
+    source/invoke/qextConnection.cpp
+    source/invoke/qextEmitter.h
+    source/invoke/qextFunction.h
+    source/invoke/qextFunction.cpp
+    source/invoke/qextHideFunctor.h
+    source/invoke/qextInPlace.h
+    source/invoke/qextLimitReference.h
+    source/invoke/qextMemberFunctor.h
+    source/invoke/qextPointerFunctor.h
+    source/invoke/qextReferenceWrapper.h
+    source/invoke/qextReturnTypeDeduce.h
+    source/invoke/qextRetypeFunctor.h
+    source/invoke/qextRetypeReturnFunctor.h
+    source/invoke/qextSignal.h
+    source/invoke/qextSignal.cpp
+    source/invoke/qextTrackObjectFunctor.h
+    source/invoke/qextVisitor.h
+    source/tools/qextBackTrace.cpp
+    source/tools/qextBackTrace.h
+    source/tools/qextException.cpp
+    source/tools/qextException.h
+    source/tools/qextId.h
+    source/tools/qextId.cpp
+    source/tools/qextSpinlock.h
+    source/tools/qextOnceFlag.h
+    source/tools/qextTypeInfo.h
+    source/tools/qextTypeTrait.h
+    source/tools/qextUniquePointer.h
+    PRECOMPILED_HEADER
+    source/qextPch.h
+    PUBLIC_LIBRARIES
+    ${QEXT_LIB_LINK_LIBRARIES})
 
 
 #-----------------------------------------------------------------------------------------------------------------------

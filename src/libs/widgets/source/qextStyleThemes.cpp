@@ -21,9 +21,6 @@
 #include <QMetaEnum>
 #include <QStringView>
 
-#include <iostream>
-
-
 class QExtStyleThemesSvgIconEngine;
 
 typedef QSet<QExtStyleThemesSvgIconEngine *> QExtStyleThemesSvgIconEngineSet;

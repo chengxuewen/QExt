@@ -199,7 +199,7 @@ QIcon QExtPropertyBrowserUtils::brushValueIcon(const QBrush &b)
 QString QExtPropertyBrowserUtils::colorValueText(const QColor &c)
 {
     return QCoreApplication::translate("QExtPropertyBrowserUtils", "[%1, %2, %3] (%4)")
-        .arg(c.red()).arg(c.green()).arg(c.blue()).arg(c.alpha());
+            .arg(c.red()).arg(c.green()).arg(c.blue()).arg(c.alpha());
 }
 
 QPixmap QExtPropertyBrowserUtils::fontValuePixmap(const QFont &font)
@@ -226,7 +226,7 @@ QIcon QExtPropertyBrowserUtils::fontValueIcon(const QFont &f)
 QString QExtPropertyBrowserUtils::fontValueText(const QFont &f)
 {
     return QCoreApplication::translate("QExtPropertyBrowserUtils", "[%1, %2]")
-        .arg(f.family()).arg(f.pointSize());
+            .arg(f.family()).arg(f.pointSize());
 }
 
 
@@ -387,7 +387,7 @@ void QExtKeySequenceEdit::handleKeyEvent(QKeyEvent *e)
 {
     int nextKey = e->key();
     if (nextKey == Qt::Key_Control || nextKey == Qt::Key_Shift || nextKey == Qt::Key_Meta ||
-        nextKey == Qt::Key_Alt || nextKey == Qt::Key_Super_L || nextKey == Qt::Key_AltGr)
+            nextKey == Qt::Key_Alt || nextKey == Qt::Key_Super_L || nextKey == Qt::Key_AltGr)
     {
         return;
     }
@@ -537,75 +537,14 @@ private:
     Q_DECLARE_PUBLIC(QExtAbstractPropertyManager)
 };
 
-/*!
-    \class QExtProperty
 
-    \brief The QExtProperty class encapsulates an instance of a property.
 
-    Properties are created by objects of QExtAbstractPropertyManager
-    subclasses; a manager can create properties of a given type, and
-    is used in conjunction with the QExtAbstractPropertyBrowser class. A
-    property is always owned by the manager that created it, which can
-    be retrieved using the propertyManager() function.
-
-    QExtProperty contains the most common property attributes, and
-    provides functions for retrieving as well as setting their values:
-
-    \table
-    \header \o Getter \o Setter
-    \row
-    \o propertyName() \o setPropertyName()
-    \row
-    \o statusTip() \o setStatusTip()
-    \row
-    \o toolTip() \o setToolTip()
-    \row
-    \o whatsThis() \o setWhatsThis()
-    \row
-    \o isEnabled() \o setEnabled()
-    \row
-    \o isModified() \o setModified()
-    \row
-    \o valueText() \o Nop
-    \row
-    \o valueIcon() \o Nop
-    \endtable
-
-    It is also possible to nest properties: QExtProperty provides the
-    addSubProperty(), insertSubProperty() and removeSubProperty() functions to
-    manipulate the set of subproperties. Use the subProperties()
-    function to retrieve a property's current set of subproperties.
-    Note that nested properties are not owned by the parent property,
-    i.e. each subproperty is owned by the manager that created it.
-
-    \sa QExtAbstractPropertyManager, QExtBrowserItem
-*/
-
-/*!
-    Creates a property with the given \a manager.
-
-    This constructor is only useful when creating a custom QExtProperty
-    subclass (e.g. QExtVariantProperty). To create a regular QExtProperty
-    object, use the QExtAbstractPropertyManager::addProperty()
-    function instead.
-
-    \sa QExtAbstractPropertyManager::addProperty()
-*/
 QExtProperty::QExtProperty(QExtAbstractPropertyManager *manager)
 {
     d_ptr = new QExtPropertyPrivate(manager);
     d_ptr->q_ptr = this;
 }
 
-/*!
-    Destroys this property.
-
-    Note that subproperties are detached but not destroyed, i.e. they
-    can still be used in another context.
-
-    \sa QExtAbstractPropertyManager::clear()
-
-*/
 QExtProperty::~QExtProperty()
 {
     QSetIterator<QExtProperty *> itParent(d_ptr->m_parentItems);
@@ -633,141 +572,66 @@ QExtProperty::~QExtProperty()
     delete d_ptr;
 }
 
-/*!
-    Returns the set of subproperties.
-
-    Note that subproperties are not owned by \e this property, but by
-    the manager that created them.
-
-    \sa insertSubProperty(), removeSubProperty()
-*/
 QList<QExtProperty *> QExtProperty::subProperties() const
 {
     return d_ptr->m_subItems;
 }
 
-/*!
-    Returns a pointer to the manager that owns this property.
-*/
 QExtAbstractPropertyManager *QExtProperty::propertyManager() const
 {
     return d_ptr->m_manager;
 }
 
-/*!
-    Returns the property's  tool tip.
-
-    \sa setToolTip()
-*/
 QString QExtProperty::toolTip() const
 {
     return d_ptr->m_toolTip;
 }
 
-/*!
-    Returns the property's status tip.
-
-    \sa setStatusTip()
-*/
 QString QExtProperty::statusTip() const
 {
     return d_ptr->m_statusTip;
 }
 
-/*!
-    Returns the property's "What's This" help text.
-
-    \sa setWhatsThis()
-*/
 QString QExtProperty::whatsThis() const
 {
     return d_ptr->m_whatsThis;
 }
 
-/*!
-    Returns the property's name.
-
-    \sa setPropertyName()
-*/
 QString QExtProperty::propertyName() const
 {
     return d_ptr->m_name;
 }
 
-/*!
-    Returns whether the property is enabled.
-
-    \sa setEnabled()
-*/
 bool QExtProperty::isEnabled() const
 {
     return d_ptr->m_enabled;
 }
 
-/*!
-    Returns whether the property is modified.
-
-    \sa setModified()
-*/
 bool QExtProperty::isModified() const
 {
     return d_ptr->m_modified;
 }
 
-/*!
-    Returns whether the property has a value.
-
-    \sa QExtAbstractPropertyManager::hasValue()
-*/
 bool QExtProperty::hasValue() const
 {
     return d_ptr->m_manager->hasValue(this);
 }
 
-/*!
-    Returns an icon representing the current state of this property.
-
-    If the given property type can not generate such an icon, this
-    function returns an invalid icon.
-
-    \sa QExtAbstractPropertyManager::valueIcon()
-*/
 QIcon QExtProperty::valueIcon() const
 {
     return d_ptr->m_manager->valueIcon(this);
 }
 
-/*!
-    Returns a string representing the current state of this property.
-
-    If the given property type can not generate such a string, this
-    function returns an empty string.
-
-    \sa QExtAbstractPropertyManager::valueText()
-*/
 QString QExtProperty::valueText() const
 {
     return d_ptr->m_manager->valueText(this);
 }
 
-/*!
-    Returns the display text according to the echo-mode set on the editor.
-
-    When the editor is a QLineEdit, this will return a string equal to what
-    is displayed.
-
-    \sa QExtAbstractPropertyManager::valueText()
-*/
 QString QExtProperty::displayText() const
 {
     return d_ptr->m_manager->displayText(this);
 }
 
-/*!
-    Sets the property's tool tip to the given \a text.
-
-    \sa toolTip()
-*/
 void QExtProperty::setToolTip(const QString &text)
 {
     if (d_ptr->m_toolTip == text)
@@ -779,11 +643,6 @@ void QExtProperty::setToolTip(const QString &text)
     this->propertyChanged();
 }
 
-/*!
-    Sets the property's status tip to the given \a text.
-
-    \sa statusTip()
-*/
 void QExtProperty::setStatusTip(const QString &text)
 {
     if (d_ptr->m_statusTip == text)
@@ -795,11 +654,6 @@ void QExtProperty::setStatusTip(const QString &text)
     this->propertyChanged();
 }
 
-/*!
-    Sets the property's "What's This" help text to the given \a text.
-
-    \sa whatsThis()
-*/
 void QExtProperty::setWhatsThis(const QString &text)
 {
     if (d_ptr->m_whatsThis == text)
@@ -811,13 +665,6 @@ void QExtProperty::setWhatsThis(const QString &text)
     this->propertyChanged();
 }
 
-/*!
-    \fn void QExtProperty::setPropertyName(const QString &name)
-
-    Sets the property's  name to the given \a name.
-
-    \sa propertyName()
-*/
 void QExtProperty::setPropertyName(const QString &text)
 {
     if (d_ptr->m_name == text)
@@ -829,11 +676,6 @@ void QExtProperty::setPropertyName(const QString &text)
     this->propertyChanged();
 }
 
-/*!
-    Enables or disables the property according to the passed \a enable value.
-
-    \sa isEnabled()
-*/
 void QExtProperty::setEnabled(bool enable)
 {
     if (d_ptr->m_enabled == enable)
@@ -845,11 +687,6 @@ void QExtProperty::setEnabled(bool enable)
     this->propertyChanged();
 }
 
-/*!
-    Sets the property's modified state according to the passed \a modified value.
-
-    \sa isModified()
-*/
 void QExtProperty::setModified(bool modified)
 {
     if (d_ptr->m_modified == modified)
@@ -861,14 +698,6 @@ void QExtProperty::setModified(bool modified)
     this->propertyChanged();
 }
 
-/*!
-    Appends the given \a property to this property's subproperties.
-
-    If the given \a property already is added, this function does
-    nothing.
-
-    \sa insertSubProperty(), removeSubProperty()
-*/
 void QExtProperty::addSubProperty(QExtProperty *property)
 {
     QExtProperty *after = 0;
@@ -879,19 +708,6 @@ void QExtProperty::addSubProperty(QExtProperty *property)
     this->insertSubProperty(property, after);
 }
 
-/*!
-    \fn void QExtProperty::insertSubProperty(QExtProperty *property, QExtProperty *precedingProperty)
-
-    Inserts the given \a property after the specified \a
-    precedingProperty into this property's list of subproperties.  If
-    \a precedingProperty is 0, the specified \a property is inserted
-    at the beginning of the list.
-
-    If the given \a property already is inserted, this function does
-    nothing.
-
-    \sa addSubProperty(), removeSubProperty()
-*/
 void QExtProperty::insertSubProperty(QExtProperty *property, QExtProperty *afterProperty)
 {
     if (!property)
@@ -906,7 +722,7 @@ void QExtProperty::insertSubProperty(QExtProperty *property, QExtProperty *after
 
     // traverse all children of item. if this item is a child of item then cannot add.
     QList<QExtProperty *> pendingList = property->subProperties();
-    QMap<QExtProperty *, bool> visited;
+    QHash<QExtProperty *, bool> visited;
     while (!pendingList.isEmpty())
     {
         QExtProperty *i = pendingList.first();
@@ -948,12 +764,6 @@ void QExtProperty::insertSubProperty(QExtProperty *property, QExtProperty *after
     d_ptr->m_manager->d_ptr->propertyInserted(property, this, properAfterProperty);
 }
 
-/*!
-    Removes the given \a property from the list of subproperties
-    without deleting it.
-
-    \sa addSubProperty(), insertSubProperty()
-*/
 void QExtProperty::removeSubProperty(QExtProperty *property)
 {
     if (!property)
@@ -978,15 +788,11 @@ void QExtProperty::removeSubProperty(QExtProperty *property)
     }
 }
 
-/*!
-    \internal
-*/
 void QExtProperty::propertyChanged()
 {
     d_ptr->m_manager->d_ptr->propertyChanged(this);
 }
 
-////////////////////////////////
 
 void QExtAbstractPropertyManagerPrivate::propertyDestroyed(QExtProperty *property)
 {
@@ -1015,122 +821,7 @@ void QExtAbstractPropertyManagerPrivate::propertyInserted(QExtProperty *property
     emit q_ptr->propertyInserted(property, parentProperty, afterProperty);
 }
 
-/*!
-    \class QExtAbstractPropertyManager
 
-    \brief The QExtAbstractPropertyManager provides an interface for
-    property managers.
-
-    A manager can create and manage properties of a given type, and is
-    used in conjunction with the QExtAbstractPropertyBrowser class.
-
-    When using a property browser widget, the properties are created
-    and managed by implementations of the QExtAbstractPropertyManager
-    class. To ensure that the properties' values will be displayed
-    using suitable editing widgets, the managers are associated with
-    objects of QExtAbstractEditorFactory subclasses. The property browser
-    will use these associations to determine which factories it should
-    use to create the preferred editing widgets.
-
-    The QExtAbstractPropertyManager class provides common functionality
-    like creating a property using the addProperty() function, and
-    retrieving the properties created by the manager using the
-    properties() function. The class also provides signals that are
-    emitted when the manager's properties change: propertyInserted(),
-    propertyRemoved(), propertyChanged() and propertyDestroyed().
-
-    QExtAbstractPropertyManager subclasses are supposed to provide their
-    own type specific API. Note that several ready-made
-    implementations are available:
-
-    \list
-    \o QExtBoolPropertyManager
-    \o QExtColorPropertyManager
-    \o QExtDatePropertyManager
-    \o QExtDateTimePropertyManager
-    \o QExtDoublePropertyManager
-    \o QExtEnumPropertyManager
-    \o QExtFlagPropertyManager
-    \o QExtFontPropertyManager
-    \o QExtGroupPropertyManager
-    \o QExtIntPropertyManager
-    \o QExtPointPropertyManager
-    \o QExtRectPropertyManager
-    \o QExtSizePropertyManager
-    \o QExtSizePolicyPropertyManager
-    \o QExtStringPropertyManager
-    \o QExtTimePropertyManager
-    \o QExtVariantPropertyManager
-    \endlist
-
-    \sa QExtAbstractEditorFactoryBase, QExtAbstractPropertyBrowser, QExtProperty
-*/
-
-/*!
-    \fn void QExtAbstractPropertyManager::propertyInserted(QExtProperty *newProperty,
-                QExtProperty *parentProperty, QExtProperty *precedingProperty)
-
-    This signal is emitted when a new subproperty is inserted into an
-    existing property, passing pointers to the \a newProperty, \a
-    parentProperty and \a precedingProperty as parameters.
-
-    If \a precedingProperty is 0, the \a newProperty was inserted at
-    the beginning of the \a parentProperty's subproperties list.
-
-    Note that signal is emitted only if the \a parentProperty is created
-    by this manager.
-
-    \sa QExtAbstractPropertyBrowser::itemInserted()
-*/
-
-/*!
-    \fn void QExtAbstractPropertyManager::propertyChanged(QExtProperty *property)
-
-    This signal is emitted whenever a property's data changes, passing
-    a pointer to the \a property as parameter.
-
-    Note that signal is only emitted for properties that are created by
-    this manager.
-
-    \sa QExtAbstractPropertyBrowser::itemChanged()
-*/
-
-/*!
-    \fn void QExtAbstractPropertyManager::propertyRemoved(QExtProperty *property, QExtProperty *parent)
-
-    This signal is emitted when a subproperty is removed, passing
-    pointers to the removed \a property and the \a parent property as
-    parameters.
-
-    Note that signal is emitted only when the \a parent property is
-    created by this manager.
-
-    \sa QExtAbstractPropertyBrowser::itemRemoved()
-*/
-
-/*!
-    \fn void QExtAbstractPropertyManager::propertyDestroyed(QExtProperty *property)
-
-    This signal is emitted when the specified \a property is about to
-    be destroyed.
-
-    Note that signal is only emitted for properties that are created
-    by this manager.
-
-    \sa clear(), uninitializeProperty()
-*/
-
-/*!
-    \fn void QExtAbstractPropertyBrowser::currentItemChanged(QExtBrowserItem *current)
-
-    This signal is emitted when the current item changes. The current item is specified by \a current.
-
-    \sa QExtAbstractPropertyBrowser::setCurrentItem()
-*/
-
-/*!
-    Creates an abstract property manager with the given \a parent.
-*/
 QExtAbstractPropertyManager::QExtAbstractPropertyManager(QObject *parent)
     : QObject(parent)
 {
@@ -1139,21 +830,12 @@ QExtAbstractPropertyManager::QExtAbstractPropertyManager(QObject *parent)
 
 }
 
-/*!
-    Destroys the manager. All properties created by the manager are
-    destroyed.
-*/
 QExtAbstractPropertyManager::~QExtAbstractPropertyManager()
 {
     this->clear();
     delete d_ptr;
 }
 
-/*!
-    Destroys all the properties that this manager has created.
-
-    \sa propertyDestroyed(), uninitializeProperty()
-*/
 void QExtAbstractPropertyManager::clear() const
 {
     while (!properties().isEmpty())
@@ -1164,96 +846,41 @@ void QExtAbstractPropertyManager::clear() const
     }
 }
 
-/*!
-    Returns the set of properties created by this manager.
-
-    \sa addProperty()
-*/
 QSet<QExtProperty *> QExtAbstractPropertyManager::properties() const
 {
     return d_ptr->m_properties;
 }
 
-/*!
-    Returns whether the given \a property has a value.
-
-    The default implementation of this function returns true.
-
-    \sa QExtProperty::hasValue()
-*/
 bool QExtAbstractPropertyManager::hasValue(const QExtProperty *property) const
 {
     Q_UNUSED(property)
     return true;
 }
 
-/*!
-    Returns an icon representing the current state of the given \a
-    property.
-
-    The default implementation of this function returns an invalid
-    icon.
-
-    \sa QExtProperty::valueIcon()
-*/
 QIcon QExtAbstractPropertyManager::valueIcon(const QExtProperty *property) const
 {
     Q_UNUSED(property)
     return QIcon();
 }
 
-/*!
-    Returns a string representing the current state of the given \a
-    property.
-
-    The default implementation of this function returns an empty
-    string.
-
-    \sa QExtProperty::valueText()
-*/
 QString QExtAbstractPropertyManager::valueText(const QExtProperty *property) const
 {
     Q_UNUSED(property)
     return QString();
 }
 
-/*!
-    Returns a string representing the current state of the given \a
-    property.
-
-    The default implementation of this function returns an empty
-    string.
-
-    \sa QExtProperty::valueText()
-*/
 QString QExtAbstractPropertyManager::displayText(const QExtProperty *property) const
 {
     Q_UNUSED(property)
     return QString();
 }
 
-/*!
-    Returns the echo mode representing the current state of the given \a
-    property.
-
-    The default implementation of this function returns QLineEdit::Normal.
-
-    \sa QExtProperty::valueText()
-*/
 EchoMode QExtAbstractPropertyManager::echoMode(const QExtProperty *property) const
 {
     Q_UNUSED(property)
     return QLineEdit::Normal;
 }
 
-/*!
-    Creates a property with the given \a name which then is owned by this manager.
-
-    Internally, this function calls the createProperty() and
-    initializeProperty() functions.
-
-    \sa initializeProperty(), properties()
-*/
 QExtProperty *QExtAbstractPropertyManager::addProperty(const QString &name)
 {
     QExtProperty *property = createProperty();
@@ -1266,340 +893,36 @@ QExtProperty *QExtAbstractPropertyManager::addProperty(const QString &name)
     return property;
 }
 
-/*!
-    Creates a property.
-
-    The base implementation produce QExtProperty instances; Reimplement
-    this function to make this manager produce objects of a QExtProperty
-    subclass.
-
-    \sa addProperty(), initializeProperty()
-*/
 QExtProperty *QExtAbstractPropertyManager::createProperty()
 {
     return new QExtProperty(this);
 }
 
-/*!
-    \fn void QExtAbstractPropertyManager::initializeProperty(QExtProperty *property) = 0
-
-    This function is called whenever a new valid property pointer has
-    been created, passing the pointer as parameter.
-
-    The purpose is to let the manager know that the \a property has
-    been created so that it can provide additional attributes for the
-    new property, e.g. QExtIntPropertyManager adds \l
-    {QExtIntPropertyManager::value()}{value}, \l
-    {QExtIntPropertyManager::minimum()}{minimum} and \l
-    {QExtIntPropertyManager::maximum()}{maximum} attributes. Since each manager
-    subclass adds type specific attributes, this function is pure
-    virtual and must be reimplemented when deriving from the
-    QExtAbstractPropertyManager class.
-
-    \sa addProperty(), createProperty()
-*/
-
-/*!
-    This function is called just before the specified \a property is destroyed.
-
-    The purpose is to let the property manager know that the \a
-    property is being destroyed so that it can remove the property's
-    additional attributes.
-
-    \sa clear(), propertyDestroyed()
-*/
 void QExtAbstractPropertyManager::uninitializeProperty(QExtProperty *property)
 {
     Q_UNUSED(property)
 }
 
-////////////////////////////////////
 
-/*!
-    \class QExtAbstractEditorFactoryBase
-
-    \brief The QExtAbstractEditorFactoryBase provides an interface for
-    editor factories.
-
-    An editor factory is a class that is able to create an editing
-    widget of a specified type (e.g. line edits or comboboxes) for a
-    given QExtProperty object, and it is used in conjunction with the
-    QExtAbstractPropertyManager and QExtAbstractPropertyBrowser classes.
-
-    When using a property browser widget, the properties are created
-    and managed by implementations of the QExtAbstractPropertyManager
-    class. To ensure that the properties' values will be displayed
-    using suitable editing widgets, the managers are associated with
-    objects of QExtAbstractEditorFactory subclasses. The property browser
-    will use these associations to determine which factories it should
-    use to create the preferred editing widgets.
-
-    Typically, an editor factory is created by subclassing the
-    QExtAbstractEditorFactory template class which inherits
-    QExtAbstractEditorFactoryBase. But note that several ready-made
-    implementations are available:
-
-    \list
-    \o QExtCheckBoxFactory
-    \o QExtDateEditFactory
-    \o QExtDateTimeEditFactory
-    \o QExtDoubleSpinBoxFactory
-    \o QExtEnumEditorFactory
-    \o QExtLineEditFactory
-    \o QExtScrollBarFactory
-    \o QExtSliderFactory
-    \o QExtSpinBoxFactory
-    \o QExtTimeEditFactory
-    \o QExtVariantEditorFactory
-    \endlist
-
-    \sa QExtAbstractPropertyManager, QExtAbstractPropertyBrowser
-*/
-
-/*!
-    \fn virtual QWidget *QExtAbstractEditorFactoryBase::createEditor(QExtProperty *property,
-        QWidget *parent) = 0
-
-    Creates an editing widget (with the given \a parent) for the given
-    \a property.
-
-    This function is reimplemented in QExtAbstractEditorFactory template class
-    which also provides a pure virtual convenience overload of this
-    function enabling access to the property's manager.
-
-    \sa QExtAbstractEditorFactory::createEditor()
-*/
-
-/*!
-    \fn QExtAbstractEditorFactoryBase::QExtAbstractEditorFactoryBase(QObject *parent = 0)
-
-    Creates an abstract editor factory with the given \a parent.
-*/
-
-/*!
-    \fn virtual void QExtAbstractEditorFactoryBase::breakConnection(QExtAbstractPropertyManager *manager) = 0
-
-    \internal
-
-    Detaches property manager from factory.
-    This method is reimplemented in QExtAbstractEditorFactory template subclass.
-    You don't need to reimplement it in your subclasses. Instead implement more convenient
-    QExtAbstractEditorFactory::disconnectPropertyManager() which gives you access to particular manager subclass.
-*/
-
-/*!
-    \fn virtual void QExtAbstractEditorFactoryBase::managerDestroyed(QObject *manager) = 0
-
-    \internal
-
-    This method is called when property manager is being destroyed.
-    Basically it notifies factory not to produce editors for properties owned by \a manager.
-    You don't need to reimplement it in your subclass. This method is implemented in
-    QExtAbstractEditorFactory template subclass.
-*/
-
-/*!
-    \class QExtAbstractEditorFactory
-
-    \brief The QExtAbstractEditorFactory is the base template class for editor
-    factories.
-
-    An editor factory is a class that is able to create an editing
-    widget of a specified type (e.g. line edits or comboboxes) for a
-    given QExtProperty object, and it is used in conjunction with the
-    QExtAbstractPropertyManager and QExtAbstractPropertyBrowser classes.
-
-    Note that the QExtAbstractEditorFactory functions are using the
-    PropertyManager template argument class which can be any
-    QExtAbstractPropertyManager subclass. For example:
-
-    \code
-        QExtSpinBoxFactory *factory;
-        QSet<QExtIntPropertyManager *> managers = factory->propertyManagers();
-    \endcode
-
-    Note that QExtSpinBoxFactory by definition creates editing widgets
-    \e only for properties created by QExtIntPropertyManager.
-
-    When using a property browser widget, the properties are created
-    and managed by implementations of the QExtAbstractPropertyManager
-    class. To ensure that the properties' values will be displayed
-    using suitable editing widgets, the managers are associated with
-    objects of QExtAbstractEditorFactory subclasses. The property browser will
-    use these associations to determine which factories it should use
-    to create the preferred editing widgets.
-
-    A QExtAbstractEditorFactory object is capable of producing editors for
-    several property managers at the same time. To create an
-    association between this factory and a given manager, use the
-    addPropertyManager() function. Use the removePropertyManager() function to make
-    this factory stop producing editors for a given property
-    manager. Use the propertyManagers() function to retrieve the set of
-    managers currently associated with this factory.
-
-    Several ready-made implementations of the QExtAbstractEditorFactory class
-    are available:
-
-    \list
-    \o QExtCheckBoxFactory
-    \o QExtDateEditFactory
-    \o QExtDateTimeEditFactory
-    \o QExtDoubleSpinBoxFactory
-    \o QExtEnumEditorFactory
-    \o QExtLineEditFactory
-    \o QExtScrollBarFactory
-    \o QExtSliderFactory
-    \o QExtSpinBoxFactory
-    \o QExtTimeEditFactory
-    \o QExtVariantEditorFactory
-    \endlist
-
-    When deriving from the QExtAbstractEditorFactory class, several pure virtual
-    functions must be implemented: the connectPropertyManager() function is
-    used by the factory to connect to the given manager's signals, the
-    createEditor() function is supposed to create an editor for the
-    given property controlled by the given manager, and finally the
-    disconnectPropertyManager() function is used by the factory to disconnect
-    from the specified manager's signals.
-
-    \sa QExtAbstractEditorFactoryBase, QExtAbstractPropertyManager
-*/
-
-/*!
-    \fn QExtAbstractEditorFactory::QExtAbstractEditorFactory(QObject *parent = 0)
-
-    Creates an editor factory with the given \a parent.
-
-    \sa addPropertyManager()
-*/
-
-/*!
-    \fn QWidget *QExtAbstractEditorFactory::createEditor(QExtProperty *property, QWidget *parent)
-
-    Creates an editing widget (with the given \a parent) for the given
-    \a property.
-*/
-
-/*!
-    \fn void QExtAbstractEditorFactory::addPropertyManager(PropertyManager *manager)
-
-    Adds the given \a manager to this factory's set of managers,
-    making this factory produce editing widgets for properties created
-    by the given manager.
-
-    The PropertyManager type is a template argument class, and represents the chosen
-    QExtAbstractPropertyManager subclass.
-
-    \sa propertyManagers(), removePropertyManager()
-*/
-
-/*!
-    \fn void QExtAbstractEditorFactory::removePropertyManager(PropertyManager *manager)
-
-    Removes the given \a manager from this factory's set of
-    managers. The PropertyManager type is a template argument class, and may be
-    any QExtAbstractPropertyManager subclass.
-
-    \sa propertyManagers(), addPropertyManager()
-*/
-
-/*!
-    \fn virtual void QExtAbstractEditorFactory::connectPropertyManager(PropertyManager *manager) = 0
-
-    Connects this factory to the given \a manager's signals.  The
-    PropertyManager type is a template argument class, and represents
-    the chosen QExtAbstractPropertyManager subclass.
-
-    This function is used internally by the addPropertyManager() function, and
-    makes it possible to update an editing widget when the associated
-    property's data changes. This is typically done in custom slots
-    responding to the signals emitted by the property's manager,
-    e.g. QExtIntPropertyManager::valueChanged() and
-    QExtIntPropertyManager::rangeChanged().
-
-    \sa propertyManagers(), disconnectPropertyManager()
-*/
-
-/*!
-    \fn virtual QWidget *QExtAbstractEditorFactory::createEditor(PropertyManager *manager, QExtProperty *property,
-                QWidget *parent) = 0
-
-    Creates an editing widget with the given \a parent for the
-    specified \a property created by the given \a manager. The
-    PropertyManager type is a template argument class, and represents
-    the chosen QExtAbstractPropertyManager subclass.
-
-    This function must be implemented in derived classes: It is
-    recommended to store a pointer to the widget and map it to the
-    given \a property, since the widget must be updated whenever the
-    associated property's data changes. This is typically done in
-    custom slots responding to the signals emitted by the property's
-    manager, e.g. QExtIntPropertyManager::valueChanged() and
-    QExtIntPropertyManager::rangeChanged().
-
-    \sa connectPropertyManager()
-*/
-
-/*!
-    \fn virtual void QExtAbstractEditorFactory::disconnectPropertyManager(PropertyManager *manager) = 0
-
-    Disconnects this factory from the given \a manager's signals. The
-    PropertyManager type is a template argument class, and represents
-    the chosen QExtAbstractPropertyManager subclass.
-
-    This function is used internally by the removePropertyManager() function.
-
-    \sa propertyManagers(), connectPropertyManager()
-*/
-
-/*!
-    \fn QSet<PropertyManager *> QExtAbstractEditorFactory::propertyManagers() const
-
-    Returns the factory's set of associated managers.  The
-    PropertyManager type is a template argument class, and represents
-    the chosen QExtAbstractPropertyManager subclass.
-
-    \sa addPropertyManager(), removePropertyManager()
-*/
-
-/*!
-    \fn PropertyManager *QExtAbstractEditorFactory::propertyManager(QExtProperty *property) const
-
-    Returns the property manager for the given \a property, or 0 if
-    the given \a property doesn't belong to any of this factory's
-    registered managers.
-
-    The PropertyManager type is a template argument class, and represents the chosen
-    QExtAbstractPropertyManager subclass.
-
-    \sa propertyManagers()
-*/
-
-/*!
-    \fn virtual void QExtAbstractEditorFactory::managerDestroyed(QObject *manager)
-
-    \internal
-    \reimp
-*/
-
-////////////////////////////////////
 class QExtBrowserItemPrivate
 {
 public:
     QExtBrowserItemPrivate(QExtAbstractPropertyBrowser *browser, QExtProperty *property, QExtBrowserItem *parent)
-        : m_browser(browser), m_property(property), m_parent(parent), q_ptr(0) {}
+        : q_ptr(0)
+        , m_browser(browser)
+        , m_property(property)
+        , m_parent(parent)
+    {
+    }
 
     void addChild(QExtBrowserItem *index, QExtBrowserItem *after);
     void removeChild(QExtBrowserItem *index);
 
+    QExtBrowserItem *q_ptr;
     QExtAbstractPropertyBrowser * const m_browser;
     QExtProperty *m_property;
     QExtBrowserItem *m_parent;
-
-    QExtBrowserItem *q_ptr;
-
     QList<QExtBrowserItem *> m_children;
-
 };
 
 void QExtBrowserItemPrivate::addChild(QExtBrowserItem *index, QExtBrowserItem *after)
@@ -1617,75 +940,20 @@ void QExtBrowserItemPrivate::removeChild(QExtBrowserItem *index)
     m_children.removeAll(index);
 }
 
-
-/*!
-    \class QExtBrowserItem
-
-    \brief The QExtBrowserItem class represents a property in
-    a property browser instance.
-
-    Browser items are created whenever a QExtProperty is inserted to the
-    property browser. A QExtBrowserItem uniquely identifies a
-    browser's item. Thus, if the same QExtProperty is inserted multiple
-    times, each occurrence gets its own unique QExtBrowserItem. The
-    items are owned by QExtAbstractPropertyBrowser and automatically
-    deleted when they are removed from the browser.
-
-    You can traverse a browser's properties by calling parent() and
-    children(). The property and the browser associated with an item
-    are available as property() and browser().
-
-    \sa QExtAbstractPropertyBrowser, QExtProperty
-*/
-
-/*!
-    Returns the property which is accosiated with this item. Note that
-    several items can be associated with the same property instance in
-    the same property browser.
-
-    \sa QExtAbstractPropertyBrowser::items()
-*/
-
 QExtProperty *QExtBrowserItem::property() const
 {
     return d_ptr->m_property;
 }
-
-/*!
-    Returns the parent item of \e this item. Returns 0 if \e this item
-    is associated with top-level property in item's property browser.
-
-    \sa children()
-*/
 
 QExtBrowserItem *QExtBrowserItem::parent() const
 {
     return d_ptr->m_parent;
 }
 
-/*!
-    Returns the children items of \e this item. The properties
-    reproduced from children items are always the same as
-    reproduced from associated property' children, for example:
-
-    \code
-        QExtBrowserItem *item;
-        QList<QExtBrowserItem *> childrenItems = item->children();
-
-        QList<QExtProperty *> childrenProperties = item->property()->subProperties();
-    \endcode
-
-    The \e childrenItems list represents the same list as \e childrenProperties.
-*/
-
 QList<QExtBrowserItem *> QExtBrowserItem::children() const
 {
     return d_ptr->m_children;
 }
-
-/*!
-    Returns the property browser which owns \e this item.
-*/
 
 QExtAbstractPropertyBrowser *QExtBrowserItem::browser() const
 {
@@ -1704,14 +972,10 @@ QExtBrowserItem::~QExtBrowserItem()
 }
 
 
-////////////////////////////////////
-
-typedef QMap<QExtAbstractPropertyBrowser *,
-             QMap<QExtAbstractPropertyManager *, QExtAbstractEditorFactoryBase *> > Map1;
-typedef QMap<QExtAbstractPropertyManager *,
-             QMap<QExtAbstractEditorFactoryBase *, QList<QExtAbstractPropertyBrowser *> > > Map2;
-Q_GLOBAL_STATIC(Map1, m_viewToManagerToFactory)
-Q_GLOBAL_STATIC(Map2, m_managerToFactoryToViews)
+typedef QMap<QExtAbstractPropertyBrowser *, QMap<QExtAbstractPropertyManager *, QExtAbstractEditorFactoryBase *> > Map1;
+typedef QMap<QExtAbstractPropertyManager *, QMap<QExtAbstractEditorFactoryBase *, QList<QExtAbstractPropertyBrowser *> > > Map2;
+Q_GLOBAL_STATIC(Map1, sg_viewToManagerToFactory)
+Q_GLOBAL_STATIC(Map2, sg_managerToFactoryToViews)
 
 class QExtAbstractPropertyBrowserPrivate
 {
@@ -1778,10 +1042,10 @@ void QExtAbstractPropertyBrowserPrivate::insertSubTree(QExtProperty *property, Q
     m_propertyToParents[property].append(parentProperty);
 
     QList<QExtProperty *> subList = property->subProperties();
-    QListIterator<QExtProperty *> itSub(subList);
-    while (itSub.hasNext())
+    QListIterator<QExtProperty *> iter(subList);
+    while (iter.hasNext())
     {
-        QExtProperty *subProperty = itSub.next();
+        QExtProperty *subProperty = iter.next();
         insertSubTree(subProperty, property);
     }
 }
@@ -1819,10 +1083,10 @@ void QExtAbstractPropertyBrowserPrivate::removeSubTree(QExtProperty *property, Q
     }
 
     QList<QExtProperty *> subList = property->subProperties();
-    QListIterator<QExtProperty *> itSub(subList);
-    while (itSub.hasNext())
+    QListIterator<QExtProperty *> iter(subList);
+    while (iter.hasNext())
     {
-        QExtProperty *subProperty = itSub.next();
+        QExtProperty *subProperty = iter.next();
         this->removeSubTree(subProperty, property);
     }
 }
@@ -1853,17 +1117,17 @@ void QExtAbstractPropertyBrowserPrivate::createBrowserIndexes(QExtProperty *prop
     }
     else if (parentProperty)
     {
-        QMap<QExtProperty *, QList<QExtBrowserItem *> >::ConstIterator it = m_propertyToIndexes.find(parentProperty);
-        if (it == m_propertyToIndexes.constEnd())
+        QMap<QExtProperty *, QList<QExtBrowserItem *> >::ConstIterator iter = m_propertyToIndexes.find(parentProperty);
+        if (iter == m_propertyToIndexes.constEnd())
         {
             return;
         }
 
-        QList<QExtBrowserItem *> indexes = it.value();
-        QListIterator<QExtBrowserItem *> itIndex(indexes);
-        while (itIndex.hasNext())
+        QList<QExtBrowserItem *> indexes = iter.value();
+        QListIterator<QExtBrowserItem *> iterIndex(indexes);
+        while (iterIndex.hasNext())
         {
-            QExtBrowserItem *idx = itIndex.next();
+            QExtBrowserItem *idx = iterIndex.next();
             parentToAfter[idx] = 0;
         }
     }
@@ -2035,204 +1299,7 @@ void QExtAbstractPropertyBrowserPrivate::slotPropertyDataChanged(QExtProperty *p
     //q_ptr->propertyChanged(property);
 }
 
-/*!
-    \class QExtAbstractPropertyBrowser
 
-    \brief QExtAbstractPropertyBrowser provides a base class for
-    implementing property browsers.
-
-    A property browser is a widget that enables the user to edit a
-    given set of properties.  Each property is represented by a label
-    specifying the property's name, and an editing widget (e.g. a line
-    edit or a combobox) holding its value. A property can have zero or
-    more subproperties.
-
-    \image qtpropertybrowser.png
-
-    The top level properties can be retrieved using the
-    properties() function. To traverse each property's
-    subproperties, use the QExtProperty::subProperties() function. In
-    addition, the set of top level properties can be manipulated using
-    the addProperty(), insertProperty() and removeProperty()
-    functions. Note that the QExtProperty class provides a corresponding
-    set of functions making it possible to manipulate the set of
-    subproperties as well.
-
-    To remove all the properties from the property browser widget, use
-    the clear() function. This function will clear the editor, but it
-    will not delete the properties since they can still be used in
-    other editors.
-
-    The properties themselves are created and managed by
-    implementations of the QExtAbstractPropertyManager class. A manager
-    can handle (i.e. create and manage) properties of a given type. In
-    the property browser the managers are associated with
-    implementations of the QExtAbstractEditorFactory: A factory is a
-    class able to create an editing widget of a specified type.
-
-    When using a property browser widget, managers must be created for
-    each of the required property types before the properties
-    themselves can be created. To ensure that the properties' values
-    will be displayed using suitable editing widgets, the managers
-    must be associated with objects of the preferred factory
-    implementations using the setFactoryForManager() function. The
-    property browser will use these associations to determine which
-    factory it should use to create the preferred editing widget.
-
-    Note that a factory can be associated with many managers, but a
-    manager can only be associated with one single factory within the
-    context of a single property browser.  The associations between
-    managers and factories can at any time be removed using the
-    unsetFactoryForManager() function.
-
-    Whenever the property data changes or a property is inserted or
-    removed, the itemChanged(), itemInserted() or
-    itemRemoved() functions are called, respectively. These
-    functions must be reimplemented in derived classes in order to
-    update the property browser widget. Be aware that some property
-    instances can appear several times in an abstract tree
-    structure. For example:
-
-    \table 100%
-    \row
-    \o
-    \code
-        QExtProperty *property1, *property2, *property3;
-
-        property2->addSubProperty(property1);
-        property3->addSubProperty(property2);
-
-        QExtAbstractPropertyBrowser *editor;
-
-        editor->addProperty(property1);
-        editor->addProperty(property2);
-        editor->addProperty(property3);
-    \endcode
-    \o  \image qtpropertybrowser-duplicate.png
-    \endtable
-
-    The addProperty() function returns a QExtBrowserItem that uniquely
-    identifies the created item.
-
-    To make a property editable in the property browser, the
-    createEditor() function must be called to provide the
-    property with a suitable editing widget.
-
-    Note that there are two ready-made property browser
-    implementations:
-
-    \list
-        \o QExtGroupBoxPropertyBrowser
-        \o QExtTreePropertyBrowser
-    \endlist
-
-    \sa QExtAbstractPropertyManager, QExtAbstractEditorFactoryBase
-*/
-
-/*!
-    \fn void QExtAbstractPropertyBrowser::setFactoryForManager(PropertyManager *manager,
-                    QExtAbstractEditorFactory<PropertyManager> *factory)
-
-    Connects the given \a manager to the given \a factory, ensuring
-    that properties of the \a manager's type will be displayed with an
-    editing widget suitable for their value.
-
-    For example:
-
-    \code
-        QExtIntPropertyManager *intManager;
-        QExtDoublePropertyManager *doubleManager;
-
-        QExtProperty *myInteger = intManager->addProperty();
-        QExtProperty *myDouble = doubleManager->addProperty();
-
-        QExtSpinBoxFactory  *spinBoxFactory;
-        QExtDoubleSpinBoxFactory *doubleSpinBoxFactory;
-
-        QExtAbstractPropertyBrowser *editor;
-        editor->setFactoryForManager(intManager, spinBoxFactory);
-        editor->setFactoryForManager(doubleManager, doubleSpinBoxFactory);
-
-        editor->addProperty(myInteger);
-        editor->addProperty(myDouble);
-    \endcode
-
-    In this example the \c myInteger property's value is displayed
-    with a QSpinBox widget, while the \c myDouble property's value is
-    displayed with a QDoubleSpinBox widget.
-
-    Note that a factory can be associated with many managers, but a
-    manager can only be associated with one single factory.  If the
-    given \a manager already is associated with another factory, the
-    old association is broken before the new one established.
-
-    This function ensures that the given \a manager and the given \a
-    factory are compatible, and it automatically calls the
-    QExtAbstractEditorFactory::addPropertyManager() function if necessary.
-
-    \sa unsetFactoryForManager()
-*/
-
-/*!
-    \fn virtual void QExtAbstractPropertyBrowser::itemInserted(QExtBrowserItem *insertedItem,
-        QExtBrowserItem *precedingItem) = 0
-
-    This function is called to update the widget whenever a property
-    is inserted or added to the property browser, passing pointers to
-    the \a insertedItem of property and the specified
-    \a precedingItem as parameters.
-
-    If \a precedingItem is 0, the \a insertedItem was put at
-    the beginning of its parent item's list of subproperties. If
-    the parent of \a insertedItem is 0, the \a insertedItem was added as a top
-    level property of \e this property browser.
-
-    This function must be reimplemented in derived classes. Note that
-    if the \a insertedItem's property has subproperties, this
-    method will be called for those properties as soon as the current call is finished.
-
-    \sa insertProperty(), addProperty()
-*/
-
-/*!
-    \fn virtual void QExtAbstractPropertyBrowser::itemRemoved(QExtBrowserItem *item) = 0
-
-    This function is called to update the widget whenever a property
-    is removed from the property browser, passing the pointer to the
-    \a item of the property as parameters. The passed \a item is
-    deleted just after this call is finished.
-
-    If the the parent of \a item is 0, the removed \a item was a
-    top level property in this editor.
-
-    This function must be reimplemented in derived classes. Note that
-    if the removed \a item's property has subproperties, this
-    method will be called for those properties just before the current call is started.
-
-    \sa removeProperty()
-*/
-
-/*!
-    \fn virtual void QExtAbstractPropertyBrowser::itemChanged(QExtBrowserItem *item) = 0
-
-    This function is called whenever a property's data changes,
-    passing a pointer to the \a item of property as parameter.
-
-    This function must be reimplemented in derived classes in order to
-    update the property browser widget whenever a property's name,
-    tool tip, status tip, "what's this" text, value text or value icon
-    changes.
-
-    Note that if the property browser contains several occurrences of
-    the same property, this method will be called once for each
-    occurrence (with a different item each time).
-
-    \sa QExtProperty, items()
-*/
-
-/*!
-    Creates an abstract property browser with the given \a parent.
-*/
 QExtAbstractPropertyBrowser::QExtAbstractPropertyBrowser(QWidget *parent)
     : QWidget(parent)
 {
@@ -2241,18 +1308,6 @@ QExtAbstractPropertyBrowser::QExtAbstractPropertyBrowser(QWidget *parent)
 
 }
 
-/*!
-    Destroys the property browser, and destroys all the items that were
-    created by this property browser.
-
-    Note that the properties that were displayed in the editor are not
-    deleted since they still can be used in other editors. Neither
-    does the destructor delete the property managers and editor
-    factories that were used by this property browser widget unless
-    this widget was their parent.
-
-    \sa QExtAbstractPropertyManager::~QExtAbstractPropertyManager()
-*/
 QExtAbstractPropertyBrowser::~QExtAbstractPropertyBrowser()
 {
     QList<QExtBrowserItem *> indexes = this->topLevelItems();
@@ -2264,64 +1319,26 @@ QExtAbstractPropertyBrowser::~QExtAbstractPropertyBrowser()
     delete d_ptr;
 }
 
-/*!
-    Returns the property browser's list of top level properties.
-
-    To traverse the subproperties, use the QExtProperty::subProperties()
-    function.
-
-    \sa addProperty(), insertProperty(), removeProperty()
-*/
 QList<QExtProperty *> QExtAbstractPropertyBrowser::properties() const
 {
     return d_ptr->m_subItems;
 }
-
-/*!
-    Returns the property browser's list of all items associated
-    with the given \a property.
-
-    There is one item per instance of the property in the browser.
-
-    \sa topLevelItem()
-*/
 
 QList<QExtBrowserItem *> QExtAbstractPropertyBrowser::items(QExtProperty *property) const
 {
     return d_ptr->m_propertyToIndexes.value(property);
 }
 
-/*!
-    Returns the top-level items associated with the given \a property.
-
-    Returns 0 if \a property wasn't inserted into this property
-    browser or isn't a top-level one.
-
-    \sa topLevelItems(), items()
-*/
-
 QExtBrowserItem *QExtAbstractPropertyBrowser::topLevelItem(QExtProperty *property) const
 {
     return d_ptr->m_topLevelPropertyToIndex.value(property);
 }
-
-/*!
-    Returns the list of top-level items.
-
-    \sa topLevelItem()
-*/
 
 QList<QExtBrowserItem *> QExtAbstractPropertyBrowser::topLevelItems() const
 {
     return d_ptr->m_topLevelIndexes;
 }
 
-/*!
-    Removes all the properties from the editor, but does not delete
-    them since they can still be used in other editors.
-
-    \sa removeProperty(), QExtAbstractPropertyManager::clear()
-*/
 void QExtAbstractPropertyBrowser::clear()
 {
     QList<QExtProperty *> subList = this->properties();
@@ -2334,18 +1351,6 @@ void QExtAbstractPropertyBrowser::clear()
     }
 }
 
-/*!
-    Appends the given \a property (and its subproperties) to the
-    property browser's list of top level properties. Returns the item
-    created by property browser which is associated with the \a property.
-    In order to get all children items created by the property
-    browser in this call, the returned item should be traversed.
-
-    If the specified \a property is already added, this function does
-    nothing and returns 0.
-
-    \sa insertProperty(), QExtProperty::addSubProperty(), properties()
-*/
 QExtBrowserItem *QExtAbstractPropertyBrowser::addProperty(QExtProperty *property)
 {
     QExtProperty *afterProperty = 0;
@@ -2356,22 +1361,6 @@ QExtBrowserItem *QExtAbstractPropertyBrowser::addProperty(QExtProperty *property
     return this->insertProperty(property, afterProperty);
 }
 
-/*!
-    \fn QExtBrowserItem *QExtAbstractPropertyBrowser::insertProperty(QExtProperty *property,
-            QExtProperty *afterProperty)
-
-    Inserts the given \a property (and its subproperties) after
-    the specified \a afterProperty in the browser's list of top
-    level properties. Returns item created by property browser which
-    is associated with the \a property. In order to get all children items
-    created by the property browser in this call returned item should be traversed.
-
-    If the specified \a afterProperty is 0, the given \a property is
-    inserted at the beginning of the list.  If \a property is
-    already inserted, this function does nothing and returns 0.
-
-    \sa addProperty(), QExtProperty::insertSubProperty(), properties()
-*/
 QExtBrowserItem *QExtAbstractPropertyBrowser::insertProperty(QExtProperty *property, QExtProperty *afterProperty)
 {
     if (!property)
@@ -2406,17 +1395,6 @@ QExtBrowserItem *QExtAbstractPropertyBrowser::insertProperty(QExtProperty *prope
     return this->topLevelItem(property);
 }
 
-/*!
-    Removes the specified \a property (and its subproperties) from the
-    property browser's list of top level properties. All items
-    that were associated with the given \a property and its children
-    are deleted.
-
-    Note that the properties are \e not deleted since they can still
-    be used in other editors.
-
-    \sa clear(), QExtProperty::removeSubProperty(), properties()
-*/
 void QExtAbstractPropertyBrowser::removeProperty(QExtProperty *property)
 {
     if (!property)
@@ -2438,40 +1416,20 @@ void QExtAbstractPropertyBrowser::removeProperty(QExtProperty *property)
 
             // when item is deleted, item will call removeItem for top level items,
             // and itemRemoved for nested items.
-
             return;
         }
         pos++;
     }
 }
 
-/*!
-    Creates an editing widget (with the given \a parent) for the given
-    \a property according to the previously established associations
-    between property managers and editor factories.
-
-    If the property is created by a property manager which was not
-    associated with any of the existing factories in \e this property
-    editor, the function returns 0.
-
-    To make a property editable in the property browser, the
-    createEditor() function must be called to provide the
-    property with a suitable editing widget.
-
-    Reimplement this function to provide additional decoration for the
-    editing widgets created by the installed factories.
-
-    \sa setFactoryForManager()
-*/
-QWidget *QExtAbstractPropertyBrowser::createEditor(QExtProperty *property,
-                                                   QWidget *parent)
+QWidget *QExtAbstractPropertyBrowser::createEditor(QExtProperty *property, QWidget *parent)
 {
     QExtAbstractEditorFactoryBase *factory = 0;
     QExtAbstractPropertyManager *manager = property->propertyManager();
 
-    if (m_viewToManagerToFactory()->contains(this) && (*m_viewToManagerToFactory())[this].contains(manager))
+    if (sg_viewToManagerToFactory()->contains(this) && (*sg_viewToManagerToFactory())[this].contains(manager))
     {
-        factory = (*m_viewToManagerToFactory())[this][manager];
+        factory = (*sg_viewToManagerToFactory())[this][manager];
     }
 
     if (!factory)
@@ -2485,77 +1443,58 @@ bool QExtAbstractPropertyBrowser::addFactory(QExtAbstractPropertyManager *abstra
                                              QExtAbstractEditorFactoryBase *abstractFactory)
 {
     bool connectNeeded = false;
-    if (!m_managerToFactoryToViews()->contains(abstractManager) ||
-        !(*m_managerToFactoryToViews())[abstractManager].contains(abstractFactory))
+    if (!sg_managerToFactoryToViews()->contains(abstractManager) ||
+            !(*sg_managerToFactoryToViews())[abstractManager].contains(abstractFactory))
     {
         connectNeeded = true;
     }
-    else if ((*m_managerToFactoryToViews())[abstractManager][abstractFactory].contains(this))
+    else if ((*sg_managerToFactoryToViews())[abstractManager][abstractFactory].contains(this))
     {
         return connectNeeded;
     }
 
-    if (m_viewToManagerToFactory()->contains(this) &&
-        (*m_viewToManagerToFactory())[this].contains(abstractManager))
+    if (sg_viewToManagerToFactory()->contains(this) && (*sg_viewToManagerToFactory())[this].contains(abstractManager))
     {
         unsetFactoryForManager(abstractManager);
     }
 
-    (*m_managerToFactoryToViews())[abstractManager][abstractFactory].append(this);
-    (*m_viewToManagerToFactory())[this][abstractManager] = abstractFactory;
+    (*sg_managerToFactoryToViews())[abstractManager][abstractFactory].append(this);
+    (*sg_viewToManagerToFactory())[this][abstractManager] = abstractFactory;
 
     return connectNeeded;
 }
 
-/*!
-    Removes the association between the given \a manager and the
-    factory bound to it, automatically calling the
-    QExtAbstractEditorFactory::removePropertyManager() function if necessary.
-
-    \sa setFactoryForManager()
-*/
 void QExtAbstractPropertyBrowser::unsetFactoryForManager(QExtAbstractPropertyManager *manager)
 {
-    if (!m_viewToManagerToFactory()->contains(this) ||
-        !(*m_viewToManagerToFactory())[this].contains(manager))
+    if (!sg_viewToManagerToFactory()->contains(this) || !(*sg_viewToManagerToFactory())[this].contains(manager))
     {
         return;
     }
 
-    QExtAbstractEditorFactoryBase *abstractFactory = (*m_viewToManagerToFactory())[this][manager];
-    (*m_viewToManagerToFactory())[this].remove(manager);
-    if ((*m_viewToManagerToFactory())[this].isEmpty())
+    QExtAbstractEditorFactoryBase *abstractFactory = (*sg_viewToManagerToFactory())[this][manager];
+    (*sg_viewToManagerToFactory())[this].remove(manager);
+    if ((*sg_viewToManagerToFactory())[this].isEmpty())
     {
-        (*m_viewToManagerToFactory()).remove(this);
+        (*sg_viewToManagerToFactory()).remove(this);
     }
 
-    (*m_managerToFactoryToViews())[manager][abstractFactory].removeAll(this);
-    if ((*m_managerToFactoryToViews())[manager][abstractFactory].isEmpty())
+    (*sg_managerToFactoryToViews())[manager][abstractFactory].removeAll(this);
+    if ((*sg_managerToFactoryToViews())[manager][abstractFactory].isEmpty())
     {
-        (*m_managerToFactoryToViews())[manager].remove(abstractFactory);
+        (*sg_managerToFactoryToViews())[manager].remove(abstractFactory);
         abstractFactory->breakConnection(manager);
-        if ((*m_managerToFactoryToViews())[manager].isEmpty())
+        if ((*sg_managerToFactoryToViews())[manager].isEmpty())
         {
-            (*m_managerToFactoryToViews()).remove(manager);
+            (*sg_managerToFactoryToViews()).remove(manager);
         }
     }
 }
 
-/*!
-    Returns the current item in the property browser.
-
-    \sa setCurrentItem()
-*/
 QExtBrowserItem *QExtAbstractPropertyBrowser::currentItem() const
 {
     return d_ptr->m_currentItem;
 }
 
-/*!
-    Sets the current item in the property browser to \a item.
-
-    \sa currentItem(), currentItemChanged()
-*/
 void QExtAbstractPropertyBrowser::setCurrentItem(QExtBrowserItem *item)
 {
     QExtBrowserItem *oldItem = d_ptr->m_currentItem;
@@ -2570,7 +1509,6 @@ void QExtAbstractPropertyBrowser::setCurrentItem(QExtBrowserItem *item)
 /***********************************************************************************************************************
 ** qtpropertymanager
 ***********************************************************************************************************************/
-
 template <class PrivateData, class Value>
 static void setSimpleMinimumData(PrivateData *data, const Value &minVal)
 {
@@ -2728,7 +1666,7 @@ void orderBorders(QSizeF &minVal, QSizeF &maxVal)
 
 }
 }
-////////
+
 
 template <class Value, class PrivateData>
 static Value getData(const QMap<const QExtProperty *, PrivateData> &propertyMap, Value PrivateData::*data,
@@ -2937,9 +1875,9 @@ static void setMinimumValue(PropertyManager *manager, PropertyManagerPrivate *ma
     void (PropertyManagerPrivate::*setSubPropertyRange)(QExtProperty *,
                                                         ValueChangeParameter, ValueChangeParameter, ValueChangeParameter) = 0;
     setBorderValue<ValueChangeParameter, PropertyManagerPrivate, PropertyManager, Value, PrivateData>
-        (manager, managerPrivate,
-         propertyChangedSignal, valueChangedSignal, rangeChangedSignal,
-         property, &PropertyManagerPrivate::Data::minimumValue, &PropertyManagerPrivate::Data::setMinimumValue, minVal, setSubPropertyRange);
+            (manager, managerPrivate,
+             propertyChangedSignal, valueChangedSignal, rangeChangedSignal,
+             property, &PropertyManagerPrivate::Data::minimumValue, &PropertyManagerPrivate::Data::setMinimumValue, minVal, setSubPropertyRange);
 }
 
 template <class ValueChangeParameter, class PropertyManagerPrivate, class PropertyManager, class Value, class PrivateData>
@@ -2952,9 +1890,9 @@ static void setMaximumValue(PropertyManager *manager, PropertyManagerPrivate *ma
     void (PropertyManagerPrivate::*setSubPropertyRange)(QExtProperty *,
                                                         ValueChangeParameter, ValueChangeParameter, ValueChangeParameter) = 0;
     setBorderValue<ValueChangeParameter, PropertyManagerPrivate, PropertyManager, Value, PrivateData>
-        (manager, managerPrivate,
-         propertyChangedSignal, valueChangedSignal, rangeChangedSignal,
-         property, &PropertyManagerPrivate::Data::maximumValue, &PropertyManagerPrivate::Data::setMaximumValue, maxVal, setSubPropertyRange);
+            (manager, managerPrivate,
+             propertyChangedSignal, valueChangedSignal, rangeChangedSignal,
+             property, &PropertyManagerPrivate::Data::maximumValue, &PropertyManagerPrivate::Data::setMaximumValue, maxVal, setSubPropertyRange);
 }
 
 class QtMetaEnumProvider
@@ -3098,99 +2036,92 @@ int QtMetaEnumProvider::sizePolicyToIndex(QSizePolicy::Policy policy) const
 {
     const int keyCount = m_policyEnum.keyCount();
     for (int i = 0; i < keyCount; i++)
+    {
         if (indexToSizePolicy(i) == policy)
+        {
             return i;
+        }
+    }
     return -1;
 }
 
-void QtMetaEnumProvider::indexToLocale(int languageIndex, int countryIndex, QLocale::Language *language, QLocale::Country *country) const
+void QtMetaEnumProvider::indexToLocale(int languageIndex, int countryIndex, QLocale::Language *language,
+                                       QLocale::Country *country) const
 {
     QLocale::Language l = QLocale::C;
     QLocale::Country c = QLocale::AnyCountry;
-    if (m_indexToLanguage.contains(languageIndex)) {
+    if (m_indexToLanguage.contains(languageIndex))
+    {
         l = m_indexToLanguage[languageIndex];
         if (m_indexToCountry.contains(languageIndex) && m_indexToCountry[languageIndex].contains(countryIndex))
+        {
             c = m_indexToCountry[languageIndex][countryIndex];
+        }
     }
     if (language)
+    {
         *language = l;
+    }
     if (country)
+    {
         *country = c;
+    }
 }
 
-void QtMetaEnumProvider::localeToIndex(QLocale::Language language, QLocale::Country country, int *languageIndex, int *countryIndex) const
+void QtMetaEnumProvider::localeToIndex(QLocale::Language language, QLocale::Country country, int *languageIndex,
+                                       int *countryIndex) const
 {
     int l = -1;
     int c = -1;
-    if (m_languageToIndex.contains(language)) {
+    if (m_languageToIndex.contains(language))
+    {
         l = m_languageToIndex[language];
         if (m_countryToIndex.contains(language) && m_countryToIndex[language].contains(country))
+        {
             c = m_countryToIndex[language][country];
+        }
     }
 
     if (languageIndex)
+    {
         *languageIndex = l;
+    }
     if (countryIndex)
+    {
         *countryIndex = c;
+    }
 }
 
 Q_GLOBAL_STATIC(QtMetaEnumProvider, metaEnumProvider)
 
-// QExtGroupPropertyManager
 
-/*!
-    \class QExtGroupPropertyManager
-
-    \brief The QExtGroupPropertyManager provides and manages group properties.
-
-    This class is intended to provide a grouping element without any value.
-
-    \sa QExtAbstractPropertyManager
-*/
-
-/*!
-    Creates a manager with the given \a parent.
-*/
 QExtGroupPropertyManager::QExtGroupPropertyManager(QObject *parent)
     : QExtAbstractPropertyManager(parent)
 {
 
 }
 
-/*!
-    Destroys this manager, and all the properties it has created.
-*/
 QExtGroupPropertyManager::~QExtGroupPropertyManager()
 {
 
 }
 
-/*!
-    \reimp
-*/
 bool QExtGroupPropertyManager::hasValue(const QExtProperty *property) const
 {
     Q_UNUSED(property)
     return false;
 }
 
-/*!
-    \reimp
-*/
 void QExtGroupPropertyManager::initializeProperty(QExtProperty *property)
 {
     Q_UNUSED(property)
 }
 
-/*!
-    \reimp
-*/
 void QExtGroupPropertyManager::uninitializeProperty(QExtProperty *property)
 {
     Q_UNUSED(property)
 }
 
-// QExtIntPropertyManager
 
 class QExtIntPropertyManagerPrivate
 {
@@ -3216,61 +2147,8 @@ public:
     PropertyValueMap m_values;
 };
 
-/*!
-    \class QExtIntPropertyManager
 
-    \brief The QExtIntPropertyManager provides and manages int properties.
 
-    An int property has a current value, and a range specifying the
-    valid values. The range is defined by a minimum and a maximum
-    value.
-
-    The property's value and range can be retrieved using the value(),
-    minimum() and maximum() functions, and can be set using the
-    setValue(), setMinimum() and setMaximum() slots. Alternatively,
-    the range can be defined in one go using the setRange() slot.
-
-    In addition, QExtIntPropertyManager provides the valueChanged() signal which
-    is emitted whenever a property created by this manager changes,
-    and the rangeChanged() signal which is emitted whenever such a
-    property changes its range of valid values.
-
-    \sa QExtAbstractPropertyManager, QExtSpinBoxFactory, QExtSliderFactory, QExtScrollBarFactory
-*/
-
-/*!
-    \fn void QExtIntPropertyManager::valueChanged(QExtProperty *property, int value)
-
-    This signal is emitted whenever a property created by this manager
-    changes its value, passing a pointer to the \a property and the new
-    \a value as parameters.
-
-    \sa setValue()
-*/
-
-/*!
-    \fn void QExtIntPropertyManager::rangeChanged(QExtProperty *property, int minimum, int maximum)
-
-    This signal is emitted whenever a property created by this manager
-    changes its range of valid values, passing a pointer to the
-    \a property and the new \a minimum and \a maximum values.
-
-    \sa setRange()
-*/
-
-/*!
-    \fn void QExtIntPropertyManager::singleStepChanged(QExtProperty *property, int step)
-
-    This signal is emitted whenever a property created by this manager
-    changes its single step property, passing a pointer to the
-    \a property and the new \a step value
-
-    \sa setSingleStep()
-*/
-
-/*!
-    Creates a manager with the given \a parent.
-*/
 QExtIntPropertyManager::QExtIntPropertyManager(QObject *parent)
     : QExtAbstractPropertyManager(parent)
 {
@@ -3278,94 +2156,47 @@ QExtIntPropertyManager::QExtIntPropertyManager(QObject *parent)
     d_ptr->q_ptr = this;
 }
 
-/*!
-    Destroys this manager, and all the properties it has created.
-*/
 QExtIntPropertyManager::~QExtIntPropertyManager()
 {
-    clear();
+    this->clear();
     delete d_ptr;
 }
 
-/*!
-    Returns the given \a property's value.
-
-    If the given property is not managed by this manager, this
-    function returns 0.
-
-    \sa setValue()
-*/
 int QExtIntPropertyManager::value(const QExtProperty *property) const
 {
     return getValue<int>(d_ptr->m_values, property, 0);
 }
 
-/*!
-    Returns the given \a property's minimum value.
-
-    \sa setMinimum(), maximum(), setRange()
-*/
 int QExtIntPropertyManager::minimum(const QExtProperty *property) const
 {
     return getMinimum<int>(d_ptr->m_values, property, 0);
 }
 
-/*!
-    Returns the given \a property's maximum value.
-
-    \sa setMaximum(), minimum(), setRange()
-*/
 int QExtIntPropertyManager::maximum(const QExtProperty *property) const
 {
     return getMaximum<int>(d_ptr->m_values, property, 0);
 }
 
-/*!
-    Returns the given \a property's step value.
-
-    The step is typically used to increment or decrement a property value while pressing an arrow key.
-
-    \sa setSingleStep()
-*/
 int QExtIntPropertyManager::singleStep(const QExtProperty *property) const
 {
     return getData<int>(d_ptr->m_values, &QExtIntPropertyManagerPrivate::Data::singleStep, property, 0);
 }
 
-/*!
-    Returns read-only status of the property.
-
-    When property is read-only it's value can be selected and copied from editor but not modified.
-
-    \sa QExtIntPropertyManager::setReadOnly
-*/
 bool QExtIntPropertyManager::isReadOnly(const QExtProperty *property) const
 {
     return getData<bool>(d_ptr->m_values, &QExtIntPropertyManagerPrivate::Data::readOnly, property, false);
 }
 
-/*!
-    \reimp
-*/
 QString QExtIntPropertyManager::valueText(const QExtProperty *property) const
 {
     const QExtIntPropertyManagerPrivate::PropertyValueMap::const_iterator it = d_ptr->m_values.constFind(property);
     if (it == d_ptr->m_values.constEnd())
+    {
         return QString();
+    }
     return QString::number(it.value().val);
 }
 
-/*!
-    \fn void QExtIntPropertyManager::setValue(QExtProperty *property, int value)
-
-    Sets the value of the given \a property to \a value.
-
-    If the specified \a value is not valid according to the given \a
-    property's range, the \a value is adjusted to the nearest valid
-    value within the range.
-
-    \sa value(), setRange(), valueChanged()
-*/
 void QExtIntPropertyManager::setValue(QExtProperty *property, int val)
 {
     void (QExtIntPropertyManagerPrivate::*setSubPropertyValue)(QExtProperty *, int) = 0;
@@ -3375,15 +2206,6 @@ void QExtIntPropertyManager::setValue(QExtProperty *property, int val)
                                                                                      property, val, setSubPropertyValue);
 }
 
-/*!
-    Sets the minimum value for the given \a property to \a minVal.
-
-    When setting the minimum value, the maximum and current values are
-    adjusted if necessary (ensuring that the range remains valid and
-    that the current value is within the range).
-
-    \sa minimum(), setRange(), rangeChanged()
-*/
 void QExtIntPropertyManager::setMinimum(QExtProperty *property, int minVal)
 {
     setMinimumValue<int, QExtIntPropertyManagerPrivate, QExtIntPropertyManager, int, QExtIntPropertyManagerPrivate::Data>(this, d_ptr,
@@ -3393,15 +2215,6 @@ void QExtIntPropertyManager::setMinimum(QExtProperty *property, int minVal)
                                                                                                                           property, minVal);
 }
 
-/*!
-    Sets the maximum value for the given \a property to \a maxVal.
-
-    When setting maximum value, the minimum and current values are
-    adjusted if necessary (ensuring that the range remains valid and
-    that the current value is within the range).
-
-    \sa maximum(), setRange(), rangeChanged()
-*/
 void QExtIntPropertyManager::setMaximum(QExtProperty *property, int maxVal)
 {
     setMaximumValue<int, QExtIntPropertyManagerPrivate, QExtIntPropertyManager, int, QExtIntPropertyManagerPrivate::Data>(this, d_ptr,
@@ -3411,20 +2224,6 @@ void QExtIntPropertyManager::setMaximum(QExtProperty *property, int maxVal)
                                                                                                                           property, maxVal);
 }
 
-/*!
-    \fn void QExtIntPropertyManager::setRange(QExtProperty *property, int minimum, int maximum)
-
-    Sets the range of valid values.
-
-    This is a convenience function defining the range of valid values
-    in one go; setting the \a minimum and \a maximum values for the
-    given \a property with a single function call.
-
-    When setting a new range, the current value is adjusted if
-    necessary (ensuring that the value remains within range).
-
-    \sa setMinimum(), setMaximum(), rangeChanged()
-*/
 void QExtIntPropertyManager::setRange(QExtProperty *property, int minVal, int maxVal)
 {
     void (QExtIntPropertyManagerPrivate::*setSubPropertyRange)(QExtProperty *, int, int, int) = 0;
@@ -3435,74 +2234,65 @@ void QExtIntPropertyManager::setRange(QExtProperty *property, int minVal, int ma
                                                                                      property, minVal, maxVal, setSubPropertyRange);
 }
 
-/*!
-    Sets the step value for the given \a property to \a step.
-
-    The step is typically used to increment or decrement a property value while pressing an arrow key.
-
-    \sa singleStep()
-*/
 void QExtIntPropertyManager::setSingleStep(QExtProperty *property, int step)
 {
     const QExtIntPropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
     if (it == d_ptr->m_values.end())
+    {
         return;
+    }
 
     QExtIntPropertyManagerPrivate::Data data = it.value();
 
     if (step < 0)
+    {
         step = 0;
+    }
 
     if (data.singleStep == step)
+    {
         return;
+    }
 
     data.singleStep = step;
 
     it.value() = data;
 
-    emit singleStepChanged(property, data.singleStep);
+    emit this->singleStepChanged(property, data.singleStep);
 }
 
-/*!
-    Sets read-only status of the property.
-
-    \sa QExtIntPropertyManager::setReadOnly
-*/
 void QExtIntPropertyManager::setReadOnly(QExtProperty *property, bool readOnly)
 {
     const QExtIntPropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
     if (it == d_ptr->m_values.end())
+    {
         return;
+    }
 
     QExtIntPropertyManagerPrivate::Data data = it.value();
 
     if (data.readOnly == readOnly)
+    {
         return;
+    }
 
     data.readOnly = readOnly;
     it.value() = data;
 
-    emit propertyChanged(property);
-    emit readOnlyChanged(property, data.readOnly);
+    emit this->propertyChanged(property);
+    emit this->readOnlyChanged(property, data.readOnly);
 }
 
-/*!
-    \reimp
-*/
 void QExtIntPropertyManager::initializeProperty(QExtProperty *property)
 {
     d_ptr->m_values[property] = QExtIntPropertyManagerPrivate::Data();
 }
 
-/*!
-    \reimp
-*/
 void QExtIntPropertyManager::uninitializeProperty(QExtProperty *property)
 {
     d_ptr->m_values.remove(property);
 }
 
-// QExtDoublePropertyManager
 
 class QExtDoublePropertyManagerPrivate
 {
@@ -3529,38 +2319,7 @@ public:
     PropertyValueMap m_values;
 };
 
-/*!
-    \class QExtDoublePropertyManager
 
-    \brief The QExtDoublePropertyManager provides and manages double properties.
-
-    A double property has a current value, and a range specifying the
-    valid values. The range is defined by a minimum and a maximum
-    value.
-
-    The property's value and range can be retrieved using the value(),
-    minimum() and maximum() functions, and can be set using the
-    setValue(), setMinimum() and setMaximum() slots.
-    Alternatively, the range can be defined in one go using the
-    setRange() slot.
-
-    In addition, QExtDoublePropertyManager provides the valueChanged() signal
-    which is emitted whenever a property created by this manager
-    changes, and the rangeChanged() signal which is emitted whenever
-    such a property changes its range of valid values.
-
-    \sa QExtAbstractPropertyManager, QExtDoubleSpinBoxFactory
-*/
-
-/*!
-    \fn void QExtDoublePropertyManager::valueChanged(QExtProperty *property, double value)
-
-    This signal is emitted whenever a property created by this manager
-    changes its value, passing a pointer to the \a property and the new
-    \a value as parameters.
-
-    \sa setValue()
-*/
 
 /*!
     \fn void QExtDoublePropertyManager::rangeChanged(QExtProperty *property, double minimum, double maximum)
@@ -3607,7 +2366,7 @@ QExtDoublePropertyManager::QExtDoublePropertyManager(QObject *parent)
 */
 QExtDoublePropertyManager::~QExtDoublePropertyManager()
 {
-    clear();
+    this->clear();
     delete d_ptr;
 }
 
@@ -3685,7 +2444,9 @@ QString QExtDoublePropertyManager::valueText(const QExtProperty *property) const
 {
     const QExtDoublePropertyManagerPrivate::PropertyValueMap::const_iterator it = d_ptr->m_values.constFind(property);
     if (it == d_ptr->m_values.constEnd())
+    {
         return QString();
+    }
     return QLocale::system().toString(it.value().val, 'f', it.value().decimals);
 }
 
@@ -3720,21 +2481,27 @@ void QExtDoublePropertyManager::setSingleStep(QExtProperty *property, double ste
 {
     const QExtDoublePropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
     if (it == d_ptr->m_values.end())
+    {
         return;
+    }
 
     QExtDoublePropertyManagerPrivate::Data data = it.value();
 
     if (step < 0)
+    {
         step = 0;
+    }
 
     if (data.singleStep == step)
+    {
         return;
+    }
 
     data.singleStep = step;
 
     it.value() = data;
 
-    emit singleStepChanged(property, data.singleStep);
+    emit this->singleStepChanged(property, data.singleStep);
 }
 
 /*!
@@ -3745,19 +2512,24 @@ void QExtDoublePropertyManager::setSingleStep(QExtProperty *property, double ste
 void QExtDoublePropertyManager::setReadOnly(QExtProperty *property, bool readOnly)
 {
     const QExtDoublePropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
+
     if (it == d_ptr->m_values.end())
+    {
         return;
+    }
 
     QExtDoublePropertyManagerPrivate::Data data = it.value();
 
     if (data.readOnly == readOnly)
+    {
         return;
+    }
 
     data.readOnly = readOnly;
     it.value() = data;
 
-    emit propertyChanged(property);
-    emit readOnlyChanged(property, data.readOnly);
+    emit this->propertyChanged(property);
+    emit this->readOnlyChanged(property, data.readOnly);
 }
 
 /*!
@@ -3773,23 +2545,31 @@ void QExtDoublePropertyManager::setDecimals(QExtProperty *property, int prec)
 {
     const QExtDoublePropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
     if (it == d_ptr->m_values.end())
+    {
         return;
+    }
 
     QExtDoublePropertyManagerPrivate::Data data = it.value();
 
     if (prec > 13)
+    {
         prec = 13;
+    }
     else if (prec < 0)
+    {
         prec = 0;
+    }
 
     if (data.decimals == prec)
+    {
         return;
+    }
 
     data.decimals = prec;
 
     it.value() = data;
 
-    emit decimalsChanged(property, data.decimals);
+    emit this->decimalsChanged(property, data.decimals);
 }
 
 /*!
@@ -3947,7 +2727,7 @@ QExtStringPropertyManager::QExtStringPropertyManager(QObject *parent)
 */
 QExtStringPropertyManager::~QExtStringPropertyManager()
 {
-    clear();
+    this->clear();
     delete d_ptr;
 }
 
@@ -3977,34 +2757,23 @@ QRegExp QExtStringPropertyManager::regExp(const QExtProperty *property) const
     return getData<QRegExp>(d_ptr->m_values, &QExtStringPropertyManagerPrivate::Data::regExp, property, QRegExp());
 }
 
-/*!
-    \reimp
-*/
 EchoMode QExtStringPropertyManager::echoMode(const QExtProperty *property) const
 {
     return (EchoMode)getData<int>(d_ptr->m_values, &QExtStringPropertyManagerPrivate::Data::echoMode, property, 0);
 }
 
-/*!
-    Returns read-only status of the property.
-
-    When property is read-only it's value can be selected and copied from editor but not modified.
-
-    \sa QExtStringPropertyManager::setReadOnly
-*/
 bool QExtStringPropertyManager::isReadOnly(const QExtProperty *property) const
 {
     return getData<bool>(d_ptr->m_values, &QExtStringPropertyManagerPrivate::Data::readOnly, property, false);
 }
 
-/*!
-    \reimp
-*/
 QString QExtStringPropertyManager::valueText(const QExtProperty *property) const
 {
     const QExtStringPropertyManagerPrivate::PropertyValueMap::const_iterator it = d_ptr->m_values.constFind(property);
     if (it == d_ptr->m_values.constEnd())
+    {
         return QString();
+    }
 
     return it.value().val;
 }
@@ -4016,7 +2785,9 @@ QString QExtStringPropertyManager::displayText(const QExtProperty *property) con
 {
     const QExtStringPropertyManagerPrivate::PropertyValueMap::const_iterator it = d_ptr->m_values.constFind(property);
     if (it == d_ptr->m_values.constEnd())
+    {
         return QString();
+    }
 
     QLineEdit edit;
     edit.setEchoMode((EchoMode)it.value().echoMode);
@@ -4038,22 +2809,28 @@ void QExtStringPropertyManager::setValue(QExtProperty *property, const QString &
 {
     const QExtStringPropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
     if (it == d_ptr->m_values.end())
+    {
         return;
+    }
 
     QExtStringPropertyManagerPrivate::Data data = it.value();
 
     if (data.val == val)
+    {
         return;
+    }
 
     if (data.regExp.isValid() && !data.regExp.exactMatch(val))
+    {
         return;
+    }
 
     data.val = val;
 
     it.value() = data;
 
-    emit propertyChanged(property);
-    emit valueChanged(property, data.val);
+    emit this->propertyChanged(property);
+    emit this->valueChanged(property, data.val);
 }
 
 /*!
@@ -4065,18 +2842,22 @@ void QExtStringPropertyManager::setRegExp(QExtProperty *property, const QRegExp 
 {
     const QExtStringPropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
     if (it == d_ptr->m_values.end())
+    {
         return;
+    }
 
     QExtStringPropertyManagerPrivate::Data data = it.value() ;
 
     if (data.regExp == regExp)
+    {
         return;
+    }
 
     data.regExp = regExp;
 
     it.value() = data;
 
-    emit regExpChanged(property, data.regExp);
+    emit this->regExpChanged(property, data.regExp);
 }
 
 
@@ -4084,41 +2865,44 @@ void QExtStringPropertyManager::setEchoMode(QExtProperty *property, EchoMode ech
 {
     const QExtStringPropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
     if (it == d_ptr->m_values.end())
+    {
         return;
+    }
 
     QExtStringPropertyManagerPrivate::Data data = it.value();
 
     if (data.echoMode == echoMode)
+    {
         return;
+    }
 
     data.echoMode = echoMode;
     it.value() = data;
 
-    emit propertyChanged(property);
-    emit echoModeChanged(property, data.echoMode);
+    emit this->propertyChanged(property);
+    emit this->echoModeChanged(property, data.echoMode);
 }
 
-/*!
-    Sets read-only status of the property.
-
-    \sa QExtStringPropertyManager::setReadOnly
-*/
 void QExtStringPropertyManager::setReadOnly(QExtProperty *property, bool readOnly)
 {
     const QExtStringPropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
     if (it == d_ptr->m_values.end())
+    {
         return;
+    }
 
     QExtStringPropertyManagerPrivate::Data data = it.value();
 
     if (data.readOnly == readOnly)
+    {
         return;
+    }
 
     data.readOnly = readOnly;
     it.value() = data;
 
-    emit propertyChanged(property);
-    emit readOnlyChanged(property, data.readOnly);
+    emit this->propertyChanged(property);
+    emit this->readOnlyChanged(property, data.readOnly);
 }
 
 /*!
@@ -4262,11 +3046,15 @@ QString QExtBoolPropertyManager::valueText(const QExtProperty *property) const
 {
     const QExtBoolPropertyManagerPrivate::PropertyValueMap::const_iterator it = d_ptr->m_values.constFind(property);
     if (it == d_ptr->m_values.constEnd())
+    {
         return QString();
+    }
 
     const QExtBoolPropertyManagerPrivate::Data &data = it.value();
     if (!data.textVisible)
+    {
         return QString();
+    }
 
     static const QString trueText = tr("True");
     static const QString falseText = tr("False");
@@ -4280,7 +3068,9 @@ QIcon QExtBoolPropertyManager::valueIcon(const QExtProperty *property) const
 {
     const QExtBoolPropertyManagerPrivate::PropertyValueMap::const_iterator it = d_ptr->m_values.constFind(property);
     if (it == d_ptr->m_values.constEnd())
+    {
         return QIcon();
+    }
 
     return it.value().val ? d_ptr->m_checkedIcon : d_ptr->m_uncheckedIcon;
 }
@@ -4296,18 +3086,22 @@ void QExtBoolPropertyManager::setValue(QExtProperty *property, bool val)
 {
     const QExtBoolPropertyManagerPrivate::PropertyValueMap::iterator it = d_ptr->m_values.find(property);
     if (it == d_ptr->m_values.end())
+    {
         return;
+    }
 
     QExtBoolPropertyManagerPrivate::Data data = it.value();
 
     if (data.val == val)
+    {
         return;
+    }
 
     data.val = val;
     it.value() = data;
 
-    emit propertyChanged(property);
-    emit valueChanged(property, data.val);
+    emit this->propertyChanged(property);
+    emit this->valueChanged(property, data.val);
 }
 
 void QExtBoolPropertyManager::setTextVisible(QExtProperty *property, bool textVisible)
@@ -5184,8 +3978,8 @@ QString QExtLocalePropertyManager::valueText(const QExtProperty *property) const
     int countryIdx = 0;
     metaEnumProvider()->localeToIndex(loc.language(), loc.country(), &langIdx, &countryIdx);
     QString str = tr("%1, %2")
-                      .arg(metaEnumProvider()->languageEnumNames().at(langIdx))
-                      .arg(metaEnumProvider()->countryEnumNames(loc.language()).at(countryIdx));
+            .arg(metaEnumProvider()->languageEnumNames().at(langIdx))
+            .arg(metaEnumProvider()->countryEnumNames(loc.language()).at(countryIdx));
     return str;
 }
 
@@ -5414,7 +4208,7 @@ QString QExtPointPropertyManager::valueText(const QExtProperty *property) const
         return QString();
     const QPoint v = it.value();
     return QString(tr("(%1, %2)").arg(QString::number(v.x()))
-                       .arg(QString::number(v.y())));
+                   .arg(QString::number(v.y())));
 }
 
 /*!
@@ -5654,7 +4448,7 @@ QString QExtPointFPropertyManager::valueText(const QExtProperty *property) const
     const QPointF v = it.value().val;
     const int dec =  it.value().decimals;
     return QString(tr("(%1, %2)").arg(QString::number(v.x(), 'f', dec))
-                       .arg(QString::number(v.y(), 'f', dec)));
+                   .arg(QString::number(v.y(), 'f', dec)));
 }
 
 /*!
@@ -5973,7 +4767,7 @@ QString QExtSizePropertyManager::valueText(const QExtProperty *property) const
         return QString();
     const QSize v = it.value().val;
     return QString(tr("%1 x %2").arg(QString::number(v.width()))
-                       .arg(QString::number(v.height())));
+                   .arg(QString::number(v.height())));
 }
 
 /*!
@@ -6337,7 +5131,7 @@ QString QExtSizeFPropertyManager::valueText(const QExtProperty *property) const
     const QSizeF v = it.value().val;
     const int dec = it.value().decimals;
     return QString(tr("%1 x %2").arg(QString::number(v.width(), 'f', dec))
-                       .arg(QString::number(v.height(), 'f', dec)));
+                   .arg(QString::number(v.height(), 'f', dec)));
 }
 
 /*!
@@ -6729,9 +5523,9 @@ QString QExtRectPropertyManager::valueText(const QExtProperty *property) const
         return QString();
     const QRect v = it.value().val;
     return QString(tr("[(%1, %2), %3 x %4]").arg(QString::number(v.x()))
-                       .arg(QString::number(v.y()))
-                       .arg(QString::number(v.width()))
-                       .arg(QString::number(v.height())));
+                   .arg(QString::number(v.y()))
+                   .arg(QString::number(v.width()))
+                   .arg(QString::number(v.height())));
 }
 
 /*!
@@ -7159,9 +5953,9 @@ QString QExtRectFPropertyManager::valueText(const QExtProperty *property) const
     const QRectF v = it.value().val;
     const int dec = it.value().decimals;
     return QString(tr("[(%1, %2), %3 x %4]").arg(QString::number(v.x(), 'f', dec))
-                       .arg(QString::number(v.y(), 'f', dec))
-                       .arg(QString::number(v.width(), 'f', dec))
-                       .arg(QString::number(v.height(), 'f', dec)));
+                   .arg(QString::number(v.y(), 'f', dec))
+                   .arg(QString::number(v.width(), 'f', dec))
+                   .arg(QString::number(v.height(), 'f', dec)));
 }
 
 /*!
@@ -11449,7 +10243,7 @@ bool QExtColorEditWidget::eventFilter(QObject *obj, QEvent *ev)
                 break;
             }
         }
-        break;
+            break;
         default:
             break;
         }
@@ -11643,7 +10437,7 @@ bool QExtFontEditWidget::eventFilter(QObject *obj, QEvent *ev)
                 break;
             }
         }
-        break;
+            break;
         default:
             break;
         }
@@ -12946,8 +11740,8 @@ void QExtPropertyEditorView::mousePressEvent(QMouseEvent *event)
 
     if (item) {
         if ((item != m_editorPrivate->editedItem()) && (event->button() == Qt::LeftButton)
-            && (header()->logicalIndexAt(event->pos().x()) == 1)
-            && ((item->flags() & (Qt::ItemIsEditable | Qt::ItemIsEnabled)) == (Qt::ItemIsEditable | Qt::ItemIsEnabled))) {
+                && (header()->logicalIndexAt(event->pos().x()) == 1)
+                && ((item->flags() & (Qt::ItemIsEditable | Qt::ItemIsEnabled)) == (Qt::ItemIsEditable | Qt::ItemIsEnabled))) {
             editItem(item, 1);
         } else if (!m_editorPrivate->hasValue(item) && m_editorPrivate->markPropertiesWithoutValue() && !rootIsDecorated()) {
             if (event->pos().x() + header()->offset() < 20)
@@ -14688,15 +13482,15 @@ QExtVariantPropertyManager::QExtVariantPropertyManager(QObject *parent)
     QExtDoublePropertyManager *doublePropertyManager = new QExtDoublePropertyManager(this);
     d_ptr->m_typeToPropertyManager[QVariant::Double] = doublePropertyManager;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::Double][d_ptr->m_minimumAttribute] =
-        QVariant::Double;
+            QVariant::Double;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::Double][d_ptr->m_maximumAttribute] =
-        QVariant::Double;
+            QVariant::Double;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::Double][d_ptr->m_singleStepAttribute] =
-        QVariant::Double;
+            QVariant::Double;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::Double][d_ptr->m_decimalsAttribute] =
-        QVariant::Int;
+            QVariant::Int;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::Double][d_ptr->m_readOnlyAttribute] =
-        QVariant::Bool;
+            QVariant::Bool;
     d_ptr->m_typeToValueType[QVariant::Double] = QVariant::Double;
     connect(doublePropertyManager, SIGNAL(valueChanged(QExtProperty *, double)),
             this, SLOT(slotValueChanged(QExtProperty *, double)));
@@ -14720,11 +13514,11 @@ QExtVariantPropertyManager::QExtVariantPropertyManager(QObject *parent)
     d_ptr->m_typeToPropertyManager[QVariant::String] = stringPropertyManager;
     d_ptr->m_typeToValueType[QVariant::String] = QVariant::String;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::String][d_ptr->m_regExpAttribute] =
-        QVariant::RegExp;
+            QVariant::RegExp;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::String][d_ptr->m_echoModeAttribute] =
-        QVariant::Int;
+            QVariant::Int;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::String][d_ptr->m_readOnlyAttribute] =
-        QVariant::Bool;
+            QVariant::Bool;
 
     connect(stringPropertyManager, SIGNAL(valueChanged(QExtProperty *, const QString &)),
             this, SLOT(slotValueChanged(QExtProperty *, const QString &)));
@@ -14740,9 +13534,9 @@ QExtVariantPropertyManager::QExtVariantPropertyManager(QObject *parent)
     d_ptr->m_typeToPropertyManager[QVariant::Date] = datePropertyManager;
     d_ptr->m_typeToValueType[QVariant::Date] = QVariant::Date;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::Date][d_ptr->m_minimumAttribute] =
-        QVariant::Date;
+            QVariant::Date;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::Date][d_ptr->m_maximumAttribute] =
-        QVariant::Date;
+            QVariant::Date;
     connect(datePropertyManager, SIGNAL(valueChanged(QExtProperty *, const QDate &)),
             this, SLOT(slotValueChanged(QExtProperty *, const QDate &)));
     connect(datePropertyManager, SIGNAL(rangeChanged(QExtProperty *, const QDate &, const QDate &)),
@@ -14800,7 +13594,7 @@ QExtVariantPropertyManager::QExtVariantPropertyManager(QObject *parent)
     d_ptr->m_typeToPropertyManager[QVariant::PointF] = pointFPropertyManager;
     d_ptr->m_typeToValueType[QVariant::PointF] = QVariant::PointF;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::PointF][d_ptr->m_decimalsAttribute] =
-        QVariant::Int;
+            QVariant::Int;
     connect(pointFPropertyManager, SIGNAL(valueChanged(QExtProperty *, const QPointF &)),
             this, SLOT(slotValueChanged(QExtProperty *, const QPointF &)));
     connect(pointFPropertyManager, SIGNAL(decimalsChanged(QExtProperty *, int)),
@@ -14816,9 +13610,9 @@ QExtVariantPropertyManager::QExtVariantPropertyManager(QObject *parent)
     d_ptr->m_typeToPropertyManager[QVariant::Size] = sizePropertyManager;
     d_ptr->m_typeToValueType[QVariant::Size] = QVariant::Size;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::Size][d_ptr->m_minimumAttribute] =
-        QVariant::Size;
+            QVariant::Size;
     d_ptr->m_typeToAttributeToAttributeType[QVariant::Size][d_ptr->m_maximumAttribute] =
-        QVariant::Size;
+            QVariant::Size;
     connect(sizePropertyManager, SIGNAL(valueChanged(QExtProperty *, const QSize &)),
             this, SLOT(slotValueChanged(QExtProperty *, const QSize &)));
     connect(sizePropertyManager, SIGNAL(rangeChanged(QExtProperty *, const QSize &, const QSize &)),
@@ -14835,12 +13629,9 @@ QExtVariantPropertyManager::QExtVariantPropertyManager(QObject *parent)
     QExtSizeFPropertyManager *sizeFPropertyManager = new QExtSizeFPropertyManager(this);
     d_ptr->m_typeToPropertyManager[QVariant::SizeF] = sizeFPropertyManager;
     d_ptr->m_typeToValueType[QVariant::SizeF] = QVariant::SizeF;
-    d_ptr->m_typeToAttributeToAttributeType[QVariant::SizeF][d_ptr->m_minimumAttribute] =
-        QVariant::SizeF;
-    d_ptr->m_typeToAttributeToAttributeType[QVariant::SizeF][d_ptr->m_maximumAttribute] =
-        QVariant::SizeF;
-    d_ptr->m_typeToAttributeToAttributeType[QVariant::SizeF][d_ptr->m_decimalsAttribute] =
-        QVariant::Int;
+    d_ptr->m_typeToAttributeToAttributeType[QVariant::SizeF][d_ptr->m_minimumAttribute] = QVariant::SizeF;
+    d_ptr->m_typeToAttributeToAttributeType[QVariant::SizeF][d_ptr->m_maximumAttribute] = QVariant::SizeF;
+    d_ptr->m_typeToAttributeToAttributeType[QVariant::SizeF][d_ptr->m_decimalsAttribute] = QVariant::Int;
     connect(sizeFPropertyManager, SIGNAL(valueChanged(QExtProperty *, const QSizeF &)),
             this, SLOT(slotValueChanged(QExtProperty *, const QSizeF &)));
     connect(sizeFPropertyManager, SIGNAL(rangeChanged(QExtProperty *, const QSizeF &, const QSizeF &)),
@@ -14859,8 +13650,7 @@ QExtVariantPropertyManager::QExtVariantPropertyManager(QObject *parent)
     QExtRectPropertyManager *rectPropertyManager = new QExtRectPropertyManager(this);
     d_ptr->m_typeToPropertyManager[QVariant::Rect] = rectPropertyManager;
     d_ptr->m_typeToValueType[QVariant::Rect] = QVariant::Rect;
-    d_ptr->m_typeToAttributeToAttributeType[QVariant::Rect][d_ptr->m_constraintAttribute] =
-        QVariant::Rect;
+    d_ptr->m_typeToAttributeToAttributeType[QVariant::Rect][d_ptr->m_constraintAttribute] = QVariant::Rect;
     connect(rectPropertyManager, SIGNAL(valueChanged(QExtProperty *, const QRect &)),
             this, SLOT(slotValueChanged(QExtProperty *, const QRect &)));
     connect(rectPropertyManager, SIGNAL(constraintChanged(QExtProperty *, const QRect &)),
@@ -14877,10 +13667,8 @@ QExtVariantPropertyManager::QExtVariantPropertyManager(QObject *parent)
     QExtRectFPropertyManager *rectFPropertyManager = new QExtRectFPropertyManager(this);
     d_ptr->m_typeToPropertyManager[QVariant::RectF] = rectFPropertyManager;
     d_ptr->m_typeToValueType[QVariant::RectF] = QVariant::RectF;
-    d_ptr->m_typeToAttributeToAttributeType[QVariant::RectF][d_ptr->m_constraintAttribute] =
-        QVariant::RectF;
-    d_ptr->m_typeToAttributeToAttributeType[QVariant::RectF][d_ptr->m_decimalsAttribute] =
-        QVariant::Int;
+    d_ptr->m_typeToAttributeToAttributeType[QVariant::RectF][d_ptr->m_constraintAttribute] = QVariant::RectF;
+    d_ptr->m_typeToAttributeToAttributeType[QVariant::RectF][d_ptr->m_decimalsAttribute] = QVariant::Int;
     connect(rectFPropertyManager, SIGNAL(valueChanged(QExtProperty *, const QRectF &)),
             this, SLOT(slotValueChanged(QExtProperty *, const QRectF &)));
     connect(rectFPropertyManager, SIGNAL(constraintChanged(QExtProperty *, const QRectF &)),
@@ -14912,10 +13700,8 @@ QExtVariantPropertyManager::QExtVariantPropertyManager(QObject *parent)
     QExtEnumPropertyManager *enumPropertyManager = new QExtEnumPropertyManager(this);
     d_ptr->m_typeToPropertyManager[enumId] = enumPropertyManager;
     d_ptr->m_typeToValueType[enumId] = QVariant::Int;
-    d_ptr->m_typeToAttributeToAttributeType[enumId][d_ptr->m_enumNamesAttribute] =
-        QVariant::StringList;
-    d_ptr->m_typeToAttributeToAttributeType[enumId][d_ptr->m_enumIconsAttribute] =
-        iconMapTypeId();
+    d_ptr->m_typeToAttributeToAttributeType[enumId][d_ptr->m_enumNamesAttribute] = QVariant::StringList;
+    d_ptr->m_typeToAttributeToAttributeType[enumId][d_ptr->m_enumIconsAttribute] = iconMapTypeId();
     connect(enumPropertyManager, SIGNAL(valueChanged(QExtProperty *, int)),
             this, SLOT(slotValueChanged(QExtProperty *, int)));
     connect(enumPropertyManager, SIGNAL(enumNamesChanged(QExtProperty *, const QStringList &)),
@@ -14974,7 +13760,7 @@ QExtVariantPropertyManager::QExtVariantPropertyManager(QObject *parent)
     d_ptr->m_typeToPropertyManager[flagId] = flagPropertyManager;
     d_ptr->m_typeToValueType[flagId] = QVariant::Int;
     d_ptr->m_typeToAttributeToAttributeType[flagId][d_ptr->m_flagNamesAttribute] =
-        QVariant::StringList;
+            QVariant::StringList;
     connect(flagPropertyManager, SIGNAL(valueChanged(QExtProperty *, int)),
             this, SLOT(slotValueChanged(QExtProperty *, int)));
     connect(flagPropertyManager, SIGNAL(flagNamesChanged(QExtProperty *, const QStringList &)),
@@ -15185,7 +13971,7 @@ QVariant QExtVariantPropertyManager::attributeValue(const QExtProperty *property
         return QVariant();
 
     QMap<int, QMap<QString, int> >::ConstIterator it =
-        d_ptr->m_typeToAttributeToAttributeType.find(propType);
+            d_ptr->m_typeToAttributeToAttributeType.find(propType);
     if (it == d_ptr->m_typeToAttributeToAttributeType.constEnd())
         return QVariant();
 
@@ -15292,7 +14078,7 @@ QVariant QExtVariantPropertyManager::attributeValue(const QExtProperty *property
 QStringList QExtVariantPropertyManager::attributes(int propertyType) const
 {
     QMap<int, QMap<QString, int> >::ConstIterator it =
-        d_ptr->m_typeToAttributeToAttributeType.find(propertyType);
+            d_ptr->m_typeToAttributeToAttributeType.find(propertyType);
     if (it == d_ptr->m_typeToAttributeToAttributeType.constEnd())
         return QStringList();
     return it.value().keys();
@@ -15311,7 +14097,7 @@ QStringList QExtVariantPropertyManager::attributes(int propertyType) const
 int QExtVariantPropertyManager::attributeType(int propertyType, const QString &attribute) const
 {
     QMap<int, QMap<QString, int> >::ConstIterator it =
-        d_ptr->m_typeToAttributeToAttributeType.find(propertyType);
+            d_ptr->m_typeToAttributeToAttributeType.find(propertyType);
     if (it == d_ptr->m_typeToAttributeToAttributeType.constEnd())
         return 0;
 
@@ -15446,7 +14232,7 @@ void QExtVariantPropertyManager::setAttribute(QExtProperty *property,
         return;
 
     if (attrType != attributeType(propertyType(property), attribute) &&
-        !value.canConvert((QVariant::Type)attrType))
+            !value.canConvert((QVariant::Type)attrType))
         return;
 
     QExtProperty *internProp = propertyToWrappedProperty()->value(property, 0);
@@ -15573,7 +14359,7 @@ void QExtVariantPropertyManager::initializeProperty(QExtProperty *property)
         return;
 
     QMap<int, QExtAbstractPropertyManager *>::ConstIterator it =
-        d_ptr->m_typeToPropertyManager.find(d_ptr->m_propertyType);
+            d_ptr->m_typeToPropertyManager.find(d_ptr->m_propertyType);
     if (it != d_ptr->m_typeToPropertyManager.constEnd()) {
         QExtProperty *internProp = 0;
         if (!d_ptr->m_creatingSubProperties) {

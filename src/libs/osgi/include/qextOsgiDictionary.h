@@ -1,0 +1,1 @@
+#include "../source/qextOsgiDictionary.h"

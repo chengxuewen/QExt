@@ -43,9 +43,9 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
-            Qt${QEXT_QT_VERSION_MAJOR}::Core
-            Qt${QEXT_QT_VERSION_MAJOR}::Gui
-            Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -57,16 +57,30 @@ list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Icons)
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
 qext_add_executable(exp_QExtIconsAwesomeView
-        SOURCES
-        fontAwesomeView/main.cpp
-        fontAwesomeView/MainWindow.cpp
-        fontAwesomeView/MainWindow.h
-        fontAwesomeView/MainWindow.ui
-        LIBRARIES
-        ${QEXT_EXAMPLE_LINK_LIBRARIES}
-        INCLUDE_DIRECTORIES
-        ${CMAKE_CURRENT_SOURCE_DIR}/fontAwesomeView
-        OUTPUT_DIRECTORY
-        ${QEXT_OUTPUT_EXAMPLE_DIR}
-        DEFINES
-        EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    SOURCES
+    fontAwesomeView/main.cpp
+    fontAwesomeView/MainWindow.cpp
+    fontAwesomeView/MainWindow.h
+    fontAwesomeView/MainWindow.ui
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/fontAwesomeView
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+qext_add_executable(exp_QExtIconsView
+    SOURCES
+    iconsView/main.cpp
+    iconsView/MainWindow.cpp
+    iconsView/MainWindow.h
+    iconsView/MainWindow.ui
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/iconsView
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")

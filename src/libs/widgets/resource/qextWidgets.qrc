@@ -187,5 +187,11 @@
         <file>pinyin/dict_pinyin.dat</file>
         <file>pinyin/pinyin_phrase.txt</file>
         <file>pinyin/pinyin.txt</file>
+        <file>stylethemes/fluent/themes/test.xml</file>
+        <file>stylethemes/fluent/themes/light.xml</file>
+        <file>stylethemes/fluent/themes/dark.xml</file>
+        <file>stylethemes/fluent/fluent.json</file>
+        <file>stylethemes/fluent/fluent.css.template</file>
+        <file>stylethemes/fluent/fluent_icon.svg</file>
     </qresource>
 </RCC>

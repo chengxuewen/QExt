@@ -23,10 +23,12 @@
 
 add_subdirectory(core)
 qext_add_subdirectory(tcp ON)
+qext_add_subdirectory(osgi ON)
 qext_add_subdirectory(icons ON)
 qext_add_subdirectory(utils ON)
 qext_add_subdirectory(pinyin ON)
 qext_add_subdirectory(widgets ON)
+qext_add_subdirectory(graphics ON)
+qext_add_subdirectory(components ON)
 qext_add_subdirectory(serialport ON)
 qext_add_subdirectory(devicewatcher ON)
-

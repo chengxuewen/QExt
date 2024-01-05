@@ -30,8 +30,8 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
-            Qt${QEXT_QT_VERSION_MAJOR}::Core
-            Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
     )
 else()
     message(FATAL_ERROR "Not find Qt package")
@@ -44,20 +44,24 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
 qext_add_library(Icons
-        EXCEPTIONS
-        SOURCES
-        source/qextIconFontAwesome.cpp
-        source/qextIconFontAwesome.h
-        source/qextIconsConstants.h
-        source/qextIconsGlobal.h
-        source/qextMaterialIcons.cpp
-        source/qextMaterialIcons.h
-        source/qextMaterialIcons_p.h
-        resource/qextIcons.qrc
-        PRECOMPILED_HEADER
-        source/qextIconPch.h
-        PUBLIC_LIBRARIES
-        ${QEXT_LIB_LINK_LIBRARIES})
+    EXCEPTIONS
+    SOURCES
+    source/qextIconFontAwesome.cpp
+    source/qextIconFontAwesome.h
+    source/qextIconsResource.h
+    source/qextIconsConstants.h
+    source/qextIconsGlobal.h
+    source/qextFluentIcons.cpp
+    source/qextFluentIcons.h
+    source/qextFluentIcons_p.h
+    source/qextMaterialIcons.cpp
+    source/qextMaterialIcons.h
+    source/qextMaterialIcons_p.h
+    resource/qextIcons.qrc
+    PRECOMPILED_HEADER
+    source/qextIconPch.h
+    PUBLIC_LIBRARIES
+    ${QEXT_LIB_LINK_LIBRARIES})
 
 
 #-----------------------------------------------------------------------------------------------------------------------

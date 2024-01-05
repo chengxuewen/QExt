@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.1.2.1 LANGUAGES CXX C)
+project(QExt VERSION 1.2.1.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -226,8 +226,8 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     message(STATUS "Setting build type to '${QEXT_DEFAULT_BUILD_TYPE}' as none was specified.")
     set(CMAKE_BUILD_TYPE "${QEXT_DEFAULT_BUILD_TYPE}" CACHE STRING "Choose the type of build." FORCE)
     set_property(CACHE CMAKE_BUILD_TYPE
-            PROPERTY STRINGS
-            "Debug" "Release" "MinSizeRel" "RelWithDebInfo") # Set the possible values for cmake-gui.
+        PROPERTY STRINGS
+        "Debug" "Release" "MinSizeRel" "RelWithDebInfo") # Set the possible values for cmake-gui.
 elseif(CMAKE_CONFIGURATION_TYPES)
     message(STATUS "Building for multiple configurations: ${CMAKE_CONFIGURATION_TYPES}.")
     message(STATUS "Main configuration is: ${QEXT_MULTI_CONFIG_FIRST_CONFIG}.")
@@ -236,8 +236,8 @@ elseif(CMAKE_CONFIGURATION_TYPES)
     endif()
     if(CMAKE_GENERATOR STREQUAL "Ninja")
         message(FATAL_ERROR
-                "It's not possible to build multiple configurations with the single config Ninja "
-                "generator. Consider configuring with -G\"Ninja Multi-Config\" instead of -GNinja.")
+            "It's not possible to build multiple configurations with the single config Ninja "
+            "generator. Consider configuring with -G\"Ninja Multi-Config\" instead of -GNinja.")
     endif()
 else()
     message(STATUS "CMAKE_BUILD_TYPE was set to: '${CMAKE_BUILD_TYPE}'")
@@ -391,13 +391,13 @@ qext_ensure_define_variable(QEXT_OUTPUT_DOC_DIR "${PROJECT_BINARY_DIR}/doc")
 #-----------------------------------------------------------------------------------------------------------------------
 qext_option(QEXT_BUILD_ALL "Enable this to build all artifacts" OFF)
 qext_option(QEXT_BUILD_SHARED_LIBS "Enable this to build as dynamically" ON
-        SET BUILD_SHARED_LIBS)
+    SET BUILD_SHARED_LIBS)
 qext_option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ON
-        DEPENDS QEXT_BUILD_SHARED_LIBS)
+    DEPENDS QEXT_BUILD_SHARED_LIBS)
 qext_option(QEXT_BUILD_COMPILER_WARNING "Enable this to build target with compiler warnings" OFF)
 qext_option(QEXT_BUILD_WARNINGS_ARE_ERRORS "Build UTK with warnings as errors" ${__qext_build_warnings_as_errors})
 qext_option(QEXT_BUILD_BENCHMARKS "Enable this to build the benchmarks" ${__qext_build_benchmarks}
-        SET __qext_build_tests_default)
+    SET __qext_build_tests_default)
 qext_option(QEXT_BUILD_DOCS "Enable this to build the documentation" OFF)
 qext_option(QEXT_BUILD_TESTS "Enable this to build tests" ON)
 qext_option(QEXT_BUILD_EXAMPLES "Enable this to build examples" ON)
@@ -439,7 +439,7 @@ else()
 endif()
 
 qext_configure_process_path(INSTALL_LIBEXECDIR
-        "${_default_libexec}" "Helper programs [ARCHDATADIR/bin on Windows, ARCHDATADIR/libexec otherwise]")
+    "${_default_libexec}" "Helper programs [ARCHDATADIR/bin on Windows, ARCHDATADIR/libexec otherwise]")
 qext_configure_process_path(INSTALL_DATADIR "." "Arch-independent data [PREFIX]")
 qext_configure_process_path(INSTALL_DOCDIR "${INSTALL_DATADIR}/doc" "Documentation [DATADIR/doc]")
 qext_configure_process_path(INSTALL_TRANSLATIONSDIR "${INSTALL_DATADIR}/translations" "Translations [DATADIR/translations]")
@@ -449,11 +449,11 @@ else()
     set(QEXT_DEFAULT_SYS_CONF_DIR "etc/xdg")
 endif()
 qext_configure_process_path(INSTALL_SYSCONFDIR
-        "${QEXT_DEFAULT_SYS_CONF_DIR}" "Settings used by QExt programs [PREFIX/etc/xdg]/[/Library/Preferences/QExt]")
+    "${QEXT_DEFAULT_SYS_CONF_DIR}" "Settings used by QExt programs [PREFIX/etc/xdg]/[/Library/Preferences/QExt]")
 qext_configure_process_path(INSTALL_EXAMPLESDIR "examples" "Examples [PREFIX/examples]")
 qext_configure_process_path(INSTALL_TESTSDIR "tests" "Tests [PREFIX/tests]")
 qext_configure_process_path(INSTALL_DESCRIPTIONSDIR
-        "${INSTALL_DATADIR}/modules" "Module description files directory")
+    "${INSTALL_DATADIR}/modules" "Module description files directory")
 
 if(NOT "${CMAKE_STAGING_PREFIX}" STREQUAL "")
     set(QEXT_STAGING_PREFIX "${CMAKE_STAGING_PREFIX}")
@@ -583,7 +583,7 @@ if(NOT INSTALL_CMAKE_NAMESPACE)
 endif()
 if(NOT QEXT_CMAKE_EXPORT_NAMESPACE)
     set(QEXT_CMAKE_EXPORT_NAMESPACE "QExt${QEXT_NAMESPACE_VERSION}"
-            CACHE STRING "CMake namespace used when exporting targets [QExt${QEXT_NAMESPACE_VERSION}]")
+        CACHE STRING "CMake namespace used when exporting targets [QExt${QEXT_NAMESPACE_VERSION}]")
 endif()
 
 set(QEXT_KNOWN_LIBRARIES_WITH_TOOLS "" CACHE INTERNAL "Known QExt modules with tools" FORCE)
@@ -622,7 +622,7 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
     message(FATAL_ERROR "In-source builds not allowed. Please make a new directory (called a build directory) and run "
-            "CMake from there. You may need to remove CMakeCache.txt.")
+        "CMake from there. You may need to remove CMakeCache.txt.")
 endif()
 
 if(CMAKE_CROSSCOMPILING AND NOT IS_DIRECTORY "${QEXT_HOST_PATH}")
@@ -634,47 +634,47 @@ endif()
 # Set default param args
 #-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_DEFAULT_PRIVATE_ARGS
-        DEFINES
-        SOURCES
-        LIBRARIES
-        INCLUDE_DIRECTORIES
-        FEATURE_DEPENDENCIES
-        COMPILE_OPTIONS
-        LINK_OPTIONS
-        PLUGIN_TYPES)
+    DEFINES
+    SOURCES
+    LIBRARIES
+    INCLUDE_DIRECTORIES
+    FEATURE_DEPENDENCIES
+    COMPILE_OPTIONS
+    LINK_OPTIONS
+    PLUGIN_TYPES)
 set(QEXT_DEFAULT_PUBLIC_ARGS
-        PUBLIC_DEFINES
-        PUBLIC_LIBRARIES
-        PUBLIC_INCLUDE_DIRECTORIES
-        PUBLIC_COMPILE_OPTIONS
-        PUBLIC_LINK_OPTIONS)
+    PUBLIC_DEFINES
+    PUBLIC_LIBRARIES
+    PUBLIC_INCLUDE_DIRECTORIES
+    PUBLIC_COMPILE_OPTIONS
+    PUBLIC_LINK_OPTIONS)
 set(QEXT_DEFAULT_PRIVATE_LIBRARY_ARGS
-        PRIVATE_LIBRARY_INTERFACE)
+    PRIVATE_LIBRARY_INTERFACE)
 set(QEXT_DEFAULT_TARGET_INFO_ARGS
-        TARGET_VERSION
-        TARGET_PRODUCT
-        TARGET_DESCRIPTION
-        TARGET_COMPANY
-        TARGET_COPYRIGHT)
+    TARGET_VERSION
+    TARGET_PRODUCT
+    TARGET_DESCRIPTION
+    TARGET_COMPANY
+    TARGET_COPYRIGHT)
 
 
 # Collection of arguments so they can be shared across qext_internal_add_executable and qext_internal_add_test_helper.
 set(QEXT_INTERNAL_ADD_EXECUTABLE_OPTIONAL_ARGS
-        GUI
-        NO_INSTALL
-        EXCEPTIONS
-        DELAY_RC
-        DELAY_TARGET_INFO
-        QEXT_APP)
+    GUI
+    NO_INSTALL
+    EXCEPTIONS
+    DELAY_RC
+    DELAY_TARGET_INFO
+    QEXT_APP)
 set(QEXT_INTERNAL_ADD_EXECUTABLE_SINGLE_ARGS
-        CORE_LIBRARY
-        OUTPUT_DIRECTORY
-        INSTALL_DIRECTORY
-        VERSION
-        ${QEXT_DEFAULT_TARGET_INFO_ARGS})
+    CORE_LIBRARY
+    OUTPUT_DIRECTORY
+    INSTALL_DIRECTORY
+    VERSION
+    ${QEXT_DEFAULT_TARGET_INFO_ARGS})
 set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
-        ${QEXT_DEFAULT_PRIVATE_ARGS}
-        ${QEXT_DEFAULT_PUBLIC_ARGS})
+    ${QEXT_DEFAULT_PRIVATE_ARGS}
+    ${QEXT_DEFAULT_PUBLIC_ARGS})
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -711,20 +711,20 @@ if(QEXT_BUILD_INSTALL)
     include(CPack REQUIRED)
 
     install(DIRECTORY ${QEXT_OUTPUT_APP_DIR}
-            DESTINATION ./bin
-            COMPONENT Apps
-            PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ)
+        DESTINATION ./bin
+        COMPONENT Apps
+        PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ)
     install(DIRECTORY ${QEXT_OUTPUT_LIB_DIR}
-            DESTINATION ./lib
-            COMPONENT Libs)
+        DESTINATION ./lib
+        COMPONENT Libs)
     install(DIRECTORY ${QEXT_OUTPUT_QML_DIR}
-            DESTINATION ./qml
-            COMPONENT Qml)
+        DESTINATION ./qml
+        COMPONENT Qml)
     install(DIRECTORY ${QEXT_OUTPUT_EXAMPLE_DIR}
-            DESTINATION ./example
-            COMPONENT Example
-            PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ)
+        DESTINATION ./example
+        COMPONENT Example
+        PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ)
     install(DIRECTORY ${QEXT_OUTPUT_INCLUDE_DIR}
-            DESTINATION ./include
-            COMPONENT Include)
+        DESTINATION ./include
+        COMPONENT Include)
 endif()

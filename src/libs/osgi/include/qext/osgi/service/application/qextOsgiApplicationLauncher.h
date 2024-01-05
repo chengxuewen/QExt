@@ -1,0 +1,1 @@
+#include "../../../../../source/service/application/qextOsgiApplicationLauncher.h"

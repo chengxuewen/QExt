@@ -1,75 +1,81 @@
-#include "qextId.h"
+#include <qextId.h>
 
-#include <QByteArray>
-#include <QDataStream>
 #include <QHash>
 #include <QDebug>
 #include <QVariant>
+#include <QByteArray>
+#include <QDataStream>
+#include <QGlobalStatic>
 
 #include <string.h>
 
-class QEXTStringHolder
+class QExtStringHolder
 {
 public:
-    QEXTStringHolder() : n(0), str(0) {}
+    QExtStringHolder() : n(0), str(QEXT_NULLPTR) {}
 
-    QEXTStringHolder(const char *s, int length) : n(length), str(s)
+    QExtStringHolder(const char *s, int length) : n(length), str(s)
     {
-        if (!n) {
+        if (!n)
+        {
             length = n = static_cast<int>(strlen(s));
         }
         h = 0;
-        while (length--) {
+        while (length--)
+        {
             h = (h << 4) + *s++;
             h ^= (h & 0xf0000000) >> 23;
             h &= 0x0fffffff;
         }
     }
     int n;
-    const char *str;
     uint h;
+    const char *str;
 };
 
-static bool operator==(const QEXTStringHolder &sh1, const QEXTStringHolder &sh2)
+static bool operator==(const QExtStringHolder &sh1, const QExtStringHolder &sh2)
 {
     return sh1.h == sh2.h && sh1.str && sh2.str && strcmp(sh1.str, sh2.str) == 0;
 }
 
 
-static uint qHash(const QEXTStringHolder &sh)
+static uint qHash(const QExtStringHolder &sh)
 {
     return sh.h;
 }
 
-struct QExtIdCache : public QHash<QEXTStringHolder, int>
+struct QExtIdCache : public QHash<QExtStringHolder, int>
 {
     // dont allow static leaks
     ~QExtIdCache()
     {
-        for (QExtIdCache::iterator it = begin(); it != end(); ++it) {
+        for (QExtIdCache::iterator it = begin(); it != end(); ++it)
+        {
             delete[](const_cast<char *>(it.key().str));
         }
     }
 };
 
+typedef QHash<int, QExtStringHolder> IdStringHolderHash;
+Q_GLOBAL_STATIC(IdStringHolderHash, stringFromId)
+Q_GLOBAL_STATIC(QExtIdCache, idFromString)
 static int firstUnusedId = 0;
-
-static QHash<int, QEXTStringHolder> stringFromId;
-static QExtIdCache idFromString;
 
 static int theId(const char *str, int n = 0)
 {
-    if (QEXT_NULLPTR == str || !*str) {
+    if (QEXT_NULLPTR == str || !*str)
+    {
         qCritical() << "theId():parameter str error!";
         return 0;
     }
-    QEXTStringHolder sh(str, n);
-    int res = idFromString.value(sh, -1);
-    if (-1 == res) {
+    QExtStringHolder sh(str, n);
+    int res = idFromString->value(sh, -1);
+    if (-1 == res)
+    {
         res = firstUnusedId++;
         sh.str = qstrdup(sh.str);
-        idFromString[sh] = res;
-        stringFromId[res] = sh;
+        (*idFromString)[sh] = res;
+        (*stringFromId)[res] = sh;
     }
     return res;
 }
@@ -102,12 +108,12 @@ QExtId::QExtId(const QString &name)
 
 QByteArray QExtId::name() const
 {
-    return stringFromId.value(m_id).str;
+    return stringFromId->value(m_id).str;
 }
 
 QString QExtId::toString() const
 {
-    return QString::fromUtf8(stringFromId.value(m_id).str);
+    return QString::fromUtf8(stringFromId->value(m_id).str);
 }
 
 QExtId QExtId::fromString(const QString &string)
@@ -122,13 +128,14 @@ QExtId QExtId::fromName(const QByteArray &byteArray)
 
 QVariant QExtId::toVariant() const
 {
-    return QVariant(QString::fromUtf8(stringFromId.value(m_id).str));
+    return QVariant(QString::fromUtf8(stringFromId->value(m_id).str));
 }
 
 QExtId QExtId::fromVariant(const QVariant &variant)
 {
     const QByteArray ba = variant.toString().toUtf8();
-    if (ba.isEmpty()) {
+    if (ba.isEmpty())
+    {
         return QExtId();
     }
     return QExtId(theId(ba));
@@ -160,24 +167,27 @@ QExtId QExtId::withPrefix(const char *prefix) const
 
 void QExtId::registerId(int id, const char *name)
 {
-    QEXTStringHolder sh(name, 0);
-    idFromString[sh] = id;
-    stringFromId[id] = sh;
+    QExtStringHolder sh(name, 0);
+    (*idFromString)[sh] = id;
+    (*stringFromId)[id] = sh;
 }
 
 bool QExtId::operator==(const char *name) const
 {
-    const char *string = stringFromId.value(m_id).str;
-    if (string && name) {
+    const char *string = stringFromId->value(m_id).str;
+    if (string && name)
+    {
         return strcmp(string, name) == 0;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
 
 const char *nameForId(int id)
 {
-    return stringFromId.value(id).str;
+    return stringFromId->value(id).str;
 }
 
 bool QExtId::alphabeticallyBefore(QExtId other) const
@@ -191,8 +201,6 @@ QString QExtId::suffixAfter(QExtId baseId) const
     const QByteArray n = name();
     return n.startsWith(b) ? QString::fromUtf8(n.mid(b.size())) : QString();
 }
-
-
 
 QDataStream &operator<<(QDataStream &ds, const QExtId &id)
 {

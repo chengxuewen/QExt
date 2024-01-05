@@ -1,0 +1,146 @@
+/*=============================================================================
+
+  Library: CTK
+
+  Copyright (c) German Cancer Research Center,
+    Division of Medical and Biological Informatics
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+=============================================================================*/
+
+#ifndef _QEXTOSGIPLUGINFRAMEWORKPRIVATE_P_H
+#define _QEXTOSGIPLUGINFRAMEWORKPRIVATE_P_H
+
+#include <private/qextOsgiPlugin_p.h>
+#include <qextOsgiPluginFramework.h>
+#include <qextOsgiServiceRegistration.h>
+
+#include <QMutex>
+
+class QExtOsgiPluginFrameworkContext;
+
+/**
+ * \ingroup PluginFramework
+ */
+class QExtOsgiPluginFrameworkPrivate : public QExtOsgiPluginPrivate
+{
+public:
+
+    /**
+   * Holds all information for constructing a QExtOsgiPluginFrameworkEvent instance,
+   * except for holding a QSharedPointer to the framework plug-in. This avoids
+   * cyclic references in QExtOsgiPluginFramework.
+   */
+    struct FWEventWrapper
+    {
+        FWEventWrapper() : isNull(true) {}
+        bool isNull;
+        QExtOsgiPluginFrameworkEvent::Type type;
+    };
+
+    /**
+   * The event to return to callers waiting in QExtOsgiPluginFramework::waitForStop()
+   * when the framework has been stopped.
+   */
+    FWEventWrapper stopEvent;
+
+    /**
+   * The flag indicating that the thread that performs shutdown of this
+   * framework instance is running.
+   */
+    QAtomicInt shuttingDown;
+
+    /**
+   * Lock object
+   */
+    LockObject lock;
+
+    QExtOsgiPluginFrameworkPrivate(QWeakPointer<QExtOsgiPlugin> qq, QExtOsgiPluginFrameworkContext* fw);
+
+    void init();
+
+    void initSystemPlugin();
+
+    void activate(QExtOsgiPluginContext* context);
+    void deactivate(QExtOsgiPluginContext* context);
+
+    void uninitSystemPlugin();
+
+    /**
+   * This method starts a thread that stops this Framework,
+   * stopping all started plug-ins.
+   *
+   * <p>If the framework is not started, this method does nothing.
+   * If the framework is started, this method will:
+   * <ol>
+   * <li>Set the state of the QExtOsgiPluginFrameworkContext to <i>inactive</i>.</li>
+   * <li>Suspended all started plug-ins as described in the
+   * {@link QExtOsgiPlugin#stop()} method except that the persistent
+   * state of the plug-in will continue to be started.
+   * Reports any exceptions that occur during stopping using
+   * <code>QExtOsgiPluginFramework</code>s.</li>
+   * <li>Disable event handling.</li>
+   * </ol></p>
+   *
+   */
+    void shutdown(bool restart);
+
+    QHash<QString, QString> systemHeaders;
+
+private:
+
+    QList<QExtOsgiServiceRegistration> registrations;
+
+    /**
+   * Stop this FrameworkContext, suspending all started contexts.
+   * This method suspends all started contexts so that they can be
+   * automatically restarted when this FrameworkContext is next launched.
+   *
+   * <p>If the framework is not started, this method does nothing.
+   * If the framework is started, this method will:
+   * <ol>
+   * <li>Set the state of the FrameworkContext to <i>inactive</i>.</li>
+   * <li>Stop all started bundles as described in the
+   * {@link Bundle#stop(int)} method except that the persistent
+   * state of the bundle will continue to be started.
+   * Reports any exceptions that occur during stopping using
+   * <code>FrameworkErrorEvents</code>.</li>
+   * <li>Disable event handling.</li>
+   * </ol>
+   * </p>
+   *
+   */
+    void shutdown0(bool restart, bool wasActive);
+
+    /**
+   * Tell system plugin shutdown finished.
+   */
+    void shutdownDone_unlocked(bool restart);
+
+    /**
+   * Stop and unresolve all plug-ins.
+   */
+    void stopAllPlugins();
+
+    /**
+   * Shutting down is done.
+   */
+    void systemShuttingdownDone(const QExtOsgiPluginFrameworkEvent& fe);
+
+    void systemShuttingdownDone_unlocked(const QExtOsgiPluginFrameworkEvent& fe);
+
+};
+
+
+#endif // _QEXTOSGIPLUGINFRAMEWORKPRIVATE_P_H

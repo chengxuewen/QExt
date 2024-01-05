@@ -1,0 +1,1 @@
+#include "../../../../../source/service/metatype/qextOsgiMetaTypeInformation.h"
