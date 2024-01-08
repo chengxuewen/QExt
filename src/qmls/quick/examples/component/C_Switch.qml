@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Rectangle {
     color: "lightgray"
@@ -12,7 +12,7 @@ Rectangle {
             id:layout
             spacing: 10
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 textInLeft: true
                 text: "Pay by Year"
                 onStateChanged: {
@@ -20,22 +20,22 @@ Rectangle {
                 }
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 text: "Pay by Year"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 checked: true
                 text: "Pay by Month"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 width: 80
                 checked: true
                 text: "Pay by Monthds"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 checked: true
             }
 
@@ -44,31 +44,31 @@ Rectangle {
         Row{
             spacing: 10
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchCircleOutItem
                 textInLeft: true
                 text: "Pay by Year"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchCircleOutItem
                 text: "Pay by Year"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchCircleOutItem
                 checked: true
                 text: "Pay by Month"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchCircleOutItem
                 width: 80
                 checked: true
                 text: "Pay by Monthds"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchCircleOutItem
                 checked: true
             }
@@ -78,31 +78,31 @@ Rectangle {
         Row{
             spacing: 10
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchRectInItem
                 textInLeft: true
                 text: "Pay by Year"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchRectInItem
                 text: "Pay by Year"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchRectInItem
                 checked: true
                 text: "Pay by Month"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchRectInItem
                 width: 80
                 checked: true
                 text: "Pay by Monthds"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchRectInItem
                 checked: true
             }
@@ -112,31 +112,31 @@ Rectangle {
         Row{
             spacing: 10
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchRectOutItem
                 textInLeft: true
                 text: "Pay by Year"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchRectOutItem
                 text: "Pay by Year"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchRectOutItem
                 checked: true
                 text: "Pay by Month"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchRectOutItem
                 width: 80
                 checked: true
                 text: "Pay by Monthds"
             }
 
-            QEXTQmlQuickSwitch {
+            QExtQuickSwitch {
                 switchItem: switchRectOutItem
                 checked: true
             }

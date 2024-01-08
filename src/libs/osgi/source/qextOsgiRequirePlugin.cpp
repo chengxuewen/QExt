@@ -24,9 +24,9 @@
 #include <qextOsgiPluginConstants.h>
 
 //----------------------------------------------------------------------------
-QExtOsgiRequirePlugin::QExtOsgiRequirePlugin(QExtOsgiPluginPrivate* requestor,
-                                   const QString& name, const QString& res,
-                                   const QString& range)
+QExtOsgiRequirePlugin::QExtOsgiRequirePlugin(QExtOsgiPluginPrivate *requestor,
+                                   const QString &name, const QString &res,
+                                   const QString &range)
     : name(name),
     resolution(res.isEmpty() ? QExtOsgiPluginConstants::RESOLUTION_MANDATORY : res),
     pluginRange(range.isEmpty() ? QExtOsgiVersionRange::defaultVersionRange() : range)

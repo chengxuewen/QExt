@@ -3,8 +3,8 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtQml 2.12
 import QtQuick.Window 2.2
-import QEXTQmlQuick 1.0
-import QEXTQmlQuickPaletteView 1.0
+import QExtQuick 1.0
+import QExtQuickPaletteView 1.0
 
 Window {
     id: root
@@ -12,11 +12,11 @@ Window {
     width: 550
     height: 700
 
-    QEXTQmlQuickWorld {
+    QExtQuickWorld {
         mouseAreaCursorShape: Qt.PointingHandCursor
     }
 
-    QEXTQmlQuickPaletteTableModel {
+    QExtQuickPaletteTableModel {
         id: mQuickPaletteTableModel
     }
 
@@ -90,16 +90,16 @@ Window {
                 anchors.fill: parent
                 model: ListModel {
                     Component.onCompleted: {
-                        append({text: "brandPrimaryColor", color: QEXTQmlQuickPalette.brandPrimaryColor})
-                        append({text: "brandSecondaryColor", color: QEXTQmlQuickPalette.brandSecondaryColor})
-                        append({text: "brandAccentColor", color: QEXTQmlQuickPalette.brandAccentColor})
-                        append({text: "brandDarkColor", color: QEXTQmlQuickPalette.brandDarkColor})
-                        append({text: "brandPositiveColor", color: QEXTQmlQuickPalette.brandPositiveColor})
-                        append({text: "brandNegativeColor", color: QEXTQmlQuickPalette.brandNegativeColor})
-                        append({text: "brandInfoColor", color: QEXTQmlQuickPalette.brandInfoColor})
-                        append({text: "brandSuccessColor", color: QEXTQmlQuickPalette.brandSuccessColor})
-                        append({text: "brandWarningColor", color: QEXTQmlQuickPalette.brandWarningColor})
-                        append({text: "brandDangerColor", color: QEXTQmlQuickPalette.brandDangerColor})
+                        append({text: "brandPrimaryColor", color: QExtQuickPalette.brandPrimaryColor})
+                        append({text: "brandSecondaryColor", color: QExtQuickPalette.brandSecondaryColor})
+                        append({text: "brandAccentColor", color: QExtQuickPalette.brandAccentColor})
+                        append({text: "brandDarkColor", color: QExtQuickPalette.brandDarkColor})
+                        append({text: "brandPositiveColor", color: QExtQuickPalette.brandPositiveColor})
+                        append({text: "brandNegativeColor", color: QExtQuickPalette.brandNegativeColor})
+                        append({text: "brandInfoColor", color: QExtQuickPalette.brandInfoColor})
+                        append({text: "brandSuccessColor", color: QExtQuickPalette.brandSuccessColor})
+                        append({text: "brandWarningColor", color: QExtQuickPalette.brandWarningColor})
+                        append({text: "brandDangerColor", color: QExtQuickPalette.brandDangerColor})
                     }
                 }
                 delegate: Rectangle {
@@ -120,10 +120,10 @@ Window {
                 anchors.fill: parent
                 model: ListModel {
                     Component.onCompleted: {
-                        append({text: "textPrimaryColor", color: QEXTQmlQuickPalette.textPrimaryColor})
-                        append({text: "textNormalColor", color: QEXTQmlQuickPalette.textNormalColor})
-                        append({text: "textSecondaryColor", color: QEXTQmlQuickPalette.textSecondaryColor})
-                        append({text: "textPlaceholderColor", color: QEXTQmlQuickPalette.textPlaceholderColor})
+                        append({text: "textPrimaryColor", color: QExtQuickPalette.textPrimaryColor})
+                        append({text: "textNormalColor", color: QExtQuickPalette.textNormalColor})
+                        append({text: "textSecondaryColor", color: QExtQuickPalette.textSecondaryColor})
+                        append({text: "textPlaceholderColor", color: QExtQuickPalette.textPlaceholderColor})
                     }
                 }
                 delegate: Rectangle {
@@ -144,10 +144,10 @@ Window {
                 anchors.fill: parent
                 model: ListModel {
                     Component.onCompleted: {
-                        append({text: "borderLevel1Color", color: QEXTQmlQuickPalette.borderLevel1Color})
-                        append({text: "borderLevel2Color", color: QEXTQmlQuickPalette.borderLevel2Color})
-                        append({text: "borderLevel3Color", color: QEXTQmlQuickPalette.borderLevel3Color})
-                        append({text: "borderLevel4Color", color: QEXTQmlQuickPalette.borderLevel4Color})
+                        append({text: "borderLevel1Color", color: QExtQuickPalette.borderLevel1Color})
+                        append({text: "borderLevel2Color", color: QExtQuickPalette.borderLevel2Color})
+                        append({text: "borderLevel3Color", color: QExtQuickPalette.borderLevel3Color})
+                        append({text: "borderLevel4Color", color: QExtQuickPalette.borderLevel4Color})
                     }
                 }
                 delegate: Rectangle {

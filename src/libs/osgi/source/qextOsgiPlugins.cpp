@@ -56,7 +56,7 @@ void QExtOsgiPlugins::clear()
 }
 
 //----------------------------------------------------------------------------
-QSharedPointer<QExtOsgiPlugin> QExtOsgiPlugins::install(const QUrl& location, QIODevice* in)
+QSharedPointer<QExtOsgiPlugin> QExtOsgiPlugins::install(const QUrl &location, QIODevice *in)
 {
     checkIllegalState();
 
@@ -148,7 +148,7 @@ QSharedPointer<QExtOsgiPlugin> QExtOsgiPlugins::install(const QUrl& location, QI
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPlugins::remove(const QUrl& location)
+void QExtOsgiPlugins::remove(const QUrl &location)
 {
     QWriteLocker lock(&pluginsLock);
     plugins.remove(location.toString());
@@ -176,7 +176,7 @@ QSharedPointer<QExtOsgiPlugin> QExtOsgiPlugins::getPlugin(int id) const
 }
 
 //----------------------------------------------------------------------------
-QSharedPointer<QExtOsgiPlugin> QExtOsgiPlugins::getPlugin(const QString& location) const
+QSharedPointer<QExtOsgiPlugin> QExtOsgiPlugins::getPlugin(const QString &location) const
 {
     checkIllegalState();
 
@@ -187,7 +187,7 @@ QSharedPointer<QExtOsgiPlugin> QExtOsgiPlugins::getPlugin(const QString& locatio
 }
 
 //----------------------------------------------------------------------------
-QSharedPointer<QExtOsgiPlugin> QExtOsgiPlugins::getPlugin(const QString& name, const QExtOsgiVersion& version) const
+QSharedPointer<QExtOsgiPlugin> QExtOsgiPlugins::getPlugin(const QString &name, const QExtOsgiVersion& version) const
 {
     checkIllegalState();
 
@@ -219,7 +219,7 @@ QList<QSharedPointer<QExtOsgiPlugin> > QExtOsgiPlugins::getPlugins() const
 }
 
 //----------------------------------------------------------------------------
-QList<QExtOsgiPlugin*> QExtOsgiPlugins::getPlugins(const QString& name) const
+QList<QExtOsgiPlugin*> QExtOsgiPlugins::getPlugins(const QString &name) const
 {
     QList<QExtOsgiPlugin*> res;
 
@@ -240,7 +240,7 @@ QList<QExtOsgiPlugin*> QExtOsgiPlugins::getPlugins(const QString& name) const
 }
 
 //----------------------------------------------------------------------------
-QList<QExtOsgiPlugin*> QExtOsgiPlugins::getPlugins(const QString& name, const QExtOsgiVersionRange& range) const
+QList<QExtOsgiPlugin*> QExtOsgiPlugins::getPlugins(const QString &name, const QExtOsgiVersionRange& range) const
 {
     checkIllegalState();
 
@@ -329,7 +329,7 @@ void QExtOsgiPlugins::startPlugins(const QList<QExtOsgiPlugin*>& slist) const
     while (it.hasNext())
     {
         QExtOsgiPlugin* plugin = it.next();
-        QExtOsgiPluginPrivate* pp = plugin->d_func();
+        QExtOsgiPluginPrivate *pp = plugin->d_func();
         pp->getUpdatedState();
     }
 
@@ -337,7 +337,7 @@ void QExtOsgiPlugins::startPlugins(const QList<QExtOsgiPlugin*>& slist) const
     while (it.hasNext())
     {
         QExtOsgiPlugin* plugin = it.next();
-        QExtOsgiPluginPrivate* pp = plugin->d_func();
+        QExtOsgiPluginPrivate *pp = plugin->d_func();
         if (pp->getUpdatedState() == QExtOsgiPlugin::RESOLVED)
         {
             try

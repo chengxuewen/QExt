@@ -51,7 +51,7 @@ public:
    * @return QMap<QString, QString> mapping attributes to values.
    * @exception QExtInvalidArgumentException If syntax error in input string.
    */
-    static QList<QMap<QString, QStringList> > parseEntries(const QString& a, const QString& s,
+    static QList<QMap<QString, QStringList> > parseEntries(const QString &a, const QString &s,
                                                            bool single, bool unique, bool single_entry);
 
     static QString getFrameworkDir(QExtOsgiPluginFrameworkContext* ctx);
@@ -65,19 +65,19 @@ public:
    * @throws QExtRuntimeException if there is no global framework storage
    *         directory or if the directory could not be created.
    */
-    static QDir getFileStorage(QExtOsgiPluginFrameworkContext* ctx, const QString& name);
+    static QDir getFileStorage(QExtOsgiPluginFrameworkContext* ctx, const QString &name);
 
     /**
    * Check wildcard filter matches the string
    */
-    static bool filterMatch(const QString& filter, const QString& s);
+    static bool filterMatch(const QString &filter, const QString &s);
 
 private:
 
     /**
    *
    */
-    static bool patSubstr(const QString& s, int si, const QString& pat, int pi);
+    static bool patSubstr(const QString &s, int si, const QString &pat, int pi);
 
 };
 

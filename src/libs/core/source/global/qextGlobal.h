@@ -161,16 +161,16 @@ template <typename Wrapper> static inline typename Wrapper::pointer qextGetPtrHe
 // The body must be a statement:
 #define QEXT_CAST_IGNORE_ALIGN(body) QEXT_WARNING_PUSH QEXT_WARNING_DISABLE_GCC("-Wcast-align") body QEXT_WARNING_POP
 #define QEXT_DECL_PRIVATE(Class) \
-    inline Class##Private* d_func() \
+    inline Class##Private *d_func() \
     { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(d_ptr));) } \
-    inline const Class##Private* d_func() const \
+    inline const Class##Private *d_func() const \
     { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(d_ptr));) } \
     friend class Class##Private;
 
 #define QEXT_DECL_PRIVATE_D(Dptr, Class) \
-    inline Class##Private* d_func() \
+    inline Class##Private *d_func() \
     { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(Dptr));) } \
-    inline const Class##Private* d_func() const \
+    inline const Class##Private *d_func() const \
     { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(Dptr));) } \
     friend class Class##Private;
 

@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Column{
     id:layout
@@ -9,7 +9,7 @@ Column{
 
     property int count: 6
 
-    QEXTQmlQuickPagination {
+    QExtQuickPagination {
         anchors.horizontalCenter: parent.horizontalCenter
         count: parent.count
         currentIndex: layout.index
@@ -17,7 +17,7 @@ Column{
     }
 
 
-    QEXTQmlQuickPagination {
+    QExtQuickPagination {
         anchors.horizontalCenter: parent.horizontalCenter
         count: parent.count
         currentIndex: layout.index
@@ -32,7 +32,7 @@ Column{
     }
 
 
-    QEXTQmlQuickPagination {
+    QExtQuickPagination {
         id:pagination
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: 15
@@ -47,7 +47,7 @@ Column{
         itemBackground.color: "#FDFDFD"
         itemActiveBg.color:"#F56C6C"
 
-        contentItem: QEXTQmlQuickButton{
+        contentItem: QExtQuickButton{
             id:customItem
             property bool active: layout.index === index
             text: index + 1

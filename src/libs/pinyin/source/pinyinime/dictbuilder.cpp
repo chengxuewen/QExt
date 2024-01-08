@@ -365,7 +365,7 @@ void DictBuilder::free_resource() {
   homo_idx_num_gt1_ = 0;
 }
 
-size_t DictBuilder::read_raw_dict(const char* fn_raw,
+size_t DictBuilder::read_raw_dict(const char *fn_raw,
                                   const char *fn_validhzs,
                                   size_t max_item) {
   if (NULL == fn_raw) return 0;
@@ -517,7 +517,7 @@ bool DictBuilder::build_dict(const char *fn_raw,
   // spelling string will be score, and it is also included in spl_item_size.
   size_t spl_item_size;
   size_t spl_num;
-  const char* spl_buf;
+  const char *spl_buf;
   spl_buf = spl_table_->arrange(&spl_item_size, &spl_num);
   if (NULL == spl_buf) {
     free_resource();

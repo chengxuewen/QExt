@@ -65,7 +65,7 @@ public:
    * @param key Name of attribute to get.
    * @return A string with result or null if the entry doesn't exists.
    */
-    virtual QString getAttribute(const QString& key) const = 0;
+    virtual QString getAttribute(const QString &key) const = 0;
 
 
     /**
@@ -114,7 +114,7 @@ public:
    * @param component Resource to get the byte array from.
    * @return QByteArray to the entry (empty if it doesn't exist).
    */
-    virtual QByteArray getPluginResource(const QString& component) const = 0;
+    virtual QByteArray getPluginResource(const QString &component) const = 0;
 
 
     /**
@@ -125,7 +125,7 @@ public:
    * @param name
    * @return
    */
-    virtual QStringList findResourcesPath(const QString& path) const = 0;
+    virtual QStringList findResourcesPath(const QString &path) const = 0;
 
 
     /**

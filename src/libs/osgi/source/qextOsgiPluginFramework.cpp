@@ -25,7 +25,7 @@
 #include <qextOsgiPluginFramework.h>
 #include <private/qextOsgiPluginFramework_p.h>
 #include <private/qextOsgiPluginFrameworkContext_p.h>
-#include <qext/osgi/service/event/qextOsgiEvent.h>
+#include <qextOsgiEvent.h>
 
 //----------------------------------------------------------------------------
 QExtOsgiPluginFramework::QExtOsgiPluginFramework()
@@ -180,7 +180,7 @@ void QExtOsgiPluginFramework::uninstall()
 }
 
 //----------------------------------------------------------------------------
-QStringList QExtOsgiPluginFramework::getResourceList(const QString& path) const
+QStringList QExtOsgiPluginFramework::getResourceList(const QString &path) const
 {
   QString resourcePath = QString(":/") + QExtOsgiPluginConstants::SYSTEM_PLUGIN_SYMBOLICNAME;
   if (path.startsWith('/'))
@@ -205,7 +205,7 @@ QStringList QExtOsgiPluginFramework::getResourceList(const QString& path) const
 }
 
 //----------------------------------------------------------------------------
-QByteArray QExtOsgiPluginFramework::getResource(const QString& path) const
+QByteArray QExtOsgiPluginFramework::getResource(const QString &path) const
 {
   QString resourcePath = QString(":/") + QExtOsgiPluginConstants::SYSTEM_PLUGIN_SYMBOLICNAME;
   if (path.startsWith('/'))

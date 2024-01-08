@@ -48,7 +48,7 @@ public Q_SLOTS:
    *
    * @param event <code>QExtOsgiPluginEvent</code> object from the framework.
    */
-    virtual void pluginChanged(const QExtOsgiPluginEvent& event) = 0;
+    virtual void pluginChanged(const QExtOsgiPluginEvent &event) = 0;
 
 };
 

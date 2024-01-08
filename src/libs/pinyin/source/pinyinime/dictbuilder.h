@@ -97,7 +97,7 @@ class DictBuilder {
   // Build dictionary trie from the file fn_raw. File fn_validhzs provides
   // valid chars. If fn_validhzs is NULL, only chars in GB2312 will be
   // included.
-  bool build_dict(const char* fn_raw, const char* fn_validhzs,
+  bool build_dict(const char *fn_raw, const char *fn_validhzs,
                   DictTrie *dict_trie);
 
  private:
@@ -145,7 +145,7 @@ class DictBuilder {
   // Read a raw dictionary. max_item is the maximum number of items. If there
   // are more items in the ditionary, only the first max_item will be read.
   // Returned value is the number of items successfully read from the file.
-  size_t read_raw_dict(const char* fn_raw, const char *fn_validhzs,
+  size_t read_raw_dict(const char *fn_raw, const char *fn_validhzs,
                        size_t max_item);
 
   // Try to find if a character is in hzs buffer.

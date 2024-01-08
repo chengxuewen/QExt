@@ -43,9 +43,9 @@ public:
         DB_SQL_ERROR
     };
 
-    QExtOsgiPluginDatabaseException(const QString& msg, const Type& type = UNSPECIFIED);
-    QExtOsgiPluginDatabaseException(const QString& msg, const Type& type, const QExtException& cause);
-    QExtOsgiPluginDatabaseException(const QString& msg, const QExtException& cause);
+    QExtOsgiPluginDatabaseException(const QString &msg, const Type& type = UNSPECIFIED);
+    QExtOsgiPluginDatabaseException(const QString &msg, const Type& type, const QExtException& cause);
+    QExtOsgiPluginDatabaseException(const QString &msg, const QExtException& cause);
 
     QExtOsgiPluginDatabaseException(const QExtOsgiPluginDatabaseException& o);
     QExtOsgiPluginDatabaseException& operator=(const QExtOsgiPluginDatabaseException& o);
@@ -55,7 +55,7 @@ public:
     /**
    * @see QExtException::name()
    */
-    const char* name() const throw();
+    const char *name() const throw();
 
     /**
    * @see QExtException::clone()

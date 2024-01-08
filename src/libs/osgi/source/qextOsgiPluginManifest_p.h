@@ -43,8 +43,8 @@ public:
     void read(const QByteArray& in);
 
     Attributes getMainAttributes() const;
-    QString getAttribute(const QString& key) const;
-    Attributes getAttributes(const QString& section) const;
+    QString getAttribute(const QString &key) const;
+    Attributes getAttributes(const QString &section) const;
 
     QStringList getSections() const;
 

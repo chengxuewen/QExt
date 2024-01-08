@@ -94,7 +94,7 @@ public:
    *         the classes named when the service was registered.
    * @see QExtOsgiPluginContext#getService
    */
-    virtual QObject* getService(QSharedPointer<QExtOsgiPlugin> plugin, QExtOsgiServiceRegistration registration) = 0;
+    virtual QObject *getService(QSharedPointer<QExtOsgiPlugin> plugin, QExtOsgiServiceRegistration registration) = 0;
 
     /**
    * Releases a service object.
@@ -111,7 +111,7 @@ public:
    * @see QExtOsgiPluginContext#ungetService
    */
     virtual void ungetService(QSharedPointer<QExtOsgiPlugin> plugin, QExtOsgiServiceRegistration registration,
-                              QObject* service) = 0;
+                              QObject *service) = 0;
 };
 
 Q_DECLARE_INTERFACE(QExtOsgiServiceFactory, "org.qext.services.QExtOsgiServiceFactory")

@@ -50,8 +50,8 @@ class QExtOsgiServiceSlotEntry
 
 public:
 
-    QExtOsgiServiceSlotEntry(QSharedPointer<QExtOsgiPlugin> p, QObject* receiver, const char* slot,
-                        const QString& filter = QString());
+    QExtOsgiServiceSlotEntry(QSharedPointer<QExtOsgiPlugin> p, QObject *receiver, const char *slot,
+                        const QString &filter = QString());
 
     QExtOsgiServiceSlotEntry(const QExtOsgiServiceSlotEntry& other);
 
@@ -64,7 +64,7 @@ public:
 
     bool operator==(const QExtOsgiServiceSlotEntry& other) const;
 
-    void invokeSlot(const QExtOsgiServiceEvent& event);
+    void invokeSlot(const QExtOsgiServiceEvent &event);
 
     void setRemoved(bool removed);
 

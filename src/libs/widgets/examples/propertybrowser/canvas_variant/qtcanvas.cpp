@@ -499,7 +499,7 @@ void QtCanvas::init(int w, int h, int chunksze, int mxclusters)
     \warning You \e must call resize() at some time after creation to
     be able to use the canvas.
 */
-QtCanvas::QtCanvas(QObject* parent)
+QtCanvas::QtCanvas(QObject *parent)
     : QObject(parent)
 {
     init(0, 0);
@@ -1996,8 +1996,8 @@ bool qt_testCollision(const QtCanvasSprite* s1, const QtCanvasSprite* s2)
     if (s1image) {
         if (s1image->format() == QImage::Format_MonoLSB) {
             for (int j = 0; j < h; j++) {
-                uchar* ml = s1image->scanLine(y1+j);
-                const uchar* yl = s2image->scanLine(y2+j);
+                uchar *ml = s1image->scanLine(y1+j);
+                const uchar *yl = s2image->scanLine(y2+j);
                 for (int i = 0; i < w; i++) {
                     if (*(yl + ((x2+i) >> 3)) & (1 << ((x2+i) & 7))
                     && *(ml + ((x1+i) >> 3)) & (1 << ((x1+i) & 7)))
@@ -2008,8 +2008,8 @@ bool qt_testCollision(const QtCanvasSprite* s1, const QtCanvasSprite* s2)
             }
         } else {
             for (int j = 0; j < h; j++) {
-                uchar* ml = s1image->scanLine(y1+j);
-                const uchar* yl = s2image->scanLine(y2+j);
+                uchar *ml = s1image->scanLine(y1+j);
+                const uchar *yl = s2image->scanLine(y2+j);
                 for (int i = 0; i < w; i++) {
                     if (*(yl + ((x2+i) >> 3)) & (1 << (7-((x2+i) & 7)))
                     && *(ml + ((x1+i) >> 3)) & (1 << (7-((x1+i) & 7))))
@@ -2022,7 +2022,7 @@ bool qt_testCollision(const QtCanvasSprite* s1, const QtCanvasSprite* s2)
     } else {
         if (s2image->format() == QImage::Format_MonoLSB) {
             for (int j = 0; j < h; j++) {
-                const uchar* yl = s2image->scanLine(y2+j);
+                const uchar *yl = s2image->scanLine(y2+j);
                 for (int i = 0; i < w; i++) {
                     if (*(yl + ((x2+i) >> 3)) & (1 << ((x2+i) & 7)))
                     {
@@ -2032,7 +2032,7 @@ bool qt_testCollision(const QtCanvasSprite* s1, const QtCanvasSprite* s2)
             }
         } else {
             for (int j = 0; j< h; j++) {
-                const uchar* yl = s2image->scanLine(y2+j);
+                const uchar *yl = s2image->scanLine(y2+j);
                 for (int i = 0; i < w; i++) {
                     if (*(yl + ((x2+i) >> 3)) & (1 << (7-((x2+i) & 7))))
                     {
@@ -2459,7 +2459,7 @@ QRect QtCanvasItem::boundingRectAdvanced() const
     Constructs a QtCanvasPixmap that uses the image stored in \a
     datafilename.
 */
-QtCanvasPixmap::QtCanvasPixmap(const QString& datafilename)
+QtCanvasPixmap::QtCanvasPixmap(const QString &datafilename)
 {
     QImage image(datafilename);
     init(image);
@@ -2594,7 +2594,7 @@ QtCanvasPixmapArray::QtCanvasPixmapArray()
     isValid() returns false.
 */
 
-QtCanvasPixmapArray::QtCanvasPixmapArray(const QString& datafilenamepattern,
+QtCanvasPixmapArray::QtCanvasPixmapArray(const QString &datafilenamepattern,
                                         int fc)
 : framecount(0), img(0)
 {
@@ -2660,7 +2660,7 @@ void QtCanvasPixmapArray::reset()
 
     \sa isValid()
 */
-bool QtCanvasPixmapArray::readPixmaps(const QString& filenamepattern,
+bool QtCanvasPixmapArray::readPixmaps(const QString &filenamepattern,
                                       int fc)
 {
     return readPixmaps(filenamepattern, fc, false);
@@ -2688,13 +2688,13 @@ bool QtCanvasPixmapArray::readPixmaps(const QString& filenamepattern,
 
     \sa isValid()
 */
-bool QtCanvasPixmapArray::readCollisionMasks(const QString& filename)
+bool QtCanvasPixmapArray::readCollisionMasks(const QString &filename)
 {
     return readPixmaps(filename, framecount, true);
 }
 
 
-bool QtCanvasPixmapArray::readPixmaps(const QString& datafilenamepattern,
+bool QtCanvasPixmapArray::readPixmaps(const QString &datafilenamepattern,
                                       int fc, bool maskonly)
 {
     if (!maskonly) {
@@ -3586,7 +3586,7 @@ public:
         for (int j = 0; j < n; j++) {
             int y = pt[j].y()/cs-bounds.y();
             if (y >= bitmap.height() || y < 0) continue;
-            uchar* l = bitmap.scanLine(y);
+            uchar *l = bitmap.scanLine(y);
             int x = pt[j].x();
             int x1 = x/cs-bounds.x();
             if (x1 > bounds.width()) continue;
@@ -4449,7 +4449,7 @@ QtCanvasText::QtCanvasText(QtCanvas* canvas) :
 /*
     Constructs a QtCanvasText with the text \a t, on canvas \a canvas.
 */
-QtCanvasText::QtCanvasText(const QString& t, QtCanvas* canvas) :
+QtCanvasText::QtCanvasText(const QString &t, QtCanvas* canvas) :
     QtCanvasItem(canvas), 
     txt(t), flags(0)
 {
@@ -4461,7 +4461,7 @@ QtCanvasText::QtCanvasText(const QString& t, QtCanvas* canvas) :
     Constructs a QtCanvasText with the text \a t and font \a f, on the
     canvas \a canvas.
 */
-QtCanvasText::QtCanvasText(const QString& t, QFont f, QtCanvas* canvas) :
+QtCanvasText::QtCanvasText(const QString &t, QFont f, QtCanvas* canvas) :
     QtCanvasItem(canvas), 
     txt(t), flags(0), 
     fnt(f)
@@ -4529,7 +4529,7 @@ QString QtCanvasText::text() const
 
     \sa text(), setFont(), setColor() setTextFlags()
 */
-void QtCanvasText::setText(const QString& t)
+void QtCanvasText::setText(const QString &t)
 {
     if (txt != t) {
         removeFromChunks();

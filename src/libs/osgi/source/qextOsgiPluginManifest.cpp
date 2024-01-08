@@ -51,7 +51,7 @@ void QExtOsgiPluginManifest::read(const QByteArray& in)
 
     QList<QByteArray> lines = in.split('\n');
 
-    foreach (const QString& line, lines)
+    foreach (const QString &line, lines)
     {
         // skip empty lines and comments
         if (line.trimmed().isEmpty() | line.startsWith('#')) continue;
@@ -122,14 +122,14 @@ QExtOsgiPluginManifest::Attributes QExtOsgiPluginManifest::getMainAttributes() c
 }
 
 //----------------------------------------------------------------------------
-QString QExtOsgiPluginManifest::getAttribute(const QString& key) const
+QString QExtOsgiPluginManifest::getAttribute(const QString &key) const
 {
     if (!mainAttributes.contains(key)) return QString();
     return mainAttributes[key];
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginManifest::Attributes QExtOsgiPluginManifest::getAttributes(const QString& section) const
+QExtOsgiPluginManifest::Attributes QExtOsgiPluginManifest::getAttributes(const QString &section) const
 {
     if (!sections.contains(section))
     {

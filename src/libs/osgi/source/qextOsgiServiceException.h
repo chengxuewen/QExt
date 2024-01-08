@@ -78,7 +78,7 @@ public:
    * @param msg The associated message.
    * @param type The type for this exception.
    */
-    QExtOsgiServiceException(const QString& msg, const Type& type = UNSPECIFIED);
+    QExtOsgiServiceException(const QString &msg, const Type& type = UNSPECIFIED);
 
     /**
    * Creates a <code>QExtOsgiServiceException</code> with the specified message,
@@ -88,7 +88,7 @@ public:
    * @param type The type for this exception.
    * @param cause The cause of this exception.
    */
-    QExtOsgiServiceException(const QString& msg, const Type& type, const QExtException& cause);
+    QExtOsgiServiceException(const QString &msg, const Type& type, const QExtException& cause);
 
     /**
    * Creates a <code>QExtOsgiServiceException</code> with the specified message and
@@ -97,7 +97,7 @@ public:
    * @param msg The associated message.
    * @param cause The cause of this exception.
    */
-    QExtOsgiServiceException(const QString& msg, const QExtException& cause);
+    QExtOsgiServiceException(const QString &msg, const QExtException& cause);
 
     QExtOsgiServiceException(const QExtOsgiServiceException& o);
     QExtOsgiServiceException& operator=(const QExtOsgiServiceException& o);
@@ -107,7 +107,7 @@ public:
     /**
    * @see QExtException::name()
    */
-    const char* name() const throw();
+    const char *name() const throw();
 
     /**
    * @see QExtException::clone()

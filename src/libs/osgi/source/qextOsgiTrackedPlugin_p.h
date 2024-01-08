@@ -25,6 +25,7 @@
 
 #include <qextOsgiPlugin.h>
 #include <qextOsgiPluginEvent.h>
+#include <qextOsgiPluginTracker.h>
 #include <private/qextOsgiTrackedPluginListener_p.h>
 #include <private/qextOsgiPluginAbstractTracked_p.h>
 
@@ -33,7 +34,7 @@
 /**
  * \ingroup PluginFramework
  */
-template<class T>
+template<typename T>
 class QExtOsgiTrackedPlugin : public QExtOsgiTrackedPluginListener,
                               public QExtOsgiPluginAbstractTracked<QSharedPointer<QExtOsgiPlugin>, T, QExtOsgiPluginEvent>
 {
@@ -50,7 +51,7 @@ public:
    *
    * @param event <code>QExtOsgiPluginEvent</code> object from the framework.
    */
-    void pluginChanged(const QExtOsgiPluginEvent& event);
+    void pluginChanged(const QExtOsgiPluginEvent &event);
 
 private:
 
@@ -69,7 +70,7 @@ private:
    *         if the item is not to be tracked.
    */
     T customizerAdding(QSharedPointer<QExtOsgiPlugin> item,
-                       const QExtOsgiPluginEvent& related);
+                       const QExtOsgiPluginEvent &related);
 
     /**
    * Call the specific customizer modified method. This method must not be
@@ -80,7 +81,7 @@ private:
    * @param object Customized object for the tracked item.
    */
     void customizerModified(QSharedPointer<QExtOsgiPlugin> item,
-                            const QExtOsgiPluginEvent& related, T object);
+                            const QExtOsgiPluginEvent &related, T object);
 
     /**
    * Call the specific customizer removed method. This method must not be
@@ -91,7 +92,7 @@ private:
    * @param object Customized object for the tracked item.
    */
     void customizerRemoved(QSharedPointer<QExtOsgiPlugin> item,
-                           const QExtOsgiPluginEvent& related, T object);
+                           const QExtOsgiPluginEvent &related, T object);
 };
 
 
@@ -106,7 +107,7 @@ QExtOsgiTrackedPlugin<T>::QExtOsgiTrackedPlugin(QExtOsgiPluginTracker<T>* plugin
 
 //----------------------------------------------------------------------------
 template<class T>
-void QExtOsgiTrackedPlugin<T>::pluginChanged(const QExtOsgiPluginEvent& event)
+void QExtOsgiTrackedPlugin<T>::pluginChanged(const QExtOsgiPluginEvent &event)
 {
     /*
    * Check if we had a delayed call (which could happen when we
@@ -145,7 +146,7 @@ void QExtOsgiTrackedPlugin<T>::pluginChanged(const QExtOsgiPluginEvent& event)
 //----------------------------------------------------------------------------
 template<class T>
 T QExtOsgiTrackedPlugin<T>::customizerAdding(QSharedPointer<QExtOsgiPlugin> item,
-                                             const QExtOsgiPluginEvent& related)
+                                             const QExtOsgiPluginEvent &related)
 {
     return customizer->addingPlugin(item, related);
 }
@@ -153,7 +154,7 @@ T QExtOsgiTrackedPlugin<T>::customizerAdding(QSharedPointer<QExtOsgiPlugin> item
 //----------------------------------------------------------------------------
 template<class T>
 void QExtOsgiTrackedPlugin<T>::customizerModified(QSharedPointer<QExtOsgiPlugin> item,
-                                                  const QExtOsgiPluginEvent& related,
+                                                  const QExtOsgiPluginEvent &related,
                                                   T object)
 {
     customizer->modifiedPlugin(item, related, object);
@@ -162,7 +163,7 @@ void QExtOsgiTrackedPlugin<T>::customizerModified(QSharedPointer<QExtOsgiPlugin>
 //----------------------------------------------------------------------------
 template<class T>
 void QExtOsgiTrackedPlugin<T>::customizerRemoved(QSharedPointer<QExtOsgiPlugin> item,
-                                                 const QExtOsgiPluginEvent& related,
+                                                 const QExtOsgiPluginEvent &related,
                                                  T object)
 {
     customizer->removedPlugin(item, related, object);

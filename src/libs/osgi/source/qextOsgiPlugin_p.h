@@ -105,8 +105,8 @@ public:
     QExtOsgiPluginPrivate(QWeakPointer<QExtOsgiPlugin> qq,
                      QExtOsgiPluginFrameworkContext* fw,
                      long id,
-                     const QString& loc,
-                     const QString& sym,
+                     const QString &loc,
+                     const QString &sym,
                      const QExtOsgiVersion& ver);
 
     virtual ~QExtOsgiPluginPrivate();
@@ -180,13 +180,13 @@ public:
    * @throws QExtOsgiPluginException if the ongoing (de-)activation does not finish
    *         within reasonable time.
    */
-    void waitOnOperation(LockObject* lock, const QString& src, bool longWait);
+    void waitOnOperation(LockObject* lock, const QString &src, bool longWait);
 
     /**
    *
    */
-    QStringList findResourceEntries(const QString& path,
-                                    const QString& pattern, bool recurse) const;
+    QStringList findResourceEntries(const QString &path,
+                                    const QString &pattern, bool recurse) const;
 
     /**
    * Union of flags allowing plugin class access

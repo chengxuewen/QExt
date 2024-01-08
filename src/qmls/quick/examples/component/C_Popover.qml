@@ -1,10 +1,10 @@
 import QtQuick 2.12
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Column{
     Row{
         spacing: 20
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             id:button
             height: 40
             label.text: "Loose"
@@ -12,7 +12,7 @@ Column{
             onClicked: popover.openToGlobal(button,mouseX,mouseY)
         }
 
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             id:bmenu
             height: 40
             label.text: "Popover Menu"
@@ -21,7 +21,7 @@ Column{
         }
 
 
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             id:b2
             height: 40
             label.text: "Fixed"

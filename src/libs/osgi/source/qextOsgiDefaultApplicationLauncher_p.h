@@ -22,7 +22,7 @@
 #ifndef _QEXTOSGIDEFAULTAPPLICATIONLAUNCHER_H
 #define _QEXTOSGIDEFAULTAPPLICATIONLAUNCHER_H
 
-#include <qext/osgi/service/application/QExtOsgiApplicationLauncher.h>
+#include <qextOsgiApplicationLauncher.h>
 
 #include <QSemaphore>
 #include <QVariant>
@@ -44,7 +44,7 @@ class QExtOsgiDefaultApplicationLauncher : public QObject, public QExtOsgiApplic
 
 private:
 
-    QExtOsgiApplicationRunnable* runnable;
+    QExtOsgiApplicationRunnable *runnable;
     QVariant appContext;
     QSemaphore runningLock;
     QSemaphore waitForAppLock;
@@ -62,14 +62,14 @@ public:
    * should be called by the main thread to ensure that applications are
    * launched in the main thread.
    */
-    QVariant start(const QVariant& defaultContext);
+    QVariant start(const QVariant &defaultContext);
 
     /**
      * Launches the specified runnable using the main thread.
      * @param runnable a ParameterizedRunnalbe to run on the main thread.
      * @param context the context to launch the runnable with
      */
-    void launch(QExtOsgiApplicationRunnable* app, const QVariant& applicationContext);
+    void launch(QExtOsgiApplicationRunnable *app, const QVariant &applicationContext);
 
     /**
    * Forces the current runnable which is running to be stopped.
@@ -87,7 +87,7 @@ public:
    * exists that can be used to relaunch the default application.
    * @param argument the new context to re-start the default application with
    */
-    QVariant reStart(const QVariant& argument);
+    QVariant reStart(const QVariant &argument);
 
 
 private:
@@ -96,7 +96,7 @@ private:
    * Waits for an application to be launched and the runs the application on the
    * current thread (main).
    */
-    QVariant runApplication(const QVariant& defaultContext);
+    QVariant runApplication(const QVariant &defaultContext);
 
     friend struct FreeResources;
 

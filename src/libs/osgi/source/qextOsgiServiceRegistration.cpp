@@ -47,15 +47,15 @@ QExtOsgiServiceRegistration::QExtOsgiServiceRegistration(const QExtOsgiServiceRe
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceRegistration::QExtOsgiServiceRegistration(QExtOsgiServiceRegistrationPrivate* registrationPrivate)
+QExtOsgiServiceRegistration::QExtOsgiServiceRegistration(QExtOsgiServiceRegistrationPrivate *registrationPrivate)
     : d_ptr(registrationPrivate)
 {
     if(d_func()) d_func()->ref.ref();
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceRegistration::QExtOsgiServiceRegistration(QExtOsgiPluginPrivate* plugin, QObject* service,
-                                               const QExtOsgiDictionary& props)
+QExtOsgiServiceRegistration::QExtOsgiServiceRegistration(QExtOsgiPluginPrivate *plugin, QObject *service,
+                                               const QExtOsgiDictionary &props)
     : d_ptr(new QExtOsgiServiceRegistrationPrivate(plugin, service, props))
 {
 
@@ -100,7 +100,7 @@ QExtOsgiServiceReference QExtOsgiServiceRegistration::getReference() const
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiServiceRegistration::setProperties(const QExtOsgiDictionary& props)
+void QExtOsgiServiceRegistration::setProperties(const QExtOsgiDictionary &props)
 {
     Q_D(QExtOsgiServiceRegistration);
     if (!d) throw QExtIllegalStateException("qextOsgiServiceRegistration object invalid");
@@ -182,7 +182,7 @@ void QExtOsgiServiceRegistration::unregister()
             {
                 for (QHashIterator<QSharedPointer<QExtOsgiPlugin>, QObject*> i(d->serviceInstances); i.hasNext();)
                 {
-                    QObject* obj = i.next().value();
+                    QObject *obj = i.next().value();
                     try
                     {
                         // NYI, don't call inside lock
@@ -225,7 +225,7 @@ bool QExtOsgiServiceRegistration::operator==(const QExtOsgiServiceRegistration& 
 //----------------------------------------------------------------------------
 QExtOsgiServiceRegistration& QExtOsgiServiceRegistration::operator=(const QExtOsgiServiceRegistration& registration)
 {
-    QExtOsgiServiceRegistrationPrivate* curr_d = d_func();
+    QExtOsgiServiceRegistrationPrivate *curr_d = d_func();
     d_ptr = registration.d_ptr;
     if (d_ptr) d_ptr->ref.ref();
 

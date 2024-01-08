@@ -101,7 +101,7 @@ inline LemmaIdType DictTrie::get_lemma_id(size_t id_offset) {
 }
 
 #ifdef ___BUILD_MODEL___
-bool DictTrie::build_dict(const char* fn_raw, const char* fn_validhzs) {
+bool DictTrie::build_dict(const char *fn_raw, const char *fn_validhzs) {
   DictBuilder* dict_builder = new DictBuilder();
 
   free_resource(true);

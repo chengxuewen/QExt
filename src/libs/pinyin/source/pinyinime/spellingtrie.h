@@ -141,7 +141,7 @@ class SpellingTrie {
 #ifdef ___BUILD_MODEL___
   // Given a spelling string, return its Yunmu string.
   // The caller guaratees spl_str is valid.
-  const char* get_ym_str(const char *spl_str);
+  const char *get_ym_str(const char *spl_str);
 
   // Build the Yunmu list, and the mapping relation between the full ids and the
   // Yunmu ids. This functin is called after the spelling trie is built.
@@ -169,7 +169,7 @@ class SpellingTrie {
   // score_amplifier is used to convert a possibility value into score.
   // average_score is the average_score of all spellings. The dumb node is
   // assigned with this score.
-  bool construct(const char* spelling_arr, size_t item_size, size_t item_num,
+  bool construct(const char *spelling_arr, size_t item_size, size_t item_num,
                  float score_amplifier, unsigned char average_score);
 
   // Test if the given id is a valid spelling id.
@@ -241,10 +241,10 @@ class SpellingTrie {
 
   // Return the Yunmu id for the given Yunmu string.
   // If the string is not valid, return 0;
-  uint8 get_ym_id(const char* ym_str);
+  uint8 get_ym_id(const char *ym_str);
 
   // Get the readonly Pinyin string for a given spelling id
-  const char* get_spelling_str(uint16 splid);
+  const char *get_spelling_str(uint16 splid);
 
   // Get the readonly Pinyin string for a given spelling id
   const char16* get_spelling_str16(uint16 splid);

@@ -47,7 +47,7 @@ struct QEXT_OSGI_API QExtOsgiApplicationRunnable
    * @return the result of evaluating the runnable in the given context
    * @throws std::exception if there is a problem running this runnable
    */
-    virtual QVariant run(const QVariant& context) = 0;
+    virtual QVariant run(const QVariant &context) = 0;
 
     /**
    * Forces this runnable to stop.

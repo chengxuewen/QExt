@@ -43,13 +43,13 @@ QDebug QExtException::TraceManipulator::print(QDebug dbg) const
 }
 
 // --------------------------------------------------------------------------
-QExtException::QExtException(const QString& msg)
+QExtException::QExtException(const QString &msg)
     : Msg(msg), NestedException(0)
 {
 }
 
 // --------------------------------------------------------------------------
-QExtException::QExtException(const QString& msg, const QExtException& cause)
+QExtException::QExtException(const QString &msg, const QExtException& cause)
     : Msg(msg), NestedException(cause.clone())
 {
 }
@@ -99,13 +99,13 @@ const char *QExtException::name() const throw()
 }
 
 // --------------------------------------------------------------------------
-const char* QExtException::className() const throw()
+const char *QExtException::className() const throw()
 {
     return typeid(*this).name();
 }
 
 // --------------------------------------------------------------------------
-const char* QExtException::what() const throw()
+const char *QExtException::what() const throw()
 {
     if (WhatMsg.empty())
     {
@@ -167,7 +167,7 @@ QDebug QExtException::printStackTrace(QDebug dbg) const
 
 // --------------------------------------------------------------------------
 void QExtException::printEnclosedStackTrace(QDebug dbg, const QList<QString>& enclosingTrace,
-                                            const QString& caption, const QString& prefix,
+                                            const QString &caption, const QString &prefix,
                                             QSet<const QExtException*>& dejaVu)
 {
     if (dejaVu.contains(this))

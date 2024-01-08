@@ -22,7 +22,7 @@
 #ifndef _QEXTOSGIBASICLOCATION_H
 #define _QEXTOSGIBASICLOCATION_H
 
-#include <qext/osgi/service/datalocation/qextOsgiLocation.h>
+#include <qextOsgiLocation.h>
 
 #include <QUrl>
 #include <QString>
@@ -36,8 +36,8 @@ class QExtOsgiBasicLocation : public QObject, public QExtOsgiLocation
 
 public:
 
-    QExtOsgiBasicLocation(const QString& property, const QUrl& defaultValue,
-                     bool isReadOnly, const QString& dataAreaPrefix);
+    QExtOsgiBasicLocation(const QString &property, const QUrl &defaultValue,
+                     bool isReadOnly, const QString &dataAreaPrefix);
 
     ~QExtOsgiBasicLocation();
 
@@ -53,9 +53,9 @@ public:
 
     bool isReadOnly() const;
 
-    bool set(const QUrl& value, bool lock);
+    bool set(const QUrl &value, bool lock);
 
-    bool set(const QUrl& value, bool lock, const QString& lockFilePath);
+    bool set(const QUrl &value, bool lock, const QString &lockFilePath);
 
     bool lock();
 
@@ -63,9 +63,9 @@ public:
 
     bool isLocked() const;
 
-    QExtOsgiLocation* createLocation(QExtOsgiLocation* parent, const QUrl& defaultValue, bool readonly);
+    QExtOsgiLocation* createLocation(QExtOsgiLocation* parent, const QUrl &defaultValue, bool readonly);
 
-    QUrl getDataArea(const QString& path) const;
+    QUrl getDataArea(const QString &path) const;
 
     void setParent(QExtOsgiLocation* parent);
 
@@ -91,12 +91,12 @@ private:
 
     bool isSet_unlocked() const;
 
-    bool set_unlocked(const QUrl& value, bool lock);
-    bool set_unlocked(const QUrl& value, bool lock, const QString& lockFilePath);
+    bool set_unlocked(const QUrl &value, bool lock);
+    bool set_unlocked(const QUrl &value, bool lock, const QString &lockFilePath);
 
-    bool lock_unlocked(const QFileInfo& lock, const QUrl& locationValue);
+    bool lock_unlocked(const QFileInfo& lock, const QUrl &locationValue);
     void setLocker_unlocked(const QFileInfo& lock);
-    Locker* createLocker_unlocked(const QFileInfo& lock, const QString& lockMode);
+    Locker* createLocker_unlocked(const QFileInfo& lock, const QString &lockMode);
     bool isLocked_unlocked(const QFileInfo& lock) const;
 
 };

@@ -108,7 +108,7 @@ public:
    * <code>false</code> otherwise.
    */
   bool isSimple(
-    const QStringList& keywords,
+    const QStringList &keywords,
     LocalCache& cache,
     bool matchCase) const;
 

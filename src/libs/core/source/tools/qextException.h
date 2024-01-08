@@ -56,14 +56,14 @@ public:
      * @brief Create a new QExtException.
      * @param msg The exception message.
      */
-    explicit QExtException(const QString& msg);
+    explicit QExtException(const QString &msg);
 
     /**
      * @brief Create a new QExtException containing another exception as the cause.
      * @param msg The exception message.
      * @param cause The nested exception causing this exception.
      */
-    QExtException(const QString& msg, const QExtException& cause);
+    QExtException(const QString &msg, const QExtException& cause);
 
     /**
      * @brief Copy constructor.
@@ -96,19 +96,19 @@ public:
    * @brief Returns the name for this exception.
    * @return The exception name.
    */
-    virtual const char* name() const throw();
+    virtual const char *name() const throw();
 
     /**
    * @brief Returns the class name for this exception.
    * @return The exception class name.
    */
-    virtual const char* className() const throw();
+    virtual const char *className() const throw();
 
     /**
    * @brief Returns a static string describing this exception.
    * @return The exception description.
    */
-    virtual const char* what() const throw();
+    virtual const char *what() const throw();
 
     /**
    * @brief Returns the detail message string of this exception.
@@ -160,7 +160,7 @@ private:
     QExtException* NestedException;
 
     void printEnclosedStackTrace(QDebug dbg, const QList<QString>& enclosingTrace,
-                                 const QString& caption, const QString& prefix,
+                                 const QString &caption, const QString &prefix,
                                  QSet<const QExtException*>& dejaVu);
 
 };
@@ -190,12 +190,12 @@ QEXT_CORE_API QDebug operator<<(QDebug dbg, const QExtException::TraceManipulato
 class API CLS : public BASE \
 { \
         public: \
-        explicit CLS(const QString& msg); \
-        CLS(const QString& msg, const QExtException& exc); \
+        explicit CLS(const QString &msg); \
+        CLS(const QString &msg, const QExtException& exc); \
         CLS(const CLS& exc); \
         ~CLS() throw(); \
         CLS& operator = (const CLS& exc); \
-        const char* name() const throw(); \
+        const char *name() const throw(); \
         CLS* clone() const; \
         void rethrow() const ; \
 };
@@ -210,12 +210,12 @@ class API CLS : public BASE \
  * \param NAME A human-readable name for this exception class.
  */
 #define QEXT_IMPLEMENT_EXCEPTION(CLS, BASE, NAME) \
-CLS::CLS(const QString& msg) : BASE(msg) { } \
-    CLS::CLS(const QString& msg, const QExtException& exc) : BASE(msg, exc) { } \
+CLS::CLS(const QString &msg) : BASE(msg) { } \
+    CLS::CLS(const QString &msg, const QExtException& exc) : BASE(msg, exc) { } \
     CLS::CLS(const CLS& exc) : BASE(exc) { } \
     CLS::~CLS() throw() { } \
     CLS& CLS::operator = (const CLS& exc) { BASE::operator = (exc); return *this; } \
-    const char* CLS::name() const throw() { return NAME; } \
+    const char *CLS::name() const throw() { return NAME; } \
     CLS* CLS::clone() const { return new CLS(*this); } \
     void CLS::rethrow() const { throw *this; }
 

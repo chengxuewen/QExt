@@ -66,7 +66,7 @@ class QExtOsgiBasicLocation::FileLocker : public QExtOsgiBasicLocation::Locker
 
 public:
 
-    FileLocker(const QString& lockFile)
+    FileLocker(const QString &lockFile)
         : m_locker(lockFile)
         , m_lockFile(lockFile)
     {
@@ -136,7 +136,7 @@ public:
 #endif
 
 //----------------------------------------------------------------------------
-QExtOsgiBasicLocation::QExtOsgiBasicLocation(const QString& property, const QUrl& defaultValue, bool isReadOnly, const QString& dataAreaPrefix)
+QExtOsgiBasicLocation::QExtOsgiBasicLocation(const QString &property, const QUrl &defaultValue, bool isReadOnly, const QString &dataAreaPrefix)
     : m_isReadOnly(isReadOnly)
     , m_parent(NULL)
     , m_defaultValue(defaultValue)
@@ -208,20 +208,20 @@ bool QExtOsgiBasicLocation::isReadOnly() const
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiBasicLocation::set_unlocked(const QUrl& value, bool lock)
+bool QExtOsgiBasicLocation::set_unlocked(const QUrl &value, bool lock)
 {
     return this->set_unlocked(value, lock, QString());
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiBasicLocation::set(const QUrl& value, bool lock)
+bool QExtOsgiBasicLocation::set(const QUrl &value, bool lock)
 {
     QWriteLocker l(&this->m_sync);
     return this->set_unlocked(value, lock, QString());
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiBasicLocation::set_unlocked(const QUrl& value_, bool lock, const QString& lockFilePath)
+bool QExtOsgiBasicLocation::set_unlocked(const QUrl &value_, bool lock, const QString &lockFilePath)
 {
     if (!this->m_location.isEmpty())
     {
@@ -271,7 +271,7 @@ bool QExtOsgiBasicLocation::set_unlocked(const QUrl& value_, bool lock, const QS
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiBasicLocation::set(const QUrl& value, bool lock, const QString& lockFilePath)
+bool QExtOsgiBasicLocation::set(const QUrl &value, bool lock, const QString &lockFilePath)
 {
     QWriteLocker l(&this->m_sync);
     return this->set_unlocked(value, lock, lockFilePath);
@@ -307,7 +307,7 @@ bool QExtOsgiBasicLocation::isLocked() const
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiLocation* QExtOsgiBasicLocation::createLocation(QExtOsgiLocation* parent, const QUrl& defaultValue, bool readOnly)
+QExtOsgiLocation* QExtOsgiBasicLocation::createLocation(QExtOsgiLocation* parent, const QUrl &defaultValue, bool readOnly)
 {
     QWriteLocker l(&this->m_sync);
     QExtOsgiBasicLocation* result = new QExtOsgiBasicLocation(QString(), defaultValue, readOnly, this->m_dataAreaPrefix);
@@ -316,7 +316,7 @@ QExtOsgiLocation* QExtOsgiBasicLocation::createLocation(QExtOsgiLocation* parent
 }
 
 //----------------------------------------------------------------------------
-QUrl QExtOsgiBasicLocation::getDataArea(const QString& filename_) const
+QUrl QExtOsgiBasicLocation::getDataArea(const QString &filename_) const
 {
     QUrl base = getUrl();
     if (base.isEmpty())
@@ -347,7 +347,7 @@ void QExtOsgiBasicLocation::setParent(QExtOsgiLocation* parent)
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiBasicLocation::lock_unlocked(const QFileInfo& lock, const QUrl& locationValue)
+bool QExtOsgiBasicLocation::lock_unlocked(const QFileInfo& lock, const QUrl &locationValue)
 {
     if (this->m_isReadOnly)
     {
@@ -398,7 +398,7 @@ void QExtOsgiBasicLocation::setLocker_unlocked(const QFileInfo& lock)
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiBasicLocation::Locker* QExtOsgiBasicLocation::createLocker_unlocked(const QFileInfo& lock, const QString& lockMode_)
+QExtOsgiBasicLocation::Locker* QExtOsgiBasicLocation::createLocker_unlocked(const QFileInfo& lock, const QString &lockMode_)
 {
     QString lockMode = lockMode_;
     if (lockMode.isEmpty())

@@ -1,37 +1,37 @@
 import QtQuick 2.12
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Column{
     spacing: 10
     Row{
         height: 40
         spacing: 10
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             text: "Default"
         }
 
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             text: "Primary"
             textColor: "#FFF"
             textFont.bold: true
             backgroundColor: "#46A0FC"
         }
 
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             text: "Success"
             textColor: "#FFF"
             textFont.bold: true
             backgroundColor: "#6AC044"
         }
 
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             text: "Warning"
             textColor: "#FFF"
             textFont.bold: true
             backgroundColor: "#E4A147"
         }
 
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             text: "Danger"
             textColor: "#FFF"
             textFont.bold: true
@@ -42,11 +42,11 @@ Column{
     Row{
         height: 40
         spacing: 10
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             text: "Default"
         }
 
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             text: "Primary"
             textColor: "#46A0FC"
             textFont.bold: true
@@ -54,7 +54,7 @@ Column{
             backgroundBorderColor: "#46A0FC"
         }
 
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             text: "Success"
             textFont.bold: true
             textColor: "#6AC044"
@@ -62,7 +62,7 @@ Column{
             backgroundBorderColor: "#6AC044"
         }
 
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             text: "Warning"
             textFont.bold: true
             textColor: "#E4A147"
@@ -70,7 +70,7 @@ Column{
             backgroundBorderColor: "#E4A147"
         }
 
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             text: "Danger"
             textFont.bold: true
             textColor: "#F36D6F"

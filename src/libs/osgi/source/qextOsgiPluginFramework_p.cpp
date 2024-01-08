@@ -265,14 +265,14 @@ void QExtOsgiPluginFrameworkPrivate::stopAllPlugins()
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkPrivate::systemShuttingdownDone(const QExtOsgiPluginFrameworkEvent& fe)
+void QExtOsgiPluginFrameworkPrivate::systemShuttingdownDone(const QExtOsgiPluginFrameworkEvent &fe)
 {
     Locker sync(&lock);
     systemShuttingdownDone_unlocked(fe);
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkPrivate::systemShuttingdownDone_unlocked(const QExtOsgiPluginFrameworkEvent& fe)
+void QExtOsgiPluginFrameworkPrivate::systemShuttingdownDone_unlocked(const QExtOsgiPluginFrameworkEvent &fe)
 {
 
     if (state != QExtOsgiPlugin::INSTALLED)

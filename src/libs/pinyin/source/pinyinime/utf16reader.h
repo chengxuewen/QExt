@@ -39,7 +39,7 @@ class Utf16Reader {
   // filename is the name of the file to open.
   // buffer_len specifies how long buffer should be allocated to speed up the
   // future reading
-  bool open(const char* filename, size_t buffer_len);
+  bool open(const char *filename, size_t buffer_len);
   char16* readline(char16* read_buf, size_t max_len);
   bool close();
 };

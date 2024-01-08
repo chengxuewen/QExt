@@ -32,8 +32,8 @@ class QExtOsgiServiceSlotEntryData : public QSharedData
 {
 public:
 
-    QExtOsgiServiceSlotEntryData(QSharedPointer<QExtOsgiPlugin> p, QObject* receiver,
-                            const char* slot)
+    QExtOsgiServiceSlotEntryData(QSharedPointer<QExtOsgiPlugin> p, QObject *receiver,
+                            const char *slot)
         : plugin(p), receiver(receiver),
         slot(slot), removed(false),
         hashValue(0)
@@ -64,8 +64,8 @@ public:
 
     QExtOsgiLDAPExpr ldap;
     QSharedPointer<QExtOsgiPlugin> plugin;
-    QObject* receiver;
-    const char* slot;
+    QObject *receiver;
+    const char *slot;
     bool removed;
 
     uint hashValue;
@@ -73,7 +73,7 @@ public:
 
 //----------------------------------------------------------------------------
 QExtOsgiServiceSlotEntry::QExtOsgiServiceSlotEntry(
-    QSharedPointer<QExtOsgiPlugin> p, QObject* receiver, const char* slot, const QString& filter)
+    QSharedPointer<QExtOsgiPlugin> p, QObject *receiver, const char *slot, const QString &filter)
     : d(new QExtOsgiServiceSlotEntryData(p, receiver, slot))
 {
     if (!filter.isNull())

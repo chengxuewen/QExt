@@ -30,7 +30,7 @@
 #include <private/qextOsgiLocationManager_p.h>
 #include <private/qextOsgiBasicLocation_p.h>
 
-#include <QExtOsgiConfig.h>
+#include <qextOsgiConfig.h>
 
 #include <QStringList>
 #include <QDirIterator>
@@ -87,8 +87,6 @@ static const QString PROP_FORCED_RESTART = "qextOsgi.forcedRestart";
 class QExtOsgiPluginFrameworkLauncherPrivate
 {
 public:
-
-    //----------------------------------------------------------------------------
     QExtOsgiPluginFrameworkLauncherPrivate()
         : fwFactory(0)
         , running(false)
@@ -105,13 +103,11 @@ public:
         pluginLibFilter << "*.dll" << "*.so" << "*.dylib";
     }
 
-    //----------------------------------------------------------------------------
     bool isForcedRestart() const
     {
         return QExtOsgiPluginFrameworkProperties::getProperty(PROP_FORCED_RESTART).toBool();
     }
 
-    //----------------------------------------------------------------------------
     void loadConfigurationInfo()
     {
         QExtOsgiBasicLocation* configArea = QExtOsgiLocationManager::getConfigurationLocation();
@@ -124,7 +120,6 @@ public:
         mergeProperties(QExtOsgiPluginFrameworkProperties::getProperties(), loadProperties(location));
     }
 
-    //----------------------------------------------------------------------------
     void mergeProperties(QExtOsgiProperties& destination, const QExtOsgiProperties& source)
     {
         for (QExtOsgiProperties::const_iterator iter = source.begin(); iter != source.end(); ++iter)
@@ -136,8 +131,7 @@ public:
         }
     }
 
-    //----------------------------------------------------------------------------
-    QExtOsgiProperties loadProperties(const QUrl& location)
+    QExtOsgiProperties loadProperties(const QUrl &location)
     {
         QExtOsgiProperties result;
         if (!location.isValid() || !QFileInfo(location.toLocalFile()).exists())
@@ -145,7 +139,7 @@ public:
             return result;
         }
         QSettings iniProps(location.toLocalFile(), QSettings::IniFormat);
-        foreach (const QString& key, iniProps.allKeys())
+        foreach (const QString &key, iniProps.allKeys())
         {
             result.insert(key, iniProps.value(key));
         }
@@ -153,7 +147,6 @@ public:
         return substituteVars(result);
     }
 
-    //----------------------------------------------------------------------------
     QExtOsgiProperties& substituteVars(QExtOsgiProperties& result)
     {
         for (QExtOsgiProperties::iterator iter = result.begin(); iter != result.end(); ++iter)
@@ -166,8 +159,7 @@ public:
         return result;
     }
 
-    //----------------------------------------------------------------------------
-    QString substituteVars(const QString& path)
+    QString substituteVars(const QString &path)
     {
         QString buf;
         bool varStarted = false; // indicates we are processing a var substitute
@@ -230,8 +222,7 @@ public:
         return buf;
     }
 
-    //----------------------------------------------------------------------------
-    QSharedPointer<QExtOsgiPlugin> install(const QUrl& pluginPath, QExtOsgiPluginContext* context)
+    QSharedPointer<QExtOsgiPlugin> install(const QUrl &pluginPath, QExtOsgiPluginContext* context)
     {
         try
         {
@@ -244,8 +235,7 @@ public:
         }
     }
 
-    //----------------------------------------------------------------------------
-    QSharedPointer<QExtOsgiPlugin> install(const QString& symbolicName, QExtOsgiPluginContext* context)
+    QSharedPointer<QExtOsgiPlugin> install(const QString &symbolicName, QExtOsgiPluginContext* context)
     {
         QString pluginPath = QExtOsgiPluginFrameworkLauncher::getPluginPath(symbolicName);
         if (pluginPath.isEmpty()) return QSharedPointer<QExtOsgiPlugin>();
@@ -271,8 +261,7 @@ public:
         return install(QUrl::fromLocalFile(pluginPath), pc);
     }
 
-    //----------------------------------------------------------------------------
-    void resolvePlugin(const QSharedPointer<QExtOsgiPlugin>& plugin)
+    void resolvePlugin(const QSharedPointer<QExtOsgiPlugin> &plugin)
     {
         if (plugin)
         {
@@ -281,10 +270,9 @@ public:
     }
 
     /*
-   * Ensure all basic plugins are installed, resolved and scheduled to start. Returns a list containing
-   * all basic bundles that are marked to start.
-   */
-    //----------------------------------------------------------------------------
+     * Ensure all basic plugins are installed, resolved and scheduled to start. Returns a list containing
+     * all basic bundles that are marked to start.
+     */
     void loadBasicPlugins()
     {
         QVariant pluginsProp = QExtOsgiPluginFrameworkProperties::getProperty(QExtOsgiPluginFrameworkLauncher::PROP_PLUGINS);
@@ -313,7 +301,7 @@ public:
 
         QList<QSharedPointer<QExtOsgiPlugin> > startEntries;
         QExtOsgiPluginContext* context = fwFactory->getFramework()->getPluginContext();
-        foreach(const QString& installEntry, installEntries)
+        foreach(const QString &installEntry, installEntries)
         {
             QUrl pluginUrl(installEntry);
             if (pluginUrl.isValid() && pluginUrl.scheme().isEmpty())
@@ -376,24 +364,22 @@ public:
     QProcessEnvironment processEnv;
 };
 
-const QScopedPointer<QExtOsgiPluginFrameworkLauncherPrivate> QExtOsgiPluginFrameworkLauncher::d(
-    new QExtOsgiPluginFrameworkLauncherPrivate());
+const QScopedPointer<QExtOsgiPluginFrameworkLauncherPrivate> QExtOsgiPluginFrameworkLauncher::d(new QExtOsgiPluginFrameworkLauncherPrivate());
 
-//----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkLauncher::setFrameworkProperties(const QExtOsgiProperties& props)
+void QExtOsgiPluginFrameworkLauncher::setFrameworkProperties(const QExtOsgiProperties &props)
 {
     QExtOsgiPluginFrameworkProperties::setProperties(props);
 }
 
-//----------------------------------------------------------------------------
-QVariant QExtOsgiPluginFrameworkLauncher::run(QRunnable* endSplashHandler, const QVariant& argument)
+QVariant QExtOsgiPluginFrameworkLauncher::run(QRunnable *endSplashHandler, const QVariant &argument)
 {
     if (d->running)
     {
         throw QExtIllegalStateException("Framework already running");
     }
     {
-        struct Finalize {
+        struct Finalize
+        {
             ~Finalize()
             {
                 try
@@ -449,13 +435,13 @@ QVariant QExtOsgiPluginFrameworkLauncher::run(QRunnable* endSplashHandler, const
     if (QExtOsgiPluginFrameworkProperties::getProperty(PROP_EXITCODE).isNull())
     {
         QExtOsgiPluginFrameworkProperties::setProperty(PROP_EXITCODE, "13");
-        QExtOsgiPluginFrameworkProperties::setProperty(PROP_EXITDATA, QString("An error has occurred. See the console output and log file for details."));
+        QExtOsgiPluginFrameworkProperties::setProperty(PROP_EXITDATA,
+                                                       QString("An error has occurred. See the console output and log file for details."));
     }
     return QVariant();
 }
 
-//----------------------------------------------------------------------------
-QVariant QExtOsgiPluginFrameworkLauncher::run(const QVariant& argument)
+QVariant QExtOsgiPluginFrameworkLauncher::run(const QVariant &argument)
 {
     if (!d->running)
     {
@@ -463,11 +449,11 @@ QVariant QExtOsgiPluginFrameworkLauncher::run(const QVariant& argument)
     }
     // if we are just initializing, do not run the application just return.
     /*
-  if (d->initialize)
-  {
-    return 0;
-  }
-  */
+    if (d->initialize)
+    {
+        return 0;
+    }
+    */
     try
     {
         if (!d->appLauncher)
@@ -499,8 +485,7 @@ QVariant QExtOsgiPluginFrameworkLauncher::run(const QVariant& argument)
     }
 }
 
-//----------------------------------------------------------------------------
-QExtOsgiPluginContext* QExtOsgiPluginFrameworkLauncher::startup(QRunnable* endSplashHandler)
+QExtOsgiPluginContext* QExtOsgiPluginFrameworkLauncher::startup(QRunnable *endSplashHandler)
 {
     if (d->running)
     {
@@ -532,7 +517,9 @@ QExtOsgiPluginContext* QExtOsgiPluginFrameworkLauncher::startup(QRunnable* endSp
 void QExtOsgiPluginFrameworkLauncher::shutdown()
 {
     if (!d->running || d->fwFactory == NULL)
+    {
         return;
+    }
 
     //if (appLauncherRegistration != null)
     //  appLauncherRegistration.unregister();
@@ -553,20 +540,19 @@ void QExtOsgiPluginFrameworkLauncher::shutdown()
     d->running = false;
 }
 
-//----------------------------------------------------------------------------
-long QExtOsgiPluginFrameworkLauncher::install(const QString& symbolicName, QExtOsgiPluginContext* context)
+long QExtOsgiPluginFrameworkLauncher::install(const QString &symbolicName, QExtOsgiPluginContext* context)
 {
     QSharedPointer<QExtOsgiPlugin> plugin = d->install(symbolicName, context);
     if (plugin) return plugin->getPluginId();
     return -1;
 }
 
-//----------------------------------------------------------------------------
-bool QExtOsgiPluginFrameworkLauncher::start(const QString& symbolicName, QExtOsgiPlugin::StartOptions options,
+bool QExtOsgiPluginFrameworkLauncher::start(const QString &symbolicName, QExtOsgiPlugin::StartOptions options,
                                             QExtOsgiPluginContext* context)
 {
     // instantiate and start the framework
-    if (context == 0 && d->fwFactory == 0) {
+    if (context == 0 && d->fwFactory == 0)
+    {
         d->fwFactory.reset(new QExtOsgiPluginFrameworkFactory(d->fwProps));
         try
         {
@@ -596,7 +582,10 @@ bool QExtOsgiPluginFrameworkLauncher::start(const QString& symbolicName, QExtOsg
     if(!symbolicName.isEmpty())
     {
         QString pluginPath = getPluginPath(symbolicName);
-        if (pluginPath.isEmpty()) return false;
+        if (pluginPath.isEmpty())
+        {
+            return false;
+        }
 
         QExtOsgiPluginContext* pc = context ? context : getPluginContext();
         try
@@ -613,8 +602,7 @@ bool QExtOsgiPluginFrameworkLauncher::start(const QString& symbolicName, QExtOsg
     return true;
 }
 
-//----------------------------------------------------------------------------
-bool QExtOsgiPluginFrameworkLauncher::stop(const QString& symbolicName,
+bool QExtOsgiPluginFrameworkLauncher::stop(const QString &symbolicName,
                                            QExtOsgiPlugin::StopOptions options, QExtOsgiPluginContext* context)
 {
     if (d->fwFactory == 0) return true;
@@ -676,13 +664,11 @@ bool QExtOsgiPluginFrameworkLauncher::stop(const QString& symbolicName,
     }
 }
 
-//----------------------------------------------------------------------------
 void QExtOsgiPluginFrameworkLauncher::resolve(const QSharedPointer<QExtOsgiPlugin>& plugin)
 {
     d->resolvePlugin(plugin);
 }
 
-//----------------------------------------------------------------------------
 void QExtOsgiPluginFrameworkLauncher::resolve()
 {
     QList<QSharedPointer<QExtOsgiPlugin> > plugins = getPluginFramework()->getPluginContext()->getPlugins();
@@ -692,14 +678,12 @@ void QExtOsgiPluginFrameworkLauncher::resolve()
     }
 }
 
-//----------------------------------------------------------------------------
 QExtOsgiPluginContext* QExtOsgiPluginFrameworkLauncher::getPluginContext()
 {
     if (d->fwFactory == 0) return 0;
     return d->fwFactory->getFramework()->getPluginContext();
 }
 
-//----------------------------------------------------------------------------
 QSharedPointer<QExtOsgiPluginFramework> QExtOsgiPluginFrameworkLauncher::getPluginFramework()
 {
     if (d->fwFactory)
@@ -707,8 +691,7 @@ QSharedPointer<QExtOsgiPluginFramework> QExtOsgiPluginFrameworkLauncher::getPlug
     return QSharedPointer<QExtOsgiPluginFramework>();
 }
 
-//----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkLauncher::appendPathEnv(const QString& path)
+void QExtOsgiPluginFrameworkLauncher::appendPathEnv(const QString &path)
 {
 #ifdef _WIN32
 #ifdef __MINGW32__
@@ -722,7 +705,7 @@ void QExtOsgiPluginFrameworkLauncher::appendPathEnv(const QString& path)
     QString newPath = path;
     if (bufferLength > 0)
     {
-        char* oldPath = new char[bufferLength];
+        char *oldPath = new char[bufferLength];
         getenv_s(&bufferLength, oldPath, bufferLength, "PATH");
         newPath.append(";").append(oldPath);
         delete[] oldPath;
@@ -734,15 +717,12 @@ void QExtOsgiPluginFrameworkLauncher::appendPathEnv(const QString& path)
         LPVOID lpMsgBuf;
         DWORD dw = GetLastError();
 
-        FormatMessageW(
-            FORMAT_MESSAGE_ALLOCATE_BUFFER |
-                FORMAT_MESSAGE_FROM_SYSTEM |
-                FORMAT_MESSAGE_IGNORE_INSERTS,
-            NULL,
-            dw,
-            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-            (LPWSTR) &lpMsgBuf,
-            0, NULL );
+        FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                       NULL,
+                       dw,
+                       MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                       (LPWSTR) &lpMsgBuf,
+                       0, NULL );
 
         // Avoid project configuration conflicts regarding wchar_t considered
         // a built-in type or not by using QString::fromUtf16 instead of
@@ -760,15 +740,16 @@ void QExtOsgiPluginFrameworkLauncher::appendPathEnv(const QString& path)
 #endif
 }
 
-//----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkLauncher::addSearchPath(const QString& searchPath, bool addToPathEnv)
+void QExtOsgiPluginFrameworkLauncher::addSearchPath(const QString &searchPath, bool addToPathEnv)
 {
     d->pluginSearchPaths.prepend(searchPath);
-    if (addToPathEnv) appendPathEnv(searchPath);
+    if (addToPathEnv)
+    {
+        appendPathEnv(searchPath);
+    }
 }
 
-//----------------------------------------------------------------------------
-QString QExtOsgiPluginFrameworkLauncher::getPluginPath(const QString& symbolicName)
+QString QExtOsgiPluginFrameworkLauncher::getPluginPath(const QString &symbolicName)
 {
     QString pluginFileName(symbolicName);
     pluginFileName.replace(".", "_");
@@ -780,7 +761,10 @@ QString QExtOsgiPluginFrameworkLauncher::getPluginPath(const QString& symbolicNa
             dirIter.next();
             QFileInfo fileInfo = dirIter.fileInfo();
             QString fileBaseName = fileInfo.baseName();
-            if (fileBaseName.startsWith("lib")) fileBaseName = fileBaseName.mid(3);
+            if (fileBaseName.startsWith("lib"))
+            {
+                fileBaseName = fileBaseName.mid(3);
+            }
 
             if (fileBaseName == pluginFileName)
             {
@@ -792,8 +776,7 @@ QString QExtOsgiPluginFrameworkLauncher::getPluginPath(const QString& symbolicNa
     return QString();
 }
 
-//----------------------------------------------------------------------------
-QStringList QExtOsgiPluginFrameworkLauncher::getPluginSymbolicNames(const QString& searchPath)
+QStringList QExtOsgiPluginFrameworkLauncher::getPluginSymbolicNames(const QString &searchPath)
 {
     QStringList result;
     QDirIterator dirIter(searchPath, d->pluginLibFilter, QDir::Files);
@@ -802,7 +785,10 @@ QStringList QExtOsgiPluginFrameworkLauncher::getPluginSymbolicNames(const QStrin
         dirIter.next();
         QFileInfo fileInfo = dirIter.fileInfo();
         QString fileBaseName = fileInfo.baseName();
-        if (fileBaseName.startsWith("lib")) fileBaseName = fileBaseName.mid(3);
+        if (fileBaseName.startsWith("lib"))
+        {
+            fileBaseName = fileBaseName.mid(3);
+        }
         result << fileBaseName.replace("_", ".");
     }
 

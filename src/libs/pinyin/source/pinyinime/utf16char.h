@@ -46,7 +46,7 @@ extern "C" {
   char16* utf16_strncpy(char16 *dst, const char16 *src, size_t size);
 
 
-  char* utf16_strcpy_tochar(char *dst, const char16 *src);
+  char *utf16_strcpy_tochar(char *dst, const char16 *src);
 
 #ifdef __cplusplus
 }

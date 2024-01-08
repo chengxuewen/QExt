@@ -40,7 +40,7 @@ class QExtOsgiServiceReferencePrivate
 {
 public:
 
-    QExtOsgiServiceReferencePrivate(QExtOsgiServiceRegistrationPrivate* reg);
+    QExtOsgiServiceReferencePrivate(QExtOsgiServiceRegistrationPrivate *reg);
 
     ~QExtOsgiServiceReferencePrivate();
 
@@ -50,7 +50,7 @@ public:
     * @param plugin requester of service.
     * @return Service requested or null in case of failure.
     */
-    QObject* getService(QSharedPointer<QExtOsgiPlugin> plugin);
+    QObject *getService(QSharedPointer<QExtOsgiPlugin> plugin);
 
     /**
    * Unget the service object.
@@ -92,7 +92,7 @@ public:
    * @return The property value to which the key is mapped; an invalid QVariant
    *         if there is no property named after the key.
    */
-    QVariant getProperty(const QString& key, bool lock) const;
+    QVariant getProperty(const QString &key, bool lock) const;
 
     /**
    * Reference count for implicitly shared private implementation.
@@ -102,7 +102,7 @@ public:
     /**
    * Link to registration object for this reference.
    */
-    QExtOsgiServiceRegistrationPrivate* const registration;
+    QExtOsgiServiceRegistrationPrivate *const registration;
 
 private:
 

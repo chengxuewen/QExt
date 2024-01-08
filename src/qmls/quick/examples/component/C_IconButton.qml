@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQml 2.12
 import QtQuick.Controls 2.12
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Column{
     spacing: 10
@@ -16,48 +16,48 @@ Column{
         height: 40
         spacing: 10
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Normal"
             textFont.bold: true
-            iconSource: QEXTQmlQuickFontAwesome.FA_apple
+            iconSource: QExtQuickFontAwesome.FA_apple
             iconColor: textColor
             iconVisible: mIconVisibleCheckBox.checked
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Primary"
             textColor: "#FFF"
             textFont.bold: true
             backgroundColor: "#46A0FC"
-            iconSource: QEXTQmlQuickFontAwesome.FA_apple
+            iconSource: QExtQuickFontAwesome.FA_apple
             iconColor: textColor
             iconVisible: mIconVisibleCheckBox.checked
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Success"
             textFont.bold: true
             textColor: "#FFF"
             backgroundColor: "#6AC044"
-            iconSource: QEXTQmlQuickFontAwesome.FA_android
+            iconSource: QExtQuickFontAwesome.FA_android
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Warning"
             textFont.bold: true
             textColor: "#FFF"
             backgroundColor: "#E4A147"
-            iconSource: QEXTQmlQuickFontAwesome.FA_github
+            iconSource: QExtQuickFontAwesome.FA_github
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Danger"
             textFont.bold: true
             textColor: "#FFF"
             backgroundColor: "#F36D6F"
-            iconSource: QEXTQmlQuickFontAwesome.FA_pencil
+            iconSource: QExtQuickFontAwesome.FA_pencil
             iconColor: textColor
         }
     }
@@ -65,42 +65,42 @@ Column{
     Row{
         height: 40
         spacing: 10
-        QEXTQmlQuickIconButton{
-            iconDisplay: QEXTQmlQuick.IconDisplay_IconOnly
-            iconSource: QEXTQmlQuickFontAwesome.FA_apple
+        QExtQuickIconButton{
+            iconDisplay: QExtQuick.IconDisplay_IconOnly
+            iconSource: QExtQuickFontAwesome.FA_apple
             backgroundRadius: height / 2
         }
 
-        QEXTQmlQuickIconButton{
-            iconDisplay: QEXTQmlQuick.IconDisplay_IconOnly
-            iconSource: QEXTQmlQuickFontAwesome.FA_android
+        QExtQuickIconButton{
+            iconDisplay: QExtQuick.IconDisplay_IconOnly
+            iconSource: QExtQuickFontAwesome.FA_android
             iconColor: "#46A0FC"
             backgroundColor: "#ECF5FF"
             backgroundBorderColor: "#46A0FC"
             backgroundRadius: height / 2
         }
 
-        QEXTQmlQuickIconButton{
-            iconDisplay: QEXTQmlQuick.IconDisplay_IconOnly
-            iconSource: QEXTQmlQuickFontAwesome.FA_windows
+        QExtQuickIconButton{
+            iconDisplay: QExtQuick.IconDisplay_IconOnly
+            iconSource: QExtQuickFontAwesome.FA_windows
             iconColor: "#6AC044"
             backgroundColor: "#F0F9EB"
             backgroundBorderColor: "#6AC044"
             backgroundRadius: height / 2
         }
 
-        QEXTQmlQuickIconButton{
-            iconDisplay: QEXTQmlQuick.IconDisplay_IconOnly
-            iconSource: QEXTQmlQuickFontAwesome.FA_github
+        QExtQuickIconButton{
+            iconDisplay: QExtQuick.IconDisplay_IconOnly
+            iconSource: QExtQuickFontAwesome.FA_github
             iconColor: "#E4A147"
             backgroundColor: "#FDF6ED"
             backgroundBorderColor: "#E4A147"
             backgroundRadius: height / 2
         }
 
-        QEXTQmlQuickIconButton{
-            iconDisplay: QEXTQmlQuick.IconDisplay_IconOnly
-            iconSource: QEXTQmlQuickFontAwesome.FA_star_o
+        QExtQuickIconButton{
+            iconDisplay: QExtQuick.IconDisplay_IconOnly
+            iconSource: QExtQuickFontAwesome.FA_star_o
             iconColor: "#F36D6F"
             backgroundColor: "#FEF0F0"
             backgroundBorderColor: "#F36D6F"
@@ -111,51 +111,51 @@ Column{
     Row{
         height: 40
         spacing: 10
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Normal"
             textFont.bold: true
-            iconDisplay: QEXTQmlQuick.IconDisplay_TextOnly
-            iconSource: QEXTQmlQuickFontAwesome.FA_apple
+            iconDisplay: QExtQuick.IconDisplay_TextOnly
+            iconSource: QExtQuickFontAwesome.FA_apple
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Primary"
             textColor: "#FFF"
             textFont.bold: true
             backgroundColor: "#46A0FC"
-            iconDisplay: QEXTQmlQuick.IconDisplay_TextOnly
-            iconSource: QEXTQmlQuickFontAwesome.FA_apple
+            iconDisplay: QExtQuick.IconDisplay_TextOnly
+            iconSource: QExtQuickFontAwesome.FA_apple
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Success"
             textFont.bold: true
             textColor: "#FFF"
             backgroundColor: "#6AC044"
-            iconDisplay: QEXTQmlQuick.IconDisplay_TextOnly
-            iconSource: QEXTQmlQuickFontAwesome.FA_android
+            iconDisplay: QExtQuick.IconDisplay_TextOnly
+            iconSource: QExtQuickFontAwesome.FA_android
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Warning"
             textFont.bold: true
             textColor: "#FFF"
             backgroundColor: "#E4A147"
-            iconDisplay: QEXTQmlQuick.IconDisplay_TextOnly
-            iconSource: QEXTQmlQuickFontAwesome.FA_github
+            iconDisplay: QExtQuick.IconDisplay_TextOnly
+            iconSource: QExtQuickFontAwesome.FA_github
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Danger"
             textFont.bold: true
             textColor: "#FFF"
             backgroundColor: "#F36D6F"
-            iconDisplay: QEXTQmlQuick.IconDisplay_TextOnly
-            iconSource: QEXTQmlQuickFontAwesome.FA_pencil
+            iconDisplay: QExtQuick.IconDisplay_TextOnly
+            iconSource: QExtQuickFontAwesome.FA_pencil
             iconColor: textColor
         }
     }
@@ -163,51 +163,51 @@ Column{
     Row{
         height: 40
         spacing: 10
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Normal"
             textFont.bold: true
-            iconDisplay: QEXTQmlQuick.IconDisplay_Right
-            iconSource: QEXTQmlQuickFontAwesome.FA_apple
+            iconDisplay: QExtQuick.IconDisplay_Right
+            iconSource: QExtQuickFontAwesome.FA_apple
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Primary"
             textColor: "#FFF"
             textFont.bold: true
             backgroundColor: "#46A0FC"
-            iconDisplay: QEXTQmlQuick.IconDisplay_Right
-            iconSource: QEXTQmlQuickFontAwesome.FA_apple
+            iconDisplay: QExtQuick.IconDisplay_Right
+            iconSource: QExtQuickFontAwesome.FA_apple
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Success"
             textFont.bold: true
             textColor: "#FFF"
             backgroundColor: "#6AC044"
-            iconDisplay: QEXTQmlQuick.IconDisplay_Right
-            iconSource: QEXTQmlQuickFontAwesome.FA_android
+            iconDisplay: QExtQuick.IconDisplay_Right
+            iconSource: QExtQuickFontAwesome.FA_android
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Warning"
             textFont.bold: true
             textColor: "#FFF"
             backgroundColor: "#E4A147"
-            iconDisplay: QEXTQmlQuick.IconDisplay_Right
-            iconSource: QEXTQmlQuickFontAwesome.FA_github
+            iconDisplay: QExtQuick.IconDisplay_Right
+            iconSource: QExtQuickFontAwesome.FA_github
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             text: "Danger"
             textFont.bold: true
             textColor: "#FFF"
             backgroundColor: "#F36D6F"
-            iconDisplay: QEXTQmlQuick.IconDisplay_Right
-            iconSource: QEXTQmlQuickFontAwesome.FA_pencil
+            iconDisplay: QExtQuick.IconDisplay_Right
+            iconSource: QExtQuickFontAwesome.FA_pencil
             iconColor: textColor
         }
     }
@@ -215,18 +215,18 @@ Column{
     Row{
         height: 60
         spacing: 10
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             width: 60
             height: 60
             text: "Normal"
             textFont.bold: true
             backgroundRadius: 10
-            iconDisplay: QEXTQmlQuick.IconDisplay_Bottom
-            iconSource: QEXTQmlQuickFontAwesome.FA_apple
+            iconDisplay: QExtQuick.IconDisplay_Bottom
+            iconSource: QExtQuickFontAwesome.FA_apple
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             width: 60
             height: 60
             text: "Primary"
@@ -234,12 +234,12 @@ Column{
             textFont.bold: true
             backgroundColor: "#46A0FC"
             backgroundRadius: 10
-            iconDisplay: QEXTQmlQuick.IconDisplay_Bottom
-            iconSource: QEXTQmlQuickFontAwesome.FA_apple
+            iconDisplay: QExtQuick.IconDisplay_Bottom
+            iconSource: QExtQuickFontAwesome.FA_apple
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             width: 60
             height: 60
             text: "Success"
@@ -247,12 +247,12 @@ Column{
             textColor: "#FFF"
             backgroundColor: "#6AC044"
             backgroundRadius: 10
-            iconDisplay: QEXTQmlQuick.IconDisplay_Bottom
-            iconSource: QEXTQmlQuickFontAwesome.FA_android
+            iconDisplay: QExtQuick.IconDisplay_Bottom
+            iconSource: QExtQuickFontAwesome.FA_android
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             width: 60
             height: 60
             text: "Warning"
@@ -260,12 +260,12 @@ Column{
             textColor: "#FFF"
             backgroundColor: "#E4A147"
             backgroundRadius: 10
-            iconDisplay: QEXTQmlQuick.IconDisplay_Bottom
-            iconSource: QEXTQmlQuickFontAwesome.FA_github
+            iconDisplay: QExtQuick.IconDisplay_Bottom
+            iconSource: QExtQuickFontAwesome.FA_github
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             width: 60
             height: 60
             text: "Danger"
@@ -273,8 +273,8 @@ Column{
             textColor: "#FFF"
             backgroundColor: "#F36D6F"
             backgroundRadius: 10
-            iconDisplay: QEXTQmlQuick.IconDisplay_Bottom
-            iconSource: QEXTQmlQuickFontAwesome.FA_pencil
+            iconDisplay: QExtQuick.IconDisplay_Bottom
+            iconSource: QExtQuickFontAwesome.FA_pencil
             iconColor: textColor
         }
     }
@@ -282,18 +282,18 @@ Column{
     Row{
         height: 60
         spacing: 10
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             width: 60
             height: 60
             text: "Normal"
             textFont.bold: true
             backgroundRadius: 10
-            iconDisplay: QEXTQmlQuick.IconDisplay_Top
-            iconSource: QEXTQmlQuickFontAwesome.FA_apple
+            iconDisplay: QExtQuick.IconDisplay_Top
+            iconSource: QExtQuickFontAwesome.FA_apple
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             width: 60
             height: 60
             text: "Primary"
@@ -301,12 +301,12 @@ Column{
             textFont.bold: true
             backgroundColor: "#46A0FC"
             backgroundRadius: 10
-            iconDisplay: QEXTQmlQuick.IconDisplay_Top
-            iconSource: QEXTQmlQuickFontAwesome.FA_apple
+            iconDisplay: QExtQuick.IconDisplay_Top
+            iconSource: QExtQuickFontAwesome.FA_apple
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             width: 60
             height: 60
             text: "Success"
@@ -314,12 +314,12 @@ Column{
             textColor: "#FFF"
             backgroundColor: "#6AC044"
             backgroundRadius: 10
-            iconDisplay: QEXTQmlQuick.IconDisplay_Top
-            iconSource: QEXTQmlQuickFontAwesome.FA_android
+            iconDisplay: QExtQuick.IconDisplay_Top
+            iconSource: QExtQuickFontAwesome.FA_android
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             width: 60
             height: 60
             text: "Warning"
@@ -327,12 +327,12 @@ Column{
             textColor: "#FFF"
             backgroundColor: "#E4A147"
             backgroundRadius: 10
-            iconDisplay: QEXTQmlQuick.IconDisplay_Top
-            iconSource: QEXTQmlQuickFontAwesome.FA_github
+            iconDisplay: QExtQuick.IconDisplay_Top
+            iconSource: QExtQuickFontAwesome.FA_github
             iconColor: textColor
         }
 
-        QEXTQmlQuickIconButton{
+        QExtQuickIconButton{
             width: 60
             height: 60
             text: "Danger"
@@ -340,8 +340,8 @@ Column{
             textColor: "#FFF"
             backgroundColor: "#F36D6F"
             backgroundRadius: 10
-            iconDisplay: QEXTQmlQuick.IconDisplay_Top
-            iconSource: QEXTQmlQuickFontAwesome.FA_pencil
+            iconDisplay: QExtQuick.IconDisplay_Top
+            iconSource: QExtQuickFontAwesome.FA_pencil
             iconColor: textColor
         }
     }

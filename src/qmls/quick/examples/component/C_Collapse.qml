@@ -1,12 +1,12 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Rectangle {
     id: root
     clip: true
 
-    QEXTQmlQuickCollapse {
+    QExtQuickCollapse {
         id: mCollapse
         anchors.fill: parent
         titleHeight: 40
@@ -15,9 +15,9 @@ Rectangle {
         property int rowHeight: 30
         property color rowColor: "#ffffff"
 
-        QEXTQmlQuickCollapseElement {
+        QExtQuickCollapseElement {
             titleText: qsTr("Sample information")
-            titleIconSource: QEXTQmlQuickFontAwesome.FA_info
+            titleIconSource: QExtQuickFontAwesome.FA_info
             contentItem: Rectangle {
                 width: mCollapse.width
                 height: 400
@@ -25,9 +25,9 @@ Rectangle {
             }
         }
 
-        QEXTQmlQuickCollapseElement {
+        QExtQuickCollapseElement {
             titleText: qsTr("Sample information")
-            titleIconSource: QEXTQmlQuickFontAwesome.FA_info
+            titleIconSource: QExtQuickFontAwesome.FA_info
             contentItem: Item {
                 id: mSampleInformationGroup
                 height: mSampleInformationGroupColumn.implicitHeight + 20
@@ -48,7 +48,7 @@ Rectangle {
                             horizontalAlignment: Text.AlignLeft
                             text: qsTr("Sample name:")
                         }
-                        QEXTQmlQuickInputField {
+                        QExtQuickInputField {
                             height: parent.height
                             width: 200
                             anchors.right: parent.right
@@ -67,7 +67,7 @@ Rectangle {
                             horizontalAlignment: Text.AlignLeft
                             text: qsTr("People directly:")
                         }
-                        QEXTQmlQuickInputField {
+                        QExtQuickInputField {
                             height: parent.height
                             width: 200
                             anchors.right: parent.right
@@ -86,7 +86,7 @@ Rectangle {
                             horizontalAlignment: Text.AlignLeft
                             text: qsTr("Sample size:")
                         }
-                        QEXTQmlQuickInputField {
+                        QExtQuickInputField {
                             height: parent.height
                             width: 200
                             anchors.right: parent.right
@@ -105,7 +105,7 @@ Rectangle {
                             horizontalAlignment: Text.AlignLeft
                             text: qsTr("Sample classification:")
                         }
-                        QEXTQmlQuickInputField {
+                        QExtQuickInputField {
                             height: parent.height
                             width: 200
                             anchors.right: parent.right
@@ -119,9 +119,9 @@ Rectangle {
 
         }
 
-        QEXTQmlQuickCollapseElement {
+        QExtQuickCollapseElement {
             titleText: qsTr("File name directory")
-            titleIconSource: QEXTQmlQuickFontAwesome.FA_file
+            titleIconSource: QExtQuickFontAwesome.FA_file
             contentItem: Item {
                 id: mFileNameDirectoryGroup
                 height: mFileNameDirectoryGroupColumn.implicitHeight + 20
@@ -143,7 +143,7 @@ Rectangle {
                             horizontalAlignment: Text.AlignLeft
                             text: qsTr("Measurement file name:")
                         }
-                        QEXTQmlQuickInputField {
+                        QExtQuickInputField {
                             height: parent.height
                             width: 200
                             anchors.right: parent.right
@@ -162,7 +162,7 @@ Rectangle {
                             horizontalAlignment: Text.AlignLeft
                             text: qsTr("Save directory of measurement file:")
                         }
-                        QEXTQmlQuickInputField {
+                        QExtQuickInputField {
                             height: parent.height
                             width: 200
                             anchors.right: parent.right
@@ -176,9 +176,9 @@ Rectangle {
         }
 
 
-        QEXTQmlQuickCollapseElement {
+        QExtQuickCollapseElement {
             titleText: qsTr("Laboratory information")
-            titleIconSource: QEXTQmlQuickFontAwesome.FA_home
+            titleIconSource: QExtQuickFontAwesome.FA_home
             contentItem: Item {
                 id: mWaterGasSupplyGroup
                 height: mWaterGasSupplyGroupColumn.implicitHeight + 20
@@ -198,7 +198,7 @@ Rectangle {
                             horizontalAlignment: Text.AlignLeft
                             text: qsTr("Operation people name:")
                         }
-                        QEXTQmlQuickInputField {
+                        QExtQuickInputField {
                             height: parent.height
                             width: 200
                             anchors.right: parent.right
@@ -217,7 +217,7 @@ Rectangle {
                             horizontalAlignment: Text.AlignLeft
                             text: qsTr("Laboratory site:")
                         }
-                        QEXTQmlQuickInputField {
+                        QExtQuickInputField {
                             height: parent.height
                             width: 200
                             anchors.right: parent.right

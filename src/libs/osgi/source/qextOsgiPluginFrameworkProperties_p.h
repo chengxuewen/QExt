@@ -41,13 +41,13 @@ public:
 
     static QExtOsgiProperties& getProperties();
 
-    static QVariant getProperty(const QString& key);
+    static QVariant getProperty(const QString &key);
 
-    static QVariant getProperty(const QString& key, const QVariant& defaultValue);
+    static QVariant getProperty(const QString &key, const QVariant &defaultValue);
 
-    static QVariant setProperty(const QString& key, const QVariant& value);
+    static QVariant setProperty(const QString &key, const QVariant &value);
 
-    static QVariant clearProperty(const QString& key);
+    static QVariant clearProperty(const QString &key);
 
     static void setProperties(const QExtOsgiProperties& input);
 

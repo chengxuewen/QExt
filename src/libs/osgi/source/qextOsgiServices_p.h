@@ -52,8 +52,8 @@ public:
    *        PluginConstants::OBJECTCLASS.
    * @param sid A service id which will be used instead of a default one.
    */
-    static QExtOsgiDictionary createServiceProperties(const QExtOsgiDictionary& in,
-                                                      const QStringList& classes = QStringList(),
+    static QExtOsgiDictionary createServiceProperties(const QExtOsgiDictionary &in,
+                                                      const QStringList &classes = QStringList(),
                                                       long sid = -1);
 
     /**
@@ -94,10 +94,10 @@ public:
    * instance of all the named classes in the classes parameter.</li>
    * </ul>
    */
-    QExtOsgiServiceRegistration registerService(QExtOsgiPluginPrivate* plugin,
-                                           const QStringList& classes,
-                                           QObject* service,
-                                           const QExtOsgiDictionary& properties);
+    QExtOsgiServiceRegistration registerService(QExtOsgiPluginPrivate *plugin,
+                                           const QStringList &classes,
+                                           QObject *service,
+                                           const QExtOsgiDictionary &properties);
 
 
     /**
@@ -108,7 +108,7 @@ public:
    * @param rank New rank of object.
    */
     void updateServiceRegistrationOrder(const QExtOsgiServiceRegistration& sr,
-                                        const QStringList& classes);
+                                        const QStringList &classes);
 
 
     /**
@@ -118,7 +118,7 @@ public:
    * @param service The service object to check.
    * @param cls     The class name to check for.
    */
-    bool checkServiceClass(QObject* service, const QString& cls) const;
+    bool checkServiceClass(QObject *service, const QString &cls) const;
 
 
     /**
@@ -128,7 +128,7 @@ public:
    * @param clazz The class name of the requested service.
    * @return A sorted list of {@link QExtOsgiServiceRegistrationPrivate} objects.
    */
-    QList<QExtOsgiServiceRegistration> get(const QString& clazz) const;
+    QList<QExtOsgiServiceRegistration> get(const QString &clazz) const;
 
 
     /**
@@ -138,7 +138,7 @@ public:
    * @param clazz The class name of the requested service.
    * @return A {@link QExtOsgiServiceReference} object.
    */
-    QExtOsgiServiceReference get(QExtOsgiPluginPrivate* plugin, const QString& clazz) const;
+    QExtOsgiServiceReference get(QExtOsgiPluginPrivate *plugin, const QString &clazz) const;
 
 
     /**
@@ -150,8 +150,8 @@ public:
    * @param plugin The plugin requesting reference.
    * @return A list of {@link QExtOsgiServiceReference} object.
    */
-    QList<QExtOsgiServiceReference> get(const QString& clazz, const QString& filter,
-                                   QExtOsgiPluginPrivate* plugin) const;
+    QList<QExtOsgiServiceReference> get(const QString &clazz, const QString &filter,
+                                   QExtOsgiPluginPrivate *plugin) const;
 
 
     /**
@@ -168,7 +168,7 @@ public:
    * @param p The plugin
    * @return A set of {@link QExtOsgiServiceRegistration} objects
    */
-    QList<QExtOsgiServiceRegistration> getRegisteredByPlugin(QExtOsgiPluginPrivate* p) const;
+    QList<QExtOsgiServiceRegistration> getRegisteredByPlugin(QExtOsgiPluginPrivate *p) const;
 
 
     /**
@@ -181,8 +181,8 @@ public:
 
 private:
 
-    QList<QExtOsgiServiceReference> get_unlocked(const QString& clazz, const QString& filter,
-                                            QExtOsgiPluginPrivate* plugin) const;
+    QList<QExtOsgiServiceReference> get_unlocked(const QString &clazz, const QString &filter,
+                                            QExtOsgiPluginPrivate *plugin) const;
 
 };
 

@@ -153,9 +153,9 @@ public:
    */
     QExtOsgiPluginFrameworkEvent(Type type, QSharedPointer<QExtOsgiPlugin> plugin);
 
-    QExtOsgiPluginFrameworkEvent(const QExtOsgiPluginFrameworkEvent& other);
+    QExtOsgiPluginFrameworkEvent(const QExtOsgiPluginFrameworkEvent &other);
 
-    QExtOsgiPluginFrameworkEvent& operator=(const QExtOsgiPluginFrameworkEvent& other);
+    QExtOsgiPluginFrameworkEvent &operator=(const QExtOsgiPluginFrameworkEvent &other);
 
     /**
    * Returns the exception error string related to this event.
@@ -198,7 +198,7 @@ Q_DECLARE_METATYPE(QExtOsgiPluginFrameworkEvent);
  * @{
  */
 QEXT_OSGI_API QDebug operator<<(QDebug dbg, QExtOsgiPluginFrameworkEvent::Type type);
-QEXT_OSGI_API QDebug operator<<(QDebug dbg, const QExtOsgiPluginFrameworkEvent& event);
+QEXT_OSGI_API QDebug operator<<(QDebug dbg, const QExtOsgiPluginFrameworkEvent &event);
 /** @} */
 
 #endif // _QEXTOSGIPLUGINFRAMEWORKEVENT_H

@@ -241,7 +241,7 @@ bool QExtOsgiLDAPExpr::getMatchedObjectClasses(QSet<QString>& objClasses) const
 
 //----------------------------------------------------------------------------
 bool QExtOsgiLDAPExpr::isSimple(
-    const QStringList& keywords,
+    const QStringList &keywords,
     LocalCache& cache,
     bool matchCase ) const
 {

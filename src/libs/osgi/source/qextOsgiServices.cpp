@@ -43,8 +43,8 @@ struct ServiceRegistrationComparator
 };
 
 //----------------------------------------------------------------------------
-QExtOsgiDictionary QExtOsgiServices::createServiceProperties(const QExtOsgiDictionary& in,
-                                                             const QStringList& classes,
+QExtOsgiDictionary QExtOsgiServices::createServiceProperties(const QExtOsgiDictionary &in,
+                                                             const QStringList &classes,
                                                              long sid)
 {
     static qlonglong nextServiceID = 1;
@@ -82,10 +82,10 @@ void QExtOsgiServices::clear()
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceRegistration QExtOsgiServices::registerService(QExtOsgiPluginPrivate* plugin,
-                                                              const QStringList& classes,
-                                                              QObject* service,
-                                                              const QExtOsgiDictionary& properties)
+QExtOsgiServiceRegistration QExtOsgiServices::registerService(QExtOsgiPluginPrivate *plugin,
+                                                              const QStringList &classes,
+                                                              QObject *service,
+                                                              const QExtOsgiDictionary &properties)
 {
     if (service == 0)
     {
@@ -136,7 +136,7 @@ QExtOsgiServiceRegistration QExtOsgiServices::registerService(QExtOsgiPluginPriv
 
 //----------------------------------------------------------------------------
 void QExtOsgiServices::updateServiceRegistrationOrder(const QExtOsgiServiceRegistration& sr,
-                                                      const QStringList& classes)
+                                                      const QStringList &classes)
 {
     QMutexLocker lock(&mutex);
     for (QStringListIterator i(classes); i.hasNext(); )
@@ -148,20 +148,20 @@ void QExtOsgiServices::updateServiceRegistrationOrder(const QExtOsgiServiceRegis
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiServices::checkServiceClass(QObject* service, const QString& cls) const
+bool QExtOsgiServices::checkServiceClass(QObject *service, const QString &cls) const
 {
     return service->inherits(cls.toLatin1());
 }
 
 //----------------------------------------------------------------------------
-QList<QExtOsgiServiceRegistration> QExtOsgiServices::get(const QString& clazz) const
+QList<QExtOsgiServiceRegistration> QExtOsgiServices::get(const QString &clazz) const
 {
     QMutexLocker lock(&mutex);
     return classServices.value(clazz);
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceReference QExtOsgiServices::get(QExtOsgiPluginPrivate* plugin, const QString& clazz) const
+QExtOsgiServiceReference QExtOsgiServices::get(QExtOsgiPluginPrivate *plugin, const QString &clazz) const
 {
     QMutexLocker lock(&mutex);
     try {
@@ -182,16 +182,16 @@ QExtOsgiServiceReference QExtOsgiServices::get(QExtOsgiPluginPrivate* plugin, co
 }
 
 //----------------------------------------------------------------------------
-QList<QExtOsgiServiceReference> QExtOsgiServices::get(const QString& clazz, const QString& filter,
-                                                      QExtOsgiPluginPrivate* plugin) const
+QList<QExtOsgiServiceReference> QExtOsgiServices::get(const QString &clazz, const QString &filter,
+                                                      QExtOsgiPluginPrivate *plugin) const
 {
     QMutexLocker lock(&mutex);
     return get_unlocked(clazz, filter, plugin);
 }
 
 //----------------------------------------------------------------------------
-QList<QExtOsgiServiceReference> QExtOsgiServices::get_unlocked(const QString& clazz, const QString& filter,
-                                                               QExtOsgiPluginPrivate* plugin) const
+QList<QExtOsgiServiceReference> QExtOsgiServices::get_unlocked(const QString &clazz, const QString &filter,
+                                                               QExtOsgiPluginPrivate *plugin) const
 {
     Q_UNUSED(plugin)
 
@@ -288,7 +288,7 @@ void QExtOsgiServices::removeServiceRegistration(const QExtOsgiServiceRegistrati
 }
 
 //----------------------------------------------------------------------------
-QList<QExtOsgiServiceRegistration> QExtOsgiServices::getRegisteredByPlugin(QExtOsgiPluginPrivate* p) const
+QList<QExtOsgiServiceRegistration> QExtOsgiServices::getRegisteredByPlugin(QExtOsgiPluginPrivate *p) const
 {
     QMutexLocker lock(&mutex);
 

@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Column{
     spacing: 15
@@ -10,7 +10,7 @@ Column{
 
         Button{
             text: "Button"
-            QEXTQmlQuickBadge{
+            QExtQuickBadge{
                 id:b1
                 x:parent.width - width /2
                 y:height / 2 * -1
@@ -21,7 +21,7 @@ Column{
 
         Button{
             text: "Button"
-            QEXTQmlQuickBadge{
+            QExtQuickBadge{
                 id:b2
                 value: 100
                 color: "#6ac044"
@@ -34,7 +34,7 @@ Column{
 
         Button{
             text: "Button"
-            QEXTQmlQuickBadge{
+            QExtQuickBadge{
                 id:b3
                 value: 100
                 max:99

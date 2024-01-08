@@ -171,9 +171,9 @@ public:
    */
     QExtOsgiPluginEvent(Type type, QSharedPointer<QExtOsgiPlugin> plugin);
 
-    QExtOsgiPluginEvent(const QExtOsgiPluginEvent& other);
+    QExtOsgiPluginEvent(const QExtOsgiPluginEvent &other);
 
-    QExtOsgiPluginEvent& operator=(const QExtOsgiPluginEvent& other);
+    QExtOsgiPluginEvent &operator=(const QExtOsgiPluginEvent &other);
 
     /**
    * Returns the plugin which had a lifecycle change.
@@ -210,7 +210,7 @@ Q_DECLARE_METATYPE(QExtOsgiPluginEvent)
  * @{
  */
 QEXT_OSGI_API QDebug operator<<(QDebug debug, QExtOsgiPluginEvent::Type eventType);
-QEXT_OSGI_API QDebug operator<<(QDebug debug, const QExtOsgiPluginEvent& event);
+QEXT_OSGI_API QDebug operator<<(QDebug debug, const QExtOsgiPluginEvent &event);
 /** @}*/
 
 #endif // _QEXTOSGIPLUGINEVENT_H

@@ -154,7 +154,7 @@ class QtCanvas : public QObject
 {
     Q_OBJECT
 public:
-    QtCanvas(QObject* parent = 0);
+    QtCanvas(QObject *parent = 0);
     QtCanvas(int w, int h);
     QtCanvas(QPixmap p, int h, int v, int tilewidth, int tileheight);
 
@@ -345,7 +345,7 @@ class QtCanvasPixmap : public QPixmap
 {
 public:
 #ifndef QT_NO_IMAGEIO
-    QtCanvasPixmap(const QString& datafilename);
+    QtCanvasPixmap(const QString &datafilename);
 #endif
     QtCanvasPixmap(const QImage& image);
     QtCanvasPixmap(const QPixmap&, const QPoint& hotspot);
@@ -378,14 +378,14 @@ class QtCanvasPixmapArray
 public:
     QtCanvasPixmapArray();
 #ifndef QT_NO_IMAGEIO
-    QtCanvasPixmapArray(const QString& datafilenamepattern, int framecount=0);
+    QtCanvasPixmapArray(const QString &datafilenamepattern, int framecount=0);
 #endif
     QtCanvasPixmapArray(const QList<QPixmap> &pixmaps, const QPolygon &hotspots = QPolygon());
     ~QtCanvasPixmapArray();
 
 #ifndef QT_NO_IMAGEIO
-    bool readPixmaps(const QString& datafilenamepattern, int framecount=0);
-    bool readCollisionMasks(const QString& filenamepattern);
+    bool readPixmaps(const QString &datafilenamepattern, int framecount=0);
+    bool readCollisionMasks(const QString &filenamepattern);
 #endif
 
     // deprecated
@@ -402,7 +402,7 @@ private:
     Q_DISABLE_COPY(QtCanvasPixmapArray)
 
 #ifndef QT_NO_IMAGEIO
-    bool readPixmaps(const QString& datafilenamepattern, int framecount, bool maskonly);
+    bool readPixmaps(const QString &datafilenamepattern, int framecount, bool maskonly);
 #endif
 
     void reset();

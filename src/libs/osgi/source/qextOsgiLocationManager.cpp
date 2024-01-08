@@ -59,16 +59,16 @@ static QScopedPointer<QExtOsgiBasicLocation> userLocation;
 static QScopedPointer<QExtOsgiBasicLocation> instanceLocation;
 static QScopedPointer<QExtOsgiBasicLocation> qextHomeLocation;
 
-static bool CanWrite(const QUrl& location);
+static bool CanWrite(const QUrl &location);
 static bool CanWrite(const QFileInfo& location);
-static QString SubstituteVar(const QString& source, const QString& var, const QString& prop);
+static QString SubstituteVar(const QString &source, const QString &var, const QString &prop);
 static QString GetInstallDirHash();
-static QString ComputeDefaultUserAreaLocation(const QString& pathAppendage);
+static QString ComputeDefaultUserAreaLocation(const QString &pathAppendage);
 
 static bool isInitialized = false;
 
 //----------------------------------------------------------------------------
-static QUrl BuildUrl(const QString& location, bool trailingSlash)
+static QUrl BuildUrl(const QString &location, bool trailingSlash)
 {
     QUrl result(location,QUrl::StrictMode);
 
@@ -99,9 +99,9 @@ static QString ComputeCTKHomeLocation()
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiBasicLocation* BuildLocation(const QString& property, const QUrl& defaultLocation,
-                                     const QString& userDefaultAppendage, bool readOnlyDefault,
-                                     bool computeReadOnly, const QString& dataAreaPrefix)
+QExtOsgiBasicLocation* BuildLocation(const QString &property, const QUrl &defaultLocation,
+                                     const QString &userDefaultAppendage, bool readOnlyDefault,
+                                     bool computeReadOnly, const QString &dataAreaPrefix)
 {
     QString location = QExtOsgiPluginFrameworkProperties::clearProperty(property).toString();
     // the user/product may specify a non-default readOnly setting
@@ -154,7 +154,7 @@ QExtOsgiBasicLocation* BuildLocation(const QString& property, const QUrl& defaul
 }
 
 //----------------------------------------------------------------------------
-static QString SubstituteVar(const QString& source, const QString& var, const QString& prop)
+static QString SubstituteVar(const QString &source, const QString &var, const QString &prop)
 {
     QString value = QExtOsgiPluginFrameworkProperties::getProperty(prop).toString();
     return value + source.mid(var.size());
@@ -248,7 +248,7 @@ static bool CanWrite(const QFileInfo& location)
 }
 
 //----------------------------------------------------------------------------
-static bool CanWrite(const QUrl& location)
+static bool CanWrite(const QUrl &location)
 {
     if (location.isValid() && location.scheme() == "file")
     {
@@ -264,7 +264,7 @@ static bool CanWrite(const QUrl& location)
 }
 
 //----------------------------------------------------------------------------
-static QString ComputeDefaultUserAreaLocation(const QString& pathAppendage)
+static QString ComputeDefaultUserAreaLocation(const QString &pathAppendage)
 {
     //    we store the state in <user.home>/.qext/<application-id>_<version> where <user.home>
     //    is unique for each local user, and <application-id> is the one

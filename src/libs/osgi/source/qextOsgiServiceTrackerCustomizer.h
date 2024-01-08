@@ -56,9 +56,9 @@
  * \tparam T The type of the tracked object.
  * \remarks This class is thread safe.
  */
-template<class T = QObject*>
-struct QExtOsgiServiceTrackerCustomizer {
-
+template<typename T = QObject *>
+struct QExtOsgiServiceTrackerCustomizer
+{
     virtual ~QExtOsgiServiceTrackerCustomizer() {}
 
     /**
@@ -79,7 +79,7 @@ struct QExtOsgiServiceTrackerCustomizer {
    *         service or <code>0</code> if the specified referenced service
    *         should not be tracked.
    */
-    virtual T addingService(const QExtOsgiServiceReference& reference) = 0;
+    virtual T addingService(const QExtOsgiServiceReference &reference) = 0;
 
     /**
    * A service tracked by the <code>QExtOsgiServiceTracker</code> has been modified.
@@ -91,7 +91,7 @@ struct QExtOsgiServiceTrackerCustomizer {
    * @param reference The reference to the service that has been modified.
    * @param service The service object for the specified referenced service.
    */
-    virtual void modifiedService(const QExtOsgiServiceReference& reference, T service) = 0;
+    virtual void modifiedService(const QExtOsgiServiceReference &reference, T service) = 0;
 
     /**
    * A service tracked by the <code>QExtOsgiServiceTracker</code> has been removed.
@@ -103,7 +103,7 @@ struct QExtOsgiServiceTrackerCustomizer {
    * @param reference The reference to the service that has been removed.
    * @param service The service object for the specified referenced service.
    */
-    virtual void removedService(const QExtOsgiServiceReference& reference, T service) = 0;
+    virtual void removedService(const QExtOsgiServiceReference &reference, T service) = 0;
 };
 
 #endif // _QEXTOSGISERVICETRACKERCUSTOMIZER_H

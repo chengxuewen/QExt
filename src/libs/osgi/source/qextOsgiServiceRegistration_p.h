@@ -58,14 +58,14 @@ protected:
     /**
    * Service or QExtOsgiServiceFactory object.
    */
-    QObject* service;
+    QObject *service;
 
 public:
 
     /**
    * Plugin registering this service.
    */
-    QExtOsgiPluginPrivate* plugin;
+    QExtOsgiPluginPrivate *plugin;
 
     /**
    * Reference object to this service registration.
@@ -108,8 +108,8 @@ public:
 
     QMutex propsLock;
 
-    QExtOsgiServiceRegistrationPrivate(QExtOsgiPluginPrivate* plugin, QObject* service,
-                                  const QExtOsgiDictionary& props);
+    QExtOsgiServiceRegistrationPrivate(QExtOsgiPluginPrivate *plugin, QObject *service,
+                                  const QExtOsgiDictionary &props);
 
     virtual ~QExtOsgiServiceRegistrationPrivate();
 
@@ -121,7 +121,7 @@ public:
    */
     bool isUsedByPlugin(QSharedPointer<QExtOsgiPlugin> p);
 
-    virtual QObject* getService();
+    virtual QObject *getService();
 
 private:
 

@@ -29,7 +29,7 @@
 #include <qextOsgiPluginConstants.h>
 #include <qextOsgiPluginException.h>
 #include <qextOsgiServiceException.h>
-#include <qextOsgiUtils.h>
+#include <qextUtils.h>
 
 #include <QFileInfo>
 #include <QUrl>
@@ -365,7 +365,7 @@ QLibrary::LoadHints QExtOsgiPluginStorageSQL::getPluginLoadHints() const
 }
 
 //----------------------------------------------------------------------------
-QSharedPointer<QExtOsgiPluginArchive> QExtOsgiPluginStorageSQL::insertPlugin(const QUrl& location, const QString& localPath)
+QSharedPointer<QExtOsgiPluginArchive> QExtOsgiPluginStorageSQL::insertPlugin(const QUrl &location, const QString &localPath)
 {
     QMutexLocker lock(&m_archivesLock);
 
@@ -498,8 +498,8 @@ void QExtOsgiPluginStorageSQL::insertArchive(QSharedPointer<QExtOsgiPluginArchiv
 
 //----------------------------------------------------------------------------
 QSharedPointer<QExtOsgiPluginArchive> QExtOsgiPluginStorageSQL::updatePluginArchive(QSharedPointer<QExtOsgiPluginArchive> old,
-                                                                                    const QUrl& updateLocation,
-                                                                                    const QString& localPath)
+                                                                                    const QUrl &updateLocation,
+                                                                                    const QString &localPath)
 {
     QSharedPointer<QExtOsgiPluginArchive> newPA(new QExtOsgiPluginArchiveSQL(
         qSharedPointerCast<QExtOsgiPluginArchiveSQL>(old),
@@ -659,7 +659,7 @@ void QExtOsgiPluginStorageSQL::setAutostartSetting(int key, int autostart)
 }
 
 //----------------------------------------------------------------------------
-QStringList QExtOsgiPluginStorageSQL::findResourcesPath(int archiveKey, const QString& path) const
+QStringList QExtOsgiPluginStorageSQL::findResourcesPath(int archiveKey, const QString &path) const
 {
     QSqlDatabase database = getConnection();
     QSqlQuery query(database);
@@ -813,7 +813,7 @@ QString QExtOsgiPluginStorageSQL::getDatabasePath() const
 }
 
 //----------------------------------------------------------------------------
-QByteArray QExtOsgiPluginStorageSQL::getPluginResource(int key, const QString& res) const
+QByteArray QExtOsgiPluginStorageSQL::getPluginResource(int key, const QString &res) const
 {
     QSqlDatabase database = getConnection();
     QSqlQuery query(database);
@@ -1112,7 +1112,7 @@ QString QExtOsgiPluginStorageSQL::getStringFromQDateTime(const QDateTime& dateTi
 }
 
 //----------------------------------------------------------------------------
-QDateTime QExtOsgiPluginStorageSQL::getQDateTimeFromString(const QString& dateTimeString) const
+QDateTime QExtOsgiPluginStorageSQL::getQDateTimeFromString(const QString &dateTimeString) const
 {
     return QDateTime::fromString(dateTimeString, Qt::ISODate);
 }

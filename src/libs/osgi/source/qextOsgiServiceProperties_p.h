@@ -41,11 +41,11 @@ public:
 
     QExtOsgiServiceProperties(const QExtOsgiProperties& props);
 
-    QVariant value(const QString& key) const;
+    QVariant value(const QString &key) const;
     QVariant value(int index) const;
 
-    int find(const QString& key) const;
-    int findCaseSensitive(const QString& key) const;
+    int find(const QString &key) const;
+    int findCaseSensitive(const QString &key) const;
 
     QStringList keys() const;
 

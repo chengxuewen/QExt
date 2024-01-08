@@ -108,7 +108,7 @@ public:
    * @return The value of the requested property, or an invalid QVariant if
    *         the property is undefined.
    */
-    QVariant getProperty(const QString& key) const;
+    QVariant getProperty(const QString &key) const;
 
     /**
    * Returns the <code>QExtOsgiPlugin</code> object associated with this
@@ -209,7 +209,7 @@ public:
    * @see QExtOsgiServiceRegistration
    * @see QExtOsgiServiceFactory
    */
-    QExtOsgiServiceRegistration registerService(const QStringList& clazzes, QObject* service, const QExtOsgiDictionary& properties = QExtOsgiDictionary());
+    QExtOsgiServiceRegistration registerService(const QStringList &clazzes, QObject *service, const QExtOsgiDictionary &properties = QExtOsgiDictionary());
 
     /**
    * Registers the specified service object with the specified properties
@@ -232,12 +232,12 @@ public:
    * @throws QExtIllegalStateException If this QExtOsgiPluginContext is no longer valid.
    * @see registerService(const QStringList&, QObject*, const QExtOsgiDictionary&)
    */
-    QExtOsgiServiceRegistration registerService(const char* clazz, QObject* service, const QExtOsgiDictionary& properties = QExtOsgiDictionary());
+    QExtOsgiServiceRegistration registerService(const char *clazz, QObject *service, const QExtOsgiDictionary &properties = QExtOsgiDictionary());
 
     template<class S>
-    QExtOsgiServiceRegistration registerService(QObject* service, const QExtOsgiDictionary& properties = QExtOsgiDictionary())
+    QExtOsgiServiceRegistration registerService(QObject *service, const QExtOsgiDictionary &properties = QExtOsgiDictionary())
     {
-        const char* clazz = qobject_interface_iid<S*>();
+        const char *clazz = qobject_interface_iid<S*>();
         if (clazz == 0)
         {
             throw QExtOsgiServiceException(QString("The interface class you are registering your service %1 against has no Q_DECLARE_INTERFACE macro")
@@ -291,7 +291,7 @@ public:
    *         contains an invalid filter expression that cannot be parsed.
    * @throws QExtIllegalStateException If this QExtOsgiPluginContext is no longer valid.
    */
-    QList<QExtOsgiServiceReference> getServiceReferences(const QString& clazz, const QString& filter = QString());
+    QList<QExtOsgiServiceReference> getServiceReferences(const QString &clazz, const QString &filter = QString());
 
     /**
    * Returns a list of <code>QExtOsgiServiceReference</code> objects. The returned
@@ -314,9 +314,9 @@ public:
    * @see getServiceReferences(const QString&, const QString&)
    */
     template<class S>
-    QList<QExtOsgiServiceReference> getServiceReferences(const QString& filter = QString())
+    QList<QExtOsgiServiceReference> getServiceReferences(const QString &filter = QString())
     {
-        const char* clazz = qobject_interface_iid<S*>();
+        const char *clazz = qobject_interface_iid<S*>();
         if (clazz == 0) throw QExtOsgiServiceException("The service interface class has no Q_DECLARE_INTERFACE macro");
         return getServiceReferences(QString(clazz), filter);
     }
@@ -351,7 +351,7 @@ public:
    * @throws QExtOsgiServiceException It no service was registered under the given class name.
    * @see #getServiceReferences(const QString&, const QString&)
    */
-    QExtOsgiServiceReference getServiceReference(const QString& clazz);
+    QExtOsgiServiceReference getServiceReference(const QString &clazz);
 
     /**
    * Returns a <code>QExtOsgiServiceReference</code> object for a service that
@@ -371,7 +371,7 @@ public:
     template<class S>
     QExtOsgiServiceReference getServiceReference()
     {
-        const char* clazz = qobject_interface_iid<S*>();
+        const char *clazz = qobject_interface_iid<S*>();
         if (clazz == 0) throw QExtOsgiServiceException("The service interface class has no Q_DECLARE_INTERFACE macro");
         return getServiceReference(QString(clazz));
     }
@@ -434,13 +434,13 @@ public:
    * @see #ungetService(const QExtOsgiServiceReference&)
    * @see QExtOsgiServiceFactory
    */
-    QObject* getService(const QExtOsgiServiceReference& reference);
+    QObject *getService(const QExtOsgiServiceReference &reference);
 
     /**
    * Returns the service object referenced by the specified
    * <code>QExtOsgiServiceReference</code> object.
    * <p>
-   * This is a convenience method which is identical to QObject* getService(QExtOsgiServiceReference)
+   * This is a convenience method which is identical to QObject *getService(QExtOsgiServiceReference)
    * except that it casts the service object to the supplied template argument type
    *
    * @return A service object for the service associated with
@@ -460,7 +460,7 @@ public:
    * @see QExtOsgiServiceFactory
    */
     template<class S>
-    S* getService(const QExtOsgiServiceReference& reference)
+    S* getService(const QExtOsgiServiceReference &reference)
     {
         return qobject_cast<S*>(getService(reference));
     }
@@ -504,7 +504,7 @@ public:
    * @see #getService
    * @see QExtOsgiServiceFactory
    */
-    bool ungetService(const QExtOsgiServiceReference& reference);
+    bool ungetService(const QExtOsgiServiceReference &reference);
 
     /**
    * Creates a <code>QFileInfo</code> object for a file or directoryin the
@@ -528,7 +528,7 @@ public:
    *         or directory.
    * @throws QExtIllegalStateException If this QExtOsgiPluginContext is no longer valid.
    */
-    QFileInfo getDataFile(const QString& filename);
+    QFileInfo getDataFile(const QString &filename);
 
     /**
    * Installs a plugin from the specified <code>QIODevice</code> object.
@@ -588,7 +588,7 @@ public:
    *         installation failed.
    * @throws QExtIllegalStateException If this QExtOsgiPluginContext is no longer valid.
    */
-    QSharedPointer<QExtOsgiPlugin> installPlugin(const QUrl& location, QIODevice* input = 0);
+    QSharedPointer<QExtOsgiPlugin> installPlugin(const QUrl &location, QIODevice *input = 0);
 
     /**
    * Connects the specified <code>slot</code> to the context
@@ -607,7 +607,7 @@ public:
    * @see QExtOsgiPluginEvent
    * @see QExtOsgiEventBus
    */
-    bool connectPluginListener(const QObject* receiver, const char* slot, Qt::ConnectionType type = Qt::QueuedConnection);
+    bool connectPluginListener(const QObject *receiver, const char *slot, Qt::ConnectionType type = Qt::QueuedConnection);
 
     /**
    * Disconnects the specified <code>slot</code> from the context
@@ -622,7 +622,7 @@ public:
    *        previously connected via connectPluginListener are disconnected.
    * @throws QExtIllegalStateException If this QExtOsgiPluginContext is no longer valid.
    */
-    void disconnectPluginListener(const QObject* receiver, const char* slot = 0);
+    void disconnectPluginListener(const QObject *receiver, const char *slot = 0);
 
     /**
    * Connects the specified <code>slot</code> to the context
@@ -639,7 +639,7 @@ public:
    * @see QExtOsgiPluginFrameworkEvent
    * @see QExtOsgiEventBus
    */
-    bool connectFrameworkListener(const QObject* receiver, const char* slot, Qt::ConnectionType type = Qt::QueuedConnection);
+    bool connectFrameworkListener(const QObject *receiver, const char *slot, Qt::ConnectionType type = Qt::QueuedConnection);
 
     /**
    * Disconnects the specified <code>slot</code> from the context
@@ -654,7 +654,7 @@ public:
    *        previously connected via connectFrameworkListener are disconnected.
    * @throws QExtIllegalStateException If this QExtOsgiPluginContext is no longer valid.
    */
-    void disconnectFrameworkListener(const QObject* receiver, const char* slot = 0);
+    void disconnectFrameworkListener(const QObject *receiver, const char *slot = 0);
 
     /**
    * Connects the specified <code>slot</code> with the
@@ -707,8 +707,8 @@ public:
    * @see disconnectServiceListener()
    * @see QExtOsgiEventBus
    */
-    void connectServiceListener(QObject* receiver, const char* slot,
-                                const QString& filter = QString());
+    void connectServiceListener(QObject *receiver, const char *slot,
+                                const QString &filter = QString());
 
     /**
    * Disconnects a slot which has been previously connected
@@ -718,7 +718,7 @@ public:
    * @param slot The slot to be disconnected.
    * @see connectServiceListener()
    */
-    void disconnectServiceListener(QObject* receiver, const char* slot);
+    void disconnectServiceListener(QObject *receiver, const char *slot);
 
 protected:
 
@@ -726,7 +726,7 @@ protected:
     friend class QExtOsgiPlugin;
     friend class QExtOsgiPluginPrivate;
 
-    QExtOsgiPluginContext(QExtOsgiPluginPrivate* plugin);
+    QExtOsgiPluginContext(QExtOsgiPluginPrivate *plugin);
 
     QExtOsgiPluginContextPrivate * const d_ptr;
 

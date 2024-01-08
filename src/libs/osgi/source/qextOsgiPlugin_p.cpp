@@ -142,8 +142,8 @@ QExtOsgiPluginPrivate::QExtOsgiPluginPrivate(
     while (i.hasNext())
     {
         const QMap<QString, QStringList>& e = i.next();
-        const QStringList& res = e.value(QExtOsgiPluginConstants::RESOLUTION_DIRECTIVE);
-        const QStringList& version = e.value(QExtOsgiPluginConstants::PLUGIN_VERSION_ATTRIBUTE);
+        const QStringList &res = e.value(QExtOsgiPluginConstants::RESOLUTION_DIRECTIVE);
+        const QStringList &version = e.value(QExtOsgiPluginConstants::PLUGIN_VERSION_ATTRIBUTE);
         QExtOsgiRequirePlugin* rp = new QExtOsgiRequirePlugin(this, e.value("$key").front(),
                                                     res.empty() ? QString() : res.front(),
                                                     version.empty() ? QString() : version.front());
@@ -154,7 +154,7 @@ QExtOsgiPluginPrivate::QExtOsgiPluginPrivate(
 //----------------------------------------------------------------------------
 QExtOsgiPluginPrivate::QExtOsgiPluginPrivate(QWeakPointer<QExtOsgiPlugin> qq,
                                              QExtOsgiPluginFrameworkContext* fw,
-                                             long id, const QString& loc, const QString& sym, const QExtOsgiVersion& ver)
+                                             long id, const QString &loc, const QString &sym, const QExtOsgiVersion& ver)
     : q_ptr(qq), fwCtx(fw), id(id), location(loc), symbolicName(sym), version(ver),
     state(QExtOsgiPlugin::INSTALLED), archive(0), pluginContext(0),
     pluginActivator(0), resolveFailException(0),
@@ -487,7 +487,7 @@ const QExtRuntimeException* QExtOsgiPluginPrivate::stop1()
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginPrivate::update0(const QUrl& updateLocation, bool wasActive)
+void QExtOsgiPluginPrivate::update0(const QUrl &updateLocation, bool wasActive)
 {
     const bool wasResolved = state == QExtOsgiPlugin::RESOLVED;
     const int oldStartLevel = getStartLevel();
@@ -610,7 +610,7 @@ int QExtOsgiPluginPrivate::getStartLevel()
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginPrivate::waitOnOperation(LockObject* lock, const QString& src, bool longWait)
+void QExtOsgiPluginPrivate::waitOnOperation(LockObject* lock, const QString &src, bool longWait)
 {
     if (operation.fetchAndAddOrdered(0) != IDLE)
     {
@@ -662,8 +662,8 @@ void QExtOsgiPluginPrivate::waitOnOperation(LockObject* lock, const QString& src
 }
 
 //----------------------------------------------------------------------------
-QStringList QExtOsgiPluginPrivate::findResourceEntries(const QString& path,
-                                                       const QString& pattern, bool recurse) const
+QStringList QExtOsgiPluginPrivate::findResourceEntries(const QString &path,
+                                                       const QString &pattern, bool recurse) const
 {
     QStringList result;
     QStringList resources = archive->findResourcesPath(path);

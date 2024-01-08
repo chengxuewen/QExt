@@ -160,11 +160,11 @@ extern "C" {
 
   // We do not handle complicated cases like overlapping, because in this
   // codebase, it is not necessary.
-  char* utf16_strcpy_tochar(char *dst, const char16 *src) {
+  char *utf16_strcpy_tochar(char *dst, const char16 *src) {
     if (NULL == src || NULL == dst)
       return NULL;
 
-    char* cp = dst;
+    char *cp = dst;
 
     while ((char16)'\0' != *src) {
       *cp = static_cast<char>(*src);

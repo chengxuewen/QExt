@@ -30,7 +30,7 @@
 
 //----------------------------------------------------------------------------
 QExtOsgiPluginArchiveSQL::QExtOsgiPluginArchiveSQL(QExtOsgiPluginStorageSQL* pluginStorage,
-                                                   const QUrl& pluginLocation, const QString& localPluginPath,
+                                                   const QUrl &pluginLocation, const QString &localPluginPath,
                                                    int pluginId, int startLevel, const QDateTime& lastModified,
                                                    int autostartSetting)
     : key(-1), autostartSetting(autostartSetting), id(pluginId), generation(0)
@@ -61,7 +61,7 @@ void QExtOsgiPluginArchiveSQL::readManifest(const QByteArray& manifestResource)
 }
 
 //----------------------------------------------------------------------------
-QString QExtOsgiPluginArchiveSQL::getAttribute(const QString& key) const
+QString QExtOsgiPluginArchiveSQL::getAttribute(const QString &key) const
 {
     return manifest.getAttribute(key);
 }
@@ -96,7 +96,7 @@ QString QExtOsgiPluginArchiveSQL::getLibLocation() const
 }
 
 //----------------------------------------------------------------------------
-QByteArray QExtOsgiPluginArchiveSQL::getPluginResource(const QString& component) const
+QByteArray QExtOsgiPluginArchiveSQL::getPluginResource(const QString &component) const
 {
     try
     {
@@ -110,7 +110,7 @@ QByteArray QExtOsgiPluginArchiveSQL::getPluginResource(const QString& component)
 }
 
 //----------------------------------------------------------------------------
-QStringList QExtOsgiPluginArchiveSQL::findResourcesPath(const QString& path) const
+QStringList QExtOsgiPluginArchiveSQL::findResourcesPath(const QString &path) const
 {
     try
     {

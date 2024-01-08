@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQml 2.12
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Column {
     spacing: 20
@@ -27,15 +27,15 @@ Column {
             x:20
             y:(parent.height - height) / 2
             spacing: 10
-            QEXTQmlQuickSVGIcon {
+            QExtQuickSVGIcon {
                 id:ticon4
                 anchors.verticalCenter: parent.verticalCenter
                 source:{
                     switch("const_info"){
-                    case "const_success": return "qrc:/QEXTQmlQuick/svg/success.svg"
-                    case "const_warning": return "qrc:/QEXTQmlQuick/svg/warning.svg"
-                    case "const_info":    return "qrc:/QEXTQmlQuick/svg/info.svg"
-                    case "const_error":   return "qrc:/QEXTQmlQuick/svg/error.svg"
+                    case "const_success": return "qrc:/QExtQuick/svg/success.svg"
+                    case "const_warning": return "qrc:/QExtQuick/svg/warning.svg"
+                    case "const_info":    return "qrc:/QExtQuick/svg/info.svg"
+                    case "const_error":   return "qrc:/QExtQuick/svg/error.svg"
                     }
                     return "#FFFFFF"
                 }
@@ -75,14 +75,14 @@ Column {
             }
         }
 
-        QEXTQmlQuickIconButton {
+        QExtQuickIconButton {
             y:4
             x:parent.width - width
             width: height
             iconWidth: 12
             iconHeight: 12
-            iconDisplay: QEXTQmlQuick.IconDisplay_IconOnly
-            iconSource: "qrc:/QEXTQmlQuick/svg/close-px.svg"
+            iconDisplay: QExtQuick.IconDisplay_IconOnly
+            iconSource: "qrc:/QExtQuick/svg/close-px.svg"
             iconColor: "#ADADAD"
             background: null
         }
@@ -90,34 +90,34 @@ Column {
 
     Row{
         height: 30
-        QEXTQmlQuickButton {
+        QExtQuickButton {
             background: null
             text: "Show Success"
             textColor: "#46A0FC"
             onClicked: {
-                QEXTQmlQuickToast.showSuccess("Welcome to QEXTQmlQuick", 5000, "No discord, no concord.")
+                QExtQuickToast.showSuccess("Welcome to QExtQuick", 5000, "No discord, no concord.")
             }
         }
 
-        QEXTQmlQuickButton {
+        QExtQuickButton {
             background: null
             text: "Show Warning"
             textColor: "#46A0FC"
-            onClicked: QEXTQmlQuickToast.showWarning("Welcome to QEXTQmlQuick", 2000)
+            onClicked: QExtQuickToast.showWarning("Welcome to QExtQuick", 2000)
         }
 
-        QEXTQmlQuickButton {
+        QExtQuickButton {
             background: null
             text: "Show Info"
             textColor: "#46A0FC"
-            onClicked: QEXTQmlQuickToast.showInfo("Welcome to QEXTQmlQuick", 2000)
+            onClicked: QExtQuickToast.showInfo("Welcome to QExtQuick", 2000)
         }
 
-        QEXTQmlQuickButton{
+        QExtQuickButton{
             background: null
             text: "Show Error"
             textColor: "#46A0FC"
-            onClicked: QEXTQmlQuickToast.showError("Welcome to QEXTQmlQuick", 2000)
+            onClicked: QExtQuickToast.showError("Welcome to QExtQuick", 2000)
         }
     }
 
@@ -127,7 +127,7 @@ Column {
     }
 
     Component.onCompleted: {
-        QEXTQmlQuickToast.horizontalAlignment = Qt.AlignRight
-        QEXTQmlQuickToast.verticalAlignment = Qt.AlignBottom
+        QExtQuickToast.horizontalAlignment = Qt.AlignRight
+        QExtQuickToast.verticalAlignment = Qt.AlignBottom
     }
 }

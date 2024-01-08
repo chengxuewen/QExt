@@ -63,7 +63,7 @@ class SpellingTable {
   // If frozen is true, put_spelling() and contain() are not allowed to call.
   bool frozen_;
 
-  size_t get_hash_pos(const char* spelling_str);
+  size_t get_hash_pos(const char *spelling_str);
   size_t hash_pos_next(size_t hash_pos);
   void free_resource();
  public:
@@ -82,12 +82,12 @@ class SpellingTable {
   // init_table() operation.
   // freq is the spelling's occuring count.
   // If the spelling has been in the table, occuring count will accumulated.
-  bool put_spelling(const char* spelling_str, double spl_count);
+  bool put_spelling(const char *spelling_str, double spl_count);
 
   // Test whether a spelling string is in the table.
   // It always returns false, when being called after arrange() withtout a new
   // init_table() operation.
-  bool contain(const char* spelling_str);
+  bool contain(const char *spelling_str);
 
   // Sort the spelling strings and put them from the begin of the buffer.
   // Return the pointer of the sorted spelling strings.
@@ -99,7 +99,7 @@ class SpellingTable {
   // unsinged char score.
   // An item with a lower score has a higher probability.
   // Do not call put_spelling() and contains() after arrange().
-  const char* arrange(size_t *item_size, size_t *spl_num);
+  const char *arrange(size_t *item_size, size_t *spl_num);
 
   float get_score_amplifier();
 

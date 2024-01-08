@@ -23,8 +23,8 @@
 
 //----------------------------------------------------------------------------
 QExtOsgiServiceRegistrationPrivate::QExtOsgiServiceRegistrationPrivate(
-    QExtOsgiPluginPrivate* plugin, QObject* service,
-    const QExtOsgiDictionary& props)
+    QExtOsgiPluginPrivate *plugin, QObject *service,
+    const QExtOsgiDictionary &props)
     : ref(1), service(service), plugin(plugin), reference(this),
     properties(props), available(true), unregistering(false),
     propsLock()
@@ -46,7 +46,7 @@ bool QExtOsgiServiceRegistrationPrivate::isUsedByPlugin(QSharedPointer<QExtOsgiP
 }
 
 //----------------------------------------------------------------------------
-QObject* QExtOsgiServiceRegistrationPrivate::getService()
+QObject *QExtOsgiServiceRegistrationPrivate::getService()
 {
     return service;
 }

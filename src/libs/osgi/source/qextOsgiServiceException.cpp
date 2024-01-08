@@ -24,7 +24,7 @@
 #include <QDebug>
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceException::QExtOsgiServiceException(const QString& msg, const Type& type)
+QExtOsgiServiceException::QExtOsgiServiceException(const QString &msg, const Type& type)
     : QExtRuntimeException(msg),
     type(type)
 {
@@ -32,7 +32,7 @@ QExtOsgiServiceException::QExtOsgiServiceException(const QString& msg, const Typ
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceException::QExtOsgiServiceException(const QString& msg, const Type& type,
+QExtOsgiServiceException::QExtOsgiServiceException(const QString &msg, const Type& type,
                                          const QExtException& cause)
     : QExtRuntimeException(msg, cause),
     type(type)
@@ -41,7 +41,7 @@ QExtOsgiServiceException::QExtOsgiServiceException(const QString& msg, const Typ
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceException::QExtOsgiServiceException(const QString& msg, const QExtException& cause)
+QExtOsgiServiceException::QExtOsgiServiceException(const QString &msg, const QExtException& cause)
     : QExtRuntimeException(msg, cause),
     type(UNSPECIFIED)
 {
@@ -70,7 +70,7 @@ QExtOsgiServiceException::~QExtOsgiServiceException() throw()
 }
 
 //----------------------------------------------------------------------------
-const char* QExtOsgiServiceException::name() const throw()
+const char *QExtOsgiServiceException::name() const throw()
 {
     return "qextOsgiServiceException";
 }

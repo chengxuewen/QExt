@@ -49,8 +49,8 @@ QExtOsgiPluginFrameworkListeners::QExtOsgiPluginFrameworkListeners(QExtOsgiPlugi
 
 //----------------------------------------------------------------------------
 void QExtOsgiPluginFrameworkListeners::addServiceSlot(
-    QSharedPointer<QExtOsgiPlugin> plugin, QObject* receiver,
-    const char* slot, const QString& filter)
+    QSharedPointer<QExtOsgiPlugin> plugin, QObject *receiver,
+    const char *slot, const QString &filter)
 {
     QMutexLocker lock(&mutex); Q_UNUSED(lock)
     QExtOsgiServiceSlotEntry sse(plugin, receiver, slot, filter);
@@ -66,8 +66,8 @@ void QExtOsgiPluginFrameworkListeners::addServiceSlot(
 
 //----------------------------------------------------------------------------
 void QExtOsgiPluginFrameworkListeners::removeServiceSlot(QSharedPointer<QExtOsgiPlugin> plugin,
-                                                         QObject* receiver,
-                                                         const char* slot)
+                                                         QObject *receiver,
+                                                         const char *slot)
 {
     QMutexLocker lock(&mutex);
     removeServiceSlot_unlocked(plugin, receiver, slot);
@@ -75,8 +75,8 @@ void QExtOsgiPluginFrameworkListeners::removeServiceSlot(QSharedPointer<QExtOsgi
 
 //----------------------------------------------------------------------------
 void QExtOsgiPluginFrameworkListeners::removeServiceSlot_unlocked(QSharedPointer<QExtOsgiPlugin> plugin,
-                                                                  QObject* receiver,
-                                                                  const char* slot)
+                                                                  QObject *receiver,
+                                                                  const char *slot)
 {
     QExtOsgiServiceSlotEntry entryToRemove(plugin, receiver, slot);
     QMutableSetIterator<QExtOsgiServiceSlotEntry> it(serviceSet);
@@ -107,7 +107,7 @@ void QExtOsgiPluginFrameworkListeners::serviceListenerDestroyed(QObject *listene
 
 //----------------------------------------------------------------------------
 QSet<QExtOsgiServiceSlotEntry> QExtOsgiPluginFrameworkListeners::getMatchingServiceSlots(
-    const QExtOsgiServiceReference& sr, bool lockProps)
+    const QExtOsgiServiceReference &sr, bool lockProps)
 {
     QMutexLocker lock(&mutex); Q_UNUSED(lock);
 
@@ -162,13 +162,13 @@ void QExtOsgiPluginFrameworkListeners::frameworkError(QSharedPointer<QExtOsgiPlu
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkListeners::emitFrameworkEvent(const QExtOsgiPluginFrameworkEvent& event)
+void QExtOsgiPluginFrameworkListeners::emitFrameworkEvent(const QExtOsgiPluginFrameworkEvent &event)
 {
     emit frameworkEvent(event);
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkListeners::emitPluginChanged(const QExtOsgiPluginEvent& event)
+void QExtOsgiPluginFrameworkListeners::emitPluginChanged(const QExtOsgiPluginEvent &event)
 {
     emit pluginChangedDirect(event);
 
@@ -183,7 +183,7 @@ void QExtOsgiPluginFrameworkListeners::emitPluginChanged(const QExtOsgiPluginEve
 //----------------------------------------------------------------------------
 void QExtOsgiPluginFrameworkListeners::serviceChanged(
     const QSet<QExtOsgiServiceSlotEntry>& receivers,
-    const QExtOsgiServiceEvent& evt)
+    const QExtOsgiServiceEvent &evt)
 {
     QSet<QExtOsgiServiceSlotEntry> matchBefore;
     serviceChanged(receivers, evt, matchBefore);
@@ -192,7 +192,7 @@ void QExtOsgiPluginFrameworkListeners::serviceChanged(
 //----------------------------------------------------------------------------
 void QExtOsgiPluginFrameworkListeners::serviceChanged(
     const QSet<QExtOsgiServiceSlotEntry>& receivers,
-    const QExtOsgiServiceEvent& evt,
+    const QExtOsgiServiceEvent &evt,
     QSet<QExtOsgiServiceSlotEntry>& matchBefore)
 {
     QExtOsgiServiceReference sr = evt.getServiceReference();
@@ -245,7 +245,7 @@ void QExtOsgiPluginFrameworkListeners::removeFromCache(const QExtOsgiServiceSlot
         for (int i = 0; i < hashedServiceKeys.size(); ++i)
         {
             QHash<QString, QList<QExtOsgiServiceSlotEntry> >& keymap = cache[i];
-            QStringList& l = sse.getLocalCache()[i];
+            QStringList &l = sse.getLocalCache()[i];
             QStringListIterator it(l);
             while (it.hasNext())
             {
@@ -302,7 +302,7 @@ void QExtOsgiPluginFrameworkListeners::checkSimple(const QExtOsgiServiceSlotEntr
 
 //----------------------------------------------------------------------------
 void QExtOsgiPluginFrameworkListeners::addToSet(QSet<QExtOsgiServiceSlotEntry>& set,
-                                                int cache_ix, const QString& val)
+                                                int cache_ix, const QString &val)
 {
     QList<QExtOsgiServiceSlotEntry>& l = cache[cache_ix][val];
     if (!l.isEmpty())

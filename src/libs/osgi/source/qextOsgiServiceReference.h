@@ -76,7 +76,7 @@ public:
    */
     QExtOsgiServiceReference();
 
-    QExtOsgiServiceReference(const QExtOsgiServiceReference& ref);
+    QExtOsgiServiceReference(const QExtOsgiServiceReference &ref);
 
     /**
    * Converts this QExtOsgiServiceReference instance into a boolean
@@ -90,7 +90,7 @@ public:
    * Releases any resources held or locked by this
    * <code>QExtOsgiServiceReference</code> and renders it invalid.
    */
-    QExtOsgiServiceReference& operator=(int null);
+    QExtOsgiServiceReference &operator=(int null);
 
     ~QExtOsgiServiceReference();
 
@@ -111,7 +111,7 @@ public:
    * @return The property value to which the key is mapped; an invalid QVariant
    *         if there is no property named after the key.
    */
-    QVariant getProperty(const QString& key) const;
+    QVariant getProperty(const QString &key) const;
 
     /**
    * Returns a list of the keys in the <code>QExtOsgiDictionary</code>
@@ -146,7 +146,7 @@ public:
    * @return The plugin that registered the service referenced by this
    *         <code>QExtOsgiServiceReference</code> object; <code>0</code> if that
    *         service has already been unregistered.
-   * @see QExtOsgiPluginContext::registerService(const QStringList&, QObject* , const QExtOsgiDictionary&)
+   * @see QExtOsgiPluginContext::registerService(const QStringList&, QObject *, const QExtOsgiDictionary&)
    */
     QSharedPointer<QExtOsgiPlugin> getPlugin() const;
 
@@ -187,11 +187,11 @@ public:
    *         <code>QExtOsgiServiceReference</code> was not created by the same
    *         framework instance as this <code>QExtOsgiServiceReference</code>.
    */
-    bool operator<(const QExtOsgiServiceReference& reference) const;
+    bool operator<(const QExtOsgiServiceReference &reference) const;
 
-    bool operator==(const QExtOsgiServiceReference& reference) const;
+    bool operator==(const QExtOsgiServiceReference &reference) const;
 
-    QExtOsgiServiceReference& operator=(const QExtOsgiServiceReference& reference);
+    QExtOsgiServiceReference &operator=(const QExtOsgiServiceReference &reference);
 
 
 protected:
@@ -207,7 +207,7 @@ protected:
 
     friend QEXT_OSGI_API uint qHash(const QExtOsgiServiceReference&);
 
-    QExtOsgiServiceReference(QExtOsgiServiceRegistrationPrivate* reg);
+    QExtOsgiServiceReference(QExtOsgiServiceRegistrationPrivate *reg);
 
     QExtOsgiServiceReferencePrivate * d_ptr;
 
@@ -219,8 +219,8 @@ private:
  * \ingroup PluginFramework
  * @{
  */
-QEXT_OSGI_API uint qHash(const QExtOsgiServiceReference& serviceRef);
-QEXT_OSGI_API QDebug operator<<(QDebug dbg, const QExtOsgiServiceReference& serviceRef);
+QEXT_OSGI_API uint qHash(const QExtOsgiServiceReference &serviceRef);
+QEXT_OSGI_API QDebug operator<<(QDebug dbg, const QExtOsgiServiceReference &serviceRef);
 /** @}*/
 
 Q_DECLARE_METATYPE(QExtOsgiServiceReference)

@@ -1,0 +1,1 @@
+#include "../source/qextOsgiMetaTypeInformation.h"

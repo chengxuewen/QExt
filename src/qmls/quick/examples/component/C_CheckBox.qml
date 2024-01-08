@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Column{
     spacing: 8
@@ -10,26 +10,26 @@ Column{
         spacing: 5
         anchors.horizontalCenter: parent.horizontalCenter
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             text: "MoviesDFVasdvasdfv"
         }
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             text: "Music34523462346234"
             width: 100
             checked: true
         }
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             text: "Running"
         }
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             text: "Fitness"
             checked: true
         }
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             text: "Sleeps"
             checked: true
             enabled: false
@@ -46,28 +46,28 @@ Column{
         spacing: 5
         anchors.horizontalCenter: parent.horizontalCenter
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             text: "Movie"
         }
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             text: "Music"
             checked: true
         }
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             text: "Running"
             checkState: Qt.PartiallyChecked
             tristate: true
         }
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             text: "Fitness"
             tristate: true
             checked: true
         }
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             text: "Sleeps"
             checkState: Qt.PartiallyChecked
             checked: true
@@ -82,7 +82,7 @@ Column{
         spacing: 5
         anchors.horizontalCenter: parent.horizontalCenter
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             id:cb
             text: "C++"
             checked: Math.random() > 0.5
@@ -100,7 +100,7 @@ Column{
             ]
         }
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             id:cb2
             text: "Lua"
             checked: Math.random() > 0.5
@@ -118,7 +118,7 @@ Column{
             ]
         }
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             id:cb3
             text: "234523452346"
             checked: Math.random() > 0.5
@@ -136,7 +136,7 @@ Column{
             ]
         }
 
-        QEXTQmlQuickCheckBox{
+        QExtQuickCheckBox{
             id:cb0
             text: "JAVA"
             checked: Math.random() > 0.5

@@ -21,54 +21,54 @@
 
 #include <qextOsgiPlugin.h>
 #include <private/qextOsgiPlugin_p.h>
-#include <privateqextOsgiPluginArchive_p.h>
+#include <private/qextOsgiPluginArchive_p.h>
 #include <private/qextOsgiPluginContext_p.h>
 #include <private/qextOsgiPluginFrameworkUtil_p.h>
-#include <privateqextOsgiPluginFrameworkContext_p.h>
-#include <privateqextOsgiServices_p.h>
+#include <private/qextOsgiPluginFrameworkContext_p.h>
+#include <private/qextOsgiServices_p.h>
 #include <qextOsgiPluginContext.h>
-#include <qextOsgiUtils.h>
+#include <qextUtils.h>
 
 #include <QStringList>
 
-//----------------------------------------------------------------------------
 QExtOsgiPlugin::QExtOsgiPlugin()
     : d_ptr(0)
 {
 
 }
 
-//----------------------------------------------------------------------------
-void QExtOsgiPlugin::init(QExtOsgiPluginPrivate* dd)
+void QExtOsgiPlugin::init(QExtOsgiPluginPrivate *dd)
 {
-    if (d_ptr) throw QExtIllegalStateException("qextOsgiPlugin already initialized");
+    if (d_ptr)
+    {
+        throw QExtIllegalStateException("qextOsgiPlugin already initialized");
+    }
     d_ptr = dd;
 }
 
-//----------------------------------------------------------------------------
-void QExtOsgiPlugin::init(const QWeakPointer<QExtOsgiPlugin>& self,
-                          QExtOsgiPluginFrameworkContext* fw,
+void QExtOsgiPlugin::init(const QWeakPointer<QExtOsgiPlugin> &self,
+                          QExtOsgiPluginFrameworkContext *fw,
                           QSharedPointer<QExtOsgiPluginArchive> pa)
 {
-    if (d_ptr) throw QExtIllegalStateException("qextOsgiPlugin already initialized");
+    if (d_ptr)
+    {
+        throw QExtIllegalStateException("qextOsgiPlugin already initialized");
+    }
     d_ptr = new QExtOsgiPluginPrivate(self, fw, pa);
 }
 
-//----------------------------------------------------------------------------
 QExtOsgiPlugin::~QExtOsgiPlugin()
 {
     delete d_ptr;
 }
 
-//----------------------------------------------------------------------------
 QExtOsgiPlugin::State QExtOsgiPlugin::getState() const
 {
     Q_D(const QExtOsgiPlugin);
     return d->state;
 }
 
-//----------------------------------------------------------------------------
-void QExtOsgiPlugin::start(const StartOptions& options)
+void QExtOsgiPlugin::start(const StartOptions &options)
 {
     Q_D(QExtOsgiPlugin);
 
@@ -114,12 +114,11 @@ void QExtOsgiPlugin::start(const StartOptions& options)
     }
 }
 
-//----------------------------------------------------------------------------
-void QExtOsgiPlugin::stop(const StopOptions& options)
+void QExtOsgiPlugin::stop(const StopOptions &options)
 {
     Q_D(QExtOsgiPlugin);
 
-    const QExtRuntimeException* savedException = 0;
+    const QExtRuntimeException *savedException = 0;
 
     //1:
     if (d->state == UNINSTALLED)
@@ -153,7 +152,7 @@ void QExtOsgiPlugin::stop(const StopOptions& options)
 
     if (savedException != 0)
     {
-        if (const QExtOsgiPluginException* pluginExc = dynamic_cast<const QExtOsgiPluginException*>(savedException))
+        if (const QExtOsgiPluginException *pluginExc = dynamic_cast<const QExtOsgiPluginException*>(savedException))
         {
             QExtOsgiPluginException pe(*pluginExc);
             delete savedException;
@@ -168,8 +167,7 @@ void QExtOsgiPlugin::stop(const StopOptions& options)
     }
 }
 
-//----------------------------------------------------------------------------
-void QExtOsgiPlugin::update(const QUrl& updateLocation)
+void QExtOsgiPlugin::update(const QUrl &updateLocation)
 {
     Q_D(QExtOsgiPlugin);
     QExtOsgiPluginPrivate::Locker sync(&d->operationLock);
@@ -199,7 +197,6 @@ void QExtOsgiPlugin::update(const QUrl& updateLocation)
     }
 }
 
-//----------------------------------------------------------------------------
 void QExtOsgiPlugin::uninstall()
 {
     Q_D(QExtOsgiPlugin);
@@ -225,7 +222,7 @@ void QExtOsgiPlugin::uninstall()
         case ACTIVE:
         case STOPPING:
         {
-            const QExtRuntimeException* exception = 0;
+            const QExtRuntimeException *exception = 0;
             try
             {
                 d->waitOnOperation(&d->operationLock, "qextOsgiPlugin::uninstall", true);
@@ -234,7 +231,7 @@ void QExtOsgiPlugin::uninstall()
                     exception = d->stop0();
                 }
             }
-            catch (const QExtException& e)
+            catch (const QExtException &e)
             {
                 // Force to install
                 d->setStateInstalled(false);
@@ -259,7 +256,7 @@ void QExtOsgiPlugin::uninstall()
                     d->waitOnOperation(&d->operationLock, "Plugin::uninstall", true);
                     d->operation.fetchAndStoreOrdered(QExtOsgiPluginPrivate::UNINSTALLING);
                 }
-                catch (const QExtOsgiPluginException& pe)
+                catch (const QExtOsgiPluginException &pe)
                 {
                     // Make sure that the context is invalid
                     if (d->pluginContext != 0)
@@ -307,7 +304,6 @@ void QExtOsgiPlugin::uninstall()
     d->fwCtx->listeners.emitPluginChanged(QExtOsgiPluginEvent(QExtOsgiPluginEvent::UNINSTALLED, d->q_ptr));
 }
 
-//----------------------------------------------------------------------------
 QExtOsgiPluginContext* QExtOsgiPlugin::getPluginContext() const
 {
     //TODO security checks
@@ -315,14 +311,12 @@ QExtOsgiPluginContext* QExtOsgiPlugin::getPluginContext() const
     return d->pluginContext.data();
 }
 
-//----------------------------------------------------------------------------
 long QExtOsgiPlugin::getPluginId() const
 {
     Q_D(const QExtOsgiPlugin);
     return d->id;
 }
 
-//----------------------------------------------------------------------------
 QString QExtOsgiPlugin::getLocation() const
 {
     //TODO security
@@ -330,7 +324,6 @@ QString QExtOsgiPlugin::getLocation() const
     return d->location;
 }
 
-//----------------------------------------------------------------------------
 QHash<QString, QString> QExtOsgiPlugin::getHeaders()
 {
     //TODO security
@@ -349,38 +342,32 @@ QHash<QString, QString> QExtOsgiPlugin::getHeaders()
     return d->cachedRawHeaders;
 }
 
-//----------------------------------------------------------------------------
 QString QExtOsgiPlugin::getSymbolicName() const
 {
     Q_D(const QExtOsgiPlugin);
     return d->symbolicName;
 }
 
-//----------------------------------------------------------------------------
-QStringList QExtOsgiPlugin::getResourceList(const QString& path) const
+QStringList QExtOsgiPlugin::getResourceList(const QString &path) const
 {
     Q_D(const QExtOsgiPlugin);
     return d->archive->findResourcesPath(path);
 }
 
-//----------------------------------------------------------------------------
-QStringList QExtOsgiPlugin::findResources(const QString& path,
-                                          const QString& pattern, bool recurse) const
+QStringList QExtOsgiPlugin::findResources(const QString &path,
+                                          const QString &pattern, bool recurse) const
 {
     Q_D(const QExtOsgiPlugin);
     return d->findResourceEntries(path, pattern, recurse);
 }
 
-//----------------------------------------------------------------------------
-QByteArray QExtOsgiPlugin::getResource(const QString& path) const
+QByteArray QExtOsgiPlugin::getResource(const QString &path) const
 {
     Q_D(const QExtOsgiPlugin);
     return d->archive->getPluginResource(path);
 }
 
-//----------------------------------------------------------------------------
-QExtOsgiPluginLocalization QExtOsgiPlugin::getPluginLocalization(
-    const QLocale& locale, const QString& base) const
+QExtOsgiPluginLocalization QExtOsgiPlugin::getPluginLocalization(const QLocale &locale, const QString &base) const
 {
     Q_D(const QExtOsgiPlugin);
 
@@ -426,14 +413,12 @@ QExtOsgiPluginLocalization QExtOsgiPlugin::getPluginLocalization(
     return QExtOsgiPluginLocalization();
 }
 
-//----------------------------------------------------------------------------
 QExtOsgiVersion QExtOsgiPlugin::getVersion() const
 {
     Q_D(const QExtOsgiPlugin);
     return d->version;
 }
 
-//----------------------------------------------------------------------------
 QDebug operator<<(QDebug debug, QExtOsgiPlugin::State state)
 {
     switch (state)
@@ -455,7 +440,6 @@ QDebug operator<<(QDebug debug, QExtOsgiPlugin::State state)
     }
 }
 
-//----------------------------------------------------------------------------
 QDebug operator<<(QDebug debug, const QExtOsgiPlugin& plugin)
 {
     debug.nospace() << "qextOsgiPlugin[" << "id=" << plugin.getPluginId() <<
@@ -464,21 +448,18 @@ QDebug operator<<(QDebug debug, const QExtOsgiPlugin& plugin)
     return debug.maybeSpace();
 }
 
-//----------------------------------------------------------------------------
 QDebug operator<<(QDebug debug, QExtOsgiPlugin const * plugin)
 {
     return operator<<(debug, *plugin);
 }
 
-//----------------------------------------------------------------------------
-QExtOsgiLogStream& operator<<(QExtOsgiLogStream& stream, QExtOsgiPlugin const * plugin)
+QExtOsgiLogStream& operator<<(QExtOsgiLogStream &stream, QExtOsgiPlugin const *plugin)
 {
     stream << plugin->getSymbolicName();
     return stream;
 }
 
-//----------------------------------------------------------------------------
-QExtOsgiLogStream& operator<<(QExtOsgiLogStream& stream, const QSharedPointer<QExtOsgiPlugin>& plugin)
+QExtOsgiLogStream& operator<<(QExtOsgiLogStream &stream, const QSharedPointer<QExtOsgiPlugin> &plugin)
 {
     return operator<<(stream, plugin.data());
 }

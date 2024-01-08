@@ -71,7 +71,7 @@ public:
    * @return The translation or a null QString, if no translation
    *         was found.
    */
-    QString getLocalized(const QString& context, const QString& str) const;
+    QString getLocalized(const QString &context, const QString &str) const;
 
     /**
    * Get the locale for which this <code>QExtOsgiPluginLocalization</code>
@@ -85,7 +85,7 @@ private:
 
     friend class QExtOsgiPlugin;
 
-    QExtOsgiPluginLocalization(const QString& msgFileName,
+    QExtOsgiPluginLocalization(const QString &msgFileName,
                           const QLocale& locale, const QSharedPointer<QExtOsgiPlugin>& plugin);
 
     mutable QSharedDataPointer<QExtOsgiPluginLocalizationData> d;

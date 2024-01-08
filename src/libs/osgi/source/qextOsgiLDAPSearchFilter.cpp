@@ -31,7 +31,7 @@ public:
     QExtLDAPSearchFilterData()
     {}
 
-    QExtLDAPSearchFilterData(const QString& filter)
+    QExtLDAPSearchFilterData(const QString &filter)
         : ldapExpr(filter)
     {}
 
@@ -49,7 +49,7 @@ QExtOsgiLDAPSearchFilter::QExtOsgiLDAPSearchFilter()
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiLDAPSearchFilter::QExtOsgiLDAPSearchFilter(const QString& filter)
+QExtOsgiLDAPSearchFilter::QExtOsgiLDAPSearchFilter(const QString &filter)
     : d(0)
 {
     d = new QExtLDAPSearchFilterData(filter);
@@ -73,19 +73,19 @@ QExtOsgiLDAPSearchFilter::operator bool() const
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiLDAPSearchFilter::match(const QExtOsgiServiceReference& reference) const
+bool QExtOsgiLDAPSearchFilter::match(const QExtOsgiServiceReference &reference) const
 {
     return d->ldapExpr.evaluate(reference.d_func()->getProperties(), true);
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiLDAPSearchFilter::match(const QExtOsgiDictionary& dictionary) const
+bool QExtOsgiLDAPSearchFilter::match(const QExtOsgiDictionary &dictionary) const
 {
     return d->ldapExpr.evaluate(dictionary, false);
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiLDAPSearchFilter::matchCase(const QExtOsgiDictionary& dictionary) const
+bool QExtOsgiLDAPSearchFilter::matchCase(const QExtOsgiDictionary &dictionary) const
 {
     return d->ldapExpr.evaluate(dictionary, true);
 }

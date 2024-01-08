@@ -71,14 +71,14 @@ QExtOsgiPluginEvent::QExtOsgiPluginEvent(Type type, QSharedPointer<QExtOsgiPlugi
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginEvent::QExtOsgiPluginEvent(const QExtOsgiPluginEvent& other)
+QExtOsgiPluginEvent::QExtOsgiPluginEvent(const QExtOsgiPluginEvent &other)
   : d(other.d)
 {
 
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginEvent& QExtOsgiPluginEvent::operator=(const QExtOsgiPluginEvent& other)
+QExtOsgiPluginEvent &QExtOsgiPluginEvent::operator=(const QExtOsgiPluginEvent &other)
 {
   d = other.d;
   return *this;
@@ -117,7 +117,7 @@ QDebug operator<<(QDebug debug, QExtOsgiPluginEvent::Type eventType)
 }
 
 //----------------------------------------------------------------------------
-QDebug operator<<(QDebug debug, const QExtOsgiPluginEvent& event)
+QDebug operator<<(QDebug debug, const QExtOsgiPluginEvent &event)
 {
   if (event.isNull()) return debug << "NONE";
 

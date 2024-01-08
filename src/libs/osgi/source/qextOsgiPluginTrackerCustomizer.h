@@ -85,7 +85,7 @@ struct QExtOsgiPluginTrackerCustomizer {
    *         object or <code>null</code> if the specified <code>QExtOsgiPlugin</code>
    *         object should not be tracked.
    */
-    virtual T addingPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent& event) = 0;
+    virtual T addingPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent &event) = 0;
 
     /**
    * A plugin tracked by the <code>QExtOsgiPluginTracker</code> has been modified.
@@ -101,7 +101,7 @@ struct QExtOsgiPluginTrackerCustomizer {
    *        with the call to this method.
    * @param object The tracked object for the specified plugin.
    */
-    virtual void modifiedPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent& event,
+    virtual void modifiedPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent &event,
                                 T object) = 0;
 
     /**
@@ -118,7 +118,7 @@ struct QExtOsgiPluginTrackerCustomizer {
    *        with the call to this method.
    * @param object The tracked object for the specified plugin.
    */
-    virtual void removedPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent& event,
+    virtual void removedPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent &event,
                                T object) = 0;
 };
 

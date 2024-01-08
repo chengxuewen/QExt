@@ -1,10 +1,10 @@
 import QtQuick 2.12
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Column{
     spacing: 15
 
-    QEXTQmlQuickDividerLine{
+    QExtQuickDividerLine{
         width: 350
         height: 1
     }
@@ -14,7 +14,7 @@ Column{
         Repeater{
             model: 30
 
-            delegate: QEXTQmlQuickDividerLine{
+            delegate: QExtQuickDividerLine{
                 width: Math.random() * 2 + 1
                 height: 40
                 color: Qt.rgba(Math.random(),Math.random(),Math.random(),1)
@@ -23,7 +23,7 @@ Column{
     }
 
 
-    QEXTQmlQuickDividerLine{
+    QExtQuickDividerLine{
         width: 350
         height: 1
     }

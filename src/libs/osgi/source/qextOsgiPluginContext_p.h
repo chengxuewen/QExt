@@ -32,9 +32,9 @@ class QExtOsgiPluginContextPrivate
 
 public:
 
-    QExtOsgiPluginPrivate* plugin;
+    QExtOsgiPluginPrivate *plugin;
 
-    QExtOsgiPluginContextPrivate(QExtOsgiPluginPrivate* plugin);
+    QExtOsgiPluginContextPrivate(QExtOsgiPluginPrivate *plugin);
 
     /**
    * Check that the plugin is still valid.

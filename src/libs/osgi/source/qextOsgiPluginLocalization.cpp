@@ -27,7 +27,7 @@
 //----------------------------------------------------------------------------
 struct QExtOsgiPluginLocalizationData : public QSharedData
 {
-    QExtOsgiPluginLocalizationData(const QString& fileName, const QLocale& locale,
+    QExtOsgiPluginLocalizationData(const QString &fileName, const QLocale& locale,
                                    const QSharedPointer<QExtOsgiPlugin>& plugin)
         : locale(locale), translation(plugin->getResource(fileName))
     {
@@ -66,7 +66,7 @@ QExtOsgiPluginLocalization::QExtOsgiPluginLocalization(const QExtOsgiPluginLocal
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginLocalization::QExtOsgiPluginLocalization(const QString& msgFileName,
+QExtOsgiPluginLocalization::QExtOsgiPluginLocalization(const QString &msgFileName,
                                                        const QLocale& locale, const QSharedPointer<QExtOsgiPlugin>& plugin)
     : d(new QExtOsgiPluginLocalizationData(msgFileName, locale, plugin))
 {
@@ -87,7 +87,7 @@ QExtOsgiPluginLocalization& QExtOsgiPluginLocalization::operator=(const QExtOsgi
 }
 
 //----------------------------------------------------------------------------
-QString QExtOsgiPluginLocalization::getLocalized(const QString& context, const QString& str) const
+QString QExtOsgiPluginLocalization::getLocalized(const QString &context, const QString &str) const
 {
     if (d)
     {

@@ -23,48 +23,46 @@
 #define _QEXTOSGIPLUGINFRAMEWORKDEBUGOPTIONS_H
 
 #include <qextOsgiServiceTracker.h>
+#include <qextOsgiDebugOptions.h>
 #include <qextOsgiServiceTrackerCustomizer.h>
-#include <qext/osgi/service/debug/qextOsgiDebugOptions.h>
-#include <qext/osgi/service/debug/qextOsgiDebugOptionsListener.h>
+#include <qextOsgiDebugOptionsListener.h>
 
 /**
  * Used to get debug options settings.
  */
 class QExtOsgiPluginFrameworkDebugOptions : public QObject, public QExtOsgiDebugOptions,
-                                       private QExtOsgiServiceTrackerCustomizer<QExtOsgiDebugOptionsListener*>
+                                            private QExtOsgiServiceTrackerCustomizer<QExtOsgiDebugOptionsListener *>
 {
     Q_OBJECT
     Q_INTERFACES(QExtOsgiDebugOptions)
 
 public:
-
     QExtOsgiPluginFrameworkDebugOptions();
 
-    static QExtOsgiPluginFrameworkDebugOptions* getDefault();
+    static QExtOsgiPluginFrameworkDebugOptions *getDefault();
 
-    void start(QExtOsgiPluginContext* pc);
-    void stop(QExtOsgiPluginContext* pc);
+    void start(QExtOsgiPluginContext *pc);
+    void stop(QExtOsgiPluginContext *pc);
 
-    bool getBooleanOption(const QString& option, bool defaultValue) const;
-    QVariant getOption(const QString& option) const;
-    QVariant getOption(const QString& option, const QVariant& defaultValue) const;
+    bool getBooleanOption(const QString &option, bool defaultValue) const;
+    QVariant getOption(const QString &option) const;
+    QVariant getOption(const QString &option, const QVariant &defaultValue) const;
 
-    int getIntegerOption(const QString& option, int defaultValue) const;
+    int getIntegerOption(const QString &option, int defaultValue) const;
 
     QHash<QString, QVariant> getOptions() const;
 
-    void setOption(const QString& option, const QVariant& value);
+    void setOption(const QString &option, const QVariant &value);
 
-    void setOptions(const QHash<QString, QVariant>& ops);
+    void setOptions(const QHash<QString, QVariant> &ops);
 
-    void removeOption(const QString& option);
+    void removeOption(const QString &option);
 
     bool isDebugEnabled() const;
 
     void setDebugEnabled(bool enabled);
 
 private:
-
     static const QString QEXT_OSGI_DEBUG;
 
     /** mutex used to lock the options maps */
@@ -81,22 +79,21 @@ private:
     static const QString OPTIONS;
 
     QExtOsgiPluginContext* context;
-    QScopedPointer<QExtOsgiServiceTracker<QExtOsgiDebugOptionsListener*> > listenerTracker;
+    QScopedPointer<QExtOsgiServiceTracker<QExtOsgiDebugOptionsListener *> > listenerTracker;
 
-    QString getSymbolicName(const QString& option) const;
+    QString getSymbolicName(const QString &option) const;
 
     /**
    * Notifies the trace listener for the specified plug-in that its option-path has changed.
    * @param pluginSymbolicName The plug-in of the owning trace listener to notify.
    */
-    void optionsChanged(const QString& bundleSymbolicName);
+    void optionsChanged(const QString &bundleSymbolicName);
 
-    QExtOsgiDebugOptionsListener* addingService(const QExtOsgiServiceReference& reference);
-    void modifiedService(const QExtOsgiServiceReference& reference,
-                         QExtOsgiDebugOptionsListener* service);
-    void removedService(const QExtOsgiServiceReference& reference,
-                        QExtOsgiDebugOptionsListener* service);
+    QExtOsgiDebugOptionsListener *addingService(const QExtOsgiServiceReference &reference);
 
+    void modifiedService(const QExtOsgiServiceReference &reference, QExtOsgiDebugOptionsListener *service);
+
+    void removedService(const QExtOsgiServiceReference &reference, QExtOsgiDebugOptionsListener *service);
 };
 
 #endif // _QEXTOSGIPLUGINFRAMEWORKDEBUGOPTIONS_H

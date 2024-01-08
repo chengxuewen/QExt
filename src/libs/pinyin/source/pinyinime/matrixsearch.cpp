@@ -1211,7 +1211,7 @@ void MatrixSearch::prepare_candidates() {
   }
 }
 
-const char* MatrixSearch::get_pystr(size_t *decoded_len) {
+const char *MatrixSearch::get_pystr(size_t *decoded_len) {
   if (!inited_ || NULL == decoded_len)
     return NULL;
 

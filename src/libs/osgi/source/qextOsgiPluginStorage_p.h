@@ -48,7 +48,7 @@ public:
    * @param localPath Path to the plugin on the local file system
    * @return Plugin archive object.
    */
-    virtual QSharedPointer<QExtOsgiPluginArchive> insertPlugin(const QUrl& location, const QString& localPath) = 0;
+    virtual QSharedPointer<QExtOsgiPluginArchive> insertPlugin(const QUrl &location, const QString &localPath) = 0;
 
     /**
    * Insert a new plugin (shared library) into the persistent
@@ -62,7 +62,7 @@ public:
    * @return Plugin archive object.
    */
     virtual QSharedPointer<QExtOsgiPluginArchive> updatePluginArchive(QSharedPointer<QExtOsgiPluginArchive> old,
-                                                                 const QUrl& updateLocation, const QString& localPath) = 0;
+                                                                 const QUrl &updateLocation, const QString &localPath) = 0;
 
     /**
    * Replace old plugin archive with a new updated plugin archive, that

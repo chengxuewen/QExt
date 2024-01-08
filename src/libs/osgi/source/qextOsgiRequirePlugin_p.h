@@ -38,9 +38,9 @@ public:
     const QString resolution;
     const QExtOsgiVersionRange pluginRange;
 
-    QExtOsgiRequirePlugin(QExtOsgiPluginPrivate* requestor,
-                     const QString& name, const QString& res,
-                     const QString& range);
+    QExtOsgiRequirePlugin(QExtOsgiPluginPrivate *requestor,
+                     const QString &name, const QString &res,
+                     const QString &range);
 
     bool overlap(const QExtOsgiRequirePlugin& rp) const;
 

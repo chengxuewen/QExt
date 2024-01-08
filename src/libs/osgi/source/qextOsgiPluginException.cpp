@@ -24,7 +24,7 @@
 #include <QDebug>
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginException::QExtOsgiPluginException(const QString& msg, const Type& type)
+QExtOsgiPluginException::QExtOsgiPluginException(const QString &msg, const Type& type)
   : QExtRuntimeException(msg),
     type(type)
 {
@@ -32,7 +32,7 @@ QExtOsgiPluginException::QExtOsgiPluginException(const QString& msg, const Type&
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginException::QExtOsgiPluginException(const QString& msg, const Type& type, const QExtException& cause)
+QExtOsgiPluginException::QExtOsgiPluginException(const QString &msg, const Type& type, const QExtException& cause)
   : QExtRuntimeException(msg, cause),
     type(type)
 {
@@ -40,7 +40,7 @@ QExtOsgiPluginException::QExtOsgiPluginException(const QString& msg, const Type&
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginException::QExtOsgiPluginException(const QString& msg, const QExtException& cause)
+QExtOsgiPluginException::QExtOsgiPluginException(const QString &msg, const QExtException& cause)
   : QExtRuntimeException(msg, cause),
     type(UNSPECIFIED)
 {
@@ -68,7 +68,7 @@ QExtOsgiPluginException::~QExtOsgiPluginException() throw()
 }
 
 //----------------------------------------------------------------------------
-const char* QExtOsgiPluginException::name() const throw()
+const char *QExtOsgiPluginException::name() const throw()
 {
   return "qextOsgiPluginException";
 }

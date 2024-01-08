@@ -111,7 +111,7 @@ public:
    * @return the result of running the application
    * @throws Exception if anything goes wrong
    */
-    static QVariant run(QRunnable* endSplashHandler = NULL, const QVariant& argument = QVariant());
+    static QVariant run(QRunnable *endSplashHandler = NULL, const QVariant &argument = QVariant());
 
     /**
    * Runs the application for which the platform was started. The platform
@@ -125,7 +125,7 @@ public:
    * @return the result of running the application
    * @throws std::exception if anything goes wrong
    */
-    static QVariant run(const QVariant& argument);
+    static QVariant run(const QVariant &argument);
 
 
     /**
@@ -139,7 +139,7 @@ public:
    * @return BundleContext the context of the system bundle
    * @throws Exception if anything goes wrong
    */
-    static QExtOsgiPluginContext* startup(QRunnable* endSplashHandler);
+    static QExtOsgiPluginContext* startup(QRunnable *endSplashHandler);
 
 
     /**
@@ -181,7 +181,7 @@ public:
    * \return The plugin id if the plugin was found and successfully
    *         installed, <code>-1</code> otherwise.
    */
-    static long install(const QString& symbolicName, QExtOsgiPluginContext* context = 0);
+    static long install(const QString &symbolicName, QExtOsgiPluginContext* context = 0);
 
     /**
    * This method instantiates, initializes, and starts an instance of a
@@ -206,7 +206,7 @@ public:
    *
    * \see QExtOsgiPlugin::StartOptions
    */
-    static bool start(const QString& symbolicName = QString(),
+    static bool start(const QString &symbolicName = QString(),
                       QExtOsgiPlugin::StartOptions options = QExtOsgiPlugin::START_ACTIVATION_POLICY,
                       QExtOsgiPluginContext* context = 0);
 
@@ -228,7 +228,7 @@ public:
    *
    * \see QExtOsgiPlugin::StopOptions
    */
-    static bool stop(const QString& symbolicName = QString(),
+    static bool stop(const QString &symbolicName = QString(),
                      QExtOsgiPlugin::StopOptions options = QExtOsgiPlugin::StopOptions(),
                      QExtOsgiPluginContext* context = 0);
 
@@ -275,7 +275,7 @@ public:
    *
    * \param path The path to be appended to PATH
    */
-    static void appendPathEnv(const QString& path);
+    static void appendPathEnv(const QString &path);
 
     /**
    * Add a path to the list of search paths for plugins.
@@ -289,7 +289,7 @@ public:
    * \param addToPathEnv If <code>true</code>, add the given path to the
    *        PATH environment variable, using #appendPathEnv(const QString&).
    */
-    static void addSearchPath(const QString& searchPath, bool addToPathEnv = true);
+    static void addSearchPath(const QString &searchPath, bool addToPathEnv = true);
 
     /**
    * Get the full path (including the file name) to the plugin with the
@@ -303,7 +303,7 @@ public:
    * \return The full path (including the file name) to the plugin (shared library)
    *         or a null QString if the plugin was not found.
    */
-    static QString getPluginPath(const QString& symbolicName);
+    static QString getPluginPath(const QString &symbolicName);
 
     /**
    * Get a list of symbolic names for the plugins in <code>searchPath</code>.
@@ -315,7 +315,7 @@ public:
    * \param searchPath The path to look for plugins.
    * \return A list of potential plugin symbolic names.
    */
-    static QStringList getPluginSymbolicNames(const QString& searchPath);
+    static QStringList getPluginSymbolicNames(const QString &searchPath);
 
 private:
 

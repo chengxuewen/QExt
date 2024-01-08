@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
 #ifndef QEXT_BUILD_SHARED_LIBS
-    QEXTQmlQuickLoader::load(&engine);
+    QExtQuickLoader::load(&engine);
 #else
     engine.addImportPath(QEXT_OUTPUT_QML_DIR);
 #endif

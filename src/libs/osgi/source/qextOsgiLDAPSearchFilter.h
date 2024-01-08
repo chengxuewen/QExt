@@ -81,7 +81,7 @@ public:
    *         filter string that cannot be parsed.
    * @see "Framework specification for a description of the filter string syntax." TODO!
    */
-    QExtOsgiLDAPSearchFilter(const QString& filter);
+    QExtOsgiLDAPSearchFilter(const QString &filter);
 
     QExtOsgiLDAPSearchFilter(const QExtOsgiLDAPSearchFilter& other);
 
@@ -101,7 +101,7 @@ public:
    * @return <code>true</code> if the service's properties match this
    *         <code>QExtOsgiLDAPSearchFilter</code> <code>false</code> otherwise.
    */
-    bool match(const QExtOsgiServiceReference& reference) const;
+    bool match(const QExtOsgiServiceReference &reference) const;
 
     /**
    * Filter using a <code>QExtOsgiDictionary</code> with case insensitive key lookup. This
@@ -113,7 +113,7 @@ public:
    * @return <code>true</code> if the <code>QExtOsgiDictionary</code>'s values match this
    *         filter; <code>false</code> otherwise.
    */
-    bool match(const QExtOsgiDictionary& dictionary) const;
+    bool match(const QExtOsgiDictionary &dictionary) const;
 
     /**
    * Filter using a <code>QExtOsgiDictionary</code>. This <code>QExtOsgiLDAPSearchFilter</code> is executed using
@@ -125,7 +125,7 @@ public:
    * @return <code>true</code> if the <code>QExtOsgiDictionary</code>'s values match this
    *         filter; <code>false</code> otherwise.
    */
-    bool matchCase(const QExtOsgiDictionary& dictionary) const;
+    bool matchCase(const QExtOsgiDictionary &dictionary) const;
 
     /**
    * Returns this <code>QExtOsgiLDAPSearchFilter</code>'s filter string.

@@ -38,7 +38,7 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    MainWindowPrivate* d;
+    MainWindowPrivate *d;
     friend struct MainWindowPrivate;// pimpl
 };
 #endif // CMAINWINDOW_H

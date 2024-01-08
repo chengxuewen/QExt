@@ -43,7 +43,7 @@ public:
     QExtKeyButton(const QList<Mode> modes = QList<Mode>(), QWidget *parent = NULL);
     Mode mode();
 
-    void onReponse(const QObject* receiverObj, const QString &receiver);
+    void onReponse(const QObject *receiverObj, const QString &receiver);
 
     void switchCapsLock();
     void switchSpecialChar();

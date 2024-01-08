@@ -35,13 +35,13 @@ QExtOsgiProperties& QExtOsgiPluginFrameworkProperties::getProperties()
 }
 
 //----------------------------------------------------------------------------
-QVariant QExtOsgiPluginFrameworkProperties::getProperty(const QString& key)
+QVariant QExtOsgiPluginFrameworkProperties::getProperty(const QString &key)
 {
     return getProperty(key, QVariant());
 }
 
 //----------------------------------------------------------------------------
-QVariant QExtOsgiPluginFrameworkProperties::getProperty(const QString& key, const QVariant& defaultValue)
+QVariant QExtOsgiPluginFrameworkProperties::getProperty(const QString &key, const QVariant &defaultValue)
 {
     QMutexLocker l(&lock);
     QExtOsgiProperties::iterator iter = properties.find(key);
@@ -50,7 +50,7 @@ QVariant QExtOsgiPluginFrameworkProperties::getProperty(const QString& key, cons
 }
 
 //----------------------------------------------------------------------------
-QVariant QExtOsgiPluginFrameworkProperties::setProperty(const QString& key, const QVariant& value)
+QVariant QExtOsgiPluginFrameworkProperties::setProperty(const QString &key, const QVariant &value)
 {
     QMutexLocker l(&lock);
     QVariant oldVal = properties[key];
@@ -59,7 +59,7 @@ QVariant QExtOsgiPluginFrameworkProperties::setProperty(const QString& key, cons
 }
 
 //----------------------------------------------------------------------------
-QVariant QExtOsgiPluginFrameworkProperties::clearProperty(const QString& key)
+QVariant QExtOsgiPluginFrameworkProperties::clearProperty(const QString &key)
 {
     QMutexLocker l(&lock);
     return properties.take(key);

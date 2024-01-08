@@ -3,7 +3,7 @@ import QtQml 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 import QtQuick.Window 2.2
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Window {
     id: root
@@ -11,7 +11,7 @@ Window {
     width: 1024
     height: 700
 
-    QEXTQmlQuickWorld {
+    QExtQuickWorld {
         mouseAreaCursorShape: Qt.PointingHandCursor
     }
 

@@ -273,6 +273,20 @@ endfunction()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_internal_check_directory_or_type name dir type default result_var)
+    if ("x${dir}" STREQUAL x)
+        if("x${type}" STREQUAL x)
+            message(FATAL_ERROR "qext_add_plugin called without setting either PLUGIN_TYPE or ${name}.")
+        endif()
+        set(${result_var} "${default}" PARENT_SCOPE)
+    else()
+        set(${result_var} "${dir}" PARENT_SCOPE)
+    endif()
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
 # Set target properties that are the same for all modules, plugins, executables and 3rdparty libraries.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_set_common_target_properties target)
@@ -545,6 +559,37 @@ endfunction()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
+# Set common, informational target properties.
+#
+# On Windows, these properties are used to generate the version information resource.
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_set_target_info_properties target)
+    cmake_parse_arguments(arg "" "${__default_target_info_args}" "" ${ARGN})
+    if("${arg_TARGET_VERSION}" STREQUAL "")
+        set(arg_TARGET_VERSION "${PROJECT_VERSION}.0")
+    endif()
+    if("${arg_TARGET_PRODUCT}" STREQUAL "")
+        set(arg_TARGET_PRODUCT "QExt")
+    endif()
+    if("${arg_TARGET_DESCRIPTION}" STREQUAL "")
+        set(arg_TARGET_DESCRIPTION "C++ Application Development Framework")
+    endif()
+    if("${arg_TARGET_COMPANY}" STREQUAL "")
+        set(arg_TARGET_COMPANY "The QExt.")
+    endif()
+    if("${arg_TARGET_COPYRIGHT}" STREQUAL "")
+        set(arg_TARGET_COPYRIGHT "Copyright (C) 2023 The QExt.")
+    endif()
+    set_target_properties(${target} PROPERTIES
+        QEXT_TARGET_VERSION "${arg_TARGET_VERSION}"
+        QEXT_TARGET_COMPANY_NAME "${arg_TARGET_COMPANY}"
+        QEXT_TARGET_DESCRIPTION "${arg_TARGET_DESCRIPTION}"
+        QEXT_TARGET_COPYRIGHT "${arg_TARGET_COPYRIGHT}"
+        QEXT_TARGET_PRODUCT_NAME "${arg_TARGET_PRODUCT}")
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_export_additional_targets_file_handler id)
     get_property(arg_EXPORT_NAME_PREFIX GLOBAL PROPERTY
@@ -593,7 +638,7 @@ function(qext_internal_export_additional_targets_file_handler id)
 
     set(content "# Additional target information for ${arg_EXPORT_NAME_PREFIX}
         if(NOT DEFINED QEXT_DEFAULT_IMPORT_CONFIGURATION)
-        set(QEXT_DEFAULT_IMPORT_CONFIGURATION ${uc_default_cfg})
+            set(QEXT_DEFAULT_IMPORT_CONFIGURATION ${uc_default_cfg})
         endif()
         ")
 
@@ -632,10 +677,10 @@ function(qext_internal_export_additional_targets_file_handler id)
                     # ${full_target} is not built by default in the Debug configuration. Check existence.
                     get_target_property(_qext_imported_location ${full_target} IMPORTED_LOCATION_DEBUG)
                     if(NOT EXISTS \"$\\{_qext_imported_location}\")
-                    get_target_property(_qext_imported_configs ${full_target} IMPORTED_CONFIGURATIONS)
-                    list(REMOVE_ITEM _qext_imported_configs DEBUG)
-                    set_property(TARGET ${full_target} PROPERTY IMPORTED_CONFIGURATIONS $\\{_qext_imported_configs})
-                    set_property(TARGET ${full_target} PROPERTY IMPORTED_LOCATION_DEBUG)
+                        get_target_property(_qext_imported_configs ${full_target} IMPORTED_CONFIGURATIONS)
+                        list(REMOVE_ITEM _qext_imported_configs DEBUG)
+                        set_property(TARGET ${full_target} PROPERTY IMPORTED_CONFIGURATIONS $\\{_qext_imported_configs})
+                        set_property(TARGET ${full_target} PROPERTY IMPORTED_LOCATION_DEBUG)
                     endif()\n\n")
             endif()
         endif()
@@ -678,107 +723,107 @@ function(qext_internal_export_additional_targets_file_handler id)
                 set(property_suffix "")
                 set(var_suffix "_default")
                 string(APPEND content "\n# Default configuration")
-            else()
-                set(property_suffix "_${ucconfig}")
-                set(var_suffix "")
+                else()
+                    set(property_suffix "_${ucconfig}")
+                    set(var_suffix "")
+                    string(APPEND content "
+                        # Import target \"${full_target}\" for configuration \"${config}\"
+                        set_property(TARGET ${full_target} APPEND PROPERTY IMPORTED_CONFIGURATIONS ${ucconfig})
+                        ")
+                endif()
                 string(APPEND content "
-                    # Import target \"${full_target}\" for configuration \"${config}\"
-                    set_property(TARGET ${full_target} APPEND PROPERTY IMPORTED_CONFIGURATIONS ${ucconfig})
-                    ")
-            endif()
-            string(APPEND content "
                     if(_qext_imported_location${var_suffix})
                         set_property(TARGET ${full_target} PROPERTY IMPORTED_LOCATION${property_suffix} \"$\\{_qext_imported_location${var_suffix}}\")
                     endif()")
-            if(write_implib)
-                string(APPEND content "
-                    if(_qext_imported_implib${var_suffix})
-                        set_property(TARGET ${full_target} PROPERTY IMPORTED_IMPLIB${property_suffix} \"$\\{_qext_imported_implib${var_suffix}}\")
-                    endif()")
-            endif()
-            if(write_soname)
-                string(APPEND content "
-                    if(_qext_imported_soname${var_suffix})
-                        set_property(TARGET ${full_target} PROPERTY IMPORTED_SONAME${property_suffix} \"$\\{_qext_imported_soname${var_suffix}}\")
-                    endif()")
-            endif()
-            string(APPEND content "\n")
+                if(write_implib)
+                    string(APPEND content "
+                        if(_qext_imported_implib${var_suffix})
+                            set_property(TARGET ${full_target} PROPERTY IMPORTED_IMPLIB${property_suffix} \"$\\{_qext_imported_implib${var_suffix}}\")
+                        endif()")
+                endif()
+                if(write_soname)
+                    string(APPEND content "
+                        if(_qext_imported_soname${var_suffix})
+                            set_property(TARGET ${full_target} PROPERTY IMPORTED_SONAME${property_suffix} \"$\\{_qext_imported_soname${var_suffix}}\")
+                        endif()")
+                endif()
+                string(APPEND content "\n")
+            endforeach()
         endforeach()
-    endforeach()
 
-    if(properties_retrieved)
-        string(APPEND content "
-            unset(_qext_imported_location)
-            unset(_qext_imported_location_default)
-            unset(_qext_imported_soname)
-            unset(_qext_imported_soname_default)
-            unset(_qext_imported_configs)")
-    endif()
-
-    qext_path_join(output_file "${arg_CONFIG_INSTALL_DIR}" "${arg_EXPORT_NAME_PREFIX}AdditionalTargetInfo.cmake")
-    if(NOT IS_ABSOLUTE "${output_file}")
-        qext_path_join(output_file "${QEXT_BUILD_DIR}" "${output_file}")
-    endif()
-    qext_configure_file(OUTPUT "${output_file}" CONTENT "${content}")
-    qext_install(FILES "${output_file}" DESTINATION "${arg_CONFIG_INSTALL_DIR}")
-endfunction()
-
-
-#-----------------------------------------------------------------------------------------------------------------------
-#-----------------------------------------------------------------------------------------------------------------------
-function(qext_internal_apply_strict_cpp target)
-    # Disable C, Obj-C and C++ GNU extensions aka no "-std=gnu++11".  Allow opt-out via variable.
-    if(NOT QEXT_ENABLE_CXX_EXTENSIONS)
-        get_target_property(target_type "${target}" TYPE)
-        if(NOT target_type STREQUAL "INTERFACE_LIBRARY")
-            set_target_properties("${target}" PROPERTIES
-                CXX_EXTENSIONS OFF
-                C_EXTENSIONS OFF
-                OBJC_EXTENSIONS OFF
-                OBJCXX_EXTENSIONS OFF)
+        if(properties_retrieved)
+            string(APPEND content "
+                unset(_qext_imported_location)
+                unset(_qext_imported_location_default)
+                unset(_qext_imported_soname)
+                unset(_qext_imported_soname_default)
+                unset(_qext_imported_configs)")
         endif()
-    endif()
-endfunction()
+
+        qext_path_join(output_file "${arg_CONFIG_INSTALL_DIR}" "${arg_EXPORT_NAME_PREFIX}AdditionalTargetInfo.cmake")
+        if(NOT IS_ABSOLUTE "${output_file}")
+            qext_path_join(output_file "${QEXT_BUILD_DIR}" "${output_file}")
+        endif()
+        qext_configure_file(OUTPUT "${output_file}" CONTENT "${content}")
+        qext_install(FILES "${output_file}" DESTINATION "${arg_CONFIG_INSTALL_DIR}")
+    endfunction()
 
 
-#-----------------------------------------------------------------------------------------------------------------------
-#-----------------------------------------------------------------------------------------------------------------------
-function(qext_internal_get_main_cmake_configuration out_var)
-    if(CMAKE_BUILD_TYPE)
-        set(config "${CMAKE_BUILD_TYPE}")
-    elseif(QEXT_MULTI_CONFIG_FIRST_CONFIG)
-        set(config "${QEXT_MULTI_CONFIG_FIRST_CONFIG}")
-    endif()
-    set("${out_var}" "${config}" PARENT_SCOPE)
-endfunction()
+    #-----------------------------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------------------------
+    function(qext_internal_apply_strict_cpp target)
+        # Disable C, Obj-C and C++ GNU extensions aka no "-std=gnu++11".  Allow opt-out via variable.
+        if(NOT QEXT_ENABLE_CXX_EXTENSIONS)
+            get_target_property(target_type "${target}" TYPE)
+            if(NOT target_type STREQUAL "INTERFACE_LIBRARY")
+                set_target_properties("${target}" PROPERTIES
+                    CXX_EXTENSIONS OFF
+                    C_EXTENSIONS OFF
+                    OBJC_EXTENSIONS OFF
+                    OBJCXX_EXTENSIONS OFF)
+            endif()
+        endif()
+    endfunction()
 
 
-#-----------------------------------------------------------------------------------------------------------------------
-#-----------------------------------------------------------------------------------------------------------------------
-function(qext_internal_get_upper_case_main_cmake_configuration out_var)
-    qext_internal_get_main_cmake_configuration("${out_var}")
-    string(TOUPPER "${${out_var}}" upper_config)
-    set("${out_var}" "${upper_config}" PARENT_SCOPE)
-endfunction()
+    #-----------------------------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------------------------
+    function(qext_internal_get_main_cmake_configuration out_var)
+        if(CMAKE_BUILD_TYPE)
+            set(config "${CMAKE_BUILD_TYPE}")
+        elseif(QEXT_MULTI_CONFIG_FIRST_CONFIG)
+            set(config "${QEXT_MULTI_CONFIG_FIRST_CONFIG}")
+        endif()
+        set("${out_var}" "${config}" PARENT_SCOPE)
+    endfunction()
 
 
-#-----------------------------------------------------------------------------------------------------------------------
-#-----------------------------------------------------------------------------------------------------------------------
-function(qext_internal_adjust_main_config_runtime_output_dir target output_dir)
-    # When building QExt with multiple configurations, place the main configuration executable
-    # directly in ${output_dir}, rather than a ${output_dir}/<CONFIG> subdirectory.
-    qext_internal_get_upper_case_main_cmake_configuration(main_cmake_configuration)
-    set_target_properties("${target}" PROPERTIES RUNTIME_OUTPUT_DIRECTORY_${main_cmake_configuration} "${output_dir}")
-endfunction()
+    #-----------------------------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------------------------
+    function(qext_internal_get_upper_case_main_cmake_configuration out_var)
+        qext_internal_get_main_cmake_configuration("${out_var}")
+        string(TOUPPER "${${out_var}}" upper_config)
+        set("${out_var}" "${upper_config}" PARENT_SCOPE)
+    endfunction()
 
 
-#-----------------------------------------------------------------------------------------------------------------------
-#-----------------------------------------------------------------------------------------------------------------------
-function(qext_android_apply_arch_suffix target)
-    get_target_property(target_type ${target} TYPE)
-    if(target_type STREQUAL "SHARED_LIBRARY" OR target_type STREQUAL "MODULE_LIBRARY")
-        set_property(TARGET "${target}" PROPERTY SUFFIX "_${CMAKE_ANDROID_ARCH_ABI}.so")
-    elseif(target_type STREQUAL "STATIC_LIBRARY")
-        set_property(TARGET "${target}" PROPERTY SUFFIX "_${CMAKE_ANDROID_ARCH_ABI}.a")
-    endif()
-endfunction()
+    #-----------------------------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------------------------
+    function(qext_internal_adjust_main_config_runtime_output_dir target output_dir)
+        # When building QExt with multiple configurations, place the main configuration executable
+        # directly in ${output_dir}, rather than a ${output_dir}/<CONFIG> subdirectory.
+        qext_internal_get_upper_case_main_cmake_configuration(main_cmake_configuration)
+        set_target_properties("${target}" PROPERTIES RUNTIME_OUTPUT_DIRECTORY_${main_cmake_configuration} "${output_dir}")
+    endfunction()
+
+
+    #-----------------------------------------------------------------------------------------------------------------------
+    #-----------------------------------------------------------------------------------------------------------------------
+    function(qext_android_apply_arch_suffix target)
+        get_target_property(target_type ${target} TYPE)
+        if(target_type STREQUAL "SHARED_LIBRARY" OR target_type STREQUAL "MODULE_LIBRARY")
+            set_property(TARGET "${target}" PROPERTY SUFFIX "_${CMAKE_ANDROID_ARCH_ABI}.so")
+        elseif(target_type STREQUAL "STATIC_LIBRARY")
+            set_property(TARGET "${target}" PROPERTY SUFFIX "_${CMAKE_ANDROID_ARCH_ABI}.a")
+        endif()
+    endfunction()

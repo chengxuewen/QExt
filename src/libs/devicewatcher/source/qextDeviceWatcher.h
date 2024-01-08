@@ -39,12 +39,12 @@ public:
     bool stop();
     bool isRunning() const;
 
-    void appendEventReceiver(QObject* receiver);
+    void appendEventReceiver(QObject *receiver);
 
 signals:
-    void deviceAdded(const QString& dev);
-    void deviceChanged(const QString& dev); //when umounting the device
-    void deviceRemoved(const QString& dev);
+    void deviceAdded(const QString &dev);
+    void deviceChanged(const QString &dev); //when umounting the device
+    void deviceRemoved(const QString &dev);
 
 protected:
     bool running;
@@ -58,7 +58,7 @@ public:
     enum Action { Add, Remove, Change};
     //static const Type EventType; //VC link error
 
-    explicit QExtDeviceChangeEvent(Action action, const QString& device);
+    explicit QExtDeviceChangeEvent(Action action, const QString &device);
 
     Action action() const {return m_action;}
     QString device() const {return m_device;}

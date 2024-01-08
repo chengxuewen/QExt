@@ -108,7 +108,7 @@ public:
    * @throws QExtInvalidArgumentException If <code>properties</code> contains
    *         case variants of the same key name.
    */
-    void setProperties(const QExtOsgiDictionary& properties);
+    void setProperties(const QExtOsgiDictionary &properties);
 
     /**
    * Unregisters a service. Remove a <code>QExtOsgiServiceRegistration</code> object
@@ -157,12 +157,12 @@ protected:
 
     friend QEXT_OSGI_API uint qHash(const QExtOsgiServiceRegistration&);
 
-    QExtOsgiServiceRegistration(QExtOsgiServiceRegistrationPrivate* registrationPrivate);
+    QExtOsgiServiceRegistration(QExtOsgiServiceRegistrationPrivate *registrationPrivate);
 
-    QExtOsgiServiceRegistration(QExtOsgiPluginPrivate* plugin, QObject* service,
-                           const QExtOsgiDictionary& props);
+    QExtOsgiServiceRegistration(QExtOsgiPluginPrivate *plugin, QObject *service,
+                           const QExtOsgiDictionary &props);
 
-    QExtOsgiServiceRegistrationPrivate* d_ptr;
+    QExtOsgiServiceRegistrationPrivate *d_ptr;
 
 private:
     Q_DECLARE_PRIVATE(QExtOsgiServiceRegistration)

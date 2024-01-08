@@ -77,7 +77,7 @@ SpellingTable::~SpellingTable() {
   free_resource();
 }
 
-size_t SpellingTable::get_hash_pos(const char* spelling_str) {
+size_t SpellingTable::get_hash_pos(const char *spelling_str) {
   size_t hash_pos = 0;
   for (size_t pos = 0; pos < spelling_size_; pos++) {
     if ('\0' == spelling_str[pos])
@@ -134,7 +134,7 @@ bool SpellingTable::init_table(size_t pure_spl_size, size_t spl_max_num,
   return true;
 }
 
-bool SpellingTable::put_spelling(const char* spelling_str, double freq) {
+bool SpellingTable::put_spelling(const char *spelling_str, double freq) {
   if (frozen_ || NULL == spelling_str)
     return false;
 
@@ -182,7 +182,7 @@ bool SpellingTable::put_spelling(const char* spelling_str, double freq) {
   return false;
 }
 
-bool SpellingTable::contain(const char* spelling_str) {
+bool SpellingTable::contain(const char *spelling_str) {
   if (NULL == spelling_str || NULL == spelling_buf_ || frozen_)
     return false;
 
@@ -214,7 +214,7 @@ bool SpellingTable::contain(const char* spelling_str) {
   return false;
 }
 
-const char* SpellingTable::arrange(size_t *item_size, size_t *spl_num) {
+const char *SpellingTable::arrange(size_t *item_size, size_t *spl_num) {
   if (NULL == raw_spellings_ || NULL == spelling_buf_ ||
       NULL == item_size || NULL == spl_num)
     return NULL;

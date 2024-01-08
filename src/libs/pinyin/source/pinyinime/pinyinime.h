@@ -87,7 +87,7 @@ extern "C" {
    * \param sps_len The length of the spelling string buffer.
    * \return The number of candidates.
    */
-  size_t im_search(const char* sps_buf, size_t sps_len);
+  size_t im_search(const char *sps_buf, size_t sps_len);
 
   /**
    * Make a delete operation in the current search result, and make research if

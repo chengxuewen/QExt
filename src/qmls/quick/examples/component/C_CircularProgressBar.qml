@@ -1,13 +1,13 @@
 import QtQuick 2.12
 
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Item {
     Row {
         anchors.centerIn: parent
         spacing: 20
 
-        QEXTQmlQuickCircularProgressBar {
+        QExtQuickCircularProgressBar {
             id: progress1
             lineWidth: 10
             value: 0.01
@@ -23,7 +23,7 @@ Item {
             }
         }
 
-        QEXTQmlQuickCircularProgressBar {
+        QExtQuickCircularProgressBar {
             id: progress2
             lineWidth: 10
             value: 0.33
@@ -39,7 +39,7 @@ Item {
             }
         }
 
-        QEXTQmlQuickCircularProgressBar {
+        QExtQuickCircularProgressBar {
             id: progress3
             lineWidth: 10
             value: 0.50
@@ -55,7 +55,7 @@ Item {
             }
         }
 
-        QEXTQmlQuickCircularProgressBar {
+        QExtQuickCircularProgressBar {
             id: progress4
             lineWidth: 10
             value: 0.75
@@ -71,7 +71,7 @@ Item {
             }
         }
 
-        QEXTQmlQuickCircularProgressBar {
+        QExtQuickCircularProgressBar {
             id: progress5
             lineWidth: 10
             value: 1

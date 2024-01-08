@@ -27,8 +27,8 @@
 #include <qextOsgiPlugin.h>
 #include <qextOsgiPluginTrackerCustomizer.h>
 #include <qextOsgiPluginContext.h>
-#include <private/qextOsgiPluginTracker_p.h>
-#include <private/qextOsgiTrackedPlugin_p.h>
+// #include <private/qextOsgiPluginTracker_p.h>
+// #include <private/qextOsgiTrackedPlugin_p.h>
 
 #include <QDebug>
 #include <QScopedPointer>
@@ -229,7 +229,7 @@ protected:
    * @return The specified plugin.
    * @see QExtOsgiPluginTrackerCustomizer::addingPlugin(QExtOsgiPlugin*, const QExtOsgiPluginEvent&)
    */
-    T addingPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent& event);
+    T addingPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent &event);
 
     /**
    * Default implementation of the
@@ -249,7 +249,7 @@ protected:
    * @param object The customized object for the specified QExtOsgiPlugin.
    * @see QExtOsgiPluginTrackerCustomizer::modifiedPlugin(QExtOsgiPlugin*, const QExtOsgiPluginEvent&, QVariant)
    */
-    void modifiedPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent& event, T object);
+    void modifiedPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent &event, T object);
 
     /**
    * Default implementation of the
@@ -269,7 +269,7 @@ protected:
    * @param object The customized object for the specified plugin.
    * @see QExtOsgiPluginTrackerCustomizer::removedPlugin(QExtOsgiPlugin*, const QExtOsgiPluginEvent&, QVariant)
    */
-    void removedPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent& event, T object);
+    void removedPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent &event, T object);
 
 private:
 
@@ -281,18 +281,120 @@ private:
     friend class QExtOsgiTrackedPlugin<T>;
     friend class QExtOsgiPluginTrackerPrivate<T>;
 
-    inline PluginTrackerPrivate* d_func()
+    inline PluginTrackerPrivate *d_func()
     {
         return reinterpret_cast<PluginTrackerPrivate*>(qGetPtrHelper(d_ptr));
     }
 
-    inline const PluginTrackerPrivate* d_func() const
+    inline const PluginTrackerPrivate *d_func() const
     {
         return reinterpret_cast<const PluginTrackerPrivate*>(qGetPtrHelper(d_ptr));
     }
 
     const QScopedPointer<PluginTrackerPrivate> d_ptr;
 };
+
+
+/**
+ * \ingroup PluginFramework
+ */
+template<typename T>
+class QExtOsgiPluginTrackerPrivate
+{
+public:
+    QExtOsgiPluginTrackerPrivate(QExtOsgiPluginTracker<T>* pt,
+                                 QExtOsgiPluginContext* context, QExtOsgiPlugin::States stateMask,
+                                 QExtOsgiPluginTrackerCustomizer<T>* customizer);
+
+    ~QExtOsgiPluginTrackerPrivate();
+
+    /**
+   * Accessor method for the current QExtOsgiTrackedPlugin object. This method is only
+   * intended to be used by the unsynchronized methods which do not modify the
+   * trackedPlugin field.
+   *
+   * @return The current QExtOsgiTrackedPlugin object.
+   */
+    QSharedPointer<QExtOsgiTrackedPlugin<T> > tracked() const;
+
+    /* set this to true to compile in debug messages */
+    static const bool DEBUG_FLAG; //	= false;
+
+    /**
+   * The Bundle Context used by this <code>QExtOsgiPluginTracker</code>.
+   */
+    QExtOsgiPluginContext* const context;
+
+    /**
+   * The <code>QExtOsgiPluginTrackerCustomizer</code> object for this tracker.
+   */
+    QExtOsgiPluginTrackerCustomizer<T>* customizer;
+
+    /**
+   * Tracked plugins: <code>QExtOsgiPlugin</code> object -> customized Object and
+   * plugin listener slot.
+   */
+    QSharedPointer<QExtOsgiTrackedPlugin<T> > trackedPlugin;
+
+    /**
+   * State mask for plugins being tracked. This field contains the ORed values
+   * of the plugin states being tracked.
+   */
+    QExtOsgiPlugin::States mask;
+
+    mutable QMutex mutex;
+
+private:
+
+    inline QExtOsgiPluginTracker<T>* q_func()
+    {
+        return static_cast<QExtOsgiPluginTracker<T> *>(q_ptr);
+    }
+
+    inline const QExtOsgiPluginTracker<T>* q_func() const
+    {
+        return static_cast<const QExtOsgiPluginTracker<T> *>(q_ptr);
+    }
+
+    friend class QExtOsgiPluginTracker<T>;
+
+    QExtOsgiPluginTracker<T> * const q_ptr;
+};
+
+
+//----------------------------------------------------------------------------
+template<typename T>
+const bool QExtOsgiPluginTrackerPrivate<T>::DEBUG_FLAG = false;
+
+//----------------------------------------------------------------------------
+template<typename T>
+QExtOsgiPluginTrackerPrivate<T>::QExtOsgiPluginTrackerPrivate(
+    QExtOsgiPluginTracker<T>* pt, QExtOsgiPluginContext* context,
+    QExtOsgiPlugin::States stateMask, QExtOsgiPluginTrackerCustomizer<T>* customizer)
+    : context(context), customizer(customizer), mask(stateMask), q_ptr(pt)
+{
+    this->customizer = customizer ? customizer : q_func();
+}
+
+//----------------------------------------------------------------------------
+template<typename T>
+QExtOsgiPluginTrackerPrivate<T>::~QExtOsgiPluginTrackerPrivate()
+{
+    if (customizer != q_func())
+    {
+        delete customizer;
+    }
+}
+
+//----------------------------------------------------------------------------
+template<typename T>
+QSharedPointer<QExtOsgiTrackedPlugin<T> > QExtOsgiPluginTrackerPrivate<T>::tracked() const
+{
+    return trackedPlugin;
+}
+
+
+
 
 
 //----------------------------------------------------------------------------
@@ -503,16 +605,18 @@ bool QExtOsgiPluginTracker<T>::isEmpty() const
 
 //----------------------------------------------------------------------------
 template<>
-inline QSharedPointer<QExtOsgiPlugin> QExtOsgiPluginTracker<QSharedPointer<QExtOsgiPlugin> >::addingPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent& event)
+inline QSharedPointer<QExtOsgiPlugin>
+QExtOsgiPluginTracker<QSharedPointer<QExtOsgiPlugin> >::addingPlugin(QSharedPointer<QExtOsgiPlugin> plugin,
+                                                                     const QExtOsgiPluginEvent &event)
 {
     Q_UNUSED(event)
-
     return plugin;
 }
 
 //----------------------------------------------------------------------------
 template<class T>
-T QExtOsgiPluginTracker<T>::addingPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent& event)
+T QExtOsgiPluginTracker<T>::addingPlugin(QSharedPointer<QExtOsgiPlugin> plugin,
+                                         const QExtOsgiPluginEvent &event)
 {
     Q_UNUSED(plugin)
     Q_UNUSED(event)
@@ -522,7 +626,8 @@ T QExtOsgiPluginTracker<T>::addingPlugin(QSharedPointer<QExtOsgiPlugin> plugin, 
 
 //----------------------------------------------------------------------------
 template<class T>
-void QExtOsgiPluginTracker<T>::modifiedPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent& event, T object)
+void QExtOsgiPluginTracker<T>::modifiedPlugin(QSharedPointer<QExtOsgiPlugin> plugin,
+                                              const QExtOsgiPluginEvent &event, T object)
 {
     Q_UNUSED(plugin)
     Q_UNUSED(event)
@@ -532,7 +637,8 @@ void QExtOsgiPluginTracker<T>::modifiedPlugin(QSharedPointer<QExtOsgiPlugin> plu
 
 //----------------------------------------------------------------------------
 template<class T>
-void QExtOsgiPluginTracker<T>::removedPlugin(QSharedPointer<QExtOsgiPlugin> plugin, const QExtOsgiPluginEvent& event, T object)
+void QExtOsgiPluginTracker<T>::removedPlugin(QSharedPointer<QExtOsgiPlugin> plugin,
+                                             const QExtOsgiPluginEvent &event, T object)
 {
     Q_UNUSED(plugin)
     Q_UNUSED(event)

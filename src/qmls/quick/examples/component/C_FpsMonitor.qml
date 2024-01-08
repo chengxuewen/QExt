@@ -1,9 +1,9 @@
 import QtQuick 2.12
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Item {
 
-    QEXTQmlQuickFpsMonitor {
+    QExtQuickFpsMonitor {
         anchors.centerIn: parent
     }
 }

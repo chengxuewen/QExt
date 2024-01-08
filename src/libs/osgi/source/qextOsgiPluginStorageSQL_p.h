@@ -66,7 +66,7 @@ public:
    *
    * @throws QExtOsgiPluginDatabaseException
    */
-    QSharedPointer<QExtOsgiPluginArchive> insertPlugin(const QUrl& location, const QString& localPath);
+    QSharedPointer<QExtOsgiPluginArchive> insertPlugin(const QUrl &location, const QString &localPath);
 
     /**
    * Insert a new plugin (shared library) into the persistent
@@ -79,7 +79,7 @@ public:
    * @return Plugin archive object.
    */
     QSharedPointer<QExtOsgiPluginArchive> updatePluginArchive(QSharedPointer<QExtOsgiPluginArchive> old,
-                                                         const QUrl& updateLocation, const QString& localPath);
+                                                         const QUrl &updateLocation, const QString &localPath);
 
     /**
    * Replace old plugin archive with a new updated plugin archive, that
@@ -146,7 +146,7 @@ public:
    *
    * @throws QExtOsgiPluginDatabaseException
    */
-    QByteArray getPluginResource(int key, const QString& res) const;
+    QByteArray getPluginResource(int key, const QString &res) const;
 
     /**
    * Get a list of resource entries under the given path.
@@ -157,7 +157,7 @@ public:
    *
    * @throws QExtOsgiPluginDatabaseException
    */
-    QStringList findResourcesPath(int archiveKey, const QString& path) const;
+    QStringList findResourcesPath(int archiveKey, const QString &path) const;
 
     /**
    * Persist the start level
@@ -303,8 +303,8 @@ private:
     void removeArchiveFromDB(QExtOsgiPluginArchiveSQL *pa, QSqlQuery *query);
 
     /**
-   * Helper function that executes the sql query specified in \a statement.
-   * It is assumed that the \a statement uses positional placeholders and
+     * Helper function that executes the sql query specified in \a statement.
+     * It is assumed that the \a statement uses positional placeholders and
    * corresponding parameters are placed in the list of \a bindValues.
    *
    * Aside: This function may be safely called standalone or within an explicit
@@ -344,7 +344,7 @@ private:
     /**
    * Returns a QDateTime from a string representation.
    */
-    QDateTime getQDateTimeFromString(const QString& dateTimeString) const;
+    QDateTime getQDateTimeFromString(const QString &dateTimeString) const;
 
 
     QString m_databasePath;

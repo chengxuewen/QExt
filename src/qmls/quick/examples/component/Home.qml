@@ -7,7 +7,7 @@ Item {
         spacing: 30
         anchors.centerIn: parent
         Label{
-            text: "Hello QEXTQmlQuick"
+            text: "Hello QExtQuick"
             font.pixelSize: 30
             font.bold: true
             anchors.horizontalCenter: parent.horizontalCenter

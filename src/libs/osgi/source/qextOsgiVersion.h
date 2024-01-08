@@ -108,7 +108,7 @@ public:
    * @param microVersion Micro component of the version identifier.
    * @param qualifier Qualifier component of the version identifier.
    */
-    QExtOsgiVersion(unsigned int majorVersion, unsigned int minorVersion, unsigned int microVersion, const QString& qualifier);
+    QExtOsgiVersion(unsigned int majorVersion, unsigned int minorVersion, unsigned int microVersion, const QString &qualifier);
 
     /**
    * Created a version identifier from the specified string.
@@ -130,7 +130,7 @@ public:
    *
    * @param version string representation of the version identifier.
    */
-    QExtOsgiVersion(const QString& version);
+    QExtOsgiVersion(const QString &version);
 
     /**
    * Create a version identifier from another.
@@ -153,7 +153,7 @@ public:
    *         then <code>emptyVersion</code> will be
    *         returned.
    */
-    static QExtOsgiVersion parseVersion(const QString& version);
+    static QExtOsgiVersion parseVersion(const QString &version);
 
     /**
    * Returns the undefined state of this version identifier.

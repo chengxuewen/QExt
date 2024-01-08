@@ -85,7 +85,7 @@ public:
    *
    * @param location The location to be installed
    */
-    QSharedPointer<QExtOsgiPlugin> install(const QUrl& location, QIODevice* in);
+    QSharedPointer<QExtOsgiPlugin> install(const QUrl &location, QIODevice *in);
 
 
     /**
@@ -93,7 +93,7 @@ public:
    *
    * @param location The location to be removed
    */
-    void remove(const QUrl& location);
+    void remove(const QUrl &location);
 
 
     /**
@@ -113,7 +113,7 @@ public:
    * @return QExtOsgiPlugin or null
    *         if the plugin was not found.
    */
-    QSharedPointer<QExtOsgiPlugin> getPlugin(const QString& location) const;
+    QSharedPointer<QExtOsgiPlugin> getPlugin(const QString &location) const;
 
 
     /**
@@ -123,7 +123,7 @@ public:
    * @param version The plugin version of the plugin to get.
    * @return QExtOsgiPlugin or null.
    */
-    QSharedPointer<QExtOsgiPlugin> getPlugin(const QString& name, const QExtOsgiVersion& version) const;
+    QSharedPointer<QExtOsgiPlugin> getPlugin(const QString &name, const QExtOsgiVersion& version) const;
 
 
     /**
@@ -140,7 +140,7 @@ public:
    * @param name The symbolic name of plugins to get.
    * @return A list of QExtOsgiPlugins.
    */
-    QList<QExtOsgiPlugin*> getPlugins(const QString& name) const;
+    QList<QExtOsgiPlugin*> getPlugins(const QString &name) const;
 
 
     /**
@@ -151,7 +151,7 @@ public:
    * @param range QExtOsgiVersion range of plugins to get.
    * @return A List of QExtOsgiPlugins.
    */
-    QList<QExtOsgiPlugin*> getPlugins(const QString& name, const QExtOsgiVersionRange& range) const;
+    QList<QExtOsgiPlugin*> getPlugins(const QString &name, const QExtOsgiVersionRange& range) const;
 
 
     /**

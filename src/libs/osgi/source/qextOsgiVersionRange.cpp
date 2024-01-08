@@ -30,7 +30,7 @@ QExtOsgiVersionRange QExtOsgiVersionRange::defaultVersionRange()
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiVersionRange::QExtOsgiVersionRange(const QString& vr)
+QExtOsgiVersionRange::QExtOsgiVersionRange(const QString &vr)
 {
     bool op = vr.startsWith("(");
     bool ob = vr.startsWith("[");

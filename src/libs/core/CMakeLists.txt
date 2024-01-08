@@ -27,13 +27,13 @@
 #-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_LIB_LINK_LIBRARIES)
 
-if (QEXT_QT_VERSION_MAJOR EQUAL 4)
+if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore)
 elseif (QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core)
-else ()
+else()
     message(FATAL_ERROR "Not find Qt package")
-endif ()
+endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -74,13 +74,15 @@ qext_add_library(Core
     source/tools/qextBackTrace.h
     source/tools/qextException.cpp
     source/tools/qextException.h
-    source/tools/qextId.h
     source/tools/qextId.cpp
+    source/tools/qextId.h
     source/tools/qextSpinlock.h
     source/tools/qextOnceFlag.h
     source/tools/qextTypeInfo.h
     source/tools/qextTypeTrait.h
     source/tools/qextUniquePointer.h
+    source/tools/qextUtils.cpp
+    source/tools/qextUtils.h
     PRECOMPILED_HEADER
     source/qextPch.h
     PUBLIC_LIBRARIES

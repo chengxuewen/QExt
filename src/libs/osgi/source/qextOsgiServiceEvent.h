@@ -131,11 +131,11 @@ public:
    * @param reference A <code>QExtOsgiServiceReference</code> object to the service
    *        that had a lifecycle change.
    */
-    QExtOsgiServiceEvent(Type type, const QExtOsgiServiceReference& reference);
+    QExtOsgiServiceEvent(Type type, const QExtOsgiServiceReference &reference);
 
-    QExtOsgiServiceEvent(const QExtOsgiServiceEvent& other);
+    QExtOsgiServiceEvent(const QExtOsgiServiceEvent &other);
 
-    QExtOsgiServiceEvent& operator=(const QExtOsgiServiceEvent& other);
+    QExtOsgiServiceEvent &operator=(const QExtOsgiServiceEvent &other);
 
     /**
    * Returns a reference to the service that had a change occur in its
@@ -169,7 +169,7 @@ Q_DECLARE_METATYPE(QExtOsgiServiceEvent)
  * @{
  */
 QEXT_OSGI_API QDebug operator<<(QDebug dbg, QExtOsgiServiceEvent::Type type);
-QEXT_OSGI_API QDebug operator<<(QDebug dbg, const QExtOsgiServiceEvent& event);
+QEXT_OSGI_API QDebug operator<<(QDebug dbg, const QExtOsgiServiceEvent &event);
 /** @}*/
 
 #endif // _QEXTOSGISERVICEEVENT_H

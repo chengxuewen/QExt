@@ -30,7 +30,7 @@ class QExtOsgiPluginFrameworkEventData : public QSharedData
 {
 public:
 
-    QExtOsgiPluginFrameworkEventData(QExtOsgiPluginFrameworkEvent::Type type, QSharedPointer<QExtOsgiPlugin> plugin, const QString& exc)
+    QExtOsgiPluginFrameworkEventData(QExtOsgiPluginFrameworkEvent::Type type, QSharedPointer<QExtOsgiPlugin> plugin, const QString &exc)
         : plugin(plugin), errorString(exc), type(type)
     {
 
@@ -93,14 +93,14 @@ QExtOsgiPluginFrameworkEvent::QExtOsgiPluginFrameworkEvent(Type type, QSharedPoi
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginFrameworkEvent::QExtOsgiPluginFrameworkEvent(const QExtOsgiPluginFrameworkEvent& other)
+QExtOsgiPluginFrameworkEvent::QExtOsgiPluginFrameworkEvent(const QExtOsgiPluginFrameworkEvent &other)
     : d(other.d)
 {
 
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginFrameworkEvent& QExtOsgiPluginFrameworkEvent::operator=(const QExtOsgiPluginFrameworkEvent& other)
+QExtOsgiPluginFrameworkEvent &QExtOsgiPluginFrameworkEvent::operator=(const QExtOsgiPluginFrameworkEvent &other)
 {
     d = other.d;
     return *this;
@@ -142,7 +142,7 @@ QDebug operator<<(QDebug dbg, QExtOsgiPluginFrameworkEvent::Type type)
 }
 
 //----------------------------------------------------------------------------
-QDebug operator<<(QDebug dbg, const QExtOsgiPluginFrameworkEvent& event)
+QDebug operator<<(QDebug dbg, const QExtOsgiPluginFrameworkEvent &event)
 {
     if (event.isNull()) return dbg << "NONE";
 

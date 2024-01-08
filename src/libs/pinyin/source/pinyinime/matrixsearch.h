@@ -423,7 +423,7 @@ class MatrixSearch {
 
   // Get the Pinyin string stored by the engine.
   // *decoded_len returns the length of the successfully decoded string.
-  const char* get_pystr(size_t *decoded_len);
+  const char *get_pystr(size_t *decoded_len);
 
   // Get the spelling boundaries for the first sentence candidate.
   // Number of spellings will be returned. The number of valid elements in

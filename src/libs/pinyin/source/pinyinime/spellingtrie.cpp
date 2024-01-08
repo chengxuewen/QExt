@@ -273,7 +273,7 @@ void SpellingTrie::free_son_trie(SpellingNode* node) {
     delete [] node->first_son;
 }
 
-bool SpellingTrie::construct(const char* spelling_arr, size_t item_size,
+bool SpellingTrie::construct(const char *spelling_arr, size_t item_size,
                              size_t item_num, float score_amplifier,
                              unsigned char average_score) {
   if (spelling_arr == NULL)
@@ -356,7 +356,7 @@ bool SpellingTrie::construct(const char* spelling_arr, size_t item_size,
 }
 
 #ifdef ___BUILD_MODEL___
-const char* SpellingTrie::get_ym_str(const char *spl_str) {
+const char *SpellingTrie::get_ym_str(const char *spl_str) {
   bool start_ZCS = false;
   if (is_shengmu_char(*spl_str)) {
     if ('Z' == *spl_str || 'C' == *spl_str || 'S' == *spl_str)
@@ -386,7 +386,7 @@ bool SpellingTrie::build_ym_info() {
 
   size_t ym_item_size;  // '\0' is included
   size_t ym_num;
-  const char* ym_buf;
+  const char *ym_buf;
   ym_buf = spl_table->arrange(&ym_item_size, &ym_num);
 
   if (NULL != ym_buf_)
@@ -724,7 +724,7 @@ uint8 SpellingTrie::get_ym_id(const char *ym_str) {
   return 0;
 }
 
-const char* SpellingTrie::get_spelling_str(uint16 splid) {
+const char *SpellingTrie::get_spelling_str(uint16 splid) {
   splstr_queried_[0] = '\0';
 
   if (splid >= kFullSplIdStart) {

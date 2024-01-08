@@ -20,7 +20,7 @@
 #include "qextDeviceWatcher.h"
 #include "qextDeviceWatcher_p.h"
 
-QExtDeviceWatcher::QExtDeviceWatcher(QObject* parent)
+QExtDeviceWatcher::QExtDeviceWatcher(QObject *parent)
     : QObject(parent),running(false),dd_ptr(new QExtDeviceWatcherPrivate)
 {
     Q_D(QExtDeviceWatcher);

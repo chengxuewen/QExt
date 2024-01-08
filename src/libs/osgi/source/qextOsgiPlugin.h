@@ -23,9 +23,9 @@
 #define _QEXTOSGIPLUGIN_H
 
 #include <qextOsgiVersion.h>
+#include <qextOsgiLogStream.h>
 #include <qextOsgiPluginConstants.h>
 #include <qextOsgiPluginLocalization.h>
-#include <qext/osgi/service/log/qextOsgiLogStream.h>
 
 #include <QHash>
 #include <QWeakPointer>
@@ -697,7 +697,7 @@ public:
    * @throws QExtIllegalStateException If this plugin has been
    *         uninstalled.
    */
-    virtual QStringList getResourceList(const QString& path) const;
+    virtual QStringList getResourceList(const QString &path) const;
 
     /**
    * Returns a list of resources in this plugin.
@@ -738,7 +738,7 @@ public:
    *         Framework supports permissions.
    * @throws QExtIllegalStateException If this plugin has been uninstalled.
    */
-    virtual QStringList findResources(const QString& path, const QString& filePattern, bool recurse) const;
+    virtual QStringList findResources(const QString &path, const QString &filePattern, bool recurse) const;
 
     /**
    * Returns a QByteArray containing a Qt resource located at the
@@ -756,7 +756,7 @@ public:
    * @throws QExtIllegalStateException If this plugin has been
    *         uninstalled.
    */
-    virtual QByteArray getResource(const QString& path) const;
+    virtual QByteArray getResource(const QString &path) const;
 
     /**
    * Returns a <code>QExtOsgiPluginLocalization</code> object for the
@@ -778,7 +778,7 @@ public:
    * @return A locale specific <code>QExtOsgiPluginLocalization</code> instance.
    */
     QExtOsgiPluginLocalization getPluginLocalization(const QLocale& locale,
-                                                const QString& base = QExtOsgiPluginConstants::PLUGIN_LOCALIZATION_DEFAULT_BASENAME) const;
+                                                const QString &base = QExtOsgiPluginConstants::PLUGIN_LOCALIZATION_DEFAULT_BASENAME) const;
 
     /**
    * Returns the version of this plugin as specified by its
@@ -805,10 +805,10 @@ protected:
     // Do NOT change this to QScopedPointer<QExtOsgiPluginPrivate>!
     // We would need to include QExtOsgiPlugin.h (and QExtOsgiPluginPrivate_p.h)
     // at a lot of places...
-    QExtOsgiPluginPrivate* d_ptr;
+    QExtOsgiPluginPrivate *d_ptr;
 
     QExtOsgiPlugin();
-    void init(QExtOsgiPluginPrivate* dd);
+    void init(QExtOsgiPluginPrivate *dd);
     void init(const QWeakPointer<QExtOsgiPlugin>& self, QExtOsgiPluginFrameworkContext* fw, QSharedPointer<QExtOsgiPluginArchive> ba);
 
 private:

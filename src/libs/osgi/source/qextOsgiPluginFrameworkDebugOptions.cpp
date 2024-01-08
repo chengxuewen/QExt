@@ -19,7 +19,7 @@
 
 =============================================================================*/
 
-#include <<private/qextOsgiPluginFrameworkDebugOptions_p.h>
+#include <private/qextOsgiPluginFrameworkDebugOptions_p.h>
 #include <private/qextOsgiPluginFrameworkProperties_p.h>
 #include <qextOsgiPluginFrameworkLauncher.h>
 #include <qextOsgiPluginContext.h>
@@ -69,7 +69,7 @@ QExtOsgiPluginFrameworkDebugOptions::QExtOsgiPluginFrameworkDebugOptions()
         }
         else
         {
-            foreach (const QString& key, settings.allKeys())
+            foreach (const QString &key, settings.allKeys())
             {
                 this->options.insert(key, settings.value(key));
             }
@@ -103,26 +103,26 @@ void QExtOsgiPluginFrameworkDebugOptions::stop(QExtOsgiPluginContext* /*pc*/)
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiPluginFrameworkDebugOptions::getBooleanOption(const QString& option, bool defaultValue) const
+bool QExtOsgiPluginFrameworkDebugOptions::getBooleanOption(const QString &option, bool defaultValue) const
 {
     return this->getOption(option, defaultValue).toBool();
 }
 
 //----------------------------------------------------------------------------
-QVariant QExtOsgiPluginFrameworkDebugOptions::getOption(const QString& option) const
+QVariant QExtOsgiPluginFrameworkDebugOptions::getOption(const QString &option) const
 {
     return getOption(option, QVariant());
 }
 
 //----------------------------------------------------------------------------
-QVariant QExtOsgiPluginFrameworkDebugOptions::getOption(const QString& option, const QVariant& defaultValue) const
+QVariant QExtOsgiPluginFrameworkDebugOptions::getOption(const QString &option, const QVariant &defaultValue) const
 {
     QMutexLocker lock(&this->mutex);
     return this->options.value(option, defaultValue);
 }
 
 //----------------------------------------------------------------------------
-int QExtOsgiPluginFrameworkDebugOptions::getIntegerOption(const QString& option, int defaultValue) const
+int QExtOsgiPluginFrameworkDebugOptions::getIntegerOption(const QString &option, int defaultValue) const
 {
     return this->options.value(option, defaultValue).toInt();
 }
@@ -146,7 +146,7 @@ QHash<QString, QVariant> QExtOsgiPluginFrameworkDebugOptions::getOptions() const
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkDebugOptions::setOption(const QString& option, const QVariant& value)
+void QExtOsgiPluginFrameworkDebugOptions::setOption(const QString &option, const QVariant &value)
 {
     if (!this->isDebugEnabled()) return;
 
@@ -182,7 +182,7 @@ void QExtOsgiPluginFrameworkDebugOptions::setOption(const QString& option, const
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkDebugOptions::setOptions(const QHash<QString, QVariant>& ops)
+void QExtOsgiPluginFrameworkDebugOptions::setOptions(const QHash<QString, QVariant> &ops)
 {
     QHash<QString, QVariant> newOptions = ops;
     QSet<QString> fireChangesTo;
@@ -195,7 +195,7 @@ void QExtOsgiPluginFrameworkDebugOptions::setOptions(const QHash<QString, QVaria
             return;
         }
         // first check for removals
-        foreach (const QString& key, this->options.keys())
+        foreach (const QString &key, this->options.keys())
         {
             if (!newOptions.contains(key))
             {
@@ -222,14 +222,14 @@ void QExtOsgiPluginFrameworkDebugOptions::setOptions(const QHash<QString, QVaria
         // finally set the actual options
         this->options = newOptions;
     }
-    foreach (const QString& symbolicName, fireChangesTo)
+    foreach (const QString &symbolicName, fireChangesTo)
     {
         this->optionsChanged(symbolicName);
     }
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkDebugOptions::removeOption(const QString& option)
+void QExtOsgiPluginFrameworkDebugOptions::removeOption(const QString &option)
 {
     if (!this->isDebugEnabled()) return;
     QString fireChangedEvent;
@@ -299,7 +299,7 @@ void QExtOsgiPluginFrameworkDebugOptions::setDebugEnabled(bool enabled)
 }
 
 //----------------------------------------------------------------------------
-QString QExtOsgiPluginFrameworkDebugOptions::getSymbolicName(const QString& option) const
+QString QExtOsgiPluginFrameworkDebugOptions::getSymbolicName(const QString &option) const
 {
     int firstSlashIndex = option.indexOf("/");
     if (firstSlashIndex > 0)
@@ -308,7 +308,7 @@ QString QExtOsgiPluginFrameworkDebugOptions::getSymbolicName(const QString& opti
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkDebugOptions::optionsChanged(const QString& pluginSymbolicName)
+void QExtOsgiPluginFrameworkDebugOptions::optionsChanged(const QString &pluginSymbolicName)
 {
     // use osgi services to get the listeners
     if (context == NULL)
@@ -326,9 +326,9 @@ void QExtOsgiPluginFrameworkDebugOptions::optionsChanged(const QString& pluginSy
     }
     if (listenerRefs.empty()) return;
 
-    foreach (const QExtOsgiServiceReference& ref, listenerRefs)
+    foreach (const QExtOsgiServiceReference &ref, listenerRefs)
     {
-        QExtOsgiDebugOptionsListener* service = context->getService<QExtOsgiDebugOptionsListener>(ref);
+        QExtOsgiDebugOptionsListener *service = context->getService<QExtOsgiDebugOptionsListener>(ref);
         if (service == NULL) continue;
 
         try
@@ -344,23 +344,23 @@ void QExtOsgiPluginFrameworkDebugOptions::optionsChanged(const QString& pluginSy
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiDebugOptionsListener* QExtOsgiPluginFrameworkDebugOptions::addingService(const QExtOsgiServiceReference& reference)
+QExtOsgiDebugOptionsListener *QExtOsgiPluginFrameworkDebugOptions::addingService(const QExtOsgiServiceReference &reference)
 {
-    QExtOsgiDebugOptionsListener* listener = context->getService<QExtOsgiDebugOptionsListener>(reference);
+    QExtOsgiDebugOptionsListener *listener = context->getService<QExtOsgiDebugOptionsListener>(reference);
     listener->optionsChanged(*this);
     return listener;
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkDebugOptions::modifiedService(const QExtOsgiServiceReference& /*reference*/,
-                                                          QExtOsgiDebugOptionsListener* /*service*/)
+void QExtOsgiPluginFrameworkDebugOptions::modifiedService(const QExtOsgiServiceReference &/*reference*/,
+                                                          QExtOsgiDebugOptionsListener */*service*/)
 {
     // nothing
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkDebugOptions::removedService(const QExtOsgiServiceReference& reference,
-                                                         QExtOsgiDebugOptionsListener* /*service*/)
+void QExtOsgiPluginFrameworkDebugOptions::removedService(const QExtOsgiServiceReference &reference,
+                                                         QExtOsgiDebugOptionsListener */*service*/)
 {
     context->ungetService(reference);
 }

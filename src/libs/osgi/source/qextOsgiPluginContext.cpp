@@ -28,14 +28,10 @@
 #include <qextOsgiServiceReference.h>
 #include <qextOsgiServiceRegistration.h>
 
-#include <stdexcept>
-
-//----------------------------------------------------------------------------
-QExtOsgiPluginContextPrivate::QExtOsgiPluginContextPrivate(QExtOsgiPluginPrivate* plugin)
+QExtOsgiPluginContextPrivate::QExtOsgiPluginContextPrivate(QExtOsgiPluginPrivate *plugin)
     : plugin(plugin)
 {}
 
-//----------------------------------------------------------------------------
 void QExtOsgiPluginContextPrivate::isPluginContextValid() const
 {
     if (!plugin)
@@ -44,33 +40,30 @@ void QExtOsgiPluginContextPrivate::isPluginContextValid() const
     }
 }
 
-//----------------------------------------------------------------------------
 void QExtOsgiPluginContextPrivate::invalidate()
 {
     plugin = 0;
 }
 
-//----------------------------------------------------------------------------
-QExtOsgiPluginContext::QExtOsgiPluginContext(QExtOsgiPluginPrivate* plugin)
+QExtOsgiPluginContext::QExtOsgiPluginContext(QExtOsgiPluginPrivate *plugin)
     : d_ptr(new QExtOsgiPluginContextPrivate(plugin))
-{}
+{
 
-//----------------------------------------------------------------------------
+}
+
 QExtOsgiPluginContext::~QExtOsgiPluginContext()
 {
     Q_D(QExtOsgiPluginContext);
     delete d;
 }
 
-//----------------------------------------------------------------------------
-QVariant QExtOsgiPluginContext::getProperty(const QString& key) const
+QVariant QExtOsgiPluginContext::getProperty(const QString &key) const
 {
     Q_D(const QExtOsgiPluginContext);
     d->isPluginContextValid();
     return d->plugin->fwCtx->props.value(key);
 }
 
-//----------------------------------------------------------------------------
 QSharedPointer<QExtOsgiPlugin> QExtOsgiPluginContext::getPlugin() const
 {
     Q_D(const QExtOsgiPluginContext);
@@ -78,14 +71,12 @@ QSharedPointer<QExtOsgiPlugin> QExtOsgiPluginContext::getPlugin() const
     return d->plugin->q_func();
 }
 
-//----------------------------------------------------------------------------
 QSharedPointer<QExtOsgiPlugin> QExtOsgiPluginContext::getPlugin(long id) const
 {
     Q_D(const QExtOsgiPluginContext);
     return d->plugin->fwCtx->plugins->getPlugin(id);
 }
 
-//----------------------------------------------------------------------------
 QList<QSharedPointer<QExtOsgiPlugin> > QExtOsgiPluginContext::getPlugins() const
 {
     Q_D(const QExtOsgiPluginContext);
@@ -93,16 +84,14 @@ QList<QSharedPointer<QExtOsgiPlugin> > QExtOsgiPluginContext::getPlugins() const
     return d->plugin->fwCtx->plugins->getPlugins();
 }
 
-//----------------------------------------------------------------------------
-QSharedPointer<QExtOsgiPlugin> QExtOsgiPluginContext::installPlugin(const QUrl& location, QIODevice* in)
+QSharedPointer<QExtOsgiPlugin> QExtOsgiPluginContext::installPlugin(const QUrl &location, QIODevice *in)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
     return d->plugin->fwCtx->plugins->install(location, in);
 }
 
-//----------------------------------------------------------------------------
-QFileInfo QExtOsgiPluginContext::getDataFile(const QString& filename)
+QFileInfo QExtOsgiPluginContext::getDataFile(const QString &filename)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
@@ -117,16 +106,16 @@ QFileInfo QExtOsgiPluginContext::getDataFile(const QString& filename)
     return QFileInfo(dataRoot.absolutePath() + '/' + filename);
 }
 
-//----------------------------------------------------------------------------
-QExtOsgiServiceRegistration QExtOsgiPluginContext::registerService(const QStringList& clazzes, QObject* service, const QExtOsgiDictionary& properties)
+QExtOsgiServiceRegistration QExtOsgiPluginContext::registerService(const QStringList &clazzes, QObject *service,
+                                                                   const QExtOsgiDictionary &properties)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
     return d->plugin->fwCtx->services->registerService(d->plugin, clazzes, service, properties);
 }
 
-//----------------------------------------------------------------------------
-QExtOsgiServiceRegistration QExtOsgiPluginContext::registerService(const char* clazz, QObject* service, const QExtOsgiDictionary& properties)
+QExtOsgiServiceRegistration QExtOsgiPluginContext::registerService(const char *clazz, QObject *service,
+                                                                   const QExtOsgiDictionary &properties)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
@@ -135,24 +124,21 @@ QExtOsgiServiceRegistration QExtOsgiPluginContext::registerService(const char* c
     return d->plugin->fwCtx->services->registerService(d->plugin, clazzes, service, properties);
 }
 
-//----------------------------------------------------------------------------
-QList<QExtOsgiServiceReference> QExtOsgiPluginContext::getServiceReferences(const QString& clazz, const QString& filter)
+QList<QExtOsgiServiceReference> QExtOsgiPluginContext::getServiceReferences(const QString &clazz, const QString &filter)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
     return d->plugin->fwCtx->services->get(clazz, filter, 0);
 }
 
-//----------------------------------------------------------------------------
-QExtOsgiServiceReference QExtOsgiPluginContext::getServiceReference(const QString& clazz)
+QExtOsgiServiceReference QExtOsgiPluginContext::getServiceReference(const QString &clazz)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
     return d->plugin->fwCtx->services->get(d->plugin, clazz);
 }
 
-//----------------------------------------------------------------------------
-QObject* QExtOsgiPluginContext::getService(const QExtOsgiServiceReference& reference)
+QObject *QExtOsgiPluginContext::getService(const QExtOsgiServiceReference &reference)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
@@ -165,8 +151,7 @@ QObject* QExtOsgiPluginContext::getService(const QExtOsgiServiceReference& refer
     return internalRef.d_func()->getService(d->plugin->q_func());
 }
 
-//----------------------------------------------------------------------------
-bool QExtOsgiPluginContext::ungetService(const QExtOsgiServiceReference& reference)
+bool QExtOsgiPluginContext::ungetService(const QExtOsgiServiceReference &reference)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
@@ -174,9 +159,7 @@ bool QExtOsgiPluginContext::ungetService(const QExtOsgiServiceReference& referen
     return ref.d_func()->ungetService(d->plugin->q_func(), true);
 }
 
-//----------------------------------------------------------------------------
-bool QExtOsgiPluginContext::connectPluginListener(const QObject* receiver, const char* slot,
-                                                  Qt::ConnectionType type)
+bool QExtOsgiPluginContext::connectPluginListener(const QObject *receiver, const char *slot, Qt::ConnectionType type)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
@@ -195,8 +178,7 @@ bool QExtOsgiPluginContext::connectPluginListener(const QObject* receiver, const
     }
 }
 
-//----------------------------------------------------------------------------
-void QExtOsgiPluginContext::disconnectPluginListener(const QObject *receiver, const char* slot)
+void QExtOsgiPluginContext::disconnectPluginListener(const QObject *receiver, const char *slot)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
@@ -205,8 +187,7 @@ void QExtOsgiPluginContext::disconnectPluginListener(const QObject *receiver, co
     QObject::disconnect(&(d->plugin->fwCtx->listeners), SIGNAL(pluginChangedQueued(QExtOsgiPluginEvent)), receiver, slot);
 }
 
-//----------------------------------------------------------------------------
-bool QExtOsgiPluginContext::connectFrameworkListener(const QObject* receiver, const char* slot, Qt::ConnectionType type)
+bool QExtOsgiPluginContext::connectFrameworkListener(const QObject *receiver, const char *slot, Qt::ConnectionType type)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
@@ -214,8 +195,7 @@ bool QExtOsgiPluginContext::connectFrameworkListener(const QObject* receiver, co
     return receiver->connect(&(d->plugin->fwCtx->listeners), SIGNAL(frameworkEvent(QExtOsgiPluginFrameworkEvent)), slot, type);
 }
 
-//----------------------------------------------------------------------------
-void QExtOsgiPluginContext::disconnectFrameworkListener(const QObject *receiver, const char* slot)
+void QExtOsgiPluginContext::disconnectFrameworkListener(const QObject *receiver, const char *slot)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
@@ -223,18 +203,14 @@ void QExtOsgiPluginContext::disconnectFrameworkListener(const QObject *receiver,
     QObject::disconnect(&(d->plugin->fwCtx->listeners), SIGNAL(frameworkEvent(QExtOsgiPluginFrameworkEvent)), receiver, slot);
 }
 
-//----------------------------------------------------------------------------
-void QExtOsgiPluginContext::connectServiceListener(QObject* receiver, const char* slot,
-                                                   const QString& filter)
+void QExtOsgiPluginContext::connectServiceListener(QObject *receiver, const char *slot, const QString &filter)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();
     d->plugin->fwCtx->listeners.addServiceSlot(getPlugin(), receiver, slot, filter);
 }
 
-//----------------------------------------------------------------------------
-void QExtOsgiPluginContext::disconnectServiceListener(QObject* receiver,
-                                                      const char* slot)
+void QExtOsgiPluginContext::disconnectServiceListener(QObject *receiver, const char *slot)
 {
     Q_D(QExtOsgiPluginContext);
     d->isPluginContextValid();

@@ -182,12 +182,12 @@ public:
     /**
    * @see QExtOsgiPlugin::getResourceList()
    */
-    QStringList getResourceList(const QString& path) const;
+    QStringList getResourceList(const QString &path) const;
 
     /**
    * @see QExtOsgiPlugin::getResource()
    */
-    QByteArray getResource(const QString& path) const;
+    QByteArray getResource(const QString &path) const;
 
 protected:
 

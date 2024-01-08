@@ -56,7 +56,7 @@ public:
    *
    * @param vr Input string.
    */
-    QExtOsgiVersionRange(const QString& vr);
+    QExtOsgiVersionRange(const QString &vr);
 
 
     /**

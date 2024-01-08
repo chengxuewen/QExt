@@ -38,7 +38,7 @@ Utf16Reader::~Utf16Reader() {
 }
 
 
-bool Utf16Reader::open(const char* filename, size_t buffer_len) {
+bool Utf16Reader::open(const char *filename, size_t buffer_len) {
   if (filename == NULL)
     return false;
 

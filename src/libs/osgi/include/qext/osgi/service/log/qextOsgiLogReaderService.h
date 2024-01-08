@@ -1,1 +1,0 @@
-#include "../../../../../source/service/log/qextOsgiLogReaderService.h"

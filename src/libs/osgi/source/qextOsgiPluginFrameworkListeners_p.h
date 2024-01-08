@@ -53,8 +53,8 @@ public:
    * @param listener Object to add.
    * @param filter LDAP String used for filtering event before calling listener.
    */
-    void addServiceSlot(QSharedPointer<QExtOsgiPlugin> plugin, QObject* receiver,
-                        const char* slot, const QString& filter);
+    void addServiceSlot(QSharedPointer<QExtOsgiPlugin> plugin, QObject *receiver,
+                        const char *slot, const QString &filter);
 
     /**
    * Remove a slot connected to service events.
@@ -63,8 +63,8 @@ public:
    * @param receiver The receiver containing the slot.
    * @param slot The slot in the receiver.
    */
-    void removeServiceSlot(QSharedPointer<QExtOsgiPlugin> plugin, QObject* receiver,
-                           const char* slot);
+    void removeServiceSlot(QSharedPointer<QExtOsgiPlugin> plugin, QObject *receiver,
+                           const char *slot);
 
     /**
    * Gets the slots interested in modifications of the service reference
@@ -74,7 +74,7 @@ public:
    *        should be synchronized.
    * @return A set of listeners to notify.
    */
-    QSet<QExtOsgiServiceSlotEntry> getMatchingServiceSlots(const QExtOsgiServiceReference& sr, bool lockProps = true);
+    QSet<QExtOsgiServiceSlotEntry> getMatchingServiceSlots(const QExtOsgiServiceReference &sr, bool lockProps = true);
 
     /**
    * Convenience method for throwing framework error event.
@@ -88,26 +88,26 @@ public:
    * Receive notification that a service has had a change occur in its lifecycle.
    */
     void serviceChanged(const QSet<QExtOsgiServiceSlotEntry>& receivers,
-                        const QExtOsgiServiceEvent& evt,
+                        const QExtOsgiServiceEvent &evt,
                         QSet<QExtOsgiServiceSlotEntry>& matchBefore);
 
     void serviceChanged(const QSet<QExtOsgiServiceSlotEntry>& receivers,
-                        const QExtOsgiServiceEvent& evt);
+                        const QExtOsgiServiceEvent &evt);
 
-    void emitPluginChanged(const QExtOsgiPluginEvent& event);
+    void emitPluginChanged(const QExtOsgiPluginEvent &event);
 
-    void emitFrameworkEvent(const QExtOsgiPluginFrameworkEvent& event);
+    void emitFrameworkEvent(const QExtOsgiPluginFrameworkEvent &event);
 
 Q_SIGNALS:
 
-    void pluginChangedDirect(const QExtOsgiPluginEvent& event);
-    void pluginChangedQueued(const QExtOsgiPluginEvent& event);
+    void pluginChangedDirect(const QExtOsgiPluginEvent &event);
+    void pluginChangedQueued(const QExtOsgiPluginEvent &event);
 
-    void frameworkEvent(const QExtOsgiPluginFrameworkEvent& event);
+    void frameworkEvent(const QExtOsgiPluginFrameworkEvent &event);
 
 private Q_SLOTS:
 
-    void serviceListenerDestroyed(QObject* listener);
+    void serviceListenerDestroyed(QObject *listener);
 
 private:
 
@@ -143,13 +143,13 @@ private:
     /**
    * Add all members of the specified list to the specified set.
    */
-    void addToSet(QSet<QExtOsgiServiceSlotEntry>& set, int cache_ix, const QString& val);
+    void addToSet(QSet<QExtOsgiServiceSlotEntry>& set, int cache_ix, const QString &val);
 
     /**
    * The unsynchronized version of removeServiceSlot().
    */
-    void removeServiceSlot_unlocked(QSharedPointer<QExtOsgiPlugin> plugin, QObject* receiver,
-                                    const char* slot);
+    void removeServiceSlot_unlocked(QSharedPointer<QExtOsgiPlugin> plugin, QObject *receiver,
+                                    const char *slot);
 };
 
 

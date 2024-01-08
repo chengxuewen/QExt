@@ -78,7 +78,7 @@ extern "C" {
   }
 
   // To be updated.
-  size_t im_search(const char* pybuf, size_t pylen) {
+  size_t im_search(const char *pybuf, size_t pylen) {
     if (NULL == matrix_search)
       return 0;
 
@@ -106,7 +106,7 @@ extern "C" {
     return 0;
   }
 
-  const char* im_get_sps_str(size_t *decoded_len) {
+  const char *im_get_sps_str(size_t *decoded_len) {
     if (NULL == matrix_search)
       return NULL;
 

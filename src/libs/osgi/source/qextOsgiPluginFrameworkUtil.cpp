@@ -40,7 +40,7 @@ public:
     int length;
     int pos;
 
-    AttributeTokenizer(const QString& input)
+    AttributeTokenizer(const QString &input)
         : s(input), length(input.size()), pos(0)
     {
 
@@ -224,7 +224,7 @@ private:
 };
 
 //----------------------------------------------------------------------------
-QList<QMap<QString, QStringList> > QExtOsgiPluginFrameworkUtil::parseEntries(const QString& a, const QString& s,
+QList<QMap<QString, QStringList> > QExtOsgiPluginFrameworkUtil::parseEntries(const QString &a, const QString &s,
                                                                              bool single, bool unique, bool single_entry)
 {
     QList<QMap<QString, QStringList> > result;
@@ -255,7 +255,7 @@ QList<QMap<QString, QStringList> > QExtOsgiPluginFrameworkUtil::parseEntries(con
             QString param;
             while (!(param = at.getParam()).isNull())
             {
-                QStringList& old = params[param];
+                QStringList &old = params[param];
                 bool is_directive = at.isDirective();
                 if (!old.isEmpty() && unique)
                 {
@@ -327,7 +327,7 @@ QString QExtOsgiPluginFrameworkUtil::getFrameworkDir(QExtOsgiPluginFrameworkCont
 
 //----------------------------------------------------------------------------
 QDir QExtOsgiPluginFrameworkUtil::getFileStorage(QExtOsgiPluginFrameworkContext* ctx,
-                                                 const QString& name)
+                                                 const QString &name)
 {
     // See if we have a storage directory
     QString fwdir = getFrameworkDir(ctx);
@@ -358,13 +358,13 @@ QDir QExtOsgiPluginFrameworkUtil::getFileStorage(QExtOsgiPluginFrameworkContext*
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiPluginFrameworkUtil::filterMatch(const QString& filter, const QString& s)
+bool QExtOsgiPluginFrameworkUtil::filterMatch(const QString &filter, const QString &s)
 {
     return patSubstr(s, 0, filter, 0);
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiPluginFrameworkUtil::patSubstr(const QString& s, int si, const QString& pat, int pi)
+bool QExtOsgiPluginFrameworkUtil::patSubstr(const QString &s, int si, const QString &pat, int pi)
 {
     if (pat.length() - pi == 0)
     {

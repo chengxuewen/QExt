@@ -78,7 +78,7 @@ QExtOsgiVersion::QExtOsgiVersion(unsigned int majorVersion, unsigned int minorVe
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiVersion::QExtOsgiVersion(unsigned int majorVersion, unsigned int minorVersion, unsigned int microVersion, const QString& qualifier)
+QExtOsgiVersion::QExtOsgiVersion(unsigned int majorVersion, unsigned int minorVersion, unsigned int microVersion, const QString &qualifier)
     : majorVersion(majorVersion), minorVersion(minorVersion), microVersion(microVersion), qualifier(qualifier),
     undefined(true)
 {
@@ -86,7 +86,7 @@ QExtOsgiVersion::QExtOsgiVersion(unsigned int majorVersion, unsigned int minorVe
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiVersion::QExtOsgiVersion(const QString& version)
+QExtOsgiVersion::QExtOsgiVersion(const QString &version)
     : majorVersion(0), minorVersion(0), microVersion(0), undefined(true)
 {
     unsigned int maj = 0;
@@ -139,7 +139,7 @@ QExtOsgiVersion::QExtOsgiVersion(const QExtOsgiVersion& version)
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiVersion QExtOsgiVersion::parseVersion(const QString& version)
+QExtOsgiVersion QExtOsgiVersion::parseVersion(const QString &version)
 {
     if (version.isEmpty())
     {

@@ -24,23 +24,9 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Add subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
-set(QEXT_QML_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "QExt qml source dir" FORCE)
+# qext_add_subdirectory(quick)
 
-list(APPEND QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXT_OUTPUT_QML_DIR})
-list(REMOVE_DUPLICATES QML_IMPORT_PATH)
-set(QML_IMPORT_PATH ${QML_IMPORT_PATH} CACHE STRING "Qt Creator extra qml import paths" FORCE)
-
-#if(QEXT_BUILD_LIB_QML_QUICK)
-#    message(STATUS "Build qml quick plugin.")
-#    add_subdirectory(quick)
-#endif()
-
-#if(QEXT_BUILD_LIB_QML_THEME)
-#    message(STATUS "Build qml theme plugin.")
-#    add_subdirectory(theme)
-#endif()
-
-#if(QEXT_BUILD_LIB_FRAMELESSHELPER AND QEXT_BUILD_LIB_QML_FRAMELESSHELPER)
-#    message(STATUS "Build qml framelesshelper plugin.")
-#    add_subdirectory(framelesshelper)
-#endif()
+# set(QEXT_QML_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "QExt qml source dir" FORCE)
+# list(APPEND QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXT_OUTPUT_QML_DIR})
+# list(REMOVE_DUPLICATES QML_IMPORT_PATH)
+# set(QML_IMPORT_PATH ${QML_IMPORT_PATH} CACHE STRING "Qt Creator extra qml import paths" FORCE)

@@ -33,7 +33,7 @@
 #include <QMutexLocker>
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceReferencePrivate::QExtOsgiServiceReferencePrivate(QExtOsgiServiceRegistrationPrivate* reg)
+QExtOsgiServiceReferencePrivate::QExtOsgiServiceReferencePrivate(QExtOsgiServiceRegistrationPrivate *reg)
     : ref(1), registration(reg)
 {
     if (registration) registration->ref.ref();
@@ -47,9 +47,9 @@ QExtOsgiServiceReferencePrivate::~QExtOsgiServiceReferencePrivate()
 }
 
 //----------------------------------------------------------------------------
-QObject* QExtOsgiServiceReferencePrivate::getService(QSharedPointer<QExtOsgiPlugin> plugin)
+QObject *QExtOsgiServiceReferencePrivate::getService(QSharedPointer<QExtOsgiPlugin> plugin)
 {
-    QObject* s = 0;
+    QObject *s = 0;
     {
         QMutexLocker lock(&registration->propsLock);
         if (registration->available)
@@ -147,7 +147,7 @@ bool QExtOsgiServiceReferencePrivate::ungetService(QSharedPointer<QExtOsgiPlugin
 
     if (removeService)
     {
-        QObject* sfi = registration->serviceInstances[plugin];
+        QObject *sfi = registration->serviceInstances[plugin];
         registration->serviceInstances.remove(plugin);
         if (sfi != 0)
         {
@@ -174,7 +174,7 @@ const QExtOsgiServiceProperties& QExtOsgiServiceReferencePrivate::getProperties(
 }
 
 //----------------------------------------------------------------------------
-QVariant QExtOsgiServiceReferencePrivate::getProperty(const QString& key, bool lock) const
+QVariant QExtOsgiServiceReferencePrivate::getProperty(const QString &key, bool lock) const
 {
     if (lock)
     {

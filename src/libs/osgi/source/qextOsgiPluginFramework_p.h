@@ -136,9 +136,9 @@ private:
     /**
    * Shutting down is done.
    */
-    void systemShuttingdownDone(const QExtOsgiPluginFrameworkEvent& fe);
+    void systemShuttingdownDone(const QExtOsgiPluginFrameworkEvent &fe);
 
-    void systemShuttingdownDone_unlocked(const QExtOsgiPluginFrameworkEvent& fe);
+    void systemShuttingdownDone_unlocked(const QExtOsgiPluginFrameworkEvent &fe);
 
 };
 

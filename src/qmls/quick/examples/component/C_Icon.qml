@@ -1,6 +1,6 @@
 ﻿import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QEXTQmlQuick 1.0
+import QExtQuick 1.0
 
 Flickable {
 
@@ -11,17 +11,17 @@ Flickable {
             spacing: 18
             Repeater{
                 model: [
-                    {s:QEXTQmlQuickFontAwesome.FA_bus,c:"#46A0FC"},
-                    {s:QEXTQmlQuickFontAwesome.FA_cog,c:"#46A0FC"},
-                    {s:QEXTQmlQuickFontAwesome.FA_qq,c:"#6AC044"},
-                    {s:QEXTQmlQuickFontAwesome.FA_github,c:"#6AC044"},
-                    {s:QEXTQmlQuickFontAwesome.FA_google_plus_circle,c:"#E4A147"},
-                    {s:QEXTQmlQuickFontAwesome.FA_coffee,c:"#E4A147"},
-                    {s:QEXTQmlQuickFontAwesome.FA_flag,c:"#F36D6F"},
-                    {s:QEXTQmlQuickFontAwesome.FA_facebook_official,c:"#F36D6F"}
+                    {s:QExtQuickFontAwesome.FA_bus,c:"#46A0FC"},
+                    {s:QExtQuickFontAwesome.FA_cog,c:"#46A0FC"},
+                    {s:QExtQuickFontAwesome.FA_qq,c:"#6AC044"},
+                    {s:QExtQuickFontAwesome.FA_github,c:"#6AC044"},
+                    {s:QExtQuickFontAwesome.FA_google_plus_circle,c:"#E4A147"},
+                    {s:QExtQuickFontAwesome.FA_coffee,c:"#E4A147"},
+                    {s:QExtQuickFontAwesome.FA_flag,c:"#F36D6F"},
+                    {s:QExtQuickFontAwesome.FA_facebook_official,c:"#F36D6F"}
                 ]
 
-                delegate: QEXTQmlQuickAwesomeIcon{
+                delegate: QExtQuickAwesomeIcon{
                     width: 25
                     height: 25
                     source: modelData.s
@@ -49,7 +49,7 @@ Flickable {
                     "#F36D6F",
                 ]
 
-                delegate: QEXTQmlQuickSVGIcon {
+                delegate: QExtQuickSVGIcon {
                     width: 40
                     height: 40
                     source: "qrc:/images/svg"+index+".svg"

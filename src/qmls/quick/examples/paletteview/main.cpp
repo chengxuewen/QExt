@@ -24,12 +24,12 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
 #ifndef QEXT_BUILD_SHARED_LIBS
-    QEXTQmlQuickLoader::load(&engine);
+    QExtQuickLoader::load(&engine);
 #else
     engine.addImportPath(QEXT_OUTPUT_QML_DIR);
 #endif
 
-    qmlRegisterType<QEXTQmlQuickPaletteTableModel>("QEXTQmlQuickPaletteView", 1, 0, "QEXTQmlQuickPaletteTableModel");
+    qmlRegisterType<QExtQuickPaletteTableModel>("QExtQuickPaletteView", 1, 0, "QExtQuickPaletteTableModel");
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty()) {

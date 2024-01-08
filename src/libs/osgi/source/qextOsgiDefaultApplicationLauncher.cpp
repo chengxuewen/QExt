@@ -21,7 +21,7 @@
 
 #include <private/qextOsgiDefaultApplicationLauncher_p.h>
 #include <private/qextOsgiPluginFrameworkProperties_p.h>
-#include <qext/osgi/service/application/qextOsgiApplicationDescriptor.h>
+#include <qextOsgiApplicationDescriptor.h>
 #include <qextOsgiPluginFrameworkLauncher.h>
 #include <qextOsgiApplicationRunnable.h>
 #include <qextOsgiPluginConstants.h>
@@ -66,7 +66,7 @@ QExtOsgiDefaultApplicationLauncher::QExtOsgiDefaultApplicationLauncher(QExtOsgiP
 }
 
 //----------------------------------------------------------------------------
-QVariant QExtOsgiDefaultApplicationLauncher::start(const QVariant& defaultContext)
+QVariant QExtOsgiDefaultApplicationLauncher::start(const QVariant &defaultContext)
 {
     // here we assume that launch has been called by runtime before we started
     // TODO this may be a bad assumption but it works for now because we register the app launcher as a service and runtime synchronously calls launch on the service
@@ -99,7 +99,7 @@ QVariant QExtOsgiDefaultApplicationLauncher::start(const QVariant& defaultContex
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiDefaultApplicationLauncher::launch(QExtOsgiApplicationRunnable* app, const QVariant& applicationContext)
+void QExtOsgiDefaultApplicationLauncher::launch(QExtOsgiApplicationRunnable *app, const QVariant &applicationContext)
 {
     waitForAppLock.tryAcquire(); // clear out any pending apps notifications
     if (!runningLock.tryAcquire()) // check to see if an application is currently running
@@ -121,13 +121,13 @@ void QExtOsgiDefaultApplicationLauncher::shutdown()
     {
         return; // no application is currently running.
     }
-    QExtOsgiApplicationRunnable* currentRunnable = runnable;
+    QExtOsgiApplicationRunnable *currentRunnable = runnable;
     currentRunnable->stop();
     runningLock.tryAcquire(1, 60000); // timeout after 1 minute.
 }
 
 //----------------------------------------------------------------------------
-QVariant QExtOsgiDefaultApplicationLauncher::reStart(const QVariant& argument)
+QVariant QExtOsgiDefaultApplicationLauncher::reStart(const QVariant &argument)
 {
     QList<QExtOsgiServiceReference> refs;
     refs = context->getServiceReferences<QExtOsgiApplicationDescriptor>("(qext.application.default=true)");
@@ -141,7 +141,7 @@ QVariant QExtOsgiDefaultApplicationLauncher::reStart(const QVariant& argument)
 }
 
 //----------------------------------------------------------------------------
-QVariant QExtOsgiDefaultApplicationLauncher::runApplication(const QVariant& defaultContext)
+QVariant QExtOsgiDefaultApplicationLauncher::runApplication(const QVariant &defaultContext)
 {
 
     // wait for an application to be launched.

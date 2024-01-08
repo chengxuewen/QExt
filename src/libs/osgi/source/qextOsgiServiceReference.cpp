@@ -37,14 +37,14 @@ QExtOsgiServiceReference::QExtOsgiServiceReference()
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceReference::QExtOsgiServiceReference(const QExtOsgiServiceReference& ref)
+QExtOsgiServiceReference::QExtOsgiServiceReference(const QExtOsgiServiceReference &ref)
     : d_ptr(ref.d_ptr)
 {
     d_func()->ref.ref();
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceReference::QExtOsgiServiceReference(QExtOsgiServiceRegistrationPrivate* reg)
+QExtOsgiServiceReference::QExtOsgiServiceReference(QExtOsgiServiceRegistrationPrivate *reg)
     : d_ptr(new QExtOsgiServiceReferencePrivate(reg))
 {
 
@@ -57,7 +57,7 @@ QExtOsgiServiceReference::operator bool() const
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceReference& QExtOsgiServiceReference::operator=(int null)
+QExtOsgiServiceReference &QExtOsgiServiceReference::operator=(int null)
 {
     if (null == 0)
     {
@@ -76,7 +76,7 @@ QExtOsgiServiceReference::~QExtOsgiServiceReference()
 }
 
 //----------------------------------------------------------------------------
-QVariant QExtOsgiServiceReference::getProperty(const QString& key) const
+QVariant QExtOsgiServiceReference::getProperty(const QString &key) const
 {
     Q_D(const QExtOsgiServiceReference);
 
@@ -117,7 +117,7 @@ QList<QSharedPointer<QExtOsgiPlugin> > QExtOsgiServiceReference::getUsingPlugins
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiServiceReference::operator<(const QExtOsgiServiceReference& reference) const
+bool QExtOsgiServiceReference::operator<(const QExtOsgiServiceReference &reference) const
 {
     bool sameFw = d_func()->registration->plugin->fwCtx == reference.d_func()->registration->plugin->fwCtx;
     if (!sameFw)
@@ -147,15 +147,15 @@ bool QExtOsgiServiceReference::operator<(const QExtOsgiServiceReference& referen
 }
 
 //----------------------------------------------------------------------------
-bool QExtOsgiServiceReference::operator==(const QExtOsgiServiceReference& reference) const
+bool QExtOsgiServiceReference::operator==(const QExtOsgiServiceReference &reference) const
 {
     return d_func()->registration == reference.d_func()->registration;
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceReference& QExtOsgiServiceReference::operator=(const QExtOsgiServiceReference& reference)
+QExtOsgiServiceReference &QExtOsgiServiceReference::operator=(const QExtOsgiServiceReference &reference)
 {
-    QExtOsgiServiceReferencePrivate* curr_d = d_func();
+    QExtOsgiServiceReferencePrivate *curr_d = d_func();
     d_ptr = reference.d_ptr;
     d_ptr->ref.ref();
 
@@ -166,13 +166,13 @@ QExtOsgiServiceReference& QExtOsgiServiceReference::operator=(const QExtOsgiServ
 }
 
 //----------------------------------------------------------------------------
-uint qHash(const QExtOsgiServiceReference& serviceRef)
+uint qHash(const QExtOsgiServiceReference &serviceRef)
 {
     return qHash(serviceRef.d_func()->registration);
 }
 
 //----------------------------------------------------------------------------
-QDebug operator<<(QDebug dbg, const QExtOsgiServiceReference& serviceRef)
+QDebug operator<<(QDebug dbg, const QExtOsgiServiceReference &serviceRef)
 {
     dbg.nospace() << "Reference for service object registered from "
                   << serviceRef.getPlugin()->getSymbolicName() << " " << serviceRef.getPlugin()->getVersion()

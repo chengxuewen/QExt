@@ -90,7 +90,7 @@ void Dialog::changeEvent(QEvent *e)
     }
 }
 
-void Dialog::onPortNameChanged(const QString & /*name*/)
+void Dialog::onPortNameChanged(const QString &/*name*/)
 {
     if (port->isOpen()) {
         port->close();

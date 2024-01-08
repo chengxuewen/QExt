@@ -30,7 +30,7 @@ class QExtOsgiServiceEventData : public QSharedData
 {
 public:
 
-    QExtOsgiServiceEventData(QExtOsgiServiceEvent::Type type, const QExtOsgiServiceReference& reference)
+    QExtOsgiServiceEventData(QExtOsgiServiceEvent::Type type, const QExtOsgiServiceReference &reference)
         : type(type), reference(reference)
     {
 
@@ -66,21 +66,21 @@ bool QExtOsgiServiceEvent::isNull() const
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceEvent::QExtOsgiServiceEvent(Type type, const QExtOsgiServiceReference& reference)
+QExtOsgiServiceEvent::QExtOsgiServiceEvent(Type type, const QExtOsgiServiceReference &reference)
     : d(new QExtOsgiServiceEventData(type, reference))
 {
 
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceEvent::QExtOsgiServiceEvent(const QExtOsgiServiceEvent& other)
+QExtOsgiServiceEvent::QExtOsgiServiceEvent(const QExtOsgiServiceEvent &other)
     : d(other.d)
 {
 
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiServiceEvent& QExtOsgiServiceEvent::operator=(const QExtOsgiServiceEvent& other)
+QExtOsgiServiceEvent &QExtOsgiServiceEvent::operator=(const QExtOsgiServiceEvent &other)
 {
     d = other.d;
     return *this;
@@ -113,7 +113,7 @@ QDebug operator<<(QDebug dbg, QExtOsgiServiceEvent::Type type)
 }
 
 //----------------------------------------------------------------------------
-QDebug operator<<(QDebug dbg, const QExtOsgiServiceEvent& event)
+QDebug operator<<(QDebug dbg, const QExtOsgiServiceEvent &event)
 {
     if (event.isNull()) return dbg << "NONE";
 

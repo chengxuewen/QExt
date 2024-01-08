@@ -151,7 +151,7 @@ public:
    *
    * @throws QExtOsgiPluginException
    */
-  void resolvePlugin(QExtOsgiPluginPrivate* plugin);
+  void resolvePlugin(QExtOsgiPluginPrivate *plugin);
 
 
   /**
@@ -172,7 +172,7 @@ private:
    */
   void deleteFWDir();
 
-  void checkRequirePlugin(QExtOsgiPluginPrivate* plugin);
+  void checkRequirePlugin(QExtOsgiPluginPrivate *plugin);
 
   void initProperties();
 };

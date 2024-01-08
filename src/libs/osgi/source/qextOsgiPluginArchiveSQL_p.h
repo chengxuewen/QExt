@@ -50,8 +50,8 @@ public:
    * Construct new plugin archive.
    *
    */
-    QExtOsgiPluginArchiveSQL(QExtOsgiPluginStorageSQL* pluginStorage, const QUrl& pluginLocation,
-                        const QString& localPluginPath, int pluginId,
+    QExtOsgiPluginArchiveSQL(QExtOsgiPluginStorageSQL* pluginStorage, const QUrl &pluginLocation,
+                        const QString &localPluginPath, int pluginId,
                         int startLevel = -1, const QDateTime &lastModified = QDateTime(),
                         int autostartSetting = -1);
 
@@ -60,7 +60,7 @@ public:
    *
    */
     QExtOsgiPluginArchiveSQL(QSharedPointer<QExtOsgiPluginArchiveSQL> old, int generation,
-                        const QUrl& pluginLocation, const QString& localPluginPath);
+                        const QUrl &pluginLocation, const QString &localPluginPath);
 
 
     /**
@@ -71,7 +71,7 @@ public:
    * @param key Name of attribute to get.
    * @return A string with result or null if the entry doesn't exists.
    */
-    QString getAttribute(const QString& key) const;
+    QString getAttribute(const QString &key) const;
 
     /**
    * @returns the (raw/unlocalized) attributes
@@ -115,7 +115,7 @@ public:
    * @param component Resource to get the byte array from.
    * @return QByteArray to the entry (empty if it doesn't exist).
    */
-    QByteArray getPluginResource(const QString& component) const;
+    QByteArray getPluginResource(const QString &component) const;
 
 
     /**
@@ -126,7 +126,7 @@ public:
    * @param name
    * @return
    */
-    QStringList findResourcesPath(const QString& path) const;
+    QStringList findResourcesPath(const QString &path) const;
 
 
     /**

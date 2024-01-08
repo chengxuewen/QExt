@@ -29,7 +29,7 @@
 #include <private/qextOsgiLocationManager_p.h>
 #include <private/qextOsgiBasicLocation_p.h>
 #include <private/qextOsgiServices_p.h>
-#include <qextOsgiUtils.h>
+#include <qextUtils.h>
 
 //----------------------------------------------------------------------------
 QMutex QExtOsgiPluginFrameworkContext::globalFwLock;
@@ -153,7 +153,7 @@ void QExtOsgiPluginFrameworkContext::init()
         }
     }
 
-    QExtOsgiPluginFrameworkPrivate* const systemPluginPrivate = systemPlugin->d_func();
+    QExtOsgiPluginFrameworkPrivate *const systemPluginPrivate = systemPlugin->d_func();
     systemPluginPrivate->initSystemPlugin();
 
     storage = new QExtOsgiPluginStorageSQL(this);
@@ -184,7 +184,7 @@ void QExtOsgiPluginFrameworkContext::uninit()
 
     log() << "uninit";
 
-    QExtOsgiPluginFrameworkPrivate* const systemPluginPrivate = systemPlugin->d_func();
+    QExtOsgiPluginFrameworkPrivate *const systemPluginPrivate = systemPlugin->d_func();
     systemPluginPrivate->uninitSystemPlugin();
 
     plugins->clear();
@@ -215,7 +215,7 @@ QFileInfo QExtOsgiPluginFrameworkContext::getDataStorage(long id)
 //----------------------------------------------------------------------------
 void QExtOsgiPluginFrameworkContext::checkOurPlugin(QExtOsgiPlugin* plugin) const
 {
-    QExtOsgiPluginPrivate* pp = plugin->d_func();
+    QExtOsgiPluginPrivate *pp = plugin->d_func();
     if (this != pp->fwCtx)
     {
         throw QExtInvalidArgumentException("qextOsgiPlugin does not belong to this framework: " + plugin->getSymbolicName());
@@ -234,7 +234,7 @@ QDebug QExtOsgiPluginFrameworkContext::log() const
 }
 
 //----------------------------------------------------------------------------
-void QExtOsgiPluginFrameworkContext::resolvePlugin(QExtOsgiPluginPrivate* plugin)
+void QExtOsgiPluginFrameworkContext::resolvePlugin(QExtOsgiPluginPrivate *plugin)
 {
     if (debug.resolve)
     {
@@ -278,10 +278,10 @@ void QExtOsgiPluginFrameworkContext::checkRequirePlugin(QExtOsgiPluginPrivate *p
         {
             QExtOsgiRequirePlugin* pr = i.next();
             QList<QExtOsgiPlugin*> pl = plugins->getPlugins(pr->name, pr->pluginRange);
-            QExtOsgiPluginPrivate* ok = 0;
+            QExtOsgiPluginPrivate *ok = 0;
             for (QListIterator<QExtOsgiPlugin*> pci(pl); pci.hasNext() && ok == 0; )
             {
-                QExtOsgiPluginPrivate* p2 = pci.next()->d_func();
+                QExtOsgiPluginPrivate *p2 = pci.next()->d_func();
                 if (tempResolved.contains(p2))
                 {
                     ok = p2;

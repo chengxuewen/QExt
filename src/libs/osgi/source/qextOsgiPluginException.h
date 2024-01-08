@@ -99,7 +99,7 @@ public:
    * @param msg The associated message.
    * @param type The type for this exception.
    */
-    QExtOsgiPluginException(const QString& msg, const Type& type = UNSPECIFIED);
+    QExtOsgiPluginException(const QString &msg, const Type& type = UNSPECIFIED);
 
     /**
    * Creates a <code>QExtOsgiPluginException</code> with the specified message, type
@@ -109,7 +109,7 @@ public:
    * @param type The type for this exception.
    * @param cause The cause of this exception.
    */
-    QExtOsgiPluginException(const QString& msg, const Type& type, const QExtException& cause);
+    QExtOsgiPluginException(const QString &msg, const Type& type, const QExtException& cause);
 
     /**
    * Creates a <code>QExtOsgiPluginException</code> with the specified message and
@@ -118,7 +118,7 @@ public:
    * @param msg The associated message.
    * @param cause The cause of this exception.
    */
-    QExtOsgiPluginException(const QString& msg, const QExtException& cause);
+    QExtOsgiPluginException(const QString &msg, const QExtException& cause);
 
     QExtOsgiPluginException(const QExtOsgiPluginException& o);
     QExtOsgiPluginException& operator=(const QExtOsgiPluginException& o);
@@ -128,7 +128,7 @@ public:
     /**
    * @see QExtException::name()
    */
-    const char* name() const throw();
+    const char *name() const throw();
 
     /**
    * @see QExtException::clone()

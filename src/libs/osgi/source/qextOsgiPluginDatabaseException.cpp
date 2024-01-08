@@ -24,7 +24,7 @@
 #include <QDebug>
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginDatabaseException::QExtOsgiPluginDatabaseException(const QString& msg, const Type& type)
+QExtOsgiPluginDatabaseException::QExtOsgiPluginDatabaseException(const QString &msg, const Type& type)
   : QExtRuntimeException(msg),
     type(type)
 {
@@ -32,7 +32,7 @@ QExtOsgiPluginDatabaseException::QExtOsgiPluginDatabaseException(const QString& 
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginDatabaseException::QExtOsgiPluginDatabaseException(const QString& msg, const Type& type,
+QExtOsgiPluginDatabaseException::QExtOsgiPluginDatabaseException(const QString &msg, const Type& type,
                                                        const QExtException& cause)
   : QExtRuntimeException(msg, cause),
     type(type)
@@ -41,7 +41,7 @@ QExtOsgiPluginDatabaseException::QExtOsgiPluginDatabaseException(const QString& 
 }
 
 //----------------------------------------------------------------------------
-QExtOsgiPluginDatabaseException::QExtOsgiPluginDatabaseException(const QString& msg,
+QExtOsgiPluginDatabaseException::QExtOsgiPluginDatabaseException(const QString &msg,
                                                        const QExtException& cause)
   : QExtRuntimeException(msg, cause),
     type(UNSPECIFIED)
@@ -71,7 +71,7 @@ QExtOsgiPluginDatabaseException::~QExtOsgiPluginDatabaseException() throw()
 }
 
 //----------------------------------------------------------------------------
-const char* QExtOsgiPluginDatabaseException::name() const throw()
+const char *QExtOsgiPluginDatabaseException::name() const throw()
 {
   return "qextOsgiPluginDatabaseException";
 }
