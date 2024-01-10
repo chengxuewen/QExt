@@ -126,7 +126,6 @@ QString QExtBackTrace::stackFrame(unsigned frameNumber) const
     return QString();
 }
 
-// --------------------------------------------------------------------------
 QList<QString> QExtBackTrace::stackTrace() const
 {
     QList<QString> trace;
@@ -154,7 +153,6 @@ QList<QString> QExtBackTrace::stackTrace() const
 
 #if defined(QEXT_HAVE_EXECINFO)
 
-// --------------------------------------------------------------------------
 int QExtBackTracePrivate::trace(void** array, size_t n) const
 {
     return :: backtrace(array,n);
@@ -162,9 +160,8 @@ int QExtBackTracePrivate::trace(void** array, size_t n) const
 
 #elif defined(Q_CC_MSVC)
 
-USHORT (WINAPI *s_pfnCaptureStackBackTrace)(ULONG, ULONG, PVOID*, PULONG) = 0;
+USHORT (WINAPI *s_pfnCaptureStackBackTrace)(ULONG, ULONG, PVOID*, PULONG) = QEXT_NULLPTR;
 
-// --------------------------------------------------------------------------
 int QExtBackTracePrivate::trace(void** array, size_t n) const
 {
     if(n>=63)
@@ -187,7 +184,6 @@ int QExtBackTracePrivate::trace(void** array, size_t n) const
 
 #else
 
-// --------------------------------------------------------------------------
 int QExtBackTracePrivate::trace(void** /*array*/, size_t /*n*/) const
 {
     return 0;
@@ -197,10 +193,9 @@ int QExtBackTracePrivate::trace(void** /*array*/, size_t /*n*/) const
 
 #if defined(QEXT_HAVE_DLADDR) && defined(QEXT_HAVE_ABI_CXA_DEMANGLE)
 
-// --------------------------------------------------------------------------
 std::string QExtBackTracePrivate::getSymbol(void* ptr) const
 {
-    if(!ptr)
+    if(QEXT_NULLPTR == ptr)
     {
         return std::string();
     }
@@ -246,7 +241,6 @@ std::string QExtBackTracePrivate::getSymbol(void* ptr) const
 }
 
 #elif defined(QEXT_HAVE_EXECINFO)
-// --------------------------------------------------------------------------
 std::string QExtBackTracePrivate::getSymbol(void *address) const
 {
     char ** ptr = backtrace_symbols(&address, 1);
@@ -270,14 +264,12 @@ std::string QExtBackTracePrivate::getSymbol(void *address) const
 
 #elif defined(Q_CC_MSVC)
 
-// --------------------------------------------------------------------------
 namespace
 {
 HANDLE hProcess = 0;
 bool syms_ready = false;
 }
 
-// --------------------------------------------------------------------------
 namespace qext
 {
 bool DebugSymInitialize()
@@ -296,10 +288,9 @@ bool DebugSymInitialize()
 }
 }
 
-// --------------------------------------------------------------------------
-std::string QExtBackTracePrivate::getSymbol(void* ptr) const
+std::string QExtBackTracePrivate::getSymbol(void *ptr) const
 {
-    if(ptr==0)
+    if(QEXT_NULLPTR == ptr)
     {
         return std::string();
     }
@@ -341,10 +332,9 @@ std::string QExtBackTracePrivate::getSymbol(void* ptr) const
 
 #else
 
-// --------------------------------------------------------------------------
-std::string QExtBackTracePrivate::getSymbol(void* ptr) const
+std::string QExtBackTracePrivate::getSymbol(void *ptr) const
 {
-    if(!ptr)
+    if(QEXT_NULLPTR == ptr)
     {
         return std::string();
     }

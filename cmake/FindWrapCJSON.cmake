@@ -41,11 +41,11 @@ if(NOT cjson_FOUND)
     if(NOT EXISTS ${CJSON_SOURCE_DIR})
         include(FetchContent)
         FetchContent_Declare(
-            cJSON
+            QExt-cJSON
             SOURCE_DIR ${CJSON_SOURCE_DIR}
             BINARY_DIR ${CJSON_BUILD_DIR}
             URL ${CJSON_TAR_GZ_PATH})
-        FetchContent_Populate(cJSON)
+        FetchContent_Populate(QExt-cJSON)
     endif()
     if(NOT EXISTS ${CJSON_INSTALL_DIR})
         if(NOT EXISTS ${CJSON_SOURCE_DIR})

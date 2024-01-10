@@ -44,7 +44,7 @@ list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Utils)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_executable(exp_QExtUtilsHostInfo
+qext_add_executable(QExtExpUtilsHostInfo
         SOURCES
         hostinfo/mainwindow.h
         hostinfo/mainwindow.cpp

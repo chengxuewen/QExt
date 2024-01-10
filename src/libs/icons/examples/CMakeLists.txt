@@ -56,7 +56,7 @@ list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Icons)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_executable(exp_QExtIconsAwesomeView
+qext_add_executable(QExtExpIconsAwesomeView
     SOURCES
     fontAwesomeView/main.cpp
     fontAwesomeView/MainWindow.cpp
@@ -70,7 +70,7 @@ qext_add_executable(exp_QExtIconsAwesomeView
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtIconsView
+qext_add_executable(QExtExpIconsView
     SOURCES
     iconsView/main.cpp
     iconsView/MainWindow.cpp

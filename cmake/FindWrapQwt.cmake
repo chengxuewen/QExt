@@ -41,11 +41,11 @@ if(NOT Qwt_FOUND)
     if(NOT EXISTS ${QWT_SOURCE_DIR})
         include(FetchContent)
         FetchContent_Declare(
-            Qwt
+            QExt-Qwt
             SOURCE_DIR ${QWT_SOURCE_DIR}
             BINARY_DIR ${QWT_BUILD_DIR}
             URL ${QWT_URL_PATH})
-        FetchContent_Populate(Qwt)
+        FetchContent_Populate(QExt-Qwt)
     endif()
     if(NOT EXISTS ${QWT_INSTALL_DIR})
         if(NOT EXISTS ${QWT_SOURCE_DIR})

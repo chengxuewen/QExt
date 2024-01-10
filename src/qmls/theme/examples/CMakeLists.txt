@@ -100,7 +100,7 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 # Add example
 #-----------------------------------------------------------------------------------------------------------------------
-#qextFunctionAddQmlThemeExample(qext_exp_qmlTheme
+#qextFunctionAddQmlThemeExample(QExtExpTheme
 #    EXAMPLE_SOURCE
 #    framelesshelper/framelesshelper.qrc
 #    framelesshelper/main.cpp

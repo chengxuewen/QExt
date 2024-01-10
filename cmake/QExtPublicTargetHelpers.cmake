@@ -363,3 +363,122 @@ function(qext_internal_set_up_static_runtime_library target)
         endif()
     endif()
 endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# qext_copy_target_external_dependent_libraries
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_copy_target_external_dependent_libraries)
+    set(multiValueArgs LIBS)
+    set(oneValueArgs TARGET SOURCE DESTINATION)
+    set(options PRE_BUILD PRE_LINK POST_BUILD VERBOSE MATCHING)
+    cmake_parse_arguments(MY "${options}" "${oneValueArgs}" "${multiValueArgs}" "${ARGN}")
+
+    set(HAPPENS)
+    if(MY_PRE_BUILD)
+        list(APPEND HAPPENS PRE_BUILD)
+    endif()
+    if(MY_PRE_LINK)
+        list(APPEND HAPPENS PRE_LINK)
+    endif()
+    if(MY_POST_BUILD)
+        list(APPEND HAPPENS POST_BUILD)
+    endif()
+
+    if(MY_VERBOSE)
+        message(STATUS "----VERBOSE---- qext_copy_target_external_dependent_libraries")
+        message(STATUS MY_LIBS=${MY_LIBS})
+        message(STATUS MY_TARGET=${MY_TARGET})
+        message(STATUS MY_SOURCE=${MY_SOURCE})
+        message(STATUS MY_DESTINATION=${MY_DESTINATION})
+        message(STATUS MY_PRE_BUILD=${MY_PRE_BUILD})
+        message(STATUS MY_PRE_LINK=${MY_PRE_LINK})
+        message(STATUS MY_POST_BUILD=${MY_POST_BUILD})
+        message(STATUS HAPPENS=${HAPPENS})
+    endif()
+
+    foreach(child ${MY_LIBS})
+        find_path(LIB_PATH ${MY_SOURCE}/${child} ${MY_SOURCE})
+        if(NOT LIB_PATH EQUAL "LIB_PATH-NOTFOUND")
+            if(MY_MATCHING)
+                add_custom_command(
+                    TARGET ${MY_TARGET}
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MY_SOURCE}/${child}* ${MY_DESTINATION}
+                    COMMENT "copy the depends external lib file ${child} to the ${MY_DESTINATION} folder"
+                    ${HAPPENS})
+            else()
+                add_custom_command(
+                    TARGET ${MY_TARGET}
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MY_SOURCE}/${child} ${MY_DESTINATION}
+                    COMMENT "copy the depends external lib file ${child} to the ${MY_DESTINATION} folder"
+                    ${HAPPENS})
+            endif()
+        else()
+            message(FATAL_ERROR "Could not find ${MY_SOURCE}/${child} lib file")
+        endif()
+    endforeach()
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# qext_copy_target_internal_dependent_libraries
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_copy_target_internal_dependent_libraries)
+    set(multiValueArgs LIBS)
+    set(oneValueArgs TARGET DESTINATION)
+    set(options PRE_BUILD PRE_LINK POST_BUILD VERBOSE MATCHING)
+    cmake_parse_arguments(MY "${options}" "${oneValueArgs}" "${multiValueArgs}" "${ARGN}")
+
+    set(HAPPENS)
+    if(MY_PRE_BUILD)
+        list(APPEND HAPPENS PRE_BUILD)
+    endif()
+    if(MY_PRE_LINK)
+        list(APPEND HAPPENS PRE_LINK)
+    endif()
+    if(MY_POST_BUILD)
+        list(APPEND HAPPENS POST_BUILD)
+    endif()
+
+    if(MY_VERBOSE)
+        message(STATUS "----VERBOSE---- qextFunctionCopyDependencyInternal")
+        message(STATUS MY_LIBS=${MY_LIBS})
+        message(STATUS MY_TARGET=${MY_TARGET})
+        message(STATUS MY_DESTINATION=${MY_DESTINATION})
+        message(STATUS MY_PRE_BUILD=${MY_PRE_BUILD})
+        message(STATUS MY_PRE_LINK=${MY_PRE_LINK})
+        message(STATUS MY_POST_BUILD=${MY_POST_BUILD})
+        message(STATUS HAPPENS=${HAPPENS})
+    endif()
+
+    foreach(child ${MY_LIBS})
+        if(MY_MATCHING)
+            add_custom_command(
+                TARGET ${MY_TARGET}
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_LINKER_FILE:${child}>* ${MY_DESTINATION}
+                COMMENT "copy the depends internal lib ${child} to the ${MY_DESTINATION} folder"
+                ${HAPPENS})
+        else()
+            add_custom_command(
+                TARGET ${MY_TARGET}
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${child}> ${MY_DESTINATION}
+                COMMENT "copy the depends internal lib ${child} to the ${MY_DESTINATION} folder"
+                ${HAPPENS})
+        endif()
+    endforeach()
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Adds warnings compiler options to the target depending on the category target Target name
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_set_target_compiler_warnings target)
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        set(WARNINGS "-Werror" "-Wall")
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        set(WARNINGS "-Werror" "-Wall")
+    elseif(MSVC)
+        set(WARNINGS "/WX" "/W4")
+    endif()
+    target_compile_options(${target} PRIVATE ${WARNINGS})
+endfunction()

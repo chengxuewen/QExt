@@ -1,4 +1,4 @@
-#include <private/qextComponents_p.h>
+#include <private/qextAbstractComponent_p.h>
 
 QExtComponents::QExtComponents(QObject *parent)
     : QObject(parent)

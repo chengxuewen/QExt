@@ -91,6 +91,7 @@ function(__qext_internal_walk_libs target out_var rcc_objects_out_var dict_name 
         if(NOT target_libs)
             unset(target_libs)
         endif()
+
         get_target_property(target_type ${target} TYPE)
         if(target_type STREQUAL "STATIC_LIBRARY")
             get_target_property(link_libs ${target} LINK_LIBRARIES)
@@ -123,13 +124,17 @@ function(__qext_internal_walk_libs target out_var rcc_objects_out_var dict_name 
             # Fix up $<TARGET_PROPERTY:FOO> expressions that refer to the "current" target.
             # Those cannot be used with add_custom_command.
             while(lib MATCHES "\\$<TARGET_PROPERTY:([^,>]+)>")
-                string(REPLACE "${CMAKE_MATCH_0}" "$<TARGET_PROPERTY:${target},${CMAKE_MATCH_1}>"
-                    lib "${lib}")
+                string(REPLACE "${CMAKE_MATCH_0}" "$<TARGET_PROPERTY:${target},${CMAKE_MATCH_1}>" lib "${lib}")
             endwhile()
 
             # Skip static plugins.
             set(_is_plugin_marker_genex "\\$<BOOL:QEXT_IS_PLUGIN_GENEX>")
             if(lib MATCHES "${_is_plugin_marker_genex}")
+                continue()
+            endif()
+
+            # Skip qt libs.
+            if(lib MATCHES "Qt*")
                 continue()
             endif()
 
@@ -158,10 +163,10 @@ function(__qext_internal_walk_libs target out_var rcc_objects_out_var dict_name 
             if(lib_target MATCHES "^::@")
                 continue()
             elseif(TARGET ${lib_target})
-                if("${lib_target}" MATCHES "^qext::(.*)")
-                    # If both, qext::foo and Foo targets exist, prefer the target name without
+                if("${lib_target}" MATCHES "^QExt::(.*)")
+                    # If both, QExt::foo and Foo targets exist, prefer the target name without
                     # namespace. Which one is preferred doesn't really matter. This code exists to
-                    # avoid ending up with both, qext::foo and Foo in our dependencies.
+                    # avoid ending up with both, QExt::foo and Foo in our dependencies.
                     set(namespaceless_lib_target "${CMAKE_MATCH_1}")
                     if(TARGET namespaceless_lib_target)
                         set(lib_target ${namespaceless_lib_target})
@@ -229,7 +234,7 @@ function(__qext_internal_walk_libs target out_var rcc_objects_out_var dict_name 
                         __qext_internal_promote_target_to_global(${lib_target_unaliased})
                     endif()
                 endif()
-            elseif("${lib_target}" MATCHES "^qext::(.*)")
+            elseif("${lib_target}" MATCHES "^QExt::(.*)")
                 message(FATAL_ERROR "The ${CMAKE_MATCH_1} target is mentioned as a dependency for \
                     ${target}, but not declared.")
             else()
@@ -264,15 +269,15 @@ endfunction()
 function(__qext_internal_memoize_values_in_dict target dict_name dict_key values)
     # Memoize the computed values for the target as well as its aliases.
     #
-    # Aka assigns the contents of ${values} to qext, qext::core,
-    # qext::core.
+    # Aka assigns the contents of ${values} to QExt, QExt::core,
+    # QExt::core.
     #
     # Yes, i know it's crazy that target names are legal property names.
     #
     # Assigning for library aliases is needed to avoid multiple recomputation of values.
     # Scenario in the context of __qext_internal_walk_libs:
     # 'values' are computed for Core target and memoized to INTERFACE_Core.
-    # When processing Gui, it depends on qext::core, but there are no values for INTERFACE_QEXT::Core.
+    # When processing Gui, it depends on QExt::core, but there are no values for INTERFACE_QEXT::Core.
     set_target_properties(${dict_name} PROPERTIES INTERFACE_${target}_${dict_key} "${values}")
 
     get_target_property(versionless_alias "${target}" "_qext_versionless_alias")

@@ -17,7 +17,7 @@
 /***********************************************************************************************************************
 ** QExtKeyButton
 ***********************************************************************************************************************/
-class QExtKeyButton : public QPushButton
+class QEXT_WIDGETS_API QExtKeyButton : public QPushButton
 {
     Q_OBJECT
 public:
@@ -71,7 +71,7 @@ private:
 /***********************************************************************************************************************
 ** QExtKeyButton
 ***********************************************************************************************************************/
-class QExtAbstractKeyboard : public QWidget
+class QEXT_WIDGETS_API QExtAbstractKeyboard : public QWidget
 {
     Q_OBJECT
 public:
@@ -111,7 +111,7 @@ private:
 /***********************************************************************************************************************
 ** QExtNumberKeyboard
 ***********************************************************************************************************************/
-class QExtNumberKeyboard : public QExtAbstractKeyboard
+class QEXT_WIDGETS_API QExtNumberKeyboard : public QExtAbstractKeyboard
 {
     Q_OBJECT
 public:
@@ -128,7 +128,7 @@ private slots:
 /***********************************************************************************************************************
 ** QExtKeyButton
 ***********************************************************************************************************************/
-class ChineseWidget : public QListWidget
+class QEXT_WIDGETS_API ChineseWidget : public QListWidget
 {
     Q_OBJECT
 public:
@@ -152,7 +152,7 @@ private:
 };
 
 class QExtKeyboardPrivate;
-class QExtKeyboard : public QExtAbstractKeyboard
+class QEXT_WIDGETS_API QExtKeyboard : public QExtAbstractKeyboard
 {
     Q_OBJECT
 public:

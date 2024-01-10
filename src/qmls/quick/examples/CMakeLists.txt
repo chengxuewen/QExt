@@ -97,19 +97,19 @@
 # #-----------------------------------------------------------------------------------------------------------------------
 # # Add example
 # #-----------------------------------------------------------------------------------------------------------------------
-# qextFunctionQuickAddExample(qext_exp_qmlQuickSimple
+# qextFunctionQuickAddExample(QExtExpQuickSimple
 #     EXAMPLE_SOURCE
 #     simple/QExtQuickSimple.qrc
 #     simple/main.cpp
 #     EXAMPLE_INCLUDE_DIRS
 #     ${CMAKE_CURRENT_SOURCE_DIR}/simple)
-# qextFunctionQuickAddExample(qext_exp_qmlQuickComponent
+# qextFunctionQuickAddExample(QExtExpQuickComponent
 #     EXAMPLE_SOURCE
 #     component/QExtQuickComponent.qrc
 #     component/main.cpp
 #     EXAMPLE_INCLUDE_DIRS
 #     ${CMAKE_CURRENT_SOURCE_DIR}/component)
-# qextFunctionQuickAddExample(qext_exp_qmlQuickPaletteView
+# qextFunctionQuickAddExample(QExtExpQuickPaletteView
 #     EXAMPLE_SOURCE
 #     paletteview/QExtQuickPaletteView.qrc
 #     paletteview/qextquickpalettetablemodel.h

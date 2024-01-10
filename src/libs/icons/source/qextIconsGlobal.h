@@ -2,7 +2,6 @@
 #define _QEXTICONSGLOBAL_H
 
 #include <qextGlobal.h>
-#include <qextOnceFlag.h>
 
 /***********************************************************************************************************************
    QExt Compiler specific cmds for export and import code to DLL
@@ -18,15 +17,5 @@
 #   define QEXT_ICONS_API
 #   define QEXT_ICONS_HIDDEN
 #endif
-
-static inline void qextIconsInitResource()
-{
-    static QExtOnceFlag onceFlag;
-    if (onceFlag.enter())
-    {
-        Q_INIT_RESOURCE(qextIcons);
-        onceFlag.leave();
-    }
-}
 
 #endif // _QEXTICONSGLOBAL_H

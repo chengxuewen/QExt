@@ -2,11 +2,12 @@
 #define _QEXTICONSRESOURCE_H
 
 #include <qextIconsGlobal.h>
+#include <qextOnceFlag.h>
 
 #include <QObject>
 #include <QMetaEnum>
 
-class QExtIconsResource : public QObject
+class QEXT_ICONS_API QExtIconsResource : public QObject
 {
     Q_OBJECT
 public:
@@ -45,6 +46,8 @@ public:
         qextIconsInitResource();
         return QString("%1:/QExtIcons/%2/%3.svg").arg(isUrl ? "qrc" : "").arg(style).arg(iconName);
     }
+
+    static inline void qextIconsInitResource();
 
 private:
     mutable QStringList m_iconsNameList;

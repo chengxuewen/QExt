@@ -32,7 +32,7 @@
 #
 # Uses __qext_internal_walk_libs.
 function(qext_find_package_promote_targets_to_global_scope target)
-    __qext_internal_walk_libs("${target}" _discarded_out_var _discarded_out_var_2
+    __qext_internal_walk_libs(${target} _discarded_out_var _discarded_out_var_2
             "qext_find_package_targets_dict" "promote_global")
 endfunction()
 

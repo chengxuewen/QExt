@@ -44,7 +44,7 @@ list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::SerialPort)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_executable(exp_QExtSerialportEnumerator
+qext_add_executable(QExtExpSerialportEnumerator
         SOURCES
         enumerator/main.cpp
         LIBRARIES
@@ -55,7 +55,7 @@ qext_add_executable(exp_QExtSerialportEnumerator
         ${QEXT_OUTPUT_EXAMPLE_DIR}
         DEFINES
         EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtSerialportEvent
+qext_add_executable(QExtExpSerialportEvent
         SOURCES
         event/PortListener.h
         event/PortListener.cpp
@@ -68,7 +68,7 @@ qext_add_executable(exp_QExtSerialportEvent
         ${QEXT_OUTPUT_EXAMPLE_DIR}
         DEFINES
         EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtSerialportSimple
+qext_add_executable(QExtExpSerialportSimple
         SOURCES
         simple/MainWindow.h
         simple/MessageWindow.h
@@ -85,7 +85,7 @@ qext_add_executable(exp_QExtSerialportSimple
         ${QEXT_OUTPUT_EXAMPLE_DIR}
         DEFINES
         EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtSerialportUartAssistant
+qext_add_executable(QExtExpSerialportUartAssistant
         SOURCES
         uartassistant/dialog.ui
         uartassistant/dialog.h

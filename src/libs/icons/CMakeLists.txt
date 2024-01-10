@@ -49,6 +49,7 @@ qext_add_library(Icons
     source/qextIconFontAwesome.cpp
     source/qextIconFontAwesome.h
     source/qextIconsResource.h
+    source/qextIconsResource.cpp
     source/qextIconsConstants.h
     source/qextIconsGlobal.h
     source/qextFluentIcons.cpp

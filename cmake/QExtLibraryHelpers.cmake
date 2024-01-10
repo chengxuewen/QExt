@@ -1195,7 +1195,8 @@ function(qext_internal_generate_win32_rc_file target)
             set(target_file_type "VFT_APP")
         endif()
 
-        set(contents "#include <windows.h>
+        set(contents 
+            "#include <windows.h>
             ${icons}
             VS_VERSION_INFO VERSIONINFO
             FILEVERSION ${version_comma}

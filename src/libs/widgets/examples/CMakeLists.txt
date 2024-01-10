@@ -44,7 +44,7 @@ list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Widgets)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_executable(exp_QExtWidgetNavigationListView
+qext_add_executable(QExtExpWidgetNavigationListView
     SOURCES
     navigationlistview/frmnavigationlistview.cpp
     navigationlistview/frmnavigationlistview.h
@@ -61,7 +61,7 @@ qext_add_executable(exp_QExtWidgetNavigationListView
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetNavigationButton
+qext_add_executable(QExtExpWidgetNavigationButton
     SOURCES
     navigationbutton/frmnavigationbutton.cpp
     navigationbutton/frmnavigationbutton.h
@@ -77,7 +77,7 @@ qext_add_executable(exp_QExtWidgetNavigationButton
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetSwitchButton
+qext_add_executable(QExtExpWidgetSwitchButton
     SOURCES
     switchbutton/frmswitchbutton.cpp
     switchbutton/frmswitchbutton.h
@@ -91,7 +91,7 @@ qext_add_executable(exp_QExtWidgetSwitchButton
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetFramelessMainwindow
+qext_add_executable(QExtExpWidgetFramelessMainwindow
     SOURCES
     framelesswindow/mainwindow.cpp
     framelesswindow/mainwindow.h
@@ -105,7 +105,7 @@ qext_add_executable(exp_QExtWidgetFramelessMainwindow
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetFramelessDialog
+qext_add_executable(QExtExpWidgetFramelessDialog
     SOURCES
     framelessdialog/dialog.cpp
     framelessdialog/dialog.h
@@ -119,7 +119,7 @@ qext_add_executable(exp_QExtWidgetFramelessDialog
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetFramelessWidget
+qext_add_executable(QExtExpWidgetFramelessWidget
     SOURCES
     framelesswidget/widget.cpp
     framelesswidget/widget.h
@@ -133,7 +133,7 @@ qext_add_executable(exp_QExtWidgetFramelessWidget
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetBreathingLight
+qext_add_executable(QExtExpWidgetBreathingLight
     SOURCES
     breathinglight/mainwindow.cpp
     breathinglight/mainwindow.h
@@ -148,7 +148,7 @@ qext_add_executable(exp_QExtWidgetBreathingLight
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetIndicatorLight
+qext_add_executable(QExtExpWidgetIndicatorLight
     SOURCES
     indicatorlight/mainwindow.cpp
     indicatorlight/mainwindow.h
@@ -162,7 +162,7 @@ qext_add_executable(exp_QExtWidgetIndicatorLight
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetNumberLed
+qext_add_executable(QExtExpWidgetNumberLed
     SOURCES
     numberled/mainwindow.cpp
     numberled/mainwindow.h
@@ -176,7 +176,7 @@ qext_add_executable(exp_QExtWidgetNumberLed
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetTextLcd
+qext_add_executable(QExtExpWidgetTextLcd
     SOURCES
     textlcd/mainwindow.cpp
     textlcd/mainwindow.h
@@ -190,7 +190,7 @@ qext_add_executable(exp_QExtWidgetTextLcd
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetWaveChart
+qext_add_executable(QExtExpWidgetWaveChart
     SOURCES
     wavechart/frmwavechart.cpp
     wavechart/frmwavechart.h
@@ -204,7 +204,7 @@ qext_add_executable(exp_QExtWidgetWaveChart
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetIpAddress
+qext_add_executable(QExtExpWidgetIpAddress
     SOURCES
     ipaddress/frmipaddress.cpp
     ipaddress/frmipaddress.h
@@ -218,7 +218,7 @@ qext_add_executable(exp_QExtWidgetIpAddress
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetTumbler
+qext_add_executable(QExtExpWidgetTumbler
     SOURCES
     tumbler/frmtumbler.cpp
     tumbler/frmtumbler.h
@@ -235,7 +235,7 @@ qext_add_executable(exp_QExtWidgetTumbler
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetDial
+qext_add_executable(QExtExpWidgetDial
     SOURCES
     dial/frmgaugedial.cpp
     dial/frmgaugedial.h
@@ -249,7 +249,7 @@ qext_add_executable(exp_QExtWidgetDial
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetThermometer
+qext_add_executable(QExtExpWidgetThermometer
     SOURCES
     thermometer/frmthermometer.cpp
     thermometer/frmthermometer.h
@@ -263,7 +263,7 @@ qext_add_executable(exp_QExtWidgetThermometer
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetProgressWait
+qext_add_executable(QExtExpWidgetProgressWait
     SOURCES
     progresswait/frmprogresswait.cpp
     progresswait/frmprogresswait.h
@@ -277,7 +277,7 @@ qext_add_executable(exp_QExtWidgetProgressWait
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetProgressRing
+qext_add_executable(QExtExpWidgetProgressRing
     SOURCES
     progressring/frmprogressring.cpp
     progressring/frmprogressring.h
@@ -291,7 +291,7 @@ qext_add_executable(exp_QExtWidgetProgressRing
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetProgressPie
+qext_add_executable(QExtExpWidgetProgressPie
     SOURCES
     progresspie/frmprogresspie.cpp
     progresspie/frmprogresspie.h
@@ -305,7 +305,7 @@ qext_add_executable(exp_QExtWidgetProgressPie
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetProgressBar
+qext_add_executable(QExtExpWidgetProgressBar
     SOURCES
     progressbar/frmprogressbar.cpp
     progressbar/frmprogressbar.h
@@ -319,7 +319,7 @@ qext_add_executable(exp_QExtWidgetProgressBar
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetProgressButton
+qext_add_executable(QExtExpWidgetProgressButton
     SOURCES
     progressbutton/frmprogressbutton.cpp
     progressbutton/frmprogressbutton.h
@@ -333,7 +333,7 @@ qext_add_executable(exp_QExtWidgetProgressButton
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetInput
+qext_add_executable(QExtExpWidgetInput
     SOURCES
     input/mainwindow.cpp
     input/mainwindow.h
@@ -347,7 +347,7 @@ qext_add_executable(exp_QExtWidgetInput
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetSelectSlider
+qext_add_executable(QExtExpWidgetSelectSlider
     SOURCES
     selectslider/frmselectslider.cpp
     selectslider/frmselectslider.h
@@ -361,7 +361,7 @@ qext_add_executable(exp_QExtWidgetSelectSlider
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetRangeSlider
+qext_add_executable(QExtExpWidgetRangeSlider
     SOURCES
     rangeslider/frmrangeslider.cpp
     rangeslider/frmrangeslider.h
@@ -375,7 +375,7 @@ qext_add_executable(exp_QExtWidgetRangeSlider
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetTooltip
+qext_add_executable(QExtExpWidgetTooltip
     SOURCES
     tooltip/frmtooltip.cpp
     tooltip/frmtooltip.h
@@ -389,7 +389,7 @@ qext_add_executable(exp_QExtWidgetTooltip
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetSlider
+qext_add_executable(QExtExpWidgetSlider
     SOURCES
     slider/frmslider.cpp
     slider/frmslider.h
@@ -403,7 +403,7 @@ qext_add_executable(exp_QExtWidgetSlider
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetRulerSlider
+qext_add_executable(QExtExpWidgetRulerSlider
     SOURCES
     rulerslider/frmrulerslider.cpp
     rulerslider/frmrulerslider.h
@@ -417,7 +417,7 @@ qext_add_executable(exp_QExtWidgetRulerSlider
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetIconButton
+qext_add_executable(QExtExpWidgetIconButton
     SOURCES
     iconbutton/FormIconButton.cpp
     iconbutton/FormIconButton.h
@@ -432,7 +432,7 @@ qext_add_executable(exp_QExtWidgetIconButton
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetCircleGauge
+qext_add_executable(QExtExpWidgetCircleGauge
     SOURCES
     circlegauge/frmcirclegauge.cpp
     circlegauge/frmcirclegauge.h
@@ -446,7 +446,7 @@ qext_add_executable(exp_QExtWidgetCircleGauge
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetSemicircleGauge
+qext_add_executable(QExtExpWidgetSemicircleGauge
     SOURCES
     semicirclegauge/frmsemicirclegauge.cpp
     semicirclegauge/frmsemicirclegauge.h
@@ -460,7 +460,7 @@ qext_add_executable(exp_QExtWidgetSemicircleGauge
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetArrowCompass
+qext_add_executable(QExtExpWidgetArrowCompass
     SOURCES
     arrowcompass/frmarrowcompass.cpp
     arrowcompass/frmarrowcompass.h
@@ -474,7 +474,7 @@ qext_add_executable(exp_QExtWidgetArrowCompass
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetRingCompass
+qext_add_executable(QExtExpWidgetRingCompass
     SOURCES
     ringcompass/frmringcompass.cpp
     ringcompass/frmringcompass.h
@@ -488,7 +488,7 @@ qext_add_executable(exp_QExtWidgetRingCompass
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetProgressKnob
+qext_add_executable(QExtExpWidgetProgressKnob
     SOURCES
     progressknob/frmprogressknob.cpp
     progressknob/frmprogressknob.h
@@ -502,7 +502,7 @@ qext_add_executable(exp_QExtWidgetProgressKnob
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetScaleKnob
+qext_add_executable(QExtExpWidgetScaleKnob
     SOURCES
     scaleknob/frmscaleknob.cpp
     scaleknob/frmscaleknob.h
@@ -516,7 +516,7 @@ qext_add_executable(exp_QExtWidgetScaleKnob
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetLed
+qext_add_executable(QExtExpWidgetLed
     SOURCES
     led/frmled.cpp
     led/frmled.h
@@ -530,7 +530,7 @@ qext_add_executable(exp_QExtWidgetLed
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetNavigationBar
+qext_add_executable(QExtExpWidgetNavigationBar
     SOURCES
     navigationbar/frmnavigationbar.cpp
     navigationbar/frmnavigationbar.h
@@ -547,7 +547,7 @@ qext_add_executable(exp_QExtWidgetNavigationBar
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetOvenTimer
+qext_add_executable(QExtExpWidgetOvenTimer
     SOURCES
     oventimer/frmoventimer.cpp
     oventimer/frmoventimer.h
@@ -561,7 +561,7 @@ qext_add_executable(exp_QExtWidgetOvenTimer
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetStyleThemes
+qext_add_executable(QExtExpWidgetStyleThemes
     SOURCES
     stylethemes/stylethemes.qrc
     stylethemes/mainwindow.cpp
@@ -584,7 +584,7 @@ qext_add_executable(exp_QExtWidgetStyleThemes
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetPropertyBrowserSimple
+qext_add_executable(QExtExpWidgetPropertyBrowserSimple
     SOURCES
     propertybrowser/simple/main.cpp
     LIBRARIES
@@ -595,7 +595,7 @@ qext_add_executable(exp_QExtWidgetPropertyBrowserSimple
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetPropertyBrowserDemo
+qext_add_executable(QExtExpWidgetPropertyBrowserDemo
     SOURCES
     propertybrowser/demo/main.cpp
     propertybrowser/demo/demo.qrc
@@ -607,7 +607,7 @@ qext_add_executable(exp_QExtWidgetPropertyBrowserDemo
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetPropertyBrowserExtension
+qext_add_executable(QExtExpWidgetPropertyBrowserExtension
     SOURCES
     propertybrowser/extension/main.cpp
     LIBRARIES
@@ -618,7 +618,7 @@ qext_add_executable(exp_QExtWidgetPropertyBrowserExtension
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetPropertyBrowserDecoration
+qext_add_executable(QExtExpWidgetPropertyBrowserDecoration
     SOURCES
     propertybrowser/decoration/main.cpp
     LIBRARIES
@@ -629,7 +629,7 @@ qext_add_executable(exp_QExtWidgetPropertyBrowserDecoration
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetPropertyBrowserCanvasTyped
+qext_add_executable(QExtExpWidgetPropertyBrowserCanvasTyped
     SOURCES
     propertybrowser/canvas_typed/main.cpp
     propertybrowser/canvas_typed/mainwindow.cpp
@@ -644,7 +644,7 @@ qext_add_executable(exp_QExtWidgetPropertyBrowserCanvasTyped
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetPropertyBrowserCanvasVariant
+qext_add_executable(QExtExpWidgetPropertyBrowserCanvasVariant
     SOURCES
     propertybrowser/canvas_variant/main.cpp
     propertybrowser/canvas_variant/mainwindow.cpp
@@ -659,7 +659,7 @@ qext_add_executable(exp_QExtWidgetPropertyBrowserCanvasVariant
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetPropertyBrowserObjectController
+qext_add_executable(QExtExpWidgetPropertyBrowserObjectController
     SOURCES
     propertybrowser/object_controller/main.cpp
     propertybrowser/object_controller/objectcontroller.cpp
@@ -672,7 +672,7 @@ qext_add_executable(exp_QExtWidgetPropertyBrowserObjectController
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtWidgetKeyboard
+qext_add_executable(QExtExpWidgetKeyboard
     SOURCES
     keyboard/main.cpp
     LIBRARIES

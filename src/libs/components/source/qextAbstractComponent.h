@@ -1,5 +1,5 @@
-#ifndef _QEXTCOMPONENTS_H
-#define _QEXTCOMPONENTS_H
+#ifndef _QEXTABSTRACTCOMPONENTS_H
+#define _QEXTABSTRACTCOMPONENTS_H
 
 #include <qextComponentsGlobal.h>
 
@@ -15,4 +15,4 @@ public:
 signals:
 };
 
-#endif // _QEXTCOMPONENTS_H
+#endif // _QEXTABSTRACTCOMPONENTS_H

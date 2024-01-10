@@ -212,6 +212,7 @@ if(NOT CMAKE_MESSAGE_LOG_LEVEL)
         set(CMAKE_MESSAGE_LOG_LEVEL "NOTICE")
     endif()
 endif()
+set(CMAKE_MESSAGE_LOG_LEVEL "DEBUG")
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -317,6 +318,16 @@ if(WIN32)
     endif()
 endif()
 
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Set CMAKE_OBJECT_PATH_MAX, avoid The maximum full path to an object file warning.
+#-----------------------------------------------------------------------------------------------------------------------
+set(CMAKE_OBJECT_PATH_MAX 1024)
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Fetch processor count
+#-----------------------------------------------------------------------------------------------------------------------
 include(ProcessorCount)
 processorcount(QEXT_PROCESSOR_COUNT)
 set(QEXT_NUMBER_OF_ASYNC_JOBS ${QEXT_PROCESSOR_COUNT})
@@ -377,20 +388,52 @@ qext_option(QEXT_BUILD_ALL "Enable this to build all artifacts" OFF)
 qext_option(QEXT_BUILD_SHARED_LIBS "Enable this to build as dynamically" ON
     SET BUILD_SHARED_LIBS)
 qext_option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ON
-    DEPENDS QEXT_BUILD_SHARED_LIBS)
+    DEPENDS BUILD_SHARED_LIBS)
 qext_option(QEXT_BUILD_COMPILER_WARNING "Enable this to build target with compiler warnings" OFF)
 qext_option(QEXT_BUILD_WARNINGS_ARE_ERRORS "Build UTK with warnings as errors" ${__qext_build_warnings_as_errors})
 qext_option(QEXT_BUILD_BENCHMARKS "Enable this to build the benchmarks" ${__qext_build_benchmarks}
     SET __qext_build_tests_default)
 qext_option(QEXT_BUILD_DOCS "Enable this to build the documentation" OFF)
-qext_option(QEXT_BUILD_TESTS "Enable this to build tests" ON)
-qext_option(QEXT_BUILD_EXAMPLES "Enable this to build examples" ON)
-qext_option(QEXT_BUILD_QMLS "Enable this to build the qmls." ${QEXT_QT_HAS_QML})
+qext_option(QEXT_BUILD_TESTS "Enable this to build tests" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_BUILD_EXAMPLES "Enable this to build examples" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_BUILD_QMLS "Enable this to build the qmls." OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_BUILD_APPS "Enable this to build apps" OFF)
 qext_option(QEXT_BUILD_TOOLS "Enable this to build the tools." ${__qext_build_tools_default})
-qext_option(QEXT_BUILD_BUNDLES "Enable this to build the bundles." ON)
+qext_option(QEXT_BUILD_BUNDLES "Enable this to build the bundles." OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_BUILD_PLUGINS "Enable this to build the plugins." OFF)
-qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" ON)
+qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+
+qext_option(QEXT_ENABLE_LIB_TCP "Enable this to build the tcp lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL
+    DEPENDS QEXT_ENABLE_LIB_UTILS)
+qext_option(QEXT_ENABLE_LIB_OSGI "Enable this to build the osgi lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_ICONS "Enable this to build the icons lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_UTILS "Enable this to build the utils lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_PINYIN "Enable this to build the pinyin lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_COMPONENTS "Enable this to build the components lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_WIDGETS "Enable this to build the widgets lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL
+    DEPENDS QEXT_ENABLE_LIB_ICONS AND QEXT_ENABLE_LIB_COMPONENTS)
+qext_option(QEXT_ENABLE_LIB_GRAPHICS "Enable this to build the graphics lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL
+    DEPENDS QEXT_ENABLE_LIB_COMPONENTS)
+qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+
+qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -398,7 +441,7 @@ qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" ON)
 #-----------------------------------------------------------------------------------------------------------------------
 if(QEXT_BUILD_DOCS)
     message(STATUS "Project build documentation")
-    qext_build_doxygen()
+#    qext_build_doxygen()
 endif()
 
 
@@ -669,7 +712,7 @@ add_subdirectory(src/libs)
 qext_add_subdirectory(src/qmls QEXT_BUILD_QMLS)
 qext_add_subdirectory(src/apps QEXT_BUILD_APPS)
 qext_add_subdirectory(src/tools QEXT_BUILD_TOOLS)
-qext_add_subdirectory(src/bundles QEXT_BUILD_BUNDLES)
+qext_add_subdirectory(src/bundles QEXT_BUILD_BUNDLES AND QEXT_ENABLE_LIB_OSGI)
 qext_add_subdirectory(src/plugins QEXT_BUILD_PLUGINS)
 
 
@@ -677,9 +720,10 @@ qext_add_subdirectory(src/plugins QEXT_BUILD_PLUGINS)
 # add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
 #add_subdirectory(3rdparty/qwt-6.1.3)
-qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
-qext_find_package(WrapCJSON PROVIDED_TARGETS QExt3rdparty::WrapCJSON)
-
+if(QEXT_3RDPARTY_BUILD_QWT)
+    qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
+endif()
+#qext_find_package(WrapCJSON PROVIDED_TARGETS QExt3rdparty::WrapCJSON)
 
 
 #-----------------------------------------------------------------------------------------------------------------------

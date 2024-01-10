@@ -44,7 +44,7 @@ list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Tcp)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_executable(exp_QExtTcpSimpleServer
+qext_add_executable(QExtExpTcpSimpleServer
         SOURCES
         simpleServer/smainwindow.cpp
         simpleServer/smainwindow.h
@@ -61,7 +61,7 @@ qext_add_executable(exp_QExtTcpSimpleServer
         ${QEXT_OUTPUT_EXAMPLE_DIR}
         DEFINES
         EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(exp_QExtTcpSimpleClient
+qext_add_executable(QExtExpTcpSimpleClient
         SOURCES
         simpleClient/cmainwindow.cpp
         simpleClient/cmainwindow.h

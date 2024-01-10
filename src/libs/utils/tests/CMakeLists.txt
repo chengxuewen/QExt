@@ -43,21 +43,21 @@ list(APPEND QEXT_TEST_LINK_LIBRARIES QExt::Utils)
 #-----------------------------------------------------------------------------------------------------------------------
 # add tests
 #-----------------------------------------------------------------------------------------------------------------------
-qext_internal_add_test(tst_QExtUtilsDatatime
+qext_internal_add_test(QExtTstUtilsDatatime
         SOURCES
         tst_qextDataTimeUtils.cpp
         LIBRARIES
         ${QEXT_TEST_LINK_LIBRARIES}
         OUTPUT_DIRECTORY
         ${QEXT_OUTPUT_TEST_DIR})
-qext_internal_add_test(tst_QExtUtilsNetwork
+qext_internal_add_test(QExtTstUtilsNetwork
         SOURCES
         tst_qextNetworkUtils.cpp
         LIBRARIES
         ${QEXT_TEST_LINK_LIBRARIES}
         OUTPUT_DIRECTORY
         ${QEXT_OUTPUT_TEST_DIR})
-qext_internal_add_test(tst_QExtUtilsCodec
+qext_internal_add_test(QExtTstUtilsCodec
         SOURCES
         tst_qextCodecUtils.cpp
         LIBRARIES

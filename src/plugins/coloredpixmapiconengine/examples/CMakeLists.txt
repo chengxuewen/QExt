@@ -59,9 +59,9 @@ list(APPEND _example_link_libraries QExtColoredPixmapIcon)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Add exp_qextColoredPixmapIcon example
+# Add QExtExpColoredPixmapIcon example
 #-----------------------------------------------------------------------------------------------------------------------
-set(_example_name exp_qextColoredPixmapIcon)
+set(_example_name QExtExpColoredPixmapIcon)
 set(_example_headers
     coloredpixmap/MainWindow.h
     )

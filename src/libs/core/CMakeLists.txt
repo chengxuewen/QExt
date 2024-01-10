@@ -27,6 +27,28 @@
 #-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_LIB_LINK_LIBRARIES)
 
+if(UNIX)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_DL_LIBS})
+endif()
+
+if(APPLE)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES "-framework Cocoa" "iconv")
+endif()
+
+if(WIN32)
+    # shlwapi.lib           ->  shell,string
+    # ws2_32.lib            ->  network
+    # Synchronization.lib   ->  sync
+    if(${CMAKE_SYSTEM_VERSION} EQUAL 6.1) # Windows 7
+    elseif(${CMAKE_SYSTEM_VERSION} GREATER_EQUAL 6.2) # Windows 8
+        list(APPEND QEXT_LIB_LINK_LIBRARIES Synchronization.lib)
+    endif()
+    list(APPEND QEXT_LIB_LINK_LIBRARIES shlwapi.lib ws2_32.lib)
+    if(NOT MINGW)
+        list(APPEND QEXT_LIB_LINK_LIBRARIES dbghelp)
+    endif()
+endif()
+
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore)
 elseif (QEXT_QT_VERSION_MAJOR GREATER 4)

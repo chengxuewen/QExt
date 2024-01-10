@@ -43,7 +43,7 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_executable(exp_QExtCoreSimpleObject
+qext_add_executable(QExtExpCoreSimpleObject
         SOURCES
         object/exp_core_simpleObj.cpp
         LIBRARIES

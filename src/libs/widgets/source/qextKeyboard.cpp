@@ -268,7 +268,7 @@ const double BUTTON_SPACING_RATIO = 0.030;
 const double BUTTON_WIDTH_RATIO   = 0.09;
 const double BUTTON_HEIGHT_RATIO  = 0.2;
 
-const QList<Modes> modeListBar1 =
+static const QList<Modes> modeListBar1 =
     {
     {{Qt::Key_Q, "q"}, {Qt::Key_Q, "Q"}, {Qt::Key_1, "1"}},
     {{Qt::Key_W, "w"}, {Qt::Key_W, "W"}, {Qt::Key_2, "2"}},
@@ -282,7 +282,7 @@ const QList<Modes> modeListBar1 =
     {{Qt::Key_P, "p"}, {Qt::Key_P, "P"}, {Qt::Key_0, "0"}},
 };
 
-const QList<Modes> modeListBar2 =
+static const QList<Modes> modeListBar2 =
     {
     {{Qt::Key_A, "a"}, {Qt::Key_A, "A"}, {Qt::Key_unknown, "."}},
     {{Qt::Key_S, "s"}, {Qt::Key_S, "S"}, {Qt::Key_unknown, "?"}},
@@ -295,7 +295,7 @@ const QList<Modes> modeListBar2 =
     {{Qt::Key_L, "l"}, {Qt::Key_L, "L"}, {Qt::Key_unknown, "@"}},
 };
 
-const QList<Modes> modeListBar3 =
+static const QList<Modes> modeListBar3 =
     {
     {{Qt::Key_CapsLock, "", ""/*大小写切换*/}},
     {{Qt::Key_Z, "z"}, {Qt::Key_Z, "Z"}, {Qt::Key_ParenLeft, "("}},
@@ -308,7 +308,7 @@ const QList<Modes> modeListBar3 =
     {{Qt::Key_Backspace, "", ""/*退格*/}}
 };
 
-const QList<Modes> modeListBar4 =
+static const QList<Modes> modeListBar4 =
     {
     {{Qt::Key_Mode_switch, "",  "?123"}},
     {{Qt::Key_Context1,    "",  "En"},    {Qt::Key_Context1, "", QStringLiteral("中")}},
@@ -498,26 +498,26 @@ QHBoxLayout *QExtKeyboard::h4()
 {
     QHBoxLayout *h = new QHBoxLayout;
     h->setSpacing(0);
-    for (int i = 0; i < modeListBar4.count(); i++)
-    {
-        QExtKeyButton *button = this->createButton(modeListBar4.at(i));
-        if (i == 0)
-        {
-            h->addWidget(button, 12);
-        }
-        if (i == 1)
-        {
-            h->addWidget(button, 10);
-        }
-        if (i == 2)
-        {
-            h->addWidget(button, 56);
-        }
-        if (i == 3)
-        {
-            h->addWidget(button, 22);
-        }
-    }
+//    for (int i = 0; i < modeListBar4.count(); i++)
+//    {
+//        QExtKeyButton *button = this->createButton(modeListBar4.at(i));
+//        if (i == 0)
+//        {
+//            h->addWidget(button, 12);
+//        }
+//        if (i == 1)
+//        {
+//            h->addWidget(button, 10);
+//        }
+//        if (i == 2)
+//        {
+//            h->addWidget(button, 56);
+//        }
+//        if (i == 3)
+//        {
+//            h->addWidget(button, 22);
+//        }
+//    }
 
     return h;
 }
