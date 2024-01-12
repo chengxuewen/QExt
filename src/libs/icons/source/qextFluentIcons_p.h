@@ -3,14 +3,14 @@
 
 #include <qextFluentIcons.h>
 
-class QEXTFluentIconsPrivate
+class QExtFluentIconsPrivate
 {
-    QEXTFluentIcons * const q_ptr;
-    QEXT_DECL_PUBLIC(QEXTFluentIcons)
-    QEXT_DISABLE_COPY_MOVE(QEXTFluentIconsPrivate)
+    QExtFluentIcons * const q_ptr;
+    QEXT_DECL_PUBLIC(QExtFluentIcons)
+    QEXT_DISABLE_COPY_MOVE(QExtFluentIconsPrivate)
 public:
-    explicit QEXTFluentIconsPrivate(QEXTFluentIcons *q);
-    virtual ~QEXTFluentIconsPrivate();
+    explicit QExtFluentIconsPrivate(QExtFluentIcons *q);
+    virtual ~QExtFluentIconsPrivate();
 
 };
 

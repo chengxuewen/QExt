@@ -33,8 +33,7 @@
 class QExtIconButtonPrivate;
 class QEXT_WIDGETS_API QExtIconButton : public QPushButton
 {
-    Q_OBJECT
-
+Q_OBJECT
     Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
     Q_PROPERTY(QColor iconColor READ iconColor WRITE setIconColor)
 
@@ -53,6 +52,8 @@ public:
 
     void setDisabledColor(const QColor &color);
     QColor disabledColor() const;
+
+    void rotateIcon();
 
 protected:
     QExtIconButton(QExtIconButtonPrivate &d, QWidget *parent = QEXT_NULLPTR);

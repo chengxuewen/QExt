@@ -90,13 +90,13 @@ void FrmNavigationListView::onItemPressed(QExtNavigationListItem *item)
         //        item->parentItem()->deleteLater();
         //        item->setParentItem(m_parentItems.last());
 
-        //        QEXTIconFontAwesome::FontOptionValueMap optionMap;
-        //        optionMap.insert(QEXTIconFontAwesome::Option_Color, ui->navListWidget->childItemTextNormalColor());
-        //        optionMap.insert(QEXTIconFontAwesome::Option_ColorActive, ui->navListWidget->childItemTextHoverColor());
-        //        optionMap.insert(QEXTIconFontAwesome::Option_ColorSelected, ui->navListWidget->childItemTextCheckedColor());
-        //        optionMap.insert(QEXTIconFontAwesome::Option_TextActive, qextIconFontAwesome->fontChar(QEXTIconFontAwesome::FA_address_book_o));
-        //        item->setIcon(qextIconFontAwesome->icon(QEXTIconFontAwesome::FA_address_book, optionMap));
-        //        item->setFontIcon(qextIconFontAwesome->fontChar(QEXTIconFontAwesome::FA_address_book));
+        //        QExtIconFontAwesome::FontOptionValueMap optionMap;
+        //        optionMap.insert(QExtIconFontAwesome::Option_Color, ui->navListWidget->childItemTextNormalColor());
+        //        optionMap.insert(QExtIconFontAwesome::Option_ColorActive, ui->navListWidget->childItemTextHoverColor());
+        //        optionMap.insert(QExtIconFontAwesome::Option_ColorSelected, ui->navListWidget->childItemTextCheckedColor());
+        //        optionMap.insert(QExtIconFontAwesome::Option_TextActive, qextIconFontAwesome->fontChar(QExtIconFontAwesome::FA_address_book_o));
+        //        item->setIcon(qextIconFontAwesome->icon(QExtIconFontAwesome::FA_address_book, optionMap));
+        //        item->setFontIcon(qextIconFontAwesome->fontChar(QExtIconFontAwesome::FA_address_book));
 
 //        item->setEnable(false);
 //        item->parentItem()->setEnable(false);

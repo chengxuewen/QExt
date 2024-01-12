@@ -27,20 +27,19 @@
 #define _QEXTINPUT_H
 
 #include <qextWidgetGlobal.h>
-#include <qextPinyin.h>
 
 #include <QWidget>
 #include <QPropertyAnimation>
 
 namespace Ui
 {
-    class QExtInput;
+class QExtInput;
 }
 
 class QExtInputPrivate;
 class QEXT_WIDGETS_API QExtInput : public QWidget
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
     enum PopUpTypes

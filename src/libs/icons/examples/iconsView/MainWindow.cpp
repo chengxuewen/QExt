@@ -21,8 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     typedef QPair<QWidget *, QExtIconsResource *> WidgetIconsResourcePair;
     QVector<WidgetIconsResourcePair> scrollAreaWidgetIcons;
-    scrollAreaWidgetIcons.append(WidgetIconsResourcePair(ui->scrollAreaWidgetContentsFluent, new QEXTFluentIcons(this)));
-    scrollAreaWidgetIcons.append(WidgetIconsResourcePair(ui->scrollAreaWidgetContentsMaterial, new QEXTMaterialIcons(this)));
+    scrollAreaWidgetIcons.append(WidgetIconsResourcePair(ui->scrollAreaWidgetContentsFluent, new QExtFluentIcons(this)));
+    scrollAreaWidgetIcons.append(WidgetIconsResourcePair(ui->scrollAreaWidgetContentsMaterial, new QExtMaterialIcons(this)));
     QVector<WidgetIconsResourcePair>::Iterator iter = scrollAreaWidgetIcons.begin();
     while (iter != scrollAreaWidgetIcons.end())
     {

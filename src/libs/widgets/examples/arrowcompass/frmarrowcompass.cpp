@@ -2,7 +2,6 @@
 #include "ui_frmarrowcompass.h"
 
 
-
 FrmArrowCompass::FrmArrowCompass(QWidget *parent) : QWidget(parent), ui(new Ui::FrmArrowCompass)
 {
     ui->setupUi(this);

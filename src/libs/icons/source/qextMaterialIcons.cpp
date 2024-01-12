@@ -4,7 +4,7 @@
 #include <QString>
 #include <QMetaEnum>
 
-QEXTMaterialIcons::QEXTMaterialIcons(QObject *parent)
+QExtMaterialIcons::QExtMaterialIcons(QObject *parent)
     : QExtIconsResource(parent)
 {
 

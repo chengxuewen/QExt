@@ -6,13 +6,15 @@
 
 #include <QObject>
 
-class QEXTFluentIconsPrivate;
-class QEXT_ICONS_API QEXTFluentIcons : public QExtIconsResource
+class QExtFluentIconsPrivate;
+
+class QEXT_ICONS_API QExtFluentIcons : public QExtIconsResource
 {
     Q_OBJECT
 
 public:
-    enum IconEnum {
+    enum IconEnum
+    {
         Icon_access_time_regular,
         Icon_access_time_filled,
         Icon_accessibility_regular,
@@ -4906,8 +4908,8 @@ public:
     };
     Q_ENUM(IconEnum);
 
-    explicit QEXTFluentIcons(QObject *parent = QEXT_NULLPTR);
-    ~QEXTFluentIcons() QEXT_OVERRIDE;
+    explicit QExtFluentIcons(QObject *parent = QEXT_NULLPTR);
+    ~QExtFluentIcons() QEXT_OVERRIDE;
 
     QString iconName(IconEnum icon, bool trim = true) const
     {
@@ -4915,18 +4917,23 @@ public:
         const QString iconName = metaEnum.valueToKey(icon);
         return trim ? this->trimIconName(iconName) : iconName;
     }
-    QString fileUrl(IconEnum icon) const { return this->iconResource(this->iconName(icon, true), true); }
-    QString filePath(IconEnum icon) const { return this->iconResource(this->iconName(icon, true), true); }
+    QString iconResource(IconEnum icon, bool isUrl = false) const
+    {
+        return QExtIconsResource::iconResource(this->iconName(icon, true), isUrl);
+    }
+
+    QString fileUrl(IconEnum icon) const { return this->iconResource(icon, true); }
+    QString filePath(IconEnum icon) const { return this->iconResource(icon, true); }
 
     const char *iconStyle() const QEXT_OVERRIDE { return "fluent"; }
     QMetaEnum iconMetaEnum() const QEXT_OVERRIDE { return QMetaEnum::fromType<IconEnum>(); };
 
 protected:
-    QScopedPointer<QEXTFluentIconsPrivate> dd_ptr;
+    QScopedPointer<QExtFluentIconsPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTFluentIcons)
-    QEXT_DISABLE_COPY_MOVE(QEXTFluentIcons)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtFluentIcons)
+    QEXT_DISABLE_COPY_MOVE(QExtFluentIcons)
 };
 
 #endif // _QEXTFLUENTICONS_H

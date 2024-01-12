@@ -5,7 +5,6 @@
 #include <QDebug>
 
 
-
 FrmNavigationButton::FrmNavigationButton(QWidget *parent) : QWidget(parent), ui(new Ui::FrmNavigationButton)
 {
     ui->setupUi(this);

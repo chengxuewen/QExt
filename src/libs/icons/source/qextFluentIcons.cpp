@@ -5,25 +5,25 @@
 #include <QString>
 #include <QMetaEnum>
 
-QEXTFluentIconsPrivate::QEXTFluentIconsPrivate(QEXTFluentIcons *q)
+QExtFluentIconsPrivate::QExtFluentIconsPrivate(QExtFluentIcons *q)
     : q_ptr(q)
 {
 
 }
 
-QEXTFluentIconsPrivate::~QEXTFluentIconsPrivate()
+QExtFluentIconsPrivate::~QExtFluentIconsPrivate()
 {
 
 }
 
-QEXTFluentIcons::QEXTFluentIcons(QObject *parent)
+QExtFluentIcons::QExtFluentIcons(QObject *parent)
     : QExtIconsResource(parent)
-    , dd_ptr(new QEXTFluentIconsPrivate(this))
+    , dd_ptr(new QExtFluentIconsPrivate(this))
 {
 
 }
 
-QEXTFluentIcons::~QEXTFluentIcons()
+QExtFluentIcons::~QExtFluentIcons()
 {
 
 }

@@ -177,6 +177,11 @@ QColor QExtIconButton::disabledColor() const
     return d->m_disabledColor;
 }
 
+void QExtIconButton::rotateIcon()
+{
+
+}
+
 QExtIconButton::QExtIconButton(QExtIconButtonPrivate &d, QWidget *parent)
     : QPushButton(parent),
       dd_ptr(&d)
@@ -229,20 +234,13 @@ bool QExtIconButton::eventFilter(QObject *obj, QEvent *event)
 void QExtIconButton::mousePressEvent(QMouseEvent *event)
 {
     Q_D(QExtIconButton);
-
-    //    d->rippleOverlay->addRipple(QPoint(d->rippleOverlay->width(), d->rippleOverlay->height()) / 2, iconSize().width());
-    emit clicked();
-
+    emit this->clicked();
     QAbstractButton::mousePressEvent(event);
 }
 
-/*!
- *  \reimp
- */
 void QExtIconButton::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
-
     QPainter painter(this);
 
     QStyleOption opt;
@@ -259,8 +257,8 @@ void QExtIconButton::paintEvent(QPaintEvent *event)
     iconPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
     iconPainter.fillRect(pixmap.rect(), isEnabled() ? iconColor() : disabledColor());
 
-    QRect r(rect());
+    QRect rect(this->rect());
     const qreal w = pixmap.width();
     const qreal h = pixmap.height();
-    painter.drawPixmap(QRect((r.width() - w) / 2, (r.height() - h) / 2, w, h), pixmap);
+    painter.drawPixmap(QRect((rect.width() - w) / 2, (rect.height() - h) / 2, w, h), pixmap);
 }

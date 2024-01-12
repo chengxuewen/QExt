@@ -28,11 +28,12 @@
 set(QEXT_LIB_LINK_LIBRARIES)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtSvg)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtXml Qt4::QtSvg)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Xml
         Qt${QEXT_QT_VERSION_MAJOR}::Svg
         Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
@@ -57,6 +58,9 @@ qext_add_library(Widgets
     source/qextCircleGauge.cpp
     source/qextCircleGauge.h
     source/qextCircleGauge_p.h
+    source/qextCollapseTabWidget.cpp
+    source/qextCollapseTabWidget.h
+    source/qextCollapseTabWidget_p.h
     source/qextDateTimeTumbler.cpp
     source/qextDateTimeTumbler.h
     source/qextDateTimeTumbler_p.h
@@ -72,9 +76,6 @@ qext_add_library(Widgets
     source/qextFramelessWidget.h
     source/qextFramelessWidget_p.h
     source/qextFramelessWidget.cpp
-    source/qextHidableTabWidget.cpp
-    source/qextHidableTabWidget.h
-    source/qextHidableTabWidget_p.h
     source/qextIconButton.cpp
     source/qextIconButton.h
     source/qextIconButton_p.h

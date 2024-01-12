@@ -29,7 +29,7 @@
 // (See http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#include "QExtBackTrace.h"
+#include <qextBackTrace.h>
 
 #include <QList>
 
@@ -65,10 +65,8 @@
 #   include <dbghelp.h>
 #endif
 
-// --------------------------------------------------------------------------
 size_t const QExtBackTrace::DefaultStackSize = 32;
 
-// --------------------------------------------------------------------------
 struct QExtBackTracePrivate
 {
     std::vector<void *> Frames;
@@ -77,7 +75,6 @@ struct QExtBackTracePrivate
     std::string getSymbol(void* address) const;
 };
 
-// --------------------------------------------------------------------------
 QExtBackTrace::QExtBackTrace(const QExtBackTrace& other)
     : d(new QExtBackTracePrivate(*other.d.data()))
 {
@@ -95,18 +92,15 @@ QExtBackTrace::QExtBackTrace(size_t framesNumber)
     d->Frames.resize(size);
 }
 
-// --------------------------------------------------------------------------
 QExtBackTrace::~QExtBackTrace() throw()
 {
 }
 
-// --------------------------------------------------------------------------
 size_t QExtBackTrace::stackSize() const
 {
     return d->Frames.size();
 }
 
-// --------------------------------------------------------------------------
 void* QExtBackTrace::returnAddress(unsigned frameNumber) const
 {
     if(frameNumber < stackSize())
@@ -116,7 +110,6 @@ void* QExtBackTrace::returnAddress(unsigned frameNumber) const
     return 0;
 }
 
-// --------------------------------------------------------------------------
 QString QExtBackTrace::stackFrame(unsigned frameNumber) const
 {
     if(frameNumber < d->Frames.size())

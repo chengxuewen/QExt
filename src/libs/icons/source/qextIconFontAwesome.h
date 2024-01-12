@@ -11,11 +11,11 @@
 #include <QRect>
 #include <QVariantMap>
 
-class QEXTIconFontAwesomeIconPainterInterface;
+class QExtIconFontAwesomeIconPainterInterface;
 
 /**
- * \brief The QEXTIconFontAwesome class
- * NOTE: Though the name is QEXTIconFontAwesome and currently it's very Font Awesome based,
+ * \brief The QExtIconFontAwesome class
+ * NOTE: Though the name is QExtIconFontAwesome and currently it's very Font Awesome based,
  * you can use every other icon/glyph font you want.
  *
  * The class can also be used to manage your own dynamic code-drawn icons, by adding named icon-painters.
@@ -23,16 +23,16 @@ class QEXTIconFontAwesomeIconPainterInterface;
  * Updated to FontAwesome 4.7.0
  *
  * Usage:
- *      You probably want to create a single QEXTIconFontAwesome object for your whole application:
+ *      You probably want to create a single QExtIconFontAwesome object for your whole application:
  *      <code/>
- *          QEXTIconFontAwesome* awesome = new QEXTIconFontAwesome( qApp )
+ *          QExtIconFontAwesome* awesome = new QExtIconFontAwesome( qApp )
  *          awesome->initFontAwesome();     // This line is important as it loads the font and initializes the named icon map
  *      </code>
  *
  * Example:
  *      <code/>
- *          // You should create a single object of QEXTIconFontAwesome.
- *          QEXTIconFontAwesome* awesome = new QEXTIconFontAwesome( qApp );
+ *          // You should create a single object of QExtIconFontAwesome.
+ *          QExtIconFontAwesome* awesome = new QExtIconFontAwesome( qApp );
  *          awesome->initFontAwesome();
  *
  *          // Next create your icon with the help of the icon-enumeration (no dashes):
@@ -64,7 +64,7 @@ class QEXTIconFontAwesomeIconPainterInterface;
  *          class DuplicateIconPainter : public QtAwesomeIconPainter
  *          {
  *          public:
- *              virtual void paint( QEXTIconFontAwesome* awesome, QPainter* painter, const QRect& rectIn, QIcon::Mode mode, QIcon::State state, const QVariantMap& options  )
+ *              virtual void paint( QExtIconFontAwesome* awesome, QPainter* painter, const QRect& rectIn, QIcon::Mode mode, QIcon::State state, const QVariantMap& options  )
  *              {
  *                  int drawSize = qRound(rectIn.height()*0.5);
  *                  int offset = rectIn.height() / 4;
@@ -85,7 +85,7 @@ class QEXTIconFontAwesomeIconPainterInterface;
  *      </code>
  *
  * Default options:
- *      The following options are default in the QEXTIconFontAwesome class.
+ *      The following options are default in the QExtIconFontAwesome class.
  *      <code/>
  *          setDefaultOption( "color", QColor(50,50,50) );
  *          setDefaultOption( "color-disabled", QColor(70,70,70,60));
@@ -101,7 +101,7 @@ class QEXTIconFontAwesomeIconPainterInterface;
  *      </code>
  *
  * When creating an icon, it first populates the options-map with the default options from
- * the QEXTIconFontAwesome object. After that the options are expanded/overwritten by the options supplied to the icon.
+ * the QExtIconFontAwesome object. After that the options are expanded/overwritten by the options supplied to the icon.
  *
  * It is possible to use another glyph per icon-state. For example to make an icon-unlock
  * symbol switch to locked when selected, you could supply the following option:
@@ -130,7 +130,7 @@ class QEXTIconFontAwesomeIconPainterInterface;
  * text-active-off
  * text-selected-off
  */
-class QEXT_ICONS_API QEXTIconFontAwesome : public QObject
+class QEXT_ICONS_API QExtIconFontAwesome : public QObject
 {
     Q_OBJECT
 public:
@@ -951,8 +951,8 @@ public:
     typedef QHash<QString, FontType> FontNameTextMap;
     typedef QHash<OptionType, QVariant> FontOptionValueMap;
 
-    explicit QEXTIconFontAwesome(QObject *parent = QEXT_NULLPTR);
-    virtual ~QEXTIconFontAwesome();
+    explicit QExtIconFontAwesome(QObject *parent = QEXT_NULLPTR);
+    virtual ~QExtIconFontAwesome();
 
     static int maiorVersion();
     static int minorVersion();
@@ -966,7 +966,7 @@ public:
     Q_INVOKABLE FontNameTextMap fontNameTextMap();
 
     /**
-     * \brief QEXTIconFontAwesome::setDefaultOption Sets a default option.
+     * \brief QExtIconFontAwesome::setDefaultOption Sets a default option.
      * These options are passed on to the icon painters
      * \param name
      * \param value
@@ -974,7 +974,7 @@ public:
     void setDefaultOption(const OptionType &option, const QVariant &value);
 
     /**
-     * \brief QEXTIconFontAwesome::defaultOption
+     * \brief QExtIconFontAwesome::defaultOption
      * \param name
      * \return Returns the default option for the given name
      */
@@ -983,7 +983,7 @@ public:
     QChar fontChar(FontType character);
 
     /**
-     * \brief QEXTIconFontAwesome::icon Creates an icon with the given code-point
+     * \brief QExtIconFontAwesome::icon Creates an icon with the given code-point
      *      <code>
      *          awesome->icon( icon_group )
      *      </code>
@@ -995,7 +995,7 @@ public:
     QIcon icon(FontType character, const QColor &color);
 
     /**
-     * \brief QEXTIconFontAwesome::icon Creates an icon with the given name
+     * \brief QExtIconFontAwesome::icon Creates an icon with the given name
      * You can use the icon names as defined on http://fortawesome.github.io/Font-Awesome/design.html
      * withour the 'icon-' prefix
      * \param name the name of the icon
@@ -1006,24 +1006,24 @@ public:
     QIcon icon(const QString &name, const QColor &color);
 
     /**
-     * \brief QEXTIconFontAwesome::icon Create a dynamic icon by simlpy supplying a painter object
+     * \brief QExtIconFontAwesome::icon Create a dynamic icon by simlpy supplying a painter object
      *  The ownership of the painter is NOT transfered.
      * \param painter a dynamic painter that is going to paint the icon
      * \param optionMap optionmap the options to pass to the painter
      * \return
      */
-    QIcon icon(QEXTIconFontAwesomeIconPainterInterface *painter, const FontOptionValueMap &optionMap = FontOptionValueMap());
+    QIcon icon(QExtIconFontAwesomeIconPainterInterface *painter, const FontOptionValueMap &optionMap = FontOptionValueMap());
 
     /**
-     * \brief QEXTIconFontAwesome::give Adds a named icon-painter to the QEXTIconFontAwesome icon map
-     * As the name applies the ownership is passed over to QEXTIconFontAwesome
+     * \brief QExtIconFontAwesome::give Adds a named icon-painter to the QExtIconFontAwesome icon map
+     * As the name applies the ownership is passed over to QExtIconFontAwesome
      * \param name the name of the icon
      * \param paintert he icon painter to add for this name
      */
-    void give(const QString &name, QEXTIconFontAwesomeIconPainterInterface *painter);
+    void give(const QString &name, QExtIconFontAwesomeIconPainterInterface *painter);
 
     /**
-     * \brief QEXTIconFontAwesome::font Creates/Gets the icon font with a given size in pixels.
+     * \brief QExtIconFontAwesome::font Creates/Gets the icon font with a given size in pixels.
      * This can be usefull to use a label for displaying icons
      * Example:
      *          QLabel* label = new QLabel( QChar( icon_group ) );
@@ -1043,22 +1043,22 @@ private:
     FontNameTextMap m_fontNameTextMap; ///< A map with names mapped to code-points
     FontOptionValueMap m_defaultOptions;                                         ///< The default icon options
 
-    QEXTIconFontAwesomeIconPainterInterface *m_fontIconPainter;               ///< A special painter fo painting codepoints
-    QHash<QString, QEXTIconFontAwesomeIconPainterInterface *> m_painterMap; ///< A map of custom painters
+    QExtIconFontAwesomeIconPainterInterface *m_fontIconPainter;               ///< A special painter fo painting codepoints
+    QHash<QString, QExtIconFontAwesomeIconPainterInterface *> m_painterMap; ///< A map of custom painters
 };
 
-/// The QEXTIconFontAwesomeIconPainter is a specialized painter for painting icons
+/// The QExtIconFontAwesomeIconPainter is a specialized painter for painting icons
 /// your can implement an iconpainter to create custom font-icon code
-class QEXTIconFontAwesomeIconPainterInterface
+class QExtIconFontAwesomeIconPainterInterface
 {
 public:
-    virtual ~QEXTIconFontAwesomeIconPainterInterface() {}
+    virtual ~QExtIconFontAwesomeIconPainterInterface() {}
 
-    virtual void paint(QEXTIconFontAwesome *awesome, QPainter *painter, const QRect &rect, QIcon::Mode mode,
-                       QIcon::State state, const QEXTIconFontAwesome::FontOptionValueMap &options) = 0;
+    virtual void paint(QExtIconFontAwesome *awesome, QPainter *painter, const QRect &rect, QIcon::Mode mode,
+                       QIcon::State state, const QExtIconFontAwesome::FontOptionValueMap &options) = 0;
 };
 
 #define qextIconFontAwesome qextGlobalFontAwesome()
-QEXT_ICONS_API QEXTIconFontAwesome *qextGlobalFontAwesome();
+QEXT_ICONS_API QExtIconFontAwesome *qextGlobalFontAwesome();
 
 #endif // _QEXTICONFONTAWESOME_H

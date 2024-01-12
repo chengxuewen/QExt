@@ -28,10 +28,12 @@
 #include <qextStyleThemes.h>
 
 #include <QXmlStreamReader>
+#include <QDomDocument>
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QDir>
+#include <QSet>
 
 class QEXT_WIDGETS_API QExtStyleThemesPrivate
 {
@@ -78,7 +80,11 @@ public:
     /* Generate the resources for the variuous states */
     bool generateResourcesFor(const QString &subDir, const QJsonObject &JsonObject, const QFileInfoList &entries);
     /* Replace the in the given content the template color string with the theme color string */
-    void replaceColor(QByteArray &content, const QString &templateColor, const QString &themeColor) const;
+    bool replaceColor(QByteArray &content, const QString &templateColor, const QString &themeColor) const;
+    /* Set the in the given content the template "fill" color attribute with the "path" tag */
+    void setDomAttribute(QDomElement &element, const QString &tagName, const QString &attrName, const QString &attrVal,
+                         const QStringList &exclusiveAttrNames = QStringList(),
+                         const QSet<QString> &ignoredAttrVals = QSet<QString>()) const;
     /* Set error code and error string */
     void setError(QExtStyleThemes::ErrorEnum error, const QString &ErrorString);
     /*Convenience function to ease clearing the error*/
@@ -86,6 +92,8 @@ public:
     void parsePaletteFromJson(); // Parse palette from JSON file
     /* Parse palette color group from the given palette json parameters */
     void parsePaletteColorGroup(QJsonObject &jPalette, QPalette::ColorGroup colorGroup);
+    /* Use this function to access the icon default color, to ensure, that is is properly initialized */
+    const QString &iconDefaultColor();
     /* Use this function to access the icon color replace list, to ensure, that is is properly initialized */
     const QExtStyleThemes::ColorReplaceVector &iconColorReplaceList() const;
     /* Parse a color replace list from the given JsonObject */
@@ -132,6 +140,7 @@ public:
     QStringList m_styles;
     QStringList m_themes;
     bool m_isDarkTheme;
+    QString m_iconDefaultColor;
     mutable QExtStyleThemes::ColorReplaceVector m_iconColorReplaceList;
 
 private:

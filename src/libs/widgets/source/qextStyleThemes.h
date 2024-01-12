@@ -59,22 +59,9 @@ public:
     };
     QEXT_STATIC_CONSTANT(int, LocationNum = Location_SvgsTemplates + 1);
 
-    enum StyleEnum
-    {
-        Style_Fusion = 0,
-        Style_Material
-    };
-    QEXT_STATIC_CONSTANT(int, StyleNum = Style_Material + 1);
-
-    explicit QExtStyleThemes(QObject *parent = 0);
+    explicit QExtStyleThemes(QObject *parent = QEXT_NULLPTR);
 
     ~QExtStyleThemes() QEXT_OVERRIDE;
-
-    /**
-     * @brief setCurrentStyle
-     * @param style
-     */
-    void setCurrentStyle(StyleEnum style);
 
     /**
      * @brief Set the directory path that contains all styles.
@@ -108,11 +95,36 @@ public:
     const QStringList &styles() const;
 
     /**
+     * @brief Returns the current set theme
+     * @return
+     */
+    QString currentTheme() const;
+
+    /**
+     * @brief currentStyleTheme
+     * @return
+     */
+    QString currentStyleTheme() const;
+
+    /**
      * @brief Returns a list of all themes for the current style.
      * If no style has been set, this function returns an empty list
      * @return A list of all themes for the current style.
      */
     const QStringList &themes() const;
+
+    /**
+     * @brief
+     * @param style
+     * @return
+     */
+    QStringList themes(const QString &style) const;
+
+    /**
+     * @brief
+     * @return
+     */
+    QStringList styleThemes() const;
 
     /**
      * @brief Returns a list of all theme variables for colors
@@ -121,11 +133,19 @@ public:
     const QMap<QString, QString> &themeColorVariables() const;
 
     /**
+     * @brief
+     * @param stylePath
+     * @param location
+     * @return
+     */
+    QString styleLocationPath(const QString &stylePath, LocationEnum location) const;
+
+    /**
      * @brief Returns the absolute dir path for the given location
      * @param location
      * @return
      */
-    QString path(LocationEnum location) const;
+    QString currentStyleLocationPath(LocationEnum location) const;
 
     /**
      * @brief Returns the absolute output dir path where the generated styles will get stored.
@@ -174,12 +194,6 @@ public:
      * @return
      */
     QColor themeColor(const QString &variableId) const;
-
-    /**
-     * @brief Returns the current set theme
-     * @return
-     */
-    QString currentTheme() const;
 
     /**
      * @brief Returns the processed style stylesheet.
@@ -257,12 +271,7 @@ public:
      */
     QIcon loadThemeAwareSvgIcon(const QString &fileName);
 
-    static QString resourcePath(StyleEnum style);
-
-    static QString styleEnumString(int style, bool isTR = true);
-
 public slots:
-
     /**
      * @brief Sets the theme to use.
      * Use the theme name without the file extension. That means, if your theme file id dark_cyan.xml then set the theme
@@ -286,6 +295,13 @@ public slots:
      * @return Set style success returns true, otherwise returns false
      */
     bool setCurrentStyle(const QString &style);
+
+    /**
+     * @brief
+     * @param styleTheme
+     * @return
+     */
+    bool setCurrentStyleTheme(const QString &styleTheme);
 
     /**
      * @brief Call this function if you would like to reprocess the style template.
@@ -326,7 +342,6 @@ public slots:
      * application object
      */
     void updateApplicationPaletteColors();
-
 
 signals:
     /**

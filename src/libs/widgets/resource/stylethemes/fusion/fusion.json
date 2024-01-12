@@ -25,10 +25,12 @@
             "#000000" : "#ffffff00"
         }
     },
-    
+
+    "icon_default_color" : "secondaryTextColor",
     "icon_colors" : {
+        "#ffffff" : "secondaryTextColor",
         "#03b8e5" : "secondaryTextColor"
-    },    
+    },
 
     "palette" : {
         "active" : {

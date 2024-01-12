@@ -26,7 +26,7 @@
 
 struct MainWindowPrivate
 {
-    MainWindowPrivate(CMainWindow* _public) : q_ptr(_public), m_widgetForm(0) {}
+    MainWindowPrivate(CMainWindow *_public) : q_ptr(_public), m_widgetForm(0) {}
 
     void setSomeIcons();
     void fillThemeMenu();
@@ -39,12 +39,11 @@ struct MainWindowPrivate
     Ui::MainWindow *ui;
 
     CMainWindow *q_ptr;
-    QExtStyleThemes* m_styleThemes;
-    QVector<QPushButton*> m_themeColorButtons;
+    QExtStyleThemes *m_styleThemes;
+    QVector<QPushButton *> m_themeColorButtons;
 
     WidgetForm *m_widgetForm;
 };
-
 
 void MainWindowPrivate::createThemeColorDockWidget()
 {
@@ -70,10 +69,9 @@ void MainWindowPrivate::createThemeColorDockWidget()
     this->updateThemeColorButtons();
 }
 
-
 void MainWindowPrivate::updateThemeColorButtons()
 {
-    for (QVector<QPushButton*>::Iterator iter = m_themeColorButtons.begin(); iter != m_themeColorButtons.end(); ++iter)
+    for (QVector<QPushButton *>::Iterator iter = m_themeColorButtons.begin(); iter != m_themeColorButtons.end(); ++iter)
     {
         QColor color = m_styleThemes->themeColor((*iter)->text());
         QString textColor = (color.value() < 128) ? "#ffffff" : "#000000";
@@ -83,20 +81,28 @@ void MainWindowPrivate::updateThemeColorButtons()
     }
 }
 
+#define USE_STYLE_THEME_LIST 1
 
 void MainWindowPrivate::fillThemeMenu()
 {
     // Add actions for theme selection
     QMenu *menu = ui->menuThemes;
+#if USE_STYLE_THEME_LIST
+    const QStringList &themes = m_styleThemes->styleThemes();
+#else
     const QStringList &themes = m_styleThemes->themes();
+#endif
     for (QStringList::ConstIterator iter = themes.constBegin(); iter != themes.constEnd(); ++iter)
     {
         QAction *action = new QAction(*iter);
         QObject::connect(action, &QAction::triggered, q_ptr, &CMainWindow::onThemeActionTriggered);
         menu->addAction(action);
     }
+#if USE_STYLE_THEME_LIST
+    m_styleThemes->setCurrentStyleTheme(themes.first());
+    m_styleThemes->updateStylesheet();
+#endif
 }
-
 
 void MainWindowPrivate::setSomeIcons()
 {
@@ -107,7 +113,6 @@ void MainWindowPrivate::setSomeIcons()
         ui->listWidget_2->item(i)->setIcon(Icon);
     }
 }
-
 
 void MainWindowPrivate::loadThemeAwareToolbarActionIcons()
 {
@@ -167,7 +172,6 @@ void MainWindowPrivate::initPaletteColorTableWidget(const QPalette &palette)
     }
 }
 
-
 CMainWindow::CMainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -178,13 +182,14 @@ CMainWindow::CMainWindow(QWidget *parent)
     d->m_styleThemes = new QExtStyleThemes(this);
     d->m_styleThemes->setStylesDirPath();
     d->m_styleThemes->setOutputDirPath(qApp->applicationDirPath() + "/output");
+#if !USE_STYLE_THEME_LIST
     d->m_styleThemes->setCurrentStyle("material");
-    //    d->m_styleThemes->setCurrentStyle("fusion");
     //    QApplication::setStyle(QStyleFactory::create("Fusion"));
     d->m_styleThemes->setDefaultTheme();
     d->m_styleThemes->updateStylesheet();
     this->setWindowIcon(d->m_styleThemes->styleIcon());
     qApp->setStyleSheet(d->m_styleThemes->styleSheet());
+#endif
     connect(d->m_styleThemes, SIGNAL(stylesheetChanged()), this, SLOT(onStyleManagerStylesheetChanged()));
 
     d->createThemeColorDockWidget();
@@ -212,21 +217,22 @@ CMainWindow::~CMainWindow()
     delete d;
 }
 
-
 void CMainWindow::onThemeActionTriggered()
 {
     QAction *action = qobject_cast<QAction *>(sender());
+#if USE_STYLE_THEME_LIST
+    d->m_styleThemes->setCurrentStyleTheme(action->text());
+#else
     d->m_styleThemes->setCurrentTheme(action->text());
+#endif
     d->m_styleThemes->updateStylesheet();
 }
-
 
 void CMainWindow::onStyleManagerStylesheetChanged()
 {
     qApp->setStyleSheet(d->m_styleThemes->styleSheet());
     d->updateThemeColorButtons();
 }
-
 
 void CMainWindow::onThemeColorButtonClicked()
 {

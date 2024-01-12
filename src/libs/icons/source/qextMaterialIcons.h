@@ -6,12 +6,13 @@
 
 #include <QObject>
 
-class QEXT_ICONS_API QEXTMaterialIcons : public QExtIconsResource
+class QEXT_ICONS_API QExtMaterialIcons : public QExtIconsResource
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
-    enum IconEnum {
+    enum IconEnum
+    {
         Icon_360_outlined,
         Icon_360_round,
         Icon_360_sharp,
@@ -4009,7 +4010,7 @@ public:
     };
     Q_ENUM(IconEnum);
 
-    explicit QEXTMaterialIcons(QObject *parent = QEXT_NULLPTR);
+    explicit QExtMaterialIcons(QObject *parent = QEXT_NULLPTR);
 
     QString iconName(IconEnum icon, bool trim = true) const
     {
@@ -4017,8 +4018,14 @@ public:
         const QString iconName = metaEnum.valueToKey(icon);
         return trim ? this->trimIconName(iconName) : iconName;
     }
-    QString fileUrl(IconEnum icon) const { return this->iconResource(this->iconName(icon, true), true); }
-    QString filePath(IconEnum icon) const { return this->iconResource(this->iconName(icon, true), true); }
+
+    QString iconResource(IconEnum icon, bool isUrl = false) const
+    {
+        return QExtIconsResource::iconResource(this->iconName(icon, true), isUrl);
+    }
+
+    QString fileUrl(IconEnum icon) const { return this->iconResource(icon, true); }
+    QString filePath(IconEnum icon) const { return this->iconResource(icon, true); }
 
     const char *iconStyle() const QEXT_OVERRIDE { return "material"; }
     QMetaEnum iconMetaEnum() const QEXT_OVERRIDE { return QMetaEnum::fromType<IconEnum>(); };

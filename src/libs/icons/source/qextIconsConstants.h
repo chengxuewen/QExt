@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-namespace QEXTIconsConstants
+namespace QExtIconsConstants
 {
 
 }

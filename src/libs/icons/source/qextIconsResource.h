@@ -9,11 +9,11 @@
 
 class QEXT_ICONS_API QExtIconsResource : public QObject
 {
-    Q_OBJECT
+Q_OBJECT
 public:
     typedef QString (*iconNameTrimFunc)(const QString &);
-    
-    explicit QExtIconsResource(QObject *parent = QEXT_NULLPTR) : QObject{parent} {}
+
+    explicit QExtIconsResource(QObject *parent = QEXT_NULLPTR) : QObject(parent) {}
 
     virtual const char *iconStyle() const = 0;
     virtual QMetaEnum iconMetaEnum() const = 0;
@@ -41,13 +41,9 @@ public:
     {
         return QExtIconsResource::resource(this->iconStyle(), iconName, isUrl);
     }
-    static inline QString resource(const QString &style, const QString &iconName, bool isUrl = false)
-    {
-        qextIconsInitResource();
-        return QString("%1:/QExtIcons/%2/%3.svg").arg(isUrl ? "qrc" : "").arg(style).arg(iconName);
-    }
 
-    static inline void qextIconsInitResource();
+    static void initResource();
+    static QString resource(const QString &style, const QString &iconName, bool isUrl = false);
 
 private:
     mutable QStringList m_iconsNameList;
