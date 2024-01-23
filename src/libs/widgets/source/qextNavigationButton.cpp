@@ -33,13 +33,10 @@
 QExtNavigationButtonPrivate::QExtNavigationButtonPrivate(QExtNavigationButton *q)
     : q_ptr(q)
 {
-    m_hovered = false;
     m_padding = 5;
+    m_hovered = false;
     m_iconSpace = 10;
-    m_iconVisible = false;
-    m_normalIcon = QPixmap();
-    m_hoverIcon = QPixmap();
-    m_checkIcon = QPixmap();
+    m_iconVisible = true;
     m_navigationPosition = QExtNavigationButton::Position_Right;
 }
 
@@ -115,15 +112,17 @@ void QExtNavigationButton::drawBackground(QPainter *painter)
     painter->save();
     QColor color;
     QPalette palette = this->palette();
+    const bool checked = this->isChecked();
+    const bool enabled = this->isEnabled();
     painter->setPen(Qt::NoPen);
     if (this->isFlat())
     {
-        if (this->isChecked())
+        if (checked)
         {
             color = palette.color(QPalette::ButtonText);
             color.setAlphaF(0.2);
         }
-        else if (this->isEnabled() && d->m_hovered)
+        else if (enabled && d->m_hovered)
         {
             color = palette.color(QPalette::ButtonText);
             color.setAlphaF(0.2);
@@ -135,11 +134,15 @@ void QExtNavigationButton::drawBackground(QPainter *painter)
     }
     else
     {
-        if (this->isChecked())
+        if (checked)
         {
             color = palette.color(QPalette::ButtonText);
+            if (!enabled)
+            {
+                color.setAlphaF(0.2);
+            }
         }
-        else if (this->isEnabled() && d->m_hovered)
+        else if (enabled && d->m_hovered)
         {
             color = palette.color(QPalette::ButtonText);
             color.setAlphaF(0.2);
@@ -185,6 +188,7 @@ void QExtNavigationButton::drawText(QPainter *painter)
     QPalette palette = this->palette();
     painter->setBrush(Qt::NoBrush);
     const bool checked = this->isChecked();
+    const bool enabled = this->isEnabled();
     if (this->isFlat())
     {
         color = palette.color(QPalette::ButtonText);
@@ -193,8 +197,8 @@ void QExtNavigationButton::drawText(QPainter *painter)
     {
         if (checked)
         {
-            color = this->isEnabled() ? palette.color(QPalette::Button)
-                                      : palette.color(QPalette::BrightText);
+            color = enabled ? palette.color(QPalette::Button)
+                            : palette.color(QPalette::ButtonText);
         }
         else
         {
@@ -238,21 +242,13 @@ void QExtNavigationButton::drawIcon(QPainter *painter)
     {
         return;
     }
+    QIcon icon = this->icon();
+    if (icon.isNull())
+    {
+        return;
+    }
 
     painter->save();
-    QColor iconColor;
-    QPalette palette = this->palette();
-    const bool checked = this->isChecked();
-    if (this->isFlat())
-    {
-        iconColor = palette.color(QPalette::ButtonText);
-    }
-    else
-    {
-        iconColor = checked ? palette.color(QPalette::Button)
-                            : palette.color(QPalette::ButtonText);
-    }
-
     QRect iconRect;
     const int width = this->width();
     const int height = this->height();
@@ -277,28 +273,22 @@ void QExtNavigationButton::drawIcon(QPainter *painter)
         iconRect = QRect((width - iconSize.width()) / 2, height - d->m_iconSpace,
                          iconSize.width(), iconSize.height());
     }
-
-    QPixmap pixmap;
-    if (this->isChecked())
+    QPixmap pixmap = icon.pixmap(this->iconSize());
+    if (!this->isEnabled())
     {
-        pixmap = d->m_checkIcon;
-    }
-    else if (d->m_hovered)
-    {
-        pixmap = d->m_hoverIcon;
-    }
-    else
-    {
-        pixmap = d->m_normalIcon;
-    }
-    if (!pixmap.isNull())
-    {
-        pixmap = pixmap.scaled(iconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         QPainter iconPainter(&pixmap);
+        QPalette palette = this->palette();
         iconPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-        iconPainter.fillRect(pixmap.rect(), iconColor);
-        painter->drawPixmap(iconRect, pixmap);
+        iconPainter.fillRect(pixmap.rect(), palette.color(QPalette::ButtonText));
     }
+    else if (!this->isFlat() && this->isChecked())
+    {
+        QPainter iconPainter(&pixmap);
+        QPalette palette = this->palette();
+        iconPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+        iconPainter.fillRect(pixmap.rect(), palette.color(QPalette::Button));
+    }
+    painter->drawPixmap(iconRect, pixmap);
 
     painter->restore();
 }
@@ -310,16 +300,22 @@ void QExtNavigationButton::drawLine(QPainter *painter)
     {
         return;
     }
-
     if (!this->isChecked() && !d->m_hovered)
+    {
+        return;
+    }
+    if (!this->isChecked() && !this->isEnabled() && d->m_hovered)
     {
         return;
     }
 
     painter->save();
+    QColor color;
+    QPalette palette = this->palette();
+    color = palette.color(QPalette::ButtonText);
     QPen pen;
+    pen.setColor(color);
     pen.setWidth(this->font().pixelSize() / 2);
-    pen.setColor(this->palette().color(QPalette::ButtonText));
     painter->setPen(pen);
 
     QPoint pointStart, pointEnd;
@@ -367,7 +363,7 @@ void QExtNavigationButton::drawTriangle(QPainter *painter)
     QPalette palette = this->palette();
     color = palette.color(QPalette::Button);
     painter->setBrush(color);
-    painter->setPen(Qt::NoPen);
+    painter->setPen(color);
 
     const int width = this->width();
     const int height = this->height();
@@ -451,58 +447,6 @@ void QExtNavigationButton::setIconSpace(int space)
         d->m_iconSpace = space;
         this->update();
     }
-}
-
-QPixmap QExtNavigationButton::normalIcon() const
-{
-    Q_D(const QExtNavigationButton);
-    return d->m_normalIcon;
-}
-
-void QExtNavigationButton::setNormalIcon(const QPixmap &pixmap)
-{
-    Q_D(QExtNavigationButton);
-    d->m_normalIcon = pixmap;
-    this->update();
-}
-
-QPixmap QExtNavigationButton::hoveredIcon() const
-{
-    Q_D(const QExtNavigationButton);
-    return d->m_hoverIcon;
-}
-
-void QExtNavigationButton::setHoverIcon(const QPixmap &pixmap)
-{
-    Q_D(QExtNavigationButton);
-    d->m_hoverIcon = pixmap;
-    this->update();
-}
-
-QPixmap QExtNavigationButton::checkedIcon() const
-{
-    Q_D(const QExtNavigationButton);
-    return d->m_checkIcon;
-}
-
-void QExtNavigationButton::setCheckIcon(const QPixmap &pixmap)
-{
-    Q_D(QExtNavigationButton);
-    d->m_checkIcon = pixmap;
-    this->update();
-}
-
-void QExtNavigationButton::setIcon(const QPixmap &pixmap)
-{
-    this->setNormalIcon(pixmap);
-    this->setHoverIcon(pixmap);
-    this->setCheckIcon(pixmap);
-}
-
-void QExtNavigationButton::setIcon(const QIcon &icon)
-{
-    this->setIcon(icon.pixmap(this->iconSize()));
-    QPushButton::setIcon(icon);
 }
 
 QSize QExtNavigationButton::sizeHint() const

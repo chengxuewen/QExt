@@ -2,7 +2,7 @@
 **
 ** Library: QExt
 **
-** Copyright (C) 2022~Present ChengXueWen. Contact: 1398831004@qq.com
+** Copyright (C) 2016~Present ChengXueWen. Contact: 1398831004@qq.com
 **
 ** License: MIT License
 **
@@ -22,45 +22,49 @@
 **
 ***********************************************************************************************************************/
 
-#ifndef _QEXTCOLLAPSETABWIDGET_P_H
-#define _QEXTCOLLAPSETABWIDGET_P_H
+#ifndef _QEXTPINYIN_H
+#define _QEXTPINYIN_H
 
-#include <qextCollapseTabWidget.h>
-#include <qextIconAnimation.h>
+#include <qextGuiGlobal.h>
 
-#include <QPushButton>
-#include <QStateMachine>
-#include <QVariantAnimation>
+#include <QObject>
 
-class QExtCollapseTabWidgetPrivate
+class QExtPinyinPrivate;
+class QEXT_GUI_API QExtPinyin : public QObject
 {
+    Q_OBJECT
 public:
-    explicit QExtCollapseTabWidgetPrivate(QExtCollapseTabWidget *q);
-    virtual ~QExtCollapseTabWidgetPrivate();
+    explicit QExtPinyin(QObject *parent = 0);
+    ~QExtPinyin();
 
-    int rotationAngle();
-    QRect collapseButtonRect();
-    int rotationAngleFromTabPosition(QTabWidget::TabPosition position);
-    QRect collapseButtonRectFromTabPosition(QTabWidget::TabPosition position);
+public slots:
+    //Open the input method core
+    bool open(const QString &strDBPath);
+    //Close the input method core
+    void close();
+    //Cancel the input
+    void cancel();
+    //Clear the cache
+    void flush();
+    //Reset the search
+    void reset();
 
-    QExtCollapseTabWidget *const q_ptr;
+    //Find the Chinese characters corresponding to pinyin, return the number
+    int select(const QString &strPinyin);
+    //Gets the character for the specified index
+    QString getChinese(const int &iIndex);
 
-    QScopedPointer<QPushButton> m_collapseButton;
-    QScopedPointer<QExtIconAnimation> m_iconAnimation;
-    QScopedPointer<QVariantAnimation> m_sizeAnimation;
-    int m_collapseIconDefaultRotationAngle;
-    int m_animationEnadValue;
-    bool m_collapseVertical;
-    bool m_animationEnable;
-    bool m_collapsed;
-    int m_collapsedSize;
-    int m_maximumSize;
-    int m_minimumSize;
-    int m_expandSize;
+    //Delete the Chinese characters
+    int deleteSelect(const int &iPos);
+    //Current lookup position
+    int getPosition();
+
+protected:
+    QExtPinyinPrivate *dd_ptr;
 
 private:
-    Q_DECLARE_PUBLIC(QExtCollapseTabWidget)
-    Q_DISABLE_COPY(QExtCollapseTabWidgetPrivate)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPinyin)
+    Q_DISABLE_COPY(QExtPinyin)
 };
 
-#endif // _QEXTCOLLAPSETABWIDGET_P_H
+#endif // _QEXTPINYIN_H

@@ -50,7 +50,6 @@ QExtNavigationListItemPrivate::~QExtNavigationListItemPrivate()
 QExtNavigationListItem::QExtNavigationListItem(QExtNavigationListItem *parent)
     : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
 {
-    Q_D(QExtNavigationListItem);
     this->setParentItem(parent);
 }
 

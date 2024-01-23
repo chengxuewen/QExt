@@ -35,8 +35,8 @@ public:
     /**
      * Creates an icon engine with the given SVG content an assigned AndvancedStylesheet object
      */
-    explicit QExtStyleThemesSvgIconEngine(const QByteArray &svgContent, QExtStyleThemes *styleThemes)
-        : m_svgTemplate(svgContent), m_styleTheme(styleThemes)
+    explicit QExtStyleThemesSvgIconEngine(const QByteArray &svgContent, QExtStyleThemes *styleThemes, const QString &mark = "")
+        : m_svgTemplate(svgContent), m_styleTheme(styleThemes), m_styleVariable(mark)
     {
         this->update();
         sg_iconEngineInstances->insert(this);
@@ -59,7 +59,7 @@ public:
     void update()
     {
         m_svgContent = m_svgTemplate;
-        m_styleTheme->replaceSvgColors(m_svgContent);
+        m_styleTheme->replaceSvgColors(m_svgContent, m_styleVariable);
     }
 
     /**
@@ -75,7 +75,7 @@ public:
         }
     }
 
-    virtual void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state) override
+    virtual void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state) QEXT_OVERRIDE
     {
         Q_UNUSED(mode);
         Q_UNUSED(state);
@@ -107,6 +107,7 @@ private:
     QByteArray m_svgContent; ///< memory buffer with SVG data load from file
     QByteArray m_svgTemplate;
     QExtStyleThemes *m_styleTheme;
+    QString m_styleVariable;
 };
 
 QExtStyleThemesPrivate::QExtStyleThemesPrivate(QExtStyleThemes *q)
@@ -870,12 +871,30 @@ void QExtStyleThemes::replaceSvgColors(QByteArray &svgContent, const ColorReplac
     svgContent = domDocument.toByteArray();
 }
 
-QIcon QExtStyleThemes::loadThemeAwareSvgIcon(const QString &fileName)
+void QExtStyleThemes::replaceSvgColors(QByteArray &svgContent, const QString &variable)
+{
+    Q_D(QExtStyleThemes);
+    if (d->m_styleVariables.contains(variable))
+    {
+        const QString color = d->m_styleVariables.value(variable);
+        QDomDocument domDocument;
+        domDocument.setContent(svgContent);
+        QDomElement domElement = domDocument.documentElement();
+        d->setDomAttribute(domElement, "path", "fill", color, QStringList() << "style");
+        svgContent = domDocument.toByteArray();
+    }
+    else
+    {
+        this->replaceSvgColors(svgContent);
+    }
+}
+
+QIcon QExtStyleThemes::loadThemeAwareSvgIcon(const QString &fileName, const QString &variable)
 {
     QFile svgFile(fileName);
     svgFile.open(QIODevice::ReadOnly);
     QByteArray content = svgFile.readAll();
-    return QIcon(new QExtStyleThemesSvgIconEngine(content, this));
+    return QIcon(new QExtStyleThemesSvgIconEngine(content, this, variable));
 }
 
 bool QExtStyleThemes::setCurrentTheme(const QString &theme)

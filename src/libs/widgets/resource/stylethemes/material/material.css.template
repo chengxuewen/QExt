@@ -59,9 +59,6 @@ QTabWidget > QWidget {
     border: none;
 }
 
-QTabWidget::pane {
-    border: none;
-}
 
 /*  ------------------------------------------------------------------------  */
 /*  Inputs  */
@@ -373,6 +370,19 @@ QTabBar::close-button {
 QTabBar::close-button:hover {
     image: url(icon:/material/primary/tab_close.svg);
 }
+
+
+/*  ------------------------------------------------------------------------  */
+/*  QTabWidget  */
+
+QTabWidget::pane {
+    border: none;
+}
+
+QTabWidget::tab-bar {
+    alignment: left;
+}
+
 
 /*  ------------------------------------------------------------------------  */
 /*  QGroupBox  */
@@ -1028,6 +1038,10 @@ QTreeView QHeaderView::section {
 /*  ------------------------------------------------------------------------  */
 /*  Custom buttons  */
 
+QPushButton[radius=square] {
+    border-radius: 0px;
+}
+
 QPushButton.danger {
     border-color: {{danger}};
     color: {{danger}};
@@ -1112,11 +1126,12 @@ QHeaderView {
 
 /*
     text-transform: uppercase;
+    padding: 0 20px;
 */
 QHeaderView::section {
     color: {{secondaryTextColor|opacity(0.7)}};
     background-color: {{secondaryColor}};
-    padding: 0 20px;
+    padding: 0 5px;
     height: 35px;
     border-radius: 0px;
     border-right: 1px solid;

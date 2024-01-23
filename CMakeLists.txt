@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.1.1 LANGUAGES CXX C)
+project(QExt VERSION 1.2.2.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -421,14 +421,12 @@ qext_option(QEXT_ENABLE_LIB_UTILS "Enable this to build the utils lib" OFF
 	OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PATTERN "Enable this to build the pattern lib" OFF
 	OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_LIB_COMPONENTS "Enable this to build the components lib" OFF
-	OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_WIDGETS "Enable this to build the widgets lib" OFF
 	OR_CONDITION QEXT_BUILD_ALL
-	DEPENDS QEXT_ENABLE_LIB_ICONS AND QEXT_ENABLE_LIB_COMPONENTS AND QEXT_ENABLE_LIB_GUI)
+        DEPENDS QEXT_ENABLE_LIB_ICONS AND QEXT_ENABLE_LIB_GUI)
 qext_option(QEXT_ENABLE_LIB_GRAPHICS "Enable this to build the graphics lib" OFF
 	OR_CONDITION QEXT_BUILD_ALL
-	DEPENDS QEXT_ENABLE_LIB_COMPONENTS AND QEXT_ENABLE_LIB_GUI)
+        DEPENDS QEXT_ENABLE_LIB_GUI)
 qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib" OFF
 	OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF

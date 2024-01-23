@@ -417,21 +417,6 @@ qext_add_executable(QExtExpWidgetRulerSlider
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(QExtExpWidgetIconButton
-    SOURCES
-    iconbutton/FormIconButton.cpp
-    iconbutton/FormIconButton.h
-    iconbutton/FormIconButton.ui
-    iconbutton/FormIconButton.qrc
-    iconbutton/main.cpp
-    LIBRARIES
-    ${QEXT_EXAMPLE_LINK_LIBRARIES}
-    INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/iconbutton
-    OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
-    DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
 qext_add_executable(QExtExpWidgetCircleGauge
     SOURCES
     circlegauge/frmcirclegauge.cpp

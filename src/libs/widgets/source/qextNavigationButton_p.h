@@ -38,12 +38,9 @@ public:
     QExtNavigationButton * const q_ptr;
 
     int m_padding;
-    int m_iconSpace;
     bool m_hovered;
+    int m_iconSpace;
     bool m_iconVisible;
-    QPixmap m_hoverIcon;
-    QPixmap m_checkIcon;
-    QPixmap m_normalIcon;
     QExtNavigationButton::PositionEnum m_navigationPosition;
 
 private:

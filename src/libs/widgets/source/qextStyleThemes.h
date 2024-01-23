@@ -261,6 +261,8 @@ public:
      */
     void replaceSvgColors(QByteArray &svgContent, const ColorReplaceVector &colorReplaceVector = ColorReplaceVector());
 
+    void replaceSvgColors(QByteArray &svgContent, const QString &variable);
+
     /**
      * @brief Loads svg data from the given @a filename and then passes the loaded svg data to replaceSvgColors() function
      * to replace colors with theme colors.
@@ -269,7 +271,7 @@ public:
      * @param filename The svg file name.
      * @return
      */
-    QIcon loadThemeAwareSvgIcon(const QString &fileName);
+    QIcon loadThemeAwareSvgIcon(const QString &fileName, const QString &variable = "");
 
 public slots:
     /**
@@ -367,9 +369,8 @@ protected:
     QScopedPointer<QExtStyleThemesPrivate> dd_ptr;
 
 private:
-
+    friend class QExtStyleThemesSvgIconEngine;
     QEXT_DISABLE_COPY_MOVE(QExtStyleThemes)
-
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtStyleThemes)
 };
 

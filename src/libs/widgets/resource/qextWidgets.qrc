@@ -11,13 +11,6 @@
         <file>image/btn_xiaoxie_white.png</file>
         <file>image/delete_black.png</file>
         <file>image/delete_white.png</file>
-        <file>pinyin/valid_utf16.txt</file>
-        <file>pinyin/sort.h</file>
-        <file>pinyin/rawdict_utf16_65105_freq.txt</file>
-        <file>pinyin/rawdict_utf16_65105_freq_sort.txt</file>
-        <file>pinyin/dict_pinyin.dat</file>
-        <file>pinyin/pinyin_phrase.txt</file>
-        <file>pinyin/pinyin.txt</file>
         <file>stylethemes/fluent/fluent_icon.svg</file>
         <file>stylethemes/fluent/fluent.css.template</file>
         <file>stylethemes/fluent/fluent.json</file>
@@ -190,5 +183,6 @@
         <file>stylethemes/material/themes/PureDarkGrey.xml</file>
         <file>stylethemes/material/themes/PureLightBlue.xml</file>
         <file>stylethemes/material/themes/PureLightGrey.xml</file>
+        <file>image/arrow_caret_collapse.svg</file>
     </qresource>
 </RCC>

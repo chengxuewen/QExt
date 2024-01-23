@@ -40,7 +40,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Icons QExt::Components)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Icons QExt::Gui)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -76,9 +76,6 @@ qext_add_library(Widgets
     source/qextFramelessWidget.h
     source/qextFramelessWidget_p.h
     source/qextFramelessWidget.cpp
-    source/qextIconButton.cpp
-    source/qextIconButton.h
-    source/qextIconButton_p.h
     source/qextIconLabel.cpp
     source/qextIconLabel.h
     source/qextIconLabel_p.h
@@ -97,6 +94,8 @@ qext_add_library(Widgets
     source/qextLed.cpp
     source/qextLed.h
     source/qextLed_p.h
+    source/qextMessageBox.cpp
+    source/qextMessageBox.h
     source/qextNavigationBar.cpp
     source/qextNavigationBar.h
     source/qextNavigationBar_p.h

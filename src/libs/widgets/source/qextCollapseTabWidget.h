@@ -36,22 +36,30 @@ class QExtCollapseTabWidgetPrivate;
 class QEXT_WIDGETS_API QExtCollapseTabWidget : public QTabWidget
 {
     Q_OBJECT
+    Q_PROPERTY(QIcon panelCollapseIcon READ panelCollapseIcon WRITE setPanelCollapseIcon NOTIFY panelCollapseIconChanged FINAL)
 
 public:
     explicit QExtCollapseTabWidget(QWidget *parent = QEXT_NULLPTR);
     ~QExtCollapseTabWidget() QEXT_OVERRIDE;
 
-    bool isCollapsed() const;
+    bool isPanelCollapsed() const;
     bool isAnimationEnable() const;
 
-    QIcon collapseIcon() const;
-    void setCollapseIcon(const QIcon &icon);
+    QIcon panelCollapseIcon() const;
+    void setPanelCollapseIcon(const QIcon &icon);
+
+    int panelCollapseIconDefaultRotationAngle() const;
+    void setPanelCollapseIconDefaultRotationAngle(int angle);
+
+    void setTabPosition(QTabWidget::TabPosition position); // cover base class
+    void setCornerWidget(QWidget * w, Qt::Corner corner = Qt::TopRightCorner); // cover base class
 
 Q_SIGNALS:
     void tabsExpanded();
     void tabsCollapsed();
     void tabsCollapseChanged(bool collapsed);
     void animationEnableChanged(bool enable);
+    void panelCollapseIconChanged(const QIcon &icon);
 
 public Q_SLOTS:
     void expandTabs();
@@ -59,13 +67,16 @@ public Q_SLOTS:
     void setCollapseState(bool collapse);
     void setAnimationEnable(bool enable);
 
-private Q_SLOTS:
+protected Q_SLOTS:
     void onTabBarClicked();
     void onToolButtonClicked();
     void onTabBarDoubleClicked();
     void onAnimationValueChanged(const QVariant &value);
 
     void connectSignals();
+
+protected:
+    void resizeEvent(QResizeEvent *event) QEXT_OVERRIDE;
 
 protected:
     QScopedPointer<QExtCollapseTabWidgetPrivate> dd_ptr;

@@ -34,18 +34,7 @@ class QExtNavigationButtonPrivate;
 class QEXT_WIDGETS_API QExtNavigationButton : public QPushButton
 {
     Q_OBJECT
-
 public:
-    enum TextAlignEnum
-    {
-        TextAlign_Left = Qt::AlignLeft,
-        TextAlign_Right = Qt::AlignRight,
-        TextAlign_Top = Qt::AlignTop,
-        TextAlign_Bottom = Qt::AlignBottom,
-        TextAlign_Center = Qt::AlignCenter
-    };
-    Q_ENUM(TextAlignEnum)
-
     enum PositionEnum
     {
         Position_Left = 0,
@@ -58,7 +47,7 @@ public:
     explicit QExtNavigationButton(QWidget *parent = QEXT_NULLPTR);
     ~QExtNavigationButton();
 
-    void setCheckable(bool); // rewrite
+    void setCheckable(bool); // cover base class
 
     PositionEnum navigationPosition() const;
     void setNavigationPosition(PositionEnum position);
@@ -71,15 +60,6 @@ public:
 
     bool isIconVisible() const;
     void setIconVisible(bool visiable);
-
-    QPixmap normalIcon() const;
-    void setNormalIcon(const QPixmap &pixmap);
-    QPixmap hoveredIcon() const;
-    void setHoverIcon(const QPixmap &pixmap);
-    QPixmap checkedIcon() const;
-    void setCheckIcon(const QPixmap &pixmap);
-    void setIcon(const QPixmap &pixmap);
-    void setIcon(const QIcon &icon); // rewrite
 
     QSize sizeHint() const QEXT_OVERRIDE;
     QSize minimumSizeHint() const QEXT_OVERRIDE;

@@ -3152,6 +3152,8 @@ void QExtScrollerPrivate::setContentPositionHelperDragging(const QPointF &deltaP
 
     qreal oldOvershootX = (canOvershootX) ? oldPos.x() - oldClampedPos.x() : 0;
     qreal oldOvershootY = (canOvershootY) ? oldPos.y() - oldClampedPos.y() : 0;
+    Q_UNUSED(oldOvershootX);
+    Q_UNUSED(oldOvershootY);
 
     qreal newOvershootX = (canOvershootX) ? newPos.x() - newClampedPos.x() : 0;
     qreal newOvershootY = (canOvershootY) ? newPos.y() - newClampedPos.y() : 0;

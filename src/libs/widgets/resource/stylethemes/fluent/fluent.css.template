@@ -59,9 +59,6 @@ QTabWidget > QWidget {
     border: none;
 }
 
-QTabWidget::pane {
-    border: none;
-}
 
 /*  ------------------------------------------------------------------------  */
 /*  Inputs  */
@@ -76,7 +73,7 @@ QPushButton {
     background-color: {{secondaryDarkColor}};
     border: 2px solid {{primaryColor}};
     border-radius: 4px;
-    padding: 4px 8px;
+    padding: 8px 16px ;
     height: 18px;
 }
 
@@ -87,7 +84,7 @@ QTreeView,
 QListView,
 QLineEdit,
 QComboBox {
-    padding-left: 7px;
+    padding-left: 15px;
     border-radius: 0px;
     background-color: {{secondaryColor}};
     border-width: 0 0 2px 0;
@@ -112,14 +109,14 @@ QLineEdit:disabled {
     background-color: {{secondaryColor|opacity(0.75)}};
     border: 2px solid {{primaryColor|opacity(0.2)}};
     border-width: 0 0 2px 0;
-    padding: 4px 8px;
+    padding: 8px 16px ;
     border-radius: 0px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
 
 QTextEdit {
-    padding: 4px;
+    padding: 8px;
     border-radius: 4px;
     background-color: {{secondaryColor}};
 }
@@ -373,6 +370,19 @@ QTabBar::close-button {
 QTabBar::close-button:hover {
     image: url(icon:/fluent/primary/tab_close.svg);
 }
+
+
+/*  ------------------------------------------------------------------------  */
+/*  QTabWidget  */
+
+QTabWidget::pane {
+    border: none;
+}
+
+QTabWidget::tab-bar {
+    alignment: left;
+}
+
 
 /*  ------------------------------------------------------------------------  */
 /*  QGroupBox  */
@@ -1028,6 +1038,10 @@ QTreeView QHeaderView::section {
 /*  ------------------------------------------------------------------------  */
 /*  Custom buttons  */
 
+QPushButton[radius=square] {
+    border-radius: 0px;
+}
+
 QPushButton.danger {
     border-color: {{danger}};
     color: {{danger}};
@@ -1116,7 +1130,7 @@ QHeaderView {
 QHeaderView::section {
     color: {{secondaryTextColor|opacity(0.7)}};
     background-color: {{secondaryColor}};
-    padding: 0px;
+    padding: 0 20px;
     height: 35px;
     border-radius: 0px;
     border-right: 1px solid;
@@ -1236,4 +1250,3 @@ QSizeGrip {
     width: 16px;
     height: 16px;
 }
-

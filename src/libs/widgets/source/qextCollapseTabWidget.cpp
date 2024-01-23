@@ -23,7 +23,7 @@
 ***********************************************************************************************************************/
 
 #include <private/qextCollapseTabWidget_p.h>
-#include <qextSvgIconsResource.h>
+#include <qextIconAnimation.h>
 
 #include <QTabBar>
 #include <QToolButton>
@@ -31,12 +31,15 @@
 #include <QTimer>
 #include <QChar>
 #include <QDebug>
+#include <QResizeEvent>
+#include <QtMath>
 
 #define DOUBLE_CLICK_DELAY (200) // ms
-#define ANIMATION_DURATION (200) // ms
+#define ANIMATION_DURATION (250) // ms
 
 QExtCollapseTabWidgetPrivate::QExtCollapseTabWidgetPrivate(QExtCollapseTabWidget *q)
     : q_ptr(q)
+    , m_collapseIconDefaultRotationAngle(0)
     , m_animationEnable(true)
     , m_collapsed(false)
 {
@@ -46,28 +49,70 @@ QExtCollapseTabWidgetPrivate::~QExtCollapseTabWidgetPrivate()
 {
 }
 
+int QExtCollapseTabWidgetPrivate::rotationAngle()
+{
+    return this->rotationAngleFromTabPosition(q_ptr->tabPosition());
+}
+
+QRect QExtCollapseTabWidgetPrivate::collapseButtonRect()
+{
+    return this->collapseButtonRectFromTabPosition(q_ptr->tabPosition());
+}
+
+int QExtCollapseTabWidgetPrivate::rotationAngleFromTabPosition(QTabWidget::TabPosition position)
+{
+    switch (position)
+    {
+    case QTabWidget::North: return m_collapseIconDefaultRotationAngle;
+    case QTabWidget::South: return m_collapseIconDefaultRotationAngle;
+    case QTabWidget::West: return m_collapseIconDefaultRotationAngle + 90;
+    case QTabWidget::East: return m_collapseIconDefaultRotationAngle - 90;
+    default:
+        break;
+    }
+}
+
+QRect QExtCollapseTabWidgetPrivate::collapseButtonRectFromTabPosition(QTabWidget::TabPosition position)
+{
+    switch (position)
+    {
+    case QTabWidget::North:
+        return QRect(q_ptr->width() - m_collapsedSize, 0, m_collapsedSize, m_collapsedSize);
+    case QTabWidget::South:
+        return QRect(q_ptr->width() - m_collapsedSize, q_ptr->height() - m_collapsedSize, m_collapsedSize, m_collapsedSize);
+    case QTabWidget::West:
+        return QRect(0, q_ptr->height() - m_collapsedSize, m_collapsedSize, m_collapsedSize);
+    case QTabWidget::East:
+        return QRect(q_ptr->width() - m_collapsedSize, q_ptr->height() - m_collapsedSize, m_collapsedSize, m_collapsedSize);
+    default:
+        break;
+    }
+}
+
 QExtCollapseTabWidget::QExtCollapseTabWidget(QWidget *parent)
     : QTabWidget(parent), dd_ptr(new QExtCollapseTabWidgetPrivate(this))
 {
     Q_D(QExtCollapseTabWidget);
     /* init animation */
-    d->m_animation.reset(new QVariantAnimation(this));
-    d->m_animation->setDuration(ANIMATION_DURATION);
-    connect(d->m_animation.data(), SIGNAL(valueChanged(QVariant)), this, SLOT(onAnimationValueChanged(QVariant)));
+    d->m_sizeAnimation.reset(new QVariantAnimation(this));
+    d->m_sizeAnimation->setDuration(ANIMATION_DURATION);
+    connect(d->m_sizeAnimation.data(), SIGNAL(valueChanged(QVariant)), this, SLOT(onAnimationValueChanged(QVariant)));
 
     /* init ui */
-    d->m_expandHeight = -1;
-    d->m_maximumHeight = this->maximumHeight();
-    d->m_minimumHeight = this->minimumHeight();
-    d->m_collapsedHeight = this->tabBar()->height();
-    QIcon icon(QExtSvgIconsResource::svgResource(QExtSvgIconsResource::Icon_arrows_caret_collapse));
-    d->m_collapseButton.reset(new QToolButton(this));
+    this->setTabPosition(QTabWidget::North);
+    d->m_collapseIconDefaultRotationAngle = 180;
+    d->m_iconAnimation.reset(new QExtIconAnimation(QIcon(":/QExtWidgets/image/arrow_caret_collapse.svg"), this));
+    d->m_iconAnimation->rotationAnimation()->setDuration(ANIMATION_DURATION);
+    d->m_iconAnimation->rotationAnimation()->setStartValue(d->rotationAngle());
+    d->m_iconAnimation->rotationAnimation()->setEndValue(d->rotationAngle());
+    d->m_collapseButton.reset(new QPushButton(this));
     d->m_collapseButton->setObjectName("collapseTabWidget");
     d->m_collapseButton->setToolTip(tr("%1 TabWidget").arg(d->m_collapsed ? "Collapse" : "Expand"));
-    d->m_collapseButton->setFixedSize(QSize(d->m_collapsedHeight, d->m_collapsedHeight));
+    d->m_collapseButton->setFixedSize(QSize(d->m_collapsedSize, d->m_collapsedSize));
     d->m_collapseButton->setCheckable(false);
-    d->m_collapseButton->setAutoRaise(true);
-    d->m_collapseButton->setIcon(icon);
+    d->m_collapseButton->setFlat(true);
+    d->m_collapseButton->setIcon(d->m_iconAnimation->animationIcon());
+    d->m_collapseButton->setProperty("radius", "square");
     this->setCornerWidget(d->m_collapseButton.data());
     this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
@@ -79,39 +124,84 @@ QExtCollapseTabWidget::~QExtCollapseTabWidget()
 {
 }
 
-bool QExtCollapseTabWidget::isCollapsed() const
+bool QExtCollapseTabWidget::isPanelCollapsed() const
 {
     Q_D(const QExtCollapseTabWidget);
-    return d->m_collapsed && this->tabBar()->height() == this->height();
+    return d->m_collapsed;
 }
 
 bool QExtCollapseTabWidget::isAnimationEnable() const
 {
     Q_D(const QExtCollapseTabWidget);
-    return d->m_animation->duration() > 0;
+    return d->m_sizeAnimation->duration() > 0;
 }
 
-QIcon QExtCollapseTabWidget::collapseIcon() const
+QIcon QExtCollapseTabWidget::panelCollapseIcon() const
 {
-
+    Q_D(const QExtCollapseTabWidget);
+    return d->m_collapseButton->icon();
 }
 
-void QExtCollapseTabWidget::setCollapseIcon(const QIcon &icon)
+void QExtCollapseTabWidget::setPanelCollapseIcon(const QIcon &icon)
 {
+    Q_D(QExtCollapseTabWidget);
+    d->m_iconAnimation->setRawIcon(icon);
+    d->m_collapseButton->setIcon(d->m_iconAnimation->animationIcon());
+    emit this->panelCollapseIconChanged(icon);
+}
 
+int QExtCollapseTabWidget::panelCollapseIconDefaultRotationAngle() const
+{
+    Q_D(const QExtCollapseTabWidget);
+    return d->m_collapseIconDefaultRotationAngle;
+}
+
+void QExtCollapseTabWidget::setPanelCollapseIconDefaultRotationAngle(int angle)
+{
+    Q_D(QExtCollapseTabWidget);
+    d->m_collapseIconDefaultRotationAngle = angle;
+    d->m_iconAnimation->rotationAnimation()->setStartValue(d->rotationAngle());
+    d->m_iconAnimation->rotationAnimation()->setEndValue(d->rotationAngle());
+}
+
+void QExtCollapseTabWidget::setTabPosition(QTabWidget::TabPosition position)
+{
+    Q_D(QExtCollapseTabWidget);
+    QTabWidget::setTabPosition(position);
+    d->m_expandSize = -1;
+    d->m_collapsedSize = this->tabBar()->height();
+    d->m_collapseVertical = QTabWidget::North == position || QTabWidget::South == position;
+    d->m_maximumSize = d->m_collapseVertical ? this->maximumHeight() : this->maximumWidth();
+    d->m_minimumSize = d->m_collapseVertical ? this->minimumHeight() : this->minimumHeight();
+    if (!d->m_iconAnimation.isNull())
+    {
+        d->m_iconAnimation->rotationAnimation()->setStartValue(d->rotationAngle());
+        d->m_iconAnimation->rotationAnimation()->setEndValue(d->rotationAngle());
+    }
+}
+
+void QExtCollapseTabWidget::setCornerWidget(QWidget *w, Qt::Corner corner)
+{
+    Q_UNUSED(w);
+    Q_UNUSED(corner);
+    // QTabWidget::setCornerWidget(w, corner);
 }
 
 void QExtCollapseTabWidget::setCollapseState(bool collapse)
 {
     Q_D(QExtCollapseTabWidget);
-    const int height = this->height();
-    if (!d->m_collapsed && height != d->m_expandHeight)
+    const int currentSize = d->m_collapseVertical ? this->height() : this->width();
+    if (!d->m_collapsed && currentSize != d->m_expandSize)
     {
-        d->m_expandHeight = height;
+        d->m_expandSize = currentSize;
     }
-    d->m_animation->setStartValue(height);
-    d->m_animation->setEndValue(collapse ? d->m_collapsedHeight : d->m_expandHeight);
-    d->m_animation->start();
+    d->m_sizeAnimation->setStartValue(currentSize);
+    d->m_sizeAnimation->setEndValue(collapse ? d->m_collapsedSize : d->m_expandSize);
+    d->m_sizeAnimation->start();
+    const int rotationAngle = d->m_iconAnimation->rotationAngle();
+    d->m_iconAnimation->rotationAnimation()->setStartValue(rotationAngle);
+    d->m_iconAnimation->rotationAnimation()->setEndValue(collapse ? rotationAngle - 180 : rotationAngle + 180);
+    d->m_iconAnimation->start();
     d->m_collapsed = collapse;
     QTimer::singleShot(DOUBLE_CLICK_DELAY, this, SLOT(connectSignals()));
 }
@@ -119,7 +209,9 @@ void QExtCollapseTabWidget::setCollapseState(bool collapse)
 void QExtCollapseTabWidget::setAnimationEnable(bool enable)
 {
     Q_D(QExtCollapseTabWidget);
-    d->m_animation->setDuration(enable ? ANIMATION_DURATION : 0);
+    const int duration = enable ? ANIMATION_DURATION : 0;
+    d->m_sizeAnimation->setDuration(duration);
+    d->m_iconAnimation->rotationAnimation()->setDuration(duration);
 }
 
 void QExtCollapseTabWidget::onTabBarClicked()
@@ -141,29 +233,32 @@ void QExtCollapseTabWidget::onTabBarDoubleClicked()
 void QExtCollapseTabWidget::onAnimationValueChanged(const QVariant &value)
 {
     Q_D(QExtCollapseTabWidget);
-    const int height = value.toInt();
-    if (height != d->m_expandHeight)
+    const int size = value.toInt();
+    if (size != d->m_expandSize)
     {
-        this->setFixedHeight(height);
+        if (d->m_collapseVertical)
+        {
+            this->setFixedHeight(size);
+        }
+        else
+        {
+            this->setFixedWidth(size);
+        }
     }
     else
     {
-        this->setFixedHeight(height);
-        // if (d->m_animation->endValue() == value)
-        // {
-        //     this->setMaximumHeight(d->m_maximumHeight); // just a very big number
-        //     this->setMinimumHeight(d->m_minimumHeight); // just a very big number
-        //     auto rect = this->geometry();
-        //     rect.setHeight(d->m_expandHeight);
-        //     this->setGeometry(rect); // just a very big number
-        // }
-        // else
-        // {
-        //     this->setFixedHeight(height);
-        // }
+        // TODO  split?
+        if (d->m_collapseVertical)
+        {
+            this->setFixedHeight(size);
+        }
+        else
+        {
+            this->setFixedWidth(size);
+        }
     }
 
-    if (d->m_animation->endValue() == value)
+    if (d->m_sizeAnimation->endValue() == value)
     {
         if (d->m_collapsed)
         {
@@ -190,6 +285,13 @@ void QExtCollapseTabWidget::connectSignals()
         disconnect(this, SIGNAL(tabBarClicked(int)), this, SLOT(onTabBarClicked()));
         connect(this, SIGNAL(tabBarDoubleClicked(int)), this, SLOT(onTabBarDoubleClicked()));
     }
+}
+
+void QExtCollapseTabWidget::resizeEvent(QResizeEvent *event)
+{
+    Q_D(QExtCollapseTabWidget);
+    QTabWidget::resizeEvent(event);
+    d->m_collapseButton->setGeometry(d->collapseButtonRect());
 }
 
 void QExtCollapseTabWidget::expandTabs()

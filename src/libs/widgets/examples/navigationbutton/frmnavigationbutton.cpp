@@ -37,11 +37,8 @@ void FrmNavigationButton::initForm()
         btn->setIconVisible(true);
         btn->setIconSpace(15);
         btn->setIconSize(QSize(10, 10));
-        btn->setNormalIcon(iconNormal);
-        btn->setHoverIcon(iconHover);
-        btn->setCheckIcon(iconCheck);
+        btn->setIcon(iconNormal);
         btn->setNavigationPosition(QExtNavigationButton::Position_Right);
-
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick1()));
     }
 
@@ -74,11 +71,7 @@ void FrmNavigationButton::initForm()
         QPixmap iconNormal = IconHelper::Instance()->getPixmap(normalTextColor.name(), icon, size, pixWidth, pixHeight);
         QPixmap iconHover = IconHelper::Instance()->getPixmap(hoverTextColor.name(), icon, size, pixWidth, pixHeight);
         QPixmap iconCheck = IconHelper::Instance()->getPixmap(checkTextColor.name(), icon, size, pixWidth, pixHeight);
-
-        btn->setNormalIcon(iconNormal);
-        btn->setHoverIcon(iconHover);
-        btn->setCheckIcon(iconCheck);
-
+        btn->setIcon(iconNormal);
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick2()));
     }
 
@@ -105,10 +98,7 @@ void FrmNavigationButton::initForm()
         QPixmap iconHover = IconHelper::Instance()->getPixmap(hoverTextColor.name(), icon, size, pixWidth, pixHeight);
         QPixmap iconCheck = IconHelper::Instance()->getPixmap(checkTextColor.name(), icon, size, pixWidth, pixHeight);
 
-        btn->setNormalIcon(iconNormal);
-        btn->setHoverIcon(iconHover);
-        btn->setCheckIcon(iconCheck);
-
+        btn->setIcon(iconNormal);
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick3()));
     }
 
@@ -131,10 +121,7 @@ void FrmNavigationButton::initForm()
         btn->setIconVisible(true);
         btn->setIconSpace(25);
         btn->setIconSize(QSize(15, 15));
-        btn->setNormalIcon(iconNormal);
-        btn->setHoverIcon(iconHover);
-        btn->setCheckIcon(iconCheck);
-
+        btn->setIcon(iconNormal);
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick4()));
     }
 
@@ -169,11 +156,7 @@ void FrmNavigationButton::initForm()
         QPixmap iconNormal = IconHelper::Instance()->getPixmap(normalTextColor.name(), icon, size, pixWidth, pixHeight);
         QPixmap iconHover = IconHelper::Instance()->getPixmap(hoverTextColor.name(), icon, size, pixWidth, pixHeight);
         QPixmap iconCheck = IconHelper::Instance()->getPixmap(checkTextColor.name(), icon, size, pixWidth, pixHeight);
-
-        btn->setNormalIcon(iconNormal);
-        btn->setHoverIcon(iconHover);
-        btn->setCheckIcon(iconCheck);
-
+        btn->setIcon(iconNormal);
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick5()));
     }
 
@@ -200,11 +183,7 @@ void FrmNavigationButton::initForm()
         QPixmap iconNormal = IconHelper::Instance()->getPixmap(normalTextColor.name(), icon, size, pixWidth, pixHeight);
         QPixmap iconHover = IconHelper::Instance()->getPixmap(hoverTextColor.name(), icon, size, pixWidth, pixHeight);
         QPixmap iconCheck = IconHelper::Instance()->getPixmap(checkTextColor.name(), icon, size, pixWidth, pixHeight);
-
-        btn->setNormalIcon(iconNormal);
-        btn->setHoverIcon(iconHover);
-        btn->setCheckIcon(iconCheck);
-
+        btn->setIcon(iconNormal);
         connect(btn, SIGNAL(clicked(bool)), this, SLOT(buttonClick6()));
     }
 

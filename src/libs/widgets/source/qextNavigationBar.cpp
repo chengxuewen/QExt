@@ -166,7 +166,6 @@ void QExtNavigationBar::keyPressEvent(QKeyEvent *keyEvent)
 
 void QExtNavigationBar::paintEvent(QPaintEvent *)
 {
-    Q_D(QExtNavigationBar);
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 

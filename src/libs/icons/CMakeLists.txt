@@ -58,8 +58,6 @@ qext_add_library(Icons
     source/qextMaterialIcons.cpp
     source/qextMaterialIcons.h
     source/qextMaterialIcons_p.h
-    source/qextSvgIconsResource.h
-    source/qextSvgIconsResource.cpp
     resource/qextIcons.qrc
     PRECOMPILED_HEADER
     source/qextIconPch.h

@@ -8887,13 +8887,5 @@
         <file>material/zoom_out_outlined.svg</file>
         <file>material/zoom_out_round.svg</file>
         <file>material/zoom_out_sharp.svg</file>
-        <file>svgs/arrows/caret/back_filled.svg</file>
-        <file>svgs/arrows/caret/back_rounded.svg</file>
-        <file>svgs/arrows/caret/collapse_filled.svg</file>
-        <file>svgs/arrows/caret/collapse_rounded.svg</file>
-        <file>svgs/arrows/caret/expand_filled.svg</file>
-        <file>svgs/arrows/caret/expand_rounded.svg</file>
-        <file>svgs/arrows/caret/forward_filled.svg</file>
-        <file>svgs/arrows/caret/forward_rounded.svg</file>
     </qresource>
 </RCC>

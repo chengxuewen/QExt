@@ -29,7 +29,8 @@
     "icon_default_color" : "secondaryTextColor",
     "icon_colors" : {
         "#ffffff" : "secondaryTextColor",
-        "#03b8e5" : "secondaryTextColor"
+        "#03b8e5" : "secondaryTextColor",
+        "#2c2c2c" : "secondaryTextColor"
     },
 
     "palette" : {
