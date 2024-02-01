@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 
     int i = 0;
     QExtProperty *topItem = variantManager->addProperty(QExtVariantPropertyManager::groupTypeId(),
-                QString::number(i++) + QLatin1String(" Group Property"));
+                                                        QString::number(i++) + QLatin1String(" Group Property"));
 
     QExtVariantProperty *item = variantManager->addProperty(QVariant::Bool, QString::number(i++) + QLatin1String(" Bool Property"));
     item->setValue(true);
@@ -119,7 +119,7 @@ int main(int argc, char **argv)
     item->setAttribute(QLatin1String("decimals"), 3);
 
     item = variantManager->addProperty(QExtVariantPropertyManager::enumTypeId(),
-                    QString::number(i++) + QLatin1String(" Enum Property"));
+                                       QString::number(i++) + QLatin1String(" Enum Property"));
     QStringList enumNames;
     enumNames << "Enum0" << "Enum1" << "Enum2";
     item->setAttribute(QLatin1String("enumNames"), enumNames);
@@ -127,7 +127,7 @@ int main(int argc, char **argv)
     topItem->addSubProperty(item);
 
     item = variantManager->addProperty(QExtVariantPropertyManager::flagTypeId(),
-                    QString::number(i++) + QLatin1String(" Flag Property"));
+                                       QString::number(i++) + QLatin1String(" Flag Property"));
     QStringList flagNames;
     flagNames << "Flag0" << "Flag1" << "Flag2";
     item->setAttribute(QLatin1String("flagNames"), flagNames);
@@ -147,20 +147,16 @@ int main(int argc, char **argv)
     topItem->addSubProperty(item);
 
     QExtVariantEditorFactory *variantFactory = new QExtVariantEditorFactory();
-
     QExtTreePropertyBrowser *variantEditor = new QExtTreePropertyBrowser();
     variantEditor->setFactoryForManager(variantManager, variantFactory);
     variantEditor->addProperty(topItem);
     variantEditor->setPropertiesWithoutValueMarked(true);
     variantEditor->setRootIsDecorated(false);
-
     variantEditor->show();
 
     int ret = app.exec();
-
     delete variantManager;
     delete variantFactory;
     delete variantEditor;
-
     return ret;
 }

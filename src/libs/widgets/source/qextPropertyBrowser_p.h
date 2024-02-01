@@ -1,15 +1,17 @@
 #ifndef _QEXTPROPERTYBROWSER_P_H
 #define _QEXTPROPERTYBROWSER_P_H
 
+#include <qextPropertyBrowser.h>
+
 #include <QMap>
 #include <QIcon>
 #include <QLabel>
 #include <QWidget>
+#include <QCheckBox>
 #include <QTreeWidget>
+#include <QPushButton>
 #include <QStringList>
 #include <QItemDelegate>
-
-#include <qextPropertyBrowser.h>
 
 class QMouseEvent;
 class QCheckBox;
@@ -53,7 +55,7 @@ class QEXT_WIDGETS_API QExtBoolEdit : public QWidget
 {
     Q_OBJECT
 public:
-    QExtBoolEdit(QWidget *parent = QEXT_NULLPTR);
+    explicit QExtBoolEdit(QWidget *parent = QEXT_NULLPTR);
     ~QExtBoolEdit() QEXT_OVERRIDE {}
 
     bool textVisible() const { return m_textVisible; }
@@ -176,7 +178,7 @@ class QExtColorEditWidget : public QWidget
     Q_OBJECT
 
 public:
-    QExtColorEditWidget(QWidget *parent);
+    explicit QExtColorEditWidget(QWidget *parent);
     ~QExtColorEditWidget() QEXT_OVERRIDE {}
 
     bool eventFilter(QObject *obj, QEvent *ev) QEXT_OVERRIDE;
@@ -189,6 +191,7 @@ Q_SIGNALS:
 
 protected:
     void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) QEXT_OVERRIDE;
 
 private Q_SLOTS:
     void buttonClicked();
@@ -206,7 +209,7 @@ class QExtFontEditWidget : public QWidget
     Q_OBJECT
 
 public:
-    QExtFontEditWidget(QWidget *parent);
+    explicit QExtFontEditWidget(QWidget *parent);
     ~QExtFontEditWidget() QEXT_OVERRIDE {}
 
     bool eventFilter(QObject *obj, QEvent *ev) QEXT_OVERRIDE;
@@ -219,6 +222,7 @@ Q_SIGNALS:
 
 protected:
     void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) QEXT_OVERRIDE;
 
 private Q_SLOTS:
     void buttonClicked();
@@ -239,12 +243,13 @@ class QExtPropertyEditorView : public QTreeWidget
     Q_OBJECT
 
 public:
-    QExtPropertyEditorView(QWidget *parent = QEXT_NULLPTR);
+    explicit QExtPropertyEditorView(QWidget *parent = QEXT_NULLPTR);
     ~QExtPropertyEditorView() QEXT_OVERRIDE {}
 
     void setEditorPrivate(QExtTreePropertyBrowserPrivate *editorPrivate) { m_editorPrivate = editorPrivate; }
+    QTreeWidgetItem *indexToItem(const QModelIndex &index) const { return this->itemFromIndex(index); }
 
-    QTreeWidgetItem *indexToItem(const QModelIndex &index) const { return itemFromIndex(index); }
+    void paintEvent(QPaintEvent *paintEvent) QEXT_OVERRIDE;
 
 protected:
     void keyPressEvent(QKeyEvent *event) QEXT_OVERRIDE;
@@ -262,6 +267,7 @@ class QExtPropertyEditorDelegate : public QItemDelegate
 public:
     QExtPropertyEditorDelegate(QObject *parent = QEXT_NULLPTR)
         : QItemDelegate(parent), m_editorPrivate(0), m_editedItem(0), m_editedWidget(0), m_disablePainting(false)
+        , m_itemMinimumHeight(-1)
     {}
     ~QExtPropertyEditorDelegate() QEXT_OVERRIDE {}
 
@@ -285,6 +291,9 @@ public:
 
     QTreeWidgetItem *editedItem() const { return m_editedItem; }
 
+    int itemMinimumHeight() const { return m_itemMinimumHeight; }
+    void setItemMinimumHeight(int height) { m_itemMinimumHeight = height; }
+
 protected:
     void drawDecoration(QPainter *painter, const QStyleOptionViewItem &option,
                         const QRect &rect, const QPixmap &pixmap) const QEXT_OVERRIDE;
@@ -306,6 +315,7 @@ private:
     mutable QTreeWidgetItem *m_editedItem;
     mutable QWidget *m_editedWidget;
     mutable bool m_disablePainting;
+    int m_itemMinimumHeight;
 };
 
 

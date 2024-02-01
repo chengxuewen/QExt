@@ -40,7 +40,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Icons QExt::Gui)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Gui)
 
 
 #-----------------------------------------------------------------------------------------------------------------------

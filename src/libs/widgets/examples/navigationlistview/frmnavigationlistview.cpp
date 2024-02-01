@@ -1,12 +1,9 @@
 ﻿#include "frmnavigationlistview.h"
 #include "ui_frmnavigationlistview.h"
-#include "qdebug.h"
+
+#include <QDebug>
 
 #include <QListView>
-
-#include <qextIconFontAwesome.h>
-
-
 
 FrmNavigationListView::FrmNavigationListView(QWidget *parent) : QWidget(parent), ui(new Ui::FrmNavigationListView)
 {

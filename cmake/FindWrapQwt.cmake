@@ -44,7 +44,8 @@ if(NOT Qwt_FOUND)
             QExt-Qwt
             SOURCE_DIR ${QWT_SOURCE_DIR}
             BINARY_DIR ${QWT_BUILD_DIR}
-            URL ${QWT_URL_PATH})
+            URL ${QWT_URL_PATH}
+            DOWNLOAD_EXTRACT_TIMESTAMP FALSE)
         FetchContent_Populate(QExt-Qwt)
     endif()
     if(NOT EXISTS ${QWT_INSTALL_DIR})

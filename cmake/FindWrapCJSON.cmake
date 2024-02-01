@@ -44,7 +44,8 @@ if(NOT cjson_FOUND)
             QExt-cJSON
             SOURCE_DIR ${CJSON_SOURCE_DIR}
             BINARY_DIR ${CJSON_BUILD_DIR}
-            URL ${CJSON_TAR_GZ_PATH})
+            URL ${CJSON_TAR_GZ_PATH}
+            DOWNLOAD_EXTRACT_TIMESTAMP FALSE)
         FetchContent_Populate(QExt-cJSON)
     endif()
     if(NOT EXISTS ${CJSON_INSTALL_DIR})

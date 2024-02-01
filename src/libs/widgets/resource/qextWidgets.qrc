@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/QExtWidgets">
         <file>font/fontawesome-webfont.ttf</file>
+        <file>image/arrow_caret_collapse.svg</file>
         <file>image/btn_daxie_black.png</file>
         <file>image/btn_daxie_white.png</file>
         <file>image/btn_delete_black.png</file>
@@ -11,6 +12,7 @@
         <file>image/btn_xiaoxie_white.png</file>
         <file>image/delete_black.png</file>
         <file>image/delete_white.png</file>
+        <file>stylethemes/fluent/font/Segoe-UI.ttf</file>
         <file>stylethemes/fluent/fluent_icon.svg</file>
         <file>stylethemes/fluent/fluent.css.template</file>
         <file>stylethemes/fluent/fluent.json</file>
@@ -51,9 +53,8 @@
         <file>stylethemes/fluent/svgs/uparrow.svg</file>
         <file>stylethemes/fluent/svgs/uparrow2.svg</file>
         <file>stylethemes/fluent/svgs/vline.svg</file>
-        <file>stylethemes/fluent/themes/dark.xml</file>
-        <file>stylethemes/fluent/themes/light.xml</file>
-        <file>stylethemes/fluent/themes/test.xml</file>
+        <file>stylethemes/fluent/themes/Dark.xml</file>
+        <file>stylethemes/fluent/themes/Light.xml</file>
         <file>stylethemes/fusion/fusion_icon.svg</file>
         <file>stylethemes/fusion/fusion.css.template</file>
         <file>stylethemes/fusion/fusion.json</file>
@@ -94,8 +95,8 @@
         <file>stylethemes/fusion/svgs/uparrow.svg</file>
         <file>stylethemes/fusion/svgs/uparrow2.svg</file>
         <file>stylethemes/fusion/svgs/vline.svg</file>
-        <file>stylethemes/fusion/themes/dark_blue.xml</file>
-        <file>stylethemes/fusion/themes/light_blue.xml</file>
+        <file>stylethemes/fusion/themes/DarkBlue.xml</file>
+        <file>stylethemes/fusion/themes/LightBlue.xml</file>
         <file>stylethemes/material/fonts/LICENSE</file>
         <file>stylethemes/material/fonts/Roboto-Black.ttf</file>
         <file>stylethemes/material/fonts/Roboto-BlackItalic.ttf</file>
@@ -157,7 +158,6 @@
         <file>stylethemes/material/svgs/vline.svg</file>
         <file>stylethemes/material/themes/DarkAmber.xml</file>
         <file>stylethemes/material/themes/DarkBlue.xml</file>
-        <file>stylethemes/material/themes/DarkCyan.xml</file>
         <file>stylethemes/material/themes/DarkGreen.xml</file>
         <file>stylethemes/material/themes/DarkGrey.xml</file>
         <file>stylethemes/material/themes/DarkIndigo.xml</file>
@@ -165,11 +165,8 @@
         <file>stylethemes/material/themes/DarkOrange.xml</file>
         <file>stylethemes/material/themes/DarkPink.xml</file>
         <file>stylethemes/material/themes/DarkPurple.xml</file>
-        <file>stylethemes/material/themes/DarkRed.xml</file>
-        <file>stylethemes/material/themes/DarkYellow.xml</file>
         <file>stylethemes/material/themes/LightAmber.xml</file>
         <file>stylethemes/material/themes/LightBlue.xml</file>
-        <file>stylethemes/material/themes/LightCyan.xml</file>
         <file>stylethemes/material/themes/LightGreen.xml</file>
         <file>stylethemes/material/themes/LightGrey.xml</file>
         <file>stylethemes/material/themes/LightIndigo.xml</file>
@@ -177,12 +174,7 @@
         <file>stylethemes/material/themes/LightOrange.xml</file>
         <file>stylethemes/material/themes/LightPink.xml</file>
         <file>stylethemes/material/themes/LightPurple.xml</file>
-        <file>stylethemes/material/themes/LightRed.xml</file>
-        <file>stylethemes/material/themes/LightYellow.xml</file>
-        <file>stylethemes/material/themes/PureDarkBlue.xml</file>
-        <file>stylethemes/material/themes/PureDarkGrey.xml</file>
-        <file>stylethemes/material/themes/PureLightBlue.xml</file>
-        <file>stylethemes/material/themes/PureLightGrey.xml</file>
-        <file>image/arrow_caret_collapse.svg</file>
+        <file>stylethemes/material/themes/PureBlue.xml</file>
+        <file>stylethemes/material/themes/PureGrey.xml</file>
     </qresource>
 </RCC>

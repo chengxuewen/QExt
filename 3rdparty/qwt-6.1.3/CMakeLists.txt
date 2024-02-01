@@ -23,7 +23,6 @@ set(QWT_CXX_STANDARD 98)
 math(EXPR QWT_VERSION_CALC "${QWT_VERSION_MAJOR}*1000 + ${QWT_VERSION_MINOR}*100 + ${QWT_VERSION_PATCH}")
 message(STATUS "Project version: Qwt ${QWT_VERSION}")
 message(STATUS "Project license: ${QWT_LICENSE}")
-include(GNUInstallDirs)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -360,7 +359,9 @@ else(QWT_QT_VERSION_MAJOR GREATER 4)
         ${QWT_QT_OPENGL})
 endif()
 
+
 if(QWT_BUILD_INSTALL)
+    include(GNUInstallDirs)
     install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}-target
         FRAMEWORK DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}
@@ -386,7 +387,7 @@ if(QWT_BUILD_INSTALL)
     set(version_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake")
     set(project_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake")
     write_basic_package_version_file("${version_config}"
-        VERSION ${NNG_PACKAGE_VERSION}
+        VERSION ${QWT_VERSION}
         COMPATIBILITY SameMajorVersion)
     configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}-config.cmake.in "${project_config}"
         INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"

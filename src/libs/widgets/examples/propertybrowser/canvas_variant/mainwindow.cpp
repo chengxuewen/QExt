@@ -223,7 +223,8 @@ void MainWindow::updateExpandState()
 {
     QList<QExtBrowserItem *> list = propertyEditor->topLevelItems();
     QListIterator<QExtBrowserItem *> it(list);
-    while (it.hasNext()) {
+    while (it.hasNext())
+    {
         QExtBrowserItem *item = it.next();
         QExtProperty *prop = item->property();
         idToExpanded[propertyToId[prop]] = propertyEditor->isExpanded(item);

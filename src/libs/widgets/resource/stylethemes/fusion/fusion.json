@@ -2,10 +2,10 @@
     "name" : "fusion",
     "icon" : "fusion_icon.svg",
     "css_template" : "fusion.css.template",
-    "default_theme" : "light_blue",
+    "default_theme" : "LightBlue",
 
     "variables" : {
-        "font_family" : "Roboto",
+        "font_family" : "Sans Serif",
         "font_size" : "12px",
         "line_height" : "12px",
         "danger" :  "#dc3545",

@@ -10,7 +10,6 @@
 #include <frmnavigationlistview.h>
 
 #include <qextNavigationListView.h>
-#include <qextIconFontAwesome.h>
 
 int main(int argc, char *argv[])
 {

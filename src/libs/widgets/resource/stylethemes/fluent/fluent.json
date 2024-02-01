@@ -2,10 +2,10 @@
     "name" : "fluent",
     "icon" : "fluent_icon.svg",
     "css_template" : "fluent.css.template",
-    "default_theme" : "light",
+    "default_theme" : "Light",
 
     "variables" : {
-        "font_family" : "Roboto",
+        "font_family" : "Segoe-UI",
         "font_size" : "12px",
         "line_height" : "12px",
         "danger" :  "#dc3545",
