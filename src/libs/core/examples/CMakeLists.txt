@@ -31,9 +31,9 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
-            Qt${QEXT_QT_VERSION_MAJOR}::Core
-            Qt${QEXT_QT_VERSION_MAJOR}::Gui
-            Qt${QEXT_QT_VERSION_MAJOR}::Widgets
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets
     )
 else()
     message(FATAL_ERROR "Not find Qt package")
@@ -44,11 +44,20 @@ endif()
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
 qext_add_executable(QExtExpCoreSimpleObject
-        SOURCES
-        object/exp_core_simpleObj.cpp
-        LIBRARIES
-        ${QEXT_EXAMPLE_LINK_LIBRARIES}
-        OUTPUT_DIRECTORY
-        ${QEXT_OUTPUT_EXAMPLE_DIR}
-        DEFINES
-        EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    SOURCES
+    object/exp_core_simpleObj.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+qext_add_executable(QExtExpCoreReflection
+    SOURCES
+    invoke/exp_reflection.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
