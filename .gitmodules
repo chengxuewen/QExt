@@ -1,0 +1,3 @@
+[submodule "3rdparty/UTK"]
+	path = 3rdparty/UTK
+	url = https://gitee.com/chengxuewen/UTK.git
