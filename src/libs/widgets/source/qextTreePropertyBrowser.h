@@ -1,0 +1,6 @@
+#ifndef _QEXTTREEPROPERTYBROWSER_H
+#define _QEXTTREEPROPERTYBROWSER_H
+
+#include <qextPropertyBrowser.h>
+
+#endif // _QEXTTREEPROPERTYBROWSER_H
