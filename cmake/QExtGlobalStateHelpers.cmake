@@ -192,8 +192,8 @@ macro(qext_build_repo_end)
         include(QEXTPostProcess)
 
         # Install the repo-specific cmake find modules.
-        qext_path_join(__qext_repo_install_dir ${QEXT_CONFIG_INSTALL_DIR} ${INSTALL_CMAKE_NAMESPACE})
-        qext_path_join(__qext_repo_build_dir ${QEXT_CONFIG_BUILD_DIR} ${INSTALL_CMAKE_NAMESPACE})
+        qext_path_join(__qext_repo_install_dir ${QEXT_CONFIG_INSTALL_DIR} ${QEXT_CMAKE_INSTALL_NAMESPACE})
+        qext_path_join(__qext_repo_build_dir ${QEXT_CONFIG_BUILD_DIR} ${QEXT_CMAKE_INSTALL_NAMESPACE})
 
         if(NOT PROJECT_NAME STREQUAL "QEXTBase")
             if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/cmake")

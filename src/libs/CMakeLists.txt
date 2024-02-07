@@ -22,7 +22,6 @@
 ########################################################################################################################
 
 add_subdirectory(core)
-qext_add_subdirectory(utils QEXT_ENABLE_LIB_UTILS)
 qext_add_subdirectory(gui QEXT_ENABLE_LIB_GUI)
 qext_add_subdirectory(tcp QEXT_ENABLE_LIB_TCP)
 qext_add_subdirectory(icons QEXT_ENABLE_LIB_ICONS)

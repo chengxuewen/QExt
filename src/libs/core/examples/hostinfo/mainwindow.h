@@ -2,10 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+
 #include <qextHostInfoUtils.h>
 #include <qextGlobal.h>
-
-
 
 namespace Ui {
 class MainWindow;

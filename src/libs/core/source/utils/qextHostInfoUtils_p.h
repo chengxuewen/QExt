@@ -1,14 +1,13 @@
 #ifndef _QEXTHOSTINFOUTILS_P_H
 #define _QEXTHOSTINFOUTILS_P_H
 
-#include <qextUtilsGlobal.h>
 #include <qextDiskInfo.h>
 
 #include <QProcess>
 #include <QTimer>
 
 class QExtHostInfoUtils;
-class QEXT_UTILS_API QExtHostInfoUtilsPrivate
+class QEXT_CORE_API QExtHostInfoUtilsPrivate
 {
 public:
     explicit QExtHostInfoUtilsPrivate(QExtHostInfoUtils *q);

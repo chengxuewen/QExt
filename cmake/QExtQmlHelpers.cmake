@@ -271,7 +271,7 @@ function(qext_add_qml target)
                 # dependency doesn't get exposed to find_package(), so we don't
                 # have to make the dependency known for that case.
                 set_property(TARGET ${arg_PLUGIN_TARGET} APPEND PROPERTY
-                    _qext_target_deps "${INSTALL_CMAKE_NAMESPACE}${target}\;${PROJECT_VERSION}")
+                    _qext_target_deps "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}\;${PROJECT_VERSION}")
             endif()
         endif()
     endif()
@@ -344,24 +344,24 @@ function(qext_add_qml target)
 
         if(backing_lib_export_targets)
             qext_install(TARGETS ${backing_lib_export_targets}
-                EXPORT "${INSTALL_CMAKE_NAMESPACE}${target}Targets"
+                EXPORT "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Targets"
                 DESTINATION "${arg_INSTALL_DIRECTORY}")
             qext_internal_record_rcc_object_files(${target} "${backing_lib_export_targets}"
                 INSTALL_DIRECTORY "${arg_INSTALL_DIRECTORY}")
 
             qext_internal_add_targets_to_additional_targets_export_file(
                 TARGETS ${backing_lib_export_targets}
-                EXPORT_NAME_PREFIX "${INSTALL_CMAKE_NAMESPACE}${target}")
+                EXPORT_NAME_PREFIX "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}")
         endif()
 
         if(arg_PLUGIN_TARGET AND plugin_export_targets)
             qext_install(TARGETS ${plugin_export_targets}
-                EXPORT "${INSTALL_CMAKE_NAMESPACE}${arg_PLUGIN_TARGET}Targets"
+                EXPORT "${QEXT_CMAKE_INSTALL_NAMESPACE}${arg_PLUGIN_TARGET}Targets"
                 DESTINATION "${arg_INSTALL_DIRECTORY}")
 
             qext_internal_add_targets_to_additional_targets_export_file(
                 TARGETS ${plugin_export_targets}
-                EXPORT_NAME_PREFIX "${INSTALL_CMAKE_NAMESPACE}${arg_PLUGIN_TARGET}")
+                EXPORT_NAME_PREFIX "${QEXT_CMAKE_INSTALL_NAMESPACE}${arg_PLUGIN_TARGET}")
         endif()
     endif()
 

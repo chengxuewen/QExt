@@ -299,7 +299,7 @@ function(qext_add_plugin target)
     endif()
 
     # Change the configuration file install location for qml plugins into the Qml package location.
-    if(plugin_type_escaped STREQUAL "qml_plugin" AND TARGET "${INSTALL_CMAKE_NAMESPACE}::Qml")
+    if(plugin_type_escaped STREQUAL "qml_plugin" AND TARGET "${QEXT_CMAKE_INSTALL_NAMESPACE}::Qml")
         set(plugin_install_package_suffix "Qml/QmlPlugins")
     endif()
 
@@ -396,9 +396,9 @@ function(qext_add_plugin target)
         # For qml plugins, they are all installed into the QtQml package location for automatic
         # discovery.
         if(plugin_install_package_suffix)
-            set(path_suffix "${INSTALL_CMAKE_NAMESPACE}${plugin_install_package_suffix}")
+            set(path_suffix "${QEXT_CMAKE_INSTALL_NAMESPACE}${plugin_install_package_suffix}")
         else()
-            set(path_suffix "${INSTALL_CMAKE_NAMESPACE}${target}")
+            set(path_suffix "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}")
         endif()
 
         qext_path_join(config_build_dir ${QEXT_CONFIG_BUILD_DIR} ${path_suffix})
@@ -406,27 +406,27 @@ function(qext_add_plugin target)
 
         qext_internal_export_additional_targets_file(
             TARGETS ${target} ${plugin_init_target}
-            EXPORT_NAME_PREFIX ${INSTALL_CMAKE_NAMESPACE}${target}
+            EXPORT_NAME_PREFIX ${QEXT_CMAKE_INSTALL_NAMESPACE}${target}
             CONFIG_INSTALL_DIR "${config_install_dir}")
 
         qext_internal_get_min_new_policy_cmake_version(min_new_policy_version)
         qext_internal_get_max_new_policy_cmake_version(max_new_policy_version)
         configure_package_config_file(
             "${QEXT_CMAKE_DIR}/QExtPluginConfig.cmake.in"
-            "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}Config.cmake"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Config.cmake"
             INSTALL_DESTINATION "${config_install_dir}")
         write_basic_package_version_file(
-            "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigVersionImpl.cmake"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigVersionImpl.cmake"
             VERSION ${PROJECT_VERSION}
             COMPATIBILITY AnyNewerVersion)
         qext_internal_write_qext_package_version_file(
-            "${INSTALL_CMAKE_NAMESPACE}${target}"
-            "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigVersion.cmake")
+            "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigVersion.cmake")
 
         qext_install(FILES
-            "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}Config.cmake"
-            "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigVersion.cmake"
-            "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigVersionImpl.cmake"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Config.cmake"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigVersion.cmake"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigVersionImpl.cmake"
             DESTINATION "${config_install_dir}"
             COMPONENT Devel)
         if(pri_file)
@@ -435,7 +435,7 @@ function(qext_add_plugin target)
 
         # Make the export name of plugins be consistent with modules, so that
         # qext_add_resource adds its additional targets to the same export set in a static Qt build.
-        set(export_name "${INSTALL_CMAKE_NAMESPACE}${target}Targets")
+        set(export_name "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Targets")
         qext_install(TARGETS
             "${target}"
             ${plugin_init_target}

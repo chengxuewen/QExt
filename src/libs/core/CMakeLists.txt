@@ -105,6 +105,17 @@ qext_add_library(Core
     source/tools/qextUniquePointer.h
     source/tools/qextUtils.cpp
     source/tools/qextUtils.h
+    source/utils/qextCodecUtils.cpp
+    source/utils/qextCodecUtils.h
+    source/utils/qextDateTimeUtils.cpp
+    source/utils/qextHostInfoUtils_p.h
+    source/utils/qextDateTimeUtils.h
+    source/utils/qextDiskInfo.cpp
+    source/utils/qextDiskInfo.h
+    source/utils/qextHostInfoUtils.cpp
+    source/utils/qextHostInfoUtils.h
+    source/utils/qextNetworkUtils.cpp
+    source/utils/qextNetworkUtils.h
     PRECOMPILED_HEADER
     source/qextPch.h
     PUBLIC_LIBRARIES
@@ -114,10 +125,10 @@ qext_add_library(Core
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib tests and examples
 #-----------------------------------------------------------------------------------------------------------------------
-if (QEXT_BUILD_TESTS)
+if(QEXT_BUILD_TESTS)
     add_subdirectory(tests)
-endif ()
+endif()
 
-if (QEXT_BUILD_EXAMPLES)
+if(QEXT_BUILD_EXAMPLES)
     add_subdirectory(examples)
-endif ()
+endif()

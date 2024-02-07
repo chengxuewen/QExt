@@ -1,13 +1,12 @@
 #ifndef _QEXTHOSTINFOUTILS_H
 #define _QEXTHOSTINFOUTILS_H
 
-#include "qextUtilsGlobal.h"
-#include "qextDiskInfo.h"
+#include <qextDiskInfo.h>
 
 #include <QObject>
 
 class QExtHostInfoUtilsPrivate;
-class QEXT_UTILS_API QExtHostInfoUtils : public QObject
+class QEXT_CORE_API QExtHostInfoUtils : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QExtHostInfoUtils)

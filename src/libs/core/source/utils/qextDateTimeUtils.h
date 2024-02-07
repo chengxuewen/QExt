@@ -2,11 +2,10 @@
 #define _QEXTDATETIMEUTILS_H
 
 #include <qextGlobal.h>
-#include "qextUtilsGlobal.h"
 
 #include <QObject>
 
-class QEXT_UTILS_API QExtDateTimeUtils
+class QEXT_CORE_API QExtDateTimeUtils
 {
 public:
     virtual ~QExtDateTimeUtils() {}

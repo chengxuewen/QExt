@@ -39,6 +39,8 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Core)
+
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
@@ -57,6 +59,21 @@ qext_add_executable(QExtExpCoreReflection
     invoke/exp_reflection.cpp
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+
+qext_add_executable(QExtExpCoreHostInfo
+    SOURCES
+    hostinfo/mainwindow.h
+    hostinfo/mainwindow.cpp
+    hostinfo/mainwindow.ui
+    hostinfo/main.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/hostinfo
     OUTPUT_DIRECTORY
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES

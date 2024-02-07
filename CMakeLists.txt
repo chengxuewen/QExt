@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.2.2 LANGUAGES CXX C)
+project(QExt VERSION 1.2.3.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -407,13 +407,10 @@ qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ENABLE_LIB_TCP "Enable this to build the tcp lib" OFF
-    OR_CONDITION QEXT_BUILD_ALL
-    DEPENDS QEXT_ENABLE_LIB_UTILS)
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_GUI "Enable this to build the gui lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_ICONS "Enable this to build the icons lib" OFF
-    OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_LIB_UTILS "Enable this to build the utils lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PATTERN "Enable this to build the pattern lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -605,8 +602,8 @@ include(QExtPlatformSupport)
 #-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_NAMESPACE_VERSION ${QEXT_VERSION_MAJOR})
 set(QEXT_NAMESPACE "" CACHE STRING "QExt Namespace")
-if(NOT INSTALL_CMAKE_NAMESPACE)
-    set(INSTALL_CMAKE_NAMESPACE "QExt${QEXT_NAMESPACE_VERSION}" CACHE STRING "CMake namespace [QExt${QEXT_NAMESPACE_VERSION}]")
+if(NOT QEXT_CMAKE_INSTALL_NAMESPACE)
+    set(QEXT_CMAKE_INSTALL_NAMESPACE "QExt${QEXT_NAMESPACE_VERSION}" CACHE STRING "CMake namespace [QExt${QEXT_NAMESPACE_VERSION}]")
 endif()
 if(NOT QEXT_CMAKE_EXPORT_NAMESPACE)
     set(QEXT_CMAKE_EXPORT_NAMESPACE "QExt${QEXT_NAMESPACE_VERSION}"
@@ -717,6 +714,8 @@ qext_add_subdirectory(src/plugins QEXT_BUILD_PLUGINS)
 #-----------------------------------------------------------------------------------------------------------------------
 # add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
+set(INPUT_UTK_BUILD_ALL ON)
+add_subdirectory(3rdparty/UTK)
 # add_subdirectory(3rdparty/qwt-6.1.3)
 if(QEXT_ENABLE_3RDPARTY_QWT)
     qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
@@ -725,7 +724,6 @@ endif()
 if(QEXT_ENABLE_3RDPARTY_SINGLEAPP)
     qext_find_package(WrapSingleApp PROVIDED_TARGETS QExt3rdparty::WrapSingleApp)
 endif()
-#qext_find_package(WrapCJSON PROVIDED_TARGETS QExt3rdparty::WrapCJSON)
 
 
 #-----------------------------------------------------------------------------------------------------------------------

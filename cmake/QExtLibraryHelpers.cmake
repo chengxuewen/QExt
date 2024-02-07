@@ -165,7 +165,7 @@ function(qext_add_library target)
     set_target_properties(${target} PROPERTIES
         _qext_library_interface_name "${arg_LIBRARY_INTERFACE_NAME}"
         _qext_package_version "${PROJECT_VERSION}"
-        _qext_package_name "${INSTALL_CMAKE_NAMESPACE}${target}")
+        _qext_package_name "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}")
     set(export_properties
         "_qext_library_interface_name"
         "_qext_package_version"
@@ -254,7 +254,7 @@ function(qext_add_library target)
         set_target_properties(${target_private} PROPERTIES
             _qext_config_library_name ${arg_CONFIG_LIBRARY_NAME}Private
             _qext_package_version "${PROJECT_VERSION}"
-            _qext_package_name "${INSTALL_CMAKE_NAMESPACE}${target}"
+            _qext_package_name "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}"
             _qext_is_private_library TRUE
             _qext_public_library_target_name "${target}")
         set(export_properties
@@ -301,7 +301,7 @@ function(qext_add_library target)
             set_target_properties(${target} PROPERTIES OUTPUT_NAME ${fw_name})
         else()
             set_target_properties(${target} PROPERTIES
-                OUTPUT_NAME "${INSTALL_CMAKE_NAMESPACE}${library_interface_name}${QEXT_LIBINFIX}")
+                OUTPUT_NAME "${QEXT_CMAKE_INSTALL_NAMESPACE}${library_interface_name}${QEXT_LIBINFIX}")
         endif()
 
         qext_set_common_target_properties(${target})
@@ -573,17 +573,17 @@ function(qext_add_library target)
     endif()
 
     # Handle creation of cmake files for consumers of find_package().
-    set(path_suffix "${INSTALL_CMAKE_NAMESPACE}${target}")
+    set(path_suffix "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}")
     qext_path_join(config_build_dir ${QEXT_CONFIG_BUILD_DIR} ${path_suffix})
     qext_path_join(config_install_dir ${QEXT_CONFIG_INSTALL_DIR} ${path_suffix})
 
     set(extra_cmake_files)
     set(extra_cmake_includes)
-    if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/${INSTALL_CMAKE_NAMESPACE}${target}Macros.cmake")
-        list(APPEND extra_cmake_files "${CMAKE_CURRENT_LIST_DIR}/${INSTALL_CMAKE_NAMESPACE}${target}Macros.cmake")
-        list(APPEND extra_cmake_includes "${INSTALL_CMAKE_NAMESPACE}${target}Macros.cmake")
+    if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Macros.cmake")
+        list(APPEND extra_cmake_files "${CMAKE_CURRENT_LIST_DIR}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Macros.cmake")
+        list(APPEND extra_cmake_includes "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Macros.cmake")
     endif()
-    if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigExtras.cmake.in")
+    if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigExtras.cmake.in")
         if(target STREQUAL Core)
             set(extra_cmake_code "")
             # Add some variables for compatibility with QExt config files.
@@ -600,11 +600,11 @@ function(qext_add_library target)
             endif()
         endif()
 
-        configure_file("${CMAKE_CURRENT_LIST_DIR}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigExtras.cmake.in"
-            "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigExtras.cmake"
+        configure_file("${CMAKE_CURRENT_LIST_DIR}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigExtras.cmake.in"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigExtras.cmake"
             @ONLY)
-        list(APPEND extra_cmake_files "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigExtras.cmake")
-        list(APPEND extra_cmake_includes "${INSTALL_CMAKE_NAMESPACE}${target}ConfigExtras.cmake")
+        list(APPEND extra_cmake_files "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigExtras.cmake")
+        list(APPEND extra_cmake_includes "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigExtras.cmake")
     endif()
 
     foreach(cmake_file IN LISTS arg_EXTRA_CMAKE_FILES)
@@ -620,27 +620,27 @@ function(qext_add_library target)
     include(CMakePackageConfigHelpers)
     configure_package_config_file(
         "${QEXT_CMAKE_DIR}/QEXTModuleConfig.cmake.in"
-        "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}Config.cmake"
+        "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Config.cmake"
         INSTALL_DESTINATION "${config_install_dir}")
 
-    if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/${INSTALL_CMAKE_NAMESPACE}${target}BuildInternals.cmake")
-        configure_file("${CMAKE_CURRENT_LIST_DIR}/${INSTALL_CMAKE_NAMESPACE}${target}BuildInternals.cmake"
-            "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}BuildInternals.cmake"
+    if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}BuildInternals.cmake")
+        configure_file("${CMAKE_CURRENT_LIST_DIR}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}BuildInternals.cmake"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}BuildInternals.cmake"
             @ONLY)
-        list(APPEND extra_cmake_files "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}BuildInternals.cmake")
+        list(APPEND extra_cmake_files "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}BuildInternals.cmake")
     endif()
 
     write_basic_package_version_file(
-        "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigVersionImpl.cmake"
+        "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigVersionImpl.cmake"
         VERSION ${PROJECT_VERSION}
         COMPATIBILITY AnyNewerVersion)
     qext_internal_write_qext_package_version_file(
-        "${INSTALL_CMAKE_NAMESPACE}${target}"
-        "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigVersion.cmake")
+        "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}"
+        "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigVersion.cmake")
     qext_install(FILES
-        "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}Config.cmake"
-        "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigVersion.cmake"
-        "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}ConfigVersionImpl.cmake"
+        "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Config.cmake"
+        "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigVersion.cmake"
+        "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigVersionImpl.cmake"
         ${extra_cmake_files}
         DESTINATION "${config_install_dir}"
         COMPONENT Devel)
@@ -650,7 +650,7 @@ function(qext_add_library target)
     if(NOT ${arg_NO_PRIVATE_LIBRARY})
         list(APPEND exported_targets ${target_private})
     endif()
-    set(export_name "${INSTALL_CMAKE_NAMESPACE}${target}Targets")
+    set(export_name "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Targets")
     if(arg_EXTERNAL_HEADERS_DIR)
         qext_install(DIRECTORY "${arg_EXTERNAL_HEADERS_DIR}/" DESTINATION "${library_install_interface_include_dir}")
         get_target_property(public_header_backup ${target} PUBLIC_HEADER)
@@ -692,16 +692,16 @@ function(qext_add_library target)
         #        message(target=${target})
         #        message(exported_targets=${exported_targets})
         #        message(config_install_dir=${config_install_dir})
-        #        message(INSTALL_CMAKE_NAMESPACE=${INSTALL_CMAKE_NAMESPACE})
+        #        message(QEXT_CMAKE_INSTALL_NAMESPACE=${QEXT_CMAKE_INSTALL_NAMESPACE})
         qext_internal_export_additional_targets_file(
             TARGETS ${exported_targets}
-            EXPORT_NAME_PREFIX "${INSTALL_CMAKE_NAMESPACE}${target}"
+            EXPORT_NAME_PREFIX "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}"
             CONFIG_INSTALL_DIR "${config_install_dir}")
     endif()
 
     qext_internal_export_modern_cmake_config_targets_file(
         TARGETS ${exported_targets}
-        EXPORT_NAME_PREFIX ${INSTALL_CMAKE_NAMESPACE} ${target}
+        EXPORT_NAME_PREFIX ${QEXT_CMAKE_INSTALL_NAMESPACE} ${target}
         CONFIG_INSTALL_DIR "${config_install_dir}")
 
     ### fixme: cmake is missing a built-in variable for this. We want to apply it only to modules and plugins
@@ -1394,7 +1394,7 @@ function(qext_internal_create_library_depends_file target)
             if(dep_seen EQUAL -1 AND ${dep} IN_LIST QEXT_KNOWN_LIBRARIES_WITH_TOOLS)
                 qext_internal_get_package_version_of_target("${dep}" dep_package_version)
                 list(APPEND tool_deps_seen ${dep})
-                list(APPEND tool_deps "${INSTALL_CMAKE_NAMESPACE}${dep}Tools\;${dep_package_version}")
+                list(APPEND tool_deps "${QEXT_CMAKE_INSTALL_NAMESPACE}${dep}Tools\;${dep_package_version}")
             endif()
         endif()
     endforeach()
@@ -1405,11 +1405,11 @@ function(qext_internal_create_library_depends_file target)
     if(${target} IN_LIST QEXT_KNOWN_LIBRARIES_WITH_TOOLS)
         qext_internal_get_package_version_of_target("${target}" main_library_tool_package_version)
         list(APPEND main_library_tool_deps
-            "${INSTALL_CMAKE_NAMESPACE}${target}Tools\;${main_library_tool_package_version}")
+            "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Tools\;${main_library_tool_package_version}")
     endif()
 
     foreach(dep ${target_deps})
-        if(NOT dep MATCHES ".+Private$" AND dep MATCHES "${INSTALL_CMAKE_NAMESPACE}(.+)")
+        if(NOT dep MATCHES ".+Private$" AND dep MATCHES "${QEXT_CMAKE_INSTALL_NAMESPACE}(.+)")
             # target_deps contains elements that are a pair of target name and version, e.g. 'Core\;1.1'
             # After the extracting from the target_deps list, the element becomes a list itself,
             # because it loses escape symbol before the semicolon, so ${CMAKE_MATCH_1} is the list: Core;1.1.
@@ -1435,7 +1435,7 @@ function(qext_internal_create_library_depends_file target)
     endif()
 
     if(third_party_deps OR main_library_tool_deps OR target_deps)
-        set(path_suffix "${INSTALL_CMAKE_NAMESPACE}${target}")
+        set(path_suffix "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}")
         qext_path_join(config_build_dir ${QEXT_CONFIG_BUILD_DIR} ${path_suffix})
         qext_path_join(config_install_dir ${QEXT_CONFIG_INSTALL_DIR} ${path_suffix})
 
@@ -1445,11 +1445,11 @@ function(qext_internal_create_library_depends_file target)
         # Configure and install ModuleDependencies file.
         configure_file(
             "${QEXT_CMAKE_DIR}/QEXTModuleDependencies.cmake.in"
-            "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}Dependencies.cmake"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Dependencies.cmake"
             @ONLY)
 
         qext_install(FILES
-            "${config_build_dir}/${INSTALL_CMAKE_NAMESPACE}${target}Dependencies.cmake"
+            "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Dependencies.cmake"
             DESTINATION "${config_install_dir}"
             COMPONENT Devel)
 
@@ -1500,7 +1500,7 @@ function(qext_internal_remove_dependency_duplicates out_deps deps)
 
                 # Skip over QEXT6 dependency, because we will manually handle it in the Dependencies
                 # file before everything else, to ensure that find_package(QEXT6Core)-style works.
-                if(dep_name STREQUAL "${INSTALL_CMAKE_NAMESPACE}")
+                if(dep_name STREQUAL "${QEXT_CMAKE_INSTALL_NAMESPACE}")
                     continue()
                 endif()
                 list(APPEND ${out_deps} "${dep_name}\;${dep_ver}")

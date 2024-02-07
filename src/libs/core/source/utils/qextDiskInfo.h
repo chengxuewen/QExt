@@ -1,11 +1,11 @@
 #ifndef _QEXTDISKINFO_H
 #define _QEXTDISKINFO_H
 
-#include "qextUtilsGlobal.h"
+#include <qextGlobal.h>
 
 #include <QObject>
 
-class QEXT_UTILS_API QExtDiskInfo
+class QEXT_CORE_API QExtDiskInfo
 {
 public:
     QExtDiskInfo();
@@ -30,13 +30,16 @@ public:
     bool compare(const QExtDiskInfo &info) const;
     QExtDiskInfo &copy(const QExtDiskInfo &info);
 
-    friend bool operator==(const QExtDiskInfo &info1, const QExtDiskInfo &info2) {
+    friend bool operator==(const QExtDiskInfo &info1, const QExtDiskInfo &info2)
+    {
         return info1.compare(info2);
     }
-    friend bool operator!=(const QExtDiskInfo &info1, const QExtDiskInfo &info2) {
+    friend bool operator!=(const QExtDiskInfo &info1, const QExtDiskInfo &info2)
+    {
         return !info1.compare(info2);
     }
-    QExtDiskInfo &operator=(const QExtDiskInfo &info) {
+    QExtDiskInfo &operator=(const QExtDiskInfo &info)
+    {
         return this->copy(info);
     }
 

@@ -296,7 +296,7 @@ function(qext_internal_get_package_name_of_target target package_name_out_var)
     # their builds not to contain stale FooDependencies.cmakes files without the
     # _qext_package_name property.
     set(package_name "")
-    set(package_name_default "${INSTALL_CMAKE_NAMESPACE}${target}")
+    set(package_name_default "${QEXT_CMAKE_INSTALL_NAMESPACE}${target}")
     set(target_namespaced "${QEXT_CMAKE_EXPORT_NAMESPACE}::${target}")
 #    message(target_namespaced=${target_namespaced})
     if(TARGET "${target_namespaced}")

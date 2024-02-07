@@ -1,13 +1,13 @@
 #ifndef _QEXTCODECUTILS_H
 #define _QEXTCODECUTILS_H
 
-#include <qextUtilsGlobal.h>
+#include <qextGlobal.h>
 
 #include <QObject>
 
 #include <stdint.h>
 
-class QEXT_UTILS_API QExtCodecUtils
+class QEXT_CORE_API QExtCodecUtils
 {
 public:
     QExtCodecUtils();

@@ -3,12 +3,9 @@
 
 #include <qextGlobal.h>
 
-#include "qextUtilsGlobal.h"
-
 #include <QObject>
 
-
-class QEXT_UTILS_API QExtNetworkUtils
+class QEXT_CORE_API QExtNetworkUtils
 {
 public:
     QExtNetworkUtils();
