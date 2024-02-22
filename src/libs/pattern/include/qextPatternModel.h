@@ -1,1 +1,0 @@
-#include "../source/qextPatternModel.h"

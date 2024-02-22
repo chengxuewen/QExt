@@ -82,14 +82,12 @@ public:
         return *d;
     }
 
-    T *operator->() const
-    QEXT_NOEXCEPT
+    T *operator->() const QEXT_NOEXCEPT
     {
         return d;
     }
 
-    bool operator!() const
-    QEXT_NOEXCEPT
+    bool operator!() const QEXT_NOEXCEPT
     {
         return !d;
     }
@@ -99,26 +97,22 @@ public:
         return !this->isNull();
     }
 
-    T *data() const
-    QEXT_NOEXCEPT
+    T *data() const QEXT_NOEXCEPT
     {
         return d;
     }
 
-    T *get() const
-    QEXT_NOEXCEPT
+    T *get() const QEXT_NOEXCEPT
     {
         return d;
     }
 
-    bool isNull() const
-    QEXT_NOEXCEPT
+    bool isNull() const QEXT_NOEXCEPT
     {
         return !d;
     }
 
-    void reset(T *other = QEXT_NULLPTR)
-    QEXT_NOEXCEPT
+    void reset(T *other = QEXT_NULLPTR) QEXT_NOEXCEPT
     {
         if (d != other)
         {
@@ -128,23 +122,20 @@ public:
         }
     }
 
-    T *take()
-    QEXT_NOEXCEPT
+    T *take() QEXT_NOEXCEPT
     {
         T *oldD = d;
         d = QEXT_NULLPTR;
         return oldD;
     }
 
-    void swap(QExtUniquePointer &other)
-    QEXT_NOEXCEPT
+    void swap(QExtUniquePointer &other) QEXT_NOEXCEPT
     {
         std::swap(d, other.d);
         std::swap(deleter, other.deleter);
     }
 
-    friend void swap(QExtUniquePointer<T, Deleter> &p1, QExtUniquePointer<T, Deleter> &p2)
-    QEXT_NOEXCEPT
+    friend void swap(QExtUniquePointer<T, Deleter> &p1, QExtUniquePointer<T, Deleter> &p2) QEXT_NOEXCEPT
     {
         p1.swap(p2);
     }
@@ -247,14 +238,13 @@ public:
         return this->d[i];
     }
 
-    void swap(QExtUniqueArrayPointer &other)
-    QEXT_NOEXCEPT // prevent QEXTScopedPointer <->QEXTScopedArrayPointer swaps
+    // prevent QEXTScopedPointer <->QEXTScopedArrayPointer swaps
+    void swap(QExtUniqueArrayPointer &other) QEXT_NOEXCEPT
     {
         QExtUniquePointer<T, Deleter>::swap(other);
     }
 
-    friend void swap(QExtUniqueArrayPointer<T, Deleter> &p1, QExtUniqueArrayPointer<T, Deleter> &p2)
-    QEXT_NOEXCEPT
+    friend void swap(QExtUniqueArrayPointer<T, Deleter> &p1, QExtUniqueArrayPointer<T, Deleter> &p2) QEXT_NOEXCEPT
     {
         p1.swap(p2);
     }

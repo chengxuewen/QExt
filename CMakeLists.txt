@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.3.1 LANGUAGES CXX C)
+project(QExt VERSION 1.2.3.2 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -412,7 +412,7 @@ qext_option(QEXT_ENABLE_LIB_GUI "Enable this to build the gui lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_ICONS "Enable this to build the icons lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_LIB_PATTERN "Enable this to build the pattern lib" OFF
+qext_option(QEXT_ENABLE_LIB_PATTERNS "Enable this to build the patterns lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_WIDGETS "Enable this to build the widgets lib" OFF
     OR_CONDITION QEXT_BUILD_ALL
@@ -430,6 +430,13 @@ qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib"
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_ensure_define_variable(QEXT_3RDPARTY_SINGLEAPP_QAPPLICATION_CLASS "QApplication")
+qext_option(QEXT_ENABLE_3RDPARTY_QWINDOWKIT "Enable this to build the 3rdparty qwindowkit lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+
+qext_option(QEXT_ADD_SUBDIRECTORY_UTK "Enable this to add the 3rdparty UTK subdirectory" OFF)
+qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF)
+qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF)
+qext_option(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT "Enable this to add the 3rdparty qwindowkit subdirectory" OFF)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -714,15 +721,30 @@ qext_add_subdirectory(src/plugins QEXT_BUILD_PLUGINS)
 #-----------------------------------------------------------------------------------------------------------------------
 # add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
-set(INPUT_UTK_BUILD_ALL ON)
-add_subdirectory(3rdparty/UTK)
-# add_subdirectory(3rdparty/qwt-6.1.3)
+if(QEXT_ADD_SUBDIRECTORY_UTK)
+    set(INPUT_UTK_BUILD_ALL ON)
+    add_subdirectory(3rdparty/UTK)
+endif()
+
+if(QEXT_ADD_SUBDIRECTORY_QWT)
+    add_subdirectory(3rdparty/qwt-6.1.3)
+endif()
 if(QEXT_ENABLE_3RDPARTY_QWT)
     qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
 endif()
-# add_subdirectory(3rdparty/SingleApplication-3.5.1)
+
+if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)
+    add_subdirectory(3rdparty/SingleApplication-3.5.1)
+endif()
 if(QEXT_ENABLE_3RDPARTY_SINGLEAPP)
     qext_find_package(WrapSingleApp PROVIDED_TARGETS QExt3rdparty::WrapSingleApp)
+endif()
+
+if(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT)
+    add_subdirectory(3rdparty/qwindowkit-1.0.1)
+endif()
+if(QEXT_ENABLE_3RDPARTY_QWINDOWKIT)
+    qext_find_package(WrapQWindowkit PROVIDED_TARGETS QExt3rdparty::WrapQWindowkit)
 endif()
 
 

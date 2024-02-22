@@ -132,6 +132,8 @@ qext_add_library(Widgets
     source/qextPropertyBrowser.cpp
     source/qextPropertyBrowser.h
     source/qextPropertyBrowser_p.h
+    source/qextPropertyModel.h
+    source/qextPropertyModel.cpp
     source/qextRangeSlider.cpp
     source/qextRangeSlider.h
     source/qextRangeSlider_p.h

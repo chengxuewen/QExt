@@ -329,9 +329,9 @@ template <> class QEXTStaticAssertFailure< true > { };
 
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
-    typedef qintptr QEXTSocketDescriptor;
+typedef qintptr QExtSocketDescriptor;
 #else
-typedef int QEXTSocketDescriptor;
+typedef int QExtSocketDescriptor;
 #endif
 
 struct QExtNil {};

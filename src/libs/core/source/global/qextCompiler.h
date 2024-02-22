@@ -4,6 +4,9 @@
 #include <qextPreprocessor.h>
 #include <qextSystem.h>
 
+#include <qcompilerdetection.h>
+
+
 /***********************************************************************************************************************
     QExt compiler type version macro define
 ***********************************************************************************************************************/
@@ -44,8 +47,13 @@
     // MSVC++ 14.0  _MSC_VER == 1900   (Visual Studio 2015)
     // MSVC++ 14.1  _MSC_VER >= 1910   (Visual Studio 2017)
     // MSVC++ 14.2  _MSC_VER >= 1920   (Visual Studio 2019)
-    #define QEXT_CC_MSVC (_MSC_VER)
-    #define QEXT_CC_MSVC_NET
+#   define QEXT_CC_MSVC (_MSC_VER)
+#   define QEXT_CC_MSVC_NET
+#   if _MSC_FULL_VER > 100000000
+#       define QEXT_MSVC_FULL_VER _MSC_FULL_VER
+#   else
+#       define QEXT_MSVC_FULL_VER (_MSC_FULL_VER * 10)
+#   endif
 #endif
 
 /*CLANG*/
@@ -682,10 +690,14 @@
     #define QEXT_CC_FEATURE_RAW_STRINGS 0
 #endif
 #ifndef QEXT_CC_FEATURE_REF_QUALIFIERS
-    #define QEXT_CC_FEATURE_REF_QUALIFIERS 0
+#   define QEXT_CC_FEATURE_REF_QUALIFIERS 0
 #endif
 #ifndef QEXT_CC_FEATURE_RVALUE_REFS
-    #define QEXT_CC_FEATURE_RVALUE_REFS 0
+#   ifdef Q_COMPILER_RVALUE_REFS
+#      define QEXT_CC_FEATURE_RVALUE_REFS 1
+#   else
+#      define QEXT_CC_FEATURE_RVALUE_REFS 0
+#   endif
 #endif
 #ifndef QEXT_CC_FEATURE_STATIC_ASSERT
     #define QEXT_CC_FEATURE_STATIC_ASSERT 0

@@ -96,8 +96,8 @@ qext_add_library(Core
     source/tools/qextBackTrace.h
     source/tools/qextException.cpp
     source/tools/qextException.h
-    source/tools/qextId.cpp
-    source/tools/qextId.h
+    source/tools/qextTag.cpp
+    source/tools/qextTag.h
     source/tools/qextSpinlock.h
     source/tools/qextOnceFlag.h
     source/tools/qextTypeInfo.h

@@ -1,1 +1,0 @@
-#include "../source/qextPatternView.h"
