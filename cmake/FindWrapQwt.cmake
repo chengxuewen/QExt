@@ -39,14 +39,10 @@ if(NOT Qwt_FOUND)
     set(QWT_SOURCE_DIR "${QWT_ROOT_DIR}/source")
     set(QWT_INSTALL_DIR "${QWT_ROOT_DIR}/install")
     if(NOT EXISTS ${QWT_SOURCE_DIR})
-        include(FetchContent)
-        FetchContent_Declare(
-            QExt-Qwt
-            SOURCE_DIR ${QWT_SOURCE_DIR}
-            BINARY_DIR ${QWT_BUILD_DIR}
-            URL ${QWT_URL_PATH}
-            DOWNLOAD_EXTRACT_TIMESTAMP FALSE)
-        FetchContent_Populate(QExt-Qwt)
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E copy_directory ${QWT_URL_PATH} ${QWT_SOURCE_DIR}
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${QWT_BUILD_DIR}
+            RESULT_VARIABLE FETCH_RESULT)
     endif()
     if(NOT EXISTS ${QWT_INSTALL_DIR})
         if(NOT EXISTS ${QWT_SOURCE_DIR})
