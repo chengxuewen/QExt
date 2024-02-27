@@ -13,11 +13,12 @@
 // version without notice, or may even be removed.
 //
 
-#include <QWKCore/private/abstractwindowcontext_p.h>
+#include "abstractwindowcontext_p.h"
 
 namespace QWK {
 
-    class CocoaWindowContext : public AbstractWindowContext {
+    class CocoaWindowContext : public AbstractWindowContext
+    {
         Q_OBJECT
     public:
         CocoaWindowContext();

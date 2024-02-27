@@ -12,7 +12,7 @@ class QEXT_WIDGETS_API QExtMessageBox : public QMessageBox
 public:
     explicit QExtMessageBox(QWidget *parent = QEXT_NULLPTR);
     QExtMessageBox(Icon icon, const QString &title, const QString &text,
-                   StandardButtons buttons = NoButton, QWidget *parent = nullptr,
+                   StandardButtons buttons = NoButton, QWidget *parent = QEXT_NULLPTR,
                    Qt::WindowFlags flags = Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 
     static QSize customIconSize();

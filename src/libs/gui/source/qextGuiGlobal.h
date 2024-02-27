@@ -2,6 +2,7 @@
 #define _QEXTGUIGLOBAL_H
 
 #include <qextGlobal.h>
+#include <qextGuiConfig.h>
 
 /***********************************************************************************************************************
    QExt Compiler specific cmds for export and import code to DLL

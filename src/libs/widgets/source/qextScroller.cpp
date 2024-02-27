@@ -916,7 +916,7 @@ bool QExtScrollerPropertiesPrivate::operator==(const QExtScrollerPropertiesPriva
 /*!
      Sets the scroller properties for all new QExtScrollerProperties objects to \a sp.
 
-     Use this function to override the platform default properties returned by the default
+     Use this function to QEXT_OVERRIDE the platform default properties returned by the default
      constructor. If you only want to change the scroller properties of a single scroller, use
      QExtScroller::setScrollerProperties()
 

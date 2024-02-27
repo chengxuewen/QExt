@@ -14,7 +14,7 @@ class CMainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    CMainWindow(QWidget *parent = nullptr);
+    CMainWindow(QWidget *parent = 0);
     virtual ~CMainWindow();
 
 protected slots:
@@ -33,8 +33,8 @@ protected slots:
     void onProcessDialogButtonClicked();
 
 protected:
-    bool event(QEvent *event) override;
-    bool eventFilter(QObject *watched, QEvent *event) override;
+    bool event(QEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event);
 
 private:
     Ui::MainWindow *ui;

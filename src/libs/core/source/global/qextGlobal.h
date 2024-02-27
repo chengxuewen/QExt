@@ -103,31 +103,31 @@
 #define QEXT_DECL_NOTHROW QEXT_NOEXCEPT
 
 #if QEXT_CC_FEATURE_DEFAULT_MEMBERS
-#   define QEXT_DECL_EQ_DEFAULT = default
-#   define QEXT_DECL_EQ_DEFAULT_FUNC = default;
+#   define QEXT_EQ_DEFAULT = default
+#   define QEXT_EQ_DEFAULT_FUNC = default;
 #else
-#   define QEXT_DECL_EQ_DEFAULT
-#   define QEXT_DECL_EQ_DEFAULT_FUNC {}
+#   define QEXT_EQ_DEFAULT
+#   define QEXT_EQ_DEFAULT_FUNC {}
 #endif
 
 #if QEXT_CC_FEATURE_DELETE_MEMBERS
-#   define QEXT_DECL_EQ_DELETE = delete
-#   define QEXT_DECL_EQ_DELETE_FUNC = delete;
+#   define QEXT_EQ_DELETE = delete
+#   define QEXT_EQ_DELETE_FUNC = delete;
 #else
-#   define QEXT_DECL_EQ_DELETE
-#   define QEXT_DECL_EQ_DELETE_FUNC {}
+#   define QEXT_EQ_DELETE
+#   define QEXT_EQ_DELETE_FUNC {}
 #endif
 
 #if QEXT_CC_FEATURE_ALIGNOF
-#   define QEXT_DECL_ALIGNOF(x)  alignof(x)
+#   define QEXT_ALIGNOF(x)  alignof(x)
 #else
-#   define QEXT_DECL_ALIGNOF(x)
+#   define QEXT_ALIGNOF(x)
 #endif
 
 #if QEXT_CC_FEATURE_ALIGNAS
-#   define QEXT_DECL_ALIGN(n)   alignas(n)
+#   define QEXT_ALIGN(n)   alignas(n)
 #else
-#   define QEXT_DECL_ALIGN(n)
+#   define QEXT_ALIGN(n)
 #endif
 
 
@@ -137,14 +137,14 @@
 ***********************************************************************************************************************/
 // disable copy macro define
 #define QEXT_DECL_DISABLE_COPY(Class) \
-    Class(const Class &) QEXT_DECL_EQ_DELETE; \
-    Class &operator=(const Class &) QEXT_DECL_EQ_DELETE;
+    Class(const Class &) QEXT_EQ_DELETE; \
+    Class &operator=(const Class &) QEXT_EQ_DELETE;
 
 // disable move macro define
 #if QEXT_CC_FEATURE_RVALUE_REFS
 #   define QEXT_DECL_DISABLE_MOVE(Class) \
-    Class(Class &&) QEXT_DECL_EQ_DELETE; \
-    Class &operator=(Class &&) QEXT_DECL_EQ_DELETE;
+    Class(Class &&) QEXT_EQ_DELETE; \
+    Class &operator=(Class &&) QEXT_EQ_DELETE;
 #else
 #   define QEXT_DECL_DISABLE_MOVE(Class)
 #endif
@@ -216,23 +216,26 @@ inline bool qextVariantCanConvert(const QVariant &variant)
     QExt force inline macro declare
 ***********************************************************************************************************************/
 #if defined(QEXT_CC_MSVC)
-#   define QEXT_DECL_ALWAYS_INLINE   __forceinline
-#   define QEXT_DECL_FORCE_INLINE    __forceinline
-#   define QEXT_DECL_NEVER_INLINE    __declspec(noinline)
+#   define QEXT_ATTR_ALWAYS_INLINE   __forceinline
+#   define QEXT_ATTR_FORCE_INLINE    __forceinline
+#   define QEXT_ATTR_NEVER_INLINE    __declspec(noinline)
+#   define QEXT_ATTR_USED
 #elif defined(QEXT_CC_GNU)
-#   define QEXT_DECL_FORCE_INLINE    inline __attribute__((always_inline))
-#   define QEXT_DECL_ALWAYS_INLINE   inline __attribute__((always_inline))
-#   define QEXT_DECL_NEVER_INLINE    __attribute__((noinline))
+#   define QEXT_ATTR_FORCE_INLINE    inline __attribute__((always_inline))
+#   define QEXT_ATTR_ALWAYS_INLINE   inline __attribute__((always_inline))
+#   define QEXT_ATTR_NEVER_INLINE    __attribute__((noinline))
+#   define QEXT_ATTR_USED           __attribute__((used))
 #elif defined(QEXT_CC_CLANG)
-#   define QEXT_DECL_FORCE_INLINE    inline __attribute__((always_inline))
-#   define QEXT_DECL_ALWAYS_INLINE   inline __attribute__((always_inline))
-#   define QEXT_DECL_NEVER_INLINE
+#   define QEXT_ATTR_FORCE_INLINE    inline __attribute__((always_inline))
+#   define QEXT_ATTR_ALWAYS_INLINE   inline __attribute__((always_inline))
+#   define QEXT_ATTR_NEVER_INLINE
+#   define QEXT_ATTR_USED           __attribute__((used))
 #else
-#   define QEXT_DECL_FORCE_INLINE    inline // no force inline for other platforms possible
-#   define QEXT_DECL_ALWAYS_INLINE   inline
-#   define QEXT_DECL_NEVER_INLINE
+#   define QEXT_ATTR_FORCE_INLINE    inline // no force inline for other platforms possible
+#   define QEXT_ATTR_ALWAYS_INLINE   inline
+#   define QEXT_ATTR_NEVER_INLINE
+#   define QEXT_ATTR_USED
 #endif
-
 
 
 /***********************************************************************************************************************
@@ -245,7 +248,6 @@ inline bool qextVariantCanConvert(const QVariant &variant)
 #ifndef QEXT_DECL_UNUSED
 #   define QEXT_DECL_UNUSED
 #endif
-
 
 
 /***********************************************************************************************************************
@@ -262,7 +264,6 @@ inline bool qextVariantCanConvert(const QVariant &variant)
 #   define QEXT_CORE_API
 #   define QEXT_CORE_HIDDEN
 #endif
-
 
 
 /***********************************************************************************************************************

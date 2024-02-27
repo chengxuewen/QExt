@@ -237,7 +237,7 @@
 #if defined(QEXT_CC_MSVC)
     #if _MSC_VER >= 1400 // C++11 features supported in VC8 = VC2005
         #define QEXT_CC_FEATURE_VARIADIC_MACROS 1
-        /* 2005 supports the override and final contextual keywords, in
+        /* 2005 supports the QEXT_OVERRIDE and final contextual keywords, in
         the same positions as the C++11 variants, but 'final' is
         called 'sealed' instead:
         http://msdn.microsoft.com/en-us/library/0w2w91tf%28v=vs.80%29.aspx

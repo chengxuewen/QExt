@@ -76,7 +76,7 @@ public:
     /* Creates an Rgba color from a given color and an opacity value in the range from 0 (transparent) to 1 (opaque) */
     QString rgbaColor(const QString &RgbColor, float Opacity);
     void replaceStylesheetVariables(QString &templateContent); // Replace the stylesheet variables in the given template
-    void addFonts(QDir *Dir = nullptr); // Register the style fonts to the font database
+    void addFonts(QDir *Dir = QEXT_NULLPTR); // Register the style fonts to the font database
     /* Generate the resources for the variuous states */
     bool generateResourcesFor(const QString &subDir, const QJsonObject &JsonObject, const QFileInfoList &entries);
     /* Replace the in the given content the template color string with the theme color string */

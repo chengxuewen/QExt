@@ -1,5 +1,3 @@
-#include <algorithm>
-
 #include "helplayout.h"
 #include "helplayout_p.h"
 

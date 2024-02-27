@@ -13,13 +13,13 @@ namespace
 
 // internal helper method to merge to option amps
 static QExtIconFontAwesome::FontOptionValueMap qextMergeFontOptions(const QExtIconFontAwesome::FontOptionValueMap &defaults,
-                                                                    const QExtIconFontAwesome::FontOptionValueMap &override)
+                                                                    const QExtIconFontAwesome::FontOptionValueMap &QEXT_OVERRIDE)
 {
     QExtIconFontAwesome::FontOptionValueMap result = defaults;
-    if (!override.isEmpty())
+    if (!QEXT_OVERRIDE.isEmpty())
     {
         QExtIconFontAwesome::FontOptionValueMap::const_iterator iter;
-        for (iter = override.begin(); iter != override.end(); ++iter)
+        for (iter = QEXT_OVERRIDE.begin(); iter != QEXT_OVERRIDE.end(); ++iter)
         {
             result.insert(iter.key(), iter.value());
         }
@@ -110,7 +110,7 @@ public:
 
     virtual ~QExtIconFontAwesomeIconPainterIconEngine() {}
 
-    QExtIconFontAwesomeIconPainterIconEngine *clone() const override
+    QExtIconFontAwesomeIconPainterIconEngine *clone() const QEXT_OVERRIDE
     {
         return new QExtIconFontAwesomeIconPainterIconEngine(m_awesomeRef, m_iconPainterRef, m_options);
     }

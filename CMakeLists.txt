@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.3.3 LANGUAGES CXX C)
+project(QExt VERSION 1.2.3.4 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -61,7 +61,6 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
 endif()
 
 set(QEXT_QT_HAS_QJSON OFF)
-set(QEXT_QT_HAS_QML OFF)
 find_package(Qt4 QUIET COMPONENTS QtCore QUIET)
 if(NOT QT_FOUND)
     find_package(QT NAMES Qt6 Qt5 COMPONENTS Core QUIET)
@@ -99,13 +98,6 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     set(QEXT_CXX_STANDARD 17)
 else()
     message(FATAL_ERROR "Not find Qt package")
-endif()
-
-if(QEXT_QT_VERSION VERSION_GREATER_EQUAL "5.12")
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Qml QuickControls2 QuickWidgets REQUIRED)
-    set(QEXT_QT_HAS_QML ON)
-else()
-    set(QEXT_QT_HAS_QML OFF)
 endif()
 
 get_filename_component(QEXT_QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
@@ -357,7 +349,6 @@ include(QExtPkgConfigHelpers)
 include(QExtBundlesHelpers)
 include(QExtLibraryHelpers)
 include(QExtInstallHelpers)
-include(QExtAutogenHelpers)
 include(QExtModuleHelpers)
 include(QExtPluginHelpers)
 include(QExtTargetHelpers)
@@ -365,7 +356,6 @@ include(QExtOptionHelpers)
 include(QExtCMakeHelpers)
 include(QExtRpathHelpers)
 include(QExtTestHelpers)
-include(QExtQmlHelpers)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -397,8 +387,6 @@ qext_option(QEXT_BUILD_DOCS "Enable this to build the documentation" OFF)
 qext_option(QEXT_BUILD_TESTS "Enable this to build tests" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_BUILD_EXAMPLES "Enable this to build examples" OFF
-    OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_BUILD_QMLS "Enable this to build the qmls." OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_BUILD_APPS "Enable this to build apps" OFF)
 qext_option(QEXT_BUILD_TOOLS "Enable this to build the tools." ${__qext_build_tools_default})
@@ -587,8 +575,7 @@ function(qext_setup_tool_path_command)
     list(APPEND command COMMAND)
     list(APPEND command set PATH=${bindir}$<SEMICOLON>%PATH%)
     set(QEXT_TOOL_PATH_SETUP_COMMAND "${command}" CACHE INTERNAL "internal command prefix for tool invocations" FORCE)
-    # QEXT_TOOL_PATH_SETUP_COMMAND is deprecated. Please use _qext_internal_get_wrap_tool_script_path
-    # instead.
+    # QEXT_TOOL_PATH_SETUP_COMMAND is deprecated. Please use _qext_internal_get_wrap_tool_script_path instead.
 endfunction()
 qext_setup_tool_path_command()
 
@@ -712,7 +699,6 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 # add subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
 add_subdirectory(src/libs)
-qext_add_subdirectory(src/qmls QEXT_BUILD_QMLS)
 qext_add_subdirectory(src/apps QEXT_BUILD_APPS)
 qext_add_subdirectory(src/tools QEXT_BUILD_TOOLS)
 qext_add_subdirectory(src/plugins QEXT_BUILD_PLUGINS)
@@ -769,9 +755,6 @@ if(QEXT_BUILD_INSTALL)
     install(DIRECTORY ${QEXT_OUTPUT_LIB_DIR}
         DESTINATION ./lib
         COMPONENT Libs)
-    install(DIRECTORY ${QEXT_OUTPUT_QML_DIR}
-        DESTINATION ./qml
-        COMPONENT Qml)
     install(DIRECTORY ${QEXT_OUTPUT_EXAMPLE_DIR}
         DESTINATION ./example
         COMPONENT Example

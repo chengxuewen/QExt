@@ -77,8 +77,8 @@ public:
     QExtPropertyModelRootItem() {}
     ~QExtPropertyModelRootItem() QEXT_OVERRIDE {};
 
-    QString name() const override { return "root"; }
-    Qt::ItemFlags flags() const override { return  Qt::NoItemFlags; }
+    QString name() const QEXT_OVERRIDE { return "root"; }
+    Qt::ItemFlags flags() const QEXT_OVERRIDE { return  Qt::NoItemFlags; }
 
     QVariant data(int /*role*/ = Qt::DisplayRole) const QEXT_OVERRIDE { return QVariant(); }
     bool setData(const QVariant &/*value*/, int /*role*/ = Qt::EditRole) QEXT_OVERRIDE { return true; }
