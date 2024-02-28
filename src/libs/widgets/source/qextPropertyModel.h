@@ -1,7 +1,7 @@
-#ifndef _QEXTITEMMODEL_H
-#define _QEXTITEMMODEL_H
+#ifndef _QEXTPROPERTYMODEL_H
+#define _QEXTPROPERTYMODEL_H
 
-#include <qextGlobal.h>
+#include <qextWidgetGlobal.h>
 
 #include <QList>
 #include <QObject>
@@ -9,7 +9,7 @@
 #include <QStyledItemDelegate>
 #include <QStyleOptionViewItem>
 
-class QEXT_CORE_API QExtPropertyModelItem : public QObject
+class QEXT_WIDGETS_API QExtPropertyModelItem : public QObject
 {
     Q_OBJECT
 public:
@@ -71,7 +71,7 @@ protected:
     QList<QExtPropertyModelItem *> m_childrenList;
 };
 
-class QEXT_CORE_API QExtPropertyModelRootItem : public QExtPropertyModelItem
+class QEXT_WIDGETS_API QExtPropertyModelRootItem : public QExtPropertyModelItem
 {
 public:
     QExtPropertyModelRootItem() {}
@@ -86,7 +86,7 @@ public:
 
 class QExtPropertyModelItem;
 class QExtPropertyModelPrivate;
-class QEXT_CORE_API QExtPropertyModel : public QAbstractItemModel
+class QEXT_WIDGETS_API QExtPropertyModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
@@ -134,7 +134,7 @@ private:
 };
 
 
-class QEXT_CORE_API QExtPropertyDelegate : public QStyledItemDelegate
+class QEXT_WIDGETS_API QExtPropertyDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
@@ -163,4 +163,4 @@ protected:
     QHash<qulonglong, QExtPropertyModelItem *> m_itemMap;
 };
 
-#endif // _QEXTITEMMODEL_H
+#endif // _QEXTPROPERTYMODEL_H

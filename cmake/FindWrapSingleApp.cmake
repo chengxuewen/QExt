@@ -28,14 +28,13 @@ if(TARGET QExt3rdparty::WrapSingleApp)
     return()
 endif()
 
-add_library(QExt3rdparty::WrapSingleApp INTERFACE IMPORTED)
 set(SINGLEAPP_DIR_NAME "SingleApplication-3.5.1")
 set(SINGLEAPP_URL_NAME "SingleApplication-3.5.1")
 set(SINGLEAPP_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${SINGLEAPP_URL_NAME}")
 set(SINGLEAPP_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${SINGLEAPP_DIR_NAME}")
-set(SINGLEAPP_BUILD_DIR "${SINGLEAPP_ROOT_DIR}/build")
 set(SINGLEAPP_SOURCE_DIR "${SINGLEAPP_ROOT_DIR}/source")
-set(SINGLEAPP_INSTALL_DIR "${SINGLEAPP_ROOT_DIR}/install")
+set(SINGLEAPP_BUILD_DIR "${SINGLEAPP_ROOT_DIR}/build/${CMAKE_BUILD_TYPE}")
+set(SINGLEAPP_INSTALL_DIR "${SINGLEAPP_ROOT_DIR}/install/${CMAKE_BUILD_TYPE}")
 if(NOT EXISTS ${SINGLEAPP_SOURCE_DIR})
     execute_process(
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${SINGLEAPP_URL_PATH} ${SINGLEAPP_SOURCE_DIR}
@@ -51,6 +50,7 @@ if(NOT EXISTS ${SINGLEAPP_INSTALL_DIR})
         -G${CMAKE_GENERATOR}
         -DSINGLEAPPLICATION_BUILD_INSTALL=ON
         -DUSER_QAPPLICATION_CLASS=${QEXT_3RDPARTY_SINGLEAPP_QAPPLICATION_CLASS}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
         -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
         -DCMAKE_INSTALL_PREFIX=${SINGLEAPP_INSTALL_DIR} ${SINGLEAPP_SOURCE_DIR}
@@ -59,7 +59,7 @@ if(NOT EXISTS ${SINGLEAPP_INSTALL_DIR})
     if(CONFIGURE_RESULT MATCHES 0)
         message(STATUS "${SINGLEAPP_DIR_NAME} configure success")
         execute_process(
-            COMMAND ${CMAKE_COMMAND} --build ./ --parallel ${QEXT_NUMBER_OF_ASYNC_JOBS} --config Release
+            COMMAND ${CMAKE_COMMAND} --build ./ --parallel ${QEXT_NUMBER_OF_ASYNC_JOBS}
             WORKING_DIRECTORY "${SINGLEAPP_BUILD_DIR}"
             RESULT_VARIABLE BUILD_RESULT)
         if(BUILD_RESULT MATCHES 0)
@@ -81,6 +81,7 @@ if(NOT EXISTS ${SINGLEAPP_INSTALL_DIR})
     endif()
 endif()
 find_package(SingleApplication PATHS ${SINGLEAPP_INSTALL_DIR} REQUIRED)
+add_library(QExt3rdparty::WrapSingleApp INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapSingleApp INTERFACE SingleApplication::SingleApplication)
 qext_set_3rdparty_install_info(QExt3rdparty SingleApplication::SingleApplication)
 set(WrapSingleApp_FOUND ON)

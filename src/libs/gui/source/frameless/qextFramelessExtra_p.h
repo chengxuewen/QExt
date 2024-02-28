@@ -1,8 +1,8 @@
 // Copyright (C) 2023-2024 Stdware Collections
 // SPDX-License-Identifier: Apache-2.0
 
-#ifndef QWKWINDOWSEXTRA_P_H
-#define QWKWINDOWSEXTRA_P_H
+#ifndef _QEXTFRAMELESSEXTRA_P_H
+#define _QEXTFRAMELESSEXTRA_P_H
 
 //
 //  W A R N I N G !!!
@@ -13,21 +13,19 @@
 // version without notice, or may even be removed.
 //
 
-#include <shellscalingapi.h>
 #include <dwmapi.h>
 #include <timeapi.h>
+#include <shellscalingapi.h>
 
-#include <QWKCore/qwindowkit_windows.h>
-#include <QtCore/private/qsystemlibrary_p.h>
+#include <private/qextFrameless_win.h>
+#include <private/qextWinSystemLibrary_p.h>
 
+//#include <QtCore/private/qsystemlibrary_p.h>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QStyleHints>
 #include <QtGui/QPalette>
 
 // Don't include this header in any header files.
-
-// namespace QWK
-// {
 
 enum _DWMWINDOWATTRIBUTE
 {
@@ -153,27 +151,15 @@ enum PREFERRED_APP_MODE
     PAM_MAX = 4
 };
 
-using SetWindowCompositionAttributePtr =
-BOOL(WINAPI
-*)(HWND, PWINDOWCOMPOSITIONATTRIBDATA);
+using SetWindowCompositionAttributePtr = BOOL(WINAPI*)(HWND, PWINDOWCOMPOSITIONATTRIBDATA);
 
 // Win10 1809 (10.0.17763)
-using RefreshImmersiveColorPolicyStatePtr =
-VOID(WINAPI
-*)(VOID); // Ordinal 104
-using AllowDarkModeForWindowPtr =
-BOOL(WINAPI
-*)(HWND, BOOL);     // Ordinal 133
-using AllowDarkModeForAppPtr =
-BOOL(WINAPI
-*)(BOOL);              // Ordinal 135
-using FlushMenuThemesPtr =
-VOID(WINAPI
-*)(VOID);                  // Ordinal 136
+using RefreshImmersiveColorPolicyStatePtr = VOID(WINAPI*)(VOID); // Ordinal 104
+using AllowDarkModeForWindowPtr = BOOL(WINAPI*)(HWND, BOOL);     // Ordinal 133
+using AllowDarkModeForAppPtr = BOOL(WINAPI*)(BOOL);              // Ordinal 135
+using FlushMenuThemesPtr = VOID(WINAPI*)(VOID);                  // Ordinal 136
 // Win10 1903 (10.0.18362)
-using SetPreferredAppModePtr =
-PREFERRED_APP_MODE(WINAPI
-*)(PREFERRED_APP_MODE); // Ordinal 135
+using SetPreferredAppModePtr = PREFERRED_APP_MODE(WINAPI*)(PREFERRED_APP_MODE); // Ordinal 135
 
 namespace
 {
@@ -218,16 +204,16 @@ private:
 #define DYNAMIC_API_RESOLVE(DLL, NAME)                                                             \
     p##NAME = reinterpret_cast<decltype(p##NAME)>(DLL.resolve(#NAME))
 
-        QSystemLibrary user32(QStringLiteral("user32"));
+        QExtWinSystemLibrary user32(QStringLiteral("user32"));
         DYNAMIC_API_RESOLVE(user32, GetDpiForWindow);
         DYNAMIC_API_RESOLVE(user32, GetSystemMetricsForDpi);
         DYNAMIC_API_RESOLVE(user32, SetWindowCompositionAttribute);
         DYNAMIC_API_RESOLVE(user32, AdjustWindowRectExForDpi);
 
-        QSystemLibrary shcore(QStringLiteral("shcore"));
+        QExtWinSystemLibrary shcore(QStringLiteral("shcore"));
         DYNAMIC_API_RESOLVE(shcore, GetDpiForMonitor);
 
-        QSystemLibrary dwmapi(QStringLiteral("dwmapi"));
+        QExtWinSystemLibrary dwmapi(QStringLiteral("dwmapi"));
         DYNAMIC_API_RESOLVE(dwmapi, DwmFlush);
         DYNAMIC_API_RESOLVE(dwmapi, DwmIsCompositionEnabled);
         DYNAMIC_API_RESOLVE(dwmapi, DwmGetCompositionTimingInfo);
@@ -236,17 +222,16 @@ private:
         DYNAMIC_API_RESOLVE(dwmapi, DwmExtendFrameIntoClientArea);
         DYNAMIC_API_RESOLVE(dwmapi, DwmEnableBlurBehindWindow);
 
-        QSystemLibrary winmm(QStringLiteral("winmm"));
+        QExtWinSystemLibrary winmm(QStringLiteral("winmm"));
         DYNAMIC_API_RESOLVE(winmm, timeGetDevCaps);
         DYNAMIC_API_RESOLVE(winmm, timeBeginPeriod);
         DYNAMIC_API_RESOLVE(winmm, timeEndPeriod);
 
 #undef DYNAMIC_API_RESOLVE
 
-#define UNDOC_API_RESOLVE(DLL, NAME, ORDINAL)                                                      \
+#define UNDOC_API_RESOLVE(DLL, NAME, ORDINAL) \
     p##NAME = reinterpret_cast<decltype(p##NAME)>(DLL.resolve(MAKEINTRESOURCEA(ORDINAL)))
-
-        QSystemLibrary uxtheme(QStringLiteral("uxtheme"));
+        QExtWinSystemLibrary uxtheme(QStringLiteral("uxtheme"));
         UNDOC_API_RESOLVE(uxtheme, RefreshImmersiveColorPolicyState, 104);
         UNDOC_API_RESOLVE(uxtheme, AllowDarkModeForWindow, 133);
         UNDOC_API_RESOLVE(uxtheme, AllowDarkModeForApp, 135);
@@ -335,10 +320,8 @@ static inline constexpr SIZE qsize2size(const QSize &size)
 
 static inline constexpr QRect rect2qrect(const RECT &rect)
 {
-    return QRect{
-        QPoint{int(rect.left), int(rect.top)},
-        QSize{int(RECT_WIDTH(rect)), int(RECT_HEIGHT(rect))}
-    };
+    return QRect(QPoint{int(rect.left), int(rect.top)},
+                 QSize{int(RECT_WIDTH(rect)), int(RECT_HEIGHT(rect))});
 }
 
 static inline constexpr RECT qrect2rect(const QRect &qrect)
@@ -350,7 +333,7 @@ static inline constexpr RECT qrect2rect(const QRect &qrect)
 static inline constexpr QMargins margins2qmargins(const MARGINS &margins)
 {
     return {margins.cxLeftWidth, margins.cyTopHeight, margins.cxRightWidth,
-            margins.cyBottomHeight};
+                margins.cyBottomHeight};
 }
 
 static inline constexpr MARGINS qmargins2margins(const QMargins &qmargins)
@@ -361,8 +344,7 @@ static inline constexpr MARGINS qmargins2margins(const QMargins &qmargins)
 static inline /*constexpr*/ QString hwnd2str(const WId windowId)
 {
     // NULL handle is allowed here.
-    return QLatin1String("0x") +
-           QString::number(windowId, 16).toUpper().rightJustified(8, u'0');
+    return QLatin1String("0x") + QString::number(windowId, 16).toUpper().rightJustified(8, u'0');
 }
 
 static inline /*constexpr*/ QString hwnd2str(HWND hwnd)
@@ -414,8 +396,7 @@ static inline bool isDarkThemeActive()
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
     return QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark;
 #else
-    WindowsRegistryKey registry(
-        HKEY_CURRENT_USER, LR"(Software\Microsoft\Windows\CurrentVersion\Themes\Personalize)");
+    WindowsRegistryKey registry(HKEY_CURRENT_USER, LR"(Software\Microsoft\Windows\CurrentVersion\Themes\Personalize)");
     if (!registry.isValid())
     {
         return false;
@@ -433,8 +414,7 @@ static inline bool isDarkWindowFrameEnabled(HWND hwnd)
 {
     BOOL enabled = FALSE;
     const DynamicApis &apis = DynamicApis::instance();
-    if (SUCCEEDED(apis.pDwmGetWindowAttribute(hwnd, _DWMWA_USE_IMMERSIVE_DARK_MODE, &enabled,
-                                              sizeof(enabled))))
+    if (SUCCEEDED(apis.pDwmGetWindowAttribute(hwnd, _DWMWA_USE_IMMERSIVE_DARK_MODE, &enabled, sizeof(enabled))))
     {
         return enabled;
     }
@@ -455,19 +435,19 @@ static inline QColor getAccentColor()
     WindowsRegistryKey registry(HKEY_CURRENT_USER, LR"(Software\Microsoft\Windows\DWM)");
     if (!registry.isValid())
     {
-        return { };
+        return QColor();
     }
     auto value = registry.dwordValue(L"AccentColor");
     if (!value.second)
     {
-        return { };
+        return QColor();
     }
     // The retrieved value is in the #AABBGGRR format, we need to
     // convert it to the #AARRGGBB format which Qt expects.
     QColor color = QColor::fromRgba(value.first);
     if (!color.isValid())
     {
-        return { };
+        return QColor();
     }
     return QColor::fromRgb(color.blue(), color.green(), color.red(), color.alpha());
 #endif
@@ -510,9 +490,9 @@ static inline quint32 getSystemMetricsForDpi(int index, quint32 dpi)
 
 static inline quint32 getWindowFrameBorderThickness(HWND hwnd)
 {
+    UINT result = 0;
     const DynamicApis &apis = DynamicApis::instance();
-    if (UINT result = 0; SUCCEEDED(apis.pDwmGetWindowAttribute(
-        hwnd, _DWMWA_VISIBLE_FRAME_BORDER_THICKNESS, &result, sizeof(result))))
+    if (SUCCEEDED(apis.pDwmGetWindowAttribute(hwnd, _DWMWA_VISIBLE_FRAME_BORDER_THICKNESS, &result, sizeof(result))))
     {
         return result;
     }
@@ -523,16 +503,15 @@ static inline quint32 getResizeBorderThickness(HWND hwnd)
 {
     const quint32 dpi = getDpiForWindow(hwnd);
     return getSystemMetricsForDpi(SM_CXSIZEFRAME, dpi) +
-           getSystemMetricsForDpi(SM_CXPADDEDBORDER, dpi);
+            getSystemMetricsForDpi(SM_CXPADDEDBORDER, dpi);
 }
 
 static inline quint32 getTitleBarHeight(HWND hwnd)
 {
     const quint32 dpi = getDpiForWindow(hwnd);
     return getSystemMetricsForDpi(SM_CYCAPTION, dpi) +
-           getSystemMetricsForDpi(SM_CXSIZEFRAME, dpi) +
-           getSystemMetricsForDpi(SM_CXPADDEDBORDER, dpi);
+            getSystemMetricsForDpi(SM_CXSIZEFRAME, dpi) +
+            getSystemMetricsForDpi(SM_CXPADDEDBORDER, dpi);
 }
-// }
 
-#endif // QWKWINDOWSEXTRA_P_H
+#endif // _QEXTFRAMELESSEXTRA_P_H

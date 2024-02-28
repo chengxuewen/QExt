@@ -6,20 +6,21 @@
 #include <QVBoxLayout>
 #include <QScrollArea>
 
-#include <objectcontroller.h>
-#include <qextPropertyBrowser.h>
+#if 0
 
+#include <objectcontroller.h>
+
+#if 0
 class ObjectControllerPrivate
 {
     ObjectController *q_ptr;
-    Q_DECLARE_PUBLIC(ObjectController)
 public:
 
     void addClassProperties(const QMetaObject *metaObject);
     void updateClassProperties(const QMetaObject *metaObject, bool recursive);
     void saveExpandedState();
     void restoreExpandedState();
-    void slotValueChanged(QExtProperty *property, const QVariant &value);
+//    void slotValueChanged(QExtProperty *property, const QVariant &value);
     int enumToInt(const QMetaEnum &metaEnum, int enumValue) const;
     int intToEnum(const QMetaEnum &metaEnum, int intValue) const;
     int flagToInt(const QMetaEnum &metaEnum, int flagValue) const;
@@ -27,31 +28,39 @@ public:
     bool isSubValue(int value, int subValue) const;
     bool isPowerOf2(int value) const;
 
-    QObject                  *m_object;
+    QObject *m_object;
 
     QMap<const QMetaObject *, QExtProperty *> m_classToProperty;
     QMap<QExtProperty *, const QMetaObject *> m_propertyToClass;
     QMap<QExtProperty *, int>     m_propertyToIndex;
     QMap<const QMetaObject *, QMap<int, QExtVariantProperty *> > m_classToIndexToProperty;
 
-    QMap<QExtProperty *, bool>    m_propertyToExpanded;
+    QMap<QExtProperty *, bool> m_propertyToExpanded;
 
-    QList<QExtProperty *>         m_topLevelProperties;
+    QList<QExtProperty *> m_topLevelProperties;
 
-    QExtAbstractPropertyBrowser    *m_browser;
+    QExtAbstractPropertyBrowser *m_browser;
     QExtVariantPropertyManager *m_manager;
     QExtVariantPropertyManager *m_readOnlyManager;
+
+private:
+    Q_DECLARE_PUBLIC(ObjectController)
+    Q_DISABLE_COPY(ObjectControllerPrivate)
 };
 
 int ObjectControllerPrivate::enumToInt(const QMetaEnum &metaEnum, int enumValue) const
 {
     QMap<int, int> valueMap; // dont show multiple enum values which have the same values
     int pos = 0;
-    for (int i = 0; i < metaEnum.keyCount(); i++) {
+    for (int i = 0; i < metaEnum.keyCount(); i++)
+    {
         int value = metaEnum.value(i);
-        if (!valueMap.contains(value)) {
+        if (!valueMap.contains(value))
+        {
             if (value == enumValue)
+            {
                 return pos;
+            }
             valueMap[value] = pos++;
         }
     }
@@ -62,27 +71,37 @@ int ObjectControllerPrivate::intToEnum(const QMetaEnum &metaEnum, int intValue) 
 {
     QMap<int, bool> valueMap; // dont show multiple enum values which have the same values
     QList<int> values;
-    for (int i = 0; i < metaEnum.keyCount(); i++) {
+    for (int i = 0; i < metaEnum.keyCount(); i++)
+    {
         int value = metaEnum.value(i);
-        if (!valueMap.contains(value)) {
+        if (!valueMap.contains(value))
+        {
             valueMap[value] = true;
             values.append(value);
         }
     }
     if (intValue >= values.count())
+    {
         return -1;
+    }
     return values.at(intValue);
 }
 
 bool ObjectControllerPrivate::isSubValue(int value, int subValue) const
 {
     if (value == subValue)
+    {
         return true;
+    }
     int i = 0;
-    while (subValue) {
-        if (!(value & (1 << i))) {
+    while (subValue)
+    {
+        if (!(value & (1 << i)))
+        {
             if (subValue & 1)
+            {
                 return false;
+            }
         }
         i++;
         subValue = subValue >> 1;
@@ -92,8 +111,10 @@ bool ObjectControllerPrivate::isSubValue(int value, int subValue) const
 
 bool ObjectControllerPrivate::isPowerOf2(int value) const
 {
-    while (value) {
-        if (value & 1) {
+    while (value)
+    {
+        if (value & 1)
+        {
             return value == 1;
         }
         value = value >> 1;
@@ -104,15 +125,21 @@ bool ObjectControllerPrivate::isPowerOf2(int value) const
 int ObjectControllerPrivate::flagToInt(const QMetaEnum &metaEnum, int flagValue) const
 {
     if (!flagValue)
+    {
         return 0;
+    }
     int intValue = 0;
     QMap<int, int> valueMap; // dont show multiple enum values which have the same values
     int pos = 0;
-    for (int i = 0; i < metaEnum.keyCount(); i++) {
+    for (int i = 0; i < metaEnum.keyCount(); i++)
+    {
         int value = metaEnum.value(i);
-        if (!valueMap.contains(value) && isPowerOf2(value)) {
+        if (!valueMap.contains(value) && isPowerOf2(value))
+        {
             if (isSubValue(flagValue, value))
+            {
                 intValue |= (1 << pos);
+            }
             valueMap[value] = pos++;
         }
     }
@@ -123,9 +150,11 @@ int ObjectControllerPrivate::intToFlag(const QMetaEnum &metaEnum, int intValue) 
 {
     QMap<int, bool> valueMap; // dont show multiple enum values which have the same values
     QList<int> values;
-    for (int i = 0; i < metaEnum.keyCount(); i++) {
+    for (int i = 0; i < metaEnum.keyCount(); i++)
+    {
         int value = metaEnum.value(i);
-        if (!valueMap.contains(value) && isPowerOf2(value)) {
+        if (!valueMap.contains(value) && isPowerOf2(value))
+        {
             valueMap[value] = true;
             values.append(value);
         }
@@ -133,11 +162,16 @@ int ObjectControllerPrivate::intToFlag(const QMetaEnum &metaEnum, int intValue) 
     int flagValue = 0;
     int temp = intValue;
     int i = 0;
-    while (temp) {
+    while (temp)
+    {
         if (i >= values.count())
+        {
             return -1;
+        }
         if (temp & 1)
+        {
             flagValue |= values.at(i);
+        }
         i++;
         temp = temp >> 1;
     }
@@ -147,26 +181,42 @@ int ObjectControllerPrivate::intToFlag(const QMetaEnum &metaEnum, int intValue) 
 void ObjectControllerPrivate::updateClassProperties(const QMetaObject *metaObject, bool recursive)
 {
     if (!metaObject)
+    {
         return;
+    }
 
     if (recursive)
+    {
         updateClassProperties(metaObject->superClass(), recursive);
+    }
 
     QExtProperty *classProperty = m_classToProperty.value(metaObject);
     if (!classProperty)
+    {
         return;
+    }
 
-    for (int idx = metaObject->propertyOffset(); idx < metaObject->propertyCount(); idx++) {
+    for (int idx = metaObject->propertyOffset(); idx < metaObject->propertyCount(); idx++)
+    {
         QMetaProperty metaProperty = metaObject->property(idx);
-        if (metaProperty.isReadable()) {
-            if (m_classToIndexToProperty.contains(metaObject) && m_classToIndexToProperty[metaObject].contains(idx)) {
+        if (metaProperty.isReadable())
+        {
+            if (m_classToIndexToProperty.contains(metaObject) && m_classToIndexToProperty[metaObject].contains(idx))
+            {
                 QExtVariantProperty *subProperty = m_classToIndexToProperty[metaObject][idx];
-                if (metaProperty.isEnumType()) {
+                if (metaProperty.isEnumType())
+                {
                     if (metaProperty.isFlagType())
+                    {
                         subProperty->setValue(flagToInt(metaProperty.enumerator(), metaProperty.read(m_object).toInt()));
+                    }
                     else
+                    {
                         subProperty->setValue(enumToInt(metaProperty.enumerator(), metaProperty.read(m_object).toInt()));
-                } else {
+                    }
+                }
+                else
+                {
                     subProperty->setValue(metaProperty.read(m_object));
                 }
             }
@@ -177,47 +227,61 @@ void ObjectControllerPrivate::updateClassProperties(const QMetaObject *metaObjec
 void ObjectControllerPrivate::addClassProperties(const QMetaObject *metaObject)
 {
     if (!metaObject)
+    {
         return;
+    }
 
     addClassProperties(metaObject->superClass());
 
     QExtProperty *classProperty = m_classToProperty.value(metaObject);
-    if (!classProperty) {
+    if (!classProperty)
+    {
         QString className = QLatin1String(metaObject->className());
         classProperty = m_manager->addProperty(QExtVariantPropertyManager::groupTypeId(), className);
         m_classToProperty[metaObject] = classProperty;
         m_propertyToClass[classProperty] = metaObject;
 
-        for (int idx = metaObject->propertyOffset(); idx < metaObject->propertyCount(); idx++) {
+        for (int idx = metaObject->propertyOffset(); idx < metaObject->propertyCount(); idx++)
+        {
             QMetaProperty metaProperty = metaObject->property(idx);
             int type = metaProperty.userType();
             QExtVariantProperty *subProperty = 0;
-            if (!metaProperty.isReadable()) {
+            if (!metaProperty.isReadable())
+            {
                 subProperty = m_readOnlyManager->addProperty(QVariant::String, QLatin1String(metaProperty.name()));
                 subProperty->setValue(QLatin1String("< Non Readable >"));
-            } else if (metaProperty.isEnumType()) {
-                if (metaProperty.isFlagType()) {
+            }
+            else if (metaProperty.isEnumType())
+            {
+                if (metaProperty.isFlagType())
+                {
                     subProperty = m_manager->addProperty(QExtVariantPropertyManager::flagTypeId(), QLatin1String(metaProperty.name()));
                     QMetaEnum metaEnum = metaProperty.enumerator();
                     QMap<int, bool> valueMap;
                     QStringList flagNames;
-                    for (int i = 0; i < metaEnum.keyCount(); i++) {
+                    for (int i = 0; i < metaEnum.keyCount(); i++)
+                    {
                         int value = metaEnum.value(i);
-                        if (!valueMap.contains(value) && isPowerOf2(value)) {
+                        if (!valueMap.contains(value) && isPowerOf2(value))
+                        {
                             valueMap[value] = true;
                             flagNames.append(QLatin1String(metaEnum.key(i)));
                         }
-                    subProperty->setAttribute(QLatin1String("flagNames"), flagNames);
-                    subProperty->setValue(flagToInt(metaEnum, metaProperty.read(m_object).toInt()));
+                        subProperty->setAttribute(QLatin1String("flagNames"), flagNames);
+                        subProperty->setValue(flagToInt(metaEnum, metaProperty.read(m_object).toInt()));
                     }
-                } else {
+                }
+                else
+                {
                     subProperty = m_manager->addProperty(QExtVariantPropertyManager::enumTypeId(), QLatin1String(metaProperty.name()));
                     QMetaEnum metaEnum = metaProperty.enumerator();
                     QMap<int, bool> valueMap; // dont show multiple enum values which have the same values
                     QStringList enumNames;
-                    for (int i = 0; i < metaEnum.keyCount(); i++) {
+                    for (int i = 0; i < metaEnum.keyCount(); i++)
+                    {
                         int value = metaEnum.value(i);
-                        if (!valueMap.contains(value)) {
+                        if (!valueMap.contains(value))
+                        {
                             valueMap[value] = true;
                             enumNames.append(QLatin1String(metaEnum.key(i)));
                         }
@@ -225,15 +289,25 @@ void ObjectControllerPrivate::addClassProperties(const QMetaObject *metaObject)
                     subProperty->setAttribute(QLatin1String("enumNames"), enumNames);
                     subProperty->setValue(enumToInt(metaEnum, metaProperty.read(m_object).toInt()));
                 }
-            } else if (m_manager->isPropertyTypeSupported(type)) {
+            }
+            else if (m_manager->isPropertyTypeSupported(type))
+            {
                 if (!metaProperty.isWritable())
+                {
                     subProperty = m_readOnlyManager->addProperty(type, QLatin1String(metaProperty.name()) + QLatin1String(" (Non Writable)"));
+                }
                 if (!metaProperty.isDesignable())
+                {
                     subProperty = m_readOnlyManager->addProperty(type, QLatin1String(metaProperty.name()) + QLatin1String(" (Non Designable)"));
+                }
                 else
+                {
                     subProperty = m_manager->addProperty(type, QLatin1String(metaProperty.name()));
+                }
                 subProperty->setValue(metaProperty.read(m_object));
-            } else {
+            }
+            else
+            {
                 subProperty = m_readOnlyManager->addProperty(QVariant::String, QLatin1String(metaProperty.name()));
                 subProperty->setValue(QLatin1String("< Unknown Type >"));
                 subProperty->setEnabled(false);
@@ -242,7 +316,9 @@ void ObjectControllerPrivate::addClassProperties(const QMetaObject *metaObject)
             m_propertyToIndex[subProperty] = idx;
             m_classToIndexToProperty[metaObject][idx] = subProperty;
         }
-    } else {
+    }
+    else
+    {
         updateClassProperties(metaObject, false);
     }
 
@@ -260,37 +336,38 @@ void ObjectControllerPrivate::restoreExpandedState()
 
 }
 
-void ObjectControllerPrivate::slotValueChanged(QExtProperty *property, const QVariant &value)
-{
-    if (!m_propertyToIndex.contains(property))
-        return;
+//void ObjectControllerPrivate::slotValueChanged(QExtProperty *property, const QVariant &value)
+//{
+//    if (!m_propertyToIndex.contains(property))
+//        return;
 
-    int idx = m_propertyToIndex.value(property);
+//    int idx = m_propertyToIndex.value(property);
 
-    const QMetaObject *metaObject = m_object->metaObject();
-    QMetaProperty metaProperty = metaObject->property(idx);
-    if (metaProperty.isEnumType()) {
-        if (metaProperty.isFlagType())
-            metaProperty.write(m_object, intToFlag(metaProperty.enumerator(), value.toInt()));
-        else
-            metaProperty.write(m_object, intToEnum(metaProperty.enumerator(), value.toInt()));
-    } else {
-        metaProperty.write(m_object, value);
-    }
+//    const QMetaObject *metaObject = m_object->metaObject();
+//    QMetaProperty metaProperty = metaObject->property(idx);
+//    if (metaProperty.isEnumType()) {
+//        if (metaProperty.isFlagType())
+//            metaProperty.write(m_object, intToFlag(metaProperty.enumerator(), value.toInt()));
+//        else
+//            metaProperty.write(m_object, intToEnum(metaProperty.enumerator(), value.toInt()));
+//    } else {
+//        metaProperty.write(m_object, value);
+//    }
 
-    updateClassProperties(metaObject, true);
-}
-
+//    updateClassProperties(metaObject, true);
+//}
+#endif
 ///////////////////
 
 ObjectController::ObjectController(QWidget *parent)
     : QWidget(parent)
 {
-    d_ptr = new ObjectControllerPrivate;
-    d_ptr->q_ptr = this;
+#if 0
+    dd_ptr = new ObjectControllerPrivate;
+    dd_ptr->q_ptr = this;
 
-    d_ptr->m_object = 0;
-/*
+    dd_ptr->m_object = 0;
+    /*
     QScrollArea *scroll = new QScrollArea(this);
     scroll->setWidgetResizable(true);
 
@@ -302,52 +379,94 @@ ObjectController::ObjectController(QWidget *parent)
 */
     QExtTreePropertyBrowser *browser = new QExtTreePropertyBrowser(this);
     browser->setRootIsDecorated(false);
-    d_ptr->m_browser = browser;
+    dd_ptr->m_browser = browser;
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setMargin(0);
-    layout->addWidget(d_ptr->m_browser);
+    layout->addWidget(dd_ptr->m_browser);
 
-    d_ptr->m_readOnlyManager = new QExtVariantPropertyManager(this);
-    d_ptr->m_manager = new QExtVariantPropertyManager(this);
+    dd_ptr->m_readOnlyManager = new QExtVariantPropertyManager(this);
+    dd_ptr->m_manager = new QExtVariantPropertyManager(this);
     QExtVariantEditorFactory *factory = new QExtVariantEditorFactory(this);
-    d_ptr->m_browser->setFactoryForManager(d_ptr->m_manager, factory);
+    dd_ptr->m_browser->setFactoryForManager(dd_ptr->m_manager, factory);
 
-    connect(d_ptr->m_manager, SIGNAL(valueChanged(QExtProperty *, const QVariant &)),
-                this, SLOT(slotValueChanged(QExtProperty *, const QVariant &)));
+    connect(dd_ptr->m_manager, SIGNAL(valueChanged(QExtProperty *, const QVariant &)),
+            this, SLOT(slotValueChanged(QExtProperty *, const QVariant &)));
+#endif
 }
 
 ObjectController::~ObjectController()
 {
-    delete d_ptr;
+//    delete dd_ptr;
 }
 
 void ObjectController::setObject(QObject *object)
 {
-    if (d_ptr->m_object == object)
+#if 0
+    if (dd_ptr->m_object == object)
+    {
         return;
-
-    if (d_ptr->m_object) {
-        d_ptr->saveExpandedState();
-        QListIterator<QExtProperty *> it(d_ptr->m_topLevelProperties);
-        while (it.hasNext()) {
-            d_ptr->m_browser->removeProperty(it.next());
-        }
-        d_ptr->m_topLevelProperties.clear();
     }
 
-    d_ptr->m_object = object;
+    if (dd_ptr->m_object)
+    {
+        dd_ptr->saveExpandedState();
+        QListIterator<QExtProperty *> it(dd_ptr->m_topLevelProperties);
+        while (it.hasNext())
+        {
+            dd_ptr->m_browser->removeProperty(it.next());
+        }
+        dd_ptr->m_topLevelProperties.clear();
+    }
 
-    if (!d_ptr->m_object)
+    dd_ptr->m_object = object;
+
+    if (!dd_ptr->m_object)
+    {
         return;
+    }
 
-    d_ptr->addClassProperties(d_ptr->m_object->metaObject());
+    dd_ptr->addClassProperties(dd_ptr->m_object->metaObject());
 
-    d_ptr->restoreExpandedState();
+    dd_ptr->restoreExpandedState();
+#endif
 }
 
 QObject *ObjectController::object() const
 {
-    return d_ptr->m_object;
+//    return dd_ptr->m_object;
+    return 0;
 }
 
-#include "moc_objectcontroller.cpp"
+void ObjectController::slotValueChanged(QExtProperty *property, const QVariant &value)
+{
+#if 0
+    Q_D(ObjectController);
+    if (!d->m_propertyToIndex.contains(property))
+    {
+        return;
+    }
+
+    int idx = d->m_propertyToIndex.value(property);
+
+    const QMetaObject *metaObject = d->m_object->metaObject();
+    QMetaProperty metaProperty = metaObject->property(idx);
+    if (metaProperty.isEnumType())
+    {
+        if (metaProperty.isFlagType())
+        {
+            metaProperty.write(d->m_object, d->intToFlag(metaProperty.enumerator(), value.toInt()));
+        }
+        else
+        {
+            metaProperty.write(d->m_object, d->intToEnum(metaProperty.enumerator(), value.toInt()));
+        }
+    }
+    else
+    {
+        metaProperty.write(d->m_object, value);
+    }
+
+    d->updateClassProperties(metaObject, true);
+#endif
+}
+#endif

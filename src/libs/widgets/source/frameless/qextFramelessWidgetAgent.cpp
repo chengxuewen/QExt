@@ -19,7 +19,9 @@
 WidgetWindowAgentPrivate::WidgetWindowAgentPrivate(WidgetWindowAgent *q)
     : QExtFramelessAgentPrivate(q)
     , hostWidget(QEXT_NULLPTR)
+#ifdef Q_OS_MAC
     , systemButtonAreaWidget(QEXT_NULLPTR)
+#endif
 {
 }
 

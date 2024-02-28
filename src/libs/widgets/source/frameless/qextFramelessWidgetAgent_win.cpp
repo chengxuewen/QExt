@@ -1,16 +1,12 @@
 // Copyright (C) 2023-2024 Stdware Collections
 // SPDX-License-Identifier: Apache-2.0
 
-#include "widgetwindowagent_p.h"
+#include <private/qextFramelessWidgetAgent_p.h>
+#include <private/qextFrameless_win.h>
 
-#include <QtCore/QDebug>
-#include <QtCore/QDateTime>
-#include <QtGui/QPainter>
-
-#include <QWKCore/qwindowkit_windows.h>
-#include <QWKCore/private/qwkglobal_p.h>
-
-// namespace QWK {
+#include <QDebug>
+#include <QPainter>
+#include <QDateTime>
 
 #if QEXT_FEATURE_USE_FRAMELESS_SYSTEM_BORDERS
 // https://github.com/qt/qtbase/blob/e26a87f1ecc40bc8c6aa5b889fce67410a57a702/src/plugins/platforms/windows/qwindowsbackingstore.cpp#L42
@@ -36,11 +32,10 @@
 // returns, because Qt calls BeginPaint() and EndPaint() itself. We should make sure that we
 // draw the top border between these two calls, otherwise some display exceptions may arise.
 
-class WidgetBorderHandler : public QObject, public QExtFramelessNativeEventFilter, public QExtFramelessSharedEventFilter
+class QExtFramelessWidgetBorderHandler : public QObject, public QExtFramelessNativeEventFilter, public QExtFramelessSharedEventFilter
 {
 public:
-    explicit WidgetBorderHandler(QWidget *widget, QExtAbstractFramelessContext *ctx,
-                                 QObject *parent = QEXT_NULLPTR)
+    explicit QExtFramelessWidgetBorderHandler(QWidget *widget, QExtAbstractFramelessContext *ctx, QObject *parent = QEXT_NULLPTR)
         : QObject(parent), widget(widget), ctx(ctx)
     {
         widget->installEventFilter(this);
@@ -56,26 +51,22 @@ public:
         ctx->installNativeEventFilter(this);
         ctx->installQExtFramelessSharedEventFilter(this);
 
-        updateGeometry();
+        this->updateGeometry();
     }
 
     inline bool isNormalWindow() const
     {
-        return !(widget->windowState() &
-                 (Qt::WindowMinimized | Qt::WindowMaximized | Qt::WindowFullScreen));
+        return !(widget->windowState() & (Qt::WindowMinimized | Qt::WindowMaximized | Qt::WindowFullScreen));
     }
 
     inline void updateGeometry()
     {
-        if (isNormalWindow())
+        QMargins margins;
+        if (this->isNormalWindow())
         {
-            widget->setContentsMargins(
-                {0, ctx->windowAttribute(QStringLiteral("border-thickness")).toInt(), 0, 0});
+            margins = QMargins(0, ctx->windowAttribute(QStringLiteral("border-thickness")).toInt(), 0, 0);
         }
-        else
-        {
-            widget->setContentsMargins({ });
-        }
+        widget->setContentsMargins(margins);
     }
 
     inline void resumeWidgetEventAndDraw(QWidget *w, QEvent *event)
@@ -119,29 +110,26 @@ public:
     }
 
 protected:
-    bool nativeEventFilter(const QByteArray &eventType, void *message,
-                           QT_NATIVE_EVENT_RESULT_TYPE *result) QEXT_OVERRIDE
+    bool nativeEventFilter(const QByteArray &eventType, void *message, QT_NATIVE_EVENT_RESULT_TYPE *result) QEXT_OVERRIDE
     {
         Q_UNUSED(eventType)
 
-        const auto msg = static_cast<const MSG *>(message);
+        const MSG *msg = static_cast<const MSG *>(message);
         switch (msg->message)
         {
-            case WM_DPICHANGED:
-            {
-                updateGeometry();
-                updateExtraMargins(widget->isActiveWindow());
-                break;
-            }
-
-            case WM_ACTIVATE:
-            {
-                updateExtraMargins(LOWORD(msg->wParam) != WA_INACTIVE);
-                break;
-            }
-
-            default:
-                break;
+        case WM_DPICHANGED:
+        {
+            this->updateGeometry();
+            this->updateExtraMargins(widget->isActiveWindow());
+            break;
+        }
+        case WM_ACTIVATE:
+        {
+            this->updateExtraMargins(LOWORD(msg->wParam) != WA_INACTIVE);
+            break;
+        }
+        default:
+            break;
         }
         return false;
     }
@@ -150,7 +138,7 @@ protected:
     {
         Q_UNUSED(obj)
 
-        auto window = widget->windowHandle();
+        QWindow *window = widget->windowHandle();
 
         // Qt will absolutely send a QExposeEvent or QResizeEvent to the QWindow when it
         // receives a WM_PAINT message. When the control flow enters the expose handler, Qt
@@ -161,10 +149,10 @@ protected:
         // ignore it.
         if (event->type() == QEvent::Expose)
         {
-            auto ee = static_cast<QExposeEvent *>(event);
-            if (window->isExposed() && isNormalWindow() && !ee->region().isNull())
+            QExposeEvent *exposeEvent = static_cast<QExposeEvent *>(event);
+            if (window->isExposed() && this->isNormalWindow() && !exposeEvent->region().isNull())
             {
-                resumeWindowEventAndDraw(window, event);
+                this->resumeWindowEventAndDraw(window, event);
                 return true;
             }
         }
@@ -175,34 +163,30 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) QEXT_OVERRIDE
     {
         Q_UNUSED(obj)
-
         switch (event->type())
         {
-            case QEvent::UpdateRequest:
+        case QEvent::UpdateRequest:
+        {
+            if (!this->isNormalWindow())
             {
-                if (!isNormalWindow())
-                {
-                    break;
-                }
-                resumeWidgetEventAndDraw(widget, event);
-                return true;
-            }
-
-            case QEvent::WindowStateChange:
-            {
-                updateGeometry();
                 break;
             }
-
-            case QEvent::WindowActivate:
-            case QEvent::WindowDeactivate:
-            {
-                widget->update();
-                break;
-            }
-
-            default:
-                break;
+            this->resumeWidgetEventAndDraw(widget, event);
+            return true;
+        }
+        case QEvent::WindowStateChange:
+        {
+            this->updateGeometry();
+            break;
+        }
+        case QEvent::WindowActivate:
+        case QEvent::WindowDeactivate:
+        {
+            widget->update();
+            break;
+        }
+        default:
+            break;
         }
         return false;
     }
@@ -214,10 +198,10 @@ protected:
 void WidgetWindowAgentPrivate::setupWindows10BorderWorkaround()
 {
     // Install painting hook
-    auto ctx = context.get();
+    QExtAbstractFramelessContext *ctx = m_context.get();
     if (ctx->windowAttribute(QStringLiteral("win10-border-needed")).toBool())
     {
-        borderHandler = std::make_unique<WidgetBorderHandler>(hostWidget, ctx);
+        borderHandler.reset(new QExtFramelessWidgetBorderHandler(hostWidget, ctx));
     }
 }
 #endif

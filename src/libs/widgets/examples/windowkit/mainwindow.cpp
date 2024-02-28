@@ -2,21 +2,22 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "mainwindow.h"
-
-#include <QtCore/QDebug>
-#include <QtCore/QFile>
-#include <QtCore/QTime>
-#include <QtCore/QTimer>
-#include <QtGui/QPainter>
-#include <QtGui/QWindow>
-#include <QApplication>
-#include <QStyle>
-#include <QPushButton>
-#include <QActionGroup>
+#include "windowbar.h"
+#include "windowbutton.h"
 
 #include <qextFramelessWidgetAgent.h>
 
-#include "windowbar.h"
+#include <QFile>
+#include <QTime>
+#include <QDebug>
+#include <QTimer>
+#include <QStyle>
+#include <QWindow>
+#include <QPainter>
+#include <QPushButton>
+#include <QApplication>
+#include <QActionGroup>
+
 
 class ClockWidget : public QLabel
 {
@@ -62,7 +63,7 @@ static inline void emulateLeaveEvent(QWidget *widget)
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
         const QScreen *screen = widget->screen();
 #else
-            const QScreen *screen = widget->windowHandle()->screen();
+        const QScreen *screen = widget->windowHandle()->screen();
 #endif
         const QPoint globalPos = QCursor::pos(screen);
         if (!QRect(widget->mapToGlobal(QPoint{0, 0}), widget->size()).contains(globalPos))
@@ -75,14 +76,14 @@ static inline void emulateLeaveEvent(QWidget *widget)
                 const Qt::KeyboardModifiers modifiers = QGuiApplication::keyboardModifiers();
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 4, 0))
                 const auto event =
-                    new QHoverEvent(QEvent::HoverLeave, scenePos, globalPos, oldPos, modifiers);
+                        new QHoverEvent(QEvent::HoverLeave, scenePos, globalPos, oldPos, modifiers);
                 Q_UNUSED(localPos);
 #elif (QT_VERSION >= QT_VERSION_CHECK(6, 3, 0))
-                    const auto event =  new QHoverEvent(QEvent::HoverLeave, localPos, globalPos, oldPos, modifiers);
-                    Q_UNUSED(scenePos);
+                const auto event =  new QHoverEvent(QEvent::HoverLeave, localPos, globalPos, oldPos, modifiers);
+                Q_UNUSED(scenePos);
 #else
-                    const auto event =  new QHoverEvent(QEvent::HoverLeave, localPos, oldPos, modifiers);
-                    Q_UNUSED(scenePos);
+                const auto event =  new QHoverEvent(QEvent::HoverLeave, localPos, oldPos, modifiers);
+                Q_UNUSED(scenePos);
 #endif
                 QCoreApplication::postEvent(widget, event);
             }
@@ -94,14 +95,15 @@ MainWindow::~MainWindow() = default;
 
 bool MainWindow::event(QEvent *event)
 {
-    switch (event->type()) {
-    case QEvent::WindowActivate: {
+    switch (event->type())
+    {
+    case QEvent::WindowActivate:
+    {
         auto menu = menuWidget();
         menu->setProperty("bar-active", true);
         style()->polish(menu);
         break;
     }
-
     case QEvent::WindowDeactivate:
     {
         auto menu = menuWidget();
@@ -109,7 +111,6 @@ bool MainWindow::event(QEvent *event)
         this->style()->polish(menu);
         break;
     }
-
     default:
         break;
     }
@@ -150,7 +151,8 @@ void MainWindow::installWindowAgent()
         auto dwmBlurAction = new QAction(tr("Enable DWM blur"), menuBar);
         dwmBlurAction->setCheckable(true);
         connect(dwmBlurAction, &QAction::toggled, this, [this](bool checked) {
-            if (!windowAgent->setWindowAttribute(QStringLiteral("dwm-blur"), checked)) {
+            if (!windowAgent->setWindowAttribute(QStringLiteral("dwm-blur"), checked))
+            {
                 return;
             }
             setProperty("custom-style", checked);
@@ -160,7 +162,8 @@ void MainWindow::installWindowAgent()
         auto acrylicAction = new QAction(tr("Enable acrylic material"), menuBar);
         acrylicAction->setCheckable(true);
         connect(acrylicAction, &QAction::toggled, this, [this](bool checked) {
-            if (!windowAgent->setWindowAttribute(QStringLiteral("acrylic-material"), true)) {
+            if (!windowAgent->setWindowAttribute(QStringLiteral("acrylic-material"), true))
+            {
                 return;
             }
             setProperty("custom-style", checked);
@@ -257,22 +260,22 @@ void MainWindow::installWindowAgent()
     titleLabel->setObjectName(QStringLiteral("win-title-label"));
 
 #ifndef Q_OS_MAC
-    auto iconButton = new QWK::WindowButton();
+    auto iconButton = new WindowButton();
     iconButton->setObjectName(QStringLiteral("icon-button"));
     iconButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    auto minButton = new QWK::WindowButton();
+    auto minButton = new WindowButton();
     minButton->setObjectName(QStringLiteral("min-button"));
     minButton->setProperty("system-button", true);
     minButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    auto maxButton = new QWK::WindowButton();
+    auto maxButton = new WindowButton();
     maxButton->setCheckable(true);
     maxButton->setObjectName(QStringLiteral("max-button"));
     maxButton->setProperty("system-button", true);
     maxButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    auto closeButton = new QWK::WindowButton();
+    auto closeButton = new WindowButton();
     closeButton->setObjectName(QStringLiteral("close-button"));
     closeButton->setProperty("system-button", true);
     closeButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -291,10 +294,10 @@ void MainWindow::installWindowAgent()
 
     windowAgent->setTitleBar(windowBar);
 #ifndef Q_OS_MAC
-    windowAgent->setSystemButton(QWK::QExtFramelessAgent::WindowIcon, iconButton);
-    windowAgent->setSystemButton(QWK::QExtFramelessAgent::Minimize, minButton);
-    windowAgent->setSystemButton(QWK::QExtFramelessAgent::Maximize, maxButton);
-    windowAgent->setSystemButton(QWK::QExtFramelessAgent::Close, closeButton);
+    windowAgent->setSystemButton(QExtFramelessAgent::WindowIcon, iconButton);
+    windowAgent->setSystemButton(QExtFramelessAgent::Minimize, minButton);
+    windowAgent->setSystemButton(QExtFramelessAgent::Maximize, maxButton);
+    windowAgent->setSystemButton(QExtFramelessAgent::Close, closeButton);
 #endif
     windowAgent->setHitTestVisible(menuBar, true);
 
@@ -312,7 +315,7 @@ void MainWindow::installWindowAgent()
 
     this->setMenuWidget(windowBar);
 
-// 3. Adds simulated mouse events to the title bar buttons
+    // 3. Adds simulated mouse events to the title bar buttons
 #ifdef Q_OS_WINDOWS
     // Emulate Window system menu button behaviors
     connect(iconButton, &QAbstractButton::clicked, windowAgent, [this, iconButton] {
@@ -325,18 +328,21 @@ void MainWindow::installWindowAgent()
             windowAgent->showSystemMenu(iconButton->mapToGlobal(QPoint{0, iconButton->height()}));
         });
     });
-    connect(iconButton, &QWK::WindowButton::doubleClicked, this, [iconButton, this]() {
+    connect(iconButton, &WindowButton::doubleClicked, this, [iconButton, this]() {
         iconButton->setProperty("double-click-close", true);
         close();
     });
 #endif
 
 #ifndef Q_OS_MAC
-    connect(windowBar, &QWK::WindowBar::minimizeRequested, this, &QWidget::showMinimized);
-    connect(windowBar, &QWK::WindowBar::maximizeRequested, this, [this, maxButton](bool max) {
-        if (max) {
+    connect(windowBar, &WindowBar::minimizeRequested, this, &QWidget::showMinimized);
+    connect(windowBar, &WindowBar::maximizeRequested, this, [this, maxButton](bool max) {
+        if (max)
+        {
             showMaximized();
-        } else {
+        }
+        else
+        {
             showNormal();
         }
 
@@ -345,19 +351,21 @@ void MainWindow::installWindowAgent()
         // manually send leave events to the button.
         emulateLeaveEvent(maxButton);
     });
-    connect(windowBar, &QWK::WindowBar::closeRequested, this, &QWidget::close);
+    connect(windowBar, &WindowBar::closeRequested, this, &QWidget::close);
 #endif
 }
 
-void MainWindow::loadStyleSheet(Theme theme) {
+void MainWindow::loadStyleSheet(Theme theme)
+{
     if (!styleSheet().isEmpty() && theme == currentTheme)
+    {
         return;
+    }
     currentTheme = theme;
-
-    if (QFile qss(theme == Dark ? QStringLiteral(":/dark-style.qss")
-                                : QStringLiteral(":/light-style.qss"));
-        qss.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    QFile qss(theme == Dark ? QStringLiteral(":/dark-style.qss") : QStringLiteral(":/light-style.qss"));
+    if (qss.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
         setStyleSheet(QString::fromUtf8(qss.readAll()));
-        Q_EMIT themeChanged();
+        emit this->themeChanged();
     }
 }

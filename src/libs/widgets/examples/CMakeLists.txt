@@ -644,19 +644,30 @@ qext_add_executable(QExtExpWidgetPropertyBrowserCanvasVariant
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-qext_add_executable(QExtExpWidgetPropertyBrowserObjectController
-    SOURCES
-    propertybrowser/object_controller/main.cpp
-    propertybrowser/object_controller/objectcontroller.cpp
-    propertybrowser/object_controller/objectcontroller.h
-    LIBRARIES
-    ${QEXT_EXAMPLE_LINK_LIBRARIES}
-    INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/object_controller
-    OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
-    DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+#qext_add_executable(QExtExpWidgetsPropertyBrowserObjectController
+#    SOURCES
+#    propertybrowser/object_controller/main.cpp
+#    propertybrowser/object_controller/mycontroller.h
+#    propertybrowser/object_controller/mycontroller.cpp
+##    propertybrowser/object_controller/objectcontroller.cpp
+##    propertybrowser/object_controller/objectcontroller.h
+#    LIBRARIES
+#    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+#    INCLUDE_DIRECTORIES
+#    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/object_controller
+#    OUTPUT_DIRECTORY
+#    ${QEXT_OUTPUT_EXAMPLE_DIR}
+#    DEFINES
+#    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+add_executable(QExtExpWidgetsPropertyBrowserObj propertybrowser/main.cpp)
+#    LIBRARIES
+#    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+#    INCLUDE_DIRECTORIES
+#    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser
+#    OUTPUT_DIRECTORY
+#    ${QEXT_OUTPUT_EXAMPLE_DIR}
+#    DEFINES
+#    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
 qext_add_executable(QExtExpWidgetKeyboard
     SOURCES
     keyboard/main.cpp

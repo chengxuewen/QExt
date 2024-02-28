@@ -103,6 +103,8 @@ qext_add_library(Core
     source/tools/qextTypeInfo.h
     source/tools/qextTypeTrait.h
     source/tools/qextUniquePointer.h
+    source/tools/qextWinSystemLibrary_p.h
+    source/tools/qextWinSystemLibrary.cpp
     source/tools/qextUtils.cpp
     source/tools/qextUtils.h
     source/utils/qextCodecUtils.cpp

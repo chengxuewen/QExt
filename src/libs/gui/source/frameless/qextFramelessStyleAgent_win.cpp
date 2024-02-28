@@ -1,17 +1,16 @@
 // Copyright (C) 2023-2024 Stdware Collections
 // SPDX-License-Identifier: Apache-2.0
 
-#include "styleagent_p.h"
+#include <private/qextFramelessExtra_p.h>
+#include <private/qextFramelessStyleAgent_p.h>
+#include <private/qextFramelessNativeEvent_p.h>
 
-#include <QtCore/QSet>
-#include <QtCore/QVariant>
-#include <QtGui/QColor>
+#include <QSet>
+#include <QColor>
+#include <QVariant>
+#include <QGlobalStatic>
 
-#include <QWKCore/private/qwkwindowsextra_p.h>
-#include <QWKCore/private/nativeeventfilter_p.h>
-
-// namespace QWK
-// {
+#include <Windows.h>
 
 using QExtFramelessStyleAgentSet = QSet<QExtFramelessStyleAgentPrivate *>;
 Q_GLOBAL_STATIC(QExtFramelessStyleAgentSet, g_styleAgentSet)
@@ -31,7 +30,6 @@ static QExtFramelessStyleAgent::SystemTheme getSystemTheme()
         return QExtFramelessStyleAgent::Light;
     }
 }
-
 static void notifyAllQExtFramelessStyleAgents()
 {
     auto theme = getSystemTheme();
@@ -40,7 +38,6 @@ static void notifyAllQExtFramelessStyleAgents()
         ap->notifyThemeChanged(theme);
     }
 }
-
 class SystemSettingEventFilter : public QExtFramelessAppNativeEventFilter
 {
 public:
@@ -53,28 +50,28 @@ public:
             return false;
         }
 
-        const auto msg = static_cast<const MSG *>(message);
+        const MSG *msg = static_cast<const MSG *>(message);
         switch (msg->message)
         {
-            case WM_THEMECHANGED:
-            case WM_SYSCOLORCHANGE:
-            case WM_DWMCOLORIZATIONCOLORCHANGED:
+        case WM_THEMECHANGED:
+        case WM_SYSCOLORCHANGE:
+        case WM_DWMCOLORIZATIONCOLORCHANGED:
+        {
+            notifyAllQExtFramelessStyleAgents();
+            break;
+        }
+
+        case WM_SETTINGCHANGE:
+        {
+            if (isImmersiveColorSetChange(msg->wParam, msg->lParam))
             {
                 notifyAllQExtFramelessStyleAgents();
-                break;
             }
+            break;
+        }
 
-            case WM_SETTINGCHANGE:
-            {
-                if (isImmersiveColorSetChange(msg->wParam, msg->lParam))
-                {
-                    notifyAllQExtFramelessStyleAgents();
-                }
-                break;
-            }
-
-            default:
-                break;
+        default:
+            break;
         }
         return false;
     }
@@ -123,4 +120,3 @@ void QExtFramelessStyleAgentPrivate::removeSystemThemeHook()
         SystemSettingEventFilter::uninstall();
     }
 }
-// }

@@ -38,7 +38,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::CorePrivate)
 
 
 #-----------------------------------------------------------------------------------------------------------------------

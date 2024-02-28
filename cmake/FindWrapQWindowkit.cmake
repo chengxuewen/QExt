@@ -28,14 +28,13 @@ if(TARGET QExt3rdparty::WrapQWindowkit)
     return()
 endif()
 
-add_library(QExt3rdparty::WrapQWindowkit INTERFACE IMPORTED)
 set(QWINDOWKIT_DIR_NAME "qwindowkit-1.0.1")
 set(QWINDOWKIT_URL_NAME "qwindowkit-1.0.1")
 set(QWINDOWKIT_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QWINDOWKIT_URL_NAME}")
 set(QWINDOWKIT_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QWINDOWKIT_DIR_NAME}")
-set(QWINDOWKIT_BUILD_DIR "${QWINDOWKIT_ROOT_DIR}/build")
 set(QWINDOWKIT_SOURCE_DIR "${QWINDOWKIT_ROOT_DIR}/source")
-set(QWINDOWKIT_INSTALL_DIR "${QWINDOWKIT_ROOT_DIR}/install")
+set(QWINDOWKIT_BUILD_DIR "${QWINDOWKIT_ROOT_DIR}/build/${CMAKE_BUILD_TYPE}")
+set(QWINDOWKIT_INSTALL_DIR "${QWINDOWKIT_ROOT_DIR}/install/${CMAKE_BUILD_TYPE}")
 if(NOT EXISTS ${QWINDOWKIT_SOURCE_DIR})
     execute_process(
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${QWINDOWKIT_URL_PATH} ${QWINDOWKIT_SOURCE_DIR}
@@ -58,7 +57,7 @@ if(NOT EXISTS ${QWINDOWKIT_INSTALL_DIR})
     if(CONFIGURE_RESULT MATCHES 0)
         message(STATUS "${QWINDOWKIT_DIR_NAME} configure success")
         execute_process(
-            COMMAND ${CMAKE_COMMAND} --build ./ --parallel ${QEXT_NUMBER_OF_ASYNC_JOBS} --config Release
+            COMMAND ${CMAKE_COMMAND} --build ./ --parallel ${QEXT_NUMBER_OF_ASYNC_JOBS}
             WORKING_DIRECTORY "${QWINDOWKIT_BUILD_DIR}"
             RESULT_VARIABLE BUILD_RESULT)
         if(BUILD_RESULT MATCHES 0)
@@ -80,5 +79,6 @@ if(NOT EXISTS ${QWINDOWKIT_INSTALL_DIR})
     endif()
 endif()
 find_package(QWindowKit PATHS ${QWINDOWKIT_INSTALL_DIR} REQUIRED)
+add_library(QExt3rdparty::WrapQWindowkit INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapQWindowkit INTERFACE QWindowKit::Core QWindowKit::Widgets)
 set(WrapQWindowkit_FOUND ON)

@@ -9,7 +9,7 @@
 #include <QParallelAnimationGroup>
 
 class QExtIconAnimationPrivate;
-class QExtIconAnimation : public QParallelAnimationGroup
+class QEXT_GUI_API QExtIconAnimation : public QParallelAnimationGroup
 {
     Q_OBJECT
 public:
