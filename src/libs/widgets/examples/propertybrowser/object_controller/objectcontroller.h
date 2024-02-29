@@ -8,7 +8,7 @@
 
 #include <qextPropertyBrowser.h>
 
-//class ObjectControllerPrivate;
+class ObjectControllerPrivate;
 class ObjectController : public QWidget
 {
     Q_OBJECT
@@ -20,13 +20,12 @@ public:
     QObject *object() const;
 
 private Q_SLOTS:
-    void slotValueChanged(QExtProperty *property, const QVariant &value);
+    void onValueChanged(QExtProperty *property, const QVariant &value);
 
 private:
-//    ObjectControllerPrivate *dd_ptr;
-//    Q_DECLARE_PRIVATE_D(dd_ptr, ObjectController)
+    ObjectControllerPrivate *dd_ptr;
+    Q_DECLARE_PRIVATE_D(dd_ptr, ObjectController)
     Q_DISABLE_COPY(ObjectController)
-//    Q_PRIVATE_SLOT(d_func(), void slotValueChanged(QExtProperty *, const QVariant &))
 };
 
 #endif

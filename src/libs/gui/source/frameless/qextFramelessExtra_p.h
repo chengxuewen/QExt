@@ -143,11 +143,9 @@ enum PREFERRED_APP_MODE
 {
     PAM_DEFAULT = 0, // Default behavior on systems before Win10 1809. It indicates the
     // application doesn't support dark mode at all.
-    PAM_AUTO =
-    1, // Available since Win10 1809, let system decide whether to enable dark mode or not.
+    PAM_AUTO = 1, // Available since Win10 1809, let system decide whether to enable dark mode or not.
     PAM_DARK = 2, // Available since Win10 1903, force dark mode regardless of the system theme.
-    PAM_LIGHT =
-    3, // Available since Win10 1903, force light mode regardless of the system theme.
+    PAM_LIGHT = 3, // Available since Win10 1903, force light mode regardless of the system theme.
     PAM_MAX = 4
 };
 
@@ -370,17 +368,18 @@ static inline bool isDwmCompositionEnabled()
 
 static inline bool isWindowFrameBorderColorized()
 {
-    WindowsRegistryKey registry(HKEY_CURRENT_USER, LR"(Software\Microsoft\Windows\DWM)");
-    if (!registry.isValid())
-    {
-        return false;
-    }
-    auto value = registry.dwordValue(L"ColorPrevalence");
-    if (!value.second)
-    {
-        return false;
-    }
-    return value.first;
+    // WindowsRegistryKey registry(HKEY_CURRENT_USER, LR"(Software\Microsoft\Windows\DWM)");
+    // if (!registry.isValid())
+    // {
+    //     return false;
+    // }
+    // auto value = registry.dwordValue(L"ColorPrevalence");
+    // if (!value.second)
+    // {
+    //     return false;
+    // }
+    // return value.first;
+    return false;
 }
 
 static inline bool isHighContrastModeEnabled()
@@ -396,17 +395,18 @@ static inline bool isDarkThemeActive()
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
     return QGuiApplication::styleHints()->colorScheme() == Qt::ColorScheme::Dark;
 #else
-    WindowsRegistryKey registry(HKEY_CURRENT_USER, LR"(Software\Microsoft\Windows\CurrentVersion\Themes\Personalize)");
-    if (!registry.isValid())
-    {
-        return false;
-    }
-    auto value = registry.dwordValue(L"AppsUseLightTheme");
-    if (!value.second)
-    {
-        return false;
-    }
-    return !value.first;
+    // WindowsRegistryKey registry(HKEY_CURRENT_USER, LR"(Software\Microsoft\Windows\CurrentVersion\Themes\Personalize)");
+    // if (!registry.isValid())
+    // {
+    //     return false;
+    // }
+    // auto value = registry.dwordValue(L"AppsUseLightTheme");
+    // if (!value.second)
+    // {
+    //     return false;
+    // }
+    // return !value.first;
+    return false;
 #endif
 }
 
@@ -432,24 +432,25 @@ static inline QColor getAccentColor()
 #if QT_VERSION >= QT_VERSION_CHECK(6, 6, 0)
     return QGuiApplication::palette().color(QPalette::Accent);
 #else
-    WindowsRegistryKey registry(HKEY_CURRENT_USER, LR"(Software\Microsoft\Windows\DWM)");
-    if (!registry.isValid())
-    {
-        return QColor();
-    }
-    auto value = registry.dwordValue(L"AccentColor");
-    if (!value.second)
-    {
-        return QColor();
-    }
-    // The retrieved value is in the #AABBGGRR format, we need to
-    // convert it to the #AARRGGBB format which Qt expects.
-    QColor color = QColor::fromRgba(value.first);
-    if (!color.isValid())
-    {
-        return QColor();
-    }
-    return QColor::fromRgb(color.blue(), color.green(), color.red(), color.alpha());
+    // WindowsRegistryKey registry(HKEY_CURRENT_USER, LR"(Software\Microsoft\Windows\DWM)");
+    // if (!registry.isValid())
+    // {
+    //     return QColor();
+    // }
+    // auto value = registry.dwordValue(L"AccentColor");
+    // if (!value.second)
+    // {
+    //     return QColor();
+    // }
+    // // The retrieved value is in the #AABBGGRR format, we need to
+    // // convert it to the #AARRGGBB format which Qt expects.
+    // QColor color = QColor::fromRgba(value.first);
+    // if (!color.isValid())
+    // {
+    //     return QColor();
+    // }
+    // return QColor::fromRgb(color.blue(), color.green(), color.red(), color.alpha());
+    return QColor();
 #endif
 }
 

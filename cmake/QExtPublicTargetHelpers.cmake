@@ -372,49 +372,40 @@ function(qext_copy_target_external_dependent_libraries)
     set(multiValueArgs LIBS)
     set(oneValueArgs TARGET SOURCE DESTINATION)
     set(options PRE_BUILD PRE_LINK POST_BUILD VERBOSE MATCHING)
-    cmake_parse_arguments(MY "${options}" "${oneValueArgs}" "${multiValueArgs}" "${ARGN}")
+    cmake_parse_arguments(arg "${options}" "${oneValueArgs}" "${multiValueArgs}" "${ARGN}")
 
     set(HAPPENS)
-    if(MY_PRE_BUILD)
+    if(arg_PRE_BUILD)
         list(APPEND HAPPENS PRE_BUILD)
     endif()
-    if(MY_PRE_LINK)
+    if(arg_PRE_LINK)
         list(APPEND HAPPENS PRE_LINK)
     endif()
-    if(MY_POST_BUILD)
+    if(arg_POST_BUILD)
         list(APPEND HAPPENS POST_BUILD)
     endif()
 
-    if(MY_VERBOSE)
-        message(STATUS "----VERBOSE---- qext_copy_target_external_dependent_libraries")
-        message(STATUS MY_LIBS=${MY_LIBS})
-        message(STATUS MY_TARGET=${MY_TARGET})
-        message(STATUS MY_SOURCE=${MY_SOURCE})
-        message(STATUS MY_DESTINATION=${MY_DESTINATION})
-        message(STATUS MY_PRE_BUILD=${MY_PRE_BUILD})
-        message(STATUS MY_PRE_LINK=${MY_PRE_LINK})
-        message(STATUS MY_POST_BUILD=${MY_POST_BUILD})
-        message(STATUS HAPPENS=${HAPPENS})
-    endif()
-
-    foreach(child ${MY_LIBS})
-        find_path(LIB_PATH ${MY_SOURCE}/${child} ${MY_SOURCE})
+    foreach(child ${arg_LIBS})
+        find_path(LIB_PATH ${arg_SOURCE}/${child} ${arg_SOURCE})
         if(NOT LIB_PATH EQUAL "LIB_PATH-NOTFOUND")
-            if(MY_MATCHING)
+            if(arg_MATCHING)
                 add_custom_command(
-                    TARGET ${MY_TARGET}
-                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MY_SOURCE}/${child}* ${MY_DESTINATION}
-                    COMMENT "copy the depends external lib file ${child} to the ${MY_DESTINATION} folder"
+                    TARGET ${arg_TARGET}
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${arg_SOURCE}/${child}*" ${arg_DESTINATION}
+                    COMMENT "copy the depends external lib file ${child} to the ${arg_DESTINATION} folder"
                     ${HAPPENS})
             else()
                 add_custom_command(
-                    TARGET ${MY_TARGET}
-                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MY_SOURCE}/${child} ${MY_DESTINATION}
-                    COMMENT "copy the depends external lib file ${child} to the ${MY_DESTINATION} folder"
+                    TARGET ${arg_TARGET}
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${arg_SOURCE}/${child}" ${arg_DESTINATION}
+                    COMMENT "copy the depends external lib file ${child} to the ${arg_DESTINATION} folder"
                     ${HAPPENS})
             endif()
+            if(arg_VERBOSE)
+                message(STATUS "Add command to copy external dependency ${arg_SOURCE}/${child}* to ${arg_DESTINATION} with ${HAPPENS} happen")
+            endif()
         else()
-            message(FATAL_ERROR "Could not find ${MY_SOURCE}/${child} lib file")
+            message(FATAL_ERROR "Could not find ${arg_SOURCE}/${child} lib file")
         endif()
     endforeach()
 endfunction()
@@ -427,43 +418,35 @@ function(qext_copy_target_internal_dependent_libraries)
     set(multiValueArgs LIBS)
     set(oneValueArgs TARGET DESTINATION)
     set(options PRE_BUILD PRE_LINK POST_BUILD VERBOSE MATCHING)
-    cmake_parse_arguments(MY "${options}" "${oneValueArgs}" "${multiValueArgs}" "${ARGN}")
+    cmake_parse_arguments(arg "${options}" "${oneValueArgs}" "${multiValueArgs}" "${ARGN}")
 
     set(HAPPENS)
-    if(MY_PRE_BUILD)
+    if(arg_PRE_BUILD)
         list(APPEND HAPPENS PRE_BUILD)
     endif()
-    if(MY_PRE_LINK)
+    if(arg_PRE_LINK)
         list(APPEND HAPPENS PRE_LINK)
     endif()
-    if(MY_POST_BUILD)
+    if(arg_POST_BUILD)
         list(APPEND HAPPENS POST_BUILD)
     endif()
 
-    if(MY_VERBOSE)
-        message(STATUS "----VERBOSE---- qextFunctionCopyDependencyInternal")
-        message(STATUS MY_LIBS=${MY_LIBS})
-        message(STATUS MY_TARGET=${MY_TARGET})
-        message(STATUS MY_DESTINATION=${MY_DESTINATION})
-        message(STATUS MY_PRE_BUILD=${MY_PRE_BUILD})
-        message(STATUS MY_PRE_LINK=${MY_PRE_LINK})
-        message(STATUS MY_POST_BUILD=${MY_POST_BUILD})
-        message(STATUS HAPPENS=${HAPPENS})
-    endif()
-
-    foreach(child ${MY_LIBS})
-        if(MY_MATCHING)
+    foreach(child ${arg_LIBS})
+        if(arg_MATCHING)
             add_custom_command(
-                TARGET ${MY_TARGET}
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_LINKER_FILE:${child}>* ${MY_DESTINATION}
-                COMMENT "copy the depends internal lib ${child} to the ${MY_DESTINATION} folder"
+                TARGET ${arg_TARGET}
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_LINKER_FILE:${child}>*" ${arg_DESTINATION}
+                COMMENT "copy the depends internal lib ${child} to the ${arg_DESTINATION} folder"
                 ${HAPPENS})
         else()
             add_custom_command(
-                TARGET ${MY_TARGET}
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${child}> ${MY_DESTINATION}
-                COMMENT "copy the depends internal lib ${child} to the ${MY_DESTINATION} folder"
+                TARGET ${arg_TARGET}
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${child}> ${arg_DESTINATION}
+                COMMENT "copy the depends internal lib ${child} to the ${arg_DESTINATION} folder"
                 ${HAPPENS})
+        endif()
+        if(arg_VERBOSE)
+            message(STATUS "Add command to copy internal dependency ${child} to ${arg_DESTINATION} with ${HAPPENS} happen")
         endif()
     endforeach()
 endfunction()

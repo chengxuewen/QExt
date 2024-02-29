@@ -78,6 +78,11 @@ if(NOT EXISTS ${QWINDOWKIT_INSTALL_DIR})
         message(FATAL_ERROR "${QWINDOWKIT_DIR_NAME} configure failed.")
     endif()
 endif()
+if(EXISTS ${QWINDOWKIT_INSTALL_DIR})
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${QWINDOWKIT_INSTALL_DIR} ${QEXT_BUILD_DIR}
+        RESULT_VARIABLE COPY_RESULT)
+endif()
 find_package(QWindowKit PATHS ${QWINDOWKIT_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQWindowkit INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapQWindowkit INTERFACE QWindowKit::Core QWindowKit::Widgets)

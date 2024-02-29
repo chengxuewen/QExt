@@ -36,6 +36,10 @@ function(qext_install)
         set(is_install_targets TRUE)
     endif()
 
+    if(NOT QEXT_BUILD_INSTALL)
+        return()
+    endif()
+
     # In a prefix build, always invoke install() without modification.
     # In a non-prefix build, pass install(TARGETS) commands to allow
     # association of targets to export names, so we can later use the export names
@@ -150,7 +154,7 @@ function(qext_get_install_target_default_args)
     set(args
         RUNTIME DESTINATION "${runtime}${suffix}"
         LIBRARY DESTINATION "${library}${suffix}"
-        ARCHIVE DESTINATION "${archive}${suffix}" COMPONENT Devel
+        ARCHIVE DESTINATION "${archive}${suffix}" COMPONENT ${QEXT_INSTALL_COMPONENT_NAME}
         BUNDLE DESTINATION "${bundle}${suffix}"
         INCLUDES DESTINATION "${includes}${suffix}")
     set(${arg_OUT_VAR} "${args}" PARENT_SCOPE)

@@ -680,6 +680,17 @@ QStringList QExtStyleThemes::styleThemes() const
     return styleThemes;
 }
 
+QStringList QExtStyleThemes::styleThemes(const QString &style) const
+{
+    QStringList styleThemes;
+    QStringList themes = this->themes(style);
+    for (QStringList::ConstIterator themesIter = themes.begin(); themesIter != themes.end(); ++themesIter)
+    {
+        styleThemes.append(QString("%1 %2").arg(style).arg(*themesIter));
+    }
+    return styleThemes;
+}
+
 const QMap<QString, QString> &QExtStyleThemes::themeColorVariables() const
 {
     Q_D(const QExtStyleThemes);

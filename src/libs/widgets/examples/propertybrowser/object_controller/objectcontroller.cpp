@@ -6,16 +6,13 @@
 #include <QVBoxLayout>
 #include <QScrollArea>
 
-#if 0
-
 #include <objectcontroller.h>
 
-#if 0
 class ObjectControllerPrivate
 {
     ObjectController *q_ptr;
 public:
-
+    ObjectControllerPrivate();
     void addClassProperties(const QMetaObject *metaObject);
     void updateClassProperties(const QMetaObject *metaObject, bool recursive);
     void saveExpandedState();
@@ -224,6 +221,11 @@ void ObjectControllerPrivate::updateClassProperties(const QMetaObject *metaObjec
     }
 }
 
+ObjectControllerPrivate::ObjectControllerPrivate()
+{
+
+}
+
 void ObjectControllerPrivate::addClassProperties(const QMetaObject *metaObject)
 {
     if (!metaObject)
@@ -356,13 +358,11 @@ void ObjectControllerPrivate::restoreExpandedState()
 
 //    updateClassProperties(metaObject, true);
 //}
-#endif
 ///////////////////
 
 ObjectController::ObjectController(QWidget *parent)
     : QWidget(parent)
 {
-#if 0
     dd_ptr = new ObjectControllerPrivate;
     dd_ptr->q_ptr = this;
 
@@ -389,19 +389,17 @@ ObjectController::ObjectController(QWidget *parent)
     QExtVariantEditorFactory *factory = new QExtVariantEditorFactory(this);
     dd_ptr->m_browser->setFactoryForManager(dd_ptr->m_manager, factory);
 
-    connect(dd_ptr->m_manager, SIGNAL(valueChanged(QExtProperty *, const QVariant &)),
-            this, SLOT(slotValueChanged(QExtProperty *, const QVariant &)));
-#endif
+    connect(dd_ptr->m_manager, SIGNAL(valueChanged(QExtProperty*,QVariant)),
+            this, SLOT(onValueChanged(QExtProperty*,QVariant)));
 }
 
 ObjectController::~ObjectController()
 {
-//    delete dd_ptr;
+   delete dd_ptr;
 }
 
 void ObjectController::setObject(QObject *object)
 {
-#if 0
     if (dd_ptr->m_object == object)
     {
         return;
@@ -428,18 +426,15 @@ void ObjectController::setObject(QObject *object)
     dd_ptr->addClassProperties(dd_ptr->m_object->metaObject());
 
     dd_ptr->restoreExpandedState();
-#endif
 }
 
 QObject *ObjectController::object() const
 {
-//    return dd_ptr->m_object;
-    return 0;
+   return dd_ptr->m_object;
 }
 
-void ObjectController::slotValueChanged(QExtProperty *property, const QVariant &value)
+void ObjectController::onValueChanged(QExtProperty *property, const QVariant &value)
 {
-#if 0
     Q_D(ObjectController);
     if (!d->m_propertyToIndex.contains(property))
     {
@@ -467,6 +462,4 @@ void ObjectController::slotValueChanged(QExtProperty *property, const QVariant &
     }
 
     d->updateClassProperties(metaObject, true);
-#endif
 }
-#endif

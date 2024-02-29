@@ -127,6 +127,13 @@ public:
     QStringList styleThemes() const;
 
     /**
+     * @brief styleThemes
+     * @param style
+     * @return
+     */
+    QStringList styleThemes(const QString &style) const;
+
+    /**
      * @brief Returns a list of all theme variables for colors
      * @return
      */

@@ -1,6 +1,14 @@
+#include <QApplication>
 
-int main(int argc, char *argv[])
+#include "mycontroller.h"
+
+int main(int argc, char **argv)
 {
+    QApplication app(argc, argv);
 
-    return 0;
+    MyController *controller = new MyController();
+    controller->show();
+
+    int ret = app.exec();
+    return ret;
 }

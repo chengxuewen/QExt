@@ -9,7 +9,7 @@
 #include <Windows.h>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-#   include <QtCore/private/qwinregistry_p.h>
+// #   include <QtCore/private/qwinregistry_p.h>
 #endif
 
 #ifndef GET_X_LPARAM
@@ -139,7 +139,7 @@ inline bool WindowsRegistryKey::isValid() const
     return m_key != QEXT_NULLPTR;
 }
 #else
-using WindowsRegistryKey = QWinRegistryKey;
+// using WindowsRegistryKey = QWinRegistryKey;
 #endif
 
 //

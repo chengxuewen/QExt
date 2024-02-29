@@ -80,6 +80,11 @@ if(NOT EXISTS ${QWT_INSTALL_DIR})
         message(FATAL_ERROR "${QWT_DIR_NAME} configure failed.")
     endif()
 endif()
+if(EXISTS ${QWT_INSTALL_DIR})
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${QWT_INSTALL_DIR} ${QEXT_BUILD_DIR}
+        RESULT_VARIABLE COPY_RESULT)
+endif()
 find_package(Qwt PATHS ${QWT_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQwt INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapQwt INTERFACE Qwt::Qwt)

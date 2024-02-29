@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.3.5 LANGUAGES CXX C)
+project(QExt VERSION 1.2.3.6 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -308,6 +308,7 @@ if(WIN32)
         # open bigobj flags in gnu/mingw compiler(File too big/too many sections)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj")
     endif()
+    set(CMAKE_OBJECT_PATH_MAX 512)
 endif()
 
 
@@ -346,9 +347,9 @@ include(QExtSeparateDebugInfo)
 include(QExtConfigureHelpers)
 include(QExtFrameworkHelpers)
 include(QExtPkgConfigHelpers)
-include(QExtBundlesHelpers)
 include(QExtLibraryHelpers)
 include(QExtInstallHelpers)
+include(QExtQtToolsHelpers)
 include(QExtModuleHelpers)
 include(QExtPluginHelpers)
 include(QExtTargetHelpers)
@@ -619,6 +620,7 @@ endif()
 # This will be /path/to/QExtCore for QExtCore both in a super-build and a non super-build.
 # This will be /path/to/QExtCore/tests when building standalone tests.
 set(QEXT_TOP_LEVEL_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(QEXT_INSTALL_COMPONENT_NAME "${QEXT_CMAKE_INSTALL_NAMESPACE}SDK")
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -731,35 +733,4 @@ if(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWINDOWKIT)
     qext_find_package(WrapQWindowkit PROVIDED_TARGETS QExt3rdparty::WrapQWindowkit)
-endif()
-
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Set install
-#-----------------------------------------------------------------------------------------------------------------------
-if(QEXT_BUILD_INSTALL)
-    include(CPackComponent)
-    include(InstallRequiredSystemLibraries)
-    set(CPACK_PACKAGE_NAME ${QEXT_PRODUCT_NAME})
-    set(CPACK_PACKAGE_FILE_NAME ${QEXT_PRODUCT_NAME})
-    set(CPACK_PACKAGE_VENDOR ${QEXT_PRODUCT_NAME})
-    set(CPACK_PACKAGE_INSTALL_DIRECTORY @ApplicationsDir@)    # Installation directory on the target system.
-    set(CPACK_SOURCE_GENERATOR ";")
-    set(CPACK_CREATE_DESKTOP_LINKS ${QEXT_PRODUCT_NAME})
-    include(CPack REQUIRED)
-
-    install(DIRECTORY ${QEXT_OUTPUT_APP_DIR}
-        DESTINATION ./bin
-        COMPONENT Apps
-        PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ)
-    install(DIRECTORY ${QEXT_OUTPUT_LIB_DIR}
-        DESTINATION ./lib
-        COMPONENT Libs)
-    install(DIRECTORY ${QEXT_OUTPUT_EXAMPLE_DIR}
-        DESTINATION ./example
-        COMPONENT Example
-        PATTERN bin/* PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ)
-    install(DIRECTORY ${QEXT_OUTPUT_INCLUDE_DIR}
-        DESTINATION ./include
-        COMPONENT Include)
 endif()

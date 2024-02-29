@@ -80,6 +80,11 @@ if(NOT EXISTS ${SINGLEAPP_INSTALL_DIR})
         message(FATAL_ERROR "${SINGLEAPP_DIR_NAME} configure failed.")
     endif()
 endif()
+if(EXISTS ${SINGLEAPP_INSTALL_DIR})
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${SINGLEAPP_INSTALL_DIR} ${QEXT_BUILD_DIR}
+        RESULT_VARIABLE COPY_RESULT)
+endif()
 find_package(SingleApplication PATHS ${SINGLEAPP_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapSingleApp INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapSingleApp INTERFACE SingleApplication::SingleApplication)

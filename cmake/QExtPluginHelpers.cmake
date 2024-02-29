@@ -428,7 +428,7 @@ function(qext_add_plugin target)
             "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigVersion.cmake"
             "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}ConfigVersionImpl.cmake"
             DESTINATION "${config_install_dir}"
-            COMPONENT Devel)
+            COMPONENT ${QEXT_INSTALL_COMPONENT_NAME})
         if(pri_file)
             qext_install(FILES "${pri_file}" DESTINATION "${INSTALL_MKSPECSDIR}/modules")
         endif()

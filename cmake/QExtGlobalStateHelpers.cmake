@@ -199,13 +199,11 @@ macro(qext_build_repo_end)
             if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
                 qext_copy_or_install(DIRECTORY cmake/
                     DESTINATION "${__qext_repo_install_dir}"
-                    FILES_MATCHING PATTERN "Find*.cmake"
-                )
+                    FILES_MATCHING PATTERN "Find*.cmake")
             if(QEXT_SUPERBUILD AND QEXT_WILL_INSTALL)
                 file(COPY cmake/
                     DESTINATION "${__qext_repo_build_dir}"
-                    FILES_MATCHING PATTERN "Find*.cmake"
-                )
+                    FILES_MATCHING PATTERN "Find*.cmake")
         endif()
     endif()
 endif()

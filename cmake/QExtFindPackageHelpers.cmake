@@ -103,12 +103,10 @@ macro(qext_find_package)
         list(APPEND config_package_arg "CONFIG;QUIET")
         find_package(${config_package_arg})
 
-        # Double check that in config mode the targets become visible. Sometimes
-        # only the module mode creates the targets. For example with vcpkg, the sqlite
-        # package provides sqlite3-config.cmake, which offers multi-config targets but
-        # in their own way. CMake has FindSQLite3.cmake and with the original
-        # qext_find_package(SQLite3) call it is our intention to use the cmake package
-        # in module mode.
+        # Double check that in config mode the targets become visible. Sometimes only the module mode creates the targets.
+        # For example with vcpkg, the sqlite package provides sqlite3-config.cmake, which offers multi-config targets but
+        # in their own way. CMake has FindSQLite3.cmake and with the original qext_find_package(SQLite3) call it is our
+        # intention to use the cmake package in module mode.
         unset(_qext_any_target_found)
         unset(_qext_should_unset_found_var)
         if(${ARGV0}_FOUND AND arg_PROVIDED_TARGETS)
@@ -195,27 +193,15 @@ macro(qext_find_package)
                             ${components_as_string})
                 endif()
 
-                get_property(is_global TARGET ${qext_find_package_target_name} PROPERTY
-                        IMPORTED_GLOBAL)
+                get_property(is_global TARGET ${qext_find_package_target_name} PROPERTY IMPORTED_GLOBAL)
                 qext_internal_should_not_promote_package_target_to_global("${qext_find_package_target_name}" should_not_promote)
                 if(NOT is_global AND NOT should_not_promote)
                     __qext_internal_promote_target_to_global(${qext_find_package_target_name})
-                    qext_find_package_promote_targets_to_global_scope(
-                            "${qext_find_package_target_name}")
+                    qext_find_package_promote_targets_to_global_scope("${qext_find_package_target_name}")
                 endif()
             endif()
 
         endforeach()
-        #
-        #        if(arg_MODULE_NAME AND arg_QMAKE_LIB
-        #            AND (NOT arg_QMAKE_LIB IN_LIST QEXT_QMAKE_LIBS_FOR_${arg_MODULE_NAME}))
-        #            set(QEXT_QMAKE_LIBS_FOR_${arg_MODULE_NAME}
-        #                ${QEXT_QMAKE_LIBS_FOR_${arg_MODULE_NAME}};${arg_QMAKE_LIB} CACHE INTERNAL "")
-        #            set(QEXT_TARGETS_OF_QMAKE_LIB_${arg_QMAKE_LIB} ${arg_PROVIDED_TARGETS} CACHE INTERNAL "")
-        #            foreach(provided_target ${arg_PROVIDED_TARGETS})
-        #                set(QEXT_QMAKE_LIB_OF_TARGET_${provided_target} ${arg_QMAKE_LIB} CACHE INTERNAL "")
-        #            endforeach()
-        #        endif()
     endif()
 endmacro()
 
