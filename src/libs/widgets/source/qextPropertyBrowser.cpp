@@ -10989,36 +10989,36 @@ void QExtTreePropertyBrowser::editItem(QExtBrowserItem *item)
 /***********************************************************************************************************************
 ** qtvariantproperty
 ***********************************************************************************************************************/
-class QtEnumPropertyType
+class QExtEnumPropertyType
 {
 };
 
-class QtFlagPropertyType
+class QExtFlagPropertyType
 {
 };
 
 
-class QtGroupPropertyType
+class QExtGroupPropertyType
 {
 };
 
-Q_DECLARE_METATYPE(QtEnumPropertyType)
-Q_DECLARE_METATYPE(QtFlagPropertyType)
-Q_DECLARE_METATYPE(QtGroupPropertyType)
+Q_DECLARE_METATYPE(QExtEnumPropertyType)
+Q_DECLARE_METATYPE(QExtFlagPropertyType)
+Q_DECLARE_METATYPE(QExtGroupPropertyType)
 
 int QExtVariantPropertyManager::enumTypeId()
 {
-    return qMetaTypeId<QtEnumPropertyType>();
+    return qMetaTypeId<QExtEnumPropertyType>();
 }
 
 int QExtVariantPropertyManager::flagTypeId()
 {
-    return qMetaTypeId<QtFlagPropertyType>();
+    return qMetaTypeId<QExtFlagPropertyType>();
 }
 
 int QExtVariantPropertyManager::groupTypeId()
 {
-    return qMetaTypeId<QtGroupPropertyType>();
+    return qMetaTypeId<QExtGroupPropertyType>();
 }
 
 int QExtVariantPropertyManager::iconMapTypeId()

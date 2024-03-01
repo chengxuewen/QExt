@@ -31,17 +31,34 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
-            Qt${QEXT_QT_VERSION_MAJOR}::Core
-            Qt${QEXT_QT_VERSION_MAJOR}::Gui
-            Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Utils)
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Graphics)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-
+qext_add_executable(QExtExpGraphicsDraw
+    SOURCES
+    draw/customproperty.h
+    draw/customproperty.cpp
+    draw/mainwindow.cpp
+    draw/mainwindow.h
+    draw/objectcontroller.h
+    draw/objectcontroller.cpp
+    draw/main.cpp
+    draw/app.qrc
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES} QExt::Widgets
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/draw
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")

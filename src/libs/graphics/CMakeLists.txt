@@ -28,11 +28,13 @@
 set(QEXT_LIB_LINK_LIBRARIES)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtSvg)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
-            Qt${QEXT_QT_VERSION_MAJOR}::Core
-            Qt${QEXT_QT_VERSION_MAJOR}::Gui)
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Svg
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -44,16 +46,27 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
 qext_add_library(Graphics
-        EXCEPTIONS
-        SOURCES
-        source/qextGraphicsGlobal.h
-        source/qextGraphics.cpp
-        source/qextGraphics_p.h
-        source/qextGraphics.h
-        PRECOMPILED_HEADER
-        source/qextGraphicsPch.h
-        PUBLIC_LIBRARIES
-        ${QEXT_LIB_LINK_LIBRARIES})
+    EXCEPTIONS
+    SOURCES
+    source/qextGraphicsCommands.h
+    source/qextGraphicsCommands.cpp
+    source/qextGraphicsGlobal.h
+    source/qextGraphicsHandles.cpp
+    source/qextGraphicsHandles_p.h
+    source/qextGraphicsHandles.h
+    source/qextGraphicsItems.h
+    source/qextGraphicsItems.cpp
+    source/qextGraphicsScene.h
+    source/qextGraphicsScene.cpp
+    source/qextGraphicsTool.h
+    source/qextGraphicsTool.cpp
+    source/qextGraphicsView.h
+    source/qextGraphicsView.cpp
+    resource/qextGraphics.qrc
+    PRECOMPILED_HEADER
+    source/qextGraphicsPch.h
+    PUBLIC_LIBRARIES
+    ${QEXT_LIB_LINK_LIBRARIES})
 
 
 #-----------------------------------------------------------------------------------------------------------------------

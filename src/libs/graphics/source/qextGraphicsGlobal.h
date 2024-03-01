@@ -18,4 +18,6 @@
 #   define QEXT_GRAPHICS_HIDDEN
 #endif
 
+QT_USE_NAMESPACE
+
 #endif // _QEXTGRAPHICSGLOBAL_H

@@ -692,7 +692,7 @@ private:
 
 private:
     QSet<PropertyManager *> m_managers;
-    friend class QtAbstractPropertyEditor;
+    friend class QExtAbstractPropertyEditor;
 };
 
 
@@ -5090,7 +5090,7 @@ private:
  * value type which can be retrieved using the attributeType() function, and a value accessible through the
  * attributeValue() function. In addition, the value can be set using the setAttribute() slot.
  *
- * QtVariantManager also provides the valueChanged() signal which is emitted whenever a property created by this manager
+ * QExtVariantManager also provides the valueChanged() signal which is emitted whenever a property created by this manager
  * change, and the attributeChanged() signal which is emitted whenever an attribute of such a property changes.
  *
  * @sa QExtVariantProperty, QExtVariantEditorFactory
