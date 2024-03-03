@@ -56,11 +56,13 @@ qext_add_library(Graphics
     source/qextGraphicsHandles.h
     source/qextGraphicsItems.h
     source/qextGraphicsItems.cpp
-    source/qextGraphicsScene.h
     source/qextGraphicsScene.cpp
+    source/qextGraphicsScene_p.h
+    source/qextGraphicsScene.h
     source/qextGraphicsTool.h
     source/qextGraphicsTool.cpp
     source/qextGraphicsView.h
+    source/qextGraphicsView_p.h
     source/qextGraphicsView.cpp
     resource/qextGraphics.qrc
     PRECOMPILED_HEADER

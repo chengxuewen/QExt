@@ -4,6 +4,8 @@
 #include <QStringList>
 #include <QFileInfo>
 
+#ifdef Q_OS_WIN
+
 #if defined(Q_OS_WINCE)
 HINSTANCE QExtWinSystemLibrary::load(const wchar_t *libraryName, bool onlySystemDirectory /* = true */)
 {
@@ -73,4 +75,6 @@ HINSTANCE QExtWinSystemLibrary::load(const wchar_t *libraryName, bool onlySystem
     return 0;
 }
 
-#endif  //Q_OS_WINCE
+#endif  // Q_OS_WINCE
+
+#endif // Q_OS_WIN

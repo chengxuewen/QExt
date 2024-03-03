@@ -43,9 +43,9 @@ public:
     void move(qreal x, qreal y);
 
 protected:
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) QEXT_OVERRIDE;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) QEXT_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) QEXT_OVERRIDE;
 
     QScopedPointer<QExtGraphicsSizeHandlePrivate> dd_ptr;
 

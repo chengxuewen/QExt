@@ -2,7 +2,6 @@
 #define _QEXTGRAPHICSTOOL_H
 
 #include <qextGraphicsItems.h>
-#include <qextGraphicsScene.h>
 
 class QMenu;
 class QFont;
@@ -14,8 +13,8 @@ class QGraphicsTextItem;
 class QGraphicsSceneMouseEvent;
 class QAbstractGraphicsShapeItem;
 
-class QExtGraphicsScene;
 class QExtGraphicsItem;
+class QExtGraphicsScene;
 class QExtGraphicsPolygonItem;
 
 enum DrawShape
@@ -58,9 +57,9 @@ class QExtGraphicsSelectTool : public QExtGraphicsTool
 public:
     QExtGraphicsSelectTool();
 
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
 
     QPointF m_opposite;
     QPointF m_initialPositions;
@@ -73,9 +72,9 @@ class QEXT_GRAPHICS_API QExtGraphicsRotationTool : public QExtGraphicsTool
 public:
     QExtGraphicsRotationTool();
 
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
 
     qreal m_lastAngle;
     QGraphicsPathItem *m_dashRect;
@@ -86,9 +85,9 @@ class QEXT_GRAPHICS_API QExtGraphicsRectTool : public QExtGraphicsTool
 public:
     QExtGraphicsRectTool(DrawShape drawShape);
 
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
 
     QExtGraphicsItem *m_item;
 };
@@ -99,10 +98,10 @@ public:
     explicit QExtGraphicsPolygonTool(DrawShape shape);
     ~QExtGraphicsPolygonTool() QEXT_OVERRIDE {}
 
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene) QEXT_OVERRIDE;
 
     int m_pointsCount;
     QPointF m_initialPositions;

@@ -1,5 +1,5 @@
 #include <qextGraphicsTool.h>
-#include <qextGraphicsItems.h>
+#include <qextGraphicsScene.h>
 
 #include <QDebug>
 #include <QtMath>
@@ -43,7 +43,7 @@ SelectMode selectMode = none;
 
 int nDragHandle = QExtGraphicsSizeHandle::Handle_None;
 
-static void setCursor(QExtGraphicsScene *scene, const QCursor &cursor)
+static void qextSetCursor(QExtGraphicsScene *scene, const QCursor &cursor)
 {
     QGraphicsView *view = scene->view();
     if (view)
@@ -76,7 +76,7 @@ void QExtGraphicsTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, QExtGr
     {
         sm_drawShape = selection;
     }
-    setCursor(scene, Qt::ArrowCursor);
+    qextSetCursor(scene, Qt::ArrowCursor);
 }
 
 void QExtGraphicsTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene)
@@ -159,7 +159,7 @@ void QExtGraphicsSelectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, QE
             }
         }
 
-        setCursor(scene, Qt::ClosedHandCursor);
+        qextSetCursor(scene, Qt::ClosedHandCursor);
     }
     else if (items.count() > 1)
     {
@@ -257,12 +257,12 @@ void QExtGraphicsSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, QEx
                 int handle = item->collidesWithHandle(event->scenePos());
                 if (handle != QExtGraphicsSizeHandle::Handle_None)
                 {
-                    setCursor(scene, Qt::OpenHandCursor);
+                    qextSetCursor(scene, Qt::OpenHandCursor);
                     m_hoverSizer = true;
                 }
                 else
                 {
-                    setCursor(scene, Qt::ArrowCursor);
+                    qextSetCursor(scene, Qt::ArrowCursor);
                     m_hoverSizer = false;
                 }
             }
@@ -271,7 +271,7 @@ void QExtGraphicsSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, QEx
 
     if (selectMode == move)
     {
-        setCursor(scene, Qt::ClosedHandCursor);
+        qextSetCursor(scene, Qt::ClosedHandCursor);
         if (m_dashRect)
         {
             m_dashRect->setPos(m_initialPositions + sm_last - sm_down);
@@ -396,7 +396,7 @@ void QExtGraphicsRotationTool::mousePressEvent(QGraphicsSceneMouseEvent *event, 
                 m_dashRect->setScale(item->scale());
                 m_dashRect->setZValue(item->zValue());
                 scene->addItem(m_dashRect);
-                setCursor(scene,QCursor((QPixmap(":/icons/rotate.png"))));
+                qextSetCursor(scene,QCursor((QPixmap(":/icons/rotate.png"))));
             }
             else
             {
@@ -441,19 +441,19 @@ void QExtGraphicsRotationTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, Q
                 m_dashRect->setRotation(angle);
             }
 
-            setCursor(scene, QCursor((QPixmap(":/icons/rotate.png"))));
+            qextSetCursor(scene, QCursor((QPixmap(":/icons/rotate.png"))));
         }
         else if (item)
         {
             int handle = item->collidesWithHandle(event->scenePos());
             if (handle != QExtGraphicsSizeHandle::Handle_None)
             {
-                setCursor(scene,QCursor((QPixmap(":/icons/rotate.png"))));
+                qextSetCursor(scene,QCursor((QPixmap(":/icons/rotate.png"))));
                 m_hoverSizer = true;
             }
             else
             {
-                setCursor(scene, Qt::ArrowCursor);
+                qextSetCursor(scene, Qt::ArrowCursor);
                 m_hoverSizer = false;
             }
         }
@@ -497,7 +497,7 @@ void QExtGraphicsRotationTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event
         }
     }
 
-    setCursor(scene, Qt::ArrowCursor);
+    qextSetCursor(scene, Qt::ArrowCursor);
     selectMode = none;
     nDragHandle = QExtGraphicsSizeHandle::Handle_None;
     m_lastAngle = 0;
@@ -559,7 +559,7 @@ void QExtGraphicsRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, QExt
 
 void QExtGraphicsRectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene)
 {
-    setCursor(scene,Qt::CrossCursor);
+    qextSetCursor(scene,Qt::CrossCursor);
     sg_selectTool->mouseMoveEvent(event, scene);
 }
 
@@ -651,7 +651,7 @@ void QExtGraphicsPolygonTool::mousePressEvent(QGraphicsSceneMouseEvent *event, Q
 void QExtGraphicsPolygonTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene)
 {
     QExtGraphicsTool::mouseMoveEvent(event,scene);
-    setCursor(scene, Qt::CrossCursor);
+    qextSetCursor(scene, Qt::CrossCursor);
 
     //    selectTool.mouseMoveEvent(event,scene);
 

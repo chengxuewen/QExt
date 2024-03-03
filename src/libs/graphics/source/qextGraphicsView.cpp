@@ -1,4 +1,4 @@
-#include <qextGraphicsView.h>
+#include <private/qextGraphicsView_p.h>
 #include <qextGraphicsScene.h>
 
 #include <QFile>
@@ -19,7 +19,7 @@
 typedef struct
 {
     double ruler_scale[16];
-    int    subdivide[5];
+    int subdivide[5];
 }SPRulerMetric;
 
 // Ruler metric for general use.
@@ -35,143 +35,195 @@ static SPRulerMetric const ruler_metric_inches = {
 };
 
 
-QtRuleBar::QtRuleBar(Qt::Orientation direction, QGraphicsView * view, QWidget *parent)
-    :QWidget(parent),
-    m_view(view),
-    m_faceColor(0xFF, 0xFF, 0xFF)
+
+QExtGraphicsViewRuleBarPrivate::QExtGraphicsViewRuleBarPrivate(QExtGraphicsViewRuleBar *q)
+    : q_ptr(q)
+    , m_faceColor(0xFF, 0xFF, 0xFF)
 {
-    m_lower = m_upper = m_maxsize = 0;
-    m_lastPos = QPoint(0,0);
-    m_direction   = direction;
+}
+
+QExtGraphicsViewRuleBarPrivate::~QExtGraphicsViewRuleBarPrivate()
+{
+
+}
+
+QExtGraphicsViewRuleBar::QExtGraphicsViewRuleBar(Qt::Orientation direction, QGraphicsView * view, QWidget *parent)
+    : QWidget(parent)
+    , dd_ptr(new QExtGraphicsViewRuleBarPrivate(this))
+{
+    Q_D(QExtGraphicsViewRuleBar);
+    d->m_view = view;
+    d->m_lower = d->m_upper = d->m_maxsize = 0;
+    d->m_lastPos = QPoint(0,0);
+    d->m_direction   = direction;
+
     QFont f(font());
     f.setBold(false);
     f.setPixelSize(10);
-    setFont(f);
+    this->setFont(f);
 }
 
-void QtRuleBar::setRange(double lower, double upper, double max_size)
+QExtGraphicsViewRuleBar::~QExtGraphicsViewRuleBar()
 {
-    m_lower = lower;
-    m_upper = upper;
-    m_maxsize = max_size;
+
 }
 
-void QtRuleBar::updatePosition(const QPoint &pos)
+void QExtGraphicsViewRuleBar::setRange(double lower, double upper, double maxSize)
 {
-    m_lastPos = pos;
-    update();
+    Q_D(QExtGraphicsViewRuleBar);
+    d->m_lower = lower;
+    d->m_upper = upper;
+    d->m_maxsize = maxSize;
 }
 
-void QtRuleBar::paintEvent(QPaintEvent *event)
+void QExtGraphicsViewRuleBar::updatePosition(const QPoint &pos)
 {
+    Q_D(QExtGraphicsViewRuleBar);
+    d->m_lastPos = pos;
+    this->update();
+}
+
+void QExtGraphicsViewRuleBar::paintEvent(QPaintEvent *event)
+{
+    Q_D(QExtGraphicsViewRuleBar);
     Q_UNUSED(event);
     QPainter painter(this);
     QRect rulerRect = rect();
-    painter.fillRect(rulerRect,m_faceColor);
+    painter.fillRect(rulerRect, d->m_faceColor);
 
-    if ( m_direction == Qt::Horizontal ){
-        painter.drawLine(rulerRect.bottomLeft(),rulerRect.bottomRight());
+    if (d->m_direction == Qt::Horizontal)
+    {
+        painter.drawLine(rulerRect.bottomLeft(), rulerRect.bottomRight());
     }
-    else{
-        painter.drawLine(rulerRect.topRight(),rulerRect.bottomRight());
+    else
+    {
+        painter.drawLine(rulerRect.topRight(), rulerRect.bottomRight());
     }
 
-    drawTicker(&painter);
-    drawPos(&painter);
+    this->drawTicker(&painter);
+    this->drawPos(&painter);
 }
 
-void QtRuleBar::drawTicker(QPainter *painter)
+void QExtGraphicsViewRuleBar::drawTicker(QPainter *painter)
 {
-    int             i;
-    int             width, height;
-    int             length, ideal_length;
-    double          lower = m_lower , upper = m_upper; /* Upper and lower limits, in ruler units */
-    double          increment;    /* Number of pixels per unit */
-    uint            scale;        /* Number of units per major unit */
-    double          start, end, cur;
-    char            unit_str[32];
-    char            digit_str[2] = { '\0', '\0' };
-    int             digit_height;
-    int             digit_offset;
-    int             text_size;
-    int             pos;
-    double          max_size = m_maxsize;
-    SPRulerMetric    ruler_metric = ruler_metric_general; /* The metric to use for this unit system */
+    Q_D(QExtGraphicsViewRuleBar);
+    int i;
+    int width, height;
+    int length, ideal_length;
+    double lower = d->m_lower;
+    double upper = d->m_upper; /* Upper and lower limits, in ruler units */
+    double increment;    /* Number of pixels per unit */
+    uint scale;        /* Number of units per major unit */
+    double start, end, cur;
+    char unit_str[32];
+    char digit_str[2] = { '\0', '\0' };
+    int digit_height;
+    int digit_offset;
+    int text_size;
+    int pos;
+    double max_size = d->m_maxsize;
+    SPRulerMetric ruler_metric = ruler_metric_general; /* The metric to use for this unit system */
     QRect allocation = this->rect();
-    QFontMetrics fm(font());
+    QFontMetrics fm(this->font());
     digit_height = fm.height();
     digit_offset = 0;
-    if (m_direction==Qt::Horizontal){
+    if (d->m_direction==Qt::Horizontal)
+    {
         width = allocation.width();
         height = allocation.height();
-    }else{
+    }
+    else
+    {
         width = allocation.height();
         height = allocation.width();
     }
-    if ( (upper - lower) == 0 ) return ;
-    increment = (double) width / (upper - lower);
+    if ((upper - lower) == 0)
+    {
+        return;
+    }
+    increment = (double)width / (upper - lower);
 
-    scale = ceil (max_size);
-    sprintf (unit_str, "%d", scale);
-    text_size = strlen (unit_str) * digit_height + 1;
-    for (scale = 0; scale < sizeof (ruler_metric.ruler_scale) /
-                                sizeof(ruler_metric.ruler_scale[0]); scale++)
+    scale = ceil(max_size);
+    sprintf(unit_str, "%d", scale);
+    text_size = strlen(unit_str) * digit_height + 1;
+    for (scale = 0; scale < sizeof (ruler_metric.ruler_scale) / sizeof(ruler_metric.ruler_scale[0]); scale++)
+    {
         if (ruler_metric.ruler_scale[scale] * fabs (increment) > 2 * text_size)
+        {
             break;
+        }
+    }
     if (scale == sizeof (ruler_metric.ruler_scale))
+    {
         scale = sizeof (ruler_metric.ruler_scale) - 1;
+    }
     length = 0;
 
-    for (i = sizeof (ruler_metric.subdivide) /
-                 sizeof( ruler_metric.subdivide[0] ) - 1; i >= 0; i--){
+    for (i = sizeof (ruler_metric.subdivide) / sizeof( ruler_metric.subdivide[0] ) - 1; i >= 0; i--)
+    {
         double subd_incr;
-        if (scale == 1 && i == 1 )
+        if (scale == 1 && i == 1)
+        {
             subd_incr = 1.0 ;
+        }
         else
-            subd_incr = ((double)ruler_metric.ruler_scale[scale] /
-                         (double)ruler_metric.subdivide[i]);
+        {
+            subd_incr = ((double)ruler_metric.ruler_scale[scale] / (double)ruler_metric.subdivide[i]);
+        }
         if (subd_incr * fabs (increment) <= MINIMUM_INCR)
+        {
             continue;
+        }
 
         ideal_length = height / (i + 1) - 1;
 
         if (ideal_length > ++length)
-            length = ideal_length;
-        if (lower < upper){
-            start = floor (lower / subd_incr) * subd_incr;
-            end   = ceil  (upper / subd_incr) * subd_incr;
-        }else
         {
-            start = floor (upper / subd_incr) * subd_incr;
-            end   = ceil  (lower / subd_incr) * subd_incr;
+            length = ideal_length;
+        }
+        if (lower < upper)
+        {
+            start = floor(lower / subd_incr) * subd_incr;
+            end   = ceil(upper / subd_incr) * subd_incr;
+        }
+        else
+        {
+            start = floor(upper / subd_incr) * subd_incr;
+            end   = ceil(lower / subd_incr) * subd_incr;
         }
         int tick_index = 0;
-        for (cur = start; cur <= end; cur += subd_incr){
+        for (cur = start; cur <= end; cur += subd_incr)
+        {
             pos = int(qRound((cur - lower) * increment + 1e-12));
-            if (m_direction==Qt::Horizontal){
-                QRect rt(pos,height-length,1,length);
-                painter->drawLine(rt.topLeft(),rt.bottomLeft());
-            }else{
-                QRect rt(height-length,pos,length,1);
-                painter->drawLine(rt.topLeft(),rt.topRight());
+            if (d->m_direction == Qt::Horizontal)
+            {
+                QRect rt(pos,height - length,1,length);
+                painter->drawLine(rt.topLeft(), rt.bottomLeft());
             }
-            double label_spacing_px = fabs(increment*(double)ruler_metric.ruler_scale[scale]/ruler_metric.subdivide[i]);
-            if (i == 0 &&
-                (label_spacing_px > 6*digit_height || tick_index%2 == 0 || cur == 0) &&
-                (label_spacing_px > 3*digit_height || tick_index%4 == 0 || cur == 0))
+            else
+            {
+                QRect rt(height - length, pos, length,1);
+                painter->drawLine(rt.topLeft(), rt.topRight());
+            }
+            double label_spacing_px = fabs(increment * (double)ruler_metric.ruler_scale[scale] / ruler_metric.subdivide[i]);
+            if (i == 0 && (label_spacing_px > 6 * digit_height || tick_index % 2 == 0 || cur == 0) &&
+                (label_spacing_px > 3 * digit_height || tick_index % 4 == 0 || cur == 0))
             {
                 if (qAbs((int)cur) >= 2000 && (((int) cur)/1000)*1000 == ((int) cur))
+                {
                     sprintf (unit_str, "%dk", ((int) cur)/1000);
+                }
                 else
+                {
                     sprintf (unit_str, "%d", (int) cur);
-                if (m_direction==Qt::Horizontal){
+                }
+                if (d->m_direction == Qt::Horizontal)
+                {
                     int w = fm.width(unit_str);
-                    painter->drawText(pos + 2,
-                                      allocation.top(),
-                                      w,
-                                      RULER_SIZE,
-                                      Qt::AlignLeft|Qt::AlignTop,unit_str);
-                } else{
+                    painter->drawText(pos + 2, allocation.top(), w, RULER_SIZE, Qt::AlignLeft|Qt::AlignTop,unit_str);
+                }
+                else
+                {
 #if 0
                    int w = fm.width("u") + 2;
                    int start = cur < 0 ? 1 : 0 ;
@@ -194,11 +246,11 @@ void QtRuleBar::drawTicker(QPainter *painter)
                    }
 #else
                     int w = fm.width(unit_str);
-                    QRect textRect(-w/2,-RULER_SIZE/2,w,RULER_SIZE);
+                    QRect textRect(-w / 2, -RULER_SIZE / 2, w, RULER_SIZE);
                     painter->save();
-                    painter->translate(8, pos + w/2+2);
+                    painter->translate(8, pos + w / 2 + 2);
                     painter->rotate(-90);
-                    painter->drawText(textRect,Qt::AlignRight,unit_str);
+                    painter->drawText(textRect, Qt::AlignRight, unit_str);
                     painter->restore();
 #endif
                 }
@@ -208,52 +260,65 @@ void QtRuleBar::drawTicker(QPainter *painter)
     }
 }
 
-void QtRuleBar::drawPos(QPainter *painter)
+void QExtGraphicsViewRuleBar::drawPos(QPainter *painter)
 {
-    int  x, y;
-    int  width, height;
-    int  bs_width, bs_height;
+    Q_D(QExtGraphicsViewRuleBar);
+    int x, y;
+    int width, height;
+    int bs_width, bs_height;
     QRect allocation = this->rect();
     double position;
-    double lower = m_lower;
-    double upper = m_upper;
-    if (m_direction==Qt::Horizontal){
+    double lower = d->m_lower;
+    double upper = d->m_upper;
+    if (d->m_direction == Qt::Horizontal)
+    {
         width = allocation.width();
         height = allocation.height();
         bs_width = height / 2 + 2 ;
         bs_width |= 1;  /* make sure it's odd */
         bs_height = bs_width / 2 + 1;
-        position = lower + (upper - lower) * m_lastPos.x() / allocation.width();
-    }else{
+        position = lower + (upper - lower) * d->m_lastPos.x() / allocation.width();
+    }
+    else
+    {
         width = allocation.height();
         height = allocation.width();
         bs_height = width / 2 + 2 ;
         bs_height |= 1;  /* make sure it's odd */
         bs_width = bs_height / 2 + 1;
-        position = lower + (upper - lower) *  m_lastPos.y() / allocation.height() ;
+        position = lower + (upper - lower) *  d->m_lastPos.y() / allocation.height() ;
     }
-    if ((bs_width > 0) && (bs_height > 0)){
+    if ((bs_width > 0) && (bs_height > 0))
+    {
         double increment;
-        if (m_direction==Qt::Horizontal){
-            increment = (double) width / (upper - lower);
-            x = qRound ((position - lower) * increment) + bs_width / 2 - 1;
-            y = (height + bs_height) / 2 ;
-            painter->drawLine(m_lastPos.x(),0, m_lastPos.x() , height);
-        }else{
-            increment = (double) height / (upper - lower);
+        if (d->m_direction == Qt::Horizontal)
+        {
+            increment = (double)width / (upper - lower);
+            x = qRound((position - lower) * increment) + bs_width / 2 - 1;
+            y = (height + bs_height) / 2;
+            painter->drawLine(d->m_lastPos.x(), 0, d->m_lastPos.x(), height);
+        }
+        else
+        {
+            increment = (double)height / (upper - lower);
             x = (width + bs_width) / 2 ;
-            y = qRound ((position - lower) * increment) + (bs_height) / 2 - 1;
-            painter->drawLine(0 , m_lastPos.y() , width , m_lastPos.y());
+            y = qRound((position - lower) * increment) + (bs_height) / 2 - 1;
+            painter->drawLine(0, d->m_lastPos.y(), width, d->m_lastPos.y());
         }
     }
 }
 
-QtCornerBox::QtCornerBox(QWidget *parent)
-    :QWidget(parent)
+QExtGraphicsViewCornerBox::QExtGraphicsViewCornerBox(QWidget *parent)
+    : QWidget(parent)
 {
 }
 
-void QtCornerBox::paintEvent(QPaintEvent *e)
+QExtGraphicsViewCornerBox::~QExtGraphicsViewCornerBox()
+{
+
+}
+
+void QExtGraphicsViewCornerBox::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
     QPainter painter(this);
@@ -269,96 +334,281 @@ void QtCornerBox::paintEvent(QPaintEvent *e)
 
 
 
-DrawView::DrawView(QGraphicsScene *scene)
-    :QGraphicsView(scene)
+QExtGraphicsViewPrivate::QExtGraphicsViewPrivate(QExtGraphicsView *q)
+    : q_ptr(q)
+    , m_hRulerBar(new QExtGraphicsViewRuleBar(Qt::Horizontal, q, q))
+    , m_vRulerBar(new QExtGraphicsViewRuleBar(Qt::Vertical, q, q))
+    , m_cornerBox(new QExtGraphicsViewCornerBox(q))
+    , m_modified(false)
+    , m_untitled(true)
 {
-    m_hruler = new QtRuleBar(Qt::Horizontal,this,this);
-    m_vruler = new QtRuleBar(Qt::Vertical,this,this);
-    box = new QtCornerBox(this);
-    setViewport(new QWidget);
-    setAttribute(Qt::WA_DeleteOnClose);
-    isUntitled = true;
 
-    modified = false;
 }
 
-void DrawView::zoomIn()
+QExtGraphicsViewPrivate::~QExtGraphicsViewPrivate()
 {
-    scale(1.2,1.2);
-    updateRuler();
+
 }
 
-void DrawView::zoomOut()
+bool QExtGraphicsViewPrivate::maybeSave()
 {
-    scale(1 / 1.2, 1 / 1.2);
-    updateRuler();
+    Q_Q(QExtGraphicsView);
+    if (m_modified)
+    {
+        QMessageBox::StandardButton ret;
+        ret = QMessageBox::warning(q, QObject::tr("MDI"),
+                                   QObject::tr("'%1' has been modified.\nDo you want to save your changes?").
+                                   arg(q->userFriendlyCurrentFile()),
+                                   QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+        if (ret == QMessageBox::Save)
+        {
+            return q->save();
+        }
+        else if (ret == QMessageBox::Cancel)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
-void DrawView::newFile()
+void QExtGraphicsViewPrivate::loadCanvas(QXmlStreamReader *xml)
 {
+    Q_Q(QExtGraphicsView);
+    Q_ASSERT(xml->isStartElement() && xml->name() == "canvas");
+
+    while (xml->readNextStartElement())
+    {
+        QExtGraphicsAbstractShapeItem * item = NULL;
+        if (xml->name() == QObject::tr("rect"))
+        {
+            item = new QExtGraphicsRectItem(QRect(0,0,1,1));
+        }
+        else if (xml->name() == QObject::tr("roundrect"))
+        {
+            item = new QExtGraphicsRectItem(QRect(0,0,1,1),true);
+        }
+        else if (xml->name() == QObject::tr("ellipse"))
+        {
+            item = new QExtGraphicsEllipseItem(QRect(0,0,1,1));
+        }
+        else if (xml->name()== QObject::tr("polygon"))
+        {
+            item = new QExtGraphicsPolygonItem();
+        }
+        else if (xml->name()== QObject::tr("bezier"))
+        {
+            item = new QExtGraphicsBezierItem();
+        }
+        else if (xml->name() == QObject::tr("polyline"))
+        {
+            item = new QExtGraphicsBezierItem(false);
+        }
+        else if (xml->name() == QObject::tr("line"))
+        {
+            item = new QExtGraphicsLineItem();
+        }
+        else if (xml->name() == QObject::tr("group"))
+        {
+            item =qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(this->loadGroupFromXML(xml));
+        }
+        else
+        {
+            xml->skipCurrentElement();
+        }
+
+        if (item && item->loadFromXml(xml))
+        {
+            q->scene()->addItem(item);
+        }
+        else if (item)
+        {
+            delete item;
+        }
+    }
+}
+
+void QExtGraphicsViewPrivate::setCurrentFile(const QString &fileName)
+{
+    Q_Q(QExtGraphicsView);
+    m_curFile = QFileInfo(fileName).canonicalFilePath();
+    m_untitled = false;
+    q->setModified(false);
+    q->setWindowModified(false);
+    q->setWindowTitle(q->userFriendlyCurrentFile() + "[*]");
+}
+
+QString QExtGraphicsViewPrivate::strippedName(const QString &fullFileName)
+{
+    return QFileInfo(fullFileName).fileName();
+}
+
+QExtGraphicsItemGroup *QExtGraphicsViewPrivate::loadGroupFromXML(QXmlStreamReader *xml)
+{
+    Q_Q(QExtGraphicsView);
+    QList<QGraphicsItem *> items;
+    qreal angle = xml->attributes().value(QObject::tr("rotate")).toDouble();
+    while (xml->readNextStartElement())
+    {
+        QExtGraphicsAbstractShapeItem *item = QEXT_NULLPTR;
+        if (xml->name() == QObject::tr("rect"))
+        {
+            item = new QExtGraphicsRectItem(QRect(0, 0, 1, 1));
+        }
+        else if (xml->name() == QObject::tr("roundrect"))
+        {
+            item = new QExtGraphicsRectItem(QRect(0, 0, 1, 1), true);
+        }
+        else if (xml->name() == QObject::tr("ellipse"))
+        {
+            item = new QExtGraphicsEllipseItem(QRect(0,0,1,1));
+        }
+        else if (xml->name()== QObject::tr("polygon"))
+        {
+            item = new QExtGraphicsPolygonItem();
+        }
+        else if (xml->name()== QObject::tr("bezier"))
+        {
+            item = new QExtGraphicsBezierItem();
+        }
+        else if (xml->name() == QObject::tr("polyline"))
+        {
+            item = new QExtGraphicsBezierItem(false);
+        }
+        else if (xml->name() == QObject::tr("line"))
+        {
+            item = new QExtGraphicsLineItem();
+        }
+        else if (xml->name() == QObject::tr("group"))
+        {
+            item = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(this->loadGroupFromXML(xml));
+        }
+        else
+        {
+            xml->skipCurrentElement();
+        }
+        if (item && item->loadFromXml(xml))
+        {
+            q->scene()->addItem(item);
+            items.append(item);
+        }
+        else if (item)
+        {
+            delete item;
+        }
+    }
+
+    if (items.count() > 0)
+    {
+        QExtGraphicsScene *s = dynamic_cast<QExtGraphicsScene*>(q->scene());
+        QExtGraphicsItemGroup *group = s->createGroup(items, false);
+        if (group)
+        {
+            group->setRotation(angle);
+            group->updateCoordinate();
+            //qDebug()<<"angle:" <<angle;
+        }
+        return group;
+    }
+    return QEXT_NULLPTR;
+}
+
+
+QExtGraphicsView::QExtGraphicsView(QGraphicsScene *scene)
+    : QGraphicsView(scene)
+    , dd_ptr(new QExtGraphicsViewPrivate(this))
+{
+    this->setViewport(new QWidget);
+    this->setAttribute(Qt::WA_DeleteOnClose);
+}
+
+QExtGraphicsView::~QExtGraphicsView()
+{
+
+}
+
+void QExtGraphicsView::zoomIn()
+{
+    this->scale(1.2,1.2);
+    this->updateRuler();
+}
+
+void QExtGraphicsView::zoomOut()
+{
+    this->scale(1 / 1.2, 1 / 1.2);
+    this->updateRuler();
+}
+
+void QExtGraphicsView::newFile()
+{
+    Q_D(QExtGraphicsView);
     static int sequenceNumber = 1;
-
-    isUntitled = true;
-    curFile = tr("drawing%1.xml").arg(sequenceNumber++);
-    setWindowTitle(curFile + "[*]");
+    d->m_untitled = true;
+    d->m_curFile = tr("drawing%1.xml").arg(sequenceNumber++);
+    this->setWindowTitle(d->m_curFile + "[*]");
 }
 
-bool DrawView::loadFile(const QString &fileName)
+bool QExtGraphicsView::loadFile(const QString &fileName)
 {
+    Q_D(QExtGraphicsView);
     QFile file(fileName);
-    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+    if (!file.open(QFile::ReadOnly | QFile::Text))
+    {
         QMessageBox::warning(this, tr("Qt Drawing"),
-                             tr("Cannot read file %1:\n%2.")
-                                 .arg(fileName)
-                                 .arg(file.errorString()));
+                             tr("Cannot read file %1:\n%2.").arg(fileName).arg(file.errorString()));
         return false;
     }
 
     QXmlStreamReader xml(&file);
-    if (xml.readNextStartElement()) {
-        if ( xml.name() == tr("canvas"))
+    if (xml.readNextStartElement())
+    {
+        if (xml.name() == tr("canvas"))
         {
             int width = xml.attributes().value(tr("width")).toInt();
             int height = xml.attributes().value(tr("height")).toInt();
-            scene()->setSceneRect(0,0,width,height);
-            loadCanvas(&xml);
+            scene()->setSceneRect(0, 0, width, height);
+            d->loadCanvas(&xml);
         }
     }
 
-    setCurrentFile(fileName);
-    qDebug()<<xml.errorString();
+    d->setCurrentFile(fileName);
+    qDebug() << xml.errorString();
     return !xml.error();
 }
 
-bool DrawView::save()
+bool QExtGraphicsView::save()
 {
-    if (isUntitled) {
-        return saveAs();
-    } else {
-        return saveFile(curFile);
+    Q_D(QExtGraphicsView);
+    if (d->m_untitled)
+    {
+        return this->saveAs();
+    }
+    else
+    {
+        return this->saveFile(d->m_curFile);
     }
 }
 
-bool DrawView::saveAs()
+bool QExtGraphicsView::saveAs()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"),
-                                                    curFile);
+    Q_D(QExtGraphicsView);
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"), d->m_curFile);
     if (fileName.isEmpty())
+    {
         return false;
+    }
 
-    return saveFile(fileName);
-
+    return this->saveFile(fileName);
 }
 
-bool DrawView::saveFile(const QString &fileName)
+bool QExtGraphicsView::saveFile(const QString &fileName)
 {
-
+    Q_D(QExtGraphicsView);
     QFile file(fileName);
-    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+    if (!file.open(QFile::WriteOnly | QFile::Text))
+    {
         QMessageBox::warning(this, tr("Qt Drawing"),
-                             tr("Cannot write file %1:\n%2.")
-                                 .arg(fileName)
-                                 .arg(file.errorString()));
+                             tr("Cannot write file %1:\n%2.").arg(fileName).arg(file.errorString()));
         return false;
     }
 
@@ -367,13 +617,15 @@ bool DrawView::saveFile(const QString &fileName)
     xml.writeStartDocument();
     xml.writeDTD("<!DOCTYPE qdraw>");
     xml.writeStartElement("canvas");
-    xml.writeAttribute("width",QString("%1").arg(scene()->width()));
-    xml.writeAttribute("height",QString("%1").arg(scene()->height()));
+    xml.writeAttribute("width",QString("%1").arg(this->scene()->width()));
+    xml.writeAttribute("height",QString("%1").arg(this->scene()->height()));
 
-    foreach (QGraphicsItem *item , scene()->items()) {
-        QExtGraphicsAbstractShapeItem * ab = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
+    foreach (QGraphicsItem *item, scene()->items())
+    {
+        QExtGraphicsAbstractShapeItem *ab = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
         QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup*>(item->parentItem());
-        if ( ab &&!qgraphicsitem_cast<QExtGraphicsSizeHandle *>(ab) && !g ){
+        if (ab &&!qgraphicsitem_cast<QExtGraphicsSizeHandle *>(ab) && !g)
+        {
             ab->saveToXml(&xml);
         }
     }
@@ -398,180 +650,102 @@ bool DrawView::saveFile(const QString &fileName)
     painter.end();
 //![end painting]
 #endif
-    setCurrentFile(fileName);
+    d->setCurrentFile(fileName);
     return true;
 }
 
-QString DrawView::userFriendlyCurrentFile()
+QString QExtGraphicsView::userFriendlyCurrentFile()
 {
-    return strippedName(curFile);
+    Q_D(QExtGraphicsView);
+    return d->strippedName(d->m_curFile);
 }
 
-void DrawView::closeEvent(QCloseEvent *event)
+QString QExtGraphicsView::currentFile() const
 {
-    if (maybeSave()) {
+    Q_D(const QExtGraphicsView);
+    return d->m_curFile;
+}
+
+bool QExtGraphicsView::isModified() const
+{
+    Q_D(const QExtGraphicsView);
+    return d->m_modified;
+}
+
+void QExtGraphicsView::setModified(bool value)
+{
+    Q_D(QExtGraphicsView);
+    if (value != d->m_modified)
+    {
+        d->m_modified = value;
+    }
+}
+
+void QExtGraphicsView::closeEvent(QCloseEvent *event)
+{
+    Q_D(QExtGraphicsView);
+    if (d->maybeSave())
+    {
         event->accept();
-    } else {
+    }
+    else
+    {
         event->ignore();
     }
 }
 
-void DrawView::mouseMoveEvent(QMouseEvent *event)
+void QExtGraphicsView::mouseMoveEvent(QMouseEvent *event)
 {
-    QPointF pt =mapToScene(event->pos());
-    m_hruler->updatePosition(event->pos());
-    m_vruler->updatePosition(event->pos());
-    emit positionChanged( pt.x() , pt.y() );
+    Q_D(QExtGraphicsView);
+    QPointF pt = this->mapToScene(event->pos());
+    d->m_hRulerBar->updatePosition(event->pos());
+    d->m_vRulerBar->updatePosition(event->pos());
+    emit this->positionChanged(pt.x(), pt.y());
     QGraphicsView::mouseMoveEvent(event);
 }
 
-void DrawView::resizeEvent(QResizeEvent *event)
+void QExtGraphicsView::resizeEvent(QResizeEvent *event)
 {
+    Q_D(QExtGraphicsView);
     QGraphicsView::resizeEvent(event);
 
-    this->setViewportMargins(RULER_SIZE-1,RULER_SIZE-1,0,0);
-    m_hruler->resize(this->size().width()- RULER_SIZE - 1,RULER_SIZE);
-    m_hruler->move(RULER_SIZE,0);
-    m_vruler->resize(RULER_SIZE,this->size().height() - RULER_SIZE - 1);
-    m_vruler->move(0,RULER_SIZE);
+    this->setViewportMargins(RULER_SIZE - 1, RULER_SIZE - 1, 0, 0);
+    d->m_hRulerBar->resize(this->size().width()- RULER_SIZE - 1, RULER_SIZE);
+    d->m_hRulerBar->move(RULER_SIZE, 0);
+    d->m_vRulerBar->resize(RULER_SIZE, this->size().height() - RULER_SIZE - 1);
+    d->m_vRulerBar->move(0, RULER_SIZE);
 
-    box->resize(RULER_SIZE,RULER_SIZE);
-    box->move(0,0);
-    updateRuler();
+    d->m_cornerBox->resize(RULER_SIZE, RULER_SIZE);
+    d->m_cornerBox->move(0, 0);
+    this->updateRuler();
 }
 
-void DrawView::scrollContentsBy(int dx, int dy)
+void QExtGraphicsView::scrollContentsBy(int dx, int dy)
 {
-    QGraphicsView::scrollContentsBy(dx,dy);
-    updateRuler();
+    QGraphicsView::scrollContentsBy(dx, dy);
+    this->updateRuler();
 }
 
-void DrawView::updateRuler()
+void QExtGraphicsView::updateRuler()
 {
-    if ( scene() == 0) return;
+    Q_D(QExtGraphicsView);
+    if (this->scene() == 0)
+    {
+        return;
+    }
     QRectF viewbox = this->rect();
-    QPointF offset = mapFromScene(scene()->sceneRect().topLeft());
-    double factor =  1./transform().m11();
-    double lower_x = factor * ( viewbox.left()  - offset.x() );
-    double upper_x = factor * ( viewbox.right() -RULER_SIZE- offset.x()  );
-    m_hruler->setRange(lower_x,upper_x,upper_x - lower_x );
-    m_hruler->update();
+    QPointF offset = this->mapFromScene(this->scene()->sceneRect().topLeft());
+    double factor = 1.0 / transform().m11();
+    double lower_x = factor * (viewbox.left() - offset.x());
+    double upper_x = factor * (viewbox.right() - RULER_SIZE - offset.x());
+    d->m_hRulerBar->setRange(lower_x, upper_x, upper_x - lower_x);
+    d->m_hRulerBar->update();
 
-    double lower_y = factor * ( viewbox.top() - offset.y()) *-1;
-    double upper_y = factor * ( viewbox.bottom() - RULER_SIZE - offset.y()) *-1;
+    double lower_y = factor * (viewbox.top() - offset.y()) * -1;
+    double upper_y = factor * (viewbox.bottom() - RULER_SIZE - offset.y()) * -1;
 
-    m_vruler->setRange(lower_y,upper_y,upper_y - lower_y);
-    m_vruler->update();
+    d->m_vRulerBar->setRange(lower_y,upper_y,upper_y - lower_y);
+    d->m_vRulerBar->update();
 
     //    qDebug()<<viewbox<<QPoint(lower_x,upper_x) << QPoint(lower_y,upper_y) << offset;
 }
-
-bool DrawView::maybeSave()
-{
-    if (isModified()) {
-        QMessageBox::StandardButton ret;
-        ret = QMessageBox::warning(this, tr("MDI"),
-                                   tr("'%1' has been modified.\n"
-                                      "Do you want to save your changes?")
-                                       .arg(userFriendlyCurrentFile()),
-                                   QMessageBox::Save | QMessageBox::Discard
-                                       | QMessageBox::Cancel);
-        if (ret == QMessageBox::Save)
-            return save();
-        else if (ret == QMessageBox::Cancel)
-            return false;
-    }
-    return true;
-}
-
-void DrawView::setCurrentFile(const QString &fileName)
-{
-    curFile = QFileInfo(fileName).canonicalFilePath();
-    isUntitled = false;
-    setModified(false);
-    setWindowModified(false);
-    setWindowTitle(userFriendlyCurrentFile() + "[*]");
-}
-
-QString DrawView::strippedName(const QString &fullFileName)
-{
-    return QFileInfo(fullFileName).fileName();
-
-}
-
-void DrawView::loadCanvas( QXmlStreamReader *xml)
-{
-    Q_ASSERT(xml->isStartElement() && xml->name() == "canvas");
-
-    while (xml->readNextStartElement()) {
-        QExtGraphicsAbstractShapeItem * item = NULL;
-        if (xml->name() == tr("rect")){
-            item = new QExtGraphicsRectItem(QRect(0,0,1,1));
-        }else if (xml->name() == tr("roundrect")){
-            item = new QExtGraphicsRectItem(QRect(0,0,1,1),true);
-        }else if (xml->name() == tr("ellipse"))
-            item = new QExtGraphicsEllipseItem(QRect(0,0,1,1));
-        else if (xml->name()==tr("polygon"))
-            item = new QExtGraphicsPolygonItem();
-        else if ( xml->name()==tr("bezier"))
-            item = new QExtGraphicsBezierItem();
-        else if ( xml->name() == tr("polyline"))
-            item = new QExtGraphicsBezierItem(false);
-        else if ( xml->name() == tr("line"))
-            item = new QExtGraphicsLineItem();
-        else if ( xml->name() == tr("group"))
-            item =qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(loadGroupFromXML(xml));
-        else
-            xml->skipCurrentElement();
-
-        if (item && item->loadFromXml(xml))
-            scene()->addItem(item);
-        else if ( item )
-            delete item;
-    }
-}
-
-QExtGraphicsItemGroup *DrawView::loadGroupFromXML(QXmlStreamReader *xml)
-{
-    QList<QGraphicsItem*> items;
-    qreal angle = xml->attributes().value(tr("rotate")).toDouble();
-    while (xml->readNextStartElement()) {
-        QExtGraphicsAbstractShapeItem * item = NULL;
-        if (xml->name() == tr("rect")){
-            item = new QExtGraphicsRectItem(QRect(0,0,1,1));
-        }else if (xml->name() == tr("roundrect")){
-            item = new QExtGraphicsRectItem(QRect(0,0,1,1),true);
-        }else if (xml->name() == tr("ellipse"))
-            item = new QExtGraphicsEllipseItem(QRect(0,0,1,1));
-        else if (xml->name()==tr("polygon"))
-            item = new QExtGraphicsPolygonItem();
-        else if ( xml->name()==tr("bezier"))
-            item = new QExtGraphicsBezierItem();
-        else if ( xml->name() == tr("polyline"))
-            item = new QExtGraphicsBezierItem(false);
-        else if ( xml->name() == tr("line"))
-            item = new QExtGraphicsLineItem();
-        else if ( xml->name() == tr("group"))
-            item =qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(loadGroupFromXML(xml));
-        else
-            xml->skipCurrentElement();
-        if (item && item->loadFromXml(xml)){
-            scene()->addItem(item);
-            items.append(item);
-        }else if ( item )
-            delete item;
-    }
-
-    if ( items.count() > 0 ){
-        QExtGraphicsScene * s = dynamic_cast<QExtGraphicsScene*>(scene());
-        QExtGraphicsItemGroup * group = s->createGroup(items,false);
-        if (group){
-            group->setRotation(angle);
-            group->updateCoordinate();
-            //qDebug()<<"angle:" <<angle;
-        }
-        return group;
-    }
-    return 0;
-}
-

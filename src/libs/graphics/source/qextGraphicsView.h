@@ -9,45 +9,50 @@ class QMouseEvent;
 
 #define RULER_SIZE    16
 
-class QEXT_GRAPHICS_API QtCornerBox : public QWidget
+class QEXT_GRAPHICS_API QExtGraphicsViewCornerBox : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QtCornerBox(QWidget *parent);
+    explicit QExtGraphicsViewCornerBox(QWidget *parent);
+    ~QExtGraphicsViewCornerBox() QEXT_OVERRIDE;
 
 protected:
-    void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent *) QEXT_OVERRIDE;
 };
 
-
-class QEXT_GRAPHICS_API QtRuleBar : public QWidget
+class QExtGraphicsViewRuleBarPrivate;
+class QEXT_GRAPHICS_API QExtGraphicsViewRuleBar : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QtRuleBar(Qt::Orientation direction, QGraphicsView * view, QWidget * parent = 0  );
-    void setRange( double lower , double upper , double max_size );
-    void updatePosition( const QPoint & pos );
+    explicit QExtGraphicsViewRuleBar(Qt::Orientation direction, QGraphicsView * view, QWidget * parent = 0  );
+    ~QExtGraphicsViewRuleBar() QEXT_OVERRIDE;
+
+    void setRange(double lower, double upper, double maxSize);
+    void updatePosition(const QPoint &pos);
 
 protected:
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *event) QEXT_OVERRIDE;
+
     void drawTicker(QPainter * painter);
-    void drawPos(QPainter * painter);
-    Qt::Orientation   m_direction;
-    QPoint m_lastPos;
-    QColor m_faceColor;
-    QGraphicsView * m_view;
+    void drawPos(QPainter* painter);
 
-    double m_lower;
-    double m_upper;
-    double m_maxsize;
+    QScopedPointer<QExtGraphicsViewRuleBarPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtGraphicsViewRuleBar)
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsViewRuleBar)
 };
 
 
-class QEXT_GRAPHICS_API DrawView : public QGraphicsView
+class QExtGraphicsViewPrivate;
+class QEXT_GRAPHICS_API QExtGraphicsView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    DrawView(QGraphicsScene *scene);
+    explicit QExtGraphicsView(QGraphicsScene *scene);
+    ~QExtGraphicsView() QEXT_OVERRIDE;
+
     void zoomIn();
     void zoomOut();
 
@@ -58,12 +63,13 @@ public:
     bool saveFile(const QString &fileName);
     QString userFriendlyCurrentFile();
 
-    QString currentFile() { return curFile; }
-    void setModified( bool value ) { modified = value ; }
-    bool isModified() const { return modified; }
+    QString currentFile() const;
+
+    bool isModified() const;
+    void setModified(bool value);
 
 signals:
-    void positionChanged(int x , int y );
+    void positionChanged(int x, int y);
 
 protected:
     void closeEvent(QCloseEvent *event) QEXT_OVERRIDE;
@@ -72,20 +78,12 @@ protected:
     void resizeEvent(QResizeEvent *event) QEXT_OVERRIDE;
     void scrollContentsBy(int dx, int dy) QEXT_OVERRIDE;
     void updateRuler();
-    QtRuleBar *m_hruler;
-    QtRuleBar *m_vruler;
-    QtCornerBox * box;
+
+    QScopedPointer<QExtGraphicsViewPrivate> dd_ptr;
 
 private:
-    bool maybeSave();
-    void setCurrentFile(const QString &fileName);
-    QString strippedName(const QString &fullFileName);
-    void loadCanvas( QXmlStreamReader *xml );
-    QExtGraphicsItemGroup * loadGroupFromXML( QXmlStreamReader * xml );
-
-    QString curFile;
-    bool isUntitled;
-    bool modified;
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtGraphicsView)
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsView)
 };
 
 #endif // _QEXTGRAPHICSVIEW_H

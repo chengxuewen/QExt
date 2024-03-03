@@ -1,7 +1,7 @@
 #ifndef _QEXTGRAPHICSITEMS_H
 #define _QEXTGRAPHICSITEMS_H
 
-#include "qextGraphicsHandles.h"
+#include <qextGraphicsHandles.h>
 
 #include <QList>
 #include <QCursor>
@@ -334,7 +334,7 @@ public:
 
     explicit QExtGraphicsItem(QGraphicsItem *parent);
 
-    int type() const { return Type; }
+    int type() const QEXT_OVERRIDE { return Type; }
 
     virtual QPixmap image();
 
@@ -382,16 +382,16 @@ public:
     QRectF rect() const QEXT_OVERRIDE { return m_localRect; }
     QString displayName() const QEXT_OVERRIDE { return tr("rectangle"); }
 
-    virtual bool loadFromXml(QXmlStreamReader *xml);
-    virtual bool saveToXml( QXmlStreamWriter *xml);
+    bool loadFromXml(QXmlStreamReader *xml) QEXT_OVERRIDE;
+    bool saveToXml( QXmlStreamWriter *xml) QEXT_OVERRIDE;
 
 protected:
-    void updatehandles();
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void updatehandles() QEXT_OVERRIDE;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) QEXT_OVERRIDE;
 
     bool m_isRound;
-    qreal m_fRatioY;
     qreal m_fRatioX;
+    qreal m_fRatioY;
     QPointF m_opposite;
     QRectF m_initialRect;
     QPointF m_originPoint;
@@ -410,8 +410,8 @@ public:
     QGraphicsItem *duplicate() const QEXT_OVERRIDE;
     QString displayName() const QEXT_OVERRIDE { return tr("ellipse"); }
 
-    virtual bool loadFromXml(QXmlStreamReader *xml);
-    virtual bool saveToXml(QXmlStreamWriter *xml);
+    bool loadFromXml(QXmlStreamReader *xml) QEXT_OVERRIDE;
+    bool saveToXml(QXmlStreamWriter *xml) QEXT_OVERRIDE;
 
 protected:
     void updatehandles() QEXT_OVERRIDE;
@@ -436,20 +436,20 @@ public:
 
     explicit QExtGraphicsItemGroup(QGraphicsItem *parent = QEXT_NULLPTR);
 
-    QRectF boundingRect() const;
+    QRectF boundingRect() const QEXT_OVERRIDE;
     ~QExtGraphicsItemGroup() QEXT_OVERRIDE;
 
-    int type() const { return Type; }
+    int type() const QEXT_OVERRIDE { return Type; }
 
-    QGraphicsItem *duplicate () const ;
-    QString displayName() const { return tr("group"); }
+    QGraphicsItem *duplicate () const QEXT_OVERRIDE;
+    QString displayName() const QEXT_OVERRIDE { return tr("group"); }
 
     void control(int dir, const QPointF &delta) QEXT_OVERRIDE;
     void stretch(int handle, double sx, double sy, const QPointF &origin) QEXT_OVERRIDE;
     void updateCoordinate() QEXT_OVERRIDE;
 
-    virtual bool loadFromXml(QXmlStreamReader *xml);
-    virtual bool saveToXml(QXmlStreamWriter *xml);
+    bool loadFromXml(QXmlStreamReader *xml) QEXT_OVERRIDE;
+    bool saveToXml(QXmlStreamWriter *xml) QEXT_OVERRIDE;
 
 signals:
     void penColorChanged(const QColor &color);
@@ -493,15 +493,16 @@ public:
     QGraphicsItem *duplicate() const QEXT_OVERRIDE;
     QString displayName() const QEXT_OVERRIDE { return tr("polygon"); }
 
-    void control(int dir, const QPointF &delta);
-    void stretch(int handle, double sx, double sy, const QPointF &origin);
-    void updateCoordinate ();
+    void control(int dir, const QPointF &delta) QEXT_OVERRIDE;
+    void stretch(int handle, double sx, double sy, const QPointF &origin) QEXT_OVERRIDE;
+    void updateCoordinate() QEXT_OVERRIDE;
+
+    bool loadFromXml(QXmlStreamReader *xml) QEXT_OVERRIDE;
+    bool saveToXml(QXmlStreamWriter *xml) QEXT_OVERRIDE;
 
     virtual void addPoint(const QPointF &point);
     virtual void endPoint(const QPointF &point);
 
-    virtual bool loadFromXml(QXmlStreamReader *xml);
-    virtual bool saveToXml(QXmlStreamWriter *xml);
 
 protected:
     void updatehandles() QEXT_OVERRIDE;
@@ -528,9 +529,9 @@ public:
     int handleCount() const QEXT_OVERRIDE { return m_handles.size() + QExtGraphicsSizeHandle::Handle_Left; }
     void stretch(int handle, double sx, double sy, const QPointF &origin) QEXT_OVERRIDE;
 
-    virtual QPointF opposite(int handle);
-    virtual bool loadFromXml(QXmlStreamReader *xml);
-    virtual bool saveToXml(QXmlStreamWriter *xml);
+    QPointF opposite(int handle) QEXT_OVERRIDE;
+    bool loadFromXml(QXmlStreamReader *xml) QEXT_OVERRIDE;
+    bool saveToXml(QXmlStreamWriter *xml) QEXT_OVERRIDE;
 
 protected:
     void updatehandles() QEXT_OVERRIDE;
@@ -547,8 +548,8 @@ public:
     QGraphicsItem *duplicate() const QEXT_OVERRIDE;
     QString displayName() const QEXT_OVERRIDE{ return tr("bezier"); }
 
-    virtual bool loadFromXml(QXmlStreamReader *xml);
-    virtual bool saveToXml(QXmlStreamWriter *xml);
+    bool loadFromXml(QXmlStreamReader *xml) QEXT_OVERRIDE;
+    bool saveToXml(QXmlStreamWriter *xml) QEXT_OVERRIDE;
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) QEXT_OVERRIDE;

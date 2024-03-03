@@ -1,5 +1,5 @@
 #include <qextGraphicsItems.h>
-#include "qextGraphicsScene.h"
+#include <qextGraphicsScene.h>
 
 #include <QPainter>
 #include <QLinearGradient>
@@ -19,14 +19,16 @@
 
 QExtGraphicsShapeMimeData::QExtGraphicsShapeMimeData(QList<QGraphicsItem *> items)
 {
-    foreach (QGraphicsItem *item , items ) {
+    foreach (QGraphicsItem *item , items)
+    {
         QExtGraphicsAbstractShapeItem *sp = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
         m_items.append(sp->duplicate());
     }
 }
 QExtGraphicsShapeMimeData::~QExtGraphicsShapeMimeData()
 {
-    foreach (QGraphicsItem *item , m_items ) {
+    foreach (QGraphicsItem *item , m_items)
+    {
         delete item;
     }
     m_items.clear();
@@ -44,13 +46,19 @@ static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, cons
     const qreal penWidthZero = qreal(0.00000001);
 
     if (path == QPainterPath() || pen == Qt::NoPen)
+    {
         return path;
+    }
     QPainterPathStroker ps;
     ps.setCapStyle(pen.capStyle());
     if (pen.widthF() <= 0.0)
+    {
         ps.setWidth(penWidthZero);
+    }
     else
+    {
         ps.setWidth(pen.widthF());
+    }
     ps.setJoinStyle(pen.joinStyle());
     ps.setMiterLimit(pen.miterLimit());
     QPainterPath p = ps.createStroke(path);
@@ -58,49 +66,69 @@ static QPainterPath qt_graphicsItem_shapeFromPath(const QPainterPath &path, cons
     return p;
 }
 
-static void qt_graphicsItem_highlightSelected(
-    QGraphicsItem *item, QPainter *painter, const QStyleOptionGraphicsItem *option)
+static void qt_graphicsItem_highlightSelected(QGraphicsItem *item, QPainter *painter,
+                                              const QStyleOptionGraphicsItem *option)
 {
     const QRectF murect = painter->transform().mapRect(QRectF(0, 0, 1, 1));
     if (qFuzzyIsNull(qMax(murect.width(), murect.height())))
+    {
         return;
+    }
 
     const QRectF mbrect = painter->transform().mapRect(item->boundingRect());
     if (qMin(mbrect.width(), mbrect.height()) < qreal(1.0))
+    {
         return;
+    }
 
     qreal itemPenWidth;
-    switch (item->type()) {
+    switch (item->type())
+    {
     case QGraphicsEllipseItem::Type:
+    {
         itemPenWidth = static_cast<QGraphicsEllipseItem *>(item)->pen().widthF();
         break;
+    }
     case QGraphicsPathItem::Type:
+    {
         itemPenWidth = static_cast<QGraphicsPathItem *>(item)->pen().widthF();
         break;
+    }
     case QGraphicsPolygonItem::Type:
+    {
         itemPenWidth = static_cast<QGraphicsPolygonItem *>(item)->pen().widthF();
         break;
+    }
     case QGraphicsRectItem::Type:
+    {
         itemPenWidth = static_cast<QGraphicsRectItem *>(item)->pen().widthF();
         break;
+    }
     case QGraphicsSimpleTextItem::Type:
+    {
         itemPenWidth = static_cast<QGraphicsSimpleTextItem *>(item)->pen().widthF();
         break;
+    }
     case QGraphicsLineItem::Type:
+    {
         itemPenWidth = static_cast<QGraphicsLineItem *>(item)->pen().widthF();
         break;
+    }
     default:
+    {
         itemPenWidth = 1.0;
+        break;
+    }
     }
     const qreal pad = itemPenWidth / 2;
 
     const qreal penWidth = 0; // cosmetic pen
 
     const QColor fgcolor = option->palette.windowText().color();
-    const QColor bgcolor( // ensure good contrast against fgcolor
-        fgcolor.red()   > 127 ? 0 : 255,
-        fgcolor.green() > 127 ? 0 : 255,
-        fgcolor.blue()  > 127 ? 0 : 255);
+    // ensure good contrast against fgcolor
+    const QColor bgcolor(fgcolor.red()   > 127 ? 0 : 255,
+                         fgcolor.green() > 127 ? 0 : 255,
+                         fgcolor.blue()  > 127 ? 0 : 255);
 
 
     painter->setPen(QPen(bgcolor, penWidth, Qt::SolidLine));
@@ -114,9 +142,8 @@ static void qt_graphicsItem_highlightSelected(
 }
 
 QExtGraphicsItem::QExtGraphicsItem(QGraphicsItem *parent)
-    :QExtGraphicsAbstractShape<QGraphicsItem>(parent)
+    : QExtGraphicsAbstractShape<QGraphicsItem>(parent)
 {
-
     /*
     QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect;
     effect->setBlurRadius(4);
@@ -124,19 +151,21 @@ QExtGraphicsItem::QExtGraphicsItem(QGraphicsItem *parent)
    */
     // handles
     m_handles.reserve(QExtGraphicsSizeHandle::Handle_Left);
-    for (int i = QExtGraphicsSizeHandle::Handle_None + 1; i <= QExtGraphicsSizeHandle::Handle_Left; ++i) {
+    for (int i = QExtGraphicsSizeHandle::Handle_None + 1; i <= QExtGraphicsSizeHandle::Handle_Left; ++i)
+    {
         QExtGraphicsSizeHandle *shr = new QExtGraphicsSizeHandle(this,i);
         m_handles.push_back(shr);
     }
 
-    setFlag(QGraphicsItem::ItemIsMovable, true);
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    this->setFlag(QGraphicsItem::ItemIsMovable, true);
+    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setAcceptHoverEvents(true);
 }
 
 
-QPixmap QExtGraphicsItem::image() {
+QPixmap QExtGraphicsItem::image()
+{
     QPixmap pixmap(64, 64);
     pixmap.fill(Qt::transparent);
     QPainter painter(&pixmap);
@@ -144,7 +173,7 @@ QPixmap QExtGraphicsItem::image() {
     setBrush(Qt::white);
     QStyleOptionGraphicsItem *styleOption = new QStyleOptionGraphicsItem;
     //    painter.translate(m_localRect.center().x(),m_localRect.center().y());
-    paint(&painter,styleOption);
+    this->paint(&painter,styleOption);
     delete styleOption;
     return pixmap;
 }
@@ -155,33 +184,51 @@ void QExtGraphicsItem::updatehandles()
     const QRectF &geom = this->boundingRect();
 
     const Handles::iterator hend =  m_handles.end();
-    for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
+    for (Handles::iterator it = m_handles.begin(); it != hend; ++it)
+    {
         QExtGraphicsSizeHandle *hndl = *it;;
-        switch (hndl->dir()) {
+        switch (hndl->dir())
+        {
         case QExtGraphicsSizeHandle::Handle_LeftTop:
+        {
             hndl->move(geom.x() , geom.y() );
             break;
+        }
         case QExtGraphicsSizeHandle::Handle_Top:
+        {
             hndl->move(geom.x() + geom.width() / 2 , geom.y() );
             break;
+        }
         case QExtGraphicsSizeHandle::Handle_RightTop:
+        {
             hndl->move(geom.x() + geom.width() , geom.y() );
             break;
+        }
         case QExtGraphicsSizeHandle::Handle_Right:
+        {
             hndl->move(geom.x() + geom.width() , geom.y() + geom.height() / 2 );
             break;
+        }
         case QExtGraphicsSizeHandle::Handle_RightBottom:
+        {
             hndl->move(geom.x() + geom.width() , geom.y() + geom.height() );
             break;
+        }
         case QExtGraphicsSizeHandle::Handle_Bottom:
+        {
             hndl->move(geom.x() + geom.width() / 2 , geom.y() + geom.height() );
             break;
+        }
         case QExtGraphicsSizeHandle::Handle_LeftBottom:
+        {
             hndl->move(geom.x(), geom.y() + geom.height());
             break;
+        }
         case QExtGraphicsSizeHandle::Handle_Left:
+        {
             hndl->move(geom.x(), geom.y() + geom.height() / 2);
             break;
+        }
         default:
             break;
         }
@@ -199,18 +246,18 @@ bool QExtGraphicsItem::readBaseAttributes(QXmlStreamReader *xml)
     qreal y = xml->attributes().value(tr("y")).toDouble();
     m_width = xml->attributes().value("width").toDouble();
     m_height = xml->attributes().value("height").toDouble();
-    setZValue(xml->attributes().value("z").toDouble());
-    setRotation(xml->attributes().value("rotate").toDouble());
-    setPos(x,y);
+    this->setZValue(xml->attributes().value("z").toDouble());
+    this->setRotation(xml->attributes().value("rotate").toDouble());
+    this->setPos(x,y);
     return true;
 }
 
 bool QExtGraphicsItem::writeBaseAttributes(QXmlStreamWriter *xml)
 {
-    xml->writeAttribute(tr("rotate"),QString("%1").arg(rotation()));
-    xml->writeAttribute(tr("x"),QString("%1").arg(pos().x()));
-    xml->writeAttribute(tr("y"),QString("%1").arg(pos().y()));
-    xml->writeAttribute(tr("z"),QString("%1").arg(zValue()));
+    xml->writeAttribute(tr("rotate"),QString("%1").arg(this->rotation()));
+    xml->writeAttribute(tr("x"),QString("%1").arg(this->pos().x()));
+    xml->writeAttribute(tr("y"),QString("%1").arg(this->pos().y()));
+    xml->writeAttribute(tr("z"),QString("%1").arg(this->zValue()));
     xml->writeAttribute(tr("width"),QString("%1").arg(m_width));
     xml->writeAttribute(tr("height"),QString("%1").arg(m_height));
     return true;
@@ -218,12 +265,16 @@ bool QExtGraphicsItem::writeBaseAttributes(QXmlStreamWriter *xml)
 
 QVariant QExtGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    if ( change == QGraphicsItem::ItemSelectedHasChanged ) {
+    if (change == QGraphicsItem::ItemSelectedHasChanged)
+    {
         QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup*>(parentItem());
         if (!g)
-            setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
-        else{
-            setSelected(false);
+        {
+            this->setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
+        }
+        else
+        {
+            this->setSelected(false);
             return QVariant::fromValue<bool>(false);
         }
     }
@@ -245,19 +296,19 @@ QVariant QExtGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, 
 
 
 QExtGraphicsRectItem::QExtGraphicsRectItem(const QRect & rect , bool isRound , QGraphicsItem *parent)
-    :QExtGraphicsItem(parent)
-    ,m_isRound(isRound)
-    ,m_fRatioX(1/10.0)
-    ,m_fRatioY(1/3.0)
+    : QExtGraphicsItem(parent)
+    , m_isRound(isRound)
+    , m_fRatioX(1 / 10.0)
+    , m_fRatioY(1 / 3.0)
 {
-
     m_width = rect.width();
     m_height = rect.height();
     m_initialRect = rect;
     m_localRect = m_initialRect;
     m_localRect = rect;
     m_originPoint = QPointF(0,0);
-    if( m_isRound ){
+    if(m_isRound)
+    {
         QExtGraphicsSizeHandle *shr = new QExtGraphicsSizeHandle(this, 9 , true);
         m_handles.push_back(shr);
         shr = new QExtGraphicsSizeHandle(this, 10 , true);
@@ -265,8 +316,7 @@ QExtGraphicsRectItem::QExtGraphicsRectItem(const QRect & rect , bool isRound , Q
         //shr = new QExtGraphicsSizeHandle(this, 11 , true);
         //m_handles.push_back(shr);
     }
-
-    updatehandles();
+    this->updatehandles();
 }
 
 QRectF QExtGraphicsRectItem::boundingRect() const
@@ -278,52 +328,76 @@ QPainterPath QExtGraphicsRectItem::shape() const
 {
     QPainterPath path;
     double rx,ry;
-    if(m_fRatioX<=0)
-        rx=0;
-    else {
+    if(m_fRatioX <= 0)
+    {
+        rx = 0;
+    }
+    else
+    {
         rx = m_width * m_fRatioX + 0.5;
     }
-    if ( m_fRatioY <=0 )
+    if (m_fRatioY <= 0)
+    {
         ry = 0;
+    }
     else
+    {
         ry = m_height * m_fRatioY + 0.5;
-    if ( m_isRound )
-        path.addRoundedRect(rect(),rx,ry);
+    }
+    if (m_isRound)
+    {
+        path.addRoundedRect(this->rect(), rx, ry);
+    }
     else
-        path.addRect(rect());
+    {
+        path.addRect(this->rect());
+    }
     return path;
 }
 
-void QExtGraphicsRectItem::control(int dir, const QPointF & delta)
+void QExtGraphicsRectItem::control(int dir, const QPointF &delta)
 {
-    QPointF local = mapFromParent(delta);
-    switch (dir) {
+    QPointF local = this->mapFromParent(delta);
+    switch (dir)
+    {
     case 9:
     {
-        QRectF delta1 = rect();
+        QRectF delta1 = this->rect();
         int y = local.y();
-        if(y> delta1.center().y() )
+        if(y > delta1.center().y())
+        {
             y = delta1.center().y();
-        if(y<delta1.top())
-            y=delta1.top();
-        int H= delta1.height();
-        if(H==0)
-            H=1;
-        m_fRatioY = std::abs(((float)(delta1.top()-y)))/H;
+        }
+        if(y < delta1.top())
+        {
+            y = delta1.top();
+        }
+        int H = delta1.height();
+        if(H == 0)
+        {
+            H = 1;
+        }
+        m_fRatioY = std::abs(((float)(delta1.top() - y))) / H;
+        break;
     }
-    break;
     case 10:
     {
         QRectF delta1 = rect();
         int x = local.x();
-        if(x < delta1.center().x() )
+        if(x < delta1.center().x())
+        {
             x = delta1.center().x();
-        if(x>delta1.right())
-            x=delta1.right();
-        int W= delta1.width();
-        if(W==0)
-            W=1;
-        m_fRatioX = std::abs(((float)(delta1.right()-x)))/W;
+        }
+        if(x > delta1.right())
+        {
+            x = delta1.right();
+        }
+        int W = delta1.width();
+        if(W == 0)
+        {
+            W = 1;
+        }
+        m_fRatioX = std::abs(((float)(delta1.right() - x))) / W;
         break;
     }
     case 11:
@@ -332,19 +406,20 @@ void QExtGraphicsRectItem::control(int dir, const QPointF & delta)
         //        setTransformOriginPoint(local.x(),local.y());
         //        setTransform(transform().translate(local.x(),local.y()));
         m_originPoint = local;
+        break;
     }
-    break;
     default:
         break;
     }
-    prepareGeometryChange();
-    updatehandles();
+    this->prepareGeometryChange();
+    this->updatehandles();
 }
 
 void QExtGraphicsRectItem::stretch(int handle , double sx, double sy, const QPointF & origin)
 {
-    QTransform trans  ;
-    switch (handle) {
+    QTransform trans;
+    switch (handle)
+    {
     case QExtGraphicsSizeHandle::Handle_Right:
     case QExtGraphicsSizeHandle::Handle_Left:
         sy = 1;
@@ -359,90 +434,94 @@ void QExtGraphicsRectItem::stretch(int handle , double sx, double sy, const QPoi
 
     m_opposite = origin;
 
-    trans.translate(origin.x(),origin.y());
-    trans.scale(sx,sy);
-    trans.translate(-origin.x(),-origin.y());
+    trans.translate(origin.x(), origin.y());
+    trans.scale(sx, sy);
+    trans.translate(-origin.x(), -origin.y());
 
-    prepareGeometryChange();
+    this->prepareGeometryChange();
     m_localRect = trans.mapRect(m_initialRect);
     m_width = m_localRect.width();
     m_height = m_localRect.height();
-    updatehandles();
-
+    this->updatehandles();
 }
 
 void QExtGraphicsRectItem::updateCoordinate()
 {
 
-    QPointF pt1,pt2,delta;
+    QPointF pt1, pt2, delta;
 
-    pt1 = mapToScene(transformOriginPoint());
-    pt2 = mapToScene(m_localRect.center());
+    pt1 = this->mapToScene(this->transformOriginPoint());
+    pt2 = this->mapToScene(m_localRect.center());
     delta = pt1 - pt2;
 
-    if (!parentItem() ){
-        prepareGeometryChange();
-        m_localRect = QRectF(-m_width/2,-m_height/2,m_width,m_height);
+    if (!this->parentItem())
+    {
+        this->prepareGeometryChange();
+        m_localRect = QRectF(-m_width / 2, -m_height / 2, m_width, m_height);
         m_width = m_localRect.width();
         m_height = m_localRect.height();
-        setTransform(transform().translate(delta.x(),delta.y()));
-        setTransformOriginPoint(m_localRect.center());
-        moveBy(-delta.x(),-delta.y());
-        setTransform(transform().translate(-delta.x(),-delta.y()));
-        m_opposite = QPointF(0,0);
-        updatehandles();
+        this->setTransform(transform().translate(delta.x(), delta.y()));
+        this->setTransformOriginPoint(m_localRect.center());
+        this->moveBy(-delta.x(), -delta.y());
+        this->setTransform(transform().translate(-delta.x(), -delta.y()));
+        m_opposite = QPointF(0, 0);
+        this->updatehandles();
     }
     m_initialRect = m_localRect;
 }
 
 void QExtGraphicsRectItem::move(const QPointF &point)
 {
-    moveBy(point.x(),point.y());
+    this->moveBy(point.x(),point.y());
 }
 
 QGraphicsItem *QExtGraphicsRectItem::duplicate() const
 {
-    QExtGraphicsRectItem * item = new QExtGraphicsRectItem( rect().toRect(),m_isRound);
-    item->m_width = width();
-    item->m_height = height();
-    item->setPos(pos().x(),pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue()+0.1);
+    QExtGraphicsRectItem *item = new QExtGraphicsRectItem( rect().toRect(), m_isRound);
+    item->m_width = this->width();
+    item->m_height = this->height();
+    item->setPos(this->pos().x(), this->pos().y());
+    item->setPen(this->pen());
+    item->setBrush(this->brush());
+    item->setTransform(this->transform());
+    item->setTransformOriginPoint(this->transformOriginPoint());
+    item->setRotation(this->rotation());
+    item->setScale(this->scale());
+    item->setZValue(this->zValue() + 0.1);
     item->m_fRatioY = m_fRatioY;
     item->m_fRatioX = m_fRatioX;
     item->updateCoordinate();
     return item;
 }
 
-bool QExtGraphicsRectItem::loadFromXml(QXmlStreamReader * xml )
+bool QExtGraphicsRectItem::loadFromXml(QXmlStreamReader *xml)
 {
     m_isRound = (xml->name() == tr("roundrect"));
-    if ( m_isRound ){
+    if (m_isRound)
+    {
         m_fRatioX = xml->attributes().value(tr("rx")).toDouble();
         m_fRatioY = xml->attributes().value(tr("ry")).toDouble();
     }
-    readBaseAttributes(xml);
-    updateCoordinate();
+    this->readBaseAttributes(xml);
+    this->updateCoordinate();
     xml->skipCurrentElement();
     return true;
 }
 
 bool QExtGraphicsRectItem::saveToXml(QXmlStreamWriter * xml)
 {
-    if ( m_isRound ){
+    if (m_isRound)
+    {
         xml->writeStartElement(tr("roundrect"));
         xml->writeAttribute(tr("rx"),QString("%1").arg(m_fRatioX));
         xml->writeAttribute(tr("ry"),QString("%1").arg(m_fRatioY));
     }
     else
+    {
         xml->writeStartElement(tr("rect"));
+    }
 
-    writeBaseAttributes(xml);
+    this->writeBaseAttributes(xml);
     xml->writeEndElement();
     return true;
 }
@@ -451,27 +530,35 @@ void QExtGraphicsRectItem::updatehandles()
 {
     const QRectF &geom = this->boundingRect();
     QExtGraphicsItem::updatehandles();
-    if ( m_isRound ){
-        m_handles[8]->move( geom.right() , geom.top() + geom.height() * m_fRatioY );
-        m_handles[9]->move( geom.right() - geom.width() * m_fRatioX , geom.top());
+    if (m_isRound)
+    {
+        m_handles[8]->move(geom.right(), geom.top() + geom.height() * m_fRatioY);
+        m_handles[9]->move(geom.right() - geom.width() * m_fRatioX, geom.top());
         //m_handles[10]->move(m_originPoint.x(),m_originPoint.y());
     }
 }
 
-static
-    QRectF RecalcBounds(const QPolygonF&  pts)
+static QRectF qextRecalcBounds(const QPolygonF &pts)
 {
     QRectF bounds(pts[0], QSize(0, 0));
     for (int i = 1; i < pts.count(); ++i)
     {
         if (pts[i].x() < bounds.left())
+        {
             bounds.setLeft(pts[i].x());
+        }
         if (pts[i].x() > bounds.right())
+        {
             bounds.setRight(pts[i].x());
+        }
         if (pts[i].y() < bounds.top())
+        {
             bounds.setTop(pts[i].y());
+        }
         if (pts[i].y() > bounds.bottom())
+        {
             bounds.setBottom (pts[i].y());
+        }
     }
     bounds = bounds.normalized();
     return bounds;
@@ -479,31 +566,43 @@ static
 
 void QExtGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
-    painter->setPen(pen());
-    painter->setBrush(brush());
-    double rx,ry;
-    if(m_fRatioX<=0)
-        rx=0;
-    else {
+    painter->setPen(this->pen());
+    painter->setBrush(this->brush());
+    double rx, ry;
+    if(m_fRatioX <= 0)
+    {
+        rx = 0;
+    }
+    else
+    {
         rx = m_width * m_fRatioX + 0.5;
     }
-    if ( m_fRatioY <=0 )
+    if (m_fRatioY <= 0)
+    {
         ry = 0;
+    }
     else
+    {
         ry = m_height * m_fRatioY + 0.5;
-    if ( m_isRound )
-        painter->drawRoundedRect(rect(),rx,ry);
+    }
+    if (m_isRound)
+    {
+        painter->drawRoundedRect(this->rect(), rx, ry);
+    }
     else
-        painter->drawRect(rect().toRect());
+    {
+        painter->drawRect(this->rect().toRect());
+    }
 
     painter->setPen(Qt::blue);
-    painter->drawLine(QLine(QPoint(m_opposite.x()-6,m_opposite.y()),QPoint(m_opposite.x()+6,m_opposite.y())));
-    painter->drawLine(QLine(QPoint(m_opposite.x(),m_opposite.y()-6),QPoint(m_opposite.x(),m_opposite.y()+6)));
+    painter->drawLine(QLine(QPoint(m_opposite.x() - 6,m_opposite.y()), QPoint(m_opposite.x() + 6, m_opposite.y())));
+    painter->drawLine(QLine(QPoint(m_opposite.x(), m_opposite.y() - 6), QPoint(m_opposite.x(), m_opposite.y() + 6)));
 
 
     if (option->state & QStyle::State_Selected)
+    {
         qt_graphicsItem_highlightSelected(this, painter, option);
+    }
     /*
 
    QPolygonF pts;
@@ -527,7 +626,7 @@ void QExtGraphicsRectItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 }
 
 QExtGraphicsLineItem::QExtGraphicsLineItem(QGraphicsItem *parent)
-    :QExtGraphicsPolygonItem(parent)
+    : QExtGraphicsPolygonItem(parent)
 {
     m_pen = QPen(Qt::black);
     // handles
@@ -535,14 +634,17 @@ QExtGraphicsLineItem::QExtGraphicsLineItem(QGraphicsItem *parent)
 
     Handles::iterator hend =  m_handles.end();
     for (Handles::iterator it = m_handles.begin(); it != hend; ++it)
+    {
         delete (*it);
+    }
     m_handles.clear();
 }
 
 QPainterPath QExtGraphicsLineItem::shape() const
 {
     QPainterPath path;
-    if ( m_points.size() > 1 ){
+    if (m_points.size() > 1)
+    {
         path.moveTo(m_points.at(0));
         path.lineTo(m_points.at(1));
     }
@@ -551,28 +653,29 @@ QPainterPath QExtGraphicsLineItem::shape() const
 
 QGraphicsItem *QExtGraphicsLineItem::duplicate() const
 {
-    QExtGraphicsLineItem * item = new QExtGraphicsLineItem();
+    QExtGraphicsLineItem *item = new QExtGraphicsLineItem();
     item->m_width = width();
     item->m_height = height();
     item->m_points = m_points;
     item->m_initialPoints = m_initialPoints;
-    item->setPos(pos().x(),pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue()+0.1);
+    item->setPos(this->pos().x(), pos().y());
+    item->setPen(this->pen());
+    item->setBrush(this->brush());
+    item->setTransform(this->transform());
+    item->setTransformOriginPoint(this->transformOriginPoint());
+    item->setRotation(this->rotation());
+    item->setScale(this->scale());
+    item->setZValue(this->zValue() + 0.1);
     item->updateCoordinate();
     return item;
 }
 
 void QExtGraphicsLineItem::addPoint(const QPointF &point)
 {
-    m_points.append(mapFromScene(point));
+    m_points.append(this->mapFromScene(point));
     int dir = m_points.count();
-    QExtGraphicsSizeHandle *shr = new QExtGraphicsSizeHandle(this, dir + QExtGraphicsSizeHandle::Handle_Left, dir == 1 ? false : true);
+    QExtGraphicsSizeHandle *shr = new QExtGraphicsSizeHandle(this, dir + QExtGraphicsSizeHandle::Handle_Left,
+                                                             dir == 1 ? false : true);
     shr->setState(SelectionHandleActive);
     m_handles.push_back(shr);
 }
@@ -582,12 +685,13 @@ void QExtGraphicsLineItem::endPoint(const QPointF &point)
 {
     Q_UNUSED(point);
     int nPoints = m_points.count();
-    if( nPoints > 2 && (m_points[nPoints-1] == m_points[nPoints-2] ||
-                        m_points[nPoints-1].x() - 1 == m_points[nPoints-2].x() &&
-                            m_points[nPoints-1].y() == m_points[nPoints-2].y())){
-        delete m_handles[ nPoints-1];
-        m_points.remove(nPoints-1);
-        m_handles.resize(nPoints-1);
+    if( nPoints > 2 && (m_points[nPoints - 1] == m_points[nPoints - 2] ||
+                        ((m_points[nPoints - 1].x() - 1) == m_points[nPoints - 2].x() &&
+                         m_points[nPoints - 1].y() == m_points[nPoints - 2].y())))
+    {
+        delete m_handles[nPoints - 1];
+        m_points.remove(nPoints - 1);
+        m_handles.resize(nPoints - 1);
     }
     m_initialPoints = m_points;
 }
@@ -595,7 +699,8 @@ void QExtGraphicsLineItem::endPoint(const QPointF &point)
 QPointF QExtGraphicsLineItem::opposite(int handle)
 {
     QPointF pt;
-    switch (handle) {
+    switch (handle)
+    {
     case QExtGraphicsSizeHandle::Handle_Right:
     case QExtGraphicsSizeHandle::Handle_Left:
     case QExtGraphicsSizeHandle::Handle_Top:
@@ -615,7 +720,8 @@ QPointF QExtGraphicsLineItem::opposite(int handle)
 void QExtGraphicsLineItem::stretch(int handle, double sx, double sy, const QPointF &origin)
 {
     QTransform trans;
-    switch (handle) {
+    switch (handle)
+    {
     case QExtGraphicsSizeHandle::Handle_Right:
     case QExtGraphicsSizeHandle::Handle_Left:
         sy = 1;
@@ -627,23 +733,25 @@ void QExtGraphicsLineItem::stretch(int handle, double sx, double sy, const QPoin
     default:
         break;
     }
-    trans.translate(origin.x(),origin.y());
-    trans.scale(sx,sy);
-    trans.translate(-origin.x(),-origin.y());
+    trans.translate(origin.x(), origin.y());
+    trans.scale(sx, sy);
+    trans.translate(-origin.x(), -origin.y());
 
-    prepareGeometryChange();
+    this->prepareGeometryChange();
     m_points = trans.map(m_initialPoints);
     m_localRect = m_points.boundingRect();
     m_width = m_localRect.width();
     m_height = m_localRect.height();
-    updatehandles();
+    this->updatehandles();
 }
 
 bool QExtGraphicsLineItem::loadFromXml(QXmlStreamReader *xml)
 {
-    readBaseAttributes(xml);
-    while(xml->readNextStartElement()){
-        if (xml->name()=="point"){
+    this->readBaseAttributes(xml);
+    while(xml->readNextStartElement())
+    {
+        if (xml->name()=="point")
+        {
             qreal x = xml->attributes().value("x").toDouble();
             qreal y = xml->attributes().value("y").toDouble();
             m_points.append(QPointF(x,y));
@@ -652,18 +760,22 @@ bool QExtGraphicsLineItem::loadFromXml(QXmlStreamReader *xml)
                                                                      dir == 1 ? false : true);
             m_handles.push_back(shr);
             xml->skipCurrentElement();
-        }else
+        }
+        else
+        {
             xml->skipCurrentElement();
+        }
     }
-    updatehandles();
+    this->updatehandles();
     return true;
 }
 
 bool QExtGraphicsLineItem::saveToXml(QXmlStreamWriter *xml)
 {
     xml->writeStartElement("line");
-    writeBaseAttributes(xml);
-    for ( int i = 0 ; i < m_points.count();++i){
+    this->writeBaseAttributes(xml);
+    for (int i = 0 ; i < m_points.count(); ++i)
+    {
         xml->writeStartElement("point");
         xml->writeAttribute("x",QString("%1").arg(m_points[i].x()));
         xml->writeAttribute("y",QString("%1").arg(m_points[i].y()));
@@ -675,7 +787,8 @@ bool QExtGraphicsLineItem::saveToXml(QXmlStreamWriter *xml)
 
 void QExtGraphicsLineItem::updatehandles()
 {
-    for ( int i = 0 ; i < m_points.size() ; ++i ){
+    for (int i = 0; i < m_points.size(); ++i)
+    {
         m_handles[i]->move(m_points[i].x() ,m_points[i].y() );
     }
 }
@@ -684,25 +797,28 @@ void QExtGraphicsLineItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
-    painter->setPen(pen());
-    if ( m_points.size() > 1)
-        painter->drawLine(m_points.at(0),m_points.at(1));
+    painter->setPen(this->pen());
+    if (m_points.size() > 1)
+    {
+        painter->drawLine(m_points.at(0), m_points.at(1));
+    }
 }
 
 QExtGraphicsItemGroup::QExtGraphicsItemGroup(QGraphicsItem *parent)
-    :QExtGraphicsAbstractShape <QGraphicsItemGroup>(parent),
-    m_parent(parent)
+    : QExtGraphicsAbstractShape<QGraphicsItemGroup>(parent)
+    , m_parent(parent)
 {
     m_itemsBoundingRect = QRectF();
     // handles
     m_handles.reserve(QExtGraphicsSizeHandle::Handle_Left);
-    for (int i = QExtGraphicsSizeHandle::Handle_LeftTop; i <= QExtGraphicsSizeHandle::Handle_Left; ++i) {
+    for (int i = QExtGraphicsSizeHandle::Handle_LeftTop; i <= QExtGraphicsSizeHandle::Handle_Left; ++i)
+    {
         QExtGraphicsSizeHandle *shr = new QExtGraphicsSizeHandle(this, i);
         m_handles.push_back(shr);
     }
-    setFlag(QGraphicsItem::ItemIsMovable, true);
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+    this->setFlag(QGraphicsItem::ItemIsMovable, true);
+    this->setFlag(QGraphicsItem::ItemIsSelectable, true);
+    this->setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     this->setAcceptHoverEvents(true);
 }
 
@@ -730,14 +846,16 @@ bool QExtGraphicsItemGroup::saveToXml(QXmlStreamWriter *xml)
     xml->writeAttribute(tr("y"),QString("%1").arg(pos().y()));
     xml->writeAttribute(tr("rotate"),QString("%1").arg(rotation()));
 
-    foreach (QGraphicsItem * item , childItems()) {
-        removeFromGroup(item);
-        QExtGraphicsAbstractShapeItem * ab = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
-        if ( ab &&!qgraphicsitem_cast<QExtGraphicsSizeHandle*>(ab)){
+    foreach (QGraphicsItem *item, this->childItems())
+    {
+        this->removeFromGroup(item);
+        QExtGraphicsAbstractShapeItem *ab = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
+        if ( ab &&!qgraphicsitem_cast<QExtGraphicsSizeHandle*>(ab))
+        {
             ab->updateCoordinate();
             ab->saveToXml(xml);
         }
-        addToGroup(item);
+        this->addToGroup(item);
     }
     xml->writeEndElement();
     return true;
@@ -745,17 +863,17 @@ bool QExtGraphicsItemGroup::saveToXml(QXmlStreamWriter *xml)
 
 QGraphicsItem *QExtGraphicsItemGroup::duplicate() const
 {
-    QExtGraphicsItemGroup *item = 0;
-    QList<QGraphicsItem*> copylist = duplicateItems();
+    QExtGraphicsItemGroup *item = QEXT_NULLPTR;
+    QList<QGraphicsItem*> copylist = this->duplicateItems();
     item = createGroup(copylist);
-    item->setPos(pos().x(),pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue()+0.1);
+    item->setPos(this->pos().x(), this->pos().y());
+    item->setPen(this->pen());
+    item->setBrush(this->brush());
+    item->setTransform(this->transform());
+    item->setTransformOriginPoint(this->transformOriginPoint());
+    item->setRotation(this->rotation());
+    item->setScale(this->scale());
+    item->setZValue(this->zValue() + 0.1);
     item->updateCoordinate();
     item->m_width = m_width;
     item->m_height = m_height;
@@ -764,18 +882,22 @@ QGraphicsItem *QExtGraphicsItemGroup::duplicate() const
 
 void QExtGraphicsItemGroup::control(int dir, const QPointF &delta)
 {
-    QPointF local = mapFromParent(delta);
-    if ( dir < QExtGraphicsSizeHandle::Handle_Left ) return ;
-    if ( dir == 9 ) {
-
+    QPointF local = this->mapFromParent(delta);
+    if (dir < QExtGraphicsSizeHandle::Handle_Left)
+    {
+        return;
     }
-    updatehandles();
+    if (dir == 9)
+    {
+    }
+    this->updatehandles();
 }
 
 void QExtGraphicsItemGroup::stretch(int handle, double sx, double sy, const QPointF &origin)
 {
-    QTransform trans ;
-    switch (handle) {
+    QTransform trans;
+    switch (handle)
+    {
     case QExtGraphicsSizeHandle::Handle_Right:
     case QExtGraphicsSizeHandle::Handle_Left:
         sy = 1;
@@ -788,50 +910,55 @@ void QExtGraphicsItemGroup::stretch(int handle, double sx, double sy, const QPoi
         break;
     }
 
-    foreach (QGraphicsItem *item , childItems()) {
-        QExtGraphicsAbstractShapeItem * ab = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
-        if (ab && !qgraphicsitem_cast<QExtGraphicsSizeHandle*>(ab)){
-            ab->stretch(handle,sx,sy,ab->mapFromParent(origin));
+    foreach (QGraphicsItem *item , this->childItems())
+    {
+        QExtGraphicsAbstractShapeItem *ab = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
+        if (ab && !qgraphicsitem_cast<QExtGraphicsSizeHandle*>(ab))
+        {
+            ab->stretch(handle, sx, sy, ab->mapFromParent(origin));
         }
     }
 
-    trans.translate(origin.x(),origin.y());
-    trans.scale(sx,sy);
-    trans.translate(-origin.x(),-origin.y());
+    trans.translate(origin.x(), origin.y());
+    trans.scale(sx, sy);
+    trans.translate(-origin.x(), -origin.y());
 
-    prepareGeometryChange();
+    this->prepareGeometryChange();
     m_itemsBoundingRect = trans.mapRect(m_initialRect);
     m_width = m_itemsBoundingRect.width();
     m_height = m_itemsBoundingRect.height();
-    updatehandles();
-
+    this->updatehandles();
 }
 
 void QExtGraphicsItemGroup::updateCoordinate()
 {
-
-    QPointF pt1,pt2,delta;
-    if (m_itemsBoundingRect.isNull() )
+    QPointF pt1, pt2, delta;
+    if (m_itemsBoundingRect.isNull())
+    {
         m_itemsBoundingRect = QGraphicsItemGroup::boundingRect();
+    }
 
-    pt1 = mapToScene(transformOriginPoint());
-    pt2 = mapToScene(m_itemsBoundingRect.center());
+    pt1 = this->mapToScene(this->transformOriginPoint());
+    pt2 = this->mapToScene(m_itemsBoundingRect.center());
     delta = pt1 - pt2;
     m_initialRect = m_itemsBoundingRect;
     m_width = m_itemsBoundingRect.width();
     m_height = m_itemsBoundingRect.height();
     //    itemsBoundingRect = QRectF(-m_width/2,-m_height/2,m_width,m_height);
-    setTransform(transform().translate(delta.x(),delta.y()));
-    setTransformOriginPoint(m_itemsBoundingRect.center());
-    moveBy(-delta.x(),-delta.y());
+    this->setTransform(this->transform().translate(delta.x(),delta.y()));
+    this->setTransformOriginPoint(m_itemsBoundingRect.center());
+    this->moveBy(-delta.x(), -delta.y());
     //   setTransform(transform().translate(-delta.x(),-delta.y()));
 
-    foreach (QGraphicsItem *item , childItems()) {
-        QExtGraphicsAbstractShapeItem * ab = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
+    foreach (QGraphicsItem *item , this->childItems())
+    {
+        QExtGraphicsAbstractShapeItem *ab = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
         if (ab && !qgraphicsitem_cast<QExtGraphicsSizeHandle*>(ab))
+        {
             ab->updateCoordinate();
+        }
     }
-    updatehandles();
+    this->updatehandles();
 }
 
 QExtGraphicsItemGroup *QExtGraphicsItemGroup::createGroup(const QList<QGraphicsItem *> &items) const
@@ -839,27 +966,35 @@ QExtGraphicsItemGroup *QExtGraphicsItemGroup::createGroup(const QList<QGraphicsI
     // Build a list of the first item's ancestors
     QList<QGraphicsItem *> ancestors;
     int n = 0;
-    if (!items.isEmpty()) {
+    if (!items.isEmpty())
+    {
         QGraphicsItem *parent = items.at(n++);
         while ((parent = parent->parentItem()))
+        {
             ancestors.append(parent);
+        }
     }
 
     // Find the common ancestor for all items
-    QGraphicsItem *commonAncestor = 0;
-    if (!ancestors.isEmpty()) {
-        while (n < items.size()) {
+    QGraphicsItem *commonAncestor = QEXT_NULLPTR;
+    if (!ancestors.isEmpty())
+    {
+        while (n < items.size())
+        {
             int commonIndex = -1;
             QGraphicsItem *parent = items.at(n++);
-            do {
+            do
+            {
                 int index = ancestors.indexOf(parent, qMax(0, commonIndex));
-                if (index != -1) {
+                if (index != -1)
+                {
                     commonIndex = index;
                     break;
                 }
             } while ((parent = parent->parentItem()));
 
-            if (commonIndex == -1) {
+            if (commonIndex == -1)
+            {
                 commonAncestor = 0;
                 break;
             }
@@ -869,22 +1004,27 @@ QExtGraphicsItemGroup *QExtGraphicsItemGroup::createGroup(const QList<QGraphicsI
     }
     // Create a new group at that level
     QExtGraphicsItemGroup *group = new QExtGraphicsItemGroup(commonAncestor);
-    foreach (QGraphicsItem *item, items){
+    foreach (QGraphicsItem *item, items)
+    {
         item->setSelected(false);
         QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup*>(item->parentItem());
-        if ( !g )
+        if (!g)
+        {
             group->addToGroup(item);
+        }
     }
     return group;
 }
 
 QList<QGraphicsItem *> QExtGraphicsItemGroup::duplicateItems() const
 {
-    QList<QGraphicsItem*> copylist ;
-    foreach (QGraphicsItem * shape , childItems() ) {
-        QExtGraphicsAbstractShapeItem * ab = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(shape);
-        if ( ab && !qgraphicsitem_cast<QExtGraphicsSizeHandle*>(ab)){
-            QGraphicsItem * cp = ab->duplicate();
+    QList<QGraphicsItem*> copylist;
+    foreach (QGraphicsItem *shape , this->childItems())
+    {
+        QExtGraphicsAbstractShapeItem *ab = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(shape);
+        if (ab && !qgraphicsitem_cast<QExtGraphicsSizeHandle*>(ab))
+        {
+            QGraphicsItem *cp = ab->duplicate();
             //if ( !cp->scene() )
             //    scene()->addItem(cp);
             copylist.append(cp);
@@ -898,9 +1038,11 @@ void QExtGraphicsItemGroup::updatehandles()
     const QRectF &geom = this->boundingRect();
 
     const Handles::iterator hend =  m_handles.end();
-    for (Handles::iterator it = m_handles.begin(); it != hend; ++it) {
+    for (Handles::iterator it = m_handles.begin(); it != hend; ++it)
+    {
         QExtGraphicsSizeHandle *hndl = *it;;
-        switch (hndl->dir()) {
+        switch (hndl->dir())
+        {
         case QExtGraphicsSizeHandle::Handle_LeftTop:
             hndl->move(geom.x() , geom.y() );
             break;
@@ -926,7 +1068,7 @@ void QExtGraphicsItemGroup::updatehandles()
             hndl->move(geom.x(), geom.y() + geom.height() / 2);
             break;
         case 9:
-            hndl->move(transformOriginPoint().x(),transformOriginPoint().y());
+            hndl->move(this->transformOriginPoint().x(), this->transformOriginPoint().y());
             break;
         default:
             break;
@@ -936,16 +1078,21 @@ void QExtGraphicsItemGroup::updatehandles()
 
 QVariant QExtGraphicsItemGroup::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
 {
-    if ( change == QGraphicsItem::ItemSelectedHasChanged ) {
-        QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup*>(parentItem());
+    if (change == QGraphicsItem::ItemSelectedHasChanged )
+    {
+        QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup*>(this->parentItem());
         if (!g)
-            setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
-        else{
-            setSelected(false);
+        {
+            this->setState(value.toBool() ? SelectionHandleActive : SelectionHandleOff);
+        }
+        else
+        {
+            this->setSelected(false);
             return QVariant::fromValue<bool>(false);
         }
-        if( value.toBool()){
-            updateCoordinate();
+        if( value.toBool())
+        {
+            this->updateCoordinate();
         }
     }
     /*
@@ -971,12 +1118,14 @@ void QExtGraphicsItemGroup::paint(QPainter *painter, const QStyleOptionGraphicsI
     Q_UNUSED(widget);
     //    Q_UNUSED(painter);
     if (option->state & QStyle::State_Selected)
+    {
         qt_graphicsItem_highlightSelected(this, painter, option);
+    }
 }
 
 QExtGraphicsBezierItem::QExtGraphicsBezierItem(bool bbezier,QGraphicsItem *parent)
-    :QExtGraphicsPolygonItem(parent)
-    ,m_isBezier(bbezier)
+    : QExtGraphicsPolygonItem(parent)
+    , m_isBezier(bbezier)
 {
     m_brush = QBrush(Qt::NoBrush);
 }
@@ -985,12 +1134,14 @@ QPainterPath QExtGraphicsBezierItem::shape() const
 {
     QPainterPath path;
     path.moveTo(m_points.at(0));
-    int i=1;
-    while (m_isBezier && ( i + 2 < m_points.size())) {
+    int i = 1;
+    while (m_isBezier && (i + 2 < m_points.size()))
+    {
         path.cubicTo(m_points.at(i), m_points.at(i+1), m_points.at(i+2));
         i += 3;
     }
-    while (i < m_points.size()) {
+    while (i < m_points.size())
+    {
         path.lineTo(m_points.at(i));
         ++i;
     }
@@ -1000,22 +1151,23 @@ QPainterPath QExtGraphicsBezierItem::shape() const
 
 QGraphicsItem *QExtGraphicsBezierItem::duplicate() const
 {
-    QExtGraphicsBezierItem * item = new QExtGraphicsBezierItem( );
+    QExtGraphicsBezierItem * item = new QExtGraphicsBezierItem();
     item->m_width = width();
     item->m_height = height();
     item->m_points = m_points;
     item->m_isBezier = m_isBezier;
-    for ( int i = 0 ; i < m_points.size() ; ++i ){
+    for (int i = 0 ; i < m_points.size() ; ++i)
+    {
         item->m_handles.push_back(new QExtGraphicsSizeHandle(item, QExtGraphicsSizeHandle::Handle_Left + i + 1, true));
     }
-    item->setPos(pos().x(),pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue()+0.1);
+    item->setPos(this->pos().x(), this->pos().y());
+    item->setPen(this->pen());
+    item->setBrush(this->brush());
+    item->setTransform(this->transform());
+    item->setTransformOriginPoint(this->transformOriginPoint());
+    item->setRotation(this->rotation());
+    item->setScale(this->scale());
+    item->setZValue(this->zValue() + 0.1);
     item->updateCoordinate();
     return item;
 }
@@ -1028,17 +1180,22 @@ bool QExtGraphicsBezierItem::loadFromXml(QXmlStreamReader *xml)
 
 bool QExtGraphicsBezierItem::saveToXml(QXmlStreamWriter *xml)
 {
-    if ( m_isBezier )
+    if (m_isBezier)
+    {
         xml->writeStartElement("bezier");
+    }
     else
+    {
         xml->writeStartElement("polyline");
+    }
 
-    writeBaseAttributes(xml);
+    this->writeBaseAttributes(xml);
 
-    for ( int i = 0 ; i < m_points.count();++i){
+    for (int i = 0; i < m_points.count(); ++i)
+    {
         xml->writeStartElement("point");
-        xml->writeAttribute("x",QString("%1").arg(m_points[i].x()));
-        xml->writeAttribute("y",QString("%1").arg(m_points[i].y()));
+        xml->writeAttribute("x", QString("%1").arg(m_points[i].x()));
+        xml->writeAttribute("y", QString("%1").arg(m_points[i].y()));
         xml->writeEndElement();
     }
     xml->writeEndElement();
@@ -1052,42 +1209,47 @@ void QExtGraphicsBezierItem::paint(QPainter *painter, const QStyleOptionGraphics
     Q_UNUSED(widget);
 
     QPainterPath path;
-    painter->setPen(pen());
-    painter->setBrush(brush());
+    painter->setPen(this->pen());
+    painter->setBrush(this->brush());
     path.moveTo(m_points.at(0));
 
     int i=1;
-    while (m_isBezier && ( i + 2 < m_points.size())) {
+    while (m_isBezier && (i + 2 < m_points.size()))
+    {
         path.cubicTo(m_points.at(i), m_points.at(i+1), m_points.at(i+2));
         i += 3;
     }
-    while (i < m_points.size()) {
+    while (i < m_points.size())
+    {
         path.lineTo(m_points.at(i));
         ++i;
     }
     painter->drawPath(path);
 
-    if (option->state & QStyle::State_Selected){
+    if (option->state & QStyle::State_Selected)
+    {
         painter->setPen(QPen(Qt::lightGray, 0, Qt::SolidLine));
         painter->setBrush(Qt::NoBrush);
         painter->drawPolyline(m_points);
     }
 
     if (option->state & QStyle::State_Selected)
+    {
         qt_graphicsItem_highlightSelected(this, painter, option);
+    }
 }
 
 
-QExtGraphicsEllipseItem::QExtGraphicsEllipseItem(const QRect & rect ,QGraphicsItem *parent)
-    :QExtGraphicsRectItem(rect,parent)
+QExtGraphicsEllipseItem::QExtGraphicsEllipseItem(const QRect &rect ,QGraphicsItem *parent)
+    : QExtGraphicsRectItem(rect,parent)
 {
     m_startAngle = 40;
     m_spanAngle  = 400;
-    QExtGraphicsSizeHandle *shr = new QExtGraphicsSizeHandle(this, 9 , true);
+    QExtGraphicsSizeHandle *shr = new QExtGraphicsSizeHandle(this, 9, true);
     m_handles.push_back(shr);
-    shr = new QExtGraphicsSizeHandle(this, 10 , true);
+    shr = new QExtGraphicsSizeHandle(this, 10, true);
     m_handles.push_back(shr);
-    updatehandles();
+    this->updatehandles();
 }
 
 QPainterPath QExtGraphicsEllipseItem::shape() const
@@ -1096,14 +1258,21 @@ QPainterPath QExtGraphicsEllipseItem::shape() const
     int startAngle = m_startAngle <= m_spanAngle ? m_startAngle : m_spanAngle;
     int endAngle = m_startAngle >= m_spanAngle ? m_startAngle : m_spanAngle;
     if(endAngle - startAngle > 360)
+    {
         endAngle = startAngle + 360;
+    }
 
     if (m_localRect.isNull())
+    {
         return path;
-    if ((endAngle - startAngle) % 360 != 0 ) {
+    }
+    if ((endAngle - startAngle) % 360 != 0)
+    {
         path.moveTo(m_localRect.center());
         path.arcTo(m_localRect, startAngle, endAngle - startAngle);
-    } else {
+    }
+    else
+    {
         path.addEllipse(m_localRect);
     }
     path.closeSubpath();
@@ -1112,63 +1281,68 @@ QPainterPath QExtGraphicsEllipseItem::shape() const
 
 void QExtGraphicsEllipseItem::control(int dir, const QPointF & delta)
 {
-    QPointF local = mapFromScene(delta);
-
-    switch (dir) {
+    QPointF local = this->mapFromScene(delta);
+    switch (dir)
+    {
     case 9:
     {
         qreal len_y = local.y() - m_localRect.center().y();
         qreal len_x = local.x() - m_localRect.center().x();
-        m_startAngle = -atan2(len_y,len_x)*180/M_PI;
+        m_startAngle = -atan2(len_y, len_x) * 180 / M_PI;
+        break;
     }
-    break;
     case 10:
     {
         qreal len_y = local.y() - m_localRect.center().y();
         qreal len_x = local.x() - m_localRect.center().x();
-        m_spanAngle = -atan2(len_y,len_x)*180/M_PI;
+        m_spanAngle = -atan2(len_y, len_x) * 180 / M_PI;
         break;
     }
     default:
         break;
     }
-    prepareGeometryChange();
-    if ( m_startAngle > m_spanAngle )
+
+    this->prepareGeometryChange();
+    if (m_startAngle > m_spanAngle)
+    {
         m_startAngle-=360;
-    if ( m_spanAngle < m_startAngle ){
+    }
+    if (m_spanAngle < m_startAngle)
+    {
         qreal tmp = m_spanAngle;
         m_spanAngle = m_startAngle;
         m_startAngle = tmp;
     }
 
-    if ( qAbs(m_spanAngle-m_startAngle) > 360 ){
+    if (qAbs(m_spanAngle-m_startAngle) > 360)
+    {
         m_startAngle = 40;
         m_spanAngle = 400;
     }
-    updatehandles();
+    this->updatehandles();
 }
 
 QRectF QExtGraphicsEllipseItem::boundingRect() const
 {
-    return shape().controlPointRect();
+    return this->shape().controlPointRect();
 }
 
 QGraphicsItem *QExtGraphicsEllipseItem::duplicate() const
 {
-    QExtGraphicsEllipseItem * item = new QExtGraphicsEllipseItem( m_localRect.toRect() );
-    item->m_width = width();
-    item->m_height = height();
+    QExtGraphicsEllipseItem *item = new QExtGraphicsEllipseItem(m_localRect.toRect());
+    item->m_width = this->width();
+    item->m_height = this->height();
     item->m_startAngle = m_startAngle;
     item->m_spanAngle   = m_spanAngle;
 
-    item->setPos(pos().x(),pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue()+0.1);
+    item->setPos(this->pos().x(),pos().y());
+    item->setPen(this->pen());
+    item->setBrush(this->brush());
+    item->setTransform(this->transform());
+    item->setTransformOriginPoint(this->transformOriginPoint());
+    item->setRotation(this->rotation());
+    item->setScale(this->scale());
+    item->setZValue(this->zValue() + 0.1);
     item->updateCoordinate();
     return item;
 }
@@ -1177,9 +1351,9 @@ bool QExtGraphicsEllipseItem::loadFromXml(QXmlStreamReader *xml)
 {
     m_startAngle = xml->attributes().value("startAngle").toInt();
     m_spanAngle  = xml->attributes().value("spanAngle").toInt();
-    readBaseAttributes(xml);
+    this->readBaseAttributes(xml);
     xml->skipCurrentElement();
-    updateCoordinate();
+    this->updateCoordinate();
     return true;
 }
 
@@ -1198,16 +1372,16 @@ bool QExtGraphicsEllipseItem::saveToXml(QXmlStreamWriter * xml)
 void QExtGraphicsEllipseItem::updatehandles()
 {
     QExtGraphicsItem::updatehandles();
-    QRectF local = QRectF(-m_width/2,-m_height/2,m_width,m_height);
+    QRectF local = QRectF(-m_width / 2, -m_height / 2, m_width, m_height);
     QPointF delta = local.center() - m_localRect.center();
 
-    qreal x = (m_width/2) * cos( -m_startAngle * M_PI / 180 );
-    qreal y = (m_height/2) * sin( -m_startAngle * M_PI / 180);
+    qreal x = (m_width / 2) * cos(-m_startAngle * M_PI / 180);
+    qreal y = (m_height / 2) * sin(-m_startAngle * M_PI / 180);
 
-    m_handles.at(8)->move(x-delta.x(),y-delta.y());
-    x = (m_width/2) * cos( -m_spanAngle * M_PI / 180);
-    y = (m_height/2) * sin(-m_spanAngle * M_PI / 180);
-    m_handles.at(9)->move(x-delta.x(),y-delta.y());
+    m_handles.at(8)->move(x - delta.x(), y - delta.y());
+    x = (m_width / 2) * cos(-m_spanAngle * M_PI / 180);
+    y = (m_height / 2) * sin(-m_spanAngle * M_PI / 180);
+    m_handles.at(9)->move(x - delta.x(), y - delta.y());
 }
 
 void QExtGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -1228,27 +1402,34 @@ void QExtGraphicsEllipseItem::paint(QPainter *painter, const QStyleOptionGraphic
     result.setColorAt(0.5, c.light(120));
     result.setColorAt(1.0, c.dark(200));
 */
-    painter->setPen(pen());
+    painter->setPen(this->pen());
     QBrush b(c);
     painter->setBrush(b);
 
     int startAngle = m_startAngle <= m_spanAngle ? m_startAngle : m_spanAngle;
     int endAngle = m_startAngle >= m_spanAngle ? m_startAngle : m_spanAngle;
     if(endAngle - startAngle > 360)
+    {
         endAngle = startAngle + 360;
+    }
 
     if (qAbs(endAngle-startAngle) % (360) == 0)
+    {
         painter->drawEllipse(m_localRect);
+    }
     else
+    {
         painter->drawPie(m_localRect, startAngle * 16 , (endAngle-startAngle) * 16);
-
+    }
 
     if (option->state & QStyle::State_Selected)
+    {
         qt_graphicsItem_highlightSelected(this, painter, option);
+    }
 }
 
 QExtGraphicsPolygonItem::QExtGraphicsPolygonItem(QGraphicsItem *parent)
-    :QExtGraphicsItem(parent)
+    : QExtGraphicsItem(parent)
 {
     // handles
     m_points.clear();
@@ -1257,7 +1438,7 @@ QExtGraphicsPolygonItem::QExtGraphicsPolygonItem(QGraphicsItem *parent)
 
 QRectF QExtGraphicsPolygonItem::boundingRect() const
 {
-    return shape().controlPointRect();
+    return this->shape().controlPointRect();
 }
 
 QPainterPath QExtGraphicsPolygonItem::shape() const
@@ -1265,12 +1446,12 @@ QPainterPath QExtGraphicsPolygonItem::shape() const
     QPainterPath path;
     path.addPolygon(m_points);
     path.closeSubpath();
-    return qt_graphicsItem_shapeFromPath(path,pen());
+    return qt_graphicsItem_shapeFromPath(path, this->pen());
 }
 
 void QExtGraphicsPolygonItem::addPoint(const QPointF &point)
 {
-    m_points.append(mapFromScene(point));
+    m_points.append(this->mapFromScene(point));
     int dir = m_points.count();
     QExtGraphicsSizeHandle *shr = new QExtGraphicsSizeHandle(this, dir + QExtGraphicsSizeHandle::Handle_Left, true);
     shr->setState(SelectionHandleActive);
@@ -1279,21 +1460,25 @@ void QExtGraphicsPolygonItem::addPoint(const QPointF &point)
 
 void QExtGraphicsPolygonItem::control(int dir, const QPointF &delta)
 {
-    QPointF pt = mapFromScene(delta);
-    if ( dir <= QExtGraphicsSizeHandle::Handle_Left ) return ;
+    QPointF pt = this->mapFromScene(delta);
+    if (dir <= QExtGraphicsSizeHandle::Handle_Left)
+    {
+        return;
+    }
     m_points[dir - QExtGraphicsSizeHandle::Handle_Left -1] = pt;
-    prepareGeometryChange();
+    this->prepareGeometryChange();
     m_localRect = m_points.boundingRect();
     m_width = m_localRect.width();
     m_height = m_localRect.height();
     m_initialPoints = m_points;
-    updatehandles();
+    this->updatehandles();
 }
 
 void QExtGraphicsPolygonItem::stretch(int handle, double sx, double sy, const QPointF &origin)
 {
     QTransform trans;
-    switch (handle) {
+    switch (handle)
+    {
     case QExtGraphicsSizeHandle::Handle_Right:
     case QExtGraphicsSizeHandle::Handle_Left:
         sy = 1;
@@ -1305,44 +1490,45 @@ void QExtGraphicsPolygonItem::stretch(int handle, double sx, double sy, const QP
     default:
         break;
     }
-    trans.translate(origin.x(),origin.y());
-    trans.scale(sx,sy);
-    trans.translate(-origin.x(),-origin.y());
+    trans.translate(origin.x(), origin.y());
+    trans.scale(sx, sy);
+    trans.translate(-origin.x(), -origin.y());
 
-    prepareGeometryChange();
+    this->prepareGeometryChange();
     m_points = trans.map(m_initialPoints);
     m_localRect = m_points.boundingRect();
     m_width = m_localRect.width();
     m_height = m_localRect.height();
-    updatehandles();
+    this->updatehandles();
 }
 
 void QExtGraphicsPolygonItem::updateCoordinate()
 {
-
-    QPointF pt1,pt2,delta;
-    QPolygonF pts = mapToScene(m_points);
-    if (parentItem()==NULL)
+    QPointF pt1, pt2, delta;
+    QPolygonF pts = this->mapToScene(m_points);
+    if (!this->parentItem())
     {
-        pt1 = mapToScene(transformOriginPoint());
-        pt2 = mapToScene(boundingRect().center());
+        pt1 = this->mapToScene(this->transformOriginPoint());
+        pt2 = this->mapToScene(this->boundingRect().center());
         delta = pt1 - pt2;
 
-        for (int i = 0; i < pts.count() ; ++i )
-            pts[i]+=delta;
+        for (int i = 0; i < pts.count() ; ++i)
+        {
+            pts[i] += delta;
+        }
 
-        prepareGeometryChange();
+        this->prepareGeometryChange();
 
-        m_points = mapFromScene(pts);
+        m_points = this->mapFromScene(pts);
         m_localRect = m_points.boundingRect();
         m_width = m_localRect.width();
         m_height = m_localRect.height();
 
-        setTransform(transform().translate(delta.x(),delta.y()));
+        this->setTransform(this->transform().translate(delta.x(), delta.y()));
         //setTransformOriginPoint(boundingRect().center());
-        moveBy(-delta.x(),-delta.y());
-        setTransform(transform().translate(-delta.x(),-delta.y()));
-        updatehandles();
+        this->moveBy(-delta.x(), -delta.y());
+        this->setTransform(this->transform().translate(-delta.x(), -delta.y()));
+        this->updatehandles();
     }
     m_initialPoints = m_points;
 
@@ -1350,9 +1536,11 @@ void QExtGraphicsPolygonItem::updateCoordinate()
 
 bool QExtGraphicsPolygonItem::loadFromXml(QXmlStreamReader *xml)
 {
-    readBaseAttributes(xml);
-    while(xml->readNextStartElement()){
-        if (xml->name()=="point"){
+    this->readBaseAttributes(xml);
+    while(xml->readNextStartElement())
+    {
+        if (xml->name()=="point")
+        {
             qreal x = xml->attributes().value("x").toDouble();
             qreal y = xml->attributes().value("y").toDouble();
             m_points.append(QPointF(x,y));
@@ -1360,21 +1548,25 @@ bool QExtGraphicsPolygonItem::loadFromXml(QXmlStreamReader *xml)
             QExtGraphicsSizeHandle *shr = new QExtGraphicsSizeHandle(this, dir + QExtGraphicsSizeHandle::Handle_Left, true);
             m_handles.push_back(shr);
             xml->skipCurrentElement();
-        }else
+        }
+        else
+        {
             xml->skipCurrentElement();
+        }
     }
-    updateCoordinate();
+    this->updateCoordinate();
     return true;
 }
 
 bool QExtGraphicsPolygonItem::saveToXml(QXmlStreamWriter *xml)
 {
     xml->writeStartElement("polygon");
-    writeBaseAttributes(xml);
-    for ( int i = 0 ; i < m_points.count();++i){
+    this->writeBaseAttributes(xml);
+    for (int i = 0; i < m_points.count(); ++i)
+    {
         xml->writeStartElement("point");
-        xml->writeAttribute("x",QString("%1").arg(m_points[i].x()));
-        xml->writeAttribute("y",QString("%1").arg(m_points[i].y()));
+        xml->writeAttribute("x", QString("%1").arg(m_points[i].x()));
+        xml->writeAttribute("y", QString("%1").arg(m_points[i].y()));
         xml->writeEndElement();
     }
     xml->writeEndElement();
@@ -1385,35 +1577,37 @@ void QExtGraphicsPolygonItem::endPoint(const QPointF & point)
 {
     Q_UNUSED(point);
     int nPoints = m_points.count();
-    if( nPoints > 2 && (m_points[nPoints-1] == m_points[nPoints-2] ||
-                        m_points[nPoints-1].x() - 1 == m_points[nPoints-2].x() &&
-                            m_points[nPoints-1].y() == m_points[nPoints-2].y())){
-        delete m_handles[QExtGraphicsSizeHandle::Handle_Left + nPoints-1];
-        m_points.remove(nPoints-1);
-        m_handles.resize(QExtGraphicsSizeHandle::Handle_Left + nPoints-1);
+    if( nPoints > 2 && (m_points[nPoints - 1] == m_points[nPoints - 2] ||
+                        (m_points[nPoints - 1].x() - 1 == m_points[nPoints - 2].x() &&
+                         m_points[nPoints - 1].y() == m_points[nPoints - 2].y())))
+    {
+        delete m_handles[QExtGraphicsSizeHandle::Handle_Left + nPoints - 1];
+        m_points.remove(nPoints - 1);
+        m_handles.resize(QExtGraphicsSizeHandle::Handle_Left + nPoints - 1);
     }
     m_initialPoints = m_points;
 }
 
 QGraphicsItem *QExtGraphicsPolygonItem::duplicate() const
 {
-    QExtGraphicsPolygonItem * item = new QExtGraphicsPolygonItem( );
+    QExtGraphicsPolygonItem *item = new QExtGraphicsPolygonItem();
     item->m_width = width();
     item->m_height = height();
     item->m_points = m_points;
 
-    for ( int i = 0 ; i < m_points.size() ; ++i ){
+    for (int i = 0; i < m_points.size(); ++i)
+    {
         item->m_handles.push_back(new QExtGraphicsSizeHandle(item, QExtGraphicsSizeHandle::Handle_Left + i + 1, true));
     }
 
-    item->setPos(pos().x(),pos().y());
-    item->setPen(pen());
-    item->setBrush(brush());
-    item->setTransform(transform());
-    item->setTransformOriginPoint(transformOriginPoint());
-    item->setRotation(rotation());
-    item->setScale(scale());
-    item->setZValue(zValue()+0.1);
+    item->setPos(this->pos().x(),pos().y());
+    item->setPen(this->pen());
+    item->setBrush(this->brush());
+    item->setTransform(this->transform());
+    item->setTransformOriginPoint(this->transformOriginPoint());
+    item->setRotation(this->rotation());
+    item->setScale(this->scale());
+    item->setZValue(this->zValue() + 0.1);
     item->updateCoordinate();
     return item;
 }
@@ -1421,8 +1615,8 @@ QGraphicsItem *QExtGraphicsPolygonItem::duplicate() const
 void QExtGraphicsPolygonItem::updatehandles()
 {
     QExtGraphicsItem::updatehandles();
-
-    for ( int i = 0 ; i < m_points.size() ; ++i ){
+    for (int i = 0; i < m_points.size() ; ++i)
+    {
         m_handles[QExtGraphicsSizeHandle::Handle_Left + i]->move(m_points[i].x() ,m_points[i].y() );
     }
 }
@@ -1433,17 +1627,19 @@ void QExtGraphicsPolygonItem::paint(QPainter *painter, const QStyleOptionGraphic
     Q_UNUSED(widget);
 
     QColor c = brushColor();
-    QLinearGradient result(boundingRect().topLeft(), boundingRect().topRight());
-    result.setColorAt(0, c.dark(150));
-    result.setColorAt(0.5, c.light(200));
-    result.setColorAt(1, c.dark(150));
+    QLinearGradient result(this->boundingRect().topLeft(), this->boundingRect().topRight());
+    result.setColorAt(0, c.darker(150));
+    result.setColorAt(0.5, c.lighter(200));
+    result.setColorAt(1, c.darker(150));
     painter->setBrush(result);
 
-    painter->setPen(pen());
+    painter->setPen(this->pen());
     painter->drawPolygon(m_points);
 
     if (option->state & QStyle::State_Selected)
+    {
         qt_graphicsItem_highlightSelected(this, painter, option);
+    }
 }
 
 

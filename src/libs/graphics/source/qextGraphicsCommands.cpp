@@ -105,11 +105,11 @@ QExtGraphicsAddShapeCommand::QExtGraphicsAddShapeCommand(QGraphicsItem *item, QG
                                                          QUndoCommand *parent)
     : QUndoCommand(parent)
 {
-    static int itemCount = 0;
+    // static int itemCount = 0;
     m_scene = scene;
     m_diagramItem = item;
     m_initPosition = item->pos();
-    ++itemCount;
+    // ++itemCount;
 }
 
 QExtGraphicsAddShapeCommand::~QExtGraphicsAddShapeCommand()

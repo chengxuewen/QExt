@@ -1,8 +1,8 @@
 #ifndef _QEXTGRAPHICSSCENE_H
 #define _QEXTGRAPHICSSCENE_H
 
-#include "qextGraphicsTool.h"
 #include <qextGraphicsItems.h>
+#include <qextGraphicsTool.h>
 
 #include <QGraphicsScene>
 
@@ -35,7 +35,7 @@ enum AlignType
 class QEXT_GRAPHICS_API QExtGraphicsGridTool
 {
 public:
-    QExtGraphicsGridTool(const QSize &grid = QSize(3200,2400), const QSize &space = QSize(20,20));
+    QExtGraphicsGridTool(const QSize &grid = QSize(3200, 2400), const QSize &space = QSize(20, 20));
     void paintGrid(QPainter *painter, const QRect &rect);
 
 protected:
@@ -44,6 +44,7 @@ protected:
 };
 
 class QExtGraphicsItemGroup;
+class QExtGraphicsScenePrivate;
 class QEXT_GRAPHICS_API QExtGraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -51,14 +52,14 @@ public:
     explicit QExtGraphicsScene(QObject *parent = 0);
     ~QExtGraphicsScene() QEXT_OVERRIDE;
 
-    void setView(QGraphicsView *view) { m_view = view ; }
-    QGraphicsView *view() { return m_view; }
+    QGraphicsView *view() const;
+    void setView(QGraphicsView *view);
 
-    void align(AlignType alignType );
+    void align(AlignType alignType);
 
     void mouseEvent(QGraphicsSceneMouseEvent *mouseEvent);
 
-    QExtGraphicsItemGroup * createGroup(const QList<QGraphicsItem *> &items ,bool isAdd = true);
+    QExtGraphicsItemGroup *createGroup(const QList<QGraphicsItem *> &items ,bool isAdd = true);
 
     void destroyGroup(QGraphicsItemGroup *group);
 
@@ -80,11 +81,11 @@ protected:
     void keyPressEvent(QKeyEvent *event) QEXT_OVERRIDE;
     void keyReleaseEvent(QKeyEvent *event) QEXT_OVERRIDE;
 
-    qreal m_dx;
-    qreal m_dy;
-    bool m_moved;
-    QGraphicsView *m_view;
-    QExtGraphicsGridTool *m_grid;
+    QScopedPointer<QExtGraphicsScenePrivate> dd_ptr;
+
+private:
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtGraphicsScene)
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsScene)
 };
 
 #endif // _QEXTGRAPHICSSCENE_H

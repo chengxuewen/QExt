@@ -1,4 +1,4 @@
-#include <qextGraphicsScene.h>
+#include <private/qextGraphicsScene_p.h>
 
 #include <QDebug>
 #include <QPainter>
@@ -51,69 +51,110 @@ void QExtGraphicsGridTool::paintGrid(QPainter *painter, const QRect &rect)
 class BBoxSort
 {
 public:
-    BBoxSort( QGraphicsItem * item , const QRectF & rect , AlignType alignType )
-        :item_(item),box(rect),align(alignType)
+    BBoxSort(QGraphicsItem *item, const QRectF &rect, AlignType alignType)
+        : m_item(item), m_box(rect), m_align(alignType)
     {
         //topLeft
-        min_ = alignType == HORZEVEN_ALIGN ? box.topLeft().x() : box.topLeft().y();
+        m_min = alignType == HORZEVEN_ALIGN ? m_box.topLeft().x() : m_box.topLeft().y();
         //bottomRight
-        max_ = alignType == HORZEVEN_ALIGN ? box.bottomRight().x() : box.bottomRight().y();
+        m_max = alignType == HORZEVEN_ALIGN ? m_box.bottomRight().x() : m_box.bottomRight().y();
         //width or height
-        extent_ = alignType == HORZEVEN_ALIGN ? box.width() : box.height();
-        anchor =  min_*0.5 + max_ * 0.5;
+        m_extent = alignType == HORZEVEN_ALIGN ? m_box.width() : m_box.height();
+        m_anchor =  m_min * 0.5 + m_max * 0.5;
     }
-    qreal min() { return min_;}
-    qreal max() { return max_;}
-    qreal extent() { return extent_;}
-    QGraphicsItem * item_;
-    qreal anchor;
-    qreal min_;
-    qreal max_;
-    qreal extent_;
-    QRectF box;
-    AlignType align ;
+    qreal min() { return m_min;}
+    qreal max() { return m_max;}
+    qreal extent() { return m_extent;}
+
+    QGraphicsItem *m_item;
+    qreal m_extent;
+    qreal m_anchor;
+    qreal m_min;
+    qreal m_max;
+    QRectF m_box;
+    AlignType m_align;
 };
 
 bool operator< (const BBoxSort &a, const BBoxSort &b)
 {
-    return (a.anchor < b.anchor);
+    return (a.m_anchor < b.m_anchor);
 }
 
-QExtGraphicsScene::QExtGraphicsScene(QObject *parent)
-    :QGraphicsScene(parent)
+
+
+
+QExtGraphicsScenePrivate::QExtGraphicsScenePrivate(QExtGraphicsScene *q)
+    : q_ptr(q)
+    , m_dx(0)
+    , m_dy(0)
+    , m_view(QEXT_NULLPTR)
+    , m_grid(new QExtGraphicsGridTool)
 {
-    m_view = NULL;
-    m_dx=m_dy=0;
-    m_grid = new QExtGraphicsGridTool();
-    QGraphicsItem * item = addRect(QRectF(0,0,0,0));
-    item->setAcceptHoverEvents(true);
 
 }
 
-QExtGraphicsScene::~QExtGraphicsScene()
+QExtGraphicsScenePrivate::~QExtGraphicsScenePrivate()
 {
     delete m_grid;
 }
 
+
+
+QExtGraphicsScene::QExtGraphicsScene(QObject *parent)
+    : QGraphicsScene(parent)
+    , dd_ptr(new QExtGraphicsScenePrivate(this))
+{
+    QGraphicsItem *item = this->addRect(QRectF(0,0,0,0));
+    item->setAcceptHoverEvents(true);
+}
+
+QExtGraphicsScene::~QExtGraphicsScene()
+{
+}
+
+QGraphicsView *QExtGraphicsScene::view() const
+{
+    Q_D(const QExtGraphicsScene);
+    return d->m_view;
+}
+
+void QExtGraphicsScene::setView(QGraphicsView *view)
+{
+    Q_D(QExtGraphicsScene);
+    d->m_view = view;
+}
+
 void QExtGraphicsScene::align(AlignType alignType)
 {
-    QExtGraphicsAbstractShapeItem * firstItem = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(selectedItems().first());
-    if ( !firstItem ) return;
+    QList<QGraphicsItem *> selectedItems = this->selectedItems();
+    if (selectedItems.size() <= 0)
+    {
+        return;
+    }
+    QExtGraphicsAbstractShapeItem *firstItem = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(selectedItems.first());
+    if (!firstItem)
+    {
+        return;
+    }
     QRectF rectref = firstItem->mapRectToScene(firstItem->boundingRect());
     int nLeft, nRight, nTop, nBottom;
     qreal width = firstItem->width();
     qreal height = firstItem->height();
 
-    nLeft=nRight=rectref.center().x();
-    nTop=nBottom=rectref.center().y();
+    nLeft = nRight = rectref.center().x();
+    nTop = nBottom = rectref.center().y();
     QPointF pt = rectref.center();
-    if ( alignType == HORZEVEN_ALIGN || alignType == VERTEVEN_ALIGN ){
-        std::vector< BBoxSort  > sorted;
-        foreach (QGraphicsItem *item , selectedItems()) {
+    if (alignType == HORZEVEN_ALIGN || alignType == VERTEVEN_ALIGN)
+    {
+        std::vector<BBoxSort> sorted;
+        foreach (QGraphicsItem *item, this->selectedItems())
+        {
             QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup*>(item->parentItem());
-            if ( g )
+            if (g)
+            {
                 continue;
-            sorted.push_back(BBoxSort(item,item->mapRectToScene(item->boundingRect()),alignType));
+            }
+            sorted.push_back(BBoxSort(item, item->mapRectToScene(item->boundingRect()), alignType));
         }
         //sort bbox by anchors
         std::sort(sorted.begin(), sorted.end());
@@ -131,37 +172,42 @@ void QExtGraphicsScene::align(AlignType alignType)
         //new distance between each bbox
         float step = (dist - span) / (len - 1);
         float pos = sorted.front().min();
-        for ( std::vector<BBoxSort> ::iterator it (sorted.begin());
-             it < sorted.end();
-             ++it )
+        for (std::vector<BBoxSort> ::iterator it(sorted.begin()); it < sorted.end(); ++it)
         {
             {
                 QPointF t;
-                if ( alignType == HORZEVEN_ALIGN )
-                    t.setX( pos - it->min() );
+                if (alignType == HORZEVEN_ALIGN)
+                {
+                    t.setX(pos - it->min());
+                }
                 else
+                {
                     t.setY(pos - it->min());
-                it->item_->moveBy(t.x(),t.y());
-                emit itemMoved(it->item_,t);
+                }
+                it->m_item->moveBy(t.x(), t.y());
+                emit this->itemMoved(it->m_item, t);
                 changed = true;
             }
             pos += it->extent();
             pos += step;
         }
-
         return;
     }
 
     int i = 0;
-    foreach (QGraphicsItem *item , selectedItems()) {
+    foreach (QGraphicsItem *item, this->selectedItems())
+    {
         QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup*>(item->parentItem());
-        if ( g )
+        if (g)
+        {
             continue;
-        QRectF rectItem = item->mapRectToScene( item->boundingRect() );
+        }
+        QRectF rectItem = item->mapRectToScene(item->boundingRect() );
         QPointF ptNew = rectItem.center();
-        switch ( alignType ){
+        switch (alignType)
+        {
         case UP_ALIGN:
-            ptNew.setY(nTop + (rectItem.height()-rectref.height())/2);
+            ptNew.setY(nTop + (rectItem.height()-rectref.height()) / 2);
             break;
         case HORZ_ALIGN:
             ptNew.setY(pt.y());
@@ -170,66 +216,78 @@ void QExtGraphicsScene::align(AlignType alignType)
             ptNew.setX(pt.x());
             break;
         case DOWN_ALIGN:
-            ptNew.setY(nBottom-(rectItem.height()-rectref.height())/2);
+            ptNew.setY(nBottom - (rectItem.height() - rectref.height()) / 2);
             break;
         case LEFT_ALIGN:
-            ptNew.setX(nLeft-(rectref.width()-rectItem.width())/2);
+            ptNew.setX(nLeft - (rectref.width() - rectItem.width()) / 2);
             break;
         case RIGHT_ALIGN:
-            ptNew.setX(nRight+(rectref.width()-rectItem.width())/2);
+            ptNew.setX(nRight + (rectref.width() - rectItem.width()) / 2);
             break;
         case CENTER_ALIGN:
             ptNew=pt;
             break;
         case ALL_ALIGN:
         {
-            QExtGraphicsAbstractShapeItem * aitem = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
-            if ( aitem ){
+            QExtGraphicsAbstractShapeItem *aitem = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem *>(item);
+            if (aitem)
+            {
                 qreal fx = width / aitem->width();
                 qreal fy = height / aitem->height();
-                if ( fx == 1.0 && fy == 1.0 ) break;
+                if (fx == 1.0 && fy == 1.0)
+                {
+                    break;
+                }
                 aitem->stretch(QExtGraphicsSizeHandle::Handle_RightBottom, fx, fy,
                                aitem->opposite(QExtGraphicsSizeHandle::Handle_RightBottom));
                 aitem->updateCoordinate();
-                emit itemResize(aitem, QExtGraphicsSizeHandle::Handle_RightBottom, QPointF(fx,fy));
+                emit this->itemResize(aitem, QExtGraphicsSizeHandle::Handle_RightBottom, QPointF(fx, fy));
             }
+            break;
         }
-        break;
         case WIDTH_ALIGN:
         {
-            QExtGraphicsAbstractShapeItem * aitem = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
-            if ( aitem ){
-                qreal fx = width / aitem->width();
-                if ( fx == 1.0 ) break;
-                aitem->stretch(QExtGraphicsSizeHandle::Handle_Right, fx, 1, aitem->opposite(QExtGraphicsSizeHandle::Handle_Right));
-                aitem->updateCoordinate();
-                emit itemResize(aitem, QExtGraphicsSizeHandle::Handle_Right, QPointF(fx,1));
-            }
-        }
-        break;
-
-        case HEIGHT_ALIGN:
-        {
-            QExtGraphicsAbstractShapeItem * aitem = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
+            QExtGraphicsAbstractShapeItem *aitem = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
             if (aitem)
             {
-
+                qreal fx = width / aitem->width();
+                if (fx == 1.0)
+                {
+                    break;
+                }
+                aitem->stretch(QExtGraphicsSizeHandle::Handle_Right, fx, 1,
+                               aitem->opposite(QExtGraphicsSizeHandle::Handle_Right));
+                aitem->updateCoordinate();
+                emit this->itemResize(aitem, QExtGraphicsSizeHandle::Handle_Right, QPointF(fx, 1));
+            }
+            break;
+        }
+        case HEIGHT_ALIGN:
+        {
+            QExtGraphicsAbstractShapeItem *aitem = qgraphicsitem_cast<QExtGraphicsAbstractShapeItem*>(item);
+            if (aitem)
+            {
                 qreal fy = height / aitem->height();
-                if (fy == 1.0 ) break ;
+                if (fy == 1.0)
+                {
+                    break;
+                }
                 aitem->stretch(QExtGraphicsSizeHandle::Handle_Bottom, 1, fy,
                                aitem->opposite(QExtGraphicsSizeHandle::Handle_Bottom));
                 aitem->updateCoordinate();
-                emit itemResize(aitem, QExtGraphicsSizeHandle::Handle_Bottom, QPointF(1, fy));
+                emit this->itemResize(aitem, QExtGraphicsSizeHandle::Handle_Bottom, QPointF(1, fy));
             }
+            break;
         }
-        break;
+        default:
+            break;
         }
         QPointF ptLast= rectItem.center();
         QPointF ptMove = ptNew - ptLast;
-        if ( !ptMove.isNull())
+        if (!ptMove.isNull())
         {
-            item->moveBy(ptMove.x(),ptMove.y());
-            emit itemMoved(item,ptMove);
+            item->moveBy(ptMove.x(), ptMove.y());
+            emit this->itemMoved(item, ptMove);
         }
         i++;
     }
@@ -237,7 +295,8 @@ void QExtGraphicsScene::align(AlignType alignType)
 
 void QExtGraphicsScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    switch( mouseEvent->type() ){
+    switch(mouseEvent->type())
+    {
     case QEvent::GraphicsSceneMousePress:
         QGraphicsScene::mousePressEvent(mouseEvent);
         break;
@@ -256,43 +315,55 @@ QExtGraphicsItemGroup *QExtGraphicsScene::createGroup(const QList<QGraphicsItem 
     QList<QGraphicsItem *> ancestors;
     int n = 0;
     QPointF pt = items.first()->pos();
-    if (!items.isEmpty()) {
+    if (!items.isEmpty())
+    {
         QGraphicsItem *parent = items.at(n++);
         while ((parent = parent->parentItem()))
+        {
             ancestors.append(parent);
+        }
     }
     // Find the common ancestor for all items
-    QGraphicsItem *commonAncestor = 0;
-    if (!ancestors.isEmpty()) {
-        while (n < items.size()) {
+    QGraphicsItem *commonAncestor = QEXT_NULLPTR;
+    if (!ancestors.isEmpty())
+    {
+        while (n < items.size())
+        {
             int commonIndex = -1;
             QGraphicsItem *parent = items.at(n++);
-            do {
+            do
+            {
                 int index = ancestors.indexOf(parent, qMax(0, commonIndex));
-                if (index != -1) {
+                if (index != -1)
+                {
                     commonIndex = index;
                     break;
                 }
             } while ((parent = parent->parentItem()));
 
-            if (commonIndex == -1) {
+            if (commonIndex == -1)
+            {
                 commonAncestor = 0;
                 break;
             }
-
             commonAncestor = ancestors.at(commonIndex);
         }
     }
 
     // Create a new group at that level
     QExtGraphicsItemGroup *group = new QExtGraphicsItemGroup(commonAncestor);
-    if (!commonAncestor && isAdd )
-        addItem(group);
-    foreach (QGraphicsItem *item, items){
+    if (!commonAncestor && isAdd)
+    {
+        this->addItem(group);
+    }
+    foreach (QGraphicsItem *item, items)
+    {
         item->setSelected(false);
         QGraphicsItemGroup *g = dynamic_cast<QGraphicsItemGroup*>(item->parentItem());
-        if ( !g )
+        if (!g)
+        {
             group->addToGroup(item);
+        }
     }
     group->updateCoordinate();
     return group;
@@ -301,43 +372,51 @@ QExtGraphicsItemGroup *QExtGraphicsScene::createGroup(const QList<QGraphicsItem 
 void QExtGraphicsScene::destroyGroup(QGraphicsItemGroup *group)
 {
     group->setSelected(false);
-    foreach (QGraphicsItem *item, group->childItems()){
+    foreach (QGraphicsItem *item, group->childItems())
+    {
         item->setSelected(true);
         group->removeFromGroup(item);
     }
-    removeItem(group);
+    this->removeItem(group);
     delete group;
 }
 
 void QExtGraphicsScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    Q_D(QExtGraphicsScene);
     QGraphicsScene::drawBackground(painter,rect);
     painter->fillRect(sceneRect(),Qt::white);
-    if( m_grid ){
-        m_grid->paintGrid(painter,sceneRect().toRect());
+    if(d->m_grid)
+    {
+        d->m_grid->paintGrid(painter,sceneRect().toRect());
     }
 }
 
 void QExtGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-
-    QExtGraphicsTool * tool = QExtGraphicsTool::findTool( QExtGraphicsTool::sm_drawShape );
-    if ( tool )
-        tool->mousePressEvent(mouseEvent,this);
+    QExtGraphicsTool *tool = QExtGraphicsTool::findTool(QExtGraphicsTool::sm_drawShape);
+    if (tool)
+    {
+        tool->mousePressEvent(mouseEvent, this);
+    }
 }
 
 void QExtGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    QExtGraphicsTool * tool = QExtGraphicsTool::findTool( QExtGraphicsTool::sm_drawShape );
-    if ( tool )
-        tool->mouseMoveEvent(mouseEvent,this);
+    QExtGraphicsTool *tool = QExtGraphicsTool::findTool(QExtGraphicsTool::sm_drawShape);
+    if (tool)
+    {
+        tool->mouseMoveEvent(mouseEvent, this);
+    }
 }
 
 void QExtGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    QExtGraphicsTool * tool = QExtGraphicsTool::findTool( QExtGraphicsTool::sm_drawShape );
-    if ( tool )
-        tool->mouseReleaseEvent(mouseEvent,this);
+    QExtGraphicsTool *tool = QExtGraphicsTool::findTool(QExtGraphicsTool::sm_drawShape);
+    if (tool)
+    {
+        tool->mouseReleaseEvent(mouseEvent, this);
+    }
 }
 
 void QExtGraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvet)
@@ -351,45 +430,46 @@ void QExtGraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEve
 
 void QExtGraphicsScene::keyPressEvent(QKeyEvent *event)
 {
+    Q_D(QExtGraphicsScene);
     qreal dx = 0;
     qreal dy = 0;
-    m_moved = false;
+    d->m_moved = false;
     switch(event->key())
     {
     case Qt::Key_Up:
     {
         dx = 0;
         dy = -1;
-        m_moved = true;
+        d->m_moved = true;
         break;
     }
     case Qt::Key_Down:
     {
         dx = 0;
         dy = 1;
-        m_moved = true;
+        d->m_moved = true;
         break;
     }
     case Qt::Key_Left:
     {
         dx = -1;
         dy = 0;
-        m_moved = true;
+        d->m_moved = true;
         break;
     }
     case Qt::Key_Right:
     {
         dx = 1;
         dy = 0;
-        m_moved = true;
+        d->m_moved = true;
         break;
     }
     }
-    m_dx += dx;
-    m_dy += dy;
-    if (m_moved)
+    d->m_dx += dx;
+    d->m_dy += dy;
+    if (d->m_moved)
     {
-        foreach (QGraphicsItem *item, selectedItems())
+        foreach (QGraphicsItem *item, this->selectedItems())
         {
             item->moveBy(dx, dy);
         }
@@ -399,12 +479,13 @@ void QExtGraphicsScene::keyPressEvent(QKeyEvent *event)
 
 void QExtGraphicsScene::keyReleaseEvent(QKeyEvent *event)
 {
-    if (m_moved && selectedItems().count() > 0)
+    Q_D(QExtGraphicsScene);
+    if (d->m_moved && selectedItems().count() > 0)
     {
-        emit itemMoved(NULL,QPointF(m_dx,m_dy));
+        emit itemMoved(NULL,QPointF(d->m_dx, d->m_dy));
     }
-    m_dx = 0;
-    m_dy = 0;
+    d->m_dx = 0;
+    d->m_dy = 0;
     QGraphicsScene::keyReleaseEvent(event);
 }
 

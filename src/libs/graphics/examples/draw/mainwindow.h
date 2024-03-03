@@ -53,7 +53,7 @@ public slots:
     void newFile();
     void open();
     void save();
-    DrawView *createMdiChild();
+    QExtGraphicsView *createMdiChild();
     void updateMenus();
     void updateWindowMenu();
     void setActiveSubWindow(QWidget *window);
@@ -93,7 +93,7 @@ private:
     void createPropertyEditor();
     void createToolBox();
 
-    DrawView *activeMdiChild();
+    QExtGraphicsView *activeMdiChild();
     QMdiSubWindow *findMdiChild(const QString &fileName);
 
 

@@ -87,10 +87,10 @@ void MainWindow::createToolBox()
 
 }
 
-DrawView *MainWindow::activeMdiChild()
+QExtGraphicsView *MainWindow::activeMdiChild()
 {
     if (QMdiSubWindow *activeSubWindow = mdiArea->activeSubWindow())
-        return qobject_cast<DrawView *>(activeSubWindow->widget());
+        return qobject_cast<QExtGraphicsView *>(activeSubWindow->widget());
     return 0;
 }
 
@@ -99,7 +99,7 @@ QMdiSubWindow *MainWindow::findMdiChild(const QString &fileName)
     QString canonicalFilePath = QFileInfo(fileName).canonicalFilePath();
 
     foreach (QMdiSubWindow *window, mdiArea->subWindowList()) {
-        DrawView *mdiChild = qobject_cast<DrawView *>(window->widget());
+        QExtGraphicsView *mdiChild = qobject_cast<QExtGraphicsView *>(window->widget());
         if (mdiChild->currentFile() == canonicalFilePath)
             return window;
     }
@@ -447,7 +447,7 @@ void MainWindow::updateWindowMenu()
     separatorAct->setVisible(!windows.isEmpty());
 
     for (int i = 0; i < windows.size(); ++i) {
-        DrawView *child = qobject_cast<DrawView *>(windows.at(i)->widget());
+        QExtGraphicsView *child = qobject_cast<QExtGraphicsView *>(windows.at(i)->widget());
 
         QString text;
         if (i < 9) {
@@ -467,7 +467,7 @@ void MainWindow::updateWindowMenu()
 
 void MainWindow::newFile()
 {
-    DrawView *child = createMdiChild();
+    QExtGraphicsView *child = createMdiChild();
     child->newFile();
     child->show();
 }
@@ -489,7 +489,7 @@ void MainWindow::open()
 
 bool MainWindow::openFile(const QString &fileName)
 {
-    DrawView *child = createMdiChild();
+    QExtGraphicsView *child = createMdiChild();
     const bool succeeded = child->loadFile(fileName);
     if (succeeded)
         child->show();
@@ -514,7 +514,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
-DrawView *MainWindow::createMdiChild()
+QExtGraphicsView *MainWindow::createMdiChild()
 {
 
     QExtGraphicsScene *scene = new QExtGraphicsScene(this);
@@ -540,7 +540,7 @@ DrawView *MainWindow::createMdiChild()
     connect(scene,SIGNAL(itemControl(QGraphicsItem* , int , const QPointF&,const QPointF&)),
             this,SLOT(itemControl(QGraphicsItem*,int,QPointF,QPointF)));
 
-    DrawView *view = new DrawView(scene);
+    QExtGraphicsView *view = new QExtGraphicsView(scene);
     scene->setView(view);
     connect(view,SIGNAL(positionChanged(int,int)),this,SLOT(positionChanged(int,int)));
 

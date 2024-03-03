@@ -1,7 +1,7 @@
 #ifndef _QEXTGRAPHICSITEMHANDLE_P_H
 #define _QEXTGRAPHICSITEMHANDLE_P_H
 
-#include <qextGraphicsItemHandle.h>
+#include <qextGraphicsHandles.h>
 
 class QExtGraphicsSizeHandlePrivate
 {
