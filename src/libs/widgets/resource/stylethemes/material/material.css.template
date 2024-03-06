@@ -39,7 +39,6 @@ QWidget {
 QFrame {
     background-color: {{secondaryDarkColor}};
     border: 1px solid {{secondaryColor}};
-    border-radius: 4px;
 }
 
 QSplitter {
@@ -243,12 +242,7 @@ QSpinBox::down-button:disabled {
 
 /*  ------------------------------------------------------------------------  */
 /*  QPushButton  */
-/*
-    height: 34px;
-    min-height: 34px;
-    max-height: 34px;
-    text-transform: uppercase;
-*/
+
 QPushButton {
     margin: 0px;
     padding: 0px 0px;
@@ -405,9 +399,7 @@ QTabWidget::tab-bar {
 
 /*  ------------------------------------------------------------------------  */
 /*  QGroupBox  */
-/*
-    text-transform: uppercase;
-*/
+
 QGroupBox {
     background-color: {{secondaryColor}};
     border-radius: 4px;
@@ -417,10 +409,10 @@ QGroupBox {
 }
 
 QGroupBox::title {
-    color: {{secondaryTextColor|opacity(0.4)}};
+    color: {{secondaryTextColor|opacity(0.7)}};
     subcontrol-origin: margin;
     subcontrol-position: top left;
-    padding: 0 15px;
+    padding: 0 10px;
     margin-top: 10px;
     background-color: {{secondaryDarkColor}};
     background-color: transparent;
@@ -659,9 +651,7 @@ QRadioButton::indicator:unchecked:disabled {
 
 /*  ------------------------------------------------------------------------  */
 /*  QDockWidget  */
-/*
-    text-transform: uppercase;
-*/
+
 QDockWidget {
     color: {{secondaryTextColor}};
     border: 2px solid {{secondaryColor}};
@@ -1203,7 +1193,7 @@ QTableCornerButton::section {
     border-radius: 0px;
     border-right: 1px solid;
     border-bottom: 1px solid;
-    border-color: {{secondaryDarkColor}};
+    border-color: {{secondaryLightColor}};
 }
 
 
@@ -1214,19 +1204,15 @@ QHeaderView {
     border: none;
 }
 
-/*
-    text-transform: uppercase;
-    padding: 0 20px;
-*/
 QHeaderView::section {
-    color: {{secondaryTextColor|opacity(0.7)}};
+    color: {{secondaryTextColor}};
     background-color: {{secondaryColor}};
     padding: 0 5px;
     height: 35px;
     border-radius: 0px;
     border-right: 1px solid;
     border-bottom: 1px solid;
-    border-color: {{secondaryDarkColor}};
+    border-color: {{secondaryLightColor}};
 }
 
 

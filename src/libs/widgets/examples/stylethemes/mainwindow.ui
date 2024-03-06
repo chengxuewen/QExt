@@ -44,8 +44,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>357</width>
-             <height>259</height>
+             <width>374</width>
+             <height>274</height>
             </rect>
            </property>
            <attribute name="label">
@@ -90,7 +90,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>314</width>
+             <width>359</width>
              <height>396</height>
             </rect>
            </property>
@@ -1928,100 +1928,153 @@
        <attribute name="title">
         <string>Long Page Name</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_36">
-        <item row="0" column="0">
-         <widget class="QPushButton" name="pushButtonMsgDialogWarn">
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
-          </property>
-          <property name="text">
-           <string>Warn MsgDialog</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QPushButton" name="pushButtonMsgDialogInfo">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QGroupBox" name="groupBox_4">
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>40</height>
+            <height>200</height>
            </size>
           </property>
-          <property name="toolTip">
-           <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+          <property name="title">
+           <string>GroupBox</string>
           </property>
-          <property name="text">
-           <string>Info MsgDialog</string>
-          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="spacing">
+            <number>5</number>
+           </property>
+           <property name="leftMargin">
+            <number>5</number>
+           </property>
+           <property name="topMargin">
+            <number>5</number>
+           </property>
+           <property name="rightMargin">
+            <number>5</number>
+           </property>
+           <property name="bottomMargin">
+            <number>5</number>
+           </property>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QPushButton" name="pushButtonMsgDialogQuestion">
+               <property name="toolTip">
+                <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+               </property>
+               <property name="text">
+                <string>Question MsgDialog</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButtonMsgDialogInfo">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+               </property>
+               <property name="text">
+                <string>Info MsgDialog</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QPushButton" name="pushButtonMsgDialogWarn">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>25</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+               </property>
+               <property name="text">
+                <string>Warn MsgDialog</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButtonMsgDialogCritical">
+               <property name="toolTip">
+                <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+               </property>
+               <property name="text">
+                <string>Critical MsgDialog</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QPushButton" name="pushButtonMsgDialogCritical">
-          <property name="toolTip">
-           <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+        <item>
+         <widget class="QGroupBox" name="groupBox_5">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>200</height>
+           </size>
           </property>
-          <property name="text">
-           <string>Critical MsgDialog</string>
+          <property name="title">
+           <string>GroupBox</string>
           </property>
+          <layout class="QGridLayout" name="gridLayout_36">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="pushButtonMsgDialogAbout">
+             <property name="toolTip">
+              <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+             </property>
+             <property name="text">
+              <string>About Dialog</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="pushButtonMsgDialogAboutQt">
+             <property name="toolTip">
+              <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+             </property>
+             <property name="text">
+              <string>AboutQt Dialog</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pushButtonColorDialog">
+             <property name="toolTip">
+              <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+             </property>
+             <property name="text">
+              <string>Color Dialog</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="pushButtonProcessDialog">
+             <property name="toolTip">
+              <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+             </property>
+             <property name="text">
+              <string>Process Dialog</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QPushButton" name="pushButtonMsgDialogQuestion">
-          <property name="toolTip">
-           <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
-          </property>
-          <property name="text">
-           <string>Question MsgDialog</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QPushButton" name="pushButtonMsgDialogAbout">
-          <property name="toolTip">
-           <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
-          </property>
-          <property name="text">
-           <string>About Dialog</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QPushButton" name="pushButtonMsgDialogAboutQt">
-          <property name="toolTip">
-           <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
-          </property>
-          <property name="text">
-           <string>AboutQt Dialog</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="pushButtonColorDialog">
-          <property name="toolTip">
-           <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
-          </property>
-          <property name="text">
-           <string>Color Dialog</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QPushButton" name="pushButtonProcessDialog">
-          <property name="toolTip">
-           <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
-          </property>
-          <property name="text">
-           <string>Process Dialog</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
+        <item>
          <spacer name="verticalSpacer_7">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -2030,6 +2083,19 @@
            <size>
             <width>20</width>
             <height>223</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
            </size>
           </property>
          </spacer>

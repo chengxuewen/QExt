@@ -112,6 +112,8 @@ void QExtNavigationButton::drawBackground(QPainter *painter)
     painter->save();
     QColor color;
     QPalette palette = this->palette();
+    QWidget *parentWidget = this->parentWidget();
+    QPalette parentPalette = parentWidget ? parentWidget->palette() : QPalette();
     const bool checked = this->isChecked();
     const bool enabled = this->isEnabled();
     painter->setPen(Qt::NoPen);
@@ -129,7 +131,7 @@ void QExtNavigationButton::drawBackground(QPainter *painter)
         }
         else
         {
-            color = palette.color(QPalette::Button);
+            color = parentPalette.color(QPalette::Window);
         }
     }
     else
@@ -149,7 +151,7 @@ void QExtNavigationButton::drawBackground(QPainter *painter)
         }
         else
         {
-            color = palette.color(QPalette::Button);
+            color = parentPalette.color(QPalette::Window);
         }
     }
     painter->setBrush(color);
@@ -186,6 +188,8 @@ void QExtNavigationButton::drawText(QPainter *painter)
     painter->save();
     QColor color;
     QPalette palette = this->palette();
+    QWidget *parentWidget = this->parentWidget();
+    QPalette parentPalette = parentWidget ? parentWidget->palette() : QPalette();
     painter->setBrush(Qt::NoBrush);
     const bool checked = this->isChecked();
     const bool enabled = this->isEnabled();
@@ -197,7 +201,7 @@ void QExtNavigationButton::drawText(QPainter *painter)
     {
         if (checked)
         {
-            color = enabled ? palette.color(QPalette::Button)
+            color = enabled ? parentPalette.color(QPalette::Window)
                             : palette.color(QPalette::ButtonText);
         }
         else
@@ -274,19 +278,20 @@ void QExtNavigationButton::drawIcon(QPainter *painter)
                          iconSize.width(), iconSize.height());
     }
     QPixmap pixmap = icon.pixmap(this->iconSize());
+    QPalette palette = this->palette();
+    QWidget *parentWidget = this->parentWidget();
+    QPalette parentPalette = parentWidget ? parentWidget->palette() : QPalette();
     if (!this->isEnabled())
     {
         QPainter iconPainter(&pixmap);
-        QPalette palette = this->palette();
         iconPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
         iconPainter.fillRect(pixmap.rect(), palette.color(QPalette::ButtonText));
     }
     else if (!this->isFlat() && this->isChecked())
     {
         QPainter iconPainter(&pixmap);
-        QPalette palette = this->palette();
         iconPainter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-        iconPainter.fillRect(pixmap.rect(), palette.color(QPalette::Button));
+        iconPainter.fillRect(pixmap.rect(), parentPalette.color(QPalette::Window));
     }
     painter->drawPixmap(iconRect, pixmap);
 
@@ -361,7 +366,9 @@ void QExtNavigationButton::drawTriangle(QPainter *painter)
     painter->save();
     QColor color;
     QPalette palette = this->palette();
-    color = palette.color(QPalette::Button);
+    QWidget *parentWidget = this->parentWidget();
+    QPalette parentPalette = parentWidget ? parentWidget->palette() : QPalette();
+    color = parentPalette.color(QPalette::Window);
     painter->setBrush(color);
     painter->setPen(color);
 

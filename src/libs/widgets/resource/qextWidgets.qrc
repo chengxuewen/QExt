@@ -95,8 +95,8 @@
         <file>stylethemes/fusion/svgs/uparrow.svg</file>
         <file>stylethemes/fusion/svgs/uparrow2.svg</file>
         <file>stylethemes/fusion/svgs/vline.svg</file>
-        <file>stylethemes/fusion/themes/DarkBlue.xml</file>
-        <file>stylethemes/fusion/themes/LightBlue.xml</file>
+        <file>stylethemes/fusion/themes/Black.xml</file>
+        <file>stylethemes/fusion/themes/White.xml</file>
         <file>stylethemes/material/fonts/LICENSE</file>
         <file>stylethemes/material/fonts/Roboto-Black.ttf</file>
         <file>stylethemes/material/fonts/Roboto-BlackItalic.ttf</file>
@@ -159,7 +159,6 @@
         <file>stylethemes/material/themes/DarkAmber.xml</file>
         <file>stylethemes/material/themes/DarkBlue.xml</file>
         <file>stylethemes/material/themes/DarkGreen.xml</file>
-        <file>stylethemes/material/themes/DarkGrey.xml</file>
         <file>stylethemes/material/themes/DarkIndigo.xml</file>
         <file>stylethemes/material/themes/DarkLime.xml</file>
         <file>stylethemes/material/themes/DarkOrange.xml</file>
@@ -168,7 +167,6 @@
         <file>stylethemes/material/themes/LightAmber.xml</file>
         <file>stylethemes/material/themes/LightBlue.xml</file>
         <file>stylethemes/material/themes/LightGreen.xml</file>
-        <file>stylethemes/material/themes/LightGrey.xml</file>
         <file>stylethemes/material/themes/LightIndigo.xml</file>
         <file>stylethemes/material/themes/LightLime.xml</file>
         <file>stylethemes/material/themes/LightOrange.xml</file>
@@ -176,5 +174,6 @@
         <file>stylethemes/material/themes/LightPurple.xml</file>
         <file>stylethemes/material/themes/PureBlue.xml</file>
         <file>stylethemes/material/themes/PureGrey.xml</file>
+        <file>stylethemes/fusion/themes/Blue.xml</file>
     </qresource>
 </RCC>

@@ -299,7 +299,8 @@ void QExtStyleThemesPrivate::replaceStylesheetVariables(QString &templateContent
 {
     Q_Q(QExtStyleThemes);
     static const int opacityStrSize = QString("opacity(").size();
-    static const QRegularExpression re("\\{\\{.*\\}\\}");
+    // not use "\\{\\{.*\\}\\}" to avoid greedy patterns, to avoid matching multiple {{...}} structures at once
+    static const QRegularExpression re("\\{\\{.*?}\\}");
     QRegularExpressionMatch match;
     int index = 0;
     while ((index = templateContent.indexOf(re, index, &match)) != -1)

@@ -2,7 +2,7 @@
     "name" : "fusion",
     "icon" : "fusion_icon.svg",
     "css_template" : "fusion.css.template",
-    "default_theme" : "LightBlue",
+    "default_theme" : "White",
 
     "variables" : {
         "font_family" : "Sans Serif",
@@ -43,7 +43,7 @@
             "ToolTipText" : "",
             "PlaceholderText" : "",
             "Text" : "secondaryTextColor",
-            "Button" : "",
+            "Button" : "primaryTextColor",
             "ButtonText" : "secondaryTextColor",
             "BrightText" : "",
             "Light" : "secondaryColor",

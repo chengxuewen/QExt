@@ -43,7 +43,7 @@
             "ToolTipText" : "",
             "PlaceholderText" : "",
             "Text" : "secondaryTextColor",
-            "Button" : "",
+            "Button" : "primaryTextColor",
             "ButtonText" : "secondaryTextColor",
             "BrightText" : "",
             "Light" : "secondaryColor",
