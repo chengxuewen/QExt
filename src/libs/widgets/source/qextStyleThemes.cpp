@@ -336,13 +336,13 @@ void QExtStyleThemesPrivate::replaceStylesheetVariables(QString &templateContent
 void QExtStyleThemesPrivate::addFonts(QDir *dir)
 {
     Q_Q(QExtStyleThemes);
-    /* I dont't know, if this is the right way to detect, if there are any widgets. The call to
-     * QFontDatabase::addApplicationFont() will crash, if there are no widgets
+    /* I dont't know, if this is the right way to detect, if there are any widgets.
+     * The call to QFontDatabase::addApplicationFont() will crash, if there are no widgets
      */
-    if (qApp->allWidgets().isEmpty())
-    {
-        return;
-    }
+    // if (qApp->allWidgets().isEmpty())
+    // {
+    //     return;
+    // }
 
     if (!dir)
     {
@@ -366,6 +366,8 @@ void QExtStyleThemesPrivate::addFonts(QDir *dir)
             QFontDatabase::addApplicationFont(fontFilename);
         }
     }
+
+    // qDebug() <<
 }
 
 bool QExtStyleThemesPrivate::generateResourcesFor(const QString &subDir, const QJsonObject &jsonObject,
@@ -961,7 +963,6 @@ bool QExtStyleThemes::setCurrentStyleTheme(const QString &styleTheme)
             return this->setCurrentTheme(split.last());
         }
     }
-    return false;
 }
 
 bool QExtStyleThemes::updateStylesheet()

@@ -36,6 +36,8 @@ class QEXT_GRAPHICS_API QExtGraphicsGridTool
 {
 public:
     QExtGraphicsGridTool(const QSize &grid = QSize(3200, 2400), const QSize &space = QSize(20, 20));
+    virtual ~QExtGraphicsGridTool() {}
+
     void paintGrid(QPainter *painter, const QRect &rect);
 
 protected:
@@ -49,7 +51,7 @@ class QEXT_GRAPHICS_API QExtGraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit QExtGraphicsScene(QObject *parent = 0);
+    explicit QExtGraphicsScene(QObject *parent = QEXT_NULLPTR);
     ~QExtGraphicsScene() QEXT_OVERRIDE;
 
     QGraphicsView *view() const;

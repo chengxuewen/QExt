@@ -9,9 +9,9 @@
 
 #include <vector>
 
-QExtGraphicsGridTool::QExtGraphicsGridTool(const QSize & grid , const QSize & space )
-    :m_sizeGrid(grid)
-    ,m_sizeGridSpace(20,20)
+QExtGraphicsGridTool::QExtGraphicsGridTool(const QSize &grid, const QSize &space)
+    : m_sizeGrid(grid)
+    , m_sizeGridSpace(space)
 {
 }
 

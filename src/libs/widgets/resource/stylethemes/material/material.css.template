@@ -406,6 +406,7 @@ QGroupBox {
     padding: 15px;
     padding-top: 30px;
     line-height: 13px;
+    font-weight: bold;
 }
 
 QGroupBox::title {
@@ -417,6 +418,10 @@ QGroupBox::title {
     background-color: {{secondaryDarkColor}};
     background-color: transparent;
     height: 20px;
+}
+
+QGroupBox::title:disabled {
+    color: {{secondaryTextColor|opacity(0.2)}};
 }
 
 

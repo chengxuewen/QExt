@@ -5,7 +5,7 @@
     "default_theme" : "Light",
 
     "variables" : {
-        "font_family" : "Segoe-UI",
+        "font_family" : "Segoe UI",
         "font_size" : "12px",
         "line_height" : "12px",
         "danger" :  "#dc3545",

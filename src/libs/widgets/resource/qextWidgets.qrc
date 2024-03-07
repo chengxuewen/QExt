@@ -12,7 +12,6 @@
         <file>image/btn_xiaoxie_white.png</file>
         <file>image/delete_black.png</file>
         <file>image/delete_white.png</file>
-        <file>stylethemes/fluent/font/Segoe-UI.ttf</file>
         <file>stylethemes/fluent/fluent_icon.svg</file>
         <file>stylethemes/fluent/fluent.css.template</file>
         <file>stylethemes/fluent/fluent.json</file>
@@ -175,5 +174,10 @@
         <file>stylethemes/material/themes/PureBlue.xml</file>
         <file>stylethemes/material/themes/PureGrey.xml</file>
         <file>stylethemes/fusion/themes/Blue.xml</file>
+        <file>stylethemes/fusion/fonts/WenQuanYi-MicroHei.ttf</file>
+        <file>stylethemes/fusion/fonts/WenQuanYi-MicroHeiMono.ttf</file>
+        <file>stylethemes/fusion/fonts/WenQuanYi-ZenHei.ttf</file>
+        <file>stylethemes/fusion/fonts/WenQuanYi-ZenHeiMono.ttf</file>
+        <file>stylethemes/fluent/fonts/Segoe-UI.ttf</file>
     </qresource>
 </RCC>
