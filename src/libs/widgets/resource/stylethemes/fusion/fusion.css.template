@@ -413,6 +413,7 @@ QGroupBox {
     border-radius: 4px;
     margin-top: 10px;
     padding-top: 10px;
+    font-weight: bold;
 }
 
 QGroupBox::title {
@@ -422,6 +423,7 @@ QGroupBox::title {
     background-color: {{secondaryDarkColor}};
     height: 20px;
     left: 10px;
+    top: 4px;
 }
 
 

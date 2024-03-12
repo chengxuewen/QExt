@@ -202,15 +202,15 @@ QString QExtTag::suffixAfter(QExtTag baseId) const
     return n.startsWith(b) ? QString::fromUtf8(n.mid(b.size())) : QString();
 }
 
-QDataStream &operator<<(QDataStream &ds, const QExtTag &id)
+QDataStream &operator<<(QDataStream &ds, const QExtTag &tag)
 {
-    return ds << id.name();
+    return ds << tag.name();
 }
 
-QDataStream &operator>>(QDataStream &ds, QExtTag &id)
+QDataStream &operator>>(QDataStream &ds, QExtTag &tag)
 {
     QByteArray ba;
     ds >> ba;
-    id = QExtTag::fromName(ba);
+    tag = QExtTag::fromName(ba);
     return ds;
 }

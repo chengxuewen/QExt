@@ -96,25 +96,13 @@
         <file>stylethemes/fusion/svgs/vline.svg</file>
         <file>stylethemes/fusion/themes/Black.xml</file>
         <file>stylethemes/fusion/themes/White.xml</file>
-        <file>stylethemes/material/fonts/LICENSE</file>
         <file>stylethemes/material/fonts/Roboto-Black.ttf</file>
-        <file>stylethemes/material/fonts/Roboto-BlackItalic.ttf</file>
         <file>stylethemes/material/fonts/Roboto-Bold.ttf</file>
-        <file>stylethemes/material/fonts/Roboto-BoldItalic.ttf</file>
         <file>stylethemes/material/fonts/Roboto-Italic.ttf</file>
         <file>stylethemes/material/fonts/Roboto-Light.ttf</file>
-        <file>stylethemes/material/fonts/Roboto-LightItalic.ttf</file>
         <file>stylethemes/material/fonts/Roboto-Medium.ttf</file>
-        <file>stylethemes/material/fonts/Roboto-MediumItalic.ttf</file>
         <file>stylethemes/material/fonts/Roboto-Regular.ttf</file>
         <file>stylethemes/material/fonts/Roboto-Thin.ttf</file>
-        <file>stylethemes/material/fonts/Roboto-ThinItalic.ttf</file>
-        <file>stylethemes/material/fonts/RobotoCondensed-Bold.ttf</file>
-        <file>stylethemes/material/fonts/RobotoCondensed-BoldItalic.ttf</file>
-        <file>stylethemes/material/fonts/RobotoCondensed-Italic.ttf</file>
-        <file>stylethemes/material/fonts/RobotoCondensed-Light.ttf</file>
-        <file>stylethemes/material/fonts/RobotoCondensed-LightItalic.ttf</file>
-        <file>stylethemes/material/fonts/RobotoCondensed-Regular.ttf</file>
         <file>stylethemes/material/material_icon.svg</file>
         <file>stylethemes/material/material.css.template</file>
         <file>stylethemes/material/material.json</file>
@@ -174,10 +162,24 @@
         <file>stylethemes/material/themes/PureBlue.xml</file>
         <file>stylethemes/material/themes/PureGrey.xml</file>
         <file>stylethemes/fusion/themes/Blue.xml</file>
-        <file>stylethemes/fusion/fonts/WenQuanYi-MicroHei.ttf</file>
-        <file>stylethemes/fusion/fonts/WenQuanYi-MicroHeiMono.ttf</file>
-        <file>stylethemes/fusion/fonts/WenQuanYi-ZenHei.ttf</file>
-        <file>stylethemes/fusion/fonts/WenQuanYi-ZenHeiMono.ttf</file>
-        <file>stylethemes/fluent/fonts/Segoe-UI.ttf</file>
+        <file>stylethemes/material/fonts/Roboto-BlackItalic.ttf</file>
+        <file>stylethemes/material/fonts/Roboto-BoldItalic.ttf</file>
+        <file>stylethemes/material/fonts/Roboto-LightItalic.ttf</file>
+        <file>stylethemes/material/fonts/Roboto-MediumItalic.ttf</file>
+        <file>stylethemes/material/fonts/Roboto-ThinItalic.ttf</file>
+        <file>stylethemes/fluent/fonts/NotoSansCJK-Black.ttf</file>
+        <file>stylethemes/fluent/fonts/NotoSansCJK-Bold.ttf</file>
+        <file>stylethemes/fluent/fonts/NotoSansCJK-DemiLight.ttf</file>
+        <file>stylethemes/fluent/fonts/NotoSansCJK-Light.ttf</file>
+        <file>stylethemes/fluent/fonts/NotoSansCJK-Medium.ttf</file>
+        <file>stylethemes/fluent/fonts/NotoSansCJK-Regular.ttf</file>
+        <file>stylethemes/fluent/fonts/NotoSansCJK-Thin.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceHanSansCN-Bold.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceHanSansCN-ExtraLight.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceHanSansCN-Heavy.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceHanSansCN-Light.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceHanSansCN-Medium.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceHanSansCN-Normal.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceHanSansCN-Regular.ttf</file>
     </qresource>
 </RCC>

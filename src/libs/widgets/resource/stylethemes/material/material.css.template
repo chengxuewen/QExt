@@ -289,6 +289,10 @@ QPushButton:checked:disabled {
     border-color:  {{secondaryLightColor}};
 }
 
+QPushButton[default=true] {
+    background-color: {{primaryColor|opacity(0.1)}};
+}
+
 
 /*  ------------------------------------------------------------------------  */
 /*  QTabBar  */
@@ -403,7 +407,6 @@ QTabWidget::tab-bar {
 QGroupBox {
     background-color: {{secondaryColor}};
     border-radius: 4px;
-    padding: 15px;
     padding-top: 30px;
     line-height: 13px;
     font-weight: bold;

@@ -5,7 +5,7 @@
     "default_theme" : "White",
 
     "variables" : {
-        "font_family" : "WenQuanYi Zen Hei Mono",
+        "font_family" : "Source Han Sans CN VF",
         "font_size" : "12px",
         "line_height" : "12px",
         "danger" :  "#dc3545",

@@ -16,14 +16,13 @@ public:
     enum EditorEnum
     {
         Editor_Default = 0,
-        Editor_ComboBox,
-        Editor_ComboBoxWithListView,
         Editor_SpinBox,
-        Editor_DoubleSpinBox,
+        Editor_ComboBox,
         Editor_LineEdit,
+        Editor_DoubleSpinBox,
         Editor_Custom
     };
-    QEXT_STATIC_CONSTANT(int, EditorEnumNum = 7);
+    QEXT_STATIC_CONSTANT(int, EditorEnumNum = 6);
 
     QExtPropertyModelItem();
     ~QExtPropertyModelItem() QEXT_OVERRIDE;
@@ -63,7 +62,16 @@ public:
 signals:
     void beginResetModel();
     void endResetModel();
+
+    void requestClosedEditor(QWidget *editor);
+
     void itemDataChanged(QExtPropertyModelItem *item);
+
+    void childAboutToBeAppended(QExtPropertyModelItem *child);
+    void childAppended(QExtPropertyModelItem *child);
+
+    void childAboutToBeRemoveed(QExtPropertyModelItem *child);
+    void childRemoveed(QExtPropertyModelItem *child);
 
 protected:
     bool m_enable;
@@ -125,6 +133,10 @@ public slots:
     void updateModel();
     void resetModel();
 
+    void onItemDataChanged(QExtPropertyModelItem *item);
+    void onBeginResetModel();
+    void onEndResetModel();
+
 protected:
     QScopedPointer<QExtPropertyModelPrivate> dd_ptr;
 
@@ -132,7 +144,6 @@ private:
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtPropertyModel)
     Q_DISABLE_COPY(QExtPropertyModel)
 };
-
 
 class QEXT_WIDGETS_API QExtPropertyDelegate : public QStyledItemDelegate
 {
@@ -153,11 +164,13 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
 
+protected Q_SLOTS:
+    void updateItemMap();
+    void closeItemEditor(QWidget *editor);
+
 protected:
     bool helpEvent(QHelpEvent *event, QAbstractItemView *view, const QStyleOptionViewItem &option, const QModelIndex &index) QEXT_OVERRIDE;
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) QEXT_OVERRIDE;
-
-    void updateItemMap();
 
     QExtPropertyModelItem *m_rootItem;
     QHash<qulonglong, QExtPropertyModelItem *> m_itemMap;

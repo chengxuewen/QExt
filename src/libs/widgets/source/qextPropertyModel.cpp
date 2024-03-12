@@ -53,10 +53,17 @@ void QExtPropertyModelItem::appendChild(QExtPropertyModelItem *child)
 {
     if (!m_childrenList.contains(child))
     {
+        emit this->childAboutToBeAppended(child);
         child->setParent(this);
         m_childrenList.append(child);
-        connect(child, &QExtPropertyModelItem::beginResetModel, this, &QExtPropertyModelItem::beginResetModel);
-        connect(child, &QExtPropertyModelItem::endResetModel, this, &QExtPropertyModelItem::endResetModel);
+        connect(child, SIGNAL(beginResetModel()), this, SIGNAL(beginResetModel()));
+        connect(child, SIGNAL(endResetModel()), this, SIGNAL(endResetModel()));
+        connect(child, SIGNAL(requestClosedEditor(QWidget*)), this, SIGNAL(requestClosedEditor(QWidget*)));
+        connect(child, SIGNAL(childAboutToBeAppended(QExtPropertyModelItem*)), this, SIGNAL(childAboutToBeAppended(QExtPropertyModelItem*)));
+        connect(child, SIGNAL(childAppended(QExtPropertyModelItem*)), this, SIGNAL(childAppended(QExtPropertyModelItem*)));
+        connect(child, SIGNAL(childAboutToBeRemoveed(QExtPropertyModelItem*)), this, SIGNAL(childAboutToBeRemoveed(QExtPropertyModelItem*)));
+        connect(child, SIGNAL(childRemoveed(QExtPropertyModelItem*)), this, SIGNAL(childRemoveed(QExtPropertyModelItem*)));
+        emit this->childAppended(child);
     }
 }
 
@@ -72,9 +79,11 @@ void QExtPropertyModelItem::removeChild(QExtPropertyModelItem *child)
 {
     if (m_childrenList.contains(child))
     {
+        emit this->childAboutToBeRemoveed(child);
         child->setParent(QEXT_NULLPTR);
         child->disconnect(this);
         m_childrenList.removeOne(child);
+        emit this->childRemoveed(child);
     }
 }
 
@@ -132,14 +141,11 @@ bool QExtPropertyModelItem::setEditorData(QWidget *editor, const QModelIndex &in
     switch (this->editorType())
     {
     case Editor_ComboBox:
-    case Editor_ComboBoxWithListView:
     {
         auto widget = qobject_cast<QComboBox *>(editor);
         if (widget)
         {
-            int data = index.model()->data(index, Qt::EditRole).toInt();
-            widget->setCurrentIndex(data);
-            widget->showPopup();
+            widget->setCurrentIndex(widget->findData(index.model()->data(index, Qt::EditRole)));
             return true;
         }
     }
@@ -183,13 +189,11 @@ bool QExtPropertyModelItem::setModelData(QWidget *editor, QAbstractItemModel *mo
     switch (this->editorType())
     {
     case Editor_ComboBox:
-    case Editor_ComboBoxWithListView:
     {
         auto widget = qobject_cast<QComboBox *>(editor);
         if (widget)
         {
-            int data = widget->currentData().toInt();
-            model->setData(index, data, Qt::EditRole);
+            model->setData(index, widget->currentData(), Qt::EditRole);
             return true;
         }
     }
@@ -249,12 +253,6 @@ QWidget *QExtPropertyModelItem::createEditor(QWidget *parent, const QStyleOption
     case Editor_ComboBox:
     {
         return new QComboBox(parent);
-    }
-    case Editor_ComboBoxWithListView:
-    {
-        auto editor = new QComboBox(parent);
-        editor->setView(new QListView(editor));
-        return editor;
     }
     case Editor_SpinBox:
     {
@@ -345,15 +343,9 @@ QExtPropertyModel::QExtPropertyModel(QObject *parent)
     , dd_ptr(new QExtPropertyModelPrivate(this))
 {
     Q_D(QExtPropertyModel);
-    connect(d->m_rootItem.data(), &QExtPropertyModelItem::itemDataChanged, this, [=](QExtPropertyModelItem *item) {
-        QModelIndex index = this->indexFromItem(item);
-        if (index.isValid())
-        {
-            emit this->dataChanged(index, index);
-        }
-    });
-    connect(d->m_rootItem.data(), &QExtPropertyModelItem::beginResetModel, this, &QExtPropertyModel::beginResetModel);
-    connect(d->m_rootItem.data(), &QExtPropertyModelItem::endResetModel, this, &QExtPropertyModel::endResetModel);
+    connect(d->m_rootItem.data(), SIGNAL(itemDataChanged(QExtPropertyModelItem*)), this, SLOT(onItemDataChanged(QExtPropertyModelItem*)));
+    connect(d->m_rootItem.data(), SIGNAL(beginResetModel()), this, SLOT(onBeginResetModel()));
+    connect(d->m_rootItem.data(), SIGNAL(endResetModel()), this, SLOT(onEndResetModel()));
 }
 
 QExtPropertyModel::~QExtPropertyModel()
@@ -434,7 +426,7 @@ QVariant QExtPropertyModel::data(const QModelIndex &index, int role) const
     {
         if (ItemRole == role)
         {
-            return qulonglong(item);
+            return reinterpret_cast<qulonglong>(item);
         }
 
         if (Qt::TextColorRole == role && !item->isEnabled())
@@ -613,6 +605,25 @@ void QExtPropertyModel::resetModel()
     this->endResetModel();
 }
 
+void QExtPropertyModel::onItemDataChanged(QExtPropertyModelItem *item)
+{
+    QModelIndex index = this->indexFromItem(item);
+    if (index.isValid())
+    {
+        emit this->dataChanged(index, index);
+    }
+}
+
+void QExtPropertyModel::onBeginResetModel()
+{
+    emit this->beginResetModel();
+}
+
+void QExtPropertyModel::onEndResetModel()
+{
+    emit this->endResetModel();
+}
+
 
 QExtPropertyDelegate::QExtPropertyDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
@@ -640,10 +651,9 @@ void QExtPropertyDelegate::setRootItem(QExtPropertyModelItem *rootItem)
         m_rootItem->disconnect(this);
     }
     m_rootItem = rootItem;
-    this->updateItemMap();
     if (rootItem)
     {
-        connect(rootItem, &QExtPropertyModelItem::endResetModel, this, &QExtPropertyDelegate::updateItemMap);
+        connect(rootItem, SIGNAL(requestClosedEditor(QWidget*)), this, SLOT(closeItemEditor(QWidget*)));
     }
 }
 
@@ -655,12 +665,11 @@ QExtPropertyModelItem *QExtPropertyDelegate::rootItem() const
 QWidget *QExtPropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                                             const QModelIndex &index) const
 {
-    QExtPropertyModelItem *item = QEXT_NULLPTR;
     const QAbstractItemModel *model = index.model();
     if (model)
     {
         qulonglong value = model->data(index, QExtPropertyModel::ItemRole).toULongLong();
-        item = m_itemMap.value(value);
+        QExtPropertyModelItem *item = reinterpret_cast<QExtPropertyModelItem *>(value);
         if (item)
         {
             auto editor = item->createEditor(parent, option, index);
@@ -679,7 +688,7 @@ void QExtPropertyDelegate::destroyEditor(QWidget *editor, const QModelIndex &ind
     if (model)
     {
         qulonglong value = model->data(index, QExtPropertyModel::ItemRole).toULongLong();
-        QExtPropertyModelItem *item = m_itemMap.value(value);
+        QExtPropertyModelItem *item = reinterpret_cast<QExtPropertyModelItem *>(value);
         if (item)
         {
             if (item->destroyEditor(editor, index))
@@ -698,7 +707,7 @@ void QExtPropertyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     if (model)
     {
         qulonglong value = model->data(index, QExtPropertyModel::ItemRole).toULongLong();
-        QExtPropertyModelItem *item = m_itemMap.value(value);
+        QExtPropertyModelItem *item = reinterpret_cast<QExtPropertyModelItem *>(value);
         if (item)
         {
             if (item->paint(painter, option, index))
@@ -716,7 +725,7 @@ void QExtPropertyDelegate::setEditorData(QWidget *editor, const QModelIndex &ind
     if (model)
     {
         qulonglong value = model->data(index, QExtPropertyModel::ItemRole).toULongLong();
-        QExtPropertyModelItem *item = m_itemMap.value(value);
+        QExtPropertyModelItem *item = reinterpret_cast<QExtPropertyModelItem *>(value);
         if (item)
         {
             if (item->setEditorData(editor, index))
@@ -728,11 +737,10 @@ void QExtPropertyDelegate::setEditorData(QWidget *editor, const QModelIndex &ind
     QStyledItemDelegate::setEditorData(editor, index);
 }
 
-void QExtPropertyDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
-                                        const QModelIndex &index) const
+void QExtPropertyDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     qulonglong value = model->data(index, QExtPropertyModel::ItemRole).toULongLong();
-    QExtPropertyModelItem *item = m_itemMap.value(value);
+    QExtPropertyModelItem *item = reinterpret_cast<QExtPropertyModelItem *>(value);
     if (item)
     {
         if (item->setModelData(editor, model, index))
@@ -749,7 +757,7 @@ QSize QExtPropertyDelegate::sizeHint(const QStyleOptionViewItem &option, const Q
     if (model)
     {
         qulonglong value = model->data(index, QExtPropertyModel::ItemRole).toULongLong();
-        QExtPropertyModelItem *item = m_itemMap.value(value);
+        QExtPropertyModelItem *item = reinterpret_cast<QExtPropertyModelItem *>(value);
         if (item)
         {
             return item->sizeHint(option, index, QStyledItemDelegate::sizeHint(option, index));
@@ -762,6 +770,11 @@ void QExtPropertyDelegate::updateEditorGeometry(QWidget *editor, const QStyleOpt
                                                 const QModelIndex &index) const
 {
     QStyledItemDelegate::updateEditorGeometry(editor, option, index);
+}
+
+void QExtPropertyDelegate::closeItemEditor(QWidget *editor)
+{
+    emit this->closeEditor(editor);
 }
 
 bool QExtPropertyDelegate::helpEvent(QHelpEvent *event, QAbstractItemView *view,
@@ -788,6 +801,3 @@ void QExtPropertyDelegate::updateItemMap()
         }
     }
 }
-
-
-

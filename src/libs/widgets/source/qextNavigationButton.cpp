@@ -235,6 +235,9 @@ void QExtNavigationButton::drawText(QPainter *painter)
         textRect = QRect(0, 0, width, height - d->m_padding);
         textAlign = Qt::AlignHCenter | Qt::AlignBottom;
     }
+    QFont font = this->font();
+    font.setBold(true);
+    painter->setFont(font);
     painter->drawText(textRect, textAlign, this->text());
     painter->restore();
 }
@@ -365,9 +368,8 @@ void QExtNavigationButton::drawTriangle(QPainter *painter)
 
     painter->save();
     QColor color;
-    QPalette palette = this->palette();
     QWidget *parentWidget = this->parentWidget();
-    QPalette parentPalette = parentWidget ? parentWidget->palette() : QPalette();
+    QPalette parentPalette = parentWidget ? parentWidget->palette() : this->palette();
     color = parentPalette.color(QPalette::Window);
     painter->setBrush(color);
     painter->setPen(color);

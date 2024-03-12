@@ -24,29 +24,27 @@ public:
     QVariant toVariant() const;
     QString suffixAfter(QExtTag baseId) const;
 
+    int id() const { return m_id; }
     bool isValid() const { return m_id; }
-
-    bool operator==(QExtTag id) const { return m_id == id.m_id; }
 
     bool operator==(const char *name) const;
 
-    bool operator!=(QExtTag id) const { return m_id != id.m_id; }
+    bool operator==(QExtTag tag) const { return m_id == tag.m_id; }
+
+    bool operator!=(QExtTag tag) const { return m_id != tag.m_id; }
 
     bool operator!=(const char *name) const { return !operator==(name); }
 
-    bool operator<(QExtTag id) const { return m_id < id.m_id; }
+    bool operator<(QExtTag tag) const { return m_id < tag.m_id; }
 
-    bool operator>(QExtTag id) const { return m_id > id.m_id; }
+    bool operator>(QExtTag tag) const { return m_id > tag.m_id; }
 
     bool alphabeticallyBefore(QExtTag other) const;
 
-    int uniqueIdentifier() const { return m_id; }
-
-    static QExtTag fromUniqueIdentifier(int id) { return QExtTag(id); }
-
     static QExtTag fromString(const QString &string);
-    static QExtTag fromName(const QByteArray &byteArray);
     static QExtTag fromVariant(const QVariant &variant);
+    static QExtTag fromName(const QByteArray &byteArray);
+    static QExtTag fromId(int id) { return QExtTag(id); }
     static void registerId(int id, const char *name);
 
 private:
@@ -54,10 +52,10 @@ private:
     int m_id;
 };
 
-inline uint qHash(const QExtTag &id) { return id.uniqueIdentifier(); }
+inline uint qHash(const QExtTag &tag) { return tag.id(); }
 
-QDataStream &operator<<(QDataStream &ds, const QExtTag &id);
-QDataStream &operator>>(QDataStream &ds, QExtTag &id);
+QDataStream &operator<<(QDataStream &ds, const QExtTag &tag);
+QDataStream &operator>>(QDataStream &ds, QExtTag &tag);
 
 Q_DECLARE_METATYPE(QExtTag)
 Q_DECLARE_METATYPE(QList<QExtTag>)

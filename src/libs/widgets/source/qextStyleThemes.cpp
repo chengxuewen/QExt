@@ -363,11 +363,15 @@ void QExtStyleThemesPrivate::addFonts(QDir *dir)
         for (QStringList::Iterator iter = fontFiles.begin(); iter != fontFiles.end(); ++iter)
         {
             QString fontFilename = dir->absoluteFilePath(*iter);
-            QFontDatabase::addApplicationFont(fontFilename);
+            const int fontId = QFontDatabase::addApplicationFont(fontFilename);
+            if (fontId != -1)
+            {
+                QStringList fontFamilies = QFontDatabase::applicationFontFamilies(fontId);
+                qDebug() << "Available Font Families:" << fontFamilies;
+            }
         }
     }
 
-    // qDebug() <<
 }
 
 bool QExtStyleThemesPrivate::generateResourcesFor(const QString &subDir, const QJsonObject &jsonObject,
