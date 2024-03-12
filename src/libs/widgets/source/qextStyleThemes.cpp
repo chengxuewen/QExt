@@ -364,11 +364,16 @@ void QExtStyleThemesPrivate::addFonts(QDir *dir)
         {
             QString fontFilename = dir->absoluteFilePath(*iter);
             const int fontId = QFontDatabase::addApplicationFont(fontFilename);
+#if 0
             if (fontId != -1)
             {
                 QStringList fontFamilies = QFontDatabase::applicationFontFamilies(fontId);
+                qDebug() << fontFilename;
                 qDebug() << "Available Font Families:" << fontFamilies;
             }
+#else
+            Q_UNUSED(fontId)
+#endif
         }
     }
 

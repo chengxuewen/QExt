@@ -5,7 +5,7 @@
     "default_theme" : "Light",
 
     "variables" : {
-        "font_family" : "Noto Sans",
+        "font_family" : "Open Sans",
         "font_size" : "12px",
         "line_height" : "12px",
         "danger" :  "#dc3545",

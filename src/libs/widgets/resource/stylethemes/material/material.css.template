@@ -1294,28 +1294,10 @@ QDialog QToolButton:checked {
     border-left: unset;
 }
 
-
-/*  ------------------------------------------------------------------------  */
-/*  QMessageBox  */
-
-QMessageBox QPushButton,
-QMessageBox QPushButton:hover,
-QMessageBox QPushButton:pressed,
-QMessageBox QPushButton:checked {
-    height: 30px;
-    min-width: 80px;
-    min-height: 25px;
-}
-
-
-/*  ------------------------------------------------------------------------  */
-/*  QProgressDialog  */
-
-QProgressDialog QPushButton,
-QProgressDialog QPushButton:hover,
-QProgressDialog QPushButton:pressed,
-QProgressDialog QPushButton:checked {
-    margin: 10px;
+QDialog QPushButton,
+QDialog QPushButton:hover,
+QDialog QPushButton:pressed,
+QDialog QPushButton:checked {
     height: 30px;
     min-width: 80px;
     min-height: 25px;

@@ -167,19 +167,27 @@
         <file>stylethemes/material/fonts/Roboto-LightItalic.ttf</file>
         <file>stylethemes/material/fonts/Roboto-MediumItalic.ttf</file>
         <file>stylethemes/material/fonts/Roboto-ThinItalic.ttf</file>
-        <file>stylethemes/fluent/fonts/NotoSansCJK-Black.ttf</file>
-        <file>stylethemes/fluent/fonts/NotoSansCJK-Bold.ttf</file>
-        <file>stylethemes/fluent/fonts/NotoSansCJK-DemiLight.ttf</file>
-        <file>stylethemes/fluent/fonts/NotoSansCJK-Light.ttf</file>
-        <file>stylethemes/fluent/fonts/NotoSansCJK-Medium.ttf</file>
-        <file>stylethemes/fluent/fonts/NotoSansCJK-Regular.ttf</file>
-        <file>stylethemes/fluent/fonts/NotoSansCJK-Thin.ttf</file>
-        <file>stylethemes/fusion/fonts/SourceHanSansCN-Bold.ttf</file>
-        <file>stylethemes/fusion/fonts/SourceHanSansCN-ExtraLight.ttf</file>
-        <file>stylethemes/fusion/fonts/SourceHanSansCN-Heavy.ttf</file>
-        <file>stylethemes/fusion/fonts/SourceHanSansCN-Light.ttf</file>
-        <file>stylethemes/fusion/fonts/SourceHanSansCN-Medium.ttf</file>
-        <file>stylethemes/fusion/fonts/SourceHanSansCN-Normal.ttf</file>
-        <file>stylethemes/fusion/fonts/SourceHanSansCN-Regular.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-Black.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-BlackItalic.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-Bold.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-BoldItalic.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-ExtraLight.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-ExtraLightItalic.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-Italic.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-Light.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-LightItalic.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-Regular.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-SemiBold.ttf</file>
+        <file>stylethemes/fusion/fonts/SourceSansPro-SemiBoldItalic.ttf</file>
+        <file>stylethemes/fluent/fonts/OpenSans-Bold.ttf</file>
+        <file>stylethemes/fluent/fonts/OpenSans-BoldItalic.ttf</file>
+        <file>stylethemes/fluent/fonts/OpenSans-ExtraBold.ttf</file>
+        <file>stylethemes/fluent/fonts/OpenSans-ExtraBoldItalic.ttf</file>
+        <file>stylethemes/fluent/fonts/OpenSans-Italic.ttf</file>
+        <file>stylethemes/fluent/fonts/OpenSans-Light.ttf</file>
+        <file>stylethemes/fluent/fonts/OpenSans-LightItalic.ttf</file>
+        <file>stylethemes/fluent/fonts/OpenSans-Regular.ttf</file>
+        <file>stylethemes/fluent/fonts/OpenSans-SemiBold.ttf</file>
+        <file>stylethemes/fluent/fonts/OpenSans-SemiBoldItalic.ttf</file>
     </qresource>
 </RCC>
