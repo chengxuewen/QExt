@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.4.6 LANGUAGES CXX C)
+project(QExt VERSION 1.2.4.7 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -381,7 +381,7 @@ qext_option(QEXT_BUILD_SHARED_LIBS "Enable this to build as dynamically" ON
 qext_option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ON
     DEPENDS BUILD_SHARED_LIBS)
 qext_option(QEXT_BUILD_COMPILER_WARNING "Enable this to build target with compiler warnings" OFF)
-qext_option(QEXT_BUILD_WARNINGS_ARE_ERRORS "Build UTK with warnings as errors" ${__qext_build_warnings_as_errors})
+qext_option(QEXT_BUILD_WARNINGS_ARE_ERRORS "Enable this to build with warnings as errors" ${__qext_build_warnings_as_errors})
 qext_option(QEXT_BUILD_BENCHMARKS "Enable this to build the benchmarks" ${__qext_build_benchmarks}
     SET __qext_build_tests_default)
 qext_option(QEXT_BUILD_DOCS "Enable this to build the documentation" OFF)
@@ -422,7 +422,6 @@ qext_ensure_define_variable(QEXT_3RDPARTY_SINGLEAPP_QAPPLICATION_CLASS "QApplica
 qext_option(QEXT_ENABLE_3RDPARTY_QWINDOWKIT "Enable this to build the 3rdparty qwindowkit lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 
-qext_option(QEXT_ADD_SUBDIRECTORY_UTK "Enable this to add the 3rdparty UTK subdirectory" OFF)
 qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF)
 qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF)
 qext_option(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT "Enable this to add the 3rdparty qwindowkit subdirectory" OFF)
@@ -709,11 +708,6 @@ qext_add_subdirectory(src/plugins QEXT_BUILD_PLUGINS)
 #-----------------------------------------------------------------------------------------------------------------------
 # add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
-if(QEXT_ADD_SUBDIRECTORY_UTK)
-    set(INPUT_UTK_BUILD_ALL ON)
-    add_subdirectory(3rdparty/UTK)
-endif()
-
 if(QEXT_ADD_SUBDIRECTORY_QWT)
     add_subdirectory(3rdparty/qwt-6.1.3)
 endif()
