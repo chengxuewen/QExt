@@ -229,7 +229,7 @@ QSharedPointer<QExtTcpPacketInterface> QExtTcpPacketParser::readData(QExtTcpSock
     QMutexLocker mutexLocker(&d->m_mutex);
 
     success = true;
-    QExtId socketId = socket->identityId();
+    QExtTag socketId = socket->identityId();
     QSharedPointer<QExtTcpPacketInterface> packet = d->m_packetIdMap.value(socketId);
     if (packet.isNull())
     {

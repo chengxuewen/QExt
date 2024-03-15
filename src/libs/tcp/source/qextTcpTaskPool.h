@@ -2,7 +2,7 @@
 #define _QEXTTCPTASKPOOL_H
 
 #include <qextTcpGlobal.h>
-#include <qextId.h>
+#include <qextTag.h>
 
 #include <QObject>
 #include <QThreadPool>
@@ -28,8 +28,8 @@ public:
     void enqueueTask(QExtTcpTask *task);
 
 Q_SIGNALS:
-    void taskError(const QExtId &id, const QString &error);
-    void taskFinished(const QExtId &id);
+    void taskError(const QExtTag &id, const QString &error);
+    void taskFinished(const QExtTag &id);
 
 protected Q_SLOTS:
     void onTaskError(const QString &error);

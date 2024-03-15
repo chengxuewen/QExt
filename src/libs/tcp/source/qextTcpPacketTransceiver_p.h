@@ -2,7 +2,7 @@
 #define _QEXTTCPPACKETSYNCRECEIVER_P_H
 
 #include <qextTcpPacketTransceiver.h>
-#include <qextId.h>
+#include <qextTag.h>
 
 #include <QMutex>
 #include <QQueue>
@@ -22,7 +22,7 @@ public:
 
     QExtTcpPacketTransceiver * const q_ptr;
 
-    QExtId m_identityId;
+    QExtTag m_identityId;
 
     bool m_cancelled;
     bool m_receivedReply;

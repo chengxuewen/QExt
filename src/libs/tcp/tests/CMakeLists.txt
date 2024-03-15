@@ -20,3 +20,21 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 ########################################################################################################################
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Add lib link libraries
+#-----------------------------------------------------------------------------------------------------------------------
+set(QEXT_TEST_LINK_LIBRARIES)
+set(QEXT_TEST_INCLUDE_DIRECTORIES)
+
+if(QEXT_QT_VERSION_MAJOR EQUAL 4)
+    list(APPEND QEXT_TEST_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtTest)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND QEXT_TEST_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Test)
+else()
+    message(FATAL_ERROR "Not find Qt package")
+endif()
+

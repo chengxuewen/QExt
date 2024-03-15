@@ -5,7 +5,7 @@
 #include <qextTcpPacketParserInterface.h>
 #include <qextTcpPacketDispatcher.h>
 #include <qextTcpSocket.h>
-#include <qextId.h>
+#include <qextTag.h>
 
 #include <QQueue>
 #include <QMutex>
@@ -34,7 +34,7 @@ public:
 
     QString m_peerAddress;
     quint16 m_peerPort;
-    QExtId m_identityId;
+    QExtTag m_identityId;
     static int sm_id;
 
 private:

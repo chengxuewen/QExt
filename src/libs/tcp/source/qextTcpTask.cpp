@@ -77,7 +77,7 @@ quint64 QExtTcpTask::id() const
     return d->m_id;
 }
 
-QExtId QExtTcpTask::identityId() const
+QExtTag QExtTcpTask::identityId() const
 {
     Q_D(const QExtTcpTask);
     return QString("%1-%3:%4")
@@ -112,7 +112,7 @@ QString QExtTcpTask::errorString() const
     return d->m_errorString;
 }
 
-QExtId QExtTcpTask::typeId() const
+QExtTag QExtTcpTask::typeId() const
 {
     return "QExtTcpTask";
 }
@@ -152,7 +152,7 @@ QExtTcpPostBackTask::~QExtTcpPostBackTask()
 
 }
 
-QExtId QExtTcpPostBackTask::typeId() const
+QExtTag QExtTcpPostBackTask::typeId() const
 {
     return "QExtTcpPostBackTask";
 }

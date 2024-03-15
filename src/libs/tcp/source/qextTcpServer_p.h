@@ -34,8 +34,8 @@ public:
     size_t m_maxSocketConnectionCount;
     size_t m_maxTaskThreadCount;
     QSet<QSharedPointer<QExtTcpSocket> > m_allTcpSocketSet;
-    QMap<QExtId, QSharedPointer<QExtTcpSocket> > m_idToTcpSocketMap;
-    QMap<QExtId, QSharedPointer<QExtTcpPacketDispatcher> > m_idToTcpPacketDispatcher;
+    QMap<QExtTag, QSharedPointer<QExtTcpSocket> > m_idToTcpSocketMap;
+    QMap<QExtTag, QSharedPointer<QExtTcpPacketDispatcher> > m_idToTcpPacketDispatcher;
     QQueue<QSharedPointer<QThread> > m_socketWorkThreadQueue;
 
     QSharedPointer<QExtTcpFactory> m_tcpFactory;

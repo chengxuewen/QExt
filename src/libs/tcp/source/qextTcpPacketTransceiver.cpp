@@ -41,7 +41,7 @@ QExtTcpPacketTransceiver::~QExtTcpPacketTransceiver()
 
 }
 
-QExtId QExtTcpPacketTransceiver::identityId() const
+QExtTag QExtTcpPacketTransceiver::identityId() const
 {
     Q_D(const QExtTcpPacketTransceiver);
     return d->m_identityId;
