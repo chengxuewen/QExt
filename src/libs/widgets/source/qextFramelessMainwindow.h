@@ -33,7 +33,6 @@ class QExtFramelessMainWindowPrivate;
 class QEXT_WIDGETS_API QExtFramelessMainWindow : public QMainWindow
 {
     Q_OBJECT
-
 public:
     explicit QExtFramelessMainWindow(QWidget *parent = QEXT_NULLPTR);
     ~QExtFramelessMainWindow();
@@ -74,8 +73,8 @@ protected:
     QScopedPointer<QExtFramelessMainWindowPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QExtFramelessMainWindow)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtFramelessMainWindow)
+    QEXT_DISABLE_COPY_MOVE(QExtFramelessMainWindow)
 };
 
 #endif // _QEXTFRAMELESSMAINWINDOW_H

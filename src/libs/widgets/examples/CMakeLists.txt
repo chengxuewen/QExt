@@ -670,25 +670,3 @@ qext_add_executable(QExtExpWidgetsKeyboard
     ${QEXT_OUTPUT_EXAMPLE_DIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-
-qext_add_executable(QExtExpWidgetsWindowkitMainwindow
-    SOURCES
-    windowkit/main.cpp
-    windowkit/mainwindow.h
-    windowkit/mainwindow.cpp
-    windowkit/mainwindow.qrc
-    windowkit/windowbar.cpp
-    windowkit/windowbar.h
-    windowkit/windowbar_p.h
-    windowkit/windowbar.cpp
-    windowkit/windowbutton.cpp
-    windowkit/windowbutton.h
-    windowkit/windowbutton_p.h
-    LIBRARIES
-    ${QEXT_EXAMPLE_LINK_LIBRARIES}
-    INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/windowkit
-    OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
-    DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")

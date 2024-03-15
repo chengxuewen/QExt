@@ -47,19 +47,6 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::CorePrivate)
 qext_add_library(${QEXT_LIB_NAME}
     EXCEPTIONS
     SOURCES
-    source/frameless/qextAbstractFramelessContext_p.h
-    source/frameless/qextAbstractFramelessContext.cpp
-    source/frameless/qextFramelessItemDelegate_p.h
-    source/frameless/qextFramelessItemDelegate.cpp
-    source/frameless/qextFramelessNativeEvent_p.h
-    source/frameless/qextFramelessNativeEvent.cpp
-    source/frameless/qextFramelessSharedEvent_p.h
-    source/frameless/qextFramelessSharedEvent.cpp
-    source/frameless/qextFramelessAgent.h
-    source/frameless/qextFramelessAgent_p.h
-    source/frameless/qextFramelessAgent.cpp
-    source/frameless/qextFramelessUtils.h
-    source/frameless/qextFramelessUtils_p.h
     source/pinyinime/atomdictbase.h
     source/pinyinime/dictbuilder.cpp
     source/pinyinime/dictbuilder.h
@@ -108,59 +95,6 @@ qext_add_library(${QEXT_LIB_NAME}
     source/qextGuiPch.h
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
-
-if(LINUX)
-    qext_internal_extend_target(${QEXT_LIB_NAME} SOURCES
-        source/frameless/qwindowkit_linux.cpp)
-elseif(WIN32)
-    qext_internal_extend_target(${QEXT_LIB_NAME} SOURCES
-        source/frameless/qextFrameless_win.h
-        source/frameless/qextFrameless_win.cpp
-        source/frameless/qextFramelessExtra_p.h)
-endif()
-
-if(QEXT_FEATURE_USE_FRAMELESS_QT_CONTEXT)
-    qext_internal_extend_target(${QEXT_LIB_NAME} SOURCES
-        source/frameless/qextFramelessContext_p.h
-        source/frameless/qextFramelessContext.cpp)
-else()
-    if(WIN32)
-        qext_internal_extend_target(${QEXT_LIB_NAME} SOURCES
-            source/frameless/qextFramelessContext_win_p.h
-            source/frameless/qextFramelessContext_win.cpp
-            LIBRARIES uxtheme)
-    elseif(APPLE)
-        qext_internal_extend_target(${QEXT_LIB_NAME} SOURCES
-            source/frameless/qextFramelessContext_cocoa_p.h
-            source/frameless/qextFramelessContext_cocoa.mm
-            LIBRARIES
-            "-framework Foundation"
-            "-framework Cocoa"
-            "-framework AppKit")
-    else()
-        qext_internal_extend_target(${QEXT_LIB_NAME} SOURCES
-            source/frameless/qextFramelessContext_p.h
-            source/frameless/qextFramelessContext.cpp)
-    endif()
-endif()
-
-
-if(QEXT_FEATURE_USE_FRAMELESS_STYLE_AGENT)
-    qext_internal_extend_target(${QEXT_LIB_NAME} SOURCES
-        source/frameless/qextFramelessStyleAgent.h
-        source/frameless/qextFramelessStyleAgent_p.h
-        source/frameless/qextFramelessStyleAgent.cpp)
-    if(WIN32)
-        qext_internal_extend_target(${QEXT_LIB_NAME} SOURCES
-            source/frameless/qextFramelessStyleAgent_win.cpp)
-    elseif(APPLE)
-        qext_internal_extend_target(${QEXT_LIB_NAME} SOURCES
-            source/frameless/qextFramelessStyleAgent_mac.mm)
-    else()
-        qext_internal_extend_target(${QEXT_LIB_NAME} SOURCES
-            source/frameless/qextFramelessStyleAgent_linux.cpp)
-    endif()
-endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------

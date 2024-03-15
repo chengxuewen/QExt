@@ -32,11 +32,9 @@
 #include <QStyle>
 #include <QDebug>
 
-
-
 #ifdef Q_OS_WIN
-#include "windows.h"
-#pragma comment (lib,"user32.lib")
+#   include "windows.h"
+#   pragma comment (lib,"user32.lib")
 #endif
 
 #define TIMEMS qPrintable(QTime::currentTime().toString("HH:mm:ss zzz"))
