@@ -37,6 +37,7 @@ QExtNavigationButtonPrivate::QExtNavigationButtonPrivate(QExtNavigationButton *q
     m_hovered = false;
     m_iconSpace = 10;
     m_iconVisible = true;
+    m_textPixelSize = -1;
     m_navigationPosition = QExtNavigationButton::Position_Right;
 }
 
@@ -236,6 +237,10 @@ void QExtNavigationButton::drawText(QPainter *painter)
         textAlign = Qt::AlignHCenter | Qt::AlignBottom;
     }
     QFont font = this->font();
+    if (d->m_textPixelSize > 0)
+    {
+        font.setPixelSize(d->m_textPixelSize);
+    }
     font.setBold(true);
     painter->setFont(font);
     painter->drawText(textRect, textAlign, this->text());
@@ -419,7 +424,7 @@ int QExtNavigationButton::padding() const
 void QExtNavigationButton::setPadding(int padding)
 {
     Q_D(QExtNavigationButton);
-    if (d->m_padding != padding)
+    if (padding != d->m_padding)
     {
         d->m_padding = padding;
         this->update();
@@ -435,9 +440,25 @@ bool QExtNavigationButton::isIconVisible() const
 void QExtNavigationButton::setIconVisible(bool visiable)
 {
     Q_D(QExtNavigationButton);
-    if (d->m_iconVisible != visiable)
+    if (visiable != d->m_iconVisible)
     {
         d->m_iconVisible = visiable;
+        this->update();
+    }
+}
+
+int QExtNavigationButton::textPixelSize() const
+{
+    Q_D(const QExtNavigationButton);
+    return d->m_textPixelSize;
+}
+
+void QExtNavigationButton::setTextPixelSize(int size)
+{
+    Q_D(QExtNavigationButton);
+    if (size != d->m_textPixelSize)
+    {
+        d->m_textPixelSize = size;
         this->update();
     }
 }
@@ -451,7 +472,7 @@ int QExtNavigationButton::iconSpace() const
 void QExtNavigationButton::setIconSpace(int space)
 {
     Q_D(QExtNavigationButton);
-    if (d->m_iconSpace != space)
+    if (space != d->m_iconSpace)
     {
         d->m_iconSpace = space;
         this->update();

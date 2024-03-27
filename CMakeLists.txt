@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.4.8 LANGUAGES CXX C)
+project(QExt VERSION 1.2.4.9 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})

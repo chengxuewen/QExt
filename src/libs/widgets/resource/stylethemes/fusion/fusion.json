@@ -2,7 +2,7 @@
     "name" : "fusion",
     "icon" : "fusion_icon.svg",
     "css_template" : "fusion.css.template",
-    "default_theme" : "White",
+    "default_theme" : "Blue",
 
     "variables" : {
         "font_family" : "Source Sans Pro",

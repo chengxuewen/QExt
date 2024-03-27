@@ -61,6 +61,9 @@ public:
     bool isIconVisible() const;
     void setIconVisible(bool visiable);
 
+    int textPixelSize() const;
+    void setTextPixelSize(int size);
+
     QSize sizeHint() const QEXT_OVERRIDE;
     QSize minimumSizeHint() const QEXT_OVERRIDE;
 

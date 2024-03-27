@@ -48,7 +48,7 @@ QSplitter {
 
 QStatusBar {
     color: {{secondaryTextColor}};
-    background-color: {{secondaryLightColor|opacity(0.2)}};
+    background-color: {{secondaryLightColor|opacity(0.3)}};
     border-radius: 0px;
 }
 
@@ -127,9 +127,9 @@ QSpinBox:disabled,
 QDoubleSpinBox:disabled,
 QTextEdit:disabled,
 QLineEdit:disabled {
-    color: {{primaryColor|opacity(0.2)}};
+    color: {{primaryColor|opacity(0.3)}};
     background-color: {{secondaryColor|opacity(0.75)}};
-    border: 1px solid {{primaryColor|opacity(0.2)}};
+    border: 1px solid {{primaryColor|opacity(0.3)}};
     border-width: 0px;
     padding: 4px 4px;
     border-radius: 0px;
@@ -142,9 +142,9 @@ QSpinBox:disabled,
 QDoubleSpinBox:disabled,
 QTextEdit:disabled,
 QLineEdit:disabled {
-    color: {{primaryColor|opacity(0.2)}};
+    color: {{primaryColor|opacity(0.3)}};
     background-color: {{secondaryColor|opacity(0.75)}};
-    border: 1px solid {{primaryColor|opacity(0.2)}};
+    border: 1px solid {{primaryColor|opacity(0.3)}};
     border-width: 0 0 2px 0;
 }
 
@@ -164,10 +164,10 @@ QComboBox {
 }
 
 /*
-border-bottom: 2px solid {{primaryColor|opacity(0.2)}};
+border-bottom: 2px solid {{primaryColor|opacity(0.3)}};
 */
 QComboBox:disabled {
-    color: {{primaryColor|opacity(0.2)}};
+    color: {{primaryColor|opacity(0.3)}};
     background-color: {{secondaryColor|opacity(0.75)}};
 }
 
@@ -199,7 +199,7 @@ QComboBox[frame='false'] {
     border: 1px solid transparent;
 }
 QComboBox[frame='false']:disabled {
-    color: {{primaryColor|opacity(0.2)}};
+    color: {{primaryColor|opacity(0.3)}};
 }
 
 
@@ -267,7 +267,7 @@ QPushButton:flat {
 }
 
 QPushButton:flat:hover {
-    background-color: {{primaryColor|opacity(0.2)}};
+    background-color: {{primaryColor|opacity(0.3)}};
 }
 
 QPushButton:flat:pressed,
@@ -410,7 +410,7 @@ QTabWidget::tab-bar {
 /*  QGroupBox  */
 
 QGroupBox {
-    border: 1px solid {{secondaryLightColor}};
+    border: 2px solid {{secondaryLightColor}};
     background-color: {{secondaryDarkColor}};
     border-radius: 4px;
     margin-top: 10px;
@@ -425,7 +425,7 @@ QGroupBox::title {
     background-color: {{secondaryDarkColor}};
     height: 20px;
     left: 10px;
-    top: 4px;
+    top: 3px;
 }
 
 
@@ -814,7 +814,7 @@ QToolBox::tab {
 
 QToolBox::tab:selected,
 QToolBox::tab:hover {
-    background-color: {{primaryColor|opacity(0.2)}};
+    background-color: {{primaryColor|opacity(0.3)}};
 }
 
 
@@ -836,41 +836,109 @@ QProgressBar::chunk {
 /*  ------------------------------------------------------------------------  */
 /*  QScrollBar  */
 
-QScrollBar:horizontal {
-    border: 0;
+QScrollBar {
     background: {{secondaryColor}};
-    height: 8px;
+    border: 1px solid {{secondaryColor}};
+}
+
+QScrollBar:horizontal {
+    height: 15px;
+    margin: 0px 15px 0px 15px;
 }
 
 QScrollBar:vertical {
-    border: 0;
-    background: {{secondaryColor}};
-    width: 8px;
+    width: 15px;
+    margin: 15px 0px 15px 0px;
+}
+
+QScrollBar::handle {
+    background: {{secondaryLightColor}};
+}
+
+QScrollBar::handle:hover,
+QScrollBar::handle:hover {
+    background: {{primaryColor}};
 }
 
 QScrollBar::handle:horizontal {
-    background: {{secondaryLightColor}};
     min-width: 20px;
 }
 
 QScrollBar::handle:vertical {
-    background: {{secondaryLightColor}};
-    min-height: 20px;
+    min-height: 2px;
 }
 
-QScrollBar::handle:vertical:hover,
-QScrollBar::handle:horizontal:hover {
+QScrollBar::add-line,
+QScrollBar::sub-line {
+    subcontrol-origin: margin;
+    background: {{secondaryDarkColor}};
+    border: 1px solid {{secondaryColor}};
+}
+
+QScrollBar::add-line:hover,
+QScrollBar::sub-line:hover {
+    background: {{primaryColor|opacity(0.3)}};
+}
+
+QScrollBar::add-line:pressed,
+QScrollBar::sub-line:pressed {
     background: {{primaryColor}};
 }
 
-QScrollBar::add-line:vertical,
-QScrollBar::sub-line:vertical,
-QScrollBar::add-line:horizontal,
 QScrollBar::sub-line:horizontal {
-    border: 0;
-    background: transparent;
-    width: 0px;
-    height: 0px;
+    width: 15px;
+    height: 13px;
+    subcontrol-position: left;
+}
+
+QScrollBar::sub-line:vertical {
+    width: 13px;
+    height: 15px;
+    subcontrol-position: top;
+}
+
+QScrollBar::add-line:horizontal {
+    width: 15px;
+    height: 13px;
+    subcontrol-position: right;
+}
+
+QScrollBar::add-line:vertical {
+    width: 13px;
+    height: 15px;
+    subcontrol-position: bottom;
+}
+
+QScrollBar::left-arrow:horizontal {
+    image: url(icon:/fusion/primary/leftarrow.svg);
+}
+
+QScrollBar::left-arrow:horizontal:pressed {
+    image: url(icon:/fusion/disabled/leftarrow.svg);
+}
+
+QScrollBar::right-arrow:horizontal {
+    image: url(icon:/fusion/primary/rightarrow.svg);
+}
+
+QScrollBar::right-arrow:horizontal:pressed {
+    image: url(icon:/fusion/disabled/rightarrow.svg);
+}
+
+QScrollBar::up-arrow:vertical {
+    image: url(icon:/fusion/primary/uparrow.svg);
+}
+
+QScrollBar::up-arrow:vertical:pressed {
+    image: url(icon:/fusion/disabled/uparrow.svg);
+}
+
+QScrollBar::down-arrow:vertical {
+    image: url(icon:/fusion/primary/downarrow.svg);
+}
+
+QScrollBar::down-arrow:vertical:pressed {
+    image: url(icon:/fusion/disabled/downarrow.svg);
 }
 
 
@@ -934,7 +1002,7 @@ QLabel {
 }
 
 QLabel:disabled {
-    color: {{secondaryTextColor|opacity(0.2)}}
+    color: {{secondaryTextColor|opacity(0.3)}}
 }
 
 
@@ -1052,16 +1120,16 @@ QListView::item {
 /*  ------------------------------------------------------------------------  */
 /*  Items Selection */
 
-QTableView:item:selected,
+QTableView::item:selected,
 QTreeView::item:selected,
 QListView::item:selected {
-    background-color: {{primaryColor|opacity(0.2)}};
-    selection-background-color: {{primaryColor|opacity(0.2)}};
+    background-color: {{primaryColor|opacity(0.3)}};
+    selection-background-color: {{primaryColor|opacity(0.3)}};
     color: {{secondaryTextColor}};
     selection-color: {{secondaryTextColor}}; /* For Windows */
 }
 
-QTableView:item:selected:focus,
+QTableView::item:selected:focus,
 QTreeView::item:selected:focus,
 QListView::item:selected:focus {
     background-color: {{primaryColor}};
@@ -1071,7 +1139,7 @@ QListView::item:selected:focus {
 }
 
 QTableView {
-    selection-background-color: {{primaryColor|opacity(0.2)}};
+    selection-background-color: {{primaryColor|opacity(0.3)}};
 }
 
 QTableView:focus {
@@ -1162,7 +1230,7 @@ QPushButton.success:pressed {
 }
 
 QPushButton.danger:flat:hover {
-    background-color: {{danger|opacity(0.2)}};
+    background-color: {{danger|opacity(0.3)}};
 }
 
 QPushButton.danger:flat:pressed,
@@ -1172,7 +1240,7 @@ QPushButton.danger:flat:checked {
 }
 
 QPushButton.warning:flat:hover {
-    background-color: {{warning|opacity(0.2)}};
+    background-color: {{warning|opacity(0.3)}};
 }
 
 QPushButton.warning:flat:pressed,
@@ -1182,7 +1250,7 @@ QPushButton.warning:flat:checked {
 }
 
 QPushButton.success:flat:hover {
-    background-color: {{success|opacity(0.2)}};
+    background-color: {{success|opacity(0.3)}};
 }
 
 QPushButton.success:flat:pressed,

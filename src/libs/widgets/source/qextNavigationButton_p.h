@@ -41,6 +41,7 @@ public:
     bool m_hovered;
     int m_iconSpace;
     bool m_iconVisible;
+    int m_textPixelSize;
     QExtNavigationButton::PositionEnum m_navigationPosition;
 
 private:
