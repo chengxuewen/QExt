@@ -94,8 +94,12 @@ qext_add_library(Core
     source/invoke/qextVisitor.h
     source/tools/qextBackTrace.cpp
     source/tools/qextBackTrace.h
+    source/tools/qextDiskInfo.cpp
+    source/tools/qextDiskInfo.h
     source/tools/qextException.cpp
     source/tools/qextException.h
+    source/tools/qextLinearBuffer.cpp
+    source/tools/qextLinearBuffer.h
     source/tools/qextTag.cpp
     source/tools/qextTag.h
     source/tools/qextSpinlock.h
@@ -105,19 +109,17 @@ qext_add_library(Core
     source/tools/qextUniquePointer.h
     source/tools/qextWinSystemLibrary_p.h
     source/tools/qextWinSystemLibrary.cpp
-    source/tools/qextUtils.cpp
-    source/tools/qextUtils.h
     source/utils/qextCodecUtils.cpp
     source/utils/qextCodecUtils.h
     source/utils/qextDateTimeUtils.cpp
     source/utils/qextHostInfoUtils_p.h
     source/utils/qextDateTimeUtils.h
-    source/utils/qextDiskInfo.cpp
-    source/utils/qextDiskInfo.h
     source/utils/qextHostInfoUtils.cpp
     source/utils/qextHostInfoUtils.h
     source/utils/qextNetworkUtils.cpp
     source/utils/qextNetworkUtils.h
+    source/utils/qextUtils.cpp
+    source/utils/qextUtils.h
     PRECOMPILED_HEADER
     source/qextPch.h
     PUBLIC_LIBRARIES
