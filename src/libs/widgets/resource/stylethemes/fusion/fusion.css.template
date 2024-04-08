@@ -503,51 +503,33 @@ QListView::indicator:indeterminate:disabled {
 /*  ------------------------------------------------------------------------  */
 /*  QTableView Indicator  */
 
-QTableView::indicator:enabled:checked,
-QTableView::indicator:enabled:checked:selected,
-QTableView::indicator:enabled:checked:focus {
+QTableView::indicator:enabled:checked {
     image: url(icon:/fusion/primary/checkbox_checked.svg);
 }
-
-QTableView::indicator:checked:selected:active {
+QTableView::indicator:enabled:checked:selected {
     image: url(icon:/fusion/primary/checkbox_checked_invert.svg);
 }
-
-QTableView::indicator:disabled:checked,
-QTableView::indicator:disabled:checked:selected,
-QTableView::indicator:disabled:checked:focus {
+QTableView::indicator:disabled:checked {
     image: url(icon:/fusion/disabled/checkbox_checked.svg);
 }
 
-QTableView::indicator:enabled:unchecked,
-QTableView::indicator:enabled:unchecked:selected,
-QTableView::indicator:enabled:unchecked:focus {
+QTableView::indicator:enabled:unchecked {
     image: url(icon:/fusion/primary/checkbox_unchecked.svg);
 }
-
-QTableView::indicator:unchecked:selected:active {
+QTableView::indicator:enabled:unchecked:selected {
     image: url(icon:/fusion/primary/checkbox_unchecked_invert.svg);
 }
-
-QTableView::indicator:disabled:unchecked,
-QTableView::indicator:disabled:unchecked:selected,
-QTableView::indicator:disabled:unchecked:focus {
+QTableView::indicator:disabled:unchecked {
     image: url(icon:/fusion/disabled/checkbox_unchecked.svg);
 }
 
-QTableView::indicator:enabled:indeterminate,
-QTableView::indicator:enabled:indeterminate:selected,
-QTableView::indicator:enabled:indeterminate:focus {
+QTableView::indicator:enabled:indeterminate {
     image: url(icon:/fusion/primary/checkbox_indeterminate.svg);
 }
-
-QTableView::indicator:indeterminate:selected:active {
+QTableView::indicator:enabled:indeterminate:selected {
     image: url(icon:/fusion/primary/checkbox_indeterminate_invert.svg);
 }
-
-QTableView::indicator:disabled:indeterminate,
-QTableView::indicator:disabled:indeterminate:selected,
-QTableView::indicator:disabled:indeterminate:focus {
+QTableView::indicator:disabled:indeterminate {
     image: url(icon:/fusion/disabled/checkbox_indeterminate.svg);
 }
 
@@ -1123,10 +1105,10 @@ QListView::item {
 QTableView::item:selected,
 QTreeView::item:selected,
 QListView::item:selected {
-    background-color: {{primaryColor|opacity(0.3)}};
+    background-color: {{primaryColor}};
     selection-background-color: {{primaryColor|opacity(0.3)}};
-    color: {{secondaryTextColor}};
-    selection-color: {{secondaryTextColor}}; /* For Windows */
+    color: {{secondaryDarkColor}};
+    selection-color: {{secondaryDarkColor}}; /* For Windows */
 }
 
 QTableView::item:selected:focus,
@@ -1134,8 +1116,8 @@ QTreeView::item:selected:focus,
 QListView::item:selected:focus {
     background-color: {{primaryColor}};
     selection-background-color: {{primaryColor}};
-    color: {{primaryTextColor}};
-    selection-color: {{primaryTextColor}}; /* For Windows */
+    color: {{secondaryDarkColor}};
+    selection-color: {{secondaryDarkColor}}; /* For Windows */
 }
 
 QTableView {

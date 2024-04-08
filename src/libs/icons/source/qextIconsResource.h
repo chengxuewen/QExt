@@ -35,7 +35,7 @@ public:
     {
         const int index = iconsName.indexOf("_");
         return index >= 0 ? iconsName.mid(index + 1) : iconsName;
-    };
+    }
 
     QString iconResource(const QString &iconName, bool isUrl = false) const
     {

@@ -502,6 +502,7 @@ QListView::indicator:indeterminate:disabled {
 /*  ------------------------------------------------------------------------  */
 /*  QTableView Indicator  */
 
+/*
 QTableView::indicator:enabled:checked,
 QTableView::indicator:enabled:checked:selected,
 QTableView::indicator:enabled:checked:focus {
@@ -511,42 +512,34 @@ QTableView::indicator:enabled:checked:focus {
 QTableView::indicator:checked:selected:active {
     image: url(icon:/material/primary/checkbox_checked_invert.svg);
 }
-
-QTableView::indicator:disabled:checked,
-QTableView::indicator:disabled:checked:selected,
-QTableView::indicator:disabled:checked:focus {
+*/
+QTableView::indicator:enabled:checked {
+    image: url(icon:/material/primary/checkbox_checked.svg);
+}
+QTableView::indicator:enabled:checked:selected {
+    image: url(icon:/material/primary/checkbox_checked_invert.svg);
+}
+QTableView::indicator:disabled:checked {
     image: url(icon:/material/disabled/checkbox_checked.svg);
 }
 
-QTableView::indicator:enabled:unchecked,
-QTableView::indicator:enabled:unchecked:selected,
-QTableView::indicator:enabled:unchecked:focus {
+QTableView::indicator:enabled:unchecked {
     image: url(icon:/material/primary/checkbox_unchecked.svg);
 }
-
-QTableView::indicator:unchecked:selected:active {
+QTableView::indicator:enabled:unchecked:selected {
     image: url(icon:/material/primary/checkbox_unchecked_invert.svg);
 }
-
-QTableView::indicator:disabled:unchecked,
-QTableView::indicator:disabled:unchecked:selected,
-QTableView::indicator:disabled:unchecked:focus {
+QTableView::indicator:disabled:unchecked {
     image: url(icon:/material/disabled/checkbox_unchecked.svg);
 }
 
-QTableView::indicator:enabled:indeterminate,
-QTableView::indicator:enabled:indeterminate:selected,
-QTableView::indicator:enabled:indeterminate:focus {
+QTableView::indicator:enabled:indeterminate {
     image: url(icon:/material/primary/checkbox_indeterminate.svg);
 }
-
-QTableView::indicator:indeterminate:selected:active {
+QTableView::indicator:enabled:indeterminate:selected {
     image: url(icon:/material/primary/checkbox_indeterminate_invert.svg);
 }
-
-QTableView::indicator:disabled:indeterminate,
-QTableView::indicator:disabled:indeterminate:selected,
-QTableView::indicator:disabled:indeterminate:focus {
+QTableView::indicator:disabled:indeterminate {
     image: url(icon:/material/disabled/checkbox_indeterminate.svg);
 }
 
@@ -554,51 +547,33 @@ QTableView::indicator:disabled:indeterminate:focus {
 /*  ------------------------------------------------------------------------  */
 /*  QTreeView Indicator  */
 
-QTreeView::indicator:enabled:checked,
-QTreeView::indicator:enabled:checked:selected,
-QTreeView::indicator:enabled:checked:focus {
+QTreeView::indicator:enabled:checked {
     image: url(icon:/material/primary/checkbox_checked.svg);
 }
-
-QTreeView::indicator:checked:selected:active {
+QTreeView::indicator:checked:selected {
     image: url(icon:/material/primary/checkbox_checked_invert.svg);
 }
-
-QTreeView::indicator:disabled:checked,
-QTreeView::indicator:disabled:checked:selected,
-QTreeView::indicator:disabled:checked:focus {
+QTreeView::indicator:disabled:checked {
     image: url(icon:/material/disabled/checkbox_checked.svg);
 }
 
-QTreeView::indicator:enabled:unchecked,
-QTreeView::indicator:enabled:unchecked:selected,
-QTreeView::indicator:enabled:unchecked:focus {
+QTreeView::indicator:enabled:unchecked {
     image: url(icon:/material/primary/checkbox_unchecked.svg);
 }
-
-QTreeView::indicator:unchecked:selected:active {
+QTreeView::indicator:unchecked:selected {
     image: url(icon:/material/primary/checkbox_unchecked_invert.svg);
 }
-
-QTreeView::indicator:disabled:unchecked,
-QTreeView::indicator:disabled:unchecked:selected,
-QTreeView::indicator:disabled:unchecked:focus {
+QTreeView::indicator:disabled:unchecked {
     image: url(icon:/material/disabled/checkbox_unchecked.svg);
 }
 
-QTreeView::indicator:enabled:indeterminate,
-QTreeView::indicator:enabled:indeterminate:selected,
-QTreeView::indicator:enabled:indeterminate:focus {
+QTreeView::indicator:enabled:indeterminate {
     image: url(icon:/material/primary/checkbox_indeterminate.svg);
 }
-
-QTreeView::indicator:indeterminate:selected:active {
+QTreeView::indicator:indeterminate:selected {
     image: url(icon:/material/primary/checkbox_indeterminate_invert.svg);
 }
-
-QTreeView::indicator:disabled:indeterminate,
-QTreeView::indicator:disabled:indeterminate:selected,
-QTreeView::indicator:disabled:indeterminate:focus {
+QTreeView::indicator:disabled:indeterminate {
     image: url(icon:/material/disabled/checkbox_indeterminate.svg);
 }
 
@@ -1056,10 +1031,10 @@ QListView::item {
 QTableView::item:selected,
 QTreeView::item:selected,
 QListView::item:selected {
-    background-color: {{primaryColor|opacity(0.3)}};
+    background-color: {{primaryColor}};
     selection-background-color: {{primaryColor|opacity(0.3)}};
-    color: {{secondaryTextColor}};
-    selection-color: {{secondaryTextColor}}; /* For Windows */
+    color: {{secondaryDarkColor}};
+    selection-color: {{secondaryDarkColor}}; /* For Windows */
 }
 
 QTableView::item:selected:focus,
@@ -1067,8 +1042,8 @@ QTreeView::item:selected:focus,
 QListView::item:selected:focus {
     background-color: {{primaryColor}};
     selection-background-color: {{primaryColor}};
-    color: {{primaryTextColor}};
-    selection-color: {{primaryTextColor}}; /* For Windows */
+    color: {{secondaryDarkColor}};
+    selection-color: {{secondaryDarkColor}}; /* For Windows */
 }
 
 QTableView {
