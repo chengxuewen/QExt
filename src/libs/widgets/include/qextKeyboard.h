@@ -1,1 +1,1 @@
-#include "../source/qextKeyboard.h"
+#include "../source/widgets/qextKeyboard.h"

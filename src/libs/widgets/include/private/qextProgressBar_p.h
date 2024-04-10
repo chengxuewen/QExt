@@ -1,1 +1,1 @@
-#include "../../source/qextProgressBar_p.h"
+#include "../../source/widgets/qextProgressBar_p.h"

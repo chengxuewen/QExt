@@ -1,1 +1,1 @@
-#include "../../source/qextScaleKnob_p.h"
+#include "../../source/widgets/qextScaleKnob_p.h"

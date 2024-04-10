@@ -1,1 +1,1 @@
-#include "../source/qextSlider.h"
+#include "../source/widgets/qextSlider.h"

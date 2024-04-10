@@ -1,1 +1,1 @@
-#include "../../source/qextIconLabel_p.h"
+#include "../../source/widgets/qextIconLabel_p.h"

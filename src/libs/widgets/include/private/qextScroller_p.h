@@ -1,1 +1,1 @@
-#include "../../source/qextScroller_p.h"
+#include "../../source/widgets/qextScroller_p.h"

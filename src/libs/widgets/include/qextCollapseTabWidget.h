@@ -1,1 +1,1 @@
-#include "../source/qextCollapseTabWidget.h"
+#include "../source/widgets/qextCollapseTabWidget.h"

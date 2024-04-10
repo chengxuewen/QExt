@@ -1,1 +1,1 @@
-#include "../source/qextProgressRing.h"
+#include "../source/widgets/qextProgressRing.h"

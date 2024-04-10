@@ -1,1 +1,1 @@
-#include "../source/qextPropertyModel.h"
+#include "../source/tools/qextPropertyModel.h"

@@ -1,1 +1,1 @@
-#include "../../source/qextFramelessDialog_p.h"
+#include "../../source/widgets/qextFramelessDialog_p.h"

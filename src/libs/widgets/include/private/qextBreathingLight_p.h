@@ -1,1 +1,1 @@
-#include "../../source/qextBreathingLight_p.h"
+#include "../../source/widgets/qextBreathingLight_p.h"

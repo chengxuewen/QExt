@@ -1,1 +1,1 @@
-#include "../../source/qextArrowCompass_p.h"
+#include "../../source/widgets/qextArrowCompass_p.h"

@@ -1,1 +1,1 @@
-#include "../source/qextThermometer.h"
+#include "../source/widgets/qextThermometer.h"

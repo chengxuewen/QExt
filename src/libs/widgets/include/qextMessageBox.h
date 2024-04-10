@@ -1,1 +1,1 @@
-#include "../source/qextMessageBox.h"
+#include "../source/widgets/qextMessageBox.h"

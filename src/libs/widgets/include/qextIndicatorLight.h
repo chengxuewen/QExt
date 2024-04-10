@@ -1,1 +1,1 @@
-#include "../source/qextIndicatorLight.h"
+#include "../source/widgets/qextIndicatorLight.h"

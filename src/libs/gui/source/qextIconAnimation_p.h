@@ -5,7 +5,7 @@
 
 #include <QVariantAnimation>
 
-class QExtAnimationIconEngine : public QObject, public QIconEngine
+class QEXT_GUI_API QExtAnimationIconEngine : public QObject, public QIconEngine
 {
     Q_OBJECT
 public:

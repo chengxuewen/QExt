@@ -1,1 +1,1 @@
-#include "../source/qextIpAddressEdit.h"
+#include "../source/widgets/qextIpAddressEdit.h"

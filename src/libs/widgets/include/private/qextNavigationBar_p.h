@@ -1,1 +1,1 @@
-#include "../../source/qextNavigationBar_p.h"
+#include "../../source/widgets/qextNavigationBar_p.h"

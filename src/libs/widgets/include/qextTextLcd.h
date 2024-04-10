@@ -1,1 +1,1 @@
-#include "../source/qextTextLcd.h"
+#include "../source/widgets/qextTextLcd.h"
