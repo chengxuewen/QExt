@@ -268,9 +268,9 @@ function(qext_add_library target)
 
     if(NOT arg_HEADER_LIBRARY)
         set_target_properties(${target} PROPERTIES
-            LIBRARY_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${INSTALL_LIBDIR}"
-            RUNTIME_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${INSTALL_BINDIR}"
-            ARCHIVE_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${INSTALL_LIBDIR}"
+            LIBRARY_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${QEXT_INSTALL_LIBDIR}"
+            RUNTIME_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${QEXT_INSTALL_BINDIR}"
+            ARCHIVE_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${QEXT_INSTALL_LIBDIR}"
             VERSION ${PROJECT_VERSION}
             SOVERSION ${PROJECT_VERSION_MAJOR})
         qext_set_target_info_properties(${target} ${ARGN})
@@ -429,8 +429,8 @@ function(qext_add_library target)
     endif()
 
     if(is_framework)
-        set(fw_install_dir "${INSTALL_LIBDIR}/${fw_dir}")
-        set(fw_install_header_dir "${INSTALL_LIBDIR}/${fw_header_dir}")
+        set(fw_install_dir "${QEXT_INSTALL_LIBDIR}/${fw_dir}")
+        set(fw_install_header_dir "${QEXT_INSTALL_LIBDIR}/${fw_header_dir}")
         set(fw_output_header_dir "${QEXT_BUILD_DIR}/${fw_install_header_dir}")
         list(APPEND public_includes
             # Add the framework Headers subdir, so that non-framework-style includes work. The
@@ -459,7 +459,7 @@ function(qext_add_library target)
         # enough to deduplicate the include paths on the command line.
         # Frameworks are automatically handled by CMake in cmLocalGenerator::GetIncludeFlags()
         # by additionally passing the 'QEXTFoo.framework/..' dir with an -iframework argument.
-        list(APPEND ${public_headers_list} "$<INSTALL_INTERFACE:${INSTALL_INCLUDEDIR}>")
+        list(APPEND ${public_headers_list} "$<INSTALL_INTERFACE:${QEXT_INSTALL_INCLUDEDIR}>")
     endif()
     list(APPEND ${public_headers_list} ${arg_PUBLIC_INCLUDE_DIRECTORIES})
 
@@ -619,7 +619,7 @@ function(qext_add_library target)
     qext_internal_get_max_new_policy_cmake_version(max_new_policy_version)
     include(CMakePackageConfigHelpers)
     configure_package_config_file(
-        "${QEXT_CMAKE_DIR}/QEXTModuleConfig.cmake.in"
+        "${QEXT_CMAKE_DIR}/QExtModuleConfig.cmake.in"
         "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Config.cmake"
         INSTALL_DESTINATION "${config_install_dir}")
 
@@ -662,10 +662,10 @@ function(qext_add_library target)
     #    message(library_install_interface_include_dir=${library_install_interface_include_dir})
     qext_install(TARGETS ${exported_targets}
         EXPORT ${export_name}
-        RUNTIME DESTINATION ${INSTALL_BINDIR}
-        LIBRARY DESTINATION ${INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${INSTALL_LIBDIR}
-        FRAMEWORK DESTINATION ${INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${QEXT_INSTALL_BINDIR}
+        LIBRARY DESTINATION ${QEXT_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${QEXT_INSTALL_LIBDIR}
+        FRAMEWORK DESTINATION ${QEXT_INSTALL_LIBDIR}
         PRIVATE_HEADER DESTINATION "${library_install_interface_private_include_dir}"
         PUBLIC_HEADER DESTINATION "${library_install_interface_include_dir}")
     if(arg_EXTERNAL_HEADERS_DIR)
@@ -674,14 +674,14 @@ function(qext_add_library target)
     endif()
 
     if(BUILD_SHARED_LIBS)
-        qext_apply_rpaths(TARGET "${target}" INSTALL_PATH "${INSTALL_LIBDIR}" RELATIVE_RPATH)
+        qext_apply_rpaths(TARGET "${target}" INSTALL_PATH "${QEXT_INSTALL_LIBDIR}" RELATIVE_RPATH)
         qext_internal_apply_staging_prefix_build_rpath_workaround()
     endif()
 
     if(ANDROID AND NOT arg_HEADER_LIBRARY)
         # Record install library location so it can be accessed by
         # qext_internal_android_dependencies without having to specify it again.
-        set_target_properties(${target} PROPERTIES QEXT_ANDROID_MODULE_INSTALL_DIR ${INSTALL_LIBDIR})
+        set_target_properties(${target} PROPERTIES QEXT_ANDROID_MODULE_INSTALL_DIR ${QEXT_INSTALL_LIBDIR})
     endif()
 
     qext_install(EXPORT ${export_name}
@@ -728,8 +728,8 @@ function(qext_add_library target)
                 "$<BUILD_INTERFACE:${library_build_interface_versioned_inner_include_dir}>")
 
             if(is_framework)
-                set(fw_install_private_header_dir "${INSTALL_LIBDIR}/${fw_private_header_dir}")
-                set(fw_install_private_module_header_dir "${INSTALL_LIBDIR}/${fw_private_module_header_dir}")
+                set(fw_install_private_header_dir "${QEXT_INSTALL_LIBDIR}/${fw_private_header_dir}")
+                set(fw_install_private_module_header_dir "${QEXT_INSTALL_LIBDIR}/${fw_private_module_header_dir}")
                 list(APPEND interface_includes
                     "$<INSTALL_INTERFACE:${fw_install_private_header_dir}>"
                     "$<INSTALL_INTERFACE:${fw_install_private_module_header_dir}>")
@@ -757,14 +757,14 @@ function(qext_add_library target)
         target_link_libraries("${target_private}" INTERFACE "${target}")
     endif()
 
-    set(debug_install_dir "${INSTALL_LIBDIR}")
+    set(debug_install_dir "${QEXT_INSTALL_LIBDIR}")
     if(MINGW)
-        set(debug_install_dir "${INSTALL_BINDIR}")
+        set(debug_install_dir "${QEXT_INSTALL_BINDIR}")
     endif()
     qext_enable_separate_debug_info(${target} "${debug_install_dir}")
-    set(pdb_install_dir "${INSTALL_BINDIR}")
+    set(pdb_install_dir "${QEXT_INSTALL_BINDIR}")
     if(NOT is_shared_lib)
-        set(pdb_install_dir "${INSTALL_LIBDIR}")
+        set(pdb_install_dir "${QEXT_INSTALL_LIBDIR}")
     endif()
     qext_internal_install_pdb_files(${target} "${pdb_install_dir}")
 
@@ -938,7 +938,7 @@ function(qext_internal_library_info result target)
         "${repo_build_interface_include_dir}/${${result}_private_include_dir}")
 
     # Library install interface directories
-    set(repo_install_interface_include_dir "${INSTALL_INCLUDEDIR}")
+    set(repo_install_interface_include_dir "${QEXT_INSTALL_INCLUDEDIR}")
     set("${result}_install_interface_include_dir"
         "${repo_install_interface_include_dir}/${${result}_include_name}")
     set("${result}_install_interface_versioned_include_dir"
@@ -1349,7 +1349,7 @@ function(qext_internal_create_library_depends_file target)
     set(main_library_tool_deps "")
 
     # Extra QEXTFooModuleTools packages to be added as dependencies to
-    # QEXTModuleDependencies.cmake. Needed for QEXTWaylandCompositor / QEXTWaylandClient.
+    # QExtModuleDependencies.cmake. Needed for QEXTWaylandCompositor / QEXTWaylandClient.
     if(NOT arg_HEADER_LIBRARY)
         get_target_property(extra_tools_package_dependencies "${target}" QEXT_EXTRA_TOOLS_PACKAGE_DEPENDENCIES)
         if(extra_tools_package_dependencies)
@@ -1444,7 +1444,7 @@ function(qext_internal_create_library_depends_file target)
 
         # Configure and install ModuleDependencies file.
         configure_file(
-            "${QEXT_CMAKE_DIR}/QEXTModuleDependencies.cmake.in"
+            "${QEXT_CMAKE_DIR}/QExtModuleDependencies.cmake.in"
             "${config_build_dir}/${QEXT_CMAKE_INSTALL_NAMESPACE}${target}Dependencies.cmake"
             @ONLY)
 

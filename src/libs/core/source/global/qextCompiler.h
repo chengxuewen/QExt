@@ -4,8 +4,10 @@
 #include <qextPreprocessor.h>
 #include <qextSystem.h>
 
-#include <qcompilerdetection.h>
-
+#include <QtGlobal>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
+#   include <qcompilerdetection.h>
+#endif
 
 /***********************************************************************************************************************
     QExt compiler type version macro define
@@ -886,5 +888,10 @@
     #define QEXT_INLINE_TEMPLATE inline
 #endif
 
+#ifdef __has_feature
+#   define QEXT_CC_HAS_FEATURE __has_feature
+#else
+#   define QEXT_CC_HAS_FEATURE(x) 0
+#endif
 
 #endif // _QEXTCOMPILER_H

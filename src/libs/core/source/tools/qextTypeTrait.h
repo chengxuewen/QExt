@@ -237,7 +237,7 @@ struct QExtIsArithmetic : public QExtIntegralConstant<bool, QExtIsIntegral<T>::v
 template <typename T>
 struct QExtIsMemberPointer : public QExtIntegralConstant<bool, std::is_member_function_pointer<T>::value>{};
 #endif
-template <typename T, typename U> struct QExtIsMemberPointer<U T::* > : public QExtTrueType{};
+// template <typename T, typename U> struct QExtIsMemberPointer<U T::* > : public QExtTrueType{};
 
 
 /***********************************************************************************************************************
@@ -428,7 +428,7 @@ template<typename T> struct QExtAddPointer { typedef typename QExtRemoveReferenc
 #if ((defined(QEXT_CC_MSVC) && defined(QEXT_MSVC_FULL_VER) && (QEXT_MSVC_FULL_VER >=140050215)) || \
     (defined(QEXT_CC_INTEL) && defined(_MSC_VER) && (_MSC_VER >= 1500)))
 #   define QEXT_IS_UNION(T) __is_union(T)
-#elif (defined(QEXT_CC_CLANG) && defined(__has_feature) && !defined(__CUDACC__)) && __has_feature(is_union)
+#elif defined(QEXT_CC_CLANG) && defined(__has_feature) && !defined(__CUDACC__) && QEXT_CC_HAS_FEATURE(is_union)
 #   define QEXT_IS_UNION(T) __is_union(T)
 #elif (defined(__GNUC__) && ((__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 3) && !defined(__GCCXML__))) && \
     !defined(QEXT_CC_CLANG))
@@ -500,7 +500,7 @@ struct QExtIsConvertible
 #if (defined(QEXT_CC_MSVC) && defined(QEXT_CC_MSVC_FULL_VER) && (QEXT_CC_MSVC_FULL_VER >=140050215)) \
     || (defined(QEXT_CC_INTEL) && defined(_MSC_VER) && (_MSC_VER >= 1500))
 #   define QEXT_IS_ENUM(T) __is_enum(T)
-#elif defined(QEXT_CC_CLANG) && defined(__has_feature) && !defined(__CUDACC__) && __has_feature(is_enum)
+#elif defined(QEXT_CC_CLANG) && defined(__has_feature) && !defined(__CUDACC__) && QEXT_CC_HAS_FEATURE(is_enum)
 // #   define QEXT_IS_ENUM(T) __is_enum(T)
 #elif defined(__GNUC__) && ((__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 3) && !defined(__GCCXML__))) && \
     !defined(QEXT_CC_CLANG)
@@ -511,7 +511,7 @@ struct QExtIsConvertible
 
 #ifndef QEXT_IS_ENUM
 #   if !defined(_MSC_VER) && !(defined(__GNUC__) && __GNUC__ <= 3)
-template <typename T> struct QExtTypeIsClassOrUnion
+template <typename T> struct QExtIsClassOrUnion
 {
     template <typename U> static internal::Small tester(void (U::*)());
     template <typename U> static internal::Big tester(...);
@@ -520,8 +520,8 @@ template <typename T> struct QExtTypeIsClassOrUnion
 
 // QExtIsConvertible chokes if the first argument is an array. That's why we use QExtAddReference here.
 template <bool NotUnum, typename T>
-struct QExtTypeIsEnumImpl : QExtIsConvertible<typename QExtAddReference<T>::Type, int> { };
-template <typename T> struct QExtTypeIsEnumImpl<true, T> : QExtFalseType { };
+struct QExtIsEnumImpl : QExtIsConvertible<typename QExtAddReference<T>::Type, int> { };
+template <typename T> struct QExtIsEnumImpl<true, T> : QExtFalseType { };
 
 
 // Specified by TR1 [4.5.1] primary type categories.
@@ -533,11 +533,11 @@ template <typename T> struct QExtTypeIsEnumImpl<true, T> : QExtFalseType { };
 //
 // Is-convertible-to-int check is done only if all other checks pass, because it can't be used with some types
 // (e.g. void or classes with inaccessible conversion operators).
-template <typename T> struct QExtIsEnum : QExtTypeIsEnumImpl<QExtIsSame<T, void>::value ||
+template <typename T> struct QExtIsEnum : QExtIsEnumImpl<QExtIsSame<T, void>::value ||
                                                                  QExtIsIntegral<T>::value ||
                                                                  QExtIsFloatingPoint<T>::value ||
                                                                  QExtIsReference<T>::value ||
-                                                                 QExtTypeIsClassOrUnion<T>::value, T>
+                                                                 QExtIsClassOrUnion<T>::value, T>
 {
 };
 
@@ -561,7 +561,7 @@ template <class T> struct QExtIsEnum : public QExtIntegralConstant<bool, QEXT_IS
 
 
 
-template <typename T> struct QExtTypeIsPod;
+template <typename T> struct QExtIsPod;
 template <typename T> struct QExtTypeHasTrivialConstructor;
 template <typename T> struct QExtTypeHasTrivialCopy;
 template <typename T> struct QExtTypeHasTrivialAssign;
@@ -614,11 +614,11 @@ struct QExtTypeTrait<void>
 
 
 
-// We can't get QExtTypeIsPod right without compiler help, so fail conservatively.
+// We can't get QExtIsPod right without compiler help, so fail conservatively.
 // We will assume it's false except for arithmetic types, enumerations,
 // pointers and cv-qualified versions thereof. Note that QPair<T,U>
 // is not a POD even if T and U are PODs.
-template <typename T> struct QExtTypeIsPod
+template <typename T> struct QExtIsPod
     : QExtIntegralConstant < bool, (QExtIsIntegral<T>::value || QExtIsFloatingPoint<T>::value ||
 #if !defined(_MSC_VER) && !(defined(__GNUC__) && __GNUC__ <= 3)
                                   // QExtIsEnum is not available on MSVC.
@@ -627,19 +627,19 @@ template <typename T> struct QExtTypeIsPod
                                   QExtIsPointer<T>::value) >
 {
 };
-template <typename T> struct QExtTypeIsPod<const T> : QExtTypeIsPod<T> { };
-template <typename T> struct QExtTypeIsPod<volatile T> : QExtTypeIsPod<T> { };
-template <typename T> struct QExtTypeIsPod<const volatile T> : QExtTypeIsPod<T> { };
+template <typename T> struct QExtIsPod<const T> : QExtIsPod<T> { };
+template <typename T> struct QExtIsPod<volatile T> : QExtIsPod<T> { };
+template <typename T> struct QExtIsPod<const volatile T> : QExtIsPod<T> { };
 
 
 
 // We can't get QExtTypeHasTrivialConstructor right without compiler help, so
 // fail conservatively. We will assume it's false except for: (1) types
-// for which QExtTypeIsPod is true. (2) QPair of types with trivial
+// for which QExtIsPod is true. (2) QPair of types with trivial
 // constructors. (3) array of a type with a trivial constructor.
 // (4) const versions thereof.
 template <typename T> struct QExtTypeHasTrivialConstructor
-    : QExtTypeIsPod<T> { };
+    : QExtIsPod<T> { };
 template <typename T, typename U> struct QExtTypeHasTrivialConstructor<QPair<T, U> >
     : QExtIntegralConstant<bool, (QExtTypeHasTrivialConstructor<T>::value && QExtTypeHasTrivialConstructor<U>::value) > { };
 template <typename T_A, int N> struct QExtTypeHasTrivialConstructor<T_A[N]>
@@ -650,11 +650,11 @@ template <typename T> struct QExtTypeHasTrivialConstructor<const T>
 
 // We can't get QExtTypeHasTrivialCopy right without compiler help, so fail
 // conservatively. We will assume it's false except for: (1) types
-// for which QExtTypeIsPod is true. (2) QPair of types with trivial copy
+// for which QExtIsPod is true. (2) QPair of types with trivial copy
 // constructors. (3) array of a type with a trivial copy constructor.
 // (4) const versions thereof.
 template <typename T> struct QExtTypeHasTrivialCopy
-    : QExtTypeIsPod<T> { };
+    : QExtIsPod<T> { };
 template <typename T, typename U> struct QExtTypeHasTrivialCopy<QPair<T, U> >
     : QExtIntegralConstant<bool, (QExtTypeHasTrivialCopy<T>::value && QExtTypeHasTrivialCopy<U>::value) > { };
 template <typename T_A, int N> struct QExtTypeHasTrivialCopy<T_A[N]>
@@ -664,10 +664,10 @@ template <typename T> struct QExtTypeHasTrivialCopy<const T> : QExtTypeHasTrivia
 
 // We can't get QExtTypeHasTrivialAssign right without compiler help, so fail
 // conservatively. We will assume it's false except for: (1) types
-// for which QExtTypeIsPod is true. (2) QPair of types with trivial copy
+// for which QExtIsPod is true. (2) QPair of types with trivial copy
 // constructors. (3) array of a type with a trivial assign constructor.
 template <typename T> struct QExtTypeHasTrivialAssign
-    : QExtTypeIsPod<T> { };
+    : QExtIsPod<T> { };
 template <typename T, typename U> struct QExtTypeHasTrivialAssign<QPair<T, U> >
     : QExtIntegralConstant<bool, (QExtTypeHasTrivialAssign<T>::value && QExtTypeHasTrivialAssign<U>::value) > { };
 template <typename T_A, int N> struct QExtTypeHasTrivialAssign<T_A[N]>
@@ -675,11 +675,11 @@ template <typename T_A, int N> struct QExtTypeHasTrivialAssign<T_A[N]>
 
 // We can't get QExtTypeHasTrivialDestructor right without compiler help, so
 // fail conservatively. We will assume it's false except for: (1) types
-// for which QExtTypeIsPod is true. (2) QPair of types with trivial
+// for which QExtIsPod is true. (2) QPair of types with trivial
 // destructors. (3) array of a type with a trivial destructor.
 // (4) const versions thereof.
 template <typename T> struct QExtTypeHasTrivialDestructor
-    : QExtTypeIsPod<T> { };
+    : QExtIsPod<T> { };
 template <typename T, typename U> struct QExtTypeHasTrivialDestructor<QPair<T, U> >
     : QExtIntegralConstant<bool, (QExtTypeHasTrivialDestructor<T>::value && QExtTypeHasTrivialDestructor<U>::value) > { };
 template <typename T_A, int N> struct QExtTypeHasTrivialDestructor<T_A[N]>
@@ -688,10 +688,10 @@ template <typename T> struct QExtTypeHasTrivialDestructor<const T>
     : QExtTypeHasTrivialDestructor<T> { };
 
 
-template<typename T = void> struct QExtTypeIsDefaultConstructible;
+template<typename T = void> struct QExtIsDefaultConstructible;
 
 template<>
-struct QExtTypeIsDefaultConstructible<void>
+struct QExtIsDefaultConstructible<void>
 {
 protected:
     template<bool> struct Test
@@ -703,13 +703,13 @@ public:
 };
 
 template<>
-struct QExtTypeIsDefaultConstructible<>::Test<true>
+struct QExtIsDefaultConstructible<>::Test<true>
 {
     typedef double Type;
 };
 
 template<typename T>
-struct QExtTypeIsDefaultConstructible : QExtTypeIsDefaultConstructible<>
+struct QExtIsDefaultConstructible : QExtIsDefaultConstructible<>
 {
 private:
     template<typename U> static typename Test < !!sizeof(::new U()) >::Type sfinae(U *);

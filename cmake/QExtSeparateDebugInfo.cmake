@@ -207,7 +207,7 @@ function(qext_internal_generate_binary_strip_wrapper)
             message(FATAL_ERROR "Can't find ${script_name}${wrapper_extension}.in file.")
         endif()
 
-        set(wrapper_out "${QEXT_BUILD_DIR}/${INSTALL_LIBEXECDIR}/${script_name}${wrapper_extension}")
+        set(wrapper_out "${QEXT_BUILD_DIR}/${QEXT_INSTALL_LIBEXECDIR}/${script_name}${wrapper_extension}")
 
         # Used in the template file.
         set(original_strip "${QEXT_INTERNAL_ORIGINAL_CMAKE_STRIP}")

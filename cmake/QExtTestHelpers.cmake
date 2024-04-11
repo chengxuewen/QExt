@@ -194,9 +194,9 @@ function(qext_internal_add_test name)
         set(test_executable "${name}.html")
 
         if (QExt6_INSTALL_PREFIX)
-            set(QEXT_WASM_TESTRUNNER "${QExt6_INSTALL_PREFIX}/${INSTALL_LIBEXECDIR}/utk-wasmtestrunner.py")
+            set(QEXT_WASM_TESTRUNNER "${QExt6_INSTALL_PREFIX}/${QEXT_INSTALL_LIBEXECDIR}/utk-wasmtestrunner.py")
         elseif (QEXT_BUILD_DIR)
-            set(QEXT_WASM_TESTRUNNER "${QEXT_BUILD_DIR}/${INSTALL_LIBEXECDIR}/utk-wasmtestrunner.py")
+            set(QEXT_WASM_TESTRUNNER "${QEXT_BUILD_DIR}/${QEXT_INSTALL_LIBEXECDIR}/utk-wasmtestrunner.py")
         endif ()
         # This tells cmake to run the tests with this script, since wasm files can't be
         # executed directly
@@ -373,7 +373,7 @@ function(qext_internal_collect_command_environment out_path out_plugin_path)
 
     file(TO_NATIVE_PATH "${CMAKE_CURRENT_BINARY_DIR}" test_env_path)
     foreach (install_prefix ${install_prefixes})
-        file(TO_NATIVE_PATH "${install_prefix}/${INSTALL_BINDIR}" install_prefix)
+        file(TO_NATIVE_PATH "${install_prefix}/${QEXT_INSTALL_BINDIR}" install_prefix)
         set(test_env_path "${test_env_path}${QEXT_PATH_SEPARATOR}${install_prefix}")
     endforeach ()
     set(test_env_path "${test_env_path}${QEXT_PATH_SEPARATOR}$ENV{PATH}")
@@ -383,14 +383,14 @@ function(qext_internal_collect_command_environment out_path out_plugin_path)
     # Add the install prefix to list of plugin paths when doing a prefix build
     if (NOT QEXT_INSTALL_DIR)
         foreach (install_prefix ${install_prefixes})
-            file(TO_NATIVE_PATH "${install_prefix}/${INSTALL_BINDIR}" install_prefix)
+            file(TO_NATIVE_PATH "${install_prefix}/${QEXT_INSTALL_BINDIR}" install_prefix)
             list(APPEND plugin_paths "${install_prefix}")
         endforeach ()
     endif ()
 
     #TODO: Collect all paths from known repositories when performing a super
     # build.
-    file(TO_NATIVE_PATH "${PROJECT_BINARY_DIR}/${INSTALL_PLUGINSDIR}" install_pluginsdir)
+    file(TO_NATIVE_PATH "${PROJECT_BINARY_DIR}/${QEXT_INSTALL_PLUGINSDIR}" install_pluginsdir)
     list(APPEND plugin_paths "${install_pluginsdir}")
     list(JOIN plugin_paths "${QEXT_PATH_SEPARATOR}" plugin_paths_joined)
     string(REPLACE ";" "\;" plugin_paths_joined "${plugin_paths_joined}")

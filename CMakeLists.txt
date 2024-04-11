@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.5.1 LANGUAGES CXX C)
+project(QExt VERSION 1.2.5.3 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -99,6 +99,17 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
+set(QEXT_USE_QT${QEXT_QT_VERSION_MAJOR} ON)
+set(QEXT_USE_QT${QEXT_QT_VERSION_MAJOR}${QEXT_QT_VERSION_MINOR} ON)
+set(QEXT_USE_QT${QEXT_QT_VERSION_MAJOR}${QEXT_QT_VERSION_MINOR}${QEXT_QT_VERSION_PATCH} ON)
+set(QEXT_QT_VERSION_MAJOR_LIST 4 5 6)
+foreach(major ${QEXT_QT_VERSION_MAJOR_LIST})
+    if (${QEXT_QT_VERSION_MAJOR} GREATER_EQUAL ${major})
+        set(QEXT_SINCE_QT${major} ON)
+    else()
+        set(QEXT_SINCE_QT${major} OFF)
+    endif()
+endforeach()
 
 get_filename_component(QEXT_QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
 get_filename_component(QEXT_QT_KIT_DIR "${QEXT_QT_BIN_DIR}" DIRECTORY)
@@ -400,17 +411,17 @@ qext_option(QEXT_ENABLE_LIB_TCP "Enable this to build the tcp lib" OFF
 qext_option(QEXT_ENABLE_LIB_GUI "Enable this to build the gui lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_ICONS "Enable this to build the icons lib" OFF
+    DEPENDS QEXT_SINCE_QT5
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PATTERNS "Enable this to build the patterns lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_BLUEPRINT "Enable this to build the blueprint lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_WIDGETS "Enable this to build the widgets lib" OFF
-    OR_CONDITION QEXT_BUILD_ALL
-    DEPENDS QEXT_ENABLE_LIB_ICONS AND QEXT_ENABLE_LIB_GUI)
+    DEPENDS QEXT_ENABLE_LIB_GUI AND QEXT_SINCE_QT5
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_GRAPHICS "Enable this to build the graphics lib" OFF
-    OR_CONDITION QEXT_BUILD_ALL
-    DEPENDS QEXT_ENABLE_LIB_GUI)
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
@@ -419,14 +430,21 @@ qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatche
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
+    DEPENDS QEXT_SINCE_QT5
     OR_CONDITION QEXT_BUILD_ALL)
 qext_ensure_define_variable(QEXT_3RDPARTY_SINGLEAPP_QAPPLICATION_CLASS "QApplication")
 qext_option(QEXT_ENABLE_3RDPARTY_QWINDOWKIT "Enable this to build the 3rdparty qwindowkit lib" OFF
+    DEPENDS QEXT_SINCE_QT6
     OR_CONDITION QEXT_BUILD_ALL)
 
-qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF)
-qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF)
-qext_option(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT "Enable this to add the 3rdparty qwindowkit subdirectory" OFF)
+qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF
+    DEPENDS QEXT_SINCE_QT5
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT "Enable this to add the 3rdparty qwindowkit subdirectory" OFF
+    DEPENDS QEXT_SINCE_QT6
+    OR_CONDITION QEXT_BUILD_ALL)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -442,39 +460,39 @@ endif()
 # Set install and paths
 #-----------------------------------------------------------------------------------------------------------------------
 # Install locations:
-qext_configure_process_path(INSTALL_BINDIR "bin" "Executables [PREFIX/bin]")
-qext_configure_process_path(INSTALL_INCLUDEDIR "include" "Header files [PREFIX/include]")
-qext_configure_process_path(INSTALL_LIBDIR "lib" "Libraries [PREFIX/lib]")
-qext_configure_process_path(INSTALL_MKSPECSDIR "mkspecs" "Mkspecs files [PREFIX/mkspecs]")
-qext_configure_process_path(INSTALL_ARCHDATADIR "." "Arch-dependent data [PREFIX]")
-qext_configure_process_path(INSTALL_PLUGINSDIR "${INSTALL_ARCHDATADIR}/plugins" "Plugins [ARCHDATADIR/plugins]")
+qext_configure_process_path(QEXT_INSTALL_BINDIR "bin" "Executables [PREFIX/bin]")
+qext_configure_process_path(QEXT_INSTALL_INCLUDEDIR "include" "Header files [PREFIX/include]")
+qext_configure_process_path(QEXT_INSTALL_LIBDIR "lib" "Libraries [PREFIX/lib]")
+qext_configure_process_path(QEXT_INSTALL_MKSPECSDIR "mkspecs" "Mkspecs files [PREFIX/mkspecs]")
+qext_configure_process_path(QEXT_INSTALL_ARCHDATADIR "." "Arch-dependent data [PREFIX]")
+qext_configure_process_path(QEXT_INSTALL_PLUGINSDIR "${QEXT_INSTALL_ARCHDATADIR}/plugins" "Plugins [ARCHDATADIR/plugins]")
 
-if(NOT INSTALL_MKSPECSDIR MATCHES "(^|/)mkspecs")
-    message(FATAL_ERROR "INSTALL_MKSPECSDIR must end with '/mkspecs'")
+if(NOT QEXT_INSTALL_MKSPECSDIR MATCHES "(^|/)mkspecs")
+    message(FATAL_ERROR "QEXT_INSTALL_MKSPECSDIR must end with '/mkspecs'")
 endif()
 
 if(WIN32)
-    set(_default_libexec "${INSTALL_ARCHDATADIR}/bin")
+    set(_default_libexec "${QEXT_INSTALL_ARCHDATADIR}/bin")
 else()
-    set(_default_libexec "${INSTALL_ARCHDATADIR}/libexec")
+    set(_default_libexec "${QEXT_INSTALL_ARCHDATADIR}/libexec")
 endif()
 
-qext_configure_process_path(INSTALL_LIBEXECDIR
+qext_configure_process_path(QEXT_INSTALL_LIBEXECDIR
     "${_default_libexec}" "Helper programs [ARCHDATADIR/bin on Windows, ARCHDATADIR/libexec otherwise]")
-qext_configure_process_path(INSTALL_DATADIR "." "Arch-independent data [PREFIX]")
-qext_configure_process_path(INSTALL_DOCDIR "${INSTALL_DATADIR}/doc" "Documentation [DATADIR/doc]")
-qext_configure_process_path(INSTALL_TRANSLATIONSDIR "${INSTALL_DATADIR}/translations" "Translations [DATADIR/translations]")
+qext_configure_process_path(QEXT_INSTALL_DATADIR "." "Arch-independent data [PREFIX]")
+qext_configure_process_path(QEXT_INSTALL_DOCDIR "${QEXT_INSTALL_DATADIR}/doc" "Documentation [DATADIR/doc]")
+qext_configure_process_path(QEXT_INSTALL_TRANSLATIONSDIR "${QEXT_INSTALL_DATADIR}/translations" "Translations [DATADIR/translations]")
 if(APPLE)
     set(QEXT_DEFAULT_SYS_CONF_DIR "/Library/Preferences/QExt")
 else()
     set(QEXT_DEFAULT_SYS_CONF_DIR "etc/xdg")
 endif()
-qext_configure_process_path(INSTALL_SYSCONFDIR
+qext_configure_process_path(QEXT_INSTALL_SYSCONFDIR
     "${QEXT_DEFAULT_SYS_CONF_DIR}" "Settings used by QExt programs [PREFIX/etc/xdg]/[/Library/Preferences/QExt]")
-qext_configure_process_path(INSTALL_EXAMPLESDIR "examples" "Examples [PREFIX/examples]")
-qext_configure_process_path(INSTALL_TESTSDIR "tests" "Tests [PREFIX/tests]")
-qext_configure_process_path(INSTALL_DESCRIPTIONSDIR
-    "${INSTALL_DATADIR}/modules" "Module description files directory")
+qext_configure_process_path(QEXT_INSTALL_EXAMPLESDIR "examples" "Examples [PREFIX/examples]")
+qext_configure_process_path(QEXT_INSTALL_TESTSDIR "tests" "Tests [PREFIX/tests]")
+qext_configure_process_path(QEXT_INSTALL_DESCRIPTIONSDIR
+    "${QEXT_INSTALL_DATADIR}/modules" "Module description files directory")
 
 if(NOT "${CMAKE_STAGING_PREFIX}" STREQUAL "")
     set(QEXT_STAGING_PREFIX "${CMAKE_STAGING_PREFIX}")
@@ -523,7 +541,7 @@ function(qext_internal_set_up_global_paths)
         endif()
     endif()
 
-    set(__config_path_part "${INSTALL_LIBDIR}/cmake")
+    set(__config_path_part "${QEXT_INSTALL_LIBDIR}/cmake")
     set(QEXT_CONFIG_BUILD_DIR "${QEXT_BUILD_DIR}/${__config_path_part}")
     set(QEXT_CONFIG_INSTALL_DIR "${QEXT_INSTALL_DIR}")
     if(QEXT_CONFIG_INSTALL_DIR)
@@ -540,9 +558,9 @@ qext_internal_set_up_global_paths()
 
 
 # the default RPATH to be used when installing, but only if it's not a system directory
-list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/${INSTALL_LIBDIR}" isSystemDir)
+list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR}" isSystemDir)
 if("${isSystemDir}" STREQUAL "-1")
-    set(_default_install_rpath "${CMAKE_INSTALL_PREFIX}/${INSTALL_LIBDIR}")
+    set(_default_install_rpath "${CMAKE_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR}")
 endif("${isSystemDir}" STREQUAL "-1")
 
 # The default rpath settings for installed targets is empty.
@@ -566,13 +584,13 @@ endif()
 # Ensure that GNUInstallDirs's CMAKE_INSTALL_LIBDIR points to the same lib dir that QExt was
 # configured with. Currently this is important for QML plugins, which embed an rpath based
 # on that value.
-set(CMAKE_INSTALL_LIBDIR "${INSTALL_LIBDIR}")
+set(CMAKE_INSTALL_LIBDIR "${QEXT_INSTALL_LIBDIR}")
 
 function(qext_setup_tool_path_command)
     if(NOT CMAKE_HOST_WIN32)
         return()
     endif()
-    set(bindir "${QEXT_BUILD_INTERNALS_RELOCATABLE_INSTALL_PREFIX}/${INSTALL_BINDIR}")
+    set(bindir "${QEXT_BUILD_INTERNALS_RELOCATABLE_INSTALL_PREFIX}/${QEXT_INSTALL_BINDIR}")
     file(TO_NATIVE_PATH "${bindir}" bindir)
     list(APPEND command COMMAND)
     list(APPEND command set PATH=${bindir}$<SEMICOLON>%PATH%)

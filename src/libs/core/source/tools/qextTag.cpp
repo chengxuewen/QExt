@@ -69,13 +69,13 @@ static int theId(const char *str, int n = 0)
         return 0;
     }
     QExtTagStringHolder sh(str, n);
-    int res = idFromString->value(sh, -1);
+    int res = idFromString()->value(sh, -1);
     if (-1 == res)
     {
         res = firstUnusedId++;
         sh.str = qstrdup(sh.str);
-        (*idFromString)[sh] = res;
-        (*stringFromId)[res] = sh;
+        (*idFromString())[sh] = res;
+        (*stringFromId())[res] = sh;
     }
     return res;
 }
@@ -108,12 +108,12 @@ QExtTag::QExtTag(const QString &name)
 
 QByteArray QExtTag::name() const
 {
-    return stringFromId->value(m_id).str;
+    return stringFromId()->value(m_id).str;
 }
 
 QString QExtTag::toString() const
 {
-    return QString::fromUtf8(stringFromId->value(m_id).str);
+    return QString::fromUtf8(stringFromId()->value(m_id).str);
 }
 
 QExtTag QExtTag::fromString(const QString &string)
@@ -128,7 +128,7 @@ QExtTag QExtTag::fromName(const QByteArray &byteArray)
 
 QVariant QExtTag::toVariant() const
 {
-    return QVariant(QString::fromUtf8(stringFromId->value(m_id).str));
+    return QVariant(QString::fromUtf8(stringFromId()->value(m_id).str));
 }
 
 QExtTag QExtTag::fromVariant(const QVariant &variant)
@@ -168,13 +168,13 @@ QExtTag QExtTag::withPrefix(const char *prefix) const
 void QExtTag::registerId(int id, const char *name)
 {
     QExtTagStringHolder sh(name, 0);
-    (*idFromString)[sh] = id;
-    (*stringFromId)[id] = sh;
+    (*idFromString())[sh] = id;
+    (*stringFromId())[id] = sh;
 }
 
 bool QExtTag::operator==(const char *name) const
 {
-    const char *string = stringFromId->value(m_id).str;
+    const char *string = stringFromId()->value(m_id).str;
     if (string && name)
     {
         return strcmp(string, name) == 0;
@@ -187,7 +187,7 @@ bool QExtTag::operator==(const char *name) const
 
 const char *nameForId(int id)
 {
-    return stringFromId->value(id).str;
+    return stringFromId()->value(id).str;
 }
 
 bool QExtTag::alphabeticallyBefore(QExtTag other) const

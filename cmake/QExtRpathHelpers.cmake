@@ -31,10 +31,10 @@
 # See QEXTBUG-86533 for the whole saga.
 #
 # If no RELATIVE_RPATH option is given, embeds an absolute path rpath to
-# ${CMAKE_INSTALL_PREFIX}/${INSTALL_LIBDIR} into the target.
+# ${CMAKE_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR} into the target.
 
 # If RELATIVE_RPATH is given, the INSTALL_PATH value is used to compute the relative path from
-# ${CMAKE_INSTALL_PREFIX}/${INSTALL_LIBDIR} to wherever the target will be installed
+# ${CMAKE_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR} to wherever the target will be installed
 # (the value of INSTALL_PATH).
 # INSTALL_PATH is expected to be a relative directory where the binary / library will be installed.
 
@@ -134,7 +134,7 @@ function(qext_apply_rpaths)
             else()
                 # Any extra relative rpaths on a platform that does not support relative rpaths,
                 # need to be transformed into absolute ones.
-                set(install_lib_dir_absolute "${CMAKE_INSTALL_PREFIX}/${INSTALL_LIBDIR}")
+                set(install_lib_dir_absolute "${CMAKE_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR}")
                 get_filename_component(rpath_absolute "${rpath}"
                     ABSOLUTE BASE_DIR "${install_lib_dir_absolute}")
                 list(APPEND rpaths "${rpath_absolute}")

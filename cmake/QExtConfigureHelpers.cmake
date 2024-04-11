@@ -114,7 +114,6 @@ function(qext_configure_feature feature)
         "PRIVATE;PUBLIC"
         "LABEL;PURPOSE;SECTION"
         "AUTODETECT;CONDITION;ENABLE;DISABLE;EMIT_IF" ${ARGN})
-
     set(_QEXT_CONFIGURE_FEATURE_DEFINITION_${feature} ${ARGN} PARENT_SCOPE)
 
     # Check Redefinition of feature

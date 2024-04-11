@@ -1,1 +1,1 @@
-#include "../source/widgets/qextGroupBoxPropertyBrowser.h"
+#include "../source/widgets/browser/qextGroupBoxPropertyBrowser.h"

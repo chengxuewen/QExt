@@ -43,7 +43,7 @@ public:
 private:
     int n_;
 };
-template<> struct QExtTypeHasTrivialCopy<C> : QExtTypeTrue { };
+template<> struct QExtTypeHasTrivialCopy<C> : QExtTrueType { };
 
 
 // Another user-defined non-POD type with a trivial assignment operator.
@@ -56,7 +56,7 @@ public:
 private:
     int n_;
 };
-template<> struct QExtTypeHasTrivialAssign<D> : QExtTypeTrue { };
+template<> struct QExtTypeHasTrivialAssign<D> : QExtTrueType { };
 
 
 // Another user-defined non-POD type with a trivial constructor.
@@ -67,7 +67,7 @@ class E
 public:
     int n_;
 };
-template<> struct QExtTypeHasTrivialConstructor<E> : QExtTypeTrue { };
+template<> struct QExtTypeHasTrivialConstructor<E> : QExtTrueType { };
 
 
 // Another user-defined non-POD type with a trivial destructor.
@@ -80,7 +80,7 @@ public:
 private:
     int n_;
 };
-template<> struct QExtTypeHasTrivialDestructor<F> : QExtTypeTrue { };
+template<> struct QExtTypeHasTrivialDestructor<F> : QExtTrueType { };
 
 
 typedef int int32;
@@ -185,202 +185,202 @@ class Derived : public Base
 
 void QExtTypeTraitTest::testIsInteger()
 {
-    // Verify that QExtTypeIsIntegral is true for all integer types.
-    QVERIFY(QExtTypeIsIntegral<bool>::value);
-    QVERIFY(QExtTypeIsIntegral<char>::value);
-    QVERIFY(QExtTypeIsIntegral<unsigned char>::value);
-    QVERIFY(QExtTypeIsIntegral<signed char>::value);
-    QVERIFY(QExtTypeIsIntegral<wchar_t>::value);
-    QVERIFY(QExtTypeIsIntegral<int>::value);
-    QVERIFY(QExtTypeIsIntegral<unsigned int>::value);
-    QVERIFY(QExtTypeIsIntegral<short>::value);
-    QVERIFY(QExtTypeIsIntegral<unsigned short>::value);
-    QVERIFY(QExtTypeIsIntegral<long>::value);
-    QVERIFY(QExtTypeIsIntegral<unsigned long>::value);
+    // Verify that QExtIsIntegral is true for all integer types.
+    QVERIFY(QExtIsIntegral<bool>::value);
+    QVERIFY(QExtIsIntegral<char>::value);
+    QVERIFY(QExtIsIntegral<unsigned char>::value);
+    QVERIFY(QExtIsIntegral<signed char>::value);
+    QVERIFY(QExtIsIntegral<wchar_t>::value);
+    QVERIFY(QExtIsIntegral<int>::value);
+    QVERIFY(QExtIsIntegral<unsigned int>::value);
+    QVERIFY(QExtIsIntegral<short>::value);
+    QVERIFY(QExtIsIntegral<unsigned short>::value);
+    QVERIFY(QExtIsIntegral<long>::value);
+    QVERIFY(QExtIsIntegral<unsigned long>::value);
 
-    // Verify that QExtTypeIsIntegral is false for a few non-integer types.
-    QVERIFY(!QExtTypeIsIntegral<void>::value);
-    QVERIFY(!QExtTypeIsIntegral<float>::value);
-    QVERIFY(!QExtTypeIsIntegral<QString>::value);
-    QVERIFY(!QExtTypeIsIntegral<int *>::value);
-    QVERIFY(!QExtTypeIsIntegral<A>::value);
-    QVERIFY(!(QExtTypeIsIntegral<QPair<int, int> >::value));
+    // Verify that QExtIsIntegral is false for a few non-integer types.
+    QVERIFY(!QExtIsIntegral<void>::value);
+    QVERIFY(!QExtIsIntegral<float>::value);
+    QVERIFY(!QExtIsIntegral<QString>::value);
+    QVERIFY(!QExtIsIntegral<int *>::value);
+    QVERIFY(!QExtIsIntegral<A>::value);
+    QVERIFY(!(QExtIsIntegral<QPair<int, int> >::value));
 
     // Verify that cv-qualified integral types are still integral, and
     // cv-qualified non-integral types are still non-integral.
-    QVERIFY(QExtTypeIsIntegral<const char>::value);
-    QVERIFY(QExtTypeIsIntegral<volatile bool>::value);
-    QVERIFY(QExtTypeIsIntegral<const volatile unsigned int>::value);
-    QVERIFY(!QExtTypeIsIntegral<const float>::value);
-    QVERIFY(!QExtTypeIsIntegral<int *volatile>::value);
-    QVERIFY(!QExtTypeIsIntegral<const volatile QString>::value);
+    QVERIFY(QExtIsIntegral<const char>::value);
+    QVERIFY(QExtIsIntegral<volatile bool>::value);
+    QVERIFY(QExtIsIntegral<const volatile unsigned int>::value);
+    QVERIFY(!QExtIsIntegral<const float>::value);
+    QVERIFY(!QExtIsIntegral<int *volatile>::value);
+    QVERIFY(!QExtIsIntegral<const volatile QString>::value);
 }
 
 void QExtTypeTraitTest::testIsFloating()
 {
-    // Verify that QExtTypeIsFloatingPoint is true for all floating-point types.
-    QVERIFY(QExtTypeIsFloatingPoint<float>::value);
-    QVERIFY(QExtTypeIsFloatingPoint<double>::value);
-    QVERIFY(QExtTypeIsFloatingPoint<long double>::value);
+    // Verify that QExtIsFloatingPoint is true for all floating-point types.
+    QVERIFY(QExtIsFloatingPoint<float>::value);
+    QVERIFY(QExtIsFloatingPoint<double>::value);
+    QVERIFY(QExtIsFloatingPoint<long double>::value);
 
-    // Verify that QExtTypeIsFloatingPoint is false for a few non-float types.
-    QVERIFY(!QExtTypeIsFloatingPoint<void>::value);
-    QVERIFY(!QExtTypeIsFloatingPoint<long>::value);
-    QVERIFY(!QExtTypeIsFloatingPoint<QString>::value);
-    QVERIFY(!QExtTypeIsFloatingPoint<float *>::value);
-    QVERIFY(!QExtTypeIsFloatingPoint<A>::value);
-    QVERIFY(!(QExtTypeIsFloatingPoint<QPair<int, int> >::value));
+    // Verify that QExtIsFloatingPoint is false for a few non-float types.
+    QVERIFY(!QExtIsFloatingPoint<void>::value);
+    QVERIFY(!QExtIsFloatingPoint<long>::value);
+    QVERIFY(!QExtIsFloatingPoint<QString>::value);
+    QVERIFY(!QExtIsFloatingPoint<float *>::value);
+    QVERIFY(!QExtIsFloatingPoint<A>::value);
+    QVERIFY(!(QExtIsFloatingPoint<QPair<int, int> >::value));
 
     // Verify that cv-qualified floating point types are still floating, and
     // cv-qualified non-floating types are still non-floating.
-    QVERIFY(QExtTypeIsFloatingPoint<const float>::value);
-    QVERIFY(QExtTypeIsFloatingPoint<volatile double>::value);
-    QVERIFY(QExtTypeIsFloatingPoint<const volatile long double>::value);
-    QVERIFY(!QExtTypeIsFloatingPoint<const int>::value);
-    QVERIFY(!QExtTypeIsFloatingPoint<volatile QString>::value);
-    QVERIFY(!QExtTypeIsFloatingPoint<const volatile char>::value);
+    QVERIFY(QExtIsFloatingPoint<const float>::value);
+    QVERIFY(QExtIsFloatingPoint<volatile double>::value);
+    QVERIFY(QExtIsFloatingPoint<const volatile long double>::value);
+    QVERIFY(!QExtIsFloatingPoint<const int>::value);
+    QVERIFY(!QExtIsFloatingPoint<volatile QString>::value);
+    QVERIFY(!QExtIsFloatingPoint<const volatile char>::value);
 }
 
 void QExtTypeTraitTest::testIsPointer()
 {
-    // Verify that QExtTypeIsPointer is true for some pointer types.
-    QVERIFY(QExtTypeIsPointer<int *>::value);
-    QVERIFY(QExtTypeIsPointer<void *>::value);
-    QVERIFY(QExtTypeIsPointer<QString *>::value);
-    QVERIFY(QExtTypeIsPointer<const void *>::value);
-    QVERIFY(QExtTypeIsPointer<volatile float *const *>::value);
+    // Verify that QExtIsPointer is true for some pointer types.
+    QVERIFY(QExtIsPointer<int *>::value);
+    QVERIFY(QExtIsPointer<void *>::value);
+    QVERIFY(QExtIsPointer<QString *>::value);
+    QVERIFY(QExtIsPointer<const void *>::value);
+    QVERIFY(QExtIsPointer<volatile float *const *>::value);
 
-    // Verify that QExtTypeIsPointer is false for some non-pointer types.
-    QVERIFY(!QExtTypeIsPointer<void>::value);
-    QVERIFY(!QExtTypeIsPointer<float &>::value);
-    QVERIFY(!QExtTypeIsPointer<long>::value);
-    QVERIFY(!QExtTypeIsPointer<QVector<int *> >::value);
-    QVERIFY(!QExtTypeIsPointer<int[5]>::value);
+    // Verify that QExtIsPointer is false for some non-pointer types.
+    QVERIFY(!QExtIsPointer<void>::value);
+    QVERIFY(!QExtIsPointer<float &>::value);
+    QVERIFY(!QExtIsPointer<long>::value);
+    QVERIFY(!QExtIsPointer<QVector<int *> >::value);
+    QVERIFY(!QExtIsPointer<int[5]>::value);
 
     // A function pointer is a pointer, but a function type, or a function
     // reference type, is not.
-    QVERIFY(QExtTypeIsPointer<int (*)(int x)>::value);
-    QVERIFY(!QExtTypeIsPointer<void(char x)>::value);
-    QVERIFY(!QExtTypeIsPointer<double (&)(QString x)>::value);
+    QVERIFY(QExtIsPointer<int (*)(int x)>::value);
+    QVERIFY(!QExtIsPointer<void(char x)>::value);
+    QVERIFY(!QExtIsPointer<double (&)(QString x)>::value);
 
-    // Verify that QExtTypeIsPointer<T> is true for some cv-qualified pointer types,
+    // Verify that QExtIsPointer<T> is true for some cv-qualified pointer types,
     // and false for some cv-qualified non-pointer types.
-    QVERIFY(QExtTypeIsPointer<int *const>::value);
-    QVERIFY(QExtTypeIsPointer<const void *volatile>::value);
-    QVERIFY(QExtTypeIsPointer<char **const volatile>::value);
-    QVERIFY(!QExtTypeIsPointer<const int>::value);
-    QVERIFY(!QExtTypeIsPointer<volatile QVector<int *> >::value);
-    QVERIFY(!QExtTypeIsPointer<const volatile double>::value);
+    QVERIFY(QExtIsPointer<int *const>::value);
+    QVERIFY(QExtIsPointer<const void *volatile>::value);
+    QVERIFY(QExtIsPointer<char **const volatile>::value);
+    QVERIFY(!QExtIsPointer<const int>::value);
+    QVERIFY(!QExtIsPointer<volatile QVector<int *> >::value);
+    QVERIFY(!QExtIsPointer<const volatile double>::value);
 }
 
 void QExtTypeTraitTest::testIsEnum()
 {
-    // QExtTypeIsEnum isn't supported on MSVC or gcc 3.x
+    // QExtIsEnum isn't supported on MSVC or gcc 3.x
 #if !defined(_MSC_VER) && !(defined(__GNUC__) && __GNUC__ <= 3)
-    // Verify that QExtTypeIsEnum is true for enum types.
-    QVERIFY(QExtTypeIsEnum<G>::value);
-    QVERIFY(QExtTypeIsEnum<const G>::value);
-    QVERIFY(QExtTypeIsEnum<volatile G>::value);
-    QVERIFY(QExtTypeIsEnum<const volatile G>::value);
+    // Verify that QExtIsEnum is true for enum types.
+    QVERIFY(QExtIsEnum<G>::value);
+    QVERIFY(QExtIsEnum<const G>::value);
+    QVERIFY(QExtIsEnum<volatile G>::value);
+    QVERIFY(QExtIsEnum<const volatile G>::value);
 
-    // Verify that QExtTypeIsEnum is false for a few non-enum types.
-    QVERIFY(!QExtTypeIsEnum<void>::value);
-    QVERIFY(!QExtTypeIsEnum<G &>::value);
-    QVERIFY(!QExtTypeIsEnum<G[1]>::value);
-    QVERIFY(!QExtTypeIsEnum<const G[1]>::value);
-    QVERIFY(!QExtTypeIsEnum<G[]>::value);
-    QVERIFY(!QExtTypeIsEnum<int>::value);
-    QVERIFY(!QExtTypeIsEnum<float>::value);
-    QVERIFY(!QExtTypeIsEnum<A>::value);
-    QVERIFY(!QExtTypeIsEnum<A *>::value);
-    QVERIFY(!QExtTypeIsEnum<const A>::value);
-    QVERIFY(!QExtTypeIsEnum<H>::value);
-    QVERIFY(!QExtTypeIsEnum<I>::value);
-    QVERIFY(!QExtTypeIsEnum<J>::value);
-    QVERIFY(!QExtTypeIsEnum<void()>::value);
-    QVERIFY(!QExtTypeIsEnum<void(*)()>::value);
-    QVERIFY(!QExtTypeIsEnum<int A::*>::value);
-    QVERIFY(!QExtTypeIsEnum<void (A::*)()>::value);
+    // Verify that QExtIsEnum is false for a few non-enum types.
+    QVERIFY(!QExtIsEnum<void>::value);
+    QVERIFY(!QExtIsEnum<G &>::value);
+    QVERIFY(!QExtIsEnum<G[1]>::value);
+    QVERIFY(!QExtIsEnum<const G[1]>::value);
+    QVERIFY(!QExtIsEnum<G[]>::value);
+    QVERIFY(!QExtIsEnum<int>::value);
+    QVERIFY(!QExtIsEnum<float>::value);
+    QVERIFY(!QExtIsEnum<A>::value);
+    QVERIFY(!QExtIsEnum<A *>::value);
+    QVERIFY(!QExtIsEnum<const A>::value);
+    QVERIFY(!QExtIsEnum<H>::value);
+    QVERIFY(!QExtIsEnum<I>::value);
+    QVERIFY(!QExtIsEnum<J>::value);
+    QVERIFY(!QExtIsEnum<void()>::value);
+    QVERIFY(!QExtIsEnum<void(*)()>::value);
+    QVERIFY(!QExtIsEnum<int A::*>::value);
+    QVERIFY(!QExtIsEnum<void (A::*)()>::value);
 #endif
 }
 
 void QExtTypeTraitTest::testIsReference()
 {
-    // Verifies that QExtTypeIsReference is true for all reference types.
+    // Verifies that QExtIsReference is true for all reference types.
     typedef float &RefFloat;
-    QVERIFY(QExtTypeIsReference<float &>::value);
-    QVERIFY(QExtTypeIsReference<const int &>::value);
-    QVERIFY(QExtTypeIsReference<const int *&>::value);
-    QVERIFY(QExtTypeIsReference<int (&)(bool)>::value);
-    QVERIFY(QExtTypeIsReference<RefFloat>::value);
-    QVERIFY(QExtTypeIsReference<const RefFloat>::value);
-    QVERIFY(QExtTypeIsReference<volatile RefFloat>::value);
-    QVERIFY(QExtTypeIsReference<const volatile RefFloat>::value);
+    QVERIFY(QExtIsReference<float &>::value);
+    QVERIFY(QExtIsReference<const int &>::value);
+    QVERIFY(QExtIsReference<const int *&>::value);
+    QVERIFY(QExtIsReference<int (&)(bool)>::value);
+    QVERIFY(QExtIsReference<RefFloat>::value);
+    QVERIFY(QExtIsReference<const RefFloat>::value);
+    QVERIFY(QExtIsReference<volatile RefFloat>::value);
+    QVERIFY(QExtIsReference<const volatile RefFloat>::value);
 
 
-    // Verifies that QExtTypeIsReference is false for all non-reference types.
-    QVERIFY(!QExtTypeIsReference<float>::value);
-    QVERIFY(!QExtTypeIsReference<const float>::value);
-    QVERIFY(!QExtTypeIsReference<volatile float>::value);
-    QVERIFY(!QExtTypeIsReference<const volatile float>::value);
-    QVERIFY(!QExtTypeIsReference<const int *>::value);
-    QVERIFY(!QExtTypeIsReference<int()>::value);
-    QVERIFY(!QExtTypeIsReference<void(*)(const char &)>::value);
+    // Verifies that QExtIsReference is false for all non-reference types.
+    QVERIFY(!QExtIsReference<float>::value);
+    QVERIFY(!QExtIsReference<const float>::value);
+    QVERIFY(!QExtIsReference<volatile float>::value);
+    QVERIFY(!QExtIsReference<const volatile float>::value);
+    QVERIFY(!QExtIsReference<const int *>::value);
+    QVERIFY(!QExtIsReference<int()>::value);
+    QVERIFY(!QExtIsReference<void(*)(const char &)>::value);
 }
 
 void QExtTypeTraitTest::testAddReference()
 {
-    COMPILE_ASSERT_TYPES_EQ(int &, QExtTypeAddReference<int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(const int &, QExtTypeAddReference<const int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(volatile int &, QExtTypeAddReference<volatile int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(const volatile int &, QExtTypeAddReference<const volatile int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int &, QExtTypeAddReference<int &>::Type);
-    COMPILE_ASSERT_TYPES_EQ(const int &, QExtTypeAddReference<const int &>::Type);
-    COMPILE_ASSERT_TYPES_EQ(volatile int &, QExtTypeAddReference<volatile int &>::Type);
-    COMPILE_ASSERT_TYPES_EQ(const volatile int &, QExtTypeAddReference<const volatile int &>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int &, QExtAddReference<int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(const int &, QExtAddReference<const int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(volatile int &, QExtAddReference<volatile int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(const volatile int &, QExtAddReference<const volatile int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int &, QExtAddReference<int &>::Type);
+    COMPILE_ASSERT_TYPES_EQ(const int &, QExtAddReference<const int &>::Type);
+    COMPILE_ASSERT_TYPES_EQ(volatile int &, QExtAddReference<volatile int &>::Type);
+    COMPILE_ASSERT_TYPES_EQ(const volatile int &, QExtAddReference<const volatile int &>::Type);
 }
 
 void QExtTypeTraitTest::testIsPod()
 {
     // Verify that arithmetic types and pointers are marked as PODs.
-    QVERIFY(QExtTypeIsPod<bool>::value);
-    QVERIFY(QExtTypeIsPod<char>::value);
-    QVERIFY(QExtTypeIsPod<unsigned char>::value);
-    QVERIFY(QExtTypeIsPod<signed char>::value);
-    QVERIFY(QExtTypeIsPod<wchar_t>::value);
-    QVERIFY(QExtTypeIsPod<int>::value);
-    QVERIFY(QExtTypeIsPod<unsigned int>::value);
-    QVERIFY(QExtTypeIsPod<short>::value);
-    QVERIFY(QExtTypeIsPod<unsigned short>::value);
-    QVERIFY(QExtTypeIsPod<long>::value);
-    QVERIFY(QExtTypeIsPod<unsigned long>::value);
-    QVERIFY(QExtTypeIsPod<float>::value);
-    QVERIFY(QExtTypeIsPod<double>::value);
-    QVERIFY(QExtTypeIsPod<long double>::value);
-    QVERIFY(QExtTypeIsPod<QString *>::value);
-    QVERIFY(QExtTypeIsPod<A *>::value);
-    QVERIFY(QExtTypeIsPod<const B *>::value);
-    QVERIFY(QExtTypeIsPod<C **>::value);
-    QVERIFY(QExtTypeIsPod<const int>::value);
-    QVERIFY(QExtTypeIsPod<char *volatile>::value);
-    QVERIFY(QExtTypeIsPod<const volatile double>::value);
+    QVERIFY(QExtIsPod<bool>::value);
+    QVERIFY(QExtIsPod<char>::value);
+    QVERIFY(QExtIsPod<unsigned char>::value);
+    QVERIFY(QExtIsPod<signed char>::value);
+    QVERIFY(QExtIsPod<wchar_t>::value);
+    QVERIFY(QExtIsPod<int>::value);
+    QVERIFY(QExtIsPod<unsigned int>::value);
+    QVERIFY(QExtIsPod<short>::value);
+    QVERIFY(QExtIsPod<unsigned short>::value);
+    QVERIFY(QExtIsPod<long>::value);
+    QVERIFY(QExtIsPod<unsigned long>::value);
+    QVERIFY(QExtIsPod<float>::value);
+    QVERIFY(QExtIsPod<double>::value);
+    QVERIFY(QExtIsPod<long double>::value);
+    QVERIFY(QExtIsPod<QString *>::value);
+    QVERIFY(QExtIsPod<A *>::value);
+    QVERIFY(QExtIsPod<const B *>::value);
+    QVERIFY(QExtIsPod<C **>::value);
+    QVERIFY(QExtIsPod<const int>::value);
+    QVERIFY(QExtIsPod<char *volatile>::value);
+    QVERIFY(QExtIsPod<const volatile double>::value);
 #if !defined(_MSC_VER) && !(defined(__GNUC__) && __GNUC__ <= 3)
-    QVERIFY(QExtTypeIsPod<G>::value);
-    QVERIFY(QExtTypeIsPod<const G>::value);
-    QVERIFY(QExtTypeIsPod<volatile G>::value);
-    QVERIFY(QExtTypeIsPod<const volatile G>::value);
+    QVERIFY(QExtIsPod<G>::value);
+    QVERIFY(QExtIsPod<const G>::value);
+    QVERIFY(QExtIsPod<volatile G>::value);
+    QVERIFY(QExtIsPod<const volatile G>::value);
 #endif
 
     // Verify that some non-POD types are not marked as PODs.
-    QVERIFY(!QExtTypeIsPod<void>::value);
-    QVERIFY(!QExtTypeIsPod<QString>::value);
-    QVERIFY(!(QExtTypeIsPod<QPair<int, int> >::value));
-    QVERIFY(!QExtTypeIsPod<A>::value);
-    QVERIFY(!QExtTypeIsPod<B>::value);
-    QVERIFY(!QExtTypeIsPod<C>::value);
-    QVERIFY(!QExtTypeIsPod<const QString>::value);
-    QVERIFY(!QExtTypeIsPod<volatile A>::value);
-    QVERIFY(!QExtTypeIsPod<const volatile B>::value);
+    QVERIFY(!QExtIsPod<void>::value);
+    QVERIFY(!QExtIsPod<QString>::value);
+    QVERIFY(!(QExtIsPod<QPair<int, int> >::value));
+    QVERIFY(!QExtIsPod<A>::value);
+    QVERIFY(!QExtIsPod<B>::value);
+    QVERIFY(!QExtIsPod<C>::value);
+    QVERIFY(!QExtIsPod<const QString>::value);
+    QVERIFY(!QExtIsPod<volatile A>::value);
+    QVERIFY(!QExtIsPod<const volatile B>::value);
 }
 
 void QExtTypeTraitTest::testHasTrivialConstructor()
@@ -559,90 +559,90 @@ void QExtTypeTraitTest::testHasTrivialDestructor()
 
 void QExtTypeTraitTest::testRemovePointer()
 {
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemovePointer<int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemovePointer<int *>::Type);
-    COMPILE_ASSERT_TYPES_EQ(const int, QExtTypeRemovePointer<const int *>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemovePointer<int *const>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemovePointer<int *volatile>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemovePointer<int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemovePointer<int *>::Type);
+    COMPILE_ASSERT_TYPES_EQ(const int, QExtRemovePointer<const int *>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemovePointer<int *const>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemovePointer<int *volatile>::Type);
 }
 
 void QExtTypeTraitTest::testRemoveConst()
 {
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemoveConst<int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemoveConst<const int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int *, QExtTypeRemoveConst<int *const>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemoveConst<int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemoveConst<const int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int *, QExtRemoveConst<int *const>::Type);
     // TR1 examples.
-    COMPILE_ASSERT_TYPES_EQ(const int *, QExtTypeRemoveConst<const int *>::Type);
-    COMPILE_ASSERT_TYPES_EQ(volatile int, QExtTypeRemoveConst<const volatile int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(const int *, QExtRemoveConst<const int *>::Type);
+    COMPILE_ASSERT_TYPES_EQ(volatile int, QExtRemoveConst<const volatile int>::Type);
 }
 
 void QExtTypeTraitTest::testRemoveVolatile()
 {
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemoveVolatile<int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemoveVolatile<volatile int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int *, QExtTypeRemoveVolatile<int *volatile>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemoveVolatile<int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemoveVolatile<volatile int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int *, QExtRemoveVolatile<int *volatile>::Type);
     // TR1 examples.
-    COMPILE_ASSERT_TYPES_EQ(volatile int *, QExtTypeRemoveVolatile<volatile int *>::Type);
-    COMPILE_ASSERT_TYPES_EQ(const int, QExtTypeRemoveVolatile<const volatile int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(volatile int *, QExtRemoveVolatile<volatile int *>::Type);
+    COMPILE_ASSERT_TYPES_EQ(const int, QExtRemoveVolatile<const volatile int>::Type);
 }
 
 void QExtTypeTraitTest::testRemoveCV()
 {
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemoveConstVolatile<int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemoveConstVolatile<volatile int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemoveConstVolatile<const int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int *, QExtTypeRemoveConstVolatile<int *const volatile>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemoveConstVolatile<int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemoveConstVolatile<volatile int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemoveConstVolatile<const int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int *, QExtRemoveConstVolatile<int *const volatile>::Type);
     // TR1 examples.
-    COMPILE_ASSERT_TYPES_EQ(const volatile int *, QExtTypeRemoveConstVolatile<const volatile int *>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemoveConstVolatile<const volatile int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(const volatile int *, QExtRemoveConstVolatile<const volatile int *>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemoveConstVolatile<const volatile int>::Type);
 }
 
 void QExtTypeTraitTest::testRemoveReference()
 {
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemoveReference<int>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int, QExtTypeRemoveReference<int &>::Type);
-    COMPILE_ASSERT_TYPES_EQ(const int, QExtTypeRemoveReference<const int &>::Type);
-    COMPILE_ASSERT_TYPES_EQ(int *, QExtTypeRemoveReference<int *&>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemoveReference<int>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int, QExtRemoveReference<int &>::Type);
+    COMPILE_ASSERT_TYPES_EQ(const int, QExtRemoveReference<const int &>::Type);
+    COMPILE_ASSERT_TYPES_EQ(int *, QExtRemoveReference<int *&>::Type);
 }
 
 void QExtTypeTraitTest::testIsSame()
 {
-    QVERIFY((QExtTypeIsSame<int32, int32>::value));
-    QVERIFY(!(QExtTypeIsSame<int32, int64>::value));
-    QVERIFY(!(QExtTypeIsSame<int64, int32>::value));
-    QVERIFY(!(QExtTypeIsSame<int, const int>::value));
+    QVERIFY((QExtIsSame<int32, int32>::value));
+    QVERIFY(!(QExtIsSame<int32, int64>::value));
+    QVERIFY(!(QExtIsSame<int64, int32>::value));
+    QVERIFY(!(QExtIsSame<int, const int>::value));
 
-    QVERIFY((QExtTypeIsSame<void, void>::value));
-    QVERIFY(!(QExtTypeIsSame<void, int>::value));
-    QVERIFY(!(QExtTypeIsSame<int, void>::value));
+    QVERIFY((QExtIsSame<void, void>::value));
+    QVERIFY(!(QExtIsSame<void, int>::value));
+    QVERIFY(!(QExtIsSame<int, void>::value));
 
-    QVERIFY((QExtTypeIsSame<int *, int *>::value));
-    QVERIFY((QExtTypeIsSame<void *, void *>::value));
-    QVERIFY(!(QExtTypeIsSame<int *, void *>::value));
-    QVERIFY(!(QExtTypeIsSame<void *, int *>::value));
-    QVERIFY(!(QExtTypeIsSame<void *, const void *>::value));
-    QVERIFY(!(QExtTypeIsSame<void *, void *const>::value));
+    QVERIFY((QExtIsSame<int *, int *>::value));
+    QVERIFY((QExtIsSame<void *, void *>::value));
+    QVERIFY(!(QExtIsSame<int *, void *>::value));
+    QVERIFY(!(QExtIsSame<void *, int *>::value));
+    QVERIFY(!(QExtIsSame<void *, const void *>::value));
+    QVERIFY(!(QExtIsSame<void *, void *const>::value));
 
-    QVERIFY((QExtTypeIsSame<Base *, Base *>::value));
-    QVERIFY((QExtTypeIsSame<Derived *, Derived *>::value));
-    QVERIFY(!(QExtTypeIsSame<Base *, Derived *>::value));
-    QVERIFY(!(QExtTypeIsSame<Derived *, Base *>::value));
+    QVERIFY((QExtIsSame<Base *, Base *>::value));
+    QVERIFY((QExtIsSame<Derived *, Derived *>::value));
+    QVERIFY(!(QExtIsSame<Base *, Derived *>::value));
+    QVERIFY(!(QExtIsSame<Derived *, Base *>::value));
 }
 
 void QExtTypeTraitTest::testConvertible()
 {
 #if !defined(_MSC_VER) && !(defined(__GNUC__) && __GNUC__ <= 3)
-    QVERIFY((QExtTypeIsConvertible<int, int>::value));
-    QVERIFY((QExtTypeIsConvertible<int, long>::value));
-    QVERIFY((QExtTypeIsConvertible<long, int>::value));
+    QVERIFY((QExtIsConvertible<int, int>::value));
+    QVERIFY((QExtIsConvertible<int, long>::value));
+    QVERIFY((QExtIsConvertible<long, int>::value));
 
-    QVERIFY((QExtTypeIsConvertible<int *, void *>::value));
-    QVERIFY(!(QExtTypeIsConvertible<void *, int *>::value));
+    QVERIFY((QExtIsConvertible<int *, void *>::value));
+    QVERIFY(!(QExtIsConvertible<void *, int *>::value));
 
-    QVERIFY((QExtTypeIsConvertible<Derived *, Base *>::value));
-    QVERIFY(!(QExtTypeIsConvertible<Base *, Derived *>::value));
-    QVERIFY((QExtTypeIsConvertible<Derived *, const Base *>::value));
-    QVERIFY(!(QExtTypeIsConvertible<const Derived *, Base *>::value));
+    QVERIFY((QExtIsConvertible<Derived *, Base *>::value));
+    QVERIFY(!(QExtIsConvertible<Base *, Derived *>::value));
+    QVERIFY((QExtIsConvertible<Derived *, const Base *>::value));
+    QVERIFY(!(QExtIsConvertible<const Derived *, Base *>::value));
 #endif
 }
 

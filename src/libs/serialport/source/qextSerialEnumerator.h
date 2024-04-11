@@ -32,7 +32,8 @@
 #ifndef _QEXTSERIALENUMERATOR_H
 #define _QEXTSERIALENUMERATOR_H
 
-#include "qextSerialPortGlobal.h"
+#include <qextSerialPortGlobal.h>
+#include <qextSerialPortConfig.h>
 
 #include <QtCore/QList>
 #include <QtCore/QObject>

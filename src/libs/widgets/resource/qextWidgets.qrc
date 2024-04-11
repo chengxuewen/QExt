@@ -52,8 +52,6 @@
         <file>stylethemes/fluent/svgs/uparrow.svg</file>
         <file>stylethemes/fluent/svgs/uparrow2.svg</file>
         <file>stylethemes/fluent/svgs/vline.svg</file>
-        <file>stylethemes/fluent/themes/Dark.xml</file>
-        <file>stylethemes/fluent/themes/Light.xml</file>
         <file>stylethemes/fusion/fusion_icon.svg</file>
         <file>stylethemes/fusion/fusion.css.template</file>
         <file>stylethemes/fusion/fusion.json</file>
@@ -189,5 +187,7 @@
         <file>stylethemes/fluent/fonts/OpenSans-Regular.ttf</file>
         <file>stylethemes/fluent/fonts/OpenSans-SemiBold.ttf</file>
         <file>stylethemes/fluent/fonts/OpenSans-SemiBoldItalic.ttf</file>
+        <file>stylethemes/fluent/themes/Dark.xml</file>
+        <file>stylethemes/fluent/themes/Light.xml</file>
     </qresource>
 </RCC>

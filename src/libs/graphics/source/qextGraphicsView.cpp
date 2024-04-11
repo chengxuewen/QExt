@@ -11,6 +11,7 @@
 #include <QSvgGenerator>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
+#include <qmath.h>
 
 //http://www.w3.org/TR/SVG/Overview.html
 
@@ -143,12 +144,12 @@ void QExtGraphicsViewRuleBar::drawTicker(QPainter *painter)
     }
     increment = (double)width / (upper - lower);
 
-    scale = ceil(max_size);
+    scale = qCeil(max_size);
     sprintf(unit_str, "%d", scale);
     text_size = strlen(unit_str) * digit_height + 1;
     for (scale = 0; scale < sizeof (ruler_metric.ruler_scale) / sizeof(ruler_metric.ruler_scale[0]); scale++)
     {
-        if (ruler_metric.ruler_scale[scale] * fabs (increment) > 2 * text_size)
+        if (ruler_metric.ruler_scale[scale] * qFabs(increment) > 2 * text_size)
         {
             break;
         }
@@ -170,7 +171,7 @@ void QExtGraphicsViewRuleBar::drawTicker(QPainter *painter)
         {
             subd_incr = ((double)ruler_metric.ruler_scale[scale] / (double)ruler_metric.subdivide[i]);
         }
-        if (subd_incr * fabs (increment) <= MINIMUM_INCR)
+        if (subd_incr * qFabs(increment) <= MINIMUM_INCR)
         {
             continue;
         }
@@ -183,13 +184,13 @@ void QExtGraphicsViewRuleBar::drawTicker(QPainter *painter)
         }
         if (lower < upper)
         {
-            start = floor(lower / subd_incr) * subd_incr;
-            end   = ceil(upper / subd_incr) * subd_incr;
+            start = qFloor(lower / subd_incr) * subd_incr;
+            end   = qCeil(upper / subd_incr) * subd_incr;
         }
         else
         {
-            start = floor(upper / subd_incr) * subd_incr;
-            end   = ceil(lower / subd_incr) * subd_incr;
+            start = qFloor(upper / subd_incr) * subd_incr;
+            end   = qCeil(lower / subd_incr) * subd_incr;
         }
         int tick_index = 0;
         for (cur = start; cur <= end; cur += subd_incr)

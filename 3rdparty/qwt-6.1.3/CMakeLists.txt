@@ -47,15 +47,14 @@ if(QWT_QT_VERSION_MAJOR EQUAL 4)
     if(QWT_QT_VERSION_MINOR LESS 5)
         message(FATAL_ERROR "Expected Qt4 version must greater than or equal to Qt4.5")
     endif()
-    message(STATUS "Expected Qt version is Qt${QWT_QT_VERSION}")
+    message(STATUS "Expected Qt version is Qt4")
     set(QWT_QT_DEP_COMPONENTS QtCore QtGui QtSvg QtXml)
-    find_package(Qt${QWT_QT_VERSION_MAJOR} COMPONENTS ${QWT_QT_DEP_COMPONENTS} REQUIRED)
-    find_package(Qt${QWT_QT_VERSION_MAJOR} COMPONENTS QtOpenGL)
-    find_package(${QWT_QT_FINDPKG_CONTENT})
-    set(QWT_QT_OPENGL_FOUND ${QT_QTOPENGL_FOUND})
+    find_package(Qt4 COMPONENTS ${QWT_QT_DEP_COMPONENTS} REQUIRED)
+    find_package(Qt4 COMPONENTS QtOpenGL)
+    # set(QWT_QT_OPENGL_FOUND ${QT_QTOPENGL_FOUND})
     if(QWT_QT_OPENGL_FOUND)
-        list(APPEND QWT_QT_DEP_COMPONENTS QtOpenGL)
-        set(QWT_QT_OPENGL QtOpenGL)
+        # list(APPEND QWT_QT_DEP_COMPONENTS QtOpenGL)
+        # set(QWT_QT_OPENGL QtOpenGL)
     endif()
     INCLUDE(${QT_USE_FILE})
     ADD_DEFINITIONS(${QT_DEFINITIONS})
@@ -384,12 +383,12 @@ if(QWT_BUILD_INSTALL)
 
     include(CMakePackageConfigHelpers)
     set(INCLUDE_INSTALL_DIRS "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
-    set(version_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake")
-    set(project_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake")
+    set(version_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
+    set(project_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake")
     write_basic_package_version_file("${version_config}"
         VERSION ${QWT_VERSION}
         COMPATIBILITY SameMajorVersion)
-    configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}-config.cmake.in "${project_config}"
+    configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in "${project_config}"
         INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
         PATH_VARS INCLUDE_INSTALL_DIRS)
     install(FILES "${project_config}" "${version_config}"

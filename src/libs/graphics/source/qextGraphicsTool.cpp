@@ -1,8 +1,8 @@
 #include <qextGraphicsTool.h>
 #include <qextGraphicsScene.h>
 
+#include <qmath.h>
 #include <QDebug>
-#include <QtMath>
 #include <QGlobalStatic>
 #include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>

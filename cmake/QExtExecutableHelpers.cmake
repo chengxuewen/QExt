@@ -34,14 +34,14 @@ function(qext_add_executable name)
         ${ARGN})
 
     if("x${arg_OUTPUT_DIRECTORY}" STREQUAL "x")
-        set(arg_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${INSTALL_BINDIR}")
+        set(arg_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${QEXT_INSTALL_BINDIR}")
     endif()
 
     get_filename_component(arg_OUTPUT_DIRECTORY "${arg_OUTPUT_DIRECTORY}"
         ABSOLUTE BASE_DIR "${QEXT_BUILD_DIR}")
 
     if("x${arg_INSTALL_DIRECTORY}" STREQUAL "x")
-        set(arg_INSTALL_DIRECTORY "${INSTALL_BINDIR}")
+        set(arg_INSTALL_DIRECTORY "${QEXT_INSTALL_BINDIR}")
     endif()
 
     qext_internal_create_executable(${name})

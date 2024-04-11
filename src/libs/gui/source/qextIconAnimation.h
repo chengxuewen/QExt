@@ -5,7 +5,7 @@
 
 #include <QObject>
 #include <QIconEngine>
-#include <QVariantAnimation>
+#include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
 
 class QExtIconAnimationPrivate;

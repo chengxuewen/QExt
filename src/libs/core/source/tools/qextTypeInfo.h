@@ -16,7 +16,7 @@ public:
     enum
     {
         isPointer = false,
-        isIntegral = QExtTypeIsIntegral<T_type>::value,
+        isIntegral = QExtIsIntegral<T_type>::value,
         isComplex = true,
         isStatic = true,
         isRelocatable = QEXT_IS_ENUM(T_type),
@@ -183,7 +183,7 @@ enum QEXT_TYPEINFO_FLAGS /* TYPEINFO flags */
             isRelocatable = !isStatic || ((FLAGS)&QEXT_TYPEINFO_RELOCATABLE),                  \
             isLarge = (sizeof(TYPE) > sizeof(void *)),                                       \
             isPointer = false,                                                               \
-            isIntegral = QExtTypeIsIntegral< TYPE >::value,                                    \
+            isIntegral = QExtIsIntegral< TYPE >::value,                                    \
             isDummy = (((FLAGS)&QEXT_TYPEINFO_DUMMY) != 0),                                    \
             sizeOf = sizeof(TYPE)                                                            \
         };                                                                                   \

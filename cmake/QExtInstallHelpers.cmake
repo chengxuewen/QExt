@@ -89,8 +89,8 @@ function(qext_configure_process_path name default docstring)
             # file(RELATIVE_PATH) returns an empty string if the given absolute paths are equal
             set(rel_path ".")
         elseif(rel_path MATCHES "^\.\./")
-            # INSTALL_SYSCONFDIR is allowed to be outside the prefix.
-            if(NOT name STREQUAL "INSTALL_SYSCONFDIR")
+            # QEXT_INSTALL_SYSCONFDIR is allowed to be outside the prefix.
+            if(NOT name STREQUAL "QEXT_INSTALL_SYSCONFDIR")
                 message(FATAL_ERROR "Path component '${name}' is outside computed install prefix: ${rel_path} ")
                 return()
             endif()
@@ -126,27 +126,27 @@ function(qext_get_install_target_default_args)
         set(suffix "/${arg_CMAKE_CONFIG}")
     endif()
 
-    set(runtime "${INSTALL_BINDIR}")
+    set(runtime "${QEXT_INSTALL_BINDIR}")
     if(arg_RUNTIME)
         set(runtime "${arg_RUNTIME}")
     endif()
 
-    set(library "${INSTALL_LIBDIR}")
+    set(library "${QEXT_INSTALL_LIBDIR}")
     if(arg_LIBRARY)
         set(library "${arg_LIBRARY}")
     endif()
 
-    set(archive "${INSTALL_LIBDIR}")
+    set(archive "${QEXT_INSTALL_LIBDIR}")
     if(arg_ARCHIVE)
         set(archive "${arg_ARCHIVE}")
     endif()
 
-    set(includes "${INSTALL_INCLUDEDIR}")
+    set(includes "${QEXT_INSTALL_INCLUDEDIR}")
     if(arg_INCLUDES)
         set(includes "${arg_INCLUDES}")
     endif()
 
-    set(bundle "${INSTALL_BINDIR}")
+    set(bundle "${QEXT_INSTALL_BINDIR}")
     if(arg_BUNDLE)
         set(bundle "${arg_BUNDLE}")
     endif()

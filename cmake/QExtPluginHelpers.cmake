@@ -136,8 +136,8 @@ function(qext_add_plugin target)
 
     qext_get_sanitized_plugin_type("${plugin_type}" plugin_type_escaped)
 
-    set(output_directory_default "${QEXT_BUILD_DIR}/${INSTALL_PLUGINSDIR}/${plugin_type}")
-    set(install_directory_default "${INSTALL_PLUGINSDIR}/${plugin_type}")
+    set(output_directory_default "${QEXT_BUILD_DIR}/${QEXT_INSTALL_PLUGINSDIR}/${plugin_type}")
+    set(install_directory_default "${QEXT_INSTALL_PLUGINSDIR}/${plugin_type}")
 
     qext_internal_check_directory_or_type(OUTPUT_DIRECTORY "${arg_OUTPUT_DIRECTORY}" "${plugin_type}"
         "${output_directory_default}" output_directory)
@@ -430,7 +430,7 @@ function(qext_add_plugin target)
             DESTINATION "${config_install_dir}"
             COMPONENT ${QEXT_INSTALL_COMPONENT_NAME})
         if(pri_file)
-            qext_install(FILES "${pri_file}" DESTINATION "${INSTALL_MKSPECSDIR}/modules")
+            qext_install(FILES "${pri_file}" DESTINATION "${QEXT_INSTALL_MKSPECSDIR}/modules")
         endif()
 
         # Make the export name of plugins be consistent with modules, so that

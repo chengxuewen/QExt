@@ -4906,7 +4906,7 @@ public:
         Icon_ios_chevron_right_filled,
         Icon_ios_chevron_right_regular,
     };
-    Q_ENUM(IconEnum);
+    Q_ENUMS(IconEnum);
 
     explicit QExtFluentIcons(QObject *parent = QEXT_NULLPTR);
     ~QExtFluentIcons() QEXT_OVERRIDE;

@@ -120,12 +120,12 @@ if(SINGLEAPPLICATION_BUILD_INSTALL)
 
     include(CMakePackageConfigHelpers)
     set(INCLUDE_INSTALL_DIRS "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
-    set(version_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake")
-    set(project_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake")
+    set(version_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
+    set(project_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake")
     write_basic_package_version_file("${version_config}"
         VERSION ${SINGLEAPPLICATION_VERSION}
         COMPATIBILITY SameMajorVersion)
-    configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}-config.cmake.in "${project_config}"
+    configure_package_config_file(${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in "${project_config}"
         INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}"
         PATH_VARS INCLUDE_INSTALL_DIRS)
     install(FILES "${project_config}" "${version_config}"

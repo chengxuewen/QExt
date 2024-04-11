@@ -124,6 +124,21 @@ void QExtGraphicsScene::setView(QGraphicsView *view)
     d->m_view = view;
 }
 
+void QExtGraphicsScene::align(AlignType alignType)
+{
+
+}
+
+void QExtGraphicsScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+
+}
+
+QExtGraphicsItemGroup *QExtGraphicsScene::createGroup(const QList<QGraphicsItem *> &items, bool isAdd)
+{
+
+}
+
 void QExtGraphicsScene::drawBackground(QPainter *painter, const QRectF &rect)
 {
     Q_D(QExtGraphicsScene);

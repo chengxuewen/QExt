@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QPainter>
+#include <QVariantAnimation>
 
 QExtAnimationIconEngine::QExtAnimationIconEngine(QExtIconAnimation *animation)
     : m_animation(animation)
@@ -62,7 +63,7 @@ QExtIconAnimationPrivate::QExtIconAnimationPrivate(QExtIconAnimation *q)
     : q_ptr(q)
 {
     m_animationIcon = QIcon(new QExtAnimationIconEngine(q));
-    m_rotationAnimation.reset(new QVariantAnimation(q));
+    m_rotationAnimation.reset(new QPropertyAnimation(q));
     QObject::connect(m_rotationAnimation.data(), SIGNAL(valueChanged(QVariant)), q, SLOT(onRotationAnimationValueChanged(QVariant)));
     q->addAnimation(m_rotationAnimation.data());
 }
@@ -128,7 +129,7 @@ void QExtIconAnimation::removeAnimation(QAbstractAnimation *animation)
 {
     Q_D(QExtIconAnimation);
     QAnimationGroup::removeAnimation(animation);
-    if (d->m_rotationAnimation.get() == animation)
+    if (d->m_rotationAnimation.data() == animation)
     {
         d->m_rotationAnimation->disconnect(this);
         d->m_rotationAnimation.take();
@@ -139,7 +140,7 @@ QAbstractAnimation *QExtIconAnimation::takeAnimation(int index)
 {
     Q_D(QExtIconAnimation);
     QAbstractAnimation *animation = QAnimationGroup::takeAnimation(index);
-    if (d->m_rotationAnimation.get() == animation)
+    if (d->m_rotationAnimation.data() == animation)
     {
         d->m_rotationAnimation->disconnect(this);
         d->m_rotationAnimation.take();

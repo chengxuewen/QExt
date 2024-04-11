@@ -16,10 +16,10 @@ static QExtIconFontAwesome::FontOptionValueMap qextMergeFontOptions(const QExtIc
                                                                     const QExtIconFontAwesome::FontOptionValueMap &QEXT_OVERRIDE)
 {
     QExtIconFontAwesome::FontOptionValueMap result = defaults;
-    if (!QEXT_OVERRIDE.isEmpty())
+    if (!result.isEmpty())
     {
         QExtIconFontAwesome::FontOptionValueMap::const_iterator iter;
-        for (iter = QEXT_OVERRIDE.begin(); iter != QEXT_OVERRIDE.end(); ++iter)
+        for (iter = result.begin(); iter != result.end(); ++iter)
         {
             result.insert(iter.key(), iter.value());
         }

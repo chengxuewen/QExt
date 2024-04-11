@@ -211,6 +211,18 @@ inline bool qextVariantCanConvert(const QVariant &variant)
     return variant.template canConvert<T>();
 }
 
+//TODO
+template<typename T>
+inline void qextMetaEnum(const QVariant &variant)
+{
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
+
+#else
+
+#endif
+}
+
+
 
 /***********************************************************************************************************************
     QExt force inline macro declare

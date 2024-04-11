@@ -19,10 +19,11 @@ QExtPropertyModelItem::~QExtPropertyModelItem()
 {
     if (!m_childrenList.isEmpty())
     {
-        for (auto &&child : m_childrenList)
+        QList<QExtPropertyModelItem *>::Iterator iter;
+        for (iter = m_childrenList.begin(); iter < m_childrenList.end(); ++iter)
         {
-            this->removeChild(child);
-            child->deleteLater();
+            this->removeChild(*iter);
+            (*iter)->deleteLater();
         }
         m_childrenList.clear();
     }

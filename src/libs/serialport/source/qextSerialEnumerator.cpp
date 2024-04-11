@@ -29,7 +29,6 @@
 **
 ****************************************************************************/
 
-#include <qextSerialEnumerator.h>
 #include <private/qextSerialEnumerator_p.h>
 
 #include <QtCore/QDebug>

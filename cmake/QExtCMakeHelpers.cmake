@@ -388,7 +388,7 @@ endfunction()
 # be included to do the regular version checks.
 # The version check result might be overridden by the wrapper.
 # package_name is used by the content of the wrapper file to include the basic package version file.
-#   example: QEXT1Gui
+#   example: QExt1Gui
 # out_path should be the build path where the write the file.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_write_qext_package_version_file package_name out_path)
@@ -403,7 +403,7 @@ function(qext_internal_write_qext_package_version_file package_name out_path)
             set(__qext_disable_package_version_check_due_to_developer_build TRUE)")
     endif()
 
-    configure_file("${QEXT_CMAKE_DIR}/QEXTCMakePackageVersionFile.cmake.in" "${out_path}" @ONLY)
+    configure_file("${QEXT_CMAKE_DIR}/QExtCMakePackageVersionFile.cmake.in" "${out_path}" @ONLY)
 endfunction()
 
 

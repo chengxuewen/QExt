@@ -59,10 +59,10 @@ qext_add_executable(QExtExpPatternsLogin
     login/LoginResult.cpp
     login/LoginResult.h
     login/login_dialog.ui
+    # login/login_dialog.h
     login/LoginForm.cpp
     login/LoginForm.h
     login/main.cpp
-    login/ui_login_dialog.h
     LIBRARIES
     ${QEXT_EXAMPLE_LINK_LIBRARIES}
     INCLUDE_DIRECTORIES

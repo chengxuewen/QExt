@@ -1,10 +1,10 @@
 prefix=@CMAKE_INSTALL_PREFIX@
 exec_prefix=${prefix}
-bindir=${prefix}/@INSTALL_BINDIR@
-libexecdir=${prefix}/@INSTALL_LIBEXECDIR@
-libdir=${prefix}/@INSTALL_LIBDIR@
-includedir=${prefix}/@INSTALL_INCLUDEDIR@
-$<$<BOOL:@contains_mkspecs@>:mkspecsdir=${prefix}/@INSTALL_MKSPECSDIR@>
+bindir=${prefix}/@QEXT_INSTALL_BINDIR@
+libexecdir=${prefix}/@QEXT_INSTALL_LIBEXECDIR@
+libdir=${prefix}/@QEXT_INSTALL_LIBDIR@
+includedir=${prefix}/@QEXT_INSTALL_INCLUDEDIR@
+$<$<BOOL:@contains_mkspecs@>:mkspecsdir=${prefix}/@QEXT_INSTALL_MKSPECSDIR@>
 $<1: >
 Name: @pkgconfig_name@
 Description: @pkgconfig_description@

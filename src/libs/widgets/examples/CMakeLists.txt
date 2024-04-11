@@ -552,9 +552,9 @@ qext_add_executable(QExtExpWidgetsStyleThemes
     stylethemes/mainwindow.cpp
     stylethemes/mainwindow.h
     stylethemes/mainwindow.ui
-    stylethemes/WidgetForm.cpp
-    stylethemes/WidgetForm.h
-    stylethemes/WidgetForm.ui
+    stylethemes/widgetform.cpp
+    stylethemes/widgetform.h
+    stylethemes/widgetform.ui
     navigationbutton/iconhelper.cpp
     navigationbutton/iconhelper.h
     navigationbutton/frmnavigationbutton.cpp

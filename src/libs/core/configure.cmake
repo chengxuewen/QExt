@@ -23,16 +23,21 @@
 
 
 qext_configure_feature("ENABLE_ASSERT" PUBLIC
-        LABEL "Enable this to build enable assert"
-        CONDITION ON)
+    LABEL "Enable this to build enable assert"
+    CONDITION ON)
 
 qext_configure_feature("ENABLE_CHECK" PUBLIC
-        LABEL "Enable this to build enable check"
-        CONDITION ON)
+    LABEL "Enable this to build enable check"
+    CONDITION ON)
 
 qext_configure_feature("ENABLE_DEBUG" PUBLIC
-        LABEL "Enable this to build enable debug"
-        CONDITION ON)
+    LABEL "Enable this to build enable debug"
+    CONDITION ON)
+
+qext_configure_feature("USE_CJSON_BACKEND" PUBLIC
+    LABEL "Enable this to build use cJSON backend"
+    AUTODETECT OFF
+    CONDITION QEXT_USE_QT4)
 
 qext_configure_definition("QEXT_VERSION_NAME" PUBLIC VALUE "\"${QEXT_VERSION_NAME}\"")
 qext_configure_definition("QEXT_VERSION_MAJOR" PUBLIC VALUE ${QEXT_VERSION_MAJOR})

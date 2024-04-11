@@ -30,8 +30,7 @@
 **
 ****************************************************************************/
 
-#include <qextSerialEnumerator.h>
-#include <qextSerialEnumerator_p.h>
+#include <private/qextSerialEnumerator_p.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QStringList>
@@ -41,7 +40,7 @@
 
 void QExtSerialEnumeratorPrivate::platformSpecificInit()
 {
-#if QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
+#if !QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
     monitor = NULL;
     notifierFd = -1;
     notifier = NULL;
@@ -54,7 +53,7 @@ void QExtSerialEnumeratorPrivate::platformSpecificInit()
 
 void QExtSerialEnumeratorPrivate::platformSpecificDestruct()
 {
-#if QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
+#if !QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
     if (notifier) {
         notifier->setEnabled(false);
         delete notifier;
@@ -68,7 +67,7 @@ void QExtSerialEnumeratorPrivate::platformSpecificDestruct()
 #endif
 }
 
-#if QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
+#if !QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
 static QEXTPortInfo portInfoFromDevice(struct udev_device *dev)
 {
     QString vendor = QString::fromLatin1(udev_device_get_property_value(dev, "ID_VENDOR_ID"));
@@ -87,7 +86,7 @@ static QEXTPortInfo portInfoFromDevice(struct udev_device *dev)
 QList<QEXTPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
 {
     QList<QEXTPortInfo> infoList;
-#if QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
+#if !QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
     struct udev *ud = udev_new();
     if (!ud) {
         qCritical() << "Unable to enumerate ports because udev is not initialized.";
@@ -166,7 +165,7 @@ QList<QEXTPortInfo> QExtSerialEnumeratorPrivate::getPorts_sys()
 bool QExtSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
 {
     Q_UNUSED(setup);
-#if QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
+#if !QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
     Q_Q(QExtSerialEnumerator);
     if (!udev) {
         qCritical() << "Unable to initialize notifications because udev is not initialized.";
@@ -193,7 +192,7 @@ bool QExtSerialEnumeratorPrivate::setUpNotifications_sys(bool setup)
 #endif
 }
 
-#if QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
+#if !QEXT_FEATURE_SERIALPORT_LINUX_NO_UDEV
 void QExtSerialEnumeratorPrivate::_q_deviceEvent()
 {
     Q_Q(QExtSerialEnumerator);

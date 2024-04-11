@@ -225,7 +225,7 @@ function(qext_install_injections target build_dir install_dir)
             # to its install location when doing a prefix build. In an non-prefix build, the qext_install
             # will be a no-op.
             qext_path_join(install_destination
-                ${install_dir} ${INSTALL_INCLUDEDIR}
+                ${install_dir} ${QEXT_INSTALL_INCLUDEDIR}
                 ${library_include_name} ${destinationdir})
             qext_install(FILES ${current_repo_build_dir}/${file}
                 DESTINATION ${install_destination}
@@ -249,7 +249,7 @@ function(qext_install_injections target build_dir install_dir)
                     "${build_dir}/${upper_case_forwarding_header_path}/${fwd_hdr}")
             else()
                 # Install the forwarding header.
-                qext_path_join(install_destination "${install_dir}" "${INSTALL_INCLUDEDIR}" ${library_include_name})
+                qext_path_join(install_destination "${install_dir}" "${QEXT_INSTALL_INCLUDEDIR}" ${library_include_name})
                 qext_install(FILES "${build_dir}/${upper_case_forwarding_header_path}/${fwd_hdr}"
                     DESTINATION ${install_destination} OPTIONAL)
             endif()
