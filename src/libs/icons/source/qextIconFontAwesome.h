@@ -154,7 +154,9 @@ public:
         Option_TextSelected,
         Option_TextSelectedOff
     };
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
     Q_ENUMS(OptionType)
+#endif
 
     /// A list of all icon-names with the codepoint (unicode-value) on the right
     /// You can use the names on the page  http://fortawesome.github.io/Font-Awesome/design.html
@@ -946,7 +948,9 @@ public:
         FA_wpexplorer = 0xf2de,
         FA_meetup = 0xf2e0
     };
-    Q_ENUMS(FontType)
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
+    Q_ENUM(FontType)
+#endif
 
     typedef QHash<QString, FontType> FontNameTextMap;
     typedef QHash<OptionType, QVariant> FontOptionValueMap;

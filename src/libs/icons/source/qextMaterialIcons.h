@@ -8,8 +8,7 @@
 
 class QEXT_ICONS_API QExtMaterialIcons : public QExtIconsResource
 {
-Q_OBJECT
-
+    Q_OBJECT
 public:
     enum IconEnum
     {
@@ -4008,7 +4007,9 @@ public:
         Icon_zoom_out_map_round,
         Icon_zoom_out_map_sharp,
     };
-    Q_ENUM(IconEnum);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
+    Q_ENUM(IconEnum)
+#endif
 
     explicit QExtMaterialIcons(QObject *parent = QEXT_NULLPTR);
 

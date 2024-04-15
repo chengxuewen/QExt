@@ -11,7 +11,6 @@ class QExtFluentIconsPrivate;
 class QEXT_ICONS_API QExtFluentIcons : public QExtIconsResource
 {
     Q_OBJECT
-
 public:
     enum IconEnum
     {
@@ -4906,7 +4905,9 @@ public:
         Icon_ios_chevron_right_filled,
         Icon_ios_chevron_right_regular,
     };
-    Q_ENUMS(IconEnum);
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
+    Q_ENUM(IconEnum)
+#endif
 
     explicit QExtFluentIcons(QObject *parent = QEXT_NULLPTR);
     ~QExtFluentIcons() QEXT_OVERRIDE;
