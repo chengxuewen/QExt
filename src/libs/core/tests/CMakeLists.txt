@@ -190,3 +190,13 @@ qext_internal_add_test(QExtTstCoreCodec
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
     ${QEXT_OUTPUT_TEST_DIR})
+
+if(QEXT_FEATURE_ENABLE_JSON)
+    qext_internal_add_test(QExtTstCoreJson
+        SOURCES
+        tools/json/tst_qextJson.cpp
+        LIBRARIES
+        ${QEXT_TEST_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${QEXT_OUTPUT_TEST_DIR})
+endif()

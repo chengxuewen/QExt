@@ -98,9 +98,6 @@ qext_add_library(Core
     source/tools/qextDiskInfo.h
     source/tools/qextException.cpp
     source/tools/qextException.h
-    source/tools/qextJson.cpp
-    source/tools/qextJson.h
-    source/tools/qextJson_p.h
     source/tools/qextLinearBuffer.cpp
     source/tools/qextLinearBuffer.h
     source/tools/qextTag.cpp
@@ -128,12 +125,20 @@ qext_add_library(Core
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
 
-if(QEXT_FEATURE_USE_CJSON_BACKEND)
-    qext_find_package(WrapCJSON PROVIDED_TARGETS QExt3rdparty::WrapCJSON)
+
+if(QEXT_FEATURE_ENABLE_JSON)
+    qext_internal_extend_target(Core
+        SOURCES
+        source/tools/qextJson.cpp
+        source/tools/qextJson.h
+        source/tools/qextJson_p.h)
+    if(QEXT_FEATURE_USE_CJSON_BACKEND)
+        qext_find_package(WrapCJSON PROVIDED_TARGETS QExt3rdparty::WrapCJSON)
+        qext_internal_extend_target(Core
+            LIBRARIES
+            QExt3rdparty::WrapCJSON)
+    endif()
 endif()
-qext_internal_extend_target(Core
-    CONDITION QEXT_FEATURE_USE_CJSON_BACKEND
-    LIBRARIES QExt3rdparty::WrapCJSON)
 
 
 #-----------------------------------------------------------------------------------------------------------------------

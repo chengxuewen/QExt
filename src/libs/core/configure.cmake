@@ -34,9 +34,12 @@ qext_configure_feature("ENABLE_DEBUG" PUBLIC
     LABEL "Enable this to build enable debug"
     CONDITION ON)
 
+qext_configure_feature("ENABLE_JSON" PUBLIC
+    LABEL "Enable this to build enable json"
+    CONDITION ON)
 qext_configure_feature("USE_CJSON_BACKEND" PUBLIC
     LABEL "Enable this to build use cJSON backend"
-    AUTODETECT OFF
+    AUTODETECT QEXT_USE_QT5
     CONDITION QEXT_USE_QT4)
 
 qext_configure_definition("QEXT_VERSION_NAME" PUBLIC VALUE "\"${QEXT_VERSION_NAME}\"")
