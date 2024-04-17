@@ -13,9 +13,6 @@
 #   include <QJsonDocument>
 #endif
 
-#undef QEXT_FEATURE_USE_CJSON_BACKEND
-#define QEXT_FEATURE_USE_CJSON_BACKEND 0
-
 class QExtJsonValuePrivate
 {
 public:

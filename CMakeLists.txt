@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.5.4 LANGUAGES CXX C)
+project(QExt VERSION 1.2.5.5 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -52,7 +52,7 @@ message(STATUS "Project version: ${QEXT_VERSION}")
 message(STATUS "Project copyright: ${QEXT_COPYRIGHT}")
 message(STATUS "Project license: ${QEXT_LICENSE}")
 
-
+set(CMAKE_PREFIX_PATH "/home/ubuntu/Qt/Qt4.8.5")
 #-----------------------------------------------------------------------------------------------------------------------
 # find qt and include path, set cmake moc uic rcc on
 #-----------------------------------------------------------------------------------------------------------------------
@@ -308,6 +308,7 @@ set(CMAKE_LINK_DEPENDS_NO_SHARED ON)
 set(CMAKE_CXX_STANDARD ${QEXT_CXX_STANDARD})
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 message(STATUS "Using C++: ${QEXT_CXX_STANDARD}")
 message(STATUS "Set C++ extensions: ${CMAKE_CXX_EXTENSIONS}")
 

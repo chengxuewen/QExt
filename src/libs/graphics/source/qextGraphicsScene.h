@@ -65,7 +65,13 @@ public:
 
     void destroyGroup(QGraphicsItemGroup *group);
 
-signals:
+    void setItemAdded(QGraphicsItem *item) { emit this->itemAdded(item); }
+    void setItemRotate(QGraphicsItem *item, const qreal oldAngle) { emit this->itemRotate(item, oldAngle); }
+    void setItemMoved(QGraphicsItem *item, const QPointF &oldPosition) { emit this->itemMoved(item, oldPosition); }
+    void setItemResize(QGraphicsItem *item, int handle, const QPointF &scale) { emit this->itemResize(item, handle, scale); }
+    void setItemControl(QGraphicsItem *item, int handle, const QPointF &newPos , const QPointF &lastPos_) { emit this->itemControl(item, handle, newPos, lastPos_); }
+
+Q_SIGNALS:
     void itemAdded(QGraphicsItem *item);
     void itemRotate(QGraphicsItem *item, const qreal oldAngle);
     void itemMoved(QGraphicsItem *item, const QPointF &oldPosition);

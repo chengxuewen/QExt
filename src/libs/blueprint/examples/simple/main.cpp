@@ -12,19 +12,16 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     QWidget mainWidget;
-    QVBoxLayout *l = new QVBoxLayout(&mainWidget);
+    QVBoxLayout *layout = new QVBoxLayout(&mainWidget);
 
-    auto scene = new QExtBlueprintScene(&mainWidget);
-    auto view = new QExtBlueprintView(scene);
-    l->addWidget(view);
-    l->setContentsMargins(0, 0, 0, 0);
-    l->setSpacing(0);
+    QExtBlueprintScene *scene = new QExtBlueprintScene(&mainWidget);
+    QExtBlueprintView *view = new QExtBlueprintView(scene);
+    layout->addWidget(view);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
 
     mainWidget.setWindowTitle("Simplest blueprint");
     mainWidget.resize(800, 600);
-    // Center window.
-    mainWidget.move(QApplication::primaryScreen()->availableGeometry().center()
-                    - mainWidget.rect().center());
     mainWidget.showNormal();
     return app.exec();
 }

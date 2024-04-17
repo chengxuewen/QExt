@@ -301,18 +301,6 @@ const QExtJsonValue QExtJsonValue::operator[](const QString &key) const
     return value;
 }
 
-const QExtJsonValue QExtJsonValue::operator[](QStringView key) const
-{
-    QExtJsonValue value;
-    Q_D(const QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-
-#else
-    value.dd_ptr->m_value = d->m_value[key];
-#endif
-    return value;
-}
-
 const QExtJsonValue QExtJsonValue::operator[](QLatin1String key) const
 {
     QExtJsonValue value;
@@ -339,8 +327,12 @@ const QExtJsonValue QExtJsonValue::operator[](int index) const
 
 bool QExtJsonValue::operator==(const QExtJsonValue &other) const
 {
+#if QEXT_FEATURE_USE_CJSON_BACKEND
+
+#else
     Q_D(const QExtJsonValue);
     return d->m_value == other.dd_ptr->m_value;
+#endif
 }
 
 bool QExtJsonValue::operator!=(const QExtJsonValue &other) const
@@ -549,18 +541,6 @@ QExtJsonValue QExtJsonObject::value(const QString &key) const
     return value;
 }
 
-QExtJsonValue QExtJsonObject::value(QStringView key) const
-{
-    QExtJsonValue value;
-    Q_D(const QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-
-#else
-    value.dd_ptr->m_value = d->m_object.value(key);
-#endif
-    return value;
-}
-
 QExtJsonValue QExtJsonObject::operator[](const QString &key) const
 {
     QExtJsonValue value;
@@ -595,16 +575,6 @@ void QExtJsonObject::remove(const QString &key)
 #endif
 }
 
-void QExtJsonObject::remove(QStringView key)
-{
-    Q_D(QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-
-#else
-    d->m_object.remove(key);
-#endif
-}
-
 QExtJsonValue QExtJsonObject::take(const QString &key)
 {
     QExtJsonValue value;
@@ -617,29 +587,7 @@ QExtJsonValue QExtJsonObject::take(const QString &key)
     return value;
 }
 
-QExtJsonValue QExtJsonObject::take(QStringView key)
-{
-    QExtJsonValue value;
-    Q_D(QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-
-#else
-    value.dd_ptr->m_value = d->m_object.take(key);
-#endif
-    return value;
-}
-
 bool QExtJsonObject::contains(const QString &key) const
-{
-    Q_D(const QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-
-#else
-    return d->m_object.contains(key);
-#endif
-}
-
-bool QExtJsonObject::contains(QStringView key) const
 {
     Q_D(const QExtJsonObject);
 #if QEXT_FEATURE_USE_CJSON_BACKEND
@@ -689,27 +637,12 @@ QExtJsonObject::iterator QExtJsonObject::insert(const QString &key, const QExtJs
 
 }
 
-QExtJsonObject::iterator QExtJsonObject::find(QStringView key)
-{
-
-}
-
 QExtJsonObject::iterator QExtJsonObject::find(QLatin1String key)
 {
 
 }
 
-QExtJsonObject::const_iterator QExtJsonObject::constFind(QStringView key) const
-{
-
-}
-
 QExtJsonObject::const_iterator QExtJsonObject::constFind(QLatin1String key) const
-{
-
-}
-
-QExtJsonObject::iterator QExtJsonObject::insert(QStringView key, const QExtJsonValue &value)
 {
 
 }
@@ -1219,18 +1152,6 @@ void QExtJsonDocument::setArray(const QExtJsonArray &array)
 #else
     d->m_document.setArray(array.dd_ptr->m_array);
 #endif
-}
-
-const QExtJsonValue QExtJsonDocument::operator[](QStringView key) const
-{
-    Q_D(const QExtJsonDocument);
-    QExtJsonValue value;
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-
-#else
-    value.dd_ptr->m_value = d->m_document[key];
-#endif
-    return value;
 }
 
 const QExtJsonValue QExtJsonDocument::operator[](QLatin1String key) const

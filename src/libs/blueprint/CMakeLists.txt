@@ -55,6 +55,8 @@ qext_add_library(Blueprint
     source/qextBlueprintScene.cpp
     source/qextBlueprintScene_p.h
     source/qextBlueprintScene.h
+    source/qextBlueprintTypes.cpp
+    source/qextBlueprintTypes.h
     source/qextBlueprintView.h
     source/qextBlueprintView_p.h
     source/qextBlueprintView.cpp

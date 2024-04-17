@@ -242,12 +242,12 @@ void QExtGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
 bool QExtGraphicsItem::readBaseAttributes(QXmlStreamReader *xml)
 {
-    qreal x = xml->attributes().value(tr("x")).toDouble();
-    qreal y = xml->attributes().value(tr("y")).toDouble();
-    m_width = xml->attributes().value("width").toDouble();
-    m_height = xml->attributes().value("height").toDouble();
-    this->setZValue(xml->attributes().value("z").toDouble());
-    this->setRotation(xml->attributes().value("rotate").toDouble());
+    qreal x = xml->attributes().value(tr("x")).toString().toDouble();
+    qreal y = xml->attributes().value(tr("y")).toString().toDouble();
+    m_width = xml->attributes().value("width").toString().toDouble();
+    m_height = xml->attributes().value("height").toString().toDouble();
+    this->setZValue(xml->attributes().value("z").toString().toDouble());
+    this->setRotation(xml->attributes().value("rotate").toString().toDouble());
     this->setPos(x,y);
     return true;
 }
@@ -499,8 +499,8 @@ bool QExtGraphicsRectItem::loadFromXml(QXmlStreamReader *xml)
     m_isRound = (xml->name() == tr("roundrect"));
     if (m_isRound)
     {
-        m_fRatioX = xml->attributes().value(tr("rx")).toDouble();
-        m_fRatioY = xml->attributes().value(tr("ry")).toDouble();
+        m_fRatioX = xml->attributes().value(tr("rx")).toString().toDouble();
+        m_fRatioY = xml->attributes().value(tr("ry")).toString().toDouble();
     }
     this->readBaseAttributes(xml);
     this->updateCoordinate();
@@ -752,8 +752,8 @@ bool QExtGraphicsLineItem::loadFromXml(QXmlStreamReader *xml)
     {
         if (xml->name()=="point")
         {
-            qreal x = xml->attributes().value("x").toDouble();
-            qreal y = xml->attributes().value("y").toDouble();
+            qreal x = xml->attributes().value("x").toString().toDouble();
+            qreal y = xml->attributes().value("y").toString().toDouble();
             m_points.append(QPointF(x,y));
             int dir = m_points.count();
             QExtGraphicsSizeHandle *shr = new QExtGraphicsSizeHandle(this, dir + QExtGraphicsSizeHandle::Handle_Left,
@@ -1349,8 +1349,8 @@ QGraphicsItem *QExtGraphicsEllipseItem::duplicate() const
 
 bool QExtGraphicsEllipseItem::loadFromXml(QXmlStreamReader *xml)
 {
-    m_startAngle = xml->attributes().value("startAngle").toInt();
-    m_spanAngle  = xml->attributes().value("spanAngle").toInt();
+    m_startAngle = xml->attributes().value("startAngle").toString().toInt();
+    m_spanAngle  = xml->attributes().value("spanAngle").toString().toInt();
     this->readBaseAttributes(xml);
     xml->skipCurrentElement();
     this->updateCoordinate();
@@ -1541,8 +1541,8 @@ bool QExtGraphicsPolygonItem::loadFromXml(QXmlStreamReader *xml)
     {
         if (xml->name()=="point")
         {
-            qreal x = xml->attributes().value("x").toDouble();
-            qreal y = xml->attributes().value("y").toDouble();
+            qreal x = xml->attributes().value("x").toString().toDouble();
+            qreal y = xml->attributes().value("y").toString().toDouble();
             m_points.append(QPointF(x,y));
             int dir = m_points.count();
             QExtGraphicsSizeHandle *shr = new QExtGraphicsSizeHandle(this, dir + QExtGraphicsSizeHandle::Handle_Left, true);

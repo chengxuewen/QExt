@@ -3,6 +3,8 @@
 
 #include <qextGlobal.h>
 
+#include <QStringList>
+
 /***********************************************************************************************************************
  * QExtJsonValue
 ***********************************************************************************************************************/
@@ -63,7 +65,6 @@ public:
     QExtJsonObject toObject(const QExtJsonObject &defaultValue) const;
 
     const QExtJsonValue operator[](const QString &key) const;
-    const QExtJsonValue operator[](QStringView key) const;
     const QExtJsonValue operator[](QLatin1String key) const;
     const QExtJsonValue operator[](int index) const;
 
@@ -175,16 +176,12 @@ public:
     bool isEmpty() const;
 
     QExtJsonValue value(const QString &key) const;
-    QExtJsonValue value(QStringView key) const;
     QExtJsonValue operator[] (const QString &key) const;
     QExtJsonValueRef operator[] (const QString &key);
 
     void remove(const QString &key);
-    void remove(QStringView key);
     QExtJsonValue take(const QString &key);
-    QExtJsonValue take(QStringView key);
     bool contains(const QString &key) const;
-    bool contains(QStringView key) const;
 
     bool operator==(const QExtJsonObject &other) const;
     bool operator!=(const QExtJsonObject &other) const;
@@ -205,7 +202,7 @@ public:
         typedef QExtJsonValueRef reference;
         typedef QExtJsonValuePtr pointer;
 
-        Q_DECL_CONSTEXPR inline iterator() : o(nullptr), i(0) {}
+        Q_DECL_CONSTEXPR inline iterator() : o(QEXT_NULLPTR), i(0) {}
         Q_DECL_CONSTEXPR inline iterator(QExtJsonObject *obj, int index) : o(obj), i(index) {}
 
         inline QString key() const { return o->keyAt(i); }
@@ -254,7 +251,7 @@ public:
         typedef QExtJsonValue reference;
         typedef QExtJsonValuePtr pointer;
 
-        Q_DECL_CONSTEXPR inline const_iterator() : o(nullptr), i(0) {}
+        Q_DECL_CONSTEXPR inline const_iterator() : o(QEXT_NULLPTR), i(0) {}
         Q_DECL_CONSTEXPR inline const_iterator(const QExtJsonObject *obj, int index) : o(obj), i(index) {}
         inline const_iterator(const iterator &other) : o(other.o), i(other.i) {}
 
@@ -309,13 +306,9 @@ public:
     const_iterator constFind(const QString &key) const;
     iterator insert(const QString &key, const QExtJsonValue &value);
 #endif
-    iterator find(QStringView key);
     iterator find(QLatin1String key);
-    const_iterator find(QStringView key) const { return constFind(key); }
     const_iterator find(QLatin1String key) const { return constFind(key); }
-    const_iterator constFind(QStringView key) const;
     const_iterator constFind(QLatin1String key) const;
-    iterator insert(QStringView key, const QExtJsonValue &value);
     iterator insert(QLatin1String key, const QExtJsonValue &value);
 
     // STL compatibility
@@ -607,7 +600,6 @@ public:
     void setObject(const QExtJsonObject &object);
     void setArray(const QExtJsonArray &array);
 
-    const QExtJsonValue operator[](QStringView key) const;
     const QExtJsonValue operator[](QLatin1String key) const;
     const QExtJsonValue operator[](int index) const;
 

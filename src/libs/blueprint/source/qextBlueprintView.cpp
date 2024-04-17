@@ -6,6 +6,7 @@
 #include <QFileInfo>
 #include <QCloseEvent>
 #include <QMouseEvent>
+#include <QWheelEvent>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QSvgGenerator>
@@ -224,7 +225,7 @@ void QExtBlueprintView::contextMenuEvent(QContextMenuEvent *event)
         return;
     }
 
-    auto const scenePos = this->mapToScene(event->pos());
+    const QPointF scenePos = this->mapToScene(event->pos());
     // QMenu *menu = nodeScene()->createSceneMenu(scenePos);
 
     // if (menu) {
@@ -249,16 +250,16 @@ void QExtBlueprintView::drawBackground(QPainter *painter, const QRectF &rect)
 void QExtBlueprintView::wheelEvent(QWheelEvent *event)
 {
     // QGraphicsView::wheelEvent(event);
-    QPoint delta = event->angleDelta();
+//    QPoint delta = event->angleDelta();
 
-    if (delta.y() == 0)
-    {
-        event->ignore();
-        return;
-    }
+//    if (delta.y() == 0)
+//    {
+//        event->ignore();
+//        return;
+//    }
 
-    double const d = delta.y() / std::abs(delta.y());
-
+//    double const d = delta.y() / std::abs(delta.y());
+    const int d = event->delta();
     if (d > 0.0)
     {
         this->scaleUp();
@@ -304,7 +305,7 @@ void QExtBlueprintView::mouseMoveEvent(QMouseEvent *event)
 {
     Q_D(QExtBlueprintView);
     QGraphicsView::mouseMoveEvent(event);
-    if (this->scene()->mouseGrabberItem() == nullptr && event->buttons() == Qt::LeftButton)
+    if (!this->scene()->mouseGrabberItem() && event->buttons() == Qt::LeftButton)
     {
         // Make sure shift is not being pressed
         if ((event->modifiers() & Qt::ShiftModifier) == 0)

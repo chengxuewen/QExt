@@ -240,7 +240,7 @@ void QExtGraphicsSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, QEx
 
                 item->stretch(nDragHandle, sx , sy , m_opposite);
 
-                emit scene->itemResize(item,nDragHandle,QPointF(sx,sy));
+                scene->setItemResize(item,nDragHandle,QPointF(sx,sy));
 
                 //  qDebug()<<"scale:"<<nDragHandle<< item->mapToScene(opposite_)<< sx << " ，" << sy
                 //         << new_delta << item->mapFromScene(c_last)
@@ -250,7 +250,7 @@ void QExtGraphicsSelectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, QEx
             else if (nDragHandle > QExtGraphicsSizeHandle::Handle_Left  && selectMode == editor)
             {
                 item->control(nDragHandle,sm_last);
-                emit scene->itemControl(item,nDragHandle, sm_last,sm_down);
+                scene->setItemControl(item,nDragHandle, sm_last,sm_down);
             }
             else if(nDragHandle == QExtGraphicsSizeHandle::Handle_None)
             {
@@ -301,7 +301,7 @@ void QExtGraphicsSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, 
         if (item != QEXT_NULLPTR  && selectMode == move && sm_last != sm_down)
         {
             item->setPos(m_initialPositions + sm_last - sm_down);
-            emit scene->itemMoved(item, sm_last - sm_down);
+            scene->setItemMoved(item, sm_last - sm_down);
         }
         else if (item !=0 && (selectMode == size || selectMode ==editor) && sm_last != sm_down)
         {
@@ -310,7 +310,7 @@ void QExtGraphicsSelectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, 
     }
     else if (items.count() > 1 && selectMode == move && sm_last != sm_down)
     {
-        emit scene->itemMoved(NULL, sm_last - sm_down);
+        scene->setItemMoved(NULL, sm_last - sm_down);
     }
 
     if (selectMode == netSelect)
@@ -401,7 +401,7 @@ void QExtGraphicsRotationTool::mousePressEvent(QGraphicsSceneMouseEvent *event, 
             else
             {
                 sm_drawShape = selection;
-                sg_selectTool->mousePressEvent(event,scene);
+                sg_selectTool()->mousePressEvent(event,scene);
             }
         }
     }
@@ -492,7 +492,7 @@ void QExtGraphicsRotationTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event
             }
 
             item->setRotation(angle);
-            emit scene->itemRotate(item, oldAngle);
+            scene->setItemRotate(item, oldAngle);
             qDebug() << "rotate:" << angle << item->boundingRect();
         }
     }
@@ -560,12 +560,12 @@ void QExtGraphicsRectTool::mousePressEvent(QGraphicsSceneMouseEvent *event, QExt
 void QExtGraphicsRectTool::mouseMoveEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene)
 {
     qextSetCursor(scene,Qt::CrossCursor);
-    sg_selectTool->mouseMoveEvent(event, scene);
+    sg_selectTool()->mouseMoveEvent(event, scene);
 }
 
 void QExtGraphicsRectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, QExtGraphicsScene *scene)
 {
-    sg_selectTool->mouseReleaseEvent(event, scene);
+    sg_selectTool()->mouseReleaseEvent(event, scene);
 
     if (event->scenePos() == (sm_down-QPoint(2,2)))
     {
@@ -580,7 +580,7 @@ void QExtGraphicsRectTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event, QE
     }
     else if(m_item)
     {
-        emit scene->itemAdded(m_item);
+        scene->setItemAdded(m_item);
     }
     sm_drawShape = selection;
 }
@@ -671,7 +671,7 @@ void QExtGraphicsPolygonTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *event,
     {
         m_item->endPoint(event->scenePos());
         m_item->updateCoordinate();
-        emit scene->itemAdded(m_item);
+        scene->setItemAdded(m_item);
         m_item = QEXT_NULLPTR;
         selectMode = none;
         sm_drawShape = selection;
@@ -684,7 +684,7 @@ void QExtGraphicsPolygonTool::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
     QExtGraphicsTool::mouseDoubleClickEvent(event, scene);
     m_item->endPoint(event->scenePos());
     m_item->updateCoordinate();
-    emit scene->itemAdded(m_item);
+    scene->setItemAdded(m_item);
     m_item = QEXT_NULLPTR;
     selectMode = none;
     sm_drawShape = selection;

@@ -41,12 +41,11 @@ if(NOT cjson_FOUND)
     if(NOT EXISTS ${CJSON_SOURCE_DIR})
         include(FetchContent)
         FetchContent_Declare(
-            UTK-cJSON
+            QExt-cJSON
             SOURCE_DIR ${CJSON_SOURCE_DIR}
             BINARY_DIR ${CJSON_BUILD_DIR}
-            URL ${CJSON_URL_PATH}
-            DOWNLOAD_EXTRACT_TIMESTAMP FALSE)
-        FetchContent_Populate(UTK-cJSON)
+            URL ${CJSON_URL_PATH})
+        FetchContent_Populate(QExt-cJSON)
     endif()
     if(NOT EXISTS ${CJSON_INSTALL_DIR})
         if(NOT EXISTS ${CJSON_SOURCE_DIR})
@@ -57,6 +56,7 @@ if(NOT cjson_FOUND)
             -G${CMAKE_GENERATOR}
             -DBUILD_SHARED_LIBS=OFF
             -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+            -DCMAKE_C_FLAGS=-fPIC
             -DCMAKE_INSTALL_PREFIX=${CJSON_INSTALL_DIR} ${CJSON_SOURCE_DIR}
             WORKING_DIRECTORY "${CJSON_BUILD_DIR}"
             RESULT_VARIABLE CONFIGURE_RESULT)

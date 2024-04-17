@@ -448,7 +448,7 @@ QExtGraphicsItemGroup *QExtGraphicsViewPrivate::loadGroupFromXML(QXmlStreamReade
 {
     Q_Q(QExtGraphicsView);
     QList<QGraphicsItem *> items;
-    qreal angle = xml->attributes().value(QObject::tr("rotate")).toDouble();
+    qreal angle = xml->attributes().value(QObject::tr("rotate")).toString().toDouble();
     while (xml->readNextStartElement())
     {
         QExtGraphicsAbstractShapeItem *item = QEXT_NULLPTR;
@@ -565,8 +565,8 @@ bool QExtGraphicsView::loadFile(const QString &fileName)
     {
         if (xml.name() == tr("canvas"))
         {
-            int width = xml.attributes().value(tr("width")).toInt();
-            int height = xml.attributes().value(tr("height")).toInt();
+            int width = xml.attributes().value(tr("width")).toString().toInt();
+            int height = xml.attributes().value(tr("height")).toString().toInt();
             scene()->setSceneRect(0, 0, width, height);
             d->loadCanvas(&xml);
         }

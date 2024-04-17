@@ -44,21 +44,23 @@ list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Graphics)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_executable(QExtExpGraphicsDraw
-    SOURCES
-    draw/customproperty.h
-    draw/customproperty.cpp
-    draw/mainwindow.cpp
-    draw/mainwindow.h
-    draw/objectcontroller.h
-    draw/objectcontroller.cpp
-    draw/main.cpp
-    draw/app.qrc
-    LIBRARIES
-    ${QEXT_EXAMPLE_LINK_LIBRARIES} QExt::Widgets
-    INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/draw
-    OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
-    DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+if(TARGET QExt::Widgets)
+    qext_add_executable(QExtExpGraphicsDraw
+        SOURCES
+        draw/customproperty.h
+        draw/customproperty.cpp
+        draw/mainwindow.cpp
+        draw/mainwindow.h
+        draw/objectcontroller.h
+        draw/objectcontroller.cpp
+        draw/main.cpp
+        draw/app.qrc
+        LIBRARIES
+        ${QEXT_EXAMPLE_LINK_LIBRARIES} QExt::Widgets
+        INCLUDE_DIRECTORIES
+        ${CMAKE_CURRENT_SOURCE_DIR}/draw
+        OUTPUT_DIRECTORY
+        ${QEXT_OUTPUT_EXAMPLE_DIR}
+        DEFINES
+        EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+endif()
