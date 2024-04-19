@@ -665,10 +665,6 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
         "CMake from there. You may need to remove CMakeCache.txt.")
 endif()
 
-if(CMAKE_CROSSCOMPILING AND NOT IS_DIRECTORY "${QEXT_HOST_PATH}")
-    message(FATAL_ERROR "You need to set QEXT_HOST_PATH to cross compile QExt.")
-endif()
-
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Set default param args
