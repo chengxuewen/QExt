@@ -13,7 +13,7 @@
 #   include <QJsonDocument>
 #endif
 
-class QExtJsonValuePrivate
+class QEXT_CORE_API QExtJsonValuePrivate
 {
 public:
     explicit QExtJsonValuePrivate(QExtJsonValue *q);
@@ -32,7 +32,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(QExtJsonValuePrivate)
 };
 
-class QExtJsonObjectPrivate
+class QEXT_CORE_API QExtJsonObjectPrivate
 {
 public:
     explicit QExtJsonObjectPrivate(QExtJsonObject *q);
@@ -51,7 +51,7 @@ private:
     QEXT_DISABLE_COPY_MOVE(QExtJsonObjectPrivate)
 };
 
-class QExtJsonArrayPrivate
+class QEXT_CORE_API QExtJsonArrayPrivate
 {
 public:
     explicit QExtJsonArrayPrivate(QExtJsonArray *q);

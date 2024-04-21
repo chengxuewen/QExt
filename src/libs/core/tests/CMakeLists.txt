@@ -199,4 +199,8 @@ if(QEXT_FEATURE_ENABLE_JSON)
         ${QEXT_TEST_LINK_LIBRARIES}
         OUTPUT_DIRECTORY
         ${QEXT_OUTPUT_TEST_DIR})
+    add_custom_command(TARGET QExtTstCoreJson
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/tools/json/testdata ${QEXT_OUTPUT_TEST_DIR}/json
+        COMMENT "Copying json testdata directory to ${QEXT_OUTPUT_TEST_DIR}"
+        POST_BUILD)
 endif()

@@ -132,7 +132,7 @@ struct QExtNoType { char padding[8]; };
 
 
 /***********************************************************************************************************************
-    QExt is floating point type trait
+    QExtTypeEnableIf QExtTypeIf type trait
 ***********************************************************************************************************************/
 template <bool, typename T = void> struct QExtTypeEnableIf { };
 template <typename T> struct QExtTypeEnableIf<true, T>
@@ -171,7 +171,7 @@ struct QExtTypeNot : QExtIntegralConstant<bool, !T::value> {};
 
 
 /***********************************************************************************************************************
-    QExt is floating point type trait
+    QExtIsUnsigned QExtIsSigned type trait
 ***********************************************************************************************************************/
 // Checks whether a type is unsigned (T must be convertible to unsigned int):
 template <typename T> struct QExtIsUnsigned : QExtIntegralConstant<bool, (T(0)<T(-1))> {};
@@ -205,7 +205,23 @@ QEXT_STATIC_ASSERT(( QExtIsSigned<qint64>::value));
 
 
 /***********************************************************************************************************************
-    QExt is floating point type trait
+    QExtMakeUnsigned type trait
+***********************************************************************************************************************/
+template<typename T> struct QExtMakeUnsigned { typedef T Type; };
+template<> struct QExtMakeUnsigned<qint8> { typedef qint8 Type; };
+template<> struct QExtMakeUnsigned<qint16> { typedef quint16 Type; };
+template<> struct QExtMakeUnsigned<qint32> { typedef quint32 Type; };
+template<> struct QExtMakeUnsigned<qint64> { typedef quint64 Type; };
+
+template<typename T> struct QExtMakeSigned { typedef T Type; };
+template<> struct QExtMakeSigned<quint8> { typedef qint8 Type; };
+template<> struct QExtMakeSigned<quint16> { typedef qint16 Type; };
+template<> struct QExtMakeSigned<quint32> { typedef qint32 Type; };
+template<> struct QExtMakeSigned<quint64> { typedef qint64 Type; };
+
+
+/***********************************************************************************************************************
+    QExtIsFloatingPoint type trait
 ***********************************************************************************************************************/
 //* is a type T a floating-point type described in the standard (3.9.1p8)
 template <typename T> struct QExtIsFloatingPoint : public QExtFalseType{};
@@ -218,20 +234,20 @@ template<> struct QExtIsFloatingPoint<long double> : public QExtTrueType{};
 
 
 /***********************************************************************************************************************
-    QExt is float type trait
+    QExtIsFloat type trait
 ***********************************************************************************************************************/
 template <typename T> struct QExtIsFloat : public QExtIsFloatingPoint<T> {};
 
 
 /***********************************************************************************************************************
-    QExt is arithmetic type trait
+    QExtIsArithmetic type trait
 ***********************************************************************************************************************/
 template <typename T>
 struct QExtIsArithmetic : public QExtIntegralConstant<bool, QExtIsIntegral<T>::value || QExtIsFloatingPoint<T>::value> {};
 
 
 /***********************************************************************************************************************
-    QExt is member pointer type trait
+    QExtIsMemberPointer type trait
 ***********************************************************************************************************************/
 #if QEXT_CC_STD_11
 template <typename T>
@@ -241,7 +257,7 @@ struct QExtIsMemberPointer : public QExtIntegralConstant<bool, std::is_member_fu
 
 
 /***********************************************************************************************************************
-    QExt is same type trait
+    QExtIsSame type trait
 ***********************************************************************************************************************/
 template <typename T, typename U> struct QExtIsSame : public QExtFalseType {};
 template <typename T> struct QExtIsSame<T,T> : public QExtTrueType {};
