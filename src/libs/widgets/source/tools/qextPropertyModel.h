@@ -83,7 +83,7 @@ class QEXT_WIDGETS_API QExtPropertyModelRootItem : public QExtPropertyModelItem
 {
 public:
     QExtPropertyModelRootItem() {}
-    ~QExtPropertyModelRootItem() QEXT_OVERRIDE {};
+    ~QExtPropertyModelRootItem() QEXT_OVERRIDE {}
 
     QString name() const QEXT_OVERRIDE { return "root"; }
     Qt::ItemFlags flags() const QEXT_OVERRIDE { return  Qt::NoItemFlags; }
@@ -141,8 +141,8 @@ protected:
     QScopedPointer<QExtPropertyModelPrivate> dd_ptr;
 
 private:
-    Q_DECLARE_PRIVATE_D(dd_ptr, QExtPropertyModel)
-    Q_DISABLE_COPY(QExtPropertyModel)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPropertyModel)
+    QEXT_DISABLE_COPY_MOVE(QExtPropertyModel)
 };
 
 class QEXT_WIDGETS_API QExtPropertyDelegate : public QStyledItemDelegate

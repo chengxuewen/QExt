@@ -7,6 +7,7 @@
 #include <QObject>
 
 #include <limits>
+#include <cmath>
 
 class QEXT_CORE_API QExtNumeric
 {
@@ -49,9 +50,9 @@ public:
         }
         else
         {
-            using ST = typename QExtMakeSigned<T>::Type;
+            typedef typename QExtMakeSigned<T>::Type ST;
             supremum = -2.0 * std::numeric_limits<ST>::min();   // -2 * (-2^63) = 2^64, exact (for T = quint64)
-            v = fabs(v);
+            v = std::fabs(v);
         }
 
         *value = std::numeric_limits<T>::max();
@@ -63,11 +64,11 @@ public:
         // Now we can convert, these two conversions cannot be UB
         *value = T(v);
 
-        QT_WARNING_PUSH
-        QT_WARNING_DISABLE_GCC("-Wfloat-equal")
-        QT_WARNING_DISABLE_CLANG("-Wfloat-equal")
+        QEXT_WARNING_PUSH
+        QEXT_WARNING_DISABLE_GCC("-Wfloat-equal")
+        QEXT_WARNING_DISABLE_CLANG("-Wfloat-equal")
         return *value == v;
-        QT_WARNING_POP
+        QEXT_WARNING_POP
     }
 };
 

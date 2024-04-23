@@ -20,7 +20,7 @@ public:
     {
         Type_Null =  0x0,
         Type_Bool = 0x1,
-        Type_Number = 0x2,
+        Type_Number = 0x2, // max 17 decimal places of precision
         Type_String = 0x3,
         Type_Array = 0x4,
         Type_Object = 0x5,
@@ -39,7 +39,6 @@ public:
     QExtJsonValue(int number);
     QExtJsonValue(qint64 number);
     QExtJsonValue(const char *string);
-    QExtJsonValue(QLatin1String string);
     QExtJsonValue(const QString &string);
     QExtJsonValue(const std::string &string);
     QExtJsonValue(const QExtJsonArray &array);
@@ -76,7 +75,7 @@ public:
     QExtJsonObject toObject(const QExtJsonObject &defaultValue) const;
 
     const QExtJsonValue operator[](const QString &key) const;
-    const QExtJsonValue operator[](QLatin1String key) const;
+    const QExtJsonValue operator[](const char *key) const;
     const QExtJsonValue operator[](int index) const;
 
     bool operator==(const QExtJsonValue &other) const;
@@ -216,7 +215,7 @@ public:
     void remove(const QString &key);
     QExtJsonValue take(const QString &key);
     bool contains(const QString &key) const;
-    void insert(QLatin1String key, const QExtJsonValue &value);
+    void insert(const char *key, const QExtJsonValue &value);
     void insert(const QString &key, const QExtJsonValue &value);
 
     bool operator==(const QExtJsonObject &other) const;
@@ -366,7 +365,7 @@ public:
     void setObject(const QExtJsonObject &object);
     void setArray(const QExtJsonArray &array);
 
-    const QExtJsonValue operator[](QLatin1String key) const;
+    const QExtJsonValue operator[](const char *key) const;
     const QExtJsonValue operator[](QString key) const;
     const QExtJsonValue operator[](int index) const;
 

@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.5.7 LANGUAGES CXX C)
+project(QExt VERSION 1.2.5.8 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -419,7 +419,7 @@ qext_option(QEXT_ENABLE_LIB_PATTERNS "Enable this to build the patterns lib" OFF
 qext_option(QEXT_ENABLE_LIB_BLUEPRINT "Enable this to build the blueprint lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_WIDGETS "Enable this to build the widgets lib" OFF
-    DEPENDS QEXT_ENABLE_LIB_GUI AND QEXT_SINCE_QT5
+    DEPENDS QEXT_ENABLE_LIB_GUI
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_GRAPHICS "Enable this to build the graphics lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)

@@ -95,7 +95,7 @@ class QScrollTimer;
 class QEXT_WIDGETS_API QExtScrollerPrivate : public QObject
 {
     Q_OBJECT
-    Q_DECLARE_PUBLIC(QExtScroller)
+    QEXT_DECL_PUBLIC(QExtScroller)
 
 public:
     QExtScrollerPrivate(QExtScroller *q, QObject *target);

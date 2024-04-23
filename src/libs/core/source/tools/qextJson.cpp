@@ -2,6 +2,8 @@
 #include <qextNumeric.h>
 #include <qextTag.h>
 
+#include <cfloat>
+
 /***********************************************************************************************************************
  * QExtJsonValue
 ***********************************************************************************************************************/
@@ -132,17 +134,6 @@ QExtJsonValue::QExtJsonValue(const char *string)
     Q_D(QExtJsonValue);
 #if QEXT_FEATURE_USE_CJSON_BACKEND
     d->m_cJson = cJSON_CreateString(string);
-#else
-    d->m_value = string;
-#endif
-}
-
-QExtJsonValue::QExtJsonValue(QLatin1String string)
-    : dd_ptr(new QExtJsonValuePrivate(this))
-{
-    Q_D(QExtJsonValue);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    d->m_cJson = cJSON_CreateString(string.data());
 #else
     d->m_value = string;
 #endif
@@ -412,14 +403,14 @@ const QExtJsonValue QExtJsonValue::operator[](const QString &key) const
     return (*this)[QLatin1String(key.toLatin1())];
 }
 
-const QExtJsonValue QExtJsonValue::operator[](QLatin1String key) const
+const QExtJsonValue QExtJsonValue::operator[](const char *key) const
 {
     QExtJsonValue value;
     Q_D(const QExtJsonValue);
 #if QEXT_FEATURE_USE_CJSON_BACKEND
     if (cJSON_IsObject(d->m_cJson))
     {
-        cJSON *item = cJSON_GetObjectItem(d->m_cJson, key.data());
+        cJSON *item = cJSON_GetObjectItem(d->m_cJson, key);
         if (item)
         {
             cJSON_Delete(value.dd_ptr->m_cJson);
@@ -481,7 +472,7 @@ QExtJsonValueRef &QExtJsonValueRef::operator =(const QExtJsonValue &val)
 {
     if (is_object)
     {
-        o->insert(QExtTag(index).name(), val);
+        o->insert(QExtTag(index).name().data(), val);
     }
     else
     {
@@ -494,7 +485,7 @@ QExtJsonValueRef &QExtJsonValueRef::operator =(const QExtJsonValueRef &val)
 {
     if (is_object)
     {
-        o->insert(QExtTag(index).name(), val.toValue());
+        o->insert(QExtTag(index).name().data(), val.toValue());
     }
     else
     {
@@ -530,7 +521,7 @@ uint qHash(const QExtJsonValue &value, uint seed)
     switch (value.type())
     {
     case QExtJsonValue::Type_Null:
-        return qHash(QEXT_NULLPTR, seed);
+        return qHash(value.dd_ptr->m_cJson, seed);
     case QExtJsonValue::Type_Bool:
         return qHash(value.toBool(), seed);
     case QExtJsonValue::Type_Number:
@@ -544,37 +535,25 @@ uint qHash(const QExtJsonValue &value, uint seed)
     case QExtJsonValue::Type_Undefined:
         return seed;
     }
-    Q_UNREACHABLE();
+    qFatal("UNREACHABLE");
     return 0;
 #else
     return qHash(value.dd_ptr->m_value);
 #endif
 }
 
-int countDecimalPlaces(double x)
+/* securely comparison of floating-point variables */
+static bool compare_double(double a, double b)
 {
-    // 取 x 的绝对值
-    double absX = std::abs(x);
-
-    // 取 x 的小数部分
-    double fractionalPart = absX - std::floor(absX);
-
-    // 计算小数部分的位数
-    int decimalPlaces = 0;
-    while (fractionalPart > 0.0)
-    {
-        fractionalPart *= 10.0;
-        fractionalPart = fractionalPart - std::floor(fractionalPart);
-        decimalPlaces++;
-    }
-
-    return decimalPlaces;
+    double maxVal = fabs(a) > fabs(b) ? fabs(a) : fabs(b);
+    return (fabs(a - b) <= maxVal * DBL_EPSILON);
 }
-
 #if !defined(QT_NO_DEBUG_STREAM) && !defined(QT_JSON_READONLY)
 QDebug operator<<(QDebug dbg, const QExtJsonValue &o)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
     QDebugStateSaver saver(dbg);
+#endif
     switch (o.type())
     {
     case QExtJsonValue::Type_Undefined:
@@ -588,9 +567,7 @@ QDebug operator<<(QDebug dbg, const QExtJsonValue &o)
         break;
     case QExtJsonValue::Type_Number:
     {
-        double dbl = o.toDouble();
-        int c = countDecimalPlaces(dbl);
-        dbg.nospace() << "QExtJsonValue(double, " << QString::number(dbl, 'e', c) << ')';
+        dbg.nospace() << "QExtJsonValue(double, " << o.toDouble() << ')';
         break;
     }
     case QExtJsonValue::Type_String:
@@ -848,6 +825,7 @@ QStringList QExtJsonObject::keys() const
         keys.append(item->string);
         item = item->next;
     }
+    qSort(keys.begin(), keys.end());
     return keys;
 #else
     return d->m_object.keys();
@@ -858,7 +836,17 @@ int QExtJsonObject::size() const
 {
     Q_D(const QExtJsonObject);
 #if QEXT_FEATURE_USE_CJSON_BACKEND
-
+    int size = 0;
+    cJSON *child = d->m_cJson->child;
+    while (NULL != child)
+    {
+        if (!cJSON_IsInvalid(child) && !cJSON_IsRaw(child))
+        {
+            size++;
+        }
+        child = child->next;
+    }
+    return size;
 #else
     return d->m_object.size();
 #endif
@@ -866,18 +854,13 @@ int QExtJsonObject::size() const
 
 bool QExtJsonObject::isEmpty() const
 {
-    Q_D(const QExtJsonObject);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_IsInvalid(d->m_cJson);
-#else
-    return d->m_object.isEmpty();
-#endif
+    return this->size() <= 0;
 }
 
 QExtJsonValue QExtJsonObject::value(const QString &key) const
 {
-    QExtJsonValue value;
     Q_D(const QExtJsonObject);
+    QExtJsonValue value(QExtJsonValue::Type_Undefined);
 #if QEXT_FEATURE_USE_CJSON_BACKEND
     cJSON *item = cJSON_GetObjectItem(d->m_cJson, key.toLatin1().data());
     if (item)
@@ -913,8 +896,8 @@ void QExtJsonObject::remove(const QString &key)
 
 QExtJsonValue QExtJsonObject::take(const QString &key)
 {
-    QExtJsonValue value;
     Q_D(QExtJsonObject);
+    QExtJsonValue value(QExtJsonValue::Type_Undefined);
 #if QEXT_FEATURE_USE_CJSON_BACKEND
     cJSON *item = cJSON_DetachItemFromObjectCaseSensitive(d->m_cJson, key.toLatin1().data());
     if (item)
@@ -938,11 +921,18 @@ bool QExtJsonObject::contains(const QString &key) const
 #endif
 }
 
-void QExtJsonObject::insert(QLatin1String key, const QExtJsonValue &value)
+void QExtJsonObject::insert(const char *key, const QExtJsonValue &value)
 {
     Q_D(QExtJsonObject);
 #if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON_AddItemToObject(d->m_cJson, key.data(), cJSON_Duplicate(value.dd_ptr->m_cJson, true));
+    if (cJSON_HasObjectItem(d->m_cJson, key))
+    {
+        cJSON_ReplaceItemInObjectCaseSensitive(d->m_cJson, key, cJSON_Duplicate(value.dd_ptr->m_cJson, true));
+    }
+    else
+    {
+        cJSON_AddItemToObject(d->m_cJson, key, cJSON_Duplicate(value.dd_ptr->m_cJson, true));
+    }
 #else
     d->m_object.insert(key, value.dd_ptr->m_value);
 #endif
@@ -980,7 +970,9 @@ uint qHash(const QExtJsonObject &object, uint seed)
 #if !defined(QT_NO_DEBUG_STREAM) && !defined(QT_JSON_READONLY)
 QDebug operator<<(QDebug dbg, const QExtJsonObject &object)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
     QDebugStateSaver saver(dbg);
+#endif
     if (object.isEmpty())
     {
         dbg << "QExtJsonObject()";
@@ -1155,17 +1147,12 @@ int QExtJsonArray::size() const
 
 bool QExtJsonArray::isEmpty() const
 {
-    Q_D(const QExtJsonArray);
-#if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_IsInvalid(d->m_cJson);
-#else
-    return d->m_array.isEmpty();
-#endif
+    return this->size() <= 0;
 }
 
 QExtJsonValue QExtJsonArray::at(int index) const
 {
-    QExtJsonValue value;
+    QExtJsonValue value(QExtJsonValue::Type_Undefined);
     Q_D(const QExtJsonArray);
 #if QEXT_FEATURE_USE_CJSON_BACKEND
     cJSON *item = cJSON_GetArrayItem(d->m_cJson, index);
@@ -1204,7 +1191,8 @@ void QExtJsonArray::append(const QExtJsonValue &value)
 {
     Q_D(QExtJsonArray);
 #if QEXT_FEATURE_USE_CJSON_BACKEND
-    cJSON_AddItemToArray(d->m_cJson, cJSON_Duplicate(value.dd_ptr->m_cJson, true));
+    cJSON *newItem = value.isUndefined() ? cJSON_CreateNull() : cJSON_Duplicate(value.dd_ptr->m_cJson, true);
+    cJSON_AddItemToArray(d->m_cJson, newItem);
 #else
     d->m_array.append(value.dd_ptr->m_value);
 #endif
@@ -1222,7 +1210,7 @@ void QExtJsonArray::removeAt(int index)
 
 QExtJsonValue QExtJsonArray::takeAt(int index)
 {
-    QExtJsonValue value;
+    QExtJsonValue value(QExtJsonValue::Type_Undefined);
     Q_D(QExtJsonArray);
 #if QEXT_FEATURE_USE_CJSON_BACKEND
     cJSON *item = cJSON_DetachItemFromArray(d->m_cJson, index);
@@ -1314,7 +1302,9 @@ uint qHash(const QExtJsonArray &array, uint seed)
 #if !defined(QT_NO_DEBUG_STREAM) && !defined(QT_JSON_READONLY)
 QDebug operator<<(QDebug dbg, const QExtJsonArray &array)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
     QDebugStateSaver saver(dbg);
+#endif
     if (array.isEmpty())
     {
         dbg << "QExtJsonArray()";
@@ -1372,7 +1362,7 @@ QExtJsonDocument::QExtJsonDocument()
 {
 #if QEXT_FEATURE_USE_CJSON_BACKEND
     Q_D(QExtJsonDocument);
-    d->m_cJson = cJSON_CreateObject();
+    d->m_cJson = cJSON_CreateRaw("");
 #endif
 }
 
@@ -1501,7 +1491,11 @@ bool QExtJsonDocument::isEmpty() const
 {
     Q_D(const QExtJsonDocument);
 #if QEXT_FEATURE_USE_CJSON_BACKEND
-    return cJSON_IsInvalid(d->m_cJson);
+    if (cJSON_IsObject(d->m_cJson) || cJSON_IsArray(d->m_cJson))
+    {
+        return false;
+    }
+    return !d->m_cJson->string || strlen(d->m_cJson->string) <= 0;
 #else
     return d->m_document.isEmpty();
 #endif
@@ -1553,10 +1547,6 @@ QExtJsonArray QExtJsonDocument::array() const
         cJSON_Delete(array.dd_ptr->m_cJson);
         array.dd_ptr->m_cJson = cJSON_Duplicate(d->m_cJson, true);
     }
-    else
-    {
-        cJSON_AddItemToArray(array.dd_ptr->m_cJson, cJSON_Duplicate(d->m_cJson, true));
-    }
 #else
     array.dd_ptr->m_array = d->m_document.array();
 #endif
@@ -1585,14 +1575,14 @@ void QExtJsonDocument::setArray(const QExtJsonArray &array)
 #endif
 }
 
-const QExtJsonValue QExtJsonDocument::operator[](QLatin1String key) const
+const QExtJsonValue QExtJsonDocument::operator[](const char *key) const
 {
     Q_D(const QExtJsonDocument);
     QExtJsonValue value;
 #if QEXT_FEATURE_USE_CJSON_BACKEND
     if (this->isObject())
     {
-        cJSON *item = cJSON_GetObjectItem(d->m_cJson, key.data());
+        cJSON *item = cJSON_GetObjectItem(d->m_cJson, key);
         if (item)
         {
             cJSON_Delete(value.dd_ptr->m_cJson);
@@ -1659,7 +1649,9 @@ bool QExtJsonDocument::isNull() const
 #if !defined(QT_NO_DEBUG_STREAM) && !defined(QT_JSON_READONLY)
 QDebug operator<<(QDebug dbg, const QExtJsonDocument &doc)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 1, 0))
     QDebugStateSaver saver(dbg);
+#endif
     if (doc.isNull())
     {
         dbg << "QExtJsonDocument()";

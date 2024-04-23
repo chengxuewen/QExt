@@ -118,7 +118,7 @@ public:
         Dragging,
         Scrolling
     };
-    Q_ENUM(State)
+    Q_ENUMS(State)
 
     enum ScrollerGestureType
     {
@@ -179,13 +179,13 @@ Q_SIGNALS:
     void scrollerPropertiesChanged(const QExtScrollerProperties &);
 
 private:
-    QExtScrollerPrivate *d_ptr;
+    QScopedPointer<QExtScrollerPrivate> dd_ptr;
 
     QExtScroller(QObject *target);
     virtual ~QExtScroller();
 
-    Q_DISABLE_COPY(QExtScroller)
-    Q_DECLARE_PRIVATE(QExtScroller)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtScroller)
+    QEXT_DISABLE_COPY_MOVE(QExtScroller)
 
 #ifndef QT_NO_GESTURES
     friend class QExtFlickGestureRecognizer;

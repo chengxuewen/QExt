@@ -59,8 +59,8 @@ public:
     int m_expandSize;
 
 private:
-    Q_DECLARE_PUBLIC(QExtCollapseTabWidget)
-    Q_DISABLE_COPY(QExtCollapseTabWidgetPrivate)
+    QEXT_DECL_PUBLIC(QExtCollapseTabWidget)
+    QEXT_DISABLE_COPY_MOVE(QExtCollapseTabWidgetPrivate)
 };
 
 #endif // _QEXTCOLLAPSETABWIDGET_P_H

@@ -1491,7 +1491,7 @@ Qt::GestureType QExtScroller::grabGesture(QObject *target, ScrollerGestureType s
         return Qt::GestureType(0);
     }
 
-    QExtScrollerPrivate *sp = s->d_ptr;
+    QExtScrollerPrivate *sp = s->dd_ptr;
     if (sp->m_recognizer)
     {
         QExtScroller::ungrabGesture(target); // ungrab the old gesture
@@ -1541,9 +1541,9 @@ Qt::GestureType QExtScroller::grabGesture(QObject *target, ScrollerGestureType s
 Qt::GestureType QExtScroller::grabbedGesture(QObject *target)
 {
     QExtScroller *s = scroller(target);
-    if (s && s->d_ptr)
+    if (s && s->dd_ptr)
     {
-        return s->d_ptr->m_recognizerType;
+        return s->dd_ptr->m_recognizerType;
     }
     else
     {
@@ -1565,7 +1565,7 @@ void QExtScroller::ungrabGesture(QObject *target)
         return;
     }
 
-    QExtScrollerPrivate *sp = s->d_ptr;
+    QExtScrollerPrivate *sp = s->dd_ptr;
     if (!sp->m_recognizer)
     {
         return; // nothing to do
@@ -1594,7 +1594,7 @@ void QExtScroller::ungrabGesture(QObject *target)
     \internal
 */
 QExtScroller::QExtScroller(QObject *target)
-    : d_ptr(new QExtScrollerPrivate(this, target))
+    : dd_ptr(new QExtScrollerPrivate(this, target))
 {
     Q_ASSERT(target); // you can't create a scroller without a target in any normal way
     Q_D(QExtScroller);
@@ -1615,7 +1615,7 @@ QExtScroller::~QExtScroller()
     qext_allScrollers()->remove(d->m_target);
     qext_activeScrollers()->remove(this);
 
-    delete d_ptr;
+    delete dd_ptr;
 }
 
 

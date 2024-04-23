@@ -82,8 +82,8 @@ protected:
     QScopedPointer<QExtCollapseTabWidgetPrivate> dd_ptr;
 
 private:
-    Q_DISABLE_COPY(QExtCollapseTabWidget)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QExtCollapseTabWidget)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtCollapseTabWidget)
+    QEXT_DISABLE_COPY_MOVE(QExtCollapseTabWidget)
 };
 
 #endif // _QEXTCOLLAPSETABWIDGET_H
