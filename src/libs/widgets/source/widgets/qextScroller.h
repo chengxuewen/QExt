@@ -179,7 +179,7 @@ Q_SIGNALS:
     void scrollerPropertiesChanged(const QExtScrollerProperties &);
 
 private:
-    QScopedPointer<QExtScrollerPrivate> dd_ptr;
+    QExtScrollerPrivate *dd_ptr;
 
     QExtScroller(QObject *target);
     virtual ~QExtScroller();

@@ -351,8 +351,6 @@ QExtPropertyModel::QExtPropertyModel(QObject *parent)
 
 QExtPropertyModel::~QExtPropertyModel()
 {
-    delete dd_ptr;
-    dd_ptr = QEXT_NULLPTR;
 }
 
 QModelIndex QExtPropertyModel::index(int row, int column, const QModelIndex &parent) const

@@ -471,6 +471,11 @@ QCheckBox::indicator {
 /*  ------------------------------------------------------------------------  */
 /*  QListView Indicator  */
 
+QListView::indicator {
+    width: 20px;
+    height: 20px;
+}
+
 QListView::indicator:checked,
 QListView::indicator:checked:selected,
 QListView::indicator:checked:focus {
@@ -502,6 +507,11 @@ QListView::indicator:indeterminate:disabled {
 
 /*  ------------------------------------------------------------------------  */
 /*  QTableView Indicator  */
+
+QTableView::indicator {
+    width: 20px;
+    height: 20px;
+}
 
 QTableView::indicator:enabled:checked {
     image: url(icon:/fusion/primary/checkbox_checked.svg);
@@ -536,6 +546,11 @@ QTableView::indicator:disabled:indeterminate {
 
 /*  ------------------------------------------------------------------------  */
 /*  QTreeView Indicator  */
+
+QTreeView::indicator {
+    width: 20px;
+    height: 20px;
+}
 
 QTreeView::indicator:enabled:checked,
 QTreeView::indicator:enabled:checked:selected,

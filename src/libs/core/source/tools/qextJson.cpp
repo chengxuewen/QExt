@@ -376,7 +376,7 @@ QExtJsonArray QExtJsonValue::toArray(const QExtJsonArray &defaultValue) const
     cJSON_Delete(array.dd_ptr->m_cJson);
     array.dd_ptr->m_cJson = cJSON_Duplicate(cJSON_IsArray(d->m_cJson) ? d->m_cJson : defaultValue.dd_ptr->m_cJson, true);
 #else
-    array.dd_ptr->m_array = d->m_value.toArray(defaultValue.dd_ptr->m_value);
+    array.dd_ptr->m_array = d->m_value.toArray(defaultValue.dd_ptr->m_array);
 #endif
     return array;
 }
@@ -385,6 +385,7 @@ QExtJsonObject QExtJsonValue::toObject() const
 {
     return this->toObject(QExtJsonObject());
 }
+
 QExtJsonObject QExtJsonValue::toObject(const QExtJsonObject &defaultValue) const
 {
     QExtJsonObject object;
@@ -400,7 +401,7 @@ QExtJsonObject QExtJsonValue::toObject(const QExtJsonObject &defaultValue) const
 
 const QExtJsonValue QExtJsonValue::operator[](const QString &key) const
 {
-    return (*this)[QLatin1String(key.toLatin1())];
+    return (*this)[key.toLatin1().data()];
 }
 
 const QExtJsonValue QExtJsonValue::operator[](const char *key) const
