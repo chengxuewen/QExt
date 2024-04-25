@@ -63,7 +63,7 @@ QExtIconAnimationPrivate::QExtIconAnimationPrivate(QExtIconAnimation *q)
     : q_ptr(q)
 {
     m_animationIcon = QIcon(new QExtAnimationIconEngine(q));
-    m_rotationAnimation.reset(new QPropertyAnimation(q));
+    m_rotationAnimation.reset(new QVariantAnimation(q));
     QObject::connect(m_rotationAnimation.data(), SIGNAL(valueChanged(QVariant)), q, SLOT(onRotationAnimationValueChanged(QVariant)));
     q->addAnimation(m_rotationAnimation.data());
 }

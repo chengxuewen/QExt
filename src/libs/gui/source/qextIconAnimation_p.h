@@ -34,7 +34,7 @@ public:
 
     QIcon m_rawIcon;
     QIcon m_animationIcon;
-    QScopedPointer<QPropertyAnimation> m_rotationAnimation;
+    QScopedPointer<QVariantAnimation> m_rotationAnimation;
 
 private:
     QEXT_DECL_PUBLIC(QExtIconAnimation)

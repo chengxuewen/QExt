@@ -12,6 +12,7 @@ class QExtIconAnimationPrivate;
 class QEXT_GUI_API QExtIconAnimation : public QParallelAnimationGroup
 {
     Q_OBJECT
+
 public:
     explicit QExtIconAnimation(QObject *parent = QEXT_NULLPTR);
     QExtIconAnimation(const QIcon &icon, QObject *parent = QEXT_NULLPTR);
