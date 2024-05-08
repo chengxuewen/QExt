@@ -272,7 +272,7 @@ QPushButton:flat:hover {
 
 QPushButton:flat:pressed,
 QPushButton:flat:checked {
-    background-color: {{primaryColor|opacity(0.1)}};
+    background-color: {{primaryColor|opacity(0.75)}};
 }
 
 QPushButton:disabled,
@@ -1232,7 +1232,7 @@ QPushButton.danger:flat:hover {
 
 QPushButton.danger:flat:pressed,
 QPushButton.danger:flat:checked {
-    background-color: {{danger|opacity(0.1)}};
+    background-color: {{danger|opacity(0.75)}};
     color: {{danger}};
 }
 
@@ -1242,7 +1242,7 @@ QPushButton.warning:flat:hover {
 
 QPushButton.warning:flat:pressed,
 QPushButton.warning:flat:checked {
-    background-color: {{warning|opacity(0.1)}};
+    background-color: {{warning|opacity(0.75)}};
     color: {{warning}};
 }
 
@@ -1252,7 +1252,7 @@ QPushButton.success:flat:hover {
 
 QPushButton.success:flat:pressed,
 QPushButton.success:flat:checked {
-    background-color: {{success|opacity(0.1)}};
+    background-color: {{success|opacity(0.75)}};
     color: {{success}};
 }
 
