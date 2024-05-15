@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Qt Company Ltd.
+﻿// Copyright (C) 2022 The Qt Company Ltd.
 // Copyright (C) 2022 Intel Corporation.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 
@@ -190,9 +190,9 @@ void tst_qextJson::testValueSimple()
     QCOMPARE(value.toObject(), QExtJsonObject());
     QCOMPARE(value.toArray(), QExtJsonArray());
 
-    value = QLatin1String("test");
+    value = QString("test");
     QCOMPARE(value.toDouble(), 0.);
-    QCOMPARE(value.toString(), QLatin1String("test"));
+    QCOMPARE(value.toString(), QString("test"));
     QCOMPARE(value.toBool(), false);
     QCOMPARE(value.toObject(), QExtJsonObject());
     QCOMPARE(value.toArray(), QExtJsonArray());
@@ -491,13 +491,13 @@ void tst_qextJson::testObjectSimple()
     QExtJsonObject object;
     object.insert("number", 999.);
     QCOMPARE(object.value("number").type(), QExtJsonValue::Type_Number);
-    QCOMPARE(object.value(QLatin1String("number")).toDouble(), 999.);
+    QCOMPARE(object.value(QString("number")).toDouble(), 999.);
     object.insert("string", QString::fromLatin1("test"));
     QCOMPARE(object.value("string").type(), QExtJsonValue::Type_String);
-    QCOMPARE(object.value(QLatin1String("string")).toString(), QString("test"));
+    QCOMPARE(object.value(QString("string")).toString(), QString("test"));
     object.insert("boolean", true);
     QCOMPARE(object.value("boolean").toBool(), true);
-    QCOMPARE(object.value(QLatin1String("boolean")).toBool(), true);
+    QCOMPARE(object.value(QString("boolean")).toBool(), true);
     QExtJsonObject object2 = object;
     QExtJsonObject object3 = object;
 
@@ -508,7 +508,7 @@ void tst_qextJson::testObjectSimple()
 
     // if we put a JsonValue into the JsonObject and retrieve
     // it, it should be identical.
-    QExtJsonValue value(QLatin1String("foo"));
+    QExtJsonValue value(QString("foo"));
     object.insert("value", value);
     QCOMPARE(object.value("value"), value);
 
@@ -524,8 +524,8 @@ void tst_qextJson::testObjectSimple()
     QString before = object.value("string").toString();
     qDebug() << "before=" << before;
     object.insert("string", QString::fromLatin1("foo"));
-    qDebug() << "value=" << object.value(QLatin1String("string"));
-    QVERIFY2(object.value(QLatin1String("string")).toString() != before, "value should have been updated");
+    qDebug() << "value=" << object.value(QString("string"));
+    QVERIFY2(object.value(QString("string")).toString() != before, "value should have been updated");
 
     // same tests again but with QStringView keys
     object2.insert("value", value);
@@ -544,36 +544,36 @@ void tst_qextJson::testObjectSimple()
     object2.insert("string", QString::fromLatin1("foo"));
     QVERIFY2(object2.value("string").toString() != before, "value should have been updated");
 
-    // same tests again but with QLatin1String keys
-    object3.insert(QLatin1String("value"), value);
+    // same tests again but with QString keys
+    object3.insert(QString("value"), value);
     QCOMPARE(object3.value("value"), value);
 
     size = object3.size();
-    object3.remove(QLatin1String("boolean"));
+    object3.remove(QString("boolean"));
     QCOMPARE(object3.size(), size - 1);
     QVERIFY2(!object3.contains("boolean"), "key boolean should have been removed");
 
-    taken = object3.take(QLatin1String("value"));
+    taken = object3.take(QString("value"));
     QCOMPARE(taken, value);
     QVERIFY2(!object3.contains("value"), "key value should have been removed");
 
     before = object3.value("string").toString();
-    object3.insert(QLatin1String("string"), QString::fromLatin1("foo"));
-    QVERIFY2(object3.value(QLatin1String("string")).toString() != before, "value should have been updated");
+    object3.insert(QString("string"), QString::fromLatin1("foo"));
+    QVERIFY2(object3.value(QString("string")).toString() != before, "value should have been updated");
 
     size = object.size();
     QExtJsonObject subobject;
     subobject.insert("number", 42);
-    subobject.insert(QLatin1String("string"), QLatin1String("foobar"));
+    subobject.insert(QString("string"), QString("foobar"));
     object.insert("subobject", subobject);
     QCOMPARE(object.size(), size+1);
-    QExtJsonValue subvalue = object.take(QLatin1String("subobject"));
+    QExtJsonValue subvalue = object.take(QString("subobject"));
     QCOMPARE(object.size(), size);
     QCOMPARE(subvalue.toObject(), subobject);
     // make object detach by modifying it many times
     for (int i = 0; i < 64; ++i)
     {
-        object.insert(QLatin1String("string"), QLatin1String("bar"));
+        object.insert(QString("string"), QString("bar"));
     }
     QCOMPARE(object.size(), size);
     QCOMPARE(subvalue.toObject(), subobject);
@@ -695,7 +695,7 @@ void tst_qextJson::testArraySimple()
 
     // if we put a JsonValue into the JsonArray and retrieve
     // it, it should be identical.
-    QExtJsonValue value(QLatin1String("foo"));
+    QExtJsonValue value(QString("foo"));
     array.append(value);
     QCOMPARE(array.at(3), value);
 
@@ -717,7 +717,7 @@ void tst_qextJson::testArraySimple()
     QCOMPARE(array.last(), QExtJsonValue());
 
     QCOMPARE(array.first().type(), QExtJsonValue::Type_String);
-    QCOMPARE(array.first(), QExtJsonValue(QLatin1String("test")));
+    QCOMPARE(array.first(), QExtJsonValue(QString("test")));
 
     array.prepend(false);
     QCOMPARE(array.first().type(), QExtJsonValue::Type_Bool);
@@ -730,7 +730,7 @@ void tst_qextJson::testArraySimple()
     QCOMPARE(array.first().type(), QExtJsonValue::Type_Number);
     QCOMPARE(array.first(), QExtJsonValue(-555.));
     QCOMPARE(array.at(1).type(), QExtJsonValue::Type_String);
-    QCOMPARE(array.at(1), QExtJsonValue(QLatin1String("test")));
+    QCOMPARE(array.at(1), QExtJsonValue(QString("test")));
 }
 
 void tst_qextJson::testArrayInsertCopies()
@@ -763,7 +763,7 @@ void tst_qextJson::testValueObject()
 {
     QExtJsonObject object;
     object.insert("number", 999.);
-    object.insert("string", QLatin1String("test"));
+    object.insert("string", QString("test"));
     object.insert("boolean", true);
 
     QExtJsonValue value(object);
@@ -773,7 +773,7 @@ void tst_qextJson::testValueObject()
     QCOMPARE(value.toObject(), object);
 
     // if we modify the original object, it should detach
-    object.insert("test", QExtJsonValue(QLatin1String("test")));
+    object.insert("test", QExtJsonValue(QString("test")));
     QVERIFY2(value.toObject() != object, "object should have detached");
 }
 
@@ -786,7 +786,7 @@ void tst_qextJson::testValueArray()
     QCOMPARE(value.toArray(otherArray), array);
 
     array.append(999.);
-    array.append(QLatin1String("test"));
+    array.append(QString("test"));
     array.append(true);
     value = array;
 
@@ -796,7 +796,7 @@ void tst_qextJson::testValueArray()
     QCOMPARE(value.toArray(otherArray), array);
 
     // if we modify the original array, it should detach
-    array.append(QLatin1String("test"));
+    array.append(QString("test"));
     QVERIFY2(value.toArray() != array, "array should have detached");
 }
 
@@ -907,13 +907,13 @@ void tst_qextJson::testArrayComfortOperators()
 {
     QExtJsonArray first;
     first.append(123.);
-    first.append(QLatin1String("foo"));
+    first.append(QString("foo"));
 
-    QExtJsonArray second = QExtJsonArray() << 123. << QLatin1String("foo");
+    QExtJsonArray second = QExtJsonArray() << 123. << QString("foo");
     QCOMPARE(first, second);
 
-    first = first + QLatin1String("bar");
-    second += QLatin1String("bar");
+    first = first + QString("bar");
+    second += QString("bar");
     QCOMPARE(first, second);
 }
 
@@ -936,18 +936,18 @@ void tst_qextJson::testValueRef()
     QCOMPARE(array.at(1).toBool(), false);
 
     QExtJsonObject object;
-    object[QLatin1String("key")] = true;
+    object[QString("key")] = true;
     QCOMPARE(object.size(), 1);
-    object.insert(QLatin1String("null"), QExtJsonValue());
-    QCOMPARE(object.value(QLatin1String("null")), QExtJsonValue());
-    object[QLatin1String("null")] = 100.;
-    QCOMPARE(object.value(QLatin1String("null")).type(), QExtJsonValue::Type_Number);
+    object.insert(QString("null"), QExtJsonValue());
+    QCOMPARE(object.value(QString("null")), QExtJsonValue());
+    object[QString("null")] = 100.;
+    QCOMPARE(object.value(QString("null")).type(), QExtJsonValue::Type_Number);
     QCOMPARE(object.size(), 2);
 
-    array[1] = array[2] = object[QLatin1String("key")] = 42;
+    array[1] = array[2] = object[QString("key")] = 42;
     QCOMPARE(array[1], array[2]);
-    QCOMPARE(array[2], object[QLatin1String("key")]);
-    QCOMPARE(object.value(QLatin1String("key")), QExtJsonValue(42));
+    QCOMPARE(array[2], object[QString("key")]);
+    QCOMPARE(object.value(QString("key")), QExtJsonValue(42));
 }
 
 void tst_qextJson::testDocument()
@@ -963,7 +963,7 @@ void tst_qextJson::testDocument()
     QCOMPARE(doc.isArray(), false);
     QCOMPARE(doc.isObject(), true);
 
-    object.insert(QLatin1String("Key"), QLatin1String("Value"));
+    object.insert(QString("Key"), QString("Value"));
     doc.setObject(object);
     QCOMPARE(doc.isEmpty(), false);
     QCOMPARE(doc.isArray(), false);
@@ -982,7 +982,7 @@ void tst_qextJson::testDocument()
     QCOMPARE(doc.isArray(), true);
     QCOMPARE(doc.isObject(), false);
 
-    array.append(QLatin1String("Value"));
+    array.append(QString("Value"));
     doc.setArray(array);
     QCOMPARE(doc.isEmpty(), false);
     QCOMPARE(doc.isArray(), true);
@@ -991,33 +991,33 @@ void tst_qextJson::testDocument()
     QCOMPARE(doc.object(), QExtJsonObject());
 
     QExtJsonObject outer;
-    outer.insert(QLatin1String("outerKey"), 22);
+    outer.insert(QString("outerKey"), 22);
     QExtJsonObject inner;
-    inner.insert(QLatin1String("innerKey"), 42);
-    outer.insert(QLatin1String("innter"), inner);
+    inner.insert(QString("innerKey"), 42);
+    outer.insert(QString("innter"), inner);
     QExtJsonArray innerArray;
     innerArray.append(23);
-    outer.insert(QLatin1String("innterArray"), innerArray);
+    outer.insert(QString("innterArray"), innerArray);
 
-    QExtJsonDocument doc2(outer.value(QLatin1String("innter")).toObject());
-    QVERIFY(doc2.object().contains(QLatin1String("innerKey")));
-    QCOMPARE(doc2.object().value(QLatin1String("innerKey")), QExtJsonValue(42));
+    QExtJsonDocument doc2(outer.value(QString("innter")).toObject());
+    QVERIFY(doc2.object().contains(QString("innerKey")));
+    QCOMPARE(doc2.object().value(QString("innerKey")), QExtJsonValue(42));
 
     QExtJsonDocument doc3;
-    doc3.setObject(outer.value(QLatin1String("innter")).toObject());
+    doc3.setObject(outer.value(QString("innter")).toObject());
     QCOMPARE(doc3.isArray(), false);
     QCOMPARE(doc3.isObject(), true);
     QVERIFY(doc3.object().contains(QString("innerKey")));
-    QCOMPARE(doc3.object().value(QLatin1String("innerKey")), QExtJsonValue(42));
+    QCOMPARE(doc3.object().value(QString("innerKey")), QExtJsonValue(42));
 
-    QExtJsonDocument doc4(outer.value(QLatin1String("innterArray")).toArray());
+    QExtJsonDocument doc4(outer.value(QString("innterArray")).toArray());
     QCOMPARE(doc4.isArray(), true);
     QCOMPARE(doc4.isObject(), false);
     QCOMPARE(doc4.array().size(), 1);
     QCOMPARE(doc4.array().at(0), QExtJsonValue(23));
 
     QExtJsonDocument doc5;
-    doc5.setArray(outer.value(QLatin1String("innterArray")).toArray());
+    doc5.setArray(outer.value(QString("innterArray")).toArray());
     QCOMPARE(doc5.isArray(), true);
     QCOMPARE(doc5.isObject(), false);
     QCOMPARE(doc5.array().size(), 1);
@@ -1034,7 +1034,7 @@ void tst_qextJson::nullValues()
 
     QExtJsonObject object;
     object.insert(QString("key"), QExtJsonValue());
-    QCOMPARE(object.contains(QLatin1String("key")), true);
+    QCOMPARE(object.contains(QString("key")), true);
     QCOMPARE(object.size(), 1);
     QCOMPARE(object.value(QString("key")), QExtJsonValue());
 }
@@ -1043,7 +1043,7 @@ void tst_qextJson::nullArrays()
 {
     QExtJsonArray nullArray;
     QExtJsonArray nonNull;
-    nonNull.append(QLatin1String("bar"));
+    nonNull.append(QString("bar"));
 
     QCOMPARE(nullArray, QExtJsonArray());
     QVERIFY(nullArray != nonNull);
@@ -1071,7 +1071,7 @@ void tst_qextJson::nullObject()
 {
     QExtJsonObject nullObject;
     QExtJsonObject nonNull;
-    nonNull.insert(QLatin1String("foo"), QLatin1String("bar"));
+    nonNull.insert(QString("foo"), QString("bar"));
 
     QCOMPARE(nullObject, QExtJsonObject());
     QVERIFY(nullObject != nonNull);
@@ -1099,7 +1099,7 @@ void tst_qextJson::constNullObject()
 {
     const QExtJsonObject nullObject;
     QExtJsonObject nonNull;
-    nonNull.insert(QLatin1String("foo"), QLatin1String("bar"));
+    nonNull.insert(QString("foo"), QString("bar"));
 
     QCOMPARE(nullObject, QExtJsonObject());
     QVERIFY(nullObject != nonNull);
@@ -1167,7 +1167,7 @@ void tst_qextJson::undefinedValues()
     object["Key"] = QExtJsonValue(QExtJsonValue::Type_Undefined);
     QCOMPARE(object.size(), 0);
 
-    object.insert("Key", QLatin1String("Value"));
+    object.insert("Key", QString("Value"));
     QCOMPARE(object.size(), 1);
     QCOMPARE(object.value("Key").type(), QExtJsonValue::Type_String);
     QCOMPARE(object.value("foo").type(), QExtJsonValue::Type_Undefined);
@@ -1349,25 +1349,25 @@ void tst_qextJson::fromVariantMap()
 {
 #if 0
     QVariantMap map;
-    map.insert(QLatin1String("key1"), QLatin1String("value1"));
-    map.insert(QLatin1String("key2"), QLatin1String("value2"));
+    map.insert(QString("key1"), QString("value1"));
+    map.insert(QString("key2"), QString("value2"));
     QExtJsonObject object = QExtJsonObject::fromVariantMap(map);
     QCOMPARE(object.size(), 2);
-    QCOMPARE(object.value(QLatin1String("key1")), QExtJsonValue(QLatin1String("value1")));
-    QCOMPARE(object.value(QLatin1String("key2")), QExtJsonValue(QLatin1String("value2")));
+    QCOMPARE(object.value(QString("key1")), QExtJsonValue(QString("value1")));
+    QCOMPARE(object.value(QString("key2")), QExtJsonValue(QString("value2")));
 
     QVariantList list;
     list.append(true);
     list.append(QVariant());
     list.append(999.);
-    list.append(QLatin1String("foo"));
+    list.append(QString("foo"));
     map.insert("list", list);
     object = QExtJsonObject::fromVariantMap(map);
     QCOMPARE(object.size(), 3);
-    QCOMPARE(object.value(QLatin1String("key1")), QExtJsonValue(QLatin1String("value1")));
-    QCOMPARE(object.value(QLatin1String("key2")), QExtJsonValue(QLatin1String("value2")));
-    QCOMPARE(object.value(QLatin1String("list")).type(), QExtJsonValue::Type_Array);
-    QExtJsonArray array = object.value(QLatin1String("list")).toArray();
+    QCOMPARE(object.value(QString("key1")), QExtJsonValue(QString("value1")));
+    QCOMPARE(object.value(QString("key2")), QExtJsonValue(QString("value2")));
+    QCOMPARE(object.value(QString("list")).type(), QExtJsonValue::Type_Array);
+    QExtJsonArray array = object.value(QString("list")).toArray();
     QCOMPARE(array.size(), 4);
     QCOMPARE(array.at(0).type(), QExtJsonValue::Type_Bool);
     QCOMPARE(array.at(0).toBool(), true);
@@ -1375,7 +1375,7 @@ void tst_qextJson::fromVariantMap()
     QCOMPARE(array.at(2).type(), QExtJsonValue::Type_Number);
     QCOMPARE(array.at(2).toDouble(), 999.);
     QCOMPARE(array.at(3).type(), QExtJsonValue::Type_String);
-    QCOMPARE(array.at(3).toString(), QLatin1String("foo"));
+    QCOMPARE(array.at(3).toString(), QString("foo"));
 #endif
 }
 
@@ -1383,12 +1383,12 @@ void tst_qextJson::fromVariantHash()
 {
 #if 0
     QVariantHash map;
-    map.insert(QLatin1String("key1"), QLatin1String("value1"));
-    map.insert(QLatin1String("key2"), QLatin1String("value2"));
+    map.insert(QString("key1"), QString("value1"));
+    map.insert(QString("key2"), QString("value2"));
     QExtJsonObject object = QExtJsonObject::fromVariantHash(map);
     QCOMPARE(object.size(), 2);
-    QCOMPARE(object.value(QLatin1String("key1")), QExtJsonValue(QLatin1String("value1")));
-    QCOMPARE(object.value(QLatin1String("key2")), QExtJsonValue(QLatin1String("value2")));
+    QCOMPARE(object.value(QString("key1")), QExtJsonValue(QString("value1")));
+    QCOMPARE(object.value(QString("key2")), QExtJsonValue(QString("value2")));
 #endif
 }
 
@@ -1406,7 +1406,7 @@ void tst_qextJson::toVariantMap()
     QExtJsonArray array;
     array.append(true);
     array.append(999.);
-    array.append(QLatin1String("string"));
+    array.append(QString("string"));
     array.append(QExtJsonValue::Type_Null);
     object.insert("Array", array);
 
@@ -1420,7 +1420,7 @@ void tst_qextJson::toVariantMap()
     QCOMPARE(list.size(), 4);
     QCOMPARE(list.at(0), QVariant(true));
     QCOMPARE(list.at(1), QVariant(999.));
-    QCOMPARE(list.at(2), QVariant(QLatin1String("string")));
+    QCOMPARE(list.at(2), QVariant(QString("string")));
     QCOMPARE(list.at(3), QVariant::fromValue(nullptr));
 #endif
 }
@@ -1437,7 +1437,7 @@ void tst_qextJson::toVariantHash()
     QExtJsonArray array;
     array.append(true);
     array.append(999.);
-    array.append(QLatin1String("string"));
+    array.append(QString("string"));
     array.append(QExtJsonValue::Type_Null);
     object.insert("Array", array);
 
@@ -1451,7 +1451,7 @@ void tst_qextJson::toVariantHash()
     QCOMPARE(list.size(), 4);
     QCOMPARE(list.at(0), QVariant(true));
     QCOMPARE(list.at(1), QVariant(999.));
-    QCOMPARE(list.at(2), QVariant(QLatin1String("string")));
+    QCOMPARE(list.at(2), QVariant(QString("string")));
     QCOMPARE(list.at(3), QVariant::fromValue(nullptr));
 #endif
 }
@@ -1470,7 +1470,7 @@ void tst_qextJson::toVariantList()
     QExtJsonArray inner;
     inner.append(true);
     inner.append(999.);
-    inner.append(QLatin1String("string"));
+    inner.append(QString("string"));
     inner.append(QExtJsonValue());
     array.append(inner);
 
@@ -1484,7 +1484,7 @@ void tst_qextJson::toVariantList()
     QCOMPARE(vlist.size(), 4);
     QCOMPARE(vlist.at(0), QVariant(true));
     QCOMPARE(vlist.at(1), QVariant(999.));
-    QCOMPARE(vlist.at(2), QVariant(QLatin1String("string")));
+    QCOMPARE(vlist.at(2), QVariant(QString("string")));
     QCOMPARE(vlist.at(3), QVariant::fromValue(nullptr));
 #endif
 }
@@ -1499,9 +1499,9 @@ void tst_qextJson::toJson()
         QExtJsonArray array;
         array.append(true);
         array.append(999.);
-        array.append(QLatin1String("string"));
+        array.append(QString("string"));
         array.append(QExtJsonValue());
-        array.append(QLatin1String("\\\a\n\r\b\tabcABC\""));
+        array.append(QString("\\\a\n\r\b\tabcABC\""));
         object.insert("Array", array);
 
         QByteArray json = QExtJsonDocument(object).toJson();
@@ -1546,9 +1546,9 @@ void tst_qextJson::toJson()
         QExtJsonArray array;
         array.append(true);
         array.append(999.);
-        array.append(QLatin1String("string"));
+        array.append(QString("string"));
         array.append(QExtJsonValue());
-        array.append(QLatin1String("\\\a\n\r\b\tabcABC\""));
+        array.append(QString("\\\a\n\r\b\tabcABC\""));
         object.insert("Array", array);
 
         QByteArray json = QExtJsonDocument(object).toJson(false);
@@ -1759,7 +1759,7 @@ void tst_qextJson::fromJson()
         QCOMPARE(array.at(2).type(), QExtJsonValue::Type_Bool);
         QCOMPARE(array.at(2).toBool(), false);
         QCOMPARE(array.at(3).type(), QExtJsonValue::Type_String);
-        QCOMPARE(array.at(3).toString(), QLatin1String("Foo"));
+        QCOMPARE(array.at(3).toString(), QString("Foo"));
         QCOMPARE(array.at(4).type(), QExtJsonValue::Type_Number);
         QCOMPARE(array.at(4).toDouble(), 1.);
         QCOMPARE(array.at(5).type(), QExtJsonValue::Type_Array);
@@ -1781,7 +1781,7 @@ void tst_qextJson::fromJson()
         QCOMPARE(object.value("2").type(), QExtJsonValue::Type_Bool);
         QCOMPARE(object.value("2").toBool(), false);
         QCOMPARE(object.value("3").type(), QExtJsonValue::Type_String);
-        QCOMPARE(object.value("3").toString(), QLatin1String("Foo"));
+        QCOMPARE(object.value("3").toString(), QString("Foo"));
         QCOMPARE(object.value("4").type(), QExtJsonValue::Type_Number);
         QCOMPARE(object.value("4").toDouble(), 1.);
         QCOMPARE(object.value("5").type(), QExtJsonValue::Type_Array);
@@ -1808,10 +1808,10 @@ void tst_qextJson::fromJson()
         QCOMPARE(array.at(1).isNumber(), true);
         QCOMPARE(array.at(1).toDouble(), 999.);
         QCOMPARE(array.at(2).isString(), true);
-        QCOMPARE(array.at(2).toString(), QLatin1String("string"));
+        QCOMPARE(array.at(2).toString(), QString("string"));
         QCOMPARE(array.at(3).isNull(), true);
         QCOMPARE(array.at(4).isString(), true);
-        QCOMPARE(array.at(4).toString(), QLatin1String("\\\a\n\r\b\tabcABC\""));
+        QCOMPARE(array.at(4).toString(), QString("\\\a\n\r\b\tabcABC\""));
     }
 }
 
@@ -2181,10 +2181,10 @@ void tst_qextJson::assignToDocument()
 void tst_qextJson::testDuplicateKeys()
 {
     QExtJsonObject obj;
-    obj.insert(QLatin1String("foo"), QLatin1String("bar"));
-    obj.insert(QLatin1String("foo"), QLatin1String("zap"));
+    obj.insert(QString("foo"), QString("bar"));
+    obj.insert(QString("foo"), QString("zap"));
     QCOMPARE(obj.size(), 1);
-    QCOMPARE(obj.value(QLatin1String("foo")).toString(), QLatin1String("zap"));
+    QCOMPARE(obj.value(QString("foo")).toString(), QString("zap"));
 }
 
 void tst_qextJson::testCompact()
@@ -2194,11 +2194,11 @@ void tst_qextJson::testCompact()
     QExtJsonObject obj;
     for (int i = 0; i < 33; ++i)
     {
-        obj.remove(QLatin1String("foo"));
-        obj.insert(QLatin1String("foo"), QLatin1String("bar"));
+        obj.remove(QString("foo"));
+        obj.insert(QString("foo"), QString("bar"));
     }
     QCOMPARE(obj.size(), 1);
-    QCOMPARE(obj.value(QLatin1String("foo")).toString(), QLatin1String("bar"));
+    QCOMPARE(obj.value(QString("foo")).toString(), QString("bar"));
 }
 
 void tst_qextJson::testDebugStream()
@@ -2210,7 +2210,7 @@ void tst_qextJson::testDebugStream()
         QTest::ignoreMessage(QtDebugMsg, "QExtJsonObject()");
         qDebug() << object;
 
-        object.insert(QLatin1String("foo"), QLatin1String("bar"));
+        object.insert(QString("foo"), QString("bar"));
         QTest::ignoreMessage(QtDebugMsg, "QExtJsonObject({\"foo\":\"bar\"})");
         qDebug() << object;
     }
@@ -2223,7 +2223,7 @@ void tst_qextJson::testDebugStream()
         qDebug() << array;
 
         array.append(1);
-        array.append(QLatin1String("foo"));
+        array.append(QString("foo"));
         QTest::ignoreMessage(QtDebugMsg, "QExtJsonArray([1,\"foo\"])");
         qDebug() << array;
     }
@@ -2236,14 +2236,14 @@ void tst_qextJson::testDebugStream()
         qDebug() << doc;
 
         QExtJsonObject object;
-        object.insert(QLatin1String("foo"), QLatin1String("bar"));
+        object.insert(QString("foo"), QString("bar"));
         doc.setObject(object);
         QTest::ignoreMessage(QtDebugMsg, "QExtJsonDocument({\"foo\":\"bar\"})");
         qDebug() << doc;
 
         QExtJsonArray array;
         array.append(1);
-        array.append(QLatin1String("foo"));
+        array.append(QString("foo"));
         QTest::ignoreMessage(QtDebugMsg, "QExtJsonDocument([1,\"foo\"])");
         doc.setArray(array);
         qDebug() << doc;
@@ -2269,19 +2269,19 @@ void tst_qextJson::testDebugStream()
         QTest::ignoreMessage(QtDebugMsg, "QExtJsonValue(double, 42)");
         qDebug() << value;
 
-        value = QExtJsonValue(QLatin1String("foo")); // string
+        value = QExtJsonValue(QString("foo")); // string
         QTest::ignoreMessage(QtDebugMsg, "QExtJsonValue(string, \"foo\")");
         qDebug() << value;
 
         QExtJsonArray array;
         array.append(1);
-        array.append(QLatin1String("foo"));
+        array.append(QString("foo"));
         value = QExtJsonValue(array); // array
         QTest::ignoreMessage(QtDebugMsg, "QExtJsonValue(array, QExtJsonArray([1,\"foo\"]))");
         qDebug() << value;
 
         QExtJsonObject object;
-        object.insert(QLatin1String("foo"), QLatin1String("bar"));
+        object.insert(QString("foo"), QString("bar"));
         value = QExtJsonValue(object); // object
         QTest::ignoreMessage(QtDebugMsg, "QExtJsonValue(object, QExtJsonObject({\"foo\":\"bar\"}))");
         qDebug() << value;
@@ -2392,9 +2392,12 @@ void tst_qextJson::makeEscapes_data()
     QTest::addRow("tab") << "\t" << QByteArray(R"(\t)");
 
     // control characters other than the above
-    for (char16_t c = 0; c < 0x20; ++c) {
+    for (char16_t c = 0; c < 0x20; ++c)
+    {
         if (c && strchr("\b\f\n\r\t", c))
+        {
             continue;
+        }
         addUnicodeRow(c);
     }
     return; //TODO
@@ -2456,7 +2459,8 @@ void tst_qextJson::testTrailingComma()
 {
     const char *jsons[] = { "{ \"Key\": 1, }", "[ { \"Key\": 1 }, ]" };
 
-    for (unsigned i = 0; i < sizeof(jsons)/sizeof(jsons[0]); ++i) {
+    for (unsigned i = 0; i < sizeof(jsons)/sizeof(jsons[0]); ++i)
+    {
         QString error;
         QExtJsonDocument doc = QExtJsonDocument::fromJson(jsons[i], &error);
         QVERIFY(!error.isEmpty());
@@ -2542,7 +2546,7 @@ void tst_qextJson::valueEquals()
     QVERIFY(QExtJsonValue(QExtJsonObject()) != QExtJsonValue(1.));
     QVERIFY(QExtJsonValue(QExtJsonObject()) != QExtJsonValue(QExtJsonArray()));
 
-    QCOMPARE(QExtJsonValue("foo"), QExtJsonValue(QLatin1String("foo")));
+    QCOMPARE(QExtJsonValue("foo"), QExtJsonValue(QString("foo")));
     QCOMPARE(QExtJsonValue("foo"), QExtJsonValue(QString("foo")));
     QCOMPARE(QExtJsonValue("\x66\x6f\x6f"), QExtJsonValue(QString("foo")));
     QCOMPARE(QExtJsonValue("\x62\x61\x72"), QExtJsonValue("bar"));
@@ -2831,7 +2835,7 @@ void tst_qextJson::longStrings()
         // Test long keys
         QExtJsonObject o1, o2;
         o1[s] = 42;
-        o2[QLatin1String(ba.data(), i + 1)] = 42;
+        o2[QString(ba.data(), i + 1)] = 42;
         d1.setObject(o1);
         d2.setObject(o2);
         a1 = d1.toJson();
@@ -2862,7 +2866,7 @@ void tst_qextJson::longStrings()
         // Test long keys
         QExtJsonObject o1, o2;
         o1[s] = 42;
-        o2[QLatin1String(ba.data(), i + 1)] = 42;
+        o2[QString(ba.data(), i + 1)] = 42;
         d1.setObject(o1);
         d2.setObject(o2);
         a1 = d1.toJson();

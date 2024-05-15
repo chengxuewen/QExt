@@ -3840,9 +3840,6 @@ void QExtFunctionTest::testPolymorphismBoundConstVolatileFunctorWith7Arg()
 }
 
 
-
-
-
 QTEST_APPLESS_MAIN(QExtFunctionTest)
 
 #include <tst_qextFunction.moc>

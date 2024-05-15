@@ -1,8 +1,10 @@
-#include <QtTest>
+﻿#include <QtTest>
 #include <qextDateTimeUtils.h>
 
 #include <QElapsedTimer>
 #include <QDateTime>
+#include <QAtomicPointer>
+#include <limits>
 
 class QExtDateTimeUtilsTest: public QObject
 {
