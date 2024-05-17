@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -25,7 +25,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib link libraries
 #-----------------------------------------------------------------------------------------------------------------------
-set(QEXT_TEST_LINK_LIBRARIES)
+set(QEXT_TEST_LINK_LIBRARIES QExt::Core)
 set(QEXT_TEST_INCLUDE_DIRECTORIES)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
@@ -45,6 +45,13 @@ endif()
 qext_internal_add_test(QExtTstCoreTypeTrait
     SOURCES
     tools/tst_qextTypeTrait.cpp
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_TEST_DIR})
+qext_internal_add_test(QExtTstCoreAtomic
+    SOURCES
+    tools/tst_qextAtomic.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY

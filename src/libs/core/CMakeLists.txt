@@ -92,7 +92,6 @@ qext_add_library(Core
     source/invoke/qextSignal.cpp
     source/invoke/qextTrackObjectFunctor.h
     source/invoke/qextVisitor.h
-    source/tools/qextAtomic.cpp
     source/tools/qextAtomic.h
     source/tools/qextBackTrace.cpp
     source/tools/qextBackTrace.h
