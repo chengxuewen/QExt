@@ -348,7 +348,11 @@ void QExtHostInfoUtils::queryCPUInfo()
     {
         d->m_cpuIdleNew = 0;
         d->m_cpuTotalNew = 0;
+#   if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+        d->m_cpuProcess->start("cat /proc/stat", QStringList());
+#   else
         d->m_cpuProcess->start("cat /proc/stat");
+#   endif
     }
 #endif
 }
@@ -418,7 +422,11 @@ void QExtHostInfoUtils::queryMemoryInfo()
         d->m_memoryAll = 0;
         d->m_memoryUse = 0;
         d->m_memoryFree = 0;
+#   if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+        d->m_memoryProcess->start("cat /proc/meminfo", QStringList());
+#   else
         d->m_memoryProcess->start("cat /proc/meminfo");
+#   endif
     }
 #endif
 }
@@ -514,7 +522,11 @@ void QExtHostInfoUtils::queryDiskInfo()
 #else
     if (QProcess::NotRunning == d->m_diskProcess->state())
     {
+#   if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+        d->m_diskProcess->start("df -h", QStringList());
+#   else
         d->m_diskProcess->start("df -h");
+#   endif
     }
 #endif
 }

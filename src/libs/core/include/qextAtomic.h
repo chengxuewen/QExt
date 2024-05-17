@@ -1,1 +1,1 @@
-﻿#include "../source/tools/qextAtomic.h"
+#include "../source/tools/qextAtomic.h"
