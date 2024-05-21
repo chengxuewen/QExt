@@ -48,10 +48,9 @@
  * Adaptors are functors that alter the signature of a functor's operator()().
  */
 
-/** A hint to the compiler.
+/**
+ * @brief A hint to the compiler.
  * All functors which define @p result_type should publically inherit from this hint.
- *
- * \ingroup qextFunctors
  */
 struct QEXT_CORE_API QExtFunctorBase
 {
@@ -147,9 +146,9 @@ public:
  * \ingroup sigqextunctors
  */
 template <
-    typename T_functor,
-    bool I_derives_functor_base = QEXTIsBaseOf< QExtFunctorBase, T_functor >::value,
-    bool I_can_use_decltype = QEXTCanDeduceResultTypeWithDecltype< T_functor >::value >
+        typename T_functor,
+        bool I_derives_functor_base = QEXTIsBaseOf< QExtFunctorBase, T_functor >::value,
+        bool I_can_use_decltype = QEXTCanDeduceResultTypeWithDecltype< T_functor >::value >
 struct QExtFunctorTrait
 {
     typedef void Return;
@@ -206,9 +205,9 @@ struct QExtFunctorTrait< T_functor, false, true >
 #define QEXT_FUNCTORS_HAVE_RESULT_TYPE                                                                                                                           \
     template < typename T_functor >                                                                                                                            \
     struct QExtFunctorTrait< T_functor, false, false >                                                                                                           \
-    {                                                                                                                                                          \
-        typedef typename T_functor::Return Return;                                                                                                             \
-        typedef T_functor Functor;                                                                                                                             \
+{                                                                                                                                                          \
+    typedef typename T_functor::Return Return;                                                                                                             \
+    typedef T_functor Functor;                                                                                                                             \
     };
 
 /** Helper macro, if you want to mix user-defined and third party functors.
@@ -227,9 +226,9 @@ struct QExtFunctorTrait< T_functor, false, true >
 #define QEXT_FUNCTOR_TRAIT(T_functor, T_return)                                                                                                                  \
     template <>                                                                                                                                                \
     struct QExtFunctorTrait< T_functor, false, false >                                                                                                           \
-    {                                                                                                                                                          \
-        typedef T_return Return;                                                                                                                               \
-        typedef T_functor Functor;                                                                                                                             \
+{                                                                                                                                                          \
+    typedef T_return Return;                                                                                                                               \
+    typedef T_functor Functor;                                                                                                                             \
     };
 
 /** Helper macro, if you want to mix user-defined and third party functors.
@@ -256,38 +255,38 @@ struct QExtFunctorTrait< T_functor, false, true >
 #define QEXT_FUNCTORS_DEDUCE_RESULT_TYPE_WITH_DECLTYPE                                                                                                           \
     template < typename T_functor >                                                                                                                            \
     struct QExtDecltypeFunctionTraits : public QExtDecltypeFunctionTraits< decltype(&T_functor::operator()) >                                                      \
-    {                                                                                                                                                          \
+{                                                                                                                                                          \
     };                                                                                                                                                         \
     template < typename T_class, typename T_return, typename... T_args >                                                                                       \
     struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) >                                                                                        \
-    {                                                                                                                                                          \
-        typedef T_return Return;                                                                                                                               \
+{                                                                                                                                                          \
+    typedef T_return Return;                                                                                                                               \
     };                                                                                                                                                         \
     template < typename T_class, typename T_return, typename... T_args >                                                                                       \
     struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) const >                                                                                  \
-    {                                                                                                                                                          \
-        typedef T_return Return;                                                                                                                               \
+{                                                                                                                                                          \
+    typedef T_return Return;                                                                                                                               \
     };                                                                                                                                                         \
     template < typename T_class, typename T_return, typename... T_args >                                                                                       \
     struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) volatile >                                                                               \
-    {                                                                                                                                                          \
-        typedef T_return Return;                                                                                                                               \
+{                                                                                                                                                          \
+    typedef T_return Return;                                                                                                                               \
     };                                                                                                                                                         \
     template < typename T_class, typename T_return, typename... T_args >                                                                                       \
     struct QExtDecltypeFunctionTraits< T_return (T_class::*)(T_args...) const volatile >                                                                         \
-    {                                                                                                                                                          \
-        typedef T_return Return;                                                                                                                               \
+{                                                                                                                                                          \
+    typedef T_return Return;                                                                                                                               \
     };                                                                                                                                                         \
     template < typename T_functor, bool I_can_use_decltype >                                                                                                   \
     struct QExtFunctorTrait< T_functor, false, I_can_use_decltype >                                                                                              \
-    {                                                                                                                                                          \
-        typedef typename QExtDecltypeFunctionTraits< T_functor >::Return Return;                                                                                 \
-        typedef T_functor Functor;                                                                                                                             \
-        typedef void Object;                                                                                                                               \
-        QString typeName() const                                                                                                                           \
-        {                                                                                                                                                      \
-            return "lambda";                                                                                                                                   \
-        }                                                                                                                                                      \
+{                                                                                                                                                          \
+    typedef typename QExtDecltypeFunctionTraits< T_functor >::Return Return;                                                                                 \
+    typedef T_functor Functor;                                                                                                                             \
+    typedef void Object;                                                                                                                               \
+    QString typeName() const                                                                                                                           \
+{                                                                                                                                                      \
+    return "lambda";                                                                                                                                   \
+    }                                                                                                                                                      \
     };
 #endif
 
@@ -399,59 +398,59 @@ struct QExtFunctorTrait< T_return (*)(), false, false >
 };
 
 template <
-    typename T_return,
-    typename T_obj,
-    typename T_arg1,
-    typename T_arg2,
-    typename T_arg3,
-    typename T_arg4,
-    typename T_arg5,
-    typename T_arg6,
-    typename T_arg7 >
+        typename T_return,
+        typename T_obj,
+        typename T_arg1,
+        typename T_arg2,
+        typename T_arg3,
+        typename T_arg4,
+        typename T_arg5,
+        typename T_arg6,
+        typename T_arg7 >
 class QExtMemberFunctor;
 template <
-    typename T_return,
-    typename T_obj,
-    typename T_arg1,
-    typename T_arg2,
-    typename T_arg3,
-    typename T_arg4,
-    typename T_arg5,
-    typename T_arg6,
-    typename T_arg7 >
+        typename T_return,
+        typename T_obj,
+        typename T_arg1,
+        typename T_arg2,
+        typename T_arg3,
+        typename T_arg4,
+        typename T_arg5,
+        typename T_arg6,
+        typename T_arg7 >
 class QExtConstMemberFunctor;
 template <
-    typename T_return,
-    typename T_obj,
-    typename T_arg1,
-    typename T_arg2,
-    typename T_arg3,
-    typename T_arg4,
-    typename T_arg5,
-    typename T_arg6,
-    typename T_arg7 >
+        typename T_return,
+        typename T_obj,
+        typename T_arg1,
+        typename T_arg2,
+        typename T_arg3,
+        typename T_arg4,
+        typename T_arg5,
+        typename T_arg6,
+        typename T_arg7 >
 class QExtVolatileMemberFunctor;
 template <
-    typename T_return,
-    typename T_obj,
-    typename T_arg1,
-    typename T_arg2,
-    typename T_arg3,
-    typename T_arg4,
-    typename T_arg5,
-    typename T_arg6,
-    typename T_arg7 >
+        typename T_return,
+        typename T_obj,
+        typename T_arg1,
+        typename T_arg2,
+        typename T_arg3,
+        typename T_arg4,
+        typename T_arg5,
+        typename T_arg6,
+        typename T_arg7 >
 class QExtConstVolatileMemberFunctor;
 template <
-    typename T_return,
-    typename T_obj,
-    typename T_arg1,
-    typename T_arg2,
-    typename T_arg3,
-    typename T_arg4,
-    typename T_arg5,
-    typename T_arg6,
-    typename T_arg7 >
+        typename T_return,
+        typename T_obj,
+        typename T_arg1,
+        typename T_arg2,
+        typename T_arg3,
+        typename T_arg4,
+        typename T_arg5,
+        typename T_arg6,
+        typename T_arg7 >
 struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7), false, false >
 {
     typedef T_return Return;
@@ -464,15 +463,15 @@ struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     }
 };
 template <
-    typename T_return,
-    typename T_obj,
-    typename T_arg1,
-    typename T_arg2,
-    typename T_arg3,
-    typename T_arg4,
-    typename T_arg5,
-    typename T_arg6,
-    typename T_arg7 >
+        typename T_return,
+        typename T_obj,
+        typename T_arg1,
+        typename T_arg2,
+        typename T_arg3,
+        typename T_arg4,
+        typename T_arg5,
+        typename T_arg6,
+        typename T_arg7 >
 struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const, false, false >
 {
     typedef T_return Return;
@@ -485,15 +484,15 @@ struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     }
 };
 template <
-    typename T_return,
-    typename T_obj,
-    typename T_arg1,
-    typename T_arg2,
-    typename T_arg3,
-    typename T_arg4,
-    typename T_arg5,
-    typename T_arg6,
-    typename T_arg7 >
+        typename T_return,
+        typename T_obj,
+        typename T_arg1,
+        typename T_arg2,
+        typename T_arg3,
+        typename T_arg4,
+        typename T_arg5,
+        typename T_arg6,
+        typename T_arg7 >
 struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) volatile, false, false >
 {
     typedef T_return Return;
@@ -506,15 +505,15 @@ struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_a
     }
 };
 template <
-    typename T_return,
-    typename T_obj,
-    typename T_arg1,
-    typename T_arg2,
-    typename T_arg3,
-    typename T_arg4,
-    typename T_arg5,
-    typename T_arg6,
-    typename T_arg7 >
+        typename T_return,
+        typename T_obj,
+        typename T_arg1,
+        typename T_arg2,
+        typename T_arg3,
+        typename T_arg4,
+        typename T_arg5,
+        typename T_arg6,
+        typename T_arg7 >
 struct QExtFunctorTrait< T_return (T_obj::*)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const volatile, false, false >
 {
     typedef T_return Return;

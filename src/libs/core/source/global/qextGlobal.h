@@ -100,7 +100,7 @@
 #   define QEXT_NOEXCEPT
 #   define QEXT_NOEXCEPT_EXPR(x)
 #endif
-#define QEXT_DECL_NOTHROW QEXT_NOEXCEPT
+#define QEXT_NOTHROW QEXT_NOEXCEPT
 
 #if QEXT_CC_FEATURE_DEFAULT_MEMBERS
 #   define QEXT_EQ_DEFAULT = default
@@ -282,7 +282,7 @@ inline void qextMetaEnum(const QVariant &variant)
    QExt assert macro
 ***********************************************************************************************************************/
 #ifndef QT_ASSERT
-QEXT_CORE_API void qextAssert(const char *assertion, const char *file, int line) QEXT_DECL_NOTHROW;
+QEXT_CORE_API void qextAssert(const char *assertion, const char *file, int line) QEXT_NOTHROW;
 inline void qextNoop(void) {}
 #   if !defined(QEXT_ASSERT)
 #       if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
@@ -294,7 +294,7 @@ inline void qextNoop(void) {}
 #   if defined(QT_NO_DEBUG) && !defined(QT_PAINT_DEBUG)
 #       define QT_NO_PAINT_DEBUG
 #   endif
-    QEXT_CORE_API void qextAssertX(const char *where, const char *what, const char *file, int line) QEXT_DECL_NOTHROW;
+    QEXT_CORE_API void qextAssertX(const char *where, const char *what, const char *file, int line) QEXT_NOTHROW;
 #   if !defined(QEXT_ASSERT_X)
 #       if defined(QT_NO_DEBUG) && !defined(QT_FORCE_ASSERTS)
 #           define QEXT_ASSERT_X(cond, where, what) do { } while ((false) && (cond))
@@ -328,7 +328,7 @@ template <> class QEXTStaticAssertFailure< true > { };
 #   endif
 #else
 #   define QEXT_STATIC_ASSERT(Condition) Q_STATIC_ASSERT(Condition)
-#   define QEXT_STATIC_ASSERT_X(Condition) Q_STATIC_ASSERT_X(Condition)
+#   define QEXT_STATIC_ASSERT_X(Condition, Message) Q_STATIC_ASSERT_X(Condition, Message)
 #endif
 
 

@@ -32,7 +32,7 @@
 
 #include <qextTypeTrait.h>
 
-namespace QExtPrivate
+namespace detail
 {
 
 //This should really be an inner class of limit_derived_target, without the T_limit template type,
@@ -176,7 +176,7 @@ void qextVisitEach(const T_action &action, const T_functor &functor)
 template<typename T_type, typename T_action, typename T_functor>
 void qextVisitEachType(const T_action &action, const T_functor &functor)
 {
-    typedef QExtPrivate::QExtDerivedTargetLimitedAction<T_type, T_action> LimitedActionType;
+    typedef detail::QExtDerivedTargetLimitedAction<T_type, T_action> LimitedActionType;
 
     LimitedActionType limitedAction(action);
 

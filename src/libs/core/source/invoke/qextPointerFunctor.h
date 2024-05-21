@@ -35,7 +35,7 @@
 
 
 
-namespace QExtPrivate
+namespace detail
 {
 
     /** @defgroup qextPointerFunctor qextPointerFunctor()
@@ -460,10 +460,10 @@ template <
     typename T_arg5 = QExtNil,
     typename T_arg6 = QExtNil,
     typename T_arg7 = QExtNil >
-class QExtPointerFunctor : public QExtPrivate::QExtPointerFunctor7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+class QExtPointerFunctor : public detail::QExtPointerFunctor7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
 {
 public:
-    typedef QExtPrivate::QExtPointerFunctor7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Base;
+    typedef detail::QExtPointerFunctor7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Base;
     typedef typename Base::Function Function;
     typedef typename Base::Return Return;
 
@@ -502,10 +502,10 @@ public:
  */
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 class QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil >
-    : public QExtPrivate::QExtPointerFunctor6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+    : public detail::QExtPointerFunctor6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
 {
 public:
-    typedef QExtPrivate::QExtPointerFunctor6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 > Base;
+    typedef detail::QExtPointerFunctor6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 > Base;
     typedef typename Base::Function Function;
     typedef typename Base::Return Return;
 
@@ -542,10 +542,10 @@ public:
  */
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 class QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil >
-    : public QExtPrivate::QExtPointerFunctor5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+    : public detail::QExtPointerFunctor5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
 {
 public:
-    typedef QExtPrivate::QExtPointerFunctor5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 > Base;
+    typedef detail::QExtPointerFunctor5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 > Base;
     typedef typename Base::Function Function;
     typedef typename Base::Return Return;
 
@@ -580,10 +580,10 @@ public:
  */
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 class QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil >
-    : public QExtPrivate::QExtPointerFunctor4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >
+    : public detail::QExtPointerFunctor4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >
 {
 public:
-    typedef QExtPrivate::QExtPointerFunctor4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 > Base;
+    typedef detail::QExtPointerFunctor4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 > Base;
     typedef typename Base::Function Function;
     typedef typename Base::Return Return;
 
@@ -615,10 +615,10 @@ public:
  * This is possible because the template has default (QExtNil) template types.
  */
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3 >
-class QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtPointerFunctor3< T_return, T_arg1, T_arg2, T_arg3 >
+class QExtPointerFunctor< T_return, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil > : public detail::QExtPointerFunctor3< T_return, T_arg1, T_arg2, T_arg3 >
 {
 public:
-    typedef QExtPrivate::QExtPointerFunctor3< T_return, T_arg1, T_arg2, T_arg3 > Base;
+    typedef detail::QExtPointerFunctor3< T_return, T_arg1, T_arg2, T_arg3 > Base;
     typedef typename Base::Function Function;
     typedef typename Base::Return Return;
 
@@ -645,10 +645,10 @@ public:
  * This is possible because the template has default (QExtNil) template types.
  */
 template < typename T_return, typename T_arg1, typename T_arg2 >
-class QExtPointerFunctor< T_return, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtPointerFunctor2< T_return, T_arg1, T_arg2 >
+class QExtPointerFunctor< T_return, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public detail::QExtPointerFunctor2< T_return, T_arg1, T_arg2 >
 {
 public:
-    typedef QExtPrivate::QExtPointerFunctor2< T_return, T_arg1, T_arg2 > Base;
+    typedef detail::QExtPointerFunctor2< T_return, T_arg1, T_arg2 > Base;
     typedef typename Base::Function Function;
     typedef typename Base::Return Return;
 
@@ -674,10 +674,10 @@ public:
  * This is possible because the template has default (QExtNil) template types.
  */
 template < typename T_return, typename T_arg1 >
-class QExtPointerFunctor< T_return, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtPointerFunctor1< T_return, T_arg1 >
+class QExtPointerFunctor< T_return, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public detail::QExtPointerFunctor1< T_return, T_arg1 >
 {
 public:
-    typedef QExtPrivate::QExtPointerFunctor1< T_return, T_arg1 > Base;
+    typedef detail::QExtPointerFunctor1< T_return, T_arg1 > Base;
     typedef typename Base::Function Function;
     typedef typename Base::Return Return;
 
@@ -702,10 +702,10 @@ public:
  * This is possible because the template has default (QExtNil) template types.
  */
 template < typename T_return >
-class QExtPointerFunctor< T_return, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtPointerFunctor0< T_return >
+class QExtPointerFunctor< T_return, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public detail::QExtPointerFunctor0< T_return >
 {
 public:
-    typedef QExtPrivate::QExtPointerFunctor0< T_return > Base;
+    typedef detail::QExtPointerFunctor0< T_return > Base;
     typedef typename Base::Function Function;
     typedef typename Base::Return Return;
 

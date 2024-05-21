@@ -34,7 +34,7 @@
 #include <qextLimitReference.h>
 
 
-namespace QExtPrivate
+namespace detail
 {
 
     /** @defgroup qextTrackObjectFunctor qextTrackObjectFunctor()
@@ -532,10 +532,10 @@ template<
         typename T_obj6 = QExtNil,
         typename T_obj7 = QExtNil>
 class QExtTrackObjectFunctor
-        : public QExtPrivate::QExtTrackObjectFunctor7<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6, T_obj7>
+        : public detail::QExtTrackObjectFunctor7<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6, T_obj7>
 {
 public:
-    typedef QExtPrivate::QExtTrackObjectFunctor7<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6, T_obj7> Base;
+    typedef detail::QExtTrackObjectFunctor7<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6, T_obj7> Base;
     typedef typename Base::Return Return;
 
     QExtTrackObjectFunctor(
@@ -584,10 +584,10 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_o
 
 template<typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4, typename T_obj5, typename T_obj6>
 class QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6, QExtNil>
-        : public QExtPrivate::QExtTrackObjectFunctor6<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6>
+        : public detail::QExtTrackObjectFunctor6<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6>
 {
 public:
-    typedef QExtPrivate::QExtTrackObjectFunctor6<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6> Base;
+    typedef detail::QExtTrackObjectFunctor6<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6> Base;
     typedef typename Base::Return Return;
 
     QExtTrackObjectFunctor(
@@ -629,10 +629,10 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_o
 
 template<typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4, typename T_obj5>
 class QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, QExtNil, QExtNil>
-        : public QExtPrivate::QExtTrackObjectFunctor5<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5>
+        : public detail::QExtTrackObjectFunctor5<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5>
 {
 public:
-    typedef QExtPrivate::QExtTrackObjectFunctor5<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5> Base;
+    typedef detail::QExtTrackObjectFunctor5<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5> Base;
     typedef typename Base::Return Return;
 
     QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3,
@@ -672,10 +672,10 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_o
 
 template<typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3, typename T_obj4>
 class QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, QExtNil, QExtNil, QExtNil>
-        : public QExtPrivate::QExtTrackObjectFunctor4<T_functor, T_obj1, T_obj2, T_obj3, T_obj4>
+        : public detail::QExtTrackObjectFunctor4<T_functor, T_obj1, T_obj2, T_obj3, T_obj4>
 {
 public:
-    typedef QExtPrivate::QExtTrackObjectFunctor4<T_functor, T_obj1, T_obj2, T_obj3, T_obj4> Base;
+    typedef detail::QExtTrackObjectFunctor4<T_functor, T_obj1, T_obj2, T_obj3, T_obj4> Base;
     typedef typename Base::Return Return;
 
     QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3,
@@ -714,10 +714,10 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_o
 
 template<typename T_functor, typename T_obj1, typename T_obj2, typename T_obj3>
 class QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public QExtPrivate::QExtTrackObjectFunctor3<T_functor, T_obj1, T_obj2, T_obj3>
+        : public detail::QExtTrackObjectFunctor3<T_functor, T_obj1, T_obj2, T_obj3>
 {
 public:
-    typedef QExtPrivate::QExtTrackObjectFunctor3<T_functor, T_obj1, T_obj2, T_obj3> Base;
+    typedef detail::QExtTrackObjectFunctor3<T_functor, T_obj1, T_obj2, T_obj3> Base;
     typedef typename Base::Return Return;
 
     QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3) : Base(
@@ -752,10 +752,10 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3> >
 
 template<typename T_functor, typename T_obj1, typename T_obj2>
 class QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public QExtPrivate::QExtTrackObjectFunctor2<T_functor, T_obj1, T_obj2>
+        : public detail::QExtTrackObjectFunctor2<T_functor, T_obj1, T_obj2>
 {
 public:
-    typedef QExtPrivate::QExtTrackObjectFunctor2<T_functor, T_obj1, T_obj2> Base;
+    typedef detail::QExtTrackObjectFunctor2<T_functor, T_obj1, T_obj2> Base;
     typedef typename Base::Return Return;
 
     QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2) : Base(func, obj1, obj2) {}
@@ -787,10 +787,10 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2> >
 
 template<typename T_functor, typename T_obj1>
 class QExtTrackObjectFunctor<T_functor, T_obj1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public QExtPrivate::QExtTrackObjectFunctor1<T_functor, T_obj1>
+        : public detail::QExtTrackObjectFunctor1<T_functor, T_obj1>
 {
 public:
-    typedef QExtPrivate::QExtTrackObjectFunctor1<T_functor, T_obj1> Base;
+    typedef detail::QExtTrackObjectFunctor1<T_functor, T_obj1> Base;
     typedef typename Base::Return Return;
 
     QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1) : Base(func, obj1) {}

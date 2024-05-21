@@ -92,9 +92,9 @@ qext_add_library(Core
     source/invoke/qextSignal.cpp
     source/invoke/qextTrackObjectFunctor.h
     source/invoke/qextVisitor.h
-    source/tools/qextAtomic.h
     source/tools/qextBackTrace.cpp
     source/tools/qextBackTrace.h
+    source/tools/qextConcurrent.h
     source/tools/qextDiskInfo.cpp
     source/tools/qextDiskInfo.h
     source/tools/qextException.cpp
@@ -106,6 +106,7 @@ qext_add_library(Core
     source/tools/qextTag.cpp
     source/tools/qextTag.h
     source/tools/qextSpinlock.h
+    source/tools/qextTSValue.h
     source/tools/qextOnceFlag.h
     source/tools/qextTypeInfo.h
     source/tools/qextTypeTrait.h

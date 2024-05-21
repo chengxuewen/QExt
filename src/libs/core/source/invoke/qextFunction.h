@@ -12,9 +12,7 @@
 #include <QPointer>
 #include <QSet>
 
-QEXT_WARNING_DISABLE_GCC("-Wcast-function-type")
-
-namespace QExtPrivate
+namespace detail
 {
 
     struct QEXT_CORE_API QExtFunctionData
@@ -319,7 +317,7 @@ namespace QExtPrivate
         QExtFunction7(const T_functor &functor)
             : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = QExtPrivate::QExtFunctionCall7< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::address();
+            m_callFunc = detail::QExtFunctionCall7< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::address();
         }
         QExtFunction7(const QExtFunction7 &other) : QExtFunctionBase(other) {}
 
@@ -352,7 +350,7 @@ namespace QExtPrivate
         QExtFunction6(const T_functor &functor)
             : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = QExtPrivate::QExtFunctionCall6< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >::address();
+            m_callFunc = detail::QExtFunctionCall6< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >::address();
         }
         QExtFunction6(const QExtFunction6 &other) : QExtFunctionBase(other) {}
 
@@ -384,7 +382,7 @@ namespace QExtPrivate
         QExtFunction5(const T_functor &functor)
             : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = QExtPrivate::QExtFunctionCall5< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >::address();
+            m_callFunc = detail::QExtFunctionCall5< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >::address();
         }
         QExtFunction5(const QExtFunction5 &other) : QExtFunctionBase(other) {}
 
@@ -415,7 +413,7 @@ namespace QExtPrivate
         QExtFunction4(const T_functor &functor)
             : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = QExtPrivate::QExtFunctionCall4< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4 >::address();
+            m_callFunc = detail::QExtFunctionCall4< T_functor, T_return, T_arg1, T_arg2, T_arg3, T_arg4 >::address();
         }
         QExtFunction4(const QExtFunction4 &other) : QExtFunctionBase(other) {}
 
@@ -445,7 +443,7 @@ namespace QExtPrivate
         QExtFunction3(const T_functor &functor)
             : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = QExtPrivate::QExtFunctionCall3< T_functor, T_return, T_arg1, T_arg2, T_arg3 >::address();
+            m_callFunc = detail::QExtFunctionCall3< T_functor, T_return, T_arg1, T_arg2, T_arg3 >::address();
         }
         QExtFunction3(const QExtFunction3 &other) : QExtFunctionBase(other) {}
 
@@ -474,7 +472,7 @@ namespace QExtPrivate
         QExtFunction2(const T_functor &functor)
             : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = QExtPrivate::QExtFunctionCall2< T_functor, T_return, T_arg1, T_arg2 >::address();
+            m_callFunc = detail::QExtFunctionCall2< T_functor, T_return, T_arg1, T_arg2 >::address();
         }
         QExtFunction2(const QExtFunction2 &other) : QExtFunctionBase(other) {}
 
@@ -502,7 +500,7 @@ namespace QExtPrivate
         QExtFunction1(const T_functor &functor)
             : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = QExtPrivate::QExtFunctionCall1< T_functor, T_return, T_arg1 >::address();
+            m_callFunc = detail::QExtFunctionCall1< T_functor, T_return, T_arg1 >::address();
         }
         QExtFunction1(const QExtFunction1 &other) : QExtFunctionBase(other) {}
 
@@ -529,7 +527,7 @@ namespace QExtPrivate
         QExtFunction0(const T_functor &functor)
             : QExtFunctionBase(QSharedPointer< QExtFunctionData >(new QExtFunctionFunctorData< T_functor >(functor)))
         {
-            m_callFunc = QExtPrivate::QExtFunctionCall0< T_functor, T_return >::address();
+            m_callFunc = detail::QExtFunctionCall0< T_functor, T_return >::address();
         }
         QExtFunction0(const QExtFunction0 &other) : QExtFunctionBase(other) {}
 
@@ -554,10 +552,10 @@ template <
     typename T_arg5 = QExtNil,
     typename T_arg6 = QExtNil,
     typename T_arg7 = QExtNil >
-class QExtFunction : public QExtPrivate::QExtFunction7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
+class QExtFunction : public detail::QExtFunction7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >
 {
 public:
-    typedef QExtPrivate::QExtFunction7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Base;
+    typedef detail::QExtFunction7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 > Base;
 
     QExtFunction() {}
     QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7))
@@ -620,10 +618,10 @@ public:
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 class QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil >
-    : public QExtPrivate::QExtFunction6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
+    : public detail::QExtFunction6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >
 {
 public:
-    typedef QExtPrivate::QExtFunction6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 > Base;
+    typedef detail::QExtFunction6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 > Base;
 
     QExtFunction() {}
     QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6))
@@ -684,10 +682,10 @@ public:
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 class QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil >
-    : public QExtPrivate::QExtFunction5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
+    : public detail::QExtFunction5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >
 {
 public:
-    typedef QExtPrivate::QExtFunction5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 > Base;
+    typedef detail::QExtFunction5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 > Base;
 
     QExtFunction() {}
     QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5))
@@ -748,10 +746,10 @@ public:
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 class QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil >
-    : public QExtPrivate::QExtFunction4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >
+    : public detail::QExtFunction4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >
 {
 public:
-    typedef QExtPrivate::QExtFunction4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 > Base;
+    typedef detail::QExtFunction4< T_return, T_arg1, T_arg2, T_arg3, T_arg4 > Base;
 
     QExtFunction() {}
     QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4))
@@ -811,10 +809,10 @@ public:
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3 >
-class QExtFunction< T_return, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtFunction3< T_return, T_arg1, T_arg2, T_arg3 >
+class QExtFunction< T_return, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil > : public detail::QExtFunction3< T_return, T_arg1, T_arg2, T_arg3 >
 {
 public:
-    typedef QExtPrivate::QExtFunction3< T_return, T_arg1, T_arg2, T_arg3 > Base;
+    typedef detail::QExtFunction3< T_return, T_arg1, T_arg2, T_arg3 > Base;
 
     QExtFunction() {}
     QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3))
@@ -874,10 +872,10 @@ public:
 };
 
 template < typename T_return, typename T_arg1, typename T_arg2 >
-class QExtFunction< T_return, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtFunction2< T_return, T_arg1, T_arg2 >
+class QExtFunction< T_return, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public detail::QExtFunction2< T_return, T_arg1, T_arg2 >
 {
 public:
-    typedef QExtPrivate::QExtFunction2< T_return, T_arg1, T_arg2 > Base;
+    typedef detail::QExtFunction2< T_return, T_arg1, T_arg2 > Base;
 
     QExtFunction() {}
     QExtFunction(T_return (*func)(T_arg1 arg1, T_arg2 arg2))
@@ -935,10 +933,10 @@ public:
 };
 
 template < typename T_return, typename T_arg1 >
-class QExtFunction< T_return, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtFunction1< T_return, T_arg1 >
+class QExtFunction< T_return, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public detail::QExtFunction1< T_return, T_arg1 >
 {
 public:
-    typedef QExtPrivate::QExtFunction1< T_return, T_arg1 > Base;
+    typedef detail::QExtFunction1< T_return, T_arg1 > Base;
 
     QExtFunction() {}
     QExtFunction(T_return (*func)(T_arg1 arg1))
@@ -991,18 +989,18 @@ public:
     }
 };
 
-template < typename T_return >
-class QExtFunction< T_return, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtPrivate::QExtFunction0< T_return >
+template <typename T_return>
+class QExtFunction<T_return, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public detail::QExtFunction0< T_return >
 {
 public:
-    typedef QExtPrivate::QExtFunction0< T_return > Base;
+    typedef detail::QExtFunction0< T_return > Base;
 
     QExtFunction() {}
     QExtFunction(T_return (*func)())
         : Base(QExtPointerFunctor< T_return >(func))
     {
     }
-    template < typename T_functor >
+    template <typename T_functor>
     QExtFunction(const T_functor &functor) : Base(functor)
     {
     }
@@ -1045,6 +1043,5 @@ public:
         return Base::operator()();
     }
 };
-
 
 #endif // _QEXTFUNCTION_H

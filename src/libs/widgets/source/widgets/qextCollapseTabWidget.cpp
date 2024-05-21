@@ -70,6 +70,7 @@ int QExtCollapseTabWidgetPrivate::rotationAngleFromTabPosition(QTabWidget::TabPo
     default:
         break;
     }
+    return 0;
 }
 
 QRect QExtCollapseTabWidgetPrivate::collapseButtonRectFromTabPosition(QTabWidget::TabPosition position)
@@ -87,6 +88,7 @@ QRect QExtCollapseTabWidgetPrivate::collapseButtonRectFromTabPosition(QTabWidget
     default:
         break;
     }
+    return QRect();
 }
 
 QExtCollapseTabWidget::QExtCollapseTabWidget(QWidget *parent)

@@ -1,6 +1,6 @@
 #include <qextFunction.h>
 
-namespace QExtPrivate
+namespace detail
 {
 
     QExtFunctionData::QExtFunctionData() : m_trackable(QEXT_ATOMIC_INT_FALSE) {}

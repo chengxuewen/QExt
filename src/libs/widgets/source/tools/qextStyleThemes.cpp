@@ -972,6 +972,7 @@ bool QExtStyleThemes::setCurrentStyleTheme(const QString &styleTheme)
             return this->setCurrentTheme(split.last());
         }
     }
+    return false;
 }
 
 bool QExtStyleThemes::updateStylesheet()

@@ -53,7 +53,7 @@
 class QEXT_CORE_API QExtConnection
 {
 public:
-    typedef QExtPrivate::QExtFunctionBase SlotFunctionBase;
+    typedef detail::QExtFunctionBase SlotFunctionBase;
 
     /** Constructs an empty connection object. */
     QExtConnection();
@@ -65,7 +65,7 @@ public:
      * \param iter The slot list iterator to take the slot from.
      */
     template <typename T_slot>
-    QExtConnection(const QExtPrivate::QExtFunctionIterator<T_slot> &iter) : m_slot(&(*iter))
+    QExtConnection(const detail::QExtFunctionIterator<T_slot> &iter) : m_slot(&(*iter))
     {
     }
     /** Constructs a connection object from a slot object.
@@ -84,7 +84,7 @@ public:
      * \param iter The new slot list iterator to take the slot from.
      */
     template <typename T_slot>
-    QExtConnection &operator=(const QExtPrivate::QExtFunctionIterator<T_slot> &iter)
+    QExtConnection &operator=(const detail::QExtFunctionIterator<T_slot> &iter)
     {
         this->setSlot(&(*iter));
         return *this;

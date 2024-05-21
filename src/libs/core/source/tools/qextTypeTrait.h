@@ -568,21 +568,9 @@ template <class T> struct QExtIsEnum : public QExtIntegralConstant<bool, QEXT_IS
 #endif
 
 
-
-
-
-
-
-
-
-
-
-template <typename T> struct QExtIsPod;
-template <typename T> struct QExtTypeHasTrivialConstructor;
-template <typename T> struct QExtTypeHasTrivialCopy;
-template <typename T> struct QExtTypeHasTrivialAssign;
-template <typename T> struct QExtTypeHasTrivialDestructor;
-
+/***********************************************************************************************************************
+   QExtTypeTrait
+***********************************************************************************************************************/
 template <typename T>
 struct QExtTypeTrait
 {
@@ -629,6 +617,15 @@ struct QExtTypeTrait<void>
 };
 
 
+
+
+
+
+template <typename T> struct QExtIsPod;
+template <typename T> struct QExtTypeHasTrivialConstructor;
+template <typename T> struct QExtTypeHasTrivialCopy;
+template <typename T> struct QExtTypeHasTrivialAssign;
+template <typename T> struct QExtTypeHasTrivialDestructor;
 
 // We can't get QExtIsPod right without compiler help, so fail conservatively.
 // We will assume it's false except for arithmetic types, enumerations,

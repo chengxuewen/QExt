@@ -38,6 +38,9 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
+find_package(Threads)
+list(APPEND QEXT_TEST_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
+
 
 #-----------------------------------------------------------------------------------------------------------------------
 # add tests
@@ -49,9 +52,23 @@ qext_internal_add_test(QExtTstCoreTypeTrait
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
     ${QEXT_OUTPUT_TEST_DIR})
-qext_internal_add_test(QExtTstCoreAtomic
+qext_internal_add_test(QExtTstCoreTSValue
     SOURCES
-    tools/tst_qextAtomic.cpp
+    tools/tst_qextTSValue.cpp
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_TEST_DIR})
+qext_internal_add_test(QExtTstCoreConcurrent
+    SOURCES
+    tools/tst_qextConcurrent.cpp
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_OUTPUT_TEST_DIR})
+qext_internal_add_test(QExtTstCoreNumeric
+    SOURCES
+    tools/tst_qextNumeric.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY

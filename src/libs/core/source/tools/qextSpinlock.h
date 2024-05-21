@@ -36,5 +36,4 @@ private:
     QEXT_DISABLE_COPY_MOVE(QExtSpinLock)
 };
 
-
 #endif // _QEXTSPINLOCK_H

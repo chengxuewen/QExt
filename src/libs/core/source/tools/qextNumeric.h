@@ -70,6 +70,29 @@ public:
         return *value == v;
         QEXT_WARNING_POP
     }
+
+    /**
+     * @brief Reduce floating-point accuracy.
+     * @param value Double precision floating-point data variable
+     * @param places Precision value
+     * @code Floating-point numbers with reduced precision.
+     *  reducePrecision(111111.111111, -6) // return 000000.000000
+     *  reducePrecision(111111.111111, -5) // return 100000.000000
+     *  reducePrecision(111111.111111, -4) // return 110000.000000
+     *  reducePrecision(111111.111111, -3) // return 111000.000000
+     *  reducePrecision(111111.111111, -2) // return 111100.000000
+     *  reducePrecision(111111.111111, -1) // return 111110.000000
+     *  reducePrecision(111111.111111, 0) // return 111111.000000
+     *  reducePrecision(111111.111111, 1) // return 111111.100000
+     *  reducePrecision(111111.111111, 2) // return 111111.110000
+     *  reducePrecision(111111.111111, 3) // return 111111.111000
+     *  reducePrecision(111111.111111, 4) // return 111111.111100
+     *  reducePrecision(111111.111111, 5) // return 111111.111110
+     *  reducePrecision(111111.111111, 6) // return 111111.111111
+     * @endcode
+     * @return
+     */
+    static double reducePrecision(double value, short places);
 };
 
 #endif // _QEXTNUMERIC_H

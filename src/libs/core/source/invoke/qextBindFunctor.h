@@ -33,7 +33,7 @@
 #include <qextAdaptorTrait.h>
 #include <qextBoundArgument.h>
 
-namespace QExtPrivate
+namespace detail
 {
 
     template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
@@ -1214,7 +1214,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, QExtNil, QExtNil, QExtNil, QExtNi
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        QExtPrivate::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
+        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
 
@@ -1460,7 +1460,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, QExtNil, QExtNil, QExtNi
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        QExtPrivate::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
+        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
     typedef typename Adaptor::Return  Return;
@@ -1682,7 +1682,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QExtNil, QExtNi
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        QExtPrivate::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
+        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
     typedef typename Adaptor::Return  Return;
@@ -1880,7 +1880,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QExtNi
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        QExtPrivate::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
+        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
     typedef typename Adaptor::Return  Return;
@@ -2049,7 +2049,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        QExtPrivate::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
+        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
     typedef typename Adaptor::Return  Return;
@@ -2194,7 +2194,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        QExtPrivate::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
+        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
     typedef typename Adaptor::Return  Return;
@@ -2327,7 +2327,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        QExtPrivate::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
+        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
     typedef typename Adaptor::Return  Return;

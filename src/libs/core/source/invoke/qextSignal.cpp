@@ -1,7 +1,7 @@
 #include <qextSignal.h>
 
 
-namespace QExtPrivate
+namespace detail
 {
 
     QExtSignalData::QExtSignalData()
