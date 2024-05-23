@@ -10,7 +10,7 @@ class QEXT_CORE_API QExtDateTimeUtils
 public:
     virtual ~QExtDateTimeUtils() {}
 
-    static void mLoopSleep(const int &iMSec);
+    static void loopWait(const int &msec);
 
     static qint64 secsTimeSinceEpoch();
     static qint64 msecsTimeSinceEpoch();

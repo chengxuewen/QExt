@@ -23,7 +23,7 @@ void QExtDateTimeUtilsTest::sleep1msTest()
 #ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
-    QExtDateTimeUtils::mSleep(1);
+    QExtDateTimeUtils::loopWait(1);
     qint64 elapse = timer.elapsed();
     QVERIFY2(qAbs(timer.elapsed() - 1) <= 1, QString::number(elapse).toLatin1().data());
 #endif
@@ -34,7 +34,7 @@ void QExtDateTimeUtilsTest::sleep2msTest()
 #ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
-    QExtDateTimeUtils::mSleep(2);
+    QExtDateTimeUtils::loopWait(2);
     qint64 elapse = timer.elapsed();
     QVERIFY2(qAbs(timer.elapsed() - 2) <= 1, QString::number(elapse).toLatin1().data());
 #endif
@@ -45,7 +45,7 @@ void QExtDateTimeUtilsTest::sleep5msTest()
 #ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
-    QExtDateTimeUtils::mSleep(5);
+    QExtDateTimeUtils::loopWait(5);
     qint64 elapse = timer.elapsed();
     QVERIFY2(qAbs(timer.elapsed() - 5) <= 1, QString::number(elapse).toLatin1().data());
 #endif
@@ -56,7 +56,7 @@ void QExtDateTimeUtilsTest::sleep10msTest()
 #ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
-    QExtDateTimeUtils::mSleep(10);
+    QExtDateTimeUtils::loopWait(10);
     qint64 elapse = timer.elapsed();
     QVERIFY2(qAbs(elapse - 10) <= 2, QString::number(elapse).toLatin1().data());
 #endif
@@ -67,7 +67,7 @@ void QExtDateTimeUtilsTest::sleep20msTest()
 #ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
-    QExtDateTimeUtils::mSleep(20);
+    QExtDateTimeUtils::loopWait(20);
     qint64 elapse = timer.elapsed();
     QVERIFY2(qAbs(elapse - 20) <= 2, QString::number(elapse).toLatin1().data());
 #endif
@@ -78,7 +78,7 @@ void QExtDateTimeUtilsTest::sleep500msTest()
 #ifndef Q_OS_WIN
     QElapsedTimer timer;
     timer.start();
-    QExtDateTimeUtils::mSleep(500);
+    QExtDateTimeUtils::loopWait(500);
     qint64 elapse = timer.elapsed();
     QVERIFY2(qAbs(elapse - 500) <= 1, QString::number(elapse).toLatin1().data());
 #endif
