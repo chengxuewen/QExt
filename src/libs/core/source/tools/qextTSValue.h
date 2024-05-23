@@ -46,35 +46,40 @@ static T qextTSValueLoad(const QPair<T, qint64> &value)
     return qextTSValueLoad(value.first);
 }
 /* store */
+template <typename T, typename D>
+static void qextTSValueStore(T &value, const D &data)
+{
+    value = data;
+}
 template <typename T>
 static void qextTSValueStore(T &value, const T &data)
 {
     value = data;
 }
 #if QEXT_CC_STD_11
-template <typename T>
-static void qextTSValueStore(std::atomic<T> &value, const T &data)
+template <typename D>
+static void qextTSValueStore(std::atomic<D> &value, const D &data)
 {
     value.store(data);
 }
 #endif
-template <typename T>
-static void qextTSValueStore(QAtomicInt &value, const int &data)
+template <typename D>
+static void qextTSValueStore(QAtomicInt &value, const D &data)
 {
     value.storeRelease(data);
 }
-template <typename T>
-static void qextTSValueStore(QExtConcurrent<T> &value, const T &data)
+template <typename D>
+static void qextTSValueStore(QExtConcurrent<D> &value, const D &data)
 {
     value.set(data);
 }
-template <typename T>
-static void qextTSValueStore(QAtomicPointer<QExtRemovePointer<T> > &value, const T &data)
+template <typename D>
+static void qextTSValueStore(QAtomicPointer<QExtRemovePointer<D> > &value, const D &data)
 {
     value.storeRelease(data);
 }
-template <typename T>
-static void qextTSValueStore(QPair<T, qint64> &value, const T &data)
+template <typename D>
+static void qextTSValueStore(QPair<D, qint64> &value, const D &data)
 {
     qextTSValueStore(value.first, data);
 }
@@ -94,15 +99,22 @@ public:
     typedef QExtTSValue<T> Self;
 
     QExtTSValue() {}
-    QExtTSValue(const T &val) : m_value(Value(0, val)), m_timeout(0) {}
-    QExtTSValue(const T &val, TS timeout = 0) : m_value(Value(0, val)), m_timeout(timeout) {}
     QExtTSValue(const Self &other) : m_value(other.m_value), m_timeout(other.m_timeout) {}
+    QExtTSValue(const T &val, TS timeout = 0) : m_value(Value(val, 0)), m_timeout(timeout) {}
+    template <typename Data>
+    QExtTSValue(const Data &data, TS timeout = 0) : m_timeout(timeout) { detail::qextTSValueStore(m_value, data); }
     virtual ~QExtTSValue() {}
 
     T operator=(const T &value) QEXT_NOEXCEPT
     {
         this->set(detail::qextTSValueLoad(value));
         return detail::qextTSValueLoad(value);
+    }
+    template <typename Data>
+    Data operator=(const Data &data) QEXT_NOEXCEPT
+    {
+        detail::qextTSValueStore(m_value.first, detail::qextTSValueLoad(data));
+        return detail::qextTSValueLoad(data);
     }
     Self &operator=(const Self &other)
     {
@@ -122,6 +134,15 @@ public:
         return v1.m_value != v2.m_value;
     }
 
+    T *operator->() QEXT_NOEXCEPT
+    {
+        return &m_value.first;
+    }
+    T *operator->() const QEXT_NOEXCEPT
+    {
+        return &m_value.first;
+    }
+
     TS timeoutTime() const { return m_timeout; }
     void setTimeoutTime(TS time) { m_timeout = time; }
 
@@ -131,9 +152,10 @@ public:
     void set(const Data &val) { detail::qextTSValueStore(m_value, val); }
     void reset(const T &val, TS now) const { detail::qextTSValueStore(m_value, val); m_value.second = now; }
 
-    bool isValueEqual(const T &newVal)
+    template <typename D>
+    bool isValueEqual(const D &data)
     {
-        return detail::qextTSValueLoad(m_value) == newVal;
+        return detail::qextTSValueLoad(m_value) == detail::qextTSValueLoad(data);
     }
     bool isValueEqual(const Self &other)
     {
@@ -158,8 +180,8 @@ public:
     }
 
 private:
-    Value m_value;
     TS m_timeout;
+    mutable Value m_value;
 };
 
 #endif // _QEXTTSVALUE_H
