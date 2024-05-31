@@ -941,7 +941,7 @@ void QExtJsonObject::insert(const char *key, const QExtJsonValue &value)
 
 void QExtJsonObject::insert(const QString &key, const QExtJsonValue &value)
 {
-    this->insert(QLatin1String(key.toLatin1()), value);
+    this->insert(key.toLatin1().data(), value);
 }
 
 bool QExtJsonObject::operator==(const QExtJsonObject &other) const
@@ -1598,7 +1598,7 @@ const QExtJsonValue QExtJsonDocument::operator[](const char *key) const
 
 const QExtJsonValue QExtJsonDocument::operator[](QString key) const
 {
-    return (*this)[QLatin1String(key.toLatin1())];
+    return (*this)[key.toLatin1().data()];
 }
 
 const QExtJsonValue QExtJsonDocument::operator[](int index) const

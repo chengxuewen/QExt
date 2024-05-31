@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.5.18 LANGUAGES CXX C)
+project(QExt VERSION 1.2.6.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -80,22 +80,31 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     add_definitions(${QT_DEFINITIONS})
     find_package(Qt4 COMPONENTS QtOpenGL)
     set(QEXT_QT_OPENGL_FOUND ${QT_QTOPENGL_FOUND})
+    set(QEXT_QT_HAS_QML OFF)
     set(QEXT_CXX_STANDARD 98)
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Widgets Network Quick Test PrintSupport Xml Svg Sql REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent)
     set(QEXT_QT_OPENGL_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGL_FOUND})
-    set(QEXT_QT_HAS_QJSON ON)
+    set(QEXT_QT_EXPORT_NAMESPACE Qt5)
     set(QEXT_CXX_STANDARD 11)
+    set(QEXT_QT_HAS_QJSON ON)
+    if(QEXT_QT_VERSION_MINOR GREATER_EQUAL 9)
+        set(QEXT_QT_HAS_QML ON)
+    else()
+        set(QEXT_QT_HAS_QML OFF)
+    endif()
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Widgets Network Quick Test PrintSupport Xml Svg Sql REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core5Compat REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGLWidgets OpenGL Concurrent)
     set(QEXT_QT_OPENGL_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGL_FOUND})
-    set(QEXT_QT_HAS_QJSON ON)
+    set(QEXT_QT_EXPORT_NAMESPACE Qt6)
     set(QEXT_CXX_STANDARD 17)
+    set(QEXT_QT_HAS_QJSON ON)
+    set(QEXT_QT_HAS_QML ON)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -194,12 +203,6 @@ else()
     set(__qext_build_warnings_as_errors OFF)
     set(__qext_build_tests_default OFF)
     set(__qext_build_benchmarks OFF)
-endif()
-
-# When cross-building, we don't build tools by default. Sometimes this also covers qext apps as well.
-set(__qext_build_tools_default ON)
-if(CMAKE_CROSSCOMPILING AND NOT QEXT_FORCE_BUILD_TOOLS)
-    set(__qext_build_tools_default OFF)
 endif()
 
 
@@ -362,6 +365,7 @@ include(QExtPkgConfigHelpers)
 include(QExtLibraryHelpers)
 include(QExtInstallHelpers)
 include(QExtQtToolsHelpers)
+include(QExtAutogenHelpers)
 include(QExtModuleHelpers)
 include(QExtPluginHelpers)
 include(QExtTargetHelpers)
@@ -369,19 +373,7 @@ include(QExtOptionHelpers)
 include(QExtCMakeHelpers)
 include(QExtRpathHelpers)
 include(QExtTestHelpers)
-
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Set the output dir
-#-----------------------------------------------------------------------------------------------------------------------
-qext_ensure_define_variable(QEXT_OUTPUT_APP_DIR "${PROJECT_BINARY_DIR}/bin")
-qext_ensure_define_variable(QEXT_OUTPUT_LIB_DIR "${PROJECT_BINARY_DIR}/lib")
-qext_ensure_define_variable(QEXT_OUTPUT_LIBEXEC_DIR "${PROJECT_BINARY_DIR}/libexec")
-qext_ensure_define_variable(QEXT_OUTPUT_PLUGIN_DIR "${PROJECT_BINARY_DIR}/plugin")
-qext_ensure_define_variable(QEXT_OUTPUT_EXAMPLE_DIR "${PROJECT_BINARY_DIR}/example")
-qext_ensure_define_variable(QEXT_OUTPUT_TEST_DIR "${PROJECT_BINARY_DIR}/test")
-qext_ensure_define_variable(QEXT_OUTPUT_INCLUDE_DIR "${PROJECT_BINARY_DIR}/include")
-qext_ensure_define_variable(QEXT_OUTPUT_DOC_DIR "${PROJECT_BINARY_DIR}/doc")
+include(QExtQmlHelpers)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -397,17 +389,20 @@ qext_option(QEXT_BUILD_WARNINGS_ARE_ERRORS "Enable this to build with warnings a
 qext_option(QEXT_BUILD_BENCHMARKS "Enable this to build the benchmarks" ${__qext_build_benchmarks}
     SET __qext_build_tests_default)
 qext_option(QEXT_BUILD_DOCS "Enable this to build the documentation" OFF)
+qext_option(QEXT_BUILD_QMLS "Enable this to build qmls" OFF
+    DEPENDS QEXT_QT_HAS_QML
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_BUILD_TESTS "Enable this to build tests" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_BUILD_EXAMPLES "Enable this to build examples" OFF
     OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_BUILD_APPS "Enable this to build apps" OFF)
-qext_option(QEXT_BUILD_TOOLS "Enable this to build the tools." ${__qext_build_tools_default})
 qext_option(QEXT_BUILD_PLUGINS "Enable this to build the plugins." OFF)
 qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ENABLE_LIB_TCP "Enable this to build the tcp lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_WEB "Enable this to build the web lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_GUI "Enable this to build the gui lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
@@ -466,7 +461,8 @@ qext_configure_process_path(QEXT_INSTALL_INCLUDEDIR "include" "Header files [PRE
 qext_configure_process_path(QEXT_INSTALL_LIBDIR "lib" "Libraries [PREFIX/lib]")
 qext_configure_process_path(QEXT_INSTALL_MKSPECSDIR "mkspecs" "Mkspecs files [PREFIX/mkspecs]")
 qext_configure_process_path(QEXT_INSTALL_ARCHDATADIR "." "Arch-dependent data [PREFIX]")
-qext_configure_process_path(QEXT_INSTALL_PLUGINSDIR "${QEXT_INSTALL_ARCHDATADIR}/plugins" "Plugins [ARCHDATADIR/plugins]")
+qext_configure_process_path(QEXT_INSTALL_PLUGINSDIR
+    "${QEXT_INSTALL_ARCHDATADIR}/plugins" "Plugins [ARCHDATADIR/plugins]")
 
 if(NOT QEXT_INSTALL_MKSPECSDIR MATCHES "(^|/)mkspecs")
     message(FATAL_ERROR "QEXT_INSTALL_MKSPECSDIR must end with '/mkspecs'")
@@ -480,9 +476,12 @@ endif()
 
 qext_configure_process_path(QEXT_INSTALL_LIBEXECDIR
     "${_default_libexec}" "Helper programs [ARCHDATADIR/bin on Windows, ARCHDATADIR/libexec otherwise]")
+qext_configure_process_path(QEXT_INSTALL_QMLDIR
+    "${QEXT_INSTALL_ARCHDATADIR}/qml" "QML imports [ARCHDATADIR/qml]")
 qext_configure_process_path(QEXT_INSTALL_DATADIR "." "Arch-independent data [PREFIX]")
 qext_configure_process_path(QEXT_INSTALL_DOCDIR "${QEXT_INSTALL_DATADIR}/doc" "Documentation [DATADIR/doc]")
-qext_configure_process_path(QEXT_INSTALL_TRANSLATIONSDIR "${QEXT_INSTALL_DATADIR}/translations" "Translations [DATADIR/translations]")
+qext_configure_process_path(QEXT_INSTALL_TRANSLATIONSDIR
+    "${QEXT_INSTALL_DATADIR}/translations" "Translations [DATADIR/translations]")
 if(APPLE)
     set(QEXT_DEFAULT_SYS_CONF_DIR "/Library/Preferences/QExt")
 else()
@@ -536,7 +535,8 @@ function(qext_internal_set_up_global_paths)
             set(QEXT_BUILD_DIR "${CMAKE_BINARY_DIR}")
             set(QEXT_INSTALL_DIR "")
         else()
-            # When doing a non-prefix build, both the build dir and install dir are the same, pointing to the QExt build dir.
+            # When doing a non-prefix build, both the build dir and install dir are the same, pointing to the
+            # QExt build dir.
             set(QEXT_BUILD_DIR "${QEXT_STAGING_PREFIX}")
             set(QEXT_INSTALL_DIR "${QEXT_BUILD_DIR}")
         endif()
@@ -556,7 +556,6 @@ function(qext_internal_set_up_global_paths)
     set(QEXT_CONFIG_INSTALL_DIR "${QEXT_CONFIG_INSTALL_DIR}" PARENT_SCOPE)
 endfunction()
 qext_internal_set_up_global_paths()
-
 
 # the default RPATH to be used when installing, but only if it's not a system directory
 list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR}" isSystemDir)
@@ -704,6 +703,7 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_OPTIONAL_ARGS
     QEXT_APP)
 set(QEXT_INTERNAL_ADD_EXECUTABLE_SINGLE_ARGS
     CORE_LIBRARY
+    OUTPUT_SUBDIR
     OUTPUT_DIRECTORY
     INSTALL_DIRECTORY
     VERSION
@@ -717,8 +717,8 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 # add subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
 add_subdirectory(src/libs)
-qext_add_subdirectory(src/apps QEXT_BUILD_APPS)
-qext_add_subdirectory(src/tools QEXT_BUILD_TOOLS)
+add_subdirectory(src/tools)
+qext_add_subdirectory(src/qmls QEXT_BUILD_QMLS)
 qext_add_subdirectory(src/plugins QEXT_BUILD_PLUGINS)
 
 
@@ -733,6 +733,7 @@ if(QEXT_ENABLE_3RDPARTY_QWT)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)
+    set(USER_QAPPLICATION_CLASS "${QEXT_3RDPARTY_SINGLEAPP_QAPPLICATION_CLASS}")
     add_subdirectory(3rdparty/SingleApplication-3.5.1)
 endif()
 if(QEXT_ENABLE_3RDPARTY_SINGLEAPP)

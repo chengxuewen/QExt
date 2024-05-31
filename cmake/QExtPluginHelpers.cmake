@@ -195,7 +195,7 @@ function(qext_add_plugin target)
 
     qext_internal_library_deprecation_level(deprecation_define)
 
-    qext_autogen_tools_initial_setup(${target})
+    qt_autogen_tools_initial_setup(${target})
 
     unset(plugin_install_package_suffix)
 
@@ -262,7 +262,7 @@ function(qext_add_plugin target)
                     "${target}")
                 set_property(TARGET ${qext_module_target} APPEND PROPERTY
                     _qext_initial_repo_plugin_class_names
-                    "$<TARGET_PROPERTY:${target},QEXT_PLUGIN_CLASS_NAME>")
+                    "$<TARGET_PROPERTY:${target},QT_PLUGIN_CLASS_NAME>")
             endif()
         endif()
 
@@ -294,7 +294,7 @@ function(qext_add_plugin target)
                 ${prop_prefix}_plugins "${target}")
             set_property(TARGET ${qext_module_target} APPEND PROPERTY
                 ${prop_prefix}_plugin_class_names
-                "$<TARGET_PROPERTY:${target},QEXT_PLUGIN_CLASS_NAME>")
+                "$<TARGET_PROPERTY:${target},QT_PLUGIN_CLASS_NAME>")
         endif()
     endif()
 
@@ -324,7 +324,7 @@ function(qext_add_plugin target)
     endif()
 
     set_property(TARGET "${target}" PROPERTY QEXT_DEFAULT_PLUGIN "${_default_plugin}")
-    set_property(TARGET "${target}" APPEND PROPERTY EXPORT_PROPERTIES "QEXT_PLUGIN_CLASS_NAME;QEXT_PLUGIN_TYPE;QEXT_MODULE;QEXT_DEFAULT_PLUGIN")
+    set_property(TARGET "${target}" APPEND PROPERTY EXPORT_PROPERTIES "QT_PLUGIN_CLASS_NAME;QEXT_PLUGIN_TYPE;QEXT_MODULE;QEXT_DEFAULT_PLUGIN")
 
     set(private_includes
         "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -342,7 +342,8 @@ function(qext_add_plugin target)
         ${private_includes}
         PUBLIC_INCLUDE_DIRECTORIES
         ${public_includes}
-        LIBRARIES ${arg_LIBRARIES} Qt::PlatformPluginInternal
+        #        LIBRARIES ${arg_LIBRARIES} Qt::PlatformPluginInternal
+        LIBRARIES ${arg_LIBRARIES}
         PUBLIC_LIBRARIES ${arg_PUBLIC_LIBRARIES}
         DEFINES
         ${arg_DEFINES}
@@ -630,10 +631,10 @@ function(qext_internal_add_plugin target)
         endif()
     endif()
 
-    set_target_properties(${target} PROPERTIES QEXT_PLUGIN_CLASS_NAME "${plugin_class_name}")
+    set_target_properties(${target} PROPERTIES QT_PLUGIN_CLASS_NAME "${plugin_class_name}")
 
     # Create a plugin initializer object library for static plugins.
-    # It contains a Q_IMPORT_PLUGIN(QEXT_PLUGIN_CLASS_NAME) call.
+    # It contains a Q_IMPORT_PLUGIN(QT_PLUGIN_CLASS_NAME) call.
     # Project targets will automatically link to the plugin initializer whenever they link to the
     # plugin target.
     # The plugin init target name is stored in OUTPUT_TARGETS, so projects may install them.
@@ -668,4 +669,249 @@ function(qext_internal_add_plugin target)
         endif()
         add_dependencies(qext_internal_plugins ${target})
     endif()
+endfunction()
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+# Create an object library that initializes a static qt plugin.
+#
+# The object library contains a single generated C++ file that calls Q_IMPORT_PLUGIN(plugin_class).
+# The object library is exported as part of the Qt build and consumed by user applications
+# that link to qt plugins.
+#
+# The created target name is assigned to 'out_var_plugin_init_target'.
+function(__qext_internal_add_static_plugin_init_object_library
+        plugin_target
+        out_var_plugin_init_target)
+
+    __qt_internal_get_plugin_import_macro(${plugin_target} import_macro)
+    __qt_internal_get_plugin_include_prelude(include_prelude)
+    set(import_content "${include_prelude}${import_macro}")
+
+    string(MAKE_C_IDENTIFIER "${plugin_target}" plugin_target_identifier)
+    set(generated_qt_plugin_file_name
+        "${CMAKE_CURRENT_BINARY_DIR}/${plugin_target_identifier}_init.cpp")
+
+    file(GENERATE
+        OUTPUT "${generated_qt_plugin_file_name}"
+        CONTENT "${import_content}"
+    )
+
+# CMake versions earlier than 3.18.0 can't find the generated file for some reason,
+# failing at generation phase.
+# Explicitly marking the file as GENERATED fixes the issue.
+set_source_files_properties("${generated_qt_plugin_file_name}" PROPERTIES GENERATED TRUE)
+
+__qt_internal_get_static_plugin_init_target_name("${plugin_target}" plugin_init_target)
+
+qt6_add_library("${plugin_init_target}" OBJECT "${generated_qt_plugin_file_name}")
+target_link_libraries(${plugin_init_target}
+    PRIVATE
+
+    # Core provides the symbols needed by Q_IMPORT_PLUGIN.
+    ${QEXT_QT_EXPORT_NAMESPACE}::Core
+)
+
+set_property(TARGET ${plugin_init_target} PROPERTY _is_qt_plugin_init_target TRUE)
+set_property(TARGET ${plugin_init_target} APPEND PROPERTY
+    EXPORT_PROPERTIES _is_qt_plugin_init_target
+)
+
+set(${out_var_plugin_init_target} "${plugin_init_target}" PARENT_SCOPE)
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+# Creates a library by forwarding arguments to add_library, applies some Qt naming file name naming
+# conventions and ensures the execution of Qt specific finalizers.
+function(qt6_add_library target)
+    cmake_parse_arguments(PARSE_ARGV 1 arg "MANUAL_FINALIZATION" "" "")
+
+    message(arg_UNPARSED_ARGUMENTS=${arg_UNPARSED_ARGUMENTS})
+    _qt_internal_add_library("${target}" ${arg_UNPARSED_ARGUMENTS})
+
+    if(arg_MANUAL_FINALIZATION)
+        # Caller says they will call qt6_finalize_target() themselves later
+        return()
+    endif()
+
+    # Defer the finalization if we can. When the caller's project requires
+    # CMake 3.19 or later, this makes the calls to this function concise while
+    # still allowing target property modification before finalization.
+    if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.19)
+        # Need to wrap in an EVAL CODE or else ${target} won't be evaluated
+        # due to special behavior of cmake_language() argument handling
+        cmake_language(EVAL CODE "cmake_language(DEFER CALL qt6_finalize_target ${target})")
+    else()
+        set_target_properties("${target}" PROPERTIES _qt_is_immediately_finalized TRUE)
+        qt6_finalize_target("${target}")
+    endif()
+endfunction()
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+# Generates C++ import macro source code for given plugin
+function(__qt_internal_get_plugin_import_macro plugin_target out_var)
+    set(plugin_target_prefixed "${QEXT_QT_EXPORT_NAMESPACE}::${plugin_target}")
+
+    # Query the class name of plugin targets prefixed with a Qt namespace and without, this is
+    # needed to support plugin object initializers created by user projects.
+    set(class_name"")
+    set(class_name_prefixed "")
+
+    if(TARGET ${plugin_target})
+        get_target_property(class_name "${plugin_target}" QT_PLUGIN_CLASS_NAME)
+    endif()
+
+    if(TARGET ${plugin_target_prefixed})
+        get_target_property(class_name_prefixed "${plugin_target_prefixed}" QT_PLUGIN_CLASS_NAME)
+    endif()
+
+    if(NOT class_name AND NOT class_name_prefixed)
+        message(FATAL_ERROR "No QT_PLUGIN_CLASS_NAME value on target: '${plugin_target}'")
+    endif()
+
+    # Qt prefixed target takes priority.
+    if(class_name_prefixed)
+        set(class_name "${class_name_prefixed}")
+    endif()
+
+    set(${out_var} "Q_IMPORT_PLUGIN(${class_name})" PARENT_SCOPE)
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+function(__qt_internal_get_plugin_include_prelude out_var)
+    # set(${out_var} "#include <QtPlugin>\n" PARENT_SCOPE)
+endfunction()
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+
+# Get target name of object library which is used to initialize a qt plugin.
+function(__qt_internal_get_static_plugin_init_target_name plugin_target out_var)
+    # Keep the target name short, so we don't hit long path issues on Windows.
+    set(plugin_init_target "${plugin_target}_init")
+
+    set(${out_var} "${plugin_init_target}" PARENT_SCOPE)
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+# Creates a library target by forwarding the arguments to add_library.
+#
+# Applies some Qt specific behaviors:
+# - If no type option is specified, rather than defaulting to STATIC it defaults to STATIC or SHARED
+#   depending on the Qt configuration.
+# - Applies Qt specific prefixes and suffixes to file names depending on platform.
+function(_qt_internal_add_library target)
+    set(opt_args
+        STATIC
+        SHARED
+        MODULE
+        INTERFACE
+        OBJECT)
+    set(single_args "")
+    set(multi_args "")
+    cmake_parse_arguments(PARSE_ARGV 1 arg "${opt_args}" "${single_args}" "${multi_args}")
+
+    set(option_type_count 0)
+    if(arg_STATIC)
+        set(type_to_create STATIC)
+        math(EXPR option_type_count "${option_type_count}+1")
+    elseif(arg_SHARED)
+        set(type_to_create SHARED)
+        math(EXPR option_type_count "${option_type_count}+1")
+    elseif(arg_MODULE)
+        set(type_to_create MODULE)
+        math(EXPR option_type_count "${option_type_count}+1")
+    elseif(arg_INTERFACE)
+        set(type_to_create INTERFACE)
+        math(EXPR option_type_count "${option_type_count}+1")
+    elseif(arg_OBJECT)
+        set(type_to_create OBJECT)
+        math(EXPR option_type_count "${option_type_count}+1")
+    endif()
+
+    if(option_type_count GREATER 1)
+        message(FATAL_ERROR "Multiple type options were given. Only one should be used.")
+    endif()
+
+    # If no explicit type option is set, default to the flavor of the Qt build.
+    # This in contrast to CMake which defaults to STATIC.
+    if(NOT arg_STATIC AND NOT arg_SHARED AND NOT arg_MODULE AND NOT arg_INTERFACE
+            AND NOT arg_OBJECT)
+        if(QT6_IS_SHARED_LIBS_BUILD)
+            set(type_to_create SHARED)
+        else()
+            set(type_to_create STATIC)
+        endif()
+    endif()
+
+    message(raw--target=${target})
+    message(raw--type_to_create=${type_to_create})
+    message(raw--arg_UNPARSED_ARGUMENTS=${arg_UNPARSED_ARGUMENTS})
+    add_library(${target} ${type_to_create} ${arg_UNPARSED_ARGUMENTS})
+    _qt_internal_set_up_static_runtime_library(${target})
+
+    if(NOT type_to_create STREQUAL "INTERFACE" AND NOT type_to_create STREQUAL "OBJECT")
+        qext_internal_apply_win_prefix_and_suffix("${target}")
+    endif()
+
+    if(arg_MODULE AND APPLE)
+        # CMake defaults to using .so extensions for loadable modules, aka plugins,
+        # but Qt plugins are actually suffixed with .dylib.
+        set_property(TARGET "${target}" PROPERTY SUFFIX ".dylib")
+    endif()
+
+    if(ANDROID)
+        qt6_android_apply_arch_suffix("${target}")
+    endif()
+endfunction()
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+function(qt6_finalize_target target)
+    if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.19")
+        cmake_language(DEFER GET_CALL_IDS ids_queued)
+        get_directory_property(wait_for_ids qt_internal_finalizers_wait_for_ids)
+        while(wait_for_ids)
+            list(GET wait_for_ids 0 id_to_wait_for)
+            if(id_to_wait_for IN_LIST ids_queued)
+                # Something else needs to run before we finalize targets.
+                # Try again later by re-deferring ourselves, which effectively
+                # puts us at the end of the current list of deferred actions.
+                cmake_language(EVAL CODE "cmake_language(DEFER CALL ${CMAKE_CURRENT_FUNCTION} ${ARGV})")
+                set_directory_properties(PROPERTIES
+                    qt_internal_finalizers_wait_for_ids "${wait_for_ids}"
+                )
+            return()
+        endif()
+        list(POP_FRONT wait_for_ids)
+    endwhile()
+    # No other deferred tasks to wait for
+    set_directory_properties(PROPERTIES qt_internal_finalizers_wait_for_ids "")
+endif()
+
+if(NOT TARGET "${target}")
+    message(FATAL_ERROR "No target '${target}' found in current scope.")
+endif()
+
+get_target_property(target_type ${target} TYPE)
+get_target_property(is_android_executable "${target}" _qt_is_android_executable)
+
+if(target_type STREQUAL "EXECUTABLE" OR is_android_executable)
+    _qt_internal_finalize_executable(${ARGV})
+endif()
 endfunction()

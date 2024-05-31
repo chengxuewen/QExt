@@ -36,9 +36,11 @@ function(qext_add_executable name)
     if("x${arg_OUTPUT_DIRECTORY}" STREQUAL "x")
         set(arg_OUTPUT_DIRECTORY "${QEXT_BUILD_DIR}/${QEXT_INSTALL_BINDIR}")
     endif()
+    if(NOT "${arg_OUTPUT_SUBDIR}" STREQUAL "")
+        set(arg_OUTPUT_DIRECTORY "${arg_OUTPUT_DIRECTORY}/${arg_OUTPUT_SUBDIR}")
+    endif()
 
-    get_filename_component(arg_OUTPUT_DIRECTORY "${arg_OUTPUT_DIRECTORY}"
-        ABSOLUTE BASE_DIR "${QEXT_BUILD_DIR}")
+    get_filename_component(arg_OUTPUT_DIRECTORY "${arg_OUTPUT_DIRECTORY}" ABSOLUTE BASE_DIR "${QEXT_BUILD_DIR}")
 
     if("x${arg_INSTALL_DIRECTORY}" STREQUAL "x")
         set(arg_INSTALL_DIRECTORY "${QEXT_INSTALL_BINDIR}")

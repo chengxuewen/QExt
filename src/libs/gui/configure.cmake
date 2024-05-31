@@ -20,15 +20,3 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 ########################################################################################################################
-
-qext_configure_feature("USE_FRAMELESS_QT_CONTEXT" PUBLIC
-    LABEL "Enable this to build use Qt emulated frameless implementation"
-    CONDITION ON)
-
-qext_configure_feature("USE_FRAMELESS_STYLE_AGENT" PUBLIC
-    LABEL "Enable this to build use frameless style component"
-    CONDITION ON)
-
-qext_configure_feature("USE_FRAMELESS_SYSTEM_BORDERS" PUBLIC
-    LABEL "Enable this to build use system borders on Windows 10/11"
-    CONDITION ON)

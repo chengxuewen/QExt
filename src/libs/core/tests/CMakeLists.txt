@@ -29,11 +29,13 @@ set(QEXT_TEST_LINK_LIBRARIES QExt::Core)
 set(QEXT_TEST_INCLUDE_DIRECTORIES)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND QEXT_TEST_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtTest)
+    list(APPEND QEXT_TEST_LINK_LIBRARIES Qt4::QtCore Qt4::QtTest Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_TEST_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
-        Qt${QEXT_QT_VERSION_MAJOR}::Test)
+        Qt${QEXT_QT_VERSION_MAJOR}::Test
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -51,147 +53,147 @@ qext_internal_add_test(QExtTstCoreTypeTrait
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreTSValue
     SOURCES
     tools/tst_qextTSValue.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreConcurrent
     SOURCES
     tools/tst_qextConcurrent.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreNumeric
     SOURCES
     tools/tst_qextNumeric.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCorePointerFunctor
     SOURCES
     invoke/tst_qextPointerFunctor.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreMemberFunctor
     SOURCES
     invoke/tst_qextMemberFunctor.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreFunction
     SOURCES
     invoke/tst_qextFunction.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreVisitor
     SOURCES
     invoke/tst_qextVisitor.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreTrackable
     SOURCES
     invoke/tst_qextTrackable.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreBindFunctor
     SOURCES
     invoke/tst_qextBindFunctor.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreBindReturnFunctor
     SOURCES
     invoke/tst_qextBindReturnFunctor.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreConnection
     SOURCES
     invoke/tst_qextConnection.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreFunctorTrait
     SOURCES
     invoke/tst_qextFunctorTrait.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreHideFunctor
     SOURCES
     invoke/tst_qextHideFunctor.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreLimitReference
     SOURCES
     invoke/tst_qextLimitReference.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreReturnTypeDeduce
     SOURCES
     invoke/tst_qextReturnTypeDeduce.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreRetypeReturnFunctor
     SOURCES
     invoke/tst_qextRetypeReturnFunctor.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreTrackObjectFunctor
     SOURCES
     invoke/tst_qextTrackObjectFunctor.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreRetypeFunctor
     SOURCES
     invoke/tst_qextRetypeFunctor.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreSignal
     SOURCES
     invoke/tst_qextSignal.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreSlot
     SOURCES
     invoke/tst_qextSlot.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 
 qext_internal_add_test(QExtTstCoreDatatime
     SOURCES
@@ -199,21 +201,28 @@ qext_internal_add_test(QExtTstCoreDatatime
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreNetwork
     SOURCES
     utils/tst_qextNetworkUtils.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
 qext_internal_add_test(QExtTstCoreCodec
     SOURCES
     utils/tst_qextCodecUtils.cpp
     LIBRARIES
     ${QEXT_TEST_LINK_LIBRARIES}
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_TEST_DIR})
+    ${QEXT_INSTALL_TESTSDIR})
+qext_internal_add_test(QExtTstCoreCommonUtils
+    SOURCES
+    utils/tst_qextCommonUtils.cpp
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_TESTSDIR})
 
 if(QEXT_FEATURE_ENABLE_JSON)
     qext_internal_add_test(QExtTstCoreJson
@@ -222,9 +231,9 @@ if(QEXT_FEATURE_ENABLE_JSON)
         LIBRARIES
         ${QEXT_TEST_LINK_LIBRARIES}
         OUTPUT_DIRECTORY
-        ${QEXT_OUTPUT_TEST_DIR})
+        ${QEXT_INSTALL_TESTSDIR})
     add_custom_command(TARGET QExtTstCoreJson
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/tools/json/testdata ${QEXT_OUTPUT_TEST_DIR}/json
-        COMMENT "Copying json testdata directory to ${QEXT_OUTPUT_TEST_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/tools/json/testdata ${QEXT_INSTALL_TESTSDIR}/json
+        COMMENT "Copying json testdata directory to ${QEXT_INSTALL_TESTSDIR}"
         POST_BUILD)
 endif()

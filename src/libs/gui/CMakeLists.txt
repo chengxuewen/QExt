@@ -98,12 +98,7 @@ qext_add_library(${QEXT_LIB_NAME}
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Add lib tests and examples
+# Add lib examples and tests
 #-----------------------------------------------------------------------------------------------------------------------
-if(QEXT_BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
-
-if(QEXT_BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()
+qext_add_subdirectory(examples QEXT_BUILD_EXAMPLES)
+qext_add_subdirectory(tests QEXT_BUILD_TESTS)

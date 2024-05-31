@@ -44,8 +44,8 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
-            Qt${QEXT_QT_VERSION_MAJOR}::Core
-    )
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        )
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -57,18 +57,18 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
 qext_add_library(SerialPort
-        EXCEPTIONS
-        SOURCES
-        source/qextSerialEnumerator.h
-        source/qextSerialPortPch.h
-        source/qextSerialPortGlobal.h
-        source/qextSerialEnumerator_p.h
-        source/qextSerialPort.cpp
-        source/qextSerialPort.h
-        source/qextSerialPort_p.h
-        source/qextSerialEnumerator.cpp
-        PUBLIC_LIBRARIES
-        ${QEXT_LIB_LINK_LIBRARIES})
+    EXCEPTIONS
+    SOURCES
+    source/qextSerialEnumerator.h
+    source/qextSerialPortPch.h
+    source/qextSerialPortGlobal.h
+    source/qextSerialEnumerator_p.h
+    source/qextSerialPort.cpp
+    source/qextSerialPort.h
+    source/qextSerialPort_p.h
+    source/qextSerialEnumerator.cpp
+    PUBLIC_LIBRARIES
+    ${QEXT_LIB_LINK_LIBRARIES})
 if(UNIX)
     qext_internal_extend_target(SerialPort SOURCES source/qextSerialPort_unix.cpp)
     if(QEXT_SYSTEM_LINUX)
@@ -86,12 +86,7 @@ endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Add lib tests and examples
+# Add lib examples and tests
 #-----------------------------------------------------------------------------------------------------------------------
-if(QEXT_BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
-
-if(QEXT_BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()
+qext_add_subdirectory(examples QEXT_BUILD_EXAMPLES)
+qext_add_subdirectory(tests QEXT_BUILD_TESTS)

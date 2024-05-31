@@ -138,7 +138,8 @@ function(qext_add_library target)
     else()
         set(type_to_create "") # Use default depending on QExt configuration.
     endif()
-
+    message(type_to_create=${type_to_create})
+    message(arg_SOURCES=${arg_SOURCES})
     # add target library. If type_to_create is empty, it will be set afterwards
     qext_internal_add_library("${target}" ${type_to_create} ${arg_SOURCES})
     qext_internal_mark_as_internal_library("${target}")

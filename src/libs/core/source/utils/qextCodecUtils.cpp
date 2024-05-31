@@ -30,7 +30,7 @@ bool QExtCodecUtils::isHexString(const char *chs, size_t len)
 
 bool QExtCodecUtils::isHexString(const QString &string)
 {
-    for (size_t i = 0; i < string.size(); ++i)
+    for (int i = 0; i < string.size(); ++i)
     {
         char ch = string.at(i).toLower().toLatin1();
         if (!QExtCodecUtils::isHexChar(ch))
@@ -120,7 +120,7 @@ QByteArray QExtCodecUtils::hexStringToHexByteArray(const QString &string, bool *
     }
 
     QByteArray hexByteArray;
-    for (size_t i = 0; i < string.size() / 2; ++i)
+    for (int i = 0; i < string.size() / 2; ++i)
     {
         char chH = string.at(i * 2).toLower().toLatin1();
         char chL = string.at(i * 2 + 1).toLower().toLatin1();
@@ -183,7 +183,7 @@ QString QExtCodecUtils::hexByteArrayToHexString(const char *chs, size_t len)
 QString QExtCodecUtils::hexByteArrayToHexString(const QByteArray &value)
 {
     QString hexString;
-    for (size_t i = 0; i < value.size(); ++i)
+    for (int i = 0; i < value.size(); ++i)
     {
         char ch = value.at(i);
         char chH = (ch >> 4) & 0x0f;

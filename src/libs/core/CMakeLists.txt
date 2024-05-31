@@ -115,6 +115,8 @@ qext_add_library(Core
     source/tools/qextWinSystemLibrary.cpp
     source/utils/qextCodecUtils.cpp
     source/utils/qextCodecUtils.h
+    source/utils/qextCommonUtils.cpp
+    source/utils/qextCommonUtils.h
     source/utils/qextDateTimeUtils.cpp
     source/utils/qextHostInfoUtils_p.h
     source/utils/qextDateTimeUtils.h
@@ -138,20 +140,13 @@ if(QEXT_FEATURE_ENABLE_JSON)
         source/tools/qextJson_p.h)
     if(QEXT_FEATURE_USE_CJSON_BACKEND)
         qext_find_package(WrapCJSON PROVIDED_TARGETS QExt3rdparty::WrapCJSON)
-        qext_internal_extend_target(Core
-            LIBRARIES
-            QExt3rdparty::WrapCJSON)
+        qext_internal_extend_target(Core LIBRARIES QExt3rdparty::WrapCJSON)
     endif()
 endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Add lib tests and examples
+# Add lib examples and tests
 #-----------------------------------------------------------------------------------------------------------------------
-if(QEXT_BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
-
-if(QEXT_BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()
+qext_add_subdirectory(examples QEXT_BUILD_EXAMPLES)
+qext_add_subdirectory(tests QEXT_BUILD_TESTS)

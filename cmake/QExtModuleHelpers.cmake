@@ -30,7 +30,7 @@ function(qext_internal_find_modules out_module_list)
     file(GLOB directories LIST_DIRECTORIES true RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *)
     foreach(directory IN LISTS directories)
         if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/${directory}"
-            AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${directory}/CMakeLists.txt")
+                AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${directory}/CMakeLists.txt")
             list(APPEND module_list "${directory}")
         endif()
     endforeach()
@@ -292,3 +292,42 @@ macro(qext_internal_set_known_plugins)
     set(QEXT_KNOWN_PLUGINS ${ARGN} CACHE INTERNAL "Known QExt plugins" FORCE)
 endmacro()
 
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+macro(qt_internal_get_internal_add_module_keywords option_args single_args multi_args)
+    set(${option_args}
+        STATIC
+        EXCEPTIONS
+        INTERNAL_MODULE
+        HEADER_MODULE
+        DISABLE_TOOLS_EXPORT
+        SKIP_DEPENDS_INCLUDE
+        NO_MODULE_HEADERS
+        NO_SYNC_QT
+        NO_PRIVATE_MODULE
+        NO_CONFIG_HEADER_FILE
+        NO_ADDITIONAL_TARGET_INFO
+        NO_GENERATE_METATYPES
+        GENERATE_CPP_EXPORTS # TODO: Rename to NO_GENERATE_CPP_EXPORTS once migration is done
+        GENERATE_METATYPES          # TODO: Remove once it is not used anymore
+        GENERATE_PRIVATE_CPP_EXPORTS)
+    set(${single_args}
+        MODULE_INCLUDE_NAME
+        MODULE_INTERFACE_NAME
+        CONFIG_MODULE_NAME
+        PRECOMPILED_HEADER
+        CONFIGURE_FILE_PATH
+        CPP_EXPORT_HEADER_BASE_NAME
+        EXTERNAL_HEADERS_DIR
+        ${__default_target_info_args})
+    set(${multi_args}
+        QMAKE_MODULE_CONFIG
+        EXTRA_CMAKE_FILES
+        EXTRA_CMAKE_INCLUDES
+        NO_PCH_SOURCES
+        EXTERNAL_HEADERS
+        ${__default_private_args}
+        ${__default_public_args}
+        ${__default_private_module_args})
+endmacro()

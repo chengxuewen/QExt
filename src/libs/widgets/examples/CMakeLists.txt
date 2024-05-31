@@ -58,9 +58,9 @@ qext_add_executable(QExtExpWidgetsNavigationListView
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/navigationlistview
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsNavigationButton
     SOURCES
     navigationbutton/frmnavigationbutton.cpp
@@ -74,9 +74,9 @@ qext_add_executable(QExtExpWidgetsNavigationButton
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/navigationbutton
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsSwitchButton
     SOURCES
     switchbutton/frmswitchbutton.cpp
@@ -88,9 +88,9 @@ qext_add_executable(QExtExpWidgetsSwitchButton
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/switchbutton
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsFramelessMainwindow
     SOURCES
     framelesswindow/mainwindow.cpp
@@ -102,9 +102,9 @@ qext_add_executable(QExtExpWidgetsFramelessMainwindow
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/framelesswindow
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsFramelessDialog
     SOURCES
     framelessdialog/dialog.cpp
@@ -116,9 +116,9 @@ qext_add_executable(QExtExpWidgetsFramelessDialog
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/framelessdialog
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsFramelessWidget
     SOURCES
     framelesswidget/widget.cpp
@@ -130,9 +130,9 @@ qext_add_executable(QExtExpWidgetsFramelessWidget
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/framelesswidget
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsBreathingLight
     SOURCES
     breathinglight/mainwindow.cpp
@@ -145,9 +145,9 @@ qext_add_executable(QExtExpWidgetsBreathingLight
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/breathinglight
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsIndicatorLight
     SOURCES
     indicatorlight/mainwindow.cpp
@@ -159,9 +159,9 @@ qext_add_executable(QExtExpWidgetsIndicatorLight
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/indicatorlight
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsNumberLed
     SOURCES
     numberled/mainwindow.cpp
@@ -173,9 +173,9 @@ qext_add_executable(QExtExpWidgetsNumberLed
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/numberled
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsTextLcd
     SOURCES
     textlcd/mainwindow.cpp
@@ -187,9 +187,9 @@ qext_add_executable(QExtExpWidgetsTextLcd
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/textlcd
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsWaveChart
     SOURCES
     wavechart/frmwavechart.cpp
@@ -201,9 +201,9 @@ qext_add_executable(QExtExpWidgetsWaveChart
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/wavechart
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsIpAddress
     SOURCES
     ipaddress/frmipaddress.cpp
@@ -215,9 +215,9 @@ qext_add_executable(QExtExpWidgetsIpAddress
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/ipaddress
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsTumbler
     SOURCES
     tumbler/frmtumbler.cpp
@@ -232,9 +232,9 @@ qext_add_executable(QExtExpWidgetsTumbler
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/tumbler
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsDial
     SOURCES
     dial/frmgaugedial.cpp
@@ -246,9 +246,9 @@ qext_add_executable(QExtExpWidgetsDial
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/dial
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsThermometer
     SOURCES
     thermometer/frmthermometer.cpp
@@ -260,9 +260,9 @@ qext_add_executable(QExtExpWidgetsThermometer
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/thermometer
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsProgressWait
     SOURCES
     progresswait/frmprogresswait.cpp
@@ -274,9 +274,9 @@ qext_add_executable(QExtExpWidgetsProgressWait
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/progresswait
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsProgressRing
     SOURCES
     progressring/frmprogressring.cpp
@@ -288,9 +288,9 @@ qext_add_executable(QExtExpWidgetsProgressRing
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/progressring
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsProgressPie
     SOURCES
     progresspie/frmprogresspie.cpp
@@ -302,9 +302,9 @@ qext_add_executable(QExtExpWidgetsProgressPie
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/progresspie
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsProgressBar
     SOURCES
     progressbar/frmprogressbar.cpp
@@ -316,9 +316,9 @@ qext_add_executable(QExtExpWidgetsProgressBar
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/progressbar
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsProgressButton
     SOURCES
     progressbutton/frmprogressbutton.cpp
@@ -330,9 +330,9 @@ qext_add_executable(QExtExpWidgetsProgressButton
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/progressbutton
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsInput
     SOURCES
     input/mainwindow.cpp
@@ -344,9 +344,9 @@ qext_add_executable(QExtExpWidgetsInput
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/input
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsSelectSlider
     SOURCES
     selectslider/frmselectslider.cpp
@@ -358,9 +358,9 @@ qext_add_executable(QExtExpWidgetsSelectSlider
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/selectslider
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsRangeSlider
     SOURCES
     rangeslider/frmrangeslider.cpp
@@ -372,9 +372,9 @@ qext_add_executable(QExtExpWidgetsRangeSlider
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/rangeslider
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsTooltip
     SOURCES
     tooltip/frmtooltip.cpp
@@ -386,9 +386,9 @@ qext_add_executable(QExtExpWidgetsTooltip
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/tooltip
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsSlider
     SOURCES
     slider/frmslider.cpp
@@ -400,9 +400,9 @@ qext_add_executable(QExtExpWidgetsSlider
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/slider
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsRulerSlider
     SOURCES
     rulerslider/frmrulerslider.cpp
@@ -414,9 +414,9 @@ qext_add_executable(QExtExpWidgetsRulerSlider
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/rulerslider
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsCircleGauge
     SOURCES
     circlegauge/frmcirclegauge.cpp
@@ -428,9 +428,9 @@ qext_add_executable(QExtExpWidgetsCircleGauge
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/circlegauge
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsSemicircleGauge
     SOURCES
     semicirclegauge/frmsemicirclegauge.cpp
@@ -442,9 +442,9 @@ qext_add_executable(QExtExpWidgetsSemicircleGauge
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/semicirclegauge
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsArrowCompass
     SOURCES
     arrowcompass/frmarrowcompass.cpp
@@ -456,9 +456,9 @@ qext_add_executable(QExtExpWidgetsArrowCompass
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/arrowcompass
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsRingCompass
     SOURCES
     ringcompass/frmringcompass.cpp
@@ -470,9 +470,9 @@ qext_add_executable(QExtExpWidgetsRingCompass
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/ringcompass
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsProgressKnob
     SOURCES
     progressknob/frmprogressknob.cpp
@@ -484,9 +484,9 @@ qext_add_executable(QExtExpWidgetsProgressKnob
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/progressknob
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsScaleKnob
     SOURCES
     scaleknob/frmscaleknob.cpp
@@ -498,9 +498,9 @@ qext_add_executable(QExtExpWidgetsScaleKnob
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/scaleknob
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsLed
     SOURCES
     led/frmled.cpp
@@ -512,9 +512,9 @@ qext_add_executable(QExtExpWidgetsLed
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/led
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsNavigationBar
     SOURCES
     navigationbar/frmnavigationbar.cpp
@@ -529,9 +529,9 @@ qext_add_executable(QExtExpWidgetsNavigationBar
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/navigationbar
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsOvenTimer
     SOURCES
     oventimer/frmoventimer.cpp
@@ -543,9 +543,9 @@ qext_add_executable(QExtExpWidgetsOvenTimer
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/oventimer
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsStyleThemes
     SOURCES
     stylethemes/stylethemes.qrc
@@ -566,9 +566,9 @@ qext_add_executable(QExtExpWidgetsStyleThemes
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/stylethemes
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsPropertyBrowserSimple
     SOURCES
     propertybrowser/simple/main.cpp
@@ -577,9 +577,9 @@ qext_add_executable(QExtExpWidgetsPropertyBrowserSimple
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/simple
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsPropertyBrowserDemo
     SOURCES
     propertybrowser/demo/main.cpp
@@ -589,9 +589,9 @@ qext_add_executable(QExtExpWidgetsPropertyBrowserDemo
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/demo
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsPropertyBrowserExtension
     SOURCES
     propertybrowser/extension/main.cpp
@@ -600,9 +600,9 @@ qext_add_executable(QExtExpWidgetsPropertyBrowserExtension
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/extension
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsPropertyBrowserDecoration
     SOURCES
     propertybrowser/decoration/main.cpp
@@ -611,9 +611,9 @@ qext_add_executable(QExtExpWidgetsPropertyBrowserDecoration
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/decoration
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsPropertyBrowserCanvasTyped
     SOURCES
     propertybrowser/canvas_typed/main.cpp
@@ -626,9 +626,9 @@ qext_add_executable(QExtExpWidgetsPropertyBrowserCanvasTyped
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/canvas_typed
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsPropertyBrowserCanvasVariant
     SOURCES
     propertybrowser/canvas_variant/main.cpp
@@ -641,9 +641,9 @@ qext_add_executable(QExtExpWidgetsPropertyBrowserCanvasVariant
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/canvas_variant
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsPropertyBrowserObjController
    SOURCES
    propertybrowser/object_controller/main.cpp
@@ -656,9 +656,9 @@ qext_add_executable(QExtExpWidgetsPropertyBrowserObjController
    INCLUDE_DIRECTORIES
    ${CMAKE_CURRENT_SOURCE_DIR}/propertybrowser/object_controller
    OUTPUT_DIRECTORY
-   ${QEXT_OUTPUT_EXAMPLE_DIR}
+   ${QEXT_INSTALL_EXAMPLESDIR}
    DEFINES
-   EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+   EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsKeyboard
     SOURCES
     keyboard/main.cpp
@@ -667,6 +667,6 @@ qext_add_executable(QExtExpWidgetsKeyboard
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/keyboard
     OUTPUT_DIRECTORY
-    ${QEXT_OUTPUT_EXAMPLE_DIR}
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")

@@ -34,7 +34,7 @@ elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::CorePrivate
         Qt${QEXT_QT_VERSION_MAJOR}::Network
-    )
+        )
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -95,12 +95,7 @@ qext_add_library(Tcp
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Add lib tests and examples
+# Add lib examples and tests
 #-----------------------------------------------------------------------------------------------------------------------
-if(QEXT_BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
-
-if(QEXT_BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()
+qext_add_subdirectory(examples QEXT_BUILD_EXAMPLES)
+qext_add_subdirectory(tests QEXT_BUILD_TESTS)
