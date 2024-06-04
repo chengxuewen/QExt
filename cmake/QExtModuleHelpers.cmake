@@ -295,7 +295,7 @@ endmacro()
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
-macro(qt_internal_get_internal_add_module_keywords option_args single_args multi_args)
+macro(qext_internal_get_internal_add_module_keywords option_args single_args multi_args)
     set(${option_args}
         STATIC
         EXCEPTIONS
@@ -320,14 +320,14 @@ macro(qt_internal_get_internal_add_module_keywords option_args single_args multi
         CONFIGURE_FILE_PATH
         CPP_EXPORT_HEADER_BASE_NAME
         EXTERNAL_HEADERS_DIR
-        ${__default_target_info_args})
+        ${QEXT_DEFAULT_TARGET_INFO_ARGS})
     set(${multi_args}
         QMAKE_MODULE_CONFIG
         EXTRA_CMAKE_FILES
         EXTRA_CMAKE_INCLUDES
         NO_PCH_SOURCES
         EXTERNAL_HEADERS
-        ${__default_private_args}
-        ${__default_public_args}
-        ${__default_private_module_args})
+        ${QEXT_DEFAULT_PUBLIC_ARGS}
+        ${QEXT_DEFAULT_PRIVATE_ARGS}
+        ${QEXT_DEFAULT_PRIVATE_LIBRARY_ARGS})
 endmacro()

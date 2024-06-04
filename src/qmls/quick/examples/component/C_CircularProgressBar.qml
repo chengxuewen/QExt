@@ -1,6 +1,6 @@
 import QtQuick 2.12
 
-import QExtQuick 1.0
+import QExtQuick 1.2
 
 Item {
     Row {

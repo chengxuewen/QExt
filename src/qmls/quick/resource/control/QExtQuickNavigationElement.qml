@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QExtQuick 1.2
 
-QEXTQmlQuickObject {
+QExtQuickObject {
     id: qextNavigationElement
     property var otherData
 

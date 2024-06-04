@@ -97,7 +97,7 @@ endmacro()
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_add_library target)
     qext_internal_get_add_library_keywords(library_option_args library_single_args library_multi_args)
-    qext_parse_all_arguments(arg "qext_internal_add_library"
+    qext_parse_all_arguments(arg "qext_add_library"
         "${library_option_args}"
         "${library_single_args}"
         "${library_multi_args}"
@@ -138,8 +138,8 @@ function(qext_add_library target)
     else()
         set(type_to_create "") # Use default depending on QExt configuration.
     endif()
-    message(type_to_create=${type_to_create})
-    message(arg_SOURCES=${arg_SOURCES})
+    # message(type_to_create=${type_to_create})
+    # message(arg_SOURCES=${arg_SOURCES})
     # add target library. If type_to_create is empty, it will be set afterwards
     qext_internal_add_library("${target}" ${type_to_create} ${arg_SOURCES})
     qext_internal_mark_as_internal_library("${target}")
@@ -777,7 +777,6 @@ function(qext_add_library target)
 
     qext_describe_module(${target})
     qext_add_list_file_finalizer(qext_finalize_module ${target} ${arg_INTERNAL_LIBRARY} ${arg_NO_PRIVATE_LIBRARY} ${header_library})
-
 endfunction()
 
 
@@ -827,6 +826,8 @@ function(qext_internal_add_library target)
         endif()
     endif()
 
+    # message(type_to_create=${type_to_create})
+    # message(arg_UNPARSED_ARGUMENTS=${arg_UNPARSED_ARGUMENTS})
     add_library(${target} ${type_to_create} ${arg_UNPARSED_ARGUMENTS})
     qext_internal_set_up_static_runtime_library(${target})
 

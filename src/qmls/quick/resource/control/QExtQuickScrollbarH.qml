@@ -132,7 +132,7 @@ Item {
         onWidthChanged:mPrivate.checkVisible()
     }
 
-    QEXTQmlQuickObject {
+    QExtQuickObject {
         id: mPrivate
 
         function setValue(v) {

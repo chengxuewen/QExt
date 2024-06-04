@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.2
-import QExtQuick 1.0
+
+import QExtQuick 1.2
 
 Window {
     id: root
@@ -17,16 +18,16 @@ Window {
 
     }
 
-//    QExtQuickButton {
-//        textColor: "Red"
-//        anchors.centerIn: parent
-//    }
+    QExtQuickButton {
+        textColor: "Red"
+        anchors.centerIn: parent
+    }
 
-//    QExtQuickIconButton {
-//        iconColor: "Red"
-//        iconSource: ""
+    //    QExtQuickIconButton {
+    //        iconColor: "Red"
+    //        iconSource: ""
 
-//    }
+    //    }
 
     Component.onCompleted: {
         console.log("onCompleted")

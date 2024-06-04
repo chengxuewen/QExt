@@ -16,32 +16,32 @@ Item {
     property bool clearable: true
     property int verticalMargin: 5
     property int horizontalMargin : verticalMargin + (backgroundRadius >= height / 2 ? 10 : 5)
-    property int placeholderPosition: QEXTQmlQuick.Position_Center
+    property int placeholderPosition: QExtQuick.Position_Center
     property int placeholderSpacing: 10
     property color cursorColor: "#000000"
 
-    property string placeholderText: "QEXTQmlQuickInputField"
-    property color placeholderTextColor: QEXTQmlQuickPalette.textPlaceholderColor
+    property string placeholderText: "QExtQuickInputField"
+    property color placeholderTextColor: QExtQuickPalette.textPlaceholderColor
     property font placeholderTextFont
 
     property bool backgroundVisible: true
     property color backgroundColor: "#FFFFFF"
     property real backgroundRadius: 2
     property real backgroundOpacity: 1
-    property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
+    property color backgroundBorderColor: QExtQuickPalette.borderLevel1Color
     property real backgroundBorderWidth: 1
 
     property string placeholderIconSource
     property real placeholderIconWidth: 12
     property real placeholderIconHeight: 12
-    property color placeholderIconColor: QEXTQmlQuickPalette.textPlaceholderColor
+    property color placeholderIconColor: QExtQuickPalette.textPlaceholderColor
 
-    property string clearIconSource: "qrc:/QEXTQmlQuick/svg/close-px.svg"
+    property string clearIconSource: "qrc:/QExtQuick/svg/close-px.svg"
     property real clearIconWidth: 20
     property real clearIconHeight: 20
-    property color clearIconColor: QEXTQmlQuickPalette.textPlaceholderColor
+    property color clearIconColor: QExtQuickPalette.textPlaceholderColor
 
-    property color textColor: QEXTQmlQuickPalette.textPrimaryColor
+    property color textColor: QExtQuickPalette.textPrimaryColor
     property font textFont
 
     property alias inputing: mTextInput.focus
@@ -65,7 +65,7 @@ Item {
 
     property Component cursorDelegate
 
-    cursorDelegate: QEXTQmlQuickDividerLine {
+    cursorDelegate: QExtQuickDividerLine {
         id: cursor
         width: 1
         height: mTextInput.contentHeight
@@ -119,7 +119,7 @@ Item {
             }
         }
 
-        QEXTQmlQuickIcon {
+        QExtQuickIcon {
             id: mClearIconButton
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
@@ -153,13 +153,13 @@ Item {
             }
 
             property int startX: {
-                if (placeholderPosition !== QEXTQmlQuick.Position_Left) {
+                if (placeholderPosition !== QExtQuick.Position_Left) {
                     return (parent.width - width) / 2
                 }
                 return holdX
             }
 
-            QEXTQmlQuickIcon {
+            QExtQuickIcon {
                 id: mPlaceholderIcon
                 enabled: false
                 visible: qextInputField.placeholderIconSource.length > 0
@@ -204,6 +204,6 @@ Item {
 
     QtObject {
         id: mPrivate
-        property bool hold: mTextInput.focus || mTextInput.length > 0 || placeholderPosition === QEXTQmlQuick.Position_Left
+        property bool hold: mTextInput.focus || mTextInput.length > 0 || placeholderPosition === QExtQuick.Position_Left
     }
 }

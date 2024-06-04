@@ -5,9 +5,9 @@ import QExtQuick 1.2
 Rectangle {
     id: qextBadge
     radius: height / 2
-    color: QEXTQmlQuickPalette.brandPrimaryColor
+    color: QExtQuickPalette.brandPrimaryColor
     border.width: 0
-    border.color: QEXTQmlQuickPalette.borderLevel1Color
+    border.color: QExtQuickPalette.borderLevel1Color
     width: {
         if (mContentLabel.contentWidth + padding < height) {
             return height

@@ -5,7 +5,7 @@
 #include <QAbstractTableModel>
 
 #include <qextGlobal.h>
-#include <qextQmlQuickPalette.h>
+#include <qextQuickPalette.h>
 
 class QExtQuickPaletteTableModel : public QAbstractTableModel
 {

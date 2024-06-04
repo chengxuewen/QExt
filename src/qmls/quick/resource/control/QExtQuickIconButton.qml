@@ -3,27 +3,27 @@ import QtQml 2.12
 import QtQuick.Controls 2.12
 import QExtQuick 1.2
 
-QEXTQmlQuickButton {
+QExtQuickButton {
     id: qextIconButton
     implicitWidth: 100
     implicitHeight: 30
-    text: "QEXTQmlQuickIconButton"
+    text: "QExtQuickIconButton"
 
     property string iconSource
     property real iconWidth: 25
     property real iconHeight: 25
-    property color iconColor: QEXTQmlQuickPalette.textPrimaryColor
+    property color iconColor: QExtQuickPalette.textPrimaryColor
     property bool iconVisible: true
     property real iconOpacity: 1
     property real iconPadding: 10
     property real iconSpacing: 5
     property real iconScale: 1
-    property int iconDisplay: QEXTQmlQuick.IconDisplay_Left
+    property int iconDisplay: QExtQuick.IconDisplay_Left
 
     property Component iconItem
     property Component textItem
 
-    iconItem: QEXTQmlQuickIcon {
+    iconItem: QExtQuickIcon {
         width: qextIconButton.iconWidth
         height: qextIconButton.iconHeight
         source: qextIconButton.iconSource
@@ -40,17 +40,17 @@ QEXTQmlQuickButton {
     }
 
     function contentItemComponent() {
-        if (QEXTQmlQuick.IconDisplay_TextOnly === qextIconButton.iconDisplay) {
+        if (QExtQuick.IconDisplay_TextOnly === qextIconButton.iconDisplay) {
             return mContentTextOnlyComponent
-        } else if (QEXTQmlQuick.IconDisplay_IconOnly === qextIconButton.iconDisplay) {
+        } else if (QExtQuick.IconDisplay_IconOnly === qextIconButton.iconDisplay) {
             return mContentIconOnlyComponent
-        } else if (QEXTQmlQuick.IconDisplay_Left === qextIconButton.iconDisplay) {
+        } else if (QExtQuick.IconDisplay_Left === qextIconButton.iconDisplay) {
             return mContentIconLeftComponent
-        } else if (QEXTQmlQuick.IconDisplay_Right === qextIconButton.iconDisplay) {
+        } else if (QExtQuick.IconDisplay_Right === qextIconButton.iconDisplay) {
             return mContentIconRightComponent
-        } else if (QEXTQmlQuick.IconDisplay_Top === qextIconButton.iconDisplay) {
+        } else if (QExtQuick.IconDisplay_Top === qextIconButton.iconDisplay) {
             return mContentIconTopComponent
-        } else if (QEXTQmlQuick.IconDisplay_Bottom === qextIconButton.iconDisplay) {
+        } else if (QExtQuick.IconDisplay_Bottom === qextIconButton.iconDisplay) {
             return mContentIconBottomComponent
         }
         return null

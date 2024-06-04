@@ -53,13 +53,16 @@ macro(qext_internal_get_internal_add_plugin_keywords option_args single_args mul
         OUTPUT_DIRECTORY
         INSTALL_DIRECTORY
         ARCHIVE_INSTALL_DIRECTORY
-        ${__default_target_info_args})
+        ${QEXT_DEFAULT_TARGET_INFO_ARGS})
     set(${multi_args}
-        ${__default_private_args}
-        ${__default_public_args}
+        ${QEXT_DEFAULT_PRIVATE_ARGS}
+        ${QEXT_DEFAULT_PUBLIC_ARGS}
         DEFAULT_IF)
 endmacro()
 
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 # This is the main entry point for defining QExt plugins.
 # A CMake target is created with the given target.
 # The target name should end with "Plugin" so static plugins are linked automatically.
@@ -79,14 +82,13 @@ function(qext_add_plugin target)
     set(single_args ${public_single_args} ${internal_single_args})
     set(multi_args  ${public_multi_args}  ${internal_multi_args})
 
-    qext_parse_all_arguments(arg "qext_internal_add_plugin"
+    qext_parse_all_arguments(arg "qext_add_plugin"
         "${option_args}"
         "${single_args}"
         "${multi_args}"
         "${ARGN}")
 
-    # Put this behind a cache option for now. It's too noisy for general use
-    # until most repos are updated.
+    # Put this behind a cache option for now. It's too noisy for general use until most repos are updated.
     option(QEXT_WARN_PLUGIN_PUBLIC_KEYWORDS "Warn if a plugin specifies a PUBLIC keyword" ON)
     if(QEXT_WARN_PLUGIN_PUBLIC_KEYWORDS)
         foreach(publicKeyword IN LISTS __default_public_args)
@@ -181,7 +183,7 @@ function(qext_add_plugin target)
     qext_set_common_target_properties("${target}")
     qext_internal_add_target_aliases("${target}")
     qext_skip_warnings_are_errors_when_repo_unclean("${target}")
-    _qext_internal_apply_strict_cpp("${target}")
+    qext_internal_apply_strict_cpp("${target}")
 
     set_target_properties("${target}" PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${output_directory}"
@@ -342,7 +344,6 @@ function(qext_add_plugin target)
         ${private_includes}
         PUBLIC_INCLUDE_DIRECTORIES
         ${public_includes}
-        #        LIBRARIES ${arg_LIBRARIES} Qt::PlatformPluginInternal
         LIBRARIES ${arg_LIBRARIES}
         PUBLIC_LIBRARIES ${arg_PUBLIC_LIBRARIES}
         DEFINES
@@ -362,6 +363,7 @@ function(qext_add_plugin target)
         MOC_OPTIONS ${arg_MOC_OPTIONS}
         ENABLE_AUTOGEN_TOOLS ${arg_ENABLE_AUTOGEN_TOOLS}
         DISABLE_AUTOGEN_TOOLS ${arg_DISABLE_AUTOGEN_TOOLS})
+    return()
 
     qext_internal_add_repo_local_defines("${target}")
 
@@ -381,9 +383,9 @@ function(qext_add_plugin target)
     if (NOT BUILD_SHARED_LIBS)
 
         # There's no point in generating pri files for qml plugins. We didn't do it in Qt5 times.
-        if(NOT plugin_type_escaped STREQUAL "qml_plugin")
-            qext_generate_plugin_pri_file("${target}" pri_file)
-        endif()
+        # if(NOT plugin_type_escaped STREQUAL "qml_plugin")
+        #     qext_generate_plugin_pri_file("${target}" pri_file)
+        # endif()
 
         if(qext_module_target)
             qext_internal_link_internal_platform_for_object_library("${plugin_init_target}")
@@ -530,29 +532,14 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
-
 function(qext_internal_add_plugin target)
     qext_internal_get_add_plugin_keywords(opt_args single_args multi_args)
-
-    # TODO: Transitional use only, replaced by CLASS_NAME. Remove this once
-    #       all other repos have been updated to use CLASS_NAME.
-    list(APPEND single_args CLASSNAME)
 
     cmake_parse_arguments(PARSE_ARGV 1 arg "${opt_args}" "${single_args}" "${multi_args}")
 
     if (arg_UNPARSED_ARGUMENTS)
-        message(AUTHOR_WARNING "Unexpected arguments: ${arg_UNPARSED_ARGUMENTS}. If these are source files, consider using target_sources() instead.")
-    endif()
-
-    # Handle the inconsistent CLASSNAME/CLASS_NAME keyword naming between commands
-    if(arg_CLASSNAME)
-        if(arg_CLASS_NAME AND NOT arg_CLASSNAME STREQUAL arg_CLASS_NAME)
-            message(FATAL_ERROR
-                "Both CLASSNAME and CLASS_NAME were given and were different. "
-                "Only one of the two should be used.")
-        endif()
-        set(arg_CLASS_NAME "${arg_CLASSNAME}")
-        unset(arg_CLASSNAME)
+        message(AUTHOR_WARNING "Unexpected arguments: ${arg_UNPARSED_ARGUMENTS}. "
+            "If these are source files, consider using target_sources() instead.")
     endif()
 
     # Handle the inconsistent TYPE/PLUGIN_TYPE keyword naming between commands
@@ -573,18 +560,21 @@ function(qext_internal_add_plugin target)
     endif()
 
     # Explicit option takes priority over the computed default.
+    # message(arg_STATIC=${arg_STATIC})
+    # message(arg_SHARED=${arg_SHARED})
     if(arg_STATIC)
         set(create_static_plugin TRUE)
     elseif(arg_SHARED)
         set(create_static_plugin FALSE)
     else()
         # If no explicit STATIC/SHARED option is set, default to the flavor of the Qt build.
-        if(QT6_IS_SHARED_LIBS_BUILD)
+        if(QEXT_BUILD_SHARED_LIBS)
             set(create_static_plugin FALSE)
         else()
             set(create_static_plugin TRUE)
         endif()
     endif()
+    # message(create_static_plugin=${create_static_plugin})
 
     # The default of _qext_internal_add_library creates SHARED in a shared Qt build, so we need to
     # be explicit about the MODULE.
@@ -594,6 +584,7 @@ function(qext_internal_add_plugin target)
         set(type_to_create MODULE)
     endif()
 
+    # message(type_to_create=${type_to_create})
     qext_internal_add_library(${target} ${type_to_create})
 
     get_target_property(target_type "${target}" TYPE)
@@ -635,21 +626,18 @@ function(qext_internal_add_plugin target)
 
     # Create a plugin initializer object library for static plugins.
     # It contains a Q_IMPORT_PLUGIN(QT_PLUGIN_CLASS_NAME) call.
-    # Project targets will automatically link to the plugin initializer whenever they link to the
-    # plugin target.
+    # Project targets will automatically link to the plugin initializer whenever they link to the plugin target.
     # The plugin init target name is stored in OUTPUT_TARGETS, so projects may install them.
     # Qml plugin inits are handled in Qt6QmlMacros.
-    if(NOT "${arg_PLUGIN_TYPE}" STREQUAL "qml_plugin"
-            AND target_type STREQUAL "STATIC_LIBRARY")
+    if(NOT "${arg_PLUGIN_TYPE}" STREQUAL "qml_plugin" AND target_type STREQUAL "STATIC_LIBRARY")
         __qext_internal_add_static_plugin_init_object_library("${target}" plugin_init_target)
 
         if(arg_OUTPUT_TARGETS)
             set(${arg_OUTPUT_TARGETS} ${plugin_init_target} PARENT_SCOPE)
         endif()
 
-        # We don't automatically propagate the plugin init library for Qt provided plugins, because
-        # there are 2 other code paths that take care of that, one involving finalizers and the
-        # other regular usage requirements.
+        # We don't automatically propagate the plugin init library for Qt provided plugins, because there are 2 other
+        # code paths that take care of that, one involving finalizers and the other regular usage requirements.
         if(NOT arg___QEXT_INTERNAL_NO_PROPAGATE_PLUGIN_INITIALIZER)
             __qext_internal_propagate_object_library("${target}" "${plugin_init_target}")
         endif()
@@ -730,7 +718,7 @@ endfunction()
 function(qt6_add_library target)
     cmake_parse_arguments(PARSE_ARGV 1 arg "MANUAL_FINALIZATION" "" "")
 
-    message(arg_UNPARSED_ARGUMENTS=${arg_UNPARSED_ARGUMENTS})
+    # message(arg_UNPARSED_ARGUMENTS=${arg_UNPARSED_ARGUMENTS})
     _qt_internal_add_library("${target}" ${arg_UNPARSED_ARGUMENTS})
 
     if(arg_MANUAL_FINALIZATION)
@@ -807,81 +795,6 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
-# Creates a library target by forwarding the arguments to add_library.
-#
-# Applies some Qt specific behaviors:
-# - If no type option is specified, rather than defaulting to STATIC it defaults to STATIC or SHARED
-#   depending on the Qt configuration.
-# - Applies Qt specific prefixes and suffixes to file names depending on platform.
-function(_qt_internal_add_library target)
-    set(opt_args
-        STATIC
-        SHARED
-        MODULE
-        INTERFACE
-        OBJECT)
-    set(single_args "")
-    set(multi_args "")
-    cmake_parse_arguments(PARSE_ARGV 1 arg "${opt_args}" "${single_args}" "${multi_args}")
-
-    set(option_type_count 0)
-    if(arg_STATIC)
-        set(type_to_create STATIC)
-        math(EXPR option_type_count "${option_type_count}+1")
-    elseif(arg_SHARED)
-        set(type_to_create SHARED)
-        math(EXPR option_type_count "${option_type_count}+1")
-    elseif(arg_MODULE)
-        set(type_to_create MODULE)
-        math(EXPR option_type_count "${option_type_count}+1")
-    elseif(arg_INTERFACE)
-        set(type_to_create INTERFACE)
-        math(EXPR option_type_count "${option_type_count}+1")
-    elseif(arg_OBJECT)
-        set(type_to_create OBJECT)
-        math(EXPR option_type_count "${option_type_count}+1")
-    endif()
-
-    if(option_type_count GREATER 1)
-        message(FATAL_ERROR "Multiple type options were given. Only one should be used.")
-    endif()
-
-    # If no explicit type option is set, default to the flavor of the Qt build.
-    # This in contrast to CMake which defaults to STATIC.
-    if(NOT arg_STATIC AND NOT arg_SHARED AND NOT arg_MODULE AND NOT arg_INTERFACE
-            AND NOT arg_OBJECT)
-        if(QT6_IS_SHARED_LIBS_BUILD)
-            set(type_to_create SHARED)
-        else()
-            set(type_to_create STATIC)
-        endif()
-    endif()
-
-    message(raw--target=${target})
-    message(raw--type_to_create=${type_to_create})
-    message(raw--arg_UNPARSED_ARGUMENTS=${arg_UNPARSED_ARGUMENTS})
-    add_library(${target} ${type_to_create} ${arg_UNPARSED_ARGUMENTS})
-    _qt_internal_set_up_static_runtime_library(${target})
-
-    if(NOT type_to_create STREQUAL "INTERFACE" AND NOT type_to_create STREQUAL "OBJECT")
-        qext_internal_apply_win_prefix_and_suffix("${target}")
-    endif()
-
-    if(arg_MODULE AND APPLE)
-        # CMake defaults to using .so extensions for loadable modules, aka plugins,
-        # but Qt plugins are actually suffixed with .dylib.
-        set_property(TARGET "${target}" PROPERTY SUFFIX ".dylib")
-    endif()
-
-    if(ANDROID)
-        qt6_android_apply_arch_suffix("${target}")
-    endif()
-endfunction()
-
-
-
-#-----------------------------------------------------------------------------------------------------------------------
-#-----------------------------------------------------------------------------------------------------------------------
 function(qt6_finalize_target target)
     if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.19")
         cmake_language(DEFER GET_CALL_IDS ids_queued)
@@ -914,4 +827,24 @@ get_target_property(is_android_executable "${target}" _qt_is_android_executable)
 if(target_type STREQUAL "EXECUTABLE" OR is_android_executable)
     _qt_internal_finalize_executable(${ARGV})
 endif()
+endfunction()
+
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_internal_apply_strict_cpp target)
+    # Disable C, Obj-C and C++ GNU extensions aka no "-std=gnu++11".
+    # Similar to mkspecs/features/default_post.prf's CONFIG += strict_cpp.
+    # Allow opt-out via variable.
+    if(NOT QT_ENABLE_CXX_EXTENSIONS)
+        get_target_property(target_type "${target}" TYPE)
+        if(NOT target_type STREQUAL "INTERFACE_LIBRARY")
+            set_target_properties("${target}" PROPERTIES
+                CXX_EXTENSIONS OFF
+                C_EXTENSIONS OFF
+                OBJC_EXTENSIONS OFF
+                OBJCXX_EXTENSIONS OFF)
+        endif()
+    endif()
 endfunction()

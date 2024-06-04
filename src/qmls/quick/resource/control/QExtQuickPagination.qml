@@ -22,7 +22,7 @@ Item {
 
     property Component contentItem
 
-    contentItem: QEXTQmlQuickButton {
+    contentItem: QExtQuickButton {
         background: null
         padding: 12
         opacity: mItemBackgroundGadget.opacity
@@ -50,7 +50,7 @@ Item {
         }
     }
 
-    QEXTQmlQuickBackgroundGadget {
+    QExtQuickBackgroundGadget {
         id: mItemBackgroundGadget
         color: "#ECECEC"
         radius: 2
@@ -58,7 +58,7 @@ Item {
         height: 4
     }
 
-    QEXTQmlQuickBackgroundGadget {
+    QExtQuickBackgroundGadget {
         id: mItemActiveBackgroundGadget
         color: "#FC6A21"
         radius: 2
@@ -66,11 +66,11 @@ Item {
         height: 4
     }
 
-    QEXTQmlQuickBorderGadget {
+    QExtQuickBorderGadget {
         id: mItemBorderGadget
     }
 
-    QEXTQmlQuickBorderGadget {
+    QExtQuickBorderGadget {
         id: mItemActiveBorderGadget
     }
 }

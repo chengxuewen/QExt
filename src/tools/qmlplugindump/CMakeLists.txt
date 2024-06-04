@@ -21,10 +21,6 @@
 #
 ########################################################################################################################
 
-#set(QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXT_OUTPUT_QML_DIR})
-#set(QML_IMPORT_PATH "${QEXT_QML_IMPORT_PATH}" CACHE STRING "Qt Creator extra qml import paths")
-
-
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Set app link libraries

@@ -22,9 +22,5 @@
 ########################################################################################################################
 
 add_subdirectory(qml)
-# qext_add_subdirectory(quick)
-
-# set(QEXT_QML_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "QExt qml source dir" FORCE)
-# list(APPEND QML_IMPORT_PATH ${QML_IMPORT_PATH} ${QEXT_OUTPUT_QML_DIR})
-# list(REMOVE_DUPLICATES QML_IMPORT_PATH)
-# set(QML_IMPORT_PATH ${QML_IMPORT_PATH} CACHE STRING "Qt Creator extra qml import paths" FORCE)
+add_subdirectory(quick)
+add_subdirectory(toou2d)

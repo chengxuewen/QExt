@@ -1,7 +1,33 @@
+/***********************************************************************************************************************
+**
+** Library: QExt
+**
+** Copyright (C) 2024 ChengXueWen.
+**
+** License: MIT License
+**
+** Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+** documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+** the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+** and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+**
+** The above copyright notice and this permission notice shall be included in all copies or substantial portions
+** of the Software.
+**
+** THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+** TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+** THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+** CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+** IN THE SOFTWARE.
+**
+***********************************************************************************************************************/
+
 #include <private/qextQml_p.h>
-#include <qextQmlWorld.h>
 #include <qextQmlGlobal.h>
 #include <qextQmlConfig.h>
+#include <qextQmlWorld.h>
+
+#include <qextOnceFlag.h>
 
 #include <QDebug>
 #include <QMutex>
@@ -34,9 +60,6 @@ QExtQmlPrivate::~QExtQmlPrivate()
 }
 
 
-
-static QExtQml *sg_instance = nullptr;
-
 QExtQml::QExtQml(QObject *parent)
     : QObject(parent)
     , dd_ptr(new QExtQmlPrivate(this))
@@ -58,13 +81,14 @@ QObject *QExtQml::qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *script
 
 QExtQml *QExtQml::instance()
 {
-    static QMutex mutex;
-    QMutexLocker mutexLocker(&mutex);
-    if (nullptr == sg_instance)
+    static QExtQml *instance = QEXT_NULLPTR;
+    static QExtOnceFlag onceFlag;
+    if(onceFlag.enter())
     {
-        sg_instance = new QExtQml;
+        instance = new QExtQml;
+        onceFlag.leave();
     }
-    return sg_instance;
+    return instance;
 }
 
 QString QExtQml::version() const
@@ -134,12 +158,11 @@ int QExtQml::stateToEnum(const QString &state) const
 
 void QExtQml::registerTypes(const char *url)
 {
+    Q_INIT_RESOURCE(qextQml);
     Q_ASSERT(url == QLatin1String(QEXT_QML_PLUGIN_NAME));
-    //    Q_INIT_RESOURCE(qextQml);
-    //    MyNamespace::myFunction();
 
-    int major = QEXT_QML_PLUGIN_VERSION_MAJOR;
-    int minor = QEXT_QML_PLUGIN_VERSION_MINOR;
+    const int major = QEXT_QML_PLUGIN_VERSION_MAJOR;
+    const int minor = QEXT_QML_PLUGIN_VERSION_MINOR;
 
     qmlRegisterSingletonType<QExtQml>(url, major, minor, "QExtQml", QExtQml::qmlSingletonTypeProvider);
     qmlRegisterType<QExtQmlWorld>( url, major, minor, "QExtQmlWorld");
@@ -150,8 +173,7 @@ void QExtQml::initQmlEngine(QQmlEngine *engine, const char *uri)
     Q_D(QExtQml);
     Q_UNUSED(uri)
     d->m_qmlEngine = engine;
-    QFontDatabase::addApplicationFont(":/QExtQml/font/fontawesome-webfont.ttf");
-    d->m_qmlEngine->rootContext()->setContextProperty("qextRootWindow", QEXT_NULLPTR);
+    d->m_qmlEngine->rootContext()->setContextProperty("qextRootQuickWindow", QEXT_NULLPTR);
 }
 
 void QExtQml::initQuickRoot(QQuickWindow *rootWindow)
@@ -162,7 +184,7 @@ void QExtQml::initQuickRoot(QQuickWindow *rootWindow)
         return;
     }
     d->m_rootWindow = rootWindow;
-    d->m_qmlEngine->rootContext()->setContextProperty("qextRootWindow", rootWindow);
+    d->m_qmlEngine->rootContext()->setContextProperty("qextRootQuickWindow", rootWindow);
 }
 
 void QExtQml::initWorld(QExtQmlWorld *world)

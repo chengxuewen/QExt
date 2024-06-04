@@ -8,7 +8,7 @@ Item {
 
     property bool asynchronous: true
     property bool smooth: true
-    property color borderColor: QEXTQmlQuickPalette.borderLevel1Color
+    property color borderColor: QExtQuickPalette.borderLevel1Color
     property real borderWidth: 0
     property real radius: 0
 
@@ -45,7 +45,7 @@ Item {
         border.color: qextAvatar.borderColor
     }
 
-    QEXTQmlQuickMask {
+    QExtQuickMask {
         anchors.fill: parent
         sourceItem: mSourceImage
         maskItem: mMaskRect

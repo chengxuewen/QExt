@@ -16,7 +16,7 @@ CheckBox {
 
     property bool textInLeft: false
     property font textFont: qextCheckBox.font
-    property color textColor: QEXTQmlQuickPalette.textPrimaryColor
+    property color textColor: QExtQuickPalette.textPrimaryColor
     property real textOpacity: 1
     property int textHorizontalAlignment: Text.AlignHCenter
     property int textElide: Text.ElideRight
@@ -25,11 +25,11 @@ CheckBox {
     property color backgroundColor: "#FFFFFF"
     property bool backgroundVisible: true
     property real backgroundOpacity: qextCheckBox.enabled ? 1 : 0.3
-    property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
+    property color backgroundBorderColor: QExtQuickPalette.borderLevel1Color
     property real backgroundBorderWidth: 0
     property real backgroundRadius: 2
 
-    indicator: QEXTQmlQuickIcon {
+    indicator: QExtQuickIcon {
         id: mIcon
         x: qextCheckBox.textInLeft ? qextCheckBox.width - qextCheckBox.rightInset - qextCheckBox.rightPadding - qextCheckBox.availableHeight :
                                      qextCheckBox.leftInset + qextCheckBox.leftPadding
@@ -39,11 +39,11 @@ CheckBox {
         color: qextCheckBox.indicatorColor
         source: {
             if (Qt.Unchecked === checkState) {
-                return QEXTQmlQuickFontAwesome.FA_square_o
+                return QExtQuickFontAwesome.FA_square_o
             } else if (Qt.PartiallyChecked === checkState) {
-                return QEXTQmlQuickFontAwesome.FA_minus_square
+                return QExtQuickFontAwesome.FA_minus_square
             } else if (Qt.Checked === checkState) {
-                return QEXTQmlQuickFontAwesome.FA_check_square
+                return QExtQuickFontAwesome.FA_check_square
             }
             return ""
         }
@@ -91,11 +91,11 @@ CheckBox {
     }
     onCheckStateChanged: {
         if (Qt.Unchecked === checkState) {
-            qextCheckBox.state = QEXTQmlQuick.stateToString(QEXTQmlQuick.State_Unchecked)
+            qextCheckBox.state = QExtQuick.stateToString(QExtQuick.State_Unchecked)
         } else if (Qt.PartiallyChecked === checkState) {
-            qextCheckBox.state = QEXTQmlQuick.stateToString(QEXTQmlQuick.State_PartiallyChecked)
+            qextCheckBox.state = QExtQuick.stateToString(QExtQuick.State_PartiallyChecked)
         } else if (Qt.Checked === checkState) {
-            qextCheckBox.state = QEXTQmlQuick.stateToString(QEXTQmlQuick.State_Checked)
+            qextCheckBox.state = QExtQuick.stateToString(QExtQuick.State_Checked)
         }
     }
 }

@@ -32,7 +32,7 @@ Item {
         property color color: "#000000"
 
         enabled: false
-        fragmentShader: "qrc:/QEXTQmlQuick/font/svg.cso"
+        fragmentShader: "qrc:/QExtQuick/font/svg.cso"
         anchors.fill: parent
         visible: qextSVGIcon.status === Image.Ready
     }

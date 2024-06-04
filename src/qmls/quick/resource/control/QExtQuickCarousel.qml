@@ -22,7 +22,7 @@ Item {
 
     default property alias childs: qextCarousel.chillilst
 
-    property list<QEXTQmlQuickCarouselElement> chillilst
+    property list<QExtQuickCarouselElement> chillilst
 
     property Component contentItem
 
@@ -38,7 +38,7 @@ Item {
         mPathView.incrementCurrentIndex()
     }
 
-    contentItem: QEXTQmlQuickAvatar {
+    contentItem: QExtQuickAvatar {
         source: modelData.imageSource
         radius: 10
     }

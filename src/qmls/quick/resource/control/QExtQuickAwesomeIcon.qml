@@ -27,9 +27,9 @@ Item {
         property alias source: qextAwesomeIcon.source
         onSourceChanged: {
             if (source.indexOf("FA") === 0) {
-                mContentText.text = QEXTQmlQuickFontAwesome.awesomeFromKey(source)
+                mContentText.text = QExtQuickFontAwesome.awesomeFromKey(source)
             } else if (source.charAt(0) !== "\\") {
-                mContentText.text = QEXTQmlQuickFontAwesome.awesomeFromValue(source)
+                mContentText.text = QExtQuickFontAwesome.awesomeFromValue(source)
             } else {
                 mContentText.text = source
             }

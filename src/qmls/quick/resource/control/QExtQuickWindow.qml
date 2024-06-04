@@ -27,8 +27,8 @@ Window {
         z: root.resizeHandlerZValue
         hoverEnabled: true
         cursorShape: Qt.SizeFDiagCursor
-        onPressed: mPrivate.resizeHandlerPressed(QEXTQmlQuick.DragDirection_LeftTop, mapToGlobal(mouseX, mouseY))
-        onReleased: mPrivate.resizeHandlerReleased(QEXTQmlQuick.DragDirection_LeftTop)
+        onPressed: mPrivate.resizeHandlerPressed(QExtQuick.DragDirection_LeftTop, mapToGlobal(mouseX, mouseY))
+        onReleased: mPrivate.resizeHandlerReleased(QExtQuick.DragDirection_LeftTop)
         onPositionChanged: mPrivate.positionChange(mapToGlobal(mouseX, mouseY))
     }
 
@@ -43,8 +43,8 @@ Window {
         z: root.resizeHandlerZValue
         hoverEnabled: true
         cursorShape: Qt.SizeBDiagCursor
-        onPressed: mPrivate.resizeHandlerPressed(QEXTQmlQuick.DragDirection_RightTop, mapToGlobal(mouseX, mouseY))
-        onReleased: mPrivate.resizeHandlerReleased(QEXTQmlQuick.DragDirection_RightTop)
+        onPressed: mPrivate.resizeHandlerPressed(QExtQuick.DragDirection_RightTop, mapToGlobal(mouseX, mouseY))
+        onReleased: mPrivate.resizeHandlerReleased(QExtQuick.DragDirection_RightTop)
         onPositionChanged: mPrivate.positionChange(mapToGlobal(mouseX, mouseY))
     }
 
@@ -59,8 +59,8 @@ Window {
         z: root.resizeHandlerZValue
         hoverEnabled: true
         cursorShape: Qt.SizeBDiagCursor
-        onPressed: mPrivate.resizeHandlerPressed(QEXTQmlQuick.DragDirection_LeftBottom, mapToGlobal(mouseX, mouseY))
-        onReleased: mPrivate.resizeHandlerReleased(QEXTQmlQuick.DragDirection_LeftBottom)
+        onPressed: mPrivate.resizeHandlerPressed(QExtQuick.DragDirection_LeftBottom, mapToGlobal(mouseX, mouseY))
+        onReleased: mPrivate.resizeHandlerReleased(QExtQuick.DragDirection_LeftBottom)
         onPositionChanged: mPrivate.positionChange(mapToGlobal(mouseX, mouseY))
     }
 
@@ -75,8 +75,8 @@ Window {
         z: root.resizeHandlerZValue
         hoverEnabled: true
         cursorShape: Qt.SizeFDiagCursor
-        onPressed: mPrivate.resizeHandlerPressed(QEXTQmlQuick.DragDirection_RightBottom, mapToGlobal(mouseX, mouseY))
-        onReleased: mPrivate.resizeHandlerReleased(QEXTQmlQuick.DragDirection_RightBottom)
+        onPressed: mPrivate.resizeHandlerPressed(QExtQuick.DragDirection_RightBottom, mapToGlobal(mouseX, mouseY))
+        onReleased: mPrivate.resizeHandlerReleased(QExtQuick.DragDirection_RightBottom)
         onPositionChanged: mPrivate.positionChange(mapToGlobal(mouseX, mouseY))
     }
 
@@ -92,8 +92,8 @@ Window {
         z: root.resizeHandlerZValue
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
-        onPressed: mPrivate.resizeHandlerPressed(QEXTQmlQuick.DragDirection_Left, mapToGlobal(mouseX, mouseY))
-        onReleased: mPrivate.resizeHandlerReleased(QEXTQmlQuick.DragDirection_Left)
+        onPressed: mPrivate.resizeHandlerPressed(QExtQuick.DragDirection_Left, mapToGlobal(mouseX, mouseY))
+        onReleased: mPrivate.resizeHandlerReleased(QExtQuick.DragDirection_Left)
         onPositionChanged: mPrivate.positionChange(mapToGlobal(mouseX, mouseY))
     }
 
@@ -109,8 +109,8 @@ Window {
         z: root.resizeHandlerZValue
         hoverEnabled: true
         cursorShape: Qt.SizeVerCursor
-        onPressed: mPrivate.resizeHandlerPressed(QEXTQmlQuick.DragDirection_Top, mapToGlobal(mouseX, mouseY))
-        onReleased: mPrivate.resizeHandlerReleased(QEXTQmlQuick.DragDirection_Top)
+        onPressed: mPrivate.resizeHandlerPressed(QExtQuick.DragDirection_Top, mapToGlobal(mouseX, mouseY))
+        onReleased: mPrivate.resizeHandlerReleased(QExtQuick.DragDirection_Top)
         onPositionChanged: mPrivate.positionChange(mapToGlobal(mouseX, mouseY))
     }
 
@@ -126,8 +126,8 @@ Window {
         z: root.resizeHandlerZValue
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
-        onPressed: mPrivate.resizeHandlerPressed(QEXTQmlQuick.DragDirection_Right, mapToGlobal(mouseX, mouseY))
-        onReleased: mPrivate.resizeHandlerReleased(QEXTQmlQuick.DragDirection_Right)
+        onPressed: mPrivate.resizeHandlerPressed(QExtQuick.DragDirection_Right, mapToGlobal(mouseX, mouseY))
+        onReleased: mPrivate.resizeHandlerReleased(QExtQuick.DragDirection_Right)
         onPositionChanged: mPrivate.positionChange(mapToGlobal(mouseX, mouseY))
     }
 
@@ -143,8 +143,8 @@ Window {
         z: root.resizeHandlerZValue
         hoverEnabled: true
         cursorShape: Qt.SizeVerCursor
-        onPressed: mPrivate.resizeHandlerPressed(QEXTQmlQuick.DragDirection_Bottom, mapToGlobal(mouseX, mouseY))
-        onReleased: mPrivate.resizeHandlerReleased(QEXTQmlQuick.DragDirection_Bottom)
+        onPressed: mPrivate.resizeHandlerPressed(QExtQuick.DragDirection_Bottom, mapToGlobal(mouseX, mouseY))
+        onReleased: mPrivate.resizeHandlerReleased(QExtQuick.DragDirection_Bottom)
         onPositionChanged: mPrivate.positionChange(mapToGlobal(mouseX, mouseY))
     }
 
@@ -182,45 +182,45 @@ Window {
             var deltaHeight = mouse.y - pressedMouse.y
 
             switch (resizeHandlerType) {
-            case QEXTQmlQuick.DragDirection_Right:
+            case QExtQuick.DragDirection_Right:
                 root.x = positionX
                 root.y = positionY
                 root.width = oldWidth + deltaWidth
                 break
-            case QEXTQmlQuick.DragDirection_Bottom:
+            case QExtQuick.DragDirection_Bottom:
                 root.x = positionX
                 root.y = positionY
                 root.height = oldHeight + deltaHeight
                 break
-            case QEXTQmlQuick.DragDirection_RightBottom:
+            case QExtQuick.DragDirection_RightBottom:
                 root.x = positionX
                 root.y = positionY
                 root.width = oldWidth + deltaWidth
                 root.height = oldHeight + deltaHeight
                 break
-            case QEXTQmlQuick.DragDirection_Left:
+            case QExtQuick.DragDirection_Left:
                 root.x = positionX + deltaWidth
                 root.y = positionY
                 root.width = oldWidth - deltaWidth
                 break
-            case QEXTQmlQuick.DragDirection_Top:
+            case QExtQuick.DragDirection_Top:
                 root.x = positionX
                 root.y = positionY + deltaHeight
                 root.height = oldHeight - deltaHeight
                 break
-            case QEXTQmlQuick.DragDirection_LeftTop:
+            case QExtQuick.DragDirection_LeftTop:
                 root.x = positionX + deltaWidth
                 root.y = positionY + deltaHeight
                 root.width = oldWidth - deltaWidth
                 root.height = oldHeight - deltaHeight
                 break
-            case QEXTQmlQuick.DragDirection_RightTop:
+            case QExtQuick.DragDirection_RightTop:
                 root.x = positionX
                 root.y = positionY + deltaHeight
                 root.width = oldWidth + deltaWidth
                 root.height = oldHeight - deltaHeight
                 break
-            case QEXTQmlQuick.DragDirection_LeftBottom:
+            case QExtQuick.DragDirection_LeftBottom:
                 root.x = positionX + deltaWidth
                 root.y = positionY
                 root.width = oldWidth - deltaWidth

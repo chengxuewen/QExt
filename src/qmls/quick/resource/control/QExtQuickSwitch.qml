@@ -14,14 +14,14 @@ Switch {
 
     property bool textInLeft: false
     property font textFont: qextSwitch.font
-    property color textColor: QEXTQmlQuickPalette.textPrimaryColor
+    property color textColor: QExtQuickPalette.textPrimaryColor
     property real textOpacity: 1
     property int textHorizontalAlignment: Text.AlignHCenter
     property int textVerticalAlignment: Text.AlignVCenter
     property int textElide: Text.ElideRight
     property real textSpace: 5
 
-    property color trackColor: qextSwitch.checked ? QEXTQmlQuickPalette.brandPositiveColor : QEXTQmlQuickPalette.brandNegativeColor
+    property color trackColor: qextSwitch.checked ? QExtQuickPalette.brandPositiveColor : QExtQuickPalette.brandNegativeColor
     property color trackBorderColor: trackColor
     property real trackBorderWidth: 1
 
@@ -169,8 +169,8 @@ Switch {
     }
 
     onCheckedChanged: {
-        qextSwitch.state = qextSwitch.checked ? QEXTQmlQuick.stateToString(QEXTQmlQuick.State_Checked) :
-                                                QEXTQmlQuick.stateToString(QEXTQmlQuick.State_Unchecked)
+        qextSwitch.state = qextSwitch.checked ? QExtQuick.stateToString(QExtQuick.State_Checked) :
+                                                QExtQuick.stateToString(QExtQuick.State_Unchecked)
     }
 }
 

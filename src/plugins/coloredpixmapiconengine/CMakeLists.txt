@@ -21,13 +21,30 @@
 #
 ########################################################################################################################
 
+
 #-----------------------------------------------------------------------------------------------------------------------
-# Set lib base name and out put path
+# Add plugin link libraries
 #-----------------------------------------------------------------------------------------------------------------------
-set(_lib_base_name QExtColoredPixmapIcon)
-set(LIBRARY_OUTPUT_PATH ${QEXT_PLUGIN_OUTPUT_DIR})
+set(QEXT_PLUGIN_LINK_LIBRARIES)
+if(UNIX)
+    list(APPEND QEXT_PLUGIN_LINK_LIBRARIES ${CMAKE_DL_LIBS})
+endif()
+
+if(QEXT_QT_VERSION_MAJOR EQUAL 4)
+    list(APPEND QEXT_PLUGIN_LINK_LIBRARIES Qt4::QtCore)
+elseif (QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND QEXT_PLUGIN_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core)
+else()
+    message(FATAL_ERROR "Not find Qt package")
+endif()
 
 
+#-----------------------------------------------------------------------------------------------------------------------
+# Add plugin target
+#-----------------------------------------------------------------------------------------------------------------------
+# qext_add_plugin(
+
+# )
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Set lib file list
@@ -53,72 +70,5 @@ set(_lib_resources
     resource/QExtColoredPixmapIcon.qrc
     )
 
-list(APPEND _lib_link_libraries QExtCore)
+# list(APPEND _lib_link_libraries QExtCore)
 
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Add lib link libraries
-#-----------------------------------------------------------------------------------------------------------------------
-set(_lib_link_libraries)
-
-if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND _lib_link_libraries Qt4::QtCore Qt4::QtGui Qt4::QtNetwork)
-elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
-    list(APPEND _lib_link_libraries Qt5::Core Qt5::Gui Qt5::Network)
-else()
-    message(FATAL_ERROR "Not find Qt package")
-endif()
-
-list(APPEND _lib_link_libraries QExtCore)
-
-
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Add lib target
-#-----------------------------------------------------------------------------------------------------------------------
-add_library(${_lib_base_name} STATIC
-    ${_lib_public_headers}
-    ${_lib_private_headers}
-    ${_lib_sources}
-    ${_lib_forms}
-    ${_lib_resources}
-    )
-if (QEXT_BUILD_COMPILER_WARNING)
-    qextFunctionSetCompilerWarnings(${_lib_base_name})
-endif()
-target_link_libraries(${_lib_base_name} PUBLIC ${_lib_link_libraries})
-target_include_directories(${_lib_base_name} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/resource>
-    $<BUILD_INTERFACE:${Qt5Gui_PRIVATE_INCLUDE_DIRS}>
-    $<BUILD_INTERFACE:${Qt5Widgets_PRIVATE_INCLUDE_DIRS}>
-    $<INSTALL_INTERFACE:include>
-    )
-target_compile_definitions(${_lib_base_name} PRIVATE QEXT_BUILD_COLOREDPIXMAPICON_LIB)
-
-
-# set target properties
-set_target_properties(${_lib_base_name} PROPERTIES
-    VERSION ${QEXT_VERSION} SOVERSION ${QEXT_SO_VERSION}
-    CXX_STANDARD ${QEXT_CXX_STANDARD}
-    DEBUG_POSTFIX ${QEXT_DEBUG_POSTFIX}
-    )
-if (QEXT_BUILD_SHARED_LIBS)
-    set_target_properties(${_lib_base_name} PROPERTIES
-        CXX_VISIBILITY_PRESET hidden
-        VISIBILITY_INLINES_HIDDEN 1)
-endif()
-
-
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Add lib tests and examples
-#-----------------------------------------------------------------------------------------------------------------------
-if (QEXT_BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
-
-if (QEXT_BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()

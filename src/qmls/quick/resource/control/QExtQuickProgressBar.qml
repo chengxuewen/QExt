@@ -75,13 +75,13 @@ Item {
         sourceComponent: maskItem
     }
 
-    QEXTQmlQuickMask {
+    QExtQuickMask {
         anchors.fill: parent
         sourceItem: mBackgroundComponentLoader
         maskItem: mask
     }
 
-    QEXTQmlQuickObject {
+    QExtQuickObject {
         id: mPrivate
         property bool moveing: false
 
@@ -108,7 +108,7 @@ Item {
         }
     }
 
-    QEXTQmlQuickBackgroundGadget {
+    QExtQuickBackgroundGadget {
         id: mBackgroundGadget
         color: "#EBEEF5"
         width: qextProgressBar.width
@@ -116,7 +116,7 @@ Item {
         radius: height / 2
     }
 
-    QEXTQmlQuickBackgroundGadget {
+    QExtQuickBackgroundGadget {
         id: mForegroundGadget
         color: "#46A0FC"
         width: qextProgressBar.width

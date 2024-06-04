@@ -27,7 +27,7 @@ Flickable {
     property bool backgroundVisible: false
     property color backgroundColor: "#FFFFFF"
     property real backgroundOpacity: 1
-    property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
+    property color backgroundBorderColor: QExtQuickPalette.borderLevel1Color
     property real backgroundBorderWidth: 1
     property real backgroundRadius: 2
 
@@ -44,7 +44,7 @@ Flickable {
     property real titleBackgroundRadius: 0
 
     property bool titleIndicatorIconInLeft: false
-    property string titleIndicatorIconSource: QEXTQmlQuickFontAwesome.FA_angle_right
+    property string titleIndicatorIconSource: QExtQuickFontAwesome.FA_angle_right
     property int titleIndicatorIconExpandRotation: 90
     property color titleIndicatorIconColor: "#2D2D2D"
     property real titleIndicatorIconWidth: titleHeight / 2
@@ -52,7 +52,7 @@ Flickable {
     property real titleIconWidth: titleHeight / 2
     property real titleIconHeight: titleHeight / 2
 
-    default property list<QEXTQmlQuickCollapseElement> childElements
+    default property list<QExtQuickCollapseElement> childElements
     readonly property alias currentElement: mPrivate.currentElement
     readonly property alias childItems: mPrivate.childItems
     readonly property alias currentItem: mPrivate.currentItem
@@ -183,7 +183,7 @@ Flickable {
                             padding: qextCollapse.titlePadding
                             layoutDirection: qextCollapse.titleIndicatorIconInLeft ? Qt.RightToLeft : Qt.LeftToRight
 
-                            QEXTQmlQuickIcon {
+                            QExtQuickIcon {
                                 id: mTitleIcon
                                 width: qextCollapse.titleIconWidth
                                 height: qextCollapse.titleIconHeight
@@ -204,7 +204,7 @@ Flickable {
                                 color: modelData.titleTextColor
                                 opacity: modelData.titleTextOpacity
                             }
-                            QEXTQmlQuickIcon {
+                            QExtQuickIcon {
                                 id: mTitleIndicatorIcon
                                 width: qextCollapse.titleIndicatorIconWidth
                                 height: qextCollapse.titleIndicatorIconHeight

@@ -6,14 +6,14 @@ import QtQuick.Controls 2.12
 import QExtQuick 1.2
 
 /*!
-    QEXTQmlQuickToast.showSuccess(text, duration, moremsg)
-    QEXTQmlQuickToast.showInfo(text, duration, moremsg)
-    QEXTQmlQuickToast.showWarning(text, duration, moremsg)
-    QEXTQmlQuickToast.showError(text, duration, moremsg)
-    QEXTQmlQuickToast.showCustom(itemcomponent, duration)
+    QExtQuickToast.showSuccess(text, duration, moremsg)
+    QExtQuickToast.showInfo(text, duration, moremsg)
+    QExtQuickToast.showWarning(text, duration, moremsg)
+    QExtQuickToast.showError(text, duration, moremsg)
+    QExtQuickToast.showCustom(itemcomponent, duration)
 */
 
-QEXTQmlQuickObject {
+QExtQuickObject {
     id: qextToast
 
     property int horizontalAlignment: Qt.AlignHCenter
@@ -43,7 +43,7 @@ QEXTQmlQuickObject {
         mControl.createCustom(itemcomponent, duration)
     }
 
-    QEXTQmlQuickObject {
+    QExtQuickObject {
         id: mControl
         property var rootWindow: qextRootWindow
         property var screenLayout: null
@@ -218,7 +218,7 @@ QEXTQmlQuickObject {
             }
         }
 
-        // -- QEXTQmlQuick Message style
+        // -- QExtQuick Message style
         property Component messageSytleItem: Rectangle {
             id: rect
             width: mRowlayout.width  + (_super.moremsg ? 25 : 80)
@@ -245,19 +245,19 @@ QEXTQmlQuickObject {
                 x: 20
                 y: (parent.height - height) / 2
                 spacing: 10
-                QEXTQmlQuickSVGIcon {
+                QExtQuickSVGIcon {
                     id: mSVGIcon
                     anchors.verticalCenter: mRowlayout.verticalCenter
                     source: {
                         switch(_super.type) {
                             case mControl.const_success:
-                            return "qrc:/QEXTQmlQuick/svg/success.svg"
+                            return "qrc:/QExtQuick/svg/success.svg"
                             case mControl.const_warning:
-                            return "qrc:/QEXTQmlQuick/svg/warning.svg"
+                            return "qrc:/QExtQuick/svg/warning.svg"
                             case mControl.const_info:
-                            return "qrc:/QEXTQmlQuick/svg/info.svg"
+                            return "qrc:/QExtQuick/svg/info.svg"
                             case mControl.const_error:
-                            return "qrc:/QEXTQmlQuick/svg/error.svg"
+                            return "qrc:/QExtQuick/svg/error.svg"
                         }
                         return "#FFFFFF"
                     }
@@ -303,14 +303,14 @@ QEXTQmlQuickObject {
                 }
             }
 
-            QEXTQmlQuickIconButton {
+            QExtQuickIconButton {
                 y: 4
                 x: parent.width - width
                 width: height
                 iconWidth: 12
                 iconHeight: 12
-                iconDisplay: QEXTQmlQuick.IconDisplay_IconOnly
-                iconSource: "qrc:/QEXTQmlQuick/svg/close-px.svg"
+                iconDisplay: QExtQuick.IconDisplay_IconOnly
+                iconSource: "qrc:/QExtQuick/svg/close-px.svg"
                 iconColor: "#ADADAD"
                 background: null
                 onClicked: _super.close()

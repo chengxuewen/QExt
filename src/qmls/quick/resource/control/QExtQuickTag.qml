@@ -38,11 +38,11 @@ Item {
             id: mContentLabel
             anchors.verticalCenter: parent.verticalCenter
 
-            text: "QEXTQmlQuickTag"
+            text: "QExtQuickTag"
             color: "#409EFF"
         }
 
-        QEXTQmlQuickIcon {
+        QExtQuickIcon {
             id: mCloseIcon
             anchors.verticalCenter: parent.verticalCenter
 
@@ -50,7 +50,7 @@ Item {
             width: 15
             height: 15
             color: "#409EFF"
-            source: "qrc:/QEXTQmlQuick/svg/close-px.svg"
+            source: "qrc:/QExtQuick/svg/close-px.svg"
 
             MouseArea {
                 anchors.fill: parent

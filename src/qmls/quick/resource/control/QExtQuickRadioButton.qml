@@ -16,7 +16,7 @@ RadioButton {
 
     property bool textInLeft: false
     property font textFont: qextRadioButton.font
-    property color textColor: QEXTQmlQuickPalette.textPrimaryColor
+    property color textColor: QExtQuickPalette.textPrimaryColor
     property real textOpacity: 1
     property int textHorizontalAlignment: Text.AlignHCenter
     property int textVerticalAlignment: Text.AlignVCenter
@@ -25,7 +25,7 @@ RadioButton {
     property color backgroundColor: "#FFFFFF"
     property bool backgroundVisible: false
     property real backgroundOpacity: qextRadioButton.enabled ? 1 : 0.3
-    property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
+    property color backgroundBorderColor: QExtQuickPalette.borderLevel1Color
     property real backgroundBorderWidth: 0
     property real backgroundRadius: 2
 
@@ -154,8 +154,8 @@ RadioButton {
         qextRadioButton.font = qextRadioButton.textFont
     }
     onCheckedChanged: {
-        qextRadioButton.state = qextRadioButton.checked ? QEXTQmlQuick.stateToString(QEXTQmlQuick.State_Checked) :
-                                                          QEXTQmlQuick.stateToString(QEXTQmlQuick.State_Unchecked)
+        qextRadioButton.state = qextRadioButton.checked ? QExtQuick.stateToString(QExtQuick.State_Checked) :
+                                                          QExtQuick.stateToString(QExtQuick.State_Unchecked)
     }
 
 

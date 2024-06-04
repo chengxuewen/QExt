@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQml 2.12
 import QtQuick.Controls 2.12
+
 import QExtQuick 1.2
 
 Item {
@@ -21,14 +22,14 @@ Item {
     property real itemRightPadding: 8
     property real itemBottomPadding: 8
     property int orientation: Qt.Horizontal
-    property int itemIconDisplay: QEXTQmlQuick.IconDisplay_Left
+    property int itemIconDisplay: QExtQuick.IconDisplay_Left
 
     property int currentIndex: -1
 
     property bool backgroundVisible: true
     property color backgroundColor: "#FFFFFF"
     property real backgroundOpacity: 1
-    property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
+    property color backgroundBorderColor: QExtQuickPalette.borderLevel1Color
     property real backgroundBorderWidth: 1
     property real backgroundRadius: 2
 
@@ -37,18 +38,18 @@ Item {
     property real itemBackgroundRadius: 2
     property color itemBackgroundColor: "#FFFFFF"
     property real itemBackgroundOpacity: 1
-    property color itemBackgroundBorderColor: QEXTQmlQuickPalette.borderLevel2Color
+    property color itemBackgroundBorderColor: QExtQuickPalette.borderLevel2Color
     property real itemBackgroundBorderWidth: 1
     property color itemActiveBackgroundColor: "#FFFFFF"
     property real itemActiveBackgroundOpacity: 1
-    property color itemActiveBackgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
+    property color itemActiveBackgroundBorderColor: QExtQuickPalette.borderLevel1Color
     property real itemActiveBackgroundBorderWidth: 1
 
     property font itemTextFont
-    property color itemTextColor: QEXTQmlQuickPalette.textNormalColor
+    property color itemTextColor: QExtQuickPalette.textNormalColor
     property real itemTextOpacity: 1
     property font itemActiveTextFont
-    property color itemActiveTextColor: QEXTQmlQuickPalette.textPrimaryColor
+    property color itemActiveTextColor: QExtQuickPalette.textPrimaryColor
     property real itemActiveTextOpacity: 1
 
     property real itemIconWidth: 25
@@ -62,13 +63,13 @@ Item {
     property int itemTextHorizontalAlignment: Qt.AlignHCenter
     property int itemTextVerticalAlignment: Qt.AlignVCenter
 
-    default property list<QEXTQmlQuickNavigationElement> childElements
+    default property list<QExtQuickNavigationElement> childElements
     readonly property alias currentItem: mPrivate.currentItem
     readonly property alias childItems: mPrivate.childItems
 
     property Component itemComponent
 
-    itemComponent: QEXTQmlQuickIconButton {
+    itemComponent: QExtQuickIconButton {
         id: mIconButton
         leftPadding: itemLeftPadding
         topPadding: itemTopPadding
@@ -118,7 +119,7 @@ Item {
         }
     }
 
-    QEXTQmlQuickObject {
+    QExtQuickObject {
         id: mPrivate
         property list<Item> childItems
         property Item currentItem

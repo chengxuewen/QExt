@@ -19,9 +19,9 @@ Item {
 
     property Component contentItem: contentIconAnimatorItem
 
-    QEXTQmlQuickIconGadget {
+    QExtQuickIconGadget {
         id: mIconGadget
-        source: QEXTQmlQuickFontAwesome.FA_circle_o_notch
+        source: QExtQuickFontAwesome.FA_circle_o_notch
         color: "#5D5D5D"
     }
 
@@ -31,7 +31,7 @@ Item {
         sourceComponent: contentItem
     }
 
-    readonly property Component contentIconAnimatorItem: QEXTQmlQuickAwesomeIcon {
+    readonly property Component contentIconAnimatorItem: QExtQuickAwesomeIcon {
         source: icon.source
         color: icon.color
         width: 26

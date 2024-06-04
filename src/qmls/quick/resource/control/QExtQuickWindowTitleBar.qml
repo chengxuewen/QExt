@@ -6,7 +6,7 @@ import QExtQuick 1.2
 Rectangle {
     id: tWindowTitleBar
     height: 40
-    color: QEXTQmlQuickPalette.brandPrimaryColor
+    color: QExtQuickPalette.brandPrimaryColor
 
     signal closeButtonTriggered();
 
@@ -16,10 +16,10 @@ Rectangle {
     property real windowsIconWidth: 20
     property real windowsIconHeight: 20
     property color windowsIconColor: "white"
-    property string windowsMinimizeIconSource: QEXTQmlQuickFontAwesome.FA_window_minimize
-    property string windowsMaximizeIconSource: QEXTQmlQuickFontAwesome.FA_window_maximize
-    property string windowsRestoreIconSource: QEXTQmlQuickFontAwesome.FA_window_restore
-    property string windowsCloseIconSource: QEXTQmlQuickFontAwesome.FA_window_close
+    property string windowsMinimizeIconSource: QExtQuickFontAwesome.FA_window_minimize
+    property string windowsMaximizeIconSource: QExtQuickFontAwesome.FA_window_maximize
+    property string windowsRestoreIconSource: QExtQuickFontAwesome.FA_window_restore
+    property string windowsCloseIconSource: QExtQuickFontAwesome.FA_window_close
 
     property Component additionalButtonBarItem
     property Component minimizeIconBackgroundItem
@@ -29,7 +29,7 @@ Rectangle {
         color: "Red"
     }
 
-    QEXTQmlQuickMoveArea {
+    QExtQuickMoveArea {
         id: mTitleBarMoveArea
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton
@@ -90,7 +90,7 @@ Rectangle {
             height: parent.height
             anchors.verticalCenter: parent.verticalCenter
 
-            QEXTQmlQuickIcon {
+            QExtQuickIcon {
                 id: mWindowsMinimizeIcon
                 anchors.centerIn: parent
                 width: windowsIconWidth
@@ -123,7 +123,7 @@ Rectangle {
             height: parent.height
             anchors.verticalCenter: parent.verticalCenter
 
-            QEXTQmlQuickIcon {
+            QExtQuickIcon {
                 id: mWindowsSizeIcon
                 anchors.centerIn: parent
                 width: windowsIconWidth
@@ -156,7 +156,7 @@ Rectangle {
             height: parent.height
             anchors.verticalCenter: parent.verticalCenter
 
-            QEXTQmlQuickIcon {
+            QExtQuickIcon {
                 id: mWindowsCloseIcon
                 anchors.centerIn: parent
                 width: windowsIconWidth

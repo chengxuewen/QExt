@@ -8,11 +8,11 @@ QtObject {
 
     property string titleText: ""
     property font titleTextFont
-    property string titleTextColor: QEXTQmlQuickPalette.textPrimaryColor
+    property string titleTextColor: QExtQuickPalette.textPrimaryColor
     property real titleTextOpacity: 1
 
     property string titleIconSource
-    property string titleIconColor: QEXTQmlQuickPalette.textPrimaryColor
+    property string titleIconColor: QExtQuickPalette.textPrimaryColor
 
     property Component contentItem
 

@@ -14,17 +14,17 @@ Dialog {
     implicitWidth: 300
     implicitHeight: implicitHeaderHeight + implicitContentHeight + implicitFooterHeight
     anchors.centerIn: Overlay.overlay
-    title: "QEXTQmlQuickDialog"
+    title: "QExtQuickDialog"
 
     signal buttonTriggered(var button)
 
     property bool layoutInCenter: true
     property bool closeable: true
 
-    property string contentText: "QEXTQmlQuickDialog content"
+    property string contentText: "QExtQuickDialog content"
     property string headerText: qextDialog.title
     property font headerTextFont: qextDialog.font
-    property color headerTextColor: QEXTQmlQuickPalette.textPrimaryColor
+    property color headerTextColor: QExtQuickPalette.textPrimaryColor
     property real headerTextOpacity: 1
     property int headerTextHorizontalAlignment: qextDialog.layoutInCenter ? Text.AlignHCenter : Text.AlignLeft
     property int headerTextVerticalAlignment: Text.AlignVCenter
@@ -32,18 +32,18 @@ Dialog {
 
     property color backgroundColor: "#FFFFFF"
     property real backgroundOpacity: 1
-    property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
+    property color backgroundBorderColor: QExtQuickPalette.borderLevel1Color
     property real backgroundBorderWidth: 1
     property real backgroundRadius: 5
 
     property real buttonSpacing: 5
-    property list<QEXTQmlQuickDialogButton> buttons
-    property list<QEXTQmlQuickDialogButton> defaultButtons: [
-        QEXTQmlQuickDialogButton {
+    property list<QExtQuickDialogButton> buttons
+    property list<QExtQuickDialogButton> defaultButtons: [
+        QExtQuickDialogButton {
             lighter: true
             text: "Enter"
             textFont.bold: true
-            textColor: QEXTQmlQuickPalette.textPrimaryColor
+            textColor: QExtQuickPalette.textPrimaryColor
         }
     ]
 
@@ -76,7 +76,7 @@ Dialog {
             opacity: qextDialog.headerTextOpacity
         }
 
-        QEXTQmlQuickIcon {
+        QExtQuickIcon {
             id: mCloseButton
             height: 20
             width: 20
@@ -84,7 +84,7 @@ Dialog {
             anchors.rightMargin: 15
             anchors.verticalCenter: parent.verticalCenter
             visible: qextDialog.closeable
-            source: "qrc:/QEXTQmlQuick/svg/close-px.svg"
+            source: "qrc:/QExtQuick/svg/close-px.svg"
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
@@ -110,7 +110,7 @@ Dialog {
             wrapMode: Text.WrapAnywhere
         }
 
-        QEXTQmlQuickDividerLine {
+        QExtQuickDividerLine {
             id: mDialogContentDividerLine
             width: parent.width * 0.95
             height: 1
@@ -135,7 +135,7 @@ Dialog {
             anchors.verticalCenter: parent.verticalCenter
             Repeater {
                 model: qextDialog.buttons.length > 0 ? qextDialog.buttons : qextDialog.defaultButtons
-                delegate: QEXTQmlQuickIconButton {
+                delegate: QExtQuickIconButton {
                     width: qextDialog.contentCenter ? mDialogFooter.width / buttonModel.length : 80
                     padding: 20
                     anchors.verticalCenter: parent.verticalCenter

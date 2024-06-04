@@ -9,10 +9,10 @@ Button {
     width: 100
     height: 30
     opacity: qextButton.enabled ? 1.0 : 0.3
-    text: "QEXTQmlQuickButton"
+    text: "QExtQuickButton"
 
     property font textFont: qextButton.font
-    property color textColor: QEXTQmlQuickPalette.textPrimaryColor
+    property color textColor: QExtQuickPalette.textPrimaryColor
     property real textOpacity: 1
     property int textHorizontalAlignment: Text.AlignHCenter
     property int textVerticalAlignment: Text.AlignVCenter
@@ -23,7 +23,7 @@ Button {
     property color backgroundColor: "#FFFFFF"
     property real backgroundOpacity: 1
     property real backgroundRadius: 2
-    property color backgroundBorderColor: QEXTQmlQuickPalette.borderLevel1Color
+    property color backgroundBorderColor: QExtQuickPalette.borderLevel1Color
     property real backgroundBorderWidth: 1
 
     property bool pressPromptEnable: true
@@ -48,22 +48,22 @@ Button {
     }
 
     onPressed: {
-        qextButton.state = QEXTQmlQuick.stateToString(QEXTQmlQuick.State_Pressed)
+        qextButton.state = QExtQuick.stateToString(QExtQuick.State_Pressed)
         if (pressPromptEnable) {
             scale = 0.95
         }
     }
     onReleased: {
-        qextButton.state = QEXTQmlQuick.stateToString(QEXTQmlQuick.State_Hovered)
+        qextButton.state = QExtQuick.stateToString(QExtQuick.State_Hovered)
         if (pressPromptEnable) {
             scale = 1
         }
     }
     onHoveredChanged: {
         if (qextButton.hovered) {
-            qextButton.state = QEXTQmlQuick.stateToString(QEXTQmlQuick.State_Hovered)
+            qextButton.state = QExtQuick.stateToString(QExtQuick.State_Hovered)
         } else {
-            qextButton.state = QEXTQmlQuick.stateToString(QEXTQmlQuick.State_Normal)
+            qextButton.state = QExtQuick.stateToString(QExtQuick.State_Normal)
         }
     }
     onTextFontChanged: {

@@ -3,7 +3,7 @@ import QExtQuick 1.2
 
 Rectangle {
     id: qextDividerLine
-    color: QEXTQmlQuickPalette.borderLevel1Color
+    color: QExtQuickPalette.borderLevel1Color
     width: verticalLine ? lineWidth : lineLength
     height: verticalLine ? lineLength : lineWidth
 

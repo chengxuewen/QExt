@@ -31,7 +31,7 @@ Item {
     ShaderEffect {
         id: shaderItem
         anchors.fill: parent
-        fragmentShader: "qrc:/QEXTQmlQuick/font/mask.cso"
+        fragmentShader: "qrc:/QExtQuick/font/mask.cso"
 
         property variant source: mSourceShaderEffect
         property variant maskSource: mMaskShaderEffect

@@ -21,6 +21,7 @@
 #
 ########################################################################################################################
 
+
 #-----------------------------------------------------------------------------------------------------------------------
 # This function can be used to add sources/libraries/etc. to the specified CMake target
 # if the provided CONDITION evaluates to true.
@@ -53,6 +54,7 @@ function(qext_internal_extend_target target)
         if(${target_type} STREQUAL "STATIC_LIBRARY" OR ${target_type} STREQUAL "SHARED_LIBRARY")
             set(is_library TRUE)
         endif()
+
         foreach(lib ${arg_PUBLIC_LIBRARIES} ${arg_LIBRARIES})
             # Automatically generate PCH for 'target' using public dependencies.
             # But only if 'target' is a library/module that does not specify its own PCH file.
@@ -839,7 +841,8 @@ function(qext_internal_link_internal_platform_for_object_library target)
     # The flags are needed when building iOS apps because Xcode expects bitcode to be
     # present by default.
     # Achieve this by compiling the cpp files with the PlatformModuleInternal compile flags.
-    target_link_libraries("${target}" PRIVATE Qt::PlatformModuleInternal)
+    # target_link_libraries("${target}" PRIVATE Qt::PlatformModuleInternal)
+    # TODO:del
 endfunction()
 
 
@@ -848,7 +851,7 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 # Can be called to add additional targets to the file after the initial setup call.
 # Used for resources.
-function(qt_internal_add_targets_to_additional_targets_export_file)
+function(qext_internal_add_targets_to_additional_targets_export_file)
     qt_internal_get_export_additional_targets_keywords(option_args single_args multi_args)
     cmake_parse_arguments(arg
         "${option_args}"

@@ -3,12 +3,10 @@
 #include <QElapsedTimer>
 #include <QDebug>
 
-#include <qextGlobal.h>
+#include <qextCoreConfig.h>
 
-#ifndef QEXT_BUILD_SHARED_LIBS
-#include <qextQuickLoader.h>
-#else
-#include <qextQuickExampleConfig.h>
+#ifndef QEXT_BUILD_SHARED
+#   include <qextQuickLoader.h>
 #endif
 
 int main(int argc, char *argv[])
@@ -22,19 +20,19 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-#ifndef QEXT_BUILD_SHARED_LIBS
+#ifndef QEXT_BUILD_SHARED
     QExtQuickLoader::load(&engine);
 #else
-    engine.addImportPath(QEXT_OUTPUT_QML_DIR);
+    qDebug() << "addImportPath:" << QML_MODULES_DIR;
+    engine.addImportPath(QML_MODULES_DIR);
 #endif
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty()) {
+    if (engine.rootObjects().isEmpty())
+    {
         return -1;
     }
 
-    qDebug() << "Startup time:"
-             << timer.elapsed() << "ms";
-
+    qDebug() << "Startup time:" << timer.elapsed() << "ms";
     return app.exec();
 }

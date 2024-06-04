@@ -25,36 +25,43 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib link libraries
 #-----------------------------------------------------------------------------------------------------------------------
-set(QEXT_LIB_LINK_LIBRARIES)
+set(QEXT_QML_LINK_LIBRARIES)
 
 if (QEXT_QT_VERSION_MAJOR GREATER 4)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES
+    list(APPEND QEXT_QML_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
-        Qt${QEXT_QT_VERSION_MAJOR}::Gui
-        Qt${QEXT_QT_VERSION_MAJOR}::Widgets
+        # Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        # Qt${QEXT_QT_VERSION_MAJOR}::Widgets
         Qt${QEXT_QT_VERSION_MAJOR}::Qml
         Qt${QEXT_QT_VERSION_MAJOR}::Quick
-        Qt${QEXT_QT_VERSION_MAJOR}::QuickControls2
-        Qt${QEXT_QT_VERSION_MAJOR}::Core
-        Qt${QEXT_QT_VERSION_MAJOR}::Core)
+        Qt${QEXT_QT_VERSION_MAJOR}::QuickControls2)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
+list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml)
 
-
+qext_find_qt_tool(moc)
+set(QEXT_QT_MOC_EXECUTABLE "${moc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
+qext_find_qt_tool(rcc)
+set(QEXT_QT_RCC_EXECUTABLE "${rcc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
+# message(QEXT_QT_RCC_EXECUTABLE=${QEXT_QT_RCC_EXECUTABLE})
+qext_find_qt_tool(qmlplugindump)
+set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${qmlplugindump_EXECUTABLE}" CACHE INTERNAL "" FORCE)
+# message(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE=${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_qml(Quick
+qt_internal_add_qml_module(Quick
     URI "QExtQuick"
+    VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQuickPlugin
-    PLUGIN_TARGET QExtQuick
-    PAST_MAJOR_VERSIONS 1 2
-    DESIGNER_SUPPORTED
+    PLUGIN_TARGET QuickPlugin
+    PLUGIN_SOURCES source/qextQuickPlugin.cpp
+    # PAST_MAJOR_VERSIONS 1 2
+    # DESIGNER_SUPPORTED
     DEPENDENCIES
-    QtQuick
+    QExt::Qml
     SOURCES
     source/qextQuick.cpp
     source/qextQuick_p.h
@@ -79,8 +86,6 @@ qext_add_qml(Quick
     source/qextQuickPalette.cpp
     source/qextQuickPalette_p.h
     source/qextQuickPalette.h
-    source/qextQuickPlugin.cpp
-    source/qextQuickPlugin.h
     source/qextQuickTextGadget.cpp
     source/qextQuickTextGadget_p.h
     source/qextQuickTextGadget.h
@@ -93,217 +98,11 @@ qext_add_qml(Quick
     DEFINES
     QEXT_BUILD_QUICK_LIB
     PUBLIC_LIBRARIES
-    ${QEXT_LIB_LINK_LIBRARIES})
+    ${QEXT_QML_LINK_LIBRARIES})
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Add lib tests and examples
+# Add lib examples and tests
 #-----------------------------------------------------------------------------------------------------------------------
-if (QEXT_BUILD_TESTS)
-    add_subdirectory(tests)
-endif ()
-
-if (QEXT_BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif ()
-
-
-# #-----------------------------------------------------------------------------------------------------------------------
-# # Set lib base name and out put path
-# #-----------------------------------------------------------------------------------------------------------------------
-# set(QEXT_QML_PLUGIN_BASE_NAME QExtQuick)
-# set(LIBRARY_OUTPUT_PATH ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME})
-
-
-
-# #-----------------------------------------------------------------------------------------------------------------------
-# # Set lib qmltype and cfg
-# #-----------------------------------------------------------------------------------------------------------------------
-# set(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE ON)
-# set(QEXT_QML_PLUGIN_NAME ${QEXT_QML_PLUGIN_BASE_NAME})
-# set(QEXT_QML_PLUGIN_VERSION_MAJOR 1)
-# set(QEXT_QML_PLUGIN_VERSION_MINOR 0)
-# if (QEXT_BUILDIN_QMLPLUGINDUMP)
-#     set(QEXT_QML_PLUGIN_USE_KIT_QMLPLUGINDUMP OFF)
-# else()
-#     set(QEXT_QML_PLUGIN_USE_KIT_QMLPLUGINDUMP ON)
-# endif()
-
-
-
-# #-----------------------------------------------------------------------------------------------------------------------
-# # Configure a header file to pass some of the CMake settings to the source code
-# #-----------------------------------------------------------------------------------------------------------------------
-# configure_file(
-#     "${CMAKE_CURRENT_SOURCE_DIR}/qextQmlQuickConfig.h.in"
-#     "${CMAKE_CURRENT_BINARY_DIR}/qextQmlQuickConfig.h"
-# )
-
-
-
-# #-----------------------------------------------------------------------------------------------------------------------
-# # Set lib file list
-# #-----------------------------------------------------------------------------------------------------------------------
-# set(QEXT_QML_PLUGIN_PUBLIC_HEADERS
-#     ${CMAKE_CURRENT_BINARY_DIR}/qextQmlQuickConfig.h
-
-#     include/gadget/qextQmlQuickBackgroundGadget.h
-#     include/gadget/qextQmlQuickBorderGadget.h
-#     include/gadget/qextQmlQuickIconGadget.h
-#     include/gadget/qextQmlQuickItemGadget.h
-#     include/gadget/qextQmlQuickTextGadget.h
-
-#     include/qextQmlQuickFontAwesome.h
-#     include/qextQmlQuick.h
-#     include/qextQmlQuickLoader.h
-#     include/qextQmlQuickPalette.h
-#     include/qextQmlQuickPlugin.h
-#     include/qextQmlQuickWorld.h
-#     include/qextQmlQuickPch.h
-#     include/qextQmlQuickGlobal.h
-# )
-
-# set(QEXT_QML_PLUGIN_PRIVATE_HEADERS
-#     private/gadget/qextQmlQuickBackgroundGadget_p.h
-#     private/gadget/qextQmlQuickBorderGadget_p.h
-#     private/gadget/qextQmlQuickIconGadget_p.h
-#     private/gadget/qextQmlQuickItemGadget_p.h
-#     private/gadget/qextQmlQuickTextGadget_p.h
-
-#     private/qextQmlQuick_p.h
-#     private/qextQmlQuickWorld_p.h
-#     private/qextQmlQuickPalette_p.h
-# )
-
-# set(QEXT_QML_PLUGIN_SOURCES
-#     source/gadget/qextQmlQuickBackgroundGadget.cpp
-#     source/gadget/qextQmlQuickBorderGadget.cpp
-#     source/gadget/qextQmlQuickIconGadget.cpp
-#     source/gadget/qextQmlQuickItemGadget.cpp
-#     source/gadget/qextQmlQuickTextGadget.cpp
-
-#     source/qextQmlQuickFontAwesome.cpp
-#     source/qextQmlQuick.cpp
-#     source/qextQmlQuickLoader.cpp
-#     source/qextQmlQuickPalette.cpp
-#     source/qextQmlQuickPlugin.cpp
-#     source/qextQmlQuickWorld.cpp
-# )
-
-# set(QEXT_QML_PLUGIN_RESOURCES
-#     resource/QExtQuick.qrc
-# )
-
-
-
-
-
-
-
-# #-----------------------------------------------------------------------------------------------------------------------
-# # Add lib target
-# #-----------------------------------------------------------------------------------------------------------------------
-# add_library(${QEXT_QML_PLUGIN_BASE_NAME}
-#     ${QEXT_QML_PLUGIN_PUBLIC_HEADERS}
-#     ${QEXT_QML_PLUGIN_PRIVATE_HEADERS}
-#     ${QEXT_QML_PLUGIN_SOURCES}
-#     ${QEXT_QML_PLUGIN_RESOURCES}
-# )
-# if (QEXT_BUILD_COMPILER_WARNING)
-#     qextFunctionSetCompilerWarnings(${QEXT_QML_PLUGIN_BASE_NAME})
-# endif()
-# if (QEXT_BUILD_USE_PCH)
-#     qextFunctionActivatePrecompiledHeaders(${QEXT_QML_PLUGIN_BASE_NAME} PRIVATE include/qextQmlQuickPch.h)
-# endif()
-# target_link_libraries(${QEXT_QML_PLUGIN_BASE_NAME} PUBLIC ${QEXT_QML_PLUGIN_LINK_LIBRARIES})
-# target_include_directories(${QEXT_QML_PLUGIN_BASE_NAME}
-#     PUBLIC
-#     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
-#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/gadget>
-#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/theme>
-#     $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}>
-#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
-#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private/gadget>
-#     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private/theme>
-#     $<INSTALL_INTERFACE:include/${QEXT_LIB_BASE_NAME}/private>
-# )
-# target_compile_definitions(${QEXT_QML_PLUGIN_BASE_NAME} PRIVATE QEXT_BUILD_QUICK_LIB)
-# target_compile_definitions(${QEXT_QML_PLUGIN_BASE_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-
-# # set target properties
-# set_target_properties(${QEXT_QML_PLUGIN_BASE_NAME} PROPERTIES
-#     CXX_STANDARD ${QEXT_CXX_STANDARD}
-#     OUTPUT_NAME ${QEXT_QML_PLUGIN_BASE_NAME}
-# )
-# if(WIN32)
-#     set_target_properties(${QEXT_QML_PLUGIN_BASE_NAME} PROPERTIES
-#         PREFIX ""
-#     )
-# endif()
-# if (QEXT_BUILD_SHARED_LIBS)
-#     set_target_properties(${QEXT_QML_PLUGIN_BASE_NAME} PROPERTIES
-#         CXX_VISIBILITY_PRESET hidden
-#         VISIBILITY_INLINES_HIDDEN 1
-#     )
-# endif()
-
-# # set include files copy command
-# foreach(HEADER ${QEXT_QML_PLUGIN_PUBLIC_HEADERS})
-#     get_filename_component(HEADER_ABSOLUTE_PATH ${HEADER} ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR})
-#     list(APPEND QEXT_QML_PLUGIN_PUBLIC_ABSOLUTE_HEADERS ${HEADER_ABSOLUTE_PATH})
-# endforeach()
-# foreach(HEADER ${QEXT_QML_PLUGIN_PRIVATE_HEADERS})
-#     get_filename_component(HEADER_ABSOLUTE_PATH ${HEADER} ABSOLUTE ${CMAKE_CURRENT_SOURCE_DIR})
-#     list(APPEND QEXT_QML_PLUGIN_PRIVATE_ABSOLUTE_HEADERS ${HEADER_ABSOLUTE_PATH})
-# endforeach()
-# add_custom_command(
-#     TARGET ${QEXT_QML_PLUGIN_BASE_NAME}
-#     COMMAND ${CMAKE_COMMAND} -E remove_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}
-#     COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}
-#     COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}/private
-#     COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_QML_PLUGIN_PUBLIC_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}
-#     COMMAND ${CMAKE_COMMAND} -E copy ${QEXT_QML_PLUGIN_PRIVATE_ABSOLUTE_HEADERS} ${QEXT_OUTPUT_INCLUDE_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}/private
-#     COMMENT "Copy ${QEXT_QML_PLUGIN_BASE_NAME} include files to output dir"
-#     POST_BUILD)
-
-# # qmlplugindump -nonrelocatable QExtQuick 1.2 ${QEXT_OUTPUT_QML_DIR} > ${QEXT_OUTPUT_QML_DIR}/QExtQuick/plugin.qmltypes
-# if(QEXT_QML_PLUGIN_GENERATE_QMLTYPE_FILE AND QEXT_BUILD_SHARED_LIBS)
-#     message(STATUS "Enable create qml plugin ${QEXT_QML_PLUGIN_BASE_NAME} plugin.qmltypes")
-#     if(QEXT_QML_PLUGIN_USE_KIT_QMLPLUGINDUMP)
-#         qextMacroFindQmlPluginDump()
-#         set(QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
-#     else()
-#         add_dependencies(${QEXT_QML_PLUGIN_BASE_NAME} qext_tool_qmlplugindump)
-#         set(QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE ${QEXT_OUTPUT_APP_DIR}/qmlplugindump/qext_tool_qmlplugindump)
-#         if (WIN32)
-#             set(QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE ${QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE}.exe)
-#         endif()
-#     endif()
-#     set(QEXTQUICK_MODULE_VERSION ${QEXT_QML_PLUGIN_VERSION_MAJOR}.${QEXT_QML_PLUGIN_VERSION_MINOR})
-#     set(QEXTQUICK_TYPEINFO_GENERATE_DIR ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME})
-#     set(QEXTQUICK_PLUGIN_TYPEINFO_PATH ${QEXTQUICK_TYPEINFO_GENERATE_DIR}/plugin.qmltypes)
-#     set(QEXT_QML_GENERATE_QMLTYPES_COMMAND
-#         ${QEXTQUICK_QMLPLUGINDUMP_EXECUTABLE}
-#         -nonrelocatable
-#         ${QEXT_QML_PLUGIN_BASE_NAME}
-#         ${QEXTQUICK_MODULE_VERSION}
-#         ${QEXT_OUTPUT_QML_DIR}
-#         >
-#         ${QEXT_OUTPUT_QML_DIR}/${QEXT_QML_PLUGIN_BASE_NAME}/plugin.qmltypes
-#     )
-# qextFunctionCopyDependencyInternal(
-#     TARGET ${QEXT_QML_PLUGIN_BASE_NAME}
-#     LIBS QExtCore
-#     DESTINATION ${QEXT_OUTPUT_APP_DIR}
-#     POST_BUILD
-# )
-# add_custom_command(
-#     TARGET ${QEXT_QML_PLUGIN_BASE_NAME}
-#     COMMAND ${CMAKE_COMMAND} -E make_directory ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
-#     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${QEXTQUICK_TYPEINFO_GENERATE_DIR}
-#     COMMAND ${QEXT_QML_GENERATE_QMLTYPES_COMMAND}
-#     COMMENT "Generating ${QEXT_QML_PLUGIN_BASE_NAME} quick.qmltypes with qmlplugindump."
-#     POST_BUILD
-# )
-# endif()
+qext_add_subdirectory(examples QEXT_BUILD_EXAMPLES)
+qext_add_subdirectory(tests QEXT_BUILD_TESTS)

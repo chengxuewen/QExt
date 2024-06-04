@@ -19,7 +19,7 @@ Item {
 
     Component {
         id: mAwesomeIconComponent
-        QEXTQmlQuickAwesomeIcon {
+        QExtQuickAwesomeIcon {
             enabled: false
             scale: qextIcon.scale
             source: qextIcon.source
@@ -29,7 +29,7 @@ Item {
 
     Component {
         id: mSvgComponent
-        QEXTQmlQuickSVGIcon {
+        QExtQuickSVGIcon {
             enabled: false
             scale: qextIcon.scale
             source: qextIcon.source
