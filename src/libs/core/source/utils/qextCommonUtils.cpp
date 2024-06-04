@@ -1,6 +1,9 @@
 #include <qextCommonUtils.h>
 #include <qextOnceFlag.h>
 
+#include <QDebug>
+#include <QThread>
+
 #ifdef QEXT_OS_WIN
 #   include <process.h>
 #   include <Shlwapi.h>
@@ -41,8 +44,10 @@ qint64 QExtCommonUtils::applicationTid()
 {
 #if QEXT_CC_STD_11
     std::hash<std::thread::id> hasher;
-    int intThreadID = hasher(std::this_thread::get_id());
-    return intThreadID;
+    size_t intThreadID = hasher(std::this_thread::get_id());
+    return (qint64)intThreadID;
+#else
+    return (qint64)QThread::currentThreadId();
 #endif
 }
 
@@ -63,16 +68,36 @@ QString QExtCommonUtils::executableDir()
     return dirString;
 }
 
+namespace detail
+{
+std::string GetLastWin32ErrorStr()
+{
+    std::string errMsg;
+    LPVOID lpMsgBuf;
+    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                  NULL,
+                  GetLastError(),			//Get MessageId
+                  MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
+                  (LPTSTR)&lpMsgBuf,
+                  0,
+                  NULL);
+
+    errMsg = (char *)lpMsgBuf;
+    // Free the buffer.
+    LocalFree(lpMsgBuf);
+    return errMsg;
+}
+}
 QString QExtCommonUtils::executablePath()
 {
     static constexpr uint32_t bufSize = 4096;
 #if defined(QEXT_OS_WIN)
     std::vector<wchar_t> wbuf(bufSize + 1, '\0');
-    if (GetModuleFileNameW(nullptr, wbuf.data(), bufSize) == 0 || GetLastError() == ERROR_INSUFFICIENT_BUFFER)
+    if (GetModuleFileNameW(QEXT_NULLPTR, wbuf.data(), bufSize) == 0 || GetLastError() == ERROR_INSUFFICIENT_BUFFER)
     {
-        throw std::runtime_error("GetModuleFileName failed" + GetLastWin32ErrorStr());
+        qCritical() << QString("GetModuleFileName failed, %1!").arg(detail::GetLastWin32ErrorStr().c_str());
     }
-    return ToUTF8String(wbuf.data());
+    return QString::fromWCharArray(wbuf.data(), (int)wbuf.size());
 #elif defined(QEXT_OS_APPLE)
     std::vector<char> buf(bufSize + 1, '\0');
     int status = _NSGetExecutablePath(buf.data(), &bufSize);

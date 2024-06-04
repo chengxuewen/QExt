@@ -30,11 +30,9 @@ set(QEXT_LIB_LINK_LIBRARIES)
 if(UNIX)
     list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_DL_LIBS})
 endif()
-
 if(APPLE)
     list(APPEND QEXT_LIB_LINK_LIBRARIES "-framework Cocoa" "iconv")
 endif()
-
 if(WIN32)
     # shlwapi.lib           ->  shell,string
     # ws2_32.lib            ->  network
