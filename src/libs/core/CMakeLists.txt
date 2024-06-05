@@ -1,4 +1,4 @@
-﻿########################################################################################################################
+﻿# #######################################################################################################################
 #
 # Library: QExt
 #
@@ -19,20 +19,21 @@
 # OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-########################################################################################################################
+# #######################################################################################################################
 
-
-#-----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------------
 # Add lib link libraries
-#-----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------------
 set(QEXT_LIB_LINK_LIBRARIES)
 
 if(UNIX)
     list(APPEND QEXT_LIB_LINK_LIBRARIES ${CMAKE_DL_LIBS})
 endif()
+
 if(APPLE)
     list(APPEND QEXT_LIB_LINK_LIBRARIES "-framework Cocoa" "iconv")
 endif()
+
 if(WIN32)
     # shlwapi.lib           ->  shell,string
     # ws2_32.lib            ->  network
@@ -41,7 +42,9 @@ if(WIN32)
     elseif(${CMAKE_SYSTEM_VERSION} GREATER_EQUAL 6.2) # Windows 8
         list(APPEND QEXT_LIB_LINK_LIBRARIES Synchronization.lib)
     endif()
+
     list(APPEND QEXT_LIB_LINK_LIBRARIES shlwapi.lib ws2_32.lib)
+
     if(NOT MINGW)
         list(APPEND QEXT_LIB_LINK_LIBRARIES dbghelp)
     endif()
@@ -49,16 +52,15 @@ endif()
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore)
-elseif (QEXT_QT_VERSION_MAJOR GREATER 4)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::Core)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-
-#-----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------------
 # Add lib target
-#-----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------------
 qext_add_library(Core
     EXCEPTIONS
     SOURCES
@@ -129,22 +131,25 @@ qext_add_library(Core
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
 
-
+if(QEXT_FEATURE_USE_CJSON_BACKEND)
+    qext_find_package(WrapCJSON PROVIDED_TARGETS QExt3rdparty::WrapCJSON)
+    qext_internal_extend_target(Core LIBRARIES QExt3rdparty::WrapCJSON)
+endif()
+if(QEXT_FEATURE_USE_3RDQJSON_BACKEND)
+    qext_find_package(WrapQJson PROVIDED_TARGETS QExt3rdparty::WrapQJson)
+    qext_internal_extend_target(Core LIBRARIES QExt3rdparty::WrapQJson)
+endif()
 if(QEXT_FEATURE_ENABLE_JSON)
     qext_internal_extend_target(Core
         SOURCES
         source/tools/qextJson.cpp
         source/tools/qextJson.h
         source/tools/qextJson_p.h)
-    if(QEXT_FEATURE_USE_CJSON_BACKEND)
-        qext_find_package(WrapCJSON PROVIDED_TARGETS QExt3rdparty::WrapCJSON)
-        qext_internal_extend_target(Core LIBRARIES QExt3rdparty::WrapCJSON)
-    endif()
 endif()
 
 
-#-----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------------
 # Add lib examples and tests
-#-----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------------
 qext_add_subdirectory(examples QEXT_BUILD_EXAMPLES)
 qext_add_subdirectory(tests QEXT_BUILD_TESTS)

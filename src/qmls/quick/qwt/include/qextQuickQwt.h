@@ -1,0 +1,1 @@
+#include "../source/qextQuickQwt.h"

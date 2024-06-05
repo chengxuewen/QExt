@@ -68,6 +68,7 @@ QString QExtCommonUtils::executableDir()
     return dirString;
 }
 
+#ifdef QEXT_OS_WIN
 namespace detail
 {
 std::string GetLastWin32ErrorStr()
@@ -88,6 +89,7 @@ std::string GetLastWin32ErrorStr()
     return errMsg;
 }
 }
+#endif
 QString QExtCommonUtils::executablePath()
 {
     static constexpr uint32_t bufSize = 4096;

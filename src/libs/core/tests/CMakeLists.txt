@@ -1,4 +1,4 @@
-﻿########################################################################################################################
+﻿# #######################################################################################################################
 #
 # Library: QExt
 #
@@ -19,12 +19,11 @@
 # OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
-########################################################################################################################
+# #######################################################################################################################
 
-
-#-----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------------
 # Add lib link libraries
-#-----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------------
 set(QEXT_TEST_LINK_LIBRARIES QExt::Core)
 set(QEXT_TEST_INCLUDE_DIRECTORIES)
 
@@ -43,10 +42,9 @@ endif()
 find_package(Threads)
 list(APPEND QEXT_TEST_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 
-
-#-----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------------
 # add tests
-#-----------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------------------------
 qext_internal_add_test(QExtTstCoreTypeTrait
     SOURCES
     tools/tst_qextTypeTrait.cpp
@@ -224,16 +222,14 @@ qext_internal_add_test(QExtTstCoreCommonUtils
     OUTPUT_DIRECTORY
     ${QEXT_INSTALL_TESTSDIR})
 
-if(QEXT_FEATURE_ENABLE_JSON)
-    qext_internal_add_test(QExtTstCoreJson
-        SOURCES
-        tools/json/tst_qextJson.cpp
-        LIBRARIES
-        ${QEXT_TEST_LINK_LIBRARIES}
-        OUTPUT_DIRECTORY
-        ${QEXT_INSTALL_TESTSDIR})
-    add_custom_command(TARGET QExtTstCoreJson
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/tools/json/testdata ${QEXT_INSTALL_TESTSDIR}/json
-        COMMENT "Copying json testdata directory to ${QEXT_INSTALL_TESTSDIR}"
-        POST_BUILD)
-endif()
+qext_internal_add_test(QExtTstCoreJson
+    SOURCES
+    tools/json/tst_qextJson.cpp
+    LIBRARIES
+    ${QEXT_TEST_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_TESTSDIR})
+add_custom_command(TARGET QExtTstCoreJson
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/tools/json/testdata ${QEXT_INSTALL_TESTSDIR}/json
+    COMMENT "Copying json testdata directory to ${QEXT_INSTALL_TESTSDIR}"
+    POST_BUILD)

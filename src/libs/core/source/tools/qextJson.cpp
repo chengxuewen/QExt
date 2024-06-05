@@ -2,7 +2,18 @@
 #include <qextNumeric.h>
 #include <qextTag.h>
 
+#include <QThreadStorage>
+
 #include <cfloat>
+
+namespace detail
+{
+QThreadStorage<QString> &qextJsonBackendTls()
+{
+    static QThreadStorage<QString> backendString;
+    return backendString;
+}
+}
 
 /***********************************************************************************************************************
  * QExtJsonValue

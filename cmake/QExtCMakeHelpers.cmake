@@ -504,3 +504,109 @@ function(qext_set_3rdparty_install_info prefix target)
     set(${prefix}_INSTALL_DIR "${root_dir}/install" CACHE INTERNAL "${prefix}_INSTALL_DIR var." FORCE)
 #    message(STATUS "Set 3rdparty ${target} install info finished.")
 endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_stamp_file_info base_name)
+    qext_parse_all_arguments(arg "" "" "SUFFIX;OUTPUT_DIR" "" ${ARGN})
+    if("${arg_OUTPUT_DIR}" STREQUAL "")
+        set(arg_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR})
+    endif()
+    if("${arg_SUFFIX}" STREQUAL "")
+        set("${base_name}_STAMP_FILE_NAME" "${base_name}-stamp.txt" PARENT_SCOPE)
+        set("${base_name}_STAMP_FILE_PATH" "${arg_OUTPUT_DIR}/${base_name}-stamp.txt" PARENT_SCOPE)
+    else()
+        string(TOLOWER "${arg_SUFFIX}" LOWER_SUFFIX)
+        set("${base_name}_${arg_SUFFIX}_STAMP_FILE_NAME" "${base_name}-${LOWER_SUFFIX}-stamp.txt" PARENT_SCOPE)
+        set("${base_name}_${arg_SUFFIX}_STAMP_FILE_PATH" "${arg_OUTPUT_DIR}/${base_name}-${LOWER_SUFFIX}-stamp.txt" PARENT_SCOPE)
+    endif()
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_make_stamp_file file_path)
+    message(STATUS "Creating ${file_path} ...")
+    string(TIMESTAMP CURRENT_TIMESTAMP "%Y-%m-%d %H:%M:%S")
+    file(WRITE "${file_path}" "${CURRENT_TIMESTAMP}")
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_fetch_3rdparty name)
+    qext_parse_all_arguments(arg "" "" "URL;OUTPUT_DIR" "" ${ARGN})
+    if(NOT EXISTS "${arg_URL}")
+        message(FATAL_ERROR "3rdparty ${name} fetch failed, url ${arg_URL} not exist.")
+    endif()
+    get_filename_component(url_name ${arg_URL} NAME)
+    string(REGEX MATCH "\\.zip$" is_zip ${url_name})
+    string(REGEX MATCH "\\.tar\\.gz$" is_tar_gz ${url_name})
+    string(REGEX MATCH "\\.tar\\.bz2$" is_tar_bz2 ${url_name})
+    if(is_zip)
+        string(REGEX REPLACE "\\.zip$" "" url_base_name ${url_name})
+    elseif(is_tar_gz)
+        string(REGEX REPLACE "\\.tar\\.gz$" "" url_base_name ${url_name})
+    elseif(is_tar_bz2)
+        string(REGEX REPLACE "\\.tar\\.bz2$" "" url_base_name ${url_name})
+    else()
+        message(FATAL_ERROR "3rdparty ${name} fetch failed, url ${arg_URL} is an unknown format compressed package")
+    endif()
+    if("${arg_OUTPUT_DIR}" STREQUAL "")
+        set(arg_OUTPUT_DIR "${PROJECT_BINARY_DIR}/3rdparty")
+    endif()
+    set(3rdparty_root_dir ${arg_OUTPUT_DIR}/${url_base_name})
+#    message(3rdparty_root_dir=${3rdparty_root_dir})
+    set("${name}_FETCH_STAMP_FILE_PATH" "${3rdparty_root_dir}/${name}-fetch-stamp.txt")
+    if(NOT EXISTS "${${name}_FETCH_STAMP_FILE_PATH}")
+        message(STATUS "Fetching 3rdparty ${name} from ${arg_URL} ...")
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${3rdparty_root_dir}
+            WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
+            RESULT_VARIABLE MKDIR_RESULT)
+        if(NOT MKDIR_RESULT MATCHES 0)
+            message(FATAL_ERROR "3rdparty ${name} fetch failed, work directory ${3rdparty_root_dir} make failed.")
+        endif()
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E remove_directory source
+            WORKING_DIRECTORY "${3rdparty_root_dir}"
+            RESULT_VARIABLE RMDIR_RESULT)
+        if(NOT RMDIR_RESULT MATCHES 0)
+            message(FATAL_ERROR "3rdparty ${name} fetch failed, source directory clear failed.")
+        endif()
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E make_directory extract
+            WORKING_DIRECTORY "${3rdparty_root_dir}"
+            RESULT_VARIABLE MKDIR_RESULT)
+        if(NOT MKDIR_RESULT MATCHES 0)
+            message(FATAL_ERROR "3rdparty ${name} fetch failed, extract directory create failed.")
+        endif()
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E tar xzvf "${arg_URL}"
+            WORKING_DIRECTORY ${3rdparty_root_dir}/extract
+            RESULT_VARIABLE EXTRACT_RESULT)
+        if(NOT EXTRACT_RESULT EQUAL 0)
+            message(FATAL_ERROR "3rdparty ${name} fetch failed, ${arg_URL} extract failed.")
+        endif()
+        file(GLOB extracted_dirs RELATIVE "${3rdparty_root_dir}/extract" "${3rdparty_root_dir}/extract/*")
+        foreach(subdir ${extracted_dirs})
+            if(IS_DIRECTORY "${3rdparty_root_dir}/extract/${subdir}")
+                set(3rdparty_extracted_dir "${3rdparty_root_dir}/extract/${subdir}")
+            endif()
+        endforeach()
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E rename ${3rdparty_extracted_dir} ${3rdparty_root_dir}/source
+            WORKING_DIRECTORY ${3rdparty_root_dir}
+            RESULT_VARIABLE EXTRACT_RESULT)
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E remove_directory extract
+            WORKING_DIRECTORY ${3rdparty_root_dir}
+            RESULT_VARIABLE RMDIR_RESULT)
+        if(NOT EXTRACT_RESULT EQUAL 0)
+            message(FATAL_ERROR "3rdparty ${name} fetch failed, ${arg_URL} rename failed.")
+        endif()
+        qext_make_stamp_file("${${name}_FETCH_STAMP_FILE_PATH}")
+    endif()
+    set("${name}_FETCH_STAMP_FILE_PATH" "${name}_FETCH_STAMP_FILE_PATH" PARENT_SCOPE)
+endfunction()

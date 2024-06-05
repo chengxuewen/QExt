@@ -6,6 +6,12 @@
 #if QEXT_FEATURE_USE_CJSON_BACKEND
 #   include <cjson/cJSON.h>
 #endif
+#if QEXT_FEATURE_USE_3rdQJSON_BACKEND
+#   include <qjsonarray.h>
+#   include <qjsonvalue.h>
+#   include <qjsonobject.h>
+#   include <qjsondocument.h>
+#endif
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
 #   include <QJsonValue>
 #   include <QJsonArray>

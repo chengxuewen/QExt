@@ -677,7 +677,7 @@ function(qt6_add_qml_module target)
     if(arg_NO_GENERATE_PLUGIN_SOURCE)
         set(no_gen_source NO_GENERATE_PLUGIN_SOURCE)
     endif()
-
+    # message(arg_OUTPUT_DIRECTORY=${arg_OUTPUT_DIRECTORY})
     if(arg_OUTPUT_DIRECTORY)
         get_filename_component(arg_OUTPUT_DIRECTORY "${arg_OUTPUT_DIRECTORY}"
             ABSOLUTE BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}")
@@ -818,7 +818,7 @@ function(qt6_add_qml_module target)
             set(qext_qml_module_resource_prefix "${arg_RESOURCE_PREFIX}/${arg_TARGET_PATH}")
         endif()
     endif()
-    # message(arg_OUTPUT_DIRECTORY=${arg_OUTPUT_DIRECTORY})
+
     set_target_properties(${target} PROPERTIES
         QEXT_QML_MODULE_NO_LINT "${arg_NO_LINT}"
         QEXT_QML_MODULE_NO_CACHEGEN "${arg_NO_CACHEGEN}"
@@ -851,6 +851,9 @@ function(qt6_add_qml_module target)
         # TODO: Check how this is used by qt6_android_generate_deployment_settings()
         QEXT_QML_IMPORT_PATH "${arg_IMPORT_PATH}")
     # message(arg_TYPEINFO=${arg_TYPEINFO})
+    target_compile_definitions(${target} PRIVATE
+        QEXT_QML_MODULE_URI="${arg_URI}"
+        QEXT_QML_MODULE_VERSION="${arg_VERSION}")
 
     # Executables don't have a plugin target, so no need to export the properties.
     if(NOT backing_target_type STREQUAL "EXECUTABLE" AND NOT is_android_executable)
@@ -1381,6 +1384,7 @@ function(qext_internal_qml_type_registration target)
     endif()
     # qt6_extract_metatypes(${target} ${meta_types_json_args}) #TODO:del?
 
+    get_target_property(import_url ${target} QEXT_QML_MODULE_URI)
     get_target_property(import_version ${target} QEXT_QML_MODULE_VERSION)
     get_target_property(output_dir ${target} QEXT_QML_MODULE_OUTPUT_DIRECTORY)
     get_target_property(target_source_dir ${target} SOURCE_DIR)
@@ -1415,13 +1419,12 @@ function(qext_internal_qml_type_registration target)
     # message(arg_PLUGIN_TARGET=${arg_PLUGIN_TARGET})
     # message(output_dir=${output_dir})
     # message(plugin_types_file=${plugin_types_file})
-    get_filename_component(moudle_dir ${output_dir} DIRECTORY)
-    # message(moudle_dir=${moudle_dir})
     if(TARGET ${arg_PLUGIN_TARGET})
+        # -nonrelocatable
         add_custom_command(
             TARGET ${arg_PLUGIN_TARGET}
             COMMAND
-            ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE} -v -nonrelocatable ${import_name} ${import_version} ${moudle_dir}
+            ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE} -v ${import_name} ${import_version} ${QEXT_QML_OUTPUT_DIRECTORY}
             -output ${plugin_types_file}
             DEPENDS
             "${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE}"
@@ -1534,7 +1537,7 @@ function(qext_internal_qml_type_registration target)
     # )
 
     cmake_policy(POP)
-    message(plugin_types_file=${plugin_types_file})
+    # message(plugin_types_file=${plugin_types_file})
     # The ${target}_qmllint targets need to depend on the generation of all
     # *.qmltypes files in the build. We have no way of reliably working out
     # which QML modules a given target depends on at configure time, so we
