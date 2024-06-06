@@ -22,7 +22,7 @@
 **
 ***********************************************************************************************************************/
 
-#include <private/qextQuickControls_p.h>
+#include <qextQuickControls.h>
 #include <qextQuickWorld.h>
 #include <qextQuickTextGadget.h>
 #include <qextQuickBorderGadget.h>
@@ -30,14 +30,33 @@
 #include <qextQuickIconGadget.h>
 #include <qextQuickItemGadget.h>
 #include <qextQuickPalette.h>
-#include <qextQuickFontAwesome.h>
 #include <qextQuickControlConfig.h>
+
+#include <qextOnceFlag.h>
 
 #include <QDebug>
 #include <QMutex>
-#include <QMutexLocker>
-#include <QFontDatabase>
+#include <QPointer>
+#include <QQmlEngine>
 #include <QQmlContext>
+#include <QMutexLocker>
+#include <QQuickWindow>
+
+class QExtQuickWorld;
+class QExtQuickControlsPrivate
+{
+    QExtQuickControls * const q_ptr;
+    Q_DECLARE_PUBLIC(QExtQuickControls)
+    Q_DISABLE_COPY(QExtQuickControlsPrivate)
+public:
+    explicit QExtQuickControlsPrivate(QExtQuickControls *q);
+    virtual ~QExtQuickControlsPrivate();
+
+    QPointer<QExtQuickWorld> m_quickWorld;
+    QPointer<QQmlEngine> m_qmlEngine;
+    QPointer<QQuickWindow> m_rootWindow;
+    Qt::CursorShape m_mouseAreaCurrsor = Qt::ArrowCursor;
+};
 
 QExtQuickControlsPrivate::QExtQuickControlsPrivate(QExtQuickControls *q)
     : q_ptr(q)
@@ -49,10 +68,6 @@ QExtQuickControlsPrivate::~QExtQuickControlsPrivate()
 {
 
 }
-
-
-
-static QExtQuickControls *sg_instance = nullptr;
 
 QExtQuickControls::QExtQuickControls(QObject *parent)
     : QObject(parent)
@@ -75,13 +90,14 @@ QObject *QExtQuickControls::qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngi
 
 QExtQuickControls *QExtQuickControls::instance()
 {
-    static QMutex mutex;
-    QMutexLocker mutexLocker(&mutex);
-    if (nullptr == sg_instance)
+    static QExtOnceFlag onceFlag;
+    static QExtQuickControls *instance = QEXT_NULLPTR;
+    if (onceFlag.enter())
     {
-        sg_instance = new QExtQuickControls;
+        instance = new QExtQuickControls;
+        onceFlag.leave();
     }
-    return sg_instance;
+    return instance;
 }
 
 QString QExtQuickControls::version() const
@@ -157,63 +173,78 @@ void QExtQuickControls::registerTypes(const char *url)
     const int major = QEXT_VERSION_MAJOR;
     const int minor = QEXT_VERSION_MINOR;
 
-    qmlRegisterSingletonType<QExtQuickControls>(url, major, minor, "QExtQuickControls", QExtQuickControls::qmlSingletonTypeProvider);
-    qmlRegisterSingletonType<QExtQuickFontAwesome>(url, major, minor, "QExtQuickFontAwesome", QExtQuickFontAwesome::qmlSingletonTypeProvider);
-    qmlRegisterSingletonType<QExtQuickPalette>(url, major, minor, "QExtQuickPalette", QExtQuickPalette::qmlSingletonTypeProvider);
+    qmlRegisterSingletonType<QExtQuickControls>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickControls",
+                                                QExtQuickControls::qmlSingletonTypeProvider);
+    qmlRegisterSingletonType<QExtQuickPalette>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickPalette",
+                                               QExtQuickPalette::qmlSingletonTypeProvider);
 
-    qmlRegisterType<QExtQuickTextGadget>(url, major, minor, "QExtQuickTextGadget");
-    qmlRegisterType<QExtQuickBorderGadget>(url, major, minor, "QExtQuickBorderGadget");
-    qmlRegisterType<QExtQuickBackgroundGadget>(url, major, minor, "QExtQuickBackgroundGadget");
-    qmlRegisterType<QExtQuickIconGadget>(url, major, minor, "QExtQuickIconGadget");
-    qmlRegisterType<QExtQuickItemGadget>(url, major, minor, "QExtQuickItemGadget");
-    qmlRegisterType<QExtQuickWorld>( url, major, minor, "QExtQuickWorld");
+    qmlRegisterType<QExtQuickWorld>( QEXT_QML_MODULE_URI, major, minor, "QExtQuickWorld");
+    qmlRegisterType<QExtQuickItemGadget>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickItemGadget");
+    qmlRegisterType<QExtQuickTextGadget>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickTextGadget");
+    qmlRegisterType<QExtQuickIconGadget>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickIconGadget");
+    qmlRegisterType<QExtQuickBorderGadget>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickBorderGadget");
+    qmlRegisterType<QExtQuickBackgroundGadget>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickBackgroundGadget");
 
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickAvatar.qml"), url, major, minor, "QExtQuickAvatar");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickAwesomeIcon.qml"), url, major, minor, "QExtQuickAwesomeIcon");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickBadge.qml"), url, major, minor, "QExtQuickBadge");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickBusyIndicator.qml"), url, major, minor, "QExtQuickBusyIndicator");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickButton.qml"), url, major, minor, "QExtQuickButton");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickCarousel.qml"), url, major, minor, "QExtQuickCarousel");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickCarouselElement.qml"), url, major, minor, "QExtQuickCarouselElement");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickCheckBox.qml"), url, major, minor, "QExtQuickCheckBox");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickCircularProgressBar.qml"), url, major, minor, "QExtQuickCircularProgressBar");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickCollapse.qml"), url, major, minor, "QExtQuickCollapse");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickCollapseElement.qml"), url, major, minor, "QExtQuickCollapseElement");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickDialog.qml"), url, major, minor, "QExtQuickDialog");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickDialogButton.qml"), url, major, minor, "QExtQuickDialogButton");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickDividerLine.qml"), url, major, minor, "QExtQuickDividerLine");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickFpsMonitor.qml"), url, major, minor, "QExtQuickFpsMonitor");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickIcon.qml"), url, major, minor, "QExtQuickIcon");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickIconButton.qml"), url, major, minor, "QExtQuickIconButton");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickInputField.qml"), url, major, minor, "QExtQuickInputField");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickMask.qml"), url, major, minor, "QExtQuickMask");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickMoveArea.qml"), url, major, minor, "QExtQuickMoveArea");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickNavigationBar.qml"), url, major, minor, "QExtQuickNavigationBar");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickNavigationElement.qml"), url, major, minor, "QExtQuickNavigationElement");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickObject.qml"), url, major, minor, "QExtQuickObject");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickPagination.qml"), url, major, minor, "QExtQuickPagination");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickProgressBar.qml"), url, major, minor, "QExtQuickProgressBar");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickRadioButton.qml"), url, major, minor, "QExtQuickRadioButton");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickResizeArea.qml"), url, major, minor, "QExtQuickResizeArea");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickRoundRectangle.qml"), url, major, minor, "QExtQuickRoundRectangle");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickScrollbarH.qml"), url, major, minor, "QExtQuickScrollbarH");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickScrollbarV.qml"), url, major, minor, "QExtQuickScrollbarV");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickSplitView.qml"), url, major, minor, "QExtQuickSplitView");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickSVGIcon.qml"), url, major, minor, "QExtQuickSVGIcon");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickSwitch.qml"), url, major, minor, "QExtQuickSwitch");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickTag.qml"), url, major, minor, "QExtQuickTag");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickWindow.qml"), url, major, minor, "QExtQuickWindow");
-    qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickWindowTitleBar.qml"), url, major, minor, "QExtQuickWindowTitleBar");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickAvatar.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickAvatar");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickBadge.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickBadge");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickBusyIndicator.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickBusyIndicator");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickCollapse.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickCollapse");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickCollapseElement.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickCollapseElement");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickDividerLine.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickDividerLine");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickFontImage.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickFontImage");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickFpsMonitor.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickFpsMonitor");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickImage.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickImage");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickInputField.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickInputField");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickMask.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickMask");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickProgressBar.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickProgressBar");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickSvgImage.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickSvgImage");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickTag.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickTag");
 
-    qmlRegisterSingletonType(QUrl("qrc:/QExtQuickControls/control/QExtQuickToast.qml"), url, major, minor, "QExtQuickToast");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickButton.qml"), url, major, minor, "QExtQuickButton");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickCarousel.qml"), url, major, minor, "QExtQuickCarousel");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickCarouselElement.qml"), url, major, minor, "QExtQuickCarouselElement");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickCheckBox.qml"), url, major, minor, "QExtQuickCheckBox");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickCircularProgressBar.qml"), url, major, minor, "QExtQuickCircularProgressBar");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickDialog.qml"), url, major, minor, "QExtQuickDialog");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickDialogButton.qml"), url, major, minor, "QExtQuickDialogButton");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickIconButton.qml"), url, major, minor, "QExtQuickIconButton");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickMoveArea.qml"), url, major, minor, "QExtQuickMoveArea");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickNavigationBar.qml"), url, major, minor, "QExtQuickNavigationBar");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickNavigationElement.qml"), url, major, minor, "QExtQuickNavigationElement");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickObject.qml"), url, major, minor, "QExtQuickObject");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickPagination.qml"), url, major, minor, "QExtQuickPagination");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickRadioButton.qml"), url, major, minor, "QExtQuickRadioButton");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickResizeArea.qml"), url, major, minor, "QExtQuickResizeArea");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickRoundRectangle.qml"), url, major, minor, "QExtQuickRoundRectangle");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickScrollbarH.qml"), url, major, minor, "QExtQuickScrollbarH");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickScrollbarV.qml"), url, major, minor, "QExtQuickScrollbarV");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickSplitView.qml"), url, major, minor, "QExtQuickSplitView");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickSwitch.qml"), url, major, minor, "QExtQuickSwitch");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickWindow.qml"), url, major, minor, "QExtQuickWindow");
+    // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickWindowTitleBar.qml"), url, major, minor, "QExtQuickWindowTitleBar");
+
+    // qmlRegisterSingletonType(QUrl("qrc:/QExtQuickControls/control/QExtQuickToast.qml"), url, major, minor, "QExtQuickToast");
 }
 
 void QExtQuickControls::initQmlEngine(QQmlEngine *engine, const char *uri)
 {
-    Q_D(QExtQuickControls);
     Q_UNUSED(uri)
+    Q_D(QExtQuickControls);
     d->m_qmlEngine = engine;
-    QFontDatabase::addApplicationFont(":/QExtQuickControls/font/fontawesome-webfont.ttf");
     d->m_qmlEngine->rootContext()->setContextProperty("qextRootWindow", QEXT_NULLPTR);
 }
 

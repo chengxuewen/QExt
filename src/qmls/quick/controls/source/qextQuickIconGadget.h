@@ -34,8 +34,6 @@ class QExtQuickIconGadgetPrivate;
 class QEXT_QUICKCONTROLS_API QExtQuickIconGadget : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QExtQuickIconGadget)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QExtQuickIconGadget)
 
     Q_PROPERTY(int type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
@@ -77,6 +75,10 @@ protected Q_SLOTS:
 
 protected:
     QScopedPointer<QExtQuickIconGadgetPrivate> dd_ptr;
+
+private:
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtQuickIconGadget)
+    QEXT_DISABLE_COPY_MOVE(QExtQuickIconGadget)
 };
 
 #endif // _QEXTQUICKICONGADGET_H

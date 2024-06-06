@@ -22,7 +22,28 @@
 **
 ***********************************************************************************************************************/
 
-#include <private/qextQuickIconGadget_p.h>
+#include <qextQuickIconGadget.h>
+
+class QExtQuickIconGadgetPrivate
+{
+public:
+    explicit QExtQuickIconGadgetPrivate(QExtQuickIconGadget *q);
+    virtual ~QExtQuickIconGadgetPrivate();
+
+    QExtQuickIconGadget * const q_ptr;
+
+    qreal m_width;
+    qreal m_height;
+    int m_type;
+    int m_position;
+    qreal m_scale;
+    QColor m_color;
+    QString m_source;
+
+private:
+    QEXT_DECL_PUBLIC(QExtQuickIconGadget)
+    QEXT_DISABLE_COPY_MOVE(QExtQuickIconGadgetPrivate)
+};
 
 QExtQuickIconGadgetPrivate::QExtQuickIconGadgetPrivate(QExtQuickIconGadget *q)
     : q_ptr(q)

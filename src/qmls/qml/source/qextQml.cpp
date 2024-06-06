@@ -22,31 +22,36 @@
 **
 ***********************************************************************************************************************/
 
-#include <private/qextQml_p.h>
+#include <qextQml.h>
 #include <qextQmlGlobal.h>
 #include <qextQmlConfig.h>
-#include <qextQmlWorld.h>
 
 #include <qextOnceFlag.h>
 
 #include <QDebug>
 #include <QMutex>
+#include <QPointer>
+#include <QQmlEngine>
 #include <QQmlContext>
+#include <QQuickWindow>
 #include <QMutexLocker>
 
-inline void initMyResource()
+class QEXT_QML_API QExtQmlPrivate
 {
-    Q_INIT_RESOURCE(qextQml);
-}
+public:
+    explicit QExtQmlPrivate(QExtQml *q);
+    virtual ~QExtQmlPrivate();
 
-namespace MyNamespace
-{
-void myFunction()
-{
-    initMyResource();
-}
-}
+    QExtQml * const q_ptr;
 
+    QPointer<QQmlEngine> m_qmlEngine;
+    QPointer<QQuickWindow> m_rootWindow;
+    Qt::CursorShape m_mouseAreaCurrsor = Qt::ArrowCursor;
+
+private:
+    QEXT_DECL_PUBLIC(QExtQml)
+    QEXT_DISABLE_COPY_MOVE(QExtQmlPrivate)
+};
 
 QExtQmlPrivate::QExtQmlPrivate(QExtQml *q)
     : q_ptr(q)
@@ -58,7 +63,6 @@ QExtQmlPrivate::~QExtQmlPrivate()
 {
 
 }
-
 
 QExtQml::QExtQml(QObject *parent)
     : QObject(parent)
@@ -93,7 +97,7 @@ QExtQml *QExtQml::instance()
 
 QString QExtQml::version() const
 {
-    return QString("%1.%2").arg(QEXT_QML_PLUGIN_VERSION_MAJOR).arg(QEXT_QML_PLUGIN_VERSION_MINOR);
+    return QString("%1.%2").arg(QEXT_VERSION_MAJOR).arg(QEXT_VERSION_MINOR);
 }
 
 QString QExtQml::stateToString(int state) const
@@ -156,24 +160,63 @@ int QExtQml::stateToEnum(const QString &state) const
     }
 }
 
-void QExtQml::registerTypes(const char *url)
+namespace detail
 {
-    Q_INIT_RESOURCE(qextQml);
-    Q_ASSERT(url == QLatin1String(QEXT_QML_PLUGIN_NAME));
-
-    const int major = QEXT_QML_PLUGIN_VERSION_MAJOR;
-    const int minor = QEXT_QML_PLUGIN_VERSION_MINOR;
-
-    qmlRegisterSingletonType<QExtQml>(url, major, minor, "QExtQml", QExtQml::qmlSingletonTypeProvider);
-    qmlRegisterType<QExtQmlWorld>( url, major, minor, "QExtQmlWorld");
+const QString &fontIconUrlHeader()
+{
+    static const QString urlHeader = "FontIcon:/";
+    return urlHeader;
+}
 }
 
-void QExtQml::initQmlEngine(QQmlEngine *engine, const char *uri)
+bool QExtQml::isFontIconUrl(const QString &url)
 {
-    Q_D(QExtQml);
-    Q_UNUSED(uri)
-    d->m_qmlEngine = engine;
-    d->m_qmlEngine->rootContext()->setContextProperty("qextRootQuickWindow", QEXT_NULLPTR);
+    return 0 == url.indexOf(detail::fontIconUrlHeader());
+}
+
+QExtQmlFontIconInfo QExtQml::fontIconInfoFromUrl(const QString &url)
+{
+    QExtQmlFontIconInfo fontIconInfo;
+    if (0 == url.indexOf(detail::fontIconUrlHeader()))
+    {
+        QStringList contents = url.right(detail::fontIconUrlHeader().size()).split("/");
+        if (2 == contents.size())
+        {
+            fontIconInfo.setFamily(contents.at(0));
+            fontIconInfo.setText(contents.at(1));
+        }
+    }
+    return fontIconInfo;
+}
+
+bool QExtQml::parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo)
+{
+    QExtQmlFontIconInfo iconInfo = this->fontIconInfoFromUrl(url);
+    fontIconInfo->setFamily(iconInfo.family());
+    fontIconInfo->setText(iconInfo.text());
+    return true;
+}
+
+QString QExtQml::fontIconUrl(const QString &family, const QString &key)
+{
+    return QString("FontIcon:/%1/%2").arg(family).arg(key);
+}
+
+void QExtQml::registerTypes(const char *url)
+{
+    Q_ASSERT(url == QLatin1String(QEXT_QML_MODULE_URI));
+    Q_INIT_RESOURCE(qextQml);
+
+    const int major = QEXT_VERSION_MAJOR;
+    const int minor = QEXT_VERSION_MINOR;
+
+    qmlRegisterSingletonType<QExtQml>(QEXT_QML_MODULE_URI, major, minor, "QExtQml",
+                                      QExtQml::qmlSingletonTypeProvider);
+
+    qmlRegisterType<QExtQmlFontIconInfo>( QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIconInfo");
+
+    qmlRegisterType(QUrl("qrc:/QExtQml/source/qml/QExtQmlObject.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQmlObject");
 }
 
 void QExtQml::initQuickRoot(QQuickWindow *rootWindow)
@@ -187,10 +230,12 @@ void QExtQml::initQuickRoot(QQuickWindow *rootWindow)
     d->m_qmlEngine->rootContext()->setContextProperty("qextRootQuickWindow", rootWindow);
 }
 
-void QExtQml::initWorld(QExtQmlWorld *world)
+void QExtQml::initQmlEngine(QQmlEngine *engine, const char *uri)
 {
     Q_D(QExtQml);
-    d->m_quickWorld = world;
+    Q_UNUSED(uri)
+    d->m_qmlEngine = engine;
+    d->m_qmlEngine->rootContext()->setContextProperty("qextRootQuickWindow", QEXT_NULLPTR);
 }
 
 int QExtQml::mouseAreaCursorShape() const

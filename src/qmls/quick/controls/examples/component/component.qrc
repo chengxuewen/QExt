@@ -30,37 +30,38 @@
         <file>images/svg9.svg</file>
         <file>images/svg10.svg</file>
         <file>images/svg11.svg</file>
-        <file>main.qml</file>
-        <file>Topbar.qml</file>
-        <file>Test.qml</file>
-        <file>C_Icon.qml</file>
-        <file>C_Badge.qml</file>
-        <file>C_Button.qml</file>
-        <file>C_Carousel.qml</file>
-        <file>C_CheckBox.qml</file>
-        <file>C_Dialog.qml</file>
-        <file>C_DividerLine.qml</file>
-        <file>C_IconButton.qml</file>
-        <file>C_InputField.qml</file>
-        <file>C_NavigationBar.qml</file>
-        <file>C_Pagination.qml</file>
-        <file>C_Popover.qml</file>
-        <file>C_RadioButton.qml</file>
-        <file>C_Switch.qml</file>
-        <file>C_Tag.qml</file>
-        <file>C_Toast.qml</file>
-        <file>Footerbar.qml</file>
-        <file>Home.qml</file>
-        <file>C_Awesome.qml</file>
-        <file>C_ProgressBar.qml</file>
         <file>images/list.svg</file>
-        <file>TabPanel.qml</file>
-        <file>C_Avatar.qml</file>
-        <file>C_FpsMonitor.qml</file>
-        <file>C_BusyIndicator.qml</file>
-        <file>C_MoveArea.qml</file>
-        <file>C_ResizeArea.qml</file>
-        <file>C_Collapse.qml</file>
-        <file>C_CircularProgressBar.qml</file>
+        <file>qml/C_Avatar.qml</file>
+        <file>qml/C_Awesome.qml</file>
+        <file>qml/C_Badge.qml</file>
+        <file>qml/C_BusyIndicator.qml</file>
+        <file>qml/C_Button.qml</file>
+        <file>qml/C_Carousel.qml</file>
+        <file>qml/C_CheckBox.qml</file>
+        <file>qml/C_CircularProgressBar.qml</file>
+        <file>qml/C_Collapse.qml</file>
+        <file>qml/C_Dialog.qml</file>
+        <file>qml/C_DividerLine.qml</file>
+        <file>qml/C_FpsMonitor.qml</file>
+        <file>qml/C_SvgImage.qml</file>
+        <file>qml/C_IconButton.qml</file>
+        <file>qml/C_InputField.qml</file>
+        <file>qml/C_MoveArea.qml</file>
+        <file>qml/C_NavigationBar.qml</file>
+        <file>qml/C_Pagination.qml</file>
+        <file>qml/C_Popover.qml</file>
+        <file>qml/C_ProgressBar.qml</file>
+        <file>qml/C_RadioButton.qml</file>
+        <file>qml/C_ResizeArea.qml</file>
+        <file>qml/C_Switch.qml</file>
+        <file>qml/C_Tag.qml</file>
+        <file>qml/C_Toast.qml</file>
+        <file>qml/Footerbar.qml</file>
+        <file>qml/Home.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/TabPanel.qml</file>
+        <file>qml/Test.qml</file>
+        <file>qml/Topbar.qml</file>
+        <file>qml/C_FontImage.qml</file>
     </qresource>
 </RCC>

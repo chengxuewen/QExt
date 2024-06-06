@@ -32,6 +32,69 @@
 #include <QQuickWindow>
 #include <QScopedPointer>
 
+class QExtQmlFontIconInfo : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+    Q_PROPERTY(QString family READ family WRITE setFamily NOTIFY familyChanged)
+
+public:
+    QExtQmlFontIconInfo() {}
+    QExtQmlFontIconInfo(const QString &family, const QString &text) : m_text(text), m_family(family) {}
+    QExtQmlFontIconInfo(const QExtQmlFontIconInfo &other) : m_text(other.m_text), m_family(other.m_family) {}
+
+    QExtQmlFontIconInfo &operator =(const QExtQmlFontIconInfo &other)
+    {
+        if (this != &other)
+        {
+            m_text = other.m_text;
+            m_family = other.m_family;
+        }
+        return *this;
+    }
+
+    bool operator==(const QExtQmlFontIconInfo &other) const
+    {
+        if (this != &other)
+        {
+            return m_text == other.m_text && m_family == other.m_family;
+        }
+        return true;
+    }
+    bool operator!=(const QExtQmlFontIconInfo &other) const
+    {
+        return !(*this == other);
+    }
+
+    QString text() const { return m_text; }
+    void setText(const QString &text)
+    {
+        if (text != m_text)
+        {
+            m_text = text;
+            emit this->textChanged(text);
+        }
+    }
+
+    QString family() const { return m_family; }
+    void setFamily(const QString &family)
+    {
+        if (family != m_family)
+        {
+            m_family = family;
+            emit this->familyChanged(family);
+        }
+    }
+
+Q_SIGNALS:
+    void textChanged(const QString &text);
+    void familyChanged(const QString &family);
+
+private:
+    QString m_text;
+    QString m_family;
+};
+
 class QExtQmlWorld;
 class QExtQmlPrivate;
 class QEXT_QML_API QExtQml : public QObject
@@ -116,10 +179,14 @@ public:
     Q_INVOKABLE QString stateToString(int state) const;
     Q_INVOKABLE int stateToEnum(const QString &state) const;
 
+    Q_INVOKABLE bool isFontIconUrl(const QString &url);
+    Q_INVOKABLE QExtQmlFontIconInfo fontIconInfoFromUrl(const QString &url);
+    Q_INVOKABLE bool parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *fontIconInfo);
+    Q_INVOKABLE QString fontIconUrl(const QString &family, const QString &key);
+
     void registerTypes(const char *url);
-    void initQmlEngine(QQmlEngine *engine, const char *uri);
     void initQuickRoot(QQuickWindow *rootWindow);
-    void initWorld(QExtQmlWorld *world);
+    void initQmlEngine(QQmlEngine *engine, const char *uri);
 
     Q_INVOKABLE int mouseAreaCursorShape() const;
     void setMouseAreaCursorShape(const Qt::CursorShape &cursor);

@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/QExtQuickControls">
+        <file>resource/image/arrow_caret_collapse.svg</file>
+        <file>resource/image/close.svg</file>
+        <file>resource/image/close_px.svg</file>
+        <file>resource/image/error.svg</file>
+        <file>resource/image/info.svg</file>
+        <file>resource/image/success.svg</file>
+        <file>resource/image/warning.svg</file>
+        <file>source/qml/QExtQuickMask.qml</file>
+        <file>source/qml/QExtQuickSvgImage.qml</file>
+        <file>source/qml/QExtQuickAvatar.qml</file>
+        <file>source/qml/QExtQuickBadge.qml</file>
+        <file>source/qml/QExtQuickBusyIndicator.qml</file>
+        <file>source/qml/QExtQuickTag.qml</file>
+        <file>source/qml/QExtQuickFontImage.qml</file>
+        <file>source/qml/QExtQuickCollapse.qml</file>
+        <file>source/qml/QExtQuickCollapseElement.qml</file>
+        <file>source/qml/QExtQuickImage.qml</file>
+        <file>source/qml/QExtQuickInputField.qml</file>
+        <file>source/qml/QExtQuickDividerLine.qml</file>
+        <file>source/qml/QExtQuickFpsMonitor.qml</file>
+        <file>resource/image/loading.svg</file>
+        <file>source/qml/QExtQuickProgressBar.qml</file>
+        <file>resource/cso/mask.cso</file>
+        <file>resource/cso/svg.cso</file>
+    </qresource>
+</RCC>

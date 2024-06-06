@@ -92,6 +92,19 @@ qext_add_library(Core
     source/invoke/qextSignal.cpp
     source/invoke/qextTrackObjectFunctor.h
     source/invoke/qextVisitor.h
+    source/model/qextModelConstants.h
+    source/model/qextModelItem.cpp
+    source/model/qextModelItem.h
+    source/model/qextModelItemContainer.cpp
+    source/model/qextModelItemContainer.h
+    source/model/qextModelItemData.cpp
+    source/model/qextModelItemData.h
+    source/model/qextModelItemTags.cpp
+    source/model/qextModelItemTags.h
+    source/model/qextModelTagInfo.cpp
+    source/model/qextModelTagInfo.h
+    source/model/qextModelTagRow.cpp
+    source/model/qextModelTagRow.h
     source/tools/qextBackTrace.cpp
     source/tools/qextBackTrace.h
     source/tools/qextConcurrent.h
@@ -117,6 +130,8 @@ qext_add_library(Core
     source/utils/qextCodecUtils.h
     source/utils/qextCommonUtils.cpp
     source/utils/qextCommonUtils.h
+    source/utils/qextContainerUtils.cpp
+    source/utils/qextContainerUtils.h
     source/utils/qextDateTimeUtils.cpp
     source/utils/qextHostInfoUtils_p.h
     source/utils/qextDateTimeUtils.h
@@ -124,8 +139,8 @@ qext_add_library(Core
     source/utils/qextHostInfoUtils.h
     source/utils/qextNetworkUtils.cpp
     source/utils/qextNetworkUtils.h
-    source/utils/qextUtils.cpp
-    source/utils/qextUtils.h
+    source/utils/qextVariantUtils.cpp
+    source/utils/qextVariantUtils.h
     PRECOMPILED_HEADER
     source/qextPch.h
     PUBLIC_LIBRARIES

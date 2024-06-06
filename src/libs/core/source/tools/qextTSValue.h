@@ -98,7 +98,7 @@ public:
     typedef QPair<T, TS> Value;
     typedef QExtTSValue<T> Self;
 
-    QExtTSValue() {}
+    QExtTSValue() : m_timeout(0) {}
     QExtTSValue(const Self &other) : m_value(other.m_value), m_timeout(other.m_timeout) {}
     QExtTSValue(const T &val, TS timeout = 0) : m_value(Value(val, 0)), m_timeout(timeout) {}
     template <typename Data>
@@ -151,6 +151,8 @@ public:
     template <typename Data>
     void set(const Data &val) { detail::qextTSValueStore(m_value, val); }
     void reset(const T &val, TS now) const { detail::qextTSValueStore(m_value, val); m_value.second = now; }
+    template <typename Data>
+    void reset(const Data &val, TS now) const { detail::qextTSValueStore(m_value, val); m_value.second = now; }
 
     template <typename D>
     bool isValueEqual(const D &data)
@@ -169,9 +171,9 @@ public:
     {
         if (this->isValueOutdated(now, timeout))
         {
-            return detail::qextTSValueLoad(m_value) ;
+            return detail::qextTSValueLoad(m_value) != newVal;
         }
-        return detail::qextTSValueLoad(m_value) != newVal;
+        return false;
     }
 
     static bool checkOutdated(TS past, TS now, TS timeout = 0)

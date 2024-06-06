@@ -60,7 +60,6 @@ qt_internal_add_qml_module(QuickControls
     QExt::Qml
     SOURCES
     source/qextQuickControls.cpp
-    source/qextQuickControls_p.h
     source/qextQuickControls.h
     source/qextQuickBackgroundGadget.cpp
     source/qextQuickBackgroundGadget_p.h
@@ -68,17 +67,12 @@ qt_internal_add_qml_module(QuickControls
     source/qextQuickBorderGadget.cpp
     source/qextQuickBorderGadget_p.h
     source/qextQuickBorderGadget.h
-    source/qextQuickFontAwesome.cpp
-    source/qextQuickFontAwesome.h
     source/qextQuickControlsGlobal.h
     source/qextQuickIconGadget.cpp
-    source/qextQuickIconGadget_p.h
     source/qextQuickIconGadget.h
     source/qextQuickItemGadget.cpp
     source/qextQuickItemGadget_p.h
     source/qextQuickItemGadget.h
-    source/qextQuickLoader.cpp
-    source/qextQuickLoader.h
     source/qextQuickPalette.cpp
     source/qextQuickPalette_p.h
     source/qextQuickPalette.h
@@ -88,7 +82,7 @@ qt_internal_add_qml_module(QuickControls
     source/qextQuickWorld.cpp
     source/qextQuickWorld_p.h
     source/qextQuickWorld.h
-    resource/qextQuickControls.qrc
+    qextQuickControls.qrc
     PRECOMPILED_HEADER
     source/qextQuickControlPch.h
     DEFINES

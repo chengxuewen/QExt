@@ -65,20 +65,13 @@ qt_internal_add_qml_module(Qml
     CLASS_NAME QExtQmlPlugin
     PLUGIN_TARGET QmlPlugin
     PLUGIN_SOURCES source/qextQmlPlugin.cpp
-    # PAST_MAJOR_VERSIONS 0 1
     DEPENDENCIES
     QExt::Core
     SOURCES
     source/qextQml.cpp
-    source/qextQml_p.h
     source/qextQml.h
     source/qextQmlGlobal.h
-    source/qextQmlLoader.cpp
-    source/qextQmlLoader.h
-    source/qextQmlWorld.cpp
-    source/qextQmlWorld_p.h
-    source/qextQmlWorld.h
-    resources/qextQml.qrc
+    qextQml.qrc
     PRECOMPILED_HEADER
     source/qextQmlPch.h
     PUBLIC_LIBRARIES

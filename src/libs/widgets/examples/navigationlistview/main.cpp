@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForLocale(codec);
 #endif
 
-//    QExtIconFontAwesome fa;
+//    QExtFontAwesome fa;
 //    fa.initFontAwesome();
 
     QTabWidget w;
