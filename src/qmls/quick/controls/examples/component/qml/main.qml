@@ -12,9 +12,9 @@ Window {
     width: 1024
     height: 700
 
-    // QExtQuickWorld {
-    //     mouseAreaCursorShape: Qt.PointingHandCursor
-    // }
+    QExtQuickWorld {
+        mouseAreaCursorShape: Qt.PointingHandCursor
+    }
 
     Rectangle {
         id: tBodyRectangle
@@ -47,6 +47,7 @@ Window {
                 {label: "BusyIndicator", uri: "qrc:/qml/C_BusyIndicator.qml"},
                 {label: "FpsMonitor", uri: "qrc:/qml/C_FpsMonitor.qml"},
                 {label: "ProgressBar", uri: "qrc:/qml/C_ProgressBar.qml"},
+                {label: "Toast", uri: "qrc:/qml/C_Toast.qml"},
                 // {label: "Button", uri: "qrc:/C_Button.qml"},
                 // {label: "IconButton", uri: "qrc:/C_IconButton.qml"},
                 // {label: "Carousel", uri: "qrc:/C_Carousel.qml"},
@@ -56,7 +57,6 @@ Window {
                 // {label: "CircularProgressBar", uri: "qrc:/C_CircularProgressBar.qml"},
                 // {label: "Switch", uri: "qrc:/C_Switch.qml"},
                 // {label: "RadioButton", uri: "qrc:/C_RadioButton.qml"},
-                // {label: "Toast", uri: "qrc:/C_Toast.qml"},
                 // {label: "Dialog", uri: "qrc:/C_Dialog.qml"},
                 // {label: "NavigationBar", uri: "qrc:/C_NavigationBar.qml"},
                 // {label: "MoveArea", uri: "qrc:/C_MoveArea.qml"},

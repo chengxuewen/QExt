@@ -29,6 +29,7 @@
 #include <qextQuickBackgroundGadget.h>
 #include <qextQuickIconGadget.h>
 #include <qextQuickItemGadget.h>
+#include <qextQuickPadding.h>
 #include <qextQuickPalette.h>
 #include <qextQuickControlConfig.h>
 
@@ -52,9 +53,9 @@ public:
     explicit QExtQuickControlsPrivate(QExtQuickControls *q);
     virtual ~QExtQuickControlsPrivate();
 
-    QPointer<QExtQuickWorld> m_quickWorld;
     QPointer<QQmlEngine> m_qmlEngine;
     QPointer<QQuickWindow> m_rootWindow;
+    QPointer<QExtQuickWorld> m_quickWorld;
     Qt::CursorShape m_mouseAreaCurrsor = Qt::ArrowCursor;
 };
 
@@ -179,6 +180,7 @@ void QExtQuickControls::registerTypes(const char *url)
                                                QExtQuickPalette::qmlSingletonTypeProvider);
 
     qmlRegisterType<QExtQuickWorld>( QEXT_QML_MODULE_URI, major, minor, "QExtQuickWorld");
+    qmlRegisterType<QExtQuickPadding>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickPadding");
     qmlRegisterType<QExtQuickItemGadget>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickItemGadget");
     qmlRegisterType<QExtQuickTextGadget>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickTextGadget");
     qmlRegisterType<QExtQuickIconGadget>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickIconGadget");
@@ -213,6 +215,11 @@ void QExtQuickControls::registerTypes(const char *url)
                     QEXT_QML_MODULE_URI, major, minor, "QExtQuickSvgImage");
     qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickTag.qml"),
                     QEXT_QML_MODULE_URI, major, minor, "QExtQuickTag");
+    qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickToast.qml"),
+                    QEXT_QML_MODULE_URI, major, minor, "QExtQuickToast");
+
+    qmlRegisterSingletonType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickGlobalToast.qml"),
+                             QEXT_QML_MODULE_URI, major, minor, "QExtQuickGlobalToast");
 
     // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickButton.qml"), url, major, minor, "QExtQuickButton");
     // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickCarousel.qml"), url, major, minor, "QExtQuickCarousel");
@@ -237,7 +244,6 @@ void QExtQuickControls::registerTypes(const char *url)
     // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickWindow.qml"), url, major, minor, "QExtQuickWindow");
     // qmlRegisterType(QUrl("qrc:/QExtQuickControls/control/QExtQuickWindowTitleBar.qml"), url, major, minor, "QExtQuickWindowTitleBar");
 
-    // qmlRegisterSingletonType(QUrl("qrc:/QExtQuickControls/control/QExtQuickToast.qml"), url, major, minor, "QExtQuickToast");
 }
 
 void QExtQuickControls::initQmlEngine(QQmlEngine *engine, const char *uri)
@@ -251,12 +257,11 @@ void QExtQuickControls::initQmlEngine(QQmlEngine *engine, const char *uri)
 void QExtQuickControls::initQuickRoot(QQuickWindow *rootWindow)
 {
     Q_D(QExtQuickControls);
-    if (!d->m_rootWindow.isNull())
+    if (d->m_rootWindow.isNull())
     {
-        return;
+        d->m_rootWindow = rootWindow;
+        d->m_qmlEngine->rootContext()->setContextProperty("qextRootWindow", rootWindow);
     }
-    d->m_rootWindow = rootWindow;
-    d->m_qmlEngine->rootContext()->setContextProperty("qextRootWindow", rootWindow);
 }
 
 void QExtQuickControls::initWorld(QExtQuickWorld *world)

@@ -138,7 +138,7 @@ public:
     {
         return &m_value.first;
     }
-    T *operator->() const QEXT_NOEXCEPT
+    const T *operator->() const QEXT_NOEXCEPT
     {
         return &m_value.first;
     }

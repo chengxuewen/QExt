@@ -33,9 +33,17 @@ public:
     }
     friend inline bool operator!=(const QExtConcurrent &v1, const QExtConcurrent &v2) QEXT_NOEXCEPT
     {
-        return v1.get() != v2.get();
+        return !(v1.get() == v2.get());
     }
 
+    T *operator->() QEXT_NOEXCEPT
+    {
+        return &m_value;
+    }
+    const T *operator->() const QEXT_NOEXCEPT
+    {
+        return &m_value;
+    }
     T get() const
     {
         QExtSpinLock::Locker locker(m_spinlock);

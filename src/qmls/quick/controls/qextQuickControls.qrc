@@ -24,5 +24,7 @@
         <file>source/qml/QExtQuickProgressBar.qml</file>
         <file>resource/cso/mask.cso</file>
         <file>resource/cso/svg.cso</file>
+        <file>source/qml/QExtQuickToast.qml</file>
+        <file>source/qml/QExtQuickGlobalToast.qml</file>
     </qresource>
 </RCC>

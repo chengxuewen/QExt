@@ -52,23 +52,28 @@ class QExtQuickWorldPrivate;
 class QEXT_QUICKCONTROLS_API QExtQuickWorld : public QQuickItem
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QExtQuickWorld)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QExtQuickWorld)
-
-    Q_PROPERTY(int mouseAreaCursorShape READ mouseAreaCursorShape WRITE setMouseAreaCursorShape)
+    Q_PROPERTY(int mouseAreaCursorShape READ mouseAreaCursorShape WRITE setMouseAreaCursorShape NOTIFY mouseAreaCursorShapeChanged)
 
 public:
     explicit QExtQuickWorld(QQuickItem* parent = QEXT_NULLPTR);
     ~QExtQuickWorld();
 
     int mouseAreaCursorShape() const;
-    void setMouseAreaCursorShape(const int &iShape);
+    void setMouseAreaCursorShape(int shape);
+
+Q_SIGNALS:
+    void mouseAreaCursorShapeChanged(int shape);
+
 
 protected Q_SLOTS:
     void onParentChanged(QQuickItem *parent);
 
 protected:
     QScopedPointer<QExtQuickWorldPrivate> dd_ptr;
+
+private:
+    Q_DECLARE_PRIVATE_D(dd_ptr, QExtQuickWorld)
+    Q_DISABLE_COPY(QExtQuickWorld)
 };
 
 #endif // _QEXTQUICKWORLD_H

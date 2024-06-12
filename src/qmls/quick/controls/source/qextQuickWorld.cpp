@@ -67,15 +67,19 @@ int QExtQuickWorld::mouseAreaCursorShape() const
     return QExtQuickControls::instance()->mouseAreaCursorShape();
 }
 
-void QExtQuickWorld::setMouseAreaCursorShape(const int &iShape)
+void QExtQuickWorld::setMouseAreaCursorShape(int shape)
 {
-    QExtQuickControls::instance()->setMouseAreaCursorShape((Qt::CursorShape)iShape);
+    if (QExtQuickControls::instance()->mouseAreaCursorShape() != shape)
+    {
+        QExtQuickControls::instance()->setMouseAreaCursorShape((Qt::CursorShape)shape);
+        emit this->mouseAreaCursorShapeChanged(shape);
+    }
 }
 
 void QExtQuickWorld::onParentChanged(QQuickItem *parent)
 {
     Q_UNUSED(parent);
-    QExtQuickControls::instance()->initQuickRoot(dynamic_cast<QQuickWindow *>(this->parent()));
     QExtQuickControls::instance()->initWorld(this);
+    QExtQuickControls::instance()->initQuickRoot(dynamic_cast<QQuickWindow *>(this->parent()));
     disconnect(this, SIGNAL(parentChanged(QQuickItem *)), this, SLOT(onParentChanged(QQuickItem *)));
 }

@@ -120,9 +120,9 @@ public:
     Q_INVOKABLE int stateToEnum(const QString &state) const;
 
     void registerTypes(const char *url);
-    void initQmlEngine(QQmlEngine *engine, const char *uri);
-    void initQuickRoot(QQuickWindow *rootWindow);
     void initWorld(QExtQuickWorld *world);
+    void initQuickRoot(QQuickWindow *rootWindow);
+    void initQmlEngine(QQmlEngine *engine, const char *uri);
 
     Q_INVOKABLE int mouseAreaCursorShape() const;
     void setMouseAreaCursorShape(const Qt::CursorShape &cursor);

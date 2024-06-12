@@ -22,13 +22,29 @@
 **
 ***********************************************************************************************************************/
 
-#include <private/qextQuickPalette_p.h>
+#include <qextQuickPalette.h>
 
 #include <QDebug>
 #include <QMutex>
 #include <QMutexLocker>
 
 #define QEXT_QUICK_PALETTE_COLOR_RANDOM(a, b) (rand() % (b - a + 1) + a)
+
+class QExtQuickPalettePrivate
+{
+    Q_DISABLE_COPY(QExtQuickPalettePrivate)
+    Q_DECLARE_PUBLIC(QExtQuickPalette)
+public:
+    explicit QExtQuickPalettePrivate(QExtQuickPalette *q);
+    virtual ~QExtQuickPalettePrivate();
+
+    QExtQuickPalette * const q_ptr;
+
+    QVector<QVector<QColor>> m_materialColorVector;
+    QVector<QColor> m_brandColorVector;
+    QVector<QColor> m_textColorVector;
+    QVector<QColor> m_borderColorVector;
+};
 
 QExtQuickPalettePrivate::QExtQuickPalettePrivate(QExtQuickPalette *q)
     : q_ptr(q)

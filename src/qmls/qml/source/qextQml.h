@@ -185,11 +185,7 @@ public:
     Q_INVOKABLE QString fontIconUrl(const QString &family, const QString &key);
 
     void registerTypes(const char *url);
-    void initQuickRoot(QQuickWindow *rootWindow);
     void initQmlEngine(QQmlEngine *engine, const char *uri);
-
-    Q_INVOKABLE int mouseAreaCursorShape() const;
-    void setMouseAreaCursorShape(const Qt::CursorShape &cursor);
 
 protected:
     explicit QExtQml(QObject *parent = QEXT_NULLPTR);

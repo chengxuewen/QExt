@@ -45,8 +45,6 @@ public:
     QExtQml * const q_ptr;
 
     QPointer<QQmlEngine> m_qmlEngine;
-    QPointer<QQuickWindow> m_rootWindow;
-    Qt::CursorShape m_mouseAreaCurrsor = Qt::ArrowCursor;
 
 private:
     QEXT_DECL_PUBLIC(QExtQml)
@@ -56,7 +54,6 @@ private:
 QExtQmlPrivate::QExtQmlPrivate(QExtQml *q)
     : q_ptr(q)
 {
-    m_mouseAreaCurrsor = Qt::ArrowCursor;
 }
 
 QExtQmlPrivate::~QExtQmlPrivate()
@@ -199,7 +196,7 @@ bool QExtQml::parseFontIconInfoFromUrl(const QString &url, QExtQmlFontIconInfo *
 
 QString QExtQml::fontIconUrl(const QString &family, const QString &key)
 {
-    return QString("FontIcon:/%1/%2").arg(family).arg(key);
+    return QString("FontIcon:/%1/%2").arg(family, key);
 }
 
 void QExtQml::registerTypes(const char *url)
@@ -219,33 +216,9 @@ void QExtQml::registerTypes(const char *url)
                     QEXT_QML_MODULE_URI, major, minor, "QExtQmlObject");
 }
 
-void QExtQml::initQuickRoot(QQuickWindow *rootWindow)
-{
-    Q_D(QExtQml);
-    if (!d->m_rootWindow.isNull())
-    {
-        return;
-    }
-    d->m_rootWindow = rootWindow;
-    d->m_qmlEngine->rootContext()->setContextProperty("qextRootQuickWindow", rootWindow);
-}
-
 void QExtQml::initQmlEngine(QQmlEngine *engine, const char *uri)
 {
-    Q_D(QExtQml);
     Q_UNUSED(uri)
-    d->m_qmlEngine = engine;
-    d->m_qmlEngine->rootContext()->setContextProperty("qextRootQuickWindow", QEXT_NULLPTR);
-}
-
-int QExtQml::mouseAreaCursorShape() const
-{
-    Q_D(const QExtQml);
-    return (int)d->m_mouseAreaCurrsor;
-}
-
-void QExtQml::setMouseAreaCursorShape(const Qt::CursorShape &cursor)
-{
     Q_D(QExtQml);
-    d->m_mouseAreaCurrsor = cursor;
+    d->m_qmlEngine = engine;
 }

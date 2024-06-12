@@ -73,8 +73,9 @@ qt_internal_add_qml_module(QuickControls
     source/qextQuickItemGadget.cpp
     source/qextQuickItemGadget_p.h
     source/qextQuickItemGadget.h
+    source/qextQuickPadding.cpp
+    source/qextQuickPadding.h
     source/qextQuickPalette.cpp
-    source/qextQuickPalette_p.h
     source/qextQuickPalette.h
     source/qextQuickTextGadget.cpp
     source/qextQuickTextGadget_p.h
