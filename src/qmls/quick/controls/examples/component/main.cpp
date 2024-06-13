@@ -4,6 +4,7 @@
 #include <QDebug>
 
 #include <qextCoreConfig.h>
+#include <qextObject.h>
 
 #ifndef QEXT_BUILD_SHARED
 #   include <qextQuickLoader.h>
@@ -32,6 +33,9 @@ int main(int argc, char *argv[])
     {
         return -1;
     }
+
+    QExtObject obj(&engine);
+    obj.setParent(&app);
 
     qDebug() << "Startup time:" << timer.elapsed() << "ms";
     return app.exec();

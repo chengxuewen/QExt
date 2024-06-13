@@ -26,5 +26,13 @@
         <file>resource/cso/svg.cso</file>
         <file>source/qml/QExtQuickToast.qml</file>
         <file>source/qml/QExtQuickGlobalToast.qml</file>
+        <file>source/qml/QExtQuickDialog.qml</file>
+        <file>source/qml/QExtQuickDialogButton.qml</file>
+        <file>source/qml/QExtQuickToolButton.qml</file>
+        <file>source/qml/QExtQuickButton.qml</file>
+        <file>source/qml/QExtQuickPopup.qml</file>
+        <file>source/qml/QExtQuickPopoverMenu.qml</file>
+        <file>source/qml/QExtQuickPopoverElement.qml</file>
+        <file>source/qml/QExtQuickPopover.qml</file>
     </qresource>
 </RCC>

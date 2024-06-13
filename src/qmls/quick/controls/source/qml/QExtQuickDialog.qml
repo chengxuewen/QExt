@@ -1,16 +1,17 @@
-import QtQuick 2.12
-import QtQml 2.12
-import QtQuick.Controls 2.12
+import QtQml 2.9
+import QtQuick 2.9
+import QtQuick.Controls 2.9
+
 import QExtQuick.Controls 1.2
 
 // Popup
 Dialog {
-    id: qextDialog
-    clip: true
+    id: root
     dim: true
+    clip: true
+    modal: true
     padding: 0
     closePolicy: Popup.NoAutoClose
-    modal: true
     implicitWidth: 300
     implicitHeight: implicitHeaderHeight + implicitContentHeight + implicitFooterHeight
     anchors.centerIn: Overlay.overlay
@@ -22,11 +23,11 @@ Dialog {
     property bool closeable: true
 
     property string contentText: "QExtQuickDialog content"
-    property string headerText: qextDialog.title
-    property font headerTextFont: qextDialog.font
+    property string headerText: root.title
+    property font headerTextFont: root.font
     property color headerTextColor: QExtQuickPalette.textPrimaryColor
     property real headerTextOpacity: 1
-    property int headerTextHorizontalAlignment: qextDialog.layoutInCenter ? Text.AlignHCenter : Text.AlignLeft
+    property int headerTextHorizontalAlignment: root.layoutInCenter ? Text.AlignHCenter : Text.AlignLeft
     property int headerTextVerticalAlignment: Text.AlignVCenter
     property int headerTextElide: Text.ElideRight
 
@@ -48,16 +49,16 @@ Dialog {
     ]
 
     background: Rectangle {
-        color: qextDialog.backgroundColor
-        opacity: qextDialog.backgroundOpacity
-        border.color: qextDialog.backgroundBorderColor
-        border.width: qextDialog.backgroundBorderWidth
-        radius: qextDialog.backgroundRadius
+        color: root.backgroundColor
+        opacity: root.backgroundOpacity
+        border.color: root.backgroundBorderColor
+        border.width: root.backgroundBorderWidth
+        radius: root.backgroundRadius
     }
 
     header: Item {
         id: mHeader
-        implicitWidth: qextDialog.implicitWidth
+        implicitWidth: root.implicitWidth
         implicitHeight: 40
 
         Text {
@@ -68,27 +69,27 @@ Dialog {
             anchors.rightMargin: 5
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            text: qextDialog.headerText
-            font: qextDialog.headerTextFont
-            horizontalAlignment: qextDialog.headerTextHorizontalAlignment
-            verticalAlignment: qextDialog.headerTextVerticalAlignment
-            elide: qextDialog.headerTextElide
-            opacity: qextDialog.headerTextOpacity
+            text: root.headerText
+            font: root.headerTextFont
+            horizontalAlignment: root.headerTextHorizontalAlignment
+            verticalAlignment: root.headerTextVerticalAlignment
+            elide: root.headerTextElide
+            opacity: root.headerTextOpacity
         }
 
-        QExtQuickIcon {
+        QExtQuickImage {
             id: mCloseButton
             height: 20
             width: 20
             anchors.right: parent.right
             anchors.rightMargin: 15
             anchors.verticalCenter: parent.verticalCenter
-            visible: qextDialog.closeable
-            source: "qrc:/QExtQuickControls/svg/close-px.svg"
+            visible: root.closeable
+            source: "qrc:/QExtQuickControls/resource/image/close_px.svg"
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    qextDialog.reject()
+                    root.reject()
                 }
             }
         }
@@ -96,17 +97,17 @@ Dialog {
 
     contentItem: Item {
         id: mDialogContent
-        implicitWidth: qextDialog.implicitWidth
+        implicitWidth: root.implicitWidth
         implicitHeight: mDialogContentText.contentHeight + 30
 
         Text {
             id: mDialogContentText
-            width: qextDialog.implicitWidth - 20
+            width: root.implicitWidth - 20
             anchors.margins: 15
             anchors.fill: parent
-            text: qextDialog.contentText
-            horizontalAlignment: qextDialog.layoutInCenter ? Text.AlignHCenter : Text.AlignLeft
-            verticalAlignment: qextDialog.layoutInCenter ? Text.AlignVCenter : Text.AlignTop
+            text: root.contentText
+            horizontalAlignment: root.layoutInCenter ? Text.AlignHCenter : Text.AlignLeft
+            verticalAlignment: root.layoutInCenter ? Text.AlignVCenter : Text.AlignTop
             wrapMode: Text.WrapAnywhere
         }
 
@@ -125,18 +126,18 @@ Dialog {
         implicitWidth: layout.implicitWidth
         implicitHeight: layout.implicitHeight
 
-        property var buttonModel: qextDialog.buttons.length > 0 ? qextDialog.buttons : qextDialog.defaultButtons
+        property var buttonModel: root.buttons.length > 0 ? root.buttons : root.defaultButtons
 
         Row {
             id: layout
             padding: 10
-            spacing: qextDialog.buttonSpacing
-            x: qextDialog.layoutInCenter ? (parent.width - width) / 2 : parent.width - width
+            spacing: root.buttonSpacing
+            x: root.layoutInCenter ? (parent.width - width) / 2 : parent.width - width
             anchors.verticalCenter: parent.verticalCenter
             Repeater {
-                model: qextDialog.buttons.length > 0 ? qextDialog.buttons : qextDialog.defaultButtons
-                delegate: QExtQuickIconButton {
-                    width: qextDialog.contentCenter ? mDialogFooter.width / buttonModel.length : 80
+                model: root.buttons.length > 0 ? root.buttons : root.defaultButtons
+                delegate: QExtQuickToolButton {
+                    width: root.contentCenter ? mDialogFooter.width / buttonModel.length : 80
                     padding: 20
                     anchors.verticalCenter: parent.verticalCenter
 
@@ -161,7 +162,7 @@ Dialog {
         }
 
         Component.onCompleted: {
-            qextDialog.implicitWidth = Math.max(qextDialog.implicitWidth, mDialogFooter.implicitWidth)
+            root.implicitWidth = Math.max(root.implicitWidth, mDialogFooter.implicitWidth)
         }
     }
 }

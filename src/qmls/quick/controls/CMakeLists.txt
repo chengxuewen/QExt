@@ -81,7 +81,6 @@ qt_internal_add_qml_module(QuickControls
     source/qextQuickTextGadget_p.h
     source/qextQuickTextGadget.h
     source/qextQuickWorld.cpp
-    source/qextQuickWorld_p.h
     source/qextQuickWorld.h
     qextQuickControls.qrc
     PRECOMPILED_HEADER

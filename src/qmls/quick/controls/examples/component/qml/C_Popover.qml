@@ -1,82 +1,80 @@
-import QtQuick 2.12
+import QtQuick 2.9
+import QtQuick.Controls 2.9
+
 import QExtQuick.Controls 1.2
 
 Column{
     Row{
         spacing: 20
-        QExtQuickButton{
+        Button{
             id:button
             height: 40
-            label.text: "Loose"
-            label.color: "#46A0FC"
+            text: "Loose"
             onClicked: popover.openToGlobal(button,mouseX,mouseY)
         }
 
-        QExtQuickButton{
-            id:bmenu
-            height: 40
-            label.text: "Popover Menu"
-            label.color: "#46A0FC"
-            onClicked: popoverMenu.openToGlobal(bmenu,mouseX,mouseY)
-        }
+        // Button{
+        //     id:bmenu
+        //     height: 40
+        //     text: "Popover Menu"
+        //     onClicked: popoverMenu.openToGlobal(bmenu,mouseX,mouseY)
+        // }
 
 
-        QExtQuickButton{
+        Button{
             id:b2
             height: 40
-            label.text: "Fixed"
-            label.color: "#46A0FC"
+            text: "Fixed"
             onClicked: popover.openToGlobal(b2,0,b2.height)
         }
     }
 
-    QEXTPopover{
+    QExtQuickPopover {
         id:popover
     }
 
-    QEXTMenu{
-        id:popoverMenu
+    // QExtQuickPopoverMenu {
+    //     id:popoverMenu
 
-        QEXTMenuElement{
-            type:"group"
-            text: "BUILDING BLOCKS"
-        }
+    //     QExtQuickPopoverElement{
+    //         type:"group"
+    //         text: "BUILDING BLOCKS";
+    //     }
 
-        QEXTMenuElement{
-            iconSource: QEXTAwesomeType.FA_apple
-            text:  "Request"
-        }
+    //     QExtQuickPopoverElement{
+    //         iconSource: TAwesomeType.FA_apple
+    //         text:  "Request";
+    //     }
 
-        QEXTMenuElement{
-            iconSource: QEXTAwesomeType.FA_android
-            text: "Collection"
-        }
+    //     QExtQuickPopoverElement{
+    //         iconSource: TAwesomeType.FA_android
+    //         text: "Collection";
+    //     }
 
-        QEXTMenuElement{
-            iconSource: QEXTAwesomeType.FA_git
-            text: "Environment"
-        }
+    //     QExtQuickPopoverElement{
+    //         iconSource: TAwesomeType.FA_git
+    //         text: "Environment";
+    //     }
 
-        QEXTMenuElement{
-            type:"group"
-            text: "ADVANCED"
-        }
+    //     QExtQuickPopoverElement{
+    //         type:"group"
+    //         text: "ADVANCED";
+    //     }
 
 
-        QEXTMenuElement{
-            iconSource: QEXTAwesomeType.FA_music
-            text: "Document"
-        }
+    //     QExtQuickPopoverElement{
+    //         iconSource: TAwesomeType.FA_music
+    //         text: "Document";
+    //     }
 
-        QEXTMenuElement{
-            iconSource: QEXTAwesomeType.FA_heartbeat
-            text: "Mock Server"
-        }
+    //     QExtQuickPopoverElement{
+    //         iconSource: TAwesomeType.FA_heartbeat
+    //         text: "Mock Server";
+    //     }
 
-        QEXTMenuElement{
-            iconSource: QEXTAwesomeType.FA_car
-            text: "Monitor"
-        }
-
-    }
+    //     QExtQuickPopoverElement{
+    //         iconSource: TAwesomeType.FA_car
+    //         text: "Monitor";
+    //     }
+    // }
 }

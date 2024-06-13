@@ -1,7 +1,8 @@
 import QtQuick 2.12
-import QExtQuick.Controls 1.2
 
-QExtQuickObject {
+import QExtQml 1.2
+
+QExtQmlObject {
     id: qextDialogButton
 
     property var otherData
@@ -18,7 +19,7 @@ QExtQuickObject {
 
     property bool backgroundVisible: false
     property color backgroundColor: "#FFFFFF"
-    property color backgroundBorderColor: QExtQuickPalette.borderLevel1Color
+    property color backgroundBorderColor: "#DCDCDC"
     property real backgroundBorderWidth: 1
     property real backgroundRadius: 5
 }

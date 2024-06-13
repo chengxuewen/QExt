@@ -1,8 +1,10 @@
-import QtQuick 2.9
 import QtQml 2.9
+import QtQuick 2.9
 
-QtObject {
-    id: qextObject
+import QExtQml 1.2
+
+QExtObject {
+    id: root
 
     default property list<QtObject> children
 }

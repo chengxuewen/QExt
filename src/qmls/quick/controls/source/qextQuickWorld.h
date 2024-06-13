@@ -64,7 +64,6 @@ public:
 Q_SIGNALS:
     void mouseAreaCursorShapeChanged(int shape);
 
-
 protected Q_SLOTS:
     void onParentChanged(QQuickItem *parent);
 

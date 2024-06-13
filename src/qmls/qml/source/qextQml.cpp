@@ -26,6 +26,7 @@
 #include <qextQmlGlobal.h>
 #include <qextQmlConfig.h>
 
+#include <qextObject.h>
 #include <qextOnceFlag.h>
 
 #include <QDebug>
@@ -210,6 +211,7 @@ void QExtQml::registerTypes(const char *url)
     qmlRegisterSingletonType<QExtQml>(QEXT_QML_MODULE_URI, major, minor, "QExtQml",
                                       QExtQml::qmlSingletonTypeProvider);
 
+    qmlRegisterType<QExtObject>( QEXT_QML_MODULE_URI, major, minor, "QExtObject");
     qmlRegisterType<QExtQmlFontIconInfo>( QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIconInfo");
 
     qmlRegisterType(QUrl("qrc:/QExtQml/source/qml/QExtQmlObject.qml"),

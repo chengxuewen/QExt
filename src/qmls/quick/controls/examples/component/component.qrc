@@ -44,7 +44,7 @@
         <file>qml/C_DividerLine.qml</file>
         <file>qml/C_FpsMonitor.qml</file>
         <file>qml/C_SvgImage.qml</file>
-        <file>qml/C_IconButton.qml</file>
+        <file>qml/C_ToolButton.qml</file>
         <file>qml/C_InputField.qml</file>
         <file>qml/C_MoveArea.qml</file>
         <file>qml/C_NavigationBar.qml</file>
@@ -63,5 +63,6 @@
         <file>qml/Test.qml</file>
         <file>qml/Topbar.qml</file>
         <file>qml/C_FontImage.qml</file>
+        <file>qml/C_Popup.qml</file>
     </qresource>
 </RCC>

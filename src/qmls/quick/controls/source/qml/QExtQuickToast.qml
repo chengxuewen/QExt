@@ -20,6 +20,8 @@ QExtQmlObject {
     property alias rootWindow: mData.rootWindow
     property alias messageBoxComponent: mData.messageBoxComponent
 
+    readonly property alias screenLayout: mData.screenLayout
+
     readonly property alias const_success: mData.const_success
     readonly property alias const_warning: mData.const_warning
     readonly property alias const_error: mData.const_error
@@ -50,8 +52,12 @@ QExtQmlObject {
         mData.create(mData.const_error, text, duration, moremsg ? moremsg : "", closeable);
     }
 
+    function showCustomWithProperties(itemComponent, itemProperties, duration) {
+        mData.createCustom(itemComponent, itemProperties, duration)
+    }
+
     function showCustom(itemComponent, duration) {
-        mData.createCustom(itemComponent, duration)
+        mData.createCustom(itemComponent, null, duration)
     }
 
     QExtQuickPadding {
@@ -72,7 +78,7 @@ QExtQmlObject {
         function create(type, text, duration, moremsg, closeable) {
             if(screenLayout) {
                 var last = screenLayout.getLastloader();
-                if (last.type === type && last.text === text && moremsg === last.moremsg && closeable === last.closeable) {
+                if (type === last.type && text === last.text && moremsg === last.moremsg && closeable === last.closeable) {
                     last.restart();
                     return;
                 }
@@ -88,15 +94,27 @@ QExtQmlObject {
                                            });
         }
 
-        function createCustom(itemcomponent, duration) {
+        function createCustom(itemComponent, itemProperties, duration) {
+            if(screenLayout) {
+                var last = screenLayout.getLastloader();
+                if (JSON.stringify(itemProperties) === JSON.stringify(last.itemProperties)) {
+                    last.restart();
+                    return;
+                }
+            }
+
             initScreenLayout();
-            if (itemcomponent) {
-                mContentComponent.createObject(screenLayout, {itemcomponent: itemcomponent, duration: duration});
+            if (itemComponent) {
+                mContentComponent.createObject(screenLayout, {
+                                                   itemComponent: itemComponent,
+                                                   itemProperties: itemProperties,
+                                                   duration: duration
+                                               });
             }
         }
 
         function initScreenLayout() {
-            if (screenLayout == null) {
+            if (null == screenLayout) {
                 screenLayout = screenlayoutComponent.createObject(rootWindow);
                 screenLayout.z = Number.MAX_VALUE;
             }
@@ -161,8 +179,9 @@ QExtQmlObject {
             id: mContentComponent
             Item {
                 id: mContent
-                property int duration: 3000
+                property var itemProperties
                 property var itemComponent
+                property int duration: 3000
                 property string type
                 property string text
                 property string moremsg
@@ -200,9 +219,20 @@ QExtQmlObject {
                         updatePos()
                     }
 
-                    Component.onCompleted: {
-                        updatePos()
+                    onLoaded: {
+                        if (item && superItem.itemProperties && superItem.itemComponent) {
+                            for (const key in superItem.itemProperties) {
+                                if (superItem.itemProperties.hasOwnProperty(key)) {
+                                    // console.log(key + ": " + superItem.itemProperties[key]);
+                                    item[key] = superItem.itemProperties[key];
+                                }
+                            }
+                        }
                     }
+                    Component.onCompleted: {
+                        updatePos();
+                    }
+                    sourceComponent: superItem.itemComponent ? superItem.itemComponent : mData.messageBoxComponent
 
                     scale: item ? 1 : 0
                     // asynchronous: true
@@ -228,14 +258,10 @@ QExtQmlObject {
                             break
                         }
                     }
-
-                    sourceComponent: itemComponent ? itemComponent : mData.messageBoxComponent
                 }
-
             }
         }
 
-        // -- QExtQuickControls Message style
         property Component messageBoxComponent: Rectangle {
             id: rect
             width: mRowlayout.width  + (superItem.moremsg ? 25 : 80)
@@ -276,7 +302,7 @@ QExtQmlObject {
                         case mData.const_error:
                             return "qrc:/QExtQuickControls/resource/image/error.svg"
                         }
-                        return "#FFFFFF"
+                        return ""
                     }
 
                     width: more.visible ? 40 : 22

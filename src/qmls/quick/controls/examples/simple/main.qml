@@ -23,7 +23,7 @@ Window {
         anchors.centerIn: parent
     }
 
-    //    QExtQuickIconButton {
+    //    QExtQuickToolButton {
     //        iconColor: "Red"
     //        iconSource: ""
 

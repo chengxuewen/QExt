@@ -48,8 +48,12 @@ Window {
                 {label: "FpsMonitor", uri: "qrc:/qml/C_FpsMonitor.qml"},
                 {label: "ProgressBar", uri: "qrc:/qml/C_ProgressBar.qml"},
                 {label: "Toast", uri: "qrc:/qml/C_Toast.qml"},
-                // {label: "Button", uri: "qrc:/C_Button.qml"},
-                // {label: "IconButton", uri: "qrc:/C_IconButton.qml"},
+                {label: "Button", uri: "qrc:/qml/C_Button.qml"},
+                {label: "ToolButton", uri: "qrc:/qml/C_ToolButton.qml"},
+                {label: "Dialog", uri: "qrc:/qml/C_Dialog.qml"},
+                {label: "Popup", uri: "qrc:/qml/C_Popup.qml"},
+                {label: "Popover", uri: "qrc:/qml/C_Popover.qml"},
+                // {label: "Carousel", uri: "qrc:/C_Carousel.qml"},
                 // {label: "Carousel", uri: "qrc:/C_Carousel.qml"},
                 // {label: "Pagination", uri: "qrc:/C_Pagination.qml"},
                 // {label: "DividerLine", uri: "qrc:/C_DividerLine.qml"},
@@ -57,7 +61,6 @@ Window {
                 // {label: "CircularProgressBar", uri: "qrc:/C_CircularProgressBar.qml"},
                 // {label: "Switch", uri: "qrc:/C_Switch.qml"},
                 // {label: "RadioButton", uri: "qrc:/C_RadioButton.qml"},
-                // {label: "Dialog", uri: "qrc:/C_Dialog.qml"},
                 // {label: "NavigationBar", uri: "qrc:/C_NavigationBar.qml"},
                 // {label: "MoveArea", uri: "qrc:/C_MoveArea.qml"},
                 // {label: "ResizeArea", uri: "qrc:/C_ResizeArea.qml"},
@@ -76,6 +79,7 @@ Window {
     }
 
     Component.onCompleted: {
+        QExtQuickGlobalToast.setTopLevelWindow(root);
         root.showMaximized()
         root.showNormal()
     }

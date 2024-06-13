@@ -8,12 +8,12 @@ import QExtQuick.Controls 1.2
 
 QExtQuickToast {
     id: root
+    rootWindow: QExtQuickRootWindow
 
     function setTopLevelWindow(object) {
-        while (null !== object.parent) {
+        while (undefined !== object.parent && null !== object.parent) {
             object = object.parent;
         }
         root.rootWindow = object;
     }
-    // property alias rootWindow: qextRootWindow
 }

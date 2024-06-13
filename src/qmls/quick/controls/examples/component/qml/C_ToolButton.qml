@@ -1,6 +1,8 @@
-import QtQuick 2.12
-import QtQml 2.12
-import QtQuick.Controls 2.12
+import QtQml 2.9
+import QtQuick 2.9
+import QtQuick.Controls 2.9
+
+import QExtQml.FontIcon 1.2
 import QExtQuick.Controls 1.2
 
 Column{
@@ -16,7 +18,7 @@ Column{
         height: 40
         spacing: 10
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Normal"
             textFont.bold: true
             iconSource: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_apple)
@@ -24,7 +26,7 @@ Column{
             iconVisible: mIconVisibleCheckBox.checked
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Primary"
             textColor: "#FFF"
             textFont.bold: true
@@ -34,7 +36,7 @@ Column{
             iconVisible: mIconVisibleCheckBox.checked
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Success"
             textFont.bold: true
             textColor: "#FFF"
@@ -43,7 +45,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Warning"
             textFont.bold: true
             textColor: "#FFF"
@@ -52,7 +54,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Danger"
             textFont.bold: true
             textColor: "#FFF"
@@ -65,13 +67,13 @@ Column{
     Row{
         height: 40
         spacing: 10
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             iconDisplay: QExtQuickControls.IconDisplay_IconOnly
             iconSource: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_apple)
             backgroundRadius: height / 2
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             iconDisplay: QExtQuickControls.IconDisplay_IconOnly
             iconSource: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_android)
             iconColor: "#46A0FC"
@@ -80,7 +82,7 @@ Column{
             backgroundRadius: height / 2
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             iconDisplay: QExtQuickControls.IconDisplay_IconOnly
             iconSource: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_windows)
             iconColor: "#6AC044"
@@ -89,7 +91,7 @@ Column{
             backgroundRadius: height / 2
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             iconDisplay: QExtQuickControls.IconDisplay_IconOnly
             iconSource: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_github)
             iconColor: "#E4A147"
@@ -98,7 +100,7 @@ Column{
             backgroundRadius: height / 2
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             iconDisplay: QExtQuickControls.IconDisplay_IconOnly
             iconSource: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_star_o)
             iconColor: "#F36D6F"
@@ -111,7 +113,7 @@ Column{
     Row{
         height: 40
         spacing: 10
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Normal"
             textFont.bold: true
             iconDisplay: QExtQuickControls.IconDisplay_TextOnly
@@ -119,7 +121,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Primary"
             textColor: "#FFF"
             textFont.bold: true
@@ -129,7 +131,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Success"
             textFont.bold: true
             textColor: "#FFF"
@@ -139,7 +141,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Warning"
             textFont.bold: true
             textColor: "#FFF"
@@ -149,7 +151,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Danger"
             textFont.bold: true
             textColor: "#FFF"
@@ -163,7 +165,7 @@ Column{
     Row{
         height: 40
         spacing: 10
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Normal"
             textFont.bold: true
             iconDisplay: QExtQuickControls.IconDisplay_Right
@@ -171,7 +173,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Primary"
             textColor: "#FFF"
             textFont.bold: true
@@ -181,7 +183,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Success"
             textFont.bold: true
             textColor: "#FFF"
@@ -191,7 +193,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Warning"
             textFont.bold: true
             textColor: "#FFF"
@@ -201,7 +203,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             text: "Danger"
             textFont.bold: true
             textColor: "#FFF"
@@ -215,7 +217,7 @@ Column{
     Row{
         height: 60
         spacing: 10
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             width: 60
             height: 60
             text: "Normal"
@@ -226,7 +228,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             width: 60
             height: 60
             text: "Primary"
@@ -239,7 +241,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             width: 60
             height: 60
             text: "Success"
@@ -252,7 +254,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             width: 60
             height: 60
             text: "Warning"
@@ -265,7 +267,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             width: 60
             height: 60
             text: "Danger"
@@ -282,7 +284,7 @@ Column{
     Row{
         height: 60
         spacing: 10
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             width: 60
             height: 60
             text: "Normal"
@@ -293,7 +295,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             width: 60
             height: 60
             text: "Primary"
@@ -306,7 +308,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             width: 60
             height: 60
             text: "Success"
@@ -319,7 +321,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             width: 60
             height: 60
             text: "Warning"
@@ -332,7 +334,7 @@ Column{
             iconColor: textColor
         }
 
-        QExtQuickIconButton{
+        QExtQuickToolButton{
             width: 60
             height: 60
             text: "Danger"

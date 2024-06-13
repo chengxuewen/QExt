@@ -22,45 +22,53 @@
 **
 ***********************************************************************************************************************/
 
-#include <private/qextQuickWorld_p.h>
+#include <qextQuickWorld.h>
 #include <qextQuickControls.h>
+
+#include <qextOnceFlag.h>
+
+class QExtQuickWorldPrivate
+{
+    Q_DISABLE_COPY(QExtQuickWorldPrivate)
+    Q_DECLARE_PUBLIC(QExtQuickWorld)
+public:
+    explicit QExtQuickWorldPrivate(QExtQuickWorld *q);
+    virtual ~QExtQuickWorldPrivate();
+
+    QExtQuickWorld * const q_ptr;
+};
 
 QExtQuickWorldPrivate::QExtQuickWorldPrivate(QExtQuickWorld *q)
     : q_ptr(q)
 {
-
 }
 
 QExtQuickWorldPrivate::~QExtQuickWorldPrivate()
 {
-
 }
-
-
 
 QExtQuickWorld::QExtQuickWorld(QQuickItem *parent)
     : QQuickItem(parent)
     , dd_ptr(new QExtQuickWorldPrivate(this))
 {
-    static bool inited = false;
-    if(inited)
+    static QExtOnceFlag onceFlag;
+    if(onceFlag.enter())
     {
-        qErrnoWarning("Error:There is only one world :)");
+        this->setVisible(false);
+        this->setEnabled(false);
+        connect(this, &QQuickItem::parentChanged, this, &QExtQuickWorld::onParentChanged);
+        onceFlag.leave();
     }
     else
     {
-        inited = true;
-        this->setVisible(false);
-        this->setEnabled(false);
-        connect(this, SIGNAL(parentChanged(QQuickItem *)), this, SLOT(onParentChanged(QQuickItem *)));
+        qErrnoWarning("Error:There is only one world :)");
     }
+    this->onParentChanged(parent);
 }
 
 QExtQuickWorld::~QExtQuickWorld()
 {
-
 }
-
 
 int QExtQuickWorld::mouseAreaCursorShape() const
 {
@@ -81,5 +89,5 @@ void QExtQuickWorld::onParentChanged(QQuickItem *parent)
     Q_UNUSED(parent);
     QExtQuickControls::instance()->initWorld(this);
     QExtQuickControls::instance()->initQuickRoot(dynamic_cast<QQuickWindow *>(this->parent()));
-    disconnect(this, SIGNAL(parentChanged(QQuickItem *)), this, SLOT(onParentChanged(QQuickItem *)));
+    disconnect(this, &QQuickItem::parentChanged, this, &QExtQuickWorld::onParentChanged);
 }

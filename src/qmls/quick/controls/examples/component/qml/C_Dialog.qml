@@ -37,13 +37,13 @@ Column {
                         font.pixelSize: QExtQuickControls.PH5
                     }
 
-                    QExtQuickIconButton {
+                    QExtQuickToolButton {
                         padding: 10
                         width: 30
                         height: 30
                         background: null
                         visible: true
-                        iconSource: "qrc:/QExtQuickControls/svg/close-px.svg"
+                        iconSource: "qrc:/QExtQuickControls/resource/image/close_px.svg"
                         iconDisplay: QExtQuickControls.IconDisplay_IconOnly
                         anchors.right: parent.right
                         anchors.rightMargin: 5
@@ -212,9 +212,9 @@ Column {
 
             onButtonTriggered: {
                 if (button.text === "OK" && item.text) {
-                    QExtQuickToast.showSuccess("Hi, " + item.text , 2000)
+                    QExtQuickGlobalToast.showSuccess("Hi, " + item.text , 2000)
                 } else {
-                    QExtQuickToast.showError("What's your name？", 2000)
+                    QExtQuickGlobalToast.showError("What's your name？", 2000)
                 }
                 accept()
             }

@@ -89,27 +89,24 @@ Column {
 
     Row{
         height: 30
+        spacing: 20
         Button {
-            background: null
             text: "Show Success Closeable"
             onClicked: {
                 QExtQuickGlobalToast.showSuccess("Welcome to QExtQuickControls", 5000, "No discord, no concord.")
             }
         }
         Button {
-            background: null
             text: "Show Warning Closeable"
             onClicked: QExtQuickGlobalToast.showWarning("Welcome to QExtQuickControls", 2000)
         }
 
         Button {
-            background: null
             text: "Show Info Closeable"
             onClicked: QExtQuickGlobalToast.showInfo("Welcome to QExtQuickControls", 2000)
         }
 
         Button{
-            background: null
             text: "Show Error Closeable"
             onClicked: QExtQuickGlobalToast.showError("Welcome to QExtQuickControls", 2000)
         }
@@ -117,38 +114,36 @@ Column {
         Component {
             id: customComponent
             Rectangle {
-
+                width: 300
+                height: 100
+                color: "red"
             }
         }
         Button{
-            background: null
-            text: "Show custom component Closeable"
+            text: "Show custom component"
             onClicked: QExtQuickGlobalToast.showCustom(customComponent, 2000)
         }
     }
     Row{
         height: 30
+        spacing: 20
         Button {
-            background: null
             text: "Show Success"
             onClicked: {
                 QExtQuickGlobalToast.showSuccess("Welcome to QExtQuickControls", 5000, "No discord, no concord.", false)
             }
         }
         Button {
-            background: null
             text: "Show Warning"
             onClicked: QExtQuickGlobalToast.showWarning("Welcome to QExtQuickControls", 2000, "", false)
         }
 
         Button {
-            background: null
             text: "Show Info"
             onClicked: QExtQuickGlobalToast.showInfo("Welcome to QExtQuickControls", 2000, "", false)
         }
 
         Button{
-            background: null
             text: "Show Error"
             onClicked: QExtQuickGlobalToast.showError("Welcome to QExtQuickControls", 2000, "", false)
         }

@@ -37,9 +37,8 @@ class QExtQuickControlsPrivate;
 class QEXT_QUICKCONTROLS_API QExtQuickControls : public QObject
 {
     Q_OBJECT
-    Q_DECLARE_PRIVATE_D(dd_ptr, QExtQuickControls)
-    Q_DISABLE_COPY(QExtQuickControls)
-    //    QML_ELEMENT
+    Q_PROPERTY(QString version READ version CONSTANT)
+    Q_PROPERTY(QQuickWindow *rootWindow READ rootWindow NOTIFY rootWindowChanged)
 
 public:
     enum StateType
@@ -114,7 +113,8 @@ public:
     static QObject *qmlSingletonTypeProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
     static QExtQuickControls *instance();
 
-    Q_INVOKABLE QString version() const;
+    QString version() const;
+    QQuickWindow *rootWindow() const;
 
     Q_INVOKABLE QString stateToString(int state) const;
     Q_INVOKABLE int stateToEnum(const QString &state) const;
@@ -124,13 +124,20 @@ public:
     void initQuickRoot(QQuickWindow *rootWindow);
     void initQmlEngine(QQmlEngine *engine, const char *uri);
 
-    Q_INVOKABLE int mouseAreaCursorShape() const;
+    int mouseAreaCursorShape() const;
     void setMouseAreaCursorShape(const Qt::CursorShape &cursor);
+
+Q_SIGNALS:
+    void rootWindowChanged(QQuickWindow *window);
 
 protected:
     explicit QExtQuickControls(QObject *parent = QEXT_NULLPTR);
 
     QScopedPointer<QExtQuickControlsPrivate> dd_ptr;
+
+private:
+    Q_DECLARE_PRIVATE_D(dd_ptr, QExtQuickControls)
+    Q_DISABLE_COPY(QExtQuickControls)
 };
 
 #endif // _QEXTQUICKCONTROLS_H
