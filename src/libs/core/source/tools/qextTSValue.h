@@ -134,6 +134,14 @@ public:
         return v1.m_value != v2.m_value;
     }
 
+    T *data() QEXT_NOEXCEPT
+    {
+        return &m_value.first;
+    }
+    const T *data() const QEXT_NOEXCEPT
+    {
+        return &m_value.first;
+    }
     T *operator->() QEXT_NOEXCEPT
     {
         return &m_value.first;

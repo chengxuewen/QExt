@@ -36,6 +36,14 @@ public:
         return !(v1.get() == v2.get());
     }
 
+    T *data() QEXT_NOEXCEPT
+    {
+        return &m_value;
+    }
+    const T *data() const QEXT_NOEXCEPT
+    {
+        return &m_value;
+    }
     T *operator->() QEXT_NOEXCEPT
     {
         return &m_value;
@@ -44,6 +52,7 @@ public:
     {
         return &m_value;
     }
+
     T get() const
     {
         QExtSpinLock::Locker locker(m_spinlock);
