@@ -22,6 +22,5 @@
 ########################################################################################################################
 
 add_subdirectory(qml)
-qext_add_subdirectory(qmlfonticon QEXT_ENABLE_LIB_FONTICON)
 add_subdirectory(quick)
 add_subdirectory(toou2d)

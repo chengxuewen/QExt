@@ -83,10 +83,41 @@ static void qextTSValueStore(QPair<D, qint64> &value, const D &data)
 {
     qextTSValueStore(value.first, data);
 }
-template <typename T, typename Data>
-static void qextTSValueStore(QPair<T, qint64> &value, const Data &data)
+template <typename T, typename D>
+static void qextTSValueStore(QPair<T, qint64> &value, const D &data)
 {
     qextTSValueStore(value.first, data);
+}
+/* compare */
+template <typename T, typename D>
+static bool qextTSValueCompare(T &value, const D &data)
+{
+    return qextTSValueLoad(value) == data;
+}
+template <typename T>
+static bool qextTSValueCompare(const T &v1, const T &v2)
+{
+    return qextTSValueLoad(v1) == qextTSValueLoad(v2);
+}
+template <typename T>
+static bool qextTSValueCompare(const QExtConcurrent<T> &v1, const QExtConcurrent<T> &v2)
+{
+    return v1.compare(v2);
+}
+template <typename D>
+static bool qextTSValueCompare(QExtConcurrent<D> &value, const D &data)
+{
+    return value.compare(data);
+}
+template <typename T, typename D>
+static bool qextTSValueCompare(QPair<T, qint64> &value, const D &data)
+{
+    return qextTSValueCompare(value.first) == data;
+}
+template <typename T>
+static bool qextTSValueCompare(const QPair<T, qint64> &v1, const QPair<T, qint64> &v2)
+{
+    return qextTSValueCompare(v1.first, v2.first);
 }
 }
 
@@ -165,11 +196,11 @@ public:
     template <typename D>
     bool isValueEqual(const D &data)
     {
-        return detail::qextTSValueLoad(m_value) == detail::qextTSValueLoad(data);
+        return detail::qextTSValueCompare(m_value, data);
     }
     bool isValueEqual(const Self &other)
     {
-        return this != &other && detail::qextTSValueLoad(m_value) == detail::qextTSValueLoad(other.m_value);
+        return this != &other && detail::qextTSValueCompare(m_value, other.m_value);
     }
     bool isValueOutdated(TS now, TS timeout = -1)
     {

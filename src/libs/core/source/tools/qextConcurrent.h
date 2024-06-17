@@ -29,11 +29,11 @@ public:
 
     friend inline bool operator==(const QExtConcurrent &v1, const QExtConcurrent &v2) QEXT_NOEXCEPT
     {
-        return v1.get() == v2.get();
+        return v1.compare(v2);
     }
     friend inline bool operator!=(const QExtConcurrent &v1, const QExtConcurrent &v2) QEXT_NOEXCEPT
     {
-        return !(v1.get() == v2.get());
+        return !v1.compare(v2);
     }
 
     T *data() QEXT_NOEXCEPT
@@ -62,6 +62,16 @@ public:
     {
         QExtSpinLock::Locker locker(m_spinlock);
         m_value = value;
+    }
+    bool compare(const T &data) const
+    {
+        QExtSpinLock::Locker locker(m_spinlock);
+        return this->m_value == data;
+    }
+    bool compare(const Self &other) const
+    {
+        QExtSpinLock::Locker locker(m_spinlock);
+        return this != &other && this->m_value == other.m_value;
     }
     T exchange(const T &value)
     {

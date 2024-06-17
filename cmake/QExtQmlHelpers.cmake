@@ -1418,12 +1418,11 @@ function(qext_internal_qml_type_registration target)
     set_target_properties(${target} PROPERTIES QEXT_QML_MODULE_PLUGIN_TYPES_FILE ${plugin_types_file})
     # message(output_dir=${output_dir})
     # message(plugin_types_file=${plugin_types_file})
-    # message(arg_PLUGIN_TARGET=${arg_PLUGIN_TARGET})
+    message(arg_PLUGIN_TARGET=${arg_PLUGIN_TARGET})
     # message(QEXT_QML_OUTPUT_DIRECTORY=${QEXT_QML_OUTPUT_DIRECTORY})
     if(TARGET ${arg_PLUGIN_TARGET})
         add_custom_command(
-            TARGET ${target}
-            DEPENDS ${arg_PLUGIN_TARGET}
+            TARGET ${arg_PLUGIN_TARGET}
             COMMAND
             ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE} -v -nonrelocatable ${import_name} ${import_version} ${QEXT_QML_OUTPUT_DIRECTORY}
             -output ${plugin_types_file}
