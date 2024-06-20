@@ -23,15 +23,15 @@
 ***********************************************************************************************************************/
 
 #include <qextQuickControls.h>
-#include <qextQuickWorld.h>
-#include <qextQuickTextGadget.h>
-#include <qextQuickBorderGadget.h>
+#include <qextQuickControlsConfig.h>
 #include <qextQuickBackgroundGadget.h>
+#include <qextQuickBorderGadget.h>
+#include <qextQuickTextGadget.h>
 #include <qextQuickIconGadget.h>
 #include <qextQuickItemGadget.h>
 #include <qextQuickPadding.h>
 #include <qextQuickPalette.h>
-#include <qextQuickControlConfig.h>
+#include <qextQuickWorld.h>
 
 #include <qextOnceFlag.h>
 
