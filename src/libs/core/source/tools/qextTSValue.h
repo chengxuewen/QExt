@@ -112,7 +112,7 @@ static bool qextTSValueCompare(QExtConcurrent<D> &value, const D &data)
 template <typename T, typename D>
 static bool qextTSValueCompare(QPair<T, qint64> &value, const D &data)
 {
-    return qextTSValueCompare(value.first) == data;
+    return qextTSValueCompare(value.first, data);
 }
 template <typename T>
 static bool qextTSValueCompare(const QPair<T, qint64> &v1, const QPair<T, qint64> &v2)

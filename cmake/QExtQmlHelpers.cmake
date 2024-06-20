@@ -1031,6 +1031,24 @@ function(qt6_add_qml_module target)
 endfunction()
 
 
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+# If a task needs to run before any targets are finalized in the current directory
+# scope, call this function and pass the ID of that task as the argument.
+function(_qt_internal_delay_finalization_until_after defer_id)
+    set_property(DIRECTORY APPEND PROPERTY qt_internal_finalizers_wait_for_ids "${defer_id}")
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+function(_qt_internal_write_deferred_qmldir_file target)
+    get_target_property(__qt_qmldir_content ${target} _qt_internal_qmldir_content)
+    get_target_property(out_dir ${target} QT_QML_MODULE_OUTPUT_DIRECTORY)
+    set(qmldir_file "${out_dir}/qmldir")
+    configure_file(${__qt_qml_macros_module_base_dir}/QExtQmldirTemplate.cmake.in ${qmldir_file} @ONLY)
+endfunction()
+
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
