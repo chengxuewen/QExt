@@ -6,8 +6,9 @@
 #include <QQuickWindow>
 
 #include "world.h"
+#include "Toou2D.h"
 
-class T2D : public QObject
+class QEXT_TOOU2D_API T2D : public QObject
 {
     Q_OBJECT
 

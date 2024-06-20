@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.6.9 LANGUAGES CXX C)
+project(QExt VERSION 1.2.6.10 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -84,7 +84,8 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     set(QEXT_CXX_STANDARD 98)
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Widgets Network Quick Test PrintSupport Xml Svg Sql REQUIRED)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS
+        Core Widgets Network Quick QuickControls2 Test PrintSupport Xml Svg Sql REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent)
     set(QEXT_QT_OPENGL_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGL_FOUND})
     set(QEXT_QT_EXPORT_NAMESPACE Qt5)
@@ -97,7 +98,8 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     endif()
 elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Widgets Network Quick Test PrintSupport Xml Svg Sql REQUIRED)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core
+        Widgets Network Quick QuickControls2 Test PrintSupport Xml Svg Sql REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core5Compat REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGLWidgets OpenGL Concurrent)
     set(QEXT_QT_OPENGL_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGL_FOUND})

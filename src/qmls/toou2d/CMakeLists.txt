@@ -46,11 +46,13 @@ set(QEXT_QT_RCC_EXECUTABLE "${rcc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
 # message(QEXT_QT_RCC_EXECUTABLE=${QEXT_QT_RCC_EXECUTABLE})
 qext_find_qt_tool(qmlplugindump)
 set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${qmlplugindump_EXECUTABLE}" CACHE INTERNAL "" FORCE)
+# set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${QEXT_BUILD_DIR}/${QEXT_INSTALL_BINDIR}/qmlplugindump/qmlplugindump.exe" CACHE INTERNAL "" FORCE)
 # message(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE=${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE})
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
 qt_internal_add_qml_module(Toou2D
+    NO_GENERATE_QMLTYPES
     URI "Toou2D"
     VERSION "1.0"
     CLASS_NAME Toou2DQmlPlugin
