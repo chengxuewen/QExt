@@ -11,7 +11,10 @@ Item {
     property alias smooth: image.smooth
     property alias status: image.status
     property alias color: shaderItem.color
+    property alias fillMode: image.fillMode
     property alias asynchronous: image.asynchronous
+    property alias implicitWidth: image.implicitWidth
+    property alias implicitHeight: image.implicitHeight
 
     Image {
         id: image

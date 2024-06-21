@@ -7,8 +7,13 @@ import QExtQuick.Controls 1.2
 Item {
     id: root
 
-    property string source
     property color color
+    property bool smooth: true
+    property bool mipmap: false
+    property bool asynchronous: true
+    property string source: image.source
+    property int status: Image.Null
+    property int fillMode: Image.PreserveAspectCrop
 
     Loader {
         anchors.fill: parent
