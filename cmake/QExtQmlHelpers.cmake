@@ -1215,6 +1215,7 @@ function(qt6_add_qml_plugin target)
         list(LENGTH path path_count)
         string(REPEAT "../" ${path_count} rel_path)
         string(APPEND rel_path "${CMAKE_INSTALL_LIBDIR}")
+#        message(rel_path=${rel_path})
         if(APPLE)
             set(install_rpath
                 # If embedded in an app bundle, search in a bundle-local path
@@ -1231,7 +1232,9 @@ function(qt6_add_qml_plugin target)
         else()
             set(install_rpath "$ORIGIN/${rel_path}")
         endif()
-        set_target_properties(${target} PROPERTIES INSTALL_RPATH "${install_rpath}")
+        set_target_properties(${target} PROPERTIES
+            BUILD_WITH_INSTALL_RPATH ON
+            INSTALL_RPATH "${install_rpath}")
     endif()
 
     get_target_property(moc_opts ${target} AUTOMOC_MOC_OPTIONS)

@@ -162,7 +162,7 @@ public:
     }
     friend inline bool operator!=(const Self &v1, const Self &v2) QEXT_NOEXCEPT
     {
-        return v1.m_value != v2.m_value;
+        return !(v1 == v2);
     }
 
     T *data() QEXT_NOEXCEPT
@@ -186,9 +186,13 @@ public:
     void setTimeoutTime(TS time) { m_timeout = time; }
 
     T get() const { return detail::qextTSValueLoad(m_value); }
+    template <typename Data>
+    Data get() const { return detail::qextTSValueLoad(m_value); }
+
     void set(T val) { detail::qextTSValueStore(m_value, val); }
     template <typename Data>
     void set(const Data &val) { detail::qextTSValueStore(m_value, val); }
+
     void reset(const T &val, TS now) const { detail::qextTSValueStore(m_value, val); m_value.second = now; }
     template <typename Data>
     void reset(const Data &val, TS now) const { detail::qextTSValueStore(m_value, val); m_value.second = now; }
@@ -206,7 +210,7 @@ public:
     {
         return checkOutdated(m_value.second, now, timeout >= 0 ? timeout : m_timeout);
     }
-    bool isValueChanged(const T &newVal, TS now, TS timeout = -1)
+    bool isValueChanged(const T &newVal, TS now = -1, TS timeout = -1)
     {
         if (this->isValueOutdated(now, timeout))
         {
