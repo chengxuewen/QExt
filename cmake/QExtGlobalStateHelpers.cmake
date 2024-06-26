@@ -65,6 +65,14 @@ endfunction()
 
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
+function(qext_internal_add_qext_repo_known_plugin_types)
+    set(QEXT_REPO_KNOWN_PLUGIN_TYPES ${QEXT_REPO_KNOWN_PLUGIN_TYPES} ${ARGN}
+        CACHE INTERNAL "Known current repo QExt plug-in types" FORCE)
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 macro(qext_internal_append_known_libraries_with_tools library)
     if(NOT ${library} IN_LIST QEXT_KNOWN_LIBRARIES_WITH_TOOLS)
         set(QEXT_KNOWN_LIBRARIES_WITH_TOOLS "${QEXT_KNOWN_LIBRARIES_WITH_TOOLS};${library}"
@@ -200,22 +208,22 @@ macro(qext_build_repo_end)
                 qext_copy_or_install(DIRECTORY cmake/
                     DESTINATION "${__qext_repo_install_dir}"
                     FILES_MATCHING PATTERN "Find*.cmake")
-            if(QEXT_SUPERBUILD AND QEXT_WILL_INSTALL)
-                file(COPY cmake/
-                    DESTINATION "${__qext_repo_build_dir}"
-                    FILES_MATCHING PATTERN "Find*.cmake")
+                if(QEXT_SUPERBUILD AND QEXT_WILL_INSTALL)
+                    file(COPY cmake/
+                        DESTINATION "${__qext_repo_build_dir}"
+                        FILES_MATCHING PATTERN "Find*.cmake")
+                endif()
+            endif()
+        endif()
+
+        if(NOT QEXT_SUPERBUILD)
+            qext_print_feature_summary()
         endif()
     endif()
-endif()
 
-if(NOT QEXT_SUPERBUILD)
-    qext_print_feature_summary()
-endif()
-endif()
+    qext_build_internals_add_toplevel_targets()
 
-qext_build_internals_add_toplevel_targets()
-
-if(NOT QEXT_SUPERBUILD)
-    qext_print_build_instructions()
-endif()
+    if(NOT QEXT_SUPERBUILD)
+        qext_print_build_instructions()
+    endif()
 endmacro()

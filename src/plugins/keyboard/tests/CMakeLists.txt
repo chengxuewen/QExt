@@ -21,15 +21,4 @@
 #
 ########################################################################################################################
 
-add_subdirectory(core)
-qext_add_subdirectory(gui QEXT_ENABLE_LIB_GUI)
-qext_add_subdirectory(tcp QEXT_ENABLE_LIB_TCP)
-qext_add_subdirectory(web QEXT_ENABLE_LIB_WEB)
-qext_add_subdirectory(widgets QEXT_ENABLE_LIB_WIDGETS)
-qext_add_subdirectory(patterns QEXT_ENABLE_LIB_PATTERNS)
-qext_add_subdirectory(fonticon QEXT_ENABLE_LIB_FONTICON)
-qext_add_subdirectory(keyboard QEXT_ENABLE_LIB_KEYBOARD)
-qext_add_subdirectory(graphics QEXT_ENABLE_LIB_GRAPHICS)
-qext_add_subdirectory(blueprint QEXT_ENABLE_LIB_BLUEPRINT)
-qext_add_subdirectory(serialport QEXT_ENABLE_LIB_SERIALPORT)
-qext_add_subdirectory(devicewatcher QEXT_ENABLE_LIB_DEVICEWATCHER)
+

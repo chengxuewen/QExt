@@ -1,0 +1,21 @@
+# find qt dependencies package
+find_package(@PinyinIME_QT_FINDPKG_CMDSTR@)
+
+@PACKAGE_INIT@
+
+set(PinyinIME_VERSION_MAJOR "@PinyinIME_VERSION_MAJOR@")
+set(PinyinIME_VERSION_MINOR "@PinyinIME_VERSION_MINOR@")
+set(PinyinIME_VERSION_PATCH "@PinyinIME_VERSION_PATCH@")
+
+set_and_check(PinyinIME_INCLUDE_DIRS "@PACKAGE_INCLUDE_INSTALL_DIRS@")
+
+include("${CMAKE_CURRENT_LIST_DIR}/PinyinIME-targets.cmake")
+
+# Make sure we find packages for our dependencies
+foreach(_PKG IN ITEMS @PinyinIME_PKGS@)
+    find_package(${_PKG} REQUIRED)
+endforeach ()
+
+set(PinyinIME_LIBRARY PinyinIME::PinyinIME)
+
+check_required_components(@PROJECT_NAME@)

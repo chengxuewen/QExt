@@ -220,22 +220,56 @@ function(qext_add_plugin target)
 
     # Save the Qt module in the plug-in's properties and vice versa
     if(NOT plugin_type_escaped STREQUAL "qml_plugin")
-        qext_internal_get_module_for_plugin("${target}" "${plugin_type_escaped}" qext_module)
+#        message(output_directory=${output_directory})
+        # Ignore any CMAKE_INSTALL_RPATH and set a better default RPATH on platforms that support it, if allowed.
+        # Projects will often set CMAKE_INSTALL_RPATH for executables or backing libraries, but forget about plugins.
+        if(NOT WIN32 AND NOT QT_NO_PLUGIN_RPATH)
+            # Construct a relative path from a default install location
+            # (assumed to be ${QEXT_INSTALL_PLUGINSDIR}/${plugin_type}) to ${CMAKE_INSTALL_LIBDIR}.
+            # This would be applicable for Apple too (although unusual) if this is a bare install
+            # (i.e. not part of an app bundle).
+            string(REPLACE "/" ";" path "${QEXT_INSTALL_PLUGINSDIR}/${plugin_type}")
+            list(LENGTH path path_count)
+            string(REPEAT "../" ${path_count} rel_path)
+            string(APPEND rel_path "${CMAKE_INSTALL_LIBDIR}")
+#            message(rel_path=${rel_path})
+            if(APPLE)
+                set(install_rpath
+                    # If embedded in an app bundle, search in a bundle-local path
+                    # first. This path should always be the same for every app
+                    # bundle because plugin binaries should live in the PlugIns
+                    # directory, not a subdirectory of it or anywhere else.
+                    # Similarly, frameworks and bare shared libraries should always
+                    # be in the bundle's Frameworks directory.
+                    "@loader_path/../Frameworks"
 
-        set(qext_module_target "${QEXT_CMAKE_EXPORT_NAMESPACE}::${qext_module}")
-        if(NOT TARGET "${qext_module_target}")
-            message(FATAL_ERROR "Failed to associate Qt plugin with Qt module. ${qext_module_target} is not a known CMake target")
+                    # This will be needed if the plugin is not installed as part of
+                    # an app bundle, such as when used by a command-line tool.
+                    "@loader_path/${rel_path}")
+            else()
+                set(install_rpath "$ORIGIN/${rel_path}")
+            endif()
+            set_target_properties(${target} PROPERTIES
+                BUILD_WITH_INSTALL_RPATH ON
+                INSTALL_RPATH "${install_rpath}")
         endif()
 
-        set_target_properties("${target}" PROPERTIES QEXT_MODULE "${qext_module}")
-        set(plugin_install_package_suffix "${qext_module}")
+        qext_internal_get_library_for_plugin("${target}" "${plugin_type_escaped}" qext_library)
+
+        set(qext_library_target "${QEXT_CMAKE_EXPORT_NAMESPACE}::${qext_library}")
+        if(NOT TARGET "${qext_library_target}")
+            message(FATAL_ERROR "Failed to associate Qt plugin with Qt module. ${qext_library_target} is not a known CMake target")
+        endif()
+
+        set_target_properties("${target}" PROPERTIES QEXT_MODULE "${qext_library}")
+        set(plugin_install_package_suffix "${qext_library}")
 
 
-        get_target_property(aliased_target ${qext_module_target} ALIASED_TARGET)
+        get_target_property(aliased_target ${qext_library_target} ALIASED_TARGET)
         if(aliased_target)
-            set(qext_module_target ${aliased_target})
+            set(qext_library_target ${aliased_target})
         endif()
-        get_target_property(is_imported_qext_module ${qext_module_target} IMPORTED)
+        get_target_property(is_imported_qext_library ${qext_library_target} IMPORTED)
 
         # Associate plugin with its Qt module when both are both built in the same repository.
         # Check that by comparing the PROJECT_NAME of each.
@@ -243,12 +277,12 @@ function(qext_add_plugin target)
         # Linking of plugins in standalone tests (when the Qt module will be an imported target)
         # is handled instead by the complicated genex logic in QtModulePlugins.cmake.in.
         set(is_plugin_and_module_in_same_project FALSE)
-        if(NOT is_imported_qext_module)
+        if(NOT is_imported_qext_library)
             # This QEXT_PLUGINS assignment is only used by QtPostProcessHelpers to decide if a
             # QtModulePlugins.cmake file should be generated (which only happens in static builds).
-            set_property(TARGET "${qext_module_target}" APPEND PROPERTY QEXT_PLUGINS "${target}")
+            set_property(TARGET "${qext_library_target}" APPEND PROPERTY QEXT_PLUGINS "${target}")
 
-            get_target_property(module_source_dir ${qext_module_target} SOURCE_DIR)
+            get_target_property(module_source_dir ${qext_library_target} SOURCE_DIR)
             get_directory_property(module_project_name
                 DIRECTORY ${module_source_dir}
                 DEFINITION PROJECT_NAME)
@@ -259,10 +293,10 @@ function(qext_add_plugin target)
             # When linking static plugins with the special logic in qext_internal_add_executable,
             # make sure to skip non-default plugins.
             if(is_plugin_and_module_in_same_project AND _default_plugin)
-                set_property(TARGET ${qext_module_target} APPEND PROPERTY
+                set_property(TARGET ${qext_library_target} APPEND PROPERTY
                     _qext_initial_repo_plugins
                     "${target}")
-                set_property(TARGET ${qext_module_target} APPEND PROPERTY
+                set_property(TARGET ${qext_library_target} APPEND PROPERTY
                     _qext_initial_repo_plugin_class_names
                     "$<TARGET_PROPERTY:${target},QT_PLUGIN_CLASS_NAME>")
             endif()
@@ -292,9 +326,9 @@ function(qext_add_plugin target)
         if(NOT is_plugin_and_module_in_same_project AND _default_plugin)
             string(MAKE_C_IDENTIFIER "${PROJECT_NAME}" current_project_name)
             set(prop_prefix "_qext_repo_${current_project_name}")
-            set_property(TARGET ${qext_module_target} APPEND PROPERTY
+            set_property(TARGET ${qext_library_target} APPEND PROPERTY
                 ${prop_prefix}_plugins "${target}")
-            set_property(TARGET ${qext_module_target} APPEND PROPERTY
+            set_property(TARGET ${qext_library_target} APPEND PROPERTY
                 ${prop_prefix}_plugin_class_names
                 "$<TARGET_PROPERTY:${target},QT_PLUGIN_CLASS_NAME>")
         endif()
@@ -387,7 +421,7 @@ function(qext_add_plugin target)
         #     qext_generate_plugin_pri_file("${target}" pri_file)
         # endif()
 
-        if(qext_module_target)
+        if(qext_library_target)
             qext_internal_link_internal_platform_for_object_library("${plugin_init_target}")
         endif()
     endif()
@@ -505,27 +539,30 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 # Utility function to find the module to which a plug-in belongs.
-function(qext_internal_get_module_for_plugin target target_type out_var)
-    qext_internal_get_qext_all_known_modules(known_modules)
+function(qext_internal_get_library_for_plugin target target_type out_var)
+    qext_internal_get_all_known_modules(known_modules)
 
     qext_get_sanitized_plugin_type("${target_type}" target_type)
-    foreach(qext_module ${known_modules})
-        get_target_property(module_type "${QEXT_CMAKE_EXPORT_NAMESPACE}::${qext_module}" TYPE)
-        # Assuming interface libraries can't have plugins. Otherwise we'll need to fix the property
-        # name, because the current one would be invalid for interface libraries.
-        if(module_type STREQUAL "INTERFACE_LIBRARY")
-            continue()
-        endif()
+#    message(target_type=${target_type})
+#    message(known_modules=${known_modules})
+    foreach(module ${known_modules})
+        if(TARGET ${module})
+            get_target_property(module_type "${QEXT_CMAKE_EXPORT_NAMESPACE}::${module}" TYPE)
+            # Assuming interface libraries can't have plugins. Otherwise we'll need to fix the property
+            # name, because the current one would be invalid for interface libraries.
+            if(module_type STREQUAL "INTERFACE_LIBRARY")
+                continue()
+            endif()
 
-        get_target_property(plugin_types
-            "${QEXT_CMAKE_EXPORT_NAMESPACE}::${qext_module}"
-            MODULE_PLUGIN_TYPES)
-        if(plugin_types AND target_type IN_LIST plugin_types)
-            set("${out_var}" "${qext_module}" PARENT_SCOPE)
-            return()
+            get_target_property(plugin_types "${QEXT_CMAKE_EXPORT_NAMESPACE}::${module}" LIBRARY_PLUGIN_TYPES)
+#            message(plugin_types=${plugin_types})
+            if(plugin_types AND target_type IN_LIST plugin_types)
+                set("${out_var}" "${module}" PARENT_SCOPE)
+                return()
+            endif()
         endif()
     endforeach()
-    message(FATAL_ERROR "The plug-in '${target}' does not belong to any Qt module.")
+    message(FATAL_ERROR "The plug-in '${target}' does not belong to any QExt library.")
 endfunction()
 
 
