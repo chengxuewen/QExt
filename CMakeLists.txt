@@ -32,7 +32,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.7.1 LANGUAGES CXX C)
+project(QExt VERSION 1.2.8.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -427,6 +427,8 @@ qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatche
 
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_3RDPARTY_QTWEBAPP "Enable this to build the 3rdparty QtWebApp lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
     DEPENDS QEXT_SINCE_QT5
     OR_CONDITION QEXT_BUILD_ALL)
@@ -436,6 +438,8 @@ qext_option(QEXT_ENABLE_3RDPARTY_QWINDOWKIT "Enable this to build the 3rdparty q
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ADD_SUBDIRECTORY_QTWEBAPP "Enable this to add the 3rdparty QtWebApp subdirectory" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF
     DEPENDS QEXT_SINCE_QT5
@@ -739,6 +743,13 @@ if(QEXT_ADD_SUBDIRECTORY_QWT)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWT)
     qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
+endif()
+
+if(QEXT_ADD_SUBDIRECTORY_QTWEBAPP)
+    add_subdirectory(3rdparty/QtWebApp)
+endif()
+if(QEXT_ENABLE_3RDPARTY_QTWEBAPP)
+    qext_find_package(WrapSingleApp PROVIDED_TARGETS QExt3rdparty::WrapSingleApp)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)

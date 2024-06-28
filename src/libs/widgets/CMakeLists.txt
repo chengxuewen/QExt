@@ -97,15 +97,9 @@ qext_add_library(${QEXT_LIB_NAME}
     source/widgets/qextIndicatorLight.cpp
     source/widgets/qextIndicatorLight.h
     source/widgets/qextIndicatorLight_p.h
-    source/widgets/qextInput.cpp
-    source/widgets/qextInput.h
-    source/widgets/qextInput.ui
     source/widgets/qextIpAddressEdit.cpp
     source/widgets/qextIpAddressEdit.h
     source/widgets/qextIpAddressEdit_p.h
-    source/widgets/qextKeyboard.cpp
-    source/widgets/qextKeyboard.h
-    source/widgets/qextKeyboard_p.h
     source/widgets/qextLed.cpp
     source/widgets/qextLed.h
     source/widgets/qextLed_p.h

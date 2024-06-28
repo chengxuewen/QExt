@@ -333,20 +333,6 @@ qext_add_executable(QExtExpWidgetsProgressButton
     ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsInput
-    SOURCES
-    input/mainwindow.cpp
-    input/mainwindow.h
-    input/mainwindow.ui
-    input/main.cpp
-    LIBRARIES
-    ${QEXT_EXAMPLE_LINK_LIBRARIES}
-    INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/input
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_EXAMPLESDIR}
-    DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpWidgetsSelectSlider
     SOURCES
     selectslider/frmselectslider.cpp
@@ -659,14 +645,3 @@ qext_add_executable(QExtExpWidgetsPropertyBrowserObjController
    ${QEXT_INSTALL_EXAMPLESDIR}
    DEFINES
    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
-qext_add_executable(QExtExpWidgetsKeyboard
-    SOURCES
-    keyboard/main.cpp
-    LIBRARIES
-    ${QEXT_EXAMPLE_LINK_LIBRARIES}
-    INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/keyboard
-    OUTPUT_DIRECTORY
-    ${QEXT_INSTALL_EXAMPLESDIR}
-    DEFINES
-    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")

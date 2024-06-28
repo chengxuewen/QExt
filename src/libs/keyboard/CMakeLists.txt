@@ -50,30 +50,31 @@ qext_add_library(Keyboard
     PLUGIN_TYPES platforminputcontexts
     EXCEPTIONS
     SOURCES
-    source/CandidatesListWidget.h
-    source/CandidatesListWidget.cpp
-    source/KeyboardContainer.cpp
-    source/KeyboardContainer.h
-    source/NormalKeyboard.h
-    source/NormalKeyboard.ui
-    source/NormalKeyboard.cpp
-    source/NumKeyboard.h
-    source/NumKeyboard.ui
-    source/NumKeyboard.cpp
-    source/QAbstractInputMethod.h
-    source/QAbstractInputMethod.cpp
-    source/QKeyboardLayout.h
-    source/QKeyboardLayout.cpp
-    source/QPinyinInputMethod.h
-    source/QPinyinInputMethod.cpp
-    source/SymbolKeyboard.h
-    source/SymbolKeyboard.ui
-    source/SymbolKeyboard.cpp
+    source/qextAbstractInputMethod.h
+    source/qextAbstractInputMethod.cpp
+    source/qextCandidatesListWidget.h
+    source/qextCandidatesListWidget.cpp
+    source/qextKeyboardContainer.cpp
+    source/qextKeyboardContainer.h
+    source/qextKeyboardGlobal.h
+    source/qextKeyboardInputContext.h
     source/qextKeyboardInputContext_p.h
     source/qextKeyboardInputContext.cpp
-    source/pinyindecoderservice.cpp
-    source/pinyindecoderservice_p.h
-    source/qextKeyboardGlobal.h
+    source/qextKeyboardLayout.h
+    source/qextKeyboardLayout.cpp
+    source/qextNormalKeyboard.h
+    source/qextNormalKeyboard.ui
+    source/qextNormalKeyboard.cpp
+    source/qextNumberKeyboard.h
+    source/qextNumberKeyboard.ui
+    source/qextNumberKeyboard.cpp
+    source/qextPinyinDecoderService.cpp
+    source/qextPinyinDecoderService_p.h
+    source/qextPinyinInputMethod.h
+    source/qextPinyinInputMethod.cpp
+    source/qextSymbolKeyboard.h
+    source/qextSymbolKeyboard.ui
+    source/qextSymbolKeyboard.cpp
     resource/qextKeyboard.qrc
     PRECOMPILED_HEADER
     source/qextKeyboardPch.h

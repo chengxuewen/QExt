@@ -46,8 +46,7 @@ qext_add_plugin(KeyboardPlugin
     PLUGIN_TYPE platforminputcontexts
     DEFAULT_IF FALSE
     SOURCES
-    source/platforminputcontextplugin.cpp
-    source/platforminputcontextplugin.h
+    source/qextKeyboardInputContextPlugin.cpp
     LIBRARIES
     ${QEXT_QML_LINK_LIBRARIES})
 

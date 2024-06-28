@@ -47,49 +47,12 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::CorePrivate)
 qext_add_library(${QEXT_LIB_NAME}
     EXCEPTIONS
     SOURCES
-    source/pinyinime/atomdictbase.h
-    source/pinyinime/dictbuilder.cpp
-    source/pinyinime/dictbuilder.h
-    source/pinyinime/dictdef.h
-    source/pinyinime/dictlist.cpp
-    source/pinyinime/dictlist.h
-    source/pinyinime/dicttrie.cpp
-    source/pinyinime/dicttrie.h
-    source/pinyinime/lpicache.cpp
-    source/pinyinime/lpicache.h
-    source/pinyinime/matrixsearch.cpp
-    source/pinyinime/matrixsearch.h
-    source/pinyinime/mystdlib.cpp
-    source/pinyinime/mystdlib.h
-    source/pinyinime/ngram.cpp
-    source/pinyinime/ngram.h
-    source/pinyinime/pinyinime.cpp
-    source/pinyinime/pinyinime.h
-    source/pinyinime/searchutility.cpp
-    source/pinyinime/searchutility.h
-    source/pinyinime/spellingtable.cpp
-    source/pinyinime/spellingtable.h
-    source/pinyinime/spellingtrie.cpp
-    source/pinyinime/spellingtrie.h
-    source/pinyinime/sync.cpp
-    source/pinyinime/sync.h
-    source/pinyinime/userdict.cpp
-    source/pinyinime/userdict.h
-    source/pinyinime/splparser.cpp
-    source/pinyinime/splparser.h
-    source/pinyinime/utf16char.cpp
-    source/pinyinime/utf16char.h
-    source/pinyinime/utf16reader.cpp
-    source/pinyinime/utf16reader.h
     source/qextIconAnimation.cpp
     source/qextIconAnimation_p.h
     source/qextIconAnimation.h
     source/qextGuiGlobal.h
     source/qextPainter.cpp
     source/qextPainter.h
-    source/qextPinyin.cpp
-    source/qextPinyin.h
-    source/qextPinyin_p.h
     resource/qextGui.qrc
     PRECOMPILED_HEADER
     source/qextGuiPch.h
