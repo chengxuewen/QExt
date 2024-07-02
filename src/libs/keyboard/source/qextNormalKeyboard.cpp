@@ -56,10 +56,11 @@ QExtNormalKeyboard::QExtNormalKeyboard(QWidget *parent)
     ui->groupLetter->addButton(ui->minus);
     ui->groupLetter->addButton(ui->at);
 
-    connect(ui->language,&QPushButton::clicked,this,&QExtNormalKeyboard::changeLanguage);
-    connect(ui->symbol,&QPushButton::clicked,this,&QExtNormalKeyboard::changeSymbol);
-    connect(ui->groupLetter,QOverload<QAbstractButton*>::of(&QButtonGroup::buttonClicked),this,&QExtNormalKeyboard::letterClicked);
-    connect(ui->hide,&QPushButton::clicked,this,&QExtNormalKeyboard::hideKeyboard);
+    connect(ui->hide, &QPushButton::clicked, this, &QExtNormalKeyboard::hideKeyboard);
+    connect(ui->symbol, &QPushButton::clicked, this, &QExtNormalKeyboard::changeSymbol);
+    connect(ui->language, &QPushButton::clicked, this, &QExtNormalKeyboard::changeLanguage);
+    connect(ui->groupLetter, QOverload<QAbstractButton*>::of(&QButtonGroup::buttonClicked),
+            this, &QExtNormalKeyboard::letterClicked);
 
     ui->shiftr->setIcon(QPixmap(":/images/shift_checked.png"));
     ui->shiftl->setIcon(QPixmap(":/images/shift_checked.png"));

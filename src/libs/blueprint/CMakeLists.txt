@@ -34,6 +34,7 @@ elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Gui
         Qt${QEXT_QT_VERSION_MAJOR}::Svg
+        Qt${QEXT_QT_VERSION_MAJOR}::OpenGL
         Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "Not find Qt package")
@@ -48,6 +49,65 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
 qext_add_library(Blueprint
     EXCEPTIONS
     SOURCES
+    source/QtNodes/AbstractGraphModel.hpp
+    source/QtNodes/AbstractNodeGeometry.hpp
+    source/QtNodes/AbstractNodePainter.hpp
+    source/QtNodes/BasicGraphicsScene.hpp
+    source/QtNodes/Compiler.hpp
+    source/QtNodes/ConnectionGraphicsObject.hpp
+    source/QtNodes/ConnectionIdHash.hpp
+    source/QtNodes/ConnectionIdUtils.hpp
+    source/QtNodes/ConnectionState.hpp
+    source/QtNodes/ConnectionStyle.hpp
+    source/QtNodes/DataFlowGraphicsScene.hpp
+    source/QtNodes/DataFlowGraphModel.hpp
+    source/QtNodes/DefaultNodePainter.hpp
+    source/QtNodes/Definitions.hpp
+    source/QtNodes/Export.hpp
+    source/QtNodes/GraphicsView.hpp
+    source/QtNodes/GraphicsViewStyle.hpp
+    source/QtNodes/locateNode.hpp
+    source/QtNodes/NodeData.hpp
+    source/QtNodes/NodeDelegateModel.hpp
+    source/QtNodes/NodeDelegateModelRegistry.hpp
+    source/QtNodes/NodeGraphicsObject.hpp
+    source/QtNodes/NodeState.hpp
+    source/QtNodes/NodeStyle.hpp
+    source/QtNodes/OperatingSystem.hpp
+    source/QtNodes/QStringStdHash.hpp
+    source/QtNodes/QUuidStdHash.hpp
+    source/QtNodes/Serializable.hpp
+    source/QtNodes/Style.hpp
+    source/QtNodes/StyleCollection.hpp
+    source/QtNodes/AbstractGraphModel.cpp
+    source/QtNodes/AbstractNodeGeometry.cpp
+    source/QtNodes/BasicGraphicsScene.cpp
+    source/QtNodes/ConnectionGraphicsObject.cpp
+    source/QtNodes/ConnectionPainter.cpp
+    source/QtNodes/ConnectionPainter.hpp
+    source/QtNodes/ConnectionState.cpp
+    source/QtNodes/ConnectionStyle.cpp
+    source/QtNodes/DataFlowGraphicsScene.cpp
+    source/QtNodes/DataFlowGraphModel.cpp
+    source/QtNodes/DefaultHorizontalNodeGeometry.cpp
+    source/QtNodes/DefaultHorizontalNodeGeometry.hpp
+    source/QtNodes/DefaultNodePainter.cpp
+    source/QtNodes/DefaultVerticalNodeGeometry.cpp
+    source/QtNodes/DefaultVerticalNodeGeometry.hpp
+    source/QtNodes/Definitions.cpp
+    source/QtNodes/GraphicsView.cpp
+    source/QtNodes/GraphicsViewStyle.cpp
+    source/QtNodes/locateNode.cpp
+    source/QtNodes/NodeConnectionInteraction.cpp
+    source/QtNodes/NodeConnectionInteraction.hpp
+    source/QtNodes/NodeDelegateModel.cpp
+    source/QtNodes/NodeDelegateModelRegistry.cpp
+    source/QtNodes/NodeGraphicsObject.cpp
+    source/QtNodes/NodeState.cpp
+    source/QtNodes/NodeStyle.cpp
+    source/QtNodes/StyleCollection.cpp
+    source/QtNodes/UndoCommands.cpp
+    source/QtNodes/UndoCommands.hpp
     source/qextBlueprintConstant.h
     source/qextBlueprintGlobal.h
     source/qextBlueprintModelBase.cpp
@@ -61,6 +121,7 @@ qext_add_library(Blueprint
     source/qextBlueprintView_p.h
     source/qextBlueprintView.cpp
     resource/qextBlueprint.qrc
+    resource/resources.qrc
     PRECOMPILED_HEADER
     source/qextBlueprintPch.h
     PUBLIC_LIBRARIES

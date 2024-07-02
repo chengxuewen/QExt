@@ -54,14 +54,17 @@ qext_add_library(Keyboard
     source/qextAbstractInputMethod.cpp
     source/qextCandidatesListWidget.h
     source/qextCandidatesListWidget.cpp
-    source/qextKeyboardContainer.cpp
-    source/qextKeyboardContainer.h
+    source/qextInputMethodTrigger.h
+    source/qextInputMethodTrigger.cpp
+    source/qextKeyboardConstants.h
     source/qextKeyboardGlobal.h
     source/qextKeyboardInputContext.h
     source/qextKeyboardInputContext_p.h
     source/qextKeyboardInputContext.cpp
     source/qextKeyboardLayout.h
     source/qextKeyboardLayout.cpp
+    source/qextKeyboardPanel.cpp
+    source/qextKeyboardPanel.h
     source/qextNormalKeyboard.h
     source/qextNormalKeyboard.ui
     source/qextNormalKeyboard.cpp
@@ -73,8 +76,13 @@ qext_add_library(Keyboard
     source/qextPinyinInputMethod.h
     source/qextPinyinInputMethod.cpp
     source/qextSymbolKeyboard.h
-    source/qextSymbolKeyboard.ui
     source/qextSymbolKeyboard.cpp
+    source/qextVirtualKeyboard.h
+    source/qextVirtualKeyboard.ui
+    source/qextVirtualKeyboard.cpp
+    source/qextPinyin.h
+    source/qextPinyin_p.h
+    source/qextPinyin.cpp
     resource/qextKeyboard.qrc
     PRECOMPILED_HEADER
     source/qextKeyboardPch.h
@@ -85,5 +93,5 @@ qext_add_library(Keyboard
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib examples and tests
 #-----------------------------------------------------------------------------------------------------------------------
-#qext_add_subdirectory(examples QEXT_BUILD_EXAMPLES)
-#qext_add_subdirectory(tests QEXT_BUILD_TESTS)
+qext_add_subdirectory(examples QEXT_BUILD_EXAMPLES)
+qext_add_subdirectory(tests QEXT_BUILD_TESTS)

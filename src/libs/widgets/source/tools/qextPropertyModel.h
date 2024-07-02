@@ -59,7 +59,7 @@ public:
 
     static QList<QExtPropertyModelItem *> allSubItems(QExtPropertyModelItem *item);
 
-signals:
+Q_SIGNALS:
     void beginResetModel();
     void endResetModel();
 
@@ -129,7 +129,7 @@ public:
 
     static QString columnEnumString(int type, bool isEng = false);
 
-public slots:
+public Q_SLOTS:
     void updateModel();
     void resetModel();
 

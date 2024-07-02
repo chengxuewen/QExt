@@ -1,6 +1,7 @@
 #include <private/qextKeyboardInputContext_p.h>
 #include <qextPinyinInputMethod.h>
 #include <qextKeyboardLayout.h>
+#include <qextOnceFlag.h>
 
 #include <QDebug>
 #include <QEvent>
@@ -20,27 +21,35 @@ QExtKeyboardInputContextPrivate::QExtKeyboardInputContextPrivate(QExtKeyboardInp
     : q_ptr(q)
     , m_visible(false)
     , m_needHiden(true)
-    , m_filterEvent(nullptr)
-    , m_focusObject(nullptr)
-    , m_inputPanel(nullptr)
+    , m_filterEvent(QEXT_NULLPTR)
+    , m_focusObject(QEXT_NULLPTR)
+    , m_inputPanel(QEXT_NULLPTR)
 {
-
+    m_inputPanelSize = QSize(800, 600);
+    m_inputPanelPopupMode = QExtKeyboardInputContext::PopupMode_BottomCenter;
+    m_editableWidgetClassNames << "QLineEdit"
+                               << "QTextEdit"
+                               << "QPlainTextEdit"
+                               << "QAbstractSpinBox"
+                               << "QComboBox"
+                               << "QQuickWidget"
+                               << "QWebView"
+                               << "QtWebEngineCore::RenderWidgetHostViewQtDelegateWidget";
+    m_readonlyWidgetClassNames << "QAbstractItemView"
+                               << "QPushButton"
+                               << "QFrame";
+    m_editablePropertyNames << "editable";
+    m_readonlyPropertyNames << "noinput"
+                            << "readOnly";
 }
 
 QExtKeyboardInputContextPrivate::~QExtKeyboardInputContextPrivate()
 {
-
 }
-
 
 QExtKeyboardInputContext::QExtKeyboardInputContext()
     : QPlatformInputContext()
     , dd_ptr(new QExtKeyboardInputContextPrivate(this))
-    //    , m_visible(false)
-    //    , m_needHiden(true)
-    //    , m_filterEvent(nullptr)
-    //    , m_focusObject(nullptr)
-    //    , m_inputPanel(nullptr)
 {
     Q_D(QExtKeyboardInputContext);
     d->m_inputMethod = new QExtPinyinInputMethod(this);
@@ -49,9 +58,21 @@ QExtKeyboardInputContext::QExtKeyboardInputContext()
     QExtKeyboardLayout().LoadLayout(":/layout/main.json");
 }
 
+QExtKeyboardInputContext *QExtKeyboardInputContext::instance()
+{
+    static QExtOnceFlag onceFlag;
+    static QExtKeyboardInputContext *instance = QEXT_NULLPTR;
+    if (onceFlag.enter())
+    {
+        instance = new QExtKeyboardInputContext;
+        onceFlag.leave();
+    }
+    return instance;
+}
+
 QExtKeyboardInputContext::~QExtKeyboardInputContext()
 {
-    //    qDebug() << "~QExtKeyboardInputContext()";
+    qDebug() << "~QExtKeyboardInputContext()";
 }
 
 bool QExtKeyboardInputContext::isValid() const
@@ -78,8 +99,7 @@ void QExtKeyboardInputContext::commit(const QString &text, int replaceFrom, int 
 
     QInputMethodEvent inputEvent(QString(), attributes);
     inputEvent.setCommitString(text, replaceFrom, replaceLength);
-
-    sendEvent(&inputEvent);
+    this->sendEvent(&inputEvent);
 }
 
 void QExtKeyboardInputContext::commit()
@@ -105,7 +125,6 @@ void QExtKeyboardInputContext::hideInputPanel()
     }
 
     this->updateInputPanelVisible();
-
     d->m_inputMethod->reset();
 }
 
@@ -124,6 +143,9 @@ QObject *QExtKeyboardInputContext::focusObject()
 void QExtKeyboardInputContext::setFocusObject(QObject *object)
 {
     Q_D(QExtKeyboardInputContext);
+    static const int deskWidth = qApp->desktop()->availableGeometry().width();
+    static const int deskHeight = qApp->desktop()->availableGeometry().height();
+    bool editableWidget = true;
     if (d->m_focusObject != object)
     {
         if (d->m_focusObject)
@@ -135,15 +157,80 @@ void QExtKeyboardInputContext::setFocusObject(QObject *object)
 
             d->m_focusObject->removeEventFilter(this);
         }
-
         d->m_focusObject = object;
-
         if (d->m_focusObject)
         {
+            if (d->m_focusObject->isWidgetType())
+            {
+                const QString superClassName = d->m_focusObject->metaObject()->superClass()->className();
+                // qDebug() << "superClassName=" << superClassName;
+                if (editableWidget)
+                {
+                    if (d->m_readonlyWidgetClassNames.contains(superClassName))
+                    {
+                        // qDebug() << "ret:readonlyWidget=" << superClassName;
+                        editableWidget = false;
+                    }
+                }
+
+                QStringList::ConstIterator iter;
+                if (editableWidget)
+                {
+                    for (iter = d->m_readonlyPropertyNames.constBegin(); iter != d->m_readonlyPropertyNames.constEnd(); ++iter)
+                    {
+                        const QVariant property = d->m_focusObject->property((*iter).toLatin1().data());
+                        if (property.isValid() && property.toBool())
+                        {
+                            // qDebug() << "ret:readonlyProperty=" << (*iter);
+                            editableWidget = false;
+                        }
+                    }
+                }
+                if (editableWidget)
+                {
+                    for (iter = d->m_editablePropertyNames.constBegin(); iter != d->m_editablePropertyNames.constEnd(); ++iter)
+                    {
+                        const QVariant property = d->m_focusObject->property((*iter).toLatin1().data());
+                        if (property.isValid() && !property.toBool())
+                        {
+                            // qDebug() << "ret:editableProperty=" << (*iter);
+                            editableWidget = false;
+                        }
+                    }
+                }
+
+                if (editableWidget)
+                {
+                    const int deskWidth = qApp->desktop()->availableGeometry().width();
+                    const int deskHeight = qApp->desktop()->availableGeometry().height();
+                    QWidget *focusWidget = qobject_cast<QWidget *>(d->m_focusObject);
+                    const QRect rect = focusWidget->rect();
+                    QPoint pos = QPoint(rect.left(), rect.bottom() + 2);
+                    pos = focusWidget->mapToGlobal(pos);
+
+                    int x = pos.x();
+                    if (x + d->m_inputPanelSize.width() > deskWidth)
+                    {
+                        x = deskWidth - d->m_inputPanelSize.width();
+                    }
+
+                    int y = pos.y();
+                    if (y + d->m_inputPanelSize.height() > deskHeight)
+                    {
+                        y = y - d->m_inputPanelSize.height() - rect.height() - 2;
+                    }
+
+                    d->m_inputPanelFollowPos = QPoint(x, y);
+                    // qDebug() << "inputPanelFollowPos=" << d->m_inputPanelFollowPos;
+                    if (!d->m_inputPanel.isNull() && PopupMode_AutoFollow == d->m_inputPanelPopupMode)
+                    {
+                        d->m_inputPanel->move(d->m_inputPanelFollowPos);
+                    }
+                }
+            }
             d->m_focusObject->installEventFilter(this);
         }
-
-        //emit focusObjectChanged();
+        // emit this->focusObjectChanged();
     }
 
     this->update(Qt::ImQueryAll);
@@ -156,30 +243,26 @@ void QExtKeyboardInputContext::update(Qt::InputMethodQueries queries)
     Q_D(QExtKeyboardInputContext);
 
     bool enabled = this->inputMethodQuery(Qt::ImEnabled).toBool();
-
+    // qDebug() << "enabled=" << enabled << ", queries=" << queries;
     if (enabled && d->m_inputPanel.isNull())
     {
-        d->m_inputPanel = new QExtKeyboardContainer;
+        d->m_inputPanel = QExtKeyboardPanel::instance();
         d->m_inputPanel->setObjectName("Qt5KeyBoard");
-        connect(d->m_inputPanel.data(), &QExtKeyboardContainer::hideKeyboard,
+        connect(d->m_inputPanel.data(), &QExtKeyboardPanel::hideKeyboard,
                 this, &QExtKeyboardInputContext::hideKeyboard);
-        connect(d->m_inputPanel.data(), &QExtKeyboardContainer::keyPressed,
+        connect(d->m_inputPanel.data(), &QExtKeyboardPanel::keyPressed,
                 d->m_inputMethod, &QExtAbstractInputMethod::keyEvent);
-        connect(d->m_inputPanel.data(), &QExtKeyboardContainer::changeLanguage,
+        connect(d->m_inputPanel.data(), &QExtKeyboardPanel::changeLanguage,
                 d->m_inputMethod, &QExtAbstractInputMethod::changeLanguage);
-        connect(d->m_inputPanel.data(), &QExtKeyboardContainer::chooseCandidate,
+        connect(d->m_inputPanel.data(), &QExtKeyboardPanel::chooseCandidate,
                 d->m_inputMethod, &QExtAbstractInputMethod::chooseCandidate);
 
         connect(d->m_inputMethod, &QExtAbstractInputMethod::showCandidateList,
-                d->m_inputPanel.data(), &QExtKeyboardContainer::setCandidateList);
+                d->m_inputPanel.data(), &QExtKeyboardPanel::setCandidateList);
         connect(d->m_inputMethod, &QExtAbstractInputMethod::showLanguageName,
-                d->m_inputPanel.data(), &QExtKeyboardContainer::setLanguageName);
+                d->m_inputPanel.data(), &QExtKeyboardPanel::setLanguageName);
 
-        //        connect(m_inputPanel.data(), &QObject::destroyed, [this]() { m_inputPanel = nullptr; });
-
-        d->m_inputPanel->resize(1000, 400);
-        d->m_inputPanel->move((QApplication::desktop()->width() - d->m_inputPanel->width()) / 2,
-                              WINDOW_HEIGHT - d->m_inputPanel->height());
+        d->m_inputPanel->setFixedSize(d->m_inputPanelSize);
     }
 
     //if (m_inputContext) {
@@ -203,7 +286,6 @@ void QExtKeyboardInputContext::update(Qt::InputMethodQueries queries)
     Qt::InputMethodHints inputMethodHints = Qt::InputMethodHints(inputMethodQuery(Qt::ImHints).toInt());
     bool newInputMethodHints = inputMethodHints != d->m_inputMethodHints;
     d->m_inputMethodHints = inputMethodHints;
-
     if (newInputMethodHints && d->m_inputPanel)
     {
         d->m_inputPanel->setInputMethodHints(inputMethodHints);
@@ -231,6 +313,47 @@ void QExtKeyboardInputContext::sendEvent(QEvent *event)
         d->m_filterEvent = event;
         QGuiApplication::sendEvent(d->m_focusObject, event);
         d->m_filterEvent = nullptr;
+    }
+}
+
+QSize QExtKeyboardInputContext::inputPanelSize() const
+{
+    Q_D(const QExtKeyboardInputContext);
+    return d->m_inputPanelSize;
+}
+
+void QExtKeyboardInputContext::setInputPanelSize(const QSize &size)
+{
+    Q_D(QExtKeyboardInputContext);
+    if (size != d->m_inputPanelSize)
+    {
+        d->m_inputPanelSize = size;
+        if (!d->m_inputPanel.isNull())
+        {
+            d->m_inputPanel->setFixedSize(size);
+        }
+        emit this->inputPanelSizeChanged(size);
+    }
+}
+
+void QExtKeyboardInputContext::setInputPanelSize(int width, int height)
+{
+    this->setInputPanelSize(QSize(width, height));
+}
+
+QExtKeyboardInputContext::PopupModeEnum QExtKeyboardInputContext::inputPanelPopupMode() const
+{
+    Q_D(const QExtKeyboardInputContext);
+    return d->m_inputPanelPopupMode;
+}
+
+void QExtKeyboardInputContext::setInputPanelPopupMode(PopupModeEnum mode)
+{
+    Q_D(QExtKeyboardInputContext);
+    if (mode != d->m_inputPanelPopupMode)
+    {
+        d->m_inputPanelPopupMode = mode;
+        emit this->inputPanelPopupModeChanged(mode);
     }
 }
 
@@ -297,16 +420,29 @@ void QExtKeyboardInputContext::updateInputPanelVisible()
 
     if (d->m_visible != d->m_inputPanel->isVisible())
     {
-        if (d->m_visible)
+        switch (d->m_inputPanelPopupMode)
         {
-            d->m_inputPanel->animationShow();
-        }
-        else
+        case PopupMode_BottomCenter:
         {
-            d->m_inputPanel->animationHide();
+            d->m_inputPanel->animationSetVisible(d->m_visible);
+            break;
         }
-
-        //emit InputPanelVisibleChanged();
+        case PopupMode_AutoFollow:
+        {
+            if (d->m_visible)
+            {
+                d->m_inputPanel->move(d->m_inputPanelFollowPos);
+                d->m_inputPanel->show();
+            }
+            else
+            {
+                d->m_inputPanel->hide();
+            }
+            break;
+        }
+        default:
+            break;
+        }
     }
 }
 

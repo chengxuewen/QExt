@@ -1,11 +1,14 @@
 #include <qextPropertyModel.h>
 
 #include <QDebug>
+#include <QWidget>
 #include <QSpinBox>
 #include <QLineEdit>
 #include <QComboBox>
 #include <QListView>
+#include <QMouseEvent>
 #include <QPushButton>
+#include <QApplication>
 #include <QDoubleSpinBox>
 #include <QDoubleSpinBox>
 

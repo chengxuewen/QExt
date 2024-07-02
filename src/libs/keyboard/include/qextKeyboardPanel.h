@@ -1,0 +1,1 @@
+#include "../source/qextKeyboardPanel.h"

@@ -55,8 +55,8 @@ QExtCandidatesListWidget::QExtCandidatesListWidget(QWidget *parent)
     d->m_lastPage->setText("<");
     d->m_nextPage->setText(">");
 
-    d->m_lastPage->setMinimumSize(50,40);
-    d->m_nextPage->setMinimumSize(50,40);
+    d->m_lastPage->setMinimumSize(50, 40);
+    d->m_nextPage->setMinimumSize(50, 40);
 
     d->m_nextPage->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
     d->m_lastPage->setSizePolicy(QSizePolicy::Preferred,QSizePolicy::Fixed);
@@ -67,7 +67,7 @@ QExtCandidatesListWidget::QExtCandidatesListWidget(QWidget *parent)
     QHBoxLayout * layout = new QHBoxLayout;
     layout->addWidget(d->m_lastPage);
     layout->addWidget(d->m_nextPage);
-    layout->addItem(new QSpacerItem(80,40,QSizePolicy::Expanding,QSizePolicy::Minimum));
+    layout->addItem(new QSpacerItem(80, 40, QSizePolicy::Expanding, QSizePolicy::Minimum));
     layout->setSpacing(5);
 
     this->setLayout(layout);
@@ -115,7 +115,6 @@ void QExtCandidatesListWidget::onLastPage()
 
 void QExtCandidatesListWidget::clear()
 {
-
 }
 
 void QExtCandidatesListWidget::onNextPage()
@@ -161,7 +160,7 @@ void QExtCandidatesListWidget::paintEvent(QPaintEvent *event)
         }
         else
         {
-            painter.setPen(QColor(121,193,59));
+            painter.setPen(QColor(121, 193, 59));
         }
 
         QString strTextDraw = /*QString::number(i - headTextIndex + 1) + "." + */d->m_candidatesList[i];
@@ -180,7 +179,7 @@ void QExtCandidatesListWidget::paintEvent(QPaintEvent *event)
 
         d->m_textRects.append(br);
         d->m_tailTextIndex = i;
-        rectText.translate(br.width() + 30,0);
+        rectText.translate(br.width() + 30, 0);
     }
 
     if(i >= d->m_candidatesList.size())

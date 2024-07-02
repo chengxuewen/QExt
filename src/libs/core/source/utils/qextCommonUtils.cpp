@@ -1,6 +1,7 @@
 #include <qextCommonUtils.h>
 #include <qextOnceFlag.h>
 
+#include <QDir>
 #include <QDebug>
 #include <QThread>
 
@@ -99,7 +100,8 @@ QString QExtCommonUtils::executablePath()
     {
         qCritical() << QString("GetModuleFileName failed, %1!").arg(detail::GetLastWin32ErrorStr().c_str());
     }
-    return QString::fromWCharArray(wbuf.data(), (int)wbuf.size());
+    const QString winPath = QString::fromWCharArray(wbuf.data(), (int)wbuf.size()).toLatin1();
+    return QDir::fromNativeSeparators(winPath);
 #elif defined(QEXT_OS_APPLE)
     std::vector<char> buf(bufSize + 1, '\0');
     int status = _NSGetExecutablePath(buf.data(), &bufSize);

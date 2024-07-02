@@ -16,7 +16,7 @@ QPlatformInputContext *QExtKeyboardInputContextPlugin::create(const QString &key
     if (key.compare(key, QStringLiteral("QExtKeyboard"), Qt::CaseInsensitive) == 0)
     {
         qDebug() << "QExtKeyboard Plugin load success!";
-        return new QExtKeyboardInputContext;
+        return QExtKeyboardInputContext::instance();
     }
     return NULL;
 }

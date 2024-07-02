@@ -1,21 +1,18 @@
-#ifndef _QEXTKEYBOARDCONTAINER_H
-#define _QEXTKEYBOARDCONTAINER_H
+#ifndef _QEXTKEYBOARDPANEL_H
+#define _QEXTKEYBOARDPANEL_H
 
 #include <qextKeyboardGlobal.h>
-#include <qextNormalKeyboard.h>
-#include <qextSymbolKeyboard.h>
-#include <qextCandidatesListWidget.h>
 
 #include <QWidget>
 
 class QPropertyAnimation;
-class QExtKeyboardContainerPrivate;
-class QEXT_KEYBOARD_API QExtKeyboardContainer : public QWidget
+class QExtKeyboardPanelPrivate;
+class QEXT_KEYBOARD_API QExtKeyboardPanel : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QExtKeyboardContainer(QWidget *parent = nullptr);
-    ~QExtKeyboardContainer() QEXT_OVERRIDE;
+    static QExtKeyboardPanel *instance();
+    ~QExtKeyboardPanel() QEXT_OVERRIDE;
 
     bool isAnimating() const;
 
@@ -37,13 +34,16 @@ public Q_SLOTS:
 
     void animationHide();
     void animationShow();
+    void animationSetVisible(bool visible);
 
 protected:
-    QScopedPointer<QExtKeyboardContainerPrivate> dd_ptr;
+    explicit QExtKeyboardPanel(QWidget *parent = nullptr);
+
+    QScopedPointer<QExtKeyboardPanelPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtKeyboardContainer)
-    QEXT_DISABLE_COPY_MOVE(QExtKeyboardContainer)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtKeyboardPanel)
+    QEXT_DISABLE_COPY_MOVE(QExtKeyboardPanel)
 };
 
-#endif // _QEXTKEYBOARDCONTAINER_H
+#endif // _QEXTKEYBOARDPANEL_H

@@ -556,7 +556,7 @@ void QExtPinyinInputMethod::changeLanguage()
     else
     {
         d->m_inputMode = QExtAbstractInputMethod::InputMode::Pinyin;
-        emit this->showLanguageName("简体中文");
+        emit this->showLanguageName("Chinese");
     }
     ScopedCandidateListUpdate scopedCandidateListUpdate(d);
     Q_UNUSED(scopedCandidateListUpdate)

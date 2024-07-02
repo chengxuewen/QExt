@@ -136,7 +136,7 @@ void QExtGraphicsScene::mouseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 QExtGraphicsItemGroup *QExtGraphicsScene::createGroup(const QList<QGraphicsItem *> &items, bool isAdd)
 {
-
+    return QEXT_NULLPTR;
 }
 
 void QExtGraphicsScene::drawBackground(QPainter *painter, const QRectF &rect)

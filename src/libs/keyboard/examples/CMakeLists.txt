@@ -38,29 +38,23 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Graphics)
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Keyboard)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-if(TARGET QExt::Widgets)
-    qext_add_executable(QExtExpGraphicsDraw
-        SOURCES
-        draw/customproperty.h
-        draw/customproperty.cpp
-        draw/mainwindow.cpp
-        draw/mainwindow.h
-        draw/objectcontroller.h
-        draw/objectcontroller.cpp
-        draw/main.cpp
-        draw/app.qrc
-        LIBRARIES
-        ${QEXT_EXAMPLE_LINK_LIBRARIES} QExt::Widgets
-        INCLUDE_DIRECTORIES
-        ${CMAKE_CURRENT_SOURCE_DIR}/draw
-        OUTPUT_DIRECTORY
-        ${QEXT_OUTPUT_EXAMPLE_DIR}
-        DEFINES
-        EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
-endif()
+qext_add_executable(QExtExpKeyboardVirtualKeyboard
+    SOURCES
+    virtualKeyboard/mainwindow.cpp
+    virtualKeyboard/mainwindow.h
+    virtualKeyboard/mainwindow.ui
+    virtualKeyboard/main.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/virtualKeyboard
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")

@@ -24,7 +24,7 @@
 # We can't create the same interface imported target multiple times, CMake will complain if we do
 # that. This can happen if the find_package call is done in multiple different subdirectories.
 if(TARGET QExt3rdparty::WrapQwt)
-    set(QExtWrapQwt_FOUND ON)
+    set(WrapQwt_FOUND ON)
     return()
 endif()
 
@@ -83,4 +83,4 @@ endif()
 find_package(Qwt PATHS ${QExtWrapQwt_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQwt INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapQwt INTERFACE Qwt::Qwt)
-set(QExtWrapQwt_FOUND ON)
+set(WrapQwt_FOUND ON)

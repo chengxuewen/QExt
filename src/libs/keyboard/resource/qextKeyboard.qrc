@@ -11,5 +11,17 @@
         <file>images/shift_double_checked.png</file>
         <file>layout/main.json</file>
         <file>layout/symbols.json</file>
+        <file>input/btn_daxie_black.png</file>
+        <file>input/btn_daxie_white.png</file>
+        <file>input/btn_delete_black.png</file>
+        <file>input/btn_delete_white.png</file>
+        <file>input/btn_more_black.png</file>
+        <file>input/btn_more_white.png</file>
+        <file>input/btn_xiaoxie_black.png</file>
+        <file>input/btn_xiaoxie_white.png</file>
+        <file>input/delete_black.png</file>
+        <file>input/delete_white.png</file>
+        <file>input/dict_pinyin.dat</file>
+        <file>input/dict_pinyin_user.dat</file>
     </qresource>
 </RCC>

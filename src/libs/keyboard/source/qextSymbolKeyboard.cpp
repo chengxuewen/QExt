@@ -1,3 +1,5 @@
+﻿#pragma execution_character_set("utf-8")
+
 #include <qextSymbolKeyboard.h>
 #include <ui_qextSymbolKeyboard.h>
 
@@ -48,7 +50,7 @@ QExtSymbolKeyboard::QExtSymbolKeyboard(QWidget *parent)
     m_page1.append({Qt::Key_Agrave,"`"});
     m_page1.append({Qt::Key_Bar,"|"});
     m_page1.append({0x7B,"·"});
-    m_page1.append({0x221A,"√"});
+    m_page1.append({0x221A, "√"});
     m_page1.append({Qt::Key_division,"÷"});
     m_page1.append({Qt::Key_multiply,"×"});
     m_page1.append({Qt::Key_onehalf,"½"});
@@ -57,7 +59,7 @@ QExtSymbolKeyboard::QExtSymbolKeyboard(QWidget *parent)
 
 
     m_page1.append({Qt::Key_Dollar,"$"});
-    m_page1.append({0x20AC,"€"});
+    m_page1.append({0x20AC, "€"});
     m_page1.append({0xC2,"£"});
     m_page1.append({0xA2,"¢"});
     m_page1.append({0xA5,"¥"});

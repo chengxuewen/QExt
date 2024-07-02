@@ -25,7 +25,7 @@ protected:
     QScopedPointer<QExtPinyinInputMethodPrivate> dd_ptr;
 
 private:
-    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPinyinInputMethod);
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtPinyinInputMethod)
     QEXT_DISABLE_COPY_MOVE(QExtPinyinInputMethod)
 };
 

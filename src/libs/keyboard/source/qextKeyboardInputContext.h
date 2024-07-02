@@ -13,9 +13,16 @@ class QEXT_KEYBOARD_API QExtKeyboardInputContext : public QPlatformInputContext
 {
     Q_OBJECT
 public:
+    enum PopupModeEnum
+    {
+        PopupMode_AutoFollow = 0,
+        PopupMode_BottomCenter,
+    };
+    Q_ENUM(PopupModeEnum)
+
     typedef QList<QInputMethodEvent::Attribute> AttributesList;
 
-    QExtKeyboardInputContext();
+    static QExtKeyboardInputContext *instance();
     ~QExtKeyboardInputContext() QEXT_OVERRIDE;
 
     QObject *focusObject();
@@ -49,13 +56,24 @@ public:
 
     void sendEvent(QEvent *event);
 
+    QSize inputPanelSize() const;
+    void setInputPanelSize(const QSize &size);
+    void setInputPanelSize(int width, int height);
+
+    PopupModeEnum inputPanelPopupMode() const;
+    void setInputPanelPopupMode(PopupModeEnum mode);
+
 Q_SIGNALS:
     void inputMethodHintsChanged();
+    void inputPanelSizeChanged(const QSize &size);
+    void inputPanelPopupModeChanged(PopupModeEnum mode);
 
 private Q_SLOTS:
     void hideKeyboard();
 
 protected:
+    QExtKeyboardInputContext();
+
     void updateInputPanelVisible();
 
     QVariant inputMethodQuery(Qt::InputMethodQuery query);

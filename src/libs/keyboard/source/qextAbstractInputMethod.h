@@ -7,7 +7,7 @@ class QExtAbstractInputMethod : public QObject
 {
     Q_OBJECT
 public:
-    enum class InputMode
+    enum InputMode
     {
         Latin,
         Numeric,

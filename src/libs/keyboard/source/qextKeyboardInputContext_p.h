@@ -1,8 +1,8 @@
 #ifndef _QEXTKEYBOARDINPUTCONTEXT_P_H
 #define _QEXTKEYBOARDINPUTCONTEXT_P_H
 
+#include <qextKeyboardPanel.h>
 #include <qextKeyboardLayout.h>
-#include <qextKeyboardContainer.h>
 #include <qextKeyboardInputContext.h>
 
 #include <QPointer>
@@ -20,11 +20,18 @@ public:
     QString m_preeditText;
     QEvent *m_filterEvent;
     QObject *m_focusObject;
+    QSize m_inputPanelSize;
+    QPoint m_inputPanelFollowPos;
     QExtKeyboardLayout m_mainLayout;
     QExtKeyboardLayout m_symbolLayout;
+    QStringList m_editablePropertyNames;
+    QStringList m_readonlyPropertyNames;
+    QStringList m_editableWidgetClassNames;
+    QStringList m_readonlyWidgetClassNames;
     QExtAbstractInputMethod *m_inputMethod;
     Qt::InputMethodHints m_inputMethodHints;
-    QPointer<QExtKeyboardContainer> m_inputPanel;
+    QPointer<QExtKeyboardPanel> m_inputPanel;
+    QExtKeyboardInputContext::PopupModeEnum m_inputPanelPopupMode;
 
 private:
     QEXT_DECL_PUBLIC(QExtKeyboardInputContext)
