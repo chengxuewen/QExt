@@ -21,17 +21,17 @@ public:
 public:
     QString caption() const override { return QStringLiteral("Subtraction"); }
 
-    virtual bool portCaptionVisible(PortType portType, PortIndex portIndex) const override
+    virtual bool portCaptionVisible(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex) const override
     {
         Q_UNUSED(portType);
         Q_UNUSED(portIndex);
         return true;
     }
 
-    virtual QString portCaption(PortType portType, PortIndex portIndex) const override
+    virtual QString portCaption(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex) const override
     {
         switch (portType) {
-        case PortType::In:
+        case QExtBPTypes::PortType_In:
             if (portIndex == 0)
                 return QStringLiteral("Minuend");
             else if (portIndex == 1)
@@ -39,7 +39,7 @@ public:
 
             break;
 
-        case PortType::Out:
+        case QExtBPTypes::PortType_Out:
             return QStringLiteral("Result");
 
         default:
@@ -53,7 +53,7 @@ public:
 private:
     void compute() override
     {
-        PortIndex const outPortIndex = 0;
+        QExtBPTypes::PortIndex const outPortIndex = 0;
 
         auto n1 = _number1.lock();
         auto n2 = _number2.lock();

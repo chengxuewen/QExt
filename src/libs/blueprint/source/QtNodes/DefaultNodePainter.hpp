@@ -3,32 +3,27 @@
 #include <QtGui/QPainter>
 
 #include "AbstractNodePainter.hpp"
-#include "Definitions.hpp"
+#include "qextBPTypes.h"
 
-namespace QtNodes {
-
-class BasicGraphicsScene;
-class GraphModel;
-class NodeGeometry;
-class NodeGraphicsObject;
-class NodeState;
+class QExtBPNodeState;
+class QExtBPNodeGraphicsObject;
+class QExtBPBasicGraphicsScene;
 
 /// @ Lightweight class incapsulating paint code.
-class NODE_EDITOR_PUBLIC DefaultNodePainter : public AbstractNodePainter
+class QEXT_BLUEPRINT_API QExtBPDefaultNodePainter : public QExtBPAbstractNodePainter
 {
 public:
-    void paint(QPainter *painter, NodeGraphicsObject &ngo) const override;
+    void paint(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const override;
 
-    void drawNodeRect(QPainter *painter, NodeGraphicsObject &ngo) const;
+    void drawNodeRect(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const;
 
-    void drawConnectionPoints(QPainter *painter, NodeGraphicsObject &ngo) const;
+    void drawConnectionPoints(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const;
 
-    void drawFilledConnectionPoints(QPainter *painter, NodeGraphicsObject &ngo) const;
+    void drawFilledConnectionPoints(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const;
 
-    void drawNodeCaption(QPainter *painter, NodeGraphicsObject &ngo) const;
+    void drawNodeCaption(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const;
 
-    void drawEntryLabels(QPainter *painter, NodeGraphicsObject &ngo) const;
+    void drawEntryLabels(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const;
 
-    void drawResizeRect(QPainter *painter, NodeGraphicsObject &ngo) const;
+    void drawResizeRect(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const;
 };
-} // namespace QtNodes

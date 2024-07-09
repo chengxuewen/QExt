@@ -5,16 +5,14 @@
 #include "AbstractGraphModel.hpp"
 #include "ConnectionGraphicsObject.hpp"
 #include "ConnectionState.hpp"
-#include "Definitions.hpp"
+#include "qextBPTypes.h"
 #include "NodeData.hpp"
 #include "StyleCollection.hpp"
 
-namespace QtNodes {
-
-static QPainterPath cubicPath(ConnectionGraphicsObject const &connection)
+static QPainterPath cubicPath(QExtBPConnectionGraphicsObject const &connection)
 {
-    QPointF const &in = connection.endPoint(PortType::In);
-    QPointF const &out = connection.endPoint(PortType::Out);
+    QPointF const &in = connection.endPoint(QExtBPTypes::PortType_In);
+    QPointF const &out = connection.endPoint(QExtBPTypes::PortType_Out);
 
     auto const c1c2 = connection.pointsC1C2();
 
@@ -26,11 +24,11 @@ static QPainterPath cubicPath(ConnectionGraphicsObject const &connection)
     return cubic;
 }
 
-QPainterPath ConnectionPainter::getPainterStroke(ConnectionGraphicsObject const &connection)
+QPainterPath QExtBPConnectionPainter::getPainterStroke(QExtBPConnectionGraphicsObject const &connection)
 {
     auto cubic = cubicPath(connection);
 
-    QPointF const &out = connection.endPoint(PortType::Out);
+    QPointF const &out = connection.endPoint(QExtBPTypes::PortType_Out);
     QPainterPath result(out);
 
     unsigned segments = 20;
@@ -52,8 +50,8 @@ static void debugDrawing(QPainter *painter, ConnectionGraphicsObject const &cgo)
     Q_UNUSED(painter);
 
     {
-        QPointF const &in = cgo.endPoint(PortType::In);
-        QPointF const &out = cgo.endPoint(PortType::Out);
+        QPointF const &in = cgo.endPoint(QExtBPTypes::PortType_In);
+        QPointF const &out = cgo.endPoint(QExtBPTypes::PortType_Out);
 
         auto const points = cgo.pointsC1C2();
 
@@ -78,12 +76,12 @@ static void debugDrawing(QPainter *painter, ConnectionGraphicsObject const &cgo)
 
 #endif
 
-static void drawSketchLine(QPainter *painter, ConnectionGraphicsObject const &cgo)
+static void drawSketchLine(QPainter *painter, QExtBPConnectionGraphicsObject const &cgo)
 {
-    ConnectionState const &state = cgo.connectionState();
+    QExtBPConnectionState const &state = cgo.connectionState();
 
     if (state.requiresPort()) {
-        auto const &connectionStyle = QtNodes::StyleCollection::connectionStyle();
+        auto const &connectionStyle = QExtBPStyleCollection::connectionStyle();
 
         QPen pen;
         pen.setWidth(connectionStyle.constructionLineWidth());
@@ -100,14 +98,14 @@ static void drawSketchLine(QPainter *painter, ConnectionGraphicsObject const &cg
     }
 }
 
-static void drawHoveredOrSelected(QPainter *painter, ConnectionGraphicsObject const &cgo)
+static void drawHoveredOrSelected(QPainter *painter, QExtBPConnectionGraphicsObject const &cgo)
 {
     bool const hovered = cgo.connectionState().hovered();
     bool const selected = cgo.isSelected();
 
     // drawn as a fat background
     if (hovered || selected) {
-        auto const &connectionStyle = QtNodes::StyleCollection::connectionStyle();
+        auto const &connectionStyle = QExtBPStyleCollection::connectionStyle();
 
         double const lineWidth = connectionStyle.lineWidth();
 
@@ -125,16 +123,16 @@ static void drawHoveredOrSelected(QPainter *painter, ConnectionGraphicsObject co
     }
 }
 
-static void drawNormalLine(QPainter *painter, ConnectionGraphicsObject const &cgo)
+static void drawNormalLine(QPainter *painter, QExtBPConnectionGraphicsObject const &cgo)
 {
-    ConnectionState const &state = cgo.connectionState();
+    QExtBPConnectionState const &state = cgo.connectionState();
 
     if (state.requiresPort())
         return;
 
     // colors
 
-    auto const &connectionStyle = QtNodes::StyleCollection::connectionStyle();
+    auto const &connectionStyle = QExtBPStyleCollection::connectionStyle();
 
     QColor normalColorOut = connectionStyle.normalColor();
     QColor normalColorIn = connectionStyle.normalColor();
@@ -142,23 +140,23 @@ static void drawNormalLine(QPainter *painter, ConnectionGraphicsObject const &cg
 
     bool useGradientColor = false;
 
-    AbstractGraphModel const &graphModel = cgo.graphModel();
+    QExtBPAbstractGraphModel const &graphModel = cgo.graphModel();
 
     if (connectionStyle.useDataDefinedColors()) {
-        using QtNodes::PortType;
+        //        using QExtBPTypes::PortTypeEnum;
 
         auto const cId = cgo.connectionId();
 
         auto dataTypeOut = graphModel
-                               .portData(cId.outNodeId,
-                                         PortType::Out,
-                                         cId.outPortIndex,
-                                         PortRole::DataType)
-                               .value<NodeDataType>();
+                .portData(cId.outNodeId,
+                          QExtBPTypes::PortType_Out,
+                          cId.outPortIndex,
+                          QExtBPTypes::PortRole_DataType)
+                .value<QExtBPNodeDataType>();
 
         auto dataTypeIn
-            = graphModel.portData(cId.inNodeId, PortType::In, cId.inPortIndex, PortRole::DataType)
-                  .value<NodeDataType>();
+                = graphModel.portData(cId.inNodeId, QExtBPTypes::PortType_In, cId.inPortIndex, QExtBPTypes::PortRole_DataType)
+                .value<QExtBPNodeDataType>();
 
         useGradientColor = (dataTypeOut.id != dataTypeIn.id);
 
@@ -210,7 +208,7 @@ static void drawNormalLine(QPainter *painter, ConnectionGraphicsObject const &cg
 
             QPixmap pixmap = icon.pixmap(QSize(22, 22));
             painter->drawPixmap(cubic.pointAtPercent(0.50)
-                                    - QPoint(pixmap.width() / 2, pixmap.height() / 2),
+                                - QPoint(pixmap.width() / 2, pixmap.height() / 2),
                                 pixmap);
         }
     } else {
@@ -227,7 +225,7 @@ static void drawNormalLine(QPainter *painter, ConnectionGraphicsObject const &cg
     }
 }
 
-void ConnectionPainter::paint(QPainter *painter, ConnectionGraphicsObject const &cgo)
+void QExtBPConnectionPainter::paint(QPainter *painter, QExtBPConnectionGraphicsObject const &cgo)
 {
     drawHoveredOrSelected(painter, cgo);
 
@@ -240,7 +238,7 @@ void ConnectionPainter::paint(QPainter *painter, ConnectionGraphicsObject const 
 #endif
 
     // draw end points
-    auto const &connectionStyle = QtNodes::StyleCollection::connectionStyle();
+    auto const &connectionStyle = QExtBPStyleCollection::connectionStyle();
 
     double const pointDiameter = connectionStyle.pointDiameter();
 
@@ -250,5 +248,3 @@ void ConnectionPainter::paint(QPainter *painter, ConnectionGraphicsObject const 
     painter->drawEllipse(cgo.out(), pointRadius, pointRadius);
     painter->drawEllipse(cgo.in(), pointRadius, pointRadius);
 }
-
-} // namespace QtNodes

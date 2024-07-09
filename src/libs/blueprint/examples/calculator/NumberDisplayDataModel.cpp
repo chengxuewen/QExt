@@ -6,16 +6,16 @@ NumberDisplayDataModel::NumberDisplayDataModel()
     : _label{nullptr}
 {}
 
-unsigned int NumberDisplayDataModel::nPorts(PortType portType) const
+unsigned int NumberDisplayDataModel::nPorts(QExtBPTypes::PortTypeEnum portType) const
 {
     unsigned int result = 1;
 
     switch (portType) {
-    case PortType::In:
+    case QExtBPTypes::PortType_In:
         result = 1;
         break;
 
-    case PortType::Out:
+    case QExtBPTypes::PortType_Out:
         result = 0;
 
     default:
@@ -25,18 +25,18 @@ unsigned int NumberDisplayDataModel::nPorts(PortType portType) const
     return result;
 }
 
-NodeDataType NumberDisplayDataModel::dataType(PortType, PortIndex) const
+QExtBPNodeDataType NumberDisplayDataModel::dataType(QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex) const
 {
     return DecimalData().type();
 }
 
-std::shared_ptr<NodeData> NumberDisplayDataModel::outData(PortIndex)
+std::shared_ptr<QExtBPNodeData> NumberDisplayDataModel::outData(QExtBPTypes::PortIndex)
 {
-    std::shared_ptr<NodeData> ptr;
+    std::shared_ptr<QExtBPNodeData> ptr;
     return ptr;
 }
 
-void NumberDisplayDataModel::setInData(std::shared_ptr<NodeData> data, PortIndex portIndex)
+void NumberDisplayDataModel::setInData(std::shared_ptr<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex)
 {
     _numberData = std::dynamic_pointer_cast<DecimalData>(data);
 

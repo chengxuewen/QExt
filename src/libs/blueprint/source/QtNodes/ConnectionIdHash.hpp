@@ -2,7 +2,7 @@
 
 #include <functional>
 
-#include "Definitions.hpp"
+#include "qextBPTypes.h"
 
 inline void hash_combine(std::size_t &seed)
 {
@@ -19,9 +19,9 @@ inline void hash_combine(std::size_t &seed, const T &v, Rest... rest)
 
 namespace std {
 template<>
-struct hash<QtNodes::ConnectionId>
+struct hash<QExtBPTypes::ConnectionId>
 {
-    inline std::size_t operator()(QtNodes::ConnectionId const &id) const
+    inline std::size_t operator()(QExtBPTypes::ConnectionId const &id) const
     {
         std::size_t h = 0;
         hash_combine(h, id.outNodeId, id.outPortIndex, id.inNodeId, id.inPortIndex);
@@ -30,9 +30,9 @@ struct hash<QtNodes::ConnectionId>
 };
 
 template<>
-struct hash<std::pair<QtNodes::NodeId, QtNodes::PortIndex>>
+struct hash<std::pair<QExtBPTypes::NodeId, QExtBPTypes::PortIndex>>
 {
-    inline std::size_t operator()(std::pair<QtNodes::NodeId, QtNodes::PortIndex> const &nodePort) const
+    inline std::size_t operator()(std::pair<QExtBPTypes::NodeId, QExtBPTypes::PortIndex> const &nodePort) const
     {
         std::size_t h = 0;
         hash_combine(h, nodePort.first, nodePort.second);
@@ -41,9 +41,9 @@ struct hash<std::pair<QtNodes::NodeId, QtNodes::PortIndex>>
 };
 
 template<>
-struct hash<std::tuple<QtNodes::NodeId, QtNodes::PortType, QtNodes::PortIndex>>
+struct hash<std::tuple<QExtBPTypes::NodeId, QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex>>
 {
-    using Key = std::tuple<QtNodes::NodeId, QtNodes::PortType, QtNodes::PortIndex>;
+    using Key = std::tuple<QExtBPTypes::NodeId, QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex>;
 
     inline std::size_t operator()(Key const &key) const
     {

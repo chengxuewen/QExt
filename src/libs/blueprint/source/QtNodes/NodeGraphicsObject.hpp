@@ -7,12 +7,10 @@
 
 class QGraphicsProxyWidget;
 
-namespace QtNodes {
+class QExtBPAbstractGraphModel;
+class QExtBPBasicGraphicsScene;
 
-class BasicGraphicsScene;
-class AbstractGraphModel;
-
-class NodeGraphicsObject : public QGraphicsObject
+class QExtBPNodeGraphicsObject : public QGraphicsObject
 {
     Q_OBJECT
 public:
@@ -22,22 +20,22 @@ public:
     int type() const override { return Type; }
 
 public:
-    NodeGraphicsObject(BasicGraphicsScene &scene, NodeId node);
+    QExtBPNodeGraphicsObject(QExtBPBasicGraphicsScene &scene, QExtBPTypes::NodeId node);
 
-    ~NodeGraphicsObject() override = default;
+    ~QExtBPNodeGraphicsObject() override = default;
 
 public:
-    AbstractGraphModel &graphModel() const;
+    QExtBPAbstractGraphModel &graphModel() const;
 
-    BasicGraphicsScene *nodeScene() const;
+    QExtBPBasicGraphicsScene *nodeScene() const;
 
-    NodeId nodeId() { return _nodeId; }
+    QExtBPTypes::NodeId nodeId() { return _nodeId; }
 
-    NodeId nodeId() const { return _nodeId; }
+    QExtBPTypes::NodeId nodeId() const { return _nodeId; }
 
-    NodeState &nodeState() { return _nodeState; }
+    QExtBPNodeState &nodeState() { return _nodeState; }
 
-    NodeState const &nodeState() const { return _nodeState; }
+    QExtBPNodeState const &nodeState() const { return _nodeState; }
 
     QRectF boundingRect() const override;
 
@@ -48,7 +46,7 @@ public:
     void moveConnections() const;
 
     /// Repaints the node once with reacting ports.
-    void reactToConnection(ConnectionGraphicsObject const *cgo);
+    void reactToConnection(QExtBPConnectionGraphicsObject const *cgo);
 
 protected:
     void paint(QPainter *painter,
@@ -79,13 +77,12 @@ private:
     void setLockedState();
 
 private:
-    NodeId _nodeId;
+    QExtBPTypes::NodeId _nodeId;
 
-    AbstractGraphModel &_graphModel;
+    QExtBPAbstractGraphModel &_graphModel;
 
-    NodeState _nodeState;
+    QExtBPNodeState _nodeState;
 
     // either nullptr or owned by parent QGraphicsItem
     QGraphicsProxyWidget *_proxyWidget;
 };
-} // namespace QtNodes

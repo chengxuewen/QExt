@@ -25,16 +25,16 @@ ImageShowModel::ImageShowModel()
     _label->installEventFilter(this);
 }
 
-unsigned int ImageShowModel::nPorts(PortType portType) const
+unsigned int ImageShowModel::nPorts(QExtBPTypes::PortTypeEnum portType) const
 {
     unsigned int result = 1;
 
     switch (portType) {
-    case PortType::In:
+    case QExtBPTypes::PortType_In:
         result = 1;
         break;
 
-    case PortType::Out:
+    case QExtBPTypes::PortType_Out:
         result = 1;
 
     default:
@@ -61,17 +61,17 @@ bool ImageShowModel::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-NodeDataType ImageShowModel::dataType(PortType const, PortIndex const) const
+QExtBPNodeDataType ImageShowModel::dataType(QExtBPTypes::PortTypeEnum const, QExtBPTypes::PortIndex const) const
 {
     return PixmapData().type();
 }
 
-std::shared_ptr<NodeData> ImageShowModel::outData(PortIndex)
+std::shared_ptr<QExtBPNodeData> ImageShowModel::outData(QExtBPTypes::PortIndex)
 {
     return _nodeData;
 }
 
-void ImageShowModel::setInData(std::shared_ptr<NodeData> nodeData, PortIndex const)
+void ImageShowModel::setInData(std::shared_ptr<QExtBPNodeData> nodeData, QExtBPTypes::PortIndex const)
 {
     _nodeData = nodeData;
 

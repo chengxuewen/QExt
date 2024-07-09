@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Export.hpp"
+#include <qextBlueprintGlobal.h>
 
 #include <unordered_map>
 #include <unordered_set>
@@ -10,9 +10,8 @@
 #include <QtCore/QVariant>
 
 #include "ConnectionIdHash.hpp"
-#include "Definitions.hpp"
+#include "qextBPTypes.h"
 
-namespace QtNodes {
 
 /**
  * The central class in the Model-View approach. It delivers all kinds
@@ -21,15 +20,15 @@ namespace QtNodes {
  * and remove nodes and connections.
  *
  * We use two types of the unique ids for graph manipulations:
- *   - NodeId
- *   - ConnectionId
+ *   - QExtBPTypes::NodeId
+ *   - QExtBPTypes::ConnectionId
  */
-class NODE_EDITOR_PUBLIC AbstractGraphModel : public QObject
+class QEXT_BLUEPRINT_API QExtBPAbstractGraphModel : public QObject
 {
     Q_OBJECT
 public:
-    /// Generates a new unique NodeId.
-    virtual NodeId newNodeId() = 0;
+    /// Generates a new unique QExtBPTypes::NodeId.
+    virtual QExtBPTypes::NodeId newNodeId() = 0;
 
     /// @brief Returns the full set of unique Node Ids.
     /**
@@ -38,25 +37,24 @@ public:
    * possible to trace back to the model's internal representation of
    * the node.
    */
-    virtual std::unordered_set<NodeId> allNodeIds() const = 0;
+    virtual std::unordered_set<QExtBPTypes::NodeId> allNodeIds() const = 0;
 
     /**
    * A collection of all input and output connections for the given `nodeId`.
    */
-    virtual std::unordered_set<ConnectionId> allConnectionIds(NodeId const nodeId) const = 0;
+    virtual std::unordered_set<QExtBPTypes::ConnectionId> allConnectionIds(QExtBPTypes::NodeId const nodeId) const = 0;
 
     /// @brief Returns all connected Node Ids for given port.
     /**
    * The returned set of nodes and port indices correspond to the type
    * opposite to the given `portType`.
    */
-    virtual std::unordered_set<ConnectionId> connections(NodeId nodeId,
-                                                         PortType portType,
-                                                         PortIndex index) const
-        = 0;
+    virtual std::unordered_set<QExtBPTypes::ConnectionId> connections(QExtBPTypes::NodeId nodeId,
+                                                                      QExtBPTypes::PortTypeEnum portType,
+                                                                      QExtBPTypes::PortIndex index) const = 0;
 
     /// Checks if two nodes with the given `connectionId` are connected.
-    virtual bool connectionExists(ConnectionId const connectionId) const = 0;
+    virtual bool connectionExists(QExtBPTypes::ConnectionId const connectionId) const = 0;
 
     /// Creates a new node instance in the derived class.
     /**
@@ -65,7 +63,7 @@ public:
    * model on its own, it helps to distinguish between possible node
    * types and create a correct instance inside.
    */
-    virtual NodeId addNode(QString const nodeType = QString()) = 0;
+    virtual QExtBPTypes::NodeId addNode(QString const nodeType = QString()) = 0;
 
     /// Model decides if a conection with a given connection Id possible.
     /**
@@ -74,10 +72,10 @@ public:
    * It is possible to override the function and connect non-equal
    * data types.
    */
-    virtual bool connectionPossible(ConnectionId const connectionId) const = 0;
+    virtual bool connectionPossible(QExtBPTypes::ConnectionId const connectionId) const = 0;
 
     /// Defines if detaching the connection is possible.
-    virtual bool detachPossible(ConnectionId const) const { return true; }
+    virtual bool detachPossible(QExtBPTypes::ConnectionId const) const { return true; }
 
     /// Creates a new connection between two nodes.
     /**
@@ -87,34 +85,34 @@ public:
    * In the derived classes user must emite the signal to notify the
    * scene about the changes.
    */
-    virtual void addConnection(ConnectionId const connectionId) = 0;
+    virtual void addConnection(QExtBPTypes::ConnectionId const connectionId) = 0;
 
     /**
    * @returns `true` if there is data in the model associated with the
    * given `nodeId`.
    */
-    virtual bool nodeExists(NodeId const nodeId) const = 0;
+    virtual bool nodeExists(QExtBPTypes::NodeId const nodeId) const = 0;
 
     /// @brief Returns node-related data for requested NodeRole.
     /**
    * @returns Node Caption, Node Caption Visibility, Node Position etc.
    */
-    virtual QVariant nodeData(NodeId nodeId, NodeRole role) const = 0;
+    virtual QVariant nodeData(QExtBPTypes::NodeId nodeId, QExtBPTypes::NodeRoleEnum role) const = 0;
 
     /**
    * A utility function that unwraps the `QVariant` value returned from the
    * standard `QVariant AbstractGraphModel::nodeData(NodeId, NodeRole)` function.
    */
     template<typename T>
-    T nodeData(NodeId nodeId, NodeRole role) const
+    T nodeData(QExtBPTypes::NodeId nodeId, QExtBPTypes::NodeRoleEnum role) const
     {
         return nodeData(nodeId, role).value<T>();
     }
 
-    virtual NodeFlags nodeFlags(NodeId nodeId) const
+    virtual QExtBPTypes::NodeFlagEnums nodeFlags(QExtBPTypes::NodeId nodeId) const
     {
         Q_UNUSED(nodeId);
-        return NodeFlag::NoFlags;
+        return QExtBPTypes::NodeFlag_NoFlags;
     }
 
     /// @brief Sets node properties.
@@ -123,42 +121,40 @@ public:
    * Shyle, State, Node Position etc.
    * @see NodeRole.
    */
-    virtual bool setNodeData(NodeId nodeId, NodeRole role, QVariant value) = 0;
+    virtual bool setNodeData(QExtBPTypes::NodeId nodeId, QExtBPTypes::NodeRoleEnum role, QVariant value) = 0;
 
     /// @brief Returns port-related data for requested NodeRole.
     /**
    * @returns Port Data Type, Port Data, Connection Policy, Port
    * Caption.
    */
-    virtual QVariant portData(NodeId nodeId, PortType portType, PortIndex index, PortRole role) const
-        = 0;
+    virtual QVariant portData(QExtBPTypes::NodeId nodeId, QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex index, QExtBPTypes::PortRoleEnum role) const = 0;
 
     /**
    * A utility function that unwraps the `QVariant` value returned from the
    * standard `QVariant AbstractGraphModel::portData(...)` function.
    */
     template<typename T>
-    T portData(NodeId nodeId, PortType portType, PortIndex index, PortRole role) const
+    T portData(QExtBPTypes::NodeId nodeId, QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex index, QExtBPTypes::PortRoleEnum role) const
     {
         return portData(nodeId, portType, index, role).value<T>();
     }
 
-    virtual bool setPortData(NodeId nodeId,
-                             PortType portType,
-                             PortIndex index,
+    virtual bool setPortData(QExtBPTypes::NodeId nodeId,
+                             QExtBPTypes::PortTypeEnum portType,
+                             QExtBPTypes::PortIndex index,
                              QVariant const &value,
-                             PortRole role = PortRole::Data)
-        = 0;
+                             QExtBPTypes::PortRoleEnum role = QExtBPTypes::PortRole_Data) = 0;
 
-    virtual bool deleteConnection(ConnectionId const connectionId) = 0;
+    virtual bool deleteConnection(QExtBPTypes::ConnectionId const connectionId) = 0;
 
-    virtual bool deleteNode(NodeId const nodeId) = 0;
+    virtual bool deleteNode(QExtBPTypes::NodeId const nodeId) = 0;
 
     /**
    * Reimplement the function if you want to store/restore the node's
    * inner state during undo/redo node deletion operations.
    */
-    virtual QJsonObject saveNode(NodeId const) const { return {}; }
+    virtual QJsonObject saveNode(QExtBPTypes::NodeId const) const { return {}; }
 
     /**
    * Reimplement the function if you want to support:
@@ -190,14 +186,14 @@ public:
    * deleted. It must be called right before the model removes its old port data.
    *
    * @param nodeId Defines the node to be modified
-   * @param portType Is either PortType::In or PortType::Out
+   * @param portType Is either QExtBPTypes::PortType_In or QExtBPTypes::PortType_Out
    * @param first Index of the first port to be removed
    * @param last Index of the last port to be removed
    */
-    void portsAboutToBeDeleted(NodeId const nodeId,
-                               PortType const portType,
-                               PortIndex const first,
-                               PortIndex const last);
+    void portsAboutToBeDeleted(QExtBPTypes::NodeId const nodeId,
+                               QExtBPTypes::PortTypeEnum const portType,
+                               QExtBPTypes::PortIndex const first,
+                               QExtBPTypes::PortIndex const last);
 
     /**
    * Signal emitted when model no longer has the old data associated with the
@@ -214,10 +210,10 @@ public:
    * index. For such connections the new "post-insertion" addresses are computed
    * and stored until the function AbstractGraphModel::portsInserted is called.
    */
-    void portsAboutToBeInserted(NodeId const nodeId,
-                                PortType const portType,
-                                PortIndex const first,
-                                PortIndex const last);
+    void portsAboutToBeInserted(QExtBPTypes::NodeId const nodeId,
+                                QExtBPTypes::PortTypeEnum const portType,
+                                QExtBPTypes::PortIndex const first,
+                                QExtBPTypes::PortIndex const last);
 
     /**
    * Function re-creates the connections that were shifted during the port
@@ -226,24 +222,22 @@ public:
     void portsInserted();
 
 Q_SIGNALS:
-    void connectionCreated(ConnectionId const connectionId);
+    void connectionCreated(QExtBPTypes::ConnectionId const connectionId);
 
-    void connectionDeleted(ConnectionId const connectionId);
+    void connectionDeleted(QExtBPTypes::ConnectionId const connectionId);
 
-    void nodeCreated(NodeId const nodeId);
+    void nodeCreated(QExtBPTypes::NodeId const nodeId);
 
-    void nodeDeleted(NodeId const nodeId);
+    void nodeDeleted(QExtBPTypes::NodeId const nodeId);
 
-    void nodeUpdated(NodeId const nodeId);
+    void nodeUpdated(QExtBPTypes::NodeId const nodeId);
 
-    void nodeFlagsUpdated(NodeId const nodeId);
+    void nodeFlagsUpdated(QExtBPTypes::NodeId const nodeId);
 
-    void nodePositionUpdated(NodeId const nodeId);
+    void nodePositionUpdated(QExtBPTypes::NodeId const nodeId);
 
     void modelReset();
 
 private:
-    std::vector<ConnectionId> _shiftedByDynamicPortsConnections;
+    std::vector<QExtBPTypes::ConnectionId> _shiftedByDynamicPortsConnections;
 };
-
-} // namespace QtNodes

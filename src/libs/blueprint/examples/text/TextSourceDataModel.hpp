@@ -9,16 +9,16 @@
 
 #include <iostream>
 
-using QtNodes::NodeData;
-using QtNodes::NodeDelegateModel;
-using QtNodes::PortIndex;
-using QtNodes::PortType;
+//using QtNodes::QExtBPNodeData;
+//using QExtBPNodeDelegateModel;
+//using QExtBPTypes::PortIndex;
+//using QExtBPTypes::PortTypeEnum;
 
 class QLineEdit;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class TextSourceDataModel : public NodeDelegateModel
+class TextSourceDataModel : public QExtBPNodeDelegateModel
 {
     Q_OBJECT
 
@@ -35,13 +35,13 @@ public:
     QString name() const override { return TextSourceDataModel::Name(); }
 
 public:
-    unsigned int nPorts(PortType portType) const override;
+    unsigned int nPorts(QExtBPTypes::PortTypeEnum portType) const override;
 
-    NodeDataType dataType(PortType portType, PortIndex portIndex) const override;
+    QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex) const override;
 
-    std::shared_ptr<NodeData> outData(PortIndex const portIndex) override;
+    std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex const portIndex) override;
 
-    void setInData(std::shared_ptr<NodeData>, PortIndex const) override {}
+    void setInData(std::shared_ptr<QExtBPNodeData>, QExtBPTypes::PortIndex const) override {}
 
     QWidget *embeddedWidget() override;
 

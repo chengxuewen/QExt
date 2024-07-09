@@ -4,25 +4,22 @@
 
 #include <QtCore/QPointF>
 
-#include "Definitions.hpp"
-
-namespace QtNodes {
-
-class ConnectionGraphicsObject;
-class NodeGraphicsObject;
-class BasicGraphicsScene;
+#include "qextBPTypes.h"
+class QExtBPConnectionGraphicsObject;
+class QExtBPNodeGraphicsObject;
+class QExtBPBasicGraphicsScene;
 
 /// Class wraps conecting and disconnecting checks.
 /**
  * An instance should be created on the stack and destroyed
  * automatically when the operation is completed
  */
-class NodeConnectionInteraction
+class QExtBPNodeConnectionInteraction
 {
 public:
-    NodeConnectionInteraction(NodeGraphicsObject &ngo,
-                              ConnectionGraphicsObject &cgo,
-                              BasicGraphicsScene &scene);
+    QExtBPNodeConnectionInteraction(QExtBPNodeGraphicsObject &ngo,
+                                    QExtBPConnectionGraphicsObject &cgo,
+                                    QExtBPBasicGraphicsScene &scene);
 
     /**
    * Can connect when following conditions are met:
@@ -31,7 +28,7 @@ public:
    * 3. Source and target `nodeId`s are different.
    * 4. GraphModel permits connection.
    */
-    bool canConnect(PortIndex *portIndex) const;
+    bool canConnect(QExtBPTypes::PortIndex *portIndex) const;
 
     /// Creates a new connectino if possible.
     /**
@@ -46,23 +43,22 @@ public:
    * 2. Create a "draft" connection with incomplete `ConnectionId`.
    * 3. Repaint both previously connected nodes.
    */
-    bool disconnect(PortType portToDisconnect) const;
+    bool disconnect(QExtBPTypes::PortTypeEnum portToDisconnect) const;
 
 private:
-    PortType connectionRequiredPort() const;
+    QExtBPTypes::PortTypeEnum connectionRequiredPort() const;
 
-    QPointF connectionEndScenePosition(PortType) const;
+    QPointF connectionEndScenePosition(QExtBPTypes::PortTypeEnum) const;
 
-    QPointF nodePortScenePosition(PortType portType, PortIndex portIndex) const;
+    QPointF nodePortScenePosition(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex) const;
 
-    PortIndex nodePortIndexUnderScenePoint(PortType portType, QPointF const &p) const;
+    QExtBPTypes::PortIndex nodePortIndexUnderScenePoint(QExtBPTypes::PortTypeEnum portType, QPointF const &p) const;
 
 private:
-    NodeGraphicsObject &_ngo;
+    QExtBPNodeGraphicsObject &_ngo;
 
-    ConnectionGraphicsObject &_cgo;
+    QExtBPConnectionGraphicsObject &_cgo;
 
-    BasicGraphicsScene &_scene;
+    QExtBPBasicGraphicsScene &_scene;
 };
 
-} // namespace QtNodes

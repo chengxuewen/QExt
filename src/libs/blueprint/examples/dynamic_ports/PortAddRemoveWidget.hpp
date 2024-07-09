@@ -9,9 +9,9 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-using QtNodes::NodeId;
-using QtNodes::PortIndex;
-using QtNodes::PortType;
+//using QExtBPTypes::NodeId;
+//using QExtBPTypes::PortIndex;
+//using QExtBPTypes::PortTypeEnum;
 
 class DynamicPortsModel;
 
@@ -45,7 +45,7 @@ class PortAddRemoveWidget : public QWidget
 public:
     PortAddRemoveWidget(unsigned int nInPorts,
                         unsigned int nOutPorts,
-                        NodeId nodeId,
+                        QExtBPTypes::NodeId nodeId,
                         DynamicPortsModel &model,
                         QWidget *parent = nullptr);
 
@@ -55,7 +55,7 @@ public:
    * Called from constructor, creates all button groups according to models'port
    * counts.
    */
-    void populateButtons(PortType portType, unsigned int nPorts);
+    void populateButtons(QExtBPTypes::PortTypeEnum portType, unsigned int nPorts);
 
     /**
    * Adds a single `[+][-]` button group to a given layout.
@@ -78,10 +78,10 @@ private:
    * Plus button has the index 0.
    * Minus button has the index 1.
    */
-    std::pair<PortType, PortIndex> findWhichPortWasClicked(QObject *sender, int const buttonIndex);
+    std::pair<QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex> findWhichPortWasClicked(QObject *sender, int const buttonIndex);
 
 private:
-    NodeId const _nodeId;
+    QExtBPTypes::NodeId const _nodeId;
     DynamicPortsModel &_model;
 
     QVBoxLayout *_left;

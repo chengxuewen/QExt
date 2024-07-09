@@ -22,16 +22,16 @@ ImageLoaderModel::ImageLoaderModel()
     _label->installEventFilter(this);
 }
 
-unsigned int ImageLoaderModel::nPorts(PortType portType) const
+unsigned int ImageLoaderModel::nPorts(QExtBPTypes::PortTypeEnum portType) const
 {
     unsigned int result = 1;
 
     switch (portType) {
-    case PortType::In:
+    case QExtBPTypes::PortType_In:
         result = 0;
         break;
 
-    case PortType::Out:
+    case QExtBPTypes::PortType_Out:
         result = 1;
 
     default:
@@ -69,12 +69,12 @@ bool ImageLoaderModel::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-NodeDataType ImageLoaderModel::dataType(PortType const, PortIndex const) const
+QExtBPNodeDataType ImageLoaderModel::dataType(QExtBPTypes::PortTypeEnum const, QExtBPTypes::PortIndex const) const
 {
     return PixmapData().type();
 }
 
-std::shared_ptr<NodeData> ImageLoaderModel::outData(PortIndex)
+std::shared_ptr<QExtBPNodeData> ImageLoaderModel::outData(QExtBPTypes::PortIndex)
 {
     return std::make_shared<PixmapData>(_pixmap);
 }

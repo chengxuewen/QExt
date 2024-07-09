@@ -21,15 +21,15 @@
 #include "NumberSourceDataModel.hpp"
 #include "SubtractionModel.hpp"
 
-using QtNodes::ConnectionStyle;
-using QtNodes::DataFlowGraphicsScene;
-using QtNodes::DataFlowGraphModel;
-using QtNodes::GraphicsView;
-using QtNodes::NodeDelegateModelRegistry;
+//using QtNodes::QExtBPConnectionStyle;
+//using QtNodes::QExtBPDataFlowGraphicsScene;
+//using QExtBPDataFlowGraphModel;
+//using QtNodes::QExtBPGraphicsView;
+//using QExtBPNodeDelegateModelRegistry;
 
-static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
+static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
-    auto ret = std::make_shared<NodeDelegateModelRegistry>();
+    auto ret = std::make_shared<QExtBPNodeDelegateModelRegistry>();
     ret->registerModel<NumberSourceDataModel>("Sources");
 
     ret->registerModel<NumberDisplayDataModel>("Displays");
@@ -47,7 +47,7 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
 
 static void setStyle()
 {
-    ConnectionStyle::setConnectionStyle(
+    QExtBPConnectionStyle::setConnectionStyle(
         R"(
   {
     "ConnectionStyle": {
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 
     setStyle();
 
-    std::shared_ptr<NodeDelegateModelRegistry> registry = registerDataModels();
+    std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
 
     QWidget mainWidget;
 
@@ -84,21 +84,21 @@ int main(int argc, char *argv[])
 
     QVBoxLayout *l = new QVBoxLayout(&mainWidget);
 
-    DataFlowGraphModel dataFlowGraphModel(registry);
+    QExtBPDataFlowGraphModel dataFlowGraphModel(registry);
 
     l->addWidget(menuBar);
-    auto scene = new DataFlowGraphicsScene(dataFlowGraphModel, &mainWidget);
+    auto scene = new QExtBPDataFlowGraphicsScene(dataFlowGraphModel, &mainWidget);
 
-    auto view = new GraphicsView(scene);
+    auto view = new QExtBPGraphicsView(scene);
     l->addWidget(view);
     l->setContentsMargins(0, 0, 0, 0);
     l->setSpacing(0);
 
-    QObject::connect(saveAction, &QAction::triggered, scene, &DataFlowGraphicsScene::save);
+    QObject::connect(saveAction, &QAction::triggered, scene, &QExtBPDataFlowGraphicsScene::save);
 
-    QObject::connect(loadAction, &QAction::triggered, scene, &DataFlowGraphicsScene::load);
+    QObject::connect(loadAction, &QAction::triggered, scene, &QExtBPDataFlowGraphicsScene::load);
 
-    QObject::connect(scene, &DataFlowGraphicsScene::sceneLoaded, view, &GraphicsView::centerScene);
+    QObject::connect(scene, &QExtBPDataFlowGraphicsScene::sceneLoaded, view, &QExtBPGraphicsView::centerScene);
 
     mainWidget.setWindowTitle("Data Flow: simplest calculator");
     mainWidget.resize(800, 600);

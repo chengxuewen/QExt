@@ -6,16 +6,16 @@ TextDisplayDataModel::TextDisplayDataModel()
     _label->setMargin(3);
 }
 
-unsigned int TextDisplayDataModel::nPorts(PortType portType) const
+unsigned int TextDisplayDataModel::nPorts(QExtBPTypes::PortTypeEnum portType) const
 {
     unsigned int result = 1;
 
     switch (portType) {
-    case PortType::In:
+    case QExtBPTypes::PortType_In:
         result = 1;
         break;
 
-    case PortType::Out:
+    case QExtBPTypes::PortType_Out:
         result = 0;
 
     default:
@@ -25,18 +25,18 @@ unsigned int TextDisplayDataModel::nPorts(PortType portType) const
     return result;
 }
 
-NodeDataType TextDisplayDataModel::dataType(PortType, PortIndex) const
+QExtBPNodeDataType TextDisplayDataModel::dataType(QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex) const
 {
     return TextData().type();
 }
 
-std::shared_ptr<NodeData> TextDisplayDataModel::outData(PortIndex)
+std::shared_ptr<QExtBPNodeData> TextDisplayDataModel::outData(QExtBPTypes::PortIndex)
 {
-    std::shared_ptr<NodeData> ptr;
+    std::shared_ptr<QExtBPNodeData> ptr;
     return ptr;
 }
 
-void TextDisplayDataModel::setInData(std::shared_ptr<NodeData> data, PortIndex const)
+void TextDisplayDataModel::setInData(std::shared_ptr<QExtBPNodeData> data, QExtBPTypes::PortIndex const)
 {
     auto textData = std::dynamic_pointer_cast<TextData>(data);
 

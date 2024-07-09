@@ -5,15 +5,13 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
-#include "Export.hpp"
-
-namespace QtNodes {
+#include <qextBlueprintGlobal.h>
 
 /**
  * `id` represents an internal unique data type for the given port.
  * `name` is a normal text description.
  */
-struct NODE_EDITOR_PUBLIC NodeDataType
+struct QEXT_BLUEPRINT_API QExtBPNodeDataType
 {
     QString id;
     QString name;
@@ -24,20 +22,18 @@ struct NODE_EDITOR_PUBLIC NodeDataType
  * @param type is used for comparing the types
  * The actual data is stored in subtypes
  */
-class NODE_EDITOR_PUBLIC NodeData
+class QEXT_BLUEPRINT_API QExtBPNodeData
 {
 public:
-    virtual ~NodeData() = default;
+    virtual ~QExtBPNodeData() = default;
 
-    virtual bool sameType(NodeData const &nodeData) const
+    virtual bool sameType(QExtBPNodeData const &nodeData) const
     {
         return (this->type().id == nodeData.type().id);
     }
 
     /// Type for inner use
-    virtual NodeDataType type() const = 0;
+    virtual QExtBPNodeDataType type() const = 0;
 };
-
-} // namespace QtNodes
-Q_DECLARE_METATYPE(QtNodes::NodeDataType)
-Q_DECLARE_METATYPE(std::shared_ptr<QtNodes::NodeData>)
+Q_DECLARE_METATYPE(QExtBPNodeDataType)
+Q_DECLARE_METATYPE(std::shared_ptr<QExtBPNodeData>)

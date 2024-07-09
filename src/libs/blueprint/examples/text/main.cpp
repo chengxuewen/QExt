@@ -10,14 +10,14 @@
 #include "TextDisplayDataModel.hpp"
 #include "TextSourceDataModel.hpp"
 
-using QtNodes::DataFlowGraphicsScene;
-using QtNodes::DataFlowGraphModel;
-using QtNodes::GraphicsView;
-using QtNodes::NodeDelegateModelRegistry;
+//using QtNodes::QExtBPDataFlowGraphicsScene;
+//using QExtBPDataFlowGraphModel;
+//using QtNodes::QExtBPGraphicsView;
+//using QExtBPNodeDelegateModelRegistry;
 
-static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
+static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
-    auto ret = std::make_shared<NodeDelegateModelRegistry>();
+    auto ret = std::make_shared<QExtBPNodeDelegateModelRegistry>();
 
     ret->registerModel<TextSourceDataModel>();
     ret->registerModel<TextDisplayDataModel>();
@@ -29,12 +29,12 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    std::shared_ptr<NodeDelegateModelRegistry> registry = registerDataModels();
-    DataFlowGraphModel dataFlowGraphModel(registry);
+    std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
+    QExtBPDataFlowGraphModel dataFlowGraphModel(registry);
 
-    DataFlowGraphicsScene scene(dataFlowGraphModel);
+    QExtBPDataFlowGraphicsScene scene(dataFlowGraphModel);
 
-    GraphicsView view(&scene);
+    QExtBPGraphicsView view(&scene);
 
     view.setWindowTitle("Node-based flow editor");
     view.resize(800, 600);

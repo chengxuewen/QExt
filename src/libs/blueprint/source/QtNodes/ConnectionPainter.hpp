@@ -3,19 +3,15 @@
 #include <QtGui/QPainter>
 #include <QtGui/QPainterPath>
 
-#include "Definitions.hpp"
+#include "qextBPTypes.h"
 
-namespace QtNodes {
+class QExtBPConnectionGraphicsObject;
 
-class ConnectionGeometry;
-class ConnectionGraphicsObject;
-
-class ConnectionPainter
+class QExtBPConnectionPainter
 {
 public:
-    static void paint(QPainter *painter, ConnectionGraphicsObject const &cgo);
+    static void paint(QPainter *painter, QExtBPConnectionGraphicsObject const &cgo);
 
-    static QPainterPath getPainterStroke(ConnectionGraphicsObject const &cgo);
+    static QPainterPath getPainterStroke(QExtBPConnectionGraphicsObject const &cgo);
 };
 
-} // namespace QtNodes

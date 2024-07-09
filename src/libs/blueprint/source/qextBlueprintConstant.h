@@ -5,8 +5,8 @@
 
 namespace QExtBlueprintConstant
 {
-QEXT_STATIC_CONSTANT(NodeId, InvalidNodeId = 0);
-QEXT_STATIC_CONSTANT(PortIndex, InvalidPortIndex = 0);
+QEXT_STATIC_CONSTANT(NodeId, QExtBPTypes::InvalidNodeId = 0);
+QEXT_STATIC_CONSTANT(PortIndex, QExtBPTypes::InvalidPortIndex = 0);
 }
 
 #endif // _QEXTBLUEPRINTCONSTANT_H

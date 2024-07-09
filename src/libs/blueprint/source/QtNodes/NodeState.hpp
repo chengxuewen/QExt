@@ -7,21 +7,19 @@
 #include <QtCore/QPointer>
 #include <QtCore/QUuid>
 
-#include "Export.hpp"
+#include <qextBlueprintGlobal.h>
 
-#include "Definitions.hpp"
+#include "qextBPTypes.h"
 #include "NodeData.hpp"
 
-namespace QtNodes {
-
-class ConnectionGraphicsObject;
-class NodeGraphicsObject;
+class QExtBPConnectionGraphicsObject;
+class QExtBPNodeGraphicsObject;
 
 /// Stores bool for hovering connections and resizing flag.
-class NODE_EDITOR_PUBLIC NodeState
+class QEXT_BLUEPRINT_API QExtBPNodeState
 {
 public:
-    NodeState(NodeGraphicsObject &ngo);
+    QExtBPNodeState(QExtBPNodeGraphicsObject &ngo);
 
 public:
     bool hovered() const { return _hovered; }
@@ -32,14 +30,14 @@ public:
 
     bool resizing() const;
 
-    ConnectionGraphicsObject const *connectionForReaction() const;
+    QExtBPConnectionGraphicsObject const *connectionForReaction() const;
 
-    void storeConnectionForReaction(ConnectionGraphicsObject const *cgo);
+    void storeConnectionForReaction(QExtBPConnectionGraphicsObject const *cgo);
 
     void resetConnectionForReaction();
 
 private:
-    NodeGraphicsObject &_ngo;
+    QExtBPNodeGraphicsObject &_ngo;
 
     bool _hovered;
 
@@ -47,6 +45,5 @@ private:
 
     // QPointer tracks the QObject inside and is automatically cleared
     // when the object is destroyed.
-    QPointer<ConnectionGraphicsObject const> _connectionForReaction;
+    QPointer<QExtBPConnectionGraphicsObject const> _connectionForReaction;
 };
-} // namespace QtNodes

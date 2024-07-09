@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Export.hpp"
+#include <qextBlueprintGlobal.h>
 #include "NodeData.hpp"
 #include "NodeDelegateModel.hpp"
 #include "QStringStdHash.hpp"
@@ -15,13 +15,11 @@
 #include <utility>
 #include <vector>
 
-namespace QtNodes {
-
 /// Class uses map for storing models (name, model)
-class NODE_EDITOR_PUBLIC NodeDelegateModelRegistry
+class QEXT_BLUEPRINT_API QExtBPNodeDelegateModelRegistry
 {
 public:
-    using RegistryItemPtr = NodeDelegateModel *;
+    using RegistryItemPtr = QExtBPNodeDelegateModel *;
     using RegistryItemCreator = std::function<RegistryItemPtr()>;
     using RegisteredModelCreatorsMap = std::unordered_map<QString, RegistryItemCreator>;
     using RegisteredModelsCategoryMap = std::unordered_map<QString, QString>;
@@ -29,15 +27,15 @@ public:
 
     //using RegisteredTypeConvertersMap = std::map<TypeConverterId, TypeConverter>;
 
-    NodeDelegateModelRegistry() = default;
-    ~NodeDelegateModelRegistry() = default;
+    QExtBPNodeDelegateModelRegistry() = default;
+    ~QExtBPNodeDelegateModelRegistry() = default;
 
-    NodeDelegateModelRegistry(NodeDelegateModelRegistry const &) = delete;
-    NodeDelegateModelRegistry(NodeDelegateModelRegistry &&) = default;
+    QExtBPNodeDelegateModelRegistry(QExtBPNodeDelegateModelRegistry const &) = delete;
+    QExtBPNodeDelegateModelRegistry(QExtBPNodeDelegateModelRegistry &&) = default;
 
-    NodeDelegateModelRegistry &operator=(NodeDelegateModelRegistry const &) = delete;
+    QExtBPNodeDelegateModelRegistry &operator=(QExtBPNodeDelegateModelRegistry const &) = delete;
 
-    NodeDelegateModelRegistry &operator=(NodeDelegateModelRegistry &&) = default;
+    QExtBPNodeDelegateModelRegistry &operator=(QExtBPNodeDelegateModelRegistry &&) = default;
 
 public:
     template<typename ModelType>
@@ -59,42 +57,42 @@ public:
     }
 
 #if 0
-  template<typename ModelType>
-  void
-  registerModel(RegistryItemCreator creator,
-                QString const&      category = "Nodes")
-  {
-    registerModel<ModelType>(std::move(creator), category);
-  }
+    template<typename ModelType>
+    void
+    registerModel(RegistryItemCreator creator,
+                  QString const&      category = "Nodes")
+    {
+        registerModel<ModelType>(std::move(creator), category);
+    }
 
 
-  template <typename ModelCreator>
-  void
-  registerModel(ModelCreator&& creator, QString const& category = "Nodes")
-  {
-    using ModelType = compute_model_type_t<decltype(creator())>;
-    registerModel<ModelType>(std::forward<ModelCreator>(creator), category);
-  }
+    template <typename ModelCreator>
+    void
+    registerModel(ModelCreator&& creator, QString const& category = "Nodes")
+    {
+        using ModelType = compute_model_type_t<decltype(creator())>;
+        registerModel<ModelType>(std::forward<ModelCreator>(creator), category);
+    }
 
 
-  template <typename ModelCreator>
-  void
-  registerModel(QString const& category, ModelCreator&& creator)
-  {
-    registerModel(std::forward<ModelCreator>(creator), category);
-  }
+    template <typename ModelCreator>
+    void
+    registerModel(QString const& category, ModelCreator&& creator)
+    {
+        registerModel(std::forward<ModelCreator>(creator), category);
+    }
 
 
-  void
-  registerTypeConverter(TypeConverterId const& id,
-                        TypeConverter          typeConverter)
-  {
-    _registeredTypeConverters[id] = std::move(typeConverter);
-  }
+    void
+    registerTypeConverter(TypeConverterId const& id,
+                          TypeConverter          typeConverter)
+    {
+        _registeredTypeConverters[id] = std::move(typeConverter);
+    }
 
 #endif
 
-    NodeDelegateModel *create(QString const &modelName);
+    QExtBPNodeDelegateModel *create(QString const &modelName);
 
     RegisteredModelCreatorsMap const &registeredModelCreators() const;
 
@@ -103,9 +101,9 @@ public:
     CategoriesSet const &categories() const;
 
 #if 0
-  TypeConverter
-  getTypeConverter(NodeDataType const& d1,
-                   NodeDataType const& d2) const;
+    TypeConverter
+    getTypeConverter(NodeDataType const& d1,
+                     NodeDataType const& d2) const;
 #endif
 
 private:
@@ -116,7 +114,7 @@ private:
     RegisteredModelCreatorsMap _registeredItemCreators;
 
 #if 0
-  RegisteredTypeConvertersMap _registeredTypeConverters;
+    RegisteredTypeConvertersMap _registeredTypeConverters;
 #endif
 
 private:
@@ -129,8 +127,8 @@ private:
 
     template<typename T>
     struct HasStaticMethodName<
-        T,
-        typename std::enable_if<std::is_same<decltype(T::Name()), QString>::value>::type>
+            T,
+            typename std::enable_if<std::is_same<decltype(T::Name()), QString>::value>::type>
         : std::true_type
     {};
 
@@ -151,16 +149,16 @@ private:
     {
         // Assert always fires, but the compiler doesn't know this:
         static_assert(!std::is_same<T, T>::value,
-                      "The ModelCreator must return a std::unique_ptr<T>, where T "
-                      "inherits from NodeDelegateModel");
+        "The ModelCreator must return a std::unique_ptr<T>, where T "
+        "inherits from NodeDelegateModel");
     };
 
     template<typename T>
     struct UnwrapUniquePtr<std::unique_ptr<T>>
     {
-        static_assert(std::is_base_of<NodeDelegateModel, T>::value,
-                      "The ModelCreator must return a std::unique_ptr<T>, where T "
-                      "inherits from NodeDelegateModel");
+        static_assert(std::is_base_of<QExtBPNodeDelegateModel, T>::value,
+        "The ModelCreator must return a std::unique_ptr<T>, where T "
+        "inherits from NodeDelegateModel");
         using type = T;
     };
 
@@ -168,4 +166,3 @@ private:
     using compute_model_type_t = typename UnwrapUniquePtr<CreatorResult>::type;
 };
 
-} // namespace QtNodes

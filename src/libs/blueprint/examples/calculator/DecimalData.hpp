@@ -3,12 +3,12 @@
 // #include <QtNodes/NodeData>
 #include <qextBlueprintNode.h>
 
-using QtNodes::NodeData;
-using QtNodes::NodeDataType;
+//using QtNodes::QExtBPNodeData;
+//using QtNodes::QExtBPNodeDataType;
 
 /// The class can potentially incapsulate any user data which
 /// need to be transferred within the Node Editor graph
-class DecimalData : public NodeData
+class DecimalData : public QExtBPNodeData
 {
 public:
     DecimalData()
@@ -19,7 +19,7 @@ public:
         : _number(number)
     {}
 
-    NodeDataType type() const override { return NodeDataType{"decimal", "Decimal"}; }
+    QExtBPNodeDataType type() const override { return QExtBPNodeDataType{"decimal", "Decimal"}; }
 
     double number() const { return _number; }
 

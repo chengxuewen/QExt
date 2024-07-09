@@ -23,10 +23,8 @@
 #include <cmath>
 #include <iostream>
 
-using QtNodes::BasicGraphicsScene;
-using QtNodes::GraphicsView;
 
-GraphicsView::GraphicsView(QWidget *parent)
+QExtBPGraphicsView::QExtBPGraphicsView(QWidget *parent)
     : QGraphicsView(parent)
     , _clearSelectionAction(Q_NULLPTR)
     , _deleteSelectionAction(Q_NULLPTR)
@@ -37,7 +35,7 @@ GraphicsView::GraphicsView(QWidget *parent)
     setDragMode(QGraphicsView::ScrollHandDrag);
     setRenderHint(QPainter::Antialiasing);
 
-    auto const &flowViewStyle = StyleCollection::flowViewStyle();
+    auto const &flowViewStyle = QExtBPStyleCollection::flowViewStyle();
 
     setBackgroundBrush(flowViewStyle.BackgroundColor);
 
@@ -57,23 +55,23 @@ GraphicsView::GraphicsView(QWidget *parent)
     setSceneRect(-maxSize, -maxSize, (maxSize * 2), (maxSize * 2));
 }
 
-GraphicsView::GraphicsView(BasicGraphicsScene *scene, QWidget *parent)
-    : GraphicsView(parent)
+QExtBPGraphicsView::QExtBPGraphicsView(QExtBPBasicGraphicsScene *scene, QWidget *parent)
+    : QExtBPGraphicsView(parent)
 {
     setScene(scene);
 }
 
-QAction *GraphicsView::clearSelectionAction() const
+QAction *QExtBPGraphicsView::clearSelectionAction() const
 {
     return _clearSelectionAction;
 }
 
-QAction *GraphicsView::deleteSelectionAction() const
+QAction *QExtBPGraphicsView::deleteSelectionAction() const
 {
     return _deleteSelectionAction;
 }
 
-void GraphicsView::setScene(BasicGraphicsScene *scene)
+void QExtBPGraphicsView::setScene(QExtBPBasicGraphicsScene *scene)
 {
     QGraphicsView::setScene(scene);
 
@@ -96,7 +94,7 @@ void GraphicsView::setScene(BasicGraphicsScene *scene)
         connect(_deleteSelectionAction,
                 &QAction::triggered,
                 this,
-                &GraphicsView::onDeleteSelectedObjects);
+                &QExtBPGraphicsView::onDeleteSelectedObjects);
 
         addAction(_deleteSelectionAction);
     }
@@ -109,7 +107,7 @@ void GraphicsView::setScene(BasicGraphicsScene *scene)
         connect(_duplicateSelectionAction,
                 &QAction::triggered,
                 this,
-                &GraphicsView::onDuplicateSelectedObjects);
+                &QExtBPGraphicsView::onDuplicateSelectedObjects);
 
         addAction(_duplicateSelectionAction);
     }
@@ -122,7 +120,7 @@ void GraphicsView::setScene(BasicGraphicsScene *scene)
         connect(_copySelectionAction,
                 &QAction::triggered,
                 this,
-                &GraphicsView::onCopySelectedObjects);
+                &QExtBPGraphicsView::onCopySelectedObjects);
 
         addAction(_copySelectionAction);
     }
@@ -132,7 +130,7 @@ void GraphicsView::setScene(BasicGraphicsScene *scene)
         _pasteAction = new QAction(QStringLiteral("Copy Selection"), this);
         _pasteAction->setShortcutContext(Qt::ShortcutContext::WidgetShortcut);
         _pasteAction->setShortcut(QKeySequence(QKeySequence::Paste));
-        connect(_pasteAction, &QAction::triggered, this, &GraphicsView::onPasteObjects);
+        connect(_pasteAction, &QAction::triggered, this, &QExtBPGraphicsView::onPasteObjects);
 
         addAction(_pasteAction);
     }
@@ -146,7 +144,7 @@ void GraphicsView::setScene(BasicGraphicsScene *scene)
     addAction(redoAction);
 }
 
-void GraphicsView::centerScene()
+void QExtBPGraphicsView::centerScene()
 {
     if (scene()) {
         scene()->setSceneRect(QRectF());
@@ -161,7 +159,7 @@ void GraphicsView::centerScene()
     }
 }
 
-void GraphicsView::contextMenuEvent(QContextMenuEvent *event)
+void QExtBPGraphicsView::contextMenuEvent(QContextMenuEvent *event)
 {
     if (itemAt(event->pos())) {
         QGraphicsView::contextMenuEvent(event);
@@ -177,7 +175,7 @@ void GraphicsView::contextMenuEvent(QContextMenuEvent *event)
     }
 }
 
-void GraphicsView::wheelEvent(QWheelEvent *event)
+void QExtBPGraphicsView::wheelEvent(QWheelEvent *event)
 {
     QPoint delta = event->angleDelta();
 
@@ -194,12 +192,12 @@ void GraphicsView::wheelEvent(QWheelEvent *event)
         scaleDown();
 }
 
-double GraphicsView::getScale() const
+double QExtBPGraphicsView::getScale() const
 {
     return transform().m11();
 }
 
-void GraphicsView::setScaleRange(double minimum, double maximum)
+void QExtBPGraphicsView::setScaleRange(double minimum, double maximum)
 {
     if (maximum < minimum)
         std::swap(minimum, maximum);
@@ -212,12 +210,12 @@ void GraphicsView::setScaleRange(double minimum, double maximum)
     setupScale(transform().m11());
 }
 
-void GraphicsView::setScaleRange(ScaleRange range)
+void QExtBPGraphicsView::setScaleRange(ScaleRange range)
 {
     setScaleRange(range.minimum, range.maximum);
 }
 
-void GraphicsView::scaleUp()
+void QExtBPGraphicsView::scaleUp()
 {
     double const step = 1.2;
     double const factor = std::pow(step, 1.0);
@@ -235,7 +233,7 @@ void GraphicsView::scaleUp()
     Q_EMIT scaleChanged(transform().m11());
 }
 
-void GraphicsView::scaleDown()
+void QExtBPGraphicsView::scaleDown()
 {
     double const step = 1.2;
     double const factor = std::pow(step, -1.0);
@@ -253,7 +251,7 @@ void GraphicsView::scaleDown()
     Q_EMIT scaleChanged(transform().m11());
 }
 
-void GraphicsView::setupScale(double scale)
+void QExtBPGraphicsView::setupScale(double scale)
 {
     scale = std::max(_scaleRange.minimum, std::min(_scaleRange.maximum, scale));
 
@@ -270,31 +268,31 @@ void GraphicsView::setupScale(double scale)
     Q_EMIT scaleChanged(scale);
 }
 
-void GraphicsView::onDeleteSelectedObjects()
+void QExtBPGraphicsView::onDeleteSelectedObjects()
 {
-    nodeScene()->undoStack().push(new DeleteCommand(nodeScene()));
+    nodeScene()->undoStack().push(new QExtBPDeleteCommand(nodeScene()));
 }
 
-void GraphicsView::onDuplicateSelectedObjects()
+void QExtBPGraphicsView::onDuplicateSelectedObjects()
 {
     QPointF const pastePosition = scenePastePosition();
 
     nodeScene()->undoStack().push(new CopyCommand(nodeScene()));
-    nodeScene()->undoStack().push(new PasteCommand(nodeScene(), pastePosition));
+    nodeScene()->undoStack().push(new QExtBPPasteCommand(nodeScene(), pastePosition));
 }
 
-void GraphicsView::onCopySelectedObjects()
+void QExtBPGraphicsView::onCopySelectedObjects()
 {
     nodeScene()->undoStack().push(new CopyCommand(nodeScene()));
 }
 
-void GraphicsView::onPasteObjects()
+void QExtBPGraphicsView::onPasteObjects()
 {
     QPointF const pastePosition = scenePastePosition();
-    nodeScene()->undoStack().push(new PasteCommand(nodeScene(), pastePosition));
+    nodeScene()->undoStack().push(new QExtBPPasteCommand(nodeScene(), pastePosition));
 }
 
-void GraphicsView::keyPressEvent(QKeyEvent *event)
+void QExtBPGraphicsView::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
     case Qt::Key_Shift:
@@ -308,7 +306,7 @@ void GraphicsView::keyPressEvent(QKeyEvent *event)
     QGraphicsView::keyPressEvent(event);
 }
 
-void GraphicsView::keyReleaseEvent(QKeyEvent *event)
+void QExtBPGraphicsView::keyReleaseEvent(QKeyEvent *event)
 {
     switch (event->key()) {
     case Qt::Key_Shift:
@@ -321,7 +319,7 @@ void GraphicsView::keyReleaseEvent(QKeyEvent *event)
     QGraphicsView::keyReleaseEvent(event);
 }
 
-void GraphicsView::mousePressEvent(QMouseEvent *event)
+void QExtBPGraphicsView::mousePressEvent(QMouseEvent *event)
 {
     QGraphicsView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
@@ -329,7 +327,7 @@ void GraphicsView::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void GraphicsView::mouseMoveEvent(QMouseEvent *event)
+void QExtBPGraphicsView::mouseMoveEvent(QMouseEvent *event)
 {
     QGraphicsView::mouseMoveEvent(event);
     if (scene()->mouseGrabberItem() == nullptr && event->buttons() == Qt::LeftButton) {
@@ -341,7 +339,7 @@ void GraphicsView::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void GraphicsView::drawBackground(QPainter *painter, const QRectF &r)
+void QExtBPGraphicsView::drawBackground(QPainter *painter, const QRectF &r)
 {
     QGraphicsView::drawBackground(painter, r);
 
@@ -369,7 +367,7 @@ void GraphicsView::drawBackground(QPainter *painter, const QRectF &r)
         }
     };
 
-    auto const &flowViewStyle = StyleCollection::flowViewStyle();
+    auto const &flowViewStyle = QExtBPStyleCollection::flowViewStyle();
 
     QPen pfine(flowViewStyle.FineGridColor, 1.0);
 
@@ -382,19 +380,19 @@ void GraphicsView::drawBackground(QPainter *painter, const QRectF &r)
     drawGrid(150);
 }
 
-void GraphicsView::showEvent(QShowEvent *event)
+void QExtBPGraphicsView::showEvent(QShowEvent *event)
 {
     QGraphicsView::showEvent(event);
 
     centerScene();
 }
 
-BasicGraphicsScene *GraphicsView::nodeScene()
+QExtBPBasicGraphicsScene *QExtBPGraphicsView::nodeScene()
 {
-    return dynamic_cast<BasicGraphicsScene *>(scene());
+    return dynamic_cast<QExtBPBasicGraphicsScene *>(scene());
 }
 
-QPointF GraphicsView::scenePastePosition()
+QPointF QExtBPGraphicsView::scenePastePosition()
 {
     QPoint origin = mapFromGlobal(QCursor::pos());
 

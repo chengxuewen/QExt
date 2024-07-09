@@ -6,15 +6,14 @@
 #include "Serializable.hpp"
 #include "StyleCollection.hpp"
 
-#include "Export.hpp"
+#include <qextBlueprintGlobal.h>
 
 #include <QJsonObject>
 
 #include <memory>
 
-namespace QtNodes {
 
-class NODE_EDITOR_PUBLIC DataFlowGraphModel : public AbstractGraphModel, public Serializable
+class QEXT_BLUEPRINT_API QExtBPDataFlowGraphModel : public QExtBPAbstractGraphModel, public QExtBPSerializable
 {
     Q_OBJECT
 
@@ -26,51 +25,51 @@ public:
     };
 
 public:
-    DataFlowGraphModel(std::shared_ptr<NodeDelegateModelRegistry> registry);
+    QExtBPDataFlowGraphModel(std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry);
 
-    std::shared_ptr<NodeDelegateModelRegistry> dataModelRegistry() { return _registry; }
+    std::shared_ptr<QExtBPNodeDelegateModelRegistry> dataModelRegistry() { return _registry; }
 
 public:
-    std::unordered_set<NodeId> allNodeIds() const override;
+    std::unordered_set<QExtBPTypes::NodeId> allNodeIds() const override;
 
-    std::unordered_set<ConnectionId> allConnectionIds(NodeId const nodeId) const override;
+    std::unordered_set<QExtBPTypes::ConnectionId> allConnectionIds(QExtBPTypes::NodeId const nodeId) const override;
 
-    std::unordered_set<ConnectionId> connections(NodeId nodeId,
-                                                 PortType portType,
-                                                 PortIndex portIndex) const override;
+    std::unordered_set<QExtBPTypes::ConnectionId> connections(QExtBPTypes::NodeId nodeId,
+                                                              QExtBPTypes::PortTypeEnum portType,
+                                                              QExtBPTypes::PortIndex portIndex) const override;
 
-    bool connectionExists(ConnectionId const connectionId) const override;
+    bool connectionExists(QExtBPTypes::ConnectionId const connectionId) const override;
 
-    NodeId addNode(QString const nodeType) override;
+    QExtBPTypes::NodeId addNode(QString const nodeType) override;
 
-    bool connectionPossible(ConnectionId const connectionId) const override;
+    bool connectionPossible(QExtBPTypes::ConnectionId const connectionId) const override;
 
-    void addConnection(ConnectionId const connectionId) override;
+    void addConnection(QExtBPTypes::ConnectionId const connectionId) override;
 
-    bool nodeExists(NodeId const nodeId) const override;
+    bool nodeExists(QExtBPTypes::NodeId const nodeId) const override;
 
-    QVariant nodeData(NodeId nodeId, NodeRole role) const override;
+    QVariant nodeData(QExtBPTypes::NodeId nodeId, QExtBPTypes::NodeRoleEnum role) const override;
 
-    NodeFlags nodeFlags(NodeId nodeId) const override;
+    QExtBPTypes::NodeFlagEnums nodeFlags(QExtBPTypes::NodeId nodeId) const override;
 
-    bool setNodeData(NodeId nodeId, NodeRole role, QVariant value) override;
+    bool setNodeData(QExtBPTypes::NodeId nodeId, QExtBPTypes::NodeRoleEnum role, QVariant value) override;
 
-    QVariant portData(NodeId nodeId,
-                      PortType portType,
-                      PortIndex portIndex,
-                      PortRole role) const override;
+    QVariant portData(QExtBPTypes::NodeId nodeId,
+                      QExtBPTypes::PortTypeEnum portType,
+                      QExtBPTypes::PortIndex portIndex,
+                      QExtBPTypes::PortRoleEnum role) const override;
 
-    bool setPortData(NodeId nodeId,
-                     PortType portType,
-                     PortIndex portIndex,
+    bool setPortData(QExtBPTypes::NodeId nodeId,
+                     QExtBPTypes::PortTypeEnum portType,
+                     QExtBPTypes::PortIndex portIndex,
                      QVariant const &value,
-                     PortRole role = PortRole::Data) override;
+                     QExtBPTypes::PortRoleEnum role = QExtBPTypes::PortRole_Data) override;
 
-    bool deleteConnection(ConnectionId const connectionId) override;
+    bool deleteConnection(QExtBPTypes::ConnectionId const connectionId) override;
 
-    bool deleteNode(NodeId const nodeId) override;
+    bool deleteNode(QExtBPTypes::NodeId const nodeId) override;
 
-    QJsonObject saveNode(NodeId const) const override;
+    QJsonObject saveNode(QExtBPTypes::NodeId const) const override;
 
     QJsonObject save() const override;
 
@@ -83,7 +82,7 @@ public:
    * stored pointer to the given type
    */
     template<typename NodeDelegateModelType>
-    NodeDelegateModelType *delegateModel(NodeId const nodeId)
+    NodeDelegateModelType *delegateModel(QExtBPTypes::NodeId const nodeId)
     {
         auto it = _models.find(nodeId);
         if (it == _models.end())
@@ -95,14 +94,14 @@ public:
     }
 
 Q_SIGNALS:
-    void inPortDataWasSet(NodeId const, PortType const, PortIndex const);
+    void inPortDataWasSet(QExtBPTypes::NodeId const, QExtBPTypes::PortTypeEnum const, QExtBPTypes::PortIndex const);
 
 private:
-    NodeId newNodeId() override { return _nextNodeId++; }
+    QExtBPTypes::NodeId newNodeId() override { return _nextNodeId++; }
 
-    void sendConnectionCreation(ConnectionId const connectionId);
+    void sendConnectionCreation(QExtBPTypes::ConnectionId const connectionId);
 
-    void sendConnectionDeletion(ConnectionId const connectionId);
+    void sendConnectionDeletion(QExtBPTypes::ConnectionId const connectionId);
 
 private Q_SLOTS:
     /**
@@ -115,21 +114,20 @@ private Q_SLOTS:
    * - When a node restored from JSON an needs to send data downstream.
    *   @see DataFlowGraphModel::loadNode
    */
-    void onOutPortDataUpdated(NodeId const nodeId, PortIndex const portIndex);
+    void onOutPortDataUpdated(QExtBPTypes::NodeId const nodeId, QExtBPTypes::PortIndex const portIndex);
 
     /// Function is called after detaching a connection.
-    void propagateEmptyDataTo(NodeId const nodeId, PortIndex const portIndex);
+    void propagateEmptyDataTo(QExtBPTypes::NodeId const nodeId, QExtBPTypes::PortIndex const portIndex);
 
 private:
-    std::shared_ptr<NodeDelegateModelRegistry> _registry;
+    std::shared_ptr<QExtBPNodeDelegateModelRegistry> _registry;
 
-    NodeId _nextNodeId;
+    QExtBPTypes::NodeId _nextNodeId;
 
-    std::unordered_map<NodeId, QScopedPointer<NodeDelegateModel>> _models;
+    std::unordered_map<QExtBPTypes::NodeId, QScopedPointer<QExtBPNodeDelegateModel>> _models;
 
-    std::unordered_set<ConnectionId> _connectivity;
+    std::unordered_set<QExtBPTypes::ConnectionId> _connectivity;
 
-    mutable std::unordered_map<NodeId, NodeGeometryData> _nodeGeometryData;
+    mutable std::unordered_map<QExtBPTypes::NodeId, NodeGeometryData> _nodeGeometryData;
 };
 
-} // namespace QtNodes

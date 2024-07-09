@@ -2,16 +2,14 @@
 
 #include "ConnectionIdUtils.hpp"
 
-namespace QtNodes {
-
-void AbstractGraphModel::portsAboutToBeDeleted(NodeId const nodeId,
-                                               PortType const portType,
-                                               PortIndex const first,
-                                               PortIndex const last)
+void QExtBPAbstractGraphModel::portsAboutToBeDeleted(QExtBPTypes::NodeId const nodeId,
+                                                     QExtBPTypes::PortTypeEnum const portType,
+                                                     QExtBPTypes::PortIndex const first,
+                                                     QExtBPTypes::PortIndex const last)
 {
     _shiftedByDynamicPortsConnections.clear();
 
-    auto portCountRole = portType == PortType::In ? NodeRole::InPortCount : NodeRole::OutPortCount;
+    auto portCountRole = portType == QExtBPTypes::PortType_In ? QExtBPTypes::NodeRole_InPortCount : QExtBPTypes::NodeRole_OutPortCount;
 
     unsigned int portCount = nodeData(nodeId, portCountRole).toUInt();
 
@@ -23,8 +21,8 @@ void AbstractGraphModel::portsAboutToBeDeleted(NodeId const nodeId,
 
     auto clampedLast = std::min(last, portCount - 1);
 
-    for (PortIndex portIndex = first; portIndex <= clampedLast; ++portIndex) {
-        std::unordered_set<ConnectionId> conns = connections(nodeId, portType, portIndex);
+    for (QExtBPTypes::PortIndex portIndex = first; portIndex <= clampedLast; ++portIndex) {
+        std::unordered_set<QExtBPTypes::ConnectionId> conns = connections(nodeId, portType, portIndex);
 
         for (auto connectionId : conns) {
             deleteConnection(connectionId);
@@ -33,14 +31,14 @@ void AbstractGraphModel::portsAboutToBeDeleted(NodeId const nodeId,
 
     std::size_t const nRemovedPorts = clampedLast - first + 1;
 
-    for (PortIndex portIndex = clampedLast + 1; portIndex < portCount; ++portIndex) {
-        std::unordered_set<ConnectionId> conns = connections(nodeId, portType, portIndex);
+    for (QExtBPTypes::PortIndex portIndex = clampedLast + 1; portIndex < portCount; ++portIndex) {
+        std::unordered_set<QExtBPTypes::ConnectionId> conns = connections(nodeId, portType, portIndex);
 
         for (auto connectionId : conns) {
             // Erases the information about the port on one side;
-            auto c = makeIncompleteConnectionId(connectionId, portType);
+            auto c = QExtBPUtils::makeIncompleteConnectionId(connectionId, portType);
 
-            c = makeCompleteConnectionId(c, nodeId, portIndex - nRemovedPorts);
+            c = QExtBPUtils::makeCompleteConnectionId(c, nodeId, portIndex - nRemovedPorts);
 
             _shiftedByDynamicPortsConnections.push_back(c);
 
@@ -49,7 +47,7 @@ void AbstractGraphModel::portsAboutToBeDeleted(NodeId const nodeId,
     }
 }
 
-void AbstractGraphModel::portsDeleted()
+void QExtBPAbstractGraphModel::portsDeleted()
 {
     for (auto const connectionId : _shiftedByDynamicPortsConnections) {
         addConnection(connectionId);
@@ -58,14 +56,14 @@ void AbstractGraphModel::portsDeleted()
     _shiftedByDynamicPortsConnections.clear();
 }
 
-void AbstractGraphModel::portsAboutToBeInserted(NodeId const nodeId,
-                                                PortType const portType,
-                                                PortIndex const first,
-                                                PortIndex const last)
+void QExtBPAbstractGraphModel::portsAboutToBeInserted(QExtBPTypes::NodeId const nodeId,
+                                                      QExtBPTypes::PortTypeEnum const portType,
+                                                      QExtBPTypes::PortIndex const first,
+                                                      QExtBPTypes::PortIndex const last)
 {
     _shiftedByDynamicPortsConnections.clear();
 
-    auto portCountRole = portType == PortType::In ? NodeRole::InPortCount : NodeRole::OutPortCount;
+    auto portCountRole = portType == QExtBPTypes::PortType_In ? QExtBPTypes::NodeRole_InPortCount : QExtBPTypes::NodeRole_OutPortCount;
 
     unsigned int portCount = nodeData(nodeId, portCountRole).toUInt();
 
@@ -77,14 +75,14 @@ void AbstractGraphModel::portsAboutToBeInserted(NodeId const nodeId,
 
     std::size_t const nNewPorts = last - first + 1;
 
-    for (PortIndex portIndex = first; portIndex < portCount; ++portIndex) {
-        std::unordered_set<ConnectionId> conns = connections(nodeId, portType, portIndex);
+    for (QExtBPTypes::PortIndex portIndex = first; portIndex < portCount; ++portIndex) {
+        std::unordered_set<QExtBPTypes::ConnectionId> conns = connections(nodeId, portType, portIndex);
 
         for (auto connectionId : conns) {
             // Erases the information about the port on one side;
-            auto c = makeIncompleteConnectionId(connectionId, portType);
+            auto c = QExtBPUtils::makeIncompleteConnectionId(connectionId, portType);
 
-            c = makeCompleteConnectionId(c, nodeId, portIndex + nNewPorts);
+            c = QExtBPUtils::makeCompleteConnectionId(c, nodeId, portIndex + nNewPorts);
 
             _shiftedByDynamicPortsConnections.push_back(c);
 
@@ -93,7 +91,7 @@ void AbstractGraphModel::portsAboutToBeInserted(NodeId const nodeId,
     }
 }
 
-void AbstractGraphModel::portsInserted()
+void QExtBPAbstractGraphModel::portsInserted()
 {
     for (auto const connectionId : _shiftedByDynamicPortsConnections) {
         addConnection(connectionId);
@@ -101,5 +99,3 @@ void AbstractGraphModel::portsInserted()
 
     _shiftedByDynamicPortsConnections.clear();
 }
-
-} // namespace QtNodes

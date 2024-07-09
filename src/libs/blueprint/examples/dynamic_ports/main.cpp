@@ -13,31 +13,31 @@
 
 #include "DynamicPortsModel.hpp"
 
-using QtNodes::BasicGraphicsScene;
-using QtNodes::ConnectionStyle;
-using QtNodes::GraphicsView;
-using QtNodes::NodeRole;
-using QtNodes::StyleCollection;
+//using QExtBPBasicGraphicsScene;
+//using QtNodes::QExtBPConnectionStyle;
+//using QtNodes::QExtBPGraphicsView;
+//using QtNodes::NodeRole;
+//using QtNodes::QExtBPStyleCollection;
 
 void initializeModel(DynamicPortsModel &graphModel)
 {
-    NodeId id1 = graphModel.addNode();
-    graphModel.setNodeData(id1, NodeRole::Position, QPointF(0, 0));
-    graphModel.setNodeData(id1, NodeRole::InPortCount, 1);
-    graphModel.setNodeData(id1, NodeRole::OutPortCount, 1);
+    QExtBPTypes::NodeId id1 = graphModel.addNode();
+    graphModel.setNodeData(id1, QExtBPTypes::NodeRole_Position, QPointF(0, 0));
+    graphModel.setNodeData(id1, QExtBPTypes::NodeRole_InPortCount, 1);
+    graphModel.setNodeData(id1, QExtBPTypes::NodeRole_OutPortCount, 1);
 
-    NodeId id2 = graphModel.addNode();
-    graphModel.setNodeData(id2, NodeRole::Position, QPointF(300, 300));
+    QExtBPTypes::NodeId id2 = graphModel.addNode();
+    graphModel.setNodeData(id2, QExtBPTypes::NodeRole_Position, QPointF(300, 300));
 
-    graphModel.setNodeData(id2, NodeRole::InPortCount, 1);
-    graphModel.setNodeData(id2, NodeRole::OutPortCount, 1);
+    graphModel.setNodeData(id2, QExtBPTypes::NodeRole_InPortCount, 1);
+    graphModel.setNodeData(id2, QExtBPTypes::NodeRole_OutPortCount, 1);
 
-    graphModel.addConnection(ConnectionId{id1, 0, id2, 0});
+    graphModel.addConnection(QExtBPTypes::ConnectionId{id1, 0, id2, 0});
 }
 
 QMenuBar *createSaveRestoreMenu(DynamicPortsModel &graphModel,
-                                BasicGraphicsScene *scene,
-                                GraphicsView &view)
+                                QExtBPBasicGraphicsScene *scene,
+                                QExtBPGraphicsView &view)
 {
     auto menuBar = new QMenuBar();
     QMenu *menu = menuBar->addMenu("File");
@@ -86,15 +86,15 @@ QMenuBar *createSaveRestoreMenu(DynamicPortsModel &graphModel,
     return menuBar;
 }
 
-QAction *createNodeAction(DynamicPortsModel &graphModel, GraphicsView &view)
+QAction *createNodeAction(DynamicPortsModel &graphModel, QExtBPGraphicsView &view)
 {
     auto action = new QAction(QStringLiteral("Create Node"), &view);
     QObject::connect(action, &QAction::triggered, [&]() {
         // Mouse position in scene coordinates.
         QPointF posView = view.mapToScene(view.mapFromGlobal(QCursor::pos()));
 
-        NodeId const newId = graphModel.addNode();
-        graphModel.setNodeData(newId, NodeRole::Position, posView);
+        QExtBPTypes::NodeId const newId = graphModel.addNode();
+        graphModel.setNodeData(newId, QExtBPTypes::NodeRole_Position, posView);
     });
 
     return action;
@@ -114,11 +114,11 @@ int main(int argc, char *argv[])
     window.setWindowTitle("Dynamic Nodes Example");
     window.resize(800, 600);
 
-    auto scene = new BasicGraphicsScene(graphModel);
+    auto scene = new QExtBPBasicGraphicsScene(graphModel);
 
     qWarning() << "MODEF FROM SCENE " << &(scene->graphModel());
 
-    GraphicsView view(scene);
+    QExtBPGraphicsView view(scene);
     // Setup context menu for creating new nodes.
     view.setContextMenuPolicy(Qt::ActionsContextMenu);
     view.insertAction(view.actions().front(), createNodeAction(graphModel, view));

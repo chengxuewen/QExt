@@ -4,47 +4,45 @@
 
 #include <QtGui/QFontMetrics>
 
-namespace QtNodes {
+class QExtBPAbstractGraphModel;
+class QExtBPBasicGraphicsScene;
 
-class AbstractGraphModel;
-class BasicGraphicsScene;
-
-class NODE_EDITOR_PUBLIC DefaultVerticalNodeGeometry : public AbstractNodeGeometry
+class QEXT_BLUEPRINT_API QExtBPDefaultVerticalNodeGeometry : public QExtBPAbstractNodeGeometry
 {
 public:
-    DefaultVerticalNodeGeometry(AbstractGraphModel &graphModel);
+    QExtBPDefaultVerticalNodeGeometry(QExtBPAbstractGraphModel &graphModel);
 
 public:
-    QSize size(NodeId const nodeId) const override;
+    QSize size(QExtBPTypes::NodeId const nodeId) const override;
 
-    void recomputeSize(NodeId const nodeId) const override;
+    void recomputeSize(QExtBPTypes::NodeId const nodeId) const override;
 
-    QPointF portPosition(NodeId const nodeId,
-                         PortType const portType,
-                         PortIndex const index) const override;
+    QPointF portPosition(QExtBPTypes::NodeId const nodeId,
+                         QExtBPTypes::PortTypeEnum const portType,
+                         QExtBPTypes::PortIndex const index) const override;
 
-    QPointF portTextPosition(NodeId const nodeId,
-                             PortType const portType,
-                             PortIndex const PortIndex) const override;
+    QPointF portTextPosition(QExtBPTypes::NodeId const nodeId,
+                             QExtBPTypes::PortTypeEnum const portType,
+                             QExtBPTypes::PortIndex const portIndex) const override;
 
-    QPointF captionPosition(NodeId const nodeId) const override;
+    QPointF captionPosition(QExtBPTypes::NodeId const nodeId) const override;
 
-    QRectF captionRect(NodeId const nodeId) const override;
+    QRectF captionRect(QExtBPTypes::NodeId const nodeId) const override;
 
-    QPointF widgetPosition(NodeId const nodeId) const override;
+    QPointF widgetPosition(QExtBPTypes::NodeId const nodeId) const override;
 
-    QRect resizeHandleRect(NodeId const nodeId) const override;
+    QRect resizeHandleRect(QExtBPTypes::NodeId const nodeId) const override;
 
 private:
-    QRectF portTextRect(NodeId const nodeId,
-                        PortType const portType,
-                        PortIndex const portIndex) const;
+    QRectF portTextRect(QExtBPTypes::NodeId const nodeId,
+                        QExtBPTypes::PortTypeEnum const portType,
+                        QExtBPTypes::PortIndex const portIndex) const;
     /// Finds
-    unsigned int maxHorizontalPortsExtent(NodeId const nodeId) const;
+    unsigned int maxHorizontalPortsExtent(QExtBPTypes::NodeId const nodeId) const;
 
-    unsigned int maxPortsTextAdvance(NodeId const nodeId, PortType const portType) const;
+    unsigned int maxPortsTextAdvance(QExtBPTypes::NodeId const nodeId, QExtBPTypes::PortTypeEnum const portType) const;
 
-    unsigned int portCaptionsHeight(NodeId const nodeId, PortType const portType) const;
+    unsigned int portCaptionsHeight(QExtBPTypes::NodeId const nodeId, QExtBPTypes::PortTypeEnum const portType) const;
 
 private:
     // Some variables are mutable because we need to change drawing
@@ -57,4 +55,3 @@ private:
     mutable QFontMetrics _boldFontMetrics;
 };
 
-} // namespace QtNodes

@@ -8,16 +8,16 @@ TextSourceDataModel::TextSourceDataModel()
     //
 }
 
-unsigned int TextSourceDataModel::nPorts(PortType portType) const
+unsigned int TextSourceDataModel::nPorts(QExtBPTypes::PortTypeEnum portType) const
 {
     unsigned int result = 1;
 
     switch (portType) {
-    case PortType::In:
+    case QExtBPTypes::PortType_In:
         result = 0;
         break;
 
-    case PortType::Out:
+    case QExtBPTypes::PortType_Out:
         result = 1;
 
     default:
@@ -34,12 +34,12 @@ void TextSourceDataModel::onTextEdited(QString const &string)
     Q_EMIT dataUpdated(0);
 }
 
-NodeDataType TextSourceDataModel::dataType(PortType, PortIndex) const
+QExtBPNodeDataType TextSourceDataModel::dataType(QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex) const
 {
     return TextData().type();
 }
 
-std::shared_ptr<NodeData> TextSourceDataModel::outData(PortIndex const portIndex)
+std::shared_ptr<QExtBPNodeData> TextSourceDataModel::outData(QExtBPTypes::PortIndex const portIndex)
 {
     Q_UNUSED(portIndex);
     return std::make_shared<TextData>(_lineEdit->text());

@@ -5,12 +5,12 @@
 // #include <QtNodes/NodeData>
 #include <qextBlueprintNode.h>
 
-using QtNodes::NodeData;
-using QtNodes::NodeDataType;
+//using QtNodes::QExtBPNodeData;
+//using QtNodes::QExtBPNodeDataType;
 
 /// The class can potentially incapsulate any user data which
 /// need to be transferred within the Node Editor graph
-class PixmapData : public NodeData
+class PixmapData : public QExtBPNodeData
 {
 public:
     PixmapData() {}
@@ -19,7 +19,7 @@ public:
         : _pixmap(pixmap)
     {}
 
-    NodeDataType type() const override
+    QExtBPNodeDataType type() const override
     {
         //       id      name
         return {"pixmap", "P"};

@@ -8,31 +8,31 @@
 
 #include <memory>
 
-using QtNodes::NodeData;
-using QtNodes::NodeDataType;
-using QtNodes::NodeDelegateModel;
-using QtNodes::PortIndex;
-using QtNodes::PortType;
+//using QtNodes::QExtBPNodeData;
+//using QtNodes::QExtBPNodeDataType;
+//using QExtBPNodeDelegateModel;
+//using QExtBPTypes::PortIndex;
+//using QExtBPTypes::PortTypeEnum;
 
 /// The class can potentially incapsulate any user data which
 /// need to be transferred within the Node Editor graph
-class MyNodeData : public NodeData
+class MyNodeData : public QExtBPNodeData
 {
 public:
-    NodeDataType type() const override { return NodeDataType{"MyNodeData", "My Node Data"}; }
+    QExtBPNodeDataType type() const override { return QExtBPNodeDataType{"MyNodeData", "My Node Data"}; }
 };
 
-class SimpleNodeData : public NodeData
+class SimpleNodeData : public QExtBPNodeData
 {
 public:
-    NodeDataType type() const override { return NodeDataType{"SimpleData", "Simple Data"}; }
+    QExtBPNodeDataType type() const override { return QExtBPNodeDataType{"SimpleData", "Simple Data"}; }
 };
 
 //------------------------------------------------------------------------------
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class NaiveDataModel : public NodeDelegateModel
+class NaiveDataModel : public QExtBPNodeDelegateModel
 {
     Q_OBJECT
 
@@ -45,29 +45,29 @@ public:
     QString name() const override { return QString("NaiveDataModel"); }
 
 public:
-    unsigned int nPorts(PortType const portType) const override
+    unsigned int nPorts(QExtBPTypes::PortTypeEnum const portType) const override
     {
         unsigned int result = 1;
 
         switch (portType) {
-        case PortType::In:
+        case QExtBPTypes::PortType_In:
             result = 2;
             break;
 
-        case PortType::Out:
+        case QExtBPTypes::PortType_Out:
             result = 2;
             break;
-        case PortType::None:
+        case QExtBPTypes::PortType_None:
             break;
         }
 
         return result;
     }
 
-    NodeDataType dataType(PortType const portType, PortIndex const portIndex) const override
+    QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum const portType, QExtBPTypes::PortIndex const portIndex) const override
     {
         switch (portType) {
-        case PortType::In:
+        case QExtBPTypes::PortType_In:
             switch (portIndex) {
             case 0:
                 return MyNodeData().type();
@@ -76,7 +76,7 @@ public:
             }
             break;
 
-        case PortType::Out:
+        case QExtBPTypes::PortType_Out:
             switch (portIndex) {
             case 0:
                 return MyNodeData().type();
@@ -85,14 +85,14 @@ public:
             }
             break;
 
-        case PortType::None:
+        case QExtBPTypes::PortType_None:
             break;
         }
         // FIXME: control may reach end of non-void function [-Wreturn-type]
-        return NodeDataType();
+        return QExtBPNodeDataType();
     }
 
-    std::shared_ptr<NodeData> outData(PortIndex const port) override
+    std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override
     {
         if (port < 1)
             return std::make_shared<MyNodeData>();
@@ -100,7 +100,7 @@ public:
         return std::make_shared<SimpleNodeData>();
     }
 
-    void setInData(std::shared_ptr<NodeData>, PortIndex const) override
+    void setInData(std::shared_ptr<QExtBPNodeData>, QExtBPTypes::PortIndex const) override
     {
         //
     }

@@ -2,19 +2,17 @@
 
 #include <QtGui/QColor>
 
-#include "Export.hpp"
+#include <qextBlueprintGlobal.h>
 #include "Style.hpp"
 
-namespace QtNodes {
-
-class NODE_EDITOR_PUBLIC ConnectionStyle : public Style
+class QEXT_BLUEPRINT_API QExtBPConnectionStyle : public QExtBPStyle
 {
 public:
-    ConnectionStyle();
+    QExtBPConnectionStyle();
 
-    ConnectionStyle(QString jsonText);
+    QExtBPConnectionStyle(QString jsonText);
 
-    ~ConnectionStyle() = default;
+    ~QExtBPConnectionStyle() = default;
 
 public:
     static void setConnectionStyle(QString jsonText);
@@ -51,4 +49,3 @@ private:
 
     bool UseDataDefinedColors;
 };
-} // namespace QtNodes

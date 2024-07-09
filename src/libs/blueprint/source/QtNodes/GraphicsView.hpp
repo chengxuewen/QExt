@@ -2,16 +2,14 @@
 
 #include <QtWidgets/QGraphicsView>
 
-#include "Export.hpp"
+#include <qextBlueprintGlobal.h>
 
-namespace QtNodes {
-
-class BasicGraphicsScene;
+class QExtBPBasicGraphicsScene;
 
 /**
  * @brief A central view able to render objects from `BasicGraphicsScene`.
  */
-class NODE_EDITOR_PUBLIC GraphicsView : public QGraphicsView
+class QEXT_BLUEPRINT_API QExtBPGraphicsView : public QGraphicsView
 {
     Q_OBJECT
 public:
@@ -22,17 +20,17 @@ public:
     };
 
 public:
-    GraphicsView(QWidget *parent = Q_NULLPTR);
-    GraphicsView(BasicGraphicsScene *scene, QWidget *parent = Q_NULLPTR);
+    QExtBPGraphicsView(QWidget *parent = Q_NULLPTR);
+    QExtBPGraphicsView(QExtBPBasicGraphicsScene *scene, QWidget *parent = Q_NULLPTR);
 
-    GraphicsView(const GraphicsView &) = delete;
-    GraphicsView operator=(const GraphicsView &) = delete;
+    QExtBPGraphicsView(const QExtBPGraphicsView &) = delete;
+    QExtBPGraphicsView operator=(const QExtBPGraphicsView &) = delete;
 
     QAction *clearSelectionAction() const;
 
     QAction *deleteSelectionAction() const;
 
-    void setScene(BasicGraphicsScene *scene);
+    void setScene(QExtBPBasicGraphicsScene *scene);
 
     void centerScene();
 
@@ -79,7 +77,7 @@ protected:
     void showEvent(QShowEvent *event) override;
 
 protected:
-    BasicGraphicsScene *nodeScene();
+    QExtBPBasicGraphicsScene *nodeScene();
 
     /// Computes scene position for pasting the copied/duplicated node groups.
     QPointF scenePastePosition();
@@ -94,4 +92,3 @@ private:
     QPointF _clickPos;
     ScaleRange _scaleRange;
 };
-} // namespace QtNodes

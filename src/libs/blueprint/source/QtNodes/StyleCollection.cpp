@@ -1,43 +1,43 @@
 #include "StyleCollection.hpp"
 
-using QtNodes::ConnectionStyle;
-using QtNodes::GraphicsViewStyle;
-using QtNodes::NodeStyle;
-using QtNodes::StyleCollection;
+//using QtNodes::QExtBPConnectionStyle;
+//using QtNodes::QExtBPGraphicsViewStyle;
+//using QtNodes::QExtBPNodeStyle;
+//using QtNodes::QExtBPStyleCollection;
 
-NodeStyle const &StyleCollection::nodeStyle()
+QExtBPNodeStyle const &QExtBPStyleCollection::nodeStyle()
 {
     return instance()._nodeStyle;
 }
 
-ConnectionStyle const &StyleCollection::connectionStyle()
+QExtBPConnectionStyle const &QExtBPStyleCollection::connectionStyle()
 {
     return instance()._connectionStyle;
 }
 
-GraphicsViewStyle const &StyleCollection::flowViewStyle()
+QExtBPGraphicsViewStyle const &QExtBPStyleCollection::flowViewStyle()
 {
     return instance()._flowViewStyle;
 }
 
-void StyleCollection::setNodeStyle(NodeStyle nodeStyle)
+void QExtBPStyleCollection::setNodeStyle(QExtBPNodeStyle nodeStyle)
 {
     instance()._nodeStyle = nodeStyle;
 }
 
-void StyleCollection::setConnectionStyle(ConnectionStyle connectionStyle)
+void QExtBPStyleCollection::setConnectionStyle(QExtBPConnectionStyle connectionStyle)
 {
     instance()._connectionStyle = connectionStyle;
 }
 
-void StyleCollection::setGraphicsViewStyle(GraphicsViewStyle flowViewStyle)
+void QExtBPStyleCollection::setGraphicsViewStyle(QExtBPGraphicsViewStyle flowViewStyle)
 {
     instance()._flowViewStyle = flowViewStyle;
 }
 
-StyleCollection &StyleCollection::instance()
+QExtBPStyleCollection &QExtBPStyleCollection::instance()
 {
-    static StyleCollection collection;
+    static QExtBPStyleCollection collection;
 
     return collection;
 }

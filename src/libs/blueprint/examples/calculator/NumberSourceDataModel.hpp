@@ -10,17 +10,17 @@
 
 class DecimalData;
 
-using QtNodes::NodeData;
-using QtNodes::NodeDataType;
-using QtNodes::NodeDelegateModel;
-using QtNodes::PortIndex;
-using QtNodes::PortType;
+//using QtNodes::QExtBPNodeData;
+//using QtNodes::QExtBPNodeDataType;
+//using QExtBPNodeDelegateModel;
+//using QExtBPTypes::PortIndex;
+//using QExtBPTypes::PortTypeEnum;
 
 class QLineEdit;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class NumberSourceDataModel : public NodeDelegateModel
+class NumberSourceDataModel : public QExtBPNodeDelegateModel
 {
     Q_OBJECT
 
@@ -42,13 +42,13 @@ public:
     void load(QJsonObject const &p) override;
 
 public:
-    unsigned int nPorts(PortType portType) const override;
+    unsigned int nPorts(QExtBPTypes::PortTypeEnum portType) const override;
 
-    NodeDataType dataType(PortType portType, PortIndex portIndex) const override;
+    QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex) const override;
 
-    std::shared_ptr<NodeData> outData(PortIndex port) override;
+    std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex port) override;
 
-    void setInData(std::shared_ptr<NodeData>, PortIndex) override {}
+    void setInData(std::shared_ptr<QExtBPNodeData>, QExtBPTypes::PortIndex) override {}
 
     QWidget *embeddedWidget() override;
 

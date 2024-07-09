@@ -4,7 +4,7 @@
 
 PortAddRemoveWidget::PortAddRemoveWidget(unsigned int nInPorts,
                                          unsigned int nOutPorts,
-                                         NodeId nodeId,
+                                         QExtBPTypes::NodeId nodeId,
                                          DynamicPortsModel &model,
                                          QWidget *parent)
     : QWidget(parent)
@@ -37,9 +37,9 @@ PortAddRemoveWidget::~PortAddRemoveWidget()
     //
 }
 
-void PortAddRemoveWidget::populateButtons(PortType portType, unsigned int nPorts)
+void PortAddRemoveWidget::populateButtons(QExtBPTypes::PortTypeEnum portType, unsigned int nPorts)
 {
-    QVBoxLayout *vl = (portType == PortType::In) ? _left : _right;
+    QVBoxLayout *vl = (portType == QExtBPTypes::PortType_In) ? _left : _right;
 
     // we use [-1} in the expression `vl->count() - 1` because
     // one element - a spacer - is alvays present in this layout.
@@ -97,15 +97,15 @@ void PortAddRemoveWidget::onPlusClicked()
     // index of the plus button in the QHBoxLayout
     int const plusButtonIndex = 0;
 
-    PortType portType;
-    PortIndex portIndex;
+    QExtBPTypes::PortTypeEnum portType;
+    QExtBPTypes::PortIndex portIndex;
 
     // All existing "plus" buttons trigger the same slot. We need to find out which
     // button has been actually clicked.
     std::tie(portType, portIndex) = findWhichPortWasClicked(QObject::sender(), plusButtonIndex);
 
     // We add new "plus-minus" button group to the chosen layout.
-    addButtonGroupToLayout((portType == PortType::In) ? _left : _right, portIndex + 1);
+    addButtonGroupToLayout((portType == QExtBPTypes::PortType_In) ? _left : _right, portIndex + 1);
 
     // Trigger changes in the model
     _model.addPort(_nodeId, portType, portIndex + 1);
@@ -118,12 +118,12 @@ void PortAddRemoveWidget::onMinusClicked()
     // index of the minus button in the QHBoxLayout
     int const minusButtonIndex = 1;
 
-    PortType portType;
-    PortIndex portIndex;
+    QExtBPTypes::PortTypeEnum portType;
+    QExtBPTypes::PortIndex portIndex;
 
     std::tie(portType, portIndex) = findWhichPortWasClicked(QObject::sender(), minusButtonIndex);
 
-    removeButtonGroupFromLayout((portType == PortType::In) ? _left : _right, portIndex);
+    removeButtonGroupFromLayout((portType == QExtBPTypes::PortType_In) ? _left : _right, portIndex);
 
     // Trigger changes in the model
     _model.removePort(_nodeId, portType, portIndex);
@@ -131,11 +131,11 @@ void PortAddRemoveWidget::onMinusClicked()
     adjustSize();
 }
 
-std::pair<PortType, PortIndex> PortAddRemoveWidget::findWhichPortWasClicked(QObject *sender,
-                                                                            int const buttonIndex)
+std::pair<QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex> PortAddRemoveWidget::findWhichPortWasClicked(QObject *sender,
+                                                                                                          int const buttonIndex)
 {
-    PortType portType = PortType::None;
-    PortIndex portIndex = QtNodes::InvalidPortIndex;
+    QExtBPTypes::PortTypeEnum portType = QExtBPTypes::PortType_None;
+    QExtBPTypes::PortIndex portIndex = QExtBPTypes::InvalidPortIndex;
 
     auto checkOneSide = [&portType, &portIndex, &sender, &buttonIndex](QVBoxLayout *sideLayout) {
         for (int i = 0; i < sideLayout->count(); ++i) {
@@ -156,13 +156,13 @@ std::pair<PortType, PortIndex> PortAddRemoveWidget::findWhichPortWasClicked(QObj
 
     checkOneSide(_left);
 
-    if (portIndex != QtNodes::InvalidPortIndex) {
-        portType = PortType::In;
+    if (portIndex != QExtBPTypes::InvalidPortIndex) {
+        portType = QExtBPTypes::PortType_In;
     } else {
         checkOneSide(_right);
 
-        if (portIndex != QtNodes::InvalidPortIndex) {
-            portType = PortType::Out;
+        if (portIndex != QExtBPTypes::InvalidPortIndex) {
+            portType = QExtBPTypes::PortType_Out;
         }
     }
 

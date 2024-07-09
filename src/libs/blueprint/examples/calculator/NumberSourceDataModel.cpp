@@ -13,7 +13,7 @@ NumberSourceDataModel::NumberSourceDataModel()
 
 QJsonObject NumberSourceDataModel::save() const
 {
-    QJsonObject modelJson = NodeDelegateModel::save();
+    QJsonObject modelJson = QExtBPNodeDelegateModel::save();
 
     modelJson["number"] = QString::number(_number->number());
 
@@ -38,16 +38,16 @@ void NumberSourceDataModel::load(QJsonObject const &p)
     }
 }
 
-unsigned int NumberSourceDataModel::nPorts(PortType portType) const
+unsigned int NumberSourceDataModel::nPorts(QExtBPTypes::PortTypeEnum portType) const
 {
     unsigned int result = 1;
 
     switch (portType) {
-    case PortType::In:
+    case QExtBPTypes::PortType_In:
         result = 0;
         break;
 
-    case PortType::Out:
+    case QExtBPTypes::PortType_Out:
         result = 1;
 
     default:
@@ -73,12 +73,12 @@ void NumberSourceDataModel::onTextEdited(QString const &str)
     }
 }
 
-NodeDataType NumberSourceDataModel::dataType(PortType, PortIndex) const
+QExtBPNodeDataType NumberSourceDataModel::dataType(QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex) const
 {
     return DecimalData().type();
 }
 
-std::shared_ptr<NodeData> NumberSourceDataModel::outData(PortIndex)
+std::shared_ptr<QExtBPNodeData> NumberSourceDataModel::outData(QExtBPTypes::PortIndex)
 {
     return _number;
 }

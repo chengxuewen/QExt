@@ -10,13 +10,13 @@
 
 #include <qextBlueprintNode.h>
 
-using QtNodes::DataFlowGraphModel;
-using QtNodes::NodeDelegateModelRegistry;
-using QtNodes::NodeId;
+//using QExtBPDataFlowGraphModel;
+//using QExtBPNodeDelegateModelRegistry;
+//using QExtBPTypes::NodeId;
 
-static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
+static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
-    auto ret = std::make_shared<NodeDelegateModelRegistry>();
+    auto ret = std::make_shared<QExtBPNodeDelegateModelRegistry>();
     ret->registerModel<NumberSourceDataModel>("Sources");
 
     ret->registerModel<NumberDisplayDataModel>("Displays");
@@ -105,10 +105,10 @@ static QString addingNumbersScene(
 
 int main(int argc, char *argv[])
 {
-    std::shared_ptr<NodeDelegateModelRegistry> registry = registerDataModels();
+    std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
 
     // Here we create a graph model without attaching to any view or scene.
-    DataFlowGraphModel dataFlowGraphModel(registry);
+    QExtBPDataFlowGraphModel dataFlowGraphModel(registry);
 
     // Alternatively you can create the graph by yourself with the functions
     // `DataFlowGraphModel::addNode` and `DataFlowGraphModel::addConnection` and
@@ -119,8 +119,8 @@ int main(int argc, char *argv[])
 
     qInfo() << "Data Flow graph was created from a json-serialized graph";
 
-    NodeId const nodeSource = 0;
-    NodeId const nodeResult = 2;
+    QExtBPTypes::NodeId const nodeSource = 0;
+    QExtBPTypes::NodeId const nodeResult = 2;
 
     qInfo() << "========================================";
     qInfo() << "Entering the number " << 33.3 << "to the input node";

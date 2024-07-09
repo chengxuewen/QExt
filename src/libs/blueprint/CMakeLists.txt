@@ -53,7 +53,7 @@ qext_add_library(Blueprint
     source/QtNodes/AbstractNodeGeometry.hpp
     source/QtNodes/AbstractNodePainter.hpp
     source/QtNodes/BasicGraphicsScene.hpp
-    source/QtNodes/Compiler.hpp
+#    source/QtNodes/Compiler.hpp
     source/QtNodes/ConnectionGraphicsObject.hpp
     source/QtNodes/ConnectionIdHash.hpp
     source/QtNodes/ConnectionIdUtils.hpp
@@ -62,8 +62,8 @@ qext_add_library(Blueprint
     source/QtNodes/DataFlowGraphicsScene.hpp
     source/QtNodes/DataFlowGraphModel.hpp
     source/QtNodes/DefaultNodePainter.hpp
-    source/QtNodes/Definitions.hpp
-    source/QtNodes/Export.hpp
+#    source/QtNodes/qextBPTypes.h
+#    source/QtNodes/Export.hpp
     source/QtNodes/GraphicsView.hpp
     source/QtNodes/GraphicsViewStyle.hpp
     source/QtNodes/locateNode.hpp
@@ -73,7 +73,7 @@ qext_add_library(Blueprint
     source/QtNodes/NodeGraphicsObject.hpp
     source/QtNodes/NodeState.hpp
     source/QtNodes/NodeStyle.hpp
-    source/QtNodes/OperatingSystem.hpp
+#    source/QtNodes/OperatingSystem.hpp
     source/QtNodes/QStringStdHash.hpp
     source/QtNodes/QUuidStdHash.hpp
     source/QtNodes/Serializable.hpp
@@ -94,7 +94,7 @@ qext_add_library(Blueprint
     source/QtNodes/DefaultNodePainter.cpp
     source/QtNodes/DefaultVerticalNodeGeometry.cpp
     source/QtNodes/DefaultVerticalNodeGeometry.hpp
-    source/QtNodes/Definitions.cpp
+#    source/QtNodes/Definitions.cpp
     source/QtNodes/GraphicsView.cpp
     source/QtNodes/GraphicsViewStyle.cpp
     source/QtNodes/locateNode.cpp
@@ -110,13 +110,13 @@ qext_add_library(Blueprint
     source/QtNodes/UndoCommands.hpp
     source/qextBlueprintConstant.h
     source/qextBlueprintGlobal.h
-    source/qextBlueprintModelBase.cpp
-    source/qextBlueprintModelBase.h
+#    source/qextBlueprintModelBase.cpp
+#    source/qextBlueprintModelBase.h
     source/qextBlueprintScene.cpp
     source/qextBlueprintScene_p.h
     source/qextBlueprintScene.h
-    source/qextBlueprintTypes.cpp
-    source/qextBlueprintTypes.h
+    source/qextBPTypes.cpp
+    source/qextBPTypes.h
     source/qextBlueprintView.h
     source/qextBlueprintView_p.h
     source/qextBlueprintView.cpp

@@ -8,25 +8,25 @@
 
 #include <memory>
 
-using QtNodes::NodeData;
-using QtNodes::NodeDataType;
-using QtNodes::NodeDelegateModel;
-using QtNodes::PortIndex;
-using QtNodes::PortType;
+//using QtNodes::QExtBPNodeData;
+//using QtNodes::QExtBPNodeDataType;
+//using QExtBPNodeDelegateModel;
+//using QExtBPTypes::PortIndex;
+//using QExtBPTypes::PortTypeEnum;
 
 /// The class can potentially incapsulate any user data which need to
 /// be transferred within the Node Editor graph
-class MyNodeData : public NodeData
+class MyNodeData : public QExtBPNodeData
 {
 public:
-    NodeDataType type() const override { return NodeDataType{"MyNodeData", "My Node Data"}; }
+    QExtBPNodeDataType type() const override { return QExtBPNodeDataType{"MyNodeData", "My Node Data"}; }
 };
 
 //------------------------------------------------------------------------------
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class MyDataModel : public NodeDelegateModel
+class MyDataModel : public QExtBPNodeDelegateModel
 {
     Q_OBJECT
 public:
@@ -48,16 +48,16 @@ public:
     }
 
 public:
-    unsigned int nPorts(PortType const) const override { return 3; }
+    unsigned int nPorts(QExtBPTypes::PortTypeEnum const) const override { return 3; }
 
-    NodeDataType dataType(PortType const, PortIndex const) const override
+    QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum const, QExtBPTypes::PortIndex const) const override
     {
         return MyNodeData().type();
     }
 
-    std::shared_ptr<NodeData> outData(PortIndex) override { return std::make_shared<MyNodeData>(); }
+    std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex) override { return std::make_shared<MyNodeData>(); }
 
-    void setInData(std::shared_ptr<NodeData>, PortIndex const) override {}
+    void setInData(std::shared_ptr<QExtBPNodeData>, QExtBPTypes::PortIndex const) override {}
 
     QWidget *embeddedWidget() override { return nullptr; }
 };

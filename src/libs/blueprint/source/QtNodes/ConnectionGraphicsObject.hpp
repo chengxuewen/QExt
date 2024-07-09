@@ -6,17 +6,14 @@
 #include <QtWidgets/QGraphicsObject>
 
 #include "ConnectionState.hpp"
-#include "Definitions.hpp"
+#include "qextBPTypes.h"
 
 class QGraphicsSceneMouseEvent;
-
-namespace QtNodes {
-
-class AbstractGraphModel;
-class BasicGraphicsScene;
+class QExtBPAbstractGraphModel;
+class QExtBPBasicGraphicsScene;
 
 /// Graphic Object for connection. Adds itself to scene
-class ConnectionGraphicsObject : public QGraphicsObject
+class QExtBPConnectionGraphicsObject : public QGraphicsObject
 {
     Q_OBJECT
 public:
@@ -26,22 +23,22 @@ public:
     int type() const override { return Type; }
 
 public:
-    ConnectionGraphicsObject(BasicGraphicsScene &scene, ConnectionId const connectionId);
+    QExtBPConnectionGraphicsObject(QExtBPBasicGraphicsScene &scene, QExtBPTypes::ConnectionId const connectionId);
 
-    ~ConnectionGraphicsObject() = default;
+    ~QExtBPConnectionGraphicsObject() = default;
 
 public:
-    AbstractGraphModel &graphModel() const;
+    QExtBPAbstractGraphModel &graphModel() const;
 
-    BasicGraphicsScene *nodeScene() const;
+    QExtBPBasicGraphicsScene *nodeScene() const;
 
-    ConnectionId const &connectionId() const;
+    QExtBPTypes::ConnectionId const &connectionId() const;
 
     QRectF boundingRect() const override;
 
     QPainterPath shape() const override;
 
-    QPointF const &endPoint(PortType portType) const;
+    QPointF const &endPoint(QExtBPTypes::PortTypeEnum portType) const;
 
     QPointF out() const { return _out; }
 
@@ -49,14 +46,14 @@ public:
 
     std::pair<QPointF, QPointF> pointsC1C2() const;
 
-    void setEndPoint(PortType portType, QPointF const &point);
+    void setEndPoint(QExtBPTypes::PortTypeEnum portType, QPointF const &point);
 
     /// Updates the position of both ends
     void move();
 
-    ConnectionState const &connectionState() const;
+    QExtBPConnectionState const &connectionState() const;
 
-    ConnectionState &connectionState();
+    QExtBPConnectionState &connectionState();
 
 protected:
     void paint(QPainter *painter,
@@ -83,14 +80,12 @@ private:
     std::pair<QPointF, QPointF> pointsC1C2Vertical() const;
 
 private:
-    ConnectionId _connectionId;
+    QExtBPTypes::ConnectionId _connectionId;
 
-    AbstractGraphModel &_graphModel;
+    QExtBPAbstractGraphModel &_graphModel;
 
-    ConnectionState _connectionState;
+    QExtBPConnectionState _connectionState;
 
     mutable QPointF _out;
     mutable QPointF _in;
 };
-
-} // namespace QtNodes

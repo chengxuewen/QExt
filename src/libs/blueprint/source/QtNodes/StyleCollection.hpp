@@ -1,43 +1,40 @@
 #pragma once
 
-#include "Export.hpp"
+#include <qextBlueprintGlobal.h>
 
 #include "ConnectionStyle.hpp"
 #include "GraphicsViewStyle.hpp"
 #include "NodeStyle.hpp"
 
-namespace QtNodes {
-
-class NODE_EDITOR_PUBLIC StyleCollection
+class QEXT_BLUEPRINT_API QExtBPStyleCollection
 {
 public:
-    static NodeStyle const &nodeStyle();
+    static QExtBPNodeStyle const &nodeStyle();
 
-    static ConnectionStyle const &connectionStyle();
+    static QExtBPConnectionStyle const &connectionStyle();
 
-    static GraphicsViewStyle const &flowViewStyle();
+    static QExtBPGraphicsViewStyle const &flowViewStyle();
 
 public:
-    static void setNodeStyle(NodeStyle);
+    static void setNodeStyle(QExtBPNodeStyle);
 
-    static void setConnectionStyle(ConnectionStyle);
+    static void setConnectionStyle(QExtBPConnectionStyle);
 
-    static void setGraphicsViewStyle(GraphicsViewStyle);
-
-private:
-    StyleCollection() = default;
-
-    StyleCollection(StyleCollection const &) = delete;
-
-    StyleCollection &operator=(StyleCollection const &) = delete;
-
-    static StyleCollection &instance();
+    static void setGraphicsViewStyle(QExtBPGraphicsViewStyle);
 
 private:
-    NodeStyle _nodeStyle;
+    QExtBPStyleCollection() = default;
 
-    ConnectionStyle _connectionStyle;
+    QExtBPStyleCollection(QExtBPStyleCollection const &) = delete;
 
-    GraphicsViewStyle _flowViewStyle;
+    QExtBPStyleCollection &operator=(QExtBPStyleCollection const &) = delete;
+
+    static QExtBPStyleCollection &instance();
+
+private:
+    QExtBPNodeStyle _nodeStyle;
+
+    QExtBPConnectionStyle _connectionStyle;
+
+    QExtBPGraphicsViewStyle _flowViewStyle;
 };
-} // namespace QtNodes

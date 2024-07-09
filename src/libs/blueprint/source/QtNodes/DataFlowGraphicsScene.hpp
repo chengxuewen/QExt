@@ -2,25 +2,23 @@
 
 #include "BasicGraphicsScene.hpp"
 #include "DataFlowGraphModel.hpp"
-#include "Export.hpp"
-
-namespace QtNodes {
+#include <qextBlueprintGlobal.h>
 
 /// @brief An advanced scene working with data-propagating graphs.
 /**
  * The class represents a scene that existed in v2.x but built wit the
  * new model-view approach in mind.
  */
-class NODE_EDITOR_PUBLIC DataFlowGraphicsScene : public BasicGraphicsScene
+class QEXT_BLUEPRINT_API QExtBPDataFlowGraphicsScene : public QExtBPBasicGraphicsScene
 {
     Q_OBJECT
 public:
-    DataFlowGraphicsScene(DataFlowGraphModel &graphModel, QObject *parent = nullptr);
+    QExtBPDataFlowGraphicsScene(QExtBPDataFlowGraphModel &graphModel, QObject *parent = nullptr);
 
-    ~DataFlowGraphicsScene() = default;
+    ~QExtBPDataFlowGraphicsScene() = default;
 
 public:
-    std::vector<NodeId> selectedNodes() const;
+    std::vector<QExtBPTypes::NodeId> selectedNodes() const;
 
 public:
     QMenu *createSceneMenu(QPointF const scenePos) override;
@@ -34,7 +32,6 @@ Q_SIGNALS:
     void sceneLoaded();
 
 private:
-    DataFlowGraphModel &_graphModel;
+    QExtBPDataFlowGraphModel &_graphModel;
 };
 
-} // namespace QtNodes

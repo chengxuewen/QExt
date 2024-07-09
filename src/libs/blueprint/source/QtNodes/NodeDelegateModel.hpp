@@ -4,15 +4,13 @@
 
 #include <QtWidgets/QWidget>
 
-#include "Definitions.hpp"
-#include "Export.hpp"
+#include "qextBPTypes.h"
+#include <qextBlueprintGlobal.h>
 #include "NodeData.hpp"
 #include "NodeStyle.hpp"
 #include "Serializable.hpp"
 
-namespace QtNodes {
-
-class StyleCollection;
+class QExtBPStyleCollection;
 
 /**
  * The class wraps Node-specific data operations and propagates it to
@@ -20,14 +18,14 @@ class StyleCollection;
  * AbstractGraphModel.
  * This class is the same what has been called NodeDataModel before v3.
  */
-class NODE_EDITOR_PUBLIC NodeDelegateModel : public QObject, public Serializable
+class QEXT_BLUEPRINT_API QExtBPNodeDelegateModel : public QObject, public QExtBPSerializable
 {
     Q_OBJECT
 
 public:
-    NodeDelegateModel();
+    QExtBPNodeDelegateModel();
 
-    virtual ~NodeDelegateModel() = default;
+    virtual ~QExtBPNodeDelegateModel() = default;
 
     /// It is possible to hide caption in GUI
     virtual bool captionVisible() const { return true; }
@@ -36,10 +34,10 @@ public:
     virtual QString caption() const = 0;
 
     /// It is possible to hide port caption in GUI
-    virtual bool portCaptionVisible(PortType, PortIndex) const { return false; }
+    virtual bool portCaptionVisible(QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex) const { return false; }
 
     /// Port caption is used in GUI to label individual ports
-    virtual QString portCaption(PortType, PortIndex) const { return QString(); }
+    virtual QString portCaption(QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex) const { return QString(); }
 
     /// Name makes this model unique
     virtual QString name() const = 0;
@@ -50,21 +48,21 @@ public:
     void load(QJsonObject const &) override;
 
 public:
-    virtual unsigned int nPorts(PortType portType) const = 0;
+    virtual unsigned int nPorts(QExtBPTypes::PortTypeEnum portType) const = 0;
 
-    virtual NodeDataType dataType(PortType portType, PortIndex portIndex) const = 0;
-
-public:
-    virtual ConnectionPolicy portConnectionPolicy(PortType, PortIndex) const;
-
-    NodeStyle const &nodeStyle() const;
-
-    void setNodeStyle(NodeStyle const &style);
+    virtual QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex) const = 0;
 
 public:
-    virtual void setInData(std::shared_ptr<NodeData> nodeData, PortIndex const portIndex) = 0;
+    virtual QExtBPTypes::ConnectionPolicyEnum portConnectionPolicy(QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex) const;
 
-    virtual std::shared_ptr<NodeData> outData(PortIndex const port) = 0;
+    QExtBPNodeStyle const &nodeStyle() const;
+
+    void setNodeStyle(QExtBPNodeStyle const &style);
+
+public:
+    virtual void setInData(std::shared_ptr<QExtBPNodeData> nodeData, QExtBPTypes::PortIndex const portIndex) = 0;
+
+    virtual std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) = 0;
 
     /**
    * It is recommented to preform a lazy initialization for the
@@ -82,21 +80,21 @@ public:
 
 public Q_SLOTS:
 
-    virtual void inputConnectionCreated(ConnectionId const &) {}
+    virtual void inputConnectionCreated(QExtBPTypes::ConnectionId const &) {}
 
-    virtual void inputConnectionDeleted(ConnectionId const &) {}
+    virtual void inputConnectionDeleted(QExtBPTypes::ConnectionId const &) {}
 
-    virtual void outputConnectionCreated(ConnectionId const &) {}
+    virtual void outputConnectionCreated(QExtBPTypes::ConnectionId const &) {}
 
-    virtual void outputConnectionDeleted(ConnectionId const &) {}
+    virtual void outputConnectionDeleted(QExtBPTypes::ConnectionId const &) {}
 
 Q_SIGNALS:
 
     /// Triggers the updates in the nodes downstream.
-    void dataUpdated(PortIndex const index);
+    void dataUpdated(QExtBPTypes::PortIndex const index);
 
     /// Triggers the propagation of the empty data downstream.
-    void dataInvalidated(PortIndex const index);
+    void dataInvalidated(QExtBPTypes::PortIndex const index);
 
     void computingStarted();
 
@@ -109,7 +107,7 @@ Q_SIGNALS:
    * The function notifies the Graph Model and makes it remove and recompute the
    * affected connection addresses.
    */
-    void portsAboutToBeDeleted(PortType const portType, PortIndex const first, PortIndex const last);
+    void portsAboutToBeDeleted(QExtBPTypes::PortTypeEnum const portType, QExtBPTypes::PortIndex const first, QExtBPTypes::PortIndex const last);
 
     /// Call this function when data and port moditications are finished.
     void portsDeleted();
@@ -119,15 +117,14 @@ Q_SIGNALS:
    * The function notifies the Graph Model and makes it recompute the affected
    * connection addresses.
    */
-    void portsAboutToBeInserted(PortType const portType,
-                                PortIndex const first,
-                                PortIndex const last);
+    void portsAboutToBeInserted(QExtBPTypes::PortTypeEnum const portType,
+                                QExtBPTypes::PortIndex const first,
+                                QExtBPTypes::PortIndex const last);
 
     /// Call this function when data and port moditications are finished.
     void portsInserted();
 
 private:
-    NodeStyle _nodeStyle;
+    QExtBPNodeStyle _nodeStyle;
 };
 
-} // namespace QtNodes

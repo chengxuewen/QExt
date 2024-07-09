@@ -2,15 +2,13 @@
 
 #include "StyleCollection.hpp"
 
-namespace QtNodes {
-
-NodeDelegateModel::NodeDelegateModel()
-    : _nodeStyle(StyleCollection::nodeStyle())
+QExtBPNodeDelegateModel::QExtBPNodeDelegateModel()
+    : _nodeStyle(QExtBPStyleCollection::nodeStyle())
 {
     // Derived classes can initialize specific style here
 }
 
-QJsonObject NodeDelegateModel::save() const
+QJsonObject QExtBPNodeDelegateModel::save() const
 {
     QJsonObject modelJson;
 
@@ -19,36 +17,35 @@ QJsonObject NodeDelegateModel::save() const
     return modelJson;
 }
 
-void NodeDelegateModel::load(QJsonObject const &)
+void QExtBPNodeDelegateModel::load(QJsonObject const &)
 {
     //
 }
 
-ConnectionPolicy NodeDelegateModel::portConnectionPolicy(PortType portType, PortIndex) const
+QExtBPTypes::ConnectionPolicyEnum QExtBPNodeDelegateModel::portConnectionPolicy(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex) const
 {
-    auto result = ConnectionPolicy::One;
+    auto result = QExtBPTypes::ConnectionPolicy_One;
     switch (portType) {
-    case PortType::In:
-        result = ConnectionPolicy::One;
+    case QExtBPTypes::PortType_In:
+        result = QExtBPTypes::ConnectionPolicy_One;
         break;
-    case PortType::Out:
-        result = ConnectionPolicy::Many;
+    case QExtBPTypes::PortType_Out:
+        result = QExtBPTypes::ConnectionPolicy_Many;
         break;
-    case PortType::None:
+    case QExtBPTypes::PortType_None:
         break;
     }
 
     return result;
 }
 
-NodeStyle const &NodeDelegateModel::nodeStyle() const
+QExtBPNodeStyle const &QExtBPNodeDelegateModel::nodeStyle() const
 {
     return _nodeStyle;
 }
 
-void NodeDelegateModel::setNodeStyle(NodeStyle const &style)
+void QExtBPNodeDelegateModel::setNodeStyle(QExtBPNodeStyle const &style)
 {
     _nodeStyle = style;
 }
 
-} // namespace QtNodes

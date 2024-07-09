@@ -2,21 +2,19 @@
 
 #include <QtGui/QColor>
 
-#include "Export.hpp"
+#include <qextBlueprintGlobal.h>
 #include "Style.hpp"
 
-namespace QtNodes {
-
-class NODE_EDITOR_PUBLIC NodeStyle : public Style
+class QEXT_BLUEPRINT_API QExtBPNodeStyle : public QExtBPStyle
 {
 public:
-    NodeStyle();
+    QExtBPNodeStyle();
 
-    NodeStyle(QString jsonText);
+    QExtBPNodeStyle(QString jsonText);
 
-    NodeStyle(QJsonObject const &json);
+    QExtBPNodeStyle(QJsonObject const &json);
 
-    virtual ~NodeStyle() = default;
+    virtual ~QExtBPNodeStyle() = default;
 
 public:
     static void setNodeStyle(QString jsonText);
@@ -50,4 +48,3 @@ public:
 
     float Opacity;
 };
-} // namespace QtNodes

@@ -3,12 +3,12 @@
 // #include <QtNodes/NodeData>
 #include <qextBlueprintNode.h>
 
-using QtNodes::NodeData;
-using QtNodes::NodeDataType;
+//using QtNodes::QExtBPNodeData;
+//using QtNodes::QExtBPNodeDataType;
 
 /// The class can potentially incapsulate any user data which
 /// need to be transferred within the Node Editor graph
-class TextData : public NodeData
+class TextData : public QExtBPNodeData
 {
 public:
     TextData() {}
@@ -17,7 +17,7 @@ public:
         : _text(text)
     {}
 
-    NodeDataType type() const override { return NodeDataType{"text", "Text"}; }
+    QExtBPNodeDataType type() const override { return QExtBPNodeDataType{"text", "Text"}; }
 
     QString text() const { return _text; }
 

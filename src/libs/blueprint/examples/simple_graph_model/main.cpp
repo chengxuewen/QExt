@@ -10,11 +10,11 @@
 
 #include "SimpleGraphModel.hpp"
 
-using QtNodes::BasicGraphicsScene;
-using QtNodes::ConnectionStyle;
-using QtNodes::GraphicsView;
-using QtNodes::NodeRole;
-using QtNodes::StyleCollection;
+//using QExtBPBasicGraphicsScene;
+//using QtNodes::QExtBPConnectionStyle;
+//using QtNodes::QExtBPGraphicsView;
+//using QtNodes::NodeRole;
+//using QtNodes::QExtBPStyleCollection;
 
 int main(int argc, char *argv[])
 {
@@ -24,18 +24,18 @@ int main(int argc, char *argv[])
 
     // Initialize and connect two nodes.
     {
-        NodeId id1 = graphModel.addNode();
-        graphModel.setNodeData(id1, NodeRole::Position, QPointF(0, 0));
+        QExtBPTypes::NodeId id1 = graphModel.addNode();
+        graphModel.setNodeData(id1, QExtBPTypes::NodeRole_Position, QPointF(0, 0));
 
-        NodeId id2 = graphModel.addNode();
-        graphModel.setNodeData(id2, NodeRole::Position, QPointF(300, 300));
+        QExtBPTypes::NodeId id2 = graphModel.addNode();
+        graphModel.setNodeData(id2, QExtBPTypes::NodeRole_Position, QPointF(300, 300));
 
-        graphModel.addConnection(ConnectionId{id1, 0, id2, 0});
+        graphModel.addConnection(QExtBPTypes::ConnectionId{id1, 0, id2, 0});
     }
 
-    auto scene = new BasicGraphicsScene(graphModel);
+    auto scene = new QExtBPBasicGraphicsScene(graphModel);
 
-    GraphicsView view(scene);
+    QExtBPGraphicsView view(scene);
 
     // Setup context menu for creating new nodes.
     view.setContextMenuPolicy(Qt::ActionsContextMenu);
@@ -44,8 +44,8 @@ int main(int argc, char *argv[])
         // Mouse position in scene coordinates.
         QPointF posView = view.mapToScene(view.mapFromGlobal(QCursor::pos()));
 
-        NodeId const newId = graphModel.addNode();
-        graphModel.setNodeData(newId, NodeRole::Position, posView);
+        QExtBPTypes::NodeId const newId = graphModel.addNode();
+        graphModel.setNodeData(newId, QExtBPTypes::NodeRole_Position, posView);
     });
     view.insertAction(view.actions().front(), &createNodeAction);
 

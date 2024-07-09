@@ -7,60 +7,56 @@
 #include "ConnectionGraphicsObject.hpp"
 #include "NodeGraphicsObject.hpp"
 
-namespace QtNodes {
-
-ConnectionState::~ConnectionState()
+QExtBPConnectionState::~QExtBPConnectionState()
 {
     //resetLastHoveredNode();
 }
 
-PortType ConnectionState::requiredPort() const
+QExtBPTypes::PortTypeEnum QExtBPConnectionState::requiredPort() const
 {
-    PortType t = PortType::None;
+    QExtBPTypes::PortTypeEnum t = QExtBPTypes::PortType_None;
 
-    if (_cgo.connectionId().outNodeId == InvalidNodeId) {
-        t = PortType::Out;
-    } else if (_cgo.connectionId().inNodeId == InvalidNodeId) {
-        t = PortType::In;
+    if (_cgo.connectionId().outNodeId == QExtBPTypes::InvalidNodeId) {
+        t = QExtBPTypes::PortType_Out;
+    } else if (_cgo.connectionId().inNodeId == QExtBPTypes::InvalidNodeId) {
+        t = QExtBPTypes::PortType_In;
     }
 
     return t;
 }
 
-bool ConnectionState::requiresPort() const
+bool QExtBPConnectionState::requiresPort() const
 {
-    const ConnectionId &id = _cgo.connectionId();
-    return id.outNodeId == InvalidNodeId || id.inNodeId == InvalidNodeId;
+    const QExtBPTypes::ConnectionId &id = _cgo.connectionId();
+    return id.outNodeId == QExtBPTypes::InvalidNodeId || id.inNodeId == QExtBPTypes::InvalidNodeId;
 }
 
-bool ConnectionState::hovered() const
+bool QExtBPConnectionState::hovered() const
 {
     return _hovered;
 }
 
-void ConnectionState::setHovered(bool hovered)
+void QExtBPConnectionState::setHovered(bool hovered)
 {
     _hovered = hovered;
 }
 
-void ConnectionState::setLastHoveredNode(NodeId const nodeId)
+void QExtBPConnectionState::setLastHoveredNode(QExtBPTypes::NodeId const nodeId)
 {
     _lastHoveredNode = nodeId;
 }
 
-NodeId ConnectionState::lastHoveredNode() const
+QExtBPTypes::NodeId QExtBPConnectionState::lastHoveredNode() const
 {
     return _lastHoveredNode;
 }
 
-void ConnectionState::resetLastHoveredNode()
+void QExtBPConnectionState::resetLastHoveredNode()
 {
-    if (_lastHoveredNode != InvalidNodeId) {
+    if (_lastHoveredNode != QExtBPTypes::InvalidNodeId) {
         auto ngo = _cgo.nodeScene()->nodeGraphicsObject(_lastHoveredNode);
         ngo->update();
     }
 
-    _lastHoveredNode = InvalidNodeId;
+    _lastHoveredNode = QExtBPTypes::InvalidNodeId;
 }
-
-} // namespace QtNodes

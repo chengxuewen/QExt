@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Definitions.hpp"
+#include "qextBPTypes.h"
 
 #include <QUndoCommand>
 #include <QtCore/QJsonObject>
@@ -8,21 +8,19 @@
 
 #include <unordered_set>
 
-namespace QtNodes {
+class QExtBPBasicGraphicsScene;
 
-class BasicGraphicsScene;
-
-class CreateCommand : public QUndoCommand
+class QExtBPCreateCommand : public QUndoCommand
 {
 public:
-    CreateCommand(BasicGraphicsScene *scene, QString const name, QPointF const &mouseScenePos);
+    QExtBPCreateCommand(QExtBPBasicGraphicsScene *scene, QString const name, QPointF const &mouseScenePos);
 
     void undo() override;
     void redo() override;
 
 private:
-    BasicGraphicsScene *_scene;
-    NodeId _nodeId;
+    QExtBPBasicGraphicsScene *_scene;
+    QExtBPTypes::NodeId _nodeId;
     QJsonObject _sceneJson;
 };
 
@@ -30,29 +28,29 @@ private:
  * Selected scene objects are serialized and then removed from the scene.
  * The deleted elements could be restored in `undo`.
  */
-class DeleteCommand : public QUndoCommand
+class QExtBPDeleteCommand : public QUndoCommand
 {
 public:
-    DeleteCommand(BasicGraphicsScene *scene);
+    QExtBPDeleteCommand(QExtBPBasicGraphicsScene *scene);
 
     void undo() override;
     void redo() override;
 
 private:
-    BasicGraphicsScene *_scene;
+    QExtBPBasicGraphicsScene *_scene;
     QJsonObject _sceneJson;
 };
 
 class CopyCommand : public QUndoCommand
 {
 public:
-    CopyCommand(BasicGraphicsScene *scene);
+    CopyCommand(QExtBPBasicGraphicsScene *scene);
 };
 
-class PasteCommand : public QUndoCommand
+class QExtBPPasteCommand : public QUndoCommand
 {
 public:
-    PasteCommand(BasicGraphicsScene *scene, QPointF const &mouseScenePos);
+    QExtBPPasteCommand(QExtBPBasicGraphicsScene *scene, QPointF const &mouseScenePos);
 
     void undo() override;
     void redo() override;
@@ -62,43 +60,43 @@ private:
     QJsonObject makeNewNodeIdsInScene(QJsonObject const &sceneJson);
 
 private:
-    BasicGraphicsScene *_scene;
+    QExtBPBasicGraphicsScene *_scene;
     QPointF const &_mouseScenePos;
     QJsonObject _newSceneJson;
 };
 
-class DisconnectCommand : public QUndoCommand
+class QExtBPDisconnectCommand : public QUndoCommand
 {
 public:
-    DisconnectCommand(BasicGraphicsScene *scene, ConnectionId const);
+    QExtBPDisconnectCommand(QExtBPBasicGraphicsScene *scene, QExtBPTypes::ConnectionId const);
 
     void undo() override;
     void redo() override;
 
 private:
-    BasicGraphicsScene *_scene;
+    QExtBPBasicGraphicsScene *_scene;
 
-    ConnectionId _connId;
+    QExtBPTypes::ConnectionId _connId;
 };
 
 class ConnectCommand : public QUndoCommand
 {
 public:
-    ConnectCommand(BasicGraphicsScene *scene, ConnectionId const);
+    ConnectCommand(QExtBPBasicGraphicsScene *scene, QExtBPTypes::ConnectionId const);
 
     void undo() override;
     void redo() override;
 
 private:
-    BasicGraphicsScene *_scene;
+    QExtBPBasicGraphicsScene *_scene;
 
-    ConnectionId _connId;
+    QExtBPTypes::ConnectionId _connId;
 };
 
-class MoveNodeCommand : public QUndoCommand
+class QExtBPMoveNodeCommand : public QUndoCommand
 {
 public:
-    MoveNodeCommand(BasicGraphicsScene *scene, QPointF const &diff);
+    QExtBPMoveNodeCommand(QExtBPBasicGraphicsScene *scene, QPointF const &diff);
 
     void undo() override;
     void redo() override;
@@ -115,9 +113,7 @@ public:
     bool mergeWith(QUndoCommand const *c) override;
 
 private:
-    BasicGraphicsScene *_scene;
-    std::unordered_set<NodeId> _selectedNodes;
+    QExtBPBasicGraphicsScene *_scene;
+    std::unordered_set<QExtBPTypes::NodeId> _selectedNodes;
     QPointF _diff;
 };
-
-} // namespace QtNodes

@@ -3,9 +3,7 @@
 #include "ConnectionGraphicsObject.hpp"
 #include "NodeGraphicsObject.hpp"
 
-namespace QtNodes {
-
-NodeState::NodeState(NodeGraphicsObject &ngo)
+QExtBPNodeState::QExtBPNodeState(QExtBPNodeGraphicsObject &ngo)
     : _ngo(ngo)
     , _hovered(false)
     , _resizing(false)
@@ -14,29 +12,27 @@ NodeState::NodeState(NodeGraphicsObject &ngo)
     Q_UNUSED(_ngo);
 }
 
-void NodeState::setResizing(bool resizing)
+void QExtBPNodeState::setResizing(bool resizing)
 {
     _resizing = resizing;
 }
 
-bool NodeState::resizing() const
+bool QExtBPNodeState::resizing() const
 {
     return _resizing;
 }
 
-ConnectionGraphicsObject const *NodeState::connectionForReaction() const
+QExtBPConnectionGraphicsObject const *QExtBPNodeState::connectionForReaction() const
 {
     return _connectionForReaction.data();
 }
 
-void NodeState::storeConnectionForReaction(ConnectionGraphicsObject const *cgo)
+void QExtBPNodeState::storeConnectionForReaction(QExtBPConnectionGraphicsObject const *cgo)
 {
     _connectionForReaction = cgo;
 }
 
-void NodeState::resetConnectionForReaction()
+void QExtBPNodeState::resetConnectionForReaction()
 {
     _connectionForReaction.clear();
 }
-
-} // namespace QtNodes

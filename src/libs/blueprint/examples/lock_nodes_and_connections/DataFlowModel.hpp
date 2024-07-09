@@ -1,34 +1,34 @@
 // #include <QtNodes/DataFlowGraphModel>
 #include <qextBlueprintNode.h>
 
-using QtNodes::ConnectionId;
-using QtNodes::DataFlowGraphModel;
-using QtNodes::NodeDelegateModelRegistry;
-using QtNodes::NodeFlag;
-using QtNodes::NodeFlags;
-using QtNodes::NodeId;
+//using QExtBPTypes::ConnectionId;
+//using QExtBPDataFlowGraphModel;
+//using QExtBPNodeDelegateModelRegistry;
+//using QtNodes::NodeFlag;
+//using QtNodes::NodeFlags;
+//using QExtBPTypes::NodeId;
 
-class DataFlowModel : public DataFlowGraphModel
+class DataFlowModel : public QExtBPDataFlowGraphModel
 {
 public:
-    DataFlowModel(std::shared_ptr<NodeDelegateModelRegistry> registry)
-        : DataFlowGraphModel(std::move(registry))
+    DataFlowModel(std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry)
+        : QExtBPDataFlowGraphModel(std::move(registry))
         , _detachPossible{true}
         , _nodesLocked{false}
     {}
 
-    bool detachPossible(ConnectionId const) const override { return _detachPossible; }
+    bool detachPossible(QExtBPTypes::ConnectionId const) const override { return _detachPossible; }
 
     void setDetachPossible(bool d = true) { _detachPossible = d; }
 
     //----
 
-    NodeFlags nodeFlags(NodeId nodeId) const override
+    QExtBPTypes::NodeFlagEnums nodeFlags(QExtBPTypes::NodeId nodeId) const override
     {
-        auto basicFlags = DataFlowGraphModel::nodeFlags(nodeId);
+        auto basicFlags = QExtBPDataFlowGraphModel::nodeFlags(nodeId);
 
         if (_nodesLocked)
-            basicFlags |= NodeFlag::Locked;
+            basicFlags |= QExtBPTypes::NodeFlag_Locked;
 
         return basicFlags;
     }
@@ -37,7 +37,7 @@ public:
     {
         _nodesLocked = b;
 
-        for (NodeId nodeId : allNodeIds()) {
+        for (QExtBPTypes::NodeId nodeId : allNodeIds()) {
             Q_EMIT nodeFlagsUpdated(nodeId);
         }
     }

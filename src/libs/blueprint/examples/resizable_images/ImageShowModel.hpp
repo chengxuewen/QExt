@@ -9,15 +9,15 @@
 // #include <QtNodes/NodeDelegateModelRegistry>
 #include <qextBlueprintNode.h>
 
-using QtNodes::NodeData;
-using QtNodes::NodeDataType;
-using QtNodes::NodeDelegateModel;
-using QtNodes::PortIndex;
-using QtNodes::PortType;
+//using QtNodes::QExtBPNodeData;
+//using QtNodes::QExtBPNodeDataType;
+//using QExtBPNodeDelegateModel;
+//using QExtBPTypes::PortIndex;
+//using QExtBPTypes::PortTypeEnum;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class ImageShowModel : public NodeDelegateModel
+class ImageShowModel : public QExtBPNodeDelegateModel
 {
     Q_OBJECT
 
@@ -34,13 +34,13 @@ public:
 public:
     virtual QString modelName() const { return QString("Resulting Image"); }
 
-    unsigned int nPorts(PortType const portType) const override;
+    unsigned int nPorts(QExtBPTypes::PortTypeEnum const portType) const override;
 
-    NodeDataType dataType(PortType const portType, PortIndex const portIndex) const override;
+    QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum const portType, QExtBPTypes::PortIndex const portIndex) const override;
 
-    std::shared_ptr<NodeData> outData(PortIndex const port) override;
+    std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override;
 
-    void setInData(std::shared_ptr<NodeData> nodeData, PortIndex const port) override;
+    void setInData(std::shared_ptr<QExtBPNodeData> nodeData, QExtBPTypes::PortIndex const port) override;
 
     QWidget *embeddedWidget() override { return _label; }
 
@@ -52,5 +52,5 @@ protected:
 private:
     QLabel *_label;
 
-    std::shared_ptr<NodeData> _nodeData;
+    std::shared_ptr<QExtBPNodeData> _nodeData;
 };

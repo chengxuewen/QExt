@@ -13,14 +13,14 @@
 #include "DataFlowModel.hpp"
 #include "DelegateNodeModel.hpp"
 
-using QtNodes::DataFlowGraphicsScene;
-using QtNodes::GraphicsView;
-using QtNodes::NodeDelegateModelRegistry;
-using QtNodes::NodeRole;
+//using QtNodes::QExtBPDataFlowGraphicsScene;
+//using QtNodes::QExtBPGraphicsView;
+//using QExtBPNodeDelegateModelRegistry;
+//using QtNodes::NodeRole;
 
-static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
+static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
-    auto ret = std::make_shared<NodeDelegateModelRegistry>();
+    auto ret = std::make_shared<QExtBPNodeDelegateModelRegistry>();
 
     ret->registerModel<SimpleDataModel>();
 
@@ -35,22 +35,22 @@ int main(int argc, char *argv[])
 
     // Initialize and connect two nodes.
     {
-        NodeId id1 = graphModel.addNode(SimpleNodeData().type().id);
-        graphModel.setNodeData(id1, NodeRole::Position, QPointF(0, 0));
+        QExtBPTypes::NodeId id1 = graphModel.addNode(SimpleNodeData().type().id);
+        graphModel.setNodeData(id1, QExtBPTypes::NodeRole_Position, QPointF(0, 0));
 
-        NodeId id2 = graphModel.addNode(SimpleNodeData().type().id);
-        graphModel.setNodeData(id2, NodeRole::Position, QPointF(300, 300));
+        QExtBPTypes::NodeId id2 = graphModel.addNode(SimpleNodeData().type().id);
+        graphModel.setNodeData(id2, QExtBPTypes::NodeRole_Position, QPointF(300, 300));
 
-        graphModel.addConnection(ConnectionId{id1, 0, id2, 0});
+        graphModel.addConnection(QExtBPTypes::ConnectionId{id1, 0, id2, 0});
     }
 
-    auto scene = new DataFlowGraphicsScene(graphModel);
+    auto scene = new QExtBPDataFlowGraphicsScene(graphModel);
 
     QWidget window;
 
     QHBoxLayout *l = new QHBoxLayout(&window);
 
-    GraphicsView view(scene);
+    QExtBPGraphicsView view(scene);
 
     l->addWidget(&view);
 

@@ -2,19 +2,17 @@
 
 #include <QtCore/QUuid>
 
-#include "Export.hpp"
+#include <qextBlueprintGlobal.h>
 
-#include "Definitions.hpp"
+#include "qextBPTypes.h"
 
 class QPointF;
 
-namespace QtNodes {
-
-class ConnectionGraphicsObject;
+class QExtBPConnectionGraphicsObject;
 
 /// Stores currently draggind end.
 /// Remembers last hovered Node.
-class NODE_EDITOR_PUBLIC ConnectionState
+class QEXT_BLUEPRINT_API QExtBPConnectionState
 {
 public:
     /// Defines whether we construct a new connection
@@ -22,39 +20,38 @@ public:
     enum LooseEnd { Pending = 0, Connected = 1 };
 
 public:
-    ConnectionState(ConnectionGraphicsObject &cgo)
+    QExtBPConnectionState(QExtBPConnectionGraphicsObject &cgo)
         : _cgo(cgo)
         , _hovered(false)
     {}
 
-    ConnectionState(ConnectionState const &) = delete;
-    ConnectionState(ConnectionState &&) = delete;
+    QExtBPConnectionState(QExtBPConnectionState const &) = delete;
+    QExtBPConnectionState(QExtBPConnectionState &&) = delete;
 
-    ConnectionState &operator=(ConnectionState const &) = delete;
-    ConnectionState &operator=(ConnectionState &&) = delete;
+    QExtBPConnectionState &operator=(QExtBPConnectionState const &) = delete;
+    QExtBPConnectionState &operator=(QExtBPConnectionState &&) = delete;
 
-    ~ConnectionState();
+    ~QExtBPConnectionState();
 
 public:
-    PortType requiredPort() const;
+    QExtBPTypes::PortTypeEnum requiredPort() const;
     bool requiresPort() const;
 
     bool hovered() const;
     void setHovered(bool hovered);
 
 public:
-    /// Caches NodeId for further interaction.
-    void setLastHoveredNode(NodeId const nodeId);
+    /// Caches QExtBPTypes::NodeId for further interaction.
+    void setLastHoveredNode(QExtBPTypes::NodeId const nodeId);
 
-    NodeId lastHoveredNode() const;
+    QExtBPTypes::NodeId lastHoveredNode() const;
 
     void resetLastHoveredNode();
 
 private:
-    ConnectionGraphicsObject &_cgo;
+    QExtBPConnectionGraphicsObject &_cgo;
 
     bool _hovered;
 
-    NodeId _lastHoveredNode{InvalidNodeId};
+    QExtBPTypes::NodeId _lastHoveredNode{QExtBPTypes::InvalidNodeId};
 };
-} // namespace QtNodes

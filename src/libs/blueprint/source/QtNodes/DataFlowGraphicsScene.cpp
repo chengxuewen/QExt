@@ -26,28 +26,27 @@
 #include <stdexcept>
 #include <utility>
 
-namespace QtNodes {
 
-DataFlowGraphicsScene::DataFlowGraphicsScene(DataFlowGraphModel &graphModel, QObject *parent)
-    : BasicGraphicsScene(graphModel, parent)
+QExtBPDataFlowGraphicsScene::QExtBPDataFlowGraphicsScene(QExtBPDataFlowGraphModel &graphModel, QObject *parent)
+    : QExtBPBasicGraphicsScene(graphModel, parent)
     , _graphModel(graphModel)
 {
     connect(&_graphModel,
-            &DataFlowGraphModel::inPortDataWasSet,
-            [this](NodeId const nodeId, PortType const, PortIndex const) { onNodeUpdated(nodeId); });
+            &QExtBPDataFlowGraphModel::inPortDataWasSet,
+            [this](QExtBPTypes::NodeId const nodeId, QExtBPTypes::PortTypeEnum const, QExtBPTypes::PortIndex const) { onNodeUpdated(nodeId); });
 }
 
 // TODO constructor for an empyt scene?
 
-std::vector<NodeId> DataFlowGraphicsScene::selectedNodes() const
+std::vector<QExtBPTypes::NodeId> QExtBPDataFlowGraphicsScene::selectedNodes() const
 {
     QList<QGraphicsItem *> graphicsItems = selectedItems();
 
-    std::vector<NodeId> result;
+    std::vector<QExtBPTypes::NodeId> result;
     result.reserve(graphicsItems.size());
 
     for (QGraphicsItem *item : graphicsItems) {
-        auto ngo = qgraphicsitem_cast<NodeGraphicsObject *>(item);
+        auto ngo = qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item);
 
         if (ngo != nullptr) {
             result.push_back(ngo->nodeId());
@@ -57,7 +56,7 @@ std::vector<NodeId> DataFlowGraphicsScene::selectedNodes() const
     return result;
 }
 
-QMenu *DataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
+QMenu *QExtBPDataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
 {
     QMenu *modelMenu = new QMenu();
 
@@ -105,14 +104,14 @@ QMenu *DataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
     connect(treeView,
             &QTreeWidget::itemClicked,
             [this, modelMenu, scenePos](QTreeWidgetItem *item, int) {
-                if (!(item->flags() & (Qt::ItemIsSelectable))) {
-                    return;
-                }
+        if (!(item->flags() & (Qt::ItemIsSelectable))) {
+            return;
+        }
 
-                this->undoStack().push(new CreateCommand(this, item->text(0), scenePos));
+        this->undoStack().push(new QExtBPCreateCommand(this, item->text(0), scenePos));
 
-                modelMenu->close();
-            });
+        modelMenu->close();
+    });
 
     //Setup filtering
     connect(txtBox, &QLineEdit::textChanged, [treeView](const QString &text) {
@@ -144,7 +143,7 @@ QMenu *DataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
     return modelMenu;
 }
 
-void DataFlowGraphicsScene::save() const
+void QExtBPDataFlowGraphicsScene::save() const
 {
     QString fileName = QFileDialog::getSaveFileName(nullptr,
                                                     tr("Open Flow Scene"),
@@ -162,7 +161,7 @@ void DataFlowGraphicsScene::save() const
     }
 }
 
-void DataFlowGraphicsScene::load()
+void QExtBPDataFlowGraphicsScene::load()
 {
     QString fileName = QFileDialog::getOpenFileName(nullptr,
                                                     tr("Open Flow Scene"),
@@ -185,5 +184,3 @@ void DataFlowGraphicsScene::load()
 
     Q_EMIT sceneLoaded();
 }
-
-} // namespace QtNodes

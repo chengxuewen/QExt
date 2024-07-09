@@ -7,15 +7,13 @@
 
 #include <cmath>
 
-namespace QtNodes {
-
-AbstractNodeGeometry::AbstractNodeGeometry(AbstractGraphModel &graphModel)
+QExtBPAbstractNodeGeometry::QExtBPAbstractNodeGeometry(QExtBPAbstractGraphModel &graphModel)
     : _graphModel(graphModel)
 {
     //
 }
 
-QRectF AbstractNodeGeometry::boundingRect(NodeId const nodeId) const
+QRectF QExtBPAbstractNodeGeometry::boundingRect(QExtBPTypes::NodeId const nodeId) const
 {
     QSize s = size(nodeId);
 
@@ -31,33 +29,33 @@ QRectF AbstractNodeGeometry::boundingRect(NodeId const nodeId) const
     return r.marginsAdded(margins);
 }
 
-QPointF AbstractNodeGeometry::portScenePosition(NodeId const nodeId,
-                                                PortType const portType,
-                                                PortIndex const index,
-                                                QTransform const &t) const
+QPointF QExtBPAbstractNodeGeometry::portScenePosition(QExtBPTypes::NodeId const nodeId,
+                                                      QExtBPTypes::PortTypeEnum const portType,
+                                                      QExtBPTypes::PortIndex const index,
+                                                      QTransform const &t) const
 {
     QPointF result = portPosition(nodeId, portType, index);
 
     return t.map(result);
 }
 
-PortIndex AbstractNodeGeometry::checkPortHit(NodeId const nodeId,
-                                             PortType const portType,
-                                             QPointF const nodePoint) const
+QExtBPTypes::PortIndex QExtBPAbstractNodeGeometry::checkPortHit(QExtBPTypes::NodeId const nodeId,
+                                                                QExtBPTypes::PortTypeEnum const portType,
+                                                                QPointF const nodePoint) const
 {
-    auto const &nodeStyle = StyleCollection::nodeStyle();
+    auto const &nodeStyle = QExtBPStyleCollection::nodeStyle();
 
-    PortIndex result = InvalidPortIndex;
+    QExtBPTypes::PortIndex result = QExtBPTypes::InvalidPortIndex;
 
-    if (portType == PortType::None)
+    if (portType == QExtBPTypes::PortType_None)
         return result;
 
     double const tolerance = 2.0 * nodeStyle.ConnectionPointDiameter;
 
     size_t const n = _graphModel.nodeData<unsigned int>(nodeId,
-                                                        (portType == PortType::Out)
-                                                            ? NodeRole::OutPortCount
-                                                            : NodeRole::InPortCount);
+                                                        (portType == QExtBPTypes::PortType_Out)
+                                                        ? QExtBPTypes::NodeRole_OutPortCount
+                                                        : QExtBPTypes::NodeRole_InPortCount);
 
     for (unsigned int portIndex = 0; portIndex < n; ++portIndex) {
         auto pp = portPosition(nodeId, portType, portIndex);
@@ -73,5 +71,3 @@ PortIndex AbstractNodeGeometry::checkPortHit(NodeId const nodeId,
 
     return result;
 }
-
-} // namespace QtNodes

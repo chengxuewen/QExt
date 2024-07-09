@@ -7,11 +7,9 @@
 
 #include "NodeGraphicsObject.hpp"
 
-namespace QtNodes {
-
-NodeGraphicsObject *locateNodeAt(QPointF scenePoint,
-                                 QGraphicsScene &scene,
-                                 QTransform const &viewTransform)
+QExtBPNodeGraphicsObject *locateNodeAt(QPointF scenePoint,
+                                       QGraphicsScene &scene,
+                                       QTransform const &viewTransform)
 {
     // items under cursor
     QList<QGraphicsItem *> items = scene.items(scenePoint,
@@ -26,17 +24,15 @@ NodeGraphicsObject *locateNodeAt(QPointF scenePoint,
                  items.end(),
                  std::back_inserter(filteredItems),
                  [](QGraphicsItem *item) {
-                     return (qgraphicsitem_cast<NodeGraphicsObject *>(item) != nullptr);
-                 });
+        return (qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item) != nullptr);
+    });
 
-    NodeGraphicsObject *node = nullptr;
+    QExtBPNodeGraphicsObject *node = nullptr;
 
     if (!filteredItems.empty()) {
         QGraphicsItem *graphicsItem = filteredItems.front();
-        node = dynamic_cast<NodeGraphicsObject *>(graphicsItem);
+        node = dynamic_cast<QExtBPNodeGraphicsObject *>(graphicsItem);
     }
 
     return node;
 }
-
-} // namespace QtNodes

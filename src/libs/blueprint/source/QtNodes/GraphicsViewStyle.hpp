@@ -2,19 +2,17 @@
 
 #include <QtGui/QColor>
 
-#include "Export.hpp"
+#include <qextBlueprintGlobal.h>
 #include "Style.hpp"
 
-namespace QtNodes {
-
-class NODE_EDITOR_PUBLIC GraphicsViewStyle : public Style
+class QEXT_BLUEPRINT_API QExtBPGraphicsViewStyle : public QExtBPStyle
 {
 public:
-    GraphicsViewStyle();
+    QExtBPGraphicsViewStyle();
 
-    GraphicsViewStyle(QString jsonText);
+    QExtBPGraphicsViewStyle(QString jsonText);
 
-    ~GraphicsViewStyle() = default;
+    ~QExtBPGraphicsViewStyle() = default;
 
 public:
     static void setStyle(QString jsonText);
@@ -29,4 +27,3 @@ public:
     QColor FineGridColor;
     QColor CoarseGridColor;
 };
-} // namespace QtNodes

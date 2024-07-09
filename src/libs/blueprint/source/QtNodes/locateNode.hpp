@@ -5,12 +5,9 @@
 
 class QGraphicsScene;
 
-namespace QtNodes {
+class QExtBPNodeGraphicsObject;
 
-class NodeGraphicsObject;
+QExtBPNodeGraphicsObject *locateNodeAt(QPointF scenePoint,
+                                       QGraphicsScene &scene,
+                                       QTransform const &viewTransform);
 
-NodeGraphicsObject *locateNodeAt(QPointF scenePoint,
-                                 QGraphicsScene &scene,
-                                 QTransform const &viewTransform);
-
-} // namespace QtNodes

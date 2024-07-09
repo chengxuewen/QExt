@@ -12,17 +12,17 @@
 
 #include <QtWidgets/QApplication>
 
-using QtNodes::ConnectionStyle;
-using QtNodes::DataFlowGraphicsScene;
-using QtNodes::DataFlowGraphModel;
-using QtNodes::GraphicsView;
-using QtNodes::GraphicsViewStyle;
-using QtNodes::NodeDelegateModelRegistry;
-using QtNodes::NodeStyle;
+//using QtNodes::QExtBPConnectionStyle;
+//using QtNodes::QExtBPDataFlowGraphicsScene;
+//using QExtBPDataFlowGraphModel;
+//using QtNodes::QExtBPGraphicsView;
+//using QtNodes::QExtBPGraphicsViewStyle;
+//using QExtBPNodeDelegateModelRegistry;
+//using QtNodes::QExtBPNodeStyle;
 
-static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
+static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
-    auto ret = std::make_shared<NodeDelegateModelRegistry>();
+    auto ret = std::make_shared<QExtBPNodeDelegateModelRegistry>();
 
     ret->registerModel<MyDataModel>();
 
@@ -31,7 +31,7 @@ static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
 
 static void setStyle()
 {
-    GraphicsViewStyle::setStyle(
+    QExtBPGraphicsViewStyle::setStyle(
         R"(
   {
     "GraphicsViewStyle": {
@@ -42,7 +42,7 @@ static void setStyle()
   }
   )");
 
-    NodeStyle::setNodeStyle(
+    QExtBPNodeStyle::setNodeStyle(
         R"(
   {
     "NodeStyle": {
@@ -64,7 +64,7 @@ static void setStyle()
   }
   )");
 
-    ConnectionStyle::setConnectionStyle(
+    QExtBPConnectionStyle::setConnectionStyle(
         R"(
   {
     "ConnectionStyle": {
@@ -90,12 +90,12 @@ int main(int argc, char *argv[])
 
     setStyle();
 
-    std::shared_ptr<NodeDelegateModelRegistry> registry = registerDataModels();
-    DataFlowGraphModel dataFlowGraphModel(registry);
+    std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
+    QExtBPDataFlowGraphModel dataFlowGraphModel(registry);
 
-    DataFlowGraphicsScene scene(dataFlowGraphModel);
+    QExtBPDataFlowGraphicsScene scene(dataFlowGraphModel);
 
-    GraphicsView view(&scene);
+    QExtBPGraphicsView view(&scene);
 
     view.setWindowTitle("Style example");
     view.resize(800, 600);

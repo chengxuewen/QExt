@@ -1,21 +1,19 @@
 #pragma once
 
-#include "Definitions.hpp"
-#include "Export.hpp"
+#include "qextBPTypes.h"
+#include <qextBlueprintGlobal.h>
 
 #include <QRectF>
 #include <QSize>
 #include <QTransform>
 
-namespace QtNodes {
+class QExtBPAbstractGraphModel;
 
-class AbstractGraphModel;
-
-class NODE_EDITOR_PUBLIC AbstractNodeGeometry
+class QEXT_BLUEPRINT_API QExtBPAbstractNodeGeometry
 {
 public:
-    AbstractNodeGeometry(AbstractGraphModel &);
-    virtual ~AbstractNodeGeometry() {}
+    QExtBPAbstractNodeGeometry(QExtBPAbstractGraphModel &);
+    virtual ~QExtBPAbstractNodeGeometry() {}
 
     /**
    * The node's size plus some additional margin around it to account for drawing
@@ -25,55 +23,54 @@ public:
    * The default implementation returns QSize + 20 percent of width and heights
    * at each side of the rectangle.
    */
-    virtual QRectF boundingRect(NodeId const nodeId) const;
+    virtual QRectF boundingRect(QExtBPTypes::NodeId const nodeId) const;
 
     /// A direct rectangle defining the borders of the node's rectangle.
-    virtual QSize size(NodeId const nodeId) const = 0;
+    virtual QSize size(QExtBPTypes::NodeId const nodeId) const = 0;
 
     /**
    * The function is triggeren when a nuber of ports is changed or when an
    * embedded widget needs an update.
    */
-    virtual void recomputeSize(NodeId const nodeId) const = 0;
+    virtual void recomputeSize(QExtBPTypes::NodeId const nodeId) const = 0;
 
     /// Port position in node's coordinate system.
-    virtual QPointF portPosition(NodeId const nodeId,
-                                 PortType const portType,
-                                 PortIndex const index) const
-        = 0;
+    virtual QPointF portPosition(QExtBPTypes::NodeId const nodeId,
+                                 QExtBPTypes::PortTypeEnum const portType,
+                                 QExtBPTypes::PortIndex const index) const
+    = 0;
 
     /// A convenience function using the `portPosition` and a given transformation.
-    virtual QPointF portScenePosition(NodeId const nodeId,
-                                      PortType const portType,
-                                      PortIndex const index,
+    virtual QPointF portScenePosition(QExtBPTypes::NodeId const nodeId,
+                                      QExtBPTypes::PortTypeEnum const portType,
+                                      QExtBPTypes::PortIndex const index,
                                       QTransform const &t) const;
 
     /// Defines where to draw port label. The point corresponds to a font baseline.
-    virtual QPointF portTextPosition(NodeId const nodeId,
-                                     PortType const portType,
-                                     PortIndex const portIndex) const
-        = 0;
+    virtual QPointF portTextPosition(QExtBPTypes::NodeId const nodeId,
+                                     QExtBPTypes::PortTypeEnum const portType,
+                                     QExtBPTypes::PortIndex const portIndex) const
+    = 0;
 
     /**
    * Defines where to start drawing the caption. The point corresponds to a font
    * baseline.
    */
-    virtual QPointF captionPosition(NodeId const nodeId) const = 0;
+    virtual QPointF captionPosition(QExtBPTypes::NodeId const nodeId) const = 0;
 
     /// Caption rect is needed for estimating the total node size.
-    virtual QRectF captionRect(NodeId const nodeId) const = 0;
+    virtual QRectF captionRect(QExtBPTypes::NodeId const nodeId) const = 0;
 
     /// Position for an embedded widget. Return any value if you don't embed.
-    virtual QPointF widgetPosition(NodeId const nodeId) const = 0;
+    virtual QPointF widgetPosition(QExtBPTypes::NodeId const nodeId) const = 0;
 
-    virtual PortIndex checkPortHit(NodeId const nodeId,
-                                   PortType const portType,
-                                   QPointF const nodePoint) const;
+    virtual QExtBPTypes::PortIndex checkPortHit(QExtBPTypes::NodeId const nodeId,
+                                                QExtBPTypes::PortTypeEnum const portType,
+                                                QPointF const nodePoint) const;
 
-    virtual QRect resizeHandleRect(NodeId const nodeId) const = 0;
+    virtual QRect resizeHandleRect(QExtBPTypes::NodeId const nodeId) const = 0;
 
 protected:
-    AbstractGraphModel &_graphModel;
+    QExtBPAbstractGraphModel &_graphModel;
 };
 
-} // namespace QtNodes

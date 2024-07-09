@@ -3,7 +3,7 @@
 #include "BasicGraphicsScene.hpp"
 #include "ConnectionGraphicsObject.hpp"
 #include "ConnectionIdUtils.hpp"
-#include "Definitions.hpp"
+#include "qextBPTypes.h"
 #include "NodeGraphicsObject.hpp"
 
 #include <QtCore/QJsonArray>
@@ -15,20 +15,21 @@
 
 #include <typeinfo>
 
-namespace QtNodes {
+//using namespace QExtBPUtils;
+//namespace QtNodes {
 
-static QJsonObject serializeSelectedItems(BasicGraphicsScene *scene)
+static QJsonObject serializeSelectedItems(QExtBPBasicGraphicsScene *scene)
 {
     QJsonObject serializedScene;
 
     auto &graphModel = scene->graphModel();
 
-    std::unordered_set<NodeId> selectedNodes;
+    std::unordered_set<QExtBPTypes::NodeId> selectedNodes;
 
     QJsonArray nodesJsonArray;
 
     for (QGraphicsItem *item : scene->selectedItems()) {
-        if (auto n = qgraphicsitem_cast<NodeGraphicsObject *>(item)) {
+        if (auto n = qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item)) {
             nodesJsonArray.append(graphModel.saveNode(n->nodeId()));
 
             selectedNodes.insert(n->nodeId());
@@ -38,11 +39,11 @@ static QJsonObject serializeSelectedItems(BasicGraphicsScene *scene)
     QJsonArray connJsonArray;
 
     for (QGraphicsItem *item : scene->selectedItems()) {
-        if (auto c = qgraphicsitem_cast<ConnectionGraphicsObject *>(item)) {
+        if (auto c = qgraphicsitem_cast<QExtBPConnectionGraphicsObject *>(item)) {
             auto const &cid = c->connectionId();
 
             if (selectedNodes.count(cid.outNodeId) > 0 && selectedNodes.count(cid.inNodeId) > 0) {
-                connJsonArray.append(toJson(cid));
+                connJsonArray.append(QExtBPUtils::toJson(cid));
             }
         }
     }
@@ -53,9 +54,9 @@ static QJsonObject serializeSelectedItems(BasicGraphicsScene *scene)
     return serializedScene;
 }
 
-static void insertSerializedItems(QJsonObject const &json, BasicGraphicsScene *scene)
+static void insertSerializedItems(QJsonObject const &json, QExtBPBasicGraphicsScene *scene)
 {
-    AbstractGraphModel &graphModel = scene->graphModel();
+    QExtBPAbstractGraphModel &graphModel = scene->graphModel();
 
     QJsonArray const &nodesJsonArray = json["nodes"].toArray();
 
@@ -74,7 +75,7 @@ static void insertSerializedItems(QJsonObject const &json, BasicGraphicsScene *s
     for (QJsonValue connection : connJsonArray) {
         QJsonObject connJson = connection.toObject();
 
-        ConnectionId connId = fromJson(connJson);
+        QExtBPTypes::ConnectionId connId = QExtBPUtils::fromJson(connJson);
 
         // Restore the connection
         graphModel.addConnection(connId);
@@ -83,14 +84,14 @@ static void insertSerializedItems(QJsonObject const &json, BasicGraphicsScene *s
     }
 }
 
-static void deleteSerializedItems(QJsonObject &sceneJson, AbstractGraphModel &graphModel)
+static void deleteSerializedItems(QJsonObject &sceneJson, QExtBPAbstractGraphModel &graphModel)
 {
     QJsonArray connectionJsonArray = sceneJson["connections"].toArray();
 
     for (QJsonValueRef connection : connectionJsonArray) {
         QJsonObject connJson = connection.toObject();
 
-        ConnectionId connId = fromJson(connJson);
+        QExtBPTypes::ConnectionId connId = QExtBPUtils::fromJson(connJson);
 
         graphModel.deleteConnection(connId);
     }
@@ -113,7 +114,7 @@ static QPointF computeAverageNodePosition(QJsonObject const &sceneJson)
         QJsonObject nodeJson = node.toObject();
 
         averagePos += QPointF(nodeJson["position"].toObject()["x"].toDouble(),
-                              nodeJson["position"].toObject()["y"].toDouble());
+                nodeJson["position"].toObject()["y"].toDouble());
     }
 
     averagePos /= static_cast<double>(nodesJsonArray.size());
@@ -123,21 +124,21 @@ static QPointF computeAverageNodePosition(QJsonObject const &sceneJson)
 
 //-------------------------------------
 
-CreateCommand::CreateCommand(BasicGraphicsScene *scene,
-                             QString const name,
-                             QPointF const &mouseScenePos)
+QExtBPCreateCommand::QExtBPCreateCommand(QExtBPBasicGraphicsScene *scene,
+                                         QString const name,
+                                         QPointF const &mouseScenePos)
     : _scene(scene)
     , _sceneJson(QJsonObject())
 {
     _nodeId = _scene->graphModel().addNode(name);
-    if (_nodeId != InvalidNodeId) {
-        _scene->graphModel().setNodeData(_nodeId, NodeRole::Position, mouseScenePos);
+    if (_nodeId != QExtBPTypes::InvalidNodeId) {
+        _scene->graphModel().setNodeData(_nodeId, QExtBPTypes::NodeRole_Position, mouseScenePos);
     } else {
         setObsolete(true);
     }
 }
 
-void CreateCommand::undo()
+void QExtBPCreateCommand::undo()
 {
     QJsonArray nodesJsonArray;
     nodesJsonArray.append(_scene->graphModel().saveNode(_nodeId));
@@ -146,7 +147,7 @@ void CreateCommand::undo()
     _scene->graphModel().deleteNode(_nodeId);
 }
 
-void CreateCommand::redo()
+void QExtBPCreateCommand::redo()
 {
     if (_sceneJson.empty() || _sceneJson["nodes"].toArray().empty())
         return;
@@ -156,7 +157,7 @@ void CreateCommand::redo()
 
 //-------------------------------------
 
-DeleteCommand::DeleteCommand(BasicGraphicsScene *scene)
+QExtBPDeleteCommand::QExtBPDeleteCommand(QExtBPBasicGraphicsScene *scene)
     : _scene(scene)
 {
     auto &graphModel = _scene->graphModel();
@@ -166,10 +167,10 @@ DeleteCommand::DeleteCommand(BasicGraphicsScene *scene)
     // automatically deleted when selected nodes are deleted (deleting a
     // node deletes some connections as well)
     for (QGraphicsItem *item : _scene->selectedItems()) {
-        if (auto c = qgraphicsitem_cast<ConnectionGraphicsObject *>(item)) {
+        if (auto c = qgraphicsitem_cast<QExtBPConnectionGraphicsObject *>(item)) {
             auto const &cid = c->connectionId();
 
-            connJsonArray.append(toJson(cid));
+            connJsonArray.append(QExtBPUtils::toJson(cid));
         }
     }
 
@@ -177,10 +178,10 @@ DeleteCommand::DeleteCommand(BasicGraphicsScene *scene)
     // Delete the nodes; this will delete many of the connections.
     // Selected connections were already deleted prior to this loop,
     for (QGraphicsItem *item : _scene->selectedItems()) {
-        if (auto n = qgraphicsitem_cast<NodeGraphicsObject *>(item)) {
+        if (auto n = qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item)) {
             // saving connections attached to the selected nodes
             for (auto const &cid : graphModel.allConnectionIds(n->nodeId())) {
-                connJsonArray.append(toJson(cid));
+                connJsonArray.append(QExtBPUtils::toJson(cid));
             }
 
             nodesJsonArray.append(graphModel.saveNode(n->nodeId()));
@@ -195,12 +196,12 @@ DeleteCommand::DeleteCommand(BasicGraphicsScene *scene)
     _sceneJson["connections"] = connJsonArray;
 }
 
-void DeleteCommand::undo()
+void QExtBPDeleteCommand::undo()
 {
     insertSerializedItems(_sceneJson, _scene);
 }
 
-void DeleteCommand::redo()
+void QExtBPDeleteCommand::redo()
 {
     deleteSerializedItems(_sceneJson, _scene->graphModel());
 }
@@ -216,7 +217,7 @@ void offsetNodeGroup(QJsonObject &sceneJson, QPointF const &diff)
         QJsonObject obj = node.toObject();
 
         QPointF oldPos(obj["position"].toObject()["x"].toDouble(),
-                       obj["position"].toObject()["y"].toDouble());
+                obj["position"].toObject()["y"].toDouble());
 
         oldPos += diff;
 
@@ -233,7 +234,7 @@ void offsetNodeGroup(QJsonObject &sceneJson, QPointF const &diff)
 
 //-------------------------------------
 
-CopyCommand::CopyCommand(BasicGraphicsScene *scene)
+CopyCommand::CopyCommand(QExtBPBasicGraphicsScene *scene)
 {
     QJsonObject sceneJson = serializeSelectedItems(scene);
 
@@ -260,7 +261,7 @@ CopyCommand::CopyCommand(BasicGraphicsScene *scene)
 
 //-------------------------------------
 
-PasteCommand::PasteCommand(BasicGraphicsScene *scene, QPointF const &mouseScenePos)
+QExtBPPasteCommand::QExtBPPasteCommand(QExtBPBasicGraphicsScene *scene, QPointF const &mouseScenePos)
     : _scene(scene)
     , _mouseScenePos(mouseScenePos)
 {
@@ -278,12 +279,12 @@ PasteCommand::PasteCommand(BasicGraphicsScene *scene, QPointF const &mouseSceneP
     offsetNodeGroup(_newSceneJson, _mouseScenePos - averagePos);
 }
 
-void PasteCommand::undo()
+void QExtBPPasteCommand::undo()
 {
     deleteSerializedItems(_newSceneJson, _scene->graphModel());
 }
 
-void PasteCommand::redo()
+void QExtBPPasteCommand::redo()
 {
     _scene->clearSelection();
 
@@ -297,7 +298,7 @@ void PasteCommand::redo()
 
         QJsonArray nodesJsonArray;
         for (QGraphicsItem *item : _scene->selectedItems()) {
-            if (auto n = qgraphicsitem_cast<NodeGraphicsObject *>(item)) {
+            if (auto n = qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item)) {
                 graphModel.deleteNode(n->nodeId());
             }
         }
@@ -306,7 +307,7 @@ void PasteCommand::redo()
     }
 }
 
-QJsonObject PasteCommand::takeSceneJsonFromClipboard()
+QJsonObject QExtBPPasteCommand::takeSceneJsonFromClipboard()
 {
     QClipboard const *clipboard = QApplication::clipboard();
     QMimeData const *mimeData = clipboard->mimeData();
@@ -321,11 +322,11 @@ QJsonObject PasteCommand::takeSceneJsonFromClipboard()
     return json.object();
 }
 
-QJsonObject PasteCommand::makeNewNodeIdsInScene(QJsonObject const &sceneJson)
+QJsonObject QExtBPPasteCommand::makeNewNodeIdsInScene(QJsonObject const &sceneJson)
 {
-    AbstractGraphModel &graphModel = _scene->graphModel();
+    QExtBPAbstractGraphModel &graphModel = _scene->graphModel();
 
-    std::unordered_map<NodeId, NodeId> mapNodeIds;
+    std::unordered_map<QExtBPTypes::NodeId, QExtBPTypes::NodeId> mapNodeIds;
 
     QJsonArray nodesJsonArray = sceneJson["nodes"].toArray();
 
@@ -333,13 +334,13 @@ QJsonObject PasteCommand::makeNewNodeIdsInScene(QJsonObject const &sceneJson)
     for (QJsonValueRef node : nodesJsonArray) {
         QJsonObject nodeJson = node.toObject();
 
-        NodeId oldNodeId = nodeJson["id"].toInt();
+        QExtBPTypes::NodeId oldNodeId = nodeJson["id"].toInt();
 
-        NodeId newNodeId = graphModel.newNodeId();
+        QExtBPTypes::NodeId newNodeId = graphModel.newNodeId();
 
         mapNodeIds[oldNodeId] = newNodeId;
 
-        // Replace NodeId in json
+        // Replace QExtBPTypes::NodeId in json
         nodeJson["id"] = static_cast<qint64>(newNodeId);
 
         newNodesJsonArray.append(nodeJson);
@@ -351,14 +352,14 @@ QJsonObject PasteCommand::makeNewNodeIdsInScene(QJsonObject const &sceneJson)
     for (QJsonValueRef connection : connectionJsonArray) {
         QJsonObject connJson = connection.toObject();
 
-        ConnectionId connId = fromJson(connJson);
+        QExtBPTypes::ConnectionId connId = QExtBPUtils::fromJson(connJson);
 
-        ConnectionId newConnId{mapNodeIds[connId.outNodeId],
-                               connId.outPortIndex,
-                               mapNodeIds[connId.inNodeId],
-                               connId.inPortIndex};
+        QExtBPTypes::ConnectionId newConnId{mapNodeIds[connId.outNodeId],
+                    connId.outPortIndex,
+                    mapNodeIds[connId.inNodeId],
+                    connId.inPortIndex};
 
-        newConnJsonArray.append(toJson(newConnId));
+        newConnJsonArray.append(QExtBPUtils::toJson(newConnId));
     }
 
     QJsonObject newSceneJson;
@@ -371,26 +372,26 @@ QJsonObject PasteCommand::makeNewNodeIdsInScene(QJsonObject const &sceneJson)
 
 //-------------------------------------
 
-DisconnectCommand::DisconnectCommand(BasicGraphicsScene *scene, ConnectionId const connId)
+QExtBPDisconnectCommand::QExtBPDisconnectCommand(QExtBPBasicGraphicsScene *scene, QExtBPTypes::ConnectionId const connId)
     : _scene(scene)
     , _connId(connId)
 {
     //
 }
 
-void DisconnectCommand::undo()
+void QExtBPDisconnectCommand::undo()
 {
     _scene->graphModel().addConnection(_connId);
 }
 
-void DisconnectCommand::redo()
+void QExtBPDisconnectCommand::redo()
 {
     _scene->graphModel().deleteConnection(_connId);
 }
 
 //------
 
-ConnectCommand::ConnectCommand(BasicGraphicsScene *scene, ConnectionId const connId)
+ConnectCommand::ConnectCommand(QExtBPBasicGraphicsScene *scene, QExtBPTypes::ConnectionId const connId)
     : _scene(scene)
     , _connId(connId)
 {
@@ -409,48 +410,48 @@ void ConnectCommand::redo()
 
 //------
 
-MoveNodeCommand::MoveNodeCommand(BasicGraphicsScene *scene, QPointF const &diff)
+QExtBPMoveNodeCommand::QExtBPMoveNodeCommand(QExtBPBasicGraphicsScene *scene, QPointF const &diff)
     : _scene(scene)
     , _diff(diff)
 {
     _selectedNodes.clear();
     for (QGraphicsItem *item : _scene->selectedItems()) {
-        if (auto n = qgraphicsitem_cast<NodeGraphicsObject *>(item)) {
+        if (auto n = qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item)) {
             _selectedNodes.insert(n->nodeId());
         }
     }
 }
 
-void MoveNodeCommand::undo()
+void QExtBPMoveNodeCommand::undo()
 {
     for (auto nodeId : _selectedNodes) {
-        auto oldPos = _scene->graphModel().nodeData(nodeId, NodeRole::Position).value<QPointF>();
+        auto oldPos = _scene->graphModel().nodeData(nodeId, QExtBPTypes::NodeRole_Position).value<QPointF>();
 
         oldPos -= _diff;
 
-        _scene->graphModel().setNodeData(nodeId, NodeRole::Position, oldPos);
+        _scene->graphModel().setNodeData(nodeId, QExtBPTypes::NodeRole_Position, oldPos);
     }
 }
 
-void MoveNodeCommand::redo()
+void QExtBPMoveNodeCommand::redo()
 {
     for (auto nodeId : _selectedNodes) {
-        auto oldPos = _scene->graphModel().nodeData(nodeId, NodeRole::Position).value<QPointF>();
+        auto oldPos = _scene->graphModel().nodeData(nodeId, QExtBPTypes::NodeRole_Position).value<QPointF>();
 
         oldPos += _diff;
 
-        _scene->graphModel().setNodeData(nodeId, NodeRole::Position, oldPos);
+        _scene->graphModel().setNodeData(nodeId, QExtBPTypes::NodeRole_Position, oldPos);
     }
 }
 
-int MoveNodeCommand::id() const
+int QExtBPMoveNodeCommand::id() const
 {
-    return static_cast<int>(typeid(MoveNodeCommand).hash_code());
+    return static_cast<int>(typeid(QExtBPMoveNodeCommand).hash_code());
 }
 
-bool MoveNodeCommand::mergeWith(QUndoCommand const *c)
+bool QExtBPMoveNodeCommand::mergeWith(QUndoCommand const *c)
 {
-    auto mc = static_cast<MoveNodeCommand const *>(c);
+    auto mc = static_cast<QExtBPMoveNodeCommand const *>(c);
 
     if (_selectedNodes == mc->_selectedNodes) {
         _diff += mc->_diff;
@@ -458,5 +459,3 @@ bool MoveNodeCommand::mergeWith(QUndoCommand const *c)
     }
     return false;
 }
-
-} // namespace QtNodes

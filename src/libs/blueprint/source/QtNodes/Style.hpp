@@ -7,14 +7,13 @@
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
-namespace QtNodes {
 
-class Style // : public QObject
+class QExtBPStyle // : public QObject
 {
     //Q_OBJECT
 
 public:
-    virtual ~Style() = default;
+    virtual ~QExtBPStyle() = default;
 
 public:
     virtual void loadJson(QJsonObject const &json) = 0;
@@ -45,4 +44,3 @@ public:
     }
 };
 
-} // namespace QtNodes

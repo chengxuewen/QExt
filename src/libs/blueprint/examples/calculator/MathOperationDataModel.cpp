@@ -2,11 +2,11 @@
 
 #include "DecimalData.hpp"
 
-unsigned int MathOperationDataModel::nPorts(PortType portType) const
+unsigned int MathOperationDataModel::nPorts(QExtBPTypes::PortTypeEnum portType) const
 {
     unsigned int result;
 
-    if (portType == PortType::In)
+    if (portType == QExtBPTypes::PortType_In)
         result = 2;
     else
         result = 1;
@@ -14,17 +14,17 @@ unsigned int MathOperationDataModel::nPorts(PortType portType) const
     return result;
 }
 
-NodeDataType MathOperationDataModel::dataType(PortType, PortIndex) const
+QExtBPNodeDataType MathOperationDataModel::dataType(QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex) const
 {
     return DecimalData().type();
 }
 
-std::shared_ptr<NodeData> MathOperationDataModel::outData(PortIndex)
+std::shared_ptr<QExtBPNodeData> MathOperationDataModel::outData(QExtBPTypes::PortIndex)
 {
-    return std::static_pointer_cast<NodeData>(_result);
+    return std::static_pointer_cast<QExtBPNodeData>(_result);
 }
 
-void MathOperationDataModel::setInData(std::shared_ptr<NodeData> data, PortIndex portIndex)
+void MathOperationDataModel::setInData(std::shared_ptr<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex)
 {
     auto numberData = std::dynamic_pointer_cast<DecimalData>(data);
 

@@ -2,20 +2,17 @@
 
 #include <QPainter>
 
-#include "Export.hpp"
+#include <qextBlueprintGlobal.h>
 
 class QPainter;
 
-namespace QtNodes {
-
-class NodeGraphicsObject;
-class NodeDataModel;
+class QExtBPNodeGraphicsObject;
 
 /// Class enables custom painting.
-class NODE_EDITOR_PUBLIC AbstractNodePainter
+class QEXT_BLUEPRINT_API QExtBPAbstractNodePainter
 {
 public:
-    virtual ~AbstractNodePainter() = default;
+    virtual ~QExtBPAbstractNodePainter() = default;
 
     /**
    * Reimplement this function in order to have a custom painting.
@@ -24,6 +21,5 @@ public:
    * `NodeGraphicsObject::nodeScene()->nodeGeometry()`
    * `NodeGraphicsObject::graphModel()`
    */
-    virtual void paint(QPainter *painter, NodeGraphicsObject &ngo) const = 0;
+    virtual void paint(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const = 0;
 };
-} // namespace QtNodes

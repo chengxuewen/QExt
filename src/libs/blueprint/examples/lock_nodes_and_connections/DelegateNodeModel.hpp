@@ -8,21 +8,21 @@
 
 #include <memory>
 
-using QtNodes::NodeData;
-using QtNodes::NodeDataType;
-using QtNodes::NodeDelegateModel;
-using QtNodes::PortIndex;
-using QtNodes::PortType;
+//using QtNodes::QExtBPNodeData;
+//using QtNodes::QExtBPNodeDataType;
+//using QExtBPNodeDelegateModel;
+//using QExtBPTypes::PortIndex;
+//using QExtBPTypes::PortTypeEnum;
 
-class SimpleNodeData : public NodeData
+class SimpleNodeData : public QExtBPNodeData
 {
 public:
-    NodeDataType type() const override { return NodeDataType{"SimpleData", "Simple Data"}; }
+    QExtBPNodeDataType type() const override { return QExtBPNodeDataType{"SimpleData", "Simple Data"}; }
 };
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.
-class SimpleDataModel : public NodeDelegateModel
+class SimpleDataModel : public QExtBPNodeDelegateModel
 {
     Q_OBJECT
 
@@ -32,19 +32,19 @@ public:
     QString name() const override { return QString("SimpleDataModel"); }
 
 public:
-    unsigned int nPorts(PortType const portType) const override { return 2; }
+    unsigned int nPorts(QExtBPTypes::PortTypeEnum const portType) const override { return 2; }
 
-    NodeDataType dataType(PortType const portType, PortIndex const portIndex) const override
+    QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum const portType, QExtBPTypes::PortIndex const portIndex) const override
     {
         return SimpleNodeData().type();
     }
 
-    std::shared_ptr<NodeData> outData(PortIndex const port) override
+    std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override
     {
         return std::make_shared<SimpleNodeData>();
     }
 
-    void setInData(std::shared_ptr<NodeData>, PortIndex const) override {}
+    void setInData(std::shared_ptr<QExtBPNodeData>, QExtBPTypes::PortIndex const) override {}
 
     QWidget *embeddedWidget() override { return nullptr; }
 };
