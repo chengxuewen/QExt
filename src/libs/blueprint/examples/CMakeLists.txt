@@ -41,7 +41,7 @@ endif()
 list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Blueprint)
 
 
-set(OUTPUT_DIR ${QEXT_OUTPUT_EXAMPLE_DIR}/blueprint)
+set(OUTPUT_DIR ${QEXT_INSTALL_EXAMPLESDIR}/blueprint)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------

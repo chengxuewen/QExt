@@ -15,8 +15,10 @@ DataFlowGraphModel::DataFlowGraphModel(std::shared_ptr<NodeDelegateModelRegistry
 std::unordered_set<NodeId> DataFlowGraphModel::allNodeIds() const
 {
     std::unordered_set<NodeId> nodeIds;
-    for_each(_models.begin(), _models.end(), [&nodeIds](auto const &p) { nodeIds.insert(p.first); });
-
+    for (auto &&model : _models)
+    {
+        nodeIds.insert(model.first);
+    }
     return nodeIds;
 }
 
@@ -58,7 +60,7 @@ bool DataFlowGraphModel::connectionExists(ConnectionId const connectionId) const
 
 NodeId DataFlowGraphModel::addNode(QString const nodeType)
 {
-    std::unique_ptr<NodeDelegateModel> model = _registry->create(nodeType);
+    QScopedPointer<NodeDelegateModel> model(_registry->create(nodeType));
 
     if (model) {
         NodeId newId = newNodeId();
@@ -93,7 +95,7 @@ NodeId DataFlowGraphModel::addNode(QString const nodeType)
                 this,
                 &DataFlowGraphModel::portsInserted);
 
-        _models[newId] = std::move(model);
+        _models[newId].swap(model);
 
         Q_EMIT nodeCreated(newId);
 
@@ -464,7 +466,7 @@ void DataFlowGraphModel::loadNode(QJsonObject const &nodeJson)
 
     QString delegateModelName = internalDataJson["model-name"].toString();
 
-    std::unique_ptr<NodeDelegateModel> model = _registry->create(delegateModelName);
+    QScopedPointer<NodeDelegateModel> model(_registry->create(delegateModelName));
 
     if (model) {
         connect(model.get(),
@@ -473,7 +475,7 @@ void DataFlowGraphModel::loadNode(QJsonObject const &nodeJson)
                     onOutPortDataUpdated(restoredNodeId, portIndex);
                 });
 
-        _models[restoredNodeId] = std::move(model);
+        _models[restoredNodeId].swap(model);
 
         Q_EMIT nodeCreated(restoredNodeId);
 

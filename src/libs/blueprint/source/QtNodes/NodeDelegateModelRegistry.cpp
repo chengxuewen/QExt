@@ -7,7 +7,7 @@ using QtNodes::NodeDataType;
 using QtNodes::NodeDelegateModel;
 using QtNodes::NodeDelegateModelRegistry;
 
-std::unique_ptr<NodeDelegateModel> NodeDelegateModelRegistry::create(QString const &modelName)
+NodeDelegateModel *NodeDelegateModelRegistry::create(QString const &modelName)
 {
     auto it = _registeredItemCreators.find(modelName);
 

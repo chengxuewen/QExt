@@ -34,8 +34,8 @@ namespace QtNodes {
 BasicGraphicsScene::BasicGraphicsScene(AbstractGraphModel &graphModel, QObject *parent)
     : QGraphicsScene(parent)
     , _graphModel(graphModel)
-    , _nodeGeometry(std::make_unique<DefaultHorizontalNodeGeometry>(_graphModel))
-    , _nodePainter(std::make_unique<DefaultNodePainter>())
+    , _nodeGeometry(new DefaultHorizontalNodeGeometry(_graphModel))
+    , _nodePainter(new DefaultNodePainter())
     , _nodeDrag(false)
     , _undoStack(new QUndoStack(this))
     , _orientation(Qt::Horizontal)
@@ -101,9 +101,9 @@ AbstractNodePainter &BasicGraphicsScene::nodePainter()
     return *_nodePainter;
 }
 
-void BasicGraphicsScene::setNodePainter(std::unique_ptr<AbstractNodePainter> newPainter)
+void BasicGraphicsScene::setNodePainter(QScopedPointer<AbstractNodePainter> newPainter)
 {
-    _nodePainter = std::move(newPainter);
+    _nodePainter.swap(newPainter);
 }
 
 QUndoStack &BasicGraphicsScene::undoStack()
@@ -111,10 +111,10 @@ QUndoStack &BasicGraphicsScene::undoStack()
     return *_undoStack;
 }
 
-std::unique_ptr<ConnectionGraphicsObject> const &BasicGraphicsScene::makeDraftConnection(
+const QScopedPointer<ConnectionGraphicsObject> &BasicGraphicsScene::makeDraftConnection(
     ConnectionId const incompleteConnectionId)
 {
-    _draftConnection = std::make_unique<ConnectionGraphicsObject>(*this, incompleteConnectionId);
+    _draftConnection.reset(new ConnectionGraphicsObject(*this, incompleteConnectionId));
 
     _draftConnection->grabMouse();
 
@@ -164,11 +164,11 @@ void BasicGraphicsScene::setOrientation(Qt::Orientation const orientation)
 
         switch (_orientation) {
         case Qt::Horizontal:
-            _nodeGeometry = std::make_unique<DefaultHorizontalNodeGeometry>(_graphModel);
+            _nodeGeometry.reset(new DefaultHorizontalNodeGeometry(_graphModel));
             break;
 
         case Qt::Vertical:
-            _nodeGeometry = std::make_unique<DefaultVerticalNodeGeometry>(_graphModel);
+            _nodeGeometry.reset(new DefaultVerticalNodeGeometry(_graphModel));
             break;
         }
 
@@ -188,7 +188,7 @@ void BasicGraphicsScene::traverseGraphAndPopulateGraphicsObjects()
 
     // First create all the nodes.
     for (NodeId const nodeId : allNodeIds) {
-        _nodeGraphicsObjects[nodeId] = std::make_unique<NodeGraphicsObject>(*this, nodeId);
+        _nodeGraphicsObjects[nodeId].reset(new NodeGraphicsObject(*this, nodeId));
     }
 
     // Then for each node check output connections and insert them.
@@ -199,8 +199,7 @@ void BasicGraphicsScene::traverseGraphAndPopulateGraphicsObjects()
             auto const &outConnectionIds = _graphModel.connections(nodeId, PortType::Out, index);
 
             for (auto cid : outConnectionIds) {
-                _connectionGraphicsObjects[cid] = std::make_unique<ConnectionGraphicsObject>(*this,
-                                                                                             cid);
+                _connectionGraphicsObjects[cid].reset(new ConnectionGraphicsObject(*this, cid));
             }
         }
     }
@@ -234,8 +233,7 @@ void BasicGraphicsScene::onConnectionDeleted(ConnectionId const connectionId)
 
 void BasicGraphicsScene::onConnectionCreated(ConnectionId const connectionId)
 {
-    _connectionGraphicsObjects[connectionId]
-        = std::make_unique<ConnectionGraphicsObject>(*this, connectionId);
+    _connectionGraphicsObjects[connectionId].reset(new ConnectionGraphicsObject(*this, connectionId));
 
     updateAttachedNodes(connectionId, PortType::Out);
     updateAttachedNodes(connectionId, PortType::In);
@@ -251,7 +249,7 @@ void BasicGraphicsScene::onNodeDeleted(NodeId const nodeId)
 
 void BasicGraphicsScene::onNodeCreated(NodeId const nodeId)
 {
-    _nodeGraphicsObjects[nodeId] = std::make_unique<NodeGraphicsObject>(*this, nodeId);
+    _nodeGraphicsObjects[nodeId].reset(new NodeGraphicsObject(*this, nodeId));
 }
 
 void BasicGraphicsScene::onNodePositionUpdated(NodeId const nodeId)

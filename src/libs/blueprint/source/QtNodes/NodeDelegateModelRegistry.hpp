@@ -21,7 +21,7 @@ namespace QtNodes {
 class NODE_EDITOR_PUBLIC NodeDelegateModelRegistry
 {
 public:
-    using RegistryItemPtr = std::unique_ptr<NodeDelegateModel>;
+    using RegistryItemPtr = NodeDelegateModel *;
     using RegistryItemCreator = std::function<RegistryItemPtr()>;
     using RegisteredModelCreatorsMap = std::unordered_map<QString, RegistryItemCreator>;
     using RegisteredModelsCategoryMap = std::unordered_map<QString, QString>;
@@ -54,7 +54,7 @@ public:
     template<typename ModelType>
     void registerModel(QString const &category = "Nodes")
     {
-        RegistryItemCreator creator = []() { return std::make_unique<ModelType>(); };
+        RegistryItemCreator creator = []() { return new ModelType(); };
         registerModel<ModelType>(std::move(creator), category);
     }
 
@@ -94,7 +94,7 @@ public:
 
 #endif
 
-    std::unique_ptr<NodeDelegateModel> create(QString const &modelName);
+    NodeDelegateModel *create(QString const &modelName);
 
     RegisteredModelCreatorsMap const &registeredModelCreators() const;
 

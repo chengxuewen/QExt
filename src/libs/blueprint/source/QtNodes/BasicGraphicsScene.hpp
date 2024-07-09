@@ -49,7 +49,7 @@ public:
 
     AbstractNodePainter &nodePainter();
 
-    void setNodePainter(std::unique_ptr<AbstractNodePainter> newPainter);
+    void setNodePainter(QScopedPointer<AbstractNodePainter> newPainter);
 
     QUndoStack &undoStack();
 
@@ -62,7 +62,7 @@ public:
    * Function @returns the "draft" instance for further geometry
    * manipulations.
    */
-    std::unique_ptr<ConnectionGraphicsObject> const &makeDraftConnection(
+   QScopedPointer<ConnectionGraphicsObject> const &makeDraftConnection(
         ConnectionId const newConnectionId);
 
     /// Deletes "draft" connection.
@@ -162,11 +162,11 @@ private:
 
     std::unordered_map<ConnectionId, UniqueConnectionGraphicsObject> _connectionGraphicsObjects;
 
-    std::unique_ptr<ConnectionGraphicsObject> _draftConnection;
+    QScopedPointer<ConnectionGraphicsObject> _draftConnection;
 
-    std::unique_ptr<AbstractNodeGeometry> _nodeGeometry;
+    QScopedPointer<AbstractNodeGeometry> _nodeGeometry;
 
-    std::unique_ptr<AbstractNodePainter> _nodePainter;
+    QScopedPointer<AbstractNodePainter> _nodePainter;
 
     bool _nodeDrag;
 

@@ -206,7 +206,8 @@ void GraphicsView::setScaleRange(double minimum, double maximum)
     minimum = std::max(0.0, minimum);
     maximum = std::max(0.0, maximum);
 
-    _scaleRange = {minimum, maximum};
+    _scaleRange.minimum = minimum;
+    _scaleRange.maximum = maximum;
 
     setupScale(transform().m11());
 }

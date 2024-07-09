@@ -125,7 +125,7 @@ private:
 
     NodeId _nextNodeId;
 
-    std::unordered_map<NodeId, std::unique_ptr<NodeDelegateModel>> _models;
+    std::unordered_map<NodeId, QScopedPointer<NodeDelegateModel>> _models;
 
     std::unordered_set<ConnectionId> _connectivity;
 
