@@ -2,9 +2,7 @@
 
 #include <QtCore/QObject>
 
-// #include <QtNodes/NodeData>
-// #include <QtNodes/NodeDelegateModel>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <memory>
 

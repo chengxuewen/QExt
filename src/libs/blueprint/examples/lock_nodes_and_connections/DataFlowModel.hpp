@@ -1,12 +1,4 @@
-// #include <QtNodes/DataFlowGraphModel>
-#include <qextBlueprintNode.h>
-
-//using QExtBPTypes::ConnectionId;
-//using QExtBPDataFlowGraphModel;
-//using QExtBPNodeDelegateModelRegistry;
-//using QtNodes::NodeFlag;
-//using QtNodes::NodeFlags;
-//using QExtBPTypes::NodeId;
+#include <QExtBlueprint>
 
 class DataFlowModel : public QExtBPDataFlowGraphModel
 {

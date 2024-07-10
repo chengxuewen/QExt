@@ -1,20 +1,12 @@
 #pragma once
 
-// #include <QtNodes/NodeDelegateModel>
-
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QtCore/QObject>
 
 #include <iostream>
 
 #include "DecimalData.hpp"
-
-//using QtNodes::QExtBPNodeData;
-//using QtNodes::QExtBPNodeDataType;
-//using QExtBPNodeDelegateModel;
-//using QExtBPTypes::PortIndex;
-//using QExtBPTypes::PortTypeEnum;
 
 class QLabel;
 

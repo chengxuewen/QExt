@@ -5,14 +5,8 @@
 #include "NumberSourceDataModel.hpp"
 #include "SubtractionModel.hpp"
 
-// #include <QtNodes/DataFlowGraphModel>
-// #include <QtNodes/NodeDelegateModelRegistry>
+#include <QExtBlueprint>
 
-#include <qextBlueprintNode.h>
-
-//using QExtBPDataFlowGraphModel;
-//using QExtBPNodeDelegateModelRegistry;
-//using QExtBPTypes::NodeId;
 
 static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {

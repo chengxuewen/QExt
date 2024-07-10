@@ -3,9 +3,7 @@
 #include "DecimalData.hpp"
 #include "MathOperationDataModel.hpp"
 
-// #include <QtNodes/NodeDelegateModel>
-
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>

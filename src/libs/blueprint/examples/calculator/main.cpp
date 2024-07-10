@@ -1,11 +1,4 @@
-// #include <QtNodes/ConnectionStyle>
-// #include <QtNodes/DataFlowGraphModel>
-// #include <QtNodes/DataFlowGraphicsScene>
-// #include <QtNodes/GraphicsView>
-// #include <QtNodes/NodeData>
-// #include <QtNodes/NodeDelegateModelRegistry>
-
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>

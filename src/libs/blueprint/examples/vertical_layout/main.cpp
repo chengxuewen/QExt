@@ -7,19 +7,9 @@
 #include <QGroupBox>
 #include <QRadioButton>
 
-// #include <QtNodes/BasicGraphicsScene>
-// #include <QtNodes/GraphicsView>
-// #include <QtWidgets/QApplication>
-// #include <QtWidgets/QGroupBox>
-// #include <QtWidgets/QHBoxLayout>
-// #include <QtWidgets/QRadioButton>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include "SimpleGraphModel.hpp"
-
-//using QExtBPBasicGraphicsScene;
-//using QtNodes::QExtBPGraphicsView;
-//using QtNodes::NodeRole;
 
 int main(int argc, char *argv[])
 {

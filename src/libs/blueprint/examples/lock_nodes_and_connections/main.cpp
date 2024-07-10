@@ -1,7 +1,4 @@
-// #include <QtNodes/DataFlowGraphicsScene>
-// #include <QtNodes/GraphicsView>
-// #include <QtNodes/NodeDelegateModelRegistry>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QAction>
 #include <QScreen>
@@ -13,10 +10,6 @@
 #include "DataFlowModel.hpp"
 #include "DelegateNodeModel.hpp"
 
-//using QtNodes::QExtBPDataFlowGraphicsScene;
-//using QtNodes::QExtBPGraphicsView;
-//using QExtBPNodeDelegateModelRegistry;
-//using QtNodes::NodeRole;
 
 static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {

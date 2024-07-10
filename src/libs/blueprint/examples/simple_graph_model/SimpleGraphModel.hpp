@@ -4,21 +4,7 @@
 #include <QtCore/QPointF>
 #include <QtCore/QSize>
 
-// #include <QtNodes/AbstractGraphModel>
-// #include <QtNodes/ConnectionIdUtils>
-// #include <QtNodes/StyleCollection>
-#include <qextBlueprintNode.h>
-
-//using QExtBPTypes::ConnectionId = QExtBPTypes::ConnectionId;
-//using QExtBPTypes::ConnectionPolicyEnum = QtNodes::ConnectionPolicy;
-//using QExtBPTypes::NodeFlagEnum = QtNodes::NodeFlag;
-//using QExtBPTypes::NodeId = QExtBPTypes::NodeId;
-//usi QExtBPTypes::NodeRoleEnum e = QtNodes::NodeRole;
-//using QExtBPTypes::PortIndex = QExtBPTypes::PortIndex;
-//using QExtBPTypes::PortRoleEnum = QtNodes::PortRole;
-//using QExtBPTypes::PortTypeEnum = QExtBPTypes::PortTypeEnum;
-//using StyleCollection = QtNodes::QExtBPStyleCollection;
-//using QtNodes::InvalidNodeId;
+#include <QExtBlueprint>
 
 /**
  * The class implements a bare minimum required to demonstrate a model-based

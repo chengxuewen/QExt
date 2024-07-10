@@ -1,8 +1,4 @@
-// #include <QtNodes/BasicGraphicsScene>
-// #include <QtNodes/ConnectionStyle>
-// #include <QtNodes/GraphicsView>
-// #include <QtNodes/StyleCollection>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QAction>
 #include <QScreen>
@@ -10,11 +6,6 @@
 
 #include "SimpleGraphModel.hpp"
 
-//using QExtBPBasicGraphicsScene;
-//using QtNodes::QExtBPConnectionStyle;
-//using QtNodes::QExtBPGraphicsView;
-//using QtNodes::NodeRole;
-//using QtNodes::QExtBPStyleCollection;
 
 int main(int argc, char *argv[])
 {

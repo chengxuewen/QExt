@@ -2,8 +2,7 @@
 
 #include "TextData.hpp"
 
-// #include <QtNodes/NodeDelegateModel>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
@@ -11,11 +10,6 @@
 #include <iostream>
 #include <vector>
 
-//using QtNodes::ConnectionPolicy;
-//using QtNodes::QExtBPNodeData;
-//using QExtBPNodeDelegateModel;
-//using QExtBPTypes::PortIndex;
-//using QExtBPTypes::PortTypeEnum;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.

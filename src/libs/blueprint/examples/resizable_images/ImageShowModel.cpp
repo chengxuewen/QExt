@@ -2,8 +2,7 @@
 
 #include "PixmapData.hpp"
 
-// #include <QtNodes/NodeDelegateModelRegistry>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QtCore/QDir>
 #include <QtCore/QEvent>

@@ -3,15 +3,10 @@
 #include <QPushButton>
 #include <QWidget>
 
-// #include <QtNodes/Definitions>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-
-//using QExtBPTypes::NodeId;
-//using QExtBPTypes::PortIndex;
-//using QExtBPTypes::PortTypeEnum;
 
 class DynamicPortsModel;
 

@@ -1,10 +1,6 @@
 #pragma once
 
-// #include <QtNodes/NodeData>
-#include <qextBlueprintNode.h>
-
-//using QtNodes::QExtBPNodeData;
-//using QtNodes::QExtBPNodeDataType;
+#include <QExtBlueprint>
 
 /// The class can potentially incapsulate any user data which
 /// need to be transferred within the Node Editor graph

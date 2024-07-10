@@ -1,8 +1,6 @@
 #pragma once
 
-// #include <QtNodes/NodeDelegateModel>
-
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QtCore/QObject>
 

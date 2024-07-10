@@ -2,17 +2,10 @@
 
 #include <QtCore/QObject>
 
-// #include <QtNodes/NodeData>
-// #include <QtNodes/NodeDelegateModel>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <memory>
 
-//using QtNodes::QExtBPNodeData;
-//using QtNodes::QExtBPNodeDataType;
-//using QExtBPNodeDelegateModel;
-//using QExtBPTypes::PortIndex;
-//using QExtBPTypes::PortTypeEnum;
 
 /// The class can potentially incapsulate any user data which need to
 /// be transferred within the Node Editor graph

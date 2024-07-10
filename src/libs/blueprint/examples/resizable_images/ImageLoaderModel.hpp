@@ -5,17 +5,9 @@
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
 
-// #include <QtNodes/NodeDelegateModel>
-// #include <QtNodes/NodeDelegateModelRegistry>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include "PixmapData.hpp"
-
-//using QtNodes::QExtBPNodeData;
-//using QtNodes::QExtBPNodeDataType;
-//using QExtBPNodeDelegateModel;
-//using QExtBPTypes::PortIndex;
-//using QExtBPTypes::PortTypeEnum;
 
 /// The model dictates the number of inputs and outputs for the Node.
 /// In this example it has no logic.

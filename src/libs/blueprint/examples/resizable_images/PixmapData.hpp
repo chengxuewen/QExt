@@ -2,11 +2,8 @@
 
 #include <QtGui/QPixmap>
 
-// #include <QtNodes/NodeData>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
-//using QtNodes::QExtBPNodeData;
-//using QtNodes::QExtBPNodeDataType;
 
 /// The class can potentially incapsulate any user data which
 /// need to be transferred within the Node Editor graph

@@ -3,9 +3,7 @@
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
 
-// #include <QtNodes/NodeDelegateModel>
-
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include "MathOperationDataModel.hpp"
 

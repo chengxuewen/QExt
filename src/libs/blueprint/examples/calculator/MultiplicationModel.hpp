@@ -1,14 +1,11 @@
 #pragma once
 
-// #include <QtNodes/NodeDelegateModel>
-
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QtCore/QObject>
 #include <QtWidgets/QLabel>
 
 #include "MathOperationDataModel.hpp"
-
 #include "DecimalData.hpp"
 
 /// The model dictates the number of inputs and outputs for the Node.

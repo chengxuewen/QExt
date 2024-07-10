@@ -1,8 +1,4 @@
-// #include <QtNodes/BasicGraphicsScene>
-// #include <QtNodes/ConnectionStyle>
-// #include <QtNodes/GraphicsView>
-// #include <QtNodes/StyleCollection>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QAction>
 #include <QFileDialog>
@@ -12,12 +8,6 @@
 #include <QtWidgets/QVBoxLayout>
 
 #include "DynamicPortsModel.hpp"
-
-//using QExtBPBasicGraphicsScene;
-//using QtNodes::QExtBPConnectionStyle;
-//using QtNodes::QExtBPGraphicsView;
-//using QtNodes::NodeRole;
-//using QtNodes::QExtBPStyleCollection;
 
 void initializeModel(DynamicPortsModel &graphModel)
 {

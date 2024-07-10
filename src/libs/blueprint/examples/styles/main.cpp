@@ -1,24 +1,9 @@
 #include "models.hpp"
 
-// #include <QtNodes/ConnectionStyle>
-// #include <QtNodes/DataFlowGraphModel>
-// #include <QtNodes/DataFlowGraphicsScene>
-// #include <QtNodes/GraphicsView>
-// #include <QtNodes/GraphicsViewStyle>
-// #include <QtNodes/NodeData>
-// #include <QtNodes/NodeDelegateModelRegistry>
-// #include <QtNodes/NodeStyle>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QtWidgets/QApplication>
 
-//using QtNodes::QExtBPConnectionStyle;
-//using QtNodes::QExtBPDataFlowGraphicsScene;
-//using QExtBPDataFlowGraphModel;
-//using QtNodes::QExtBPGraphicsView;
-//using QtNodes::QExtBPGraphicsViewStyle;
-//using QExtBPNodeDelegateModelRegistry;
-//using QtNodes::QExtBPNodeStyle;
 
 static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {

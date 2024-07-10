@@ -2,8 +2,7 @@
 
 #include "PortAddRemoveWidget.hpp"
 
-// #include <QtNodes/ConnectionIdUtils>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QJsonArray>
 

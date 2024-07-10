@@ -1,19 +1,9 @@
-// #include <QtNodes/DataFlowGraphModel>
-// #include <QtNodes/DataFlowGraphicsScene>
-// #include <QtNodes/GraphicsView>
-// #include <QtNodes/NodeData>
-// #include <QtNodes/NodeDelegateModelRegistry>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <QtWidgets/QApplication>
 
 #include "TextDisplayDataModel.hpp"
 #include "TextSourceDataModel.hpp"
-
-//using QtNodes::QExtBPDataFlowGraphicsScene;
-//using QExtBPDataFlowGraphModel;
-//using QtNodes::QExtBPGraphicsView;
-//using QExtBPNodeDelegateModelRegistry;
 
 static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {

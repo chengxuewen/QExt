@@ -4,15 +4,10 @@
 
 #include "TextData.hpp"
 
-// #include <QtNodes/NodeDelegateModel>
-#include <qextBlueprintNode.h>
+#include <QExtBlueprint>
 
 #include <iostream>
 
-//using QtNodes::QExtBPNodeData;
-//using QExtBPNodeDelegateModel;
-//using QExtBPTypes::PortIndex;
-//using QExtBPTypes::PortTypeEnum;
 
 class QLineEdit;
 
