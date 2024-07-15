@@ -14,7 +14,7 @@ class QEXT_BLUEPRINT_API QExtBPDataFlowGraphicsScene : public QExtBPBasicGraphic
 {
     Q_OBJECT
 public:
-    QExtBPDataFlowGraphicsScene(QExtBPDataFlowGraphModel &graphModel, QObject *parent = nullptr);
+    QExtBPDataFlowGraphicsScene(QExtBPDataFlowGraphModel &graphModel, QObject *parent = QEXT_NULLPTR);
 
     ~QExtBPDataFlowGraphicsScene() = default;
 

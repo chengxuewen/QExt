@@ -2,6 +2,7 @@
 #define _QEXTBLUEPRINTGLOBAL_H
 
 #include <qextGlobal.h>
+#include <qextMemory.h>
 
 /***********************************************************************************************************************
    QExt Compiler specific cmds for export and import code to DLL

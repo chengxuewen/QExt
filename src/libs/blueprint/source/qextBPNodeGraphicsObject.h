@@ -84,7 +84,7 @@ private:
 
     QExtBPNodeState _nodeState;
 
-    // either nullptr or owned by parent QGraphicsItem
+    // either QEXT_NULLPTR or owned by parent QGraphicsItem
     QGraphicsProxyWidget *_proxyWidget;
 };
 

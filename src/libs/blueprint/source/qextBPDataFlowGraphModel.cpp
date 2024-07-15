@@ -5,8 +5,8 @@
 
 #include <stdexcept>
 
-QExtBPDataFlowGraphModel::QExtBPDataFlowGraphModel(std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry)
-    : _registry(std::move(registry))
+QExtBPDataFlowGraphModel::QExtBPDataFlowGraphModel(QSharedPointer<QExtBPNodeDelegateModelRegistry> registry)
+    : _registry(registry)
     , _nextNodeId{0}
 {}
 
@@ -353,16 +353,16 @@ bool QExtBPDataFlowGraphModel::setPortData(
 
     auto &model = it->second;
 
-    switch (role) {
+    switch (role)
+    {
     case QExtBPTypes::PortRole_Data:
-        if (portType == QExtBPTypes::PortType_In) {
-            model->setInData(value.value<std::shared_ptr<QExtBPNodeData>>(), portIndex);
-
+        if (portType == QExtBPTypes::PortType_In)
+        {
+            model->setInData(value.value<QSharedPointer<QExtBPNodeData>>(), portIndex);
             // Triggers repainting on the scene.
             Q_EMIT inPortDataWasSet(nodeId, portType, portIndex);
         }
         break;
-
     default:
         break;
     }

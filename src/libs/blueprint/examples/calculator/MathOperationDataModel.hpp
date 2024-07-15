@@ -30,18 +30,18 @@ public:
 
     QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex) const override;
 
-    std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex port) override;
+    QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex port) override;
 
-    void setInData(std::shared_ptr<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex) override;
+    void setInData(QSharedPointer<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex) override;
 
-    QWidget *embeddedWidget() override { return nullptr; }
+    QWidget *embeddedWidget() override { return QEXT_NULLPTR; }
 
 protected:
     virtual void compute() = 0;
 
 protected:
-    std::weak_ptr<DecimalData> _number1;
-    std::weak_ptr<DecimalData> _number2;
+    QWeakPointer<DecimalData> _number1;
+    QWeakPointer<DecimalData> _number2;
 
-    std::shared_ptr<DecimalData> _result;
+    QSharedPointer<DecimalData> _result;
 };

@@ -110,7 +110,7 @@ public:
         {
             delete *iter;
         }
-        const bool value = QEXTIsBaseOf<QEXTEmitter<T_emitter>, T_emitter>::value;
+        const bool value = QExtIsBaseOf<QEXTEmitter<T_emitter>, T_emitter>::value;
         QEXT_STATIC_ASSERT(value);
     }
 

@@ -14,15 +14,9 @@
 #include "NumberSourceDataModel.hpp"
 #include "SubtractionModel.hpp"
 
-//using QtNodes::QExtBPConnectionStyle;
-//using QtNodes::QExtBPDataFlowGraphicsScene;
-//using QExtBPDataFlowGraphModel;
-//using QtNodes::QExtBPGraphicsView;
-//using QExtBPNodeDelegateModelRegistry;
-
-static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
+static QSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
-    auto ret = std::make_shared<QExtBPNodeDelegateModelRegistry>();
+    auto ret = qextMakeShared<QExtBPNodeDelegateModelRegistry>();
     ret->registerModel<NumberSourceDataModel>("Sources");
 
     ret->registerModel<NumberDisplayDataModel>("Displays");
@@ -66,7 +60,7 @@ int main(int argc, char *argv[])
 
     setStyle();
 
-    std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
+    QSharedPointer<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
 
     QWidget mainWidget;
 

@@ -81,7 +81,7 @@ template<
         typename T_arg5 = void,
         typename T_arg6 = void,
         typename T_arg7 = void,
-        bool I_derives_adaptor_base = QEXTIsBaseOf<QExtAdaptorBase, T_functor>::value>
+        bool I_derives_adaptor_base = QExtIsBaseOf<QExtAdaptorBase, T_functor>::value>
 struct QExtReturnTypeDeduce
 {
     typedef typename QExtFunctorTrait<T_functor>::Return Type;

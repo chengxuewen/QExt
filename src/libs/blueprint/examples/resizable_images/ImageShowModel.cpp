@@ -50,7 +50,7 @@ bool ImageShowModel::eventFilter(QObject *object, QEvent *event)
         int h = _label->height();
 
         if (event->type() == QEvent::Resize) {
-            auto d = std::dynamic_pointer_cast<PixmapData>(_nodeData);
+            auto d = _nodeData.dynamicCast<PixmapData>();
             if (d) {
                 _label->setPixmap(d->pixmap().scaled(w, h, Qt::KeepAspectRatio));
             }
@@ -65,23 +65,26 @@ QExtBPNodeDataType ImageShowModel::dataType(QExtBPTypes::PortTypeEnum const, QEx
     return PixmapData().type();
 }
 
-std::shared_ptr<QExtBPNodeData> ImageShowModel::outData(QExtBPTypes::PortIndex)
+QSharedPointer<QExtBPNodeData> ImageShowModel::outData(QExtBPTypes::PortIndex)
 {
     return _nodeData;
 }
 
-void ImageShowModel::setInData(std::shared_ptr<QExtBPNodeData> nodeData, QExtBPTypes::PortIndex const)
+void ImageShowModel::setInData(QSharedPointer<QExtBPNodeData> nodeData, QExtBPTypes::PortIndex const)
 {
     _nodeData = nodeData;
 
-    if (_nodeData) {
-        auto d = std::dynamic_pointer_cast<PixmapData>(_nodeData);
+    if (_nodeData)
+    {
+        auto d = _nodeData.dynamicCast<PixmapData>();
 
         int w = _label->width();
         int h = _label->height();
 
         _label->setPixmap(d->pixmap().scaled(w, h, Qt::KeepAspectRatio));
-    } else {
+    }
+    else
+    {
         _label->setPixmap(QPixmap());
     }
 

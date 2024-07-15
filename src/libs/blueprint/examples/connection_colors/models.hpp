@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QtCore/QObject>
-
 #include <QExtBlueprint>
+
+#include <QObject>
 
 #include <memory>
 
@@ -90,18 +90,18 @@ public:
         return QExtBPNodeDataType();
     }
 
-    std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override
+    QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override
     {
         if (port < 1)
-            return std::make_shared<MyNodeData>();
+            return qextMakeShared<MyNodeData>();
 
-        return std::make_shared<SimpleNodeData>();
+        return qextMakeShared<SimpleNodeData>();
     }
 
-    void setInData(std::shared_ptr<QExtBPNodeData>, QExtBPTypes::PortIndex const) override
+    void setInData(QSharedPointer<QExtBPNodeData>, QExtBPTypes::PortIndex const) override
     {
         //
     }
 
-    QWidget *embeddedWidget() override { return nullptr; }
+    QWidget *embeddedWidget() override { return QEXT_NULLPTR; }
 };

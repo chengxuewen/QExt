@@ -9,7 +9,7 @@ class TextData : public QExtBPNodeData
 public:
     TextData() {}
 
-    TextData(QString const &text)
+    TextData(const QString &text)
         : _text(text)
     {}
 

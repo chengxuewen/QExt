@@ -31,12 +31,12 @@ public:
         return SimpleNodeData().type();
     }
 
-    std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override
+    QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override
     {
-        return std::make_shared<SimpleNodeData>();
+        return QSharedPointer<QExtBPNodeData>(new SimpleNodeData);
     }
 
-    void setInData(std::shared_ptr<QExtBPNodeData>, QExtBPTypes::PortIndex const) override {}
+    void setInData(QSharedPointer<QExtBPNodeData>, QExtBPTypes::PortIndex const) override {}
 
-    QWidget *embeddedWidget() override { return nullptr; }
+    QWidget *embeddedWidget() override { return QEXT_NULLPTR; }
 };

@@ -32,9 +32,9 @@ public:
 
     QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum const portType, QExtBPTypes::PortIndex const portIndex) const override;
 
-    std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override;
+    QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override;
 
-    void setInData(std::shared_ptr<QExtBPNodeData>, QExtBPTypes::PortIndex const portIndex) override {}
+    void setInData(QSharedPointer<QExtBPNodeData>, QExtBPTypes::PortIndex const portIndex) override {}
 
     QWidget *embeddedWidget() override { return _label; }
 

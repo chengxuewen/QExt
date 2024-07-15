@@ -3,7 +3,7 @@
 #include <QtWidgets/QLabel>
 
 NumberDisplayDataModel::NumberDisplayDataModel()
-    : _label{nullptr}
+    : _label(QEXT_NULLPTR)
 {}
 
 unsigned int NumberDisplayDataModel::nPorts(QExtBPTypes::PortTypeEnum portType) const
@@ -30,15 +30,15 @@ QExtBPNodeDataType NumberDisplayDataModel::dataType(QExtBPTypes::PortTypeEnum, Q
     return DecimalData().type();
 }
 
-std::shared_ptr<QExtBPNodeData> NumberDisplayDataModel::outData(QExtBPTypes::PortIndex)
+QSharedPointer<QExtBPNodeData> NumberDisplayDataModel::outData(QExtBPTypes::PortIndex)
 {
-    std::shared_ptr<QExtBPNodeData> ptr;
+    QSharedPointer<QExtBPNodeData> ptr;
     return ptr;
 }
 
-void NumberDisplayDataModel::setInData(std::shared_ptr<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex)
+void NumberDisplayDataModel::setInData(QSharedPointer<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex)
 {
-    _numberData = std::dynamic_pointer_cast<DecimalData>(data);
+    _numberData = data.dynamicCast<DecimalData>();
 
     if (!_label)
         return;

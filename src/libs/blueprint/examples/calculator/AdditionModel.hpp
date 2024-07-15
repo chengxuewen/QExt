@@ -29,7 +29,7 @@ private:
         auto n2 = _number2.lock();
 
         if (n1 && n2) {
-            _result = std::make_shared<DecimalData>(n1->number() + n2->number());
+            _result = qextMakeShared<DecimalData>(n1->number() + n2->number());
         } else {
             _result.reset();
         }

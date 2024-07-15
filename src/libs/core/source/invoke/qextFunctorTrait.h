@@ -35,8 +35,6 @@
 
 #include <QString>
 
-
-
 /** @defgroup sigqextunctors Functors
  * Functors are copyable types that define operator()().
  *
@@ -147,7 +145,7 @@ public:
  */
 template <
         typename T_functor,
-        bool I_derives_functor_base = QEXTIsBaseOf< QExtFunctorBase, T_functor >::value,
+        bool I_derives_functor_base = QExtIsBaseOf< QExtFunctorBase, T_functor >::value,
         bool I_can_use_decltype = QEXTCanDeduceResultTypeWithDecltype< T_functor >::value >
 struct QExtFunctorTrait
 {

@@ -30,7 +30,7 @@ class QEXT_BLUEPRINT_API QExtBPBasicGraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    QExtBPBasicGraphicsScene(QExtBPAbstractGraphModel &graphModel, QObject *parent = nullptr);
+    QExtBPBasicGraphicsScene(QExtBPAbstractGraphModel &graphModel, QObject *parent = QEXT_NULLPTR);
 
     // Scenes without models are not supported
     QExtBPBasicGraphicsScene() = delete;
@@ -77,13 +77,13 @@ public:
 public:
     /// @returns NodeGraphicsObject associated with the given nodeId.
     /**
-   * @returns nullptr when the object is not found.
+   * @returns QEXT_NULLPTR when the object is not found.
    */
     QExtBPNodeGraphicsObject *nodeGraphicsObject(QExtBPTypes::NodeId nodeId);
 
     /// @returns ConnectionGraphicsObject corresponding to `connectionId`.
     /**
-   * @returns `nullptr` when the object is not found.
+   * @returns `QEXT_NULLPTR` when the object is not found.
    */
     QExtBPConnectionGraphicsObject *connectionGraphicsObject(QExtBPTypes::ConnectionId connectionId);
 
@@ -94,7 +94,7 @@ public:
 public:
     /// Can @return an instance of the scene context menu in subclass.
     /**
-   * Default implementation returns `nullptr`.
+   * Default implementation returns `QEXT_NULLPTR`.
    */
     virtual QMenu *createSceneMenu(QPointF const scenePos);
 

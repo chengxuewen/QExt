@@ -7,9 +7,9 @@
 #include "ImageShowModel.hpp"
 
 
-static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
+static QSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
-    auto ret = std::make_shared<QExtBPNodeDelegateModelRegistry>();
+    auto ret = qextMakeShared<QExtBPNodeDelegateModelRegistry>();
     ret->registerModel<ImageShowModel>();
 
     ret->registerModel<ImageLoaderModel>();
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
+    QSharedPointer<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
 
     QExtBPDataFlowGraphModel dataFlowGraphModel(registry);
 

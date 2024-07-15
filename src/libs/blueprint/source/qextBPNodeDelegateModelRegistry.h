@@ -2,11 +2,11 @@
 #define _QEXTBPNODEDELEGATEMODELREGISTRY_H
 
 #include <qextBlueprintGlobal.h>
-#include "qextBPNodeData.h"
-#include "qextBPNodeDelegateModel.h"
-#include "qextBPQStringStdHash.h"
+#include <qextBPNodeDelegateModel.h>
+#include <qextBPQStringStdHash.h>
+#include <qextBPNodeData.h>
 
-#include <QtCore/QString>
+#include <QString>
 
 #include <functional>
 #include <memory>

@@ -23,10 +23,10 @@ QExtBPNodeGraphicsObject *locateNodeAt(QPointF scenePoint,
                  items.end(),
                  std::back_inserter(filteredItems),
                  [](QGraphicsItem *item) {
-        return (qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item) != nullptr);
+        return (qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item) != QEXT_NULLPTR);
     });
 
-    QExtBPNodeGraphicsObject *node = nullptr;
+    QExtBPNodeGraphicsObject *node = QEXT_NULLPTR;
 
     if (!filteredItems.empty()) {
         QGraphicsItem *graphicsItem = filteredItems.front();

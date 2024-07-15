@@ -11,7 +11,7 @@ QExtBPNodeDelegateModel *QExtBPNodeDelegateModelRegistry::create(QString const &
         return it->second();
     }
 
-    return nullptr;
+    return QEXT_NULLPTR;
 }
 
 QExtBPNodeDelegateModelRegistry::RegisteredModelCreatorsMap const &

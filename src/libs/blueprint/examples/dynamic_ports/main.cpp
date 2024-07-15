@@ -35,7 +35,7 @@ QMenuBar *createSaveRestoreMenu(DynamicPortsModel &graphModel,
     auto loadAction = menu->addAction("Load Scene");
 
     QObject::connect(saveAction, &QAction::triggered, scene, [&graphModel] {
-        QString fileName = QFileDialog::getSaveFileName(nullptr,
+        QString fileName = QFileDialog::getSaveFileName(QEXT_NULLPTR,
                                                         "Open Flow Scene",
                                                         QDir::homePath(),
                                                         "Flow Scene Files (*.flow)");
@@ -52,7 +52,7 @@ QMenuBar *createSaveRestoreMenu(DynamicPortsModel &graphModel,
     });
 
     QObject::connect(loadAction, &QAction::triggered, scene, [&graphModel, &view, scene] {
-        QString fileName = QFileDialog::getOpenFileName(nullptr,
+        QString fileName = QFileDialog::getOpenFileName(QEXT_NULLPTR,
                                                         "Open Flow Scene",
                                                         QDir::homePath(),
                                                         "Flow Scene Files (*.flow)");

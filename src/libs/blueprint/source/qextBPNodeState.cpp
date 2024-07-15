@@ -6,7 +6,7 @@ QExtBPNodeState::QExtBPNodeState(QExtBPNodeGraphicsObject &ngo)
     : _ngo(ngo)
     , _hovered(false)
     , _resizing(false)
-    , _connectionForReaction{nullptr}
+    , _connectionForReaction(QEXT_NULLPTR)
 {
     Q_UNUSED(_ngo);
 }

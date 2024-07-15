@@ -7,8 +7,8 @@
 #include <QtWidgets/QLineEdit>
 
 NumberSourceDataModel::NumberSourceDataModel()
-    : _lineEdit{nullptr}
-    , _number(std::make_shared<DecimalData>(0.0))
+    : _lineEdit(QEXT_NULLPTR)
+    , _number(qextMakeShared<DecimalData>(0.0))
 {}
 
 QJsonObject NumberSourceDataModel::save() const
@@ -30,7 +30,7 @@ void NumberSourceDataModel::load(QJsonObject const &p)
         bool ok;
         double d = strNum.toDouble(&ok);
         if (ok) {
-            _number = std::make_shared<DecimalData>(d);
+            _number = qextMakeShared<DecimalData>(d);
 
             if (_lineEdit)
                 _lineEdit->setText(strNum);
@@ -64,7 +64,7 @@ void NumberSourceDataModel::onTextEdited(QString const &str)
     double number = str.toDouble(&ok);
 
     if (ok) {
-        _number = std::make_shared<DecimalData>(number);
+        _number = qextMakeShared<DecimalData>(number);
 
         Q_EMIT dataUpdated(0);
 
@@ -78,7 +78,7 @@ QExtBPNodeDataType NumberSourceDataModel::dataType(QExtBPTypes::PortTypeEnum, QE
     return DecimalData().type();
 }
 
-std::shared_ptr<QExtBPNodeData> NumberSourceDataModel::outData(QExtBPTypes::PortIndex)
+QSharedPointer<QExtBPNodeData> NumberSourceDataModel::outData(QExtBPTypes::PortIndex)
 {
     return _number;
 }
@@ -101,7 +101,7 @@ QWidget *NumberSourceDataModel::embeddedWidget()
 
 void NumberSourceDataModel::setNumber(double n)
 {
-    _number = std::make_shared<DecimalData>(n);
+    _number = qextMakeShared<DecimalData>(n);
 
     Q_EMIT dataUpdated(0);
 

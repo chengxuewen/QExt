@@ -135,7 +135,7 @@ void QExtBPBasicGraphicsScene::clearScene()
 
 QExtBPNodeGraphicsObject *QExtBPBasicGraphicsScene::nodeGraphicsObject(QExtBPTypes::NodeId nodeId)
 {
-    QExtBPNodeGraphicsObject *ngo = nullptr;
+    QExtBPNodeGraphicsObject *ngo = QEXT_NULLPTR;
     auto it = _nodeGraphicsObjects.find(nodeId);
     if (it != _nodeGraphicsObjects.end()) {
         ngo = it->second.get();
@@ -146,7 +146,7 @@ QExtBPNodeGraphicsObject *QExtBPBasicGraphicsScene::nodeGraphicsObject(QExtBPTyp
 
 QExtBPConnectionGraphicsObject *QExtBPBasicGraphicsScene::connectionGraphicsObject(QExtBPTypes::ConnectionId connectionId)
 {
-    QExtBPConnectionGraphicsObject *cgo = nullptr;
+    QExtBPConnectionGraphicsObject *cgo = QEXT_NULLPTR;
     auto it = _connectionGraphicsObjects.find(connectionId);
     if (it != _connectionGraphicsObjects.end()) {
         cgo = it->second.get();
@@ -177,7 +177,7 @@ void QExtBPBasicGraphicsScene::setOrientation(Qt::Orientation const orientation)
 QMenu *QExtBPBasicGraphicsScene::createSceneMenu(QPointF const scenePos)
 {
     Q_UNUSED(scenePos);
-    return nullptr;
+    return QEXT_NULLPTR;
 }
 
 void QExtBPBasicGraphicsScene::traverseGraphAndPopulateGraphicsObjects()

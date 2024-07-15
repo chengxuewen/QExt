@@ -569,64 +569,9 @@ template <class T> struct QExtIsEnum : public QExtIntegralConstant<bool, QEXT_IS
 
 
 /***********************************************************************************************************************
-   QExtTypeTrait
+    QExt is pod type trait
 ***********************************************************************************************************************/
-template <typename T>
-struct QExtTypeTrait
-{
-    typedef T          Type;
-    typedef T         &Pass;
-    typedef const T   &Take;
-    typedef T         *Pointer;
-};
-
-template <typename T, int N>
-struct QExtTypeTrait<T[N]>
-{
-    typedef T         *Type;
-    typedef T        *&Pass;
-    typedef const T  *&Take;
-    typedef T        **Pointer;
-};
-
-template <typename T>
-struct QExtTypeTrait<T &>
-{
-    typedef T          Type;
-    typedef T         &Pass;
-    typedef T         &Take;
-    typedef T         *Pointer;
-};
-
-template <typename T>
-struct QExtTypeTrait<const T &>
-{
-    typedef const T    Type;
-    typedef const T   &Pass;
-    typedef const T   &Take;
-    typedef const T   *Pointer;
-};
-
-template<>
-struct QExtTypeTrait<void>
-{
-    typedef void            Type;
-    typedef void            Pass;
-    typedef void            Take;
-    typedef void           *Pointer;
-};
-
-
-
-
-
-
 template <typename T> struct QExtIsPod;
-template <typename T> struct QExtTypeHasTrivialConstructor;
-template <typename T> struct QExtTypeHasTrivialCopy;
-template <typename T> struct QExtTypeHasTrivialAssign;
-template <typename T> struct QExtTypeHasTrivialDestructor;
-
 // We can't get QExtIsPod right without compiler help, so fail conservatively.
 // We will assume it's false except for arithmetic types, enumerations,
 // pointers and cv-qualified versions thereof. Note that QPair<T,U>
@@ -645,7 +590,10 @@ template <typename T> struct QExtIsPod<volatile T> : QExtIsPod<T> { };
 template <typename T> struct QExtIsPod<const volatile T> : QExtIsPod<T> { };
 
 
-
+/***********************************************************************************************************************
+    QExtTypeHasTrivialConstructor
+***********************************************************************************************************************/
+template <typename T> struct QExtTypeHasTrivialConstructor;
 // We can't get QExtTypeHasTrivialConstructor right without compiler help, so
 // fail conservatively. We will assume it's false except for: (1) types
 // for which QExtIsPod is true. (2) QPair of types with trivial
@@ -661,6 +609,10 @@ template <typename T> struct QExtTypeHasTrivialConstructor<const T>
     : QExtTypeHasTrivialConstructor<T> { };
 
 
+/***********************************************************************************************************************
+   QExtTypeHasTrivialCopy
+***********************************************************************************************************************/
+template <typename T> struct QExtTypeHasTrivialCopy;
 // We can't get QExtTypeHasTrivialCopy right without compiler help, so fail
 // conservatively. We will assume it's false except for: (1) types
 // for which QExtIsPod is true. (2) QPair of types with trivial copy
@@ -675,6 +627,10 @@ template <typename T_A, int N> struct QExtTypeHasTrivialCopy<T_A[N]>
 template <typename T> struct QExtTypeHasTrivialCopy<const T> : QExtTypeHasTrivialCopy<T> { };
 
 
+/***********************************************************************************************************************
+   QExtTypeHasTrivialAssign
+***********************************************************************************************************************/
+template <typename T> struct QExtTypeHasTrivialAssign;
 // We can't get QExtTypeHasTrivialAssign right without compiler help, so fail
 // conservatively. We will assume it's false except for: (1) types
 // for which QExtIsPod is true. (2) QPair of types with trivial copy
@@ -686,6 +642,11 @@ template <typename T, typename U> struct QExtTypeHasTrivialAssign<QPair<T, U> >
 template <typename T_A, int N> struct QExtTypeHasTrivialAssign<T_A[N]>
     : QExtTypeHasTrivialAssign<T_A> { };
 
+
+/***********************************************************************************************************************
+   QExtTypeHasTrivialDestructor
+***********************************************************************************************************************/
+template <typename T> struct QExtTypeHasTrivialDestructor;
 // We can't get QExtTypeHasTrivialDestructor right without compiler help, so
 // fail conservatively. We will assume it's false except for: (1) types
 // for which QExtIsPod is true. (2) QPair of types with trivial
@@ -701,8 +662,10 @@ template <typename T> struct QExtTypeHasTrivialDestructor<const T>
     : QExtTypeHasTrivialDestructor<T> { };
 
 
+/***********************************************************************************************************************
+   QExtIsDefaultConstructible
+***********************************************************************************************************************/
 template<typename T = void> struct QExtIsDefaultConstructible;
-
 template<>
 struct QExtIsDefaultConstructible<void>
 {
@@ -732,12 +695,13 @@ public:
 };
 
 
+/***********************************************************************************************************************
+   QExtTypeTrait
+***********************************************************************************************************************/
 #if QEXT_CC_STD_11
 //std::is_base_of
-
 template <typename T_base, typename T_derived>
-struct QEXTIsBaseOf : public std::is_base_of<T_base, T_derived> { };
-
+struct QExtIsBaseOf : public std::is_base_of<T_base, T_derived> { };
 #else
 
 /**
@@ -747,7 +711,7 @@ struct QEXTIsBaseOf : public std::is_base_of<T_base, T_derived> { };
  * For instance,
  *
  * @code
- * template < class T_thing, bool Tval_derives_from_something = QEXTIsBaseOf<Something, T_thing>::value >
+ * template < class T_thing, bool Tval_derives_from_something = QExtIsBaseOf<Something, T_thing>::value >
  * class TheTemplate
  * {
  *   //Standard implementation.
@@ -766,7 +730,7 @@ struct QEXTIsBaseOf : public std::is_base_of<T_base, T_derived> { };
  * is recommended.
  */
 template <typename T_base, typename T_derived>
-struct QEXTIsBaseOf
+struct QExtIsBaseOf
 {
 private:
     struct Big
@@ -810,11 +774,61 @@ public:
 };
 
 template <typename T_base>
-struct QEXTIsBaseOf<T_base, T_base>
+struct QExtIsBaseOf<T_base, T_base>
 {
     static const bool value = true;
 };
 
 #endif
+
+
+/***********************************************************************************************************************
+   QExtTypeTrait
+***********************************************************************************************************************/
+template <typename T>
+struct QExtTypeTrait
+{
+    typedef T           Type;
+    typedef T &         Pass;
+    typedef const T &   Take;
+    typedef T *         Pointer;
+};
+
+template <typename T, int N>
+struct QExtTypeTrait<T[N]>
+{
+    typedef T *         Type;
+    typedef T *&        Pass;
+    typedef const T *&  Take;
+    typedef T **        Pointer;
+};
+
+template <typename T>
+struct QExtTypeTrait<T &>
+{
+    typedef T           Type;
+    typedef T &         Pass;
+    typedef T &         Take;
+    typedef T *         Pointer;
+};
+
+template <typename T>
+struct QExtTypeTrait<const T &>
+{
+    typedef const T     Type;
+    typedef const T &   Pass;
+    typedef const T &   Take;
+    typedef const T *   Pointer;
+};
+
+template<>
+struct QExtTypeTrait<void>
+{
+    typedef void        Type;
+    typedef void        Pass;
+    typedef void        Take;
+    typedef void *      Pointer;
+};
+
 
 #endif // _QEXTTYPETRAIT_H

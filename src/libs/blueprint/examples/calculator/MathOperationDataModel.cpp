@@ -19,14 +19,14 @@ QExtBPNodeDataType MathOperationDataModel::dataType(QExtBPTypes::PortTypeEnum, Q
     return DecimalData().type();
 }
 
-std::shared_ptr<QExtBPNodeData> MathOperationDataModel::outData(QExtBPTypes::PortIndex)
+QSharedPointer<QExtBPNodeData> MathOperationDataModel::outData(QExtBPTypes::PortIndex)
 {
-    return std::static_pointer_cast<QExtBPNodeData>(_result);
+    return _result;
 }
 
-void MathOperationDataModel::setInData(std::shared_ptr<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex)
+void MathOperationDataModel::setInData(QSharedPointer<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex)
 {
-    auto numberData = std::dynamic_pointer_cast<DecimalData>(data);
+    QSharedPointer<DecimalData> numberData = data.dynamicCast<DecimalData>();
 
     if (!data) {
         Q_EMIT dataInvalidated(0);

@@ -69,7 +69,7 @@ namespace detail
         template<typename T_type>
         void operator()(const T_type &type) const
         {
-            QExtWithType<QEXTIsBaseOf<T_target, T_type>::value, T_type, T_self>::execute(type, *this);
+            QExtWithType<QExtIsBaseOf<T_target, T_type>::value, T_type, T_self>::execute(type, *this);
         }
 
         T_action m_action;
@@ -106,7 +106,7 @@ namespace detail
         template<typename T_target>
         void operator()(const T_target &target) const
         {
-            QExtWithTypePointer<QEXTIsBaseOf<T_type, T_target>::value, T_target, T_self>::execute(target, *this);
+            QExtWithTypePointer<QExtIsBaseOf<T_type, T_target>::value, T_target, T_self>::execute(target, *this);
         }
 
         T_action m_action;

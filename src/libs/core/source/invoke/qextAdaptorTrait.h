@@ -227,7 +227,7 @@ struct QExtVisitor< QExtAdaptorFunctor< T_functor > >
  *
  * \ingroup QExtAdapts
  */
-template < typename T_functor, bool I_isadaptor = QEXTIsBaseOf< QExtAdaptorBase, T_functor >::value >
+template < typename T_functor, bool I_isadaptor = QExtIsBaseOf< QExtAdaptorBase, T_functor >::value >
 struct QExtAdaptorTrait;
 
 /** Trait that specifies what is the adaptor version of a functor type.

@@ -30,15 +30,15 @@ QExtBPNodeDataType TextDisplayDataModel::dataType(QExtBPTypes::PortTypeEnum, QEx
     return TextData().type();
 }
 
-std::shared_ptr<QExtBPNodeData> TextDisplayDataModel::outData(QExtBPTypes::PortIndex)
+QSharedPointer<QExtBPNodeData> TextDisplayDataModel::outData(QExtBPTypes::PortIndex)
 {
-    std::shared_ptr<QExtBPNodeData> ptr;
+    QSharedPointer<QExtBPNodeData> ptr;
     return ptr;
 }
 
-void TextDisplayDataModel::setInData(std::shared_ptr<QExtBPNodeData> data, QExtBPTypes::PortIndex const)
+void TextDisplayDataModel::setInData(QSharedPointer<QExtBPNodeData> data, QExtBPTypes::PortIndex const)
 {
-    auto textData = std::dynamic_pointer_cast<TextData>(data);
+    auto textData = data.dynamicCast<TextData>();
 
     if (textData) {
         _inputText = textData->text();

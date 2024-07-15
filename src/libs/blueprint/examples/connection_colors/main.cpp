@@ -5,9 +5,9 @@
 #include "models.hpp"
 
 
-static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
+static QSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
-    auto ret = std::make_shared<QExtBPNodeDelegateModelRegistry>();
+    auto ret = qextMakeShared<QExtBPNodeDelegateModelRegistry>();
 
     ret->registerModel<NaiveDataModel>();
 
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 
     setStyle();
 
-    std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
+    QSharedPointer<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
     QExtBPDataFlowGraphModel dataFlowGraphModel(registry);
 
     QExtBPDataFlowGraphicsScene scene(dataFlowGraphModel);

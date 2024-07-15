@@ -30,7 +30,7 @@ public:
         NodeRole_InternalData = 6,   ///< Node-stecific user data as QJsonObject
         NodeRole_InPortCount = 7,    ///< `unsigned int`
         NodeRole_OutPortCount = 9,   ///< `unsigned int`
-        NodeRole_Widget = 10,        ///< Optional `QWidget*` or `nullptr`
+        NodeRole_Widget = 10,        ///< Optional `QWidget*` or `QEXT_NULLPTR`
     };
     Q_ENUMS(NodeRoleEnum)
 
@@ -53,7 +53,7 @@ public:
      */
     enum PortRoleEnum
     {
-        PortRole_Data = 0,                 ///< `std::shared_ptr<NodeData>`.
+        PortRole_Data = 0,                 ///< `QSharedPointer<QExtBPNodeData>`.
         PortRole_DataType = 1,             ///< `QString` describing the port data type.
         PortRole_ConnectionPolicyRole = 2, ///< `enum` ConnectionPolicyRole
         PortRole_CaptionVisible = 3,       ///< `bool` for caption visibility.

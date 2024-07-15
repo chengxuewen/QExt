@@ -25,9 +25,9 @@ public:
     };
 
 public:
-    QExtBPDataFlowGraphModel(std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry);
+    QExtBPDataFlowGraphModel(QSharedPointer<QExtBPNodeDelegateModelRegistry> registry);
 
-    std::shared_ptr<QExtBPNodeDelegateModelRegistry> dataModelRegistry() { return _registry; }
+    QSharedPointer<QExtBPNodeDelegateModelRegistry> dataModelRegistry() { return _registry; }
 
 public:
     std::unordered_set<QExtBPTypes::NodeId> allNodeIds() const override;
@@ -86,7 +86,7 @@ public:
     {
         auto it = _models.find(nodeId);
         if (it == _models.end())
-            return nullptr;
+            return QEXT_NULLPTR;
 
         auto model = dynamic_cast<NodeDelegateModelType *>(it->second.get());
 
@@ -120,7 +120,7 @@ private Q_SLOTS:
     void propagateEmptyDataTo(QExtBPTypes::NodeId const nodeId, QExtBPTypes::PortIndex const portIndex);
 
 private:
-    std::shared_ptr<QExtBPNodeDelegateModelRegistry> _registry;
+    QSharedPointer<QExtBPNodeDelegateModelRegistry> _registry;
 
     QExtBPTypes::NodeId _nextNodeId;
 

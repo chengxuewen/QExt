@@ -47,7 +47,7 @@ std::vector<QExtBPTypes::NodeId> QExtBPDataFlowGraphicsScene::selectedNodes() co
     for (QGraphicsItem *item : graphicsItems) {
         auto ngo = qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item);
 
-        if (ngo != nullptr) {
+        if (ngo != QEXT_NULLPTR) {
             result.push_back(ngo->nodeId());
         }
     }
@@ -144,7 +144,7 @@ QMenu *QExtBPDataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
 
 void QExtBPDataFlowGraphicsScene::save() const
 {
-    QString fileName = QFileDialog::getSaveFileName(nullptr,
+    QString fileName = QFileDialog::getSaveFileName(QEXT_NULLPTR,
                                                     tr("Open Flow Scene"),
                                                     QDir::homePath(),
                                                     tr("Flow Scene Files (*.flow)"));
@@ -162,7 +162,7 @@ void QExtBPDataFlowGraphicsScene::save() const
 
 void QExtBPDataFlowGraphicsScene::load()
 {
-    QString fileName = QFileDialog::getOpenFileName(nullptr,
+    QString fileName = QFileDialog::getOpenFileName(QEXT_NULLPTR,
                                                     tr("Open Flow Scene"),
                                                     QDir::homePath(),
                                                     tr("Flow Scene Files (*.flow)"));

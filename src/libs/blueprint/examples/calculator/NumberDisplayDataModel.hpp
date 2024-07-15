@@ -33,16 +33,16 @@ public:
 
     QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex) const override;
 
-    std::shared_ptr<QExtBPNodeData> outData(QExtBPTypes::PortIndex port) override;
+    QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex port) override;
 
-    void setInData(std::shared_ptr<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex) override;
+    void setInData(QSharedPointer<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex) override;
 
     QWidget *embeddedWidget() override;
 
     double number() const;
 
 private:
-    std::shared_ptr<DecimalData> _numberData;
+    QSharedPointer<DecimalData> _numberData;
 
     QLabel *_label;
 };

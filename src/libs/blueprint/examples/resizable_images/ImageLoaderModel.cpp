@@ -48,7 +48,7 @@ bool ImageLoaderModel::eventFilter(QObject *object, QEvent *event)
         int h = _label->height();
 
         if (event->type() == QEvent::MouseButtonPress) {
-            QString fileName = QFileDialog::getOpenFileName(nullptr,
+            QString fileName = QFileDialog::getOpenFileName(QEXT_NULLPTR,
                                                             tr("Open Image"),
                                                             QDir::homePath(),
                                                             tr("Image Files (*.png *.jpg *.bmp)"));
@@ -74,7 +74,7 @@ QExtBPNodeDataType ImageLoaderModel::dataType(QExtBPTypes::PortTypeEnum const, Q
     return PixmapData().type();
 }
 
-std::shared_ptr<QExtBPNodeData> ImageLoaderModel::outData(QExtBPTypes::PortIndex)
+QSharedPointer<QExtBPNodeData> ImageLoaderModel::outData(QExtBPTypes::PortIndex)
 {
-    return std::make_shared<PixmapData>(_pixmap);
+    return qextMakeShared<PixmapData>(_pixmap);
 }

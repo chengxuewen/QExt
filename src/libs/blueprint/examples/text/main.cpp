@@ -5,9 +5,9 @@
 #include "TextDisplayDataModel.hpp"
 #include "TextSourceDataModel.hpp"
 
-static std::shared_ptr<QExtBPNodeDelegateModelRegistry> registerDataModels()
+static QSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
-    auto ret = std::make_shared<QExtBPNodeDelegateModelRegistry>();
+    auto ret = qextMakeShared<QExtBPNodeDelegateModelRegistry>();
 
     ret->registerModel<TextSourceDataModel>();
     ret->registerModel<TextDisplayDataModel>();
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
+    QSharedPointer<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
     QExtBPDataFlowGraphModel dataFlowGraphModel(registry);
 
     QExtBPDataFlowGraphicsScene scene(dataFlowGraphModel);

@@ -12,7 +12,7 @@ class QExtBPNodeGraphicsObject;
 class QEXT_BLUEPRINT_API QExtBPAbstractNodePainter
 {
 public:
-    virtual ~QExtBPAbstractNodePainter() = default;
+    virtual ~QExtBPAbstractNodePainter() {}
 
     /**
    * Reimplement this function in order to have a custom painting.

@@ -114,6 +114,7 @@ qext_add_library(Core
     source/tools/qextException.h
     source/tools/qextLinearBuffer.cpp
     source/tools/qextLinearBuffer.h
+    source/tools/qextMemory.h
     source/tools/qextNumeric.cpp
     source/tools/qextNumeric.h
     source/tools/qextTag.cpp

@@ -3,7 +3,7 @@
 #include <QtWidgets/QLineEdit>
 
 TextSourceDataModel::TextSourceDataModel()
-    : _lineEdit{nullptr}
+    : _lineEdit(QEXT_NULLPTR)
 {
     //
 }
@@ -39,10 +39,10 @@ QExtBPNodeDataType TextSourceDataModel::dataType(QExtBPTypes::PortTypeEnum, QExt
     return TextData().type();
 }
 
-std::shared_ptr<QExtBPNodeData> TextSourceDataModel::outData(QExtBPTypes::PortIndex const portIndex)
+QSharedPointer<QExtBPNodeData> TextSourceDataModel::outData(QExtBPTypes::PortIndex const portIndex)
 {
     Q_UNUSED(portIndex);
-    return std::make_shared<TextData>(_lineEdit->text());
+    return qextMakeShared<TextData>(_lineEdit->text());
 }
 
 QWidget *TextSourceDataModel::embeddedWidget()

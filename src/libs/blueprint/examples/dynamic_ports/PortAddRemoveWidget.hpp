@@ -42,7 +42,7 @@ public:
                         unsigned int nOutPorts,
                         QExtBPTypes::NodeId nodeId,
                         DynamicPortsModel &model,
-                        QWidget *parent = nullptr);
+                        QWidget *parent = QEXT_NULLPTR);
 
     ~PortAddRemoveWidget();
 

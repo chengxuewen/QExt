@@ -37,6 +37,6 @@ public:
     virtual QExtBPNodeDataType type() const = 0;
 };
 Q_DECLARE_METATYPE(QExtBPNodeDataType)
-Q_DECLARE_METATYPE(std::shared_ptr<QExtBPNodeData>)
+Q_DECLARE_METATYPE(QSharedPointer<QExtBPNodeData>)
 
 #endif // _QEXTBPNODEDATA_H

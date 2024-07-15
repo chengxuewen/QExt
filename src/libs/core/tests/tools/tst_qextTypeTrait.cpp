@@ -138,7 +138,7 @@ public:
     MClass() {}
 };
 
-template <typename T_obj, bool I_derives_base = QEXTIsBaseOf<MClassBase, T_obj>::value>
+template <typename T_obj, bool I_derives_base = QExtIsBaseOf<MClassBase, T_obj>::value>
 struct MClassTrait
 {
     bool data()
@@ -160,9 +160,9 @@ struct MClassTrait<T_obj, false>
 void QExtTypeTraitTest::testBaseAndDerived()
 {
     bool drived = true;
-    drived = QEXTIsBaseOf<MClassBase, MClass>::value;
+    drived = QExtIsBaseOf<MClassBase, MClass>::value;
     QVERIFY(drived);
-    drived = QEXTIsBaseOf<MClassBase, MClassBase>::value;
+    drived = QExtIsBaseOf<MClassBase, MClassBase>::value;
     QVERIFY(drived);
 
     QVERIFY(MClassTrait<MClassBase>().data());

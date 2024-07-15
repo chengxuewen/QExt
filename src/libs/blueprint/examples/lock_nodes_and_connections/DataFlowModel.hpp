@@ -3,8 +3,8 @@
 class DataFlowModel : public QExtBPDataFlowGraphModel
 {
 public:
-    DataFlowModel(std::shared_ptr<QExtBPNodeDelegateModelRegistry> registry)
-        : QExtBPDataFlowGraphModel(std::move(registry))
+    DataFlowModel(QSharedPointer<QExtBPNodeDelegateModelRegistry> registry)
+        : QExtBPDataFlowGraphModel(registry)
         , _detachPossible{true}
         , _nodesLocked{false}
     {}

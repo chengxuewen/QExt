@@ -21,8 +21,8 @@ public:
     };
 
 public:
-    QExtBPGraphicsView(QWidget *parent = Q_NULLPTR);
-    QExtBPGraphicsView(QExtBPBasicGraphicsScene *scene, QWidget *parent = Q_NULLPTR);
+    QExtBPGraphicsView(QWidget *parent = QEXT_NULLPTR);
+    QExtBPGraphicsView(QExtBPBasicGraphicsScene *scene, QWidget *parent = QEXT_NULLPTR);
 
     QExtBPGraphicsView(const QExtBPGraphicsView &) = delete;
     QExtBPGraphicsView operator=(const QExtBPGraphicsView &) = delete;
@@ -84,11 +84,11 @@ protected:
     QPointF scenePastePosition();
 
 private:
-    QAction *_clearSelectionAction = nullptr;
-    QAction *_deleteSelectionAction = nullptr;
-    QAction *_duplicateSelectionAction = nullptr;
-    QAction *_copySelectionAction = nullptr;
-    QAction *_pasteAction = nullptr;
+    QAction *_clearSelectionAction = QEXT_NULLPTR;
+    QAction *_deleteSelectionAction = QEXT_NULLPTR;
+    QAction *_duplicateSelectionAction = QEXT_NULLPTR;
+    QAction *_copySelectionAction = QEXT_NULLPTR;
+    QAction *_pasteAction = QEXT_NULLPTR;
 
     QPointF _clickPos;
     ScaleRange _scaleRange;

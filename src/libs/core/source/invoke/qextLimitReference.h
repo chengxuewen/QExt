@@ -56,7 +56,7 @@
  *
  * - @e T_type The type of the reference.
  */
-template <typename T_type, bool I_derives_Object = QEXTIsBaseOf<QObject, T_type>::value>
+template <typename T_type, bool I_derives_Object = QExtIsBaseOf<QObject, T_type>::value>
 class QExtLimitReference
 {
 public:
@@ -172,7 +172,7 @@ struct QExtVisitor<QExtLimitReference<T_type, I_derives_Object> >
  *
  * - @e T_type The type of the reference.
  */
-template <typename T_type, bool I_derives_Object = QEXTIsBaseOf<QObject, T_type>::value>
+template <typename T_type, bool I_derives_Object = QExtIsBaseOf<QObject, T_type>::value>
 class QExtConstLimitReference
 {
 public:
@@ -289,7 +289,7 @@ struct QExtVisitor<QExtConstLimitReference<T_type, I_derives_Object> >
  *
  * - @e T_type The type of the reference.
  */
-template <typename T_type, bool I_derives_Object = QEXTIsBaseOf<QObject, T_type>::value>
+template <typename T_type, bool I_derives_Object = QExtIsBaseOf<QObject, T_type>::value>
 class QExtVolatileLimitReference
 {
 public:
@@ -407,7 +407,7 @@ struct QExtVisitor<QExtVolatileLimitReference<T_type, I_derives_Object> >
  *
  * - @e T_type The type of the reference.
  */
-template <typename T_type, bool I_derives_Object = QEXTIsBaseOf<QObject, T_type>::value>
+template <typename T_type, bool I_derives_Object = QExtIsBaseOf<QObject, T_type>::value>
 class QExtConstVolatileLimitReference
 {
 public:

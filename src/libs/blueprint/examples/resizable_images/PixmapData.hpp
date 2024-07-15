@@ -12,7 +12,7 @@ class PixmapData : public QExtBPNodeData
 public:
     PixmapData() {}
 
-    PixmapData(QPixmap const &pixmap)
+    PixmapData(const QPixmap &pixmap)
         : _pixmap(pixmap)
     {}
 

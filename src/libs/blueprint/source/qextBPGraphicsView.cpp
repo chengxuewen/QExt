@@ -25,11 +25,11 @@
 
 QExtBPGraphicsView::QExtBPGraphicsView(QWidget *parent)
     : QGraphicsView(parent)
-    , _clearSelectionAction(Q_NULLPTR)
-    , _deleteSelectionAction(Q_NULLPTR)
-    , _duplicateSelectionAction(Q_NULLPTR)
-    , _copySelectionAction(Q_NULLPTR)
-    , _pasteAction(Q_NULLPTR)
+    , _clearSelectionAction(QEXT_NULLPTR)
+    , _deleteSelectionAction(QEXT_NULLPTR)
+    , _duplicateSelectionAction(QEXT_NULLPTR)
+    , _copySelectionAction(QEXT_NULLPTR)
+    , _pasteAction(QEXT_NULLPTR)
 {
     setDragMode(QGraphicsView::ScrollHandDrag);
     setRenderHint(QPainter::Antialiasing);
@@ -329,7 +329,7 @@ void QExtBPGraphicsView::mousePressEvent(QMouseEvent *event)
 void QExtBPGraphicsView::mouseMoveEvent(QMouseEvent *event)
 {
     QGraphicsView::mouseMoveEvent(event);
-    if (scene()->mouseGrabberItem() == nullptr && event->buttons() == Qt::LeftButton) {
+    if (scene()->mouseGrabberItem() == QEXT_NULLPTR && event->buttons() == Qt::LeftButton) {
         // Make sure shift is not being pressed
         if ((event->modifiers() & Qt::ShiftModifier) == 0) {
             QPointF difference = _clickPos - mapToScene(event->pos());

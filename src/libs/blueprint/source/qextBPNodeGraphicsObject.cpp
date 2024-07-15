@@ -19,7 +19,7 @@ QExtBPNodeGraphicsObject::QExtBPNodeGraphicsObject(QExtBPBasicGraphicsScene &sce
     : _nodeId(nodeId)
     , _graphModel(scene.graphModel())
     , _nodeState(*this)
-    , _proxyWidget(nullptr)
+    , _proxyWidget(QEXT_NULLPTR)
 {
     scene.addItem(this);
 
