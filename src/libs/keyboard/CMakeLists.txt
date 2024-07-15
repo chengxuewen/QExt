@@ -40,7 +40,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core PinyinIME)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -86,6 +86,8 @@ qext_add_library(Keyboard
     resource/qextKeyboard.qrc
     PRECOMPILED_HEADER
     source/qextKeyboardPch.h
+    LIBRARIES
+    PinyinIME
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
 
