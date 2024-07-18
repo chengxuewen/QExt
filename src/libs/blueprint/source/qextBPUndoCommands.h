@@ -14,7 +14,7 @@ class QExtBPBasicGraphicsScene;
 class QExtBPCreateCommand : public QUndoCommand
 {
 public:
-    QExtBPCreateCommand(QExtBPBasicGraphicsScene *scene, QString const name, QPointF const &mouseScenePos);
+    QExtBPCreateCommand(QExtBPBasicGraphicsScene *scene, const QString name, const QPointF &mouseScenePos);
 
     void undo() override;
     void redo() override;
@@ -51,25 +51,25 @@ public:
 class QExtBPPasteCommand : public QUndoCommand
 {
 public:
-    QExtBPPasteCommand(QExtBPBasicGraphicsScene *scene, QPointF const &mouseScenePos);
+    QExtBPPasteCommand(QExtBPBasicGraphicsScene *scene, const QPointF &mouseScenePos);
 
     void undo() override;
     void redo() override;
 
 private:
     QJsonObject takeSceneJsonFromClipboard();
-    QJsonObject makeNewNodeIdsInScene(QJsonObject const &sceneJson);
+    QJsonObject makeNewNodeIdsInScene(const QJsonObject &sceneJson);
 
 private:
     QExtBPBasicGraphicsScene *_scene;
-    QPointF const &_mouseScenePos;
+    const QPointF &_mouseScenePos;
     QJsonObject _newSceneJson;
 };
 
 class QExtBPDisconnectCommand : public QUndoCommand
 {
 public:
-    QExtBPDisconnectCommand(QExtBPBasicGraphicsScene *scene, QExtBPTypes::ConnectionId const);
+    QExtBPDisconnectCommand(QExtBPBasicGraphicsScene *scene, const QExtBPTypes::ConnectionId);
 
     void undo() override;
     void redo() override;
@@ -83,7 +83,7 @@ private:
 class ConnectCommand : public QUndoCommand
 {
 public:
-    ConnectCommand(QExtBPBasicGraphicsScene *scene, QExtBPTypes::ConnectionId const);
+    ConnectCommand(QExtBPBasicGraphicsScene *scene, const QExtBPTypes::ConnectionId);
 
     void undo() override;
     void redo() override;
@@ -97,7 +97,7 @@ private:
 class QExtBPMoveNodeCommand : public QUndoCommand
 {
 public:
-    QExtBPMoveNodeCommand(QExtBPBasicGraphicsScene *scene, QPointF const &diff);
+    QExtBPMoveNodeCommand(QExtBPBasicGraphicsScene *scene, const QPointF &diff);
 
     void undo() override;
     void redo() override;

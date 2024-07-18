@@ -54,7 +54,7 @@ private:
 
     QPointF nodePortScenePosition(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex) const;
 
-    QExtBPTypes::PortIndex nodePortIndexUnderScenePoint(QExtBPTypes::PortTypeEnum portType, QPointF const &p) const;
+    QExtBPTypes::PortIndex nodePortIndexUnderScenePoint(QExtBPTypes::PortTypeEnum portType, const QPointF &p) const;
 
 private:
     QExtBPNodeGraphicsObject &_ngo;

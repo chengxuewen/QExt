@@ -34,7 +34,7 @@ QExtBPGraphicsView::QExtBPGraphicsView(QWidget *parent)
     setDragMode(QGraphicsView::ScrollHandDrag);
     setRenderHint(QPainter::Antialiasing);
 
-    auto const &flowViewStyle = QExtBPStyleCollection::flowViewStyle();
+    const auto &flowViewStyle = QExtBPStyleCollection::flowViewStyle();
 
     setBackgroundBrush(flowViewStyle.BackgroundColor);
 
@@ -274,7 +274,7 @@ void QExtBPGraphicsView::onDeleteSelectedObjects()
 
 void QExtBPGraphicsView::onDuplicateSelectedObjects()
 {
-    QPointF const pastePosition = scenePastePosition();
+    const QPointF pastePosition = scenePastePosition();
 
     nodeScene()->undoStack().push(new CopyCommand(nodeScene()));
     nodeScene()->undoStack().push(new QExtBPPasteCommand(nodeScene(), pastePosition));
@@ -287,7 +287,7 @@ void QExtBPGraphicsView::onCopySelectedObjects()
 
 void QExtBPGraphicsView::onPasteObjects()
 {
-    QPointF const pastePosition = scenePastePosition();
+    const QPointF pastePosition = scenePastePosition();
     nodeScene()->undoStack().push(new QExtBPPasteCommand(nodeScene(), pastePosition));
 }
 
@@ -366,7 +366,7 @@ void QExtBPGraphicsView::drawBackground(QPainter *painter, const QRectF &r)
         }
     };
 
-    auto const &flowViewStyle = QExtBPStyleCollection::flowViewStyle();
+    const auto &flowViewStyle = QExtBPStyleCollection::flowViewStyle();
 
     QPen pfine(flowViewStyle.FineGridColor, 1.0);
 

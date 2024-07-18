@@ -113,8 +113,8 @@ int main(int argc, char *argv[])
 
     qInfo() << "Data Flow graph was created from a json-serialized graph";
 
-    QExtBPTypes::NodeId const nodeSource = 0;
-    QExtBPTypes::NodeId const nodeResult = 2;
+    const QExtBPTypes::NodeId nodeSource = 0;
+    const QExtBPTypes::NodeId nodeResult = 2;
 
     qInfo() << "========================================";
     qInfo() << "Entering the number " << 33.3 << "to the input node";

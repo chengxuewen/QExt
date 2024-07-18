@@ -24,7 +24,7 @@ public:
     int type() const override { return Type; }
 
 public:
-    QExtBPConnectionGraphicsObject(QExtBPBasicGraphicsScene &scene, QExtBPTypes::ConnectionId const connectionId);
+    QExtBPConnectionGraphicsObject(QExtBPBasicGraphicsScene &scene, const QExtBPTypes::ConnectionId connectionId);
 
     ~QExtBPConnectionGraphicsObject() = default;
 
@@ -33,13 +33,13 @@ public:
 
     QExtBPBasicGraphicsScene *nodeScene() const;
 
-    QExtBPTypes::ConnectionId const &connectionId() const;
+    const QExtBPTypes::ConnectionId &connectionId() const;
 
     QRectF boundingRect() const override;
 
     QPainterPath shape() const override;
 
-    QPointF const &endPoint(QExtBPTypes::PortTypeEnum portType) const;
+    const QPointF &endPoint(QExtBPTypes::PortTypeEnum portType) const;
 
     QPointF out() const { return _out; }
 
@@ -47,12 +47,12 @@ public:
 
     std::pair<QPointF, QPointF> pointsC1C2() const;
 
-    void setEndPoint(QExtBPTypes::PortTypeEnum portType, QPointF const &point);
+    void setEndPoint(QExtBPTypes::PortTypeEnum portType, const QPointF &point);
 
     /// Updates the position of both ends
     void move();
 
-    QExtBPConnectionState const &connectionState() const;
+    const QExtBPConnectionState &connectionState() const;
 
     QExtBPConnectionState &connectionState();
 

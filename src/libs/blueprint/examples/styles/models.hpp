@@ -41,16 +41,16 @@ public:
     }
 
 public:
-    unsigned int nPorts(QExtBPTypes::PortTypeEnum const) const override { return 3; }
+    unsigned int nPorts(const QExtBPTypes::PortTypeEnum) const override { return 3; }
 
-    QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum const, QExtBPTypes::PortIndex const) const override
+    QExtBPNodeDataType dataType(const QExtBPTypes::PortTypeEnum, const QExtBPTypes::PortIndex) const override
     {
         return MyNodeData().type();
     }
 
     QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex) override { return qextMakeShared<MyNodeData>(); }
 
-    void setInData(QSharedPointer<QExtBPNodeData>, QExtBPTypes::PortIndex const) override {}
+    void setInData(QSharedPointer<QExtBPNodeData>, const QExtBPTypes::PortIndex) override {}
 
     QWidget *embeddedWidget() override { return QEXT_NULLPTR; }
 };

@@ -22,7 +22,7 @@ namespace std {
 template<>
 struct hash<QExtBPTypes::ConnectionId>
 {
-    inline std::size_t operator()(QExtBPTypes::ConnectionId const &id) const
+    inline std::size_t operator()(const QExtBPTypes::ConnectionId &id) const
     {
         std::size_t h = 0;
         hash_combine(h, id.outNodeId, id.outPortIndex, id.inNodeId, id.inPortIndex);
@@ -33,7 +33,7 @@ struct hash<QExtBPTypes::ConnectionId>
 template<>
 struct hash<std::pair<QExtBPTypes::NodeId, QExtBPTypes::PortIndex>>
 {
-    inline std::size_t operator()(std::pair<QExtBPTypes::NodeId, QExtBPTypes::PortIndex> const &nodePort) const
+    inline std::size_t operator()(std::pair<QExtBPTypes::NodeId, const QExtBPTypes::PortIndex> &nodePort) const
     {
         std::size_t h = 0;
         hash_combine(h, nodePort.first, nodePort.second);
@@ -46,7 +46,7 @@ struct hash<std::tuple<QExtBPTypes::NodeId, QExtBPTypes::PortTypeEnum, QExtBPTyp
 {
     using Key = std::tuple<QExtBPTypes::NodeId, QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex>;
 
-    inline std::size_t operator()(Key const &key) const
+    inline std::size_t operator()(const Key &key) const
     {
         std::size_t h = 0;
         hash_combine(h, std::get<0>(key), std::get<1>(key), std::get<2>(key));
@@ -54,5 +54,10 @@ struct hash<std::tuple<QExtBPTypes::NodeId, QExtBPTypes::PortTypeEnum, QExtBPTyp
     }
 };
 } // namespace std
+
+// uint qHash(const QExtBPTypes::ConnectionId &cid)
+// {
+//     return key.cx + key.cy;
+// }
 
 #endif // _QEXTBPCONNECTIONIDHASH_H

@@ -17,28 +17,27 @@
 static QJsonObject serializeSelectedItems(QExtBPBasicGraphicsScene *scene)
 {
     QJsonObject serializedScene;
-
     auto &graphModel = scene->graphModel();
-
     std::unordered_set<QExtBPTypes::NodeId> selectedNodes;
 
     QJsonArray nodesJsonArray;
-
-    for (QGraphicsItem *item : scene->selectedItems()) {
-        if (auto n = qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item)) {
+    for (QGraphicsItem *item : scene->selectedItems())
+    {
+        if (auto n = qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item))
+        {
             nodesJsonArray.append(graphModel.saveNode(n->nodeId()));
-
             selectedNodes.insert(n->nodeId());
         }
     }
 
     QJsonArray connJsonArray;
-
-    for (QGraphicsItem *item : scene->selectedItems()) {
-        if (auto c = qgraphicsitem_cast<QExtBPConnectionGraphicsObject *>(item)) {
-            auto const &cid = c->connectionId();
-
-            if (selectedNodes.count(cid.outNodeId) > 0 && selectedNodes.count(cid.inNodeId) > 0) {
+    for (QGraphicsItem *item : scene->selectedItems())
+    {
+        if (auto c = qgraphicsitem_cast<QExtBPConnectionGraphicsObject *>(item))
+        {
+            const auto &cid = c->connectionId();
+            if (selectedNodes.count(cid.outNodeId) > 0 && selectedNodes.count(cid.inNodeId) > 0)
+            {
                 connJsonArray.append(QExtBPUtils::toJson(cid));
             }
         }
@@ -46,15 +45,14 @@ static QJsonObject serializeSelectedItems(QExtBPBasicGraphicsScene *scene)
 
     serializedScene["nodes"] = nodesJsonArray;
     serializedScene["connections"] = connJsonArray;
-
     return serializedScene;
 }
 
-static void insertSerializedItems(QJsonObject const &json, QExtBPBasicGraphicsScene *scene)
+static void insertSerializedItems(const QJsonObject &json, QExtBPBasicGraphicsScene *scene)
 {
     QExtBPAbstractGraphModel &graphModel = scene->graphModel();
 
-    QJsonArray const &nodesJsonArray = json["nodes"].toArray();
+    const QJsonArray &nodesJsonArray = json["nodes"].toArray();
 
     for (QJsonValue node : nodesJsonArray) {
         QJsonObject obj = node.toObject();
@@ -66,7 +64,7 @@ static void insertSerializedItems(QJsonObject const &json, QExtBPBasicGraphicsSc
         scene->nodeGraphicsObject(id)->setSelected(true);
     }
 
-    QJsonArray const &connJsonArray = json["connections"].toArray();
+    const QJsonArray &connJsonArray = json["connections"].toArray();
 
     for (QJsonValue connection : connJsonArray) {
         QJsonObject connJson = connection.toObject();
@@ -100,7 +98,7 @@ static void deleteSerializedItems(QJsonObject &sceneJson, QExtBPAbstractGraphMod
     }
 }
 
-static QPointF computeAverageNodePosition(QJsonObject const &sceneJson)
+static QPointF computeAverageNodePosition(const QJsonObject &sceneJson)
 {
     QPointF averagePos(0, 0);
 
@@ -121,8 +119,8 @@ static QPointF computeAverageNodePosition(QJsonObject const &sceneJson)
 //-------------------------------------
 
 QExtBPCreateCommand::QExtBPCreateCommand(QExtBPBasicGraphicsScene *scene,
-                                         QString const name,
-                                         QPointF const &mouseScenePos)
+                                         const QString name,
+                                         const QPointF &mouseScenePos)
     : _scene(scene)
     , _sceneJson(QJsonObject())
 {
@@ -164,7 +162,7 @@ QExtBPDeleteCommand::QExtBPDeleteCommand(QExtBPBasicGraphicsScene *scene)
     // node deletes some connections as well)
     for (QGraphicsItem *item : _scene->selectedItems()) {
         if (auto c = qgraphicsitem_cast<QExtBPConnectionGraphicsObject *>(item)) {
-            auto const &cid = c->connectionId();
+            const auto &cid = c->connectionId();
 
             connJsonArray.append(QExtBPUtils::toJson(cid));
         }
@@ -176,7 +174,7 @@ QExtBPDeleteCommand::QExtBPDeleteCommand(QExtBPBasicGraphicsScene *scene)
     for (QGraphicsItem *item : _scene->selectedItems()) {
         if (auto n = qgraphicsitem_cast<QExtBPNodeGraphicsObject *>(item)) {
             // saving connections attached to the selected nodes
-            for (auto const &cid : graphModel.allConnectionIds(n->nodeId())) {
+            for (const auto &cid : graphModel.allConnectionIds(n->nodeId())) {
                 connJsonArray.append(QExtBPUtils::toJson(cid));
             }
 
@@ -204,7 +202,7 @@ void QExtBPDeleteCommand::redo()
 
 //-------------------------------------
 
-void offsetNodeGroup(QJsonObject &sceneJson, QPointF const &diff)
+void offsetNodeGroup(QJsonObject &sceneJson, const QPointF &diff)
 {
     QJsonArray nodesJsonArray = sceneJson["nodes"].toArray();
 
@@ -257,7 +255,7 @@ CopyCommand::CopyCommand(QExtBPBasicGraphicsScene *scene)
 
 //-------------------------------------
 
-QExtBPPasteCommand::QExtBPPasteCommand(QExtBPBasicGraphicsScene *scene, QPointF const &mouseScenePos)
+QExtBPPasteCommand::QExtBPPasteCommand(QExtBPBasicGraphicsScene *scene, const QPointF &mouseScenePos)
     : _scene(scene)
     , _mouseScenePos(mouseScenePos)
 {
@@ -318,7 +316,7 @@ QJsonObject QExtBPPasteCommand::takeSceneJsonFromClipboard()
     return json.object();
 }
 
-QJsonObject QExtBPPasteCommand::makeNewNodeIdsInScene(QJsonObject const &sceneJson)
+QJsonObject QExtBPPasteCommand::makeNewNodeIdsInScene(const QJsonObject &sceneJson)
 {
     QExtBPAbstractGraphModel &graphModel = _scene->graphModel();
 
@@ -368,7 +366,7 @@ QJsonObject QExtBPPasteCommand::makeNewNodeIdsInScene(QJsonObject const &sceneJs
 
 //-------------------------------------
 
-QExtBPDisconnectCommand::QExtBPDisconnectCommand(QExtBPBasicGraphicsScene *scene, QExtBPTypes::ConnectionId const connId)
+QExtBPDisconnectCommand::QExtBPDisconnectCommand(QExtBPBasicGraphicsScene *scene, const QExtBPTypes::ConnectionId connId)
     : _scene(scene)
     , _connId(connId)
 {
@@ -387,7 +385,7 @@ void QExtBPDisconnectCommand::redo()
 
 //------
 
-ConnectCommand::ConnectCommand(QExtBPBasicGraphicsScene *scene, QExtBPTypes::ConnectionId const connId)
+ConnectCommand::ConnectCommand(QExtBPBasicGraphicsScene *scene, const QExtBPTypes::ConnectionId connId)
     : _scene(scene)
     , _connId(connId)
 {
@@ -406,7 +404,7 @@ void ConnectCommand::redo()
 
 //------
 
-QExtBPMoveNodeCommand::QExtBPMoveNodeCommand(QExtBPBasicGraphicsScene *scene, QPointF const &diff)
+QExtBPMoveNodeCommand::QExtBPMoveNodeCommand(QExtBPBasicGraphicsScene *scene, const QPointF &diff)
     : _scene(scene)
     , _diff(diff)
 {

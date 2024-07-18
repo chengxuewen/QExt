@@ -19,7 +19,7 @@ public:
     static void setConnectionStyle(QString jsonText);
 
 public:
-    void loadJson(QJsonObject const &json) override;
+    void loadJson(const QJsonObject &json) override;
 
     QJsonObject toJson() const override;
 

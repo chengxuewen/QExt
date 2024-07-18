@@ -27,6 +27,10 @@
 #-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_LIB_LINK_LIBRARIES)
 
+if(WIN32)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES dwmapi.lib) # DwmGetWindowAttribute
+endif()
+
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtSvg)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
@@ -77,6 +81,8 @@ qext_add_library(Keyboard
     source/qextPinyinInputMethod.cpp
     source/qextSymbolKeyboard.h
     source/qextSymbolKeyboard.cpp
+    source/qextSystemKeyboard.h
+    source/qextSystemKeyboard.cpp
     source/qextVirtualKeyboard.h
     source/qextVirtualKeyboard.ui
     source/qextVirtualKeyboard.cpp

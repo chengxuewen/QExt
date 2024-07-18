@@ -7,12 +7,12 @@
 #include <cmath>
 
 QExtBPAbstractNodeGeometry::QExtBPAbstractNodeGeometry(QExtBPAbstractGraphModel &graphModel)
-    : _graphModel(graphModel)
+    : m_graphModel(graphModel)
 {
     //
 }
 
-QRectF QExtBPAbstractNodeGeometry::boundingRect(QExtBPTypes::NodeId const nodeId) const
+QRectF QExtBPAbstractNodeGeometry::boundingRect(const QExtBPTypes::NodeId nodeId) const
 {
     QSize s = size(nodeId);
 
@@ -28,21 +28,21 @@ QRectF QExtBPAbstractNodeGeometry::boundingRect(QExtBPTypes::NodeId const nodeId
     return r.marginsAdded(margins);
 }
 
-QPointF QExtBPAbstractNodeGeometry::portScenePosition(QExtBPTypes::NodeId const nodeId,
-                                                      QExtBPTypes::PortTypeEnum const portType,
-                                                      QExtBPTypes::PortIndex const index,
-                                                      QTransform const &t) const
+QPointF QExtBPAbstractNodeGeometry::portScenePosition(const QExtBPTypes::NodeId nodeId,
+                                                      const QExtBPTypes::PortTypeEnum portType,
+                                                      const QExtBPTypes::PortIndex index,
+                                                      const QTransform &t) const
 {
     QPointF result = portPosition(nodeId, portType, index);
 
     return t.map(result);
 }
 
-QExtBPTypes::PortIndex QExtBPAbstractNodeGeometry::checkPortHit(QExtBPTypes::NodeId const nodeId,
-                                                                QExtBPTypes::PortTypeEnum const portType,
-                                                                QPointF const nodePoint) const
+QExtBPTypes::PortIndex QExtBPAbstractNodeGeometry::checkPortHit(const QExtBPTypes::NodeId nodeId,
+                                                                const QExtBPTypes::PortTypeEnum portType,
+                                                                const QPointF nodePoint) const
 {
-    auto const &nodeStyle = QExtBPStyleCollection::nodeStyle();
+    const auto &nodeStyle = QExtBPStyleCollection::nodeStyle();
 
     QExtBPTypes::PortIndex result = QExtBPTypes::InvalidPortIndex;
 
@@ -51,7 +51,7 @@ QExtBPTypes::PortIndex QExtBPAbstractNodeGeometry::checkPortHit(QExtBPTypes::Nod
 
     double const tolerance = 2.0 * nodeStyle.ConnectionPointDiameter;
 
-    size_t const n = _graphModel.nodeData<unsigned int>(nodeId,
+    size_t const n = m_graphModel.nodeData<unsigned int>(nodeId,
                                                         (portType == QExtBPTypes::PortType_Out)
                                                         ? QExtBPTypes::NodeRole_OutPortCount
                                                         : QExtBPTypes::NodeRole_InPortCount);

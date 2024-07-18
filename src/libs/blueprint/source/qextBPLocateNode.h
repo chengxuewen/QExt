@@ -10,7 +10,7 @@ class QExtBPNodeGraphicsObject;
 
 QExtBPNodeGraphicsObject *locateNodeAt(QPointF scenePoint,
                                        QGraphicsScene &scene,
-                                       QTransform const &viewTransform);
+                                       const QTransform &viewTransform);
 
 #endif // _QEXTBPLOCATENODE_H
 

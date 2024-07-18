@@ -10,7 +10,7 @@ public:
 
     virtual QJsonObject save() const { return {}; }
 
-    virtual void load(QJsonObject const & /*p*/) {}
+    virtual void load(const QJsonObject & /*p*/) {}
 };
 
 #endif // _QEXTBPSERIALIZABLE_H

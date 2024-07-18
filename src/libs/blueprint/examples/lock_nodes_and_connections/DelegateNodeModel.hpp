@@ -24,19 +24,19 @@ public:
     QString name() const override { return QString("SimpleDataModel"); }
 
 public:
-    unsigned int nPorts(QExtBPTypes::PortTypeEnum const portType) const override { return 2; }
+    unsigned int nPorts(const QExtBPTypes::PortTypeEnum portType) const override { return 2; }
 
-    QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum const portType, QExtBPTypes::PortIndex const portIndex) const override
+    QExtBPNodeDataType dataType(const QExtBPTypes::PortTypeEnum portType, const QExtBPTypes::PortIndex portIndex) const override
     {
         return SimpleNodeData().type();
     }
 
-    QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override
+    QSharedPointer<QExtBPNodeData> outData(const QExtBPTypes::PortIndex port) override
     {
         return QSharedPointer<QExtBPNodeData>(new SimpleNodeData);
     }
 
-    void setInData(QSharedPointer<QExtBPNodeData>, QExtBPTypes::PortIndex const) override {}
+    void setInData(QSharedPointer<QExtBPNodeData>, const QExtBPTypes::PortIndex) override {}
 
     QWidget *embeddedWidget() override { return QEXT_NULLPTR; }
 };

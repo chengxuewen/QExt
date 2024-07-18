@@ -8,7 +8,9 @@
 QExtBPDataFlowGraphModel::QExtBPDataFlowGraphModel(QSharedPointer<QExtBPNodeDelegateModelRegistry> registry)
     : _registry(registry)
     , _nextNodeId{0}
-{}
+{
+
+}
 
 std::unordered_set<QExtBPTypes::NodeId> QExtBPDataFlowGraphModel::allNodeIds() const
 {
@@ -20,14 +22,21 @@ std::unordered_set<QExtBPTypes::NodeId> QExtBPDataFlowGraphModel::allNodeIds() c
     return nodeIds;
 }
 
-std::unordered_set<QExtBPTypes::ConnectionId> QExtBPDataFlowGraphModel::allConnectionIds(QExtBPTypes::NodeId const nodeId) const
+std::unordered_set<QExtBPTypes::ConnectionId> QExtBPDataFlowGraphModel::allConnectionIds(const QExtBPTypes::NodeId nodeId) const
 {
     std::unordered_set<QExtBPTypes::ConnectionId> result;
-
+    // std::unordered_set<QExtBPTypes::ConnectionId>::ConstIterator iter;
+    // for (iter = _connectivity.begin(); iter != _connectivity.end(); ++iter)
+    // {
+    //     if ((*iter).inNodeId == nodeId || (*iter).outNodeId == nodeId)
+    //     {
+    //         result.insert((*iter));
+    //     }
+    // }
     std::copy_if(_connectivity.begin(),
                  _connectivity.end(),
                  std::inserter(result, std::end(result)),
-                 [&nodeId](QExtBPTypes::ConnectionId const &cid) {
+                 [&nodeId](const QExtBPTypes::ConnectionId &cid) {
         return cid.inNodeId == nodeId || cid.outNodeId == nodeId;
     });
 
@@ -35,23 +44,31 @@ std::unordered_set<QExtBPTypes::ConnectionId> QExtBPDataFlowGraphModel::allConne
 }
 
 std::unordered_set<QExtBPTypes::ConnectionId> QExtBPDataFlowGraphModel::connections(QExtBPTypes::NodeId nodeId,
-                                                                                    QExtBPTypes::PortTypeEnum portType,
-                                                                                    QExtBPTypes::PortIndex portIndex) const
+                                                                      QExtBPTypes::PortTypeEnum portType,
+                                                                      QExtBPTypes::PortIndex portIndex) const
 {
     std::unordered_set<QExtBPTypes::ConnectionId> result;
-
+    // std::unordered_set<QExtBPTypes::ConnectionId>::ConstIterator iter;
+    // for (iter = _connectivity.begin(); iter != _connectivity.end(); ++iter)
+    // {
+    //     const QExtBPTypes::ConnectionId &cid = (*iter);
+    //     if (QExtBPUtils::getNodeId(portType, cid) == nodeId && QExtBPUtils::getPortIndex(portType, cid) == portIndex)
+    //     {
+    //         result.insert((*iter));
+    //     }
+    // }
     std::copy_if(_connectivity.begin(),
                  _connectivity.end(),
                  std::inserter(result, std::end(result)),
-                 [&portType, &portIndex, &nodeId](QExtBPTypes::ConnectionId const &cid) {
-        return (QExtBPUtils::getNodeId(portType, cid) == nodeId
-                && QExtBPUtils::getPortIndex(portType, cid) == portIndex);
-    });
+                 [&portType, &portIndex, &nodeId](const QExtBPTypes::ConnectionId &cid) {
+                     return (QExtBPUtils::getNodeId(portType, cid) == nodeId
+                             && QExtBPUtils::getPortIndex(portType, cid) == portIndex);
+                 });
 
     return result;
 }
 
-bool QExtBPDataFlowGraphModel::connectionExists(QExtBPTypes::ConnectionId const connectionId) const
+bool QExtBPDataFlowGraphModel::connectionExists(const QExtBPTypes::ConnectionId connectionId) const
 {
     return (_connectivity.find(connectionId) != _connectivity.end());
 }
@@ -60,21 +77,22 @@ QExtBPTypes::NodeId QExtBPDataFlowGraphModel::addNode(QString const nodeType)
 {
     QScopedPointer<QExtBPNodeDelegateModel> model(_registry->create(nodeType));
 
-    if (model) {
+    if (model)
+    {
         QExtBPTypes::NodeId newId = newNodeId();
 
         connect(model.get(),
                 &QExtBPNodeDelegateModel::dataUpdated,
-                [newId, this](QExtBPTypes::PortIndex const portIndex) {
-            onOutPortDataUpdated(newId, portIndex);
-        });
+                [newId, this](const QExtBPTypes::PortIndex portIndex) {
+                    onOutPortDataUpdated(newId, portIndex);
+                });
 
         connect(model.get(),
                 &QExtBPNodeDelegateModel::portsAboutToBeDeleted,
                 this,
-                [newId, this](QExtBPTypes::PortTypeEnum const portType, QExtBPTypes::PortIndex const first, QExtBPTypes::PortIndex const last) {
-            portsAboutToBeDeleted(newId, portType, first, last);
-        });
+                [newId, this](const QExtBPTypes::PortTypeEnum portType, const QExtBPTypes::PortIndex first, const QExtBPTypes::PortIndex last) {
+                    portsAboutToBeDeleted(newId, portType, first, last);
+                });
 
         connect(model.get(),
                 &QExtBPNodeDelegateModel::portsDeleted,
@@ -84,9 +102,9 @@ QExtBPTypes::NodeId QExtBPDataFlowGraphModel::addNode(QString const nodeType)
         connect(model.get(),
                 &QExtBPNodeDelegateModel::portsAboutToBeInserted,
                 this,
-                [newId, this](QExtBPTypes::PortTypeEnum const portType, QExtBPTypes::PortIndex const first, QExtBPTypes::PortIndex const last) {
-            portsAboutToBeInserted(newId, portType, first, last);
-        });
+                [newId, this](const QExtBPTypes::PortTypeEnum portType, const QExtBPTypes::PortIndex first, const QExtBPTypes::PortIndex last) {
+                    portsAboutToBeInserted(newId, portType, first, last);
+                });
 
         connect(model.get(),
                 &QExtBPNodeDelegateModel::portsInserted,
@@ -103,32 +121,32 @@ QExtBPTypes::NodeId QExtBPDataFlowGraphModel::addNode(QString const nodeType)
     return QExtBPTypes::InvalidNodeId;
 }
 
-bool QExtBPDataFlowGraphModel::connectionPossible(QExtBPTypes::ConnectionId const connectionId) const
+bool QExtBPDataFlowGraphModel::connectionPossible(const QExtBPTypes::ConnectionId connectionId) const
 {
-    auto getDataType = [&](QExtBPTypes::PortTypeEnum const portType) {
+    auto getDataType = [&](const QExtBPTypes::PortTypeEnum portType) {
         return portData(QExtBPUtils::getNodeId(portType, connectionId),
                         portType,
                         QExtBPUtils::getPortIndex(portType, connectionId),
                         QExtBPTypes::PortRole_DataType)
-                .value<QExtBPNodeDataType>();
+            .value<QExtBPNodeDataType>();
     };
 
-    auto portVacant = [&](QExtBPTypes::PortTypeEnum const portType) {
-        QExtBPTypes::NodeId const nodeId = QExtBPUtils::getNodeId(portType, connectionId);
-        QExtBPTypes::PortIndex const portIndex = QExtBPUtils::getPortIndex(portType, connectionId);
+    auto portVacant = [&](const QExtBPTypes::PortTypeEnum portType) {
+        const QExtBPTypes::NodeId nodeId = QExtBPUtils::getNodeId(portType, connectionId);
+        const QExtBPTypes::PortIndex portIndex = QExtBPUtils::getPortIndex(portType, connectionId);
         auto const connected = connections(nodeId, portType, portIndex);
 
         auto policy = portData(nodeId, portType, portIndex, QExtBPTypes::PortRole_ConnectionPolicyRole)
-                .value<QExtBPTypes::ConnectionPolicyEnum>();
+                          .value<QExtBPTypes::ConnectionPolicyEnum>();
 
         return connected.empty() || (policy == QExtBPTypes::ConnectionPolicy_Many);
     };
 
     return getDataType(QExtBPTypes::PortType_Out).id == getDataType(QExtBPTypes::PortType_In).id
-            && portVacant(QExtBPTypes::PortType_Out) && portVacant(QExtBPTypes::PortType_In);
+           && portVacant(QExtBPTypes::PortType_Out) && portVacant(QExtBPTypes::PortType_In);
 }
 
-void QExtBPDataFlowGraphModel::addConnection(QExtBPTypes::ConnectionId const connectionId)
+void QExtBPDataFlowGraphModel::addConnection(const QExtBPTypes::ConnectionId connectionId)
 {
     _connectivity.insert(connectionId);
 
@@ -146,7 +164,7 @@ void QExtBPDataFlowGraphModel::addConnection(QExtBPTypes::ConnectionId const con
                 QExtBPTypes::PortRole_Data);
 }
 
-void QExtBPDataFlowGraphModel::sendConnectionCreation(QExtBPTypes::ConnectionId const connectionId)
+void QExtBPDataFlowGraphModel::sendConnectionCreation(const QExtBPTypes::ConnectionId connectionId)
 {
     Q_EMIT connectionCreated(connectionId);
 
@@ -160,7 +178,7 @@ void QExtBPDataFlowGraphModel::sendConnectionCreation(QExtBPTypes::ConnectionId 
     }
 }
 
-void QExtBPDataFlowGraphModel::sendConnectionDeletion(QExtBPTypes::ConnectionId const connectionId)
+void QExtBPDataFlowGraphModel::sendConnectionDeletion(const QExtBPTypes::ConnectionId connectionId)
 {
     Q_EMIT connectionDeleted(connectionId);
 
@@ -174,7 +192,7 @@ void QExtBPDataFlowGraphModel::sendConnectionDeletion(QExtBPTypes::ConnectionId 
     }
 }
 
-bool QExtBPDataFlowGraphModel::nodeExists(QExtBPTypes::NodeId const nodeId) const
+bool QExtBPDataFlowGraphModel::nodeExists(const QExtBPTypes::NodeId nodeId) const
 {
     return (_models.find(nodeId) != _models.end());
 }
@@ -340,8 +358,11 @@ QVariant QExtBPDataFlowGraphModel::portData(QExtBPTypes::NodeId nodeId,
     return result;
 }
 
-bool QExtBPDataFlowGraphModel::setPortData(
-        QExtBPTypes::NodeId nodeId, QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex, QVariant const &value, QExtBPTypes::PortRoleEnum role)
+bool QExtBPDataFlowGraphModel::setPortData(QExtBPTypes::NodeId nodeId,
+                                           QExtBPTypes::PortTypeEnum portType,
+                                           QExtBPTypes::PortIndex portIndex,
+                                           const QVariant &value,
+                                           QExtBPTypes::PortRoleEnum role)
 {
     Q_UNUSED(nodeId);
 
@@ -370,7 +391,7 @@ bool QExtBPDataFlowGraphModel::setPortData(
     return false;
 }
 
-bool QExtBPDataFlowGraphModel::deleteConnection(QExtBPTypes::ConnectionId const connectionId)
+bool QExtBPDataFlowGraphModel::deleteConnection(const QExtBPTypes::ConnectionId connectionId)
 {
     bool disconnected = false;
 
@@ -392,7 +413,7 @@ bool QExtBPDataFlowGraphModel::deleteConnection(QExtBPTypes::ConnectionId const 
     return disconnected;
 }
 
-bool QExtBPDataFlowGraphModel::deleteNode(QExtBPTypes::NodeId const nodeId)
+bool QExtBPDataFlowGraphModel::deleteNode(const QExtBPTypes::NodeId nodeId)
 {
     // Delete connections to this node first.
     auto connectionIds = allConnectionIds(nodeId);
@@ -408,7 +429,7 @@ bool QExtBPDataFlowGraphModel::deleteNode(QExtBPTypes::NodeId const nodeId)
     return true;
 }
 
-QJsonObject QExtBPDataFlowGraphModel::saveNode(QExtBPTypes::NodeId const nodeId) const
+QJsonObject QExtBPDataFlowGraphModel::saveNode(const QExtBPTypes::NodeId nodeId) const
 {
     QJsonObject nodeJson;
 
@@ -417,7 +438,7 @@ QJsonObject QExtBPDataFlowGraphModel::saveNode(QExtBPTypes::NodeId const nodeId)
     nodeJson["internal-data"] = _models.at(nodeId)->save();
 
     {
-        QPointF const pos = nodeData(nodeId, QExtBPTypes::NodeRole_Position).value<QPointF>();
+        const QPointF pos = nodeData(nodeId, QExtBPTypes::NodeRole_Position).value<QPointF>();
 
         QJsonObject posJson;
         posJson["x"] = pos.x();
@@ -433,13 +454,13 @@ QJsonObject QExtBPDataFlowGraphModel::save() const
     QJsonObject sceneJson;
 
     QJsonArray nodesJsonArray;
-    for (auto const nodeId : allNodeIds()) {
+    for (const auto nodeId : allNodeIds()) {
         nodesJsonArray.append(saveNode(nodeId));
     }
     sceneJson["nodes"] = nodesJsonArray;
 
     QJsonArray connJsonArray;
-    for (auto const &cid : _connectivity) {
+    for (const auto &cid : _connectivity) {
         connJsonArray.append(QExtBPUtils::toJson(cid));
     }
     sceneJson["connections"] = connJsonArray;
@@ -447,7 +468,7 @@ QJsonObject QExtBPDataFlowGraphModel::save() const
     return sceneJson;
 }
 
-void QExtBPDataFlowGraphModel::loadNode(QJsonObject const &nodeJson)
+void QExtBPDataFlowGraphModel::loadNode(const QJsonObject &nodeJson)
 {
     // Possibility of the id clash when reading it from json and not generating a
     // new value.
@@ -469,16 +490,16 @@ void QExtBPDataFlowGraphModel::loadNode(QJsonObject const &nodeJson)
     if (model) {
         connect(model.get(),
                 &QExtBPNodeDelegateModel::dataUpdated,
-                [restoredNodeId, this](QExtBPTypes::PortIndex const portIndex) {
-            onOutPortDataUpdated(restoredNodeId, portIndex);
-        });
+                [restoredNodeId, this](const QExtBPTypes::PortIndex portIndex) {
+                    onOutPortDataUpdated(restoredNodeId, portIndex);
+                });
 
         _models[restoredNodeId].swap(model);
 
         Q_EMIT nodeCreated(restoredNodeId);
 
         QJsonObject posJson = nodeJson["position"].toObject();
-        QPointF const pos(posJson["x"].toDouble(), posJson["y"].toDouble());
+        const QPointF pos(posJson["x"].toDouble(), posJson["y"].toDouble());
 
         setNodeData(restoredNodeId, QExtBPTypes::NodeRole_Position, pos);
 
@@ -489,7 +510,7 @@ void QExtBPDataFlowGraphModel::loadNode(QJsonObject const &nodeJson)
     }
 }
 
-void QExtBPDataFlowGraphModel::load(QJsonObject const &jsonDocument)
+void QExtBPDataFlowGraphModel::load(const QJsonObject &jsonDocument)
 {
     QJsonArray nodesJsonArray = jsonDocument["nodes"].toArray();
 
@@ -509,20 +530,24 @@ void QExtBPDataFlowGraphModel::load(QJsonObject const &jsonDocument)
     }
 }
 
-void QExtBPDataFlowGraphModel::onOutPortDataUpdated(QExtBPTypes::NodeId const nodeId, QExtBPTypes::PortIndex const portIndex)
+void QExtBPDataFlowGraphModel::onOutPortDataUpdated(const QExtBPTypes::NodeId nodeId,
+                                                    const QExtBPTypes::PortIndex portIndex)
 {
-    std::unordered_set<QExtBPTypes::ConnectionId> const &connected = connections(nodeId,
-                                                                                 QExtBPTypes::PortType_Out,
-                                                                                 portIndex);
+    const std::unordered_set<QExtBPTypes::ConnectionId> &connected = connections(nodeId,
+                                                                   QExtBPTypes::PortType_Out,
+                                                                   portIndex);
 
-    QVariant const portDataToPropagate = portData(nodeId, QExtBPTypes::PortType_Out, portIndex, QExtBPTypes::PortRole_Data);
+    const QVariant portDataToPropagate = portData(nodeId, QExtBPTypes::PortType_Out,
+                                                  portIndex, QExtBPTypes::PortRole_Data);
 
-    for (auto const &cn : connected) {
+    for (const auto &cn : connected)
+    {
         setPortData(cn.inNodeId, QExtBPTypes::PortType_In, cn.inPortIndex, portDataToPropagate, QExtBPTypes::PortRole_Data);
     }
 }
 
-void QExtBPDataFlowGraphModel::propagateEmptyDataTo(QExtBPTypes::NodeId const nodeId, QExtBPTypes::PortIndex const portIndex)
+void QExtBPDataFlowGraphModel::propagateEmptyDataTo(const QExtBPTypes::NodeId nodeId,
+                                                    const QExtBPTypes::PortIndex portIndex)
 {
     QVariant emptyData{};
 

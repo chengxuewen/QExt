@@ -1,16 +1,16 @@
 #include <qextBPStyleCollection.h>
 
-QExtBPNodeStyle const &QExtBPStyleCollection::nodeStyle()
+const QExtBPNodeStyle &QExtBPStyleCollection::nodeStyle()
 {
     return instance()._nodeStyle;
 }
 
-QExtBPConnectionStyle const &QExtBPStyleCollection::connectionStyle()
+const QExtBPConnectionStyle &QExtBPStyleCollection::connectionStyle()
 {
     return instance()._connectionStyle;
 }
 
-QExtBPGraphicsViewStyle const &QExtBPStyleCollection::flowViewStyle()
+const QExtBPGraphicsViewStyle &QExtBPStyleCollection::flowViewStyle()
 {
     return instance()._flowViewStyle;
 }

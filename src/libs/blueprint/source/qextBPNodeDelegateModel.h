@@ -46,7 +46,7 @@ public:
 public:
     QJsonObject save() const override;
 
-    void load(QJsonObject const &) override;
+    void load(const QJsonObject &) override;
 
 public:
     virtual unsigned int nPorts(QExtBPTypes::PortTypeEnum portType) const = 0;
@@ -56,14 +56,14 @@ public:
 public:
     virtual QExtBPTypes::ConnectionPolicyEnum portConnectionPolicy(QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex) const;
 
-    QExtBPNodeStyle const &nodeStyle() const;
+    const QExtBPNodeStyle &nodeStyle() const;
 
-    void setNodeStyle(QExtBPNodeStyle const &style);
+    void setNodeStyle(const QExtBPNodeStyle &style);
 
 public:
-    virtual void setInData(QSharedPointer<QExtBPNodeData> nodeData, QExtBPTypes::PortIndex const portIndex) = 0;
+    virtual void setInData(QSharedPointer<QExtBPNodeData> nodeData, const QExtBPTypes::PortIndex portIndex) = 0;
 
-    virtual QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) = 0;
+    virtual QSharedPointer<QExtBPNodeData> outData(const QExtBPTypes::PortIndex port) = 0;
 
     /**
    * It is recommented to preform a lazy initialization for the
@@ -81,21 +81,21 @@ public:
 
 public Q_SLOTS:
 
-    virtual void inputConnectionCreated(QExtBPTypes::ConnectionId const &) {}
+    virtual void inputConnectionCreated(const QExtBPTypes::ConnectionId &) {}
 
-    virtual void inputConnectionDeleted(QExtBPTypes::ConnectionId const &) {}
+    virtual void inputConnectionDeleted(const QExtBPTypes::ConnectionId &) {}
 
-    virtual void outputConnectionCreated(QExtBPTypes::ConnectionId const &) {}
+    virtual void outputConnectionCreated(const QExtBPTypes::ConnectionId &) {}
 
-    virtual void outputConnectionDeleted(QExtBPTypes::ConnectionId const &) {}
+    virtual void outputConnectionDeleted(const QExtBPTypes::ConnectionId &) {}
 
 Q_SIGNALS:
 
     /// Triggers the updates in the nodes downstream.
-    void dataUpdated(QExtBPTypes::PortIndex const index);
+    void dataUpdated(const QExtBPTypes::PortIndex index);
 
     /// Triggers the propagation of the empty data downstream.
-    void dataInvalidated(QExtBPTypes::PortIndex const index);
+    void dataInvalidated(const QExtBPTypes::PortIndex index);
 
     void computingStarted();
 
@@ -108,7 +108,9 @@ Q_SIGNALS:
    * The function notifies the Graph Model and makes it remove and recompute the
    * affected connection addresses.
    */
-    void portsAboutToBeDeleted(QExtBPTypes::PortTypeEnum const portType, QExtBPTypes::PortIndex const first, QExtBPTypes::PortIndex const last);
+    void portsAboutToBeDeleted(const QExtBPTypes::PortTypeEnum portType,
+                               const QExtBPTypes::PortIndex first,
+                               const QExtBPTypes::PortIndex last);
 
     /// Call this function when data and port moditications are finished.
     void portsDeleted();
@@ -118,9 +120,9 @@ Q_SIGNALS:
    * The function notifies the Graph Model and makes it recompute the affected
    * connection addresses.
    */
-    void portsAboutToBeInserted(QExtBPTypes::PortTypeEnum const portType,
-                                QExtBPTypes::PortIndex const first,
-                                QExtBPTypes::PortIndex const last);
+    void portsAboutToBeInserted(const QExtBPTypes::PortTypeEnum portType,
+                                const QExtBPTypes::PortIndex first,
+                                const QExtBPTypes::PortIndex last);
 
     /// Call this function when data and port moditications are finished.
     void portsInserted();

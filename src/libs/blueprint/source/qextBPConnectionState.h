@@ -25,10 +25,10 @@ public:
         , _hovered(false)
     {}
 
-    QExtBPConnectionState(QExtBPConnectionState const &) = delete;
+    QExtBPConnectionState(const QExtBPConnectionState &) = delete;
     QExtBPConnectionState(QExtBPConnectionState &&) = delete;
 
-    QExtBPConnectionState &operator=(QExtBPConnectionState const &) = delete;
+    QExtBPConnectionState &operator=(const QExtBPConnectionState &) = delete;
     QExtBPConnectionState &operator=(QExtBPConnectionState &&) = delete;
 
     ~QExtBPConnectionState();
@@ -42,7 +42,7 @@ public:
 
 public:
     /// Caches QExtBPTypes::NodeId for further interaction.
-    void setLastHoveredNode(QExtBPTypes::NodeId const nodeId);
+    void setLastHoveredNode(const QExtBPTypes::NodeId nodeId);
 
     QExtBPTypes::NodeId lastHoveredNode() const;
 

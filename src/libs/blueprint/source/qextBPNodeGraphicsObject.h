@@ -36,7 +36,7 @@ public:
 
     QExtBPNodeState &nodeState() { return _nodeState; }
 
-    QExtBPNodeState const &nodeState() const { return _nodeState; }
+    const QExtBPNodeState &nodeState() const { return _nodeState; }
 
     QRectF boundingRect() const override;
 

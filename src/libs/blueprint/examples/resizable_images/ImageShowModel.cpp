@@ -60,7 +60,7 @@ bool ImageShowModel::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-QExtBPNodeDataType ImageShowModel::dataType(QExtBPTypes::PortTypeEnum const, QExtBPTypes::PortIndex const) const
+QExtBPNodeDataType ImageShowModel::dataType(const QExtBPTypes::PortTypeEnum, const QExtBPTypes::PortIndex) const
 {
     return PixmapData().type();
 }
@@ -70,7 +70,7 @@ QSharedPointer<QExtBPNodeData> ImageShowModel::outData(QExtBPTypes::PortIndex)
     return _nodeData;
 }
 
-void ImageShowModel::setInData(QSharedPointer<QExtBPNodeData> nodeData, QExtBPTypes::PortIndex const)
+void ImageShowModel::setInData(QSharedPointer<QExtBPNodeData> nodeData, const QExtBPTypes::PortIndex)
 {
     _nodeData = nodeData;
 

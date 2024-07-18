@@ -20,7 +20,7 @@ QJsonObject NumberSourceDataModel::save() const
     return modelJson;
 }
 
-void NumberSourceDataModel::load(QJsonObject const &p)
+void NumberSourceDataModel::load(const QJsonObject &p)
 {
     QJsonValue v = p["number"];
 
@@ -57,7 +57,7 @@ unsigned int NumberSourceDataModel::nPorts(QExtBPTypes::PortTypeEnum portType) c
     return result;
 }
 
-void NumberSourceDataModel::onTextEdited(QString const &str)
+void NumberSourceDataModel::onTextEdited(const QString &str)
 {
     bool ok = false;
 

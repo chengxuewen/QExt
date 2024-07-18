@@ -3,7 +3,7 @@
 #include <QtCore/QFile>
 #include <QtWidgets/QMessageBox>
 
-QExtBPNodeDelegateModel *QExtBPNodeDelegateModelRegistry::create(QString const &modelName)
+QExtBPNodeDelegateModel *QExtBPNodeDelegateModelRegistry::create(const QString &modelName)
 {
     auto it = _registeredItemCreators.find(modelName);
 
@@ -14,19 +14,19 @@ QExtBPNodeDelegateModel *QExtBPNodeDelegateModelRegistry::create(QString const &
     return QEXT_NULLPTR;
 }
 
-QExtBPNodeDelegateModelRegistry::RegisteredModelCreatorsMap const &
+const QExtBPNodeDelegateModelRegistry::RegisteredModelCreatorsMap &
 QExtBPNodeDelegateModelRegistry::registeredModelCreators() const
 {
     return _registeredItemCreators;
 }
 
-QExtBPNodeDelegateModelRegistry::RegisteredModelsCategoryMap const &
+const QExtBPNodeDelegateModelRegistry::RegisteredModelsCategoryMap &
 QExtBPNodeDelegateModelRegistry::registeredModelsCategoryAssociation() const
 {
     return _registeredModelsCategory;
 }
 
-QExtBPNodeDelegateModelRegistry::CategoriesSet const &QExtBPNodeDelegateModelRegistry::categories() const
+const QExtBPNodeDelegateModelRegistry::CategoriesSet &QExtBPNodeDelegateModelRegistry::categories() const
 {
     return _categories;
 }

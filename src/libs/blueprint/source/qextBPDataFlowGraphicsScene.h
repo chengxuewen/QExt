@@ -22,7 +22,7 @@ public:
     std::vector<QExtBPTypes::NodeId> selectedNodes() const;
 
 public:
-    QMenu *createSceneMenu(QPointF const scenePos) override;
+    QMenu *createSceneMenu(const QPointF scenePos) override;
 
 public Q_SLOTS:
     void save() const;

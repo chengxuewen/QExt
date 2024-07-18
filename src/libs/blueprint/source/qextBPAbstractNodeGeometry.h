@@ -23,55 +23,55 @@ public:
    * The default implementation returns QSize + 20 percent of width and heights
    * at each side of the rectangle.
    */
-    virtual QRectF boundingRect(QExtBPTypes::NodeId const nodeId) const;
+    virtual QRectF boundingRect(const QExtBPTypes::NodeId nodeId) const;
 
     /// A direct rectangle defining the borders of the node's rectangle.
-    virtual QSize size(QExtBPTypes::NodeId const nodeId) const = 0;
+    virtual QSize size(const QExtBPTypes::NodeId nodeId) const = 0;
 
     /**
    * The function is triggeren when a nuber of ports is changed or when an
    * embedded widget needs an update.
    */
-    virtual void recomputeSize(QExtBPTypes::NodeId const nodeId) const = 0;
+    virtual void recomputeSize(const QExtBPTypes::NodeId nodeId) const = 0;
 
     /// Port position in node's coordinate system.
-    virtual QPointF portPosition(QExtBPTypes::NodeId const nodeId,
-                                 QExtBPTypes::PortTypeEnum const portType,
-                                 QExtBPTypes::PortIndex const index) const
+    virtual QPointF portPosition(const QExtBPTypes::NodeId nodeId,
+                                 const QExtBPTypes::PortTypeEnum portType,
+                                 const QExtBPTypes::PortIndex index) const
     = 0;
 
     /// A convenience function using the `portPosition` and a given transformation.
-    virtual QPointF portScenePosition(QExtBPTypes::NodeId const nodeId,
-                                      QExtBPTypes::PortTypeEnum const portType,
-                                      QExtBPTypes::PortIndex const index,
-                                      QTransform const &t) const;
+    virtual QPointF portScenePosition(const QExtBPTypes::NodeId nodeId,
+                                      const QExtBPTypes::PortTypeEnum portType,
+                                      const QExtBPTypes::PortIndex index,
+                                      const QTransform &t) const;
 
     /// Defines where to draw port label. The point corresponds to a font baseline.
-    virtual QPointF portTextPosition(QExtBPTypes::NodeId const nodeId,
-                                     QExtBPTypes::PortTypeEnum const portType,
-                                     QExtBPTypes::PortIndex const portIndex) const
+    virtual QPointF portTextPosition(const QExtBPTypes::NodeId nodeId,
+                                     const QExtBPTypes::PortTypeEnum portType,
+                                     const QExtBPTypes::PortIndex portIndex) const
     = 0;
 
     /**
    * Defines where to start drawing the caption. The point corresponds to a font
    * baseline.
    */
-    virtual QPointF captionPosition(QExtBPTypes::NodeId const nodeId) const = 0;
+    virtual QPointF captionPosition(const QExtBPTypes::NodeId nodeId) const = 0;
 
     /// Caption rect is needed for estimating the total node size.
-    virtual QRectF captionRect(QExtBPTypes::NodeId const nodeId) const = 0;
+    virtual QRectF captionRect(const QExtBPTypes::NodeId nodeId) const = 0;
 
     /// Position for an embedded widget. Return any value if you don't embed.
-    virtual QPointF widgetPosition(QExtBPTypes::NodeId const nodeId) const = 0;
+    virtual QPointF widgetPosition(const QExtBPTypes::NodeId nodeId) const = 0;
 
-    virtual QExtBPTypes::PortIndex checkPortHit(QExtBPTypes::NodeId const nodeId,
-                                                QExtBPTypes::PortTypeEnum const portType,
-                                                QPointF const nodePoint) const;
+    virtual QExtBPTypes::PortIndex checkPortHit(const QExtBPTypes::NodeId nodeId,
+                                                const QExtBPTypes::PortTypeEnum portType,
+                                                const QPointF nodePoint) const;
 
-    virtual QRect resizeHandleRect(QExtBPTypes::NodeId const nodeId) const = 0;
+    virtual QRect resizeHandleRect(const QExtBPTypes::NodeId nodeId) const = 0;
 
 protected:
-    QExtBPAbstractGraphModel &_graphModel;
+    QExtBPAbstractGraphModel &m_graphModel;
 };
 
 #endif // _QEXTBPABSTRACTNODEGEOMETRY_H

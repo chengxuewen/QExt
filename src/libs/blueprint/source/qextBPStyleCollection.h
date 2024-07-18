@@ -9,11 +9,11 @@
 class QEXT_BLUEPRINT_API QExtBPStyleCollection
 {
 public:
-    static QExtBPNodeStyle const &nodeStyle();
+    static const QExtBPNodeStyle &nodeStyle();
 
-    static QExtBPConnectionStyle const &connectionStyle();
+    static const QExtBPConnectionStyle &connectionStyle();
 
-    static QExtBPGraphicsViewStyle const &flowViewStyle();
+    static const QExtBPGraphicsViewStyle &flowViewStyle();
 
 public:
     static void setNodeStyle(QExtBPNodeStyle);
@@ -25,9 +25,9 @@ public:
 private:
     QExtBPStyleCollection() = default;
 
-    QExtBPStyleCollection(QExtBPStyleCollection const &) = delete;
+    QExtBPStyleCollection(const QExtBPStyleCollection &) = delete;
 
-    QExtBPStyleCollection &operator=(QExtBPStyleCollection const &) = delete;
+    QExtBPStyleCollection &operator=(const QExtBPStyleCollection &) = delete;
 
     static QExtBPStyleCollection &instance();
 

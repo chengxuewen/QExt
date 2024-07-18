@@ -8,7 +8,7 @@
 
 QExtBPNodeGraphicsObject *locateNodeAt(QPointF scenePoint,
                                        QGraphicsScene &scene,
-                                       QTransform const &viewTransform)
+                                       const QTransform &viewTransform)
 {
     // items under cursor
     QList<QGraphicsItem *> items = scene.items(scenePoint,

@@ -66,7 +66,7 @@ void QExtBPGraphicsViewStyle::setStyle(QString jsonText)
     values[#variable] = variable.name(); \
     }
 
-void QExtBPGraphicsViewStyle::loadJson(QJsonObject const &json)
+void QExtBPGraphicsViewStyle::loadJson(const QJsonObject &json)
 {
     QJsonValue nodeStyleValues = json["GraphicsViewStyle"];
 

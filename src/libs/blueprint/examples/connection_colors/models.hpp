@@ -43,7 +43,7 @@ public:
     QString name() const override { return QString("NaiveDataModel"); }
 
 public:
-    unsigned int nPorts(QExtBPTypes::PortTypeEnum const portType) const override
+    unsigned int nPorts(const QExtBPTypes::PortTypeEnum portType) const override
     {
         unsigned int result = 1;
 
@@ -62,7 +62,7 @@ public:
         return result;
     }
 
-    QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum const portType, QExtBPTypes::PortIndex const portIndex) const override
+    QExtBPNodeDataType dataType(const QExtBPTypes::PortTypeEnum portType, const QExtBPTypes::PortIndex portIndex) const override
     {
         switch (portType) {
         case QExtBPTypes::PortType_In:
@@ -90,7 +90,7 @@ public:
         return QExtBPNodeDataType();
     }
 
-    QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override
+    QSharedPointer<QExtBPNodeData> outData(const QExtBPTypes::PortIndex port) override
     {
         if (port < 1)
             return qextMakeShared<MyNodeData>();
@@ -98,7 +98,7 @@ public:
         return qextMakeShared<SimpleNodeData>();
     }
 
-    void setInData(QSharedPointer<QExtBPNodeData>, QExtBPTypes::PortIndex const) override
+    void setInData(QSharedPointer<QExtBPNodeData>, const QExtBPTypes::PortIndex) override
     {
         //
     }

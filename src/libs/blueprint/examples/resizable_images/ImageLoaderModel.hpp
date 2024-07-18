@@ -28,13 +28,13 @@ public:
 public:
     virtual QString modelName() const { return QString("Source Image"); }
 
-    unsigned int nPorts(QExtBPTypes::PortTypeEnum const portType) const override;
+    unsigned int nPorts(const QExtBPTypes::PortTypeEnum portType) const override;
 
-    QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum const portType, QExtBPTypes::PortIndex const portIndex) const override;
+    QExtBPNodeDataType dataType(const QExtBPTypes::PortTypeEnum portType, const QExtBPTypes::PortIndex portIndex) const override;
 
-    QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex const port) override;
+    QSharedPointer<QExtBPNodeData> outData(const QExtBPTypes::PortIndex port) override;
 
-    void setInData(QSharedPointer<QExtBPNodeData>, QExtBPTypes::PortIndex const portIndex) override {}
+    void setInData(QSharedPointer<QExtBPNodeData>, const QExtBPTypes::PortIndex portIndex) override {}
 
     QWidget *embeddedWidget() override { return _label; }
 

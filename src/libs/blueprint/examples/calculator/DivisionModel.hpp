@@ -50,7 +50,7 @@ public:
 private:
     void compute() override
     {
-        QExtBPTypes::PortIndex const outPortIndex = 0;
+        const QExtBPTypes::PortIndex outPortIndex = 0;
 
         auto n1 = _number1.lock();
         auto n2 = _number2.lock();

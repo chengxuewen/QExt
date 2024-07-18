@@ -79,7 +79,7 @@ QExtBPBasicGraphicsScene::QExtBPBasicGraphicsScene(QExtBPAbstractGraphModel &gra
 
 QExtBPBasicGraphicsScene::~QExtBPBasicGraphicsScene() = default;
 
-QExtBPAbstractGraphModel const &QExtBPBasicGraphicsScene::graphModel() const
+const QExtBPAbstractGraphModel &QExtBPBasicGraphicsScene::graphModel() const
 {
     return _graphModel;
 }
@@ -110,7 +110,7 @@ QUndoStack &QExtBPBasicGraphicsScene::undoStack()
 }
 
 const QScopedPointer<QExtBPConnectionGraphicsObject> &QExtBPBasicGraphicsScene::makeDraftConnection(
-        QExtBPTypes::ConnectionId const incompleteConnectionId)
+        const QExtBPTypes::ConnectionId incompleteConnectionId)
 {
     _draftConnection.reset(new QExtBPConnectionGraphicsObject(*this, incompleteConnectionId));
 
@@ -126,7 +126,7 @@ void QExtBPBasicGraphicsScene::resetDraftConnection()
 
 void QExtBPBasicGraphicsScene::clearScene()
 {
-    auto const &allNodeIds = graphModel().allNodeIds();
+    const auto &allNodeIds = graphModel().allNodeIds();
 
     for (auto nodeId : allNodeIds) {
         graphModel().deleteNode(nodeId);
@@ -174,7 +174,7 @@ void QExtBPBasicGraphicsScene::setOrientation(Qt::Orientation const orientation)
     }
 }
 
-QMenu *QExtBPBasicGraphicsScene::createSceneMenu(QPointF const scenePos)
+QMenu *QExtBPBasicGraphicsScene::createSceneMenu(const QPointF scenePos)
 {
     Q_UNUSED(scenePos);
     return QEXT_NULLPTR;
@@ -185,16 +185,17 @@ void QExtBPBasicGraphicsScene::traverseGraphAndPopulateGraphicsObjects()
     auto allNodeIds = _graphModel.allNodeIds();
 
     // First create all the nodes.
-    for (QExtBPTypes::NodeId const nodeId : allNodeIds) {
+    for (const QExtBPTypes::NodeId nodeId : allNodeIds) {
         _nodeGraphicsObjects[nodeId].reset(new QExtBPNodeGraphicsObject(*this, nodeId));
     }
 
     // Then for each node check output connections and insert them.
-    for (QExtBPTypes::NodeId const nodeId : allNodeIds) {
+    for (const QExtBPTypes::NodeId nodeId : allNodeIds) {
         unsigned int nOutPorts = _graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_OutPortCount);
 
-        for (QExtBPTypes::PortIndex index = 0; index < nOutPorts; ++index) {
-            auto const &outConnectionIds = _graphModel.connections(nodeId, QExtBPTypes::PortType_Out, index);
+        for (QExtBPTypes::PortIndex index = 0; index < nOutPorts; ++index)
+        {
+            const auto &outConnectionIds = _graphModel.connections(nodeId, QExtBPTypes::PortType_Out, index);
 
             for (auto cid : outConnectionIds) {
                 _connectionGraphicsObjects[cid].reset(new QExtBPConnectionGraphicsObject(*this, cid));
@@ -203,8 +204,8 @@ void QExtBPBasicGraphicsScene::traverseGraphAndPopulateGraphicsObjects()
     }
 }
 
-void QExtBPBasicGraphicsScene::updateAttachedNodes(QExtBPTypes::ConnectionId const connectionId,
-                                                   QExtBPTypes::PortTypeEnum const portType)
+void QExtBPBasicGraphicsScene::updateAttachedNodes(const QExtBPTypes::ConnectionId connectionId,
+                                                   const QExtBPTypes::PortTypeEnum portType)
 {
     auto node = nodeGraphicsObject(QExtBPUtils::getNodeId(portType, connectionId));
 
@@ -213,7 +214,7 @@ void QExtBPBasicGraphicsScene::updateAttachedNodes(QExtBPTypes::ConnectionId con
     }
 }
 
-void QExtBPBasicGraphicsScene::onConnectionDeleted(QExtBPTypes::ConnectionId const connectionId)
+void QExtBPBasicGraphicsScene::onConnectionDeleted(const QExtBPTypes::ConnectionId connectionId)
 {
     auto it = _connectionGraphicsObjects.find(connectionId);
     if (it != _connectionGraphicsObjects.end()) {
@@ -229,7 +230,7 @@ void QExtBPBasicGraphicsScene::onConnectionDeleted(QExtBPTypes::ConnectionId con
     updateAttachedNodes(connectionId, QExtBPTypes::PortType_In);
 }
 
-void QExtBPBasicGraphicsScene::onConnectionCreated(QExtBPTypes::ConnectionId const connectionId)
+void QExtBPBasicGraphicsScene::onConnectionCreated(const QExtBPTypes::ConnectionId connectionId)
 {
     _connectionGraphicsObjects[connectionId].reset(new QExtBPConnectionGraphicsObject(*this, connectionId));
 
@@ -237,7 +238,7 @@ void QExtBPBasicGraphicsScene::onConnectionCreated(QExtBPTypes::ConnectionId con
     updateAttachedNodes(connectionId, QExtBPTypes::PortType_In);
 }
 
-void QExtBPBasicGraphicsScene::onNodeDeleted(QExtBPTypes::NodeId const nodeId)
+void QExtBPBasicGraphicsScene::onNodeDeleted(const QExtBPTypes::NodeId nodeId)
 {
     auto it = _nodeGraphicsObjects.find(nodeId);
     if (it != _nodeGraphicsObjects.end()) {
@@ -245,12 +246,12 @@ void QExtBPBasicGraphicsScene::onNodeDeleted(QExtBPTypes::NodeId const nodeId)
     }
 }
 
-void QExtBPBasicGraphicsScene::onNodeCreated(QExtBPTypes::NodeId const nodeId)
+void QExtBPBasicGraphicsScene::onNodeCreated(const QExtBPTypes::NodeId nodeId)
 {
     _nodeGraphicsObjects[nodeId].reset(new QExtBPNodeGraphicsObject(*this, nodeId));
 }
 
-void QExtBPBasicGraphicsScene::onNodePositionUpdated(QExtBPTypes::NodeId const nodeId)
+void QExtBPBasicGraphicsScene::onNodePositionUpdated(const QExtBPTypes::NodeId nodeId)
 {
     auto node = nodeGraphicsObject(nodeId);
     if (node) {
@@ -260,7 +261,7 @@ void QExtBPBasicGraphicsScene::onNodePositionUpdated(QExtBPTypes::NodeId const n
     }
 }
 
-void QExtBPBasicGraphicsScene::onNodeUpdated(QExtBPTypes::NodeId const nodeId)
+void QExtBPBasicGraphicsScene::onNodeUpdated(const QExtBPTypes::NodeId nodeId)
 {
     auto node = nodeGraphicsObject(nodeId);
 
@@ -274,7 +275,7 @@ void QExtBPBasicGraphicsScene::onNodeUpdated(QExtBPTypes::NodeId const nodeId)
     }
 }
 
-void QExtBPBasicGraphicsScene::onNodeClicked(QExtBPTypes::NodeId const nodeId)
+void QExtBPBasicGraphicsScene::onNodeClicked(const QExtBPTypes::NodeId nodeId)
 {
     if (_nodeDrag)
         Q_EMIT nodeMoved(nodeId, _graphModel.nodeData(nodeId, QExtBPTypes::NodeRole_Position).value<QPointF>());

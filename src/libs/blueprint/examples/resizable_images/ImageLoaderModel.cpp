@@ -69,7 +69,7 @@ bool ImageLoaderModel::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-QExtBPNodeDataType ImageLoaderModel::dataType(QExtBPTypes::PortTypeEnum const, QExtBPTypes::PortIndex const) const
+QExtBPNodeDataType ImageLoaderModel::dataType(const QExtBPTypes::PortTypeEnum, const QExtBPTypes::PortIndex) const
 {
     return PixmapData().type();
 }

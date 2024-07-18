@@ -53,11 +53,11 @@ QExtBPNodeGraphicsObject::QExtBPNodeGraphicsObject(QExtBPBasicGraphicsScene &sce
 
     nodeScene()->nodeGeometry().recomputeSize(_nodeId);
 
-    QPointF const pos = _graphModel.nodeData<QPointF>(_nodeId, QExtBPTypes::NodeRole_Position);
+    const QPointF pos = _graphModel.nodeData<QPointF>(_nodeId, QExtBPTypes::NodeRole_Position);
 
     setPos(pos);
 
-    connect(&_graphModel, &QExtBPAbstractGraphModel::nodeFlagsUpdated, [this](QExtBPTypes::NodeId const nodeId) {
+    connect(&_graphModel, &QExtBPAbstractGraphModel::nodeFlagsUpdated, [this](const QExtBPTypes::NodeId nodeId) {
         if (_nodeId == nodeId)
             setLockedState();
     });
@@ -130,7 +130,7 @@ void QExtBPNodeGraphicsObject::setGeometryChanged()
 
 void QExtBPNodeGraphicsObject::moveConnections() const
 {
-    auto const &connected = _graphModel.allConnectionIds(_nodeId);
+    const auto &connected = _graphModel.allConnectionIds(_nodeId);
 
     for (auto &cnId : connected) {
         auto cgo = nodeScene()->connectionGraphicsObject(cnId);
@@ -173,16 +173,16 @@ void QExtBPNodeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event)
     for (QExtBPTypes::PortTypeEnum portToCheck : {QExtBPTypes::PortType_In, QExtBPTypes::PortType_Out}) {
         QPointF nodeCoord = sceneTransform().inverted().map(event->scenePos());
 
-        QExtBPTypes::PortIndex const portIndex = geometry.checkPortHit(_nodeId, portToCheck, nodeCoord);
+        const QExtBPTypes::PortIndex portIndex = geometry.checkPortHit(_nodeId, portToCheck, nodeCoord);
 
         if (portIndex == QExtBPTypes::InvalidPortIndex)
             continue;
 
-        auto const &connected = _graphModel.connections(_nodeId, portToCheck, portIndex);
+        const auto &connected = _graphModel.connections(_nodeId, portToCheck, portIndex);
 
         // Start dragging existing connection.
         if (!connected.empty() && portToCheck == QExtBPTypes::PortType_In) {
-            auto const &cnId = *connected.begin();
+            const auto &cnId = *connected.begin();
 
             // Need ConnectionGraphicsObject
 
@@ -209,7 +209,7 @@ void QExtBPNodeGraphicsObject::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 }
             } // if port == out
 
-            QExtBPTypes::ConnectionId const incompleteConnectionId = QExtBPUtils::makeIncompleteConnectionId(_nodeId,
+            const QExtBPTypes::ConnectionId incompleteConnectionId = QExtBPUtils::makeIncompleteConnectionId(_nodeId,
                                                                                                          portToCheck,
                                                                                                          portIndex);
 

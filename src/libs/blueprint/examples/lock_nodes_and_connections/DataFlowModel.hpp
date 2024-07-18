@@ -9,7 +9,7 @@ public:
         , _nodesLocked{false}
     {}
 
-    bool detachPossible(QExtBPTypes::ConnectionId const) const override { return _detachPossible; }
+    bool detachPossible(const QExtBPTypes::ConnectionId) const override { return _detachPossible; }
 
     void setDetachPossible(bool d = true) { _detachPossible = d; }
 

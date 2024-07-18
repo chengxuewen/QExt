@@ -1,5 +1,6 @@
 #include <qextInputMethodTrigger.h>
 #include <qextKeyboardConstants.h>
+#include <qextSystemKeyboard.h>
 #include <qextDateTimeUtils.h>
 #include <qextOnceFlag.h>
 
@@ -8,6 +9,7 @@
 #include <QTimer>
 #include <QWidget>
 #include <QPointer>
+#include <QComboBox>
 #include <QApplication>
 
 class QExtInputMethodTriggerPrivate
@@ -23,6 +25,8 @@ public:
     bool m_touched;
     bool m_pressed;
     qint64 m_touchedTimestamp;
+    QTimer m_showKeyboardTimer;
+    QAtomicInt m_showKeyboardFlag;
     bool m_autoTriggerInputMethod;
     QPointer<QWidget> m_focusedWidget;
     QStringList m_editableSuperClassNames;
@@ -37,6 +41,7 @@ QExtInputMethodTriggerPrivate::QExtInputMethodTriggerPrivate(QExtInputMethodTrig
     , m_touched(false)
     , m_pressed(false)
     , m_touchedTimestamp(0)
+    , m_showKeyboardFlag(false)
     , m_autoTriggerInputMethod(false)
 {
     m_editableSuperClassNames << "QLineEdit"
@@ -63,8 +68,9 @@ void QExtInputMethodTriggerPrivate::updateFocusedWidget(QWidget *widget)
     {
         bool showKeyboard = false;
         m_focusedWidget = widget;
-        if (widget)
+        if (widget && widget->isEnabled())
         {
+            // qDebug() << "widget=" << widget;
             if (!widget->property(QExtKeyboardConstants::WIDGET_PROPERTY_NOINPUT).toBool() &&
                 !widget->property(QExtKeyboardConstants::WIDGET_PROPERTY_READONLY).toBool())
             {
@@ -76,8 +82,8 @@ void QExtInputMethodTriggerPrivate::updateFocusedWidget(QWidget *widget)
                     {
                         // qDebug() << "superClassName=" << superClassName;
                         //Determines whether the drop-down box's editable property is true if it is currently a drop-down box
-                        if (superClassName != "QComboBox" ||
-                            widget->property(QExtKeyboardConstants::WIDGET_PROPERTY_EDITABLE).toBool())
+                        QComboBox *comboBox = qobject_cast<QComboBox *>(widget);
+                        if (!comboBox || widget->property(QExtKeyboardConstants::WIDGET_PROPERTY_EDITABLE).toBool())
                         {
                             showKeyboard = true;
                             break;
@@ -87,15 +93,21 @@ void QExtInputMethodTriggerPrivate::updateFocusedWidget(QWidget *widget)
                 }
             }
         }
+        m_showKeyboardFlag = showKeyboard;
         if (showKeyboard)
         {
-
             qint64 timestamp = QExtDateTimeUtils::msecsTimeSinceEpoch();
             // qDebug() << "singleShot:showKeyboard:touched:" << timestamp - m_touchedTimestamp;
-            if (timestamp - m_touchedTimestamp <= 100)
+            if (timestamp - m_touchedTimestamp <= 1000)
             {
-                QTimer::singleShot(0, q, SLOT(showKeyboard()));
+                // qDebug() << "m_showKeyboardTimer.start()";
+                m_showKeyboardTimer.start();
+                return;
             }
+        }
+        if (m_showKeyboardTimer.isActive())
+        {
+            m_showKeyboardTimer.stop();
         }
     }
 }
@@ -159,10 +171,24 @@ void QExtInputMethodTrigger::hideKeyboard()
     }
 }
 
+void QExtInputMethodTrigger::onShowKeyboardTimerTimeout()
+{
+    Q_D(QExtInputMethodTrigger);
+    // qDebug() << "onShowKeyboardTimerTimeout():" << d->m_showKeyboardFlag.loadAcquire();
+    if (d->m_showKeyboardFlag.loadAcquire())
+    {
+        this->showKeyboard();
+    }
+}
+
 QExtInputMethodTrigger::QExtInputMethodTrigger(QObject *parent)
     : QObject(parent)
     , dd_ptr(new QExtInputMethodTriggerPrivate(this))
 {
+    Q_D(QExtInputMethodTrigger);
+    d->m_showKeyboardTimer.setInterval(100);
+    d->m_showKeyboardTimer.setSingleShot(true);
+    connect(&d->m_showKeyboardTimer, SIGNAL(timeout()), this, SLOT(onShowKeyboardTimerTimeout()));
 }
 
 bool QExtInputMethodTrigger::eventFilter(QObject *watched, QEvent *event)

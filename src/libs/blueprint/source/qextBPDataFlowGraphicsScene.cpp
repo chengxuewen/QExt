@@ -32,7 +32,7 @@ QExtBPDataFlowGraphicsScene::QExtBPDataFlowGraphicsScene(QExtBPDataFlowGraphMode
 {
     connect(&_graphModel,
             &QExtBPDataFlowGraphModel::inPortDataWasSet,
-            [this](QExtBPTypes::NodeId const nodeId, QExtBPTypes::PortTypeEnum const, QExtBPTypes::PortIndex const) { onNodeUpdated(nodeId); });
+            [this](const QExtBPTypes::NodeId nodeId, const QExtBPTypes::PortTypeEnum, const QExtBPTypes::PortIndex) { onNodeUpdated(nodeId); });
 }
 
 // TODO constructor for an empyt scene?
@@ -55,7 +55,7 @@ std::vector<QExtBPTypes::NodeId> QExtBPDataFlowGraphicsScene::selectedNodes() co
     return result;
 }
 
-QMenu *QExtBPDataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
+QMenu *QExtBPDataFlowGraphicsScene::createSceneMenu(const QPointF scenePos)
 {
     QMenu *modelMenu = new QMenu();
 
@@ -82,13 +82,13 @@ QMenu *QExtBPDataFlowGraphicsScene::createSceneMenu(QPointF const scenePos)
 
     auto registry = _graphModel.dataModelRegistry();
 
-    for (auto const &cat : registry->categories()) {
+    for (const auto &cat : registry->categories()) {
         auto item = new QTreeWidgetItem(treeView);
         item->setText(0, cat);
         item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
     }
 
-    for (auto const &assoc : registry->registeredModelsCategoryAssociation()) {
+    for (const auto &assoc : registry->registeredModelsCategoryAssociation()) {
         QList<QTreeWidgetItem *> parent = treeView->findItems(assoc.second, Qt::MatchExactly);
 
         if (parent.count() <= 0)

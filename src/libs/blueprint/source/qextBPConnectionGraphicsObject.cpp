@@ -22,7 +22,7 @@
 #include <stdexcept>
 
 QExtBPConnectionGraphicsObject::QExtBPConnectionGraphicsObject(QExtBPBasicGraphicsScene &scene,
-                                                               QExtBPTypes::ConnectionId const connectionId)
+                                                               const QExtBPTypes::ConnectionId connectionId)
     : _connectionId(connectionId)
     , _graphModel(scene.graphModel())
     , _connectionState(*this)
@@ -88,7 +88,7 @@ QExtBPBasicGraphicsScene *QExtBPConnectionGraphicsObject::nodeScene() const
     return dynamic_cast<QExtBPBasicGraphicsScene *>(scene());
 }
 
-QExtBPTypes::ConnectionId const &QExtBPConnectionGraphicsObject::connectionId() const
+const QExtBPTypes::ConnectionId &QExtBPConnectionGraphicsObject::connectionId() const
 {
     return _connectionId;
 }
@@ -104,9 +104,9 @@ QRectF QExtBPConnectionGraphicsObject::boundingRect() const
 
     QRectF commonRect = basicRect.united(c1c2Rect);
 
-    auto const &connectionStyle = QExtBPStyleCollection::connectionStyle();
-    float const diam = connectionStyle.pointDiameter();
-    QPointF const cornerOffset(diam, diam);
+    const auto &connectionStyle = QExtBPStyleCollection::connectionStyle();
+    const float diam = connectionStyle.pointDiameter();
+    const QPointF cornerOffset(diam, diam);
 
     // Expand rect by port circle diameter
     commonRect.setTopLeft(commonRect.topLeft() - cornerOffset);
@@ -129,14 +129,14 @@ QPainterPath QExtBPConnectionGraphicsObject::shape() const
 #endif
 }
 
-QPointF const &QExtBPConnectionGraphicsObject::endPoint(QExtBPTypes::PortTypeEnum portType) const
+const QPointF &QExtBPConnectionGraphicsObject::endPoint(QExtBPTypes::PortTypeEnum portType) const
 {
     Q_ASSERT(portType != QExtBPTypes::PortType_None);
 
     return (portType == QExtBPTypes::PortType_Out ? _out : _in);
 }
 
-void QExtBPConnectionGraphicsObject::setEndPoint(QExtBPTypes::PortTypeEnum portType, QPointF const &point)
+void QExtBPConnectionGraphicsObject::setEndPoint(QExtBPTypes::PortTypeEnum portType, const QPointF &point)
 {
     if (portType == QExtBPTypes::PortType_In)
         _in = point;
@@ -176,7 +176,7 @@ void QExtBPConnectionGraphicsObject::move()
     update();
 }
 
-QExtBPConnectionState const &QExtBPConnectionGraphicsObject::connectionState() const
+const QExtBPConnectionState &QExtBPConnectionGraphicsObject::connectionState() const
 {
     return _connectionState;
 }

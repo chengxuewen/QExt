@@ -40,7 +40,7 @@ void QExtBPConnectionState::setHovered(bool hovered)
     _hovered = hovered;
 }
 
-void QExtBPConnectionState::setLastHoveredNode(QExtBPTypes::NodeId const nodeId)
+void QExtBPConnectionState::setLastHoveredNode(const QExtBPTypes::NodeId nodeId)
 {
     _lastHoveredNode = nodeId;
 }

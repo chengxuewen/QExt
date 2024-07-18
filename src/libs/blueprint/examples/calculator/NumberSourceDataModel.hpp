@@ -37,7 +37,7 @@ public:
 public:
     QJsonObject save() const override;
 
-    void load(QJsonObject const &p) override;
+    void load(const QJsonObject &p) override;
 
 public:
     unsigned int nPorts(QExtBPTypes::PortTypeEnum portType) const override;
@@ -54,8 +54,7 @@ public:
     void setNumber(double number);
 
 private Q_SLOTS:
-
-    void onTextEdited(QString const &string);
+    void onTextEdited(const QString &string);
 
 private:
     QSharedPointer<DecimalData> _number;

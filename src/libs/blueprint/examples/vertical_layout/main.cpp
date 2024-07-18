@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
         // Mouse position in scene coordinates.
         QPointF posView = view.mapToScene(view.mapFromGlobal(QCursor::pos()));
 
-        QExtBPTypes::NodeId const newId = graphModel.addNode();
+        const QExtBPTypes::NodeId newId = graphModel.addNode();
         graphModel.setNodeData(newId, QExtBPTypes::NodeRole_Position, posView);
     });
     view.insertAction(view.actions().front(), &createNodeAction);

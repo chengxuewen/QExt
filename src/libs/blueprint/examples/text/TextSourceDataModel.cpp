@@ -27,7 +27,7 @@ unsigned int TextSourceDataModel::nPorts(QExtBPTypes::PortTypeEnum portType) con
     return result;
 }
 
-void TextSourceDataModel::onTextEdited(QString const &string)
+void TextSourceDataModel::onTextEdited(const QString &string)
 {
     Q_UNUSED(string);
 
@@ -39,7 +39,7 @@ QExtBPNodeDataType TextSourceDataModel::dataType(QExtBPTypes::PortTypeEnum, QExt
     return TextData().type();
 }
 
-QSharedPointer<QExtBPNodeData> TextSourceDataModel::outData(QExtBPTypes::PortIndex const portIndex)
+QSharedPointer<QExtBPNodeData> TextSourceDataModel::outData(const QExtBPTypes::PortIndex portIndex)
 {
     Q_UNUSED(portIndex);
     return qextMakeShared<TextData>(_lineEdit->text());

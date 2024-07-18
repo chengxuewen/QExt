@@ -11,9 +11,9 @@ class QExtBPConnectionGraphicsObject;
 class QExtBPConnectionPainter
 {
 public:
-    static void paint(QPainter *painter, QExtBPConnectionGraphicsObject const &cgo);
+    static void paint(QPainter *painter, const QExtBPConnectionGraphicsObject &cgo);
 
-    static QPainterPath getPainterStroke(QExtBPConnectionGraphicsObject const &cgo);
+    static QPainterPath getPainterStroke(const QExtBPConnectionGraphicsObject &cgo);
 };
 
 #endif // _QEXTBPCONNECTIONPAINTER_H

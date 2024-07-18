@@ -36,7 +36,7 @@ QSharedPointer<QExtBPNodeData> TextDisplayDataModel::outData(QExtBPTypes::PortIn
     return ptr;
 }
 
-void TextDisplayDataModel::setInData(QSharedPointer<QExtBPNodeData> data, QExtBPTypes::PortIndex const)
+void TextDisplayDataModel::setInData(QSharedPointer<QExtBPNodeData> data, const QExtBPTypes::PortIndex)
 {
     auto textData = data.dynamicCast<TextData>();
 

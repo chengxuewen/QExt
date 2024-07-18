@@ -34,15 +34,15 @@ public:
 
     QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex) const override;
 
-    QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex const portIndex) override;
+    QSharedPointer<QExtBPNodeData> outData(const QExtBPTypes::PortIndex portIndex) override;
 
-    void setInData(QSharedPointer<QExtBPNodeData>, QExtBPTypes::PortIndex const) override {}
+    void setInData(QSharedPointer<QExtBPNodeData>, const QExtBPTypes::PortIndex) override {}
 
     QWidget *embeddedWidget() override;
 
 private Q_SLOTS:
 
-    void onTextEdited(QString const &string);
+    void onTextEdited(const QString &string);
 
 private:
     QLineEdit *_lineEdit;

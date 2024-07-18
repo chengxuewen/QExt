@@ -70,6 +70,8 @@ qext_add_library(${QEXT_LIB_NAME}
     source/widgets/qextBreathingLight.cpp
     source/widgets/qextBreathingLight.h
     source/widgets/qextBreathingLight_p.h
+    source/widgets/qextCheckComboBox.cpp
+    source/widgets/qextCheckComboBox.h
     source/widgets/qextCircleGauge.cpp
     source/widgets/qextCircleGauge.h
     source/widgets/qextCircleGauge_p.h

@@ -29,13 +29,13 @@ public:
 
     std::unordered_set<QExtBPTypes::NodeId> allNodeIds() const override;
 
-    std::unordered_set<QExtBPTypes::ConnectionId> allConnectionIds(QExtBPTypes::NodeId const nodeId) const override;
+    std::unordered_set<QExtBPTypes::ConnectionId> allConnectionIds(const QExtBPTypes::NodeId nodeId) const override;
 
     std::unordered_set<QExtBPTypes::ConnectionId> connections(QExtBPTypes::NodeId nodeId,
-                                                 QExtBPTypes::PortTypeEnum portType,
-                                                 QExtBPTypes::PortIndex portIndex) const override;
+                                                              QExtBPTypes::PortTypeEnum portType,
+                                                              QExtBPTypes::PortIndex portIndex) const override;
 
-    bool connectionExists(QExtBPTypes::ConnectionId const connectionId) const override;
+    bool connectionExists(const QExtBPTypes::ConnectionId connectionId) const override;
 
     QExtBPTypes::NodeId addNode(QString const nodeType = QString()) override;
 
@@ -43,11 +43,11 @@ public:
    * Connection is possible when graph contains no connectivity data
    * in both directions `Out -> In` and `In -> Out`.
    */
-    bool connectionPossible(QExtBPTypes::ConnectionId const connectionId) const override;
+    bool connectionPossible(const QExtBPTypes::ConnectionId connectionId) const override;
 
-    void addConnection(QExtBPTypes::ConnectionId const connectionId) override;
+    void addConnection(const QExtBPTypes::ConnectionId connectionId) override;
 
-    bool nodeExists(QExtBPTypes::NodeId const nodeId) const override;
+    bool nodeExists(const QExtBPTypes::NodeId nodeId) const override;
 
     QVariant nodeData(QExtBPTypes::NodeId nodeId, QExtBPTypes::NodeRoleEnum role) const override;
 
@@ -61,14 +61,14 @@ public:
     bool setPortData(QExtBPTypes::NodeId nodeId,
                      QExtBPTypes::PortTypeEnum portType,
                      QExtBPTypes::PortIndex portIndex,
-                     QVariant const &value,
+                     const QVariant &value,
                      QExtBPTypes::PortRoleEnum role = QExtBPTypes::PortRole_Data) override;
 
-    bool deleteConnection(QExtBPTypes::ConnectionId const connectionId) override;
+    bool deleteConnection(const QExtBPTypes::ConnectionId connectionId) override;
 
-    bool deleteNode(QExtBPTypes::NodeId const nodeId) override;
+    bool deleteNode(const QExtBPTypes::NodeId nodeId) override;
 
-    QJsonObject saveNode(QExtBPTypes::NodeId const) const override;
+    QJsonObject saveNode(const QExtBPTypes::NodeId) const override;
 
     QJsonObject save() const;
 
@@ -77,9 +77,9 @@ public:
    * @param nodeJson conains a `NodeId`, node's position, internal node
    * information.
    */
-    void loadNode(QJsonObject const &nodeJson) override;
+    void loadNode(const QJsonObject &nodeJson) override;
 
-    void load(QJsonObject const &jsonDocument);
+    void load(const QJsonObject &jsonDocument);
 
     void addPort(QExtBPTypes::NodeId nodeId, QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex);
 

@@ -14,14 +14,14 @@ std::unordered_set<QExtBPTypes::NodeId> SimpleGraphModel::allNodeIds() const
     return _nodeIds;
 }
 
-std::unordered_set<QExtBPTypes::ConnectionId> SimpleGraphModel::allConnectionIds(QExtBPTypes::NodeId const nodeId) const
+std::unordered_set<QExtBPTypes::ConnectionId> SimpleGraphModel::allConnectionIds(const QExtBPTypes::NodeId nodeId) const
 {
     std::unordered_set<QExtBPTypes::ConnectionId> result;
 
     std::copy_if(_connectivity.begin(),
                  _connectivity.end(),
                  std::inserter(result, std::end(result)),
-                 [&nodeId](QExtBPTypes::ConnectionId const &cid) {
+                 [&nodeId](const QExtBPTypes::ConnectionId &cid) {
                      return cid.inNodeId == nodeId || cid.outNodeId == nodeId;
                  });
 
@@ -37,7 +37,7 @@ std::unordered_set<QExtBPTypes::ConnectionId> SimpleGraphModel::connections(QExt
     std::copy_if(_connectivity.begin(),
                  _connectivity.end(),
                  std::inserter(result, std::end(result)),
-                 [&portType, &portIndex, &nodeId](QExtBPTypes::ConnectionId const &cid) {
+                 [&portType, &portIndex, &nodeId](const QExtBPTypes::ConnectionId &cid) {
                      return (QExtBPUtils::getNodeId(portType, cid) == nodeId
                              && QExtBPUtils::getPortIndex(portType, cid) == portIndex);
                  });
@@ -45,7 +45,7 @@ std::unordered_set<QExtBPTypes::ConnectionId> SimpleGraphModel::connections(QExt
     return result;
 }
 
-bool SimpleGraphModel::connectionExists(QExtBPTypes::ConnectionId const connectionId) const
+bool SimpleGraphModel::connectionExists(const QExtBPTypes::ConnectionId connectionId) const
 {
     return (_connectivity.find(connectionId) != _connectivity.end());
 }
@@ -61,19 +61,19 @@ QExtBPTypes::NodeId SimpleGraphModel::addNode(QString const nodeType)
     return newId;
 }
 
-bool SimpleGraphModel::connectionPossible(QExtBPTypes::ConnectionId const connectionId) const
+bool SimpleGraphModel::connectionPossible(const QExtBPTypes::ConnectionId connectionId) const
 {
     return _connectivity.find(connectionId) == _connectivity.end();
 }
 
-void SimpleGraphModel::addConnection(QExtBPTypes::ConnectionId const connectionId)
+void SimpleGraphModel::addConnection(const QExtBPTypes::ConnectionId connectionId)
 {
     _connectivity.insert(connectionId);
 
     Q_EMIT connectionCreated(connectionId);
 }
 
-bool SimpleGraphModel::nodeExists(QExtBPTypes::NodeId const nodeId) const
+bool SimpleGraphModel::nodeExists(const QExtBPTypes::NodeId nodeId) const
 {
     return (_nodeIds.find(nodeId) != _nodeIds.end());
 }
@@ -208,8 +208,11 @@ QVariant SimpleGraphModel::portData(QExtBPTypes::NodeId nodeId,
     return QVariant();
 }
 
-bool SimpleGraphModel::setPortData(
-    QExtBPTypes::NodeId nodeId, QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex, QVariant const &value, QExtBPTypes::PortRoleEnum role)
+bool SimpleGraphModel::setPortData(QExtBPTypes::NodeId nodeId,
+                                   QExtBPTypes::PortTypeEnum portType,
+                                   QExtBPTypes::PortIndex portIndex,
+                                   const QVariant &value,
+                                   QExtBPTypes::PortRoleEnum role)
 {
     Q_UNUSED(nodeId);
     Q_UNUSED(portType);
@@ -220,7 +223,7 @@ bool SimpleGraphModel::setPortData(
     return false;
 }
 
-bool SimpleGraphModel::deleteConnection(QExtBPTypes::ConnectionId const connectionId)
+bool SimpleGraphModel::deleteConnection(const QExtBPTypes::ConnectionId connectionId)
 {
     bool disconnected = false;
 
@@ -238,7 +241,7 @@ bool SimpleGraphModel::deleteConnection(QExtBPTypes::ConnectionId const connecti
     return disconnected;
 }
 
-bool SimpleGraphModel::deleteNode(QExtBPTypes::NodeId const nodeId)
+bool SimpleGraphModel::deleteNode(const QExtBPTypes::NodeId nodeId)
 {
     // Delete connections to this node first.
     auto connectionIds = allConnectionIds(nodeId);
@@ -254,14 +257,14 @@ bool SimpleGraphModel::deleteNode(QExtBPTypes::NodeId const nodeId)
     return true;
 }
 
-QJsonObject SimpleGraphModel::saveNode(QExtBPTypes::NodeId const nodeId) const
+QJsonObject SimpleGraphModel::saveNode(const QExtBPTypes::NodeId nodeId) const
 {
     QJsonObject nodeJson;
 
     nodeJson["id"] = static_cast<qint64>(nodeId);
 
     {
-        QPointF const pos = nodeData(nodeId, QExtBPTypes::NodeRole_Position).value<QPointF>();
+        const QPointF pos = nodeData(nodeId, QExtBPTypes::NodeRole_Position).value<QPointF>();
 
         QJsonObject posJson;
         posJson["x"] = pos.x();
@@ -272,7 +275,7 @@ QJsonObject SimpleGraphModel::saveNode(QExtBPTypes::NodeId const nodeId) const
     return nodeJson;
 }
 
-void SimpleGraphModel::loadNode(QJsonObject const &nodeJson)
+void SimpleGraphModel::loadNode(const QJsonObject &nodeJson)
 {
     QExtBPTypes::NodeId restoredNodeId = nodeJson["id"].toInt();
 
@@ -286,7 +289,7 @@ void SimpleGraphModel::loadNode(QJsonObject const &nodeJson)
 
     {
         QJsonObject posJson = nodeJson["position"].toObject();
-        QPointF const pos(posJson["x"].toDouble(), posJson["y"].toDouble());
+        const QPointF pos(posJson["x"].toDouble(), posJson["y"].toDouble());
 
         setNodeData(restoredNodeId, QExtBPTypes::NodeRole_Position, pos);
     }

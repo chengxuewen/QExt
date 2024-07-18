@@ -28,7 +28,7 @@ class QEXT_BLUEPRINT_API QExtBPNodeData
 public:
     virtual ~QExtBPNodeData() = default;
 
-    virtual bool sameType(QExtBPNodeData const &nodeData) const
+    virtual bool sameType(const QExtBPNodeData &nodeData) const
     {
         return (this->type().id == nodeData.type().id);
     }

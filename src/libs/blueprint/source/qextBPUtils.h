@@ -73,13 +73,13 @@ inline bool isPortTypeValid(QExtBPTypes::PortTypeEnum portType)
 /**
  * Creates a connection Id instance filled just on one side.
  */
-inline QExtBPTypes::ConnectionId makeIncompleteConnectionId(QExtBPTypes::NodeId const connectedNodeId,
-                                                            QExtBPTypes::PortTypeEnum const connectedPort,
-                                                            QExtBPTypes::PortIndex const connectedPortIndex)
+inline QExtBPTypes::ConnectionId makeIncompleteConnectionId(const QExtBPTypes::NodeId connectedNodeId,
+                                                            const QExtBPTypes::PortTypeEnum connectedPort,
+                                                            const QExtBPTypes::PortIndex connectedPortIndex)
 {
     return (connectedPort == QExtBPTypes::PortType_In)
-            ? QExtBPTypes::ConnectionId{QExtBPTypes::InvalidNodeId, QExtBPTypes::InvalidPortIndex, connectedNodeId, connectedPortIndex}
-            : QExtBPTypes::ConnectionId{connectedNodeId, connectedPortIndex, QExtBPTypes::InvalidNodeId, QExtBPTypes::InvalidPortIndex};
+               ? QExtBPTypes::ConnectionId{QExtBPTypes::InvalidNodeId, QExtBPTypes::InvalidPortIndex, connectedNodeId, connectedPortIndex}
+               : QExtBPTypes::ConnectionId{connectedNodeId, connectedPortIndex, QExtBPTypes::InvalidNodeId, QExtBPTypes::InvalidPortIndex};
 }
 
 /**
@@ -87,7 +87,7 @@ inline QExtBPTypes::ConnectionId makeIncompleteConnectionId(QExtBPTypes::NodeId 
  * data on the given side
  */
 inline QExtBPTypes::ConnectionId makeIncompleteConnectionId(QExtBPTypes::ConnectionId connectionId,
-                                                            QExtBPTypes::PortTypeEnum const portToDisconnect)
+                                                            const QExtBPTypes::PortTypeEnum portToDisconnect)
 {
     if (portToDisconnect == QExtBPTypes::PortType_Out) {
         connectionId.outNodeId = QExtBPTypes::InvalidNodeId;
@@ -101,8 +101,8 @@ inline QExtBPTypes::ConnectionId makeIncompleteConnectionId(QExtBPTypes::Connect
 }
 
 inline QExtBPTypes::ConnectionId makeCompleteConnectionId(QExtBPTypes::ConnectionId incompleteConnectionId,
-                                                          QExtBPTypes::NodeId const nodeId,
-                                                          QExtBPTypes::PortIndex const portIndex)
+                                                          const QExtBPTypes::NodeId nodeId,
+                                                          const QExtBPTypes::PortIndex portIndex)
 {
     if (incompleteConnectionId.outNodeId == QExtBPTypes::InvalidNodeId) {
         incompleteConnectionId.outNodeId = nodeId;
@@ -115,7 +115,7 @@ inline QExtBPTypes::ConnectionId makeCompleteConnectionId(QExtBPTypes::Connectio
     return incompleteConnectionId;
 }
 
-inline std::ostream &operator<<(std::ostream &ostr, QExtBPTypes::ConnectionId const connectionId)
+inline std::ostream &operator<<(std::ostream &ostr, const QExtBPTypes::ConnectionId connectionId)
 {
     ostr << "(" << connectionId.outNodeId << ", "
          << (isPortIndexValid(connectionId.outPortIndex) ? std::to_string(connectionId.outPortIndex)
@@ -128,7 +128,7 @@ inline std::ostream &operator<<(std::ostream &ostr, QExtBPTypes::ConnectionId co
     return ostr;
 }
 
-inline QJsonObject toJson(QExtBPTypes::ConnectionId const &connId)
+inline QJsonObject toJson(const QExtBPTypes::ConnectionId &connId)
 {
     QJsonObject connJson;
 
@@ -140,12 +140,12 @@ inline QJsonObject toJson(QExtBPTypes::ConnectionId const &connId)
     return connJson;
 }
 
-inline QExtBPTypes::ConnectionId fromJson(QJsonObject const &connJson)
+inline QExtBPTypes::ConnectionId fromJson(const QJsonObject &connJson)
 {
     QExtBPTypes::ConnectionId connId{static_cast<QExtBPTypes::NodeId>(connJson["outNodeId"].toInt(QExtBPTypes::InvalidNodeId)),
-                static_cast<QExtBPTypes::PortIndex>(connJson["outPortIndex"].toInt(QExtBPTypes::InvalidPortIndex)),
-                static_cast<QExtBPTypes::NodeId>(connJson["intNodeId"].toInt(QExtBPTypes::InvalidNodeId)),
-                static_cast<QExtBPTypes::PortIndex>(connJson["inPortIndex"].toInt(QExtBPTypes::InvalidPortIndex))};
+                                     static_cast<QExtBPTypes::PortIndex>(connJson["outPortIndex"].toInt(QExtBPTypes::InvalidPortIndex)),
+                                     static_cast<QExtBPTypes::NodeId>(connJson["intNodeId"].toInt(QExtBPTypes::InvalidNodeId)),
+                                     static_cast<QExtBPTypes::PortIndex>(connJson["inPortIndex"].toInt(QExtBPTypes::InvalidPortIndex))};
 
     return connId;
 }

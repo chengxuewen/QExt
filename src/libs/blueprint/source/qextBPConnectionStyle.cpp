@@ -100,7 +100,7 @@ void QExtBPConnectionStyle::setConnectionStyle(QString jsonText)
     values[#variable] = variable; \
     }
 
-void QExtBPConnectionStyle::loadJson(QJsonObject const &json)
+void QExtBPConnectionStyle::loadJson(const QJsonObject &json)
 {
     QJsonValue nodeStyleValues = json["ConnectionStyle"];
 

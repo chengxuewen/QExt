@@ -32,7 +32,7 @@ public:
         NodeRole_OutPortCount = 9,   ///< `unsigned int`
         NodeRole_Widget = 10,        ///< Optional `QWidget*` or `QEXT_NULLPTR`
     };
-    Q_ENUMS(NodeRoleEnum)
+    Q_ENUM(NodeRoleEnum)
 
     /**
      * @brief Specific flags regulating node features and appeaarence.
@@ -59,7 +59,7 @@ public:
         PortRole_CaptionVisible = 3,       ///< `bool` for caption visibility.
         PortRole_Caption = 4,              ///< `QString` for port caption.
     };
-    Q_ENUMS(PortRoleEnum)
+    Q_ENUM(PortRoleEnum)
 
     /**
      * @brief Defines how many connections are possible to attach to ports.
@@ -81,7 +81,7 @@ public:
         PortType_Out = 1, ///< Output node port (from the right).
         PortType_None = 2
     };
-    Q_ENUMS(PortTypeEnum)
+    Q_ENUM(PortTypeEnum)
 
     using PortCount = unsigned int;
 
@@ -104,13 +104,13 @@ public:
         PortIndex inPortIndex;
     };
 
-    friend inline bool operator==(QExtBPTypes::ConnectionId const &a, QExtBPTypes::ConnectionId const &b)
+    friend inline bool operator==(const QExtBPTypes::ConnectionId &a, const QExtBPTypes::ConnectionId &b)
     {
         return a.outNodeId == b.outNodeId && a.outPortIndex == b.outPortIndex
                 && a.inNodeId == b.inNodeId && a.inPortIndex == b.inPortIndex;
     }
 
-    friend inline bool operator!=(QExtBPTypes::ConnectionId const &a, QExtBPTypes::ConnectionId const &b)
+    friend inline bool operator!=(const QExtBPTypes::ConnectionId &a, const QExtBPTypes::ConnectionId &b)
     {
         return !(a == b);
     }
@@ -121,7 +121,11 @@ public:
         std::swap(id.outPortIndex, id.inPortIndex);
     }
 
-    QExtBPTypes(QObject *parent = QEXT_NULLPTR) : QObject(parent) {}
+    QExtBPTypes(QObject *parent = QEXT_NULLPTR)
+        : QObject(parent)
+    {
+        // qRegisterMetaType<QExtBPTypes::ConnectionPolicyEnum>("QExtBPTypes::ConnectionPolicyEnum");
+    }
     ~QExtBPTypes() QEXT_OVERRIDE {}
 };
 Q_DECLARE_METATYPE(QExtBPTypes::ConnectionPolicyEnum)

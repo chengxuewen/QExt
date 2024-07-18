@@ -20,16 +20,16 @@ QExtBPDefaultVerticalNodeGeometry::QExtBPDefaultVerticalNodeGeometry(QExtBPAbstr
     _portSize = _fontMetrics.height();
 }
 
-QSize QExtBPDefaultVerticalNodeGeometry::size(QExtBPTypes::NodeId const nodeId) const
+QSize QExtBPDefaultVerticalNodeGeometry::size(const QExtBPTypes::NodeId nodeId) const
 {
-    return _graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
+    return m_graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
 }
 
-void QExtBPDefaultVerticalNodeGeometry::recomputeSize(QExtBPTypes::NodeId const nodeId) const
+void QExtBPDefaultVerticalNodeGeometry::recomputeSize(const QExtBPTypes::NodeId nodeId) const
 {
     unsigned int height = _portSpasing; // maxHorizontalPortsExtent(nodeId);
 
-    if (auto w = _graphModel.nodeData<QWidget *>(nodeId, QExtBPTypes::NodeRole_Widget)) {
+    if (auto w = m_graphModel.nodeData<QWidget *>(nodeId, QExtBPTypes::NodeRole_Widget)) {
         height = std::max(height, static_cast<unsigned int>(w->height()));
     }
 
@@ -40,8 +40,8 @@ void QExtBPDefaultVerticalNodeGeometry::recomputeSize(QExtBPTypes::NodeId const 
     height += _portSpasing;
     height += _portSpasing;
 
-    QExtBPTypes::PortCount nInPorts = _graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_InPortCount);
-    QExtBPTypes::PortCount nOutPorts = _graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_OutPortCount);
+    QExtBPTypes::PortCount nInPorts = m_graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_InPortCount);
+    QExtBPTypes::PortCount nOutPorts = m_graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_OutPortCount);
 
     // Adding double step (top and bottom) to reserve space for port captions.
 
@@ -61,7 +61,7 @@ void QExtBPDefaultVerticalNodeGeometry::recomputeSize(QExtBPTypes::NodeId const 
 
     unsigned int width = std::max(totalInPortsWidth, totalOutPortsWidth);
 
-    if (auto w = _graphModel.nodeData<QWidget *>(nodeId, QExtBPTypes::NodeRole_Widget)) {
+    if (auto w = m_graphModel.nodeData<QWidget *>(nodeId, QExtBPTypes::NodeRole_Widget)) {
         width = std::max(width, static_cast<unsigned int>(w->width()));
     }
 
@@ -72,22 +72,22 @@ void QExtBPDefaultVerticalNodeGeometry::recomputeSize(QExtBPTypes::NodeId const 
 
     QSize size(width, height);
 
-    _graphModel.setNodeData(nodeId, QExtBPTypes::NodeRole_Size, size);
+    m_graphModel.setNodeData(nodeId, QExtBPTypes::NodeRole_Size, size);
 }
 
-QPointF QExtBPDefaultVerticalNodeGeometry::portPosition(QExtBPTypes::NodeId const nodeId,
-                                                        QExtBPTypes::PortTypeEnum const portType,
-                                                        QExtBPTypes::PortIndex const portIndex) const
+QPointF QExtBPDefaultVerticalNodeGeometry::portPosition(const QExtBPTypes::NodeId nodeId,
+                                                        const QExtBPTypes::PortTypeEnum portType,
+                                                        const QExtBPTypes::PortIndex portIndex) const
 {
     QPointF result;
 
-    QSize size = _graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
+    QSize size = m_graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
 
     switch (portType) {
     case QExtBPTypes::PortType_In: {
         unsigned int inPortWidth = maxPortsTextAdvance(nodeId, QExtBPTypes::PortType_In) + _portSpasing;
 
-        QExtBPTypes::PortCount nInPorts = _graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_InPortCount);
+        QExtBPTypes::PortCount nInPorts = m_graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_InPortCount);
 
         double x = (size.width() - (nInPorts - 1) * inPortWidth) / 2.0 + portIndex * inPortWidth;
 
@@ -100,7 +100,7 @@ QPointF QExtBPDefaultVerticalNodeGeometry::portPosition(QExtBPTypes::NodeId cons
 
     case QExtBPTypes::PortType_Out: {
         unsigned int outPortWidth = maxPortsTextAdvance(nodeId, QExtBPTypes::PortType_Out) + _portSpasing;
-        QExtBPTypes::PortCount nOutPorts = _graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_OutPortCount);
+        QExtBPTypes::PortCount nOutPorts = m_graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_OutPortCount);
 
         double x = (size.width() - (nOutPorts - 1) * outPortWidth) / 2.0 + portIndex * outPortWidth;
 
@@ -118,9 +118,9 @@ QPointF QExtBPDefaultVerticalNodeGeometry::portPosition(QExtBPTypes::NodeId cons
     return result;
 }
 
-QPointF QExtBPDefaultVerticalNodeGeometry::portTextPosition(QExtBPTypes::NodeId const nodeId,
-                                                            QExtBPTypes::PortTypeEnum const portType,
-                                                            QExtBPTypes::PortIndex const portIndex) const
+QPointF QExtBPDefaultVerticalNodeGeometry::portTextPosition(const QExtBPTypes::NodeId nodeId,
+                                                            const QExtBPTypes::PortTypeEnum portType,
+                                                            const QExtBPTypes::PortIndex portIndex) const
 {
     QPointF p = portPosition(nodeId, portType, portIndex);
 
@@ -128,7 +128,7 @@ QPointF QExtBPDefaultVerticalNodeGeometry::portTextPosition(QExtBPTypes::NodeId 
 
     p.setX(p.x() - rect.width() / 2.0);
 
-    QSize size = _graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
+    QSize size = m_graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
 
     switch (portType) {
     case QExtBPTypes::PortType_In:
@@ -146,19 +146,19 @@ QPointF QExtBPDefaultVerticalNodeGeometry::portTextPosition(QExtBPTypes::NodeId 
     return p;
 }
 
-QRectF QExtBPDefaultVerticalNodeGeometry::captionRect(QExtBPTypes::NodeId const nodeId) const
+QRectF QExtBPDefaultVerticalNodeGeometry::captionRect(const QExtBPTypes::NodeId nodeId) const
 {
-    if (!_graphModel.nodeData<bool>(nodeId, QExtBPTypes::NodeRole_CaptionVisible))
+    if (!m_graphModel.nodeData<bool>(nodeId, QExtBPTypes::NodeRole_CaptionVisible))
         return QRect();
 
-    QString name = _graphModel.nodeData<QString>(nodeId, QExtBPTypes::NodeRole_Caption);
+    QString name = m_graphModel.nodeData<QString>(nodeId, QExtBPTypes::NodeRole_Caption);
 
     return _boldFontMetrics.boundingRect(name);
 }
 
-QPointF QExtBPDefaultVerticalNodeGeometry::captionPosition(QExtBPTypes::NodeId const nodeId) const
+QPointF QExtBPDefaultVerticalNodeGeometry::captionPosition(const QExtBPTypes::NodeId nodeId) const
 {
-    QSize size = _graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
+    QSize size = m_graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
 
     unsigned int step = portCaptionsHeight(nodeId, QExtBPTypes::PortType_In);
     step += _portSpasing;
@@ -168,13 +168,13 @@ QPointF QExtBPDefaultVerticalNodeGeometry::captionPosition(QExtBPTypes::NodeId c
     return QPointF(0.5 * (size.width() - rect.width()), step + rect.height());
 }
 
-QPointF QExtBPDefaultVerticalNodeGeometry::widgetPosition(QExtBPTypes::NodeId const nodeId) const
+QPointF QExtBPDefaultVerticalNodeGeometry::widgetPosition(const QExtBPTypes::NodeId nodeId) const
 {
-    QSize size = _graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
+    QSize size = m_graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
 
     unsigned int captionHeight = captionRect(nodeId).height();
 
-    if (auto w = _graphModel.nodeData<QWidget *>(nodeId, QExtBPTypes::NodeRole_Widget)) {
+    if (auto w = m_graphModel.nodeData<QWidget *>(nodeId, QExtBPTypes::NodeRole_Widget)) {
         // If the widget wants to use as much vertical space as possible,
         // place it immediately after the caption.
         if (w->sizePolicy().verticalPolicy() & QSizePolicy::ExpandFlag) {
@@ -187,24 +187,24 @@ QPointF QExtBPDefaultVerticalNodeGeometry::widgetPosition(QExtBPTypes::NodeId co
     return QPointF();
 }
 
-QRect QExtBPDefaultVerticalNodeGeometry::resizeHandleRect(QExtBPTypes::NodeId const nodeId) const
+QRect QExtBPDefaultVerticalNodeGeometry::resizeHandleRect(const QExtBPTypes::NodeId nodeId) const
 {
-    QSize size = _graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
+    QSize size = m_graphModel.nodeData<QSize>(nodeId, QExtBPTypes::NodeRole_Size);
 
     unsigned int rectSize = 7;
 
     return QRect(size.width() - rectSize, size.height() - rectSize, rectSize, rectSize);
 }
 
-QRectF QExtBPDefaultVerticalNodeGeometry::portTextRect(QExtBPTypes::NodeId const nodeId,
-                                                       QExtBPTypes::PortTypeEnum const portType,
-                                                       QExtBPTypes::PortIndex const portIndex) const
+QRectF QExtBPDefaultVerticalNodeGeometry::portTextRect(const QExtBPTypes::NodeId nodeId,
+                                                       const QExtBPTypes::PortTypeEnum portType,
+                                                       const QExtBPTypes::PortIndex portIndex) const
 {
     QString s;
-    if (_graphModel.portData<bool>(nodeId, portType, portIndex, QExtBPTypes::PortRole_CaptionVisible)) {
-        s = _graphModel.portData<QString>(nodeId, portType, portIndex, QExtBPTypes::PortRole_Caption);
+    if (m_graphModel.portData<bool>(nodeId, portType, portIndex, QExtBPTypes::PortRole_CaptionVisible)) {
+        s = m_graphModel.portData<QString>(nodeId, portType, portIndex, QExtBPTypes::PortRole_Caption);
     } else {
-        auto portData = _graphModel.portData(nodeId, portType, portIndex, QExtBPTypes::PortRole_DataType);
+        auto portData = m_graphModel.portData(nodeId, portType, portIndex, QExtBPTypes::PortRole_DataType);
 
         s = portData.value<QExtBPNodeDataType>().name;
     }
@@ -212,11 +212,11 @@ QRectF QExtBPDefaultVerticalNodeGeometry::portTextRect(QExtBPTypes::NodeId const
     return _fontMetrics.boundingRect(s);
 }
 
-unsigned int QExtBPDefaultVerticalNodeGeometry::maxHorizontalPortsExtent(QExtBPTypes::NodeId const nodeId) const
+unsigned int QExtBPDefaultVerticalNodeGeometry::maxHorizontalPortsExtent(const QExtBPTypes::NodeId nodeId) const
 {
-    QExtBPTypes::PortCount nInPorts = _graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_InPortCount);
+    QExtBPTypes::PortCount nInPorts = m_graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_InPortCount);
 
-    QExtBPTypes::PortCount nOutPorts = _graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_OutPortCount);
+    QExtBPTypes::PortCount nOutPorts = m_graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_OutPortCount);
 
     unsigned int maxNumOfEntries = std::max(nInPorts, nOutPorts);
     unsigned int step = _portSize + _portSpasing;
@@ -224,12 +224,12 @@ unsigned int QExtBPDefaultVerticalNodeGeometry::maxHorizontalPortsExtent(QExtBPT
     return step * maxNumOfEntries;
 }
 
-unsigned int QExtBPDefaultVerticalNodeGeometry::maxPortsTextAdvance(QExtBPTypes::NodeId const nodeId,
-                                                                    QExtBPTypes::PortTypeEnum const portType) const
+unsigned int QExtBPDefaultVerticalNodeGeometry::maxPortsTextAdvance(const QExtBPTypes::NodeId nodeId,
+                                                                    const QExtBPTypes::PortTypeEnum portType) const
 {
     unsigned int width = 0;
 
-    size_t const n = _graphModel
+    size_t const n = m_graphModel
             .nodeData(nodeId,
                       (portType == QExtBPTypes::PortType_Out) ? QExtBPTypes::NodeRole_OutPortCount
                                                               : QExtBPTypes::NodeRole_InPortCount)
@@ -238,10 +238,10 @@ unsigned int QExtBPDefaultVerticalNodeGeometry::maxPortsTextAdvance(QExtBPTypes:
     for (QExtBPTypes::PortIndex portIndex = 0ul; portIndex < n; ++portIndex) {
         QString name;
 
-        if (_graphModel.portData<bool>(nodeId, portType, portIndex, QExtBPTypes::PortRole_CaptionVisible)) {
-            name = _graphModel.portData<QString>(nodeId, portType, portIndex, QExtBPTypes::PortRole_Caption);
+        if (m_graphModel.portData<bool>(nodeId, portType, portIndex, QExtBPTypes::PortRole_CaptionVisible)) {
+            name = m_graphModel.portData<QString>(nodeId, portType, portIndex, QExtBPTypes::PortRole_Caption);
         } else {
-            QExtBPNodeDataType portData = _graphModel.portData<QExtBPNodeDataType>(nodeId,
+            QExtBPNodeDataType portData = m_graphModel.portData<QExtBPNodeDataType>(nodeId,
                                                                                    portType,
                                                                                    portIndex,
                                                                                    QExtBPTypes::PortRole_DataType);
@@ -259,16 +259,16 @@ unsigned int QExtBPDefaultVerticalNodeGeometry::maxPortsTextAdvance(QExtBPTypes:
     return width;
 }
 
-unsigned int QExtBPDefaultVerticalNodeGeometry::portCaptionsHeight(QExtBPTypes::NodeId const nodeId,
-                                                                   QExtBPTypes::PortTypeEnum const portType) const
+unsigned int QExtBPDefaultVerticalNodeGeometry::portCaptionsHeight(const QExtBPTypes::NodeId nodeId,
+                                                                   const QExtBPTypes::PortTypeEnum portType) const
 {
     unsigned int h = 0;
 
     switch (portType) {
     case QExtBPTypes::PortType_In: {
-        QExtBPTypes::PortCount nInPorts = _graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_InPortCount);
+        QExtBPTypes::PortCount nInPorts = m_graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_InPortCount);
         for (QExtBPTypes::PortIndex i = 0; i < nInPorts; ++i) {
-            if (_graphModel.portData<bool>(nodeId, QExtBPTypes::PortType_In, i, QExtBPTypes::PortRole_CaptionVisible)) {
+            if (m_graphModel.portData<bool>(nodeId, QExtBPTypes::PortType_In, i, QExtBPTypes::PortRole_CaptionVisible)) {
                 h += _portSpasing;
                 break;
             }
@@ -277,9 +277,9 @@ unsigned int QExtBPDefaultVerticalNodeGeometry::portCaptionsHeight(QExtBPTypes::
     }
 
     case QExtBPTypes::PortType_Out: {
-        QExtBPTypes::PortCount nOutPorts = _graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_OutPortCount);
+        QExtBPTypes::PortCount nOutPorts = m_graphModel.nodeData<QExtBPTypes::PortCount>(nodeId, QExtBPTypes::NodeRole_OutPortCount);
         for (QExtBPTypes::PortIndex i = 0; i < nOutPorts; ++i) {
-            if (_graphModel.portData<bool>(nodeId, QExtBPTypes::PortType_Out, i, QExtBPTypes::PortRole_CaptionVisible)) {
+            if (m_graphModel.portData<bool>(nodeId, QExtBPTypes::PortType_Out, i, QExtBPTypes::PortRole_CaptionVisible)) {
                 h += _portSpasing;
                 break;
             }

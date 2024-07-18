@@ -23,6 +23,9 @@ public Q_SLOTS:
     void showKeyboard();
     void hideKeyboard();
 
+protected Q_SLOTS:
+    void onShowKeyboardTimerTimeout();
+
 protected:
     QExtInputMethodTrigger(QObject *parent = nullptr);
 

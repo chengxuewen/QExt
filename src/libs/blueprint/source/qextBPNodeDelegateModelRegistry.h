@@ -31,16 +31,16 @@ public:
     QExtBPNodeDelegateModelRegistry() = default;
     ~QExtBPNodeDelegateModelRegistry() = default;
 
-    QExtBPNodeDelegateModelRegistry(QExtBPNodeDelegateModelRegistry const &) = delete;
+    QExtBPNodeDelegateModelRegistry(const QExtBPNodeDelegateModelRegistry &) = delete;
     QExtBPNodeDelegateModelRegistry(QExtBPNodeDelegateModelRegistry &&) = default;
 
-    QExtBPNodeDelegateModelRegistry &operator=(QExtBPNodeDelegateModelRegistry const &) = delete;
+    QExtBPNodeDelegateModelRegistry &operator=(const QExtBPNodeDelegateModelRegistry &) = delete;
 
     QExtBPNodeDelegateModelRegistry &operator=(QExtBPNodeDelegateModelRegistry &&) = default;
 
 public:
     template<typename ModelType>
-    void registerModel(RegistryItemCreator creator, QString const &category = "Nodes")
+    void registerModel(RegistryItemCreator creator, const QString &category = "Nodes")
     {
         QString const name = computeName<ModelType>(HasStaticMethodName<ModelType>{}, creator);
         if (!_registeredItemCreators.count(name)) {
@@ -51,7 +51,7 @@ public:
     }
 
     template<typename ModelType>
-    void registerModel(QString const &category = "Nodes")
+    void registerModel(const QString &category = "Nodes")
     {
         RegistryItemCreator creator = []() { return new ModelType(); };
         registerModel<ModelType>(std::move(creator), category);
@@ -93,13 +93,13 @@ public:
 
 #endif
 
-    QExtBPNodeDelegateModel *create(QString const &modelName);
+    QExtBPNodeDelegateModel *create(const QString &modelName);
 
-    RegisteredModelCreatorsMap const &registeredModelCreators() const;
+    const RegisteredModelCreatorsMap &registeredModelCreators() const;
 
-    RegisteredModelsCategoryMap const &registeredModelsCategoryAssociation() const;
+    const RegisteredModelsCategoryMap &registeredModelsCategoryAssociation() const;
 
-    CategoriesSet const &categories() const;
+    const CategoriesSet &categories() const;
 
 #if 0
     TypeConverter
@@ -134,13 +134,13 @@ private:
     {};
 
     template<typename ModelType>
-    static QString computeName(std::true_type, RegistryItemCreator const &)
+    static QString computeName(std::true_type, const RegistryItemCreator &)
     {
         return ModelType::Name();
     }
 
     template<typename ModelType>
-    static QString computeName(std::false_type, RegistryItemCreator const &creator)
+    static QString computeName(std::false_type, const RegistryItemCreator &creator)
     {
         return creator()->name();
     }

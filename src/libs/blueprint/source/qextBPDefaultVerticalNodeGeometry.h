@@ -14,36 +14,36 @@ public:
     QExtBPDefaultVerticalNodeGeometry(QExtBPAbstractGraphModel &graphModel);
 
 public:
-    QSize size(QExtBPTypes::NodeId const nodeId) const override;
+    QSize size(const QExtBPTypes::NodeId nodeId) const override;
 
-    void recomputeSize(QExtBPTypes::NodeId const nodeId) const override;
+    void recomputeSize(const QExtBPTypes::NodeId nodeId) const override;
 
-    QPointF portPosition(QExtBPTypes::NodeId const nodeId,
-                         QExtBPTypes::PortTypeEnum const portType,
-                         QExtBPTypes::PortIndex const index) const override;
+    QPointF portPosition(const QExtBPTypes::NodeId nodeId,
+                         const QExtBPTypes::PortTypeEnum portType,
+                         const QExtBPTypes::PortIndex index) const override;
 
-    QPointF portTextPosition(QExtBPTypes::NodeId const nodeId,
-                             QExtBPTypes::PortTypeEnum const portType,
-                             QExtBPTypes::PortIndex const portIndex) const override;
+    QPointF portTextPosition(const QExtBPTypes::NodeId nodeId,
+                             const QExtBPTypes::PortTypeEnum portType,
+                             const QExtBPTypes::PortIndex portIndex) const override;
 
-    QPointF captionPosition(QExtBPTypes::NodeId const nodeId) const override;
+    QPointF captionPosition(const QExtBPTypes::NodeId nodeId) const override;
 
-    QRectF captionRect(QExtBPTypes::NodeId const nodeId) const override;
+    QRectF captionRect(const QExtBPTypes::NodeId nodeId) const override;
 
-    QPointF widgetPosition(QExtBPTypes::NodeId const nodeId) const override;
+    QPointF widgetPosition(const QExtBPTypes::NodeId nodeId) const override;
 
-    QRect resizeHandleRect(QExtBPTypes::NodeId const nodeId) const override;
+    QRect resizeHandleRect(const QExtBPTypes::NodeId nodeId) const override;
 
 private:
-    QRectF portTextRect(QExtBPTypes::NodeId const nodeId,
-                        QExtBPTypes::PortTypeEnum const portType,
-                        QExtBPTypes::PortIndex const portIndex) const;
+    QRectF portTextRect(const QExtBPTypes::NodeId nodeId,
+                        const QExtBPTypes::PortTypeEnum portType,
+                        const QExtBPTypes::PortIndex portIndex) const;
     /// Finds
-    unsigned int maxHorizontalPortsExtent(QExtBPTypes::NodeId const nodeId) const;
+    unsigned int maxHorizontalPortsExtent(const QExtBPTypes::NodeId nodeId) const;
 
-    unsigned int maxPortsTextAdvance(QExtBPTypes::NodeId const nodeId, QExtBPTypes::PortTypeEnum const portType) const;
+    unsigned int maxPortsTextAdvance(const QExtBPTypes::NodeId nodeId, const QExtBPTypes::PortTypeEnum portType) const;
 
-    unsigned int portCaptionsHeight(QExtBPTypes::NodeId const nodeId, QExtBPTypes::PortTypeEnum const portType) const;
+    unsigned int portCaptionsHeight(const QExtBPTypes::NodeId nodeId, const QExtBPTypes::PortTypeEnum portType) const;
 
 private:
     // Some variables are mutable because we need to change drawing

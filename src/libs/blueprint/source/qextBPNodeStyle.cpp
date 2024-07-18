@@ -30,7 +30,7 @@ QExtBPNodeStyle::QExtBPNodeStyle(QString jsonText)
     loadJsonText(jsonText);
 }
 
-QExtBPNodeStyle::QExtBPNodeStyle(QJsonObject const &json)
+QExtBPNodeStyle::QExtBPNodeStyle(const QJsonObject &json)
 {
     loadJson(json);
 }
@@ -86,7 +86,7 @@ void QExtBPNodeStyle::setNodeStyle(QString jsonText)
     values[#variable] = variable; \
     }
 
-void QExtBPNodeStyle::loadJson(QJsonObject const &json)
+void QExtBPNodeStyle::loadJson(const QJsonObject &json)
 {
     QJsonValue nodeStyleValues = json["NodeStyle"];
 

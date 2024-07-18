@@ -76,7 +76,7 @@ private:
     std::pair<QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex> findWhichPortWasClicked(QObject *sender, int const buttonIndex);
 
 private:
-    QExtBPTypes::NodeId const _nodeId;
+    const QExtBPTypes::NodeId _nodeId;
     DynamicPortsModel &_model;
 
     QVBoxLayout *_left;

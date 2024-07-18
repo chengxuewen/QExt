@@ -39,7 +39,7 @@ public:
 
 public:
     /// @returns associated AbstractGraphModel.
-    QExtBPAbstractGraphModel const &graphModel() const;
+    const QExtBPAbstractGraphModel &graphModel() const;
 
     QExtBPAbstractGraphModel &graphModel();
 
@@ -60,8 +60,7 @@ public:
    * Function @returns the "draft" instance for further geometry
    * manipulations.
    */
-    QScopedPointer<QExtBPConnectionGraphicsObject> const &makeDraftConnection(
-            QExtBPTypes::ConnectionId const newConnectionId);
+    const QScopedPointer<QExtBPConnectionGraphicsObject> &makeDraftConnection(const QExtBPTypes::ConnectionId newConnectionId);
 
     /// Deletes "draft" connection.
     /**
@@ -96,27 +95,27 @@ public:
     /**
    * Default implementation returns `QEXT_NULLPTR`.
    */
-    virtual QMenu *createSceneMenu(QPointF const scenePos);
+    virtual QMenu *createSceneMenu(const QPointF scenePos);
 
 Q_SIGNALS:
-    void nodeMoved(QExtBPTypes::NodeId const nodeId, QPointF const &newLocation);
+    void nodeMoved(const QExtBPTypes::NodeId nodeId, const QPointF &newLocation);
 
-    void nodeClicked(QExtBPTypes::NodeId const nodeId);
+    void nodeClicked(const QExtBPTypes::NodeId nodeId);
 
-    void nodeSelected(QExtBPTypes::NodeId const nodeId);
+    void nodeSelected(const QExtBPTypes::NodeId nodeId);
 
-    void nodeDoubleClicked(QExtBPTypes::NodeId const nodeId);
+    void nodeDoubleClicked(const QExtBPTypes::NodeId nodeId);
 
-    void nodeHovered(QExtBPTypes::NodeId const nodeId, QPoint const screenPos);
+    void nodeHovered(const QExtBPTypes::NodeId nodeId, QPoint const screenPos);
 
-    void nodeHoverLeft(QExtBPTypes::NodeId const nodeId);
+    void nodeHoverLeft(const QExtBPTypes::NodeId nodeId);
 
-    void connectionHovered(QExtBPTypes::ConnectionId const connectionId, QPoint const screenPos);
+    void connectionHovered(const QExtBPTypes::ConnectionId connectionId, QPoint const screenPos);
 
-    void connectionHoverLeft(QExtBPTypes::ConnectionId const connectionId);
+    void connectionHoverLeft(const QExtBPTypes::ConnectionId connectionId);
 
     /// Signal allows showing custom context menu upon clicking a node.
-    void nodeContextMenu(QExtBPTypes::NodeId const nodeId, QPointF const pos);
+    void nodeContextMenu(const QExtBPTypes::NodeId nodeId, const QPointF pos);
 
 private:
     /// @brief Creates Node and Connection graphics objects.
@@ -128,33 +127,33 @@ private:
     void traverseGraphAndPopulateGraphicsObjects();
 
     /// Redraws adjacent nodes for given `connectionId`
-    void updateAttachedNodes(QExtBPTypes::ConnectionId const connectionId, QExtBPTypes::PortTypeEnum const portType);
+    void updateAttachedNodes(const QExtBPTypes::ConnectionId connectionId, const QExtBPTypes::PortTypeEnum portType);
 
 public Q_SLOTS:
     /// Slot called when the `connectionId` is erased form the AbstractGraphModel.
-    void onConnectionDeleted(QExtBPTypes::ConnectionId const connectionId);
+    void onConnectionDeleted(const QExtBPTypes::ConnectionId connectionId);
 
     /// Slot called when the `connectionId` is created in the AbstractGraphModel.
-    void onConnectionCreated(QExtBPTypes::ConnectionId const connectionId);
+    void onConnectionCreated(const QExtBPTypes::ConnectionId connectionId);
 
-    void onNodeDeleted(QExtBPTypes::NodeId const nodeId);
+    void onNodeDeleted(const QExtBPTypes::NodeId nodeId);
 
-    void onNodeCreated(QExtBPTypes::NodeId const nodeId);
+    void onNodeCreated(const QExtBPTypes::NodeId nodeId);
 
-    void onNodePositionUpdated(QExtBPTypes::NodeId const nodeId);
+    void onNodePositionUpdated(const QExtBPTypes::NodeId nodeId);
 
-    void onNodeUpdated(QExtBPTypes::NodeId const nodeId);
+    void onNodeUpdated(const QExtBPTypes::NodeId nodeId);
 
-    void onNodeClicked(QExtBPTypes::NodeId const nodeId);
+    void onNodeClicked(const QExtBPTypes::NodeId nodeId);
 
     void onModelReset();
 
 private:
     QExtBPAbstractGraphModel &_graphModel;
 
-    using UniqueNodeGraphicsObject = std::unique_ptr<QExtBPNodeGraphicsObject>;
+    using UniqueNodeGraphicsObject = QScopedPointer<QExtBPNodeGraphicsObject>;
 
-    using UniqueConnectionGraphicsObject = std::unique_ptr<QExtBPConnectionGraphicsObject>;
+    using UniqueConnectionGraphicsObject = QScopedPointer<QExtBPConnectionGraphicsObject>;
 
     std::unordered_map<QExtBPTypes::NodeId, UniqueNodeGraphicsObject> _nodeGraphicsObjects;
 

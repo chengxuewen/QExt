@@ -35,7 +35,7 @@ void QExtBPDefaultNodePainter::drawNodeRect(QPainter *painter, QExtBPNodeGraphic
 {
     QExtBPAbstractGraphModel &model = ngo.graphModel();
 
-    QExtBPTypes::NodeId const nodeId = ngo.nodeId();
+    const QExtBPTypes::NodeId nodeId = ngo.nodeId();
 
     QExtBPAbstractNodeGeometry &geometry = ngo.nodeScene()->nodeGeometry();
 
@@ -74,13 +74,13 @@ void QExtBPDefaultNodePainter::drawNodeRect(QPainter *painter, QExtBPNodeGraphic
 void QExtBPDefaultNodePainter::drawConnectionPoints(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const
 {
     QExtBPAbstractGraphModel &model = ngo.graphModel();
-    QExtBPTypes::NodeId const nodeId = ngo.nodeId();
+    const QExtBPTypes::NodeId nodeId = ngo.nodeId();
     QExtBPAbstractNodeGeometry &geometry = ngo.nodeScene()->nodeGeometry();
 
     QJsonDocument json = QJsonDocument::fromVariant(model.nodeData(nodeId, QExtBPTypes::NodeRole_Style));
     QExtBPNodeStyle nodeStyle(json.object());
 
-    auto const &connectionStyle = QExtBPStyleCollection::connectionStyle();
+    const auto &connectionStyle = QExtBPStyleCollection::connectionStyle();
 
     float diameter = nodeStyle.ConnectionPointDiameter;
     auto reducedDiameter = diameter * 0.6;
@@ -92,15 +92,16 @@ void QExtBPDefaultNodePainter::drawConnectionPoints(QPainter *painter, QExtBPNod
                                                                   : QExtBPTypes::NodeRole_InPortCount)
                 .toUInt();
 
-        for (QExtBPTypes::PortIndex portIndex = 0; portIndex < n; ++portIndex) {
+        for (QExtBPTypes::PortIndex portIndex = 0; portIndex < n; ++portIndex)
+        {
             QPointF p = geometry.portPosition(nodeId, portType, portIndex);
 
-            auto const &dataType = model.portData(nodeId, portType, portIndex, QExtBPTypes::PortRole_DataType)
-                    .value<QExtBPNodeDataType>();
+            const auto &dataType = model.portData(nodeId, portType, portIndex,
+                                                  QExtBPTypes::PortRole_DataType).value<QExtBPNodeDataType>();
 
             double r = 1.0;
 
-            QExtBPNodeState const &state = ngo.nodeState();
+            const QExtBPNodeState &state = ngo.nodeState();
 
             if (auto const *cgo = state.connectionForReaction()) {
                 QExtBPTypes::PortTypeEnum requiredPort = cgo->connectionState().requiredPort();
@@ -146,7 +147,7 @@ void QExtBPDefaultNodePainter::drawConnectionPoints(QPainter *painter, QExtBPNod
 void QExtBPDefaultNodePainter::drawFilledConnectionPoints(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const
 {
     QExtBPAbstractGraphModel &model = ngo.graphModel();
-    QExtBPTypes::NodeId const nodeId = ngo.nodeId();
+    const QExtBPTypes::NodeId nodeId = ngo.nodeId();
     QExtBPAbstractNodeGeometry &geometry = ngo.nodeScene()->nodeGeometry();
 
     QJsonDocument json = QJsonDocument::fromVariant(model.nodeData(nodeId, QExtBPTypes::NodeRole_Style));
@@ -164,14 +165,14 @@ void QExtBPDefaultNodePainter::drawFilledConnectionPoints(QPainter *painter, QEx
         for (QExtBPTypes::PortIndex portIndex = 0; portIndex < n; ++portIndex) {
             QPointF p = geometry.portPosition(nodeId, portType, portIndex);
 
-            auto const &connected = model.connections(nodeId, portType, portIndex);
+            const auto &connected = model.connections(nodeId, portType, portIndex);
 
             if (!connected.empty()) {
-                auto const &dataType = model
+                const auto &dataType = model
                         .portData(nodeId, portType, portIndex, QExtBPTypes::PortRole_DataType)
                         .value<QExtBPNodeDataType>();
 
-                auto const &connectionStyle = QExtBPStyleCollection::connectionStyle();
+                const auto &connectionStyle = QExtBPStyleCollection::connectionStyle();
                 if (connectionStyle.useDataDefinedColors()) {
                     QColor const c = connectionStyle.normalColor(dataType.id);
                     painter->setPen(c);
@@ -190,7 +191,7 @@ void QExtBPDefaultNodePainter::drawFilledConnectionPoints(QPainter *painter, QEx
 void QExtBPDefaultNodePainter::drawNodeCaption(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const
 {
     QExtBPAbstractGraphModel &model = ngo.graphModel();
-    QExtBPTypes::NodeId const nodeId = ngo.nodeId();
+    const QExtBPTypes::NodeId nodeId = ngo.nodeId();
     QExtBPAbstractNodeGeometry &geometry = ngo.nodeScene()->nodeGeometry();
 
     if (!model.nodeData(nodeId, QExtBPTypes::NodeRole_CaptionVisible).toBool())
@@ -217,7 +218,7 @@ void QExtBPDefaultNodePainter::drawNodeCaption(QPainter *painter, QExtBPNodeGrap
 void QExtBPDefaultNodePainter::drawEntryLabels(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const
 {
     QExtBPAbstractGraphModel &model = ngo.graphModel();
-    QExtBPTypes::NodeId const nodeId = ngo.nodeId();
+    const QExtBPTypes::NodeId nodeId = ngo.nodeId();
     QExtBPAbstractNodeGeometry &geometry = ngo.nodeScene()->nodeGeometry();
 
     QJsonDocument json = QJsonDocument::fromVariant(model.nodeData(nodeId, QExtBPTypes::NodeRole_Style));
@@ -230,7 +231,7 @@ void QExtBPDefaultNodePainter::drawEntryLabels(QPainter *painter, QExtBPNodeGrap
                                                       : QExtBPTypes::NodeRole_InPortCount);
 
         for (QExtBPTypes::PortIndex portIndex = 0; portIndex < n; ++portIndex) {
-            auto const &connected = model.connections(nodeId, portType, portIndex);
+            const auto &connected = model.connections(nodeId, portType, portIndex);
 
             QPointF p = geometry.portTextPosition(nodeId, portType, portIndex);
 
@@ -257,7 +258,7 @@ void QExtBPDefaultNodePainter::drawEntryLabels(QPainter *painter, QExtBPNodeGrap
 void QExtBPDefaultNodePainter::drawResizeRect(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const
 {
     QExtBPAbstractGraphModel &model = ngo.graphModel();
-    QExtBPTypes::NodeId const nodeId = ngo.nodeId();
+    const QExtBPTypes::NodeId nodeId = ngo.nodeId();
     QExtBPAbstractNodeGeometry &geometry = ngo.nodeScene()->nodeGeometry();
 
     if (model.nodeFlags(nodeId) & QExtBPTypes::NodeFlag_Resizable) {

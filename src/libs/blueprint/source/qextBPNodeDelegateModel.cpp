@@ -16,12 +16,13 @@ QJsonObject QExtBPNodeDelegateModel::save() const
     return modelJson;
 }
 
-void QExtBPNodeDelegateModel::load(QJsonObject const &)
+void QExtBPNodeDelegateModel::load(const QJsonObject &)
 {
     //
 }
 
-QExtBPTypes::ConnectionPolicyEnum QExtBPNodeDelegateModel::portConnectionPolicy(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex) const
+QExtBPTypes::ConnectionPolicyEnum QExtBPNodeDelegateModel::portConnectionPolicy(QExtBPTypes::PortTypeEnum portType,
+                                                                                QExtBPTypes::PortIndex) const
 {
     auto result = QExtBPTypes::ConnectionPolicy_One;
     switch (portType) {
@@ -38,12 +39,12 @@ QExtBPTypes::ConnectionPolicyEnum QExtBPNodeDelegateModel::portConnectionPolicy(
     return result;
 }
 
-QExtBPNodeStyle const &QExtBPNodeDelegateModel::nodeStyle() const
+const QExtBPNodeStyle &QExtBPNodeDelegateModel::nodeStyle() const
 {
     return _nodeStyle;
 }
 
-void QExtBPNodeDelegateModel::setNodeStyle(QExtBPNodeStyle const &style)
+void QExtBPNodeDelegateModel::setNodeStyle(const QExtBPNodeStyle &style)
 {
     _nodeStyle = style;
 }

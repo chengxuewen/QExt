@@ -97,9 +97,9 @@ bool QExtBPNodeConnectionInteraction::disconnect(QExtBPTypes::PortTypeEnum portT
     QExtBPTypes::ConnectionId incompleteConnectionId = QExtBPUtils::makeIncompleteConnectionId(connectionId, portToDisconnect);
 
     // Grabs the mouse
-    auto const &draftConnection = _scene.makeDraftConnection(incompleteConnectionId);
+    const auto &draftConnection = _scene.makeDraftConnection(incompleteConnectionId);
 
-    QPointF const looseEndPos = draftConnection->mapFromScene(scenePos);
+    const QPointF looseEndPos = draftConnection->mapFromScene(scenePos);
     draftConnection->setEndPoint(portToDisconnect, looseEndPos);
 
     // Repaint connection points.
@@ -116,7 +116,7 @@ bool QExtBPNodeConnectionInteraction::disconnect(QExtBPTypes::PortTypeEnum portT
 
 QExtBPTypes::PortTypeEnum QExtBPNodeConnectionInteraction::connectionRequiredPort() const
 {
-    auto const &state = _cgo.connectionState();
+    const auto &state = _cgo.connectionState();
 
     return state.requiredPort();
 }
@@ -135,7 +135,7 @@ QPointF QExtBPNodeConnectionInteraction::nodePortScenePosition(QExtBPTypes::Port
 }
 
 QExtBPTypes::PortIndex QExtBPNodeConnectionInteraction::nodePortIndexUnderScenePoint(QExtBPTypes::PortTypeEnum portType,
-                                                                                     QPointF const &scenePoint) const
+                                                                                     const QPointF &scenePoint) const
 {
     QExtBPAbstractNodeGeometry &geometry = _scene.nodeGeometry();
 
