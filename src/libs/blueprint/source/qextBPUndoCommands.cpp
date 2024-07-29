@@ -1,6 +1,7 @@
 #include <qextBPUndoCommands.h>
 #include <qextBPConnectionGraphicsObject.h>
 #include <qextBPBasicGraphicsScene.h>
+#include <qextBPAbstractGraphModel.h>
 #include <qextBPNodeGraphicsObject.h>
 #include <qextBPTypes.h>
 #include <qextBPUtils.h>

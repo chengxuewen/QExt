@@ -51,17 +51,12 @@ qext_add_library(Blueprint
     SOURCES
     source/qextBlueprintConstant.h
     source/qextBlueprintGlobal.h
-    source/qextBlueprintScene.h
-    source/qextBlueprintScene_p.h
-    source/qextBlueprintScene.cpp
-    source/qextBlueprintView.h
-    source/qextBlueprintView_p.h
-    source/qextBlueprintView.cpp
     source/qextBPAbstractGraphModel.h
     source/qextBPAbstractGraphModel.cpp
     source/qextBPAbstractNodeGeometry.h
     source/qextBPAbstractNodeGeometry.cpp
     source/qextBPAbstractNodePainter.h
+    source/qextBPBasicGraphicsScene_p.h
     source/qextBPBasicGraphicsScene.h
     source/qextBPBasicGraphicsScene.cpp
     source/qextBPConnectionGraphicsObject.h
@@ -83,6 +78,7 @@ qext_add_library(Blueprint
     source/qextBPDefaultNodePainter.cpp
     source/qextBPDefaultVerticalNodeGeometry.h
     source/qextBPDefaultVerticalNodeGeometry.cpp
+    source/qextBPGraphicsView_p.h
     source/qextBPGraphicsView.h
     source/qextBPGraphicsView.cpp
     source/qextBPGraphicsViewStyle.h

@@ -2,6 +2,7 @@
 #include <qextBPConnectionGraphicsObject.h>
 #include <qextBPAbstractNodeGeometry.h>
 #include <qextBPBasicGraphicsScene.h>
+#include <qextBPAbstractGraphModel.h>
 #include <qextBPNodeGraphicsObject.h>
 #include <qextBPUndoCommands.h>
 #include <qextBPUtils.h>

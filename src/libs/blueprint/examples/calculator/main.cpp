@@ -54,8 +54,13 @@ static void setStyle()
   )");
 }
 
+void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    fprintf(stderr, "%s\n", msg.toLatin1().data());
+}
 int main(int argc, char *argv[])
 {
+    qInstallMessageHandler(&messageHandler);
     QApplication app(argc, argv);
 
     setStyle();

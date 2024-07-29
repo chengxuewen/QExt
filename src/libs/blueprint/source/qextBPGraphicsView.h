@@ -10,6 +10,7 @@ class QExtBPBasicGraphicsScene;
 /**
  * @brief A central view able to render objects from `BasicGraphicsScene`.
  */
+class QExtBPGraphicsViewPrivate;
 class QEXT_BLUEPRINT_API QExtBPGraphicsView : public QGraphicsView
 {
     Q_OBJECT
@@ -20,12 +21,9 @@ public:
         double maximum = 0;
     };
 
-public:
     QExtBPGraphicsView(QWidget *parent = QEXT_NULLPTR);
     QExtBPGraphicsView(QExtBPBasicGraphicsScene *scene, QWidget *parent = QEXT_NULLPTR);
-
-    QExtBPGraphicsView(const QExtBPGraphicsView &) = delete;
-    QExtBPGraphicsView operator=(const QExtBPGraphicsView &) = delete;
+    ~QExtBPGraphicsView() QEXT_OVERRIDE;
 
     QAction *clearSelectionAction() const;
 
@@ -83,15 +81,11 @@ protected:
     /// Computes scene position for pasting the copied/duplicated node groups.
     QPointF scenePastePosition();
 
-private:
-    QAction *_clearSelectionAction = QEXT_NULLPTR;
-    QAction *_deleteSelectionAction = QEXT_NULLPTR;
-    QAction *_duplicateSelectionAction = QEXT_NULLPTR;
-    QAction *_copySelectionAction = QEXT_NULLPTR;
-    QAction *_pasteAction = QEXT_NULLPTR;
+    QScopedPointer<QExtBPGraphicsViewPrivate> dd_ptr;
 
-    QPointF _clickPos;
-    ScaleRange _scaleRange;
+private:
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPGraphicsView)
+    QEXT_DISABLE_COPY_MOVE(QExtBPGraphicsView)
 };
 
 #endif // _QEXTBPGRAPHICSVIEW_H

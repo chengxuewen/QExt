@@ -45,17 +45,6 @@ set(OUTPUT_DIR ${QEXT_INSTALL_EXAMPLESDIR}/blueprint)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_executable(QExtExpBlueprintSimple
-    SOURCES
-    simple/main.cpp
-    LIBRARIES
-    ${QEXT_EXAMPLE_LINK_LIBRARIES}
-    INCLUDE_DIRECTORIES
-    ${CMAKE_CURRENT_SOURCE_DIR}/simple
-    OUTPUT_DIRECTORY
-    ${OUTPUT_DIR}/
-    DEFINES
-    EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBlueprintCalculator
     SOURCES
     calculator/main.cpp

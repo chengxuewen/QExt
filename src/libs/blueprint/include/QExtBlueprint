@@ -35,7 +35,5 @@
 #include "qextBPUtils.h"
 #include "qextBlueprintConstant.h"
 #include "qextBlueprintGlobal.h"
-#include "qextBlueprintScene.h"
-#include "qextBlueprintView.h"
 
 #endif
