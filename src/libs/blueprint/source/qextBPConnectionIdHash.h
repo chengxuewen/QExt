@@ -18,7 +18,8 @@ inline void hash_combine(std::size_t &seed, const T &v, Rest... rest)
     hash_combine(seed, rest...);
 }
 
-namespace std {
+namespace std
+{
 template<>
 struct hash<QExtBPTypes::ConnectionId>
 {

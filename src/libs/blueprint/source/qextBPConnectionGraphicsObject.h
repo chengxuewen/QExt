@@ -14,6 +14,7 @@ class QExtBPAbstractGraphModel;
 class QExtBPBasicGraphicsScene;
 
 /// Graphic Object for connection. Adds itself to scene
+class QExtBPConnectionGraphicsObjectPrivate;
 class QExtBPConnectionGraphicsObject : public QGraphicsObject
 {
     Q_OBJECT
@@ -23,12 +24,10 @@ public:
 
     int type() const override { return Type; }
 
-public:
-    QExtBPConnectionGraphicsObject(QExtBPBasicGraphicsScene &scene, const QExtBPTypes::ConnectionId connectionId);
+    QExtBPConnectionGraphicsObject(QExtBPBasicGraphicsScene &scene, const QExtBPTypes::ConnectionId connectionId,
+                                   QGraphicsItem *parent = QEXT_NULLPTR);
+    ~QExtBPConnectionGraphicsObject() QEXT_OVERRIDE;
 
-    ~QExtBPConnectionGraphicsObject() = default;
-
-public:
     QExtBPAbstractGraphModel &graphModel() const;
 
     QExtBPBasicGraphicsScene *nodeScene() const;
@@ -41,9 +40,9 @@ public:
 
     const QPointF &endPoint(QExtBPTypes::PortTypeEnum portType) const;
 
-    QPointF out() const { return _out; }
+    QPointF out() const;
 
-    QPointF in() const { return _in; }
+    QPointF in() const;
 
     std::pair<QPointF, QPointF> pointsC1C2() const;
 
@@ -57,9 +56,7 @@ public:
     QExtBPConnectionState &connectionState();
 
 protected:
-    void paint(QPainter *painter,
-               QStyleOptionGraphicsItem const *option,
-               QWidget *widget = 0) override;
+    void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget = 0) override;
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
@@ -71,6 +68,8 @@ protected:
 
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
 
+    QScopedPointer<QExtBPConnectionGraphicsObjectPrivate> dd_ptr;
+
 private:
     void initializePosition();
 
@@ -80,15 +79,8 @@ private:
 
     std::pair<QPointF, QPointF> pointsC1C2Vertical() const;
 
-private:
-    QExtBPTypes::ConnectionId _connectionId;
-
-    QExtBPAbstractGraphModel &_graphModel;
-
-    QExtBPConnectionState _connectionState;
-
-    mutable QPointF _out;
-    mutable QPointF _in;
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPConnectionGraphicsObject)
+    QEXT_DISABLE_COPY_MOVE(QExtBPConnectionGraphicsObject)
 };
 
 #endif // _QEXTBPCONNECTIONGRAPHICSOBJECT_H

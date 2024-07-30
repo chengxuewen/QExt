@@ -1,4 +1,4 @@
-#include <qextBPAbstractNodeGeometry.h>
+#include <private/qextBPAbstractNodeGeometry_p.h>
 #include <qextBPAbstractGraphModel.h>
 #include <qextBPStyleCollection.h>
 
@@ -6,10 +6,29 @@
 
 #include <cmath>
 
-QExtBPAbstractNodeGeometry::QExtBPAbstractNodeGeometry(QExtBPAbstractGraphModel &graphModel)
-    : m_graphModel(graphModel)
+QExtBPAbstractNodeGeometryPrivate::QExtBPAbstractNodeGeometryPrivate(QExtBPAbstractNodeGeometry *q,
+                                                                     QExtBPAbstractGraphModel &graphModel)
+    : q_ptr(q)
+    , m_graphModel(graphModel)
 {
-    //
+}
+
+QExtBPAbstractNodeGeometryPrivate::~QExtBPAbstractNodeGeometryPrivate()
+{
+}
+
+QExtBPAbstractNodeGeometry::QExtBPAbstractNodeGeometry(QExtBPAbstractGraphModel &graphModel)
+    : dd_ptr(new QExtBPAbstractNodeGeometryPrivate(this, graphModel))
+{
+}
+
+QExtBPAbstractNodeGeometry::QExtBPAbstractNodeGeometry(QExtBPAbstractNodeGeometryPrivate *d)
+    : dd_ptr(d)
+{
+}
+
+QExtBPAbstractNodeGeometry::~QExtBPAbstractNodeGeometry()
+{
 }
 
 QRectF QExtBPAbstractNodeGeometry::boundingRect(const QExtBPTypes::NodeId nodeId) const
@@ -33,7 +52,7 @@ QPointF QExtBPAbstractNodeGeometry::portScenePosition(const QExtBPTypes::NodeId 
                                                       const QExtBPTypes::PortIndex index,
                                                       const QTransform &t) const
 {
-    QPointF result = portPosition(nodeId, portType, index);
+    QPointF result = this->portPosition(nodeId, portType, index);
 
     return t.map(result);
 }
@@ -42,27 +61,32 @@ QExtBPTypes::PortIndex QExtBPAbstractNodeGeometry::checkPortHit(const QExtBPType
                                                                 const QExtBPTypes::PortTypeEnum portType,
                                                                 const QPointF nodePoint) const
 {
+    Q_D(const QExtBPAbstractNodeGeometry);
     const auto &nodeStyle = QExtBPStyleCollection::nodeStyle();
 
     QExtBPTypes::PortIndex result = QExtBPTypes::InvalidPortIndex;
 
     if (portType == QExtBPTypes::PortType_None)
+    {
         return result;
+    }
 
     double const tolerance = 2.0 * nodeStyle.ConnectionPointDiameter;
 
-    size_t const n = m_graphModel.nodeData<unsigned int>(nodeId,
-                                                        (portType == QExtBPTypes::PortType_Out)
-                                                        ? QExtBPTypes::NodeRole_OutPortCount
-                                                        : QExtBPTypes::NodeRole_InPortCount);
+    size_t const n = d->m_graphModel.nodeData<unsigned int>(nodeId,
+                                                            (portType == QExtBPTypes::PortType_Out)
+                                                                ? QExtBPTypes::NodeRole_OutPortCount
+                                                                : QExtBPTypes::NodeRole_InPortCount);
 
-    for (unsigned int portIndex = 0; portIndex < n; ++portIndex) {
+    for (unsigned int portIndex = 0; portIndex < n; ++portIndex)
+    {
         auto pp = portPosition(nodeId, portType, portIndex);
 
         QPointF p = pp - nodePoint;
         auto distance = std::sqrt(QPointF::dotProduct(p, p));
 
-        if (distance < tolerance) {
+        if (distance < tolerance)
+        {
             result = portIndex;
             break;
         }

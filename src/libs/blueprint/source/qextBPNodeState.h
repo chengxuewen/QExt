@@ -9,23 +9,20 @@
 #include <QPointF>
 #include <QPointer>
 
-#include <vector>
-#include <unordered_map>
-
-
 class QExtBPConnectionGraphicsObject;
 class QExtBPNodeGraphicsObject;
 
 /// Stores bool for hovering connections and resizing flag.
+class QExtBPNodeStatePrivate;
 class QEXT_BLUEPRINT_API QExtBPNodeState
 {
 public:
-    QExtBPNodeState(QExtBPNodeGraphicsObject &ngo);
+    QExtBPNodeState(QExtBPNodeGraphicsObject &object);
+    virtual ~QExtBPNodeState();
 
-public:
-    bool hovered() const { return _hovered; }
+    bool hovered() const;
 
-    void setHovered(bool hovered = true) { _hovered = hovered; }
+    void setHovered(bool hovered = true);
 
     void setResizing(bool resizing);
 
@@ -33,20 +30,16 @@ public:
 
     QExtBPConnectionGraphicsObject const *connectionForReaction() const;
 
-    void storeConnectionForReaction(QExtBPConnectionGraphicsObject const *cgo);
+    void storeConnectionForReaction(QExtBPConnectionGraphicsObject const *object);
 
     void resetConnectionForReaction();
 
+protected:
+    QScopedPointer<QExtBPNodeStatePrivate> dd_ptr;
+
 private:
-    QExtBPNodeGraphicsObject &_ngo;
-
-    bool _hovered;
-
-    bool _resizing;
-
-    // QPointer tracks the QObject inside and is automatically cleared
-    // when the object is destroyed.
-    QPointer<QExtBPConnectionGraphicsObject const> _connectionForReaction;
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPNodeState)
+    QEXT_DISABLE_COPY_MOVE(QExtBPNodeState)
 };
 
 #endif // _QEXTBPNODESTATE_H

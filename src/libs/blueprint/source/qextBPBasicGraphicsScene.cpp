@@ -8,25 +8,21 @@
 #include <qextBPGraphicsView.h>
 #include <qextBPUtils.h>
 
-#include <QUndoStack>
-
+#include <QtWidgets/QUndoStack>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QGraphicsSceneMoveEvent>
 
+#include <QtCore/QFile>
 #include <QtCore/QBuffer>
+#include <QtCore/QtGlobal>
+#include <QtCore/QJsonArray>
 #include <QtCore/QByteArray>
 #include <QtCore/QDataStream>
-#include <QtCore/QFile>
-#include <QtCore/QJsonArray>
-#include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
-#include <QtCore/QtGlobal>
+#include <QtCore/QJsonDocument>
 
-#include <iostream>
-#include <stdexcept>
-#include <unordered_set>
 #include <utility>
-#include <queue>
+#include <unordered_set>
 
 QExtBPBasicGraphicsScenePrivate::QExtBPBasicGraphicsScenePrivate(QExtBPBasicGraphicsScene *q,
                                                                  QExtBPAbstractGraphModel &graphModel)
@@ -35,10 +31,9 @@ QExtBPBasicGraphicsScenePrivate::QExtBPBasicGraphicsScenePrivate(QExtBPBasicGrap
     , m_nodeGeometry(new QExtBPDefaultHorizontalNodeGeometry(graphModel))
     , m_nodePainter(new QExtBPDefaultNodePainter())
     , m_nodeDrag(false)
-    , m_undoStack(new QUndoStack(q))
+    , m_undoStack(new QUndoStack)
     , m_orientation(Qt::Horizontal)
 {
-
 }
 
 QExtBPBasicGraphicsScenePrivate::~QExtBPBasicGraphicsScenePrivate()

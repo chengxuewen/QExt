@@ -1,37 +1,67 @@
-#include <qextBPNodeState.h>
+#include <private/qextBPNodeState_p.h>
 #include <qextBPConnectionGraphicsObject.h>
 #include <qextBPNodeGraphicsObject.h>
 
-QExtBPNodeState::QExtBPNodeState(QExtBPNodeGraphicsObject &ngo)
-    : _ngo(ngo)
-    , _hovered(false)
-    , _resizing(false)
-    , _connectionForReaction(QEXT_NULLPTR)
+QExtBPNodeStatePrivate::QExtBPNodeStatePrivate(QExtBPNodeState *q, QExtBPNodeGraphicsObject &object)
+    : q_ptr(q)
+    , m_hovered(false)
+    , m_resizing(false)
+    , m_nodeGraphicsObject(object)
+    , m_connectionForReaction(QEXT_NULLPTR)
 {
-    Q_UNUSED(_ngo);
+}
+
+QExtBPNodeStatePrivate::~QExtBPNodeStatePrivate()
+{
+}
+
+QExtBPNodeState::QExtBPNodeState(QExtBPNodeGraphicsObject &object)
+    : dd_ptr(new QExtBPNodeStatePrivate(this, object))
+{
+}
+
+QExtBPNodeState::~QExtBPNodeState()
+{
+}
+
+bool QExtBPNodeState::hovered() const
+{
+    Q_D(const QExtBPNodeState);
+    return d->m_hovered;
+}
+
+void QExtBPNodeState::setHovered(bool hovered)
+{
+    Q_D(QExtBPNodeState);
+    d->m_hovered = hovered;
 }
 
 void QExtBPNodeState::setResizing(bool resizing)
 {
-    _resizing = resizing;
+    Q_D(QExtBPNodeState);
+    d->m_resizing = resizing;
 }
 
 bool QExtBPNodeState::resizing() const
 {
-    return _resizing;
+    Q_D(const QExtBPNodeState);
+    return d->m_resizing;
 }
 
 QExtBPConnectionGraphicsObject const *QExtBPNodeState::connectionForReaction() const
 {
-    return _connectionForReaction.data();
+    Q_D(const QExtBPNodeState);
+    return d->m_connectionForReaction.data();
 }
 
-void QExtBPNodeState::storeConnectionForReaction(QExtBPConnectionGraphicsObject const *cgo)
+void QExtBPNodeState::storeConnectionForReaction(QExtBPConnectionGraphicsObject const *object)
 {
-    _connectionForReaction = cgo;
+    Q_D(QExtBPNodeState);
+    d->m_connectionForReaction = object;
 }
 
 void QExtBPNodeState::resetConnectionForReaction()
 {
-    _connectionForReaction.clear();
+    Q_D(QExtBPNodeState);
+    d->m_connectionForReaction.clear();
 }

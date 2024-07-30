@@ -1,16 +1,16 @@
 #ifndef _QEXTBPNODEGRAPHICSOBJECT_H
 #define _QEXTBPNODEGRAPHICSOBJECT_H
 
+#include <qextBPNodeState.h>
+
 #include <QtCore/QUuid>
 #include <QtWidgets/QGraphicsObject>
-
-#include "qextBPNodeState.h"
 
 class QGraphicsProxyWidget;
 
 class QExtBPAbstractGraphModel;
 class QExtBPBasicGraphicsScene;
-
+class QExtBPNodeGraphicsObjectPrivate;
 class QExtBPNodeGraphicsObject : public QGraphicsObject
 {
     Q_OBJECT
@@ -20,25 +20,23 @@ public:
 
     int type() const override { return Type; }
 
-public:
-    QExtBPNodeGraphicsObject(QExtBPBasicGraphicsScene &scene, QExtBPTypes::NodeId node);
+    QExtBPNodeGraphicsObject(QExtBPBasicGraphicsScene &scene, QExtBPTypes::NodeId node,
+                             QGraphicsItem *parent = QEXT_NULLPTR);
+    ~QExtBPNodeGraphicsObject() QEXT_OVERRIDE;
 
-    ~QExtBPNodeGraphicsObject() override = default;
-
-public:
     QExtBPAbstractGraphModel &graphModel() const;
 
     QExtBPBasicGraphicsScene *nodeScene() const;
 
-    QExtBPTypes::NodeId nodeId() { return _nodeId; }
+    QExtBPTypes::NodeId nodeId();
 
-    QExtBPTypes::NodeId nodeId() const { return _nodeId; }
+    QExtBPTypes::NodeId nodeId() const;
 
-    QExtBPNodeState &nodeState() { return _nodeState; }
+    QExtBPNodeState &nodeState();
 
-    const QExtBPNodeState &nodeState() const { return _nodeState; }
+    const QExtBPNodeState &nodeState() const;
 
-    QRectF boundingRect() const override;
+    QRectF boundingRect() const QEXT_OVERRIDE;
 
     void setGeometryChanged();
 
@@ -50,27 +48,27 @@ public:
     void reactToConnection(QExtBPConnectionGraphicsObject const *cgo);
 
 protected:
-    void paint(QPainter *painter,
-               QStyleOptionGraphicsItem const *option,
-               QWidget *widget = 0) override;
+    void paint(QPainter *painter, QStyleOptionGraphicsItem const *option, QWidget *widget = 0) QEXT_OVERRIDE;
 
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) QEXT_OVERRIDE;
 
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) QEXT_OVERRIDE;
 
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) QEXT_OVERRIDE;
 
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) QEXT_OVERRIDE;
 
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) QEXT_OVERRIDE;
 
-    void hoverMoveEvent(QGraphicsSceneHoverEvent *) override;
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *) QEXT_OVERRIDE;
 
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) QEXT_OVERRIDE;
 
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) QEXT_OVERRIDE;
+
+    QScopedPointer<QExtBPNodeGraphicsObjectPrivate> dd_ptr;
 
 private:
     void embedQWidget();
@@ -78,14 +76,8 @@ private:
     void setLockedState();
 
 private:
-    QExtBPTypes::NodeId _nodeId;
-
-    QExtBPAbstractGraphModel &_graphModel;
-
-    QExtBPNodeState _nodeState;
-
-    // either QEXT_NULLPTR or owned by parent QGraphicsItem
-    QGraphicsProxyWidget *_proxyWidget;
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPNodeGraphicsObject)
+    QEXT_DISABLE_COPY_MOVE(QExtBPNodeGraphicsObject)
 };
 
 #endif // _QEXTBPNODEGRAPHICSOBJECT_H

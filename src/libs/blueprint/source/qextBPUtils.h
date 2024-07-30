@@ -15,9 +15,12 @@ inline QExtBPTypes::PortIndex getNodeId(QExtBPTypes::PortTypeEnum portType, QExt
 {
     QExtBPTypes::NodeId id = QExtBPTypes::InvalidNodeId;
 
-    if (portType == QExtBPTypes::PortType_Out) {
+    if (portType == QExtBPTypes::PortType_Out)
+    {
         id = connectionId.outNodeId;
-    } else if (portType == QExtBPTypes::PortType_In) {
+    }
+    else if (portType == QExtBPTypes::PortType_In)
+    {
         id = connectionId.inNodeId;
     }
 
@@ -28,9 +31,12 @@ inline QExtBPTypes::PortIndex getPortIndex(QExtBPTypes::PortTypeEnum portType, Q
 {
     QExtBPTypes::PortIndex index = QExtBPTypes::InvalidPortIndex;
 
-    if (portType == QExtBPTypes::PortType_Out) {
+    if (portType == QExtBPTypes::PortType_Out)
+    {
         index = connectionId.outPortIndex;
-    } else if (portType == QExtBPTypes::PortType_In) {
+    }
+    else if (portType == QExtBPTypes::PortType_In)
+    {
         index = connectionId.inPortIndex;
     }
 
@@ -41,19 +47,17 @@ inline QExtBPTypes::PortTypeEnum oppositePort(QExtBPTypes::PortTypeEnum port)
 {
     QExtBPTypes::PortTypeEnum result = QExtBPTypes::PortType_None;
 
-    switch (port) {
+    switch (port)
+    {
     case QExtBPTypes::PortType_In:
         result = QExtBPTypes::PortType_Out;
         break;
-
     case QExtBPTypes::PortType_Out:
         result = QExtBPTypes::PortType_In;
         break;
-
     case QExtBPTypes::PortType_None:
         result = QExtBPTypes::PortType_None;
         break;
-
     default:
         break;
     }
@@ -89,10 +93,13 @@ inline QExtBPTypes::ConnectionId makeIncompleteConnectionId(const QExtBPTypes::N
 inline QExtBPTypes::ConnectionId makeIncompleteConnectionId(QExtBPTypes::ConnectionId connectionId,
                                                             const QExtBPTypes::PortTypeEnum portToDisconnect)
 {
-    if (portToDisconnect == QExtBPTypes::PortType_Out) {
+    if (portToDisconnect == QExtBPTypes::PortType_Out)
+    {
         connectionId.outNodeId = QExtBPTypes::InvalidNodeId;
         connectionId.outPortIndex = QExtBPTypes::InvalidPortIndex;
-    } else {
+    }
+    else
+    {
         connectionId.inNodeId = QExtBPTypes::InvalidNodeId;
         connectionId.inPortIndex = QExtBPTypes::InvalidPortIndex;
     }
@@ -104,10 +111,13 @@ inline QExtBPTypes::ConnectionId makeCompleteConnectionId(QExtBPTypes::Connectio
                                                           const QExtBPTypes::NodeId nodeId,
                                                           const QExtBPTypes::PortIndex portIndex)
 {
-    if (incompleteConnectionId.outNodeId == QExtBPTypes::InvalidNodeId) {
+    if (incompleteConnectionId.outNodeId == QExtBPTypes::InvalidNodeId)
+    {
         incompleteConnectionId.outNodeId = nodeId;
         incompleteConnectionId.outPortIndex = portIndex;
-    } else {
+    }
+    else
+    {
         incompleteConnectionId.inNodeId = nodeId;
         incompleteConnectionId.inPortIndex = portIndex;
     }

@@ -5,12 +5,11 @@
 #include <qextBPConnectionIdHash.h>
 #include <qextBPTypes.h>
 
-#include <unordered_map>
-#include <unordered_set>
-
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 #include <QtCore/QJsonObject>
+
+#include <unordered_set>
 
 /**
  * The central class in the Model-View approach. It delivers all kinds
@@ -22,10 +21,15 @@
  *   - QExtBPTypes::NodeId
  *   - QExtBPTypes::ConnectionId
  */
+class QExtBPAbstractGraphModelPrivate;
 class QEXT_BLUEPRINT_API QExtBPAbstractGraphModel : public QObject
 {
     Q_OBJECT
 public:
+    explicit QExtBPAbstractGraphModel(QObject *parent = QEXT_NULLPTR);
+    QExtBPAbstractGraphModel(QExtBPAbstractGraphModelPrivate *d, QObject *parent = QEXT_NULLPTR);
+    ~QExtBPAbstractGraphModel() QEXT_OVERRIDE;
+
     /**
      * @brief Generates a new unique QExtBPTypes::NodeId.
      */
@@ -236,8 +240,12 @@ Q_SIGNALS:
 
     void modelReset();
 
+protected:
+    QScopedPointer<QExtBPAbstractGraphModelPrivate> dd_ptr;
+
 private:
-    QVector<QExtBPTypes::ConnectionId> m_shiftedByDynamicPortsConnections;
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPAbstractGraphModel)
+    QEXT_DISABLE_COPY_MOVE(QExtBPAbstractGraphModel)
 };
 
 #endif // _QEXTBPABSTRACTGRAPHMODEL_H

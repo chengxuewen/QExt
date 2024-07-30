@@ -14,7 +14,7 @@ class QExtBPBasicGraphicsScene;
 class QEXT_BLUEPRINT_API QExtBPDefaultNodePainter : public QExtBPAbstractNodePainter
 {
 public:
-    void paint(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const override;
+    void paint(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const QEXT_OVERRIDE;
 
     void drawNodeRect(QPainter *painter, QExtBPNodeGraphicsObject &ngo) const;
 

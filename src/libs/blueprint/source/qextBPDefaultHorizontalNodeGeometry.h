@@ -8,12 +8,13 @@
 class QExtBPAbstractGraphModel;
 class QExtBPBasicGraphicsScene;
 
+class QExtBPDefaultHorizontalNodeGeometryPrivate;
 class QEXT_BLUEPRINT_API QExtBPDefaultHorizontalNodeGeometry : public QExtBPAbstractNodeGeometry
 {
 public:
     QExtBPDefaultHorizontalNodeGeometry(QExtBPAbstractGraphModel &graphModel);
+    ~QExtBPDefaultHorizontalNodeGeometry() QEXT_OVERRIDE;
 
-public:
     QSize size(const QExtBPTypes::NodeId nodeId) const override;
 
     void recomputeSize(const QExtBPTypes::NodeId nodeId) const override;
@@ -44,14 +45,8 @@ private:
     unsigned int maxPortsTextAdvance(const QExtBPTypes::NodeId nodeId, const QExtBPTypes::PortTypeEnum portType) const;
 
 private:
-    // Some variables are mutable because we need to change drawing
-    // metrics corresponding to fontMetrics but this doesn't change
-    // constness of the Node.
-
-    mutable unsigned int _portSize;
-    unsigned int _portSpasing;
-    mutable QFontMetrics _fontMetrics;
-    mutable QFontMetrics _boldFontMetrics;
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPDefaultHorizontalNodeGeometry)
+    QEXT_DISABLE_COPY_MOVE(QExtBPDefaultHorizontalNodeGeometry)
 };
 
 #endif // _QEXTBPDEFAULTHORIZONTALNODEGEOMETRY_H

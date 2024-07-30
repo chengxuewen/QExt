@@ -29,8 +29,8 @@ public:
     std::unordered_map<QExtBPTypes::ConnectionId, UniqueConnectionGraphicsObject> m_connectionGraphicsObjects;
 
     bool m_nodeDrag;
-    QUndoStack *m_undoStack;
     Qt::Orientation m_orientation;
+    QScopedPointer<QUndoStack> m_undoStack;
 
 private:
     QEXT_DECL_PUBLIC(QExtBPBasicGraphicsScene)

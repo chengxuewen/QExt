@@ -10,9 +10,7 @@
 
 #include <QJsonObject>
 
-#include <memory>
-
-
+class QExtBPDataFlowGraphModelPrivate;
 class QEXT_BLUEPRINT_API QExtBPDataFlowGraphModel : public QExtBPAbstractGraphModel, public QExtBPSerializable
 {
     Q_OBJECT
@@ -24,19 +22,18 @@ public:
         QPointF pos;
     };
 
-public:
-    QExtBPDataFlowGraphModel(QSharedPointer<QExtBPNodeDelegateModelRegistry> registry);
+    QExtBPDataFlowGraphModel(QSharedPointer<QExtBPNodeDelegateModelRegistry> registry, QObject *parent = QEXT_NULLPTR);
+    ~QExtBPDataFlowGraphModel() QEXT_OVERRIDE;
 
-    QSharedPointer<QExtBPNodeDelegateModelRegistry> dataModelRegistry() { return _registry; }
+    QSharedPointer<QExtBPNodeDelegateModelRegistry> dataModelRegistry();
 
-public:
     std::unordered_set<QExtBPTypes::NodeId> allNodeIds() const override;
 
     std::unordered_set<QExtBPTypes::ConnectionId> allConnectionIds(const QExtBPTypes::NodeId nodeId) const override;
 
     std::unordered_set<QExtBPTypes::ConnectionId> connections(QExtBPTypes::NodeId nodeId,
-                                                QExtBPTypes::PortTypeEnum portType,
-                                                QExtBPTypes::PortIndex portIndex) const override;
+                                                              QExtBPTypes::PortTypeEnum portType,
+                                                              QExtBPTypes::PortIndex portIndex) const override;
 
     bool connectionExists(const QExtBPTypes::ConnectionId connectionId) const override;
 
@@ -78,57 +75,53 @@ public:
     void load(const QJsonObject &json) override;
 
     /**
-   * Fetches the NodeDelegateModel for the given `nodeId` and tries to cast the
-   * stored pointer to the given type
-   */
+     * @brief Fetches the NodeDelegateModel for the given `nodeId` and tries to cast the stored pointer to the given type
+     */
     template<typename NodeDelegateModelType>
     NodeDelegateModelType *delegateModel(const QExtBPTypes::NodeId nodeId)
     {
-        auto it = _models.find(nodeId);
-        if (it == _models.end())
+        auto it = this->models().find(nodeId);
+        if (it == this->models().end())
+        {
             return QEXT_NULLPTR;
+        }
 
         auto model = dynamic_cast<NodeDelegateModelType *>(it->second.get());
-
         return model;
     }
 
 Q_SIGNALS:
     void inPortDataWasSet(const QExtBPTypes::NodeId, const QExtBPTypes::PortTypeEnum, const QExtBPTypes::PortIndex);
 
+private Q_SLOTS:
+    /**
+     * @brief Fuction is called in three cases:
+     * - By underlying NodeDelegateModel when a node has new data to propagate.
+     *   @see DataFlowGraphModel::addNode
+     * - When a new connection is created.
+     *   @see DataFlowGraphModel::addConnection
+     * - When a node restored from JSON an needs to send data downstream.
+     *   @see DataFlowGraphModel::loadNode
+     */
+    void onOutPortDataUpdated(const QExtBPTypes::NodeId nodeId, const QExtBPTypes::PortIndex portIndex);
+
+    /**
+     * @brief Function is called after detaching a connection.
+     */
+    void propagateEmptyDataTo(const QExtBPTypes::NodeId nodeId, const QExtBPTypes::PortIndex portIndex);
+
 private:
-    QExtBPTypes::NodeId newNodeId() override { return _nextNodeId++; }
+    QExtBPTypes::NodeId newNodeId() override;
 
     void sendConnectionCreation(const QExtBPTypes::ConnectionId connectionId);
 
     void sendConnectionDeletion(const QExtBPTypes::ConnectionId connectionId);
 
-private Q_SLOTS:
-    /**
-   * Fuction is called in three cases:
-   *
-   * - By underlying NodeDelegateModel when a node has new data to propagate.
-   *   @see DataFlowGraphModel::addNode
-   * - When a new connection is created.
-   *   @see DataFlowGraphModel::addConnection
-   * - When a node restored from JSON an needs to send data downstream.
-   *   @see DataFlowGraphModel::loadNode
-   */
-    void onOutPortDataUpdated(const QExtBPTypes::NodeId nodeId, const QExtBPTypes::PortIndex portIndex);
-
-    /// Function is called after detaching a connection.
-    void propagateEmptyDataTo(const QExtBPTypes::NodeId nodeId, const QExtBPTypes::PortIndex portIndex);
+    std::unordered_map<QExtBPTypes::NodeId, QScopedPointer<QExtBPNodeDelegateModel>> &models();
 
 private:
-    QSharedPointer<QExtBPNodeDelegateModelRegistry> _registry;
-
-    QExtBPTypes::NodeId _nextNodeId;
-
-    std::unordered_map<QExtBPTypes::NodeId, QScopedPointer<QExtBPNodeDelegateModel>> _models;
-
-    std::unordered_set<QExtBPTypes::ConnectionId> _connectivity;
-
-    mutable std::unordered_map<QExtBPTypes::NodeId, NodeGeometryData> _nodeGeometryData;
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPDataFlowGraphModel)
+    QEXT_DISABLE_COPY_MOVE(QExtBPDataFlowGraphModel)
 };
 
 #endif // _QEXTBPDATAFLOWGRAPHICSMODEL_H

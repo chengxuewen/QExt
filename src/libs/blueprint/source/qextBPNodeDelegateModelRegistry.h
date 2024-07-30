@@ -1,20 +1,19 @@
 #ifndef _QEXTBPNODEDELEGATEMODELREGISTRY_H
 #define _QEXTBPNODEDELEGATEMODELREGISTRY_H
 
-#include <qextBlueprintGlobal.h>
-#include <qextBPNodeDelegateModel.h>
-#include <qextBPQStringStdHash.h>
 #include <qextBPNodeData.h>
+#include <qextBlueprintGlobal.h>
+#include <qextBPQStringStdHash.h>
+#include <qextBPNodeDelegateModel.h>
 
 #include <QString>
 
-#include <functional>
-#include <memory>
 #include <set>
+#include <memory>
+#include <utility>
+#include <functional>
 #include <type_traits>
 #include <unordered_map>
-#include <utility>
-#include <vector>
 
 /// Class uses map for storing models (name, model)
 class QEXT_BLUEPRINT_API QExtBPNodeDelegateModelRegistry
@@ -38,7 +37,6 @@ public:
 
     QExtBPNodeDelegateModelRegistry &operator=(QExtBPNodeDelegateModelRegistry &&) = default;
 
-public:
     template<typename ModelType>
     void registerModel(RegistryItemCreator creator, const QString &category = "Nodes")
     {
@@ -101,22 +99,12 @@ public:
 
     const CategoriesSet &categories() const;
 
-#if 0
-    TypeConverter
-    getTypeConverter(NodeDataType const& d1,
-                     NodeDataType const& d2) const;
-#endif
-
 private:
     RegisteredModelsCategoryMap _registeredModelsCategory;
 
     CategoriesSet _categories;
 
     RegisteredModelCreatorsMap _registeredItemCreators;
-
-#if 0
-    RegisteredTypeConvertersMap _registeredTypeConverters;
-#endif
 
 private:
     // If the registered ModelType class has the static member method
@@ -127,9 +115,8 @@ private:
     {};
 
     template<typename T>
-    struct HasStaticMethodName<
-            T,
-            typename std::enable_if<std::is_same<decltype(T::Name()), QString>::value>::type>
+    struct HasStaticMethodName<T,
+                               typename std::enable_if<std::is_same<decltype(T::Name()), QString>::value>::type>
         : std::true_type
     {};
 
@@ -150,16 +137,16 @@ private:
     {
         // Assert always fires, but the compiler doesn't know this:
         static_assert(!std::is_same<T, T>::value,
-        "The ModelCreator must return a std::unique_ptr<T>, where T "
-        "inherits from NodeDelegateModel");
+                      "The ModelCreator must return a std::unique_ptr<T>, where T "
+                      "inherits from NodeDelegateModel");
     };
 
     template<typename T>
     struct UnwrapUniquePtr<std::unique_ptr<T>>
     {
         static_assert(std::is_base_of<QExtBPNodeDelegateModel, T>::value,
-        "The ModelCreator must return a std::unique_ptr<T>, where T "
-        "inherits from NodeDelegateModel");
+                      "The ModelCreator must return a std::unique_ptr<T>, where T "
+                      "inherits from NodeDelegateModel");
         using type = T;
     };
 

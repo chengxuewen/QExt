@@ -6,9 +6,9 @@
 class QExtBPSerializable
 {
 public:
-    virtual ~QExtBPSerializable() = default;
+    virtual ~QExtBPSerializable() {}
 
-    virtual QJsonObject save() const { return {}; }
+    virtual QJsonObject save() const { return QJsonObject(); }
 
     virtual void load(const QJsonObject & /*p*/) {}
 };

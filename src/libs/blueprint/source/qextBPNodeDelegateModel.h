@@ -9,8 +9,6 @@
 
 #include <QtWidgets/QWidget>
 
-#include <memory>
-
 class QExtBPStyleCollection;
 
 /**
@@ -19,14 +17,13 @@ class QExtBPStyleCollection;
  * AbstractGraphModel.
  * This class is the same what has been called NodeDataModel before v3.
  */
+class QExtBPNodeDelegateModelPrivate;
 class QEXT_BLUEPRINT_API QExtBPNodeDelegateModel : public QObject, public QExtBPSerializable
 {
     Q_OBJECT
-
 public:
-    QExtBPNodeDelegateModel();
-
-    virtual ~QExtBPNodeDelegateModel() = default;
+    explicit QExtBPNodeDelegateModel(QObject *parent = QEXT_NULLPTR);
+    virtual ~QExtBPNodeDelegateModel() QEXT_OVERRIDE;
 
     /// It is possible to hide caption in GUI
     virtual bool captionVisible() const { return true; }
@@ -43,24 +40,20 @@ public:
     /// Name makes this model unique
     virtual QString name() const = 0;
 
-public:
     QJsonObject save() const override;
 
     void load(const QJsonObject &) override;
 
-public:
     virtual unsigned int nPorts(QExtBPTypes::PortTypeEnum portType) const = 0;
 
     virtual QExtBPNodeDataType dataType(QExtBPTypes::PortTypeEnum portType, QExtBPTypes::PortIndex portIndex) const = 0;
 
-public:
     virtual QExtBPTypes::ConnectionPolicyEnum portConnectionPolicy(QExtBPTypes::PortTypeEnum, QExtBPTypes::PortIndex) const;
 
     const QExtBPNodeStyle &nodeStyle() const;
 
     void setNodeStyle(const QExtBPNodeStyle &style);
 
-public:
     virtual void setInData(QSharedPointer<QExtBPNodeData> nodeData, const QExtBPTypes::PortIndex portIndex) = 0;
 
     virtual QSharedPointer<QExtBPNodeData> outData(const QExtBPTypes::PortIndex port) = 0;
@@ -78,16 +71,6 @@ public:
     virtual QWidget *embeddedWidget() = 0;
 
     virtual bool resizable() const { return false; }
-
-public Q_SLOTS:
-
-    virtual void inputConnectionCreated(const QExtBPTypes::ConnectionId &) {}
-
-    virtual void inputConnectionDeleted(const QExtBPTypes::ConnectionId &) {}
-
-    virtual void outputConnectionCreated(const QExtBPTypes::ConnectionId &) {}
-
-    virtual void outputConnectionDeleted(const QExtBPTypes::ConnectionId &) {}
 
 Q_SIGNALS:
 
@@ -127,8 +110,22 @@ Q_SIGNALS:
     /// Call this function when data and port moditications are finished.
     void portsInserted();
 
+public Q_SLOTS:
+
+    virtual void inputConnectionCreated(const QExtBPTypes::ConnectionId &) {}
+
+    virtual void inputConnectionDeleted(const QExtBPTypes::ConnectionId &) {}
+
+    virtual void outputConnectionCreated(const QExtBPTypes::ConnectionId &) {}
+
+    virtual void outputConnectionDeleted(const QExtBPTypes::ConnectionId &) {}
+
+protected:
+    QScopedPointer<QExtBPNodeDelegateModelPrivate> dd_ptr;
+
 private:
-    QExtBPNodeStyle _nodeStyle;
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPNodeDelegateModel)
+    QEXT_DISABLE_COPY_MOVE(QExtBPNodeDelegateModel)
 };
 
 #endif // _QEXTBPNODEDELEGATEMODEL_H

@@ -51,25 +51,30 @@ qext_add_library(Blueprint
     SOURCES
     source/qextBlueprintConstant.h
     source/qextBlueprintGlobal.h
+    source/qextBPAbstractGraphModel_p.h
     source/qextBPAbstractGraphModel.h
     source/qextBPAbstractGraphModel.cpp
+    source/qextBPAbstractNodeGeometry_p.h
     source/qextBPAbstractNodeGeometry.h
     source/qextBPAbstractNodeGeometry.cpp
     source/qextBPAbstractNodePainter.h
     source/qextBPBasicGraphicsScene_p.h
     source/qextBPBasicGraphicsScene.h
     source/qextBPBasicGraphicsScene.cpp
+    source/qextBPConnectionGraphicsObject_p.h
     source/qextBPConnectionGraphicsObject.h
     source/qextBPConnectionGraphicsObject.cpp
     source/qextBPConnectionIdHash.h
     source/qextBPConnectionPainter.h
     source/qextBPConnectionPainter.cpp
+    source/qextBPConnectionState_p.h
     source/qextBPConnectionState.h
     source/qextBPConnectionState.cpp
     source/qextBPConnectionStyle.h
     source/qextBPConnectionStyle.cpp
     source/qextBPDataFlowGraphicsScene.h
     source/qextBPDataFlowGraphicsScene.cpp
+    source/qextBPDataFlowGraphModel_p.h
     source/qextBPDataFlowGraphModel.h
     source/qextBPDataFlowGraphModel.cpp
     source/qextBPDefaultHorizontalNodeGeometry.h
@@ -88,12 +93,15 @@ qext_add_library(Blueprint
     source/qextBPNodeConnectionInteraction.h
     source/qextBPNodeConnectionInteraction.cpp
     source/qextBPNodeData.h
+    source/qextBPNodeDelegateModel_p.h
     source/qextBPNodeDelegateModel.h
     source/qextBPNodeDelegateModel.cpp
     source/qextBPNodeDelegateModelRegistry.h
     source/qextBPNodeDelegateModelRegistry.cpp
+    source/qextBPNodeGraphicsObject_p.h
     source/qextBPNodeGraphicsObject.h
     source/qextBPNodeGraphicsObject.cpp
+    source/qextBPNodeState_p.h
     source/qextBPNodeState.h
     source/qextBPNodeState.cpp
     source/qextBPNodeStyle.h

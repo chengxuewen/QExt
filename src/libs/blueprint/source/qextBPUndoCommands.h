@@ -4,8 +4,8 @@
 #include <qextBPTypes.h>
 
 #include <QUndoCommand>
-#include <QtCore/QJsonObject>
 #include <QtCore/QPointF>
+#include <QtCore/QJsonObject>
 
 #include <unordered_set>
 
@@ -16,13 +16,13 @@ class QExtBPCreateCommand : public QUndoCommand
 public:
     QExtBPCreateCommand(QExtBPBasicGraphicsScene *scene, const QString name, const QPointF &mouseScenePos);
 
-    void undo() override;
-    void redo() override;
+    void undo() QEXT_OVERRIDE;
+    void redo() QEXT_OVERRIDE;
 
 private:
-    QExtBPBasicGraphicsScene *_scene;
-    QExtBPTypes::NodeId _nodeId;
-    QJsonObject _sceneJson;
+    QExtBPBasicGraphicsScene *m_scene;
+    QExtBPTypes::NodeId m_nodeId;
+    QJsonObject m_sceneJson;
 };
 
 /**
@@ -34,12 +34,12 @@ class QExtBPDeleteCommand : public QUndoCommand
 public:
     QExtBPDeleteCommand(QExtBPBasicGraphicsScene *scene);
 
-    void undo() override;
-    void redo() override;
+    void undo() QEXT_OVERRIDE;
+    void redo() QEXT_OVERRIDE;
 
 private:
-    QExtBPBasicGraphicsScene *_scene;
-    QJsonObject _sceneJson;
+    QExtBPBasicGraphicsScene *m_scene;
+    QJsonObject m_sceneJson;
 };
 
 class CopyCommand : public QUndoCommand
@@ -53,17 +53,17 @@ class QExtBPPasteCommand : public QUndoCommand
 public:
     QExtBPPasteCommand(QExtBPBasicGraphicsScene *scene, const QPointF &mouseScenePos);
 
-    void undo() override;
-    void redo() override;
+    void undo() QEXT_OVERRIDE;
+    void redo() QEXT_OVERRIDE;
 
 private:
     QJsonObject takeSceneJsonFromClipboard();
     QJsonObject makeNewNodeIdsInScene(const QJsonObject &sceneJson);
 
 private:
-    QExtBPBasicGraphicsScene *_scene;
-    const QPointF &_mouseScenePos;
-    QJsonObject _newSceneJson;
+    QExtBPBasicGraphicsScene *m_scene;
+    const QPointF &m_mouseScenePos;
+    QJsonObject m_newSceneJson;
 };
 
 class QExtBPDisconnectCommand : public QUndoCommand
@@ -71,13 +71,12 @@ class QExtBPDisconnectCommand : public QUndoCommand
 public:
     QExtBPDisconnectCommand(QExtBPBasicGraphicsScene *scene, const QExtBPTypes::ConnectionId);
 
-    void undo() override;
-    void redo() override;
+    void undo() QEXT_OVERRIDE;
+    void redo() QEXT_OVERRIDE;
 
 private:
-    QExtBPBasicGraphicsScene *_scene;
-
-    QExtBPTypes::ConnectionId _connId;
+    QExtBPBasicGraphicsScene *m_scene;
+    QExtBPTypes::ConnectionId m_connId;
 };
 
 class ConnectCommand : public QUndoCommand
@@ -85,13 +84,12 @@ class ConnectCommand : public QUndoCommand
 public:
     ConnectCommand(QExtBPBasicGraphicsScene *scene, const QExtBPTypes::ConnectionId);
 
-    void undo() override;
-    void redo() override;
+    void undo() QEXT_OVERRIDE;
+    void redo() QEXT_OVERRIDE;
 
 private:
-    QExtBPBasicGraphicsScene *_scene;
-
-    QExtBPTypes::ConnectionId _connId;
+    QExtBPBasicGraphicsScene *m_scene;
+    QExtBPTypes::ConnectionId m_connId;
 };
 
 class QExtBPMoveNodeCommand : public QUndoCommand
@@ -99,24 +97,24 @@ class QExtBPMoveNodeCommand : public QUndoCommand
 public:
     QExtBPMoveNodeCommand(QExtBPBasicGraphicsScene *scene, const QPointF &diff);
 
-    void undo() override;
-    void redo() override;
+    void undo() QEXT_OVERRIDE;
+    void redo() QEXT_OVERRIDE;
 
     /**
    * A command ID is used in command compression. It must be an integer unique to
    * this command's class, or -1 if the command doesn't support compression.
    */
-    int id() const override;
+    int id() const QEXT_OVERRIDE;
 
     /**
    * Several sequential movements could be merged into one command.
    */
-    bool mergeWith(QUndoCommand const *c) override;
+    bool mergeWith(QUndoCommand const *c) QEXT_OVERRIDE;
 
 private:
-    QExtBPBasicGraphicsScene *_scene;
-    std::unordered_set<QExtBPTypes::NodeId> _selectedNodes;
-    QPointF _diff;
+    QPointF m_diff;
+    QExtBPBasicGraphicsScene *m_scene;
+    std::unordered_set<QExtBPTypes::NodeId> m_selectedNodes;
 };
 
 #endif // _QEXTBPUNDOCOMMONDS_H

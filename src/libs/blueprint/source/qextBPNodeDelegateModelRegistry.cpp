@@ -7,7 +7,8 @@ QExtBPNodeDelegateModel *QExtBPNodeDelegateModelRegistry::create(const QString &
 {
     auto it = _registeredItemCreators.find(modelName);
 
-    if (it != _registeredItemCreators.end()) {
+    if (it != _registeredItemCreators.end())
+    {
         return it->second();
     }
 

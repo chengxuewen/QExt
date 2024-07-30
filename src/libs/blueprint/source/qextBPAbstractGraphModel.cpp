@@ -1,13 +1,38 @@
-#include <qextBPAbstractGraphModel.h>
+#include <private/qextBPAbstractGraphModel_p.h>
 #include <qextBPUtils.h>
 
+QExtBPAbstractGraphModelPrivate::QExtBPAbstractGraphModelPrivate(QExtBPAbstractGraphModel *q)
+    : q_ptr(q)
+{
+}
+
+QExtBPAbstractGraphModelPrivate::~QExtBPAbstractGraphModelPrivate()
+{
+}
+
+QExtBPAbstractGraphModel::QExtBPAbstractGraphModel(QObject *parent)
+    : QObject(parent)
+    , dd_ptr(new QExtBPAbstractGraphModelPrivate(this))
+{
+}
+
+QExtBPAbstractGraphModel::QExtBPAbstractGraphModel(QExtBPAbstractGraphModelPrivate *d, QObject *parent)
+    : QObject(parent)
+    , dd_ptr(d)
+{
+}
+
+QExtBPAbstractGraphModel::~QExtBPAbstractGraphModel()
+{
+}
 
 void QExtBPAbstractGraphModel::portsAboutToBeDeleted(const QExtBPTypes::NodeId nodeId,
                                                      const QExtBPTypes::PortTypeEnum portType,
                                                      const QExtBPTypes::PortIndex first,
                                                      const QExtBPTypes::PortIndex last)
 {
-    m_shiftedByDynamicPortsConnections.clear();
+    Q_D(QExtBPAbstractGraphModel);
+    d->m_shiftedByDynamicPortsConnections.clear();
 
     auto portCountRole = portType == QExtBPTypes::PortType_In ? QExtBPTypes::NodeRole_InPortCount
                                                               : QExtBPTypes::NodeRole_OutPortCount;
@@ -43,7 +68,7 @@ void QExtBPAbstractGraphModel::portsAboutToBeDeleted(const QExtBPTypes::NodeId n
             // Erases the information about the port on one side;
             auto c = QExtBPUtils::makeIncompleteConnectionId(connectionId, portType);
             c = QExtBPUtils::makeCompleteConnectionId(c, nodeId, portIndex - nRemovedPorts);
-            m_shiftedByDynamicPortsConnections.push_back(c);
+            d->m_shiftedByDynamicPortsConnections.push_back(c);
 
             this->deleteConnection(connectionId);
         }
@@ -52,11 +77,12 @@ void QExtBPAbstractGraphModel::portsAboutToBeDeleted(const QExtBPTypes::NodeId n
 
 void QExtBPAbstractGraphModel::portsDeleted()
 {
-    for (auto const connectionId : m_shiftedByDynamicPortsConnections)
+    Q_D(QExtBPAbstractGraphModel);
+    for (const auto &connectionId : d->m_shiftedByDynamicPortsConnections)
     {
         this->addConnection(connectionId);
     }
-    m_shiftedByDynamicPortsConnections.clear();
+    d->m_shiftedByDynamicPortsConnections.clear();
 }
 
 void QExtBPAbstractGraphModel::portsAboutToBeInserted(const QExtBPTypes::NodeId nodeId,
@@ -64,7 +90,8 @@ void QExtBPAbstractGraphModel::portsAboutToBeInserted(const QExtBPTypes::NodeId 
                                                       const QExtBPTypes::PortIndex first,
                                                       const QExtBPTypes::PortIndex last)
 {
-    m_shiftedByDynamicPortsConnections.clear();
+    Q_D(QExtBPAbstractGraphModel);
+    d->m_shiftedByDynamicPortsConnections.clear();
 
     auto portCountRole = portType == QExtBPTypes::PortType_In ? QExtBPTypes::NodeRole_InPortCount
                                                               : QExtBPTypes::NodeRole_OutPortCount;
@@ -90,7 +117,7 @@ void QExtBPAbstractGraphModel::portsAboutToBeInserted(const QExtBPTypes::NodeId 
             // Erases the information about the port on one side;
             auto c = QExtBPUtils::makeIncompleteConnectionId(connectionId, portType);
             c = QExtBPUtils::makeCompleteConnectionId(c, nodeId, portIndex + nNewPorts);
-            m_shiftedByDynamicPortsConnections.push_back(c);
+            d->m_shiftedByDynamicPortsConnections.push_back(c);
 
             this->deleteConnection(connectionId);
         }
@@ -99,9 +126,10 @@ void QExtBPAbstractGraphModel::portsAboutToBeInserted(const QExtBPTypes::NodeId 
 
 void QExtBPAbstractGraphModel::portsInserted()
 {
-    for (auto const connectionId : m_shiftedByDynamicPortsConnections)
+    Q_D(QExtBPAbstractGraphModel);
+    for (const auto &connectionId : d->m_shiftedByDynamicPortsConnections)
     {
         this->addConnection(connectionId);
     }
-    m_shiftedByDynamicPortsConnections.clear();
+    d->m_shiftedByDynamicPortsConnections.clear();
 }

@@ -5,8 +5,6 @@
 
 #include <QtCore/QPointF>
 
-#include <memory>
-
 class QExtBPConnectionGraphicsObject;
 class QExtBPNodeGraphicsObject;
 class QExtBPBasicGraphicsScene;

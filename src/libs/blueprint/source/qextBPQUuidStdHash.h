@@ -7,7 +7,8 @@
 #include <QtCore/QUuid>
 #include <QtCore/QVariant>
 
-namespace std {
+namespace std
+{
 template<>
 struct hash<QUuid>
 {

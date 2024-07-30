@@ -7,13 +7,13 @@
 
 class QExtBPAbstractGraphModel;
 class QExtBPBasicGraphicsScene;
-
+class QExtBPDefaultVerticalNodeGeometryPrivate;
 class QEXT_BLUEPRINT_API QExtBPDefaultVerticalNodeGeometry : public QExtBPAbstractNodeGeometry
 {
 public:
     QExtBPDefaultVerticalNodeGeometry(QExtBPAbstractGraphModel &graphModel);
 
-public:
+
     QSize size(const QExtBPTypes::NodeId nodeId) const override;
 
     void recomputeSize(const QExtBPTypes::NodeId nodeId) const override;
@@ -46,14 +46,8 @@ private:
     unsigned int portCaptionsHeight(const QExtBPTypes::NodeId nodeId, const QExtBPTypes::PortTypeEnum portType) const;
 
 private:
-    // Some variables are mutable because we need to change drawing
-    // metrics corresponding to fontMetrics but this doesn't change
-    // constness of the Node.
-
-    mutable unsigned int _portSize;
-    unsigned int _portSpasing;
-    mutable QFontMetrics _fontMetrics;
-    mutable QFontMetrics _boldFontMetrics;
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtBPDefaultVerticalNodeGeometry)
+    QEXT_DISABLE_COPY_MOVE(QExtBPDefaultVerticalNodeGeometry)
 };
 
 #endif // _QEXTBPDEFAULTVERTICALNODEGEOMETRY_H

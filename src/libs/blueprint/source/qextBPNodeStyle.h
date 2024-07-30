@@ -17,10 +17,8 @@ public:
 
     virtual ~QExtBPNodeStyle() = default;
 
-public:
     static void setNodeStyle(QString jsonText);
 
-public:
     void loadJson(const QJsonObject &json) override;
 
     QJsonObject toJson() const override;

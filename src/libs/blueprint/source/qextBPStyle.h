@@ -34,7 +34,8 @@ public:
     {
         QFile file(fileName);
 
-        if (!file.open(QIODevice::ReadOnly)) {
+        if (!file.open(QIODevice::ReadOnly))
+        {
             qWarning() << "Couldn't open file " << fileName;
 
             return;

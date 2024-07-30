@@ -1,10 +1,24 @@
-#include <qextBPNodeDelegateModel.h>
+#include <private/qextBPNodeDelegateModel_p.h>
 #include <qextBPStyleCollection.h>
 
-QExtBPNodeDelegateModel::QExtBPNodeDelegateModel()
-    : _nodeStyle(QExtBPStyleCollection::nodeStyle())
+QExtBPNodeDelegateModelPrivate::QExtBPNodeDelegateModelPrivate(QExtBPNodeDelegateModel *q)
+    : q_ptr(q)
+    , m_nodeStyle(QExtBPStyleCollection::nodeStyle())
+{
+}
+
+QExtBPNodeDelegateModelPrivate::~QExtBPNodeDelegateModelPrivate()
+{
+}
+
+QExtBPNodeDelegateModel::QExtBPNodeDelegateModel(QObject *parent)
+    : dd_ptr(new QExtBPNodeDelegateModelPrivate(this))
 {
     // Derived classes can initialize specific style here
+}
+
+QExtBPNodeDelegateModel::~QExtBPNodeDelegateModel()
+{
 }
 
 QJsonObject QExtBPNodeDelegateModel::save() const
@@ -25,7 +39,8 @@ QExtBPTypes::ConnectionPolicyEnum QExtBPNodeDelegateModel::portConnectionPolicy(
                                                                                 QExtBPTypes::PortIndex) const
 {
     auto result = QExtBPTypes::ConnectionPolicy_One;
-    switch (portType) {
+    switch (portType)
+    {
     case QExtBPTypes::PortType_In:
         result = QExtBPTypes::ConnectionPolicy_One;
         break;
@@ -41,11 +56,12 @@ QExtBPTypes::ConnectionPolicyEnum QExtBPNodeDelegateModel::portConnectionPolicy(
 
 const QExtBPNodeStyle &QExtBPNodeDelegateModel::nodeStyle() const
 {
-    return _nodeStyle;
+    Q_D(const QExtBPNodeDelegateModel);
+    return d->m_nodeStyle;
 }
 
 void QExtBPNodeDelegateModel::setNodeStyle(const QExtBPNodeStyle &style)
 {
-    _nodeStyle = style;
+    Q_D(QExtBPNodeDelegateModel);
+    d->m_nodeStyle = style;
 }
-
