@@ -161,7 +161,7 @@ function(qext_internal_add_test name)
             set_target_properties(${name} PROPERTIES MACOSX_BUNDLE TRUE)
         endif ()
 
-        # Android requires utk::gui so add it by default for tests, todo
+        # Android requires QExt::Gui so add it by default for tests, todo
         #        qext_internal_extend_target("${name}" CONDITION ANDROID PUBLIC_LIBRARIES ${QEXT_CMAKE_EXPORT_NAMESPACE}::Gui)
     endif ()
 
@@ -169,7 +169,7 @@ function(qext_internal_add_test name)
     # and use it also for XML output
     set(label_base_directory "${PROJECT_SOURCE_DIR}")
     if (QEXT_SUPERBUILD)
-        # Prepend repository name for utk5 builds, so that tests can be run for
+        # Prepend repository name for QExt0 builds, so that tests can be run for
         # individual repositories.
         set(label_base_directory "${label_base_directory}/..")
     endif ()
@@ -194,9 +194,9 @@ function(qext_internal_add_test name)
         set(test_executable "${name}.html")
 
         if (QExt6_INSTALL_PREFIX)
-            set(QEXT_WASM_TESTRUNNER "${QExt6_INSTALL_PREFIX}/${QEXT_INSTALL_LIBEXECDIR}/utk-wasmtestrunner.py")
+            set(QEXT_WASM_TESTRUNNER "${QExt_INSTALL_PREFIX}/${QEXT_INSTALL_LIBEXECDIR}/qext-wasmtestrunner.py")
         elseif (QEXT_BUILD_DIR)
-            set(QEXT_WASM_TESTRUNNER "${QEXT_BUILD_DIR}/${QEXT_INSTALL_LIBEXECDIR}/utk-wasmtestrunner.py")
+            set(QEXT_WASM_TESTRUNNER "${QEXT_BUILD_DIR}/${QEXT_INSTALL_LIBEXECDIR}/qext-wasmtestrunner.py")
         endif ()
         # This tells cmake to run the tests with this script, since wasm files can't be
         # executed directly

@@ -35,7 +35,7 @@ endfunction()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# utk set system variable
+# QExt set system variable
 #-----------------------------------------------------------------------------------------------------------------------
 message(STATUS "Build in system: ${CMAKE_SYSTEM_NAME}")
 set(QEXT_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
@@ -96,7 +96,7 @@ qext_set01(QEXT_SYSTEM_MAC APPLE)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# utk set processor variable
+# QExt set processor variable
 #-----------------------------------------------------------------------------------------------------------------------
 message(STATUS "Build in processor: ${CMAKE_SYSTEM_PROCESSOR}")
 set(QEXT_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR})
@@ -119,7 +119,7 @@ qext_set01(QEXT_PROCESSOR_ARM
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# utk set cxx compiler variable
+# QExt set cxx compiler variable
 #-----------------------------------------------------------------------------------------------------------------------
 message(STATUS "Build in cxx compiler: ${CMAKE_CXX_COMPILER_ID}")
 set(QEXT_CXX_COMPILER_ID ${CMAKE_CXX_COMPILER_ID})
@@ -141,7 +141,7 @@ qext_set01(QEXT_CXX_COMPILER_QCC
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# utk arch size variable
+# QExt arch size variable
 #-----------------------------------------------------------------------------------------------------------------------
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(QEXT_ARCH_64BIT TRUE)
@@ -151,7 +151,7 @@ endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# utk mkspecs version
+# QExt mkspecs version
 #-----------------------------------------------------------------------------------------------------------------------
 if(QEXT_SYSTEM_WIN32)
     set(QEXT_DEFAULT_PLATFORM_DEFINITIONS WIN32 _ENABLE_EXTENDED_ALIGNED_STORAGE)
@@ -250,7 +250,7 @@ set(QEXT_PLATFORM_DEFINITIONS ${QEXT_DEFAULT_PLATFORM_DEFINITIONS} CACHE STRING 
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# utk parse version
+# QExt parse version
 #-----------------------------------------------------------------------------------------------------------------------
 # Parses a version string like "xx.yy.zz" and sets the major, minor and patch variables.
 function(qext_parse_version_string version_string out_var_prefix)

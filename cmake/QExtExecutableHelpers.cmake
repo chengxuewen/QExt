@@ -189,7 +189,7 @@ function(qext_add_executable name)
     # If linking against Gui, make sure to also build the default PA(Platform Abstraction) plugin.
     # This makes the experience of an initial QExt configuration to build and run one single test / executable nicer.
     #    get_target_property(linked_libs "${name}" LINK_LIBRARIES)
-    #    if("utk::gui" IN_LIST linked_libs AND TARGET pa_default_plugins)
+    #    if("QExt::Gui" IN_LIST linked_libs AND TARGET pa_default_plugins)
     #        add_dependencies("${name}" pa_default_plugins)
     #    endif()
 
@@ -213,10 +213,10 @@ function(qext_add_executable name)
                 continue()
             endif()
 
-            # Normalize module by stripping any leading "utk::", because properties are set on the
+            # Normalize module by stripping any leading "QExt::", because properties are set on the
             # versioned target (either Gui when building the module, or QExt6::Gui when it's
             # imported).
-            if(lib MATCHES "utk::([-_A-Za-z0-9]+)")
+            if(lib MATCHES "QExt::([-_A-Za-z0-9]+)")
                 set(new_lib "${QEXT_CMAKE_EXPORT_NAMESPACE}::${CMAKE_MATCH_1}")
                 if(TARGET "${new_lib}")
                     set(lib "${new_lib}")

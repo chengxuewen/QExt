@@ -57,14 +57,14 @@ qext_configure_definition("QEXT_SYSTEM_VERSION" PUBLIC VALUE ${QEXT_SYSTEM_VERSI
 qext_configure_definition("QEXT_SYSTEM_PROCESSOR" PUBLIC VALUE ${QEXT_SYSTEM_PROCESSOR})
 qext_configure_definition("QEXT_CXX_COMPILER_ID" PUBLIC VALUE ${QEXT_CXX_COMPILER_ID})
 
-# utk lib type
+# QExt lib type
 if (BUILD_SHARED_LIBS)
     qext_configure_definition("QEXT_BUILD_SHARED" PUBLIC)
 else ()
     qext_configure_definition("QEXT_BUILD_STATIC" PUBLIC)
 endif ()
 
-# utk debug/optimization type
+# QExt debug/optimization type
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     qext_configure_definition("QEXT_BUILD_DEBUG" PUBLIC)
 endif ()
