@@ -3,6 +3,8 @@
 
 #include <qextBPAbstractGraphModel.h>
 
+#include <QVector>
+
 class QExtBPAbstractGraphModelPrivate
 {
 public:
