@@ -122,6 +122,9 @@ qext_add_library(${QEXT_LIB_NAME}
     source/widgets/qextOvenTimer.cpp
     source/widgets/qextOvenTimer.h
     source/widgets/qextOvenTimer_p.h
+    source/widgets/qextProcessWidget.cpp
+    source/widgets/qextProcessWidget.h
+    source/widgets/qextProcessWidget_p.h
     source/widgets/qextProgressBar.cpp
     source/widgets/qextProgressBar.h
     source/widgets/qextProgressBar_p.h

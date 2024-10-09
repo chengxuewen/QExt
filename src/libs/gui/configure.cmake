@@ -20,3 +20,8 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 ########################################################################################################################
+
+qext_configure_feature("X11EXTRAS" PUBLIC
+    LABEL "Enable this to build enable X11Extras"
+    AUTODETECT OFF
+    CONDITION ${QEXT_QT_X11EXTRAS_FOUND})

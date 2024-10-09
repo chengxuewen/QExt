@@ -38,10 +38,24 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Core)
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Gui)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
-
+qext_add_executable(QExtExpGuiPidToWinId
+    SOURCES
+    winid/main.cpp
+    winid/widcontainerwindow.cpp
+    winid/widcontainerwindow.h
+    winid/widcontainerwindow.ui
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/winid
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    QT_BIN_DIR="${QEXT_QT_BIN_DIR}"
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")

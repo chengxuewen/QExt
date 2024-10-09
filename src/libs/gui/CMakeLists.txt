@@ -53,11 +53,16 @@ qext_add_library(${QEXT_LIB_NAME}
     source/qextGuiGlobal.h
     source/qextPainter.cpp
     source/qextPainter.h
+    source/qextWindowUtils.cpp
+    source/qextWindowUtils.h
     resource/qextGui.qrc
     PRECOMPILED_HEADER
     source/qextGuiPch.h
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
+if(QEXT_FEATURE_X11EXTRAS)
+    qext_internal_extend_target(${QEXT_LIB_NAME} LIBRARIES Qt${QEXT_QT_VERSION_MAJOR}::X11Extras)
+endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
