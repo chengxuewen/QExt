@@ -2,7 +2,7 @@
 #
 # Library: QExt
 #
-# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
+# Copyright (C) 2024~Present ChengXueWen. Contact: 1398831004@qq.com.
 #
 # License: MIT License
 #
@@ -21,74 +21,36 @@
 #
 ########################################################################################################################
 
-
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib link libraries
 #-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_LIB_LINK_LIBRARIES)
 
 if(QEXT_QT_VERSION_MAJOR EQUAL 4)
-    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtNetwork)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::Core
-        Qt${QEXT_QT_VERSION_MAJOR}::CorePrivate
-        Qt${QEXT_QT_VERSION_MAJOR}::Network)
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::CorePrivate)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_library(Tcp
+qext_add_library(Rpc
     EXCEPTIONS
     SOURCES
-    source/qextTcpClient.cpp
-    source/qextTcpClient.h
-    source/qextTcpClient_p.h
-    source/qextTcpFactory.cpp
-    source/qextTcpFactory.h
-    source/qextTcpGlobal.h
-    source/qextTcpPacket.cpp
-    source/qextTcpPacket.h
-    source/qextTcpPacket_p.h
-    source/qextTcpPacketDispatcher.cpp
-    source/qextTcpPacketDispatcher.h
-    source/qextTcpPacketDispatcher_p.h
-    source/qextTcpPacketHeader.cpp
-    source/qextTcpPacketHeader.h
-    source/qextTcpPacketHeader_p.h
-    source/qextTcpPacketHeaderInterface.h
-    source/qextTcpPacketInterface.h
-    source/qextTcpPacketParser.cpp
-    source/qextTcpPacketParser.h
-    source/qextTcpPacketParser_p.h
-    source/qextTcpPacketParserInterface.h
-    source/qextTcpPacketTransceiver.cpp
-    source/qextTcpPacketTransceiver.h
-    source/qextTcpPacketTransceiver_p.h
-    source/qextTcpPacketVariant.cpp
-    source/qextTcpPacketVariant.h
-    source/qextTcpServer.cpp
-    source/qextTcpServer.h
-    source/qextTcpServer_p.h
-    source/qextTcpSocket.cpp
-    source/qextTcpSocket.h
-    source/qextTcpSocket_p.h
-    source/qextTcpTask.cpp
-    source/qextTcpTask.h
-    source/qextTcpTask_p.h
-    source/qextTcpTaskPool.cpp
-    source/qextTcpTaskPool.h
-    source/qextTcpTaskPool_p.h
-    source/qextTcpUtils.cpp
-    source/qextTcpUtils.h
+    source/qextRpcServer.cpp
+    source/qextRpcServer.h
+    source/qextRpcGlobal.h
+    resource/qextRpc.qrc
     PRECOMPILED_HEADER
-    source/qextTcpPch.h
+    source/qextRpcPch.h
     PUBLIC_LIBRARIES
     ${QEXT_LIB_LINK_LIBRARIES})
 

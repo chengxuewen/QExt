@@ -2,7 +2,7 @@
 #
 # Library: QExt
 #
-# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
+# Copyright (C) 2024~Present ChengXueWen. Contact: 1398831004@qq.com.
 #
 # License: MIT License
 #
@@ -21,16 +21,26 @@
 #
 ########################################################################################################################
 
-add_subdirectory(core)
-qext_add_subdirectory(gui QEXT_ENABLE_LIB_GUI)
-qext_add_subdirectory(tcp QEXT_ENABLE_LIB_TCP)
-qext_add_subdirectory(web QEXT_ENABLE_LIB_WEB)
-qext_add_subdirectory(rpc QEXT_ENABLE_LIB_RPC)
-qext_add_subdirectory(widgets QEXT_ENABLE_LIB_WIDGETS)
-qext_add_subdirectory(patterns QEXT_ENABLE_LIB_PATTERNS)
-qext_add_subdirectory(fonticon QEXT_ENABLE_LIB_FONTICON)
-qext_add_subdirectory(keyboard QEXT_ENABLE_LIB_KEYBOARD)
-qext_add_subdirectory(graphics QEXT_ENABLE_LIB_GRAPHICS)
-qext_add_subdirectory(blueprint QEXT_ENABLE_LIB_BLUEPRINT)
-qext_add_subdirectory(serialport QEXT_ENABLE_LIB_SERIALPORT)
-qext_add_subdirectory(devicewatcher QEXT_ENABLE_LIB_DEVICEWATCHER)
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Set example link libraries
+#-----------------------------------------------------------------------------------------------------------------------
+set(QEXT_EXAMPLE_LINK_LIBRARIES)
+
+if(QEXT_QT_VERSION_MAJOR EQUAL 4)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+else()
+    message(FATAL_ERROR "Not find Qt package")
+endif()
+
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Web)
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Add examples
+#-----------------------------------------------------------------------------------------------------------------------
