@@ -1,4 +1,4 @@
-#include <qextCheckComboBox.h>
+#include "qextCheckComboBox.h"
 
 #include <QDebug>
 #include <QEvent>
