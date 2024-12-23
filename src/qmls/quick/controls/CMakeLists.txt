@@ -80,6 +80,8 @@ qt_internal_add_qml_module(QuickControls
     source/qextQuickTextGadget.cpp
     source/qextQuickTextGadget_p.h
     source/qextQuickTextGadget.h
+    source/qextQuickTriangleItem.cpp
+    source/qextQuickTriangleItem.h
     source/qextQuickWorld.cpp
     source/qextQuickWorld.h
     qextQuickControls.qrc

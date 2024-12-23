@@ -35,9 +35,6 @@ class QExtQuickTextGadgetPrivate;
 class QEXT_QUICKCONTROLS_API QExtQuickTextGadget : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(QExtQuickTextGadget)
-    Q_DECLARE_PRIVATE_D(dd_ptr, QExtQuickTextGadget)
-
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(qreal scale READ scale WRITE setScale NOTIFY scaleChanged)
@@ -70,6 +67,10 @@ public Q_SLOTS:
 
 protected:
     QScopedPointer<QExtQuickTextGadgetPrivate> dd_ptr;
+
+private:
+    Q_DISABLE_COPY(QExtQuickTextGadget)
+    Q_DECLARE_PRIVATE_D(dd_ptr, QExtQuickTextGadget)
 };
 
 #endif // _QEXTQUICKTEXTGADGET_H

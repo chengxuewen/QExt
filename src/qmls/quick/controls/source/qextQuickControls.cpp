@@ -26,6 +26,7 @@
 #include <qextQuickControlsConfig.h>
 #include <qextQuickBackgroundGadget.h>
 #include <qextQuickBorderGadget.h>
+#include <qextQuickTriangleItem.h>
 #include <qextQuickTextGadget.h>
 #include <qextQuickIconGadget.h>
 #include <qextQuickItemGadget.h>
@@ -192,6 +193,8 @@ void QExtQuickControls::registerTypes(const char *url)
     qmlRegisterType<QExtQuickIconGadget>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickIconGadget");
     qmlRegisterType<QExtQuickBorderGadget>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickBorderGadget");
     qmlRegisterType<QExtQuickBackgroundGadget>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickBackgroundGadget");
+
+    qmlRegisterType<QExtQuickTriangleItem>(QEXT_QML_MODULE_URI, major, minor, "QExtQuickTriangle");
 
     qmlRegisterType(QUrl("qrc:/QExtQuickControls/source/qml/QExtQuickAvatar.qml"),
                     QEXT_QML_MODULE_URI, major, minor, "QExtQuickAvatar");

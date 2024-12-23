@@ -53,6 +53,7 @@ Window {
                 {label: "Dialog", uri: "qrc:/qml/C_Dialog.qml"},
                 {label: "Popup", uri: "qrc:/qml/C_Popup.qml"},
                 {label: "Popover", uri: "qrc:/qml/C_Popover.qml"},
+                {label: "Triangle", uri: "qrc:/qml/C_Triangle.qml"},
                 // {label: "Carousel", uri: "qrc:/C_Carousel.qml"},
                 // {label: "Carousel", uri: "qrc:/C_Carousel.qml"},
                 // {label: "Pagination", uri: "qrc:/C_Pagination.qml"},
