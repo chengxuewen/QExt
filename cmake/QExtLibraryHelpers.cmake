@@ -520,6 +520,7 @@ function(qext_add_library target)
     # consumers of the library, thus we can't use qext_internal_extend_target()'s PUBLIC_DEFINES option.
     target_compile_definitions(${target} INTERFACE QEXT_${library_define_infix}_LIB)
 
+    qext_internal_set_ignore_warning_flags("${target}")
     if(NOT arg_EXCEPTIONS AND NOT ${arg_HEADER_LIBRARY})
         qext_internal_set_exceptions_flags("${target}" FALSE)
     elseif(arg_EXCEPTIONS)

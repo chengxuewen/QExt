@@ -223,6 +223,8 @@ bool QExtInputMethodTrigger::eventFilter(QObject *watched, QEvent *event)
             QWidget *widget = qobject_cast<QWidget *>(watched);
             if (widget)
             {
+                QEXT_WARNING_PUSH
+                QEXT_WARNING_DISABLE_MSVC(4061)
                 switch (event->type())
                 {
                 case QEvent::MouseButtonPress:
@@ -244,6 +246,7 @@ bool QExtInputMethodTrigger::eventFilter(QObject *watched, QEvent *event)
                 default:
                     break;
                 }
+                QEXT_WARNING_POP
             }
         }
         break;

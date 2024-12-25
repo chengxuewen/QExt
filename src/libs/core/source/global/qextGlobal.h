@@ -367,4 +367,25 @@ T qextClamp(T x, T min, T max)
     return x;
 }
 
+#ifdef QEXT_OS_WIN
+#   define QEXT_DIR_SPLIT "\\"
+#else
+#   define QEXT_DIR_SPLIT "/"
+#endif
+
+
+/***********************************************************************************************************************
+Provide a string identifying the current function, non-concatenatable macro
+***********************************************************************************************************************/
+#if defined (__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#   define QEXT_STRFUNC     ((const char*) (__func__))
+#elif defined (__GNUC__) && defined (__cplusplus)
+#   define QEXT_STRFUNC     ((const char*) (__PRETTY_FUNCTION__))
+#elif defined (__GNUC__) || (defined(_MSC_VER) && (_MSC_VER > 1300))
+#   define QEXT_STRFUNC     ((const char*) (__FUNCTION__))
+#else
+#   define QEXT_STRFUNC     ((const char*) ("???"))
+#endif
+
+
 #endif // _QEXTGLOBAL_H

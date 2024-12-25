@@ -104,7 +104,7 @@ macro(qext_build_repo_begin)
     # install(TARGETS) command. But in a non-prefix build, we don't want to install anything.
     # To make sure that developers don't accidentally run make install, add bail out code to
     # cmake_install.cmake.
-    #    if(NOT QEXT_WILL_INSTALL)
+    #    if(NOT QEXT_BUILD_INSTALL)
     #        # In a top-level build, print a message only in qextbase, which is the first repository.
     #        if(NOT QEXT_SUPERBUILD OR (PROJECT_NAME STREQUAL "QEXTBase"))
     #            install(CODE [[message(FATAL_ERROR
@@ -208,7 +208,7 @@ macro(qext_build_repo_end)
                 qext_copy_or_install(DIRECTORY cmake/
                     DESTINATION "${__qext_repo_install_dir}"
                     FILES_MATCHING PATTERN "Find*.cmake")
-                if(QEXT_SUPERBUILD AND QEXT_WILL_INSTALL)
+                if(QEXT_SUPERBUILD AND QEXT_BUILD_INSTALL)
                     file(COPY cmake/
                         DESTINATION "${__qext_repo_build_dir}"
                         FILES_MATCHING PATTERN "Find*.cmake")

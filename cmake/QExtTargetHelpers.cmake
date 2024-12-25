@@ -672,7 +672,7 @@ function(qext_internal_export_additional_targets_file_handler id)
 
         # Non-prefix debug-and-release builds: add check for the existence of the debug binary of
         # the target.  It is not built by default.
-        if(NOT QEXT_WILL_INSTALL AND QEXT_FEATURE_DEBUG_AND_RELEASE)
+        if(NOT QEXT_BUILD_INSTALL AND QEXT_FEATURE_DEBUG_AND_RELEASE)
             get_target_property(excluded_genex ${target} EXCLUDE_FROM_ALL)
             if(NOT excluded_genex STREQUAL "")
                 string(APPEND content "

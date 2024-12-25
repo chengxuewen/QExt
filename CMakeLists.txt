@@ -24,7 +24,8 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Set cmake min version and policy
 #-----------------------------------------------------------------------------------------------------------------------
-cmake_minimum_required(VERSION 3.10)
+message(STATUS "===============================================QExt===================================================")
+cmake_minimum_required(VERSION 3.15)
 cmake_policy(SET CMP0075 NEW) # use CMAKE_REQUIRED_LIBRARIES
 cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 
@@ -32,7 +33,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.10.3 LANGUAGES CXX C)
+project(QExt VERSION 1.2.11.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -40,17 +41,30 @@ set(QEXT_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(QEXT_VERSION_TWEAK ${PROJECT_VERSION_TWEAK})
 set(QEXT_VERSION ${QEXT_VERSION_MAJOR}.${QEXT_VERSION_MINOR}.${QEXT_VERSION_PATCH})
 set(QEXT_SO_VERSION ${QEXT_VERSION_MAJOR}.${QEXT_VERSION_MINOR})
-set(QEXT_DEBUG_POSTFIX "d")
 set(QEXT_VERSION_STR "${QEXT_VERSION_MAJOR}.${QEXT_VERSION_MINOR}.${QEXT_VERSION_PATCH}")
 set(QEXT_COPYRIGHT "Copyright (c) 2021 ChengXueWen 1398831004@qq.com")
 set(QEXT_LICENSE "MIT License")
 set(QEXT_PRODUCT_NAME "QExt")
 set(QEXT_CXX_STANDARD 11)
 math(EXPR QEXT_VERSION_CALC "${QEXT_VERSION_MAJOR}*1000 + ${QEXT_VERSION_MINOR}*100 + ${QEXT_VERSION_PATCH}")
-message(STATUS "===============================================QExt===================================================")
 message(STATUS "Project version: ${QEXT_VERSION}")
 message(STATUS "Project copyright: ${QEXT_COPYRIGHT}")
 message(STATUS "Project license: ${QEXT_LICENSE}")
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Decide whether output should be verbose or not. # Default to verbose (--log-level=STATUS) in a developer-build and
+# non-verbose (--log-level=NOTICE) otherwise. If a custom CMAKE_MESSAGE_LOG_LEVEL was specified, it takes priority.
+# Passing an explicit --log-level=Foo has the highest priority.
+#-----------------------------------------------------------------------------------------------------------------------
+if(NOT CMAKE_MESSAGE_LOG_LEVEL)
+    if(QEXT_FEATURE_DEV_BUILD)
+        set(CMAKE_MESSAGE_LOG_LEVEL "STATUS")
+    else()
+        set(CMAKE_MESSAGE_LOG_LEVEL "NOTICE")
+    endif()
+endif()
+set(CMAKE_MESSAGE_LOG_LEVEL "DEBUG")
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -86,9 +100,14 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Network Test PrintSupport Xml Svg Sql REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Gui Widgets Quick QuickControls2 REQUIRED)
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL X11Extras Concurrent)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent)
+    if(UNIX)
+        find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS X11Extras)
+        set(QEXT_QT_X11EXTRAS_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}X11Extras_FOUND})
+    else()
+        set(QEXT_QT_X11EXTRAS_FOUND OFF)
+    endif()
     set(QEXT_QT_OPENGL_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGL_FOUND})
-    set(QEXT_QT_X11EXTRAS_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}X11Extras_FOUND})
     set(QEXT_QT_CONCURRENT_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}Concurrent_FOUND})
     set(QEXT_QT_EXPORT_NAMESPACE Qt5)
     set(QEXT_CXX_STANDARD 11)
@@ -102,11 +121,16 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Core5Compat Network Test PrintSupport Xml Svg Sql REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Gui Widgets Quick QuickControls2 REQUIRED)
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL OpenGLWidgets X11Extras Concurrent)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent OpenGLWidgets)
+    if(UNIX)
+        find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS X11Extras)
+        set(QEXT_QT_X11EXTRAS_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}X11Extras_FOUND})
+    else()
+        set(QEXT_QT_X11EXTRAS_FOUND OFF)
+    endif()
     set(QEXT_QT_OPENGL_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGL_FOUND})
-    set(QEXT_QT_OPENGLWIDGET_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGLWidgets_FOUND})
-    set(QEXT_QT_X11EXTRAS_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}X11Extras_FOUND})
     set(QEXT_QT_CONCURRENT_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}Concurrent_FOUND})
+    set(QEXT_QT_OPENGLWIDGET_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}OpenGLWidgets_FOUND})
     set(QEXT_QT_EXPORT_NAMESPACE Qt6)
     set(QEXT_CXX_STANDARD 17)
     set(QEXT_QT_HAS_QJSON ON)
@@ -136,155 +160,27 @@ set(CMAKE_AUTORCC ON)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Detect prefix and install
-#-----------------------------------------------------------------------------------------------------------------------
-# Pre-calculate the developer_build feature if it's set by the user via INPUT_QEXT_FEATURE_DEV_BUILD
-if(NOT QEXT_FEATURE_DEV_BUILD AND NOT INPUT_QEXT_FEATURE_DEV_BUILD AND NOT "${INPUT_QEXT_FEATURE_DEV_BUILD}" STREQUAL "undefined")
-    set(QEXT_FEATURE_DEV_BUILD ON)
-endif()
-
-
-# Pre-calculate the no_prefix feature if it's set by configure via INPUT_QEXT_FEATURE_NO_PREFIX.
-# This needs to be done before configure.cmake is processed.
-if(NOT QEXT_FEATURE_NO_PREFIX AND INPUT_QEXT_FEATURE_NO_PREFIX AND NOT "${INPUT_QEXT_FEATURE_NO_PREFIX}" STREQUAL "undefined")
-    set(QEXT_FEATURE_NO_PREFIX ON)
-endif()
-
-# here we specify the installation directory
-if(NOT QEXT_BUILD_STANDALONE_TESTS)
-    if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-        # Handle both FEATURE_ and QEXT_FEATURE_ cases when they are specified on the command line explicitly.
-        # It's possible for one to be set, but not the other, because core/configure.cmake is not processed by this point.
-        if((QEXT_FEATURE_DEV_BUILD OR QEXT_FEATURE_NO_PREFIX) AND NOT CMAKE_STAGING_PREFIX)
-            # Handle non-prefix builds by setting the CMake install prefix to point to QExt's build dir.
-            set(QEXT_DEFAULT_PREFIX "${QEXT_BINARY_DIR}")
-        else()
-            if(CMAKE_HOST_WIN32)
-                set(QEXT_DEFAULT_PREFIX "C:/QExt/")
-            else()
-                set(QEXT_DEFAULT_PREFIX "/usr/local/")
-            endif()
-            string(APPEND QEXT_DEFAULT_PREFIX "QExt-${QEXT_VERSION}")
-        endif()
-        set(CMAKE_INSTALL_PREFIX ${QEXT_DEFAULT_PREFIX} CACHE PATH "Install path prefix, prepended onto install directories." FORCE)
-    endif()
-    if(CMAKE_STAGING_PREFIX)
-        set(QEXT_PREFIX "${CMAKE_STAGING_PREFIX}")
-    else()
-        set(QEXT_PREFIX "${CMAKE_INSTALL_PREFIX}")
-    endif()
-    if(QEXT_PREFIX STREQUAL QEXT_BINARY_DIR)
-        set(QEXT_WILL_INSTALL_VALUE OFF)
-    else()
-        set(QEXT_WILL_INSTALL_VALUE ON)
-    endif()
-    set(QEXT_WILL_INSTALL ${QEXT_WILL_INSTALL_VALUE} CACHE BOOL "Boolean indicating if doing a QExt prefix build (vs non-prefix build)." FORCE)
-endif()
-if(NOT CMAKE_INSTALL_PREFIX)
-    set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/install" CACHE PATH "Install path prefix, prepended onto install directories." FORCE)
-endif()
-
-if(QEXT_FEATURE_DEV_BUILD)
-    if(DEFINED QEXT_CMAKE_EXPORT_COMPILE_COMMANDS)
-        set(CMAKE_EXPORT_COMPILE_COMMANDS ${QEXT_CMAKE_EXPORT_COMPILE_COMMANDS})
-    else()
-        set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-    endif()
-    set(__qext_build_warnings_as_errors ON)
-    set(__qext_build_tests_default ON)
-    set(__qext_build_benchmarks ON)
-
-    # Tests are not built by default with qmake for iOS and friends, and thus the overall build
-    # tends to fail. Disable them by default when targeting uikit.
-    if(UIKIT OR ANDROID)
-        set(__qext_build_tests_default OFF)
-    endif()
-
-    # Disable benchmarks for single configuration generators which do not build
-    # with release configuration.
-    if(CMAKE_BUILD_TYPE AND CMAKE_BUILD_TYPE STREQUAL Debug)
-        set(__qext_build_benchmarks OFF)
-    endif()
-else()
-    set(__qext_build_warnings_as_errors OFF)
-    set(__qext_build_tests_default OFF)
-    set(__qext_build_benchmarks OFF)
-endif()
-
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Decide whether output should be verbose or not. # Default to verbose (--log-level=STATUS) in a developer-build and
-# non-verbose (--log-level=NOTICE) otherwise. If a custom CMAKE_MESSAGE_LOG_LEVEL was specified, it takes priority.
-# Passing an explicit --log-level=Foo has the highest priority.
-#-----------------------------------------------------------------------------------------------------------------------
-if(NOT CMAKE_MESSAGE_LOG_LEVEL)
-    if(QEXT_FEATURE_DEV_BUILD)
-        set(CMAKE_MESSAGE_LOG_LEVEL "STATUS")
-    else()
-        set(CMAKE_MESSAGE_LOG_LEVEL "NOTICE")
-    endif()
-endif()
-set(CMAKE_MESSAGE_LOG_LEVEL "DEBUG")
-
-
-#-----------------------------------------------------------------------------------------------------------------------
 # Set build type
 #-----------------------------------------------------------------------------------------------------------------------
 set(QEXT_DEFAULT_BUILD_TYPE "Release")
 if(QEXT_FEATURE_DEV_BUILD)
     set(QEXT_DEFAULT_BUILD_TYPE "Debug")
 endif()
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+if(NOT CMAKE_BUILD_TYPE)
     message(STATUS "Setting build type to '${QEXT_DEFAULT_BUILD_TYPE}' as none was specified.")
     set(CMAKE_BUILD_TYPE "${QEXT_DEFAULT_BUILD_TYPE}" CACHE STRING "Choose the type of build." FORCE)
     set_property(CACHE CMAKE_BUILD_TYPE
         PROPERTY STRINGS
         "Debug" "Release" "MinSizeRel" "RelWithDebInfo") # Set the possible values for cmake-gui.
-elseif(CMAKE_CONFIGURATION_TYPES)
-    message(STATUS "Building for multiple configurations: ${CMAKE_CONFIGURATION_TYPES}.")
-    message(STATUS "Main configuration is: ${QEXT_MULTI_CONFIG_FIRST_CONFIG}.")
-    if(CMAKE_NINJA_MULTI_DEFAULT_BUILD_TYPE)
-        message(STATUS "Default build configuration set to '${CMAKE_NINJA_MULTI_DEFAULT_BUILD_TYPE}'.")
-    endif()
-    if(CMAKE_GENERATOR STREQUAL "Ninja")
-        message(FATAL_ERROR
-            "It's not possible to build multiple configurations with the single config Ninja "
-            "generator. Consider configuring with -G\"Ninja Multi-Config\" instead of -GNinja.")
-    endif()
-else()
-    message(STATUS "CMAKE_BUILD_TYPE was set to: '${CMAKE_BUILD_TYPE}'")
 endif()
-
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Set multi-config
-# Append a config-specific postfix to library names to ensure distinct names in a multi-config build. e.g.
-# lib/libqext_core_relwithdebinfo.0.1.1.dylib
-# Don't apply the postfix to the first encountered release-like config, so we have at least one config without a postifx.
-#-----------------------------------------------------------------------------------------------------------------------
-# Save the global property in a variable to make it available to feature conditions.
-get_property(QEXT_GENERATOR_IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-if(QEXT_GENERATOR_IS_MULTI_CONFIG AND CMAKE_CONFIGURATION_TYPES)
-    set(__qext_setup_release_configs Release RelWithDebInfo MinSizeRel)
-    set(__qext_setup_found_first_release_config FALSE)
-    foreach(__qext_setup_config_type IN LISTS CMAKE_CONFIGURATION_TYPES)
-        # Skip assigning postfix for the first release-like config.
-        if(NOT __qext_setup_found_first_release_config AND __qext_setup_config_type IN_LIST __qext_setup_release_configs)
-            set(__qext_setup_found_first_release_config TRUE)
-            continue()
-        endif()
-
-        string(TOLOWER "${__qext_setup_config_type}" __qext_setup_config_type_lower)
-        string(TOUPPER "${__qext_setup_config_type}" __qext_setup_config_type_upper)
-        set(CMAKE_${__qext_setup_config_type_upper}_POSTFIX "_${__qext_setup_config_type_lower}")
-        if(APPLE)
-            set(CMAKE_FRAMEWORK_MULTI_CONFIG_POSTFIX_${__qext_setup_config_type_upper} "_${__qext_setup_config_type_lower}")
-        endif()
-    endforeach()
+message(STATUS "CMAKE_BUILD_TYPE was set to: '${CMAKE_BUILD_TYPE}'")
+if(CMAKE_CONFIGURATION_TYPES)
+    message(STATUS "CMAKE_CONFIGURATION_TYPES was set to: '${CMAKE_BUILD_TYPE}'")
+    set(CMAKE_CONFIGURATION_TYPES "${CMAKE_BUILD_TYPE}" CACHE INTERNAL "Force disable CMAKE_CONFIGURATION_TYPES." FORCE)
 endif()
 
 # Override the generic debug postfixes above with custom debug postfixes (even in a single config build) to follow the
-# conventions we had. lib/libqext_core_debug.6.3.0.dylib
+# conventions we had. lib/libQExtCore_debug.6.3.0.dylib
 if(WIN32)
     if(MINGW)
         # On MinGW we don't have "d" suffix for debug libraries like on Linux, unless we're building debug and release
@@ -293,22 +189,12 @@ if(WIN32)
             set(CMAKE_DEBUG_POSTFIX "d")
         endif()
     else()
-        set(CMAKE_DEBUG_POSTFIX "d")
+        # set(CMAKE_DEBUG_POSTFIX "d")
     endif()
 elseif(APPLE)
     set(CMAKE_DEBUG_POSTFIX "_debug")
     set(CMAKE_FRAMEWORK_MULTI_CONFIG_POSTFIX_DEBUG "_debug")
 endif()
-
-## Position independent code:
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
-# Does the linker support position independent code?
-include(CheckPIESupported)
-check_pie_supported()
-
-# Do not relink dependent libraries when no header has changed:
-set(CMAKE_LINK_DEPENDS_NO_SHARED ON)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -317,7 +203,6 @@ set(CMAKE_LINK_DEPENDS_NO_SHARED ON)
 set(CMAKE_CXX_STANDARD ${QEXT_CXX_STANDARD})
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 message(STATUS "Using C++: ${QEXT_CXX_STANDARD}")
 message(STATUS "Set C++ extensions: ${CMAKE_CXX_EXTENSIONS}")
 
@@ -332,11 +217,109 @@ if(WIN32)
     set(CMAKE_OBJECT_PATH_MAX 512)
 endif()
 
+## Position independent code:
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+# Does the linker support position independent code?
+include(CheckPIESupported)
+check_pie_supported()
+
+# Do not relink dependent libraries when no header has changed:
+set(CMAKE_LINK_DEPENDS_NO_SHARED ON)
+
+# Set CMAKE_OBJECT_PATH_MAX, avoid The maximum full path to an object file warning.
+set(CMAKE_OBJECT_PATH_MAX 1024)
+
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Set CMAKE_OBJECT_PATH_MAX, avoid The maximum full path to an object file warning.
+# Detect prefix and install
 #-----------------------------------------------------------------------------------------------------------------------
-set(CMAKE_OBJECT_PATH_MAX 1024)
+# Pre-calculate the developer_build feature if it's set by the user via INPUT_QEXT_FEATURE_DEV_BUILD
+if(NOT DEFINED QEXT_FEATURE_DEV_BUILD)
+    if(NOT DEFINED INPUT_QEXT_FEATURE_DEV_BUILD)
+        set(QEXT_FEATURE_DEV_BUILD ON)
+    else()
+        set(QEXT_FEATURE_DEV_BUILD ${INPUT_QEXT_FEATURE_DEV_BUILD})
+    endif()
+endif()
+
+# Pre-calculate the no_prefix feature if it's set by configure via INPUT_QEXT_FEATURE_NO_PREFIX.
+# This needs to be done before configure.cmake is processed.
+if(NOT DEFINED QEXT_FEATURE_NO_PREFIX)
+    if(NOT DEFINED INPUT_QEXT_FEATURE_NO_PREFIX)
+        set(QEXT_FEATURE_NO_PREFIX ON)
+    else()
+        set(QEXT_FEATURE_NO_PREFIX ${INPUT_QEXT_FEATURE_NO_PREFIX})
+    endif()
+endif()
+
+set(QEXT_BINARY_DIR "${QExt_BINARY_DIR}")
+# here we specify the installation directory
+# Handle both FEATURE_ and QEXT_FEATURE_ cases when they are specified on the command line explicitly.
+# It's possible for one to be set, but not the other, because core/configure.cmake is not processed by this point.
+if((QEXT_FEATURE_DEV_BUILD OR QEXT_FEATURE_NO_PREFIX) AND NOT CMAKE_STAGING_PREFIX)
+    # Handle non-prefix builds by setting the CMake install prefix to point to QEXT's build dir.
+    set(QEXT_DEFAULT_PREFIX "${QEXT_BINARY_DIR}/install")
+else()
+    if(CMAKE_HOST_WIN32)
+        set(QEXT_DEFAULT_PREFIX "C:/QExt/")
+    else()
+        set(QEXT_DEFAULT_PREFIX "/usr/local/")
+    endif()
+    string(APPEND QEXT_DEFAULT_PREFIX "QExt${QEXT_VERSION}")
+endif()
+
+if(NOT "${CMAKE_INSTALL_PREFIX}" STREQUAL "")
+    set(QEXT_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
+else()
+    set(QEXT_INSTALL_PREFIX "${QEXT_DEFAULT_PREFIX}")
+endif()
+
+if(NOT "${CMAKE_STAGING_PREFIX}" STREQUAL "")
+    set(QEXT_STAGING_PREFIX "${CMAKE_STAGING_PREFIX}")
+else()
+    set(QEXT_STAGING_PREFIX "${QEXT_DEFAULT_PREFIX}")
+endif()
+
+if(CMAKE_STAGING_PREFIX)
+    set(QEXT_PREFIX "${CMAKE_STAGING_PREFIX}")
+else()
+    set(QEXT_PREFIX "${QEXT_INSTALL_PREFIX}")
+endif()
+
+if(QEXT_PREFIX STREQUAL QEXT_BINARY_DIR)
+    set(QEXTT_DEFAULT_BUILD_INSTALL OFF)
+else()
+    set(QEXTT_DEFAULT_BUILD_INSTALL ON)
+endif()
+
+if(QEXT_FEATURE_DEV_BUILD)
+    if(DEFINED QEXT_CMAKE_EXPORT_COMPILE_COMMANDS)
+        set(CMAKE_EXPORT_COMPILE_COMMANDS ${QEXT_CMAKE_EXPORT_COMPILE_COMMANDS})
+    else()
+        set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+    endif()
+    set(QEXT_DEFAULT_BUILD_TESTS ON)
+    set(QEXT_DEFAULT_BUILD_BENCHMARKS ON)
+    set(QEXT_DEFAULT_BUILD_WARNINGS_AS_ERRORS ON)
+
+    # Tests are not built by default with qmake for iOS and friends, and thus the overall build
+    # tends to fail. Disable them by default when targeting uikit.
+    if(UIKIT OR ANDROID)
+        set(QEXT_DEFAULT_BUILD_TESTS OFF)
+    endif()
+
+    # Disable benchmarks for single configuration generators which do not build
+    # with release configuration.
+    if(CMAKE_BUILD_TYPE AND CMAKE_BUILD_TYPE STREQUAL Debug)
+        set(QEXT_DEFAULT_BUILD_BENCHMARKS OFF)
+    endif()
+else()
+    set(QEXT_DEFAULT_BUILD_TESTS OFF)
+    set(QEXT_DEFAULT_BUILD_BENCHMARKS OFF)
+    set(QEXT_DEFAULT_BUILD_WARNINGS_AS_ERRORS OFF)
+endif()
+message(STATUS "QExt Install prefix set as '${QEXT_INSTALL_PREFIX}'.")
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -391,9 +374,10 @@ qext_option(QEXT_BUILD_SHARED_LIBS "Enable this to build as dynamically" ON
 qext_option(QEXT_BUILD_USE_PCH "Enable this to build use precompiled header files for compilation" ON
     DEPENDS BUILD_SHARED_LIBS)
 qext_option(QEXT_BUILD_COMPILER_WARNING "Enable this to build target with compiler warnings" OFF)
-qext_option(QEXT_BUILD_WARNINGS_ARE_ERRORS "Enable this to build with warnings as errors" ${__qext_build_warnings_as_errors})
-qext_option(QEXT_BUILD_BENCHMARKS "Enable this to build the benchmarks" ${__qext_build_benchmarks}
-    SET __qext_build_tests_default)
+qext_option(QEXT_BUILD_WARNINGS_ARE_ERRORS "Enable this to build with warnings as errors"
+    ${QEXT_DEFAULT_BUILD_WARNINGS_AS_ERRORS})
+qext_option(QEXT_BUILD_BENCHMARKS "Enable this to build the benchmarks" ${QEXT_DEFAULT_BUILD_BENCHMARKS}
+    SET QEXT_DEFAULT_BUILD_TESTS)
 qext_option(QEXT_BUILD_DOCS "Enable this to build the documentation" OFF)
 qext_option(QEXT_BUILD_QMLS "Enable this to build qmls" OFF
     DEPENDS QEXT_QT_HAS_QML
@@ -402,7 +386,7 @@ qext_option(QEXT_BUILD_TESTS "Enable this to build tests" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_BUILD_EXAMPLES "Enable this to build examples" OFF
     OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" OFF
+qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" ${QEXTT_DEFAULT_BUILD_INSTALL}
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ENABLE_LIB_TCP "Enable this to build the tcp lib" OFF
@@ -457,44 +441,43 @@ qext_option(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT "Enable this to add the 3rdparty qw
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# Set doxygen build config
-#-----------------------------------------------------------------------------------------------------------------------
-if(QEXT_BUILD_DOCS)
-    message(STATUS "Project build documentation")
-    #    qext_build_doxygen()
-endif()
-
-
-#-----------------------------------------------------------------------------------------------------------------------
 # Set install and paths
 #-----------------------------------------------------------------------------------------------------------------------
 # Install locations:
+qext_configure_process_path(QEXT_INSTALL_LIBDIR "lib" "Libraries [PREFIX/lib]")
 qext_configure_process_path(QEXT_INSTALL_BINDIR "bin" "Executables [PREFIX/bin]")
 qext_configure_process_path(QEXT_INSTALL_INCLUDEDIR "include" "Header files [PREFIX/include]")
-qext_configure_process_path(QEXT_INSTALL_LIBDIR "lib" "Libraries [PREFIX/lib]")
-qext_configure_process_path(QEXT_INSTALL_MKSPECSDIR "mkspecs" "Mkspecs files [PREFIX/mkspecs]")
 qext_configure_process_path(QEXT_INSTALL_ARCHDATADIR "." "Arch-dependent data [PREFIX]")
 qext_configure_process_path(QEXT_INSTALL_PLUGINSDIR
     "${QEXT_INSTALL_ARCHDATADIR}/plugins" "Plugins [ARCHDATADIR/plugins]")
 
-if(NOT QEXT_INSTALL_MKSPECSDIR MATCHES "(^|/)mkspecs")
-    message(FATAL_ERROR "QEXT_INSTALL_MKSPECSDIR must end with '/mkspecs'")
-endif()
-
 if(WIN32)
-    set(_default_libexec "${QEXT_INSTALL_ARCHDATADIR}/bin")
+    set(QEXT_DEFAULT_DLLDIR "bin")
+    set(QEXT_DEFAULT_TESTSDIR "bin")
+    set(QEXT_DEFAULT_EXAMPLESDIR "bin")
+    set(QEXT_DEFAULT_LIBEXEC "${QEXT_INSTALL_ARCHDATADIR}/bin")
 else()
-    set(_default_libexec "${QEXT_INSTALL_ARCHDATADIR}/libexec")
+    set(QEXT_DEFAULT_DLLDIR "lib")
+    set(QEXT_DEFAULT_TESTSDIR "tests")
+    set(QEXT_DEFAULT_EXAMPLESDIR "examples")
+    set(QEXT_DEFAULT_LIBEXEC "${QEXT_INSTALL_ARCHDATADIR}/libexec")
 endif()
 
+qext_configure_process_path(QEXT_INSTALL_DLLDIR
+    "${QEXT_DEFAULT_DLLDIR}" "[PREFIX/bin] on Windows, [PREFIX/lib] otherwise")
+qext_configure_process_path(QEXT_INSTALL_TESTSDIR
+    "${QEXT_DEFAULT_TESTSDIR}" "[PREFIX/bin] on Windows, [PREFIX/tests] otherwise")
+qext_configure_process_path(QEXT_INSTALL_EXAMPLESDIR
+    "${QEXT_DEFAULT_EXAMPLESDIR}" "[PREFIX/bin] on Windows, [PREFIX/examples] otherwise")
 qext_configure_process_path(QEXT_INSTALL_LIBEXECDIR
-    "${_default_libexec}" "Helper programs [ARCHDATADIR/bin on Windows, ARCHDATADIR/libexec otherwise]")
+    "${QEXT_DEFAULT_LIBEXEC}" "Helper programs [ARCHDATADIR/bin on Windows, ARCHDATADIR/libexec otherwise]")
 qext_configure_process_path(QEXT_INSTALL_QMLDIR
     "${QEXT_INSTALL_ARCHDATADIR}/qml" "QML imports [ARCHDATADIR/qml]")
 qext_configure_process_path(QEXT_INSTALL_DATADIR "." "Arch-independent data [PREFIX]")
 qext_configure_process_path(QEXT_INSTALL_DOCDIR "${QEXT_INSTALL_DATADIR}/doc" "Documentation [DATADIR/doc]")
 qext_configure_process_path(QEXT_INSTALL_TRANSLATIONSDIR
     "${QEXT_INSTALL_DATADIR}/translations" "Translations [DATADIR/translations]")
+
 if(APPLE)
     set(QEXT_DEFAULT_SYS_CONF_DIR "/Library/Preferences/QExt")
 else()
@@ -511,11 +494,6 @@ list(APPEND QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} "${QEXT_BUILD_DIR}/${QEXT_IN
 list(REMOVE_DUPLICATES QEXT_QML_IMPORT_PATH)
 set(QML_IMPORT_PATH ${QEXT_QML_IMPORT_PATH} CACHE INTERNAL "Qt Creator extra qml import paths" FORCE)
 
-if(NOT "${CMAKE_STAGING_PREFIX}" STREQUAL "")
-    set(QEXT_STAGING_PREFIX "${CMAKE_STAGING_PREFIX}")
-else()
-    set(QEXT_STAGING_PREFIX "${CMAKE_INSTALL_PREFIX}")
-endif()
 
 function(qext_internal_set_up_global_paths)
     # Compute the values of QEXT_BUILD_DIR, QEXT_INSTALL_DIR, QEXT_CONFIG_BUILD_DIR, QEXT_CONFIG_INSTALL_DIR
@@ -533,7 +511,7 @@ function(qext_internal_set_up_global_paths)
     # which means that it can be empty, so use qext_join_path to prevent accidental absolute paths.
     if(QEXT_SUPERBUILD)
         # In this case, we always copy all the build products in QEXT_BUILD_DIR/{bin,lib,...}
-        if(QEXT_WILL_INSTALL)
+        if(QEXT_BUILD_INSTALL)
             set(QEXT_BUILD_DIR "${QEXT_BINARY_DIR}")
             set(QEXT_INSTALL_DIR "")
         else()
@@ -546,7 +524,7 @@ function(qext_internal_set_up_global_paths)
             endif()
         endif()
     else()
-        if(QEXT_WILL_INSTALL)
+        if(QEXT_BUILD_INSTALL)
             # In the usual prefix build case, the build dir is the current module build dir,
             # and the install dir is the prefix, so we don't set it.
             set(QEXT_BUILD_DIR "${CMAKE_BINARY_DIR}")
@@ -557,6 +535,9 @@ function(qext_internal_set_up_global_paths)
             set(QEXT_BUILD_DIR "${QEXT_STAGING_PREFIX}")
             set(QEXT_INSTALL_DIR "${QEXT_BUILD_DIR}")
         endif()
+    endif()
+    if(DEFINED INPUT_QEXT_BUILD_DIR)
+        set(QEXT_BUILD_DIR "${INPUT_QEXT_BUILD_DIR}")
     endif()
 
     set(__config_path_part "${QEXT_INSTALL_LIBDIR}/cmake")
@@ -571,13 +552,15 @@ function(qext_internal_set_up_global_paths)
     set(QEXT_INSTALL_DIR "${QEXT_INSTALL_DIR}" PARENT_SCOPE)
     set(QEXT_CONFIG_BUILD_DIR "${QEXT_CONFIG_BUILD_DIR}" PARENT_SCOPE)
     set(QEXT_CONFIG_INSTALL_DIR "${QEXT_CONFIG_INSTALL_DIR}" PARENT_SCOPE)
+    message(STATUS "QExt build dir set as '${QEXT_BUILD_DIR}'.")
+    message(STATUS "QExt install dir set as '${QEXT_INSTALL_DIR}'.")
 endfunction()
 qext_internal_set_up_global_paths()
 
 # the default RPATH to be used when installing, but only if it's not a system directory
-list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR}" isSystemDir)
+list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${QEXT_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR}" isSystemDir)
 if("${isSystemDir}" STREQUAL "-1")
-    set(_default_install_rpath "${CMAKE_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR}")
+    set(QEXT_DEFAULT_INSTALL_RPATH "${QEXT_INSTALL_PREFIX}/${QEXT_INSTALL_LIBDIR}")
 endif("${isSystemDir}" STREQUAL "-1")
 
 # The default rpath settings for installed targets is empty.
@@ -589,7 +572,7 @@ set(CMAKE_INSTALL_RPATH "" CACHE STRING "RPATH for installed binaries")
 
 # By default, don't embed auto-determined RPATHs pointing to directories
 # outside of the build tree, into the installed binaries.
-# This ended up adding rpaths like ${CMAKE_INSTALL_PREFIX}/lib (or /Users/qext/work/install/lib into
+# This ended up adding rpaths like ${QEXT_INSTALL_PREFIX}/lib (or /Users/qext/work/install/lib into
 # the official libraries created by the CI) into the non-qextbase libraries, plugins, etc.
 #
 # It should not be necessary, given that qext_apply_rpaths() already adds the necessary rpaths, either
@@ -615,11 +598,6 @@ function(qext_setup_tool_path_command)
     # QEXT_TOOL_PATH_SETUP_COMMAND is deprecated. Please use _qext_internal_get_wrap_tool_script_path instead.
 endfunction()
 qext_setup_tool_path_command()
-
-if(QEXT_BUILD_TESTS)
-    include(CTest)
-    enable_testing()
-endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -652,7 +630,7 @@ else()
     set(QEXT_PATH_SEPARATOR ":")
 endif()
 
-# Save the value of the current first project source dir.
+# Save tQEXT_DEFAULT_INSTALL_RPATHt first project source dir.
 # This will be /path/to/QExtCore for QExtCore both in a super-build and a non super-build.
 # This will be /path/to/QExtCore/tests when building standalone tests.
 set(QEXT_TOP_LEVEL_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -734,15 +712,6 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# add subdirectory
-#-----------------------------------------------------------------------------------------------------------------------
-add_subdirectory(src/libs)
-add_subdirectory(src/tools)
-add_subdirectory(src/plugins)
-qext_add_subdirectory(src/qmls QEXT_BUILD_QMLS)
-
-
-#-----------------------------------------------------------------------------------------------------------------------
 # add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
 if(QEXT_ADD_SUBDIRECTORY_QWT)
@@ -775,3 +744,23 @@ if(QEXT_ENABLE_3RDPARTY_QWINDOWKIT)
 endif()
 
 qext_add_subdirectory(3rdparty/PinyinIME QEXT_ENABLE_LIB_KEYBOARD)
+
+if(QEXT_BUILD_TESTS)
+    include(CTest)
+    enable_testing()
+endif()
+
+if(QEXT_BUILD_DOCS)
+    message(STATUS "Project build documentation")
+    #    qext_build_doxygen()
+endif()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# add subdirectory
+#-----------------------------------------------------------------------------------------------------------------------
+add_subdirectory(src/libs)
+add_subdirectory(src/tools)
+add_subdirectory(src/plugins)
+qext_add_subdirectory(src/qmls QEXT_BUILD_QMLS)
+message(STATUS "========================================QExt Configuring done=========================================")

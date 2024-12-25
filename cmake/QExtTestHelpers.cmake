@@ -194,7 +194,7 @@ function(qext_internal_add_test name)
         set(test_executable "${name}.html")
 
         if (QExt6_INSTALL_PREFIX)
-            set(QEXT_WASM_TESTRUNNER "${QExt_INSTALL_PREFIX}/${QEXT_INSTALL_LIBEXECDIR}/qext-wasmtestrunner.py")
+            set(QEXT_WASM_TESTRUNNER "${QEXT_INSTALL_PREFIX}/${QEXT_INSTALL_LIBEXECDIR}/qext-wasmtestrunner.py")
         elseif (QEXT_BUILD_DIR)
             set(QEXT_WASM_TESTRUNNER "${QEXT_BUILD_DIR}/${QEXT_INSTALL_LIBEXECDIR}/qext-wasmtestrunner.py")
         endif ()
@@ -358,15 +358,15 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_collect_command_environment out_path out_plugin_path)
-    # Get path to <qext_relocatable_install_prefix>/bin, as well as CMAKE_INSTALL_PREFIX/bin, and
+    # Get path to <qext_relocatable_install_prefix>/bin, as well as QEXT_INSTALL_PREFIX/bin, and
     # combine them with the PATH environment variable.
     # It's needed on Windows to find the shared libraries and plugins.
     # qext_relocatable_install_prefix is dynamically computed from the location of where the QExt CMake
     # package is found.
-    # The regular CMAKE_INSTALL_PREFIX can be different for example when building standalone tests.
-    # Any given CMAKE_INSTALL_PREFIX takes priority over qext_relocatable_install_prefix for the
+    # The regular QEXT_INSTALL_PREFIX can be different for example when building standalone tests.
+    # Any given QEXT_INSTALL_PREFIX takes priority over qext_relocatable_install_prefix for the
     # PATH environment variable.
-    set(install_prefixes "${CMAKE_INSTALL_PREFIX}")
+    set(install_prefixes "${QEXT_INSTALL_PREFIX}")
     if (QEXT_BUILD_INTERNALS_RELOCATABLE_INSTALL_PREFIX)
         list(APPEND install_prefixes "${QEXT_BUILD_INTERNALS_RELOCATABLE_INSTALL_PREFIX}")
     endif ()

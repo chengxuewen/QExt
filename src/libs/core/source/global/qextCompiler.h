@@ -913,7 +913,7 @@
 #endif
 
 #ifdef __has_feature
-#   define QEXT_CC_HAS_FEATURE __has_feature
+#   define QEXT_CC_HAS_FEATURE(x) __has_feature(x)
 #else
 #   define QEXT_CC_HAS_FEATURE(x) 0
 #endif

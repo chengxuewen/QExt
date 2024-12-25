@@ -44,7 +44,7 @@ function(qext_install)
     # In a non-prefix build, pass install(TARGETS) commands to allow
     # association of targets to export names, so we can later use the export names
     # in export() commands.
-    if(QEXT_WILL_INSTALL OR is_install_targets)
+    if(QEXT_BUILD_INSTALL OR is_install_targets)
         install(${ARGV})
     endif()
 
@@ -56,7 +56,7 @@ function(qext_install)
         # ExternalProjects as part of the QExt build.
         # In a top-level build the exported config files are placed under qextCore/lib/cmake.
         # In a per-repo build, they will be placed in each repo's build dir/lib/cmake.
-        if(QEXT_WILL_INSTALL)
+        if(QEXT_BUILD_INSTALL)
             qext_path_join(arg_DESTINATION "${QEXT_BUILD_DIR}" "${arg_DESTINATION}")
         endif()
 
@@ -76,8 +76,8 @@ function(qext_configure_process_path name default docstring)
     if(NOT DEFINED "${name}")
         set("${name}" "${default}" CACHE STRING "${docstring}")
     else()
-        get_filename_component(given_path_as_abs "${${name}}" ABSOLUTE BASE_DIR "${CMAKE_INSTALL_PREFIX}")
-        file(RELATIVE_PATH rel_path "${CMAKE_INSTALL_PREFIX}" "${given_path_as_abs}")
+        get_filename_component(given_path_as_abs "${${name}}" ABSOLUTE BASE_DIR "${QEXT_INSTALL_PREFIX}")
+        file(RELATIVE_PATH rel_path "${QEXT_INSTALL_PREFIX}" "${given_path_as_abs}")
 
         # If absolute path given, check that it's inside the prefix (error out if not).
         # TODO: Figure out if we need to support paths that are outside the prefix.
@@ -169,7 +169,7 @@ endfunction()
 # In a multi-config build, create the link for the main config only.
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_install_versioned_link install_dir target)
-    if(NOT QEXT_WILL_INSTALL)
+    if(NOT QEXT_BUILD_INSTALL)
         return()
     endif()
 
@@ -181,7 +181,7 @@ function(qext_internal_install_versioned_link install_dir target)
         "${install_dir}" "$<TARGET_FILE_BASE_NAME:${target}>")
     set(original "${install_base_file_path}$<TARGET_FILE_SUFFIX:${target}>")
     set(linkname "${install_base_file_path}${PROJECT_VERSION_MAJOR}$<TARGET_FILE_SUFFIX:${target}>")
-    set(code "set(qext_full_install_prefix \"$\{CMAKE_INSTALL_PREFIX}\")"
+    set(code "set(qext_full_install_prefix \"$\{QEXT_INSTALL_PREFIX}\")"
         "  if(NOT \"$ENV\{DESTDIR}\" STREQUAL \"\")")
     if(CMAKE_HOST_WIN32)
         list(APPEND code

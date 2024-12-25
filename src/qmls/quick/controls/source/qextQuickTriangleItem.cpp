@@ -1,5 +1,6 @@
 #include <qextQuickTriangleItem.h>
 
+#include <QPainterPath>
 #include <QPainter>
 #include <QDebug>
 

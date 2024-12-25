@@ -118,6 +118,25 @@ endfunction()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
+# Sets the ignore warning flags for the given target
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_internal_set_ignore_warning_flags target)
+    set(flags "")
+    # c4464 : A #include directive has a path that includes a parent directory specifier (a .. path segment).
+    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+        set(flags "/wd4464")
+    elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU|AppleClang|InteLLLVM")
+
+    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        if(MSVC)
+            set(flags "/wd4464")
+        endif()
+    endif()
+    target_compile_options("${target}" PRIVATE ${flags})
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
 # Sets the exceptions flags for the given target according to exceptions_on
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_internal_set_exceptions_flags target exceptions_on)

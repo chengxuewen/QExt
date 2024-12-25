@@ -14,6 +14,8 @@ public:
 
     static qint64 secsTimeSinceEpoch();
     static qint64 msecsTimeSinceEpoch();
+    static qint64 usecsTimeSinceEpoch();
+    static qint64 nsecsTimeSinceEpoch();
     static QString secsTimeSinceEpochString(qint64 secs = -1);
     static QString msecsTimeSinceEpochString(qint64 msecs = -1);
 };

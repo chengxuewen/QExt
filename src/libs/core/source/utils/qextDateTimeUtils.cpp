@@ -22,20 +22,40 @@ void QExtDateTimeUtils::loopWait(const int &msec)
 qint64 QExtDateTimeUtils::secsTimeSinceEpoch()
 {
 #if QEXT_CC_STD_11
-    const auto now = std::chrono::system_clock::now();
+    const auto now = std::chrono::high_resolution_clock::now();
     return (qint64)std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
 #else
-    return QDateTime::currentMSecsSinceEpoch();
+    return QDateTime::currentSecsSinceEpoch();
 #endif
 }
 
 qint64 QExtDateTimeUtils::msecsTimeSinceEpoch()
 {
 #if QEXT_CC_STD_11
-    const auto now = std::chrono::system_clock::now();
+    const auto now = std::chrono::high_resolution_clock::now();
     return std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
 #else
-    return QDateTime::currentSecsSinceEpoch();
+    return QDateTime::currentMSecsSinceEpoch();
+#endif
+}
+
+qint64 QExtDateTimeUtils::usecsTimeSinceEpoch()
+{
+#if QEXT_CC_STD_11
+    const auto now = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
+#else
+    return QDateTime::currentMSecsSinceEpoch() * 1000;
+#endif
+}
+
+qint64 QExtDateTimeUtils::nsecsTimeSinceEpoch()
+{
+#if QEXT_CC_STD_11
+    const auto now = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
+#else
+    return QDateTime::currentMSecsSinceEpoch() * 1000000;
 #endif
 }
 
@@ -77,4 +97,3 @@ QString QExtDateTimeUtils::msecsTimeSinceEpochString(qint64 msecs)
     return QDateTime::fromMSecsSinceEpoch(msecs).toString("yyyy-MM-dd hh:mm:ss.zzz");
 #endif
 }
-

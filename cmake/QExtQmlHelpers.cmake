@@ -1650,7 +1650,7 @@ function(qt6_extract_metatypes target)
         # TODO: Move this into a separate internal function, so it doesn't pollute the public one.
         # Location where to install the metatypes file. Only used if
         # __QT_INTERNAL_INSTALL is given. It defaults to the
-        # ${CMAKE_INSTALL_PREFIX}/${INSTALL_LIBDIR}/metatypes directory.
+        # ${QEXT_INSTALL_PREFIX}/${INSTALL_LIBDIR}/metatypes directory.
         # Executable metatypes files are never installed.
         __QT_INTERNAL_INSTALL_DIR
 

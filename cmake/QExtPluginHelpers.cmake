@@ -401,6 +401,7 @@ function(qext_add_plugin target)
 
     qext_internal_add_repo_local_defines("${target}")
 
+    qext_internal_set_ignore_warning_flags("${target}")
     qext_internal_set_exceptions_flags("${target}" ${arg_EXCEPTIONS})
 
 

@@ -128,6 +128,7 @@ function(qext_add_executable name)
         WIN32_EXECUTABLE "${arg_GUI}"
         MACOSX_BUNDLE "${arg_GUI}")
 
+    qext_internal_set_ignore_warning_flags("${name}")
     qext_internal_set_exceptions_flags("${name}" ${arg_EXCEPTIONS})
 
     # Check if target needs to be excluded from all target. Also affects qext_install.
