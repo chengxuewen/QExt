@@ -35,16 +35,20 @@ set(QExtWrapQwt_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapQwt_DIR_NAME}
 set(QExtWrapQwt_SOURCE_DIR "${QExtWrapQwt_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
 set(QExtWrapQwt_BUILD_DIR "${QExtWrapQwt_ROOT_DIR}/build/${CMAKE_BUILD_TYPE}" CACHE INTERNAL "" FORCE)
 set(QExtWrapQwt_INSTALL_DIR "${QExtWrapQwt_ROOT_DIR}/install/${CMAKE_BUILD_TYPE}" CACHE INTERNAL "" FORCE)
-if(NOT EXISTS ${QExtWrapQwt_SOURCE_DIR})
-    execute_process(
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${QExtWrapQwt_URL_PATH} ${QExtWrapQwt_SOURCE_DIR}
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapQwt_BUILD_DIR}
-        RESULT_VARIABLE FETCH_RESULT)
-endif()
-if(NOT EXISTS ${QExtWrapQwt_INSTALL_DIR})
+qext_stamp_file_info(QExtWrapQwt OUTPUT_DIR "${QExtWrapQwt_ROOT_DIR}")
+qext_fetch_3rdparty(QExtWrapQwt URL "${QExtWrapQwt_URL_PATH}")
+if(NOT EXISTS ${QExtWrapQwt_STAMP_FILE_PATH})
     if(NOT EXISTS ${QExtWrapQwt_SOURCE_DIR})
         message(FATAL_ERROR "${QExtWrapQwt_DIR_NAME} FetchContent failed.")
     endif()
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapQwt_BUILD_DIR}
+        WORKING_DIRECTORY "${QExtWrapQwt_ROOT_DIR}"
+        RESULT_VARIABLE MKDIR_RESULT)
+    if(NOT (MKDIR_RESULT MATCHES 0))
+        message(FATAL_ERROR "${QExtWrapQwt_DIR_NAME} lib build directory make failed.")
+    endif()
+
     execute_process(
         COMMAND ${CMAKE_COMMAND}
         -G${CMAKE_GENERATOR}
@@ -70,6 +74,7 @@ if(NOT EXISTS ${QExtWrapQwt_INSTALL_DIR})
                 RESULT_VARIABLE INSTALL_RESULT)
             if(BUILD_RESULT MATCHES 0)
                 message(STATUS "${QExtWrapQwt_DIR_NAME} install success")
+                qext_make_stamp_file("${QExtWrapQwt_STAMP_FILE_PATH}")
             else()
                 message(FATAL_ERROR "${QExtWrapQwt_DIR_NAME} install failed.")
             endif()
@@ -80,7 +85,17 @@ if(NOT EXISTS ${QExtWrapQwt_INSTALL_DIR})
         message(FATAL_ERROR "${QExtWrapQwt_DIR_NAME} configure failed.")
     endif()
 endif()
+# wrap lib
 find_package(Qwt PATHS ${QExtWrapQwt_INSTALL_DIR} REQUIRED)
 add_library(QExt3rdparty::WrapQwt INTERFACE IMPORTED)
 target_link_libraries(QExt3rdparty::WrapQwt INTERFACE Qwt::Qwt)
+# copy lib to build dir
+set(QExtWrapQwt_INSTALL_DLLDIR "${QExtWrapQwt_INSTALL_DIR}/${QEXT_INSTALL_DLLDIR}")
+qext_get_files("${QExtWrapQwt_INSTALL_DLLDIR}" QExtWrapQwt_LIBRARIES)
+execute_process(
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QExtWrapQwt_LIBRARIES}"
+    "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}"
+    WORKING_DIRECTORY "${QExtWrapQwt_ROOT_DIR}"
+    ERROR_QUIET)
+qext_install(FILES "${QExtWrapQwt_LIBRARIES}" DESTINATION "${QEXT_INSTALL_DLLDIR}")
 set(WrapQwt_FOUND ON)

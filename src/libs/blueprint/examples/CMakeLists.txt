@@ -41,7 +41,6 @@ endif()
 list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::Blueprint)
 
 
-set(OUTPUT_DIR ${QEXT_INSTALL_EXAMPLESDIR}/blueprint)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
@@ -63,7 +62,7 @@ qext_add_executable(QExtExpBlueprintCalculator
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/calculator
     OUTPUT_DIRECTORY
-    ${OUTPUT_DIR}/
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBlueprintHeadlessCalculator
@@ -84,7 +83,7 @@ qext_add_executable(QExtExpBlueprintHeadlessCalculator
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/calculator
     OUTPUT_DIRECTORY
-    ${OUTPUT_DIR}/
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBlueprintConnectionColors
@@ -97,7 +96,7 @@ qext_add_executable(QExtExpBlueprintConnectionColors
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/connection_colors
     OUTPUT_DIRECTORY
-    ${OUTPUT_DIR}/
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBlueprintDynamicPorts
@@ -112,7 +111,7 @@ qext_add_executable(QExtExpBlueprintDynamicPorts
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/dynamic_ports
     OUTPUT_DIRECTORY
-    ${OUTPUT_DIR}/
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBlueprintLockNodesAndConnections
@@ -126,7 +125,7 @@ qext_add_executable(QExtExpBlueprintLockNodesAndConnections
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/lock_nodes_and_connections
     OUTPUT_DIRECTORY
-    ${OUTPUT_DIR}/
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBlueprintResizableImages
@@ -142,7 +141,7 @@ qext_add_executable(QExtExpBlueprintResizableImages
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/resizable_images
     OUTPUT_DIRECTORY
-    ${OUTPUT_DIR}/
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBlueprintSimpleGraphModel
@@ -155,7 +154,7 @@ qext_add_executable(QExtExpBlueprintSimpleGraphModel
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/simple_graph_model
     OUTPUT_DIRECTORY
-    ${OUTPUT_DIR}/
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBlueprintStyles
@@ -168,7 +167,7 @@ qext_add_executable(QExtExpBlueprintStyles
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/styles
     OUTPUT_DIRECTORY
-    ${OUTPUT_DIR}/
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBlueprintText
@@ -184,7 +183,7 @@ qext_add_executable(QExtExpBlueprintText
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/text
     OUTPUT_DIRECTORY
-    ${OUTPUT_DIR}/
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")
 qext_add_executable(QExtExpBlueprintVerticalLayout
@@ -197,6 +196,6 @@ qext_add_executable(QExtExpBlueprintVerticalLayout
     INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/vertical_layout
     OUTPUT_DIRECTORY
-    ${OUTPUT_DIR}/
+    ${QEXT_INSTALL_EXAMPLESDIR}
     DEFINES
     EXECUTABLE_OUTPUT_PATH="${OUTPUT_DIR}")

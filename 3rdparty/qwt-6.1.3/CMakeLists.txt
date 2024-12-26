@@ -119,6 +119,11 @@ if(QWT_BUILD_TESTS OR QWT_BUILD_ALL)
     enable_testing()
 endif()
 
+if(CMAKE_CONFIGURATION_TYPES)
+    message(STATUS "Qwt CMAKE_CONFIGURATION_TYPES was set to: '${CMAKE_BUILD_TYPE}'")
+    set(CMAKE_CONFIGURATION_TYPES "${CMAKE_BUILD_TYPE}" CACHE INTERNAL "Force disable CMAKE_CONFIGURATION_TYPES." FORCE)
+endif()
+
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Sources

@@ -10,6 +10,9 @@ set(SINGLEAPPLICATION_VERSION ${SINGLEAPPLICATION_VERSION_MAJOR}.${SINGLEAPPLICA
 
 set(CMAKE_AUTOMOC ON)
 
+# Set CMAKE_OBJECT_PATH_MAX, avoid The maximum full path to an object file warning.
+set(CMAKE_OBJECT_PATH_MAX 1024)
+
 configure_file("singleapplication_config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/singleapplication_config.h")
 add_library(${PROJECT_NAME} STATIC
     singleapplication.cpp

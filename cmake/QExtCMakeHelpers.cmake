@@ -457,6 +457,19 @@ endfunction()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+function(qext_get_files input_dir files_var)
+    file(GLOB all_files "${input_dir}/*")
+    foreach(file ${all_files})
+        if(NOT IS_DIRECTORY ${file})
+            list(APPEND none_dir_files ${file})
+        endif()
+    endforeach()
+    set("${files_var}" "${none_dir_files}" PARENT_SCOPE)
+endfunction()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
 # qext_set_3rdparty_install_info
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_set_3rdparty_install_info prefix target)
@@ -536,75 +549,99 @@ endfunction()
 #-----------------------------------------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 function(qext_fetch_3rdparty name)
-    qext_parse_all_arguments(arg "" "" "URL;OUTPUT_DIR" "" ${ARGN})
+    qext_parse_all_arguments(arg "" "" "URL;OUTPUT_DIR;OUTPUT_NAME" "" ${ARGN})
     if(NOT EXISTS "${arg_URL}")
         message(FATAL_ERROR "3rdparty ${name} fetch failed, url ${arg_URL} not exist.")
     endif()
     get_filename_component(url_name ${arg_URL} NAME)
     string(REGEX MATCH "\\.zip$" is_zip ${url_name})
     string(REGEX MATCH "\\.tar\\.gz$" is_tar_gz ${url_name})
+    string(REGEX MATCH "\\.tar\\.xz$" is_tar_xz ${url_name})
     string(REGEX MATCH "\\.tar\\.bz2$" is_tar_bz2 ${url_name})
     if(is_zip)
         string(REGEX REPLACE "\\.zip$" "" url_base_name ${url_name})
     elseif(is_tar_gz)
         string(REGEX REPLACE "\\.tar\\.gz$" "" url_base_name ${url_name})
+    elseif(is_tar_xz)
+        string(REGEX REPLACE "\\.tar\\.xz$" "" url_base_name ${url_name})
     elseif(is_tar_bz2)
-        string(REGEX REPLACE "\\.tar\\.bz2$" "" url_base_name ${url_name})
+            string(REGEX REPLACE "\\.tar\\.bz2$" "" url_base_name ${url_name})
+    elseif(IS_DIRECTORY ${arg_URL})
+        set(is_dir TRUE)
+        set(url_base_name ${url_name})
     else()
         message(FATAL_ERROR "3rdparty ${name} fetch failed, url ${arg_URL} is an unknown format compressed package")
     endif()
     if("${arg_OUTPUT_DIR}" STREQUAL "")
         set(arg_OUTPUT_DIR "${PROJECT_BINARY_DIR}/3rdparty")
     endif()
-    set(3rdparty_root_dir ${arg_OUTPUT_DIR}/${url_base_name})
+    if(NOT arg_OUTPUT_NAME)
+        set(3rdparty_root_dir ${arg_OUTPUT_DIR}/${url_base_name})
+    else()
+        set(3rdparty_root_dir ${arg_OUTPUT_DIR}/${arg_OUTPUT_NAME})
+    endif()
 #    message(3rdparty_root_dir=${3rdparty_root_dir})
     set("${name}_FETCH_STAMP_FILE_PATH" "${3rdparty_root_dir}/${name}-fetch-stamp.txt")
     if(NOT EXISTS "${${name}_FETCH_STAMP_FILE_PATH}")
         message(STATUS "Fetching 3rdparty ${name} from ${arg_URL} ...")
         execute_process(
-            COMMAND ${CMAKE_COMMAND} -E make_directory ${3rdparty_root_dir}
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${3rdparty_root_dir}"
             WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
             RESULT_VARIABLE MKDIR_RESULT)
         if(NOT MKDIR_RESULT MATCHES 0)
             message(FATAL_ERROR "3rdparty ${name} fetch failed, work directory ${3rdparty_root_dir} make failed.")
         endif()
-        execute_process(
-            COMMAND ${CMAKE_COMMAND} -E remove_directory source
-            WORKING_DIRECTORY "${3rdparty_root_dir}"
-            RESULT_VARIABLE RMDIR_RESULT)
-        if(NOT RMDIR_RESULT MATCHES 0)
-            message(FATAL_ERROR "3rdparty ${name} fetch failed, source directory clear failed.")
-        endif()
-        execute_process(
-            COMMAND ${CMAKE_COMMAND} -E make_directory extract
-            WORKING_DIRECTORY "${3rdparty_root_dir}"
-            RESULT_VARIABLE MKDIR_RESULT)
-        if(NOT MKDIR_RESULT MATCHES 0)
-            message(FATAL_ERROR "3rdparty ${name} fetch failed, extract directory create failed.")
-        endif()
-        execute_process(
-            COMMAND ${CMAKE_COMMAND} -E tar xzvf "${arg_URL}"
-            WORKING_DIRECTORY ${3rdparty_root_dir}/extract
-            RESULT_VARIABLE EXTRACT_RESULT)
-        if(NOT EXTRACT_RESULT EQUAL 0)
-            message(FATAL_ERROR "3rdparty ${name} fetch failed, ${arg_URL} extract failed.")
-        endif()
-        file(GLOB extracted_dirs RELATIVE "${3rdparty_root_dir}/extract" "${3rdparty_root_dir}/extract/*")
-        foreach(subdir ${extracted_dirs})
-            if(IS_DIRECTORY "${3rdparty_root_dir}/extract/${subdir}")
-                set(3rdparty_extracted_dir "${3rdparty_root_dir}/extract/${subdir}")
+        if(is_dir)
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} -E copy_directory "${arg_URL}" "${3rdparty_root_dir}/source"
+                WORKING_DIRECTORY "${3rdparty_root_dir}"
+                RESULT_VARIABLE COPYDIR_RESULT)
+            if(NOT COPYDIR_RESULT MATCHES 0)
+                message(FATAL_ERROR "3rdparty ${name} fetch failed, source directory copy failed.")
             endif()
-        endforeach()
-        execute_process(
-            COMMAND ${CMAKE_COMMAND} -E rename ${3rdparty_extracted_dir} ${3rdparty_root_dir}/source
-            WORKING_DIRECTORY ${3rdparty_root_dir}
-            RESULT_VARIABLE EXTRACT_RESULT)
-        execute_process(
-            COMMAND ${CMAKE_COMMAND} -E remove_directory extract
-            WORKING_DIRECTORY ${3rdparty_root_dir}
-            RESULT_VARIABLE RMDIR_RESULT)
-        if(NOT EXTRACT_RESULT EQUAL 0)
-            message(FATAL_ERROR "3rdparty ${name} fetch failed, ${arg_URL} rename failed.")
+        else()
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} -E remove_directory source
+                WORKING_DIRECTORY "${3rdparty_root_dir}"
+                RESULT_VARIABLE RMDIR_RESULT)
+            if(NOT RMDIR_RESULT MATCHES 0)
+                message(FATAL_ERROR "3rdparty ${name} fetch failed, source directory clear failed.")
+            endif()
+
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} -E make_directory extract
+                WORKING_DIRECTORY "${3rdparty_root_dir}"
+                RESULT_VARIABLE MKDIR_RESULT)
+            if(NOT MKDIR_RESULT MATCHES 0)
+                message(FATAL_ERROR "3rdparty ${name} fetch failed, extract directory create failed.")
+            endif()
+
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} -E tar xzvf "${arg_URL}"
+                WORKING_DIRECTORY "${3rdparty_root_dir}/extract"
+                RESULT_VARIABLE EXTRACT_RESULT)
+            if(NOT EXTRACT_RESULT EQUAL 0)
+                message(FATAL_ERROR "3rdparty ${name} fetch failed, ${arg_URL} extract failed.")
+            endif()
+
+            file(GLOB extracted_dirs RELATIVE "${3rdparty_root_dir}/extract" "${3rdparty_root_dir}/extract/*")
+            foreach(subdir ${extracted_dirs})
+                if(IS_DIRECTORY "${3rdparty_root_dir}/extract/${subdir}")
+                    set(3rdparty_extracted_dir "${3rdparty_root_dir}/extract/${subdir}")
+                endif()
+            endforeach()
+
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} -E rename "${3rdparty_extracted_dir}" "${3rdparty_root_dir}/source"
+                WORKING_DIRECTORY "${3rdparty_root_dir}"
+                RESULT_VARIABLE EXTRACT_RESULT)
+            execute_process(
+                COMMAND ${CMAKE_COMMAND} -E remove_directory extract
+                WORKING_DIRECTORY "${3rdparty_root_dir}"
+                RESULT_VARIABLE RMDIR_RESULT)
+            if(NOT EXTRACT_RESULT EQUAL 0)
+                message(FATAL_ERROR "3rdparty ${name} fetch failed, ${arg_URL} rename failed.")
+            endif()
         endif()
         qext_make_stamp_file("${${name}_FETCH_STAMP_FILE_PATH}")
     endif()
