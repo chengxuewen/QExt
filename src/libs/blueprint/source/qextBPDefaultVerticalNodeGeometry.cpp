@@ -30,8 +30,8 @@ private:
 QExtBPDefaultVerticalNodeGeometryPrivate::QExtBPDefaultVerticalNodeGeometryPrivate(QExtBPDefaultVerticalNodeGeometry *q,
                                                                                    QExtBPAbstractGraphModel &graphModel)
     : QExtBPAbstractNodeGeometryPrivate(q, graphModel)
-    , m_portSize(20)
     , m_portSpasing(10)
+    , m_portSize(20)
     , m_fontMetrics(QFont())
     , m_boldFontMetrics(QFont())
 {

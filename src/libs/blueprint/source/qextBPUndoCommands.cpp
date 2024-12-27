@@ -436,8 +436,7 @@ void ConnectCommand::redo()
 //------
 
 QExtBPMoveNodeCommand::QExtBPMoveNodeCommand(QExtBPBasicGraphicsScene *scene, const QPointF &diff)
-    : m_scene(scene)
-    , m_diff(diff)
+    : m_diff(diff), m_scene(scene)
 {
     m_selectedNodes.clear();
     for (QGraphicsItem *item : m_scene->selectedItems())

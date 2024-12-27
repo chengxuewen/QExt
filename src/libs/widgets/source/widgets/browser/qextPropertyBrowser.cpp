@@ -10109,7 +10109,7 @@ void QExtPropertyEditorView::paintEvent(QPaintEvent *paintEvent)
 
 void QExtPropertyEditorView::drawRow(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QStyleOptionViewItemV3 opt = option;
+    QStyleOptionViewItem opt = option;
     bool hasValue = true;
     if (m_editorPrivate)
     {
@@ -10291,7 +10291,7 @@ void QExtPropertyEditorDelegate::paint(QPainter *painter, const QStyleOptionView
             hasValue = property->hasValue();
         }
     }
-    QStyleOptionViewItemV3 opt = option;
+    QStyleOptionViewItem opt = option;
     if ((m_editorPrivate && index.column() == 0) || !hasValue)
     {
         QExtProperty *property = m_editorPrivate->indexToProperty(index);
@@ -10310,7 +10310,7 @@ void QExtPropertyEditorDelegate::paint(QPainter *painter, const QStyleOptionView
     else
     {
         c = m_editorPrivate->calculatedBackgroundColor(m_editorPrivate->indexToBrowserItem(index));
-        if (c.isValid() && (opt.features & QStyleOptionViewItemV2::Alternate))
+        if (c.isValid() && (opt.features & QStyleOptionViewItem::Alternate))
         {
             c = c.lighter(112);
         }

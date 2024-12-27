@@ -16,8 +16,8 @@ QExtBPNodeGraphicsObjectPrivate::QExtBPNodeGraphicsObjectPrivate(QExtBPNodeGraph
                                                                  QExtBPAbstractGraphModel &graphModel)
     : q_ptr(q)
     , m_nodeState(*q)
-    , m_graphModel(graphModel)
     , m_proxyWidget(QEXT_NULLPTR)
+    , m_graphModel(graphModel)
 {
 }
 
