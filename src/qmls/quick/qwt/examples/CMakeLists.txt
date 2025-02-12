@@ -2,7 +2,7 @@
 #
 # Library: QExt
 #
-# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
+# Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
 #
 # License: MIT License
 #
@@ -20,3 +20,47 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 ########################################################################################################################
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Set example link libraries
+#-----------------------------------------------------------------------------------------------------------------------
+set(QEXT_EXAMPLE_LINK_LIBRARIES)
+
+if(UNIX)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES dl)
+endif()
+if(WIN32)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES shlwapi.lib)
+endif()
+if(CMAKE_THREAD_LIBS_INIT)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
+endif()
+
+if(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+else()
+    message(FATAL_ERROR "Not find Qt package")
+endif()
+
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::QuickQwt)
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Add example
+#-----------------------------------------------------------------------------------------------------------------------
+qext_add_executable(QExtExpQuickQwtSimple
+    SOURCES
+    simple/simple.qrc
+    simple/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/simple
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    QML_MODULES_DIR="${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")

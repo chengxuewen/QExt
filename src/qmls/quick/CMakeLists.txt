@@ -23,4 +23,4 @@
 
 add_subdirectory(controls)
 qext_add_subdirectory(keyboard QEXT_ENABLE_LIB_KEYBOARD)
-qext_add_subdirectory(qwt QEXT_ENABLE_3RDPARTY_QWT OR QEXT_ADD_SUBDIRECTORY_QWT)
+qext_add_subdirectory(qwt QEXT_ENABLE_3RDPARTY_QWT)

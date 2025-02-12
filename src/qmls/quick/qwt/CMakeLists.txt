@@ -37,7 +37,8 @@ else()
 endif()
 
 list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core)
-
+qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
+list(APPEND QEXT_QML_LINK_LIBRARIES QExt3rdparty::WrapQwt)
 
 qext_find_qt_tool(moc)
 set(QEXT_QT_MOC_EXECUTABLE "${moc_EXECUTABLE}" CACHE INTERNAL "" FORCE)
@@ -59,6 +60,10 @@ qt_internal_add_qml_module(QuickQwt
     DEPENDENCIES
     QExt::Core
     SOURCES
+    source/plotdata.cpp
+    source/plotdata.h
+    source/qwtquick2.cpp
+    source/qwtquick2.h
     source/qextQuickQwt.cpp
     source/qextQuickQwt_p.h
     source/qextQuickQwt.h

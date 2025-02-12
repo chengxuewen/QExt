@@ -25,6 +25,8 @@
 #include <private/qextQuickQwt_p.h>
 #include <qextQuickQwtGlobal.h>
 
+#include "qwtquick2.h"
+
 #include <qextOnceFlag.h>
 
 #include <QDebug>
@@ -103,6 +105,7 @@ void QExtQuickQwt::registerTypes(const char *url)
     const int minor = QEXT_VERSION_MINOR;
 
     qmlRegisterSingletonType<QExtQuickQwt>(url, major, minor, "QExtQuickQwt", QExtQuickQwt::qmlSingletonTypeProvider);
+    qmlRegisterType<QwtQuick2Plot>(url, major, minor, "QwtQuick2Plot");
 }
 
 void QExtQuickQwt::initQmlEngine(QQmlEngine *engine, const char *uri)
