@@ -46,7 +46,7 @@ HWND FindMainWindow(unsigned long process_id)
     EnumWindows(EnumWindowsCallback, (LPARAM)&data);
     return data.best_handle;
 }
-#else
+#else // unix
 #   if QEXT_FEATURE_X11EXTRAS
 void searchMainWindow(unsigned long pid, Display *display, Window wRoot, Atom atomPID, QList<Window> &result)
 {
@@ -112,7 +112,11 @@ unsigned long FindMainWindow(unsigned long pid)
     return winId;
 }
 #   else
-
+unsigned long FindMainWindow(unsigned long pid)
+{
+    //TODO
+    return 0;
+}
 #   endif
 #endif
 }

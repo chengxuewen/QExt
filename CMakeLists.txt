@@ -33,7 +33,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.12.1 LANGUAGES CXX C)
+project(QExt VERSION 1.2.12.2 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -100,9 +100,9 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 5)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Network Test PrintSupport Xml Svg Sql REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Gui Widgets Quick QuickControls2 REQUIRED)
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent QUIET)
     if(UNIX)
-        find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS X11Extras)
+        find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS X11Extras QUIET)
         set(QEXT_QT_X11EXTRAS_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}X11Extras_FOUND})
     else()
         set(QEXT_QT_X11EXTRAS_FOUND OFF)
@@ -121,9 +121,9 @@ elseif(QEXT_QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "Expected Qt version is Qt${QEXT_QT_VERSION}")
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Core Core5Compat Network Test PrintSupport Xml Svg Sql REQUIRED)
     find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS Gui Widgets Quick QuickControls2 REQUIRED)
-    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent OpenGLWidgets)
+    find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS OpenGL Concurrent OpenGLWidgets QUIET)
     if(UNIX)
-        find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS X11Extras)
+        find_package(Qt${QEXT_QT_VERSION_MAJOR} COMPONENTS X11Extras QUIET)
         set(QEXT_QT_X11EXTRAS_FOUND ${Qt${QEXT_QT_VERSION_MAJOR}X11Extras_FOUND})
     else()
         set(QEXT_QT_X11EXTRAS_FOUND OFF)
@@ -646,11 +646,20 @@ endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# build directory check
+# Build directory check
 #-----------------------------------------------------------------------------------------------------------------------
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
     message(FATAL_ERROR "In-source builds not allowed. Please make a new directory (called a build directory) and run "
         "CMake from there. You may need to remove CMakeCache.txt.")
+endif()
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+    set(QEXT_IN_SUBMODULE OFF)
+else()
+    set(QEXT_IN_SUBMODULE ON)
+endif()
+
+if(CMAKE_CROSSCOMPILING AND NOT IS_DIRECTORY "${QEXT_HOST_PATH}")
+    message(FATAL_ERROR "You need to set QEXT_HOST_PATH to cross compile QEXT.")
 endif()
 
 
@@ -706,7 +715,7 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# add 3rdparty subdirectory
+# Add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
 if(QEXT_ADD_SUBDIRECTORY_QWT)
     add_subdirectory(3rdparty/qwt-6.1.3)
@@ -751,10 +760,9 @@ endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
-# add subdirectory
+# Add subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
 add_subdirectory(src/libs)
 add_subdirectory(src/tools)
 add_subdirectory(src/plugins)
 qext_add_subdirectory(src/qmls QEXT_BUILD_QMLS)
-message(STATUS "========================================QExt Configuring done=========================================")
