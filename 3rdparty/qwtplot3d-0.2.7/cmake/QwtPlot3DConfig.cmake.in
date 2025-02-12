@@ -1,0 +1,21 @@
+# find qt dependencies package
+find_package(@QWTPLOT3D_QT_FINDPKG_CMDSTR@)
+
+@PACKAGE_INIT@
+
+set(QWTPLOT3D_VERSION_MAJOR "@QWTPLOT3D_VERSION_MAJOR@")
+set(QWTPLOT3D_VERSION_MINOR "@QWTPLOT3D_VERSION_MINOR@")
+set(QWTPLOT3D_VERSION_PATCH "@QWTPLOT3D_VERSION_PATCH@")
+
+set_and_check(QWTPLOT3D_INCLUDE_DIRS "@PACKAGE_INCLUDE_INSTALL_DIRS@")
+
+include("${CMAKE_CURRENT_LIST_DIR}/QwtPlot3D-targets.cmake")
+
+# Make sure we find packages for our dependencies
+foreach(_PKG IN ITEMS @QWTPLOT3D_PKGS@)
+    find_package(${_PKG} REQUIRED)
+endforeach ()
+
+set(QWTPLOT3D_LIBRARY QwtPlot3D::QwtPlot3D)
+
+check_required_components(@PROJECT_NAME@)

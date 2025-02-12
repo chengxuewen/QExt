@@ -33,7 +33,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.14.1 LANGUAGES CXX C)
+project(QExt VERSION 1.2.15.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -425,6 +425,7 @@ qext_option(QEXT_ENABLE_3RDPARTY_QWINDOWKIT "Enable this to build the 3rdparty q
 
 qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF
     OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ADD_SUBDIRECTORY_QWTPLOT3D "Enable this to add the 3rdparty QwtPlot3D subdirectory" OFF)
 qext_option(QEXT_ADD_SUBDIRECTORY_QTWEBAPP "Enable this to add the 3rdparty QtWebApp subdirectory" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF
@@ -724,11 +725,16 @@ else()
     set(QWT_VERSION "6.1.3" CACHE INTERNAL "" FORCE)
 endif()
 if(QEXT_ADD_SUBDIRECTORY_QWT)
-    set(QWT_BUILD_ALL ${QEXT_BUILD_ALL})
+    set(QWT_BUILD_ALL "${QEXT_BUILD_ALL}" CACHE INTERNAL "" FORCE)
     add_subdirectory(3rdparty/qwt-${QWT_VERSION})
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWT)
     qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
+endif()
+
+if(QEXT_ADD_SUBDIRECTORY_QWTPLOT3D)
+    set(QWTPLOT3D_BUILD_ALL "${QEXT_BUILD_ALL}" CACHE INTERNAL "" FORCE)
+    add_subdirectory(3rdparty/qwtplot3d-0.2.7)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_QTWEBAPP)
