@@ -33,7 +33,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.2.12.2 LANGUAGES CXX C)
+project(QExt VERSION 1.2.13.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -410,6 +410,7 @@ qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib"
 qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 
+qext_option(QEXT_ENABLE_3RDPARTY_QWT_LAST "Enable this to build the 3rdparty last version Qwt-6.3.0 lib" ON)
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_QTWEBAPP "Enable this to build the 3rdparty QtWebApp lib" OFF
@@ -717,9 +718,14 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 #-----------------------------------------------------------------------------------------------------------------------
 # Add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
+if(QEXT_ENABLE_3RDPARTY_QWT_LAST)
+    set(QWT_VERSION "6.3.0" CACHE INTERNAL "" FORCE)
+else()
+    set(QWT_VERSION "6.1.3" CACHE INTERNAL "" FORCE)
+endif()
 if(QEXT_ADD_SUBDIRECTORY_QWT)
     set(QWT_BUILD_ALL ${QEXT_BUILD_ALL})
-    add_subdirectory(3rdparty/qwt-6.1.3)
+    add_subdirectory(3rdparty/qwt-${QWT_VERSION})
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWT)
     qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)

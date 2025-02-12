@@ -1,21 +1,12 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # Function
 #-----------------------------------------------------------------------------------------------------------------------
-function(qwtCopyDependenceLib target dependence)
-    add_custom_command(
-        TARGET ${target}
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${dependence}> $<TARGET_FILE_DIR:${target}>
-        COMMENT "copy the qwt lib file to the same folder as the executable"
-        POST_BUILD)
-endfunction(qwtCopyDependenceLib)
-
 function(qwt_add_example NAME)
     set(multiValueArgs SOURCES)
     cmake_parse_arguments(arg "" "" "${multiValueArgs}" "${ARGN}")
     add_executable(${NAME} ${arg_SOURCES})
     target_link_libraries(${NAME} PRIVATE Qwt)
 endfunction(qwt_add_example)
-
 
 
 #-----------------------------------------------------------------------------------------------------------------------
