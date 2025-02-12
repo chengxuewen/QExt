@@ -718,6 +718,7 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 # Add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
 if(QEXT_ADD_SUBDIRECTORY_QWT)
+    set(QWT_BUILD_ALL ${QEXT_BUILD_ALL})
     add_subdirectory(3rdparty/qwt-6.1.3)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWT)
@@ -766,3 +767,4 @@ add_subdirectory(src/libs)
 add_subdirectory(src/tools)
 add_subdirectory(src/plugins)
 qext_add_subdirectory(src/qmls QEXT_BUILD_QMLS)
+message(STATUS "QExt Configuring Generating Done")

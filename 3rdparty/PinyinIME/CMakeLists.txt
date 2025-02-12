@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.10)
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
+message(STATUS "=============================================PinyinIME================================================")
 project(PinyinIME VERSION 0.1.1.1 LANGUAGES CXX)
 set(PinyinIME_VERSION_NAME ${PROJECT_VERSION})
 set(PinyinIME_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
@@ -200,3 +201,4 @@ if(PinyinIME_BUILD_INSTALL)
     install(FILES "${project_config}" "${version_config}"
         DESTINATION "${CMAKE_INSTALL_FULL_LIBDIR}/cmake/${PROJECT_NAME}")
 endif()
+message(STATUS "PinyinIME Configuring Generating Done")
