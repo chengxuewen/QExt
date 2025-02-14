@@ -6,6 +6,7 @@
 #include <QtEndian>
 #include <QByteArray>
 
+#include <sstream>
 
 #if QEXT_VARIANT_HAVE_STD_VARIANT
 #define variant_noexcept  noexcept
