@@ -58,6 +58,8 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
+qext_find_package(WrapVariantLite PROVIDED_TARGETS QExt3rdparty::WrapVariantLite)
+
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
@@ -128,6 +130,7 @@ qext_add_library(Core
     source/tools/qextUniquePointer.h
     source/tools/qextObject.h
     source/tools/qextObject.cpp
+    source/tools/qextVariant.h
     source/utils/qextCodecUtils.cpp
     source/utils/qextCodecUtils.h
     source/utils/qextCommonUtils.cpp
@@ -145,7 +148,10 @@ qext_add_library(Core
     source/utils/qextVariantUtils.h
     PRECOMPILED_HEADER
     source/qextPch.h
+    EXTERNAL_HEADERS_DIRS
+    ${WrapVariantLite_INSTALL_DIR}/include
     PUBLIC_LIBRARIES
+    QExt3rdparty::WrapVariantLite
     ${QEXT_LIB_LINK_LIBRARIES})
 
 if(QEXT_FEATURE_USE_CJSON_BACKEND)

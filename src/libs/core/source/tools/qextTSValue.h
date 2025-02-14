@@ -4,6 +4,7 @@
 #include <qextGlobal.h>
 #include <qextTypeTrait.h>
 #include <qextConcurrent.h>
+#include <qextDateTimeUtils.h>
 
 #include <QPair>
 #if QEXT_CC_STD_11
@@ -129,11 +130,13 @@ public:
     typedef QPair<T, TS> Value;
     typedef QExtTSValue<T> Self;
 
-    QExtTSValue() : m_timeout(0) {}
+    static qint64 now() { return QExtDateTimeUtils::msecsTimeSinceEpoch(); }
+
+    QExtTSValue() : m_timeout(0) { m_value.second = QExtTSValue::now(); }
     QExtTSValue(const Self &other) : m_value(other.m_value), m_timeout(other.m_timeout) {}
-    QExtTSValue(const T &val, TS timeout = 0) : m_value(Value(val, 0)), m_timeout(timeout) {}
+    QExtTSValue(const T &val, TS timeout = 0) : m_value(Value(val, QExtTSValue::now())), m_timeout(timeout) {}
     template <typename Data>
-    QExtTSValue(const Data &data, TS timeout = 0) : m_timeout(timeout) { detail::qextTSValueStore(m_value, data); }
+    QExtTSValue(const Data &data, TS timeout = 0) : m_timeout(timeout) { this->reset(data, QExtTSValue::now()); }
     virtual ~QExtTSValue() {}
 
     T operator=(const T &value) QEXT_NOEXCEPT
@@ -184,6 +187,8 @@ public:
 
     TS timeoutTime() const { return m_timeout; }
     void setTimeoutTime(TS time) { m_timeout = time; }
+
+    qint64 timestamp() const { return m_value.second; }
 
     T get() const { return detail::qextTSValueLoad(m_value); }
     template <typename Data>

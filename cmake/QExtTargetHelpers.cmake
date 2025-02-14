@@ -37,8 +37,11 @@ function(qext_internal_extend_target target)
         message(FATAL_ERROR "Trying to extend non-existing target \"${target}\".")
     endif()
 
-    qext_parse_all_arguments(arg "qext_internal_extend_target" "HEADER_LIBRARY" "PRECOMPILED_HEADER"
-        "CONDITION;${QEXT_DEFAULT_PUBLIC_ARGS};${QEXT_DEFAULT_PRIVATE_ARGS};${QEXT_DEFAULT_PRIVATE_LIBRARY_ARGS};COMPILE_FLAGS;NO_PCH_SOURCES" ${ARGN})
+    # qext_parse_all_arguments(arg "qext_internal_extend_target" "HEADER_LIBRARY" "PRECOMPILED_HEADER"
+        # "CONDITION;${QEXT_DEFAULT_PUBLIC_ARGS};${QEXT_DEFAULT_PRIVATE_ARGS};${QEXT_DEFAULT_PRIVATE_LIBRARY_ARGS};COMPILE_FLAGS;NO_PCH_SOURCES" ${ARGN})
+    list(APPEND multiopts "CONDITION;COMPILE_FLAGS;NO_PCH_SOURCES;EXTERNAL_HEADERS_DIRS")
+    list(APPEND multiopts "${QEXT_DEFAULT_PUBLIC_ARGS};${QEXT_DEFAULT_PRIVATE_ARGS};${QEXT_DEFAULT_PRIVATE_LIBRARY_ARGS}")
+    qext_parse_all_arguments(arg "qext_internal_extend_target" "HEADER_LIBRARY" "PRECOMPILED_HEADER" "${multiopts}" ${ARGN})
     if("x${arg_CONDITION}" STREQUAL x)
         set(arg_CONDITION ON)
     endif()
@@ -87,6 +90,7 @@ function(qext_internal_extend_target target)
             set(public_visibility_option "INTERFACE")
             set(private_visibility_option "INTERFACE")
         endif()
+        # message(target=${target}, arg_INCLUDE_DIRECTORIES=${arg_INCLUDE_DIRECTORIES})
         target_include_directories("${target}"
             ${public_visibility_option} ${arg_PUBLIC_INCLUDE_DIRECTORIES}
             ${private_visibility_option} ${arg_INCLUDE_DIRECTORIES})
