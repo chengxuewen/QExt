@@ -400,6 +400,7 @@ function(qext_add_library target)
     if(is_framework)
         set(public_headers_list "private_includes")
     endif()
+    set(private_includes ${arg_INCLUDE_DIRECTORIES})
 
     # Make sure the BUILD_INTERFACE include paths come before the framework headers, so that the
     # the compiler prefers the build dir includes.
@@ -418,14 +419,14 @@ function(qext_add_library target)
         if(library_headers_private)
             list(APPEND private_includes
                 "$<BUILD_INTERFACE:${library_build_interface_versioned_include_dir}>"
-                "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include/private>"
+                # "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include/private>"
                 "$<BUILD_INTERFACE:${library_build_interface_versioned_inner_include_dir}>")
         endif()
 
         list(APPEND public_includes
             # For the syncqext headers
             "$<BUILD_INTERFACE:${repo_build_interface_include_dir}>"
-            "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
+            # "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
             "$<BUILD_INTERFACE:${library_build_interface_include_dir}>")
     endif()
 
@@ -492,6 +493,7 @@ function(qext_add_library target)
 #            message(dir=${dir})
 #        endforeach()
     # qext_internal_add_repo_local_defines("${target}")
+    # message(target=${target},private_includes=${private_includes})
     qext_internal_extend_target("${target}"
         ${header_library}
         SOURCES

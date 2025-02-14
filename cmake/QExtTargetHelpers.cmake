@@ -87,6 +87,7 @@ function(qext_internal_extend_target target)
             set(public_visibility_option "INTERFACE")
             set(private_visibility_option "INTERFACE")
         endif()
+        # message(target=${target}, arg_INCLUDE_DIRECTORIES=${arg_INCLUDE_DIRECTORIES})
         target_include_directories("${target}"
             ${public_visibility_option} ${arg_PUBLIC_INCLUDE_DIRECTORIES}
             ${private_visibility_option} ${arg_INCLUDE_DIRECTORIES})
