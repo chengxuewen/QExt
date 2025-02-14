@@ -37,8 +37,11 @@ function(qext_internal_extend_target target)
         message(FATAL_ERROR "Trying to extend non-existing target \"${target}\".")
     endif()
 
-    qext_parse_all_arguments(arg "qext_internal_extend_target" "HEADER_LIBRARY" "PRECOMPILED_HEADER"
-        "CONDITION;${QEXT_DEFAULT_PUBLIC_ARGS};${QEXT_DEFAULT_PRIVATE_ARGS};${QEXT_DEFAULT_PRIVATE_LIBRARY_ARGS};COMPILE_FLAGS;NO_PCH_SOURCES" ${ARGN})
+    # qext_parse_all_arguments(arg "qext_internal_extend_target" "HEADER_LIBRARY" "PRECOMPILED_HEADER"
+        # "CONDITION;${QEXT_DEFAULT_PUBLIC_ARGS};${QEXT_DEFAULT_PRIVATE_ARGS};${QEXT_DEFAULT_PRIVATE_LIBRARY_ARGS};COMPILE_FLAGS;NO_PCH_SOURCES" ${ARGN})
+    list(APPEND multiopts "CONDITION;COMPILE_FLAGS;NO_PCH_SOURCES;EXTERNAL_HEADERS_DIRS")
+    list(APPEND multiopts "${QEXT_DEFAULT_PUBLIC_ARGS};${QEXT_DEFAULT_PRIVATE_ARGS};${QEXT_DEFAULT_PRIVATE_LIBRARY_ARGS}")
+    qext_parse_all_arguments(arg "qext_internal_extend_target" "HEADER_LIBRARY" "PRECOMPILED_HEADER" "${multiopts}" ${ARGN})
     if("x${arg_CONDITION}" STREQUAL x)
         set(arg_CONDITION ON)
     endif()

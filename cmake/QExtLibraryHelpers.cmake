@@ -52,6 +52,7 @@ macro(qext_internal_get_add_library_keywords option_args single_args multi_args)
         EXTRA_CMAKE_INCLUDES
         NO_PCH_SOURCES
         EXTERNAL_HEADERS
+        EXTERNAL_HEADERS_DIRS
         ${QEXT_DEFAULT_PUBLIC_ARGS}
         ${QEXT_DEFAULT_PRIVATE_ARGS})
 endmacro()
@@ -183,6 +184,9 @@ function(qext_add_library target)
 
     qext_internal_library_info(library "${target}")
     qext_internal_add_repo_known_library("${target}")
+    # for qext_internal_extend_target EXTERNAL_HEADERS_DIRS ptk_install
+    set_property(TARGET ${target} APPEND PROPERTY _qext_library_install_interface_include_dir
+            "${library_install_interface_include_dir}")
 
     if(arg_INTERNAL_LIBRARY)
         set_target_properties(${target} PROPERTIES _qext_is_internal_library TRUE)
@@ -507,6 +511,7 @@ function(qext_add_library target)
         DEFINES
         ${arg_DEFINES}
         ${defines_for_extend_target}
+        EXTERNAL_HEADERS_DIRS ${arg_EXTERNAL_HEADERS_DIRS}
         PUBLIC_LIBRARIES ${arg_PUBLIC_LIBRARIES}
         LIBRARIES ${arg_LIBRARIES}
         PRIVATE_LIBRARY_INTERFACE ${arg_PRIVATE_LIBRARY_INTERFACE}
