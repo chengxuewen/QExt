@@ -34,6 +34,10 @@ qext_configure_feature("ENABLE_DEBUG" PUBLIC
     LABEL "Enable this to build enable debug"
     CONDITION ON)
 
+qext_configure_feature("ENABLE_VARIADIC_TEMPLATES" PUBLIC
+    LABEL "Enable this to use cxx_variadic_templates"
+    CONDITION OFF)
+
 qext_configure_feature("USE_3rdQJSON_BACKEND" PUBLIC
     LABEL "Enable this to build use 3rd cJSON backend"
     CONDITION ON)
