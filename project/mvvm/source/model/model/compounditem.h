@@ -57,7 +57,7 @@ PropertyItem* CompoundItem::addProperty(const std::string& name, const V& value)
 {
     auto property = addProperty<PropertyItem>(name);
     property->setData(value);
-    if constexpr (std::is_floating_point_v<V>)
+    if constexpr (std::is_floating_point<V>::value)
         property->setData(RealLimits::limitless(), ItemDataRole::LIMITS);
     return property;
 }

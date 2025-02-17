@@ -10,7 +10,7 @@
 #ifndef MVVM_WIDGETS_ADJUSTINGSCROLLAREA_H
 #define MVVM_WIDGETS_ADJUSTINGSCROLLAREA_H
 
-#include "mvvm/view_export.h"
+#include "qextMVVMGlobal.h"
 #include <QScrollArea>
 
 namespace ModelView {
@@ -18,7 +18,7 @@ namespace ModelView {
 //! Modification of standard scroll area, which makes widget with dynamic layout occupy the whole
 //! available space.
 
-class MVVM_VIEW_EXPORT AdjustingScrollArea : public QScrollArea {
+class QEXT_MVVM_API AdjustingScrollArea : public QScrollArea {
     Q_OBJECT
 
 public:

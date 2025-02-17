@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/colormapinfoformatter.h"
-#include "mvvm/utils/stringutils.h"
+#include "view/plotting/colormapinfoformatter.h"
+#include "model/utils/stringutils.h"
 #include <qcustomplot.h>
 #include <sstream>
 
@@ -26,6 +26,7 @@ QCPColorMap* find_colormap(QCustomPlot* custom_plot)
 }
 
 struct Context {
+    Context(double x, double y) : xpos(x), ypos(y) {}
     double xpos{0.0};
     double ypos{0.0};
     int nx{0};
@@ -50,7 +51,7 @@ std::string ColorMapInfoFormatter::status_string(QCustomPlot* custom_plot, doubl
 {
     // shall we provide caching here?
     auto color_map = find_colormap(custom_plot);
-    Context context{x, y};
+    Context context(x, y);
 
     color_map->data()->coordToCell(x, y, &context.nx, &context.ny);
     context.value = color_map->data()->cell(context.nx, context.ny);

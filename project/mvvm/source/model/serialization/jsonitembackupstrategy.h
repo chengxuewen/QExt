@@ -25,13 +25,13 @@ public:
     JsonItemBackupStrategy(const ItemFactoryInterface* item_factory);
     ~JsonItemBackupStrategy() override;
 
-    std::unique_ptr<SessionItem> restoreItem() const override;
+    QExtUniquePointer<SessionItem> restoreItem() const override;
 
     void saveItem(const SessionItem* item) override;
 
 private:
     struct JsonItemBackupStrategyImpl;
-    std::unique_ptr<JsonItemBackupStrategyImpl> p_impl;
+    QExtUniquePointer<JsonItemBackupStrategyImpl> p_impl;
 };
 
 } // namespace ModelView

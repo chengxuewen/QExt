@@ -7,7 +7,7 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/widgets/layoututils.h"
+#include "view/widgets/layoututils.h"
 #include <QBoxLayout>
 #include <QGridLayout>
 #include <QLayoutItem>

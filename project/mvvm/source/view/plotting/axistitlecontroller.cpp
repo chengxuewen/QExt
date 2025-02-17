@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/axistitlecontroller.h"
-#include "mvvm/standarditems/plottableitems.h"
+#include "view/plotting/axistitlecontroller.h"
+#include "model/standarditems/plottableitems.h"
 #include <qcustomplot.h>
 #include <stdexcept>
 
@@ -36,7 +36,7 @@ struct AxisTitleController::AxisTitleControllerImpl {
 };
 
 AxisTitleController::AxisTitleController(QCPAxis* axis)
-    : p_impl(std::make_unique<AxisTitleControllerImpl>(axis))
+    : p_impl(qextMakeUnique<AxisTitleControllerImpl>(axis))
 
 {
 }

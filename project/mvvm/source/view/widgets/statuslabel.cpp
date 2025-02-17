@@ -7,9 +7,9 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/widgets/statuslabel.h"
-#include "mvvm/editors/styleutils.h"
-#include "mvvm/widgets/widgetutils.h"
+#include "view/widgets/statuslabel.h"
+#include "viewmodel/editors/styleutils.h"
+#include "view/widgets/widgetutils.h"
 #include <QColor>
 #include <QFont>
 #include <QPainter>

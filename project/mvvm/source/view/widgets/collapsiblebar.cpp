@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/widgets/collapsiblebar.h"
-#include "mvvm/widgets/widgetutils.h"
+#include "view/widgets/collapsiblebar.h"
+#include "view/widgets/widgetutils.h"
 #include <QEvent>
 #include <QHBoxLayout>
 #include <QIcon>

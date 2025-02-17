@@ -13,12 +13,12 @@
 using namespace ModelView;
 
 struct UndoStack::UndoStackImpl {
-    std::unique_ptr<QUndoStack> m_undoStack;
-    UndoStackImpl() : m_undoStack(std::make_unique<QUndoStack>()) {}
+    QExtUniquePointer<QUndoStack> m_undoStack;
+    UndoStackImpl() : m_undoStack(qextMakeUnique<QUndoStack>()) {}
     QUndoStack* undoStack() { return m_undoStack.get(); }
 };
 
-UndoStack::UndoStack() : p_impl(std::make_unique<UndoStackImpl>()) {}
+UndoStack::UndoStack() : p_impl(qextMakeUnique<UndoStackImpl>()) {}
 
 void UndoStack::execute(std::shared_ptr<AbstractItemCommand> command)
 {

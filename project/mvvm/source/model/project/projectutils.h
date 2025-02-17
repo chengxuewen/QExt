@@ -28,7 +28,7 @@ QEXT_MVVM_API std::string SuggestFileName(const SessionModel& model);
 
 QEXT_MVVM_API bool IsPossibleProjectDir(const std::string& project_dir);
 
-QEXT_MVVM_API std::unique_ptr<ProjectInterface>
+QEXT_MVVM_API QExtUniquePointer<ProjectInterface>
 CreateUntitledProject(const ProjectContext& context);
 
 QEXT_MVVM_API std::string ProjectWindowTitle(const ProjectInterface& project);

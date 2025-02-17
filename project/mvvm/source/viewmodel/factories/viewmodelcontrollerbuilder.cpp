@@ -7,10 +7,10 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/factories/viewmodelcontrollerbuilder.h"
-#include "mvvm/interfaces/childrenstrategyinterface.h"
-#include "mvvm/interfaces/rowstrategyinterface.h"
-#include "mvvm/viewmodel/viewmodelcontroller.h"
+#include "viewmodel/factories/viewmodelcontrollerbuilder.h"
+#include "viewmodel/interfaces/childrenstrategyinterface.h"
+#include "viewmodel/interfaces/rowstrategyinterface.h"
+#include "viewmodel/viewmodel/viewmodelcontroller.h"
 #include <stdexcept>
 
 namespace ModelView {
@@ -19,7 +19,7 @@ ViewModelControllerBuilder::ViewModelControllerBuilder() = default;
 
 ViewModelControllerBuilder::~ViewModelControllerBuilder() = default;
 
-ViewModelControllerBuilder::operator std::unique_ptr<ViewModelController>()
+ViewModelControllerBuilder::operator QExtUniquePointer<ViewModelController>()
 {
     if (!context.model)
         throw std::runtime_error("Error in ViewModelController: undefined model");
@@ -30,7 +30,7 @@ ViewModelControllerBuilder::operator std::unique_ptr<ViewModelController>()
     if (!context.row_strategy)
         throw std::runtime_error("Error in ViewModelController: no row strategy defined.");
 
-    auto result = std::make_unique<ViewModelController>(context.model, context.view_model);
+    auto result = qextMakeUnique<ViewModelController>(context.model, context.view_model);
     result->setChildrenStrategy(std::move(context.children_strategy));
     result->setRowStrategy(std::move(context.row_strategy));
 
@@ -50,14 +50,14 @@ ViewModelControllerBuilder::self& ViewModelControllerBuilder::viewModel(ViewMode
 }
 
 ViewModelControllerBuilder::self& ViewModelControllerBuilder::childrenStrategy(
-    std::unique_ptr<ChildrenStrategyInterface> children_strategy)
+    QExtUniquePointer<ChildrenStrategyInterface> children_strategy)
 {
     context.children_strategy = std::move(children_strategy);
     return *this;
 }
 
 ViewModelControllerBuilder::self&
-ViewModelControllerBuilder::rowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy)
+ViewModelControllerBuilder::rowStrategy(QExtUniquePointer<RowStrategyInterface> row_strategy)
 {
     context.row_strategy = std::move(row_strategy);
     return *this;

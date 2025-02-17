@@ -7,10 +7,10 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/statusstringreporter.h"
-#include "mvvm/plotting/mousemovereporter.h"
-#include "mvvm/plotting/mouseposinfo.h"
-#include "mvvm/plotting/statusstringformatterinterface.h"
+#include "view/plotting/statusstringreporter.h"
+#include "view/plotting/mousemovereporter.h"
+#include "view/plotting/mouseposinfo.h"
+#include "view/plotting/statusstringformatterinterface.h"
 #include <stdexcept>
 
 using namespace ModelView;
@@ -19,13 +19,13 @@ struct StatusStringReporter::StatusStringReporterImpl {
     StatusStringReporter* parent{nullptr};
     QCustomPlot* custom_plot{nullptr};
     callback_t callback;
-    std::unique_ptr<StatusStringFormatterInterface> fmt;
-    std::unique_ptr<MouseMoveReporter> mouse_reporter;
+    QExtUniquePointer<StatusStringFormatterInterface> fmt;
+    QExtUniquePointer<MouseMoveReporter> mouse_reporter;
     MousePosInfo prevPos;
 
     StatusStringReporterImpl(StatusStringReporter* parent, QCustomPlot* custom_plot,
                              callback_t callback,
-                             std::unique_ptr<StatusStringFormatterInterface> formatter)
+                             QExtUniquePointer<StatusStringFormatterInterface> formatter)
         : parent(parent)
         , custom_plot(custom_plot)
         , callback(std::move(callback))
@@ -47,7 +47,7 @@ struct StatusStringReporter::StatusStringReporterImpl {
 
             prevPos = pos;
         };
-        mouse_reporter = std::make_unique<MouseMoveReporter>(custom_plot, on_mouse_move);
+        mouse_reporter = qextMakeUnique<MouseMoveReporter>(custom_plot, on_mouse_move);
     }
 
     //! Notify client about mouse move with formatted status string.
@@ -75,8 +75,8 @@ struct StatusStringReporter::StatusStringReporterImpl {
 
 StatusStringReporter::StatusStringReporter(
     QCustomPlot* custom_plot, callback_t callback,
-    std::unique_ptr<StatusStringFormatterInterface> formatter)
-    : p_impl(std::make_unique<StatusStringReporterImpl>(this, custom_plot, callback,
+    QExtUniquePointer<StatusStringFormatterInterface> formatter)
+    : p_impl(qextMakeUnique<StatusStringReporterImpl>(this, custom_plot, callback,
                                                         std::move(formatter)))
 {
 }

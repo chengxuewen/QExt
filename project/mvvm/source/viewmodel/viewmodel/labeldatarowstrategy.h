@@ -10,7 +10,7 @@
 #ifndef MVVM_VIEWMODEL_LABELDATAROWSTRATEGY_H
 #define MVVM_VIEWMODEL_LABELDATAROWSTRATEGY_H
 
-#include "mvvm/interfaces/rowstrategyinterface.h"
+#include "viewmodel/interfaces/rowstrategyinterface.h"
 
 namespace ModelView {
 
@@ -20,11 +20,11 @@ class SessionItem;
 //! Row consists of two columns, ViewLabelItem for SessionItem's display role and
 //! ViewDataItem for Session's item data role.
 
-class MVVM_VIEWMODEL_EXPORT LabelDataRowStrategy : public RowStrategyInterface {
+class QEXT_MVVM_API LabelDataRowStrategy : public RowStrategyInterface {
 public:
     QStringList horizontalHeaderLabels() const override;
 
-    std::vector<std::unique_ptr<ViewItem>> constructRow(SessionItem*) override;
+    std::vector<QExtUniquePointer<ViewItem>> constructRow(SessionItem*) override;
 };
 
 } // namespace ModelView

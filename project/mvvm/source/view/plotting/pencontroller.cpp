@@ -7,9 +7,9 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/pencontroller.h"
-#include "mvvm/model/comboproperty.h"
-#include "mvvm/standarditems/plottableitems.h"
+#include "view/plotting/pencontroller.h"
+#include "model/model/comboproperty.h"
+#include "model/standarditems/plottableitems.h"
 #include <qcustomplot.h>
 #include <stdexcept>
 
@@ -48,7 +48,7 @@ struct PenController::PenControllerImpl {
     }
 };
 
-PenController::PenController(QCPGraph* graph) : p_impl(std::make_unique<PenControllerImpl>(graph))
+PenController::PenController(QCPGraph* graph) : p_impl(qextMakeUnique<PenControllerImpl>(graph))
 {
 }
 

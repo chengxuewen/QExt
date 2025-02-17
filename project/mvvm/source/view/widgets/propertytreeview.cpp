@@ -7,10 +7,10 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/widgets/propertytreeview.h"
-#include "mvvm/factories/viewmodelfactory.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/viewmodel/viewmodel.h"
+#include "view/widgets/propertytreeview.h"
+#include "viewmodel/factories/viewmodelfactory.h"
+#include "model/model/sessionitem.h"
+#include "viewmodel/viewmodel/viewmodel.h"
 #include <QTreeView>
 
 using namespace ModelView;

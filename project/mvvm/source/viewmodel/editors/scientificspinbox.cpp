@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/editors/scientificspinbox.h"
-#include "mvvm/editors/editor_constants.h"
+#include "viewmodel/editors/scientificspinbox.h"
+#include "viewmodel/editors/editor_constants.h"
 #include <QLineEdit>
 #include <cmath>
 #include <limits>

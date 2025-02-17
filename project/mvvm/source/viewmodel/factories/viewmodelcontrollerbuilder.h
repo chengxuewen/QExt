@@ -10,8 +10,8 @@
 #ifndef MVVM_FACTORIES_VIEWMODELCONTROLLERBUILDER_H
 #define MVVM_FACTORIES_VIEWMODELCONTROLLERBUILDER_H
 
-#include "mvvm/viewmodel/viewmodelcontroller.h"
-#include "mvvm/viewmodel_export.h"
+#include "viewmodel/viewmodel/viewmodelcontroller.h"
+#include "qextMVVMGlobal.h"
 #include <memory>
 
 namespace ModelView {
@@ -23,7 +23,7 @@ class RowStrategyInterface;
 
 //! Builder class for ViewModelController.
 
-class MVVM_VIEWMODEL_EXPORT ViewModelControllerBuilder {
+class QEXT_MVVM_API ViewModelControllerBuilder {
 public:
     using self = ViewModelControllerBuilder;
 
@@ -35,18 +35,18 @@ public:
 
     self& model(SessionModel* model);
     self& viewModel(ViewModelBase* view_model);
-    self& childrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
-    self& rowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
+    self& childrenStrategy(QExtUniquePointer<ChildrenStrategyInterface> children_strategy);
+    self& rowStrategy(QExtUniquePointer<RowStrategyInterface> row_strategy);
 
-    operator std::unique_ptr<ViewModelController>();
+    operator QExtUniquePointer<ViewModelController>();
 
 private:
     //! Components necessary to build ViewModelController
     struct Context {
         SessionModel* model{nullptr};
         ViewModelBase* view_model{nullptr};
-        std::unique_ptr<ChildrenStrategyInterface> children_strategy;
-        std::unique_ptr<RowStrategyInterface> row_strategy;
+        QExtUniquePointer<ChildrenStrategyInterface> children_strategy;
+        QExtUniquePointer<RowStrategyInterface> row_strategy;
     };
 
     Context context;

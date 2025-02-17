@@ -31,7 +31,7 @@ struct InsertNewItemCommand::InsertNewItemCommandImpl {
 
 InsertNewItemCommand::InsertNewItemCommand(item_factory_func_t func, SessionItem* parent,
                                            const TagRow& tagrow)
-    : AbstractItemCommand(parent), p_impl(std::make_unique<InsertNewItemCommandImpl>(func, tagrow))
+    : AbstractItemCommand(parent), p_impl(qextMakeUnique<InsertNewItemCommandImpl>(func, tagrow))
 {
     setResult(nullptr);
     p_impl->item_path = pathFromItem(parent);

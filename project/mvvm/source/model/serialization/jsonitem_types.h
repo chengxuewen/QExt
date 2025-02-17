@@ -29,7 +29,7 @@ class ItemFactoryInterface;
 
 struct QEXT_MVVM_API ConverterCallbacks {
     using create_json_t = std::function<QJsonObject(const SessionItem&)>;
-    using create_item_t = std::function<std::unique_ptr<SessionItem>(const QJsonObject&)>;
+    using create_item_t = std::function<QExtUniquePointer<SessionItem>(const QJsonObject&)>;
     using update_item_t = std::function<void(const QJsonObject&, SessionItem*)>;
 
     create_json_t m_create_json; //! creates JSON object from session item
@@ -61,7 +61,9 @@ inline bool isRebuildItemDataAndTagFromJson(ConverterMode mode)
 
 //! Collection of input paramters for SessionItemConverter
 
-struct QEXT_MVVM_API ConverterContext {
+struct QEXT_MVVM_API ConverterContext
+{
+    ConverterContext(const ItemFactoryInterface*factory, ConverterMode mode) : m_factory(factory), m_mode(mode) {}
     const ItemFactoryInterface* m_factory{nullptr};
     ConverterMode m_mode = ConverterMode::none;
 };

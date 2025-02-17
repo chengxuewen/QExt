@@ -17,13 +17,14 @@
 #include <type_traits>
 #include <unordered_set>
 #include <vector>
+#include <qextMemory.h>
 
 namespace ModelView::Utils {
 
 template <class T> struct is_unique_ptr : std::false_type {
 };
 
-template <class T, class D> struct is_unique_ptr<std::unique_ptr<T, D>> : std::true_type {
+template <class T, class D> struct is_unique_ptr<QExtUniquePointer<T, D>> : std::true_type {
 };
 
 //! Returns index corresponding to the first occurance of the item in the container.
@@ -33,9 +34,9 @@ template <typename It, typename T> int IndexOfItem(It begin, It end, const T& it
 {
     It pos;
     if constexpr (is_unique_ptr<typename std::iterator_traits<It>::value_type>::value)
-        pos = find_if(begin, end, [&item](const auto& x) { return x.get() == item; });
+        pos = find_if(begin, end, [&item](const std::iterator_traits<It>::value_type &x) { return x.get() == item; });
     else
-        pos = find_if(begin, end, [&item](const auto& x) { return x == item; });
+        pos = find_if(begin, end, [&item](const std::iterator_traits<It>::value_type &x) { return x == item; });
 
     return pos == end ? -1 : static_cast<int>(std::distance(begin, pos));
 }
@@ -62,16 +63,14 @@ std::vector<double> Apply(It begin, It end, UnaryFunction func)
 
 template <typename C> std::vector<double> Real(const C& container)
 {
-    return Apply(std::begin(container), std::end(container),
-                 [](const auto& x) { return std::real(x); });
+    return Apply(std::begin(container), std::end(container), [](const C::value_type& x) { return std::real(x); });
 }
 
 //! Returns vector with imag part of complex numbers.
 
 template <typename C> std::vector<double> Imag(const C& container)
 {
-    return Apply(std::begin(container), std::end(container),
-                 [](const auto& x) { return std::imag(x); });
+    return Apply(std::begin(container), std::end(container), [](const C::value_type& x) { return std::imag(x); });
 }
 
 //! Returns copy of container with all duplicated elements filtered our. The order is preserved.
@@ -84,7 +83,7 @@ template <typename C> C UniqueWithOrder(const C& container)
     std::unordered_set<valueType> unique;
 
     std::copy_if(container.begin(), container.end(), std::back_inserter(result),
-                 [&unique](auto x) { return unique.insert(x).second; });
+                 [&unique](valueType x) { return unique.insert(x).second; });
 
     return result;
 }

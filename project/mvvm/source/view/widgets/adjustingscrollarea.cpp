@@ -7,7 +7,7 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/widgets/adjustingscrollarea.h"
+#include "view/widgets/adjustingscrollarea.h"
 #include <QEvent>
 #include <QScrollBar>
 

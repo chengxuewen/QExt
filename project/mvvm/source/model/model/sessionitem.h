@@ -90,10 +90,10 @@ public:
 
     bool insertItem(SessionItem* item, const TagRow& tagrow);
 
-    SessionItem* insertItem(std::unique_ptr<SessionItem> item, const TagRow& tagrow);
+    SessionItem* insertItem(QExtUniquePointer<SessionItem> item, const TagRow& tagrow);
     template <typename T = SessionItem> T* insertItem(const TagRow& tagrow);
 
-    std::unique_ptr<SessionItem> takeItem(const TagRow& tagrow);
+    QExtUniquePointer<SessionItem> takeItem(const TagRow& tagrow);
 
     // more convenience methods
 
@@ -128,11 +128,11 @@ private:
     void setModel(SessionModel* model);
     void setAppearanceFlag(int flag, bool value);
 
-    void setDataAndTags(std::unique_ptr<SessionItemData> data,
-                        std::unique_ptr<SessionItemTags> tags);
+    void setDataAndTags(QExtUniquePointer<SessionItemData> data,
+                        QExtUniquePointer<SessionItemTags> tags);
 
     struct SessionItemImpl;
-    std::unique_ptr<SessionItemImpl> p_impl;
+    QExtUniquePointer<SessionItemImpl> p_impl;
 };
 
 //! Sets data for a given role. When extra parameter `direct` is false (default case), will act
@@ -181,7 +181,7 @@ template <typename T> std::vector<T*> SessionItem::items(const std::string& tag)
 
 template <typename T> inline T* SessionItem::insertItem(const TagRow& tagrow)
 {
-    return static_cast<T*>(insertItem(std::make_unique<T>(), tagrow));
+    return static_cast<T*>(insertItem(qextMakeUnique<T>(), tagrow));
 }
 
 //! Returns data stored in property item.

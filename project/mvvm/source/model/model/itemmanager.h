@@ -27,12 +27,12 @@ public:
     ItemManager();
     ~ItemManager();
 
-    void setItemFactory(std::unique_ptr<ItemFactoryInterface> factory);
+    void setItemFactory(QExtUniquePointer<ItemFactoryInterface> factory);
     void setItemPool(std::shared_ptr<ItemPool> pool);
 
-    std::unique_ptr<SessionItem> createItem(const model_type& modelType = {}) const;
+    QExtUniquePointer<SessionItem> createItem(const model_type& modelType = {}) const;
 
-    std::unique_ptr<SessionItem> createRootItem() const;
+    QExtUniquePointer<SessionItem> createRootItem() const;
 
     SessionItem* findItem(const identifier_type& id) const;
 
@@ -50,7 +50,7 @@ public:
 
 private:
     std::shared_ptr<ItemPool> m_item_pool;
-    std::unique_ptr<ItemFactoryInterface> m_item_factory;
+    QExtUniquePointer<ItemFactoryInterface> m_item_factory;
 };
 
 } // namespace ModelView

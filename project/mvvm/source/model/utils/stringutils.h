@@ -11,6 +11,7 @@
 #define MVVM_UTILS_STRINGUTILS_H
 
 #include "qextMVVMGlobal.h"
+#include <qextOptional.h>
 #include <optional>
 #include <string>
 #include <vector>
@@ -34,12 +35,12 @@ QEXT_MVVM_API std::string RemoveRepeatedSpaces(std::string str);
 //! Converts string to double value using classc locale and returns it in the form of optional.
 //! Requires that string represents exactly one double and contains no other literals. Empty
 //! spaces at the beginning and end of the string are still allowed.
-QEXT_MVVM_API std::optional<double> StringToDouble(const std::string& str);
+QEXT_MVVM_API QExtOptional<double> StringToDouble(const std::string& str);
 
 //! Converts string to integer. Requires that string represents exactly one integer and
 //! no extra symbols are defined. Empty spaces at the beginning and end of the string are still
 //! allowed.
-QEXT_MVVM_API std::optional<int> StringToInteger(const std::string& str);
+QEXT_MVVM_API QExtOptional<int> StringToInteger(const std::string& str);
 
 //! Split string on substring using given delimeter. Reproduces Python's str.split() behavior.
 QEXT_MVVM_API std::vector<std::string> SplitString(const std::string& str,

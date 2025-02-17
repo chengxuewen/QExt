@@ -30,7 +30,7 @@ private:
     void execute_command() override;
 
     struct InsertNewItemCommandImpl;
-    std::unique_ptr<InsertNewItemCommandImpl> p_impl;
+    QExtUniquePointer<InsertNewItemCommandImpl> p_impl;
 };
 
 } // namespace ModelView

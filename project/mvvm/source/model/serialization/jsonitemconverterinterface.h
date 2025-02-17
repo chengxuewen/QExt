@@ -29,7 +29,7 @@ public:
     virtual QJsonObject to_json(const SessionItem* item) const = 0;
 
     //! Creates item from JSON.
-    virtual std::unique_ptr<SessionItem> from_json(const QJsonObject&) const = 0;
+    virtual QExtUniquePointer<SessionItem> from_json(const QJsonObject&) const = 0;
 };
 
 } // namespace ModelView

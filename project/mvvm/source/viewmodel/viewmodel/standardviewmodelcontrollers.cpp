@@ -7,12 +7,12 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/standardviewmodelcontrollers.h"
-#include "mvvm/model/groupitem.h"
-#include "mvvm/viewmodel/labeldatarowstrategy.h"
-#include "mvvm/viewmodel/propertiesrowstrategy.h"
-#include "mvvm/viewmodel/standardchildrenstrategies.h"
-#include "mvvm/viewmodel/standardviewitems.h"
+#include "viewmodel/viewmodel/standardviewmodelcontrollers.h"
+#include "model/model/groupitem.h"
+#include "viewmodel/viewmodel/labeldatarowstrategy.h"
+#include "viewmodel/viewmodel/propertiesrowstrategy.h"
+#include "viewmodel/viewmodel/standardchildrenstrategies.h"
+#include "viewmodel/viewmodel/standardviewitems.h"
 
 using namespace ModelView;
 
@@ -22,8 +22,8 @@ DefaultViewModelController::DefaultViewModelController(SessionModel* session_mod
                                                        ViewModelBase* view_model)
     : ViewModelController(session_model, view_model)
 {
-    setChildrenStrategy(std::make_unique<AllChildrenStrategy>());
-    setRowStrategy(std::make_unique<LabelDataRowStrategy>());
+    setChildrenStrategy(qextMakeUnique<AllChildrenStrategy>());
+    setRowStrategy(qextMakeUnique<LabelDataRowStrategy>());
 }
 
 // ----------------------------------------------------------------------------
@@ -32,8 +32,8 @@ TopItemsViewModelController::TopItemsViewModelController(SessionModel* session_m
                                                          ViewModelBase* view_model)
     : ViewModelController(session_model, view_model)
 {
-    setChildrenStrategy(std::make_unique<TopItemsStrategy>());
-    setRowStrategy(std::make_unique<LabelDataRowStrategy>());
+    setChildrenStrategy(qextMakeUnique<TopItemsStrategy>());
+    setRowStrategy(qextMakeUnique<LabelDataRowStrategy>());
 }
 
 // ----------------------------------------------------------------------------
@@ -42,8 +42,8 @@ PropertyViewModelController::PropertyViewModelController(SessionModel* session_m
                                                          ViewModelBase* view_model)
     : ViewModelController(session_model, view_model)
 {
-    setChildrenStrategy(std::make_unique<PropertyItemsStrategy>());
-    setRowStrategy(std::make_unique<LabelDataRowStrategy>());
+    setChildrenStrategy(qextMakeUnique<PropertyItemsStrategy>());
+    setRowStrategy(qextMakeUnique<LabelDataRowStrategy>());
 }
 
 void PropertyViewModelController::onDataChange(SessionItem* item, int role)
@@ -63,8 +63,8 @@ PropertyTableViewModelController::PropertyTableViewModelController(
     SessionModel* session_model, ViewModelBase* view_model, const std::vector<std::string>& labels)
     : ViewModelController(session_model, view_model)
 {
-    setChildrenStrategy(std::make_unique<TopItemsStrategy>());
-    setRowStrategy(std::make_unique<PropertiesRowStrategy>(labels));
+    setChildrenStrategy(qextMakeUnique<TopItemsStrategy>());
+    setRowStrategy(qextMakeUnique<PropertiesRowStrategy>(labels));
 }
 
 // ----------------------------------------------------------------------------
@@ -73,8 +73,8 @@ PropertyFlatViewModelController::PropertyFlatViewModelController(SessionModel* s
                                                                  ViewModelBase* view_model)
     : ViewModelController(session_model, view_model)
 {
-    setChildrenStrategy(std::make_unique<PropertyItemsFlatStrategy>());
-    setRowStrategy(std::make_unique<LabelDataRowStrategy>());
+    setChildrenStrategy(qextMakeUnique<PropertyItemsFlatStrategy>());
+    setRowStrategy(qextMakeUnique<LabelDataRowStrategy>());
 }
 
 void PropertyFlatViewModelController::onDataChange(SessionItem* item, int role)

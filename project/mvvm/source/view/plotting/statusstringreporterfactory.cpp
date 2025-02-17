@@ -7,25 +7,25 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/statusstringreporterfactory.h"
-#include "mvvm/plotting/colormapinfoformatter.h"
-#include "mvvm/plotting/graphinfoformatter.h"
-#include "mvvm/plotting/statusstringreporter.h"
+#include "view/plotting/statusstringreporterfactory.h"
+#include "view/plotting/colormapinfoformatter.h"
+#include "view/plotting/graphinfoformatter.h"
+#include "view/plotting/statusstringreporter.h"
 
 namespace ModelView {
 
-std::unique_ptr<StatusStringReporter>
+QExtUniquePointer<StatusStringReporter>
 CreateGraphReporter(QCustomPlot* custom_plot, std::function<void(const std::string&)> callback)
 {
-    return std::make_unique<StatusStringReporter>(custom_plot, callback,
-                                                  std::make_unique<GraphInfoFormatter>());
+    return qextMakeUnique<StatusStringReporter>(custom_plot, callback,
+                                                  qextMakeUnique<GraphInfoFormatter>());
 }
 
-std::unique_ptr<StatusStringReporter>
+QExtUniquePointer<StatusStringReporter>
 CreateColorMapReporter(QCustomPlot* custom_plot, std::function<void(const std::string&)> callback)
 {
-    return std::make_unique<StatusStringReporter>(custom_plot, callback,
-                                                  std::make_unique<ColorMapInfoFormatter>());
+    return qextMakeUnique<StatusStringReporter>(custom_plot, callback,
+                                                  qextMakeUnique<ColorMapInfoFormatter>());
 }
 
 } // namespace ModelView

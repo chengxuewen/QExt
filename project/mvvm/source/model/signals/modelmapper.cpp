@@ -38,7 +38,7 @@ struct ModelMapper::ModelMapperImpl {
     }
 };
 
-ModelMapper::ModelMapper(SessionModel* model) : p_impl(std::make_unique<ModelMapperImpl>(model)) {}
+ModelMapper::ModelMapper(SessionModel* model) : p_impl(qextMakeUnique<ModelMapperImpl>(model)) {}
 
 ModelMapper::~ModelMapper() = default;
 

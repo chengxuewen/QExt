@@ -29,7 +29,7 @@ public:
 
     Data2DItem();
 
-    void setAxes(std::unique_ptr<BinnedAxisItem> x_axis, std::unique_ptr<BinnedAxisItem> y_axis);
+    void setAxes(QExtUniquePointer<BinnedAxisItem> x_axis, QExtUniquePointer<BinnedAxisItem> y_axis);
 
     BinnedAxisItem* xAxis() const;
 
@@ -40,7 +40,7 @@ public:
     std::vector<double> content() const;
 
 private:
-    void insert_axis(std::unique_ptr<BinnedAxisItem> axis, const std::string& tag);
+    void insert_axis(QExtUniquePointer<BinnedAxisItem> axis, const std::string& tag);
 };
 
 } // namespace ModelView

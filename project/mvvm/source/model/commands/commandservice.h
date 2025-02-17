@@ -52,7 +52,7 @@ private:
     bool provideUndo() const;
 
     SessionModel* m_model;
-    std::unique_ptr<UndoStackInterface> m_commands;
+    QExtUniquePointer<UndoStackInterface> m_commands;
     bool m_pause_record;
 };
 

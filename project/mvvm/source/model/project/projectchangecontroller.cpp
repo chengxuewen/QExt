@@ -15,7 +15,7 @@ using namespace ModelView;
 
 struct ProjectChangedController::ProjectChangedControllerImpl {
     std::vector<SessionModel*> m_models;
-    std::vector<std::unique_ptr<ModelHasChangedController>> change_controllers;
+    std::vector<QExtUniquePointer<ModelHasChangedController>> change_controllers;
     callback_t m_project_changed_callback;
     bool m_project_has_changed{false};
 
@@ -31,7 +31,7 @@ struct ProjectChangedController::ProjectChangedControllerImpl {
         change_controllers.clear();
         for (auto model : m_models)
             change_controllers.emplace_back(
-                std::make_unique<ModelHasChangedController>(model, on_model_changed));
+                qextMakeUnique<ModelHasChangedController>(model, on_model_changed));
     }
 
     bool hasChanged() const { return m_project_has_changed; }
@@ -55,7 +55,7 @@ struct ProjectChangedController::ProjectChangedControllerImpl {
 
 ProjectChangedController::ProjectChangedController(const std::vector<SessionModel*>& models,
                                                    callback_t project_changed_callback)
-    : p_impl(std::make_unique<ProjectChangedControllerImpl>(models, project_changed_callback))
+    : p_impl(qextMakeUnique<ProjectChangedControllerImpl>(models, project_changed_callback))
 {
 }
 

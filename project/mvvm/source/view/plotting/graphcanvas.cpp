@@ -7,13 +7,13 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/graphcanvas.h"
-#include "mvvm/plotting/customplotsceneadapter.h"
-#include "mvvm/plotting/graphviewportplotcontroller.h"
-#include "mvvm/plotting/statusstringreporter.h"
-#include "mvvm/plotting/statusstringreporterfactory.h"
-#include "mvvm/standarditems/graphviewportitem.h"
-#include "mvvm/widgets/statuslabel.h"
+#include "view/plotting/graphcanvas.h"
+#include "view/plotting/customplotsceneadapter.h"
+#include "view/plotting/graphviewportplotcontroller.h"
+#include "view/plotting/statusstringreporter.h"
+#include "view/plotting/statusstringreporterfactory.h"
+#include "model/standarditems/graphviewportitem.h"
+#include "view/widgets/statuslabel.h"
 #include <qcustomplot.h>
 #include <QBoxLayout>
 
@@ -42,13 +42,13 @@ using namespace ModelView;
 
 struct GraphCanvas::GraphCanvasImpl {
     QCustomPlot* custom_plot{nullptr};
-    std::unique_ptr<GraphViewportPlotController> viewport_controller;
-    std::unique_ptr<StatusStringReporter> reporter;
+    QExtUniquePointer<GraphViewportPlotController> viewport_controller;
+    QExtUniquePointer<StatusStringReporter> reporter;
     StatusLabel* status_label{nullptr};
 
     GraphCanvasImpl() : custom_plot(new QCustomPlot), status_label(new StatusLabel)
     {
-        viewport_controller = std::make_unique<GraphViewportPlotController>(custom_plot);
+        viewport_controller = qextMakeUnique<GraphViewportPlotController>(custom_plot);
 
         auto on_mouse_move = [this](const std::string& str) {
             status_label->setText(QString::fromStdString(str));
@@ -76,7 +76,7 @@ struct GraphCanvas::GraphCanvasImpl {
 };
 
 GraphCanvas::GraphCanvas(QWidget* parent)
-    : QWidget(parent), p_impl(std::make_unique<GraphCanvasImpl>())
+    : QWidget(parent), p_impl(qextMakeUnique<GraphCanvasImpl>())
 {
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -104,9 +104,9 @@ void GraphCanvas::setItem(GraphViewportItem* viewport_item)
     p_impl->viewport_controller->setItem(viewport_item);
 }
 
-std::unique_ptr<SceneAdapterInterface> GraphCanvas::createSceneAdapter() const
+QExtUniquePointer<SceneAdapterInterface> GraphCanvas::createSceneAdapter() const
 {
-    return std::make_unique<CustomPlotSceneAdapter>(p_impl->customPlot());
+    return qextMakeUnique<CustomPlotSceneAdapter>(p_impl->customPlot());
 }
 
 void GraphCanvas::setViewportToContent(double left, double top, double right, double bottom)

@@ -10,7 +10,7 @@
 #ifndef MVVM_VIEWMODEL_STANDARDVIEWITEMS_H
 #define MVVM_VIEWMODEL_STANDARDVIEWITEMS_H
 
-#include "mvvm/viewmodel/viewitem.h"
+#include "viewmodel/viewmodel/viewitem.h"
 
 namespace ModelView {
 
@@ -18,14 +18,14 @@ class SessionItem;
 
 //! Represents root item.
 
-class MVVM_VIEWMODEL_EXPORT RootViewItem : public ViewItem {
+class QEXT_MVVM_API RootViewItem : public ViewItem {
 public:
     explicit RootViewItem(SessionItem* item);
 };
 
 //! Represents empty cell of tree or table.
 
-class MVVM_VIEWMODEL_EXPORT ViewEmptyItem : public ViewItem {
+class QEXT_MVVM_API ViewEmptyItem : public ViewItem {
 public:
     ViewEmptyItem();
     QVariant data(int role) const override;
@@ -33,7 +33,7 @@ public:
 
 //! Represents display name of SessionItem in any cell of Qt's trees and tables.
 
-class MVVM_VIEWMODEL_EXPORT ViewLabelItem : public ViewItem {
+class QEXT_MVVM_API ViewLabelItem : public ViewItem {
 public:
     explicit ViewLabelItem(SessionItem* item);
 
@@ -42,7 +42,7 @@ public:
 
 //! Represents data role of SessionItem in any cell of Qt's trees and tables.
 
-class MVVM_VIEWMODEL_EXPORT ViewDataItem : public ViewItem {
+class QEXT_MVVM_API ViewDataItem : public ViewItem {
 public:
     explicit ViewDataItem(SessionItem* item);
 

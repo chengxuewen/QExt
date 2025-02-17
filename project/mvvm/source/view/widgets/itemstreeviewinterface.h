@@ -10,7 +10,7 @@
 #ifndef MVVM_WIDGETS_ITEMSTREEVIEWINTERFACE_H
 #define MVVM_WIDGETS_ITEMSTREEVIEWINTERFACE_H
 
-#include "mvvm/view_export.h"
+#include "qextMVVMGlobal.h"
 #include <QWidget>
 
 class QTreeView;
@@ -21,7 +21,7 @@ class SessionModel;
 
 //! Saves and restores list of SessionModel's to/from disk using json format.
 
-class MVVM_VIEW_EXPORT ItemsTreeViewInterface : public QWidget {
+class QEXT_MVVM_API ItemsTreeViewInterface : public QWidget {
     Q_OBJECT
 
 public:

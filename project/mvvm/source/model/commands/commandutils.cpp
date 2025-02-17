@@ -12,16 +12,16 @@
 #include "model/serialization/jsonitembackupstrategy.h"
 #include "model/serialization/jsonitemcopystrategy.h"
 
-std::unique_ptr<ModelView::ItemBackupStrategy>
+QExtUniquePointer<ModelView::ItemBackupStrategy>
 ModelView::CreateItemBackupStrategy(const ModelView::SessionModel* model)
 {
     assert(model);
-    return std::make_unique<JsonItemBackupStrategy>(model->factory());
+    return qextMakeUnique<JsonItemBackupStrategy>(model->factory());
 }
 
-std::unique_ptr<ModelView::ItemCopyStrategy>
+QExtUniquePointer<ModelView::ItemCopyStrategy>
 ModelView::CreateItemCopyStrategy(const ModelView::SessionModel* model)
 {
     assert(model);
-    return std::make_unique<JsonItemCopyStrategy>(model->factory());
+    return qextMakeUnique<JsonItemCopyStrategy>(model->factory());
 }

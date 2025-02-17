@@ -31,7 +31,7 @@ JsonItemDataConverter::JsonItemDataConverter(accept_strategy_t to_json_accept,
                                              accept_strategy_t from_json_accept)
     : m_to_json_accept(to_json_accept)
     , m_from_json_accept(from_json_accept)
-    , m_variant_converter(std::make_unique<JsonVariantConverter>())
+    , m_variant_converter(qextMakeUnique<JsonVariantConverter>())
 {
 }
 
@@ -58,7 +58,7 @@ QJsonArray JsonItemDataConverter::to_json(const SessionItemData& data)
 void JsonItemDataConverter::from_json(const QJsonArray& object, SessionItemData& data)
 {
     static JsonItemFormatAssistant assistant;
-    auto persistent_data = std::make_unique<SessionItemData>();
+    auto persistent_data = qextMakeUnique<SessionItemData>();
 
     for (const auto& x : object) {
         if (!assistant.isSessionItemData(x.toObject()))
@@ -85,20 +85,20 @@ void JsonItemDataConverter::from_json(const QJsonArray& object, SessionItemData&
 
 //! Creates JSON data converter intended for simple data copying. Nothing is filtered out.
 
-std::unique_ptr<JsonItemDataConverterInterface> JsonItemDataConverter::createCopyConverter()
+QExtUniquePointer<JsonItemDataConverterInterface> JsonItemDataConverter::createCopyConverter()
 {
-    return std::make_unique<JsonItemDataConverter>();
+    return qextMakeUnique<JsonItemDataConverter>();
 }
 
 //! Creates JSON data converter intended for project saving. Only IDENTIFIER and DATA gous to/from
 //! JSON.
 
-std::unique_ptr<JsonItemDataConverterInterface> JsonItemDataConverter::createProjectConverter()
+QExtUniquePointer<JsonItemDataConverterInterface> JsonItemDataConverter::createProjectConverter()
 {
-    auto accept_roles = [](auto role) {
+    auto accept_roles = [](int role) {
         return role == ItemDataRole::IDENTIFIER || role == ItemDataRole::DATA;
     };
-    return std::make_unique<JsonItemDataConverter>(accept_roles, accept_roles);
+    return qextMakeUnique<JsonItemDataConverter>(accept_roles, accept_roles);
 }
 
 //! Returns true if given role should be saved in json object.

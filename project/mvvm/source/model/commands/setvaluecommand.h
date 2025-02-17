@@ -30,7 +30,7 @@ private:
     void swap_values();
 
     struct SetValueCommandImpl;
-    std::unique_ptr<SetValueCommandImpl> p_impl;
+    QExtUniquePointer<SetValueCommandImpl> p_impl;
 };
 
 } // namespace ModelView

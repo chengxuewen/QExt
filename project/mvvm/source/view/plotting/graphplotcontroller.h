@@ -10,8 +10,8 @@
 #ifndef MVVM_PLOTTING_GRAPHPLOTCONTROLLER_H
 #define MVVM_PLOTTING_GRAPHPLOTCONTROLLER_H
 
-#include "mvvm/signals/itemlistener.h"
-#include "mvvm/view_export.h"
+#include "model/signals/itemlistener.h"
+#include "qextMVVMGlobal.h"
 #include <memory>
 
 class QCustomPlot;
@@ -25,7 +25,7 @@ class GraphItem;
 //! QCPGraph is added to QCustomPlot plottables, when controller is created, and removed from
 //! plottables when controller is destroyed.
 
-class MVVM_VIEW_EXPORT GraphPlotController : public ItemListener<GraphItem> {
+class QEXT_MVVM_API GraphPlotController : public ItemListener<GraphItem> {
 public:
     explicit GraphPlotController(QCustomPlot* plot);
     ~GraphPlotController() override;
@@ -36,7 +36,7 @@ protected:
 
 private:
     struct GraphItemControllerImpl;
-    std::unique_ptr<GraphItemControllerImpl> p_impl;
+    QExtUniquePointer<GraphItemControllerImpl> p_impl;
 };
 
 } // namespace ModelView

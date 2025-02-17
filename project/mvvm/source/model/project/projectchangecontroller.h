@@ -40,7 +40,7 @@ public:
 
 private:
     struct ProjectChangedControllerImpl;
-    std::unique_ptr<ProjectChangedControllerImpl> p_impl;
+    QExtUniquePointer<ProjectChangedControllerImpl> p_impl;
 };
 
 } // namespace ModelView

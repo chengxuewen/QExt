@@ -35,7 +35,7 @@ public:
 
 private:
     struct JsonItemTagsConverterImpl;
-    std::unique_ptr<JsonItemTagsConverterImpl> p_impl;
+    QExtUniquePointer<JsonItemTagsConverterImpl> p_impl;
 };
 
 } // namespace ModelView

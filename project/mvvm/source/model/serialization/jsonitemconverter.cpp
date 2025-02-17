@@ -26,7 +26,7 @@ namespace {
 
 //! Creates converter for SessionItemData/JSON.
 
-std::unique_ptr<JsonItemDataConverterInterface> createDataConverter(const ConverterMode& mode)
+QExtUniquePointer<JsonItemDataConverterInterface> createDataConverter(const ConverterMode& mode)
 {
     return mode == ConverterMode::project ? JsonItemDataConverter::createProjectConverter()
                                           : JsonItemDataConverter::createCopyConverter();
@@ -36,8 +36,8 @@ std::unique_ptr<JsonItemDataConverterInterface> createDataConverter(const Conver
 
 struct JsonItemConverter::JsonItemConverterImpl {
     JsonItemConverter* m_self{nullptr};
-    std::unique_ptr<JsonItemDataConverterInterface> m_itemdata_converter;
-    std::unique_ptr<JsonItemTagsConverter> m_itemtags_converter;
+    QExtUniquePointer<JsonItemDataConverterInterface> m_itemdata_converter;
+    QExtUniquePointer<JsonItemTagsConverter> m_itemtags_converter;
     ConverterContext m_context;
 
     JsonItemConverterImpl(JsonItemConverter* parent, const ConverterContext& context)
@@ -57,7 +57,7 @@ struct JsonItemConverter::JsonItemConverterImpl {
         ConverterCallbacks callbacks{create_json, create_item, update_item};
 
         m_itemdata_converter = createDataConverter(m_context.m_mode);
-        m_itemtags_converter = std::make_unique<JsonItemTagsConverter>(callbacks);
+        m_itemtags_converter = qextMakeUnique<JsonItemTagsConverter>(callbacks);
     }
 
     const ItemFactoryInterface* factory() { return m_context.m_factory; }
@@ -80,8 +80,8 @@ struct JsonItemConverter::JsonItemConverterImpl {
             throw std::runtime_error("Item model mismatch");
 
         if (isRebuildItemDataAndTagFromJson(m_context.m_mode)) {
-            item.setDataAndTags(std::make_unique<SessionItemData>(),
-                                std::make_unique<SessionItemTags>());
+            item.setDataAndTags(qextMakeUnique<SessionItemData>(),
+                                qextMakeUnique<SessionItemTags>());
         }
 
         populate_item_data(json[JsonItemFormatAssistant::itemDataKey].toArray(), *item.itemData());
@@ -108,7 +108,7 @@ struct JsonItemConverter::JsonItemConverterImpl {
 };
 
 JsonItemConverter::JsonItemConverter(const ConverterContext& context)
-    : p_impl(std::make_unique<JsonItemConverterImpl>(this, context))
+    : p_impl(qextMakeUnique<JsonItemConverterImpl>(this, context))
 {
 }
 
@@ -119,7 +119,7 @@ QJsonObject JsonItemConverter::to_json(const SessionItem* item) const
     return item ? p_impl->item_to_json(*item) : QJsonObject();
 }
 
-std::unique_ptr<SessionItem> JsonItemConverter::from_json(const QJsonObject& json) const
+QExtUniquePointer<SessionItem> JsonItemConverter::from_json(const QJsonObject& json) const
 {
     static JsonItemFormatAssistant assistant;
 

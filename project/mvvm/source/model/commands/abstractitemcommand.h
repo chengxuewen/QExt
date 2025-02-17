@@ -54,7 +54,7 @@ private:
     virtual void undo_command() = 0;
 
     struct AbstractItemCommandImpl;
-    std::unique_ptr<AbstractItemCommandImpl> p_impl;
+    QExtUniquePointer<AbstractItemCommandImpl> p_impl;
 };
 
 } // namespace ModelView

@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/widgets/widgetutils.h"
-#include "mvvm/utils/numericutils.h"
+#include "view/widgets/widgetutils.h"
+#include "model/utils/numericutils.h"
 #include <QApplication>
 #include <QColor>
 #include <QDir>

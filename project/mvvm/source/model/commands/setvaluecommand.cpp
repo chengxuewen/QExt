@@ -30,7 +30,7 @@ struct SetValueCommand::SetValueCommandImpl {
 
 SetValueCommand::SetValueCommand(SessionItem* item, Variant value, int role)
     : AbstractItemCommand(item)
-    , p_impl(std::make_unique<SetValueCommandImpl>(std::move(value), role))
+    , p_impl(qextMakeUnique<SetValueCommandImpl>(std::move(value), role))
 {
     setResult(false);
 

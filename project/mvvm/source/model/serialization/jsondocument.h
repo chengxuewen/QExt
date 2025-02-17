@@ -31,7 +31,7 @@ public:
 
 private:
     struct JsonDocumentImpl;
-    std::unique_ptr<JsonDocumentImpl> p_impl;
+    QExtUniquePointer<JsonDocumentImpl> p_impl;
 };
 
 } // namespace ModelView

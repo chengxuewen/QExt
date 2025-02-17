@@ -10,7 +10,7 @@
 #ifndef MVVM_EDITORS_SCIENTIFICSPINBOXEDITOR_H
 #define MVVM_EDITORS_SCIENTIFICSPINBOXEDITOR_H
 
-#include "mvvm/editors/customeditor.h"
+#include "viewmodel/editors/customeditor.h"
 
 namespace ModelView {
 
@@ -18,7 +18,7 @@ class ScientificSpinBox;
 
 //! Custom editor for QVariant based on double with scientific notation support.
 
-class MVVM_VIEWMODEL_EXPORT ScientificSpinBoxEditor : public CustomEditor {
+class QEXT_MVVM_API ScientificSpinBoxEditor : public CustomEditor {
     Q_OBJECT
 
 public:

@@ -12,7 +12,7 @@
 
 //! Contains factory methods to create StatusStringReporter
 
-#include "mvvm/view_export.h"
+#include "qextMVVMGlobal.h"
 #include <functional>
 #include <memory>
 
@@ -23,11 +23,11 @@ namespace ModelView {
 class StatusStringReporter;
 
 //! Creates reporter for status string in QCustomPlot containing graphs.
-MVVM_VIEW_EXPORT std::unique_ptr<StatusStringReporter>
+QEXT_MVVM_API QExtUniquePointer<StatusStringReporter>
 CreateGraphReporter(QCustomPlot* custom_plot, std::function<void(const std::string&)> callback);
 
 //! Creates reporter for status string in QCustomPlot containing QCPColorMap.
-MVVM_VIEW_EXPORT std::unique_ptr<StatusStringReporter>
+QEXT_MVVM_API QExtUniquePointer<StatusStringReporter>
 CreateColorMapReporter(QCustomPlot* custom_plot, std::function<void(const std::string&)> callback);
 
 } // namespace ModelView

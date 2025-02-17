@@ -10,7 +10,7 @@
 #ifndef MVVM_INTERFACES_CELLDECORATORINTERFACE_H
 #define MVVM_INTERFACES_CELLDECORATORINTERFACE_H
 
-#include "mvvm/viewmodel_export.h"
+#include "qextMVVMGlobal.h"
 #include <string>
 
 class QModelIndex;
@@ -20,7 +20,7 @@ namespace ModelView {
 
 //! Interface class to generate cell decorations (i.e. text) in Qt trees and tables.
 
-class MVVM_VIEWMODEL_EXPORT CellDecoratorInterface {
+class QEXT_MVVM_API CellDecoratorInterface {
 public:
     virtual ~CellDecoratorInterface() = default;
 

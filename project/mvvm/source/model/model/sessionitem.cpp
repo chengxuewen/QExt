@@ -32,15 +32,15 @@ struct SessionItem::SessionItemImpl {
     SessionItem* m_self{nullptr};
     SessionItem* m_parent{nullptr};
     SessionModel* m_model{nullptr};
-    std::unique_ptr<ItemMapper> m_mapper;
-    std::unique_ptr<SessionItemData> m_data;
-    std::unique_ptr<SessionItemTags> m_tags;
+    QExtUniquePointer<ItemMapper> m_mapper;
+    QExtUniquePointer<SessionItemData> m_data;
+    QExtUniquePointer<SessionItemTags> m_tags;
     model_type m_modelType;
 
     SessionItemImpl(SessionItem* this_item)
         : m_self(this_item)
-        , m_data(std::make_unique<SessionItemData>())
-        , m_tags(std::make_unique<SessionItemTags>())
+        , m_data(qextMakeUnique<SessionItemData>())
+        , m_tags(qextMakeUnique<SessionItemTags>())
     {
     }
 
@@ -53,7 +53,7 @@ struct SessionItem::SessionItemImpl {
     }
 };
 
-SessionItem::SessionItem(model_type modelType) : p_impl(std::make_unique<SessionItemImpl>(this))
+SessionItem::SessionItem(model_type modelType) : p_impl(qextMakeUnique<SessionItemImpl>(this))
 {
     p_impl->m_modelType = std::move(modelType);
     setData(UniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
@@ -214,13 +214,13 @@ bool SessionItem::insertItem(SessionItem* item, const TagRow& tagrow)
 {
     if (!p_impl->m_tags->canInsertItem(item, tagrow))
         return false;
-    return insertItem(std::unique_ptr<SessionItem>(item), tagrow) != nullptr;
+    return insertItem(QExtUniquePointer<SessionItem>(item), tagrow) != nullptr;
 }
 
 //! Insert item into given tag under the given row. Will take ownership of inserted item.
 //! Returns back a pointer to the same item for convenience.
 
-SessionItem* SessionItem::insertItem(std::unique_ptr<SessionItem> item, const TagRow& tagrow)
+SessionItem* SessionItem::insertItem(QExtUniquePointer<SessionItem> item, const TagRow& tagrow)
 {
     if (!item)
         throw std::runtime_error("SessionItem::insertItem() -> Invalid item.");
@@ -252,7 +252,7 @@ SessionItem* SessionItem::insertItem(std::unique_ptr<SessionItem> item, const Ta
 //! Removes item from given row from given tag, returns it to the caller.
 //! Ownership is granted to the caller.
 
-std::unique_ptr<SessionItem> SessionItem::takeItem(const TagRow& tagrow)
+QExtUniquePointer<SessionItem> SessionItem::takeItem(const TagRow& tagrow)
 {
     if (!p_impl->m_tags->canTakeItem(tagrow))
         return {};
@@ -267,7 +267,7 @@ std::unique_ptr<SessionItem> SessionItem::takeItem(const TagRow& tagrow)
     if (p_impl->m_model)
         p_impl->m_model->mapper()->callOnItemRemoved(this, tagrow);
 
-    return std::unique_ptr<SessionItem>(result);
+    return QExtUniquePointer<SessionItem>(result);
 }
 
 //! Returns true if this item has `editable` flag set.
@@ -410,12 +410,12 @@ void SessionItem::setAppearanceFlag(int flag, bool value)
 ItemMapper* SessionItem::mapper()
 {
     if (!p_impl->m_mapper)
-        p_impl->m_mapper = std::make_unique<ItemMapper>(this);
+        p_impl->m_mapper = qextMakeUnique<ItemMapper>(this);
     return p_impl->m_mapper.get();
 }
 
-void SessionItem::setDataAndTags(std::unique_ptr<SessionItemData> data,
-                                 std::unique_ptr<SessionItemTags> tags)
+void SessionItem::setDataAndTags(QExtUniquePointer<SessionItemData> data,
+                                 QExtUniquePointer<SessionItemTags> tags)
 {
     p_impl->m_data = std::move(data);
     p_impl->m_tags = std::move(tags);

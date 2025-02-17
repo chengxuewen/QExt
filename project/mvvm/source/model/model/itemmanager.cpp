@@ -14,9 +14,9 @@
 #include "model/model/sessionitem.h"
 
 namespace {
-std::unique_ptr<ModelView::ItemFactory> DefaultItemFactory()
+QExtUniquePointer<ModelView::ItemFactory> DefaultItemFactory()
 {
-    return std::make_unique<ModelView::ItemFactory>(ModelView::CreateStandardItemCatalogue());
+    return qextMakeUnique<ModelView::ItemFactory>(ModelView::CreateStandardItemCatalogue());
 }
 } // namespace
 
@@ -24,7 +24,7 @@ using namespace ModelView;
 
 ItemManager::ItemManager() : m_item_factory(DefaultItemFactory()) {}
 
-void ItemManager::setItemFactory(std::unique_ptr<ItemFactoryInterface> factory)
+void ItemManager::setItemFactory(QExtUniquePointer<ItemFactoryInterface> factory)
 {
     m_item_factory = std::move(factory);
 }
@@ -36,14 +36,14 @@ void ItemManager::setItemPool(std::shared_ptr<ItemPool> pool)
 
 ItemManager::~ItemManager() = default;
 
-std::unique_ptr<SessionItem> ItemManager::createItem(const model_type& modelType) const
+QExtUniquePointer<SessionItem> ItemManager::createItem(const model_type& modelType) const
 {
     return m_item_factory->createItem(modelType);
 }
 
-std::unique_ptr<SessionItem> ItemManager::createRootItem() const
+QExtUniquePointer<SessionItem> ItemManager::createRootItem() const
 {
-    return std::make_unique<SessionItem>();
+    return qextMakeUnique<SessionItem>();
 }
 
 SessionItem* ItemManager::findItem(const identifier_type& id) const

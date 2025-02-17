@@ -25,7 +25,7 @@ struct JsonDocument::JsonDocumentImpl {
 };
 
 JsonDocument::JsonDocument(const std::vector<SessionModel*>& models)
-    : p_impl(std::make_unique<JsonDocumentImpl>(models))
+    : p_impl(qextMakeUnique<JsonDocumentImpl>(models))
 {
 }
 

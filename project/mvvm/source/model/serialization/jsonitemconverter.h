@@ -28,11 +28,11 @@ public:
 
     QJsonObject to_json(const SessionItem* item) const override;
 
-    std::unique_ptr<SessionItem> from_json(const QJsonObject& json) const override;
+    QExtUniquePointer<SessionItem> from_json(const QJsonObject& json) const override;
 
 private:
     struct JsonItemConverterImpl;
-    std::unique_ptr<JsonItemConverterImpl> p_impl;
+    QExtUniquePointer<JsonItemConverterImpl> p_impl;
 };
 
 } // namespace ModelView

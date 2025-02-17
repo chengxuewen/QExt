@@ -10,7 +10,7 @@
 #ifndef MVVM_WIDGETS_WIDGETUTILS_H
 #define MVVM_WIDGETS_WIDGETUTILS_H
 
-#include "mvvm/view_export.h"
+#include "qextMVVMGlobal.h"
 #include <QString>
 #include <QStringList>
 #include <string>
@@ -26,59 +26,59 @@ class QLabel;
 namespace ModelView::Utils {
 
 //! Returns random color.
-MVVM_VIEW_EXPORT QColor RandomColor();
+QEXT_MVVM_API QColor RandomColor();
 
 //! Returns the name of random color.
-MVVM_VIEW_EXPORT std::string RandomNamedColor();
+QEXT_MVVM_API std::string RandomNamedColor();
 
 //! Returns true if it is Windows.
-MVVM_VIEW_EXPORT bool IsWindowsHost();
+QEXT_MVVM_API bool IsWindowsHost();
 
 //! Returns true if it is Mac.
-MVVM_VIEW_EXPORT bool IsMacHost();
+QEXT_MVVM_API bool IsMacHost();
 
 //! Returns true if it is Linux.
-MVVM_VIEW_EXPORT bool IsLinuxHost();
+QEXT_MVVM_API bool IsLinuxHost();
 
 //! Returns a string where Linux path to the file is striped using '~/'.
-MVVM_VIEW_EXPORT QString WithTildeHomePath(const QString& path);
+QEXT_MVVM_API QString WithTildeHomePath(const QString& path);
 
 //! Returns a title composed from last part of project path, and `is_modified` flag.
-MVVM_VIEW_EXPORT QString ProjectWindowTitle(const QString& project_dir, bool is_modified);
+QEXT_MVVM_API QString ProjectWindowTitle(const QString& project_dir, bool is_modified);
 
 //! Returns width of the letter 'M' deduced from current font metrics.
-MVVM_VIEW_EXPORT int WidthOfLetterM();
+QEXT_MVVM_API int WidthOfLetterM();
 
 //! Returns height of the letter 'M' deduced from current font metrics.
-MVVM_VIEW_EXPORT int HeightOfLetterM();
+QEXT_MVVM_API int HeightOfLetterM();
 
 //! Returns size corresponding to actual size of letter `M` basing on current font metrics.
-MVVM_VIEW_EXPORT QSize SizeOfLetterM();
+QEXT_MVVM_API QSize SizeOfLetterM();
 
 //! Returns size in points of default system font.
-MVVM_VIEW_EXPORT int SystemPointSize();
+QEXT_MVVM_API int SystemPointSize();
 
 //! Finds main window.
-MVVM_VIEW_EXPORT QMainWindow* FindMainWindow();
+QEXT_MVVM_API QMainWindow* FindMainWindow();
 
 //! Returns text wrapped into 'href' tag to provide clickable links in QLabel.
 //! Example: <a href="tag">text</a>, if 'tag' is empty, 'text' will be used instead.
-MVVM_VIEW_EXPORT QString ClickableText(const QString& text, const QString& tag = {});
+QEXT_MVVM_API QString ClickableText(const QString& text, const QString& tag = {});
 
 //! Set label's font size to system font size scaled by given factor.
-MVVM_VIEW_EXPORT void ScaleLabelFont(QLabel* label, double scale);
+QEXT_MVVM_API void ScaleLabelFont(QLabel* label, double scale);
 
 //! Converts vector of strings to QStringList.
-MVVM_VIEW_EXPORT QStringList toStringList(const std::vector<std::string>& vec);
+QEXT_MVVM_API QStringList toStringList(const std::vector<std::string>& vec);
 
 //! Converts vector of strings to QStringList.
-MVVM_VIEW_EXPORT std::vector<std::string> fromStringList(const QStringList& string_list);
+QEXT_MVVM_API std::vector<std::string> fromStringList(const QStringList& string_list);
 
 //! Converts vector of strings to byte array.
-MVVM_VIEW_EXPORT QByteArray serialize(const QStringList& data);
+QEXT_MVVM_API QByteArray serialize(const QStringList& data);
 
 //! Converts byte array to vector of strings.
-MVVM_VIEW_EXPORT QStringList deserialize(const QByteArray& byteArray);
+QEXT_MVVM_API QStringList deserialize(const QByteArray& byteArray);
 
 } // namespace ModelView::Utils
 

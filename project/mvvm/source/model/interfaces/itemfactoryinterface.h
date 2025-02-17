@@ -28,7 +28,7 @@ public:
     virtual void registerItem(const std::string& modelType, item_factory_func_t func,
                               const std::string& label) = 0;
 
-    virtual std::unique_ptr<SessionItem> createItem(const model_type& modelType) const = 0;
+    virtual QExtUniquePointer<SessionItem> createItem(const model_type& modelType) const = 0;
 };
 
 } // namespace ModelView

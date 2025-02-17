@@ -10,7 +10,7 @@
 #ifndef MVVM_WIDGETS_ITEMSTREEVIEW_H
 #define MVVM_WIDGETS_ITEMSTREEVIEW_H
 
-#include "mvvm/view_export.h"
+#include "qextMVVMGlobal.h"
 #include <QWidget>
 #include <memory>
 
@@ -27,7 +27,7 @@ class ViewModelDelegate;
 //! Tree view to show items of SessionModel via ViewModel mechanism.
 //! Provides notification mechanism for SessionItem selections, use custom delegate.
 
-class MVVM_VIEW_EXPORT ItemsTreeView : public QWidget {
+class QEXT_MVVM_API ItemsTreeView : public QWidget {
     Q_OBJECT
 
 public:
@@ -36,9 +36,9 @@ public:
 
     QTreeView* treeView();
 
-    void setViewModel(std::unique_ptr<ViewModel> viewModel);
+    void setViewModel(QExtUniquePointer<ViewModel> viewModel);
 
-    void setViewModelDelegate(std::unique_ptr<ViewModelDelegate> delegate);
+    void setViewModelDelegate(QExtUniquePointer<ViewModelDelegate> delegate);
 
     void setSelected(SessionItem* item);
 
@@ -58,8 +58,8 @@ private:
     void set_connected(bool flag);
 
     QTreeView* m_treeView{nullptr};
-    std::unique_ptr<ViewModel> m_viewModel;
-    std::unique_ptr<ViewModelDelegate> m_delegate;
+    QExtUniquePointer<ViewModel> m_viewModel;
+    QExtUniquePointer<ViewModelDelegate> m_delegate;
     bool m_block_selection;
 };
 

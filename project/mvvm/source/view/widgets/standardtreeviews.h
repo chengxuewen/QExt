@@ -13,8 +13,8 @@
 //! @file standardtreeviews.h
 //! @brief Collection of includes to get all standard tree views.
 
-#include "mvvm/widgets/allitemstreeview.h"
-#include "mvvm/widgets/propertytreeview.h"
-#include "mvvm/widgets/topitemstreeview.h"
+#include "view/widgets/allitemstreeview.h"
+#include "view/widgets/propertytreeview.h"
+#include "view/widgets/topitemstreeview.h"
 
 #endif // MVVM_WIDGETS_STANDARDTREEVIEWS_H

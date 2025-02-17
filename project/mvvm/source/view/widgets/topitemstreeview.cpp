@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/widgets/topitemstreeview.h"
-#include "mvvm/factories/viewmodelfactory.h"
+#include "view/widgets/topitemstreeview.h"
+#include "viewmodel/factories/viewmodelfactory.h"
 
 namespace ModelView {
 TopItemsTreeView::TopItemsTreeView(SessionModel* model, QWidget* parent) : ItemsTreeView(parent)

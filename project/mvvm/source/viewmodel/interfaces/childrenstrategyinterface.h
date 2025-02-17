@@ -10,7 +10,7 @@
 #ifndef MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
 #define MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
 
-#include "mvvm/viewmodel_export.h"
+#include "qextMVVMGlobal.h"
 #include <vector>
 
 namespace ModelView {
@@ -22,7 +22,7 @@ class SessionItem;
 //! The strategy is used in the context of AbstractViewModel while exposing SessionModel to Qt.
 //! Thanks to this strategy ViewModel decides which items to visit.
 
-class MVVM_VIEWMODEL_EXPORT ChildrenStrategyInterface {
+class QEXT_MVVM_API ChildrenStrategyInterface {
 public:
     virtual ~ChildrenStrategyInterface() = default;
 

@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/editors/externalpropertycomboeditor.h"
-#include "mvvm/model/externalproperty.h"
+#include "viewmodel/editors/externalpropertycomboeditor.h"
+#include "model/model/externalproperty.h"
 #include <QColor>
 #include <QComboBox>
 #include <QStandardItemModel>

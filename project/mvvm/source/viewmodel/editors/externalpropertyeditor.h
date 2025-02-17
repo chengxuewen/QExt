@@ -10,7 +10,7 @@
 #ifndef MVVM_EDITORS_EXTERNALPROPERTYEDITOR_H
 #define MVVM_EDITORS_EXTERNALPROPERTYEDITOR_H
 
-#include "mvvm/editors/customeditor.h"
+#include "viewmodel/editors/customeditor.h"
 #include <functional>
 
 class QLabel;
@@ -22,7 +22,7 @@ class LostFocusFilter;
 //! Custom editor for QVariant based on ExternalProperty.
 //! Contains icon, label and button to call external dialog via callback mechanism.
 
-class MVVM_VIEWMODEL_EXPORT ExternalPropertyEditor : public CustomEditor {
+class QEXT_MVVM_API ExternalPropertyEditor : public CustomEditor {
     Q_OBJECT
 
 public:

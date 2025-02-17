@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/mousemovereporter.h"
-#include "mvvm/plotting/mouseposinfo.h"
+#include "view/plotting/mousemovereporter.h"
+#include "view/plotting/mouseposinfo.h"
 #include <qcustomplot.h>
 #include <QMouseEvent>
 #include <stdexcept>
@@ -54,7 +54,7 @@ struct MouseMoveReporter::MouseMoveReporterImpl {
 };
 
 MouseMoveReporter::MouseMoveReporter(QCustomPlot* custom_plot, callback_t callback)
-    : p_impl(std::make_unique<MouseMoveReporterImpl>(this, custom_plot, callback))
+    : p_impl(qextMakeUnique<MouseMoveReporterImpl>(this, custom_plot, callback))
 {
 }
 

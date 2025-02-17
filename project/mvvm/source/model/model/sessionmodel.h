@@ -73,7 +73,7 @@ public:
 
     // Methods to steer global behaviour.
 
-    void setItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue);
+    void setItemCatalogue(QExtUniquePointer<ItemCatalogue> catalogue);
 
     void setUndoRedoEnabled(bool value);
 
@@ -91,7 +91,7 @@ private:
                          const std::string& label);
 
     struct SessionModelImpl;
-    std::unique_ptr<SessionModelImpl> p_impl;
+    QExtUniquePointer<SessionModelImpl> p_impl;
 };
 
 //! Inserts item into given parent under given tagrow.

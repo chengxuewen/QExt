@@ -19,7 +19,7 @@ struct ProjectContext;
 struct UserInteractionContext;
 
 //! Creates default ProjectManager to save and load models.
-QEXT_MVVM_API std::unique_ptr<ProjectManagerInterface>
+QEXT_MVVM_API QExtUniquePointer<ProjectManagerInterface>
 CreateProjectManager(const ProjectContext& project_context,
                      const UserInteractionContext& user_context);
 

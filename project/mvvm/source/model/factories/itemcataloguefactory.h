@@ -15,7 +15,7 @@
 namespace ModelView {
 
 //! Creates a catalog of items supported by SessionModel out-of-the-box.
-QEXT_MVVM_API std::unique_ptr<ItemCatalogue> CreateStandardItemCatalogue();
+QEXT_MVVM_API QExtUniquePointer<ItemCatalogue> CreateStandardItemCatalogue();
 
 } // namespace ModelView
 

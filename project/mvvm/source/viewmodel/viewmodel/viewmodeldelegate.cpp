@@ -7,10 +7,10 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/viewmodeldelegate.h"
-#include "mvvm/editors/customeditor.h"
-#include "mvvm/editors/defaulteditorfactory.h"
-#include "mvvm/viewmodel/defaultcelldecorator.h"
+#include "viewmodel/viewmodel/viewmodeldelegate.h"
+#include "viewmodel/editors/customeditor.h"
+#include "viewmodel/editors/defaulteditorfactory.h"
+#include "viewmodel/viewmodel/defaultcelldecorator.h"
 #include <QApplication>
 
 namespace {
@@ -21,19 +21,19 @@ using namespace ModelView;
 
 ViewModelDelegate::ViewModelDelegate(QObject* parent)
     : QStyledItemDelegate(parent)
-    , m_editor_factory(std::make_unique<DefaultEditorFactory>())
-    , m_cell_decoration(std::make_unique<DefaultCellDecorator>())
+    , m_editor_factory(qextMakeUnique<DefaultEditorFactory>())
+    , m_cell_decoration(qextMakeUnique<DefaultCellDecorator>())
 {
 }
 
 ViewModelDelegate::~ViewModelDelegate() = default;
 
-void ViewModelDelegate::setEditorFactory(std::unique_ptr<EditorFactoryInterface> editor_factory)
+void ViewModelDelegate::setEditorFactory(QExtUniquePointer<EditorFactoryInterface> editor_factory)
 {
     m_editor_factory = std::move(editor_factory);
 }
 
-void ViewModelDelegate::setCellDecoration(std::unique_ptr<CellDecoratorInterface> cell_decoration)
+void ViewModelDelegate::setCellDecoration(QExtUniquePointer<CellDecoratorInterface> cell_decoration)
 {
     m_cell_decoration = std::move(cell_decoration);
 }

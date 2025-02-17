@@ -25,16 +25,16 @@ using namespace ModelView;
 struct SessionModel::SessionModelImpl {
     SessionModel* m_self{nullptr};
     std::string m_modelType;
-    std::unique_ptr<ItemManager> m_itemManager;
-    std::unique_ptr<CommandService> m_commands;
-    std::unique_ptr<ModelMapper> m_mapper;
-    std::unique_ptr<SessionItem> m_root_item;
+    QExtUniquePointer<ItemManager> m_itemManager;
+    QExtUniquePointer<CommandService> m_commands;
+    QExtUniquePointer<ModelMapper> m_mapper;
+    QExtUniquePointer<SessionItem> m_root_item;
     SessionModelImpl(SessionModel* self, std::string modelType, std::shared_ptr<ItemPool> pool)
         : m_self(self)
         , m_modelType(std::move(modelType))
-        , m_itemManager(std::make_unique<ItemManager>())
-        , m_commands(std::make_unique<CommandService>(self))
-        , m_mapper(std::make_unique<ModelMapper>(self))
+        , m_itemManager(qextMakeUnique<ItemManager>())
+        , m_commands(qextMakeUnique<CommandService>(self))
+        , m_mapper(qextMakeUnique<ModelMapper>(self))
     {
         setItemPool(pool);
     }
@@ -56,7 +56,7 @@ struct SessionModel::SessionModelImpl {
 //! Main c-tor.
 
 SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool)
-    : p_impl(std::make_unique<SessionModelImpl>(this, std::move(model_type), std::move(pool)))
+    : p_impl(qextMakeUnique<SessionModelImpl>(this, std::move(model_type), std::move(pool)))
 
 {
     p_impl->createRootItem();
@@ -165,12 +165,12 @@ SessionItem* SessionModel::findItem(const identifier_type& id)
 //! Sets brand new catalog of user-defined items. They become available for undo/redo and
 //! serialization. Internally user catalog will be merged with the catalog of standard items.
 
-void SessionModel::setItemCatalogue(std::unique_ptr<ItemCatalogue> catalogue)
+void SessionModel::setItemCatalogue(QExtUniquePointer<ItemCatalogue> catalogue)
 {
     // adding standard items to the user catalogue
-    std::unique_ptr<ItemCatalogue> full_catalogue = std::move(catalogue);
+    QExtUniquePointer<ItemCatalogue> full_catalogue = std::move(catalogue);
     full_catalogue->merge(*CreateStandardItemCatalogue());
-    p_impl->m_itemManager->setItemFactory(std::make_unique<ItemFactory>(std::move(full_catalogue)));
+    p_impl->m_itemManager->setItemFactory(qextMakeUnique<ItemFactory>(std::move(full_catalogue)));
 }
 
 //! Sets undo/redo either enabled or disabled. By default undo/redo is disabled.

@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/editors/doubleeditor.h"
-#include "mvvm/utils/numericutils.h"
+#include "viewmodel/editors/doubleeditor.h"
+#include "model/utils/numericutils.h"
 #include <QDoubleSpinBox>
 #include <QVBoxLayout>
 #include <stdexcept>

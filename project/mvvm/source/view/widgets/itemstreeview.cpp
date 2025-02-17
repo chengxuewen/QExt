@@ -7,9 +7,9 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/widgets/itemstreeview.h"
-#include "mvvm/viewmodel/viewmodel.h"
-#include "mvvm/viewmodel/viewmodeldelegate.h"
+#include "view/widgets/itemstreeview.h"
+#include "viewmodel/viewmodel/viewmodel.h"
+#include "viewmodel/viewmodel/viewmodeldelegate.h"
 #include <QTreeView>
 #include <QVBoxLayout>
 
@@ -18,7 +18,7 @@ using namespace ModelView;
 ItemsTreeView::ItemsTreeView(QWidget* parent)
     : QWidget(parent)
     , m_treeView(new QTreeView)
-    , m_delegate(std::make_unique<ViewModelDelegate>())
+    , m_delegate(qextMakeUnique<ViewModelDelegate>())
     , m_block_selection(false)
 {
     auto layout = new QVBoxLayout;
@@ -30,7 +30,7 @@ ItemsTreeView::ItemsTreeView(QWidget* parent)
 
 ItemsTreeView::~ItemsTreeView() = default;
 
-void ItemsTreeView::setViewModel(std::unique_ptr<ViewModel> viewModel)
+void ItemsTreeView::setViewModel(QExtUniquePointer<ViewModel> viewModel)
 {
     m_viewModel = std::move(viewModel);
     m_treeView->setItemDelegate(m_delegate.get());
@@ -40,7 +40,7 @@ void ItemsTreeView::setViewModel(std::unique_ptr<ViewModel> viewModel)
     set_connected(true);
 }
 
-void ItemsTreeView::setViewModelDelegate(std::unique_ptr<ViewModelDelegate> delegate)
+void ItemsTreeView::setViewModelDelegate(QExtUniquePointer<ViewModelDelegate> delegate)
 {
     m_delegate = std::move(delegate);
 }

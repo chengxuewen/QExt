@@ -20,13 +20,13 @@
 using namespace ModelView;
 
 struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
-    std::unique_ptr<JsonTagInfoConverterInterface> m_taginfo_converter;
+    QExtUniquePointer<JsonTagInfoConverterInterface> m_taginfo_converter;
     ConverterCallbacks m_converter_callbacks;
 
     JsonItemContainerConverterImpl(ConverterCallbacks callbacks = {})
         : m_converter_callbacks(std::move(callbacks))
     {
-        m_taginfo_converter = std::make_unique<JsonTagInfoConverter>();
+        m_taginfo_converter = qextMakeUnique<JsonTagInfoConverter>();
     }
 
     QJsonObject create_json(const SessionItem& item)
@@ -35,10 +35,10 @@ struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
                                                    : QJsonObject();
     }
 
-    std::unique_ptr<SessionItem> create_item(const QJsonObject& json)
+    QExtUniquePointer<SessionItem> create_item(const QJsonObject& json)
     {
         return m_converter_callbacks.m_create_item ? m_converter_callbacks.m_create_item(json)
-                                                   : std::unique_ptr<SessionItem>();
+                                                   : QExtUniquePointer<SessionItem>();
     }
 
     void update_item(const QJsonObject& json, SessionItem* item)
@@ -101,7 +101,7 @@ struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
 };
 
 JsonItemContainerConverter::JsonItemContainerConverter(ConverterCallbacks callbacks)
-    : p_impl(std::make_unique<JsonItemContainerConverterImpl>(std::move(callbacks)))
+    : p_impl(qextMakeUnique<JsonItemContainerConverterImpl>(std::move(callbacks)))
 {
 }
 

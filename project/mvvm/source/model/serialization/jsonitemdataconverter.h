@@ -35,9 +35,9 @@ public:
 
     void from_json(const QJsonArray& object, SessionItemData& data) override;
 
-    static std::unique_ptr<JsonItemDataConverterInterface> createCopyConverter();
+    static QExtUniquePointer<JsonItemDataConverterInterface> createCopyConverter();
 
-    static std::unique_ptr<JsonItemDataConverterInterface> createProjectConverter();
+    static QExtUniquePointer<JsonItemDataConverterInterface> createProjectConverter();
 
 private:
     bool isRoleToJson(int role) const;
@@ -45,7 +45,7 @@ private:
 
     accept_strategy_t m_to_json_accept;   //!< callback to find whether to write role to json
     accept_strategy_t m_from_json_accept; //!< callback to find whether to read role from json
-    std::unique_ptr<JsonVariantConverterInterface> m_variant_converter;
+    QExtUniquePointer<JsonVariantConverterInterface> m_variant_converter;
 };
 
 } // namespace ModelView

@@ -24,7 +24,7 @@ public:
     virtual ~ItemBackupStrategy() = default;
 
     //! Restore item from saved content.
-    virtual std::unique_ptr<SessionItem> restoreItem() const = 0;
+    virtual QExtUniquePointer<SessionItem> restoreItem() const = 0;
 
     //! Save item's content.
     virtual void saveItem(const SessionItem*) = 0;

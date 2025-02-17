@@ -7,9 +7,9 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/data2dplotcontroller.h"
-#include "mvvm/standarditems/axisitems.h"
-#include "mvvm/standarditems/data2ditem.h"
+#include "view/plotting/data2dplotcontroller.h"
+#include "model/standarditems/axisitems.h"
+#include "model/standarditems/data2ditem.h"
 #include <qcustomplot.h>
 #include <algorithm>
 #include <stdexcept>
@@ -68,7 +68,7 @@ struct Data2DPlotController::Data2DPlotControllerImpl {
 };
 
 Data2DPlotController::Data2DPlotController(QCPColorMap* color_map)
-    : p_impl(std::make_unique<Data2DPlotControllerImpl>(this, color_map))
+    : p_impl(qextMakeUnique<Data2DPlotControllerImpl>(this, color_map))
 {
 }
 

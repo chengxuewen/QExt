@@ -7,14 +7,14 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/viewmodel.h"
-#include "mvvm/model/sessionmodel.h"
-#include "mvvm/viewmodel/standardviewitems.h"
-#include "mvvm/viewmodel/viewmodelcontroller.h"
+#include "viewmodel/viewmodel/viewmodel.h"
+#include "model/model/sessionmodel.h"
+#include "viewmodel/viewmodel/standardviewitems.h"
+#include "viewmodel/viewmodel/viewmodelcontroller.h"
 
 using namespace ModelView;
 
-ViewModel::ViewModel(std::unique_ptr<ViewModelController> controller, QObject* parent)
+ViewModel::ViewModel(QExtUniquePointer<ViewModelController> controller, QObject* parent)
     : ViewModelBase(parent), m_controller(std::move(controller))
 {
     m_controller->setViewModel(this);

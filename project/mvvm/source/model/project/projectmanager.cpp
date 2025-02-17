@@ -20,7 +20,7 @@ const bool failed = false;
 } // namespace
 
 struct ProjectManager::ProjectManagerImpl {
-    std::unique_ptr<ProjectInterface> m_current_project;
+    QExtUniquePointer<ProjectInterface> m_current_project;
     ProjectContext m_project_context;
 
     ProjectManagerImpl(ProjectContext context) : m_project_context(std::move(context))
@@ -56,7 +56,7 @@ struct ProjectManager::ProjectManagerImpl {
 //! Constructor for ProjectManager.
 
 ProjectManager::ProjectManager(const ProjectContext& context)
-    : p_impl(std::make_unique<ProjectManagerImpl>(context))
+    : p_impl(qextMakeUnique<ProjectManagerImpl>(context))
 {
 }
 

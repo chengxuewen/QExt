@@ -34,7 +34,7 @@ void ModelView::ItemListenerBase::setItem(ModelView::SessionItem* item)
     if (!m_item)
         return;
 
-    auto on_item_destroy = [this](auto) {
+    auto on_item_destroy = [this](SessionItem*) {
         m_item = nullptr;
         unsubscribe();
     };

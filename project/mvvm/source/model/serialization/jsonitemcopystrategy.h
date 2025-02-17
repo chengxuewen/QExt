@@ -25,11 +25,11 @@ public:
     JsonItemCopyStrategy(const ItemFactoryInterface* item_factory);
     ~JsonItemCopyStrategy();
 
-    std::unique_ptr<SessionItem> createCopy(const SessionItem* item) const;
+    QExtUniquePointer<SessionItem> createCopy(const SessionItem* item) const;
 
 private:
     struct JsonItemCopyStrategyImpl;
-    std::unique_ptr<JsonItemCopyStrategyImpl> p_impl;
+    QExtUniquePointer<JsonItemCopyStrategyImpl> p_impl;
 };
 
 } // namespace ModelView

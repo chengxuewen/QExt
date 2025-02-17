@@ -22,7 +22,7 @@ std::vector<std::string> modelTypes(const std::vector<SessionItem*>& items)
 {
     std::vector<std::string> result;
     std::transform(items.begin(), items.end(), std::back_inserter(result),
-                   [](auto item) { return item->modelType(); });
+                   [](SessionItem *item) { return item->modelType(); });
     return result;
 }
 } // namespace

@@ -26,7 +26,7 @@ Path Path::fromString(const std::string& str)
 
     std::istringstream iss(str_spaces);
     std::for_each(std::istream_iterator<std::string>(iss), std::istream_iterator<std::string>(),
-                  [&result](auto x) { result.append(std::stoi(x)); });
+                  [&result](std::string x) { result.append(std::stoi(x)); });
     return result;
 }
 
@@ -35,7 +35,7 @@ Path Path::fromString(const std::string& str)
 Path Path::fromVector(const std::vector<int>& data)
 {
     Path result;
-    std::for_each(data.begin(), data.end(), [&result](auto x) { result.append(x); });
+    std::for_each(data.begin(), data.end(), [&result](int x) { result.append(x); });
     return result;
 }
 

@@ -167,6 +167,6 @@ std::vector<SessionItem*> Utils::UniqueItems(const std::vector<SessionItem*>& it
     auto filtered = Utils::UniqueWithOrder(items);
     std::vector<SessionItem*> result;
     std::copy_if(filtered.begin(), filtered.end(), std::back_inserter(result),
-                 [](auto x) { return x != nullptr; });
+                 [](SessionItem *x) { return x != nullptr; });
     return result;
 }

@@ -12,9 +12,9 @@
 
 using namespace ModelView;
 
-std::unique_ptr<ItemCatalogue> ModelView::CreateStandardItemCatalogue()
+QExtUniquePointer<ItemCatalogue> ModelView::CreateStandardItemCatalogue()
 {
-    auto result = std::make_unique<ItemCatalogue>();
+    auto result = qextMakeUnique<ItemCatalogue>();
     result->registerItem<ColorMapItem>();
     result->registerItem<ColorMapViewportItem>();
     result->registerItem<CompoundItem>();

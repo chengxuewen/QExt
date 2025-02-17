@@ -7,13 +7,13 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/editors/defaulteditorfactory.h"
-#include "mvvm/editors/customeditor.h"
-#include "mvvm/editors/editor_constants.h"
-#include "mvvm/model/customvariants.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/variant_constants.h"
-#include "mvvm/viewmodel/viewmodel.h"
+#include "viewmodel/editors/defaulteditorfactory.h"
+#include "viewmodel/editors/customeditor.h"
+#include "viewmodel/editors/editor_constants.h"
+#include "model/model/customvariants.h"
+#include "model/model/sessionitem.h"
+#include "model/model/variant_constants.h"
+#include "viewmodel/viewmodel/viewmodel.h"
 
 using namespace ModelView;
 
@@ -64,20 +64,20 @@ RoleDependentEditorFactory::RoleDependentEditorFactory()
 
 //! Creates cell editor basing on item role. It is expected that the index belongs to a ViewModel.
 
-std::unique_ptr<CustomEditor>
+QExtUniquePointer<CustomEditor>
 RoleDependentEditorFactory::createEditor(const QModelIndex& index) const
 {
     auto item = itemFromIndex(index);
-    return item ? createItemEditor(item) : std::unique_ptr<CustomEditor>();
+    return item ? createItemEditor(item) : QExtUniquePointer<CustomEditor>();
 }
 
 //! Creates cell editor basing on editor type.
 
-std::unique_ptr<CustomEditor>
+QExtUniquePointer<CustomEditor>
 RoleDependentEditorFactory::createItemEditor(const SessionItem* item) const
 {
     auto builder = findBuilder(item->editorType());
-    return builder ? builder(item) : std::unique_ptr<CustomEditor>();
+    return builder ? builder(item) : QExtUniquePointer<CustomEditor>();
 }
 
 // ----------------------------------------------------------------------------
@@ -97,26 +97,26 @@ VariantDependentEditorFactory::VariantDependentEditorFactory()
 
 //! Creates cell editor basing on variant name.
 
-std::unique_ptr<CustomEditor>
+QExtUniquePointer<CustomEditor>
 VariantDependentEditorFactory::createEditor(const QModelIndex& index) const
 {
     auto item = itemFromIndex(index);
     auto value = item ? item->data<QVariant>() : index.data(Qt::EditRole);
     auto builder = findBuilder(Utils::VariantName(value));
-    return builder ? builder(item) : std::unique_ptr<CustomEditor>();
+    return builder ? builder(item) : QExtUniquePointer<CustomEditor>();
 }
 
 // ----------------------------------------------------------------------------
 
 DefaultEditorFactory::DefaultEditorFactory()
-    : m_roleDependentFactory(std::make_unique<RoleDependentEditorFactory>())
-    , m_variantDependentFactory(std::make_unique<VariantDependentEditorFactory>())
+    : m_roleDependentFactory(qextMakeUnique<RoleDependentEditorFactory>())
+    , m_variantDependentFactory(qextMakeUnique<VariantDependentEditorFactory>())
 {
 }
 
 //! Creates editor for given model index basing either on editorType() or specific variant name.
 
-std::unique_ptr<CustomEditor> DefaultEditorFactory::createEditor(const QModelIndex& index) const
+QExtUniquePointer<CustomEditor> DefaultEditorFactory::createEditor(const QModelIndex& index) const
 {
     // trying to created an editor basing on possibly defined EDITOR role
     auto editor = m_roleDependentFactory->createEditor(index);

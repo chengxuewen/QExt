@@ -22,12 +22,12 @@ namespace ModelView {
 
 template <class Key, class Value> class IFactory {
 public:
-    using function_t = std::function<std::unique_ptr<Value>()>;
+    using function_t = std::function<QExtUniquePointer<Value>()>;
     using map_t = std::map<Key, function_t>;
 
     bool contains(const Key& item_key) const { return m_data.find(item_key) != m_data.end(); }
 
-    std::unique_ptr<Value> create(const Key& item_key) const
+    QExtUniquePointer<Value> create(const Key& item_key) const
     {
         auto it = m_data.find(item_key);
         if (it == m_data.end()) {

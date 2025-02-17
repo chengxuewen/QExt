@@ -10,7 +10,7 @@
 #ifndef MVVM_WIDGETS_PROPERTYFLATVIEW_H
 #define MVVM_WIDGETS_PROPERTYFLATVIEW_H
 
-#include "mvvm/view_export.h"
+#include "qextMVVMGlobal.h"
 #include <QWidget>
 #include <memory>
 
@@ -21,7 +21,7 @@ class SessionItem;
 //! Widget holding grid layout with editors and intended for displaying all properties of given
 //! SessionItem.
 
-class MVVM_VIEW_EXPORT PropertyFlatView : public QWidget {
+class QEXT_MVVM_API PropertyFlatView : public QWidget {
     Q_OBJECT
 
 public:
@@ -32,7 +32,7 @@ public:
 
 private:
     struct PropertyFlatViewImpl;
-    std::unique_ptr<PropertyFlatViewImpl> p_impl;
+    QExtUniquePointer<PropertyFlatViewImpl> p_impl;
 };
 
 } // namespace ModelView

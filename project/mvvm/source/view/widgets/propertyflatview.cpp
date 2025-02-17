@@ -7,15 +7,15 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/widgets/propertyflatview.h"
-#include "mvvm/editors/customeditor.h"
-#include "mvvm/editors/defaulteditorfactory.h"
-#include "mvvm/factories/viewmodelfactory.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/viewmodel/standardviewitems.h"
-#include "mvvm/viewmodel/viewmodel.h"
-#include "mvvm/viewmodel/viewmodeldelegate.h"
-#include "mvvm/widgets/layoututils.h"
+#include "view/widgets/propertyflatview.h"
+#include "viewmodel/editors/customeditor.h"
+#include "viewmodel/editors/defaulteditorfactory.h"
+#include "viewmodel/factories/viewmodelfactory.h"
+#include "model/model/sessionitem.h"
+#include "viewmodel/viewmodel/standardviewitems.h"
+#include "viewmodel/viewmodel/viewmodel.h"
+#include "viewmodel/viewmodel/viewmodeldelegate.h"
+#include "view/widgets/layoututils.h"
 #include <QDataWidgetMapper>
 #include <QGridLayout>
 #include <QLabel>
@@ -23,25 +23,25 @@
 using namespace ModelView;
 
 struct PropertyFlatView::PropertyFlatViewImpl {
-    std::unique_ptr<ViewModel> view_model;
-    std::unique_ptr<ViewModelDelegate> m_delegate;
-    std::unique_ptr<DefaultEditorFactory> editor_factory;
-    std::vector<std::unique_ptr<QDataWidgetMapper>> widget_mappers;
+    QExtUniquePointer<ViewModel> view_model;
+    QExtUniquePointer<ViewModelDelegate> m_delegate;
+    QExtUniquePointer<DefaultEditorFactory> editor_factory;
+    std::vector<QExtUniquePointer<QDataWidgetMapper>> widget_mappers;
     std::map<ViewItem*, QWidget*> item_to_widget;
 
     QGridLayout* grid_layout{nullptr};
     PropertyFlatViewImpl()
-        : m_delegate(std::make_unique<ViewModelDelegate>())
-        , editor_factory(std::make_unique<DefaultEditorFactory>())
+        : m_delegate(qextMakeUnique<ViewModelDelegate>())
+        , editor_factory(qextMakeUnique<DefaultEditorFactory>())
         , grid_layout(new QGridLayout)
     {
     }
 
     //! Creates label for given index.
 
-    std::unique_ptr<QLabel> create_label(ViewItem* view_item)
+    QExtUniquePointer<QLabel> create_label(ViewItem* view_item)
     {
-        auto result = std::make_unique<QLabel>(view_item->data(Qt::DisplayRole).toString());
+        auto result = qextMakeUnique<QLabel>(view_item->data(Qt::DisplayRole).toString());
         result->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
         result->setEnabled(view_item->item()->isEnabled());
         return result;
@@ -49,7 +49,7 @@ struct PropertyFlatView::PropertyFlatViewImpl {
 
     //! Creates custom editor for given index.
 
-    std::unique_ptr<CustomEditor> create_editor(const QModelIndex& index)
+    QExtUniquePointer<CustomEditor> create_editor(const QModelIndex& index)
     {
         auto editor = editor_factory->createEditor(index);
         m_delegate->setEditorData(editor.get(), index);
@@ -88,7 +88,7 @@ struct PropertyFlatView::PropertyFlatViewImpl {
 
     //! Creates widget for given index to appear in grid layout.
 
-    std::unique_ptr<QWidget> create_widget(const QModelIndex& index)
+    QExtUniquePointer<QWidget> create_widget(const QModelIndex& index)
     {
         auto view_item = view_model->viewItemFromIndex(index);
         if (auto label_item = dynamic_cast<ViewLabelItem*>(view_item); label_item)
@@ -103,7 +103,7 @@ struct PropertyFlatView::PropertyFlatViewImpl {
     {
         widget_mappers.clear();
         for (int row = 0; row < view_model->rowCount(); ++row) {
-            auto mapper = std::make_unique<QDataWidgetMapper>();
+            auto mapper = qextMakeUnique<QDataWidgetMapper>();
             mapper->setModel(view_model.get());
             mapper->setItemDelegate(m_delegate.get());
             mapper->setRootIndex(QModelIndex());
@@ -133,7 +133,7 @@ struct PropertyFlatView::PropertyFlatViewImpl {
 };
 
 PropertyFlatView::PropertyFlatView(QWidget* parent)
-    : QWidget(parent), p_impl(std::make_unique<PropertyFlatViewImpl>())
+    : QWidget(parent), p_impl(qextMakeUnique<PropertyFlatViewImpl>())
 {
     auto main_layout = new QVBoxLayout;
     main_layout->setContentsMargins(0, 0, 0, 0);

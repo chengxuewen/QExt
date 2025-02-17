@@ -24,13 +24,13 @@ struct ItemCatalogue::ItemCatalogueImpl {
     std::vector<TypeAndLabel> m_info;
 };
 
-ItemCatalogue::ItemCatalogue() : p_impl(std::make_unique<ItemCatalogueImpl>()) {}
+ItemCatalogue::ItemCatalogue() : p_impl(qextMakeUnique<ItemCatalogueImpl>()) {}
 
 ItemCatalogue::~ItemCatalogue() = default;
 
 ItemCatalogue::ItemCatalogue(const ItemCatalogue& other)
 {
-    p_impl = std::make_unique<ItemCatalogueImpl>(*other.p_impl);
+    p_impl = qextMakeUnique<ItemCatalogueImpl>(*other.p_impl);
 }
 
 ItemCatalogue& ItemCatalogue::operator=(const ItemCatalogue& other)
@@ -54,7 +54,7 @@ bool ItemCatalogue::contains(const std::string& modelType) const
     return p_impl->factory.contains(modelType);
 }
 
-std::unique_ptr<SessionItem> ItemCatalogue::create(const std::string& modelType) const
+QExtUniquePointer<SessionItem> ItemCatalogue::create(const std::string& modelType) const
 {
     return p_impl->factory.create(modelType);
 }

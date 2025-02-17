@@ -139,7 +139,7 @@ struct ItemMapper::ItemMapperImpl {
 };
 
 ItemMapper::ItemMapper(SessionItem* item)
-    : ModelListener(item->model()), p_impl(std::make_unique<ItemMapperImpl>(this))
+    : ModelListener(item->model()), p_impl(qextMakeUnique<ItemMapperImpl>(this))
 {
     if (!item)
         throw std::runtime_error("ItemMapper::ItemMapper() -> Not initialized item");
@@ -149,20 +149,20 @@ ItemMapper::ItemMapper(SessionItem* item)
 
     p_impl->m_item = item;
 
-    auto on_data_change = [this](auto item, auto role) { p_impl->processDataChange(item, role); };
+    auto on_data_change = [this](SessionItem* item, int role) { p_impl->processDataChange(item, role); };
     ModelListener::setOnDataChange(on_data_change);
 
-    auto on_item_inserted = [this](auto item, auto tagrow) {
+    auto on_item_inserted = [this](SessionItem* item, TagRow tagrow) {
         p_impl->processItemInserted(item, tagrow);
     };
     ModelListener::setOnItemInserted(on_item_inserted, this);
 
-    auto on_item_removed = [this](auto item, auto tagrow) {
+    auto on_item_removed = [this](SessionItem* item, TagRow tagrow) {
         p_impl->processItemRemoved(item, tagrow);
     };
     ModelListener::setOnItemRemoved(on_item_removed, this);
 
-    auto on_about_to_remove_item = [this](auto item, auto tagrow) {
+    auto on_about_to_remove_item = [this](SessionItem* item, TagRow tagrow) {
         p_impl->processAboutToRemoveItem(item, tagrow);
     };
     ModelListener::setOnAboutToRemoveItem(on_about_to_remove_item, this);

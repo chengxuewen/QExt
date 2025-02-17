@@ -11,19 +11,19 @@
 #define MVVM_MODEL_FUNCTION_TYPES_H
 
 #include <functional>
-#include <memory>
+#include <qextMemory.h>
 
 namespace ModelView {
 
 class SessionItem;
 
 //! Definition for item factory funciton.
-using item_factory_func_t = std::function<std::unique_ptr<SessionItem>()>;
+using item_factory_func_t = std::function<QExtUniquePointer<SessionItem>()>;
 
 //! Creates factory function for item of specific type.
 template <typename T> item_factory_func_t ItemFactoryFunction()
 {
-    return []() { return std::make_unique<T>(); };
+    return []() { return qextMakeUnique<T>(); };
 }
 
 } // namespace ModelView

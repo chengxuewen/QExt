@@ -7,11 +7,11 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/viewportaxisplotcontroller.h"
-#include "mvvm/plotting/axistitlecontroller.h"
-#include "mvvm/plotting/customplotutils.h"
-#include "mvvm/standarditems/axisitems.h"
-#include "mvvm/standarditems/plottableitems.h"
+#include "view/plotting/viewportaxisplotcontroller.h"
+#include "view/plotting/axistitlecontroller.h"
+#include "view/plotting/customplotutils.h"
+#include "model/standarditems/axisitems.h"
+#include "model/standarditems/plottableitems.h"
 #include <qcustomplot.h>
 #include <QObject>
 #include <stdexcept>
@@ -23,15 +23,15 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl {
     ViewportAxisPlotController* m_self{nullptr};
     QCPAxis* m_axis{nullptr};
     bool m_blockUpdate{false};
-    std::unique_ptr<QMetaObject::Connection> m_axisConn;
-    std::unique_ptr<AxisTitleController> m_titleController;
+    QExtUniquePointer<QMetaObject::Connection> m_axisConn;
+    QExtUniquePointer<AxisTitleController> m_titleController;
 
     AxesPlotControllerImpl(ViewportAxisPlotController* controller, QCPAxis* axis)
         : m_self(controller), m_axis(axis)
     {
         if (!axis)
             throw std::runtime_error("AxisPlotController: axis is not initialized.");
-        m_axisConn = std::make_unique<QMetaObject::Connection>();
+        m_axisConn = qextMakeUnique<QMetaObject::Connection>();
     }
 
     //! Connects QCustomPlot signals with controller methods.
@@ -71,7 +71,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl {
 
     void init_axis()
     {
-        m_titleController = std::make_unique<AxisTitleController>(m_axis);
+        m_titleController = qextMakeUnique<AxisTitleController>(m_axis);
         auto text_item = m_self->currentItem()->item<TextItem>(ViewportAxisItem::P_TITLE);
         m_titleController->setItem(text_item);
         setAxisRangeFromItem();
@@ -97,7 +97,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl {
 };
 
 ViewportAxisPlotController::ViewportAxisPlotController(QCPAxis* axis)
-    : p_impl(std::make_unique<AxesPlotControllerImpl>(this, axis))
+    : p_impl(qextMakeUnique<AxesPlotControllerImpl>(this, axis))
 
 {
 }

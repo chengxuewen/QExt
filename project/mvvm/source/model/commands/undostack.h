@@ -47,7 +47,7 @@ public:
 
 private:
     struct UndoStackImpl;
-    std::unique_ptr<UndoStackImpl> p_impl;
+    QExtUniquePointer<UndoStackImpl> p_impl;
 };
 
 } // namespace ModelView

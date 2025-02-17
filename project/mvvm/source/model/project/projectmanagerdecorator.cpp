@@ -22,12 +22,12 @@ const bool failed = false;
 struct ProjectManagerDecorator::ProjectManagerImpl {
     ProjectContext m_project_context;
     UserInteractionContext m_user_context;
-    std::unique_ptr<ProjectManager> project_manager;
+    QExtUniquePointer<ProjectManager> project_manager;
 
     ProjectManagerImpl(ProjectContext project_context, UserInteractionContext user_context)
         : m_project_context(std::move(project_context)), m_user_context(std::move(user_context))
     {
-        project_manager = std::make_unique<ProjectManager>(m_project_context);
+        project_manager = qextMakeUnique<ProjectManager>(m_project_context);
     }
 
     //! Returns true if the project has directory already defined.
@@ -104,7 +104,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl {
 
 ProjectManagerDecorator::ProjectManagerDecorator(const ProjectContext& project_context,
                                                  const UserInteractionContext& user_context)
-    : p_impl(std::make_unique<ProjectManagerImpl>(project_context, user_context))
+    : p_impl(qextMakeUnique<ProjectManagerImpl>(project_context, user_context))
 {
 }
 

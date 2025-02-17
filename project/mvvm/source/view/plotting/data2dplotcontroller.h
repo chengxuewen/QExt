@@ -10,8 +10,8 @@
 #ifndef MVVM_PLOTTING_DATA2DPLOTCONTROLLER_H
 #define MVVM_PLOTTING_DATA2DPLOTCONTROLLER_H
 
-#include "mvvm/signals/itemlistener.h"
-#include "mvvm/view_export.h"
+#include "model/signals/itemlistener.h"
+#include "qextMVVMGlobal.h"
 #include <memory>
 
 class QCPColorMap;
@@ -23,7 +23,7 @@ class Data2DItem;
 //! Establish communication between QCPColorMap and Data2DItem.
 //! Provide update of data points on QCPColorMap when Graph2DItem is changed.
 
-class MVVM_VIEW_EXPORT Data2DPlotController : public ItemListener<Data2DItem> {
+class QEXT_MVVM_API Data2DPlotController : public ItemListener<Data2DItem> {
 public:
     explicit Data2DPlotController(QCPColorMap* color_map);
     ~Data2DPlotController() override;
@@ -34,7 +34,7 @@ protected:
 
 private:
     struct Data2DPlotControllerImpl;
-    std::unique_ptr<Data2DPlotControllerImpl> p_impl;
+    QExtUniquePointer<Data2DPlotControllerImpl> p_impl;
 };
 
 } // namespace ModelView

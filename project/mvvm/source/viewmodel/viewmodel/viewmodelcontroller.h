@@ -10,8 +10,8 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODELCONTROLLER_H
 #define MVVM_VIEWMODEL_VIEWMODELCONTROLLER_H
 
-#include "mvvm/signals/modellistener.h"
-#include "mvvm/viewmodel_export.h"
+#include "model/signals/modellistener.h"
+#include "qextMVVMGlobal.h"
 #include <QStringList>
 #include <memory>
 #include <vector>
@@ -27,16 +27,16 @@ class RowStrategyInterface;
 
 //! Propagates changes from SessionModel to its ViewModelBase.
 
-class MVVM_VIEWMODEL_EXPORT ViewModelController : public ModelListener<SessionModel> {
+class QEXT_MVVM_API ViewModelController : public ModelListener<SessionModel> {
 public:
     ViewModelController(SessionModel* session_model, ViewModelBase* view_model = nullptr);
     ~ViewModelController() override;
 
     void setViewModel(ViewModelBase* view_model);
 
-    void setChildrenStrategy(std::unique_ptr<ChildrenStrategyInterface> children_strategy);
+    void setChildrenStrategy(QExtUniquePointer<ChildrenStrategyInterface> children_strategy);
 
-    void setRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy);
+    void setRowStrategy(QExtUniquePointer<RowStrategyInterface> row_strategy);
 
     SessionModel* sessionModel() const;
 
@@ -58,7 +58,7 @@ protected:
 
 private:
     struct ViewModelControllerImpl;
-    std::unique_ptr<ViewModelControllerImpl> p_impl;
+    QExtUniquePointer<ViewModelControllerImpl> p_impl;
 };
 
 } // namespace ModelView

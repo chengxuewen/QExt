@@ -7,11 +7,11 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/viewitem.h"
-#include "mvvm/model/customvariants.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/utils/containerutils.h"
-#include "mvvm/viewmodel/viewmodelutils.h"
+#include "viewmodel/viewmodel/viewitem.h"
+#include "model/model/customvariants.h"
+#include "model/model/sessionitem.h"
+#include "model/utils/containerutils.h"
+#include "viewmodel/viewmodel/viewmodelutils.h"
 #include <algorithm>
 #include <stdexcept>
 #include <vector>
@@ -19,7 +19,7 @@
 using namespace ModelView;
 
 struct ViewItem::ViewItemImpl {
-    std::vector<std::unique_ptr<ViewItem>> children; //! buffer to hold rows x columns
+    std::vector<QExtUniquePointer<ViewItem>> children; //! buffer to hold rows x columns
     int rows{0};
     int columns{0};
     SessionItem* item{nullptr};
@@ -27,12 +27,12 @@ struct ViewItem::ViewItemImpl {
     ViewItem* parent_view_item{nullptr};
     ViewItemImpl(SessionItem* item, int role) : item(item), role(role) {}
 
-    void appendRow(std::vector<std::unique_ptr<ViewItem>> items)
+    void appendRow(std::vector<QExtUniquePointer<ViewItem>> items)
     {
         insertRow(rows, std::move(items));
     }
 
-    void insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
+    void insertRow(int row, std::vector<QExtUniquePointer<ViewItem>> items)
     {
         if (items.empty())
             throw std::runtime_error("Error in ViewItemImpl: attempt to insert empty row");
@@ -97,7 +97,7 @@ struct ViewItem::ViewItemImpl {
     }
 };
 
-ViewItem::ViewItem(SessionItem* item, int role) : p_impl(std::make_unique<ViewItemImpl>(item, role))
+ViewItem::ViewItem(SessionItem* item, int role) : p_impl(qextMakeUnique<ViewItemImpl>(item, role))
 {
 }
 
@@ -120,7 +120,7 @@ int ViewItem::columnCount() const
 //! Appends a row containing items. Number of items should be the same as columnCount()
 //! (if there are already some rows). If it is a first row, then items can be of any size.
 
-void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
+void ViewItem::appendRow(std::vector<QExtUniquePointer<ViewItem>> items)
 {
     for (auto& x : items)
         x->setParent(this);
@@ -129,7 +129,7 @@ void ViewItem::appendRow(std::vector<std::unique_ptr<ViewItem>> items)
 
 //! Insert a row of items at index 'row'.
 
-void ViewItem::insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items)
+void ViewItem::insertRow(int row, std::vector<QExtUniquePointer<ViewItem>> items)
 {
     for (auto& x : items)
         x->setParent(this);

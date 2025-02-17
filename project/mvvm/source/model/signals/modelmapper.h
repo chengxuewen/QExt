@@ -54,7 +54,7 @@ private:
     void callOnModelReset();
 
     struct ModelMapperImpl;
-    std::unique_ptr<ModelMapperImpl> p_impl;
+    QExtUniquePointer<ModelMapperImpl> p_impl;
 };
 
 } // namespace ModelView

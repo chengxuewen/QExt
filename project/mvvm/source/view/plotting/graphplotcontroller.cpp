@@ -7,12 +7,12 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/graphplotcontroller.h"
-#include "mvvm/plotting/data1dplotcontroller.h"
-#include "mvvm/plotting/pencontroller.h"
-#include "mvvm/standarditems/data1ditem.h"
-#include "mvvm/standarditems/graphitem.h"
-#include "mvvm/standarditems/plottableitems.h"
+#include "view/plotting/graphplotcontroller.h"
+#include "view/plotting/data1dplotcontroller.h"
+#include "view/plotting/pencontroller.h"
+#include "model/standarditems/data1ditem.h"
+#include "model/standarditems/graphitem.h"
+#include "model/standarditems/plottableitems.h"
 #include <qcustomplot.h>
 
 using namespace ModelView;
@@ -21,8 +21,8 @@ struct GraphPlotController::GraphItemControllerImpl {
     GraphPlotController* m_self{nullptr};
     QCustomPlot* m_customPlot{nullptr};
     QCPGraph* m_graph{nullptr};
-    std::unique_ptr<Data1DPlotController> m_dataController;
-    std::unique_ptr<PenController> m_penController;
+    QExtUniquePointer<Data1DPlotController> m_dataController;
+    QExtUniquePointer<PenController> m_penController;
 
     GraphItemControllerImpl(GraphPlotController* master, QCustomPlot* plot)
         : m_self(master), m_customPlot(plot)
@@ -34,8 +34,8 @@ struct GraphPlotController::GraphItemControllerImpl {
     void init_graph()
     {
         m_graph = m_customPlot->addGraph();
-        m_dataController = std::make_unique<Data1DPlotController>(m_graph);
-        m_penController = std::make_unique<PenController>(m_graph);
+        m_dataController = qextMakeUnique<Data1DPlotController>(m_graph);
+        m_penController = qextMakeUnique<PenController>(m_graph);
 
         update_data_controller();
         update_graph_pen();
@@ -74,7 +74,7 @@ struct GraphPlotController::GraphItemControllerImpl {
 };
 
 GraphPlotController::GraphPlotController(QCustomPlot* custom_plot)
-    : p_impl(std::make_unique<GraphItemControllerImpl>(this, custom_plot))
+    : p_impl(qextMakeUnique<GraphItemControllerImpl>(this, custom_plot))
 {
 }
 

@@ -73,9 +73,9 @@ void FixedBinAxisItem::setParameters(int nbins, double xmin, double xmax)
     setProperty(P_MAX, xmax);
 }
 
-std::unique_ptr<FixedBinAxisItem> FixedBinAxisItem::create(int nbins, double xmin, double xmax)
+QExtUniquePointer<FixedBinAxisItem> FixedBinAxisItem::create(int nbins, double xmin, double xmax)
 {
-    auto result = std::make_unique<FixedBinAxisItem>();
+    auto result = qextMakeUnique<FixedBinAxisItem>();
     result->setParameters(nbins, xmin, xmax);
     return result;
 }
@@ -119,9 +119,9 @@ void PointwiseAxisItem::setParameters(const std::vector<double>& data)
     setData(data);
 }
 
-std::unique_ptr<PointwiseAxisItem> PointwiseAxisItem::create(const std::vector<double>& data)
+QExtUniquePointer<PointwiseAxisItem> PointwiseAxisItem::create(const std::vector<double>& data)
 {
-    auto result = std::make_unique<PointwiseAxisItem>();
+    auto result = qextMakeUnique<PointwiseAxisItem>();
     result->setParameters(data);
     return result;
 }

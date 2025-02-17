@@ -11,11 +11,11 @@
 #include "model/project/projectmanagerdecorator.h"
 
 namespace ModelView {
-std::unique_ptr<ProjectManagerInterface>
+QExtUniquePointer<ProjectManagerInterface>
 CreateProjectManager(const ProjectContext& project_context,
                      const UserInteractionContext& user_context)
 {
-    return std::make_unique<ProjectManagerDecorator>(project_context, user_context);
+    return qextMakeUnique<ProjectManagerDecorator>(project_context, user_context);
 }
 
 } // namespace ModelView

@@ -19,13 +19,13 @@
 namespace ModelView {
 
 //! Creates a JSON model converter intended for model cloning.
-QEXT_MVVM_API std::unique_ptr<JsonModelConverterInterface> CreateModelCloneConverter();
+QEXT_MVVM_API QExtUniquePointer<JsonModelConverterInterface> CreateModelCloneConverter();
 
 //! Creates a JSON model converter intended for model copying.
-QEXT_MVVM_API std::unique_ptr<JsonModelConverterInterface> CreateModelCopyConverter();
+QEXT_MVVM_API QExtUniquePointer<JsonModelConverterInterface> CreateModelCopyConverter();
 
 //! Creates a JSON model converter intended for save/load of the project on disk.
-QEXT_MVVM_API std::unique_ptr<JsonModelConverterInterface> CreateModelProjectConverter();
+QEXT_MVVM_API QExtUniquePointer<JsonModelConverterInterface> CreateModelProjectConverter();
 
 } // namespace ModelView
 

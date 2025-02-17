@@ -35,7 +35,7 @@ public:
 
 private:
     struct ProjectImpl;
-    std::unique_ptr<ProjectImpl> p_impl;
+    QExtUniquePointer<ProjectImpl> p_impl;
 };
 
 } // namespace ModelView

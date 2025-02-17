@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/data1dplotcontroller.h"
-#include "mvvm/standarditems/data1ditem.h"
+#include "view/plotting/data1dplotcontroller.h"
+#include "model/standarditems/data1ditem.h"
 #include <qcustomplot.h>
 #include <stdexcept>
 
@@ -84,7 +84,7 @@ struct Data1DPlotController::Data1DPlotControllerImpl {
 };
 
 Data1DPlotController::Data1DPlotController(QCPGraph* graph)
-    : p_impl(std::make_unique<Data1DPlotControllerImpl>(graph))
+    : p_impl(qextMakeUnique<Data1DPlotControllerImpl>(graph))
 {
 }
 

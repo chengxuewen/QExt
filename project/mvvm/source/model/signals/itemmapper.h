@@ -46,7 +46,7 @@ private:
     void callOnItemDestroy();
 
     struct ItemMapperImpl;
-    std::unique_ptr<ItemMapperImpl> p_impl;
+    QExtUniquePointer<ItemMapperImpl> p_impl;
 };
 
 } // namespace ModelView

@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/labeldatarowstrategy.h"
-#include "mvvm/viewmodel/standardviewitems.h"
+#include "viewmodel/viewmodel/labeldatarowstrategy.h"
+#include "viewmodel/viewmodel/standardviewitems.h"
 
 using namespace ModelView;
 
@@ -22,14 +22,14 @@ QStringList LabelDataRowStrategy::horizontalHeaderLabels() const
                          << "Value";
 }
 
-std::vector<std::unique_ptr<ViewItem>> LabelDataRowStrategy::constructRow(SessionItem* item)
+std::vector<QExtUniquePointer<ViewItem>> LabelDataRowStrategy::constructRow(SessionItem* item)
 {
-    std::vector<std::unique_ptr<ViewItem>> result;
+    std::vector<QExtUniquePointer<ViewItem>> result;
 
     if (!item)
         return result;
 
-    result.emplace_back(std::make_unique<ViewLabelItem>(item));
-    result.emplace_back(std::make_unique<ViewDataItem>(item));
+    result.emplace_back(qextMakeUnique<ViewLabelItem>(item));
+    result.emplace_back(qextMakeUnique<ViewDataItem>(item));
     return result;
 }

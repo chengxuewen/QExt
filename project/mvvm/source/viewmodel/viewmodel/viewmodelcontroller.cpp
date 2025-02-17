@@ -7,18 +7,18 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/viewmodelcontroller.h"
-#include "mvvm/interfaces/childrenstrategyinterface.h"
-#include "mvvm/interfaces/rowstrategyinterface.h"
-#include "mvvm/model/itemutils.h"
-#include "mvvm/model/modelutils.h"
-#include "mvvm/model/path.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/model/sessionmodel.h"
-#include "mvvm/utils/containerutils.h"
-#include "mvvm/viewmodel/standardviewitems.h"
-#include "mvvm/viewmodel/viewmodelbase.h"
-#include "mvvm/viewmodel/viewmodelutils.h"
+#include "viewmodel/viewmodel/viewmodelcontroller.h"
+#include "viewmodel/interfaces/childrenstrategyinterface.h"
+#include "viewmodel/interfaces/rowstrategyinterface.h"
+#include "model/model/itemutils.h"
+#include "model/model/modelutils.h"
+#include "model/model/path.h"
+#include "model/model/sessionitem.h"
+#include "model/model/sessionmodel.h"
+#include "model/utils/containerutils.h"
+#include "viewmodel/viewmodel/standardviewitems.h"
+#include "viewmodel/viewmodel/viewmodelbase.h"
+#include "viewmodel/viewmodel/viewmodelutils.h"
 #include <map>
 #include <stdexcept>
 
@@ -42,8 +42,8 @@ bool isValidItemRole(const ViewItem* view, int item_role)
 struct ViewModelController::ViewModelControllerImpl {
     ViewModelController* m_self;
     ViewModelBase* m_viewModel{nullptr};
-    std::unique_ptr<ChildrenStrategyInterface> m_childrenStrategy;
-    std::unique_ptr<RowStrategyInterface> m_rowStrategy;
+    QExtUniquePointer<ChildrenStrategyInterface> m_childrenStrategy;
+    QExtUniquePointer<RowStrategyInterface> m_rowStrategy;
     std::map<SessionItem*, ViewItem*> m_itemToVview; //! correspondence of item and its view
     Path m_rootItemPath;
 
@@ -155,13 +155,13 @@ struct ViewModelController::ViewModelControllerImpl {
     void setRootSessionItemIntern(SessionItem* item)
     {
         m_rootItemPath = Utils::PathFromItem(item);
-        m_viewModel->setRootViewItem(std::make_unique<RootViewItem>(item));
+        m_viewModel->setRootViewItem(qextMakeUnique<RootViewItem>(item));
     }
 };
 
 ViewModelController::ViewModelController(SessionModel* session_model, ViewModelBase* view_model)
     : ModelListener(session_model)
-    , p_impl(std::make_unique<ViewModelControllerImpl>(this, view_model))
+    , p_impl(qextMakeUnique<ViewModelControllerImpl>(this, view_model))
 {
     auto on_data_change = [this](SessionItem* item, int role) { onDataChange(item, role); };
     setOnDataChange(on_data_change);
@@ -182,7 +182,7 @@ ViewModelController::ViewModelController(SessionModel* session_model, ViewModelB
     setOnAboutToRemoveItem(on_about_to_remove);
 
     auto on_model_destroyed = [this](auto) {
-        p_impl->m_viewModel->setRootViewItem(std::make_unique<RootViewItem>(nullptr));
+        p_impl->m_viewModel->setRootViewItem(qextMakeUnique<RootViewItem>(nullptr));
     };
     setOnModelDestroyed(on_model_destroyed);
 
@@ -206,12 +206,12 @@ void ViewModelController::setViewModel(ViewModelBase* view_model)
 ViewModelController::~ViewModelController() = default;
 
 void ViewModelController::setChildrenStrategy(
-    std::unique_ptr<ChildrenStrategyInterface> children_strategy)
+    QExtUniquePointer<ChildrenStrategyInterface> children_strategy)
 {
     p_impl->m_childrenStrategy = std::move(children_strategy);
 }
 
-void ViewModelController::setRowStrategy(std::unique_ptr<RowStrategyInterface> row_strategy)
+void ViewModelController::setRowStrategy(QExtUniquePointer<RowStrategyInterface> row_strategy)
 {
     p_impl->m_rowStrategy = std::move(row_strategy);
 }
@@ -282,7 +282,7 @@ void ViewModelController::onAboutToRemoveItem(SessionItem* parent, TagRow tagrow
         // special case when user removes SessionItem which is one of ancestors of our root item
         // or root item iteslf
         p_impl->m_viewModel->beginResetModel();
-        p_impl->m_viewModel->setRootViewItem(std::make_unique<RootViewItem>(nullptr));
+        p_impl->m_viewModel->setRootViewItem(qextMakeUnique<RootViewItem>(nullptr));
         p_impl->m_itemToVview.clear();
         p_impl->m_rootItemPath = {};
         p_impl->m_viewModel->endResetModel();

@@ -7,9 +7,9 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/standardchildrenstrategies.h"
-#include "mvvm/model/groupitem.h"
-#include "mvvm/model/itemutils.h"
+#include "viewmodel/viewmodel/standardchildrenstrategies.h"
+#include "model/model/groupitem.h"
+#include "model/model/itemutils.h"
 
 using namespace ModelView;
 

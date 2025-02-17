@@ -32,7 +32,7 @@ struct AbstractItemCommand::AbstractItemCommandImpl {
 };
 
 AbstractItemCommand::AbstractItemCommand(SessionItem* receiver)
-    : p_impl(std::make_unique<AbstractItemCommand::AbstractItemCommandImpl>(this))
+    : p_impl(qextMakeUnique<AbstractItemCommand::AbstractItemCommandImpl>(this))
 {
     if (!receiver)
         throw std::runtime_error("Invalid item.");

@@ -10,8 +10,8 @@
 #ifndef MVVM_FACTORIES_VIEWMODELCONTROLLERFACTORY_H
 #define MVVM_FACTORIES_VIEWMODELCONTROLLERFACTORY_H
 
-#include "mvvm/factories/viewmodelcontrollerbuilder.h"
-#include "mvvm/viewmodel_export.h"
+#include "viewmodel/factories/viewmodelcontrollerbuilder.h"
+#include "qextMVVMGlobal.h"
 #include <memory>
 
 namespace ModelView {
@@ -25,14 +25,14 @@ namespace Factory {
 //! Create universal controller.
 
 template <typename ChildrenStrategy, typename RowStrategy>
-std::unique_ptr<ViewModelController> CreateController(SessionModel* session_model,
+QExtUniquePointer<ViewModelController> CreateController(SessionModel* session_model,
                                                       ViewModelBase* view_model)
 {
     return ViewModelControllerBuilder()
         .model(session_model)
         .viewModel(view_model)
-        .childrenStrategy(std::make_unique<ChildrenStrategy>())
-        .rowStrategy(std::make_unique<RowStrategy>());
+        .childrenStrategy(qextMakeUnique<ChildrenStrategy>())
+        .rowStrategy(qextMakeUnique<RowStrategy>());
 }
 
 } // namespace Factory

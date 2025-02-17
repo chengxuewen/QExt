@@ -49,7 +49,7 @@ struct Project::ProjectImpl {
     }
 };
 
-Project::Project(const ProjectContext& context) : p_impl(std::make_unique<ProjectImpl>(context)) {}
+Project::Project(const ProjectContext& context) : p_impl(qextMakeUnique<ProjectImpl>(context)) {}
 
 Project::~Project() = default;
 

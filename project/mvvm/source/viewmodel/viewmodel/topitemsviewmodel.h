@@ -10,7 +10,7 @@
 #ifndef MVVM_VIEWMODEL_TOPITEMSVIEWMODEL_H
 #define MVVM_VIEWMODEL_TOPITEMSVIEWMODEL_H
 
-#include "mvvm/viewmodel/viewmodel.h"
+#include "viewmodel/viewmodel/viewmodel.h"
 
 namespace ModelView {
 
@@ -18,7 +18,7 @@ namespace ModelView {
 //! All property items (i.e. "thickness", "color" etc) will be filtered out, top level items
 //! (i.e. Layer, MultiLayer, ...) will be presented as simple parent/child tree.
 
-class MVVM_VIEWMODEL_EXPORT TopItemsViewModel : public ViewModel {
+class QEXT_MVVM_API TopItemsViewModel : public ViewModel {
     Q_OBJECT
 
 public:

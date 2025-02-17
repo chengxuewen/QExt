@@ -20,7 +20,7 @@
 using namespace ModelView;
 
 namespace {
-std::unique_ptr<JsonItemConverterInterface> CreateConverter(const ItemFactoryInterface* factory,
+QExtUniquePointer<JsonItemConverterInterface> CreateConverter(const ItemFactoryInterface* factory,
                                                             ConverterMode mode)
 {
     if (mode == ConverterMode::clone)
@@ -78,7 +78,7 @@ void JsonModelConverter::from_json(const QJsonObject& json, SessionModel& model)
 
     auto itemConverter = CreateConverter(model.factory(), m_mode);
 
-    auto rebuild_root = [&json, &itemConverter](auto parent) {
+    auto rebuild_root = [&json, &itemConverter](SessionItem *parent) {
         for (const auto ref : json[JsonItemFormatAssistant::itemsKey].toArray()) {
             parent->insertItem(itemConverter->from_json(ref.toObject()), TagRow::append());
         }

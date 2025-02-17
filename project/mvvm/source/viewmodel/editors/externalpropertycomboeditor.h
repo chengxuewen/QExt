@@ -10,7 +10,7 @@
 #ifndef MVVM_EDITORS_EXTERNALPROPERTYCOMBOEDITOR_H
 #define MVVM_EDITORS_EXTERNALPROPERTYCOMBOEDITOR_H
 
-#include "mvvm/editors/customeditor.h"
+#include "viewmodel/editors/customeditor.h"
 #include <functional>
 #include <vector>
 
@@ -24,7 +24,7 @@ class ExternalProperty;
 //! Custom editor for table/tree cells to select ExternalProperty from the list of
 //! external properties. Uses callbacks to retrieve vector of possible properties.
 
-class MVVM_VIEWMODEL_EXPORT ExternalPropertyComboEditor : public CustomEditor {
+class QEXT_MVVM_API ExternalPropertyComboEditor : public CustomEditor {
     Q_OBJECT
 
 public:

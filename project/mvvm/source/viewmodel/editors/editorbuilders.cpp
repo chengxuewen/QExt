@@ -7,19 +7,19 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/editors/editorbuilders.h"
-#include "mvvm/editors/booleditor.h"
-#include "mvvm/editors/coloreditor.h"
-#include "mvvm/editors/combopropertyeditor.h"
-#include "mvvm/editors/doubleeditor.h"
-#include "mvvm/editors/editor_constants.h"
-#include "mvvm/editors/externalpropertyeditor.h"
-#include "mvvm/editors/integereditor.h"
-#include "mvvm/editors/scientificdoubleeditor.h"
-#include "mvvm/editors/scientificspinboxeditor.h"
-#include "mvvm/editors/selectablecomboboxeditor.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/utils/reallimits.h"
+#include "viewmodel/editors/editorbuilders.h"
+#include "viewmodel/editors/booleditor.h"
+#include "viewmodel/editors/coloreditor.h"
+#include "viewmodel/editors/combopropertyeditor.h"
+#include "viewmodel/editors/doubleeditor.h"
+#include "viewmodel/editors/editor_constants.h"
+#include "viewmodel/editors/externalpropertyeditor.h"
+#include "viewmodel/editors/integereditor.h"
+#include "viewmodel/editors/scientificdoubleeditor.h"
+#include "viewmodel/editors/scientificspinboxeditor.h"
+#include "viewmodel/editors/selectablecomboboxeditor.h"
+#include "model/model/sessionitem.h"
+#include "model/utils/reallimits.h"
 #include <cmath>
 
 namespace {
@@ -40,14 +40,14 @@ namespace ModelView ::EditorBuilders {
 
 builder_t BoolEditorBuilder()
 {
-    auto builder = [](const SessionItem*) -> editor_t { return std::make_unique<BoolEditor>(); };
+    auto builder = [](const SessionItem*) -> editor_t { return qextMakeUnique<BoolEditor>(); };
     return builder;
 }
 
 builder_t IntegerEditorBuilder()
 {
     auto builder = [](const SessionItem* item) -> editor_t {
-        auto editor = std::make_unique<IntegerEditor>();
+        auto editor = qextMakeUnique<IntegerEditor>();
         if (item && item->hasData(ItemDataRole::LIMITS)) {
             auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
             editor->setRange(limits.lowerLimit(), limits.upperLimit());
@@ -60,7 +60,7 @@ builder_t IntegerEditorBuilder()
 builder_t DoubleEditorBuilder()
 {
     auto builder = [](const SessionItem* item) -> editor_t {
-        auto editor = std::make_unique<DoubleEditor>();
+        auto editor = qextMakeUnique<DoubleEditor>();
         if (item && item->hasData(ItemDataRole::LIMITS)) {
             auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
             editor->setRange(limits.lowerLimit(), limits.upperLimit());
@@ -75,7 +75,7 @@ builder_t DoubleEditorBuilder()
 builder_t ScientificDoubleEditorBuilder()
 {
     auto builder = [](const SessionItem* item) -> editor_t {
-        auto editor = std::make_unique<ScientificDoubleEditor>();
+        auto editor = qextMakeUnique<ScientificDoubleEditor>();
         if (item && item->hasData(ItemDataRole::LIMITS)) {
             auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
             editor->setRange(limits.lowerLimit(), limits.upperLimit());
@@ -88,7 +88,7 @@ builder_t ScientificDoubleEditorBuilder()
 builder_t ScientificSpinBoxEditorBuilder()
 {
     auto builder = [](const SessionItem* item) -> editor_t {
-        auto editor = std::make_unique<ScientificSpinBoxEditor>();
+        auto editor = qextMakeUnique<ScientificSpinBoxEditor>();
         if (item) {
             if (item->hasData(ItemDataRole::LIMITS)) {
                 auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
@@ -104,14 +104,14 @@ builder_t ScientificSpinBoxEditorBuilder()
 
 builder_t ColorEditorBuilder()
 {
-    auto builder = [](const SessionItem*) -> editor_t { return std::make_unique<ColorEditor>(); };
+    auto builder = [](const SessionItem*) -> editor_t { return qextMakeUnique<ColorEditor>(); };
     return builder;
 }
 
 builder_t ComboPropertyEditorBuilder()
 {
     auto builder = [](const SessionItem*) -> editor_t {
-        return std::make_unique<ComboPropertyEditor>();
+        return qextMakeUnique<ComboPropertyEditor>();
     };
     return builder;
 }
@@ -119,7 +119,7 @@ builder_t ComboPropertyEditorBuilder()
 builder_t ExternalPropertyEditorBuilder()
 {
     auto builder = [](const SessionItem*) -> editor_t {
-        return std::make_unique<ExternalPropertyEditor>();
+        return qextMakeUnique<ExternalPropertyEditor>();
     };
     return builder;
 }
@@ -127,7 +127,7 @@ builder_t ExternalPropertyEditorBuilder()
 builder_t SelectableComboPropertyEditorBuilder()
 {
     auto builder = [](const SessionItem*) -> editor_t {
-        return std::make_unique<SelectableComboBoxEditor>();
+        return qextMakeUnique<SelectableComboBoxEditor>();
     };
     return builder;
 }

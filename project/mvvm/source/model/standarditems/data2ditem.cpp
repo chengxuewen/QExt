@@ -34,8 +34,8 @@ Data2DItem::Data2DItem() : CompoundItem(Constants::Data2DItemType)
 
 //! Sets axes and put data points to zero.
 
-void Data2DItem::setAxes(std::unique_ptr<BinnedAxisItem> x_axis,
-                         std::unique_ptr<BinnedAxisItem> y_axis)
+void Data2DItem::setAxes(QExtUniquePointer<BinnedAxisItem> x_axis,
+                         QExtUniquePointer<BinnedAxisItem> y_axis)
 {
     insert_axis(std::move(x_axis), T_XAXIS);
     insert_axis(std::move(y_axis), T_YAXIS);
@@ -72,7 +72,7 @@ std::vector<double> Data2DItem::content() const
 
 //! Insert axis under given tag. Previous axis will be deleted and data points invalidated.
 
-void Data2DItem::insert_axis(std::unique_ptr<BinnedAxisItem> axis, const std::string& tag)
+void Data2DItem::insert_axis(QExtUniquePointer<BinnedAxisItem> axis, const std::string& tag)
 {
     // removing current axis
     if (getItem(tag, 0))

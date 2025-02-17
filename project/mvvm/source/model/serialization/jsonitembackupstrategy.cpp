@@ -15,19 +15,19 @@
 using namespace ModelView;
 
 struct JsonItemBackupStrategy::JsonItemBackupStrategyImpl {
-    std::unique_ptr<JsonItemConverterInterface> m_converter;
+    QExtUniquePointer<JsonItemConverterInterface> m_converter;
     QJsonObject m_json;
 };
 
 JsonItemBackupStrategy::JsonItemBackupStrategy(const ItemFactoryInterface* item_factory)
-    : p_impl(std::make_unique<JsonItemBackupStrategyImpl>())
+    : p_impl(qextMakeUnique<JsonItemBackupStrategyImpl>())
 {
     p_impl->m_converter = CreateItemCloneConverter(item_factory);
 }
 
 JsonItemBackupStrategy::~JsonItemBackupStrategy() = default;
 
-std::unique_ptr<SessionItem> JsonItemBackupStrategy::restoreItem() const
+QExtUniquePointer<SessionItem> JsonItemBackupStrategy::restoreItem() const
 {
     return p_impl->m_converter->from_json(p_impl->m_json);
 }

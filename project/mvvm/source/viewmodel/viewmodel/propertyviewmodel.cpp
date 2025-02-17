@@ -7,12 +7,12 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/propertyviewmodel.h"
-#include "mvvm/viewmodel/standardviewmodelcontrollers.h"
+#include "viewmodel/viewmodel/propertyviewmodel.h"
+#include "viewmodel/viewmodel/standardviewmodelcontrollers.h"
 
 using namespace ModelView;
 
 PropertyViewModel::PropertyViewModel(SessionModel* model, QObject* parent)
-    : ViewModel(std::make_unique<PropertyViewModelController>(model, this), parent)
+    : ViewModel(qextMakeUnique<PropertyViewModelController>(model, this), parent)
 {
 }

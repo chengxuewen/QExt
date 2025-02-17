@@ -7,14 +7,14 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/viewmodelutils.h"
-#include "mvvm/model/customvariants.h"
-#include "mvvm/model/externalproperty.h"
-#include "mvvm/model/itemutils.h"
-#include "mvvm/model/mvvm_types.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/viewmodel/viewitem.h"
-#include "mvvm/viewmodel/viewmodel.h"
+#include "viewmodel/viewmodel/viewmodelutils.h"
+#include "model/model/customvariants.h"
+#include "model/model/externalproperty.h"
+#include "model/model/itemutils.h"
+#include "model/model/mvvm_types.h"
+#include "model/model/sessionitem.h"
+#include "viewmodel/viewmodel/viewitem.h"
+#include "viewmodel/viewmodel/viewmodel.h"
 #include <QStandardItemModel>
 #include <iterator>
 #include <set>

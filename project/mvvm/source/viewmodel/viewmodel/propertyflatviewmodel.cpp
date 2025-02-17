@@ -7,12 +7,12 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/propertyflatviewmodel.h"
-#include "mvvm/viewmodel/standardviewmodelcontrollers.h"
+#include "viewmodel/viewmodel/propertyflatviewmodel.h"
+#include "viewmodel/viewmodel/standardviewmodelcontrollers.h"
 
 using namespace ModelView;
 
 PropertyFlatViewModel::PropertyFlatViewModel(SessionModel* model, QObject* parent)
-    : ViewModel(std::make_unique<PropertyFlatViewModelController>(model, this), parent)
+    : ViewModel(qextMakeUnique<PropertyFlatViewModelController>(model, this), parent)
 {
 }

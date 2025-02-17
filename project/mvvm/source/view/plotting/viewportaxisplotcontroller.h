@@ -10,8 +10,8 @@
 #ifndef MVVM_PLOTTING_VIEWPORTAXISPLOTCONTROLLER_H
 #define MVVM_PLOTTING_VIEWPORTAXISPLOTCONTROLLER_H
 
-#include "mvvm/signals/itemlistener.h"
-#include "mvvm/view_export.h"
+#include "model/signals/itemlistener.h"
+#include "qextMVVMGlobal.h"
 #include <memory>
 
 class QCPAxis;
@@ -23,7 +23,7 @@ class ViewportAxisItem;
 //! Establishes communication between QCPAxis and ViewportAxisItem.
 //! Provide mutual update of axis parameters (min, max, title) for two axes representations.
 
-class MVVM_VIEW_EXPORT ViewportAxisPlotController : public ItemListener<ViewportAxisItem> {
+class QEXT_MVVM_API ViewportAxisPlotController : public ItemListener<ViewportAxisItem> {
 public:
     explicit ViewportAxisPlotController(QCPAxis* axis);
     ~ViewportAxisPlotController() override;
@@ -34,7 +34,7 @@ protected:
 
 public:
     struct AxesPlotControllerImpl;
-    std::unique_ptr<AxesPlotControllerImpl> p_impl;
+    QExtUniquePointer<AxesPlotControllerImpl> p_impl;
 };
 
 } // namespace ModelView

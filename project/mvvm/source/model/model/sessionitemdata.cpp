@@ -70,7 +70,7 @@ SessionItemData::const_iterator SessionItemData::end() const
 
 bool SessionItemData::hasData(int role) const
 {
-    auto has_role = [role](const auto& x) { return x.m_role == role; };
+    auto has_role = [role](const container_type::value_type& x) { return x.m_role == role; };
     return std::find_if(m_values.begin(), m_values.end(), has_role) != m_values.end();
 }
 

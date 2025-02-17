@@ -29,7 +29,7 @@ private:
     void execute_command() override;
 
     struct RemoveItemCommandImpl;
-    std::unique_ptr<RemoveItemCommandImpl> p_impl;
+    QExtUniquePointer<RemoveItemCommandImpl> p_impl;
 };
 
 } // namespace ModelView

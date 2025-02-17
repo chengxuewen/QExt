@@ -7,7 +7,7 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/editors/customeventfilters.h"
+#include "viewmodel/editors/customeventfilters.h"
 #include <QAbstractSpinBox>
 #include <QComboBox>
 #include <QEvent>

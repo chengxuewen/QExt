@@ -74,7 +74,7 @@ public:
 
     void setParameters(int nbins, double xmin, double xmax);
 
-    static std::unique_ptr<FixedBinAxisItem> create(int nbins, double xmin, double xmax);
+    static QExtUniquePointer<FixedBinAxisItem> create(int nbins, double xmin, double xmax);
 
     std::pair<double, double> range() const override;
 
@@ -92,7 +92,7 @@ public:
 
     void setParameters(const std::vector<double>& data);
 
-    static std::unique_ptr<PointwiseAxisItem> create(const std::vector<double>& data);
+    static QExtUniquePointer<PointwiseAxisItem> create(const std::vector<double>& data);
 
     std::pair<double, double> range() const override;
 

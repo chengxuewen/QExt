@@ -7,8 +7,8 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/graphinfoformatter.h"
-#include "mvvm/utils/stringutils.h"
+#include "view/plotting/graphinfoformatter.h"
+#include "model/utils/stringutils.h"
 #include <qcustomplot.h>
 #include <sstream>
 
@@ -34,6 +34,7 @@ int getBin(const QCPGraph* graph, double x)
 }
 
 struct Context {
+    Context(double x, double y) : xpos(x), ypos(y) {}
     double xpos{0.0};
     double ypos{0.0};
     bool close_to_graph{false};
@@ -57,7 +58,7 @@ std::string compose_string(const Context& context)
 
 std::string GraphInfoFormatter::status_string(QCustomPlot* custom_plot, double x, double y) const
 {
-    Context context{x, y};
+    Context context(x, y);
 
     if (auto qcp_graph = find_graph_nearby(custom_plot, x, y); qcp_graph) {
         context.close_to_graph = true;

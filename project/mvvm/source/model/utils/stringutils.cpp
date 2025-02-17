@@ -68,26 +68,26 @@ std::string Utils::RemoveRepeatedSpaces(std::string str)
     if (str.empty())
         return {};
     auto it = std::unique(str.begin(), str.end(),
-                          [](auto x, auto y) { return x == y && std::isspace(x); });
+                          [](std::string::iterator::value_type x, std::string::iterator::value_type y) { return x == y && std::isspace(x); });
     str.erase(it, str.end());
     return str;
 }
 
-std::optional<double> Utils::StringToDouble(const std::string& str)
+QExtOptional<double> Utils::StringToDouble(const std::string& str)
 {
     std::istringstream iss(Utils::TrimWhitespace(str));
     iss.imbue(std::locale::classic());
     double value;
     iss >> value;
-    return (!iss.fail() && iss.eof()) ? std::optional<double>(value) : std::optional<double>{};
+    return (!iss.fail() && iss.eof()) ? QExtOptional<double>(value) : QExtOptional<double>{};
 }
 
-std::optional<int> Utils::StringToInteger(const std::string& str)
+QExtOptional<int> Utils::StringToInteger(const std::string& str)
 {
     std::istringstream iss(Utils::TrimWhitespace(str));
     int value;
     iss >> value;
-    return (!iss.fail() && iss.eof()) ? std::optional<int>(value) : std::optional<int>{};
+    return (!iss.fail() && iss.eof()) ? QExtOptional<int>(value) : QExtOptional<int>{};
 }
 
 std::vector<std::string> Utils::SplitString(const std::string& str, const std::string& delimeter)

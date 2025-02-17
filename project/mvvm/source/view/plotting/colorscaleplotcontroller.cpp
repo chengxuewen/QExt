@@ -7,9 +7,9 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/colorscaleplotcontroller.h"
-#include "mvvm/plotting/viewportaxisplotcontroller.h"
-#include "mvvm/standarditems/axisitems.h"
+#include "view/plotting/colorscaleplotcontroller.h"
+#include "view/plotting/viewportaxisplotcontroller.h"
+#include "model/standarditems/axisitems.h"
 #include <qcustomplot.h>
 #include <stdexcept>
 
@@ -20,7 +20,7 @@ struct ColorScalePlotController::ColorScalePlotControllerImpl {
     ColorScalePlotController* controller{nullptr};
     QCPColorScale* color_scale{nullptr};
     QCPLayoutGrid* layout_grid{new QCPLayoutGrid};
-    std::unique_ptr<ViewportAxisPlotController> axisController;
+    QExtUniquePointer<ViewportAxisPlotController> axisController;
     QCPMarginGroup* margin_group{nullptr};
 
     ColorScalePlotControllerImpl(ColorScalePlotController* controller, QCPColorScale* color_scale)
@@ -29,7 +29,7 @@ struct ColorScalePlotController::ColorScalePlotControllerImpl {
         if (!color_scale)
             throw std::runtime_error("ColorScalePlotController: axis is not initialized.");
 
-        axisController = std::make_unique<ViewportAxisPlotController>(color_scale->axis());
+        axisController = qextMakeUnique<ViewportAxisPlotController>(color_scale->axis());
     }
 
     void setup_components()
@@ -82,7 +82,7 @@ struct ColorScalePlotController::ColorScalePlotControllerImpl {
 };
 
 ColorScalePlotController::ColorScalePlotController(QCPColorScale* color_scale)
-    : p_impl(std::make_unique<ColorScalePlotControllerImpl>(this, color_scale))
+    : p_impl(qextMakeUnique<ColorScalePlotControllerImpl>(this, color_scale))
 
 {
 }

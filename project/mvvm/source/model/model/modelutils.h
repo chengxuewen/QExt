@@ -73,18 +73,18 @@ QEXT_MVVM_API void PopulateEmptyModel(const JsonModelConverterInterface* convert
                                           const SessionModel& source, SessionModel& target);
 
 //! Creates full deep copy of given model. All item's ID will be generated.
-template <typename T = SessionModel> std::unique_ptr<T> CreateCopy(const T& model)
+template <typename T = SessionModel> QExtUniquePointer<T> CreateCopy(const T& model)
 {
-    auto result = std::make_unique<T>();
+    auto result = qextMakeUnique<T>();
     auto converter = CreateModelCopyConverter();
     PopulateEmptyModel(converter.get(), model, *result.get());
     return result;
 }
 
 //! Creates exact clone of given model. All item's ID will be preserved.
-template <typename T = SessionModel> std::unique_ptr<T> CreateClone(const T& model)
+template <typename T = SessionModel> QExtUniquePointer<T> CreateClone(const T& model)
 {
-    auto result = std::make_unique<T>();
+    auto result = qextMakeUnique<T>();
     auto converter = CreateModelCloneConverter();
     PopulateEmptyModel(converter.get(), model, *result.get());
     return result;

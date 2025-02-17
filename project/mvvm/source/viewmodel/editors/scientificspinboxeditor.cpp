@@ -7,9 +7,9 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/editors/scientificspinboxeditor.h"
-#include "mvvm/editors/scientificspinbox.h"
-#include "mvvm/utils/numericutils.h"
+#include "viewmodel/editors/scientificspinboxeditor.h"
+#include "viewmodel/editors/scientificspinbox.h"
+#include "model/utils/numericutils.h"
 #include <QVBoxLayout>
 #include <stdexcept>
 

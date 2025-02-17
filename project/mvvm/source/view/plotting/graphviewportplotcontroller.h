@@ -10,8 +10,8 @@
 #ifndef MVVM_PLOTTING_GRAPHVIEWPORTPLOTCONTROLLER_H
 #define MVVM_PLOTTING_GRAPHVIEWPORTPLOTCONTROLLER_H
 
-#include "mvvm/signals/itemlistener.h"
-#include "mvvm/view_export.h"
+#include "model/signals/itemlistener.h"
+#include "qextMVVMGlobal.h"
 #include <memory>
 
 class QCustomPlot;
@@ -23,7 +23,7 @@ class GraphViewportItem;
 //! Establishes communications and mutual updates for GraphViewportItem and QCutomPlot.
 //! Populates custom plot with all graphs found in GraphViewportItem.
 
-class MVVM_VIEW_EXPORT GraphViewportPlotController : public ItemListener<GraphViewportItem> {
+class QEXT_MVVM_API GraphViewportPlotController : public ItemListener<GraphViewportItem> {
 public:
     explicit GraphViewportPlotController(QCustomPlot* plot);
     ~GraphViewportPlotController() override;
@@ -33,7 +33,7 @@ protected:
 
 private:
     struct GraphViewportPlotControllerImpl;
-    std::unique_ptr<GraphViewportPlotControllerImpl> p_impl;
+    QExtUniquePointer<GraphViewportPlotControllerImpl> p_impl;
 };
 
 } // namespace ModelView

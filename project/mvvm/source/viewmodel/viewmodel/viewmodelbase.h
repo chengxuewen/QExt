@@ -10,7 +10,7 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODELBASE_H
 #define MVVM_VIEWMODEL_VIEWMODELBASE_H
 
-#include "mvvm/viewmodel_export.h"
+#include "qextMVVMGlobal.h"
 #include <QAbstractItemModel>
 #include <memory>
 
@@ -23,7 +23,7 @@ class ViewItem;
 //! of SessionItem. ViewModelBase doesn't have own logic and needs ViewModelController to listen
 //! for SessionModel changes.
 
-class MVVM_VIEWMODEL_EXPORT ViewModelBase : public QAbstractItemModel {
+class QEXT_MVVM_API ViewModelBase : public QAbstractItemModel {
     Q_OBJECT
 
 public:
@@ -53,17 +53,17 @@ public:
 
     void clearRows(ViewItem* parent);
 
-    virtual void insertRow(ViewItem* parent, int row, std::vector<std::unique_ptr<ViewItem>> items);
+    virtual void insertRow(ViewItem* parent, int row, std::vector<QExtUniquePointer<ViewItem>> items);
 
-    void appendRow(ViewItem* parent, std::vector<std::unique_ptr<ViewItem>> items);
+    void appendRow(ViewItem* parent, std::vector<QExtUniquePointer<ViewItem>> items);
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
 private:
-    void setRootViewItem(std::unique_ptr<ViewItem> root_item);
+    void setRootViewItem(QExtUniquePointer<ViewItem> root_item);
     friend class ViewModelController;
     struct ViewModelBaseImpl;
-    std::unique_ptr<ViewModelBaseImpl> p_impl;
+    QExtUniquePointer<ViewModelBaseImpl> p_impl;
 };
 
 } // namespace ModelView

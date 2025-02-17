@@ -24,13 +24,13 @@ class SessionModel;
 //! Creates strategy suitable for item saving/restoring. Restored item will have same identifiers
 //! as original.
 
-QEXT_MVVM_API std::unique_ptr<ItemBackupStrategy>
+QEXT_MVVM_API QExtUniquePointer<ItemBackupStrategy>
 CreateItemBackupStrategy(const SessionModel* model);
 
 //! Returns strategy for item copying. Identifiers of the copy will be different from identifiers
 //! of the original.
 
-QEXT_MVVM_API std::unique_ptr<ItemCopyStrategy>
+QEXT_MVVM_API QExtUniquePointer<ItemCopyStrategy>
 CreateItemCopyStrategy(const SessionModel* model);
 
 } // namespace ModelView

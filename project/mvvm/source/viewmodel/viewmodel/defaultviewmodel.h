@@ -10,7 +10,7 @@
 #ifndef MVVM_VIEWMODEL_DEFAULTVIEWMODEL_H
 #define MVVM_VIEWMODEL_DEFAULTVIEWMODEL_H
 
-#include "mvvm/viewmodel/viewmodel.h"
+#include "viewmodel/viewmodel/viewmodel.h"
 
 namespace ModelView {
 
@@ -18,7 +18,7 @@ namespace ModelView {
 //! label/data, with one-to-one child/parent correspondence as in the original SessionModel. All
 //! items (including hidden) are shown.
 
-class MVVM_VIEWMODEL_EXPORT DefaultViewModel : public ViewModel {
+class QEXT_MVVM_API DefaultViewModel : public ViewModel {
     Q_OBJECT
 
 public:

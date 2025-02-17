@@ -10,7 +10,7 @@
 #ifndef MVVM_EDITORS_EDITORBUILDERS_H
 #define MVVM_EDITORS_EDITORBUILDERS_H
 
-#include "mvvm/viewmodel_export.h"
+#include "qextMVVMGlobal.h"
 #include <functional>
 #include <memory>
 
@@ -24,35 +24,35 @@ class SessionItem;
 
 namespace EditorBuilders {
 
-using editor_t = std::unique_ptr<CustomEditor>;
+using editor_t = QExtUniquePointer<CustomEditor>;
 using builder_t = std::function<editor_t(const SessionItem*)>;
 
 //! Builder for boolean property editor.
-MVVM_VIEWMODEL_EXPORT builder_t BoolEditorBuilder();
+QEXT_MVVM_API builder_t BoolEditorBuilder();
 
 //! Builder for integer property editor.
-MVVM_VIEWMODEL_EXPORT builder_t IntegerEditorBuilder();
+QEXT_MVVM_API builder_t IntegerEditorBuilder();
 
 //! Builder for double editor with limits support.
-MVVM_VIEWMODEL_EXPORT builder_t DoubleEditorBuilder();
+QEXT_MVVM_API builder_t DoubleEditorBuilder();
 
 //! Builder for double editor with scientific notation based on simple text field.
-MVVM_VIEWMODEL_EXPORT builder_t ScientificDoubleEditorBuilder();
+QEXT_MVVM_API builder_t ScientificDoubleEditorBuilder();
 
 //! Builder for double editor with scientific notation and spinbox functionality.
-MVVM_VIEWMODEL_EXPORT builder_t ScientificSpinBoxEditorBuilder();
+QEXT_MVVM_API builder_t ScientificSpinBoxEditorBuilder();
 
 //! Builder for color property editor.
-MVVM_VIEWMODEL_EXPORT builder_t ColorEditorBuilder();
+QEXT_MVVM_API builder_t ColorEditorBuilder();
 
 //! Builder for ComboProperty editor.
-MVVM_VIEWMODEL_EXPORT builder_t ComboPropertyEditorBuilder();
+QEXT_MVVM_API builder_t ComboPropertyEditorBuilder();
 
 //! Builder for external property editor.
-MVVM_VIEWMODEL_EXPORT builder_t ExternalPropertyEditorBuilder();
+QEXT_MVVM_API builder_t ExternalPropertyEditorBuilder();
 
 //! Builder for ComboProperty editor with multi-selection functionality.
-MVVM_VIEWMODEL_EXPORT builder_t SelectableComboPropertyEditorBuilder();
+QEXT_MVVM_API builder_t SelectableComboPropertyEditorBuilder();
 
 } // namespace EditorBuilders
 

@@ -7,7 +7,7 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/customplotproxywidget.h"
+#include "view/plotting/customplotproxywidget.h"
 #include <QEvent>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>

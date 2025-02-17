@@ -7,12 +7,12 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/topitemsviewmodel.h"
-#include "mvvm/viewmodel/standardviewmodelcontrollers.h"
+#include "viewmodel/viewmodel/topitemsviewmodel.h"
+#include "viewmodel/viewmodel/standardviewmodelcontrollers.h"
 
 using namespace ModelView;
 
 TopItemsViewModel::TopItemsViewModel(SessionModel* model, QObject* parent)
-    : ViewModel(std::make_unique<TopItemsViewModelController>(model, this), parent)
+    : ViewModel(qextMakeUnique<TopItemsViewModelController>(model, this), parent)
 {
 }

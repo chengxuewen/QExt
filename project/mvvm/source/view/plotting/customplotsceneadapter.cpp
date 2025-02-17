@@ -15,10 +15,10 @@ using namespace ModelView;
 
 struct CustomPlotSceneAdapter::CustomPlotSceneAdapterImpl {
     QCustomPlot* custom_plot{nullptr};
-    std::unique_ptr<QMetaObject::Connection> conn_to_customplot;
+    QExtUniquePointer<QMetaObject::Connection> conn_to_customplot;
     CustomPlotSceneAdapterImpl(QCustomPlot* custom_plot) : custom_plot(custom_plot)
     {
-        conn_to_customplot = std::make_unique<QMetaObject::Connection>();
+        conn_to_customplot = qextMakeUnique<QMetaObject::Connection>();
     }
 
     double toSceneX(double customplot_x) const
@@ -56,7 +56,7 @@ struct CustomPlotSceneAdapter::CustomPlotSceneAdapterImpl {
 };
 
 CustomPlotSceneAdapter::CustomPlotSceneAdapter(QCustomPlot* custom_plot)
-    : p_impl(std::make_unique<CustomPlotSceneAdapterImpl>(custom_plot))
+    : p_impl(qextMakeUnique<CustomPlotSceneAdapterImpl>(custom_plot))
 {
     auto on_customplot_destroy = [this]() { p_impl->custom_plot = nullptr; };
     *p_impl->conn_to_customplot =

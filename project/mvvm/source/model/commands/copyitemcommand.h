@@ -29,7 +29,7 @@ private:
     void execute_command() override;
 
     struct CopyItemCommandImpl;
-    std::unique_ptr<CopyItemCommandImpl> p_impl;
+    QExtUniquePointer<CopyItemCommandImpl> p_impl;
 };
 
 } // namespace ModelView

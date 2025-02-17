@@ -22,14 +22,14 @@ std::string generate_description(const TagRow& tagrow);
 
 struct RemoveItemCommand::RemoveItemCommandImpl {
     TagRow tagrow;
-    std::unique_ptr<ItemBackupStrategy> backup_strategy;
+    QExtUniquePointer<ItemBackupStrategy> backup_strategy;
     Path item_path;
     RemoveItemCommandImpl(TagRow tagrow) : tagrow(std::move(tagrow)) {}
 };
 
 RemoveItemCommand::RemoveItemCommand(SessionItem* parent, TagRow tagrow)
     : AbstractItemCommand(parent)
-    , p_impl(std::make_unique<RemoveItemCommandImpl>(std::move(tagrow)))
+    , p_impl(qextMakeUnique<RemoveItemCommandImpl>(std::move(tagrow)))
 {
     setResult(false);
 

@@ -10,8 +10,8 @@
 #ifndef MVVM_VIEWMODEL_VIEWITEM_H
 #define MVVM_VIEWMODEL_VIEWITEM_H
 
-#include "mvvm/core/variant.h"
-#include "mvvm/viewmodel_export.h"
+#include "model/core/variant.h"
+#include "qextMVVMGlobal.h"
 #include <memory>
 #include <vector>
 
@@ -21,7 +21,7 @@ class SessionItem;
 
 //! Represents the view of SessionItem's data in a single cell of ViewModel.
 
-class MVVM_VIEWMODEL_EXPORT ViewItem {
+class QEXT_MVVM_API ViewItem {
 public:
     virtual ~ViewItem();
 
@@ -29,9 +29,9 @@ public:
 
     int columnCount() const;
 
-    void appendRow(std::vector<std::unique_ptr<ViewItem>> items);
+    void appendRow(std::vector<QExtUniquePointer<ViewItem>> items);
 
-    void insertRow(int row, std::vector<std::unique_ptr<ViewItem>> items);
+    void insertRow(int row, std::vector<QExtUniquePointer<ViewItem>> items);
 
     void removeRow(int row);
 
@@ -63,7 +63,7 @@ protected:
 
 private:
     struct ViewItemImpl;
-    std::unique_ptr<ViewItemImpl> p_impl;
+    QExtUniquePointer<ViewItemImpl> p_impl;
 };
 
 } // namespace ModelView

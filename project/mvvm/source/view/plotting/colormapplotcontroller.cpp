@@ -7,11 +7,11 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/plotting/colormapplotcontroller.h"
-#include "mvvm/model/comboproperty.h"
-#include "mvvm/plotting/data2dplotcontroller.h"
-#include "mvvm/standarditems/colormapitem.h"
-#include "mvvm/standarditems/data2ditem.h"
+#include "view/plotting/colormapplotcontroller.h"
+#include "model/model/comboproperty.h"
+#include "view/plotting/data2dplotcontroller.h"
+#include "model/standarditems/colormapitem.h"
+#include "model/standarditems/data2ditem.h"
 #include <qcustomplot.h>
 #include <map>
 
@@ -52,14 +52,14 @@ struct ColorMapPlotController::ColorMapPlotControllerImpl {
     ColorMapPlotController* master{nullptr};
     QCustomPlot* custom_plot{nullptr};
     QCPColorMap* color_map{nullptr};
-    std::unique_ptr<Data2DPlotController> data_controller;
+    QExtUniquePointer<Data2DPlotController> data_controller;
 
     ColorMapPlotControllerImpl(ColorMapPlotController* master, QCustomPlot* plot,
                                QCPColorScale* color_scale)
         : master(master), custom_plot(plot)
     {
         color_map = new QCPColorMap(custom_plot->xAxis, custom_plot->yAxis);
-        data_controller = std::make_unique<Data2DPlotController>(color_map);
+        data_controller = qextMakeUnique<Data2DPlotController>(color_map);
 
         if (color_scale)
             color_map->setColorScale(color_scale);
@@ -95,7 +95,7 @@ struct ColorMapPlotController::ColorMapPlotControllerImpl {
 };
 
 ColorMapPlotController::ColorMapPlotController(QCustomPlot* custom_plot, QCPColorScale* color_scale)
-    : p_impl(std::make_unique<ColorMapPlotControllerImpl>(this, custom_plot, color_scale))
+    : p_impl(qextMakeUnique<ColorMapPlotControllerImpl>(this, custom_plot, color_scale))
 {
 }
 

@@ -13,7 +13,7 @@
 
 using namespace ModelView;
 
-ItemFactory::ItemFactory(std::unique_ptr<ItemCatalogue> catalogue)
+ItemFactory::ItemFactory(QExtUniquePointer<ItemCatalogue> catalogue)
     : m_catalogue(std::move(catalogue))
 {
 }
@@ -26,7 +26,7 @@ void ItemFactory::registerItem(const std::string& modelType, item_factory_func_t
 
 ItemFactory::~ItemFactory() = default;
 
-std::unique_ptr<SessionItem> ItemFactory::createItem(const model_type& modelType) const
+QExtUniquePointer<SessionItem> ItemFactory::createItem(const model_type& modelType) const
 {
     return m_catalogue->create(modelType);
 }

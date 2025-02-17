@@ -7,36 +7,36 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/factories/viewmodelfactory.h"
-#include "mvvm/viewmodel/defaultviewmodel.h"
-#include "mvvm/viewmodel/propertyflatviewmodel.h"
-#include "mvvm/viewmodel/propertytableviewmodel.h"
-#include "mvvm/viewmodel/propertyviewmodel.h"
-#include "mvvm/viewmodel/topitemsviewmodel.h"
+#include "viewmodel/factories/viewmodelfactory.h"
+#include "viewmodel/viewmodel/defaultviewmodel.h"
+#include "viewmodel/viewmodel/propertyflatviewmodel.h"
+#include "viewmodel/viewmodel/propertytableviewmodel.h"
+#include "viewmodel/viewmodel/propertyviewmodel.h"
+#include "viewmodel/viewmodel/topitemsviewmodel.h"
 
 using namespace ModelView;
 
-std::unique_ptr<ViewModel> Factory::CreateDefaultViewModel(ModelView::SessionModel* model)
+QExtUniquePointer<ViewModel> Factory::CreateDefaultViewModel(ModelView::SessionModel* model)
 {
-    return std::make_unique<DefaultViewModel>(model);
+    return qextMakeUnique<DefaultViewModel>(model);
 }
 
-std::unique_ptr<ViewModel> Factory::CreatePropertyViewModel(SessionModel* model)
+QExtUniquePointer<ViewModel> Factory::CreatePropertyViewModel(SessionModel* model)
 {
-    return std::make_unique<PropertyViewModel>(model);
+    return qextMakeUnique<PropertyViewModel>(model);
 }
 
-std::unique_ptr<ViewModel> Factory::CreatePropertyTableViewModel(SessionModel* model)
+QExtUniquePointer<ViewModel> Factory::CreatePropertyTableViewModel(SessionModel* model)
 {
-    return std::make_unique<PropertyTableViewModel>(model);
+    return qextMakeUnique<PropertyTableViewModel>(model);
 }
 
-std::unique_ptr<ViewModel> Factory::CreateTopItemsViewModel(SessionModel* model)
+QExtUniquePointer<ViewModel> Factory::CreateTopItemsViewModel(SessionModel* model)
 {
-    return std::make_unique<TopItemsViewModel>(model);
+    return qextMakeUnique<TopItemsViewModel>(model);
 }
 
-std::unique_ptr<ViewModel> Factory::CreatePropertyFlatViewModel(SessionModel* model)
+QExtUniquePointer<ViewModel> Factory::CreatePropertyFlatViewModel(SessionModel* model)
 {
-    return std::make_unique<PropertyFlatViewModel>(model);
+    return qextMakeUnique<PropertyFlatViewModel>(model);
 }

@@ -7,15 +7,15 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/viewmodelbase.h"
-#include "mvvm/viewmodel/standardviewitems.h"
+#include "viewmodel/viewmodel/viewmodelbase.h"
+#include "viewmodel/viewmodel/standardviewitems.h"
 #include <stdexcept>
 
 using namespace ModelView;
 
 struct ViewModelBase::ViewModelBaseImpl {
     ViewModelBase* model{nullptr};
-    std::unique_ptr<ViewItem> root;
+    QExtUniquePointer<ViewItem> root;
     ViewModelBaseImpl(ViewModelBase* model) : model(model) {}
 
     bool item_belongs_to_model(ViewItem* item)
@@ -25,10 +25,10 @@ struct ViewModelBase::ViewModelBaseImpl {
 };
 
 ViewModelBase::ViewModelBase(QObject* parent)
-    : QAbstractItemModel(parent), p_impl(std::make_unique<ViewModelBaseImpl>(this))
+    : QAbstractItemModel(parent), p_impl(qextMakeUnique<ViewModelBaseImpl>(this))
 {
     beginResetModel();
-    setRootViewItem(std::make_unique<RootViewItem>(nullptr));
+    setRootViewItem(qextMakeUnique<RootViewItem>(nullptr));
     endResetModel();
 }
 
@@ -144,7 +144,7 @@ void ViewModelBase::clearRows(ViewItem* parent)
 //! Insert a row of items at index 'row' to given parent.
 
 void ViewModelBase::insertRow(ViewItem* parent, int row,
-                              std::vector<std::unique_ptr<ViewItem>> items)
+                              std::vector<QExtUniquePointer<ViewItem>> items)
 {
     if (!p_impl->item_belongs_to_model(parent))
         throw std::runtime_error(
@@ -157,7 +157,7 @@ void ViewModelBase::insertRow(ViewItem* parent, int row,
 
 //! Appends row of items to given parent.
 
-void ViewModelBase::appendRow(ViewItem* parent, std::vector<std::unique_ptr<ViewItem>> items)
+void ViewModelBase::appendRow(ViewItem* parent, std::vector<QExtUniquePointer<ViewItem>> items)
 {
     insertRow(parent, parent->rowCount(), std::move(items));
 }
@@ -174,7 +174,7 @@ Qt::ItemFlags ViewModelBase::flags(const QModelIndex& index) const
 
 //! Sets new root item. Previous item will be deleted, model will be reset.
 
-void ViewModelBase::setRootViewItem(std::unique_ptr<ViewItem> root_item)
+void ViewModelBase::setRootViewItem(QExtUniquePointer<ViewItem> root_item)
 {
     p_impl->root = std::move(root_item);
 }

@@ -49,7 +49,7 @@ public:
 
 private:
     struct ProjectManagerImpl;
-    std::unique_ptr<ProjectManagerImpl> p_impl;
+    QExtUniquePointer<ProjectManagerImpl> p_impl;
 };
 
 } // namespace ModelView

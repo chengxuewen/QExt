@@ -22,17 +22,17 @@ class ItemFactoryInterface;
 
 //! Creates JSON item converter intended for item cloning.
 
-QEXT_MVVM_API std::unique_ptr<JsonItemConverterInterface>
+QEXT_MVVM_API QExtUniquePointer<JsonItemConverterInterface>
 CreateItemCloneConverter(const ItemFactoryInterface* item_factory);
 
 //! Creates JSON item converter intended for item copying.
 
-QEXT_MVVM_API std::unique_ptr<JsonItemConverterInterface>
+QEXT_MVVM_API QExtUniquePointer<JsonItemConverterInterface>
 CreateItemCopyConverter(const ItemFactoryInterface* item_factory);
 
 //! Creates JSON item converter intended for saving on disk.
 
-QEXT_MVVM_API std::unique_ptr<JsonItemConverterInterface>
+QEXT_MVVM_API QExtUniquePointer<JsonItemConverterInterface>
 CreateItemProjectConverter(const ItemFactoryInterface* item_factory);
 
 } // namespace ModelView

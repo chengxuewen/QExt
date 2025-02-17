@@ -24,7 +24,7 @@ public:
     virtual ~ItemCopyStrategy() = default;
 
     //! Creates item copy by deep copying all children. SessionItem identifiers will be regenerated.
-    virtual std::unique_ptr<SessionItem> createCopy(const SessionItem* item) const = 0;
+    virtual QExtUniquePointer<SessionItem> createCopy(const SessionItem* item) const = 0;
 };
 
 } // namespace ModelView

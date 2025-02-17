@@ -7,7 +7,7 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/editors/customeditor.h"
+#include "viewmodel/editors/customeditor.h"
 
 using namespace ModelView;
 

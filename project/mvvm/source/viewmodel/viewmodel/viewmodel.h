@@ -10,7 +10,7 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODEL_H
 #define MVVM_VIEWMODEL_VIEWMODEL_H
 
-#include "mvvm/viewmodel/viewmodelbase.h"
+#include "viewmodel/viewmodel/viewmodelbase.h"
 
 namespace ModelView {
 
@@ -21,11 +21,11 @@ class ViewModelController;
 
 //! Main class to represent content of SessionModel in Qt's trees and tables.
 
-class MVVM_VIEWMODEL_EXPORT ViewModel : public ViewModelBase {
+class QEXT_MVVM_API ViewModel : public ViewModelBase {
     Q_OBJECT
 
 public:
-    ViewModel(std::unique_ptr<ViewModelController> controller, QObject* parent = nullptr);
+    ViewModel(QExtUniquePointer<ViewModelController> controller, QObject* parent = nullptr);
     ~ViewModel() override;
 
     QVariant headerData(int section, Qt::Orientation orientation,
@@ -46,7 +46,7 @@ public:
     std::vector<ViewItem*> findViews(const ModelView::SessionItem* item) const;
 
 private:
-    std::unique_ptr<ViewModelController> m_controller;
+    QExtUniquePointer<ViewModelController> m_controller;
 };
 
 } // namespace ModelView

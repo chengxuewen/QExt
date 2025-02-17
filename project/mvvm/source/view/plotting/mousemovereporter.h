@@ -10,7 +10,7 @@
 #ifndef MVVM_PLOTTING_MOUSEMOVEREPORTER_H
 #define MVVM_PLOTTING_MOUSEMOVEREPORTER_H
 
-#include "mvvm/view_export.h"
+#include "qextMVVMGlobal.h"
 #include <functional>
 #include <memory>
 
@@ -24,7 +24,7 @@ struct MousePosInfo;
 //! Notifies client about mouse moves and corresponding pointer coordinates expressed in axes units
 //! at current zoom level.
 
-class MVVM_VIEW_EXPORT MouseMoveReporter {
+class QEXT_MVVM_API MouseMoveReporter {
 public:
     using callback_t = std::function<void(const MousePosInfo& pos_info)>;
     MouseMoveReporter(QCustomPlot* custom_plot, callback_t callback);
@@ -32,7 +32,7 @@ public:
 
 private:
     struct MouseMoveReporterImpl;
-    std::unique_ptr<MouseMoveReporterImpl> p_impl;
+    QExtUniquePointer<MouseMoveReporterImpl> p_impl;
 };
 
 } // namespace ModelView

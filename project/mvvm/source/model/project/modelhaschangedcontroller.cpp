@@ -17,10 +17,10 @@ using namespace ModelView;
 ModelHasChangedController::ModelHasChangedController(SessionModel* model, callback_t callback)
     : ModelListener(model), m_callback(callback)
 {
-    setOnDataChange([this](auto, auto) { process_change(); });
-    setOnItemInserted([this](auto, auto) { process_change(); });
-    setOnItemRemoved([this](auto, auto) { process_change(); });
-    setOnModelReset([this](auto) { process_change(); });
+    setOnDataChange([this](SessionItem*, int) { process_change(); });
+    setOnItemInserted([this](SessionItem*, TagRow) { process_change(); });
+    setOnItemRemoved([this](SessionItem*, TagRow) { process_change(); });
+    setOnModelReset([this](SessionModel*) { process_change(); });
 }
 
 //! Returns true if the model was changed since last call of resetChanged.

@@ -10,7 +10,7 @@
 #ifndef MVVM_EDITORS_BOOLEDITOR_H
 #define MVVM_EDITORS_BOOLEDITOR_H
 
-#include "mvvm/editors/customeditor.h"
+#include "viewmodel/editors/customeditor.h"
 
 class QCheckBox;
 
@@ -18,7 +18,7 @@ namespace ModelView {
 
 //! Custom editor for QVariant based on bool values.
 
-class MVVM_VIEWMODEL_EXPORT BoolEditor : public CustomEditor {
+class QEXT_MVVM_API BoolEditor : public CustomEditor {
     Q_OBJECT
 
 public:

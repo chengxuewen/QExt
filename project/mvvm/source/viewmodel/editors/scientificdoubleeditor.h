@@ -10,7 +10,7 @@
 #ifndef MVVM_EDITORS_SCIENTIFICDOUBLEEDITOR_H
 #define MVVM_EDITORS_SCIENTIFICDOUBLEEDITOR_H
 
-#include "mvvm/editors/customeditor.h"
+#include "viewmodel/editors/customeditor.h"
 
 class QLineEdit;
 class QDoubleValidator;
@@ -19,7 +19,7 @@ namespace ModelView {
 
 //! Custom editor for QVariant based on double with scientific notation support.
 
-class MVVM_VIEWMODEL_EXPORT ScientificDoubleEditor : public CustomEditor {
+class QEXT_MVVM_API ScientificDoubleEditor : public CustomEditor {
     Q_OBJECT
 
 public:

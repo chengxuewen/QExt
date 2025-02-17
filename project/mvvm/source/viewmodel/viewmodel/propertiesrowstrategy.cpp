@@ -7,10 +7,10 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/propertiesrowstrategy.h"
-#include "mvvm/model/itemutils.h"
-#include "mvvm/model/sessionitem.h"
-#include "mvvm/viewmodel/standardviewitems.h"
+#include "viewmodel/viewmodel/propertiesrowstrategy.h"
+#include "model/model/itemutils.h"
+#include "model/model/sessionitem.h"
+#include "viewmodel/viewmodel/standardviewitems.h"
 
 using namespace ModelView;
 
@@ -29,9 +29,9 @@ QStringList PropertiesRowStrategy::horizontalHeaderLabels() const
     return result;
 }
 
-std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::constructRow(SessionItem* item)
+std::vector<QExtUniquePointer<ViewItem>> PropertiesRowStrategy::constructRow(SessionItem* item)
 {
-    std::vector<std::unique_ptr<ViewItem>> result;
+    std::vector<QExtUniquePointer<ViewItem>> result;
 
     if (!item)
         return result;
@@ -42,9 +42,9 @@ std::vector<std::unique_ptr<ViewItem>> PropertiesRowStrategy::constructRow(Sessi
 
     for (auto child : items_in_row) {
         if (child->hasData())
-            result.emplace_back(std::make_unique<ViewDataItem>(child));
+            result.emplace_back(qextMakeUnique<ViewDataItem>(child));
         else
-            result.emplace_back(std::make_unique<ViewLabelItem>(child));
+            result.emplace_back(qextMakeUnique<ViewLabelItem>(child));
     }
 
     return result;

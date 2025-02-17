@@ -10,8 +10,8 @@
 #ifndef MVVM_VIEWMODEL_STANDARDVIEWMODELCONTROLLERS_H
 #define MVVM_VIEWMODEL_STANDARDVIEWMODELCONTROLLERS_H
 
-#include "mvvm/viewmodel/viewmodel.h"
-#include "mvvm/viewmodel/viewmodelcontroller.h"
+#include "viewmodel/viewmodel/viewmodel.h"
+#include "viewmodel/viewmodel/viewmodelcontroller.h"
 #include <string>
 #include <vector>
 
@@ -23,7 +23,7 @@ namespace ModelView {
 //! Controller for AbstractViewModel to show all items of SessionModel.
 //! The layout corresponds to original SessionModel, generates standard label/value tree.
 
-class MVVM_VIEWMODEL_EXPORT DefaultViewModelController : public ViewModelController {
+class QEXT_MVVM_API DefaultViewModelController : public ViewModelController {
 public:
     DefaultViewModelController(SessionModel* session_model, ViewModelBase* view_model);
 };
@@ -31,7 +31,7 @@ public:
 //! Controller for AbstractViewModel to show top level items.
 //! Shows only top level items, property items, group items are hidden.
 
-class MVVM_VIEWMODEL_EXPORT TopItemsViewModelController : public ViewModelController {
+class QEXT_MVVM_API TopItemsViewModelController : public ViewModelController {
 public:
     explicit TopItemsViewModelController(SessionModel* session_model, ViewModelBase* view_model);
 };
@@ -39,7 +39,7 @@ public:
 //! Controller for AbstractViewModel to show item properties.
 //! Shows property items, hides top level items, hides inactive items of GroupProperty.
 
-class MVVM_VIEWMODEL_EXPORT PropertyViewModelController : public ViewModelController {
+class QEXT_MVVM_API PropertyViewModelController : public ViewModelController {
 public:
     PropertyViewModelController(SessionModel* session_model, ViewModelBase* view_model);
 
@@ -50,7 +50,7 @@ protected:
 //! Controller for AbstractViewModel to show item properties in table layout.
 //! Shows all property items and place them in table columns.
 
-class MVVM_VIEWMODEL_EXPORT PropertyTableViewModelController : public ViewModelController {
+class QEXT_MVVM_API PropertyTableViewModelController : public ViewModelController {
 public:
     PropertyTableViewModelController(SessionModel* session_model, ViewModelBase* view_model,
                                      const std::vector<std::string>& labels = {});
@@ -60,7 +60,7 @@ public:
 //! Shows property items, hides top level items, hides inactive items of GroupProperty,
 //! moves subproperties of group item under parent of group item.
 
-class MVVM_VIEWMODEL_EXPORT PropertyFlatViewModelController : public ViewModelController {
+class QEXT_MVVM_API PropertyFlatViewModelController : public ViewModelController {
 public:
     PropertyFlatViewModelController(SessionModel* session_model, ViewModelBase* view_model);
 

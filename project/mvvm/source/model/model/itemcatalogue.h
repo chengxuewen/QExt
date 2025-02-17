@@ -37,7 +37,7 @@ public:
 
     bool contains(const std::string& modelType) const;
 
-    std::unique_ptr<SessionItem> create(const std::string& modelType) const;
+    QExtUniquePointer<SessionItem> create(const std::string& modelType) const;
 
     std::vector<std::string> modelTypes() const;
 
@@ -49,7 +49,7 @@ public:
 
 private:
     struct ItemCatalogueImpl;
-    std::unique_ptr<ItemCatalogueImpl> p_impl;
+    QExtUniquePointer<ItemCatalogueImpl> p_impl;
 };
 
 template <typename T> void ItemCatalogue::registerItem(const std::string& label)

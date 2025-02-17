@@ -35,7 +35,7 @@ Data1DItem::Data1DItem() : CompoundItem(Constants::Data1DItemType)
 
 //! Sets axis. Bin content will be set to zero.
 
-// void Data1DItem::setAxis(std::unique_ptr<BinnedAxisItem> axis)
+// void Data1DItem::setAxis(QExtUniquePointer<BinnedAxisItem> axis)
 //{
 //    // we disable possibility to re-create axis to facilitate undo/redo
 

@@ -7,12 +7,12 @@
 //
 // ************************************************************************** //
 
-#include "mvvm/viewmodel/defaultviewmodel.h"
-#include "mvvm/viewmodel/standardviewmodelcontrollers.h"
+#include "viewmodel/viewmodel/defaultviewmodel.h"
+#include "viewmodel/viewmodel/standardviewmodelcontrollers.h"
 
 using namespace ModelView;
 
 DefaultViewModel::DefaultViewModel(SessionModel* model, QObject* parent)
-    : ViewModel(std::make_unique<DefaultViewModelController>(model, this), parent)
+    : ViewModel(qextMakeUnique<DefaultViewModelController>(model, this), parent)
 {
 }

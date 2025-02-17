@@ -34,7 +34,7 @@ struct MoveItemCommand::MoveItemCommandImpl {
 };
 
 MoveItemCommand::MoveItemCommand(SessionItem* item, SessionItem* new_parent, TagRow tagrow)
-    : AbstractItemCommand(new_parent), p_impl(std::make_unique<MoveItemCommandImpl>(tagrow))
+    : AbstractItemCommand(new_parent), p_impl(qextMakeUnique<MoveItemCommandImpl>(tagrow))
 {
     setResult(true);
 

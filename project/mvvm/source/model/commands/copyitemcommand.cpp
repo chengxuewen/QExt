@@ -23,13 +23,13 @@ std::string generate_description(const std::string& modelType, const TagRow& tag
 
 struct CopyItemCommand::CopyItemCommandImpl {
     TagRow tagrow;
-    std::unique_ptr<ItemBackupStrategy> backup_strategy;
+    QExtUniquePointer<ItemBackupStrategy> backup_strategy;
     Path item_path;
     CopyItemCommandImpl(TagRow tagrow) : tagrow(std::move(tagrow)) {}
 };
 
 CopyItemCommand::CopyItemCommand(const SessionItem* item, SessionItem* parent, TagRow tagrow)
-    : AbstractItemCommand(parent), p_impl(std::make_unique<CopyItemCommandImpl>(std::move(tagrow)))
+    : AbstractItemCommand(parent), p_impl(qextMakeUnique<CopyItemCommandImpl>(std::move(tagrow)))
 {
     setResult(nullptr);
 
