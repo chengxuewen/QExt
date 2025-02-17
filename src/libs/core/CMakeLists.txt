@@ -59,6 +59,7 @@ else()
 endif()
 
 qext_find_package(WrapVariantLite PROVIDED_TARGETS QExt3rdparty::WrapVariantLite)
+qext_find_package(WrapOptionalLite PROVIDED_TARGETS QExt3rdparty::WrapOptionalLite)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -125,6 +126,7 @@ qext_add_library(Core
     source/tools/qextSpinlock.h
     source/tools/qextTSValue.h
     source/tools/qextOnceFlag.h
+    source/tools/qextOptional.h
     source/tools/qextTypeInfo.h
     source/tools/qextTypeTrait.h
     source/tools/qextUniquePointer.h
@@ -149,9 +151,11 @@ qext_add_library(Core
     PRECOMPILED_HEADER
     source/qextPch.h
     EXTERNAL_HEADERS_DIRS
-    ${WrapVariantLite_INSTALL_DIR}/include
+    ${QExtWrapVariantLite_INSTALL_DIR}/include
+    ${QExtWrapOptionalLite_INSTALL_DIR}/include
     PUBLIC_LIBRARIES
     QExt3rdparty::WrapVariantLite
+    QExt3rdparty::WrapOptionalLite
     ${QEXT_LIB_LINK_LIBRARIES})
 
 if(QEXT_FEATURE_USE_CJSON_BACKEND)

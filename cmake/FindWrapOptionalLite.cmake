@@ -23,69 +23,68 @@
 
 # We can't create the same interface imported target multiple times, CMake will complain if we do
 # that. This can happen if the find_package call is done in multiple different subdirectories.
-if(TARGET QExt3rdparty::WrapVariantLite)
-    set(WrapVariantLite_FOUND ON)
+if(TARGET QExt3rdparty::WrapOptionalLite)
+    set(WrapOptionalLite_FOUND ON)
     return()
 endif()
 
-set(QExtWrapVariantLite_DIR_NAME "variant-lite-2.0.0")
-set(QExtWrapVariantLite_URL_NAME "variant-lite-2.0.0.tar.gz")
-set(QExtWrapVariantLite_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapVariantLite_URL_NAME}")
-set(QExtWrapVariantLite_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapVariantLite_DIR_NAME}")
-set(QExtWrapVariantLite_SOURCE_DIR "${QExtWrapVariantLite_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
-set(QExtWrapVariantLite_BUILD_DIR "${QExtWrapVariantLite_ROOT_DIR}/build" CACHE INTERNAL "" FORCE)
-set(QExtWrapVariantLite_INSTALL_DIR "${QExtWrapVariantLite_ROOT_DIR}/install" CACHE INTERNAL "" FORCE)
-qext_stamp_file_info(QExtWrapVariantLite OUTPUT_DIR "${QExtWrapVariantLite_ROOT_DIR}")
-qext_fetch_3rdparty(QExtWrapVariantLite URL "${QExtWrapVariantLite_URL_PATH}")
-if(NOT EXISTS ${QExtWrapVariantLite_STAMP_FILE_PATH})
-    if(NOT EXISTS ${QExtWrapVariantLite_SOURCE_DIR})
-        message(FATAL_ERROR "${QExtWrapVariantLite_DIR_NAME} FetchContent failed.")
+set(QExtWrapOptionalLite_DIR_NAME "optional-lite-3.6.0")
+set(QExtWrapOptionalLite_URL_NAME "optional-lite-3.6.0.tar.gz")
+set(QExtWrapOptionalLite_URL_PATH "${PROJECT_SOURCE_DIR}/3rdparty/${QExtWrapOptionalLite_URL_NAME}")
+set(QExtWrapOptionalLite_ROOT_DIR "${PROJECT_BINARY_DIR}/3rdparty/${QExtWrapOptionalLite_DIR_NAME}")
+set(QExtWrapOptionalLite_SOURCE_DIR "${QExtWrapOptionalLite_ROOT_DIR}/source" CACHE INTERNAL "" FORCE)
+set(QExtWrapOptionalLite_BUILD_DIR "${QExtWrapOptionalLite_ROOT_DIR}/build" CACHE INTERNAL "" FORCE)
+set(QExtWrapOptionalLite_INSTALL_DIR "${QExtWrapOptionalLite_ROOT_DIR}/install" CACHE INTERNAL "" FORCE)
+qext_stamp_file_info(QExtWrapOptionalLite OUTPUT_DIR "${QExtWrapOptionalLite_ROOT_DIR}")
+qext_fetch_3rdparty(QExtWrapOptionalLite URL "${QExtWrapOptionalLite_URL_PATH}")
+if(NOT EXISTS ${QExtWrapOptionalLite_STAMP_FILE_PATH})
+    if(NOT EXISTS ${QExtWrapOptionalLite_SOURCE_DIR})
+        message(FATAL_ERROR "${QExtWrapOptionalLite_DIR_NAME} FetchContent failed.")
     endif()
     execute_process(
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapVariantLite_BUILD_DIR}
-        WORKING_DIRECTORY "${QExtWrapVariantLite_ROOT_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${QExtWrapOptionalLite_BUILD_DIR}
+        WORKING_DIRECTORY "${QExtWrapOptionalLite_ROOT_DIR}"
         RESULT_VARIABLE MKDIR_RESULT)
     if(NOT (MKDIR_RESULT MATCHES 0))
-        message(FATAL_ERROR "${QExtWrapVariantLite_DIR_NAME} lib build directory make failed.")
+        message(FATAL_ERROR "${QExtWrapOptionalLite_DIR_NAME} lib build directory make failed.")
     endif()
 
     execute_process(
         COMMAND ${CMAKE_COMMAND}
         -G${CMAKE_GENERATOR}
-        -DVARIANT_LITE_OPT_BUILD_TESTS=OFF
         -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}
         -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-        -DCMAKE_INSTALL_PREFIX=${QExtWrapVariantLite_INSTALL_DIR} 
-        ${QExtWrapVariantLite_SOURCE_DIR}
-        WORKING_DIRECTORY "${QExtWrapVariantLite_BUILD_DIR}"
+        -DCMAKE_INSTALL_PREFIX=${QExtWrapOptionalLite_INSTALL_DIR}
+        ${QExtWrapOptionalLite_SOURCE_DIR}
+        WORKING_DIRECTORY "${QExtWrapOptionalLite_BUILD_DIR}"
         RESULT_VARIABLE CONFIGURE_RESULT)
     if(CONFIGURE_RESULT MATCHES 0)
-        message(STATUS "${QExtWrapVariantLite_DIR_NAME} configure success")
+        message(STATUS "${QExtWrapOptionalLite_DIR_NAME} configure success")
         execute_process(
             COMMAND ${CMAKE_COMMAND} --build ./ --parallel ${QEXT_NUMBER_OF_ASYNC_JOBS}
-            WORKING_DIRECTORY "${QExtWrapVariantLite_BUILD_DIR}"
+            WORKING_DIRECTORY "${QExtWrapOptionalLite_BUILD_DIR}"
             RESULT_VARIABLE BUILD_RESULT)
         if(BUILD_RESULT MATCHES 0)
-            message(STATUS "${QExtWrapVariantLite_DIR_NAME} build success")
+            message(STATUS "${QExtWrapOptionalLite_DIR_NAME} build success")
             execute_process(
                 COMMAND ${CMAKE_COMMAND} --install ./
-                WORKING_DIRECTORY "${QExtWrapVariantLite_BUILD_DIR}"
+                WORKING_DIRECTORY "${QExtWrapOptionalLite_BUILD_DIR}"
                 RESULT_VARIABLE INSTALL_RESULT)
             if(BUILD_RESULT MATCHES 0)
-                message(STATUS "${QExtWrapVariantLite_DIR_NAME} install success")
-                qext_make_stamp_file("${QExtWrapVariantLite_STAMP_FILE_PATH}")
+                message(STATUS "${QExtWrapOptionalLite_DIR_NAME} install success")
+                qext_make_stamp_file("${QExtWrapOptionalLite_STAMP_FILE_PATH}")
             else()
-                message(FATAL_ERROR "${QExtWrapVariantLite_DIR_NAME} install failed.")
+                message(FATAL_ERROR "${QExtWrapOptionalLite_DIR_NAME} install failed.")
             endif()
         else()
-            message(FATAL_ERROR "${QExtWrapVariantLite_DIR_NAME} build failed.")
+            message(FATAL_ERROR "${QExtWrapOptionalLite_DIR_NAME} build failed.")
         endif()
     else()
-        message(FATAL_ERROR "${QExtWrapVariantLite_DIR_NAME} configure failed.")
+        message(FATAL_ERROR "${QExtWrapOptionalLite_DIR_NAME} configure failed.")
     endif()
 endif()
 # wrap lib
-add_library(QExt3rdparty::WrapVariantLite INTERFACE IMPORTED)
-find_package(variant-lite PATHS ${QExtWrapVariantLite_INSTALL_DIR} REQUIRED)
-target_link_libraries(QExt3rdparty::WrapVariantLite INTERFACE nonstd::variant-lite)
-set(WrapVariantLite_FOUND ON)
+add_library(QExt3rdparty::WrapOptionalLite INTERFACE IMPORTED)
+find_package(optional-lite PATHS ${QExtWrapOptionalLite_INSTALL_DIR} REQUIRED)
+target_link_libraries(QExt3rdparty::WrapOptionalLite INTERFACE nonstd::optional-lite)
+set(WrapOptionalLite_FOUND ON)
