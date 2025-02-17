@@ -6,20 +6,112 @@
 #include <QSharedPointer>
 #include <QScopedPointer>
 
-#define QExtSharedPointer QSharedPointer
-#define QExtScopedPointer QScopedPointer
+#if QEXT_CC_STD_11
+#   include <memory>
+#   define QExtWeakPointer std::weak_ptr
+#   define QExtSharedPointer std::shared_ptr
+#   define QExtUniquePointer std::unique_ptr
+template <typename T>
+inline QExtSharedPointer<T> qextMakeSharedRef(const QExtWeakPointer<T> &p) { return p.lock(); }
+template <typename T>
+inline QExtWeakPointer<T> qextMakeWeakRef(const QExtSharedPointer<T> &p) { return QExtWeakPointer<T>(p); }
+template <typename T, typename U>
+QExtSharedPointer<T> qextDynamicPointerCast(const QExtSharedPointer<U> &r) { return dynamic_pointer_cast<T, U>(r); }
+#else
+namespace detail
+{
+template <typename T, typename Cleanup = QScopedPointerArrayDeleter<T> >
+class QExtUniquePointerImpl : public QScopedArrayPointer<T, Cleanup>
+{
+public:
+    typedef QScopedArrayPointer<T, Cleanup> BaseType;
+    QExtUniquePointerImpl() : BaseType() {}
+    QExtUniquePointerImpl(T *p = QEXT_NULLPTR) : BaseType(p) {}
+    template <typename D>
+    QExtUniquePointerImpl(D *p = QEXT_NULLPTR) : QScopedArrayPointer<D>(p) {}
+    QExtUniquePointerImpl(BaseType &other) { this->swap(other); }
+};
+} // namespace detail
+#define QExtUniquePointer detail::QExtUniquePointerImpl
+#endif
 
-#if QEXT_USE_VARIADIC_TEMPLATES
-template<typename Obj, typename... Args>
-static inline QExtSharedPointer<Obj> qextMakeShared(Args&&... args)
+
+
+#if !QEXT_USE_VARIADIC_TEMPLATES
+namespace detail
 {
-    return QExtSharedPointer<Obj>(new Obj(std::forward<Args>(args)...));
-}
-template<typename Obj, typename... Args>
-static inline QExtScopedPointer<Obj> qextMakeScoped(Args&&... args)
+// helper to construct a non-array unique_ptr
+template <typename T>
+struct QExtMakeSharedHelper
 {
-    return QExtScopedPointer<Obj>(new Obj(std::forward<Args>(args)...));
+    typedef QExtSharedPointer<T> SharedPointer;
+
+    template <typename... Args>
+    static inline SharedPointer make(Args&&... args)
+    {
+        return SharedPointer(new T(std::forward<Args>(args)...));
+    }
+};
+} // namespace detail
+template <typename T, typename... Args>
+inline typename detail::QExtMakeSharedHelper<T>::SharedPointer
+qextMakeShared(Args&&... args)
+{
+    return detail::QExtMakeSharedHelper<T>::make(std::forward<Args>(args)...);
 }
+
+namespace detail
+{
+// helper to construct a non-array UniquePointer
+template <typename T>
+struct QExtUniquePointerHelper
+{
+    typedef QExtUniquePointer<T> UniquePointer;
+
+    template <typename... Args>
+    static inline UniquePointer make(Args&&... args)
+    {
+        return UniquePointer(new T(std::forward<Args>(args)...));
+    }
+};
+// helper to construct an array UniquePointer
+template<typename T>
+struct QExtUniquePointerHelper<T[]>
+{
+    typedef QExtUniquePointer<T[]> UniquePointer;
+
+    template <typename... Args>
+    static inline UniquePointer make(Args&&... args) {
+        return UniquePointer(new T[sizeof...(Args)]{std::forward<Args>(args)...});
+    }
+};
+// helper to construct an array UniquePointer with specified extent
+template<typename T, std::size_t N>
+struct QExtUniquePointerHelper<T[N]>
+{
+    typedef QExtUniquePointer<T[]> UniquePointer;
+
+    template <typename... Args>
+    static inline UniquePointer make(Args&&... args)
+    {
+        static_assert(N >= sizeof...(Args),
+                      "For make_unique<T[N]> N must be as largs as the number of arguments");
+        return UniquePointer(new T[N]{std::forward<Args>(args)...});
+    }
+#if __GNUC__ == 4 && __GNUC_MINOR__ <= 6
+    // G++ 4.6 has an ICE when you have no arguments
+    static inline UniquePointer make()
+    {
+        return UniquePointer(new T[N]);
+    }
+};
+} // namespace detail
+template <typename T, typename... Args>
+inline typename detail::QExtUniquePointerHelper<T>::UniquePointer qextMakeUnique(Args&&... args)
+{
+    return detail::QExtUniquePointerHelper<T>::make(std::forward<Args>(args)...);
+}
+#endif
 #else
 /**
  * @brief qextMakeShared

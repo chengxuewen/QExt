@@ -3,7 +3,7 @@
 class DataFlowModel : public QExtBPDataFlowGraphModel
 {
 public:
-    DataFlowModel(QSharedPointer<QExtBPNodeDelegateModelRegistry> registry)
+    DataFlowModel(QExtSharedPointer<QExtBPNodeDelegateModelRegistry> registry)
         : QExtBPDataFlowGraphModel(registry)
         , _detachPossible{true}
         , _nodesLocked{false}

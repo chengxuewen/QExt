@@ -14,7 +14,7 @@
 #include "NumberSourceDataModel.hpp"
 #include "SubtractionModel.hpp"
 
-static QSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
+static QExtSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
     auto ret = qextMakeShared<QExtBPNodeDelegateModelRegistry>();
     ret->registerModel<NumberSourceDataModel>("Sources");
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
     setStyle();
 
-    QSharedPointer<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
+    QExtSharedPointer<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
 
     QWidget mainWidget;
 

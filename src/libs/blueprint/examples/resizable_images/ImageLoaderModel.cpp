@@ -74,7 +74,7 @@ QExtBPNodeDataType ImageLoaderModel::dataType(const QExtBPTypes::PortTypeEnum, c
     return PixmapData().type();
 }
 
-QSharedPointer<QExtBPNodeData> ImageLoaderModel::outData(QExtBPTypes::PortIndex)
+QExtSharedPointer<QExtBPNodeData> ImageLoaderModel::outData(QExtBPTypes::PortIndex)
 {
     return qextMakeShared<PixmapData>(_pixmap);
 }

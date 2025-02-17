@@ -90,15 +90,15 @@ public:
         return QExtBPNodeDataType();
     }
 
-    QSharedPointer<QExtBPNodeData> outData(const QExtBPTypes::PortIndex port) override
+    QExtSharedPointer<QExtBPNodeData> outData(const QExtBPTypes::PortIndex port) override
     {
         if (port < 1)
-            return qextMakeShared<MyNodeData>();
+            return QExtSharedPointer<MyNodeData>(new MyNodeData);
 
-        return qextMakeShared<SimpleNodeData>();
+        return QExtSharedPointer<SimpleNodeData>(new SimpleNodeData);
     }
 
-    void setInData(QSharedPointer<QExtBPNodeData>, const QExtBPTypes::PortIndex) override
+    void setInData(QExtSharedPointer<QExtBPNodeData>, const QExtBPTypes::PortIndex) override
     {
         //
     }

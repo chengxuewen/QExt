@@ -53,7 +53,7 @@ public:
      */
     enum PortRoleEnum
     {
-        PortRole_Data = 0,                 ///< `QSharedPointer<QExtBPNodeData>`.
+        PortRole_Data = 0,                 ///< `QExtSharedPointer<QExtBPNodeData>`.
         PortRole_DataType = 1,             ///< `QString` describing the port data type.
         PortRole_ConnectionPolicyRole = 2, ///< `enum` ConnectionPolicyRole
         PortRole_CaptionVisible = 3,       ///< `bool` for caption visibility.
