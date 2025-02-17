@@ -39,7 +39,7 @@ QExtBPNodeDataType TextSourceDataModel::dataType(QExtBPTypes::PortTypeEnum, QExt
     return TextData().type();
 }
 
-QSharedPointer<QExtBPNodeData> TextSourceDataModel::outData(const QExtBPTypes::PortIndex portIndex)
+QExtSharedPointer<QExtBPNodeData> TextSourceDataModel::outData(const QExtBPTypes::PortIndex portIndex)
 {
     Q_UNUSED(portIndex);
     return qextMakeShared<TextData>(_lineEdit->text());

@@ -14,7 +14,7 @@ QExtBPDataFlowGraphModelPrivate::~QExtBPDataFlowGraphModelPrivate()
 {
 }
 
-QExtBPDataFlowGraphModel::QExtBPDataFlowGraphModel(QSharedPointer<QExtBPNodeDelegateModelRegistry> registry, QObject *parent)
+QExtBPDataFlowGraphModel::QExtBPDataFlowGraphModel(QExtSharedPointer<QExtBPNodeDelegateModelRegistry> registry, QObject *parent)
     : QExtBPAbstractGraphModel(new QExtBPDataFlowGraphModelPrivate(this), parent)
 {
     Q_D(QExtBPDataFlowGraphModel);
@@ -26,7 +26,7 @@ QExtBPDataFlowGraphModel::~QExtBPDataFlowGraphModel()
 {
 }
 
-QSharedPointer<QExtBPNodeDelegateModelRegistry> QExtBPDataFlowGraphModel::dataModelRegistry()
+QExtSharedPointer<QExtBPNodeDelegateModelRegistry> QExtBPDataFlowGraphModel::dataModelRegistry()
 {
     Q_D(QExtBPDataFlowGraphModel);
     return d->m_registry;
@@ -436,7 +436,7 @@ bool QExtBPDataFlowGraphModel::setPortData(QExtBPTypes::NodeId nodeId,
     {
         if (portType == QExtBPTypes::PortType_In)
         {
-            model->setInData(value.value<QSharedPointer<QExtBPNodeData>>(), portIndex);
+            model->setInData(value.value<QExtSharedPointer<QExtBPNodeData>>(), portIndex);
             // Triggers repainting on the scene.
             Q_EMIT this->inPortDataWasSet(nodeId, portType, portIndex);
         }

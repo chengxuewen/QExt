@@ -30,15 +30,15 @@ QExtBPNodeDataType NumberDisplayDataModel::dataType(QExtBPTypes::PortTypeEnum, Q
     return DecimalData().type();
 }
 
-QSharedPointer<QExtBPNodeData> NumberDisplayDataModel::outData(QExtBPTypes::PortIndex)
+QExtSharedPointer<QExtBPNodeData> NumberDisplayDataModel::outData(QExtBPTypes::PortIndex)
 {
-    QSharedPointer<QExtBPNodeData> ptr;
+    QExtSharedPointer<QExtBPNodeData> ptr;
     return ptr;
 }
 
-void NumberDisplayDataModel::setInData(QSharedPointer<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex)
+void NumberDisplayDataModel::setInData(QExtSharedPointer<QExtBPNodeData> data, QExtBPTypes::PortIndex portIndex)
 {
-    _numberData = data.dynamicCast<DecimalData>();
+    _numberData = qextDynamicPointerCast<DecimalData>(data);
 
     if (!_label)
         return;

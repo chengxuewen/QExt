@@ -11,7 +11,7 @@
 #include "DelegateNodeModel.hpp"
 
 
-static QSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
+static QExtSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
     auto ret = qextMakeShared<QExtBPNodeDelegateModelRegistry>();
 

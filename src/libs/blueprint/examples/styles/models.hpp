@@ -48,9 +48,9 @@ public:
         return MyNodeData().type();
     }
 
-    QSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex) override { return qextMakeShared<MyNodeData>(); }
+    QExtSharedPointer<QExtBPNodeData> outData(QExtBPTypes::PortIndex) override { return qextMakeShared<MyNodeData>(); }
 
-    void setInData(QSharedPointer<QExtBPNodeData>, const QExtBPTypes::PortIndex) override {}
+    void setInData(QExtSharedPointer<QExtBPNodeData>, const QExtBPTypes::PortIndex) override {}
 
     QWidget *embeddedWidget() override { return QEXT_NULLPTR; }
 };

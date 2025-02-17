@@ -22,10 +22,10 @@ public:
         QPointF pos;
     };
 
-    QExtBPDataFlowGraphModel(QSharedPointer<QExtBPNodeDelegateModelRegistry> registry, QObject *parent = QEXT_NULLPTR);
+    QExtBPDataFlowGraphModel(QExtSharedPointer<QExtBPNodeDelegateModelRegistry> registry, QObject *parent = QEXT_NULLPTR);
     ~QExtBPDataFlowGraphModel() QEXT_OVERRIDE;
 
-    QSharedPointer<QExtBPNodeDelegateModelRegistry> dataModelRegistry();
+    QExtSharedPointer<QExtBPNodeDelegateModelRegistry> dataModelRegistry();
 
     std::unordered_set<QExtBPTypes::NodeId> allNodeIds() const override;
 

@@ -53,8 +53,8 @@ private:
     {
         const QExtBPTypes::PortIndex outPortIndex = 0;
 
-        auto n1 = _number1.lock();
-        auto n2 = _number2.lock();
+        auto n1 = qextMakeSharedRef(_number1);
+        auto n2 = qextMakeSharedRef(_number2);
 
         if (n1 && n2) {
             _result = qextMakeShared<DecimalData>(n1->number() - n2->number());

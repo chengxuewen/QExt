@@ -5,7 +5,7 @@
 #include <QtWidgets/QApplication>
 
 
-static QSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
+static QExtSharedPointer<QExtBPNodeDelegateModelRegistry> registerDataModels()
 {
     auto ret = qextMakeShared<QExtBPNodeDelegateModelRegistry>();
 
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 
     setStyle();
 
-    QSharedPointer<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
+    QExtSharedPointer<QExtBPNodeDelegateModelRegistry> registry = registerDataModels();
     QExtBPDataFlowGraphModel dataFlowGraphModel(registry);
 
     QExtBPDataFlowGraphicsScene scene(dataFlowGraphModel);

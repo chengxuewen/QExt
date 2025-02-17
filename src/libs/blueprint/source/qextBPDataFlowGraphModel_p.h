@@ -11,7 +11,7 @@ public:
     ~QExtBPDataFlowGraphModelPrivate() QEXT_OVERRIDE;
 
     QExtBPTypes::NodeId m_nextNodeId;
-    QSharedPointer<QExtBPNodeDelegateModelRegistry> m_registry;
+    QExtSharedPointer<QExtBPNodeDelegateModelRegistry> m_registry;
     std::unordered_set<QExtBPTypes::ConnectionId> m_connectivity;
     std::unordered_map<QExtBPTypes::NodeId, QScopedPointer<QExtBPNodeDelegateModel>> m_models;
     mutable std::unordered_map<QExtBPTypes::NodeId, QExtBPDataFlowGraphModel::NodeGeometryData> m_nodeGeometryData;
