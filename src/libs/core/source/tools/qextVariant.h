@@ -22,7 +22,6 @@
 **
 ***********************************************************************************************************************/
 
-
 #ifndef _QEXTVARIANT_H
 #define _QEXTVARIANT_H
 
@@ -49,11 +48,10 @@
 #define QEXT_VARIANT_CONFIG_NO_EXCEPTIONS variant_CONFIG_NO_EXCEPTIONS
 #define QEXT_VARIANT_HAVE_IN_PLACE_TYPES nonstd_lite_HAVE_IN_PLACE_TYPES
 
-typedef nonstd::monostate QExtVariantMonostate;
-typedef nonstd::bad_variant_access QExtBadVariantAccess;
-
 #define QExtVariant nonstd::variant
 #define QExtVariantSize nonstd::variant_size
+#define QExtVariantMonostate nonstd::monostate
+#define QExtBadVariantAccess nonstd::bad_variant_access
 #define QExtVariantAlternative nonstd::variant_alternative
 #if QEXT_VARIANT_CPP11_OR_GREATER
 #   define QExtVariantAlternativeT nonstd::variant_alternative_t
