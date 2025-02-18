@@ -1,0 +1,412 @@
+########################################################################################################################
+#
+# Library: QExt
+#
+# Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
+#
+# License: MIT License
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+# to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions
+# of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  AUTHORS
+# OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+########################################################################################################################
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Set example link libraries
+#-----------------------------------------------------------------------------------------------------------------------
+set(QEXT_EXAMPLE_LINK_LIBRARIES)
+
+if(QEXT_QT_VERSION_MAJOR EQUAL 4)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+else()
+    message(FATAL_ERROR "Not find Qt package")
+endif()
+
+list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES QExt::MVVM)
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Add examples
+#-----------------------------------------------------------------------------------------------------------------------
+qext_add_executable(QExtExpMVVMcelleditors
+    EXCEPTIONS
+    SOURCES
+    celleditors/celleditorscore/item_constants.h
+    celleditors/celleditorscore/mainwindow.cpp
+    celleditors/celleditorscore/mainwindow.h
+    celleditors/celleditorscore/modeleditorwidget.cpp
+    celleditors/celleditorscore/modeleditorwidget.h
+    celleditors/celleditorscore/samplemodel.cpp
+    celleditors/celleditorscore/samplemodel.h
+    celleditors/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMcollidingmice
+    EXCEPTIONS
+    SOURCES
+    collidingmice/collidingmicecore/mainwindow.cpp
+    collidingmice/collidingmicecore/mainwindow.h
+    collidingmice/collidingmicecore/mice.qrc
+    collidingmice/collidingmicecore/mouse.cpp
+    collidingmice/collidingmicecore/mouse.h
+    collidingmice/collidingmicecore/mousemodel.cpp
+    collidingmice/collidingmicecore/mousemodel.h
+    collidingmice/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMconcurrentplot
+    EXCEPTIONS
+    SOURCES
+    concurrentplot/concurrentplotcore/graphmodel.cpp
+    concurrentplot/concurrentplotcore/graphmodel.h
+    concurrentplot/concurrentplotcore/graphpropertywidget.cpp
+    concurrentplot/concurrentplotcore/graphpropertywidget.h
+    concurrentplot/concurrentplotcore/graphwidget.cpp
+    concurrentplot/concurrentplotcore/graphwidget.h
+    concurrentplot/concurrentplotcore/graphwidgettoolbar.cpp
+    concurrentplot/concurrentplotcore/graphwidgettoolbar.h
+    concurrentplot/concurrentplotcore/jobmanager.cpp
+    concurrentplot/concurrentplotcore/jobmanager.h
+    concurrentplot/concurrentplotcore/mainwindow.cpp
+    concurrentplot/concurrentplotcore/mainwindow.h
+    concurrentplot/concurrentplotcore/toysimulation.cpp
+    concurrentplot/concurrentplotcore/toysimulation.h
+    concurrentplot/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMdragandmove
+    EXCEPTIONS
+    SOURCES
+    dragandmove/dragandmovecore/containereditorwidget.cpp
+    dragandmove/dragandmovecore/containereditorwidget.h
+    dragandmove/dragandmovecore/dragviewmodel.cpp
+    dragandmove/dragandmovecore/dragviewmodel.h
+    dragandmove/dragandmovecore/mainwindow.cpp
+    dragandmove/dragandmovecore/mainwindow.h
+    dragandmove/dragandmovecore/modeleditorwidget.cpp
+    dragandmove/dragandmovecore/modeleditorwidget.h
+    dragandmove/dragandmovecore/sampleitems.cpp
+    dragandmove/dragandmovecore/sampleitems.h
+    dragandmove/dragandmovecore/samplemodel.cpp
+    dragandmove/dragandmovecore/samplemodel.h
+    dragandmove/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMflateditor
+    EXCEPTIONS
+    SOURCES
+    flateditor/flateditorcore/demowidget.cpp
+    flateditor/flateditorcore/demowidget.h
+    flateditor/flateditorcore/mainwindow.cpp
+    flateditor/flateditorcore/mainwindow.cpp
+    flateditor/flateditorcore/mainwindow.h
+    flateditor/flateditorcore/sampleitems.cpp
+    flateditor/flateditorcore/sampleitems.h
+    flateditor/flateditorcore/samplemodel.cpp
+    flateditor/flateditorcore/samplemodel.h
+    flateditor/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMgraphicsproxy
+    EXCEPTIONS
+    SOURCES
+    graphicsproxy/graphicsproxycore/axesrectangleview.cpp
+    graphicsproxy/graphicsproxycore/axesrectangleview.h
+    graphicsproxy/graphicsproxycore/graphicsscene.cpp
+    graphicsproxy/graphicsproxycore/graphicsscene.h
+    graphicsproxy/graphicsproxycore/graphicsview.cpp
+    graphicsproxy/graphicsproxycore/graphicsview.h
+    graphicsproxy/graphicsproxycore/mainwindow.cpp
+    graphicsproxy/graphicsproxycore/mainwindow.h
+    graphicsproxy/graphicsproxycore/regionofinterestcontroller.cpp
+    graphicsproxy/graphicsproxycore/regionofinterestcontroller.h
+    graphicsproxy/graphicsproxycore/regionofinterestitem.cpp
+    graphicsproxy/graphicsproxycore/regionofinterestitem.h
+    graphicsproxy/graphicsproxycore/regionofinterestview.cpp
+    graphicsproxy/graphicsproxycore/regionofinterestview.h
+    graphicsproxy/graphicsproxycore/scenemodel.cpp
+    graphicsproxy/graphicsproxycore/scenemodel.h
+    graphicsproxy/graphicsproxycore/scenepropertywidget.cpp
+    graphicsproxy/graphicsproxycore/scenepropertywidget.h
+    graphicsproxy/graphicsproxycore/scenewidget.cpp
+    graphicsproxy/graphicsproxycore/scenewidget.h
+    graphicsproxy/graphicsproxycore/sizehandleelement.cpp
+    graphicsproxy/graphicsproxycore/sizehandleelement.h
+    graphicsproxy/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMgroupproperty
+    EXCEPTIONS
+    SOURCES
+    groupproperty/grouppropertycore/items.cpp
+    groupproperty/grouppropertycore/items.h
+    groupproperty/grouppropertycore/mainwindow.cpp
+    groupproperty/grouppropertycore/mainwindow.h
+    groupproperty/grouppropertycore/widget.cpp
+    groupproperty/grouppropertycore/widget.h
+    groupproperty/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMhelloworld
+    EXCEPTIONS
+    SOURCES
+    helloworld/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMlayereditor
+    EXCEPTIONS
+    SOURCES
+    layereditor/layereditorcore/applicationmodels.cpp
+    layereditor/layereditorcore/applicationmodels.h
+    layereditor/layereditorcore/customeditorfactory.cpp
+    layereditor/layereditorcore/customeditorfactory.h
+    layereditor/layereditorcore/customlayerrowstrategy.h
+    layereditor/layereditorcore/mainwindow.cpp
+    layereditor/layereditorcore/mainwindow.h
+    layereditor/layereditorcore/materialmodel.cpp
+    layereditor/layereditorcore/materialmodel.h
+    layereditor/layereditorcore/materialpropertycontroller.cpp
+    layereditor/layereditorcore/materialpropertycontroller.h
+    layereditor/layereditorcore/materialtablewidget.cpp
+    layereditor/layereditorcore/materialtablewidget.h
+    layereditor/layereditorcore/multilayertreeview.cpp
+    layereditor/layereditorcore/multilayertreeview.h
+    layereditor/layereditorcore/samplemodel.cpp
+    layereditor/layereditorcore/samplemodel.h
+    layereditor/layereditorcore/samplewidget.cpp
+    layereditor/layereditorcore/samplewidget.h
+    layereditor/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+if(QEXT_QT_HAS_QML)
+    qext_add_executable(QExtExpMVVMmodelinqml
+        EXCEPTIONS
+        SOURCES
+        modelinqml/modelinqmlcore/backend.cpp
+        modelinqml/modelinqmlcore/backend.h
+        modelinqml/modelinqmlcore/modelinqmlcore.qrc
+        modelinqml/modelinqmlcore/particlemodel.cpp
+        modelinqml/modelinqmlcore/particlemodel.h
+        modelinqml/modelinqmlcore/particleviewmodel.cpp
+        modelinqml/modelinqmlcore/particleviewmodel.h
+        modelinqml/modelinqmlcore/tablemodel.h
+        modelinqml/qml/app.qrc
+        modelinqml/qml/main.qml
+        modelinqml/main.cpp
+        INCLUDE_DIRECTORIES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../source
+        LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Qml
+        Qt${QEXT_QT_VERSION_MAJOR}::Quick
+        ${QEXT_EXAMPLE_LINK_LIBRARIES}
+        OUTPUT_DIRECTORY
+        ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+        DEFINES
+        EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+endif()
+qext_add_executable(QExtExpMVVMnodeeditor
+    EXCEPTIONS
+    SOURCES
+    nodeeditor/nodeeditorcore/connectableitem.cpp
+    nodeeditor/nodeeditorcore/connectableitem.h
+    nodeeditor/nodeeditorcore/connectableitemcontroller.cpp
+    nodeeditor/nodeeditorcore/connectableitemcontroller.h
+    nodeeditor/nodeeditorcore/connectableview.cpp
+    nodeeditor/nodeeditorcore/connectableview.h
+    nodeeditor/nodeeditorcore/graphicsscene.cpp
+    nodeeditor/nodeeditorcore/graphicsscene.h
+    nodeeditor/nodeeditorcore/graphicsscenecontroller.cpp
+    nodeeditor/nodeeditorcore/graphicsscenecontroller.h
+    nodeeditor/nodeeditorcore/graphicsview.cpp
+    nodeeditor/nodeeditorcore/graphicsview.h
+    nodeeditor/nodeeditorcore/mainwindow.cpp
+    nodeeditor/nodeeditorcore/mainwindow.h
+    nodeeditor/nodeeditorcore/modeleditorwidget.cpp
+    nodeeditor/nodeeditorcore/modeleditorwidget.h
+    nodeeditor/nodeeditorcore/nodeconnection.cpp
+    nodeeditor/nodeeditorcore/nodeconnection.h
+    nodeeditor/nodeeditorcore/nodecontroller.cpp
+    nodeeditor/nodeeditorcore/nodecontroller.h
+    nodeeditor/nodeeditorcore/nodeport.cpp
+    nodeeditor/nodeeditorcore/nodeport.h
+    nodeeditor/nodeeditorcore/pieceslist.cpp
+    nodeeditor/nodeeditorcore/pieceslist.h
+    nodeeditor/nodeeditorcore/portinfo.h
+    nodeeditor/nodeeditorcore/propertywidget.cpp
+    nodeeditor/nodeeditorcore/propertywidget.h
+    nodeeditor/nodeeditorcore/sampleitems.cpp
+    nodeeditor/nodeeditorcore/sampleitems.h
+    nodeeditor/nodeeditorcore/samplemodel.cpp
+    nodeeditor/nodeeditorcore/samplemodel.h
+    nodeeditor/nodeeditorcore/sceneutils.cpp
+    nodeeditor/nodeeditorcore/sceneutils.h
+    nodeeditor/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMplotcolormap
+    EXCEPTIONS
+    SOURCES
+    plotcolormap/plotcolormapcore/colormapmodel.cpp
+    plotcolormap/plotcolormapcore/colormapmodel.h
+    plotcolormap/plotcolormapcore/colormappropertywidget.cpp
+    plotcolormap/plotcolormapcore/colormappropertywidget.h
+    plotcolormap/plotcolormapcore/colormapwidget.cpp
+    plotcolormap/plotcolormapcore/colormapwidget.h
+    plotcolormap/plotcolormapcore/mainwindow.cpp
+    plotcolormap/plotcolormapcore/mainwindow.h
+    plotcolormap/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMplotgraphs
+    EXCEPTIONS
+    SOURCES
+    plotgraphs/plotgraphscore/graphmodel.cpp
+    plotgraphs/plotgraphscore/graphmodel.h
+    plotgraphs/plotgraphscore/graphpropertywidget.cpp
+    plotgraphs/plotgraphscore/graphpropertywidget.h
+    plotgraphs/plotgraphscore/graphwidget.cpp
+    plotgraphs/plotgraphscore/graphwidget.h
+    plotgraphs/plotgraphscore/mainwindow.cpp
+    plotgraphs/plotgraphscore/mainwindow.h
+    plotgraphs/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMsaveloadproject
+    EXCEPTIONS
+    SOURCES
+    saveloadproject/saveloadprojectcore/actionmanager.cpp
+    saveloadproject/saveloadprojectcore/actionmanager.h
+    saveloadproject/saveloadprojectcore/containereditorwidget.cpp
+    saveloadproject/saveloadprojectcore/containereditorwidget.h
+    saveloadproject/saveloadprojectcore/mainwindow.cpp
+    saveloadproject/saveloadprojectcore/mainwindow.h
+    saveloadproject/saveloadprojectcore/projecthandler.cpp
+    saveloadproject/saveloadprojectcore/projecthandler.h
+    saveloadproject/saveloadprojectcore/projectpanewidget.cpp
+    saveloadproject/saveloadprojectcore/projectpanewidget.h
+    saveloadproject/saveloadprojectcore/recentprojectsettings.cpp
+    saveloadproject/saveloadprojectcore/recentprojectsettings.h
+    saveloadproject/saveloadprojectcore/recentprojectwidget.cpp
+    saveloadproject/saveloadprojectcore/recentprojectwidget.h
+    saveloadproject/saveloadprojectcore/samplemodel.cpp
+    saveloadproject/saveloadprojectcore/samplemodel.h
+    saveloadproject/saveloadprojectcore/userinteractor.cpp
+    saveloadproject/saveloadprojectcore/userinteractor.h
+    saveloadproject/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
+qext_add_executable(QExtExpMVVMtreeviews
+    EXCEPTIONS
+    SOURCES
+    treeviews/treeviewscore/item_constants.h
+    treeviews/treeviewscore/mainwindow.cpp
+    treeviews/treeviewscore/mainwindow.h
+    treeviews/treeviewscore/sampleeditorwidget.cpp
+    treeviews/treeviewscore/sampleeditorwidget.h
+    treeviews/treeviewscore/sampleitems.cpp
+    treeviews/treeviewscore/sampleitems.h
+    treeviews/treeviewscore/samplemodel.cpp
+    treeviews/treeviewscore/samplemodel.h
+    treeviews/main.cpp
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/../source
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    OUTPUT_DIRECTORY
+    ${QEXT_BUILD_DIR}/${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")

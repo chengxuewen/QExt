@@ -1,0 +1,41 @@
+// ************************************************************************** //
+//
+//  Model-view-view-model framework for large GUI applications
+//
+//! @license   GNU General Public License v3 or higher (see COPYING)
+//! @authors   see AUTHORS
+//
+// ************************************************************************** //
+
+#ifndef GRAPHICSPROXYCORE_MAINWINDOW_H
+#define GRAPHICSPROXYCORE_MAINWINDOW_H
+
+#include <QMainWindow>
+#include <qextMemory.h>
+
+namespace GraphicsProxy {
+
+class SceneModel;
+
+//! The main window of this application.
+
+class MainWindow : public QMainWindow {
+    Q_OBJECT
+
+public:
+    MainWindow();
+    ~MainWindow();
+
+protected:
+    void closeEvent(QCloseEvent* event);
+
+private:
+    void initApplication();
+    void writeSettings();
+
+    QExtUniquePointer<SceneModel> m_model;
+};
+
+} // namespace GraphicsProxy
+
+#endif // GRAPHICSPROXYCORE_MAINWINDOW_H

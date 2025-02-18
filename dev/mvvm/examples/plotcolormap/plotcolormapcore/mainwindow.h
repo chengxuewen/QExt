@@ -1,0 +1,40 @@
+// ************************************************************************** //
+//
+//  Model-view-view-model framework for large GUI applications
+//
+//! @license   GNU General Public License v3 or higher (see COPYING)
+//! @authors   see AUTHORS
+//
+// ************************************************************************** //
+
+#ifndef PLOTCOLORMAPCORE_MAINWINDOW_H
+#define PLOTCOLORMAPCORE_MAINWINDOW_H
+
+#include <QMainWindow>
+#include <qextMemory.h>
+
+namespace PlotColorMap {
+
+class ColorMapModel;
+
+//! The main window of this application.
+
+class MainWindow : public QMainWindow {
+    Q_OBJECT
+public:
+    MainWindow();
+    ~MainWindow();
+
+protected:
+    void closeEvent(QCloseEvent* event);
+
+private:
+    void initApplication();
+    void writeSettings();
+
+    QExtUniquePointer<ColorMapModel> m_model;
+};
+
+} // namespace PlotColorMap
+
+#endif // PLOTCOLORMAPCORE_MAINWINDOW_H

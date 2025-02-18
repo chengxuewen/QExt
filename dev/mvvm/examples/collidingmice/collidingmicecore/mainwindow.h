@@ -1,0 +1,49 @@
+// ************************************************************************** //
+//
+//  Model-view-view-model framework for large GUI applications
+//
+//! @license   GNU General Public License v3 or higher (see COPYING)
+//! @authors   see AUTHORS
+//
+// ************************************************************************** //
+
+#ifndef COLLIDINGMICECORE_MAINWINDOW_H
+#define COLLIDINGMICECORE_MAINWINDOW_H
+
+#include <QMainWindow>
+#include <qextMemory.h>
+
+class QGraphicsScene;
+class QGraphicsView;
+class QTimer;
+class MouseModel;
+class QAction;
+class QSlider;
+
+namespace ModelView {
+class AllItemsTreeView;
+}
+
+class MainWindow : public QMainWindow {
+    Q_OBJECT
+
+public:
+    MainWindow();
+    ~MainWindow();
+
+private:
+    void create_central_widget();
+    void init_scene();
+    void init_toolbar();
+    void init_menu();
+    void populate_scene();
+
+    QGraphicsScene* scene;
+    QGraphicsView* view;
+    QTimer* timer;
+    QSlider* slider;
+    QExtUniquePointer<MouseModel> mouse_model;
+    ModelView::AllItemsTreeView* itemsTreeView;
+};
+
+#endif // COLLIDINGMICECORE_MAINWINDOW_H

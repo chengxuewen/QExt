@@ -1,0 +1,59 @@
+// ************************************************************************** //
+//
+//  Model-view-view-model framework for large GUI applications
+//
+//! @license   GNU General Public License v3 or higher (see COPYING)
+//! @authors   see AUTHORS
+//
+// ************************************************************************** //
+
+#ifndef SAVELOADPROJECTCORE_PROJECTHANDLER_H
+#define SAVELOADPROJECTCORE_PROJECTHANDLER_H
+
+#include <QObject>
+#include <qextMemory.h>
+#include <vector>
+
+namespace ModelView {
+class ProjectManagerInterface;
+}
+
+class RecentProjectSettings;
+class UserInteractor;
+class SampleModel;
+class QMainWindow;
+
+//! Main class to coordinate all activity on user's request to create new project,
+//! open existing one, or choose one of recent projects on disk.
+
+class ProjectHandler : public QObject {
+    Q_OBJECT
+
+public:
+    ProjectHandler(SampleModel* sample_model, QMainWindow* main_window);
+    ~ProjectHandler() override;
+
+signals:
+    void currentProjectModified(const QString& project_dir, bool is_modified);
+    void recentProjectsListModified(const QStringList& projects);
+
+public slots:
+    void updateNames();
+    bool canCloseProject() const;
+    void onCreateNewProject();
+    void onOpenExistingProject(const QString& dirname = {});
+    void onSaveCurrentProject();
+    void onSaveProjectAs();
+
+private:
+    void initProjectManager();
+    void updateCurrentProjectName();
+    void updateRecentProjectNames();
+
+    QExtUniquePointer<RecentProjectSettings> m_recentProjectSettings;
+    QExtUniquePointer<UserInteractor> m_userInteractor;
+    QExtUniquePointer<ModelView::ProjectManagerInterface> m_projectManager;
+    SampleModel* m_model{nullptr};
+};
+
+#endif // SAVELOADPROJECTCORE_PROJECTHANDLER_H
