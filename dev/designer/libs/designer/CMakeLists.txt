@@ -1,0 +1,308 @@
+﻿########################################################################################################################
+#
+# Library: QExt
+#
+# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
+#
+# License: MIT License
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+# to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all copies or substantial portions
+# of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+# WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  AUTHORS
+# OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+########################################################################################################################
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Add lib link libraries
+#-----------------------------------------------------------------------------------------------------------------------
+set(QEXT_LIB_LINK_LIBRARIES)
+
+if(QEXT_QT_VERSION_MAJOR EQUAL 4)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui Qt4::QtXml)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND QEXT_LIB_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Xml
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+else()
+    message(FATAL_ERROR "Not find Qt package")
+endif()
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Add lib target
+#-----------------------------------------------------------------------------------------------------------------------
+qext_add_library(Designer
+    EXCEPTIONS
+    SOURCES
+    components/qdesigner_components.h
+    components/qdesigner_components_global.h
+    extension/default_extensionfactory.cpp
+    extension/default_extensionfactory.h
+    extension/extension.cpp
+    extension/extension.h
+    extension/extension_global.h
+    extension/qextensionmanager.cpp
+    extension/qextensionmanager.h
+    sdk/abstractactioneditor.cpp
+    sdk/abstractactioneditor.h
+    sdk/abstractdialoggui.cpp
+    sdk/abstractdialoggui_p.h
+    sdk/abstractdnditem.h
+    sdk/abstractformeditor.cpp
+    sdk/abstractformeditor.h
+    sdk/abstractformeditorplugin.cpp
+    sdk/abstractformeditorplugin.h
+    sdk/abstractformwindow.cpp
+    sdk/abstractformwindow.h
+    sdk/abstractformwindowcursor.cpp
+    sdk/abstractformwindowcursor.h
+    sdk/abstractformwindowmanager.cpp
+    sdk/abstractformwindowmanager.h
+    sdk/abstractformwindowtool.cpp
+    sdk/abstractformwindowtool.h
+    sdk/abstractintegration.cpp
+    sdk/abstractintegration.h
+    sdk/abstractintrospection.cpp
+    sdk/abstractintrospection_p.h
+    sdk/abstractlanguage.h
+    sdk/abstractmetadatabase.cpp
+    sdk/abstractmetadatabase.h
+    sdk/abstractnewformwidget.cpp
+    sdk/abstractnewformwidget.h
+    sdk/abstractobjectinspector.cpp
+    sdk/abstractobjectinspector.h
+    sdk/abstractoptionspage.h
+    sdk/abstractpromotioninterface.cpp
+    sdk/abstractpromotioninterface.h
+    sdk/abstractpropertyeditor.cpp
+    sdk/abstractpropertyeditor.h
+    sdk/abstractresourcebrowser.cpp
+    sdk/abstractresourcebrowser.h
+    sdk/abstractsettings.h
+    sdk/abstractwidgetbox.cpp
+    sdk/abstractwidgetbox.h
+    sdk/abstractwidgetdatabase.cpp
+    sdk/abstractwidgetdatabase.h
+    sdk/abstractwidgetfactory.cpp
+    sdk/abstractwidgetfactory.h
+    sdk/container.h
+    sdk/dynamicpropertysheet.h
+    sdk/extrainfo.cpp
+    sdk/extrainfo.h
+    sdk/layoutdecoration.h
+    sdk/membersheet.h
+    sdk/propertysheet.h
+    sdk/sdk_global.h
+    sdk/taskmenu.h
+    shared/templates/forms/240x320/Dialog_with_Buttons_Bottom.ui
+    shared/templates/forms/240x320/Dialog_with_Buttons_Right.ui
+    shared/templates/forms/320x240/Dialog_with_Buttons_Bottom.ui
+    shared/templates/forms/320x240/Dialog_with_Buttons_Right.ui
+    shared/templates/forms/480x640/Dialog_with_Buttons_Bottom.ui
+    shared/templates/forms/480x640/Dialog_with_Buttons_Right.ui
+    shared/templates/forms/640x480/Dialog_with_Buttons_Bottom.ui
+    shared/templates/forms/640x480/Dialog_with_Buttons_Right.ui
+    shared/templates/forms/Dialog_with_Buttons_Bottom.ui
+    shared/templates/forms/Dialog_with_Buttons_Right.ui
+    shared/templates/forms/Dialog_without_Buttons.ui
+    shared/templates/forms/Main_Window.ui
+    shared/templates/forms/Widget.ui
+    shared/actioneditor.cpp
+    shared/actioneditor_p.h
+    shared/actionprovider_p.h
+    shared/actionrepository.cpp
+    shared/actionrepository_p.h
+    shared/addlinkdialog.ui
+    shared/codedialog.cpp
+    shared/codedialog_p.h
+    shared/connectionedit.cpp
+    shared/connectionedit_p.h
+    shared/csshighlighter.cpp
+    shared/csshighlighter_p.h
+    shared/deviceprofile.cpp
+    shared/deviceprofile_p.h
+    shared/dialoggui.cpp
+    shared/dialoggui_p.h
+    shared/extensionfactory_p.h
+    shared/formlayoutmenu.cpp
+    shared/formlayoutmenu_p.h
+    shared/formlayoutrowdialog.ui
+    shared/formwindowbase.cpp
+    shared/formwindowbase_p.h
+    shared/grid.cpp
+    shared/grid_p.h
+    shared/gridpanel.cpp
+    shared/gridpanel.ui
+    shared/gridpanel_p.h
+    shared/htmlhighlighter.cpp
+    shared/htmlhighlighter_p.h
+    shared/iconloader.cpp
+    shared/iconloader_p.h
+    shared/iconselector.cpp
+    shared/iconselector_p.h
+    shared/invisible_widget.cpp
+    shared/invisible_widget_p.h
+    shared/layout.cpp
+    shared/layout_p.h
+    shared/layoutinfo.cpp
+    shared/layoutinfo_p.h
+    shared/metadatabase.cpp
+    shared/metadatabase_p.h
+    shared/morphmenu.cpp
+    shared/morphmenu_p.h
+    shared/newactiondialog.cpp
+    shared/newactiondialog.ui
+    shared/newactiondialog_p.h
+    shared/newformwidget.cpp
+    shared/newformwidget.ui
+    shared/newformwidget_p.h
+    shared/orderdialog.cpp
+    shared/orderdialog.ui
+    shared/orderdialog_p.h
+    shared/plaintexteditor.cpp
+    shared/plaintexteditor_p.h
+    shared/plugindialog.cpp
+    shared/plugindialog.ui
+    shared/plugindialog_p.h
+    shared/pluginmanager.cpp
+    shared/pluginmanager_p.h
+    shared/previewconfigurationwidget.cpp
+    shared/previewconfigurationwidget.ui
+    shared/previewconfigurationwidget_p.h
+    shared/previewmanager.cpp
+    shared/previewmanager_p.h
+    shared/promotionmodel.cpp
+    shared/promotionmodel_p.h
+    shared/promotiontaskmenu.cpp
+    shared/promotiontaskmenu_p.h
+    shared/propertylineedit.cpp
+    shared/propertylineedit_p.h
+    shared/qdesigner_command.cpp
+    shared/qdesigner_command2.cpp
+    shared/qdesigner_command2_p.h
+    shared/qdesigner_command_p.h
+    shared/qdesigner_dnditem.cpp
+    shared/qdesigner_dnditem_p.h
+    shared/qdesigner_dockwidget.cpp
+    shared/qdesigner_dockwidget_p.h
+    shared/qdesigner_formbuilder.cpp
+    shared/qdesigner_formbuilder_p.h
+    shared/qdesigner_formeditorcommand.cpp
+    shared/qdesigner_formeditorcommand_p.h
+    shared/qdesigner_formwindowcommand.cpp
+    shared/qdesigner_formwindowcommand_p.h
+    shared/qdesigner_formwindowmanager.cpp
+    shared/qdesigner_formwindowmanager_p.h
+    shared/qdesigner_introspection.cpp
+    shared/qdesigner_introspection_p.h
+    shared/qdesigner_membersheet.cpp
+    shared/qdesigner_membersheet_p.h
+    shared/qdesigner_menu.cpp
+    shared/qdesigner_menu_p.h
+    shared/qdesigner_menubar.cpp
+    shared/qdesigner_menubar_p.h
+    shared/qdesigner_objectinspector.cpp
+    shared/qdesigner_objectinspector_p.h
+    shared/qdesigner_promotion.cpp
+    shared/qdesigner_promotion_p.h
+    shared/qdesigner_promotiondialog.cpp
+    shared/qdesigner_promotiondialog_p.h
+    shared/qdesigner_propertycommand.cpp
+    shared/qdesigner_propertycommand_p.h
+    shared/qdesigner_propertyeditor.cpp
+    shared/qdesigner_propertyeditor_p.h
+    shared/qdesigner_propertysheet.cpp
+    shared/qdesigner_propertysheet_p.h
+    shared/qdesigner_qsettings.cpp
+    shared/qdesigner_qsettings_p.h
+    shared/qdesigner_stackedbox.cpp
+    shared/qdesigner_stackedbox_p.h
+    shared/qdesigner_tabwidget.cpp
+    shared/qdesigner_tabwidget_p.h
+    shared/qdesigner_taskmenu.cpp
+    shared/qdesigner_taskmenu_p.h
+    shared/qdesigner_toolbar.cpp
+    shared/qdesigner_toolbar_p.h
+    shared/qdesigner_toolbox.cpp
+    shared/qdesigner_toolbox_p.h
+    shared/qdesigner_utils.cpp
+    shared/qdesigner_utils_p.h
+    shared/qdesigner_widget.cpp
+    shared/qdesigner_widget_p.h
+    shared/qdesigner_widgetbox.cpp
+    shared/qdesigner_widgetbox_p.h
+    shared/qdesigner_widgetitem.cpp
+    shared/qdesigner_widgetitem_p.h
+    shared/qlayout_widget.cpp
+    shared/qlayout_widget_p.h
+    shared/qsimpleresource.cpp
+    shared/qsimpleresource_p.h
+    shared/qtresourceeditordialog.cpp
+    shared/qtresourceeditordialog.ui
+    shared/qtresourceeditordialog_p.h
+    shared/qtresourcemodel.cpp
+    shared/qtresourcemodel_p.h
+    shared/qtresourceview.cpp
+    shared/qtresourceview_p.h
+    shared/rcc.cpp
+    shared/rcc_p.h
+    shared/richtexteditor.cpp
+    shared/richtexteditor_p.h
+    shared/selectsignaldialog.cpp
+    shared/selectsignaldialog.ui
+    shared/selectsignaldialog_p.h
+    shared/shared.qrc
+    shared/shared_enums_p.h
+    shared/shared_global_p.h
+    shared/shared_settings.cpp
+    shared/shared_settings_p.h
+    shared/sheet_delegate.cpp
+    shared/sheet_delegate_p.h
+    shared/signalslotdialog.cpp
+    shared/signalslotdialog.ui
+    shared/signalslotdialog_p.h
+    shared/spacer_widget.cpp
+    shared/spacer_widget_p.h
+    shared/stylesheeteditor.cpp
+    shared/stylesheeteditor_p.h
+    shared/textpropertyeditor.cpp
+    shared/textpropertyeditor_p.h
+    shared/widgetdatabase.cpp
+    shared/widgetdatabase_p.h
+    shared/widgetfactory.cpp
+    shared/widgetfactory_p.h
+    shared/zoomwidget.cpp
+    shared/zoomwidget_p.h
+    uilib/abstractformbuilder.cpp
+    uilib/abstractformbuilder.h
+    uilib/formbuilder.cpp
+    uilib/formbuilder.h
+    uilib/formbuilderextra.cpp
+    uilib/formbuilderextra_p.h
+    uilib/properties.cpp
+    uilib/properties_p.h
+    uilib/resourcebuilder.cpp
+    uilib/resourcebuilder_p.h
+    uilib/textbuilder.cpp
+    uilib/textbuilder_p.h
+    uilib/ui4.cpp
+    uilib/ui4_p.h
+    uilib/uilib_global.h
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${PROJECT_SOURCE_DIR}/dev/designer/libs
+    PRECOMPILED_HEADER
+    lib_pch.h
+    PUBLIC_LIBRARIES
+    ${QEXT_LIB_LINK_LIBRARIES})
