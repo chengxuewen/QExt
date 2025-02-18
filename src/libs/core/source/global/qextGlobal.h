@@ -231,7 +231,6 @@ inline void qextMetaEnum(const QVariant &variant)
 }
 
 
-
 /***********************************************************************************************************************
     QExt force inline macro declare
 ***********************************************************************************************************************/
@@ -359,21 +358,6 @@ struct QExtNil {};
 
 #define QEXT_ATOMIC_INT_TRUE 1
 #define QEXT_ATOMIC_INT_FALSE 0
-
-
-template<typename T>
-T qextClamp(T x, T min, T max)
-{
-    if (x > max)
-    {
-        return max;
-    }
-    if (x < min)
-    {
-        return min;
-    }
-    return x;
-}
 
 #ifdef QEXT_OS_WIN
 #   define QEXT_DIR_SPLIT "\\"
