@@ -58,6 +58,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
+qext_find_package(WrapInvokeLite PROVIDED_TARGETS QExt3rdparty::WrapInvokeLite)
 qext_find_package(WrapVariantLite PROVIDED_TARGETS QExt3rdparty::WrapVariantLite)
 qext_find_package(WrapOptionalLite PROVIDED_TARGETS QExt3rdparty::WrapOptionalLite)
 
@@ -116,6 +117,7 @@ qext_add_library(Core
     source/tools/qextDiskInfo.h
     source/tools/qextException.cpp
     source/tools/qextException.h
+    source/tools/qextInvoke.h
     source/tools/qextLinearBuffer.cpp
     source/tools/qextLinearBuffer.h
     source/tools/qextMemory.h
@@ -151,9 +153,11 @@ qext_add_library(Core
     PRECOMPILED_HEADER
     source/qextPch.h
     EXTERNAL_HEADERS_DIRS
+    ${QExtWrapInvokeLite_INSTALL_DIR}/include
     ${QExtWrapVariantLite_INSTALL_DIR}/include
     ${QExtWrapOptionalLite_INSTALL_DIR}/include
     PUBLIC_LIBRARIES
+    QExt3rdparty::WrapInvokeLite
     QExt3rdparty::WrapVariantLite
     QExt3rdparty::WrapOptionalLite
     ${QEXT_LIB_LINK_LIBRARIES})
