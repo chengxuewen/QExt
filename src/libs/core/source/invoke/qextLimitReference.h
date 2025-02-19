@@ -31,477 +31,466 @@
 #define _QEXTLIMITREFERENCE_H
 
 #include <qextGlobal.h>
-#include <qextTypeTrait.h>
 #include <qextVisitor.h>
+#include <qextTypeTrait.h>
 
 #include <QObject>
 
-/** A QExtLimitReference<Foo> object stores a reference (Foo&), but make sure that,
- * if Foo inherits from QObject, then qextVisitEach<>() will "limit" itself to the
- * QObject reference instead of the derived reference. This avoids use of
- * a reference to the derived type when the derived destructor has run. That can be
- * a problem when using virtual inheritance.
+/**
+ * @brief A QExtLimitReference<Foo> object stores a reference (Foo&), but make sure that, if Foo inherits from
+ * QObject, then qextVisitEach<>() will "limit" itself to the QObject reference instead of the derived reference.
+ * This avoids use of a reference to the derived type when the derived destructor has run.
+ * That can be a problem when using virtual inheritance.
  *
- * If Foo inherits from QObject then both the derived reference and the
- * QObject reference are stored, so we can later retrieve the QObject
- * reference without doing an implicit conversion. To retrieve the derived reference
- * (so that you invoke methods or members of it), use invoke(). To retrieve the QObject
- * reference (so that you can call qextVisitEach() on it), you use visit().
+ * If Foo inherits from QObject then both the derived reference and the QObject reference are stored, so we can later
+ * retrieve the QObject reference without doing an implicit conversion.
+ * To retrieve the derived reference (so that you invoke methods or members of it), use invoke().
+ * To retrieve the QObject reference (so that you can call qextVisitEach() on it), you use visit().
  *
- * If Foo does not inherit from QObject then invoke() and visit() just return the
- * derived reference.
+ * If Foo does not inherit from QObject then invoke() and visit() just return the derived reference.
  *
- * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values,
- * and, with qextMakeFunctor(), the reference to the handling object.
+ * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values, and, with
+ * qextMakeFunctor(), the reference to the handling object.
  *
- * - @e T_type The type of the reference.
+ * @tparam Type The type of the reference.
  */
-template <typename T_type, bool I_derives_Object = QExtIsBaseOf<QObject, T_type>::value>
+template <class Type, bool I_derives_Object = QExtIsBaseOf<QObject, Type>::value>
 class QExtLimitReference
 {
 public:
-    /** Constructor.
-     * \param target The reference to limit.
+    /**
+     * @brief Constructor.
+     * @param target The reference to limit.
      */
-    QExtLimitReference(T_type &target) : m_visited(target) {}
-    QExtLimitReference(const QExtLimitReference &other) : m_visited(other.m_visited) {}
+    QExtLimitReference(Type &target) : mVisited(target) {}
+    QExtLimitReference(const QExtLimitReference &other) : mVisited(other.mVisited) {}
 
-    /** Retrieve the entity to visit for qextVisitEach().
+    /**
+     * @brief Retrieve the entity to visit for qextVisitEach().
      * Depending on the template specialization, this is either a derived reference,
-     *  or QObject& if T_type derives from QObject.
-     * \return The reference.
+     * or QObject& if Type derives from QObject.
+     * @return The reference.
      */
-    const T_type &visit() const
+    const Type &visit() const
     {
-        return m_visited;
+        return mVisited;
     }
-    /** Retrieve the reference.
+    /**
+     * @brief Retrieve the reference.
      * This is always a reference to the derived instance.
-     * \return The reference.
+     * @return The reference.
      */
-    T_type &invoke() const
+    Type &invoke() const
     {
-        return m_visited;
+        return mVisited;
     }
 
 private:
-    /** The reference.
-     */
-    T_type &m_visited;
+    Type &mVisited; // The reference.
 };
 
-
-/** QExtLimitReference object for a class that derives from trackable.
- * - @e T_type The type of the reference.
+/**
+ * @brief QExtLimitReference object for a class that derives from trackable.
+ * @tparam Type The type of the reference.
  */
-template <typename T_type>
-class QExtLimitReference<T_type, true>
+template <class Type>
+class QExtLimitReference<Type, true>
 {
 public:
-    /** Constructor.
-     * \param target The reference to limit.
+    /**
+     * @brief Constructor.
+     * @param target The reference to limit.
      */
-    QExtLimitReference(T_type &target) : m_visited(target), m_invoked(target) {}
-    QExtLimitReference(const QExtLimitReference &other) : m_visited(other.m_visited), m_invoked(other.m_invoked) {}
+    QExtLimitReference(Type &target) : mVisited(target), mInvoked(target) {}
+    QExtLimitReference(const QExtLimitReference &other) : mVisited(other.mVisited), mInvoked(other.mInvoked) {}
 
-    /** Retrieve the entity to visit for qextVisitEach().
+    /**
+     * @brief Retrieve the entity to visit for qextVisitEach().
      * Depending on the template specialization, this is either a derived reference,
-     * or QObject& if T_type derives from QObject.
-     * \return The reference.
+     * or QObject& if Type derives from QObject.
+     * @return The reference.
      */
     const QObject &visit() const
     {
-        return m_visited;
+        return mVisited;
     }
-    /** Retrieve the reference.
+    /**
+     * @brief Retrieve the reference.
      * This is always a reference to the derived instance.
-     * \return The reference.
+     * @return The reference.
      */
-    T_type &invoke() const
+    Type &invoke() const
     {
-        return m_invoked;
+        return mInvoked;
     }
 
 private:
-    /** The trackable reference.
-     */
-    QObject &m_visited;
-    /** The reference.
-     */
-    T_type &m_invoked;
+    QObject &mVisited; // The trackable reference.
+    Type &mInvoked; // The reference.
 };
 
-
-/** Implementation of visitor specialized for the QExtLimitReference
- * class, to call qextVisitEach() on the entity returned by the QExtLimitReference's
- * visit() method.
- * @tparam T_type The type of the reference.
- * @tparam T_action The type of functor to invoke.
- * \param action The functor to invoke.
- * \param target The visited instance.
+/**
+ * @brief Implementation of visitor specialized for the QExtLimitReference class, to call qextVisitEach() on the entity
+ * returned by the QExtLimitReference's visit() method.
+ * @tparam Type The type of the reference.
+ * @tparam Action The type of functor to invoke.
+ * @param action The functor to invoke.
+ * @param target The visited instance.
  */
-template <typename T_type, bool I_derives_Object>
-struct QExtVisitor<QExtLimitReference<T_type, I_derives_Object> >
+template <class Type, bool I_derives_Object>
+struct QExtVisitor<QExtLimitReference<Type, I_derives_Object> >
 {
-    template <typename T_action>
-    static void doVisitEach(const T_action &action, const QExtLimitReference<T_type, I_derives_Object> &target)
+    typedef QExtLimitReference<Type, I_derives_Object> TargetType;
+    template <class Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
         qextVisitEach(action, target.visit());
     }
 };
 
-
-
-/** A QExtConstLimitReference<Foo> object stores a reference (Foo&), but make sure that,
- * if Foo inherits from QObject, then qextVisitEach<>() will "limit" itself to the
- * QObject reference instead of the derived reference. This avoids use of
- * a reference to the derived type when the derived destructor has run. That can be
- * a problem when using virtual inheritance.
+/**
+ * @brief A QExtConstLimitReference<Foo> object stores a reference (Foo&), but make sure that, if Foo inherits from
+ * QObject, then qextVisitEach<>() will "limit" itself to the QObject reference instead of the derived reference.
+ * This avoids use of a reference to the derived type when the derived destructor has run.
+ * That can be a problem when using virtual inheritance.
  *
- * If Foo inherits from trackable then both the derived reference and the
- * QObject reference are stored, so we can later retrieve the QObject
- * reference without doing an implicit conversion. To retrieve the derived reference
- * (so that you invoke methods or members of it), use invoke(). To retrieve the trackable
- * reference (so that you can call qextVisitEach() on it), you use visit().
+ * If Foo inherits from trackable then both the derived reference and the QObject reference are stored, so we can later
+ * retrieve the QObject reference without doing an implicit conversion.
+ * To retrieve the derived reference (so that you invoke methods or members of it), use invoke().
+ * To retrieve the trackable reference (so that you can call qextVisitEach() on it), you use visit().
  *
- * If Foo does not inherit from QObject then invoke() and visit() just return the
- * derived reference.
+ * If Foo does not inherit from QObject then invoke() and visit() just return the derived reference.
  *
- * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values,
- * and, with qextMakeFunctor(), the reference to the handling object.
+ * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values, and, with
+ * qextMakeFunctor(), the reference to the handling object.
  *
- * - @e T_type The type of the reference.
+ * @tparam Type The type of the reference.
  */
-template <typename T_type, bool I_derives_Object = QExtIsBaseOf<QObject, T_type>::value>
+template <class Type, bool I_derives_Object = QExtIsBaseOf<QObject, Type>::value>
 class QExtConstLimitReference
 {
 public:
-    /** Constructor.
-     * \param target The reference to limit.
+    /**
+     * @brief Constructor.
+     * @param target The reference to limit.
      */
-    QExtConstLimitReference(const T_type &target) : m_visited(target) {}
-    QExtConstLimitReference(const QExtConstLimitReference &other) : m_visited(other.m_visited) {}
+    QExtConstLimitReference(const Type &target) : mVisited(target) {}
+    QExtConstLimitReference(const QExtConstLimitReference &other) : mVisited(other.mVisited) {}
 
-    /** Retrieve the entity to visit for qextVisitEach().
+    /**
+     * @brief Retrieve the entity to visit for qextVisitEach().
      * Depending on the template specialization, this is either a derived reference,
-     *  or QObject& if T_type derives from QObject.
-     * \return The reference.
+     * or QObject& if Type derives from QObject.
+     * @return The reference.
      */
-    const T_type &visit() const
+    const Type &visit() const
     {
-        return m_visited;
+        return mVisited;
     }
 
-    /** Retrieve the reference.
+    /**
+     * @brief Retrieve the reference.
      * This is always a reference to the derived instance.
-     * \return The reference.
+     * @return The reference.
      */
-    const T_type &invoke() const
+    const Type &invoke() const
     {
-        return m_visited;
+        return mVisited;
     }
 
 private:
-    /** The reference.
-     */
-    const T_type &m_visited;
+    const Type &mVisited; // The reference.
 };
 
-/** QExtConstLimitReference object for a class that derives from trackable.
- * - @e T_type The type of the reference.
+/**
+ * @brief QExtConstLimitReference object for a class that derives from trackable.
+ * @tparam Type The type of the reference.
  */
-template <typename T_type>
-class QExtConstLimitReference<T_type, true>
+template <class Type>
+class QExtConstLimitReference<Type, true>
 {
 public:
-    /** Constructor.
-     * \param target The reference to limit.
+    /**
+     * @brief Constructor.
+     * @param target The reference to limit.
      */
-    QExtConstLimitReference(const T_type &target) : m_visited(target), m_invoked(target) {}
-    QExtConstLimitReference(const QExtConstLimitReference &other) : m_visited(other.m_visited), m_invoked(other.m_invoked) {}
+    QExtConstLimitReference(const Type &target) : mVisited(target), mInvoked(target) {}
+    QExtConstLimitReference(const QExtConstLimitReference &other) : mVisited(other.mVisited), mInvoked(other.mInvoked) {}
 
-    /** Retrieve the entity to visit for qextVisitEach().
+    /**
+     * @brief Retrieve the entity to visit for qextVisitEach().
      * Depending on the template specialization, this is either a derived reference,
-     * or QObject& if T_type derives from QObject.
-     * \return The reference.
+     * or QObject& if Type derives from QObject.
+     * @return The reference.
      */
     const QObject &visit() const
     {
-        return m_visited;
+        return mVisited;
     }
 
-    /** Retrieve the reference.
+    /**
+     * @brief Retrieve the reference.
      * This is always a reference to the derived instance.
-     * \return The reference.
+     * @return The reference.
      */
-    const T_type &invoke() const
+    const Type &invoke() const
     {
-        return m_invoked;
+        return mInvoked;
     }
 
 private:
-    /** The trackable reference.
-     */
-    const QObject &m_visited;
-    /** The reference.
-     */
-    const T_type &m_invoked;
+    const QObject &mVisited; // The trackable reference.
+    const Type &mInvoked; // The reference.
 };
 
-/** Implementation of visitor specialized for the QExtConstLimitReference
- * class, to call qextVisitEach() on the entity returned by the QExtConstLimitReference's
- * visit() method.
- * @tparam T_type The type of the reference.
- * @tparam T_action The type of functor to invoke.
- * \param action The functor to invoke.
- * \param target The visited instance.
+/**
+ * @brief Implementation of visitor specialized for the QExtConstLimitReference class, to call qextVisitEach() on the
+ * entity returned by the QExtConstLimitReference's visit() method.
+ * @tparam Type The type of the reference.
+ * @tparam Action The type of functor to invoke.
+ * @param action The functor to invoke.
+ * @param target The visited instance.
  */
-template <typename T_type, bool I_derives_Object>
-struct QExtVisitor<QExtConstLimitReference<T_type, I_derives_Object> >
+template <class Type, bool I_derives_Object>
+struct QExtVisitor<QExtConstLimitReference<Type, I_derives_Object> >
 {
-    template <typename T_action>
-    static void doVisitEach(const T_action &action,
-                            const QExtConstLimitReference<T_type, I_derives_Object> &target)
+    typedef QExtConstLimitReference<Type, I_derives_Object> TargetType;
+    template <class Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
         qextVisitEach(action, target.visit());
     }
 };
 
-
-
-/** A QExtVolatileLimitReference<Foo> object stores a reference (Foo&), but make sure that,
- * if Foo inherits from QObject, then qextVisitEach<>() will "limit" itself to the
- * QObject reference instead of the derived reference. This avoids use of
- * a reference to the derived type when the derived destructor has run. That can be
- * a problem when using virtual inheritance.
+/**
+ * @brief A QExtVolatileLimitReference<Foo> object stores a reference (Foo&), but make sure that, if Foo inherits from
+ * QObject, then qextVisitEach<>() will "limit" itself to the QObject reference instead of the derived reference.
+ * This avoids use of a reference to the derived type when the derived destructor has run.
+ * That can be a problem when using virtual inheritance.
  *
- * If Foo inherits from trackable then both the derived reference and the
- * QObject reference are stored, so we can later retrieve the QObject
- * reference without doing an implicit conversion. To retrieve the derived reference
- * (so that you invoke methods or members of it), use invoke(). To retrieve the trackable
- * reference (so that you can call qextVisitEach() on it), you use visit().
+ * If Foo inherits from trackable then both the derived reference and the QObject reference are stored, so we can later
+ * retrieve the QObject reference without doing an implicit conversion.
+ * To retrieve the derived reference (so that you invoke methods or members of it), use invoke().
+ * To retrieve the trackable reference (so that you can call qextVisitEach() on it), you use visit().
  *
- * If Foo does not inherit from QObject then invoke() and visit() just return the
- * derived reference.
+ * If Foo does not inherit from QObject then invoke() and visit() just return the derived reference.
  *
- * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values,
- * and, with qextMakeFunctor(), the reference to the handling object.
+ * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values, and, with
+ * qextMakeFunctor(), the reference to the handling object.
  *
- * - @e T_type The type of the reference.
+ * @tparam Type The type of the reference.
  */
-template <typename T_type, bool I_derives_Object = QExtIsBaseOf<QObject, T_type>::value>
+template <class Type, bool I_derives_Object = QExtIsBaseOf<QObject, Type>::value>
 class QExtVolatileLimitReference
 {
 public:
-    /** Constructor.
-     * \param target The reference to limit.
+    /**
+     * @brief Constructor.
+     * @param target The reference to limit.
      */
-    QExtVolatileLimitReference(T_type &target) : m_visited(target) {}
-    QExtVolatileLimitReference(const QExtVolatileLimitReference &other) : m_visited(other.m_visited) {}
+    QExtVolatileLimitReference(Type &target) : mVisited(target) {}
+    QExtVolatileLimitReference(const QExtVolatileLimitReference &other) : mVisited(other.mVisited) {}
 
-    /** Retrieve the entity to visit for qextVisitEach().
+    /**
+     * @brief Retrieve the entity to visit for qextVisitEach().
      * Depending on the template specialization, this is either a derived reference,
-     *  or QObject& if T_type derives from QObject.
-     * \return The reference.
+     * or QObject& if Type derives from QObject.
+     * @return The reference.
      */
-    const T_type &visit() const
+    const Type &visit() const
     {
-        return m_visited;
+        return mVisited;
     }
 
-    /** Retrieve the reference.
+    /**
+     * @brief Retrieve the reference.
      * This is always a reference to the derived instance.
-     * \return The reference.
+     * @return The reference.
      */
-    volatile T_type &invoke() const
+    volatile Type &invoke() const
     {
-        return m_visited;
+        return mVisited;
     }
 
 private:
-    /** The reference.
-     */
-    T_type &m_visited;
+    Type &mVisited; // The reference.
 };
 
 
-/** QExtVolatileLimitReference object for a class that derives from trackable.
- * - @e T_type The type of the reference.
+/**
+ * @brief QExtVolatileLimitReference object for a class that derives from trackable.
+ * @tparam Type The type of the reference.
  */
-template <typename T_type>
-class QExtVolatileLimitReference<T_type, true>
+template <class Type>
+class QExtVolatileLimitReference<Type, true>
 {
 public:
-    /** Constructor.
-     * \param target The reference to limit.
+    /**
+     * @brief Constructor.
+     * @param target The reference to limit.
      */
-    QExtVolatileLimitReference(T_type &target) : m_visited(target), m_invoked(target) {}
-    QExtVolatileLimitReference(const QExtVolatileLimitReference &other) : m_visited(other.m_visited), m_invoked(other.m_invoked) {}
+    QExtVolatileLimitReference(Type &target) : mVisited(target), mInvoked(target) {}
 
-    /** Retrieve the entity to visit for qextVisitEach().
+    QExtVolatileLimitReference(const QExtVolatileLimitReference &other)
+        : mVisited(other.mVisited), mInvoked(other.mInvoked) {}
+
+    /**
+     * @brief Retrieve the entity to visit for qextVisitEach().
      * Depending on the template specialization, this is either a derived reference,
-     *  or QObject& if T_type derives from QObject.
-     * \return The reference.
+     * or QObject& if Type derives from QObject.
+     * @return The reference.
      */
     const QObject &visit() const
     {
-        return m_visited;
+        return mVisited;
     }
 
-    /** Retrieve the reference.
+    /**
+     * @brief Retrieve the reference.
      * This is always a reference to the derived instance.
-     * \return The reference.
+     * @return The reference.
      */
-    volatile T_type &invoke() const
+    volatile Type &invoke() const
     {
-        return m_invoked;
+        return mInvoked;
     }
 
 private:
-    /** The trackable reference.
-     */
-    QObject &m_visited;
-    /** The reference.
-     */
-    T_type &m_invoked;
+    QObject &mVisited; // The trackable reference.
+    Type &mInvoked; // The reference.
 };
 
-/** Implementation of visitor specialized for the QExtVolatileLimitReference
- * class, to call qextVisitEach() on the entity returned by the QExtVolatileLimitReference's
- * visit() method.
- * @tparam T_type The type of the reference.
- * @tparam T_action The type of functor to invoke.
- * \param action The functor to invoke.
- * \param target The visited instance.
+/**
+ * @brief Implementation of visitor specialized for the QExtVolatileLimitReference class, to call qextVisitEach() on
+ * the entity returned by the QExtVolatileLimitReference's visit() method.
+ * @tparam Type The type of the reference.
+ * @tparam Action The type of functor to invoke.
+ * @param action The functor to invoke.
+ * @param target The visited instance.
  */
-template <typename T_type, bool I_derives_Object>
-struct QExtVisitor<QExtVolatileLimitReference<T_type, I_derives_Object> >
+template <class Type, bool I_derives_Object>
+struct QExtVisitor<QExtVolatileLimitReference<Type, I_derives_Object> >
 {
-    template <typename T_action>
-    static void doVisitEach(const T_action &action,
-                            const QExtVolatileLimitReference<T_type, I_derives_Object> &target)
+    typedef QExtVolatileLimitReference<Type, I_derives_Object> TargetType;
+    template <class Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
         qextVisitEach(action, target.visit());
     }
 };
 
-
-
-/** A QExtConstVolatileLimitReference<Foo> object stores a reference (Foo&), but make sure that,
- * if Foo inherits from QObject, then qextVisitEach<>() will "limit" itself to the
- * QObject reference instead of the derived reference. This avoids use of
- * a reference to the derived type when the derived destructor has run. That can be
- * a problem when using virtual inheritance.
+/**
+ * @brief A QExtConstVolatileLimitReference<Foo> object stores a reference (Foo&), but make sure that, if Foo inherits
+ * from QObject, then qextVisitEach<>() will "limit" itself to the QObject reference instead of the derived reference.
+ * This avoids use of a reference to the derived type when the derived destructor has run.
+ * That can be a problem when using virtual inheritance.
  *
- * If Foo inherits from trackable then both the derived reference and the
- * QObject reference are stored, so we can later retrieve the QObject
- * reference without doing an implicit conversion. To retrieve the derived reference
- * (so that you invoke methods or members of it), use invoke(). To retrieve the trackable
- * reference (so that you can call qextVisitEach() on it), you use visit().
+ * If Foo inherits from trackable then both the derived reference and the QObject reference are stored, so we can
+ * later retrieve the QObject reference without doing an implicit conversion. To retrieve the derived reference
+ * (so that you invoke methods or members of it), use invoke().
+ * To retrieve the trackable reference (so that you can call qextVisitEach() on it), you use visit().
  *
- * If Foo does not inherit from QObject then invoke() and visit() just return the
- * derived reference.
+ * If Foo does not inherit from QObject then invoke() and visit() just return the derived reference.
  *
- * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values,
- * and, with qextMakeFunctor(), the reference to the handling object.
+ * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values, and,
+ * with qextMakeFunctor(), the reference to the handling object.
  *
- * - @e T_type The type of the reference.
+ * @tparam Type The type of the reference.
  */
-template <typename T_type, bool I_derives_Object = QExtIsBaseOf<QObject, T_type>::value>
+template <typename Type, bool I_derives_Object = QExtIsBaseOf<QObject, Type>::value>
 class QExtConstVolatileLimitReference
 {
 public:
-    /** Constructor.
-     * \param target The reference to limit.
+    /**
+     * @brief Constructor.
+     * @param target The reference to limit.
      */
-    QExtConstVolatileLimitReference(const T_type &target) : m_visited(target) {}
-    QExtConstVolatileLimitReference(const QExtConstVolatileLimitReference &other) : m_visited(other.m_visited) {}
+    QExtConstVolatileLimitReference(const Type &target) : mVisited(target) {}
+    QExtConstVolatileLimitReference(const QExtConstVolatileLimitReference &other) : mVisited(other.mVisited) {}
 
-    /** Retrieve the entity to visit for qextVisitEach().
+    /**
+     * @brief Retrieve the entity to visit for qextVisitEach().
      * Depending on the template specialization, this is either a derived reference,
-     * or QObject& if T_type derives from QObject.
-     * \return The reference.
+     * or QObject& if Type derives from QObject.
+     * @return The reference.
      */
-    const T_type &visit() const
+    const Type &visit() const
     {
-        return m_visited;
+        return mVisited;
     }
 
-    /** Retrieve the reference.
+    /**
+     * @brief Retrieve the reference.
      * This is always a reference to the derived instance.
-     * \return The reference.
+     * @return The reference.
      */
-    const volatile T_type &invoke() const
+    const volatile Type &invoke() const
     {
-        return m_visited;
+        return mVisited;
     }
 
 private:
-    /** The reference.
-     */
-    const T_type &m_visited;
+    const Type &mVisited; // The reference.
 };
 
-/** QExtConstVolatileLimitReference object for a class that derives from trackable.
- * - @e T_type The type of the reference.
+/**
+ * @brief QExtConstVolatileLimitReference object for a class that derives from trackable.
+ * @tparam Type The type of the reference.
  */
-template <typename T_type>
-class QExtConstVolatileLimitReference<T_type, true>
+template <class Type>
+class QExtConstVolatileLimitReference<Type, true>
 {
 public:
-    /** Constructor.
-     * \param target The reference to limit.
+    /**
+     * @brief Constructor.
+     * @param target The reference to limit.
      */
-    QExtConstVolatileLimitReference(const T_type &target) : m_visited(target), m_invoked(target) {}
-    QExtConstVolatileLimitReference(const QExtConstVolatileLimitReference &other) : m_visited(other.m_visited), m_invoked(other.m_invoked) {}
+    QExtConstVolatileLimitReference(const Type &target) : mVisited(target), mInvoked(target) {}
+    QExtConstVolatileLimitReference(const QExtConstVolatileLimitReference &other) : mVisited(other.mVisited), mInvoked(other.mInvoked) {}
 
-    /** Retrieve the entity to visit for qextVisitEach().
+    /**
+     * @brief Retrieve the entity to visit for qextVisitEach().
      * Depending on the template specialization, this is either a derived reference,
-     * or QObject& if T_type derives from QObject.
-     * \return The reference.
+     * or QObject& if Type derives from QObject.
+     * @return The reference.
      */
     const QObject &visit() const
     {
-        return m_visited;
+        return mVisited;
     }
 
-    /** Retrieve the reference.
+    /**
+     * @brief Retrieve the reference.
      * This is always a reference to the derived instance.
-     * \return The reference.
+     * @return The reference.
      */
-    const volatile T_type &invoke() const
+    const volatile Type &invoke() const
     {
-        return m_invoked;
+        return mInvoked;
     }
 
 private:
-    /** The trackable reference.
-     */
-    const QObject &m_visited;
-    /** The reference.
-     */
-    const T_type &m_invoked;
+    const QObject &mVisited; // The trackable reference.
+    const Type &mInvoked; // The reference.
 };
 
-/** Implementation of visitor specialized for the QExtConstVolatileLimitReference
- * class, to call qextVisitEach() on the entity returned by the QExtConstVolatileLimitReference's
- * visit() method.
- * @tparam T_type The type of the reference.
- * @tparam T_action The type of functor to invoke.
- * \param action The functor to invoke.
- * \param target The visited instance.
+/**
+ * @brief Implementation of visitor specialized for the QExtConstVolatileLimitReference class,
+ * to call qextVisitEach() on the entity returned by the QExtConstVolatileLimitReference's visit() method.
+ * @tparam Type The type of the reference.
+ * @tparam Action The type of functor to invoke.
+ * @param action The functor to invoke.
+ * @param target The visited instance.
  */
-template <typename T_type, bool I_derives_Object>
-struct QExtVisitor<QExtConstVolatileLimitReference<T_type, I_derives_Object> >
+template <class Type, bool I_derives_Object>
+struct QExtVisitor<QExtConstVolatileLimitReference<Type, I_derives_Object> >
 {
-    template <typename T_action>
-    static void doVisitEach(const T_action &action,
-                            const QExtConstVolatileLimitReference<T_type, I_derives_Object> &target)
+    typedef QExtConstVolatileLimitReference<Type, I_derives_Object> TargetType;
+    template <class Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
         qextVisitEach(action, target.visit());
     }
 };
-
-
 
 #endif // _QEXTLIMITREFERENCE_H

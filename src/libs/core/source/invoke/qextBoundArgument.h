@@ -33,11 +33,12 @@
 #include <qextLimitReference.h>
 #include <qextReferenceWrapper.h>
 
-/** A QExtBoundArgument<Foo> object stores a bound (for instance, with qextBindFunctor(), or qextBindReturnFunctor()) argument.
+/**
+ * @brief A QExtBoundArgument<Foo> object stores a bound (for instance, with qextBindFunctor(),
+ * or qextBindReturnFunctor()) argument.
  *
- * If Foo is a wrapped reference to a class Bar (QExtReferenceWrapper<Bar>) then this
- * object is implemented on top of a limit_reference. When the slot is
- * invoked, the QExtLimitReference::invoke() method provides the argument (a Bar&).
+ * If Foo is a wrapped reference to a class Bar (QExtReferenceWrapper<Bar>) then this object is implemented on top of
+ * a limit_reference. When the slot is invoked, the QExtLimitReference::invoke() method provides the argument (a Bar&).
  * When the slot is visited (e.g. qextVisitEach<>()), we simply visit the QExtLimitReference,
  * which will visit the derived type, or a QObject base if necessary.
  *
@@ -51,161 +52,162 @@
  * depending on whether the argument is bound as a parameter or as a return value.
  *
  * The general template implementation is used for parameters that are passed by value.
- * @e T_type The type of the bound argument.
+ * @tparam T The type of the bound argument.
  */
-template<typename T_type>
+template<class T>
 class QExtBoundArgument
 {
 public:
-    /** Constructor.
-     * \param argument The argument to bind.
+    /**
+     * @brief Constructor.
+     * @param argument The argument to bind.
      */
-    QExtBoundArgument(const T_type &argument) : m_visited(argument) {}
+    QExtBoundArgument(const T &argument) : mVisited(argument) {}
 
-    QExtBoundArgument(const QExtBoundArgument &other) : m_visited(other.m_visited) {}
+    QExtBoundArgument(const QExtBoundArgument &other) : mVisited(other.mVisited) {}
 
     QExtBoundArgument &operator=(const QExtBoundArgument &other)
     {
         if (this != &other)
         {
-            m_visited = other.m_visited;
+            mVisited = other.mVisited;
         }
         return *this;
     }
 
     bool operator==(const QExtBoundArgument &other) const
     {
-        return m_visited == other.m_visited;
+        return mVisited == other.mVisited;
     }
 
-    /** Retrieve the entity to visit in qextVisitEach().
-     * \return The bound argument.
+    /**
+     * @brief Retrieve the entity to visit in qextVisitEach().
+     * @return The bound argument.
      */
-    const T_type &visit() const
+    const T &visit() const
     {
-        return m_visited;
+        return mVisited;
     }
 
-    /** Retrieve the entity to pass to the bound functor or return.
-     * \return The bound argument.
+    /**
+     * @brief Retrieve the entity to pass to the bound functor or return.
+     * @return The bound argument.
      */
-    T_type &invoke()
+    T &invoke()
     {
-        return m_visited;
+        return mVisited;
     }
 
 private:
-    /** The value of the argument.
-     */
-    T_type m_visited;
+    T mVisited; // The value of the argument.
 };
 
-
-//Template specialization:
-/** QExtBoundArgument object for a bound argument that is passed by qextBindFunctor() or
+/**
+ * @brief QExtBoundArgument object for a bound argument that is passed by qextBindFunctor() or
  * returned by qextBindReturnFunctor() by reference, specialized for QExtReferenceWrapper<> types.
- * @e T_wrapped The type of the bound argument.
+ * @tparam Wrapped The type of the bound argument.
  */
-template<typename T_wrapped>
-class QExtBoundArgument<QExtReferenceWrapper<T_wrapped> >
+template<class Wrapped>
+class QExtBoundArgument<QExtReferenceWrapper<Wrapped> >
 {
 public:
-    /** Constructor.
-     * \param argument The argument to bind.
+    /**
+     * @brief Constructor.
+     * @param argument The argument to bind.
      */
-    QExtBoundArgument(const QExtReferenceWrapper<T_wrapped> &argument) : m_visited(qextUnwrapReference(argument)) {}
+    QExtBoundArgument(const QExtReferenceWrapper<Wrapped> &argument) : mVisited(qextUnwrapReference(argument)) {}
 
-    /** Retrieve the entity to visit in qextVisitEach().
-     * \return The QExtLimitReference to the bound argument.
+    /**
+     * @brief Retrieve the entity to visit in qextVisitEach().
+     * @return The QExtLimitReference to the bound argument.
      */
-    const QExtLimitReference<T_wrapped> &visit() const
+    const QExtLimitReference<Wrapped> &visit() const
     {
-        return m_visited;
+        return mVisited;
     }
 
-    /** Retrieve the entity to pass to the bound functor or return.
-     * \return The bound argument.
+    /**
+     * @brief Retrieve the entity to pass to the bound functor or return.
+     * @return The bound argument.
      */
-    T_wrapped &invoke()
+    Wrapped &invoke()
     {
-        return m_visited.invoke();
+        return mVisited.invoke();
     }
 
 private:
-    /** The QExtLimitReference to the bound argument.
-     */
-    QExtLimitReference<T_wrapped> m_visited;
+    QExtLimitReference<Wrapped> mVisited; // The QExtLimitReference to the bound argument.
 };
 
-/** bound_argument object for a bound argument that is passed by qextBindFunctor() or
+/**
+ * @brief bound_argument object for a bound argument that is passed by qextBindFunctor() or
  * returned by qextBindReturnFunctor() by const reference, specialized for const QExtReferenceWrapper<> types.
- * - @e T_wrapped The type of the bound argument.
+ * @tparam Wrapped The type of the bound argument.
  */
-template<typename T_wrapped>
-class QExtBoundArgument<QExtConstReferenceWrapper<T_wrapped> >
+template<class Wrapped>
+class QExtBoundArgument<QExtConstReferenceWrapper<Wrapped> >
 {
 public:
-    /** Constructor.
-     * \param argument The argument to bind.
+    /**
+     * @brief Constructor.
+     * @param argument The argument to bind.
      */
-    QExtBoundArgument(const QExtConstReferenceWrapper<T_wrapped> &argument) : m_visited(
-            qextUnwrapReference(argument)) {}
+    QExtBoundArgument(const QExtConstReferenceWrapper<Wrapped> &argument) : mVisited(qextUnwrapReference(argument)) {}
 
-    QExtBoundArgument(const QExtBoundArgument &other) : m_visited(other.m_visited) {}
+    QExtBoundArgument(const QExtBoundArgument &other) : mVisited(other.mVisited) {}
 
     QExtBoundArgument &operator=(const QExtBoundArgument &other)
     {
         if (this != &other)
         {
-            m_visited = other.m_visited;
+            mVisited = other.mVisited;
         }
         return *this;
     }
 
     bool operator==(const QExtBoundArgument &other) const
     {
-        return m_visited == other.m_visited;
+        return mVisited == other.mVisited;
     }
 
-    /** Retrieve the entity to visit in qextVisitEach().
-     * \return The QExtConstLimitReference to the bound argument.
+    /**
+     * @brief Retrieve the entity to visit in qextVisitEach().
+     * @return The QExtConstLimitReference to the bound argument.
      */
-    const QExtConstLimitReference<T_wrapped> &visit() const
+    const QExtConstLimitReference<Wrapped> &visit() const
     {
-        return m_visited;
+        return mVisited;
     }
 
-    /** Retrieve the entity to pass to the bound functor or return.
-     * \return The bound argument.
+    /**
+     * @brief Retrieve the entity to pass to the bound functor or return.
+     * @return The bound argument.
      */
-    const T_wrapped &invoke()
+    const Wrapped &invoke()
     {
-        return m_visited.invoke();
+        return mVisited.invoke();
     }
 
 private:
-    /** The QExtConstLimitReference to the bound argument.
-     */
-    QExtConstLimitReference<T_wrapped> m_visited;
+    QExtConstLimitReference<Wrapped> mVisited; // The QExtConstLimitReference to the bound argument.
 };
 
-/** Implementation of QExtVisitor<>::doVisitEach<>() specialized for the bound_argument class.
- * Call qextVisitEach() on the entity returned by the QExtBoundArgument's visit()
- * method.
- * @tparam T_type The type of bound_argument.
- * @tparam T_action The type of functor to invoke.
- * \param action The functor to invoke.
- * \param argument The visited instance.
+/**
+ * @brief Implementation of QExtVisitor<>::doVisitEach<>() specialized for the bound_argument class.
+ * Call qextVisitEach() on the entity returned by the QExtBoundArgument's visit() method.
+ * @tparam T The type of bound_argument.
+ * @tparam Action The type of functor to invoke.
+ * @param action The functor to invoke.
+ * @param argument The visited instance.
  */
-template<typename T_type>
-struct QExtVisitor<QExtBoundArgument<T_type> >
+template<class T>
+struct QExtVisitor<QExtBoundArgument<T> >
 {
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const QExtBoundArgument<T_type> &argument)
+    template<typename Action>
+    static void doVisitEach(const Action &action, const QExtBoundArgument<T> &argument)
     {
         qextVisitEach(action, argument.visit());
     }
 };
-
 
 #endif // _QEXTBOUNDARGUMENT_H

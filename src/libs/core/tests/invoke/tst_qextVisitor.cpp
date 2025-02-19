@@ -124,7 +124,7 @@ struct MyAdaptor1 : public QExtAdapts<T_functor>
     operator()() const
     {
         sg_string = "MyAdaptor1()() ";
-        return this->m_functor();
+        return this->mFunctor();
     }
 
     template <typename T_arg1>
@@ -132,7 +132,7 @@ struct MyAdaptor1 : public QExtAdapts<T_functor>
     operator()(T_arg1 arg1) const
     {
         sg_string = "MyAdaptor1()(arg1) ";
-        return this->m_functor(arg1);
+        return this->mFunctor(arg1);
     }
 
     template <typename T_arg1, class T_arg2>
@@ -140,11 +140,11 @@ struct MyAdaptor1 : public QExtAdapts<T_functor>
     operator()(T_arg1 arg1, T_arg2 arg2) const
     {
         sg_string = "MyAdaptor1()(arg1, arg2) ";
-        return this->m_functor(arg1, arg2);
+        return this->mFunctor(arg1, arg2);
     }
 
     // Constructs a MyAdaptor1 object that wraps the passed functor.
-    // Initializes adapts<T_functor>::m_functor, which is invoked from operator()().
+    // Initializes adapts<T_functor>::mFunctor, which is invoked from operator()().
     explicit MyAdaptor1(const T_functor &functor) : QExtAdapts<T_functor>(functor) {}
 };
 
@@ -152,7 +152,7 @@ template <typename T_action, class T_functor>
 void qextVisitEach(const T_action &action,
                    const MyAdaptor1<T_functor> &target)
 {
-    qextVisitEach(action, target.m_functor);
+    qextVisitEach(action, target.mFunctor);
 }
 
 template <typename T_functor>
@@ -170,7 +170,7 @@ struct QExtVisitor<MyAdaptor1<T_functor> >
     static void doVisitEach(const T_action &action,
                             const MyAdaptor1<T_functor> &target)
     {
-        qextVisitEach(action, target.m_functor);
+        qextVisitEach(action, target.mFunctor);
     }
 };
 

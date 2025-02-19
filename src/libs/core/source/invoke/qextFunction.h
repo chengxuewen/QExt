@@ -91,13 +91,13 @@ namespace detail
         typedef QExtFunctionFunctorData< T_functor > Self;
         typedef typename QExtAdaptorTrait< T_functor >::AdaptorType AdaptorType;
 
-        QExtFunctionFunctorData(const T_functor &functor) : m_functor(functor)
+        QExtFunctionFunctorData(const T_functor &functor) : mFunctor(functor)
         {
             qextVisitEachType< QObject * >(QExtFunctionObjectBind(this), functor);
         }
-        QExtFunctionFunctorData(const QExtFunctionFunctorData &other) : QExtFunctionData(other), m_functor(other.m_functor) {}
+        QExtFunctionFunctorData(const QExtFunctionFunctorData &other) : QExtFunctionData(other), mFunctor(other.mFunctor) {}
 
-        AdaptorType m_functor;
+        AdaptorType mFunctor;
     };
 
     template <
@@ -124,7 +124,7 @@ namespace detail
         {
             typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
-            return (functionFunctorData->m_functor)
+            return (functionFunctorData->mFunctor)
                    .template operator() <
                    typename QExtTypeTrait< T_arg1 >::Take,
                    typename QExtTypeTrait< T_arg2 >::Take,
@@ -155,7 +155,7 @@ namespace detail
         {
             typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
-            return (functionFunctorData->m_functor)
+            return (functionFunctorData->mFunctor)
                    .template operator() <
                    typename QExtTypeTrait< T_arg1 >::Take,
                    typename QExtTypeTrait< T_arg2 >::Take,
@@ -184,7 +184,7 @@ namespace detail
         {
             typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
-            return (functionFunctorData->m_functor)
+            return (functionFunctorData->mFunctor)
                    .template operator() <
                    typename QExtTypeTrait< T_arg1 >::Take,
                    typename QExtTypeTrait< T_arg2 >::Take,
@@ -211,7 +211,7 @@ namespace detail
         {
             typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
-            return (functionFunctorData->m_functor)
+            return (functionFunctorData->mFunctor)
                    .template operator() <
                    typename QExtTypeTrait< T_arg1 >::Take,
                    typename QExtTypeTrait< T_arg2 >::Take,
@@ -236,7 +236,7 @@ namespace detail
         {
             typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
-            return (functionFunctorData->m_functor)
+            return (functionFunctorData->mFunctor)
                    .template operator()< typename QExtTypeTrait< T_arg1 >::Take, typename QExtTypeTrait< T_arg2 >::Take, typename QExtTypeTrait< T_arg3 >::Take >(
                        arg1, arg2, arg3);
         }
@@ -255,7 +255,7 @@ namespace detail
         {
             typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
-            return (functionFunctorData->m_functor)
+            return (functionFunctorData->mFunctor)
                    .template operator()< typename QExtTypeTrait< T_arg1 >::Take, typename QExtTypeTrait< T_arg2 >::Take >(arg1, arg2);
         }
 
@@ -272,7 +272,7 @@ namespace detail
         {
             typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
-            return (functionFunctorData->m_functor).template operator()< typename QExtTypeTrait< T_arg1 >::Take >(arg1);
+            return (functionFunctorData->mFunctor).template operator()< typename QExtTypeTrait< T_arg1 >::Take >(arg1);
         }
 
         static QExtFunctionBase::HookFunction address()
@@ -288,7 +288,7 @@ namespace detail
         {
             typedef QExtFunctionFunctorData< T_functor > FunctionFunctorData;
             FunctionFunctorData *functionFunctorData = static_cast< FunctionFunctorData * >(functionData.data());
-            return (functionFunctorData->m_functor)();
+            return (functionFunctorData->mFunctor)();
         }
 
         static QExtFunctionBase::HookFunction address()

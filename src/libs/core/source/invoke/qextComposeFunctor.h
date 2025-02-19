@@ -134,7 +134,7 @@ struct QExtCompose3Functor : public QExtAdapts<T_setter>
 
     ResultType operator()()
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1>::Type,
                 typename QExtReturnTypeDeduce<T_getter2>::Type,
                 typename QExtReturnTypeDeduce<T_getter3>::Type>(m_getter1(), m_getter2(), m_getter3());
@@ -143,7 +143,7 @@ struct QExtCompose3Functor : public QExtAdapts<T_setter>
     template<typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type operator()(T_arg1 arg1)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1>::Type,
                 typename QExtReturnTypeDeduce<T_getter3, T_arg1>::Type>(m_getter1(arg1), m_getter2(arg1),
@@ -153,7 +153,7 @@ struct QExtCompose3Functor : public QExtAdapts<T_setter>
     template<typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type operator()(T_arg1 arg1, T_arg2 arg2)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2>::Type,
                 typename QExtReturnTypeDeduce<T_getter3, T_arg1, T_arg2>::Type>(m_getter1(arg1, arg2),
@@ -164,7 +164,7 @@ struct QExtCompose3Functor : public QExtAdapts<T_setter>
     template<typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3>::Type,
                 typename QExtReturnTypeDeduce<T_getter3, T_arg1, T_arg2, T_arg3>::Type>(
@@ -175,7 +175,7 @@ struct QExtCompose3Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3, T_arg4>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3, T_arg4>::Type,
                 typename QExtReturnTypeDeduce<T_getter3, T_arg1, T_arg2, T_arg3, T_arg4>::Type>(
@@ -187,7 +187,7 @@ struct QExtCompose3Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type,
                 typename QExtReturnTypeDeduce<T_getter3, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type>(
@@ -199,7 +199,7 @@ struct QExtCompose3Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type,
                 typename QExtReturnTypeDeduce<T_getter3, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type>(
@@ -211,7 +211,7 @@ struct QExtCompose3Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type,
                 typename QExtReturnTypeDeduce<T_getter3, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type>(
@@ -239,7 +239,7 @@ struct QExtVisitor<QExtCompose3Functor<T_setter, T_getter1, T_getter2, T_getter3
     static void
     doVisitEach(const T_action &action, const QExtCompose3Functor<T_setter, T_getter1, T_getter2, T_getter3> &target)
     {
-        qextVisitEach(action, target.m_functor);
+        qextVisitEach(action, target.mFunctor);
         qextVisitEach(action, target.m_getter1);
         qextVisitEach(action, target.m_getter2);
         qextVisitEach(action, target.m_getter3);
@@ -296,14 +296,14 @@ struct QExtCompose2Functor : public QExtAdapts<T_setter>
 
     ResultType operator()()
     {
-        return this->m_functor.template operator()<typename QExtReturnTypeDeduce<T_getter1>::Type, typename QExtReturnTypeDeduce<T_getter2>::Type>(
+        return this->mFunctor.template operator()<typename QExtReturnTypeDeduce<T_getter1>::Type, typename QExtReturnTypeDeduce<T_getter2>::Type>(
                 m_getter1(), m_getter2());
     }
 
     template<typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type operator()(T_arg1 arg1)
     {
-        return this->m_functor
+        return this->mFunctor
                 .template operator()<typename QExtReturnTypeDeduce<T_getter1, T_arg1>::Type, typename QExtReturnTypeDeduce<T_getter2, T_arg1>::Type>(
                         m_getter1(arg1), m_getter2(arg1));
     }
@@ -311,7 +311,7 @@ struct QExtCompose2Functor : public QExtAdapts<T_setter>
     template<typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type operator()(T_arg1 arg1, T_arg2 arg2)
     {
-        return this->m_functor.template
+        return this->mFunctor.template
                 operator()<typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2>::Type, typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2>::Type>(
                 m_getter1(arg1, arg2), m_getter2(arg1, arg2));
     }
@@ -319,7 +319,7 @@ struct QExtCompose2Functor : public QExtAdapts<T_setter>
     template<typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3>::Type>(m_getter1(arg1, arg2, arg3),
                                                                                         m_getter2(arg1, arg2, arg3));
@@ -329,7 +329,7 @@ struct QExtCompose2Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3, T_arg4>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3, T_arg4>::Type>(
                 m_getter1(arg1, arg2, arg3, arg4), m_getter2(arg1, arg2, arg3, arg4));
@@ -339,7 +339,7 @@ struct QExtCompose2Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type>(
                 m_getter1(arg1, arg2, arg3, arg4, arg5), m_getter2(arg1, arg2, arg3, arg4, arg5));
@@ -349,7 +349,7 @@ struct QExtCompose2Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type>(
                 m_getter1(arg1, arg2, arg3, arg4, arg5, arg6), m_getter2(arg1, arg2, arg3, arg4, arg5, arg6));
@@ -359,7 +359,7 @@ struct QExtCompose2Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7)
     {
-        return this->m_functor.template operator()<
+        return this->mFunctor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type>(
                 m_getter1(arg1, arg2, arg3, arg4, arg5, arg6, arg7),
@@ -383,7 +383,7 @@ struct QExtVisitor<QExtCompose2Functor<T_setter, T_getter1, T_getter2> >
     template<typename T_action>
     static void doVisitEach(const T_action &action, const QExtCompose2Functor<T_setter, T_getter1, T_getter2> &target)
     {
-        qextVisitEach(action, target.m_functor);
+        qextVisitEach(action, target.mFunctor);
         qextVisitEach(action, target.m_getter1);
         qextVisitEach(action, target.m_getter2);
     }
@@ -432,27 +432,27 @@ struct QExtCompose1Functor : public QExtAdapts<T_setter>
 
     ResultType operator()()
     {
-        return this->m_functor(m_getter());
+        return this->mFunctor(m_getter());
     }
 
     template<typename T_arg1>
     typename ReturnTypeDeduce<T_arg1>::Type operator()(T_arg1 arg1)
     {
-        return this->m_functor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1>::Type>(
+        return this->mFunctor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1>::Type>(
                 m_getter(arg1));
     }
 
     template<typename T_arg1, typename T_arg2>
     typename ReturnTypeDeduce<T_arg1, T_arg2>::Type operator()(T_arg1 arg1, T_arg2 arg2)
     {
-        return this->m_functor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2>::Type>(
+        return this->mFunctor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2>::Type>(
                 m_getter(arg1, arg2));
     }
 
     template<typename T_arg1, typename T_arg2, typename T_arg3>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
     {
-        return this->m_functor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2, T_arg3>::Type>(
+        return this->mFunctor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2, T_arg3>::Type>(
                 m_getter(arg1, arg2, arg3));
     }
 
@@ -460,7 +460,7 @@ struct QExtCompose1Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
     {
-        return this->m_functor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2, T_arg3, T_arg4>::Type>(
+        return this->mFunctor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2, T_arg3, T_arg4>::Type>(
                 m_getter(arg1, arg2, arg3, arg4));
     }
 
@@ -468,7 +468,7 @@ struct QExtCompose1Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
     {
-        return this->m_functor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type>(
+        return this->mFunctor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type>(
                 m_getter(arg1, arg2, arg3, arg4, arg5));
     }
 
@@ -476,7 +476,7 @@ struct QExtCompose1Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
     {
-        return this->m_functor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type>(
+        return this->mFunctor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type>(
                 m_getter(arg1, arg2, arg3, arg4, arg5, arg6));
     }
 
@@ -484,7 +484,7 @@ struct QExtCompose1Functor : public QExtAdapts<T_setter>
     typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
     operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7)
     {
-        return this->m_functor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type>(
+        return this->mFunctor.template operator()<typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type>(
                 m_getter(arg1, arg2, arg3, arg4, arg5, arg6, arg7));
     }
 
@@ -504,7 +504,7 @@ struct QExtVisitor<QExtCompose1Functor<T_setter, T_getter> >
     template<typename T_action>
     static void doVisitEach(const T_action &action, const QExtCompose1Functor<T_setter, T_getter> &target)
     {
-        qextVisitEach(action, target.m_functor);
+        qextVisitEach(action, target.mFunctor);
         qextVisitEach(action, target.m_getter);
     }
 };

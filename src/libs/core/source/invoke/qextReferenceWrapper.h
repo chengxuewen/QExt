@@ -32,98 +32,92 @@
 
 #include <qextGlobal.h>
 
-
-
-/** Reference wrapper.
+/**
+ * @brief Reference wrapper.
  * Use qextReferenceWrapper() to create a reference wrapper.
  */
-template <typename T_type>
+template <class T>
 struct QExtReferenceWrapper
 {
-    explicit QExtReferenceWrapper(T_type &value) : m_value(value)  {}
+    explicit QExtReferenceWrapper(T &value) : mValue(value)  {}
 
-    operator T_type &() const
-    {
-        return m_value;
-    }
+    operator T &() const { return mValue; }
 
-    T_type &m_value;
+    T &mValue;
 };
 
-/** Const reference wrapper.
+/**
+ * @brief Const reference wrapper.
  * Use qextReferenceWrapper() to create a const reference wrapper.
  */
-template <typename T_type>
+template <class T>
 struct QExtConstReferenceWrapper
 {
-    explicit QExtConstReferenceWrapper(const T_type &value) : m_value(value)  {}
+    explicit QExtConstReferenceWrapper(const T &value) : mValue(value)  {}
 
-    operator const T_type &() const
-    {
-        return m_value;
-    }
+    operator const T &() const { return mValue; }
 
-    const T_type &m_value;
+    const T &mValue;
 };
 
-/** Creates a reference wrapper.
- * Passing an object throught qextReferenceWrapper() makes adaptors
- * like, e.g., QExtBindFunctor store references to the object instead of copies.
- * If the object type inherits from QObject this will ensure
- * automatic invalidation of the adaptors when the object is deleted
- * or overwritten.
+/**
+ * @brief Creates a reference wrapper.
+ * Passing an object throught qextReferenceWrapper() makes adaptors like, e.g.,
+ * QExtBindFunctor store references to the object instead of copies.
+ * If the object type inherits from QObject this will ensure automatic invalidation of the adaptors when the object
+ * is deleted or overwritten.
  *
- * \param v Reference to store.
- * \return A reference wrapper.
+ * @param value Reference to store.
+ * @return A reference wrapper.
  */
-template <typename T_type>
-QExtReferenceWrapper<T_type> qextReferenceWrapper(T_type &value)
+template <class T>
+QExtReferenceWrapper<T> qextReferenceWrapper(T &value)
 {
-    return QExtReferenceWrapper<T_type>(value);
+    return QExtReferenceWrapper<T>(value);
 }
 
-/** Creates a const reference wrapper.
- * Passing an object throught qextReferenceWrapper() makes adaptors
- * like, e.g., QExtBindFunctor store references to the object instead of copies.
- * If the object type inherits from QObject this will ensure
- * automatic invalidation of the adaptors when the object is deleted
- * or overwritten.
+/**
+ * @brief Creates a const reference wrapper.
+ * Passing an object throught qextReferenceWrapper() makes adaptors like, e.g.,
+ * QExtBindFunctor store references to the object instead of copies.
+ * If the object type inherits from QObject this will ensure automatic invalidation of the adaptors when the object
+ * is deleted or overwritten.
  *
- * \param value Reference to store.
- * \return A reference wrapper.
+ * @param value Reference to store.
+ * @return A reference wrapper.
  */
-template <typename T_type>
-QExtConstReferenceWrapper<T_type> qextReferenceWrapper(const T_type &value)
+template <class T>
+QExtConstReferenceWrapper<T> qextReferenceWrapper(const T &value)
 {
-    return QExtConstReferenceWrapper<T_type>(value);
+    return QExtConstReferenceWrapper<T>(value);
 }
 
-template <typename T_type>
-struct QEXTUnwrapReference
+template <class T>
+struct QExtUnwrapReference
 {
-    typedef T_type Type;
+    typedef T Type;
 };
 
-template <typename T_type>
-struct QEXTUnwrapReference<QExtReferenceWrapper<T_type> >
+template <class T>
+struct QExtUnwrapReference<QExtReferenceWrapper<T> >
 {
-    typedef T_type &Type;
+    typedef T &Type;
 };
 
-template <typename T_type>
-struct QEXTUnwrapReference<QExtConstReferenceWrapper<T_type> >
+template <class T>
+struct QExtUnwrapReference<QExtConstReferenceWrapper<T> >
 {
-    typedef const T_type &Type;
+    typedef const T &Type;
 };
 
-template <typename T_type>
-T_type &qextUnwrapReference(const QExtReferenceWrapper<T_type> &value)
+template <typename T>
+T &qextUnwrapReference(const QExtReferenceWrapper<T> &value)
 {
     return value;
 }
 
-template <typename T_type>
-const T_type &qextUnwrapReference(const QExtConstReferenceWrapper<T_type> &value)
+template <typename T>
+const T &qextUnwrapReference(const QExtConstReferenceWrapper<T> &value)
 {
     return value;
 }

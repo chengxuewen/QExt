@@ -34,92 +34,107 @@
 
 namespace detail
 {
+/**
+ * @brief This should really be an inner class of limit_derived_target, without the Limit template type。
+ * But the SUN CC 5.7 (not earlier versions) compiler finds it ambiguous when we specify a particular
+ * specialization of it.
+ * And does not seem to allow us to tell it explicitly that it's an inner class.
+ */
+template<bool I_derived, class Type, class Limit>
+struct QExtWithType;
 
-//This should really be an inner class of limit_derived_target, without the T_limit template type,
-//But the SUN CC 5.7 (not earlier versions) compiler finds it ambiguous when we specify a particular specialization of it.
-//and does not seem to allow us to tell it explicitly that it's an inner class.
-    template<bool I_derived, typename T_type, typename T_limit>
-    struct QExtWithType;
+/**
+ * @brief Specialization for I_derived = false
+ */
+template<class Type, class Limit>
+struct QExtWithType<false, Type, Limit>
+{
+    static void execute(const Type &, const Limit &) {}
+};
 
-//Specialization for I_derived = false
-    template<typename T_type, typename T_limit>
-    struct QExtWithType<false, T_type, T_limit>
+/**
+ * @brief Specialization for I_derived = true
+ */
+template<class Type, class Limit>
+struct QExtWithType<true, Type, Limit>
+{
+    static void execute(const Type &type, const Limit &action)
     {
-        static void execute(const T_type &, const T_limit &) {}
-    };
+        action.mAction(type);
+    }
+};
 
-//Specialization for I_derived = true
-    template<typename T_type, typename T_limit>
-    struct QExtWithType<true, T_type, T_limit>
+/**
+ * @brief Helper struct for qextVisitEachType().
+ */
+template<class Target, class Action>
+struct QExtDerivedTargetLimitedAction
+{
+    typedef QExtDerivedTargetLimitedAction<Target, Action> SelfType;
+
+    QExtDerivedTargetLimitedAction(const Action &action) : mAction(action) {}
+
+    template<class Type>
+    void operator()(const Type &type) const
     {
-        static void execute(const T_type &type, const T_limit &action)
-        {
-            action.m_action(type);
-        }
-    };
+        QExtWithType<QExtIsBaseOf<Target, Type>::value, Type, SelfType>::execute(type, *this);
+    }
 
-/// Helper struct for qextVisitEachType().
-    template<typename T_target, typename T_action>
-    struct QExtDerivedTargetLimitedAction
+    Action mAction;
+};
+
+/**
+ * @brief Specialization for Type pointer types, to provide a slightly different execute() implementation.
+ */
+template<bool I_derived, class Type, class Limit>
+struct QExtWithTypePointer;
+
+/**
+ * @brief Specialization for I_derived = false
+ */
+template<class Type, class Limit>
+struct QExtWithTypePointer<false, Type, Limit>
+{
+    static void execute(const Type &, const Limit &) {}
+};
+
+/**
+ * @brief Specialization for I_derived = true
+ */
+template<class Type, class Limit>
+struct QExtWithTypePointer<true, Type, Limit>
+{
+    static void execute(const Type &type, const Limit &action)
     {
-        typedef QExtDerivedTargetLimitedAction<T_target, T_action> T_self;
+        action.mAction(&type);
+    }
+};
 
-        QExtDerivedTargetLimitedAction(const T_action &action) : m_action(action) {}
+template<class Type, class Action>
+struct QExtDerivedTargetLimitedAction<Type *, Action>
+{
+    typedef QExtDerivedTargetLimitedAction<Type *, Action> SelfType;
 
-        template<typename T_type>
-        void operator()(const T_type &type) const
-        {
-            QExtWithType<QExtIsBaseOf<T_target, T_type>::value, T_type, T_self>::execute(type, *this);
-        }
+    QExtDerivedTargetLimitedAction(const Action &action) : mAction(action) {}
 
-        T_action m_action;
-    };
-
-// Specialization for T_type pointer types, to provide a slightly different execute() implementation.
-    template<bool I_derived, typename T_type, typename T_limit>
-    struct QExtWithTypePointer;
-
-//Specialization for I_derived = false
-    template<typename T_type, typename T_limit>
-    struct QExtWithTypePointer<false, T_type, T_limit>
+    template<class Target>
+    void operator()(const Target &target) const
     {
-        static void execute(const T_type &, const T_limit &) {}
-    };
+        QExtWithTypePointer<QExtIsBaseOf<Type, Target>::value, Target, SelfType>::execute(target, *this);
+    }
 
-//Specialization for I_derived = true
-    template<typename T_type, typename T_limit>
-    struct QExtWithTypePointer<true, T_type, T_limit>
-    {
-        static void execute(const T_type &type, const T_limit &action)
-        {
-            action.m_action(&type);
-        }
-    };
+    Action mAction;
+};
 
-    template<typename T_type, typename T_action>
-    struct QExtDerivedTargetLimitedAction<T_type *, T_action>
-    {
-        typedef QExtDerivedTargetLimitedAction<T_type *, T_action> T_self;
-
-        QExtDerivedTargetLimitedAction(const T_action &action) : m_action(action) {}
-
-        template<typename T_target>
-        void operator()(const T_target &target) const
-        {
-            QExtWithTypePointer<QExtIsBaseOf<T_type, T_target>::value, T_target, T_self>::execute(target, *this);
-        }
-
-        T_action m_action;
-    };
-
-} // namespace QExtPrivate
+} // namespace detail
 
 
-/** QExtVisitor<T_functor>::doVisitEach() performs a functor on each of the targets of a functor.
+/**
+ * @brief QExtVisitor<Functor>::doVisitEach() performs a functor on each of the targets of a functor.
  * All unknown types just call @a action on them.
- * Add specializations that specialize the @a T_functor argument for your own
- * functor types, so that subobjects get visited. This is needed to enable
- * auto-disconnection support for your functor types.
+ * Add specializations that specialize the @a Functor argument for your own functor types,
+ * so that subobjects get visited.
+ * This is needed to enable auto-disconnection support for your functor types.
  *
  * @par Example:
  *   @code
@@ -136,8 +151,8 @@ namespace detail
  *     template <>
  *     struct QExtVisitor<some_ns::some_functor>
  *     {
- *       template <typename T_action>
- *       static void doVisitEach(const T_action &action,
+ *       template <class Action>
+ *       static void doVisitEach(const Action &action,
  *                                 const some_ns::some_functor &target)
  *       {
  *         qextVisitEach(action, target.some_data_member);
@@ -145,50 +160,46 @@ namespace detail
  *       }
  *     };
  *   @endcode
- *
- * \ingroup qextfunctors
  */
-template<typename T_functor>
+template<class Functor>
 struct QExtVisitor
 {
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const T_functor &functor)
+    template<class Action>
+    static void doVisitEach(const Action &action, const Functor &functor)
     {
         action(functor);
     }
 };
 
-/** This function performs a functor on each of the targets of a functor.
- *
- * \ingroup qextfunctors
+/**
+ * @brief This function performs a functor on each of the targets of a functor.
  */
-template<typename T_action, typename T_functor>
-void qextVisitEach(const T_action &action, const T_functor &functor)
+template<class Action, class Functor>
+void qextVisitEach(const Action &action, const Functor &functor)
 {
-    QExtVisitor<T_functor>::doVisitEach(action, functor);
+    QExtVisitor<Functor>::doVisitEach(action, functor);
 }
 
-/** This function performs a functor on each of the targets
- * of a functor limited to a restricted type.
- *
- * \ingroup qextfunctors
+/**
+ * @brief This function performs a functor on each of the targets of a functor limited to a restricted type.
  */
-template<typename T_type, typename T_action, typename T_functor>
-void qextVisitEachType(const T_action &action, const T_functor &functor)
+template<class Type, class Action, class Functor>
+void qextVisitEachType(const Action &action, const Functor &functor)
 {
-    typedef detail::QExtDerivedTargetLimitedAction<T_type, T_action> LimitedActionType;
+    typedef detail::QExtDerivedTargetLimitedAction<Type, Action> LimitedActionType;
 
     LimitedActionType limitedAction(action);
 
-    //specifying the types of the template specialization prevents disconnection of bound trackable references (such as with qextReferenceWrapper()),
-    //probably because the qextVisitEach<> specializations take various different template types,
-    //in various sequences, and we are probably specifying only a subset of them with this.
-
-    //But this is required by the AIX (and maybe IRIX MipsPro  and Tru64) compilers.
-    //I guess that qextReferenceWrapper() therefore does not work on those platforms. murrayc
-    //qextVisitEach<type_limited_action, T_functor>(limited_action, _A_functor);
+    /**
+     * @brief specifying the types of the template specialization prevents disconnection of bound trackable references
+     * (such as with qextReferenceWrapper()), probably because the qextVisitEach<> specializations take various
+     * different template types, in various sequences, and we are probably specifying only a subset of them with this.
+     *
+     * But this is required by the AIX (and maybe IRIX MipsPro  and Tru64) compilers.
+     * I guess that qextReferenceWrapper() therefore does not work on those platforms. murrayc
+     * qextVisitEach<type_limited_action, Functor>(limited_action, _A_functor);
+     */
     qextVisitEach(limitedAction, functor);
 }
-
 
 #endif // _QEXTVISITOR_H

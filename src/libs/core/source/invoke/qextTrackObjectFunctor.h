@@ -117,7 +117,7 @@ namespace detail
          */
         ResultType operator()()
         {
-            return this->m_functor();
+            return this->mFunctor();
         }
 
         /** Invokes the wrapped functor passing on the arguments.
@@ -127,7 +127,7 @@ namespace detail
         template<typename T_arg1>
         typename ReturnTypeDeduce<T_arg1>::Type operator()(T_arg1 arg1)
         {
-            return this->m_functor.template operator()<typename QExtTypeTrait<T_arg1>::Pass>(arg1);
+            return this->mFunctor.template operator()<typename QExtTypeTrait<T_arg1>::Pass>(arg1);
         }
 
         /** Invokes the wrapped functor passing on the arguments.
@@ -138,7 +138,7 @@ namespace detail
         template<typename T_arg1, typename T_arg2>
         typename ReturnTypeDeduce<T_arg1, T_arg2>::Type operator()(T_arg1 arg1, T_arg2 arg2)
         {
-            return this->m_functor.template operator()<typename QExtTypeTrait<T_arg1>::Pass, typename QExtTypeTrait<T_arg2>::Pass>(
+            return this->mFunctor.template operator()<typename QExtTypeTrait<T_arg1>::Pass, typename QExtTypeTrait<T_arg2>::Pass>(
                     arg1, arg2);
         }
 
@@ -151,7 +151,7 @@ namespace detail
         template<typename T_arg1, typename T_arg2, typename T_arg3>
         typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
         {
-            return this->m_functor.template
+            return this->mFunctor.template
                     operator()<typename QExtTypeTrait<T_arg1>::Pass, typename QExtTypeTrait<T_arg2>::Pass, typename QExtTypeTrait<T_arg3>::Pass>(
                     arg1, arg2, arg3);
         }
@@ -167,7 +167,7 @@ namespace detail
         typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
         operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
         {
-            return this->m_functor.template operator()<
+            return this->mFunctor.template operator()<
                     typename QExtTypeTrait<T_arg1>::Pass,
                     typename QExtTypeTrait<T_arg2>::Pass,
                     typename QExtTypeTrait<T_arg3>::Pass,
@@ -186,7 +186,7 @@ namespace detail
         typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
         operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
         {
-            return this->m_functor.template operator()<
+            return this->mFunctor.template operator()<
                     typename QExtTypeTrait<T_arg1>::Pass,
                     typename QExtTypeTrait<T_arg2>::Pass,
                     typename QExtTypeTrait<T_arg3>::Pass,
@@ -207,7 +207,7 @@ namespace detail
         typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
         operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
         {
-            return this->m_functor.template operator()<
+            return this->mFunctor.template operator()<
                     typename QExtTypeTrait<T_arg1>::Pass,
                     typename QExtTypeTrait<T_arg2>::Pass,
                     typename QExtTypeTrait<T_arg3>::Pass,
@@ -230,7 +230,7 @@ namespace detail
         typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type
         operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6, T_arg7 arg7)
         {
-            return this->m_functor.template operator()<
+            return this->mFunctor.template operator()<
                     typename QExtTypeTrait<T_arg1>::Pass,
                     typename QExtTypeTrait<T_arg2>::Pass,
                     typename QExtTypeTrait<T_arg3>::Pass,
@@ -500,7 +500,7 @@ namespace detail
         }
 
         QExtTrackObjectFunctor7(const QExtTrackObjectFunctor7 &other)
-                : QExtTrackObjectFunctorBase<T_functor>(other.m_functor)
+                : QExtTrackObjectFunctorBase<T_functor>(other.mFunctor)
                   , m_obj1(other.m_obj1)
                   , m_obj2(other.m_obj2)
                   , m_obj3(other.m_obj3)
@@ -571,7 +571,7 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_o
     static void doVisitEach(const T_action &action,
                             const QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6, T_obj7> &target)
     {
-        qextVisitEach(action, target.m_functor);
+        qextVisitEach(action, target.mFunctor);
         qextVisitEach(action, target.m_obj1);
         qextVisitEach(action, target.m_obj2);
         qextVisitEach(action, target.m_obj3);
@@ -617,7 +617,7 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_o
     static void doVisitEach(const T_action &action,
                             const QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6> &target)
     {
-        qextVisitEach(action, target.m_functor);
+        qextVisitEach(action, target.mFunctor);
         qextVisitEach(action, target.m_obj1);
         qextVisitEach(action, target.m_obj2);
         qextVisitEach(action, target.m_obj3);
@@ -661,7 +661,7 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_o
     static void doVisitEach(const T_action &action,
                             const QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5> &target)
     {
-        qextVisitEach(action, target.m_functor);
+        qextVisitEach(action, target.mFunctor);
         qextVisitEach(action, target.m_obj1);
         qextVisitEach(action, target.m_obj2);
         qextVisitEach(action, target.m_obj3);
@@ -704,7 +704,7 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_o
     static void
     doVisitEach(const T_action &action, QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4> &target)
     {
-        qextVisitEach(action, target.m_functor);
+        qextVisitEach(action, target.mFunctor);
         qextVisitEach(action, target.m_obj1);
         qextVisitEach(action, target.m_obj2);
         qextVisitEach(action, target.m_obj3);
@@ -743,7 +743,7 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3> >
     static void
     doVisitEach(const T_action &action, const QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3> &target)
     {
-        qextVisitEach(action, target.m_functor);
+        qextVisitEach(action, target.mFunctor);
         qextVisitEach(action, target.m_obj1);
         qextVisitEach(action, target.m_obj2);
         qextVisitEach(action, target.m_obj3);
@@ -779,7 +779,7 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2> >
     template<typename T_action>
     static void doVisitEach(const T_action &action, const QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2> &target)
     {
-        qextVisitEach(action, target.m_functor);
+        qextVisitEach(action, target.mFunctor);
         qextVisitEach(action, target.m_obj1);
         qextVisitEach(action, target.m_obj2);
     }
@@ -814,7 +814,7 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1> >
     template<typename T_action>
     static void doVisitEach(const T_action &action, const QExtTrackObjectFunctor<T_functor, T_obj1> &target)
     {
-        qextVisitEach(action, target.m_functor);
+        qextVisitEach(action, target.mFunctor);
         qextVisitEach(action, target.m_obj1);
     }
 };

@@ -1252,475 +1252,475 @@ void function() {}
 
 void QExtFunctorTraitTest::testCustomDerivedType()
 {
-    QVERIFY("UnknownFunctor" == QExtFunctorTrait<MCustomBase>().typeName());
+    QVERIFY(QString("UnknownFunctor") == QExtFunctorTrait<MCustomBase>::typeName());
 
-    QVERIFY("QExtFunctorBase" == QExtFunctorTrait<QExtFunctorBase>().typeName());
-    QVERIFY("QExtFunctorBase" == QExtFunctorTrait<MClassBase>().typeName());
-    QVERIFY("QExtFunctorBase" == QExtFunctorTrait<MClass>().typeName());
+    QVERIFY(QString("QExtFunctorBase") == QExtFunctorTrait<QExtFunctorBase>::typeName());
+    QVERIFY(QString("QExtFunctorBase") == QExtFunctorTrait<MClassBase>::typeName());
+    QVERIFY(QString("QExtFunctorBase") == QExtFunctorTrait<MClass>::typeName());
 }
 
 void QExtFunctorTraitTest::testFunctorArg0Type()
 {
     typedef QExtPointerFunctor<void>::FunctionType FunctionType0;
-    QVERIFY("QExtPointerFunctor0" == QExtFunctorTrait<FunctionType0>().typeName());
+    QVERIFY(QString("QExtPointerFunctor0") == QExtFunctorTrait<FunctionType0>::typeName());
     typedef void (*T_voidfunctor0)();
-    QVERIFY("QExtPointerFunctor0" == QExtFunctorTrait<T_voidfunctor0>().typeName());
+    QVERIFY(QString("QExtPointerFunctor0") == QExtFunctorTrait<T_voidfunctor0>::typeName());
     typedef int (*T_intfunctor0)();
-    QVERIFY("QExtPointerFunctor0" == QExtFunctorTrait<T_intfunctor0>().typeName());
+    QVERIFY(QString("QExtPointerFunctor0") == QExtFunctorTrait<T_intfunctor0>::typeName());
 }
 
 void QExtFunctorTraitTest::testFunctorArg1Type()
 {
     typedef QExtPointerFunctor<void, int>::FunctionType FunctionType1;
-    QVERIFY("QExtPointerFunctor1" == QExtFunctorTrait<FunctionType1>().typeName());
+    QVERIFY(QString("QExtPointerFunctor1") == QExtFunctorTrait<FunctionType1>::typeName());
     typedef void (*T_voidfunctor1)(int);
-    QVERIFY("QExtPointerFunctor1" == QExtFunctorTrait<T_voidfunctor1>().typeName());
+    QVERIFY(QString("QExtPointerFunctor1") == QExtFunctorTrait<T_voidfunctor1>::typeName());
     typedef int (*T_intfunctor1)(double);
-    QVERIFY("QExtPointerFunctor1" == QExtFunctorTrait<T_intfunctor1>().typeName());
+    QVERIFY(QString("QExtPointerFunctor1") == QExtFunctorTrait<T_intfunctor1>::typeName());
 }
 
 void QExtFunctorTraitTest::testFunctorArg2Type()
 {
     typedef QExtPointerFunctor<void, int, double>::FunctionType FunctionType2;
-    QVERIFY("QExtPointerFunctor2" == QExtFunctorTrait<FunctionType2>().typeName());
+    QVERIFY(QString("QExtPointerFunctor2") == QExtFunctorTrait<FunctionType2>::typeName());
     typedef void (*T_voidfunctor2)(int, QString);
-    QVERIFY("QExtPointerFunctor2" == QExtFunctorTrait<T_voidfunctor2>().typeName());
+    QVERIFY(QString("QExtPointerFunctor2") == QExtFunctorTrait<T_voidfunctor2>::typeName());
     typedef int (*T_intfunctor2)(int, long);
-    QVERIFY("QExtPointerFunctor2" == QExtFunctorTrait<T_intfunctor2>().typeName());
+    QVERIFY(QString("QExtPointerFunctor2") == QExtFunctorTrait<T_intfunctor2>::typeName());
 }
 
 void QExtFunctorTraitTest::testFunctorArg3Type()
 {
     typedef QExtPointerFunctor<void, int, double, int>::FunctionType FunctionType3;
-    QVERIFY("QExtPointerFunctor3" == QExtFunctorTrait<FunctionType3>().typeName());
+    QVERIFY(QString("QExtPointerFunctor3") == QExtFunctorTrait<FunctionType3>::typeName());
     typedef void (*T_voidfunctor3)(int, int, int);
-    QVERIFY("QExtPointerFunctor3" == QExtFunctorTrait<T_voidfunctor3>().typeName());
+    QVERIFY(QString("QExtPointerFunctor3") == QExtFunctorTrait<T_voidfunctor3>::typeName());
     typedef int (*T_intfunctor3)(double, double, int);
-    QVERIFY("QExtPointerFunctor3" == QExtFunctorTrait<T_intfunctor3>().typeName());
+    QVERIFY(QString("QExtPointerFunctor3") == QExtFunctorTrait<T_intfunctor3>::typeName());
 }
 
 void QExtFunctorTraitTest::testFunctorArg4Type()
 {
     typedef QExtPointerFunctor<void, int, double, int, float>::FunctionType FunctionType4;
-    QVERIFY("QExtPointerFunctor4" == QExtFunctorTrait<FunctionType4>().typeName());
+    QVERIFY(QString("QExtPointerFunctor4") == QExtFunctorTrait<FunctionType4>::typeName());
     typedef void (*T_voidfunctor4)(double, int, double, int);
-    QVERIFY("QExtPointerFunctor4" == QExtFunctorTrait<T_voidfunctor4>().typeName());
+    QVERIFY(QString("QExtPointerFunctor4") == QExtFunctorTrait<T_voidfunctor4>::typeName());
     typedef int (*T_intfunctor4)(float, int, double, long);
-    QVERIFY("QExtPointerFunctor4" == QExtFunctorTrait<T_intfunctor4>().typeName());
+    QVERIFY(QString("QExtPointerFunctor4") == QExtFunctorTrait<T_intfunctor4>::typeName());
 }
 
 void QExtFunctorTraitTest::testFunctorArg5Type()
 {
     typedef QExtPointerFunctor<void, int, double, int, float, QString>::FunctionType FunctionType5;
-    QVERIFY("QExtPointerFunctor5" == QExtFunctorTrait<FunctionType5>().typeName());
+    QVERIFY(QString("QExtPointerFunctor5") == QExtFunctorTrait<FunctionType5>::typeName());
     typedef void (*T_voidfunctor5)(int, int, int, int, QString);
-    QVERIFY("QExtPointerFunctor5" == QExtFunctorTrait<T_voidfunctor5>().typeName());
+    QVERIFY(QString("QExtPointerFunctor5") == QExtFunctorTrait<T_voidfunctor5>::typeName());
     typedef int (*T_intfunctor5)(double, double, int, int, long);
-    QVERIFY("QExtPointerFunctor5" == QExtFunctorTrait<T_intfunctor5>().typeName());
+    QVERIFY(QString("QExtPointerFunctor5") == QExtFunctorTrait<T_intfunctor5>::typeName());
 }
 
 void QExtFunctorTraitTest::testFunctorArg6Type()
 {
     typedef QExtPointerFunctor<void, int, double, int, float, QString, int>::FunctionType FunctionType6;
-    QVERIFY("QExtPointerFunctor6" == QExtFunctorTrait<FunctionType6>().typeName());
+    QVERIFY(QString("QExtPointerFunctor6") == QExtFunctorTrait<FunctionType6>::typeName());
     typedef void (*T_voidfunctor6)(int, int, int, int, QString, float);
-    QVERIFY("QExtPointerFunctor6" == QExtFunctorTrait<T_voidfunctor6>().typeName());
+    QVERIFY(QString("QExtPointerFunctor6") == QExtFunctorTrait<T_voidfunctor6>::typeName());
     typedef int (*T_intfunctor6)(double, double, int, int, long, float);
-    QVERIFY("QExtPointerFunctor6" == QExtFunctorTrait<T_intfunctor6>().typeName());
+    QVERIFY(QString("QExtPointerFunctor6") == QExtFunctorTrait<T_intfunctor6>::typeName());
 }
 
 void QExtFunctorTraitTest::testFunctorArg7Type()
 {
     typedef QExtPointerFunctor<void, int, double, int, float, QString, int, double>::FunctionType FunctionType7;
-    QVERIFY("QExtPointerFunctor7" == QExtFunctorTrait<FunctionType7>().typeName());
+    QVERIFY(QString("QExtPointerFunctor7") == QExtFunctorTrait<FunctionType7>::typeName());
     typedef void (*T_voidfunctor7)(int, int, int, int, QString, float, int);
-    QVERIFY("QExtPointerFunctor7" == QExtFunctorTrait<T_voidfunctor7>().typeName());
+    QVERIFY(QString("QExtPointerFunctor7") == QExtFunctorTrait<T_voidfunctor7>::typeName());
     typedef int (*T_intfunctor7)(double, double, int, int, long, float, int);
-    QVERIFY("QExtPointerFunctor7" == QExtFunctorTrait<T_intfunctor7>().typeName());
+    QVERIFY(QString("QExtPointerFunctor7") == QExtFunctorTrait<T_intfunctor7>::typeName());
 }
 
 void QExtFunctorTraitTest::testMemberFunctorArg0Type()
 {
     typedef QExtMemberFunctor<void, Member>::FunctionType MemFunctionType0;
-    QVERIFY("QExtMemberFunctor0" == QExtFunctorTrait<MemFunctionType0>().typeName());
+    QVERIFY(QString("QExtMemberFunctor0") == QExtFunctorTrait<MemFunctionType0>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstMemberFunctorArg0Type()
 {
     typedef QExtConstMemberFunctor<void, Member>::FunctionType MemFunctionType0;
-    QVERIFY("QExtConstMemberFunctor0" == QExtFunctorTrait<MemFunctionType0>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor0") == QExtFunctorTrait<MemFunctionType0>::typeName());
 }
 
 void QExtFunctorTraitTest::testVolatileMemberFunctorArg0Type()
 {
     typedef QExtVolatileMemberFunctor<void, Member>::FunctionType MemFunctionType0;
-    QVERIFY("QExtVolatileMemberFunctor0" == QExtFunctorTrait<MemFunctionType0>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor0") == QExtFunctorTrait<MemFunctionType0>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstVolatileMemberFunctorArg0Type()
 {
     typedef QExtConstVolatileMemberFunctor<void, Member>::FunctionType MemFunctionType0;
-    QVERIFY("QExtConstVolatileMemberFunctor0" == QExtFunctorTrait<MemFunctionType0>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor0") == QExtFunctorTrait<MemFunctionType0>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundMemberFunctorArg0Type()
 {
     typedef QExtBoundMemberFunctor<void, Member>::FunctionType MemFunctionType0;
-    QVERIFY("QExtMemberFunctor0" == QExtFunctorTrait<MemFunctionType0>().typeName());
+    QVERIFY(QString("QExtMemberFunctor0") == QExtFunctorTrait<MemFunctionType0>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstMemberFunctorArg0Type()
 {
     typedef QExtBoundConstMemberFunctor<void, Member>::FunctionType MemFunctionType0;
-    QVERIFY("QExtConstMemberFunctor0" == QExtFunctorTrait<MemFunctionType0>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor0") == QExtFunctorTrait<MemFunctionType0>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundVolatileMemberFunctorArg0Type()
 {
     typedef QExtBoundVolatileMemberFunctor<void, Member>::FunctionType MemFunctionType0;
-    QVERIFY("QExtVolatileMemberFunctor0" == QExtFunctorTrait<MemFunctionType0>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor0") == QExtFunctorTrait<MemFunctionType0>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstVolatileMemberFunctorArg0Type()
 {
     typedef QExtBoundConstVolatileMemberFunctor<void, Member>::FunctionType MemFunctionType0;
-    QVERIFY("QExtConstVolatileMemberFunctor0" == QExtFunctorTrait<MemFunctionType0>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor0") == QExtFunctorTrait<MemFunctionType0>::typeName());
 }
 
 void QExtFunctorTraitTest::testMemberFunctorArg1Type()
 {
     typedef QExtMemberFunctor<void, Member, int>::FunctionType MemFunctionType1;
-    QVERIFY("QExtMemberFunctor1" == QExtFunctorTrait<MemFunctionType1>().typeName());
+    QVERIFY(QString("QExtMemberFunctor1") == QExtFunctorTrait<MemFunctionType1>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstMemberFunctorArg1Type()
 {
     typedef QExtConstMemberFunctor<void, Member, int>::FunctionType MemFunctionType1;
-    QVERIFY("QExtConstMemberFunctor1" == QExtFunctorTrait<MemFunctionType1>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor1") == QExtFunctorTrait<MemFunctionType1>::typeName());
 }
 
 void QExtFunctorTraitTest::testVolatileMemberFunctorArg1Type()
 {
     typedef QExtVolatileMemberFunctor<void, Member, int>::FunctionType MemFunctionType1;
-    QVERIFY("QExtVolatileMemberFunctor1" == QExtFunctorTrait<MemFunctionType1>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor1") == QExtFunctorTrait<MemFunctionType1>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstVolatileMemberFunctorArg1Type()
 {
     typedef QExtConstVolatileMemberFunctor<void, Member, int>::FunctionType MemFunctionType1;
-    QVERIFY("QExtConstVolatileMemberFunctor1" == QExtFunctorTrait<MemFunctionType1>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor1") == QExtFunctorTrait<MemFunctionType1>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundMemberFunctorArg1Type()
 {
     typedef QExtBoundMemberFunctor<void, Member, int>::FunctionType MemFunctionType1;
-    QVERIFY("QExtMemberFunctor1" == QExtFunctorTrait<MemFunctionType1>().typeName());
+    QVERIFY(QString("QExtMemberFunctor1") == QExtFunctorTrait<MemFunctionType1>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstMemberFunctorArg1Type()
 {
     typedef QExtBoundConstMemberFunctor<void, Member, int>::FunctionType MemFunctionType1;
-    QVERIFY("QExtConstMemberFunctor1" == QExtFunctorTrait<MemFunctionType1>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor1") == QExtFunctorTrait<MemFunctionType1>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundVolatileMemberFunctorArg1Type()
 {
     typedef QExtBoundVolatileMemberFunctor<void, Member, int>::FunctionType MemFunctionType1;
-    QVERIFY("QExtVolatileMemberFunctor1" == QExtFunctorTrait<MemFunctionType1>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor1") == QExtFunctorTrait<MemFunctionType1>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstVolatileMemberFunctorArg1Type()
 {
     typedef QExtBoundConstVolatileMemberFunctor<void, Member, int>::FunctionType MemFunctionType1;
-    QVERIFY("QExtConstVolatileMemberFunctor1" == QExtFunctorTrait<MemFunctionType1>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor1") == QExtFunctorTrait<MemFunctionType1>::typeName());
 }
 
 void QExtFunctorTraitTest::testMemberFunctorArg2Type()
 {
     typedef QExtMemberFunctor<void, Member, int, int>::FunctionType MemFunctionType2;
-    QVERIFY("QExtMemberFunctor2" == QExtFunctorTrait<MemFunctionType2>().typeName());
+    QVERIFY(QString("QExtMemberFunctor2") == QExtFunctorTrait<MemFunctionType2>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstMemberFunctorArg2Type()
 {
     typedef QExtConstMemberFunctor<void, Member, int, int>::FunctionType MemFunctionType2;
-    QVERIFY("QExtConstMemberFunctor2" == QExtFunctorTrait<MemFunctionType2>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor2") == QExtFunctorTrait<MemFunctionType2>::typeName());
 }
 
 void QExtFunctorTraitTest::testVolatileMemberFunctorArg2Type()
 {
     typedef QExtVolatileMemberFunctor<void, Member, int, int>::FunctionType MemFunctionType2;
-    QVERIFY("QExtVolatileMemberFunctor2" == QExtFunctorTrait<MemFunctionType2>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor2") == QExtFunctorTrait<MemFunctionType2>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstVolatileMemberFunctorArg2Type()
 {
     typedef QExtConstVolatileMemberFunctor<void, Member, int, int>::FunctionType MemFunctionType2;
-    QVERIFY("QExtConstVolatileMemberFunctor2" == QExtFunctorTrait<MemFunctionType2>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor2") == QExtFunctorTrait<MemFunctionType2>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundMemberFunctorArg2Type()
 {
     typedef QExtBoundMemberFunctor<void, Member, int, int>::FunctionType MemFunctionType2;
-    QVERIFY("QExtMemberFunctor2" == QExtFunctorTrait<MemFunctionType2>().typeName());
+    QVERIFY(QString("QExtMemberFunctor2") == QExtFunctorTrait<MemFunctionType2>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstMemberFunctorArg2Type()
 {
     typedef QExtBoundConstMemberFunctor<void, Member, int, int>::FunctionType MemFunctionType2;
-    QVERIFY("QExtConstMemberFunctor2" == QExtFunctorTrait<MemFunctionType2>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor2") == QExtFunctorTrait<MemFunctionType2>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundVolatileMemberFunctorArg2Type()
 {
     typedef QExtBoundVolatileMemberFunctor<void, Member, int, int>::FunctionType MemFunctionType2;
-    QVERIFY("QExtVolatileMemberFunctor2" == QExtFunctorTrait<MemFunctionType2>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor2") == QExtFunctorTrait<MemFunctionType2>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstVolatileMemberFunctorArg2Type()
 {
     typedef QExtBoundConstVolatileMemberFunctor<void, Member, int, int>::FunctionType MemFunctionType2;
-    QVERIFY("QExtConstVolatileMemberFunctor2" == QExtFunctorTrait<MemFunctionType2>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor2") == QExtFunctorTrait<MemFunctionType2>::typeName());
 }
 
 void QExtFunctorTraitTest::testMemberFunctorArg3Type()
 {
     typedef QExtMemberFunctor<void, Member, int, int, int>::FunctionType MemFunctionType3;
-    QVERIFY("QExtMemberFunctor3" == QExtFunctorTrait<MemFunctionType3>().typeName());
+    QVERIFY(QString("QExtMemberFunctor3") == QExtFunctorTrait<MemFunctionType3>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstMemberFunctorArg3Type()
 {
     typedef QExtConstMemberFunctor<void, Member, int, int, int>::FunctionType MemFunctionType3;
-    QVERIFY("QExtConstMemberFunctor3" == QExtFunctorTrait<MemFunctionType3>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor3") == QExtFunctorTrait<MemFunctionType3>::typeName());
 }
 
 void QExtFunctorTraitTest::testVolatileMemberFunctorArg3Type()
 {
     typedef QExtVolatileMemberFunctor<void, Member, int, int, int>::FunctionType MemFunctionType3;
-    QVERIFY("QExtVolatileMemberFunctor3" == QExtFunctorTrait<MemFunctionType3>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor3") == QExtFunctorTrait<MemFunctionType3>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstVolatileMemberFunctorArg3Type()
 {
     typedef QExtConstVolatileMemberFunctor<void, Member, int, int, int>::FunctionType MemFunctionType3;
-    QVERIFY("QExtConstVolatileMemberFunctor3" == QExtFunctorTrait<MemFunctionType3>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor3") == QExtFunctorTrait<MemFunctionType3>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundMemberFunctorArg3Type()
 {
     typedef QExtBoundMemberFunctor<void, Member, int, int, int>::FunctionType MemFunctionType3;
-    QVERIFY("QExtMemberFunctor3" == QExtFunctorTrait<MemFunctionType3>().typeName());
+    QVERIFY(QString("QExtMemberFunctor3") == QExtFunctorTrait<MemFunctionType3>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstMemberFunctorArg3Type()
 {
     typedef QExtBoundConstMemberFunctor<void, Member, int, int, int>::FunctionType MemFunctionType3;
-    QVERIFY("QExtConstMemberFunctor3" == QExtFunctorTrait<MemFunctionType3>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor3") == QExtFunctorTrait<MemFunctionType3>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundVolatileMemberFunctorArg3Type()
 {
     typedef QExtBoundVolatileMemberFunctor<void, Member, int, int, int>::FunctionType MemFunctionType3;
-    QVERIFY("QExtVolatileMemberFunctor3" == QExtFunctorTrait<MemFunctionType3>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor3") == QExtFunctorTrait<MemFunctionType3>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstVolatileMemberFunctorArg3Type()
 {
     typedef QExtBoundConstVolatileMemberFunctor<void, Member, int, int, int>::FunctionType MemFunctionType3;
-    QVERIFY("QExtConstVolatileMemberFunctor3" == QExtFunctorTrait<MemFunctionType3>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor3") == QExtFunctorTrait<MemFunctionType3>::typeName());
 }
 
 void QExtFunctorTraitTest::testMemberFunctorArg4Type()
 {
     typedef QExtMemberFunctor<void, Member, int, int, int, int>::FunctionType MemFunctionType4;
-    QVERIFY("QExtMemberFunctor4" == QExtFunctorTrait<MemFunctionType4>().typeName());
+    QVERIFY(QString("QExtMemberFunctor4") == QExtFunctorTrait<MemFunctionType4>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstMemberFunctorArg4Type()
 {
     typedef QExtConstMemberFunctor<void, Member, int, int, int, int>::FunctionType MemFunctionType4;
-    QVERIFY("QExtConstMemberFunctor4" == QExtFunctorTrait<MemFunctionType4>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor4") == QExtFunctorTrait<MemFunctionType4>::typeName());
 }
 
 void QExtFunctorTraitTest::testVolatileMemberFunctorArg4Type()
 {
     typedef QExtVolatileMemberFunctor<void, Member, int, int, int, int>::FunctionType MemFunctionType4;
-    QVERIFY("QExtVolatileMemberFunctor4" == QExtFunctorTrait<MemFunctionType4>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor4") == QExtFunctorTrait<MemFunctionType4>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstVolatileMemberFunctorArg4Type()
 {
     typedef QExtConstVolatileMemberFunctor<void, Member, int, int, int, int>::FunctionType MemFunctionType4;
-    QVERIFY("QExtConstVolatileMemberFunctor4" == QExtFunctorTrait<MemFunctionType4>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor4") == QExtFunctorTrait<MemFunctionType4>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundMemberFunctorArg4Type()
 {
     typedef QExtBoundMemberFunctor<void, Member, int, int, int, int>::FunctionType MemFunctionType4;
-    QVERIFY("QExtMemberFunctor4" == QExtFunctorTrait<MemFunctionType4>().typeName());
+    QVERIFY(QString("QExtMemberFunctor4") == QExtFunctorTrait<MemFunctionType4>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstMemberFunctorArg4Type()
 {
     typedef QExtBoundConstMemberFunctor<void, Member, int, int, int, int>::FunctionType MemFunctionType4;
-    QVERIFY("QExtConstMemberFunctor4" == QExtFunctorTrait<MemFunctionType4>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor4") == QExtFunctorTrait<MemFunctionType4>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundVolatileMemberFunctorArg4ype()
 {
     typedef QExtBoundVolatileMemberFunctor<void, Member, int, int, int, int>::FunctionType MemFunctionType4;
-    QVERIFY("QExtVolatileMemberFunctor4" == QExtFunctorTrait<MemFunctionType4>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor4") == QExtFunctorTrait<MemFunctionType4>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstVolatileMemberFunctorArg4Type()
 {
     typedef QExtBoundConstVolatileMemberFunctor<void, Member, int, int, int, int>::FunctionType MemFunctionType4;
-    QVERIFY("QExtConstVolatileMemberFunctor4" == QExtFunctorTrait<MemFunctionType4>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor4") == QExtFunctorTrait<MemFunctionType4>::typeName());
 }
 
 void QExtFunctorTraitTest::testMemberFunctorArg5Type()
 {
     typedef QExtMemberFunctor<void, Member, int, int, int, int, int>::FunctionType MemFunctionType5;
-    QVERIFY("QExtMemberFunctor5" == QExtFunctorTrait<MemFunctionType5>().typeName());
+    QVERIFY(QString("QExtMemberFunctor5") == QExtFunctorTrait<MemFunctionType5>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstMemberFunctorArg5Type()
 {
     typedef QExtConstMemberFunctor<void, Member, int, int, int, int, int>::FunctionType MemFunctionType5;
-    QVERIFY("QExtConstMemberFunctor5" == QExtFunctorTrait<MemFunctionType5>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor5") == QExtFunctorTrait<MemFunctionType5>::typeName());
 }
 
 void QExtFunctorTraitTest::testVolatileMemberFunctorArg5Type()
 {
     typedef QExtVolatileMemberFunctor<void, Member, int, int, int, int, int>::FunctionType MemFunctionType5;
-    QVERIFY("QExtVolatileMemberFunctor5" == QExtFunctorTrait<MemFunctionType5>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor5") == QExtFunctorTrait<MemFunctionType5>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstVolatileMemberFunctorArg5Type()
 {
     typedef QExtConstVolatileMemberFunctor<void, Member, int, int, int, int, int>::FunctionType MemFunctionType5;
-    QVERIFY("QExtConstVolatileMemberFunctor5" == QExtFunctorTrait<MemFunctionType5>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor5") == QExtFunctorTrait<MemFunctionType5>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundMemberFunctorArg5Type()
 {
     typedef QExtBoundMemberFunctor<void, Member, int, int, int, int, int>::FunctionType MemFunctionType5;
-    QVERIFY("QExtMemberFunctor5" == QExtFunctorTrait<MemFunctionType5>().typeName());
+    QVERIFY(QString("QExtMemberFunctor5") == QExtFunctorTrait<MemFunctionType5>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstMemberFunctorArg5Type()
 {
     typedef QExtBoundConstMemberFunctor<void, Member, int, int, int, int, int>::FunctionType MemFunctionType5;
-    QVERIFY("QExtConstMemberFunctor5" == QExtFunctorTrait<MemFunctionType5>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor5") == QExtFunctorTrait<MemFunctionType5>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundVolatileMemberFunctorArg5Type()
 {
     typedef QExtBoundVolatileMemberFunctor<void, Member, int, int, int, int, int>::FunctionType MemFunctionType5;
-    QVERIFY("QExtVolatileMemberFunctor5" == QExtFunctorTrait<MemFunctionType5>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor5") == QExtFunctorTrait<MemFunctionType5>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstVolatileMemberFunctorArg5Type()
 {
     typedef QExtBoundConstVolatileMemberFunctor<void, Member, int, int, int, int, int>::FunctionType MemFunctionType5;
-    QVERIFY("QExtConstVolatileMemberFunctor5" == QExtFunctorTrait<MemFunctionType5>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor5") == QExtFunctorTrait<MemFunctionType5>::typeName());
 }
 
 void QExtFunctorTraitTest::testMemberFunctorArg6Type()
 {
     typedef QExtMemberFunctor<void, Member, int, int, int, int, int, int>::FunctionType MemFunctionType6;
-    QVERIFY("QExtMemberFunctor6" == QExtFunctorTrait<MemFunctionType6>().typeName());
+    QVERIFY(QString("QExtMemberFunctor6") == QExtFunctorTrait<MemFunctionType6>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstMemberFunctorArg6Type()
 {
     typedef QExtConstMemberFunctor<void, Member, int, int, int, int, int, int>::FunctionType MemFunctionType6;
-    QVERIFY("QExtConstMemberFunctor6" == QExtFunctorTrait<MemFunctionType6>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor6") == QExtFunctorTrait<MemFunctionType6>::typeName());
 }
 
 void QExtFunctorTraitTest::testVolatileMemberFunctorArg6Type()
 {
     typedef QExtVolatileMemberFunctor<void, Member, int, int, int, int, int, int>::FunctionType MemFunctionType6;
-    QVERIFY("QExtVolatileMemberFunctor6" == QExtFunctorTrait<MemFunctionType6>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor6") == QExtFunctorTrait<MemFunctionType6>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstVolatileMemberFunctorArg6Type()
 {
     typedef QExtConstVolatileMemberFunctor<void, Member, int, int, int, int, int, int>::FunctionType MemFunctionType6;
-    QVERIFY("QExtConstVolatileMemberFunctor6" == QExtFunctorTrait<MemFunctionType6>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor6") == QExtFunctorTrait<MemFunctionType6>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundMemberFunctorArg6Type()
 {
     typedef QExtBoundMemberFunctor<void, Member, int, int, int, int, int, int>::FunctionType MemFunctionType6;
-    QVERIFY("QExtMemberFunctor6" == QExtFunctorTrait<MemFunctionType6>().typeName());
+    QVERIFY(QString("QExtMemberFunctor6") == QExtFunctorTrait<MemFunctionType6>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstMemberFunctorArg6Type()
 {
     typedef QExtBoundConstMemberFunctor<void, Member, int, int, int, int, int, int>::FunctionType MemFunctionType6;
-    QVERIFY("QExtConstMemberFunctor6" == QExtFunctorTrait<MemFunctionType6>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor6") == QExtFunctorTrait<MemFunctionType6>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundVolatileMemberFunctorArg6Type()
 {
     typedef QExtBoundVolatileMemberFunctor<void, Member, int, int, int, int, int, int>::FunctionType MemFunctionType6;
-    QVERIFY("QExtVolatileMemberFunctor6" == QExtFunctorTrait<MemFunctionType6>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor6") == QExtFunctorTrait<MemFunctionType6>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstVolatileMemberFunctorArg6Type()
 {
     typedef QExtBoundConstVolatileMemberFunctor<void, Member, int, int, int, int, int, int>::FunctionType MemFunctionType6;
-    QVERIFY("QExtConstVolatileMemberFunctor6" == QExtFunctorTrait<MemFunctionType6>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor6") == QExtFunctorTrait<MemFunctionType6>::typeName());
 }
 
 void QExtFunctorTraitTest::testMemberFunctorArg7Type()
 {
     typedef QExtMemberFunctor<void, Member, int, int, int, int, int, int, int>::FunctionType MemFunctionType7;
-    QVERIFY("QExtMemberFunctor7" == QExtFunctorTrait<MemFunctionType7>().typeName());
+    QVERIFY(QString("QExtMemberFunctor7") == QExtFunctorTrait<MemFunctionType7>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstMemberFunctorArg7Type()
 {
     typedef QExtConstMemberFunctor<void, Member, int, int, int, int, int, int, int>::FunctionType MemFunctionType7;
-    QVERIFY("QExtConstMemberFunctor7" == QExtFunctorTrait<MemFunctionType7>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor7") == QExtFunctorTrait<MemFunctionType7>::typeName());
 }
 
 void QExtFunctorTraitTest::testVolatileMemberFunctorArg7Type()
 {
     typedef QExtVolatileMemberFunctor<void, Member, int, int, int, int, int, int, int>::FunctionType MemFunctionType7;
-    QVERIFY("QExtVolatileMemberFunctor7" == QExtFunctorTrait<MemFunctionType7>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor7") == QExtFunctorTrait<MemFunctionType7>::typeName());
 }
 
 void QExtFunctorTraitTest::testConstVolatileMemberFunctorArg7Type()
 {
     typedef QExtConstVolatileMemberFunctor<void, Member, int, int, int, int, int, int, int>::FunctionType MemFunctionType7;
-    QVERIFY("QExtConstVolatileMemberFunctor7" == QExtFunctorTrait<MemFunctionType7>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor7") == QExtFunctorTrait<MemFunctionType7>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundMemberFunctorArg7Type()
 {
     typedef QExtBoundMemberFunctor<void, Member, int, int, int, int, int, int, int>::FunctionType MemFunctionType7;
-    QVERIFY("QExtMemberFunctor7" == QExtFunctorTrait<MemFunctionType7>().typeName());
+    QVERIFY(QString("QExtMemberFunctor7") == QExtFunctorTrait<MemFunctionType7>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstMemberFunctorArg7Type()
 {
     typedef QExtBoundConstMemberFunctor<void, Member, int, int, int, int, int, int, int>::FunctionType MemFunctionType7;
-    QVERIFY("QExtConstMemberFunctor7" == QExtFunctorTrait<MemFunctionType7>().typeName());
+    QVERIFY(QString("QExtConstMemberFunctor7") == QExtFunctorTrait<MemFunctionType7>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundVolatileMemberFunctorArg7Type()
 {
     typedef QExtBoundVolatileMemberFunctor<void, Member, int, int, int, int, int, int, int>::FunctionType MemFunctionType7;
-    QVERIFY("QExtVolatileMemberFunctor7" == QExtFunctorTrait<MemFunctionType7>().typeName());
+    QVERIFY(QString("QExtVolatileMemberFunctor7") == QExtFunctorTrait<MemFunctionType7>::typeName());
 }
 
 void QExtFunctorTraitTest::testBoundConstVolatileMemberFunctorArg7Type()
 {
     typedef QExtBoundConstVolatileMemberFunctor<void, Member, int, int, int, int, int, int, int>::FunctionType MemFunctionType7;
-    QVERIFY("QExtConstVolatileMemberFunctor7" == QExtFunctorTrait<MemFunctionType7>().typeName());
+    QVERIFY(QString("QExtConstVolatileMemberFunctor7") == QExtFunctorTrait<MemFunctionType7>::typeName());
 }
 
 

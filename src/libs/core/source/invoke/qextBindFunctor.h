@@ -35,60 +35,58 @@
 
 namespace detail
 {
+template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+struct QExtCountVoid
+{
+    static const int value = 0;
+};
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct QExtCountVoid
-    {
-        static const int value = 0;
-    };
+template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+struct QExtCountVoid<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, void>
+{
+    static const int value = 1;
+};
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-    struct QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, void>
-    {
-        static const int value = 1;
-    };
+template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+struct QExtCountVoid<Arg1, Arg2, Arg3, Arg4, Arg5, void, void>
+{
+    static const int value = 2;
+};
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-    struct QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, void, void>
-    {
-        static const int value = 2;
-    };
+template <class Arg1, class Arg2, class Arg3, class Arg4>
+struct QExtCountVoid<Arg1, Arg2, Arg3, Arg4, void, void, void>
+{
+    static const int value = 3;
+};
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-    struct QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, void, void, void>
-    {
-        static const int value = 3;
-    };
+template <class Arg1, class Arg2, class Arg3>
+struct QExtCountVoid<Arg1, Arg2, Arg3, void, void, void, void>
+{
+    static const int value = 4;
+};
 
-    template <typename T_arg1, typename T_arg2, class T_arg3>
-    struct QExtCountVoid<T_arg1, T_arg2, T_arg3, void, void, void, void>
-    {
-        static const int value = 4;
-    };
+template <class Arg1, class Arg2>
+struct QExtCountVoid<Arg1, Arg2, void, void, void, void, void>
+{
+    static const int value = 5;
+};
 
-    template <typename T_arg1, typename T_arg2>
-    struct QExtCountVoid<T_arg1, T_arg2, void, void, void, void, void>
-    {
-        static const int value = 5;
-    };
+template <class Arg1>
+struct QExtCountVoid<Arg1, void, void, void, void, void, void>
+{
+    static const int value = 6;
+};
 
-    template <typename T_arg1>
-    struct QExtCountVoid<T_arg1, void, void, void, void, void, void>
-    {
-        static const int value = 6;
-    };
+template <>
+struct QExtCountVoid<void, void, void, void, void, void, void>
+{
+    static const int value = 7;
+};
 
-    template <>
-    struct QExtCountVoid<void, void, void, void, void, void, void>
-    {
-        static const int value = 7;
-    };
+} // namespace detail
 
-} /* namespace QExtPrivate */
-
-
-
-/** @defgroup qextBindFunctor qextBindFunctor(), bind_return()
+/**
+ * @defgroup qextBindFunctor qextBindFunctor(), bind_return()
  * qextBindFunctor() alters an arbitrary functor by fixing arguments to certain values.
  * Up to 7 arguments can be bound at a time.
  * For single argument binding, overloads of qextBindFunctor() are provided that let you
@@ -158,201 +156,204 @@ namespace detail
  * arguments arbitrarily. Although qextLambdaGroup() is more flexible,
  * qextBindFunctor() provides a means of binding parameters when the total
  * number of parameters called is variable.
- *
- * \ingroup adaptors
  */
 
-
-
-/** AdaptorType that binds an argument to the wrapped functor.
+/**
+ * @brief AdaptorType that binds an argument to the wrapped functor.
  * Use the convenience function qextBindFunctor() to create an instance of qextBindFunctor.
  *
  * The following template arguments are used:
  * - @e I_location Zero-based position of the argument to fix (@p -1 for the last argument).
- * - @e T_type1 Type of the 1st bound argument.
+ * - @e T1 Type of the 1st bound argument.
  * - @e T_type2 Type of the 2nd bound argument.
  * - @e T_type3 Type of the 3rd bound argument.
  * - @e T_type4 Type of the 4th bound argument.
  * - @e T_type5 Type of the 5th bound argument.
  * - @e T_type6 Type of the 6th bound argument.
  * - @e T_type7 Type of the 7th bound argument.
- * - @e T_functor Type of the functor to wrap.
- *
- * \ingroup qextBindFunctor
+ * - @e Functor Type of the functor to wrap.
  */
-template <int I_location, typename T_functor,
-          typename T_type1 = QExtNil, typename T_type2 = QExtNil, typename T_type3 = QExtNil,
-          typename T_type4 = QExtNil, typename T_type5 = QExtNil, typename T_type6 = QExtNil, typename T_type7 = QExtNil> struct QExtBindFunctor;
+template <int I_location,
+         class Functor,
+         class T1 = QExtNil,
+         class T2 = QExtNil,
+         class T3 = QExtNil,
+         class T4 = QExtNil,
+         class T5 = QExtNil,
+         class T6 = QExtNil,
+         class T7 = QExtNil>
+struct QExtBindFunctor;
 
-
-/** AdaptorType that binds an argument to the wrapped functor.
- * This template specialization fixes the 1st argument of the wrapped functor.
- *
- * \ingroup qextBindFunctor
+/**
+ * @brief daptorType that binds an argument to the wrapped functor.
  */
-template <typename T_functor, typename T_bound>
-struct QExtBindFunctor<0, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
+template <class Functor, class Bound>
+struct QExtBindFunctor<0, Functor, Bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+    : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                     BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType   AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtUnwrapReference<Bound>::Type   BoundType;
+    typedef typename QExtAdapts<Functor>::AdaptorType   AdaptorType;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void,
-              typename T_arg7 = void>
+    template<class Arg1 = void,
+             class Arg2 = void,
+             class Arg3 = void,
+             class Arg4 = void,
+             class Arg5 = void,
+             class Arg6 = void,
+             class Arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<T_arg5>::Pass,
-            typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
+        typedef typename AdaptorType::template ReturnTypeDeduce <typename QExtTypeTrait<BoundType>::Pass,
+                                                                typename QExtTypeTrait<Arg1>::Pass,
+                                                                typename QExtTypeTrait<Arg2>::Pass,
+                                                                typename QExtTypeTrait<Arg3>::Pass,
+                                                                typename QExtTypeTrait<Arg4>::Pass,
+                                                                typename QExtTypeTrait<Arg5>::Pass,
+                                                                typename QExtTypeTrait<Arg6>::Pass >::Type Type;
     };
-    typedef typename AdaptorType::ResultType  ResultType;
+    typedef typename AdaptorType::ResultType ResultType;
 
-    /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound Argument to qextBindFunctor to the functor.
+    /**
+     * @brief Constructs a bind_functor object that binds an argument to the passed functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func,
-                  typename QExtTypeTrait<T_bound>::Take bound)
-        : QExtAdapts<T_functor>(func), m_bound(bound) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func,
+                    typename QExtTypeTrait<Bound>::Take bound)
+        : QExtAdapts<Functor>(func), mBound(bound) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (m_bound.invoke());
+        return this->mFunctor.template operator()<typename QExtTypeTrait<BoundType>::Pass>(mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 1st argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 1st argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1>
-    typename ReturnTypeDeduce<T_arg1>::Type
-    operator()(T_arg1 arg1)
+    template <class Arg1>
+    typename ReturnTypeDeduce<Arg1>::Type
+    operator()(Arg1 arg1)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg1>::Pass >
-               (m_bound.invoke(), arg1);
+        return this->mFunctor.template operator()<typename QExtTypeTrait<BoundType>::Pass,
+                                                  typename QExtTypeTrait<Arg1>::Pass>(mBound.invoke(), arg1);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 1st argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 1st argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2>
-    typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2)
+    template <class Arg1, class Arg2>
+    typename ReturnTypeDeduce<Arg1, Arg2>::Type
+    operator()(Arg1 arg1, Arg2 arg2)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass >
-               (m_bound.invoke(), arg1, arg2);
+        return this->mFunctor.template operator()<typename QExtTypeTrait<BoundType>::Pass,
+                                                  typename QExtTypeTrait<Arg1>::Pass,
+                                                  typename QExtTypeTrait<Arg2>::Pass>(mBound.invoke(), arg1, arg2);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 1st argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 1st argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
+    template <class Arg1, class Arg2, class Arg3>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass >
-               (m_bound.invoke(), arg1, arg2, arg3);
+        return this->mFunctor.template operator()<typename QExtTypeTrait<BoundType>::Pass,
+                                                  typename QExtTypeTrait<Arg1>::Pass,
+                                                  typename QExtTypeTrait<Arg2>::Pass,
+                                                  typename QExtTypeTrait<Arg3>::Pass>(mBound.invoke(),
+                                                                                      arg1, arg2, arg3);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 1st argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 1st argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
+    template <class Arg1, class Arg2, class Arg3, class Arg4>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass >
-               (m_bound.invoke(), arg1, arg2, arg3, arg4);
+        return this->mFunctor.template operator()<typename QExtTypeTrait<BoundType>::Pass,
+                                                  typename QExtTypeTrait<Arg1>::Pass,
+                                                  typename QExtTypeTrait<Arg2>::Pass,
+                                                  typename QExtTypeTrait<Arg3>::Pass,
+                                                  typename QExtTypeTrait<Arg4>::Pass>(mBound.invoke(),
+                                                                                      arg1, arg2, arg3, arg4);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 1st argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 1st argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass >
-               (m_bound.invoke(), arg1, arg2, arg3, arg4, arg5);
+        return this->mFunctor.template operator()<typename QExtTypeTrait<BoundType>::Pass,
+                                                  typename QExtTypeTrait<Arg1>::Pass,
+                                                  typename QExtTypeTrait<Arg2>::Pass,
+                                                  typename QExtTypeTrait<Arg3>::Pass,
+                                                  typename QExtTypeTrait<Arg4>::Pass,
+                                                  typename QExtTypeTrait<Arg5>::Pass>(mBound.invoke(),
+                                                                                      arg1, arg2, arg3, arg4, arg5);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 1st argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \param arg6 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 1st argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @param arg6 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass,
-               typename QExtTypeTrait<T_arg6>::Pass >
-               (m_bound.invoke(), arg1, arg2, arg3, arg4, arg5, arg6);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass >
+            (mBound.invoke(), arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_bound> m_bound;
+    QExtBoundArgument<Bound> mBound;
 };
 
 /** AdaptorType that binds an argument to the wrapped functor.
@@ -360,169 +361,182 @@ struct QExtBindFunctor<0, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_bound>
-struct QExtBindFunctor<1, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
+template<typename Functor, typename Bound>
+struct QExtBindFunctor<1, Functor, Bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+    : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
+    typedef QExtAdapts<Functor>                             BaseType;
+    typedef typename QExtUnwrapReference<Bound>::Type       BoundType;
+    typedef typename QExtAdapts<Functor>::AdaptorType       AdaptorType;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template<class Arg1 = void,
+             class Arg2 = void,
+             class Arg3 = void,
+             class Arg4 = void,
+             class Arg5 = void,
+             class Arg6 = void,
+             class Arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<T_arg5>::Pass,
-            typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
+        typedef typename AdaptorType::template ReturnTypeDeduce <typename QExtTypeTrait<Arg1>::Pass,
+                                                                typename QExtTypeTrait<BoundType>::Pass,
+                                                                typename QExtTypeTrait<Arg2>::Pass,
+                                                                typename QExtTypeTrait<Arg3>::Pass,
+                                                                typename QExtTypeTrait<Arg4>::Pass,
+                                                                typename QExtTypeTrait<Arg5>::Pass,
+                                                                typename QExtTypeTrait<Arg6>::Pass >::Type Type;
     };
     typedef typename AdaptorType::ResultType  ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func,
-                  typename QExtTypeTrait<T_bound>::Take bound)
-        : QExtAdapts<T_functor>(func), m_bound(bound) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func,
+                    typename QExtTypeTrait<Bound>::Take bound)
+        : QExtAdapts<Functor>(func), mBound(bound) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<BoundType>::Pass >
+            (mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 2nd argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 2nd argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1>
-    typename ReturnTypeDeduce<T_arg1>::Type
-    operator()(T_arg1 arg1)
+    template <class Arg1>
+    typename ReturnTypeDeduce<Arg1>::Type
+    operator()(Arg1 arg1)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (arg1, m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass >
+            (arg1, mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 2nd argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 2nd argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2>
-    typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2)
+    template <class Arg1, class Arg2>
+    typename ReturnTypeDeduce<Arg1, Arg2>::Type
+    operator()(Arg1 arg1, Arg2 arg2)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass >
-               (arg1, m_bound.invoke(), arg2);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass >
+            (arg1, mBound.invoke(), arg2);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 2nd argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 2nd argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
+    template <class Arg1, class Arg2, class Arg3>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass >
-               (arg1, m_bound.invoke(), arg2, arg3);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass >
+            (arg1, mBound.invoke(), arg2, arg3);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 2nd argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 2nd argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
+    template <class Arg1, class Arg2, class Arg3, class Arg4>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass >
-               (arg1, m_bound.invoke(), arg2, arg3, arg4);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass >
+            (arg1, mBound.invoke(), arg2, arg3, arg4);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 2nd argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 2nd argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass >
-               (arg1, m_bound.invoke(), arg2, arg3, arg4, arg5);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass >
+            (arg1, mBound.invoke(), arg2, arg3, arg4, arg5);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 2nd argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \param arg6 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 2nd argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @param arg6 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass,
-               typename QExtTypeTrait<T_arg6>::Pass >
-               (arg1, m_bound.invoke(), arg2, arg3, arg4, arg5, arg6);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass >
+            (arg1, mBound.invoke(), arg2, arg3, arg4, arg5, arg6);
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_bound> m_bound;
+    QExtBoundArgument<Bound> mBound;
 };
 
 
@@ -531,153 +545,160 @@ struct QExtBindFunctor<1, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_bound>
-struct QExtBindFunctor<2, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
+template <typename Functor, typename Bound>
+struct QExtBindFunctor<2, Functor, Bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtUnwrapReference<Bound>::Type   BoundType;
+    typedef typename QExtAdapts<Functor>::AdaptorType       AdaptorType;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<T_arg5>::Pass,
-            typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass >::Type Type;
     };
     typedef typename AdaptorType::ResultType  ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func, typename QExtTypeTrait<T_bound>::Take bound)
-        : QExtAdapts<T_functor>(func), m_bound(bound) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func, typename QExtTypeTrait<Bound>::Take bound)
+        : QExtAdapts<Functor>(func), mBound(bound) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<BoundType>::Pass >
+            (mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 3rd argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 3rd argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2>
-    typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2)
+    template <class Arg1, class Arg2>
+    typename ReturnTypeDeduce<Arg1, Arg2>::Type
+    operator()(Arg1 arg1, Arg2 arg2)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (arg1, arg2, m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass >
+            (arg1, arg2, mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 3rd argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 3rd argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
+    template <class Arg1, class Arg2, class Arg3>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass >
-               (arg1, arg2, m_bound.invoke(), arg3);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass >
+            (arg1, arg2, mBound.invoke(), arg3);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 3rd argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 3rd argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
+    template <class Arg1, class Arg2, class Arg3, class Arg4>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass >
-               (arg1, arg2, m_bound.invoke(), arg3, arg4);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass >
+            (arg1, arg2, mBound.invoke(), arg3, arg4);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 3rd argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 3rd argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass >
-               (arg1, arg2, m_bound.invoke(), arg3, arg4, arg5);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass >
+            (arg1, arg2, mBound.invoke(), arg3, arg4, arg5);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 3rd argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \param arg6 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 3rd argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @param arg6 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass,
-               typename QExtTypeTrait<T_arg6>::Pass >
-               (arg1, arg2, m_bound.invoke(), arg3, arg4, arg5, arg6);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass >
+            (arg1, arg2, mBound.invoke(), arg3, arg4, arg5, arg6);
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_bound> m_bound;
+    QExtBoundArgument<Bound> mBound;
 };
 
 
@@ -686,136 +707,142 @@ struct QExtBindFunctor<2, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_bound>
-struct QExtBindFunctor<3, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
+template <typename Functor, typename Bound>
+struct QExtBindFunctor<3, Functor, Bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtUnwrapReference<Bound>::Type   BoundType;
+    typedef typename QExtAdapts<Functor>::AdaptorType       AdaptorType;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<T_arg5>::Pass,
-            typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass >::Type Type;
     };
     typedef typename AdaptorType::ResultType  ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func, typename QExtTypeTrait<T_bound>::Take bound)
-        : QExtAdapts<T_functor>(func), m_bound(bound) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func, typename QExtTypeTrait<Bound>::Take bound)
+        : QExtAdapts<Functor>(func), mBound(bound) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<BoundType>::Pass >
+            (mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 4th argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 4th argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
+    template <class Arg1, class Arg2, class Arg3>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (arg1, arg2, arg3, m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass >
+            (arg1, arg2, arg3, mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 4th argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 4th argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
+    template <class Arg1, class Arg2, class Arg3, class Arg4>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass >
-               (arg1, arg2, arg3, m_bound.invoke(), arg4);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass >
+            (arg1, arg2, arg3, mBound.invoke(), arg4);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 4th argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 4th argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass >
-               (arg1, arg2, arg3, m_bound.invoke(), arg4, arg5);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass >
+            (arg1, arg2, arg3, mBound.invoke(), arg4, arg5);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 4th argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \param arg6 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 4th argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @param arg6 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass,
-               typename QExtTypeTrait<T_arg6>::Pass >
-               (arg1, arg2, arg3, m_bound.invoke(), arg4, arg5, arg6);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass >
+            (arg1, arg2, arg3, mBound.invoke(), arg4, arg5, arg6);
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_bound> m_bound;
+    QExtBoundArgument<Bound> mBound;
 };
 
 /** AdaptorType that binds an argument to the wrapped functor.
@@ -823,117 +850,122 @@ struct QExtBindFunctor<3, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_bound>
-struct QExtBindFunctor<4, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
+template <typename Functor, typename Bound>
+struct QExtBindFunctor<4, Functor, Bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtUnwrapReference<Bound>::Type   BoundType;
+    typedef typename QExtAdapts<Functor>::AdaptorType       AdaptorType;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-            typename QExtTypeTrait<T_arg5>::Pass,
-            typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass >::Type Type;
     };
     typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func, typename QExtTypeTrait<T_bound>::Take bound)
-        : QExtAdapts<T_functor>(func), m_bound(bound) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func, typename QExtTypeTrait<Bound>::Take bound)
+        : QExtAdapts<Functor>(func), mBound(bound) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<BoundType>::Pass >
+            (mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 5th argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 5th argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
+    template <class Arg1, class Arg2, class Arg3, class Arg4>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (arg1, arg2, arg3, arg4, m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass >
+            (arg1, arg2, arg3, arg4, mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 5th argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 5th argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass >
-               (arg1, arg2, arg3, arg4, m_bound.invoke(), arg5);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass >
+            (arg1, arg2, arg3, arg4, mBound.invoke(), arg5);
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 5th argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \param arg6 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 5th argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @param arg6 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass,
-               typename QExtTypeTrait<T_arg6>::Pass >
-               (arg1, arg2, arg3, arg4, m_bound.invoke(), arg5, arg6);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass >
+            (arg1, arg2, arg3, arg4, mBound.invoke(), arg5, arg6);
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_bound> m_bound;
+    QExtBoundArgument<Bound> mBound;
 };
 
 
@@ -942,96 +974,100 @@ struct QExtBindFunctor<4, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_bound>
-struct QExtBindFunctor<5, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
+template <typename Functor, typename Bound>
+struct QExtBindFunctor<5, Functor, Bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtUnwrapReference<Bound>::Type   BoundType;
+    typedef typename QExtAdapts<Functor>::AdaptorType       AdaptorType;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<T_arg5>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-            typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass >::Type Type;
     };
     typedef typename AdaptorType::ResultType  ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func, typename QExtTypeTrait<T_bound>::Take bound)
-        : QExtAdapts<T_functor>(func), m_bound(bound) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func, typename QExtTypeTrait<Bound>::Take bound)
+        : QExtAdapts<Functor>(func), mBound(bound) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<BoundType>::Pass >
+            (mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 6th argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 6th argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (arg1, arg2, arg3, arg4, arg5, m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass >
+            (arg1, arg2, arg3, arg4, arg5, mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 6th argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \param arg6 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 6th argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @param arg6 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
-               typename QExtTypeTrait<T_arg6>::Pass >
-               (arg1, arg2, arg3, arg4, arg5, m_bound.invoke(), arg6);
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass >
+            (arg1, arg2, arg3, arg4, arg5, mBound.invoke(), arg6);
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_bound> m_bound;
+    QExtBoundArgument<Bound> mBound;
 };
 
 
@@ -1040,73 +1076,76 @@ struct QExtBindFunctor<5, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_bound>
-struct QExtBindFunctor<6, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
+template <typename Functor, typename Bound>
+struct QExtBindFunctor<6, Functor, Bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtUnwrapReference<Bound>::Type   BoundType;
+    typedef typename QExtAdapts<Functor>::AdaptorType       AdaptorType;
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<T_arg5>::Pass,
-            typename QExtTypeTrait<T_arg6>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass >::Type Type;
     };
     typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func, typename QExtTypeTrait<T_bound>::Take bound)
-        : QExtAdapts<T_functor>(func), m_bound(bound) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func, typename QExtTypeTrait<Bound>::Take bound)
+        : QExtAdapts<Functor>(func), mBound(bound) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<BoundType>::Pass >
+            (mBound.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
-     * m_bound is passed as the 7th argument.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \param arg6 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
+     * mBound is passed as the 7th argument.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @param arg6 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass,
-               typename QExtTypeTrait<T_arg6>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >
-               (arg1, arg2, arg3, arg4, arg5, arg6, m_bound.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass,
+            typename QExtTypeTrait<BoundType>::Pass >
+            (arg1, arg2, arg3, arg4, arg5, arg6, mBound.invoke());
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_bound> m_bound;
+    QExtBoundArgument<Bound> mBound;
 };
 
 //template specialization of QExtVisitor<>::doVisitEach<>(action, functor):
@@ -1116,15 +1155,15 @@ struct QExtBindFunctor<6, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
  *
  * \ingroup qextBindFunctor
  */
-template <int T_loc, typename T_functor, typename T_bound>
-struct QExtVisitor<QExtBindFunctor<T_loc, T_functor, T_bound> >
+template <int T_loc, typename Functor, typename Bound>
+struct QExtVisitor<QExtBindFunctor<T_loc, Functor, Bound> >
 {
     template <typename T_action>
     static void doVisitEach(const T_action &action,
-                            const QExtBindFunctor<T_loc, T_functor, T_bound> &target)
+                            const QExtBindFunctor<T_loc, Functor, Bound> &target)
     {
-        qextVisitEach(action, target.m_functor);
-        qextVisitEach(action, target.m_bound);
+        qextVisitEach(action, target.mFunctor);
+        qextVisitEach(action, target.mBound);
     }
 };
 
@@ -1133,234 +1172,241 @@ struct QExtVisitor<QExtBindFunctor<T_loc, T_functor, T_bound> >
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_type1>
-struct QExtBindFunctor<-1, T_functor, T_type1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtAdapts<T_functor>
+template <typename Functor, typename T1>
+struct QExtBindFunctor<-1, Functor, T1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtUnwrapReference<T1>::Type      T1Type;
+    typedef typename QExtAdapts<Functor>::AdaptorType       AdaptorType;
 
     template <int count,
-              typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+             class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
     struct InternalReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<T_arg5>::Pass,
-            typename QExtTypeTrait<T_arg6>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass,
+            typename QExtTypeTrait<T1Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<2, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<2, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<T_arg5>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<T1Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<3, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<3, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<T1Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<4, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<4, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<T1Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<5, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<5, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<T1Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<6, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<6, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<T1Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename InternalReturnTypeDeduce <
-        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
-               T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
+        typedef typename InternalReturnTypeDeduce<detail::QExtCountVoid<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>::value,
+                                                  Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7 >::Type Type;
     };
 
     typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound1 Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound1 Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func, typename QExtTypeTrait<T_type1>::Take bound1)
-        : QExtAdapts<T_functor>(func), m_bound1(bound1) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func, typename QExtTypeTrait<T1>::Take bound1)
+        : QExtAdapts<Functor>(func), mBound1(bound1) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >
-               (m_bound1.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass >
+            (mBound1.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1>
-    typename ReturnTypeDeduce<T_arg1>::Type
-    operator()(T_arg1 arg1)
+    template <class Arg1>
+    typename ReturnTypeDeduce<Arg1>::Type
+    operator()(Arg1 arg1)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >
-               (arg1, m_bound1.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass >
+            (arg1, mBound1.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2>
-    typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2)
+    template <class Arg1, class Arg2>
+    typename ReturnTypeDeduce<Arg1, Arg2>::Type
+    operator()(Arg1 arg1, Arg2 arg2)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >
-               (arg1, arg2, m_bound1.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass >
+            (arg1, arg2, mBound1.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
+    template <class Arg1, class Arg2, class Arg3>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >
-               (arg1, arg2, arg3, m_bound1.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass >
+            (arg1, arg2, arg3, mBound1.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
+    template <class Arg1, class Arg2, class Arg3, class Arg4>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >
-               (arg1, arg2, arg3, arg4, m_bound1.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass >
+            (arg1, arg2, arg3, arg4, mBound1.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >
-               (arg1, arg2, arg3, arg4, arg5, m_bound1.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass >
+            (arg1, arg2, arg3, arg4, arg5, mBound1.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 1 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \param arg6 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @param arg6 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5, T_arg6 arg6)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5, Arg6 arg6)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass,
-               typename QExtTypeTrait<T_arg6>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >
-               (arg1, arg2, arg3, arg4, arg5, arg6, m_bound1.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<Arg6>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass >
+            (arg1, arg2, arg3, arg4, arg5, arg6, mBound1.invoke());
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_type1> m_bound1;
+    QExtBoundArgument<T1> mBound1;
 };
 
 //template specialization of QExtVisitor<>::doVisitEach<>(action, functor):
@@ -1370,15 +1416,15 @@ struct QExtBindFunctor<-1, T_functor, T_type1, QExtNil, QExtNil, QExtNil, QExtNi
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_type1>
-struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1> >
+template <typename Functor, typename T1>
+struct QExtVisitor<QExtBindFunctor<-1, Functor, T1> >
 {
     template <typename T_action>
     static void doVisitEach(const T_action &action,
-                            const QExtBindFunctor<-1, T_functor,  T_type1 > &target)
+                            const QExtBindFunctor<-1, Functor,  T1 > &target)
     {
-        qextVisitEach(action, target.m_functor);
-        qextVisitEach(action, target.m_bound1);
+        qextVisitEach(action, target.mFunctor);
+        qextVisitEach(action, target.mBound1);
     }
 };
 
@@ -1388,209 +1434,215 @@ struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1> >
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_type1, typename T_type2>
-struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtAdapts<T_functor>
+template <typename Functor, typename T1, typename T_type2>
+struct QExtBindFunctor<-1, Functor, T1, T_type2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType   AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtAdapts<Functor>::AdaptorType   AdaptorType;
 
     template <int count,
-              typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+             class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
     struct InternalReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<T_arg5>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<3, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<3, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<4, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<4, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<5, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<5, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<6, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<6, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
-               T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
+            detail::QExtCountVoid<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>::value,
+            Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7 >::Type Type;
     };
     typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound1 Argument to qextBindFunctor to the functor.
-     * \param bound2 Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound1 Argument to qextBindFunctor to the functor.
+     * @param bound2 Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func,
-                  typename QExtTypeTrait<T_type1>::Take bound1,
-                  typename QExtTypeTrait<T_type2>::Take bound2)
-        : QExtAdapts<T_functor>(func), m_bound1(bound1), m_bound2(bound2) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func,
+                    typename QExtTypeTrait<T1>::Take bound1,
+                    typename QExtTypeTrait<T_type2>::Take bound2)
+        : QExtAdapts<Functor>(func), mBound1(bound1), mBound2(bound2) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >
-               (m_bound1.invoke(), m_bound2.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass >
+            (mBound1.invoke(), mBound2.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 2 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1>
-    typename ReturnTypeDeduce<T_arg1>::Type
-    operator()(T_arg1 arg1)
+    template <class Arg1>
+    typename ReturnTypeDeduce<Arg1>::Type
+    operator()(Arg1 arg1)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >
-               (arg1, m_bound1.invoke(), m_bound2.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass >
+            (arg1, mBound1.invoke(), mBound2.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 2 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2>
-    typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2)
+    template <class Arg1, class Arg2>
+    typename ReturnTypeDeduce<Arg1, Arg2>::Type
+    operator()(Arg1 arg1, Arg2 arg2)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >
-               (arg1, arg2, m_bound1.invoke(), m_bound2.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass >
+            (arg1, arg2, mBound1.invoke(), mBound2.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 2 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
+    template <class Arg1, class Arg2, class Arg3>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >
-               (arg1, arg2, arg3, m_bound1.invoke(), m_bound2.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass >
+            (arg1, arg2, arg3, mBound1.invoke(), mBound2.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 2 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
+    template <class Arg1, class Arg2, class Arg3, class Arg4>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >
-               (arg1, arg2, arg3, arg4, m_bound1.invoke(), m_bound2.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass >
+            (arg1, arg2, arg3, arg4, mBound1.invoke(), mBound2.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 2 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \param arg5 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @param arg5 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4, T_arg5 arg5)
+    template <class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4, Arg5>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4, Arg5 arg5)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<T_arg5>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >
-               (arg1, arg2, arg3, arg4, arg5, m_bound1.invoke(), m_bound2.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<Arg5>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass >
+            (arg1, arg2, arg3, arg4, arg5, mBound1.invoke(), mBound2.invoke());
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_type1> m_bound1;
-    QExtBoundArgument<T_type2> m_bound2;
+    QExtBoundArgument<T1> mBound1;
+    QExtBoundArgument<T_type2> mBound2;
 };
 
 
@@ -1601,16 +1653,16 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, QExtNil, QExtNil, QExtNi
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_type1, typename T_type2>
-struct QExtVisitor < QExtBindFunctor<-1, T_functor, T_type1, T_type2 > >
+template <typename Functor, typename T1, typename T_type2>
+struct QExtVisitor < QExtBindFunctor<-1, Functor, T1, T_type2 > >
 {
     template <typename T_action>
     static void doVisitEach(const T_action &action,
-                            const QExtBindFunctor<-1, T_functor,  T_type1, T_type2 > &target)
+                            const QExtBindFunctor<-1, Functor,  T1, T_type2 > &target)
     {
-        qextVisitEach(action, target.m_functor);
-        qextVisitEach(action, target.m_bound1);
-        qextVisitEach(action, target.m_bound2);
+        qextVisitEach(action, target.mFunctor);
+        qextVisitEach(action, target.mBound1);
+        qextVisitEach(action, target.mBound2);
     }
 };
 
@@ -1620,184 +1672,189 @@ struct QExtVisitor < QExtBindFunctor<-1, T_functor, T_type1, T_type2 > >
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_type1, typename T_type2, typename T_type3>
-struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtAdapts<T_functor>
+template <typename Functor, typename T1, typename T_type2, typename T_type3>
+struct QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtAdapts<Functor>::AdaptorType       AdaptorType;
 
     template <int count,
-              typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+             class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
     struct InternalReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<T_arg4>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<4, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<4, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<5, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<5, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<6, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<6, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
-               T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
+            detail::QExtCountVoid<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>::value,
+            Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7 >::Type Type;
     };
     typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound1 Argument to qextBindFunctor to the functor.
-     * \param bound2 Argument to qextBindFunctor to the functor.
-     * \param bound3 Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound1 Argument to qextBindFunctor to the functor.
+     * @param bound2 Argument to qextBindFunctor to the functor.
+     * @param bound3 Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func,
-                  typename QExtTypeTrait<T_type1>::Take bound1,
-                  typename QExtTypeTrait<T_type2>::Take bound2,
-                  typename QExtTypeTrait<T_type3>::Take bound3)
-        : QExtAdapts<T_functor>(func), m_bound1(bound1), m_bound2(bound2), m_bound3(bound3) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func,
+                    typename QExtTypeTrait<T1>::Take bound1,
+                    typename QExtTypeTrait<T_type2>::Take bound2,
+                    typename QExtTypeTrait<T_type3>::Take bound3)
+        : QExtAdapts<Functor>(func), mBound1(bound1), mBound2(bound2), mBound3(bound3) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass >
-               (m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass >
+            (mBound1.invoke(), mBound2.invoke(), mBound3.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 3 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1>
-    typename ReturnTypeDeduce<T_arg1>::Type
-    operator()(T_arg1 arg1)
+    template <class Arg1>
+    typename ReturnTypeDeduce<Arg1>::Type
+    operator()(Arg1 arg1)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass >
-               (arg1, m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass >
+            (arg1, mBound1.invoke(), mBound2.invoke(), mBound3.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 3 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2>
-    typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2)
+    template <class Arg1, class Arg2>
+    typename ReturnTypeDeduce<Arg1, Arg2>::Type
+    operator()(Arg1 arg1, Arg2 arg2)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass >
-               (arg1, arg2, m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass >
+            (arg1, arg2, mBound1.invoke(), mBound2.invoke(), mBound3.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 3 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
+    template <class Arg1, class Arg2, class Arg3>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass >
-               (arg1, arg2, arg3, m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass >
+            (arg1, arg2, arg3, mBound1.invoke(), mBound2.invoke(), mBound3.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 3 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \param arg4 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @param arg4 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3, T_arg4>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3, T_arg4 arg4)
+    template <class Arg1, class Arg2, class Arg3, class Arg4>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3, Arg4>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3, Arg4 arg4)
     {
-        return this->m_functor(arg1, arg2, arg3, arg4, m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke());
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<T_arg4>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass >
-               (arg1, arg2, arg3, arg4, m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke());
+        return this->mFunctor(arg1, arg2, arg3, arg4, mBound1.invoke(), mBound2.invoke(), mBound3.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<Arg4>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass >
+            (arg1, arg2, arg3, arg4, mBound1.invoke(), mBound2.invoke(), mBound3.invoke());
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_type1> m_bound1;
-    QExtBoundArgument<T_type2> m_bound2;
-    QExtBoundArgument<T_type3> m_bound3;
+    QExtBoundArgument<T1> mBound1;
+    QExtBoundArgument<T_type2> mBound2;
+    QExtBoundArgument<T_type3> mBound3;
 };
 
 
@@ -1808,17 +1865,17 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QExtNil, QExtNi
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_type1, typename T_type2, typename T_type3>
-struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3 > >
+template <typename Functor, typename T1, typename T_type2, typename T_type3>
+struct QExtVisitor<QExtBindFunctor<-1, Functor, T1, T_type2, T_type3 > >
 {
     template <typename T_action>
     static void doVisitEach(const T_action &action,
-                            const QExtBindFunctor<-1, T_functor,  T_type1, T_type2, T_type3 > &target)
+                            const QExtBindFunctor<-1, Functor,  T1, T_type2, T_type3 > &target)
     {
-        qextVisitEach(action, target.m_functor);
-        qextVisitEach(action, target.m_bound1);
-        qextVisitEach(action, target.m_bound2);
-        qextVisitEach(action, target.m_bound3);
+        qextVisitEach(action, target.mFunctor);
+        qextVisitEach(action, target.mBound1);
+        qextVisitEach(action, target.mBound2);
+        qextVisitEach(action, target.mBound3);
     }
 };
 
@@ -1828,157 +1885,161 @@ struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3 > >
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor,
-          typename T_type1, typename T_type2, typename T_type3, typename T_type4>
-struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QExtNil, QExtNil, QExtNil > : public QExtAdapts<T_functor>
+template <typename Functor,
+         typename T1, typename T_type2, typename T_type3, typename T_type4>
+struct QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, QExtNil, QExtNil, QExtNil > : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtAdapts<Functor>::AdaptorType       AdaptorType;
 
     template <int count,
-              typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+             class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
     struct InternalReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<T_arg3>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<5, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<5, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<6, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<6, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
-               T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
+            detail::QExtCountVoid<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>::value,
+            Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7 >::Type Type;
     };
     typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound1 Argument to qextBindFunctor to the functor.
-     * \param bound2 Argument to qextBindFunctor to the functor.
-     * \param bound3 Argument to qextBindFunctor to the functor.
-     * \param bound4 Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound1 Argument to qextBindFunctor to the functor.
+     * @param bound2 Argument to qextBindFunctor to the functor.
+     * @param bound3 Argument to qextBindFunctor to the functor.
+     * @param bound4 Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func,
-                  typename QExtTypeTrait<T_type1>::Take bound1,
-                  typename QExtTypeTrait<T_type2>::Take bound2,
-                  typename QExtTypeTrait<T_type3>::Take bound3,
-                  typename QExtTypeTrait<T_type4>::Take bound4)
-        : QExtAdapts<T_functor>(func), m_bound1(bound1), m_bound2(bound2), m_bound3(bound3), m_bound4(bound4) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func,
+                    typename QExtTypeTrait<T1>::Take bound1,
+                    typename QExtTypeTrait<T_type2>::Take bound2,
+                    typename QExtTypeTrait<T_type3>::Take bound3,
+                    typename QExtTypeTrait<T_type4>::Take bound4)
+        : QExtAdapts<Functor>(func), mBound1(bound1), mBound2(bound2), mBound3(bound3), mBound4(bound4) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass >
-               (m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke(), m_bound4.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass >
+            (mBound1.invoke(), mBound2.invoke(), mBound3.invoke(), mBound4.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 4 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1>
-    typename ReturnTypeDeduce<T_arg1>::Type
-    operator()(T_arg1 arg1)
+    template <class Arg1>
+    typename ReturnTypeDeduce<Arg1>::Type
+    operator()(Arg1 arg1)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass >
-               (arg1, m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke(), m_bound4.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass >
+            (arg1, mBound1.invoke(), mBound2.invoke(), mBound3.invoke(), mBound4.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 4 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2>
-    typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2)
+    template <class Arg1, class Arg2>
+    typename ReturnTypeDeduce<Arg1, Arg2>::Type
+    operator()(Arg1 arg1, Arg2 arg2)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass >
-               (arg1, arg2, m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke(), m_bound4.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass >
+            (arg1, arg2, mBound1.invoke(), mBound2.invoke(), mBound3.invoke(), mBound4.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 4 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \param arg3 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @param arg3 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2, typename T_arg3>
-    typename ReturnTypeDeduce<T_arg1, T_arg2, T_arg3>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2, T_arg3 arg3)
+    template <class Arg1, class Arg2, class Arg3>
+    typename ReturnTypeDeduce<Arg1, Arg2, Arg3>::Type
+    operator()(Arg1 arg1, Arg2 arg2, Arg3 arg3)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<T_arg3>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass >
-               (arg1, arg2, arg3, m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke(), m_bound4.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<Arg3>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass >
+            (arg1, arg2, arg3, mBound1.invoke(), mBound2.invoke(), mBound3.invoke(), mBound4.invoke());
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_type1> m_bound1;
-    QExtBoundArgument<T_type2> m_bound2;
-    QExtBoundArgument<T_type3> m_bound3;
-    QExtBoundArgument<T_type4> m_bound4;
+    QExtBoundArgument<T1> mBound1;
+    QExtBoundArgument<T_type2> mBound2;
+    QExtBoundArgument<T_type3> mBound3;
+    QExtBoundArgument<T_type4> mBound4;
 };
 
 
@@ -1989,18 +2050,18 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QExtNi
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_type1, typename T_type2, typename T_type3, typename T_type4>
-struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4> >
+template <typename Functor, typename T1, typename T_type2, typename T_type3, typename T_type4>
+struct QExtVisitor<QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4> >
 {
     template <typename T_action>
     static void doVisitEach(const T_action &action,
-                            const QExtBindFunctor<-1, T_functor,  T_type1, T_type2, T_type3, T_type4 > &target)
+                            const QExtBindFunctor<-1, Functor,  T1, T_type2, T_type3, T_type4 > &target)
     {
-        qextVisitEach(action, target.m_functor);
-        qextVisitEach(action, target.m_bound1);
-        qextVisitEach(action, target.m_bound2);
-        qextVisitEach(action, target.m_bound3);
-        qextVisitEach(action, target.m_bound4);
+        qextVisitEach(action, target.mFunctor);
+        qextVisitEach(action, target.mBound1);
+        qextVisitEach(action, target.mBound2);
+        qextVisitEach(action, target.mBound3);
+        qextVisitEach(action, target.mBound4);
     }
 };
 
@@ -2009,129 +2070,132 @@ struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_t
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor,
-          typename T_type1, typename T_type2, typename T_type3, typename T_type4, typename T_type5>
-struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, QExtNil, QExtNil > : public QExtAdapts<T_functor>
+template <typename Functor,
+         typename T1, typename T_type2, typename T_type3, typename T_type4, typename T_type5>
+struct QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, T_type5, QExtNil, QExtNil > : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType   AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtAdapts<Functor>::AdaptorType   AdaptorType;
 
     template <int count,
-              typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+             class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
     struct InternalReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<T_arg2>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type5>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type5>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
-    struct InternalReturnTypeDeduce<6, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+    template <class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
+    struct InternalReturnTypeDeduce<6, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type5>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type5>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
-               T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
+            detail::QExtCountVoid<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>::value,
+            Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7 >::Type Type;
     };
     typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound1 Argument to qextBindFunctor to the functor.
-     * \param bound2 Argument to qextBindFunctor to the functor.
-     * \param bound3 Argument to qextBindFunctor to the functor.
-     * \param bound4 Argument to qextBindFunctor to the functor.
-     * \param bound5 Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound1 Argument to qextBindFunctor to the functor.
+     * @param bound2 Argument to qextBindFunctor to the functor.
+     * @param bound3 Argument to qextBindFunctor to the functor.
+     * @param bound4 Argument to qextBindFunctor to the functor.
+     * @param bound5 Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func,
-                  typename QExtTypeTrait<T_type1>::Take bound1,
-                  typename QExtTypeTrait<T_type2>::Take bound2,
-                  typename QExtTypeTrait<T_type3>::Take bound3,
-                  typename QExtTypeTrait<T_type4>::Take bound4,
-                  typename QExtTypeTrait<T_type5>::Take bound5)
-        : QExtAdapts<T_functor>(func), m_bound1(bound1), m_bound2(bound2), m_bound3(bound3), m_bound4(bound4), m_bound5(bound5) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func,
+                    typename QExtTypeTrait<T1>::Take bound1,
+                    typename QExtTypeTrait<T_type2>::Take bound2,
+                    typename QExtTypeTrait<T_type3>::Take bound3,
+                    typename QExtTypeTrait<T_type4>::Take bound4,
+                    typename QExtTypeTrait<T_type5>::Take bound5)
+        : QExtAdapts<Functor>(func), mBound1(bound1), mBound2(bound2), mBound3(bound3), mBound4(bound4), mBound5(bound5) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type5>::Type>::Pass >
-               (m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke(), m_bound4.invoke(), m_bound5.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type5>::Type>::Pass >
+            (mBound1.invoke(), mBound2.invoke(), mBound3.invoke(), mBound4.invoke(), mBound5.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 5 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1>
-    typename ReturnTypeDeduce<T_arg1>::Type
-    operator()(T_arg1 arg1)
+    template <class Arg1>
+    typename ReturnTypeDeduce<Arg1>::Type
+    operator()(Arg1 arg1)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type5>::Type>::Pass >
-               (arg1, m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke(), m_bound4.invoke(), m_bound5.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type5>::Type>::Pass >
+            (arg1, mBound1.invoke(), mBound2.invoke(), mBound3.invoke(), mBound4.invoke(), mBound5.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 5 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \param arg2 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @param arg2 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1, typename T_arg2>
-    typename ReturnTypeDeduce<T_arg1, T_arg2>::Type
-    operator()(T_arg1 arg1, T_arg2 arg2)
+    template <class Arg1, class Arg2>
+    typename ReturnTypeDeduce<Arg1, Arg2>::Type
+    operator()(Arg1 arg1, Arg2 arg2)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<T_arg2>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type5>::Type>::Pass >
-               (arg1, arg2, m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke(), m_bound4.invoke(), m_bound5.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<Arg2>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type5>::Type>::Pass >
+            (arg1, arg2, mBound1.invoke(), mBound2.invoke(), mBound3.invoke(), mBound4.invoke(), mBound5.invoke());
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_type1> m_bound1;
-    QExtBoundArgument<T_type2> m_bound2;
-    QExtBoundArgument<T_type3> m_bound3;
-    QExtBoundArgument<T_type4> m_bound4;
-    QExtBoundArgument<T_type5> m_bound5;
+    QExtBoundArgument<T1> mBound1;
+    QExtBoundArgument<T_type2> mBound2;
+    QExtBoundArgument<T_type3> mBound3;
+    QExtBoundArgument<T_type4> mBound4;
+    QExtBoundArgument<T_type5> mBound5;
 };
 
 
@@ -2142,20 +2206,20 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor,
-          typename T_type1, typename T_type2, typename T_type3, typename T_type4, typename T_type5>
-struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5> >
+template <typename Functor,
+         typename T1, typename T_type2, typename T_type3, typename T_type4, typename T_type5>
+struct QExtVisitor<QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, T_type5> >
 {
     template <typename T_action>
     static void doVisitEach(const T_action &action,
-                            const QExtBindFunctor<-1, T_functor,  T_type1, T_type2, T_type3, T_type4, T_type5 > & target)
+                            const QExtBindFunctor<-1, Functor,  T1, T_type2, T_type3, T_type4, T_type5 > & target)
     {
-        qextVisitEach(action, target.m_functor);
-        qextVisitEach(action, target.m_bound1);
-        qextVisitEach(action, target.m_bound2);
-        qextVisitEach(action, target.m_bound3);
-        qextVisitEach(action, target.m_bound4);
-        qextVisitEach(action, target.m_bound5);
+        qextVisitEach(action, target.mFunctor);
+        qextVisitEach(action, target.mBound1);
+        qextVisitEach(action, target.mBound2);
+        qextVisitEach(action, target.mBound3);
+        qextVisitEach(action, target.mBound4);
+        qextVisitEach(action, target.mBound5);
     }
 };
 
@@ -2165,104 +2229,106 @@ struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_t
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor,
-          typename T_type1, typename T_type2, typename T_type3,
-          typename T_type4, typename T_type5, typename T_type6>
-struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, QExtNil >
-        : public QExtAdapts<T_functor>
+template <typename Functor,
+         typename T1, typename T_type2, typename T_type3,
+         typename T_type4, typename T_type5, typename T_type6>
+struct QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, T_type5, T_type6, QExtNil >
+    : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtAdapts<Functor>::AdaptorType       AdaptorType;
 
     template <int count,
-              typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+             class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
     struct InternalReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<T_arg1>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type5>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type6>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type5>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type6>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
-               T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
+            detail::QExtCountVoid<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>::value,
+            Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7 >::Type Type;
     };
     typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound1 Argument to qextBindFunctor to the functor.
-     * \param bound2 Argument to qextBindFunctor to the functor.
-     * \param bound3 Argument to qextBindFunctor to the functor.
-     * \param bound4 Argument to qextBindFunctor to the functor.
-     * \param bound5 Argument to qextBindFunctor to the functor.
-     * \param bound6 Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound1 Argument to qextBindFunctor to the functor.
+     * @param bound2 Argument to qextBindFunctor to the functor.
+     * @param bound3 Argument to qextBindFunctor to the functor.
+     * @param bound4 Argument to qextBindFunctor to the functor.
+     * @param bound5 Argument to qextBindFunctor to the functor.
+     * @param bound6 Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func,
-                  typename QExtTypeTrait<T_type1>::Take bound1,
-                  typename QExtTypeTrait<T_type2>::Take bound2,
-                  typename QExtTypeTrait<T_type3>::Take bound3,
-                  typename QExtTypeTrait<T_type4>::Take bound4,
-                  typename QExtTypeTrait<T_type5>::Take bound5,
-                  typename QExtTypeTrait<T_type6>::Take bound6)
-        : QExtAdapts<T_functor>(func),
-          m_bound1(bound1), m_bound2(bound2), m_bound3(bound3),
-          m_bound4(bound4), m_bound5(bound5), m_bound6(bound6) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func,
+                    typename QExtTypeTrait<T1>::Take bound1,
+                    typename QExtTypeTrait<T_type2>::Take bound2,
+                    typename QExtTypeTrait<T_type3>::Take bound3,
+                    typename QExtTypeTrait<T_type4>::Take bound4,
+                    typename QExtTypeTrait<T_type5>::Take bound5,
+                    typename QExtTypeTrait<T_type6>::Take bound6)
+        : QExtAdapts<Functor>(func),
+        mBound1(bound1), mBound2(bound2), mBound3(bound3),
+        mBound4(bound4), mBound5(bound5), mBound6(bound6) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type5>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type6>::Type>::Pass >
-               (m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke(), m_bound4.invoke(), m_bound5.invoke(), m_bound6.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type5>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type6>::Type>::Pass >
+            (mBound1.invoke(), mBound2.invoke(), mBound3.invoke(), mBound4.invoke(), mBound5.invoke(), mBound6.invoke());
     }
 
-    /** Invokes the wrapped functor passing on the arguments.
+    /**
+     * @brief Invokes the wrapped functor passing on the arguments.
      * The last 6 argument(s) are fixed.
-     * \param arg1 Argument to be passed on to the functor.
-     * \return The return value of the functor invocation.
+     * @param arg1 Argument to be passed on to the functor.
+     * @return The return value of the functor invocation.
      */
-    template <typename T_arg1>
-    typename ReturnTypeDeduce<T_arg1>::Type
-    operator()(T_arg1 arg1)
+    template <class Arg1>
+    typename ReturnTypeDeduce<Arg1>::Type
+    operator()(Arg1 arg1)
     {
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<T_arg1>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type5>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type6>::Type>::Pass >
-               (arg1, m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke(), m_bound4.invoke(), m_bound5.invoke(), m_bound6.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<Arg1>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type5>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type6>::Type>::Pass >
+            (arg1, mBound1.invoke(), mBound2.invoke(), mBound3.invoke(), mBound4.invoke(), mBound5.invoke(), mBound6.invoke());
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_type1> m_bound1;
-    QExtBoundArgument<T_type2> m_bound2;
-    QExtBoundArgument<T_type3> m_bound3;
-    QExtBoundArgument<T_type4> m_bound4;
-    QExtBoundArgument<T_type5> m_bound5;
-    QExtBoundArgument<T_type6> m_bound6;
+    QExtBoundArgument<T1> mBound1;
+    QExtBoundArgument<T_type2> mBound2;
+    QExtBoundArgument<T_type3> mBound3;
+    QExtBoundArgument<T_type4> mBound4;
+    QExtBoundArgument<T_type5> mBound5;
+    QExtBoundArgument<T_type6> mBound6;
 };
 
 
@@ -2273,22 +2339,22 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor,
-          typename T_type1, typename T_type2, typename T_type3,
-          typename T_type4, typename T_type5, typename T_type6>
-struct QExtVisitor<QExtBindFunctor< -1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6> >
+template <typename Functor,
+         typename T1, typename T_type2, typename T_type3,
+         typename T_type4, typename T_type5, typename T_type6>
+struct QExtVisitor<QExtBindFunctor< -1, Functor, T1, T_type2, T_type3, T_type4, T_type5, T_type6> >
 {
     template <typename T_action>
     static void doVisitEach(const T_action &action,
-                            const QExtBindFunctor<-1, T_functor,  T_type1, T_type2, T_type3, T_type4, T_type5, T_type6 > &target)
+                            const QExtBindFunctor<-1, Functor,  T1, T_type2, T_type3, T_type4, T_type5, T_type6 > &target)
     {
-        qextVisitEach(action, target.m_functor);
-        qextVisitEach(action, target.m_bound1);
-        qextVisitEach(action, target.m_bound2);
-        qextVisitEach(action, target.m_bound3);
-        qextVisitEach(action, target.m_bound4);
-        qextVisitEach(action, target.m_bound5);
-        qextVisitEach(action, target.m_bound6);
+        qextVisitEach(action, target.mFunctor);
+        qextVisitEach(action, target.mBound1);
+        qextVisitEach(action, target.mBound2);
+        qextVisitEach(action, target.mBound3);
+        qextVisitEach(action, target.mBound4);
+        qextVisitEach(action, target.mBound5);
+        qextVisitEach(action, target.mBound6);
     }
 };
 
@@ -2298,88 +2364,89 @@ struct QExtVisitor<QExtBindFunctor< -1, T_functor, T_type1, T_type2, T_type3, T_
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor,
-          typename T_type1, typename T_type2, typename T_type3,
-          typename T_type4, typename T_type5, typename T_type6, typename T_type7>
-struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7>
-        : public QExtAdapts<T_functor>
+template <typename Functor,
+         typename T1, typename T_type2, typename T_type3,
+         typename T_type4, typename T_type5, typename T_type6, typename T_type7>
+struct QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7>
+    : public QExtAdapts<Functor>
 {
-    typedef QExtAdapts<T_functor>                         BaseType;
-    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
+    typedef QExtAdapts<Functor>                         BaseType;
+    typedef typename QExtAdapts<Functor>::AdaptorType       AdaptorType;
 
     template <int count,
-              typename T_arg1, typename T_arg2, typename T_arg3,
-              typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
+             class Arg1, class Arg2, class Arg3,
+             class Arg4, class Arg5, class Arg6, class Arg7>
     struct InternalReturnTypeDeduce
     {
         typedef typename AdaptorType::template ReturnTypeDeduce <
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type5>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type6>::Type>::Pass,
-            typename QExtTypeTrait<typename QEXTUnwrapReference<T_type7>::Type>::Pass >::Type Type;
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type5>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type6>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type7>::Type>::Pass >::Type Type;
     };
 
-    template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
-              typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
+    template <class Arg1 = void, class Arg2 = void, class Arg3 = void,
+             class Arg4 = void, class Arg5 = void, class Arg6 = void, class Arg7 = void>
     struct ReturnTypeDeduce
     {
         typedef typename InternalReturnTypeDeduce <
-        detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
-               T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
+            detail::QExtCountVoid<Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>::value,
+            Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7 >::Type Type;
     };
     typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
-     * \param func Functor to invoke from operator()().
-     * \param bound1 Argument to qextBindFunctor to the functor.
-     * \param bound2 Argument to qextBindFunctor to the functor.
-     * \param bound3 Argument to qextBindFunctor to the functor.
-     * \param bound4 Argument to qextBindFunctor to the functor.
-     * \param bound5 Argument to qextBindFunctor to the functor.
-     * \param bound6 Argument to qextBindFunctor to the functor.
-     * \param bound7 Argument to qextBindFunctor to the functor.
+     * @param func Functor to invoke from operator()().
+     * @param bound1 Argument to qextBindFunctor to the functor.
+     * @param bound2 Argument to qextBindFunctor to the functor.
+     * @param bound3 Argument to qextBindFunctor to the functor.
+     * @param bound4 Argument to qextBindFunctor to the functor.
+     * @param bound5 Argument to qextBindFunctor to the functor.
+     * @param bound6 Argument to qextBindFunctor to the functor.
+     * @param bound7 Argument to qextBindFunctor to the functor.
      */
-    QExtBindFunctor(typename QExtTypeTrait<T_functor>::Take func,
-                  typename QExtTypeTrait<T_type1>::Take bound1,
-                  typename QExtTypeTrait<T_type2>::Take bound2,
-                  typename QExtTypeTrait<T_type3>::Take bound3,
-                  typename QExtTypeTrait<T_type4>::Take bound4,
-                  typename QExtTypeTrait<T_type5>::Take bound5,
-                  typename QExtTypeTrait<T_type6>::Take bound6,
-                  typename QExtTypeTrait<T_type7>::Take bound7)
-        : QExtAdapts<T_functor>(func),
-          m_bound1(bound1), m_bound2(bound2), m_bound3(bound3),
-          m_bound4(bound4), m_bound5(bound5), m_bound6(bound6), m_bound7(bound7) {}
+    QExtBindFunctor(typename QExtTypeTrait<Functor>::Take func,
+                    typename QExtTypeTrait<T1>::Take bound1,
+                    typename QExtTypeTrait<T_type2>::Take bound2,
+                    typename QExtTypeTrait<T_type3>::Take bound3,
+                    typename QExtTypeTrait<T_type4>::Take bound4,
+                    typename QExtTypeTrait<T_type5>::Take bound5,
+                    typename QExtTypeTrait<T_type6>::Take bound6,
+                    typename QExtTypeTrait<T_type7>::Take bound7)
+        : QExtAdapts<Functor>(func),
+        mBound1(bound1), mBound2(bound2), mBound3(bound3),
+        mBound4(bound4), mBound5(bound5), mBound6(bound6), mBound7(bound7) {}
 
-    /** Invokes the wrapped functor passing on the bound argument only.
-     * \return The return value of the functor invocation.
+    /**
+     * @brief Invokes the wrapped functor passing on the bound argument only.
+     * @return The return value of the functor invocation.
      */
     ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
-        return this->m_functor.template operator () <
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type4>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type5>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type6>::Type>::Pass,
-               typename QExtTypeTrait<typename QEXTUnwrapReference<T_type7>::Type>::Pass >
-               (m_bound1.invoke(), m_bound2.invoke(), m_bound3.invoke(), m_bound4.invoke(), m_bound5.invoke(), m_bound6.invoke(), m_bound7.invoke());
+        return this->mFunctor.template operator () <
+            typename QExtTypeTrait<typename QExtUnwrapReference<T1>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type2>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type3>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type4>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type5>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type6>::Type>::Pass,
+            typename QExtTypeTrait<typename QExtUnwrapReference<T_type7>::Type>::Pass >
+            (mBound1.invoke(), mBound2.invoke(), mBound3.invoke(), mBound4.invoke(), mBound5.invoke(), mBound6.invoke(), mBound7.invoke());
     }
 
     // The argument bound to the functor.
-    QExtBoundArgument<T_type1> m_bound1;
-    QExtBoundArgument<T_type2> m_bound2;
-    QExtBoundArgument<T_type3> m_bound3;
-    QExtBoundArgument<T_type4> m_bound4;
-    QExtBoundArgument<T_type5> m_bound5;
-    QExtBoundArgument<T_type6> m_bound6;
-    QExtBoundArgument<T_type7> m_bound7;
+    QExtBoundArgument<T1> mBound1;
+    QExtBoundArgument<T_type2> mBound2;
+    QExtBoundArgument<T_type3> mBound3;
+    QExtBoundArgument<T_type4> mBound4;
+    QExtBoundArgument<T_type5> mBound5;
+    QExtBoundArgument<T_type6> mBound6;
+    QExtBoundArgument<T_type7> mBound7;
 };
 
 
@@ -2390,23 +2457,23 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor,
-          typename T_type1, typename T_type2, typename T_type3,
-          typename T_type4, typename T_type5, typename T_type6, typename T_type7>
-struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7 > >
+template <typename Functor,
+         typename T1, typename T_type2, typename T_type3,
+         typename T_type4, typename T_type5, typename T_type6, typename T_type7>
+struct QExtVisitor<QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7 > >
 {
     template <typename T_action>
     static void doVisitEach(const T_action &action,
-                            const QExtBindFunctor<-1, T_functor,  T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7 > &target)
+                            const QExtBindFunctor<-1, Functor,  T1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7 > &target)
     {
-        qextVisitEach(action, target.m_functor);
-        qextVisitEach(action, target.m_bound1);
-        qextVisitEach(action, target.m_bound2);
-        qextVisitEach(action, target.m_bound3);
-        qextVisitEach(action, target.m_bound4);
-        qextVisitEach(action, target.m_bound5);
-        qextVisitEach(action, target.m_bound6);
-        qextVisitEach(action, target.m_bound7);
+        qextVisitEach(action, target.mFunctor);
+        qextVisitEach(action, target.mBound1);
+        qextVisitEach(action, target.mBound2);
+        qextVisitEach(action, target.mBound3);
+        qextVisitEach(action, target.mBound4);
+        qextVisitEach(action, target.mBound5);
+        qextVisitEach(action, target.mBound6);
+        qextVisitEach(action, target.mBound7);
     }
 };
 
@@ -2416,162 +2483,162 @@ struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_t
  * The optional template argument @e I_location specifies the zero-based
  * position of the argument to be fixed (@p -1 stands for the last argument).
  *
- * \param func Functor that should be wrapped.
- * \param bound1 Argument to qextBindFunctor to @e func.
- * \return AdaptorType that executes @e func with the bound argument on invokation.
+ * @param func Functor that should be wrapped.
+ * @param bound1 Argument to qextBindFunctor to @e func.
+ * @return AdaptorType that executes @e func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
-template <int I_location, typename T_functor, typename T_type1>
-inline QExtBindFunctor<I_location, T_functor, T_type1>
-qextBindFunctor(const T_functor &func, T_type1 bound1)
+template <int I_location, typename Functor, typename T1>
+inline QExtBindFunctor<I_location, Functor, T1>
+qextBindFunctor(const Functor &func, T1 bound1)
 {
-    return QExtBindFunctor<I_location, T_functor, T_type1>(func, bound1);
+    return QExtBindFunctor<I_location, Functor, T1>(func, bound1);
 }
 
 
 /** Creates an adaptor of type qextBindFunctor which fixes the last 1 argument(s) of the passed functor.
  * This function overload fixes the last 1 argument(s) of @e func.
  *
- * \param func Functor that should be wrapped.
- * \param bound1 Argument to qextBindFunctor to @e func.
- * \return AdaptorType that executes func with the bound argument on invokation.
+ * @param func Functor that should be wrapped.
+ * @param bound1 Argument to qextBindFunctor to @e func.
+ * @return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_type1>
-inline QExtBindFunctor<-1, T_functor, T_type1 >
-qextBindFunctor(const T_functor &func, T_type1 bound1)
+template <typename Functor, typename T1>
+inline QExtBindFunctor<-1, Functor, T1 >
+qextBindFunctor(const Functor &func, T1 bound1)
 {
-    return QExtBindFunctor<-1, T_functor, T_type1 > (func, bound1);
+    return QExtBindFunctor<-1, Functor, T1 > (func, bound1);
 }
 
 
 /** Creates an adaptor of type qextBindFunctor which fixes the last 2 argument(s) of the passed functor.
  * This function overload fixes the last 2 argument(s) of @e func.
  *
- * \param func Functor that should be wrapped.
- * \param bound1 Argument to qextBindFunctor to @e func.
- * \param bound2 Argument to qextBindFunctor to @e func.
- * \return AdaptorType that executes func with the bound argument on invokation.
+ * @param func Functor that should be wrapped.
+ * @param bound1 Argument to qextBindFunctor to @e func.
+ * @param bound2 Argument to qextBindFunctor to @e func.
+ * @return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_type1, typename T_type2>
-inline QExtBindFunctor<-1, T_functor, T_type1, T_type2 >
-qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2)
+template <typename Functor, typename T1, typename T_type2>
+inline QExtBindFunctor<-1, Functor, T1, T_type2 >
+qextBindFunctor(const Functor &func, T1 bound1, T_type2 bound2)
 {
-    return QExtBindFunctor<-1, T_functor, T_type1, T_type2 > (func, bound1, bound2);
+    return QExtBindFunctor<-1, Functor, T1, T_type2 > (func, bound1, bound2);
 }
 
 
 /** Creates an adaptor of type qextBindFunctor which fixes the last 3 argument(s) of the passed functor.
  * This function overload fixes the last 3 argument(s) of @e func.
  *
- * \param func Functor that should be wrapped.
- * \param bound1 Argument to qextBindFunctor to @e func.
- * \param bound2 Argument to qextBindFunctor to @e func.
- * \param bound3 Argument to qextBindFunctor to @e func.
- * \return AdaptorType that executes func with the bound argument on invokation.
+ * @param func Functor that should be wrapped.
+ * @param bound1 Argument to qextBindFunctor to @e func.
+ * @param bound2 Argument to qextBindFunctor to @e func.
+ * @param bound3 Argument to qextBindFunctor to @e func.
+ * @return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_type1, typename T_type2, typename T_type3>
-inline QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3 >
-qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 bound3)
+template <typename Functor, typename T1, typename T_type2, typename T_type3>
+inline QExtBindFunctor<-1, Functor, T1, T_type2, T_type3 >
+qextBindFunctor(const Functor &func, T1 bound1, T_type2 bound2, T_type3 bound3)
 {
-    return QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3 > (func, bound1, bound2, bound3);
+    return QExtBindFunctor<-1, Functor, T1, T_type2, T_type3 > (func, bound1, bound2, bound3);
 }
 
 
 /** Creates an adaptor of type qextBindFunctor which fixes the last 4 argument(s) of the passed functor.
  * This function overload fixes the last 4 argument(s) of @e func.
  *
- * \param func Functor that should be wrapped.
- * \param bound1 Argument to qextBindFunctor to @e func.
- * \param bound2 Argument to qextBindFunctor to @e func.
- * \param bound3 Argument to qextBindFunctor to @e func.
- * \param bound4 Argument to qextBindFunctor to @e func.
- * \return AdaptorType that executes func with the bound argument on invokation.
+ * @param func Functor that should be wrapped.
+ * @param bound1 Argument to qextBindFunctor to @e func.
+ * @param bound2 Argument to qextBindFunctor to @e func.
+ * @param bound3 Argument to qextBindFunctor to @e func.
+ * @param bound4 Argument to qextBindFunctor to @e func.
+ * @return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor, typename T_type1, typename T_type2, typename T_type3, typename T_type4>
-inline QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4 >
-qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 bound3, T_type4 bound4)
+template <typename Functor, typename T1, typename T_type2, typename T_type3, typename T_type4>
+inline QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4 >
+qextBindFunctor(const Functor &func, T1 bound1, T_type2 bound2, T_type3 bound3, T_type4 bound4)
 {
-    return QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4 > (func, bound1, bound2, bound3, bound4);
+    return QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4 > (func, bound1, bound2, bound3, bound4);
 }
 
 
 /** Creates an adaptor of type qextBindFunctor which fixes the last 5 argument(s) of the passed functor.
  * This function overload fixes the last 5 argument(s) of @e func.
  *
- * \param func Functor that should be wrapped.
- * \param bound1 Argument to qextBindFunctor to @e func.
- * \param bound2 Argument to qextBindFunctor to @e func.
- * \param bound3 Argument to qextBindFunctor to @e func.
- * \param bound4 Argument to qextBindFunctor to @e func.
- * \param bound5 Argument to qextBindFunctor to @e func.
- * \return AdaptorType that executes func with the bound argument on invokation.
+ * @param func Functor that should be wrapped.
+ * @param bound1 Argument to qextBindFunctor to @e func.
+ * @param bound2 Argument to qextBindFunctor to @e func.
+ * @param bound3 Argument to qextBindFunctor to @e func.
+ * @param bound4 Argument to qextBindFunctor to @e func.
+ * @param bound5 Argument to qextBindFunctor to @e func.
+ * @return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor,
-          typename T_type1, typename T_type2, typename T_type3, typename T_type4, typename T_type5>
-inline QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5 >
-qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 bound3, T_type4 bound4, T_type5 bound5)
+template <typename Functor,
+         typename T1, typename T_type2, typename T_type3, typename T_type4, typename T_type5>
+inline QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, T_type5 >
+qextBindFunctor(const Functor &func, T1 bound1, T_type2 bound2, T_type3 bound3, T_type4 bound4, T_type5 bound5)
 {
-    return QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5 > (func, bound1, bound2, bound3, bound4, bound5);
+    return QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, T_type5 > (func, bound1, bound2, bound3, bound4, bound5);
 }
 
 
 /** Creates an adaptor of type qextBindFunctor which fixes the last 6 argument(s) of the passed functor.
  * This function overload fixes the last 6 argument(s) of @e func.
  *
- * \param func Functor that should be wrapped.
- * \param bound1 Argument to qextBindFunctor to @e func.
- * \param bound2 Argument to qextBindFunctor to @e func.
- * \param bound3 Argument to qextBindFunctor to @e func.
- * \param bound4 Argument to qextBindFunctor to @e func.
- * \param bound5 Argument to qextBindFunctor to @e func.
- * \param bound6 Argument to qextBindFunctor to @e func.
- * \return AdaptorType that executes func with the bound argument on invokation.
+ * @param func Functor that should be wrapped.
+ * @param bound1 Argument to qextBindFunctor to @e func.
+ * @param bound2 Argument to qextBindFunctor to @e func.
+ * @param bound3 Argument to qextBindFunctor to @e func.
+ * @param bound4 Argument to qextBindFunctor to @e func.
+ * @param bound5 Argument to qextBindFunctor to @e func.
+ * @param bound6 Argument to qextBindFunctor to @e func.
+ * @return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor,
-          typename T_type1, typename T_type2, typename T_type3,
-          typename T_type4, typename T_type5, typename T_type6>
-inline QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6 >
-qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 bound3, T_type4 bound4, T_type5 bound5, T_type6 bound6)
+template <typename Functor,
+         typename T1, typename T_type2, typename T_type3,
+         typename T_type4, typename T_type5, typename T_type6>
+inline QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, T_type5, T_type6 >
+qextBindFunctor(const Functor &func, T1 bound1, T_type2 bound2, T_type3 bound3, T_type4 bound4, T_type5 bound5, T_type6 bound6)
 {
-    return QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6 > (func, bound1, bound2, bound3, bound4, bound5, bound6);
+    return QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, T_type5, T_type6 > (func, bound1, bound2, bound3, bound4, bound5, bound6);
 }
 
 
 /** Creates an adaptor of type qextBindFunctor which fixes the last 7 argument(s) of the passed functor.
  * This function overload fixes the last 7 argument(s) of @e func.
  *
- * \param func Functor that should be wrapped.
- * \param bound1 Argument to qextBindFunctor to @e func.
- * \param bound2 Argument to qextBindFunctor to @e func.
- * \param bound3 Argument to qextBindFunctor to @e func.
- * \param bound4 Argument to qextBindFunctor to @e func.
- * \param bound5 Argument to qextBindFunctor to @e func.
- * \param bound6 Argument to qextBindFunctor to @e func.
- * \param bound7 Argument to qextBindFunctor to @e func.
- * \return AdaptorType that executes func with the bound argument on invokation.
+ * @param func Functor that should be wrapped.
+ * @param bound1 Argument to qextBindFunctor to @e func.
+ * @param bound2 Argument to qextBindFunctor to @e func.
+ * @param bound3 Argument to qextBindFunctor to @e func.
+ * @param bound4 Argument to qextBindFunctor to @e func.
+ * @param bound5 Argument to qextBindFunctor to @e func.
+ * @param bound6 Argument to qextBindFunctor to @e func.
+ * @param bound7 Argument to qextBindFunctor to @e func.
+ * @return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
-template <typename T_functor,
-          typename T_type1, typename T_type2, typename T_type3,
-          typename T_type4, typename T_type5, typename T_type6, typename T_type7>
-inline QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7>
-qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 bound3, T_type4 bound4, T_type5 bound5, T_type6 bound6, T_type7 bound7)
+template <typename Functor,
+         typename T1, typename T_type2, typename T_type3,
+         typename T_type4, typename T_type5, typename T_type6, typename T_type7>
+inline QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7>
+qextBindFunctor(const Functor &func, T1 bound1, T_type2 bound2, T_type3 bound3, T_type4 bound4, T_type5 bound5, T_type6 bound6, T_type7 bound7)
 {
-    return QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7 > (func, bound1, bound2, bound3, bound4, bound5, bound6, bound7);
+    return QExtBindFunctor<-1, Functor, T1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7 > (func, bound1, bound2, bound3, bound4, bound5, bound6, bound7);
 }
 
 #endif // _QEXTBINDFUNCTOR_H

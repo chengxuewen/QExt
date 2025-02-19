@@ -48,23 +48,23 @@ struct FooVoid : public QExtFunctorBase
 void QExtHideFunctorTest::testSimple()
 {
     sg_string = "";
-    QVERIFY(3 == qextHideFunctor<0>(Foo())(1, 2));
+    QVERIFY(3 == qextMakeHideFunctor<0>(Foo())(1, 2));
     QVERIFY("Foo(int 2) " == sg_string);
 
     sg_string = "";
-    QVERIFY(2 == qextHideFunctor<1>(Foo())(1, 2));
+    QVERIFY(2 == qextMakeHideFunctor<1>(Foo())(1, 2));
     QVERIFY("Foo(int 1) " == sg_string);
 
     sg_string = "";
-    QVERIFY(1 == qextHideFunctor < -1 > (Foo())(1));
+    QVERIFY(1 == qextMakeHideFunctor<-1>(Foo())(1));
     QVERIFY("Foo() " == sg_string);
 
     sg_string = "";
-    QVERIFY(1 == qextHideFunctor(Foo())(1));
+    QVERIFY(1 == qextMakeHideFunctor(Foo())(1));
     QVERIFY("Foo() " == sg_string);
 
     sg_string = "";
-    qextHideFunctor(FooVoid())(1); // void test
+    qextMakeHideFunctor(FooVoid())(1); // void test
     QVERIFY("FooVoid()" == sg_string);
 }
 
