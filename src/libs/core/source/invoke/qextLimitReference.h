@@ -52,7 +52,7 @@
  * derived reference.
  *
  * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values,
- * and, with qextMemberFunctor(), the reference to the handling object.
+ * and, with qextMakeFunctor(), the reference to the handling object.
  *
  * - @e T_type The type of the reference.
  */
@@ -168,7 +168,7 @@ struct QExtVisitor<QExtLimitReference<T_type, I_derives_Object> >
  * derived reference.
  *
  * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values,
- * and, with qextMemberFunctor(), the reference to the handling object.
+ * and, with qextMakeFunctor(), the reference to the handling object.
  *
  * - @e T_type The type of the reference.
  */
@@ -285,7 +285,7 @@ struct QExtVisitor<QExtConstLimitReference<T_type, I_derives_Object> >
  * derived reference.
  *
  * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values,
- * and, with qextMemberFunctor(), the reference to the handling object.
+ * and, with qextMakeFunctor(), the reference to the handling object.
  *
  * - @e T_type The type of the reference.
  */
@@ -403,7 +403,7 @@ struct QExtVisitor<QExtVolatileLimitReference<T_type, I_derives_Object> >
  * derived reference.
  *
  * This is used for bound (qexBindFunctor) slot parameters (via QExtBoundArgument), bound return values,
- * and, with qextMemberFunctor(), the reference to the handling object.
+ * and, with qextMakeFunctor(), the reference to the handling object.
  *
  * - @e T_type The type of the reference.
  */

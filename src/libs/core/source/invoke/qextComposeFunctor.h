@@ -66,7 +66,7 @@
  * \ingroup adaptors
  */
 
-/** Adaptor that combines three functors.
+/** AdaptorType that combines three functors.
  * Use the convenience function qextComposeFunctor() to create an instance of QExtCompose3Functor.
  *
  * The following template arguments are used:
@@ -80,7 +80,7 @@
 template<typename T_setter, typename T_getter1, typename T_getter2, typename T_getter3>
 struct QExtCompose3Functor : public QExtAdapts<T_setter>
 {
-    typedef typename QExtAdapts<T_setter>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_setter>::AdaptorType AdaptorType;
     typedef T_setter Setter;
     typedef T_getter1 Getter1;
     typedef T_getter2 Getter2;
@@ -96,13 +96,13 @@ struct QExtCompose3Functor : public QExtAdapts<T_setter>
             typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce<
+        typedef typename AdaptorType::template ReturnTypeDeduce<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type,
                 typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type,
-                typename QExtReturnTypeDeduce<T_getter3, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type>::Type Return;
+                typename QExtReturnTypeDeduce<T_getter3, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type>::Type Type;
     };
 
-    typedef typename Adaptor::Return Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     QExtCompose3Functor(const T_setter &setter, const T_getter1 &getter1, const T_getter2 &getter2,
                         const T_getter3 &getter3)
@@ -132,7 +132,7 @@ struct QExtCompose3Functor : public QExtAdapts<T_setter>
         return m_getter1 == other.m_getter1 && m_getter2 == other.m_getter2 && m_getter3 == other.m_getter3;
     }
 
-    Return operator()()
+    ResultType operator()()
     {
         return this->m_functor.template operator()<
                 typename QExtReturnTypeDeduce<T_getter1>::Type,
@@ -246,7 +246,7 @@ struct QExtVisitor<QExtCompose3Functor<T_setter, T_getter1, T_getter2, T_getter3
     }
 };
 
-/** Adaptor that combines three functors.
+/** AdaptorType that combines three functors.
  * Use the convenience function qextComposeFunctor() to create an instance of QExtCompose2Functor.
  *
  * The following template arguments are used:
@@ -259,7 +259,7 @@ struct QExtVisitor<QExtCompose3Functor<T_setter, T_getter1, T_getter2, T_getter3
 template<typename T_setter, typename T_getter1, typename T_getter2>
 struct QExtCompose2Functor : public QExtAdapts<T_setter>
 {
-    typedef typename QExtAdapts<T_setter>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_setter>::AdaptorType AdaptorType;
     typedef T_setter Setter;
     typedef T_getter1 Getter1;
     typedef T_getter2 Getter2;
@@ -274,12 +274,12 @@ struct QExtCompose2Functor : public QExtAdapts<T_setter>
             typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce<
+        typedef typename AdaptorType::template ReturnTypeDeduce<
                 typename QExtReturnTypeDeduce<T_getter1, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type,
-                typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type>::Type Return;
+                typename QExtReturnTypeDeduce<T_getter2, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type>::Type Type;
     };
 
-    typedef typename Adaptor::Return Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a QExtCompose2Functor object that combines the passed functors.
      * \param setter Functor that receives the return values of the invokation of @e getter1 and @e getter2.
@@ -294,7 +294,7 @@ struct QExtCompose2Functor : public QExtAdapts<T_setter>
     QExtCompose2Functor(const QExtCompose2Functor &other) : QExtAdapts<T_setter>(other), m_getter1(other.m_getter1)
                                                             , m_getter2(other.m_getter2) {}
 
-    Return operator()()
+    ResultType operator()()
     {
         return this->m_functor.template operator()<typename QExtReturnTypeDeduce<T_getter1>::Type, typename QExtReturnTypeDeduce<T_getter2>::Type>(
                 m_getter1(), m_getter2());
@@ -389,7 +389,7 @@ struct QExtVisitor<QExtCompose2Functor<T_setter, T_getter1, T_getter2> >
     }
 };
 
-/** Adaptor that combines two functors.
+/** AdaptorType that combines two functors.
  * Use the convenience function qextComposeFunctor() to create an instance of QExtCompose1Functor.
  *
  * The following template arguments are used:
@@ -401,7 +401,7 @@ struct QExtVisitor<QExtCompose2Functor<T_setter, T_getter1, T_getter2> >
 template<typename T_setter, typename T_getter>
 struct QExtCompose1Functor : public QExtAdapts<T_setter>
 {
-    typedef typename QExtAdapts<T_setter>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_setter>::AdaptorType AdaptorType;
     typedef T_setter Setter;
     typedef T_getter Getter;
 
@@ -415,11 +415,11 @@ struct QExtCompose1Functor : public QExtAdapts<T_setter>
             typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce<
+        typedef typename AdaptorType::template ReturnTypeDeduce<
                 typename QExtReturnTypeDeduce<T_getter, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::Type>::Type Type;
     };
 
-    typedef typename Adaptor::Return Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a compose1_functor object that combines the passed functors.
      * \param setter Functor that receives the return values of the invokation of @e getter1 and @e getter2.
@@ -430,7 +430,7 @@ struct QExtCompose1Functor : public QExtAdapts<T_setter>
 
     QExtCompose1Functor(const QExtCompose1Functor &other) : QExtAdapts<T_setter>(other), m_getter(other.m_getter) {}
 
-    Return operator()()
+    ResultType operator()()
     {
         return this->m_functor(m_getter());
     }
@@ -515,7 +515,7 @@ struct QExtVisitor<QExtCompose1Functor<T_setter, T_getter> >
  * \param getter1 Functor to invoke from operator()().
  * \param getter2 Functor to invoke from operator()().
  * \param getter3 Functor to invoke from operator()().
- * \return Adaptor that executes @e setter with the values return from invokation of @e getter1 and @e getter2.
+ * \return AdaptorType that executes @e setter with the values return from invokation of @e getter1 and @e getter2.
  *
  * \ingroup qextComposeFunctor
  */
@@ -531,7 +531,7 @@ qextComposeFunctor(const T_setter &setter, const T_getter1 &getter1, const T_get
  * \param setter Functor that receives the return values of the invokation of @e getter1 and @e getter2.
  * \param getter1 Functor to invoke from operator()().
  * \param getter2 Functor to invoke from operator()().
- * \return Adaptor that executes @e setter with the values return from invokation of @e getter1 and @e getter2.
+ * \return AdaptorType that executes @e setter with the values return from invokation of @e getter1 and @e getter2.
  *
  * \ingroup qextComposeFunctor
  */
@@ -546,7 +546,7 @@ qextComposeFunctor(const T_setter &setter, const T_getter1 &getter1, const T_get
  *
  * \param setter Functor that receives the return value of the invokation of @e getter.
  * \param getter Functor to invoke from operator()().
- * \return Adaptor that executes @e setter with the value returned from invokation of @e getter.
+ * \return AdaptorType that executes @e setter with the value returned from invokation of @e getter.
  *
  * \ingroup qextComposeFunctor
  */

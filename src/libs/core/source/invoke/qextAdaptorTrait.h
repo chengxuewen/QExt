@@ -67,7 +67,7 @@ struct QExtAdapts;
 template < typename T_functor >
 struct QExtAdaptorFunctor : public QExtAdaptorBase
 {
-    typedef typename QExtFunctorTrait< T_functor >::Return Return;
+    typedef typename QExtFunctorTrait< T_functor >::ResultType ResultType;
 
     template <
         typename T_arg1 = void,
@@ -85,7 +85,7 @@ struct QExtAdaptorFunctor : public QExtAdaptorBase
     /** Invokes the wrapped functor passing on the arguments.
      * \return The return value of the functor invocation.
      */
-    Return operator()() const
+    ResultType operator()() const
     {
         return m_functor();
     }
@@ -232,34 +232,34 @@ struct QExtAdaptorTrait;
 
 /** Trait that specifies what is the adaptor version of a functor type.
  * This template specialization is used for types that inherit from adaptor_base.
- * Adaptor is equal to @p T_functor in this case.
+ * AdaptorType is equal to @p T_functor in this case.
  */
 template < typename T_functor >
 struct QExtAdaptorTrait< T_functor, true >
 {
-    typedef typename T_functor::Return Return;
-    typedef T_functor Functor;
-    typedef T_functor Adaptor;
+    typedef typename T_functor::ResultType ResultType;
+    typedef T_functor FunctorType;
+    typedef T_functor AdaptorType;
 };
 
 /** Trait that specifies what is the adaptor version of a functor type.
  * This template specialization is used for arbitrary functors,
  * for function pointers and for class methods are provided.
  * The latter are converted into @p QExtPointerFunctor or @p QExtMemberFunctor types.
- * Adaptor is equal to @p AdaptorFunctor<Functor>.
+ * AdaptorType is equal to @p AdaptorFunctor<Functor>.
  */
 template < typename T_functor >
 struct QExtAdaptorTrait< T_functor, false >
 {
-    typedef typename QExtFunctorTrait< T_functor >::Return Return;
-    typedef typename QExtFunctorTrait< T_functor >::Functor Functor;
-    typedef QExtAdaptorFunctor< Functor > Adaptor;
+    typedef typename QExtFunctorTrait< T_functor >::ResultType ResultType;
+    typedef typename QExtFunctorTrait< T_functor >::FunctorType FunctorType;
+    typedef QExtAdaptorFunctor< FunctorType > AdaptorType;
 };
 
 /** Base type for adaptors.
  * QExtAdapts wraps adaptors, functors, function pointers and class methods.
  * It contains a single member functor which is always a QExtAdaptorBase.
- * The typedef Adaptor defines the exact type that is used
+ * The typedef AdaptorType defines the exact type that is used
  * to store the adaptor, functor, function pointer or class method passed
  * into the constructor. It differs from @a T_functor unless @a T_functor
  * inherits from QExtAdaptorBase.
@@ -274,7 +274,7 @@ struct QExtAdaptorTrait< T_functor, false >
  *   template <typename T_arg1 = void, typename T_arg2 = void>
  *   struct ReturnTypeDeduce
  *   { typedef typename QExtReturnTypeDeduce<T_functor, T_arg1, T_arg2>::Type Type; };
- *   typedef typename QExtFunctorTrait<T_functor>::Return   Return;
+ *   typedef typename QExtFunctorTrait<T_functor>::ResultType   ResultType;
  *   //
  *   result_type
  *   operator()() const;
@@ -320,16 +320,16 @@ struct QExtAdaptorTrait< T_functor, false >
 template < typename T_functor >
 struct QExtAdapts : public QExtAdaptorBase
 {
-    typedef typename QExtAdaptorTrait< T_functor >::Return Return;
-    typedef typename QExtAdaptorTrait< T_functor >::Adaptor Adaptor;
+    typedef typename QExtAdaptorTrait< T_functor >::ResultType ResultType;
+    typedef typename QExtAdaptorTrait< T_functor >::AdaptorType AdaptorType;
 
     /** Constructs an adaptor that wraps the passed functor.
-     * \param functor Functor to invoke from operator()().
+     * \param functor FunctorType to invoke from operator()().
      */
     explicit QExtAdapts(const T_functor &functor) : m_functor(functor) {}
 
-    // Adaptor that is invoked from operator()().
-    mutable Adaptor m_functor;
+    // AdaptorType that is invoked from operator()().
+    mutable AdaptorType m_functor;
 };
 
 #endif // _QEXTADAPTORTRAIT_H

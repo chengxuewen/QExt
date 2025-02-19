@@ -34,7 +34,7 @@
 
 
 
-/** Adaptor that performs a C-style cast on the return value of a functor.
+/** AdaptorType that performs a C-style cast on the return value of a functor.
  * Use the convenience function qextRetypeReturnFunctor() to create an instance of QExtRetypeReturnFunctor.
  *
  * The following template arguments are used:
@@ -60,7 +60,7 @@ struct QExtRetypeReturnFunctor : public QExtAdapts< T_functor >
         typedef T_return Type;
     };
 
-    typedef T_return Return;
+    typedef T_return ResultType;
 
     T_return operator()()
     {
@@ -141,7 +141,7 @@ struct QExtRetypeReturnFunctor : public QExtAdapts< T_functor >
     explicit QExtRetypeReturnFunctor(typename QExtTypeTrait< T_functor >::Take functor) : QExtAdapts< T_functor >(functor) {}
 };
 
-/** Adaptor that performs a C-style cast on the return value of a functor.
+/** AdaptorType that performs a C-style cast on the return value of a functor.
  * This template specialization is for a void return. It drops the return value of the functor it invokes.
  * Use the convenience function qextHideReturnFunctor() to create an instance of qextHideReturnFunctor<void>.
  *
@@ -166,7 +166,7 @@ struct QExtRetypeReturnFunctor< void, T_functor > : public QExtAdapts< T_functor
         typedef void Type;
     };
 
-    typedef void Return;
+    typedef void ResultType;
 
     void operator()()
     {
@@ -263,7 +263,7 @@ struct QExtVisitor< QExtRetypeReturnFunctor< T_return, T_functor > >
  * The template argument @e T_return specifies the target type of the cast.
  *
  * \param functor Functor that should be wrapped.
- * \return Adaptor that executes @e functor performing a C-style cast on the return value.
+ * \return AdaptorType that executes @e functor performing a C-style cast on the return value.
  *
  * \ingroup retype
  */
@@ -276,7 +276,7 @@ inline QExtRetypeReturnFunctor< T_return, T_functor > qextRetypeReturnFunctor(co
 /** Creates an adaptor of type qextHideReturnFunctor which drops the return value of the passed functor.
  *
  * \param functor Functor that should be wrapped.
- * \return Adaptor that executes @e functor dropping its return value.
+ * \return AdaptorType that executes @e functor dropping its return value.
  *
  * \ingroup hide
  */

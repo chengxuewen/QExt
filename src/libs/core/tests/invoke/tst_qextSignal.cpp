@@ -119,7 +119,7 @@ public:
 
 struct arithmetic_mean_accumulator
 {
-    typedef double Return;
+    typedef double ResultType;
     template<typename T_iterator>
     double operator()(T_iterator first, T_iterator last) const
     {
@@ -136,12 +136,12 @@ struct arithmetic_mean_accumulator
 template<typename  Ret>
 struct vector_accumulator
 {
-    typedef QVector<Ret> Return;
+    typedef QVector<Ret> ResultType;
 
     template<typename T_iterator>
-    Return operator()(T_iterator first, T_iterator last) const
+    ResultType operator()(T_iterator first, T_iterator last) const
     {
-        Return vec;
+        ResultType vec;
         for (; first != last; ++first)
         {
             vec.push_back(*first);
@@ -160,10 +160,10 @@ int ident(int i)
 template<typename T>
 struct min_accum
 {
-    typedef T Return;
+    typedef T ResultType;
 
     template<typename T_iterator>
-    Return operator()(T_iterator i1, T_iterator i2)
+    ResultType operator()(T_iterator i1, T_iterator i2)
     {
         if (i1 == i2)
         {
@@ -293,8 +293,8 @@ void QExtSignalTest::testDisconnect()
         sg_string = "";
         A a;
         sig.connect(&a, &A::foo);
-        confoo = sig.connect(qextPointerFunctor(&foo));
-        conbar = sig.connect(qextPointerFunctor(&bar));
+        confoo = sig.connect(qextMakeFunctor(&foo));
+        conbar = sig.connect(qextMakeFunctor(&bar));
         QVERIFY(3 == sig.size());
         sig(1);
         QVERIFY("A::foo(int 1) foo(int 1) bar(float 1) " == sg_string);
@@ -308,7 +308,7 @@ void QExtSignalTest::testDisconnect()
     QExtConnection cona;  // connection objects are safe to use beyond the life time of a signal.
     sg_string = "";
     A a;                  // iterators stay valid after further connections.
-    cona = sig.slotList().insert(conbar, qextMemberFunctor(&a, &A::foo));
+    cona = sig.slotList().insert(conbar, qextMakeFunctor(&a, &A::foo));
     QVERIFY(3 == sig.size());
     sig(3);
     QVERIFY("foo(int 3) A::foo(int 3) bar(float 3) " == sg_string);

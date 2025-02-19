@@ -3,7 +3,7 @@
 
 #include <qextGlobal.h>
 
-#include <string>
+#include <QString>
 
 static QString sg_functionString = "";
 

@@ -42,7 +42,7 @@ void Bar<double>(double)
 
 struct Foo : public QExtFunctorBase
 {
-    typedef double Return;
+    typedef double ResultType;
 
     int operator()(int i = 1);
     double operator()(const int &, int);
@@ -52,7 +52,7 @@ struct Foo2 : public Foo {};
 
 struct Foo3 : public QExtFunctorBase
 {
-    typedef int Return;
+    typedef int ResultType;
 
     int operator()(int i = 1);
     double operator()(const int &, int);

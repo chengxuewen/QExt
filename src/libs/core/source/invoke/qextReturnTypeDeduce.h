@@ -57,7 +57,7 @@ struct QExtAdaptorBase : public QExtFunctorBase
 /** Deduce the return type of a functor.
  * <tt>typename ReturnTypeDeduce<Functor, list of arg_types>::Type</tt>
  * deduces a functor's result type if @p Functor inherits from
- * QExtFunctorBase and defines @p Return or if @p functor_type
+ * QExtFunctorBase and defines @p ResultType or if @p functor_type
  * is actually a (member) function type. Multi-type functors are not
  * supported.
  *
@@ -84,7 +84,7 @@ template<
         bool I_derives_adaptor_base = QExtIsBaseOf<QExtAdaptorBase, T_functor>::value>
 struct QExtReturnTypeDeduce
 {
-    typedef typename QExtFunctorTrait<T_functor>::Return Type;
+    typedef typename QExtFunctorTrait<T_functor>::ResultType Type;
 };
 
 /** Deduce the return type of a functor.

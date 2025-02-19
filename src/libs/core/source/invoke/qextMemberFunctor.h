@@ -35,8 +35,9 @@
 #include <qextLimitReference.h>
 
 
-/** @defgroup qextMemberFunctor qextMemberFunctor()
- * qextMemberFunctor() is used to convert a pointer to a method to a functor.
+/**
+ * @defgroup qextMemberFunctor qextMakeFunctor()
+ * qextMakeFunctor() is used to convert a pointer to a method to a functor.
  *
  * Optionally, a reference or pointer to an object can be bound to the functor.
  * Note that only if the object type inherits from QObject is
@@ -53,10 +54,10 @@
  *   void bar(int) {}
  * };
  * foo my_foo;
- * QExtFunction<void, int> slot = qextMemberFunctor(my_foo, &foo::bar);
+ * QExtFunction<void, int> slot = qextMakeFunctor(my_foo, &foo::bar);
  * @endcode
  *
- * For const methods qextMemberFunctor() takes a const reference or pointer to an object.
+ * For const methods qextMakeFunctor() takes a const reference or pointer to an object.
  *
  * @par Example:
  * @code
@@ -65,7 +66,7 @@
  *   void bar(int) const {}
  * };
  * const foo my_foo;
- * QExtFunction<void, int> slot = qextMemberFunctor(my_foo, &foo::bar);
+ * QExtFunction<void, int> slot = qextMakeFunctor(my_foo, &foo::bar);
  * @endcode
  *
  * Use qextMemberFunctor#() if there is an ambiguity as to the number of arguments.
@@ -85,49 +86,43 @@
 
 namespace detail
 {
-
 /**
  * @brief QExtMemberFunctor7 wraps  methods with 7 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtMemberFunctor7.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtMemberFunctor7.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_arg7 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Arg7 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
 class QExtMemberFunctor7 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7);
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7);
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtMemberFunctor7() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtMemberFunctor7() : mFuncPtr(QEXT_NULLPTR) {}
 
     /**
      * @brief Constructs a QExtMemberFunctor7 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtMemberFunctor7(Function func) : m_funcPtr(func) {}
+    QExtMemberFunctor7(FunctionType func) : mFuncPtr(func) {}
 
-    QExtMemberFunctor7(const QExtMemberFunctor7 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtMemberFunctor7(const QExtMemberFunctor7 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -138,19 +133,20 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -161,62 +157,58 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
 /**
  * @brief QExtMemberFunctor6 wraps  methods with 6 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtMemberFunctor6.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtMemberFunctor6.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
 class QExtMemberFunctor6 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6);
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6);
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtMemberFunctor6() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtMemberFunctor6() : mFuncPtr(QEXT_NULLPTR) {}
 
     /**
      * @brief Constructs a QExtMemberFunctor6 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtMemberFunctor6(Function func) : m_funcPtr(func) {}
+    QExtMemberFunctor6(FunctionType func) : mFuncPtr(func) {}
 
-    QExtMemberFunctor6(const QExtMemberFunctor6 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtMemberFunctor6(const QExtMemberFunctor6 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -226,15 +218,15 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
     /**
@@ -248,57 +240,53 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
 /**
  * @brief QExtMemberFunctor5 wraps  methods with 5 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtMemberFunctor5.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtMemberFunctor5.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
 class QExtMemberFunctor5 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5);
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5);
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtMemberFunctor5() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtMemberFunctor5() : mFuncPtr(QEXT_NULLPTR) {}
 
     /**
      * @brief Constructs a QExtMemberFunctor5 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtMemberFunctor5(Function func) : m_funcPtr(func) {}
+    QExtMemberFunctor5(FunctionType func) : mFuncPtr(func) {}
 
-    QExtMemberFunctor5(const QExtMemberFunctor5 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtMemberFunctor5(const QExtMemberFunctor5 &other) : mFuncPtr(other.mFuncPtr) {}
 
     /**
      * @brief Execute the wrapped method operating on the passed instance.
@@ -310,14 +298,14 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5);
     }
 
     /**
@@ -330,54 +318,51 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
 /**
  * @brief QExtMemberFunctor4 wraps  methods with 4 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtMemberFunctor4.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtMemberFunctor4.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
 class QExtMemberFunctor4 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4);
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4);
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtMemberFunctor4() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtMemberFunctor4() : mFuncPtr(QEXT_NULLPTR) {}
 
     /**
      * @brief Constructs a QExtMemberFunctor4 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtMemberFunctor4(Function func) : m_funcPtr(func) {}
+    QExtMemberFunctor4(FunctionType func) : mFuncPtr(func) {}
 
-    QExtMemberFunctor4(const QExtMemberFunctor4 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtMemberFunctor4(const QExtMemberFunctor4 &other) : mFuncPtr(other.mFuncPtr) {}
 
     /**
      * @brief Execute the wrapped method operating on the passed instance.
@@ -388,13 +373,13 @@ public:
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4);
     }
 
     /**
@@ -406,51 +391,49 @@ public:
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
 /**
  * @brief QExtMemberFunctor3 wraps  methods with 3 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtMemberFunctor3.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtMemberFunctor3.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
 class QExtMemberFunctor3 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3);
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3);
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtMemberFunctor3() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtMemberFunctor3() : mFuncPtr(QEXT_NULLPTR) {}
 
     /**
      * @brief Constructs a QExtMemberFunctor3 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtMemberFunctor3(Function func) : m_funcPtr(func) {}
+    QExtMemberFunctor3(FunctionType func) : mFuncPtr(func) {}
 
-    QExtMemberFunctor3(const QExtMemberFunctor3 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtMemberFunctor3(const QExtMemberFunctor3 &other) : mFuncPtr(other.mFuncPtr) {}
 
     /**
      * @brief Execute the wrapped method operating on the passed instance.
@@ -460,12 +443,12 @@ public:
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3);
     }
 
     /**
@@ -476,48 +459,47 @@ public:
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
 /**
  * @brief QExtMemberFunctor2 wraps  methods with 2 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtMemberFunctor2.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtMemberFunctor2.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
 class QExtMemberFunctor2 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2);
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2);
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtMemberFunctor2() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtMemberFunctor2() : mFuncPtr(QEXT_NULLPTR) {}
 
     /**
      * @brief Constructs a QExtMemberFunctor2 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtMemberFunctor2(Function func) : m_funcPtr(func) {}
+    QExtMemberFunctor2(FunctionType func) : mFuncPtr(func) {}
 
-    QExtMemberFunctor2(const QExtMemberFunctor2 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtMemberFunctor2(const QExtMemberFunctor2 &other) : mFuncPtr(other.mFuncPtr) {}
 
     /**
      * @brief Execute the wrapped method operating on the passed instance.
@@ -526,11 +508,11 @@ public:
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2);
+        return (obj->*(this->mFuncPtr))(arg1, arg2);
     }
 
     /**
@@ -540,45 +522,45 @@ public:
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2);
+        return (obj.*mFuncPtr)(arg1, arg2);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
 /**
  * @brief QExtMemberFunctor1 wraps  methods with 1 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtMemberFunctor1.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtMemberFunctor1.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1>
+template<class Return, class Obj, class Arg1>
 class QExtMemberFunctor1 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1);
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1);
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtMemberFunctor1() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtMemberFunctor1() : mFuncPtr(QEXT_NULLPTR) {}
 
     /**
      * @brief Constructs a QExtMemberFunctor1 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtMemberFunctor1(Function func) : m_funcPtr(func) {}
+    QExtMemberFunctor1(FunctionType func) : mFuncPtr(func) {}
 
-    QExtMemberFunctor1(const QExtMemberFunctor1 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtMemberFunctor1(const QExtMemberFunctor1 &other) : mFuncPtr(other.mFuncPtr) {}
 
     /**
      * @brief Execute the wrapped method operating on the passed instance.
@@ -586,9 +568,9 @@ public:
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(Obj *obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (obj->*(this->m_funcPtr))(arg1);
+        return (obj->*(this->mFuncPtr))(arg1);
     }
 
     /**
@@ -597,103 +579,104 @@ public:
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(Obj &obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (obj.*m_funcPtr)(arg1);
+        return (obj.*mFuncPtr)(arg1);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
 /**
  * @brief QExtMemberFunctor0 wraps  methods with 0 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtMemberFunctor0.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtMemberFunctor0.
  *
  * The following template arguments are used:
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj>
+template<class Return, class Obj>
 class QExtMemberFunctor0 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)();
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)();
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtMemberFunctor0() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtMemberFunctor0() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtMemberFunctor0 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtMemberFunctor0(Function func) : m_funcPtr(func) {}
+    QExtMemberFunctor0(FunctionType func) : mFuncPtr(func) {}
 
-    QExtMemberFunctor0(const QExtMemberFunctor0 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtMemberFunctor0(const QExtMemberFunctor0 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj) const
+    Return operator()(Obj *obj) const
     {
-        return (obj->*(this->m_funcPtr))();
+        return (obj->*(this->mFuncPtr))();
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj) const
+    Return operator()(Obj &obj) const
     {
-        return (obj.*m_funcPtr)();
+        return (obj.*mFuncPtr)();
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
 /**
  * @brief QExtConstMemberFunctor7 wraps const methods with 7 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstMemberFunctor7.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstMemberFunctor7.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_arg7 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Arg7 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
 class QExtConstMemberFunctor7 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) const;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstMemberFunctor7() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstMemberFunctor7() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstMemberFunctor7 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstMemberFunctor7 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstMemberFunctor7(Function func) : m_funcPtr(func) {}
+    QExtConstMemberFunctor7(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstMemberFunctor7(const QExtConstMemberFunctor7 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstMemberFunctor7(const QExtConstMemberFunctor7 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -704,19 +687,20 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -727,60 +711,58 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstMemberFunctor6 wraps const methods with 6 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstMemberFunctor6.
+/**
+ * @brief QExtConstMemberFunctor6 wraps const methods with 6 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstMemberFunctor6.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
 class QExtConstMemberFunctor6 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) const;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstMemberFunctor6() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstMemberFunctor6() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstMemberFunctor6 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstMemberFunctor6 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstMemberFunctor6(Function func) : m_funcPtr(func) {}
+    QExtConstMemberFunctor6(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstMemberFunctor6(const QExtConstMemberFunctor6 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstMemberFunctor6(const QExtConstMemberFunctor6 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -790,18 +772,19 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -811,57 +794,56 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstMemberFunctor5 wraps const methods with 5 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstMemberFunctor5.
+/**
+ * @brief QExtConstMemberFunctor5 wraps const methods with 5 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstMemberFunctor5.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
 class QExtConstMemberFunctor5 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5) const;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstMemberFunctor5() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstMemberFunctor5() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstMemberFunctor5 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstMemberFunctor5 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstMemberFunctor5(Function func) : m_funcPtr(func) {}
+    QExtConstMemberFunctor5(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstMemberFunctor5(const QExtConstMemberFunctor5 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstMemberFunctor5(const QExtConstMemberFunctor5 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -870,17 +852,18 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -889,54 +872,54 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstMemberFunctor4 wraps const methods with 4 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstMemberFunctor4.
+/**
+ * @brief QExtConstMemberFunctor4 wraps const methods with 4 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstMemberFunctor4.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
 class QExtConstMemberFunctor4 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4) const;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4) const;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstMemberFunctor4() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstMemberFunctor4() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstMemberFunctor4 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstMemberFunctor4 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstMemberFunctor4(Function func) : m_funcPtr(func) {}
+    QExtConstMemberFunctor4(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstMemberFunctor4(const QExtConstMemberFunctor4 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstMemberFunctor4(const QExtConstMemberFunctor4 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -944,16 +927,17 @@ public:
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -961,275 +945,292 @@ public:
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstMemberFunctor3 wraps const methods with 3 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstMemberFunctor3.
+/**
+ * @brief QExtConstMemberFunctor3 wraps const methods with 3 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstMemberFunctor3.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
 class QExtConstMemberFunctor3 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3) const;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3) const;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstMemberFunctor3() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstMemberFunctor3() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstMemberFunctor3 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstMemberFunctor3 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstMemberFunctor3(Function func) : m_funcPtr(func) {}
+    QExtConstMemberFunctor3(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstMemberFunctor3(const QExtConstMemberFunctor3 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstMemberFunctor3(const QExtConstMemberFunctor3 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstMemberFunctor2 wraps const methods with 2 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstMemberFunctor2.
+/**
+ * @brief QExtConstMemberFunctor2 wraps const methods with 2 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstMemberFunctor2.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
 class QExtConstMemberFunctor2 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2) const;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2) const;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstMemberFunctor2() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstMemberFunctor2() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstMemberFunctor2 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstMemberFunctor2 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstMemberFunctor2(Function func) : m_funcPtr(func) {}
+    QExtConstMemberFunctor2(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstMemberFunctor2(const QExtConstMemberFunctor2 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstMemberFunctor2(const QExtConstMemberFunctor2 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2);
+        return (obj->*(this->mFuncPtr))(arg1, arg2);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2);
+        return (obj.*mFuncPtr)(arg1, arg2);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstMemberFunctor1 wraps const methods with 1 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstMemberFunctor1.
+/**
+ * @brief QExtConstMemberFunctor1 wraps const methods with 1 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstMemberFunctor1.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
+template<class Return, class Obj, class Arg1>
 class QExtConstMemberFunctor1 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1) const;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1) const;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstMemberFunctor1() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstMemberFunctor1() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstMemberFunctor1 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstMemberFunctor1 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstMemberFunctor1(Function func) : m_funcPtr(func) {}
+    QExtConstMemberFunctor1(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstMemberFunctor1(const QExtConstMemberFunctor1 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstMemberFunctor1(const QExtConstMemberFunctor1 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(const Obj *obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (obj->*(this->m_funcPtr))(arg1);
+        return (obj->*(this->mFuncPtr))(arg1);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(const Obj &obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (obj.*m_funcPtr)(arg1);
+        return (obj.*mFuncPtr)(arg1);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstMemberFunctor0 wraps const methods with 0 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstMemberFunctor0.
+/**
+ * @brief QExtConstMemberFunctor0 wraps const methods with 0 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstMemberFunctor0.
  *
  * The following template arguments are used:
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj>
+template<class Return, class Obj>
 class QExtConstMemberFunctor0 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)() const;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)() const;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstMemberFunctor0() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstMemberFunctor0() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstMemberFunctor0 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstMemberFunctor0(Function func) : m_funcPtr(func) {}
+    QExtConstMemberFunctor0(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstMemberFunctor0(const QExtConstMemberFunctor0 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstMemberFunctor0(const QExtConstMemberFunctor0 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj) const
+    Return operator()(const Obj *obj) const
     {
-        return (obj->*(this->m_funcPtr))();
+        return (obj->*(this->mFuncPtr))();
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj) const
+    Return operator()(const Obj &obj) const
     {
-        return (obj.*m_funcPtr)();
+        return (obj.*mFuncPtr)();
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtVolatileMemberFunctor7 wraps volatile methods with 7 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtVolatileMemberFunctor7.
+/**
+ * @brief QExtVolatileMemberFunctor7 wraps volatile methods with 7 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtVolatileMemberFunctor7.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_arg7 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Arg7 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
 class QExtVolatileMemberFunctor7 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtVolatileMemberFunctor7() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtVolatileMemberFunctor7() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtVolatileMemberFunctor7 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtVolatileMemberFunctor7 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtVolatileMemberFunctor7(Function func) : m_funcPtr(func) {}
+    QExtVolatileMemberFunctor7(FunctionType func) : mFuncPtr(func) {}
 
-    QExtVolatileMemberFunctor7(const QExtVolatileMemberFunctor7 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor7(const QExtVolatileMemberFunctor7 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1240,19 +1241,20 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1263,60 +1265,58 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtVolatileMemberFunctor6 wraps volatile methods with 6 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtVolatileMemberFunctor6.
+/**
+ * @brief QExtVolatileMemberFunctor6 wraps volatile methods with 6 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtVolatileMemberFunctor6.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
 class QExtVolatileMemberFunctor6 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtVolatileMemberFunctor6() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtVolatileMemberFunctor6() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtVolatileMemberFunctor6 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtVolatileMemberFunctor6 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtVolatileMemberFunctor6(Function func) : m_funcPtr(func) {}
+    QExtVolatileMemberFunctor6(FunctionType func) : mFuncPtr(func) {}
 
-    QExtVolatileMemberFunctor6(const QExtVolatileMemberFunctor6 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor6(const QExtVolatileMemberFunctor6 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1326,18 +1326,19 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1347,57 +1348,56 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtVolatileMemberFunctor5 wraps volatile methods with 5 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtVolatileMemberFunctor5.
+/**
+ * @brief QExtVolatileMemberFunctor5 wraps volatile methods with 5 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtVolatileMemberFunctor5.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
 class QExtVolatileMemberFunctor5 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5) volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtVolatileMemberFunctor5() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtVolatileMemberFunctor5() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtVolatileMemberFunctor5 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtVolatileMemberFunctor5 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtVolatileMemberFunctor5(Function func) : m_funcPtr(func) {}
+    QExtVolatileMemberFunctor5(FunctionType func) : mFuncPtr(func) {}
 
-    QExtVolatileMemberFunctor5(const QExtVolatileMemberFunctor5 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor5(const QExtVolatileMemberFunctor5 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1406,17 +1406,18 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1425,49 +1426,54 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtVolatileMemberFunctor4 wraps volatile methods with 4 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtVolatileMemberFunctor4.
+/**
+ * @brief QExtVolatileMemberFunctor4 wraps volatile methods with 4 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtVolatileMemberFunctor4.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
 class QExtVolatileMemberFunctor4 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4) volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4) volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtVolatileMemberFunctor4() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtVolatileMemberFunctor4() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtVolatileMemberFunctor4 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtVolatileMemberFunctor4 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtVolatileMemberFunctor4(Function func) : m_funcPtr(func) {}
+    QExtVolatileMemberFunctor4(FunctionType func) : mFuncPtr(func) {}
 
-    QExtVolatileMemberFunctor4(const QExtVolatileMemberFunctor4 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor4(const QExtVolatileMemberFunctor4 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1475,16 +1481,17 @@ public:
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1492,271 +1499,292 @@ public:
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtVolatileMemberFunctor3 wraps volatile methods with 3 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtVolatileMemberFunctor3.
+/**
+ * @brief QExtVolatileMemberFunctor3 wraps volatile methods with 3 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtVolatileMemberFunctor3.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
 class QExtVolatileMemberFunctor3 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3) volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3) volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtVolatileMemberFunctor3() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtVolatileMemberFunctor3() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtVolatileMemberFunctor3 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtVolatileMemberFunctor3 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtVolatileMemberFunctor3(Function func) : m_funcPtr(func) {}
+    QExtVolatileMemberFunctor3(FunctionType func) : mFuncPtr(func) {}
 
-    QExtVolatileMemberFunctor3(const QExtVolatileMemberFunctor3 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor3(const QExtVolatileMemberFunctor3 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtVolatileMemberFunctor2 wraps volatile methods with 2 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtVolatileMemberFunctor2.
+/**
+ * @brief QExtVolatileMemberFunctor2 wraps volatile methods with 2 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtVolatileMemberFunctor2.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
 class QExtVolatileMemberFunctor2 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2) volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2) volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtVolatileMemberFunctor2() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtVolatileMemberFunctor2() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtVolatileMemberFunctor2 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtVolatileMemberFunctor2 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtVolatileMemberFunctor2(Function func) : m_funcPtr(func) {}
+    QExtVolatileMemberFunctor2(FunctionType func) : mFuncPtr(func) {}
 
-    QExtVolatileMemberFunctor2(const QExtVolatileMemberFunctor2 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor2(const QExtVolatileMemberFunctor2 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2);
+        return (obj->*(this->mFuncPtr))(arg1, arg2);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2);
+        return (obj.*mFuncPtr)(arg1, arg2);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtVolatileMemberFunctor1 wraps volatile methods with 1 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtVolatileMemberFunctor1.
+/**
+ * @brief QExtVolatileMemberFunctor1 wraps volatile methods with 1 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtVolatileMemberFunctor1.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
+template<class Return, class Obj, class Arg1>
 class QExtVolatileMemberFunctor1 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1) volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1) volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtVolatileMemberFunctor1() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtVolatileMemberFunctor1() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtVolatileMemberFunctor1 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtVolatileMemberFunctor1 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtVolatileMemberFunctor1(Function func) : m_funcPtr(func) {}
+    QExtVolatileMemberFunctor1(FunctionType func) : mFuncPtr(func) {}
 
-    QExtVolatileMemberFunctor1(const QExtVolatileMemberFunctor1 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor1(const QExtVolatileMemberFunctor1 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(Obj *obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (obj->*(this->m_funcPtr))(arg1);
+        return (obj->*(this->mFuncPtr))(arg1);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(Obj &obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (obj.*m_funcPtr)(arg1);
+        return (obj.*mFuncPtr)(arg1);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtVolatileMemberFunctor0 wraps volatile methods with 0 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtVolatileMemberFunctor0.
+/**
+ * @brief QExtVolatileMemberFunctor0 wraps volatile methods with 0 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtVolatileMemberFunctor0.
  *
  * The following template arguments are used:
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj>
+template<class Return, class Obj>
 class QExtVolatileMemberFunctor0 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)() volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)() volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtVolatileMemberFunctor0() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtVolatileMemberFunctor0() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtVolatileMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtVolatileMemberFunctor0 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtVolatileMemberFunctor0(Function func) : m_funcPtr(func) {}
+    QExtVolatileMemberFunctor0(FunctionType func) : mFuncPtr(func) {}
 
-    QExtVolatileMemberFunctor0(const QExtVolatileMemberFunctor0 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor0(const QExtVolatileMemberFunctor0 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj *obj) const
+    Return operator()(Obj *obj) const
     {
-        return (obj->*(this->m_funcPtr))();
+        return (obj->*(this->mFuncPtr))();
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @return The return value of the method invocation.
      */
-    T_return operator()(T_obj &obj) const
+    Return operator()(Obj &obj) const
     {
-        return (obj.*m_funcPtr)();
+        return (obj.*mFuncPtr)();
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstVolatileMemberFunctor7 wraps const volatile methods with 7 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstVolatileMemberFunctor7.
+/**
+ * @brief QExtConstVolatileMemberFunctor7 wraps const volatile methods with 7 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstVolatileMemberFunctor7.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_arg7 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Arg7 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
 class QExtConstVolatileMemberFunctor7 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) const volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstVolatileMemberFunctor7() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstVolatileMemberFunctor7() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstVolatileMemberFunctor7 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstVolatileMemberFunctor7 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstVolatileMemberFunctor7(Function func) : m_funcPtr(func) {}
+    QExtConstVolatileMemberFunctor7(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstVolatileMemberFunctor7(const QExtConstVolatileMemberFunctor7 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor7(const QExtConstVolatileMemberFunctor7 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1767,19 +1795,20 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1790,60 +1819,58 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstVolatileMemberFunctor6 wraps const volatile methods with 6 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstVolatileMemberFunctor6.
+/**
+ * @brief QExtConstVolatileMemberFunctor6 wraps const volatile methods with 6 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstVolatileMemberFunctor6.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
 class QExtConstVolatileMemberFunctor6 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) const volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstVolatileMemberFunctor6() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstVolatileMemberFunctor6() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstVolatileMemberFunctor6 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstVolatileMemberFunctor6 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstVolatileMemberFunctor6(Function func) : m_funcPtr(func) {}
+    QExtConstVolatileMemberFunctor6(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstVolatileMemberFunctor6(const QExtConstVolatileMemberFunctor6 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor6(const QExtConstVolatileMemberFunctor6 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1853,18 +1880,19 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1874,57 +1902,56 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstVolatileMemberFunctor5 wraps const volatile methods with 5 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstVolatileMemberFunctor5.
+/**
+ * @brief QExtConstVolatileMemberFunctor5 wraps const volatile methods with 5 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstVolatileMemberFunctor5.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
 class QExtConstVolatileMemberFunctor5 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4, Arg5) const volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstVolatileMemberFunctor5() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstVolatileMemberFunctor5() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstVolatileMemberFunctor5 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstVolatileMemberFunctor5 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstVolatileMemberFunctor5(Function func) : m_funcPtr(func) {}
+    QExtConstVolatileMemberFunctor5(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstVolatileMemberFunctor5(const QExtConstVolatileMemberFunctor5 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor5(const QExtConstVolatileMemberFunctor5 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1933,17 +1960,18 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -1952,51 +1980,54 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4, arg5);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4, arg5);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstVolatileMemberFunctor4 wraps const volatile methods with 4 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstVolatileMemberFunctor4.
+/**
+ * @brief QExtConstVolatileMemberFunctor4 wraps const volatile methods with 4 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstVolatileMemberFunctor4.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
- *
- * \ingroup qextMemberFunctor
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
 class QExtConstVolatileMemberFunctor4 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3, T_arg4) const volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3, Arg4) const volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstVolatileMemberFunctor4() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstVolatileMemberFunctor4() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstVolatileMemberFunctor4 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstVolatileMemberFunctor4 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstVolatileMemberFunctor4(Function func) : m_funcPtr(func) {}
+    QExtConstVolatileMemberFunctor4(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstVolatileMemberFunctor4(const QExtConstVolatileMemberFunctor4 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor4(const QExtConstVolatileMemberFunctor4 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -2004,16 +2035,17 @@ public:
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3, arg4);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3, arg4);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
@@ -2021,278 +2053,298 @@ public:
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3, arg4);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3, arg4);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstVolatileMemberFunctor3 wraps const volatile methods with 3 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstVolatileMemberFunctor3.
+/**
+ * @brief QExtConstVolatileMemberFunctor3 wraps const volatile methods with 3 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstVolatileMemberFunctor3.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
 class QExtConstVolatileMemberFunctor3 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2, T_arg3) const volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2, Arg3) const volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstVolatileMemberFunctor3() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstVolatileMemberFunctor3() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstVolatileMemberFunctor3 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstVolatileMemberFunctor3 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstVolatileMemberFunctor3(Function func) : m_funcPtr(func) {}
+    QExtConstVolatileMemberFunctor3(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstVolatileMemberFunctor3(const QExtConstVolatileMemberFunctor3 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor3(const QExtConstVolatileMemberFunctor3 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2, arg3);
+        return (obj->*(this->mFuncPtr))(arg1, arg2, arg3);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2, arg3);
+        return (obj.*mFuncPtr)(arg1, arg2, arg3);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstVolatileMemberFunctor2 wraps const volatile methods with 2 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstVolatileMemberFunctor2.
+/**
+ * @brief QExtConstVolatileMemberFunctor2 wraps const volatile methods with 2 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstVolatileMemberFunctor2.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
 class QExtConstVolatileMemberFunctor2 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1, T_arg2) const volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1, Arg2) const volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstVolatileMemberFunctor2() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstVolatileMemberFunctor2() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstVolatileMemberFunctor2 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstVolatileMemberFunctor2 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstVolatileMemberFunctor2(Function func) : m_funcPtr(func) {}
+    QExtConstVolatileMemberFunctor2(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstVolatileMemberFunctor2(const QExtConstVolatileMemberFunctor2 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor2(const QExtConstVolatileMemberFunctor2 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (obj->*(this->m_funcPtr))(arg1, arg2);
+        return (obj->*(this->mFuncPtr))(arg1, arg2);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (obj.*m_funcPtr)(arg1, arg2);
+        return (obj.*mFuncPtr)(arg1, arg2);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstVolatileMemberFunctor1 wraps const volatile methods with 1 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstVolatileMemberFunctor1.
+/**
+ * @brief QExtConstVolatileMemberFunctor1 wraps const volatile methods with 1 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstVolatileMemberFunctor1.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
+template<class Return, class Obj, class Arg1>
 class QExtConstVolatileMemberFunctor1 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)(T_arg1) const volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)(Arg1) const volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstVolatileMemberFunctor1() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstVolatileMemberFunctor1() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstVolatileMemberFunctor1 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstVolatileMemberFunctor1 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstVolatileMemberFunctor1(Function func) : m_funcPtr(func) {}
+    QExtConstVolatileMemberFunctor1(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstVolatileMemberFunctor1(const QExtConstVolatileMemberFunctor1 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor1(const QExtConstVolatileMemberFunctor1 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(const Obj *obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (obj->*(this->m_funcPtr))(arg1);
+        return (obj->*(this->mFuncPtr))(arg1);
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(const Obj &obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (obj.*m_funcPtr)(arg1);
+        return (obj.*mFuncPtr)(arg1);
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtConstVolatileMemberFunctor0 wraps const volatile methods with 0 argument(s).
- * Use the convenience function qextMemberFunctor() to create an instance of QExtConstVolatileMemberFunctor0.
+/**
+ * @brief QExtConstVolatileMemberFunctor0 wraps const volatile methods with 0 argument(s).
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtConstVolatileMemberFunctor0.
  *
  * The following template arguments are used:
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj>
+template<class Return, class Obj>
 class QExtConstVolatileMemberFunctor0 : public QExtFunctorBase
 {
 public:
-    typedef T_return (T_obj::*Function)() const volatile;
-    typedef T_return Return;
+    typedef Return (Obj::*FunctionType)() const volatile;
+    typedef Return ResultType;
 
-    // Constructs an invalid functor.
-    QExtConstVolatileMemberFunctor0() : m_funcPtr(QEXT_NULLPTR) {}
+    /**
+     * @brief Constructs an invalid functor.
+     */
+    QExtConstVolatileMemberFunctor0() : mFuncPtr(QEXT_NULLPTR) {}
 
-    /** Constructs a QExtConstVolatileMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtConstVolatileMemberFunctor0 object that wraps the passed method.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtConstVolatileMemberFunctor0(Function func) : m_funcPtr(func) {}
+    QExtConstVolatileMemberFunctor0(FunctionType func) : mFuncPtr(func) {}
 
-    QExtConstVolatileMemberFunctor0(const QExtConstVolatileMemberFunctor0 &other) : m_funcPtr(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor0(const QExtConstVolatileMemberFunctor0 &other) : mFuncPtr(other.mFuncPtr) {}
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Pointer to instance the method should operate on.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj *obj) const
+    Return operator()(const Obj *obj) const
     {
-        return (obj->*(this->m_funcPtr))();
+        return (obj->*(this->mFuncPtr))();
     }
 
-    /** Execute the wrapped method operating on the passed instance.
+    /**
+     * @brief Execute the wrapped method operating on the passed instance.
      * @param obj Reference to instance the method should operate on.
      * @return The return value of the method invocation.
      */
-    T_return operator()(const T_obj &obj) const
+    Return operator()(const Obj &obj) const
     {
-        return (obj.*m_funcPtr)();
+        return (obj.*mFuncPtr)();
     }
 
 protected:
-    Function m_funcPtr;
+    FunctionType mFuncPtr;
 };
 
-/** QExtBoundMemberFunctor7 encapsulates a  method with 7 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundMemberFunctor7.
+/**
+ * @brief QExtBoundMemberFunctor7 encapsulates a  method with 7 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundMemberFunctor7.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_arg7 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Arg7 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
 class QExtBoundMemberFunctor7
-        : public QExtMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public QExtMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef QExtMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef QExtMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundMemberFunctor7 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor7 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor7(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundMemberFunctor7(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundMemberFunctor7 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor7 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor7(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundMemberFunctor7(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
-    QExtBoundMemberFunctor7(const QExtBoundMemberFunctor7 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+    QExtBoundMemberFunctor7(const QExtBoundMemberFunctor7 &other) : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -2302,67 +2354,64 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtLimitReference<T_obj> m_obj;
+    QExtLimitReference<Obj> mObj;
 };
 
-/** QExtBoundMemberFunctor6 encapsulates a  method with 6 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundMemberFunctor6.
+/**
+ * @brief QExtBoundMemberFunctor6 encapsulates a  method with 6 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundMemberFunctor6.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
 class QExtBoundMemberFunctor6
-        : public QExtMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+        : public QExtMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef QExtMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef QExtMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundMemberFunctor6 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor6 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor6(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundMemberFunctor6(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundMemberFunctor6 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor6 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor6(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundMemberFunctor6(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
-    QExtBoundMemberFunctor6(const QExtBoundMemberFunctor6 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+    QExtBoundMemberFunctor6(const QExtBoundMemberFunctor6 &other) : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -2371,63 +2420,61 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtLimitReference<T_obj> m_obj;
+    QExtLimitReference<Obj> mObj;
 };
 
-/** QExtBoundMemberFunctor5 encapsulates a  method with 5 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundMemberFunctor5.
+/**
+ * @brief QExtBoundMemberFunctor5 encapsulates a  method with 5 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundMemberFunctor5.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-class QExtBoundMemberFunctor5 : public QExtMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+class QExtBoundMemberFunctor5 : public QExtMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef QExtMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef QExtMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundMemberFunctor5 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor5 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor5(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundMemberFunctor5(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundMemberFunctor5 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor5 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor5(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundMemberFunctor5(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
-    QExtBoundMemberFunctor5(const QExtBoundMemberFunctor5 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+    QExtBoundMemberFunctor5(const QExtBoundMemberFunctor5 &other) : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -2435,305 +2482,321 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtLimitReference<T_obj> m_obj;
+    QExtLimitReference<Obj> mObj;
 };
 
-/** QExtBoundMemberFunctor4 encapsulates a  method with 4 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundMemberFunctor4.
+/**
+ * @brief QExtBoundMemberFunctor4 encapsulates a  method with 4 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundMemberFunctor4.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-class QExtBoundMemberFunctor4 : public QExtMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+class QExtBoundMemberFunctor4 : public QExtMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef QExtMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef QExtMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundMemberFunctor4 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor4 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor4(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundMemberFunctor4(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundMemberFunctor4 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor4 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor4(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundMemberFunctor4(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
-    QExtBoundMemberFunctor4(const QExtBoundMemberFunctor4 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+    QExtBoundMemberFunctor4(const QExtBoundMemberFunctor4 &other) : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtLimitReference<T_obj> m_obj;
+    QExtLimitReference<Obj> mObj;
 };
 
-/** QExtBoundMemberFunctor3 encapsulates a  method with 3 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundMemberFunctor3.
+/**
+ * @brief QExtBoundMemberFunctor3 encapsulates a  method with 3 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundMemberFunctor3.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-class QExtBoundMemberFunctor3 : public QExtMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+class QExtBoundMemberFunctor3 : public QExtMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef QExtMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef QExtMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundMemberFunctor3 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor3 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor3(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundMemberFunctor3(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundMemberFunctor3 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor3 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor3(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundMemberFunctor3(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
-    QExtBoundMemberFunctor3(const QExtBoundMemberFunctor3 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+    QExtBoundMemberFunctor3(const QExtBoundMemberFunctor3 &other) : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtLimitReference<T_obj> m_obj;
+    QExtLimitReference<Obj> mObj;
 };
 
-/** QExtBoundMemberFunctor2 encapsulates a  method with 2 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundMemberFunctor2.
+/**
+ * @brief QExtBoundMemberFunctor2 encapsulates a  method with 2 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundMemberFunctor2.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtBoundMemberFunctor2 : public QExtMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtBoundMemberFunctor2 : public QExtMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef QExtMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef QExtMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundMemberFunctor2 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor2 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor2(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundMemberFunctor2(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundMemberFunctor2 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor2 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor2(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundMemberFunctor2(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
-    QExtBoundMemberFunctor2(const QExtBoundMemberFunctor2 &other) : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+    QExtBoundMemberFunctor2(const QExtBoundMemberFunctor2 &other) : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtLimitReference<T_obj> m_obj;
+    QExtLimitReference<Obj> mObj;
 };
 
-/** QExtBoundMemberFunctor1 encapsulates a  method with 1 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundMemberFunctor1.
+/**
+ * @brief QExtBoundMemberFunctor1 encapsulates a  method with 1 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundMemberFunctor1.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtBoundMemberFunctor1 : public QExtMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtBoundMemberFunctor1 : public QExtMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef QExtMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef QExtMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundMemberFunctor1 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor1 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor1(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundMemberFunctor1(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundMemberFunctor1 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor1 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor1(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundMemberFunctor1(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtLimitReference<T_obj> m_obj;
+    QExtLimitReference<Obj> mObj;
 };
 
-/** QExtBoundMemberFunctor0 encapsulates a  method with 0 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundMemberFunctor0.
+/**
+ * @brief QExtBoundMemberFunctor0 encapsulates a  method with 0 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundMemberFunctor0.
  *
  * The following template arguments are used:
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj>
-class QExtBoundMemberFunctor0 : public QExtMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtBoundMemberFunctor0 : public QExtMemberFunctor0<Return, Obj>
 {
-    typedef QExtMemberFunctor0<T_return, T_obj> Base;
+    typedef QExtMemberFunctor0<Return, Obj> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor0 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor0(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundMemberFunctor0(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundMemberFunctor0 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundMemberFunctor0(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundMemberFunctor0(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @return The return value of the method invocation.
      */
-    T_return operator()() const
+    Return operator()() const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))();
+        return (mObj.invoke().*(this->mFuncPtr))();
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtLimitReference<T_obj> m_obj;
+    QExtLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstMemberFunctor7 encapsulates a const method with 7 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstMemberFunctor7.
+/**
+ * @brief QExtBoundConstMemberFunctor7 encapsulates a const method with 7 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstMemberFunctor7.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_arg7 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Arg7 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
 class QExtBoundConstMemberFunctor7
-        : public QExtConstMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public QExtConstMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef QExtConstMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef QExtConstMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstMemberFunctor7 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor7 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor7(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstMemberFunctor7(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstMemberFunctor7 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor7 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor7(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstMemberFunctor7(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstMemberFunctor7(const QExtBoundConstMemberFunctor7 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -2743,68 +2806,65 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstLimitReference<T_obj> m_obj;
+    QExtConstLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstMemberFunctor6 encapsulates a const method with 6 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstMemberFunctor6.
+/**
+ * @brief QExtBoundConstMemberFunctor6 encapsulates a const method with 6 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstMemberFunctor6.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
 class QExtBoundConstMemberFunctor6
-        : public QExtConstMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+        : public QExtConstMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef QExtConstMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef QExtConstMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstMemberFunctor6 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor6 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor6(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstMemberFunctor6(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstMemberFunctor6 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor6 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor6(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstMemberFunctor6(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstMemberFunctor6(const QExtBoundConstMemberFunctor6 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -2813,65 +2873,63 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstLimitReference<T_obj> m_obj;
+    QExtConstLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstMemberFunctor5 encapsulates a const method with 5 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstMemberFunctor5.
+/**
+ * @brief QExtBoundConstMemberFunctor5 encapsulates a const method with 5 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstMemberFunctor5.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
 class QExtBoundConstMemberFunctor5
-        : public QExtConstMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+        : public QExtConstMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef QExtConstMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef QExtConstMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstMemberFunctor5 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor5 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor5(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstMemberFunctor5(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstMemberFunctor5 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor5 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor5(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstMemberFunctor5(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstMemberFunctor5(const QExtBoundConstMemberFunctor5 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -2879,312 +2937,327 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstLimitReference<T_obj> m_obj;
+    QExtConstLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstMemberFunctor4 encapsulates a const method with 4 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstMemberFunctor4.
+/**
+ * @brief QExtBoundConstMemberFunctor4 encapsulates a const method with 4 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstMemberFunctor4.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-class QExtBoundConstMemberFunctor4 : public QExtConstMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+class QExtBoundConstMemberFunctor4 : public QExtConstMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef QExtConstMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef QExtConstMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstMemberFunctor4 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor4 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor4(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstMemberFunctor4(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstMemberFunctor4 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor4 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor4(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstMemberFunctor4(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstMemberFunctor4(const QExtBoundConstMemberFunctor4 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstLimitReference<T_obj> m_obj;
+    QExtConstLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstMemberFunctor3 encapsulates a const method with 3 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstMemberFunctor3.
+/**
+ * @brief QExtBoundConstMemberFunctor3 encapsulates a const method with 3 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstMemberFunctor3.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-class QExtBoundConstMemberFunctor3 : public QExtConstMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+class QExtBoundConstMemberFunctor3 : public QExtConstMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef QExtConstMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef QExtConstMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstMemberFunctor3 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor3 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor3(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstMemberFunctor3(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstMemberFunctor3 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor3 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor3(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstMemberFunctor3(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstMemberFunctor3(const QExtBoundConstMemberFunctor3 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstLimitReference<T_obj> m_obj;
+    QExtConstLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstMemberFunctor2 encapsulates a const method with 2 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstMemberFunctor2.
+/**
+ * @brief QExtBoundConstMemberFunctor2 encapsulates a const method with 2 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstMemberFunctor2.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtBoundConstMemberFunctor2 : public QExtConstMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtBoundConstMemberFunctor2 : public QExtConstMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef QExtConstMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef QExtConstMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstMemberFunctor2 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor2 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor2(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstMemberFunctor2(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstMemberFunctor2 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor2 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor2(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstMemberFunctor2(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstMemberFunctor2(const QExtBoundConstMemberFunctor2 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstLimitReference<T_obj> m_obj;
+    QExtConstLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstMemberFunctor1 encapsulates a const method with 1 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstMemberFunctor1.
+/**
+ * @brief QExtBoundConstMemberFunctor1 encapsulates a const method with 1 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstMemberFunctor1.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtBoundConstMemberFunctor1 : public QExtConstMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtBoundConstMemberFunctor1 : public QExtConstMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef QExtConstMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef QExtConstMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstMemberFunctor1 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor1 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor1(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstMemberFunctor1(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstMemberFunctor1 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor1 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor1(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstMemberFunctor1(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstLimitReference<T_obj> m_obj;
+    QExtConstLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstMemberFunctor0 encapsulates a const method with 0 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstMemberFunctor0.
+/**
+ * @brief QExtBoundConstMemberFunctor0 encapsulates a const method with 0 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstMemberFunctor0.
  *
  * The following template arguments are used:
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj>
-class QExtBoundConstMemberFunctor0 : public QExtConstMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtBoundConstMemberFunctor0 : public QExtConstMemberFunctor0<Return, Obj>
 {
-    typedef QExtConstMemberFunctor0<T_return, T_obj> Base;
+    typedef QExtConstMemberFunctor0<Return, Obj> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor0 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor0(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstMemberFunctor0(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstMemberFunctor0 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstMemberFunctor0(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstMemberFunctor0(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstMemberFunctor0(const QExtBoundConstMemberFunctor0 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @return The return value of the method invocation.
      */
-    T_return operator()() const
+    Return operator()() const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))();
+        return (mObj.invoke().*(this->mFuncPtr))();
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstLimitReference<T_obj> m_obj;
+    QExtConstLimitReference<Obj> mObj;
 };
 
-/** QExtBoundVolatileMemberFunctor7 encapsulates a volatile method with 7 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundVolatileMemberFunctor7.
+/**
+ * @brief QExtBoundVolatileMemberFunctor7 encapsulates a volatile method with 7 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundVolatileMemberFunctor7.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_arg7 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Arg7 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<
-        typename T_return,
-        typename T_obj,
-        typename T_arg1,
-        typename T_arg2,
-        typename T_arg3,
-        typename T_arg4,
-        typename T_arg5,
-        typename T_arg6,
-        typename T_arg7>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
 class QExtBoundVolatileMemberFunctor7
-        : public QExtVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public QExtVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef QExtVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef QExtVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundVolatileMemberFunctor7 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor7 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor7(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundVolatileMemberFunctor7(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundVolatileMemberFunctor7 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor7 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor7(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundVolatileMemberFunctor7(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundVolatileMemberFunctor7(const QExtBoundVolatileMemberFunctor7 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -3194,68 +3267,65 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtVolatileLimitReference<T_obj> m_obj;
+    QExtVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundVolatileMemberFunctor6 encapsulates a volatile method with 6 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundVolatileMemberFunctor6.
+/**
+ * @brief QExtBoundVolatileMemberFunctor6 encapsulates a volatile method with 6 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundVolatileMemberFunctor6.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
 class QExtBoundVolatileMemberFunctor6
-        : public QExtVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+        : public QExtVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef QExtVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef QExtVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundVolatileMemberFunctor6 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor6 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor6(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundVolatileMemberFunctor6(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundVolatileMemberFunctor6 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor6 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor6(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundVolatileMemberFunctor6(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundVolatileMemberFunctor6(const QExtBoundVolatileMemberFunctor6 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -3264,67 +3334,63 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtVolatileLimitReference<T_obj> m_obj;
+    QExtVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundVolatileMemberFunctor5 encapsulates a volatile method with 5 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundVolatileMemberFunctor5.
+/**
+ * @brief QExtBoundVolatileMemberFunctor5 encapsulates a volatile method with 5 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundVolatileMemberFunctor5.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
- *
- * \ingroup qextMemberFunctor
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
 class QExtBoundVolatileMemberFunctor5
-        : public QExtVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+        : public QExtVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef QExtVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef QExtVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundVolatileMemberFunctor5 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor5 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor5(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundVolatileMemberFunctor5(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundVolatileMemberFunctor5 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor5 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor5(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundVolatileMemberFunctor5(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundVolatileMemberFunctor5(const QExtBoundVolatileMemberFunctor5 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -3332,316 +3398,331 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtVolatileLimitReference<T_obj> m_obj;
+    QExtVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundVolatileMemberFunctor4 encapsulates a volatile method with 4 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundVolatileMemberFunctor4.
+/**
+ * @brief QExtBoundVolatileMemberFunctor4 encapsulates a volatile method with 4 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundVolatileMemberFunctor4.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
 class QExtBoundVolatileMemberFunctor4
-        : public QExtVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+        : public QExtVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef QExtVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef QExtVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundVolatileMemberFunctor4 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor4 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor4(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundVolatileMemberFunctor4(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundVolatileMemberFunctor4 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor4 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor4(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundVolatileMemberFunctor4(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundVolatileMemberFunctor4(const QExtBoundVolatileMemberFunctor4 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtVolatileLimitReference<T_obj> m_obj;
+    QExtVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundVolatileMemberFunctor3 encapsulates a volatile method with 3 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundVolatileMemberFunctor3.
+/**
+ * @brief QExtBoundVolatileMemberFunctor3 encapsulates a volatile method with 3 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundVolatileMemberFunctor3.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-class QExtBoundVolatileMemberFunctor3 : public QExtVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+class QExtBoundVolatileMemberFunctor3 : public QExtVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef QExtVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef QExtVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundVolatileMemberFunctor3 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor3 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor3(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundVolatileMemberFunctor3(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundVolatileMemberFunctor3 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor3 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor3(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundVolatileMemberFunctor3(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundVolatileMemberFunctor3(const QExtBoundVolatileMemberFunctor3 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtVolatileLimitReference<T_obj> m_obj;
+    QExtVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundVolatileMemberFunctor2 encapsulates a volatile method with 2 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundVolatileMemberFunctor2.
+/**
+ * @brief QExtBoundVolatileMemberFunctor2 encapsulates a volatile method with 2 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundVolatileMemberFunctor2.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtBoundVolatileMemberFunctor2 : public QExtVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtBoundVolatileMemberFunctor2 : public QExtVolatileMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef QExtVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef QExtVolatileMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundVolatileMemberFunctor2 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor2 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor2(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundVolatileMemberFunctor2(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundVolatileMemberFunctor2 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor2 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor2(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundVolatileMemberFunctor2(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundVolatileMemberFunctor2(const QExtBoundVolatileMemberFunctor2 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtVolatileLimitReference<T_obj> m_obj;
+    QExtVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundVolatileMemberFunctor1 encapsulates a volatile method with 1 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundVolatileMemberFunctor1.
+/**
+ * @brief QExtBoundVolatileMemberFunctor1 encapsulates a volatile method with 1 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundVolatileMemberFunctor1.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtBoundVolatileMemberFunctor1 : public QExtVolatileMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtBoundVolatileMemberFunctor1 : public QExtVolatileMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef QExtVolatileMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef QExtVolatileMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundVolatileMemberFunctor1 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor1 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor1(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundVolatileMemberFunctor1(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundVolatileMemberFunctor1 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor1 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor1(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundVolatileMemberFunctor1(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundVolatileMemberFunctor1(const QExtBoundVolatileMemberFunctor1 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtVolatileLimitReference<T_obj> m_obj;
+    QExtVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundVolatileMemberFunctor0 encapsulates a volatile method with 0 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundVolatileMemberFunctor0.
+/**
+ * @brief QExtBoundVolatileMemberFunctor0 encapsulates a volatile method with 0 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundVolatileMemberFunctor0.
  *
  * The following template arguments are used:
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj>
-class QExtBoundVolatileMemberFunctor0 : public QExtVolatileMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtBoundVolatileMemberFunctor0 : public QExtVolatileMemberFunctor0<Return, Obj>
 {
-    typedef QExtVolatileMemberFunctor0<T_return, T_obj> Base;
+    typedef QExtVolatileMemberFunctor0<Return, Obj> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundVolatileMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor0 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor0(T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundVolatileMemberFunctor0(Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundVolatileMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundVolatileMemberFunctor0 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundVolatileMemberFunctor0(T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundVolatileMemberFunctor0(Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundVolatileMemberFunctor0(const QExtBoundVolatileMemberFunctor0 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @return The return value of the method invocation.
      */
-    T_return operator()() const
+    Return operator()() const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))();
+        return (mObj.invoke().*(this->mFuncPtr))();
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtVolatileLimitReference<T_obj> m_obj;
+    QExtVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstVolatileMemberFunctor7 encapsulates a const volatile method with 7 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor7.
+/**
+ * @brief QExtBoundConstVolatileMemberFunctor7 encapsulates a const volatile method with 7 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor7.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_arg7 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Arg7 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<
-        typename T_return,
-        typename T_obj,
-        typename T_arg1,
-        typename T_arg2,
-        typename T_arg3,
-        typename T_arg4,
-        typename T_arg5,
-        typename T_arg6,
-        typename T_arg7>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
 class QExtBoundConstVolatileMemberFunctor7
-        : public QExtConstVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public QExtConstVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef QExtConstVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef QExtConstVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor7 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor7 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor7(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstVolatileMemberFunctor7(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor7 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor7 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor7(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstVolatileMemberFunctor7(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstVolatileMemberFunctor7(const QExtBoundConstVolatileMemberFunctor7 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -3651,68 +3732,65 @@ public:
      * @param arg7 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstVolatileLimitReference<T_obj> m_obj;
+    QExtConstVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstVolatileMemberFunctor6 encapsulates a const volatile method with 6 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor6.
+/**
+ * @brief QExtBoundConstVolatileMemberFunctor6 encapsulates a const volatile method with 6 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor6.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_arg6 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Arg6 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
 class QExtBoundConstVolatileMemberFunctor6
-        : public QExtConstVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+        : public QExtConstVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef QExtConstVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef QExtConstVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor6 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor6 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor6(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstVolatileMemberFunctor6(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor6 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor6 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor6(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstVolatileMemberFunctor6(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstVolatileMemberFunctor6(const QExtBoundConstVolatileMemberFunctor6 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -3721,65 +3799,63 @@ public:
      * @param arg6 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstVolatileLimitReference<T_obj> m_obj;
+    QExtConstVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstVolatileMemberFunctor5 encapsulates a const volatile method with 5 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor5.
+/**
+ * @brief QExtBoundConstVolatileMemberFunctor5 encapsulates a const volatile method with 5 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor5.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_arg5 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Arg5 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
 class QExtBoundConstVolatileMemberFunctor5
-        : public QExtConstVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+        : public QExtConstVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef QExtConstVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef QExtConstVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor5 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor5 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor5(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstVolatileMemberFunctor5(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor5 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor5 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor5(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstVolatileMemberFunctor5(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstVolatileMemberFunctor5(const QExtBoundConstVolatileMemberFunctor5 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
@@ -3787,4111 +3863,3855 @@ public:
      * @param arg5 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4, arg5);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4, arg5);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstVolatileLimitReference<T_obj> m_obj;
+    QExtConstVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstVolatileMemberFunctor4 encapsulates a const volatile method with 4 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor4.
+/**
+ * @brief QExtBoundConstVolatileMemberFunctor4 encapsulates a const volatile method with 4 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor4.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_arg4 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Arg4 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
 class QExtBoundConstVolatileMemberFunctor4
-        : public QExtConstVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+        : public QExtConstVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef QExtConstVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef QExtConstVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor4 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor4 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor4(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstVolatileMemberFunctor4(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor4 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor4 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor4(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstVolatileMemberFunctor4(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstVolatileMemberFunctor4(const QExtBoundConstVolatileMemberFunctor4 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @param arg4 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3, arg4);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3, arg4);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstVolatileLimitReference<T_obj> m_obj;
+    QExtConstVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstVolatileMemberFunctor3 encapsulates a const volatile method with 3 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor3.
+/**
+ * @brief QExtBoundConstVolatileMemberFunctor3 encapsulates a const volatile method with 3 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor3.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_arg3 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Arg3 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
 class QExtBoundConstVolatileMemberFunctor3
-        : public QExtConstVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+        : public QExtConstVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef QExtConstVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef QExtConstVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor3 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor3 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor3(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstVolatileMemberFunctor3(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor3 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor3 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor3(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstVolatileMemberFunctor3(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstVolatileMemberFunctor3(const QExtBoundConstVolatileMemberFunctor3 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @param arg3 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2, arg3);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2, arg3);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstVolatileLimitReference<T_obj> m_obj;
+    QExtConstVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstVolatileMemberFunctor2 encapsulates a const volatile method with 2 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor2.
+/**
+ * @brief QExtBoundConstVolatileMemberFunctor2 encapsulates a const volatile method with 2 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor2.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_arg2 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Arg2 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtBoundConstVolatileMemberFunctor2 : public QExtConstVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtBoundConstVolatileMemberFunctor2 : public QExtConstVolatileMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef QExtConstVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef QExtConstVolatileMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor2 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor2 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor2(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstVolatileMemberFunctor2(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor2 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor2 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor2(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstVolatileMemberFunctor2(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstVolatileMemberFunctor2(const QExtBoundConstVolatileMemberFunctor2 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @param arg2 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1, arg2);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1, arg2);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstVolatileLimitReference<T_obj> m_obj;
+    QExtConstVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstVolatileMemberFunctor1 encapsulates a const volatile method with 1 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor1.
+/**
+ * @brief QExtBoundConstVolatileMemberFunctor1 encapsulates a const volatile method with 1 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor1.
  *
  * The following template arguments are used:
- * - @e T_arg1 Argument type used in the definition of operator()().
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Arg1 Argument type used in the definition of operator()().
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtBoundConstVolatileMemberFunctor1 : public QExtConstVolatileMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtBoundConstVolatileMemberFunctor1 : public QExtConstVolatileMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef QExtConstVolatileMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef QExtConstVolatileMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor1 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor1 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor1(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstVolatileMemberFunctor1(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor1 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor1 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor1(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstVolatileMemberFunctor1(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstVolatileMemberFunctor1(const QExtBoundConstVolatileMemberFunctor1 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @param arg1 Argument to be passed on to the method.
      * @return The return value of the method invocation.
      */
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))(arg1);
+        return (mObj.invoke().*(this->mFuncPtr))(arg1);
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstVolatileLimitReference<T_obj> m_obj;
+    QExtConstVolatileLimitReference<Obj> mObj;
 };
 
-/** QExtBoundConstVolatileMemberFunctor0 encapsulates a const volatile method with 0 arguments and an object instance.
- * Use the convenience function qextMemberFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor0.
+/**
+ * @brief QExtBoundConstVolatileMemberFunctor0 encapsulates a const volatile method with 0 arguments and an object instance.
+ * Use the convenience function qextMakeFunctor() to create an instance of QExtBoundConstVolatileMemberFunctor0.
  *
  * The following template arguments are used:
- * - @e T_return The return type of operator()().
- * - @e T_obj The object type.
+ * - @e Return The return type of operator()().
+ * - @e Obj The object type.
  */
-template<typename T_return, typename T_obj>
-class QExtBoundConstVolatileMemberFunctor0 : public QExtConstVolatileMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtBoundConstVolatileMemberFunctor0 : public QExtConstVolatileMemberFunctor0<Return, Obj>
 {
-    typedef QExtConstVolatileMemberFunctor0<T_return, T_obj> Base;
+    typedef QExtConstVolatileMemberFunctor0<Return, Obj> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor0 object that wraps the passed method.
      * @param obj Pointer to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor0(const T_obj *obj, Function func) : Base(func), m_obj(*obj) {}
+    QExtBoundConstVolatileMemberFunctor0(const Obj *obj, FunctionType func) : BaseType(func), mObj(*obj) {}
 
-    /** Constructs a QExtBoundConstVolatileMemberFunctor0 object that wraps the passed method.
+    /**
+     * @brief Constructs a QExtBoundConstVolatileMemberFunctor0 object that wraps the passed method.
      * @param obj Reference to instance the method will operate on.
      * @param func Pointer to method will be invoked from operator()().
      */
-    QExtBoundConstVolatileMemberFunctor0(const T_obj &obj, Function func) : Base(func), m_obj(obj) {}
+    QExtBoundConstVolatileMemberFunctor0(const Obj &obj, FunctionType func) : BaseType(func), mObj(obj) {}
 
     QExtBoundConstVolatileMemberFunctor0(const QExtBoundConstVolatileMemberFunctor0 &other)
-        : Base(other.m_funcPtr), m_obj(other.m_obj) {}
+        : BaseType(other.mFuncPtr), mObj(other.mObj) {}
 
-    /** Execute the wrapped method operating on the stored instance.
+    /**
+     * @brief Execute the wrapped method operating on the stored instance.
      * @return The return value of the method invocation.
      */
-    T_return operator()() const
+    Return operator()() const
     {
-        return (m_obj.invoke().*(this->m_funcPtr))();
+        return (mObj.invoke().*(this->mFuncPtr))();
     }
 
     // Reference to stored object instance.
     // This is the handler object, such as TheObject in void TheObject::signal_handler().
-    QExtConstVolatileLimitReference<T_obj> m_obj;
+    QExtConstVolatileLimitReference<Obj> mObj;
 };
 
 } // namespace QExtPrivate
 
 
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1 = QExtNil,
-         typename T_arg2 = QExtNil,
-         typename T_arg3 = QExtNil,
-         typename T_arg4 = QExtNil,
-         typename T_arg5 = QExtNil,
-         typename T_arg6 = QExtNil,
-         typename T_arg7 = QExtNil>
+template<class Return,
+         class Obj,
+         class Arg1 = QExtNil,
+         class Arg2 = QExtNil,
+         class Arg3 = QExtNil,
+         class Arg4 = QExtNil,
+         class Arg5 = QExtNil,
+         class Arg6 = QExtNil,
+         class Arg7 = QExtNil>
 class QExtMemberFunctor
-        : public detail::QExtMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public detail::QExtMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef detail::QExtMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef detail::QExtMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtMemberFunctor() {}
 
-    QExtMemberFunctor(Function func) : Base(func) {}
+    QExtMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtMemberFunctor(const QExtMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtMemberFunctor(const QExtMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-class QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil>
-        : public detail::QExtMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+class QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, QExtNil>
+        : public detail::QExtMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef detail::QExtMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef detail::QExtMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtMemberFunctor() {}
 
-    QExtMemberFunctor(Function func) : Base(func) {}
+    QExtMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtMemberFunctor(const QExtMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtMemberFunctor(const QExtMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-class QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil>
-        : public detail::QExtMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+class QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, QExtNil, QExtNil>
+        : public detail::QExtMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef detail::QExtMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef detail::QExtMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtMemberFunctor() {}
 
-    QExtMemberFunctor(Function func) : Base(func) {}
+    QExtMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtMemberFunctor(const QExtMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtMemberFunctor(const QExtMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4>
-class QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+class QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef detail::QExtMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef detail::QExtMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtMemberFunctor() {}
 
-    QExtMemberFunctor(Function func) : Base(func) {}
+    QExtMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtMemberFunctor(const QExtMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtMemberFunctor(const QExtMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3>
-class QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+class QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef detail::QExtMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef detail::QExtMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtMemberFunctor() {}
 
-    QExtMemberFunctor(Function func) : Base(func) {}
+    QExtMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtMemberFunctor(const QExtMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtMemberFunctor(const QExtMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3);
+        return BaseType::operator()(obj, arg1, arg2, arg3);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3);
+        return BaseType::operator()(obj, arg1, arg2, arg3);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtMemberFunctor<Return, Obj, Arg1, Arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef detail::QExtMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef detail::QExtMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtMemberFunctor() {}
 
-    QExtMemberFunctor(Function func) : Base(func) {}
+    QExtMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtMemberFunctor(const QExtMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtMemberFunctor(const QExtMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(obj, arg1, arg2);
+        return BaseType::operator()(obj, arg1, arg2);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(obj, arg1, arg2);
+        return BaseType::operator()(obj, arg1, arg2);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtMemberFunctor<T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtMemberFunctor<Return, Obj, Arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef detail::QExtMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef detail::QExtMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtMemberFunctor() {}
 
-    QExtMemberFunctor(Function func) : Base(func) {}
+    QExtMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtMemberFunctor(const QExtMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtMemberFunctor(const QExtMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(Obj *obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(obj, arg1);
+        return BaseType::operator()(obj, arg1);
     }
 
-    T_return operator()(T_obj &obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(Obj &obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(obj, arg1);
+        return BaseType::operator()(obj, arg1);
     }
 };
 
-template<typename T_return, typename T_obj>
-class QExtMemberFunctor<T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtMemberFunctor<Return, Obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtMemberFunctor0<Return, Obj>
 {
 public:
-    typedef detail::QExtMemberFunctor0<T_return, T_obj> Base;
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef detail::QExtMemberFunctor0<Return, Obj> BaseType;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtMemberFunctor() {}
 
-    QExtMemberFunctor(Function func) : Base(func) {}
+    QExtMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtMemberFunctor(const QExtMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtMemberFunctor(const QExtMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj) const
+    Return operator()(Obj *obj) const
     {
-        return Base::operator()(obj);
+        return BaseType::operator()(obj);
     }
 
-    T_return operator()(T_obj &obj) const
+    Return operator()(Obj &obj) const
     {
-        return Base::operator()(obj);
+        return BaseType::operator()(obj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1 = QExtNil,
-         typename T_arg2 = QExtNil,
-         typename T_arg3 = QExtNil,
-         typename T_arg4 = QExtNil,
-         typename T_arg5 = QExtNil,
-         typename T_arg6 = QExtNil,
-         typename T_arg7 = QExtNil>
+template<class Return,
+         class Obj,
+         class Arg1 = QExtNil,
+         class Arg2 = QExtNil,
+         class Arg3 = QExtNil,
+         class Arg4 = QExtNil,
+         class Arg5 = QExtNil,
+         class Arg6 = QExtNil,
+         class Arg7 = QExtNil>
 class QExtConstMemberFunctor
-        : public detail::QExtConstMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public detail::QExtConstMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef detail::QExtConstMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef detail::QExtConstMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstMemberFunctor() {}
 
-    QExtConstMemberFunctor(Function func) : Base(func) {}
+    QExtConstMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-class QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil>
-        : public detail::QExtConstMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+class QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, QExtNil>
+        : public detail::QExtConstMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef detail::QExtConstMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef detail::QExtConstMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstMemberFunctor() {}
 
-    QExtConstMemberFunctor(Function func) : Base(func) {}
+    QExtConstMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-class QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil>
-        : public detail::QExtConstMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+class QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, QExtNil, QExtNil>
+        : public detail::QExtConstMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef detail::QExtConstMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef detail::QExtConstMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstMemberFunctor() {}
 
-    QExtConstMemberFunctor(Function func) : Base(func) {}
+    QExtConstMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-class QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtConstMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+class QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtConstMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef detail::QExtConstMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef detail::QExtConstMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstMemberFunctor() {}
 
-    QExtConstMemberFunctor(Function func) : Base(func) {}
+    QExtConstMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-class QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtConstMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+class QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtConstMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef detail::QExtConstMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef detail::QExtConstMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstMemberFunctor() {}
 
-    QExtConstMemberFunctor(Function func) : Base(func) {}
+    QExtConstMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3);
+        return BaseType::operator()(obj, arg1, arg2, arg3);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3);
+        return BaseType::operator()(obj, arg1, arg2, arg3);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtConstMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtConstMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef detail::QExtConstMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef detail::QExtConstMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstMemberFunctor() {}
 
-    QExtConstMemberFunctor(Function func) : Base(func) {}
+    QExtConstMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(obj, arg1, arg2);
+        return BaseType::operator()(obj, arg1, arg2);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(obj, arg1, arg2);
+        return BaseType::operator()(obj, arg1, arg2);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtConstMemberFunctor<T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtConstMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtConstMemberFunctor<Return, Obj, Arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtConstMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef detail::QExtConstMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef detail::QExtConstMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstMemberFunctor() {}
 
-    QExtConstMemberFunctor(Function func) : Base(func) {}
+    QExtConstMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(const Obj *obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(obj, arg1);
+        return BaseType::operator()(obj, arg1);
     }
 
-    T_return operator()(const T_obj &obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(const Obj &obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(obj, arg1);
+        return BaseType::operator()(obj, arg1);
     }
 };
 
-template<typename T_return, typename T_obj>
-class QExtConstMemberFunctor<T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtConstMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtConstMemberFunctor<Return, Obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtConstMemberFunctor0<Return, Obj>
 {
-    typedef detail::QExtConstMemberFunctor0<T_return, T_obj> Base;
+    typedef detail::QExtConstMemberFunctor0<Return, Obj> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstMemberFunctor() {}
 
-    QExtConstMemberFunctor(Function func) : Base(func) {}
+    QExtConstMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstMemberFunctor(const QExtConstMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj) const
+    Return operator()(const Obj *obj) const
     {
-        return Base::operator()(obj);
+        return BaseType::operator()(obj);
     }
 
-    T_return operator()(const T_obj &obj) const
+    Return operator()(const Obj &obj) const
     {
-        return Base::operator()(obj);
+        return BaseType::operator()(obj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1 = QExtNil,
-         typename T_arg2 = QExtNil,
-         typename T_arg3 = QExtNil,
-         typename T_arg4 = QExtNil,
-         typename T_arg5 = QExtNil,
-         typename T_arg6 = QExtNil,
-         typename T_arg7 = QExtNil>
+template<class Return,
+         class Obj,
+         class Arg1 = QExtNil,
+         class Arg2 = QExtNil,
+         class Arg3 = QExtNil,
+         class Arg4 = QExtNil,
+         class Arg5 = QExtNil,
+         class Arg6 = QExtNil,
+         class Arg7 = QExtNil>
 class QExtVolatileMemberFunctor
-        : public detail::QExtVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public detail::QExtVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef detail::QExtVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef detail::QExtVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtVolatileMemberFunctor() {}
 
-    QExtVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-class QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil>
-        : public detail::QExtVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+class QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, QExtNil>
+        : public detail::QExtVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef detail::QExtVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef detail::QExtVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtVolatileMemberFunctor() {}
 
-    QExtVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-class QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil>
-        : public detail::QExtVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+class QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, QExtNil, QExtNil>
+        : public detail::QExtVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef detail::QExtVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef detail::QExtVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtVolatileMemberFunctor() {}
 
-    QExtVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-class QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+class QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef detail::QExtVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef detail::QExtVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtVolatileMemberFunctor() {}
 
-    QExtVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-class QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+class QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef detail::QExtVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef detail::QExtVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtVolatileMemberFunctor() {}
 
-    QExtVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3);
+        return BaseType::operator()(obj, arg1, arg2, arg3);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3);
+        return BaseType::operator()(obj, arg1, arg2, arg3);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtVolatileMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef detail::QExtVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef detail::QExtVolatileMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtVolatileMemberFunctor() {}
 
-    QExtVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(obj, arg1, arg2);
+        return BaseType::operator()(obj, arg1, arg2);
     }
 
-    T_return operator()(T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(obj, arg1, arg2);
+        return BaseType::operator()(obj, arg1, arg2);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtVolatileMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtVolatileMemberFunctor<Return, Obj, Arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtVolatileMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef detail::QExtVolatileMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef detail::QExtVolatileMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtVolatileMemberFunctor() {}
 
-    QExtVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(Obj *obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(obj, arg1);
+        return BaseType::operator()(obj, arg1);
     }
 
-    T_return operator()(T_obj &obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(Obj &obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(obj, arg1);
+        return BaseType::operator()(obj, arg1);
     }
 };
 
-template<typename T_return, typename T_obj>
-class QExtVolatileMemberFunctor<T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtVolatileMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtVolatileMemberFunctor<Return, Obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtVolatileMemberFunctor0<Return, Obj>
 {
-    typedef detail::QExtVolatileMemberFunctor0<T_return, T_obj> Base;
+    typedef detail::QExtVolatileMemberFunctor0<Return, Obj> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtVolatileMemberFunctor() {}
 
-    QExtVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtVolatileMemberFunctor(const QExtVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(T_obj *obj) const
+    Return operator()(Obj *obj) const
     {
-        return Base::operator()(obj);
+        return BaseType::operator()(obj);
     }
 
-    T_return operator()(T_obj &obj) const
+    Return operator()(Obj &obj) const
     {
-        return Base::operator()(obj);
+        return BaseType::operator()(obj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1 = QExtNil,
-         typename T_arg2 = QExtNil,
-         typename T_arg3 = QExtNil,
-         typename T_arg4 = QExtNil,
-         typename T_arg5 = QExtNil,
-         typename T_arg6 = QExtNil,
-         typename T_arg7 = QExtNil>
+template<class Return,
+         class Obj,
+         class Arg1 = QExtNil,
+         class Arg2 = QExtNil,
+         class Arg3 = QExtNil,
+         class Arg4 = QExtNil,
+         class Arg5 = QExtNil,
+         class Arg6 = QExtNil,
+         class Arg7 = QExtNil>
 class QExtConstVolatileMemberFunctor
-        : public detail::QExtConstVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public detail::QExtConstVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef detail::QExtConstVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef detail::QExtConstVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstVolatileMemberFunctor() {}
 
-    QExtConstVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtConstVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-class QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil>
-        : public detail::QExtConstVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+class QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, QExtNil>
+        : public detail::QExtConstVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef detail::QExtConstVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef detail::QExtConstVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstVolatileMemberFunctor() {}
 
-    QExtConstVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtConstVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5, arg6);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-class QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil>
-        : public detail::QExtConstVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+class QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, QExtNil, QExtNil>
+        : public detail::QExtConstVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef detail::QExtConstVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef detail::QExtConstVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstVolatileMemberFunctor() {}
 
-    QExtConstVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtConstVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4, arg5);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-class QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtConstVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+class QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtConstVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef detail::QExtConstVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef detail::QExtConstVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstVolatileMemberFunctor() {}
 
-    QExtConstVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtConstVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3, arg4);
+        return BaseType::operator()(obj, arg1, arg2, arg3, arg4);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-class QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtConstVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+class QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtConstVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef detail::QExtConstVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef detail::QExtConstVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstVolatileMemberFunctor() {}
 
-    QExtConstVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtConstVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3);
+        return BaseType::operator()(obj, arg1, arg2, arg3);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(obj, arg1, arg2, arg3);
+        return BaseType::operator()(obj, arg1, arg2, arg3);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtConstVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtConstVolatileMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef detail::QExtConstVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef detail::QExtConstVolatileMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstVolatileMemberFunctor() {}
 
-    QExtConstVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtConstVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(const Obj *obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(obj, arg1, arg2);
+        return BaseType::operator()(obj, arg1, arg2);
     }
 
-    T_return operator()(const T_obj &obj,
-                        typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(const Obj &obj,
+                      typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(obj, arg1, arg2);
+        return BaseType::operator()(obj, arg1, arg2);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtConstVolatileMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtConstVolatileMemberFunctor<Return, Obj, Arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtConstVolatileMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef detail::QExtConstVolatileMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef detail::QExtConstVolatileMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstVolatileMemberFunctor() {}
 
-    QExtConstVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtConstVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(const Obj *obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(obj, arg1);
+        return BaseType::operator()(obj, arg1);
     }
 
-    T_return operator()(const T_obj &obj, typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(const Obj &obj, typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(obj, arg1);
+        return BaseType::operator()(obj, arg1);
     }
 };
 
-template<typename T_return, typename T_obj>
-class QExtConstVolatileMemberFunctor<T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtConstVolatileMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtConstVolatileMemberFunctor<Return, Obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtConstVolatileMemberFunctor0<Return, Obj>
 {
-    typedef detail::QExtConstVolatileMemberFunctor0<T_return, T_obj> Base;
+    typedef detail::QExtConstVolatileMemberFunctor0<Return, Obj> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtConstVolatileMemberFunctor() {}
 
-    QExtConstVolatileMemberFunctor(Function func) : Base(func) {}
+    QExtConstVolatileMemberFunctor(FunctionType func) : BaseType(func) {}
 
-    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : Base(other.m_funcPtr) {}
+    QExtConstVolatileMemberFunctor(const QExtConstVolatileMemberFunctor &other) : BaseType(other.mFuncPtr) {}
 
-    T_return operator()(const T_obj *obj) const
+    Return operator()(const Obj *obj) const
     {
-        return Base::operator()(obj);
+        return BaseType::operator()(obj);
     }
 
-    T_return operator()(const T_obj &obj) const
+    Return operator()(const Obj &obj) const
     {
-        return Base::operator()(obj);
+        return BaseType::operator()(obj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1 = QExtNil,
-         typename T_arg2 = QExtNil,
-         typename T_arg3 = QExtNil,
-         typename T_arg4 = QExtNil,
-         typename T_arg5 = QExtNil,
-         typename T_arg6 = QExtNil,
-         typename T_arg7 = QExtNil>
+template<class Return,
+         class Obj,
+         class Arg1 = QExtNil,
+         class Arg2 = QExtNil,
+         class Arg3 = QExtNil,
+         class Arg4 = QExtNil,
+         class Arg5 = QExtNil,
+         class Arg6 = QExtNil,
+         class Arg7 = QExtNil>
 class QExtBoundMemberFunctor
-        : public detail::QExtBoundMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public detail::QExtBoundMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef detail::QExtBoundMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef detail::QExtBoundMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : Base(other) {}
+    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-struct QExtVisitor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+struct QExtVisitor<QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> >
 {
-    template<typename T_action>
-    static void doVisitEach(const T_action &action,
-                            const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> &target)
+    typedef QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-class QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil>
-        : public detail::QExtBoundMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+class QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, QExtNil>
+        : public detail::QExtBoundMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef detail::QExtBoundMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef detail::QExtBoundMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : Base(other) {}
+    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-struct QExtVisitor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+struct QExtVisitor<QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> >
 {
-    template<typename T_action>
-    static void doVisitEach(const T_action &action,
-                            const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> &target)
+    typedef QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-class QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil>
-        : public detail::QExtBoundMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+class QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, QExtNil, QExtNil>
+        : public detail::QExtBoundMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef detail::QExtBoundMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef detail::QExtBoundMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : Base(other) {}
+    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-struct QExtVisitor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+struct QExtVisitor<QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> >
 {
-    template<typename T_action>
-    static void doVisitEach(const T_action &action,
-                            const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> &target)
+    typedef QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-class QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+class QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef detail::QExtBoundMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef detail::QExtBoundMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : Base(other) {}
+    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4);
+        return BaseType::operator()(arg1, arg2, arg3, arg4);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-struct QExtVisitor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+struct QExtVisitor<QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4> >
 {
-    template<typename T_action>
-    static void doVisitEach(const T_action &action,
-                            const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> &target)
+    typedef QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-class QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+class QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef detail::QExtBoundMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef detail::QExtBoundMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : Base(other) {}
+    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(arg1, arg2, arg3);
+        return BaseType::operator()(arg1, arg2, arg3);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-struct QExtVisitor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+struct QExtVisitor<QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3> >
 {
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> &target)
+    typedef QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef detail::QExtBoundMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef detail::QExtBoundMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : Base(other) {}
+    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1, typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1, typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(arg1, arg2);
+        return BaseType::operator()(arg1, arg2);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-struct QExtVisitor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2> >
+template<class Return, class Obj, class Arg1, class Arg2>
+struct QExtVisitor<QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2> >
 {
-    template<typename T_action>
-    static void doVisitEach(const T_action &action,
-                            const QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2> &target)
+    typedef QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtBoundMemberFunctor<T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtBoundMemberFunctor<Return, Obj, Arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef detail::QExtBoundMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef detail::QExtBoundMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : Base(other) {}
+    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(arg1);
+        return BaseType::operator()(arg1);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-struct QExtVisitor<QExtBoundMemberFunctor<T_return, T_obj, T_arg1> >
+template<class Return, class Obj, class Arg1>
+struct QExtVisitor<QExtBoundMemberFunctor<Return, Obj, Arg1> >
 {
-    template<typename T_action>
-    static void doVisitEach(const T_action &action,
-                            const QExtBoundMemberFunctor<T_return, T_obj, T_arg1> &target)
+    typedef QExtBoundMemberFunctor<Return, Obj, Arg1> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj>
-class QExtBoundMemberFunctor<T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtBoundMemberFunctor<Return, Obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundMemberFunctor0<Return, Obj>
 {
-    typedef detail::QExtBoundMemberFunctor0<T_return, T_obj> Base;
+    typedef detail::QExtBoundMemberFunctor0<Return, Obj> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : Base(other) {}
+    QExtBoundMemberFunctor(const QExtBoundMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()() const
+    Return operator()() const
     {
-        return Base::operator()();
+        return BaseType::operator()();
     }
 };
 
-template<typename T_return, typename T_obj>
-struct QExtVisitor<QExtBoundMemberFunctor<T_return, T_obj> >
+template<class Return, class Obj>
+struct QExtVisitor<QExtBoundMemberFunctor<Return, Obj> >
 {
-    template<typename T_action>
-    static void doVisitEach(const T_action &action,
-                            const QExtBoundMemberFunctor<T_return, T_obj> &target)
+    typedef QExtBoundMemberFunctor<Return, Obj> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1 = QExtNil,
-         typename T_arg2 = QExtNil,
-         typename T_arg3 = QExtNil,
-         typename T_arg4 = QExtNil,
-         typename T_arg5 = QExtNil,
-         typename T_arg6 = QExtNil,
-         typename T_arg7 = QExtNil>
+template<class Return,
+         class Obj,
+         class Arg1 = QExtNil,
+         class Arg2 = QExtNil,
+         class Arg3 = QExtNil,
+         class Arg4 = QExtNil,
+         class Arg5 = QExtNil,
+         class Arg6 = QExtNil,
+         class Arg7 = QExtNil>
 class QExtBoundConstMemberFunctor
-        : public detail::QExtBoundConstMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public detail::QExtBoundConstMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef detail::QExtBoundConstMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef detail::QExtBoundConstMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : Base(other) {}
+    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-struct QExtVisitor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+struct QExtVisitor<QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> >
 {
-    typedef QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action,
-                            const Target &target)
+    typedef QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-class QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil>
-        : public detail::QExtBoundConstMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+class QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, QExtNil>
+        : public detail::QExtBoundConstMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef detail::QExtBoundConstMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef detail::QExtBoundConstMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : Base(other) {}
+    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-struct QExtVisitor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+struct QExtVisitor<QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> >
 {
-    typedef QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-class QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil>
-        : public detail::QExtBoundConstMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+class QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, QExtNil, QExtNil>
+        : public detail::QExtBoundConstMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef detail::QExtBoundConstMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef detail::QExtBoundConstMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : Base(other) {}
+    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-struct QExtVisitor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+struct QExtVisitor<QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> >
 {
-    typedef QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-class QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundConstMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+class QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundConstMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef detail::QExtBoundConstMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef detail::QExtBoundConstMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : Base(other) {}
+    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4);
+        return BaseType::operator()(arg1, arg2, arg3, arg4);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-struct QExtVisitor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+struct QExtVisitor<QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4> >
 {
-    typedef QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-class QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundConstMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+class QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundConstMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef detail::QExtBoundConstMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef detail::QExtBoundConstMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : Base(other) {}
+    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(arg1, arg2, arg3);
+        return BaseType::operator()(arg1, arg2, arg3);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-struct QExtVisitor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+struct QExtVisitor<QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3> >
 {
-    typedef QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundConstMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundConstMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef detail::QExtBoundConstMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef detail::QExtBoundConstMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : Base(other) {}
+    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1, typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1, typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(arg1, arg2);
+        return BaseType::operator()(arg1, arg2);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-struct QExtVisitor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2> >
+template<class Return, class Obj, class Arg1, class Arg2>
+struct QExtVisitor<QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2> >
 {
-    typedef QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundConstMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtBoundConstMemberFunctor<Return, Obj, Arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundConstMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef detail::QExtBoundConstMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef detail::QExtBoundConstMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : Base(other) {}
+    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(arg1);
+        return BaseType::operator()(arg1);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-struct QExtVisitor<QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1> >
+template<class Return, class Obj, class Arg1>
+struct QExtVisitor<QExtBoundConstMemberFunctor<Return, Obj, Arg1> >
 {
-    typedef QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstMemberFunctor<Return, Obj, Arg1> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj>
-class QExtBoundConstMemberFunctor<T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundConstMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtBoundConstMemberFunctor<Return, Obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundConstMemberFunctor0<Return, Obj>
 {
-    typedef detail::QExtBoundConstMemberFunctor0<T_return, T_obj> Base;
+    typedef detail::QExtBoundConstMemberFunctor0<Return, Obj> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : Base(other) {}
+    QExtBoundConstMemberFunctor(const QExtBoundConstMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()() const
+    Return operator()() const
     {
-        return Base::operator()();
+        return BaseType::operator()();
     }
 };
 
-template<typename T_return, typename T_obj>
-struct QExtVisitor<QExtBoundConstMemberFunctor<T_return, T_obj> >
+template<class Return, class Obj>
+struct QExtVisitor<QExtBoundConstMemberFunctor<Return, Obj> >
 {
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const QExtBoundConstMemberFunctor<T_return, T_obj> &target)
+    template<typename Action>
+    static void doVisitEach(const Action &action, const QExtBoundConstMemberFunctor<Return, Obj> &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1 = QExtNil,
-         typename T_arg2 = QExtNil,
-         typename T_arg3 = QExtNil,
-         typename T_arg4 = QExtNil,
-         typename T_arg5 = QExtNil,
-         typename T_arg6 = QExtNil,
-         typename T_arg7 = QExtNil>
+template<class Return,
+         class Obj,
+         class Arg1 = QExtNil,
+         class Arg2 = QExtNil,
+         class Arg3 = QExtNil,
+         class Arg4 = QExtNil,
+         class Arg5 = QExtNil,
+         class Arg6 = QExtNil,
+         class Arg7 = QExtNil>
 class QExtBoundVolatileMemberFunctor
-        : public detail::QExtBoundVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public detail::QExtBoundVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef detail::QExtBoundVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef detail::QExtBoundVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundVolatileMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-struct QExtVisitor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+struct QExtVisitor<QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> >
 {
-    typedef QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-class QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil>
-        : public detail::QExtBoundVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+class QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, QExtNil>
+        : public detail::QExtBoundVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef detail::QExtBoundVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef detail::QExtBoundVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundVolatileMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-struct QExtVisitor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+struct QExtVisitor<QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> >
 {
-    typedef QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-class QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil>
-        : public detail::QExtBoundVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+class QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, QExtNil, QExtNil>
+        : public detail::QExtBoundVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef detail::QExtBoundVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef detail::QExtBoundVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundVolatileMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-struct QExtVisitor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+struct QExtVisitor<QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> >
 {
-    typedef QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-class QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+class QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef detail::QExtBoundVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef detail::QExtBoundVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundVolatileMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4);
+        return BaseType::operator()(arg1, arg2, arg3, arg4);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-struct QExtVisitor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+struct QExtVisitor<QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4> >
 {
-    typedef QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-class QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+class QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef detail::QExtBoundVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef detail::QExtBoundVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundVolatileMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(arg1, arg2, arg3);
+        return BaseType::operator()(arg1, arg2, arg3);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-struct QExtVisitor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+struct QExtVisitor<QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3> >
 {
-    typedef QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundVolatileMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef detail::QExtBoundVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef detail::QExtBoundVolatileMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundVolatileMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1, typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1, typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(arg1, arg2);
+        return BaseType::operator()(arg1, arg2);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-struct QExtVisitor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> >
+template<class Return, class Obj, class Arg1, class Arg2>
+struct QExtVisitor<QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2> >
 {
-    typedef QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundVolatileMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundVolatileMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef detail::QExtBoundVolatileMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef detail::QExtBoundVolatileMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundVolatileMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(arg1);
+        return BaseType::operator()(arg1);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-struct QExtVisitor<QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1> >
+template<class Return, class Obj, class Arg1>
+struct QExtVisitor<QExtBoundVolatileMemberFunctor<Return, Obj, Arg1> >
 {
-    typedef QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundVolatileMemberFunctor<Return, Obj, Arg1> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj>
-class QExtBoundVolatileMemberFunctor<T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundVolatileMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtBoundVolatileMemberFunctor<Return, Obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundVolatileMemberFunctor0<Return, Obj>
 {
-    typedef detail::QExtBoundVolatileMemberFunctor0<T_return, T_obj> Base;
+    typedef detail::QExtBoundVolatileMemberFunctor0<Return, Obj> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundVolatileMemberFunctor(T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundVolatileMemberFunctor(Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundVolatileMemberFunctor(const QExtBoundVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()() const
+    Return operator()() const
     {
-        return Base::operator()();
+        return BaseType::operator()();
     }
 };
 
-template<typename T_return, typename T_obj>
-struct QExtVisitor<QExtBoundVolatileMemberFunctor<T_return, T_obj> >
+template<class Return, class Obj>
+struct QExtVisitor<QExtBoundVolatileMemberFunctor<Return, Obj> >
 {
-    typedef QExtBoundVolatileMemberFunctor<T_return, T_obj> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundVolatileMemberFunctor<Return, Obj> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1 = QExtNil,
-         typename T_arg2 = QExtNil,
-         typename T_arg3 = QExtNil,
-         typename T_arg4 = QExtNil,
-         typename T_arg5 = QExtNil,
-         typename T_arg6 = QExtNil,
-         typename T_arg7 = QExtNil>
+template<class Return,
+         class Obj,
+         class Arg1 = QExtNil,
+         class Arg2 = QExtNil,
+         class Arg3 = QExtNil,
+         class Arg4 = QExtNil,
+         class Arg5 = QExtNil,
+         class Arg6 = QExtNil,
+         class Arg7 = QExtNil>
 class QExtBoundConstVolatileMemberFunctor
-        : public detail::QExtBoundConstVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
+        : public detail::QExtBoundConstVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
 {
-    typedef detail::QExtBoundConstVolatileMemberFunctor7<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Base;
+    typedef detail::QExtBoundConstVolatileMemberFunctor7<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6,
-                        typename QExtTypeTrait<T_arg7>::Take arg7) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6,
+                      typename QExtTypeTrait<Arg7>::Take arg7) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> >
 {
-    typedef QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-class QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil>
-        : public detail::QExtBoundConstVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+class QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, QExtNil>
+        : public detail::QExtBoundConstVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
 {
-    typedef detail::QExtBoundConstVolatileMemberFunctor6<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Base;
+    typedef detail::QExtBoundConstVolatileMemberFunctor6<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5,
-                        typename QExtTypeTrait<T_arg6>::Take arg6) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5,
+                      typename QExtTypeTrait<Arg6>::Take arg6) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> >
 {
-    typedef QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-class QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil>
-        : public detail::QExtBoundConstVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
+template<class Return,
+         class Obj,
+         class Arg1,
+         class Arg2,
+         class Arg3,
+         class Arg4,
+         class Arg5>
+class QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, QExtNil, QExtNil>
+        : public detail::QExtBoundConstVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
 {
-    typedef detail::QExtBoundConstVolatileMemberFunctor5<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Base;
+    typedef detail::QExtBoundConstVolatileMemberFunctor5<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4,
-                        typename QExtTypeTrait<T_arg5>::Take arg5) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4,
+                      typename QExtTypeTrait<Arg5>::Take arg5) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4, arg5);
+        return BaseType::operator()(arg1, arg2, arg3, arg4, arg5);
     }
 };
 
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> >
 {
-    typedef QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-class QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundConstVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+class QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundConstVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4>
 {
-    typedef detail::QExtBoundConstVolatileMemberFunctor4<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Base;
+    typedef detail::QExtBoundConstVolatileMemberFunctor4<Return, Obj, Arg1, Arg2, Arg3, Arg4> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3,
-                        typename QExtTypeTrait<T_arg4>::Take arg4) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3,
+                      typename QExtTypeTrait<Arg4>::Take arg4) const
     {
-        return Base::operator()(arg1, arg2, arg3, arg4);
+        return BaseType::operator()(arg1, arg2, arg3, arg4);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4> >
 {
-    typedef QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-class QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundConstVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3>
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+class QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundConstVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3>
 {
-    typedef detail::QExtBoundConstVolatileMemberFunctor3<T_return, T_obj, T_arg1, T_arg2, T_arg3> Base;
+    typedef detail::QExtBoundConstVolatileMemberFunctor3<Return, Obj, Arg1, Arg2, Arg3> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2,
-                        typename QExtTypeTrait<T_arg3>::Take arg3) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2,
+                      typename QExtTypeTrait<Arg3>::Take arg3) const
     {
-        return Base::operator()(arg1, arg2, arg3);
+        return BaseType::operator()(arg1, arg2, arg3);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> >
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3> >
 {
-    typedef QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-class QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundConstVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2>
+template<class Return, class Obj, class Arg1, class Arg2>
+class QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundConstVolatileMemberFunctor2<Return, Obj, Arg1, Arg2>
 {
-    typedef detail::QExtBoundConstVolatileMemberFunctor2<T_return, T_obj, T_arg1, T_arg2> Base;
+    typedef detail::QExtBoundConstVolatileMemberFunctor2<Return, Obj, Arg1, Arg2> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1,
-                        typename QExtTypeTrait<T_arg2>::Take arg2) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1,
+                      typename QExtTypeTrait<Arg2>::Take arg2) const
     {
-        return Base::operator()(arg1, arg2);
+        return BaseType::operator()(arg1, arg2);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> >
+template<class Return, class Obj, class Arg1, class Arg2>
+struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2> >
 {
-    typedef QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-class QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundConstVolatileMemberFunctor1<T_return, T_obj, T_arg1>
+template<class Return, class Obj, class Arg1>
+class QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundConstVolatileMemberFunctor1<Return, Obj, Arg1>
 {
-    typedef detail::QExtBoundConstVolatileMemberFunctor1<T_return, T_obj, T_arg1> Base;
+    typedef detail::QExtBoundConstVolatileMemberFunctor1<Return, Obj, Arg1> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()(typename QExtTypeTrait<T_arg1>::Take arg1) const
+    Return operator()(typename QExtTypeTrait<Arg1>::Take arg1) const
     {
-        return Base::operator()(arg1);
+        return BaseType::operator()(arg1);
     }
 };
 
-template<typename T_return, typename T_obj, typename T_arg1>
-struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1> >
+template<class Return, class Obj, class Arg1>
+struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1> >
 {
-    typedef QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-template<typename T_return, typename T_obj>
-class QExtBoundConstVolatileMemberFunctor<T_return, T_obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
-        : public detail::QExtBoundConstVolatileMemberFunctor0<T_return, T_obj>
+template<class Return, class Obj>
+class QExtBoundConstVolatileMemberFunctor<Return, Obj, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil>
+        : public detail::QExtBoundConstVolatileMemberFunctor0<Return, Obj>
 {
-    typedef detail::QExtBoundConstVolatileMemberFunctor0<T_return, T_obj> Base;
+    typedef detail::QExtBoundConstVolatileMemberFunctor0<Return, Obj> BaseType;
 
 public:
-    typedef typename Base::Function Function;
-    typedef typename Base::Return Return;
+    typedef typename BaseType::FunctionType FunctionType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj *obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj *obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const T_obj &obj, Function func) : Base(obj, func) {}
+    QExtBoundConstVolatileMemberFunctor(const Obj &obj, FunctionType func) : BaseType(obj, func) {}
 
-    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : Base(other) {}
+    QExtBoundConstVolatileMemberFunctor(const QExtBoundConstVolatileMemberFunctor &other) : BaseType(other) {}
 
-    T_return operator()() const
+    Return operator()() const
     {
-        return Base::operator()();
+        return BaseType::operator()();
     }
 };
 
-template<typename T_return, typename T_obj>
-struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<T_return, T_obj> >
+template<class Return, class Obj>
+struct QExtVisitor<QExtBoundConstVolatileMemberFunctor<Return, Obj> >
 {
-    typedef QExtBoundConstVolatileMemberFunctor<T_return, T_obj> Target;
-    template<typename T_action>
-    static void doVisitEach(const T_action &action, const Target &target)
+    typedef QExtBoundConstVolatileMemberFunctor<Return, Obj> TargetType;
+    template<typename Action>
+    static void doVisitEach(const Action &action, const TargetType &target)
     {
-        qextVisitEach(action, target.m_obj);
+        qextVisitEach(action, target.mObj);
     }
 };
 
-/** Creates a functor of type QExtMemberFunctor which wraps a method with 7 args.
+/**
+ * @brief Creates a functor of type QExtMemberFunctor which wraps a method with 7 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7))
 {
-    return QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(func);
+    return QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(func);
 }
 
-/** Creates a functor of type QExtMemberFunctor which wraps a method with 6 args.
+/**
+ * @brief Creates a functor of type QExtMemberFunctor which wraps a method with 6 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6))
 {
-    return QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(func);
+    return QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(func);
 }
 
-/** Creates a functor of type QExtMemberFunctor which wraps a method with 5 args.
+/**
+ * @brief Creates a functor of type QExtMemberFunctor which wraps a method with 5 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-inline QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5))
 {
-    return QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(func);
+    return QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(func);
 }
 
-/** Creates a functor of type QExtMemberFunctor which wraps a method with 4 args.
+/**
+ * @brief Creates a functor of type QExtMemberFunctor which wraps a method with 4 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4>
-inline QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4))
 {
-    return QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(func);
+    return QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(func);
 }
 
-/** Creates a functor of type QExtMemberFunctor which wraps a method with 3 args.
+/**
+ * @brief Creates a functor of type QExtMemberFunctor which wraps a method with 3 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3))
 {
-    return QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(func);
+    return QExtMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(func);
 }
 
-/** Creates a functor of type QExtMemberFunctor which wraps a method with 2 args.
+/**
+ * @brief Creates a functor of type QExtMemberFunctor which wraps a method with 2 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2> qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2))
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2))
 {
-    return QExtMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(func);
+    return QExtMemberFunctor<Return, Obj, Arg1, Arg2>(func);
 }
 
-/** Creates a functor of type QExtMemberFunctor which wraps a method with 1 args.
+/**
+ * @brief Creates a functor of type QExtMemberFunctor which wraps a method with 1 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtMemberFunctor<T_return, T_obj, T_arg1> qextMemberFunctor(T_return (T_obj::*func)(T_arg1))
+template<class Return, class Obj, class Arg1>
+inline QExtMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Return (Obj::*func)(Arg1))
 {
-    return QExtMemberFunctor<T_return, T_obj, T_arg1>(func);
+    return QExtMemberFunctor<Return, Obj, Arg1>(func);
 }
 
-/** Creates a functor of type QExtMemberFunctor which wraps a method with no args.
+/**
+ * @brief Creates a functor of type QExtMemberFunctor which wraps a method with no args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtMemberFunctor<T_return, T_obj> qextMemberFunctor(T_return (T_obj::*func)())
+template<class Return, class Obj>
+inline QExtMemberFunctor<Return, Obj>
+qextMakeFunctor(Return (Obj::*func)())
 {
-    return QExtMemberFunctor<T_return, T_obj>(func);
+    return QExtMemberFunctor<Return, Obj>(func);
 }
 
-/** Creates a functor of type QExtConstMemberFunctor which wraps a const method with 7 args.
+/**
+ * @brief Creates a functor of type QExtConstMemberFunctor which wraps a const method with 7 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) const)
 {
-    return QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(func);
+    return QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(func);
 }
 
-/** Creates a functor of type QExtConstMemberFunctor which wraps a const method with 6 args.
+/**
+ * @brief Creates a functor of type QExtConstMemberFunctor which wraps a const method with 6 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) const)
 {
-    return QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(func);
+    return QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(func);
 }
 
-/** Creates a functor of type QExtConstMemberFunctor which wraps a const method with 5 args.
+/**
+ * @brief Creates a functor of type QExtConstMemberFunctor which wraps a const method with 5 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-inline QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5) const)
 {
-    return QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(func);
+    return QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(func);
 }
 
-/** Creates a functor of type QExtConstMemberFunctor which wraps a const method with 4 args.
+/**
+ * @brief Creates a functor of type QExtConstMemberFunctor which wraps a const method with 4 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4>
-inline QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4) const)
 {
-    return QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(func);
+    return QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(func);
 }
 
-/** Creates a functor of type QExtConstMemberFunctor which wraps a const method with 3 args.
+/**
+ * @brief Creates a functor of type QExtConstMemberFunctor which wraps a const method with 3 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3) const)
 {
-    return QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(func);
+    return QExtConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(func);
 }
 
-/** Creates a functor of type QExtConstMemberFunctor which wraps a const method with 2 args.
+/**
+ * @brief Creates a functor of type QExtConstMemberFunctor which wraps a const method with 2 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2) const)
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtConstMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2) const)
 {
-    return QExtConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(func);
+    return QExtConstMemberFunctor<Return, Obj, Arg1, Arg2>(func);
 }
 
-/** Creates a functor of type QExtConstMemberFunctor which wraps a const method with 1 args.
+/**
+ * @brief Creates a functor of type QExtConstMemberFunctor which wraps a const method with 1 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtConstMemberFunctor<T_return, T_obj, T_arg1> qextMemberFunctor(T_return (T_obj::*func)(T_arg1) const)
+template<class Return, class Obj, class Arg1>
+inline QExtConstMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Return (Obj::*func)(Arg1) const)
 {
-    return QExtConstMemberFunctor<T_return, T_obj, T_arg1>(func);
+    return QExtConstMemberFunctor<Return, Obj, Arg1>(func);
 }
 
-/** Creates a functor of type QExtConstMemberFunctor which wraps a const method with no args.
+/**
+ * @brief Creates a functor of type QExtConstMemberFunctor which wraps a const method with no args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtConstMemberFunctor<T_return, T_obj> qextMemberFunctor(T_return (T_obj::*func)() const)
+template<class Return, class Obj>
+inline QExtConstMemberFunctor<Return, Obj>
+qextMakeFunctor(Return (Obj::*func)() const)
 {
-    return QExtConstMemberFunctor<T_return, T_obj>(func);
+    return QExtConstMemberFunctor<Return, Obj>(func);
 }
 
-/** Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 7 args.
+/**
+ * @brief Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 7 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) volatile)
 {
-    return QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(func);
+    return QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(func);
 }
 
-/** Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 6 args.
+/**
+ * @brief Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 6 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) volatile)
 {
-    return QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(func);
+    return QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(func);
 }
 
-/** Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 5 args.
+/**
+ * @brief Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 5 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-inline QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5) volatile)
 {
-    return QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(func);
+    return QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(func);
 }
 
-/** Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 4 args.
+/**
+ * @brief Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 4 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4>
-inline QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4) volatile)
 {
-    return QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(func);
+    return QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(func);
 }
 
-/** Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 3 args.
+/**
+ * @brief Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 3 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3) volatile)
 {
-    return QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(func);
+    return QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(func);
 }
 
-/** Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 2 args.
+/**
+ * @brief Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 2 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2) volatile)
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2) volatile)
 {
-    return QExtVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(func);
+    return QExtVolatileMemberFunctor<Return, Obj, Arg1, Arg2>(func);
 }
 
-/** Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 1 args.
+/**
+ * @brief Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with 1 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtVolatileMemberFunctor<T_return, T_obj, T_arg1> qextMemberFunctor(T_return (T_obj::*func)(T_arg1) volatile)
+template<class Return, class Obj, class Arg1>
+inline QExtVolatileMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Return (Obj::*func)(Arg1) volatile)
 {
-    return QExtVolatileMemberFunctor<T_return, T_obj, T_arg1>(func);
+    return QExtVolatileMemberFunctor<Return, Obj, Arg1>(func);
 }
 
-/** Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with no args.
+/**
+ * @brief Creates a functor of type QExtVolatileMemberFunctor which wraps a volatile method with no args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtVolatileMemberFunctor<T_return, T_obj> qextMemberFunctor(T_return (T_obj::*func)() volatile)
+template<class Return, class Obj>
+inline QExtVolatileMemberFunctor<Return, Obj>
+qextMakeFunctor(Return (Obj::*func)() volatile)
 {
-    return QExtVolatileMemberFunctor<T_return, T_obj>(func);
+    return QExtVolatileMemberFunctor<Return, Obj>(func);
 }
 
-/** Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 7 args.
+/**
+ * @brief Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 7 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) const volatile)
 {
-    return QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(func);
+    return QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(func);
 }
 
-/** Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 6 args.
+/**
+ * @brief Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 6 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) const volatile)
 {
-    return QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(func);
+    return QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(func);
 }
 
-/** Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 5 args.
+/**
+ * @brief Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 5 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-inline QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5) const volatile)
 {
-    return QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(func);
+    return QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(func);
 }
 
-/** Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 4 args.
+/**
+ * @brief Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 4 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4) const volatile)
 {
-    return QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(func);
+    return QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(func);
 }
 
-/** Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 3 args.
+/**
+ * @brief Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 3 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2, Arg3) const volatile)
 {
-    return QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(func);
+    return QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(func);
 }
 
-/** Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 2 args.
+/**
+ * @brief Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 2 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1, T_arg2) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Return (Obj::*func)(Arg1, Arg2) const volatile)
 {
-    return QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(func);
+    return QExtConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2>(func);
 }
 
-/** Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 1 args.
+/**
+ * @brief Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with 1 args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1>
-qextMemberFunctor(T_return (T_obj::*func)(T_arg1) const volatile)
+template<class Return, class Obj, class Arg1>
+inline QExtConstVolatileMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Return (Obj::*func)(Arg1) const volatile)
 {
-    return QExtConstVolatileMemberFunctor<T_return, T_obj, T_arg1>(func);
+    return QExtConstVolatileMemberFunctor<Return, Obj, Arg1>(func);
 }
 
-/** Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with no args.
+/**
+ * @brief Creates a functor of type QExtConstVolatileMemberFunctor which wraps a const volatile method with no args.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtConstVolatileMemberFunctor<T_return, T_obj> qextMemberFunctor(T_return (T_obj::*func)() const volatile)
+template<class Return, class Obj>
+inline QExtConstVolatileMemberFunctor<Return, Obj>
+qextMakeFunctor(Return (Obj::*func)() const volatile)
 {
-    return QExtConstVolatileMemberFunctor<T_return, T_obj>(func);
+    return QExtConstVolatileMemberFunctor<Return, Obj>(func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and an object instance with 7 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and
+ * an object instance with 7 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and an object instance with 7 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and
+ * an object instance with 7 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and an object instance with 6 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and
+ * an object instance with 6 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and an object instance with 6 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and
+ * an object instance with 6 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and an object instance with 5 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and
+ * an object instance with 5 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and an object instance with 5 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and
+ * an object instance with 5 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and an object instance with 4 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and
+ * an object instance with 4 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and an object instance with 4 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and
+ * an object instance with 4 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and an object instance with 3 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and
+ * an object instance with 3 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and an object instance with 3 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and
+ * an object instance with 3 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3))
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and an object instance with 2 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and
+ * an object instance with 2 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2))
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and an object instance with 2 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and
+ * an object instance with 2 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2))
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1, Arg2>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and an object instance with 1 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and
+ * an object instance with 1 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1> qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1))
+template<class Return, class Obj, class Arg1>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and an object instance with 1 args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and
+ * an object instance with 1 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtBoundMemberFunctor<T_return, T_obj, T_arg1> qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1))
+template<class Return, class Obj, class Arg1>
+inline QExtBoundMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1))
 {
-    return QExtBoundMemberFunctor<T_return, T_obj, T_arg1>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj, Arg1>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and an object instance with no args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor0 which encapsulates a method and
+ * an object instance with no args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtBoundMemberFunctor<T_return, T_obj> qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)())
+template<class Return, class Obj>
+inline QExtBoundMemberFunctor<Return, Obj>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)())
 {
-    return QExtBoundMemberFunctor<T_return, T_obj>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and an object instance with no args.
+/**
+ * @brief Creates a functor of type QExtBoundMemberFunctor which encapsulates a method and
+ * an object instance with no args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtBoundMemberFunctor<T_return, T_obj> qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)())
+template<class Return, class Obj>
+inline QExtBoundMemberFunctor<Return, Obj>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)())
 {
-    return QExtBoundMemberFunctor<T_return, T_obj>(obj, func);
+    return QExtBoundMemberFunctor<Return, Obj>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 7 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 7 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 7 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 7 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 6 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 6 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 6 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 6 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 5 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 5 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 5 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 5 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 4 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 4 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 4 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 4 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 3 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 3 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 3 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 3 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 2 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 2 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2) const)
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 2 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 2 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2) const)
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1, Arg2>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 1 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 1 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1) const)
+template<class Return, class Obj, class Arg1>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with 1 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with 1 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1) const)
+template<class Return, class Obj, class Arg1>
+inline QExtBoundConstMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1) const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj, T_arg1>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj, Arg1>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with no args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with no args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtBoundConstMemberFunctor<T_return, T_obj> qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)() const)
+template<class Return, class Obj>
+inline QExtBoundConstMemberFunctor<Return, Obj>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)() const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and an object instance with no args.
+/**
+ * @brief Creates a functor of type QExtBoundConstMemberFunctor which encapsulates a method and
+ * an object instance with no args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtBoundConstMemberFunctor<T_return, T_obj> qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)() const)
+template<class Return, class Obj>
+inline QExtBoundConstMemberFunctor<Return, Obj>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)() const)
 {
-    return QExtBoundConstMemberFunctor<T_return, T_obj>(obj, func);
+    return QExtBoundConstMemberFunctor<Return, Obj>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 7 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 7 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(obj,
-                                                                                                                   func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 7 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 7 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(obj,
-                                                                                                                   func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 6 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 6 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 6 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 6 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 5 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 5 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 5 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 5 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 4 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 4 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 4 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 4 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 3 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object  instance with 3 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 3 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object  instance with 3 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 2 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 2 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2) volatile)
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 2 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object  instance with 2 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2) volatile)
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1, Arg2>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 1 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 1 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1) volatile)
+template<class Return, class Obj, class Arg1>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with 1 args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 1 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1) volatile)
+template<class Return, class Obj, class Arg1>
+inline QExtBoundVolatileMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1) volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj, T_arg1>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj, Arg1>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with no args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with no args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj> qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)() volatile)
+template<class Return, class Obj>
+inline QExtBoundVolatileMemberFunctor<Return, Obj>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)() volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and an object instance with no args.
+/**
+ * @brief Creates a functor of type QExtBoundVolatileMemberFunctor which encapsulates a method and
+ * an object instance with no args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtBoundVolatileMemberFunctor<T_return, T_obj> qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)() volatile)
+template<class Return, class Obj>
+inline QExtBoundVolatileMemberFunctor<Return, Obj>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)() volatile)
 {
-    return QExtBoundVolatileMemberFunctor<T_return, T_obj>(obj, func);
+    return QExtBoundVolatileMemberFunctor<Return, Obj>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 7 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 7 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 7 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 7 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6,
-         typename T_arg7>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
-qextMemberFunctor(T_obj &obj,
-                  T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>(
-                obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 6 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 6 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(obj,
-                                                                                                                func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 6 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 6 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5,
-         typename T_arg6>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6>(obj,
-                                                                                                                func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 5 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 5 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 5 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 5 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4,
-         typename T_arg5>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4, T_arg5) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4, Arg5) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4, Arg5>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 4 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 4 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return,
-         typename T_obj,
-         typename T_arg1,
-         typename T_arg2,
-         typename T_arg3,
-         typename T_arg4>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 4 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 4 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3, T_arg4) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3, class Arg4>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3, Arg4) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3, T_arg4>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3, Arg4>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 3 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 3 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2, Arg3) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 3 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 3 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2, typename T_arg3>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2, T_arg3) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2, class Arg3>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2, Arg3) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2, T_arg3>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2, Arg3>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 2 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 2 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1, T_arg2) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1, Arg2) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 2 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 2 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1, typename T_arg2>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1, T_arg2) const volatile)
+template<class Return, class Obj, class Arg1, class Arg2>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1, Arg2) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1, T_arg2>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1, Arg2>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 1 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 1 args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)(T_arg1) const volatile)
+template<class Return, class Obj, class Arg1>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)(Arg1) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with 1 args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with 1 args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj, typename T_arg1>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)(T_arg1) const volatile)
+template<class Return, class Obj, class Arg1>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)(Arg1) const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj, T_arg1>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj, Arg1>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with no args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with no args.
  * @param obj Pointer to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj>
-qextMemberFunctor(T_obj *obj, T_return (T_obj::*func)() const volatile)
+template<class Return, class Obj>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj>
+qextMakeFunctor(Obj *obj, Return (Obj::*func)() const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj>(obj, func);
 }
 
-/** Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and an object instance with no args.
+/**
+ * @brief Creates a functor of type QExtBoundConstVolatileMemberFunctor which encapsulates a method and
+ * an object instance with no args.
  * @param obj Reference to object instance the functor should operate on.
  * @param func Pointer to method that should be wrapped.
  * @return Functor that executes @e func on invokation.
  */
-template<typename T_return, typename T_obj>
-inline QExtBoundConstVolatileMemberFunctor<T_return, T_obj>
-qextMemberFunctor(T_obj &obj, T_return (T_obj::*func)() const volatile)
+template<class Return, class Obj>
+inline QExtBoundConstVolatileMemberFunctor<Return, Obj>
+qextMakeFunctor(Obj &obj, Return (Obj::*func)() const volatile)
 {
-    return QExtBoundConstVolatileMemberFunctor<T_return, T_obj>(obj, func);
+    return QExtBoundConstVolatileMemberFunctor<Return, Obj>(obj, func);
 }
-
 
 #endif // _QEXTMEMBERFUNCTOR_H

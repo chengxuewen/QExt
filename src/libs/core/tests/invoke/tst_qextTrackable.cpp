@@ -37,7 +37,7 @@ void QExtTrackableTest::testSimple()
     QExtFunction<void> slot;
     MYClass *myClass = new MYClass;
     myClass->i = 11;
-    slot = qextMemberFunctor(myClass, &MYClass::foo);
+    slot = qextMakeFunctor(myClass, &MYClass::foo);
     delete myClass;
     myClass = QEXT_NULLPTR;
 
@@ -46,7 +46,7 @@ void QExtTrackableTest::testSimple()
         sg_string = "";
         MYClass t;
         t.i = 10;
-        sl = qextMemberFunctor(&t, &MYClass::foo);
+        sl = qextMakeFunctor(&t, &MYClass::foo);
         sl();
         QVERIFY("10" == sg_string);
     }

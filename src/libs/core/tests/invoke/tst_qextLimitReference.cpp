@@ -45,7 +45,7 @@ void QExtLimitReferenceTest::testSimple()
 {
     sg_string = "";
     Derived *instance = new Derived;
-    QExtFunction<void> handler = qextMemberFunctor(instance, &Derived::method);
+    QExtFunction<void> handler = qextMakeFunctor(instance, &Derived::method);
     handler();
     QVERIFY("method()" == sg_string);
 

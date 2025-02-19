@@ -42,7 +42,7 @@ class BarGroup4 : public QObject
 class Functor1 : public QExtFunctorBase
 {
 public:
-    typedef std::string Return;
+    typedef std::string ResultType;
 
     Functor1(const BarGroup4 &bar) : m_bar(bar) {}
 
@@ -58,7 +58,7 @@ private:
 class Functor2 : public QExtFunctorBase
 {
 public:
-    typedef std::string Return;
+    typedef std::string ResultType;
 
     Functor2(const BarGroup4 &bar, const Book &book) : m_bar(bar), m_book(book) {}
 

@@ -58,26 +58,26 @@ void QExtRetypeFunctorTest::testSimple()
 
     Foo foo;
     *sg_string = "";
-    QVERIFY(1.5 == qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testInt))(1.234f));
+    QVERIFY(1.5 == qextRetypeFunctor(qextMakeFunctor(foo, &Foo::testInt))(1.234f));
     QVERIFY("Foo::testInt(int 1) " == *sg_string);
 
     *sg_string = "";
-    QVERIFY(25 == qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testFloat))(5));
+    QVERIFY(25 == qextRetypeFunctor(qextMakeFunctor(foo, &Foo::testFloat))(5));
     QVERIFY("Foo::testFloat(float 5) " == *sg_string);
 
     *sg_string = "";
-    qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testVoid))(1.234f);
+    qextRetypeFunctor(qextMakeFunctor(foo, &Foo::testVoid))(1.234f);
     QVERIFY("Foo::testVoid(int 1) " == *sg_string);
 
     *sg_string = "";
-    qextRetypeFunctor(qextPointerFunctor(&Bar))(6.789f);
+    qextRetypeFunctor(qextMakeFunctor(&Bar))(6.789f);
     QVERIFY("bar(short 6)" == *sg_string);
     return;
 
     *sg_string = "";
-    QExtFunction<float, float> s1 = qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testInt));
-    QExtFunction<float, int>   s2 = qextRetypeFunctor(qextMemberFunctor(foo, &Foo::testFloat));
-    QExtFunction<void, double> s3 = qextRetypeFunctor(qextPointerFunctor(&Bar));
+    QExtFunction<float, float> s1 = qextRetypeFunctor(qextMakeFunctor(foo, &Foo::testInt));
+    QExtFunction<float, int>   s2 = qextRetypeFunctor(qextMakeFunctor(foo, &Foo::testFloat));
+    QExtFunction<void, double> s3 = qextRetypeFunctor(qextMakeFunctor(&Bar));
     QVERIFY(1.5 == s1(1.234f));
     QVERIFY("Foo::testInt(int 1) " == *sg_string);
 

@@ -81,7 +81,7 @@ namespace detail
     class QExtTrackObjectFunctorBase : public QExtAdapts<T_functor>
     {
     public:
-        typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
+        typedef typename QExtAdapts<T_functor>::AdaptorType AdaptorType;
 
         template<
                 typename T_arg1 = void,
@@ -93,7 +93,7 @@ namespace detail
                 typename T_arg7 = void>
         struct ReturnTypeDeduce
         {
-            typedef typename Adaptor::template ReturnTypeDeduce<
+            typedef typename AdaptorType::template ReturnTypeDeduce<
                     typename QExtTypeTrait<T_arg1>::Pass,
                     typename QExtTypeTrait<T_arg2>::Pass,
                     typename QExtTypeTrait<T_arg3>::Pass,
@@ -103,7 +103,7 @@ namespace detail
                     typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
         };
 
-        typedef typename Adaptor::Return Return;
+        typedef typename AdaptorType::ResultType ResultType;
 
         /** Constructs a QExtTrackObjectFunctorBase object that wraps the passed functor and
          * stores a reference to the passed trackable object.
@@ -115,7 +115,7 @@ namespace detail
         /** Invokes the wrapped functor.
          * \return The return value of the functor invocation.
          */
-        Return operator()()
+        ResultType operator()()
         {
             return this->m_functor();
         }
@@ -535,8 +535,8 @@ class QExtTrackObjectFunctor
         : public detail::QExtTrackObjectFunctor7<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6, T_obj7>
 {
 public:
-    typedef detail::QExtTrackObjectFunctor7<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6, T_obj7> Base;
-    typedef typename Base::Return Return;
+    typedef detail::QExtTrackObjectFunctor7<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6, T_obj7> BaseType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtTrackObjectFunctor(
             const T_functor &func,
@@ -547,11 +547,11 @@ public:
             const T_obj5 &obj5,
             const T_obj6 &obj6,
             const T_obj7 &obj7)
-            : Base(func, obj1, obj2, obj3, obj4, obj5, obj6, obj7)
+            : BaseType(func, obj1, obj2, obj3, obj4, obj5, obj6, obj7)
     {
     }
 
-    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : Base(other) {}
+    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : BaseType(other) {}
 };
 
 //template specialization of QExtVisitor<>::doVisitEach<>(action, functor):
@@ -587,17 +587,17 @@ class QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, 
         : public detail::QExtTrackObjectFunctor6<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6>
 {
 public:
-    typedef detail::QExtTrackObjectFunctor6<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6> Base;
-    typedef typename Base::Return Return;
+    typedef detail::QExtTrackObjectFunctor6<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, T_obj6> BaseType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtTrackObjectFunctor(
             const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3, const T_obj4 &obj4,
             const T_obj5 &obj5, const T_obj6 &obj6)
-            : Base(func, obj1, obj2, obj3, obj4, obj5, obj6)
+            : BaseType(func, obj1, obj2, obj3, obj4, obj5, obj6)
     {
     }
 
-    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : Base(other) {}
+    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : BaseType(other) {}
 };
 
 //template specialization of QExtVisitor<>::doVisitEach<>(action, functor):
@@ -632,16 +632,16 @@ class QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5, 
         : public detail::QExtTrackObjectFunctor5<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5>
 {
 public:
-    typedef detail::QExtTrackObjectFunctor5<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5> Base;
-    typedef typename Base::Return Return;
+    typedef detail::QExtTrackObjectFunctor5<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5> BaseType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3,
                            const T_obj4 &obj4, const T_obj5 &obj5)
-            : Base(func, obj1, obj2, obj3, obj4, obj5)
+            : BaseType(func, obj1, obj2, obj3, obj4, obj5)
     {
     }
 
-    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : Base(other) {}
+    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : BaseType(other) {}
 };
 
 //template specialization of QExtVisitor<>::doVisitEach<>(action, functor):
@@ -675,16 +675,16 @@ class QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, QExtNil,
         : public detail::QExtTrackObjectFunctor4<T_functor, T_obj1, T_obj2, T_obj3, T_obj4>
 {
 public:
-    typedef detail::QExtTrackObjectFunctor4<T_functor, T_obj1, T_obj2, T_obj3, T_obj4> Base;
-    typedef typename Base::Return Return;
+    typedef detail::QExtTrackObjectFunctor4<T_functor, T_obj1, T_obj2, T_obj3, T_obj4> BaseType;
+    typedef typename BaseType::ResultType ResultType;
 
     QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3,
                            const T_obj4 &obj4)
-            : Base(func, obj1, obj2, obj3, obj4)
+            : BaseType(func, obj1, obj2, obj3, obj4)
     {
     }
 
-    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : Base(other) {}
+    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : BaseType(other) {}
 };
 
 //template specialization of QExtVisitor<>::doVisitEach<>(action, functor):
@@ -717,13 +717,13 @@ class QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, QExtNil, QExtNil
         : public detail::QExtTrackObjectFunctor3<T_functor, T_obj1, T_obj2, T_obj3>
 {
 public:
-    typedef detail::QExtTrackObjectFunctor3<T_functor, T_obj1, T_obj2, T_obj3> Base;
-    typedef typename Base::Return Return;
+    typedef detail::QExtTrackObjectFunctor3<T_functor, T_obj1, T_obj2, T_obj3> BaseType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3) : Base(
+    QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2, const T_obj3 &obj3) : BaseType(
             func, obj1, obj2, obj3) {}
 
-    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : Base(other) {}
+    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : BaseType(other) {}
 };
 
 //template specialization of QExtVisitor<>::doVisitEach<>(action, functor):
@@ -755,12 +755,12 @@ class QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, QExtNil, QExtNil, QExtNi
         : public detail::QExtTrackObjectFunctor2<T_functor, T_obj1, T_obj2>
 {
 public:
-    typedef detail::QExtTrackObjectFunctor2<T_functor, T_obj1, T_obj2> Base;
-    typedef typename Base::Return Return;
+    typedef detail::QExtTrackObjectFunctor2<T_functor, T_obj1, T_obj2> BaseType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2) : Base(func, obj1, obj2) {}
+    QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &obj2) : BaseType(func, obj1, obj2) {}
 
-    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : Base(other) {}
+    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : BaseType(other) {}
 };
 
 //template specialization of QExtVisitor<>::doVisitEach<>(action, functor):
@@ -790,12 +790,12 @@ class QExtTrackObjectFunctor<T_functor, T_obj1, QExtNil, QExtNil, QExtNil, QExtN
         : public detail::QExtTrackObjectFunctor1<T_functor, T_obj1>
 {
 public:
-    typedef detail::QExtTrackObjectFunctor1<T_functor, T_obj1> Base;
-    typedef typename Base::Return Return;
+    typedef detail::QExtTrackObjectFunctor1<T_functor, T_obj1> BaseType;
+    typedef typename BaseType::ResultType ResultType;
 
-    QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1) : Base(func, obj1) {}
+    QExtTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1) : BaseType(func, obj1) {}
 
-    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : Base(other) {}
+    QExtTrackObjectFunctor(const QExtTrackObjectFunctor &other) : BaseType(other) {}
 };
 
 //template specialization of QExtVisitor<>::doVisitEach<>(action, functor):
@@ -828,7 +828,7 @@ struct QExtVisitor<QExtTrackObjectFunctor<T_functor, T_obj1> >
  * \param obj5 Trackable object.
  * \param obj6 Trackable object.
  * \param obj7 Trackable object.
- * \return Adaptor that executes func() on invocation.
+ * \return AdaptorType that executes func() on invocation.
  *
  * @newin{2,4}
  *
@@ -858,7 +858,7 @@ inline QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5,
  * \param obj4 Trackable object.
  * \param obj5 Trackable object.
  * \param obj6 Trackable object.
- * \return Adaptor that executes func() on invocation.
+ * \return AdaptorType that executes func() on invocation.
  *
  * @newin{2,4}
  *
@@ -880,7 +880,7 @@ inline QExtTrackObjectFunctor<T_functor, T_obj1, T_obj2, T_obj3, T_obj4, T_obj5,
  * \param obj3 Trackable object.
  * \param obj4 Trackable object.
  * \param obj5 Trackable object.
- * \return Adaptor that executes func() on invocation.
+ * \return AdaptorType that executes func() on invocation.
  *
  * @newin{2,4}
  *
@@ -901,7 +901,7 @@ qextTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &
  * \param obj2 Trackable object.
  * \param obj3 Trackable object.
  * \param obj4 Trackable object.
- * \return Adaptor that executes func() on invocation.
+ * \return AdaptorType that executes func() on invocation.
  *
  * @newin{2,4}
  *
@@ -920,7 +920,7 @@ qextTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &
  * \param obj1 Trackable object.
  * \param obj2 Trackable object.
  * \param obj3 Trackable object.
- * \return Adaptor that executes func() on invocation.
+ * \return AdaptorType that executes func() on invocation.
  *
  * @newin{2,4}
  *
@@ -937,7 +937,7 @@ qextTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &
  * \param func Functor that shall be wrapped.
  * \param obj1 Trackable object.
  * \param obj2 Trackable object.
- * \return Adaptor that executes func() on invocation.
+ * \return AdaptorType that executes func() on invocation.
  *
  * @newin{2,4}
  *
@@ -953,7 +953,7 @@ qextTrackObjectFunctor(const T_functor &func, const T_obj1 &obj1, const T_obj2 &
 /** Creates an adaptor of type QExtTrackObjectFunctorBase which wraps a functor.
  * \param func Functor that shall be wrapped.
  * \param obj1 Trackable object.
- * \return Adaptor that executes func() on invocation.
+ * \return AdaptorType that executes func() on invocation.
  *
  * @newin{2,4}
  *

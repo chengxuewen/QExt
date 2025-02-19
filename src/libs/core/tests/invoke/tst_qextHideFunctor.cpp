@@ -17,7 +17,7 @@ static std::string sg_string = "";
 struct Foo : public QExtFunctorBase
 {
     // choose a type that can hold all return values
-    typedef int Return;
+    typedef int ResultType;
 
     int operator()()
     {
@@ -36,7 +36,7 @@ struct Foo : public QExtFunctorBase
 
 struct FooVoid : public QExtFunctorBase
 {
-    typedef void Return;
+    typedef void ResultType;
 
     void operator()()
     {

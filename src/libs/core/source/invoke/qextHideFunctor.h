@@ -89,7 +89,7 @@
 
 
 
-/** Adaptor that adds a dummy parameter to the wrapped functor.
+/** AdaptorType that adds a dummy parameter to the wrapped functor.
 * Use the convenience function qextHideFunctor() to create an instance of QExtHideFunctor.
 *
 * The following template arguments are used:
@@ -102,7 +102,7 @@
 template<int I_location, typename T_functor>
 struct QExtHideFunctor;
 
-/** Adaptor that adds a dummy parameter to the wrapped functor.
+/** AdaptorType that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the last parameter in operator()().
 *
 * \ingroup qextHideFunctor
@@ -110,13 +110,13 @@ struct QExtHideFunctor;
 template<typename T_functor>
 struct QExtHideFunctor<-1, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_functor>::AdaptorType AdaptorType;
 
     template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
             typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce<
+        typedef typename AdaptorType::template ReturnTypeDeduce<
                 typename QExtTypeTrait<T_arg1>::Pass,
                 typename QExtTypeTrait<T_arg2>::Pass,
                 typename QExtTypeTrait<T_arg3>::Pass,
@@ -125,7 +125,7 @@ struct QExtHideFunctor<-1, T_functor> : public QExtAdapts<T_functor>
                 typename QExtTypeTrait<T_arg6>::Pass>::Type Type;
     };
 
-    typedef typename Adaptor::Return Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
@@ -260,7 +260,7 @@ struct QExtHideFunctor<-1, T_functor> : public QExtAdapts<T_functor>
     }
 };
 
-/** Adaptor that adds a dummy parameter to the wrapped functor.
+/** AdaptorType that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the 1st parameter in operator()().
 *
 * \ingroup qextHideFunctor
@@ -268,13 +268,13 @@ struct QExtHideFunctor<-1, T_functor> : public QExtAdapts<T_functor>
 template<typename T_functor>
 struct QExtHideFunctor<0, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_functor>::AdaptorType AdaptorType;
 
     template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
             typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce<
+        typedef typename AdaptorType::template ReturnTypeDeduce<
                 typename QExtTypeTrait<T_arg2>::Pass,
                 typename QExtTypeTrait<T_arg3>::Pass,
                 typename QExtTypeTrait<T_arg4>::Pass,
@@ -283,7 +283,7 @@ struct QExtHideFunctor<0, T_functor> : public QExtAdapts<T_functor>
                 typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
 
-    typedef typename Adaptor::Return Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
@@ -418,7 +418,7 @@ struct QExtHideFunctor<0, T_functor> : public QExtAdapts<T_functor>
     }
 };
 
-/** Adaptor that adds a dummy parameter to the wrapped functor.
+/** AdaptorType that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the 2nd parameter in operator()().
 *
 * \ingroup qextHideFunctor
@@ -426,13 +426,13 @@ struct QExtHideFunctor<0, T_functor> : public QExtAdapts<T_functor>
 template<typename T_functor>
 struct QExtHideFunctor<1, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_functor>::AdaptorType AdaptorType;
 
     template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
             typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce<
+        typedef typename AdaptorType::template ReturnTypeDeduce<
                 typename QExtTypeTrait<T_arg1>::Pass,
                 typename QExtTypeTrait<T_arg3>::Pass,
                 typename QExtTypeTrait<T_arg4>::Pass,
@@ -441,7 +441,7 @@ struct QExtHideFunctor<1, T_functor> : public QExtAdapts<T_functor>
                 typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
 
-    typedef typename Adaptor::Return Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
@@ -565,7 +565,7 @@ struct QExtHideFunctor<1, T_functor> : public QExtAdapts<T_functor>
     }
 };
 
-/** Adaptor that adds a dummy parameter to the wrapped functor.
+/** AdaptorType that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the 3rd parameter in operator()().
 *
 * \ingroup qextHideFunctor
@@ -573,13 +573,13 @@ struct QExtHideFunctor<1, T_functor> : public QExtAdapts<T_functor>
 template<typename T_functor>
 struct QExtHideFunctor<2, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_functor>::AdaptorType AdaptorType;
 
     template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
             typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce<
+        typedef typename AdaptorType::template ReturnTypeDeduce<
                 typename QExtTypeTrait<T_arg1>::Pass,
                 typename QExtTypeTrait<T_arg2>::Pass,
                 typename QExtTypeTrait<T_arg4>::Pass,
@@ -587,7 +587,7 @@ struct QExtHideFunctor<2, T_functor> : public QExtAdapts<T_functor>
                 typename QExtTypeTrait<T_arg6>::Pass,
                 typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
-    typedef typename Adaptor::Return Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
@@ -697,7 +697,7 @@ struct QExtHideFunctor<2, T_functor> : public QExtAdapts<T_functor>
     }
 };
 
-/** Adaptor that adds a dummy parameter to the wrapped functor.
+/** AdaptorType that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the 4th parameter in operator()().
 *
 * \ingroup qextHideFunctor
@@ -705,12 +705,12 @@ struct QExtHideFunctor<2, T_functor> : public QExtAdapts<T_functor>
 template<typename T_functor>
 struct QExtHideFunctor<3, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_functor>::AdaptorType AdaptorType;
 
     template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void, typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce<
+        typedef typename AdaptorType::template ReturnTypeDeduce<
                 typename QExtTypeTrait<T_arg1>::Pass,
                 typename QExtTypeTrait<T_arg2>::Pass,
                 typename QExtTypeTrait<T_arg3>::Pass,
@@ -718,7 +718,7 @@ struct QExtHideFunctor<3, T_functor> : public QExtAdapts<T_functor>
                 typename QExtTypeTrait<T_arg6>::Pass,
                 typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
-    typedef typename Adaptor::Return Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
@@ -812,7 +812,7 @@ struct QExtHideFunctor<3, T_functor> : public QExtAdapts<T_functor>
     }
 };
 
-/** Adaptor that adds a dummy parameter to the wrapped functor.
+/** AdaptorType that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the 5th parameter in operator()().
 *
 * \ingroup qextHideFunctor
@@ -820,13 +820,13 @@ struct QExtHideFunctor<3, T_functor> : public QExtAdapts<T_functor>
 template<typename T_functor>
 struct QExtHideFunctor<4, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_functor>::AdaptorType AdaptorType;
 
     template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
             typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce<
+        typedef typename AdaptorType::template ReturnTypeDeduce<
                 typename QExtTypeTrait<T_arg1>::Pass,
                 typename QExtTypeTrait<T_arg2>::Pass,
                 typename QExtTypeTrait<T_arg3>::Pass,
@@ -834,7 +834,7 @@ struct QExtHideFunctor<4, T_functor> : public QExtAdapts<T_functor>
                 typename QExtTypeTrait<T_arg6>::Pass,
                 typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
-    typedef typename Adaptor::Return Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
@@ -910,7 +910,7 @@ struct QExtHideFunctor<4, T_functor> : public QExtAdapts<T_functor>
     }
 };
 
-/** Adaptor that adds a dummy parameter to the wrapped functor.
+/** AdaptorType that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the 6th parameter in operator()().
 *
 * \ingroup qextHideFunctor
@@ -918,13 +918,13 @@ struct QExtHideFunctor<4, T_functor> : public QExtAdapts<T_functor>
 template<typename T_functor>
 struct QExtHideFunctor<5, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_functor>::AdaptorType AdaptorType;
 
     template<typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
             typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce<
+        typedef typename AdaptorType::template ReturnTypeDeduce<
                 typename QExtTypeTrait<T_arg1>::Pass,
                 typename QExtTypeTrait<T_arg2>::Pass,
                 typename QExtTypeTrait<T_arg3>::Pass,
@@ -932,7 +932,7 @@ struct QExtHideFunctor<5, T_functor> : public QExtAdapts<T_functor>
                 typename QExtTypeTrait<T_arg5>::Pass,
                 typename QExtTypeTrait<T_arg7>::Pass>::Type Type;
     };
-    typedef typename Adaptor::Return Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
@@ -988,7 +988,7 @@ struct QExtHideFunctor<5, T_functor> : public QExtAdapts<T_functor>
     }
 };
 
-/** Adaptor that adds a dummy parameter to the wrapped functor.
+/** AdaptorType that adds a dummy parameter to the wrapped functor.
 * This template specialization ignores the value of the 7th parameter in operator()().
 *
 * \ingroup qextHideFunctor
@@ -996,14 +996,14 @@ struct QExtHideFunctor<5, T_functor> : public QExtAdapts<T_functor>
 template<typename T_functor>
 struct QExtHideFunctor<6, T_functor> : public QExtAdapts<T_functor>
 {
-    typedef typename QExtAdapts<T_functor>::Adaptor Adaptor;
+    typedef typename QExtAdapts<T_functor>::AdaptorType AdaptorType;
 
     template<typename T_arg1 = void,
             typename T_arg2 = void, typename T_arg3 = void,
             typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce<
+        typedef typename AdaptorType::template ReturnTypeDeduce<
                 typename QExtTypeTrait<T_arg1>::Pass,
                 typename QExtTypeTrait<T_arg2>::Pass,
                 typename QExtTypeTrait<T_arg3>::Pass,
@@ -1011,7 +1011,7 @@ struct QExtHideFunctor<6, T_functor> : public QExtAdapts<T_functor>
                 typename QExtTypeTrait<T_arg5>::Pass,
                 typename QExtTypeTrait<T_arg6>::Pass>::Type Type;
     };
-    typedef typename Adaptor::Return Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a hide_functor object that adds a dummy parameter to the passed functor.
     * \param func Functor to invoke from operator()().
@@ -1068,7 +1068,7 @@ struct QExtVisitor<QExtHideFunctor<I_location, T_functor> >
 * position of the dummy parameter in the returned functor (@p -1 stands for the last parameter).
 *
 * \param func Functor that should be wrapped.
-* \return Adaptor that executes @e func, ignoring the value of the dummy parameter.
+* \return AdaptorType that executes @e func, ignoring the value of the dummy parameter.
 *
 * \ingroup qextHideFunctor
 */
@@ -1083,7 +1083,7 @@ qextHideFunctor(const T_functor &func)
 * This overload adds a dummy parameter at the back of the functor's parameter list.
 *
 * \param func Functor that should be wrapped.
-* \return Adaptor that executes @e func, ignoring the value of the last parameter.
+* \return AdaptorType that executes @e func, ignoring the value of the last parameter.
 *
 * \ingroup qextHideFunctor
 */

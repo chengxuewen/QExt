@@ -3,8 +3,7 @@
 
 #include <qextGlobal.h>
 
-#include <string>
-#include <sstream>
+#include <QString>
 
 static QString *sg_memberString = QEXT_NULLPTR;
 

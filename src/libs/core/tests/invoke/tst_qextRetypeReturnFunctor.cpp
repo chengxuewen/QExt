@@ -21,7 +21,7 @@ static std::string *sg_string = QEXT_NULLPTR;
 
 struct Foo : public QExtFunctorBase
 {
-    typedef float Return;
+    typedef float ResultType;
 
     float operator()(int i)
     {
@@ -42,7 +42,7 @@ struct Foo : public QExtFunctorBase
 
 struct Bar : public QExtFunctorBase
 {
-    typedef int Return;
+    typedef int ResultType;
 
     int operator()(int i)
     {

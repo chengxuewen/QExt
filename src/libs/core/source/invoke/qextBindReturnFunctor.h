@@ -34,7 +34,7 @@
 #include <qextBoundArgument.h>
 #include <qextReferenceWrapper.h>
 
-/** Adaptor that fixes the return value of the wrapped functor.
+/** AdaptorType that fixes the return value of the wrapped functor.
  * Use the convenience function qextBindReturnFunctor() to create an instance of QExtBindReturnFunctor.
  *
  * The following template arguments are used:
@@ -51,7 +51,7 @@ struct QExtBindReturnFunctor : public QExtAdapts<T_functor>
     {
         typedef typename QEXTUnwrapReference<T_return>::Type Type;
     };
-    typedef typename QEXTUnwrapReference<T_return>::Type Return;
+    typedef typename QEXTUnwrapReference<T_return>::Type ResultType;
 
     /** Constructs a bind_return_functor object that fixes the return value to @p returnValue.
      * \param functor Functor to invoke from operator()().
@@ -233,7 +233,7 @@ struct QExtVisitor<QExtBindReturnFunctor<T_return, T_functor> >
  *
  * \param functor Functor that should be wrapped.
  * \param returnValue Argument to fix the return value of @e functor to.
- * \return Adaptor that executes @e functor on invokation and returns @e returnValue.
+ * \return AdaptorType that executes @e functor on invokation and returns @e returnValue.
  *
  * \ingroup qextBindFunctor
  */

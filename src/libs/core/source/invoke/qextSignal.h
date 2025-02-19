@@ -559,7 +559,7 @@ protected:
      * the slot. The return value is buffered, so that in an expression
      * like @code a = (*i) * (*i); @endcode the slot is executed only once.
      */
-template < typename T_emitter, typename T_result = typename T_emitter::Return >
+template < typename T_emitter, typename T_result = typename T_emitter::ResultType >
 struct QExtFunctionIteratorBuffer
 {
     typedef std::size_t                             Size;
@@ -571,7 +571,7 @@ struct QExtFunctionIteratorBuffer
     typedef T_result                               *Pointer;
 
     typedef T_emitter                               Sender;
-    typedef T_result                                Return;
+    typedef T_result                                ResultType;
     typedef typename T_emitter::Slot                Slot;
 
     typedef QExtSignalData::ConstIterator             Iterator;
@@ -580,7 +580,7 @@ struct QExtFunctionIteratorBuffer
 
     QExtFunctionIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
-    Return operator*() const
+    ResultType operator*() const
     {
         if (m_iter->isValid() && !m_iter->isBlocked() && (QEXT_ATOMIC_INT_FALSE == m_invoked))
         {
@@ -637,7 +637,7 @@ struct QExtFunctionIteratorBuffer
 private:
     Iterator m_iter;
     const Sender *m_sender;
-    mutable Return m_result;
+    mutable ResultType m_result;
     mutable QAtomicInt m_invoked;
 };
 
@@ -649,7 +649,7 @@ struct QExtFunctionIteratorBuffer< T_emitter, void >
     typedef std::size_t                         Size;
 
     typedef T_emitter                           Sender;
-    typedef void                                Return;
+    typedef void                                ResultType;
     typedef typename T_emitter::Slot            Slot;
 
     typedef QExtSignalData::ConstIterator         Iterator;
@@ -714,7 +714,7 @@ private:
 };
 
 /** Reverse version of QExtFunctionIteratorBuffer. */
-template < typename T_emitter, typename T_result = typename T_emitter::Return >
+template < typename T_emitter, typename T_result = typename T_emitter::ResultType >
 struct QExtFunctionReverseIteratorBuffer
 {
     typedef std::size_t                         Size;
@@ -726,7 +726,7 @@ struct QExtFunctionReverseIteratorBuffer
     typedef T_result                           *Pointer;
 
     typedef T_emitter                           Sender;
-    typedef T_result                            Return;
+    typedef T_result                            ResultType;
     typedef typename T_emitter::Slot            Slot;
 
     typedef QExtSignalData::ConstIterator         Iterator;
@@ -735,7 +735,7 @@ struct QExtFunctionReverseIteratorBuffer
 
     QExtFunctionReverseIteratorBuffer(const Iterator &iter, const Sender *sender) : m_iter(iter), m_sender(sender), m_invoked(false) {}
 
-    Return operator*() const
+    ResultType operator*() const
     {
         Iterator iter(m_iter);
         --iter;
@@ -794,7 +794,7 @@ struct QExtFunctionReverseIteratorBuffer
 private:
     Iterator m_iter;
     const Sender *m_sender;
-    mutable Return m_result;
+    mutable ResultType m_result;
     mutable QAtomicInt m_invoked;
 };
 
@@ -805,7 +805,7 @@ struct QExtFunctionReverseIteratorBuffer< T_emitter, void >
 {
     typedef std::size_t                         Size;
     typedef T_emitter                           Sender;
-    typedef void                                Return;
+    typedef void                                ResultType;
     typedef typename T_emitter::Slot            Slot;
 
     typedef QExtSignalData::ConstIterator         Iterator;
@@ -882,7 +882,7 @@ private:
 template < typename T_return, typename T_accumulator >
 struct QExtSignalSend0
 {
-    typedef typename T_accumulator::Return                              Return;
+    typedef typename T_accumulator::ResultType                              ResultType;
     typedef QExtSignalSend0< T_return, T_accumulator >                    Self;
     typedef QExtFunction< T_return >                                          Slot;
     typedef typename Slot::CallFunction                                 CallFunction;
@@ -905,7 +905,7 @@ struct QExtSignalSend0
     /** Executes a list of slots using an accumulator of type @e T_accumulator.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return send(QExtSignalData *signalData)
+    static ResultType send(QExtSignalData *signalData)
     {
         T_accumulator accumulator;
 
@@ -924,7 +924,7 @@ struct QExtSignalSend0
     /** Executes a list of slots using an accumulator of type @e T_accumulator in reverse order.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return sendReverse(QExtSignalData *signalData)
+    static ResultType sendReverse(QExtSignalData *signalData)
     {
         T_accumulator accumulator;
 
@@ -948,7 +948,7 @@ struct QExtSignalSend0
 template < typename T_return >
 struct QExtSignalSend0< T_return, QExtNil >
 {
-    typedef T_return Return;
+    typedef T_return ResultType;
     typedef QExtSignalSend0< T_return, QExtNil >    Self;
     typedef QExtFunction< T_return >                  Slot;
     typedef typename Slot::CallFunction         CallFunction;
@@ -958,7 +958,7 @@ struct QExtSignalSend0< T_return, QExtNil >
          * The return value of the last slot invoked is returned.
          * \return The return value of the last slot invoked.
          */
-    static Return send(QExtSignalData *signalData)
+    static ResultType send(QExtSignalData *signalData)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -994,7 +994,7 @@ struct QExtSignalSend0< T_return, QExtNil >
          * \param last An iterator pointing to the last slot in the list.
          * \return The return value of the last slot invoked.
          */
-    static Return sendReverse(QExtSignalData *signalData)
+    static ResultType sendReverse(QExtSignalData *signalData)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -1034,13 +1034,13 @@ struct QExtSignalSend0< T_return, QExtNil >
 template <>
 struct QExtSignalSend0< void, QExtNil >
 {
-    typedef void                                Return;
+    typedef void                                ResultType;
     typedef QExtSignalSend0< void, QExtNil >    Self;
     typedef QExtSignalData::ConstIterator       Iterator;
     typedef QExtFunction< void >                    Slot;
     typedef Slot::CallFunction         CallFunction;
 
-    static Return send(QExtSignalData *signalData)
+    static ResultType send(QExtSignalData *signalData)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -1066,7 +1066,7 @@ struct QExtSignalSend0< void, QExtNil >
         }
     }
 
-    static Return sendReverse(QExtSignalData *signalData)
+    static ResultType sendReverse(QExtSignalData *signalData)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -1104,7 +1104,7 @@ struct QExtSignalSend0< void, QExtNil >
 template < typename T_return, typename T_arg1, typename T_accumulator >
 struct QExtSignalSend1
 {
-    typedef typename T_accumulator::Return                              Return;
+    typedef typename T_accumulator::ResultType                              ResultType;
     typedef QExtSignalSend1< T_return, T_arg1, T_accumulator >            Self;
     typedef QExtFunction< T_return, T_arg1 >                                  Slot;
     typedef detail::QExtFunctionIteratorBuffer< Self, T_return >           SlotIteratorBuffer;
@@ -1132,7 +1132,7 @@ struct QExtSignalSend1
          * \param arg1 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
+    static ResultType send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
     {
         T_accumulator accumulator;
 
@@ -1154,7 +1154,7 @@ struct QExtSignalSend1
          * \param arg1 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
+    static ResultType sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
     {
         T_accumulator accumulator;
 
@@ -1180,7 +1180,7 @@ struct QExtSignalSend1
 template < typename T_return, typename T_arg1 >
 struct QExtSignalSend1< T_return, T_arg1, QExtNil >
 {
-    typedef T_return                                    Return;
+    typedef T_return                                    ResultType;
     typedef QExtSignalSend1< T_return, T_arg1, QExtNil >    Self;
     typedef QExtFunction< T_return, T_arg1 >                  Slot;
     typedef QExtSignalData::ConstIterator                 Iterator;
@@ -1192,7 +1192,7 @@ struct QExtSignalSend1< T_return, T_arg1, QExtNil >
          * \param arg1 Argument to be passed on to the slots.
          * \return The return value of the last valid slot invoked.
          */
-    static Return send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
+    static ResultType send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -1227,7 +1227,7 @@ struct QExtSignalSend1< T_return, T_arg1, QExtNil >
          * \param arg1 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
+    static ResultType sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -1267,7 +1267,7 @@ struct QExtSignalSend1< T_return, T_arg1, QExtNil >
 template < typename T_arg1 >
 struct QExtSignalSend1< void, T_arg1, QExtNil >
 {
-    typedef void                                    Return;
+    typedef void                                    ResultType;
     typedef QExtSignalSend1< void, T_arg1, QExtNil >    Self;
     typedef QExtFunction< void, T_arg1 >                  Slot;
     typedef QExtSignalData::ConstIterator             Iterator;
@@ -1277,7 +1277,7 @@ struct QExtSignalSend1< void, T_arg1, QExtNil >
          * The arguments are passed directly on to the slots.
          * \param arg1 Argument to be passed on to the slots.
          */
-    static Return send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
+    static ResultType send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -1307,7 +1307,7 @@ struct QExtSignalSend1< void, T_arg1, QExtNil >
          * The arguments are passed directly on to the slots.
          * \param arg1 Argument to be passed on to the slots.
          */
-    static Return sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
+    static ResultType sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -1344,7 +1344,7 @@ struct QExtSignalSend1< void, T_arg1, QExtNil >
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_accumulator >
 struct QExtSignalSend2
 {
-    typedef typename T_accumulator::Return                              Return;
+    typedef typename T_accumulator::ResultType                              ResultType;
     typedef QExtSignalSend2< T_return, T_arg1, T_arg2, T_accumulator >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2 >                          Slot;
     typedef detail::QExtFunctionIteratorBuffer< Self, T_return >           SlotIteratorBuffer;
@@ -1372,7 +1372,7 @@ struct QExtSignalSend2
          * \param arg2 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
+    static ResultType send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
     {
         T_accumulator accumulator;
 
@@ -1394,7 +1394,7 @@ struct QExtSignalSend2
          * \param arg2 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
+    static ResultType sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
     {
         T_accumulator accumulator;
 
@@ -1421,7 +1421,7 @@ struct QExtSignalSend2
 template < typename T_return, typename T_arg1, typename T_arg2 >
 struct QExtSignalSend2< T_return, T_arg1, T_arg2, QExtNil >
 {
-    typedef T_return                                            Return;
+    typedef T_return                                            ResultType;
     typedef QExtSignalSend2< T_return, T_arg1, T_arg2, QExtNil >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2 >                  Slot;
     typedef QExtSignalData::ConstIterator                         Iterator;
@@ -1434,7 +1434,7 @@ struct QExtSignalSend2< T_return, T_arg1, T_arg2, QExtNil >
          * \param arg2 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
+    static ResultType send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -1471,7 +1471,7 @@ struct QExtSignalSend2< T_return, T_arg1, T_arg2, QExtNil >
          * \param arg2 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
+    static ResultType sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -1511,7 +1511,7 @@ struct QExtSignalSend2< T_return, T_arg1, T_arg2, QExtNil >
 template < typename T_arg1, typename T_arg2 >
 struct QExtSignalSend2< void, T_arg1, T_arg2, QExtNil >
 {
-    typedef void                                            Return;
+    typedef void                                            ResultType;
     typedef QExtSignalSend2< void, T_arg1, T_arg2, QExtNil >    Self;
     typedef QExtFunction< void, T_arg1, T_arg2 >                  Slot;
     typedef QExtSignalData::ConstIterator                     Iterator;
@@ -1522,7 +1522,7 @@ struct QExtSignalSend2< void, T_arg1, T_arg2, QExtNil >
          * \param arg1 Argument to be passed on to the slots.
          * \param arg2 Argument to be passed on to the slots.
          */
-    static Return send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
+    static ResultType send(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -1553,7 +1553,7 @@ struct QExtSignalSend2< void, T_arg1, T_arg2, QExtNil >
          * \param arg1 Argument to be passed on to the slots.
          * \param arg2 Argument to be passed on to the slots.
          */
-    static Return sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
+    static ResultType sendReverse(QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2)
     {
         if (!signalData || signalData->m_slotList.empty())
         {
@@ -1590,7 +1590,7 @@ struct QExtSignalSend2< void, T_arg1, T_arg2, QExtNil >
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_accumulator >
 struct QExtSignalSend3
 {
-    typedef typename T_accumulator::Return                                      Return;
+    typedef typename T_accumulator::ResultType                                      ResultType;
     typedef QExtSignalSend3< T_return, T_arg1, T_arg2, T_arg3, T_accumulator >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3 >                          Slot;
     typedef detail::QExtFunctionIteratorBuffer< Self, T_return >                   SlotIteratorBuffer;
@@ -1622,7 +1622,7 @@ struct QExtSignalSend3
          * \param arg3 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3)
     {
         T_accumulator accumulator;
@@ -1646,7 +1646,7 @@ struct QExtSignalSend3
          * \param arg3 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3)
     {
         T_accumulator accumulator;
@@ -1675,7 +1675,7 @@ struct QExtSignalSend3
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3 >
 struct QExtSignalSend3< T_return, T_arg1, T_arg2, T_arg3, QExtNil >
 {
-    typedef T_return                                                    Return;
+    typedef T_return                                                    ResultType;
     typedef QExtSignalSend3< T_return, T_arg1, T_arg2, T_arg3, QExtNil >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3 >                  Slot;
     typedef QExtSignalData::ConstIterator                                 Iterator;
@@ -1689,7 +1689,7 @@ struct QExtSignalSend3< T_return, T_arg1, T_arg2, T_arg3, QExtNil >
          * \param arg3 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3)
     {
         if (!signalData || signalData->m_slotList.empty())
@@ -1728,7 +1728,7 @@ struct QExtSignalSend3< T_return, T_arg1, T_arg2, T_arg3, QExtNil >
          * \param arg3 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3)
     {
         if (!signalData || signalData->m_slotList.empty())
@@ -1769,7 +1769,7 @@ struct QExtSignalSend3< T_return, T_arg1, T_arg2, T_arg3, QExtNil >
 template < typename T_arg1, typename T_arg2, typename T_arg3 >
 struct QExtSignalSend3< void, T_arg1, T_arg2, T_arg3, QExtNil >
 {
-    typedef void                                                    Return;
+    typedef void                                                    ResultType;
     typedef QExtSignalSend3< void, T_arg1, T_arg2, T_arg3, QExtNil >    Self;
     typedef QExtFunction< void, T_arg1, T_arg2, T_arg3 >                  Slot;
     typedef QExtSignalData::ConstIterator                             Iterator;
@@ -1781,7 +1781,7 @@ struct QExtSignalSend3< void, T_arg1, T_arg2, T_arg3, QExtNil >
          * \param arg2 Argument to be passed on to the slots.
          * \param arg3 Argument to be passed on to the slots.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3)
     {
         if (!signalData || signalData->m_slotList.empty())
@@ -1815,7 +1815,7 @@ struct QExtSignalSend3< void, T_arg1, T_arg2, T_arg3, QExtNil >
          * \param arg2 Argument to be passed on to the slots.
          * \param arg3 Argument to be passed on to the slots.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData, typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3)
     {
         if (!signalData || signalData->m_slotList.empty())
@@ -1853,7 +1853,7 @@ struct QExtSignalSend3< void, T_arg1, T_arg2, T_arg3, QExtNil >
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_accumulator >
 struct QExtSignalSend4
 {
-    typedef typename T_accumulator::Return                                              Return;
+    typedef typename T_accumulator::ResultType                                              ResultType;
     typedef QExtSignalSend4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_accumulator >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >                          Slot;
     typedef detail::QExtFunctionIteratorBuffer< Self, T_return >                           SlotIteratorBuffer;
@@ -1890,7 +1890,7 @@ struct QExtSignalSend4
          * \param arg4 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -1919,7 +1919,7 @@ struct QExtSignalSend4
          * \param arg4 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -1953,7 +1953,7 @@ struct QExtSignalSend4
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 struct QExtSignalSend4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil >
 {
-    typedef T_return                                                            Return;
+    typedef T_return                                                            ResultType;
     typedef QExtSignalSend4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >                  Slot;
     typedef QExtSignalData::ConstIterator                                         Iterator;
@@ -1968,7 +1968,7 @@ struct QExtSignalSend4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil >
          * \param arg4 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2012,7 +2012,7 @@ struct QExtSignalSend4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil >
          * \param arg4 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2057,7 +2057,7 @@ struct QExtSignalSend4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil >
 template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4 >
 struct QExtSignalSend4< void, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil >
 {
-    typedef void                                                            Return;
+    typedef void                                                            ResultType;
     typedef QExtSignalSend4< void, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil >    Self;
     typedef QExtFunction< void, T_arg1, T_arg2, T_arg3, T_arg4 >                  Slot;
     typedef QExtSignalData::ConstIterator                                     Iterator;
@@ -2070,7 +2070,7 @@ struct QExtSignalSend4< void, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil >
          * \param arg3 Argument to be passed on to the slots.
          * \param arg4 Argument to be passed on to the slots.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2108,7 +2108,7 @@ struct QExtSignalSend4< void, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil >
          * \param arg3 Argument to be passed on to the slots.
          * \param arg4 Argument to be passed on to the slots.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2150,7 +2150,7 @@ struct QExtSignalSend4< void, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil >
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_accumulator >
 struct QExtSignalSend5
 {
-    typedef typename T_accumulator::Return                                                      Return;
+    typedef typename T_accumulator::ResultType                                                      ResultType;
     typedef QExtSignalSend5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_accumulator >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                          Slot;
     typedef detail::QExtFunctionIteratorBuffer< Self, T_return >                                   SlotIteratorBuffer;
@@ -2189,7 +2189,7 @@ struct QExtSignalSend5
          * \param arg5 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2220,7 +2220,7 @@ struct QExtSignalSend5
          * \param arg5 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2256,7 +2256,7 @@ struct QExtSignalSend5
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 struct QExtSignalSend5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil >
 {
-    typedef T_return                                                                    Return;
+    typedef T_return                                                                    ResultType;
     typedef QExtSignalSend5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                  Slot;
     typedef QExtSignalData::ConstIterator                                                 Iterator;
@@ -2272,7 +2272,7 @@ struct QExtSignalSend5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNi
          * \param arg5 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2318,7 +2318,7 @@ struct QExtSignalSend5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNi
          * \param arg5 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2364,7 +2364,7 @@ struct QExtSignalSend5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNi
 template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5 >
 struct QExtSignalSend5< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil >
 {
-    typedef void                                                                    Return;
+    typedef void                                                                    ResultType;
     typedef QExtSignalSend5< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil >    Self;
     typedef QExtFunction< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                  Slot;
     typedef QExtSignalData::ConstIterator                                             Iterator;
@@ -2378,7 +2378,7 @@ struct QExtSignalSend5< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil >
          * \param arg4 Argument to be passed on to the slots.
          * \param arg5 Argument to be passed on to the slots.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2418,7 +2418,7 @@ struct QExtSignalSend5< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil >
          * \param arg4 Argument to be passed on to the slots.
          * \param arg5 Argument to be passed on to the slots.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2462,7 +2462,7 @@ struct QExtSignalSend5< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil >
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_accumulator >
 struct QExtSignalSend6
 {
-    typedef typename T_accumulator::Return                                                              Return;
+    typedef typename T_accumulator::ResultType                                                              ResultType;
     typedef QExtSignalSend6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_accumulator >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                          Slot;
     typedef detail::QExtFunctionIteratorBuffer< Self, T_return >                                           SlotIteratorBuffer;
@@ -2503,7 +2503,7 @@ struct QExtSignalSend6
          * \param arg6 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2536,7 +2536,7 @@ struct QExtSignalSend6
          * \param arg6 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2574,7 +2574,7 @@ struct QExtSignalSend6
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 struct QExtSignalSend6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil >
 {
-    typedef T_return                                                                            Return;
+    typedef T_return                                                                            ResultType;
     typedef QExtSignalSend6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                  Slot;
     typedef QExtSignalData::ConstIterator                                                         Iterator;
@@ -2591,7 +2591,7 @@ struct QExtSignalSend6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6
          * \param arg6 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2639,7 +2639,7 @@ struct QExtSignalSend6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6
          * \param arg6 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2687,7 +2687,7 @@ struct QExtSignalSend6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6
 template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6 >
 struct QExtSignalSend6< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil >
 {
-    typedef void                                                                            Return;
+    typedef void                                                                            ResultType;
     typedef QExtSignalSend6< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil >    Self;
     typedef QExtFunction< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                  Slot;
     typedef QExtSignalData::ConstIterator                                                     Iterator;
@@ -2702,7 +2702,7 @@ struct QExtSignalSend6< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QE
          * \param arg5 Argument to be passed on to the slots.
          * \param arg6 Argument to be passed on to the slots.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2744,7 +2744,7 @@ struct QExtSignalSend6< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QE
          * \param arg5 Argument to be passed on to the slots.
          * \param arg6 Argument to be passed on to the slots.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2797,7 +2797,7 @@ template <
         typename T_accumulator >
 struct QExtSignalSend7
 {
-    typedef typename T_accumulator::Return                                                                      Return;
+    typedef typename T_accumulator::ResultType                                                                      ResultType;
     typedef QExtSignalSend7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, T_accumulator >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                          Slot;
     typedef detail::QExtFunctionIteratorBuffer< Self, T_return >                                                   SlotIteratorBuffer;
@@ -2841,7 +2841,7 @@ struct QExtSignalSend7
          * \param arg7 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2876,7 +2876,7 @@ struct QExtSignalSend7
          * \param arg7 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations as processed by the accumulator.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2916,7 +2916,7 @@ struct QExtSignalSend7
 template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7 >
 struct QExtSignalSend7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QExtNil >
 {
-    typedef T_return                                                                                    Return;
+    typedef T_return                                                                                    ResultType;
     typedef QExtSignalSend7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QExtNil >    Self;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                  Slot;
     typedef QExtSignalData::ConstIterator                                                                 Iterator;
@@ -2934,7 +2934,7 @@ struct QExtSignalSend7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6
          * \param arg7 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -2984,7 +2984,7 @@ struct QExtSignalSend7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6
          * \param arg7 Argument to be passed on to the slots.
          * \return The return value of the last slot invoked.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -3032,7 +3032,7 @@ struct QExtSignalSend7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6
 template < typename T_arg1, typename T_arg2, typename T_arg3, typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7 >
 struct QExtSignalSend7< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QExtNil >
 {
-    typedef void                                                                                    Return;
+    typedef void                                                                                    ResultType;
     typedef QExtSignalSend7< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QExtNil >    Self;
     typedef QExtFunction< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                  Slot;
     typedef QExtSignalData::ConstIterator                                                             Iterator;
@@ -3048,7 +3048,7 @@ struct QExtSignalSend7< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_
          * \param arg6 Argument to be passed on to the slots.
          * \param arg7 Argument to be passed on to the slots.
          */
-    static Return send(
+    static ResultType send(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -3092,7 +3092,7 @@ struct QExtSignalSend7< void, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_
          * \param arg6 Argument to be passed on to the slots.
          * \param arg7 Argument to be passed on to the slots.
          */
-    static Return sendReverse(
+    static ResultType sendReverse(
             QExtSignalData *signalData,
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
@@ -3164,7 +3164,7 @@ class QExtSignal0 : public QExtSignalBase
 {
 public:
     typedef detail::QExtSignalSend0< T_return, T_accumulator >     Sender;
-    typedef typename Sender::Return                                     Return;
+    typedef typename Sender::ResultType                                     ResultType;
     typedef QExtFunction< T_return >                                    Slot;
     typedef QExtFunctionList< Slot >                                    SlotList;
     typedef typename SlotList::Iterator                                 Iterator;
@@ -3256,33 +3256,33 @@ public:
          * Otherwise, the return value of the last slot invoked is returned.
          * \return The accumulated return values of the slot invocations.
          */
-    Return send() const
+    ResultType send() const
     {
         return Sender::send(m_data);
     }
 
     /** Triggers the sender of the signal in reverse order (see send()). */
-    Return sendReverse() const
+    ResultType sendReverse() const
     {
         return Sender::sendReverse(m_data);
     }
 
     /** Triggers the sender of the signal (see send()). */
-    Return operator()() const
+    ResultType operator()() const
     {
         return send();
     }
 
     /** Creates a functor that calls send() on this signal.
          * @code
-         * qextMemberFunctor(mysignal, &QExtSignal0::send)
+         * qextMakeFunctor(mysignal, &QExtSignal0::send)
          * @endcode
          * yields the same result.
          * \return A functor that calls send() on this signal.
          */
-    QExtBoundConstMemberFunctor< Return, QExtSignal0 > makeSlot() const
+    QExtBoundConstMemberFunctor< ResultType, QExtSignal0 > makeSlot() const
     {
-        return QExtBoundConstMemberFunctor< Return, QExtSignal0 >(this, &QExtSignal0::send);
+        return QExtBoundConstMemberFunctor< ResultType, QExtSignal0 >(this, &QExtSignal0::send);
     }
 
     /** Creates an STL-style interface for the signal's list of slots.
@@ -3342,7 +3342,7 @@ class QExtSignal1 : public QExtSignalBase
 {
 public:
     typedef detail::QExtSignalSend1< T_return, T_arg1, T_accumulator >     Sender;
-    typedef typename Sender::Return                                             Return;
+    typedef typename Sender::ResultType                                             ResultType;
     typedef QExtFunction< T_return, T_arg1 >                                    Slot;
     typedef QExtFunctionList< Slot >                                            SlotList;
     typedef typename SlotList::Iterator                                         Iterator;
@@ -3434,33 +3434,33 @@ public:
          * \param arg1 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations.
          */
-    Return send(typename QExtTypeTrait< T_arg1 >::Take arg1) const
+    ResultType send(typename QExtTypeTrait< T_arg1 >::Take arg1) const
     {
         return Sender::send(m_data, arg1);
     }
 
     /** Triggers the sender of the signal in reverse order (see send()). */
-    Return sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1) const
+    ResultType sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1) const
     {
         return Sender::sendReverse(m_data, arg1);
     }
 
     /** Triggers the sender of the signal (see send()). */
-    Return operator()(typename QExtTypeTrait< T_arg1 >::Take arg1) const
+    ResultType operator()(typename QExtTypeTrait< T_arg1 >::Take arg1) const
     {
         return this->send(arg1);
     }
 
     /** Creates a functor that calls send() on this signal.
          * @code
-         * qextMemberFunctor(mysignal, &QExtSignal1::send)
+         * qextMakeFunctor(mysignal, &QExtSignal1::send)
          * @endcode
          * yields the same result.
          * \return A functor that calls send() on this signal.
          */
-    QExtBoundConstMemberFunctor< Return, QExtSignal1, typename QExtTypeTrait< T_arg1 >::Take > makeSlot() const
+    QExtBoundConstMemberFunctor< ResultType, QExtSignal1, typename QExtTypeTrait< T_arg1 >::Take > makeSlot() const
     {
-        return QExtBoundConstMemberFunctor< Return, QExtSignal1, typename QExtTypeTrait< T_arg1 >::Take >(this, &QExtSignal1::send);
+        return QExtBoundConstMemberFunctor< ResultType, QExtSignal1, typename QExtTypeTrait< T_arg1 >::Take >(this, &QExtSignal1::send);
     }
 
     /** Creates an STL-style interface for the signal's list of slots.
@@ -3521,7 +3521,7 @@ class QExtSignal2 : public QExtSignalBase
 {
 public:
     typedef detail::QExtSignalSend2< T_return, T_arg1, T_arg2, T_accumulator > Sender;
-    typedef typename Sender::Return                                             Return;
+    typedef typename Sender::ResultType                                             ResultType;
     typedef QExtFunction< T_return, T_arg1, T_arg2 >                                  Slot;
     typedef QExtFunctionList< Slot >                                                  SlotList;
     typedef typename SlotList::Iterator                                         Iterator;
@@ -3614,34 +3614,34 @@ public:
          * \param arg2 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations.
          */
-    Return send(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
+    ResultType send(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
     {
         return Sender::send(m_data, arg1, arg2);
     }
 
     /** Triggers the sender of the signal in reverse order (see send()). */
-    Return sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
+    ResultType sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
     {
         return Sender::sendReverse(m_data, arg1, arg2);
     }
 
     /** Triggers the sender of the signal (see send()). */
-    Return operator()(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
+    ResultType operator()(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
     {
         return send(arg1, arg2);
     }
 
     /** Creates a functor that calls send() on this signal.
          * @code
-         * qextMemberFunctor(mysignal, &QExtSignal2::send)
+         * qextMakeFunctor(mysignal, &QExtSignal2::send)
          * @endcode
          * yields the same result.
          * \return A functor that calls send() on this signal.
          */
-    QExtBoundConstMemberFunctor< Return, QExtSignal2, typename QExtTypeTrait< T_arg1 >::Take, typename QExtTypeTrait< T_arg2 >::Take > makeSlot() const
+    QExtBoundConstMemberFunctor< ResultType, QExtSignal2, typename QExtTypeTrait< T_arg1 >::Take, typename QExtTypeTrait< T_arg2 >::Take > makeSlot() const
     {
         return QExtBoundConstMemberFunctor <
-                Return,
+                ResultType,
                 QExtSignal2,
                 typename QExtTypeTrait< T_arg1 >::Take,
                 typename QExtTypeTrait< T_arg2 >::Take >
@@ -3707,7 +3707,7 @@ class QExtSignal3 : public QExtSignalBase
 {
 public:
     typedef detail::QExtSignalSend3< T_return, T_arg1, T_arg2, T_arg3, T_accumulator > Sender;
-    typedef typename Sender::Return                                                     Return;
+    typedef typename Sender::ResultType                                                     ResultType;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3 >                                  Slot;
     typedef QExtFunctionList< Slot >                                                          SlotList;
     typedef typename SlotList::Iterator                                                 Iterator;
@@ -3801,32 +3801,32 @@ public:
          * \param arg3 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations.
          */
-    Return send(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
+    ResultType send(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
     {
         return Sender::send(m_data, arg1, arg2, arg3);
     }
 
     /** Triggers the sender of the signal in reverse order (see send()). */
-    Return sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
+    ResultType sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
     {
         return Sender::sendReverse(m_data, arg1, arg2, arg3);
     }
 
     /** Triggers the sender of the signal (see send()). */
-    Return operator()(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
+    ResultType operator()(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
     {
         return send(arg1, arg2, arg3);
     }
 
     /** Creates a functor that calls send() on this signal.
          * @code
-         * qextMemberFunctor(mysignal, &QExtSignal3::send)
+         * qextMakeFunctor(mysignal, &QExtSignal3::send)
          * @endcode
          * yields the same result.
          * \return A functor that calls send() on this signal.
          */
     QExtBoundConstMemberFunctor <
-    Return,
+    ResultType,
     QExtSignal3,
     typename QExtTypeTrait< T_arg1 >::Take,
     typename QExtTypeTrait< T_arg2 >::Take,
@@ -3834,7 +3834,7 @@ public:
     makeSlot() const
     {
         return QExtBoundConstMemberFunctor <
-                Return,
+                ResultType,
                 QExtSignal3,
                 typename QExtTypeTrait< T_arg1 >::Take,
                 typename QExtTypeTrait< T_arg2 >::Take,
@@ -3901,7 +3901,7 @@ class QExtSignal4 : public QExtSignalBase
 {
 public:
     typedef detail::QExtSignalSend4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_accumulator > Sender;
-    typedef typename Sender::Return                                                             Return;
+    typedef typename Sender::ResultType                                                             ResultType;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4 >                                  Slot;
     typedef QExtFunctionList< Slot >                                                                  SlotList;
     typedef typename SlotList::Iterator                                                         Iterator;
@@ -3996,7 +3996,7 @@ public:
          * \param arg4 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations.
          */
-    Return send(
+    ResultType send(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4006,7 +4006,7 @@ public:
     }
 
     /** Triggers the sender of the signal in reverse order (see send()). */
-    Return sendReverse(
+    ResultType sendReverse(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4016,7 +4016,7 @@ public:
     }
 
     /** Triggers the sender of the signal (see send()). */
-    Return operator()(
+    ResultType operator()(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4027,13 +4027,13 @@ public:
 
     /** Creates a functor that calls send() on this signal.
          * @code
-         * qextMemberFunctor(mysignal, &QExtSignal4::send)
+         * qextMakeFunctor(mysignal, &QExtSignal4::send)
          * @endcode
          * yields the same result.
          * \return A functor that calls send() on this signal.
          */
     QExtBoundConstMemberFunctor <
-    Return,
+    ResultType,
     QExtSignal4,
     typename QExtTypeTrait< T_arg1 >::Take,
     typename QExtTypeTrait< T_arg2 >::Take,
@@ -4042,7 +4042,7 @@ public:
     makeSlot() const
     {
         return QExtBoundConstMemberFunctor <
-                Return,
+                ResultType,
                 QExtSignal4,
                 typename QExtTypeTrait< T_arg1 >::Take,
                 typename QExtTypeTrait< T_arg2 >::Take,
@@ -4111,7 +4111,7 @@ class QExtSignal5 : public QExtSignalBase
 {
 public:
     typedef detail::QExtSignalSend5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_accumulator > Sender;
-    typedef typename Sender::Return                                                                     Return;
+    typedef typename Sender::ResultType                                                                     ResultType;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5 >                                  Slot;
     typedef QExtFunctionList< Slot >                                                                          SlotList;
     typedef typename SlotList::Iterator                                                                 Iterator;
@@ -4207,7 +4207,7 @@ public:
          * \param arg5 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations.
          */
-    Return send(
+    ResultType send(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4218,7 +4218,7 @@ public:
     }
 
     /** Triggers the sender of the signal in reverse order (see send()). */
-    Return sendReverse(
+    ResultType sendReverse(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4229,7 +4229,7 @@ public:
     }
 
     /** Triggers the sender of the signal (see send()). */
-    Return operator()(
+    ResultType operator()(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4241,13 +4241,13 @@ public:
 
     /** Creates a functor that calls send() on this signal.
          * @code
-         * qextMemberFunctor(mysignal, &QExtSignal5::send)
+         * qextMakeFunctor(mysignal, &QExtSignal5::send)
          * @endcode
          * yields the same result.
          * \return A functor that calls send() on this signal.
          */
     QExtBoundConstMemberFunctor <
-    Return,
+    ResultType,
     QExtSignal5,
     typename QExtTypeTrait< T_arg1 >::Take,
     typename QExtTypeTrait< T_arg2 >::Take,
@@ -4257,7 +4257,7 @@ public:
     makeSlot() const
     {
         return QExtBoundConstMemberFunctor <
-                Return,
+                ResultType,
                 QExtSignal5,
                 typename QExtTypeTrait< T_arg1 >::Take,
                 typename QExtTypeTrait< T_arg2 >::Take,
@@ -4336,7 +4336,7 @@ class QExtSignal6 : public QExtSignalBase
 {
 public:
     typedef detail::QExtSignalSend6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_accumulator > Sender;
-    typedef typename Sender::Return                                                                             Return;
+    typedef typename Sender::ResultType                                                                             ResultType;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6 >                                  Slot;
     typedef QExtFunctionList< Slot >                                                                                  SlotList;
     typedef typename SlotList::Iterator                                                                         Iterator;
@@ -4433,7 +4433,7 @@ public:
          * \param arg6 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations.
          */
-    Return send(
+    ResultType send(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4445,7 +4445,7 @@ public:
     }
 
     /** Triggers the sender of the signal in reverse order (see send()). */
-    Return sendReverse(
+    ResultType sendReverse(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4457,7 +4457,7 @@ public:
     }
 
     /** Triggers the sender of the signal (see send()). */
-    Return operator()(
+    ResultType operator()(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4470,13 +4470,13 @@ public:
 
     /** Creates a functor that calls send() on this signal.
          * @code
-         * qextMemberFunctor(mysignal, &QExtSignal6::send)
+         * qextMakeFunctor(mysignal, &QExtSignal6::send)
          * @endcode
          * yields the same result.
          * \return A functor that calls send() on this signal.
          */
     QExtBoundConstMemberFunctor <
-    Return,
+    ResultType,
     QExtSignal6,
     typename QExtTypeTrait< T_arg1 >::Take,
     typename QExtTypeTrait< T_arg2 >::Take,
@@ -4487,7 +4487,7 @@ public:
     makeSlot() const
     {
         return QExtBoundConstMemberFunctor <
-                Return,
+                ResultType,
                 QExtSignal6,
                 typename QExtTypeTrait< T_arg1 >::Take,
                 typename QExtTypeTrait< T_arg2 >::Take,
@@ -4569,7 +4569,7 @@ class QExtSignal7 : public QExtSignalBase
 {
 public:
     typedef detail::QExtSignalSend7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, T_accumulator > Sender;
-    typedef typename Sender::Return                                                                                     Return;
+    typedef typename Sender::ResultType                                                                                     ResultType;
     typedef QExtFunction< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >                                  Slot;
     typedef QExtFunctionList< Slot >                                                                                          SlotList;
     typedef typename SlotList::Iterator                                                                                 Iterator;
@@ -4670,7 +4670,7 @@ public:
          * \param arg7 Argument to be passed on to the slots.
          * \return The accumulated return values of the slot invocations.
          */
-    Return send(
+    ResultType send(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4683,7 +4683,7 @@ public:
     }
 
     /** Triggers the sender of the signal in reverse order (see send()). */
-    Return sendReverse(
+    ResultType sendReverse(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4696,7 +4696,7 @@ public:
     }
 
     /** Triggers the sender of the signal (see send()). */
-    Return operator()(
+    ResultType operator()(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4710,13 +4710,13 @@ public:
 
     /** Creates a functor that calls send() on this signal.
          * @code
-         * qextMemberFunctor(mysignal, &QExtSignal7::send)
+         * qextMakeFunctor(mysignal, &QExtSignal7::send)
          * @endcode
          * yields the same result.
          * \return A functor that calls send() on this signal.
          */
     QExtBoundConstMemberFunctor <
-    Return,
+    ResultType,
     QExtSignal7,
     typename QExtTypeTrait< T_arg1 >::Take,
     typename QExtTypeTrait< T_arg2 >::Take,
@@ -4728,7 +4728,7 @@ public:
     makeSlot() const
     {
         return QExtBoundConstMemberFunctor <
-                Return,
+                ResultType,
                 QExtSignal7,
                 typename QExtTypeTrait< T_arg1 >::Take,
                 typename QExtTypeTrait< T_arg2 >::Take,
@@ -4814,8 +4814,8 @@ template <
 class QExtSignal : public detail::QExtSignal7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QExtNil >
 {
 public:
-    typedef detail::QExtSignal7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QExtNil > Base;
-    typedef typename Base::Return                                                                           Return;
+    typedef detail::QExtSignal7< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7, QExtNil > BaseType;
+    typedef typename BaseType::ResultType                                                                           ResultType;
 
     /** Convenience wrapper for the numbered QExtSignal# templates.
        * Like QExtSignal but the additional template parameter @e T_accumulator
@@ -4873,9 +4873,9 @@ public:
     };
 
     QExtSignal() {}
-    QExtSignal(const QExtSignal &other) : Base(other) {}
+    QExtSignal(const QExtSignal &other) : BaseType(other) {}
 
-    Return send(
+    ResultType send(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4884,10 +4884,10 @@ public:
             typename QExtTypeTrait< T_arg6 >::Take arg6,
             typename QExtTypeTrait< T_arg7 >::Take arg7) const
     {
-        return Base::send(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    Return sendReverse(
+    ResultType sendReverse(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4896,10 +4896,10 @@ public:
             typename QExtTypeTrait< T_arg6 >::Take arg6,
             typename QExtTypeTrait< T_arg7 >::Take arg7) const
     {
-        return Base::sendReverse(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::sendReverse(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 
-    Return operator()(
+    ResultType operator()(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4908,7 +4908,7 @@ public:
             typename QExtTypeTrait< T_arg6 >::Take arg6,
             typename QExtTypeTrait< T_arg7 >::Take arg7) const
     {
-        return Base::send(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5, arg6, arg7);
     }
 };
 
@@ -4922,8 +4922,8 @@ class QExtSignal< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExt
         : public detail::QExtSignal6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil >
 {
 public:
-    typedef detail::QExtSignal6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil > Base;
-    typedef typename Base::Return                                                                   Return;
+    typedef detail::QExtSignal6< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, QExtNil > BaseType;
+    typedef typename BaseType::ResultType                                                                   ResultType;
 
     /** Convenience wrapper for the numbered QExtSignal6 template.
      * Like QExtSignal but the additional template parameter @e T_accumulator
@@ -4938,9 +4938,9 @@ public:
     };
 
     QExtSignal() {}
-    QExtSignal(const QExtSignal &other) : Base(other) {}
+    QExtSignal(const QExtSignal &other) : BaseType(other) {}
 
-    Return send(
+    ResultType send(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4948,10 +4948,10 @@ public:
             typename QExtTypeTrait< T_arg5 >::Take arg5,
             typename QExtTypeTrait< T_arg6 >::Take arg6) const
     {
-        return Base::send(arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
-    Return sendReverse(
+    ResultType sendReverse(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4959,10 +4959,10 @@ public:
             typename QExtTypeTrait< T_arg5 >::Take arg5,
             typename QExtTypeTrait< T_arg6 >::Take arg6) const
     {
-        return Base::sendReverse(arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::sendReverse(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 
-    Return operator()(
+    ResultType operator()(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
@@ -4970,7 +4970,7 @@ public:
             typename QExtTypeTrait< T_arg5 >::Take arg5,
             typename QExtTypeTrait< T_arg6 >::Take arg6) const
     {
-        return Base::send(arg1, arg2, arg3, arg4, arg5, arg6);
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5, arg6);
     }
 };
 
@@ -4983,8 +4983,8 @@ template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3,
 class QExtSignal< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil, QExtNil > : public detail::QExtSignal5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil >
 {
 public:
-    typedef detail::QExtSignal5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil > Base;
-    typedef typename Base::Return                                                           Return;
+    typedef detail::QExtSignal5< T_return, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, QExtNil > BaseType;
+    typedef typename BaseType::ResultType                                                           ResultType;
 
     /** Convenience wrapper for the numbered QExtSignal5 template.
      * Like QExtSignal but the additional template parameter @e T_accumulator
@@ -4999,36 +4999,36 @@ public:
     };
 
     QExtSignal() {}
-    QExtSignal(const QExtSignal &other) : Base(other) {}
+    QExtSignal(const QExtSignal &other) : BaseType(other) {}
 
-    Return send(
+    ResultType send(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
             typename QExtTypeTrait< T_arg4 >::Take arg4,
             typename QExtTypeTrait< T_arg5 >::Take arg5) const
     {
-        return Base::send(arg1, arg2, arg3, arg4, arg5);
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5);
     }
 
-    Return sendReverse(
+    ResultType sendReverse(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
             typename QExtTypeTrait< T_arg4 >::Take arg4,
             typename QExtTypeTrait< T_arg5 >::Take arg5) const
     {
-        return Base::sendReverse(arg1, arg2, arg3, arg4, arg5);
+        return BaseType::sendReverse(arg1, arg2, arg3, arg4, arg5);
     }
 
-    Return operator()(
+    ResultType operator()(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
             typename QExtTypeTrait< T_arg4 >::Take arg4,
             typename QExtTypeTrait< T_arg5 >::Take arg5) const
     {
-        return Base::send(arg1, arg2, arg3, arg4, arg5);
+        return BaseType::send(arg1, arg2, arg3, arg4, arg5);
     }
 };
 
@@ -5041,8 +5041,8 @@ template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3,
 class QExtSignal< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil, QExtNil, QExtNil > : public detail::QExtSignal4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil >
 {
 public:
-    typedef detail::QExtSignal4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil > Base;
-    typedef typename Base::Return                                                   Return;
+    typedef detail::QExtSignal4< T_return, T_arg1, T_arg2, T_arg3, T_arg4, QExtNil > BaseType;
+    typedef typename BaseType::ResultType                                                   ResultType;
 
     /** Convenience wrapper for the numbered QExtSignal4 template.
      * Like QExtSignal but the additional template parameter @e T_accumulator
@@ -5057,33 +5057,33 @@ public:
     };
 
     QExtSignal() {}
-    QExtSignal(const QExtSignal &other) : Base(other) {}
+    QExtSignal(const QExtSignal &other) : BaseType(other) {}
 
-    Return send(
+    ResultType send(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
             typename QExtTypeTrait< T_arg4 >::Take arg4) const
     {
-        return Base::send(arg1, arg2, arg3, arg4);
+        return BaseType::send(arg1, arg2, arg3, arg4);
     }
 
-    Return sendReverse(
+    ResultType sendReverse(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
             typename QExtTypeTrait< T_arg4 >::Take arg4) const
     {
-        return Base::sendReverse(arg1, arg2, arg3, arg4);
+        return BaseType::sendReverse(arg1, arg2, arg3, arg4);
     }
 
-    Return operator()(
+    ResultType operator()(
             typename QExtTypeTrait< T_arg1 >::Take arg1,
             typename QExtTypeTrait< T_arg2 >::Take arg2,
             typename QExtTypeTrait< T_arg3 >::Take arg3,
             typename QExtTypeTrait< T_arg4 >::Take arg4) const
     {
-        return Base::send(arg1, arg2, arg3, arg4);
+        return BaseType::send(arg1, arg2, arg3, arg4);
     }
 };
 
@@ -5096,8 +5096,8 @@ template < typename T_return, typename T_arg1, typename T_arg2, typename T_arg3 
 class QExtSignal< T_return, T_arg1, T_arg2, T_arg3, QExtNil, QExtNil, QExtNil, QExtNil > : public detail::QExtSignal3< T_return, T_arg1, T_arg2, T_arg3, QExtNil >
 {
 public:
-    typedef detail::QExtSignal3< T_return, T_arg1, T_arg2, T_arg3, QExtNil > Base;
-    typedef typename Base::Return                                           Return;
+    typedef detail::QExtSignal3< T_return, T_arg1, T_arg2, T_arg3, QExtNil > BaseType;
+    typedef typename BaseType::ResultType                                           ResultType;
 
     /** Convenience wrapper for the numbered QExtSignal3 template.
      * Like QExtSignal but the additional template parameter @e T_accumulator
@@ -5112,21 +5112,21 @@ public:
     };
 
     QExtSignal() {}
-    QExtSignal(const QExtSignal &other) : Base(other) {}
+    QExtSignal(const QExtSignal &other) : BaseType(other) {}
 
-    Return send(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
+    ResultType send(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
     {
-        return Base::send(arg1, arg2, arg3);
+        return BaseType::send(arg1, arg2, arg3);
     }
 
-    Return sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
+    ResultType sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
     {
-        return Base::sendReverse(arg1, arg2, arg3);
+        return BaseType::sendReverse(arg1, arg2, arg3);
     }
 
-    Return operator()(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
+    ResultType operator()(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2, typename QExtTypeTrait< T_arg3 >::Take arg3) const
     {
-        return Base::send(arg1, arg2, arg3);
+        return BaseType::send(arg1, arg2, arg3);
     }
 };
 
@@ -5139,8 +5139,8 @@ template < typename T_return, typename T_arg1, typename T_arg2 >
 class QExtSignal< T_return, T_arg1, T_arg2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public detail::QExtSignal2< T_return, T_arg1, T_arg2, QExtNil >
 {
 public:
-    typedef detail::QExtSignal2< T_return, T_arg1, T_arg2, QExtNil > Base;
-    typedef typename Base::Return                                   Return;
+    typedef detail::QExtSignal2< T_return, T_arg1, T_arg2, QExtNil > BaseType;
+    typedef typename BaseType::ResultType                                   ResultType;
 
     /** Convenience wrapper for the numbered QExtSignal2 template.
      * Like QExtSignal but the additional template parameter @e T_accumulator
@@ -5155,21 +5155,21 @@ public:
     };
 
     QExtSignal() {}
-    QExtSignal(const QExtSignal &other) : Base(other) {}
+    QExtSignal(const QExtSignal &other) : BaseType(other) {}
 
-    Return send(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
+    ResultType send(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
     {
-        return Base::send(arg1, arg2);
+        return BaseType::send(arg1, arg2);
     }
 
-    Return sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
+    ResultType sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
     {
-        return Base::sendReverse(arg1, arg2);
+        return BaseType::sendReverse(arg1, arg2);
     }
 
-    Return operator()(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
+    ResultType operator()(typename QExtTypeTrait< T_arg1 >::Take arg1, typename QExtTypeTrait< T_arg2 >::Take arg2) const
     {
-        return Base::send(arg1, arg2);
+        return BaseType::send(arg1, arg2);
     }
 };
 
@@ -5182,8 +5182,8 @@ template < typename T_return, typename T_arg1 >
 class QExtSignal< T_return, T_arg1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public detail::QExtSignal1< T_return, T_arg1, QExtNil >
 {
 public:
-    typedef detail::QExtSignal1< T_return, T_arg1, QExtNil > Base;
-    typedef typename Base::Return                           Return;
+    typedef detail::QExtSignal1< T_return, T_arg1, QExtNil > BaseType;
+    typedef typename BaseType::ResultType                           ResultType;
 
     /** Convenience wrapper for the numbered QExtSignal1 template.
      * Like QExtSignal but the additional template parameter @e T_accumulator
@@ -5198,21 +5198,21 @@ public:
     };
 
     QExtSignal() {}
-    QExtSignal(const QExtSignal &other) : Base(other) {}
+    QExtSignal(const QExtSignal &other) : BaseType(other) {}
 
-    Return send(typename QExtTypeTrait< T_arg1 >::Take arg1) const
+    ResultType send(typename QExtTypeTrait< T_arg1 >::Take arg1) const
     {
-        return Base::send(arg1);
+        return BaseType::send(arg1);
     }
 
-    Return sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1) const
+    ResultType sendReverse(typename QExtTypeTrait< T_arg1 >::Take arg1) const
     {
-        return Base::sendReverse(arg1);
+        return BaseType::sendReverse(arg1);
     }
 
-    Return operator()(typename QExtTypeTrait< T_arg1 >::Take arg1) const
+    ResultType operator()(typename QExtTypeTrait< T_arg1 >::Take arg1) const
     {
-        return Base::send(arg1);
+        return BaseType::send(arg1);
     }
 };
 
@@ -5225,8 +5225,8 @@ template < typename T_return >
 class QExtSignal< T_return, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public detail::QExtSignal0< T_return, QExtNil >
 {
 public:
-    typedef detail::QExtSignal0< T_return, QExtNil >   Base;
-    typedef typename Base::Return                           Return;
+    typedef detail::QExtSignal0< T_return, QExtNil >   BaseType;
+    typedef typename BaseType::ResultType                           ResultType;
 
     /** Convenience wrapper for the numbered QExtSignal0 template.
      * Like QExtSignal but the additional template parameter @e T_accumulator
@@ -5241,21 +5241,21 @@ public:
     };
 
     QExtSignal() {}
-    QExtSignal(const QExtSignal &other) : Base(other) {}
+    QExtSignal(const QExtSignal &other) : BaseType(other) {}
 
-    Return send() const
+    ResultType send() const
     {
-        return Base::send();
+        return BaseType::send();
     }
 
-    Return sendReverse() const
+    ResultType sendReverse() const
     {
-        return Base::sendReverse();
+        return BaseType::sendReverse();
     }
 
-    Return operator()() const
+    ResultType operator()() const
     {
-        return Base::send();
+        return BaseType::send();
     }
 };
 

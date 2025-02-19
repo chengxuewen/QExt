@@ -164,7 +164,7 @@ namespace detail
 
 
 
-/** Adaptor that binds an argument to the wrapped functor.
+/** AdaptorType that binds an argument to the wrapped functor.
  * Use the convenience function qextBindFunctor() to create an instance of qextBindFunctor.
  *
  * The following template arguments are used:
@@ -185,7 +185,7 @@ template <int I_location, typename T_functor,
           typename T_type4 = QExtNil, typename T_type5 = QExtNil, typename T_type6 = QExtNil, typename T_type7 = QExtNil> struct QExtBindFunctor;
 
 
-/** Adaptor that binds an argument to the wrapped functor.
+/** AdaptorType that binds an argument to the wrapped functor.
  * This template specialization fixes the 1st argument of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -193,15 +193,15 @@ template <int I_location, typename T_functor,
 template <typename T_functor, typename T_bound>
 struct QExtBindFunctor<0, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                     Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor   Adaptor;
+    typedef QExtAdapts<T_functor>                     BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType   AdaptorType;
 
     template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
               typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void,
               typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
@@ -210,7 +210,7 @@ struct QExtBindFunctor<0, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
             typename QExtTypeTrait<T_arg5>::Pass,
             typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType  ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -223,7 +223,7 @@ struct QExtBindFunctor<0, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return operator()()
+    ResultType operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
         return this->m_functor.template operator () <
@@ -355,7 +355,7 @@ struct QExtBindFunctor<0, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
     QExtBoundArgument<T_bound> m_bound;
 };
 
-/** Adaptor that binds an argument to the wrapped functor.
+/** AdaptorType that binds an argument to the wrapped functor.
  * This template specialization fixes the 2nd argument of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -363,14 +363,14 @@ struct QExtBindFunctor<0, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
 template <typename T_functor, typename T_bound>
 struct QExtBindFunctor<1, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor       Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
 
     template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
               typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
@@ -379,7 +379,7 @@ struct QExtBindFunctor<1, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
             typename QExtTypeTrait<T_arg5>::Pass,
             typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType  ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -392,7 +392,7 @@ struct QExtBindFunctor<1, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -526,7 +526,7 @@ struct QExtBindFunctor<1, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
 };
 
 
-/** Adaptor that binds an argument to the wrapped functor.
+/** AdaptorType that binds an argument to the wrapped functor.
  * This template specialization fixes the 3rd argument of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -534,14 +534,14 @@ struct QExtBindFunctor<1, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
 template <typename T_functor, typename T_bound>
 struct QExtBindFunctor<2, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor       Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
 
     template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
               typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
@@ -550,7 +550,7 @@ struct QExtBindFunctor<2, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
             typename QExtTypeTrait<T_arg5>::Pass,
             typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType  ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -562,7 +562,7 @@ struct QExtBindFunctor<2, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -681,7 +681,7 @@ struct QExtBindFunctor<2, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
 };
 
 
-/** Adaptor that binds an argument to the wrapped functor.
+/** AdaptorType that binds an argument to the wrapped functor.
  * This template specialization fixes the 4th argument of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -689,14 +689,14 @@ struct QExtBindFunctor<2, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
 template <typename T_functor, typename T_bound>
 struct QExtBindFunctor<3, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor       Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
 
     template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
               typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -705,7 +705,7 @@ struct QExtBindFunctor<3, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
             typename QExtTypeTrait<T_arg5>::Pass,
             typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType  ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -717,7 +717,7 @@ struct QExtBindFunctor<3, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -818,7 +818,7 @@ struct QExtBindFunctor<3, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
     QExtBoundArgument<T_bound> m_bound;
 };
 
-/** Adaptor that binds an argument to the wrapped functor.
+/** AdaptorType that binds an argument to the wrapped functor.
  * This template specialization fixes the 5th argument of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -826,14 +826,14 @@ struct QExtBindFunctor<3, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
 template <typename T_functor, typename T_bound>
 struct QExtBindFunctor<4, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor       Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
 
     template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
               typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -842,7 +842,7 @@ struct QExtBindFunctor<4, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
             typename QExtTypeTrait<T_arg5>::Pass,
             typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -854,7 +854,7 @@ struct QExtBindFunctor<4, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -937,7 +937,7 @@ struct QExtBindFunctor<4, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
 };
 
 
-/** Adaptor that binds an argument to the wrapped functor.
+/** AdaptorType that binds an argument to the wrapped functor.
  * This template specialization fixes the 6th argument of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -945,14 +945,14 @@ struct QExtBindFunctor<4, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
 template <typename T_functor, typename T_bound>
 struct QExtBindFunctor<5, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor       Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
 
     template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
               typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -961,7 +961,7 @@ struct QExtBindFunctor<5, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass,
             typename QExtTypeTrait<T_arg6>::Pass >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType  ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -973,7 +973,7 @@ struct QExtBindFunctor<5, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -1035,7 +1035,7 @@ struct QExtBindFunctor<5, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
 };
 
 
-/** Adaptor that binds an argument to the wrapped functor.
+/** AdaptorType that binds an argument to the wrapped functor.
  * This template specialization fixes the 7th argument of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -1043,14 +1043,14 @@ struct QExtBindFunctor<5, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
 template <typename T_functor, typename T_bound>
 struct QExtBindFunctor<6, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil> : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor       Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
 
     template <typename T_arg1 = void, typename T_arg2 = void, typename T_arg3 = void,
               typename T_arg4 = void, typename T_arg5 = void, typename T_arg6 = void, typename T_arg7 = void>
     struct ReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -1059,7 +1059,7 @@ struct QExtBindFunctor<6, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
             typename QExtTypeTrait<T_arg6>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_bound>::Type>::Pass >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -1071,7 +1071,7 @@ struct QExtBindFunctor<6, T_functor, T_bound, QExtNil, QExtNil, QExtNil, QExtNil
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -1128,7 +1128,7 @@ struct QExtVisitor<QExtBindFunctor<T_loc, T_functor, T_bound> >
     }
 };
 
-/** Adaptor that binds 1 argument(s) to the wrapped functor.
+/** AdaptorType that binds 1 argument(s) to the wrapped functor.
  * This template specialization fixes the last 1 argument(s) of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -1136,15 +1136,15 @@ struct QExtVisitor<QExtBindFunctor<T_loc, T_functor, T_bound> >
 template <typename T_functor, typename T_type1>
 struct QExtBindFunctor<-1, T_functor, T_type1, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor       Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
 
     template <int count,
               typename T_arg1, typename T_arg2, typename T_arg3,
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -1158,7 +1158,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, QExtNil, QExtNil, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<2, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -1171,7 +1171,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, QExtNil, QExtNil, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<3, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -1183,7 +1183,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, QExtNil, QExtNil, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<4, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -1194,7 +1194,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, QExtNil, QExtNil, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<5, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >::Type Type;
@@ -1204,7 +1204,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, QExtNil, QExtNil, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<6, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass >::Type Type;
     };
@@ -1218,7 +1218,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, QExtNil, QExtNil, QExtNil, QExtNi
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
 
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -1230,7 +1230,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, QExtNil, QExtNil, QExtNil, QExtNi
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -1383,7 +1383,7 @@ struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1> >
 };
 
 
-/** Adaptor that binds 2 argument(s) to the wrapped functor.
+/** AdaptorType that binds 2 argument(s) to the wrapped functor.
  * This template specialization fixes the last 2 argument(s) of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -1391,15 +1391,15 @@ struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1> >
 template <typename T_functor, typename T_type1, typename T_type2>
 struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, QExtNil, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor   Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType   AdaptorType;
 
     template <int count,
               typename T_arg1, typename T_arg2, typename T_arg3,
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -1413,7 +1413,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, QExtNil, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<3, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -1426,7 +1426,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, QExtNil, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<4, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -1438,7 +1438,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, QExtNil, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<5, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
@@ -1449,7 +1449,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, QExtNil, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<6, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass >::Type Type;
@@ -1463,7 +1463,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, QExtNil, QExtNil, QExtNi
         detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -1478,7 +1478,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, QExtNil, QExtNil, QExtNi
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -1615,7 +1615,7 @@ struct QExtVisitor < QExtBindFunctor<-1, T_functor, T_type1, T_type2 > >
 };
 
 
-/** Adaptor that binds 3 argument(s) to the wrapped functor.
+/** AdaptorType that binds 3 argument(s) to the wrapped functor.
  * This template specialization fixes the last 3 argument(s) of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -1623,15 +1623,15 @@ struct QExtVisitor < QExtBindFunctor<-1, T_functor, T_type1, T_type2 > >
 template <typename T_functor, typename T_type1, typename T_type2, typename T_type3>
 struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QExtNil, QExtNil, QExtNil, QExtNil > : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor       Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
 
     template <int count,
               typename T_arg1, typename T_arg2, typename T_arg3,
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -1645,7 +1645,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<4, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -1658,7 +1658,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<5, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
@@ -1670,7 +1670,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QExtNil, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<6, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
@@ -1685,7 +1685,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QExtNil, QExtNi
         detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -1702,7 +1702,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, QExtNil, QExtNi
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -1823,7 +1823,7 @@ struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3 > >
 };
 
 
-/** Adaptor that binds 4 argument(s) to the wrapped functor.
+/** AdaptorType that binds 4 argument(s) to the wrapped functor.
  * This template specialization fixes the last 4 argument(s) of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -1832,15 +1832,15 @@ template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3, typename T_type4>
 struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QExtNil, QExtNil, QExtNil > : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor       Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
 
     template <int count,
               typename T_arg1, typename T_arg2, typename T_arg3,
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<T_arg3>::Pass,
@@ -1854,7 +1854,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<5, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
@@ -1867,7 +1867,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QExtNi
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<6, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
@@ -1883,7 +1883,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QExtNi
         detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -1902,7 +1902,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, QExtNi
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -2004,7 +2004,7 @@ struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_t
     }
 };
 
-/** Adaptor that binds 5 argument(s) to the wrapped functor.
+/** AdaptorType that binds 5 argument(s) to the wrapped functor.
  * This template specialization fixes the last 5 argument(s) of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -2013,15 +2013,15 @@ template <typename T_functor,
           typename T_type1, typename T_type2, typename T_type3, typename T_type4, typename T_type5>
 struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, QExtNil, QExtNil > : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor   Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType   AdaptorType;
 
     template <int count,
               typename T_arg1, typename T_arg2, typename T_arg3,
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<T_arg2>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
@@ -2035,7 +2035,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce<6, T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
@@ -2052,7 +2052,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
         detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -2073,7 +2073,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -2160,7 +2160,7 @@ struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_t
 };
 
 
-/** Adaptor that binds 6 argument(s) to the wrapped functor.
+/** AdaptorType that binds 6 argument(s) to the wrapped functor.
  * This template specialization fixes the last 6 argument(s) of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -2171,15 +2171,15 @@ template <typename T_functor,
 struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, QExtNil >
         : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor       Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
 
     template <int count,
               typename T_arg1, typename T_arg2, typename T_arg3,
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<T_arg1>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
@@ -2197,7 +2197,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
         detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -2222,7 +2222,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -2293,7 +2293,7 @@ struct QExtVisitor<QExtBindFunctor< -1, T_functor, T_type1, T_type2, T_type3, T_
 };
 
 
-/** Adaptor that binds 7 argument(s) to the wrapped functor.
+/** AdaptorType that binds 7 argument(s) to the wrapped functor.
  * This template specialization fixes the last 7 argument(s) of the wrapped functor.
  *
  * \ingroup qextBindFunctor
@@ -2304,15 +2304,15 @@ template <typename T_functor,
 struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type5, T_type6, T_type7>
         : public QExtAdapts<T_functor>
 {
-    typedef QExtAdapts<T_functor>                         Base;
-    typedef typename QExtAdapts<T_functor>::Adaptor       Adaptor;
+    typedef QExtAdapts<T_functor>                         BaseType;
+    typedef typename QExtAdapts<T_functor>::AdaptorType       AdaptorType;
 
     template <int count,
               typename T_arg1, typename T_arg2, typename T_arg3,
               typename T_arg4, typename T_arg5, typename T_arg6, typename T_arg7>
     struct InternalReturnTypeDeduce
     {
-        typedef typename Adaptor::template ReturnTypeDeduce <
+        typedef typename AdaptorType::template ReturnTypeDeduce <
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type1>::Type>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type2>::Type>::Pass,
             typename QExtTypeTrait<typename QEXTUnwrapReference<T_type3>::Type>::Pass,
@@ -2330,7 +2330,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
         detail::QExtCountVoid<T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7>::value,
                T_arg1, T_arg2, T_arg3, T_arg4, T_arg5, T_arg6, T_arg7 >::Type Type;
     };
-    typedef typename Adaptor::Return  Return;
+    typedef typename AdaptorType::ResultType ResultType;
 
     /** Constructs a bind_functor object that binds an argument to the passed functor.
      * \param func Functor to invoke from operator()().
@@ -2357,7 +2357,7 @@ struct QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_type4, T_type
     /** Invokes the wrapped functor passing on the bound argument only.
      * \return The return value of the functor invocation.
      */
-    Return
+    ResultType
     operator()()
     {
         //Note: The AIX compiler sometimes gives linker errors if we do not define this in the class.
@@ -2418,7 +2418,7 @@ struct QExtVisitor<QExtBindFunctor<-1, T_functor, T_type1, T_type2, T_type3, T_t
  *
  * \param func Functor that should be wrapped.
  * \param bound1 Argument to qextBindFunctor to @e func.
- * \return Adaptor that executes @e func with the bound argument on invokation.
+ * \return AdaptorType that executes @e func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
@@ -2435,7 +2435,7 @@ qextBindFunctor(const T_functor &func, T_type1 bound1)
  *
  * \param func Functor that should be wrapped.
  * \param bound1 Argument to qextBindFunctor to @e func.
- * \return Adaptor that executes func with the bound argument on invokation.
+ * \return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
@@ -2453,7 +2453,7 @@ qextBindFunctor(const T_functor &func, T_type1 bound1)
  * \param func Functor that should be wrapped.
  * \param bound1 Argument to qextBindFunctor to @e func.
  * \param bound2 Argument to qextBindFunctor to @e func.
- * \return Adaptor that executes func with the bound argument on invokation.
+ * \return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
@@ -2472,7 +2472,7 @@ qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2)
  * \param bound1 Argument to qextBindFunctor to @e func.
  * \param bound2 Argument to qextBindFunctor to @e func.
  * \param bound3 Argument to qextBindFunctor to @e func.
- * \return Adaptor that executes func with the bound argument on invokation.
+ * \return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
@@ -2492,7 +2492,7 @@ qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 b
  * \param bound2 Argument to qextBindFunctor to @e func.
  * \param bound3 Argument to qextBindFunctor to @e func.
  * \param bound4 Argument to qextBindFunctor to @e func.
- * \return Adaptor that executes func with the bound argument on invokation.
+ * \return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
@@ -2513,7 +2513,7 @@ qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 b
  * \param bound3 Argument to qextBindFunctor to @e func.
  * \param bound4 Argument to qextBindFunctor to @e func.
  * \param bound5 Argument to qextBindFunctor to @e func.
- * \return Adaptor that executes func with the bound argument on invokation.
+ * \return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
@@ -2536,7 +2536,7 @@ qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 b
  * \param bound4 Argument to qextBindFunctor to @e func.
  * \param bound5 Argument to qextBindFunctor to @e func.
  * \param bound6 Argument to qextBindFunctor to @e func.
- * \return Adaptor that executes func with the bound argument on invokation.
+ * \return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */
@@ -2561,7 +2561,7 @@ qextBindFunctor(const T_functor &func, T_type1 bound1, T_type2 bound2, T_type3 b
  * \param bound5 Argument to qextBindFunctor to @e func.
  * \param bound6 Argument to qextBindFunctor to @e func.
  * \param bound7 Argument to qextBindFunctor to @e func.
- * \return Adaptor that executes func with the bound argument on invokation.
+ * \return AdaptorType that executes func with the bound argument on invokation.
  *
  * \ingroup qextBindFunctor
  */

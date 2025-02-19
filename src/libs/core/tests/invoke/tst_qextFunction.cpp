@@ -354,8 +354,8 @@ void QExtFunctionTest::stdFunction()
 class MRetIntFunctor : public QExtFunctorBase
 {
 public:
-    typedef int Return;
-    typedef MRetIntFunctor Object;
+    typedef int ResultType;
+    typedef MRetIntFunctor ObjectType;
 
     MRetIntFunctor() {}
 
@@ -523,8 +523,8 @@ void QExtFunctionTest::stdRetIntFunction()
 class MRetDoubleFunctor : public QExtFunctorBase
 {
 public:
-    typedef double Return;
-    typedef MRetDoubleFunctor Object;
+    typedef double ResultType;
+    typedef MRetDoubleFunctor ObjectType;
     MRetDoubleFunctor() {}
 
     double operator()()
@@ -818,8 +818,8 @@ void QExtFunctionTest::constFunctor()
 class MRetIntConstFunctor : public QExtFunctorBase
 {
 public:
-    typedef double Return;
-    typedef MRetIntConstFunctor Object;
+    typedef double ResultType;
+    typedef MRetIntConstFunctor ObjectType;
     MRetIntConstFunctor() {}
 
     int operator()() const
@@ -936,8 +936,8 @@ void QExtFunctionTest::retIntConstFunctor()
 class MRetDoubleConstFunctor : public QExtFunctorBase
 {
 public:
-    typedef double Return;
-    typedef MRetDoubleConstFunctor Object;
+    typedef double ResultType;
+    typedef MRetDoubleConstFunctor ObjectType;
     MRetDoubleConstFunctor() {}
 
     double operator()() const
@@ -1233,8 +1233,8 @@ void QExtFunctionTest::retVolatileFunctor()
 class MRetIntVolatileFunctor : public QExtFunctorBase
 {
 public:
-    typedef int Return;
-    typedef MRetIntVolatileFunctor Object;
+    typedef int ResultType;
+    typedef MRetIntVolatileFunctor ObjectType;
     MRetIntVolatileFunctor() {}
 
     int operator()() volatile
@@ -1351,8 +1351,8 @@ void QExtFunctionTest::retIntVolatileFunctor()
 class MRetDoubleVolatileFunctor : public QExtFunctorBase
 {
 public:
-    typedef double Return;
-    typedef MRetDoubleVolatileFunctor Object;
+    typedef double ResultType;
+    typedef MRetDoubleVolatileFunctor ObjectType;
     MRetDoubleVolatileFunctor() {}
 
     double operator()() volatile
@@ -1648,8 +1648,8 @@ void QExtFunctionTest::retConstVolatileFunctor()
 class MRetIntConstVolatileFunctor : public QExtFunctorBase
 {
 public:
-    typedef int Return;
-    typedef MRetIntConstVolatileFunctor Object;
+    typedef int ResultType;
+    typedef MRetIntConstVolatileFunctor ObjectType;
     MRetIntConstVolatileFunctor() {}
 
     int operator()() const volatile
@@ -1766,8 +1766,8 @@ void QExtFunctionTest::retIntConstVolatileFunctor()
 class MRetDoubleConstVolatileFunctor : public QExtFunctorBase
 {
 public:
-    typedef double Return;
-    typedef MRetDoubleConstVolatileFunctor Object;
+    typedef double ResultType;
+    typedef MRetDoubleConstVolatileFunctor ObjectType;
     MRetDoubleConstVolatileFunctor() {}
 
     double operator()() const volatile

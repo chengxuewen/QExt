@@ -187,7 +187,7 @@ void QExtFunctionTest::testDisconnect()
     theSlot();
     QVERIFY("functionFoo" == *sg_string);
 
-    theSlot = qextPointerFunctor(&functionBar);
+    theSlot = qextMakeFunctor(&functionBar);
     theSlot();
     QVERIFY("functionBar" == string);
 
@@ -195,7 +195,7 @@ void QExtFunctionTest::testDisconnect()
     {
         MObj mObj;
         *sg_string = "";
-        objS1ot = qextMemberFunctor(&mObj, &MObj::function);
+        objS1ot = qextMakeFunctor(&mObj, &MObj::function);
         QVERIFY(!objS1ot.isConnected());
         QVERIFY(!objS1ot.isBlocked());
         QVERIFY(!objS1ot.isNull());
@@ -217,7 +217,7 @@ int func1(int i)
 
 void QExtFunctionTest::testFunctor()
 {
-    QExtPointerFunctor<int, int> func = qextPointerFunctor(&func1);
+    QExtPointerFunctor<int, int> func = qextMakeFunctor(&func1);
     QExtFunction<int, int> slot = func;
     QVERIFY(1 == slot(1));
 }
@@ -241,24 +241,24 @@ public:
 void QExtFunctionTest::testMemFunctor()
 {
     FType fType;
-    QExtMemberFunctor<int, FType, int> memFunc = qextMemberFunctor(&FType::func);
+    QExtMemberFunctor<int, FType, int> memFunc = qextMakeFunctor(&FType::func);
     QExtFunction<int, FType *, int> slot = memFunc;
     QVERIFY(1 == slot(&fType, 1));
 
-    QExtMemberFunctor<void, FType, int &> memFuncR = qextMemberFunctor(&FType::funcR);
+    QExtMemberFunctor<void, FType, int &> memFuncR = qextMakeFunctor(&FType::funcR);
     QExtFunction<void, FType *, int &> slotR = memFuncR;
     int a1 = 1;
     slotR(&fType, a1);
     QVERIFY(2 == a1);
 
-    QExtBoundMemberFunctor<int, FType, int> boundMemFunc = qextMemberFunctor(&fType, &FType::func);
+    QExtBoundMemberFunctor<int, FType, int> boundMemFunc = qextMakeFunctor(&fType, &FType::func);
     QExtFunction<int, int> slot2 = boundMemFunc;
     QVERIFY(1 == slot2(1));
 }
 
 void QExtFunctionTest::testCompare()
 {
-    QExtMemberFunctor<void, FType, int &> memFuncR = qextMemberFunctor(&FType::funcR);
+    QExtMemberFunctor<void, FType, int &> memFuncR = qextMakeFunctor(&FType::funcR);
     QExtFunction<void, FType *, int &> slotR = memFuncR;
     QExtFunction<void, FType *, int &> slotR1 = slotR;
     QExtFunction<void, FType *, int &> slotR2;
@@ -276,7 +276,7 @@ void QExtFunctionTest::testCopyInvalid()
     QObject *obj = new QObject;
 
     *sg_string = "";
-    QExtFunction<void> fooSlot = qextBindFunctor(qextPointerFunctor(&fooObj), qextReferenceWrapper(*obj));
+    QExtFunction<void> fooSlot = qextBindFunctor(qextMakeFunctor(&fooObj), qextReferenceWrapper(*obj));
     fooSlot();
     QVERIFY("fooObj(x)" == *sg_string);
 

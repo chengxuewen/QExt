@@ -118,9 +118,9 @@ struct MyAdaptor1 : public QExtAdapts<T_functor>
     {
         typedef typename QExtReturnTypeDeduce<T_functor, T_arg1, T_arg2>::Type Type;
     };
-    typedef typename QExtFunctorTrait<T_functor>::Return   Return;
+    typedef typename QExtFunctorTrait<T_functor>::ResultType ResultType;
 
-    Return
+    ResultType
     operator()() const
     {
         sg_string = "MyAdaptor1()() ";
@@ -179,7 +179,7 @@ void QExtVisitorTest::testTypeVisitor()
 {
     MClassFunctor mClassFunctor;
     MClass1 mClass1;
-    QExtBoundConstMemberFunctor<void, MClass1, int> boundMemFunctor = qextMemberFunctor(&mClass1, &MClass1::exec);
+    QExtBoundConstMemberFunctor<void, MClass1, int> boundMemFunctor = qextMakeFunctor(&mClass1, &MClass1::exec);
 
     // test valid inherit visit, action exec success
     sg_string = "";
@@ -198,7 +198,7 @@ void QExtVisitorTest::testCase1()
     {
         sg_string = "";
         MyClass1 my_class1("x=");
-        sl1 = qextMemberFunctor(&my_class1, &MyClass1::execute);
+        sl1 = qextMakeFunctor(&my_class1, &MyClass1::execute);
         sl1(-2);
         QVERIFY("x=-2" == sg_string);
     } // auto-disconnect sl1

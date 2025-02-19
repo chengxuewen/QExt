@@ -30,7 +30,7 @@ static std::string *sg_string = QEXT_NULLPTR;
 struct Foo : public QExtFunctorBase
 {
     // choose a type that can hold all return values
-    typedef int Return;
+    typedef int ResultType;
 
     int operator()(int i)
     {
@@ -59,7 +59,7 @@ struct Foo : public QExtFunctorBase
 
 struct FooVoid : public QExtFunctorBase
 {
-    typedef void Return;
+    typedef void ResultType;
 
     void operator()(int i)
     {
@@ -254,7 +254,7 @@ void QExtBindFunctorTest::testReferences()
 
 
 
-    QExtFunction<void, Param &> slotFull = qextPointerFunctor(handler);
+    QExtFunction<void, Param &> slotFull = qextMakeFunctor(handler);
     QExtFunction<void> slotBound;
 
     *sg_string = "";
