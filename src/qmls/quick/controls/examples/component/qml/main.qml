@@ -4,7 +4,7 @@ import QtQuick.Window 2.9
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 2.9
 
-import QExtQuick.Controls 1.2
+import QExtQuick.Controls 1.3
 
 Window {
     id: root

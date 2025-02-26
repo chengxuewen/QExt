@@ -74,49 +74,9 @@ qext_add_library(Core
     source/global/qextPreprocessor.h
     source/global/qextProcessor.h
     source/global/qextSystem.h
-    source/invoke/qextAdaptorTrait.h
-    source/invoke/qextBindFunctor.h
-    source/invoke/qextBindReturnFunctor.h
-    source/invoke/qextBoundArgument.h
-    source/invoke/qextComposeFunctor.h
-    source/invoke/qextConnection.h
-    source/invoke/qextConnection.cpp
-    source/invoke/qextEmitter.h
-    source/invoke/qextFunction.h
-    source/invoke/qextFunction.cpp
-    source/invoke/qextHideFunctor.h
-    source/invoke/qextInPlace.h
-    source/invoke/qextLimitReference.h
-    source/invoke/qextMemberFunctor.h
-    source/invoke/qextPointerFunctor.h
-    source/invoke/qextReferenceWrapper.h
-    source/invoke/qextReturnTypeDeduce.h
-    source/invoke/qextRetypeFunctor.h
-    source/invoke/qextRetypeReturnFunctor.h
-    source/invoke/qextSignal.h
-    source/invoke/qextSignal.cpp
-    source/invoke/qextTrackObjectFunctor.h
-    source/invoke/qextVisitor.h
-    source/model/qextModelConstants.h
-    source/model/qextModelItem.cpp
-    source/model/qextModelItem.h
-    source/model/qextModelItemContainer.cpp
-    source/model/qextModelItemContainer.h
-    source/model/qextModelItemData.cpp
-    source/model/qextModelItemData.h
-    source/model/qextModelItemTags.cpp
-    source/model/qextModelItemTags.h
-    source/model/qextModelTagInfo.cpp
-    source/model/qextModelTagInfo.h
-    source/model/qextModelTagRow.cpp
-    source/model/qextModelTagRow.h
-    source/tools/qextBackTrace.cpp
-    source/tools/qextBackTrace.h
     source/tools/qextConcurrent.h
     source/tools/qextDiskInfo.cpp
     source/tools/qextDiskInfo.h
-    source/tools/qextException.cpp
-    source/tools/qextException.h
     source/tools/qextInvoke.h
     source/tools/qextLinearBuffer.cpp
     source/tools/qextLinearBuffer.h

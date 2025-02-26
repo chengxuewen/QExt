@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQml 2.12
-import QExtQuick.Controls 1.2
+import QExtQuick.Controls 1.3
 
 QtObject {
     property bool enabled: true

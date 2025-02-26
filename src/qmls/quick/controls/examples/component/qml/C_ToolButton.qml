@@ -3,7 +3,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.9
 
 import QExtQml.FontIcon 1.2
-import QExtQuick.Controls 1.2
+import QExtQuick.Controls 1.3
 
 Column{
     spacing: 10
