@@ -389,6 +389,8 @@ qext_option(QEXT_BUILD_EXAMPLES "Enable this to build examples" OFF
 qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" ${QEXTT_DEFAULT_BUILD_INSTALL}
     OR_CONDITION QEXT_BUILD_ALL)
 
+qext_option(QEXT_ENABLE_LIB_TCP "Enable this to build the tcp lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_GUI "Enable this to build the gui lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PATTERNS "Enable this to build the patterns lib" OFF
