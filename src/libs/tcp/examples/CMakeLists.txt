@@ -31,9 +31,9 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES
-            Qt${QEXT_QT_VERSION_MAJOR}::Core
-            Qt${QEXT_QT_VERSION_MAJOR}::Gui
-            Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
+        Qt${QEXT_QT_VERSION_MAJOR}::Core
+        Qt${QEXT_QT_VERSION_MAJOR}::Gui
+        Qt${QEXT_QT_VERSION_MAJOR}::Widgets)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -45,33 +45,33 @@ list(APPEND QEXT_EXAMPLE_LINK_LIBRARIES Tcp)
 # Add examples
 #-----------------------------------------------------------------------------------------------------------------------
 qext_add_executable(QExtExpTcpSimpleServer
-        SOURCES
-        simpleServer/smainwindow.cpp
-        simpleServer/smainwindow.h
-        simpleServer/smainwindow.ui
-        simpleServer/ssocketmsgbrowser.cpp
-        simpleServer/ssocketmsgbrowser.h
-        simpleServer/ssocketmsgbrowser.ui
-        simpleServer/main.cpp
-        LIBRARIES
-        ${QEXT_EXAMPLE_LINK_LIBRARIES}
-        INCLUDE_DIRECTORIES
-        ${CMAKE_CURRENT_SOURCE_DIR}/simpleServer
-        OUTPUT_DIRECTORY
-        ${QEXT_OUTPUT_EXAMPLE_DIR}
-        DEFINES
-        EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    SOURCES
+    simpleServer/smainwindow.cpp
+    simpleServer/smainwindow.h
+    simpleServer/smainwindow.ui
+    simpleServer/ssocketmsgbrowser.cpp
+    simpleServer/ssocketmsgbrowser.h
+    simpleServer/ssocketmsgbrowser.ui
+    simpleServer/main.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/simpleServer
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
 qext_add_executable(QExtExpTcpSimpleClient
-        SOURCES
-        simpleClient/cmainwindow.cpp
-        simpleClient/cmainwindow.h
-        simpleClient/cmainwindow.ui
-        simpleClient/main.cpp
-        LIBRARIES
-        ${QEXT_EXAMPLE_LINK_LIBRARIES}
-        INCLUDE_DIRECTORIES
-        ${CMAKE_CURRENT_SOURCE_DIR}/simpleClient
-        OUTPUT_DIRECTORY
-        ${QEXT_OUTPUT_EXAMPLE_DIR}
-        DEFINES
-        EXECUTABLE_OUTPUT_PATH="${QEXT_OUTPUT_EXAMPLE_DIR}")
+    SOURCES
+    simpleClient/cmainwindow.cpp
+    simpleClient/cmainwindow.h
+    simpleClient/cmainwindow.ui
+    simpleClient/main.cpp
+    LIBRARIES
+    ${QEXT_EXAMPLE_LINK_LIBRARIES}
+    INCLUDE_DIRECTORIES
+    ${CMAKE_CURRENT_SOURCE_DIR}/simpleClient
+    OUTPUT_DIRECTORY
+    ${QEXT_INSTALL_EXAMPLESDIR}
+    DEFINES
+    EXECUTABLE_OUTPUT_PATH="${QEXT_INSTALL_EXAMPLESDIR}")
