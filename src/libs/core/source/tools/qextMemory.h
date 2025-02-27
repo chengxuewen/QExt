@@ -36,11 +36,14 @@
 #   define QExtSharedPointer std::shared_ptr
 #   define QExtUniquePointer std::unique_ptr
 template <typename T>
-inline QExtSharedPointer<T> qextMakeSharedRef(const QExtWeakPointer<T> &p) { return p.lock(); }
+inline QExtSharedPointer<T>
+qextMakeSharedRef(const QExtWeakPointer<T> &p) { return p.lock(); }
 template <typename T>
-inline QExtWeakPointer<T> qextMakeWeakRef(const QExtSharedPointer<T> &p) { return QExtWeakPointer<T>(p); }
+inline QExtWeakPointer<T>
+qextMakeWeakRef(const QExtSharedPointer<T> &p) { return QExtWeakPointer<T>(p); }
 template <typename T, typename U>
-QExtSharedPointer<T> qextDynamicPointerCast(const QExtSharedPointer<U> &r) { return dynamic_pointer_cast<T, U>(r); }
+inline QExtSharedPointer<T>
+qextDynamicPointerCast(const QExtSharedPointer<U> &r) { return std::dynamic_pointer_cast<T, U>(r); }
 #else
 namespace detail
 {
@@ -122,20 +125,21 @@ struct QExtUniquePointerHelper<T[N]>
                       "For make_unique<T[N]> N must be as largs as the number of arguments");
         return UniquePointer(new T[N]{std::forward<Args>(args)...});
     }
-#if __GNUC__ == 4 && __GNUC_MINOR__ <= 6
+#   if __GNUC__ == 4 && __GNUC_MINOR__ <= 6
     // G++ 4.6 has an ICE when you have no arguments
     static inline UniquePointer make()
     {
         return UniquePointer(new T[N]);
     }
+#   endif
 };
 } // namespace detail
 template <typename T, typename... Args>
-inline typename detail::QExtUniquePointerHelper<T>::UniquePointer qextMakeUnique(Args&&... args)
+inline typename detail::QExtUniquePointerHelper<T>::UniquePointer
+qextMakeUnique(Args&&... args)
 {
     return detail::QExtUniquePointerHelper<T>::make(std::forward<Args>(args)...);
 }
-#endif
 #else
 /**
  * @brief qextMakeShared
