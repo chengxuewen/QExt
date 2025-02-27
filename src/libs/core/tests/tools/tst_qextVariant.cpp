@@ -1584,14 +1584,14 @@ void QExtVariantTest::helper()
         typedef QExtVariant<t1, t2, t3, t4, t5, t6, t7> var7;
         //  typedef QExtVariant<t1, t2, t3, t4, t5, t6, t7, t8> var8;
 
-        QVERIFY( 1u == variant_size_v<var1> );
-        QVERIFY( 2u == variant_size_v<var2> );
-        QVERIFY( 3u == variant_size_v<var3> );
-        QVERIFY( 4u == variant_size_v<var4> );
-        QVERIFY( 5u == variant_size_v<var5> );
-        QVERIFY( 6u == variant_size_v<var6> );
-        QVERIFY( 7u == variant_size_v<var7> );
-//  QVERIFY( 8u == variant_size_v<var8>::value );
+        QVERIFY( 1u == QExtVariantSizeV<var1> );
+        QVERIFY( 2u == QExtVariantSizeV<var2> );
+        QVERIFY( 3u == QExtVariantSizeV<var3> );
+        QVERIFY( 4u == QExtVariantSizeV<var4> );
+        QVERIFY( 5u == QExtVariantSizeV<var5> );
+        QVERIFY( 6u == QExtVariantSizeV<var6> );
+        QVERIFY( 7u == QExtVariantSizeV<var7> );
+//  QVERIFY( 8u == QExtVariantSizeV<var8>::value );
 #else
         QSKIP( "variant_size_v<>: variable templates is not available (no C++14)" );
 #endif

@@ -33,7 +33,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.3.1.1 LANGUAGES CXX C)
+project(QExt VERSION 1.3.1.2 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -153,6 +153,10 @@ endforeach()
 get_filename_component(QEXT_QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
 get_filename_component(QEXT_QT_KIT_DIR "${QEXT_QT_BIN_DIR}" DIRECTORY)
 set(QEXT_QT_LIB_DIR ${QEXT_QT_KIT_DIR}/lib)
+
+if(WIN32)
+    set(QEXT_QT_HAS_QML OFF)
+endif()
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -415,8 +419,6 @@ qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatche
 qext_option(QEXT_ENABLE_3RDPARTY_QWT_LAST "Enable this to build the 3rdparty last version Qwt-6.3.0 lib" ON)
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
-qext_option(QEXT_ENABLE_3RDPARTY_QTWEBAPP "Enable this to build the 3rdparty QtWebApp lib" OFF
-    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
     DEPENDS QEXT_SINCE_QT5
     OR_CONDITION QEXT_BUILD_ALL)
@@ -428,8 +430,6 @@ qext_option(QEXT_ENABLE_3RDPARTY_QWINDOWKIT "Enable this to build the 3rdparty q
 qext_option(QEXT_ADD_SUBDIRECTORY_QWT "Enable this to add the 3rdparty Qwt subdirectory" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_QWTPLOT3D "Enable this to add the 3rdparty QwtPlot3D subdirectory" OFF)
-qext_option(QEXT_ADD_SUBDIRECTORY_QTWEBAPP "Enable this to add the 3rdparty QtWebApp subdirectory" OFF
-    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ADD_SUBDIRECTORY_SINGLEAPP "Enable this to add the 3rdparty SingleApplication subdirectory" OFF
     DEPENDS QEXT_SINCE_QT5
     OR_CONDITION QEXT_BUILD_ALL)
@@ -737,13 +737,6 @@ endif()
 if(QEXT_ADD_SUBDIRECTORY_QWTPLOT3D)
     set(QWTPLOT3D_BUILD_ALL "${QEXT_BUILD_ALL}" CACHE INTERNAL "" FORCE)
     add_subdirectory(3rdparty/qwtplot3d-0.2.7)
-endif()
-
-if(QEXT_ADD_SUBDIRECTORY_QTWEBAPP)
-    add_subdirectory(3rdparty/QtWebApp)
-endif()
-if(QEXT_ENABLE_3RDPARTY_QTWEBAPP)
-    qext_find_package(WrapSingleApp PROVIDED_TARGETS QExt3rdparty::WrapSingleApp)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)
