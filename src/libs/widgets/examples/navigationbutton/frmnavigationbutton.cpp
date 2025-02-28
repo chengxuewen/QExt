@@ -1,4 +1,5 @@
-﻿#include "frmnavigationbutton.h"
+﻿#pragma execution_character_set("utf-8")
+#include "frmnavigationbutton.h"
 #include "iconhelper.h"
 #include "ui_frmnavigationbutton.h"
 

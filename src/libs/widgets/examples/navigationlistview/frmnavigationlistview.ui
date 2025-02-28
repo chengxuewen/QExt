@@ -35,7 +35,7 @@ background-color: rgb(255, 85, 0);
     <number>0</number>
    </property>
    <item>
-    <widget class="QEXTNavigationListView" name="navListWidget" native="true">
+    <widget class="QExtNavigationListView" name="navListWidget" native="true">
      <property name="minimumSize">
       <size>
        <width>170</width>
@@ -110,7 +110,7 @@ background-color: rgb(255, 85, 0);
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QEXTNavigationListView</class>
+   <class>QExtNavigationListView</class>
    <extends>QWidget</extends>
    <header>qextNavigationListView.h</header>
    <container>1</container>

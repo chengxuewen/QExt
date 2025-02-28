@@ -49,7 +49,7 @@ public:
     QExtNavigationListItem(const QString &text, const QChar &fontChar, bool expand, QExtNavigationListItem *parent = QEXT_NULLPTR);
     QExtNavigationListItem(const QString &text, const QString &tip, const QChar &fontChar, QExtNavigationListItem *parent = QEXT_NULLPTR);
     QExtNavigationListItem(const QString &text, const QString &tip, const QChar &fontChar, bool expand, QExtNavigationListItem *parent = QEXT_NULLPTR);
-    ~QExtNavigationListItem();
+    ~QExtNavigationListItem() QEXT_OVERRIDE;
 
     QPixmap normalIcon() const;
     QPixmap hoverIcon() const;
@@ -94,7 +94,7 @@ public:
     QList<QExtNavigationListItem *> childItems() const;
     QList<QExtNavigationListItem *> visiableChildItems() const;
 
-signals:
+Q_SIGNALS:
     void itemAboutToDestroyed(QExtNavigationListItem *item);
     void iconChanged(QExtNavigationListItem *item);
     void fontIconChanged(QExtNavigationListItem *item);
@@ -120,32 +120,32 @@ protected:
     QScopedPointer<QExtNavigationListItemPrivate> dd_ptr;
 
 private:
-    friend class QEXTNavigationListModel;
+    friend class QExtNavigationListModel;
     QEXT_DISABLE_COPY_MOVE(QExtNavigationListItem)
     QEXT_DECL_PRIVATE_D(dd_ptr, QExtNavigationListItem)
 };
 
 
-class QEXTNavigationListModelPrivate;
-class QEXT_WIDGETS_API QEXTNavigationListModel : public QAbstractListModel
+class QExtNavigationListModelPrivate;
+class QEXT_WIDGETS_API QExtNavigationListModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
-    explicit QEXTNavigationListModel(QObject *parent = QEXT_NULLPTR);
-    ~QEXTNavigationListModel();
+    explicit QExtNavigationListModel(QObject *parent = QEXT_NULLPTR);
+    ~QExtNavigationListModel() QEXT_OVERRIDE;
 
     QExtNavigationListItem *checkedItem() const;
     QList<QExtNavigationListItem *> allItems() const;
     QList<QExtNavigationListItem *> parentItems() const;
     QList<QExtNavigationListItem *> visiableItems() const;
 
-public slots:
+public Q_SLOTS:
     void setItems(const QStringList &items);
     void setItems(const QList<QExtNavigationListItem *> &items);
     void expandCollapseItem(const QModelIndex &index);
 
-signals:
+Q_SIGNALS:
     void checkedItemChanged(QExtNavigationListItem *item);
 
 protected slots:
@@ -166,81 +166,64 @@ protected:
     QVariant data(const QModelIndex &index, int role) const QEXT_OVERRIDE;
     Qt::ItemFlags flags(const QModelIndex &index) const QEXT_OVERRIDE;
 
-    QScopedPointer<QEXTNavigationListModelPrivate> dd_ptr;
+    QScopedPointer<QExtNavigationListModelPrivate> dd_ptr;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QEXTNavigationListModel)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNavigationListModel)
+    QEXT_DISABLE_COPY_MOVE(QExtNavigationListModel)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtNavigationListModel)
 };
 
 
-class QEXTNavigationListViewPrivate;
-class QEXT_WIDGETS_API QEXTNavigationListView : public QWidget
+class QExtNavigationListViewPrivate;
+class QEXT_WIDGETS_API QExtNavigationListView : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool itemRightIconVisible READ itemRightIconVisible WRITE setItemRightIconVisible)
-    Q_PROPERTY(bool itemTipVisible READ itemTipVisible WRITE setItemTipVisible)
-    Q_PROPERTY(int itemTipWidth READ itemTipWidth WRITE setItemTipWidth)
+    Q_PROPERTY(int itemTipWidth READ itemTipWidth WRITE setItemTipWidth NOTIFY itemTipWidthChanged)
+    Q_PROPERTY(bool isItemTipVisible READ isItemTipVisible WRITE setItemTipVisible NOTIFY itemTipVisibleChanged)
 
-    Q_PROPERTY(bool itemSeparateVisible READ itemSeparateVisible WRITE setItemSeparateVisible)
-    Q_PROPERTY(int itemSeparateHeight READ itemSeparateHeight WRITE setItemSeparateHeight)
-    Q_PROPERTY(QColor itemSeparateColor READ itemSeparateColor WRITE setItemSeparateColor)
+    Q_PROPERTY(QColor itemSeparateColor READ itemSeparateColor WRITE setItemSeparateColor NOTIFY itemSeparateColorChanged)
+    Q_PROPERTY(int itemSeparateHeight READ itemSeparateHeight WRITE setItemSeparateHeight NOTIFY itemSeparateHeightChanged)
+    Q_PROPERTY(bool isItemSeparateVisible READ isItemSeparateVisible WRITE setItemSeparateVisible NOTIFY itemSeparateVisibleChanged)
 
-    Q_PROPERTY(bool itemLineLeft READ itemLineLeft WRITE setItemLineLeft)
-    Q_PROPERTY(bool itemLineVisible READ itemLineVisible WRITE setItemLineVisible)
-    Q_PROPERTY(int itemLineWidth READ itemLineWidth WRITE setItemLineWidth)
-    Q_PROPERTY(QColor itemLineColor READ itemLineColor WRITE setItemLineColor)
+    Q_PROPERTY(int itemLineWidth READ itemLineWidth WRITE setItemLineWidth NOTIFY itemLineWidthChanged)
+    Q_PROPERTY(QColor itemLineColor READ itemLineColor WRITE setItemLineColor NOTIFY itemLineColorChanged)
+    Q_PROPERTY(bool isItemLineVisible READ isItemLineVisible WRITE setItemLineVisible NOTIFY itemLineVisibleChanged)
+    Q_PROPERTY(bool isItemLineLeftAlign READ isItemLineLeftAlign WRITE setItemLineLeftAlign NOTIFY itemLineLeftAlignChanged)
 
-    Q_PROPERTY(bool itemTriangleLeft READ itemTriangleLeft WRITE setItemTriangleLeft)
-    Q_PROPERTY(bool itemTriangleVisible READ itemTriangleVisible WRITE setItemTriangleVisible)
-    Q_PROPERTY(int itemTriangleWidth READ itemTriangleWidth WRITE setItemTriangleWidth)
-    Q_PROPERTY(QColor itemTriangleColor READ itemTriangleColor WRITE setItemTriangleColor)
+    Q_PROPERTY(int itemTriangleWidth READ itemTriangleWidth WRITE setItemTriangleWidth NOTIFY itemTriangleWidthChanged)
+    Q_PROPERTY(QColor itemTriangleColor READ itemTriangleColor WRITE setItemTriangleColor NOTIFY itemTriangleColorChanged)
+    Q_PROPERTY(bool isItemTriangleVisible READ isItemTriangleVisible WRITE setItemTriangleVisible NOTIFY itemTriangleVisibleChanged)
+    Q_PROPERTY(bool isItemTriangleLeftAlign READ isItemTriangleLeftAlign WRITE setItemTriangleLeftAlign NOTIFY itemTriangleLeftAlignChanged)
 
-    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor)
+    Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
 
-    Q_PROPERTY(int parentItemIconMargin READ parentItemIconMargin WRITE setParentItemIconMargin)
-    Q_PROPERTY(int parentItemMargin READ parentItemMargin WRITE setParentItemMargin)
-    Q_PROPERTY(int parentItemFontSize READ parentItemFontSize WRITE setParentItemFontSize)
-    Q_PROPERTY(int parentItemHeight READ parentItemHeight WRITE setParentItemHeight)
-    Q_PROPERTY(QColor parentItemNormalBackgroundColor READ parentItemNormalBackgroundColor WRITE setParentItemNormalBackgroundColor)
-    Q_PROPERTY(QColor parentItemCheckedBackgroundColor READ parentItemCheckedBackgroundColor WRITE setParentItemCheckedBackgroundColor)
-    Q_PROPERTY(QColor parentItemSelectedBackgroundColor READ parentItemSelectedBackgroundColor WRITE setParentItemSelectedBackgroundColor)
-    Q_PROPERTY(QColor parentItemHoverBackgroundColor READ parentItemHoverBackgroundColor WRITE setParentItemHoverBackgroundColor)
-    Q_PROPERTY(QColor parentItemNormalTextColor READ parentItemNormalTextColor WRITE setParentItemNormalTextColor)
-    Q_PROPERTY(QColor parentItemCheckedTextColor READ parentItemCheckedTextColor WRITE setParentItemCheckedTextColor)
-    Q_PROPERTY(QColor parentItemSelectedTextColor READ parentItemSelectedTextColor WRITE setParentItemSelectedTextColor)
-    Q_PROPERTY(QColor parentItemHoverTextColor READ parentItemHoverTextColor WRITE setParentItemHoverTextColor)
-
-    Q_PROPERTY(int childItemIconMargin READ childItemIconMargin WRITE setChildItemIconMargin)
-    Q_PROPERTY(int childItemMargin READ childItemMargin WRITE setChildItemMargin)
-    Q_PROPERTY(int childItemFontSize READ childItemFontSize WRITE setChildItemFontSize)
-    Q_PROPERTY(int childItemHeight READ childItemHeight WRITE setChildItemHeight)
-    Q_PROPERTY(QColor childItemNormalBackgroundColor READ childItemNormalBackgroundColor WRITE setChildItemNormalBackgroundColor)
-    Q_PROPERTY(QColor childItemCheckedBackgroundColor READ childItemCheckedBackgroundColor WRITE setChildItemBackgroundCheckedColor)
-    Q_PROPERTY(QColor childItemSelectedBackgroundColor READ childItemSelectedBackgroundColor WRITE setChildItemSelectedBackgroundColor)
-    Q_PROPERTY(QColor childItemHoverBackgroundColor READ childItemHoverBackgroundColor WRITE setChildItemHoverBackgroundColor)
-    Q_PROPERTY(QColor childItemNormalTextColor READ childItemNormalTextColor WRITE setChildItemNormalTextColor)
-    Q_PROPERTY(QColor childItemCheckedTextColor READ childItemCheckedTextColor WRITE setChildItemCheckedTextColor)
-    Q_PROPERTY(QColor childItemSelectedTextColor READ childItemSelectedTextColor WRITE setChildItemSelectedTextColor)
-    Q_PROPERTY(QColor childItemHoverTextColor READ childItemHoverTextColor WRITE setChildItemHoverTextColor)
-
-    Q_PROPERTY(ExpendMode m_expendMode READ expendMode WRITE setExpendMode)
+    Q_PROPERTY(ExpendMode expendMode READ expendMode WRITE setExpendMode NOTIFY expendModeChanged)
 
 public:
     enum ExpendMode
     {
         ExpendMode_SingleClick = 0,
-        ExpendMode_DoubleClick = 1,
-        ExpendMode_NoClick = 2,
+        ExpendMode_DoubleClick,
+        ExpendMode_NoClick,
     };
-    Q_ENUMS(ExpendMode)
+    Q_ENUM(ExpendMode)
 
-    explicit QEXTNavigationListView(QWidget *parent = QEXT_NULLPTR);
-    ~QEXTNavigationListView();
+    enum ItemState
+    {
+        ItemState_Selected = 0,
+        ItemState_Checked,
+        ItemState_Hovered,
+        ItemState_Normal
+    };
+    Q_ENUM(ItemState)
+    QEXT_STATIC_CONSTANT(int, ItemStateNum = 4);
+
+    explicit QExtNavigationListView(QWidget *parent = QEXT_NULLPTR);
+    ~QExtNavigationListView() QEXT_OVERRIDE;
 
     QListView *view() const;
-    QEXTNavigationListModel *model() const;
+    QExtNavigationListModel *model() const;
 
     QExtNavigationListItem * selectedItem() const;
     QExtNavigationListItem * checkedItem() const;
@@ -248,59 +231,68 @@ public:
     QList<QExtNavigationListItem *> parentItems() const;
     QList<QExtNavigationListItem *> visiableItems() const;
 
-    bool itemRightIconVisible() const;
-    bool itemTipVisible() const;
     int itemTipWidth() const;
+    bool isItemTipVisible() const;
 
-    bool itemSeparateVisible() const;
     int itemSeparateHeight() const;
     QColor itemSeparateColor() const;
+    bool isItemSeparateVisible() const;
 
-    bool itemLineLeft() const;
-    bool itemLineVisible() const;
     int itemLineWidth() const;
     QColor itemLineColor() const;
+    bool isItemLineVisible() const;
+    bool isItemLineLeftAlign() const;
 
-    bool itemTriangleLeft() const;
-    bool itemTriangleVisible() const;
     int itemTriangleWidth() const;
     QColor itemTriangleColor() const;
+    bool isItemTriangleVisible() const;
+    bool isItemTriangleLeftAlign() const;
 
     QColor backgroundColor() const;
+    QColor itemTextColor(bool isParent, ItemState state) const;
+    QColor itemBackgroundColor(bool isParent, ItemState state) const;
 
-    int parentItemIconMargin() const;
-    int parentItemMargin() const;
-    int parentItemFontSize() const;
-    int parentItemHeight() const;
-    QColor parentItemNormalBackgroundColor() const;
-    QColor parentItemCheckedBackgroundColor() const;
-    QColor parentItemSelectedBackgroundColor() const;
-    QColor parentItemHoverBackgroundColor() const;
-    QColor parentItemNormalTextColor() const;
-    QColor parentItemCheckedTextColor() const;
-    QColor parentItemSelectedTextColor() const;
-    QColor parentItemHoverTextColor() const;
-
-    int childItemIconMargin() const;
-    int childItemMargin() const;
-    int childItemFontSize() const;
-    int childItemHeight() const;
-    QColor childItemNormalBackgroundColor() const;
-    QColor childItemCheckedBackgroundColor() const;
-    QColor childItemSelectedBackgroundColor() const;
-    QColor childItemHoverBackgroundColor() const;
-    QColor childItemNormalTextColor() const;
-    QColor childItemCheckedTextColor() const;
-    QColor childItemSelectedTextColor() const;
-    QColor childItemHoverTextColor() const;
+    int itemHeight(bool isParent) const;
+    int itemMargin(bool isParent) const;
+    int itemFontSize(bool isParent) const;
+    int itemIconMargin(bool isParent) const;
 
     ExpendMode expendMode() const;
 
     QSize sizeHint() const QEXT_OVERRIDE;
     QSize minimumSizeHint() const QEXT_OVERRIDE;
 
+Q_SIGNALS:
+    void itemTipWidthChanged(int width);
+    void itemTipVisibleChanged(bool visible);
+
+    void itemSeparateHeightChanged(int height);
+    void itemSeparateVisibleChanged(bool visible);
+    void itemSeparateColorChanged(const QColor &color);
+
+    void itemLineWidthChanged(int width);
+    void itemLineVisibleChanged(bool visible);
+    void itemLineLeftAlignChanged(bool leftAlign);
+    void itemLineColorChanged(const QColor &color);
+
+    void itemTriangleWidthChanged(int width);
+    void itemTriangleVisibleChanged(bool visible);
+    void itemTriangleLeftAlignChanged(bool leftAlign);
+    void itemTriangleColorChanged(const QColor &color);
+
+    void itemMarginChanged(bool isParent, int margin);
+    void itemFontSizeChanged(bool isParent, int size);
+    void itemHeightChanged(bool isParent, int height);
+    void itemIconMarginChanged(bool isParent, int margin);
+
+    void backgroundColorChanged(const QColor &color);
+    void itemTextColorChanged(bool isParent, ItemState state, const QColor &color);
+    void itemBackgroundColorChanged(bool isParent, ItemState state, const QColor &color);
+
+    void expendModeChanged(ExpendMode mode);
+
 public Q_SLOTS:
-    void setModel(QEXTNavigationListModel *model);
+    void setModel(QExtNavigationListModel *model);
 
     QList<QExtNavigationListItem *> setItems(const QString &items);
     QList<QExtNavigationListItem *> setItems(const QStringList &items);
@@ -308,56 +300,36 @@ public Q_SLOTS:
 
     bool setCurrentRow(int row);
     bool setSelectedItem(QExtNavigationListItem *item);
-    void setItemRightIconVisible(bool visible);
 
-    void setItemTipVisible(bool visible);
     void setItemTipWidth(int width);
+    void setItemTipVisible(bool visible);
 
-    void setItemSeparateVisible(bool visible);
     void setItemSeparateHeight(int height);
+    void setItemSeparateVisible(bool visible);
     void setItemSeparateColor(const QColor &color);
 
-    void setItemLineLeft(bool inLeft);
-    void setItemLineVisible(bool visible);
     void setItemLineWidth(int width);
+    void setItemLineVisible(bool visible);
+    void setItemLineLeftAlign(bool leftAlign);
     void setItemLineColor(const QColor &color);
 
-    void setItemTriangleLeft(bool inLeft);
-    void setItemTriangleVisible(bool visible);
     void setItemTriangleWidth(int width);
+    void setItemTriangleVisible(bool visible);
+    void setItemTriangleLeftAlign(bool leftAlign);
     void setItemTriangleColor(const QColor &color);
 
+    void setItemMargin(bool isParent, int margin);
+    void setItemFontSize(bool isParent, int size);
+    void setItemHeight(bool isParent, int height);
+    void setItemIconMargin(bool isParent, int margin);
+
     void setBackgroundColor(const QColor &color);
+    void setItemTextColor(bool isParent, ItemState state, const QColor &color);
+    void setItemBackgroundColor(bool isParent, ItemState state, const QColor &color);
 
-    void setParentItemIconMargin(int margin);
-    void setParentItemMargin(int margin);
-    void setParentItemFontSize(int size);
-    void setParentItemHeight(int height);
-    void setParentItemNormalBackgroundColor(const QColor &color);
-    void setParentItemCheckedBackgroundColor(const QColor &color);
-    void setParentItemSelectedBackgroundColor(const QColor &color);
-    void setParentItemHoverBackgroundColor(const QColor &color);
-    void setParentItemNormalTextColor(const QColor &color);
-    void setParentItemCheckedTextColor(const QColor &color);
-    void setParentItemSelectedTextColor(const QColor &color);
-    void setParentItemHoverTextColor(const QColor &color);
+    void setExpendMode(ExpendMode mode);
 
-    void setChildItemIconMargin(int margin);
-    void setChildItemMargin(int margin);
-    void setChildItemFontSize(int size);
-    void setChildItemHeight(int height);
-    void setChildItemNormalBackgroundColor(const QColor &color);
-    void setChildItemBackgroundCheckedColor(const QColor &color);
-    void setChildItemSelectedBackgroundColor(const QColor &color);
-    void setChildItemHoverBackgroundColor(const QColor &color);
-    void setChildItemNormalTextColor(const QColor &color);
-    void setChildItemCheckedTextColor(const QColor &color);
-    void setChildItemSelectedTextColor(const QColor &color);
-    void setChildItemHoverTextColor(const QColor &color);
-
-    void setExpendMode(const ExpendMode &mode);
-
-signals:
+Q_SIGNALS:
     void itemPressed(QExtNavigationListItem *item);
     void checkedItemChanged(QExtNavigationListItem *item);
     void selectedItemChanged(QExtNavigationListItem *item);
@@ -365,14 +337,14 @@ signals:
 protected:
     void paintEvent(QPaintEvent *event) QEXT_OVERRIDE;
 
-    QScopedPointer<QEXTNavigationListViewPrivate> dd_ptr;
+    QScopedPointer<QExtNavigationListViewPrivate> dd_ptr;
 
 private Q_SLOTS:
     void onItemPressed(const QModelIndex &index);
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QEXTNavigationListView)
-    QEXT_DECL_PRIVATE_D(dd_ptr, QEXTNavigationListView)
+    QEXT_DISABLE_COPY_MOVE(QExtNavigationListView)
+    QEXT_DECL_PRIVATE_D(dd_ptr, QExtNavigationListView)
 };
 
 #endif // _QEXTNAVIGATIONLISTVIEW_H
