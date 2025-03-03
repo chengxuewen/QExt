@@ -1,4 +1,4 @@
-#include <private/qextStyleThemes_p.h>
+﻿#include <private/qextStyleThemes_p.h>
 
 #include <QMap>
 #include <QXmlStreamReader>
@@ -677,16 +677,20 @@ QStringList QExtStyleThemes::themes(const QString &style) const
     return themes;
 }
 
-QStringList QExtStyleThemes::styleThemes() const
+QStringList QExtStyleThemes::styleThemes(bool all) const
 {
     QStringList styleThemes;
     QStringList styles = this->styles();
     for (QStringList::ConstIterator stylesIter = styles.begin(); stylesIter != styles.end(); ++stylesIter)
     {
-        QStringList themes = this->themes(*stylesIter);
-        for (QStringList::ConstIterator themesIter = themes.begin(); themesIter != themes.end(); ++themesIter)
+        const QString style = *stylesIter;
+        if (all || "fluent" != style)
         {
-            styleThemes.append(QString("%1 %2").arg(*stylesIter).arg(*themesIter));
+            QStringList themes = this->themes(*stylesIter);
+            for (QStringList::ConstIterator themesIter = themes.begin(); themesIter != themes.end(); ++themesIter)
+            {
+                styleThemes.append(QString("%1 %2").arg(*stylesIter).arg(*themesIter));
+            }
         }
     }
     return styleThemes;
