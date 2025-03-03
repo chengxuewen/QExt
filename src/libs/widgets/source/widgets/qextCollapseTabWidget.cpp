@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -40,13 +40,20 @@
 QExtCollapseTabWidgetPrivate::QExtCollapseTabWidgetPrivate(QExtCollapseTabWidget *q)
     : q_ptr(q)
     , m_collapseIconDefaultRotationAngle(0)
-    , m_animationEnable(true)
+    , m_animationEnabled(false)
     , m_collapsed(false)
 {
 }
 
 QExtCollapseTabWidgetPrivate::~QExtCollapseTabWidgetPrivate()
 {
+}
+
+void QExtCollapseTabWidgetPrivate::setDuration()
+{
+    const int duration = m_animationEnabled ? ANIMATION_DURATION : 0;
+    m_sizeAnimation->setDuration(duration);
+    m_iconAnimation->rotationAnimation()->setDuration(duration);
 }
 
 int QExtCollapseTabWidgetPrivate::rotationAngle()
@@ -92,7 +99,8 @@ QRect QExtCollapseTabWidgetPrivate::collapseButtonRectFromTabPosition(QTabWidget
 }
 
 QExtCollapseTabWidget::QExtCollapseTabWidget(QWidget *parent)
-    : QTabWidget(parent), dd_ptr(new QExtCollapseTabWidgetPrivate(this))
+    : QTabWidget(parent)
+    , dd_ptr(new QExtCollapseTabWidgetPrivate(this))
 {
     Q_D(QExtCollapseTabWidget);
     /* init animation */
@@ -120,6 +128,8 @@ QExtCollapseTabWidget::QExtCollapseTabWidget(QWidget *parent)
 
     connect(d->m_collapseButton.data(), SIGNAL(pressed()), this, SLOT(onToolButtonClicked()));
     this->connectSignals();
+
+    d->setDuration();
 }
 
 QExtCollapseTabWidget::~QExtCollapseTabWidget()
@@ -132,10 +142,10 @@ bool QExtCollapseTabWidget::isPanelCollapsed() const
     return d->m_collapsed;
 }
 
-bool QExtCollapseTabWidget::isAnimationEnable() const
+bool QExtCollapseTabWidget::isAnimationEnabled() const
 {
     Q_D(const QExtCollapseTabWidget);
-    return d->m_sizeAnimation->duration() > 0;
+    return d->m_animationEnabled;
 }
 
 QIcon QExtCollapseTabWidget::panelCollapseIcon() const
@@ -208,12 +218,15 @@ void QExtCollapseTabWidget::setCollapseState(bool collapse)
     QTimer::singleShot(DOUBLE_CLICK_DELAY, this, SLOT(connectSignals()));
 }
 
-void QExtCollapseTabWidget::setAnimationEnable(bool enable)
+void QExtCollapseTabWidget::setAnimationEnable(bool enabled)
 {
     Q_D(QExtCollapseTabWidget);
-    const int duration = enable ? ANIMATION_DURATION : 0;
-    d->m_sizeAnimation->setDuration(duration);
-    d->m_iconAnimation->rotationAnimation()->setDuration(duration);
+    if (enabled != d->m_animationEnabled)
+    {
+        d->m_animationEnabled = enabled;
+        emit this->animationEnableChanged(enabled);
+        d->setDuration();
+    }
 }
 
 void QExtCollapseTabWidget::onTabBarClicked()

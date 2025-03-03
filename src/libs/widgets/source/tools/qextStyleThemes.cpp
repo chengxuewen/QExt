@@ -686,10 +686,10 @@ QStringList QExtStyleThemes::styleThemes(bool all) const
         const QString style = *stylesIter;
         if (all || "fluent" != style)
         {
-            QStringList themes = this->themes(*stylesIter);
+            QStringList themes = this->themes(style);
             for (QStringList::ConstIterator themesIter = themes.begin(); themesIter != themes.end(); ++themesIter)
             {
-                styleThemes.append(QString("%1 %2").arg(*stylesIter).arg(*themesIter));
+                styleThemes.append(QString("%1 %2").arg(style).arg(*themesIter));
             }
         }
     }
