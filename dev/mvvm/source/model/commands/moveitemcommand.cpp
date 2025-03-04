@@ -17,24 +17,24 @@
 using namespace ModelView;
 
 namespace {
-void check_input_data(const SessionItem* item, const SessionItem* parent);
-std::string generate_description(const TagRow& tagrow);
+void check_input_data(const QExtMvvmSessionItem* item, const QExtMvvmSessionItem* parent);
+std::string generate_description(const QExtMvvmTagRow& tagrow);
 } // namespace
 
-struct MoveItemCommand::MoveItemCommandImpl {
-    TagRow target_tagrow;
-    Path target_parent_path;
-    Path original_parent_path;
-    TagRow original_tagrow;
-    MoveItemCommandImpl(TagRow tagrow) : target_tagrow(std::move(tagrow))
+struct QExtMvvmMoveItemCommand::MoveItemCommandImpl {
+    QExtMvvmTagRow target_tagrow;
+    QExtMvvmPath target_parent_path;
+    QExtMvvmPath original_parent_path;
+    QExtMvvmTagRow original_tagrow;
+    MoveItemCommandImpl(QExtMvvmTagRow tagrow) : target_tagrow(std::move(tagrow))
     {
         if (target_tagrow.row < 0)
-            throw std::runtime_error("MoveItemCommand() -> Error. Uninitialized target row");
+            throw std::runtime_error("QExtMvvmMoveItemCommand() -> Error. Uninitialized target row");
     }
 };
 
-MoveItemCommand::MoveItemCommand(SessionItem* item, SessionItem* new_parent, TagRow tagrow)
-    : AbstractItemCommand(new_parent), p_impl(qextMakeUnique<MoveItemCommandImpl>(tagrow))
+QExtMvvmMoveItemCommand::QExtMvvmMoveItemCommand(QExtMvvmSessionItem* item, QExtMvvmSessionItem* new_parent, QExtMvvmTagRow tagrow)
+    : QExtMvvmAbstractItemCommand(new_parent), p_impl(qextMakeUnique<MoveItemCommandImpl>(tagrow))
 {
     setResult(true);
 
@@ -46,10 +46,10 @@ MoveItemCommand::MoveItemCommand(SessionItem* item, SessionItem* new_parent, Tag
     p_impl->original_tagrow = item->tagRow();
 
     if (Utils::IsSinglePropertyTag(*item->parent(), p_impl->original_tagrow.tag))
-        throw std::runtime_error("MoveItemCommand::MoveItemCommand() -> Single property tag.");
+        throw std::runtime_error("QExtMvvmMoveItemCommand::QExtMvvmMoveItemCommand() -> Single property tag.");
 
     if (Utils::IsSinglePropertyTag(*new_parent, p_impl->target_tagrow.tag))
-        throw std::runtime_error("MoveItemCommand::MoveItemCommand() -> Single property tag.");
+        throw std::runtime_error("QExtMvvmMoveItemCommand::QExtMvvmMoveItemCommand() -> Single property tag.");
 
     if (item->parent() == new_parent) {
         if (p_impl->target_tagrow.row >= new_parent->itemCount(p_impl->target_tagrow.tag))
@@ -58,9 +58,9 @@ MoveItemCommand::MoveItemCommand(SessionItem* item, SessionItem* new_parent, Tag
     }
 }
 
-MoveItemCommand::~MoveItemCommand() = default;
+QExtMvvmMoveItemCommand::~QExtMvvmMoveItemCommand() = default;
 
-void MoveItemCommand::undo_command()
+void QExtMvvmMoveItemCommand::undo_command()
 {
     // first find items
     auto current_parent = itemFromPath(p_impl->target_parent_path);
@@ -75,7 +75,7 @@ void MoveItemCommand::undo_command()
     p_impl->original_parent_path = pathFromItem(target_parent);
 }
 
-void MoveItemCommand::execute_command()
+void QExtMvvmMoveItemCommand::execute_command()
 {
     // first find items
     auto original_parent = itemFromPath(p_impl->original_parent_path);
@@ -85,10 +85,10 @@ void MoveItemCommand::execute_command()
     auto taken = original_parent->takeItem(p_impl->original_tagrow);
 
     if (!taken)
-        throw std::runtime_error("MoveItemCommand::execute() -> Can't take an item.");
+        throw std::runtime_error("QExtMvvmMoveItemCommand::execute() -> Can't take an item.");
 
     if (!target_parent->insertItem(std::move(taken), p_impl->target_tagrow))
-        throw std::runtime_error("MoveItemCommand::execute() -> Can't insert item.");
+        throw std::runtime_error("QExtMvvmMoveItemCommand::execute() -> Can't insert item.");
 
     // adjusting new addresses
     p_impl->target_parent_path = pathFromItem(target_parent);
@@ -96,24 +96,24 @@ void MoveItemCommand::execute_command()
 }
 
 namespace {
-void check_input_data(const SessionItem* item, const SessionItem* parent)
+void check_input_data(const QExtMvvmSessionItem* item, const QExtMvvmSessionItem* parent)
 {
     if (!item || !item->model())
-        throw std::runtime_error("MoveItemCommand::MoveItemCommand() -> Invalid input item");
+        throw std::runtime_error("QExtMvvmMoveItemCommand::QExtMvvmMoveItemCommand() -> Invalid input item");
 
     if (!parent || !parent->model())
-        throw std::runtime_error("MoveItemCommand::MoveItemCommand() -> Invalid parent item");
+        throw std::runtime_error("QExtMvvmMoveItemCommand::QExtMvvmMoveItemCommand() -> Invalid parent item");
 
     if (item->model() != parent->model())
         throw std::runtime_error(
-            "MoveItemCommand::MoveItemCommand() -> Items belong to different models");
+            "QExtMvvmMoveItemCommand::QExtMvvmMoveItemCommand() -> Items belong to different models");
 
     if (!item->parent())
         throw std::runtime_error(
-            "MoveItemCommand::MoveItemCommand() -> Item doesn't have a parent");
+            "QExtMvvmMoveItemCommand::QExtMvvmMoveItemCommand() -> Item doesn't have a parent");
 }
 
-std::string generate_description(const TagRow& tagrow)
+std::string generate_description(const QExtMvvmTagRow& tagrow)
 {
     std::ostringstream ostr;
     ostr << "Move item to tag '" << tagrow.tag << "', row:" << tagrow.row;

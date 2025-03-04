@@ -19,11 +19,11 @@ using namespace ModelView;
 
 namespace FlatEditor {
 
-DemoWidget::DemoWidget(SessionModel* model, QWidget* parent)
+DemoWidget::DemoWidget(QExtMvvmSessionModel* model, QWidget* parent)
     : QWidget(parent)
     , m_default_tree_view(new AllItemsTreeView(model))
-    , m_property_tree_view(new PropertyTreeView)
-    , m_property_flat_view(new PropertyFlatView)
+    , m_property_tree_view(new QExtMvvmPropertyTreeView)
+    , m_property_flat_view(new QExtMvvmPropertyFlatView)
     , m_sessio_model(model)
 {
 
@@ -43,7 +43,7 @@ DemoWidget::~DemoWidget() = default;
 void DemoWidget::connectViews()
 {
     // select items in other views when selection in m_defaultTreeView has changed
-    auto on_item_selected = [this](SessionItem* item) {
+    auto on_item_selected = [this](QExtMvvmSessionItem* item) {
         m_property_tree_view->setItem(item);
         m_property_flat_view->setItem(item);
     };

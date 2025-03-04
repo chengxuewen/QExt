@@ -11,7 +11,7 @@
 #include "model/model/sessionitem.h"
 #include "model/signals/itemmapper.h"
 
-ModelView::ItemListenerBase::ItemListenerBase(ModelView::SessionItem* item)
+ModelView::ItemListenerBase::ItemListenerBase(ModelView::QExtMvvmSessionItem* item)
 {
     setItem(item);
 }
@@ -22,7 +22,7 @@ ModelView::ItemListenerBase::~ItemListenerBase()
         m_item->mapper()->unsubscribe(this);
 }
 
-void ModelView::ItemListenerBase::setItem(ModelView::SessionItem* item)
+void ModelView::ItemListenerBase::setItem(ModelView::QExtMvvmSessionItem* item)
 {
     if (m_item == item)
         return;
@@ -34,7 +34,7 @@ void ModelView::ItemListenerBase::setItem(ModelView::SessionItem* item)
     if (!m_item)
         return;
 
-    auto on_item_destroy = [this](SessionItem*) {
+    auto on_item_destroy = [this](QExtMvvmSessionItem*) {
         m_item = nullptr;
         unsubscribe();
     };
@@ -49,7 +49,7 @@ void ModelView::ItemListenerBase::setOnItemDestroy(ModelView::Callbacks::item_t 
 }
 
 //! Sets callback to be notified on item's data change.
-//! Callback will be called with (SessionItem*, data_role).
+//! Callback will be called with (QExtMvvmSessionItem*, data_role).
 
 void ModelView::ItemListenerBase::setOnDataChange(ModelView::Callbacks::item_int_t f)
 {
@@ -104,7 +104,7 @@ void ModelView::ItemListenerBase::setOnAboutToRemoveItem(ModelView::Callbacks::i
 //! tag, the signal will be triggered on layer deletion with
 //! (multilayer*, {T_LAYER, row}) as callback parameters.
 
-ModelView::SessionItem* ModelView::ItemListenerBase::item() const
+ModelView::QExtMvvmSessionItem* ModelView::ItemListenerBase::item() const
 {
     return m_item;
 }

@@ -16,7 +16,7 @@ namespace GraphicsProxy {
 
 //! Main application model with data for graphics scene.
 
-class SceneModel : public ModelView::SessionModel {
+class SceneModel : public ModelView::QExtMvvmSessionModel {
 public:
     SceneModel();
 

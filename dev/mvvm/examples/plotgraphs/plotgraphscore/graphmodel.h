@@ -13,17 +13,17 @@
 #include "model/model/sessionmodel.h"
 
 namespace ModelView {
-class GraphViewportItem;
-class ContainerItem;
+class QExtMvvmGraphViewportItem;
+class QExtMvvmContainerItem;
 } // namespace ModelView
 
 namespace PlotGraphs {
 
 //! Main application model to demonstrate how to plot data.
-//! Contains few Data1DItem's, GraphItem's and ViewPortItem. Provides functionality to easily
+//! Contains few QExtMvvmData1DItem's, QExtMvvmGraphItem's and ViewPortItem. Provides functionality to easily
 //! add and remove graphs.
 
-class GraphModel : public ModelView::SessionModel {
+class GraphModel : public ModelView::QExtMvvmSessionModel {
 public:
     GraphModel();
 
@@ -38,8 +38,8 @@ public:
     void redo();
 
 private:
-    ModelView::GraphViewportItem* viewport();
-    ModelView::ContainerItem* dataContainer();
+    ModelView::QExtMvvmGraphViewportItem* viewport();
+    ModelView::QExtMvvmContainerItem* dataContainer();
 
     void populateModel();
 };

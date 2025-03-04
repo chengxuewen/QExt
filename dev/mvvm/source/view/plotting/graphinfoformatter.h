@@ -20,7 +20,7 @@ namespace ModelView {
 //! Includes coordinates of mouse pointer in viewport axes coordinates, add graph info if there is
 //! one nearby.
 
-class QEXT_MVVM_API GraphInfoFormatter : public StatusStringFormatterInterface {
+class QEXT_MVVM_API QExtMvvmGraphInfoFormatter : public QExtMvvmStatusStringFormatterInterface {
 public:
     //! Returns status string representing graph nearby.
     //! @params x: mouse x-position given in axis viewport coordinates

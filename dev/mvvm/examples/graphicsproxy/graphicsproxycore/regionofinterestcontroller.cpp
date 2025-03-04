@@ -17,13 +17,13 @@ using namespace ModelView;
 namespace GraphicsProxy {
 
 struct RegionOfInterestController::RegionOfInterestControllerImpl {
-    const SceneAdapterInterface* m_sceneAdapter{nullptr};
+    const QExtMvvmSceneAdapterInterface* m_sceneAdapter{nullptr};
     RegionOfInterestItem* m_item{nullptr};
     RegionOfInterestView* m_view{nullptr};
     bool m_blockOnPropertyChanged{false};
     QRectF m_roiRectangle;
 
-    RegionOfInterestControllerImpl(const ModelView::SceneAdapterInterface* scene_adapter,
+    RegionOfInterestControllerImpl(const ModelView::QExtMvvmSceneAdapterInterface* scene_adapter,
                                    RegionOfInterestItem* item, RegionOfInterestView* view)
         : m_sceneAdapter(scene_adapter), m_item(item), m_view(view)
     {
@@ -98,7 +98,7 @@ struct RegionOfInterestController::RegionOfInterestControllerImpl {
 };
 
 RegionOfInterestController::RegionOfInterestController(
-    const ModelView::SceneAdapterInterface* scene_adapter, RegionOfInterestItem* item,
+    const ModelView::QExtMvvmSceneAdapterInterface* scene_adapter, RegionOfInterestItem* item,
     RegionOfInterestView* view)
     : p_impl(qextMakeUnique<RegionOfInterestControllerImpl>(scene_adapter, item, view))
 {
@@ -150,7 +150,7 @@ void RegionOfInterestController::updateItemFromHorizontalHandle(double left, dou
 
 void RegionOfInterestController::subscribe()
 {
-    auto on_property_change = [this](SessionItem*, std::string) {
+    auto on_property_change = [this](QExtMvvmSessionItem*, std::string) {
         if (p_impl->m_blockOnPropertyChanged)
             return;
 

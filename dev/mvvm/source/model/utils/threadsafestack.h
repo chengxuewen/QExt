@@ -10,7 +10,7 @@
 #ifndef MVVM_UTILS_THREADSAFESTACK_H
 #define MVVM_UTILS_THREADSAFESTACK_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <atomic>
 #include <condition_variable>
 #include <memory>

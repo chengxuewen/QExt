@@ -18,33 +18,33 @@
 
 namespace ModelView {
 
-//! Complex item holding mixed SessionItem types (single properties and other CompountItems).
+//! Complex item holding mixed QExtMvvmSessionItem types (single properties and other CompountItems).
 
-class QEXT_MVVM_API CompoundItem : public SessionItem {
+class QEXT_MVVM_API QExtMvvmCompoundItem : public QExtMvvmSessionItem {
 public:
-    CompoundItem(const std::string& modelType = Constants::CompoundItemType);
+    QExtMvvmCompoundItem(const std::string& modelType = Constants::CompoundItemType);
 
     //! Adds property item of given type and register it under the given 'name'.
-    template <typename T = PropertyItem> T* addProperty(const std::string& name);
+    template <typename T = QExtMvvmPropertyItem> T* addProperty(const std::string& name);
 
-    //! Adds PropertyItem and sets its value to 'value'.
-    template <typename V> PropertyItem* addProperty(const std::string& name, const V& value);
+    //! Adds QExtMvvmPropertyItem and sets its value to 'value'.
+    template <typename V> QExtMvvmPropertyItem* addProperty(const std::string& name, const V& value);
 
     //! Register char property. Special case to turn it into std::string.
-    PropertyItem* addProperty(const std::string& name, const char* value);
+    QExtMvvmPropertyItem* addProperty(const std::string& name, const char* value);
 
     std::string displayName() const override;
 };
 
-template <typename T> T* CompoundItem::addProperty(const std::string& name)
+template <typename T> T* QExtMvvmCompoundItem::addProperty(const std::string& name)
 {
-    registerTag(TagInfo::propertyTag(name, T().modelType()));
+    registerTag(QExtMvvmTagInfo::propertyTag(name, T().modelType()));
     auto result = insertItem<T>({name, 0});
     result->setDisplayName(name);
     return result;
 }
 
-inline PropertyItem* CompoundItem::addProperty(const std::string& name, const char* value)
+inline QExtMvvmPropertyItem* QExtMvvmCompoundItem::addProperty(const std::string& name, const char* value)
 {
     // Consider merging with the method ::addProperty(const std::string& name, const V& value).
     // Currently it is not possible because of QVariant dependency. It converts 'const char*'
@@ -53,12 +53,12 @@ inline PropertyItem* CompoundItem::addProperty(const std::string& name, const ch
 }
 
 template <typename V>
-PropertyItem* CompoundItem::addProperty(const std::string& name, const V& value)
+QExtMvvmPropertyItem* QExtMvvmCompoundItem::addProperty(const std::string& name, const V& value)
 {
-    auto property = addProperty<PropertyItem>(name);
+    auto property = addProperty<QExtMvvmPropertyItem>(name);
     property->setData(value);
     if constexpr (std::is_floating_point<V>::value)
-        property->setData(RealLimits::limitless(), ItemDataRole::LIMITS);
+        property->setData(QExtMvvmRealLimits::limitless(), ItemDataRole::LIMITS);
     return property;
 }
 

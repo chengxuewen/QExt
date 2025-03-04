@@ -10,25 +10,25 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODELBASE_H
 #define MVVM_VIEWMODEL_VIEWMODELBASE_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QAbstractItemModel>
 #include <memory>
 
 namespace ModelView {
 
-class ViewItem;
+class QExtMvvmViewItem;
 
-//! Base class for all view models to show content of SessionModel in Qt views.
-//! ViewModelBase is made of ViewItems, where each ViewItem represents some concrete data role
-//! of SessionItem. ViewModelBase doesn't have own logic and needs ViewModelController to listen
-//! for SessionModel changes.
+//! Base class for all view models to show content of QExtMvvmSessionModel in Qt views.
+//! QExtMvvmViewModelBase is made of ViewItems, where each QExtMvvmViewItem represents some concrete data role
+//! of QExtMvvmSessionItem. QExtMvvmViewModelBase doesn't have own logic and needs QExtMvvmViewModelController to listen
+//! for QExtMvvmSessionModel changes.
 
-class QEXT_MVVM_API ViewModelBase : public QAbstractItemModel {
+class QEXT_MVVM_API QExtMvvmViewModelBase : public QAbstractItemModel {
     Q_OBJECT
 
 public:
-    explicit ViewModelBase(QObject* parent = nullptr);
-    ~ViewModelBase() override;
+    explicit QExtMvvmViewModelBase(QObject* parent = nullptr);
+    ~QExtMvvmViewModelBase() override;
 
     QModelIndex index(int row, int column,
                       const QModelIndex& parent = QModelIndex()) const override;
@@ -43,25 +43,25 @@ public:
 
     bool setData(const QModelIndex& index, const QVariant& value, int role) override;
 
-    ViewItem* rootItem() const;
+    QExtMvvmViewItem* rootItem() const;
 
-    ViewItem* itemFromIndex(const QModelIndex& index) const;
+    QExtMvvmViewItem* itemFromIndex(const QModelIndex& index) const;
 
-    QModelIndex indexFromItem(const ViewItem* item) const;
+    QModelIndex indexFromItem(const QExtMvvmViewItem* item) const;
 
-    void removeRow(ViewItem* parent, int row);
+    void removeRow(QExtMvvmViewItem* parent, int row);
 
-    void clearRows(ViewItem* parent);
+    void clearRows(QExtMvvmViewItem* parent);
 
-    virtual void insertRow(ViewItem* parent, int row, std::vector<QExtUniquePointer<ViewItem>> items);
+    virtual void insertRow(QExtMvvmViewItem* parent, int row, std::vector<QExtUniquePointer<QExtMvvmViewItem>> items);
 
-    void appendRow(ViewItem* parent, std::vector<QExtUniquePointer<ViewItem>> items);
+    void appendRow(QExtMvvmViewItem* parent, std::vector<QExtUniquePointer<QExtMvvmViewItem>> items);
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
 private:
-    void setRootViewItem(QExtUniquePointer<ViewItem> root_item);
-    friend class ViewModelController;
+    void setRootViewItem(QExtUniquePointer<QExtMvvmViewItem> root_item);
+    friend class QExtMvvmViewModelController;
     struct ViewModelBaseImpl;
     QExtUniquePointer<ViewModelBaseImpl> p_impl;
 };

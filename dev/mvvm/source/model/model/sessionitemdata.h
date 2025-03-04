@@ -11,23 +11,23 @@
 #define MVVM_MODEL_SESSIONITEMDATA_H
 
 #include "model/model/datarole.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <vector>
 
 namespace ModelView {
 
-//! Handles data roles for SessionItem.
+//! Handles data roles for QExtMvvmSessionItem.
 
-class QEXT_MVVM_API SessionItemData {
+class QEXT_MVVM_API QExtMvvmSessionItemData {
 public:
-    using container_type = std::vector<DataRole>;
+    using container_type = std::vector<QExtMvvmDataRole>;
     using const_iterator = container_type::const_iterator;
 
     std::vector<int> roles() const;
 
-    Variant data(int role) const;
+    QVariant data(int role) const;
 
-    bool setData(const Variant& value, int role);
+    bool setData(const QVariant& value, int role);
 
     const_iterator begin() const;
     const_iterator end() const;
@@ -35,7 +35,7 @@ public:
     bool hasData(int role) const;
 
 private:
-    void assure_validity(const Variant& variant, int role);
+    void assure_validity(const QVariant& variant, int role);
     container_type m_values;
 };
 

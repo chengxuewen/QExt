@@ -10,7 +10,7 @@
 #ifndef MVVM_WIDGETS_STATUSLABEL_H
 #define MVVM_WIDGETS_STATUSLABEL_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QFrame>
 
 class QPaintEvent;
@@ -21,11 +21,11 @@ namespace ModelView {
 //! Opposite to QLabel, doesn't trigger layout resize, being happy with place it has. If text string
 //! is too long for current size, it will be clipped.
 
-class QEXT_MVVM_API StatusLabel : public QFrame {
+class QEXT_MVVM_API QExtMvvmStatusLabel : public QFrame {
     Q_OBJECT
 
 public:
-    explicit StatusLabel(QWidget* parent = nullptr);
+    explicit QExtMvvmStatusLabel(QWidget* parent = nullptr);
 
     void setText(const QString& text);
     void setFont(const QFont& font);

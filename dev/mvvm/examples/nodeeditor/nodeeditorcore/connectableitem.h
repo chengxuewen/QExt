@@ -19,7 +19,7 @@ namespace NodeEditor {
 
 //! Base class for all node editor items.
 
-class ConnectableItem : public ModelView::CompoundItem {
+class ConnectableItem : public ModelView::QExtMvvmCompoundItem {
 public:
     static inline const std::string P_XPOS = "P_XPOS";
     static inline const std::string P_YPOS = "P_YPOS";

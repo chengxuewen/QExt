@@ -19,15 +19,15 @@ const bool succeeded = true;
 const bool failed = false;
 } // namespace
 
-struct ProjectManagerDecorator::ProjectManagerImpl {
-    ProjectContext m_project_context;
-    UserInteractionContext m_user_context;
-    QExtUniquePointer<ProjectManager> project_manager;
+struct QExtMvvmProjectManagerDecorator::ProjectManagerImpl {
+    QExtMvvmProjectContext m_project_context;
+    QExtMvvmUserInteractionContext m_user_context;
+    QExtUniquePointer<QExtMvvmProjectManager> project_manager;
 
-    ProjectManagerImpl(ProjectContext project_context, UserInteractionContext user_context)
+    ProjectManagerImpl(QExtMvvmProjectContext project_context, QExtMvvmUserInteractionContext user_context)
         : m_project_context(std::move(project_context)), m_user_context(std::move(user_context))
     {
-        project_manager = qextMakeUnique<ProjectManager>(m_project_context);
+        project_manager = qextMakeUnique<QExtMvvmProjectManager>(m_project_context);
     }
 
     //! Returns true if the project has directory already defined.
@@ -61,25 +61,25 @@ struct ProjectManagerDecorator::ProjectManagerImpl {
     {
         if (isModified()) {
             switch (acquireSaveChangesAnswer()) {
-            case SaveChangesAnswer::SAVE:
+            case QExtMvvmSaveChangesAnswer::SAVE:
                 return saveCurrentProject();
-            case SaveChangesAnswer::CANCEL:
+            case QExtMvvmSaveChangesAnswer::CANCEL:
                 return failed; // saving was interrupted by the 'cancel' button
-            case SaveChangesAnswer::DISCARD:
+            case QExtMvvmSaveChangesAnswer::DISCARD:
                 project_manager->closeCurrentProject();
                 return succeeded;
             default:
-                throw std::runtime_error("Error in ProjectManager: unexpected answer.");
+                throw std::runtime_error("Error in QExtMvvmProjectManager: unexpected answer.");
             }
         }
         return succeeded;
     }
 
     //! Asks the user whether to save/cancel/discard the project using callback provided.
-    SaveChangesAnswer acquireSaveChangesAnswer() const
+    QExtMvvmSaveChangesAnswer acquireSaveChangesAnswer() const
     {
         if (!m_user_context.m_answer_callback)
-            throw std::runtime_error("Error in ProjectManager: absent save_callback");
+            throw std::runtime_error("Error in QExtMvvmProjectManager: absent save_callback");
         return m_user_context.m_answer_callback();
     }
 
@@ -87,7 +87,7 @@ struct ProjectManagerDecorator::ProjectManagerImpl {
     std::string acquireNewProjectDir()
     {
         if (!m_user_context.m_create_dir_callback)
-            throw std::runtime_error("Error in ProjectManager: absent creat_dir callback.");
+            throw std::runtime_error("Error in QExtMvvmProjectManager: absent creat_dir callback.");
         return m_user_context.m_create_dir_callback();
     }
 
@@ -95,20 +95,20 @@ struct ProjectManagerDecorator::ProjectManagerImpl {
     std::string acquireExistingProjectDir()
     {
         if (!m_user_context.m_select_dir_callback)
-            throw std::runtime_error("Error in ProjectManager: absent open_dir callback.");
+            throw std::runtime_error("Error in QExtMvvmProjectManager: absent open_dir callback.");
         return m_user_context.m_select_dir_callback();
     }
 };
 
-//! Constructor for ProjectManagerDecorator.
+//! Constructor for QExtMvvmProjectManagerDecorator.
 
-ProjectManagerDecorator::ProjectManagerDecorator(const ProjectContext& project_context,
-                                                 const UserInteractionContext& user_context)
+QExtMvvmProjectManagerDecorator::QExtMvvmProjectManagerDecorator(const QExtMvvmProjectContext& project_context,
+                                                 const QExtMvvmUserInteractionContext& user_context)
     : p_impl(qextMakeUnique<ProjectManagerImpl>(project_context, user_context))
 {
 }
 
-ProjectManagerDecorator::~ProjectManagerDecorator() = default;
+QExtMvvmProjectManagerDecorator::~QExtMvvmProjectManagerDecorator() = default;
 
 //! Creates a new project in the directory 'dirname', returns 'true' in the case of success.
 //! The directory should exist.
@@ -116,7 +116,7 @@ ProjectManagerDecorator::~ProjectManagerDecorator() = default;
 //! If current project is in unsaved state, will perform 'save-before-closing' procedure before
 //! proceeding further.
 
-bool ProjectManagerDecorator::createNewProject(const std::string& dirname)
+bool QExtMvvmProjectManagerDecorator::createNewProject(const std::string& dirname)
 {
     if (!p_impl->saveBeforeClosing())
         return failed;
@@ -130,7 +130,7 @@ bool ProjectManagerDecorator::createNewProject(const std::string& dirname)
 //! The project should have a project directory defined, if it is not the case, it will
 //! launch the procedure of directory selection using callback provided.
 
-bool ProjectManagerDecorator::saveCurrentProject()
+bool QExtMvvmProjectManagerDecorator::saveCurrentProject()
 {
     return p_impl->saveCurrentProject();
 }
@@ -139,7 +139,7 @@ bool ProjectManagerDecorator::saveCurrentProject()
 //! The directory should exist already. If provided 'dirname' variable is empty,
 //! it will acquire a new project directory using dialog provided.
 
-bool ProjectManagerDecorator::saveProjectAs(const std::string& dirname)
+bool QExtMvvmProjectManagerDecorator::saveProjectAs(const std::string& dirname)
 {
     auto project_dir = dirname.empty() ? p_impl->acquireNewProjectDir() : dirname;
     // empty project_dir variable denotes 'cancel' during directory creation dialog
@@ -151,7 +151,7 @@ bool ProjectManagerDecorator::saveProjectAs(const std::string& dirname)
 //! If current project is in unsaved state, it will perform 'save-before-closing' procedure before
 //! proceeding further.
 
-bool ProjectManagerDecorator::openExistingProject(const std::string& dirname)
+bool QExtMvvmProjectManagerDecorator::openExistingProject(const std::string& dirname)
 {
     if (!p_impl->saveBeforeClosing())
         return failed;
@@ -162,14 +162,14 @@ bool ProjectManagerDecorator::openExistingProject(const std::string& dirname)
 
 //! Returns current project directory.
 
-std::string ProjectManagerDecorator::currentProjectDir() const
+std::string QExtMvvmProjectManagerDecorator::currentProjectDir() const
 {
     return p_impl->currentProjectDir();
 }
 
 //! Returns true if project was modified since last save.
 
-bool ProjectManagerDecorator::isModified() const
+bool QExtMvvmProjectManagerDecorator::isModified() const
 {
     return p_impl->isModified();
 }
@@ -178,7 +178,7 @@ bool ProjectManagerDecorator::isModified() const
 //! Will show the dialog, via callback provided, asking the user whether to save/discard/cancel.
 //! Returns 'false' only if user has selected 'cancel' button.
 
-bool ProjectManagerDecorator::closeCurrentProject() const
+bool QExtMvvmProjectManagerDecorator::closeCurrentProject() const
 {
     if (!p_impl->saveBeforeClosing())
         return failed;

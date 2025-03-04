@@ -12,25 +12,25 @@
 
 using namespace ModelView;
 
-QExtUniquePointer<ItemCatalogue> ModelView::CreateStandardItemCatalogue()
+QExtUniquePointer<QExtMvvmItemCatalogue> ModelView::qextMvvmCreateStandardItemCatalogue()
 {
-    auto result = qextMakeUnique<ItemCatalogue>();
-    result->registerItem<ColorMapItem>();
-    result->registerItem<ColorMapViewportItem>();
-    result->registerItem<CompoundItem>();
-    result->registerItem<ContainerItem>();
-    result->registerItem<Data1DItem>();
-    result->registerItem<Data2DItem>();
-    result->registerItem<FixedBinAxisItem>();
-    result->registerItem<GraphItem>();
-    result->registerItem<GraphViewportItem>();
-    result->registerItem<LinkedItem>();
-    result->registerItem<PenItem>();
-    result->registerItem<PointwiseAxisItem>();
-    result->registerItem<PropertyItem>();
-    result->registerItem<SessionItem>();
-    result->registerItem<TextItem>();
-    result->registerItem<VectorItem>();
-    result->registerItem<ViewportAxisItem>();
+    auto result = qextMakeUnique<QExtMvvmItemCatalogue>();
+    result->registerItem<QExtMvvmColorMapItem>();
+    result->registerItem<QExtMvvmColorMapViewportItem>();
+    result->registerItem<QExtMvvmCompoundItem>();
+    result->registerItem<QExtMvvmContainerItem>();
+    result->registerItem<QExtMvvmData1DItem>();
+    result->registerItem<QExtMvvmData2DItem>();
+    result->registerItem<QExtMvvmFixedBinAxisItem>();
+    result->registerItem<QExtMvvmGraphItem>();
+    result->registerItem<QExtMvvmGraphViewportItem>();
+    result->registerItem<QExtMvvmLinkedItem>();
+    result->registerItem<QExtMvvmPenItem>();
+    result->registerItem<QExtMvvmPointwiseAxisItem>();
+    result->registerItem<QExtMvvmPropertyItem>();
+    result->registerItem<QExtMvvmSessionItem>();
+    result->registerItem<QExtMvvmTextItem>();
+    result->registerItem<QExtMvvmVectorItem>();
+    result->registerItem<QExtMvvmViewportAxisItem>();
     return result;
 }

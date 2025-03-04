@@ -21,22 +21,22 @@
 
 using namespace ModelView;
 
-struct Project::ProjectImpl {
+struct QExtMvvmProject::ProjectImpl {
     std::string m_project_dir;
-    ProjectContext m_context;
-    ProjectChangedController m_change_controller;
+    QExtMvvmProjectContext m_context;
+    QExtMvvmProjectChangedController m_change_controller;
 
-    ProjectImpl(const ProjectContext& context)
+    ProjectImpl(const QExtMvvmProjectContext& context)
         : m_context(context)
         , m_change_controller(context.m_models_callback(), context.m_modified_callback)
     {
     }
 
     //! Returns list of models which are subject to save/load.
-    std::vector<SessionModel*> models() const { return m_context.m_models_callback(); }
+    std::vector<QExtMvvmSessionModel*> models() const { return m_context.m_models_callback(); }
 
     //! Processes all models one by one and either save or load them to/from given directory.
-    //! Template parameter `method` specifies ModelDocumentInterface's method to use.
+    //! Template parameter `method` specifies QExtMvvmModelDocumentInterface's method to use.
     template <typename T>
     bool process(const std::string& dirname, T method)
     {
@@ -44,7 +44,7 @@ struct Project::ProjectImpl {
             return false;
 
         for (auto model : models()) {
-            auto document = CreateJsonDocument({model});
+            auto document = qextMvvmCreateJsonDocument({model});
             auto filename = Utils::join(dirname, ProjectUtils::SuggestFileName(*model));
             // qextInvoke(method, document, filename);
             ((*document.get()).*method)(dirname);
@@ -56,14 +56,14 @@ struct Project::ProjectImpl {
     }
 };
 
-Project::Project(const ProjectContext& context) : p_impl(qextMakeUnique<ProjectImpl>(context)) {}
+QExtMvvmProject::QExtMvvmProject(const QExtMvvmProjectContext& context) : p_impl(qextMakeUnique<ProjectImpl>(context)) {}
 
-Project::~Project() = default;
+QExtMvvmProject::~QExtMvvmProject() = default;
 
 //! Returns the full path to a project directory. It is a name where the project has been last time
 //! saved, or loaded from.
 
-std::string Project::projectDir() const
+std::string QExtMvvmProject::projectDir() const
 {
     return p_impl->m_project_dir;
 }
@@ -71,18 +71,18 @@ std::string Project::projectDir() const
 //! Saves all models to a given directory. Directory should exist.
 //! Provided name will become 'projectDir'.
 
-bool Project::save(const std::string& dirname) const
+bool QExtMvvmProject::save(const std::string& dirname) const
 {
-    return p_impl->process(dirname, &ModelDocumentInterface::save);
+    return p_impl->process(dirname, &QExtMvvmModelDocumentInterface::save);
 }
 
 //! Loads all models from the given directory.
-bool Project::load(const std::string& dirname)
+bool QExtMvvmProject::load(const std::string& dirname)
 {
-    return p_impl->process(dirname, &ModelDocumentInterface::load);
+    return p_impl->process(dirname, &QExtMvvmModelDocumentInterface::load);
 }
 
-bool Project::isModified() const
+bool QExtMvvmProject::isModified() const
 {
     return p_impl->m_change_controller.hasChanged();
 }

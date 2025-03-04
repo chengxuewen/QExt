@@ -22,24 +22,24 @@
 
 using namespace ModelView;
 
-struct PropertyFlatView::PropertyFlatViewImpl {
-    QExtUniquePointer<ViewModel> view_model;
-    QExtUniquePointer<ViewModelDelegate> m_delegate;
-    QExtUniquePointer<DefaultEditorFactory> editor_factory;
+struct QExtMvvmPropertyFlatView::PropertyFlatViewImpl {
+    QExtUniquePointer<QExtMvvmViewModel> view_model;
+    QExtUniquePointer<QExtMvvmViewModelDelegate> m_delegate;
+    QExtUniquePointer<QExtMvvmDefaultEditorFactory> editor_factory;
     std::vector<QExtUniquePointer<QDataWidgetMapper>> widget_mappers;
-    std::map<ViewItem*, QWidget*> item_to_widget;
+    std::map<QExtMvvmViewItem*, QWidget*> item_to_widget;
 
     QGridLayout* grid_layout{nullptr};
     PropertyFlatViewImpl()
-        : m_delegate(qextMakeUnique<ViewModelDelegate>())
-        , editor_factory(qextMakeUnique<DefaultEditorFactory>())
+        : m_delegate(qextMakeUnique<QExtMvvmViewModelDelegate>())
+        , editor_factory(qextMakeUnique<QExtMvvmDefaultEditorFactory>())
         , grid_layout(new QGridLayout)
     {
     }
 
     //! Creates label for given index.
 
-    QExtUniquePointer<QLabel> create_label(ViewItem* view_item)
+    QExtUniquePointer<QLabel> create_label(QExtMvvmViewItem* view_item)
     {
         auto result = qextMakeUnique<QLabel>(view_item->data(Qt::DisplayRole).toString());
         result->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
@@ -49,12 +49,12 @@ struct PropertyFlatView::PropertyFlatViewImpl {
 
     //! Creates custom editor for given index.
 
-    QExtUniquePointer<CustomEditor> create_editor(const QModelIndex& index)
+    QExtUniquePointer<QExtMvvmCustomEditor> create_editor(const QModelIndex& index)
     {
         auto editor = editor_factory->createEditor(index);
         m_delegate->setEditorData(editor.get(), index);
-        connect(editor.get(), &CustomEditor::dataChanged, m_delegate.get(),
-                &ViewModelDelegate::onCustomEditorDataChanged);
+        connect(editor.get(), &QExtMvvmCustomEditor::dataChanged, m_delegate.get(),
+                &QExtMvvmViewModelDelegate::onCustomEditorDataChanged);
         editor->setEnabled(view_model->sessionItemFromIndex(index)->isEnabled());
         return editor;
     }
@@ -77,13 +77,13 @@ struct PropertyFlatView::PropertyFlatViewImpl {
                     it->second->setEnabled(view_item->item()->isEnabled());
             }
         };
-        connect(view_model.get(), &ViewModel::dataChanged, on_data_change);
+        connect(view_model.get(), &QExtMvvmViewModel::dataChanged, on_data_change);
 
         auto on_row_inserted = [this](const QModelIndex&, int, int) { update_grid_layout(); };
-        connect(view_model.get(), &ViewModel::rowsInserted, on_row_inserted);
+        connect(view_model.get(), &QExtMvvmViewModel::rowsInserted, on_row_inserted);
 
         auto on_row_removed = [this](const QModelIndex&, int, int) { update_grid_layout(); };
-        connect(view_model.get(), &ViewModel::rowsRemoved, on_row_removed);
+        connect(view_model.get(), &QExtMvvmViewModel::rowsRemoved, on_row_removed);
     }
 
     //! Creates widget for given index to appear in grid layout.
@@ -91,7 +91,7 @@ struct PropertyFlatView::PropertyFlatViewImpl {
     QExtUniquePointer<QWidget> create_widget(const QModelIndex& index)
     {
         auto view_item = view_model->viewItemFromIndex(index);
-        if (auto label_item = dynamic_cast<ViewLabelItem*>(view_item); label_item)
+        if (auto label_item = dynamic_cast<QExtMvvmViewLabelItem*>(view_item); label_item)
             return create_label(label_item);
 
         return create_editor(index);
@@ -132,7 +132,7 @@ struct PropertyFlatView::PropertyFlatViewImpl {
     }
 };
 
-PropertyFlatView::PropertyFlatView(QWidget* parent)
+QExtMvvmPropertyFlatView::QExtMvvmPropertyFlatView(QWidget* parent)
     : QWidget(parent), p_impl(qextMakeUnique<PropertyFlatViewImpl>())
 {
     auto main_layout = new QVBoxLayout;
@@ -146,9 +146,9 @@ PropertyFlatView::PropertyFlatView(QWidget* parent)
     setLayout(main_layout);
 }
 
-PropertyFlatView::~PropertyFlatView() = default;
+QExtMvvmPropertyFlatView::~QExtMvvmPropertyFlatView() = default;
 
-void PropertyFlatView::setItem(SessionItem* item)
+void QExtMvvmPropertyFlatView::setItem(QExtMvvmSessionItem* item)
 {
     p_impl->view_model = Factory::CreatePropertyFlatViewModel(item->model());
     p_impl->view_model->setRootSessionItem(item);

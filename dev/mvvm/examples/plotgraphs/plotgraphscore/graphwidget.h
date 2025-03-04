@@ -18,8 +18,8 @@ class QToolBar;
 class QAction;
 
 namespace ModelView {
-class ItemsTreeView;
-class GraphCanvas;
+class QExtMvvmItemsTreeView;
+class QExtMvvmGraphCanvas;
 } // namespace ModelView
 
 namespace PlotGraphs {
@@ -47,7 +47,7 @@ private:
     QAction* m_resetViewportAction{nullptr};
     QAction* m_addGraphAction{nullptr};
     QAction* m_removeGraphAction{nullptr};
-    ModelView::GraphCanvas* m_graphCanvas{nullptr};
+    ModelView::QExtMvvmGraphCanvas* m_graphCanvas{nullptr};
     GraphPropertyWidget* m_propertyWidget{nullptr};
     GraphModel* m_model{nullptr};
 };

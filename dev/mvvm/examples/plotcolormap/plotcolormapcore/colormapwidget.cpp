@@ -25,7 +25,7 @@ ColorMapWidget::ColorMapWidget(ColorMapModel* model, QWidget* parent)
     : QWidget(parent)
     , m_toolBar(new QToolBar)
     , m_propertyWidget(new ColorMapPropertyWidget)
-    , m_colorMapCanvas(new ColorMapCanvas)
+    , m_colorMapCanvas(new QExtMvvmColorMapCanvas)
 {
     auto mainLayout = new QVBoxLayout;
     mainLayout->setSpacing(10);
@@ -53,7 +53,7 @@ void ColorMapWidget::setModel(ColorMapModel* model)
 
     m_propertyWidget->setModel(model);
 
-    m_colorMapCanvas->setItem(model->topItem<ColorMapViewportItem>());
+    m_colorMapCanvas->setItem(model->topItem<QExtMvvmColorMapViewportItem>());
 }
 
 void ColorMapWidget::initActions()
@@ -63,7 +63,7 @@ void ColorMapWidget::initActions()
 
     m_resetViewportAction = new QAction("Reset view", this);
     auto on_reset = [this]() {
-        auto viewport = m_model->topItem<ColorMapViewportItem>();
+        auto viewport = m_model->topItem<QExtMvvmColorMapViewportItem>();
         viewport->setViewportToContent();
     };
     connect(m_resetViewportAction, &QAction::triggered, on_reset);

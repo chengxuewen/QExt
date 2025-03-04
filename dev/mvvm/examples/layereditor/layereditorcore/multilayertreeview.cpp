@@ -22,7 +22,7 @@
 using namespace ModelView;
 
 MultiLayerTreeView::MultiLayerTreeView(ApplicationModels* models, QWidget* parent)
-    : QWidget(parent), m_treeView(new QTreeView), m_delegate(qextMakeUnique<ViewModelDelegate>())
+    : QWidget(parent), m_treeView(new QTreeView), m_delegate(qextMakeUnique<QExtMvvmViewModelDelegate>())
 {
     auto layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -39,13 +39,13 @@ MultiLayerTreeView::MultiLayerTreeView(ApplicationModels* models, QWidget* paren
     setItem(models->sampleModel()->topItem<MultiLayerItem>());
 }
 
-void MultiLayerTreeView::setItem(ModelView::SessionItem* multilayer)
+void MultiLayerTreeView::setItem(ModelView::QExtMvvmSessionItem* multilayer)
 {
     if (!multilayer)
         return;
 
     m_viewModel =
-        Factory::CreateViewModel<TopItemsStrategy, CustomLayerRowStrategy>(multilayer->model());
+        Factory::CreateViewModel<QExtMvvmTopItemsStrategy, CustomLayerRowStrategy>(multilayer->model());
     m_viewModel->setRootSessionItem(multilayer);
 
     m_treeView->setModel(m_viewModel.get());

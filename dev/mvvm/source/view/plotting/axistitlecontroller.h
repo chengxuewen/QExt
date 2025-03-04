@@ -11,21 +11,21 @@
 #define MVVM_PLOTTING_AXISTITLECONTROLLER_H
 
 #include "model/signals/itemlistener.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 class QCPAxis;
 
 namespace ModelView {
 
-class TextItem;
+class QExtMvvmTextItem;
 
-//! Propagates title settings from TextItem to QCPAxis.
+//! Propagates title settings from QExtMvvmTextItem to QCPAxis.
 
-class QEXT_MVVM_API AxisTitleController : public ItemListener<TextItem> {
+class QEXT_MVVM_API QExtMvvmAxisTitleController : public QExtMvvmItemListener<QExtMvvmTextItem> {
 public:
-    explicit AxisTitleController(QCPAxis* axis);
-    ~AxisTitleController() override;
+    explicit QExtMvvmAxisTitleController(QCPAxis* axis);
+    ~QExtMvvmAxisTitleController() override;
 
 protected:
     void subscribe() override;

@@ -22,7 +22,7 @@ const int nbinsx = 200;
 const int nbinsy = 100;
 
 // fills with data point
-void fill_data(Data2DItem* data_item, double scale = 1.0)
+void fill_data(QExtMvvmData2DItem* data_item, double scale = 1.0)
 {
     const auto xAxis = data_item->xAxis();
     const auto yAxis = data_item->yAxis();
@@ -41,7 +41,7 @@ void fill_data(Data2DItem* data_item, double scale = 1.0)
 
 namespace PlotColorMap {
 
-ColorMapModel::ColorMapModel() : SessionModel("ColorMapModel")
+ColorMapModel::ColorMapModel() : QExtMvvmSessionModel("ColorMapModel")
 {
     populateModel();
 }
@@ -50,30 +50,30 @@ ColorMapModel::ColorMapModel() : SessionModel("ColorMapModel")
 
 void ColorMapModel::updateData(double scale)
 {
-    auto data_item = dataContainer()->item<Data2DItem>(ContainerItem::T_ITEMS);
+    auto data_item = dataContainer()->item<QExtMvvmData2DItem>(QExtMvvmContainerItem::T_ITEMS);
     fill_data(data_item, scale);
 }
 
 void ColorMapModel::addColormap()
 {
-    auto data_item = insertItem<Data2DItem>(dataContainer());
-    data_item->setAxes(FixedBinAxisItem::create(nbinsx, -5.0, 5.0),
-                       FixedBinAxisItem::create(nbinsy, 0.0, 5.0));
+    auto data_item = insertItem<QExtMvvmData2DItem>(dataContainer());
+    data_item->setAxes(QExtMvvmFixedBinAxisItem::create(nbinsx, -5.0, 5.0),
+                       QExtMvvmFixedBinAxisItem::create(nbinsy, 0.0, 5.0));
     fill_data(data_item);
 
-    auto viewport_item = insertItem<ColorMapViewportItem>();
-    auto colormap_item = insertItem<ColorMapItem>(viewport_item);
+    auto viewport_item = insertItem<QExtMvvmColorMapViewportItem>();
+    auto colormap_item = insertItem<QExtMvvmColorMapItem>(viewport_item);
     colormap_item->setDataItem(data_item);
 }
 
-ContainerItem* ColorMapModel::dataContainer()
+QExtMvvmContainerItem* ColorMapModel::dataContainer()
 {
-    return topItem<ContainerItem>();
+    return topItem<QExtMvvmContainerItem>();
 }
 
 void ColorMapModel::populateModel()
 {
-    auto container = insertItem<ContainerItem>();
+    auto container = insertItem<QExtMvvmContainerItem>();
     container->setDisplayName("Data container");
 
     addColormap();

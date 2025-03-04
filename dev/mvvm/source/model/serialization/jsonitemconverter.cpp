@@ -24,110 +24,110 @@ using namespace ModelView;
 
 namespace {
 
-//! Creates converter for SessionItemData/JSON.
+//! Creates converter for QExtMvvmSessionItemData/JSON.
 
-QExtUniquePointer<JsonItemDataConverterInterface> createDataConverter(const ConverterMode& mode)
+QExtUniquePointer<QExtMvvmJsonItemDataConverterInterface> createDataConverter(const QExtMvvmConverterMode& mode)
 {
-    return mode == ConverterMode::project ? JsonItemDataConverter::createProjectConverter()
-                                          : JsonItemDataConverter::createCopyConverter();
+    return mode == QExtMvvmConverterMode::project ? QExtMvvmJsonItemDataConverter::createProjectConverter()
+                                          : QExtMvvmJsonItemDataConverter::createCopyConverter();
 }
 
 } // namespace
 
-struct JsonItemConverter::JsonItemConverterImpl {
-    JsonItemConverter* m_self{nullptr};
-    QExtUniquePointer<JsonItemDataConverterInterface> m_itemdata_converter;
-    QExtUniquePointer<JsonItemTagsConverter> m_itemtags_converter;
-    ConverterContext m_context;
+struct QExtMvvmJsonItemConverter::JsonItemConverterImpl {
+    QExtMvvmJsonItemConverter* m_self{nullptr};
+    QExtUniquePointer<QExtMvvmJsonItemDataConverterInterface> m_itemdata_converter;
+    QExtUniquePointer<QExtMvvmJsonItemTagsConverter> m_itemtags_converter;
+    QExtMvvmConverterContext m_context;
 
-    JsonItemConverterImpl(JsonItemConverter* parent, const ConverterContext& context)
+    JsonItemConverterImpl(QExtMvvmJsonItemConverter* parent, const QExtMvvmConverterContext& context)
         : m_self(parent), m_context(context)
     {
-        //! Callback to convert SessionItem to JSON object.
-        auto create_json = [this](const SessionItem& item) { return m_self->to_json(&item); };
+        //! Callback to convert QExtMvvmSessionItem to JSON object.
+        auto create_json = [this](const QExtMvvmSessionItem& item) { return m_self->to_json(&item); };
 
-        //! Callback to create SessionItem from JSON object.
+        //! Callback to create QExtMvvmSessionItem from JSON object.
         auto create_item = [this](const QJsonObject& json) { return m_self->from_json(json); };
 
-        //! Callback to update SessionItem from JSON object.
-        auto update_item = [this](const QJsonObject& json, SessionItem* item) {
+        //! Callback to update QExtMvvmSessionItem from JSON object.
+        auto update_item = [this](const QJsonObject& json, QExtMvvmSessionItem* item) {
             populate_item(json, *item);
         };
 
-        ConverterCallbacks callbacks{create_json, create_item, update_item};
+        QExtMvvmConverterCallbacks callbacks{create_json, create_item, update_item};
 
         m_itemdata_converter = createDataConverter(m_context.m_mode);
-        m_itemtags_converter = qextMakeUnique<JsonItemTagsConverter>(callbacks);
+        m_itemtags_converter = qextMakeUnique<QExtMvvmJsonItemTagsConverter>(callbacks);
     }
 
-    const ItemFactoryInterface* factory() { return m_context.m_factory; }
+    const QExtMvvmItemFactoryInterface* factory() { return m_context.m_factory; }
 
-    void populate_item_data(const QJsonArray& json, SessionItemData& item_data)
+    void populate_item_data(const QJsonArray& json, QExtMvvmSessionItemData& item_data)
     {
         m_itemdata_converter->from_json(json, item_data);
     }
 
-    void populate_item_tags(const QJsonObject& json, SessionItemTags& item_tags)
+    void populate_item_tags(const QJsonObject& json, QExtMvvmSessionItemTags& item_tags)
     {
         m_itemtags_converter->from_json(json, item_tags);
     }
 
-    void populate_item(const QJsonObject& json, SessionItem& item)
+    void populate_item(const QJsonObject& json, QExtMvvmSessionItem& item)
     {
-        auto modelType = json[JsonItemFormatAssistant::modelKey].toString().toStdString();
+        auto modelType = json[QExtMvvmJsonItemFormatAssistant::modelKey].toString().toStdString();
 
         if (modelType != item.modelType())
             throw std::runtime_error("Item model mismatch");
 
         if (isRebuildItemDataAndTagFromJson(m_context.m_mode)) {
-            item.setDataAndTags(qextMakeUnique<SessionItemData>(),
-                                qextMakeUnique<SessionItemTags>());
+            item.setDataAndTags(qextMakeUnique<QExtMvvmSessionItemData>(),
+                                qextMakeUnique<QExtMvvmSessionItemTags>());
         }
 
-        populate_item_data(json[JsonItemFormatAssistant::itemDataKey].toArray(), *item.itemData());
-        populate_item_tags(json[JsonItemFormatAssistant::itemTagsKey].toObject(), *item.itemTags());
+        populate_item_data(json[QExtMvvmJsonItemFormatAssistant::itemDataKey].toArray(), *item.itemData());
+        populate_item_tags(json[QExtMvvmJsonItemFormatAssistant::itemTagsKey].toObject(), *item.itemTags());
 
         for (auto child : item.children())
             child->setParent(&item);
 
         if (isRegenerateIdWhenBackFromJson(m_context.m_mode))
-            item.setData(UniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
+            item.setData(QExtMvvmUniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
     }
 
-    QJsonObject item_to_json(const SessionItem& item) const
+    QJsonObject item_to_json(const QExtMvvmSessionItem& item) const
     {
         QJsonObject result;
-        result[JsonItemFormatAssistant::modelKey] = QString::fromStdString(item.modelType());
-        result[JsonItemFormatAssistant::itemDataKey] =
+        result[QExtMvvmJsonItemFormatAssistant::modelKey] = QString::fromStdString(item.modelType());
+        result[QExtMvvmJsonItemFormatAssistant::itemDataKey] =
             m_itemdata_converter->to_json(*item.itemData());
-        result[JsonItemFormatAssistant::itemTagsKey] =
+        result[QExtMvvmJsonItemFormatAssistant::itemTagsKey] =
             m_itemtags_converter->to_json(*item.itemTags());
 
         return result;
     }
 };
 
-JsonItemConverter::JsonItemConverter(const ConverterContext& context)
+QExtMvvmJsonItemConverter::QExtMvvmJsonItemConverter(const QExtMvvmConverterContext& context)
     : p_impl(qextMakeUnique<JsonItemConverterImpl>(this, context))
 {
 }
 
-JsonItemConverter::~JsonItemConverter() = default;
+QExtMvvmJsonItemConverter::~QExtMvvmJsonItemConverter() = default;
 
-QJsonObject JsonItemConverter::to_json(const SessionItem* item) const
+QJsonObject QExtMvvmJsonItemConverter::to_json(const QExtMvvmSessionItem* item) const
 {
     return item ? p_impl->item_to_json(*item) : QJsonObject();
 }
 
-QExtUniquePointer<SessionItem> JsonItemConverter::from_json(const QJsonObject& json) const
+QExtUniquePointer<QExtMvvmSessionItem> QExtMvvmJsonItemConverter::from_json(const QJsonObject& json) const
 {
-    static JsonItemFormatAssistant assistant;
+    static QExtMvvmJsonItemFormatAssistant assistant;
 
     if (!assistant.isSessionItem(json))
         throw std::runtime_error("JsonItemConverterV2::from_json() -> Error. Given json object "
-                                 "can't represent a SessionItem.");
+                                 "can't represent a QExtMvvmSessionItem.");
 
-    auto modelType = json[JsonItemFormatAssistant::modelKey].toString().toStdString();
+    auto modelType = json[QExtMvvmJsonItemFormatAssistant::modelKey].toString().toStdString();
     auto result = p_impl->factory()->createItem(modelType);
 
     p_impl->populate_item(json, *result);

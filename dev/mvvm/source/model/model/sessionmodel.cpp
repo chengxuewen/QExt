@@ -8,7 +8,8 @@
 // ************************************************************************** //
 
 #include "model/model/sessionmodel.h"
-#include "model/commands/commandservice.h"
+#include <qextMvvmCommandService.h>
+// #include "model/commands/commandservice.h"
 #include "model/factories/itemcataloguefactory.h"
 #include "model/model/itemcatalogue.h"
 #include "model/model/itemfactory.h"
@@ -20,28 +21,28 @@
 
 using namespace ModelView;
 
-//! Pimpl class for SessionModel.
+//! Pimpl class for QExtMvvmSessionModel.
 
-struct SessionModel::SessionModelImpl {
-    SessionModel* m_self{nullptr};
+struct QExtMvvmSessionModel::SessionModelImpl {
+    QExtMvvmSessionModel* m_self{nullptr};
     std::string m_modelType;
-    QExtUniquePointer<ItemManager> m_itemManager;
-    QExtUniquePointer<CommandService> m_commands;
-    QExtUniquePointer<ModelMapper> m_mapper;
-    QExtUniquePointer<SessionItem> m_root_item;
-    SessionModelImpl(SessionModel* self, std::string modelType, std::shared_ptr<ItemPool> pool)
+    QExtUniquePointer<QExtMvvmItemManager> m_itemManager;
+    QExtUniquePointer<QExtMvvmCommandService> m_commands;
+    QExtUniquePointer<QExtMvvmModelMapper> m_mapper;
+    QExtUniquePointer<QExtMvvmSessionItem> m_root_item;
+    SessionModelImpl(QExtMvvmSessionModel* self, std::string modelType, std::shared_ptr<QExtMvvmItemPool> pool)
         : m_self(self)
         , m_modelType(std::move(modelType))
-        , m_itemManager(qextMakeUnique<ItemManager>())
-        , m_commands(qextMakeUnique<CommandService>(self))
-        , m_mapper(qextMakeUnique<ModelMapper>(self))
+        , m_itemManager(qextMakeUnique<QExtMvvmItemManager>())
+        , m_commands(qextMakeUnique<QExtMvvmCommandService>(self))
+        , m_mapper(qextMakeUnique<QExtMvvmModelMapper>(self))
     {
         setItemPool(pool);
     }
 
-    void setItemPool(std::shared_ptr<ItemPool> pool)
+    void setItemPool(std::shared_ptr<QExtMvvmItemPool> pool)
     {
-        m_itemManager->setItemPool(pool ? std::move(pool) : std::make_shared<ItemPool>());
+        m_itemManager->setItemPool(pool ? std::move(pool) : std::make_shared<QExtMvvmItemPool>());
     }
 
     //! Creates root item.
@@ -49,20 +50,20 @@ struct SessionModel::SessionModelImpl {
     {
         m_root_item = m_itemManager->createRootItem();
         m_root_item->setModel(m_self);
-        m_root_item->registerTag(TagInfo::universalTag("rootTag"), /*set_as_default*/ true);
+        m_root_item->registerTag(QExtMvvmTagInfo::universalTag("rootTag"), /*set_as_default*/ true);
     }
 };
 
 //! Main c-tor.
 
-SessionModel::SessionModel(std::string model_type, std::shared_ptr<ItemPool> pool)
-    : p_impl(qextMakeUnique<SessionModelImpl>(this, std::move(model_type), std::move(pool)))
+QExtMvvmSessionModel::QExtMvvmSessionModel(std::string QExtMvvmModelType, std::shared_ptr<QExtMvvmItemPool> pool)
+    : p_impl(qextMakeUnique<SessionModelImpl>(this, std::move(QExtMvvmModelType), std::move(pool)))
 
 {
     p_impl->createRootItem();
 }
 
-SessionModel::~SessionModel()
+QExtMvvmSessionModel::~QExtMvvmSessionModel()
 {
     // Explicitely call root item's destructor. It uses p_impl pointer during own descruction
     // and we have to keep pimpl pointer intact. Without line below will crash on MacOS because
@@ -75,8 +76,8 @@ SessionModel::~SessionModel()
 
 //! Insert new item using item's modelType.
 
-SessionItem* SessionModel::insertNewItem(const model_type& modelType, SessionItem* parent,
-                                         const TagRow& tagrow)
+QExtMvvmSessionItem* QExtMvvmSessionModel::insertNewItem(const QExtMvvmModelType& modelType, QExtMvvmSessionItem* parent,
+                                         const QExtMvvmTagRow& tagrow)
 {
     // intentionally passing by value inside lambda
     auto create_func = [this, modelType]() { return factory()->createItem(modelType); };
@@ -85,7 +86,7 @@ SessionItem* SessionModel::insertNewItem(const model_type& modelType, SessionIte
 
 //! Removes given row from parent.
 
-void SessionModel::removeItem(SessionItem* parent, const TagRow& tagrow)
+void QExtMvvmSessionModel::removeItem(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow)
 {
     p_impl->m_commands->removeItem(parent, tagrow);
 }
@@ -93,71 +94,71 @@ void SessionModel::removeItem(SessionItem* parent, const TagRow& tagrow)
 //! Move item from it's current parent to a new parent under given tag and row.
 //! Old and new parents should belong to this model.
 
-void SessionModel::moveItem(SessionItem* item, SessionItem* new_parent, const TagRow& tagrow)
+void QExtMvvmSessionModel::moveItem(QExtMvvmSessionItem* item, QExtMvvmSessionItem* new_parent, const QExtMvvmTagRow& tagrow)
 {
     p_impl->m_commands->moveItem(item, new_parent, tagrow);
 }
 
 //! Copy item and insert it in parent's tag and row. Item could belong to any model/parent.
 
-SessionItem* SessionModel::copyItem(const SessionItem* item, SessionItem* parent,
-                                    const TagRow& tagrow)
+QExtMvvmSessionItem* QExtMvvmSessionModel::copyItem(const QExtMvvmSessionItem* item, QExtMvvmSessionItem* parent,
+                                    const QExtMvvmTagRow& tagrow)
 {
     return p_impl->m_commands->copyItem(item, parent, tagrow);
 }
 
 //! Returns the data for given item and role.
 
-Variant SessionModel::data(SessionItem* item, int role) const
+QVariant QExtMvvmSessionModel::data(QExtMvvmSessionItem* item, int role) const
 {
-    return item->data<Variant>(role);
+    return item->data<QVariant>(role);
 }
 
 //! Sets the data for given item.
 
-bool SessionModel::setData(SessionItem* item, const Variant& value, int role)
+bool QExtMvvmSessionModel::setData(QExtMvvmSessionItem* item, const QVariant& value, int role)
 {
     return p_impl->m_commands->setData(item, value, role);
 }
 
 //! Returns model type.
 
-std::string SessionModel::modelType() const
+std::string QExtMvvmSessionModel::modelType() const
 {
     return p_impl->m_modelType;
 }
 
 //! Returns root item of the model.
 
-SessionItem* SessionModel::rootItem() const
+QExtMvvmSessionItem* QExtMvvmSessionModel::rootItem() const
 {
     return p_impl->m_root_item.get();
 }
 
 //! Returns model mapper. Can be used to subscribe to various model's signal.
 
-ModelMapper* SessionModel::mapper()
+QExtMvvmModelMapper* QExtMvvmSessionModel::mapper()
 {
     return p_impl->m_mapper.get();
 }
 
 //! Returns command stack to perform undo/redo.
 
-UndoStackInterface* SessionModel::undoStack() const
+QExtMvvmUndoStackInterface* QExtMvvmSessionModel::undoStack() const
 {
     return p_impl->m_commands->undoStack();
 }
 
 //! Returns item factory which can generate all items supported by this model.
 
-const ItemFactoryInterface* SessionModel::factory() const
+const QExtMvvmItemFactoryInterface* QExtMvvmSessionModel::factory() const
 {
     return p_impl->m_itemManager->factory();
 }
 
-//! Returns SessionItem for given identifier.
+//! Returns QExtMvvmSessionItem for given identifier.
 
-SessionItem* SessionModel::findItem(const identifier_type& id)
+QExtMvvmSessionItem* QExtMvvmSessionModel::findItem(const QExtMvvmIdentifierType& id)
 {
     return p_impl->m_itemManager->findItem(id);
 }
@@ -165,17 +166,17 @@ SessionItem* SessionModel::findItem(const identifier_type& id)
 //! Sets brand new catalog of user-defined items. They become available for undo/redo and
 //! serialization. Internally user catalog will be merged with the catalog of standard items.
 
-void SessionModel::setItemCatalogue(QExtUniquePointer<ItemCatalogue> catalogue)
+void QExtMvvmSessionModel::setItemCatalogue(QExtUniquePointer<QExtMvvmItemCatalogue> catalogue)
 {
     // adding standard items to the user catalogue
-    QExtUniquePointer<ItemCatalogue> full_catalogue = std::move(catalogue);
-    full_catalogue->merge(*CreateStandardItemCatalogue());
-    p_impl->m_itemManager->setItemFactory(qextMakeUnique<ItemFactory>(std::move(full_catalogue)));
+    QExtUniquePointer<QExtMvvmItemCatalogue> full_catalogue = std::move(catalogue);
+    full_catalogue->merge(*qextMvvmCreateStandardItemCatalogue());
+    p_impl->m_itemManager->setItemFactory(qextMakeUnique<QExtMvvmItemFactory>(std::move(full_catalogue)));
 }
 
 //! Sets undo/redo either enabled or disabled. By default undo/redo is disabled.
 
-void SessionModel::setUndoRedoEnabled(bool value)
+void QExtMvvmSessionModel::setUndoRedoEnabled(bool value)
 {
     p_impl->m_commands->setUndoRedoEnabled(value);
 }
@@ -183,7 +184,7 @@ void SessionModel::setUndoRedoEnabled(bool value)
 //! Removes all items from the model. If callback is provided, use it to rebuild content of root
 //! item (used while restoring the model from serialized content).
 
-void SessionModel::clear(std::function<void(SessionItem*)> callback)
+void QExtMvvmSessionModel::clear(std::function<void(QExtMvvmSessionItem*)> callback)
 {
     if (undoStack())
         undoStack()->clear();
@@ -196,7 +197,7 @@ void SessionModel::clear(std::function<void(SessionItem*)> callback)
 
 //! Registers item in pool. This will allow to find item pointer using its unique identifier.
 
-void SessionModel::registerInPool(SessionItem* item)
+void QExtMvvmSessionModel::registerInPool(QExtMvvmSessionItem* item)
 {
     p_impl->m_itemManager->registerInPool(item);
     item->activate(); // activates buisiness logic
@@ -204,20 +205,20 @@ void SessionModel::registerInPool(SessionItem* item)
 
 //! Unregister item from pool.
 
-void SessionModel::unregisterFromPool(SessionItem* item)
+void QExtMvvmSessionModel::unregisterFromPool(QExtMvvmSessionItem* item)
 {
     p_impl->m_itemManager->unregisterFromPool(item);
 }
 
 //! Insert new item into given parent using factory function provided.
 
-SessionItem* SessionModel::intern_insert(const item_factory_func_t& func, SessionItem* parent,
-                                         const TagRow& tagrow)
+QExtMvvmSessionItem* QExtMvvmSessionModel::intern_insert(const QExtMvvmItemFactoryFunc& func, QExtMvvmSessionItem* parent,
+                                         const QExtMvvmTagRow& tagrow)
 {
     return p_impl->m_commands->insertNewItem(func, parent, tagrow);
 }
 
-void SessionModel::intern_register(const model_type& modelType, const item_factory_func_t& func,
+void QExtMvvmSessionModel::intern_register(const QExtMvvmModelType& modelType, const QExtMvvmItemFactoryFunc& func,
                                    const std::string& label)
 {
     p_impl->m_itemManager->factory()->registerItem(modelType, func, label);

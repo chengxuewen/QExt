@@ -26,8 +26,8 @@ using namespace ModelView;
 
 namespace {
 
-//! Returns true if given SessionItem role is valid for view
-bool isValidItemRole(const ViewItem* view, int item_role)
+//! Returns true if given QExtMvvmSessionItem role is valid for view
+bool isValidItemRole(const QExtMvvmViewItem* view, int item_role)
 {
     if (view->item_role() == item_role)
         return true;
@@ -39,24 +39,24 @@ bool isValidItemRole(const ViewItem* view, int item_role)
 
 } // namespace
 
-struct ViewModelController::ViewModelControllerImpl {
-    ViewModelController* m_self;
-    ViewModelBase* m_viewModel{nullptr};
-    QExtUniquePointer<ChildrenStrategyInterface> m_childrenStrategy;
-    QExtUniquePointer<RowStrategyInterface> m_rowStrategy;
-    std::map<SessionItem*, ViewItem*> m_itemToVview; //! correspondence of item and its view
-    Path m_rootItemPath;
+struct QExtMvvmViewModelController::ViewModelControllerImpl {
+    QExtMvvmViewModelController* m_self;
+    QExtMvvmViewModelBase* m_viewModel{nullptr};
+    QExtUniquePointer<QExtMvvmChildrenStrategyInterface> m_childrenStrategy;
+    QExtUniquePointer<QExtMvvmRowStrategyInterface> m_rowStrategy;
+    std::map<QExtMvvmSessionItem*, QExtMvvmViewItem*> m_itemToVview; //! correspondence of item and its view
+    QExtMvvmPath m_rootItemPath;
 
-    ViewModelControllerImpl(ViewModelController* controller, ViewModelBase* view_model)
+    ViewModelControllerImpl(QExtMvvmViewModelController* controller, QExtMvvmViewModelBase* view_model)
         : m_self(controller), m_viewModel(view_model)
     {
     }
 
     void check_initialization()
     {
-        const std::string msg("Error in ViewModelController: ");
+        const std::string msg("Error in QExtMvvmViewModelController: ");
         if (!m_viewModel)
-            throw std::runtime_error(msg + "ViewModel is not defined");
+            throw std::runtime_error(msg + "QExtMvvmViewModel is not defined");
 
         if (!m_rowStrategy)
             throw std::runtime_error(msg + "RowStrategy is not defined");
@@ -73,9 +73,9 @@ struct ViewModelController::ViewModelControllerImpl {
         iterate(m_self->rootSessionItem(), m_viewModel->rootItem());
     }
 
-    void iterate(const SessionItem* item, ViewItem* parent)
+    void iterate(const QExtMvvmSessionItem* item, QExtMvvmViewItem* parent)
     {
-        ViewItem* origParent(parent);
+        QExtMvvmViewItem* origParent(parent);
         for (auto child : m_childrenStrategy->children(item)) {
             auto row = m_rowStrategy->constructRow(child);
             if (!row.empty()) {
@@ -89,9 +89,9 @@ struct ViewModelController::ViewModelControllerImpl {
         }
     }
 
-    //! Remove row of ViewItem's corresponding to given item.
+    //! Remove row of QExtMvvmViewItem's corresponding to given item.
 
-    void remove_row_of_views(SessionItem* item)
+    void remove_row_of_views(QExtMvvmSessionItem* item)
     {
         auto pos = m_itemToVview.find(item);
         if (pos != m_itemToVview.end()) {
@@ -101,11 +101,11 @@ struct ViewModelController::ViewModelControllerImpl {
         }
     }
 
-    void remove_children_of_view(ViewItem* view)
+    void remove_children_of_view(QExtMvvmViewItem* view)
     {
         for (auto child : view->children()) {
             auto pos = std::find_if(m_itemToVview.begin(), m_itemToVview.end(),
-                                    [child](const std::pair<SessionItem*, ViewItem*>& it) { return it.second == child; });
+                                    [child](const std::pair<QExtMvvmSessionItem*, QExtMvvmViewItem*>& it) { return it.second == child; });
             if (pos != m_itemToVview.end())
                 m_itemToVview.erase(pos);
         }
@@ -113,7 +113,7 @@ struct ViewModelController::ViewModelControllerImpl {
         m_viewModel->clearRows(view);
     }
 
-    void insert_view(SessionItem* parent, const TagRow& tagrow)
+    void insert_view(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow)
     {
         auto child = parent->getItem(tagrow.tag, tagrow.row);
         auto children = m_childrenStrategy->children(parent);
@@ -137,12 +137,12 @@ struct ViewModelController::ViewModelControllerImpl {
         }
     }
 
-    std::vector<ViewItem*> findViews(const SessionItem* item) const
+    std::vector<QExtMvvmViewItem*> findViews(const QExtMvvmSessionItem* item) const
     {
         if (item == m_viewModel->rootItem()->item())
             return {m_viewModel->rootItem()};
 
-        std::vector<ViewItem*> result;
+        std::vector<QExtMvvmViewItem*> result;
         auto on_index = [&](const QModelIndex& index) {
             auto view_item = m_viewModel->itemFromIndex(index);
             if (view_item->item() == item)
@@ -152,41 +152,41 @@ struct ViewModelController::ViewModelControllerImpl {
         return result;
     }
 
-    void setRootSessionItemIntern(SessionItem* item)
+    void setRootSessionItemIntern(QExtMvvmSessionItem* item)
     {
         m_rootItemPath = Utils::PathFromItem(item);
-        m_viewModel->setRootViewItem(qextMakeUnique<RootViewItem>(item));
+        m_viewModel->setRootViewItem(qextMakeUnique<QExtMvvmRootViewItem>(item));
     }
 };
 
-ViewModelController::ViewModelController(SessionModel* session_model, ViewModelBase* view_model)
-    : ModelListener(session_model)
+QExtMvvmViewModelController::QExtMvvmViewModelController(QExtMvvmSessionModel* session_model, QExtMvvmViewModelBase* view_model)
+    : QExtMvvmModelListener(session_model)
     , p_impl(qextMakeUnique<ViewModelControllerImpl>(this, view_model))
 {
-    auto on_data_change = [this](SessionItem* item, int role) { onDataChange(item, role); };
+    auto on_data_change = [this](QExtMvvmSessionItem* item, int role) { onDataChange(item, role); };
     setOnDataChange(on_data_change);
 
-    auto on_item_inserted = [this](SessionItem* item, TagRow tagrow) {
+    auto on_item_inserted = [this](QExtMvvmSessionItem* item, QExtMvvmTagRow tagrow) {
         onItemInserted(item, std::move(tagrow));
     };
     setOnItemInserted(on_item_inserted);
 
-    auto on_item_removed = [this](SessionItem* item, TagRow tagrow) {
+    auto on_item_removed = [this](QExtMvvmSessionItem* item, QExtMvvmTagRow tagrow) {
         onItemRemoved(item, std::move(tagrow));
     };
     setOnItemRemoved(on_item_removed);
 
-    auto on_about_to_remove = [this](SessionItem* item, TagRow tagrow) {
+    auto on_about_to_remove = [this](QExtMvvmSessionItem* item, QExtMvvmTagRow tagrow) {
         onAboutToRemoveItem(item, std::move(tagrow));
     };
     setOnAboutToRemoveItem(on_about_to_remove);
 
-    auto on_model_destroyed = [this](SessionModel*) {
-        p_impl->m_viewModel->setRootViewItem(qextMakeUnique<RootViewItem>(nullptr));
+    auto on_model_destroyed = [this](QExtMvvmSessionModel*) {
+        p_impl->m_viewModel->setRootViewItem(qextMakeUnique<QExtMvvmRootViewItem>(nullptr));
     };
     setOnModelDestroyed(on_model_destroyed);
 
-    auto on_model_reset = [this](SessionModel*) {
+    auto on_model_reset = [this](QExtMvvmSessionModel*) {
         auto root_item = Utils::ItemFromPath(*model(), p_impl->m_rootItemPath);
         p_impl->setRootSessionItemIntern(root_item ? root_item : model()->rootItem());
         p_impl->m_viewModel->endResetModel();
@@ -194,44 +194,44 @@ ViewModelController::ViewModelController(SessionModel* session_model, ViewModelB
     };
     setOnModelReset(on_model_reset);
 
-    auto on_model_about_to_be_reset = [this](SessionModel*) { p_impl->m_viewModel->beginResetModel(); };
+    auto on_model_about_to_be_reset = [this](QExtMvvmSessionModel*) { p_impl->m_viewModel->beginResetModel(); };
     setOnModelAboutToBeReset(on_model_about_to_be_reset);
 }
 
-void ViewModelController::setViewModel(ViewModelBase* view_model)
+void QExtMvvmViewModelController::setViewModel(QExtMvvmViewModelBase* view_model)
 {
     p_impl->m_viewModel = view_model;
 }
 
-ViewModelController::~ViewModelController() = default;
+QExtMvvmViewModelController::~QExtMvvmViewModelController() = default;
 
-void ViewModelController::setChildrenStrategy(
-    QExtUniquePointer<ChildrenStrategyInterface> children_strategy)
+void QExtMvvmViewModelController::setChildrenStrategy(
+    QExtUniquePointer<QExtMvvmChildrenStrategyInterface> children_strategy)
 {
     p_impl->m_childrenStrategy = std::move(children_strategy);
 }
 
-void ViewModelController::setRowStrategy(QExtUniquePointer<RowStrategyInterface> row_strategy)
+void QExtMvvmViewModelController::setRowStrategy(QExtUniquePointer<QExtMvvmRowStrategyInterface> row_strategy)
 {
     p_impl->m_rowStrategy = std::move(row_strategy);
 }
 
-//! Returns SessionModel handled by this controller.
+//! Returns QExtMvvmSessionModel handled by this controller.
 
-SessionModel* ViewModelController::sessionModel() const
+QExtMvvmSessionModel* QExtMvvmViewModelController::sessionModel() const
 {
     return model();
 }
 
-void ViewModelController::setRootSessionItem(SessionItem* item)
+void QExtMvvmViewModelController::setRootSessionItem(QExtMvvmSessionItem* item)
 {
     if (!item)
         throw std::runtime_error(
-            "Error in ViewModelController: atttemp to set nulptr as root item");
+            "Error in QExtMvvmViewModelController: atttemp to set nulptr as root item");
 
     if (item->model() != model())
         throw std::runtime_error(
-            "Error in ViewModelController: atttemp to use item from alien model as new root.");
+            "Error in QExtMvvmViewModelController: atttemp to use item from alien model as new root.");
 
     p_impl->m_viewModel->beginResetModel();
     p_impl->setRootSessionItemIntern(item);
@@ -239,24 +239,24 @@ void ViewModelController::setRootSessionItem(SessionItem* item)
     p_impl->init_view_model();
 }
 
-SessionItem* ViewModelController::rootSessionItem() const
+QExtMvvmSessionItem* QExtMvvmViewModelController::rootSessionItem() const
 {
     return p_impl->m_viewModel->rootItem()->item();
 }
 
-//! Returns all ViewItem's displaying given SessionItem.
+//! Returns all QExtMvvmViewItem's displaying given QExtMvvmSessionItem.
 
-std::vector<ViewItem*> ViewModelController::findViews(const SessionItem* item) const
+std::vector<QExtMvvmViewItem*> QExtMvvmViewModelController::findViews(const QExtMvvmSessionItem* item) const
 {
     return p_impl->findViews(item);
 }
 
-QStringList ViewModelController::horizontalHeaderLabels() const
+QStringList QExtMvvmViewModelController::horizontalHeaderLabels() const
 {
     return p_impl->m_rowStrategy->horizontalHeaderLabels();
 }
 
-void ViewModelController::onDataChange(SessionItem* item, int role)
+void QExtMvvmViewModelController::onDataChange(QExtMvvmSessionItem* item, int role)
 {
     for (auto view : findViews(item)) {
         // inform corresponding LabelView and DataView
@@ -267,22 +267,22 @@ void ViewModelController::onDataChange(SessionItem* item, int role)
     }
 }
 
-void ViewModelController::onItemInserted(SessionItem* parent, TagRow tagrow)
+void QExtMvvmViewModelController::onItemInserted(QExtMvvmSessionItem* parent, QExtMvvmTagRow tagrow)
 {
     p_impl->insert_view(parent, tagrow);
 }
 
-void ViewModelController::onItemRemoved(SessionItem*, TagRow) {}
+void QExtMvvmViewModelController::onItemRemoved(QExtMvvmSessionItem*, QExtMvvmTagRow) {}
 
-void ViewModelController::onAboutToRemoveItem(SessionItem* parent, TagRow tagrow)
+void QExtMvvmViewModelController::onAboutToRemoveItem(QExtMvvmSessionItem* parent, QExtMvvmTagRow tagrow)
 {
     auto item_to_remove = parent->getItem(tagrow.tag, tagrow.row);
     if (item_to_remove == rootSessionItem()
         || Utils::IsItemAncestor(rootSessionItem(), item_to_remove)) {
-        // special case when user removes SessionItem which is one of ancestors of our root item
+        // special case when user removes QExtMvvmSessionItem which is one of ancestors of our root item
         // or root item iteslf
         p_impl->m_viewModel->beginResetModel();
-        p_impl->m_viewModel->setRootViewItem(qextMakeUnique<RootViewItem>(nullptr));
+        p_impl->m_viewModel->setRootViewItem(qextMakeUnique<QExtMvvmRootViewItem>(nullptr));
         p_impl->m_itemToVview.clear();
         p_impl->m_rootItemPath = {};
         p_impl->m_viewModel->endResetModel();
@@ -292,7 +292,7 @@ void ViewModelController::onAboutToRemoveItem(SessionItem* parent, TagRow tagrow
     }
 }
 
-void ViewModelController::update_branch(const SessionItem* item)
+void QExtMvvmViewModelController::update_branch(const QExtMvvmSessionItem* item)
 {
     auto views = findViews(item);
     if (views.empty())

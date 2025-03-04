@@ -23,7 +23,7 @@ using namespace ModelView;
 
 namespace DragAndMove {
 
-DemoItem::DemoItem() : CompoundItem(DemoItemType)
+DemoItem::DemoItem() : QExtMvvmCompoundItem(DemoItemType)
 {
     addProperty(P_COLOR_PROPERTY, QColor(Qt::green))->setDisplayName("Color");
     addProperty(P_BOOL_PROPERTY, true)->setDisplayName("Bool");
@@ -32,9 +32,9 @@ DemoItem::DemoItem() : CompoundItem(DemoItemType)
     addProperty(P_DOUBLE_PROPERTY, 42.1)->setDisplayName("Double");
 }
 
-DemoContainerItem::DemoContainerItem() : CompoundItem(DemoContainerItemType)
+DemoContainerItem::DemoContainerItem() : QExtMvvmCompoundItem(DemoContainerItemType)
 {
-    registerTag(TagInfo::universalTag(T_ITEMS, {DemoItemType}), /*set_default*/ true);
+    registerTag(QExtMvvmTagInfo::universalTag(T_ITEMS, {DemoItemType}), /*set_default*/ true);
 }
 
 } // namespace DragAndMove

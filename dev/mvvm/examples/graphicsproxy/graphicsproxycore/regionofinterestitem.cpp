@@ -19,7 +19,7 @@ inline const std::string P_YUP = "P_YUP";
 
 namespace GraphicsProxy {
 
-RegionOfInterestItem::RegionOfInterestItem() : ModelView::CompoundItem(RegionOfInterestItemType)
+RegionOfInterestItem::RegionOfInterestItem() : ModelView::QExtMvvmCompoundItem(RegionOfInterestItemType)
 {
     addProperty(P_XLOW, 0.0)->setDisplayName("Xlow");
     addProperty(P_YLOW, 0.0)->setDisplayName("Ylow");

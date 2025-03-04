@@ -15,10 +15,10 @@
 
 using namespace ModelView;
 
-ItemsTreeView::ItemsTreeView(QWidget* parent)
+QExtMvvmItemsTreeView::QExtMvvmItemsTreeView(QWidget* parent)
     : QWidget(parent)
     , m_treeView(new QTreeView)
-    , m_delegate(qextMakeUnique<ViewModelDelegate>())
+    , m_delegate(qextMakeUnique<QExtMvvmViewModelDelegate>())
     , m_block_selection(false)
 {
     auto layout = new QVBoxLayout;
@@ -28,9 +28,9 @@ ItemsTreeView::ItemsTreeView(QWidget* parent)
     setLayout(layout);
 }
 
-ItemsTreeView::~ItemsTreeView() = default;
+QExtMvvmItemsTreeView::~QExtMvvmItemsTreeView() = default;
 
-void ItemsTreeView::setViewModel(QExtUniquePointer<ViewModel> viewModel)
+void QExtMvvmItemsTreeView::setViewModel(QExtUniquePointer<QExtMvvmViewModel> viewModel)
 {
     m_viewModel = std::move(viewModel);
     m_treeView->setItemDelegate(m_delegate.get());
@@ -40,17 +40,17 @@ void ItemsTreeView::setViewModel(QExtUniquePointer<ViewModel> viewModel)
     set_connected(true);
 }
 
-void ItemsTreeView::setViewModelDelegate(QExtUniquePointer<ViewModelDelegate> delegate)
+void QExtMvvmItemsTreeView::setViewModelDelegate(QExtUniquePointer<QExtMvvmViewModelDelegate> delegate)
 {
     m_delegate = std::move(delegate);
 }
 
 //! Make given item selected in QTreeView.
 
-void ItemsTreeView::setSelected(SessionItem* item)
+void QExtMvvmItemsTreeView::setSelected(QExtMvvmSessionItem* item)
 {
     // Provide possibility to clear selection when item == nullptr. Provide unit tests.
-    // Make sure it works when SessionModel is already destroyed.
+    // Make sure it works when QExtMvvmSessionModel is already destroyed.
     if (!m_viewModel || !item)
         return;
 
@@ -59,21 +59,21 @@ void ItemsTreeView::setSelected(SessionItem* item)
         selectionModel()->select(indexes.at(0), QItemSelectionModel::SelectCurrent);
 }
 
-void ItemsTreeView::setRootSessionItem(SessionItem* item)
+void QExtMvvmItemsTreeView::setRootSessionItem(QExtMvvmSessionItem* item)
 {
     m_viewModel->setRootSessionItem(item);
     m_treeView->expandAll();
 }
 
-ViewModel* ItemsTreeView::viewModel() const
+QExtMvvmViewModel* QExtMvvmItemsTreeView::viewModel() const
 {
     return m_viewModel.get();
 }
 
-//! Processes selections in QTreeView. Finds SessionItem corresponding to selected indexes
+//! Processes selections in QTreeView. Finds QExtMvvmSessionItem corresponding to selected indexes
 //! and emit itemSelected signal.
 
-void ItemsTreeView::onSelectionChanged(const QItemSelection&, const QItemSelection&)
+void QExtMvvmItemsTreeView::onSelectionChanged(const QItemSelection&, const QItemSelection&)
 {
     if (m_block_selection)
         return;
@@ -87,22 +87,22 @@ void ItemsTreeView::onSelectionChanged(const QItemSelection&, const QItemSelecti
     }
 }
 
-void ItemsTreeView::set_connected(bool flag)
+void QExtMvvmItemsTreeView::set_connected(bool flag)
 {
     if (flag)
         connect(selectionModel(), &QItemSelectionModel::selectionChanged, this,
-                &ItemsTreeView::onSelectionChanged);
+                &QExtMvvmItemsTreeView::onSelectionChanged);
     else
         disconnect(selectionModel(), &QItemSelectionModel::selectionChanged, this,
-                   &ItemsTreeView::onSelectionChanged);
+                   &QExtMvvmItemsTreeView::onSelectionChanged);
 }
 
-QTreeView* ItemsTreeView::treeView()
+QTreeView* QExtMvvmItemsTreeView::treeView()
 {
     return m_treeView;
 }
 
-QItemSelectionModel* ItemsTreeView::selectionModel()
+QItemSelectionModel* QExtMvvmItemsTreeView::selectionModel()
 {
     return m_treeView->selectionModel();
 }

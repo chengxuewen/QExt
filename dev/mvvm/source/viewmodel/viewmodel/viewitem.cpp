@@ -18,21 +18,21 @@
 
 using namespace ModelView;
 
-struct ViewItem::ViewItemImpl {
-    std::vector<QExtUniquePointer<ViewItem>> children; //! buffer to hold rows x columns
+struct QExtMvvmViewItem::ViewItemImpl {
+    std::vector<QExtUniquePointer<QExtMvvmViewItem>> children; //! buffer to hold rows x columns
     int rows{0};
     int columns{0};
-    SessionItem* item{nullptr};
+    QExtMvvmSessionItem* item{nullptr};
     int role{0};
-    ViewItem* parent_view_item{nullptr};
-    ViewItemImpl(SessionItem* item, int role) : item(item), role(role) {}
+    QExtMvvmViewItem* parent_view_item{nullptr};
+    ViewItemImpl(QExtMvvmSessionItem* item, int role) : item(item), role(role) {}
 
-    void appendRow(std::vector<QExtUniquePointer<ViewItem>> items)
+    void appendRow(std::vector<QExtUniquePointer<QExtMvvmViewItem>> items)
     {
         insertRow(rows, std::move(items));
     }
 
-    void insertRow(int row, std::vector<QExtUniquePointer<ViewItem>> items)
+    void insertRow(int row, std::vector<QExtUniquePointer<QExtMvvmViewItem>> items)
     {
         if (items.empty())
             throw std::runtime_error("Error in ViewItemImpl: attempt to insert empty row");
@@ -64,7 +64,7 @@ struct ViewItem::ViewItemImpl {
             columns = 0;
     }
 
-    ViewItem* child(int row, int column) const
+    QExtMvvmViewItem* child(int row, int column) const
     {
         if (row < 0 || row >= rows)
             throw std::runtime_error("Error in RefViewItem: wrong row)");
@@ -75,9 +75,9 @@ struct ViewItem::ViewItemImpl {
         return children.at(static_cast<size_t>(column + row * columns)).get();
     }
 
-    ViewItem* parent() { return parent_view_item; }
+    QExtMvvmViewItem* parent() { return parent_view_item; }
 
-    int index_of_child(const ViewItem* child)
+    int index_of_child(const QExtMvvmViewItem* child)
     {
         return Utils::IndexOfItem(children.begin(), children.end(), child);
     }
@@ -88,31 +88,31 @@ struct ViewItem::ViewItemImpl {
 
     //! Returns vector of children.
 
-    std::vector<ViewItem*> get_children() const
+    std::vector<QExtMvvmViewItem*> get_children() const
     {
-        std::vector<ViewItem*> result;
+        std::vector<QExtMvvmViewItem*> result;
         std::transform(children.begin(), children.end(), std::back_inserter(result),
-                       [](const QExtUniquePointer<ViewItem>& x) { return x.get(); });
+                       [](const QExtUniquePointer<QExtMvvmViewItem>& x) { return x.get(); });
         return result;
     }
 };
 
-ViewItem::ViewItem(SessionItem* item, int role) : p_impl(qextMakeUnique<ViewItemImpl>(item, role))
+QExtMvvmViewItem::QExtMvvmViewItem(QExtMvvmSessionItem* item, int role) : p_impl(qextMakeUnique<ViewItemImpl>(item, role))
 {
 }
 
-ViewItem::~ViewItem() = default;
+QExtMvvmViewItem::~QExtMvvmViewItem() = default;
 
 //! Returns the number of child item rows that the item has.
 
-int ViewItem::rowCount() const
+int QExtMvvmViewItem::rowCount() const
 {
     return p_impl->rows;
 }
 
 //! Returns the number of child item columns that the item has.
 
-int ViewItem::columnCount() const
+int QExtMvvmViewItem::columnCount() const
 {
     return p_impl->columns;
 }
@@ -120,7 +120,7 @@ int ViewItem::columnCount() const
 //! Appends a row containing items. Number of items should be the same as columnCount()
 //! (if there are already some rows). If it is a first row, then items can be of any size.
 
-void ViewItem::appendRow(std::vector<QExtUniquePointer<ViewItem>> items)
+void QExtMvvmViewItem::appendRow(std::vector<QExtUniquePointer<QExtMvvmViewItem>> items)
 {
     for (auto& x : items)
         x->setParent(this);
@@ -129,7 +129,7 @@ void ViewItem::appendRow(std::vector<QExtUniquePointer<ViewItem>> items)
 
 //! Insert a row of items at index 'row'.
 
-void ViewItem::insertRow(int row, std::vector<QExtUniquePointer<ViewItem>> items)
+void QExtMvvmViewItem::insertRow(int row, std::vector<QExtUniquePointer<QExtMvvmViewItem>> items)
 {
     for (auto& x : items)
         x->setParent(this);
@@ -138,34 +138,34 @@ void ViewItem::insertRow(int row, std::vector<QExtUniquePointer<ViewItem>> items
 
 //! Removes row of items at given 'row'. Items will be deleted.
 
-void ViewItem::removeRow(int row)
+void QExtMvvmViewItem::removeRow(int row)
 {
     p_impl->removeRow(row);
 }
 
-void ViewItem::clear()
+void QExtMvvmViewItem::clear()
 {
     p_impl->children.clear();
     p_impl->rows = 0;
     p_impl->columns = 0;
 }
 
-ViewItem* ViewItem::parent() const
+QExtMvvmViewItem* QExtMvvmViewItem::parent() const
 {
     return p_impl->parent();
 }
 
-ViewItem* ViewItem::child(int row, int column) const
+QExtMvvmViewItem* QExtMvvmViewItem::child(int row, int column) const
 {
     return p_impl->child(row, column);
 }
 
-SessionItem* ViewItem::item() const
+QExtMvvmSessionItem* QExtMvvmViewItem::item() const
 {
     return p_impl->item;
 }
 
-int ViewItem::item_role() const
+int QExtMvvmViewItem::item_role() const
 {
     return p_impl->role;
 }
@@ -173,7 +173,7 @@ int ViewItem::item_role() const
 //! Returns the row where the item is located in its parent's child table, or -1 if the item has no
 //! parent.
 
-int ViewItem::row() const
+int QExtMvvmViewItem::row() const
 {
     auto index = parent() ? parent()->p_impl->index_of_child(this) : -1;
     return index >= 0 ? index / parent()->p_impl->columns : -1;
@@ -182,16 +182,16 @@ int ViewItem::row() const
 //! Returns the column where the item is located in its parent's child table, or -1 if the item has
 //! no parent.
 
-int ViewItem::column() const
+int QExtMvvmViewItem::column() const
 {
     auto index = parent() ? parent()->p_impl->index_of_child(this) : -1;
     return index >= 0 ? index % parent()->p_impl->columns : -1;
 }
 
 //! Returns the data for given role according to Qt::ItemDataRole namespace definitions.
-//! Converts data and roles from underlying SessionItem to what Qt expects.
+//! Converts data and roles from underlying QExtMvvmSessionItem to what Qt expects.
 
-QVariant ViewItem::data(int qt_role) const
+QVariant QExtMvvmViewItem::data(int qt_role) const
 {
     if (!p_impl->item)
         return QVariant();
@@ -210,10 +210,10 @@ QVariant ViewItem::data(int qt_role) const
         return QVariant();
 }
 
-//! Sets the data to underlying SessionItem.
-//! Converts data and roles from Qt definitions to what SessionItem expects.
+//! Sets the data to underlying QExtMvvmSessionItem.
+//! Converts data and roles from Qt definitions to what QExtMvvmSessionItem expects.
 
-bool ViewItem::setData(const QVariant& value, int qt_role)
+bool QExtMvvmViewItem::setData(const QVariant& value, int qt_role)
 {
     if (p_impl->item && qt_role == Qt::EditRole)
         return p_impl->item->setData(Utils::toCustomVariant(value), p_impl->role);
@@ -221,20 +221,20 @@ bool ViewItem::setData(const QVariant& value, int qt_role)
 }
 
 //! Returns Qt's item flags.
-//! Converts internal SessionItem's status enable/disabled/readonly to what Qt expects.
+//! Converts internal QExtMvvmSessionItem's status enable/disabled/readonly to what Qt expects.
 
-Qt::ItemFlags ViewItem::flags() const
+Qt::ItemFlags QExtMvvmViewItem::flags() const
 {
     Qt::ItemFlags result = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
     return result;
 }
 
-std::vector<ViewItem*> ViewItem::children() const
+std::vector<QExtMvvmViewItem*> QExtMvvmViewItem::children() const
 {
     return p_impl->get_children();
 }
 
-void ViewItem::setParent(ViewItem* parent)
+void QExtMvvmViewItem::setParent(QExtMvvmViewItem* parent)
 {
     p_impl->parent_view_item = parent;
 }

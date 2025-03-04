@@ -14,19 +14,19 @@
 
 namespace ModelView {
 
-class Data2DItem;
+class QExtMvvmData2DItem;
 
-//! Container with viewport and collection of ColorMapItem's to plot.
+//! Container with viewport and collection of QExtMvvmColorMapItem's to plot.
 
-class QEXT_MVVM_API ColorMapViewportItem : public ViewportItem {
+class QEXT_MVVM_API QExtMvvmColorMapViewportItem : public QExtMvvmViewportItem {
 public:
     static inline const std::string P_ZAXIS = "P_ZAXIS";
 
-    ColorMapViewportItem();
+    QExtMvvmColorMapViewportItem();
 
-    ViewportAxisItem* zAxis() const;
+    QExtMvvmViewportAxisItem* zAxis() const;
 
-    using ViewportItem::setViewportToContent;
+    using QExtMvvmViewportItem::setViewportToContent;
     void setViewportToContent() override;
 
 protected:
@@ -34,7 +34,7 @@ protected:
     virtual std::pair<double, double> data_yaxis_range() const override;
 
 private:
-    Data2DItem* data_item() const;
+    QExtMvvmData2DItem* data_item() const;
     void update_data_range();
 };
 

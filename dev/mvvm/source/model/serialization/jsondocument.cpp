@@ -19,20 +19,20 @@
 
 using namespace ModelView;
 
-struct JsonDocument::JsonDocumentImpl {
-    std::vector<SessionModel*> models;
-    JsonDocumentImpl(std::vector<SessionModel*> models) : models(std::move(models)) {}
+struct QExtMvvmJsonDocument::JsonDocumentImpl {
+    std::vector<QExtMvvmSessionModel*> models;
+    JsonDocumentImpl(std::vector<QExtMvvmSessionModel*> models) : models(std::move(models)) {}
 };
 
-JsonDocument::JsonDocument(const std::vector<SessionModel*>& models)
+QExtMvvmJsonDocument::QExtMvvmJsonDocument(const std::vector<QExtMvvmSessionModel*>& models)
     : p_impl(qextMakeUnique<JsonDocumentImpl>(models))
 {
 }
 
 //! Saves models on disk.
-void JsonDocument::save(const std::string& file_name) const
+void QExtMvvmJsonDocument::save(const std::string& file_name) const
 {
-    auto converter = ModelView::CreateModelProjectConverter();
+    auto converter = ModelView::qextMvvmCreateModelProjectConverter();
     QJsonArray array;
 
     for (auto model : p_impl->models)
@@ -42,7 +42,7 @@ void JsonDocument::save(const std::string& file_name) const
     QFile file(QString::fromStdString(file_name));
 
     if (!file.open(QIODevice::WriteOnly))
-        throw std::runtime_error("Error in JsonDocument: can't save the file '" + file_name + "'");
+        throw std::runtime_error("Error in QExtMvvmJsonDocument: can't save the file '" + file_name + "'");
 
     file.write(document.toJson());
 
@@ -51,22 +51,22 @@ void JsonDocument::save(const std::string& file_name) const
 
 //! Loads models from disk. If models have some data already, it will be rewritten.
 
-void JsonDocument::load(const std::string& file_name)
+void QExtMvvmJsonDocument::load(const std::string& file_name)
 {
     QFile file(QString::fromStdString(file_name));
     if (!file.open(QIODevice::ReadOnly))
-        throw std::runtime_error("Error in JsonDocument: can't read the file '" + file_name + "'");
+        throw std::runtime_error("Error in QExtMvvmJsonDocument: can't read the file '" + file_name + "'");
 
     auto document = QJsonDocument::fromJson(file.readAll());
     auto array = document.array();
     if (array.size() != static_cast<int>(p_impl->models.size())) {
         std::ostringstream ostr;
-        ostr << "Error in JsonDocument: number of application models " << p_impl->models.size()
+        ostr << "Error in QExtMvvmJsonDocument: number of application models " << p_impl->models.size()
              << " and number of json models " << array.size() << " doesn't match";
         throw std::runtime_error(ostr.str());
     }
 
-    auto converter = ModelView::CreateModelProjectConverter();
+    auto converter = ModelView::qextMvvmCreateModelProjectConverter();
     int index(0);
     for (auto model : p_impl->models) {
         converter->from_json(array.at(index).toObject(), *model);
@@ -76,4 +76,4 @@ void JsonDocument::load(const std::string& file_name)
     file.close();
 }
 
-JsonDocument::~JsonDocument() = default;
+QExtMvvmJsonDocument::~QExtMvvmJsonDocument() = default;

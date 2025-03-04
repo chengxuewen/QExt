@@ -11,11 +11,11 @@
 #include "viewmodel/factories/viewmodelfactory.h"
 
 namespace ModelView {
-TopItemsTreeView::TopItemsTreeView(SessionModel* model, QWidget* parent) : ItemsTreeView(parent)
+QExtMvvmTopItemsTreeView::QExtMvvmTopItemsTreeView(QExtMvvmSessionModel* model, QWidget* parent) : QExtMvvmItemsTreeView(parent)
 {
     setViewModel(Factory::CreateTopItemsViewModel(model));
 }
 
-TopItemsTreeView::~TopItemsTreeView() = default;
+QExtMvvmTopItemsTreeView::~QExtMvvmTopItemsTreeView() = default;
 
 } // namespace ModelView

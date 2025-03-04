@@ -15,7 +15,7 @@
 
 using namespace ModelView;
 
-PropertyTreeView::PropertyTreeView(QWidget* parent) : ItemsTreeView(parent)
+QExtMvvmPropertyTreeView::QExtMvvmPropertyTreeView(QWidget* parent) : QExtMvvmItemsTreeView(parent)
 {
     treeView()->setHeaderHidden(false);
     // provide one click editing
@@ -23,7 +23,7 @@ PropertyTreeView::PropertyTreeView(QWidget* parent) : ItemsTreeView(parent)
     treeView()->setAlternatingRowColors(true);
 }
 
-void PropertyTreeView::setItem(SessionItem* item)
+void QExtMvvmPropertyTreeView::setItem(QExtMvvmSessionItem* item)
 {
     if (!item) {
         treeView()->setModel(nullptr);
@@ -36,4 +36,4 @@ void PropertyTreeView::setItem(SessionItem* item)
     treeView()->expandAll();
 }
 
-PropertyTreeView::~PropertyTreeView() = default;
+QExtMvvmPropertyTreeView::~QExtMvvmPropertyTreeView() = default;

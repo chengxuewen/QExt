@@ -11,42 +11,42 @@
 #define MVVM_FACTORIES_VIEWMODELCONTROLLERBUILDER_H
 
 #include "viewmodel/viewmodel/viewmodelcontroller.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 namespace ModelView {
 
-class SessionModel;
-class ViewModelBase;
-class ChildrenStrategyInterface;
-class RowStrategyInterface;
+class QExtMvvmSessionModel;
+class QExtMvvmViewModelBase;
+class QExtMvvmChildrenStrategyInterface;
+class QExtMvvmRowStrategyInterface;
 
-//! Builder class for ViewModelController.
+//! Builder class for QExtMvvmViewModelController.
 
-class QEXT_MVVM_API ViewModelControllerBuilder {
+class QEXT_MVVM_API QExtMvvmViewModelControllerBuilder {
 public:
-    using self = ViewModelControllerBuilder;
+    using self = QExtMvvmViewModelControllerBuilder;
 
-    ViewModelControllerBuilder();
-    ~ViewModelControllerBuilder();
+    QExtMvvmViewModelControllerBuilder();
+    ~QExtMvvmViewModelControllerBuilder();
 
-    ViewModelControllerBuilder(const ViewModelControllerBuilder& other) = delete;
-    ViewModelControllerBuilder& operator=(const ViewModelControllerBuilder& other) = delete;
+    QExtMvvmViewModelControllerBuilder(const QExtMvvmViewModelControllerBuilder& other) = delete;
+    QExtMvvmViewModelControllerBuilder& operator=(const QExtMvvmViewModelControllerBuilder& other) = delete;
 
-    self& model(SessionModel* model);
-    self& viewModel(ViewModelBase* view_model);
-    self& childrenStrategy(QExtUniquePointer<ChildrenStrategyInterface> children_strategy);
-    self& rowStrategy(QExtUniquePointer<RowStrategyInterface> row_strategy);
+    self& model(QExtMvvmSessionModel* model);
+    self& viewModel(QExtMvvmViewModelBase* view_model);
+    self& childrenStrategy(QExtUniquePointer<QExtMvvmChildrenStrategyInterface> children_strategy);
+    self& rowStrategy(QExtUniquePointer<QExtMvvmRowStrategyInterface> row_strategy);
 
-    operator QExtUniquePointer<ViewModelController>();
+    operator QExtUniquePointer<QExtMvvmViewModelController>();
 
 private:
-    //! Components necessary to build ViewModelController
+    //! Components necessary to build QExtMvvmViewModelController
     struct Context {
-        SessionModel* model{nullptr};
-        ViewModelBase* view_model{nullptr};
-        QExtUniquePointer<ChildrenStrategyInterface> children_strategy;
-        QExtUniquePointer<RowStrategyInterface> row_strategy;
+        QExtMvvmSessionModel* model{nullptr};
+        QExtMvvmViewModelBase* view_model{nullptr};
+        QExtUniquePointer<QExtMvvmChildrenStrategyInterface> children_strategy;
+        QExtUniquePointer<QExtMvvmRowStrategyInterface> row_strategy;
     };
 
     Context context;

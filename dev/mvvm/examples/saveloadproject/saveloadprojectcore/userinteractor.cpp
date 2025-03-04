@@ -19,13 +19,13 @@
 using namespace ModelView;
 
 namespace {
-//! Map of standard Qt answers to what ProjectManager expects.
-std::map<QMessageBox::StandardButton, SaveChangesAnswer> answer_map()
+//! Map of standard Qt answers to what QExtMvvmProjectManager expects.
+std::map<QMessageBox::StandardButton, QExtMvvmSaveChangesAnswer> answer_map()
 {
-    std::map<QMessageBox::StandardButton, SaveChangesAnswer> result = {
-        {QMessageBox::Save, SaveChangesAnswer::SAVE},
-        {QMessageBox::Discard, SaveChangesAnswer::DISCARD},
-        {QMessageBox::Cancel, SaveChangesAnswer::CANCEL}};
+    std::map<QMessageBox::StandardButton, QExtMvvmSaveChangesAnswer> result = {
+        {QMessageBox::Save, QExtMvvmSaveChangesAnswer::SAVE},
+        {QMessageBox::Discard, QExtMvvmSaveChangesAnswer::DISCARD},
+        {QMessageBox::Cancel, QExtMvvmSaveChangesAnswer::CANCEL}};
     return result;
 }
 } // namespace
@@ -78,7 +78,7 @@ std::string UserInteractor::onCreateDirRequest()
 
 //! Returns save/cancel/discard changes choice provided by the user.
 
-SaveChangesAnswer UserInteractor::onSaveChangesRequest()
+QExtMvvmSaveChangesAnswer UserInteractor::onSaveChangesRequest()
 {
     static auto translate = answer_map();
 

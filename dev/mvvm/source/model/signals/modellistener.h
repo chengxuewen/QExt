@@ -14,13 +14,13 @@
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
-//! Templated class for all objects willing to listen for changes in concrete SessionModel.
+//! Templated class for all objects willing to listen for changes in concrete QExtMvvmSessionModel.
 
-template <typename T> class ModelListener : public ModelListenerBase {
+template <typename T> class QExtMvvmModelListener : public ModelListenerBase {
 public:
-    ModelListener(T* session_model) : ModelListenerBase(session_model) {}
+    QExtMvvmModelListener(T* session_model) : ModelListenerBase(session_model) {}
 
     T* model() const { return static_cast<T*>(m_model); }
 };

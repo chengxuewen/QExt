@@ -10,7 +10,7 @@
 #ifndef MVVM_SIGNALS_CALLBACKCONTAINER_H
 #define MVVM_SIGNALS_CALLBACKCONTAINER_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include "model/signals/callback_types.h"
 #include <algorithm>
 #include <functional>
@@ -18,10 +18,10 @@
 
 namespace ModelView {
 
-class SessionItem;
-class SessionModel;
+class QExtMvvmSessionItem;
+class QExtMvvmSessionModel;
 
-//! Container to hold callbacks in the context of ModelMapper.
+//! Container to hold callbacks in the context of QExtMvvmModelMapper.
 
 template <typename T, typename U> class SignalBase {
 public:

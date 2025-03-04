@@ -14,7 +14,7 @@
 
 using namespace ModelView;
 
-CollapsibleListWidget::CollapsibleListWidget(QWidget* parent)
+QExtMvvmCollapsibleListWidget::QExtMvvmCollapsibleListWidget(QWidget* parent)
     : QWidget(parent), m_splitter(new QSplitter)
 {
     m_splitter->setOrientation(Qt::Vertical);
@@ -24,10 +24,10 @@ CollapsibleListWidget::CollapsibleListWidget(QWidget* parent)
     layout->addWidget(m_splitter);
 }
 
-void CollapsibleListWidget::addWidget(QWidget* widget, const QString& title, bool collapsed)
+void QExtMvvmCollapsibleListWidget::addWidget(QWidget* widget, const QString& title, bool collapsed)
 {
     // add bar which will be uncollapsible and will control the appearance of our widget
-    auto bar = new CollapsibleBar(m_splitter);
+    auto bar = new QExtMvvmCollapsibleBar(m_splitter);
     m_splitter->addWidget(bar);
 
     // add widget itself

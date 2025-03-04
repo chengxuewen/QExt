@@ -14,12 +14,12 @@
 
 using namespace ModelView;
 
-PropertiesRowStrategy::PropertiesRowStrategy(std::vector<std::string> labels)
+QExtMvvmPropertiesRowStrategy::QExtMvvmPropertiesRowStrategy(std::vector<std::string> labels)
     : user_defined_column_labels(std::move(labels))
 {
 }
 
-QStringList PropertiesRowStrategy::horizontalHeaderLabels() const
+QStringList QExtMvvmPropertiesRowStrategy::horizontalHeaderLabels() const
 {
     QStringList result;
     auto labels =
@@ -29,9 +29,9 @@ QStringList PropertiesRowStrategy::horizontalHeaderLabels() const
     return result;
 }
 
-std::vector<QExtUniquePointer<ViewItem>> PropertiesRowStrategy::constructRow(SessionItem* item)
+std::vector<QExtUniquePointer<QExtMvvmViewItem>> QExtMvvmPropertiesRowStrategy::constructRow(QExtMvvmSessionItem* item)
 {
-    std::vector<QExtUniquePointer<ViewItem>> result;
+    std::vector<QExtUniquePointer<QExtMvvmViewItem>> result;
 
     if (!item)
         return result;
@@ -42,9 +42,9 @@ std::vector<QExtUniquePointer<ViewItem>> PropertiesRowStrategy::constructRow(Ses
 
     for (auto child : items_in_row) {
         if (child->hasData())
-            result.emplace_back(qextMakeUnique<ViewDataItem>(child));
+            result.emplace_back(qextMakeUnique<QExtMvvmViewDataItem>(child));
         else
-            result.emplace_back(qextMakeUnique<ViewLabelItem>(child));
+            result.emplace_back(qextMakeUnique<QExtMvvmViewLabelItem>(child));
     }
 
     return result;
@@ -52,9 +52,9 @@ std::vector<QExtUniquePointer<ViewItem>> PropertiesRowStrategy::constructRow(Ses
 
 //! Updates current column labels.
 
-void PropertiesRowStrategy::update_column_labels(std::vector<SessionItem*> items)
+void QExtMvvmPropertiesRowStrategy::update_column_labels(std::vector<QExtMvvmSessionItem*> items)
 {
     current_column_labels.clear();
     std::transform(items.begin(), items.end(), std::back_inserter(current_column_labels),
-                   [](const SessionItem* item) { return item->displayName(); });
+                   [](const QExtMvvmSessionItem* item) { return item->displayName(); });
 }

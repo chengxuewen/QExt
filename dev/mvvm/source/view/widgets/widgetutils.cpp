@@ -87,8 +87,8 @@ QString ModelView::Utils::WithTildeHomePath(const QString& path)
     return outPath;
 }
 
-//! Project without projectDir will be "Untitled", modified project will be "*Untitled".
-//! Project with projectDir in "/home/user/project1" will get title "project1".
+//! QExtMvvmProject without projectDir will be "Untitled", modified project will be "*Untitled".
+//! QExtMvvmProject with projectDir in "/home/user/project1" will get title "project1".
 
 QString ModelView::Utils::ProjectWindowTitle(const QString& project_dir, bool is_modified)
 {

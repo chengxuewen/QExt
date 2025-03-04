@@ -14,16 +14,16 @@
 
 namespace ModelView {
 
-//! Interface to subscribe to various events happening with specific SessionItem.
+//! Interface to subscribe to various events happening with specific QExtMvvmSessionItem.
 
-class QEXT_MVVM_API ItemListenerInterface {
+class QEXT_MVVM_API QExtMvvmItemListenerInterface {
 public:
-    virtual ~ItemListenerInterface() = default;
+    virtual ~QExtMvvmItemListenerInterface() = default;
 
     virtual void setOnItemDestroy(Callbacks::item_t f, Callbacks::slot_t owner) = 0;
 
     //! Sets callback to be notified on item's data change.
-    //! Callback will be called with (SessionItem*, data_role).
+    //! Callback will be called with (QExtMvvmSessionItem*, data_role).
 
     virtual void setOnDataChange(Callbacks::item_int_t f, Callbacks::slot_t owner) = 0;
 

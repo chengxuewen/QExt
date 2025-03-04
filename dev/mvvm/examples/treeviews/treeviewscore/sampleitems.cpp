@@ -19,38 +19,38 @@ using namespace ModelView;
 
 namespace TreeViews {
 
-MultiLayer::MultiLayer() : CompoundItem(::Constants::MultiLayerItemType)
+MultiLayer::MultiLayer() : QExtMvvmCompoundItem(::Constants::MultiLayerItemType)
 {
-    registerTag(TagInfo::universalTag(T_LAYERS, {::Constants::LayerItemType}),
+    registerTag(QExtMvvmTagInfo::universalTag(T_LAYERS, {::Constants::LayerItemType}),
                 /*set_as_default*/ true);
 }
 
 // ----------------------------------------------------------------------------
 
-LayerItem::LayerItem() : CompoundItem(::Constants::LayerItemType)
+LayerItem::LayerItem() : QExtMvvmCompoundItem(::Constants::LayerItemType)
 {
     addProperty(P_THICKNESS, 42.0);
     addProperty(P_COLOR, QColor(Qt::green));
-    registerTag(TagInfo::universalTag(T_PARTICLES, {::Constants::ParticleItemType}),
+    registerTag(QExtMvvmTagInfo::universalTag(T_PARTICLES, {::Constants::ParticleItemType}),
                 /*set_as_default*/ true);
 }
 
 // ----------------------------------------------------------------------------
 
-ParticleItem::ParticleItem() : CompoundItem(::Constants::ParticleItemType)
+ParticleItem::ParticleItem() : QExtMvvmCompoundItem(::Constants::ParticleItemType)
 {
-    addProperty<VectorItem>(P_POSITION);
+    addProperty<QExtMvvmVectorItem>(P_POSITION);
     addProperty<ShapeGroupItem>(P_SHAPE);
 }
 
 // ----------------------------------------------------------------------------
 
-LatticeItem::LatticeItem() : CompoundItem(::Constants::LatticeItemType)
+LatticeItem::LatticeItem() : QExtMvvmCompoundItem(::Constants::LatticeItemType)
 {
     addProperty(P_ROTATION_ANLE, 90.0);
     addProperty(P_INTEGRATION, true);
 
-    auto combo = ComboProperty::createFrom({"Default", "Square", "Hexagonal"});
+    auto combo = QExtMvvmComboProperty::createFrom({"Default", "Square", "Hexagonal"});
     addProperty(P_LATTICE_TYPE, combo);
 
     update_appearance();
@@ -58,7 +58,7 @@ LatticeItem::LatticeItem() : CompoundItem(::Constants::LatticeItemType)
 
 void LatticeItem::activate()
 {
-    auto onIntegrationFlagChange = [this](SessionItem*, const std::string& property) {
+    auto onIntegrationFlagChange = [this](QExtMvvmSessionItem*, const std::string& property) {
         if (property == P_INTEGRATION)
             update_appearance();
     };
@@ -74,7 +74,7 @@ void LatticeItem::update_appearance()
 
 // ----------------------------------------------------------------------------
 
-CylinderItem::CylinderItem() : CompoundItem(::Constants::CylinderItemType)
+CylinderItem::CylinderItem() : QExtMvvmCompoundItem(::Constants::CylinderItemType)
 {
     addProperty(P_RADIUS, 8.0);
     addProperty(P_HEIGHT, 10.0);
@@ -82,14 +82,14 @@ CylinderItem::CylinderItem() : CompoundItem(::Constants::CylinderItemType)
 
 // ----------------------------------------------------------------------------
 
-SphereItem::SphereItem() : CompoundItem(::Constants::SphereItemType)
+SphereItem::SphereItem() : QExtMvvmCompoundItem(::Constants::SphereItemType)
 {
     addProperty(P_RADIUS, 8.0);
 }
 
 // ----------------------------------------------------------------------------
 
-AnysoPyramidItem::AnysoPyramidItem() : CompoundItem(::Constants::AnysoPyramidItemType)
+AnysoPyramidItem::AnysoPyramidItem() : QExtMvvmCompoundItem(::Constants::AnysoPyramidItemType)
 {
     addProperty(P_LENGTH, 8.0);
     addProperty(P_WIDTH, 9.0);
@@ -99,7 +99,7 @@ AnysoPyramidItem::AnysoPyramidItem() : CompoundItem(::Constants::AnysoPyramidIte
 
 // ----------------------------------------------------------------------------
 
-ShapeGroupItem::ShapeGroupItem() : GroupItem(::Constants::ShapeGroupItemType)
+ShapeGroupItem::ShapeGroupItem() : QExtMvvmGroupItem(::Constants::ShapeGroupItemType)
 {
     addToGroup<CylinderItem>("Cylinder");
     addToGroup<SphereItem>("Full sphere", /*make_selected*/ true);

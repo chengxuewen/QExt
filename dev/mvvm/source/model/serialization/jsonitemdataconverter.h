@@ -18,26 +18,26 @@ class QJsonObject;
 
 namespace ModelView {
 
-class JsonVariantConverterInterface;
+class QExtMvvmJsonVariantConverterInterface;
 
-//! Default converter of SessionItemData to/from json object.
+//! Default converter of QExtMvvmSessionItemData to/from json object.
 
-class QEXT_MVVM_API JsonItemDataConverter : public JsonItemDataConverterInterface {
+class QEXT_MVVM_API QExtMvvmJsonItemDataConverter : public QExtMvvmJsonItemDataConverterInterface {
 public:
     using accept_strategy_t = std::function<bool(int)>;
 
-    JsonItemDataConverter(accept_strategy_t to_json_accept = {},
+    QExtMvvmJsonItemDataConverter(accept_strategy_t to_json_accept = {},
                           accept_strategy_t from_json_accept = {});
 
-    ~JsonItemDataConverter() override;
+    ~QExtMvvmJsonItemDataConverter() override;
 
-    QJsonArray to_json(const SessionItemData& data) override;
+    QJsonArray to_json(const QExtMvvmSessionItemData& data) override;
 
-    void from_json(const QJsonArray& object, SessionItemData& data) override;
+    void from_json(const QJsonArray& object, QExtMvvmSessionItemData& data) override;
 
-    static QExtUniquePointer<JsonItemDataConverterInterface> createCopyConverter();
+    static QExtUniquePointer<QExtMvvmJsonItemDataConverterInterface> createCopyConverter();
 
-    static QExtUniquePointer<JsonItemDataConverterInterface> createProjectConverter();
+    static QExtUniquePointer<QExtMvvmJsonItemDataConverterInterface> createProjectConverter();
 
 private:
     bool isRoleToJson(int role) const;
@@ -45,7 +45,7 @@ private:
 
     accept_strategy_t m_to_json_accept;   //!< callback to find whether to write role to json
     accept_strategy_t m_from_json_accept; //!< callback to find whether to read role from json
-    QExtUniquePointer<JsonVariantConverterInterface> m_variant_converter;
+    QExtUniquePointer<QExtMvvmJsonVariantConverterInterface> m_variant_converter;
 };
 
 } // namespace ModelView

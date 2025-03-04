@@ -13,19 +13,19 @@
 
 using namespace ModelView;
 
-PropertyTableViewModel::PropertyTableViewModel(SessionModel* model, QObject* parent)
-    : ViewModel(qextMakeUnique<PropertyTableViewModelController>(model, this), parent)
+QExtMvvmPropertyTableViewModel::QExtMvvmPropertyTableViewModel(QExtMvvmSessionModel* model, QObject* parent)
+    : QExtMvvmViewModel(qextMakeUnique<QExtMvvmPropertyTableViewModelController>(model, this), parent)
 {
 }
 
-void PropertyTableViewModel::insertRow(ViewItem* parent, int row,
-                                       std::vector<QExtUniquePointer<ViewItem>> items)
+void QExtMvvmPropertyTableViewModel::insertRow(QExtMvvmViewItem* parent, int row,
+                                       std::vector<QExtUniquePointer<QExtMvvmViewItem>> items)
 {
     // The code below is used to inform QTableView about layout change if the number
     // of columns before the insertion doesn't coincide with the length of `items` vector to insert.
-    // This happens when PropertyTableViewModel is looking on empty SessionModel.
+    // This happens when QExtMvvmPropertyTableViewModel is looking on empty QExtMvvmSessionModel.
     int prevColumnCount = parent->columnCount();
-    ViewModel::insertRow(parent, row, std::move(items));
+    QExtMvvmViewModel::insertRow(parent, row, std::move(items));
     if (parent->columnCount() != prevColumnCount)
         emit layoutChanged();
 }

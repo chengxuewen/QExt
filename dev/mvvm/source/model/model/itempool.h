@@ -11,36 +11,36 @@
 #define MVVM_MODEL_ITEMPOOL_H
 
 #include "model/core/types.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <map>
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
-//! Provides registration of SessionItem pointers and their unique identifiers
+//! Provides registration of QExtMvvmSessionItem pointers and their unique identifiers
 //! in global memory pool.
 
-class QEXT_MVVM_API ItemPool {
+class QEXT_MVVM_API QExtMvvmItemPool {
 public:
-    ItemPool() = default;
-    ItemPool(const ItemPool&) = delete;
-    ItemPool(ItemPool&&) = delete;
-    ItemPool& operator=(const ItemPool&) = delete;
-    ItemPool& operator=(ItemPool&&) = delete;
+    QExtMvvmItemPool() = default;
+    QExtMvvmItemPool(const QExtMvvmItemPool&) = delete;
+    QExtMvvmItemPool(QExtMvvmItemPool&&) = delete;
+    QExtMvvmItemPool& operator=(const QExtMvvmItemPool&) = delete;
+    QExtMvvmItemPool& operator=(QExtMvvmItemPool&&) = delete;
 
     size_t size() const;
 
-    identifier_type register_item(SessionItem* item, identifier_type key = {});
-    void unregister_item(SessionItem* item);
+    QExtMvvmIdentifierType register_item(QExtMvvmSessionItem* item, QExtMvvmIdentifierType key = {});
+    void unregister_item(QExtMvvmSessionItem* item);
 
-    identifier_type key_for_item(const SessionItem* item) const;
+    QExtMvvmIdentifierType key_for_item(const QExtMvvmSessionItem* item) const;
 
-    SessionItem* item_for_key(const identifier_type& key) const;
+    QExtMvvmSessionItem* item_for_key(const QExtMvvmIdentifierType& key) const;
 
 private:
-    std::map<identifier_type, SessionItem*> m_key_to_item;
-    std::map<const SessionItem*, identifier_type> m_item_to_key;
+    std::map<QExtMvvmIdentifierType, QExtMvvmSessionItem*> m_key_to_item;
+    std::map<const QExtMvvmSessionItem*, QExtMvvmIdentifierType> m_item_to_key;
 };
 
 } // namespace ModelView

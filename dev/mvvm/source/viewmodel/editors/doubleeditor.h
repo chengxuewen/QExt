@@ -18,11 +18,11 @@ namespace ModelView {
 
 //! Custom editor for QVariant based on double with possibility to set limits.
 
-class QEXT_MVVM_API DoubleEditor : public CustomEditor {
+class QEXT_MVVM_API QExtMvvmDoubleEditor : public QExtMvvmCustomEditor {
     Q_OBJECT
 
 public:
-    explicit DoubleEditor(QWidget* parent = nullptr);
+    explicit QExtMvvmDoubleEditor(QWidget* parent = nullptr);
 
     void setRange(double minimum, double maximum);
 

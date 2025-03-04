@@ -17,7 +17,7 @@ class QBoxLayout;
 class QSlider;
 
 namespace ModelView {
-class ItemsTreeView;
+class QExtMvvmItemsTreeView;
 } // namespace ModelView
 
 namespace GraphicsProxy {
@@ -39,7 +39,7 @@ private:
     QBoxLayout* createButtonLayout();
 
     QSlider* m_slider{nullptr};
-    ModelView::ItemsTreeView* m_treeView{nullptr};
+    ModelView::QExtMvvmItemsTreeView* m_treeView{nullptr};
     SceneModel* m_model{nullptr};
 };
 

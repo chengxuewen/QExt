@@ -15,8 +15,8 @@
 
 using namespace ModelView;
 
-ScientificSpinBoxEditor::ScientificSpinBoxEditor(QWidget* parent)
-    : CustomEditor(parent), m_doubleEditor(new ScientificSpinBox)
+QExtMvvmScientificSpinBoxEditor::QExtMvvmScientificSpinBoxEditor(QWidget* parent)
+    : QExtMvvmCustomEditor(parent), m_doubleEditor(new QExtMvvmScientificSpinBox)
 {
     setAutoFillBackground(true);
     setFocusPolicy(Qt::StrongFocus);
@@ -29,35 +29,35 @@ ScientificSpinBoxEditor::ScientificSpinBoxEditor(QWidget* parent)
 
     layout->addWidget(m_doubleEditor);
 
-    connect(m_doubleEditor, &ScientificSpinBox::valueChanged, [=] { this->onEditingFinished(); });
+    connect(m_doubleEditor, &QExtMvvmScientificSpinBox::valueChanged, [=] { this->onEditingFinished(); });
 
     setLayout(layout);
 
     setFocusProxy(m_doubleEditor);
 }
 
-void ScientificSpinBoxEditor::setRange(double minimum, double maximum)
+void QExtMvvmScientificSpinBoxEditor::setRange(double minimum, double maximum)
 {
     m_doubleEditor->setMinimum(minimum);
     m_doubleEditor->setMaximum(maximum);
 }
 
-void ScientificSpinBoxEditor::setDecimals(int decimals)
+void QExtMvvmScientificSpinBoxEditor::setDecimals(int decimals)
 {
     m_doubleEditor->setDecimals(decimals);
 }
 
-void ScientificSpinBoxEditor::setSingleStep(double step)
+void QExtMvvmScientificSpinBoxEditor::setSingleStep(double step)
 {
     m_doubleEditor->setSingleStep(step);
 }
 
-bool ScientificSpinBoxEditor::is_persistent() const
+bool QExtMvvmScientificSpinBoxEditor::is_persistent() const
 {
     return true;
 }
 
-void ScientificSpinBoxEditor::onEditingFinished()
+void QExtMvvmScientificSpinBoxEditor::onEditingFinished()
 {
     double new_value = m_doubleEditor->value();
 
@@ -65,7 +65,7 @@ void ScientificSpinBoxEditor::onEditingFinished()
         setDataIntern(QVariant::fromValue(new_value));
 }
 
-void ScientificSpinBoxEditor::update_components()
+void QExtMvvmScientificSpinBoxEditor::update_components()
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (m_data.type() != QVariant::Double)
@@ -74,6 +74,6 @@ void ScientificSpinBoxEditor::update_components()
 #endif
     {
         throw std::runtime_error(
-            "ScientificSpinBoxEditor::UpdateComponents() -> Error. Wrong variant type");
+            "QExtMvvmScientificSpinBoxEditor::UpdateComponents() -> Error. Wrong variant type");
     }
 }

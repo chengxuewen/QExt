@@ -31,10 +31,10 @@ const std::string string_type_name = "std::__cxx11::basic_string<char>";
 
 const std::string double_type_name = "double";
 const std::string vector_double_type_name = "std::vector<double>";
-const std::string comboproperty_type_name = "ModelView::ComboProperty";
+const std::string comboproperty_type_name = "ModelView::QExtMvvmComboProperty";
 const std::string qcolor_type_name = "QColor";
-const std::string extproperty_type_name = "ModelView::ExternalProperty";
-const std::string reallimits_type_name = "ModelView::RealLimits";
+const std::string extproperty_type_name = "ModelView::QExtMvvmExternalProperty";
+const std::string reallimits_type_name = "ModelView::QExtMvvmRealLimits";
 
 
 } // namespace ModelView::Constants

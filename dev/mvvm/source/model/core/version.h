@@ -15,36 +15,36 @@
 
 #include <string>
 
-namespace ModelView {
+// namespace ModelView {
 
 //! Returns major project version.
-inline int ProjectVersionMajor()
+inline int qextMvvmProjectVersionMajor()
 {
     const int project_version_major = 0;
     return project_version_major;
 }
 
 //! Returns minor project version.
-inline int ProjectVersionMinor()
+inline int qextMvvmProjectVersionMinor()
 {
     const int project_version_minor = 2;
     return project_version_minor;
 }
 
 //! Returns patch project version.
-inline int ProjectVersionPatch()
+inline int qextMvvmProjectVersionPatch()
 {
     const int project_version_path = 0;
     return project_version_path;
 }
 
 //! Returns project version string
-inline std::string ProjectVersion()
+inline std::string qextMvvmProjectVersion()
 {
     const std::string project_version = "0.2.0";
     return project_version;
 }
 
-} // namespace ModelView
+// } // namespace ModelView
 
 #endif // MVVM_CORE_VERSION_H

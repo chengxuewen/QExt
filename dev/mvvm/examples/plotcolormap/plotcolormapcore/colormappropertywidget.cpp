@@ -20,7 +20,7 @@ using namespace ModelView;
 namespace PlotColorMap {
 
 ColorMapPropertyWidget::ColorMapPropertyWidget(ColorMapModel* model, QWidget* parent)
-    : QWidget(parent), m_slider(new QSlider), m_tree_view(new ItemsTreeView), m_model(model)
+    : QWidget(parent), m_slider(new QSlider), m_tree_view(new QExtMvvmItemsTreeView), m_model(model)
 {
     auto layout = new QVBoxLayout;
     layout->addWidget(m_slider);

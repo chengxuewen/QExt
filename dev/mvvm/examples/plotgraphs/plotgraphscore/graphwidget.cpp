@@ -24,7 +24,7 @@ namespace PlotGraphs {
 GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     : QWidget(parent)
     , m_toolBar(new QToolBar)
-    , m_graphCanvas(new GraphCanvas)
+    , m_graphCanvas(new QExtMvvmGraphCanvas)
     , m_propertyWidget(new GraphPropertyWidget)
 {
     auto mainLayout = new QVBoxLayout;
@@ -53,7 +53,7 @@ void GraphWidget::setModel(GraphModel* model)
 
     m_propertyWidget->setModel(model);
 
-    m_graphCanvas->setItem(model->topItem<GraphViewportItem>());
+    m_graphCanvas->setItem(model->topItem<QExtMvvmGraphViewportItem>());
 }
 
 void GraphWidget::initActions()
@@ -63,7 +63,7 @@ void GraphWidget::initActions()
 
     m_resetViewportAction = new QAction("Reset view", this);
     auto on_reset = [this]() {
-        auto viewport = m_model->topItem<GraphViewportItem>();
+        auto viewport = m_model->topItem<QExtMvvmGraphViewportItem>();
         viewport->setViewportToContent(0.0, 0.1, 0.0, 0.1);
     };
     connect(m_resetViewportAction, &QAction::triggered, on_reset);

@@ -15,23 +15,23 @@
 
 namespace ModelView {
 
-class SessionItem;
-class TagRow;
+// class QExtMvvmSessionItem;
+// class QExtMvvmTagRow;
 
-//! Command for unddo/redo framework to move item from one parent to another.
+// //! Command for unddo/redo framework to move item from one parent to another.
 
-class QEXT_MVVM_API MoveItemCommand : public AbstractItemCommand {
-public:
-    MoveItemCommand(SessionItem* item, SessionItem* new_parent, TagRow tagrow);
-    ~MoveItemCommand() override;
+// class QEXT_MVVM_API QExtMvvmMoveItemCommand : public QExtMvvmAbstractItemCommand {
+// public:
+//     QExtMvvmMoveItemCommand(QExtMvvmSessionItem* item, QExtMvvmSessionItem* new_parent, QExtMvvmTagRow tagrow);
+//     ~QExtMvvmMoveItemCommand() override;
 
-private:
-    void undo_command() override;
-    void execute_command() override;
+// private:
+//     void undo_command() override;
+//     void execute_command() override;
 
-    struct MoveItemCommandImpl;
-    QExtUniquePointer<MoveItemCommandImpl> p_impl;
-};
+//     struct MoveItemCommandImpl;
+//     QExtUniquePointer<MoveItemCommandImpl> p_impl;
+// };
 
 } // namespace ModelView
 

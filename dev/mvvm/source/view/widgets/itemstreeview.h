@@ -10,7 +10,7 @@
 #ifndef MVVM_WIDGETS_ITEMSTREEVIEW_H
 #define MVVM_WIDGETS_ITEMSTREEVIEW_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QWidget>
 #include <memory>
 
@@ -20,34 +20,34 @@ class QItemSelectionModel;
 
 namespace ModelView {
 
-class SessionItem;
-class ViewModel;
-class ViewModelDelegate;
+class QExtMvvmSessionItem;
+class QExtMvvmViewModel;
+class QExtMvvmViewModelDelegate;
 
-//! Tree view to show items of SessionModel via ViewModel mechanism.
-//! Provides notification mechanism for SessionItem selections, use custom delegate.
+//! Tree view to show items of QExtMvvmSessionModel via QExtMvvmViewModel mechanism.
+//! Provides notification mechanism for QExtMvvmSessionItem selections, use custom delegate.
 
-class QEXT_MVVM_API ItemsTreeView : public QWidget {
+class QEXT_MVVM_API QExtMvvmItemsTreeView : public QWidget {
     Q_OBJECT
 
 public:
-    explicit ItemsTreeView(QWidget* parent = nullptr);
-    ~ItemsTreeView() override;
+    explicit QExtMvvmItemsTreeView(QWidget* parent = nullptr);
+    ~QExtMvvmItemsTreeView() override;
 
     QTreeView* treeView();
 
-    void setViewModel(QExtUniquePointer<ViewModel> viewModel);
+    void setViewModel(QExtUniquePointer<QExtMvvmViewModel> viewModel);
 
-    void setViewModelDelegate(QExtUniquePointer<ViewModelDelegate> delegate);
+    void setViewModelDelegate(QExtUniquePointer<QExtMvvmViewModelDelegate> delegate);
 
-    void setSelected(SessionItem* item);
+    void setSelected(QExtMvvmSessionItem* item);
 
-    void setRootSessionItem(SessionItem* item);
+    void setRootSessionItem(QExtMvvmSessionItem* item);
 
-    ViewModel* viewModel() const;
+    QExtMvvmViewModel* viewModel() const;
 
 signals:
-    void itemSelected(ModelView::SessionItem*);
+    void itemSelected(ModelView::QExtMvvmSessionItem*);
 
 private slots:
     void onSelectionChanged(const QItemSelection&, const QItemSelection&);
@@ -58,8 +58,8 @@ private:
     void set_connected(bool flag);
 
     QTreeView* m_treeView{nullptr};
-    QExtUniquePointer<ViewModel> m_viewModel;
-    QExtUniquePointer<ViewModelDelegate> m_delegate;
+    QExtUniquePointer<QExtMvvmViewModel> m_viewModel;
+    QExtUniquePointer<QExtMvvmViewModelDelegate> m_delegate;
     bool m_block_selection;
 };
 

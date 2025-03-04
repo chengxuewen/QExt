@@ -17,7 +17,7 @@ namespace ModelView {
 
 //! Generates default cell decorations for Qt trees and tables.
 
-class QEXT_MVVM_API DefaultCellDecorator : public CellDecoratorInterface {
+class QEXT_MVVM_API QExtMvvmDefaultCellDecorator : public QExtMvvmCellDecoratorInterface {
 public:
     bool hasCustomDecoration(const QModelIndex& index) const override;
     void initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index) override;

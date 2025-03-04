@@ -15,6 +15,6 @@
 
 #include <QVariant>
 
-using Variant = QVariant;
+// using QVariant = QVariant;
 
 #endif // MVVM_CORE_VARIANT_H

@@ -38,13 +38,13 @@ public:
 
     Result simulationResult() const;
 
-    void setProgressCallback(ModelView::ProgressHandler::callback_t callback);
+    void setProgressCallback(ModelView::QExtMvvmProgressHandler::callback_t callback);
 
 private:
     InputData input_data;
     Result result;
     int delay{0};
-    ModelView::ProgressHandler progress_handler;
+    ModelView::QExtMvvmProgressHandler progress_handler;
 };
 
 #endif // CONCURRENTPLOTCORE_TOYSIMULATION_H

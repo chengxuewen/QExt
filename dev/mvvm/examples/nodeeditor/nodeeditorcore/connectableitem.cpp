@@ -15,7 +15,7 @@ using namespace ModelView;
 
 namespace NodeEditor {
 
-ConnectableItem::ConnectableItem(const std::string& modelType) : ModelView::CompoundItem(modelType)
+ConnectableItem::ConnectableItem(const std::string& modelType) : ModelView::QExtMvvmCompoundItem(modelType)
 {
     addProperty(P_XPOS, 0.0)->setDisplayName("X");
     addProperty(P_YPOS, 0.0)->setDisplayName("Y");

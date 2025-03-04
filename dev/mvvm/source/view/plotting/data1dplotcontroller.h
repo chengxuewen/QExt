@@ -11,22 +11,22 @@
 #define MVVM_PLOTTING_DATA1DPLOTCONTROLLER_H
 
 #include "model/signals/itemlistener.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 class QCPGraph;
 
 namespace ModelView {
 
-class Data1DItem;
+class QExtMvvmData1DItem;
 
-//! Establishes communication between QCPGraph and Data1DItem.
+//! Establishes communication between QCPGraph and QExtMvvmData1DItem.
 //! Provides update of data points on QCPGraph when Graph1DItem is changed.
 
-class QEXT_MVVM_API Data1DPlotController : public ItemListener<Data1DItem> {
+class QEXT_MVVM_API QExtMvvmData1DPlotController : public QExtMvvmItemListener<QExtMvvmData1DItem> {
 public:
-    explicit Data1DPlotController(QCPGraph* graph);
-    ~Data1DPlotController() override;
+    explicit QExtMvvmData1DPlotController(QCPGraph* graph);
+    ~QExtMvvmData1DPlotController() override;
 
 protected:
     void subscribe() override;

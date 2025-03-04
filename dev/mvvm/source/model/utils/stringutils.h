@@ -10,7 +10,7 @@
 #ifndef MVVM_UTILS_STRINGUTILS_H
 #define MVVM_UTILS_STRINGUTILS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <qextOptional.h>
 #include <optional>
 #include <string>

@@ -56,7 +56,7 @@ std::string compose_string(const Context& context)
 
 } // namespace
 
-std::string GraphInfoFormatter::status_string(QCustomPlot* custom_plot, double x, double y) const
+std::string QExtMvvmGraphInfoFormatter::status_string(QCustomPlot* custom_plot, double x, double y) const
 {
     Context context(x, y);
 

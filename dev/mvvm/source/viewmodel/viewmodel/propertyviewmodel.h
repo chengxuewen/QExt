@@ -14,14 +14,14 @@
 
 namespace ModelView {
 
-//! View model to show content of SessionModel in Qt widgets.
+//! View model to show content of QExtMvvmSessionModel in Qt widgets.
 //! Only property items are shown, also hides inactive items of GroupProperty.
 
-class QEXT_MVVM_API PropertyViewModel : public ViewModel {
+class QEXT_MVVM_API QExtMvvmPropertyViewModel : public QExtMvvmViewModel {
     Q_OBJECT
 
 public:
-    PropertyViewModel(SessionModel* model, QObject* parent = nullptr);
+    QExtMvvmPropertyViewModel(QExtMvvmSessionModel* model, QObject* parent = nullptr);
 };
 
 } // namespace ModelView

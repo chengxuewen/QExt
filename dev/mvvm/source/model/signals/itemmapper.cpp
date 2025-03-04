@@ -15,8 +15,8 @@
 
 using namespace ModelView;
 
-struct ItemMapper::ItemMapperImpl {
-    ItemMapper* m_itemMapper{nullptr};
+struct QExtMvvmItemMapper::ItemMapperImpl {
+    QExtMvvmItemMapper* m_itemMapper{nullptr};
     Signal<Callbacks::item_t> m_on_item_destroy;
     Signal<Callbacks::item_int_t> m_on_data_change;
     Signal<Callbacks::item_str_t> m_on_property_change;
@@ -26,9 +26,9 @@ struct ItemMapper::ItemMapperImpl {
     Signal<Callbacks::item_tagrow_t> m_on_about_to_remove_item;
 
     bool m_active{true};
-    SessionItem* m_item{nullptr};
+    QExtMvvmSessionItem* m_item{nullptr};
 
-    ItemMapperImpl(ItemMapper* item_mapper) : m_itemMapper(item_mapper) {}
+    ItemMapperImpl(QExtMvvmItemMapper* item_mapper) : m_itemMapper(item_mapper) {}
 
     void unsubscribe(Callbacks::slot_t client)
     {
@@ -41,7 +41,7 @@ struct ItemMapper::ItemMapperImpl {
         m_on_about_to_remove_item.remove_client(client);
     }
 
-    int nestlingDepth(SessionItem* item, int level = 0)
+    int nestlingDepth(QExtMvvmSessionItem* item, int level = 0)
     {
         if (item == nullptr || item == m_itemMapper->model()->rootItem())
             return -1;
@@ -52,7 +52,7 @@ struct ItemMapper::ItemMapperImpl {
 
     //! Processes signals from the model when item data changed.
 
-    void processDataChange(SessionItem* item, int role)
+    void processDataChange(QExtMvvmSessionItem* item, int role)
     {
         int nestling = nestlingDepth(item);
 
@@ -71,19 +71,19 @@ struct ItemMapper::ItemMapperImpl {
         }
     }
 
-    void processItemInserted(SessionItem* parent, const TagRow& tagrow)
+    void processItemInserted(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow)
     {
         if (parent == m_item)
             callOnItemInserted(m_item, tagrow);
     }
 
-    void processItemRemoved(SessionItem* parent, const TagRow& tagrow)
+    void processItemRemoved(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow)
     {
         if (parent == m_item)
             callOnItemRemoved(m_item, tagrow);
     }
 
-    void processAboutToRemoveItem(SessionItem* parent, const TagRow& tagrow)
+    void processAboutToRemoveItem(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow)
     {
         if (parent == m_item)
             callOnAboutToRemoveItem(m_item, tagrow);
@@ -91,7 +91,7 @@ struct ItemMapper::ItemMapperImpl {
 
     //! Notifies all callbacks subscribed to "item data is changed" event.
 
-    void callOnDataChange(SessionItem* item, int role)
+    void callOnDataChange(QExtMvvmSessionItem* item, int role)
     {
         if (m_active)
             m_on_data_change(item, role);
@@ -99,7 +99,7 @@ struct ItemMapper::ItemMapperImpl {
 
     //! Notifies all callbacks subscribed to "item property is changed" event.
 
-    void callOnPropertyChange(SessionItem* item, const std::string& property_name)
+    void callOnPropertyChange(QExtMvvmSessionItem* item, const std::string& property_name)
     {
         if (m_active)
             m_on_property_change(item, property_name);
@@ -107,7 +107,7 @@ struct ItemMapper::ItemMapperImpl {
 
     //! Notifies all callbacks subscribed to "child property changed" event.
 
-    void callOnChildPropertyChange(SessionItem* item, const std::string& property_name)
+    void callOnChildPropertyChange(QExtMvvmSessionItem* item, const std::string& property_name)
     {
         if (m_active)
             m_on_child_property_change(item, property_name);
@@ -115,7 +115,7 @@ struct ItemMapper::ItemMapperImpl {
 
     //! Notifies all callbacks subscribed to "on row inserted" event.
 
-    void callOnItemInserted(SessionItem* parent, const TagRow& tagrow)
+    void callOnItemInserted(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow)
     {
         if (m_active)
             m_on_item_inserted(parent, tagrow);
@@ -123,7 +123,7 @@ struct ItemMapper::ItemMapperImpl {
 
     //! Notifies all callbacks subscribed to "on row removed" event.
 
-    void callOnItemRemoved(SessionItem* parent, const TagRow& tagrow)
+    void callOnItemRemoved(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow)
     {
         if (m_active)
             m_on_item_removed(parent, tagrow);
@@ -131,95 +131,95 @@ struct ItemMapper::ItemMapperImpl {
 
     //! Notifies all callbacks subscribed to "on row about to be removed".
 
-    void callOnAboutToRemoveItem(SessionItem* parent, const TagRow& tagrow)
+    void callOnAboutToRemoveItem(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow)
     {
         if (m_active)
             m_on_about_to_remove_item(parent, tagrow);
     }
 };
 
-ItemMapper::ItemMapper(SessionItem* item)
-    : ModelListener(item->model()), p_impl(qextMakeUnique<ItemMapperImpl>(this))
+QExtMvvmItemMapper::QExtMvvmItemMapper(QExtMvvmSessionItem* item)
+    : QExtMvvmModelListener(item->model()), p_impl(qextMakeUnique<ItemMapperImpl>(this))
 {
     if (!item)
-        throw std::runtime_error("ItemMapper::ItemMapper() -> Not initialized item");
+        throw std::runtime_error("QExtMvvmItemMapper::QExtMvvmItemMapper() -> Not initialized item");
 
     if (!item->model())
-        throw std::runtime_error("ItemMapper::ItemMapper() -> Item doesn't have model");
+        throw std::runtime_error("QExtMvvmItemMapper::QExtMvvmItemMapper() -> Item doesn't have model");
 
     p_impl->m_item = item;
 
-    auto on_data_change = [this](SessionItem* item, int role) { p_impl->processDataChange(item, role); };
-    ModelListener::setOnDataChange(on_data_change);
+    auto on_data_change = [this](QExtMvvmSessionItem* item, int role) { p_impl->processDataChange(item, role); };
+    QExtMvvmModelListener::setOnDataChange(on_data_change);
 
-    auto on_item_inserted = [this](SessionItem* item, TagRow tagrow) {
+    auto on_item_inserted = [this](QExtMvvmSessionItem* item, QExtMvvmTagRow tagrow) {
         p_impl->processItemInserted(item, tagrow);
     };
-    ModelListener::setOnItemInserted(on_item_inserted, this);
+    QExtMvvmModelListener::setOnItemInserted(on_item_inserted, this);
 
-    auto on_item_removed = [this](SessionItem* item, TagRow tagrow) {
+    auto on_item_removed = [this](QExtMvvmSessionItem* item, QExtMvvmTagRow tagrow) {
         p_impl->processItemRemoved(item, tagrow);
     };
-    ModelListener::setOnItemRemoved(on_item_removed, this);
+    QExtMvvmModelListener::setOnItemRemoved(on_item_removed, this);
 
-    auto on_about_to_remove_item = [this](SessionItem* item, TagRow tagrow) {
+    auto on_about_to_remove_item = [this](QExtMvvmSessionItem* item, QExtMvvmTagRow tagrow) {
         p_impl->processAboutToRemoveItem(item, tagrow);
     };
-    ModelListener::setOnAboutToRemoveItem(on_about_to_remove_item, this);
+    QExtMvvmModelListener::setOnAboutToRemoveItem(on_about_to_remove_item, this);
 }
 
-ItemMapper::~ItemMapper() = default;
+QExtMvvmItemMapper::~QExtMvvmItemMapper() = default;
 
-void ItemMapper::setOnItemDestroy(Callbacks::item_t f, Callbacks::slot_t owner)
+void QExtMvvmItemMapper::setOnItemDestroy(Callbacks::item_t f, Callbacks::slot_t owner)
 {
     p_impl->m_on_item_destroy.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnDataChange(Callbacks::item_int_t f, Callbacks::slot_t owner)
+void QExtMvvmItemMapper::setOnDataChange(Callbacks::item_int_t f, Callbacks::slot_t owner)
 {
     p_impl->m_on_data_change.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnPropertyChange(Callbacks::item_str_t f, Callbacks::slot_t owner)
+void QExtMvvmItemMapper::setOnPropertyChange(Callbacks::item_str_t f, Callbacks::slot_t owner)
 {
     p_impl->m_on_property_change.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnChildPropertyChange(Callbacks::item_str_t f, Callbacks::slot_t owner)
+void QExtMvvmItemMapper::setOnChildPropertyChange(Callbacks::item_str_t f, Callbacks::slot_t owner)
 {
     p_impl->m_on_child_property_change.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnItemInserted(Callbacks::item_tagrow_t f, Callbacks::slot_t owner)
+void QExtMvvmItemMapper::setOnItemInserted(Callbacks::item_tagrow_t f, Callbacks::slot_t owner)
 {
     p_impl->m_on_item_inserted.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnItemRemoved(Callbacks::item_tagrow_t f, Callbacks::slot_t owner)
+void QExtMvvmItemMapper::setOnItemRemoved(Callbacks::item_tagrow_t f, Callbacks::slot_t owner)
 {
     p_impl->m_on_item_removed.connect(std::move(f), owner);
 }
 
-void ItemMapper::setOnAboutToRemoveItem(Callbacks::item_tagrow_t f, Callbacks::slot_t owner)
+void QExtMvvmItemMapper::setOnAboutToRemoveItem(Callbacks::item_tagrow_t f, Callbacks::slot_t owner)
 {
     p_impl->m_on_about_to_remove_item.connect(std::move(f), owner);
 }
 
-void ItemMapper::unsubscribe(Callbacks::slot_t client)
+void QExtMvvmItemMapper::unsubscribe(Callbacks::slot_t client)
 {
     p_impl->unsubscribe(client);
 }
 
 //! Sets activity flag to given value. Will disable all callbacks if false.
 
-void ItemMapper::setActive(bool value)
+void QExtMvvmItemMapper::setActive(bool value)
 {
     p_impl->m_active = value;
 }
 
 //! Calls all callbacks subscribed to "item is destroyed" event.
 
-void ItemMapper::callOnItemDestroy()
+void QExtMvvmItemMapper::callOnItemDestroy()
 {
     if (p_impl->m_active)
         p_impl->m_on_item_destroy(p_impl->m_item);

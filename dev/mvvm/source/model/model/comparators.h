@@ -10,13 +10,13 @@
 #ifndef MVVM_MODEL_COMPARATORS_H
 #define MVVM_MODEL_COMPARATORS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 
 namespace ModelView {
 
 //! Helper class to register variant comparators.
 
-class QEXT_MVVM_API Comparators {
+class QEXT_MVVM_API QExtMvvmComparators {
 public:
     static void registerComparators();
     static bool registered();

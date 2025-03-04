@@ -20,7 +20,7 @@
 using namespace ModelView;
 
 namespace {
-int appearance(const ModelView::SessionItem& item)
+int appearance(const ModelView::QExtMvvmSessionItem& item)
 {
     const int default_appearance = Appearance::EDITABLE | Appearance::ENABLED | Appearance::VISIBLE;
     return item.hasData(ItemDataRole::APPEARANCE) ? item.data<int>(ItemDataRole::APPEARANCE)
@@ -28,23 +28,23 @@ int appearance(const ModelView::SessionItem& item)
 }
 } // namespace
 
-struct SessionItem::SessionItemImpl {
-    SessionItem* m_self{nullptr};
-    SessionItem* m_parent{nullptr};
-    SessionModel* m_model{nullptr};
-    QExtUniquePointer<ItemMapper> m_mapper;
-    QExtUniquePointer<SessionItemData> m_data;
-    QExtUniquePointer<SessionItemTags> m_tags;
-    model_type m_modelType;
+struct QExtMvvmSessionItem::SessionItemImpl {
+    QExtMvvmSessionItem* m_self{nullptr};
+    QExtMvvmSessionItem* m_parent{nullptr};
+    QExtMvvmSessionModel* m_model{nullptr};
+    QExtUniquePointer<QExtMvvmItemMapper> m_mapper;
+    QExtUniquePointer<QExtMvvmSessionItemData> m_data;
+    QExtUniquePointer<QExtMvvmSessionItemTags> m_tags;
+    QExtMvvmModelType m_modelType;
 
-    SessionItemImpl(SessionItem* this_item)
+    SessionItemImpl(QExtMvvmSessionItem* this_item)
         : m_self(this_item)
-        , m_data(qextMakeUnique<SessionItemData>())
-        , m_tags(qextMakeUnique<SessionItemTags>())
+        , m_data(qextMakeUnique<QExtMvvmSessionItemData>())
+        , m_tags(qextMakeUnique<QExtMvvmSessionItemTags>())
     {
     }
 
-    bool do_setData(const Variant& variant, int role)
+    bool do_setData(const QVariant& variant, int role)
     {
         bool result = m_data->setData(variant, role);
         if (result && m_model)
@@ -53,14 +53,14 @@ struct SessionItem::SessionItemImpl {
     }
 };
 
-SessionItem::SessionItem(model_type modelType) : p_impl(qextMakeUnique<SessionItemImpl>(this))
+QExtMvvmSessionItem::QExtMvvmSessionItem(QExtMvvmModelType modelType) : p_impl(qextMakeUnique<SessionItemImpl>(this))
 {
     p_impl->m_modelType = std::move(modelType);
-    setData(UniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
+    setData(QExtMvvmUniqueIdGenerator::generate(), ItemDataRole::IDENTIFIER);
     setData(p_impl->m_modelType, ItemDataRole::DISPLAY);
 }
 
-SessionItem::~SessionItem()
+QExtMvvmSessionItem::~QExtMvvmSessionItem()
 {
     if (p_impl->m_mapper)
         p_impl->m_mapper->callOnItemDestroy();
@@ -71,28 +71,28 @@ SessionItem::~SessionItem()
 
 //! Returns item's model type.
 
-model_type SessionItem::modelType() const
+QExtMvvmModelType QExtMvvmSessionItem::modelType() const
 {
     return p_impl->m_modelType;
 }
 
 //! Returns unique identifier.
 
-std::string SessionItem::identifier() const
+std::string QExtMvvmSessionItem::identifier() const
 {
     return data<std::string>(ItemDataRole::IDENTIFIER);
 }
 
 //! Returns display name.
 
-std::string SessionItem::displayName() const
+std::string QExtMvvmSessionItem::displayName() const
 {
     return data<std::string>(ItemDataRole::DISPLAY);
 }
 
 //! Sets display name (fluent interface).
 
-SessionItem* SessionItem::setDisplayName(const std::string& name)
+QExtMvvmSessionItem* QExtMvvmSessionItem::setDisplayName(const std::string& name)
 {
     setData(name, ItemDataRole::DISPLAY);
     return this;
@@ -101,77 +101,77 @@ SessionItem* SessionItem::setDisplayName(const std::string& name)
 //! Returns the model to which given item belongs to. Will return nullptr if item doesn't have a
 //! model.
 
-SessionModel* SessionItem::model() const
+QExtMvvmSessionModel* QExtMvvmSessionItem::model() const
 {
     return p_impl->m_model;
 }
 
 //! Returns parent item. Will return nullptr if item doesn't have a parent.
 
-SessionItem* SessionItem::parent() const
+QExtMvvmSessionItem* QExtMvvmSessionItem::parent() const
 {
     return p_impl->m_parent;
 }
 
-//! Returns TagRow of this item under which it is accessible through its parent.
+//! Returns QExtMvvmTagRow of this item under which it is accessible through its parent.
 
-TagRow SessionItem::tagRow() const
+QExtMvvmTagRow QExtMvvmSessionItem::tagRow() const
 {
-    return parent() ? parent()->tagRowOfItem(this) : TagRow();
+    return parent() ? parent()->tagRowOfItem(this) : QExtMvvmTagRow();
 }
 
 //! Returns true if item has data on board with given role.
 
-bool SessionItem::hasData(int role) const
+bool QExtMvvmSessionItem::hasData(int role) const
 {
     return p_impl->m_data->hasData(role);
 }
 
 //! Returns pointer to item's data container (const version).
 
-const SessionItemData* SessionItem::itemData() const
+const QExtMvvmSessionItemData* QExtMvvmSessionItem::itemData() const
 {
     return p_impl->m_data.get();
 }
 
 //! Returns pointer to item's data container (non-const version).
 
-SessionItemData* SessionItem::itemData()
+QExtMvvmSessionItemData* QExtMvvmSessionItem::itemData()
 {
-    return const_cast<SessionItemData*>(static_cast<const SessionItem*>(this)->itemData());
+    return const_cast<QExtMvvmSessionItemData*>(static_cast<const QExtMvvmSessionItem*>(this)->itemData());
 }
 
 //! Returns total number of children in all tags.
 
-int SessionItem::childrenCount() const
+int QExtMvvmSessionItem::childrenCount() const
 {
     return static_cast<int>(children().size());
 }
 
 //! Returns vector of children formed from all chidlren from all tags.
 
-std::vector<SessionItem*> SessionItem::children() const
+std::vector<QExtMvvmSessionItem*> QExtMvvmSessionItem::children() const
 {
     return p_impl->m_tags->allitems();
 }
 
 //! Returns number of items in given tag.
 
-int SessionItem::itemCount(const std::string& tag) const
+int QExtMvvmSessionItem::itemCount(const std::string& tag) const
 {
     return p_impl->m_tags->itemCount(tag);
 }
 
 //! Returns item at given row of given tag.
 
-SessionItem* SessionItem::getItem(const std::string& tag, int row) const
+QExtMvvmSessionItem* QExtMvvmSessionItem::getItem(const std::string& tag, int row) const
 {
     return p_impl->m_tags->getItem({tag, row});
 }
 
 //! Returns all children stored at given tag.
 
-std::vector<SessionItem*> SessionItem::getItems(const std::string& tag) const
+std::vector<QExtMvvmSessionItem*> QExtMvvmSessionItem::getItems(const std::string& tag) const
 {
     return p_impl->m_tags->getItems(tag);
 }
@@ -179,60 +179,60 @@ std::vector<SessionItem*> SessionItem::getItems(const std::string& tag) const
 //! Returns pair of tag and row corresponding to given item.
 //! Returns {"", -1} if given item doesn't belong to children.
 
-TagRow SessionItem::tagRowOfItem(const SessionItem* item) const
+QExtMvvmTagRow QExtMvvmSessionItem::tagRowOfItem(const QExtMvvmSessionItem* item) const
 {
     return p_impl->m_tags->tagRowOfItem(item);
 }
 
 //! Returns pointer to internal collection of tag-registered items (const version).
 
-const SessionItemTags* SessionItem::itemTags() const
+const QExtMvvmSessionItemTags* QExtMvvmSessionItem::itemTags() const
 {
     return p_impl->m_tags.get();
 }
 
 //! Registers tag to hold items under given name.
 
-void SessionItem::registerTag(const TagInfo& tagInfo, bool set_as_default)
+void QExtMvvmSessionItem::registerTag(const QExtMvvmTagInfo& tagInfo, bool set_as_default)
 {
     p_impl->m_tags->registerTag(tagInfo, set_as_default);
 }
 
 //! Returns pointer to internal collection of tag-registered items (non-const version).
 
-SessionItemTags* SessionItem::itemTags()
+QExtMvvmSessionItemTags* QExtMvvmSessionItem::itemTags()
 {
-    return const_cast<SessionItemTags*>(static_cast<const SessionItem*>(this)->itemTags());
+    return const_cast<QExtMvvmSessionItemTags*>(static_cast<const QExtMvvmSessionItem*>(this)->itemTags());
 }
 
 //! Inserts the item into the given tag under the given row.
 //! Returns 'true' in the case of success, take ownership over the item.
-//! If an item can't be inserted for a given TagRow (i.e. when the container is full, or not
+//! If an item can't be inserted for a given QExtMvvmTagRow (i.e. when the container is full, or not
 //! intended for items of a given type) will return false and will not take ownership.
 
-bool SessionItem::insertItem(SessionItem* item, const TagRow& tagrow)
+bool QExtMvvmSessionItem::insertItem(QExtMvvmSessionItem* item, const QExtMvvmTagRow& tagrow)
 {
     if (!p_impl->m_tags->canInsertItem(item, tagrow))
         return false;
-    return insertItem(QExtUniquePointer<SessionItem>(item), tagrow) != nullptr;
+    return insertItem(QExtUniquePointer<QExtMvvmSessionItem>(item), tagrow) != nullptr;
 }
 
 //! Insert item into given tag under the given row. Will take ownership of inserted item.
 //! Returns back a pointer to the same item for convenience.
 
-SessionItem* SessionItem::insertItem(QExtUniquePointer<SessionItem> item, const TagRow& tagrow)
+QExtMvvmSessionItem* QExtMvvmSessionItem::insertItem(QExtUniquePointer<QExtMvvmSessionItem> item, const QExtMvvmTagRow& tagrow)
 {
     if (!item)
-        throw std::runtime_error("SessionItem::insertItem() -> Invalid item.");
+        throw std::runtime_error("QExtMvvmSessionItem::insertItem() -> Invalid item.");
 
     if (item->parent())
-        throw std::runtime_error("SessionItem::insertItem() -> Existing parent.");
+        throw std::runtime_error("QExtMvvmSessionItem::insertItem() -> Existing parent.");
 
     if (item->model())
-        throw std::runtime_error("SessionItem::insertItem() -> Existing model.");
+        throw std::runtime_error("QExtMvvmSessionItem::insertItem() -> Existing model.");
 
     if (!p_impl->m_tags->canInsertItem(item.get(), tagrow))
-        throw std::runtime_error("SessionItem::insertItem() -> Can't insert item.");
+        throw std::runtime_error("QExtMvvmSessionItem::insertItem() -> Can't insert item.");
 
     auto result = item.release();
     p_impl->m_tags->insertItem(result, tagrow);
@@ -252,7 +252,7 @@ SessionItem* SessionItem::insertItem(QExtUniquePointer<SessionItem> item, const 
 //! Removes item from given row from given tag, returns it to the caller.
 //! Ownership is granted to the caller.
 
-QExtUniquePointer<SessionItem> SessionItem::takeItem(const TagRow& tagrow)
+QExtUniquePointer<QExtMvvmSessionItem> QExtMvvmSessionItem::takeItem(const QExtMvvmTagRow& tagrow)
 {
     if (!p_impl->m_tags->canTakeItem(tagrow))
         return {};
@@ -263,24 +263,24 @@ QExtUniquePointer<SessionItem> SessionItem::takeItem(const TagRow& tagrow)
     auto result = p_impl->m_tags->takeItem(tagrow);
     result->setParent(nullptr);
     result->setModel(nullptr);
-    // FIXME remaining problem is that ItemMapper still looking to the model
+    // FIXME remaining problem is that QExtMvvmItemMapper still looking to the model
     if (p_impl->m_model)
         p_impl->m_model->mapper()->callOnItemRemoved(this, tagrow);
 
-    return QExtUniquePointer<SessionItem>(result);
+    return QExtUniquePointer<QExtMvvmSessionItem>(result);
 }
 
 //! Returns true if this item has `editable` flag set.
 //! The data value of an editable item normally can be changed when it appears in trees and tables.
 
-bool SessionItem::isEditable() const
+bool QExtMvvmSessionItem::isEditable() const
 {
     return appearance(*this) & Appearance::EDITABLE;
 }
 
 //! Sets `editable` flag to given value (fluent interface).
 
-SessionItem* SessionItem::setEditable(bool value)
+QExtMvvmSessionItem* QExtMvvmSessionItem::setEditable(bool value)
 {
     setAppearanceFlag(Appearance::EDITABLE, value);
     return this;
@@ -288,7 +288,7 @@ SessionItem* SessionItem::setEditable(bool value)
 
 //! Returns true if this item has `enabled` flag set.
 
-bool SessionItem::isEnabled() const
+bool QExtMvvmSessionItem::isEnabled() const
 {
     return appearance(*this) & Appearance::ENABLED;
 }
@@ -297,7 +297,7 @@ bool SessionItem::isEnabled() const
 //! property is currently enabled. Enabled items appear in normal color, disabled items are grayed
 //! out.
 
-SessionItem* SessionItem::setEnabled(bool value)
+QExtMvvmSessionItem* QExtMvvmSessionItem::setEnabled(bool value)
 {
     setAppearanceFlag(Appearance::ENABLED, value);
     return this;
@@ -305,16 +305,16 @@ SessionItem* SessionItem::setEnabled(bool value)
 
 //! Returns true if this item has `visible` flag set.
 
-bool SessionItem::isVisible() const
+bool QExtMvvmSessionItem::isVisible() const
 {
     return appearance(*this) & Appearance::VISIBLE;
 }
 
 //! Sets `visible` flag to given value (fluent interface). Used in Qt-widgets to hide given
-//! property from a view. For example, `PropertyTreeView` will not show PropertyItem with the given
+//! property from a view. For example, `QExtMvvmPropertyTreeView` will not show QExtMvvmPropertyItem with the given
 //! flag set to `true` among other properties.
 
-SessionItem* SessionItem::setVisible(bool value)
+QExtMvvmSessionItem* QExtMvvmSessionItem::setVisible(bool value)
 {
     setAppearanceFlag(Appearance::VISIBLE, value);
     return this;
@@ -322,7 +322,7 @@ SessionItem* SessionItem::setVisible(bool value)
 
 //! Returns item tooltip, if exists.
 
-std::string SessionItem::toolTip() const
+std::string QExtMvvmSessionItem::toolTip() const
 {
     return hasData(ItemDataRole::TOOLTIP) ? data<std::string>(ItemDataRole::TOOLTIP)
                                           : std::string();
@@ -330,7 +330,7 @@ std::string SessionItem::toolTip() const
 
 //! Sets item tooltip (fluent interface).
 
-SessionItem* SessionItem::setToolTip(const std::string& tooltip)
+QExtMvvmSessionItem* QExtMvvmSessionItem::setToolTip(const std::string& tooltip)
 {
     setData(tooltip, ItemDataRole::TOOLTIP);
     return this;
@@ -338,7 +338,7 @@ SessionItem* SessionItem::setToolTip(const std::string& tooltip)
 
 //! Returns editor type.
 
-std::string SessionItem::editorType() const
+std::string QExtMvvmSessionItem::editorType() const
 {
     return hasData(ItemDataRole::EDITORTYPE) ? data<std::string>(ItemDataRole::EDITORTYPE)
                                              : std::string();
@@ -347,7 +347,7 @@ std::string SessionItem::editorType() const
 //! Sets editor type (fluent interface).
 //! Allows creating custom editors in the cells of Qt trees and tables.
 
-SessionItem* SessionItem::setEditorType(const std::string& editor_type)
+QExtMvvmSessionItem* QExtMvvmSessionItem::setEditorType(const std::string& editor_type)
 {
     setData(editor_type, ItemDataRole::EDITORTYPE);
     return this;
@@ -355,7 +355,7 @@ SessionItem* SessionItem::setEditorType(const std::string& editor_type)
 
 //! Sets the data for given role. Method invented to hide implementaiton details.
 
-bool SessionItem::set_data_internal(const Variant& value, int role, bool direct)
+bool QExtMvvmSessionItem::set_data_internal(const QVariant& value, int role, bool direct)
 {
     // If model is present, and undo stack is enabled, will forward request to the model
     // (unless user explicitely asks for direct processing via direct=true flag).
@@ -367,17 +367,17 @@ bool SessionItem::set_data_internal(const Variant& value, int role, bool direct)
 //! Returns data for given role. Method invented to hide implementaiton details and avoid
 //! placing sessionitemdata.h into 'sessionitem.h' header.
 
-Variant SessionItem::data_internal(int role) const
+QVariant QExtMvvmSessionItem::data_internal(int role) const
 {
     return p_impl->m_data->data(role);
 }
 
-void SessionItem::setParent(SessionItem* parent)
+void QExtMvvmSessionItem::setParent(QExtMvvmSessionItem* parent)
 {
     p_impl->m_parent = parent;
 }
 
-void SessionItem::setModel(SessionModel* model)
+void QExtMvvmSessionItem::setModel(QExtMvvmSessionModel* model)
 {
     if (p_impl->m_model)
         p_impl->m_model->unregisterFromPool(this);
@@ -391,7 +391,7 @@ void SessionItem::setModel(SessionModel* model)
         child->setModel(model);
 }
 
-void SessionItem::setAppearanceFlag(int flag, bool value)
+void QExtMvvmSessionItem::setAppearanceFlag(int flag, bool value)
 {
     int flags = appearance(*this);
     if (value)
@@ -407,15 +407,15 @@ void SessionItem::setAppearanceFlag(int flag, bool value)
 
 //! Returns item mapper. Allows subscribing to various events happening to the item.
 
-ItemMapper* SessionItem::mapper()
+QExtMvvmItemMapper* QExtMvvmSessionItem::mapper()
 {
     if (!p_impl->m_mapper)
-        p_impl->m_mapper = qextMakeUnique<ItemMapper>(this);
+        p_impl->m_mapper = qextMakeUnique<QExtMvvmItemMapper>(this);
     return p_impl->m_mapper.get();
 }
 
-void SessionItem::setDataAndTags(QExtUniquePointer<SessionItemData> data,
-                                 QExtUniquePointer<SessionItemTags> tags)
+void QExtMvvmSessionItem::setDataAndTags(QExtUniquePointer<QExtMvvmSessionItemData> data,
+                                 QExtUniquePointer<QExtMvvmSessionItemTags> tags)
 {
     p_impl->m_data = std::move(data);
     p_impl->m_tags = std::move(tags);

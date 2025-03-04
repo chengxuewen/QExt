@@ -14,21 +14,21 @@
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
-//! Constructs row of ViewItem's for given SessionItem.
-//! Row consists of columns with all PropertyItem's of given SessionItem.
+//! Constructs row of QExtMvvmViewItem's for given QExtMvvmSessionItem.
+//! Row consists of columns with all QExtMvvmPropertyItem's of given QExtMvvmSessionItem.
 
-class QEXT_MVVM_API PropertiesRowStrategy : public RowStrategyInterface {
+class QEXT_MVVM_API QExtMvvmPropertiesRowStrategy : public QExtMvvmRowStrategyInterface {
 public:
-    PropertiesRowStrategy(std::vector<std::string> labels = {});
+    QExtMvvmPropertiesRowStrategy(std::vector<std::string> labels = {});
 
     QStringList horizontalHeaderLabels() const override;
 
-    std::vector<QExtUniquePointer<ViewItem>> constructRow(SessionItem* item) override;
+    std::vector<QExtUniquePointer<QExtMvvmViewItem>> constructRow(QExtMvvmSessionItem* item) override;
 
 private:
-    void update_column_labels(std::vector<ModelView::SessionItem*> items);
+    void update_column_labels(std::vector<ModelView::QExtMvvmSessionItem*> items);
     std::vector<std::string> current_column_labels;
     std::vector<std::string> user_defined_column_labels;
 };

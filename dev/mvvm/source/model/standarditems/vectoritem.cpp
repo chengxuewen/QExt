@@ -13,7 +13,7 @@
 
 using namespace ModelView;
 
-VectorItem::VectorItem() : CompoundItem(Constants::VectorItemType)
+QExtMvvmVectorItem::QExtMvvmVectorItem() : QExtMvvmCompoundItem(Constants::VectorItemType)
 {
     addProperty(P_X, 0.0)->setDisplayName("X");
     addProperty(P_Y, 0.0)->setDisplayName("Y");
@@ -24,45 +24,45 @@ VectorItem::VectorItem() : CompoundItem(Constants::VectorItemType)
     update_label();
 }
 
-void VectorItem::activate()
+void QExtMvvmVectorItem::activate()
 {
-    auto on_property_change = [this](SessionItem*, const std::string&) { update_label(); };
+    auto on_property_change = [this](QExtMvvmSessionItem*, const std::string&) { update_label(); };
     mapper()->setOnPropertyChange(on_property_change, this);
 }
 
-double VectorItem::x() const
+double QExtMvvmVectorItem::x() const
 {
     return property<double>(P_X);
 }
 
-void VectorItem::setX(double value)
+void QExtMvvmVectorItem::setX(double value)
 {
     setProperty(P_X, value);
 }
 
-double VectorItem::y() const
+double QExtMvvmVectorItem::y() const
 {
     return property<double>(P_Y);
 }
 
-void VectorItem::setY(double value)
+void QExtMvvmVectorItem::setY(double value)
 {
     setProperty(P_Y, value);
 }
 
-double VectorItem::z() const
+double QExtMvvmVectorItem::z() const
 {
     return property<double>(P_Z);
 }
 
-void VectorItem::setZ(double value)
+void QExtMvvmVectorItem::setZ(double value)
 {
     setProperty(P_Z, value);
 }
 
-void VectorItem::update_label()
+void QExtMvvmVectorItem::update_label()
 {
     std::ostringstream ostr;
     ostr << "(" << x() << ", " << y() << ", " << z() << ")";
-    setData(Variant::fromValue(ostr.str()), ItemDataRole::DATA, /*direct*/ true);
+    setData(QVariant::fromValue(ostr.str()), ItemDataRole::DATA, /*direct*/ true);
 }

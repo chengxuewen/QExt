@@ -10,28 +10,28 @@
 #ifndef MVVM_PLOTTING_COLORMAPCANVAS_H
 #define MVVM_PLOTTING_COLORMAPCANVAS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QWidget>
 #include <memory>
 
 namespace ModelView {
 
-class ColorMapViewportItem;
-class SceneAdapterInterface;
+class QExtMvvmColorMapViewportItem;
+class QExtMvvmSceneAdapterInterface;
 
 //! Widget to show 2D data as color map.
-//! Contains embedded QCustomPlot widget, shows content of ColorMapViewportItem.
+//! Contains embedded QCustomPlot widget, shows content of QExtMvvmColorMapViewportItem.
 
-class QEXT_MVVM_API ColorMapCanvas : public QWidget {
+class QEXT_MVVM_API QExtMvvmColorMapCanvas : public QWidget {
     Q_OBJECT
 
 public:
-    explicit ColorMapCanvas(QWidget* parent = nullptr);
-    ~ColorMapCanvas() override;
+    explicit QExtMvvmColorMapCanvas(QWidget* parent = nullptr);
+    ~QExtMvvmColorMapCanvas() override;
 
-    void setItem(ColorMapViewportItem* viewport_item);
+    void setItem(QExtMvvmColorMapViewportItem* viewport_item);
 
-    QExtUniquePointer<SceneAdapterInterface> createSceneAdapter() const;
+    QExtUniquePointer<QExtMvvmSceneAdapterInterface> createSceneAdapter() const;
 
 private:
     struct ColorMapCanvasImpl;

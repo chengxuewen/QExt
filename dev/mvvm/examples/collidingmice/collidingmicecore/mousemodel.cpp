@@ -19,7 +19,7 @@ namespace {
 const int MouseCount = 7;
 } // namespace
 
-MouseItem::MouseItem() : ModelView::CompoundItem("MouseItem")
+MouseItem::MouseItem() : ModelView::QExtMvvmCompoundItem("MouseItem")
 {
     addProperty(P_COLOR, QColor(Qt::red))->setDisplayName("Color");
     addProperty(P_XPOS, 0.0)->setDisplayName("X");
@@ -30,7 +30,7 @@ MouseItem::MouseItem() : ModelView::CompoundItem("MouseItem")
 
 // ----------------------------------------------------------------------------
 
-MouseModel::MouseModel() : ModelView::SessionModel("MouseModel")
+MouseModel::MouseModel() : ModelView::QExtMvvmSessionModel("MouseModel")
 {
     registerItem<MouseItem>();
     populateModel();
@@ -41,13 +41,13 @@ MouseModel::MouseModel() : ModelView::SessionModel("MouseModel")
 
 void MouseModel::loadFromFile(const QString& name)
 {
-    auto document = ModelView::CreateJsonDocument({this});
+    auto document = ModelView::qextMvvmCreateJsonDocument({this});
     document->load(name.toStdString());
 }
 
 void MouseModel::saveToFile(const QString& name)
 {
-    auto document = ModelView::CreateJsonDocument({this});
+    auto document = ModelView::qextMvvmCreateJsonDocument({this});
     document->save(name.toStdString());
 }
 

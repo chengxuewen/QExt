@@ -7,24 +7,25 @@
 //
 // ************************************************************************** //
 
-#include "model/commands/commandadapter.h"
-#include "model/commands/abstractitemcommand.h"
+#include <qextMvvmCommandAdapter.h>
+#include <qextMvvmAbstractItemCommand.h>
+// #include "model/commands/abstractitemcommand.h"
 
 using namespace ModelView;
 
-CommandAdapter::CommandAdapter(std::shared_ptr<AbstractItemCommand> command)
+QExtMvvmCommandAdapter::QExtMvvmCommandAdapter(std::shared_ptr<QExtMvvmAbstractItemCommand> command)
     : m_command(std::move(command))
 {
 }
 
-CommandAdapter::~CommandAdapter() = default;
+QExtMvvmCommandAdapter::~QExtMvvmCommandAdapter() = default;
 
-void CommandAdapter::undo()
+void QExtMvvmCommandAdapter::undo()
 {
     m_command->undo();
 }
 
-void CommandAdapter::redo()
+void QExtMvvmCommandAdapter::redo()
 {
     m_command->execute();
     setObsolete(m_command->isObsolete());

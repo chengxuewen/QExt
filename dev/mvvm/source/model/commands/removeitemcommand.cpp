@@ -17,24 +17,24 @@
 using namespace ModelView;
 
 namespace {
-std::string generate_description(const TagRow& tagrow);
+std::string generate_description(const QExtMvvmTagRow& tagrow);
 } // namespace
 
 struct RemoveItemCommand::RemoveItemCommandImpl {
-    TagRow tagrow;
-    QExtUniquePointer<ItemBackupStrategy> backup_strategy;
-    Path item_path;
-    RemoveItemCommandImpl(TagRow tagrow) : tagrow(std::move(tagrow)) {}
+    QExtMvvmTagRow tagrow;
+    QExtUniquePointer<QExtMvvmItemBackupStrategy> backup_strategy;
+    QExtMvvmPath item_path;
+    RemoveItemCommandImpl(QExtMvvmTagRow tagrow) : tagrow(std::move(tagrow)) {}
 };
 
-RemoveItemCommand::RemoveItemCommand(SessionItem* parent, TagRow tagrow)
-    : AbstractItemCommand(parent)
+RemoveItemCommand::RemoveItemCommand(QExtMvvmSessionItem* parent, QExtMvvmTagRow tagrow)
+    : QExtMvvmAbstractItemCommand(parent)
     , p_impl(qextMakeUnique<RemoveItemCommandImpl>(std::move(tagrow)))
 {
     setResult(false);
 
     setDescription(generate_description(p_impl->tagrow));
-    p_impl->backup_strategy = CreateItemBackupStrategy(parent->model());
+    p_impl->backup_strategy = qextMvvmCreateItemBackupStrategy(parent->model());
     p_impl->item_path = pathFromItem(parent);
 }
 
@@ -59,7 +59,7 @@ void RemoveItemCommand::execute_command()
 }
 
 namespace {
-std::string generate_description(const TagRow& tagrow)
+std::string generate_description(const QExtMvvmTagRow& tagrow)
 {
     std::ostringstream ostr;
     ostr << "Remove item from tag '" << tagrow.tag << "', row " << tagrow.row;

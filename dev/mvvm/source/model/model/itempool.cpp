@@ -13,28 +13,28 @@
 
 using namespace ModelView;
 
-size_t ItemPool::size() const
+size_t QExtMvvmItemPool::size() const
 {
     if (m_key_to_item.size() != m_item_to_key.size())
-        throw std::runtime_error("Error in ItemPool: array size mismatch");
+        throw std::runtime_error("Error in QExtMvvmItemPool: array size mismatch");
     return m_key_to_item.size();
 }
 
-identifier_type ItemPool::register_item(SessionItem* item, identifier_type key)
+QExtMvvmIdentifierType QExtMvvmItemPool::register_item(QExtMvvmSessionItem* item, QExtMvvmIdentifierType key)
 
 {
     if (m_item_to_key.find(item) != m_item_to_key.end())
-        throw std::runtime_error("ItemPool::register_item() -> Attempt to register already "
+        throw std::runtime_error("QExtMvvmItemPool::register_item() -> Attempt to register already "
                                  "registered item.");
 
     if (key.empty()) {
-        key = UniqueIdGenerator::generate();
+        key = QExtMvvmUniqueIdGenerator::generate();
         while (m_key_to_item.find(key) != m_key_to_item.end())
-            key = UniqueIdGenerator::generate(); // preventing improbable duplicates
+            key = QExtMvvmUniqueIdGenerator::generate(); // preventing improbable duplicates
     }
     else {
         if (m_key_to_item.find(key) != m_key_to_item.end())
-            throw std::runtime_error(" ItemPool::register_item() -> Attempt to reuse existing key");
+            throw std::runtime_error(" QExtMvvmItemPool::register_item() -> Attempt to reuse existing key");
     }
 
     m_key_to_item.insert(std::make_pair(key, item));
@@ -43,11 +43,11 @@ identifier_type ItemPool::register_item(SessionItem* item, identifier_type key)
     return key;
 }
 
-void ItemPool::unregister_item(SessionItem* item)
+void QExtMvvmItemPool::unregister_item(QExtMvvmSessionItem* item)
 {
     auto it = m_item_to_key.find(item);
     if (it == m_item_to_key.end())
-        throw std::runtime_error("ItemPool::deregister_item() -> Attempt to deregister "
+        throw std::runtime_error("QExtMvvmItemPool::deregister_item() -> Attempt to deregister "
                                  "non existing item.");
     auto key = it->second;
     m_item_to_key.erase(it);
@@ -56,7 +56,7 @@ void ItemPool::unregister_item(SessionItem* item)
     m_key_to_item.erase(it2);
 }
 
-identifier_type ItemPool::key_for_item(const SessionItem* item) const
+QExtMvvmIdentifierType QExtMvvmItemPool::key_for_item(const QExtMvvmSessionItem* item) const
 {
     const auto it = m_item_to_key.find(item);
     if (it != m_item_to_key.end())
@@ -65,7 +65,7 @@ identifier_type ItemPool::key_for_item(const SessionItem* item) const
     return {};
 }
 
-SessionItem* ItemPool::item_for_key(const identifier_type& key) const
+QExtMvvmSessionItem* QExtMvvmItemPool::item_for_key(const QExtMvvmIdentifierType& key) const
 {
     auto it = m_key_to_item.find(key);
     if (it != m_key_to_item.end())

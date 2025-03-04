@@ -10,26 +10,26 @@
 #ifndef MVVM_SERIALIZATION_JSONITEMDATACONVERTERINTERFACE_H
 #define MVVM_SERIALIZATION_JSONITEMDATACONVERTERINTERFACE_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 class QJsonArray;
 
 namespace ModelView {
 
-class SessionItemData;
+class QExtMvvmSessionItemData;
 
-//! Base class for all converters of SessionItemData to/from JSON object.
+//! Base class for all converters of QExtMvvmSessionItemData to/from JSON object.
 
-class QEXT_MVVM_API JsonItemDataConverterInterface {
+class QEXT_MVVM_API QExtMvvmJsonItemDataConverterInterface {
 public:
-    virtual ~JsonItemDataConverterInterface() = default;
+    virtual ~QExtMvvmJsonItemDataConverterInterface() = default;
 
-    //! Converts SessionItemData to JSON;
-    virtual QJsonArray to_json(const SessionItemData&) = 0;
+    //! Converts QExtMvvmSessionItemData to JSON;
+    virtual QJsonArray to_json(const QExtMvvmSessionItemData&) = 0;
 
-    //! Converts SessionItemData from JSON;
-    virtual void from_json(const QJsonArray& object, SessionItemData& data) = 0;
+    //! Converts QExtMvvmSessionItemData from JSON;
+    virtual void from_json(const QJsonArray& object, QExtMvvmSessionItemData& data) = 0;
 };
 
 } // namespace ModelView

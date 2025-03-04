@@ -12,9 +12,9 @@
 #include <sstream>
 #include <stdexcept>
 
-ModelView::TagInfo::TagInfo() : m_min(0), m_max(-1) {}
+ModelView::QExtMvvmTagInfo::QExtMvvmTagInfo() : m_min(0), m_max(-1) {}
 
-ModelView::TagInfo::TagInfo(std::string name, int min, int max, std::vector<std::string> modelTypes)
+ModelView::QExtMvvmTagInfo::QExtMvvmTagInfo(std::string name, int min, int max, std::vector<std::string> modelTypes)
     : m_name(std::move(name)), m_min(min), m_max(max), m_modelTypes(std::move(modelTypes))
 {
     if (m_min < 0 || (m_min > m_max && m_max >= 0) || m_name.empty()) {
@@ -25,59 +25,59 @@ ModelView::TagInfo::TagInfo(std::string name, int min, int max, std::vector<std:
     }
 }
 
-ModelView::TagInfo ModelView::TagInfo::universalTag(std::string name,
+ModelView::QExtMvvmTagInfo ModelView::QExtMvvmTagInfo::universalTag(std::string name,
                                                     std::vector<std::string> modelTypes)
 {
-    return TagInfo(std::move(name), 0, -1, std::move(modelTypes));
+    return QExtMvvmTagInfo(std::move(name), 0, -1, std::move(modelTypes));
 }
 
-ModelView::TagInfo ModelView::TagInfo::propertyTag(std::string name, std::string model_type)
+ModelView::QExtMvvmTagInfo ModelView::QExtMvvmTagInfo::propertyTag(std::string name, std::string QExtMvvmModelType)
 {
-    return TagInfo(std::move(name), 1, 1, {std::move(model_type)});
+    return QExtMvvmTagInfo(std::move(name), 1, 1, {std::move(QExtMvvmModelType)});
 }
 
-std::string ModelView::TagInfo::name() const
+std::string ModelView::QExtMvvmTagInfo::name() const
 {
     return m_name;
 }
 
-int ModelView::TagInfo::min() const
+int ModelView::QExtMvvmTagInfo::min() const
 {
     return m_min;
 }
 
-int ModelView::TagInfo::max() const
+int ModelView::QExtMvvmTagInfo::max() const
 {
     return m_max;
 }
 
-std::vector<std::string> ModelView::TagInfo::modelTypes() const
+std::vector<std::string> ModelView::QExtMvvmTagInfo::modelTypes() const
 {
     return m_modelTypes;
 }
 
 //! Returns true if given modelType matches the list of possible model types.
 
-bool ModelView::TagInfo::isValidChild(const std::string& modelType) const
+bool ModelView::QExtMvvmTagInfo::isValidChild(const std::string& modelType) const
 {
     return m_modelTypes.empty() ? true : Utils::Contains(m_modelTypes, modelType);
 }
 
 //! Returns true if this tag is used to store single properties.
-//! Properties are children that are created in SessionItem constructor using ::addProperty method.
+//! Properties are children that are created in QExtMvvmSessionItem constructor using ::addProperty method.
 
-bool ModelView::TagInfo::isSinglePropertyTag() const
+bool ModelView::QExtMvvmTagInfo::isSinglePropertyTag() const
 {
     return m_min == 1 && m_max == 1;
 }
 
-bool ModelView::TagInfo::operator==(const ModelView::TagInfo& other) const
+bool ModelView::QExtMvvmTagInfo::operator==(const ModelView::QExtMvvmTagInfo& other) const
 {
     return m_name == other.m_name && m_min == other.m_min && m_max == other.m_max
            && m_modelTypes == other.m_modelTypes;
 }
 
-bool ModelView::TagInfo::operator!=(const ModelView::TagInfo& other) const
+bool ModelView::QExtMvvmTagInfo::operator!=(const ModelView::QExtMvvmTagInfo& other) const
 {
     return !(*this == other);
 }

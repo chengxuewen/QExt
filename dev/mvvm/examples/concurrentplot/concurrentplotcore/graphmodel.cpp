@@ -31,7 +31,7 @@ ToySimulation::Result simulation_result(double amp_factor = 1.0)
 
 using namespace ModelView;
 
-GraphModel::GraphModel() : SessionModel("GraphModel")
+GraphModel::GraphModel() : QExtMvvmSessionModel("GraphModel")
 {
     init_model();
 }
@@ -40,18 +40,18 @@ GraphModel::GraphModel() : SessionModel("GraphModel")
 
 void GraphModel::set_data(const std::vector<double>& data)
 {
-    auto item = topItem<ContainerItem>()->item<Data1DItem>(ContainerItem::T_ITEMS);
+    auto item = topItem<QExtMvvmContainerItem>()->item<QExtMvvmData1DItem>(QExtMvvmContainerItem::T_ITEMS);
     item->setValues(data);
 }
 
-//! Creates data container, Data1DItem, viewport and GraphItem.
+//! Creates data container, QExtMvvmData1DItem, viewport and QExtMvvmGraphItem.
 
 void GraphModel::init_model()
 {
-    auto container = insertItem<ContainerItem>();
+    auto container = insertItem<QExtMvvmContainerItem>();
     container->setDisplayName("Data container");
 
-    auto viewport = insertItem<GraphViewportItem>();
+    auto viewport = insertItem<QExtMvvmGraphViewportItem>();
     viewport->setDisplayName("Graph container");
 
     add_graph(container, viewport);
@@ -59,16 +59,16 @@ void GraphModel::init_model()
 
 //! Adds Graph1DItem with some random points.
 
-void GraphModel::add_graph(ModelView::ContainerItem* container,
-                           ModelView::GraphViewportItem* viewport)
+void GraphModel::add_graph(ModelView::QExtMvvmContainerItem* container,
+                           ModelView::QExtMvvmGraphViewportItem* viewport)
 {
     auto [xmin, xmax, points] = simulation_result(ModelView::Utils::RandDouble(0.5, 1.0));
 
-    auto data = insertItem<Data1DItem>(container);
-    data->setAxis<FixedBinAxisItem>(static_cast<int>(points.size()), xmin, xmax);
+    auto data = insertItem<QExtMvvmData1DItem>(container);
+    data->setAxis<QExtMvvmFixedBinAxisItem>(static_cast<int>(points.size()), xmin, xmax);
     data->setValues(points);
 
-    auto graph = insertItem<GraphItem>(viewport);
+    auto graph = insertItem<QExtMvvmGraphItem>(viewport);
     graph->setDataItem(data);
     graph->setNamedColor(ModelView::Utils::RandomNamedColor());
 }

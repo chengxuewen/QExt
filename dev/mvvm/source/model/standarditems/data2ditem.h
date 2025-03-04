@@ -15,32 +15,32 @@
 
 namespace ModelView {
 
-class BinnedAxisItem;
+class QExtMvvmBinnedAxisItem;
 
 //! Represents two-dimensional data (axes definition and 2d array of values).
-//! Values are stored in Data2DItem itself, axes are attached as children. Corresponding plot
-//! properties will be served by ColorMapItem.
+//! Values are stored in QExtMvvmData2DItem itself, axes are attached as children. Corresponding plot
+//! properties will be served by QExtMvvmColorMapItem.
 
-class QEXT_MVVM_API Data2DItem : public CompoundItem {
+class QEXT_MVVM_API QExtMvvmData2DItem : public QExtMvvmCompoundItem {
 public:
     static inline const std::string P_VALUES = "P_VALUES";
     static inline const std::string T_XAXIS = "T_XAXIS";
     static inline const std::string T_YAXIS = "T_YAXIS";
 
-    Data2DItem();
+    QExtMvvmData2DItem();
 
-    void setAxes(QExtUniquePointer<BinnedAxisItem> x_axis, QExtUniquePointer<BinnedAxisItem> y_axis);
+    void setAxes(QExtUniquePointer<QExtMvvmBinnedAxisItem> x_axis, QExtUniquePointer<QExtMvvmBinnedAxisItem> y_axis);
 
-    BinnedAxisItem* xAxis() const;
+    QExtMvvmBinnedAxisItem* xAxis() const;
 
-    BinnedAxisItem* yAxis() const;
+    QExtMvvmBinnedAxisItem* yAxis() const;
 
     void setContent(const std::vector<double>& data);
 
     std::vector<double> content() const;
 
 private:
-    void insert_axis(QExtUniquePointer<BinnedAxisItem> axis, const std::string& tag);
+    void insert_axis(QExtUniquePointer<QExtMvvmBinnedAxisItem> axis, const std::string& tag);
 };
 
 } // namespace ModelView

@@ -75,7 +75,7 @@ static qreal normalizeAngle(qreal angle)
 Mouse::Mouse(MouseItem* item)
     : mouseEyeDirection(0), color(item->property<QColor>(MouseItem::P_COLOR)), mouse_item(item)
 {
-    auto on_property_change = [this](ModelView::SessionItem*, std::string property_name) {
+    auto on_property_change = [this](ModelView::QExtMvvmSessionItem*, std::string property_name) {
         if (property_name == MouseItem::P_XPOS)
             setX(mouse_item->property<double>(MouseItem::P_XPOS));
         if (property_name == MouseItem::P_YPOS)

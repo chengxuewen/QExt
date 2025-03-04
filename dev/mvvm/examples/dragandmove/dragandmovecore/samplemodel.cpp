@@ -32,7 +32,7 @@ std::string random_name()
 }
 } // namespace
 
-SampleModel::SampleModel() : SessionModel("SampleModel")
+SampleModel::SampleModel() : QExtMvvmSessionModel("SampleModel")
 {
     registerItem<DemoItem>();
     registerItem<DemoContainerItem>();
@@ -40,7 +40,7 @@ SampleModel::SampleModel() : SessionModel("SampleModel")
     setUndoRedoEnabled(true);
 }
 
-void SampleModel::appendRandomItem(ModelView::SessionItem* container)
+void SampleModel::appendRandomItem(ModelView::QExtMvvmSessionItem* container)
 {
     auto item = insertItem<DemoItem>(container);
     item->setProperty(DemoItem::P_COLOR_PROPERTY, ModelView::Utils::RandomColor());

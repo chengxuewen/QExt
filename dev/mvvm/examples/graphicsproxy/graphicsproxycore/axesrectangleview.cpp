@@ -12,7 +12,7 @@
 
 namespace GraphicsProxy {
 
-AxesRectangleView::AxesRectangleView(const ModelView::SceneAdapterInterface* scene_adapter)
+AxesRectangleView::AxesRectangleView(const ModelView::QExtMvvmSceneAdapterInterface* scene_adapter)
     : m_sceneAdapter(scene_adapter)
 {
     // the key flag to hide children going outside of *this* bounding rectangle

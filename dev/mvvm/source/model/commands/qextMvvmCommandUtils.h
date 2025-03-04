@@ -19,19 +19,19 @@
 
 namespace ModelView {
 
-class SessionModel;
+class QExtMvvmSessionModel;
 
 //! Creates strategy suitable for item saving/restoring. Restored item will have same identifiers
 //! as original.
 
-QEXT_MVVM_API QExtUniquePointer<ItemBackupStrategy>
-CreateItemBackupStrategy(const SessionModel* model);
+QEXT_MVVM_API QExtUniquePointer<QExtMvvmItemBackupStrategy>
+qextMvvmCreateItemBackupStrategy(const QExtMvvmSessionModel* model);
 
 //! Returns strategy for item copying. Identifiers of the copy will be different from identifiers
 //! of the original.
 
-QEXT_MVVM_API QExtUniquePointer<ItemCopyStrategy>
-CreateItemCopyStrategy(const SessionModel* model);
+QEXT_MVVM_API QExtUniquePointer<QExtMvvmItemCopyStrategy>
+qextMvvmCreateItemCopyStrategy(const QExtMvvmSessionModel* model);
 
 } // namespace ModelView
 

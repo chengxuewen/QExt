@@ -10,7 +10,7 @@
 #ifndef MVVM_PLOTTING_MOUSEPOSINFO_H
 #define MVVM_PLOTTING_MOUSEPOSINFO_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 
 class QCustomPlot;
 
@@ -19,8 +19,8 @@ namespace ModelView {
 //! Aggregate to hold mouse position info in QCustomPlot context.
 //! Position is given in axis coordinates corresponding to the current zoom level.
 
-struct QEXT_MVVM_API MousePosInfo {
-    MousePosInfo(double x = 0, double y = 0, bool  r = false) : xpos(x), ypos(y), in_axes_range(r) {}
+struct QEXT_MVVM_API QExtMvvmMousePosInfo {
+    QExtMvvmMousePosInfo(double x = 0, double y = 0, bool  r = false) : xpos(x), ypos(y), in_axes_range(r) {}
     double xpos{0.0};
     double ypos{0.0};
     bool in_axes_range{false};

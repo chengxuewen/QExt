@@ -14,43 +14,43 @@
 #include "model/model/customvariants.h"
 #include "model/model/mvvm_types.h"
 #include "model/model/tagrow.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 #include <stdexcept>
 #include <vector>
 
 namespace ModelView {
 
-class SessionModel;
-class TagInfo;
-class ItemMapper;
-class SessionItemData;
-class SessionItemTags;
+class QExtMvvmSessionModel;
+class QExtMvvmTagInfo;
+class QExtMvvmItemMapper;
+class QExtMvvmSessionItemData;
+class QExtMvvmSessionItemTags;
 
 //! The main object representing an editable/displayable/serializable entity. Serves as a
-//! construction element (node) of SessionModel to represent all the data of GUI application.
+//! construction element (node) of QExtMvvmSessionModel to represent all the data of GUI application.
 
-class QEXT_MVVM_API SessionItem {
+class QEXT_MVVM_API QExtMvvmSessionItem {
 public:
-    explicit SessionItem(model_type modelType = Constants::BaseType);
-    virtual ~SessionItem();
-    SessionItem(const SessionItem&) = delete;
-    SessionItem& operator=(const SessionItem&) = delete;
+    explicit QExtMvvmSessionItem(QExtMvvmModelType modelType = Constants::BaseType);
+    virtual ~QExtMvvmSessionItem();
+    QExtMvvmSessionItem(const QExtMvvmSessionItem&) = delete;
+    QExtMvvmSessionItem& operator=(const QExtMvvmSessionItem&) = delete;
 
     // basic item properties
 
-    model_type modelType() const;
+    QExtMvvmModelType modelType() const;
 
     std::string identifier() const;
 
-    virtual SessionItem* setDisplayName(const std::string& name);
+    virtual QExtMvvmSessionItem* setDisplayName(const std::string& name);
     virtual std::string displayName() const;
 
-    SessionModel* model() const;
+    QExtMvvmSessionModel* model() const;
 
-    SessionItem* parent() const;
+    QExtMvvmSessionItem* parent() const;
 
-    TagRow tagRow() const;
+    QExtMvvmTagRow tagRow() const;
 
     // methods to deal with item data
 
@@ -61,75 +61,75 @@ public:
     template <typename T>
     bool setData(const T& value, int role = ItemDataRole::DATA, bool direct = false);
 
-    SessionItemData* itemData();
-    const SessionItemData* itemData() const;
+    QExtMvvmSessionItemData* itemData();
+    const QExtMvvmSessionItemData* itemData() const;
 
     // children access
 
     int childrenCount() const;
 
-    std::vector<SessionItem*> children() const;
+    std::vector<QExtMvvmSessionItem*> children() const;
 
     int itemCount(const std::string& tag) const;
 
-    SessionItem* getItem(const std::string& tag, int row = 0) const;
+    QExtMvvmSessionItem* getItem(const std::string& tag, int row = 0) const;
 
-    std::vector<SessionItem*> getItems(const std::string& tag) const;
+    std::vector<QExtMvvmSessionItem*> getItems(const std::string& tag) const;
 
     template <typename T> T* item(const std::string& tag) const;
-    template <typename T = SessionItem> std::vector<T*> items(const std::string& tag) const;
+    template <typename T = QExtMvvmSessionItem> std::vector<T*> items(const std::string& tag) const;
 
-    TagRow tagRowOfItem(const SessionItem* item) const;
+    QExtMvvmTagRow tagRowOfItem(const QExtMvvmSessionItem* item) const;
 
-    void registerTag(const TagInfo& tagInfo, bool set_as_default = false);
+    void registerTag(const QExtMvvmTagInfo& tagInfo, bool set_as_default = false);
 
-    SessionItemTags* itemTags();
-    const SessionItemTags* itemTags() const;
+    QExtMvvmSessionItemTags* itemTags();
+    const QExtMvvmSessionItemTags* itemTags() const;
 
     // item manipulation
 
-    bool insertItem(SessionItem* item, const TagRow& tagrow);
+    bool insertItem(QExtMvvmSessionItem* item, const QExtMvvmTagRow& tagrow);
 
-    SessionItem* insertItem(QExtUniquePointer<SessionItem> item, const TagRow& tagrow);
-    template <typename T = SessionItem> T* insertItem(const TagRow& tagrow);
+    QExtMvvmSessionItem* insertItem(QExtUniquePointer<QExtMvvmSessionItem> item, const QExtMvvmTagRow& tagrow);
+    template <typename T = QExtMvvmSessionItem> T* insertItem(const QExtMvvmTagRow& tagrow);
 
-    QExtUniquePointer<SessionItem> takeItem(const TagRow& tagrow);
+    QExtUniquePointer<QExtMvvmSessionItem> takeItem(const QExtMvvmTagRow& tagrow);
 
     // more convenience methods
 
     bool isEditable() const;
-    SessionItem* setEditable(bool value);
+    QExtMvvmSessionItem* setEditable(bool value);
 
     bool isEnabled() const;
-    SessionItem* setEnabled(bool value);
+    QExtMvvmSessionItem* setEnabled(bool value);
 
     bool isVisible() const;
-    SessionItem* setVisible(bool value);
+    QExtMvvmSessionItem* setVisible(bool value);
 
     std::string toolTip() const;
-    SessionItem* setToolTip(const std::string& tooltip);
+    QExtMvvmSessionItem* setToolTip(const std::string& tooltip);
 
     std::string editorType() const;
-    SessionItem* setEditorType(const std::string& editor_type);
+    QExtMvvmSessionItem* setEditorType(const std::string& editor_type);
 
     template <typename T> T property(const std::string& tag) const;
     template <typename T> void setProperty(const std::string& tag, const T& value);
     void setProperty(const std::string& tag, const char* value);
 
-    ItemMapper* mapper();
+    QExtMvvmItemMapper* mapper();
 
 private:
-    friend class SessionModel;
-    friend class JsonItemConverter;
+    friend class QExtMvvmSessionModel;
+    friend class QExtMvvmJsonItemConverter;
     virtual void activate() {}
-    bool set_data_internal(const Variant& value, int role, bool direct);
-    Variant data_internal(int role) const;
-    void setParent(SessionItem* parent);
-    void setModel(SessionModel* model);
+    bool set_data_internal(const QVariant& value, int role, bool direct);
+    QVariant data_internal(int role) const;
+    void setParent(QExtMvvmSessionItem* parent);
+    void setModel(QExtMvvmSessionModel* model);
     void setAppearanceFlag(int flag, bool value);
 
-    void setDataAndTags(QExtUniquePointer<SessionItemData> data,
-                        QExtUniquePointer<SessionItemTags> tags);
+    void setDataAndTags(QExtUniquePointer<QExtMvvmSessionItemData> data,
+                        QExtUniquePointer<QExtMvvmSessionItemTags> tags);
 
     struct SessionItemImpl;
     QExtUniquePointer<SessionItemImpl> p_impl;
@@ -139,14 +139,14 @@ private:
 //! through the model to register command in undo/redo framework (if enabled) and so allow later
 //! undo.
 
-template <typename T> inline bool SessionItem::setData(const T& value, int role, bool direct)
+template <typename T> inline bool QExtMvvmSessionItem::setData(const T& value, int role, bool direct)
 {
-    return set_data_internal(Variant::fromValue(value), role, direct);
+    return set_data_internal(QVariant::fromValue(value), role, direct);
 }
 
 //! Returns data of given type T for given role.
 
-template <typename T> inline T SessionItem::data(int role) const
+template <typename T> inline T QExtMvvmSessionItem::data(int role) const
 {
     return data_internal(role).value<T>();
 }
@@ -154,7 +154,7 @@ template <typename T> inline T SessionItem::data(int role) const
 //! Returns first item under given tag casted to a specified type.
 //! Returns nullptr, if item doesn't exist. If item exists but can't be casted will throw.
 
-template <typename T> inline T* SessionItem::item(const std::string& tag) const
+template <typename T> inline T* QExtMvvmSessionItem::item(const std::string& tag) const
 {
     if (auto item = getItem(tag); item) {
         T* tag_item = dynamic_cast<T*>(item);
@@ -167,7 +167,7 @@ template <typename T> inline T* SessionItem::item(const std::string& tag) const
 
 //! Returns all items under given tag casted to specific type.
 
-template <typename T> std::vector<T*> SessionItem::items(const std::string& tag) const
+template <typename T> std::vector<T*> QExtMvvmSessionItem::items(const std::string& tag) const
 {
     std::vector<T*> result;
     for (auto item : getItems(tag))
@@ -179,33 +179,33 @@ template <typename T> std::vector<T*> SessionItem::items(const std::string& tag)
 //! Creates a new item and insert it into given tag under the given row.
 //! Returns pointer to inserted item to the user.
 
-template <typename T> inline T* SessionItem::insertItem(const TagRow& tagrow)
+template <typename T> inline T* QExtMvvmSessionItem::insertItem(const QExtMvvmTagRow& tagrow)
 {
     return static_cast<T*>(insertItem(qextMakeUnique<T>(), tagrow));
 }
 
 //! Returns data stored in property item.
-//! Property is single item registered under certain tag via CompoundItem::addProperty method.
+//! Property is single item registered under certain tag via QExtMvvmCompoundItem::addProperty method.
 
-template <typename T> inline T SessionItem::property(const std::string& tag) const
+template <typename T> inline T QExtMvvmSessionItem::property(const std::string& tag) const
 {
     return getItem(tag)->data<T>();
 }
 
 //! Sets value to property item.
-//! Property is single item registered under certain tag via CompoundItem::addProperty method, the
+//! Property is single item registered under certain tag via QExtMvvmCompoundItem::addProperty method, the
 //! value will be assigned to it's data role.
 
-template <typename T> inline void SessionItem::setProperty(const std::string& tag, const T& value)
+template <typename T> inline void QExtMvvmSessionItem::setProperty(const std::string& tag, const T& value)
 {
     getItem(tag)->setData(value);
 }
 
 //! Sets value to property item (specialized for special "const char *" case).
-//! Property is single item registered under certain tag via CompoundItem::addProperty method, the
+//! Property is single item registered under certain tag via QExtMvvmCompoundItem::addProperty method, the
 //! value will be assigned to it's data role.
 
-inline void SessionItem::setProperty(const std::string& tag, const char* value)
+inline void QExtMvvmSessionItem::setProperty(const std::string& tag, const char* value)
 {
     setProperty(tag, std::string(value));
 }

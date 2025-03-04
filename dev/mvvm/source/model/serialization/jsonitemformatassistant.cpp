@@ -14,57 +14,57 @@
 using namespace ModelView;
 
 namespace {
-//! Returns list of keys which should be in QJsonObject to represent SessionItem.
+//! Returns list of keys which should be in QJsonObject to represent QExtMvvmSessionItem.
 QStringList expected_item_keys()
 {
-    QStringList result{JsonItemFormatAssistant::modelKey, JsonItemFormatAssistant::itemDataKey,
-                       JsonItemFormatAssistant::itemTagsKey};
+    QStringList result{QExtMvvmJsonItemFormatAssistant::modelKey, QExtMvvmJsonItemFormatAssistant::itemDataKey,
+                       QExtMvvmJsonItemFormatAssistant::itemTagsKey};
     std::sort(result.begin(), result.end());
     return result;
 }
 
-//! Returns list of keys which should be in QJsonObject to represent SessionItemData.
+//! Returns list of keys which should be in QJsonObject to represent QExtMvvmSessionItemData.
 
 QStringList expected_itemdata_keys()
 {
-    QStringList result{JsonItemFormatAssistant::roleKey, JsonItemFormatAssistant::variantKey};
+    QStringList result{QExtMvvmJsonItemFormatAssistant::roleKey, QExtMvvmJsonItemFormatAssistant::variantKey};
     std::sort(result.begin(), result.end());
     return result;
 }
 
-//! Returns list of keys which should be in QJsonObject to represent SessionItemTags.
+//! Returns list of keys which should be in QJsonObject to represent QExtMvvmSessionItemTags.
 
 QStringList expected_tags_keys()
 {
-    QStringList result{JsonItemFormatAssistant::defaultTagKey,
-                       JsonItemFormatAssistant::containerKey};
+    QStringList result{QExtMvvmJsonItemFormatAssistant::defaultTagKey,
+                       QExtMvvmJsonItemFormatAssistant::containerKey};
     std::sort(result.begin(), result.end());
     return result;
 }
 
-//! Returns list of keys which should be in QJsonObject to represent SessionItemContainer.
+//! Returns list of keys which should be in QJsonObject to represent QExtMvvmSessionItemContainer.
 
 QStringList expected_itemcontainer_keys()
 {
-    QStringList result = {JsonItemFormatAssistant::tagInfoKey, JsonItemFormatAssistant::itemsKey};
+    QStringList result = {QExtMvvmJsonItemFormatAssistant::tagInfoKey, QExtMvvmJsonItemFormatAssistant::itemsKey};
     std::sort(result.begin(), result.end());
     return result;
 }
 
-//! Returns list of keys which should be in QJsonObject to represent SessionModel.
+//! Returns list of keys which should be in QJsonObject to represent QExtMvvmSessionModel.
 
 QStringList expected_sessionmodel_keys()
 {
-    QStringList result{JsonItemFormatAssistant::sessionModelKey, JsonItemFormatAssistant::itemsKey};
+    QStringList result{QExtMvvmJsonItemFormatAssistant::sessionModelKey, QExtMvvmJsonItemFormatAssistant::itemsKey};
     std::sort(result.begin(), result.end());
     return result;
 }
 
 } // namespace
 
-//! Returns true if given json object represents SessionItem.
+//! Returns true if given json object represents QExtMvvmSessionItem.
 
-bool JsonItemFormatAssistant::isSessionItem(const QJsonObject& json) const
+bool QExtMvvmJsonItemFormatAssistant::isSessionItem(const QJsonObject& json) const
 {
     static const QStringList expected = expected_item_keys();
 
@@ -80,15 +80,15 @@ bool JsonItemFormatAssistant::isSessionItem(const QJsonObject& json) const
     return true;
 }
 
-bool JsonItemFormatAssistant::isSessionItemData(const QJsonObject& json) const
+bool QExtMvvmJsonItemFormatAssistant::isSessionItemData(const QJsonObject& json) const
 {
     static const QStringList expected = expected_itemdata_keys();
     return json.keys() == expected;
 }
 
-//! Returns true if given json object represents SessionItemTags.
+//! Returns true if given json object represents QExtMvvmSessionItemTags.
 
-bool JsonItemFormatAssistant::isSessionItemTags(const QJsonObject& json) const
+bool QExtMvvmJsonItemFormatAssistant::isSessionItemTags(const QJsonObject& json) const
 {
     static const QStringList expected = expected_tags_keys();
 
@@ -101,9 +101,9 @@ bool JsonItemFormatAssistant::isSessionItemTags(const QJsonObject& json) const
     return true;
 }
 
-//! Returns true if given json object represents SessionItemContainer.
+//! Returns true if given json object represents QExtMvvmSessionItemContainer.
 
-bool JsonItemFormatAssistant::isSessionItemContainer(const QJsonObject& json) const
+bool QExtMvvmJsonItemFormatAssistant::isSessionItemContainer(const QJsonObject& json) const
 {
     static const QStringList expected = expected_itemcontainer_keys();
 
@@ -119,9 +119,9 @@ bool JsonItemFormatAssistant::isSessionItemContainer(const QJsonObject& json) co
     return true;
 }
 
-//! Returns true if given json object represents SessionModel.
+//! Returns true if given json object represents QExtMvvmSessionModel.
 
-bool JsonItemFormatAssistant::isSessionModel(const QJsonObject& object) const
+bool QExtMvvmJsonItemFormatAssistant::isSessionModel(const QJsonObject& object) const
 {
     static const QStringList expected = expected_sessionmodel_keys();
 

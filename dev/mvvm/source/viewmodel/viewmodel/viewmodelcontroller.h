@@ -11,50 +11,50 @@
 #define MVVM_VIEWMODEL_VIEWMODELCONTROLLER_H
 
 #include "model/signals/modellistener.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QStringList>
 #include <memory>
 #include <vector>
 
 namespace ModelView {
 
-class SessionModel;
-class SessionItem;
-class ViewModelBase;
-class ViewItem;
-class ChildrenStrategyInterface;
-class RowStrategyInterface;
+class QExtMvvmSessionModel;
+class QExtMvvmSessionItem;
+class QExtMvvmViewModelBase;
+class QExtMvvmViewItem;
+class QExtMvvmChildrenStrategyInterface;
+class QExtMvvmRowStrategyInterface;
 
-//! Propagates changes from SessionModel to its ViewModelBase.
+//! Propagates changes from QExtMvvmSessionModel to its QExtMvvmViewModelBase.
 
-class QEXT_MVVM_API ViewModelController : public ModelListener<SessionModel> {
+class QEXT_MVVM_API QExtMvvmViewModelController : public QExtMvvmModelListener<QExtMvvmSessionModel> {
 public:
-    ViewModelController(SessionModel* session_model, ViewModelBase* view_model = nullptr);
-    ~ViewModelController() override;
+    QExtMvvmViewModelController(QExtMvvmSessionModel* session_model, QExtMvvmViewModelBase* view_model = nullptr);
+    ~QExtMvvmViewModelController() override;
 
-    void setViewModel(ViewModelBase* view_model);
+    void setViewModel(QExtMvvmViewModelBase* view_model);
 
-    void setChildrenStrategy(QExtUniquePointer<ChildrenStrategyInterface> children_strategy);
+    void setChildrenStrategy(QExtUniquePointer<QExtMvvmChildrenStrategyInterface> children_strategy);
 
-    void setRowStrategy(QExtUniquePointer<RowStrategyInterface> row_strategy);
+    void setRowStrategy(QExtUniquePointer<QExtMvvmRowStrategyInterface> row_strategy);
 
-    SessionModel* sessionModel() const;
+    QExtMvvmSessionModel* sessionModel() const;
 
-    void setRootSessionItem(SessionItem* item);
+    void setRootSessionItem(QExtMvvmSessionItem* item);
 
-    SessionItem* rootSessionItem() const;
+    QExtMvvmSessionItem* rootSessionItem() const;
 
-    std::vector<ViewItem*> findViews(const ModelView::SessionItem* item) const;
+    std::vector<QExtMvvmViewItem*> findViews(const ModelView::QExtMvvmSessionItem* item) const;
 
     QStringList horizontalHeaderLabels() const;
 
 protected:
-    virtual void onDataChange(SessionItem* item, int role);
-    virtual void onItemInserted(SessionItem* parent, TagRow tagrow);
-    virtual void onItemRemoved(SessionItem* parent, TagRow tagrow);
-    virtual void onAboutToRemoveItem(SessionItem* parent, TagRow tagrow);
+    virtual void onDataChange(QExtMvvmSessionItem* item, int role);
+    virtual void onItemInserted(QExtMvvmSessionItem* parent, QExtMvvmTagRow tagrow);
+    virtual void onItemRemoved(QExtMvvmSessionItem* parent, QExtMvvmTagRow tagrow);
+    virtual void onAboutToRemoveItem(QExtMvvmSessionItem* parent, QExtMvvmTagRow tagrow);
 
-    void update_branch(const SessionItem* item);
+    void update_branch(const QExtMvvmSessionItem* item);
 
 private:
     struct ViewModelControllerImpl;

@@ -15,26 +15,26 @@
 
 using namespace ModelView;
 
-struct StatusStringReporter::StatusStringReporterImpl {
-    StatusStringReporter* parent{nullptr};
+struct QExtMvvmStatusStringReporter::StatusStringReporterImpl {
+    QExtMvvmStatusStringReporter* parent{nullptr};
     QCustomPlot* custom_plot{nullptr};
     callback_t callback;
-    QExtUniquePointer<StatusStringFormatterInterface> fmt;
+    QExtUniquePointer<QExtMvvmStatusStringFormatterInterface> fmt;
     QExtUniquePointer<MouseMoveReporter> mouse_reporter;
-    MousePosInfo prevPos;
+    QExtMvvmMousePosInfo prevPos;
 
-    StatusStringReporterImpl(StatusStringReporter* parent, QCustomPlot* custom_plot,
+    StatusStringReporterImpl(QExtMvvmStatusStringReporter* parent, QCustomPlot* custom_plot,
                              callback_t callback,
-                             QExtUniquePointer<StatusStringFormatterInterface> formatter)
+                             QExtUniquePointer<QExtMvvmStatusStringFormatterInterface> formatter)
         : parent(parent)
         , custom_plot(custom_plot)
         , callback(std::move(callback))
         , fmt(std::move(formatter))
     {
         if (!custom_plot)
-            throw std::runtime_error("StatusStringReporter: not initialized custom plot.");
+            throw std::runtime_error("QExtMvvmStatusStringReporter: not initialized custom plot.");
 
-        auto on_mouse_move = [this](const MousePosInfo& pos) {
+        auto on_mouse_move = [this](const QExtMvvmMousePosInfo& pos) {
             if (pos.in_axes_range) {
                 notify_client(pos);
                 if (!prevPos.in_axes_range)
@@ -52,7 +52,7 @@ struct StatusStringReporter::StatusStringReporterImpl {
 
     //! Notify client about mouse move with formatted status string.
 
-    void notify_client(const MousePosInfo& pos)
+    void notify_client(const QExtMvvmMousePosInfo& pos)
     {
         callback(fmt->status_string(this->custom_plot, pos.xpos, pos.ypos));
     }
@@ -73,12 +73,12 @@ struct StatusStringReporter::StatusStringReporterImpl {
     }
 };
 
-StatusStringReporter::StatusStringReporter(
+QExtMvvmStatusStringReporter::QExtMvvmStatusStringReporter(
     QCustomPlot* custom_plot, callback_t callback,
-    QExtUniquePointer<StatusStringFormatterInterface> formatter)
+    QExtUniquePointer<QExtMvvmStatusStringFormatterInterface> formatter)
     : p_impl(qextMakeUnique<StatusStringReporterImpl>(this, custom_plot, callback,
                                                         std::move(formatter)))
 {
 }
 
-StatusStringReporter::~StatusStringReporter() = default;
+QExtMvvmStatusStringReporter::~QExtMvvmStatusStringReporter() = default;

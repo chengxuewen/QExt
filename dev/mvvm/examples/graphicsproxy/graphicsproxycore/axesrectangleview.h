@@ -13,7 +13,7 @@
 #include <QGraphicsObject>
 
 namespace ModelView {
-class SceneAdapterInterface;
+class QExtMvvmSceneAdapterInterface;
 }
 
 namespace GraphicsProxy {
@@ -26,7 +26,7 @@ class AxesRectangleView : public QGraphicsObject {
     Q_OBJECT
 
 public:
-    AxesRectangleView(const ModelView::SceneAdapterInterface* scene_adapter);
+    AxesRectangleView(const ModelView::QExtMvvmSceneAdapterInterface* scene_adapter);
 
     QRectF boundingRect() const override;
 
@@ -36,7 +36,7 @@ protected:
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) override;
 
 private:
-    const ModelView::SceneAdapterInterface* m_sceneAdapter{nullptr};
+    const ModelView::QExtMvvmSceneAdapterInterface* m_sceneAdapter{nullptr};
     QRectF m_rect;
 };
 

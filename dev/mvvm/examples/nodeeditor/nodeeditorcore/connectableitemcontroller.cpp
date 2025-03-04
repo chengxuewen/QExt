@@ -66,7 +66,7 @@ ConnectableItemController::~ConnectableItemController() = default;
 
 void ConnectableItemController::subscribe()
 {
-    auto on_property_change = [this](SessionItem*, std::string) {
+    auto on_property_change = [this](QExtMvvmSessionItem*, std::string) {
         if (p_impl->m_blockOnPropertyChanged)
             return;
         p_impl->updateViewFromItem();

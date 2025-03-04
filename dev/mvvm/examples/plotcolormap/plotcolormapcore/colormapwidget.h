@@ -17,7 +17,7 @@ class QToolBar;
 class QAction;
 
 namespace ModelView {
-class ColorMapCanvas;
+class QExtMvvmColorMapCanvas;
 } // namespace ModelView
 
 namespace PlotColorMap {
@@ -44,7 +44,7 @@ private:
     QAction* m_resetViewportAction{nullptr};
 
     ColorMapPropertyWidget* m_propertyWidget{nullptr};
-    ModelView::ColorMapCanvas* m_colorMapCanvas{nullptr};
+    ModelView::QExtMvvmColorMapCanvas* m_colorMapCanvas{nullptr};
     ColorMapModel* m_model{nullptr};
 };
 

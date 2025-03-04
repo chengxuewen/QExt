@@ -10,22 +10,22 @@
 #ifndef MVVM_EDITORS_EDITORBUILDERS_H
 #define MVVM_EDITORS_EDITORBUILDERS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <functional>
 #include <memory>
 
 namespace ModelView {
 
-class CustomEditor;
-class SessionItem;
+class QExtMvvmCustomEditor;
+class QExtMvvmSessionItem;
 
 //! Collection of methods to build custom editors for trees/tables cells.
-//! Used to edit SessionItem data in the context of DefaultEditorFactory.
+//! Used to edit QExtMvvmSessionItem data in the context of QExtMvvmDefaultEditorFactory.
 
 namespace EditorBuilders {
 
-using editor_t = QExtUniquePointer<CustomEditor>;
-using builder_t = std::function<editor_t(const SessionItem*)>;
+using editor_t = QExtUniquePointer<QExtMvvmCustomEditor>;
+using builder_t = std::function<editor_t(const QExtMvvmSessionItem*)>;
 
 //! Builder for boolean property editor.
 QEXT_MVVM_API builder_t BoolEditorBuilder();
@@ -45,13 +45,13 @@ QEXT_MVVM_API builder_t ScientificSpinBoxEditorBuilder();
 //! Builder for color property editor.
 QEXT_MVVM_API builder_t ColorEditorBuilder();
 
-//! Builder for ComboProperty editor.
+//! Builder for QExtMvvmComboProperty editor.
 QEXT_MVVM_API builder_t ComboPropertyEditorBuilder();
 
 //! Builder for external property editor.
 QEXT_MVVM_API builder_t ExternalPropertyEditorBuilder();
 
-//! Builder for ComboProperty editor with multi-selection functionality.
+//! Builder for QExtMvvmComboProperty editor with multi-selection functionality.
 QEXT_MVVM_API builder_t SelectableComboPropertyEditorBuilder();
 
 } // namespace EditorBuilders

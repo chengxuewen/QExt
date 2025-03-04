@@ -25,15 +25,15 @@ const std::string separator = " ";
 } // namespace
 using namespace ModelView;
 
-std::string JsonUtils::ModelToJsonString(const ModelView::SessionModel& model)
+std::string JsonUtils::ModelToJsonString(const ModelView::QExtMvvmSessionModel& model)
 {
-    auto converter = CreateModelCopyConverter();
+    auto converter = qextMvvmCreateModelCopyConverter();
     QJsonObject json_source = converter->to_json(model);
     QJsonDocument document(json_source);
     return QString(document.toJson(QJsonDocument::Indented)).toStdString();
 }
 
-std::string JsonUtils::ToString(const ModelView::RealLimits& limits)
+std::string JsonUtils::ToString(const ModelView::QExtMvvmRealLimits& limits)
 {
     if (limits.isLimitless())
         return text_limitless;
@@ -51,20 +51,20 @@ std::string JsonUtils::ToString(const ModelView::RealLimits& limits)
         throw std::runtime_error("JsonUtils::ToString() -> Unknown type");
 }
 
-RealLimits JsonUtils::CreateLimits(const std::string& text, double min, double max)
+QExtMvvmRealLimits JsonUtils::CreateLimits(const std::string& text, double min, double max)
 {
     if (text == text_limitless)
-        return RealLimits();
+        return QExtMvvmRealLimits();
     else if (text == text_positive)
-        return RealLimits::positive();
+        return QExtMvvmRealLimits::positive();
     else if (text == text_nonnegative)
-        return RealLimits::nonnegative();
+        return QExtMvvmRealLimits::nonnegative();
     else if (text == text_lowerlimited)
-        return RealLimits::lowerLimited(min);
+        return QExtMvvmRealLimits::lowerLimited(min);
     else if (text == text_upperlimited)
-        return RealLimits::upperLimited(max);
+        return QExtMvvmRealLimits::upperLimited(max);
     else if (text == text_limited)
-        return RealLimits::limited(min, max);
+        return QExtMvvmRealLimits::limited(min, max);
     else
         throw std::runtime_error("JsonUtils::CreateLimits -> Unknown type");
 }

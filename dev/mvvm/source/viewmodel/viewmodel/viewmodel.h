@@ -14,39 +14,39 @@
 
 namespace ModelView {
 
-class SessionModel;
-class SessionItem;
-class ViewItem;
-class ViewModelController;
+class QExtMvvmSessionModel;
+class QExtMvvmSessionItem;
+class QExtMvvmViewItem;
+class QExtMvvmViewModelController;
 
-//! Main class to represent content of SessionModel in Qt's trees and tables.
+//! Main class to represent content of QExtMvvmSessionModel in Qt's trees and tables.
 
-class QEXT_MVVM_API ViewModel : public ViewModelBase {
+class QEXT_MVVM_API QExtMvvmViewModel : public QExtMvvmViewModelBase {
     Q_OBJECT
 
 public:
-    ViewModel(QExtUniquePointer<ViewModelController> controller, QObject* parent = nullptr);
-    ~ViewModel() override;
+    QExtMvvmViewModel(QExtUniquePointer<QExtMvvmViewModelController> controller, QObject* parent = nullptr);
+    ~QExtMvvmViewModel() override;
 
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
 
-    SessionModel* sessionModel() const;
+    QExtMvvmSessionModel* sessionModel() const;
 
-    SessionItem* rootSessionItem();
+    QExtMvvmSessionItem* rootSessionItem();
 
-    void setRootSessionItem(SessionItem* item);
+    void setRootSessionItem(QExtMvvmSessionItem* item);
 
-    SessionItem* sessionItemFromIndex(const QModelIndex& index) const;
+    QExtMvvmSessionItem* sessionItemFromIndex(const QModelIndex& index) const;
 
-    ViewItem* viewItemFromIndex(const QModelIndex& index) const;
+    QExtMvvmViewItem* viewItemFromIndex(const QModelIndex& index) const;
 
-    QModelIndexList indexOfSessionItem(const SessionItem* item) const;
+    QModelIndexList indexOfSessionItem(const QExtMvvmSessionItem* item) const;
 
-    std::vector<ViewItem*> findViews(const ModelView::SessionItem* item) const;
+    std::vector<QExtMvvmViewItem*> findViews(const ModelView::QExtMvvmSessionItem* item) const;
 
 private:
-    QExtUniquePointer<ViewModelController> m_controller;
+    QExtUniquePointer<QExtMvvmViewModelController> m_controller;
 };
 
 } // namespace ModelView

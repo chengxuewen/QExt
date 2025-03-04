@@ -18,15 +18,15 @@
 
 using namespace ModelView;
 
-struct ViewportAxisPlotController::AxesPlotControllerImpl {
+struct QExtMvvmViewportAxisPlotController::AxesPlotControllerImpl {
 
-    ViewportAxisPlotController* m_self{nullptr};
+    QExtMvvmViewportAxisPlotController* m_self{nullptr};
     QCPAxis* m_axis{nullptr};
     bool m_blockUpdate{false};
     QExtUniquePointer<QMetaObject::Connection> m_axisConn;
-    QExtUniquePointer<AxisTitleController> m_titleController;
+    QExtUniquePointer<QExtMvvmAxisTitleController> m_titleController;
 
-    AxesPlotControllerImpl(ViewportAxisPlotController* controller, QCPAxis* axis)
+    AxesPlotControllerImpl(QExtMvvmViewportAxisPlotController* controller, QCPAxis* axis)
         : m_self(controller), m_axis(axis)
     {
         if (!axis)
@@ -53,7 +53,7 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl {
 
     void setDisconnected() { QObject::disconnect(*m_axisConn); }
 
-    //! Sets axesRange from SessionItem.
+    //! Sets axesRange from QExtMvvmSessionItem.
     void setAxisRangeFromItem()
     {
         auto [lower, upper] = m_self->currentItem()->range();
@@ -71,52 +71,52 @@ struct ViewportAxisPlotController::AxesPlotControllerImpl {
 
     void init_axis()
     {
-        m_titleController = qextMakeUnique<AxisTitleController>(m_axis);
-        auto text_item = m_self->currentItem()->item<TextItem>(ViewportAxisItem::P_TITLE);
+        m_titleController = qextMakeUnique<QExtMvvmAxisTitleController>(m_axis);
+        auto text_item = m_self->currentItem()->item<QExtMvvmTextItem>(QExtMvvmViewportAxisItem::P_TITLE);
         m_titleController->setItem(text_item);
         setAxisRangeFromItem();
         setAxisLogScaleFromItem();
         setConnected();
     }
 
-    void updateLowerRange(const ViewportAxisItem* item)
+    void updateLowerRange(const QExtMvvmViewportAxisItem* item)
     {
         setDisconnected();
-        m_axis->setRangeLower(item->property<double>(ViewportAxisItem::P_MIN));
+        m_axis->setRangeLower(item->property<double>(QExtMvvmViewportAxisItem::P_MIN));
         setConnected();
     }
 
-    void updateUpperRange(const ViewportAxisItem* item)
+    void updateUpperRange(const QExtMvvmViewportAxisItem* item)
     {
         setDisconnected();
-        m_axis->setRangeUpper(item->property<double>(ViewportAxisItem::P_MAX));
+        m_axis->setRangeUpper(item->property<double>(QExtMvvmViewportAxisItem::P_MAX));
         setConnected();
     }
 
     ~AxesPlotControllerImpl() { setDisconnected(); }
 };
 
-ViewportAxisPlotController::ViewportAxisPlotController(QCPAxis* axis)
+QExtMvvmViewportAxisPlotController::QExtMvvmViewportAxisPlotController(QCPAxis* axis)
     : p_impl(qextMakeUnique<AxesPlotControllerImpl>(this, axis))
 
 {
 }
 
-ViewportAxisPlotController::~ViewportAxisPlotController() = default;
+QExtMvvmViewportAxisPlotController::~QExtMvvmViewportAxisPlotController() = default;
 
-void ViewportAxisPlotController::subscribe()
+void QExtMvvmViewportAxisPlotController::subscribe()
 {
-    auto on_property_change = [this](SessionItem*, std::string name) {
+    auto on_property_change = [this](QExtMvvmSessionItem*, std::string name) {
         if (p_impl->m_blockUpdate)
             return;
 
-        if (name == ViewportAxisItem::P_MIN)
+        if (name == QExtMvvmViewportAxisItem::P_MIN)
             p_impl->updateLowerRange(currentItem());
 
-        if (name == ViewportAxisItem::P_MAX)
+        if (name == QExtMvvmViewportAxisItem::P_MAX)
             p_impl->updateUpperRange(currentItem());
 
-        if (name == ViewportAxisItem::P_IS_LOG)
+        if (name == QExtMvvmViewportAxisItem::P_IS_LOG)
             p_impl->setAxisLogScaleFromItem();
 
         p_impl->m_axis->parentPlot()->replot();
@@ -126,7 +126,7 @@ void ViewportAxisPlotController::subscribe()
     p_impl->init_axis();
 }
 
-void ViewportAxisPlotController::unsubscribe()
+void QExtMvvmViewportAxisPlotController::unsubscribe()
 {
     p_impl->setDisconnected();
 }

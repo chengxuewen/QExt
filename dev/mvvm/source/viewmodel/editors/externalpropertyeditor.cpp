@@ -20,11 +20,11 @@
 
 using namespace ModelView;
 
-ExternalPropertyEditor::ExternalPropertyEditor(QWidget* parent)
-    : CustomEditor(parent)
+QExtMvvmExternalPropertyEditor::QExtMvvmExternalPropertyEditor(QWidget* parent)
+    : QExtMvvmCustomEditor(parent)
     , m_textLabel(new QLabel)
     , m_pixmapLabel(new QLabel)
-    , m_focusFilter(new LostFocusFilter(this))
+    , m_focusFilter(new QExtMvvmLostFocusFilter(this))
 
 {
     setMouseTracking(true);
@@ -43,17 +43,17 @@ ExternalPropertyEditor::ExternalPropertyEditor(QWidget* parent)
     layout->addWidget(button);
     setFocusPolicy(Qt::StrongFocus);
     setAttribute(Qt::WA_InputMethodEnabled);
-    connect(button, &QToolButton::clicked, this, &ExternalPropertyEditor::buttonClicked);
+    connect(button, &QToolButton::clicked, this, &QExtMvvmExternalPropertyEditor::buttonClicked);
 
     setLayout(layout);
 }
 
-void ExternalPropertyEditor::setCallback(std::function<void(const QVariant&)> callback)
+void QExtMvvmExternalPropertyEditor::setCallback(std::function<void(const QVariant&)> callback)
 {
     m_callback = std::move(callback);
 }
 
-void ExternalPropertyEditor::buttonClicked()
+void QExtMvvmExternalPropertyEditor::buttonClicked()
 {
     if (m_callback)
         m_callback(m_data);
@@ -61,12 +61,12 @@ void ExternalPropertyEditor::buttonClicked()
         QMessageBox::warning(nullptr, "Not configured", "No external dialog configured.");
 }
 
-void ExternalPropertyEditor::update_components()
+void QExtMvvmExternalPropertyEditor::update_components()
 {
     if (!Utils::IsExtPropertyVariant(m_data))
-        throw std::runtime_error("Error. Wrong variant type (ExternalProperty is required).");
+        throw std::runtime_error("Error. Wrong variant type (QExtMvvmExternalProperty is required).");
 
-    auto prop = m_data.value<ExternalProperty>();
+    auto prop = m_data.value<QExtMvvmExternalProperty>();
     QPixmap pixmap(Style::DefaultPixmapSize(), Style::DefaultPixmapSize());
     pixmap.fill(prop.color());
     m_textLabel->setText(QString::fromStdString(prop.text()));

@@ -14,19 +14,19 @@
 
 using namespace ModelView;
 
-struct JsonItemCopyStrategy::JsonItemCopyStrategyImpl {
-    QExtUniquePointer<JsonItemConverterInterface> m_converter;
+struct QExtMvvmJsonItemCopyStrategy::JsonItemCopyStrategyImpl {
+    QExtUniquePointer<QExtMvvmJsonItemConverterInterface> m_converter;
 };
 
-JsonItemCopyStrategy::JsonItemCopyStrategy(const ItemFactoryInterface* item_factory)
+QExtMvvmJsonItemCopyStrategy::QExtMvvmJsonItemCopyStrategy(const QExtMvvmItemFactoryInterface* item_factory)
     : p_impl(qextMakeUnique<JsonItemCopyStrategyImpl>())
 {
-    p_impl->m_converter = CreateItemCopyConverter(item_factory);
+    p_impl->m_converter = qextMvvmCreateItemCopyConverter(item_factory);
 }
 
-JsonItemCopyStrategy::~JsonItemCopyStrategy() = default;
+QExtMvvmJsonItemCopyStrategy::~QExtMvvmJsonItemCopyStrategy() = default;
 
-QExtUniquePointer<SessionItem> JsonItemCopyStrategy::createCopy(const SessionItem* item) const
+QExtUniquePointer<QExtMvvmSessionItem> QExtMvvmJsonItemCopyStrategy::createCopy(const QExtMvvmSessionItem* item) const
 {
     auto json = p_impl->m_converter->to_json(item);
     return p_impl->m_converter->from_json(json);

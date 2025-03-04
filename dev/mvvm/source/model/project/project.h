@@ -15,15 +15,15 @@
 
 namespace ModelView {
 
-struct ProjectContext;
+struct QExtMvvmProjectContext;
 
-//! Project represents content of all application models in a folder on disk.
+//! QExtMvvmProject represents content of all application models in a folder on disk.
 //! Responsible for saving/loading application models to/from disk.
 
-class QEXT_MVVM_API Project : public ModelView::ProjectInterface {
+class QEXT_MVVM_API QExtMvvmProject : public ModelView::QExtMvvmProjectInterface {
 public:
-    Project(const ProjectContext& context);
-    ~Project();
+    QExtMvvmProject(const QExtMvvmProjectContext& context);
+    ~QExtMvvmProject();
 
     std::string projectDir() const override;
 

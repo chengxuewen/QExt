@@ -23,7 +23,7 @@ class NodeConnection;
 class GraphicsSceneController;
 
 //! Custom graphics scene for node editor.
-//! Listens for updates in SessionModel and populates the scene with views.
+//! Listens for updates in QExtMvvmSessionModel and populates the scene with views.
 //! Contains the logic to establish and break connections between ConnectableViewItem.
 
 class GraphicsScene : public QGraphicsScene {

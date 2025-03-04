@@ -16,13 +16,13 @@ namespace ModelView {
 
 //! Vector item with three x,y,z property items.
 
-class QEXT_MVVM_API VectorItem : public CompoundItem {
+class QEXT_MVVM_API QExtMvvmVectorItem : public QExtMvvmCompoundItem {
 public:
     static inline const std::string P_X = "P_X";
     static inline const std::string P_Y = "P_Y";
     static inline const std::string P_Z = "P_Z";
 
-    VectorItem();
+    QExtMvvmVectorItem();
 
     void activate() override;
 

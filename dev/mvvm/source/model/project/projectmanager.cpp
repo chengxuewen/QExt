@@ -19,11 +19,11 @@ const bool succeeded = true;
 const bool failed = false;
 } // namespace
 
-struct ProjectManager::ProjectManagerImpl {
-    QExtUniquePointer<ProjectInterface> m_current_project;
-    ProjectContext m_project_context;
+struct QExtMvvmProjectManager::ProjectManagerImpl {
+    QExtUniquePointer<QExtMvvmProjectInterface> m_current_project;
+    QExtMvvmProjectContext m_project_context;
 
-    ProjectManagerImpl(ProjectContext context) : m_project_context(std::move(context))
+    ProjectManagerImpl(QExtMvvmProjectContext context) : m_project_context(std::move(context))
     {
         createNewProject();
     }
@@ -53,19 +53,19 @@ struct ProjectManager::ProjectManagerImpl {
     bool isModified() const { return m_current_project->isModified(); }
 };
 
-//! Constructor for ProjectManager.
+//! Constructor for QExtMvvmProjectManager.
 
-ProjectManager::ProjectManager(const ProjectContext& context)
+QExtMvvmProjectManager::QExtMvvmProjectManager(const QExtMvvmProjectContext& context)
     : p_impl(qextMakeUnique<ProjectManagerImpl>(context))
 {
 }
 
-ProjectManager::~ProjectManager() = default;
+QExtMvvmProjectManager::~QExtMvvmProjectManager() = default;
 
 //! Creates a new project, returns 'true' in the case of success.
 //! Current project has to be in a saved state, otherwise will return false.
 
-bool ProjectManager::createNewProject(const std::string& dirname)
+bool QExtMvvmProjectManager::createNewProject(const std::string& dirname)
 {
     if (p_impl->isModified())
         return failed;
@@ -76,7 +76,7 @@ bool ProjectManager::createNewProject(const std::string& dirname)
 //! Saves current project, returns 'true' in the case of success.
 //! The project should have a project directory defined to succeed.
 
-bool ProjectManager::saveCurrentProject()
+bool QExtMvvmProjectManager::saveCurrentProject()
 {
     if (!p_impl->projectHasDir())
         return failed;
@@ -86,7 +86,7 @@ bool ProjectManager::saveCurrentProject()
 //! Saves the project under a given directory, returns true in the case of success.
 //! The directory should exist already.
 
-bool ProjectManager::saveProjectAs(const std::string& dirname)
+bool QExtMvvmProjectManager::saveProjectAs(const std::string& dirname)
 {
     return p_impl->saveCurrentProjectAs(dirname);
 }
@@ -94,7 +94,7 @@ bool ProjectManager::saveProjectAs(const std::string& dirname)
 //! Opens existing project, returns 'true' in the case of success.
 //! Current project should be in a saved state, new project should exist.
 
-bool ProjectManager::openExistingProject(const std::string& dirname)
+bool QExtMvvmProjectManager::openExistingProject(const std::string& dirname)
 {
     if (p_impl->isModified())
         return failed;
@@ -104,14 +104,14 @@ bool ProjectManager::openExistingProject(const std::string& dirname)
 
 //! Returns current project directory.
 
-std::string ProjectManager::currentProjectDir() const
+std::string QExtMvvmProjectManager::currentProjectDir() const
 {
     return p_impl->m_current_project ? p_impl->m_current_project->projectDir() : std::string();
 }
 
 //! Returns true if project was modified since last save.
 
-bool ProjectManager::isModified() const
+bool QExtMvvmProjectManager::isModified() const
 {
     return p_impl->isModified();
 }
@@ -119,7 +119,7 @@ bool ProjectManager::isModified() const
 //! Closes current project (without saving).
 //! No checks whether it is modified or not being performed.
 
-bool ProjectManager::closeCurrentProject() const
+bool QExtMvvmProjectManager::closeCurrentProject() const
 {
     // no special operation is required to close the project
     p_impl->createNewProject(); // ready for further actions

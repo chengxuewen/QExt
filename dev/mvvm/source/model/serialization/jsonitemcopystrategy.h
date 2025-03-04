@@ -15,17 +15,17 @@
 
 namespace ModelView {
 
-class SessionItem;
-class ItemFactoryInterface;
+class QExtMvvmSessionItem;
+class QExtMvvmItemFactoryInterface;
 
-//! Provide SessionItem copying using json based strategy.
+//! Provide QExtMvvmSessionItem copying using json based strategy.
 
-class QEXT_MVVM_API JsonItemCopyStrategy : public ItemCopyStrategy {
+class QEXT_MVVM_API QExtMvvmJsonItemCopyStrategy : public QExtMvvmItemCopyStrategy {
 public:
-    JsonItemCopyStrategy(const ItemFactoryInterface* item_factory);
-    ~JsonItemCopyStrategy();
+    QExtMvvmJsonItemCopyStrategy(const QExtMvvmItemFactoryInterface* item_factory);
+    ~QExtMvvmJsonItemCopyStrategy();
 
-    QExtUniquePointer<SessionItem> createCopy(const SessionItem* item) const;
+    QExtUniquePointer<QExtMvvmSessionItem> createCopy(const QExtMvvmSessionItem* item) const;
 
 private:
     struct JsonItemCopyStrategyImpl;

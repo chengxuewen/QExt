@@ -15,18 +15,18 @@
 
 namespace ModelView {
 
-//! Default converter between TagInfo and json object.
+//! Default converter between QExtMvvmTagInfo and json object.
 
-class QEXT_MVVM_API JsonTagInfoConverter : public JsonTagInfoConverterInterface {
+class QEXT_MVVM_API QExtMvvmJsonTagInfoConverter : public QExtMvvmJsonTagInfoConverterInterface {
 public:
     static inline const QString nameKey = "name";
     static inline const QString minKey = "min";
     static inline const QString maxKey = "max";
     static inline const QString modelsKey = "models";
 
-    QJsonObject to_json(const TagInfo& tag) override;
+    QJsonObject to_json(const QExtMvvmTagInfo& tag) override;
 
-    TagInfo from_json(const QJsonObject& object) override;
+    QExtMvvmTagInfo from_json(const QJsonObject& object) override;
 
     bool isTagInfo(const QJsonObject& object);
 };

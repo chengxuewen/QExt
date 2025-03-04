@@ -11,29 +11,29 @@
 #define MVVM_FACTORIES_ITEMCONVERTERFACTORY_H
 
 //! @file itemconverterfactory.h
-//! Collection of factory functions to create SessionItem converters to/from serialized content.
+//! Collection of factory functions to create QExtMvvmSessionItem converters to/from serialized content.
 
 #include "model/serialization/jsonitemconverterinterface.h"
 #include <memory>
 
 namespace ModelView {
 
-class ItemFactoryInterface;
+class QExtMvvmItemFactoryInterface;
 
 //! Creates JSON item converter intended for item cloning.
 
-QEXT_MVVM_API QExtUniquePointer<JsonItemConverterInterface>
-CreateItemCloneConverter(const ItemFactoryInterface* item_factory);
+QEXT_MVVM_API QExtUniquePointer<QExtMvvmJsonItemConverterInterface>
+qextMvvmCreateItemCloneConverter(const QExtMvvmItemFactoryInterface* item_factory);
 
 //! Creates JSON item converter intended for item copying.
 
-QEXT_MVVM_API QExtUniquePointer<JsonItemConverterInterface>
-CreateItemCopyConverter(const ItemFactoryInterface* item_factory);
+QEXT_MVVM_API QExtUniquePointer<QExtMvvmJsonItemConverterInterface>
+qextMvvmCreateItemCopyConverter(const QExtMvvmItemFactoryInterface* item_factory);
 
 //! Creates JSON item converter intended for saving on disk.
 
-QEXT_MVVM_API QExtUniquePointer<JsonItemConverterInterface>
-CreateItemProjectConverter(const ItemFactoryInterface* item_factory);
+QEXT_MVVM_API QExtUniquePointer<QExtMvvmJsonItemConverterInterface>
+qextMvvmCreateItemProjectConverter(const QExtMvvmItemFactoryInterface* item_factory);
 
 } // namespace ModelView
 

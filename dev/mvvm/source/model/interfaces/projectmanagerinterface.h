@@ -10,19 +10,19 @@
 #ifndef MVVM_INTERFACES_PROJECTMANAGERINTERFACE_H
 #define MVVM_INTERFACES_PROJECTMANAGERINTERFACE_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <string>
 
 namespace ModelView {
 
-//! Interface class for ProjectManager family.
+//! Interface class for QExtMvvmProjectManager family.
 
-//! Responsible for handling new/save/save-as/close Project logic, where the Project represents
+//! Responsible for handling new/save/save-as/close QExtMvvmProject logic, where the QExtMvvmProject represents
 //! a collection of serialized application models in the project directory.
 
-class QEXT_MVVM_API ProjectManagerInterface {
+class QEXT_MVVM_API QExtMvvmProjectManagerInterface {
 public:
-    virtual ~ProjectManagerInterface() = default;
+    virtual ~QExtMvvmProjectManagerInterface() = default;
     virtual bool createNewProject(const std::string& dirname = {}) = 0;
 
     virtual bool saveCurrentProject() = 0;

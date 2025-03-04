@@ -20,8 +20,8 @@ namespace NodeEditor {
 PropertyWidget::PropertyWidget(SampleModel* model, QWidget* parent)
     : QWidget(parent)
     , m_model(model)
-    , m_topItemsTree(new ModelView::TopItemsTreeView(model))
-    , m_propertyTree(new ModelView::PropertyTreeView)
+    , m_topItemsTree(new ModelView::QExtMvvmTopItemsTreeView(model))
+    , m_propertyTree(new ModelView::QExtMvvmPropertyTreeView)
     , m_splitter(new QSplitter)
 
 {

@@ -20,9 +20,9 @@ class QBoxLayout;
 class QItemSelectionModel;
 
 namespace ModelView {
-class ViewModel;
-class ViewModelDelegate;
-class SessionItem;
+class QExtMvvmViewModel;
+class QExtMvvmViewModelDelegate;
+class QExtMvvmSessionItem;
 } // namespace ModelView
 
 //! Shows content of container and provide functionality to add, copy and move items.
@@ -34,7 +34,7 @@ public:
     explicit ContainerEditorWidget(QWidget* parent = nullptr);
     ~ContainerEditorWidget();
 
-    void setModel(SampleModel* model, ModelView::SessionItem* root_item = nullptr);
+    void setModel(SampleModel* model, ModelView::QExtMvvmSessionItem* root_item = nullptr);
 
     QSize sizeHint() const override;
 
@@ -48,12 +48,12 @@ private slots:
     void onMoveUp();
 
 private:
-    std::vector<ModelView::SessionItem*> selected_items() const;
+    std::vector<ModelView::QExtMvvmSessionItem*> selected_items() const;
     QBoxLayout* create_button_layout();
 
     QTreeView* m_treeView{nullptr};
-    QExtUniquePointer<ModelView::ViewModel> m_viewModel;
-    QExtUniquePointer<ModelView::ViewModelDelegate> m_delegate;
+    QExtUniquePointer<ModelView::QExtMvvmViewModel> m_viewModel;
+    QExtUniquePointer<ModelView::QExtMvvmViewModelDelegate> m_delegate;
     SampleModel* m_model{nullptr};
 };
 

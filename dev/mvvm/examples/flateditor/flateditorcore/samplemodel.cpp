@@ -14,7 +14,7 @@ using namespace ModelView;
 
 namespace FlatEditor {
 
-SampleModel::SampleModel() : SessionModel("SampleModel")
+SampleModel::SampleModel() : QExtMvvmSessionModel("SampleModel")
 {
     registerItem<BeamItem>();
     registerItem<DistributionNoneItem>();

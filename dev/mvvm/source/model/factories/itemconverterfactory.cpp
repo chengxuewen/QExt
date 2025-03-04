@@ -17,22 +17,22 @@ namespace ModelView {
 //! Saves full deep copy of item to JSON. When restoring from JSON, reconstruct everything,
 //! including item's unique ID. Used for backup.
 
-QExtUniquePointer<JsonItemConverterInterface>
-CreateItemCloneConverter(const ItemFactoryInterface* item_factory)
+QExtUniquePointer<QExtMvvmJsonItemConverterInterface>
+qextMvvmCreateItemCloneConverter(const QExtMvvmItemFactoryInterface* item_factory)
 {
-    ConverterContext context(item_factory, ConverterMode::clone);
-    return qextMakeUnique<JsonItemConverter>(context);
+    QExtMvvmConverterContext context(item_factory, QExtMvvmConverterMode::clone);
+    return qextMakeUnique<QExtMvvmJsonItemConverter>(context);
 }
 
 //! Creates JSON item converter intended for item copying.
 //! Saves full deep copy of item to JSON. When restoring from JSON, will regenerate item's ID
 //! to make it unique. Used for copying of item together with its children.
 
-QExtUniquePointer<JsonItemConverterInterface>
-CreateItemCopyConverter(const ItemFactoryInterface* item_factory)
+QExtUniquePointer<QExtMvvmJsonItemConverterInterface>
+qextMvvmCreateItemCopyConverter(const QExtMvvmItemFactoryInterface* item_factory)
 {
-    ConverterContext context(item_factory, ConverterMode::copy);
-    return qextMakeUnique<JsonItemConverter>(context);
+    QExtMvvmConverterContext context(item_factory, QExtMvvmConverterMode::copy);
+    return qextMakeUnique<QExtMvvmJsonItemConverter>(context);
 }
 
 //! Creates JSON item converter intended for saving on disk.
@@ -44,11 +44,11 @@ CreateItemCopyConverter(const ItemFactoryInterface* item_factory)
 //!   are taken from memory.
 //! + Property tags are updated, universal tags reconstructed.
 
-QExtUniquePointer<JsonItemConverterInterface>
-CreateItemProjectConverter(const ItemFactoryInterface* item_factory)
+QExtUniquePointer<QExtMvvmJsonItemConverterInterface>
+qextMvvmCreateItemProjectConverter(const QExtMvvmItemFactoryInterface* item_factory)
 {
-    ConverterContext context(item_factory, ConverterMode::project);
-    return qextMakeUnique<JsonItemConverter>(context);
+    QExtMvvmConverterContext context(item_factory, QExtMvvmConverterMode::project);
+    return qextMakeUnique<QExtMvvmJsonItemConverter>(context);
 }
 
 } // namespace ModelView

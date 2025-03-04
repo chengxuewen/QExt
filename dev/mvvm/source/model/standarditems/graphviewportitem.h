@@ -14,21 +14,21 @@
 
 namespace ModelView {
 
-class GraphItem;
+class QExtMvvmGraphItem;
 
-//! 2D viewport specialized for showing multiple GraphItem's.
-//! Provides calculation of viewport's x-axis and y-axis range basing on GraphItem data.
+//! 2D viewport specialized for showing multiple QExtMvvmGraphItem's.
+//! Provides calculation of viewport's x-axis and y-axis range basing on QExtMvvmGraphItem data.
 //! Provides functionality to hide selected graphs.
 
-class QEXT_MVVM_API GraphViewportItem : public ViewportItem {
+class QEXT_MVVM_API QExtMvvmGraphViewportItem : public QExtMvvmViewportItem {
 public:
-    GraphViewportItem(const std::string& model_type = Constants::GraphViewportItemType);
+    QExtMvvmGraphViewportItem(const std::string& QExtMvvmModelType = Constants::GraphViewportItemType);
 
-    std::vector<GraphItem*> graphItems() const;
+    std::vector<QExtMvvmGraphItem*> graphItems() const;
 
-    std::vector<GraphItem*> visibleGraphItems() const;
+    std::vector<QExtMvvmGraphItem*> visibleGraphItems() const;
 
-    void setVisible(const std::vector<GraphItem*>& visible_graph_items);
+    void setVisible(const std::vector<QExtMvvmGraphItem*>& visible_graph_items);
 
     void setAllVisible();
 

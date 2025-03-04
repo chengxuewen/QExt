@@ -16,10 +16,10 @@
 namespace ModelView {
 
 //! Utility class to determine, whether given JSON object can represent various parts of
-//! SessionModel. It is made a class (and not a set of free functions) to allow different formats in
+//! QExtMvvmSessionModel. It is made a class (and not a set of free functions) to allow different formats in
 //! the future.
 
-class QEXT_MVVM_API JsonItemFormatAssistant {
+class QEXT_MVVM_API QExtMvvmJsonItemFormatAssistant {
 public:
     static inline const QString modelKey = "model";
     static inline const QString itemDataKey = "itemData";

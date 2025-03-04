@@ -13,18 +13,18 @@
 #include "model/model/sessionmodel.h"
 
 namespace ModelView {
-class SessionItem;
+class QExtMvvmSessionItem;
 }
 
 namespace DragAndMove {
 
 //! Main application model.
 
-class SampleModel : public ModelView::SessionModel {
+class SampleModel : public ModelView::QExtMvvmSessionModel {
 public:
     SampleModel();
 
-    void appendRandomItem(ModelView::SessionItem* container);
+    void appendRandomItem(ModelView::QExtMvvmSessionItem* container);
 
 private:
     void populateModel();

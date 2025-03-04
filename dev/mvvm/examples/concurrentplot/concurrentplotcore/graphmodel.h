@@ -13,14 +13,14 @@
 #include "model/model/sessionmodel.h"
 
 namespace ModelView {
-class GraphViewportItem;
-class ContainerItem;
+class QExtMvvmGraphViewportItem;
+class QExtMvvmContainerItem;
 } // namespace ModelView
 
-//! Main application model holding data for single graph. Contains Data1DItem, GraphItem and
+//! Main application model holding data for single graph. Contains QExtMvvmData1DItem, QExtMvvmGraphItem and
 //! ViewPortItem.
 
-class GraphModel : public ModelView::SessionModel {
+class GraphModel : public ModelView::QExtMvvmSessionModel {
 public:
     GraphModel();
 
@@ -28,7 +28,7 @@ public:
 
 private:
     void init_model();
-    void add_graph(ModelView::ContainerItem* container, ModelView::GraphViewportItem* viewport);
+    void add_graph(ModelView::QExtMvvmContainerItem* container, ModelView::QExtMvvmGraphViewportItem* viewport);
 };
 
 #endif // CONCURRENTPLOTCORE_GRAPHMODEL_H

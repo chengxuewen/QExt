@@ -14,27 +14,27 @@
 
 namespace ModelView {
 
-class Data1DItem;
-class PenItem;
+class QExtMvvmData1DItem;
+class QExtMvvmPenItem;
 
-//! One-dimensional graph representation of Data1DItem.
-//! Contains plot properties (i.e. color, line type etc) and link to Data1DItem, which will provide
-//! actual data to plot. GraphItem is intended for plotting only via GraphViewportItem.
+//! One-dimensional graph representation of QExtMvvmData1DItem.
+//! Contains plot properties (i.e. color, line type etc) and link to QExtMvvmData1DItem, which will provide
+//! actual data to plot. QExtMvvmGraphItem is intended for plotting only via QExtMvvmGraphViewportItem.
 
-class QEXT_MVVM_API GraphItem : public CompoundItem {
+class QEXT_MVVM_API QExtMvvmGraphItem : public QExtMvvmCompoundItem {
 public:
     static inline const std::string P_LINK = "P_LINK";
     static inline const std::string P_GRAPH_TITLE = "P_GRAPH_TITLE";
     static inline const std::string P_PEN = "P_PEN";
     static inline const std::string P_DISPLAYED = "P_DISPLAYED";
 
-    GraphItem(const std::string& model_type = Constants::GraphItemType);
+    QExtMvvmGraphItem(const std::string& QExtMvvmModelType = Constants::GraphItemType);
 
-    void setDataItem(const Data1DItem* item);
+    void setDataItem(const QExtMvvmData1DItem* item);
 
-    void setFromGraphItem(const GraphItem* graph_item);
+    void setFromGraphItem(const QExtMvvmGraphItem* graph_item);
 
-    Data1DItem* dataItem() const;
+    QExtMvvmData1DItem* dataItem() const;
 
     std::vector<double> binCenters() const;
 
@@ -45,7 +45,7 @@ public:
     std::string colorName() const;
     void setNamedColor(const std::string& named_color);
 
-    PenItem* penItem() const;
+    QExtMvvmPenItem* penItem() const;
 };
 
 } // namespace ModelView

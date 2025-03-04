@@ -14,37 +14,37 @@
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
 //! Represents root item.
 
-class QEXT_MVVM_API RootViewItem : public ViewItem {
+class QEXT_MVVM_API QExtMvvmRootViewItem : public QExtMvvmViewItem {
 public:
-    explicit RootViewItem(SessionItem* item);
+    explicit QExtMvvmRootViewItem(QExtMvvmSessionItem* item);
 };
 
 //! Represents empty cell of tree or table.
 
-class QEXT_MVVM_API ViewEmptyItem : public ViewItem {
+class QEXT_MVVM_API QExtMvvmViewEmptyItem : public QExtMvvmViewItem {
 public:
-    ViewEmptyItem();
+    QExtMvvmViewEmptyItem();
     QVariant data(int role) const override;
 };
 
-//! Represents display name of SessionItem in any cell of Qt's trees and tables.
+//! Represents display name of QExtMvvmSessionItem in any cell of Qt's trees and tables.
 
-class QEXT_MVVM_API ViewLabelItem : public ViewItem {
+class QEXT_MVVM_API QExtMvvmViewLabelItem : public QExtMvvmViewItem {
 public:
-    explicit ViewLabelItem(SessionItem* item);
+    explicit QExtMvvmViewLabelItem(QExtMvvmSessionItem* item);
 
     QVariant data(int role) const override;
 };
 
-//! Represents data role of SessionItem in any cell of Qt's trees and tables.
+//! Represents data role of QExtMvvmSessionItem in any cell of Qt's trees and tables.
 
-class QEXT_MVVM_API ViewDataItem : public ViewItem {
+class QEXT_MVVM_API QExtMvvmViewDataItem : public QExtMvvmViewItem {
 public:
-    explicit ViewDataItem(SessionItem* item);
+    explicit QExtMvvmViewDataItem(QExtMvvmSessionItem* item);
 
     Qt::ItemFlags flags() const override;
 

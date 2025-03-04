@@ -16,11 +16,11 @@
 
 namespace ModelView {
 
-class SessionModel;
+class QExtMvvmSessionModel;
 
-//! Creates JsonDocument to save and load models.
-QEXT_MVVM_API QExtUniquePointer<ModelDocumentInterface>
-CreateJsonDocument(const std::vector<SessionModel*>& models);
+//! Creates QExtMvvmJsonDocument to save and load models.
+QEXT_MVVM_API QExtUniquePointer<QExtMvvmModelDocumentInterface>
+qextMvvmCreateJsonDocument(const std::vector<QExtMvvmSessionModel*>& models);
 
 } // namespace ModelView
 

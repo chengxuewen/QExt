@@ -18,12 +18,12 @@ const QString qstring_name = "QString";
 
 using namespace ModelView;
 
-std::string Utils::VariantName(const Variant& variant)
+std::string Utils::VariantName(const QVariant& variant)
 {
     return variant.isValid() ? variant.typeName() : Constants::invalid_type_name;
 }
 
-int Utils::VariantType(const Variant& variant)
+int Utils::VariantType(const QVariant& variant)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     auto result = static_cast<int>(variant.type());
@@ -41,10 +41,10 @@ int Utils::VariantType(const Variant& variant)
     return result;
 }
 
-bool Utils::CompatibleVariantTypes(const Variant& oldValue, const Variant& newValue)
+bool Utils::CompatibleVariantTypes(const QVariant& oldValue, const QVariant& newValue)
 {
     // Invalid variant can be rewritten by any variant.
-    // Valid Variant can be replaced by invalid variant.
+    // Valid QVariant can be replaced by invalid variant.
     // In other cases types of variants should coincide to be compatible.
 
     if (!oldValue.isValid() || !newValue.isValid())
@@ -53,7 +53,7 @@ bool Utils::CompatibleVariantTypes(const Variant& oldValue, const Variant& newVa
     return Utils::VariantType(oldValue) == Utils::VariantType(newValue);
 }
 
-bool Utils::IsTheSame(const Variant& var1, const Variant& var2)
+bool Utils::IsTheSame(const QVariant& var1, const QVariant& var2)
 {
     // variants of different type are always reported as not the same
     if (VariantType(var1) != VariantType(var2))
@@ -63,39 +63,39 @@ bool Utils::IsTheSame(const Variant& var1, const Variant& var2)
     return var1 == var2;
 }
 
-Variant Utils::toQtVariant(const Variant& custom)
+QVariant Utils::toQtVariant(const QVariant& custom)
 {
     if (!custom.isValid())
         return custom;
 
     // converts variant based on std::string to variant based on QString
     if (custom.typeName() == Constants::string_type_name) {
-        return Variant(QString::fromStdString(custom.value<std::string>()));
+        return QVariant(QString::fromStdString(custom.value<std::string>()));
     }
     else if (IsDoubleVectorVariant(custom)) {
         QString str =
             QString("vector of %1 elements").arg(custom.value<std::vector<double>>().size());
-        return Variant(str);
+        return QVariant(str);
     }
 
     // in other cases returns unchanged variant
     return custom;
 }
 
-Variant Utils::toCustomVariant(const Variant& standard)
+QVariant Utils::toCustomVariant(const QVariant& standard)
 {
     if (!standard.isValid())
         return standard;
 
     // converts variant based on std::string to variant based on QString
     if (standard.typeName() == qstring_name)
-        return Variant::fromValue(standard.toString().toStdString());
+        return QVariant::fromValue(standard.toString().toStdString());
 
     // in other cases returns unchanged variant
     return standard;
 }
 
-bool Utils::IsBoolVariant(const Variant& variant)
+bool Utils::IsBoolVariant(const QVariant& variant)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return variant.type() == QVariant::Bool;
@@ -104,7 +104,7 @@ bool Utils::IsBoolVariant(const Variant& variant)
 #endif
 }
 
-bool Utils::IsIntVariant(const Variant& variant)
+bool Utils::IsIntVariant(const QVariant& variant)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return variant.type() == QVariant::Int;
@@ -113,7 +113,7 @@ bool Utils::IsIntVariant(const Variant& variant)
 #endif
 }
 
-bool Utils::IsDoubleVariant(const Variant& variant)
+bool Utils::IsDoubleVariant(const QVariant& variant)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return variant.type() == QVariant::Double;
@@ -122,22 +122,22 @@ bool Utils::IsDoubleVariant(const Variant& variant)
 #endif
 }
 
-bool Utils::IsComboVariant(const Variant& variant)
+bool Utils::IsComboVariant(const QVariant& variant)
 {
-    return variant.canConvert<ComboProperty>();
+    return variant.canConvert<QExtMvvmComboProperty>();
 }
 
-bool Utils::IsStdStringVariant(const Variant& variant)
+bool Utils::IsStdStringVariant(const QVariant& variant)
 {
     return variant.canConvert<std::string>();
 }
 
-bool Utils::IsDoubleVectorVariant(const Variant& variant)
+bool Utils::IsDoubleVectorVariant(const QVariant& variant)
 {
     return variant.typeName() == Constants::vector_double_type_name;
 }
 
-bool Utils::IsColorVariant(const Variant& variant)
+bool Utils::IsColorVariant(const QVariant& variant)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return variant.type() == QVariant::Color;
@@ -146,12 +146,12 @@ bool Utils::IsColorVariant(const Variant& variant)
 #endif
 }
 
-bool Utils::IsExtPropertyVariant(const Variant& variant)
+bool Utils::IsExtPropertyVariant(const QVariant& variant)
 {
-    return variant.canConvert<ExternalProperty>();
+    return variant.canConvert<QExtMvvmExternalProperty>();
 }
 
-bool Utils::IsRealLimitsVariant(const Variant& variant)
+bool Utils::IsRealLimitsVariant(const QVariant& variant)
 {
-    return variant.canConvert<RealLimits>();
+    return variant.canConvert<QExtMvvmRealLimits>();
 }

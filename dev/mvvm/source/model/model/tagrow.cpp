@@ -12,7 +12,7 @@
 //! Constructs new tagrow representing next row in given tag.
 //! No validity check.
 
-ModelView::TagRow ModelView::TagRow::next() const
+ModelView::QExtMvvmTagRow ModelView::QExtMvvmTagRow::next() const
 {
     return {tag, row + 1};
 }
@@ -20,33 +20,33 @@ ModelView::TagRow ModelView::TagRow::next() const
 //! Constructs new tagrow representing previous row in given tag.
 //! No validity check.
 
-ModelView::TagRow ModelView::TagRow::prev() const
+ModelView::QExtMvvmTagRow ModelView::QExtMvvmTagRow::prev() const
 {
     return {tag, row - 1};
 }
 
-//! Returns TagRow corresponding to the append to tag_name.
-//! If tag_name =="" the default name will be used in SessionItemTags context.
+//! Returns QExtMvvmTagRow corresponding to the append to tag_name.
+//! If tag_name =="" the default name will be used in QExtMvvmSessionItemTags context.
 
-ModelView::TagRow ModelView::TagRow::append(const std::string& tag_name)
+ModelView::QExtMvvmTagRow ModelView::QExtMvvmTagRow::append(const std::string& tag_name)
 {
     return {tag_name, -1};
 }
 
-//! Returns TagRow corresponding to prepending to tag_name.
-//! If tag_name =="" the default name will be used in SessionItemTags context.
+//! Returns QExtMvvmTagRow corresponding to prepending to tag_name.
+//! If tag_name =="" the default name will be used in QExtMvvmSessionItemTags context.
 
-ModelView::TagRow ModelView::TagRow::prepend(const std::string& tag_name)
+ModelView::QExtMvvmTagRow ModelView::QExtMvvmTagRow::prepend(const std::string& tag_name)
 {
     return {tag_name, 0};
 }
 
-bool ModelView::TagRow::operator==(const ModelView::TagRow& other) const
+bool ModelView::QExtMvvmTagRow::operator==(const ModelView::QExtMvvmTagRow& other) const
 {
     return row == other.row && tag == other.tag;
 }
 
-bool ModelView::TagRow::operator!=(const ModelView::TagRow& other) const
+bool ModelView::QExtMvvmTagRow::operator!=(const ModelView::QExtMvvmTagRow& other) const
 {
     return !(*this == other);
 }

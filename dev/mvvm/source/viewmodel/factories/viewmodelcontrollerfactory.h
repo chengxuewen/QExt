@@ -11,24 +11,24 @@
 #define MVVM_FACTORIES_VIEWMODELCONTROLLERFACTORY_H
 
 #include "viewmodel/factories/viewmodelcontrollerbuilder.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 namespace ModelView {
 
-class SessionModel;
-class ViewModelBase;
-class ViewModelController;
+class QExtMvvmSessionModel;
+class QExtMvvmViewModelBase;
+class QExtMvvmViewModelController;
 
 namespace Factory {
 
 //! Create universal controller.
 
 template <typename ChildrenStrategy, typename RowStrategy>
-QExtUniquePointer<ViewModelController> CreateController(SessionModel* session_model,
-                                                      ViewModelBase* view_model)
+QExtUniquePointer<QExtMvvmViewModelController> CreateController(QExtMvvmSessionModel* session_model,
+                                                      QExtMvvmViewModelBase* view_model)
 {
-    return ViewModelControllerBuilder()
+    return QExtMvvmViewModelControllerBuilder()
         .model(session_model)
         .viewModel(view_model)
         .childrenStrategy(qextMakeUnique<ChildrenStrategy>())

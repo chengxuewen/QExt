@@ -11,49 +11,49 @@
 
 using namespace ModelView;
 
-ExternalProperty::ExternalProperty() = default;
+QExtMvvmExternalProperty::QExtMvvmExternalProperty() = default;
 
-ExternalProperty::ExternalProperty(std::string text, QColor color, std::string id)
+QExtMvvmExternalProperty::QExtMvvmExternalProperty(std::string text, QColor color, std::string id)
     : m_text(std::move(text)), m_color(std::move(color)), m_identifier(std::move(id))
 {
 }
 
-ExternalProperty ExternalProperty::undefined()
+QExtMvvmExternalProperty QExtMvvmExternalProperty::undefined()
 {
-    return ExternalProperty("Undefined", QColor(Qt::red));
+    return QExtMvvmExternalProperty("Undefined", QColor(Qt::red));
 }
 
-std::string ExternalProperty::text() const
+std::string QExtMvvmExternalProperty::text() const
 {
     return m_text;
 }
 
-QColor ExternalProperty::color() const
+QColor QExtMvvmExternalProperty::color() const
 {
     return m_color;
 }
 
-std::string ExternalProperty::identifier() const
+std::string QExtMvvmExternalProperty::identifier() const
 {
     return m_identifier;
 }
 
-bool ExternalProperty::isValid() const
+bool QExtMvvmExternalProperty::isValid() const
 {
     return !(m_identifier.empty() && m_text.empty() && !m_color.isValid());
 }
 
-bool ExternalProperty::operator==(const ExternalProperty& other) const
+bool QExtMvvmExternalProperty::operator==(const QExtMvvmExternalProperty& other) const
 {
     return m_identifier == other.m_identifier && m_text == other.m_text && m_color == other.m_color;
 }
 
-bool ExternalProperty::operator!=(const ExternalProperty& other) const
+bool QExtMvvmExternalProperty::operator!=(const QExtMvvmExternalProperty& other) const
 {
     return !(*this == other);
 }
 
-bool ExternalProperty::operator<(const ExternalProperty& other) const
+bool QExtMvvmExternalProperty::operator<(const QExtMvvmExternalProperty& other) const
 {
     return m_identifier < other.m_identifier && m_text < other.m_text
            && m_color.name() < other.m_color.name();

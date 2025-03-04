@@ -11,35 +11,35 @@
 
 using namespace ModelView;
 
-//! Constructor of ModelHasChangedController.
+//! Constructor of QExtMvvmModelHasChangedController.
 //! Acccept 'model' to listen, and a 'callback' to report about changes in a model.
 
-ModelHasChangedController::ModelHasChangedController(SessionModel* model, callback_t callback)
-    : ModelListener(model), m_callback(callback)
+QExtMvvmModelHasChangedController::QExtMvvmModelHasChangedController(QExtMvvmSessionModel* model, callback_t callback)
+    : QExtMvvmModelListener(model), m_callback(callback)
 {
-    setOnDataChange([this](SessionItem*, int) { process_change(); });
-    setOnItemInserted([this](SessionItem*, TagRow) { process_change(); });
-    setOnItemRemoved([this](SessionItem*, TagRow) { process_change(); });
-    setOnModelReset([this](SessionModel*) { process_change(); });
+    setOnDataChange([this](QExtMvvmSessionItem*, int) { process_change(); });
+    setOnItemInserted([this](QExtMvvmSessionItem*, QExtMvvmTagRow) { process_change(); });
+    setOnItemRemoved([this](QExtMvvmSessionItem*, QExtMvvmTagRow) { process_change(); });
+    setOnModelReset([this](QExtMvvmSessionModel*) { process_change(); });
 }
 
 //! Returns true if the model was changed since last call of resetChanged.
 
-bool ModelHasChangedController::hasChanged() const
+bool QExtMvvmModelHasChangedController::hasChanged() const
 {
     return m_has_changed;
 }
 
 //! Reset has_changed flag.
 
-void ModelHasChangedController::resetChanged()
+void QExtMvvmModelHasChangedController::resetChanged()
 {
     m_has_changed = false;
 }
 
 //! Sets 'has_changed' flag and reports back to client.
 
-void ModelHasChangedController::process_change()
+void QExtMvvmModelHasChangedController::process_change()
 {
     m_has_changed = true;
     if (m_callback)

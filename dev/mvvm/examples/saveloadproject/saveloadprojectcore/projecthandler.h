@@ -15,7 +15,7 @@
 #include <vector>
 
 namespace ModelView {
-class ProjectManagerInterface;
+class QExtMvvmProjectManagerInterface;
 }
 
 class RecentProjectSettings;
@@ -52,7 +52,7 @@ private:
 
     QExtUniquePointer<RecentProjectSettings> m_recentProjectSettings;
     QExtUniquePointer<UserInteractor> m_userInteractor;
-    QExtUniquePointer<ModelView::ProjectManagerInterface> m_projectManager;
+    QExtUniquePointer<ModelView::QExtMvvmProjectManagerInterface> m_projectManager;
     SampleModel* m_model{nullptr};
 };
 

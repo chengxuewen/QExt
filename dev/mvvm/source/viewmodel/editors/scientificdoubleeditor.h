@@ -19,7 +19,7 @@ namespace ModelView {
 
 //! Custom editor for QVariant based on double with scientific notation support.
 
-class QEXT_MVVM_API ScientificDoubleEditor : public CustomEditor {
+class QEXT_MVVM_API ScientificDoubleEditor : public QExtMvvmCustomEditor {
     Q_OBJECT
 
 public:

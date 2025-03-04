@@ -10,75 +10,75 @@
 #ifndef MVVM_MODEL_ITEMUTILS_H
 #define MVVM_MODEL_ITEMUTILS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <functional>
 #include <string>
 #include <vector>
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
 namespace Utils {
 
 //! Iterates through item and all its children.
-QEXT_MVVM_API void iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun);
+QEXT_MVVM_API void iterate(QExtMvvmSessionItem* item, const std::function<void(QExtMvvmSessionItem*)>& fun);
 
 //! Iterates through all model indices and calls user function.
 //! If function returns false for given index, iteration will not go down to children.
-QEXT_MVVM_API void iterate_if(const SessionItem* item,
-                                  const std::function<bool(const SessionItem*)>& fun);
+QEXT_MVVM_API void iterate_if(const QExtMvvmSessionItem* item,
+                                  const std::function<bool(const QExtMvvmSessionItem*)>& fun);
 
 //! Returns copy number of given item in it's parent hierarchy. Takes into account only items with
 //! same modelType.
-QEXT_MVVM_API int CopyNumber(const SessionItem* item);
+QEXT_MVVM_API int CopyNumber(const QExtMvvmSessionItem* item);
 
 //! Returns child at given index of parent. No tags are involved, index is considered
 //! as global index in the combined array of all children.
-QEXT_MVVM_API SessionItem* ChildAt(const SessionItem* parent, int index);
+QEXT_MVVM_API QExtMvvmSessionItem* ChildAt(const QExtMvvmSessionItem* parent, int index);
 
 //! Returns index in children array corresponding to given child. No tags are involved,
 //! index is considered as global index in the combined array of all children.
-QEXT_MVVM_API int IndexOfChild(const SessionItem* parent, const SessionItem* child);
+QEXT_MVVM_API int IndexOfChild(const QExtMvvmSessionItem* parent, const QExtMvvmSessionItem* child);
 
 //! Returns true if given item has registered tag.
-QEXT_MVVM_API bool HasTag(const SessionItem& item, const std::string& tag);
+QEXT_MVVM_API bool HasTag(const QExtMvvmSessionItem& item, const std::string& tag);
 
 //! Returns true if given item has registered `tag`, and it belongs to single property.
-QEXT_MVVM_API bool IsSinglePropertyTag(const SessionItem& item, const std::string& tag);
+QEXT_MVVM_API bool IsSinglePropertyTag(const QExtMvvmSessionItem& item, const std::string& tag);
 
 //! Returns vector of strings containing all registered tags of the given item.
-QEXT_MVVM_API std::vector<std::string> RegisteredTags(const SessionItem& item);
+QEXT_MVVM_API std::vector<std::string> RegisteredTags(const QExtMvvmSessionItem& item);
 
 //! Returns vector of strings containing all registered universal tags of the given item.
 //! A universal tag is a tag that is usually empty after item construction and serves for later
 //! children's insertion.
-QEXT_MVVM_API std::vector<std::string> RegisteredUniversalTags(const SessionItem& item);
+QEXT_MVVM_API std::vector<std::string> RegisteredUniversalTags(const QExtMvvmSessionItem& item);
 
 //! Returns vector of all visible children representing top level items.
-QEXT_MVVM_API std::vector<SessionItem*> TopLevelItems(const SessionItem& item);
+QEXT_MVVM_API std::vector<QExtMvvmSessionItem*> TopLevelItems(const QExtMvvmSessionItem& item);
 
 //! Returns vector of all visible children representing property items.
-QEXT_MVVM_API std::vector<SessionItem*> SinglePropertyItems(const SessionItem& item);
+QEXT_MVVM_API std::vector<QExtMvvmSessionItem*> SinglePropertyItems(const QExtMvvmSessionItem& item);
 
 //! Returns next sibling with same tag.
-QEXT_MVVM_API SessionItem* FindNextSibling(SessionItem* item);
+QEXT_MVVM_API QExtMvvmSessionItem* FindNextSibling(QExtMvvmSessionItem* item);
 
 //! Returns previous sibling with same tag.
-QEXT_MVVM_API SessionItem* FindPreviousSibling(SessionItem* item);
+QEXT_MVVM_API QExtMvvmSessionItem* FindPreviousSibling(QExtMvvmSessionItem* item);
 
 //! Finds next item to select
 //! Method is used in the context of next item selection after given item was deleted.
-QEXT_MVVM_API SessionItem* FindNextItemToSelect(SessionItem* item);
+QEXT_MVVM_API QExtMvvmSessionItem* FindNextItemToSelect(QExtMvvmSessionItem* item);
 
 //! Returns true if 'candidate' is one of ancestor of given item.
-QEXT_MVVM_API bool IsItemAncestor(const SessionItem* item, const SessionItem* candidate);
+QEXT_MVVM_API bool IsItemAncestor(const QExtMvvmSessionItem* item, const QExtMvvmSessionItem* candidate);
 
 //! Returns vector with duplicates and 'nullptr' filtered out.
-QEXT_MVVM_API std::vector<SessionItem*> UniqueItems(const std::vector<SessionItem*>& items);
+QEXT_MVVM_API std::vector<QExtMvvmSessionItem*> UniqueItems(const std::vector<QExtMvvmSessionItem*>& items);
 
 //! Returns vector of items casted to given type.
-template <typename T> std::vector<T*> CastedItems(const std::vector<SessionItem*>& items)
+template <typename T> std::vector<T*> CastedItems(const std::vector<QExtMvvmSessionItem*>& items)
 {
     std::vector<T*> result;
     for (auto item : items)

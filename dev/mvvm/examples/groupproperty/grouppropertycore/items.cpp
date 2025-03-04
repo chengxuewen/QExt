@@ -13,30 +13,30 @@
 
 namespace GroupProperty {
 
-UndefinedShapeItem::UndefinedShapeItem() : ModelView::CompoundItem("Undefined")
+UndefinedShapeItem::UndefinedShapeItem() : ModelView::QExtMvvmCompoundItem("Undefined")
 {
     // no properties
 }
 
-SphereItem::SphereItem() : ModelView::CompoundItem("Sphere")
+SphereItem::SphereItem() : ModelView::QExtMvvmCompoundItem("Sphere")
 {
     addProperty("Radius", 5.0);
 }
 
-CylinderItem::CylinderItem() : ModelView::CompoundItem("Cylinder")
+CylinderItem::CylinderItem() : ModelView::QExtMvvmCompoundItem("Cylinder")
 {
     addProperty("Radius", 8.0);
     addProperty("Height", 10.0);
 }
 
-BoxItem::BoxItem() : ModelView::CompoundItem("Box")
+BoxItem::BoxItem() : ModelView::QExtMvvmCompoundItem("Box")
 {
     addProperty("Length", 12.0);
     addProperty("Width", 6.0);
     addProperty("Height", 3.0);
 }
 
-ShapeGroupItem::ShapeGroupItem() : ModelView::GroupItem("Shape")
+ShapeGroupItem::ShapeGroupItem() : ModelView::QExtMvvmGroupItem("Shape")
 {
     addToGroup<UndefinedShapeItem>();
     addToGroup<SphereItem>();
@@ -44,11 +44,11 @@ ShapeGroupItem::ShapeGroupItem() : ModelView::GroupItem("Shape")
     addToGroup<BoxItem>();
 }
 
-ParticleItem::ParticleItem() : ModelView::CompoundItem("Particle")
+ParticleItem::ParticleItem() : ModelView::QExtMvvmCompoundItem("Particle")
 {
     addProperty("Color", QColor(Qt::green));
     addProperty<ShapeGroupItem>("Shape");
-    addProperty<ModelView::VectorItem>("Position");
+    addProperty<ModelView::QExtMvvmVectorItem>("Position");
 }
 
 Model::Model()

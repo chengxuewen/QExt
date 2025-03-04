@@ -14,17 +14,17 @@
 
 namespace ModelView {
 
-//! View model to show content of SessionModel in Qt widgets: all item properties as a table row.
+//! View model to show content of QExtMvvmSessionModel in Qt widgets: all item properties as a table row.
 //! Intended to show registered properties of items in table-like view.
 //! Registered properties will form columns of the table, top level items will form table rows.
 
-class QEXT_MVVM_API PropertyTableViewModel : public ViewModel {
+class QEXT_MVVM_API QExtMvvmPropertyTableViewModel : public QExtMvvmViewModel {
     Q_OBJECT
 
 public:
-    PropertyTableViewModel(SessionModel* model, QObject* parent = nullptr);
+    QExtMvvmPropertyTableViewModel(QExtMvvmSessionModel* model, QObject* parent = nullptr);
 
-    void insertRow(ViewItem* parent, int row, std::vector<QExtUniquePointer<ViewItem>> items) override;
+    void insertRow(QExtMvvmViewItem* parent, int row, std::vector<QExtUniquePointer<QExtMvvmViewItem>> items) override;
 };
 
 } // namespace ModelView

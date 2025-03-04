@@ -23,9 +23,9 @@ const std::string SphereType = "Sphere";
 const std::string AnysoPyramidType = "AnysoPyramid";
 const std::string ShapeGroupType = "ShapeGroup";
 
-QExtUniquePointer<ModelView::ItemCatalogue> CreateItemCatalogue()
+QExtUniquePointer<ModelView::QExtMvvmItemCatalogue> CreateItemCatalogue()
 {
-    auto result = qextMakeUnique<ItemCatalogue>();
+    auto result = qextMakeUnique<QExtMvvmItemCatalogue>();
     result->registerItem<ParticleItem>();
     result->registerItem<SphereItem>();
     result->registerItem<CylinderItem>();
@@ -36,27 +36,27 @@ QExtUniquePointer<ModelView::ItemCatalogue> CreateItemCatalogue()
 
 } // namespace
 
-ParticleItem::ParticleItem() : CompoundItem(ParticleType)
+ParticleItem::ParticleItem() : QExtMvvmCompoundItem(ParticleType)
 {
-//    addProperty<VectorItem>(P_POSITION);
+//    addProperty<QExtMvvmVectorItem>(P_POSITION);
 //    addProperty<ShapeGroupItem>(P_SHAPES);
     addProperty("Radius", 42.0);
     addProperty("Height", 10.0);
     addProperty("Alpha", 11.0);
 }
 
-CylinderItem::CylinderItem() : CompoundItem(CylinderType)
+CylinderItem::CylinderItem() : QExtMvvmCompoundItem(CylinderType)
 {
     addProperty(P_RADIUS, 8.0);
     addProperty(P_HEIGHT, 10.0);
 }
 
-SphereItem::SphereItem() : CompoundItem(SphereType)
+SphereItem::SphereItem() : QExtMvvmCompoundItem(SphereType)
 {
     addProperty(P_RADIUS, 8.0);
 }
 
-AnysoPyramidItem::AnysoPyramidItem() : CompoundItem(AnysoPyramidType)
+AnysoPyramidItem::AnysoPyramidItem() : QExtMvvmCompoundItem(AnysoPyramidType)
 {
     addProperty(P_LENGTH, 8.0);
     addProperty(P_WIDTH, 9.0);
@@ -64,7 +64,7 @@ AnysoPyramidItem::AnysoPyramidItem() : CompoundItem(AnysoPyramidType)
     addProperty(P_ALPHA, 11.0);
 }
 
-ShapeGroupItem::ShapeGroupItem() : GroupItem(ShapeGroupType)
+ShapeGroupItem::ShapeGroupItem() : QExtMvvmGroupItem(ShapeGroupType)
 {
     addToGroup<CylinderItem>("Cylinder");
     addToGroup<SphereItem>("Full sphere", /*make_selected*/ true);
@@ -73,7 +73,7 @@ ShapeGroupItem::ShapeGroupItem() : GroupItem(ShapeGroupType)
 
 //! ---------------------------------------------------------------------------
 
-ParticleModel::ParticleModel() : SessionModel("ParticleModel")
+ParticleModel::ParticleModel() : QExtMvvmSessionModel("ParticleModel")
 {
     setItemCatalogue(CreateItemCatalogue());
     insertItem<ParticleItem>();

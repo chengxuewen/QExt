@@ -18,7 +18,7 @@ class GraphModel;
 class QBoxLayout;
 
 namespace ModelView {
-class ItemsTreeView;
+class QExtMvvmItemsTreeView;
 } // namespace ModelView
 
 //! Shows model content in standard tree view.
@@ -33,7 +33,7 @@ public:
     void setModel(GraphModel* model);
 
 private:
-    ModelView::ItemsTreeView* m_treeView{nullptr};
+    ModelView::QExtMvvmItemsTreeView* m_treeView{nullptr};
 };
 
 #endif // CONCURRENTPLOTCORE_GRAPHPROPERTYWIDGET_H

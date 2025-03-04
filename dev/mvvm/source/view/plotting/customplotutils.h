@@ -10,7 +10,7 @@
 #ifndef MVVM_PLOTTING_CUSTOMPLOTUTILS_H
 #define MVVM_PLOTTING_CUSTOMPLOTUTILS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 
 class QCPColorScale;
 class QCPAxis;

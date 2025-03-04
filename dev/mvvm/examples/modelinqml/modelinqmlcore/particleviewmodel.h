@@ -14,7 +14,7 @@
 
 class ParticleModel;
 
-class ParticleViewModel : public ModelView::PropertyViewModel
+class ParticleViewModel : public ModelView::QExtMvvmPropertyViewModel
 {
     Q_OBJECT
 

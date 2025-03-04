@@ -10,26 +10,26 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODELDELEGATE_H
 #define MVVM_VIEWMODEL_VIEWMODELDELEGATE_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QStyledItemDelegate>
 #include <memory>
 
 namespace ModelView {
 
-class EditorFactoryInterface;
-class CellDecoratorInterface;
+class QExtMvvmEditorFactoryInterface;
+class QExtMvvmCellDecoratorInterface;
 
 //! Model delegate to provide editing/painting for custom variants.
 
-class QEXT_MVVM_API ViewModelDelegate : public QStyledItemDelegate {
+class QEXT_MVVM_API QExtMvvmViewModelDelegate : public QStyledItemDelegate {
     Q_OBJECT
 
 public:
-    explicit ViewModelDelegate(QObject* parent = nullptr);
-    ~ViewModelDelegate() override;
+    explicit QExtMvvmViewModelDelegate(QObject* parent = nullptr);
+    ~QExtMvvmViewModelDelegate() override;
 
-    void setEditorFactory(QExtUniquePointer<EditorFactoryInterface> editor_factory);
-    void setCellDecoration(QExtUniquePointer<CellDecoratorInterface> cell_decoration);
+    void setEditorFactory(QExtUniquePointer<QExtMvvmEditorFactoryInterface> editor_factory);
+    void setCellDecoration(QExtUniquePointer<QExtMvvmCellDecoratorInterface> cell_decoration);
 
     QWidget* createEditor(QWidget* parent, const QStyleOptionViewItem& option,
                           const QModelIndex& index) const override;
@@ -49,8 +49,8 @@ public slots:
 protected:
     void initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index) const override;
 
-    QExtUniquePointer<EditorFactoryInterface> m_editor_factory;
-    QExtUniquePointer<CellDecoratorInterface> m_cell_decoration;
+    QExtUniquePointer<QExtMvvmEditorFactoryInterface> m_editor_factory;
+    QExtUniquePointer<QExtMvvmCellDecoratorInterface> m_cell_decoration;
 };
 
 } // namespace ModelView

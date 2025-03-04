@@ -15,13 +15,13 @@
 
 namespace ModelView {
 
-struct ProjectContext;
-struct UserInteractionContext;
+struct QExtMvvmProjectContext;
+struct QExtMvvmUserInteractionContext;
 
-//! Creates default ProjectManager to save and load models.
-QEXT_MVVM_API QExtUniquePointer<ProjectManagerInterface>
-CreateProjectManager(const ProjectContext& project_context,
-                     const UserInteractionContext& user_context);
+//! Creates default QExtMvvmProjectManager to save and load models.
+QEXT_MVVM_API QExtUniquePointer<QExtMvvmProjectManagerInterface>
+qextMvvmCreateProjectManager(const QExtMvvmProjectContext& project_context,
+                     const QExtMvvmUserInteractionContext& user_context);
 
 } // namespace ModelView
 

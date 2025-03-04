@@ -20,49 +20,49 @@
 
 using namespace ModelView;
 
-struct JsonItemTagsConverter::JsonItemTagsConverterImpl {
-    QExtUniquePointer<JsonItemContainerConverter> m_container_converter;
-    QExtUniquePointer<JsonTagInfoConverterInterface> m_taginfo_converter;
+struct QExtMvvmJsonItemTagsConverter::JsonItemTagsConverterImpl {
+    QExtUniquePointer<QExtMvvmJsonItemContainerConverter> m_container_converter;
+    QExtUniquePointer<QExtMvvmJsonTagInfoConverterInterface> m_taginfo_converter;
 
-    JsonItemTagsConverterImpl(ConverterCallbacks callbacks = {})
+    JsonItemTagsConverterImpl(QExtMvvmConverterCallbacks callbacks = {})
     {
-        m_container_converter = qextMakeUnique<JsonItemContainerConverter>(std::move(callbacks));
-        m_taginfo_converter = qextMakeUnique<JsonTagInfoConverter>();
+        m_container_converter = qextMakeUnique<QExtMvvmJsonItemContainerConverter>(std::move(callbacks));
+        m_taginfo_converter = qextMakeUnique<QExtMvvmJsonTagInfoConverter>();
     }
 
-    //! Create containers from JSON. SessionItemTags should be empty.
+    //! Create containers from JSON. QExtMvvmSessionItemTags should be empty.
 
-    void create_containers(const QJsonObject& json, SessionItemTags& item_tags)
+    void create_containers(const QJsonObject& json, QExtMvvmSessionItemTags& item_tags)
     {
         if (item_tags.tagsCount())
-            throw std::runtime_error("Error in JsonItemTagsConverter: no containers expected.");
+            throw std::runtime_error("Error in QExtMvvmJsonItemTagsConverter: no containers expected.");
 
-        auto default_tag = json[JsonItemFormatAssistant::defaultTagKey].toString().toStdString();
+        auto default_tag = json[QExtMvvmJsonItemFormatAssistant::defaultTagKey].toString().toStdString();
         item_tags.setDefaultTag(default_tag);
 
-        auto container_array = json[JsonItemFormatAssistant::containerKey].toArray();
+        auto container_array = json[QExtMvvmJsonItemFormatAssistant::containerKey].toArray();
 
         for (const auto ref : container_array) {
             QJsonObject json_container = ref.toObject();
             QJsonObject json_taginfo =
-                json_container[JsonItemFormatAssistant::tagInfoKey].toObject();
-            TagInfo tagInfo = m_taginfo_converter->from_json(json_taginfo);
+                json_container[QExtMvvmJsonItemFormatAssistant::tagInfoKey].toObject();
+            QExtMvvmTagInfo tagInfo = m_taginfo_converter->from_json(json_taginfo);
             item_tags.registerTag(tagInfo);
         }
     }
 
     //! Populate containers from JSON. Container must be already created.
 
-    void populate_containers(const QJsonObject& json, SessionItemTags& item_tags)
+    void populate_containers(const QJsonObject& json, QExtMvvmSessionItemTags& item_tags)
     {
-        auto container_array = json[JsonItemFormatAssistant::containerKey].toArray();
+        auto container_array = json[QExtMvvmJsonItemFormatAssistant::containerKey].toArray();
 
         if (container_array.size() != item_tags.tagsCount())
-            throw std::runtime_error("Error in JsonItemTagsConverter: mismatch in number of tags");
+            throw std::runtime_error("Error in QExtMvvmJsonItemTagsConverter: mismatch in number of tags");
 
-        auto default_tag = json[JsonItemFormatAssistant::defaultTagKey].toString().toStdString();
+        auto default_tag = json[QExtMvvmJsonItemFormatAssistant::defaultTagKey].toString().toStdString();
         if (default_tag != item_tags.defaultTag())
-            throw std::runtime_error("Error in JsonItemTagsConverter: default tag mismatch.");
+            throw std::runtime_error("Error in QExtMvvmJsonItemTagsConverter: default tag mismatch.");
 
         int index(0);
         for (const auto container_ref : container_array)
@@ -70,39 +70,39 @@ struct JsonItemTagsConverter::JsonItemTagsConverterImpl {
     }
 };
 
-JsonItemTagsConverter::JsonItemTagsConverter(ConverterCallbacks callbacks)
+QExtMvvmJsonItemTagsConverter::QExtMvvmJsonItemTagsConverter(QExtMvvmConverterCallbacks callbacks)
     : p_impl(qextMakeUnique<JsonItemTagsConverterImpl>(callbacks))
 {
 }
 
-JsonItemTagsConverter::~JsonItemTagsConverter() = default;
+QExtMvvmJsonItemTagsConverter::~QExtMvvmJsonItemTagsConverter() = default;
 
-QJsonObject JsonItemTagsConverter::to_json(const SessionItemTags& item_tags)
+QJsonObject QExtMvvmJsonItemTagsConverter::to_json(const QExtMvvmSessionItemTags& item_tags)
 {
     QJsonObject result;
-    result[JsonItemFormatAssistant::defaultTagKey] = QString::fromStdString(item_tags.defaultTag());
+    result[QExtMvvmJsonItemFormatAssistant::defaultTagKey] = QString::fromStdString(item_tags.defaultTag());
 
     QJsonArray containerArray;
     for (auto container : item_tags)
         containerArray.append(p_impl->m_container_converter->to_json(*container));
-    result[JsonItemFormatAssistant::containerKey] = containerArray;
+    result[QExtMvvmJsonItemFormatAssistant::containerKey] = containerArray;
 
     return result;
 }
 
-//! Reconstructs SessionItemTags from the content of JSON object. Can work in two modes:
-//! + If SessionItemTags is empty, all tags will be reconstructed as in JSON, and then populated
+//! Reconstructs QExtMvvmSessionItemTags from the content of JSON object. Can work in two modes:
+//! + If QExtMvvmSessionItemTags is empty, all tags will be reconstructed as in JSON, and then populated
 //!   with the content.
-//! + If SessionItemTags contains some tags already, they will be populated from JSON. in this
+//! + If QExtMvvmSessionItemTags contains some tags already, they will be populated from JSON. in this
 //!   case it will be assumed, that existing item's tags are matching JSON.
 
-void JsonItemTagsConverter::from_json(const QJsonObject& json, SessionItemTags& item_tags)
+void QExtMvvmJsonItemTagsConverter::from_json(const QJsonObject& json, QExtMvvmSessionItemTags& item_tags)
 {
-    static JsonItemFormatAssistant assistant;
+    static QExtMvvmJsonItemFormatAssistant assistant;
 
     if (!assistant.isSessionItemTags(json))
         throw std::runtime_error(
-            "Error in JsonItemTagsConverter: given json object can't represent a SessionItemTags.");
+            "Error in QExtMvvmJsonItemTagsConverter: given json object can't represent a QExtMvvmSessionItemTags.");
 
     if (!item_tags.tagsCount())
         p_impl->create_containers(json, item_tags);

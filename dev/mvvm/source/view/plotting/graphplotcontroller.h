@@ -11,24 +11,24 @@
 #define MVVM_PLOTTING_GRAPHPLOTCONTROLLER_H
 
 #include "model/signals/itemlistener.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 class QCustomPlot;
 
 namespace ModelView {
 
-class GraphItem;
+class QExtMvvmGraphItem;
 
-//! Establish communication between QCPGraph and GraphItem.
-//! Provides update on QCPGraph (data points, line style, color, etc) when GraphItem is changed.
+//! Establish communication between QCPGraph and QExtMvvmGraphItem.
+//! Provides update on QCPGraph (data points, line style, color, etc) when QExtMvvmGraphItem is changed.
 //! QCPGraph is added to QCustomPlot plottables, when controller is created, and removed from
 //! plottables when controller is destroyed.
 
-class QEXT_MVVM_API GraphPlotController : public ItemListener<GraphItem> {
+class QEXT_MVVM_API QExtMvvmGraphPlotController : public QExtMvvmItemListener<QExtMvvmGraphItem> {
 public:
-    explicit GraphPlotController(QCustomPlot* plot);
-    ~GraphPlotController() override;
+    explicit QExtMvvmGraphPlotController(QCustomPlot* plot);
+    ~QExtMvvmGraphPlotController() override;
 
 protected:
     void subscribe() override;

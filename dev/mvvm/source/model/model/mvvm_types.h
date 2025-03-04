@@ -15,10 +15,10 @@
 
 namespace ModelView {
 
-class SessionItem;
-class SessionModel;
+class QExtMvvmSessionItem;
+class QExtMvvmSessionModel;
 
-//! Defines constants to be used as SessionItem data role.
+//! Defines constants to be used as QExtMvvmSessionItem data role.
 
 namespace ItemDataRole {
 const int IDENTIFIER = 0; //!< unique identifier
@@ -37,24 +37,24 @@ enum Appearance {
 };
 
 namespace Constants {
-const model_type BaseType = "SessionItem";
-const model_type ColorMapItemType = "ColorMap";
-const model_type ColorMapViewportItemType = "ColorMapViewport";
-const model_type CompoundItemType = "Compound";
-const model_type ContainerItemType = "Container";
-const model_type Data1DItemType = "Data1D";
-const model_type Data2DItemType = "Data2D";
-const model_type FixedBinAxisItemType = "FixedBinAxis";
-const model_type GraphItemType = "Graph";
-const model_type GraphViewportItemType = "GraphViewport";
-const model_type GroupItemType = "Group";
-const model_type LinkedItemType = "Linked";
-const model_type PenItemType = "Pen";
-const model_type PointwiseAxisItemType = "PointwiseAxis";
-const model_type PropertyType = "Property";
-const model_type TextItemType = "Text";
-const model_type VectorItemType = "Vector";
-const model_type ViewportAxisItemType = "ViewportAxis";
+const QExtMvvmModelType BaseType = "QExtMvvmSessionItem";
+const QExtMvvmModelType ColorMapItemType = "ColorMap";
+const QExtMvvmModelType ColorMapViewportItemType = "ColorMapViewport";
+const QExtMvvmModelType CompoundItemType = "Compound";
+const QExtMvvmModelType ContainerItemType = "Container";
+const QExtMvvmModelType Data1DItemType = "Data1D";
+const QExtMvvmModelType Data2DItemType = "Data2D";
+const QExtMvvmModelType FixedBinAxisItemType = "FixedBinAxis";
+const QExtMvvmModelType GraphItemType = "Graph";
+const QExtMvvmModelType GraphViewportItemType = "GraphViewport";
+const QExtMvvmModelType GroupItemType = "Group";
+const QExtMvvmModelType LinkedItemType = "Linked";
+const QExtMvvmModelType PenItemType = "Pen";
+const QExtMvvmModelType PointwiseAxisItemType = "PointwiseAxis";
+const QExtMvvmModelType PropertyType = "Property";
+const QExtMvvmModelType TextItemType = "Text";
+const QExtMvvmModelType VectorItemType = "Vector";
+const QExtMvvmModelType ViewportAxisItemType = "ViewportAxis";
 } // namespace Constants
 
 } // namespace ModelView

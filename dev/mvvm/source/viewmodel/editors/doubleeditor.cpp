@@ -15,8 +15,8 @@
 
 using namespace ModelView;
 
-DoubleEditor::DoubleEditor(QWidget* parent)
-    : CustomEditor(parent), m_doubleEditor(new QDoubleSpinBox)
+QExtMvvmDoubleEditor::QExtMvvmDoubleEditor(QWidget* parent)
+    : QExtMvvmCustomEditor(parent), m_doubleEditor(new QDoubleSpinBox)
 {
     setFocusPolicy(Qt::StrongFocus);
     m_doubleEditor->setFocusPolicy(Qt::StrongFocus);
@@ -37,22 +37,22 @@ DoubleEditor::DoubleEditor(QWidget* parent)
     setFocusProxy(m_doubleEditor);
 }
 
-void DoubleEditor::setRange(double minimum, double maximum)
+void QExtMvvmDoubleEditor::setRange(double minimum, double maximum)
 {
     m_doubleEditor->setRange(minimum, maximum);
 }
 
-void DoubleEditor::setDecimals(int decimals)
+void QExtMvvmDoubleEditor::setDecimals(int decimals)
 {
     m_doubleEditor->setDecimals(decimals);
 }
 
-void DoubleEditor::setSingleStep(double value)
+void QExtMvvmDoubleEditor::setSingleStep(double value)
 {
     m_doubleEditor->setSingleStep(value);
 }
 
-void DoubleEditor::onEditingFinished()
+void QExtMvvmDoubleEditor::onEditingFinished()
 {
     double new_value = m_doubleEditor->value();
 
@@ -60,7 +60,7 @@ void DoubleEditor::onEditingFinished()
         setDataIntern(QVariant::fromValue(new_value));
 }
 
-void DoubleEditor::update_components()
+void QExtMvvmDoubleEditor::update_components()
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (m_data.type() != QVariant::Double)
@@ -68,7 +68,7 @@ void DoubleEditor::update_components()
     if (m_data.typeId() != QMetaType::Double)
 #endif
     {
-        throw std::runtime_error("DoubleEditor::update_components() -> Error. Wrong variant type");
+        throw std::runtime_error("QExtMvvmDoubleEditor::update_components() -> Error. Wrong variant type");
     }
 
     m_doubleEditor->setValue(m_data.value<double>());

@@ -10,23 +10,23 @@
 #ifndef MVVM_SERIALIZATION_JSONUTILS_H
 #define MVVM_SERIALIZATION_JSONUTILS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <string>
 
 namespace ModelView {
 
-class SessionModel;
-class RealLimits;
+class QExtMvvmSessionModel;
+class QExtMvvmRealLimits;
 
 namespace JsonUtils {
 
 //! Returns multiline string representing model content as json.
-QEXT_MVVM_API std::string ModelToJsonString(const SessionModel& model);
+QEXT_MVVM_API std::string ModelToJsonString(const QExtMvvmSessionModel& model);
 
-//! Returns string representation of RealLimits.
-QEXT_MVVM_API std::string ToString(const RealLimits& limits);
+//! Returns string representation of QExtMvvmRealLimits.
+QEXT_MVVM_API std::string ToString(const QExtMvvmRealLimits& limits);
 
-QEXT_MVVM_API RealLimits CreateLimits(const std::string& text, double min = 0.0,
+QEXT_MVVM_API QExtMvvmRealLimits CreateLimits(const std::string& text, double min = 0.0,
                                           double max = 0.0);
 
 } // namespace JsonUtils

@@ -14,18 +14,18 @@
 
 namespace ModelView {
 
-class RealLimits;
+class QExtMvvmRealLimits;
 
 //! Item to carry concrete editable entity (e.g. 'double' value with limits).
 //! Intended for use as a child or CompountItem, not expected to have own children.
 
-class QEXT_MVVM_API PropertyItem : public SessionItem {
+class QEXT_MVVM_API QExtMvvmPropertyItem : public QExtMvvmSessionItem {
 public:
-    PropertyItem();
+    QExtMvvmPropertyItem();
 
-    PropertyItem* setDisplayName(const std::string& name) override;
+    QExtMvvmPropertyItem* setDisplayName(const std::string& name) override;
 
-    PropertyItem* setLimits(const RealLimits& value);
+    QExtMvvmPropertyItem* setLimits(const QExtMvvmRealLimits& value);
 };
 
 } // namespace ModelView

@@ -14,17 +14,17 @@
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
-//! Constructs row of ViewItem's for given SessionItem.
-//! Row consists of two columns, ViewLabelItem for SessionItem's display role and
-//! ViewDataItem for Session's item data role.
+//! Constructs row of QExtMvvmViewItem's for given QExtMvvmSessionItem.
+//! Row consists of two columns, QExtMvvmViewLabelItem for QExtMvvmSessionItem's display role and
+//! QExtMvvmViewDataItem for Session's item data role.
 
-class QEXT_MVVM_API LabelDataRowStrategy : public RowStrategyInterface {
+class QEXT_MVVM_API QExtMvvmLabelDataRowStrategy : public QExtMvvmRowStrategyInterface {
 public:
     QStringList horizontalHeaderLabels() const override;
 
-    std::vector<QExtUniquePointer<ViewItem>> constructRow(SessionItem*) override;
+    std::vector<QExtUniquePointer<QExtMvvmViewItem>> constructRow(QExtMvvmSessionItem*) override;
 };
 
 } // namespace ModelView

@@ -40,16 +40,16 @@ namespace ModelView ::EditorBuilders {
 
 builder_t BoolEditorBuilder()
 {
-    auto builder = [](const SessionItem*) -> editor_t { return qextMakeUnique<BoolEditor>(); };
+    auto builder = [](const QExtMvvmSessionItem*) -> editor_t { return qextMakeUnique<QExtMvvmBoolEditor>(); };
     return builder;
 }
 
 builder_t IntegerEditorBuilder()
 {
-    auto builder = [](const SessionItem* item) -> editor_t {
-        auto editor = qextMakeUnique<IntegerEditor>();
+    auto builder = [](const QExtMvvmSessionItem* item) -> editor_t {
+        auto editor = qextMakeUnique<QExtMvvmIntegerEditor>();
         if (item && item->hasData(ItemDataRole::LIMITS)) {
-            auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
+            auto limits = item->data<QExtMvvmRealLimits>(ItemDataRole::LIMITS);
             editor->setRange(limits.lowerLimit(), limits.upperLimit());
         }
         return editor;
@@ -59,10 +59,10 @@ builder_t IntegerEditorBuilder()
 
 builder_t DoubleEditorBuilder()
 {
-    auto builder = [](const SessionItem* item) -> editor_t {
-        auto editor = qextMakeUnique<DoubleEditor>();
+    auto builder = [](const QExtMvvmSessionItem* item) -> editor_t {
+        auto editor = qextMakeUnique<QExtMvvmDoubleEditor>();
         if (item && item->hasData(ItemDataRole::LIMITS)) {
-            auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
+            auto limits = item->data<QExtMvvmRealLimits>(ItemDataRole::LIMITS);
             editor->setRange(limits.lowerLimit(), limits.upperLimit());
             editor->setSingleStep(singleStep(Constants::default_double_decimals));
             editor->setDecimals(Constants::default_double_decimals);
@@ -74,10 +74,10 @@ builder_t DoubleEditorBuilder()
 
 builder_t ScientificDoubleEditorBuilder()
 {
-    auto builder = [](const SessionItem* item) -> editor_t {
+    auto builder = [](const QExtMvvmSessionItem* item) -> editor_t {
         auto editor = qextMakeUnique<ScientificDoubleEditor>();
         if (item && item->hasData(ItemDataRole::LIMITS)) {
-            auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
+            auto limits = item->data<QExtMvvmRealLimits>(ItemDataRole::LIMITS);
             editor->setRange(limits.lowerLimit(), limits.upperLimit());
         }
         return editor;
@@ -87,11 +87,11 @@ builder_t ScientificDoubleEditorBuilder()
 
 builder_t ScientificSpinBoxEditorBuilder()
 {
-    auto builder = [](const SessionItem* item) -> editor_t {
-        auto editor = qextMakeUnique<ScientificSpinBoxEditor>();
+    auto builder = [](const QExtMvvmSessionItem* item) -> editor_t {
+        auto editor = qextMakeUnique<QExtMvvmScientificSpinBoxEditor>();
         if (item) {
             if (item->hasData(ItemDataRole::LIMITS)) {
-                auto limits = item->data<RealLimits>(ItemDataRole::LIMITS);
+                auto limits = item->data<QExtMvvmRealLimits>(ItemDataRole::LIMITS);
                 editor->setRange(limits.lowerLimit(), limits.upperLimit());
             }
             editor->setSingleStep(getStep(item->data<double>()));
@@ -104,30 +104,30 @@ builder_t ScientificSpinBoxEditorBuilder()
 
 builder_t ColorEditorBuilder()
 {
-    auto builder = [](const SessionItem*) -> editor_t { return qextMakeUnique<ColorEditor>(); };
+    auto builder = [](const QExtMvvmSessionItem*) -> editor_t { return qextMakeUnique<QExtMvvmColorEditor>(); };
     return builder;
 }
 
 builder_t ComboPropertyEditorBuilder()
 {
-    auto builder = [](const SessionItem*) -> editor_t {
-        return qextMakeUnique<ComboPropertyEditor>();
+    auto builder = [](const QExtMvvmSessionItem*) -> editor_t {
+        return qextMakeUnique<QExtMvvmComboPropertyEditor>();
     };
     return builder;
 }
 
 builder_t ExternalPropertyEditorBuilder()
 {
-    auto builder = [](const SessionItem*) -> editor_t {
-        return qextMakeUnique<ExternalPropertyEditor>();
+    auto builder = [](const QExtMvvmSessionItem*) -> editor_t {
+        return qextMakeUnique<QExtMvvmExternalPropertyEditor>();
     };
     return builder;
 }
 
 builder_t SelectableComboPropertyEditorBuilder()
 {
-    auto builder = [](const SessionItem*) -> editor_t {
-        return qextMakeUnique<SelectableComboBoxEditor>();
+    auto builder = [](const QExtMvvmSessionItem*) -> editor_t {
+        return qextMakeUnique<QExtMvvmSelectableComboBoxEditor>();
     };
     return builder;
 }

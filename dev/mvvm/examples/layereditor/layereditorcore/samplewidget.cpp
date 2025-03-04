@@ -22,8 +22,8 @@ using namespace ModelView;
 
 SampleWidget::SampleWidget(ApplicationModels* models, QWidget* parent)
     : QWidget(parent)
-    , m_materialTree(new ItemsTreeView)
-    , m_sampleTree(new ItemsTreeView)
+    , m_materialTree(new QExtMvvmItemsTreeView)
+    , m_sampleTree(new QExtMvvmItemsTreeView)
     , m_materialTableWidget(new MaterialTableWidget(models->materialModel()))
     , m_multiLayerTreeView(new MultiLayerTreeView(models))
     , m_models(models)

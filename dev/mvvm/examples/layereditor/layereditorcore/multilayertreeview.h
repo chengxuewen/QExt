@@ -17,9 +17,9 @@ class QTreeView;
 class ApplicationModels;
 
 namespace ModelView {
-class ViewModel;
-class SessionItem;
-class ViewModelDelegate;
+class QExtMvvmViewModel;
+class QExtMvvmSessionItem;
+class QExtMvvmViewModelDelegate;
 } // namespace ModelView
 
 //! Shows content of multi layer in a tree view in special "flat" form.
@@ -29,12 +29,12 @@ public:
     explicit MultiLayerTreeView(ApplicationModels* models, QWidget* parent = nullptr);
     ~MultiLayerTreeView();
 
-    void setItem(ModelView::SessionItem* multilayer);
+    void setItem(ModelView::QExtMvvmSessionItem* multilayer);
 
 private:
     QTreeView* m_treeView{nullptr};
-    QExtUniquePointer<ModelView::ViewModel> m_viewModel;
-    QExtUniquePointer<ModelView::ViewModelDelegate> m_delegate;
+    QExtUniquePointer<ModelView::QExtMvvmViewModel> m_viewModel;
+    QExtUniquePointer<ModelView::QExtMvvmViewModelDelegate> m_delegate;
 };
 
 #endif // LAYEREDITORCORE_MULTILAYERTREEVIEW_H

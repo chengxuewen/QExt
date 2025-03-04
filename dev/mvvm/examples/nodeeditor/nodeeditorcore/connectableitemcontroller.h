@@ -22,7 +22,7 @@ class ConnectableView;
 //! Provides updates of view position/appearance on graphics scene, when underlying item changes.
 //! Similarly, provides update of item's properties while view is moving on the scene.
 
-class ConnectableItemController : public ModelView::ItemListener<ConnectableItem> {
+class ConnectableItemController : public ModelView::QExtMvvmItemListener<ConnectableItem> {
 public:
     ConnectableItemController(ConnectableItem* item, ConnectableView* view);
     ~ConnectableItemController() override;

@@ -13,16 +13,16 @@
 
 using namespace ModelView;
 
-ViewportItem::ViewportItem(const ModelView::model_type& model) : CompoundItem(model) {}
+QExtMvvmViewportItem::QExtMvvmViewportItem(const ModelView::QExtMvvmModelType& model) : QExtMvvmCompoundItem(model) {}
 
-ViewportAxisItem* ViewportItem::xAxis() const
+QExtMvvmViewportAxisItem* QExtMvvmViewportItem::xAxis() const
 {
-    return item<ViewportAxisItem>(P_XAXIS);
+    return item<QExtMvvmViewportAxisItem>(P_XAXIS);
 }
 
-ViewportAxisItem* ViewportItem::yAxis() const
+QExtMvvmViewportAxisItem* QExtMvvmViewportItem::yAxis() const
 {
-    return item<ViewportAxisItem>(P_YAXIS);
+    return item<QExtMvvmViewportAxisItem>(P_YAXIS);
 }
 
 //! Sets range of x,y window to show all data.
@@ -31,7 +31,7 @@ ViewportAxisItem* ViewportItem::yAxis() const
 //! Example: setViewportToContent(0.0, 0.1, 0.0, 0.1) will set axes to show all graphs with 10% gap
 //! above and below graph's max and min.
 
-void ViewportItem::setViewportToContent(double left, double top, double right, double bottom)
+void QExtMvvmViewportItem::setViewportToContent(double left, double top, double right, double bottom)
 {
     Utils::BeginMacros(this, "setViewportToContent");
     auto [xmin, xmax] = data_xaxis_range();
@@ -44,7 +44,7 @@ void ViewportItem::setViewportToContent(double left, double top, double right, d
 
 //! Sets range of x,y window to show all data.
 
-void ViewportItem::setViewportToContent()
+void QExtMvvmViewportItem::setViewportToContent()
 {
     Utils::BeginMacros(this, "setViewportToContent");
     auto [xmin, xmax] = data_xaxis_range();
@@ -55,8 +55,8 @@ void ViewportItem::setViewportToContent()
     Utils::EndMacros(this);
 }
 
-void ViewportItem::register_xy_axes()
+void QExtMvvmViewportItem::register_xy_axes()
 {
-    addProperty<ViewportAxisItem>(P_XAXIS)->setDisplayName("X axis");
-    addProperty<ViewportAxisItem>(P_YAXIS)->setDisplayName("Y axis");
+    addProperty<QExtMvvmViewportAxisItem>(P_XAXIS)->setDisplayName("X axis");
+    addProperty<QExtMvvmViewportAxisItem>(P_YAXIS)->setDisplayName("Y axis");
 }

@@ -17,15 +17,15 @@ class QStandardItemModel;
 
 namespace ModelView {
 
-class WheelEventFilter;
+class QExtMvvmWheelEventFilter;
 
 //! Adds multi-selection capabilities to QComboBox.
 
-class QEXT_MVVM_API SelectableComboBoxEditor : public CustomEditor {
+class QEXT_MVVM_API QExtMvvmSelectableComboBoxEditor : public QExtMvvmCustomEditor {
     Q_OBJECT
 
 public:
-    explicit SelectableComboBoxEditor(QWidget* parent = nullptr);
+    explicit QExtMvvmSelectableComboBoxEditor(QWidget* parent = nullptr);
 
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
@@ -49,7 +49,7 @@ private:
     bool isClickToExpand(QObject* obj, QEvent* event) const;
 
     QComboBox* m_box{nullptr};
-    WheelEventFilter* m_wheelEventFilter{nullptr};
+    QExtMvvmWheelEventFilter* m_wheelEventFilter{nullptr};
     QStandardItemModel* m_model{nullptr};
 };
 

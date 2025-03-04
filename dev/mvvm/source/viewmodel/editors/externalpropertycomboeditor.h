@@ -19,18 +19,18 @@ class QStandardItemModel;
 
 namespace ModelView {
 
-class ExternalProperty;
+class QExtMvvmExternalProperty;
 
-//! Custom editor for table/tree cells to select ExternalProperty from the list of
+//! Custom editor for table/tree cells to select QExtMvvmExternalProperty from the list of
 //! external properties. Uses callbacks to retrieve vector of possible properties.
 
-class QEXT_MVVM_API ExternalPropertyComboEditor : public CustomEditor {
+class QEXT_MVVM_API QExtMvvmExternalPropertyComboEditor : public QExtMvvmCustomEditor {
     Q_OBJECT
 
 public:
-    using callback_t = std::function<std::vector<ModelView::ExternalProperty>()>;
+    using callback_t = std::function<std::vector<ModelView::QExtMvvmExternalProperty>()>;
 
-    ExternalPropertyComboEditor(callback_t callback, QWidget* parent = nullptr);
+    QExtMvvmExternalPropertyComboEditor(callback_t callback, QWidget* parent = nullptr);
 
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;

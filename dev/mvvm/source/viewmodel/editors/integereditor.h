@@ -18,11 +18,11 @@ namespace ModelView {
 
 //! Custom editor for QVariant based on integer with possibility to set limits.
 
-class QEXT_MVVM_API IntegerEditor : public CustomEditor {
+class QEXT_MVVM_API QExtMvvmIntegerEditor : public QExtMvvmCustomEditor {
     Q_OBJECT
 
 public:
-    explicit IntegerEditor(QWidget* parent = nullptr);
+    explicit QExtMvvmIntegerEditor(QWidget* parent = nullptr);
 
     void setRange(int minimum, int maximum);
 

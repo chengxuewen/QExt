@@ -18,7 +18,7 @@ namespace FlatEditor {
 
 //! Item to represent x-ray or neutron beam with properties to setup.
 
-class BeamItem : public ModelView::CompoundItem {
+class BeamItem : public ModelView::QExtMvvmCompoundItem {
 public:
     static inline const std::string P_BEAM_TYPE = "P_BEAM_TYPE";
     static inline const std::string P_IS_POLARIZED = "P_IS_POLARIZED";
@@ -36,7 +36,7 @@ private:
 
 //! Item to represent fixed value.
 
-class DistributionNoneItem : public ModelView::CompoundItem {
+class DistributionNoneItem : public ModelView::QExtMvvmCompoundItem {
 public:
     static inline const std::string P_MEAN = "P_MEAN";
 
@@ -45,7 +45,7 @@ public:
 
 //! Item to represent gaussian distribution.
 
-class DistributionGaussianItem : public ModelView::CompoundItem {
+class DistributionGaussianItem : public ModelView::QExtMvvmCompoundItem {
 public:
     static inline const std::string P_MEAN = "P_MEAN";
     static inline const std::string P_STD_DEV = "P_STD_DEV";
@@ -55,7 +55,7 @@ public:
 
 //! Item to represent log normal distribution.
 
-class DistributionLogNormalItem : public ModelView::CompoundItem {
+class DistributionLogNormalItem : public ModelView::QExtMvvmCompoundItem {
 
 public:
     static inline const std::string P_MEDIAN = "P_MEDIAN";
@@ -66,7 +66,7 @@ public:
 
 //! Item to represent trapezoid distribution.
 
-class DistributionTrapezoidItem : public ModelView::CompoundItem {
+class DistributionTrapezoidItem : public ModelView::QExtMvvmCompoundItem {
 public:
     static inline const std::string P_CENTER = "P_CENTER";
     static inline const std::string P_LEFTWIDTH = "P_LEFTWIDTH";
@@ -78,7 +78,7 @@ public:
 
 //! Group to hold probability distribution items.
 
-class DistributionGroupItem : public ModelView::GroupItem {
+class DistributionGroupItem : public ModelView::QExtMvvmGroupItem {
 public:
     DistributionGroupItem();
 };

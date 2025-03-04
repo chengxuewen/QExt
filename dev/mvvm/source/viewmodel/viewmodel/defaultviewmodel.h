@@ -14,15 +14,15 @@
 
 namespace ModelView {
 
-//! View model to show the content of SessionModel in Qt widgets. Represents two-column tree with
-//! label/data, with one-to-one child/parent correspondence as in the original SessionModel. All
+//! View model to show the content of QExtMvvmSessionModel in Qt widgets. Represents two-column tree with
+//! label/data, with one-to-one child/parent correspondence as in the original QExtMvvmSessionModel. All
 //! items (including hidden) are shown.
 
-class QEXT_MVVM_API DefaultViewModel : public ViewModel {
+class QEXT_MVVM_API QExtMvvmDefaultViewModel : public QExtMvvmViewModel {
     Q_OBJECT
 
 public:
-    DefaultViewModel(SessionModel* model, QObject* parent = nullptr);
+    QExtMvvmDefaultViewModel(QExtMvvmSessionModel* model, QObject* parent = nullptr);
 };
 
 } // namespace ModelView

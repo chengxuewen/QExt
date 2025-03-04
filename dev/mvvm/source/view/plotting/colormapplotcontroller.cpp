@@ -48,18 +48,18 @@ QCPColorGradient getGradient(const std::string& gradientName)
 
 using namespace ModelView;
 
-struct ColorMapPlotController::ColorMapPlotControllerImpl {
-    ColorMapPlotController* master{nullptr};
+struct QExtMvvmColorMapPlotController::ColorMapPlotControllerImpl {
+    QExtMvvmColorMapPlotController* master{nullptr};
     QCustomPlot* custom_plot{nullptr};
     QCPColorMap* color_map{nullptr};
-    QExtUniquePointer<Data2DPlotController> data_controller;
+    QExtUniquePointer<QExtMvvmData2DPlotController> data_controller;
 
-    ColorMapPlotControllerImpl(ColorMapPlotController* master, QCustomPlot* plot,
+    ColorMapPlotControllerImpl(QExtMvvmColorMapPlotController* master, QCustomPlot* plot,
                                QCPColorScale* color_scale)
         : master(master), custom_plot(plot)
     {
         color_map = new QCPColorMap(custom_plot->xAxis, custom_plot->yAxis);
-        data_controller = qextMakeUnique<Data2DPlotController>(color_map);
+        data_controller = qextMakeUnique<QExtMvvmData2DPlotController>(color_map);
 
         if (color_scale)
             color_map->setColorScale(color_scale);
@@ -67,7 +67,7 @@ struct ColorMapPlotController::ColorMapPlotControllerImpl {
 
     ~ColorMapPlotControllerImpl() { custom_plot->removePlottable(color_map); }
 
-    ColorMapItem* colormap_item() { return master->currentItem(); }
+    QExtMvvmColorMapItem* colormap_item() { return master->currentItem(); }
 
     void update_colormap()
     {
@@ -79,36 +79,36 @@ struct ColorMapPlotController::ColorMapPlotControllerImpl {
 
     void update_data_controller() { data_controller->setItem(colormap_item()->dataItem()); }
 
-    //! Updates QCPColorMap's interpolation when corresponding property of ColorMapItem changed.
+    //! Updates QCPColorMap's interpolation when corresponding property of QExtMvvmColorMapItem changed.
 
     void update_interpolation()
     {
-        auto is_interpolated = colormap_item()->property<bool>(ColorMapItem::P_INTERPOLATION);
+        auto is_interpolated = colormap_item()->property<bool>(QExtMvvmColorMapItem::P_INTERPOLATION);
         color_map->setInterpolate(is_interpolated);
     }
 
     void update_gradient()
     {
-        auto combo = colormap_item()->property<ComboProperty>(ColorMapItem::P_GRADIENT);
+        auto combo = colormap_item()->property<QExtMvvmComboProperty>(QExtMvvmColorMapItem::P_GRADIENT);
         color_map->setGradient(getGradient(combo.value()));
     }
 };
 
-ColorMapPlotController::ColorMapPlotController(QCustomPlot* custom_plot, QCPColorScale* color_scale)
+QExtMvvmColorMapPlotController::QExtMvvmColorMapPlotController(QCustomPlot* custom_plot, QCPColorScale* color_scale)
     : p_impl(qextMakeUnique<ColorMapPlotControllerImpl>(this, custom_plot, color_scale))
 {
 }
 
-void ColorMapPlotController::subscribe()
+void QExtMvvmColorMapPlotController::subscribe()
 {
-    auto on_property_change = [this](SessionItem*, std::string property_name) {
-        if (property_name == ColorMapItem::P_INTERPOLATION)
+    auto on_property_change = [this](QExtMvvmSessionItem*, std::string property_name) {
+        if (property_name == QExtMvvmColorMapItem::P_INTERPOLATION)
             p_impl->update_interpolation();
 
-        if (property_name == ColorMapItem::P_GRADIENT)
+        if (property_name == QExtMvvmColorMapItem::P_GRADIENT)
             p_impl->update_gradient();
 
-        if (property_name == ColorMapItem::P_LINK)
+        if (property_name == QExtMvvmColorMapItem::P_LINK)
             p_impl->update_data_controller();
 
         p_impl->custom_plot->replot();
@@ -118,9 +118,9 @@ void ColorMapPlotController::subscribe()
     p_impl->update_colormap();
 }
 
-void ColorMapPlotController::unsubscribe()
+void QExtMvvmColorMapPlotController::unsubscribe()
 {
     p_impl->data_controller->setItem(nullptr);
 }
 
-ColorMapPlotController::~ColorMapPlotController() = default;
+QExtMvvmColorMapPlotController::~QExtMvvmColorMapPlotController() = default;

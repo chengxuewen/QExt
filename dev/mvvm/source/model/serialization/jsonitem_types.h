@@ -11,9 +11,9 @@
 #define MVVM_SERIALIZATION_JSONITEM_TYPES_H
 
 //! @file jsonitem_types.h
-//! Collection of custom types involved into SessionItem and JSON mutual convertion.
+//! Collection of custom types involved into QExtMvvmSessionItem and JSON mutual convertion.
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <functional>
 #include <memory>
 #include <vector>
@@ -22,24 +22,24 @@ class QJsonObject;
 
 namespace ModelView {
 
-class SessionItem;
-class ItemFactoryInterface;
+class QExtMvvmSessionItem;
+class QExtMvvmItemFactoryInterface;
 
-//! Provides necessary callbacks to convert SessionItem to JSON and back.
+//! Provides necessary callbacks to convert QExtMvvmSessionItem to JSON and back.
 
-struct QEXT_MVVM_API ConverterCallbacks {
-    using create_json_t = std::function<QJsonObject(const SessionItem&)>;
-    using create_item_t = std::function<QExtUniquePointer<SessionItem>(const QJsonObject&)>;
-    using update_item_t = std::function<void(const QJsonObject&, SessionItem*)>;
+struct QEXT_MVVM_API QExtMvvmConverterCallbacks {
+    using create_json_t = std::function<QJsonObject(const QExtMvvmSessionItem&)>;
+    using create_item_t = std::function<QExtUniquePointer<QExtMvvmSessionItem>(const QJsonObject&)>;
+    using update_item_t = std::function<void(const QJsonObject&, QExtMvvmSessionItem*)>;
 
     create_json_t m_create_json; //! creates JSON object from session item
-    create_item_t m_create_item; //! creates new SessionItem from JSON object
-    update_item_t m_update_item; //! updates existing SessionItem from JSON object
+    create_item_t m_create_item; //! creates new QExtMvvmSessionItem from JSON object
+    update_item_t m_update_item; //! updates existing QExtMvvmSessionItem from JSON object
 };
 
-//! Flags to define converter behavior on the way from SessionItem to JSON and back.
+//! Flags to define converter behavior on the way from QExtMvvmSessionItem to JSON and back.
 
-enum class ConverterMode {
+enum class QExtMvvmConverterMode {
     none,   //!< undefined converter mode
     clone,  //!< full deep copying with item identifiers preserved
     copy,   //!< full deep copying with item identifiers regenerated
@@ -48,24 +48,24 @@ enum class ConverterMode {
 };
 
 //! Returns true if given mode requires ID regeneration instead of using the one stored in JSON.
-inline bool isRegenerateIdWhenBackFromJson(ConverterMode mode)
+inline bool isRegenerateIdWhenBackFromJson(QExtMvvmConverterMode mode)
 {
-    return mode == ConverterMode::copy;
+    return mode == QExtMvvmConverterMode::copy;
 }
 
 //! Returns true if item content should be reconstructed from JSON
-inline bool isRebuildItemDataAndTagFromJson(ConverterMode mode)
+inline bool isRebuildItemDataAndTagFromJson(QExtMvvmConverterMode mode)
 {
-    return mode != ConverterMode::project;
+    return mode != QExtMvvmConverterMode::project;
 }
 
 //! Collection of input paramters for SessionItemConverter
 
-struct QEXT_MVVM_API ConverterContext
+struct QEXT_MVVM_API QExtMvvmConverterContext
 {
-    ConverterContext(const ItemFactoryInterface*factory, ConverterMode mode) : m_factory(factory), m_mode(mode) {}
-    const ItemFactoryInterface* m_factory{nullptr};
-    ConverterMode m_mode = ConverterMode::none;
+    QExtMvvmConverterContext(const QExtMvvmItemFactoryInterface*factory, QExtMvvmConverterMode mode) : m_factory(factory), m_mode(mode) {}
+    const QExtMvvmItemFactoryInterface* m_factory{nullptr};
+    QExtMvvmConverterMode m_mode = QExtMvvmConverterMode::none;
 };
 
 } // namespace ModelView

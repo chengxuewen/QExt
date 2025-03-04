@@ -10,7 +10,7 @@
 #ifndef MVVM_UTILS_FILEUTILS_H
 #define MVVM_UTILS_FILEUTILS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <string>
 #include <vector>
 

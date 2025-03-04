@@ -14,23 +14,23 @@
 
 namespace ModelView {
 
-class SessionItem;
-class TagRow;
+// class QExtMvvmSessionItem;
+// class QExtMvvmTagRow;
 
-//! Command for unddo/redo framework to remove item from a model using child's tag and row.
+// //! Command for unddo/redo framework to remove item from a model using child's tag and row.
 
-class QEXT_MVVM_API RemoveItemCommand : public AbstractItemCommand {
-public:
-    RemoveItemCommand(SessionItem* parent, TagRow tagrow);
-    ~RemoveItemCommand() override;
+// class QEXT_MVVM_API RemoveItemCommand : public QExtMvvmAbstractItemCommand {
+// public:
+//     RemoveItemCommand(QExtMvvmSessionItem* parent, QExtMvvmTagRow tagrow);
+//     ~RemoveItemCommand() override;
 
-private:
-    void undo_command() override;
-    void execute_command() override;
+// private:
+//     void undo_command() override;
+//     void execute_command() override;
 
-    struct RemoveItemCommandImpl;
-    QExtUniquePointer<RemoveItemCommandImpl> p_impl;
-};
+//     struct RemoveItemCommandImpl;
+//     QExtUniquePointer<RemoveItemCommandImpl> p_impl;
+// };
 
 } // namespace ModelView
 

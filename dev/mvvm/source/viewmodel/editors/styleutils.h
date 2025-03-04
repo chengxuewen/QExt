@@ -10,7 +10,7 @@
 #ifndef MVVM_EDITORS_STYLEUTILS_H
 #define MVVM_EDITORS_STYLEUTILS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 
 namespace ModelView::Style {
 

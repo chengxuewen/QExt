@@ -15,7 +15,7 @@
 
 namespace ModelView {
 class AllItemsTreeView;
-class PropertyTreeView;
+class QExtMvvmPropertyTreeView;
 } // namespace ModelView
 
 namespace GroupProperty {
@@ -34,7 +34,7 @@ public:
 private:
     Model m_model;
     ModelView::AllItemsTreeView* m_treeView{nullptr};
-    ModelView::PropertyTreeView* m_propertyEditor{nullptr};
+    ModelView::QExtMvvmPropertyTreeView* m_propertyEditor{nullptr};
 };
 
 } // namespace GroupProperty

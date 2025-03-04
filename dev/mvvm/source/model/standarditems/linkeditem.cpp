@@ -12,10 +12,10 @@
 using namespace ModelView;
 
 namespace {
-const Variant empty_link = Variant::fromValue(std::string());
+const QVariant empty_link = QVariant::fromValue(std::string());
 }
 
-LinkedItem::LinkedItem() : SessionItem(Constants::LinkedItemType)
+QExtMvvmLinkedItem::QExtMvvmLinkedItem() : QExtMvvmSessionItem(Constants::LinkedItemType)
 {
     setData(empty_link);
     setEditable(false); // prevent editing in widgets, link is set programmatically.
@@ -23,7 +23,7 @@ LinkedItem::LinkedItem() : SessionItem(Constants::LinkedItemType)
 
 //! Set link to given item.
 
-void LinkedItem::setLink(const SessionItem* item)
+void QExtMvvmLinkedItem::setLink(const QExtMvvmSessionItem* item)
 {
-    setData(item ? Variant::fromValue(item->identifier()) : empty_link);
+    setData(item ? QVariant::fromValue(item->identifier()) : empty_link);
 }

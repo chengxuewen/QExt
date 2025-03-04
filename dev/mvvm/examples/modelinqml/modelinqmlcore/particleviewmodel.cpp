@@ -10,4 +10,4 @@
 #include "particleviewmodel.h"
 #include "particlemodel.h"
 
-ParticleViewModel::ParticleViewModel(ParticleModel* model) : ModelView::PropertyViewModel(model) {}
+ParticleViewModel::ParticleViewModel(ParticleModel* model) : ModelView::QExtMvvmPropertyViewModel(model) {}

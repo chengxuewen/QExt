@@ -14,76 +14,76 @@
 #include "model/model/sessionitem.h"
 
 namespace {
-QExtUniquePointer<ModelView::ItemFactory> DefaultItemFactory()
+QExtUniquePointer<ModelView::QExtMvvmItemFactory> DefaultItemFactory()
 {
-    return qextMakeUnique<ModelView::ItemFactory>(ModelView::CreateStandardItemCatalogue());
+    return qextMakeUnique<ModelView::QExtMvvmItemFactory>(ModelView::qextMvvmCreateStandardItemCatalogue());
 }
 } // namespace
 
 using namespace ModelView;
 
-ItemManager::ItemManager() : m_item_factory(DefaultItemFactory()) {}
+QExtMvvmItemManager::QExtMvvmItemManager() : m_item_factory(DefaultItemFactory()) {}
 
-void ItemManager::setItemFactory(QExtUniquePointer<ItemFactoryInterface> factory)
+void QExtMvvmItemManager::setItemFactory(QExtUniquePointer<QExtMvvmItemFactoryInterface> factory)
 {
     m_item_factory = std::move(factory);
 }
 
-void ItemManager::setItemPool(std::shared_ptr<ItemPool> pool)
+void QExtMvvmItemManager::setItemPool(std::shared_ptr<QExtMvvmItemPool> pool)
 {
     m_item_pool = std::move(pool);
 }
 
-ItemManager::~ItemManager() = default;
+QExtMvvmItemManager::~QExtMvvmItemManager() = default;
 
-QExtUniquePointer<SessionItem> ItemManager::createItem(const model_type& modelType) const
+QExtUniquePointer<QExtMvvmSessionItem> QExtMvvmItemManager::createItem(const QExtMvvmModelType& modelType) const
 {
     return m_item_factory->createItem(modelType);
 }
 
-QExtUniquePointer<SessionItem> ItemManager::createRootItem() const
+QExtUniquePointer<QExtMvvmSessionItem> QExtMvvmItemManager::createRootItem() const
 {
-    return qextMakeUnique<SessionItem>();
+    return qextMakeUnique<QExtMvvmSessionItem>();
 }
 
-SessionItem* ItemManager::findItem(const identifier_type& id) const
+QExtMvvmSessionItem* QExtMvvmItemManager::findItem(const QExtMvvmIdentifierType& id) const
 {
     return m_item_pool ? m_item_pool->item_for_key(id) : nullptr;
 }
 
-identifier_type ItemManager::findIdentifier(const SessionItem* item) const
+QExtMvvmIdentifierType QExtMvvmItemManager::findIdentifier(const QExtMvvmSessionItem* item) const
 {
-    return m_item_pool ? m_item_pool->key_for_item(item) : identifier_type();
+    return m_item_pool ? m_item_pool->key_for_item(item) : QExtMvvmIdentifierType();
 }
 
-const ItemPool* ItemManager::itemPool() const
-{
-    return m_item_pool.get();
-}
-
-ItemPool* ItemManager::itemPool()
+const QExtMvvmItemPool* QExtMvvmItemManager::itemPool() const
 {
     return m_item_pool.get();
 }
 
-void ItemManager::registerInPool(SessionItem* item)
+QExtMvvmItemPool* QExtMvvmItemManager::itemPool()
+{
+    return m_item_pool.get();
+}
+
+void QExtMvvmItemManager::registerInPool(QExtMvvmSessionItem* item)
 {
     if (m_item_pool)
         m_item_pool->register_item(item, item->identifier());
 }
 
-void ItemManager::unregisterFromPool(SessionItem* item)
+void QExtMvvmItemManager::unregisterFromPool(QExtMvvmSessionItem* item)
 {
     if (m_item_pool)
         m_item_pool->unregister_item(item);
 }
 
-const ItemFactoryInterface* ItemManager::factory() const
+const QExtMvvmItemFactoryInterface* QExtMvvmItemManager::factory() const
 {
     return m_item_factory.get();
 }
 
-ItemFactoryInterface* ItemManager::factory()
+QExtMvvmItemFactoryInterface* QExtMvvmItemManager::factory()
 {
-    return const_cast<ItemFactoryInterface*>(static_cast<const ItemManager*>(this)->factory());
+    return const_cast<QExtMvvmItemFactoryInterface*>(static_cast<const QExtMvvmItemManager*>(this)->factory());
 }

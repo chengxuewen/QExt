@@ -16,13 +16,13 @@ class QComboBox;
 
 namespace ModelView {
 
-//! Custom editor for QVariant based on ComboProperty.
+//! Custom editor for QVariant based on QExtMvvmComboProperty.
 
-class QEXT_MVVM_API ComboPropertyEditor : public CustomEditor {
+class QEXT_MVVM_API QExtMvvmComboPropertyEditor : public QExtMvvmCustomEditor {
     Q_OBJECT
 
 public:
-    explicit ComboPropertyEditor(QWidget* parent = nullptr);
+    explicit QExtMvvmComboPropertyEditor(QWidget* parent = nullptr);
 
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;

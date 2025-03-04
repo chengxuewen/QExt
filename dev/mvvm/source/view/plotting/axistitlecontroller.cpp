@@ -14,38 +14,38 @@
 
 using namespace ModelView;
 
-struct AxisTitleController::AxisTitleControllerImpl {
+struct QExtMvvmAxisTitleController::AxisTitleControllerImpl {
     QCPAxis* m_axis{nullptr};
 
     AxisTitleControllerImpl(QCPAxis* axis) : m_axis(axis)
     {
         if (!axis)
-            throw std::runtime_error("AxisTitleController: axis is not initialized.");
+            throw std::runtime_error("QExtMvvmAxisTitleController: axis is not initialized.");
     }
 
-    void updateAxisFromItem(TextItem* item)
+    void updateAxisFromItem(QExtMvvmTextItem* item)
     {
         auto font = m_axis->labelFont();
-        font.setPointSize(item->property<int>(TextItem::P_SIZE));
-        font.setFamily(QString::fromStdString(item->property<std::string>(TextItem::P_FONT)));
-        m_axis->setLabel(QString::fromStdString(item->property<std::string>(TextItem::P_TEXT)));
+        font.setPointSize(item->property<int>(QExtMvvmTextItem::P_SIZE));
+        font.setFamily(QString::fromStdString(item->property<std::string>(QExtMvvmTextItem::P_FONT)));
+        m_axis->setLabel(QString::fromStdString(item->property<std::string>(QExtMvvmTextItem::P_TEXT)));
         m_axis->setLabelFont(font);
 
         m_axis->parentPlot()->replot();
     }
 };
 
-AxisTitleController::AxisTitleController(QCPAxis* axis)
+QExtMvvmAxisTitleController::QExtMvvmAxisTitleController(QCPAxis* axis)
     : p_impl(qextMakeUnique<AxisTitleControllerImpl>(axis))
 
 {
 }
 
-AxisTitleController::~AxisTitleController() = default;
+QExtMvvmAxisTitleController::~QExtMvvmAxisTitleController() = default;
 
-void AxisTitleController::subscribe()
+void QExtMvvmAxisTitleController::subscribe()
 {
-    auto on_property_change = [this](SessionItem*, std::string) { p_impl->updateAxisFromItem(currentItem()); };
+    auto on_property_change = [this](QExtMvvmSessionItem*, std::string) { p_impl->updateAxisFromItem(currentItem()); };
     setOnPropertyChange(on_property_change);
 
     p_impl->updateAxisFromItem(currentItem());

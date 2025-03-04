@@ -16,24 +16,24 @@
 
 using namespace ModelView;
 
-bool Comparators::m_is_registered = false;
+bool QExtMvvmComparators::m_is_registered = false;
 
-void Comparators::registerComparators()
+void QExtMvvmComparators::registerComparators()
 {
     if (!m_is_registered) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QMetaType::registerComparators<std::string>();
         QMetaType::registerComparators<std::vector<double>>();
-        QMetaType::registerComparators<ComboProperty>();
-        QMetaType::registerComparators<ExternalProperty>();
-        QMetaType::registerComparators<RealLimits>();
+        QMetaType::registerComparators<QExtMvvmComboProperty>();
+        QMetaType::registerComparators<QExtMvvmExternalProperty>();
+        QMetaType::registerComparators<QExtMvvmRealLimits>();
         m_is_registered = true;
 #endif
 
     }
 }
 
-bool Comparators::registered()
+bool QExtMvvmComparators::registered()
 {
     return m_is_registered;
 }

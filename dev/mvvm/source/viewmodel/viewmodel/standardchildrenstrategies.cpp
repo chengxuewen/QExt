@@ -15,21 +15,21 @@ using namespace ModelView;
 
 // ----------------------------------------------------------------------------
 
-std::vector<SessionItem*> AllChildrenStrategy::children(const SessionItem* item) const
+std::vector<QExtMvvmSessionItem*> QExtMvvmAllChildrenStrategy::children(const QExtMvvmSessionItem* item) const
 {
     // we returns all children, even if some marked as invisible
-    return item ? item->children() : std::vector<SessionItem*>();
+    return item ? item->children() : std::vector<QExtMvvmSessionItem*>();
 }
 
-std::vector<SessionItem*> TopItemsStrategy::children(const SessionItem* item) const
+std::vector<QExtMvvmSessionItem*> QExtMvvmTopItemsStrategy::children(const QExtMvvmSessionItem* item) const
 {
-    return item ? Utils::TopLevelItems(*item) : std::vector<SessionItem*>();
+    return item ? Utils::TopLevelItems(*item) : std::vector<QExtMvvmSessionItem*>();
 }
 
 // ----------------------------------------------------------------------------
 
 /*
-PropertyItemsStrategy example: if group property has Cylinder active:
+QExtMvvmPropertyItemsStrategy example: if group property has Cylinder active:
 
 Particle
     ShapeGroup
@@ -46,12 +46,12 @@ Particle
         Radius
 */
 
-std::vector<SessionItem*> PropertyItemsStrategy::children(const SessionItem* item) const
+std::vector<QExtMvvmSessionItem*> QExtMvvmPropertyItemsStrategy::children(const QExtMvvmSessionItem* item) const
 {
     if (!item)
-        return std::vector<SessionItem*>();
+        return std::vector<QExtMvvmSessionItem*>();
 
-    auto group = dynamic_cast<const GroupItem*>(item);
+    auto group = dynamic_cast<const QExtMvvmGroupItem*>(item);
     auto next_item = group ? group->currentItem() : item;
     return Utils::SinglePropertyItems(*next_item);
 }
@@ -59,7 +59,7 @@ std::vector<SessionItem*> PropertyItemsStrategy::children(const SessionItem* ite
 // ----------------------------------------------------------------------------
 
 /*
-PropertyItemsFlatStrategy example: if group property has Cylinder active:
+QExtMvvmPropertyItemsFlatStrategy example: if group property has Cylinder active:
 
 Particle
     ShapeGroup
@@ -76,17 +76,17 @@ Particle
     Radius
 */
 
-std::vector<SessionItem*> PropertyItemsFlatStrategy::children(const SessionItem* item) const
+std::vector<QExtMvvmSessionItem*> QExtMvvmPropertyItemsFlatStrategy::children(const QExtMvvmSessionItem* item) const
 {
     if (!item)
-        return std::vector<SessionItem*>();
+        return std::vector<QExtMvvmSessionItem*>();
 
-    if (auto group = dynamic_cast<const GroupItem*>(item); group)
+    if (auto group = dynamic_cast<const QExtMvvmGroupItem*>(item); group)
         return Utils::SinglePropertyItems(*group->currentItem());
 
-    std::vector<SessionItem*> result;
+    std::vector<QExtMvvmSessionItem*> result;
     for (auto child : Utils::SinglePropertyItems(*item)) {
-        if (auto group_item = dynamic_cast<GroupItem*>(child); group_item) {
+        if (auto group_item = dynamic_cast<QExtMvvmGroupItem*>(child); group_item) {
             result.push_back(group_item);
             for (auto sub_property : Utils::SinglePropertyItems(*group_item->currentItem()))
                 result.push_back(sub_property);

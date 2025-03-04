@@ -14,11 +14,11 @@
 
 using namespace ModelView;
 
-ModelListenerBase::ModelListenerBase(SessionModel* model) : m_model(model)
+ModelListenerBase::ModelListenerBase(QExtMvvmSessionModel* model) : m_model(model)
 {
     if (!m_model)
         throw std::runtime_error("Error in ModelListenerBase: no model defined");
-    setOnModelDestroyed([this](SessionModel*) { m_model = nullptr; });
+    setOnModelDestroyed([this](QExtMvvmSessionModel*) { m_model = nullptr; });
 }
 
 ModelListenerBase::~ModelListenerBase()
@@ -27,7 +27,7 @@ ModelListenerBase::~ModelListenerBase()
 }
 
 //! Sets callback to be notified on item's data change. The callback will be called
-//! with (SessionItem*, data_role).
+//! with (QExtMvvmSessionItem*, data_role).
 
 void ModelListenerBase::setOnDataChange(ModelView::Callbacks::item_int_t f, Callbacks::slot_t)
 {
@@ -35,7 +35,7 @@ void ModelListenerBase::setOnDataChange(ModelView::Callbacks::item_int_t f, Call
 }
 
 //! Sets callback to be notified on item insert. The callback will be called with
-//! (SessionItem* parent, tagrow), where 'tagrow' denotes inserted child position.
+//! (QExtMvvmSessionItem* parent, tagrow), where 'tagrow' denotes inserted child position.
 
 void ModelListenerBase::setOnItemInserted(ModelView::Callbacks::item_tagrow_t f, Callbacks::slot_t)
 {
@@ -43,7 +43,7 @@ void ModelListenerBase::setOnItemInserted(ModelView::Callbacks::item_tagrow_t f,
 }
 
 //! Sets callback to be notified on item remove. The callback will be called with
-//! (SessionItem* parent, tagrow), where 'tagrow' denotes child position before the removal.
+//! (QExtMvvmSessionItem* parent, tagrow), where 'tagrow' denotes child position before the removal.
 
 void ModelListenerBase::setOnItemRemoved(ModelView::Callbacks::item_tagrow_t f, Callbacks::slot_t)
 {
@@ -51,7 +51,7 @@ void ModelListenerBase::setOnItemRemoved(ModelView::Callbacks::item_tagrow_t f, 
 }
 
 //! Sets callback to be notified when the item is about to be removed. The callback will be called
-//! with (SessionItem* parent, tagrow), where 'tagrow' denotes child position being removed.
+//! with (QExtMvvmSessionItem* parent, tagrow), where 'tagrow' denotes child position being removed.
 
 void ModelListenerBase::setOnAboutToRemoveItem(ModelView::Callbacks::item_tagrow_t f,
                                                Callbacks::slot_t)

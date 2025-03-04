@@ -19,29 +19,29 @@
 
 using namespace ModelView;
 
-struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
-    QExtUniquePointer<JsonTagInfoConverterInterface> m_taginfo_converter;
-    ConverterCallbacks m_converter_callbacks;
+struct QExtMvvmJsonItemContainerConverter::JsonItemContainerConverterImpl {
+    QExtUniquePointer<QExtMvvmJsonTagInfoConverterInterface> m_taginfo_converter;
+    QExtMvvmConverterCallbacks m_converter_callbacks;
 
-    JsonItemContainerConverterImpl(ConverterCallbacks callbacks = {})
+    JsonItemContainerConverterImpl(QExtMvvmConverterCallbacks callbacks = {})
         : m_converter_callbacks(std::move(callbacks))
     {
-        m_taginfo_converter = qextMakeUnique<JsonTagInfoConverter>();
+        m_taginfo_converter = qextMakeUnique<QExtMvvmJsonTagInfoConverter>();
     }
 
-    QJsonObject create_json(const SessionItem& item)
+    QJsonObject create_json(const QExtMvvmSessionItem& item)
     {
         return m_converter_callbacks.m_create_json ? m_converter_callbacks.m_create_json(item)
                                                    : QJsonObject();
     }
 
-    QExtUniquePointer<SessionItem> create_item(const QJsonObject& json)
+    QExtUniquePointer<QExtMvvmSessionItem> create_item(const QJsonObject& json)
     {
         return m_converter_callbacks.m_create_item ? m_converter_callbacks.m_create_item(json)
-                                                   : QExtUniquePointer<SessionItem>();
+                                                   : QExtUniquePointer<QExtMvvmSessionItem>();
     }
 
-    void update_item(const QJsonObject& json, SessionItem* item)
+    void update_item(const QJsonObject& json, QExtMvvmSessionItem* item)
     {
         if (m_converter_callbacks.m_update_item)
             m_converter_callbacks.m_update_item(json, item);
@@ -49,19 +49,19 @@ struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
 
     //! Update container from json content. Number of existing container items should match size
     //! of json array.
-    void update_items(const QJsonObject& json, SessionItemContainer& container)
+    void update_items(const QJsonObject& json, QExtMvvmSessionItemContainer& container)
     {
-        auto array = json[JsonItemFormatAssistant::itemsKey].toArray();
+        auto array = json[QExtMvvmJsonItemFormatAssistant::itemsKey].toArray();
         if (array.size() != container.itemCount())
-            throw std::runtime_error("Error in JsonItemContainerConverter: size is different");
+            throw std::runtime_error("Error in QExtMvvmJsonItemContainerConverter: size is different");
         int index{0};
         for (const auto obj : array)
             update_item(obj.toObject(), container.itemAt(index++));
     }
 
-    void create_items(const QJsonObject& json, SessionItemContainer& container)
+    void create_items(const QJsonObject& json, QExtMvvmSessionItemContainer& container)
     {
-        for (const auto obj : json[JsonItemFormatAssistant::itemsKey].toArray()) {
+        for (const auto obj : json[QExtMvvmJsonItemFormatAssistant::itemsKey].toArray()) {
             if (auto item = create_item(obj.toObject()); item)
                 container.insertItem(item.release(), container.itemCount());
         }
@@ -69,11 +69,11 @@ struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
 
     //! Populates container with content reconstructed from JSON object. Container must be empty.
 
-    void populate_container(const QJsonObject& json, SessionItemContainer& container)
+    void populate_container(const QJsonObject& json, QExtMvvmSessionItemContainer& container)
     {
         if (!container.empty())
             throw std::runtime_error(
-                "Error in JsonItemContainerConverter: container is not empty.");
+                "Error in QExtMvvmJsonItemContainerConverter: container is not empty.");
 
         create_items(json, container);
     }
@@ -81,10 +81,10 @@ struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
     //! Update container with content reconstructed from JSON object.
     //! It is assumed, that container has some items already created.
 
-    void update_container(const QJsonObject& json, SessionItemContainer& container)
+    void update_container(const QJsonObject& json, QExtMvvmSessionItemContainer& container)
     {
-        TagInfo tagInfo =
-            m_taginfo_converter->from_json(json[JsonItemFormatAssistant::tagInfoKey].toObject());
+        QExtMvvmTagInfo tagInfo =
+            m_taginfo_converter->from_json(json[QExtMvvmJsonItemFormatAssistant::tagInfoKey].toObject());
 
         if (Compatibility::IsCompatibleSinglePropertyTag(container, tagInfo))
             update_items(json, container);
@@ -96,49 +96,49 @@ struct JsonItemContainerConverter::JsonItemContainerConverterImpl {
             create_items(json, container);
 
         else
-            throw std::runtime_error("Error in JsonItemContainerConverter: can't convert json");
+            throw std::runtime_error("Error in QExtMvvmJsonItemContainerConverter: can't convert json");
     }
 };
 
-JsonItemContainerConverter::JsonItemContainerConverter(ConverterCallbacks callbacks)
+QExtMvvmJsonItemContainerConverter::QExtMvvmJsonItemContainerConverter(QExtMvvmConverterCallbacks callbacks)
     : p_impl(qextMakeUnique<JsonItemContainerConverterImpl>(std::move(callbacks)))
 {
 }
 
-JsonItemContainerConverter::~JsonItemContainerConverter() = default;
+QExtMvvmJsonItemContainerConverter::~QExtMvvmJsonItemContainerConverter() = default;
 
-QJsonObject JsonItemContainerConverter::to_json(const SessionItemContainer& container)
+QJsonObject QExtMvvmJsonItemContainerConverter::to_json(const QExtMvvmSessionItemContainer& container)
 {
     QJsonObject result;
-    result[JsonItemFormatAssistant::tagInfoKey] =
+    result[QExtMvvmJsonItemFormatAssistant::tagInfoKey] =
         p_impl->m_taginfo_converter->to_json(container.tagInfo());
 
     QJsonArray itemArray;
     for (auto item : container)
         itemArray.append(p_impl->create_json(*item));
-    result[JsonItemFormatAssistant::itemsKey] = itemArray;
+    result[QExtMvvmJsonItemFormatAssistant::itemsKey] = itemArray;
 
     return result;
 }
 
-//! Reconstructs SessionItemContainer from the content of JSON object. Can work in two modes:
-//! + If SessionItemContainer is empty, the content will be reconstructed from JSON
-//! + If SessionItemContainer contains some items already, they will be populated from JSON.
+//! Reconstructs QExtMvvmSessionItemContainer from the content of JSON object. Can work in two modes:
+//! + If QExtMvvmSessionItemContainer is empty, the content will be reconstructed from JSON
+//! + If QExtMvvmSessionItemContainer contains some items already, they will be populated from JSON.
 //! Second mode is used when loading project from disk to allow back compatibility.
 
-void JsonItemContainerConverter::from_json(const QJsonObject& json, SessionItemContainer& container)
+void QExtMvvmJsonItemContainerConverter::from_json(const QJsonObject& json, QExtMvvmSessionItemContainer& container)
 {
-    static JsonItemFormatAssistant assistant;
+    static QExtMvvmJsonItemFormatAssistant assistant;
 
     if (!assistant.isSessionItemContainer(json))
-        throw std::runtime_error("Error in JsonItemContainerConverter: given JSON can't represent "
-                                 "SessionItemContainer.");
+        throw std::runtime_error("Error in QExtMvvmJsonItemContainerConverter: given JSON can't represent "
+                                 "QExtMvvmSessionItemContainer.");
 
-    TagInfo tagInfo = p_impl->m_taginfo_converter->from_json(
-        json[JsonItemFormatAssistant::tagInfoKey].toObject());
+    QExtMvvmTagInfo tagInfo = p_impl->m_taginfo_converter->from_json(
+        json[QExtMvvmJsonItemFormatAssistant::tagInfoKey].toObject());
 
     if (tagInfo.name() != container.tagInfo().name())
-        throw std::runtime_error("Error in JsonItemContainerConverter: attempt to update "
+        throw std::runtime_error("Error in QExtMvvmJsonItemContainerConverter: attempt to update "
                                  "container from JSON representing another container.");
 
     if (container.empty())

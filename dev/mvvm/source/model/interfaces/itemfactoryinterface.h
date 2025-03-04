@@ -12,23 +12,24 @@
 
 #include "model/core/types.h"
 #include "model/model/function_types.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
-//! Interface class for all factories capable of producing SessionItem's.
+//! Interface class for all factories capable of producing QExtMvvmSessionItem's.
 
-class QEXT_MVVM_API ItemFactoryInterface {
+class QEXT_MVVM_API QExtMvvmItemFactoryInterface
+{
 public:
-    virtual ~ItemFactoryInterface() = default;
+    virtual ~QExtMvvmItemFactoryInterface() = default;
 
-    virtual void registerItem(const std::string& modelType, item_factory_func_t func,
+    virtual void registerItem(const std::string& modelType, QExtMvvmItemFactoryFunc func,
                               const std::string& label) = 0;
 
-    virtual QExtUniquePointer<SessionItem> createItem(const model_type& modelType) const = 0;
+    virtual QExtUniquePointer<QExtMvvmSessionItem> createItem(const QExtMvvmModelType& modelType) const = 0;
 };
 
 } // namespace ModelView

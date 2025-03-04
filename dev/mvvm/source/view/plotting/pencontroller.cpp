@@ -16,27 +16,27 @@
 using namespace ModelView;
 
 namespace {
-//! Returns Qt pen style from current ComboProperty index.
-Qt::PenStyle getQtPenFromComboIndex(const ComboProperty& combo)
+//! Returns Qt pen style from current QExtMvvmComboProperty index.
+Qt::PenStyle getQtPenFromComboIndex(const QExtMvvmComboProperty& combo)
 {
-    // our ComboProperty for pens coincide with Qt definition
+    // our QExtMvvmComboProperty for pens coincide with Qt definition
     return static_cast<Qt::PenStyle>(combo.currentIndex());
 }
 } // namespace
 
-struct PenController::PenControllerImpl {
+struct QExtMvvmPenController::PenControllerImpl {
     QCPGraph* m_graph{nullptr};
     PenControllerImpl(QCPGraph* graph) : m_graph(graph)
     {
         if (!m_graph)
-            throw std::runtime_error("Error in PenController: uninitialised graph.");
+            throw std::runtime_error("Error in QExtMvvmPenController: uninitialised graph.");
     }
 
-    void update_graph_from_item(PenItem* item)
+    void update_graph_from_item(QExtMvvmPenItem* item)
     {
         QColor color(QString::fromStdString(item->colorName()));
-        auto pencombo = item->property<ComboProperty>(PenItem::P_STYLE);
-        auto penwidth = item->property<int>(PenItem::P_WIDTH);
+        auto pencombo = item->property<QExtMvvmComboProperty>(QExtMvvmPenItem::P_STYLE);
+        auto penwidth = item->property<int>(QExtMvvmPenItem::P_WIDTH);
 
         QPen pen;
         pen.setColor(color);
@@ -48,15 +48,15 @@ struct PenController::PenControllerImpl {
     }
 };
 
-PenController::PenController(QCPGraph* graph) : p_impl(qextMakeUnique<PenControllerImpl>(graph))
+QExtMvvmPenController::QExtMvvmPenController(QCPGraph* graph) : p_impl(qextMakeUnique<PenControllerImpl>(graph))
 {
 }
 
-PenController::~PenController() = default;
+QExtMvvmPenController::~QExtMvvmPenController() = default;
 
-void PenController::subscribe()
+void QExtMvvmPenController::subscribe()
 {
-    auto on_property_change = [this](SessionItem*, std::string) { p_impl->update_graph_from_item(currentItem()); };
+    auto on_property_change = [this](QExtMvvmSessionItem*, std::string) { p_impl->update_graph_from_item(currentItem()); };
     setOnPropertyChange(on_property_change);
 
     p_impl->update_graph_from_item(currentItem());

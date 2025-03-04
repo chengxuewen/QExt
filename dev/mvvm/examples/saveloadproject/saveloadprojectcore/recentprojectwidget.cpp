@@ -71,7 +71,7 @@ QSize RecentProjectWidget::minimumSizeHint() const
 QBoxLayout* RecentProjectWidget::createCurrentProjectLayout() const
 {
     auto result = new QVBoxLayout;
-    auto label = new QLabel("Current Project");
+    auto label = new QLabel("Current QExtMvvmProject");
     result->addWidget(label);
     result->addWidget(m_currentProjectPane);
     return result;
@@ -95,7 +95,7 @@ QBoxLayout* RecentProjectWidget::createRecentProjectLayout()
 
 QWidget* RecentProjectWidget::createRecentProjectScrollArea()
 {
-    auto result = new ModelView::AdjustingScrollArea;
+    auto result = new ModelView::QExtMvvmAdjustingScrollArea;
 
     auto content = new QWidget;
     auto layout = new QVBoxLayout;

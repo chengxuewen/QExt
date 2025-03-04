@@ -10,21 +10,21 @@
 #ifndef MVVM_INTERFACES_ITEMCOPYSTRATEGY_H
 #define MVVM_INTERFACES_ITEMCOPYSTRATEGY_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
 //! Interface for deep item copying.
 
-class QEXT_MVVM_API ItemCopyStrategy {
+class QEXT_MVVM_API QExtMvvmItemCopyStrategy {
 public:
-    virtual ~ItemCopyStrategy() = default;
+    virtual ~QExtMvvmItemCopyStrategy() = default;
 
-    //! Creates item copy by deep copying all children. SessionItem identifiers will be regenerated.
-    virtual QExtUniquePointer<SessionItem> createCopy(const SessionItem* item) const = 0;
+    //! Creates item copy by deep copying all children. QExtMvvmSessionItem identifiers will be regenerated.
+    virtual QExtUniquePointer<QExtMvvmSessionItem> createCopy(const QExtMvvmSessionItem* item) const = 0;
 };
 
 } // namespace ModelView

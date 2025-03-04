@@ -41,7 +41,7 @@ using namespace ModelView;
 
 namespace PlotGraphs {
 
-GraphModel::GraphModel() : SessionModel("GraphModel")
+GraphModel::GraphModel() : QExtMvvmSessionModel("GraphModel")
 {
     populateModel();
 }
@@ -53,11 +53,11 @@ void GraphModel::addGraph()
     if (undoStack())
         undoStack()->beginMacro("addGraph");
 
-    auto data = insertItem<Data1DItem>(dataContainer());
-    data->setAxis<FixedBinAxisItem>(npoints, xmin, xmax);
+    auto data = insertItem<QExtMvvmData1DItem>(dataContainer());
+    data->setAxis<QExtMvvmFixedBinAxisItem>(npoints, xmin, xmax);
     data->setValues(bin_values(ModelView::Utils::RandDouble(0.5, 1.0)));
 
-    auto graph = insertItem<GraphItem>(viewport());
+    auto graph = insertItem<QExtMvvmGraphItem>(viewport());
     graph->setDataItem(data);
     graph->setNamedColor(ModelView::Utils::RandomNamedColor());
 
@@ -72,8 +72,8 @@ void GraphModel::removeGraph()
     if (undoStack())
         undoStack()->beginMacro("removeGraph");
 
-    const int graph_count = viewport()->itemCount(ViewportItem::T_ITEMS);
-    const int data_count = dataContainer()->itemCount(ContainerItem::T_ITEMS);
+    const int graph_count = viewport()->itemCount(QExtMvvmViewportItem::T_ITEMS);
+    const int data_count = dataContainer()->itemCount(QExtMvvmContainerItem::T_ITEMS);
 
     if (graph_count != data_count)
         throw std::runtime_error("Number of graphs do not much number of data items.");
@@ -92,7 +92,7 @@ void GraphModel::removeGraph()
 
 void GraphModel::randomizeGraphs()
 {
-    for (auto item : dataContainer()->items<Data1DItem>(ContainerItem::T_ITEMS)) {
+    for (auto item : dataContainer()->items<QExtMvvmData1DItem>(QExtMvvmContainerItem::T_ITEMS)) {
         auto values = item->binValues();
         std::transform(std::begin(values), std::end(values), std::begin(values),
                        [](double x) { return x * ModelView::Utils::RandDouble(0.8, 1.2); });
@@ -114,24 +114,24 @@ void GraphModel::redo()
 
 //! Returns viewport item containig graph items.
 
-GraphViewportItem* GraphModel::viewport()
+QExtMvvmGraphViewportItem* GraphModel::viewport()
 {
-    return topItem<GraphViewportItem>();
+    return topItem<QExtMvvmGraphViewportItem>();
 }
 
 //! Returns container with data items.
 
-ContainerItem* GraphModel::dataContainer()
+QExtMvvmContainerItem* GraphModel::dataContainer()
 {
-    return topItem<ContainerItem>();
+    return topItem<QExtMvvmContainerItem>();
 }
 
 void GraphModel::populateModel()
 {
-    auto container = insertItem<ContainerItem>();
+    auto container = insertItem<QExtMvvmContainerItem>();
     container->setDisplayName("Data container");
 
-    auto viewport = insertItem<GraphViewportItem>();
+    auto viewport = insertItem<QExtMvvmGraphViewportItem>();
     viewport->setDisplayName("Graph container");
 
     addGraph();

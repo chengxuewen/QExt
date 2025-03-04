@@ -13,13 +13,13 @@
 
 using namespace ModelView;
 
-struct ProjectChangedController::ProjectChangedControllerImpl {
-    std::vector<SessionModel*> m_models;
-    std::vector<QExtUniquePointer<ModelHasChangedController>> change_controllers;
+struct QExtMvvmProjectChangedController::ProjectChangedControllerImpl {
+    std::vector<QExtMvvmSessionModel*> m_models;
+    std::vector<QExtUniquePointer<QExtMvvmModelHasChangedController>> change_controllers;
     callback_t m_project_changed_callback;
     bool m_project_has_changed{false};
 
-    ProjectChangedControllerImpl(const std::vector<SessionModel*>& models, callback_t callback)
+    ProjectChangedControllerImpl(const std::vector<QExtMvvmSessionModel*>& models, callback_t callback)
         : m_models(models), m_project_changed_callback(callback)
     {
         create_controllers();
@@ -31,7 +31,7 @@ struct ProjectChangedController::ProjectChangedControllerImpl {
         change_controllers.clear();
         for (auto model : m_models)
             change_controllers.emplace_back(
-                qextMakeUnique<ModelHasChangedController>(model, on_model_changed));
+                qextMakeUnique<QExtMvvmModelHasChangedController>(model, on_model_changed));
     }
 
     bool hasChanged() const { return m_project_has_changed; }
@@ -53,25 +53,25 @@ struct ProjectChangedController::ProjectChangedControllerImpl {
     }
 };
 
-ProjectChangedController::ProjectChangedController(const std::vector<SessionModel*>& models,
+QExtMvvmProjectChangedController::QExtMvvmProjectChangedController(const std::vector<QExtMvvmSessionModel*>& models,
                                                    callback_t project_changed_callback)
     : p_impl(qextMakeUnique<ProjectChangedControllerImpl>(models, project_changed_callback))
 {
 }
 
-ProjectChangedController::~ProjectChangedController() = default;
+QExtMvvmProjectChangedController::~QExtMvvmProjectChangedController() = default;
 
 //! Returns true if the change in the models has been registered since the last call of
 //! resetChanged.
 
-bool ProjectChangedController::hasChanged() const
+bool QExtMvvmProjectChangedController::hasChanged() const
 {
     return p_impl->hasChanged();
 }
 
 //! Reset controller to initial state, pretending that no changes has been registered.
 
-void ProjectChangedController::resetChanged()
+void QExtMvvmProjectChangedController::resetChanged()
 {
     return p_impl->resetChanged();
 }

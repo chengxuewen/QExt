@@ -10,7 +10,7 @@
 #ifndef MVVM_INTERFACES_CELLDECORATORINTERFACE_H
 #define MVVM_INTERFACES_CELLDECORATORINTERFACE_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <string>
 
 class QModelIndex;
@@ -20,9 +20,9 @@ namespace ModelView {
 
 //! Interface class to generate cell decorations (i.e. text) in Qt trees and tables.
 
-class QEXT_MVVM_API CellDecoratorInterface {
+class QEXT_MVVM_API QExtMvvmCellDecoratorInterface {
 public:
-    virtual ~CellDecoratorInterface() = default;
+    virtual ~QExtMvvmCellDecoratorInterface() = default;
 
     virtual bool hasCustomDecoration(const QModelIndex& index) const = 0;
     virtual void initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index) = 0;

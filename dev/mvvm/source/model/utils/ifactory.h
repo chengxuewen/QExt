@@ -10,6 +10,8 @@
 #ifndef MVVM_UTILS_IFACTORY_H
 #define MVVM_UTILS_IFACTORY_H
 
+#include <qextMemory.h>
+
 #include <functional>
 #include <map>
 #include <memory>
@@ -20,7 +22,7 @@ namespace ModelView {
 
 //! Base for factories.
 
-template <class Key, class Value> class IFactory {
+template <class Key, class Value> class QExtMvvmIFactory {
 public:
     using function_t = std::function<QExtUniquePointer<Value>()>;
     using map_t = std::map<Key, function_t>;
@@ -32,7 +34,7 @@ public:
         auto it = m_data.find(item_key);
         if (it == m_data.end()) {
             std::ostringstream message;
-            message << "IFactory::createItem() -> Error. Unknown item key '" << item_key << "'";
+            message << "QExtMvvmIFactory::createItem() -> Error. Unknown item key '" << item_key << "'";
             throw std::runtime_error(message.str());
         }
         return it->second();
@@ -42,7 +44,7 @@ public:
     {
         if (m_data.find(key) != m_data.end()) {
             std::ostringstream message;
-            message << "IFactory::createItem() -> Already registered item key '" << key << "'";
+            message << "QExtMvvmIFactory::createItem() -> Already registered item key '" << key << "'";
             throw std::runtime_error(message.str());
         }
         return m_data.insert(make_pair(key, func)).second;

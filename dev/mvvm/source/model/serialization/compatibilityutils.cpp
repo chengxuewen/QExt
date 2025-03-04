@@ -14,13 +14,13 @@
 namespace ModelView ::Compatibility {
 
 /*
-Returns `true` if given TagInfo is compatible with given container.
+Returns `true` if given QExtMvvmTagInfo is compatible with given container.
 Here, `container` is what exists at runtime, `taginfo` has been obtained from the serialization.
 Container is considered to be compatible (i.e. can be updated from serialized content), if it has
 exactly same tag, and it is empty.
 */
 
-bool IsCompatibleUniversalTag(const SessionItemContainer& container, const TagInfo& taginfo)
+bool IsCompatibleUniversalTag(const QExtMvvmSessionItemContainer& container, const QExtMvvmTagInfo& taginfo)
 {
     auto container_taginfo = container.tagInfo();
 
@@ -33,13 +33,13 @@ bool IsCompatibleUniversalTag(const SessionItemContainer& container, const TagIn
 }
 
 /*
-Returns `true` if given TagInfo is a single property tag which is compatible with given container.
+Returns `true` if given QExtMvvmTagInfo is a single property tag which is compatible with given container.
 Here, `container` is what exists at runtime, `taginfo` has been obtained from the serialization.
 Container is considered to be compatible (i.e. can be updated from serialized content), if it has
 exactly same tag, and property item ready for update.
 */
 
-bool IsCompatibleSinglePropertyTag(const SessionItemContainer& container, const TagInfo& taginfo)
+bool IsCompatibleSinglePropertyTag(const QExtMvvmSessionItemContainer& container, const QExtMvvmTagInfo& taginfo)
 {
     auto container_taginfo = container.tagInfo();
 
@@ -52,20 +52,20 @@ bool IsCompatibleSinglePropertyTag(const SessionItemContainer& container, const 
 }
 
 /*
-Returns `true` if given TagInfo is compatible with given container.
+Returns `true` if given QExtMvvmTagInfo is compatible with given container.
 Here, `container` is what exists at runtime, `taginfo` has been obtained from the serialization.
 Container is considered to be compatible (i.e. can be updated from serialized content),
-if it has exactly same tag, and it's name corresponds to GroupItem.
+if it has exactly same tag, and it's name corresponds to QExtMvvmGroupItem.
 */
 
-bool IsCompatibleGroupTag(const SessionItemContainer& container, const TagInfo& taginfo)
+bool IsCompatibleGroupTag(const QExtMvvmSessionItemContainer& container, const QExtMvvmTagInfo& taginfo)
 {
     auto container_taginfo = container.tagInfo();
     bool has_item = !container.empty();
     bool same_tags = container_taginfo == taginfo;
     bool both_are_universal =
         !container_taginfo.isSinglePropertyTag() && !taginfo.isSinglePropertyTag();
-    bool valid_tag_name = taginfo.name() == GroupItem::T_GROUP_ITEMS;
+    bool valid_tag_name = taginfo.name() == QExtMvvmGroupItem::T_GROUP_ITEMS;
     return both_are_universal && same_tags && has_item && valid_tag_name;
 }
 

@@ -15,31 +15,31 @@
 using namespace ModelView;
 
 namespace {
-std::string generate_description(const std::string& modelType, const TagRow& tagrow);
+std::string generate_description(const std::string& modelType, const QExtMvvmTagRow& tagrow);
 } // namespace
 
-struct InsertNewItemCommand::InsertNewItemCommandImpl {
-    item_factory_func_t factory_func;
-    TagRow tagrow;
-    Path item_path;
+struct QExtMvvmInsertNewItemCommand::InsertNewItemCommandImpl {
+    QExtMvvmItemFactoryFunc factory_func;
+    QExtMvvmTagRow tagrow;
+    QExtMvvmPath item_path;
     std::string initial_identifier;
-    InsertNewItemCommandImpl(item_factory_func_t func, TagRow tagrow)
+    InsertNewItemCommandImpl(QExtMvvmItemFactoryFunc func, QExtMvvmTagRow tagrow)
         : factory_func(std::move(func)), tagrow(std::move(tagrow))
     {
     }
 };
 
-InsertNewItemCommand::InsertNewItemCommand(item_factory_func_t func, SessionItem* parent,
-                                           const TagRow& tagrow)
-    : AbstractItemCommand(parent), p_impl(qextMakeUnique<InsertNewItemCommandImpl>(func, tagrow))
+QExtMvvmInsertNewItemCommand::QExtMvvmInsertNewItemCommand(QExtMvvmItemFactoryFunc func, QExtMvvmSessionItem* parent,
+                                           const QExtMvvmTagRow& tagrow)
+    : QExtMvvmAbstractItemCommand(parent), p_impl(qextMakeUnique<InsertNewItemCommandImpl>(func, tagrow))
 {
     setResult(nullptr);
     p_impl->item_path = pathFromItem(parent);
 }
 
-InsertNewItemCommand::~InsertNewItemCommand() = default;
+QExtMvvmInsertNewItemCommand::~QExtMvvmInsertNewItemCommand() = default;
 
-void InsertNewItemCommand::undo_command()
+void QExtMvvmInsertNewItemCommand::undo_command()
 {
     auto parent = itemFromPath(p_impl->item_path);
     auto item = parent->takeItem(p_impl->tagrow);
@@ -49,7 +49,7 @@ void InsertNewItemCommand::undo_command()
     setResult(nullptr);
 }
 
-void InsertNewItemCommand::execute_command()
+void QExtMvvmInsertNewItemCommand::execute_command()
 {
     auto parent = itemFromPath(p_impl->item_path);
     auto child = p_impl->factory_func().release();
@@ -69,7 +69,7 @@ void InsertNewItemCommand::execute_command()
 }
 
 namespace {
-std::string generate_description(const std::string& modelType, const TagRow& tagrow)
+std::string generate_description(const std::string& modelType, const QExtMvvmTagRow& tagrow)
 {
     std::ostringstream ostr;
     ostr << "New item type '" << modelType << "' tag:'" << tagrow.tag << "', row:" << tagrow.row;

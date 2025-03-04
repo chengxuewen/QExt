@@ -19,10 +19,10 @@ namespace ModelView {
 //! Allows to check if model has been changed (e.g. modified, inserted or removed items) since last
 //! call of ::resetChanged().
 
-class QEXT_MVVM_API ModelHasChangedController : public ModelListener<SessionModel> {
+class QEXT_MVVM_API QExtMvvmModelHasChangedController : public QExtMvvmModelListener<QExtMvvmSessionModel> {
 public:
     using callback_t = std::function<void()>;
-    ModelHasChangedController(SessionModel* model, callback_t callback = {});
+    QExtMvvmModelHasChangedController(QExtMvvmSessionModel* model, callback_t callback = {});
 
     bool hasChanged() const;
 

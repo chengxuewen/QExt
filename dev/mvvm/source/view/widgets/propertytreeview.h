@@ -15,16 +15,16 @@
 namespace ModelView {
 
 //! Widget holding standard QTreeView and intended for displaying all properties of given
-//! SessionItem.
+//! QExtMvvmSessionItem.
 
-class QEXT_MVVM_API PropertyTreeView : public ItemsTreeView {
+class QEXT_MVVM_API QExtMvvmPropertyTreeView : public QExtMvvmItemsTreeView {
     Q_OBJECT
 
 public:
-    PropertyTreeView(QWidget* parent = nullptr);
-    ~PropertyTreeView();
+    QExtMvvmPropertyTreeView(QWidget* parent = nullptr);
+    ~QExtMvvmPropertyTreeView();
 
-    void setItem(SessionItem* item);
+    void setItem(QExtMvvmSessionItem* item);
 };
 
 } // namespace ModelView

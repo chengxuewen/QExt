@@ -15,19 +15,19 @@
 
 namespace ModelView {
 
-class SessionItem;
-class SessionModel;
+class QExtMvvmSessionItem;
+class QExtMvvmSessionModel;
 
-//! Provides notifications on various SessionModel changes.
-//! Allows to subscribe to SessionModel's changes, and triggers notifications.
+//! Provides notifications on various QExtMvvmSessionModel changes.
+//! Allows to subscribe to QExtMvvmSessionModel's changes, and triggers notifications.
 
-class QEXT_MVVM_API ModelMapper : public ModelListenerInterface {
+class QEXT_MVVM_API QExtMvvmModelMapper : public QExtMvvmModelListenerInterface {
 public:
-    ModelMapper(SessionModel* model);
-    ~ModelMapper();
+    QExtMvvmModelMapper(QExtMvvmSessionModel* model);
+    ~QExtMvvmModelMapper();
 
-    ModelMapper(const ModelMapper& other) = delete;
-    ModelMapper& operator=(const ModelMapper& other) = delete;
+    QExtMvvmModelMapper(const QExtMvvmModelMapper& other) = delete;
+    QExtMvvmModelMapper& operator=(const QExtMvvmModelMapper& other) = delete;
 
     void setOnDataChange(Callbacks::item_int_t f, Callbacks::slot_t client) override;
     void setOnItemInserted(Callbacks::item_tagrow_t f, Callbacks::slot_t client) override;
@@ -42,13 +42,13 @@ public:
     void unsubscribe(Callbacks::slot_t client) override;
 
 private:
-    friend class SessionModel;
-    friend class SessionItem;
+    friend class QExtMvvmSessionModel;
+    friend class QExtMvvmSessionItem;
 
-    void callOnDataChange(SessionItem* item, int role);
-    void callOnItemInserted(SessionItem* parent, const TagRow& tagrow);
-    void callOnItemRemoved(SessionItem* parent, const TagRow& tagrow);
-    void callOnItemAboutToBeRemoved(SessionItem* parent, const TagRow& tagrow);
+    void callOnDataChange(QExtMvvmSessionItem* item, int role);
+    void callOnItemInserted(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow);
+    void callOnItemRemoved(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow);
+    void callOnItemAboutToBeRemoved(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow);
     void callOnModelDestroyed();
     void callOnModelAboutToBeReset();
     void callOnModelReset();

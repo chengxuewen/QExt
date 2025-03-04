@@ -10,27 +10,27 @@
 #ifndef MVVM_MODEL_TAGINFO_H
 #define MVVM_MODEL_TAGINFO_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <string>
 #include <vector>
 
 namespace ModelView {
 
-//! Holds info about single tag for SessionItem.
-//! The tag specifies information about children that can be added to a SessionItem. A tag has a
+//! Holds info about single tag for QExtMvvmSessionItem.
+//! The tag specifies information about children that can be added to a QExtMvvmSessionItem. A tag has a
 //! name, min, max allowed number of children, and vector of all modelTypes that children can have.
 
-class QEXT_MVVM_API TagInfo {
+class QEXT_MVVM_API QExtMvvmTagInfo {
 public:
-    TagInfo();
+    QExtMvvmTagInfo();
 
-    TagInfo(std::string name, int min, int max, std::vector<std::string> modelTypes);
+    QExtMvvmTagInfo(std::string name, int min, int max, std::vector<std::string> modelTypes);
 
     //! Constructs universal tag intended for unlimited amount of various items.
-    static TagInfo universalTag(std::string name, std::vector<std::string> modelTypes = {});
+    static QExtMvvmTagInfo universalTag(std::string name, std::vector<std::string> modelTypes = {});
 
     //! Constructs tag intended for single property.
-    static TagInfo propertyTag(std::string name, std::string model_type);
+    static QExtMvvmTagInfo propertyTag(std::string name, std::string QExtMvvmModelType);
 
     std::string name() const;
 
@@ -46,8 +46,8 @@ public:
 
     bool isSinglePropertyTag() const;
 
-    bool operator==(const TagInfo& other) const;
-    bool operator!=(const TagInfo& other) const;
+    bool operator==(const QExtMvvmTagInfo& other) const;
+    bool operator!=(const QExtMvvmTagInfo& other) const;
 
 private:
     std::string m_name;

@@ -45,10 +45,10 @@ public:
 
 // ----------------------------------------------------------------------------
 
-SelectableComboBoxEditor::SelectableComboBoxEditor(QWidget* parent)
-    : CustomEditor(parent)
+QExtMvvmSelectableComboBoxEditor::QExtMvvmSelectableComboBoxEditor(QWidget* parent)
+    : QExtMvvmCustomEditor(parent)
     , m_box(new QComboBox)
-    , m_wheelEventFilter(new WheelEventFilter(this))
+    , m_wheelEventFilter(new QExtMvvmWheelEventFilter(this))
     , m_model(new QStandardItemModel(this))
 {
     setAutoFillBackground(true);
@@ -76,24 +76,24 @@ SelectableComboBoxEditor::SelectableComboBoxEditor(QWidget* parent)
     setConnected(true);
 }
 
-QSize SelectableComboBoxEditor::sizeHint() const
+QSize QExtMvvmSelectableComboBoxEditor::sizeHint() const
 {
     return m_box->sizeHint();
 }
 
-QSize SelectableComboBoxEditor::minimumSizeHint() const
+QSize QExtMvvmSelectableComboBoxEditor::minimumSizeHint() const
 {
     return m_box->minimumSizeHint();
 }
 
-bool SelectableComboBoxEditor::is_persistent() const
+bool QExtMvvmSelectableComboBoxEditor::is_persistent() const
 {
     return true;
 }
 
-//! Propagate check state from the model to ComboProperty.
+//! Propagate check state from the model to QExtMvvmComboProperty.
 
-void SelectableComboBoxEditor::onModelDataChanged(const QModelIndex& topLeft, const QModelIndex&,
+void QExtMvvmSelectableComboBoxEditor::onModelDataChanged(const QModelIndex& topLeft, const QModelIndex&,
                                                   const QVector<int>& roles)
 {
 #if QT_VERSION > QT_VERSION_CHECK(5, 9, 0)
@@ -106,17 +106,17 @@ void SelectableComboBoxEditor::onModelDataChanged(const QModelIndex& topLeft, co
     if (!item)
         return;
 
-    ComboProperty comboProperty = m_data.value<ComboProperty>();
+    QExtMvvmComboProperty comboProperty = m_data.value<QExtMvvmComboProperty>();
     auto state = item->checkState() == Qt::Checked ? true : false;
     comboProperty.setSelected(topLeft.row(), state);
 
     updateBoxLabel();
-    setDataIntern(QVariant::fromValue<ComboProperty>(comboProperty));
+    setDataIntern(QVariant::fromValue<QExtMvvmComboProperty>(comboProperty));
 }
 
 //! Processes press event in QComboBox's underlying list view.
 
-void SelectableComboBoxEditor::onClickedList(const QModelIndex& index)
+void QExtMvvmSelectableComboBoxEditor::onClickedList(const QModelIndex& index)
 {
     if (auto item = m_model->itemFromIndex(index)) {
         auto state = item->checkState() == Qt::Checked ? Qt::Unchecked : Qt::Checked;
@@ -126,7 +126,7 @@ void SelectableComboBoxEditor::onClickedList(const QModelIndex& index)
 
 //! Handles mouse clicks on QComboBox elements.
 
-bool SelectableComboBoxEditor::eventFilter(QObject* obj, QEvent* event)
+bool QExtMvvmSelectableComboBoxEditor::eventFilter(QObject* obj, QEvent* event)
 {
     if (isClickToSelect(obj, event)) {
         // Handles mouse clicks on QListView when it is expanded from QComboBox
@@ -149,12 +149,12 @@ bool SelectableComboBoxEditor::eventFilter(QObject* obj, QEvent* event)
     }
 }
 
-void SelectableComboBoxEditor::update_components()
+void QExtMvvmSelectableComboBoxEditor::update_components()
 {
-    if (!m_data.canConvert<ComboProperty>())
+    if (!m_data.canConvert<QExtMvvmComboProperty>())
         return;
 
-    ComboProperty property = m_data.value<ComboProperty>();
+    QExtMvvmComboProperty property = m_data.value<QExtMvvmComboProperty>();
 
     setConnected(false);
     m_model->clear();
@@ -176,32 +176,32 @@ void SelectableComboBoxEditor::update_components()
     updateBoxLabel();
 }
 
-void SelectableComboBoxEditor::setConnected(bool isConnected)
+void QExtMvvmSelectableComboBoxEditor::setConnected(bool isConnected)
 {
     if (isConnected) {
         connect(m_model, &QStandardItemModel::dataChanged, this,
-                &SelectableComboBoxEditor::onModelDataChanged);
+                &QExtMvvmSelectableComboBoxEditor::onModelDataChanged);
     }
     else {
         disconnect(m_model, &QStandardItemModel::dataChanged, this,
-                   &SelectableComboBoxEditor::onModelDataChanged);
+                   &QExtMvvmSelectableComboBoxEditor::onModelDataChanged);
     }
 }
 
 //! Update text on QComboBox with the label provided by combo property.
 
-void SelectableComboBoxEditor::updateBoxLabel()
+void QExtMvvmSelectableComboBoxEditor::updateBoxLabel()
 {
-    ComboProperty combo = m_data.value<ComboProperty>();
+    QExtMvvmComboProperty combo = m_data.value<QExtMvvmComboProperty>();
     m_box->setCurrentText(QString::fromStdString(combo.label()));
 }
 
-bool SelectableComboBoxEditor::isClickToSelect(QObject* obj, QEvent* event) const
+bool QExtMvvmSelectableComboBoxEditor::isClickToSelect(QObject* obj, QEvent* event) const
 {
     return obj == m_box->view()->viewport() && event->type() == QEvent::MouseButtonRelease;
 }
 
-bool SelectableComboBoxEditor::isClickToExpand(QObject* obj, QEvent* event) const
+bool QExtMvvmSelectableComboBoxEditor::isClickToExpand(QObject* obj, QEvent* event) const
 {
     return obj == m_box->lineEdit() && event->type() == QEvent::MouseButtonRelease;
 }

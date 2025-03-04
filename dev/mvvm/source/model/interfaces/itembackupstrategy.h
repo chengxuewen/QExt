@@ -10,24 +10,24 @@
 #ifndef MVVM_INTERFACES_ITEMBACKUPSTRATEGY_H
 #define MVVM_INTERFACES_ITEMBACKUPSTRATEGY_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
 //! Interface to backup items for later restore.
 
-class QEXT_MVVM_API ItemBackupStrategy {
+class QEXT_MVVM_API QExtMvvmItemBackupStrategy {
 public:
-    virtual ~ItemBackupStrategy() = default;
+    virtual ~QExtMvvmItemBackupStrategy() = default;
 
     //! Restore item from saved content.
-    virtual QExtUniquePointer<SessionItem> restoreItem() const = 0;
+    virtual QExtUniquePointer<QExtMvvmSessionItem> restoreItem() const = 0;
 
     //! Save item's content.
-    virtual void saveItem(const SessionItem*) = 0;
+    virtual void saveItem(const QExtMvvmSessionItem*) = 0;
 };
 
 } // namespace ModelView

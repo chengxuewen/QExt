@@ -18,7 +18,7 @@ class MaterialTableWidget;
 class MultiLayerTreeView;
 
 namespace ModelView {
-class ItemsTreeView;
+class QExtMvvmItemsTreeView;
 }
 
 //! Main widget with material and layer editors.
@@ -33,8 +33,8 @@ private:
     QBoxLayout* createTopLayout();
     QBoxLayout* createBottomLayout();
 
-    ModelView::ItemsTreeView* m_materialTree{nullptr};
-    ModelView::ItemsTreeView* m_sampleTree{nullptr};
+    ModelView::QExtMvvmItemsTreeView* m_materialTree{nullptr};
+    ModelView::QExtMvvmItemsTreeView* m_sampleTree{nullptr};
     MaterialTableWidget* m_materialTableWidget{nullptr};
     MultiLayerTreeView* m_multiLayerTreeView{nullptr};
     ApplicationModels* m_models{nullptr};

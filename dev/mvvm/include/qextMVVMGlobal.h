@@ -1,1 +1,1 @@
-#include "../source/qextMVVMGlobal.h"
+#include "../source/qextMvvmGlobal.h"

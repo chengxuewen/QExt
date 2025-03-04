@@ -16,7 +16,7 @@
 
 using namespace ModelView;
 
-void Utils::iterate(SessionItem* item, const std::function<void(SessionItem*)>& fun)
+void Utils::iterate(QExtMvvmSessionItem* item, const std::function<void(QExtMvvmSessionItem*)>& fun)
 {
     if (item)
         fun(item);
@@ -27,7 +27,7 @@ void Utils::iterate(SessionItem* item, const std::function<void(SessionItem*)>& 
         iterate(child, fun);
 }
 
-void Utils::iterate_if(const SessionItem* item, const std::function<bool(const SessionItem*)>& fun)
+void Utils::iterate_if(const QExtMvvmSessionItem* item, const std::function<bool(const QExtMvvmSessionItem*)>& fun)
 {
     bool proceed_with_children(true);
 
@@ -41,7 +41,7 @@ void Utils::iterate_if(const SessionItem* item, const std::function<bool(const S
         iterate_if(child, fun);
 }
 
-int Utils::CopyNumber(const SessionItem* item)
+int Utils::CopyNumber(const QExtMvvmSessionItem* item)
 {
     int result(-1);
 
@@ -49,12 +49,12 @@ int Utils::CopyNumber(const SessionItem* item)
         return result;
 
     int count(0);
-    auto model_type = item->modelType();
+    auto QExtMvvmModelType = item->modelType();
     if (auto parent = item->parent()) {
         for (auto child : parent->children()) {
             if (child == item)
                 result = count;
-            if (child->modelType() == model_type)
+            if (child->modelType() == QExtMvvmModelType)
                 ++count;
         }
     }
@@ -62,7 +62,7 @@ int Utils::CopyNumber(const SessionItem* item)
     return count > 1 ? result : -1;
 }
 
-SessionItem* Utils::ChildAt(const SessionItem* parent, int index)
+QExtMvvmSessionItem* Utils::ChildAt(const QExtMvvmSessionItem* parent, int index)
 {
     if (!parent)
         return nullptr;
@@ -73,22 +73,22 @@ SessionItem* Utils::ChildAt(const SessionItem* parent, int index)
                : nullptr;
 }
 
-int Utils::IndexOfChild(const SessionItem* parent, const SessionItem* child)
+int Utils::IndexOfChild(const QExtMvvmSessionItem* parent, const QExtMvvmSessionItem* child)
 {
     return Utils::IndexOfItem(parent->children(), child);
 }
 
-bool Utils::HasTag(const SessionItem& item, const std::string& tag)
+bool Utils::HasTag(const QExtMvvmSessionItem& item, const std::string& tag)
 {
     return item.itemTags()->isTag(tag);
 }
 
-bool Utils::IsSinglePropertyTag(const SessionItem& item, const std::string& tag)
+bool Utils::IsSinglePropertyTag(const QExtMvvmSessionItem& item, const std::string& tag)
 {
     return item.itemTags()->isSinglePropertyTag(tag);
 }
 
-std::vector<std::string> Utils::RegisteredTags(const SessionItem& item)
+std::vector<std::string> Utils::RegisteredTags(const QExtMvvmSessionItem& item)
 {
     std::vector<std::string> result;
     for (const auto container : *item.itemTags())
@@ -96,7 +96,7 @@ std::vector<std::string> Utils::RegisteredTags(const SessionItem& item)
     return result;
 }
 
-std::vector<std::string> Utils::RegisteredUniversalTags(const SessionItem& item)
+std::vector<std::string> Utils::RegisteredUniversalTags(const QExtMvvmSessionItem& item)
 {
     std::vector<std::string> result;
     for (const auto& tag : RegisteredTags(item))
@@ -105,25 +105,25 @@ std::vector<std::string> Utils::RegisteredUniversalTags(const SessionItem& item)
     return result;
 }
 
-std::vector<SessionItem*> Utils::TopLevelItems(const SessionItem& item)
+std::vector<QExtMvvmSessionItem*> Utils::TopLevelItems(const QExtMvvmSessionItem& item)
 {
-    std::vector<SessionItem*> result;
+    std::vector<QExtMvvmSessionItem*> result;
     for (auto child : item.children())
         if (child->isVisible() && !IsSinglePropertyTag(item, item.tagRowOfItem(child).tag))
             result.push_back(child);
     return result;
 }
 
-std::vector<SessionItem*> Utils::SinglePropertyItems(const SessionItem& item)
+std::vector<QExtMvvmSessionItem*> Utils::SinglePropertyItems(const QExtMvvmSessionItem& item)
 {
-    std::vector<SessionItem*> result;
+    std::vector<QExtMvvmSessionItem*> result;
     for (auto child : item.children())
         if (child->isVisible() && IsSinglePropertyTag(item, item.tagRowOfItem(child).tag))
             result.push_back(child);
     return result;
 }
 
-SessionItem* Utils::FindNextSibling(SessionItem* item)
+QExtMvvmSessionItem* Utils::FindNextSibling(QExtMvvmSessionItem* item)
 {
     auto parent = item ? item->parent() : nullptr;
     if (!parent)
@@ -132,7 +132,7 @@ SessionItem* Utils::FindNextSibling(SessionItem* item)
     return parent->getItem(tagrow.tag, tagrow.row + 1);
 }
 
-SessionItem* Utils::FindPreviousSibling(SessionItem* item)
+QExtMvvmSessionItem* Utils::FindPreviousSibling(QExtMvvmSessionItem* item)
 {
     auto parent = item ? item->parent() : nullptr;
     if (!parent)
@@ -141,18 +141,18 @@ SessionItem* Utils::FindPreviousSibling(SessionItem* item)
     return parent->getItem(tagrow.tag, tagrow.row - 1);
 }
 
-SessionItem* Utils::FindNextItemToSelect(SessionItem* item)
+QExtMvvmSessionItem* Utils::FindNextItemToSelect(QExtMvvmSessionItem* item)
 {
     auto next = FindNextSibling(item);
     auto closest = next ? next : FindPreviousSibling(item);
     return closest ? closest : item->parent();
 }
 
-bool Utils::IsItemAncestor(const SessionItem* item, const SessionItem* candidate)
+bool Utils::IsItemAncestor(const QExtMvvmSessionItem* item, const QExtMvvmSessionItem* candidate)
 {
     if (!item || !candidate)
         return false;
-    const SessionItem* parent = item->parent();
+    const QExtMvvmSessionItem* parent = item->parent();
     while (parent) {
         if (parent == candidate)
             return true;
@@ -162,11 +162,11 @@ bool Utils::IsItemAncestor(const SessionItem* item, const SessionItem* candidate
     return false;
 }
 
-std::vector<SessionItem*> Utils::UniqueItems(const std::vector<SessionItem*>& items)
+std::vector<QExtMvvmSessionItem*> Utils::UniqueItems(const std::vector<QExtMvvmSessionItem*>& items)
 {
     auto filtered = Utils::UniqueWithOrder(items);
-    std::vector<SessionItem*> result;
+    std::vector<QExtMvvmSessionItem*> result;
     std::copy_if(filtered.begin(), filtered.end(), std::back_inserter(result),
-                 [](SessionItem *x) { return x != nullptr; });
+                 [](QExtMvvmSessionItem *x) { return x != nullptr; });
     return result;
 }

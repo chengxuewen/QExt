@@ -17,18 +17,18 @@
 namespace ModelView {
 
 //! Represents one-dimensional data (axis and values).
-//! Values are stored in Data1DItem itself, axis is attached as a child. Corresponding plot
-//! properties will be served by GraphItem.
+//! Values are stored in QExtMvvmData1DItem itself, axis is attached as a child. Corresponding plot
+//! properties will be served by QExtMvvmGraphItem.
 
-class QEXT_MVVM_API Data1DItem : public CompoundItem {
+class QEXT_MVVM_API QExtMvvmData1DItem : public QExtMvvmCompoundItem {
 public:
     static inline const std::string P_VALUES = "P_VALUES";
     static inline const std::string P_ERRORS = "P_ERRORS";
     static inline const std::string T_AXIS = "T_AXIS";
 
-    Data1DItem();
+    QExtMvvmData1DItem();
 
-    //    void setAxis(QExtUniquePointer<BinnedAxisItem> axis);
+    //    void setAxis(QExtUniquePointer<QExtMvvmBinnedAxisItem> axis);
 
     std::vector<double> binCenters() const;
 
@@ -43,10 +43,10 @@ public:
 };
 
 // FIXME Consider redesign of the method below. Should the axis exist from the beginning
-// or added later? It is not clear how to create axis a) via Data1DItem::setAxis
+// or added later? It is not clear how to create axis a) via QExtMvvmData1DItem::setAxis
 // b) via model directly c) in constructor?
 
-template <typename T, typename... Args> T* Data1DItem::setAxis(Args&&... args)
+template <typename T, typename... Args> T* QExtMvvmData1DItem::setAxis(Args&&... args)
 {
     // we disable possibility to re-create axis to facilitate undo/redo
     if (getItem(T_AXIS, 0))

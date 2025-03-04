@@ -74,15 +74,15 @@ void ProjectHandler::onSaveProjectAs()
 void ProjectHandler::initProjectManager()
 {
     auto modified_callback = [this]() { updateCurrentProjectName(); };
-    auto models_callback = [this]() -> std::vector<SessionModel*> { return {m_model}; };
-    ProjectContext project_context{modified_callback, models_callback};
+    auto models_callback = [this]() -> std::vector<QExtMvvmSessionModel*> { return {m_model}; };
+    QExtMvvmProjectContext project_context{modified_callback, models_callback};
 
     auto select_dir_callback = [this]() { return m_userInteractor->onSelectDirRequest(); };
     auto create_dir_callback = [this]() { return m_userInteractor->onCreateDirRequest(); };
     auto answer_callback = [this]() { return m_userInteractor->onSaveChangesRequest(); };
-    UserInteractionContext user_context{select_dir_callback, create_dir_callback, answer_callback};
+    QExtMvvmUserInteractionContext user_context{select_dir_callback, create_dir_callback, answer_callback};
 
-    m_projectManager = CreateProjectManager(project_context, user_context);
+    m_projectManager = qextMvvmCreateProjectManager(project_context, user_context);
 }
 
 //! Updates the name of the current project on main window, notifies the world.

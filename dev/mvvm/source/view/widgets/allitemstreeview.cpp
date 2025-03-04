@@ -11,7 +11,7 @@
 #include "viewmodel/factories/viewmodelfactory.h"
 
 namespace ModelView {
-AllItemsTreeView::AllItemsTreeView(SessionModel* model, QWidget* parent) : ItemsTreeView(parent)
+AllItemsTreeView::AllItemsTreeView(QExtMvvmSessionModel* model, QWidget* parent) : QExtMvvmItemsTreeView(parent)
 {
     setViewModel(Factory::CreateDefaultViewModel(model));
 }

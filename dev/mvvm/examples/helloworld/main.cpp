@@ -25,21 +25,21 @@ int main(int argc, char** argv)
 
     QApplication app(argc, argv);
 
-    SessionModel model;
-    auto item = model.insertItem<CompoundItem>();
+    QExtMvvmSessionModel model;
+    auto item = model.insertItem<QExtMvvmCompoundItem>();
     item->setDisplayName("Item");
 
     item->addProperty("Hello", "World!");
     item->addProperty("Your answer is", true);
 
-    auto on_property = [](SessionItem* item, const std::string& name) {
+    auto on_property = [](QExtMvvmSessionItem* item, const std::string& name) {
         if (name == "Hello")
             item->setProperty("Your answer is", item->property<std::string>("Hello") == "World!");
     };
     item->mapper()->setOnPropertyChange(on_property, nullptr);
 
-    DefaultViewModel viewmodel(&model);
-    ViewModelDelegate delegate;
+    QExtMvvmDefaultViewModel viewmodel(&model);
+    QExtMvvmViewModelDelegate delegate;
 
     QTreeView view;
     view.setModel(&viewmodel);

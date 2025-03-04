@@ -16,15 +16,15 @@
 
 namespace ModelView {
 
-class SessionModel;
+class QExtMvvmSessionModel;
 
-//! Saves and restores list of SessionModel's to/from disk using json format.
-//! Single JsonDocument corresponds to a single file on disk.
+//! Saves and restores list of QExtMvvmSessionModel's to/from disk using json format.
+//! Single QExtMvvmJsonDocument corresponds to a single file on disk.
 
-class QEXT_MVVM_API JsonDocument : public ModelDocumentInterface {
+class QEXT_MVVM_API QExtMvvmJsonDocument : public QExtMvvmModelDocumentInterface {
 public:
-    JsonDocument(const std::vector<SessionModel*>& models);
-    ~JsonDocument() override;
+    QExtMvvmJsonDocument(const std::vector<QExtMvvmSessionModel*>& models);
+    ~QExtMvvmJsonDocument() override;
 
     void save(const std::string& file_name) const override;
     void load(const std::string& file_name) override;

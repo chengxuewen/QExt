@@ -7,21 +7,22 @@
 //
 // ************************************************************************** //
 
-#include "model/commands/commandutils.h"
+#include <qextMvvmCommandUtils.h>
+// #include "model/commands/commandutils.h"
 #include "model/model/sessionmodel.h"
 #include "model/serialization/jsonitembackupstrategy.h"
 #include "model/serialization/jsonitemcopystrategy.h"
 
-QExtUniquePointer<ModelView::ItemBackupStrategy>
-ModelView::CreateItemBackupStrategy(const ModelView::SessionModel* model)
+QExtUniquePointer<ModelView::QExtMvvmItemBackupStrategy>
+ModelView::qextMvvmCreateItemBackupStrategy(const ModelView::QExtMvvmSessionModel* model)
 {
     assert(model);
     return qextMakeUnique<JsonItemBackupStrategy>(model->factory());
 }
 
-QExtUniquePointer<ModelView::ItemCopyStrategy>
-ModelView::CreateItemCopyStrategy(const ModelView::SessionModel* model)
+QExtUniquePointer<ModelView::QExtMvvmItemCopyStrategy>
+ModelView::qextMvvmCreateItemCopyStrategy(const ModelView::QExtMvvmSessionModel* model)
 {
     assert(model);
-    return qextMakeUnique<JsonItemCopyStrategy>(model->factory());
+    return qextMakeUnique<QExtMvvmJsonItemCopyStrategy>(model->factory());
 }

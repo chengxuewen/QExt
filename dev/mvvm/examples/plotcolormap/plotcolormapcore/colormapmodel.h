@@ -13,21 +13,21 @@
 #include "model/model/sessionmodel.h"
 
 namespace ModelView {
-class ContainerItem;
+class QExtMvvmContainerItem;
 }
 
 namespace PlotColorMap {
 
 //! Main application model to demonstrate how to plot data.
 
-class ColorMapModel : public ModelView::SessionModel {
+class ColorMapModel : public ModelView::QExtMvvmSessionModel {
 public:
     ColorMapModel();
 
     void updateData(double scale);
 
 private:
-    ModelView::ContainerItem* dataContainer();
+    ModelView::QExtMvvmContainerItem* dataContainer();
     void populateModel();
     void addColormap();
 };

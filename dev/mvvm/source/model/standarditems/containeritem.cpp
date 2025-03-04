@@ -11,17 +11,17 @@
 
 using namespace ModelView;
 
-ContainerItem::ContainerItem(const std::string& modelType) : CompoundItem(modelType)
+QExtMvvmContainerItem::QExtMvvmContainerItem(const std::string& modelType) : QExtMvvmCompoundItem(modelType)
 {
-    registerTag(ModelView::TagInfo::universalTag(T_ITEMS), /*set_as_default*/ true);
+    registerTag(ModelView::QExtMvvmTagInfo::universalTag(T_ITEMS), /*set_as_default*/ true);
 }
 
-bool ContainerItem::empty() const
+bool QExtMvvmContainerItem::empty() const
 {
     return childrenCount() == 0;
 }
 
-size_t ContainerItem::size() const
+size_t QExtMvvmContainerItem::size() const
 {
     return static_cast<size_t>(childrenCount());
 }

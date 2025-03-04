@@ -14,8 +14,8 @@
 
 using namespace ModelView;
 
-struct ItemCatalogue::ItemCatalogueImpl {
-    IFactory<std::string, SessionItem> factory;
+struct QExtMvvmItemCatalogue::ItemCatalogueImpl {
+    QExtMvvmIFactory<std::string, QExtMvvmSessionItem> factory;
     struct TypeAndLabel {
         std::string item_type;
         std::string item_label;
@@ -24,42 +24,42 @@ struct ItemCatalogue::ItemCatalogueImpl {
     std::vector<TypeAndLabel> m_info;
 };
 
-ItemCatalogue::ItemCatalogue() : p_impl(qextMakeUnique<ItemCatalogueImpl>()) {}
+QExtMvvmItemCatalogue::QExtMvvmItemCatalogue() : p_impl(qextMakeUnique<ItemCatalogueImpl>()) {}
 
-ItemCatalogue::~ItemCatalogue() = default;
+QExtMvvmItemCatalogue::~QExtMvvmItemCatalogue() = default;
 
-ItemCatalogue::ItemCatalogue(const ItemCatalogue& other)
+QExtMvvmItemCatalogue::QExtMvvmItemCatalogue(const QExtMvvmItemCatalogue& other)
 {
     p_impl = qextMakeUnique<ItemCatalogueImpl>(*other.p_impl);
 }
 
-ItemCatalogue& ItemCatalogue::operator=(const ItemCatalogue& other)
+QExtMvvmItemCatalogue& QExtMvvmItemCatalogue::operator=(const QExtMvvmItemCatalogue& other)
 {
     if (this != &other) {
-        ItemCatalogue tmp(other);
+        QExtMvvmItemCatalogue tmp(other);
         std::swap(this->p_impl, tmp.p_impl);
     }
     return *this;
 }
 
-void ItemCatalogue::registerItem(const std::string& modelType, item_factory_func_t func,
+void QExtMvvmItemCatalogue::registerItem(const std::string& modelType, QExtMvvmItemFactoryFunc func,
                                  const std::string& label)
 {
     p_impl->factory.add(modelType, func);
     p_impl->m_info.push_back({modelType, label});
 }
 
-bool ItemCatalogue::contains(const std::string& modelType) const
+bool QExtMvvmItemCatalogue::contains(const std::string& modelType) const
 {
     return p_impl->factory.contains(modelType);
 }
 
-QExtUniquePointer<SessionItem> ItemCatalogue::create(const std::string& modelType) const
+QExtUniquePointer<QExtMvvmSessionItem> QExtMvvmItemCatalogue::create(const std::string& modelType) const
 {
     return p_impl->factory.create(modelType);
 }
 
-std::vector<std::string> ItemCatalogue::modelTypes() const
+std::vector<std::string> QExtMvvmItemCatalogue::modelTypes() const
 {
     std::vector<std::string> result;
     for (const auto& x : p_impl->m_info)
@@ -67,7 +67,7 @@ std::vector<std::string> ItemCatalogue::modelTypes() const
     return result;
 }
 
-std::vector<std::string> ItemCatalogue::labels() const
+std::vector<std::string> QExtMvvmItemCatalogue::labels() const
 {
     std::vector<std::string> result;
     for (const auto& x : p_impl->m_info)
@@ -75,20 +75,20 @@ std::vector<std::string> ItemCatalogue::labels() const
     return result;
 }
 
-int ItemCatalogue::itemCount() const
+int QExtMvvmItemCatalogue::itemCount() const
 {
     return static_cast<int>(p_impl->factory.size());
 }
 
 //! Adds content of other catalogue to this.
 
-void ItemCatalogue::merge(const ItemCatalogue& other)
+void QExtMvvmItemCatalogue::merge(const QExtMvvmItemCatalogue& other)
 {
     size_t index(0);
     for (auto it : other.p_impl->factory) {
         if (contains(it.first))
             throw std::runtime_error(
-                "ItemCatalogue::add() -> Catalogue contains duplicated records");
+                "QExtMvvmItemCatalogue::add() -> Catalogue contains duplicated records");
 
         registerItem(it.first, it.second, other.p_impl->m_info[index].item_label);
         ++index;

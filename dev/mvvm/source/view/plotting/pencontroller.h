@@ -11,22 +11,22 @@
 #define MVVM_PLOTTING_PENCONTROLLER_H
 
 #include "model/signals/itemlistener.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 class QCPGraph;
 
 namespace ModelView {
 
-class PenItem;
+class QExtMvvmPenItem;
 
-//! Establishes communication between QCPGraph and PenItem.
-//! Provides update of QCPGraph's color, line style and width when PenItem is changed.
+//! Establishes communication between QCPGraph and QExtMvvmPenItem.
+//! Provides update of QCPGraph's color, line style and width when QExtMvvmPenItem is changed.
 
-class QEXT_MVVM_API PenController : public ItemListener<PenItem> {
+class QEXT_MVVM_API QExtMvvmPenController : public QExtMvvmItemListener<QExtMvvmPenItem> {
 public:
-    explicit PenController(QCPGraph* graph);
-    ~PenController() override;
+    explicit QExtMvvmPenController(QCPGraph* graph);
+    ~QExtMvvmPenController() override;
 
 protected:
     void subscribe() override;

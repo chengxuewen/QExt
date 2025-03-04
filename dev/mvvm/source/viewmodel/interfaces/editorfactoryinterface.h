@@ -10,7 +10,7 @@
 #ifndef MVVM_INTERFACES_EDITORFACTORYINTERFACE_H
 #define MVVM_INTERFACES_EDITORFACTORYINTERFACE_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 #include <string>
 
@@ -19,16 +19,16 @@ class QWidget;
 
 namespace ModelView {
 
-class CustomEditor;
+class QExtMvvmCustomEditor;
 
 //! Interface for custom editor factory.
 //! Intended for editor construction in cells of tables and trees in the context of delegate.
 
-class QEXT_MVVM_API EditorFactoryInterface {
+class QEXT_MVVM_API QExtMvvmEditorFactoryInterface {
 public:
-    virtual ~EditorFactoryInterface() = default;
+    virtual ~QExtMvvmEditorFactoryInterface() = default;
 
-    virtual QExtUniquePointer<CustomEditor> createEditor(const QModelIndex& index) const = 0;
+    virtual QExtUniquePointer<QExtMvvmCustomEditor> createEditor(const QModelIndex& index) const = 0;
 };
 
 } // namespace ModelView

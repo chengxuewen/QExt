@@ -15,7 +15,7 @@
 class QBoxLayout;
 
 namespace ModelView {
-class ItemsTreeView;
+class QExtMvvmItemsTreeView;
 } // namespace ModelView
 
 namespace PlotGraphs {
@@ -35,7 +35,7 @@ public:
 private:
     QBoxLayout* create_button_layout();
 
-    ModelView::ItemsTreeView* m_treeView{nullptr};
+    ModelView::QExtMvvmItemsTreeView* m_treeView{nullptr};
     GraphModel* m_model{nullptr};
 };
 

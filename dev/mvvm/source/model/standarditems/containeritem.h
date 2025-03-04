@@ -17,11 +17,11 @@ namespace ModelView {
 //! Simple container to store any type of children.
 //! Used as convenience item to create branch with uniform children beneath.
 
-class QEXT_MVVM_API ContainerItem : public CompoundItem {
+class QEXT_MVVM_API QExtMvvmContainerItem : public QExtMvvmCompoundItem {
 public:
     static inline const std::string T_ITEMS = "T_ITEMS";
 
-    ContainerItem(const std::string& modelType = Constants::ContainerItemType);
+    QExtMvvmContainerItem(const std::string& modelType = Constants::ContainerItemType);
 
     bool empty() const;
 

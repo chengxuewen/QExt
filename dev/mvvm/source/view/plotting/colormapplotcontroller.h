@@ -11,7 +11,7 @@
 #define MVVM_PLOTTING_COLORMAPPLOTCONTROLLER_H
 
 #include "model/signals/itemlistener.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 class QCustomPlot;
@@ -19,17 +19,17 @@ class QCPColorScale;
 
 namespace ModelView {
 
-class ColorMapItem;
+class QExtMvvmColorMapItem;
 
-//! Establish communication between QCPColorMap and ColorMapItem.
-//! Provide update on QCPColorMap when ColorMapItem is changed. QCPColorMap is added to
+//! Establish communication between QCPColorMap and QExtMvvmColorMapItem.
+//! Provide update on QCPColorMap when QExtMvvmColorMapItem is changed. QCPColorMap is added to
 //! QCustomPlot plottables, when controller is created, and removed from plottables, when controller
 //! is destroyed.
 
-class QEXT_MVVM_API ColorMapPlotController : public ItemListener<ColorMapItem> {
+class QEXT_MVVM_API QExtMvvmColorMapPlotController : public QExtMvvmItemListener<QExtMvvmColorMapItem> {
 public:
-    explicit ColorMapPlotController(QCustomPlot* plot, QCPColorScale* color_scale = nullptr);
-    ~ColorMapPlotController() override;
+    explicit QExtMvvmColorMapPlotController(QCustomPlot* plot, QCPColorScale* color_scale = nullptr);
+    ~QExtMvvmColorMapPlotController() override;
 
 protected:
     void subscribe() override;

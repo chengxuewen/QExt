@@ -47,7 +47,7 @@ std::string compose_string(const Context& context)
 
 } // namespace
 
-std::string ColorMapInfoFormatter::status_string(QCustomPlot* custom_plot, double x, double y) const
+std::string QExtMvvmColorMapInfoFormatter::status_string(QCustomPlot* custom_plot, double x, double y) const
 {
     // shall we provide caching here?
     auto color_map = find_colormap(custom_plot);

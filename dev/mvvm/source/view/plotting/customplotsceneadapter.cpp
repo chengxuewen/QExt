@@ -13,7 +13,7 @@
 
 using namespace ModelView;
 
-struct CustomPlotSceneAdapter::CustomPlotSceneAdapterImpl {
+struct QExtMvvmCustomPlotSceneAdapter::CustomPlotSceneAdapterImpl {
     QCustomPlot* custom_plot{nullptr};
     QExtUniquePointer<QMetaObject::Connection> conn_to_customplot;
     CustomPlotSceneAdapterImpl(QCustomPlot* custom_plot) : custom_plot(custom_plot)
@@ -55,7 +55,7 @@ struct CustomPlotSceneAdapter::CustomPlotSceneAdapterImpl {
     }
 };
 
-CustomPlotSceneAdapter::CustomPlotSceneAdapter(QCustomPlot* custom_plot)
+QExtMvvmCustomPlotSceneAdapter::QExtMvvmCustomPlotSceneAdapter(QCustomPlot* custom_plot)
     : p_impl(qextMakeUnique<CustomPlotSceneAdapterImpl>(custom_plot))
 {
     auto on_customplot_destroy = [this]() { p_impl->custom_plot = nullptr; };
@@ -63,33 +63,33 @@ CustomPlotSceneAdapter::CustomPlotSceneAdapter(QCustomPlot* custom_plot)
         QObject::connect(custom_plot, &QCustomPlot::destroyed, on_customplot_destroy);
 }
 
-CustomPlotSceneAdapter::~CustomPlotSceneAdapter()
+QExtMvvmCustomPlotSceneAdapter::~QExtMvvmCustomPlotSceneAdapter()
 {
     if (p_impl->custom_plot)
         QObject::disconnect(*p_impl->conn_to_customplot);
 }
 
-double CustomPlotSceneAdapter::toSceneX(double customplot_x) const
+double QExtMvvmCustomPlotSceneAdapter::toSceneX(double customplot_x) const
 {
     return p_impl->toSceneX(customplot_x);
 }
 
-double CustomPlotSceneAdapter::toSceneY(double customplot_y) const
+double QExtMvvmCustomPlotSceneAdapter::toSceneY(double customplot_y) const
 {
     return p_impl->toSceneY(customplot_y);
 }
 
-double CustomPlotSceneAdapter::fromSceneX(double scene_x) const
+double QExtMvvmCustomPlotSceneAdapter::fromSceneX(double scene_x) const
 {
     return p_impl->fromSceneX(scene_x);
 }
 
-double CustomPlotSceneAdapter::fromSceneY(double scene_y) const
+double QExtMvvmCustomPlotSceneAdapter::fromSceneY(double scene_y) const
 {
     return p_impl->fromSceneY(scene_y);
 }
 
-QRectF CustomPlotSceneAdapter::viewportRectangle() const
+QRectF QExtMvvmCustomPlotSceneAdapter::viewportRectangle() const
 {
     return p_impl->viewportRectangle();
 }

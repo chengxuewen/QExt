@@ -17,12 +17,12 @@
 
 namespace ModelView::Constants {
 
-const std::string BoolEditorType = "BoolEditor";
-const std::string ColorEditorType = "ColorEditor";
-const std::string ComboPropertyEditorType = "ComboPropertyEditor";
-const std::string DoubleEditorType = "DoubleEditor";
-const std::string ExternalPropertyEditorType = "ExternalPropertyEditor";
-const std::string IntegerEditorType = "IntegerEditor";
+const std::string BoolEditorType = "QExtMvvmBoolEditor";
+const std::string ColorEditorType = "QExtMvvmColorEditor";
+const std::string ComboPropertyEditorType = "QExtMvvmComboPropertyEditor";
+const std::string DoubleEditorType = "QExtMvvmDoubleEditor";
+const std::string ExternalPropertyEditorType = "QExtMvvmExternalPropertyEditor";
+const std::string IntegerEditorType = "QExtMvvmIntegerEditor";
 const std::string ScientficDoubleEditorType = "ScientficDoubleEditor";
 const std::string ScientficSpinBoxEditorType = "ScientficSpinBoxEditor";
 const std::string SelectableComboPropertyEditorType = "SelectableComboPropertyEditor";

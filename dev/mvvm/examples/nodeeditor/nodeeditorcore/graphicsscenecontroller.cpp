@@ -18,11 +18,11 @@ using namespace ModelView;
 namespace NodeEditor {
 
 GraphicsSceneController::GraphicsSceneController(SampleModel* model, GraphicsScene* scene)
-    : ModelView::ModelListener<SampleModel>(model), m_scene(scene)
+    : ModelView::QExtMvvmModelListener<SampleModel>(model), m_scene(scene)
 {
-    setOnItemInserted([this](SessionItem*, TagRow) { m_scene->updateScene(); });
+    setOnItemInserted([this](QExtMvvmSessionItem*, QExtMvvmTagRow) { m_scene->updateScene(); });
 
-    auto on_about_to_remove = [this](SessionItem* parent, const TagRow& tagrow) {
+    auto on_about_to_remove = [this](QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow) {
         auto child = parent->getItem(tagrow.tag, tagrow.row);
         m_scene->removeViewForItem(dynamic_cast<ConnectableItem*>(child));
     };

@@ -36,7 +36,7 @@ struct MouseMoveReporter::MouseMoveReporterImpl {
             double x = pixelToXaxisCoord(event->pos().x());
             double y = pixelToYaxisCoord(event->pos().y());
             if (callback)
-                callback(MousePosInfo(x, y, axesRangeContains(x, y)));
+                callback(QExtMvvmMousePosInfo(x, y, axesRangeContains(x, y)));
         };
 
         QObject::connect(custom_plot, &QCustomPlot::mouseMove, on_mouse_move);

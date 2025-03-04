@@ -17,9 +17,9 @@ class QTreeView;
 class MaterialModel;
 
 namespace ModelView {
-class ViewModel;
-class ViewModelDelegate;
-class SessionItem;
+class QExtMvvmViewModel;
+class QExtMvvmViewModelDelegate;
+class QExtMvvmSessionItem;
 } // namespace ModelView
 
 //! Shows content of material container in table-like view.
@@ -29,14 +29,14 @@ public:
     explicit MaterialTableWidget(MaterialModel* material_model, QWidget* parent = nullptr);
     ~MaterialTableWidget() override;
 
-    void setItem(ModelView::SessionItem* material_container);
+    void setItem(ModelView::QExtMvvmSessionItem* material_container);
 
     QTreeView* treeView();
 
 private:
     QTreeView* m_treeView;
-    QExtUniquePointer<ModelView::ViewModel> m_viewModel;
-    QExtUniquePointer<ModelView::ViewModelDelegate> m_delegate;
+    QExtUniquePointer<ModelView::QExtMvvmViewModel> m_viewModel;
+    QExtUniquePointer<ModelView::QExtMvvmViewModelDelegate> m_delegate;
 };
 
 #endif // LAYEREDITORCORE_MATERIALTABLEWIDGET_H

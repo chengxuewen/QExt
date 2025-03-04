@@ -10,7 +10,7 @@
 #ifndef MVVM_PLOTTING_STATUSSTRINGFORMATTERINTERFACE_H
 #define MVVM_PLOTTING_STATUSSTRINGFORMATTERINTERFACE_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <string>
 
 class QCustomPlot;
@@ -20,9 +20,9 @@ namespace ModelView {
 //! Pure virtual interface to format string with status info corresponding to the current mouse
 //! position on QCustomPlot.
 
-class QEXT_MVVM_API StatusStringFormatterInterface {
+class QEXT_MVVM_API QExtMvvmStatusStringFormatterInterface {
 public:
-    virtual ~StatusStringFormatterInterface() = default;
+    virtual ~QExtMvvmStatusStringFormatterInterface() = default;
 
     virtual std::string status_string(QCustomPlot* custom_plot, double x, double y) const = 0;
 };

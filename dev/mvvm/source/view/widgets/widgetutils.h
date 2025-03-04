@@ -10,7 +10,7 @@
 #ifndef MVVM_WIDGETS_WIDGETUTILS_H
 #define MVVM_WIDGETS_WIDGETUTILS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QString>
 #include <QStringList>
 #include <string>

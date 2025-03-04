@@ -17,23 +17,23 @@ namespace ModelView {
 
 //! Item to store a persistent link to other arbitrary items.
 
-//! The identifier of the item intended for linking is stored as DataRole on board of LinkedItem
-//! and can be used to find the corresponding item via SessionModel::findItem machinery.
+//! The identifier of the item intended for linking is stored as QExtMvvmDataRole on board of QExtMvvmLinkedItem
+//! and can be used to find the corresponding item via QExtMvvmSessionModel::findItem machinery.
 //! Provided mechanism is persistent and outlive serialization. Can be used to find items in
-//! different models. For that being the case, models should use same ItemPool.
+//! different models. For that being the case, models should use same QExtMvvmItemPool.
 
-class QEXT_MVVM_API LinkedItem : public SessionItem {
+class QEXT_MVVM_API QExtMvvmLinkedItem : public QExtMvvmSessionItem {
 public:
-    LinkedItem();
+    QExtMvvmLinkedItem();
 
-    void setLink(const SessionItem* item);
+    void setLink(const QExtMvvmSessionItem* item);
 
-    template <typename T = SessionItem> T* get() const;
+    template <typename T = QExtMvvmSessionItem> T* get() const;
 };
 
 //! Returns item linked to given item. Works only in model context.
 
-template <typename T> T* LinkedItem::get() const
+template <typename T> T* QExtMvvmLinkedItem::get() const
 {
     return model() ? dynamic_cast<T*>(model()->findItem(data<std::string>())) : nullptr;
 }

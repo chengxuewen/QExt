@@ -14,14 +14,14 @@
 using namespace ModelView;
 
 namespace {
-size_t total_bin_count(Data1DItem* item)
+size_t total_bin_count(QExtMvvmData1DItem* item)
 {
-    auto axis = item->item<BinnedAxisItem>(Data1DItem::T_AXIS);
+    auto axis = item->item<QExtMvvmBinnedAxisItem>(QExtMvvmData1DItem::T_AXIS);
     return axis ? static_cast<size_t>(axis->size()) : 0;
 }
 } // namespace
 
-Data1DItem::Data1DItem() : CompoundItem(Constants::Data1DItemType)
+QExtMvvmData1DItem::QExtMvvmData1DItem() : QExtMvvmCompoundItem(Constants::Data1DItemType)
 {
     // prevent editing in widgets, since there is no corresponding editor
     addProperty(P_VALUES, std::vector<double>())->setDisplayName("Values")->setEditable(false);
@@ -29,13 +29,13 @@ Data1DItem::Data1DItem() : CompoundItem(Constants::Data1DItemType)
     addProperty(P_ERRORS, std::vector<double>())->setDisplayName("Errors")->setEditable(false);
 
     registerTag(
-        TagInfo(T_AXIS, 0, 1, {Constants::FixedBinAxisItemType, Constants::PointwiseAxisItemType}),
+        QExtMvvmTagInfo(T_AXIS, 0, 1, {Constants::FixedBinAxisItemType, Constants::PointwiseAxisItemType}),
         true);
 }
 
 //! Sets axis. Bin content will be set to zero.
 
-// void Data1DItem::setAxis(QExtUniquePointer<BinnedAxisItem> axis)
+// void QExtMvvmData1DItem::setAxis(QExtUniquePointer<QExtMvvmBinnedAxisItem> axis)
 //{
 //    // we disable possibility to re-create axis to facilitate undo/redo
 
@@ -48,43 +48,43 @@ Data1DItem::Data1DItem() : CompoundItem(Constants::Data1DItemType)
 
 //! Returns coordinates of bin centers.
 
-std::vector<double> Data1DItem::binCenters() const
+std::vector<double> QExtMvvmData1DItem::binCenters() const
 {
-    auto axis = item<BinnedAxisItem>(T_AXIS);
+    auto axis = item<QExtMvvmBinnedAxisItem>(T_AXIS);
     return axis ? axis->binCenters() : std::vector<double>{};
 }
 
 //! Sets internal data buffer to given data. If size of axis doesn't match the size of the data,
 //! exception will be thrown.
 
-void Data1DItem::setValues(const std::vector<double>& data)
+void QExtMvvmData1DItem::setValues(const std::vector<double>& data)
 {
     if (total_bin_count(this) != data.size())
-        throw std::runtime_error("Data1DItem::setValues() -> Data doesn't match size of axis");
+        throw std::runtime_error("QExtMvvmData1DItem::setValues() -> Data doesn't match size of axis");
 
     setProperty(P_VALUES, data);
 }
 
 //! Returns values stored in bins.
 
-std::vector<double> Data1DItem::binValues() const
+std::vector<double> QExtMvvmData1DItem::binValues() const
 {
     return property<std::vector<double>>(P_VALUES);
 }
 
 //! Sets errors on values in bins.
 
-void Data1DItem::setErrors(const std::vector<double>& errors)
+void QExtMvvmData1DItem::setErrors(const std::vector<double>& errors)
 {
     if (total_bin_count(this) != errors.size())
-        throw std::runtime_error("Data1DItem::setErrors() -> Data doesn't match size of axis");
+        throw std::runtime_error("QExtMvvmData1DItem::setErrors() -> Data doesn't match size of axis");
 
     setProperty(P_ERRORS, errors);
 }
 
 //! Returns value errors stored in bins.
 
-std::vector<double> Data1DItem::binErrors() const
+std::vector<double> QExtMvvmData1DItem::binErrors() const
 {
     return property<std::vector<double>>(P_ERRORS);
 }

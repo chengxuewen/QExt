@@ -15,7 +15,7 @@ using namespace ModelView;
 
 namespace {
 //! Following Qt styles.
-const ComboProperty penStyleCombo = ComboProperty::createFrom(
+const QExtMvvmComboProperty penStyleCombo = QExtMvvmComboProperty::createFrom(
     {"NoPen", "SolidLine", "DashLine", "DotLine", "DashDotLine", "DashDotDotLine"}, "SolidLine");
 const int pen_default_width = 1;
 const int pen_min_width = 0;
@@ -29,26 +29,26 @@ const int default_title_size = 10;
 const std::string default_title_family = "Noto Sans";
 } // namespace
 
-TextItem::TextItem() : CompoundItem(Constants::TextItemType)
+QExtMvvmTextItem::QExtMvvmTextItem() : QExtMvvmCompoundItem(Constants::TextItemType)
 {
     addProperty(P_TEXT, "")->setDisplayName("Text");
     addProperty(P_FONT, default_title_family)->setDisplayName("Font");
     addProperty(P_SIZE, default_title_size)->setDisplayName("Size");
 }
 
-PenItem::PenItem() : CompoundItem(Constants::PenItemType)
+QExtMvvmPenItem::QExtMvvmPenItem() : QExtMvvmCompoundItem(Constants::PenItemType)
 {
     addProperty(P_COLOR, QColor(Qt::black))->setDisplayName("Color")->setToolTip("Pen color");
     addProperty(P_STYLE, penStyleCombo)->setDisplayName("Style")->setToolTip("Pen style");
     addProperty(P_WIDTH, pen_default_width)
         ->setDisplayName("Width")
-        ->setLimits(RealLimits::limited(pen_min_width, pen_max_width))
+        ->setLimits(QExtMvvmRealLimits::limited(pen_min_width, pen_max_width))
         ->setToolTip("Pen width");
 }
 
 //! Sets style of the pen to represent selected object (dash line).
 
-void PenItem::setSelected(bool is_selected)
+void QExtMvvmPenItem::setSelected(bool is_selected)
 {
     auto combo = penStyleCombo;
     combo.setCurrentIndex(is_selected ? penstyle_index_dashline : penstyle_index_solid);
@@ -58,7 +58,7 @@ void PenItem::setSelected(bool is_selected)
 //! Returns color name in #RRGGBB format.
 //! We do not want to expose QColor itself since it will be eventually removed.
 
-std::string PenItem::colorName() const
+std::string QExtMvvmPenItem::colorName() const
 {
     return property<QColor>(P_COLOR).name().toStdString();
 }
@@ -67,7 +67,7 @@ std::string PenItem::colorName() const
 //! e.g. "mediumaquamarine"
 //! We do not want to expose QColor itself since it will be eventually removed.
 
-void PenItem::setNamedColor(const std::string& named_color)
+void QExtMvvmPenItem::setNamedColor(const std::string& named_color)
 {
     setProperty(P_COLOR, QColor(QString::fromStdString(named_color)));
 }

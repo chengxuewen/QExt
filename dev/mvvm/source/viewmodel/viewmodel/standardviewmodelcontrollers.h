@@ -20,39 +20,39 @@
 
 namespace ModelView {
 
-//! Controller for AbstractViewModel to show all items of SessionModel.
-//! The layout corresponds to original SessionModel, generates standard label/value tree.
+//! Controller for AbstractViewModel to show all items of QExtMvvmSessionModel.
+//! The layout corresponds to original QExtMvvmSessionModel, generates standard label/value tree.
 
-class QEXT_MVVM_API DefaultViewModelController : public ViewModelController {
+class QEXT_MVVM_API QExtMvvmDefaultViewModelController : public QExtMvvmViewModelController {
 public:
-    DefaultViewModelController(SessionModel* session_model, ViewModelBase* view_model);
+    QExtMvvmDefaultViewModelController(QExtMvvmSessionModel* session_model, QExtMvvmViewModelBase* view_model);
 };
 
 //! Controller for AbstractViewModel to show top level items.
 //! Shows only top level items, property items, group items are hidden.
 
-class QEXT_MVVM_API TopItemsViewModelController : public ViewModelController {
+class QEXT_MVVM_API QExtMvvmTopItemsViewModelController : public QExtMvvmViewModelController {
 public:
-    explicit TopItemsViewModelController(SessionModel* session_model, ViewModelBase* view_model);
+    explicit QExtMvvmTopItemsViewModelController(QExtMvvmSessionModel* session_model, QExtMvvmViewModelBase* view_model);
 };
 
 //! Controller for AbstractViewModel to show item properties.
 //! Shows property items, hides top level items, hides inactive items of GroupProperty.
 
-class QEXT_MVVM_API PropertyViewModelController : public ViewModelController {
+class QEXT_MVVM_API QExtMvvmPropertyViewModelController : public QExtMvvmViewModelController {
 public:
-    PropertyViewModelController(SessionModel* session_model, ViewModelBase* view_model);
+    QExtMvvmPropertyViewModelController(QExtMvvmSessionModel* session_model, QExtMvvmViewModelBase* view_model);
 
 protected:
-    void onDataChange(SessionItem* item, int role) override;
+    void onDataChange(QExtMvvmSessionItem* item, int role) override;
 };
 
 //! Controller for AbstractViewModel to show item properties in table layout.
 //! Shows all property items and place them in table columns.
 
-class QEXT_MVVM_API PropertyTableViewModelController : public ViewModelController {
+class QEXT_MVVM_API QExtMvvmPropertyTableViewModelController : public QExtMvvmViewModelController {
 public:
-    PropertyTableViewModelController(SessionModel* session_model, ViewModelBase* view_model,
+    QExtMvvmPropertyTableViewModelController(QExtMvvmSessionModel* session_model, QExtMvvmViewModelBase* view_model,
                                      const std::vector<std::string>& labels = {});
 };
 
@@ -60,12 +60,12 @@ public:
 //! Shows property items, hides top level items, hides inactive items of GroupProperty,
 //! moves subproperties of group item under parent of group item.
 
-class QEXT_MVVM_API PropertyFlatViewModelController : public ViewModelController {
+class QEXT_MVVM_API QExtMvvmPropertyFlatViewModelController : public QExtMvvmViewModelController {
 public:
-    PropertyFlatViewModelController(SessionModel* session_model, ViewModelBase* view_model);
+    QExtMvvmPropertyFlatViewModelController(QExtMvvmSessionModel* session_model, QExtMvvmViewModelBase* view_model);
 
 protected:
-    void onDataChange(SessionItem* item, int role) override;
+    void onDataChange(QExtMvvmSessionItem* item, int role) override;
 };
 
 } // namespace ModelView

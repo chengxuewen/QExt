@@ -11,31 +11,31 @@
 #define MVVM_MODEL_SESSIONITEMTAGS_H
 
 #include "model/model/tagrow.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <string>
 #include <vector>
 
 namespace ModelView {
 
-class SessionItemContainer;
-class TagInfo;
-class SessionItem;
+class QExtMvvmSessionItemContainer;
+class QExtMvvmTagInfo;
+class QExtMvvmSessionItem;
 
-//! Collection of SessionItem's containers according to their tags.
+//! Collection of QExtMvvmSessionItem's containers according to their tags.
 
-class QEXT_MVVM_API SessionItemTags {
+class QEXT_MVVM_API QExtMvvmSessionItemTags {
 public:
-    using container_t = std::vector<SessionItemContainer*>;
+    using container_t = std::vector<QExtMvvmSessionItemContainer*>;
     using const_iterator = container_t::const_iterator;
 
-    SessionItemTags();
-    ~SessionItemTags();
-    SessionItemTags(const SessionItemTags&) = delete;
-    SessionItemTags& operator=(const SessionItemTags&) = delete;
+    QExtMvvmSessionItemTags();
+    ~QExtMvvmSessionItemTags();
+    QExtMvvmSessionItemTags(const QExtMvvmSessionItemTags&) = delete;
+    QExtMvvmSessionItemTags& operator=(const QExtMvvmSessionItemTags&) = delete;
 
     // tag
 
-    void registerTag(const TagInfo& tagInfo, bool set_as_default = false);
+    void registerTag(const QExtMvvmTagInfo& tagInfo, bool set_as_default = false);
 
     bool isTag(const std::string& name) const;
 
@@ -47,22 +47,22 @@ public:
 
     // adding and removal
 
-    bool canInsertItem(const SessionItem *item, const TagRow& tagrow) const;
+    bool canInsertItem(const QExtMvvmSessionItem *item, const QExtMvvmTagRow& tagrow) const;
 
-    bool insertItem(SessionItem* item, const TagRow& tagrow);
+    bool insertItem(QExtMvvmSessionItem* item, const QExtMvvmTagRow& tagrow);
 
-    bool canTakeItem(const TagRow& tagrow) const;
+    bool canTakeItem(const QExtMvvmTagRow& tagrow) const;
 
-    SessionItem* takeItem(const TagRow& tagrow);
+    QExtMvvmSessionItem* takeItem(const QExtMvvmTagRow& tagrow);
 
     // item access
-    SessionItem* getItem(const TagRow& tagrow) const;
+    QExtMvvmSessionItem* getItem(const QExtMvvmTagRow& tagrow) const;
 
-    std::vector<SessionItem*> getItems(const std::string& tag = {}) const;
+    std::vector<QExtMvvmSessionItem*> getItems(const std::string& tag = {}) const;
 
-    std::vector<SessionItem*> allitems() const;
+    std::vector<QExtMvvmSessionItem*> allitems() const;
 
-    TagRow tagRowOfItem(const SessionItem* item) const;
+    QExtMvvmTagRow tagRowOfItem(const QExtMvvmSessionItem* item) const;
 
     const_iterator begin() const;
     const_iterator end() const;
@@ -71,12 +71,12 @@ public:
 
     int tagsCount() const;
 
-    SessionItemContainer& at(int index);
+    QExtMvvmSessionItemContainer& at(int index);
 
 private:
-    SessionItemContainer* container(const std::string& tag_name) const;
-    SessionItemContainer* find_container(const std::string& tag_name) const;
-    std::vector<SessionItemContainer*> m_containers;
+    QExtMvvmSessionItemContainer* container(const std::string& tag_name) const;
+    QExtMvvmSessionItemContainer* find_container(const std::string& tag_name) const;
+    std::vector<QExtMvvmSessionItemContainer*> m_containers;
     std::string m_default_tag;
 };
 

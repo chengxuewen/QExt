@@ -11,46 +11,46 @@
 #define MVVM_MODEL_ITEMMANAGER_H
 
 #include "model/core/types.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 namespace ModelView {
 
-class SessionItem;
-class ItemPool;
-class ItemFactoryInterface;
+class QExtMvvmSessionItem;
+class QExtMvvmItemPool;
+class QExtMvvmItemFactoryInterface;
 
-//! Manages item creation/registration for SessionModel.
+//! Manages item creation/registration for QExtMvvmSessionModel.
 
-class QEXT_MVVM_API ItemManager {
+class QEXT_MVVM_API QExtMvvmItemManager {
 public:
-    ItemManager();
-    ~ItemManager();
+    QExtMvvmItemManager();
+    ~QExtMvvmItemManager();
 
-    void setItemFactory(QExtUniquePointer<ItemFactoryInterface> factory);
-    void setItemPool(std::shared_ptr<ItemPool> pool);
+    void setItemFactory(QExtUniquePointer<QExtMvvmItemFactoryInterface> factory);
+    void setItemPool(std::shared_ptr<QExtMvvmItemPool> pool);
 
-    QExtUniquePointer<SessionItem> createItem(const model_type& modelType = {}) const;
+    QExtUniquePointer<QExtMvvmSessionItem> createItem(const QExtMvvmModelType& modelType = {}) const;
 
-    QExtUniquePointer<SessionItem> createRootItem() const;
+    QExtUniquePointer<QExtMvvmSessionItem> createRootItem() const;
 
-    SessionItem* findItem(const identifier_type& id) const;
+    QExtMvvmSessionItem* findItem(const QExtMvvmIdentifierType& id) const;
 
-    identifier_type findIdentifier(const SessionItem* item) const;
+    QExtMvvmIdentifierType findIdentifier(const QExtMvvmSessionItem* item) const;
 
-    const ItemPool* itemPool() const;
-    ItemPool* itemPool();
+    const QExtMvvmItemPool* itemPool() const;
+    QExtMvvmItemPool* itemPool();
 
-    void registerInPool(SessionItem* item);
-    void unregisterFromPool(SessionItem* item);
+    void registerInPool(QExtMvvmSessionItem* item);
+    void unregisterFromPool(QExtMvvmSessionItem* item);
 
-    const ItemFactoryInterface* factory() const;
+    const QExtMvvmItemFactoryInterface* factory() const;
 
-    ItemFactoryInterface* factory();
+    QExtMvvmItemFactoryInterface* factory();
 
 private:
-    std::shared_ptr<ItemPool> m_item_pool;
-    QExtUniquePointer<ItemFactoryInterface> m_item_factory;
+    std::shared_ptr<QExtMvvmItemPool> m_item_pool;
+    QExtUniquePointer<QExtMvvmItemFactoryInterface> m_item_factory;
 };
 
 } // namespace ModelView

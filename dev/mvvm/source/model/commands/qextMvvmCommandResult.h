@@ -14,10 +14,10 @@
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
 //! Results of command execution.
-using CommandResult = QExtVariant<bool, ModelView::SessionItem*>;
+using QExtMvvmCommandResult = QExtVariant<bool, ModelView::QExtMvvmSessionItem*>;
 
 } // namespace ModelView
 

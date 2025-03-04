@@ -14,15 +14,15 @@
 
 namespace ModelView {
 
-class ScientificSpinBox;
+class QExtMvvmScientificSpinBox;
 
 //! Custom editor for QVariant based on double with scientific notation support.
 
-class QEXT_MVVM_API ScientificSpinBoxEditor : public CustomEditor {
+class QEXT_MVVM_API QExtMvvmScientificSpinBoxEditor : public QExtMvvmCustomEditor {
     Q_OBJECT
 
 public:
-    explicit ScientificSpinBoxEditor(QWidget* parent = nullptr);
+    explicit QExtMvvmScientificSpinBoxEditor(QWidget* parent = nullptr);
 
     void setRange(double minimum, double maximum);
     void setDecimals(int decimals);
@@ -35,7 +35,7 @@ private slots:
 
 private:
     void update_components() override;
-    ScientificSpinBox* m_doubleEditor;
+    QExtMvvmScientificSpinBox* m_doubleEditor;
 };
 
 } // namespace ModelView

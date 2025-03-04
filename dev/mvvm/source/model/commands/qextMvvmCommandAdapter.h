@@ -10,26 +10,28 @@
 #ifndef MVVM_COMMANDS_COMMANDADAPTER_H
 #define MVVM_COMMANDS_COMMANDADAPTER_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
+
 #include <QUndoCommand>
 #include <memory>
 
 namespace ModelView {
 
-class AbstractItemCommand;
+class QExtMvvmAbstractItemCommand;
 
 //! Adapter to execute our commands within Qt undo/redo framework.
 
-class QEXT_MVVM_API CommandAdapter : public QUndoCommand {
+class QEXT_MVVM_API QExtMvvmCommandAdapter : public QUndoCommand
+{
 public:
-    CommandAdapter(std::shared_ptr<AbstractItemCommand> command);
-    ~CommandAdapter() override;
+    QExtMvvmCommandAdapter(std::shared_ptr<QExtMvvmAbstractItemCommand> command);
+    ~QExtMvvmCommandAdapter() override;
 
     void undo() override;
     void redo() override;
 
 private:
-    std::shared_ptr<AbstractItemCommand> m_command;
+    std::shared_ptr<QExtMvvmAbstractItemCommand> m_command;
 };
 
 } // namespace ModelView

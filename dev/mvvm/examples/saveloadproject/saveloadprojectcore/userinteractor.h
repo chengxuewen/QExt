@@ -13,14 +13,14 @@
 #include <string>
 
 namespace ModelView {
-enum class SaveChangesAnswer;
+enum class QExtMvvmSaveChangesAnswer;
 }
 
 class QWidget;
 class RecentProjectSettings;
 
 //! Provide save/discard/cancel and similar dialogs on user request.
-//! Intended to work in pair with ProjectManagerDecorator.
+//! Intended to work in pair with QExtMvvmProjectManagerDecorator.
 
 class UserInteractor {
 public:
@@ -30,7 +30,7 @@ public:
 
     std::string onCreateDirRequest();
 
-    ModelView::SaveChangesAnswer onSaveChangesRequest();
+    ModelView::QExtMvvmSaveChangesAnswer onSaveChangesRequest();
 
 private:
     std::string getExistingDirectory() const;

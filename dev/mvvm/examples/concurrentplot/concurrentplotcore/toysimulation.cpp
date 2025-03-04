@@ -57,7 +57,7 @@ ToySimulation::Result ToySimulation::simulationResult() const
     return result;
 }
 
-void ToySimulation::setProgressCallback(ProgressHandler::callback_t callback)
+void ToySimulation::setProgressCallback(QExtMvvmProgressHandler::callback_t callback)
 {
     progress_handler.subscribe(std::move(callback));
 }

@@ -18,12 +18,12 @@ const double poszero = std::numeric_limits<double>::min();
 
 using namespace ModelView;
 
-RealLimits::RealLimits()
+QExtMvvmRealLimits::QExtMvvmRealLimits()
     : m_has_lower_limit(false), m_has_upper_limit(false), m_lower_limit(lmin), m_upper_limit(lmax)
 {
 }
 
-RealLimits::RealLimits(bool has_lower_limit, bool has_upper_limit, double lower_limit,
+QExtMvvmRealLimits::QExtMvvmRealLimits(bool has_lower_limit, bool has_upper_limit, double lower_limit,
                        double upper_limit)
     : m_has_lower_limit(has_lower_limit)
     , m_has_upper_limit(has_upper_limit)
@@ -32,62 +32,62 @@ RealLimits::RealLimits(bool has_lower_limit, bool has_upper_limit, double lower_
 {
 }
 
-RealLimits RealLimits::lowerLimited(double bound_value)
+QExtMvvmRealLimits QExtMvvmRealLimits::lowerLimited(double bound_value)
 {
-    return RealLimits(true, false, bound_value, lmax);
+    return QExtMvvmRealLimits(true, false, bound_value, lmax);
 }
 
-RealLimits RealLimits::positive()
+QExtMvvmRealLimits QExtMvvmRealLimits::positive()
 {
     return lowerLimited(poszero);
 }
 
-RealLimits RealLimits::nonnegative()
+QExtMvvmRealLimits QExtMvvmRealLimits::nonnegative()
 {
     return lowerLimited(0.);
 }
 
-RealLimits RealLimits::upperLimited(double bound_value)
+QExtMvvmRealLimits QExtMvvmRealLimits::upperLimited(double bound_value)
 {
-    return RealLimits(false, true, lmin, bound_value);
+    return QExtMvvmRealLimits(false, true, lmin, bound_value);
 }
 
-RealLimits RealLimits::limited(double left_bound_value, double right_bound_value)
+QExtMvvmRealLimits QExtMvvmRealLimits::limited(double left_bound_value, double right_bound_value)
 {
-    return RealLimits(true, true, left_bound_value, right_bound_value);
+    return QExtMvvmRealLimits(true, true, left_bound_value, right_bound_value);
 }
 
-RealLimits RealLimits::limitless()
+QExtMvvmRealLimits QExtMvvmRealLimits::limitless()
 {
-    return RealLimits();
+    return QExtMvvmRealLimits();
 }
 
-bool RealLimits::hasLowerLimit() const
+bool QExtMvvmRealLimits::hasLowerLimit() const
 {
     return m_has_lower_limit;
 }
 
-double RealLimits::lowerLimit() const
+double QExtMvvmRealLimits::lowerLimit() const
 {
     return m_lower_limit;
 }
 
-bool RealLimits::hasUpperLimit() const
+bool QExtMvvmRealLimits::hasUpperLimit() const
 {
     return m_has_upper_limit;
 }
 
-double RealLimits::upperLimit() const
+double QExtMvvmRealLimits::upperLimit() const
 {
     return m_upper_limit;
 }
 
-bool RealLimits::hasLowerAndUpperLimits() const
+bool QExtMvvmRealLimits::hasLowerAndUpperLimits() const
 {
     return (m_has_lower_limit && m_has_upper_limit);
 }
 
-bool RealLimits::isInRange(double value) const
+bool QExtMvvmRealLimits::isInRange(double value) const
 {
     if (hasLowerLimit() && value < m_lower_limit)
         return false;
@@ -96,53 +96,53 @@ bool RealLimits::isInRange(double value) const
     return true;
 }
 
-bool RealLimits::operator==(const RealLimits& other) const
+bool QExtMvvmRealLimits::operator==(const QExtMvvmRealLimits& other) const
 {
-    // Intenional 'unsafe' double comparison to have RealLimits::positive and
-    // RealLimits::nonnegative different.
+    // Intenional 'unsafe' double comparison to have QExtMvvmRealLimits::positive and
+    // QExtMvvmRealLimits::nonnegative different.
     // FIXME Is there better solution? Can we drop either positive or non-negative?
     return (m_has_lower_limit == other.m_has_lower_limit)
            && (m_has_upper_limit == other.m_has_upper_limit) && m_lower_limit == other.m_lower_limit
            && m_upper_limit == other.m_upper_limit;
 }
 
-bool RealLimits::operator!=(const RealLimits& other) const
+bool QExtMvvmRealLimits::operator!=(const QExtMvvmRealLimits& other) const
 {
     return !(*this == other);
 }
 
-bool RealLimits::operator<(const RealLimits& other) const
+bool QExtMvvmRealLimits::operator<(const QExtMvvmRealLimits& other) const
 {
     return m_lower_limit < other.m_lower_limit && m_upper_limit < other.m_upper_limit;
 }
 
-bool RealLimits::isLimitless() const
+bool QExtMvvmRealLimits::isLimitless() const
 {
     return !hasLowerLimit() && !hasUpperLimit();
 }
 
-bool RealLimits::isPositive() const
+bool QExtMvvmRealLimits::isPositive() const
 {
     // intenional 'unsafe' double comparison
     return hasLowerLimit() && !hasUpperLimit() && lowerLimit() == poszero;
 }
 
-bool RealLimits::isNonnegative() const
+bool QExtMvvmRealLimits::isNonnegative() const
 {
     return hasLowerLimit() && !hasUpperLimit() && lowerLimit() == 0.0;
 }
 
-bool RealLimits::isLowerLimited() const
+bool QExtMvvmRealLimits::isLowerLimited() const
 {
     return !isPositive() && !isNonnegative() && hasLowerLimit() && !hasUpperLimit();
 }
 
-bool RealLimits::isUpperLimited() const
+bool QExtMvvmRealLimits::isUpperLimited() const
 {
     return !hasLowerLimit() && hasUpperLimit();
 }
 
-bool RealLimits::isLimited() const
+bool QExtMvvmRealLimits::isLimited() const
 {
     return hasLowerLimit() && hasUpperLimit();
 }

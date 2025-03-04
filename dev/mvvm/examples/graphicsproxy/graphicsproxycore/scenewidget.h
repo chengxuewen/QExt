@@ -17,7 +17,7 @@ class QToolBar;
 class QAction;
 
 namespace ModelView {
-class ColorMapCanvas;
+class QExtMvvmColorMapCanvas;
 } // namespace ModelView
 
 namespace GraphicsProxy {
@@ -45,7 +45,7 @@ private:
     QAction* m_setViewportToRoiAction{nullptr};
 
     ScenePropertyWidget* m_propertyWidget{nullptr};
-    ModelView::ColorMapCanvas* m_colorMapCanvas{nullptr};
+    ModelView::QExtMvvmColorMapCanvas* m_colorMapCanvas{nullptr};
     GraphicsScene* m_graphicsScene{nullptr};
     GraphicsView* m_graphicsView{nullptr};
     SceneModel* m_model{nullptr};

@@ -19,7 +19,7 @@
 
 //! A particle with position and shape group.
 
-class ParticleItem : public ModelView::CompoundItem
+class ParticleItem : public ModelView::QExtMvvmCompoundItem
 {
 public:
     static inline const std::string P_POSITION = "Position";
@@ -29,7 +29,7 @@ public:
 
 //! Simple cylinder with radius and height.
 
-class CylinderItem : public ModelView::CompoundItem
+class CylinderItem : public ModelView::QExtMvvmCompoundItem
 {
 public:
     static inline const std::string P_RADIUS = "Radius";
@@ -39,7 +39,7 @@ public:
 
 //! Simple spherer with radius.
 
-class SphereItem : public ModelView::CompoundItem
+class SphereItem : public ModelView::QExtMvvmCompoundItem
 {
 public:
     static inline const std::string P_RADIUS = "Radius";
@@ -48,7 +48,7 @@ public:
 
 //! Pyramid with 4 parameters.
 
-class AnysoPyramidItem : public ModelView::CompoundItem
+class AnysoPyramidItem : public ModelView::QExtMvvmCompoundItem
 {
 public:
     static inline const std::string P_LENGTH = "Length";
@@ -60,7 +60,7 @@ public:
 
 //! Special group of shapes.
 
-class ShapeGroupItem : public ModelView::GroupItem
+class ShapeGroupItem : public ModelView::QExtMvvmGroupItem
 {
 public:
     ShapeGroupItem();
@@ -68,7 +68,7 @@ public:
 
 //! Main application model.
 
-class ParticleModel : public ModelView::SessionModel
+class ParticleModel : public ModelView::QExtMvvmSessionModel
 {
 public:
     ParticleModel();

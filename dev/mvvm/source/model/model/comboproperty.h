@@ -11,7 +11,7 @@
 #define MVVM_MODEL_COMBOPROPERTY_H
 
 #include "model/core/variant.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <string>
 #include <vector>
 
@@ -19,11 +19,11 @@ namespace ModelView {
 
 //! Custom property to define list of string values with multiple selections.
 
-class QEXT_MVVM_API ComboProperty {
+class QEXT_MVVM_API QExtMvvmComboProperty {
 public:
-    ComboProperty();
+    QExtMvvmComboProperty();
 
-    static ComboProperty createFrom(const std::vector<std::string>& values,
+    static QExtMvvmComboProperty createFrom(const std::vector<std::string>& values,
                                     const std::string& current_value = {});
 
     std::string value() const;
@@ -38,11 +38,11 @@ public:
     int currentIndex() const;
     void setCurrentIndex(int index);
 
-    ComboProperty& operator<<(const std::string& str);
-    ComboProperty& operator<<(const std::vector<std::string>& str);
-    bool operator==(const ComboProperty& other) const;
-    bool operator!=(const ComboProperty& other) const;
-    bool operator<(const ComboProperty& other) const;
+    QExtMvvmComboProperty& operator<<(const std::string& str);
+    QExtMvvmComboProperty& operator<<(const std::vector<std::string>& str);
+    bool operator==(const QExtMvvmComboProperty& other) const;
+    bool operator!=(const QExtMvvmComboProperty& other) const;
+    bool operator<(const QExtMvvmComboProperty& other) const;
 
     std::string stringOfValues() const;
     void setStringOfValues(const std::string& values);
@@ -59,7 +59,7 @@ public:
     std::string label() const;
 
 private:
-    ComboProperty(std::vector<std::string> values);
+    QExtMvvmComboProperty(std::vector<std::string> values);
 
     std::vector<std::string> m_values;
     std::vector<std::string> m_tooltips;
@@ -68,6 +68,6 @@ private:
 
 } // namespace ModelView
 
-Q_DECLARE_METATYPE(ModelView::ComboProperty)
+Q_DECLARE_METATYPE(ModelView::QExtMvvmComboProperty)
 
 #endif // MVVM_MODEL_COMBOPROPERTY_H

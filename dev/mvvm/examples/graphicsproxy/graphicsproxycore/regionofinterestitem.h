@@ -16,7 +16,7 @@ namespace GraphicsProxy {
 
 //! Item to represent region of interest on top of heat map.
 
-class RegionOfInterestItem : public ModelView::CompoundItem {
+class RegionOfInterestItem : public ModelView::QExtMvvmCompoundItem {
 public:
     RegionOfInterestItem();
 

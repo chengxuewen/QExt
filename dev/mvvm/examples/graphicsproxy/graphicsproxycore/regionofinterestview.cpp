@@ -21,7 +21,7 @@ const double bbox_margins = 5; // additional margins around rectangle to form bo
 namespace GraphicsProxy {
 
 RegionOfInterestView::RegionOfInterestView(RegionOfInterestItem* item,
-                                           const ModelView::SceneAdapterInterface* scene_adapter)
+                                           const ModelView::QExtMvvmSceneAdapterInterface* scene_adapter)
     : m_controller(qextMakeUnique<RegionOfInterestController>(scene_adapter, item, this))
 {
     if (!scene_adapter)

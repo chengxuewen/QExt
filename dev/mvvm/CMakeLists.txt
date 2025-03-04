@@ -44,30 +44,30 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core)
 #-----------------------------------------------------------------------------------------------------------------------
 # Add lib target
 #-----------------------------------------------------------------------------------------------------------------------
-qext_add_library(MVVM
+qext_add_library(Mvvm
     EXCEPTIONS
     SOURCES
-    source/model/commands/abstractitemcommand.cpp
-    source/model/commands/abstractitemcommand.h
-    source/model/commands/commandadapter.cpp
-    source/model/commands/commandadapter.h
-    source/model/commands/commandresult.h
-    source/model/commands/commandservice.cpp
-    source/model/commands/commandservice.h
-    source/model/commands/commandutils.cpp
-    source/model/commands/commandutils.h
-    source/model/commands/copyitemcommand.cpp
-    source/model/commands/copyitemcommand.h
-    source/model/commands/insertnewitemcommand.cpp
-    source/model/commands/insertnewitemcommand.h
-    source/model/commands/moveitemcommand.cpp
-    source/model/commands/moveitemcommand.h
-    source/model/commands/removeitemcommand.cpp
-    source/model/commands/removeitemcommand.h
-    source/model/commands/setvaluecommand.cpp
-    source/model/commands/setvaluecommand.h
-    source/model/commands/undostack.cpp
-    source/model/commands/undostack.h
+    source/model/commands/qextMvvmAbstractItemCommand.cpp
+    source/model/commands/qextMvvmAbstractItemCommand.h
+    source/model/commands/qextMvvmCommandAdapter.cpp
+    source/model/commands/qextMvvmCommandAdapter.h
+    source/model/commands/qextMvvmCommandResult.h
+    source/model/commands/qextMvvmCommandService.cpp
+    source/model/commands/qextMvvmCommandService.h
+    source/model/commands/qextMvvmCommandUtils.cpp
+    source/model/commands/qextMvvmCommandUtils.h
+    source/model/commands/qextMvvmCommands.cpp
+    source/model/commands/qextMvvmCommands.h
+    # source/model/commands/insertnewitemcommand.cpp
+    # source/model/commands/insertnewitemcommand.h
+    # source/model/commands/moveitemcommand.cpp
+    # source/model/commands/moveitemcommand.h
+    # source/model/commands/removeitemcommand.cpp
+    # source/model/commands/removeitemcommand.h
+    # source/model/commands/setvaluecommand.cpp
+    # source/model/commands/setvaluecommand.h
+    source/model/commands/qextMvvmUndoStack.cpp
+    source/model/commands/qextMvvmUndoStack.h
     source/model/core/filesystem.h
     source/model/core/types.h
     source/model/core/uniqueidgenerator.cpp
@@ -384,12 +384,10 @@ qext_add_library(MVVM
     source/viewmodel/viewmodel/viewmodeldelegate.h
     source/viewmodel/viewmodel/viewmodelutils.cpp
     source/viewmodel/viewmodel/viewmodelutils.h
-    source/qextMVVM.h
-    source/qextMVVM.cpp
-    source/qextMVVMGlobal.h
-    resource/qextMVVM.qrc
+    source/qextMvvmGlobal.h
+    resource/qextMvvm.qrc
     PRECOMPILED_HEADER
-    source/qextMVVMPch.h
+    source/qextMvvmPch.h
     INCLUDE_DIRECTORIES
     "${CMAKE_CURRENT_SOURCE_DIR}/source"
     LIBRARIES

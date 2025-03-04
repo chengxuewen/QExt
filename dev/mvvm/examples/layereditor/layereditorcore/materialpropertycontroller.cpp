@@ -17,12 +17,12 @@ using namespace ModelView;
 
 MaterialPropertyController::MaterialPropertyController(MaterialModel* material_model,
                                                        SampleModel* sample_model)
-    : ModelListener(material_model), m_sample_model(sample_model)
+    : QExtMvvmModelListener(material_model), m_sample_model(sample_model)
 {
-    setOnDataChange([this](SessionItem*, int) { update_all(); });
-    setOnItemInserted([this](SessionItem* item, TagRow tagrow) { update_all(); });
-    setOnItemRemoved([this](SessionItem* item, TagRow tagrow) { update_all(); });
-    setOnModelReset([this](SessionModel*) { update_all(); });
+    setOnDataChange([this](QExtMvvmSessionItem*, int) { update_all(); });
+    setOnItemInserted([this](QExtMvvmSessionItem* item, QExtMvvmTagRow tagrow) { update_all(); });
+    setOnItemRemoved([this](QExtMvvmSessionItem* item, QExtMvvmTagRow tagrow) { update_all(); });
+    setOnModelReset([this](QExtMvvmSessionModel*) { update_all(); });
     update_all();
 }
 
@@ -31,7 +31,7 @@ MaterialPropertyController::MaterialPropertyController(MaterialModel* material_m
 void MaterialPropertyController::update_all()
 {
     for (auto layer : Utils::FindItems<LayerItem>(m_sample_model)) {
-        auto property = layer->property<ExternalProperty>(LayerItem::P_MATERIAL);
+        auto property = layer->property<QExtMvvmExternalProperty>(LayerItem::P_MATERIAL);
         auto updated = model()->material_property(property.identifier());
         if (property != updated)
             layer->setProperty(LayerItem::P_MATERIAL, updated);

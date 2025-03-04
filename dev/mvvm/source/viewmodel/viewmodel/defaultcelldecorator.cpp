@@ -18,38 +18,38 @@
 
 using namespace ModelView;
 
-bool DefaultCellDecorator::hasCustomDecoration(const QModelIndex& index) const
+bool QExtMvvmDefaultCellDecorator::hasCustomDecoration(const QModelIndex& index) const
 {
     return cellText(index).has_value();
 }
 
-QExtOptional<std::string> DefaultCellDecorator::cellText(const QModelIndex& index) const
+QExtOptional<std::string> QExtMvvmDefaultCellDecorator::cellText(const QModelIndex& index) const
 {
     auto variant = index.data();
 
     if (Utils::IsComboVariant(variant))
-        return QExtOptional<std::string>{variant.value<ComboProperty>().label()};
+        return QExtOptional<std::string>{variant.value<QExtMvvmComboProperty>().label()};
 
     else if (Utils::IsBoolVariant(variant))
         return variant.value<bool>() ? QExtOptional<std::string>{"True"}
                                      : QExtOptional<std::string>{"False"};
 
     else if (Utils::IsExtPropertyVariant(variant))
-        return QExtOptional<std::string>{variant.value<ExternalProperty>().text()};
+        return QExtOptional<std::string>{variant.value<QExtMvvmExternalProperty>().text()};
 
     else if (Utils::IsColorVariant(variant))
         return QExtOptional<std::string>{std::string()};
 
     else if (Utils::IsDoubleVariant(variant))
         return QExtOptional<std::string>{
-            ScientificSpinBox::toString(index.data(Qt::EditRole).value<double>(),
+            QExtMvvmScientificSpinBox::toString(index.data(Qt::EditRole).value<double>(),
                                         Constants::default_double_decimals)
                 .toStdString()};
 
     return {};
 }
 
-void DefaultCellDecorator::initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index)
+void QExtMvvmDefaultCellDecorator::initStyleOption(QStyleOptionViewItem* option, const QModelIndex& index)
 {
     if (!hasCustomDecoration(index))
         return;

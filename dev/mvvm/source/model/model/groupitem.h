@@ -18,22 +18,22 @@ namespace ModelView {
 //! Group item holds collection of predefined items.
 //! Intended for the inheritance.
 
-class QEXT_MVVM_API GroupItem : public SessionItem {
+class QEXT_MVVM_API QExtMvvmGroupItem : public QExtMvvmSessionItem {
 public:
     static inline const std::string T_GROUP_ITEMS = "T_GROUP_ITEMS";
 
-    ~GroupItem() override;
+    ~QExtMvvmGroupItem() override;
 
     int currentIndex() const;
 
-    const SessionItem* currentItem() const;
-    SessionItem* currentItem();
+    const QExtMvvmSessionItem* currentItem() const;
+    QExtMvvmSessionItem* currentItem();
 
     std::string currentType() const;
-    void setCurrentType(const std::string& model_type);
+    void setCurrentType(const std::string& QExtMvvmModelType);
 
 protected:
-    GroupItem(model_type modelType);
+    QExtMvvmGroupItem(QExtMvvmModelType modelType);
     void setCurrentIndex(int index);
     template <typename T> void addToGroup(const std::string& text = {}, bool make_selected = false);
     void updateCombo();
@@ -45,10 +45,10 @@ protected:
 //! Adds an item of a given type to the group.
 //! @param 'text' defines a text to be shown in ComboEditor when selecting an item in a group.
 //! @param make_selected defines whether the item should be selected by default.
-template <typename T> void GroupItem::addToGroup(const std::string& text, bool make_selected)
+template <typename T> void QExtMvvmGroupItem::addToGroup(const std::string& text, bool make_selected)
 {
     m_item_text.push_back(text.empty() ? T().modelType() : text);
-    insertItem<T>(TagRow::append(T_GROUP_ITEMS));
+    insertItem<T>(QExtMvvmTagRow::append(T_GROUP_ITEMS));
     if (make_selected)
         m_index_to_select = m_item_text.size() - 1;
     updateCombo();

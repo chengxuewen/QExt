@@ -17,7 +17,7 @@ using namespace ModelView;
 
 namespace NodeEditor {
 
-SampleModel::SampleModel() : SessionModel("SampleModel")
+SampleModel::SampleModel() : QExtMvvmSessionModel("SampleModel")
 {
     registerItem<ParticleLayoutItem>();
     registerItem<SphereItem>();
@@ -48,7 +48,7 @@ void SampleModel::loadFromFile(const std::string& name)
 {
     if (name.empty())
         return;
-    auto document = ModelView::CreateJsonDocument({this});
+    auto document = ModelView::qextMvvmCreateJsonDocument({this});
     document->load(name);
 }
 
@@ -56,7 +56,7 @@ void SampleModel::saveToFile(const std::string& name)
 {
     if (name.empty())
         return;
-    auto document = ModelView::CreateJsonDocument({this});
+    auto document = ModelView::qextMvvmCreateJsonDocument({this});
     document->save(name);
 }
 

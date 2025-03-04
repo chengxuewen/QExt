@@ -10,26 +10,29 @@
 #ifndef MVVM_COMMANDS_ABSTRACTITEMCOMMAND_H
 #define MVVM_COMMANDS_ABSTRACTITEMCOMMAND_H
 
-#include "model/commands/commandresult.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
+#include <qextMvvmCommandUtils.h>
+#include <qextMvvmCommandResult.h>
+
 #include <memory>
 #include <string>
 
 namespace ModelView {
 
-class SessionItem;
-class SessionModel;
-class Path;
+class QExtMvvmPath;
+class QExtMvvmSessionItem;
+class QExtMvvmSessionModel;
 
-//! Abstract command interface to manipulate SessionItem in model context.
+//! Abstract command interface to manipulate QExtMvvmSessionItem in model context.
 
-class QEXT_MVVM_API AbstractItemCommand {
+class QEXT_MVVM_API QExtMvvmAbstractItemCommand
+{
 public:
-    explicit AbstractItemCommand(SessionItem* receiver);
-    virtual ~AbstractItemCommand();
+    explicit QExtMvvmAbstractItemCommand(QExtMvvmSessionItem* receiver);
+    virtual ~QExtMvvmAbstractItemCommand();
 
-    AbstractItemCommand(const AbstractItemCommand& other) = delete;
-    AbstractItemCommand& operator=(const AbstractItemCommand& other) = delete;
+    QExtMvvmAbstractItemCommand(const QExtMvvmAbstractItemCommand& other) = delete;
+    QExtMvvmAbstractItemCommand& operator=(const QExtMvvmAbstractItemCommand& other) = delete;
 
     void execute();
 
@@ -39,15 +42,15 @@ public:
 
     std::string description() const;
 
-    CommandResult result() const;
+    QExtMvvmCommandResult result() const;
 
 protected:
     void setObsolete(bool flag);
     void setDescription(const std::string& text);
-    Path pathFromItem(SessionItem* item) const;
-    SessionItem* itemFromPath(const Path& path) const;
-    SessionModel* model() const;
-    void setResult(const CommandResult& command_result);
+    QExtMvvmPath pathFromItem(QExtMvvmSessionItem* item) const;
+    QExtMvvmSessionItem* itemFromPath(const QExtMvvmPath& path) const;
+    QExtMvvmSessionModel* model() const;
+    void setResult(const QExtMvvmCommandResult& command_result);
 
 private:
     virtual void execute_command() = 0;

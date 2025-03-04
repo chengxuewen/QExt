@@ -10,7 +10,7 @@
 #ifndef MVVM_VIEWMODEL_VIEWMODELUTILS_H
 #define MVVM_VIEWMODEL_VIEWMODELUTILS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QModelIndexList>
 #include <QVector>
 #include <functional>
@@ -20,7 +20,7 @@ class QVariant;
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
 namespace Utils {
 
@@ -32,29 +32,29 @@ QEXT_MVVM_API void iterate_model(const QAbstractItemModel* model, const QModelIn
 QEXT_MVVM_API QVector<int> ItemRoleToQtRole(int role);
 
 //! Returns text color for given item.
-QEXT_MVVM_API QVariant TextColorRole(const SessionItem& item);
+QEXT_MVVM_API QVariant TextColorRole(const QExtMvvmSessionItem& item);
 
 //! Returns check state role of given item.
-QEXT_MVVM_API QVariant CheckStateRole(const SessionItem& item);
+QEXT_MVVM_API QVariant CheckStateRole(const QExtMvvmSessionItem& item);
 
 //! Returns decoration role for given item.
-QEXT_MVVM_API QVariant DecorationRole(const SessionItem& item);
+QEXT_MVVM_API QVariant DecorationRole(const QExtMvvmSessionItem& item);
 
 //! Returns tooltip role for given item.
-QEXT_MVVM_API QVariant ToolTipRole(const SessionItem& item);
+QEXT_MVVM_API QVariant ToolTipRole(const QExtMvvmSessionItem& item);
 
-//! Returns vector of underlying SessionItem's for given index list.
-QEXT_MVVM_API std::vector<SessionItem*> ItemsFromIndex(const QModelIndexList& index_list);
+//! Returns vector of underlying QExtMvvmSessionItem's for given index list.
+QEXT_MVVM_API std::vector<QExtMvvmSessionItem*> ItemsFromIndex(const QModelIndexList& index_list);
 
-//! Returns vector of underlying SessionItem's for given index list. Removes repetitions
-QEXT_MVVM_API std::vector<SessionItem*>
+//! Returns vector of underlying QExtMvvmSessionItem's for given index list. Removes repetitions
+QEXT_MVVM_API std::vector<QExtMvvmSessionItem*>
 UniqueItemsFromIndex(const QModelIndexList& index_list);
 
 //! Returns vector of parent items from given index list.
 //! Finds all SessionItems corresponding to given index list and collect their parents.
 //! Function is usefull in the context of table-like views when we want to find compound items
 //! (i.e. Layers) from table cells containing LayerItem's properties (i.e. thickness).
-QEXT_MVVM_API std::vector<SessionItem*>
+QEXT_MVVM_API std::vector<QExtMvvmSessionItem*>
 ParentItemsFromIndex(const QModelIndexList& index_list);
 
 } // namespace Utils

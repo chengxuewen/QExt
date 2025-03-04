@@ -18,24 +18,24 @@ using namespace ModelView;
 
 namespace {
 //! Returns QCPRange of axis.
-QCPRange qcpRange(const BinnedAxisItem* axis)
+QCPRange qcpRange(const QExtMvvmBinnedAxisItem* axis)
 {
     auto centers = axis->binCenters(); // QCPColorMapData expects centers of bin
     return centers.empty() ? QCPRange() : QCPRange(centers.front(), centers.back());
 }
 } // namespace
 
-struct Data2DPlotController::Data2DPlotControllerImpl {
-    Data2DPlotController* master{nullptr};
+struct QExtMvvmData2DPlotController::Data2DPlotControllerImpl {
+    QExtMvvmData2DPlotController* master{nullptr};
     QCPColorMap* color_map{nullptr};
-    Data2DPlotControllerImpl(Data2DPlotController* master, QCPColorMap* color_map)
+    Data2DPlotControllerImpl(QExtMvvmData2DPlotController* master, QCPColorMap* color_map)
         : master(master), color_map(color_map)
     {
         if (!color_map)
-            throw std::runtime_error("Uninitialised colormap in Data2DPlotController");
+            throw std::runtime_error("Uninitialised colormap in QExtMvvmData2DPlotController");
     }
 
-    Data2DItem* dataItem() { return master->currentItem(); }
+    QExtMvvmData2DItem* dataItem() { return master->currentItem(); }
 
     void update_data_points()
     {
@@ -67,17 +67,17 @@ struct Data2DPlotController::Data2DPlotControllerImpl {
     void reset_colormap() { color_map->data()->clear(); }
 };
 
-Data2DPlotController::Data2DPlotController(QCPColorMap* color_map)
+QExtMvvmData2DPlotController::QExtMvvmData2DPlotController(QCPColorMap* color_map)
     : p_impl(qextMakeUnique<Data2DPlotControllerImpl>(this, color_map))
 {
 }
 
-Data2DPlotController::~Data2DPlotController() = default;
+QExtMvvmData2DPlotController::~QExtMvvmData2DPlotController() = default;
 
-void Data2DPlotController::subscribe()
+void QExtMvvmData2DPlotController::subscribe()
 {
-    auto on_property_change = [this](SessionItem*, const std::string& name) {
-        if (name == Data2DItem::P_VALUES)
+    auto on_property_change = [this](QExtMvvmSessionItem*, const std::string& name) {
+        if (name == QExtMvvmData2DItem::P_VALUES)
             p_impl->update_data_points();
     };
     setOnPropertyChange(on_property_change);
@@ -85,7 +85,7 @@ void Data2DPlotController::subscribe()
     p_impl->update_data_points();
 }
 
-void Data2DPlotController::unsubscribe()
+void QExtMvvmData2DPlotController::unsubscribe()
 {
     p_impl->reset_colormap();
 }

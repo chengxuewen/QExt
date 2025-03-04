@@ -13,13 +13,13 @@
 
 using namespace ModelView;
 
-RootViewItem::RootViewItem(SessionItem* item) : ViewItem(item, ItemDataRole::DATA) {}
+QExtMvvmRootViewItem::QExtMvvmRootViewItem(QExtMvvmSessionItem* item) : QExtMvvmViewItem(item, ItemDataRole::DATA) {}
 
 //! ---------------------------------------------------------------------------
 
-ViewLabelItem::ViewLabelItem(SessionItem* item) : ViewItem(item, ItemDataRole::DISPLAY) {}
+QExtMvvmViewLabelItem::QExtMvvmViewLabelItem(QExtMvvmSessionItem* item) : QExtMvvmViewItem(item, ItemDataRole::DISPLAY) {}
 
-QVariant ViewLabelItem::data(int role) const
+QVariant QExtMvvmViewLabelItem::data(int role) const
 {
     if (!item())
         return QVariant();
@@ -28,35 +28,35 @@ QVariant ViewLabelItem::data(int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole)
         return QString::fromStdString(item()->displayName());
 
-    return ViewItem::data(role);
+    return QExtMvvmViewItem::data(role);
 }
 
 //! ---------------------------------------------------------------------------
 
-ViewDataItem::ViewDataItem(SessionItem* item) : ViewItem(item, ItemDataRole::DATA) {}
+QExtMvvmViewDataItem::QExtMvvmViewDataItem(QExtMvvmSessionItem* item) : QExtMvvmViewItem(item, ItemDataRole::DATA) {}
 
-Qt::ItemFlags ViewDataItem::flags() const
+Qt::ItemFlags QExtMvvmViewDataItem::flags() const
 {
-    Qt::ItemFlags result = ViewItem::flags();
+    Qt::ItemFlags result = QExtMvvmViewItem::flags();
     if (item() && item()->isEditable() && item()->isEnabled() && item()->data<QVariant>().isValid())
         result |= Qt::ItemIsEditable;
 
     return result;
 }
 
-QVariant ViewDataItem::data(int role) const
+QVariant QExtMvvmViewDataItem::data(int role) const
 {
     if (role == Qt::DecorationRole)
         return Utils::DecorationRole(*item());
     else if (role == Qt::CheckStateRole)
         return Utils::CheckStateRole(*item());
 
-    return ViewItem::data(role);
+    return QExtMvvmViewItem::data(role);
 }
 
-ViewEmptyItem::ViewEmptyItem() : ViewItem(nullptr, 0) {}
+QExtMvvmViewEmptyItem::QExtMvvmViewEmptyItem() : QExtMvvmViewItem(nullptr, 0) {}
 
-QVariant ViewEmptyItem::data(int) const
+QVariant QExtMvvmViewEmptyItem::data(int) const
 {
     return QVariant();
 }

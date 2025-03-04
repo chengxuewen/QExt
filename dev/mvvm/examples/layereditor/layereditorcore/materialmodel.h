@@ -17,12 +17,12 @@
 class QColor;
 
 namespace ModelView {
-class ExternalProperty;
+class QExtMvvmExternalProperty;
 }
 
 //! Represents material based on scattering length density.
 
-class SLDMaterialItem : public ModelView::CompoundItem {
+class SLDMaterialItem : public ModelView::QExtMvvmCompoundItem {
 public:
     static inline const std::string P_NAME = "P_NAME";
     static inline const std::string P_COLOR = "P_COLOR";
@@ -36,15 +36,15 @@ public:
 
 //! Model to hold MaterialItems.
 
-class MaterialModel : public ModelView::SessionModel {
+class MaterialModel : public ModelView::QExtMvvmSessionModel {
 public:
     MaterialModel();
 
-    static ModelView::ExternalProperty undefined_material();
+    static ModelView::QExtMvvmExternalProperty undefined_material();
 
-    std::vector<ModelView::ExternalProperty> material_data();
+    std::vector<ModelView::QExtMvvmExternalProperty> material_data();
 
-    ModelView::ExternalProperty material_property(const std::string& id);
+    ModelView::QExtMvvmExternalProperty material_property(const std::string& id);
 
 private:
     void populateModel();

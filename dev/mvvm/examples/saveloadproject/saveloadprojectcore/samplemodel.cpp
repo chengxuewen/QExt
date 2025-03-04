@@ -35,7 +35,7 @@ const std::string DemoItemType = "DemoItem";
 
 using namespace ModelView;
 
-DemoItem::DemoItem() : CompoundItem(DemoItemType)
+DemoItem::DemoItem() : QExtMvvmCompoundItem(DemoItemType)
 {
     addProperty(P_COLOR_PROPERTY, QColor(Qt::green))->setDisplayName("Color");
     addProperty(P_BOOL_PROPERTY, true)->setDisplayName("Bool");
@@ -44,14 +44,14 @@ DemoItem::DemoItem() : CompoundItem(DemoItemType)
     addProperty(P_DOUBLE_PROPERTY, 42.1)->setDisplayName("Double");
 }
 
-SampleModel::SampleModel() : SessionModel("SampleModel")
+SampleModel::SampleModel() : QExtMvvmSessionModel("SampleModel")
 {
     registerItem<DemoItem>();
     populateModel();
     setUndoRedoEnabled(true);
 }
 
-void SampleModel::appendNewItem(ModelView::SessionItem* container)
+void SampleModel::appendNewItem(ModelView::QExtMvvmSessionItem* container)
 {
     auto item = insertItem<DemoItem>(container);
     item->setProperty(DemoItem::P_COLOR_PROPERTY, ModelView::Utils::RandomColor());
@@ -63,7 +63,7 @@ void SampleModel::appendNewItem(ModelView::SessionItem* container)
 
 void SampleModel::populateModel()
 {
-    auto container = insertItem<ModelView::ContainerItem>();
+    auto container = insertItem<ModelView::QExtMvvmContainerItem>();
     appendNewItem(container);
     appendNewItem(container);
     appendNewItem(container);

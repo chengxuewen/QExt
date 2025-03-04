@@ -11,27 +11,27 @@
 #define MVVM_MODEL_ITEMFACTORY_H
 
 #include "model/interfaces/itemfactoryinterface.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 namespace ModelView {
 
-class ItemCatalogue;
+class QExtMvvmItemCatalogue;
 
-//! Default SessionItem factory.
+//! Default QExtMvvmSessionItem factory.
 
-class QEXT_MVVM_API ItemFactory : public ItemFactoryInterface {
+class QEXT_MVVM_API QExtMvvmItemFactory : public QExtMvvmItemFactoryInterface {
 public:
-    ItemFactory(QExtUniquePointer<ItemCatalogue> catalogue);
-    ~ItemFactory() override;
+    QExtMvvmItemFactory(QExtUniquePointer<QExtMvvmItemCatalogue> catalogue);
+    ~QExtMvvmItemFactory() override;
 
-    void registerItem(const std::string& modelType, item_factory_func_t func,
+    void registerItem(const std::string& modelType, QExtMvvmItemFactoryFunc func,
                       const std::string& label) override;
 
-    QExtUniquePointer<SessionItem> createItem(const model_type& modelType) const override;
+    QExtUniquePointer<QExtMvvmSessionItem> createItem(const QExtMvvmModelType& modelType) const override;
 
 protected:
-    QExtUniquePointer<ItemCatalogue> m_catalogue;
+    QExtUniquePointer<QExtMvvmItemCatalogue> m_catalogue;
 };
 
 } // namespace ModelView

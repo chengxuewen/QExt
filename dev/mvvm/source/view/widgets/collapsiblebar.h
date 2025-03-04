@@ -10,7 +10,7 @@
 #ifndef MVVM_WIDGETS_COLLAPSIBLEBAR_H
 #define MVVM_WIDGETS_COLLAPSIBLEBAR_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QFrame>
 
 class QLabel;
@@ -18,14 +18,14 @@ class QString;
 
 namespace ModelView {
 
-//! Horizontal collapsible bar, part of CollapsibleListWidget.
+//! Horizontal collapsible bar, part of QExtMvvmCollapsibleListWidget.
 //! Intended for placement into the QSplitter, makes client widget visible/invisible on clicks.
 
-class QEXT_MVVM_API CollapsibleBar : public QFrame {
+class QEXT_MVVM_API QExtMvvmCollapsibleBar : public QFrame {
     Q_OBJECT
 
 public:
-    CollapsibleBar(QWidget* parent = nullptr);
+    QExtMvvmCollapsibleBar(QWidget* parent = nullptr);
 
     void setWidget(QWidget* widget, const QString& title);
 

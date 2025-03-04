@@ -16,7 +16,7 @@ class MaterialModel;
 class SampleModel;
 class QString;
 
-//! Container class to hold all SessionModel's used during GUI session.
+//! Container class to hold all QExtMvvmSessionModel's used during GUI session.
 //! Holds SampleModel with multilayer structure and MaterialModel with collection of materials.
 
 class ApplicationModels {

@@ -14,13 +14,13 @@
 
 using namespace ModelView;
 
-Path Utils::PathFromItem(const SessionItem* item)
+QExtMvvmPath Utils::PathFromItem(const QExtMvvmSessionItem* item)
 {
     if (!item || !item->model())
         return {};
 
-    Path result;
-    const SessionItem* current(item);
+    QExtMvvmPath result;
+    const QExtMvvmSessionItem* current(item);
     while (current && current->parent()) {
         result.prepend(Utils::IndexOfChild(current->parent(), current));
         current = current->parent();
@@ -28,9 +28,9 @@ Path Utils::PathFromItem(const SessionItem* item)
     return result;
 }
 
-SessionItem* Utils::ItemFromPath(const SessionModel& model, const Path& path)
+QExtMvvmSessionItem* Utils::ItemFromPath(const QExtMvvmSessionModel& model, const QExtMvvmPath& path)
 {
-    SessionItem* result(model.rootItem());
+    QExtMvvmSessionItem* result(model.rootItem());
     for (const auto& x : path) {
         result = Utils::ChildAt(result, x);
         if (!result)
@@ -39,14 +39,14 @@ SessionItem* Utils::ItemFromPath(const SessionModel& model, const Path& path)
     return result;
 }
 
-void Utils::PopulateEmptyModel(const JsonModelConverterInterface* converter,
-                               const SessionModel& source, SessionModel& target)
+void Utils::PopulateEmptyModel(const QExtMvvmJsonModelConverterInterface* converter,
+                               const QExtMvvmSessionModel& source, QExtMvvmSessionModel& target)
 {
     QJsonObject object = converter->to_json(source);
     converter->from_json(object, target);
 }
 
-void Utils::DeleteItemFromModel(SessionItem* item)
+void Utils::DeleteItemFromModel(QExtMvvmSessionItem* item)
 {
     auto model = item->model();
     if (!model)
@@ -55,7 +55,7 @@ void Utils::DeleteItemFromModel(SessionItem* item)
     model->removeItem(item->parent(), item->tagRow());
 }
 
-void Utils::MoveUp(SessionItem* item)
+void Utils::MoveUp(QExtMvvmSessionItem* item)
 {
     auto tagrow = item->tagRow();
     if (tagrow.row == 0)
@@ -63,7 +63,7 @@ void Utils::MoveUp(SessionItem* item)
     item->model()->moveItem(item, item->parent(), tagrow.prev());
 }
 
-void Utils::MoveDown(SessionItem* item)
+void Utils::MoveDown(QExtMvvmSessionItem* item)
 {
     auto tagrow = item->tagRow();
     if (tagrow.row == item->parent()->itemCount(tagrow.tag) - 1)
@@ -71,33 +71,33 @@ void Utils::MoveDown(SessionItem* item)
     item->model()->moveItem(item, item->parent(), tagrow.next());
 }
 
-void Utils::Undo(SessionModel& model)
+void Utils::Undo(QExtMvvmSessionModel& model)
 {
     if (auto stack = model.undoStack(); stack)
         stack->undo();
 }
 
-void Utils::Redo(SessionModel& model)
+void Utils::Redo(QExtMvvmSessionModel& model)
 {
     if (auto stack = model.undoStack(); stack)
         stack->redo();
 }
 
-void Utils::BeginMacros(const SessionItem* item, const std::string& macro_name)
+void Utils::BeginMacros(const QExtMvvmSessionItem* item, const std::string& macro_name)
 {
     if (!item)
         return;
     BeginMacros(item->model(), macro_name);
 }
 
-void Utils::EndMacros(const SessionItem* item)
+void Utils::EndMacros(const QExtMvvmSessionItem* item)
 {
     if (!item)
         return;
     EndMacros(item->model());
 }
 
-void Utils::BeginMacros(const SessionModel* model, const std::string& macro_name)
+void Utils::BeginMacros(const QExtMvvmSessionModel* model, const std::string& macro_name)
 {
     if (!model)
         return;
@@ -105,7 +105,7 @@ void Utils::BeginMacros(const SessionModel* model, const std::string& macro_name
         stack->beginMacro(macro_name);
 }
 
-void Utils::EndMacros(const SessionModel* model)
+void Utils::EndMacros(const QExtMvvmSessionModel* model)
 {
     if (!model)
         return;

@@ -11,7 +11,7 @@
 #define MVVM_EDITORS_DEFAULTEDITORFACTORY_H
 
 //! @file defaulteditorfactory.h
-//! Defines DefaultEditorFactory and auxiliary classes for custom view model delegates.
+//! Defines QExtMvvmDefaultEditorFactory and auxiliary classes for custom view model delegates.
 
 #include "viewmodel/editors/editorbuilders.h"
 #include "viewmodel/interfaces/editorfactoryinterface.h"
@@ -20,11 +20,11 @@
 
 namespace ModelView {
 
-//! Abstract editor factory for ViewModelDelegate.
+//! Abstract editor factory for QExtMvvmViewModelDelegate.
 //! Creates cell editors for Qt trees and tables from model index. Cell editor is
-//! Qt widget intended for editing DATA role of some SessionItem.
+//! Qt widget intended for editing DATA role of some QExtMvvmSessionItem.
 
-class QEXT_MVVM_API AbstractEditorFactory : public EditorFactoryInterface {
+class QEXT_MVVM_API QExtMvvmAbstractEditorFactory : public QExtMvvmEditorFactoryInterface {
 protected:
     void registerBuilder(const std::string& name, EditorBuilders::builder_t builder);
     EditorBuilders::builder_t findBuilder(const std::string& name) const;
@@ -33,40 +33,40 @@ protected:
 };
 
 //! Editor factory for cell editors in Qt trees and tables, relies on EDITORTYPE role stored
-//! on board of SessionItem.
+//! on board of QExtMvvmSessionItem.
 
-class QEXT_MVVM_API RoleDependentEditorFactory : public AbstractEditorFactory {
+class QEXT_MVVM_API QExtMvvmRoleDependentEditorFactory : public QExtMvvmAbstractEditorFactory {
 public:
-    RoleDependentEditorFactory();
+    QExtMvvmRoleDependentEditorFactory();
 
-    QExtUniquePointer<CustomEditor> createEditor(const QModelIndex& index) const override;
+    QExtUniquePointer<QExtMvvmCustomEditor> createEditor(const QModelIndex& index) const override;
 
 protected:
-    QExtUniquePointer<CustomEditor> createItemEditor(const SessionItem* item) const;
+    QExtUniquePointer<QExtMvvmCustomEditor> createItemEditor(const QExtMvvmSessionItem* item) const;
 };
 
 //! Editor factory for cell editors in Qt trees and tables, relies on variant type stored as
-//! DATA role on board of SessionItem.
+//! DATA role on board of QExtMvvmSessionItem.
 
-class QEXT_MVVM_API VariantDependentEditorFactory : public AbstractEditorFactory {
+class QEXT_MVVM_API QExtMvvmVariantDependentEditorFactory : public QExtMvvmAbstractEditorFactory {
 public:
-    VariantDependentEditorFactory();
+    QExtMvvmVariantDependentEditorFactory();
 
-    QExtUniquePointer<CustomEditor> createEditor(const QModelIndex& index) const override;
+    QExtUniquePointer<QExtMvvmCustomEditor> createEditor(const QModelIndex& index) const override;
 };
 
 //! Default editor factory for cell editors in Qt trees and tables.
 //! Internaly it uses two factories
 
-class QEXT_MVVM_API DefaultEditorFactory : public EditorFactoryInterface {
+class QEXT_MVVM_API QExtMvvmDefaultEditorFactory : public QExtMvvmEditorFactoryInterface {
 public:
-    DefaultEditorFactory();
+    QExtMvvmDefaultEditorFactory();
 
-    QExtUniquePointer<CustomEditor> createEditor(const QModelIndex& index) const override;
+    QExtUniquePointer<QExtMvvmCustomEditor> createEditor(const QModelIndex& index) const override;
 
 private:
-    QExtUniquePointer<RoleDependentEditorFactory> m_roleDependentFactory;
-    QExtUniquePointer<VariantDependentEditorFactory> m_variantDependentFactory;
+    QExtUniquePointer<QExtMvvmRoleDependentEditorFactory> m_roleDependentFactory;
+    QExtUniquePointer<QExtMvvmVariantDependentEditorFactory> m_variantDependentFactory;
 };
 
 } // namespace ModelView

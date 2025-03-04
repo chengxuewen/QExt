@@ -16,27 +16,27 @@
 
 using namespace ModelView;
 
-QExtUniquePointer<ViewModel> Factory::CreateDefaultViewModel(ModelView::SessionModel* model)
+QExtUniquePointer<QExtMvvmViewModel> Factory::CreateDefaultViewModel(ModelView::QExtMvvmSessionModel* model)
 {
-    return qextMakeUnique<DefaultViewModel>(model);
+    return qextMakeUnique<QExtMvvmDefaultViewModel>(model);
 }
 
-QExtUniquePointer<ViewModel> Factory::CreatePropertyViewModel(SessionModel* model)
+QExtUniquePointer<QExtMvvmViewModel> Factory::CreatePropertyViewModel(QExtMvvmSessionModel* model)
 {
-    return qextMakeUnique<PropertyViewModel>(model);
+    return qextMakeUnique<QExtMvvmPropertyViewModel>(model);
 }
 
-QExtUniquePointer<ViewModel> Factory::CreatePropertyTableViewModel(SessionModel* model)
+QExtUniquePointer<QExtMvvmViewModel> Factory::CreatePropertyTableViewModel(QExtMvvmSessionModel* model)
 {
-    return qextMakeUnique<PropertyTableViewModel>(model);
+    return qextMakeUnique<QExtMvvmPropertyTableViewModel>(model);
 }
 
-QExtUniquePointer<ViewModel> Factory::CreateTopItemsViewModel(SessionModel* model)
+QExtUniquePointer<QExtMvvmViewModel> Factory::CreateTopItemsViewModel(QExtMvvmSessionModel* model)
 {
-    return qextMakeUnique<TopItemsViewModel>(model);
+    return qextMakeUnique<QExtMvvmTopItemsViewModel>(model);
 }
 
-QExtUniquePointer<ViewModel> Factory::CreatePropertyFlatViewModel(SessionModel* model)
+QExtUniquePointer<QExtMvvmViewModel> Factory::CreatePropertyFlatViewModel(QExtMvvmSessionModel* model)
 {
-    return qextMakeUnique<PropertyFlatViewModel>(model);
+    return qextMakeUnique<QExtMvvmPropertyFlatViewModel>(model);
 }

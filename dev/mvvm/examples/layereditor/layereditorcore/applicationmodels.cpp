@@ -19,7 +19,7 @@ struct ApplicationModels::ApplicationModelsImpl {
     QExtUniquePointer<MaterialModel> m_material_model;
     QExtUniquePointer<SampleModel> m_sample_model;
     QExtUniquePointer<MaterialPropertyController> m_property_controller;
-    QExtUniquePointer<ModelDocumentInterface> m_document;
+    QExtUniquePointer<QExtMvvmModelDocumentInterface> m_document;
 
     ApplicationModelsImpl()
     {
@@ -27,7 +27,7 @@ struct ApplicationModels::ApplicationModelsImpl {
         m_sample_model = qextMakeUnique<SampleModel>();
         m_property_controller = qextMakeUnique<MaterialPropertyController>(m_material_model.get(),
                                                                              m_sample_model.get());
-        m_document = CreateJsonDocument({m_material_model.get(), m_sample_model.get()});
+        m_document = qextMvvmCreateJsonDocument({m_material_model.get(), m_sample_model.get()});
     }
 };
 

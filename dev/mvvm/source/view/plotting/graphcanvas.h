@@ -10,28 +10,28 @@
 #ifndef MVVM_PLOTTING_GRAPHCANVAS_H
 #define MVVM_PLOTTING_GRAPHCANVAS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QWidget>
 #include <memory>
 
 namespace ModelView {
 
-class GraphViewportItem;
-class SceneAdapterInterface;
+class QExtMvvmGraphViewportItem;
+class QExtMvvmSceneAdapterInterface;
 
 //! Widget to show scientific figure with multiple 1D graphs.
-//! Contains embedded QCustomPlot widget, shows content of GraphViewportItem.
+//! Contains embedded QCustomPlot widget, shows content of QExtMvvmGraphViewportItem.
 
-class QEXT_MVVM_API GraphCanvas : public QWidget {
+class QEXT_MVVM_API QExtMvvmGraphCanvas : public QWidget {
     Q_OBJECT
 
 public:
-    explicit GraphCanvas(QWidget* parent = nullptr);
-    ~GraphCanvas() override;
+    explicit QExtMvvmGraphCanvas(QWidget* parent = nullptr);
+    ~QExtMvvmGraphCanvas() override;
 
-    void setItem(GraphViewportItem* viewport_item);
+    void setItem(QExtMvvmGraphViewportItem* viewport_item);
 
-    QExtUniquePointer<SceneAdapterInterface> createSceneAdapter() const;
+    QExtUniquePointer<QExtMvvmSceneAdapterInterface> createSceneAdapter() const;
 
     void setViewportToContent(double left, double top, double right, double bottom);
 

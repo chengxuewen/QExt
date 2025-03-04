@@ -17,7 +17,7 @@
 
 using namespace ModelView;
 
-CollapsibleBar::CollapsibleBar(QWidget* parent)
+QExtMvvmCollapsibleBar::QExtMvvmCollapsibleBar(QWidget* parent)
     : QFrame(parent), m_pixmapLabel(new QLabel), m_titleLabel(new QLabel)
 {
     m_pixmapLabel->setPixmap(QPixmap(":/icons/chevron-down.svg"));
@@ -32,7 +32,7 @@ CollapsibleBar::CollapsibleBar(QWidget* parent)
     setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
 }
 
-void CollapsibleBar::setWidget(QWidget* widget, const QString& title)
+void QExtMvvmCollapsibleBar::setWidget(QWidget* widget, const QString& title)
 {
     m_controlledWidget = widget;
     m_titleLabel->setText(title);
@@ -40,7 +40,7 @@ void CollapsibleBar::setWidget(QWidget* widget, const QString& title)
     updatePixmap();
 }
 
-void CollapsibleBar::mousePressEvent(QMouseEvent* event)
+void QExtMvvmCollapsibleBar::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton)
         m_controlledWidget->setHidden(m_controlledWidget->isVisible());
@@ -49,7 +49,7 @@ void CollapsibleBar::mousePressEvent(QMouseEvent* event)
 
 //! Listens for widget signals and update collapse/expand icon on visibility change.
 
-bool CollapsibleBar::eventFilter(QObject* obj, QEvent* event)
+bool QExtMvvmCollapsibleBar::eventFilter(QObject* obj, QEvent* event)
 {
     bool is_event_of_interest = (event->type() == QEvent::Show || event->type() == QEvent::Hide);
     if (obj == m_controlledWidget && is_event_of_interest)
@@ -59,7 +59,7 @@ bool CollapsibleBar::eventFilter(QObject* obj, QEvent* event)
 
 //! Set pixmap depending from the visibility of the widget.
 
-void CollapsibleBar::updatePixmap()
+void QExtMvvmCollapsibleBar::updatePixmap()
 {
     if (m_controlledWidget->isVisible()) {
         m_pixmapLabel->setPixmap(QPixmap(":/icons/chevron-down.svg"));

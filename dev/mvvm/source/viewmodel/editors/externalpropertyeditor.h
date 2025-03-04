@@ -17,16 +17,16 @@ class QLabel;
 
 namespace ModelView {
 
-class LostFocusFilter;
+class QExtMvvmLostFocusFilter;
 
-//! Custom editor for QVariant based on ExternalProperty.
+//! Custom editor for QVariant based on QExtMvvmExternalProperty.
 //! Contains icon, label and button to call external dialog via callback mechanism.
 
-class QEXT_MVVM_API ExternalPropertyEditor : public CustomEditor {
+class QEXT_MVVM_API QExtMvvmExternalPropertyEditor : public QExtMvvmCustomEditor {
     Q_OBJECT
 
 public:
-    explicit ExternalPropertyEditor(QWidget* parent = nullptr);
+    explicit QExtMvvmExternalPropertyEditor(QWidget* parent = nullptr);
 
     void setCallback(std::function<void(const QVariant&)> callback);
 
@@ -37,7 +37,7 @@ private:
     void update_components() override;
     QLabel* m_textLabel;
     QLabel* m_pixmapLabel;
-    LostFocusFilter* m_focusFilter;
+    QExtMvvmLostFocusFilter* m_focusFilter;
     std::function<void(const QVariant&)> m_callback; //! actions to take on clicked button
 };
 

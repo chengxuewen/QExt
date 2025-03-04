@@ -10,56 +10,57 @@
 #ifndef MVVM_COMMANDS_COMMANDSERVICE_H
 #define MVVM_COMMANDS_COMMANDSERVICE_H
 
-#include "model/commands/commandresult.h"
+#include <qextMvvmCommandResult.h>
+// #include "model/commands/commandresult.h"
 #include "model/core/variant.h"
 #include "model/interfaces/undostackinterface.h"
 #include "model/model/function_types.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 
 namespace ModelView {
 
-class SessionModel;
-class SessionItem;
-class TagRow;
+class QExtMvvmSessionModel;
+class QExtMvvmSessionItem;
+class QExtMvvmTagRow;
 
-//! Provides undo/redo for all commands of SessionModel.
+//! Provides undo/redo for all commands of QExtMvvmSessionModel.
 
-class QEXT_MVVM_API CommandService {
+class QEXT_MVVM_API QExtMvvmCommandService {
 public:
-    CommandService(SessionModel* model);
+    QExtMvvmCommandService(QExtMvvmSessionModel* model);
 
     void setUndoRedoEnabled(bool value);
 
-    SessionItem* insertNewItem(const item_factory_func_t& func, SessionItem* parent,
-                               const TagRow& tagrow);
+    QExtMvvmSessionItem* insertNewItem(const QExtMvvmItemFactoryFunc& func, QExtMvvmSessionItem* parent,
+                               const QExtMvvmTagRow& tagrow);
 
-    SessionItem* copyItem(const SessionItem* item, SessionItem* parent, const TagRow& tagrow);
+    QExtMvvmSessionItem* copyItem(const QExtMvvmSessionItem* item, QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow);
 
-    bool setData(SessionItem* item, const Variant& value, int role);
+    bool setData(QExtMvvmSessionItem* item, const QVariant& value, int role);
 
-    void removeItem(SessionItem* parent, const TagRow& tagrow);
+    void removeItem(QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow);
 
-    void moveItem(SessionItem* item, SessionItem* new_parent, const TagRow& tagrow);
+    void moveItem(QExtMvvmSessionItem* item, QExtMvvmSessionItem* new_parent, const QExtMvvmTagRow& tagrow);
 
-    UndoStackInterface* undoStack() const;
+    QExtMvvmUndoStackInterface* undoStack() const;
 
     void setCommandRecordPause(bool value);
 
 private:
-    template <typename C, typename... Args> CommandResult process_command(Args&&... args);
+    template <typename C, typename... Args> QExtMvvmCommandResult process_command(Args&&... args);
 
     bool provideUndo() const;
 
-    SessionModel* m_model;
-    QExtUniquePointer<UndoStackInterface> m_commands;
+    QExtMvvmSessionModel* m_model;
+    QExtUniquePointer<QExtMvvmUndoStackInterface> m_commands;
     bool m_pause_record;
 };
 
 //! Creates and processes command of given type using given argument list.
 
 template <typename C, typename... Args>
-CommandResult CommandService::process_command(Args&&... args)
+QExtMvvmCommandResult QExtMvvmCommandService::process_command(Args&&... args)
 {
     if (provideUndo()) {
         // making shared because underlying QUndoStack requires ownership

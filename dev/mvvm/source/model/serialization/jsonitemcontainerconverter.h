@@ -10,7 +10,7 @@
 #ifndef MVVM_SERIALIZATION_JSONITEMCONTAINERCONVERTER_H
 #define MVVM_SERIALIZATION_JSONITEMCONTAINERCONVERTER_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <functional>
 #include <memory>
 
@@ -18,20 +18,20 @@ class QJsonObject;
 
 namespace ModelView {
 
-class SessionItem;
-class SessionItemContainer;
-struct ConverterCallbacks;
+class QExtMvvmSessionItem;
+class QExtMvvmSessionItemContainer;
+struct QExtMvvmConverterCallbacks;
 
-//! Converter between SessionItemContainer and JSON object.
+//! Converter between QExtMvvmSessionItemContainer and JSON object.
 
-class QEXT_MVVM_API JsonItemContainerConverter {
+class QEXT_MVVM_API QExtMvvmJsonItemContainerConverter {
 public:
-    JsonItemContainerConverter(ConverterCallbacks callbacks);
-    ~JsonItemContainerConverter();
+    QExtMvvmJsonItemContainerConverter(QExtMvvmConverterCallbacks callbacks);
+    ~QExtMvvmJsonItemContainerConverter();
 
-    QJsonObject to_json(const SessionItemContainer& container);
+    QJsonObject to_json(const QExtMvvmSessionItemContainer& container);
 
-    void from_json(const QJsonObject& json, SessionItemContainer& container);
+    void from_json(const QJsonObject& json, QExtMvvmSessionItemContainer& container);
 
 private:
     struct JsonItemContainerConverterImpl;

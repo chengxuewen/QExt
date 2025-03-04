@@ -15,22 +15,22 @@
 
 namespace ModelView {
 
-struct ProjectContext;
+struct QExtMvvmProjectContext;
 
-//! Responsible for handling new/save/save-as/close Project logic, where the Project represents
+//! Responsible for handling new/save/save-as/close QExtMvvmProject logic, where the QExtMvvmProject represents
 //! a collection of serialized application models in the project directory.
 
-//! This ProjectManager requires certain prerequisites to function properly: for example,
+//! This QExtMvvmProjectManager requires certain prerequisites to function properly: for example,
 //! the creation of a new project will be possible only if the old project is in a saved state. See
 //! description to the class methods.
 
-class QEXT_MVVM_API ProjectManager : public ModelView::ProjectManagerInterface {
+class QEXT_MVVM_API QExtMvvmProjectManager : public ModelView::QExtMvvmProjectManagerInterface {
 public:
-    ProjectManager(const ProjectContext& context);
-    ~ProjectManager() override;
+    QExtMvvmProjectManager(const QExtMvvmProjectContext& context);
+    ~QExtMvvmProjectManager() override;
 
-    ProjectManager(const ProjectManager& other) = delete;
-    ProjectManager& operator=(const ProjectManager& other) = delete;
+    QExtMvvmProjectManager(const QExtMvvmProjectManager& other) = delete;
+    QExtMvvmProjectManager& operator=(const QExtMvvmProjectManager& other) = delete;
 
     bool createNewProject(const std::string& dirname) override;
 

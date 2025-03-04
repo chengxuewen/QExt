@@ -15,8 +15,8 @@
 class QSplitter;
 
 namespace ModelView {
-class PropertyTreeView;
-class TopItemsTreeView;
+class QExtMvvmPropertyTreeView;
+class QExtMvvmTopItemsTreeView;
 } // namespace ModelView
 
 namespace NodeEditor {
@@ -37,8 +37,8 @@ public:
 
 private:
     SampleModel* m_model{nullptr};
-    ModelView::TopItemsTreeView* m_topItemsTree{nullptr};
-    ModelView::PropertyTreeView* m_propertyTree{nullptr};
+    ModelView::QExtMvvmTopItemsTreeView* m_topItemsTree{nullptr};
+    ModelView::QExtMvvmPropertyTreeView* m_propertyTree{nullptr};
     QSplitter* m_splitter{nullptr};
 };
 

@@ -15,23 +15,23 @@
 
 namespace ModelView {
 
-class SessionItem;
-class TagRow;
+// class QExtMvvmSessionItem;
+// class QExtMvvmTagRow;
 
-//! Command for unddo/redo to insert new item.
+// //! Command for unddo/redo to insert new item.
 
-class QEXT_MVVM_API InsertNewItemCommand : public AbstractItemCommand {
-public:
-    InsertNewItemCommand(item_factory_func_t func, SessionItem* parent, const TagRow& tagrow);
-    ~InsertNewItemCommand() override;
+// class QEXT_MVVM_API QExtMvvmInsertNewItemCommand : public QExtMvvmAbstractItemCommand {
+// public:
+//     QExtMvvmInsertNewItemCommand(QExtMvvmItemFactoryFunc func, QExtMvvmSessionItem* parent, const QExtMvvmTagRow& tagrow);
+//     ~QExtMvvmInsertNewItemCommand() override;
 
-private:
-    void undo_command() override;
-    void execute_command() override;
+// private:
+//     void undo_command() override;
+//     void execute_command() override;
 
-    struct InsertNewItemCommandImpl;
-    QExtUniquePointer<InsertNewItemCommandImpl> p_impl;
-};
+//     struct InsertNewItemCommandImpl;
+//     QExtUniquePointer<InsertNewItemCommandImpl> p_impl;
+// };
 
 } // namespace ModelView
 

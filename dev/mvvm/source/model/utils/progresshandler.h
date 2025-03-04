@@ -10,7 +10,7 @@
 #ifndef MVVM_UTILS_PROGRESSHANDLER_H
 #define MVVM_UTILS_PROGRESSHANDLER_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <functional>
 #include <mutex>
 
@@ -19,15 +19,15 @@ namespace ModelView {
 //! Maintain information about progress of a computation.
 //! Initialized with callback function to report progress and retrieve interruption request status.
 
-class QEXT_MVVM_API ProgressHandler {
+class QEXT_MVVM_API QExtMvvmProgressHandler {
 public:
     using callback_t = std::function<bool(size_t)>;
 
-    ProgressHandler() = default;
-    ProgressHandler(callback_t callback, size_t max_ticks_count);
+    QExtMvvmProgressHandler() = default;
+    QExtMvvmProgressHandler(callback_t callback, size_t max_ticks_count);
 
-    ProgressHandler(const ProgressHandler& other) = delete;
-    ProgressHandler& operator=(const ProgressHandler& other) = delete;
+    QExtMvvmProgressHandler(const QExtMvvmProgressHandler& other) = delete;
+    QExtMvvmProgressHandler& operator=(const QExtMvvmProgressHandler& other) = delete;
 
     void subscribe(callback_t callback);
 

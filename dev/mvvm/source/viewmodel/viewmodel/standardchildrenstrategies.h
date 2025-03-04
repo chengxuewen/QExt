@@ -11,48 +11,48 @@
 #define MVVM_VIEWMODEL_STANDARDCHILDRENSTRATEGIES_H
 
 //! @file childrenstrategies.h
-//! @brief Collection of strategies to find children, actual of fictional, of given SessionItem.
-//! Used for ViewModel generation when underlying SessionModel changes its layout.
+//! @brief Collection of strategies to find children, actual of fictional, of given QExtMvvmSessionItem.
+//! Used for QExtMvvmViewModel generation when underlying QExtMvvmSessionModel changes its layout.
 
 #include "viewmodel/interfaces/childrenstrategyinterface.h"
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
 //! Strategy to find children of given item: gives all actual children back.
 //! Hidden children by the current convention will be also in the list.
 
-class QEXT_MVVM_API AllChildrenStrategy : public ChildrenStrategyInterface {
+class QEXT_MVVM_API QExtMvvmAllChildrenStrategy : public QExtMvvmChildrenStrategyInterface {
 public:
-    std::vector<SessionItem*> children(const SessionItem* item) const override;
+    std::vector<QExtMvvmSessionItem*> children(const QExtMvvmSessionItem* item) const override;
 };
 
 //! Strategy to find children of given item: only top level items will be given, all
 //! property items will be filtered out. All items explicitly marked with setVisible(false)
 //! will not show up.
 
-class QEXT_MVVM_API TopItemsStrategy : public ChildrenStrategyInterface {
+class QEXT_MVVM_API QExtMvvmTopItemsStrategy : public QExtMvvmChildrenStrategyInterface {
 public:
-    std::vector<SessionItem*> children(const SessionItem* item) const override;
+    std::vector<QExtMvvmSessionItem*> children(const QExtMvvmSessionItem* item) const override;
 };
 
 //! Strategy to find children of given item: only property item will be given, all top level items
-//! will be filtered out, all inactive children of GroupItem will be filtered out. See example
+//! will be filtered out, all inactive children of QExtMvvmGroupItem will be filtered out. See example
 //! in code.
 
-class QEXT_MVVM_API PropertyItemsStrategy : public ChildrenStrategyInterface {
+class QEXT_MVVM_API QExtMvvmPropertyItemsStrategy : public QExtMvvmChildrenStrategyInterface {
 public:
-    std::vector<SessionItem*> children(const SessionItem* item) const override;
+    std::vector<QExtMvvmSessionItem*> children(const QExtMvvmSessionItem* item) const override;
 };
 
 //! Strategy to find children of given item: flat alignment.
 //! Acts as PropertyItemStrategy, with the difference that active subproperties of
-//! GroupItem are moved to the same parent, as GroupItem itself. See example in code.
+//! QExtMvvmGroupItem are moved to the same parent, as QExtMvvmGroupItem itself. See example in code.
 
-class QEXT_MVVM_API PropertyItemsFlatStrategy : public ChildrenStrategyInterface {
+class QEXT_MVVM_API QExtMvvmPropertyItemsFlatStrategy : public QExtMvvmChildrenStrategyInterface {
 public:
-    std::vector<SessionItem*> children(const SessionItem* item) const override;
+    std::vector<QExtMvvmSessionItem*> children(const QExtMvvmSessionItem* item) const override;
 };
 
 } // namespace ModelView

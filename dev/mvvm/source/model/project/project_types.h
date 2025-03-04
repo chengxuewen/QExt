@@ -10,28 +10,28 @@
 #ifndef MVVM_PROJECT_PROJECT_TYPES_H
 #define MVVM_PROJECT_PROJECT_TYPES_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <functional>
 #include <string>
 #include <vector>
 
 namespace ModelView {
 
-class SessionModel;
+class QExtMvvmSessionModel;
 
-//! Possible user answers on question "Project was modified".
-enum class SaveChangesAnswer { SAVE = 0, DISCARD = 1, CANCEL = 2 };
+//! Possible user answers on question "QExtMvvmProject was modified".
+enum class QExtMvvmSaveChangesAnswer { SAVE = 0, DISCARD = 1, CANCEL = 2 };
 
-//! Provides necessary information for Project construction.
+//! Provides necessary information for QExtMvvmProject construction.
 
-struct QEXT_MVVM_API ProjectContext {
+struct QEXT_MVVM_API QExtMvvmProjectContext {
     //!< To notify about the change of the project with respect to what was written on disk.
     using modified_callback_t = std::function<void()>;
 
     //! To ask for a vector of models to save/load to/from disk.
     //! This is intentionally obtained via callback since save request might come after
-    //! the Project construction.
-    using models_callback_t = std::function<std::vector<SessionModel*>()>;
+    //! the QExtMvvmProject construction.
+    using models_callback_t = std::function<std::vector<QExtMvvmSessionModel*>()>;
 
     modified_callback_t m_modified_callback;
     models_callback_t m_models_callback;
@@ -40,7 +40,7 @@ struct QEXT_MVVM_API ProjectContext {
 //! Defines the context to interact with the user regarding save/save-as/create-new project
 //! scenarious.
 
-struct QEXT_MVVM_API UserInteractionContext {
+struct QEXT_MVVM_API QExtMvvmUserInteractionContext {
     //!< To ask the user to select existing directory, returns full path to the directory.
     using select_dir_callback_t = std::function<std::string()>;
 
@@ -48,7 +48,7 @@ struct QEXT_MVVM_API UserInteractionContext {
     using create_dir_callback_t = std::function<std::string()>;
 
     //!< To ask the user what to do with modified project.
-    using answer_callback_t = std::function<SaveChangesAnswer()>;
+    using answer_callback_t = std::function<QExtMvvmSaveChangesAnswer()>;
 
     select_dir_callback_t m_select_dir_callback;
     create_dir_callback_t m_create_dir_callback;

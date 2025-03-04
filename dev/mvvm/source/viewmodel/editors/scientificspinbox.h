@@ -10,18 +10,18 @@
 #ifndef MVVM_EDITORS_SCIENTIFICSPINBOX_H
 #define MVVM_EDITORS_SCIENTIFICSPINBOX_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QAbstractSpinBox>
 
 namespace ModelView {
 
-class QEXT_MVVM_API ScientificSpinBox : public QAbstractSpinBox {
+class QEXT_MVVM_API QExtMvvmScientificSpinBox : public QAbstractSpinBox {
     Q_OBJECT
     Q_PROPERTY(double value MEMBER m_value READ value WRITE setValue NOTIFY valueChanged USER true)
 
 public:
-    ScientificSpinBox(QWidget* parent = nullptr);
-    ~ScientificSpinBox() override;
+    QExtMvvmScientificSpinBox(QWidget* parent = nullptr);
+    ~QExtMvvmScientificSpinBox() override;
 
     double value() const;
     void setValue(double val);

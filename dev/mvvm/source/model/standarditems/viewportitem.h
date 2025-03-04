@@ -14,22 +14,22 @@
 
 namespace ModelView {
 
-class ViewportAxisItem;
+class QExtMvvmViewportAxisItem;
 
 //! Base class to represent 2D viewport.
 //! Contains x,y axis, indended to display graphs or 2d colormaps.
 
-class QEXT_MVVM_API ViewportItem : public CompoundItem {
+class QEXT_MVVM_API QExtMvvmViewportItem : public QExtMvvmCompoundItem {
 public:
     static inline const std::string P_XAXIS = "P_XAXIS";
     static inline const std::string P_YAXIS = "P_YAXIS";
     static inline const std::string T_ITEMS = "T_ITEMS";
 
-    ViewportItem(const model_type& model);
+    QExtMvvmViewportItem(const QExtMvvmModelType& model);
 
-    ViewportAxisItem* xAxis() const;
+    QExtMvvmViewportAxisItem* xAxis() const;
 
-    ViewportAxisItem* yAxis() const;
+    QExtMvvmViewportAxisItem* yAxis() const;
 
     virtual void setViewportToContent(double left, double top, double right, double bottom);
 

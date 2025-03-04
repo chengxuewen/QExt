@@ -14,21 +14,21 @@
 
 namespace ModelView {
 
-struct ConverterContext;
+struct QExtMvvmConverterContext;
 
-//! Converter between SessionItem and JSON object.
+//! Converter between QExtMvvmSessionItem and JSON object.
 
-class QEXT_MVVM_API JsonItemConverter : public JsonItemConverterInterface {
+class QEXT_MVVM_API QExtMvvmJsonItemConverter : public QExtMvvmJsonItemConverterInterface {
 public:
-    JsonItemConverter(const ConverterContext& context);
-    JsonItemConverter(const JsonItemConverter&) = delete;
-    JsonItemConverter& operator=(const JsonItemConverter&) = delete;
+    QExtMvvmJsonItemConverter(const QExtMvvmConverterContext& context);
+    QExtMvvmJsonItemConverter(const QExtMvvmJsonItemConverter&) = delete;
+    QExtMvvmJsonItemConverter& operator=(const QExtMvvmJsonItemConverter&) = delete;
 
-    ~JsonItemConverter() override;
+    ~QExtMvvmJsonItemConverter() override;
 
-    QJsonObject to_json(const SessionItem* item) const override;
+    QJsonObject to_json(const QExtMvvmSessionItem* item) const override;
 
-    QExtUniquePointer<SessionItem> from_json(const QJsonObject& json) const override;
+    QExtUniquePointer<QExtMvvmSessionItem> from_json(const QJsonObject& json) const override;
 
 private:
     struct JsonItemConverterImpl;

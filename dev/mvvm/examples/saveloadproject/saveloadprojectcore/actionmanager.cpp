@@ -25,19 +25,19 @@ ActionManager::ActionManager(QMainWindow* mainwindow)
 
 void ActionManager::createActions()
 {
-    m_createNewProjectAction = new QAction("&New Project", this);
+    m_createNewProjectAction = new QAction("&New QExtMvvmProject", this);
     m_createNewProjectAction->setShortcuts(QKeySequence::New);
     m_createNewProjectAction->setStatusTip("Create a new project");
     connect(m_createNewProjectAction, &QAction::triggered, this,
             &ActionManager::createNewProjectRequest);
 
-    m_openExistingProjectAction = new QAction("&Open Project", this);
+    m_openExistingProjectAction = new QAction("&Open QExtMvvmProject", this);
     m_openExistingProjectAction->setShortcuts(QKeySequence::Open);
     m_openExistingProjectAction->setStatusTip("Open an existing project");
     connect(m_openExistingProjectAction, &QAction::triggered,
             [this]() { openExistingProjectRequest({}); });
 
-    m_saveCurrentProjectAction = new QAction("&Save Project", this);
+    m_saveCurrentProjectAction = new QAction("&Save QExtMvvmProject", this);
     m_saveCurrentProjectAction->setShortcuts(QKeySequence::Save);
     m_saveCurrentProjectAction->setStatusTip("Save project");
     m_saveCurrentProjectAction->setShortcutContext(Qt::ApplicationShortcut);

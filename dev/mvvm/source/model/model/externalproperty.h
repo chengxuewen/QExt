@@ -11,7 +11,7 @@
 #define MVVM_MODEL_EXTERNALPROPERTY_H
 
 #include "model/core/variant.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QColor>
 #include <string>
 
@@ -20,12 +20,12 @@ namespace ModelView {
 //! Property to carry text, color and identifier.
 //! Can be used to link items with each other.
 
-class QEXT_MVVM_API ExternalProperty {
+class QEXT_MVVM_API QExtMvvmExternalProperty {
 public:
-    ExternalProperty();
-    ExternalProperty(std::string text, QColor color, std::string id = {});
+    QExtMvvmExternalProperty();
+    QExtMvvmExternalProperty(std::string text, QColor color, std::string id = {});
 
-    static ExternalProperty undefined();
+    static QExtMvvmExternalProperty undefined();
 
     std::string text() const;
 
@@ -35,9 +35,9 @@ public:
 
     bool isValid() const;
 
-    bool operator==(const ExternalProperty& other) const;
-    bool operator!=(const ExternalProperty& other) const;
-    bool operator<(const ExternalProperty& other) const;
+    bool operator==(const QExtMvvmExternalProperty& other) const;
+    bool operator!=(const QExtMvvmExternalProperty& other) const;
+    bool operator<(const QExtMvvmExternalProperty& other) const;
 
 private:
     std::string m_text;
@@ -47,6 +47,6 @@ private:
 
 } // namespace ModelView
 
-Q_DECLARE_METATYPE(ModelView::ExternalProperty)
+Q_DECLARE_METATYPE(ModelView::QExtMvvmExternalProperty)
 
 #endif // MVVM_MODEL_EXTERNALPROPERTY_H

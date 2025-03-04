@@ -17,20 +17,20 @@ class QUndoCommand;
 
 namespace ModelView {
 
-class AbstractItemCommand;
+class QExtMvvmAbstractItemCommand;
 
 //! Interface class for undo/redo stack.
 
-class UndoStackInterface {
+class QExtMvvmUndoStackInterface {
 public:
-    virtual ~UndoStackInterface() = default;
+    virtual ~QExtMvvmUndoStackInterface() = default;
 
     //! Executes the command, then pushes it in the stack for possible undo.
     //! Current design relies on shared pointer. This is done
     //! a) to retrieve result of the command from another place
     //! b) to adapt the command for QUndoStack
     //! c) to bypass QUndoStack behavior which wants to have an ownership
-    virtual void execute(std::shared_ptr<AbstractItemCommand> command) = 0;
+    virtual void execute(std::shared_ptr<QExtMvvmAbstractItemCommand> command) = 0;
 
     virtual bool isActive() const = 0;
     virtual bool canUndo() const = 0;

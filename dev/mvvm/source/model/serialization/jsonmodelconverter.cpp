@@ -20,33 +20,33 @@
 using namespace ModelView;
 
 namespace {
-QExtUniquePointer<JsonItemConverterInterface> CreateConverter(const ItemFactoryInterface* factory,
-                                                            ConverterMode mode)
+QExtUniquePointer<QExtMvvmJsonItemConverterInterface> CreateConverter(const QExtMvvmItemFactoryInterface* factory,
+                                                            QExtMvvmConverterMode mode)
 {
-    if (mode == ConverterMode::clone)
-        return CreateItemCloneConverter(factory);
-    else if (mode == ConverterMode::copy)
-        return CreateItemCopyConverter(factory);
-    else if (mode == ConverterMode::project)
-        return CreateItemProjectConverter(factory);
+    if (mode == QExtMvvmConverterMode::clone)
+        return qextMvvmCreateItemCloneConverter(factory);
+    else if (mode == QExtMvvmConverterMode::copy)
+        return qextMvvmCreateItemCopyConverter(factory);
+    else if (mode == QExtMvvmConverterMode::project)
+        return qextMvvmCreateItemProjectConverter(factory);
     else
-        throw std::runtime_error("Error in JsonModelConverter: unknown converter mode");
+        throw std::runtime_error("Error in QExtMvvmJsonModelConverter: unknown converter mode");
 }
 
 } // namespace
 
-JsonModelConverter::JsonModelConverter(ConverterMode mode) : m_mode(mode) {}
+QExtMvvmJsonModelConverter::QExtMvvmJsonModelConverter(QExtMvvmConverterMode mode) : m_mode(mode) {}
 
-JsonModelConverter::~JsonModelConverter() = default;
+QExtMvvmJsonModelConverter::~QExtMvvmJsonModelConverter() = default;
 
-QJsonObject JsonModelConverter::to_json(const SessionModel& model) const
+QJsonObject QExtMvvmJsonModelConverter::to_json(const QExtMvvmSessionModel& model) const
 {
     QJsonObject result;
 
     if (!model.rootItem())
         throw std::runtime_error("JsonModel::to_json() -> Error. Model is not initialized.");
 
-    result[JsonItemFormatAssistant::sessionModelKey] = QString::fromStdString(model.modelType());
+    result[QExtMvvmJsonItemFormatAssistant::sessionModelKey] = QString::fromStdString(model.modelType());
 
     QJsonArray itemArray;
 
@@ -55,32 +55,32 @@ QJsonObject JsonModelConverter::to_json(const SessionModel& model) const
     for (auto item : model.rootItem()->children())
         itemArray.append(itemConverter->to_json(item));
 
-    result[JsonItemFormatAssistant::itemsKey] = itemArray;
+    result[QExtMvvmJsonItemFormatAssistant::itemsKey] = itemArray;
 
     return result;
 }
 
-void JsonModelConverter::from_json(const QJsonObject& json, SessionModel& model) const
+void QExtMvvmJsonModelConverter::from_json(const QJsonObject& json, QExtMvvmSessionModel& model) const
 {
     if (!model.rootItem())
         throw std::runtime_error("JsonModel::json_to_model() -> Error. Model is not initialized.");
 
-    JsonItemFormatAssistant assistant;
+    QExtMvvmJsonItemFormatAssistant assistant;
     if (!assistant.isSessionModel(json))
         throw std::runtime_error("JsonModel::json_to_model() -> Error. Invalid json object.");
 
-    if (json[JsonItemFormatAssistant::sessionModelKey].toString()
+    if (json[QExtMvvmJsonItemFormatAssistant::sessionModelKey].toString()
         != QString::fromStdString(model.modelType()))
         throw std::runtime_error(
             "JsonModel::json_to_model() -> Unexpected model type '" + model.modelType()
             + "', json key '"
-            + json[JsonItemFormatAssistant::sessionModelKey].toString().toStdString() + "'");
+            + json[QExtMvvmJsonItemFormatAssistant::sessionModelKey].toString().toStdString() + "'");
 
     auto itemConverter = CreateConverter(model.factory(), m_mode);
 
-    auto rebuild_root = [&json, &itemConverter](SessionItem *parent) {
-        for (const auto ref : json[JsonItemFormatAssistant::itemsKey].toArray()) {
-            parent->insertItem(itemConverter->from_json(ref.toObject()), TagRow::append());
+    auto rebuild_root = [&json, &itemConverter](QExtMvvmSessionItem *parent) {
+        for (const auto ref : json[QExtMvvmJsonItemFormatAssistant::itemsKey].toArray()) {
+            parent->insertItem(itemConverter->from_json(ref.toObject()), QExtMvvmTagRow::append());
         }
     };
     model.clear(rebuild_root);

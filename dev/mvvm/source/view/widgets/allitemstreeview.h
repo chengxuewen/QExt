@@ -14,15 +14,15 @@
 
 namespace ModelView {
 
-class SessionModel;
+class QExtMvvmSessionModel;
 
-//! Widget holding standard QTreeView and intended for displaying all items of SessionModel.
+//! Widget holding standard QTreeView and intended for displaying all items of QExtMvvmSessionModel.
 
-class QEXT_MVVM_API AllItemsTreeView : public ItemsTreeView {
+class QEXT_MVVM_API AllItemsTreeView : public QExtMvvmItemsTreeView {
     Q_OBJECT
 
 public:
-    AllItemsTreeView(SessionModel* model, QWidget* parent = nullptr);
+    AllItemsTreeView(QExtMvvmSessionModel* model, QWidget* parent = nullptr);
     ~AllItemsTreeView() override;
 };
 

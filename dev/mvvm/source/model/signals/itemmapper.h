@@ -16,18 +16,18 @@
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
 //! Provides notifications on various changes for a specific item.
-//! ItemMapper listens signals coming from the model (i.e. via ModelMapper) and processes only whose
+//! QExtMvvmItemMapper listens signals coming from the model (i.e. via QExtMvvmModelMapper) and processes only whose
 //! signals which are related to the given item. Notifies all interested subscribers about things
 //! going with the item and its relatives.
 
-class QEXT_MVVM_API ItemMapper : public ItemListenerInterface,
-                                     private ModelListener<SessionModel> {
+class QEXT_MVVM_API QExtMvvmItemMapper : public QExtMvvmItemListenerInterface,
+                                     private QExtMvvmModelListener<QExtMvvmSessionModel> {
 public:
-    ItemMapper(SessionItem* item);
-    ~ItemMapper();
+    QExtMvvmItemMapper(QExtMvvmSessionItem* item);
+    ~QExtMvvmItemMapper();
 
     void setOnItemDestroy(Callbacks::item_t f, Callbacks::slot_t owner) override;
     void setOnDataChange(Callbacks::item_int_t f, Callbacks::slot_t owner) override;
@@ -42,7 +42,7 @@ public:
     void setActive(bool value);
 
 private:
-    friend class SessionItem;
+    friend class QExtMvvmSessionItem;
     void callOnItemDestroy();
 
     struct ItemMapperImpl;

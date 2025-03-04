@@ -13,20 +13,20 @@
 
 using namespace ModelView;
 
-ItemFactory::ItemFactory(QExtUniquePointer<ItemCatalogue> catalogue)
+QExtMvvmItemFactory::QExtMvvmItemFactory(QExtUniquePointer<QExtMvvmItemCatalogue> catalogue)
     : m_catalogue(std::move(catalogue))
 {
 }
 
-void ItemFactory::registerItem(const std::string& modelType, item_factory_func_t func,
+void QExtMvvmItemFactory::registerItem(const std::string& modelType, QExtMvvmItemFactoryFunc func,
                                const std::string& label)
 {
     m_catalogue->registerItem(modelType, func, label);
 }
 
-ItemFactory::~ItemFactory() = default;
+QExtMvvmItemFactory::~QExtMvvmItemFactory() = default;
 
-QExtUniquePointer<SessionItem> ItemFactory::createItem(const model_type& modelType) const
+QExtUniquePointer<QExtMvvmSessionItem> QExtMvvmItemFactory::createItem(const QExtMvvmModelType& modelType) const
 {
     return m_catalogue->create(modelType);
 }

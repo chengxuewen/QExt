@@ -10,24 +10,24 @@
 #ifndef MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
 #define MVVM_INTERFACES_CHILDRENSTRATEGYINTERFACE_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <vector>
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
 //! Base class for strategies to find children, actual or fictional, of a given item.
 //! The reported vector of children might be different from the actual children of a given item.
-//! The strategy is used in the context of AbstractViewModel while exposing SessionModel to Qt.
-//! Thanks to this strategy ViewModel decides which items to visit.
+//! The strategy is used in the context of AbstractViewModel while exposing QExtMvvmSessionModel to Qt.
+//! Thanks to this strategy QExtMvvmViewModel decides which items to visit.
 
-class QEXT_MVVM_API ChildrenStrategyInterface {
+class QEXT_MVVM_API QExtMvvmChildrenStrategyInterface {
 public:
-    virtual ~ChildrenStrategyInterface() = default;
+    virtual ~QExtMvvmChildrenStrategyInterface() = default;
 
     //! Returns vector of children of given item.
-    virtual std::vector<SessionItem*> children(const SessionItem* item) const = 0;
+    virtual std::vector<QExtMvvmSessionItem*> children(const QExtMvvmSessionItem* item) const = 0;
 };
 
 } // namespace ModelView

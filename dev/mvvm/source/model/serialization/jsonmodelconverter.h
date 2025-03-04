@@ -16,24 +16,24 @@ class QJsonObject;
 
 namespace ModelView {
 
-class SessionModel;
-enum class ConverterMode;
+class QExtMvvmSessionModel;
+enum class QExtMvvmConverterMode;
 
-//! Converter of SessionModel to/from json object with posibility to select one of convertion modes.
+//! Converter of QExtMvvmSessionModel to/from json object with posibility to select one of convertion modes.
 
-class QEXT_MVVM_API JsonModelConverter : public JsonModelConverterInterface {
+class QEXT_MVVM_API QExtMvvmJsonModelConverter : public QExtMvvmJsonModelConverterInterface {
 public:
-    JsonModelConverter(ConverterMode mode);
-    ~JsonModelConverter() override;
+    QExtMvvmJsonModelConverter(QExtMvvmConverterMode mode);
+    ~QExtMvvmJsonModelConverter() override;
 
     //! Writes content of model into json.
-    QJsonObject to_json(const SessionModel& model) const override;
+    QJsonObject to_json(const QExtMvvmSessionModel& model) const override;
 
     //! Reads json object and build the model.
-    void from_json(const QJsonObject& json, SessionModel& model) const override;
+    void from_json(const QJsonObject& json, QExtMvvmSessionModel& model) const override;
 
 private:
-    ConverterMode m_mode;
+    QExtMvvmConverterMode m_mode;
 };
 
 } // namespace ModelView

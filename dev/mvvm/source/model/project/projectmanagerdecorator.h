@@ -15,23 +15,23 @@
 
 namespace ModelView {
 
-struct ProjectContext;
-struct UserInteractionContext;
+struct QExtMvvmProjectContext;
+struct QExtMvvmUserInteractionContext;
 
-//! Decorator for ProjectManager to provide interaction with the user on open/save-as requests.
+//! Decorator for QExtMvvmProjectManager to provide interaction with the user on open/save-as requests.
 //! It relies on the same interface and adds additional logic related to "unsaved" data.
 
 //! For example, on createNewProject it will check if previous project is saved, and will
 //! call external dialog save/discard/cancel via provided callback.
 
-class QEXT_MVVM_API ProjectManagerDecorator : public ProjectManagerInterface {
+class QEXT_MVVM_API QExtMvvmProjectManagerDecorator : public QExtMvvmProjectManagerInterface {
 public:
-    ProjectManagerDecorator(const ProjectContext& project_context,
-                            const UserInteractionContext& user_context);
+    QExtMvvmProjectManagerDecorator(const QExtMvvmProjectContext& project_context,
+                            const QExtMvvmUserInteractionContext& user_context);
 
-    ~ProjectManagerDecorator() override;
-    ProjectManagerDecorator(const ProjectManagerDecorator& other) = delete;
-    ProjectManagerDecorator& operator=(const ProjectManagerDecorator& other) = delete;
+    ~QExtMvvmProjectManagerDecorator() override;
+    QExtMvvmProjectManagerDecorator(const QExtMvvmProjectManagerDecorator& other) = delete;
+    QExtMvvmProjectManagerDecorator& operator=(const QExtMvvmProjectManagerDecorator& other) = delete;
 
     bool createNewProject(const std::string& dirname = {}) override;
 

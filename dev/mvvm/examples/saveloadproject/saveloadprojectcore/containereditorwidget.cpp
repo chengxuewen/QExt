@@ -24,7 +24,7 @@ using namespace ModelView;
 ContainerEditorWidget::ContainerEditorWidget(QWidget* parent)
     : QWidget(parent)
     , m_treeView(new QTreeView)
-    , m_delegate(qextMakeUnique<ViewModelDelegate>())
+    , m_delegate(qextMakeUnique<QExtMvvmViewModelDelegate>())
     , m_model(nullptr)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Expanding);
@@ -40,7 +40,7 @@ ContainerEditorWidget::ContainerEditorWidget(QWidget* parent)
 
 ContainerEditorWidget::~ContainerEditorWidget() = default;
 
-void ContainerEditorWidget::setModel(SampleModel* model, SessionItem* root_item)
+void ContainerEditorWidget::setModel(SampleModel* model, QExtMvvmSessionItem* root_item)
 {
     if (!model)
         return;
@@ -48,7 +48,7 @@ void ContainerEditorWidget::setModel(SampleModel* model, SessionItem* root_item)
     m_model = model;
 
     // setting up the tree
-    m_viewModel = qextMakeUnique<ModelView::PropertyTableViewModel>(model);
+    m_viewModel = qextMakeUnique<ModelView::QExtMvvmPropertyTableViewModel>(model);
     m_viewModel->setRootSessionItem(root_item);
     m_treeView->setModel(m_viewModel.get());
     m_treeView->setItemDelegate(m_delegate.get());
@@ -100,7 +100,7 @@ void ContainerEditorWidget::onMoveUp()
         ModelView::Utils::MoveUp(item);
 }
 
-std::vector<SessionItem*> ContainerEditorWidget::selected_items() const
+std::vector<QExtMvvmSessionItem*> ContainerEditorWidget::selected_items() const
 {
     return Utils::ParentItemsFromIndex(m_treeView->selectionModel()->selectedIndexes());
 }

@@ -24,7 +24,7 @@ namespace ModelView {
 //! Suggests file name which can be used to store json content of given model.
 //! Uses the model type to construct a filename: MaterialModel -> materialmodel.json
 
-std::string ProjectUtils::SuggestFileName(const SessionModel& model)
+std::string ProjectUtils::SuggestFileName(const QExtMvvmSessionModel& model)
 {
     std::string result = model.modelType();
     std::transform(result.begin(), result.end(), result.begin(), ::tolower);
@@ -41,21 +41,21 @@ bool ProjectUtils::IsPossibleProjectDir(const std::string& project_dir)
 
 //! Creates new untitled project.
 
-QExtUniquePointer<ProjectInterface> ProjectUtils::CreateUntitledProject(const ProjectContext& context)
+QExtUniquePointer<QExtMvvmProjectInterface> ProjectUtils::CreateUntitledProject(const QExtMvvmProjectContext& context)
 {
-    return qextMakeUnique<Project>(context);
+    return qextMakeUnique<QExtMvvmProject>(context);
 }
 
 //! Returns a MainWindow title for given project.
 
-std::string ProjectUtils::ProjectWindowTitle(const ProjectInterface& project)
+std::string ProjectUtils::ProjectWindowTitle(const QExtMvvmProjectInterface& project)
 {
     return ProjectWindowTitle(project.projectDir(), project.isModified());
 }
 
 //! Returns a title composed from last part of project path, and `is_modified` flag.
-//! Project without projectDir will be "Untitled", modified project will be "*Untitled".
-//! Project with projectDir in "/home/user/project1" will get title "project1".
+//! QExtMvvmProject without projectDir will be "Untitled", modified project will be "*Untitled".
+//! QExtMvvmProject with projectDir in "/home/user/project1" will get title "project1".
 
 std::string ProjectUtils::ProjectWindowTitle(const std::string& project_dir, bool is_modified)
 {

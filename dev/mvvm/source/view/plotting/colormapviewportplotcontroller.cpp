@@ -18,25 +18,25 @@
 
 using namespace ModelView;
 
-struct ColorMapViewportPlotController::ColorMapViewportPlotControllerImpl {
-    ColorMapViewportPlotController* m_self{nullptr};
+struct QExtMvvmColorMapViewportPlotController::ColorMapViewportPlotControllerImpl {
+    QExtMvvmColorMapViewportPlotController* m_self{nullptr};
     QCustomPlot* m_customPlot{nullptr};
     QCPColorScale* m_colorScale{nullptr};
-    QExtUniquePointer<ViewportAxisPlotController> m_xAxisController;
-    QExtUniquePointer<ViewportAxisPlotController> m_yAxisController;
-    QExtUniquePointer<ColorScalePlotController> m_colorScaleController;
-    QExtUniquePointer<ColorMapPlotController> m_colorMapController;
+    QExtUniquePointer<QExtMvvmViewportAxisPlotController> m_xAxisController;
+    QExtUniquePointer<QExtMvvmViewportAxisPlotController> m_yAxisController;
+    QExtUniquePointer<QExtMvvmColorScalePlotController> m_colorScaleController;
+    QExtUniquePointer<QExtMvvmColorMapPlotController> m_colorMapController;
 
-    ColorMapViewportPlotControllerImpl(ColorMapViewportPlotController* master, QCustomPlot* plot)
+    ColorMapViewportPlotControllerImpl(QExtMvvmColorMapViewportPlotController* master, QCustomPlot* plot)
         : m_self(master), m_customPlot(plot), m_colorScale(new QCPColorScale(m_customPlot))
     {
-        m_xAxisController = qextMakeUnique<ViewportAxisPlotController>(m_customPlot->xAxis);
-        m_yAxisController = qextMakeUnique<ViewportAxisPlotController>(m_customPlot->yAxis);
-        m_colorScaleController = qextMakeUnique<ColorScalePlotController>(m_colorScale);
-        m_colorMapController = qextMakeUnique<ColorMapPlotController>(m_customPlot, m_colorScale);
+        m_xAxisController = qextMakeUnique<QExtMvvmViewportAxisPlotController>(m_customPlot->xAxis);
+        m_yAxisController = qextMakeUnique<QExtMvvmViewportAxisPlotController>(m_customPlot->yAxis);
+        m_colorScaleController = qextMakeUnique<QExtMvvmColorScalePlotController>(m_colorScale);
+        m_colorMapController = qextMakeUnique<QExtMvvmColorMapPlotController>(m_customPlot, m_colorScale);
     }
 
-    ColorMapViewportItem* viewportItem() { return m_self->currentItem(); }
+    QExtMvvmColorMapViewportItem* viewportItem() { return m_self->currentItem(); }
 
     //! Setup controller components.
 
@@ -46,7 +46,7 @@ struct ColorMapViewportPlotController::ColorMapViewportPlotControllerImpl {
         m_xAxisController->setItem(viewport->xAxis());
         m_yAxisController->setItem(viewport->yAxis());
         m_colorScaleController->setItem(viewport->zAxis());
-        auto colormap_item = viewportItem()->item<ColorMapItem>(ColorMapViewportItem::T_ITEMS);
+        auto colormap_item = viewportItem()->item<QExtMvvmColorMapItem>(QExtMvvmColorMapViewportItem::T_ITEMS);
         m_colorMapController->setItem(colormap_item);
         viewportItem()->setViewportToContent();
     }
@@ -60,22 +60,22 @@ struct ColorMapViewportPlotController::ColorMapViewportPlotControllerImpl {
     }
 };
 
-ColorMapViewportPlotController::ColorMapViewportPlotController(QCustomPlot* custom_plot)
+QExtMvvmColorMapViewportPlotController::QExtMvvmColorMapViewportPlotController(QCustomPlot* custom_plot)
     : p_impl(qextMakeUnique<ColorMapViewportPlotControllerImpl>(this, custom_plot))
 {
 }
 
-void ColorMapViewportPlotController::subscribe()
+void QExtMvvmColorMapViewportPlotController::subscribe()
 {
-    auto on_item_inserted = [this](SessionItem*, TagRow) { p_impl->setup_components(); };
+    auto on_item_inserted = [this](QExtMvvmSessionItem*, QExtMvvmTagRow) { p_impl->setup_components(); };
     setOnItemInserted(on_item_inserted);
 
     p_impl->setup_components();
 }
 
-void ColorMapViewportPlotController::unsubscribe()
+void QExtMvvmColorMapViewportPlotController::unsubscribe()
 {
     p_impl->unsubscribe_components();
 }
 
-ColorMapViewportPlotController::~ColorMapViewportPlotController() = default;
+QExtMvvmColorMapViewportPlotController::~QExtMvvmColorMapViewportPlotController() = default;

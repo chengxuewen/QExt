@@ -15,11 +15,11 @@
 
 using namespace ModelView;
 
-//! Constructs Path object from string containing sequence of integers ("0,0,1,3").
+//! Constructs QExtMvvmPath object from string containing sequence of integers ("0,0,1,3").
 
-Path Path::fromString(const std::string& str)
+QExtMvvmPath QExtMvvmPath::fromString(const std::string& str)
 {
-    Path result;
+    QExtMvvmPath result;
 
     std::string str_spaces(str);
     std::replace(str_spaces.begin(), str_spaces.end(), ',', ' ');
@@ -30,18 +30,18 @@ Path Path::fromString(const std::string& str)
     return result;
 }
 
-//! Constructs Path object from vector of integers..
+//! Constructs QExtMvvmPath object from vector of integers..
 
-Path Path::fromVector(const std::vector<int>& data)
+QExtMvvmPath QExtMvvmPath::fromVector(const std::vector<int>& data)
 {
-    Path result;
+    QExtMvvmPath result;
     std::for_each(data.begin(), data.end(), [&result](int x) { result.append(x); });
     return result;
 }
 
 //! Returns string representing path ("0,0,1,3").
 
-std::string Path::str() const
+std::string QExtMvvmPath::str() const
 {
     auto comma_fold = [](std::string a, int b) { return std::move(a) + ',' + std::to_string(b); };
     return m_data.empty() ? std::string()
@@ -49,32 +49,32 @@ std::string Path::str() const
                                             std::to_string(m_data[0]), comma_fold);
 }
 
-void Path::append(Path::PathElement element)
+void QExtMvvmPath::append(QExtMvvmPath::PathElement element)
 {
     m_data.push_back(element);
 }
 
-void Path::prepend(Path::PathElement element)
+void QExtMvvmPath::prepend(QExtMvvmPath::PathElement element)
 {
     m_data.insert(m_data.begin(), element);
 }
 
-Path::iterator Path::begin()
+QExtMvvmPath::iterator QExtMvvmPath::begin()
 {
     return m_data.begin();
 }
 
-Path::const_iterator Path::begin() const
+QExtMvvmPath::const_iterator QExtMvvmPath::begin() const
 {
     return m_data.begin();
 }
 
-Path::iterator Path::end()
+QExtMvvmPath::iterator QExtMvvmPath::end()
 {
     return m_data.end();
 }
 
-Path::const_iterator Path::end() const
+QExtMvvmPath::const_iterator QExtMvvmPath::end() const
 {
     return m_data.end();
 }

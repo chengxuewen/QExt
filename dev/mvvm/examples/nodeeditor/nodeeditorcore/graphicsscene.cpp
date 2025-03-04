@@ -122,7 +122,7 @@ void GraphicsScene::disconnectConnectedViews(NodeConnection* connection)
 
 void GraphicsScene::updateScene()
 {
-    auto on_iterate = [this](ModelView::SessionItem *item) {
+    auto on_iterate = [this](ModelView::QExtMvvmSessionItem *item) {
         if (auto connectableItem = dynamic_cast<ConnectableItem*>(item); connectableItem)
             processItem(connectableItem);
     };

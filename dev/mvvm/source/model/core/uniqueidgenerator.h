@@ -11,20 +11,20 @@
 #define MVVM_CORE_UNIQUEIDGENERATOR_H
 
 #include "model/core/types.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 
 namespace ModelView {
 
-//! Provides generation of unique SessionItem identifier.
+//! Provides generation of unique QExtMvvmSessionItem identifier.
 
 //! In the future might be turned to singleton to keep track of all generated identifier
-//! and make sure, that SessionItem identifiers loaded from disk, are different from those
+//! and make sure, that QExtMvvmSessionItem identifiers loaded from disk, are different from those
 //! generated during a dynamic session. For the moment though, we rely on zero-probability of
 //! such event.
 
-class QEXT_MVVM_API UniqueIdGenerator {
+class QEXT_MVVM_API QExtMvvmUniqueIdGenerator {
 public:
-    static identifier_type generate();
+    static QExtMvvmIdentifierType generate();
 };
 
 } // namespace ModelView

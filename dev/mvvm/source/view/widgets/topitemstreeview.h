@@ -14,20 +14,20 @@
 
 namespace ModelView {
 
-class SessionModel;
+class QExtMvvmSessionModel;
 
 //! Widget holding standard QTreeView and intended for displaying all top level
-//! items of SessionModel.
+//! items of QExtMvvmSessionModel.
 
 //! All property items (i.e. "thickness", "color" etc) will be filtered out, top level items
 //! (i.e. Layer, MultiLayer, ...) will be presented as simple parent/child tree.
 
-class QEXT_MVVM_API TopItemsTreeView : public ItemsTreeView {
+class QEXT_MVVM_API QExtMvvmTopItemsTreeView : public QExtMvvmItemsTreeView {
     Q_OBJECT
 
 public:
-    TopItemsTreeView(SessionModel* model, QWidget* parent = nullptr);
-    ~TopItemsTreeView();
+    QExtMvvmTopItemsTreeView(QExtMvvmSessionModel* model, QWidget* parent = nullptr);
+    ~QExtMvvmTopItemsTreeView();
 };
 
 } // namespace ModelView

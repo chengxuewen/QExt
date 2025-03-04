@@ -21,7 +21,7 @@ using namespace ModelView;
 GraphWidget::GraphWidget(GraphModel* model, QWidget* parent)
     : QWidget(parent)
     , m_toolbar(new GraphWidgetToolBar)
-    , m_graphCanvas(new GraphCanvas)
+    , m_graphCanvas(new QExtMvvmGraphCanvas)
     , m_propertyWidget(new GraphPropertyWidget)
     , m_jobManager(new JobManager(this))
 {
@@ -46,7 +46,7 @@ void GraphWidget::setModel(GraphModel* model)
         return;
     m_model = model;
     m_propertyWidget->setModel(model);
-    m_graphCanvas->setItem(model->topItem<GraphViewportItem>());
+    m_graphCanvas->setItem(model->topItem<QExtMvvmGraphViewportItem>());
 }
 
 //! Takes simulation results from JobManager and write into the model.

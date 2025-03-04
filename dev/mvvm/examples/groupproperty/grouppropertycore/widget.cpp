@@ -17,7 +17,7 @@ namespace GroupProperty {
 Widget::Widget(QWidget* parent)
     : QWidget(parent)
     , m_treeView(new ModelView::AllItemsTreeView(&m_model))
-    , m_propertyEditor(new ModelView::PropertyTreeView)
+    , m_propertyEditor(new ModelView::QExtMvvmPropertyTreeView)
 {
     auto layout = new QHBoxLayout(this);
     layout->addWidget(m_treeView);

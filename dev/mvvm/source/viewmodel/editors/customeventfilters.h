@@ -10,7 +10,7 @@
 #ifndef MVVM_EDITORS_CUSTOMEVENTFILTERS_H
 #define MVVM_EDITORS_CUSTOMEVENTFILTERS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QObject>
 
 namespace ModelView {
@@ -20,11 +20,11 @@ namespace ModelView {
 //! editor is created by clicking on a cell of a tree and it appears as  modal window on top of a
 //! tree.
 
-class QEXT_MVVM_API LostFocusFilter : public QObject {
+class QEXT_MVVM_API QExtMvvmLostFocusFilter : public QObject {
     Q_OBJECT
 
 public:
-    explicit LostFocusFilter(QObject* parent = nullptr);
+    explicit QExtMvvmLostFocusFilter(QObject* parent = nullptr);
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
@@ -33,11 +33,11 @@ protected:
 //! Event filter to install on combo boxes and spin boxes to ignore wheel events during scrolling.
 //! Helpful than the spin box is a child of some larger scroll area.
 
-class QEXT_MVVM_API WheelEventFilter : public QObject {
+class QEXT_MVVM_API QExtMvvmWheelEventFilter : public QObject {
     Q_OBJECT
 
 public:
-    explicit WheelEventFilter(QObject* parent = nullptr);
+    explicit QExtMvvmWheelEventFilter(QObject* parent = nullptr);
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event);

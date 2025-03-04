@@ -19,7 +19,7 @@ class SampleModel;
 
 //! Provides update of graphics scene, when SampleModel changes.
 
-class GraphicsSceneController : public ModelView::ModelListener<SampleModel> {
+class GraphicsSceneController : public ModelView::QExtMvvmModelListener<SampleModel> {
 public:
     GraphicsSceneController(SampleModel* model, GraphicsScene* scene);
 

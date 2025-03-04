@@ -10,7 +10,7 @@
 #include "modeleditorwidget.h"
 #include "containereditorwidget.h"
 #include "samplemodel.h"
-#include "model/commands/undostack.h"
+#include <qextMvvmUndoStack.h>
 #include "model/model/modelutils.h"
 #include <QAction>
 #include <QHBoxLayout>
@@ -93,12 +93,12 @@ void ModelEditorWidget::setupActions()
         auto can_undo_changed = [this]() {
             m_undoAction->setEnabled(m_model->undoStack()->canUndo());
         };
-        connect(UndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
+        connect(QExtMvvmUndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
                 can_undo_changed);
         auto can_redo_changed = [this]() {
             m_redoAction->setEnabled(m_model->undoStack()->canRedo());
         };
-        connect(UndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
+        connect(QExtMvvmUndoStack::qtUndoStack(m_model->undoStack()), &QUndoStack::canUndoChanged,
                 can_redo_changed);
     }
 }

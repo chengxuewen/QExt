@@ -18,8 +18,8 @@ class QTreeView;
 class QTableView;
 
 namespace ModelView {
-class ViewModel;
-class ViewModelDelegate;
+class QExtMvvmViewModel;
+class QExtMvvmViewModelDelegate;
 } // namespace ModelView
 
 namespace CellEditors {
@@ -45,9 +45,9 @@ private:
     QTreeView* m_horizontalTree{nullptr};
     QTableView* m_tableView{nullptr};
 
-    QExtUniquePointer<ModelView::ViewModel> m_verticalViewModel;
-    QExtUniquePointer<ModelView::ViewModel> m_horizontalViewModel;
-    QExtUniquePointer<ModelView::ViewModelDelegate> m_delegate;
+    QExtUniquePointer<ModelView::QExtMvvmViewModel> m_verticalViewModel;
+    QExtUniquePointer<ModelView::QExtMvvmViewModel> m_horizontalViewModel;
+    QExtUniquePointer<ModelView::QExtMvvmViewModelDelegate> m_delegate;
 };
 
 } // namespace CellEditors

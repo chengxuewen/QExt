@@ -10,23 +10,23 @@
 #ifndef MVVM_SERIALIZATION_JSONTAGINFOCONVERTERINTERFACE_H
 #define MVVM_SERIALIZATION_JSONTAGINFOCONVERTERINTERFACE_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 
 class QJsonObject;
 
 namespace ModelView {
 
-class TagInfo;
+class QExtMvvmTagInfo;
 
-//! Base class for all converters of TagInfo to/from json object
+//! Base class for all converters of QExtMvvmTagInfo to/from json object
 
-class QEXT_MVVM_API JsonTagInfoConverterInterface {
+class QEXT_MVVM_API QExtMvvmJsonTagInfoConverterInterface {
 public:
-    virtual ~JsonTagInfoConverterInterface() = default;
+    virtual ~QExtMvvmJsonTagInfoConverterInterface() = default;
 
-    virtual QJsonObject to_json(const TagInfo&) = 0;
+    virtual QJsonObject to_json(const QExtMvvmTagInfo&) = 0;
 
-    virtual TagInfo from_json(const QJsonObject&) = 0;
+    virtual QExtMvvmTagInfo from_json(const QJsonObject&) = 0;
 };
 
 } // namespace ModelView

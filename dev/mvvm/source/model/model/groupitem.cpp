@@ -18,69 +18,69 @@ using namespace ModelView;
 namespace {
 
 //! Returns vector of model types for given vector of items.
-std::vector<std::string> modelTypes(const std::vector<SessionItem*>& items)
+std::vector<std::string> modelTypes(const std::vector<QExtMvvmSessionItem*>& items)
 {
     std::vector<std::string> result;
     std::transform(items.begin(), items.end(), std::back_inserter(result),
-                   [](SessionItem *item) { return item->modelType(); });
+                   [](QExtMvvmSessionItem *item) { return item->modelType(); });
     return result;
 }
 } // namespace
 
-GroupItem::~GroupItem() = default;
+QExtMvvmGroupItem::~QExtMvvmGroupItem() = default;
 
-GroupItem::GroupItem(model_type modelType) : SessionItem(std::move(modelType)), m_index_to_select(0)
+QExtMvvmGroupItem::QExtMvvmGroupItem(QExtMvvmModelType modelType) : QExtMvvmSessionItem(std::move(modelType)), m_index_to_select(0)
 {
-    registerTag(TagInfo::universalTag(T_GROUP_ITEMS), /*set_as_default*/ true);
-    setData(ComboProperty());
+    registerTag(QExtMvvmTagInfo::universalTag(T_GROUP_ITEMS), /*set_as_default*/ true);
+    setData(QExtMvvmComboProperty());
 }
 
-int GroupItem::currentIndex() const
+int QExtMvvmGroupItem::currentIndex() const
 {
-    return data<ComboProperty>().currentIndex();
+    return data<QExtMvvmComboProperty>().currentIndex();
 }
 
 //! Returns currently selected item.
 
-const SessionItem* GroupItem::currentItem() const
+const QExtMvvmSessionItem* QExtMvvmGroupItem::currentItem() const
 {
     return currentIndex() != -1 ? getItem("", currentIndex()) : nullptr;
 }
 
-SessionItem* GroupItem::currentItem()
+QExtMvvmSessionItem* QExtMvvmGroupItem::currentItem()
 {
-    return const_cast<SessionItem*>(static_cast<const GroupItem*>(this)->currentItem());
+    return const_cast<QExtMvvmSessionItem*>(static_cast<const QExtMvvmGroupItem*>(this)->currentItem());
 }
 
-std::string GroupItem::currentType() const
+std::string QExtMvvmGroupItem::currentType() const
 {
     return currentItem() ? currentItem()->modelType() : std::string();
 }
 
 //! Sets item corresponding to given model type.
 
-void GroupItem::setCurrentType(const std::string& model_type)
+void QExtMvvmGroupItem::setCurrentType(const std::string& QExtMvvmModelType)
 {
-    int index = Utils::IndexOfItem(modelTypes(children()), model_type);
+    int index = Utils::IndexOfItem(modelTypes(children()), QExtMvvmModelType);
     if (index == -1)
-        throw std::runtime_error("GroupItem::setCurrentType() -> Model type '" + model_type
+        throw std::runtime_error("QExtMvvmGroupItem::setCurrentType() -> Model type '" + QExtMvvmModelType
                                  + "' doesn't belong to the group");
     setCurrentIndex(index);
 }
 
-void GroupItem::setCurrentIndex(int index)
+void QExtMvvmGroupItem::setCurrentIndex(int index)
 {
-    auto combo = data<ComboProperty>();
+    auto combo = data<QExtMvvmComboProperty>();
     combo.setCurrentIndex(index);
     setData(combo, ItemDataRole::DATA);
 }
 
 //! Updates internal data representing selection of items, and current selection.
-//! To be called during GroupItem's construction.
+//! To be called during QExtMvvmGroupItem's construction.
 
-void GroupItem::updateCombo()
+void QExtMvvmGroupItem::updateCombo()
 {
-    ComboProperty combo;
+    QExtMvvmComboProperty combo;
     combo.setValues(m_item_text);
     combo.setCurrentIndex(m_index_to_select);
     setData(combo, ItemDataRole::DATA);

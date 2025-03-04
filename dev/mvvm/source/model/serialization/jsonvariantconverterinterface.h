@@ -11,21 +11,21 @@
 #define MVVM_SERIALIZATION_JSONVARIANTCONVERTERINTERFACE_H
 
 #include "model/core/variant.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 
 class QJsonObject;
 
 namespace ModelView {
 
-//! Base class for all supported converters of Variant to/from json object
+//! Base class for all supported converters of QVariant to/from json object
 
-class QEXT_MVVM_API JsonVariantConverterInterface {
+class QEXT_MVVM_API QExtMvvmJsonVariantConverterInterface {
 public:
-    virtual ~JsonVariantConverterInterface() = default;
+    virtual ~QExtMvvmJsonVariantConverterInterface() = default;
 
-    virtual QJsonObject get_json(const Variant&) = 0;
+    virtual QJsonObject get_json(const QVariant&) = 0;
 
-    virtual Variant get_variant(const QJsonObject&) = 0;
+    virtual QVariant get_variant(const QJsonObject&) = 0;
 };
 
 } // namespace ModelView

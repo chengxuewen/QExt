@@ -19,7 +19,7 @@ using namespace ModelView;
 
 namespace CellEditors {
 
-DemoPropertiesItem::DemoPropertiesItem() : CompoundItem(::Constants::DemoPropertiesType)
+DemoPropertiesItem::DemoPropertiesItem() : QExtMvvmCompoundItem(::Constants::DemoPropertiesType)
 {
     addProperty(P_BOOL_PROPERTY, true)->setDisplayName("Bool")->setToolTip("tooltip");
     addProperty(P_INTEGER_PROPERTY, 42)->setDisplayName("Integer");
@@ -27,18 +27,18 @@ DemoPropertiesItem::DemoPropertiesItem() : CompoundItem(::Constants::DemoPropert
     addProperty(P_DOUBLE_PROPERTY, 42.1234)->setDisplayName("Double");
     addProperty(P_COLOR_PROPERTY, QColor(Qt::green))->setDisplayName("Color");
 
-    auto combo = ComboProperty::createFrom({"option 1", "option 2", "option 3"});
+    auto combo = QExtMvvmComboProperty::createFrom({"option 1", "option 2", "option 3"});
     addProperty(P_COMBO_PROPERTY, combo)->setDisplayName("Combo");
 
     addProperty(P_SELECTABLE_COMBO_PROPERTY, combo)
         ->setDisplayName("Selectable")
         ->setEditorType(ModelView::Constants::SelectableComboPropertyEditorType);
 
-    ExternalProperty ext_prop("Gold", QColor(Qt::darkYellow), "some id");
+    QExtMvvmExternalProperty ext_prop("Gold", QColor(Qt::darkYellow), "some id");
     addProperty(P_EXTERNAL_PROPERTY, ext_prop)->setDisplayName("External");
 }
 
-SampleModel::SampleModel() : SessionModel("SampleModel")
+SampleModel::SampleModel() : QExtMvvmSessionModel("SampleModel")
 {
     registerItem<DemoPropertiesItem>();
 }

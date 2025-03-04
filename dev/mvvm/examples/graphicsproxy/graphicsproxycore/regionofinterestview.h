@@ -15,7 +15,7 @@
 #include <vector>
 
 namespace ModelView {
-class SceneAdapterInterface;
+class QExtMvvmSceneAdapterInterface;
 }
 
 namespace GraphicsProxy {
@@ -30,7 +30,7 @@ class SizeHandleElement;
 class RegionOfInterestView : public QGraphicsItem {
 public:
     RegionOfInterestView(RegionOfInterestItem* item,
-                         const ModelView::SceneAdapterInterface* scene_adapter);
+                         const ModelView::QExtMvvmSceneAdapterInterface* scene_adapter);
     ~RegionOfInterestView() override;
 
     QRectF boundingRect() const override;

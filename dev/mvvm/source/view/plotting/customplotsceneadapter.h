@@ -20,10 +20,10 @@ namespace ModelView {
 //! Converts QGraphicsScene coordinates in the coordinates of local system of QCustomPlot
 //! and vice versa.
 
-class QEXT_MVVM_API CustomPlotSceneAdapter : public SceneAdapterInterface {
+class QEXT_MVVM_API QExtMvvmCustomPlotSceneAdapter : public QExtMvvmSceneAdapterInterface {
 public:
-    explicit CustomPlotSceneAdapter(QCustomPlot* custom_plot);
-    ~CustomPlotSceneAdapter() override;
+    explicit QExtMvvmCustomPlotSceneAdapter(QCustomPlot* custom_plot);
+    ~QExtMvvmCustomPlotSceneAdapter() override;
 
     double toSceneX(double customplot_x) const override;
 

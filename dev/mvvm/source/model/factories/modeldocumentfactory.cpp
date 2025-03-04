@@ -12,9 +12,9 @@
 
 namespace ModelView {
 
-QExtUniquePointer<ModelDocumentInterface> CreateJsonDocument(const std::vector<SessionModel*>& models)
+QExtUniquePointer<QExtMvvmModelDocumentInterface> qextMvvmCreateJsonDocument(const std::vector<QExtMvvmSessionModel*>& models)
 {
-    return qextMakeUnique<JsonDocument>(models);
+    return qextMakeUnique<QExtMvvmJsonDocument>(models);
 }
 
 } // namespace ModelView

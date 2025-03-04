@@ -14,9 +14,9 @@
 using namespace ModelView;
 
 namespace {
-QExtUniquePointer<ModelView::ItemCatalogue> CreateItemCatalogue()
+QExtUniquePointer<ModelView::QExtMvvmItemCatalogue> CreateItemCatalogue()
 {
-    auto result = qextMakeUnique<ItemCatalogue>();
+    auto result = qextMakeUnique<QExtMvvmItemCatalogue>();
     result->registerItem<TreeViews::MultiLayer>();
     result->registerItem<TreeViews::LayerItem>();
     result->registerItem<TreeViews::ParticleItem>();
@@ -31,7 +31,7 @@ QExtUniquePointer<ModelView::ItemCatalogue> CreateItemCatalogue()
 
 namespace TreeViews {
 
-SampleModel::SampleModel() : SessionModel("SampleModel")
+SampleModel::SampleModel() : QExtMvvmSessionModel("SampleModel")
 {
     setItemCatalogue(CreateItemCatalogue());
     populateModel();

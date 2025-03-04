@@ -10,7 +10,7 @@
 #ifndef MVVM_SERIALIZATION_JSONITEMTAGSCONVERTER_H
 #define MVVM_SERIALIZATION_JSONITEMTAGSCONVERTER_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <functional>
 #include <memory>
 
@@ -18,20 +18,20 @@ class QJsonObject;
 
 namespace ModelView {
 
-class SessionItem;
-class SessionItemTags;
-struct ConverterCallbacks;
+class QExtMvvmSessionItem;
+class QExtMvvmSessionItemTags;
+struct QExtMvvmConverterCallbacks;
 
-//! Converter between SessionItemTags and JSON object.
+//! Converter between QExtMvvmSessionItemTags and JSON object.
 
-class QEXT_MVVM_API JsonItemTagsConverter {
+class QEXT_MVVM_API QExtMvvmJsonItemTagsConverter {
 public:
-    JsonItemTagsConverter(ConverterCallbacks callbacks);
-    ~JsonItemTagsConverter();
+    QExtMvvmJsonItemTagsConverter(QExtMvvmConverterCallbacks callbacks);
+    ~QExtMvvmJsonItemTagsConverter();
 
-    QJsonObject to_json(const SessionItemTags& item_tags);
+    QJsonObject to_json(const QExtMvvmSessionItemTags& item_tags);
 
-    void from_json(const QJsonObject& json, SessionItemTags& item_tags);
+    void from_json(const QJsonObject& json, QExtMvvmSessionItemTags& item_tags);
 
 private:
     struct JsonItemTagsConverterImpl;

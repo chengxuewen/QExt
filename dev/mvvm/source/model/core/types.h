@@ -14,8 +14,8 @@
 
 namespace ModelView {
 
-using identifier_type = std::string;
-using model_type = std::string;
+using QExtMvvmIdentifierType = std::string;
+using QExtMvvmModelType = std::string;
 
 } // namespace ModelView
 

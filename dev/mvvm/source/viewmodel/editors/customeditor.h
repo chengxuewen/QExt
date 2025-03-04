@@ -11,19 +11,19 @@
 #define MVVM_EDITORS_CUSTOMEDITOR_H
 
 #include "model/core/variant.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QWidget>
 
 namespace ModelView {
 
 //! Base class for all custom variant editors.
 
-class QEXT_MVVM_API CustomEditor : public QWidget {
+class QEXT_MVVM_API QExtMvvmCustomEditor : public QWidget {
     Q_OBJECT
     Q_PROPERTY(QVariant value MEMBER m_data READ data WRITE setData NOTIFY dataChanged USER true)
 
 public:
-    explicit CustomEditor(QWidget* parent = nullptr);
+    explicit QExtMvvmCustomEditor(QWidget* parent = nullptr);
 
     QVariant data() const;
 

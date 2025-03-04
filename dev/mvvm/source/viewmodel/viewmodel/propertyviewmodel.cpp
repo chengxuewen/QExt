@@ -12,7 +12,7 @@
 
 using namespace ModelView;
 
-PropertyViewModel::PropertyViewModel(SessionModel* model, QObject* parent)
-    : ViewModel(qextMakeUnique<PropertyViewModelController>(model, this), parent)
+QExtMvvmPropertyViewModel::QExtMvvmPropertyViewModel(QExtMvvmSessionModel* model, QObject* parent)
+    : QExtMvvmViewModel(qextMakeUnique<QExtMvvmPropertyViewModelController>(model, this), parent)
 {
 }

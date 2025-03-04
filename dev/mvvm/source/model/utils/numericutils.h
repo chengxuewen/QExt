@@ -10,7 +10,7 @@
 #ifndef MVVM_UTILS_NUMERICUTILS_H
 #define MVVM_UTILS_NUMERICUTILS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 
 namespace ModelView::Utils {
 

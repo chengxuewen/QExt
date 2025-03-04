@@ -11,18 +11,18 @@
 #define MVVM_MODEL_DATAROLE_H
 
 #include "model/core/variant.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 
 namespace ModelView {
 
-//! Represents pair of data,role for SessionItemData.
+//! Represents pair of data,role for QExtMvvmSessionItemData.
 
-class QEXT_MVVM_API DataRole {
+class QEXT_MVVM_API QExtMvvmDataRole {
 public:
-    DataRole(Variant data = Variant(), int role = -1);
-    Variant m_data;
+    QExtMvvmDataRole(QVariant data = QVariant(), int role = -1);
+    QVariant m_data;
     int m_role;
-    bool operator==(const DataRole& other) const;
+    bool operator==(const QExtMvvmDataRole& other) const;
 };
 
 } // namespace ModelView

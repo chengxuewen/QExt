@@ -10,7 +10,7 @@
 #ifndef MVVM_WIDGETS_LAYOUTUTILS_H
 #define MVVM_WIDGETS_LAYOUTUTILS_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 
 class QLayout;
 class QGridLayout;

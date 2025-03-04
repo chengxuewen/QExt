@@ -11,37 +11,37 @@
 #define MVVM_VIEWMODEL_VIEWITEM_H
 
 #include "model/core/variant.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <memory>
 #include <vector>
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
-//! Represents the view of SessionItem's data in a single cell of ViewModel.
+//! Represents the view of QExtMvvmSessionItem's data in a single cell of QExtMvvmViewModel.
 
-class QEXT_MVVM_API ViewItem {
+class QEXT_MVVM_API QExtMvvmViewItem {
 public:
-    virtual ~ViewItem();
+    virtual ~QExtMvvmViewItem();
 
     int rowCount() const;
 
     int columnCount() const;
 
-    void appendRow(std::vector<QExtUniquePointer<ViewItem>> items);
+    void appendRow(std::vector<QExtUniquePointer<QExtMvvmViewItem>> items);
 
-    void insertRow(int row, std::vector<QExtUniquePointer<ViewItem>> items);
+    void insertRow(int row, std::vector<QExtUniquePointer<QExtMvvmViewItem>> items);
 
     void removeRow(int row);
 
     void clear();
 
-    ViewItem* parent() const;
+    QExtMvvmViewItem* parent() const;
 
-    ViewItem* child(int row, int column) const;
+    QExtMvvmViewItem* child(int row, int column) const;
 
-    SessionItem* item() const;
+    QExtMvvmSessionItem* item() const;
 
     int item_role() const;
 
@@ -55,11 +55,11 @@ public:
 
     virtual Qt::ItemFlags flags() const;
 
-    std::vector<ViewItem*> children() const;
+    std::vector<QExtMvvmViewItem*> children() const;
 
 protected:
-    ViewItem(SessionItem* item, int role);
-    void setParent(ViewItem* parent);
+    QExtMvvmViewItem(QExtMvvmSessionItem* item, int role);
+    void setParent(QExtMvvmViewItem* parent);
 
 private:
     struct ViewItemImpl;

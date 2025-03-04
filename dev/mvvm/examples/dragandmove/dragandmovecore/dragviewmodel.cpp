@@ -25,14 +25,14 @@ using namespace ModelView;
 
 namespace DragAndMove {
 
-DragViewModel::DragViewModel(SessionModel* model, QObject* parent)
-    : PropertyTableViewModel(model, parent)
+DragViewModel::DragViewModel(QExtMvvmSessionModel* model, QObject* parent)
+    : QExtMvvmPropertyTableViewModel(model, parent)
 {
 }
 
 Qt::ItemFlags DragViewModel::flags(const QModelIndex& index) const
 {
-    Qt::ItemFlags default_flags = PropertyTableViewModel::flags(index);
+    Qt::ItemFlags default_flags = QExtMvvmPropertyTableViewModel::flags(index);
     if (index.isValid())
         return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | default_flags;
     return Qt::ItemIsDropEnabled | default_flags;
@@ -43,7 +43,7 @@ QMimeData* DragViewModel::mimeData(const QModelIndexList& index_list) const
     auto mime_data = new QMimeData;
     auto items = Utils::ParentItemsFromIndex(index_list);
 
-    // Saving list of SessionItem's identifiers related to all DemoItem
+    // Saving list of QExtMvvmSessionItem's identifiers related to all DemoItem
 
     QStringList identifiers;
     for (auto item : Utils::ParentItemsFromIndex(index_list))

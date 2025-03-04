@@ -18,7 +18,7 @@ class QBoxLayout;
 class QSlider;
 
 namespace ModelView {
-class ItemsTreeView;
+class QExtMvvmItemsTreeView;
 } // namespace ModelView
 
 namespace PlotColorMap {
@@ -38,7 +38,7 @@ public:
 private:
     void setupSlider();
     QSlider* m_slider{nullptr};
-    ModelView::ItemsTreeView* m_tree_view{nullptr};
+    ModelView::QExtMvvmItemsTreeView* m_tree_view{nullptr};
     ColorMapModel* m_model{nullptr};
 };
 

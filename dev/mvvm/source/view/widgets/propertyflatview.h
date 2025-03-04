@@ -10,25 +10,25 @@
 #ifndef MVVM_WIDGETS_PROPERTYFLATVIEW_H
 #define MVVM_WIDGETS_PROPERTYFLATVIEW_H
 
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <QWidget>
 #include <memory>
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
 //! Widget holding grid layout with editors and intended for displaying all properties of given
-//! SessionItem.
+//! QExtMvvmSessionItem.
 
-class QEXT_MVVM_API PropertyFlatView : public QWidget {
+class QEXT_MVVM_API QExtMvvmPropertyFlatView : public QWidget {
     Q_OBJECT
 
 public:
-    PropertyFlatView(QWidget* parent = nullptr);
-    ~PropertyFlatView();
+    QExtMvvmPropertyFlatView(QWidget* parent = nullptr);
+    ~QExtMvvmPropertyFlatView();
 
-    void setItem(SessionItem* item);
+    void setItem(QExtMvvmSessionItem* item);
 
 private:
     struct PropertyFlatViewImpl;

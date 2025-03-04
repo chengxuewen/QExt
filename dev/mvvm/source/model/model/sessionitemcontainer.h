@@ -11,46 +11,46 @@
 #define MVVM_MODEL_SESSIONITEMCONTAINER_H
 
 #include "model/model/taginfo.h"
-#include "qextMVVMGlobal.h"
+#include <qextMvvmGlobal.h>
 #include <vector>
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
-//! Holds collection of SessionItem objects related to the same tag.
+//! Holds collection of QExtMvvmSessionItem objects related to the same tag.
 
-class QEXT_MVVM_API SessionItemContainer {
+class QEXT_MVVM_API QExtMvvmSessionItemContainer {
 public:
-    using container_t = std::vector<SessionItem*>;
+    using container_t = std::vector<QExtMvvmSessionItem*>;
     using const_iterator = container_t::const_iterator;
 
-    SessionItemContainer(TagInfo tag_info);
-    SessionItemContainer(const SessionItemContainer&) = delete;
-    SessionItemContainer& operator=(const SessionItemContainer&) = delete;
-    ~SessionItemContainer();
+    QExtMvvmSessionItemContainer(QExtMvvmTagInfo tag_info);
+    QExtMvvmSessionItemContainer(const QExtMvvmSessionItemContainer&) = delete;
+    QExtMvvmSessionItemContainer& operator=(const QExtMvvmSessionItemContainer&) = delete;
+    ~QExtMvvmSessionItemContainer();
 
     bool empty() const;
 
     int itemCount() const;
 
-    std::vector<SessionItem*> items() const;
+    std::vector<QExtMvvmSessionItem*> items() const;
 
-    bool insertItem(SessionItem* item, int index);
+    bool insertItem(QExtMvvmSessionItem* item, int index);
 
-    SessionItem* takeItem(int index);
+    QExtMvvmSessionItem* takeItem(int index);
 
     bool canTakeItem(int index) const;
 
-    bool canInsertItem(const SessionItem* item, int index) const;
+    bool canInsertItem(const QExtMvvmSessionItem* item, int index) const;
 
-    int indexOfItem(const SessionItem* item) const;
+    int indexOfItem(const QExtMvvmSessionItem* item) const;
 
-    SessionItem* itemAt(int index) const;
+    QExtMvvmSessionItem* itemAt(int index) const;
 
     std::string name() const;
 
-    TagInfo tagInfo() const;
+    QExtMvvmTagInfo tagInfo() const;
 
     const_iterator begin() const;
 
@@ -59,8 +59,8 @@ public:
 private:
     bool maximum_reached() const;
     bool minimum_reached() const;
-    bool is_valid_item(const SessionItem* item) const;
-    TagInfo m_tag_info;
+    bool is_valid_item(const QExtMvvmSessionItem* item) const;
+    QExtMvvmTagInfo m_tag_info;
     container_t m_items;
 };
 

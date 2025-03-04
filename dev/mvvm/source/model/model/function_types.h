@@ -15,13 +15,15 @@
 
 namespace ModelView {
 
-class SessionItem;
+class QExtMvvmSessionItem;
 
 //! Definition for item factory funciton.
-using item_factory_func_t = std::function<QExtUniquePointer<SessionItem>()>;
+using QExtMvvmItemFactoryFunc = std::function<QExtUniquePointer<QExtMvvmSessionItem>()>;
 
 //! Creates factory function for item of specific type.
-template <typename T> item_factory_func_t ItemFactoryFunction()
+template <typename T>
+QExtMvvmItemFactoryFunc
+qextMvvmItemFactoryFunction()
 {
     return []() { return qextMakeUnique<T>(); };
 }

@@ -16,16 +16,16 @@
 
 namespace ModelView {
 
-class SessionItem;
-class SessionModel;
+class QExtMvvmSessionItem;
+class QExtMvvmSessionModel;
 
 namespace Callbacks {
 using slot_t = const void*;
-using item_t = std::function<void(SessionItem*)>;
-using item_int_t = std::function<void(SessionItem*, int)>;
-using item_str_t = std::function<void(SessionItem*, std::string)>;
-using item_tagrow_t = std::function<void(SessionItem*, TagRow)>;
-using model_t = std::function<void(SessionModel*)>;
+using item_t = std::function<void(QExtMvvmSessionItem*)>;
+using item_int_t = std::function<void(QExtMvvmSessionItem*, int)>;
+using item_str_t = std::function<void(QExtMvvmSessionItem*, std::string)>;
+using item_tagrow_t = std::function<void(QExtMvvmSessionItem*, QExtMvvmTagRow)>;
+using model_t = std::function<void(QExtMvvmSessionModel*)>;
 } // namespace Callbacks
 
 } // namespace ModelView

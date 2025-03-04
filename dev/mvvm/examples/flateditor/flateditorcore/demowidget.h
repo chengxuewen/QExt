@@ -16,21 +16,21 @@
 class QBoxLayout;
 
 namespace ModelView {
-class SessionModel;
+class QExtMvvmSessionModel;
 class AllItemsTreeView;
-class PropertyTreeView;
-class PropertyFlatView;
+class QExtMvvmPropertyTreeView;
+class QExtMvvmPropertyFlatView;
 } // namespace ModelView
 
 namespace FlatEditor {
 
-//! Demonstrates usage of PropertyFlatView.
+//! Demonstrates usage of QExtMvvmPropertyFlatView.
 
 class DemoWidget : public QWidget {
     Q_OBJECT
 
 public:
-    DemoWidget(ModelView::SessionModel* model, QWidget* parent = nullptr);
+    DemoWidget(ModelView::QExtMvvmSessionModel* model, QWidget* parent = nullptr);
     ~DemoWidget();
 
 private:
@@ -40,9 +40,9 @@ private:
     void connectViews();
 
     ModelView::AllItemsTreeView* m_default_tree_view{nullptr};
-    ModelView::PropertyTreeView* m_property_tree_view{nullptr};
-    ModelView::PropertyFlatView* m_property_flat_view{nullptr};
-    ModelView::SessionModel* m_sessio_model{nullptr};
+    ModelView::QExtMvvmPropertyTreeView* m_property_tree_view{nullptr};
+    ModelView::QExtMvvmPropertyFlatView* m_property_flat_view{nullptr};
+    ModelView::QExtMvvmSessionModel* m_sessio_model{nullptr};
 };
 
 } // namespace FlatEditor

@@ -18,11 +18,11 @@ namespace ModelView {
 
 //! Custom editor for QVariant based on bool values.
 
-class QEXT_MVVM_API BoolEditor : public CustomEditor {
+class QEXT_MVVM_API QExtMvvmBoolEditor : public QExtMvvmCustomEditor {
     Q_OBJECT
 
 public:
-    explicit BoolEditor(QWidget* parent = nullptr);
+    explicit QExtMvvmBoolEditor(QWidget* parent = nullptr);
 
     bool is_persistent() const override;
 
