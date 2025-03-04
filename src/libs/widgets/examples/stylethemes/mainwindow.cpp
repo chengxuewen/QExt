@@ -88,9 +88,9 @@ void MainWindowPrivate::fillThemeMenu()
     // Add actions for theme selection
     QMenu *menu = ui->menuThemes;
 #if USE_STYLE_THEME_LIST
-    const QStringList &themes = m_styleThemes->styleThemes();
+    QStringList themes = m_styleThemes->styleThemes(true);
 #else
-    const QStringList &themes = m_styleThemes->themes();
+    QStringList themes = m_styleThemes->themes();
 #endif
     for (QStringList::ConstIterator iter = themes.constBegin(); iter != themes.constEnd(); ++iter)
     {
@@ -102,6 +102,7 @@ void MainWindowPrivate::fillThemeMenu()
     m_styleThemes->setCurrentStyleTheme(themes.first());
     m_styleThemes->updateStylesheet();
 #endif
+    qDebug() << "themes=" << themes;
 }
 
 void MainWindowPrivate::setSomeIcons()

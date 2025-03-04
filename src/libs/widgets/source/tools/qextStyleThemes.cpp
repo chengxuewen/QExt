@@ -681,13 +681,13 @@ QStringList QExtStyleThemes::styleThemes(bool all) const
 {
     QStringList styleThemes;
     QStringList styles = this->styles();
-    for (QStringList::ConstIterator stylesIter = styles.begin(); stylesIter != styles.end(); ++stylesIter)
+    for (QStringList::ConstIterator stylesIter = styles.constBegin(); stylesIter != styles.constEnd(); ++stylesIter)
     {
         const QString style = *stylesIter;
         if (all || "fluent" != style)
         {
             QStringList themes = this->themes(style);
-            for (QStringList::ConstIterator themesIter = themes.begin(); themesIter != themes.end(); ++themesIter)
+            for (QStringList::ConstIterator themesIter = themes.constBegin(); themesIter != themes.constEnd(); ++themesIter)
             {
                 styleThemes.append(QString("%1 %2").arg(style).arg(*themesIter));
             }
@@ -700,7 +700,7 @@ QStringList QExtStyleThemes::styleThemes(const QString &style) const
 {
     QStringList styleThemes;
     QStringList themes = this->themes(style);
-    for (QStringList::ConstIterator themesIter = themes.begin(); themesIter != themes.end(); ++themesIter)
+    for (QStringList::ConstIterator themesIter = themes.constBegin(); themesIter != themes.constEnd(); ++themesIter)
     {
         styleThemes.append(QString("%1 %2").arg(style).arg(*themesIter));
     }

@@ -84,8 +84,8 @@ qext_add_library(Core
     source/tools/qextMemory.h
     source/tools/qextNumeric.cpp
     source/tools/qextNumeric.h
-    source/tools/qextTag.cpp
-    source/tools/qextTag.h
+    source/tools/qextTagId.cpp
+    source/tools/qextTagId.h
     source/tools/qextSpinlock.h
     source/tools/qextTSValue.h
     source/tools/qextOnceFlag.h
