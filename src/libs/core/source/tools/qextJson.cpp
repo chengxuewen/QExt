@@ -1,6 +1,6 @@
 #include <private/qextJson_p.h>
 #include <qextNumeric.h>
-#include <qextTag.h>
+#include <qextTagId.h>
 
 #include <QThreadStorage>
 
@@ -484,7 +484,7 @@ QExtJsonValueRef &QExtJsonValueRef::operator =(const QExtJsonValue &val)
 {
     if (is_object)
     {
-        o->insert(QExtTag(index).name().data(), val);
+        o->insert(QExtTagId(index).name().data(), val);
     }
     else
     {
@@ -497,7 +497,7 @@ QExtJsonValueRef &QExtJsonValueRef::operator =(const QExtJsonValueRef &val)
 {
     if (is_object)
     {
-        o->insert(QExtTag(index).name().data(), val.toValue());
+        o->insert(QExtTagId(index).name().data(), val.toValue());
     }
     else
     {
@@ -523,7 +523,7 @@ QExtJsonObject QExtJsonValueRef::toObject() const
 
 QExtJsonValue QExtJsonValueRef::toValue() const
 {
-    return is_object ? o->value(QExtTag(index).name()) : a->at(index);
+    return is_object ? o->value(QExtTagId(index).name()) : a->at(index);
 }
 
 
@@ -893,7 +893,7 @@ QExtJsonValue QExtJsonObject::operator[](const QString &key) const
 
 QExtJsonValueRef QExtJsonObject::operator[](const QString &key)
 {
-    return QExtJsonValueRef(this, QExtTag(key).id());
+    return QExtJsonValueRef(this, QExtTagId(key).id());
 }
 
 void QExtJsonObject::remove(const QString &key)
