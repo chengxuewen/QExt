@@ -134,7 +134,7 @@ void QExtTcpSocket::enqueueSendPacket(const QSharedPointer<QExtTcpPacketInterfac
     d->m_sendPacketQueue.enqueue(packet);
 }
 
-QExtTag QExtTcpSocket::identityId() const
+QExtTagId QExtTcpSocket::identityId() const
 {
     Q_D(const QExtTcpSocket);
     return d->m_identityId;
@@ -168,7 +168,7 @@ QString QExtTcpSocket::transferErrorText(int error)
     return "";
 }
 
-QExtTag QExtTcpSocket::updateIdentityId()
+QExtTagId QExtTcpSocket::updateIdentityId()
 {
     Q_D(QExtTcpSocket);
     if (this->state() == QTcpSocket::ConnectedState)

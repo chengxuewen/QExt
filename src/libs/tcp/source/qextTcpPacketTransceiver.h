@@ -2,7 +2,7 @@
 #define _QEXTTCPPACKETTRANSCEIVER_H
 
 #include <qextTcpGlobal.h>
-#include <qextTag.h>
+#include <qextTagId.h>
 
 #include <QObject>
 #include <QSharedPointer>
@@ -22,7 +22,7 @@ public:
     QExtTcpPacketTransceiver(QExtTcpPacketTransceiverPrivate *d, const QSharedPointer<QExtTcpPacketDispatcher> &dispatcher);
     ~QExtTcpPacketTransceiver();
 
-    QExtTag identityId() const;
+    QExtTagId identityId() const;
     bool isSocketValid() const;
 
     bool send(const QSharedPointer<QExtTcpPacketInterface> &sendPacket);

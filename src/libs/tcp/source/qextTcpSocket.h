@@ -1,7 +1,7 @@
 #ifndef _QEXTTCPSOCKET_H
 #define _QEXTTCPSOCKET_H
 
-#include <qextTag.h>
+#include <qextTagId.h>
 
 #include <qextTcpGlobal.h>
 
@@ -51,7 +51,7 @@ public:
     void enqueueSendPacket(const QSharedPointer<QExtTcpPacketInterface> &packet);
 
     bool isConnected() const;
-    QExtTag identityId() const;
+    QExtTagId identityId() const;
     static QString transferErrorText(int error);
 
 Q_SIGNALS:
@@ -61,7 +61,7 @@ Q_SIGNALS:
     void transferError(const QExtTcpSocket::TransferErrorType &error);
 
 public Q_SLOTS:
-    QExtTag updateIdentityId();
+    QExtTagId updateIdentityId();
     void sendPacket();
 
     void connectToServer(const QString &ipAddress, quint16 port);

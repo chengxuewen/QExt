@@ -2,7 +2,7 @@
 #define _QEXTTCPTASKPOOL_P_H
 
 #include <qextTcpTaskPool.h>
-#include <qextTag.h>
+#include <qextTagId.h>
 
 #include <QSet>
 #include <QMap>
@@ -29,7 +29,7 @@ public:
     QQueue<QExtTcpTask *> m_waitingTaskQueue;
     QSet<QExtTcpTask *> m_runningTaskSet;
     QMap<quint64, QExtTcpTask *> m_idToTaskMap;
-    QMap<quint64, QExtTag> m_idToIdentityIdMap;
+    QMap<quint64, QExtTagId> m_idToIdentityIdMap;
 
 private:
     Q_DECLARE_PUBLIC(QExtTcpTaskPool)

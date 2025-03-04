@@ -4,7 +4,7 @@
 #include <qextTcpGlobal.h>
 #include <qextTcpPacketHeaderInterface.h>
 
-#include <qextTag.h>
+#include <qextTagId.h>
 
 #include <QSharedPointer>
 

@@ -31,13 +31,13 @@ public:
     QDateTime timestamp() const;
 
     quint64 id() const;
-    QExtTag identityId() const;
+    QExtTagId identityId() const;
 
     bool isFinished() const;
     bool isErrored() const;
     QString errorString() const;
 
-    virtual QExtTag typeId() const;
+    virtual QExtTagId typeId() const;
     void run() QEXT_OVERRIDE;
 
 Q_SIGNALS:
@@ -58,7 +58,7 @@ public:
     QExtTcpPostBackTask(QExtTcpTaskPrivate *d, const QSharedPointer<QExtTcpPacketTransceiver> &transceiver, const QSharedPointer<QExtTcpPacketInterface> &packet);
     ~QExtTcpPostBackTask();
 
-    QExtTag typeId() const QEXT_OVERRIDE;
+    QExtTagId typeId() const QEXT_OVERRIDE;
     void run() QEXT_OVERRIDE;
 };
 

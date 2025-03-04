@@ -1,7 +1,7 @@
 #ifndef _QEXTTCPPACKETPARSER_P_H
 #define _QEXTTCPPACKETPARSER_P_H
 
-#include <qextTag.h>
+#include <qextTagId.h>
 #include <qextTcpPacketParser.h>
 #include <qextTcpPacketHeader.h>
 
@@ -25,7 +25,7 @@ public:
     QExtTcpPacketHeader::DataInfoVector m_extraHeaderDataPairVector;
 
     mutable QMutex m_mutex;
-    QHash<QExtTag, QSharedPointer<QExtTcpPacketInterface> > m_packetIdMap;
+    QHash<QExtTagId, QSharedPointer<QExtTcpPacketInterface> > m_packetIdMap;
     static quint32 sm_id;
 
 private:

@@ -1,7 +1,7 @@
 #ifndef _QEXTTCPPACKET_P_H
 #define _QEXTTCPPACKET_P_H
 
-#include <qextTag.h>
+#include <qextTagId.h>
 #include <qextTcpPacket.h>
 
 #include <QScopedPointer>

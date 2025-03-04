@@ -92,7 +92,7 @@ void QExtTcpTaskPool::onTaskError(const QString &error)
     QMutexLocker mutexLocker(&d->m_mutex);
     QExtTcpTask *task = qobject_cast<QExtTcpTask *>(this->sender());
     quint64 id = d->m_idToTaskMap.key(task);
-    QExtTag identityId = d->m_idToIdentityIdMap.value(id);
+    QExtTagId identityId = d->m_idToIdentityIdMap.value(id);
     emit this->taskError(identityId, error);
 }
 
@@ -101,7 +101,7 @@ void QExtTcpTaskPool::onTaskFinished(quint64 id)
     Q_D(QExtTcpTaskPool);
     QMutexLocker mutexLocker(&d->m_mutex);
     QExtTcpTask *task = d->m_idToTaskMap.value(id);
-    QExtTag identityId = d->m_idToIdentityIdMap.value(id);
+    QExtTagId identityId = d->m_idToIdentityIdMap.value(id);
     d->m_idToTaskMap.remove(id);
     d->m_idToIdentityIdMap.remove(id);
     d->m_runningTaskSet.remove(task);
