@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -38,6 +38,7 @@ public:
     explicit QExtCollapseTabWidgetPrivate(QExtCollapseTabWidget *q);
     virtual ~QExtCollapseTabWidgetPrivate();
 
+    void setDuration();
     int rotationAngle();
     QRect collapseButtonRect();
     int rotationAngleFromTabPosition(QTabWidget::TabPosition position);
@@ -51,7 +52,7 @@ public:
     int m_collapseIconDefaultRotationAngle;
     int m_animationEnadValue;
     bool m_collapseVertical;
-    bool m_animationEnable;
+    bool m_animationEnabled;
     bool m_collapsed;
     int m_collapsedSize;
     int m_maximumSize;

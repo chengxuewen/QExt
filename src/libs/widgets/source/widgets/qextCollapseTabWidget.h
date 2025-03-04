@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -43,7 +43,7 @@ public:
     ~QExtCollapseTabWidget() QEXT_OVERRIDE;
 
     bool isPanelCollapsed() const;
-    bool isAnimationEnable() const;
+    bool isAnimationEnabled() const;
 
     QIcon panelCollapseIcon() const;
     void setPanelCollapseIcon(const QIcon &icon);
@@ -52,20 +52,19 @@ public:
     void setPanelCollapseIconDefaultRotationAngle(int angle);
 
     void setTabPosition(QTabWidget::TabPosition position); // cover base class
-    void setCornerWidget(QWidget * w, Qt::Corner corner = Qt::TopRightCorner); // cover base class
 
 Q_SIGNALS:
     void tabsExpanded();
     void tabsCollapsed();
     void tabsCollapseChanged(bool collapsed);
-    void animationEnableChanged(bool enable);
+    void animationEnableChanged(bool enabled);
     void panelCollapseIconChanged(const QIcon &icon);
 
 public Q_SLOTS:
     void expandTabs();
     void collapseTabs();
     void setCollapseState(bool collapse);
-    void setAnimationEnable(bool enable);
+    void setAnimationEnable(bool enabled);
 
 protected Q_SLOTS:
     void onTabBarClicked();
@@ -77,6 +76,8 @@ protected Q_SLOTS:
 
 protected:
     void resizeEvent(QResizeEvent *event) QEXT_OVERRIDE;
+
+    void setCornerWidget(QWidget * w, Qt::Corner corner = Qt::TopRightCorner); // cover base class
 
 protected:
     QScopedPointer<QExtCollapseTabWidgetPrivate> dd_ptr;

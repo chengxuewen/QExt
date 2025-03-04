@@ -1,6 +1,6 @@
 import QtQuick 2.9
 
-import QExtQuick.Controls 1.2
+import QExtQuick.Controls 1.3
 
 Item {
     id: root

@@ -36,10 +36,10 @@
 QExtNavigationListItemPrivate::QExtNavigationListItemPrivate(QExtNavigationListItem *q)
     : q_ptr(q)
 {
-    m_expand = false;
-    m_visiable = true;
     m_enable = true;
     m_checkd = false;
+    m_expand = false;
+    m_visiable = true;
 }
 
 QExtNavigationListItemPrivate::~QExtNavigationListItemPrivate()
@@ -48,13 +48,15 @@ QExtNavigationListItemPrivate::~QExtNavigationListItemPrivate()
 }
 
 QExtNavigationListItem::QExtNavigationListItem(QExtNavigationListItem *parent)
-    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
+    : QObject()
+    , dd_ptr(new QExtNavigationListItemPrivate(this))
 {
     this->setParentItem(parent);
 }
 
 QExtNavigationListItem::QExtNavigationListItem(const QString &text, QExtNavigationListItem *parent)
-    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
+    : QObject()
+    , dd_ptr(new QExtNavigationListItemPrivate(this))
 {
     Q_D(QExtNavigationListItem);
     d->m_text = text;
@@ -62,8 +64,9 @@ QExtNavigationListItem::QExtNavigationListItem(const QString &text, QExtNavigati
 }
 
 QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QPixmap &icon,
-                                             QExtNavigationListItem *parent)
-    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
+                                               QExtNavigationListItem *parent)
+    : QObject()
+    , dd_ptr(new QExtNavigationListItemPrivate(this))
 {
     Q_D(QExtNavigationListItem);
     d->m_text = text;
@@ -72,8 +75,9 @@ QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QPixma
 }
 
 QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QPixmap &icon,
-                                             bool expand, QExtNavigationListItem *parent)
-    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
+                                               bool expand, QExtNavigationListItem *parent)
+    : QObject()
+    , dd_ptr(new QExtNavigationListItemPrivate(this))
 {
     Q_D(QExtNavigationListItem);
     d->m_text = text;
@@ -83,8 +87,9 @@ QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QPixma
 }
 
 QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QString &tip,
-                                             const QPixmap &icon, QExtNavigationListItem *parent)
-    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
+                                               const QPixmap &icon, QExtNavigationListItem *parent)
+    : QObject()
+    , dd_ptr(new QExtNavigationListItemPrivate(this))
 {
     Q_D(QExtNavigationListItem);
     d->m_text = text;
@@ -94,8 +99,9 @@ QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QStrin
 }
 
 QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QString &tip,
-                                             const QPixmap &icon, bool expand, QExtNavigationListItem *parent)
-    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
+                                               const QPixmap &icon, bool expand, QExtNavigationListItem *parent)
+    : QObject()
+    , dd_ptr(new QExtNavigationListItemPrivate(this))
 {
     Q_D(QExtNavigationListItem);
     d->m_text = text;
@@ -106,8 +112,9 @@ QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QStrin
 }
 
 QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QChar &fontChar,
-                                             QExtNavigationListItem *parent)
-    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
+                                               QExtNavigationListItem *parent)
+    : QObject()
+    , dd_ptr(new QExtNavigationListItemPrivate(this))
 {
     Q_D(QExtNavigationListItem);
     d->m_text = text;
@@ -116,8 +123,9 @@ QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QChar 
 }
 
 QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QChar &fontChar,
-                                             bool expand, QExtNavigationListItem *parent)
-    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
+                                               bool expand, QExtNavigationListItem *parent)
+    : QObject()
+    , dd_ptr(new QExtNavigationListItemPrivate(this))
 {
     Q_D(QExtNavigationListItem);
     d->m_text = text;
@@ -127,8 +135,9 @@ QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QChar 
 }
 
 QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QString &tip,
-                                             const QChar &fontChar, QExtNavigationListItem *parent)
-    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
+                                               const QChar &fontChar, QExtNavigationListItem *parent)
+    : QObject()
+    , dd_ptr(new QExtNavigationListItemPrivate(this))
 {
     Q_D(QExtNavigationListItem);
     d->m_text = text;
@@ -138,8 +147,9 @@ QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QStrin
 }
 
 QExtNavigationListItem::QExtNavigationListItem(const QString &text, const QString &tip,
-                                             const QChar &fontChar, bool expand, QExtNavigationListItem *parent)
-    : QObject(), dd_ptr(new QExtNavigationListItemPrivate(this))
+                                               const QChar &fontChar, bool expand, QExtNavigationListItem *parent)
+    : QObject()
+    , dd_ptr(new QExtNavigationListItemPrivate(this))
 {
     Q_D(QExtNavigationListItem);
     d->m_text = text;
@@ -485,10 +495,11 @@ void QExtNavigationListItem::onChildItemAboutToBeDestroyed(QExtNavigationListIte
 
 
 
-QEXTNavListDelegate::QEXTNavListDelegate(QEXTNavigationListViewPrivate *navData)
+QExtNavListDelegate::QExtNavListDelegate(QExtNavigationListViewPrivate *navData)
     : QStyledItemDelegate()
+    , m_navData(navData)
+    , m_navListView(navData->q_ptr)
 {
-    m_navData = navData;
 
     QFontDatabase fontDb;
     if (!fontDb.families().contains("FontAwesome"))
@@ -511,18 +522,18 @@ QEXTNavListDelegate::QEXTNavListDelegate(QEXTNavigationListViewPrivate *navData)
     }
 }
 
-QEXTNavListDelegate::~QEXTNavListDelegate() {}
-
-QSize QEXTNavListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize QExtNavListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QExtNavigationListItem *item = (QExtNavigationListItem *)index.data(Qt::UserRole).toLongLong();
 
-    QSize size(50, item->isParentItem() ? m_navData->m_parentHeight : m_navData->m_childHeight);
+    QSize size(50, m_navListView->itemHeight(item->isParentItem()));
     return size;
 }
 
-void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void QExtNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    const QPalette &buttonPalette = m_navData->buttonPalette();
+    const QPalette &listViewPalette = m_navData->listViewPalette();
     painter->setRenderHint(QPainter::Antialiasing);
     QExtNavigationListItem *item = (QExtNavigationListItem *)index.data(Qt::UserRole).toLongLong();
 
@@ -539,43 +550,43 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     bool enabled = item->isEnabled();
     bool parentEnabled = item->parentItem() ? item->parentItem()->isEnabled() : enabled;
 
-    int fontSize = parent ? m_navData->m_parentFontSize : m_navData->m_childFontSize;
+    int fontSize = m_navListView->itemFontSize(parent);
     QPixmap icon;
     QColor bgColor, textColor, tipBgColor, tipTextColor, iconColor;
     if (checked)
     {
-        bgColor = parent ? m_navData->m_parentBackgroundCheckedColor : m_navData->m_childBackgroundCheckedColor;
-        textColor = parent ? m_navData->m_parentTextCheckedColor : m_navData->m_childTextCheckedColor;
-        tipBgColor = parent ? m_navData->m_parentTextCheckedColor : m_navData->m_childTextCheckedColor;
-        tipTextColor = parent ? m_navData->m_parentBackgroundCheckedColor : m_navData->m_childBackgroundCheckedColor;
-        iconColor = parent ? m_navData->m_parentTextCheckedColor : m_navData->m_childTextCheckedColor;
+        bgColor = m_navListView->itemBackgroundColor(parent, QExtNavigationListView::ItemState_Checked);
+        textColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Checked);
+        tipBgColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Checked);
+        tipTextColor = m_navListView->itemBackgroundColor(parent, QExtNavigationListView::ItemState_Checked);
+        iconColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Checked);
         icon = item->checkedIcon();
     }
     else if (option.state & QStyle::State_Selected && enabled && parentEnabled)
     {
-        bgColor = parent ? m_navData->m_parentBackgroundSelectedColor : m_navData->m_childBackgroundSelectedColor;
-        textColor = parent ? m_navData->m_parentTextSelectedColor : m_navData->m_childTextSelectedColor;
-        tipBgColor = parent ? m_navData->m_parentTextSelectedColor : m_navData->m_childTextSelectedColor;
-        tipTextColor = parent ? m_navData->m_parentBackgroundSelectedColor : m_navData->m_childBackgroundSelectedColor;
-        iconColor = parent ? m_navData->m_parentTextSelectedColor : m_navData->m_childTextSelectedColor;
+        bgColor = m_navListView->itemBackgroundColor(parent, QExtNavigationListView::ItemState_Selected);
+        textColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Selected);
+        tipBgColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Selected);
+        tipTextColor = m_navListView->itemBackgroundColor(parent, QExtNavigationListView::ItemState_Selected);
+        iconColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Selected);
         icon = item->selectedIcon();
     }
     else if (option.state & QStyle::State_MouseOver && enabled && parentEnabled)
     {
-        bgColor = parent ? m_navData->m_parentBackgroundHoverColor : m_navData->m_childBackgroundHoverColor;
-        textColor = parent ? m_navData->m_parentTextHoverColor : m_navData->m_childTextHoverColor;
-        tipBgColor = parent ? m_navData->m_parentTextCheckedColor : m_navData->m_childTextCheckedColor;
-        tipTextColor = parent ? m_navData->m_parentBackgroundCheckedColor : m_navData->m_childBackgroundCheckedColor;
-        iconColor = parent ? m_navData->m_parentTextHoverColor : m_navData->m_childTextHoverColor;
+        bgColor = m_navListView->itemBackgroundColor(parent, QExtNavigationListView::ItemState_Hovered);
+        textColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Hovered);
+        tipBgColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Checked);
+        tipTextColor = m_navListView->itemBackgroundColor(parent, QExtNavigationListView::ItemState_Checked);
+        iconColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Hovered);
         icon = item->hoverIcon();
     }
     else
     {
-        bgColor = parent ? m_navData->m_parentBackgroundNormalColor : m_navData->m_childBackgroundNormalColor;
-        textColor = parent ? m_navData->m_parentTextNormalColor : m_navData->m_childTextNormalColor;
-        tipBgColor = parent ? m_navData->m_parentBackgroundCheckedColor : m_navData->m_childBackgroundCheckedColor;
-        tipTextColor = parent ? m_navData->m_parentTextCheckedColor : m_navData->m_childTextCheckedColor;
-        iconColor = parent ? m_navData->m_parentTextNormalColor : m_navData->m_childTextNormalColor;
+        bgColor = m_navListView->itemBackgroundColor(parent, QExtNavigationListView::ItemState_Normal);
+        textColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Normal);
+        tipBgColor = m_navListView->itemBackgroundColor(parent, QExtNavigationListView::ItemState_Checked);
+        tipTextColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Checked);
+        iconColor = m_navListView->itemTextColor(parent, QExtNavigationListView::ItemState_Normal);
         icon = item->normalIcon();
     }
     if (!enabled || !parentEnabled)
@@ -588,8 +599,8 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
     painter->fillRect(optionRect, bgColor);
 
-    int lineWidth = m_navData->m_lineWidth;
-    if (!parent && m_navData->m_lineVisible && lineWidth > 0)
+    int lineWidth = m_navData->m_itemLineWidth;
+    if (!parent && m_navData->m_itemLineVisible && lineWidth > 0)
     {
         if (checked)
         {
@@ -597,28 +608,27 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
             QPointF pointTop(x, y + offset);
             QPointF pointBottom(x, height + y - offset);
-            if (!m_navData->m_lineLeft)
+            if (!m_navData->m_itemLineLeftAlign)
             {
                 pointTop.setX(width);
                 pointBottom.setX(width);
             }
 
-            painter->setPen(QPen(m_navData->m_lineColor, lineWidth));
+            painter->setPen(QPen(m_navListView->itemLineColor(), lineWidth));
             painter->drawLine(pointTop, pointBottom);
         }
     }
 
-    int triangleWidth = m_navData->m_triangleWidth;
-    if (!parent && m_navData->m_triangleVisible && triangleWidth > 0)
+    int triangleWidth = m_navData->m_itemTriangleWidth;
+    if (!parent && m_navData->m_itemTriangleVisible && triangleWidth > 0)
     {
         if (checked)
         {
             QFont font = m_iconFont;
             font.setPixelSize(fontSize + triangleWidth);
             painter->setFont(font);
-            painter->setPen(m_navData->m_triangleColor);
-
-            if (m_navData->m_triangleLeft)
+            painter->setPen(m_navListView->itemTriangleColor());
+            if (m_navData->m_itemTriangleLeftAlign)
             {
                 painter->drawText(optionRect, Qt::AlignLeft | Qt::AlignVCenter, QChar(0xf0da));
             }
@@ -629,11 +639,11 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         }
     }
 
-    if (m_navData->m_separateVisible)
+    if (m_navData->m_itemSeparateVisible)
     {
         if (item->isParentItem() || (item->isChildItem() && item->isLastVisibleItem()))
         {
-            painter->setPen(QPen(m_navData->m_separateColor, m_navData->m_separateHeight));
+            painter->setPen(QPen(m_navListView->itemSeparateColor(), m_navData->m_itemSeparateHeight));
             painter->drawLine(QPointF(x, y + height), QPointF(x + width, y + height));
         }
     }
@@ -641,18 +651,18 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     QString text = item->text();
     if (!text.isEmpty())
     {
-        int margin = m_navData->m_parentMargin;
+        int margin = m_navListView->itemMargin(true);
         if (item->isChildItem())
         {
-            margin = m_navData->m_childMargin;
-            fontSize = m_navData->m_childFontSize;
+            margin = m_navListView->itemMargin(false);
+            fontSize = m_navListView->itemFontSize(false);
         }
 
         QRect textRect = optionRect;
         textRect.setWidth(width - margin);
         textRect.setX(x + margin);
 
-        QFont font = m_navData->itemFont();
+        QFont font = m_navData->buttonFont();
         font.setPixelSize(fontSize);
         painter->setFont(font);
         painter->setPen(textColor);
@@ -660,7 +670,7 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     }
 
     QString tip = item->tip();
-    if (m_navData->m_tipVisible && !tip.isEmpty())
+    if (m_navData->m_itenLineTipVisible && !tip.isEmpty())
     {
         if (tip.toInt() > 0)
         {
@@ -675,10 +685,10 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         QRect tipRect = optionRect;
         tipRect.setHeight(radius * 2);
         tipRect.moveCenter(optionRect.center());
-        tipRect.setLeft(optionRect.right() - m_navData->m_tipWidth - 5);
+        tipRect.setLeft(optionRect.right() - m_navData->m_itemLineTipWidth - 5);
         tipRect.setRight(optionRect.right() - 5);
 
-        QFont font = m_navData->itemFont();
+        QFont font = m_navData->buttonFont();
         font.setPixelSize(fontSize - 2);
         painter->setFont(font);
 
@@ -692,7 +702,7 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     }
 
     QRect iconRect = optionRect;
-    iconRect.setLeft(parent ? m_navData->m_parentIconMargin : m_navData->m_childIconMargin);
+    iconRect.setLeft(m_navListView->itemIconMargin(parent));
 
     QFont font = m_iconFont;
     font.setPixelSize(fontSize);
@@ -720,37 +730,24 @@ void QEXTNavListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
             painter->drawText(iconRect, Qt::AlignLeft | Qt::AlignVCenter, QChar(0xf068));
         }
     }
-
-    iconRect.setRight(optionRect.width() - 10);
-    if (!(m_navData->m_tipVisible && !item->tip().isEmpty()) && m_navData->m_rightIconVisible && parent && hasChildItems)
-    {
-        if (!item->isExpand())
-        {
-            painter->drawText(iconRect, Qt::AlignRight | Qt::AlignVCenter, QChar(0xf054));
-        }
-        else
-        {
-            painter->drawText(iconRect, Qt::AlignRight | Qt::AlignVCenter, QChar(0xf078));
-        }
-    }
 }
 
 
 
-QEXTNavigationListModelPrivate::QEXTNavigationListModelPrivate(QEXTNavigationListModel *q)
+QExtNavigationListModelPrivate::QExtNavigationListModelPrivate(QExtNavigationListModel *q)
     : q_ptr(q)
 {
 
 }
 
-QEXTNavigationListModelPrivate::~QEXTNavigationListModelPrivate()
+QExtNavigationListModelPrivate::~QExtNavigationListModelPrivate()
 {
     this->deleteAllItems();
     m_parentItemList.clear();
     m_visiableItemList.clear();
 }
 
-void QEXTNavigationListModelPrivate::deleteAllItems()
+void QExtNavigationListModelPrivate::deleteAllItems()
 {
     QSet<QExtNavigationListItem *>::iterator iter;
     for (iter = m_allItemSet.begin(); iter != m_allItemSet.end(); ++iter)
@@ -761,7 +758,7 @@ void QEXTNavigationListModelPrivate::deleteAllItems()
     m_allItemSet.clear();
 }
 
-void QEXTNavigationListModelPrivate::refreshVisibleList()
+void QExtNavigationListModelPrivate::refreshVisibleList()
 {
     m_visiableItemList.clear();
     QList<QExtNavigationListItem *>::iterator iter;
@@ -782,7 +779,7 @@ void QEXTNavigationListModelPrivate::refreshVisibleList()
     }
 }
 
-void QEXTNavigationListModelPrivate::initAllItemsConnection()
+void QExtNavigationListModelPrivate::initAllItemsConnection()
 {
     QSet<QExtNavigationListItem *>::iterator iter;
     for (iter = m_allItemSet.begin(); iter != m_allItemSet.end(); ++iter)
@@ -792,9 +789,9 @@ void QEXTNavigationListModelPrivate::initAllItemsConnection()
     }
 }
 
-void QEXTNavigationListModelPrivate::initItemConnection(QExtNavigationListItem *item)
+void QExtNavigationListModelPrivate::initItemConnection(QExtNavigationListItem *item)
 {
-    Q_Q(QEXTNavigationListModel);
+    Q_Q(QExtNavigationListModel);
     item->disconnect(q);
     QObject::connect(item, SIGNAL(itemAboutToDestroyed(QExtNavigationListItem*)), q, SLOT(onItemAboutToDestroyed(QExtNavigationListItem*)));
     QObject::connect(item, SIGNAL(iconChanged(QExtNavigationListItem*)), q, SLOT(onItemChanged(QExtNavigationListItem*)));
@@ -819,51 +816,51 @@ void QEXTNavigationListModelPrivate::initItemConnection(QExtNavigationListItem *
 }
 
 
-QEXTNavigationListModel::QEXTNavigationListModel(QObject *parent)
-    : QAbstractListModel(parent), dd_ptr(new QEXTNavigationListModelPrivate(this))
+QExtNavigationListModel::QExtNavigationListModel(QObject *parent)
+    : QAbstractListModel(parent), dd_ptr(new QExtNavigationListModelPrivate(this))
 {
 
 }
 
-QEXTNavigationListModel::~QEXTNavigationListModel()
+QExtNavigationListModel::~QExtNavigationListModel()
 {
 
 }
 
-QExtNavigationListItem *QEXTNavigationListModel::checkedItem() const
+QExtNavigationListItem *QExtNavigationListModel::checkedItem() const
 {
-    Q_D(const QEXTNavigationListModel);
+    Q_D(const QExtNavigationListModel);
     return d->m_checkedItem.data();
 }
 
-QList<QExtNavigationListItem *> QEXTNavigationListModel::allItems() const
+QList<QExtNavigationListItem *> QExtNavigationListModel::allItems() const
 {
-    Q_D(const QEXTNavigationListModel);
-    return d->m_allItemSet.toList();
+    Q_D(const QExtNavigationListModel);
+    return d->m_allItemSet.values();
 }
 
-QList<QExtNavigationListItem *> QEXTNavigationListModel::parentItems() const
+QList<QExtNavigationListItem *> QExtNavigationListModel::parentItems() const
 {
-    Q_D(const QEXTNavigationListModel);
+    Q_D(const QExtNavigationListModel);
     return d->m_parentItemList;
 }
 
-QList<QExtNavigationListItem *> QEXTNavigationListModel::visiableItems() const
+QList<QExtNavigationListItem *> QExtNavigationListModel::visiableItems() const
 {
-    Q_D(const QEXTNavigationListModel);
+    Q_D(const QExtNavigationListModel);
     return d->m_visiableItemList;
 }
 
-int QEXTNavigationListModel::rowCount(const QModelIndex &parent) const
+int QExtNavigationListModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    Q_D(const QEXTNavigationListModel);
+    Q_D(const QExtNavigationListModel);
     return d->m_visiableItemList.size();
 }
 
-QVariant QEXTNavigationListModel::data(const QModelIndex &index, int role) const
+QVariant QExtNavigationListModel::data(const QModelIndex &index, int role) const
 {
-    Q_D(const QEXTNavigationListModel);
+    Q_D(const QExtNavigationListModel);
     if (!index.isValid())
     {
         return QVariant();
@@ -890,9 +887,9 @@ QVariant QEXTNavigationListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-Qt::ItemFlags QEXTNavigationListModel::flags(const QModelIndex &index) const
+Qt::ItemFlags QExtNavigationListModel::flags(const QModelIndex &index) const
 {
-    Q_D(const QEXTNavigationListModel);
+    Q_D(const QExtNavigationListModel);
     if (index.isValid())
     {
         int row = index.row();
@@ -909,7 +906,7 @@ Qt::ItemFlags QEXTNavigationListModel::flags(const QModelIndex &index) const
     return QAbstractListModel::flags(index);
 }
 
-void QEXTNavigationListModel::setItems(const QStringList &items)
+void QExtNavigationListModel::setItems(const QStringList &items)
 {
     if (!items.isEmpty())
     {
@@ -925,7 +922,7 @@ void QEXTNavigationListModel::setItems(const QStringList &items)
             QStringList list = item.split("|");
             if (list.count() < 5)
             {
-                qWarning() << QString("QEXTNavigationListModel::setItems(): item string %1 invalid").arg(item);
+                qWarning() << QString("QExtNavigationListModel::setItems(): item string %1 invalid").arg(item);
                 iter.remove();
                 continue;
             }
@@ -955,7 +952,7 @@ void QEXTNavigationListModel::setItems(const QStringList &items)
                     QStringList childList = childItem.split("|");
                     if (childList.count() < 5)
                     {
-                        qWarning() << QString("QEXTNavigationListModel::setItems(): item string %1 invalid").arg(item);
+                        qWarning() << QString("QExtNavigationListModel::setItems(): item string %1 invalid").arg(item);
                         childIter.remove();
                         continue;
                     }
@@ -987,7 +984,7 @@ void QEXTNavigationListModel::setItems(const QStringList &items)
             QStringList list = item.split("|");
             if (list.count() < 5)
             {
-                qWarning() << QString("QEXTNavigationListModel::setItems(): item string %1 invalid").arg(item);
+                qWarning() << QString("QExtNavigationListModel::setItems(): item string %1 invalid").arg(item);
                 checkIter.remove();
                 continue;
             }
@@ -1007,7 +1004,8 @@ void QEXTNavigationListModel::setItems(const QStringList &items)
                 parentItem->setFontIcon(QChar(icon.toInt(&ok, 16)));
             }
             checkIter.remove();
-            qWarning() << QString("QEXTNavigationListModel::setItems(): item string %1 parent %2 not exist").arg(item).arg(parentText);
+            qWarning() << QString("QExtNavigationListModel::setItems(): item string %1 parent %2 not exist").
+                          arg(item).arg(parentText);
         }
         this->setItems(parentItemList);
 
@@ -1016,9 +1014,9 @@ void QEXTNavigationListModel::setItems(const QStringList &items)
 }
 
 
-void QEXTNavigationListModel::setItems(const QList<QExtNavigationListItem *> &items)
+void QExtNavigationListModel::setItems(const QList<QExtNavigationListItem *> &items)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     if (!items.isEmpty())
     {
         this->beginResetModel();
@@ -1063,9 +1061,9 @@ void QEXTNavigationListModel::setItems(const QList<QExtNavigationListItem *> &it
     }
 }
 
-void QEXTNavigationListModel::expandCollapseItem(const QModelIndex &index)
+void QExtNavigationListModel::expandCollapseItem(const QModelIndex &index)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     QExtNavigationListItem *item = d->m_visiableItemList.at(index.row());
     if (0 != item->visiableChildItemsCount())
     {
@@ -1073,9 +1071,9 @@ void QEXTNavigationListModel::expandCollapseItem(const QModelIndex &index)
     }
 }
 
-void QEXTNavigationListModel::onItemAboutToDestroyed(QExtNavigationListItem *item)
+void QExtNavigationListModel::onItemAboutToDestroyed(QExtNavigationListItem *item)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     if (item->isParentItem())
     {
         d->m_allItemSet.remove(item);
@@ -1106,17 +1104,17 @@ void QEXTNavigationListModel::onItemAboutToDestroyed(QExtNavigationListItem *ite
     }
 }
 
-void QEXTNavigationListModel::onItemChanged(QExtNavigationListItem *item)
+void QExtNavigationListModel::onItemChanged(QExtNavigationListItem *item)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     int row = d->m_visiableItemList.indexOf(item);
     QModelIndex index = this->index(row, 0);
     emit this->dataChanged(index, index);
 }
 
-void QEXTNavigationListModel::onItemEnableChanged(QExtNavigationListItem *item)
+void QExtNavigationListModel::onItemEnableChanged(QExtNavigationListItem *item)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     if (item->isVisible())
     {
         int row = d->m_visiableItemList.indexOf(item);
@@ -1127,9 +1125,9 @@ void QEXTNavigationListModel::onItemEnableChanged(QExtNavigationListItem *item)
     }
 }
 
-void QEXTNavigationListModel::onItemExpandChanged(QExtNavigationListItem *item)
+void QExtNavigationListModel::onItemExpandChanged(QExtNavigationListItem *item)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     QList<QExtNavigationListItem *> visiableItems = item->visiableChildItems();
     int count = visiableItems.count();
     int index = d->m_visiableItemList.indexOf(item);
@@ -1153,9 +1151,9 @@ void QEXTNavigationListModel::onItemExpandChanged(QExtNavigationListItem *item)
     }
 }
 
-void QEXTNavigationListModel::onItemCheckChanged(QExtNavigationListItem *item)
+void QExtNavigationListModel::onItemCheckChanged(QExtNavigationListItem *item)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     int row = d->m_visiableItemList.indexOf(item);
     QModelIndex index = this->index(row, 0);
     emit this->dataChanged(index, index);
@@ -1182,9 +1180,9 @@ void QEXTNavigationListModel::onItemCheckChanged(QExtNavigationListItem *item)
     }
 }
 
-void QEXTNavigationListModel::onItemVisibleAboutToBeChanged(QExtNavigationListItem *item)
+void QExtNavigationListModel::onItemVisibleAboutToBeChanged(QExtNavigationListItem *item)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     if (item->isVisible())
     {
         int row = d->m_visiableItemList.indexOf(item);
@@ -1231,9 +1229,9 @@ void QEXTNavigationListModel::onItemVisibleAboutToBeChanged(QExtNavigationListIt
     }
 }
 
-void QEXTNavigationListModel::onItemVisibleChanged(QExtNavigationListItem *item)
+void QExtNavigationListModel::onItemVisibleChanged(QExtNavigationListItem *item)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     if (item->isVisible())
     {
         int row = 0;
@@ -1297,9 +1295,9 @@ void QEXTNavigationListModel::onItemVisibleChanged(QExtNavigationListItem *item)
     }
 }
 
-void QEXTNavigationListModel::onChildItemAboutToBeInserted(QExtNavigationListItem *item, QExtNavigationListItem *parent)
+void QExtNavigationListModel::onChildItemAboutToBeInserted(QExtNavigationListItem *item, QExtNavigationListItem *parent)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     if (item->isVisible() && parent->isVisible())
     {
         int index = d->m_visiableItemList.indexOf(parent);
@@ -1308,9 +1306,9 @@ void QEXTNavigationListModel::onChildItemAboutToBeInserted(QExtNavigationListIte
     }
 }
 
-void QEXTNavigationListModel::onChildItemInserted(QExtNavigationListItem *item, QExtNavigationListItem *parent)
+void QExtNavigationListModel::onChildItemInserted(QExtNavigationListItem *item, QExtNavigationListItem *parent)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     if (item->isVisible() && parent->isVisible())
     {
         int index = d->m_visiableItemList.indexOf(parent);
@@ -1320,9 +1318,9 @@ void QEXTNavigationListModel::onChildItemInserted(QExtNavigationListItem *item, 
     }
 }
 
-void QEXTNavigationListModel::onChildItemAboutToBeRemoved(QExtNavigationListItem *item, QExtNavigationListItem *parent)
+void QExtNavigationListModel::onChildItemAboutToBeRemoved(QExtNavigationListItem *item, QExtNavigationListItem *parent)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     if (d->m_visiableItemList.contains(item))
     {
         int row = d->m_visiableItemList.indexOf(parent);
@@ -1330,9 +1328,9 @@ void QEXTNavigationListModel::onChildItemAboutToBeRemoved(QExtNavigationListItem
     }
 }
 
-void QEXTNavigationListModel::onChildItemRemoved(QExtNavigationListItem *item, QExtNavigationListItem *parent)
+void QExtNavigationListModel::onChildItemRemoved(QExtNavigationListItem *item, QExtNavigationListItem *parent)
 {
-    Q_D(QEXTNavigationListModel);
+    Q_D(QExtNavigationListModel);
     d->m_allItemSet.remove(item);
     if (d->m_visiableItemList.contains(item))
     {
@@ -1343,63 +1341,46 @@ void QEXTNavigationListModel::onChildItemRemoved(QExtNavigationListItem *item, Q
 
 
 
-QEXTNavigationListViewPrivate::QEXTNavigationListViewPrivate(QEXTNavigationListView *q)
+QExtNavigationListViewPrivate::QExtNavigationListViewPrivate(QExtNavigationListView *q)
     : q_ptr(q)
+    , m_pushButton(new QPushButton(q))
 {
-    m_rightIconVisible = true;
-    m_tipVisible = true;
-    m_tipWidth = 40;
+    m_pushButton->setVisible(false);
 
-    m_separateVisible = true;
-    m_separateHeight = 1;
-    m_separateColor = QColor(40, 43, 51);
+    m_itemLineTipWidth = 40;
+    m_itenLineTipVisible = true;
 
-    m_lineLeft = true;
-    m_lineVisible = true;
-    m_lineWidth = 6;
-    m_lineColor = QColor(0, 187, 158);
+    m_itemSeparateHeight = 1;
+    m_itemSeparateVisible = true;
 
-    m_triangleLeft = false;
-    m_triangleVisible = true;
-    m_triangleWidth = 6;
-    m_triangleColor = QColor(250, 250, 250);
+    m_itemLineWidth = 6;
+    m_itemLineVisible = true;
+    m_itemLineLeftAlign = true;
 
-    m_parentIconMargin = 10;
-    m_parentMargin = 30;
-    m_parentFontSize = 12;
-    m_parentHeight = 35;
-    m_parentBackgroundNormalColor = QColor(57, 61, 73);
-    m_parentBackgroundCheckedColor = QColor(78, 83, 102);
-    m_parentBackgroundSelectedColor = QColor(78, 83, 102);
-    m_parentBackgroundHoverColor = QColor(78, 83, 102);
-    m_parentTextNormalColor = QColor(250, 250, 250);
-    m_parentTextCheckedColor = QColor(250, 250, 250);
-    m_parentTextSelectedColor = QColor(250, 250, 250);
-    m_parentTextHoverColor = QColor(250, 250, 250);
-    m_childIconMargin = 15;
-    m_childMargin = 35;
-    m_childFontSize = 12;
-    m_childHeight = 30;
-    m_childBackgroundNormalColor = QColor(40, 43, 51);
-    m_childBackgroundCheckedColor = QColor(20, 20, 20);
-    m_childBackgroundSelectedColor = QColor(20, 20, 20);
-    m_childBackgroundHoverColor = QColor(20, 20, 20);
-    m_childTextNormalColor = QColor(180, 180, 180);
-    m_childTextCheckedColor = QColor(250, 250, 250);
-    m_childTextSelectedColor = QColor(250, 250, 250);
-    m_childTextHoverColor = QColor(255, 255, 255);
-    m_backgroundColor = m_parentBackgroundNormalColor;
+    m_itemTriangleWidth = 6;
+    m_itemTriangleVisible = true;
+    m_itemTriangleLeftAlign = false;
 
-    m_expendMode = QEXTNavigationListView::ExpendMode_SingleClick;
-    m_delegate.reset(new QEXTNavListDelegate(this));
-    m_listView.reset(new QEXTNavListView);
+    m_itemMargins[false] = 35;
+    m_itemHeights[false] = 30;
+    m_itemFontSizes[false] = 12;
+    m_itemIconMargins[false] = 15;
+    m_itemMargins[true] = 30;
+    m_itemHeights[true] = 35;
+    m_itemFontSizes[true] = 12;
+    m_itemIconMargins[true] = 10;
+
+    m_expendMode = QExtNavigationListView::ExpendMode_SingleClick;
+
+    m_delegate.reset(new QExtNavListDelegate(this));
+    m_listView.reset(new QExtNavListView);
     m_listView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_listView->setMouseTracking(true);
     m_listView->setAutoFillBackground(true);
     m_listView->setItemDelegate(m_delegate.data());
 }
 
-QEXTNavigationListViewPrivate::~QEXTNavigationListViewPrivate()
+QExtNavigationListViewPrivate::~QExtNavigationListViewPrivate()
 {
     if (!m_model.isNull())
     {
@@ -1407,86 +1388,85 @@ QEXTNavigationListViewPrivate::~QEXTNavigationListViewPrivate()
     }
 }
 
-QFont QEXTNavigationListViewPrivate::itemFont() const
+const QFont &QExtNavigationListViewPrivate::buttonFont() const
 {
-    Q_Q(const QEXTNavigationListView);
-    return q->font();
+    return m_pushButton->font();
+}
+
+const QPalette &QExtNavigationListViewPrivate::buttonPalette() const
+{
+    return m_pushButton->palette();
+}
+
+const QPalette &QExtNavigationListViewPrivate::listViewPalette() const
+{
+    return q_ptr->palette();
 }
 
 
-QEXTNavigationListView::QEXTNavigationListView(QWidget *parent)
-    : QWidget(parent), dd_ptr(new QEXTNavigationListViewPrivate(this))
+QExtNavigationListView::QExtNavigationListView(QWidget *parent)
+    : QWidget(parent)
+    , dd_ptr(new QExtNavigationListViewPrivate(this))
 {
-    Q_D(QEXTNavigationListView);
+    qRegisterMetaType<QExtNavigationListView::ExpendMode>("QExtNavigationListView::ExpendMode");
+    qRegisterMetaType<QExtNavigationListView::ItemState>("QExtNavigationListView::ItemState");
+    Q_D(QExtNavigationListView);
     QVBoxLayout *layout = new QVBoxLayout;
     layout->setMargin(0);
     layout->addWidget(d->m_listView.data());
     this->setLayout(layout);
-    this->setBackgroundColor(d->m_parentBackgroundNormalColor);
-    this->setModel(new QEXTNavigationListModel);
+    this->setModel(new QExtNavigationListModel);
     connect(d->m_listView.data(), SIGNAL(pressed(QModelIndex)), this, SLOT(onItemPressed(QModelIndex)));
 }
 
-QEXTNavigationListView::~QEXTNavigationListView()
+QExtNavigationListView::~QExtNavigationListView()
 {
 
 }
 
-QListView *QEXTNavigationListView::view() const
+QListView *QExtNavigationListView::view() const
 {
-    Q_D(const QEXTNavigationListView);
+    Q_D(const QExtNavigationListView);
     return d->m_listView.data();
 }
 
-QEXTNavigationListModel *QEXTNavigationListView::model() const
+QExtNavigationListModel *QExtNavigationListView::model() const
 {
-    Q_D(const QEXTNavigationListView);
+    Q_D(const QExtNavigationListView);
     return d->m_model.data();
 }
 
-QExtNavigationListItem *QEXTNavigationListView::selectedItem() const
+QExtNavigationListItem *QExtNavigationListView::selectedItem() const
 {
-    Q_D(const QEXTNavigationListView);
+    Q_D(const QExtNavigationListView);
     return d->m_selectedItem.data();
 }
 
-QExtNavigationListItem *QEXTNavigationListView::checkedItem() const
+QExtNavigationListItem *QExtNavigationListView::checkedItem() const
 {
-    Q_D(const QEXTNavigationListView);
+    Q_D(const QExtNavigationListView);
     return d->m_model->checkedItem();
 }
 
-QList<QExtNavigationListItem *> QEXTNavigationListView::allItems() const
+QList<QExtNavigationListItem *> QExtNavigationListView::allItems() const
 {
-    Q_D(const QEXTNavigationListView);
+    Q_D(const QExtNavigationListView);
     return d->m_model->allItems();
 }
 
-QList<QExtNavigationListItem *> QEXTNavigationListView::parentItems() const
+QList<QExtNavigationListItem *> QExtNavigationListView::parentItems() const
 {
-    Q_D(const QEXTNavigationListView);
+    Q_D(const QExtNavigationListView);
     return d->m_model->parentItems();
 }
 
-QList<QExtNavigationListItem *> QEXTNavigationListView::visiableItems() const
+QList<QExtNavigationListItem *> QExtNavigationListView::visiableItems() const
 {
-    Q_D(const QEXTNavigationListView);
+    Q_D(const QExtNavigationListView);
     return d->m_model->visiableItems();
 }
 
-void QEXTNavigationListView::paintEvent(QPaintEvent *event)
-{
-    Q_D(QEXTNavigationListView);
-    Q_UNUSED(event);
-    QPainter painter(this);
-    painter.setBrush(d->m_parentBackgroundNormalColor);
-    painter.drawRect(this->rect());
-    QStyleOption opt;
-    opt.init(this);
-    this->style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
-}
-
-void QEXTNavigationListView::onItemPressed(const QModelIndex &index)
+void QExtNavigationListView::onItemPressed(const QModelIndex &index)
 {
     QExtNavigationListItem *item = (QExtNavigationListItem *)index.data(Qt::UserRole).toLongLong();
     if (item)
@@ -1499,265 +1479,258 @@ void QEXTNavigationListView::onItemPressed(const QModelIndex &index)
     }
 }
 
-bool QEXTNavigationListView::itemRightIconVisible() const
+bool QExtNavigationListView::isItemTipVisible() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_rightIconVisible;
+    Q_D(const QExtNavigationListView);
+    return d->m_itenLineTipVisible;
 }
 
-bool QEXTNavigationListView::itemTipVisible() const
+int QExtNavigationListView::itemTipWidth() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_tipVisible;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemLineTipWidth;
 }
 
-int QEXTNavigationListView::itemTipWidth() const
+bool QExtNavigationListView::isItemSeparateVisible() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_tipWidth;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemSeparateVisible;
 }
 
-bool QEXTNavigationListView::itemSeparateVisible() const
+int QExtNavigationListView::itemSeparateHeight() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_separateVisible;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemSeparateHeight;
 }
 
-int QEXTNavigationListView::itemSeparateHeight() const
+QColor QExtNavigationListView::itemSeparateColor() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_separateHeight;
+    Q_D(const QExtNavigationListView);
+    if (d->m_itemSeparateColor.has_value())
+    {
+        return d->m_itemSeparateColor.value();
+    }
+    else
+    {
+        return d->buttonPalette().color(QPalette::Active, QPalette::ButtonText);
+    }
 }
 
-QColor QEXTNavigationListView::itemSeparateColor() const
+bool QExtNavigationListView::isItemLineLeftAlign() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_separateColor;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemLineLeftAlign;
 }
 
-bool QEXTNavigationListView::itemLineLeft() const
+bool QExtNavigationListView::isItemLineVisible() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_lineLeft;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemLineVisible;
 }
 
-bool QEXTNavigationListView::itemLineVisible() const
+int QExtNavigationListView::itemLineWidth() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_lineVisible;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemLineWidth;
 }
 
-int QEXTNavigationListView::itemLineWidth() const
+QColor QExtNavigationListView::itemLineColor() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_lineWidth;
+    Q_D(const QExtNavigationListView);
+    if (d->m_itemLineColor.has_value())
+    {
+        return d->m_itemLineColor.value();
+    }
+    else
+    {
+        return this->itemTextColor(false, ItemState_Normal);
+    }
 }
 
-QColor QEXTNavigationListView::itemLineColor() const
+bool QExtNavigationListView::isItemTriangleLeftAlign() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_lineColor;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemTriangleLeftAlign;
 }
 
-bool QEXTNavigationListView::itemTriangleLeft() const
+bool QExtNavigationListView::isItemTriangleVisible() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_triangleLeft;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemTriangleVisible;
 }
 
-bool QEXTNavigationListView::itemTriangleVisible() const
+int QExtNavigationListView::itemTriangleWidth() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_triangleVisible;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemTriangleWidth;
 }
 
-int QEXTNavigationListView::itemTriangleWidth() const
+QColor QExtNavigationListView::itemTriangleColor() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_triangleWidth;
+    Q_D(const QExtNavigationListView);
+    if (d->m_itemTriangleColor.has_value())
+    {
+        return d->m_itemTriangleColor.value();
+    }
+    else
+    {
+        return this->palette().color(QPalette::Active, QPalette::Window);
+    }
 }
 
-QColor QEXTNavigationListView::itemTriangleColor() const
+QColor QExtNavigationListView::backgroundColor() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_triangleColor;
+    Q_D(const QExtNavigationListView);
+    if (d->m_backgroundColor.has_value())
+    {
+        return d->m_backgroundColor.value();
+    }
+    else
+    {
+        return this->palette().color(QPalette::Active, QPalette::Window);
+    }
 }
 
-QColor QEXTNavigationListView::backgroundColor() const
+QColor QExtNavigationListView::itemTextColor(bool isParent, ItemState state) const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_backgroundColor;
+    Q_D(const QExtNavigationListView);
+    if (d->m_itemTextColors[isParent][state].has_value())
+    {
+        return d->m_itemTextColors[isParent][state].value();
+    }
+    else
+    {
+        const QPalette &buttonPalette = d->buttonPalette();
+        switch (state)
+        {
+        case ItemState_Selected:
+        {
+            return isParent ? buttonPalette.color(QPalette::Active, QPalette::BrightText)
+                            : buttonPalette.color(QPalette::Active, QPalette::ButtonText);
+        }
+        case ItemState_Checked:
+        {
+            return isParent ? buttonPalette.color(QPalette::Active, QPalette::BrightText)
+                            : buttonPalette.color(QPalette::Active, QPalette::ButtonText);
+        }
+        case ItemState_Hovered:
+        {
+            return buttonPalette.color(QPalette::Active, QPalette::ButtonText);
+        }
+        case ItemState_Normal:
+        {
+            return buttonPalette.color(QPalette::Active, QPalette::ButtonText);
+        }
+        default:
+            break;
+        }
+    }
+    return QColor();
 }
 
-int QEXTNavigationListView::parentItemIconMargin() const
+QColor QExtNavigationListView::itemBackgroundColor(bool isParent, ItemState state) const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentIconMargin;
+    Q_D(const QExtNavigationListView);
+    if (d->m_itemBackgroundColors[isParent][state].has_value())
+    {
+        return d->m_itemBackgroundColors[isParent][state].value();
+    }
+    else
+    {
+        const QPalette &buttonPalette = d->buttonPalette();
+        const QPalette &listViewPalette = d->listViewPalette();
+        switch (state)
+        {
+        case ItemState_Selected:
+        {
+            return isParent ? buttonPalette.color(QPalette::Active, QPalette::ButtonText)
+                            : buttonPalette.color(QPalette::Active, QPalette::ButtonText);
+        }
+        case ItemState_Checked:
+        {
+            QColor color = isParent ? buttonPalette.color(QPalette::Active, QPalette::ButtonText)
+                                    : buttonPalette.color(QPalette::Active, QPalette::ButtonText);
+            color.setAlphaF(0.2);
+            return color;
+        }
+        case ItemState_Hovered:
+        {
+            QColor color = isParent ? buttonPalette.color(QPalette::Active, QPalette::ButtonText)
+                                    : buttonPalette.color(QPalette::Active, QPalette::ButtonText);
+            color.setAlphaF(0.2);
+            return color;
+        }
+        case ItemState_Normal:
+        {
+            if (isParent)
+            {
+                QColor color = buttonPalette.color(QPalette::Active, QPalette::ButtonText);
+                color.setAlphaF(0.2);
+                return color;
+            }
+            else
+            {
+                return listViewPalette.color(QPalette::Active, QPalette::Window);
+            }
+        }
+        default:
+            break;
+        }
+    }
+    return QColor();
 }
 
-int QEXTNavigationListView::parentItemMargin() const
+int QExtNavigationListView::itemHeight(bool isParent) const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentMargin;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemHeights[isParent];
 }
 
-int QEXTNavigationListView::parentItemFontSize() const
+int QExtNavigationListView::itemMargin(bool isParent) const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentFontSize;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemMargins[isParent];
 }
 
-int QEXTNavigationListView::parentItemHeight() const
+int QExtNavigationListView::itemFontSize(bool isParent) const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentHeight;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemFontSizes[isParent];
 }
 
-QColor QEXTNavigationListView::parentItemNormalBackgroundColor() const
+int QExtNavigationListView::itemIconMargin(bool isParent) const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentBackgroundNormalColor;
+    Q_D(const QExtNavigationListView);
+    return d->m_itemIconMargins[isParent];
 }
 
-QColor QEXTNavigationListView::parentItemCheckedBackgroundColor() const
+QExtNavigationListView::ExpendMode QExtNavigationListView::expendMode() const
 {
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentBackgroundCheckedColor;
-}
-
-QColor QEXTNavigationListView::parentItemSelectedBackgroundColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentBackgroundSelectedColor;
-}
-
-QColor QEXTNavigationListView::parentItemHoverBackgroundColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentBackgroundHoverColor;
-}
-
-QColor QEXTNavigationListView::parentItemNormalTextColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentTextNormalColor;
-}
-
-QColor QEXTNavigationListView::parentItemCheckedTextColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentTextCheckedColor;
-}
-
-QColor QEXTNavigationListView::parentItemSelectedTextColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentTextSelectedColor;
-}
-
-QColor QEXTNavigationListView::parentItemHoverTextColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_parentTextHoverColor;
-}
-
-int QEXTNavigationListView::childItemIconMargin() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childIconMargin;
-}
-
-int QEXTNavigationListView::childItemMargin() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childMargin;
-}
-
-int QEXTNavigationListView::childItemFontSize() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childFontSize;
-}
-
-int QEXTNavigationListView::childItemHeight() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childHeight;
-}
-
-QColor QEXTNavigationListView::childItemNormalBackgroundColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childBackgroundNormalColor;
-}
-
-QColor QEXTNavigationListView::childItemCheckedBackgroundColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childBackgroundCheckedColor;
-}
-
-QColor QEXTNavigationListView::childItemSelectedBackgroundColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childBackgroundSelectedColor;
-}
-
-QColor QEXTNavigationListView::childItemHoverBackgroundColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childBackgroundHoverColor;
-}
-
-QColor QEXTNavigationListView::childItemNormalTextColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childTextNormalColor;
-}
-
-QColor QEXTNavigationListView::childItemCheckedTextColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childTextCheckedColor;
-}
-
-QColor QEXTNavigationListView::childItemSelectedTextColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childTextSelectedColor;
-}
-
-QColor QEXTNavigationListView::childItemHoverTextColor() const
-{
-    Q_D(const QEXTNavigationListView);
-    return d->m_childTextHoverColor;
-}
-
-QEXTNavigationListView::ExpendMode QEXTNavigationListView::expendMode() const
-{
-    Q_D(const QEXTNavigationListView);
+    Q_D(const QExtNavigationListView);
     return d->m_expendMode;
 }
 
-QSize QEXTNavigationListView::sizeHint() const
+QSize QExtNavigationListView::sizeHint() const
 {
     return QSize(200, 300);
 }
 
-QSize QEXTNavigationListView::minimumSizeHint() const
+QSize QExtNavigationListView::minimumSizeHint() const
 {
     return QSize(20, 20);
 }
 
-void QEXTNavigationListView::setModel(QEXTNavigationListModel *model)
+void QExtNavigationListView::setModel(QExtNavigationListModel *model)
 {
-    Q_D(QEXTNavigationListView);
+    Q_D(QExtNavigationListView);
     if (d->m_model.data() != model)
     {
         if (!d->m_model.isNull())
         {
-            disconnect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)), model, SLOT(expandCollapseItem(QModelIndex)));
-            disconnect(d->m_model.data(), SIGNAL(checkedItemChanged(QExtNavigationListItem*)), this, SIGNAL(checkedItemChanged(QExtNavigationListItem*)));
+            disconnect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)),
+                       model, SLOT(expandCollapseItem(QModelIndex)));
+            disconnect(d->m_model.data(), SIGNAL(checkedItemChanged(QExtNavigationListItem*)),
+                       this, SIGNAL(checkedItemChanged(QExtNavigationListItem*)));
             d->m_model->deleteLater();
             d->m_model = QEXT_NULLPTR;
             d->m_listView->setModel(d->m_model.data());
@@ -1766,15 +1739,17 @@ void QEXTNavigationListView::setModel(QEXTNavigationListModel *model)
         {
             d->m_model = model;
             d->m_listView->setModel(d->m_model.data());
-            connect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)), model, SLOT(expandCollapseItem(QModelIndex)));
-            connect(d->m_model.data(), SIGNAL(checkedItemChanged(QExtNavigationListItem*)), this, SIGNAL(checkedItemChanged(QExtNavigationListItem*)));
+            connect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)),
+                    model, SLOT(expandCollapseItem(QModelIndex)));
+            connect(d->m_model.data(), SIGNAL(checkedItemChanged(QExtNavigationListItem*)),
+                    this, SIGNAL(checkedItemChanged(QExtNavigationListItem*)));
         }
     }
 }
 
-QList<QExtNavigationListItem *> QEXTNavigationListView::setItems(const QString &items)
+QList<QExtNavigationListItem *> QExtNavigationListView::setItems(const QString &items)
 {
-    Q_D(QEXTNavigationListView);
+    Q_D(QExtNavigationListView);
     QStringList item = items.split(",");
     if (d->m_stringItems != item)
     {
@@ -1784,9 +1759,9 @@ QList<QExtNavigationListItem *> QEXTNavigationListView::setItems(const QString &
     return d->m_model->parentItems();
 }
 
-QList<QExtNavigationListItem *> QEXTNavigationListView::setItems(const QStringList &items)
+QList<QExtNavigationListItem *> QExtNavigationListView::setItems(const QStringList &items)
 {
-    Q_D(QEXTNavigationListView);
+    Q_D(QExtNavigationListView);
     if (d->m_stringItems != items)
     {
         d->m_stringItems = items;
@@ -1795,9 +1770,9 @@ QList<QExtNavigationListItem *> QEXTNavigationListView::setItems(const QStringLi
     return d->m_model->parentItems();
 }
 
-void QEXTNavigationListView::setItems(const QList<QExtNavigationListItem *> &items)
+void QExtNavigationListView::setItems(const QList<QExtNavigationListItem *> &items)
 {
-    Q_D(QEXTNavigationListView);
+    Q_D(QExtNavigationListView);
     if (d->m_items != items)
     {
         d->m_items = items;
@@ -1805,9 +1780,9 @@ void QEXTNavigationListView::setItems(const QList<QExtNavigationListItem *> &ite
     }
 }
 
-bool QEXTNavigationListView::setCurrentRow(int row)
+bool QExtNavigationListView::setCurrentRow(int row)
 {
-    Q_D(QEXTNavigationListView);
+    Q_D(QExtNavigationListView);
     QList<QExtNavigationListItem *> visiableItems = d->m_model->visiableItems();
     if (row >= 0 && row < visiableItems.size())
     {
@@ -1822,14 +1797,14 @@ bool QEXTNavigationListView::setCurrentRow(int row)
     }
     else
     {
-        qWarning() << "QEXTNavigationListView::setCurrentRow(): row out of range in visiableItems";
+        qWarning() << "QExtNavigationListView::setCurrentRow(): row out of range in visiableItems";
         return false;
     }
 }
 
-bool QEXTNavigationListView::setSelectedItem(QExtNavigationListItem *item)
+bool QExtNavigationListView::setSelectedItem(QExtNavigationListItem *item)
 {
-    Q_D(QEXTNavigationListView);
+    Q_D(QExtNavigationListView);
     QList<QExtNavigationListItem *> visiableItems = d->m_model->visiableItems();
     if (visiableItems.contains(item))
     {
@@ -1852,424 +1827,266 @@ bool QEXTNavigationListView::setSelectedItem(QExtNavigationListItem *item)
     }
     else
     {
-        qWarning() << "QEXTNavigationListView::setSelectedItem(): item not visiable, can not set selected";
+        qWarning() << "QExtNavigationListView::setSelectedItem(): item not visiable, can not set selected";
         return false;
     }
 }
 
-void QEXTNavigationListView::setItemRightIconVisible(bool visible)
+void QExtNavigationListView::setItemTipVisible(bool visible)
 {
-    Q_D(QEXTNavigationListView);
-    if (visible != d->m_rightIconVisible)
+    Q_D(QExtNavigationListView);
+    if (visible != d->m_itenLineTipVisible)
     {
-        d->m_rightIconVisible = visible;
+        d->m_itenLineTipVisible = visible;
+        emit this->itemTipVisibleChanged(visible);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemTipVisible(bool visible)
+void QExtNavigationListView::setItemTipWidth(int width)
 {
-    Q_D(QEXTNavigationListView);
-    if (visible != d->m_tipVisible)
+    Q_D(QExtNavigationListView);
+    if (width != d->m_itemLineTipWidth)
     {
-        d->m_tipVisible = visible;
+        d->m_itemLineTipWidth = width;
+        emit this->itemTipWidthChanged(width);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemTipWidth(int width)
+void QExtNavigationListView::setItemSeparateVisible(bool visible)
 {
-    Q_D(QEXTNavigationListView);
-    if (width != d->m_tipWidth)
+    Q_D(QExtNavigationListView);
+    if (visible != d->m_itemSeparateVisible)
     {
-        d->m_tipWidth = width;
+        d->m_itemSeparateVisible = visible;
+        emit this->itemSeparateVisibleChanged(visible);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemSeparateVisible(bool visible)
+void QExtNavigationListView::setItemSeparateHeight(int height)
 {
-    Q_D(QEXTNavigationListView);
-    if (visible != d->m_separateVisible)
+    Q_D(QExtNavigationListView);
+    if (height != d->m_itemSeparateHeight)
     {
-        d->m_separateVisible = visible;
+        d->m_itemSeparateHeight = height;
+        emit this->itemSeparateHeightChanged(height);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemSeparateHeight(int height)
+void QExtNavigationListView::setItemSeparateColor(const QColor &color)
 {
-    Q_D(QEXTNavigationListView);
-    if (height != d->m_separateHeight)
+    Q_D(QExtNavigationListView);
+    if (color != d->m_itemSeparateColor)
     {
-        d->m_separateHeight = height;
+        d->m_itemSeparateColor = color;
+        emit this->itemSeparateColorChanged(color);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemSeparateColor(const QColor &color)
+void QExtNavigationListView::setItemLineLeftAlign(bool leftAlign)
 {
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_separateColor)
+    Q_D(QExtNavigationListView);
+    if (leftAlign != d->m_itemLineLeftAlign)
     {
-        d->m_separateColor = color;
+        d->m_itemLineLeftAlign = leftAlign;
+        emit this->itemLineLeftAlignChanged(leftAlign);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemLineLeft(bool inLeft)
+void QExtNavigationListView::setItemLineVisible(bool visible)
 {
-    Q_D(QEXTNavigationListView);
-    if (inLeft != d->m_lineLeft)
+    Q_D(QExtNavigationListView);
+    if (visible != d->m_itemLineVisible)
     {
-        d->m_lineLeft = inLeft;
+        d->m_itemLineVisible = visible;
+        emit this->itemLineVisibleChanged(visible);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemLineVisible(bool visible)
+void QExtNavigationListView::setItemLineWidth(int width)
 {
-    Q_D(QEXTNavigationListView);
-    if (visible != d->m_lineVisible)
+    Q_D(QExtNavigationListView);
+    if (width != d->m_itemLineWidth)
     {
-        d->m_lineVisible = visible;
+        d->m_itemLineWidth = width;
+        emit this->itemLineWidthChanged(width);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemLineWidth(int width)
+void QExtNavigationListView::setItemLineColor(const QColor &color)
 {
-    Q_D(QEXTNavigationListView);
-    if (width != d->m_lineWidth)
+    Q_D(QExtNavigationListView);
+    if (color != d->m_itemLineColor)
     {
-        d->m_lineWidth = width;
+        d->m_itemLineColor = color;
+        emit this->itemLineColorChanged(color);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemLineColor(const QColor &color)
+void QExtNavigationListView::setItemTriangleLeftAlign(bool leftAlign)
 {
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_lineColor)
+    Q_D(QExtNavigationListView);
+    if (leftAlign != d->m_itemTriangleLeftAlign)
     {
-        d->m_lineColor = color;
+        d->m_itemTriangleLeftAlign = leftAlign;
+        emit this->itemTriangleLeftAlignChanged(leftAlign);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemTriangleLeft(bool inLeft)
+void QExtNavigationListView::setItemTriangleVisible(bool visible)
 {
-    Q_D(QEXTNavigationListView);
-    if (inLeft != d->m_triangleLeft)
+    Q_D(QExtNavigationListView);
+    if (visible != d->m_itemTriangleVisible)
     {
-        d->m_triangleLeft = inLeft;
+        d->m_itemTriangleVisible = visible;
+        emit this->itemTriangleVisibleChanged(visible);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemTriangleVisible(bool visible)
+void QExtNavigationListView::setItemTriangleWidth(int width)
 {
-    Q_D(QEXTNavigationListView);
-    if (visible != d->m_triangleVisible)
+    Q_D(QExtNavigationListView);
+    if (width != d->m_itemTriangleWidth)
     {
-        d->m_triangleVisible = visible;
+        d->m_itemTriangleWidth = width;
+        emit this->itemTriangleWidthChanged(width);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemTriangleWidth(int width)
+void QExtNavigationListView::setItemTriangleColor(const QColor &color)
 {
-    Q_D(QEXTNavigationListView);
-    if (width != d->m_triangleWidth)
+    Q_D(QExtNavigationListView);
+    if (color != d->m_itemTriangleColor)
     {
-        d->m_triangleWidth = width;
+        d->m_itemTriangleColor = color;
+        emit this->itemTriangleColorChanged(color);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setItemTriangleColor(const QColor &color)
+void QExtNavigationListView::setItemMargin(bool isParent, int margin)
 {
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_triangleColor)
+    Q_D(QExtNavigationListView);
+    if (margin != d->m_itemMargins[isParent])
     {
-        d->m_triangleColor = color;
+        d->m_itemMargins[isParent] = margin;
+        emit this->itemMarginChanged(isParent, margin);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setBackgroundColor(const QColor &color)
+void QExtNavigationListView::setItemFontSize(bool isParent, int size)
 {
-    Q_D(QEXTNavigationListView);
-    QString styleSheet = QString("background-color: rgba(%1, %2, %3, %4);")
-            .arg(color.red()).arg(color.green()).arg(color.blue()).arg(color.alpha());
-    d->m_listView->setStyleSheet(styleSheet);
+    Q_D(QExtNavigationListView);
+    if (size != d->m_itemFontSizes[isParent])
+    {
+        d->m_itemFontSizes[isParent] = size;
+        emit this->itemFontSizeChanged(isParent, size);
+        this->update();
+    }
+}
+
+void QExtNavigationListView::setItemHeight(bool isParent, int height)
+{
+    Q_D(QExtNavigationListView);
+    if (height != d->m_itemHeights[isParent])
+    {
+        d->m_itemHeights[isParent] = height;
+        emit this->itemHeightChanged(isParent, height);
+        this->update();
+    }
+}
+
+void QExtNavigationListView::setItemIconMargin(bool isParent, int margin)
+{
+    Q_D(QExtNavigationListView);
+    if (margin != d->m_itemIconMargins[isParent])
+    {
+        d->m_itemIconMargins[isParent] = margin;
+        emit this->itemIconMarginChanged(isParent, margin);
+        this->update();
+    }
+}
+
+void QExtNavigationListView::setBackgroundColor(const QColor &color)
+{
+    Q_D(QExtNavigationListView);
     if (color != d->m_backgroundColor)
     {
         d->m_backgroundColor = color;
-        this->update();
+        QString styleSheet = QString("background-color: rgba(%1, %2, %3, %4);")
+                                 .arg(color.red()).arg(color.green()).arg(color.blue()).arg(color.alpha());
+        d->m_listView->setStyleSheet(styleSheet);
+        emit this->backgroundColorChanged(color);
     }
 }
 
-void QEXTNavigationListView::setParentItemIconMargin(int margin)
+void QExtNavigationListView::setItemTextColor(bool isParent, ItemState state, const QColor &color)
 {
-    Q_D(QEXTNavigationListView);
-    if (margin != d->m_parentIconMargin)
+    Q_D(QExtNavigationListView);
+    if (color != d->m_itemTextColors[isParent][state])
     {
-        d->m_parentIconMargin = margin;
+        d->m_itemTextColors[isParent][state] = color;
+        emit this->itemTextColorChanged(isParent, state, color);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setParentItemMargin(int margin)
+void QExtNavigationListView::setItemBackgroundColor(bool isParent, ItemState state, const QColor &color)
 {
-    Q_D(QEXTNavigationListView);
-    if (margin != d->m_parentMargin)
+    Q_D(QExtNavigationListView);
+    if (color != d->m_itemBackgroundColors[isParent][state])
     {
-        d->m_parentMargin = margin;
+        d->m_itemBackgroundColors[isParent][state] = color;
+        emit this->itemBackgroundColorChanged(isParent, state, color);
         this->update();
     }
 }
 
-void QEXTNavigationListView::setParentItemFontSize(int size)
+void QExtNavigationListView::setExpendMode(QExtNavigationListView::ExpendMode mode)
 {
-    Q_D(QEXTNavigationListView);
-    if (size != d->m_parentFontSize)
-    {
-        d->m_parentFontSize = size;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setParentItemHeight(int height)
-{
-    Q_D(QEXTNavigationListView);
-    if (height != d->m_parentHeight)
-    {
-        d->m_parentHeight = height;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setParentItemNormalBackgroundColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_parentBackgroundNormalColor)
-    {
-        d->m_parentBackgroundNormalColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setParentItemCheckedBackgroundColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_parentBackgroundCheckedColor)
-    {
-        d->m_parentBackgroundCheckedColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setParentItemSelectedBackgroundColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_parentBackgroundSelectedColor)
-    {
-        d->m_parentBackgroundSelectedColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setParentItemHoverBackgroundColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_parentBackgroundHoverColor)
-    {
-        d->m_parentBackgroundHoverColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setParentItemNormalTextColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_parentTextNormalColor)
-    {
-        d->m_parentTextNormalColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setParentItemCheckedTextColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_parentTextCheckedColor)
-    {
-        d->m_parentTextCheckedColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setParentItemSelectedTextColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_parentTextSelectedColor)
-    {
-        d->m_parentTextSelectedColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setParentItemHoverTextColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_parentTextHoverColor)
-    {
-        d->m_parentTextHoverColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemIconMargin(int margin)
-{
-    Q_D(QEXTNavigationListView);
-    if (margin != d->m_childIconMargin)
-    {
-        d->m_childIconMargin = margin;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemMargin(int margin)
-{
-    Q_D(QEXTNavigationListView);
-    if (margin != d->m_childMargin)
-    {
-        d->m_childMargin = margin;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemFontSize(int size)
-{
-    Q_D(QEXTNavigationListView);
-    if (size != d->m_childFontSize)
-    {
-        d->m_childFontSize = size;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemHeight(int height)
-{
-    Q_D(QEXTNavigationListView);
-    if (height != d->m_childHeight)
-    {
-        d->m_childHeight = height;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemNormalBackgroundColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_childBackgroundNormalColor)
-    {
-        d->m_childBackgroundNormalColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemBackgroundCheckedColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_childBackgroundCheckedColor)
-    {
-        d->m_childBackgroundCheckedColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemSelectedBackgroundColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_childBackgroundSelectedColor)
-    {
-        d->m_childBackgroundSelectedColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemHoverBackgroundColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_childBackgroundHoverColor)
-    {
-        d->m_childBackgroundHoverColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemNormalTextColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_childTextNormalColor)
-    {
-        d->m_childTextNormalColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemCheckedTextColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_childTextCheckedColor)
-    {
-        d->m_childTextCheckedColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemSelectedTextColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_childTextSelectedColor)
-    {
-        d->m_childTextSelectedColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setChildItemHoverTextColor(const QColor &color)
-{
-    Q_D(QEXTNavigationListView);
-    if (color != d->m_childTextHoverColor)
-    {
-        d->m_childTextHoverColor = color;
-        this->update();
-    }
-}
-
-void QEXTNavigationListView::setExpendMode(const QEXTNavigationListView::ExpendMode &mode)
-{
-    Q_D(QEXTNavigationListView);
+    Q_D(QExtNavigationListView);
     if (d->m_expendMode != mode)
     {
         d->m_expendMode = mode;
         if (mode == ExpendMode_SingleClick)
         {
-            disconnect(d->m_listView.data(), SIGNAL(doubleClicked(QModelIndex)), d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
-            connect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)), d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
+            disconnect(d->m_listView.data(), SIGNAL(doubleClicked(QModelIndex)),
+                       d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
+            connect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)),
+                    d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
         }
         else if (mode == ExpendMode_DoubleClick)
         {
-            disconnect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)), d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
-            connect(d->m_listView.data(), SIGNAL(doubleClicked(QModelIndex)), d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
+            disconnect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)),
+                       d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
+            connect(d->m_listView.data(), SIGNAL(doubleClicked(QModelIndex)),
+                    d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
         }
         else if (mode == ExpendMode_NoClick)
         {
-            disconnect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)), d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
-            disconnect(d->m_listView.data(), SIGNAL(doubleClicked(QModelIndex)), d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
+            disconnect(d->m_listView.data(), SIGNAL(clicked(QModelIndex)),
+                       d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
+            disconnect(d->m_listView.data(), SIGNAL(doubleClicked(QModelIndex)),
+                       d->m_model.data(), SLOT(expandCollapseItem(QModelIndex)));
         }
+        emit this->expendModeChanged(mode);
     }
+}
+
+void QExtNavigationListView::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    QWidget::paintEvent(event);
 }

@@ -36,6 +36,7 @@
 #define qextVariantInPlaceIndex nonstd::in_place_index
 #define qextVariantHoldsAlternative nonstd::holds_alternative
 
+#define QEXT_VARIANT_SIZE_V variant_size_V
 #define QEXT_VARIANT_NULLPTR variant_nullptr
 #define QEXT_VARIANT_CPLUSPLUS variant_CPLUSPLUS
 #define QEXT_VARIANT_CPP98_OR_GREATER variant_CPP98_OR_GREATER
@@ -50,6 +51,7 @@
 
 #define QExtVariant nonstd::variant
 #define QExtVariantSize nonstd::variant_size
+#define QExtVariantSizeV nonstd::variant_size_v
 #define QExtVariantMonostate nonstd::monostate
 #define QExtBadVariantAccess nonstd::bad_variant_access
 #define QExtVariantAlternative nonstd::variant_alternative

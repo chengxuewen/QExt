@@ -27,10 +27,12 @@
 #define _QEXTNAVIGATIONLISTVIEW_P_H
 
 #include <qextNavigationListView.h>
+#include <qextOptional.h>
 
 #include <QPointer>
 #include <QPainter>
 #include <QListView>
+#include <QPushButton>
 #include <QAbstractListModel>
 #include <QStyledItemDelegate>
 
@@ -62,128 +64,113 @@ private:
     QEXT_DECL_PUBLIC(QExtNavigationListItem)
 };
 
-class QEXTNavListView : public QListView
+class QExtNavListView : public QListView
 {
     Q_OBJECT
 public:
-    explicit QEXTNavListView(QWidget *parent = QEXT_NULLPTR) : QListView(parent) { }
-    ~QEXTNavListView() {}
+    explicit QExtNavListView(QWidget *parent = QEXT_NULLPTR) : QListView(parent) { }
+    ~QExtNavListView() QEXT_OVERRIDE {}
 };
 
-class QEXTNavigationListViewPrivate;
-class QEXT_WIDGETS_API QEXTNavListDelegate : public QStyledItemDelegate
+class QExtNavigationListViewPrivate;
+class QEXT_WIDGETS_API QExtNavListDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    QEXTNavListDelegate(QEXTNavigationListViewPrivate *navData);
-    ~QEXTNavListDelegate();
+    QExtNavListDelegate(QExtNavigationListViewPrivate *navData);
+    ~QExtNavListDelegate() QEXT_OVERRIDE {}
 
 protected:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
 
 private:
-    QEXTNavigationListViewPrivate *m_navData;
     QFont m_iconFont;
+    QExtNavigationListViewPrivate *m_navData;
+    QExtNavigationListView * const m_navListView;
 };
 
 
-class QEXTNavigationListModel;
-class QEXT_WIDGETS_API QEXTNavigationListModelPrivate
+class QExtNavigationListModel;
+class QEXT_WIDGETS_API QExtNavigationListModelPrivate
 {
 public:
-    explicit QEXTNavigationListModelPrivate(QEXTNavigationListModel *q);
-    virtual ~QEXTNavigationListModelPrivate();
+    explicit QExtNavigationListModelPrivate(QExtNavigationListModel *q);
+    virtual ~QExtNavigationListModelPrivate();
 
-    QEXTNavigationListModel * const q_ptr;
+    QExtNavigationListModel * const q_ptr;
 
     void deleteAllItems();
     void refreshVisibleList();
     void initAllItemsConnection();
     void initItemConnection(QExtNavigationListItem *item);
 
+    QSet<QExtNavigationListItem *> m_allItemSet;
     QPointer<QExtNavigationListItem> m_checkedItem;
     QList<QExtNavigationListItem *> m_parentItemList;
     QList<QExtNavigationListItem *> m_visiableItemList;
-    QSet<QExtNavigationListItem *> m_allItemSet;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QEXTNavigationListModelPrivate)
-    QEXT_DECL_PUBLIC(QEXTNavigationListModel)
+    QEXT_DISABLE_COPY_MOVE(QExtNavigationListModelPrivate)
+    QEXT_DECL_PUBLIC(QExtNavigationListModel)
 };
 
 
-class QEXTNavigationListView;
-class QEXT_WIDGETS_API QEXTNavigationListViewPrivate
+class QExtNavigationListView;
+class QEXT_WIDGETS_API QExtNavigationListViewPrivate
 {
 public:
-    explicit QEXTNavigationListViewPrivate(QEXTNavigationListView *q);
-    virtual ~QEXTNavigationListViewPrivate();
+    explicit QExtNavigationListViewPrivate(QExtNavigationListView *q);
+    virtual ~QExtNavigationListViewPrivate();
 
-    QEXTNavigationListView * const q_ptr;
+    const QFont &buttonFont() const;
+    const QPalette &buttonPalette() const;
+    const QPalette &listViewPalette() const;
 
-    QFont itemFont() const;
+    QExtNavigationListView * const q_ptr;
+
+    QScopedPointer<QPushButton> m_pushButton;
 
     QStringList m_stringItems;
     QList<QExtNavigationListItem *> m_items;
 
     QPointer<QExtNavigationListItem> m_selectedItem;
 
-    QPointer<QEXTNavigationListModel> m_model;
-    QScopedPointer<QEXTNavListView> m_listView;
-    QScopedPointer<QEXTNavListDelegate> m_delegate;
+    QPointer<QExtNavigationListModel> m_model;
+    QScopedPointer<QExtNavListView> m_listView;
+    QScopedPointer<QExtNavListDelegate> m_delegate;
 
-    bool m_rightIconVisible;
-    bool m_tipVisible;
-    int m_tipWidth;
+    int m_itemLineTipWidth;
+    bool m_itenLineTipVisible;
 
-    bool m_separateVisible;
-    int m_separateHeight;
-    QColor m_separateColor;
+    int m_itemSeparateHeight;
+    bool m_itemSeparateVisible;
+    QExtOptional<QColor> m_itemSeparateColor;
 
-    bool m_lineLeft;
-    bool m_lineVisible;
-    int m_lineWidth;
-    QColor m_lineColor;
+    int m_itemLineWidth;
+    bool m_itemLineVisible;
+    bool m_itemLineLeftAlign;
+    QExtOptional<QColor> m_itemLineColor;
 
-    bool m_triangleLeft;
-    bool m_triangleVisible;
-    int m_triangleWidth;
-    QColor m_triangleColor;
+    int m_itemTriangleWidth;
+    bool m_itemTriangleVisible;
+    bool m_itemTriangleLeftAlign;
+    QExtOptional<QColor> m_itemTriangleColor;
 
-    int m_parentIconMargin;
-    int m_parentMargin;
-    int m_parentFontSize;
-    int m_parentHeight;
-    QColor m_parentBackgroundNormalColor;
-    QColor m_parentBackgroundCheckedColor;
-    QColor m_parentBackgroundSelectedColor;
-    QColor m_parentBackgroundHoverColor;
-    QColor m_parentTextNormalColor;
-    QColor m_parentTextCheckedColor;
-    QColor m_parentTextSelectedColor;
-    QColor m_parentTextHoverColor;
+    int m_itemMargins[2];
+    int m_itemHeights[2];
+    int m_itemFontSizes[2];
+    int m_itemIconMargins[2];
 
-    int m_childIconMargin;
-    int m_childMargin;
-    int m_childFontSize;
-    int m_childHeight;
-    QColor m_childBackgroundNormalColor;
-    QColor m_childBackgroundCheckedColor;
-    QColor m_childBackgroundSelectedColor;
-    QColor m_childBackgroundHoverColor;
-    QColor m_childTextNormalColor;
-    QColor m_childTextCheckedColor;
-    QColor m_childTextSelectedColor;
-    QColor m_childTextHoverColor;
+    QExtOptional<QColor> m_backgroundColor;
+    QExtOptional<QColor> m_itemTextColors[2][QExtNavigationListView::ItemStateNum];
+    QExtOptional<QColor> m_itemBackgroundColors[2][QExtNavigationListView::ItemStateNum];
 
-    QColor m_backgroundColor;
-
-    QEXTNavigationListView::ExpendMode m_expendMode;
+    QExtNavigationListView::ExpendMode m_expendMode;
 
 private:
-    QEXT_DISABLE_COPY_MOVE(QEXTNavigationListViewPrivate)
-    QEXT_DECL_PUBLIC(QEXTNavigationListView)
+    QEXT_DISABLE_COPY_MOVE(QExtNavigationListViewPrivate)
+    QEXT_DECL_PUBLIC(QExtNavigationListView)
 };
 
 #endif // _QEXTNAVIGATIONLISTVIEW_P_H

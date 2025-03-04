@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.12
 import QtQml 2.12
 import QtQuick.Window 2.2
 
-import QExtQuick.Controls 1.2
+import QExtQuick.Controls 1.3
 import QExtQuickPaletteView 1.0
 
 Window {

@@ -130,15 +130,6 @@
 #   define QEXT_ALIGN(n)
 #endif
 
-#if QEXT_CC_FEATURE_VARIADIC_TEMPLATES
-#   if QEXT_FEATURE_ENABLE_VARIADIC_TEMPLATES
-#       define QEXT_USE_VARIADIC_TEMPLATES 1
-#   endif
-#endif
-#ifndef QEXT_USE_VARIADIC_TEMPLATES
-#   define QEXT_USE_VARIADIC_TEMPLATES 0
-#endif
-
 
 /***********************************************************************************************************************
     QExt disable copy move macro declare

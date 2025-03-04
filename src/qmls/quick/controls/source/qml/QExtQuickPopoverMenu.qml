@@ -2,8 +2,8 @@ import QtQml 2.9
 import QtQuick 2.9
 import QtQuick.Controls 2.9
 
-import QExtQml 1.2
-import QExtQuick.Controls 1.2
+import QExtQml 1.3
+import QExtQuick.Controls 1.3
 
 // 定点弹出框
 //    与Dialog 不同的时他的小窗是指定位置的。

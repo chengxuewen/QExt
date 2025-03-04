@@ -1,6 +1,6 @@
 import QtQuick 2.12
 
-import QExtQml 1.2
+import QExtQml 1.3
 
 QExtQmlObject {
     id: qextDialogButton

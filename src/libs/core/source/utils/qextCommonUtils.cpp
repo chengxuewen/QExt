@@ -4,6 +4,8 @@
 #include <QDir>
 #include <QDebug>
 #include <QThread>
+#include <QCoreApplication>
+#include <QCryptographicHash>
 
 #ifdef QEXT_OS_WIN
 #   include <process.h>
@@ -125,4 +127,31 @@ QString QExtCommonUtils::executablePath()
     }
     return buf.data();
 #endif
+}
+
+QString QExtCommonUtils::writableLocation(QStandardPaths::StandardLocation location)
+{
+    QString locationPath;
+    QString rootPath = QStandardPaths::writableLocation(location);
+    QString execPath = QCoreApplication::applicationDirPath();
+    // get MD5 code
+    QString md5String = QCryptographicHash::hash(execPath.toUtf8(), QCryptographicHash::Md5).toHex();
+    locationPath = rootPath + "/" + md5String;
+    // fprintf(stderr, "%s\n", locationPath.toLatin1().data());
+    QDir dir(locationPath);
+    if (!dir.exists())
+    {
+        if (!dir.mkpath(locationPath))
+        {
+            qFatal("mkdir %s failed!", locationPath.toLatin1().data());
+        }
+    }
+    QFile noteFile(locationPath + "/note.txt");
+    if (noteFile.open(QFile::WriteOnly))
+    {
+        QTextStream stream(&noteFile);
+        stream << execPath;
+        noteFile.close();
+    }
+    return locationPath;
 }

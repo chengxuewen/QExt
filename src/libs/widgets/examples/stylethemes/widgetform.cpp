@@ -1,6 +1,8 @@
 #include "widgetform.h"
 #include "ui_widgetform.h"
 #include <navigationbutton/frmnavigationbutton.h>
+#include <navigationlistview/navigationlistview.h>
+#include <navigationlistview/frmnavigationlistview.h>
 
 class WidgetFormPrivate
 {
@@ -33,7 +35,8 @@ WidgetForm::WidgetForm(QWidget *parent) :
     , dd_ptr(new WidgetFormPrivate(this))
 {
     ui->setupUi(this);
-    ui->stackedWidget->addWidget(new FrmNavigationButton(this));
+    ui->tabWidget->addTab(new FrmNavigationButton(this), "NavigationButton");
+    ui->tabWidget->addTab(new NavigationListView(this), "NavigationListView");
 }
 
 WidgetForm::~WidgetForm()

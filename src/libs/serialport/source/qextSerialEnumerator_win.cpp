@@ -30,9 +30,9 @@
 ****************************************************************************/
 
 #include <qextSerialPort.h>
-#include <qextSerialPort_p.h>
 #include <qextSerialEnumerator.h>
-#include <qextSerialEnumerator_p.h>
+#include <private/qextSerialPort_p.h>
+#include <private/qextSerialEnumerator_p.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QMetaType>
