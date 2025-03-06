@@ -50,7 +50,7 @@ Item {
             width: 15
             height: 15
             color: "#409EFF"
-            source: "qrc:/QExtQuickControls/resource/image/close_px.svg"
+            source: "qrc:/QExtQuickControls/image/close_px.svg"
 
             MouseArea {
                 anchors.fill: parent

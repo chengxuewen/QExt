@@ -186,7 +186,7 @@ qext_add_library(${QEXT_LIB_NAME}
     source/widgets/qextWaveChart.h
     source/widgets/qextWaveChart_p.h
     source/qextWidgetGlobal.h
-    resource/qextWidgets.qrc
+    resources/qextWidgets.qrc
     PRECOMPILED_HEADER
     source/qextWidgetPch.h
     PUBLIC_LIBRARIES

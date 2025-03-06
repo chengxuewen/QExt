@@ -36,7 +36,7 @@ Item {
     property real placeholderIconHeight: 12
     property color placeholderIconColor: QExtQuickPalette.textPlaceholderColor
 
-    property string clearIconSource: "qrc:/QExtQuickControls/resource/image/close_px.svg"
+    property string clearIconSource: "qrc:/QExtQuickControls/image/close_px.svg"
     property real clearIconWidth: 20
     property real clearIconHeight: 20
     property color clearIconColor: QExtQuickPalette.textPlaceholderColor

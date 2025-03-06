@@ -33,7 +33,7 @@ Item {
         property color color: "#000000"
 
         enabled: false
-        fragmentShader: "qrc:/QExtQuickControls/resource/cso/svg.cso"
+        fragmentShader: "qrc:/QExtQuickControls/cso/svg.cso"
         anchors.fill: parent
         visible: root.status === Image.Ready
     }

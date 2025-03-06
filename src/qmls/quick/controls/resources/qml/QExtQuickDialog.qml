@@ -85,7 +85,7 @@ Dialog {
             anchors.rightMargin: 15
             anchors.verticalCenter: parent.verticalCenter
             visible: root.closeable
-            source: "qrc:/QExtQuickControls/resource/image/close_px.svg"
+            source: "qrc:/QExtQuickControls/image/close_px.svg"
             MouseArea {
                 anchors.fill: parent
                 onClicked: {

@@ -62,8 +62,8 @@ QExtNormalKeyboard::QExtNormalKeyboard(QWidget *parent)
     connect(ui->groupLetter, QOverload<QAbstractButton*>::of(&QButtonGroup::buttonClicked),
             this, &QExtNormalKeyboard::letterClicked);
 
-    ui->shiftr->setIcon(QPixmap(":/images/shift_checked.png"));
-    ui->shiftl->setIcon(QPixmap(":/images/shift_checked.png"));
+    ui->shiftr->setIcon(QPixmap(":/QExtKeyboard/images/shift_checked.png"));
+    ui->shiftl->setIcon(QPixmap(":/QExtKeyboard/images/shift_checked.png"));
 }
 
 QExtNormalKeyboard::~QExtNormalKeyboard()
@@ -93,14 +93,14 @@ void QExtNormalKeyboard::letterClicked(QAbstractButton* button)
 
             if(m_modifier == Qt::ShiftModifier)
             {
-                ui->shiftr->setIcon(QPixmap(":/images/shift_checked.png"));
-                ui->shiftl->setIcon(QPixmap(":/images/shift_checked.png"));
+                ui->shiftr->setIcon(QPixmap(":/QExtKeyboard/images/shift_checked.png"));
+                ui->shiftl->setIcon(QPixmap(":/QExtKeyboard/images/shift_checked.png"));
                 this->capsLock();
             }
             else
             {
-                ui->shiftr->setIcon(QPixmap(":/images/shift.png"));
-                ui->shiftl->setIcon(QPixmap(":/images/shift.png"));
+                ui->shiftr->setIcon(QPixmap(":/QExtKeyboard/images/shift.png"));
+                ui->shiftl->setIcon(QPixmap(":/QExtKeyboard/images/shift.png"));
                 this->capsLock();
             }
 
@@ -112,8 +112,8 @@ void QExtNormalKeyboard::letterClicked(QAbstractButton* button)
         {
             emit this->keyPressed(m_letterkeys[button],buttonText(button).toUpper(),Qt::NoModifier);
 
-            ui->shiftr->setIcon(QPixmap(":/images/shift.png"));
-            ui->shiftl->setIcon(QPixmap(":/images/shift.png"));
+            ui->shiftr->setIcon(QPixmap(":/QExtKeyboard/images/shift.png"));
+            ui->shiftl->setIcon(QPixmap(":/QExtKeyboard/images/shift.png"));
             m_modifier = Qt::NoModifier;
             this->capsLock();
         }

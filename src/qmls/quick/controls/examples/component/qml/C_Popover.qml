@@ -32,49 +32,4 @@ Column{
     QExtQuickPopover {
         id:popover
     }
-
-    // QExtQuickPopoverMenu {
-    //     id:popoverMenu
-
-    //     QExtQuickPopoverElement{
-    //         type:"group"
-    //         text: "BUILDING BLOCKS";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_apple
-    //         text:  "Request";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_android
-    //         text: "Collection";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_git
-    //         text: "Environment";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         type:"group"
-    //         text: "ADVANCED";
-    //     }
-
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_music
-    //         text: "Document";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_heartbeat
-    //         text: "Mock Server";
-    //     }
-
-    //     QExtQuickPopoverElement{
-    //         iconSource: TAwesomeType.FA_car
-    //         text: "Monitor";
-    //     }
-    // }
 }

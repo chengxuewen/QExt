@@ -18,8 +18,8 @@ static QExtFontAwesome::FontOptionValueMap qextMergeFontOptions(const QExtFontAw
     QExtFontAwesome::FontOptionValueMap result = defaults;
     if (!result.isEmpty())
     {
-        QExtFontAwesome::FontOptionValueMap::const_iterator iter;
-        for (iter = result.begin(); iter != result.end(); ++iter)
+        QExtFontAwesome::FontOptionValueMap::ConstIterator iter;
+        for (iter = result.constBegin(); iter != result.constEnd(); ++iter)
         {
             result.insert(iter.key(), iter.value());
         }
@@ -171,7 +171,7 @@ QExtFontAwesome::QExtFontAwesome(QObject *parent) : QObject(parent)
         Q_INIT_RESOURCE(qextFontIcon);
 
         // load the font file
-        QFile res(":/QExtFontIcon/resource/fontawesome-webfont.ttf");
+        QFile res(":/QExtFontIcon/fontawesome-webfont.ttf");
         if (!res.open(QIODevice::ReadOnly))
         {
             qWarning() << "QExtFontAwesome::QExtFontAwesome(): Font awesome font could not be loaded!";

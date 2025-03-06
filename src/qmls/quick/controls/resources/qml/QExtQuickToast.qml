@@ -294,13 +294,13 @@ QExtQmlObject {
                     source: {
                         switch(superItem.type) {
                         case mData.const_success:
-                            return "qrc:/QExtQuickControls/resource/image/success.svg"
+                            return "qrc:/QExtQuickControls/image/success.svg"
                         case mData.const_warning:
-                            return "qrc:/QExtQuickControls/resource/image/warning.svg"
+                            return "qrc:/QExtQuickControls/image/warning.svg"
                         case mData.const_info:
-                            return "qrc:/QExtQuickControls/resource/image/info.svg"
+                            return "qrc:/QExtQuickControls/image/info.svg"
                         case mData.const_error:
-                            return "qrc:/QExtQuickControls/resource/image/error.svg"
+                            return "qrc:/QExtQuickControls/image/error.svg"
                         }
                         return ""
                     }
@@ -354,7 +354,7 @@ QExtQmlObject {
                 width: 12
                 height: width
                 color: "#ADADAD"
-                source: "qrc:/QExtQuickControls/resource/image/close_px.svg"
+                source: "qrc:/QExtQuickControls/image/close_px.svg"
                 visible: superItem.closeable
                 MouseArea {
                     anchors.fill: parent

@@ -22,7 +22,7 @@ Item {
 
     QExtQuickIconGadget {
         id: mIconGadget
-        source: "qrc:/QExtQuickControls/resource/image/loading.svg"
+        source: "qrc:/QExtQuickControls/image/loading.svg"
         color: "#5D5D5D"
     }
 

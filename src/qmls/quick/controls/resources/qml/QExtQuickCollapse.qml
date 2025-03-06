@@ -45,7 +45,7 @@ Flickable {
     property real titleBackgroundRadius: 0
 
     property bool titleIndicatorIconInLeft: false
-    property string titleIndicatorIconSource: "qrc:/QExtQuickControls/resource/image/arrow_caret_collapse.svg"
+    property string titleIndicatorIconSource: "qrc:/QExtQuickControls/image/arrow_caret_collapse.svg"
     property int titleIndicatorIconExpandRotation: 90
     property color titleIndicatorIconColor: "#2D2D2D"
     property real titleIndicatorIconWidth: titleHeight / 2

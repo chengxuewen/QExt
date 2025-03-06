@@ -81,25 +81,25 @@ QExtQuickPopup {
     }
 
     Connections{
-        target: root.rootWindow;
+        target: root.rootWindow
         onWidthChanged:close();
         onHeightChanged:close();
     }
 
     QExtQuickBackgroundGadget{
-        id:mbodybg;
+        id:mbodybg
         radius: 2;
         color: "#FCFCFC"
     }
 
     QExtQuickBorderGadget{
-        id:mbodyBorder;
+        id:mbodyBorder
         width: 1;
         color: Qt.darker(mbodybg.color,1.2)
     }
 
     Loader{
-        id:bodyLoader;
+        id:bodyLoader
         MouseArea{
             anchors.fill: parent;
             z:-1

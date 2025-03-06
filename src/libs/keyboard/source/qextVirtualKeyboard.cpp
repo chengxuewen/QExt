@@ -1167,7 +1167,7 @@ void QExtVirtualKeyboard::setUpper(const bool &bIsUpper)
 
     //Change the icon
     ui->btnUpper->setIcon(QIcon(
-        QString(":/input/btn_%1_%2.png").arg(bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->m_strIconType)));
+        QString(":/QExtKeyboard/input/btn_%1_%2.png").arg(bIsUpper ? "daxie" : "xiaoxie").arg(dd_ptr->m_strIconType)));
 }
 
 void QExtVirtualKeyboard::setNumber(const bool &bIsNumber)
@@ -1243,13 +1243,13 @@ void QExtVirtualKeyboard::setStyleType(const StyleTypes &eStyle)
         dd_ptr->m_strIconType = "black";
     }
 
-    ui->labMore->setPixmap(QString(":/input/btn_%1_%2.png").arg("more").arg(dd_ptr->m_strIconType));
+    ui->labMore->setPixmap(QString(":/QExtKeyboard/input/btn_%1_%2.png").arg("more").arg(dd_ptr->m_strIconType));
     ui->btnDelete->setIcon(
-        QIcon(QString(":/input/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
+        QIcon(QString(":/QExtKeyboard/input/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
     ui->btnDelete2->setIcon(
-        QIcon(QString(":/input/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
+        QIcon(QString(":/QExtKeyboard/input/btn_%1_%2.png").arg("delete").arg(dd_ptr->m_strIconType)));
     ui->btnUpper->setIcon(QIcon(
-        QString(":/input/btn_%1_%2.png").arg(dd_ptr->m_bIsUpper ? "daxie" : "xiaoxie").arg(
+        QString(":/QExtKeyboard/input/btn_%1_%2.png").arg(dd_ptr->m_bIsUpper ? "daxie" : "xiaoxie").arg(
             dd_ptr->m_strIconType)));
 }
 

@@ -4,7 +4,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.9
 
 import QExtQml 1.3
-import QExtQuick.Controls 1.3
+// import QExtQuick.Controls 1.3
 
 QExtQuickToast {
     id: root
