@@ -1,4 +1,4 @@
-#ifndef _QEXTCHECKCOMBOBOX_H
+﻿#ifndef _QEXTCHECKCOMBOBOX_H
 #define _QEXTCHECKCOMBOBOX_H
 
 #include <qextWidgetGlobal.h>
@@ -73,6 +73,9 @@ public:
     explicit QExtCheckComboBox(QWidget *parent = QEXT_NULLPTR);
     ~QExtCheckComboBox() QEXT_OVERRIDE;
 
+    bool isSingleSelectModeEnabled() const;
+    void setSingleSelectModeEnabled(bool enable);
+
     QStringList checkLockItems() const;
     void removeCheckLockItem(const QString &text);
     void appendCheckLockItem(const QString &text);
@@ -86,6 +89,9 @@ public:
 
     void addItems(const QStringList &texts);
     void addItem(const QString &text, bool checked = false);
+
+Q_SIGNALS:
+    void singleSelectModeEnabledChanged(bool enable);
 
 public Q_SLOTS:
     void hidePopup() QEXT_OVERRIDE;

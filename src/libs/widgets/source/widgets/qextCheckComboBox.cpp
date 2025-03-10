@@ -1,4 +1,4 @@
-#include "qextCheckComboBox.h"
+﻿#include "qextCheckComboBox.h"
 
 #include <QDebug>
 #include <QEvent>
@@ -222,6 +222,7 @@ public:
 
     QExtCheckComboBox * const q_ptr;
 
+    bool m_singleSelectModeEnabled;
     QPointer<QExtCheckComboBoxLineEdit> m_lineEdit;
     QPointer<QExtCheckComboBoxModel> m_model;
 
@@ -233,6 +234,7 @@ private:
 QExtCheckComboBoxPrivate::QExtCheckComboBoxPrivate(QExtCheckComboBox *q)
     : q_ptr(q)
 {
+    m_singleSelectModeEnabled = false;
 }
 
 QExtCheckComboBoxPrivate::~QExtCheckComboBoxPrivate()
@@ -261,6 +263,22 @@ QExtCheckComboBox::QExtCheckComboBox(QWidget *parent)
 
 QExtCheckComboBox::~QExtCheckComboBox()
 {
+}
+
+bool QExtCheckComboBox::isSingleSelectModeEnabled() const
+{
+    Q_D(const QExtCheckComboBox);
+    return d->m_singleSelectModeEnabled;
+}
+
+void QExtCheckComboBox::setSingleSelectModeEnabled(bool enable)
+{
+    Q_D(QExtCheckComboBox);
+    if (enable != d->m_singleSelectModeEnabled)
+    {
+        d->m_singleSelectModeEnabled = enable;
+        emit this->singleSelectModeEnabledChanged(enable);
+    }
 }
 
 QStringList QExtCheckComboBox::checkLockItems() const
@@ -345,8 +363,8 @@ void QExtCheckComboBox::addItem(const QString &text, bool checked)
 
 void QExtCheckComboBox::hidePopup()
 {
-    QRect rect = this->rect();
-    QAbstractItemModel *model = this->model();
+    // QRect rect = this->rect();
+    // QAbstractItemModel *model = this->model();
     QAbstractItemView *itemView = this->view();
     QPoint cursorPoint = itemView->mapFromGlobal(QCursor::pos());
     QRect viewRect = itemView->rect();
@@ -428,6 +446,11 @@ bool QExtCheckComboBox::eventFilter(QObject *watched, QEvent *event)
         bool checked = Qt::Checked == this->view()->model()->data(index, Qt::CheckStateRole).toInt();
         this->view()->model()->setData(index, !checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
         d->updateText();
+        if (d->m_singleSelectModeEnabled)
+        {
+            QComboBox::hidePopup();
+            this->update();
+        }
         return true;
     }
     return QObject::eventFilter(watched, event);
