@@ -1,4 +1,4 @@
-#ifndef _QEXTNUMERIC_H
+﻿#ifndef _QEXTNUMERIC_H
 #define _QEXTNUMERIC_H
 
 #include <qextGlobal.h>
@@ -71,6 +71,11 @@ public:
         QEXT_WARNING_POP
     }
 
+    static bool isValueEqual(double val1, double val2)
+    {
+        return std::abs(val1 - val2) < std::numeric_limits<double>::epsilon();
+    }
+
     /**
      * @brief Reduce floating-point accuracy.
      * @param value Double precision floating-point data variable
@@ -93,6 +98,8 @@ public:
      * @return
      */
     static double reducePrecision(double value, short places);
+
+    static QString doubleFixedString(double value, int precision = 6);
 };
 
 #endif // _QEXTNUMERIC_H

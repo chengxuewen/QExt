@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -84,6 +84,8 @@ qext_add_library(${QEXT_LIB_NAME}
     source/widgets/qextDial.cpp
     source/widgets/qextDial.h
     source/widgets/qextDial_p.h
+    source/widgets/qextDoubleLineEdit.cpp
+    source/widgets/qextDoubleLineEdit.h
     source/widgets/qextFramelessDialog.h
     source/widgets/qextFramelessDialog_p.h
     source/widgets/qextFramelessDialog.cpp

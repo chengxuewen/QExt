@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -131,7 +131,7 @@ function(qext_internal_detect_headers root_dir headers)
     foreach(suffix ${arg_SUFFIXS})
         file(GLOB header_files "${root_dir}/*.${suffix}")
         foreach(file ${header_files})
-            file(READ ${file} file_content)
+            file(STRINGS ${file} file_content LIMIT_COUNT 1)
             if("${file_content}" STREQUAL "")
                 message(WARNING "${file} cannot be empty，must contain the real include path")
             endif()
@@ -141,7 +141,7 @@ function(qext_internal_detect_headers root_dir headers)
             string(REGEX REPLACE " " "" rel_file ${rel_file})
             get_filename_component(abs_file "${rel_file}" ABSOLUTE BASE_DIR "${root_dir}")
             if(NOT EXISTS "${abs_file}")
-                message(WARNING "${file} file contains a path ${rel_file} does not exist")
+                message(WARNING "${file} file contains a path ${rel_file} does not exist, content:${file_content}")
             else()
                 file(RELATIVE_PATH rel_file ${CMAKE_CURRENT_SOURCE_DIR} ${abs_file})
                 list(APPEND detected_headers ${rel_file})
