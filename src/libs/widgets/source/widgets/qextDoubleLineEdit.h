@@ -13,7 +13,7 @@ class QEXT_WIDGETS_API QExtDoubleLineEdit : public QLineEdit
     Q_OBJECT
 public:
     explicit QExtDoubleLineEdit(QWidget *parent = QEXT_NULLPTR);
-    explicit QExtDoubleLineEdit(const QString &, QWidget *parent = QEXT_NULLPTR);
+    explicit QExtDoubleLineEdit(const QString &text, QWidget *parent = QEXT_NULLPTR);
     ~QExtDoubleLineEdit() QEXT_OVERRIDE;
 
     double minimum() const;
@@ -33,8 +33,19 @@ public:
     double value(bool *ok = QEXT_NULLPTR) const { return this->doubleValue(ok); }
     void setValue(double value) { this->setDoubleValue(value); }
 
+    bool isEnglishLatinUnitedStatesLocale() const;
+    void setEnglishLatinUnitedStatesLocale(bool enable);
+
+protected Q_SLOTS:
+    void onValidatorChanged();
+
 protected:
     QScopedPointer<QExtDoubleLineEditPrivate> dd_ptr;
+
+    void setValidator(const QValidator *validator); // Overriding
+
+    bool eventFilter(QObject *obj, QEvent *event) QEXT_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) QEXT_OVERRIDE;
 
 private:
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtDoubleLineEdit)
