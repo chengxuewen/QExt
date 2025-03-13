@@ -1,1 +1,1 @@
-﻿#include "../source/widgets/qextDoubleLineEdit.h"
+﻿#include "../source/controls/inputs/qextDoubleLineEdit.h"

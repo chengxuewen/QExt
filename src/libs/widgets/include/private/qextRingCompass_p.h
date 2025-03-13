@@ -1,1 +1,1 @@
-#include "../../source/widgets/qextRingCompass_p.h"
+﻿#include "../../source/controls/qextRingCompass_p.h"

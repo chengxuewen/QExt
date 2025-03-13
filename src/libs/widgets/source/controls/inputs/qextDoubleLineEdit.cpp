@@ -175,5 +175,4 @@ bool QExtDoubleLineEdit::eventFilter(QObject *obj, QEvent *event)
 void QExtDoubleLineEdit::keyPressEvent(QKeyEvent *event)
 {
     QLineEdit::keyPressEvent(event);
-    qDebug() << "QExtDoubleLineEdit::keyPressEvent:event:" << event << ", text:" << this->text();
 }
