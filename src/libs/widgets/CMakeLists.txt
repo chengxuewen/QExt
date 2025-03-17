@@ -123,8 +123,8 @@ qext_add_library(${QEXT_LIB_NAME}
     source/controls/inputs/qextDial.cpp
     source/controls/inputs/qextDial.h
     source/controls/inputs/qextDial_p.h
-    source/controls/inputs/qextDoubleLineEdit.cpp
-    source/controls/inputs/qextDoubleLineEdit.h
+    source/controls/inputs/qextDoubleSpinBox.cpp
+    source/controls/inputs/qextDoubleSpinBox.h
     source/controls/inputs/qextIpAddressEdit.cpp
     source/controls/inputs/qextIpAddressEdit.h
     source/controls/inputs/qextIpAddressEdit_p.h

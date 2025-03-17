@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <QDebug>
+#include <QLocale>
 
 QExtNumeric::QExtNumeric()
 {
@@ -13,15 +14,14 @@ double QExtNumeric::reducePrecision(double value, short places)
     return std::round(value * scale) / scale;
 }
 
-QString QExtNumeric::doubleFixedString(double value, int precision)
+QString QExtNumeric::doubleTrimmedText(const QString &text)
 {
-    const QString valueText = QString::number(value, 'f', precision);
-    int index = valueText.size();
-    for (QString::const_reverse_iterator iter = valueText.rbegin(); iter != valueText.rend(); ++iter)
+    int index = text.size();
+    for (QString::const_reverse_iterator iter = text.rbegin(); iter != text.rend(); ++iter)
     {
         if ('0' != *iter)
         {
-            if ('.' == *iter)
+            if ((*iter < 48) || (*iter > 57))
             {
                 index--;
             }
@@ -29,6 +29,12 @@ QString QExtNumeric::doubleFixedString(double value, int precision)
         }
         index--;
     }
-    qDebug() << "valueText=" << valueText << ", left:" << valueText.left(index) << ", index=" << index;
-    return valueText.left(index);
+    // qDebug() << "text=" << text << ", left:" << text.left(index) << ", index=" << index;
+    return text.left(index);
+}
+
+QString QExtNumeric::doubleTrimmedText(double value, int precision)
+{
+    const QString text = QLocale::system().toString(value, 'f', precision).trimmed();
+    return QExtNumeric::doubleTrimmedText(text);
 }

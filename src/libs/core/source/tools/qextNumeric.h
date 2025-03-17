@@ -99,7 +99,8 @@ public:
      */
     static double reducePrecision(double value, short places);
 
-    static QString doubleFixedString(double value, int precision = 6);
+    static QString doubleTrimmedText(const QString &text);
+    static QString doubleTrimmedText(double value, int precision = 6);
 };
 
 #endif // _QEXTNUMERIC_H
