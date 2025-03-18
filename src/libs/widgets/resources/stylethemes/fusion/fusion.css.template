@@ -1,4 +1,4 @@
-
+﻿
 *{
     color: {{secondaryTextColor}};
     font-family: {{font_family}};
@@ -1106,7 +1106,7 @@ QTableView {
 QTableView::item,
 QTreeView::item,
 QListView::item {
-    padding: 5px;
+    padding: 2px;
     min-height: 25px;
     color: {{secondaryTextColor}};
     selection-color: {{secondaryTextColor}}; /* For Windows */
