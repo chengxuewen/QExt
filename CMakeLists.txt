@@ -33,7 +33,7 @@ cmake_policy(SET CMP0083 NEW) # use check_pie_supported
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.3.2.3 LANGUAGES CXX C)
+project(QExt VERSION 1.3.2.4 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -486,11 +486,6 @@ qext_configure_process_path(QEXT_INSTALL_TESTSDIR "tests" "Tests [PREFIX/tests]"
 qext_configure_process_path(QEXT_INSTALL_DESCRIPTIONSDIR
     "${QEXT_INSTALL_DATADIR}/modules" "Module description files directory")
 
-list(APPEND QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} "${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
-list(REMOVE_DUPLICATES QEXT_QML_IMPORT_PATH)
-set(QML_IMPORT_PATH ${QEXT_QML_IMPORT_PATH} CACHE INTERNAL "Qt Creator extra qml import paths" FORCE)
-
-
 function(qext_internal_set_up_global_paths)
     # Compute the values of QEXT_BUILD_DIR, QEXT_INSTALL_DIR, QEXT_CONFIG_BUILD_DIR, QEXT_CONFIG_INSTALL_DIR
     # taking into account whether the current build is a prefix build or a non-prefix build,
@@ -594,6 +589,10 @@ function(qext_setup_tool_path_command)
     # QEXT_TOOL_PATH_SETUP_COMMAND is deprecated. Please use _qext_internal_get_wrap_tool_script_path instead.
 endfunction()
 qext_setup_tool_path_command()
+
+list(APPEND QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} "${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
+list(REMOVE_DUPLICATES QEXT_QML_IMPORT_PATH)
+set(QML_IMPORT_PATH ${QEXT_QML_IMPORT_PATH} CACHE INTERNAL "Qt Creator extra qml import paths" FORCE)
 
 
 #-----------------------------------------------------------------------------------------------------------------------

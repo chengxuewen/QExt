@@ -13,13 +13,13 @@ namespace
 
 // internal helper method to merge to option amps
 static QExtFontAwesome::FontOptionValueMap qextMergeFontOptions(const QExtFontAwesome::FontOptionValueMap &defaults,
-                                                                    const QExtFontAwesome::FontOptionValueMap &QEXT_OVERRIDE)
+                                                                    const QExtFontAwesome::FontOptionValueMap &overrides)
 {
     QExtFontAwesome::FontOptionValueMap result = defaults;
-    if (!result.isEmpty())
+    if (!overrides.isEmpty())
     {
         QExtFontAwesome::FontOptionValueMap::ConstIterator iter;
-        for (iter = result.constBegin(); iter != result.constEnd(); ++iter)
+        for (iter = overrides.constBegin(); iter != overrides.constEnd(); ++iter)
         {
             result.insert(iter.key(), iter.value());
         }

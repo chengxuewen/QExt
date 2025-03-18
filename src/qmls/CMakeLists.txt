@@ -34,3 +34,7 @@ set(QEXT_QT_QMLPLUGINDUMP_EXECUTABLE "${qmlplugindump_EXECUTABLE}" CACHE INTERNA
 add_subdirectory(qml)
 add_subdirectory(quick)
 add_subdirectory(toou2d)
+
+list(APPEND QEXT_QML_IMPORT_PATH ${QML_IMPORT_PATH} "${QEXT_BUILD_DIR}/${QEXT_INSTALL_QMLDIR}")
+list(REMOVE_DUPLICATES QEXT_QML_IMPORT_PATH)
+set(QML_IMPORT_PATH ${QEXT_QML_IMPORT_PATH} CACHE INTERNAL "Qt Creator extra qml import paths" FORCE)
