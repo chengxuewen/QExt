@@ -1,1 +1,1 @@
-#include "../../source/widgets/qextWaveChart_p.h"
+﻿#include "../../source/controls/displays/qextWaveChart_p.h"

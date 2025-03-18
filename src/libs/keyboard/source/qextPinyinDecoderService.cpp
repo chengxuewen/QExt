@@ -110,7 +110,7 @@ bool QExtPinyinDecoderService::init()
     QString sysDict(qgetenv("QT_VIRTUALKEYBOARD_PINYIN_DICTIONARY"));
     if (!QFileInfo::exists(sysDict))
     {
-        sysDict = QLatin1String(":/dict/dict_pinyin.dat");
+        sysDict = QLatin1String(":/QExtKeyboard/dict/dict_pinyin.dat");
         if (!QFileInfo::exists(sysDict))
         {
             sysDict = QLibraryInfo::location(QLibraryInfo::DataPath) + QLatin1String("/QExtKeyboard/pinyin/dict_pinyin.dat");

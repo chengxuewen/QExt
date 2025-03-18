@@ -13,13 +13,13 @@ namespace
 
 // internal helper method to merge to option amps
 static QExtFontAwesome::FontOptionValueMap qextMergeFontOptions(const QExtFontAwesome::FontOptionValueMap &defaults,
-                                                                    const QExtFontAwesome::FontOptionValueMap &QEXT_OVERRIDE)
+                                                                    const QExtFontAwesome::FontOptionValueMap &overrides)
 {
     QExtFontAwesome::FontOptionValueMap result = defaults;
-    if (!result.isEmpty())
+    if (!overrides.isEmpty())
     {
-        QExtFontAwesome::FontOptionValueMap::const_iterator iter;
-        for (iter = result.begin(); iter != result.end(); ++iter)
+        QExtFontAwesome::FontOptionValueMap::ConstIterator iter;
+        for (iter = overrides.constBegin(); iter != overrides.constEnd(); ++iter)
         {
             result.insert(iter.key(), iter.value());
         }
@@ -171,7 +171,7 @@ QExtFontAwesome::QExtFontAwesome(QObject *parent) : QObject(parent)
         Q_INIT_RESOURCE(qextFontIcon);
 
         // load the font file
-        QFile res(":/QExtFontIcon/resource/fontawesome-webfont.ttf");
+        QFile res(":/QExtFontIcon/fontawesome-webfont.ttf");
         if (!res.open(QIODevice::ReadOnly))
         {
             qWarning() << "QExtFontAwesome::QExtFontAwesome(): Font awesome font could not be loaded!";

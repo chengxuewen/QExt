@@ -1,1 +1,1 @@
-#include "../source/widgets/qextProgressPie.h"
+#include "../source/controls/displays/qextProgressPie.h"

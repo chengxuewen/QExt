@@ -64,7 +64,7 @@ qext_add_library(Graphics
     source/qextGraphicsView.h
     source/qextGraphicsView_p.h
     source/qextGraphicsView.cpp
-    resource/qextGraphics.qrc
+    resources/qextGraphics.qrc
     PRECOMPILED_HEADER
     source/qextGraphicsPch.h
     PUBLIC_LIBRARIES

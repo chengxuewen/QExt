@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/QExtQml">
+        <file>qml/QExtQmlObject.qml</file>
+    </qresource>
+</RCC>

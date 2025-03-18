@@ -69,7 +69,7 @@ qext_add_library(Patterns
     source/mvc/qextMVCView.cpp
     source/mvc/qextMVCView.h
     source/qextPatternsGlobal.h
-    resource/qextPatterns.qrc
+    resources/qextPatterns.qrc
     PRECOMPILED_HEADER
     source/qextPatternsPch.h
     PUBLIC_LIBRARIES

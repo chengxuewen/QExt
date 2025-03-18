@@ -55,7 +55,7 @@ QExtKeyboardInputContext::QExtKeyboardInputContext()
     d->m_inputMethod = new QExtPinyinInputMethod(this);
     qobject_cast<QExtPinyinInputMethod*>(d->m_inputMethod)->setInputContext(this);
     d->m_inputMethodHints = Qt::ImhNone;
-    QExtKeyboardLayout().LoadLayout(":/layout/main.json");
+    QExtKeyboardLayout().LoadLayout(":/QExtKeyboard/layout/main.json");
 }
 
 QExtKeyboardInputContext *QExtKeyboardInputContext::instance()

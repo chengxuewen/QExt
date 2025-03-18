@@ -227,9 +227,9 @@ void QExtOptionalTest::construction()
         QVERIFY( !a );
     }
 
-    //( "QExtOptional: Allows to explicitly construct a disengaged, empty QExtOptional via QExtOptionalNullopt (1b)" )
+    //( "QExtOptional: Allows to explicitly construct a disengaged, empty QExtOptional via QExtNullopt (1b)" )
     {
-        QExtOptional<int> a( QExtOptionalNullopt );
+        QExtOptional<int> a( QExtNullopt );
 
         QVERIFY( !a );
     }
@@ -631,11 +631,11 @@ void QExtOptionalTest::assignment()
 
     // assignment:
 
-    //( "QExtOptional: Allows to assign QExtOptionalNullopt to disengage (1)" )
+    //( "QExtOptional: Allows to assign QExtNullopt to disengage (1)" )
     {
         QExtOptional<int>  a( 7 );
 
-        a = QExtOptionalNullopt;
+        a = QExtNullopt;
 
         QVERIFY( !a );
     }
@@ -648,9 +648,9 @@ void QExtOptionalTest::assignment()
             QExtOptional<int> e1( 123 );
             QExtOptional<int> e2( 987 );
 
-            //( "a disengaged QExtOptional assigned QExtOptionalNullopt remains empty" )
+            //( "a disengaged QExtOptional assigned QExtNullopt remains empty" )
             {
-                d1 = QExtOptionalNullopt;
+                d1 = QExtNullopt;
                 QVERIFY( !d1 );
             }
             //( "a disengaged QExtOptional assigned an engaged QExtOptional obtains its value" )
@@ -665,9 +665,9 @@ void QExtOptionalTest::assignment()
                 QVERIFY(  e1 );
                 QVERIFY( *e1 == 987 );
             }
-            //( "an engaged QExtOptional assigned QExtOptionalNullopt becomes empty" )
+            //( "an engaged QExtOptional assigned QExtNullopt becomes empty" )
             {
-                e1 = QExtOptionalNullopt;
+                e1 = QExtNullopt;
                 QVERIFY( !e1 );
             }
             //( "a disengaged QExtOptional assigned a disengaged QExtOptional remains empty" )
@@ -687,9 +687,9 @@ void QExtOptionalTest::assignment()
             QExtOptional<int> e1( 123 );
             QExtOptional<int> e2( 987 );
 
-            //( "a disengaged QExtOptional assigned QExtOptionalNullopt remains empty" )
+            //( "a disengaged QExtOptional assigned QExtNullopt remains empty" )
             {
-                d1 = std::move( QExtOptionalNullopt );
+                d1 = std::move( QExtNullopt );
                 QVERIFY( !d1 );
             }
             //( "a disengaged QExtOptional assigned an engaged QExtOptional obtains its value" )
@@ -704,9 +704,9 @@ void QExtOptionalTest::assignment()
                 QVERIFY(  e1 );
                 QVERIFY( *e1 == 987 );
             }
-            //( "an engaged QExtOptional assigned QExtOptionalNullopt becomes empty" )
+            //( "an engaged QExtOptional assigned QExtNullopt becomes empty" )
             {
-                e1 = std::move( QExtOptionalNullopt );
+                e1 = std::move( QExtNullopt );
                 QVERIFY( !e1 );
             }
             //( "a disengaged QExtOptional assigned a disengaged QExtOptional remains empty" )
@@ -1402,7 +1402,7 @@ void QExtOptionalTest::nonmemberfunctions()
                 QExtOptional<int> d2;
                 QExtOptional<int> e1( 42 );
                 QExtOptional<int> e2( 7 );
-                qextOptionalSwap( d1, d2 );
+                qextSwapOptional( d1, d2 );
                 QVERIFY( !d1 );
             }
             //( "swap engaged with engaged QExtOptional" )
@@ -1411,7 +1411,7 @@ void QExtOptionalTest::nonmemberfunctions()
                 QExtOptional<int> d2;
                 QExtOptional<int> e1( 42 );
                 QExtOptional<int> e2( 7 );
-                qextOptionalSwap( e1, e2 );
+                qextSwapOptional( e1, e2 );
                 QVERIFY(  e1  );
                 QVERIFY(  e2 );
                 QVERIFY( *e1 == 7 );
@@ -1423,7 +1423,7 @@ void QExtOptionalTest::nonmemberfunctions()
                 QExtOptional<int> d2;
                 QExtOptional<int> e1( 42 );
                 QExtOptional<int> e2( 7 );
-                qextOptionalSwap( d1, e1 );
+                qextSwapOptional( d1, e1 );
                 QVERIFY(  d1 );
                 QVERIFY( !e1 );
                 QVERIFY( *d1 == 42 );
@@ -1434,7 +1434,7 @@ void QExtOptionalTest::nonmemberfunctions()
                 QExtOptional<int> d2;
                 QExtOptional<int> e1( 42 );
                 QExtOptional<int> e2( 7 );
-                qextOptionalSwap( e1, d1 );
+                qextSwapOptional( e1, d1 );
                 QVERIFY(  d1 );
                 QVERIFY( !e1 );
                 QVERIFY( *d1 == 42 );
@@ -1446,7 +1446,7 @@ void QExtOptionalTest::nonmemberfunctions()
     {
         S s( 7 );
 
-        QVERIFY( qextOptionalMakeOptional( s )->value == 7          );
+        QVERIFY( qextMakeOptional( s )->value == 7          );
         QVERIFY(                   s.state != moved_from );
     }
 
@@ -1455,7 +1455,7 @@ void QExtOptionalTest::nonmemberfunctions()
 #if QEXT_OPTIONAL_CPP11_OR_GREATER
         S s( 7 );
 
-        QVERIFY( qextOptionalMakeOptional( std::move( s ) )->value == 7          );
+        QVERIFY( qextMakeOptional( std::move( s ) )->value == 7          );
         QVERIFY(                                s.state == moved_from );
 #else
         QSKIP( "QExtOptional: move-construction is not available (no C++11)" );
@@ -1468,7 +1468,7 @@ void QExtOptionalTest::nonmemberfunctions()
         using pair_t = std::pair<char, S>;
 
         S s( 7);
-        auto a = qextOptionalMakeOptional<pair_t>( 'a', s );
+        auto a = qextMakeOptional<pair_t>( 'a', s );
 
         QVERIFY( a->first        == 'a' );
         QVERIFY( a->second.value ==  7  );
@@ -1489,7 +1489,7 @@ void QExtOptionalTest::nonmemberfunctions()
         using pair_t = std::pair<char, S>;
 
         S s( 7 );
-        auto a = qextOptionalMakeOptional<pair_t>( 'a', std::move( s ) );
+        auto a = qextMakeOptional<pair_t>( 'a', std::move( s ) );
 
         QVERIFY( a->first        == 'a' );
         QVERIFY( a->second.value ==  7  );
@@ -1504,7 +1504,7 @@ void QExtOptionalTest::nonmemberfunctions()
     {
 #if QEXT_OPTIONAL_CPP11_OR_GREATER
         S s( 7 );
-        auto a = qextOptionalMakeOptional<InitList>( { 7, 8, 9, }, 'a', s );
+        auto a = qextMakeOptional<InitList>( { 7, 8, 9, }, 'a', s );
 
         QVERIFY( a->vec[0]  ==  7  );
         QVERIFY( a->vec[1]  ==  8  );
@@ -1526,7 +1526,7 @@ void QExtOptionalTest::nonmemberfunctions()
     {
 #if QEXT_OPTIONAL_CPP11_OR_GREATER
         S s( 7 );
-        auto a = qextOptionalMakeOptional<InitList>( { 7, 8, 9, }, 'a', std::move( s ) );
+        auto a = qextMakeOptional<InitList>( { 7, 8, 9, }, 'a', std::move( s ) );
 
         QVERIFY( a->vec[0]  ==  7  );
         QVERIFY( a->vec[1]  ==  8  );
@@ -1673,7 +1673,7 @@ void QExtOptionalTest::Issues()
 //        nonstd_lite_in_place_type_t(int),
         static_cast< nonstd::in_place_t >( qextOptionalInPlace ),
 #endif
-        QExtOptionalNullopt
+        QExtNullopt
     );
 
     QVERIFY(       a );

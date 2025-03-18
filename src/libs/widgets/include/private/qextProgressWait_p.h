@@ -1,1 +1,1 @@
-#include "../../source/widgets/qextProgressWait_p.h"
+﻿#include "../../source/controls/displays/qextProgressWait_p.h"

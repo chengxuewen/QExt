@@ -54,7 +54,7 @@ qt_internal_add_qml_module(Qml
     source/qextQml.cpp
     source/qextQml.h
     source/qextQmlGlobal.h
-    qextQml.qrc
+    resources/qextQml.qrc
     PRECOMPILED_HEADER
     source/qextQmlPch.h
     PUBLIC_LIBRARIES

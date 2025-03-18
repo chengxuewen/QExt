@@ -1,4 +1,4 @@
-#ifndef _QEXTCOMMONUTILS_H
+﻿#ifndef _QEXTCOMMONUTILS_H
 #define _QEXTCOMMONUTILS_H
 
 #include <qextGlobal.h>

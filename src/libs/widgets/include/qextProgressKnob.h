@@ -1,1 +1,1 @@
-#include "../source/widgets/qextProgressKnob.h"
+#include "../source/controls/qextProgressKnob.h"

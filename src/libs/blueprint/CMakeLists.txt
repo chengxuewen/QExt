@@ -117,7 +117,7 @@ qext_add_library(Blueprint
     source/qextBPUndoCommands.h
     source/qextBPUndoCommands.cpp
     source/qextBPUtils.h
-    resource/qextBlueprint.qrc
+    resources/qextBlueprint.qrc
     PRECOMPILED_HEADER
     source/qextBlueprintPch.h
     PUBLIC_LIBRARIES

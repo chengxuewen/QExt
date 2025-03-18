@@ -1,1 +1,1 @@
-#include "../source/widgets/qextTooltip.h"
+#include "../source/controls/displays/qextTooltip.h"

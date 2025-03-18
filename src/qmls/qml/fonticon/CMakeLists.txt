@@ -55,7 +55,7 @@ qt_internal_add_qml_module(QmlFontIcon
     source/qextQmlFontIcon.cpp
     source/qextQmlFontIcon.h
     source/qextQmlFontIconGlobal.h
-    qextQmlFontIcon.qrc
+    resources/qextQmlFontIcon.qrc
     PRECOMPILED_HEADER
     source/qextQmlFontIconPch.h
     PUBLIC_LIBRARIES
