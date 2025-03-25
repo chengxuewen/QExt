@@ -9,10 +9,10 @@
 
 #include "materialtablewidget.h"
 #include "materialmodel.h"
-#include "viewmodel/factories/viewmodelfactory.h"
-#include "model/signals/modelmapper.h"
-#include "model/standarditems/containeritem.h"
-#include "viewmodel/viewmodel/viewmodeldelegate.h"
+#include <qextMvvmViewModelFactory.h>
+#include <qextMvvmModelMapper.h>
+#include <qextMvvmContainerItem.h>
+#include <qextMvvmViewModelDelegate.h>
 #include <QTreeView>
 #include <QVBoxLayout>
 

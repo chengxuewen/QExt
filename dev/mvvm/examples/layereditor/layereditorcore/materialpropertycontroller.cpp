@@ -10,8 +10,8 @@
 #include "materialpropertycontroller.h"
 #include "materialmodel.h"
 #include "samplemodel.h"
-#include "model/model/externalproperty.h"
-#include "model/model/modelutils.h"
+#include <qextMvvmExternalProperty.h>
+#include <qextMvvmModelUtils.h>
 
 using namespace ModelView;
 

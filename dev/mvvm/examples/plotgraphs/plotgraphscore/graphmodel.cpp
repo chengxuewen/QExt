@@ -8,10 +8,10 @@
 // ************************************************************************** //
 
 #include "graphmodel.h"
-#include "model/interfaces/undostackinterface.h"
-#include "model/standarditems/standarditemincludes.h"
-#include "model/utils/numericutils.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmUndoStackInterface.h>
+#include <qextMvvmStandardItemIncludes.h>
+#include <qextMvvmNumericUtils.h>
+#include <qextMvvmWidgetUtils.h>
 #include <QColor>
 #include <cmath>
 #include <stdexcept>

@@ -10,8 +10,8 @@
 #ifndef FLATEDITORCORE_SAMPLEITEMS_H
 #define FLATEDITORCORE_SAMPLEITEMS_H
 
-#include "model/model/compounditem.h"
-#include "model/model/groupitem.h"
+#include <qextMvvmCompoundItem.h>
+#include <qextMvvmGroupItem.h>
 #include <string>
 
 namespace FlatEditor {
@@ -20,11 +20,11 @@ namespace FlatEditor {
 
 class BeamItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_BEAM_TYPE = "P_BEAM_TYPE";
-    static inline const std::string P_IS_POLARIZED = "P_IS_POLARIZED";
-    static inline const std::string P_WAVELENGTH = "P_WAVELENGTH";
-    static inline const std::string P_ANGULAR_DISTRIBUTION = "P_ANGULAR_DISTRIBUTION";
-    static inline const std::string P_ACCESS_LIGHT_BULB_COLOR = "P_COLOR";
+    static constexpr const char *P_BEAM_TYPE = "P_BEAM_TYPE";
+    static constexpr const char *P_IS_POLARIZED = "P_IS_POLARIZED";
+    static constexpr const char *P_WAVELENGTH = "P_WAVELENGTH";
+    static constexpr const char *P_ANGULAR_DISTRIBUTION = "P_ANGULAR_DISTRIBUTION";
+    static constexpr const char *P_ACCESS_LIGHT_BULB_COLOR = "P_COLOR";
 
     BeamItem();
 
@@ -38,7 +38,7 @@ private:
 
 class DistributionNoneItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_MEAN = "P_MEAN";
+    static constexpr const char *P_MEAN = "P_MEAN";
 
     DistributionNoneItem();
 };
@@ -47,8 +47,8 @@ public:
 
 class DistributionGaussianItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_MEAN = "P_MEAN";
-    static inline const std::string P_STD_DEV = "P_STD_DEV";
+    static constexpr const char *P_MEAN = "P_MEAN";
+    static constexpr const char *P_STD_DEV = "P_STD_DEV";
 
     DistributionGaussianItem();
 };
@@ -58,8 +58,8 @@ public:
 class DistributionLogNormalItem : public ModelView::QExtMvvmCompoundItem {
 
 public:
-    static inline const std::string P_MEDIAN = "P_MEDIAN";
-    static inline const std::string P_SCALE_PAR = "P_SCALE_PAR";
+    static constexpr const char *P_MEDIAN = "P_MEDIAN";
+    static constexpr const char *P_SCALE_PAR = "P_SCALE_PAR";
 
     DistributionLogNormalItem();
 };
@@ -68,10 +68,10 @@ public:
 
 class DistributionTrapezoidItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_CENTER = "P_CENTER";
-    static inline const std::string P_LEFTWIDTH = "P_LEFTWIDTH";
-    static inline const std::string P_MIDDLEWIDTH = "P_MIDDLEWIDTH";
-    static inline const std::string P_RIGHTWIDTH = "P_RIGHTWIDTH";
+    static constexpr const char *P_CENTER = "P_CENTER";
+    static constexpr const char *P_LEFTWIDTH = "P_LEFTWIDTH";
+    static constexpr const char *P_MIDDLEWIDTH = "P_MIDDLEWIDTH";
+    static constexpr const char *P_RIGHTWIDTH = "P_RIGHTWIDTH";
 
     DistributionTrapezoidItem();
 };

@@ -8,7 +8,7 @@
 // ************************************************************************** //
 
 #include "axesrectangleview.h"
-#include "view/plotting/sceneadapterinterface.h"
+#include <qextMvvmSceneAdapterInterface.h>
 
 namespace GraphicsProxy {
 

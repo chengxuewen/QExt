@@ -9,7 +9,7 @@
 
 #include "sizehandleelement.h"
 #include "regionofinterestview.h"
-#include "model/utils/containerutils.h"
+#include <qextMvvmContainerUtils.h>
 #include <QCursor>
 #include <QPainter>
 #include <functional>

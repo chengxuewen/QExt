@@ -9,8 +9,8 @@
 
 #include "graphpropertywidget.h"
 #include "graphmodel.h"
-#include "viewmodel/factories/viewmodelfactory.h"
-#include "view/widgets/itemstreeview.h"
+#include <qextMvvmViewModelFactory.h>
+#include <qextMvvmItemsTreeView.h>
 #include <QBoxLayout>
 
 using namespace ModelView;

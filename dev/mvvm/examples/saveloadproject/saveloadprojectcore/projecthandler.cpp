@@ -12,9 +12,9 @@
 #include "recentprojectwidget.h"
 #include "samplemodel.h"
 #include "userinteractor.h"
-#include "model/factories/projectmanagerfactory.h"
-#include "model/project/project_types.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmProjectManagerFactory.h>
+#include <qextMvvmProjectTypes.h>
+#include <qextMvvmWidgetUtils.h>
 #include <QMainWindow>
 
 using namespace ModelView;

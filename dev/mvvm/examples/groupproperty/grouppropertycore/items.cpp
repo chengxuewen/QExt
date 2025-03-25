@@ -8,7 +8,7 @@
 // ************************************************************************** //
 
 #include "items.h"
-#include "model/standarditems/vectoritem.h"
+#include <qextMvvmVectorItem.h>
 #include <QColor>
 
 namespace GroupProperty {

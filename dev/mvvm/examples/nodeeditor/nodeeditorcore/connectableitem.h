@@ -11,7 +11,7 @@
 #define NODEEDITORCORE_CONNECTABLEITEM_H
 
 #include "portinfo.h"
-#include "model/model/compounditem.h"
+#include <qextMvvmCompoundItem.h>
 
 class QColor;
 
@@ -21,9 +21,9 @@ namespace NodeEditor {
 
 class ConnectableItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_XPOS = "P_XPOS";
-    static inline const std::string P_YPOS = "P_YPOS";
-    static inline const std::string P_COLOR = "P_COLOR";
+    static constexpr const char *P_XPOS = "P_XPOS";
+    static constexpr const char *P_YPOS = "P_YPOS";
+    static constexpr const char *P_COLOR = "P_COLOR";
 
     explicit ConnectableItem(const std::string& modelType);
 

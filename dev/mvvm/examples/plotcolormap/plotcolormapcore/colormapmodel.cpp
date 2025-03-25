@@ -8,11 +8,11 @@
 // ************************************************************************** //
 
 #include "colormapmodel.h"
-#include "model/standarditems/axisitems.h"
-#include "model/standarditems/colormapitem.h"
-#include "model/standarditems/colormapviewportitem.h"
-#include "model/standarditems/containeritem.h"
-#include "model/standarditems/data2ditem.h"
+#include <qextMvvmAxisItems.h>
+#include <qextMvvmColorMapItem.h>
+#include <qextMvvmColorMapViewPortItem.h>
+#include <qextMvvmContainerItem.h>
+#include <qextMvvmData2DItem.h>
 #include <cmath>
 
 using namespace ModelView;

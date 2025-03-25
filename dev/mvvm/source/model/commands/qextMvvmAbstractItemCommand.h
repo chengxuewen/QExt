@@ -1,20 +1,11 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
+#ifndef _QEXT_MVVM_COMMANDS_ABSTRACTITEMCOMMAND_H
+#define _QEXT_MVVM_COMMANDS_ABSTRACTITEMCOMMAND_H
 
-#ifndef MVVM_COMMANDS_ABSTRACTITEMCOMMAND_H
-#define MVVM_COMMANDS_ABSTRACTITEMCOMMAND_H
-
+#include <qextMemory.h>
 #include <qextMvvmGlobal.h>
 #include <qextMvvmCommandUtils.h>
 #include <qextMvvmCommandResult.h>
 
-#include <memory>
 #include <string>
 
 namespace ModelView {
@@ -62,4 +53,4 @@ private:
 
 } // namespace ModelView
 
-#endif // MVVM_COMMANDS_ABSTRACTITEMCOMMAND_H
+#endif // _QEXT_MVVM_COMMANDS_ABSTRACTITEMCOMMAND_H

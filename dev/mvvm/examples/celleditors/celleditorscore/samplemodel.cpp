@@ -9,10 +9,10 @@
 
 #include "samplemodel.h"
 #include "item_constants.h"
-#include "viewmodel/editors/editor_constants.h"
-#include "model/model/comboproperty.h"
-#include "model/model/externalproperty.h"
-#include "model/utils/reallimits.h"
+#include <qextMvvmEditorConstants.h>
+#include <qextMvvmComboProperty.h>
+#include <qextMvvmExternalProperty.h>
+#include <qextMvvmRealLimits.h>
 #include <QColor>
 
 using namespace ModelView;

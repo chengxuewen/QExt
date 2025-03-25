@@ -11,11 +11,11 @@
 #include <QLocale>
 #include <QTreeView>
 
-#include "model/model/compounditem.h"
-#include "model/model/sessionmodel.h"
-#include "model/signals/itemmapper.h"
-#include "viewmodel/viewmodel/defaultviewmodel.h"
-#include "viewmodel/viewmodel/viewmodeldelegate.h"
+#include <qextMvvmCompoundItem.h>
+#include <qextMvvmSessionModel.h>
+#include <qextMvvmItemMapper.h>
+#include <qextMvvmDefaultViewModel.h>
+#include <qextMvvmViewModelDelegate.h>
 
 using namespace ModelView;
 

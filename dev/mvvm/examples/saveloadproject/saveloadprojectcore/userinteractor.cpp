@@ -9,9 +9,9 @@
 
 #include "userinteractor.h"
 #include "recentprojectsettings.h"
-#include "model/project/project_types.h"
-#include "model/project/projectutils.h"
-#include "model/utils/fileutils.h"
+#include <qextMvvmProjectTypes.h>
+#include <qextMvvmProjectUtils.h>
+#include <qextMvvmFileUtils.h>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <map>

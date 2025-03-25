@@ -11,9 +11,9 @@
 #define LAYEREDITORCORE_CUSTOMLAYERROWSTRATEGY_H
 
 #include "samplemodel.h"
-#include "viewmodel/interfaces/rowstrategyinterface.h"
-#include "viewmodel/viewmodel/standardviewitems.h"
-#include "viewmodel/viewmodel/viewitem.h"
+#include <qextMvvmRowStrategyInterface.h>
+#include <qextMvvmStandardViewItems.h>
+#include <qextMvvmViewItem.h>
 #include <QStringList>
 #include <vector>
 

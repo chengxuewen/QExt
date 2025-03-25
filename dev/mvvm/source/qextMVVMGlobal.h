@@ -8,7 +8,7 @@
    QExt Compiler specific cmds for export and import code to DLL
 ***********************************************************************************************************************/
 #ifdef QEXT_BUILD_SHARED // compiled as a dynamic lib.
-#   ifdef QEXT_BUILD_PATTERN_LIB // defined if we are building the lib
+#   ifdef QEXT_BUILD_MVVM_LIB // defined if we are building the lib
 #       define QEXT_MVVM_API Q_DECL_EXPORT
 #   else
 #       define QEXT_MVVM_API Q_DECL_IMPORT

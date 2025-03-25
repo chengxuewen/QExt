@@ -10,7 +10,7 @@
 #ifndef TREEVIEWSCORE_SAMPLEMODEL_H
 #define TREEVIEWSCORE_SAMPLEMODEL_H
 
-#include "model/model/sessionmodel.h"
+#include <qextMvvmSessionModel.h>
 
 namespace TreeViews {
 

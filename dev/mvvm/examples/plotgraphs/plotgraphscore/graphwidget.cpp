@@ -10,8 +10,8 @@
 #include "graphwidget.h"
 #include "graphmodel.h"
 #include "graphpropertywidget.h"
-#include "view/plotting/graphcanvas.h"
-#include "model/standarditems/graphviewportitem.h"
+#include <qextMvvmGraphCanvas.h>
+#include <qextMvvmGraphViewPortItem.h>
 #include <QAction>
 #include <QBoxLayout>
 #include <QToolBar>

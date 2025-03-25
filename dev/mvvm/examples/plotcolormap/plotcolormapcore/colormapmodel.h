@@ -10,7 +10,7 @@
 #ifndef PLOTCOLORMAPCORE_COLORMAPMODEL_H
 #define PLOTCOLORMAPCORE_COLORMAPMODEL_H
 
-#include "model/model/sessionmodel.h"
+#include <qextMvvmSessionModel.h>
 
 namespace ModelView {
 class QExtMvvmContainerItem;

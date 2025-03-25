@@ -13,8 +13,8 @@
 //! @file items.h
 //! Collection of test items for our sample model.
 
-#include "model/model/compounditem.h"
-#include "model/model/groupitem.h"
+#include <qextMvvmCompoundItem.h>
+#include <qextMvvmGroupItem.h>
 #include <string>
 
 namespace TreeViews {
@@ -23,7 +23,7 @@ namespace TreeViews {
 
 class MultiLayer : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string T_LAYERS = "T_LAYERS";
+    static constexpr const char *T_LAYERS = "T_LAYERS";
     MultiLayer();
 };
 
@@ -31,9 +31,9 @@ public:
 
 class LayerItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_THICKNESS = "Thickness";
-    static inline const std::string P_COLOR = "Color";
-    static inline const std::string T_PARTICLES = "Particles";
+    static constexpr const char *P_THICKNESS = "Thickness";
+    static constexpr const char *P_COLOR = "Color";
+    static constexpr const char *T_PARTICLES = "Particles";
     LayerItem();
 };
 
@@ -42,8 +42,8 @@ public:
 
 class ParticleItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_POSITION = "Position";
-    static inline const std::string P_SHAPE = "Shape";
+    static constexpr const char *P_POSITION = "Position";
+    static constexpr const char *P_SHAPE = "Shape";
     ParticleItem();
 };
 
@@ -52,9 +52,9 @@ public:
 
 class LatticeItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_ROTATION_ANLE = "Rotation";
-    static inline const std::string P_INTEGRATION = "Integration";
-    static inline const std::string P_LATTICE_TYPE = "Type";
+    static constexpr const char *P_ROTATION_ANLE = "Rotation";
+    static constexpr const char *P_INTEGRATION = "Integration";
+    static constexpr const char *P_LATTICE_TYPE = "Type";
 
     LatticeItem();
 
@@ -68,8 +68,8 @@ private:
 
 class CylinderItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_RADIUS = "Radius";
-    static inline const std::string P_HEIGHT = "Height";
+    static constexpr const char *P_RADIUS = "Radius";
+    static constexpr const char *P_HEIGHT = "Height";
     CylinderItem();
 };
 
@@ -77,7 +77,7 @@ public:
 
 class SphereItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_RADIUS = "Radius";
+    static constexpr const char *P_RADIUS = "Radius";
     SphereItem();
 };
 
@@ -85,10 +85,10 @@ public:
 
 class AnysoPyramidItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_LENGTH = "Length";
-    static inline const std::string P_WIDTH = "Width";
-    static inline const std::string P_HEIGHT = "Height";
-    static inline const std::string P_ALPHA = "Alpha";
+    static constexpr const char *P_LENGTH = "Length";
+    static constexpr const char *P_WIDTH = "Width";
+    static constexpr const char *P_HEIGHT = "Height";
+    static constexpr const char *P_ALPHA = "Alpha";
     AnysoPyramidItem();
 };
 

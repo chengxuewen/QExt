@@ -12,8 +12,8 @@
 #include "graphpropertywidget.h"
 #include "graphwidgettoolbar.h"
 #include "jobmanager.h"
-#include "view/plotting/graphcanvas.h"
-#include "model/standarditems/graphviewportitem.h"
+#include <qextMvvmGraphCanvas.h>
+#include <qextMvvmGraphViewPortItem.h>
 #include <QBoxLayout>
 
 using namespace ModelView;

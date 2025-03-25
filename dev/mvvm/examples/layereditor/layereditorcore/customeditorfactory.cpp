@@ -10,8 +10,8 @@
 #include "customeditorfactory.h"
 #include "applicationmodels.h"
 #include "materialmodel.h"
-#include "viewmodel/editors/externalpropertycomboeditor.h"
-#include "model/model/externalproperty.h"
+#include <qextMvvmExternalPropertyComboEditor.h>
+#include <qextMvvmExternalProperty.h>
 #include <QModelIndex>
 
 using namespace ModelView;

@@ -85,6 +85,8 @@
 #   define QEXT_STATIC_CONSTANT(type, assignment) enum { assignment }
 #endif
 
+#   define QEXT_STATIC_STRING_CONSTANT(name, string) static const char name[]=string
+
 #if QEXT_CC_FEATURE_EXPLICIT_OVERRIDES
 #   define QEXT_OVERRIDE override
 #   define QEXT_FINAL final

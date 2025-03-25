@@ -10,7 +10,7 @@
 #ifndef DRAGANDMOVECORE_DRAGVIEWMODEL_H
 #define DRAGANDMOVECORE_DRAGVIEWMODEL_H
 
-#include "viewmodel/viewmodel/propertytableviewmodel.h"
+#include <qextMvvmPropertyTableViewModel.h>
 
 namespace ModelView {
 class QExtMvvmSessionModel;

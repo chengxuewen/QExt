@@ -10,7 +10,7 @@
 #ifndef CONCURRENTPLOTCORE_GRAPHMODEL_H
 #define CONCURRENTPLOTCORE_GRAPHMODEL_H
 
-#include "model/model/sessionmodel.h"
+#include <qextMvvmSessionModel.h>
 
 namespace ModelView {
 class QExtMvvmGraphViewportItem;

@@ -9,9 +9,9 @@
 
 #include "recentprojectwidget.h"
 #include "projectpanewidget.h"
-#include "model/project/projectutils.h"
-#include "view/widgets/adjustingscrollarea.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmProjectUtils.h>
+#include <qextMvvmAdjustingScrollArea.h>
+#include <qextMvvmWidgetUtils.h>
 #include <QGuiApplication>
 #include <QLabel>
 #include <QScreen>

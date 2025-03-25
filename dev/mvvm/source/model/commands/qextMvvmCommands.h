@@ -11,7 +11,7 @@
 #define MVVM_COMMANDS_COPYITEMCOMMAND_H
 
 #include <qextMvvmAbstractItemCommand.h>
-#include "model/model/function_types.h"
+#include <qextMvvmFunctionTypes.h>
 
 namespace ModelView {
 

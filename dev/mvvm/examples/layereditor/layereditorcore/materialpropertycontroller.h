@@ -10,7 +10,7 @@
 #ifndef LAYEREDITORCORE_MATERIALPROPERTYCONTROLLER_H
 #define LAYEREDITORCORE_MATERIALPROPERTYCONTROLLER_H
 
-#include "model/signals/modellistener.h"
+#include <qextMvvmModelListener.h>
 
 class SampleModel;
 class MaterialModel;

@@ -10,7 +10,7 @@
 #ifndef GRAPHICSPROXYCORE_REGIONOFINTERESTCONTROLLER_H
 #define GRAPHICSPROXYCORE_REGIONOFINTERESTCONTROLLER_H
 
-#include "model/signals/itemlistener.h"
+#include <qextMvvmItemListener.h>
 #include <memory>
 
 class QRectF;

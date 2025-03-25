@@ -8,9 +8,9 @@
 // ************************************************************************** //
 
 #include "mousemodel.h"
-#include "model/factories/modeldocumentfactory.h"
-#include "model/interfaces/undostackinterface.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmModelDocumentFactory.h>
+#include <qextMvvmUndoStackInterface.h>
+#include <qextMvvmWidgetUtils.h>
 #include <QColor>
 #include <qextMath.h>
 #include <cmath>

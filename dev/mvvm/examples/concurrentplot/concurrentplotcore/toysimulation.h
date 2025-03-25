@@ -10,7 +10,7 @@
 #ifndef CONCURRENTPLOTCORE_TOYSIMULATION_H
 #define CONCURRENTPLOTCORE_TOYSIMULATION_H
 
-#include "model/utils/progresshandler.h"
+#include <qextMvvmProgressHandler.h>
 #include <vector>
 
 //! Represents long running toy scientific simulation.

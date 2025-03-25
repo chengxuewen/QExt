@@ -10,8 +10,8 @@
 #ifndef CELLEDITORSCORE_SAMPLEMODEL_H
 #define CELLEDITORSCORE_SAMPLEMODEL_H
 
-#include "model/model/compounditem.h"
-#include "model/model/sessionmodel.h"
+#include <qextMvvmCompoundItem.h>
+#include <qextMvvmSessionModel.h>
 #include <string>
 
 namespace CellEditors {
@@ -20,14 +20,14 @@ namespace CellEditors {
 
 class DemoPropertiesItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_BOOL_PROPERTY = "P_BOOL_PROPERTY";
-    static inline const std::string P_INTEGER_PROPERTY = "P_INTEGER_PROPERTY";
-    static inline const std::string P_STRING_PROPERTY = "P_STRING_PROPERTY";
-    static inline const std::string P_DOUBLE_PROPERTY = "P_DOUBLE_PROPERTY";
-    static inline const std::string P_COLOR_PROPERTY = "P_COLOR_PROPERTY";
-    static inline const std::string P_COMBO_PROPERTY = "P_COMBO_PROPERTY";
-    static inline const std::string P_SELECTABLE_COMBO_PROPERTY = "P_SELECTABLE_COMBO_PROPERTY";
-    static inline const std::string P_EXTERNAL_PROPERTY = "P_EXTERNAL_PROPERTY";
+    static constexpr const char *P_BOOL_PROPERTY = "P_BOOL_PROPERTY";
+    static constexpr const char *P_INTEGER_PROPERTY = "P_INTEGER_PROPERTY";
+    static constexpr const char *P_STRING_PROPERTY = "P_STRING_PROPERTY";
+    static constexpr const char *P_DOUBLE_PROPERTY = "P_DOUBLE_PROPERTY";
+    static constexpr const char *P_COLOR_PROPERTY = "P_COLOR_PROPERTY";
+    static constexpr const char *P_COMBO_PROPERTY = "P_COMBO_PROPERTY";
+    static constexpr const char *P_SELECTABLE_COMBO_PROPERTY = "P_SELECTABLE_COMBO_PROPERTY";
+    static constexpr const char *P_EXTERNAL_PROPERTY = "P_EXTERNAL_PROPERTY";
 
     DemoPropertiesItem();
 };

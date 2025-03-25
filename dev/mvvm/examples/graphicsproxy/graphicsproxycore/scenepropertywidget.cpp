@@ -9,8 +9,8 @@
 
 #include "scenepropertywidget.h"
 #include "scenemodel.h"
-#include "viewmodel/factories/viewmodelfactory.h"
-#include "view/widgets/itemstreeview.h"
+#include <qextMvvmViewModelFactory.h>
+#include <qextMvvmItemsTreeView.h>
 #include <QBoxLayout>
 #include <QPushButton>
 #include <QSlider>

@@ -8,9 +8,9 @@
 // ************************************************************************** //
 
 #include "samplemodel.h"
-#include "model/standarditems/containeritem.h"
-#include "model/utils/numericutils.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmContainerItem.h>
+#include <qextMvvmNumericUtils.h>
+#include <qextMvvmWidgetUtils.h>
 #include <QColor>
 
 namespace {

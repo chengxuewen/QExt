@@ -8,8 +8,8 @@
 // ************************************************************************** //
 
 #include "sampleitems.h"
-#include "model/model/comboproperty.h"
-#include "model/signals/itemmapper.h"
+#include <qextMvvmComboProperty.h>
+#include <qextMvvmItemMapper.h>
 #include <QColor>
 
 using namespace ModelView;

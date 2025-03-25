@@ -1,0 +1,31 @@
+// ************************************************************************** //
+//
+//  Model-view-view-model framework for large GUI applications
+//
+//! @license   GNU General Public License v3 or higher (see COPYING)
+//! @authors   see AUTHORS
+//
+// ************************************************************************** //
+
+#include <qextMvvmStatusStringReporterFactory.h>
+#include <qextMvvmColorMapInfoFormatter.h>
+#include <qextMvvmGraphInfoFormatter.h>
+#include <qextMvvmStatusStringReporter.h>
+
+namespace ModelView {
+
+QExtUniquePointer<QExtMvvmStatusStringReporter>
+CreateGraphReporter(QCustomPlot* custom_plot, std::function<void(const std::string&)> callback)
+{
+    return qextMakeUnique<QExtMvvmStatusStringReporter>(custom_plot, callback,
+                                                  qextMakeUnique<QExtMvvmGraphInfoFormatter>());
+}
+
+QExtUniquePointer<QExtMvvmStatusStringReporter>
+CreateColorMapReporter(QCustomPlot* custom_plot, std::function<void(const std::string&)> callback)
+{
+    return qextMakeUnique<QExtMvvmStatusStringReporter>(custom_plot, callback,
+                                                  qextMakeUnique<QExtMvvmColorMapInfoFormatter>());
+}
+
+} // namespace ModelView

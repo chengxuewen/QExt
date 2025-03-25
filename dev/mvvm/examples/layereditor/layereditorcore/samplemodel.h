@@ -10,16 +10,16 @@
 #ifndef LAYEREDITORCORE_SAMPLEMODEL_H
 #define LAYEREDITORCORE_SAMPLEMODEL_H
 
-#include "model/model/compounditem.h"
-#include "model/model/sessionmodel.h"
+#include <qextMvvmCompoundItem.h>
+#include <qextMvvmSessionModel.h>
 
 //! Layer with name, thickness and reference to material.
 
 class LayerItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_NAME = "P_NAME";
-    static inline const std::string P_MATERIAL = "P_MATERIAL";
-    static inline const std::string P_THICKNESS = "P_THICKNESS";
+    static constexpr const char *P_NAME = "P_NAME";
+    static constexpr const char *P_MATERIAL = "P_MATERIAL";
+    static constexpr const char *P_THICKNESS = "P_THICKNESS";
     LayerItem();
 };
 
@@ -27,8 +27,8 @@ public:
 
 class MultiLayerItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string T_LAYERS = "T_LAYERS";
-    static inline const std::string P_NREPETITIONS = "P_NREPETITIONS";
+    static constexpr const char *T_LAYERS = "T_LAYERS";
+    static constexpr const char *P_NREPETITIONS = "P_NREPETITIONS";
     MultiLayerItem();
 };
 

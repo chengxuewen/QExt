@@ -13,7 +13,7 @@
 //! @file items.h
 //! Collection of items for our application model.
 
-#include "model/model/compounditem.h"
+#include <qextMvvmCompoundItem.h>
 #include <string>
 
 namespace DragAndMove {
@@ -22,12 +22,12 @@ namespace DragAndMove {
 
 class DemoItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_BOOL_PROPERTY = "P_BOOL_PROPERTY";
-    static inline const std::string P_INTEGER_PROPERTY = "P_INTEGER_PROPERTY";
-    static inline const std::string P_STRING_PROPERTY = "P_STRING_PROPERTY";
-    static inline const std::string P_DOUBLE_PROPERTY = "P_DOUBLE_PROPERTY";
-    static inline const std::string P_COLOR_PROPERTY = "P_COLOR_PROPERTY";
-    static inline const std::string P_COMBO_PROPERTY = "P_COMBO_PROPERTY";
+    static constexpr const char *P_BOOL_PROPERTY = "P_BOOL_PROPERTY";
+    static constexpr const char *P_INTEGER_PROPERTY = "P_INTEGER_PROPERTY";
+    static constexpr const char *P_STRING_PROPERTY = "P_STRING_PROPERTY";
+    static constexpr const char *P_DOUBLE_PROPERTY = "P_DOUBLE_PROPERTY";
+    static constexpr const char *P_COLOR_PROPERTY = "P_COLOR_PROPERTY";
+    static constexpr const char *P_COMBO_PROPERTY = "P_COMBO_PROPERTY";
 
     DemoItem();
 };
@@ -36,7 +36,7 @@ public:
 
 class DemoContainerItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string T_ITEMS = "T_ITEMS";
+    static constexpr const char *T_ITEMS = "T_ITEMS";
 
     DemoContainerItem();
 };

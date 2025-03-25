@@ -9,11 +9,11 @@
 
 #include "containereditorwidget.h"
 #include "samplemodel.h"
-#include "model/model/modelutils.h"
-#include "viewmodel/viewmodel/propertytableviewmodel.h"
-#include "viewmodel/viewmodel/viewmodeldelegate.h"
-#include "viewmodel/viewmodel/viewmodelutils.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmModelUtils.h>
+#include <qextMvvmPropertyTableViewModel.h>
+#include <qextMvvmViewModelDelegate.h>
+#include <qextMvvmViewModelUtils.h>
+#include <qextMvvmWidgetUtils.h>
 #include <QBoxLayout>
 #include <QHeaderView>
 #include <QPushButton>

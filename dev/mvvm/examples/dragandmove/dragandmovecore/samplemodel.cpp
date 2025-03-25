@@ -9,8 +9,8 @@
 
 #include "samplemodel.h"
 #include "sampleitems.h"
-#include "model/utils/numericutils.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmNumericUtils.h>
+#include <qextMvvmWidgetUtils.h>
 #include <QColor>
 
 namespace DragAndMove {

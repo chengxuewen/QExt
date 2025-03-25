@@ -9,7 +9,7 @@
 
 #include "samplemodel.h"
 #include "materialmodel.h"
-#include "model/model/externalproperty.h"
+#include <qextMvvmExternalProperty.h>
 #include <QVariant>
 
 using namespace ModelView;

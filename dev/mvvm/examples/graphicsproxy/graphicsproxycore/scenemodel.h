@@ -10,7 +10,7 @@
 #ifndef GRAPHICSPROXYCORE_SCENEMODEL_H
 #define GRAPHICSPROXYCORE_SCENEMODEL_H
 
-#include "model/model/sessionmodel.h"
+#include <qextMvvmSessionModel.h>
 
 namespace GraphicsProxy {
 

@@ -9,7 +9,7 @@
 
 #include "samplemodel.h"
 #include "sampleitems.h"
-#include "model/model/itemcatalogue.h"
+#include <qextMvvmItemCatalogue.h>
 
 using namespace ModelView;
 

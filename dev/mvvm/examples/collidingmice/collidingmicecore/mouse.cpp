@@ -51,9 +51,9 @@
 #include "mouse.h"
 
 #include "mousemodel.h"
-#include "model/signals/itemmapper.h"
-#include "model/utils/mathconstants.h"
-#include "model/utils/numericutils.h"
+#include <qextMvvmItemMapper.h>
+#include <qextMvvmMathConstants.h>
+#include <qextMvvmNumericUtils.h>
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QStyleOption>

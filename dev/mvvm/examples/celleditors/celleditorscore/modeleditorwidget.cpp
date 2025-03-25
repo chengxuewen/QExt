@@ -9,9 +9,9 @@
 
 #include "modeleditorwidget.h"
 #include "samplemodel.h"
-#include "viewmodel/viewmodel/defaultviewmodel.h"
-#include "viewmodel/viewmodel/propertytableviewmodel.h"
-#include "viewmodel/viewmodel/viewmodeldelegate.h"
+#include <qextMvvmDefaultViewModel.h>
+#include <qextMvvmPropertyTableViewModel.h>
+#include <qextMvvmViewModelDelegate.h>
 #include <QBoxLayout>
 #include <QHeaderView>
 #include <QTableView>

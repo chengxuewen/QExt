@@ -10,9 +10,9 @@
 #ifndef MODELINQMLCORE_PARTICLEMODEL_H
 #define MODELINQMLCORE_PARTICLEMODEL_H
 
-#include "model/model/compounditem.h"
-#include "model/model/groupitem.h"
-#include "model/model/sessionmodel.h"
+#include <qextMvvmCompoundItem.h>
+#include <qextMvvmGroupItem.h>
+#include <qextMvvmSessionModel.h>
 
 //! @file particlemodel.h
 //! Collection of items and their model representing Particle.
@@ -22,8 +22,8 @@
 class ParticleItem : public ModelView::QExtMvvmCompoundItem
 {
 public:
-    static inline const std::string P_POSITION = "Position";
-    static inline const std::string P_SHAPES = "Shapes";
+    static constexpr const char *P_POSITION = "Position";
+    static constexpr const char *P_SHAPES = "Shapes";
     ParticleItem();
 };
 
@@ -32,8 +32,8 @@ public:
 class CylinderItem : public ModelView::QExtMvvmCompoundItem
 {
 public:
-    static inline const std::string P_RADIUS = "Radius";
-    static inline const std::string P_HEIGHT = "Height";
+    static constexpr const char *P_RADIUS = "Radius";
+    static constexpr const char *P_HEIGHT = "Height";
     CylinderItem();
 };
 
@@ -42,7 +42,7 @@ public:
 class SphereItem : public ModelView::QExtMvvmCompoundItem
 {
 public:
-    static inline const std::string P_RADIUS = "Radius";
+    static constexpr const char *P_RADIUS = "Radius";
     SphereItem();
 };
 
@@ -51,10 +51,10 @@ public:
 class AnysoPyramidItem : public ModelView::QExtMvvmCompoundItem
 {
 public:
-    static inline const std::string P_LENGTH = "Length";
-    static inline const std::string P_WIDTH = "Width";
-    static inline const std::string P_HEIGHT = "Height";
-    static inline const std::string P_ALPHA = "Alpha";
+    static constexpr const char *P_LENGTH = "Length";
+    static constexpr const char *P_WIDTH = "Width";
+    static constexpr const char *P_HEIGHT = "Height";
+    static constexpr const char *P_ALPHA = "Alpha";
     AnysoPyramidItem();
 };
 

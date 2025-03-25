@@ -10,7 +10,7 @@
 #ifndef MVVM_COMMANDS_UNDOSTACK_H
 #define MVVM_COMMANDS_UNDOSTACK_H
 
-#include "model/interfaces/undostackinterface.h"
+#include <qextMvvmUndoStackInterface.h>
 #include <qextMvvmGlobal.h>
 #include <memory>
 

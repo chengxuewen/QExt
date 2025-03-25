@@ -10,7 +10,7 @@
 #ifndef LAYEREDITORCORE_CUSTOMEDITORFACTORY_H
 #define LAYEREDITORCORE_CUSTOMEDITORFACTORY_H
 
-#include "viewmodel/editors/defaulteditorfactory.h"
+#include <qextMvvmDefaultEditorFactory.h>
 
 class ApplicationModels;
 

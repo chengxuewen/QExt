@@ -8,7 +8,7 @@
 // ************************************************************************** //
 
 #include "projectpanewidget.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmWidgetUtils.h>
 #include <QLabel>
 #include <QMouseEvent>
 #include <QPainter>

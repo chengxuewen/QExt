@@ -8,7 +8,7 @@
 // ************************************************************************** //
 
 #include "connectableitem.h"
-#include "model/model/modelutils.h"
+#include <qextMvvmModelUtils.h>
 #include <QColor>
 
 using namespace ModelView;

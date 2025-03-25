@@ -10,7 +10,7 @@
 #ifndef MODELINQMLCORE_PARTICLEVIEWMODEL_H
 #define MODELINQMLCORE_PARTICLEVIEWMODEL_H
 
-#include "viewmodel/viewmodel/propertyviewmodel.h"
+#include <qextMvvmPropertyViewModel.h>
 
 class ParticleModel;
 

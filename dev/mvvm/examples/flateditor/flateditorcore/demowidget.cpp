@@ -8,9 +8,9 @@
 // ************************************************************************** //
 
 #include "demowidget.h"
-#include "model/model/sessionitem.h"
-#include "view/widgets/propertyflatview.h"
-#include "view/widgets/standardtreeviews.h"
+#include <qextMvvmSessionItem.h>
+#include <qextMvvmPropertyFlatView.h>
+#include <qextMvvmStandardTreeViews.h>
 #include <QBoxLayout>
 #include <QLabel>
 #include <QTreeView>

@@ -10,7 +10,7 @@
 #ifndef NODEEDITORCORE_CONNECTABLEITEMCONTROLLER_H
 #define NODEEDITORCORE_CONNECTABLEITEMCONTROLLER_H
 
-#include "model/signals/itemlistener.h"
+#include <qextMvvmItemListener.h>
 #include <memory>
 
 namespace NodeEditor {

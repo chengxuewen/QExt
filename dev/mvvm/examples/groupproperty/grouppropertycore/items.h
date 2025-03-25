@@ -10,9 +10,9 @@
 #ifndef GROUPPROPERTYCORE_ITEMS_H
 #define GROUPPROPERTYCORE_ITEMS_H
 
-#include "model/model/compounditem.h"
-#include "model/model/groupitem.h"
-#include "model/model/sessionmodel.h"
+#include <qextMvvmCompoundItem.h>
+#include <qextMvvmGroupItem.h>
+#include <qextMvvmSessionModel.h>
 
 namespace GroupProperty {
 

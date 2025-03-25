@@ -9,7 +9,7 @@
 
 #include "graphicsscenecontroller.h"
 #include "graphicsscene.h"
-#include "model/model/sessionitem.h"
+#include <qextMvvmSessionItem.h>
 #include "sampleitems.h"
 #include "samplemodel.h"
 

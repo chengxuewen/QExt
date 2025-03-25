@@ -12,9 +12,9 @@
 
 #include <qextMvvmCommandResult.h>
 // #include "model/commands/commandresult.h"
-#include "model/core/variant.h"
-#include "model/interfaces/undostackinterface.h"
-#include "model/model/function_types.h"
+
+#include <qextMvvmUndoStackInterface.h>
+#include <qextMvvmFunctionTypes.h>
 #include <qextMvvmGlobal.h>
 #include <memory>
 

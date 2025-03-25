@@ -8,10 +8,10 @@
 // ************************************************************************** //
 
 #include "dragviewmodel.h"
-#include "model/model/sessionitem.h"
-#include "model/model/sessionmodel.h"
-#include "viewmodel/viewmodel/viewmodelutils.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmSessionItem.h>
+#include <qextMvvmSessionModel.h>
+#include <qextMvvmViewModelUtils.h>
+#include <qextMvvmWidgetUtils.h>
 #include <QByteArray>
 #include <QDataStream>
 #include <QMimeData>

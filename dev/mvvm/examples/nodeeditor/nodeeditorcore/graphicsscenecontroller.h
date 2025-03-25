@@ -10,7 +10,7 @@
 #ifndef NODEEDITORCORE_GRAPHICSSCENECONTROLLER_H
 #define NODEEDITORCORE_GRAPHICSSCENECONTROLLER_H
 
-#include "model/signals/modellistener.h"
+#include <qextMvvmModelListener.h>
 
 namespace NodeEditor {
 

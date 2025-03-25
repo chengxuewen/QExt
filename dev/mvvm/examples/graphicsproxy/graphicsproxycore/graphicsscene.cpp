@@ -10,9 +10,9 @@
 #include "graphicsscene.h"
 #include "axesrectangleview.h"
 #include "regionofinterestview.h"
-#include "view/plotting/colormapcanvas.h"
-#include "view/plotting/customplotproxywidget.h"
-#include "view/plotting/sceneadapterinterface.h"
+#include <qextMvvmColorMapCanvas.h>
+#include <qextMvvmCustomPlotProxyWidget.h>
+#include <qextMvvmSceneAdapterInterface.h>
 
 namespace {
 const double scene_origin_x{0.0};

@@ -13,9 +13,9 @@
 #include "regionofinterestitem.h"
 #include "scenemodel.h"
 #include "scenepropertywidget.h"
-#include "view/plotting/colormapcanvas.h"
-#include "model/standarditems/axisitems.h"
-#include "model/standarditems/colormapviewportitem.h"
+#include <qextMvvmColorMapCanvas.h>
+#include <qextMvvmAxisItems.h>
+#include <qextMvvmColorMapViewPortItem.h>
 #include <QAction>
 #include <QBoxLayout>
 #include <QToolBar>

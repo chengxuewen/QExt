@@ -12,15 +12,15 @@
 // #include "model/commands/copyitemcommand.h"
 // #include "model/commands/commandutils.h"
 // #include "model/commands/commandutils.h"
-#include "model/interfaces/itembackupstrategy.h"
-#include "model/interfaces/itemcopystrategy.h"
-// #include "model/core/variant.h"
-#include "model/model/sessionitem.h"
-#include "model/interfaces/itembackupstrategy.h"
-#include "model/model/sessionitem.h"
-#include "model/model/itemutils.h"
-#include "model/model/path.h"
-#include "model/model/sessionitem.h"
+#include <qextMvvmItemBackupStrategy.h>
+#include <qextMvvmItemCopyStrategy.h>
+// 
+#include <qextMvvmSessionItem.h>
+#include <qextMvvmItemBackupStrategy.h>
+#include <qextMvvmSessionItem.h>
+#include <qextMvvmItemUtils.h>
+#include <qextMvvmPath.h>
+#include <qextMvvmSessionItem.h>
 
 #include <stdexcept>
 #include <sstream>
@@ -329,10 +329,14 @@ void RemoveItemCommand::undo_command()
 void RemoveItemCommand::execute_command()
 {
     auto parent = itemFromPath(p_impl->item_path);
-    if (auto child = parent->takeItem(p_impl->tagrow); child) {
+    auto child = parent->takeItem(p_impl->tagrow);
+    if (child)
+    {
         p_impl->backup_strategy->saveItem(child.get());
         setResult(true);
-    } else {
+    }
+    else
+    {
         setResult(false);
         setObsolete(true);
     }

@@ -11,7 +11,7 @@
 #define CONCURRENTPLOTCORE_JOBMANAGER_H
 
 #include "toysimulation.h"
-#include "model/utils/threadsafestack.h"
+#include <qextMvvmThreadSafeStack.h>
 #include <QObject>
 
 //! Handles all thread activity for running job simulation in the background.

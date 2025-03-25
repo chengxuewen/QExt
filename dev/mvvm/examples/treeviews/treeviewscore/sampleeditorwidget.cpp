@@ -9,12 +9,12 @@
 
 #include "sampleeditorwidget.h"
 #include <qextMvvmUndoStack.h>
-#include "model/model/sessionitem.h"
-#include "model/model/sessionmodel.h"
-#include "viewmodel/viewmodel/defaultviewmodel.h"
-#include "viewmodel/viewmodel/topitemsviewmodel.h"
-#include "viewmodel/viewmodel/viewitem.h"
-#include "view/widgets/standardtreeviews.h"
+#include <qextMvvmSessionItem.h>
+#include <qextMvvmSessionModel.h>
+#include <qextMvvmDefaultViewModel.h>
+#include <qextMvvmTopItemsViewModel.h>
+#include <qextMvvmViewItem.h>
+#include <qextMvvmStandardTreeViews.h>
 #include <QBoxLayout>
 #include <QLabel>
 #include <QMenu>

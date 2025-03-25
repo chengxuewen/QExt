@@ -10,8 +10,8 @@
 #ifndef LAYEREDITORCORE_MATERIALMODEL_H
 #define LAYEREDITORCORE_MATERIALMODEL_H
 
-#include "model/model/compounditem.h"
-#include "model/model/sessionmodel.h"
+#include <qextMvvmCompoundItem.h>
+#include <qextMvvmSessionModel.h>
 #include <vector>
 
 class QColor;
@@ -24,10 +24,10 @@ class QExtMvvmExternalProperty;
 
 class SLDMaterialItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_NAME = "P_NAME";
-    static inline const std::string P_COLOR = "P_COLOR";
-    static inline const std::string P_SLD_REAL = "P_SLD_REAL";
-    static inline const std::string P_SLD_IMAG = "P_SLD_IMAG";
+    static constexpr const char *P_NAME = "P_NAME";
+    static constexpr const char *P_COLOR = "P_COLOR";
+    static constexpr const char *P_SLD_REAL = "P_SLD_REAL";
+    static constexpr const char *P_SLD_IMAG = "P_SLD_IMAG";
 
     SLDMaterialItem();
 

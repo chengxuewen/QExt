@@ -8,10 +8,10 @@
 // ************************************************************************** //
 
 #include "materialmodel.h"
-#include "model/model/externalproperty.h"
-#include "model/model/itemcatalogue.h"
-#include "model/standarditems/containeritem.h"
-#include "model/standarditems/vectoritem.h"
+#include <qextMvvmExternalProperty.h>
+#include <qextMvvmItemCatalogue.h>
+#include <qextMvvmContainerItem.h>
+#include <qextMvvmVectorItem.h>
 #include <QColor>
 
 using namespace ModelView;

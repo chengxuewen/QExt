@@ -10,7 +10,7 @@
 #include "mainwindow.h"
 #include "mouse.h"
 #include "mousemodel.h"
-#include "view/widgets/standardtreeviews.h"
+#include <qextMvvmStandardTreeViews.h>
 #include <QAction>
 #include <QDebug>
 #include <QFileDialog>

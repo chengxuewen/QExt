@@ -30,8 +30,8 @@ const std::string LatticeItemType = "Lattice";
 
 class ParticleLayoutItem : public ConnectableItem {
 public:
-    static inline const std::string T_PARTICLE = "Particle";
-    static inline const std::string T_LATTICE = "Lattice";
+    static constexpr const char *T_PARTICLE = "Particle";
+    static constexpr const char *T_LATTICE = "Lattice";
     ParticleLayoutItem();
 
     std::vector<PortInfo> inputPorts() const override;
@@ -43,7 +43,7 @@ public:
 
 class ParticleItem : public ConnectableItem {
 public:
-    static inline const std::string T_TRANSFORMATION = "Transformation";
+    static constexpr const char *T_TRANSFORMATION = "Transformation";
     ParticleItem(const std::string& modelType);
 
     std::vector<PortInfo> outputPorts() const override;
@@ -55,7 +55,7 @@ public:
 class SphereItem : public ParticleItem
 {
 public:
-    static inline const std::string P_RADIUS = "Radius";
+    static constexpr const char *P_RADIUS = "Radius";
 
     SphereItem();
 };
@@ -65,8 +65,8 @@ public:
 class CylinderItem : public ParticleItem
 {
 public:
-    static inline const std::string P_RADIUS = "Radius";
-    static inline const std::string P_HEIGHT = "Height";
+    static constexpr const char *P_RADIUS = "Radius";
+    static constexpr const char *P_HEIGHT = "Height";
 
     CylinderItem();
 };

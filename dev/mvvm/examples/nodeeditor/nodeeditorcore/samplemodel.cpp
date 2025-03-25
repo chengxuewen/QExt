@@ -9,9 +9,9 @@
 
 #include "samplemodel.h"
 #include "sampleitems.h"
-#include "model/interfaces/undostackinterface.h"
-#include "model/model/modelutils.h"
-#include "model/factories/modeldocumentfactory.h"
+#include <qextMvvmUndoStackInterface.h>
+#include <qextMvvmModelUtils.h>
+#include <qextMvvmModelDocumentFactory.h>
 
 using namespace ModelView;
 

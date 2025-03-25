@@ -10,18 +10,18 @@
 #ifndef COLLIDINGMICECORE_MOUSEMODEL_H
 #define COLLIDINGMICECORE_MOUSEMODEL_H
 
-#include "model/model/compounditem.h"
-#include "model/model/sessionmodel.h"
+#include <qextMvvmCompoundItem.h>
+#include <qextMvvmSessionModel.h>
 
 //! Domain object to hold mouse info.
 
 class MouseItem : public ModelView::QExtMvvmCompoundItem {
 public:
-    static inline const std::string P_COLOR = "P_COLOR";
-    static inline const std::string P_XPOS = "P_XPOS";
-    static inline const std::string P_YPOS = "P_YPOS";
-    static inline const std::string P_ANGLE = "P_ANGLE";
-    static inline const std::string P_SPEED = "P_SPEED";
+    static constexpr const char *P_COLOR = "P_COLOR";
+    static constexpr const char *P_XPOS = "P_XPOS";
+    static constexpr const char *P_YPOS = "P_YPOS";
+    static constexpr const char *P_ANGLE = "P_ANGLE";
+    static constexpr const char *P_SPEED = "P_SPEED";
 
     MouseItem();
 };

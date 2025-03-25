@@ -16,9 +16,9 @@
 #include "sampleitems.h"
 #include "samplemodel.h"
 #include "sceneutils.h"
-#include "model/model/itemutils.h"
-#include "model/model/modelutils.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmItemUtils.h>
+#include <qextMvvmModelUtils.h>
+#include <qextMvvmWidgetUtils.h>
 #include <QDebug>
 #include <QGraphicsSceneDragDropEvent>
 #include <QMimeData>

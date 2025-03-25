@@ -10,7 +10,7 @@
 #ifndef GRAPHICSPROXYCORE_REGIONOFINTERESTITEM_H
 #define GRAPHICSPROXYCORE_REGIONOFINTERESTITEM_H
 
-#include "model/model/compounditem.h"
+#include <qextMvvmCompoundItem.h>
 
 namespace GraphicsProxy {
 

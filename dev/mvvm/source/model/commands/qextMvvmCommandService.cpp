@@ -16,8 +16,8 @@
 // #include "model/commands/removeitemcommand.h"
 // #include "model/commands/setvaluecommand.h"
 #include <qextMvvmUndoStack.h>
-#include "model/model/sessionitem.h"
-#include "model/model/sessionmodel.h"
+#include <qextMvvmSessionItem.h>
+#include <qextMvvmSessionModel.h>
 #include <stdexcept>
 
 using namespace ModelView;

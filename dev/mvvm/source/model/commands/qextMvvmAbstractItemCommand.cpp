@@ -1,17 +1,9 @@
-// ************************************************************************** //
-//
-//  Model-view-view-model framework for large GUI applications
-//
-//! @license   GNU General Public License v3 or higher (see COPYING)
-//! @authors   see AUTHORS
-//
-// ************************************************************************** //
-
-// #include "model/commands/abstractitemcommand.h"
 #include <qextMvvmAbstractItemCommand.h>
-#include "model/model/modelutils.h"
-#include "model/model/path.h"
-#include "model/model/sessionitem.h"
+
+#include <qextMvvmModelUtils.h>
+#include <qextMvvmPath.h>
+#include <qextMvvmSessionItem.h>
+
 #include <stdexcept>
 
 using namespace ModelView;

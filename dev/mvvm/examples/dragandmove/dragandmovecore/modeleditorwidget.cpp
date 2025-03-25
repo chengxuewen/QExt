@@ -11,7 +11,7 @@
 #include "containereditorwidget.h"
 #include "samplemodel.h"
 #include <qextMvvmUndoStack.h>
-#include "model/model/modelutils.h"
+#include <qextMvvmModelUtils.h>
 #include <QAction>
 #include <QHBoxLayout>
 #include <QToolBar>

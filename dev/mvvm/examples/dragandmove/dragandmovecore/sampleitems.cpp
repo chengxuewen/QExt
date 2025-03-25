@@ -8,8 +8,8 @@
 // ************************************************************************** //
 
 #include "sampleitems.h"
-#include "model/model/comboproperty.h"
-#include "model/model/externalproperty.h"
+#include <qextMvvmComboProperty.h>
+#include <qextMvvmExternalProperty.h>
 #include <QColor>
 
 namespace {

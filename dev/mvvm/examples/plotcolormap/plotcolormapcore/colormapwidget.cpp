@@ -10,8 +10,8 @@
 #include "colormapwidget.h"
 #include "colormapmodel.h"
 #include "colormappropertywidget.h"
-#include "view/plotting/colormapcanvas.h"
-#include "model/standarditems/colormapviewportitem.h"
+#include <qextMvvmColorMapCanvas.h>
+#include <qextMvvmColorMapViewPortItem.h>
 #include <QAction>
 #include <QBoxLayout>
 #include <QToolBar>

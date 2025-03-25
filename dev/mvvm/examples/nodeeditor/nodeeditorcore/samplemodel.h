@@ -10,7 +10,7 @@
 #ifndef NODEEDITORCORE_SAMPLEMODEL_H
 #define NODEEDITORCORE_SAMPLEMODEL_H
 
-#include "model/model/sessionmodel.h"
+#include <qextMvvmSessionModel.h>
 #include <string>
 
 namespace NodeEditor {

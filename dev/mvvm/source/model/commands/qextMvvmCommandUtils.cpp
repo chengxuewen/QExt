@@ -8,10 +8,9 @@
 // ************************************************************************** //
 
 #include <qextMvvmCommandUtils.h>
-// #include "model/commands/commandutils.h"
-#include "model/model/sessionmodel.h"
-#include "model/serialization/jsonitembackupstrategy.h"
-#include "model/serialization/jsonitemcopystrategy.h"
+#include <qextMvvmSessionModel.h>
+#include <qextMvvmJsonItemBackupStrategy.h>
+#include <qextMvvmJsonItemCopyStrategy.h>
 
 QExtUniquePointer<ModelView::QExtMvvmItemBackupStrategy>
 ModelView::qextMvvmCreateItemBackupStrategy(const ModelView::QExtMvvmSessionModel* model)

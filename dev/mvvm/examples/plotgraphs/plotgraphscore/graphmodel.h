@@ -10,7 +10,7 @@
 #ifndef PLOTGRAPHSCORE_GRAPHMODEL_H
 #define PLOTGRAPHSCORE_GRAPHMODEL_H
 
-#include "model/model/sessionmodel.h"
+#include <qextMvvmSessionModel.h>
 
 namespace ModelView {
 class QExtMvvmGraphViewportItem;

@@ -11,7 +11,7 @@
 #include "materialmodel.h"
 #include "materialpropertycontroller.h"
 #include "samplemodel.h"
-#include "model/factories/modeldocumentfactory.h"
+#include <qextMvvmModelDocumentFactory.h>
 
 using namespace ModelView;
 

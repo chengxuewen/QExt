@@ -8,8 +8,8 @@
 // ************************************************************************** //
 
 #include "widget.h"
-#include "view/widgets/allitemstreeview.h"
-#include "view/widgets/propertytreeview.h"
+#include <qextMvvmAllItemsTreeView.h>
+#include <qextMvvmPropertyTreeView.h>
 #include <QHBoxLayout>
 
 namespace GroupProperty {

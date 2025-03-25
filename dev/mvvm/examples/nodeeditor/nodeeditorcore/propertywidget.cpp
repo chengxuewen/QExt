@@ -10,7 +10,7 @@
 #include "propertywidget.h"
 #include "sampleitems.h"
 #include "samplemodel.h"
-#include "view/widgets/standardtreeviews.h"
+#include <qextMvvmStandardTreeViews.h>
 #include <QSplitter>
 #include <QVBoxLayout>
 #include <QTreeView>

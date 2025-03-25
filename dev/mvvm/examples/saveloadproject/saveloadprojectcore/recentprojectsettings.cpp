@@ -8,7 +8,7 @@
 // ************************************************************************** //
 
 #include "recentprojectsettings.h"
-#include "model/utils/fileutils.h"
+#include <qextMvvmFileUtils.h>
 #include <QDir>
 #include <QSettings>
 

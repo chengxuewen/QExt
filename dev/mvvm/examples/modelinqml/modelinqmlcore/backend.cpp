@@ -11,8 +11,8 @@
 #include "particlemodel.h"
 #include "particleviewmodel.h"
 #include "tablemodel.h"
-#include "viewmodel/factories/viewmodelfactory.h"
-#include "viewmodel/viewmodel/viewmodel.h"
+#include <qextMvvmViewModelFactory.h>
+#include <qextMvvmViewModel.h>
 
 using namespace ModelView;
 

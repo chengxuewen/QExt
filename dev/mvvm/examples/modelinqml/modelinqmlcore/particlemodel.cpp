@@ -8,8 +8,8 @@
 // ************************************************************************** //
 
 #include "particlemodel.h"
-#include "model/model/itemcatalogue.h"
-#include "model/standarditems/vectoritem.h"
+#include <qextMvvmItemCatalogue.h>
+#include <qextMvvmVectorItem.h>
 
 using namespace ModelView;
 

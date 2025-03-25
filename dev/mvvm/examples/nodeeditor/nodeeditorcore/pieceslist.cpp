@@ -10,7 +10,7 @@
 #include "pieceslist.h"
 #include "sampleitems.h"
 #include "sceneutils.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmWidgetUtils.h>
 #include <QDrag>
 #include <QMimeData>
 #include <QPainter>

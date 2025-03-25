@@ -10,7 +10,7 @@
 #include "nodeport.h"
 #include "connectableview.h"
 #include "nodeconnection.h"
-#include "view/widgets/widgetutils.h"
+#include <qextMvvmWidgetUtils.h>
 #include <QFont>
 #include <QPen>
 
