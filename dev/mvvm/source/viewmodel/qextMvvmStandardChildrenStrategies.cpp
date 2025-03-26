@@ -78,20 +78,25 @@ Particle
 
 std::vector<QExtMvvmSessionItem*> QExtMvvmPropertyItemsFlatStrategy::children(const QExtMvvmSessionItem* item) const
 {
-    if (!item)
-        return std::vector<QExtMvvmSessionItem*>();
+    if (!item) return std::vector<QExtMvvmSessionItem*>();
 
-    if (auto group = dynamic_cast<const QExtMvvmGroupItem*>(item); group)
-        return Utils::SinglePropertyItems(*group->currentItem());
+    auto group = dynamic_cast<const QExtMvvmGroupItem*>(item);
+    if (group) return Utils::SinglePropertyItems(*group->currentItem());
 
     std::vector<QExtMvvmSessionItem*> result;
-    for (auto child : Utils::SinglePropertyItems(*item)) {
-        if (auto group_item = dynamic_cast<QExtMvvmGroupItem*>(child); group_item) {
+    for (auto child : Utils::SinglePropertyItems(*item))
+    {
+        auto group_item = dynamic_cast<QExtMvvmGroupItem*>(child);
+        if (group_item)
+        {
             result.push_back(group_item);
             for (auto sub_property : Utils::SinglePropertyItems(*group_item->currentItem()))
+            {
                 result.push_back(sub_property);
+            }
         }
-        else {
+        else
+        {
             result.push_back(child);
         }
     }

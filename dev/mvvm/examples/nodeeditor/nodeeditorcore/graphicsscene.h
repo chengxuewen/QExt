@@ -67,8 +67,10 @@ template <typename T> inline std::vector<T*> GraphicsScene::selectedViewItems()
 {
     std::vector<T*> result;
     for (auto item : selectedItems())
-        if (auto casted = dynamic_cast<T*>(item); casted)
-            result.push_back(casted);
+    {
+        auto casted = dynamic_cast<T*>(item);
+        if (casted) result.push_back(casted);
+    }
     return result;
 }
 

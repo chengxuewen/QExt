@@ -13,16 +13,18 @@
 #include <qextMvvmJsonTagInfoConverterInterface.h>
 #include <QString>
 
-namespace ModelView {
+namespace ModelView
+{
 
 //! Default converter between QExtMvvmTagInfo and json object.
 
-class QEXT_MVVM_API QExtMvvmJsonTagInfoConverter : public QExtMvvmJsonTagInfoConverterInterface {
+class QEXT_MVVM_API QExtMvvmJsonTagInfoConverter : public QExtMvvmJsonTagInfoConverterInterface
+{
 public:
-    static inline const QString nameKey = "name";
-    static inline const QString minKey = "min";
-    static inline const QString maxKey = "max";
-    static inline const QString modelsKey = "models";
+    static constexpr const char *nameKey = "name";
+    static constexpr const char *minKey = "min";
+    static constexpr const char *maxKey = "max";
+    static constexpr const char *modelsKey = "models";
 
     QJsonObject to_json(const QExtMvvmTagInfo& tag) override;
 

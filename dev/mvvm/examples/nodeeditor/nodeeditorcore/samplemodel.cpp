@@ -36,7 +36,9 @@ void SampleModel::insertConnectableItem(const std::string& itemType, double xpos
 {
     Utils::BeginMacros(this, "insertConnectableItem");
 
-    if (auto item = dynamic_cast<ConnectableItem*>(insertNewItem(itemType)); item) {
+    auto item = dynamic_cast<ConnectableItem*>(insertNewItem(itemType));
+    if (item)
+    {
         item->setX(xpos);
         item->setY(ypos);
     }
@@ -46,16 +48,14 @@ void SampleModel::insertConnectableItem(const std::string& itemType, double xpos
 
 void SampleModel::loadFromFile(const std::string& name)
 {
-    if (name.empty())
-        return;
+    if (name.empty()) return;
     auto document = ModelView::qextMvvmCreateJsonDocument({this});
     document->load(name);
 }
 
 void SampleModel::saveToFile(const std::string& name)
 {
-    if (name.empty())
-        return;
+    if (name.empty()) return;
     auto document = ModelView::qextMvvmCreateJsonDocument({this});
     document->save(name);
 }

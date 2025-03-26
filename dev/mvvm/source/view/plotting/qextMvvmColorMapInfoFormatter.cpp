@@ -17,9 +17,10 @@ using namespace ModelView;
 namespace {
 QCPColorMap* find_colormap(QCustomPlot* custom_plot)
 {
-    for (int i = 0; i < custom_plot->plottableCount(); ++i) {
-        if (auto plottable = dynamic_cast<QCPColorMap*>(custom_plot->plottable()); plottable)
-            return plottable;
+    for (int i = 0; i < custom_plot->plottableCount(); ++i)
+    {
+        auto plottable = dynamic_cast<QCPColorMap*>(custom_plot->plottable());
+        if (plottable) return plottable;
     }
 
     return nullptr;

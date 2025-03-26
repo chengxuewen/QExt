@@ -1,1 +1,1 @@
-#include "../source/viewmodel/editors/qextMvvmSelecTableComboBoxEditor.h"
+#include "../source/viewmodel/editors/qextMvvmSelectableComboBoxEditor.h"

@@ -34,11 +34,13 @@ QExtMvvmViewportAxisItem* QExtMvvmViewportItem::yAxis() const
 void QExtMvvmViewportItem::setViewportToContent(double left, double top, double right, double bottom)
 {
     Utils::BeginMacros(this, "setViewportToContent");
-    auto [xmin, xmax] = data_xaxis_range();
-    xAxis()->set_range(xmin - (xmax - xmin) * left, xmax + (xmax - xmin) * right);
+    auto xAxisRange = data_xaxis_range();
+    xAxis()->set_range(xAxisRange.first - (xAxisRange.second - xAxisRange.first) * left,
+                       xAxisRange.second + (xAxisRange.second - xAxisRange.first) * right);
 
-    auto [ymin, ymax] = data_yaxis_range();
-    yAxis()->set_range(ymin - (ymax - ymin) * bottom, ymax + (ymax - ymin) * top);
+    auto yAxisRange = data_yaxis_range();
+    yAxis()->set_range(yAxisRange.first - (yAxisRange.second - yAxisRange.first) * bottom,
+                       yAxisRange.second + (yAxisRange.second - yAxisRange.first) * top);
     Utils::EndMacros(this);
 }
 
@@ -47,11 +49,11 @@ void QExtMvvmViewportItem::setViewportToContent(double left, double top, double 
 void QExtMvvmViewportItem::setViewportToContent()
 {
     Utils::BeginMacros(this, "setViewportToContent");
-    auto [xmin, xmax] = data_xaxis_range();
-    xAxis()->set_range(xmin, xmax);
+    auto xAxisRange = data_xaxis_range();
+    xAxis()->set_range(xAxisRange.first, xAxisRange.second);
 
-    auto [ymin, ymax] = data_yaxis_range();
-    yAxis()->set_range(ymin, ymax);
+    auto yAxisRange = data_yaxis_range();
+    yAxis()->set_range(yAxisRange.first, yAxisRange.second);
     Utils::EndMacros(this);
 }
 

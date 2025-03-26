@@ -46,11 +46,12 @@ QModelIndex QExtMvvmViewModelBase::index(int row, int column, const QModelIndex&
 
 QModelIndex QExtMvvmViewModelBase::parent(const QModelIndex& child) const
 {
-    if (auto child_item = itemFromIndex(child); child_item) {
+    auto child_item = itemFromIndex(child);
+    if (child_item)
+    {
         auto parent_item = child_item->parent();
-        return parent_item == rootItem()
-                   ? QModelIndex()
-                   : createIndex(parent_item->row(), parent_item->column(), parent_item);
+        return parent_item == rootItem() ? QModelIndex()
+                                         : createIndex(parent_item->row(), parent_item->column(), parent_item);
     }
 
     return QModelIndex();
@@ -79,13 +80,13 @@ QVariant QExtMvvmViewModelBase::data(const QModelIndex& index, int role) const
 
 bool QExtMvvmViewModelBase::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    if (!index.isValid())
-        return false;
+    if (!index.isValid()) return false;
 
-    if (auto item = itemFromIndex(index); item) {
+    auto item = itemFromIndex(index);
+    if (item)
+    {
         bool result = item->setData(value, role);
-        if (result)
-            dataChanged(index, index, QVector<int>() << role);
+        if (result) dataChanged(index, index, QVector<int>() << role);
         return result;
     }
 
@@ -167,8 +168,8 @@ void QExtMvvmViewModelBase::appendRow(QExtMvvmViewItem* parent, std::vector<QExt
 Qt::ItemFlags QExtMvvmViewModelBase::flags(const QModelIndex& index) const
 {
     Qt::ItemFlags result = QAbstractItemModel::flags(index);
-    if (auto item = itemFromIndex(index); item)
-        result |= item->flags();
+    auto item = itemFromIndex(index);
+    if (item) result |= item->flags();
     return result;
 }
 

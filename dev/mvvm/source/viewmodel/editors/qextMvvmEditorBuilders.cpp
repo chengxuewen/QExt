@@ -36,7 +36,10 @@ double getStep(double val)
 
 } // namespace
 
-namespace ModelView ::EditorBuilders {
+namespace ModelView
+{
+namespace EditorBuilders
+{
 
 builder_t BoolEditorBuilder()
 {
@@ -132,4 +135,5 @@ builder_t SelectableComboPropertyEditorBuilder()
     return builder;
 }
 
+}
 } // namespace ModelView::EditorBuilders

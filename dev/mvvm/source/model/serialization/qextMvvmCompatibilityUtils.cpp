@@ -11,7 +11,9 @@
 #include <qextMvvmGroupItem.h>
 #include <qextMvvmSessionItemContainer.h>
 
-namespace ModelView ::Compatibility {
+namespace ModelView
+{
+namespace Compatibility {
 
 /*
 Returns `true` if given QExtMvvmTagInfo is compatible with given container.
@@ -69,4 +71,5 @@ bool IsCompatibleGroupTag(const QExtMvvmSessionItemContainer& container, const Q
     return both_are_universal && same_tags && has_item && valid_tag_name;
 }
 
+}
 } // namespace ModelView::Compatibility

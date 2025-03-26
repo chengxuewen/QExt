@@ -91,8 +91,8 @@ struct QExtMvvmPropertyFlatView::PropertyFlatViewImpl {
     QExtUniquePointer<QWidget> create_widget(const QModelIndex& index)
     {
         auto view_item = view_model->viewItemFromIndex(index);
-        if (auto label_item = dynamic_cast<QExtMvvmViewLabelItem*>(view_item); label_item)
-            return create_label(label_item);
+        auto label_item = dynamic_cast<QExtMvvmViewLabelItem*>(view_item);
+        if (label_item) return create_label(label_item);
 
         return create_editor(index);
     }
@@ -102,7 +102,8 @@ struct QExtMvvmPropertyFlatView::PropertyFlatViewImpl {
     void update_mappers()
     {
         widget_mappers.clear();
-        for (int row = 0; row < view_model->rowCount(); ++row) {
+        for (int row = 0; row < view_model->rowCount(); ++row)
+        {
             auto mapper = qextMakeUnique<QDataWidgetMapper>();
             mapper->setModel(view_model.get());
             mapper->setItemDelegate(m_delegate.get());

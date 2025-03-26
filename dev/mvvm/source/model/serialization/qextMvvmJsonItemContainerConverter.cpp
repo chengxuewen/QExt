@@ -53,27 +53,33 @@ struct QExtMvvmJsonItemContainerConverter::JsonItemContainerConverterImpl {
     {
         auto array = json[QExtMvvmJsonItemFormatAssistant::itemsKey].toArray();
         if (array.size() != container.itemCount())
+        {
             throw std::runtime_error("Error in QExtMvvmJsonItemContainerConverter: size is different");
+        }
         int index{0};
-        for (const auto obj : array)
+        for (const auto &&obj : array)
+        {
             update_item(obj.toObject(), container.itemAt(index++));
+        }
     }
 
-    void create_items(const QJsonObject& json, QExtMvvmSessionItemContainer& container)
+    void create_items(const QJsonObject &json, QExtMvvmSessionItemContainer &container)
     {
-        for (const auto obj : json[QExtMvvmJsonItemFormatAssistant::itemsKey].toArray()) {
-            if (auto item = create_item(obj.toObject()); item)
-                container.insertItem(item.release(), container.itemCount());
+        for (const auto &&obj : json[QExtMvvmJsonItemFormatAssistant::itemsKey].toArray())
+        {
+            auto item = create_item(obj.toObject());
+            if (item) container.insertItem(item.release(), container.itemCount());
         }
     }
 
     //! Populates container with content reconstructed from JSON object. Container must be empty.
 
-    void populate_container(const QJsonObject& json, QExtMvvmSessionItemContainer& container)
+    void populate_container(const QJsonObject &json, QExtMvvmSessionItemContainer& container)
     {
         if (!container.empty())
-            throw std::runtime_error(
-                "Error in QExtMvvmJsonItemContainerConverter: container is not empty.");
+        {
+            throw std::runtime_error("Error in QExtMvvmJsonItemContainerConverter: container is not empty.");
+        }
 
         create_items(json, container);
     }

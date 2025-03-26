@@ -10,13 +10,13 @@
 #ifndef MVVM_UTILS_CONTAINERUTILS_H
 #define MVVM_UTILS_CONTAINERUTILS_H
 
-#include <algorithm>
+#include <vector>
 #include <complex>
 #include <iterator>
-#include <memory>
+#include <algorithm>
 #include <type_traits>
 #include <unordered_set>
-#include <vector>
+
 #include <qextMemory.h>
 #include <qextGlobal.h>
 
@@ -25,22 +25,26 @@ namespace ModelView
 namespace Utils
 {
 
-template <class T> struct is_unique_ptr : std::false_type {
-};
+template <class T> struct is_unique_ptr : std::false_type {};
+template <class T, class D> struct is_unique_ptr<QExtUniquePointer<T, D>> : std::true_type {};
 
-template <class T, class D> struct is_unique_ptr<QExtUniquePointer<T, D>> : std::true_type {
-};
+template <typename T> static inline const T &qextGet(const T &p) { return p; }
+template <typename T> static inline T *qextGet(const QExtUniquePointer<T> &p) { return p.get(); }
 
 //! Returns index corresponding to the first occurance of the item in the container.
 //! If item doesn't exist, will return -1. Works with containers containing unique_ptr.
 
-template <typename It, typename T> int IndexOfItem(It begin, It end, const T& item)
+template <typename It, typename T>
+int IndexOfItem(It begin, It end, const T& item)
 {
     It pos;
-    if QEXT_CONSTEXPR (is_unique_ptr<typename std::iterator_traits<It>::value_type>::value)
-        pos = find_if(begin, end, [&item](const typename std::iterator_traits<It>::value_type &x) { return x.get() == item; });
-    else
-        pos = find_if(begin, end, [&item](const typename std::iterator_traits<It>::value_type &x) { return x == item; });
+    // if QEXT_IF_CONSTEXPR (is_unique_ptr<typename std::iterator_traits<It>::value_type>::value)
+        // pos = find_if(begin, end, [&item](const typename std::iterator_traits<It>::value_type &x) { return x.get() == item; });
+    // else
+        // pos = find_if(begin, end, [&item](const typename std::iterator_traits<It>::value_type &x) { return x == item; });
+
+    pos = find_if(begin, end, [&item](const typename std::iterator_traits<It>::value_type &x) { return qextGet(x) == item; });
+
 
     return pos == end ? -1 : static_cast<int>(std::distance(begin, pos));
 }
@@ -48,7 +52,8 @@ template <typename It, typename T> int IndexOfItem(It begin, It end, const T& it
 //! Returns index corresponding to the first occurance of the item in the container.
 //! If item doesn't exist, will return -1. Works with containers containing unique_ptr.
 
-template <typename C, typename T> int IndexOfItem(const C& container, const T& item)
+template <typename C, typename T>
+int IndexOfItem(const C& container, const T& item)
 {
     return IndexOfItem(container.begin(), container.end(), item);
 }

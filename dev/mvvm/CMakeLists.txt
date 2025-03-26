@@ -323,10 +323,10 @@ qext_add_library(Mvvm
     source/viewmodel/editors/qextMvvmIntegerEditor.h
     source/viewmodel/editors/qextMvvmScientificDoubleEditor.cpp
     source/viewmodel/editors/qextMvvmScientificDoubleEditor.h
-    source/viewmodel/editors/qextMvvmScientificSpinbox.cpp
-    source/viewmodel/editors/qextMvvmScientificSpinbox.h
-    source/viewmodel/editors/qextMvvmScientificSpinboxEditor.cpp
-    source/viewmodel/editors/qextMvvmScientificSpinboxEditor.h
+    source/viewmodel/editors/qextMvvmScientificSpinBox.cpp
+    source/viewmodel/editors/qextMvvmScientificSpinBox.h
+    source/viewmodel/editors/qextMvvmScientificSpinBoxEditor.cpp
+    source/viewmodel/editors/qextMvvmScientificSpinBoxEditor.h
     source/viewmodel/editors/qextMvvmSelectableComboBoxEditor.cpp
     source/viewmodel/editors/qextMvvmSelectableComboBoxEditor.h
     source/viewmodel/editors/qextMvvmStyleUtils.cpp

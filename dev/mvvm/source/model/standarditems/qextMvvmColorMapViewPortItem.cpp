@@ -67,7 +67,9 @@ QExtMvvmData2DItem* QExtMvvmColorMapViewportItem::data_item() const
 
 void QExtMvvmColorMapViewportItem::update_data_range()
 {
-    if (auto dataItem = data_item(); dataItem) {
+    auto dataItem = data_item();
+    if (dataItem)
+    {
         auto values = dataItem->content();
         auto [lower, upper] = std::minmax_element(std::begin(values), std::end(values));
         zAxis()->set_range(*lower, *upper);

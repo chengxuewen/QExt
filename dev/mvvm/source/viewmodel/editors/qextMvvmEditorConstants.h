@@ -15,20 +15,24 @@
 
 #include <string>
 
-namespace ModelView::Constants {
+namespace ModelView
+{
+namespace Constants
+{
 
-const std::string BoolEditorType = "QExtMvvmBoolEditor";
-const std::string ColorEditorType = "QExtMvvmColorEditor";
-const std::string ComboPropertyEditorType = "QExtMvvmComboPropertyEditor";
-const std::string DoubleEditorType = "QExtMvvmDoubleEditor";
-const std::string ExternalPropertyEditorType = "QExtMvvmExternalPropertyEditor";
-const std::string IntegerEditorType = "QExtMvvmIntegerEditor";
-const std::string ScientficDoubleEditorType = "ScientficDoubleEditor";
-const std::string ScientficSpinBoxEditorType = "ScientficSpinBoxEditor";
-const std::string SelectableComboPropertyEditorType = "SelectableComboPropertyEditor";
+static constexpr const char *BoolEditorType = "QExtMvvmBoolEditor";
+static constexpr const char *ColorEditorType = "QExtMvvmColorEditor";
+static constexpr const char *ComboPropertyEditorType = "QExtMvvmComboPropertyEditor";
+static constexpr const char *DoubleEditorType = "QExtMvvmDoubleEditor";
+static constexpr const char *ExternalPropertyEditorType = "QExtMvvmExternalPropertyEditor";
+static constexpr const char *IntegerEditorType = "QExtMvvmIntegerEditor";
+static constexpr const char *ScientficDoubleEditorType = "ScientficDoubleEditor";
+static constexpr const char *ScientficSpinBoxEditorType = "ScientficSpinBoxEditor";
+static constexpr const char *SelectableComboPropertyEditorType = "SelectableComboPropertyEditor";
 
 const int default_double_decimals = 4; //! number of digits after decimal points
 
+}
 } // namespace ModelView::Constants
 
 #endif // MVVM_EDITORS_EDITOR_CONSTANTS_H

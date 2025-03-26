@@ -56,8 +56,8 @@ struct QExtMvvmViewportAxisPlotController::AxesPlotControllerImpl {
     //! Sets axesRange from QExtMvvmSessionItem.
     void setAxisRangeFromItem()
     {
-        auto [lower, upper] = m_self->currentItem()->range();
-        m_axis->setRange(QCPRange(lower, upper));
+        auto range = m_self->currentItem()->range();
+        m_axis->setRange(QCPRange(range.first, range.second));
     }
 
     //! Sets log scale from item.

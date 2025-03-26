@@ -122,9 +122,10 @@ void GraphicsScene::disconnectConnectedViews(NodeConnection* connection)
 
 void GraphicsScene::updateScene()
 {
-    auto on_iterate = [this](ModelView::QExtMvvmSessionItem *item) {
-        if (auto connectableItem = dynamic_cast<ConnectableItem*>(item); connectableItem)
-            processItem(connectableItem);
+    auto on_iterate = [this](ModelView::QExtMvvmSessionItem *item)
+    {
+        auto connectableItem = dynamic_cast<ConnectableItem*>(item);
+        if (connectableItem) processItem(connectableItem);
     };
     ModelView::Utils::iterate(m_model->rootItem(), on_iterate);
 }
@@ -162,15 +163,16 @@ void GraphicsScene::onDeleteSelectedRequest()
 void GraphicsScene::processItem(ConnectableItem* item)
 {
     auto itemView = findView(item);
-    if (!itemView) {
+    if (!itemView)
+    {
         itemView = new ConnectableView(item);
         m_itemToView[item] = itemView;
         addItem(itemView);
     }
 
     // If item has parent, look for parent's corresponding view. Connect it with itemView.
-    if (auto parentView = findView(dynamic_cast<ConnectableItem*>(item->parent())); parentView)
-        parentView->makeChildConnected(itemView);
+    auto parentView = findView(dynamic_cast<ConnectableItem*>(item->parent()));
+    if (parentView) parentView->makeChildConnected(itemView);
 }
 
 //! Find view for given item.

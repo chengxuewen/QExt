@@ -41,10 +41,13 @@ struct QExtMvvmData2DPlotController::Data2DPlotControllerImpl {
     {
         reset_colormap();
 
-        if (auto data_item = dataItem(); data_item) {
+        auto data_item = dataItem();
+        if (data_item)
+        {
             auto xAxis = data_item->xAxis();
             auto yAxis = data_item->yAxis();
-            if (xAxis && yAxis) {
+            if (xAxis && yAxis)
+            {
                 const int nbinsx = xAxis->size();
                 const int nbinsy = yAxis->size();
 
@@ -53,12 +56,16 @@ struct QExtMvvmData2DPlotController::Data2DPlotControllerImpl {
 
                 auto values = data_item->content();
                 for (int ix = 0; ix < nbinsx; ++ix)
+                {
                     for (int iy = 0; iy < nbinsy; ++iy)
+                    {
                         color_map->data()->setCell(ix, iy,
                                                    values[static_cast<size_t>(ix + iy * nbinsx)]);
+                    }
+                }
 
-                auto [min, max] = std::minmax_element(std::begin(values), std::end(values));
-                color_map->setDataRange(QCPRange(*min, *max));
+                auto element = std::minmax_element(std::begin(values), std::end(values));
+                color_map->setDataRange(QCPRange(*element.first, *element.second));
             }
         }
         color_map->parentPlot()->replot();

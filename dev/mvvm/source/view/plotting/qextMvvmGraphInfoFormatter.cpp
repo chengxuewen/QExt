@@ -60,7 +60,9 @@ std::string QExtMvvmGraphInfoFormatter::status_string(QCustomPlot* custom_plot, 
 {
     Context context(x, y);
 
-    if (auto qcp_graph = find_graph_nearby(custom_plot, x, y); qcp_graph) {
+    auto qcp_graph = find_graph_nearby(custom_plot, x, y);
+    if (qcp_graph)
+    {
         context.close_to_graph = true;
         context.nx = getBin(qcp_graph, x);
         context.value = qcp_graph->dataMainValue(context.nx);

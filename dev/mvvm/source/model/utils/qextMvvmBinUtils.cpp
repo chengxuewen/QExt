@@ -16,7 +16,10 @@ bool is_control_char(int ch);
 bool null_check(int* buffer, int buffer_size);
 } // namespace
 
-namespace ModelView ::Utils {
+namespace ModelView
+{
+namespace Utils
+{
 
 // length of buffer
 #define BYTE_LENGTH 2048
@@ -56,9 +59,11 @@ bool is_text(const std::string& filename)
     return (!is_binary(filename));
 }
 
+}
 } // namespace ModelView::Utils
 
-namespace {
+namespace
+{
 
 int get_buffer_size(const std::string& filename)
 {
@@ -89,4 +94,5 @@ bool null_check(int* buffer, int buffer_size)
             return true;
     return false;
 }
+
 } // namespace

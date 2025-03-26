@@ -16,7 +16,10 @@
 //! @file variant-constants.h
 //! Collection of constants with supported variant names.
 
-namespace ModelView::Constants {
+namespace ModelView
+{
+namespace Constants
+{
 
 const std::string invalid_type_name = "invalid";
 const std::string bool_type_name = "bool";
@@ -36,7 +39,7 @@ const std::string qcolor_type_name = "QColor";
 const std::string extproperty_type_name = "ModelView::QExtMvvmExternalProperty";
 const std::string reallimits_type_name = "ModelView::QExtMvvmRealLimits";
 
-
+}
 } // namespace ModelView::Constants
 
 #endif // MVVM_MODEL_VARIANT_CONSTANTS_H

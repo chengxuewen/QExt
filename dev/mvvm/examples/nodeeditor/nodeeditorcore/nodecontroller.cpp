@@ -31,7 +31,9 @@ bool NodeController::eventFilter(QObject* object, QEvent* event)
 {
     bool isProcessedEvent(false);
 
-    if (auto mouseEvent = dynamic_cast<QGraphicsSceneMouseEvent*>(event); mouseEvent) {
+    auto mouseEvent = dynamic_cast<QGraphicsSceneMouseEvent*>(event);
+    if (mouseEvent)
+    {
         if (event->type() == QEvent::GraphicsSceneMousePress)
             isProcessedEvent = processMousePress(mouseEvent);
         else if (event->type() == QEvent::GraphicsSceneMouseMove)
@@ -51,15 +53,20 @@ NodePort* NodeController::findPort(const QPointF& pos)
     area.moveCenter(pos);
 
     for (auto item : m_scene->items(area))
-        if (auto port = dynamic_cast<NodePort*>(item); port)
-            return port;
+    {
+        auto port = dynamic_cast<NodePort*>(item);
+        if (port) return port;
+    }
     return nullptr;
 }
 
 bool NodeController::processMousePress(QGraphicsSceneMouseEvent* event)
 {
-    if (!m_conn && event->button() == Qt::LeftButton) {
-        if (auto port = findPort(event->scenePos()); port) {
+    if (!m_conn && event->button() == Qt::LeftButton)
+    {
+        auto port = findPort(event->scenePos());
+        if (port)
+        {
             m_conn = new NodeConnection(m_scene);
             m_conn->setPort1(port);
             m_conn->setPos1(port->scenePos());
@@ -83,8 +90,11 @@ bool NodeController::processMouseMove(QGraphicsSceneMouseEvent* event)
 
 bool NodeController::processMouseRelease(QGraphicsSceneMouseEvent* event)
 {
-    if (m_conn && event->button() == Qt::LeftButton) {
-        if (auto port2 = findPort(event->scenePos()); port2) {
+    if (m_conn && event->button() == Qt::LeftButton)
+    {
+        auto port2 = findPort(event->scenePos());
+        if (port2)
+        {
             auto port1 = m_conn->port1();
             if (port1->isConnectable(port2)) {
                 m_conn->setPort2(port2);

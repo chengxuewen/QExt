@@ -1,1 +1,1 @@
-#include "../source/viewmodel/interfaces/qextMvvmCelldEcoratorInterface.h"
+#include "../source/viewmodel/interfaces/qextMvvmCellDecoratorInterface.h"

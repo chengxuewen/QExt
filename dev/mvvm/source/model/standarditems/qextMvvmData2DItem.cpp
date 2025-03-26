@@ -16,9 +16,15 @@ using namespace ModelView;
 namespace {
 size_t total_bin_count(QExtMvvmData2DItem* item)
 {
-    if (auto xaxis = item->xAxis(); xaxis)
-        if (auto yaxis = item->yAxis(); yaxis)
+    auto xaxis = item->xAxis();
+    if (xaxis)
+    {
+        auto yaxis = item->yAxis();
+        if (yaxis)
+        {
             return static_cast<size_t>(xaxis->size() * yaxis->size());
+        }
+    }
     return 0;
 }
 } // namespace

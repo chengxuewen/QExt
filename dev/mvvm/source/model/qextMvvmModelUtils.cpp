@@ -73,14 +73,14 @@ void Utils::MoveDown(QExtMvvmSessionItem* item)
 
 void Utils::Undo(QExtMvvmSessionModel& model)
 {
-    if (auto stack = model.undoStack(); stack)
-        stack->undo();
+    auto stack = model.undoStack();
+    if (stack) stack->undo();
 }
 
 void Utils::Redo(QExtMvvmSessionModel& model)
 {
-    if (auto stack = model.undoStack(); stack)
-        stack->redo();
+    auto stack = model.undoStack();
+    if (stack) stack->redo();
 }
 
 void Utils::BeginMacros(const QExtMvvmSessionItem* item, const std::string& macro_name)
@@ -99,16 +99,14 @@ void Utils::EndMacros(const QExtMvvmSessionItem* item)
 
 void Utils::BeginMacros(const QExtMvvmSessionModel* model, const std::string& macro_name)
 {
-    if (!model)
-        return;
-    if (auto stack = model->undoStack(); stack)
-        stack->beginMacro(macro_name);
+    if (!model) return;
+    auto stack = model->undoStack();
+    if (stack) stack->beginMacro(macro_name);
 }
 
 void Utils::EndMacros(const QExtMvvmSessionModel* model)
 {
-    if (!model)
-        return;
-    if (auto stack = model->undoStack(); stack)
-        stack->endMacro();
+    if (!model) return;
+    auto stack = model->undoStack();
+    if (stack) stack->endMacro();
 }

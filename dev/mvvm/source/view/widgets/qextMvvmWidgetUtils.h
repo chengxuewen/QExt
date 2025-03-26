@@ -23,7 +23,10 @@ class QLabel;
 
 //! Collection of various widget-related utils.
 
-namespace ModelView::Utils {
+namespace ModelView
+{
+namespace Utils
+{
 
 //! Returns random color.
 QEXT_MVVM_API QColor RandomColor();
@@ -80,6 +83,7 @@ QEXT_MVVM_API QByteArray serialize(const QStringList& data);
 //! Converts byte array to vector of strings.
 QEXT_MVVM_API QStringList deserialize(const QByteArray& byteArray);
 
+}
 } // namespace ModelView::Utils
 
 #endif // MVVM_WIDGETS_WIDGETUTILS_H

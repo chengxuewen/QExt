@@ -16,7 +16,10 @@
 #include <string>
 #include <vector>
 
-namespace ModelView::Utils {
+namespace ModelView
+{
+namespace Utils
+{
 
 //! Returns string representation of double with given precision.
 //! Provides additional formatting on top of iomanip, so "double x{0}" becomes "0.0".
@@ -54,7 +57,7 @@ QEXT_MVVM_API std::vector<double> ParseSpaceSeparatedDoubles(const std::string& 
 //! All non-numeric symbols are ingored.
 QEXT_MVVM_API void ParseSpaceSeparatedDoubles(const std::string& str,
                                                   std::vector<double>& result);
-
+}
 } // namespace ModelView::Utils
 
 #endif // MVVM_UTILS_STRINGUTILS_H

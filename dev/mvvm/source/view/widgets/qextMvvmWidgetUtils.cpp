@@ -121,9 +121,10 @@ int ModelView::Utils::SystemPointSize()
 
 QMainWindow* ModelView::Utils::FindMainWindow()
 {
-    for (auto widget : qApp->topLevelWidgets()) {
-        if (auto result = dynamic_cast<QMainWindow*>(widget); result)
-            return result;
+    for (auto widget : qApp->topLevelWidgets())
+    {
+        auto result = dynamic_cast<QMainWindow*>(widget);
+        if (result) return result;
     }
     return nullptr;
 }

@@ -9,7 +9,6 @@
 
 #include "projecthandler.h"
 #include "recentprojectsettings.h"
-#include "recentprojectwidget.h"
 #include "samplemodel.h"
 #include "userinteractor.h"
 #include <qextMvvmProjectManagerFactory.h>
@@ -94,8 +93,8 @@ void ProjectHandler::updateCurrentProjectName()
 
     // set main window title
     auto title = ModelView::Utils::ProjectWindowTitle(current_project_dir, is_modified);
-    if (auto main_window = ModelView::Utils::FindMainWindow(); main_window)
-        main_window->setWindowTitle(title);
+    auto main_window = ModelView::Utils::FindMainWindow();
+    if (main_window) main_window->setWindowTitle(title);
 
     currentProjectModified(current_project_dir, is_modified);
 }

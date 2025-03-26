@@ -22,17 +22,17 @@ namespace ModelView {
 class QEXT_MVVM_API QExtMvvmJsonItemFormatAssistant
 {
 public:
-    static inline const QString modelKey = "model";
-    static inline const QString itemDataKey = "itemData";
-    static inline const QString itemTagsKey = "itemTags";
-    static inline const QString defaultTagKey = "defaultTag";
-    static inline const QString containerKey = "containers";
-    static inline const QString tagInfoKey = "tagInfo";
-    static inline const QString itemsKey = "items";
-    static inline const QString sessionModelKey = "sessionmodel";
-    static inline const QString versionKey = "version";
-    static inline const QString roleKey = "role";
-    static inline const QString variantKey = "variant";
+    static constexpr const char *modelKey = "model";
+    static constexpr const char *itemDataKey = "itemData";
+    static constexpr const char *itemTagsKey = "itemTags";
+    static constexpr const char *defaultTagKey = "defaultTag";
+    static constexpr const char *containerKey = "containers";
+    static constexpr const char *tagInfoKey = "tagInfo";
+    static constexpr const char *itemsKey = "items";
+    static constexpr const char *sessionModelKey = "sessionmodel";
+    static constexpr const char *versionKey = "version";
+    static constexpr const char *roleKey = "role";
+    static constexpr const char *variantKey = "variant";
 
     bool isSessionItem(const QJsonObject& json) const;
     bool isSessionItemData(const QJsonObject& json) const;

@@ -30,7 +30,9 @@ QExtMvvmWheelEventFilter::QExtMvvmWheelEventFilter(QObject* parent) : QObject(pa
 
 bool QExtMvvmWheelEventFilter::eventFilter(QObject* obj, QEvent* event)
 {
-    if (auto spinBox = qobject_cast<QAbstractSpinBox*>(obj); spinBox) {
+    auto spinBox = qobject_cast<QAbstractSpinBox*>(obj);
+    if (spinBox)
+    {
         if (event->type() == QEvent::Wheel) {
             if (spinBox->focusPolicy() == Qt::WheelFocus) {
                 event->accept();
@@ -48,12 +50,19 @@ bool QExtMvvmWheelEventFilter::eventFilter(QObject* obj, QEvent* event)
             spinBox->setFocusPolicy(Qt::StrongFocus);
         }
     }
-    else if (auto comboBox = qobject_cast<QComboBox*>(obj); comboBox) {
-        if (event->type() == QEvent::Wheel) {
-            event->ignore();
-            return true;
+    else
+    {
+        auto comboBox = qobject_cast<QComboBox*>(obj);
+        if (comboBox)
+        {
+            if (event->type() == QEvent::Wheel)
+            {
+                event->ignore();
+                return true;
+            }
         }
-        else {
+        else
+        {
             event->accept();
             return false;
         }

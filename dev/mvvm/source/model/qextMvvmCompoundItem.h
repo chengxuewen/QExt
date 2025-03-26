@@ -15,6 +15,7 @@
 #include <qextMvvmSessionItem.h>
 #include <qextMvvmTagInfo.h>
 #include <qextMvvmRealLimits.h>
+#include <qextGlobal.h>
 
 namespace ModelView {
 
@@ -57,8 +58,10 @@ QExtMvvmPropertyItem* QExtMvvmCompoundItem::addProperty(const std::string& name,
 {
     auto property = addProperty<QExtMvvmPropertyItem>(name);
     property->setData(value);
-    if constexpr (std::is_floating_point<V>::value)
+    if QEXT_IF_CONSTEXPR (std::is_floating_point<V>::value)
+    {
         property->setData(QExtMvvmRealLimits::limitless(), ItemDataRole::LIMITS);
+    }
     return property;
 }
 

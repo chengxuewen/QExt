@@ -14,7 +14,9 @@
 #include <string>
 #include <vector>
 
-namespace ModelView::Utils {
+namespace ModelView
+{
+ namespace Utils {
 
 //! Returns true if file exists.
 QEXT_MVVM_API bool exists(const std::string& fileName);
@@ -45,6 +47,7 @@ QEXT_MVVM_API std::string parent_path(const std::string& path);
 //! Returns true if the file indicated by 'path' refers to empty file or directory.
 QEXT_MVVM_API bool is_empty(const std::string& path);
 
+}
 } // namespace ModelView::Utils
 
 #endif // MVVM_UTILS_FILEUTILS_H
