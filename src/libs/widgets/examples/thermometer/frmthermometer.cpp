@@ -37,7 +37,7 @@ void frmThermometer::initForm()
 
     //初始化随机数种子
     QTime t = QTime::currentTime();
-    qsrand(t.msec() + t.second() * 1000);
+    QEXT_RANDOM_INT_SEED(t.msec() + t.second() * 1000);
 
     QTimer *timer = new QTimer(this);
     timer->setInterval(2000);
@@ -48,9 +48,9 @@ void frmThermometer::initForm()
 
 void frmThermometer::updateValue()
 {
-    ui->thermometer1->setValue(qrand() % 100);
-    ui->thermometer2->setValue(qrand() % 100);
-    ui->thermometer3->setValue(qrand() % 100);
-    ui->thermometer4->setValue(qrand() % 100);
-    ui->thermometer5->setValue(qrand() % 100);
+    ui->thermometer1->setValue(QEXT_RANDOM_INT() % 100);
+    ui->thermometer2->setValue(QEXT_RANDOM_INT() % 100);
+    ui->thermometer3->setValue(QEXT_RANDOM_INT() % 100);
+    ui->thermometer4->setValue(QEXT_RANDOM_INT() % 100);
+    ui->thermometer5->setValue(QEXT_RANDOM_INT() % 100);
 }

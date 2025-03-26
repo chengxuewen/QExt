@@ -349,7 +349,7 @@ template <typename T> struct QExtIsRValueReference<T&&> : public QExtTrueType {}
 #endif
 
 template <typename T> struct QExtIsReference
-    : public QExtIntegralConstant<bool, QExtIsLValueReference<T>::value || QExtIsRValueReference<T>::value> {};
+    : public QExtIntegralConstant<bool, QExtIsLValueReference<QExtRemoveConstVolatile<T> >::value || QExtIsRValueReference<T>::value> {};
 
 
 /***********************************************************************************************************************

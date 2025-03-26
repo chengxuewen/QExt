@@ -15,11 +15,11 @@ public:
     explicit QExtCheckComboBoxModel(QObject *parent = QEXT_NULLPTR);
     ~QExtCheckComboBoxModel() QEXT_OVERRIDE;
 
-    QVariant data(const QModelIndex &index, int role) const;
-    Qt::ItemFlags flags(const QModelIndex &index) const override;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+    QVariant data(const QModelIndex &index, int role) const QEXT_OVERRIDE;
+    Qt::ItemFlags flags(const QModelIndex &index) const QEXT_OVERRIDE;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const QEXT_OVERRIDE;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const QEXT_OVERRIDE;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) QEXT_OVERRIDE;
 
     void removeItem(const QString &text);
 

@@ -36,7 +36,7 @@ void frmWaveChart::initForm()
     ui->waveChart2->setHLineVisible(false);
 
     QTime t = QTime::currentTime();
-    qsrand(t.msec() + t.second() * 1000);
+    QEXT_RANDOM_INT_SEED(t.msec() + t.second() * 1000);
 
     timer = new QTimer(this);
     timer->setInterval(20);
@@ -45,11 +45,11 @@ void frmWaveChart::initForm()
 
 void frmWaveChart::addData()
 {
-    int value1 = qrand() % 130;
+    int value1 = QEXT_RANDOM_INT() % 130;
     value1 = (value1 < 20 ? 20 : value1);
     ui->waveChart1->addData(value1);
 
-    int value2 = qrand() % 80;
+    int value2 = QEXT_RANDOM_INT() % 80;
     value2 = (value2 < 20 ? 20 : value2);
     ui->waveChart2->addData(value2);
 }
@@ -91,8 +91,9 @@ void frmWaveChart::on_btnSetData_clicked()
     on_btnClearData_clicked();
 
     QVector<double> data;
-    for (int i = 0; i < 100; i++) {
-        int value = qrand() % 80;
+    for (int i = 0; i < 100; i++)
+    {
+        int value = QEXT_RANDOM_INT() % 80;
         value = (value < 20 ? 20 : value);
         data.push_front(value);
     }
