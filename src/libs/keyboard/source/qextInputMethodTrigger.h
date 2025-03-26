@@ -29,7 +29,7 @@ protected Q_SLOTS:
 protected:
     QExtInputMethodTrigger(QObject *parent = nullptr);
 
-    bool eventFilter(QObject *watched, QEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event) QEXT_OVERRIDE;
 
     QScopedPointer<QExtInputMethodTriggerPrivate> dd_ptr;
 

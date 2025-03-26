@@ -1,6 +1,8 @@
 #include "plotdata.h"
 #include "qwtquick2.h"
 
+#include <qextGlobal.h>
+
 #include <qwt_plot.h>
 #include <qwt_plot_curve.h>
 #include <qwt_plot_renderer.h>
@@ -104,7 +106,7 @@ void QwtQuick2Plot::wheelEvent(QWheelEvent* event)
 void QwtQuick2Plot::timerEvent(QTimerEvent* /*event*/)
 {
     static double t, U;
-    U = (static_cast<double>(qrand()) / RAND_MAX) * 5;
+    U = (static_cast<double>(QEXT_RANDOM_INT()) / RAND_MAX) * 5;
 
     m_curve1_data.append(QPointF(t, U));
 

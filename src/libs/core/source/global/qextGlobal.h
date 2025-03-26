@@ -67,7 +67,16 @@
 
 
 /***********************************************************************************************************************
-    QExt compiler CXX11 feature macro declare
+    QExt compiler cxx standard macro declare
+***********************************************************************************************************************/
+#define QEXT_CXX_STANDARD11 (QEXT_CXX_STANDARD >= 11)
+#define QEXT_CXX_STANDARD14 (QEXT_CXX_STANDARD >= 14)
+#define QEXT_CXX_STANDARD17 (QEXT_CXX_STANDARD >= 17)
+#define QEXT_CXX_STANDARD20 (QEXT_CXX_STANDARD >= 20)
+
+
+/***********************************************************************************************************************
+    QExt compiler cxx11 feature macro declare
 ***********************************************************************************************************************/
 #if QEXT_CC_FEATURE_NULLPTR
 #   define QEXT_NULLPTR nullptr
@@ -134,6 +143,16 @@
 
 
 /***********************************************************************************************************************
+    QExt compiler cxx17 feature macro declare
+***********************************************************************************************************************/
+#if QEXT_CXX_STANDARD17 && QEXT_CC_FEATURE_CONSTEXPR
+#   define QEXT_IF_CONSTEXPR constexpr
+#else
+#   define QEXT_IF_CONSTEXPR
+#endif
+
+
+/***********************************************************************************************************************
     QExt disable copy move macro declare
 ***********************************************************************************************************************/
 // disable copy macro define
@@ -155,24 +174,24 @@
     QEXT_DECL_DISABLE_COPY(Class) \
     QEXT_DECL_DISABLE_MOVE(Class)
 
-
-template <typename T> inline T *qextGetPtrHelper(T *ptr) { return ptr; }
-template <typename Wrapper> static inline typename Wrapper::pointer qextGetPtrHelper(const Wrapper &p) { return p.data(); }
+template <typename T> inline T *qextGetPointer(T *ptr) { return ptr; }
+template <typename T> inline const T *qextGetPointer(const T *ptr) { return ptr; }
+template <typename Wrapper> static inline typename Wrapper::pointer qextGetPointer(const Wrapper &p) { return p.data(); }
 
 // The body must be a statement:
 #define QEXT_CAST_IGNORE_ALIGN(body) QEXT_WARNING_PUSH QEXT_WARNING_DISABLE_GCC("-Wcast-align") body QEXT_WARNING_POP
 #define QEXT_DECL_PRIVATE(Class) \
     inline Class##Private *d_func() \
-    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(d_ptr));) } \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPointer(d_ptr));) } \
     inline const Class##Private *d_func() const \
-    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(d_ptr));) } \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPointer(d_ptr));) } \
     friend class Class##Private;
 
 #define QEXT_DECL_PRIVATE_D(Dptr, Class) \
     inline Class##Private *d_func() \
-    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPtrHelper(Dptr));) } \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<Class##Private *>(qextGetPointer(Dptr));) } \
     inline const Class##Private *d_func() const \
-    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPtrHelper(Dptr));) } \
+    { QEXT_CAST_IGNORE_ALIGN(return reinterpret_cast<const Class##Private *>(qextGetPointer(Dptr));) } \
     friend class Class##Private;
 
 #define QEXT_DECL_PUBLIC(Class) \
@@ -222,6 +241,15 @@ inline void qextMetaEnum(const QVariant &variant)
 
 #endif
 }
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+#   include <QRandomGenerator>
+#   define QEXT_RANDOM_INT_SEED(x) QRandomGenerator::global()->seed(quint32(x))
+#   define QEXT_RANDOM_INT() int(QRandomGenerator::global()->generate())
+#else
+#   define QEXT_RANDOM_INT_SEED(x) qsrand(uint(x))
+#   define QEXT_RANDOM_INT() qrand()
+#endif
 
 
 /***********************************************************************************************************************

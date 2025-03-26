@@ -1412,7 +1412,7 @@ const QExtScroller *QExtScroller::scroller(const QObject *target)
 */
 QList<QExtScroller *> QExtScroller::activeScrollers()
 {
-    return qext_activeScrollers()->toList();
+    return qext_activeScrollers()->values();
 }
 
 /*!

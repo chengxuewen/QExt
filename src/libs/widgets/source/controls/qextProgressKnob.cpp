@@ -357,7 +357,7 @@ void QExtProgressKnob::setEasingCurve()
 {
     Q_D(QExtProgressKnob);
 
-    int index = qrand() % 40;
+    int index = QEXT_RANDOM_INT() % 40;
     d->m_animation->setEasingCurve((QEasingCurve::Type)index);
 }
 
