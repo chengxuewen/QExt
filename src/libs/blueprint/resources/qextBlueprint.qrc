@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/QExtBlueprint">
+        <file>DefaultStyle.json</file>
+    </qresource>
+</RCC>

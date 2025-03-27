@@ -1,7 +1,7 @@
 ﻿import QtQuick 2.9
 import QtQuick.Controls 2.9
 
-import QExtQml.FontIcon 1.2
+import QExtQml.FontIcon 1.3
 import QExtQuick.Controls 1.3
 
 Flickable {
@@ -12,7 +12,7 @@ Flickable {
             spacing: 18
             Repeater{
                 model: [
-                    { s: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_bus), c: "#46A0FC" },
+                    { s: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_bug), c: "#46A0FC" },
                     { s: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_cog), c: "#46A0FC" },
                     { s: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_qq), c: "#6AC044" },
                     { s: QExtQmlFontAwesome.fontUrl(QExtQmlFontAwesome.FA_github), c: "#6AC044" },

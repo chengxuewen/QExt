@@ -1,1 +1,1 @@
-#include "../../source/widgets/qextSelectSlider_p.h"
+﻿#include "../../source/controls/inputs/qextSelectSlider_p.h"

@@ -55,7 +55,7 @@ qext_add_library(${QEXT_LIB_NAME}
     source/qextPainter.h
     source/qextWindowUtils.cpp
     source/qextWindowUtils.h
-    resource/qextGui.qrc
+    resources/qextGui.qrc
     PRECOMPILED_HEADER
     source/qextGuiPch.h
     PUBLIC_LIBRARIES

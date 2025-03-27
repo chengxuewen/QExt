@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -27,11 +27,15 @@
 
 #include <nonstd/optional.hpp>
 
-#define qextOptionalSwap std::swap
-#define qextOptionalInPlace nonstd::in_place
+#define qextSwapOptional std::swap
+#define qextInPlaceOptional nonstd::in_place
+#define qextMakeOptional nonstd::make_optional
+
+#define qextOptionalSwap qextSwapOptional
+#define qextOptionalMake qextMakeOptional
+#define qextOptionalInPlace qextInPlaceOptional
 #define qextOptionalInPlaceType nonstd::in_place_type
 #define qextOptionalInPlaceIndex nonstd::in_place_index
-#define qextOptionalMakeOptional nonstd::make_optional
 
 #define QEXT_OPTIONAL_HAVE_STD_OPTIONAL optional_HAVE_STD_OPTIONAL
 #define QEXT_OPTIONAL_HAVE_TWEAK_HEADER optional_HAVE_TWEAK_HEADER
@@ -58,9 +62,9 @@
 
 #define QEXT_OPTIONAL_USES_STD_OPTIONAL optional_USES_STD_OPTIONAL
 
+#define QExtNullopt nonstd::nullopt
+#define QExtNulloptT nonstd::nullopt_t
 #define QExtOptional nonstd::optional
-#define QExtOptionalNullopt nonstd::nullopt
-#define QExtOptionalNulloptT nonstd::nullopt_t
 #define QExtBadOptionalAccess nonstd::bad_optional_access
 
 #endif // _QEXTOPTIONAL_H

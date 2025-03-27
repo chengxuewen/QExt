@@ -214,8 +214,7 @@ void QExtQml::registerTypes(const char *url)
     qmlRegisterType<QExtObject>( QEXT_QML_MODULE_URI, major, minor, "QExtObject");
     qmlRegisterType<QExtQmlFontIconInfo>( QEXT_QML_MODULE_URI, major, minor, "QExtQmlFontIconInfo");
 
-    qmlRegisterType(QUrl("qrc:/QExtQml/source/qml/QExtQmlObject.qml"),
-                    QEXT_QML_MODULE_URI, major, minor, "QExtQmlObject");
+    qmlRegisterType(QUrl("qrc:/QExtQml/qml/QExtQmlObject.qml"), QEXT_QML_MODULE_URI, major, minor, "QExtQmlObject");
 }
 
 void QExtQml::initQmlEngine(QQmlEngine *engine, const char *uri)

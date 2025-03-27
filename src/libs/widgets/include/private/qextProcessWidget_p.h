@@ -1,1 +1,1 @@
-#include "../../source/widgets/qextProcessWidget_p.h"
+﻿#include "../../source/controls/displays/qextProcessWidget_p.h"

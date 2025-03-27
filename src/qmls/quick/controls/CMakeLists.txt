@@ -77,7 +77,7 @@ qt_internal_add_qml_module(QuickControls
     source/qextQuickTriangleItem.h
     source/qextQuickWorld.cpp
     source/qextQuickWorld.h
-    qextQuickControls.qrc
+    resources/qextQuickControls.qrc
     PRECOMPILED_HEADER
     source/qextQuickControlPch.h
     DEFINES

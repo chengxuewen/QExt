@@ -1,1 +1,1 @@
-#include "../source/widgets/qextRangeSlider.h"
+#include "../source/controls/inputs/qextRangeSlider.h"
