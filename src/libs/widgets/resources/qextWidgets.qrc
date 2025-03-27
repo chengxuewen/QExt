@@ -189,5 +189,47 @@
         <file>stylethemes/fluent/fonts/OpenSans-SemiBoldItalic.ttf</file>
         <file>stylethemes/fluent/themes/Dark.xml</file>
         <file>stylethemes/fluent/themes/Light.xml</file>
+        <file>stylethemes/flat/flat_icon.svg</file>
+        <file>stylethemes/flat/flat.css.template</file>
+        <file>stylethemes/flat/flat.json</file>
+        <file>stylethemes/flat/fonts/LICENSE.txt</file>
+        <file>stylethemes/flat/fonts/OpenSans-Bold.ttf</file>
+        <file>stylethemes/flat/fonts/OpenSans-BoldItalic.ttf</file>
+        <file>stylethemes/flat/fonts/OpenSans-ExtraBold.ttf</file>
+        <file>stylethemes/flat/fonts/OpenSans-ExtraBoldItalic.ttf</file>
+        <file>stylethemes/flat/fonts/OpenSans-Italic.ttf</file>
+        <file>stylethemes/flat/fonts/OpenSans-Light.ttf</file>
+        <file>stylethemes/flat/fonts/OpenSans-LightItalic.ttf</file>
+        <file>stylethemes/flat/fonts/OpenSans-Regular.ttf</file>
+        <file>stylethemes/flat/fonts/OpenSans-SemiBold.ttf</file>
+        <file>stylethemes/flat/fonts/OpenSans-SemiBoldItalic.ttf</file>
+        <file>stylethemes/flat/svgs/arrow_drop_up.svg</file>
+        <file>stylethemes/flat/svgs/arrow_upward.svg</file>
+        <file>stylethemes/flat/svgs/calendar_today.svg</file>
+        <file>stylethemes/flat/svgs/cancel.svg</file>
+        <file>stylethemes/flat/svgs/check_box_outline_blank.svg</file>
+        <file>stylethemes/flat/svgs/check_box.svg</file>
+        <file>stylethemes/flat/svgs/check_circle.svg</file>
+        <file>stylethemes/flat/svgs/check.svg</file>
+        <file>stylethemes/flat/svgs/chevron_right.svg</file>
+        <file>stylethemes/flat/svgs/close.svg</file>
+        <file>stylethemes/flat/svgs/create_new_folder.svg</file>
+        <file>stylethemes/flat/svgs/delete.svg</file>
+        <file>stylethemes/flat/svgs/double_arrow.svg</file>
+        <file>stylethemes/flat/svgs/drag_indicator_horizontal.svg</file>
+        <file>stylethemes/flat/svgs/east.svg</file>
+        <file>stylethemes/flat/svgs/expand_less.svg</file>
+        <file>stylethemes/flat/svgs/flip_to_front.svg</file>
+        <file>stylethemes/flat/svgs/folder_open.svg</file>
+        <file>stylethemes/flat/svgs/help.svg</file>
+        <file>stylethemes/flat/svgs/horizontal_rule.svg</file>
+        <file>stylethemes/flat/svgs/indeterminate_check_box.svg</file>
+        <file>stylethemes/flat/svgs/radio_button_checked.svg</file>
+        <file>stylethemes/flat/svgs/radio_button_unchecked.svg</file>
+        <file>stylethemes/flat/svgs/restart_alt.svg</file>
+        <file>stylethemes/flat/svgs/save.svg</file>
+        <file>stylethemes/flat/svgs/vertical_line.svg</file>
+        <file>stylethemes/flat/themes/Dark.xml</file>
+        <file>stylethemes/flat/themes/Light.xml</file>
     </qresource>
 </RCC>

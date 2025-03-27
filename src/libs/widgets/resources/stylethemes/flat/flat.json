@@ -1,0 +1,67 @@
+{
+    "name" : "flat",
+    "icon" : "flat_icon.svg",
+    "css_template" : "flat.css.template",
+    "default_theme" : "Light",
+
+    "variables" : {
+        "font_family" : "Open Sans",
+        "font_size" : "12px",
+        "line_height" : "12px",
+        "danger" :  "#dc3545",
+        "warning" : "#ffc107",
+        "success" : "#17a2b8"
+    },
+
+    "resources" : {
+        "primary" : {
+            "#0000ff" : "primaryColor",
+            "#ff0000" : "secondaryColor",
+            "#000000" : "#ffffff00"
+        },
+        "disabled" : {
+            "#0000ff" : "secondaryLightColor",
+            "#ff0000" : "secondaryColor",
+            "#000000" : "#ffffff00"
+        }
+    },
+
+    "icon_default_color" : "secondaryTextColor",
+    "icon_colors" : {
+        "#ffffff" : "secondaryTextColor",
+        "#03b8e5" : "secondaryTextColor",
+        "#2c2c2c" : "secondaryTextColor"
+    },
+
+    "palette" : {
+        "active" : {
+            "Window" : "secondaryDarkColor",
+            "WindowText" : "secondaryTextColor",
+            "Base" : "secondaryDarkColor",
+            "AlternateBase" : "",
+            "ToolTipBase" : "",
+            "ToolTipText" : "",
+            "PlaceholderText" : "",
+            "Text" : "secondaryTextColor",
+            "Button" : "secondaryDarkColor",
+            "ButtonText" : "secondaryTextColor",
+            "BrightText" : "",
+            "Link": "secondaryDarkColor",
+            "Highlight" : "",
+            "HighlightedText" : "secondaryDarkColor",
+            "Light" : "secondaryColor",
+            "Midlight" : "",
+            "Dark" : "",
+            "Mid" : "",
+            "Shadow" : ""
+        },
+
+        "inactive" : {
+
+        },
+
+        "disabled" : {
+
+        }
+    }
+}
