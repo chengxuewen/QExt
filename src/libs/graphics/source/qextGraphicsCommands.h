@@ -1,4 +1,4 @@
-#ifndef _QEXTGRAPHICSCOMMANDS_H
+﻿#ifndef _QEXTGRAPHICSCOMMANDS_H
 #define _QEXTGRAPHICSCOMMANDS_H
 
 #include "qextGraphicsScene.h"
@@ -15,6 +15,7 @@ public:
     void redo() QEXT_OVERRIDE;
 
 private:
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsMoveShapeCommand)
     QList<QGraphicsItem *> m_items;
     QGraphicsScene *m_scene;
     QGraphicsItem  *m_item;
@@ -38,6 +39,7 @@ public:
     int id() const QEXT_OVERRIDE { return Id; }
 
 private:
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsResizeShapeCommand)
     QGraphicsItem *m_item;
     QPointF m_scale;
     bool m_resized;
@@ -60,6 +62,7 @@ public:
     int id() const QEXT_OVERRIDE { return Id; }
 
 private:
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsControlShapeCommand)
     QGraphicsItem *m_item;
     QPointF m_lastPos;
     QPointF m_newPos;
@@ -77,6 +80,7 @@ public:
     void redo() QEXT_OVERRIDE;
 
 private:
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsRotateShapeCommand)
     QGraphicsItem *m_item;
     qreal m_oldAngle;
     qreal m_newAngle;
@@ -93,6 +97,7 @@ public:
     void redo() QEXT_OVERRIDE;
 
 private:
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsRemoveShapeCommand)
     QList<QGraphicsItem *> m_items;
     QGraphicsScene *m_scene;
 };
@@ -108,6 +113,7 @@ public:
     void redo() QEXT_OVERRIDE;
 
 private:
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsGroupShapeCommand)
     QList<QGraphicsItem *> m_items;
     QGraphicsItemGroup * m_group;
     QGraphicsScene *m_scene;
@@ -125,6 +131,7 @@ public:
     void redo() QEXT_OVERRIDE;
 
 private:
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsUnGroupShapeCommand)
     QList<QGraphicsItem *> m_items;
     QGraphicsItemGroup * m_group;
     QGraphicsScene *m_scene;
@@ -141,6 +148,7 @@ public:
     void redo() QEXT_OVERRIDE;
 
 private:
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsAddShapeCommand)
     QGraphicsItem *m_diagramItem;
     QGraphicsScene *m_scene;
     QPointF m_initPosition;

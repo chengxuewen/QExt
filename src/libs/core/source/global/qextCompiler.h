@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -911,11 +911,10 @@
 #ifndef QEXT_INLINE_TEMPLATE
     #define QEXT_INLINE_TEMPLATE inline
 #endif
-
-#ifdef __has_feature
-#   define QEXT_CC_HAS_FEATURE(x) __has_feature(x)
-#else
+#ifndef __has_feature
 #   define QEXT_CC_HAS_FEATURE(x) 0
+#else
+#   define QEXT_CC_HAS_FEATURE(x) __has_feature(x)
 #endif
 
 #endif // _QEXTCOMPILER_H

@@ -18,6 +18,7 @@ public:
 
 private:
     QVector<QJsonValue> keyboardRows;
+    QEXT_DISABLE_COPY_MOVE(QExtKeyboardLayout)
 };
 
 #endif // _QEXTKEYBOARDLAYOUT_H

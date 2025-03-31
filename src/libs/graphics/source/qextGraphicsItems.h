@@ -1,4 +1,4 @@
-#ifndef _QEXTGRAPHICSITEMS_H
+﻿#ifndef _QEXTGRAPHICSITEMS_H
 #define _QEXTGRAPHICSITEMS_H
 
 #include <qextGraphicsHandles.h>
@@ -26,6 +26,7 @@ public:
 
 protected:
     QList<QGraphicsItem *> m_items;
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsShapeMimeData)
 };
 
 template <typename BaseType = QGraphicsItem>
@@ -556,6 +557,7 @@ protected:
 
 private:
     bool m_isBezier;
+    QEXT_DISABLE_COPY_MOVE(QExtGraphicsBezierItem)
 };
 
 #endif // _QEXTGRAPHICSITEMS_H

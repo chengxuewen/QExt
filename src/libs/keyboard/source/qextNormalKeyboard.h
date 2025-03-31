@@ -1,4 +1,4 @@
-#ifndef _QEXTNORMALKEYBOARD_H
+﻿#ifndef _QEXTNORMALKEYBOARD_H
 #define _QEXTNORMALKEYBOARD_H
 
 #include <qextKeyboardGlobal.h>
@@ -42,6 +42,7 @@ private:
     Ui::QExtNormalKeyboard *ui;
     Qt::KeyboardModifiers m_modifier;
     QMap<QAbstractButton*,Qt::Key> m_letterkeys;
+    QEXT_DISABLE_COPY_MOVE(QExtNormalKeyboard)
 };
 
 #endif // _QEXTNORMALKEYBOARD_H

@@ -1,4 +1,4 @@
-#ifndef _QEXTNUMBERKEYBOARD_H
+﻿#ifndef _QEXTNUMBERKEYBOARD_H
 #define _QEXTNUMBERKEYBOARD_H
 
 #include <qextKeyboardGlobal.h>
@@ -19,6 +19,7 @@ public:
 
 private:
     Ui::QExtNumberKeyboard *ui;
+    QEXT_DISABLE_COPY_MOVE(QExtNumberKeyboard)
 };
 
 #endif // _QEXTNUMBERKEYBOARD_H

@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -67,6 +67,7 @@ private:
 class QExtNavListView : public QListView
 {
     Q_OBJECT
+    QEXT_DISABLE_COPY_MOVE(QExtNavListView)
 public:
     explicit QExtNavListView(QWidget *parent = QEXT_NULLPTR) : QListView(parent) { }
     ~QExtNavListView() QEXT_OVERRIDE {}
@@ -85,6 +86,7 @@ protected:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const QEXT_OVERRIDE;
 
 private:
+    QEXT_DISABLE_COPY_MOVE(QExtNavListDelegate)
     QFont m_iconFont;
     QExtNavigationListViewPrivate *m_navData;
     QExtNavigationListView * const m_navListView;
