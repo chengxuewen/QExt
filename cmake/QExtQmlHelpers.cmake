@@ -1441,14 +1441,13 @@ function(qext_internal_qml_type_registration target)
     # message(plugin_types_file=${plugin_types_file})
     # message(arg_PLUGIN_TARGET=${arg_PLUGIN_TARGET})
     # message(QEXT_QML_OUTPUT_DIRECTORY=${QEXT_QML_OUTPUT_DIRECTORY})
-    if(TARGET ${arg_PLUGIN_TARGET})
+    if(TARGET ${arg_PLUGIN_TARGET} AND EXISTS "${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE}")
         add_custom_command(
             TARGET ${arg_PLUGIN_TARGET}
             COMMAND
             ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE} -v -nonrelocatable ${import_name} ${import_version} ${QEXT_QML_OUTPUT_DIRECTORY}
             -output ${plugin_types_file}
-            DEPENDS
-            "${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE}"
+#            DEPENDS "${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE}"
             COMMENT "Running qmlplugindump for ${import_name} qml module"
             POST_BUILD)
     endif()
