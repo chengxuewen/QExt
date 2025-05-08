@@ -94,7 +94,7 @@ set(QExtWrapQwt_INSTALL_DLLDIR "${QExtWrapQwt_INSTALL_DIR}/${QEXT_INSTALL_DLLDIR
 qext_get_files("${QExtWrapQwt_INSTALL_DLLDIR}" QExtWrapQwt_LIBRARIES)
 execute_process(
     COMMAND ${CMAKE_COMMAND} -E make_directory "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}/"
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QExtWrapQwt_LIBRARIES}"
+#    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QExtWrapQwt_LIBRARIES}"
     "${QEXT_BUILD_DIR}/${QEXT_INSTALL_DLLDIR}/"
     WORKING_DIRECTORY "${QExtWrapQwt_ROOT_DIR}"
     ERROR_QUIET)

@@ -10,7 +10,7 @@ Column{
             id:button
             height: 40
             text: "Loose"
-            onClicked: popover.openToGlobal(button,mouseX,mouseY)
+            onClicked: popover.openToGlobal(button, mouseX, mouseY)
         }
 
         // Button{

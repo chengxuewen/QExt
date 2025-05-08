@@ -144,7 +144,7 @@ function(qt_internal_add_qml_module target)
     elseif(NOT arg_PLUGIN_TARGET)
         set(arg_PLUGIN_TARGET ${target}plugin)
     endif()
-    # message(arg_PLUGIN_TARGET=${arg_PLUGIN_TARGET})
+     message(arg_PLUGIN_TARGET=${arg_PLUGIN_TARGET})
 
     set(plugin_args "")
     if(arg_NO_PLUGIN OR NOT arg_PLUGIN_TARGET STREQUAL target)
@@ -304,7 +304,7 @@ function(qt_internal_add_qml_module target)
         list(APPEND add_qml_module_args TYPE_COMPILER_NAMESPACE ${qext_namespace})
     endif()
     # Update the backing and plugin targets with qml-specific things.
-    # message(add_qml_module_args=${add_qml_module_args})
+#     message(add_qml_module_args=${add_qml_module_args})
     qt6_add_qml_module(${target}
         ${add_qml_module_args}
         __QT_INTERNAL_INSTALL_METATYPES_JSON
@@ -1437,17 +1437,16 @@ function(qext_internal_qml_type_registration target)
     set(generated_marker_file "${target_binary_dir}/.generated/${qmltypes_output_name}")
     get_filename_component(generated_marker_dir "${generated_marker_file}" DIRECTORY)
     set_target_properties(${target} PROPERTIES QEXT_QML_MODULE_PLUGIN_TYPES_FILE ${plugin_types_file})
-    # message(output_dir=${output_dir})
-    # message(plugin_types_file=${plugin_types_file})
-    # message(arg_PLUGIN_TARGET=${arg_PLUGIN_TARGET})
-    # message(QEXT_QML_OUTPUT_DIRECTORY=${QEXT_QML_OUTPUT_DIRECTORY})
+#     message(output_dir=${output_dir})
+#     message(plugin_types_file=${plugin_types_file})
+#     message(arg_PLUGIN_TARGET=${arg_PLUGIN_TARGET})
+#     message(QEXT_QML_OUTPUT_DIRECTORY=${QEXT_QML_OUTPUT_DIRECTORY})
     if(TARGET ${arg_PLUGIN_TARGET} AND EXISTS "${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE}")
         add_custom_command(
             TARGET ${arg_PLUGIN_TARGET}
             COMMAND
-            ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE} -v -nonrelocatable ${import_name} ${import_version} ${QEXT_QML_OUTPUT_DIRECTORY}
+            ${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE} -v -relocatable ${import_name} ${import_version} ${QEXT_QML_OUTPUT_DIRECTORY}
             -output ${plugin_types_file}
-#            DEPENDS "${QEXT_QT_QMLPLUGINDUMP_EXECUTABLE}"
             COMMENT "Running qmlplugindump for ${import_name} qml module"
             POST_BUILD)
     endif()

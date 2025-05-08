@@ -15,7 +15,7 @@ public:
 
 private:
     Q_DECLARE_PUBLIC(QExtDoubleSpinBox)
-    Q_DISABLE_COPY_MOVE(QExtDoubleSpinBoxPrivate)
+    QEXT_DISABLE_COPY_MOVE(QExtDoubleSpinBoxPrivate)
 };
 
 QExtDoubleSpinBoxPrivate::QExtDoubleSpinBoxPrivate(QExtDoubleSpinBox *q)

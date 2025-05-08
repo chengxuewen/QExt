@@ -46,7 +46,7 @@ qt_internal_add_qml_module(Qml
     URI "QExtQml"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQmlPlugin
-    PLUGIN_TARGET QmlPlugin
+    PLUGIN_TARGET QExtQmlPlugin
     PLUGIN_SOURCES source/qextQmlPlugin.cpp
     DEPENDENCIES
     QExt::Core

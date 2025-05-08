@@ -44,12 +44,13 @@ set(QWT_QT_VERSION_PATCH ${QT_VERSION_PATCH})
 set(QWT_QT_VERSION "${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH}")
 set(QWT_QT_OPENGL_FOUND OFF)
 set(QWT_QT_OPENGL)
+
 if(QWT_QT_VERSION_MAJOR EQUAL 4)
     if(QWT_QT_VERSION_MINOR LESS 5)
         message(FATAL_ERROR "Expected Qt4 version must greater than or equal to Qt4.5")
     endif()
     message(STATUS "Expected Qt version is Qt4")
-    set(QWT_QT_DEP_COMPONENTS QtCore QtGui QtSvg QtXml)
+    set(QWT_QT_DEP_COMPONENTS QtCore QtGui QtSvg)
     find_package(Qt4 COMPONENTS ${QWT_QT_DEP_COMPONENTS} REQUIRED)
     find_package(Qt4 COMPONENTS QtOpenGL QUIET)
     set(QWT_QT_OPENGL_FOUND QtOpenGL_FOUND)
@@ -57,11 +58,16 @@ if(QWT_QT_VERSION_MAJOR EQUAL 4)
         list(APPEND QWT_QT_DEP_COMPONENTS QtOpenGL)
         set(QWT_QT_OPENGL QtOpenGL)
     endif()
-    INCLUDE(${QT_USE_FILE})
-    ADD_DEFINITIONS(${QT_DEFINITIONS})
+    list(APPEND QWT_QT_DEP_LIBRARIES
+        Qt4::QtCore
+        Qt4::QtGui
+        Qt4::QtSvg
+        ${QWT_QT_OPENGL})
+    include(${QT_USE_FILE})
+    add_definitions(${QT_DEFINITIONS})
 elseif(QWT_QT_VERSION_MAJOR EQUAL 5)
     message(STATUS "Expected Qt version is Qt${QWT_QT_VERSION}")
-    set(QWT_QT_DEP_COMPONENTS Core Widgets Concurrent PrintSupport Svg Xml)
+    set(QWT_QT_DEP_COMPONENTS Core Gui Widgets Concurrent PrintSupport Svg)
     find_package(Qt${QWT_QT_VERSION_MAJOR} COMPONENTS ${QWT_QT_DEP_COMPONENTS} REQUIRED)
     find_package(Qt${QWT_QT_VERSION_MAJOR} COMPONENTS OpenGL QUIET)
     set(QWT_QT_OPENGL_FOUND ${Qt${QWT_QT_VERSION_MAJOR}OpenGL_FOUND})
@@ -69,9 +75,17 @@ elseif(QWT_QT_VERSION_MAJOR EQUAL 5)
         list(APPEND QWT_QT_DEP_COMPONENTS OpenGL)
         set(QWT_QT_OPENGL Qt${QWT_QT_VERSION_MAJOR}::OpenGL)
     endif()
+    list(APPEND QWT_QT_DEP_LIBRARIES
+        Qt${QWT_QT_VERSION_MAJOR}::Core
+        Qt${QWT_QT_VERSION_MAJOR}::Gui
+        Qt${QWT_QT_VERSION_MAJOR}::Widgets
+        Qt${QWT_QT_VERSION_MAJOR}::Concurrent
+        Qt${QWT_QT_VERSION_MAJOR}::PrintSupport
+        Qt${QWT_QT_VERSION_MAJOR}::Svg
+        ${QWT_QT_OPENGL})
 elseif(QWT_QT_VERSION_MAJOR EQUAL 6)
     message(STATUS "Expected Qt version is Qt${QWT_QT_VERSION}")
-    set(QWT_QT_DEP_COMPONENTS Core Widgets Concurrent PrintSupport Svg Xml)
+    set(QWT_QT_DEP_COMPONENTS Core Gui Widgets Concurrent PrintSupport Svg)
     find_package(Qt${QWT_QT_VERSION_MAJOR} COMPONENTS ${QWT_QT_DEP_COMPONENTS} REQUIRED)
     find_package(Qt${QWT_QT_VERSION_MAJOR} COMPONENTS OpenGL QUIET)
     set(QWT_QT_OPENGL_FOUND ${Qt${QWT_QT_VERSION_MAJOR}OpenGL_FOUND})
@@ -79,6 +93,14 @@ elseif(QWT_QT_VERSION_MAJOR EQUAL 6)
         list(APPEND QWT_QT_DEP_COMPONENTS OpenGL)
         set(QWT_QT_OPENGL Qt${QWT_QT_VERSION_MAJOR}::OpenGL)
     endif()
+    list(APPEND QWT_QT_DEP_LIBRARIES
+        Qt${QWT_QT_VERSION_MAJOR}::Core
+        Qt${QWT_QT_VERSION_MAJOR}::Gui
+        Qt${QWT_QT_VERSION_MAJOR}::Widgets
+        Qt${QWT_QT_VERSION_MAJOR}::Concurrent
+        Qt${QWT_QT_VERSION_MAJOR}::PrintSupport
+        Qt${QWT_QT_VERSION_MAJOR}::Svg
+        ${QWT_QT_OPENGL})
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
@@ -412,24 +434,36 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/classincludes>)
 
-if(QWT_QT_VERSION_MAJOR EQUAL 4)
-    target_link_libraries(${PROJECT_NAME}
-        PUBLIC
-        Qt4::QtCore
-        Qt4::QtSvg
-        ${QWT_QT_OPENGL})
-else(QWT_QT_VERSION_MAJOR GREATER 4)
-    target_link_libraries(${PROJECT_NAME}
-        PUBLIC
-        Qt${QWT_QT_VERSION_MAJOR}::Core
-        Qt${QWT_QT_VERSION_MAJOR}::Concurrent
-        Qt${QWT_QT_VERSION_MAJOR}::PrintSupport
-        Qt${QWT_QT_VERSION_MAJOR}::Svg
-        ${QWT_QT_OPENGL})
-endif()
+target_link_libraries(${PROJECT_NAME} PUBLIC ${QWT_QT_DEP_LIBRARIES})
+message(--"${PROJECT_BINARY_DIR}/lib")
+add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/lib")
+foreach(library ${QWT_QT_DEP_LIBRARIES})
+    if (TARGET ${library})
+        string(FIND "${library}" "Qt" prefix_pos)
+        if (prefix_pos EQUAL 0)
+            string(LENGTH "${library}" len)
+            string(LENGTH "Private" private_len)
+            string(FIND "${library}" "Private" suffix_pos)
+            math(EXPR suffix_start "${len} - ${private_len}")
+            if(NOT suffix_pos EQUAL suffix_start)
+#                message(library="${library}")
+                add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_SONAME_FILE:${library}>* "${PROJECT_BINARY_DIR}/lib/")
+            endif()
+        endif()
+    endif()
+endforeach()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    INSTALL_RPATH "\$ORIGIN"
+    BUILD_WITH_INSTALL_RPATH TRUE)
 
 if(QWT_BUILD_INSTALL)
     include(GNUInstallDirs)
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/lib
+        DESTINATION ${CMAKE_INSTALL_PREFIX})
+
     install(TARGETS ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}-target
         FRAMEWORK DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}

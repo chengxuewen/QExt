@@ -46,7 +46,7 @@ qt_internal_add_qml_module(QuickKeyboard
     URI "QExtQuick.Keyboard"
     VERSION "${QEXT_VERSION}"
     CLASS_NAME QExtQuickKeyboardPlugin
-    PLUGIN_TARGET QuickKeyboardPlugin
+    PLUGIN_TARGET QExtQuickKeyboardPlugin
     PLUGIN_SOURCES source/qextQuickKeyboardPlugin.cpp
     DEPENDENCIES
     QExt::Core

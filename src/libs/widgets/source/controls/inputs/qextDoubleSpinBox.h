@@ -30,7 +30,7 @@ protected:
 
 private:
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtDoubleSpinBox)
-    Q_DISABLE_COPY_MOVE(QExtDoubleSpinBox)
+    QEXT_DISABLE_COPY_MOVE(QExtDoubleSpinBox)
 };
 
 #endif // _QEXTDOUBLESPINBOX_H

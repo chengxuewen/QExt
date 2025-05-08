@@ -28,12 +28,13 @@ message(STATUS "===============================================QExt=============
 cmake_minimum_required(VERSION 3.15)
 cmake_policy(SET CMP0075 NEW) # use CMAKE_REQUIRED_LIBRARIES
 cmake_policy(SET CMP0083 NEW) # use check_pie_supported
+cmake_policy(SET CMP0177 NEW) # use install() DESTINATION
 
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.3.2.6 LANGUAGES CXX C)
+project(QExt VERSION 1.3.2.7 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -414,7 +415,6 @@ qext_option(QEXT_ENABLE_LIB_SERIALPORT "Enable this to build the serialport lib"
 qext_option(QEXT_ENABLE_LIB_DEVICEWATCHER "Enable this to build the devicewatcher lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 
-qext_option(QEXT_ENABLE_3RDPARTY_QWT_LAST "Enable this to build the 3rdparty last version Qwt-6.3.0 lib" ON)
 qext_option(QEXT_ENABLE_3RDPARTY_QWT "Enable this to build the 3rdparty Qwt lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_3RDPARTY_SINGLEAPP "Enable this to build the 3rdparty SingleApplication lib" OFF
@@ -718,14 +718,9 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 #-----------------------------------------------------------------------------------------------------------------------
 # Add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
-if(QEXT_ENABLE_3RDPARTY_QWT_LAST)
-    set(QWT_VERSION "6.3.0" CACHE INTERNAL "" FORCE)
-else()
-    set(QWT_VERSION "6.1.3" CACHE INTERNAL "" FORCE)
-endif()
 if(QEXT_ADD_SUBDIRECTORY_QWT)
     set(QWT_BUILD_ALL "${QEXT_BUILD_ALL}" CACHE INTERNAL "" FORCE)
-    add_subdirectory(3rdparty/qwt-${QWT_VERSION})
+    add_subdirectory(3rdparty/qwt-6.3.0 ${PROJECT_BINARY_DIR}/3rdparty/qwt-6.3.0/subbuild)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWT)
     qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
@@ -733,19 +728,19 @@ endif()
 
 if(QEXT_ADD_SUBDIRECTORY_QWTPLOT3D)
     set(QWTPLOT3D_BUILD_ALL "${QEXT_BUILD_ALL}" CACHE INTERNAL "" FORCE)
-    add_subdirectory(3rdparty/qwtplot3d-0.2.7)
+    add_subdirectory(3rdparty/qwtplot3d-0.2.7 ${PROJECT_BINARY_DIR}/3rdparty/qwtplot3d-0.2.7/subbuild)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_SINGLEAPP)
     set(USER_QAPPLICATION_CLASS "${QEXT_3RDPARTY_SINGLEAPP_QAPPLICATION_CLASS}")
-    add_subdirectory(3rdparty/SingleApplication-3.5.1)
+    add_subdirectory(3rdparty/SingleApplication-3.5.1 ${PROJECT_BINARY_DIR}/3rdparty/SingleApplication-3.5.1/subbuild)
 endif()
 if(QEXT_ENABLE_3RDPARTY_SINGLEAPP)
     qext_find_package(WrapSingleApp PROVIDED_TARGETS QExt3rdparty::WrapSingleApp)
 endif()
 
 if(QEXT_ADD_SUBDIRECTORY_QWINDOWKIT)
-    add_subdirectory(3rdparty/qwindowkit-1.0.1)
+    add_subdirectory(3rdparty/qwindowkit-1.0.1 ${PROJECT_BINARY_DIR}/3rdparty/qwindowkit-1.0.1/subbuild)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWINDOWKIT)
     qext_find_package(WrapQWindowkit PROVIDED_TARGETS QExt3rdparty::WrapQWindowkit)
