@@ -1,4 +1,4 @@
-########################################################################################################################
+﻿########################################################################################################################
 #
 # Library: QExt
 #
@@ -38,7 +38,7 @@ else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Core)
+list(APPEND QEXT_QML_LINK_LIBRARIES QExt::Qml)
 qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
 list(APPEND QEXT_QML_LINK_LIBRARIES QExt3rdparty::WrapQwt)
 

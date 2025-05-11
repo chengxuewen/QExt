@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+﻿#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <time.h>
 #include <QDebug>
@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 
     qDebug() << "addImportPath:" << QML_MODULES_DIR;
     engine.addImportPath(QML_MODULES_DIR);
+    engine.addImportPath(QT_QML_MODULES_PATH);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())

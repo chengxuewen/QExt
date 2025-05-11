@@ -1,4 +1,4 @@
-#-----------------------------------------------------------------------------------------------------------------------
+﻿#-----------------------------------------------------------------------------------------------------------------------
 # Set cmake min version and policy
 #-----------------------------------------------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.10)
@@ -435,9 +435,14 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/classincludes>)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${QWT_QT_DEP_LIBRARIES})
-message(--"${PROJECT_BINARY_DIR}/lib")
+
+if(UNIX)
+    set(QWT_INSTALL_DLLDIR lib)
+else()
+    set(QWT_INSTALL_DLLDIR bin)
+endif()
 add_custom_command(TARGET ${PROJECT_NAME} PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/lib")
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}")
 foreach(library ${QWT_QT_DEP_LIBRARIES})
     if (TARGET ${library})
         string(FIND "${library}" "Qt" prefix_pos)
@@ -447,9 +452,15 @@ foreach(library ${QWT_QT_DEP_LIBRARIES})
             string(FIND "${library}" "Private" suffix_pos)
             math(EXPR suffix_start "${len} - ${private_len}")
             if(NOT suffix_pos EQUAL suffix_start)
-#                message(library="${library}")
-                add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_SONAME_FILE:${library}>* "${PROJECT_BINARY_DIR}/lib/")
+                if(UNIX)
+                    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_SONAME_FILE:${library}>*"
+                        "${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}/")
+                else()
+                    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E copy_if_different "$<TARGET_FILE:${library}>"
+                        "${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}/")
+                endif()
             endif()
         endif()
     endif()
@@ -461,7 +472,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 if(QWT_BUILD_INSTALL)
     include(GNUInstallDirs)
-    install(DIRECTORY ${PROJECT_BINARY_DIR}/lib
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/${QWT_INSTALL_DLLDIR}
         DESTINATION ${CMAKE_INSTALL_PREFIX})
 
     install(TARGETS ${PROJECT_NAME}

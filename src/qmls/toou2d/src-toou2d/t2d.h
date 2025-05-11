@@ -1,4 +1,4 @@
-#ifndef T2D_H
+﻿#ifndef T2D_H
 #define T2D_H
 
 #include <QObject>
@@ -15,7 +15,6 @@ class QEXT_TOOU2D_API T2D : public QObject
 public:
     static QObject  *exampleQmlSingletonType(QQmlEngine *engine, QJSEngine *scriptEngine);
     static T2D      *getInstance();
-
     Q_INVOKABLE QString     version() const;
     Q_INVOKABLE QString     awesomeFromKey(const QString& key);
     Q_INVOKABLE QString     awesomeFromValue(int type);

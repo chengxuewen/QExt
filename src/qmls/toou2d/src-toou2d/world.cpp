@@ -1,4 +1,4 @@
-#include "world.h"
+﻿#include "world.h"
 #include "t2d.h"
 
 bool __t2dworld_inited = false;

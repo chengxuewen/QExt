@@ -28,13 +28,15 @@ message(STATUS "===============================================QExt=============
 cmake_minimum_required(VERSION 3.15)
 cmake_policy(SET CMP0075 NEW) # use CMAKE_REQUIRED_LIBRARIES
 cmake_policy(SET CMP0083 NEW) # use check_pie_supported
-cmake_policy(SET CMP0177 NEW) # use install() DESTINATION
+if(${CMAKE_VERSION} VERSION_GREATER_EQUAL 4.0)
+    cmake_policy(SET CMP0177 NEW) # use install() DESTINATION
+endif()
 
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.3.2.7 LANGUAGES CXX C)
+project(QExt VERSION 1.3.3.1 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -154,9 +156,10 @@ endforeach()
 get_filename_component(QEXT_QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
 get_filename_component(QEXT_QT_KIT_DIR "${QEXT_QT_BIN_DIR}" DIRECTORY)
 set(QEXT_QT_LIB_DIR ${QEXT_QT_KIT_DIR}/lib)
+set(QEXT_QT_QML_DIR ${QEXT_QT_KIT_DIR}/qml)
 
 if(WIN32)
-    set(QEXT_QT_HAS_QML OFF)
+    # set(QEXT_QT_HAS_QML OFF)
 endif()
 
 set(CMAKE_AUTOUIC ON)
@@ -219,7 +222,8 @@ if(WIN32)
         # open bigobj flags in gnu/mingw compiler(File too big/too many sections)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj")
     endif()
-    set(CMAKE_OBJECT_PATH_MAX 512)
+    # Set CMAKE_OBJECT_PATH_MAX, avoid The maximum full path to an object file warning.
+    set(CMAKE_OBJECT_PATH_MAX 2048)
 endif()
 
 ## Position independent code:
@@ -231,9 +235,6 @@ check_pie_supported()
 
 # Do not relink dependent libraries when no header has changed:
 set(CMAKE_LINK_DEPENDS_NO_SHARED ON)
-
-# Set CMAKE_OBJECT_PATH_MAX, avoid The maximum full path to an object file warning.
-set(CMAKE_OBJECT_PATH_MAX 1024)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -718,9 +719,10 @@ set(QEXT_INTERNAL_ADD_EXECUTABLE_MULTI_ARGS
 #-----------------------------------------------------------------------------------------------------------------------
 # Add 3rdparty subdirectory
 #-----------------------------------------------------------------------------------------------------------------------
+set(QWT_VERSION 6.3.0)
 if(QEXT_ADD_SUBDIRECTORY_QWT)
     set(QWT_BUILD_ALL "${QEXT_BUILD_ALL}" CACHE INTERNAL "" FORCE)
-    add_subdirectory(3rdparty/qwt-6.3.0 ${PROJECT_BINARY_DIR}/3rdparty/qwt-6.3.0/subbuild)
+    add_subdirectory(3rdparty/qwt-${QWT_VERSION} ${PROJECT_BINARY_DIR}/3rdparty/qwt-${QWT_VERSION}/subbuild)
 endif()
 if(QEXT_ENABLE_3RDPARTY_QWT)
     qext_find_package(WrapQwt PROVIDED_TARGETS QExt3rdparty::WrapQwt)
