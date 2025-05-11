@@ -36,7 +36,7 @@ endif()
 #-----------------------------------------------------------------------------------------------------------------------
 # Set project name and version
 #-----------------------------------------------------------------------------------------------------------------------
-project(QExt VERSION 1.3.3.1 LANGUAGES CXX C)
+project(QExt VERSION 1.3.3.2 LANGUAGES CXX C)
 set(QEXT_VERSION_NAME ${PROJECT_VERSION})
 set(QEXT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(QEXT_VERSION_MINOR ${PROJECT_VERSION_MINOR})
@@ -396,6 +396,8 @@ qext_option(QEXT_BUILD_INSTALL "Enable this to build the installer" ${QEXTT_DEFA
     OR_CONDITION QEXT_BUILD_ALL)
 
 qext_option(QEXT_ENABLE_LIB_GUI "Enable this to build the gui lib" OFF
+    OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_PLOT "Enable this to build the plot lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_PATTERNS "Enable this to build the patterns lib" OFF
     OR_CONDITION QEXT_BUILD_ALL)

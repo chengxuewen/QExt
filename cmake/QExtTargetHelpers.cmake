@@ -685,7 +685,7 @@ function(qext_internal_export_additional_targets_file_handler id)
         get_target_property(target_type ${target} TYPE)
         if(NOT target_type STREQUAL "EXECUTABLE")
             string(APPEND content
-                "__qext_internal_promote_target_to_global_checked(${full_target})\n")
+                "qext_internal_promote_target_to_global_checked(${full_target})\n")
         endif()
 
         # INTERFACE libraries don't have IMPORTED_LOCATION-like properties.
