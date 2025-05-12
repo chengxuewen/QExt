@@ -2,7 +2,7 @@
 #
 # Library: QExt
 #
-# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
+# Copyright (C) 2025~Present ChengXueWen. Contact: 1398831004@qq.com.
 #
 # License: MIT License
 #
@@ -21,15 +21,25 @@
 #
 ########################################################################################################################
 
-add_subdirectory(core)
-qext_add_subdirectory(gui QEXT_ENABLE_LIB_GUI)
-qext_add_subdirectory(plot QEXT_ENABLE_LIB_PLOT)
-qext_add_subdirectory(daview QEXT_ENABLE_LIB_DAVIEW)
-qext_add_subdirectory(widgets QEXT_ENABLE_LIB_WIDGETS)
-qext_add_subdirectory(patterns QEXT_ENABLE_LIB_PATTERNS)
-qext_add_subdirectory(fonticon QEXT_ENABLE_LIB_FONTICON)
-qext_add_subdirectory(keyboard QEXT_ENABLE_LIB_KEYBOARD)
-qext_add_subdirectory(graphics QEXT_ENABLE_LIB_GRAPHICS)
-qext_add_subdirectory(blueprint QEXT_ENABLE_LIB_BLUEPRINT)
-qext_add_subdirectory(serialport QEXT_ENABLE_LIB_SERIALPORT)
-qext_add_subdirectory(devicewatcher QEXT_ENABLE_LIB_DEVICEWATCHER)
+
+#-----------------------------------------------------------------------------------------------------------------------
+# Add lib link libraries
+#-----------------------------------------------------------------------------------------------------------------------
+set(QEXT_TEST_LINK_LIBRARIES)
+
+if(QEXT_QT_VERSION_MAJOR EQUAL 4)
+    list(APPEND QEXT_TEST_LINK_LIBRARIES Qt4::QtCore Qt4::QtTest)
+elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
+    list(APPEND QEXT_TEST_LINK_LIBRARIES
+            Qt${QEXT_QT_VERSION_MAJOR}::Core
+            Qt${QEXT_QT_VERSION_MAJOR}::Test)
+else()
+    message(FATAL_ERROR "Not find Qt package")
+endif()
+
+list(APPEND QEXT_TEST_LINK_LIBRARIES QExt::Plot)
+
+
+#-----------------------------------------------------------------------------------------------------------------------
+# add tests
+#-----------------------------------------------------------------------------------------------------------------------

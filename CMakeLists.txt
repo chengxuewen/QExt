@@ -406,6 +406,9 @@ qext_option(QEXT_ENABLE_LIB_BLUEPRINT "Enable this to build the blueprint lib" O
 qext_option(QEXT_ENABLE_LIB_WIDGETS "Enable this to build the widgets lib" OFF
     DEPENDS QEXT_ENABLE_LIB_GUI
     OR_CONDITION QEXT_BUILD_ALL)
+qext_option(QEXT_ENABLE_LIB_DAVIEW "Enable this to build the daview lib" OFF
+    DEPENDS QEXT_ENABLE_LIB_PLOT AND QEXT_ENABLE_LIB_WIDGETS
+    OR_CONDITION QEXT_BUILD_ALL)
 qext_option(QEXT_ENABLE_LIB_FONTICON "Enable this to build the fonticon lib" OFF
     DEPENDS QEXT_SINCE_QT5
     OR_CONDITION QEXT_BUILD_ALL)

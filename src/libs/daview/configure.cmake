@@ -2,7 +2,7 @@
 #
 # Library: QExt
 #
-# Copyright (C) 2021~Present ChengXueWen. Contact: 1398831004@qq.com.
+# Copyright (C) 2023 ChengXueWen.
 #
 # License: MIT License
 #
@@ -20,16 +20,3 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 ########################################################################################################################
-
-add_subdirectory(core)
-qext_add_subdirectory(gui QEXT_ENABLE_LIB_GUI)
-qext_add_subdirectory(plot QEXT_ENABLE_LIB_PLOT)
-qext_add_subdirectory(daview QEXT_ENABLE_LIB_DAVIEW)
-qext_add_subdirectory(widgets QEXT_ENABLE_LIB_WIDGETS)
-qext_add_subdirectory(patterns QEXT_ENABLE_LIB_PATTERNS)
-qext_add_subdirectory(fonticon QEXT_ENABLE_LIB_FONTICON)
-qext_add_subdirectory(keyboard QEXT_ENABLE_LIB_KEYBOARD)
-qext_add_subdirectory(graphics QEXT_ENABLE_LIB_GRAPHICS)
-qext_add_subdirectory(blueprint QEXT_ENABLE_LIB_BLUEPRINT)
-qext_add_subdirectory(serialport QEXT_ENABLE_LIB_SERIALPORT)
-qext_add_subdirectory(devicewatcher QEXT_ENABLE_LIB_DEVICEWATCHER)
