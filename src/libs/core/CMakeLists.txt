@@ -77,6 +77,8 @@ qext_add_library(Core
     source/tools/qextConcurrent.h
     source/tools/qextDiskInfo.cpp
     source/tools/qextDiskInfo.h
+    source/tools/qextIdRegistry.cpp
+    source/tools/qextIdRegistry.h
     source/tools/qextInvoke.h
     source/tools/qextLinearBuffer.cpp
     source/tools/qextLinearBuffer.h

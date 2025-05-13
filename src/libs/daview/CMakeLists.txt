@@ -32,13 +32,14 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES Qt4::QtCore Qt4::QtGui)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
+        Qt${QEXT_QT_VERSION_MAJOR}::SerialPort
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Gui)
 else()
     message(FATAL_ERROR "Not find Qt package")
 endif()
 
-list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Plot)
+list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Plot QExt::Widgets)
 
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -47,6 +48,19 @@ list(APPEND QEXT_LIB_LINK_LIBRARIES QExt::Core QExt::Plot)
 qext_add_library(${QEXT_LIB_NAME}
     EXCEPTIONS
     SOURCES
+    source/device/qextDAIODevice.cpp
+    source/device/qextDAIODevice.h
+    source/device/qextDAIODevice_p.h
+    source/device/qextDAIODeviceManager.cpp
+    source/device/qextDAIODeviceManager.h
+    source/device/qextDAIODeviceModel.cpp
+    source/device/qextDAIODeviceModel.h
+    source/device/qextDASerialPortIODevice.cpp
+    source/device/qextDASerialPortIODevice.h
+    source/reader/qextDAIOReader.cpp
+    source/reader/qextDAIOReader.h
+    source/reader/qextDAIOReader_p.h
+    source/qextDAConstants.h
     source/qextDAViewGlobal.h
     source/qextDAView.cpp
     source/qextDAView.h

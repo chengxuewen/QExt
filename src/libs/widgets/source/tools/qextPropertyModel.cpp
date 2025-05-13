@@ -1,4 +1,4 @@
-#include <qextPropertyModel.h>
+﻿#include <qextPropertyModel.h>
 
 #include <QDebug>
 #include <QWidget>
@@ -13,53 +13,53 @@
 #include <QDoubleSpinBox>
 
 QExtPropertyModelItem::QExtPropertyModelItem()
-    : m_enable(true)
-    , m_parent(QEXT_NULLPTR)
+    : mEnable(true)
+    , mParent(QEXT_NULLPTR)
 {
 }
 
 QExtPropertyModelItem::~QExtPropertyModelItem()
 {
-    if (!m_childrenList.isEmpty())
+    if (!mChildrenList.isEmpty())
     {
         QList<QExtPropertyModelItem *>::Iterator iter;
-        for (iter = m_childrenList.begin(); iter < m_childrenList.end(); ++iter)
+        for (iter = mChildrenList.begin(); iter < mChildrenList.end(); ++iter)
         {
             this->removeChild(*iter);
             (*iter)->deleteLater();
         }
-        m_childrenList.clear();
+        mChildrenList.clear();
     }
 }
 
 int QExtPropertyModelItem::childrenCount() const
 {
-    return m_childrenList.size();
+    return mChildrenList.size();
 }
 
 int QExtPropertyModelItem::childIndexOf(QExtPropertyModelItem *child) const
 {
-    return m_childrenList.indexOf(child);
+    return mChildrenList.indexOf(child);
 }
 
 QExtPropertyModelItem *QExtPropertyModelItem::child(int index) const
 {
-    Q_ASSERT_X(index >= 0 && index < m_childrenList.size(), "QExtPropertyModelItem::child()", "index out of range");
-    return m_childrenList.at(index);
+    Q_ASSERT_X(index >= 0 && index < mChildrenList.size(), "QExtPropertyModelItem::child()", "index out of range");
+    return mChildrenList.at(index);
 }
 
 QList<QExtPropertyModelItem *> QExtPropertyModelItem::childrenList() const
 {
-    return m_childrenList;
+    return mChildrenList;
 }
 
 void QExtPropertyModelItem::appendChild(QExtPropertyModelItem *child)
 {
-    if (!m_childrenList.contains(child))
+    if (!mChildrenList.contains(child))
     {
         emit this->childAboutToBeAppended(child);
         child->setParent(this);
-        m_childrenList.append(child);
+        mChildrenList.append(child);
         connect(child, SIGNAL(beginResetModel()), this, SIGNAL(beginResetModel()));
         connect(child, SIGNAL(endResetModel()), this, SIGNAL(endResetModel()));
         connect(child, SIGNAL(requestClosedEditor(QWidget*)), this, SIGNAL(requestClosedEditor(QWidget*)));
@@ -81,47 +81,47 @@ void QExtPropertyModelItem::appendChildren(const QList<QExtPropertyModelItem *> 
 
 void QExtPropertyModelItem::removeChild(QExtPropertyModelItem *child)
 {
-    if (m_childrenList.contains(child))
+    if (mChildrenList.contains(child))
     {
         emit this->childAboutToBeRemoveed(child);
         child->setParent(QEXT_NULLPTR);
         child->disconnect(this);
-        m_childrenList.removeOne(child);
+        mChildrenList.removeOne(child);
         emit this->childRemoveed(child);
     }
 }
 
 QExtPropertyModelItem *QExtPropertyModelItem::parent() const
 {
-    return m_parent;
+    return mParent;
 }
 
 void QExtPropertyModelItem::setParent(QExtPropertyModelItem *parent)
 {
-    if (parent != m_parent)
+    if (parent != mParent)
     {
-        if (m_parent)
+        if (mParent)
         {
-            m_parent->disconnect(this);
+            mParent->disconnect(this);
         }
-        m_parent = parent;
-        if (m_parent)
+        mParent = parent;
+        if (mParent)
         {
-            connect(this, &QExtPropertyModelItem::itemDataChanged, m_parent, &QExtPropertyModelItem::itemDataChanged);
+            connect(this, &QExtPropertyModelItem::itemDataChanged, mParent, &QExtPropertyModelItem::itemDataChanged);
         }
     }
 }
 
 bool QExtPropertyModelItem::isEnabled() const
 {
-    return m_enable;
+    return mEnable;
 }
 
 void QExtPropertyModelItem::setEnable(bool enable)
 {
-    m_enable = enable;
+    mEnable = enable;
     emit this->itemDataChanged(this);
-    for (auto &&child : m_childrenList)
+    for (auto &&child : mChildrenList)
     {
         child->setEnable(enable);
     }
@@ -319,19 +319,22 @@ QList<QExtPropertyModelItem *> QExtPropertyModelItem::allSubItems(QExtPropertyMo
 
 class QExtPropertyModelPrivate
 {
-    Q_DISABLE_COPY(QExtPropertyModelPrivate)
-    Q_DECLARE_PUBLIC(QExtPropertyModel)
 public:
     explicit QExtPropertyModelPrivate(QExtPropertyModel *q);
     virtual ~QExtPropertyModelPrivate();
 
     QExtPropertyModel * const q_ptr;
-    QScopedPointer<QExtPropertyModelItem> m_rootItem;
+
+    QScopedPointer<QExtPropertyModelItem> mRootItem;
+
+private:
+    Q_DECLARE_PUBLIC(QExtPropertyModel)
+    QEXT_DISABLE_COPY_MOVE(QExtPropertyModelPrivate)
 };
 
 QExtPropertyModelPrivate::QExtPropertyModelPrivate(QExtPropertyModel *q)
     : q_ptr(q)
-    , m_rootItem(new QExtPropertyModelRootItem)
+    , mRootItem(new QExtPropertyModelRootItem)
 {
 
 }
@@ -347,9 +350,9 @@ QExtPropertyModel::QExtPropertyModel(QObject *parent)
     , dd_ptr(new QExtPropertyModelPrivate(this))
 {
     Q_D(QExtPropertyModel);
-    connect(d->m_rootItem.data(), SIGNAL(itemDataChanged(QExtPropertyModelItem*)), this, SLOT(onItemDataChanged(QExtPropertyModelItem*)));
-    connect(d->m_rootItem.data(), SIGNAL(beginResetModel()), this, SLOT(onBeginResetModel()));
-    connect(d->m_rootItem.data(), SIGNAL(endResetModel()), this, SLOT(onEndResetModel()));
+    connect(d->mRootItem.data(), SIGNAL(itemDataChanged(QExtPropertyModelItem*)), this, SLOT(onItemDataChanged(QExtPropertyModelItem*)));
+    connect(d->mRootItem.data(), SIGNAL(beginResetModel()), this, SLOT(onBeginResetModel()));
+    connect(d->mRootItem.data(), SIGNAL(endResetModel()), this, SLOT(onEndResetModel()));
 }
 
 QExtPropertyModel::~QExtPropertyModel()
@@ -389,7 +392,7 @@ QModelIndex QExtPropertyModel::parent(const QModelIndex &child) const
 
     QExtPropertyModelItem *childItem = this->itemFromIndex(child);
     QExtPropertyModelItem *parentItem = childItem->parent();
-    if (d->m_rootItem.data() == parentItem || QEXT_NULLPTR == parentItem)
+    if (d->mRootItem.data() == parentItem || QEXT_NULLPTR == parentItem)
     {
         return QModelIndex();
     }
@@ -407,7 +410,7 @@ int QExtPropertyModel::rowCount(const QModelIndex &parent) const
     }
 
     QExtPropertyModelItem *parentItem = parent.isValid() ? static_cast<QExtPropertyModelItem*>(parent.internalPointer())
-                                                         : d->m_rootItem.data();
+                                                         : d->mRootItem.data();
     return parentItem->childrenCount();
 }
 
@@ -535,7 +538,7 @@ QVariant QExtPropertyModel::headerData(int section, Qt::Orientation orientation,
 QModelIndex QExtPropertyModel::indexFromItem(QExtPropertyModelItem *item) const
 {
     Q_D(const QExtPropertyModel);
-    if (item && d->m_rootItem.data() != item)
+    if (item && d->mRootItem.data() != item)
     {
         auto parentItem = item->parent();
         if (parentItem)
@@ -561,22 +564,22 @@ QExtPropertyModelItem *QExtPropertyModel::itemFromIndex(const QModelIndex &index
             return item;
         }
     }
-    return d->m_rootItem.data();
+    return d->mRootItem.data();
 }
 
 QExtPropertyModelItem *QExtPropertyModel::rootItem() const
 {
     Q_D(const QExtPropertyModel);
-    return d->m_rootItem.data();
+    return d->mRootItem.data();
 }
 
 void QExtPropertyModel::setRootItem(QExtPropertyModelItem *item)
 {
     Q_D(QExtPropertyModel);
     this->beginResetModel();
-    if (d->m_rootItem.data() != item)
+    if (d->mRootItem.data() != item)
     {
-        d->m_rootItem.reset(item);
+        d->mRootItem.reset(item);
     }
     this->endResetModel();
 }
@@ -630,14 +633,14 @@ void QExtPropertyModel::onEndResetModel()
 
 QExtPropertyDelegate::QExtPropertyDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
-    , m_rootItem(QEXT_NULLPTR)
+    , mRootItem(QEXT_NULLPTR)
 {
 
 }
 
 QExtPropertyDelegate::QExtPropertyDelegate(QExtPropertyModelItem *rootItem, QObject *parent)
     : QStyledItemDelegate(parent)
-    , m_rootItem(QEXT_NULLPTR)
+    , mRootItem(QEXT_NULLPTR)
 {
     this->setRootItem(rootItem);
 }
@@ -649,11 +652,11 @@ QExtPropertyDelegate::~QExtPropertyDelegate()
 
 void QExtPropertyDelegate::setRootItem(QExtPropertyModelItem *rootItem)
 {
-    if (m_rootItem)
+    if (mRootItem)
     {
-        m_rootItem->disconnect(this);
+        mRootItem->disconnect(this);
     }
-    m_rootItem = rootItem;
+    mRootItem = rootItem;
     if (rootItem)
     {
         connect(rootItem, SIGNAL(requestClosedEditor(QWidget*)), this, SLOT(closeItemEditor(QWidget*)));
@@ -662,7 +665,7 @@ void QExtPropertyDelegate::setRootItem(QExtPropertyModelItem *rootItem)
 
 QExtPropertyModelItem *QExtPropertyDelegate::rootItem() const
 {
-    return m_rootItem;
+    return mRootItem;
 }
 
 QWidget *QExtPropertyDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option,
@@ -794,13 +797,13 @@ bool QExtPropertyDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
 
 void QExtPropertyDelegate::updateItemMap()
 {
-    m_itemMap.clear();
-    if (m_rootItem)
+    mItemMap.clear();
+    if (mRootItem)
     {
-        QList<QExtPropertyModelItem *> items = QExtPropertyModelItem::allSubItems(m_rootItem);
+        QList<QExtPropertyModelItem *> items = QExtPropertyModelItem::allSubItems(mRootItem);
         for (QList<QExtPropertyModelItem *>::Iterator iter = items.begin(); iter != items.end(); ++iter)
         {
-            m_itemMap.insert(qulonglong(*iter), *iter);
+            mItemMap.insert(qulonglong(*iter), *iter);
         }
     }
 }

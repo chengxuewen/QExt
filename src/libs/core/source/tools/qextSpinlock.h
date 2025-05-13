@@ -44,11 +44,11 @@ public:
     QExtSpinLock() : m_flag(false) {}
     virtual ~QExtSpinLock() {}
 
-    QEXT_ATTR_FORCE_INLINE void lock()
+    QEXT_FORCE_INLINE void lock()
     {
         while (!m_flag.testAndSetOrdered(false, true)) { }
     }
-    QEXT_ATTR_FORCE_INLINE void unlock()
+    QEXT_FORCE_INLINE void unlock()
     {
         m_flag.fetchAndStoreOrdered(0);
     }
@@ -109,7 +109,7 @@ public:
     QExtDSpinLock() : m_timestamp(0) {}
     ~QExtDSpinLock() QEXT_OVERRIDE {}
 
-    QEXT_ATTR_FORCE_INLINE qint64 lockElapsed()
+    QEXT_FORCE_INLINE qint64 lockElapsed()
     {
         const qint64 ts = QExtDateTimeUtils::usecsTimeSinceEpoch();
         QExtSpinLock::lock();
@@ -117,7 +117,7 @@ public:
         return m_timestamp - ts;
     }
 
-    QEXT_ATTR_FORCE_INLINE qint64 unlockElapsed()
+    QEXT_FORCE_INLINE qint64 unlockElapsed()
     {
         const qint64 elapsed = QExtDateTimeUtils::usecsTimeSinceEpoch() - m_timestamp;
         QExtSpinLock::unlock();

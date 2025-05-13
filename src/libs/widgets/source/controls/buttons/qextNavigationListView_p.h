@@ -45,19 +45,23 @@ public:
 
     QExtNavigationListItem * const q_ptr;
 
-    QPixmap m_normalIcon;
-    QPixmap m_hoverIcon;
-    QPixmap m_checkedIcon;
-    QPixmap m_selectedIcon;
-    QChar m_fontIcon;
-    QString m_text;
-    QString m_tip;
-    bool m_expand;
-    bool m_visiable;
-    bool m_enable;
-    bool m_checkd;
-    QPointer<QExtNavigationListItem> m_parent;
-    QList<QExtNavigationListItem *> m_childItems;
+    QPixmap mHoverIcon;
+    QPixmap mNormalIcon;
+    QPixmap mCheckedIcon;
+    QPixmap mSelectedIcon;
+
+    QString mTip;
+    QString mText;
+    QChar mFontIcon;
+
+    bool mExpand;
+    bool mCheckd;
+    bool mEnable;
+    bool mVisiable;
+    QVariant mUserData;
+
+    QPointer<QExtNavigationListItem> mParent;
+    QList<QExtNavigationListItem *> mChildItems;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtNavigationListItemPrivate)
@@ -87,9 +91,9 @@ protected:
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtNavListDelegate)
-    QFont m_iconFont;
-    QExtNavigationListViewPrivate *m_navData;
-    QExtNavigationListView * const m_navListView;
+    QFont mIconFont;
+    QExtNavigationListViewPrivate *mNavData;
+    QExtNavigationListView * const mNavListView;
 };
 
 
@@ -107,10 +111,10 @@ public:
     void initAllItemsConnection();
     void initItemConnection(QExtNavigationListItem *item);
 
-    QSet<QExtNavigationListItem *> m_allItemSet;
-    QPointer<QExtNavigationListItem> m_checkedItem;
-    QList<QExtNavigationListItem *> m_parentItemList;
-    QList<QExtNavigationListItem *> m_visiableItemList;
+    QSet<QExtNavigationListItem *> mAllItemSet;
+    QPointer<QExtNavigationListItem> mCheckedItem;
+    QList<QExtNavigationListItem *> mParentItemList;
+    QList<QExtNavigationListItem *> mVisiableItemList;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtNavigationListModelPrivate)
@@ -131,44 +135,44 @@ public:
 
     QExtNavigationListView * const q_ptr;
 
-    QScopedPointer<QPushButton> m_pushButton;
+    QScopedPointer<QPushButton> mPushButton;
 
-    QStringList m_stringItems;
-    QList<QExtNavigationListItem *> m_items;
+    QStringList mStringItems;
+    QList<QExtNavigationListItem *> mItems;
 
-    QPointer<QExtNavigationListItem> m_selectedItem;
+    QPointer<QExtNavigationListItem> mSelectedItem;
 
-    QPointer<QExtNavigationListModel> m_model;
-    QScopedPointer<QExtNavListView> m_listView;
-    QScopedPointer<QExtNavListDelegate> m_delegate;
+    QPointer<QExtNavigationListModel> mModel;
+    QScopedPointer<QExtNavListView> mListView;
+    QScopedPointer<QExtNavListDelegate> mDelegate;
 
-    int m_itemLineTipWidth;
-    bool m_itenLineTipVisible;
+    int mItemLineTipWidth;
+    bool mItenLineTipVisible;
 
-    int m_itemSeparateHeight;
-    bool m_itemSeparateVisible;
-    QExtOptional<QColor> m_itemSeparateColor;
+    int mItemSeparateHeight;
+    bool mItemSeparateVisible;
+    QExtOptional<QColor> mItemSeparateColor;
 
-    int m_itemLineWidth;
-    bool m_itemLineVisible;
-    bool m_itemLineLeftAlign;
-    QExtOptional<QColor> m_itemLineColor;
+    int mItemLineWidth;
+    bool mItemLineVisible;
+    bool mItemLineLeftAlign;
+    QExtOptional<QColor> mItemLineColor;
 
-    int m_itemTriangleWidth;
-    bool m_itemTriangleVisible;
-    bool m_itemTriangleLeftAlign;
-    QExtOptional<QColor> m_itemTriangleColor;
+    int mItemTriangleWidth;
+    bool mItemTriangleVisible;
+    bool mItemTriangleLeftAlign;
+    QExtOptional<QColor> mItemTriangleColor;
 
-    int m_itemMargins[2];
-    int m_itemHeights[2];
-    int m_itemFontSizes[2];
-    int m_itemIconMargins[2];
+    int mItemMargins[2];
+    int mItemHeights[2];
+    int mItemFontSizes[2];
+    int mItemIconMargins[2];
 
-    QExtOptional<QColor> m_backgroundColor;
-    QExtOptional<QColor> m_itemTextColors[2][QExtNavigationListView::ItemStateNum];
-    QExtOptional<QColor> m_itemBackgroundColors[2][QExtNavigationListView::ItemStateNum];
+    QExtOptional<QColor> mBackgroundColor;
+    QExtOptional<QColor> mItemTextColors[2][QExtNavigationListView::ItemStateNum];
+    QExtOptional<QColor> mItemBackgroundColors[2][QExtNavigationListView::ItemStateNum];
 
-    QExtNavigationListView::ExpendMode m_expendMode;
+    QExtNavigationListView::ExpendMode mExpendMode;
 
 private:
     QEXT_DISABLE_COPY_MOVE(QExtNavigationListViewPrivate)

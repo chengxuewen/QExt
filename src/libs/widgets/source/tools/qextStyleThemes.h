@@ -49,7 +49,7 @@ public:
         Error_CssTemplate,
         Error_ResourceGenerator
     };
-    QEXT_STATIC_CONSTANT(int, ErrorNum = Error_ResourceGenerator + 1);
+    QEXT_STATIC_CONSTANT_NUMBER(ErrorNum, Error_ResourceGenerator + 1)
 
     enum LocationEnum
     {
@@ -57,7 +57,7 @@ public:
         Location_Themes,
         Location_SvgsTemplates
     };
-    QEXT_STATIC_CONSTANT(int, LocationNum = Location_SvgsTemplates + 1);
+    QEXT_STATIC_CONSTANT_NUMBER(LocationNum, Location_SvgsTemplates + 1)
 
     explicit QExtStyleThemes(QObject *parent = QEXT_NULLPTR);
 

@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 ** Copyright (c) 2000-2003 Wayne Roth
 ** Copyright (c) 2004-2007 Stefan Sander
 ** Copyright (c) 2007 Michal Policht
@@ -39,7 +39,7 @@
 #include <QtCore/QObject>
 
 
-struct QEXTPortInfo
+struct QExtPortInfo
 {
     QString portName;   ///< Port name.
     QString physName;   ///< Physical name.
@@ -52,18 +52,17 @@ struct QEXTPortInfo
 class QExtSerialEnumeratorPrivate;
 class QEXT_SERIALPORT_API QExtSerialEnumerator : public QObject
 {
-Q_OBJECT
-
+    Q_OBJECT
 public:
     QExtSerialEnumerator(QObject *parent = 0);
     ~QExtSerialEnumerator();
 
-    static QList<QEXTPortInfo> portInfoList();
+    static QList<QExtPortInfo> portInfoList();
     void setUpNotifications();
 
 Q_SIGNALS:
-    void deviceDiscovered(const QEXTPortInfo &info);
-    void deviceRemoved(const QEXTPortInfo &info);
+    void deviceDiscovered(const QExtPortInfo &info);
+    void deviceRemoved(const QExtPortInfo &info);
 
 private:
     Q_DISABLE_COPY(QExtSerialEnumerator)

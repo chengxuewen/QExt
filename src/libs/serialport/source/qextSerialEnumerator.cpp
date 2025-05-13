@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 ** Copyright (c) 2000-2003 Wayne Roth
 ** Copyright (c) 2004-2007 Stefan Sander
 ** Copyright (c) 2007 Michal Policht
@@ -37,7 +37,7 @@
 
 
 QExtSerialEnumeratorPrivate::QExtSerialEnumeratorPrivate(QExtSerialEnumerator *enumrator)
-        : q_ptr(enumrator)
+    : q_ptr(enumrator)
 {
     platformSpecificInit();
 }
@@ -48,9 +48,9 @@ QExtSerialEnumeratorPrivate::~QExtSerialEnumeratorPrivate()
 }
 
 /*!
-  \class QEXTPortInfo
+  \class QExtPortInfo
 
-  \brief The QEXTPortInfo class containing port information.
+  \brief The QExtPortInfo class containing port information.
 
   Structure containing port information.
 
@@ -70,12 +70,12 @@ QExtSerialEnumeratorPrivate::~QExtSerialEnumeratorPrivate()
 
     \section1 Usage
     To poll the system for a list of connected devices, simply use getPorts().  Each
-    QEXTPortInfo structure will populated with information about the corresponding device.
+    QExtPortInfo structure will populated with information about the corresponding device.
 
     \bold Example
     \code
-    QList<QEXTPortInfo> ports = QExtSerialEnumerator::getPorts();
-    foreach (QEXTPortInfo port, ports) {
+    QList<QExtPortInfo> ports = QExtSerialEnumerator::getPorts();
+    foreach (QExtPortInfo port, ports) {
         // inspect port...
     }
     \endcode
@@ -87,10 +87,10 @@ QExtSerialEnumeratorPrivate::~QExtSerialEnumeratorPrivate()
     \bold Example
     \code
     QExtSerialEnumerator *enumerator = new QExtSerialEnumerator();
-    connect(enumerator, SIGNAL(deviceDiscovered(const QEXTPortInfo &)),
-               myClass, SLOT(onDeviceDiscovered(const QEXTPortInfo &)));
-    connect(enumerator, SIGNAL(deviceRemoved(const QEXTPortInfo &)),
-               myClass, SLOT(onDeviceRemoved(const QEXTPortInfo &)));
+    connect(enumerator, SIGNAL(deviceDiscovered(const QExtPortInfo &)),
+               myClass, SLOT(onDeviceDiscovered(const QExtPortInfo &)));
+    connect(enumerator, SIGNAL(deviceRemoved(const QExtPortInfo &)),
+               myClass, SLOT(onDeviceRemoved(const QExtPortInfo &)));
     \endcode
 
     \section1 Credits
@@ -103,7 +103,7 @@ QExtSerialEnumeratorPrivate::~QExtSerialEnumeratorPrivate()
 */
 
 /*!
-    \fn void QExtSerialEnumerator::deviceDiscovered(const QEXTPortInfo &info)
+    \fn void QExtSerialEnumerator::deviceDiscovered(const QExtPortInfo &info)
     A new device has been connected to the system.
 
     setUpNotifications() must be called first to enable event-driven device notifications.
@@ -113,7 +113,7 @@ QExtSerialEnumeratorPrivate::~QExtSerialEnumeratorPrivate()
 */
 
 /*!
-   \fn void QExtSerialEnumerator::deviceRemoved(const QEXTPortInfo &info);
+   \fn void QExtSerialEnumerator::deviceRemoved(const QExtPortInfo &info);
     A device has been disconnected from the system.
 
     setUpNotifications() must be called first to enable event-driven device notifications.
@@ -126,11 +126,11 @@ QExtSerialEnumeratorPrivate::~QExtSerialEnumeratorPrivate()
    Constructs a QExtSerialEnumerator object with the given \a parent.
 */
 QExtSerialEnumerator::QExtSerialEnumerator(QObject *parent)
-        : QObject(parent), dd_ptr(new QExtSerialEnumeratorPrivate(this))
+    : QObject(parent), dd_ptr(new QExtSerialEnumeratorPrivate(this))
 {
-    if (!QMetaType::isRegistered(QMetaType::type("QEXTPortInfo")))
+    if (!QMetaType::isRegistered(QMetaType::type("QExtPortInfo")))
     {
-        qRegisterMetaType<QEXTPortInfo>("QEXTPortInfo");
+        qRegisterMetaType<QExtPortInfo>("QExtPortInfo");
     }
 }
 
@@ -147,7 +147,7 @@ QExtSerialEnumerator::~QExtSerialEnumerator()
 
     return list of ports currently available in the system.
 */
-QList<QEXTPortInfo> QExtSerialEnumerator::portInfoList()
+QList<QExtPortInfo> QExtSerialEnumerator::portInfoList()
 {
     return QExtSerialEnumeratorPrivate::getPorts_sys();
 }

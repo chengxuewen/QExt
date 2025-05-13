@@ -1,4 +1,4 @@
-/***********************************************************************************************************************
+﻿/***********************************************************************************************************************
 **
 ** Library: QExt
 **
@@ -87,11 +87,13 @@
 #if QEXT_CC_FEATURE_CONSTEXPR
 #   define QEXT_CONSTEXPR constexpr
 #   define QEXT_RELAXED_CONSTEXPR constexpr
-#   define QEXT_STATIC_CONSTANT(type, assignment) static constexpr type assignment
+#   define QEXT_STATIC_CONSTANT_NUMBER(name, number) static constexpr int name = number;
+#   define QEXT_STATIC_CONSTANT_STRING(name, string) static constexpr char name[] = string;
 #else
 #   define QEXT_CONSTEXPR
 #   define QEXT_RELAXED_CONSTEXPR const
-#   define QEXT_STATIC_CONSTANT(type, assignment) enum { assignment }
+#   define QEXT_STATIC_CONSTANT_NUMBER(name, number) enum { name = number };
+#   define QEXT_STATIC_CONSTANT_STRING(name, string) static const char name[] = string;
 #endif
 
 #if QEXT_CC_FEATURE_EXPLICIT_OVERRIDES
@@ -254,25 +256,21 @@ inline void qextMetaEnum(const QVariant &variant)
     QExt force inline macro declare
 ***********************************************************************************************************************/
 #if defined(QEXT_CC_MSVC)
-#   define QEXT_ATTR_ALWAYS_INLINE   __forceinline
-#   define QEXT_ATTR_FORCE_INLINE    __forceinline
-#   define QEXT_ATTR_NEVER_INLINE    __declspec(noinline)
-#   define QEXT_ATTR_USED
+#   define QEXT_FORCE_INLINE        __forceinline
+#   define QEXT_NO_INLINE           __declspec(noinline)
+#   define QEXT_USED
 #elif defined(QEXT_CC_GNU)
-#   define QEXT_ATTR_FORCE_INLINE    inline __attribute__((always_inline))
-#   define QEXT_ATTR_ALWAYS_INLINE   inline __attribute__((always_inline))
-#   define QEXT_ATTR_NEVER_INLINE    __attribute__((noinline))
-#   define QEXT_ATTR_USED           __attribute__((used))
+#   define QEXT_FORCE_INLINE        inline __attribute__((always_inline))
+#   define QEXT_NO_INLINE           __attribute__((noinline))
+#   define QEXT_USED                __attribute__((used))
 #elif defined(QEXT_CC_CLANG)
-#   define QEXT_ATTR_FORCE_INLINE    inline __attribute__((always_inline))
-#   define QEXT_ATTR_ALWAYS_INLINE   inline __attribute__((always_inline))
-#   define QEXT_ATTR_NEVER_INLINE
-#   define QEXT_ATTR_USED           __attribute__((used))
+#   define QEXT_FORCE_INLINE        inline __attribute__((always_inline))
+#   define QEXT_NO_INLINE
+#   define QEXT_USED                __attribute__((used))
 #else
-#   define QEXT_ATTR_FORCE_INLINE    inline // no force inline for other platforms possible
-#   define QEXT_ATTR_ALWAYS_INLINE   inline
-#   define QEXT_ATTR_NEVER_INLINE
-#   define QEXT_ATTR_USED
+#   define QEXT_FORCE_INLINE        inline // no force inline for other platforms possible
+#   define QEXT_NO_INLINE
+#   define QEXT_USED
 #endif
 
 
