@@ -12,11 +12,10 @@ public:
     explicit QExtDAIOReaderPrivate(QExtDAIOReader *q);
     virtual ~QExtDAIOReaderPrivate();
 
-    QExtDAIOReader * const q_ptr;
-
     QPointer<QExtDAIODevice> mDAIODevice;
 
-private:
+protected:
+    QExtDAIOReader * const q_ptr;
     Q_DECLARE_PUBLIC(QExtDAIOReader)
     QEXT_DISABLE_COPY_MOVE(QExtDAIOReaderPrivate)
 };

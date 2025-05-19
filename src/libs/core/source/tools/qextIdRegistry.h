@@ -13,14 +13,14 @@ public:
     explicit QExtIdRegistry(QObject *parent = QEXT_NULLPTR);
     ~QExtIdRegistry() QEXT_OVERRIDE;
 
-    quint64 registerdIdCount() const;
+    qint64 registerdIdCount() const;
 
-    bool isIdRegisterd(quint64 id) const;
-    quint64 requestId(QObject *obj = QEXT_NULLPTR);
+    bool isIdRegisterd(qint64 id) const;
+    qint64 requestId(QObject *obj = QEXT_NULLPTR);
 
-    void registerId(quint64 id);
-    void unregisterId(quint64 id);
-    void registerObjectWithId(QObject *obj, quint64 id);
+    void registerId(qint64 id);
+    void unregisterId(qint64 id);
+    void registerObjectWithId(QObject *obj, qint64 id);
 
 protected Q_SLOTS:
     void onRequestIdObjectDestroyed(QObject *obj);

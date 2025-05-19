@@ -12,10 +12,10 @@ public:
 
     QExtIdRegistry * const q_ptr;
 
-    quint64 mCounter;
-    QList<quint64> mFreeIdList;
-    QList<quint64> mUsedIdList;
-    QMap<QObject *, quint64> mObjectToIdMap;
+    qint64 mCounter;
+    QList<qint64> mFreeIdList;
+    QList<qint64> mUsedIdList;
+    QMap<QObject *, qint64> mObjectToIdMap;
 
 private:
     Q_DECLARE_PUBLIC(QExtIdRegistry)
@@ -42,22 +42,22 @@ QExtIdRegistry::~QExtIdRegistry()
 {
 }
 
-quint64 QExtIdRegistry::registerdIdCount() const
+qint64 QExtIdRegistry::registerdIdCount() const
 {
     Q_D(const QExtIdRegistry);
     return d->mUsedIdList.size();
 }
 
-bool QExtIdRegistry::isIdRegisterd(quint64 id) const
+bool QExtIdRegistry::isIdRegisterd(qint64 id) const
 {
     Q_D(const QExtIdRegistry);
     return d->mUsedIdList.contains(id);
 }
 
-quint64 QExtIdRegistry::requestId(QObject *obj)
+qint64 QExtIdRegistry::requestId(QObject *obj)
 {
     Q_D(QExtIdRegistry);
-    quint64 id = d->mFreeIdList.isEmpty() ? ++d->mCounter : d->mFreeIdList.takeFirst();
+    qint64 id = d->mFreeIdList.isEmpty() ? ++d->mCounter : d->mFreeIdList.takeFirst();
     while (d->mFreeIdList.isEmpty() && d->mUsedIdList.contains(id))
     {
         id = ++d->mCounter;
@@ -76,7 +76,7 @@ quint64 QExtIdRegistry::requestId(QObject *obj)
     return id;
 }
 
-void QExtIdRegistry::registerId(quint64 id)
+void QExtIdRegistry::registerId(qint64 id)
 {
     Q_D(QExtIdRegistry);
     if (d->mFreeIdList.contains(id))
@@ -91,7 +91,7 @@ void QExtIdRegistry::registerId(quint64 id)
     }
 }
 
-void QExtIdRegistry::unregisterId(quint64 id)
+void QExtIdRegistry::unregisterId(qint64 id)
 {
     Q_D(QExtIdRegistry);
     if (!d->mFreeIdList.contains(id))
@@ -106,7 +106,7 @@ void QExtIdRegistry::unregisterId(quint64 id)
     }
 }
 
-void QExtIdRegistry::registerObjectWithId(QObject *obj, quint64 id)
+void QExtIdRegistry::registerObjectWithId(QObject *obj, qint64 id)
 {
     Q_D(QExtIdRegistry);
     if (obj)
@@ -114,7 +114,7 @@ void QExtIdRegistry::registerObjectWithId(QObject *obj, quint64 id)
         if (d->mObjectToIdMap.contains(obj))
         {
             obj->disconnect(this);
-            quint64 oldId = d->mObjectToIdMap.value(obj);
+            qint64 oldId = d->mObjectToIdMap.value(obj);
             this->unregisterId(oldId);
         }
         connect(obj, &QObject::destroyed, this, &QExtIdRegistry::onRequestIdObjectDestroyed);
@@ -128,7 +128,7 @@ void QExtIdRegistry::onRequestIdObjectDestroyed(QObject *obj)
     Q_D(QExtIdRegistry);
     if (d->mObjectToIdMap.contains(obj))
     {
-        quint64 id = d->mObjectToIdMap.value(obj);
+        qint64 id = d->mObjectToIdMap.value(obj);
         d->mObjectToIdMap.remove(obj);
         this->unregisterId(id);
     }

@@ -4,9 +4,9 @@
 #include <QObject>
 #include <QAbstractTableModel>
 
+#include <qextDAIODevice.h>
 #include <qextDAViewGlobal.h>
 
-class QExtDAIODevice;
 class QExtDAIODeviceManager;
 class QExtDAIODeviceModelPrivate;
 class QEXT_DAVIEW_API QExtDAIODeviceModel : public QAbstractTableModel
@@ -19,10 +19,11 @@ public:
         Column_Alias,
         Column_Type,
         Column_State,
-        Column_Path
+        Column_Path,
+        Column_Error
     };
     Q_ENUM(ColumnEnum)
-    QEXT_STATIC_CONSTANT_NUMBER(ColumnEnumNum, 5)
+    QEXT_STATIC_CONSTANT_NUMBER(ColumnEnumNum, 6)
 
     QExtDAIODeviceModel(QExtDAIODeviceManager *ioDeviceManager, QObject *parent = QEXT_NULLPTR);
     ~QExtDAIODeviceModel() QEXT_OVERRIDE;
@@ -40,8 +41,8 @@ public:
 
     QExtDAIODeviceManager *ioDeviceManager() const;
 
-    QExtDAIODevice *ioDevice(int row) const;
-    QExtDAIODevice *ioDevice(const QModelIndex &index) const;
+    QExtDAIODevice::SharedPointer ioDevice(int row) const;
+    QExtDAIODevice::SharedPointer ioDevice(const QModelIndex &index) const;
 
     static QString columnEnumName(int type, bool isEng = false);
 

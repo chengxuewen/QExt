@@ -52,11 +52,13 @@ public:
     bool isRequestToSend();
     bool setRequestToSend(bool set);
 
-    QString path() const QEXT_OVERRIDE;
-    QString deviceTypeName() const QEXT_OVERRIDE;
+    QString ioPath() const QEXT_OVERRIDE;
+    QString ioType() const QEXT_OVERRIDE;
 
-    QThread *initDevice(quint64 id) QEXT_OVERRIDE;
-    void open(QIODevice::OpenMode mode = QIODevice::ReadWrite) QEXT_OVERRIDE;
+    QThread *initDevice(qint64 id) QEXT_OVERRIDE;
+
+    void load(const Items &items) QEXT_OVERRIDE;
+    Items save() const QEXT_OVERRIDE;
 
     static QString flowControlEnumString(int type, bool isEng = false);
     static QString baudRateEnumString(int type, bool isEng = false);
@@ -73,12 +75,13 @@ Q_SIGNALS:
     bool flowControlChanged(QSerialPort::FlowControl flowControl);
 
 protected Q_SLOTS:
-    void onSerialPortError(QSerialPort::SerialPortError error);
+    void onSerialPortErrorOccurred(QSerialPort::SerialPortError error);
+
+protected:
+    bool ioOpen() QEXT_OVERRIDE;
+    void ioClose() QEXT_OVERRIDE;
 
     void initPropertyModel(QExtPropertyModel *propertyModel) QEXT_OVERRIDE;
-
-    void onIOReadyRead() QEXT_OVERRIDE;
-    void onIOReadyWrite() QEXT_OVERRIDE;
 
 private:
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtDASerialPortIODevice)

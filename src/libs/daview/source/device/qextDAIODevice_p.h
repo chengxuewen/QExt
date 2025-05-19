@@ -1,6 +1,8 @@
 ﻿#ifndef _QEXTDAIODEVICE_P_H
 #define _QEXTDAIODEVICE_P_H
 
+#include <qextLinearBuffer.h>
+#include <qextConcurrent.h>
 #include <qextDAIODevice.h>
 #include <qextSpinlock.h>
 #include <qextOnceFlag.h>
@@ -17,21 +19,40 @@ public:
     virtual ~QExtDAIODevicePrivate();
 
     void initIO(QIODevice *io);
-    void updateByteCount(qulonglong rxCount);
+
+    void updateBpsValue();
+    void updateRxdBps(qulonglong rxdCount);
+    void updateTxdBps(qulonglong txdCount);
 
     QExtDAIODevice * const q_ptr;
 
-    int mRXBps;
-    quint64 mId;
-    QString mAlias;
+    QAtomicInt mRxdBps;
+    QAtomicInt mTxdBps;
+    qulonglong mRxdByteCount;
+    qulonglong mTxdByteCount;
+    qulonglong mRxdByteAllCount;
+    qulonglong mTxdByteAllCount;
+    QScopedPointer<QTimer> mBpsTimer;
+
+    qint64 mId;
+    QAtomicInt mIsOpened;
+    QExtConcurrent<QString> mAlias;
+    QExtConcurrent<QString> mIOPath;
+    QExtConcurrent<QString> mIOState;
+    QExtConcurrent<QString> mIOError;
+
     QPointer<QIODevice> mIO;
-    qulonglong mRXByteCount;
-    qulonglong mRXByteAllCount;
+    QAtomicInt mBufferEnable;
     QExtOnceFlag mThreadOnceFlag;
+    QExtOnceFlag mDestroyOnceFlag;
+    QExtConcurrentInt64 mBufferSize;
     QScopedPointer<QThread> mThread;
-    QScopedPointer<QTimer> mRXBpsTimer;
+
+
     QQueue<QByteArray> mWriteDataQueue;
-    QExtSpinLock mWriteDataQueueSpinlock;
+    QExtLinearBuffer mReadLinearBuffer;
+    mutable QExtSpinLock mWriteDataQueueSpinlock;
+    mutable QExtSpinLock mReadLinearBufferSpinlock;
     QScopedPointer<QExtPropertyModel> mPropertyModel;
 
 private:

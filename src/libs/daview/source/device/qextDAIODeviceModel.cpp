@@ -38,29 +38,29 @@ QExtDAIODeviceModel::QExtDAIODeviceModel(QExtDAIODeviceManager *ioDeviceManager,
     Q_D(QExtDAIODeviceModel);
     d->mIODeviceManager = ioDeviceManager;
     connect(ioDeviceManager, &QExtDAIODeviceManager::ioDeviceAboutToBeDelete, this,
-            [=](QExtDAIODevice */*ioDevice*/, quint64 /*id*/)
+            [=](const QExtDAIODevice::SharedPointer &/*ioDevice*/, qint64 /*id*/)
             {
                 this->beginResetModel();
             });
     connect(ioDeviceManager, &QExtDAIODeviceManager::ioDeviceDeleted, this,
-            [=](quint64 /*id*/)
+            [=](qint64 /*id*/)
             {
                 this->endResetModel();
             });
 
     connect(ioDeviceManager, &QExtDAIODeviceManager::ioDeviceAboutToBeCreated, this,
-            [=](quint64 /*id*/)
+            [=](qint64 /*id*/)
             {
                 this->beginResetModel();
             });
     connect(ioDeviceManager, &QExtDAIODeviceManager::ioDeviceCreated, this,
-            [=](QExtDAIODevice */*ioDevice*/, quint64 /*id*/)
+            [=](const QExtDAIODevice::SharedPointer &/*ioDevice*/, qint64 /*id*/)
             {
                 this->endResetModel();
             });
 
     connect(ioDeviceManager, &QExtDAIODeviceManager::ioDevicePropertyChanged, this,
-            [=](QExtDAIODevice *ioDevice, const QString &name)
+            [=](const QExtDAIODevice::SharedPointer &ioDevice, const QString &name)
             {
                 int row = d->mIODeviceManager->ioDeviceIndex(ioDevice);
                 QModelIndex leftTopIndex = this->index(row, 0);
@@ -93,7 +93,7 @@ QVariant QExtDAIODeviceModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    QExtDAIODevice *ioDevice = d->mIODeviceManager->ioDevice(index.row());
+    QExtDAIODevice::SharedPointer ioDevice = d->mIODeviceManager->ioDevice(index.row());
     if (ioDevice)
     {
         switch (index.column())
@@ -118,7 +118,7 @@ QVariant QExtDAIODeviceModel::data(const QModelIndex &index, int role) const
         {
             if (role == Qt::DisplayRole || role == Qt::EditRole)
             {
-                return ioDevice->deviceTypeName();
+                return ioDevice->ioType();
             }
             break;
         }
@@ -126,7 +126,7 @@ QVariant QExtDAIODeviceModel::data(const QModelIndex &index, int role) const
         {
             if (role == Qt::DisplayRole || role == Qt::EditRole)
             {
-                return ioDevice->stateString();
+                return ioDevice->ioState();
             }
             break;
         }
@@ -134,7 +134,15 @@ QVariant QExtDAIODeviceModel::data(const QModelIndex &index, int role) const
         {
             if (role == Qt::DisplayRole || role == Qt::EditRole)
             {
-                return ioDevice->path();
+                return ioDevice->ioPath();
+            }
+            break;
+        }
+        case Column_Error:
+        {
+            if (role == Qt::DisplayRole || role == Qt::EditRole)
+            {
+                return ioDevice->ioError();
             }
             break;
         }
@@ -156,7 +164,7 @@ bool QExtDAIODeviceModel::setData(const QModelIndex &index, const QVariant &valu
     }
 
     bool ret = false;
-    QExtDAIODevice *ioDevice = d->mIODeviceManager->ioDevice(index.row());
+    QExtDAIODevice::SharedPointer ioDevice = d->mIODeviceManager->ioDevice(index.row());
     if (ioDevice)
     {
         // set name
@@ -197,6 +205,8 @@ Qt::ItemFlags QExtDAIODeviceModel::flags(const QModelIndex &index) const
     case Column_Path:
         return Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable;
     case Column_State:
+        return Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable;
+    case Column_Error:
         return Qt::ItemIsEnabled | Qt::ItemNeverHasChildren | Qt::ItemIsSelectable;
     default:
         break;
@@ -252,7 +262,7 @@ QExtDAIODeviceManager *QExtDAIODeviceModel::ioDeviceManager() const
     return d->mIODeviceManager.data();
 }
 
-QExtDAIODevice *QExtDAIODeviceModel::ioDevice(int row) const
+QExtDAIODevice::SharedPointer QExtDAIODeviceModel::ioDevice(int row) const
 {
     Q_D(const QExtDAIODeviceModel);
     if (row < 0 || row >= d->mIODeviceManager->ioDeviceCount())
@@ -263,7 +273,7 @@ QExtDAIODevice *QExtDAIODeviceModel::ioDevice(int row) const
     return d->mIODeviceManager->ioDevice(row);
 }
 
-QExtDAIODevice *QExtDAIODeviceModel::ioDevice(const QModelIndex &index) const
+QExtDAIODevice::SharedPointer QExtDAIODeviceModel::ioDevice(const QModelIndex &index) const
 {
     if (!index.isValid())
     {
@@ -287,6 +297,8 @@ QString QExtDAIODeviceModel::columnEnumName(int type, bool isEng)
         return isEng ? "Path" : tr("Path");
     case Column_State:
         return isEng ? "State" : tr("State");
+    case Column_Error:
+        return isEng ? "Error" : tr("Error");
     default:
         break;
     }

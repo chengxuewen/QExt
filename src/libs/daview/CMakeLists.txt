@@ -33,6 +33,7 @@ if(QEXT_QT_VERSION_MAJOR EQUAL 4)
 elseif(QEXT_QT_VERSION_MAJOR GREATER 4)
     list(APPEND QEXT_LIB_LINK_LIBRARIES
         Qt${QEXT_QT_VERSION_MAJOR}::SerialPort
+        Qt${QEXT_QT_VERSION_MAJOR}::Network
         Qt${QEXT_QT_VERSION_MAJOR}::Core
         Qt${QEXT_QT_VERSION_MAJOR}::Gui)
 else()
@@ -51,15 +52,28 @@ qext_add_library(${QEXT_LIB_NAME}
     source/device/qextDAIODevice.cpp
     source/device/qextDAIODevice.h
     source/device/qextDAIODevice_p.h
+    source/device/qextDAIODeviceFactory.cpp
+    source/device/qextDAIODeviceFactory.h
     source/device/qextDAIODeviceManager.cpp
     source/device/qextDAIODeviceManager.h
     source/device/qextDAIODeviceModel.cpp
     source/device/qextDAIODeviceModel.h
+    source/device/qextDAIODeviceUtils.cpp
+    source/device/qextDAIODeviceUtils.h
     source/device/qextDASerialPortIODevice.cpp
     source/device/qextDASerialPortIODevice.h
+    source/device/qextDATcpSocketIODevice.cpp
+    source/device/qextDATcpSocketIODevice.h
+    source/device/qextDAUdpSocketIODevice.cpp
+    source/device/qextDAUdpSocketIODevice.h
     source/reader/qextDAIOReader.cpp
     source/reader/qextDAIOReader.h
     source/reader/qextDAIOReader_p.h
+    source/serialization/qextDASerializable.h
+    source/serialization/qextDASettingsSerializeFile.cpp
+    source/serialization/qextDASettingsSerializeFile.h
+    source/serialization/qextDAJsonSerializeFile.cpp
+    source/serialization/qextDAJsonSerializeFile.h
     source/qextDAConstants.h
     source/qextDAViewGlobal.h
     source/qextDAView.cpp

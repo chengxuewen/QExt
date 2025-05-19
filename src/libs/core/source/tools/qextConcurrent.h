@@ -1,4 +1,4 @@
-#ifndef _QEXTCONCURRENT_H
+﻿#ifndef _QEXTCONCURRENT_H
 #define _QEXTCONCURRENT_H
 
 #include <qextSpinlock.h>
@@ -14,8 +14,8 @@ public:
     typedef T(*SetWithUserDataCallbackFunc)(const T &, void *userData);
 
     QExtConcurrent() {}
-    QExtConcurrent(const T &value) : m_value(value) {}
-    QExtConcurrent(const Self &other) : m_value(other.get()) {}
+    QExtConcurrent(const T &value) : mValue(value) {}
+    QExtConcurrent(const Self &other) : mValue(other.get()) {}
     virtual ~QExtConcurrent() {}
 
     QExtConcurrent &operator=(const QExtConcurrent &other)
@@ -38,93 +38,111 @@ public:
 
     T *data() QEXT_NOEXCEPT
     {
-        return &m_value;
+        return &mValue;
     }
     const T *data() const QEXT_NOEXCEPT
     {
-        return &m_value;
+        return &mValue;
+    }
+    T &value() QEXT_NOEXCEPT
+    {
+        return mValue;
+    }
+    const T &value() const QEXT_NOEXCEPT
+    {
+        return mValue;
     }
     T *operator->() QEXT_NOEXCEPT
     {
-        return &m_value;
+        return &mValue;
     }
     const T *operator->() const QEXT_NOEXCEPT
     {
-        return &m_value;
+        return &mValue;
     }
 
     T get() const
     {
-        QExtSpinLock::Locker locker(m_spinlock);
-        return m_value;
+        QExtSpinLock::Locker locker(mSpinlock);
+        return mValue;
     }
     void set(const T &value)
     {
-        QExtSpinLock::Locker locker(m_spinlock);
-        m_value = value;
+        QExtSpinLock::Locker locker(mSpinlock);
+        mValue = value;
+    }
+    bool reset(const T &value)
+    {
+        QExtSpinLock::Locker locker(mSpinlock);
+        if (value != mValue)
+        {
+            mValue = value;
+            return true;
+        }
+        return false;
     }
     bool compare(const T &data) const
     {
-        QExtSpinLock::Locker locker(m_spinlock);
-        return this->m_value == data;
+        QExtSpinLock::Locker locker(mSpinlock);
+        return this->mValue == data;
     }
     bool compare(const Self &other) const
     {
-        QExtSpinLock::Locker locker(m_spinlock);
-        return this != &other && this->m_value == other.m_value;
+        QExtSpinLock::Locker locker(mSpinlock);
+        return this != &other && this->mValue == other.mValue;
     }
     T exchange(const T &value)
     {
-        QExtSpinLock::Locker locker(m_spinlock);
-        T &oldVal = m_value;
-        m_value = value;
+        QExtSpinLock::Locker locker(mSpinlock);
+        T &oldVal = mValue;
+        mValue = value;
         return oldVal;
     }
-    bool compare_exchange(T *expected, const T &desired)
+    bool compareExchange(T *expected, const T &desired)
     {
-        QExtSpinLock::Locker locker(m_spinlock);
+        QExtSpinLock::Locker locker(mSpinlock);
         if (*expected == desired)
         {
-            *expected = m_value;
-            m_value = desired;
+            *expected = mValue;
+            mValue = desired;
             return true;
         }
         return false;
     }
-    bool test_set(const T &expected, const T &desired)
+    bool testSet(const T &expected, const T &desired)
     {
-        QExtSpinLock::Locker locker(m_spinlock);
+        QExtSpinLock::Locker locker(mSpinlock);
         if (expected == desired)
         {
-            m_value = desired;
+            mValue = desired;
             return true;
         }
         return false;
     }
-    T fetch_set(SetCallbackFunc func)
+    T fetchSet(SetCallbackFunc func)
     {
-        QExtSpinLock::Locker locker(m_spinlock);
-        T &oldVal = m_value;
+        QExtSpinLock::Locker locker(mSpinlock);
+        T &oldVal = mValue;
         if (func)
         {
-            m_value = func(m_value);
+            mValue = func(mValue);
         }
         return oldVal;
     }
-    T fetch_set(SetWithUserDataCallbackFunc func, void *userData)
+    T fetchSet(SetWithUserDataCallbackFunc func, void *userData)
     {
-        QExtSpinLock::Locker locker(m_spinlock);
-        T &oldVal = m_value;
+        QExtSpinLock::Locker locker(mSpinlock);
+        T &oldVal = mValue;
         if (func)
         {
-            m_value = func(m_value, userData);
+            mValue = func(mValue, userData);
         }
         return oldVal;
     }
 
 protected:
-    T m_value;
-    mutable QExtSpinLock m_spinlock;
+    T mValue;
+    mutable QExtSpinLock mSpinlock;
 };
 
 template <typename T>
@@ -139,13 +157,13 @@ public:
     QExtConcurrentArithmetic(const T &value) : Base(value) {}
     QExtConcurrentArithmetic(const Self &other) : Base(other.get()) {}
 
-    T fetch_add(T val) { return this->fetch_set(addValue, &val); }
-    T fetch_sub(T val) { return this->fetch_set(subValue, &val); }
+    T fetchAdd(T val) { return this->fetchSet(addValue, &val); }
+    T fetchSub(T val) { return this->fetchSet(subValue, &val); }
 
-    Type operator++() QEXT_NOTHROW { return this->fetch_add(1) + 1; }
-    Type operator--() QEXT_NOTHROW { return this->fetch_sub(1) - 1; }
-    Type operator+=(T val) QEXT_NOTHROW { return this->fetch_add(val) + val; }
-    Type operator-=(T val) QEXT_NOTHROW { return this->fetch_sub(val) - val; }
+    Type operator++() QEXT_NOTHROW { return this->fetchAdd(1) + 1; }
+    Type operator--() QEXT_NOTHROW { return this->fetchSub(1) - 1; }
+    Type operator+=(T val) QEXT_NOTHROW { return this->fetchAdd(val) + val; }
+    Type operator-=(T val) QEXT_NOTHROW { return this->fetchSub(val) - val; }
 
 private:
     static T addValue(const T &value, void *userData) { return value + *reinterpret_cast<T *>(userData); }
@@ -166,29 +184,29 @@ public:
     QExtConcurrentIntegral(const T &value) : Base(value) {}
     QExtConcurrentIntegral(const Self &other) : Base(other.get()) {}
 
-    T fetch_or(const T &val) { return this->fetch_set(orValue, &val); }
-    T fetch_xor(const T &val) { return this->fetch_set(xorValue, &val); }
-    T fetch_and(const T &val) { return this->fetch_set(andValue, &val); }
+    T fetchOr(const T &val) { return this->fetchSet(orValue, &val); }
+    T fetchXor(const T &val) { return this->fetchSet(xorValue, &val); }
+    T fetchAnd(const T &val) { return this->fetchSet(andValue, &val); }
 
-    Type operator|=(const T &val) QEXT_NOTHROW { return this->fetch_or(val) | val; }
-    Type operator^=(const T &val) QEXT_NOTHROW { return this->fetch_xor(val) ^ val; }
-    Type operator&=(const T &val) QEXT_NOTHROW { return this->fetch_and(val) & val; }
+    Type operator|=(const T &val) QEXT_NOTHROW { return this->fetchOr(val) | val; }
+    Type operator^=(const T &val) QEXT_NOTHROW { return this->fetchXor(val) ^ val; }
+    Type operator&=(const T &val) QEXT_NOTHROW { return this->fetchAnd(val) & val; }
 
 private:
     static T orValue(const T &value, void *userData) { return value | *reinterpret_cast<T *>(userData); }
     static T xorValue(const T &value, void *userData) { return value ^ *reinterpret_cast<T *>(userData); }
     static T andValue(const T &value, void *userData) { return value & *reinterpret_cast<T *>(userData); }
 };
-typedef QExtConcurrentArithmetic<unsigned char> QExtConcurrentUChar;
-typedef QExtConcurrentArithmetic<unsigned short> QExtConcurrentUShort;
-typedef QExtConcurrentArithmetic<unsigned int> QExtConcurrentUInt;
-typedef QExtConcurrentArithmetic<unsigned long> QExtConcurrentULong;
-typedef QExtConcurrentArithmetic<char> QExtConcurrentChar;
-typedef QExtConcurrentArithmetic<short> QExtConcurrentShort;
-typedef QExtConcurrentArithmetic<int> QExtConcurrentInt;
-typedef QExtConcurrentArithmetic<long> QExtConcurrentLong;
-typedef QExtConcurrentArithmetic<bool> QExtConcurrentBool;
-typedef QExtConcurrentArithmetic<qint64> QExtConcurrentInt64;
-typedef QExtConcurrentArithmetic<quint64> QExtConcurrentUInt64;
+typedef QExtConcurrentIntegral<unsigned char> QExtConcurrentUChar;
+typedef QExtConcurrentIntegral<unsigned short> QExtConcurrentUShort;
+typedef QExtConcurrentIntegral<unsigned int> QExtConcurrentUInt;
+typedef QExtConcurrentIntegral<unsigned long> QExtConcurrentULong;
+typedef QExtConcurrentIntegral<char> QExtConcurrentChar;
+typedef QExtConcurrentIntegral<short> QExtConcurrentShort;
+typedef QExtConcurrentIntegral<int> QExtConcurrentInt;
+typedef QExtConcurrentIntegral<long> QExtConcurrentLong;
+typedef QExtConcurrentIntegral<bool> QExtConcurrentBool;
+typedef QExtConcurrentIntegral<qint64> QExtConcurrentInt64;
+typedef QExtConcurrentIntegral<quint64> QExtConcurrentUInt64;
 
 #endif // _QEXTCONCURRENT_H

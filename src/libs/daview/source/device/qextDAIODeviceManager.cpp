@@ -16,17 +16,17 @@ public:
     explicit QExtDAIODeviceManagerPrivate(QExtDAIODeviceManager *q);
     virtual ~QExtDAIODeviceManagerPrivate();
 
-    QExtDAIODeviceManager * const q_ptr;
-
     QExtIdRegistry mIdRegistry;
-    QList<QExtDAIODevice *> mIODeviceList;
-    QMap<quint64, QExtDAIODevice *> mIdToIODeviceMap;
-    QMap<QString, QExtDAIODevice *> mNameToIODeviceMap;
-    QMap<QExtDAIODevice *, QThread *> mIODeviceThreadMap;
+    QExtDAIODeviceFactory mIODeviceFactory;
+    QList<QExtDAIODevice::SharedPointer> mIODeviceList;
+    QMap<qint64, QExtDAIODevice::SharedPointer> mIdToIODeviceMap;
+    QMap<QString, QExtDAIODevice::SharedPointer> mNameToIODeviceMap;
+    QMap<QExtDAIODevice::SharedPointer, QThread *> mIODeviceThreadMap;
 
     QScopedPointer<QExtDAIODeviceModel> mIODeviceModel;
 
-private:
+protected:
+    QExtDAIODeviceManager * const q_ptr;
     Q_DECLARE_PUBLIC(QExtDAIODeviceManager)
     QEXT_DISABLE_COPY_MOVE(QExtDAIODeviceManagerPrivate)
 };
@@ -50,6 +50,13 @@ QExtDAIODeviceManager *QExtDAIODeviceManager::instance()
 
 QExtDAIODeviceManager::~QExtDAIODeviceManager()
 {
+    this->deleteAllIODevices();
+}
+
+QExtDAIODeviceFactory &QExtDAIODeviceManager::ioDeviceFactory()
+{
+    Q_D(QExtDAIODeviceManager);
+    return d->mIODeviceFactory;
 }
 
 int QExtDAIODeviceManager::ioDeviceCount() const
@@ -58,7 +65,7 @@ int QExtDAIODeviceManager::ioDeviceCount() const
     return d->mIODeviceList.size();
 }
 
-QExtDAIODevice *QExtDAIODeviceManager::ioDevice(int index) const
+QExtDAIODevice::SharedPointer QExtDAIODeviceManager::ioDevice(int index) const
 {
     Q_D(const QExtDAIODeviceManager);
     if (index < 0 || index >= d->mIODeviceList.size())
@@ -69,13 +76,13 @@ QExtDAIODevice *QExtDAIODeviceManager::ioDevice(int index) const
     return d->mIODeviceList.at(index);
 }
 
-QList<QExtDAIODevice *> QExtDAIODeviceManager::ioDeviceList() const
+QList<QExtDAIODevice::SharedPointer> QExtDAIODeviceManager::ioDeviceList() const
 {
     Q_D(const QExtDAIODeviceManager);
     return d->mIODeviceList;
 }
 
-int QExtDAIODeviceManager::ioDeviceIndex(QExtDAIODevice *ioDevice) const
+int QExtDAIODeviceManager::ioDeviceIndex(const QExtDAIODevice::SharedPointer &ioDevice) const
 {
     Q_D(const QExtDAIODeviceManager);
     return d->mIODeviceList.indexOf(ioDevice);
@@ -83,9 +90,15 @@ int QExtDAIODeviceManager::ioDeviceIndex(QExtDAIODevice *ioDevice) const
 
 void QExtDAIODeviceManager::deleteAllIODevices()
 {
+    Q_D(QExtDAIODeviceManager);
+    QList<QExtDAIODevice::SharedPointer> ioDeviceList = d->mIODeviceList;
+    for (int i = 0; i < ioDeviceList.size(); ++i)
+    {
+        this->deleteIODevice(ioDeviceList[i]);
+    }
 }
 
-void QExtDAIODeviceManager::deleteIODevice(QExtDAIODevice *ioDevice)
+void QExtDAIODeviceManager::deleteIODevice(QExtDAIODevice::SharedPointer &ioDevice)
 {
     Q_D(QExtDAIODeviceManager);
     if (ioDevice)
@@ -95,24 +108,23 @@ void QExtDAIODeviceManager::deleteIODevice(QExtDAIODevice *ioDevice)
         {
             ioDevice->close();
         }
-        quint64 id = ioDevice->id();
+        qint64 id = ioDevice->id();
         emit this->ioDeviceAboutToBeDelete(ioDevice, id);
-        QThread *thread = d->mIODeviceThreadMap.take(ioDevice);
+        d->mIODeviceThreadMap.take(ioDevice);
         d->mNameToIODeviceMap.remove(ioDevice->name());
         d->mIODeviceList.removeOne(ioDevice);
         d->mIdRegistry.unregisterId(id);
         d->mIdToIODeviceMap.remove(id);
         emit this->ioDeviceDeleted(id);
-        thread->quit();
-        thread->wait();
-        delete ioDevice;
+        ioDevice->destroyDevice();
     }
 }
 
-QExtDAIODevice *QExtDAIODeviceManager::createIODevice(QExtDAIODevice *ioDevice, quint64 id)
+QExtDAIODevice::SharedPointer QExtDAIODeviceManager::registerIODevice(const QExtDAIODevice::SharedPointer &ioDevice,
+                                                                      qint64 id)
 {
     Q_D(QExtDAIODeviceManager);
-    Q_ASSERT(ioDevice);
+    Q_ASSERT(!ioDevice.isNull());
     if (this->ioDeviceCount() >= QExtDAConstants::IODEVICE_MAX_COUNT)
     {
         qCritical() << QString("QExtDAIODeviceManager::createIODevice():io device max number is %1").
@@ -139,23 +151,24 @@ QExtDAIODevice *QExtDAIODeviceManager::createIODevice(QExtDAIODevice *ioDevice, 
     d->mIdToIODeviceMap.insert(id, ioDevice);
     d->mIODeviceThreadMap.insert(ioDevice, thread);
     d->mNameToIODeviceMap.insert(ioDevice->name(), ioDevice);
-    connect(ioDevice, &QExtDAIODevice::aliasChanged, this, [=]()
+    connect(ioDevice.data(), &QExtDAIODevice::aliasChanged, this, [=]()
             {
                 emit this->ioDevicePropertyChanged(ioDevice, QExtDAConstants::IODEVICE_PROPERTY_ALIAS);
             });
-    connect(ioDevice, &QExtDAIODevice::stateChanged, this, [=]()
+    connect(ioDevice.data(), &QExtDAIODevice::ioStateChanged, this, [=]()
             {
                 emit this->ioDevicePropertyChanged(ioDevice, QExtDAConstants::IODEVICE_PROPERTY_STATE);
             });
-    connect(ioDevice, &QExtDAIODevice::pathChanged, this, [=]()
+    connect(ioDevice.data(), &QExtDAIODevice::ioPathChanged, this, [=]()
             {
                 emit this->ioDevicePropertyChanged(ioDevice, QExtDAConstants::IODEVICE_PROPERTY_PATH);
             });
-    connect(ioDevice, &QExtDAIODevice::bpsChanged, this, [=]()
+    connect(ioDevice.data(), &QExtDAIODevice::rxdBpsChanged, this, [=]()
             {
                 emit this->ioDevicePropertyChanged(ioDevice, QExtDAConstants::IODEVICE_PROPERTY_BPS);
             });
-    qSort(d->mIODeviceList.begin(), d->mIODeviceList.end(), [=](QExtDAIODevice *lhs, QExtDAIODevice *rhs)
+    qSort(d->mIODeviceList.begin(), d->mIODeviceList.end(), [=](const QExtDAIODevice::SharedPointer &lhs,
+                                                                const QExtDAIODevice::SharedPointer &rhs)
           {
               return lhs->id() < rhs->id();
           });
@@ -166,6 +179,48 @@ QExtDAIODevice *QExtDAIODeviceManager::createIODevice(QExtDAIODevice *ioDevice, 
 QExtDAIODeviceModel *QExtDAIODeviceManager::makeIODeviceModel(QObject *parent)
 {
     return new QExtDAIODeviceModel(this, parent ? parent : this);
+}
+
+QExtDAIODevice::SharedPointer QExtDAIODeviceManager::selectCreateIODevice(QWidget *parent)
+{
+    Q_D(QExtDAIODeviceManager);
+    QExtDAIODevice::SharedPointer ioDevice = d->mIODeviceFactory.selectCreateIODevice(parent);
+    return !ioDevice.isNull() ? this->registerIODevice(ioDevice) : ioDevice;
+}
+
+void QExtDAIODeviceManager::load(const Items &items)
+{
+    Q_D(QExtDAIODeviceManager);
+    QExtDASerializable::Items::ConstIterator iter(items.constBegin());
+    while (items.constEnd() != iter)
+    {
+        const QExtDASerializable::Items childItems = iter.value().toHash();
+        const QString type = QExtDAIODevice::loadType(childItems);
+        const qint64 id = QExtDAIODevice::loadId(childItems);
+        if (id >= 0 && !type.isEmpty())
+        {
+            QExtDAIODevice::SharedPointer ioDevice = d->mIODeviceFactory.createIODevice(type);
+            ioDevice = this->registerIODevice(ioDevice, id);
+            if (!ioDevice.isNull())
+            {
+                ioDevice->load(childItems);
+            }
+        }
+        iter++;
+    }
+}
+
+QExtDASerializable::Items QExtDAIODeviceManager::save() const
+{
+    Q_D(const QExtDAIODeviceManager);
+    QExtDASerializable::Items items;
+    QList<QExtDAIODevice::SharedPointer>::ConstIterator iter(d->mIODeviceList.constBegin());
+    while (d->mIODeviceList.constEnd() != iter)
+    {
+        items.insert((*iter)->name() ,(*iter)->save());
+        iter++;
+    }
+    return items;
 }
 
 QExtDAIODeviceManager::QExtDAIODeviceManager(QObject *parent)

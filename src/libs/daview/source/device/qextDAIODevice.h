@@ -4,53 +4,89 @@
 #include <QObject>
 #include <QPointer>
 #include <QIODevice>
+#include <QSharedPointer>
+#include <QScopedPointer>
 
 #include <qextDAViewGlobal.h>
 #include <qextPropertyModel.h>
+#include <qextDASerializable.h>
 
 class QExtDAIODevicePrivate;
-class QEXT_DAVIEW_API QExtDAIODevice : public QObject
+class QEXT_DAVIEW_API QExtDAIODevice : public QObject, public QExtDASerializable
 {
     Q_OBJECT
 public:
+    typedef QSharedPointer<QExtDAIODevice> SharedPointer;
+
     explicit QExtDAIODevice(QObject *parent = QEXT_NULLPTR);
     QExtDAIODevice(QExtDAIODevicePrivate *d, QObject *parent = QEXT_NULLPTR);
     ~QExtDAIODevice() QEXT_OVERRIDE;
 
-    quint64 id() const;
+    int bps() const;
+    qint64 id() const;
     QString name() const;
+    bool isOpened() const;
+    QThread *thread() const;
     QString nameAlias() const;
+
+    qint64 bufferSize() const;
+    void setBufferSize(qint64 size);
+
+    bool isBufferEnabled() const;
+    void setBufferEnable(bool enable);
 
     QString alias() const;
     void setAlias(const QString &alias);
 
-    virtual QString path() const = 0;
-    virtual QString deviceTypeName() const = 0;
+    virtual QString ioType() const = 0;
 
-    virtual bool isOpened() const;
     virtual QIODevice *io() const;
-    virtual QString stateString() const;
-    virtual QString errorString() const;
+    virtual QString ioPath() const;
+    virtual QString ioState() const;
+    virtual QString ioError() const;
     virtual QExtPropertyModel *propertyModel();
     virtual QExtPropertyDelegate *propertyDelegate(QObject *parent = QEXT_NULLPTR);
 
-    virtual QThread *initDevice(quint64 id);
+    virtual QThread *initDevice(qint64 id);
+    virtual bool destroyDevice();
 
+    virtual void open();
     virtual void close();
-    virtual void open(QIODevice::OpenMode mode = QIODevice::ReadWrite);
+
+    Items save() const QEXT_OVERRIDE;
+    void load(const Items &items) QEXT_OVERRIDE;
+
+    QByteArray readAll();
+    bool canReadLine() const;
+    qint64 bytesAvailable() const;
+    int getChar(bool *ok = QEXT_NULLPTR);
+    qint64 read(char *target, qint64 size);
+    qint64 peek(char *target, qint64 size);
+    qint64 readLine(char *target, qint64 size);
     void write(const char *data, qint64 size);
 
+    static qint64 loadId(const Items &items);
+    static QString loadType(const Items &items);
+
+    static QString nameFromId(qint64 id);
+    static qint64 idFromName(const QString &name);
+
+
 Q_SIGNALS:
+    void readyRead();
     void readyWrite();
     void dataReaded(const QByteArray &data);
 
-    void pathChanged(const QString &path);
     void aliasChanged(const QString &alias);
+    void openStateChanged(bool opened);
+    void rxdBpsChanged(int bps);
+    void txdBpsChanged(int bps);
+
+    void ioPathChanged(const QString &path);
+    void ioStateChanged(const QString &state);
+    void ioErrorChanged(const QString &error);
 
     void aboutToClose();
-    void stateChanged(bool opened);
-
-    void bpsChanged(double bps);
 
 protected Q_SLOTS:
     virtual void onIOReadyRead();
@@ -59,12 +95,26 @@ protected Q_SLOTS:
     virtual void onIOOpenFailed();
     virtual void onIOOpenSuccessed();
 
-    virtual void initPropertyModel(QExtPropertyModel *propertyModel);
+    virtual void onOpenStateChanged(bool opened) { Q_UNUSED(opened); }
+    virtual void onIOPathChanged(const QString &path) { Q_UNUSED(path); }
+    virtual void onIOStateChanged(const QString &state) { Q_UNUSED(state); }
+    virtual void onIOErrorChanged(const QString &error) { Q_UNUSED(error); }
 
 protected:
-    QScopedPointer<QExtDAIODevicePrivate> dd_ptr;
+    virtual bool ioOpen();
+    virtual void ioClose();
 
-private:
+    virtual QByteArray ioRead();
+    virtual qint64 ioWrite(const char *data, qint64 len);
+
+    virtual void initPropertyModel(QExtPropertyModel *propertyModel);
+
+    void updateOpenState(bool opened);
+    void updateIOPath(const QString &path);
+    void updateIOState(const QString &state);
+    void updateIOError(const QString &error = "");
+
+    QScopedPointer<QExtDAIODevicePrivate> dd_ptr;
     Q_DECLARE_PRIVATE_D(dd_ptr, QExtDAIODevice)
     QEXT_DISABLE_COPY_MOVE(QExtDAIODevice)
 };

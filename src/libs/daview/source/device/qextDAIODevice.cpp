@@ -1,20 +1,21 @@
 ﻿#include <private/qextDAIODevice_p.h>
+#include <qextDAConstants.h>
 
 #include <QDebug>
 
 QExtDAIODevicePrivate::QExtDAIODevicePrivate(QExtDAIODevice *q)
     : q_ptr(q)
-    , mRXBps(0)
+    , mBufferSize(1000)
     , mIO(QEXT_NULLPTR)
-    , mRXByteCount(0)
-    , mRXByteAllCount(0)
+    , mRxdBps(0)
+    , mBufferEnable(true)
+    , mRxdByteCount(0)
+    , mRxdByteAllCount(0)
 {
 }
 
 QExtDAIODevicePrivate::~QExtDAIODevicePrivate()
 {
-    mIO->disconnect();
-    mIO->deleteLater();
 }
 
 void QExtDAIODevicePrivate::initIO(QIODevice *io)
@@ -25,10 +26,27 @@ void QExtDAIODevicePrivate::initIO(QIODevice *io)
     QObject::connect(io, &QIODevice::aboutToClose, q, &QExtDAIODevice::aboutToClose);
 }
 
-void QExtDAIODevicePrivate::updateByteCount(qulonglong rxCount)
+void QExtDAIODevicePrivate::updateBpsValue()
 {
-    mRXByteCount += rxCount;
-    mRXByteAllCount += rxCount;
+    Q_Q(QExtDAIODevice);
+    mRxdBps = mRxdByteCount;
+    mTxdBps = mTxdByteCount;
+    emit q->rxdBpsChanged(mRxdBps);
+    emit q->txdBpsChanged(mTxdBps);
+    mRxdByteCount = 0;
+    mTxdByteCount = 0;
+}
+
+void QExtDAIODevicePrivate::updateRxdBps(qulonglong rxdCount)
+{
+    mRxdByteCount += rxdCount;
+    mRxdByteAllCount += rxdCount;
+}
+
+void QExtDAIODevicePrivate::updateTxdBps(qulonglong txdCount)
+{
+    mTxdByteCount += txdCount;
+    mTxdByteAllCount += txdCount;
 }
 
 QExtDAIODevice::QExtDAIODevice(QObject *parent)
@@ -47,7 +65,13 @@ QExtDAIODevice::~QExtDAIODevice()
 {
 }
 
-quint64 QExtDAIODevice::id() const
+int QExtDAIODevice::bps() const
+{
+    Q_D(const QExtDAIODevice);
+    return d->mRxdBps.load();
+}
+
+qint64 QExtDAIODevice::id() const
 {
     Q_D(const QExtDAIODevice);
     return d->mId;
@@ -56,15 +80,21 @@ quint64 QExtDAIODevice::id() const
 QString QExtDAIODevice::name() const
 {
     Q_D(const QExtDAIODevice);
-    return QString("IO%1").arg(d->mId);
+    return this->nameFromId(d->mId);
+}
+
+QThread *QExtDAIODevice::thread() const
+{
+    Q_D(const QExtDAIODevice);
+    return d->mThread.data();
 }
 
 QString QExtDAIODevice::nameAlias() const
 {
     Q_D(const QExtDAIODevice);
-    if (!d->mAlias.isEmpty())
+    if (!d->mAlias.data()->isEmpty())
     {
-        return QString("%1[%2]").arg(this->name(), d->mAlias);
+        return QString("%1[%2]").arg(this->name(), d->mAlias.value());
     }
     else
     {
@@ -72,31 +102,49 @@ QString QExtDAIODevice::nameAlias() const
     }
 }
 
+qint64 QExtDAIODevice::bufferSize() const
+{
+    Q_D(const QExtDAIODevice);
+    return d->mBufferSize.get();
+}
+
+void QExtDAIODevice::setBufferSize(qint64 size)
+{
+    Q_D(QExtDAIODevice);
+    d->mBufferSize.set(qMax(qint64(1000), size));
+}
+
+bool QExtDAIODevice::isBufferEnabled() const
+{
+    Q_D(const QExtDAIODevice);
+    return d->mBufferEnable.load();
+}
+
+void QExtDAIODevice::setBufferEnable(bool enable)
+{
+    Q_D(QExtDAIODevice);
+    d->mBufferEnable.store(enable);
+}
+
 QString QExtDAIODevice::alias() const
 {
     Q_D(const QExtDAIODevice);
-    return d->mAlias;
+    return d->mAlias.get();
 }
 
 void QExtDAIODevice::setAlias(const QString &alias)
 {
     Q_D(QExtDAIODevice);
-    if (alias != d->mAlias)
+    if (d->mAlias.reset(alias))
     {
-        d->mAlias = alias;
         Q_EMIT this->aliasChanged(alias);
     }
 }
 
-QString QExtDAIODevice::stateString() const
+QString QExtDAIODevice::ioError() const
 {
     Q_D(const QExtDAIODevice);
-    return this->isOpened() ? tr("Opened [%1B/S]").arg(d->mRXBps) : tr("Closed");
-}
-
-QString QExtDAIODevice::errorString() const
-{
-    return this->io()->errorString();
+    return d->mIOError.get();
 }
 
 QExtPropertyModel *QExtDAIODevice::propertyModel()
@@ -115,7 +163,7 @@ QExtPropertyDelegate *QExtDAIODevice::propertyDelegate(QObject *parent)
     return new QExtPropertyDelegate(parent ? parent : this);
 }
 
-QThread *QExtDAIODevice::initDevice(quint64 id)
+QThread *QExtDAIODevice::initDevice(qint64 id)
 {
     Q_D(QExtDAIODevice);
     d->mId = id;
@@ -125,25 +173,23 @@ QThread *QExtDAIODevice::initDevice(quint64 id)
         d->mThread->start();
         this->moveToThread(d->mThread.data());
         d->mIO->moveToThread(d->mThread.data());
-        d->mRXBpsTimer.reset(new QTimer);
-        d->mRXBpsTimer->setInterval(1000);
-        d->mRXBpsTimer->moveToThread(d->mThread.data());
-        connect(d->mThread.data(), &QThread::finished, d->mRXBpsTimer.data(), &QTimer::stop);
-        connect(d->mRXBpsTimer.data(), &QTimer::timeout, this, [=]()
+        d->mBpsTimer.reset(new QTimer);
+        d->mBpsTimer->setInterval(1000);
+        d->mBpsTimer->moveToThread(d->mThread.data());
+        connect(d->mThread.data(), &QThread::finished, d->mBpsTimer.data(), &QTimer::stop);
+        connect(d->mBpsTimer.data(), &QTimer::timeout, this, [=]()
                 {
-                    d->mRXBps = d->mRXByteCount;
-                    d->mRXByteCount = 0;
-                    emit this->bpsChanged(d->mRXBps);
+                    d->updateBpsValue();
                 });
-        connect(this, &QExtDAIODevice::stateChanged, this, [=](bool opened)
+        connect(this, &QExtDAIODevice::openStateChanged, this, [=](bool opened)
                 {
                     if (opened)
                     {
-                        d->mRXBpsTimer->start();
+                        d->mBpsTimer->start();
                     }
                     else
                     {
-                        d->mRXBpsTimer->stop();
+                        d->mBpsTimer->stop();
                     }
                 });
         d->mThreadOnceFlag.leave();
@@ -151,9 +197,26 @@ QThread *QExtDAIODevice::initDevice(quint64 id)
     return d->mThread.data();
 }
 
+bool QExtDAIODevice::destroyDevice()
+{
+    Q_D(QExtDAIODevice);
+    const bool flag = d->mDestroyOnceFlag.enter();
+    if (flag)
+    {
+        d->mThread->quit();
+        d->mThread->wait();
+        d->mThread.reset();
+        d->mIO->disconnect();
+        delete d->mIO.data();
+        d->mDestroyOnceFlag.leave();
+    }
+    return flag;
+}
+
 bool QExtDAIODevice::isOpened() const
 {
-    return this->io()->isOpen();
+    Q_D(const QExtDAIODevice);
+    return d->mIsOpened.load();
 }
 
 QIODevice *QExtDAIODevice::io() const
@@ -162,27 +225,107 @@ QIODevice *QExtDAIODevice::io() const
     return d->mIO.data();
 }
 
+QString QExtDAIODevice::ioPath() const
+{
+    Q_D(const QExtDAIODevice);
+    return d->mIOPath.get();
+}
+
+QString QExtDAIODevice::ioState() const
+{
+    Q_D(const QExtDAIODevice);
+    return d->mIOState.get();
+}
+
 void QExtDAIODevice::close()
 {
     if (this->isOpened())
     {
         QTimer::singleShot(0, this, [=]()
                            {
-                               this->io()->close();
-                               Q_EMIT this->stateChanged(false);
+                               this->updateIOError();
+                               this->ioClose();
                            });
     }
 }
 
-void QExtDAIODevice::open(QIODevice::OpenMode mode)
+void QExtDAIODevice::open()
 {
     QTimer::singleShot(0, this, [=]()
                        {
-                           if (!this->io()->open(mode))
+                           this->updateIOError();
+                           if (!this->ioOpen())
                            {
                                this->onIOOpenFailed();
                            }
                        });
+}
+
+void QExtDAIODevice::load(const Items &items)
+{
+    this->setAlias(items.value(QExtDAConstants::IODEVICE_PROPERTY_ALIAS, "").toString());
+    this->setBufferSize(items.value(QExtDAConstants::IODEVICE_PROPERTY_BUFFER_SIZE, 1000).toLongLong());
+    this->setBufferEnable(items.value(QExtDAConstants::IODEVICE_PROPERTY_BUFFER_ENABLED, true).toBool());
+}
+
+QExtDASerializable::Items QExtDAIODevice::save() const
+{
+    QExtDASerializable::Items items;
+    items[QExtDAConstants::IODEVICE_PROPERTY_ID] = this->id();
+    items[QExtDAConstants::IODEVICE_PROPERTY_TYPE] = this->ioType();
+    items[QExtDAConstants::IODEVICE_PROPERTY_ALIAS] = this->alias();
+    items[QExtDAConstants::IODEVICE_PROPERTY_BUFFER_SIZE] = this->bufferSize();
+    items[QExtDAConstants::IODEVICE_PROPERTY_BUFFER_ENABLED] = this->isBufferEnabled();
+    return items;
+}
+
+QByteArray QExtDAIODevice::readAll()
+{
+    Q_D(QExtDAIODevice);
+    QExtSpinLock::Locker locker(d->mReadLinearBufferSpinlock);
+    return d->mReadLinearBuffer.readAll();
+}
+
+bool QExtDAIODevice::canReadLine() const
+{
+    Q_D(const QExtDAIODevice);
+    QExtSpinLock::Locker locker(d->mReadLinearBufferSpinlock);
+    return d->mReadLinearBuffer.canReadLine();
+}
+
+qint64 QExtDAIODevice::bytesAvailable() const
+{
+    Q_D(const QExtDAIODevice);
+    QExtSpinLock::Locker locker(d->mReadLinearBufferSpinlock);
+    return d->mReadLinearBuffer.size();
+}
+
+int QExtDAIODevice::getChar(bool *ok)
+{
+    Q_D(QExtDAIODevice);
+    QExtSpinLock::Locker locker(d->mReadLinearBufferSpinlock);
+    return d->mReadLinearBuffer.getChar(ok);
+}
+
+qint64 QExtDAIODevice::read(char *target, qint64 size)
+{
+    Q_D(QExtDAIODevice);
+    QExtSpinLock::Locker locker(d->mReadLinearBufferSpinlock);
+    return d->mReadLinearBuffer.read(target, size);
+}
+
+qint64 QExtDAIODevice::peek(char *target, qint64 size)
+{
+    Q_D(QExtDAIODevice);
+    QExtSpinLock::Locker locker(d->mReadLinearBufferSpinlock);
+    return d->mReadLinearBuffer.peek(target, size);
+}
+
+qint64 QExtDAIODevice::readLine(char *target, qint64 size)
+{
+    Q_D(QExtDAIODevice);
+    QExtSpinLock::Locker locker(d->mReadLinearBufferSpinlock);
+    return d->mReadLinearBuffer.readLine(target, size);
 }
 
 void QExtDAIODevice::write(const char *data, qint64 size)
@@ -196,12 +339,66 @@ void QExtDAIODevice::write(const char *data, qint64 size)
     }
 }
 
+qint64 QExtDAIODevice::loadId(const Items &items)
+{
+    return items.value(QExtDAConstants::IODEVICE_PROPERTY_ID, -1).toLongLong();
+}
+
+QString QExtDAIODevice::loadType(const Items &items)
+{
+    return items.value(QExtDAConstants::IODEVICE_PROPERTY_TYPE, "").toString();
+}
+
+QString QExtDAIODevice::nameFromId(qint64 id)
+{
+    return QString("IO%1").arg(id);
+}
+
+qint64 QExtDAIODevice::idFromName(const QString &name)
+{
+    bool ok = false;
+    QString idString = name;
+    const qlonglong id = idString.remove("IO").toLongLong(&ok);
+    return ok ? id : -1;
+}
+
 void QExtDAIODevice::onIOReadyRead()
 {
+    Q_D(QExtDAIODevice);
+    QByteArray bytes = this->ioRead();
+    if (d->mBufferEnable.load())
+    {
+        d->mReadLinearBufferSpinlock.lock();
+        const qint64 overflowSize = d->mReadLinearBuffer.size() - d->mBufferSize.get();
+        if (overflowSize > 0)
+        {
+            d->mReadLinearBuffer.skip(overflowSize);
+        }
+        char *ptr = d->mReadLinearBuffer.reserve(bytes.size());
+        memcpy(ptr, bytes.data(), bytes.size());
+        d->mReadLinearBufferSpinlock.unlock();
+        Q_EMIT this->readyRead();
+    }
+    else
+    {
+        Q_EMIT this->dataReaded(bytes);
+    }
+    d->updateRxdBps(bytes.size());
 }
 
 void QExtDAIODevice::onIOReadyWrite()
 {
+    Q_D(QExtDAIODevice);
+    QExtSpinLock::Locker locker(d->mWriteDataQueueSpinlock);
+    if (!d->mWriteDataQueue.isEmpty())
+    {
+        auto bytes = d->mWriteDataQueue.dequeue();
+        locker.unlock();
+        if (bytes.size() != this->ioWrite(bytes.data(), bytes.size()))
+        {
+            this->onIOWriteFailed();
+        }
+    }
     Q_EMIT this->readyWrite();
 }
 
@@ -211,11 +408,36 @@ void QExtDAIODevice::onIOWriteFailed()
 
 void QExtDAIODevice::onIOOpenFailed()
 {
+    Q_D(QExtDAIODevice);
+    qDebug() << QString("DAIODevice:%1, %2").arg(this->ioPath()).arg(d->mIO->errorString());
 }
 
 void QExtDAIODevice::onIOOpenSuccessed()
 {
-    Q_EMIT this->stateChanged(true);
+}
+
+QByteArray QExtDAIODevice::ioRead()
+{
+    Q_D(QExtDAIODevice);
+    return d->mIO->readAll();
+}
+
+bool QExtDAIODevice::ioOpen()
+{
+    Q_D(QExtDAIODevice);
+    return d->mIO->open(QIODevice::ReadWrite);
+}
+
+void QExtDAIODevice::ioClose()
+{
+    Q_D(QExtDAIODevice);
+    this->io()->close();
+}
+
+qint64 QExtDAIODevice::ioWrite(const char *data, qint64 len)
+{
+    Q_D(QExtDAIODevice);
+    return d->mIO->write(data, len);
 }
 
 void QExtDAIODevice::initPropertyModel(QExtPropertyModel *propertyModel)
@@ -225,11 +447,51 @@ void QExtDAIODevice::initPropertyModel(QExtPropertyModel *propertyModel)
     rootItem->appendChild(new QExtDAIODeviceAliasPropertyItem(this));
 }
 
+void QExtDAIODevice::updateOpenState(bool opened)
+{
+    Q_D(QExtDAIODevice);
+    if (d->mIsOpened.fetchAndStoreOrdered(opened) != opened)
+    {
+        this->onOpenStateChanged(opened);
+        Q_EMIT this->openStateChanged(opened);
+    }
+}
+
+void QExtDAIODevice::updateIOPath(const QString &path)
+{
+    Q_D(QExtDAIODevice);
+    if (d->mIOPath.reset(path))
+    {
+        this->onIOPathChanged(path);
+        Q_EMIT this->ioPathChanged(path);
+    }
+}
+
+void QExtDAIODevice::updateIOState(const QString &state)
+{
+    Q_D(QExtDAIODevice);
+    if (d->mIOState.reset(state))
+    {
+        this->onIOStateChanged(state);
+        Q_EMIT this->ioStateChanged(state);
+    }
+}
+
+void QExtDAIODevice::updateIOError(const QString &error)
+{
+    Q_D(QExtDAIODevice);
+    if (d->mIOError.reset(error))
+    {
+        this->onIOErrorChanged(error);
+        Q_EMIT this->ioErrorChanged(error);
+    }
+}
+
 
 QExtDAIODeviceStatePropertyItem::QExtDAIODeviceStatePropertyItem(QExtDAIODevice *ioDevice)
     : mIODevice(ioDevice)
 {
-    connect(ioDevice, &QExtDAIODevice::stateChanged, this, &QExtPropertyModelItem::updateItem);
+    connect(ioDevice, &QExtDAIODevice::ioStateChanged, this, &QExtPropertyModelItem::updateItem);
 }
 
 QString QExtDAIODeviceStatePropertyItem::name() const
@@ -246,7 +508,7 @@ QVariant QExtDAIODeviceStatePropertyItem::data(int role) const
 {
     if (role == Qt::EditRole || role == Qt::DisplayRole)
     {
-        return mIODevice->isOpened() ? tr("Opened") : tr("Closed");
+        return mIODevice->ioState();
     }
     else if (role == Qt::CheckStateRole)
     {
