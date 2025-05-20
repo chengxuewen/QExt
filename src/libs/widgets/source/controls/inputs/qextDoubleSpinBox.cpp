@@ -11,7 +11,7 @@ public:
 
     QExtDoubleSpinBox * const q_ptr;
 
-    bool m_valueTextTrimedEnable;
+    bool mValueTextTrimedEnable;
 
 private:
     Q_DECLARE_PUBLIC(QExtDoubleSpinBox)
@@ -20,7 +20,7 @@ private:
 
 QExtDoubleSpinBoxPrivate::QExtDoubleSpinBoxPrivate(QExtDoubleSpinBox *q)
     : q_ptr(q)
-    , m_valueTextTrimedEnable(false)
+    , mValueTextTrimedEnable(false)
 {
 }
 
@@ -48,15 +48,15 @@ QExtDoubleSpinBox::~QExtDoubleSpinBox()
 bool QExtDoubleSpinBox::isValueTextTrimedEnabled() const
 {
     Q_D(const QExtDoubleSpinBox);
-    return d->m_valueTextTrimedEnable;
+    return d->mValueTextTrimedEnable;
 }
 
 void QExtDoubleSpinBox::setValueTextTrimedEnable(bool enable)
 {
     Q_D(QExtDoubleSpinBox);
-    if (enable != d->m_valueTextTrimedEnable)
+    if (enable != d->mValueTextTrimedEnable)
     {
-        d->m_valueTextTrimedEnable = enable;
+        d->mValueTextTrimedEnable = enable;
         Q_EMIT this->valueTextTrimedEnableChanged(enable);
     }
 }
@@ -71,5 +71,5 @@ QString QExtDoubleSpinBox::textFromValue(double val) const
     Q_D(const QExtDoubleSpinBox);
     QString text = QDoubleSpinBox::textFromValue(val);
     // qDebug() << "textFromValue():text=" << text;
-    return d->m_valueTextTrimedEnable ? QExtNumeric::doubleTrimmedText(text) : text;
+    return d->mValueTextTrimedEnable ? QExtNumeric::doubleTrimmedText(text) : text;
 }
